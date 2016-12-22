@@ -1,0 +1,37 @@
+package com.here.navigation.guidance
+
+import com.here.navigation.* from "../NavigationTypes.fidl"
+import com.here.navigation.routing.* from "../routing/RoutingTypes.fidl"
+
+interface Guidance {
+  version {
+    major 1
+    minor 0
+  }
+
+  broadcast onRouteLeft {
+    out {
+    }
+  }
+
+  attribute NavigationTypes.RoadInfo currentRoad readonly
+  attribute NavigationTypes.Duration tta readonly
+
+  method startNavigation {
+    in {
+      // The route plan
+      RoutingTypes.Route route
+    }
+    out {
+      NavigationTypes.Error theError
+    }
+  }
+
+  method startTracking {
+    in {
+    }
+    out {
+      NavigationTypes.Error theError
+    }
+  }
+}

@@ -1,0 +1,21 @@
+package com.here.navigation
+
+typeCollection NavigationTypes {
+    version {
+        major 1
+        minor 0
+    }
+
+    enumeration Error  {
+      NoError
+      UnknownError
+    }
+    
+    struct RoadInfo {
+    	String date
+    }
+    
+    struct Duration {
+    	String date
+    }
+}

@@ -1,0 +1,30 @@
+package com.here.navigation.routing
+
+import com.here.navigation.* from "../NavigationTypes.fidl"
+
+typeCollection RoutingTypes {
+    version {
+        major 1
+        minor 0
+    }
+    
+    struct Route {
+    	UInt8 someThing
+    }
+      
+    struct RoutePlan {
+    	UInt8 someThing
+    }
+    
+    struct RouterOptions {
+    	UInt8 someThing
+    }
+    
+    struct RouterPenalty {
+    	UInt8 someThing
+    }
+
+    enumeration CalculationError extends NavigationTypes.Error {
+      RoutingError
+    }
+}

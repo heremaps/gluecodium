@@ -1,0 +1,51 @@
+package com.here.navigation.routing
+
+import com.here.navigation.routing.* from "RoutingTypes.fidl"
+import com.here.navigation.* from "../NavigationTypes.fidl"
+
+interface Router {
+  version {
+    major 1
+    minor 0
+  }
+
+  broadcast calculateRouteStarted {
+    out {
+      // The route for that calculation was started
+      RoutingTypes.Route route
+    }
+  }
+
+  broadcast calculateRouteProgress {
+    out {
+      // The route that has calculation progress
+      RoutingTypes.Route route
+      // Progress in per cent (0..100)
+      Int8 percentage
+    }
+  }
+
+  broadcast calculateRouteDone {
+    out {
+      // The route that has ended calculation
+      RoutingTypes.Route route
+
+      RoutingTypes.CalculationError routingError
+    }
+  }
+
+  method calculateRoute {
+    in {
+      // The route plan
+      RoutingTypes.RoutePlan routePlan
+      // The router options
+      RoutingTypes.RouterOptions options
+      // The router penalty
+      RoutingTypes.RouterPenalty penalty
+    }
+    out {
+      // The route to be calculated
+      RoutingTypes.Route route
+    }
+  }
+}
