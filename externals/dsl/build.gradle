@@ -53,6 +53,8 @@ sourceSets {
         resources {
             srcDirs "${externalPath}/src-gen"
             include "**/*.xtextbin"
+            include "**/*.tokens"
+            include "**/*.g"
             srcDirs "${externalPath}/src"
             include "**/*.xtext"
         }

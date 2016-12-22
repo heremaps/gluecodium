@@ -11,34 +11,38 @@ class Transpiler {
 
   protected static Injector injector
 
-  def protected static void execute(String[] args) {
+  def static void main(String[] args) {
+    Transpiler.execute(args)
+  }
+
+  def static void execute(String[] args) {
     injector = new FrancaIDLStandaloneSetup().createInjectorAndDoEMFRegistration()
+
     val instance = injector.getInstance(Transpiler)
-    instance.doStuff()
+    instance.tryReadingFidl()
   }
 
   @Inject
   private FrancaPersistenceManager loader
 
-  def doStuff() {
-    println("Hello Burn")
+  def tryReadingFidl() {
+    println("...tryReadingFidl...")
 
     val filename = '/Users/hhinrich/Work/api-transpiler/externals/franca/tests/org.franca.connectors.idl.tests/testcases/model/TestInterface.fidl'
     val root = URI.createURI("classpath:/")
     val loc = URI.createFileURI(filename)
 
-    println("Hello Burn2")
+    println("Using root: " + root)
+    println("Using uri: " + loc)
+    println("Using loader: " + loader)
 
     val fmodel = loader.loadModel(loc, root)
 
-    println("Hello Burn2")
+    println("Loaded fmodel: " + fmodel)
 
-    val api = fmodel.interfaces.get(0)
-    println("hello " + api.name)
-    println("Hello Burn")
-  }
+    val iface = fmodel.interfaces.get(0)
 
-  def static void main(String[] args) {
-    Transpiler.execute(args)
+    println("Read interface(0):  " + iface.name)
+    println("Done.")
   }
 }
