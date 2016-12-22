@@ -1,0 +1,93 @@
+configurations {
+    mwe2 {
+        extendsFrom compile
+        // There is a strange bug in gradle that the .pom xml files are added to the class
+        // path, if this dependency is added.
+        exclude module: 'org.eclipse.xtext.dependencies'
+    }
+}
+
+def xtextVersion = '2.9.0'
+
+dependencies {
+    compile 'org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:+'
+    compile 'org.eclipse.xpand:org.eclipse.xtend.typesystem.emf:+'
+    compile 'org.eclipse.xpand:org.eclipse.xpand:+'
+    compile 'org.apache.logging.log4j:log4j-core:+'
+    compile 'commons-lang:commons-lang:+'
+    compile 'commons-logging:commons-logging:1.2'
+    compile 'org.osgi:org.osgi.core:+'
+    compile 'org.eclipse.emf:org.eclipse.emf.mwe.core:+'
+    compile "org.eclipse.xtext:org.eclipse.xtext.xbase.lib:${xtextVersion}"
+    compile "org.eclipse.xtext:org.eclipse.xtext.ecore:${xtextVersion}"
+    compile "org.eclipse.equinox:common:+"
+    compile "org.eclipse.equinox:registry:+"
+    compile "org.eclipse.core:runtime:+"
+    compile project(':externals/core')
+
+    xtextLanguages 'org.eclipse.emf:org.eclipse.emf.ecore.xcore:+'
+    xtextLanguages 'org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:+'
+    xtextLanguages 'org.eclipse.emf:org.eclipse.emf.codegen.ecore:+'
+    xtextLanguages 'org.eclipse.emf:org.eclipse.emf.codegen.ecore.xtext:+'
+    xtextLanguages "org.eclipse.xtext:org.eclipse.xtext.xtext:${xtextVersion}"
+    xtextLanguages "org.eclipse.xtext:org.eclipse.xtext.ecore:${xtextVersion}"
+    xtextLanguages project(':externals/core')
+
+    mwe2 'org.eclipse.emf:org.eclipse.emf.mwe2.launch:2.8.2'
+    mwe2 "org.eclipse.xtend:org.eclipse.xtend.lib:${xtextVersion}"
+    mwe2 "org.eclipse.xtext:org.eclipse.xtext.xtext:${xtextVersion}"
+    mwe2 "org.eclipse.xtend:org.eclipse.xtend.lib:${xtextVersion}"
+    mwe2 "org.eclipse.xtend:org.eclipse.xtend.core:${xtextVersion}"
+}
+
+def externalPath = "${projectDir}/../franca/plugins/org.franca.core.dsl/"
+
+sourceSets {
+    main {
+        java {
+            srcDirs "${externalPath}/src"
+            srcDirs "${externalPath}/src-gen"
+            srcDirs "${externalPath}/xtend-gen"
+            exclude '**/*.xtext'
+        }
+    }
+}
+
+apply plugin: 'org.xtext.xtend'
+
+task generateXTextLanguage(type: JavaExec) {
+    def mwe2File = 'src/org/franca/core/dsl/GenerateFrancaIDL.mwe2'
+    def xtextFile = 'src/org/franca/core/dsl/FrancaIDL.xtext'
+
+    workingDir = "${externalPath}"
+    main = 'org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher'
+
+    classpath files("${externalPath}/src", configurations.mwe2)
+
+    inputs.file "${externalPath}/${mwe2File}"
+    inputs.file "${externalPath}/${xtextFile}"
+    outputs.dir "${externalPath}/src-gen"
+
+    args += "${mwe2File}"
+    args += '-p'
+    args += "rootPath=${externalPath}"
+}
+
+xtext {
+    version = xtextVersion
+    languages {
+        ecore {
+            setup = 'org.eclipse.xtext.ecore.EcoreSupport'
+        }
+        codegen {
+            setup = 'org.eclipse.emf.codegen.ecore.xtext.GenModelSupport'
+        }
+        xcore {
+            setup = 'org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup'
+            generator.outlet.producesJava = true
+        }
+    }
+}
+
+generateXtext.dependsOn(generateXTextLanguage)
+clean.dependsOn(cleanGenerateXTextLanguage)

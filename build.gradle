@@ -1,0 +1,24 @@
+plugins {
+    id "org.xtext.xtend" version "1.0.0"
+    id 'org.xtext.builder' version '1.0.0'
+}
+
+def xtextVersion = '2.9.0'
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    apply plugin: 'java'
+    apply plugin: 'org.xtext.xtend'
+}
+
+dependencies {
+    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.2'
+    compile project(':externals/core')
+    compile project(':externals/dsl')
+}

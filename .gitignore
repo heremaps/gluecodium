@@ -1,0 +1,13 @@
+.gradle
+.idea
+bin
+build
+.DS_Store
+gradle
+.classpath
+.project
+.settings
+gradlew
+gradlew.bat
+xtend-gen
+local.properties
