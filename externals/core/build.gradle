@@ -7,8 +7,6 @@ configurations {
     }
 }
 
-def xtextVersion = '2.9.0'
-
 dependencies {
     compile 'org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:+'
     compile 'org.eclipse.xpand:org.eclipse.xtend.typesystem.emf:+'
@@ -21,7 +19,6 @@ dependencies {
     compile "org.eclipse.xtext:org.eclipse.xtext.xbase.lib:${xtextVersion}"
     compile "org.eclipse.xtext:org.eclipse.xtext.ecore:${xtextVersion}"
     compile "org.eclipse.equinox:common:+"
-
 
     xtextLanguages 'org.eclipse.emf:org.eclipse.emf.ecore.xcore:+'
     xtextLanguages 'org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:+'
@@ -47,6 +44,7 @@ sourceSets {
             srcDirs "${externalPath}/src-gen"
         }
 
+        // if these resources are not included, the xtext parsing will not work at runtime
         resources {
             srcDirs "${externalPath}/model"
             include "**/*.ecore"

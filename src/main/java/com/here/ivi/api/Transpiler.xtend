@@ -9,15 +9,19 @@ import org.franca.core.dsl.FrancaIDLStandaloneSetup
 
 class Transpiler {
 
-  protected static Injector injector
-
   def static void main(String[] args) {
     Transpiler.execute(args)
   }
 
+  // Dependency injector used to provide the franca instances
+  protected static Injector injector
+
   def static void execute(String[] args) {
+    println("...starting up...")
+    // setup the dependency injector
     injector = new FrancaIDLStandaloneSetup().createInjectorAndDoEMFRegistration()
 
+    // create the configured instance
     val instance = injector.getInstance(Transpiler)
     instance.tryReadingFidl()
   }

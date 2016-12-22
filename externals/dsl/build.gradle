@@ -7,8 +7,6 @@ configurations {
     }
 }
 
-def xtextVersion = '2.9.0'
-
 dependencies {
     compile 'org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:+'
     compile 'org.eclipse.xpand:org.eclipse.xtend.typesystem.emf:+'
@@ -50,6 +48,7 @@ sourceSets {
             srcDirs "${externalPath}/xtend-gen"
         }
 
+        // if these resources are not included, the xtext parsing will not work at runtime
         resources {
             srcDirs "${externalPath}/src-gen"
             include "**/*.xtextbin"
@@ -70,6 +69,7 @@ task generateXTextLanguage(type: JavaExec) {
     workingDir = "${externalPath}"
     main = 'org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher'
 
+    // manually adding the src folder, so the path to the mwe2 file can be resolved
     classpath files("${externalPath}/src", configurations.mwe2)
 
     inputs.file "${externalPath}/${mwe2File}"

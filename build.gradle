@@ -3,7 +3,9 @@ plugins {
     id 'org.xtext.builder' version '1.0.0'
 }
 
-def xtextVersion = '2.9.0'
+// Found this xtextVersion working quite well across all franca projects, mixing led to problems
+// defined as a global variable, so all sub projects can reuse it
+ext.xtextVersion = '2.9.0'
 
 allprojects {
     repositories {
@@ -15,6 +17,14 @@ allprojects {
 
     apply plugin: 'java'
     apply plugin: 'org.xtext.xtend'
+
+    xtend {
+        // generate xtend debug symbols
+        debugger {
+            sourceInstaller = 'SMAP'
+            hideSyntheticVariables = true
+        }
+    }
 }
 
 dependencies {
