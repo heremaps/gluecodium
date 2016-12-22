@@ -48,7 +48,9 @@ sourceSets {
         }
 
         resources {
-            exclude '**/*.ecore'
+            srcDirs "${externalPath}/model"
+            include "**/*.ecore"
+            include "**/*.genmodel"
         }
     }
 }

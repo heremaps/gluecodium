@@ -48,7 +48,13 @@ sourceSets {
             srcDirs "${externalPath}/src"
             srcDirs "${externalPath}/src-gen"
             srcDirs "${externalPath}/xtend-gen"
-            exclude '**/*.xtext'
+        }
+
+        resources {
+            srcDirs "${externalPath}/src-gen"
+            include "**/*.xtextbin"
+            srcDirs "${externalPath}/src"
+            include "**/*.xtext"
         }
     }
 }
