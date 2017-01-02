@@ -6,6 +6,7 @@ plugins {
 // Found this xtextVersion working quite well across all franca projects, mixing led to problems
 // defined as a global variable, so all sub projects can reuse it
 ext.xtextVersion = '2.9.0'
+ext.externalRoot = "${projectDir}/../external"
 
 allprojects {
     repositories {

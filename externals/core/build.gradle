@@ -34,7 +34,7 @@ dependencies {
     mwe2 "org.eclipse.xtend:org.eclipse.xtend.core:${xtextVersion}"
 }
 
-def externalPath = "${projectDir}/../franca/plugins/org.franca.core/"
+def externalPath = "${externalRoot}/franca/plugins/org.franca.core/"
 
 sourceSets {
     main {
