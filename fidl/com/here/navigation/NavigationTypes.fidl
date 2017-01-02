@@ -6,10 +6,15 @@ typeCollection NavigationTypes {
         minor 0
     }
 
-    enumeration Error  {
-      NoError
-      UnknownError
+    array ExampleArrayRow of UInt8
+    array ExampleArray of ExampleArrayRow
+
+    enumeration ErrorCode {
+      None
+      Unknown
     }
+
+    typedef InstanceId is UInt32
     
     struct RoadInfo {
     	String date

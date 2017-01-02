@@ -4,6 +4,8 @@ import org.eclipse.emf.common.util.URI
 import com.google.inject.Inject
 import com.google.inject.Injector
 
+import java.io.File
+
 import org.franca.core.dsl.FrancaPersistenceManager
 import org.franca.core.dsl.FrancaIDLStandaloneSetup
 
@@ -32,7 +34,8 @@ class Transpiler {
   def tryReadingFidl() {
     println("...tryReadingFidl...")
 
-    val filename = '/Users/hhinrich/Work/api-transpiler/externals/franca/tests/org.franca.connectors.idl.tests/testcases/model/TestInterface.fidl'
+    val filename = new File('fidl/com/here/navigation/Runtime.fidl').getAbsoluteFile().toString()
+
     val root = URI.createURI("classpath:/")
     val loc = URI.createFileURI(filename)
 
@@ -44,9 +47,11 @@ class Transpiler {
 
     println("Loaded fmodel: " + fmodel)
 
-    val iface = fmodel.interfaces.get(0)
+    for (iface : fmodel.interfaces) {
+      println("Found interface:  " + iface.name)
+      println("Generated: \n" + LegacyGenerator.generateInterface(iface))
+    }
 
-    println("Read interface(0):  " + iface.name)
     println("Done.")
   }
 }

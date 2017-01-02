@@ -7,11 +7,11 @@ typeCollection RoutingTypes {
         major 1
         minor 0
     }
-    
+
     struct Route {
     	UInt8 someThing
     }
-      
+
     struct RoutePlan {
     	UInt8 someThing
     }

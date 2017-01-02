@@ -1,0 +1,69 @@
+package com.here.navigation
+
+import com.here.navigation.* from "NavigationTypes.fidl"
+
+/** Internal factory helper */
+typeCollection RuntimeTypes {
+  typedef Runtime is NavigationTypes.InstanceId
+}
+
+/**
+ * The main entry point to the navigation services.
+ *
+ * You can use the Runtime class to request an instances of the components and
+ * services available here or in the factory. Results are propagated through
+ * RuntimeListener which is set when creating an instance via create_runtime().
+ *
+ * The copy constructor allows you to have many instances of Runtime but each
+ * instance points to the same reference counted implementation instance.
+ *
+ * If the last instance of the Runtime gets deleted, the whole legacy stack gets shut down and cannot
+ * be used anymore (equivalent to calling Runtime::shutdown()). Thus at least on copy of the
+ * Runtime object must be kept while using legacy.
+ *
+ */
+interface Runtime {
+  version {
+    major 1
+    minor 0
+  }
+
+  /**
+   * Creates a Runtime instance with a particular configuration and initial profile.
+   */
+  method createRuntime:static {
+    in {
+      /** Path to a json config file that configures the system.  **/
+      String configFile
+      /** Identifier of the initial profile. **/
+      String initialProfile
+      /** BCP47 language tag of the initial language. **/
+      String initialLanguage
+    }
+
+    out {
+      /** This is set to a valid Runtime object when the runtime is successfully **/
+      RuntimeTypes.Runtime runtime // no other way of returning an instance of self or any interface
+    }
+
+    /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
+    error NavigationTypes.ErrorCode
+  }
+
+  method setLanguage {
+    in {
+      /** BCP47 language tag of the target language. **/
+      String targetLanguage
+      NavigationTypes.ExampleArray brapp
+    }
+
+    out {
+      /** BCP47 language tag of the set language. **/
+      String setLanguage
+      NavigationTypes.ExampleArray brupp
+    }
+
+    /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
+    error NavigationTypes.ErrorCode
+  }
+}
