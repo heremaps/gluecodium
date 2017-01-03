@@ -32,4 +32,5 @@ dependencies {
     compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.2'
     compile project(':externals/core')
     compile project(':externals/dsl')
+    compile project(':externals/deploymodel')
 }

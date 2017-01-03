@@ -6,8 +6,9 @@ import com.google.inject.Injector
 
 import java.io.File
 
-import org.franca.core.dsl.FrancaPersistenceManager
-import org.franca.core.dsl.FrancaIDLStandaloneSetup
+import org.franca.deploymodel.dsl.FDeployPersistenceManager
+import org.franca.deploymodel.dsl.FDeployStandaloneSetup
+import org.franca.deploymodel.core.FDModelExtender
 
 class Transpiler {
 
@@ -21,7 +22,7 @@ class Transpiler {
   def static void execute(String[] args) {
     println("...starting up...")
     // setup the dependency injector
-    injector = new FrancaIDLStandaloneSetup().createInjectorAndDoEMFRegistration()
+    injector = new FDeployStandaloneSetup().createInjectorAndDoEMFRegistration()
 
     // create the configured instance
     val instance = injector.getInstance(Transpiler)
@@ -29,12 +30,12 @@ class Transpiler {
   }
 
   @Inject
-  private FrancaPersistenceManager loader
+  private FDeployPersistenceManager loader
 
   def tryReadingFidl() {
     println("...tryReadingFidl...")
 
-    val filename = new File('fidl/com/here/navigation/Runtime.fidl').getAbsoluteFile().toString()
+    val filename = new File('fidl/com/here/navigation/Runtime.fdepl').getAbsoluteFile().toString()
 
     val root = URI.createURI("classpath:/")
     val loc = URI.createFileURI(filename)
@@ -43,12 +44,14 @@ class Transpiler {
     println("Using uri: " + loc)
     println("Using loader: " + loader)
 
-    val fmodel = loader.loadModel(loc, root)
+    val fdmodel = loader.loadModel(loc, root)
 
-    println("Loaded fmodel: " + fmodel)
+    println("Loaded fmodel: " + fdmodel)
 
-    for (iface : fmodel.interfaces) {
-      println("Found interface:  " + iface.name)
+    val fdmodelExt = new FDModelExtender(fdmodel)
+
+    for (iface : fdmodelExt.FDInterfaces) {
+      println("Found interface:  " + iface.target.name)
       println("Generated: \n" + LegacyGenerator.generateInterface(iface))
     }
 

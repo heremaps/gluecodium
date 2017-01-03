@@ -1,2 +1,3 @@
 include ':externals/core'
 include ':externals/dsl'
+include ':externals/deploymodel'
