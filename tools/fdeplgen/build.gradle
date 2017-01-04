@@ -1,0 +1,9 @@
+plugins {
+    id "org.xtext.xtend" version "1.0.0"
+}
+
+apply plugin: 'org.xtext.xtend'
+
+dependencies {
+    compile project(':externals:generator')
+}

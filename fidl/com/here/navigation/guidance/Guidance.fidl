@@ -20,7 +20,7 @@ interface Guidance {
   method startNavigation {
     in {
       // The route plan
-      RoutingTypes.Route route
+      RoutingTypes.Route route // Not generated, use legacy object
     }
     out {
       NavigationTypes.Error theError
@@ -34,4 +34,6 @@ interface Guidance {
       NavigationTypes.Error theError
     }
   }
+
+  // use existing legacy impl
 }

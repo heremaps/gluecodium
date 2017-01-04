@@ -1,0 +1,63 @@
+plugins {
+    id "org.xtext.xtend" version "1.0.0"
+}
+
+xtend {
+    // generate xtend debug symbols
+    debugger {
+        sourceInstaller = 'SMAP'
+        hideSyntheticVariables = true
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.xtext.xtend'
+
+def fdeplOutput = "${buildDir}/fdepl-gen/"
+mkdir(buildDir)
+mkdir(fdeplOutput)
+
+configurations {
+    buildDeployModel {
+        extendsFrom compile
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java', 'build/fdepl-gen'
+        }
+    }
+}
+
+dependencies {
+    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.2'
+    compile project(':externals:core')
+    compile project(':externals:dsl')
+    compile project(':externals:deploymodel')
+
+    buildDeployModel project(':tools:fdeplgen')
+}
+
+// cannot have this as a gradle task, unless the tasks are moved into buildSrc.
+// but as the depend on the whole franca external, this would build them twice,
+// and it takes too long already
+task buildDeployModel(type: JavaExec) {
+    def fdeplFile = 'fidl/com/here/navigation/LegacySpec.fdepl'
+    def output = fdeplOutput
+
+    workingDir = ".."
+    main = 'com.here.tools.FrancaDeploymodelGenerator'
+    classpath = configurations.buildDeployModel
+    inputs.file "${fdeplFile}"
+    outputs.dir output
+    outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()
+    args += fdeplFile
+    args += output
+}
+
+compileJava {
+    dependsOn(buildDeployModel)
+}
+clean.dependsOn(cleanBuildDeployModel)

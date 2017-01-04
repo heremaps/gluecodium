@@ -21,7 +21,7 @@ dependencies {
     compile "org.eclipse.equinox:common:+"
     compile "org.eclipse.equinox:registry:+"
     compile "org.eclipse.core:runtime:+"
-    compile project(':externals/core')
+    compile project(':externals:core')
 
     xtextLanguages 'org.eclipse.emf:org.eclipse.emf.ecore.xcore:+'
     xtextLanguages 'org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:+'
@@ -29,7 +29,7 @@ dependencies {
     xtextLanguages 'org.eclipse.emf:org.eclipse.emf.codegen.ecore.xtext:+'
     xtextLanguages "org.eclipse.xtext:org.eclipse.xtext.xtext:${xtextVersion}"
     xtextLanguages "org.eclipse.xtext:org.eclipse.xtext.ecore:${xtextVersion}"
-    xtextLanguages project(':externals/core')
+    xtextLanguages project(':externals:core')
 
     mwe2 'org.eclipse.emf:org.eclipse.emf.mwe2.launch:2.8.2'
     mwe2 "org.eclipse.xtend:org.eclipse.xtend.lib:${xtextVersion}"
@@ -75,26 +75,11 @@ task generateXTextLanguage(type: JavaExec) {
     inputs.file "${externalPath}/${mwe2File}"
     inputs.file "${externalPath}/${xtextFile}"
     outputs.dir "${externalPath}/src-gen"
+    outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()
 
     args += "${mwe2File}"
     args += '-p'
     args += "rootPath=${externalPath}"
-}
-
-xtext {
-    version = xtextVersion
-    languages {
-        ecore {
-            setup = 'org.eclipse.xtext.ecore.EcoreSupport'
-        }
-        codegen {
-            setup = 'org.eclipse.emf.codegen.ecore.xtext.GenModelSupport'
-        }
-        xcore {
-            setup = 'org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup'
-            generator.outlet.producesJava = true
-        }
-    }
 }
 
 generateXtext.dependsOn(generateXTextLanguage)

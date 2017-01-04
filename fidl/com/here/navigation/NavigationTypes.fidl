@@ -9,18 +9,18 @@ typeCollection NavigationTypes {
     array ExampleArrayRow of UInt8
     array ExampleArray of ExampleArrayRow
 
-    enumeration ErrorCode {
+    enumeration ErrorCode { // Reuse legacy::ErrorCode instead of generation
       None
       Unknown
     }
 
     typedef InstanceId is UInt32
-    
+
     struct RoadInfo {
-    	String date
+        String date
     }
-    
+
     struct Duration {
-    	String date
+        String date
     }
 }

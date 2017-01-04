@@ -1,0 +1,14 @@
+package com.here.navigation
+
+import com.here.navigation.* from "NavigationTypes.fidl"
+
+
+// Don't generate, write as cpp
+interface NavcoreModuleFactory extends legacy_ModuleFactory { // Needs to extend original
+  version {
+    major 1
+    minor 0
+  }
+
+  // Needs special impl extending the legacy_ModuleFactoryImpl
+}

@@ -11,3 +11,4 @@ gradlew
 gradlew.bat
 xtend-gen
 local.properties
+out

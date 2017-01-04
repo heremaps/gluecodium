@@ -1,36 +1,7 @@
-plugins {
-    id "org.xtext.xtend" version "1.0.0"
-    id 'org.xtext.builder' version '1.0.0'
-}
-
-// Found this xtextVersion working quite well across all franca projects, mixing led to problems
-// defined as a global variable, so all sub projects can reuse it
-ext.xtextVersion = '2.9.0'
-ext.externalRoot = "${projectDir}/../external"
-
 allprojects {
     repositories {
         jcenter()
     }
 
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
-
-    apply plugin: 'java'
-    apply plugin: 'org.xtext.xtend'
-
-    xtend {
-        // generate xtend debug symbols
-        debugger {
-            sourceInstaller = 'SMAP'
-            hideSyntheticVariables = true
-        }
-    }
-}
-
-dependencies {
-    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.2'
-    compile project(':externals/core')
-    compile project(':externals/dsl')
-    compile project(':externals/deploymodel')
+    apply plugin: 'idea'
 }

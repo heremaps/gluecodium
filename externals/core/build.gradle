@@ -63,23 +63,9 @@ task generateXTextLanguage(type: JavaExec) {
     classpath = configurations.mwe2
     inputs.file "${externalPath}/${mwe2File}"
     outputs.dir "${externalPath}/src-gen"
-    args += mwe2File
-}
+    outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()
 
-xtext {
-    version = xtextVersion
-    languages {
-        ecore {
-            setup = 'org.eclipse.xtext.ecore.EcoreSupport'
-        }
-        codegen {
-            setup = 'org.eclipse.emf.codegen.ecore.xtext.GenModelSupport'
-        }
-        xcore {
-            setup = 'org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup'
-            generator.outlet.producesJava = true
-        }
-    }
+    args += mwe2File
 }
 
 generateXtext.dependsOn(generateXTextLanguage)

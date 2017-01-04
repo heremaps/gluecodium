@@ -1,0 +1,3 @@
+# Building
+
+    gradle build

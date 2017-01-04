@@ -1,0 +1,23 @@
+package com.here.navigation
+
+import com.here.navigation.* from "NavigationTypes.fidl"
+
+// generate
+interface NavcoreModule extends legacy_Module { // Needs to extend original
+  version {
+    major 1
+    minor 0
+  }
+
+  method createGuidance {
+    in {
+      MapMatcher legacy_mm // needs to reuse original legacy map matcher
+    }
+    out {
+      GuidanceInstance guidance
+    }
+    error NavigationTypes.Error
+  }
+
+  // Reuse impl from legacy
+}

@@ -5,6 +5,7 @@ import com.here.navigation.* from "NavigationTypes.fidl"
 /** Internal factory helper */
 typeCollection RuntimeTypes {
   typedef Runtime is NavigationTypes.InstanceId
+  typedef Route is NavigationTypes.InstanceId
 }
 
 /**
@@ -50,17 +51,20 @@ interface Runtime {
     error NavigationTypes.ErrorCode
   }
 
+  method createModule {
+  }
+
+  // We need some way to access the legacy runtime from this, to support
+
   method setLanguage {
     in {
       /** BCP47 language tag of the target language. **/
       String targetLanguage
-      NavigationTypes.ExampleArray brapp
     }
 
     out {
       /** BCP47 language tag of the set language. **/
       String setLanguage
-      NavigationTypes.ExampleArray brupp
     }
 
     /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
