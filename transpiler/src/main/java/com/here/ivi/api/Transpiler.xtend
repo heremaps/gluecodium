@@ -9,6 +9,7 @@ import java.io.File
 import org.franca.deploymodel.dsl.FDeployPersistenceManager
 import org.franca.deploymodel.dsl.FDeployStandaloneSetup
 import org.franca.deploymodel.core.FDModelExtender
+import org.franca.deploymodel.core.FDeployedProvider;
 
 class Transpiler {
 
@@ -35,7 +36,7 @@ class Transpiler {
   def tryReadingFidl() {
     println("...tryReadingFidl...")
 
-    val filename = new File('fidl/com/here/navigation/Runtime.fdepl').getAbsoluteFile().toString()
+    val filename = new File('../fidl/com/here/navigation/Runtime.fdepl').getAbsoluteFile().toString()
 
     val root = URI.createURI("classpath:/")
     val loc = URI.createFileURI(filename)
@@ -49,6 +50,10 @@ class Transpiler {
     println("Loaded fmodel: " + fdmodel)
 
     val fdmodelExt = new FDModelExtender(fdmodel)
+
+    for (type : fdmodelExt.FDTypesList) {
+      println("Found type:  " + type.target.name)
+    }
 
     for (iface : fdmodelExt.FDInterfaces) {
       println("Found interface:  " + iface.target.name)

@@ -4,6 +4,11 @@ import com.here.navigation.* from "NavigationTypes.fidl"
 
 /** Internal factory helper */
 typeCollection RuntimeTypes {
+  version {
+    major 1
+    minor 0
+  }
+
   typedef Runtime is NavigationTypes.InstanceId
   typedef Route is NavigationTypes.InstanceId
 }
@@ -32,7 +37,7 @@ interface Runtime {
   /**
    * Creates a Runtime instance with a particular configuration and initial profile.
    */
-  method createRuntime:static {
+  method createRuntime {
     in {
       /** Path to a json config file that configures the system.  **/
       String configFile

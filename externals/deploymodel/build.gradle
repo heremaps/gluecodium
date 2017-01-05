@@ -28,8 +28,6 @@ dependencies {
     xtextLanguages 'org.eclipse.emf:org.eclipse.emf.codegen.ecore.xtext:+'
     xtextLanguages "org.eclipse.xtext:org.eclipse.xtext.xtext:${xtextVersion}"
     xtextLanguages "org.eclipse.xtext:org.eclipse.xtext.ecore:${xtextVersion}"
-    xtextLanguages project(':externals:core')
-    xtextLanguages project(':externals:dsl')
 
     mwe2 'org.eclipse.emf:org.eclipse.emf.mwe2.launch:2.8.2'
     mwe2 "org.eclipse.xtend:org.eclipse.xtend.lib:${xtextVersion}"
@@ -43,9 +41,10 @@ def externalPath = "${externalRoot}/franca/plugins/org.franca.deploymodel.dsl/"
 sourceSets {
     main {
         java {
-            srcDirs "${externalPath}/model"
-            srcDirs "${externalPath}/src"
             srcDirs "${externalPath}/src-gen"
+            srcDirs "${externalPath}/src"
+            srcDirs "${externalPath}/model"
+            srcDirs "${externalPath}/xtend-gen"
         }
 
         // if these resources are not included, the xtext parsing will not work at runtime
@@ -75,6 +74,22 @@ task generateXTextLanguage(type: JavaExec) {
     outputs.dir "${externalPath}/src-gen"
     outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()
     args += mwe2File
+}
+
+xtext {
+    version = xtextVersion
+    languages {
+        ecore {
+            setup = 'org.eclipse.xtext.ecore.EcoreSupport'
+        }
+        codegen {
+            setup = 'org.eclipse.emf.codegen.ecore.xtext.GenModelSupport'
+        }
+        xcore {
+            setup = 'org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup'
+            generator.outlet.producesJava = true
+        }
+    }
 }
 
 generateXtext.dependsOn(generateXTextLanguage)

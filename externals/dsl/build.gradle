@@ -43,8 +43,8 @@ def externalPath = "${externalRoot}/franca/plugins/org.franca.core.dsl/"
 sourceSets {
     main {
         java {
-            srcDirs "${externalPath}/src"
             srcDirs "${externalPath}/src-gen"
+            srcDirs "${externalPath}/src"
             srcDirs "${externalPath}/xtend-gen"
         }
 
@@ -80,6 +80,22 @@ task generateXTextLanguage(type: JavaExec) {
     args += "${mwe2File}"
     args += '-p'
     args += "rootPath=${externalPath}"
+}
+
+xtext {
+    version = xtextVersion
+    languages {
+        ecore {
+            setup = 'org.eclipse.xtext.ecore.EcoreSupport'
+        }
+        codegen {
+            setup = 'org.eclipse.emf.codegen.ecore.xtext.GenModelSupport'
+        }
+        xcore {
+            setup = 'org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup'
+            generator.outlet.producesJava = true
+        }
+    }
 }
 
 generateXtext.dependsOn(generateXTextLanguage)
