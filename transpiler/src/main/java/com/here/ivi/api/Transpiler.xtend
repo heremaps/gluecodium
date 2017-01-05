@@ -52,7 +52,12 @@ class Transpiler {
 
     for (iface : fdmodelExt.FDInterfaces) {
       println("Found interface:  " + iface.target.name)
-      println("Generated: \n" + LegacyGenerator.generateInterface(iface))
+
+      var files = LegacyGenerator.generateFiles(iface)
+      files.forEach[ file_name, content | println('''Generated «file_name»:
+
+        «content»
+      ''')]
     }
 
     println("Done.")
