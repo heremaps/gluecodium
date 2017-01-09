@@ -10,7 +10,15 @@ typeCollection RuntimeTypes {
   }
 
   typedef Runtime is NavigationTypes.InstanceId
+  typedef Module is NavigationTypes.InstanceId
   typedef Route is NavigationTypes.InstanceId
+}
+
+interface Module {
+  version {
+    major 1
+    minor 0
+  }
 }
 
 /**
@@ -57,6 +65,16 @@ interface Runtime {
   }
 
   method createModule {
+    in {
+      String moduleName
+    }
+
+    out {
+      RuntimeTypes.Module runtime
+    }
+
+    /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
+    error NavigationTypes.ErrorCode
   }
 
   // We need some way to access the legacy runtime from this, to support

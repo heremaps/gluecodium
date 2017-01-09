@@ -14,5 +14,9 @@ define com.here.navigation.LegacySpec for interface com.here.navigation.Runtime
   method createRuntime {
     CallSemantics = synchronous
     Static = true
+    Creates = &com.here.navigation.Runtime
+  }
+  method createModule {
+    Creates = &com.here.navigation.Module
   }
 }
