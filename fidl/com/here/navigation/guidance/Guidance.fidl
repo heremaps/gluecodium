@@ -3,6 +3,22 @@ package com.here.navigation.guidance
 import com.here.navigation.* from "../NavigationTypes.fidl"
 import com.here.navigation.routing.* from "../routing/RoutingTypes.fidl"
 
+typeCollection GuidanceTypes {
+  version {
+    major 1
+    minor 0
+  }
+
+  map RouteToCompute {
+    Route to Boolean
+  }
+
+  typedef Guidance is NavigationTypes.InstanceId
+  typedef GuidanceSession is NavigationTypes.InstanceId  // Not generated, use legacy
+  typedef MainRouteChangeReason is NavigationTypes.InstanceId // Not generated, use legacy
+  typedef NavigationOptions is NavigationTypes.InstanceId // Not generated, use legacy
+}
+
 interface Guidance {
   version {
     major 1
@@ -14,25 +30,60 @@ interface Guidance {
     }
   }
 
-  attribute NavigationTypes.RoadInfo currentRoad readonly
-  attribute NavigationTypes.Duration tta readonly
-
-  method startNavigation {
-    in {
-      // The route plan
-      RoutingTypes.Route route // Not generated, use legacy object
-    }
+  broadcast onRouteUpdated {
     out {
-      NavigationTypes.Error theError
+        RoutingTypes.Route route
+        GuidanceTypes.MainRouteChangeReason reason
     }
+  }
+
+  attribute NavigationTypes.NavigationOptions options
+  attribute NavigationTypes.GuidanceMode mode readonly
+  attribute NavigationTypes.GuidanceState state readonly
+  attribute NavigationTypes.RouterPenalty penalty
+
+
+  method startNavigation:OneParam {
+    in {
+      GuidanceTypes.GuidanceSession session // Not generated, use legacy object, therefore not recognized as ComplexObject
+    }
+    error NavigationTypes.ErrorCode
+  }
+
+  method startNavigation:ThreeParams {
+    in {
+      RoutingTypes.Route route // Not generated, use legacy object, therefore not recognized as ComplexObject
+      GuidanceTypes.RouteToCompute alternatives
+      GuidanceTypes.NavigationOptions options // Not generated, use legacy
+    }
+    error NavigationTypes.ErrorCode
   }
 
   method startTracking {
     in {
     }
-    out {
-      NavigationTypes.Error theError
+    error NavigationTypes.ErrorCode
+  }
+
+  method pause {
+    error NavigationTypes.ErrorCode
+  }
+
+  method resume {
+    error NavigationTypes.ErrorCode
+  }
+
+  method getRoute{
+  }
+
+  method updateRoute{
+    in {
+        RoutingTypes.Route route
+        UINT32 startStopoverIndex
     }
+  }
+
+  method getNextManeuver{
   }
 
   // use existing legacy impl
