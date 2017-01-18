@@ -38,6 +38,7 @@ sourceSets {
 
 dependencies {
     compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.11.0.beta2' // this is a nice version of xtend, that handles nested classes well
+    compile 'commons-io:commons-io:+' // apache commons io for FileUtils
     compile project(':externals:core')
     compile project(':externals:dsl')
     compile project(':externals:deploymodel')

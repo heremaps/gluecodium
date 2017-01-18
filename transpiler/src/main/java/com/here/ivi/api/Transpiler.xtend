@@ -5,11 +5,11 @@ import com.google.inject.Inject
 import com.google.inject.Injector
 
 import java.io.File
+import java.util.List
 
-import org.franca.deploymodel.dsl.FDeployPersistenceManager
+import org.franca.core.dsl.FrancaIDLStandaloneSetup;
 import org.franca.deploymodel.dsl.FDeployStandaloneSetup
-import org.franca.deploymodel.core.FDModelExtender
-import org.franca.deploymodel.core.FDeployedProvider;
+
 
 class Transpiler {
 
@@ -17,52 +17,36 @@ class Transpiler {
     Transpiler.execute(args)
   }
 
-  // Dependency injector used to provide the franca instances
-  protected static Injector injector
-
   def static void execute(String[] args) {
     println("...starting up...")
+
     // setup the dependency injector
-    injector = new FDeployStandaloneSetup().createInjectorAndDoEMFRegistration()
+    val fdeplInjector = new FDeployStandaloneSetup().createInjectorAndDoEMFRegistration()
+    val fidlInjector = new FrancaIDLStandaloneSetup().createInjectorAndDoEMFRegistration()
+
+    val fml = new FrancaModelLoader()
+    fdeplInjector.injectMembers(fml)
+    fidlInjector.injectMembers(fml)
+
+    val models = fml.load("../fidl/");
 
     // create the configured instance
-    val instance = injector.getInstance(Transpiler)
-    instance.tryReadingFidl()
+    val transpiler = new Transpiler()
+    transpiler.generate(models)
   }
 
-  @Inject
-  private FDeployPersistenceManager loader
+  def generate(List<FrancaModel> models) {
 
-  def tryReadingFidl() {
-    println("...tryReadingFidl...")
+    for (model : models) {
+      for(iface : model.interfaces) {
+        println("Found interface:  " + iface.fInterface.name)
 
-    val filename = new File('../fidl/com/here/navigation/Runtime.fdepl').getAbsoluteFile().toString()
-
-    val root = URI.createURI("classpath:/")
-    val loc = URI.createFileURI(filename)
-
-    println("Using root: " + root)
-    println("Using uri: " + loc)
-    println("Using loader: " + loader)
-
-    val fdmodel = loader.loadModel(loc, root)
-
-    println("Loaded fmodel: " + fdmodel)
-
-    val fdmodelExt = new FDModelExtender(fdmodel)
-
-    for (type : fdmodelExt.FDTypesList) {
-      println("Found type:  " + type.target.name)
-    }
-
-    for (iface : fdmodelExt.FDInterfaces) {
-      println("Found interface:  " + iface.target.name)
-
-      var files = LegacyGenerator.generateFiles(iface)
-      files.forEach[ file_name, content | println('''Generated «file_name»:
+        var files = LegacyGenerator.generateFiles(iface)
+        files.forEach[ file_name, content | println('''Generated «file_name»:
 
         «content»
       ''')]
+      }
     }
 
     println("Done.")
