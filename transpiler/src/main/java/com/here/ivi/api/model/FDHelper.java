@@ -1,4 +1,4 @@
-package com.here.ivi.api;
+package com.here.ivi.api.model;
 
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;

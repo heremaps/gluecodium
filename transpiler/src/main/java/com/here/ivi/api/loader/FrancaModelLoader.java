@@ -1,6 +1,8 @@
-package com.here.ivi.api;
+package com.here.ivi.api.loader;
 
 import com.google.inject.Inject;
+import com.here.ivi.api.loader.SpecAccessorFactory;
+import com.here.ivi.api.model.FrancaModel;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
@@ -28,7 +30,7 @@ import java.util.stream.Collectors;
  *
  * @note The loader does not support more than one fdepl file describing the same interfaces or types
  */
-public class FrancaModelLoader {
+public class FrancaModelLoader<IA, TA> {
 
     private static final String FIDL_SUFFIX = "fidl";
     private static final String FDEPL_SUFFIX = "fdepl";
@@ -101,7 +103,7 @@ public class FrancaModelLoader {
     }
 
     // builds a lists of FrancaModels for all the fidl & fdepl files in the given path
-    public List<FrancaModel> load(String path) {
+    public List<FrancaModel<IA, TA>> load(String path) {
         // TODO make configurable to allow different Specs in the future
         final FDSpecification spec = loadSpecification("classpath:/com/here/navigation/LegacySpec.fdepl");
         System.out.println(spec);
@@ -128,7 +130,7 @@ public class FrancaModelLoader {
         fidlFiles.addAll(bySuffix.get(FIDL_SUFFIX));
 
         // load all found fidl files and create FrancaModels from them
-        List<FrancaModel> models = fidlFiles.parallelStream().map(f -> {
+        List<FrancaModel<IA, TA>> models = fidlFiles.parallelStream().map(f -> {
             URI asUri = URI.createFileURI(f.getAbsolutePath());
             System.out.println("Loading fidl " + asUri);
             return m_fidlLoader.loadModel(asUri, ROOT_URI);
@@ -137,12 +139,17 @@ public class FrancaModelLoader {
             File resPath = new File(fm.eResource().getURI().toFileString());
             FDModel fdm = extendedFidl.get(resPath);
 
-            return FrancaModel.create(spec, fm, fdm);
+            return FrancaModel.create(m_factory, spec, fm, fdm);
         }).collect(Collectors.toList());
 
         return models;
     }
 
+    public FrancaModelLoader(SpecAccessorFactory<IA, TA> m_factory) {
+        this.m_factory = m_factory;
+    }
+
+    private final SpecAccessorFactory<IA, TA> m_factory;
     @Inject
     private FDeployPersistenceManager m_fdeplLoader;
     @Inject

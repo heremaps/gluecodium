@@ -1,6 +1,6 @@
-package com.here.ivi.api;
+package com.here.ivi.api.model;
 
-import com.here.navigation.LegacySpec;
+import com.here.ivi.api.loader.SpecAccessorFactory;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
@@ -16,19 +16,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class FrancaModel {
+public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
+
     // FInterface with accessor
-    static public class Interface {
+    static public class Interface<Accessor> {
         public FInterface fInterface;
-        public LegacySpec.InterfacePropertyAccessor accessor; // TODO make this generic
+        public Accessor accessor;
         public Optional<FDInterface> fdInterface;
 
         // finds a matching FDInterface for an FInterface, if one is found, creates a valid InterfacePropertyAccessor,
         // otherwise creates an empty accessor that will return the defaults for a spec
-        static public Interface create(FDSpecification spec, FInterface fi, FDModel fdm) {
-            Interface result = new Interface();
+        static public <IA> Interface<IA> create(SpecAccessorFactory<IA, ?> f, FDSpecification spec,
+                                                FInterface fi, FDModel fdm) {
+            Interface<IA> result = new Interface<>();
             result.fInterface = fi;
-            result.accessor = new LegacySpec.InterfacePropertyAccessor(FDHelper.createDummyFDElement(spec, fi));
+            result.accessor = f.createInterfaceAccessor(FDHelper.createDummyFDElement(spec, fi));
 
             if (fdm != null) {
                 FDModelExtender ext = new FDModelExtender(fdm);
@@ -41,7 +43,7 @@ public class FrancaModel {
                     final FDInterface found = matches.get(0);
                     result.fInterface = found.getTarget();
                     result.fdInterface = Optional.ofNullable(found);
-                    result.accessor = new LegacySpec.InterfacePropertyAccessor(new FDeployedInterface(found));
+                    result.accessor = f.createInterfaceAccessor(new FDeployedInterface(found));
                 }
             }
             return result;
@@ -49,17 +51,18 @@ public class FrancaModel {
     }
 
     // FTypeCollection with accessor
-    static public class TypeCollection {
+    static public class TypeCollection<Accessor> {
         public FTypeCollection fTypeCollection;
-        public LegacySpec.TypeCollectionPropertyAccessor accessor; // TODO make this generic
+        public Accessor accessor;
         public Optional<FDTypes> fdTypes;
 
         // finds a matching FDTypes for a FTypeCollection, if one is found, creates a valid TypeCollectionPropertyAccessor,
         // otherwise creates an empty accessor that will return the defaults for a spec
-        static public TypeCollection create(FDSpecification spec, FTypeCollection tc, FDModel fdm) {
-            TypeCollection result = new TypeCollection();
+        static public <TA> TypeCollection<TA> create(SpecAccessorFactory<?, TA> f, FDSpecification spec,
+                                                     FTypeCollection tc, FDModel fdm) {
+            TypeCollection<TA> result = new TypeCollection<>();
             result.fTypeCollection = tc;
-            result.accessor = new LegacySpec.TypeCollectionPropertyAccessor(FDHelper.createDummyFDElement(spec, tc));
+            result.accessor = f.createTypeCollectionAccessor(FDHelper.createDummyFDElement(spec, tc));
 
             if (fdm != null) {
                 FDModelExtender ext = new FDModelExtender(fdm);
@@ -72,7 +75,7 @@ public class FrancaModel {
                     final FDTypes found = matches.get(0);
                     result.fTypeCollection = found.getTarget();
                     result.fdTypes = Optional.ofNullable(found);
-                    result.accessor = new LegacySpec.TypeCollectionPropertyAccessor(new FDeployedTypeCollection(found));
+                    result.accessor = f.createTypeCollectionAccessor(new FDeployedTypeCollection(found));
                 }
             }
             return result;
@@ -87,18 +90,19 @@ public class FrancaModel {
 
     // creates a FrancaModel from the given FModel & FDModel, ensuring that there are PropertyAccessors for each
     // element
-    public static FrancaModel create(FDSpecification spec, FModel fm, FDModel fdm) {
-        FrancaModel result = new FrancaModel();
+    public static <IA, TA> FrancaModel<IA, TA> create(SpecAccessorFactory<IA, TA> factory,
+                                                      FDSpecification spec, FModel fm, FDModel fdm) {
+        FrancaModel<IA, TA> result = new FrancaModel<>();
         // get interface helpers
         result.interfaces = fm.getInterfaces()
                 .parallelStream()
-                .map(fi -> FrancaModel.Interface.create(spec, fi, fdm))
+                .map(fi -> FrancaModel.Interface.create(factory, spec, fi, fdm))
                 .collect(Collectors.toList());
 
         // get type collection helpers
         result.typeCollections = fm.getTypeCollections()
                 .parallelStream()
-                .map(fi -> FrancaModel.TypeCollection.create(spec, fi, fdm))
+                .map(fi -> FrancaModel.TypeCollection.create(factory, spec, fi, fdm))
                 .collect(Collectors.toList());
 
         result.info = new ModelInfo();
@@ -109,6 +113,6 @@ public class FrancaModel {
     }
 
     public ModelInfo info;
-    public List<Interface> interfaces;
-    public List<TypeCollection> typeCollections;
+    public List<Interface<InterfaceAccessor>> interfaces;
+    public List<TypeCollection<TypeCollectionAccessor>> typeCollections;
 }
