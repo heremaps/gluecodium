@@ -103,7 +103,7 @@ public class FrancaModelLoader<IA, TA> {
     }
 
     // builds a lists of FrancaModels for all the fidl & fdepl files in the given path
-    public List<FrancaModel<IA, TA>> load(String path) {
+    public FrancaModel<IA, TA> load(String path) {
         // TODO make configurable to allow different Specs in the future
         final FDSpecification spec = loadSpecification("classpath:/com/here/navigation/LegacySpec.fdepl");
         System.out.println(spec);
@@ -129,7 +129,9 @@ public class FrancaModelLoader<IA, TA> {
         Set<File> fidlFiles = new HashSet<>(extendedFidl.keySet());
         fidlFiles.addAll(bySuffix.get(FIDL_SUFFIX));
 
-        // load all found fidl files and create FrancaModels from them
+        FrancaModel<IA, TA> jointModel = new FrancaModel<>();
+
+        // load all found fidl files and fill the FrancaModel from them
         List<FrancaModel<IA, TA>> models = fidlFiles.parallelStream().map(f -> {
             URI asUri = URI.createFileURI(f.getAbsolutePath());
             System.out.println("Loading fidl " + asUri);
@@ -142,7 +144,10 @@ public class FrancaModelLoader<IA, TA> {
             return FrancaModel.create(m_factory, spec, fm, fdm);
         }).collect(Collectors.toList());
 
-        return models;
+        // join all individual models into one
+        models.forEach(jointModel::merge);
+
+        return jointModel;
     }
 
     public FrancaModelLoader(SpecAccessorFactory<IA, TA> m_factory) {

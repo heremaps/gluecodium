@@ -1,15 +1,14 @@
 package com.here.ivi.api;
 
 import com.google.inject.Injector;
-import com.here.ivi.api.generator.legacy.LegacyGenerator;
+import com.here.ivi.api.generator.GeneratedFile;
+import com.here.ivi.api.generator.legacy.LegacyGeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.loader.LegacySpecAccessorFactory;
+import com.here.ivi.api.loader.legacy.LegacySpecAccessorFactory;
 import com.here.navigation.LegacySpec;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
 
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.franca.core.dsl.FrancaIDLStandaloneSetup;
@@ -25,40 +24,37 @@ public class Transpiler {
 
         final Injector fdeplInjector = new FDeployStandaloneSetup().createInjectorAndDoEMFRegistration();
         final Injector fidlInjector = new FrancaIDLStandaloneSetup().createInjectorAndDoEMFRegistration();
+
+        // type specific, to create the right accessors
         final FrancaModelLoader<LegacySpec.InterfacePropertyAccessor, LegacySpec.TypeCollectionPropertyAccessor> fml =
                 new FrancaModelLoader<>(new LegacySpecAccessorFactory());
 
         fdeplInjector.injectMembers(fml);
         fidlInjector.injectMembers(fml);
 
-        List<FrancaModel<LegacySpec.InterfacePropertyAccessor, LegacySpec.TypeCollectionPropertyAccessor>> models;
-        models = fml.load("../fidl/");
-        Transpiler.generate(models);
+        Transpiler.generate(fml.load("../fidl/"));
     }
 
-    public static void generate(final List<FrancaModel<LegacySpec.InterfacePropertyAccessor, LegacySpec.TypeCollectionPropertyAccessor>> models) {
-        for (final FrancaModel<LegacySpec.InterfacePropertyAccessor, LegacySpec.TypeCollectionPropertyAccessor> model : models) {
-            for (final FrancaModel.Interface<LegacySpec.InterfacePropertyAccessor> iface : model.interfaces) {
-                {
-                    System.out.println("Found interface:  " + iface.fInterface.getName());
+    public static void generate(FrancaModel<LegacySpec.InterfacePropertyAccessor, LegacySpec.TypeCollectionPropertyAccessor> model) {
 
-                    Map<String, CharSequence> files = LegacyGenerator.generateFiles(iface);
-                    final BiConsumer<String, CharSequence> _function = (String file_name, CharSequence content) -> {
-                        StringConcatenation _builder = new StringConcatenation();
-                        _builder.append("Generated ");
-                        _builder.append(file_name, "");
-                        _builder.append(":");
-                        _builder.newLineIfNotEmpty();
-                        _builder.newLine();
-                        _builder.append("        ");
-                        _builder.append(content, "        ");
-                        _builder.newLineIfNotEmpty();
-                        System.out.println(_builder.toString());
-                    };
-                    files.forEach(_function);
-                }
-            }
-        }
+        // type specific to invoke the right generator
+        LegacyGeneratorSuite cgs = new LegacyGeneratorSuite();
+
+        List<GeneratedFile> files = cgs.generate(model);
+
+        files.forEach(file -> {
+            StringConcatenation builder = new StringConcatenation();
+            builder.append("Generated ");
+            builder.append(file.targetFile.getPath(), "");
+            builder.append(":");
+            builder.newLineIfNotEmpty();
+            builder.newLine();
+            builder.append("        ");
+            builder.append(file.content, "        ");
+            builder.newLineIfNotEmpty();
+
+            System.out.println(builder.toString());
+        });
 
         System.out.println("Done.");
     }
