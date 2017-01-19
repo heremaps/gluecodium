@@ -23,7 +23,13 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
     static public class ModelInfo {
         public FModel fModel;
         public FDModel fdModel;
+
+        public String getPath() {
+            return fModel.eResource().getURI().path();
+        }
     }
+
+    // TODO add iterators for common usecases (e.g. get all referenced types for interface)
 
     // FInterface with accessor
     static public class Interface<Accessor> {
@@ -65,6 +71,15 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         public Accessor accessor;
         public FDTypes fdTypes;
         public ModelInfo model;
+
+        public String getName() {
+            return fTypeCollection.getName();
+        }
+
+        public String[] getPackage() {
+            String name = model.fModel.getName();
+            return name.split("\\.");
+        }
 
         // finds a matching FDTypes for a FTypeCollection, if one is found, creates a valid T
         // ypeCollectionPropertyAccessor, otherwise creates an empty accessor that will return the defaults for a spec
