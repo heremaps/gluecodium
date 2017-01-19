@@ -46,27 +46,29 @@ dependencies {
     buildDeployModel project(':tools:fdeplgen')
 }
 
-// cannot have this as a gradle task, unless the tasks are moved into buildSrc.
-// but as the depend on the whole franca external, this would build them twice,
-// and it takes too long already
-task buildDeployModel(type: JavaExec) {
-    def fdeplFile = 'com/here/navigation/LegacySpec.fdepl'
-    def output = fdeplOutput
-
-    workingDir = "spec"
-    main = 'com.here.tools.FrancaDeploymodelGenerator'
-    classpath = configurations.buildDeployModel
-    inputs.file "${fdeplFile}"
-    outputs.dir output
-    outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()
-    args += fdeplFile
-    args += output
+def buildDeployModelConfiguration(fdeplFile, output) {
+    return {
+        workingDir = "spec"
+        main = 'com.here.tools.FrancaDeploymodelGenerator'
+        classpath = configurations.buildDeployModel
+        inputs.file "${fdeplFile}"
+        outputs.dir output
+        outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()
+        args += fdeplFile
+        args += output
+    }
 }
 
-generateXtext {
-    dependsOn(buildDeployModel)
+task buildCppStubDeployModel(type: JavaExec) {
+    configure buildDeployModelConfiguration('com/here/navigation/CppStubSpec.fdepl', fdeplOutput)
 }
-clean.dependsOn(cleanBuildDeployModel)
+task buildLegacyDeployModel(type: JavaExec) {
+    configure buildDeployModelConfiguration('com/here/navigation/LegacySpec.fdepl', fdeplOutput)
+}
+
+
+generateXtext.dependsOn(buildLegacyDeployModel, buildCppStubDeployModel)
+clean.dependsOn(cleanBuildLegacyDeployModel, cleanBuildCppStubDeployModel)
 
 apply plugin: 'application'
 mainClassName = 'com.here.ivi.api.Transpiler'

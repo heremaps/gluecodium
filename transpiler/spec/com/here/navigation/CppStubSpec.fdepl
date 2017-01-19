@@ -1,0 +1,6 @@
+specification com.here.navigation.CppStubSpec
+{
+  for methods {
+ 		Creates: Interface;
+ 	}
+}
