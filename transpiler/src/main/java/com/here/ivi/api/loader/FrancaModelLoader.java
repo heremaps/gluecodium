@@ -103,9 +103,9 @@ public class FrancaModelLoader<IA, TA> {
     }
 
     // builds a lists of FrancaModels for all the fidl & fdepl files in the given path
-    public FrancaModel<IA, TA> load(String path) {
+    public FrancaModel<IA, TA> load(String specPath, String path) {
         // TODO make configurable to allow different Specs in the future
-        final FDSpecification spec = loadSpecification("classpath:/com/here/navigation/LegacySpec.fdepl");
+        final FDSpecification spec = loadSpecification(specPath);
         System.out.println(spec);
 
         Collection<File> targetFiles = listFilesRecursively(new File(path));
