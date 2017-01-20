@@ -4,7 +4,7 @@ import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.CppFileTemplate;
 import com.here.ivi.api.generator.common.templates.CppNamespaceTemplate;
-import com.here.ivi.api.generator.common.templates.GeneratorNotice;
+import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.navigation.CppStubSpec;
 
@@ -68,7 +68,7 @@ public class CppStubGeneratorSuite
         }
 
         Object innerContent = CppNamespaceTemplate.generate(packageNs);
-        Object generatorNotice = GeneratorNotice.generate(this, inputFile, fileName.getPath());
+        Object generatorNotice = GeneratorNoticeTemplate.generate(this, inputFile, fileName.getPath());
 
         String fileContent = CppFileTemplate.generate(generatorNotice, innerContent).toString();
 
