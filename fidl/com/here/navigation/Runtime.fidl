@@ -64,6 +64,10 @@ interface Runtime {
     error NavigationTypes.ErrorCode
   }
 
+  <** @description: create a module of a given type.
+                    macht tollen Spaß!
+      @author: everybody
+  **>
   method createModule {
     in {
       String moduleName
