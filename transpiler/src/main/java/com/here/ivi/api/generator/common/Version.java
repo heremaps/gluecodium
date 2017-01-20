@@ -1,5 +1,7 @@
 package com.here.ivi.api.generator.common;
 
+import org.franca.core.franca.FVersion;
+
 public class Version {
     final int major;
     final int minor;
@@ -9,6 +11,10 @@ public class Version {
         this.major = major;
         this.minor = minor;
         this.patch = patch;
+    }
+
+    public static Version create(FVersion version) {
+        return new Version(version.getMajor(), version.getMinor(), 0);
     }
 
     @Override

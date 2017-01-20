@@ -1,5 +1,6 @@
 package com.here.ivi.api.model;
 
+import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;

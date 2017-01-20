@@ -6,8 +6,15 @@ class CppNamespaceTemplate {
   static def generate(CppElements.CppNamespace ns) '''
       namespace «ns.name» {
 
-      «FOR sns : ns.subNs»
-        «CppNamespaceTemplate.generate(sns)»
+      «FOR member : ns.members»
+      «
+      switch (member) {
+        CppElements.CppNamespace: CppNamespaceTemplate.generate(member)
+        CppElements.CppConstant: CppConstantTemplate.generate(member)
+        CppElements.CppStruct: CppPureStructTemplate.generate(member)
+        default: '''// Missing mapping «member.class»'''
+      }»
+
       «ENDFOR»
 
       } // namespace «ns.name»

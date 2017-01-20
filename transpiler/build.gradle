@@ -53,7 +53,6 @@ def buildDeployModelConfiguration(fdeplFile, output) {
         classpath = configurations.buildDeployModel
         inputs.file "${fdeplFile}"
         outputs.dir output
-        outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()
         args += fdeplFile
         args += output
     }
@@ -62,13 +61,16 @@ def buildDeployModelConfiguration(fdeplFile, output) {
 task buildCppStubDeployModel(type: JavaExec) {
     configure buildDeployModelConfiguration('com/here/navigation/CppStubSpec.fdepl', fdeplOutput)
 }
+generateXtext.dependsOn(buildCppStubDeployModel)
+clean.dependsOn(cleanBuildCppStubDeployModel)
+
 task buildLegacyDeployModel(type: JavaExec) {
     configure buildDeployModelConfiguration('com/here/navigation/LegacySpec.fdepl', fdeplOutput)
 }
+generateXtext.dependsOn(buildLegacyDeployModel)
+clean.dependsOn(cleanBuildLegacyDeployModel)
 
 
-generateXtext.dependsOn(buildLegacyDeployModel, buildCppStubDeployModel)
-clean.dependsOn(cleanBuildLegacyDeployModel, cleanBuildCppStubDeployModel)
 
 apply plugin: 'application'
 mainClassName = 'com.here.ivi.api.Transpiler'

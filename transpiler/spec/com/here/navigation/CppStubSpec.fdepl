@@ -1,5 +1,9 @@
 specification com.here.navigation.CppStubSpec
 {
+  for interfaces {
+    IsStruct: Boolean ( default: false );
+  }
+
   for methods {
  		Creates: Interface;
  	}

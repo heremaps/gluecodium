@@ -24,7 +24,7 @@ import org.franca.deploymodel.dsl.FDeployStandaloneSetup;
 public class Transpiler {
 
     public static void main(final String[] args) {
-        new Transpiler("../fidl/").execute();
+        new Transpiler("../fidl").execute();
     }
 
     public Transpiler(String path) {
@@ -91,7 +91,11 @@ public class Transpiler {
     }
 
     public String resolveRelativeToRootPath(String other) throws IOException {
-        final URI parentURI = URI.create(new File(rootPath).getCanonicalPath());
+        File rootFile = new File(rootPath);
+        if (rootFile.isFile()) {
+            rootFile = rootFile.getParentFile();
+        }
+        final URI parentURI = URI.create(rootFile.getCanonicalPath());
         final URI childURI = URI.create(other);
         return parentURI.relativize(childURI).toString();
     }

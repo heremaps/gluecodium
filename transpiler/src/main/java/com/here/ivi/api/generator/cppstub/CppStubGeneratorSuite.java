@@ -2,14 +2,10 @@ package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.common.*;
-import com.here.ivi.api.generator.common.templates.CppFileTemplate;
-import com.here.ivi.api.generator.common.templates.CppNamespaceTemplate;
-import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
+import com.here.ivi.api.generator.cppstub.templates.CppStubNameRules;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.navigation.CppStubSpec;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,26 +13,12 @@ public class CppStubGeneratorSuite
         implements GeneratorSuite<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
 {
     private final Transpiler tool;
+    private final CppTypeCollectionGenerator generator;
 
     public CppStubGeneratorSuite(Transpiler tp) {
         this.tool = tp;
+        this.generator = new CppTypeCollectionGenerator(new CppStubNameRules());
     }
-
-    @Override
-    public Transpiler getTool() {
-        return tool;
-    }
-
-    @Override
-    public Version getVersion() {
-        return new Version(0, 0, 1);
-    }
-
-    @Override
-    public String getName() {
-        return "com.here.CppStubGenerator";
-    }
-
 
     @Override
     public List<GeneratedFile> generate(
@@ -52,27 +34,22 @@ public class CppStubGeneratorSuite
     }
 
     public GeneratedFile generate(FrancaModel.TypeCollection<CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+        return generator.generate(this, tc);
+    }
 
-        String[] packageDesc = CppStubHelpers.modifyPackageNames(tc.getPackage());
-        CppElements.CppNamespace packageNs = CppElements.packageToNamespace(packageDesc);
+    @Override
+    public Transpiler getTool() {
+        return tool;
+    }
 
-        CppElements.CppNamespace ns = new CppElements.CppNamespace(tc.getName());
-        packageNs.subNs.add(ns);
+    @Override
+    public Version getVersion() {
+        return new Version(0, 0, 1);
+    }
 
-        File fileName = CppStubHelpers.buildTargetFileName(packageDesc, tc);
-        String inputFile;
-        try {
-            inputFile = getTool().resolveRelativeToRootPath(tc.model.getPath());
-        } catch (IOException e) {
-            inputFile = "Could not resolve";
-        }
-
-        Object innerContent = CppNamespaceTemplate.generate(packageNs);
-        Object generatorNotice = GeneratorNoticeTemplate.generate(this, inputFile, fileName.getPath());
-
-        String fileContent = CppFileTemplate.generate(generatorNotice, innerContent).toString();
-
-        return new GeneratedFile(fileContent, fileName);
+    @Override
+    public String getName() {
+        return "com.here.CppStubGenerator";
     }
 
 }
