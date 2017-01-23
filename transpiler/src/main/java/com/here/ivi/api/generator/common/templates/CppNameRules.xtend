@@ -8,9 +8,10 @@ interface CppNameRules {
   def String methdoName(String base)
   def String argumentName(String base)
   def String constantName(String base)
+  def String enumName(String base)
   def String fieldName(String base)
   def String structName(String base)
-  def String enumName(String base)
+  def String typedefName(String base)
   def String[] packageName(String[] packages)
   def String headerFileSuffix()
   def String typeCollectionTarget(String[] packageDesc,
