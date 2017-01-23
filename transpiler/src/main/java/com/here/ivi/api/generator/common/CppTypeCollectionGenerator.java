@@ -6,10 +6,14 @@ import com.here.ivi.api.generator.common.templates.CppNamespaceTemplate;
 import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.navigation.CppStubSpec;
+import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeRef;
 
 import java.io.IOException;
 
@@ -68,6 +72,8 @@ public class CppTypeCollectionGenerator {
             // struct
             if (type instanceof FStructType) {
                 result.members.add(generateCppStruct((FStructType) type));
+            } else if (type instanceof FEnumerationType) {
+                result.members.add(generateCppEnum((FEnumerationType) type));
             }
         }
 
@@ -94,13 +100,26 @@ public class CppTypeCollectionGenerator {
         return struct;
     }
 
+    private CppElements.CppEnum generateCppEnum(FEnumerationType enumerationType) {
+        CppElements.CppEnum enumeration = new CppElements.CppEnum();
+        enumeration.name = nameRules.enumName(enumerationType.getName());
+        for (FEnumerator enumerator : enumerationType.getEnumerators()) {
+            CppElements.CppEnumItem item = new CppElements.CppEnumItem();
+
+            item.name = nameRules.fieldName(enumerator.getName());
+            item.value = CppValueMapper.map(enumerator.getValue());
+        }
+
+        return enumeration;
+    }
+
     private CppElements.CppConstant generateCppConstant(FConstantDef constantDef) {
         CppElements.CppConstant constant = new CppElements.CppConstant();
 
         // no need to check isArray here, it is redundant
         constant.type = CppTypeMapper.map(constantDef.getType());
         constant.name = nameRules.constantName(constantDef.getName());
-        constant.value = CppValueMapper.map(constant.type, constantDef.getRhs());
+        constant.value = CppValueMapper.map(constantDef.getRhs());
 
         return constant;
     }

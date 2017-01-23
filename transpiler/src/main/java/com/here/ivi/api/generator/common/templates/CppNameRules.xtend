@@ -10,6 +10,7 @@ interface CppNameRules {
   def String constantName(String base)
   def String fieldName(String base)
   def String structName(String base)
+  def String enumName(String base)
   def String[] packageName(String[] packages)
   def String headerFileSuffix()
   def String typeCollectionTarget(String[] packageDesc,
