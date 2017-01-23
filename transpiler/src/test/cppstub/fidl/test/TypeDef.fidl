@@ -1,0 +1,18 @@
+package test
+
+typeCollection TestTypeDef {
+  version {
+    major 1
+    minor 0
+  }
+
+  array Array1 of UInt16
+
+  typedef TypeOne is UInt8
+
+  typedef TypeTwo is Array1
+
+  typedef TypeThree is TypeTwo
+
+  typedef Flag is Integer(0,1)
+}

@@ -6,14 +6,7 @@ import com.here.ivi.api.generator.common.templates.CppNamespaceTemplate;
 import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.navigation.CppStubSpec;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FField;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.*;
 
 import java.io.IOException;
 
@@ -74,11 +67,21 @@ public class CppTypeCollectionGenerator {
                 result.members.add(generateCppStruct((FStructType) type));
             } else if (type instanceof FEnumerationType) {
                 result.members.add(generateCppEnum((FEnumerationType) type));
+            } else if (type instanceof FTypeDef) {
+                result.members.add(generateTypeDef((FTypeDef) type));
             }
         }
 
         packageNs.members.add(result);
         return packageNs;
+    }
+
+    private CppElements.CppElement generateTypeDef(FTypeDef type) {
+        CppElements.CppTypeDef typeDef = new CppElements.CppTypeDef();
+        typeDef.name = nameRules.typedefName(type.getName());
+        typeDef.targetType = CppTypeMapper.map(type.getActualType());
+
+        return typeDef;
     }
 
     private CppElements.CppStruct generateCppStruct(FStructType structType) {

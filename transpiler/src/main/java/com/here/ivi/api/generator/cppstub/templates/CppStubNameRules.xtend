@@ -20,13 +20,16 @@ class CppStubNameRules implements CppNameRules {
   override String constantName(String base) '''
   «NameHelper.toSnakeCase(base)»'''
 
+  override String enumName(String base) '''
+  «base»'''
+
   override String fieldName(String base) '''
   «NameHelper.toSnakeCase(base)»'''
 
   override String structName(String base) '''
   «base»'''
 
-  override String enumName(String base) '''
+  override String typedefName(String base) '''
   «base»'''
 
   override String[] packageName(String[] packages) {
