@@ -62,6 +62,12 @@ public class CppElements {
     }
 
     public static class CppEnum extends CppElement {
+        public List<CppEnumItem> items = new ArrayList<>();
+    }
+
+    public static class CppEnumItem extends CppElement {
+        public CppValue value;
+
     }
 
     public static class CppStruct extends CppElement {

@@ -26,6 +26,9 @@ class CppStubNameRules implements CppNameRules {
   override String structName(String base) '''
   «base»'''
 
+  override String enumName(String base) '''
+  «base»'''
+
   override String[] packageName(String[] packages) {
     return #["legacy"];
   }
