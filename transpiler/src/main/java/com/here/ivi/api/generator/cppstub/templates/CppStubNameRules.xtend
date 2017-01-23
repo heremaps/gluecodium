@@ -34,6 +34,6 @@ class CppStubNameRules implements CppNameRules {
   }
   override String typeCollectionTarget(
           String[] packageDesc, FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
-    String.join(File.pathSeparator, packageDesc) + File.pathSeparator + tc.getName() + headerFileSuffix();
+    String.join(File.separator, packageDesc) + File.separator + tc.getName() + headerFileSuffix();
   }
 }
