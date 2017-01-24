@@ -9,8 +9,10 @@ class CppNamespaceTemplate {
       «FOR member : ns.members»
       «
       switch (member) {
-        CppElements.CppNamespace: CppNamespaceTemplate.generate(member)
         CppElements.CppConstant: CppConstantTemplate.generate(member)
+        CppElements.CppEnum : CppEnumTemplate.generate(member)
+        CppElements.CppEnumClass : CppEnumClassTemplate.generate(member)
+        CppElements.CppNamespace: CppNamespaceTemplate.generate(member)
         CppElements.CppStruct: CppPureStructTemplate.generate(member)
         CppElements.CppTypeDef: CppTypeDefTemplate.generate(member)
         default: '''// Missing mapping «member.class»'''
