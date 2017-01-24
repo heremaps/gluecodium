@@ -63,11 +63,27 @@ public class CppElements {
 
     public static class CppEnum extends CppElement {
         public List<CppEnumItem> items = new ArrayList<>();
+        public boolean isValid() {
+            boolean ret = true;
+            for (CppEnumItem item : items) {
+                if (!item.isValid()) {
+                    ret = false;
+                    break;
+                }
+            }
+            return !items.isEmpty() && !name.isEmpty() && ret;
+        }
     }
 
     public static class CppEnumItem extends CppElement {
         public CppValue value;
+        public boolean isValid() { return !name.isEmpty(); }
 
+    }
+
+    public static class CppEnumClass extends CppElement {
+        public CppEnum enumeration;
+        public boolean isValid() { return enumeration.isValid(); }
     }
 
     public static class CppStruct extends CppElement {

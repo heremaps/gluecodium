@@ -65,10 +65,14 @@ public class CppTypeCollectionGenerator {
             // struct
             if (type instanceof FStructType) {
                 result.members.add(generateCppStruct((FStructType) type));
-            } else if (type instanceof FEnumerationType) {
-                result.members.add(generateCppEnum((FEnumerationType) type));
             } else if (type instanceof FTypeDef) {
                 result.members.add(generateTypeDef((FTypeDef) type));
+            } else if (type instanceof FEnumerationType) {
+                if (tc.accessor.getIsClass((FEnumerationType) type)) {
+                    result.members.add(generateCppEnumClass((FEnumerationType) type));
+                } else {
+                    result.members.add(generateCppEnum((FEnumerationType) type));
+                }
             }
         }
 
@@ -106,14 +110,28 @@ public class CppTypeCollectionGenerator {
     private CppElements.CppEnum generateCppEnum(FEnumerationType enumerationType) {
         CppElements.CppEnum enumeration = new CppElements.CppEnum();
         enumeration.name = nameRules.enumName(enumerationType.getName());
+
         for (FEnumerator enumerator : enumerationType.getEnumerators()) {
             CppElements.CppEnumItem item = new CppElements.CppEnumItem();
 
             item.name = nameRules.fieldName(enumerator.getName());
             item.value = CppValueMapper.map(enumerator.getValue());
+
+            enumeration.items.add(item);
+        }
+
+        if (!enumeration.isValid()) {
+            System.out.println("Invalid enum: " + enumerationType.getName());
         }
 
         return enumeration;
+    }
+
+    private CppElements.CppEnumClass generateCppEnumClass( FEnumerationType enumerationType ) {
+        CppElements.CppEnumClass enumClass = new CppElements.CppEnumClass();
+        enumClass.enumeration = generateCppEnum(enumerationType);
+
+        return enumClass;
     }
 
     private CppElements.CppConstant generateCppConstant(FConstantDef constantDef) {
