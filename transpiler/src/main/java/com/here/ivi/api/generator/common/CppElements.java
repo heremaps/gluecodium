@@ -17,7 +17,7 @@ public class CppElements {
         Private
     }
 
-    enum TypeInfo {
+    public enum TypeInfo {
         Invalid,
         BuiltIn,
         InterfaceInstance,
@@ -79,7 +79,18 @@ public class CppElements {
         public CppType type;
     }
 
+    public static class CppParameter extends CppElement {
+        public CppType type;
+        public CppValue value;
+    }
+
     public static class CppMethod extends CppElement {
+        public String comment;
+        public String returnType; //TODO: this should be CppType, once this supports existing types
+        public List<CharSequence> specifiers = new ArrayList<>();
+        public List<CharSequence> qualifiers = new ArrayList<>();
+        public List<CppParameter> inParameters = new ArrayList<>();
+        public List<CppParameter> outParameters = new ArrayList<>();
     }
 
     public static class CppNamespace extends CppElement {
