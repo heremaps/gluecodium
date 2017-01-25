@@ -79,7 +79,7 @@ interface Guidance {
   method updateRoute{
     in {
         RoutingTypes.Route route
-        UINT32 startStopoverIndex
+        UInt32 startStopoverIndex
     }
   }
 
