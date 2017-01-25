@@ -18,6 +18,11 @@ typeCollection TestConstants {
     UInt16 to String
   }
 
+  enumeration EnumTest {
+    Value1
+    Value2
+  }
+
   const Boolean b1 = true
   const UInt32 maxCount = 10000
   const String foo = "bar"

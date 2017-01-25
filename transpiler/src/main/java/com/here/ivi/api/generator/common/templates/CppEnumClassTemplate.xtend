@@ -6,7 +6,7 @@ class CppEnumClassTemplate {
     static def generate(CppElements.CppEnumClass enumClass) '''
     /**
      */
-    enum class «enumClass.name» {
+    enum class «enumClass.enumeration.name» {
         «FOR item : enumClass.enumeration.items»
             «IF item == enumClass.enumeration.items.get(enumClass.enumeration.items.size() - 1)»
                 «item.name.toUpperCase»«IF item.value.isValid()» = «item.value» «ENDIF» ///
