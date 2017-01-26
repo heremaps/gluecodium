@@ -10,7 +10,7 @@ typeCollection GuidanceTypes {
   }
 
   map RouteToCompute {
-    Route to Boolean
+    RoutingTypes.Route to Boolean
   }
 
   typedef Guidance is NavigationTypes.InstanceId

@@ -5,11 +5,13 @@ import org.franca.core.franca.*;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
-
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class CppTypeMapper {
     private final static String INTYPES_INCLUDE = "stdint.h";
     private final static String VECTOR_INCLUDE = "vector.h";
+    private final static String MAP_INCLUDE = "map.h";
 
     public static CppElements.CppType map(FTypeRef type) {
         if (type.getDerived() != null) {
@@ -30,8 +32,9 @@ public class CppTypeMapper {
         }
         else if (derived instanceof FMapType) {
             FMapType typedef = (FMapType) derived;
-
-            // TODO add map support
+            return mapMap(type, (FMapType) derived);
+        } else if (derived instanceof FStructType) {
+            return mapStruct(type, (FStructType) derived);
         }
 
         return new CppElements.CppType(type,"UNMAPPED DERIVED", CppElements.TypeInfo.Invalid);
@@ -63,6 +66,37 @@ public class CppTypeMapper {
             Set<String> includes = actual.includes;
             includes.add(VECTOR_INCLUDE);
             return new CppElements.CppType(type, typeName, CppElements.TypeInfo.Complex, includes, asList(actual));
+        }
+    }
+
+    private static CppElements.CppType mapMap(FTypeRef type, FMapType map) {
+        if (map.getKeyType() == null || map.getValueType() == null ) {
+            return new CppElements.CppType(type,"NO KEY OR VALUE TYPE FOUND", CppElements.TypeInfo.Invalid);
+        } else {
+            CppElements.CppType key = map(map.getKeyType());
+            CppElements.CppType value = map(map.getValueType());
+            String typeName = "std::map< " + key.typeName + ", " + value.typeName + " >";
+
+            Set<String> includes = key.includes;
+            value.includes.forEach(include -> { includes.add(include); });
+            includes.add(MAP_INCLUDE);
+            return new CppElements.CppType(type, typeName, CppElements.TypeInfo.Complex, includes, asList(key, value));
+        }
+    }
+
+    private static CppElements.CppType mapStruct(FTypeRef type, FStructType struct) {
+        if (struct.getElements().isEmpty() ) {
+            return new CppElements.CppType(type,"EMPTY STRUCT", CppElements.TypeInfo.Invalid);
+        } else {
+            Set<String> includes = new HashSet<>();
+            ArrayList<CppElements.CppType> references = new ArrayList<>();
+            struct.getElements().forEach(element -> {
+                CppElements.CppType elementType = map(element.getType());
+                elementType.includes.forEach(include -> { includes.add(include); });
+                references.add(elementType);
+            });
+
+            return new CppElements.CppType(type, struct.getName(), CppElements.TypeInfo.Complex, includes, references);
         }
     }
 
