@@ -11,7 +11,7 @@ class CppStubNameRules implements CppNameRules {
   override String className(String base)  '''
   «base»'''
 
-  override String methdoName(String base) '''
+  override String methodName(String base) '''
   «NameHelper.toSnakeCase(base)»'''
 
   override String argumentName(String base) '''

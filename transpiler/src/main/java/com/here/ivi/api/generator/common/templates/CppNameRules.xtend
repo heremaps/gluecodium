@@ -5,7 +5,7 @@ import com.here.navigation.CppStubSpec
 
 interface CppNameRules {
   def String className(String base)
-  def String methdoName(String base)
+  def String methodName(String base)
   def String argumentName(String base)
   def String constantName(String base)
   def String enumName(String base)
