@@ -28,12 +28,12 @@ typeCollection TestConstants {
   const String foo = "bar"
   const Double pi = 3.1415d
 
-  const UInt32 twentyFive = 5 * 8
-  const Boolean b2 = maxCount > 3
-  const Boolean b3 = (a && b) || foo == "bar"
+  const UInt32 twentyFive = 5 * 8 // unsupported
+  const Boolean b2 = maxCount > 3 // unsupported
+  const Boolean b3 = (a && b) || foo == "bar" // unsupported
 
-  const Array1 empty = []
-  const Array1 full = [ 1, 2, 2 + 3, 100 * 100 + 100 ]
+  const Array1 empty = [] // unsupported
+  const Array1 full = [ 1, 2, 2 + 3, 100 * 100 + 100 ] // unsupported
   const Struct1 s1 = { e1: true, e2: 1, e3: "foo" }
-  const Map1 m1 = [ 1 => "one", 2 => "two" ]
+  const Map1 m1 = [ 1 => "one", 2 => "two" ] // unsupported
 }

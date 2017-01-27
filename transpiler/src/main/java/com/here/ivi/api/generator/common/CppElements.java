@@ -93,6 +93,7 @@ public class CppElements {
 
     public static class CppField extends CppElement {
         public CppType type;
+        public CppValue initializer;
     }
 
     public static class CppParameter extends CppElement {
