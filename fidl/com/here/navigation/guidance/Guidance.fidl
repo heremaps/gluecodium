@@ -16,6 +16,7 @@ typeCollection GuidanceTypes {
   typedef Guidance is NavigationTypes.InstanceId
   typedef GuidanceSession is NavigationTypes.InstanceId  // Not generated, use legacy
   typedef MainRouteChangeReason is NavigationTypes.InstanceId // Not generated, use legacy
+  typedef MapMatcher is NavigationTypes.InstanceId // Not generated, use legacy
   typedef NavigationOptions is NavigationTypes.InstanceId // Not generated, use legacy
 }
 
