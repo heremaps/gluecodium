@@ -49,18 +49,6 @@ public class CppTypeCollectionGenerator {
 
         CppElements.CppNamespace result = new CppElements.CppNamespace(tc.getName());
 
-        // constants
-        for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
-            CppElements.CppConstant constant = generateCppConstant(constantDef);
-
-            if (constant.isValid()) {
-                result.members.add(constant);
-            } else {
-                System.out.println("Failed generating constant! " + constantDef.getName());
-            }
-        }
-        // TODO validate constant name uniqueness
-
         for (FType type : tc.fTypeCollection.getTypes()) {
             // struct
             if (type instanceof FStructType) {
@@ -75,6 +63,18 @@ public class CppTypeCollectionGenerator {
                 }
             }
         }
+
+        // constants
+        for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
+            CppElements.CppConstant constant = generateCppConstant(constantDef);
+
+            if (constant.isValid()) {
+                result.members.add(constant);
+            } else {
+                System.out.println("Failed generating constant! " + constantDef.getName() + constantDef.getRhs().getClass());
+            }
+        }
+        // TODO validate constant name uniqueness
 
         packageNs.members.add(result);
         return packageNs;
@@ -100,6 +100,7 @@ public class CppTypeCollectionGenerator {
             field.name = nameRules.fieldName(fieldInfo.getName());
 
             // FIXME No way to do initial values for fields in fidl!!!
+            field.initializer = CppDefaultInitializer.map(fieldInfo.getType());
 
             struct.fields.add(field);
         }
