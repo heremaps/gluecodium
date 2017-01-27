@@ -5,6 +5,11 @@ import com.here.ivi.api.model.Includes;
 import java.util.*;
 
 public class CppElements {
+
+    public static final String CONST_QUALIFIER = "const";
+    public static final String REF_QUALIFIER = "&";
+    public static final String POINTER = "*";
+
     public enum Visibility {
         Default,
         Public,

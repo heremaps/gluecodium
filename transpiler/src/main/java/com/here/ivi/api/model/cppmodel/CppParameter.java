@@ -1,8 +1,16 @@
 package com.here.ivi.api.model.cppmodel;
 
 public class CppParameter extends CppElement {
+
+    public enum Mode{
+        Input,
+        Output,
+        Listener
+    }
+
     public CppType type;
     public CppValue value;
+    public Mode mode;
 
     public boolean equals(Object other) {
         if (other == null) {
@@ -16,8 +24,7 @@ public class CppParameter extends CppElement {
         }
 
         CppParameter otherParameter = (CppParameter) other;
-        return type.equals(otherParameter.type);// CppValue comparison is irrelevant.
+        return type.equals(otherParameter.type);
     }
-
 
 }
