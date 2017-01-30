@@ -1,19 +1,18 @@
 package com.here.ivi.api.generator.common;
 
+import com.google.common.collect.Sets;
+import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Arrays.asList;
-import java.util.ArrayList;
-import java.util.HashSet;
 
 public class CppTypeMapper {
-    private final static String INTYPES_INCLUDE = "stdint.h";
-    private final static String VECTOR_INCLUDE = "vector";
-    private final static String MAP_INCLUDE = "map";
-    private final static String STRING_INCLUDE = "string";
+    private final static CppElements.SystemInclude INTYPES_INCLUDE = new CppElements.SystemInclude("stdint.h");
+    private final static CppElements.SystemInclude VECTOR_INCLUDE = new CppElements.SystemInclude("vector");
+    private final static CppElements.SystemInclude MAP_INCLUDE = new CppElements.SystemInclude("map");
+    private final static CppElements.SystemInclude STRING_INCLUDE = new CppElements.SystemInclude("string");
 
     public static CppElements.CppType map(FTypeRef type) {
         if (type.getDerived() != null) {
@@ -56,11 +55,47 @@ public class CppTypeMapper {
 
             CppElements.CppType actual = map(underlyingType);
 
-            // TODO find where typedef is declared
-            // TODO make sure its file is included correctly
+            // lookup where type came from, setup includes
+            CppElements.Include include = internalInclude(underlyingType);
 
             // actually use the typedef in this case, not the underlying type
-            return new CppElements.CppType(type, typedef.getName(), actual.info);
+            return new CppElements.CppType(type, typedef.getName(), actual.info, include);
+        }
+    }
+
+    private static FTypeCollection findDefiningTypeCollection(EObject obj) {
+        if (obj instanceof FTypeCollection) {
+            return (FTypeCollection)obj;
+        }
+
+        EObject parent = obj.eContainer();
+
+        if ((parent == obj) || (parent == null)) {
+            return null;
+        }
+
+        return findDefiningTypeCollection(parent);
+    }
+
+    private static CppElements.Include internalInclude(EObject obj) {
+        // search for parent type collection
+        FTypeCollection tc = findDefiningTypeCollection(obj);
+
+        if (tc == null || !(tc.eContainer() instanceof FModel)) {
+            return null;
+        }
+
+        FModel model = (FModel)tc.eContainer();
+        return new CppElements.LazyInternalInclude(tc, model);
+    }
+
+    private static void printStackToTop(EObject obj, String prefix) {
+        System.out.println(prefix + " : " + obj);
+        System.out.println(prefix + " : " + obj.eResource());
+
+        EObject parent = obj.eContainer();
+        if ((parent != obj) && (parent != null)) {
+            printStackToTop(parent, prefix + "-" );
         }
     }
 
@@ -69,21 +104,27 @@ public class CppTypeMapper {
             System.err.println("Failed resolving reference " + type.getDerived() + " ");
             return new CppElements.CppType(type,"NO ELEMENT TYPE FOUND", CppElements.TypeInfo.Invalid);
         } else {
-            CppElements.CppType actual = map(array.getElementType());
+            FTypeRef elementType = array.getElementType();
+            CppElements.CppType actual = map(elementType);
 
             String typeName = array.getName(); // use name defined for array
             if (typeName != null) {
-                // TODO lookup where typedef came from, setup includes
-                Set<String> includes = Collections.emptySet();
+
+                // lookup where array typedef came from, setup includes
+                Set<CppElements.Include> includes = Sets.newHashSet(internalInclude(array));
+
                 return new CppElements.CppType(type, typeName, CppElements.TypeInfo.Complex, includes, asList(actual));
             }
+
+            // lookup where array element type came from, setup includes
+            CppElements.Include include = internalInclude(elementType);
 
             return wrapArrayType(type, actual);
         }
     }
 
     public static CppElements.CppType wrapArrayType(FTypeRef type, CppElements.CppType actual) {
-        Set<String> includes = actual.includes;
+        Set<CppElements.Include> includes = actual.includes;
         includes.add(VECTOR_INCLUDE);
         String typeName = "std::vector< " + actual.typeName + " >"; // if no name is given, fallback to underlying type
 
@@ -98,7 +139,7 @@ public class CppTypeMapper {
             CppElements.CppType value = map(map.getValueType());
             String typeName = "std::map< " + key.typeName + ", " + value.typeName + " >";
 
-            Set<String> includes = key.includes;
+            Set<CppElements.Include> includes = key.includes;
             value.includes.forEach(include -> { includes.add(include); });
             includes.add(MAP_INCLUDE);
             return new CppElements.CppType(type, typeName, CppElements.TypeInfo.Complex, includes, asList(key, value));
@@ -109,7 +150,7 @@ public class CppTypeMapper {
         if (struct.getElements().isEmpty() ) {
             return new CppElements.CppType(type,"EMPTY STRUCT", CppElements.TypeInfo.Invalid);
         } else {
-            Set<String> includes = new HashSet<>();
+            Set<CppElements.Include> includes = new HashSet<>();
             ArrayList<CppElements.CppType> references = new ArrayList<>();
             struct.getElements().forEach(element -> {
                 CppElements.CppType elementType = map(element.getType());

@@ -7,7 +7,7 @@ class CppTypeCollectionContentTemplate {
     #pragma once
 
     «FOR include : CppElements.collectIncludes(ns)»
-      #include <«include»>
+      «CppIncludeTemplate.generate(include)»
     «ENDFOR»
 
     «CppNamespaceTemplate.generate(ns)»

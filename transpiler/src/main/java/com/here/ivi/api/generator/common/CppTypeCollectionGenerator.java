@@ -6,11 +6,6 @@ import com.here.navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class CppTypeCollectionGenerator {
 
@@ -18,9 +13,9 @@ public class CppTypeCollectionGenerator {
         this.nameRules = rules;
     }
 
-    public static Object generateGeneratorNotice( GeneratorSuite<?,?> suite,
-                                            FrancaModel.TypeCollection<CppStubSpec.TypeCollectionPropertyAccessor> tc,
-                                            String outputTarget) {
+    public static Object generateGeneratorNotice(GeneratorSuite<?,?> suite,
+                                                 FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
+                                                 String outputTarget) {
         String inputFile;
         try {
             inputFile = suite.getTool().resolveRelativeToRootPath(tc.model.getPath());
@@ -32,11 +27,21 @@ public class CppTypeCollectionGenerator {
     }
 
     public GeneratedFile generate( GeneratorSuite<?,?> suite,
-                                   FrancaModel.TypeCollection<CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+                                   FrancaModel<
+                                           ? extends CppStubSpec.InterfacePropertyAccessor,
+                                           ? extends CppStubSpec.TypeCollectionPropertyAccessor> coreModel,
+                                   FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+
         CppElements.CppNamespace model = generateCppModel(tc);
+
 
         String[] packageDesc = nameRules.packageName(tc.getPackage());
         String outputFile = nameRules.typeCollectionTarget(packageDesc, tc);
+
+
+        CppIncludeResolver resolver = new CppIncludeResolver(coreModel, tc, nameRules);
+        resolver.resolveLazyIncludes(model);
+
         Object generatorNotice = CppTypeCollectionGenerator.generateGeneratorNotice(suite, tc, outputFile);
         Object innerContent = CppTypeCollectionContentTemplate.generate(model);
         String fileContent = CppFileTemplate.generate(generatorNotice, innerContent).toString();
@@ -44,7 +49,7 @@ public class CppTypeCollectionGenerator {
         return new GeneratedFile(fileContent, outputFile);
     }
 
-    public CppElements.CppNamespace generateCppModel(FrancaModel.TypeCollection<CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+    public CppElements.CppNamespace generateCppModel(FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
 
         String[] packageDesc = nameRules.packageName(tc.getPackage());
         CppElements.CppNamespace packageNs = CppElements.packageToNamespace(packageDesc);
@@ -76,11 +81,12 @@ public class CppTypeCollectionGenerator {
                 System.err.println("Failed generating constant! " + constantDef.getName() + " " + constantDef.getRhs().getClass());
             }
         }
-        // TODO validate constant name uniqueness
 
         packageNs.members.add(result);
+
         return packageNs;
     }
+
 
     private CppElements.CppElement generateTypeDef(FTypeDef type) {
         CppElements.CppTypeDef typeDef = new CppElements.CppTypeDef();

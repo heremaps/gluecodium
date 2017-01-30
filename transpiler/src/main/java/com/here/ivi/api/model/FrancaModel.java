@@ -25,6 +25,7 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         public FModel fModel;
         public FDModel fdModel;
 
+        public String getName() { return fModel.getName(); }
         public String getPath() {
             return fModel.eResource().getURI().path();
         }
@@ -63,6 +64,10 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
                 }
             }
             return result;
+        }
+
+        public String getName() {
+            return fInterface.getName();
         }
     }
 
@@ -137,6 +142,19 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
     public synchronized void merge(FrancaModel<InterfaceAccessor, TypeCollectionAccessor> other) {
         interfaces.addAll(other.interfaces);
         typeCollections.addAll(other.typeCollections);
+    }
+
+    public Interface<InterfaceAccessor> find(FModel model, FInterface fi) {
+        return interfaces.stream().filter(i -> {
+            return i.getName().equals(fi.getName()) && i.model.getName().equals(model.getName());
+        }).findFirst().get();
+    }
+
+
+    public TypeCollection<TypeCollectionAccessor> find(FModel model, FTypeCollection ft) {
+        return typeCollections.stream().filter(t -> {
+            return t.getName().equals(ft.getName()) && t.model.getName().equals(model.getName());
+        }).findFirst().get();
     }
 
     public List<Interface<InterfaceAccessor>> interfaces = new ArrayList<>();

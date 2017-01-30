@@ -1,6 +1,8 @@
 package com.here.ivi.api.generator.common;
 
 import org.franca.core.franca.FInitializerExpression;
+import org.franca.core.franca.FModel;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
 
 import java.util.*;
@@ -20,6 +22,54 @@ public class CppElements {
         BuiltIn,
         InterfaceInstance,
         Complex
+    }
+
+    public interface Include {
+    }
+
+    public static class SystemInclude implements Include {
+        public final String file;
+
+        public SystemInclude(String f) {
+            file = f;
+        }
+
+        @Override
+        public int hashCode() {
+            return file.hashCode();
+        }
+    }
+
+    public static class InternalPublicInclude implements Include {
+        public final String file;
+
+        public InternalPublicInclude(String f) {
+            file = f;
+        }
+
+        @Override
+        public int hashCode() {
+            return file.hashCode();
+        }
+    }
+
+    public static class LazyInternalInclude implements Include {
+        public final FTypeCollection tc;
+        public final FModel model;
+
+        public LazyInternalInclude(FTypeCollection tc, FModel model) {
+            this.tc = tc;
+            this.model = model;
+        }
+
+        @Override
+        public String toString() {
+            return (model.getName() + "." + tc.getName());
+        }
+        @Override
+        public int hashCode() {
+            return toString().hashCode();
+        }
     }
 
     public static class CppValue {
@@ -43,7 +93,6 @@ public class CppElements {
     public static class CppElement {
         public Visibility visibility = Visibility.Default;
         public String name;
-
     }
 
     public static class CppTypeDef extends CppElement {
@@ -131,7 +180,7 @@ public class CppElements {
         public FTypeRef type;
         public String typeName = "INVALID";
         public TypeInfo info = TypeInfo.Invalid;
-        public Set<String> includes;
+        public Set<Include> includes;
         public Set<CppType> referencedTypes;
 
         public boolean isValid() {
@@ -145,15 +194,15 @@ public class CppElements {
         public CppType(FTypeRef type, String typeName, TypeInfo info) {
             this(type, typeName, info, Collections.emptySet());
         }
-        public CppType(FTypeRef type, String typeName, TypeInfo info, String... includes) {
+        public CppType(FTypeRef type, String typeName, TypeInfo info, Include... includes) {
             this(type, typeName, info, asList(includes));
         }
 
-        public CppType(FTypeRef type, String typeName, TypeInfo info, Collection<String> includes) {
+        public CppType(FTypeRef type, String typeName, TypeInfo info, Collection<Include> includes) {
             this(type, typeName, info, includes, Collections.emptySet());
         }
         public CppType(FTypeRef type, String typeName, TypeInfo info,
-                       Collection<String> includes, Collection<CppType> referencedTypes) {
+                       Collection<Include> includes, Collection<CppType> referencedTypes) {
             this.type = type;
             this.typeName = typeName;
             this.info = info;
@@ -175,8 +224,8 @@ public class CppElements {
         return new CppNamespace();
     }
 
-    public static Set<String> collectIncludes(CppElements.CppNamespace root) {
-        Set<String> results = new HashSet<>();
+    public static Set<Include> collectIncludes(CppElements.CppNamespace root) {
+        Set<Include> results = new HashSet<>();
 
         for ( CppElements.CppElement m : root.members ) {
 
