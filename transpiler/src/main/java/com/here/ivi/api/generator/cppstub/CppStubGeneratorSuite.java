@@ -13,11 +13,9 @@ public class CppStubGeneratorSuite
         implements GeneratorSuite<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
 {
     private final Transpiler tool;
-    private final CppTypeCollectionGenerator generator;
 
     public CppStubGeneratorSuite(Transpiler tp) {
         this.tool = tp;
-        this.generator = new CppTypeCollectionGenerator(new CppStubNameRules());
     }
 
     @Override
@@ -28,13 +26,11 @@ public class CppStubGeneratorSuite
         //   ? without struct tag it is mapped to class, to a struct otherwise
         // generate one file for each type collection, containing all the typedefs, enums, etc.
 
+        CppTypeCollectionGenerator generator = new CppTypeCollectionGenerator(new CppStubNameRules());
+        
         return model.typeCollections.parallelStream()
-                .map(this::generate)
+                .map(tc -> generator.generate(this, model, tc))
                 .collect(Collectors.toList());
-    }
-
-    public GeneratedFile generate(FrancaModel.TypeCollection<CppStubSpec.TypeCollectionPropertyAccessor> tc) {
-        return generator.generate(this, tc);
     }
 
     @Override
