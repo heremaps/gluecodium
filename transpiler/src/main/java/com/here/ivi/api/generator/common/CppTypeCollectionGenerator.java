@@ -1,14 +1,16 @@
 package com.here.ivi.api.generator.common;
 
-import com.here.ivi.api.generator.common.templates.CppFileTemplate;
-import com.here.ivi.api.generator.common.templates.CppNameRules;
-import com.here.ivi.api.generator.common.templates.CppNamespaceTemplate;
-import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
+import com.here.ivi.api.generator.common.templates.*;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CppTypeCollectionGenerator {
 
@@ -36,7 +38,7 @@ public class CppTypeCollectionGenerator {
         String[] packageDesc = nameRules.packageName(tc.getPackage());
         String outputFile = nameRules.typeCollectionTarget(packageDesc, tc);
         Object generatorNotice = CppTypeCollectionGenerator.generateGeneratorNotice(suite, tc, outputFile);
-        Object innerContent = CppNamespaceTemplate.generate(model);
+        Object innerContent = CppTypeCollectionContentTemplate.generate(model);
         String fileContent = CppFileTemplate.generate(generatorNotice, innerContent).toString();
 
         return new GeneratedFile(fileContent, outputFile);

@@ -11,8 +11,9 @@ import java.util.HashSet;
 
 public class CppTypeMapper {
     private final static String INTYPES_INCLUDE = "stdint.h";
-    private final static String VECTOR_INCLUDE = "vector.h";
-    private final static String MAP_INCLUDE = "map.h";
+    private final static String VECTOR_INCLUDE = "vector";
+    private final static String MAP_INCLUDE = "map";
+    private final static String STRING_INCLUDE = "string";
 
     public static CppElements.CppType map(FTypeRef type) {
         if (type.getDerived() != null) {
@@ -138,7 +139,7 @@ public class CppTypeMapper {
             case FBasicTypeId.UINT16_VALUE: return new CppElements.CppType(type,"uint16_t", CppElements.TypeInfo.BuiltIn, INTYPES_INCLUDE);
             case FBasicTypeId.UINT32_VALUE: return new CppElements.CppType(type,"uint32_t", CppElements.TypeInfo.BuiltIn, INTYPES_INCLUDE);
             case FBasicTypeId.UINT64_VALUE: return new CppElements.CppType(type,"uint64_t", CppElements.TypeInfo.BuiltIn, INTYPES_INCLUDE);
-            case FBasicTypeId.STRING_VALUE: return new CppElements.CppType(type,"std::string", CppElements.TypeInfo.Complex, INTYPES_INCLUDE);
+            case FBasicTypeId.STRING_VALUE: return new CppElements.CppType(type,"std::string", CppElements.TypeInfo.Complex, STRING_INCLUDE);
             case FBasicTypeId.BYTE_BUFFER_VALUE: return new CppElements.CppType(type,"std::vector< uint8_t >", CppElements.TypeInfo.Complex, VECTOR_INCLUDE);
             default: return new CppElements.CppType(type,"UNMAPPED PREDEFINED", CppElements.TypeInfo.Invalid);
         }

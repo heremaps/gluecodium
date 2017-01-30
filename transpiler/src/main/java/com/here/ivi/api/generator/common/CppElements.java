@@ -8,8 +8,6 @@ import java.util.*;
 import static java.util.Arrays.asList;
 
 public class CppElements {
-    public static final String HEADER_FILE_SUFFIX = ".h";
-
     public enum Visibility {
         Default,
         Public,
@@ -175,5 +173,27 @@ public class CppElements {
         }
 
         return new CppNamespace();
+    }
+
+    public static Set<String> collectIncludes(CppElements.CppNamespace root) {
+        Set<String> results = new HashSet<>();
+
+        for ( CppElements.CppElement m : root.members ) {
+
+            if (m instanceof CppNamespace) {
+                results.addAll(collectIncludes((CppNamespace) m));
+            }
+            if (m instanceof CppStruct) {
+                CppStruct struct = (CppStruct) m;
+                struct.fields.stream().map(f -> f.type.includes).forEach(results::addAll);
+            }
+            if (m instanceof CppConstant) {
+                CppConstant constant = (CppConstant) m;
+                results.addAll(constant.type.includes);
+            }
+            // TODO go through classes, and methods
+        }
+
+        return results;
     }
 }
