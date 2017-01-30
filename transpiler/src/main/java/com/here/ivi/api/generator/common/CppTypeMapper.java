@@ -2,6 +2,7 @@ package com.here.ivi.api.generator.common;
 
 import org.franca.core.franca.*;
 
+import java.util.Collections;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
@@ -24,16 +25,17 @@ public class CppTypeMapper {
 
     private static CppElements.CppType mapDerived(FTypeRef type) {
         FType derived = type.getDerived();
+        if (derived instanceof FTypeDef) {
+            return mapTypeDef(type, (FTypeDef) derived);
+        }
         if (derived instanceof FArrayType) {
             return mapArray(type, (FArrayType) derived);
         }
-        else if (derived instanceof FTypeDef) {
-            return mapTypeDef(type, (FTypeDef) derived);
-        }
-        else if (derived instanceof FMapType) {
+        if (derived instanceof FMapType) {
             FMapType typedef = (FMapType) derived;
             return mapMap(type, (FMapType) derived);
-        } else if (derived instanceof FStructType) {
+        }
+        if (derived instanceof FStructType) {
             return mapStruct(type, (FStructType) derived);
         }
 
@@ -49,24 +51,42 @@ public class CppTypeMapper {
             // TODO figure out the right include for this type
             return new CppElements.CppType(type, typedef.getName(), CppElements.TypeInfo.InterfaceInstance);
         } else {
-            CppElements.CppType actual = map(typedef.getActualType());
-            // TODO actually use the typedef in this case, not the underlying type
-            // TODO make sure typedef is only declared once, and this file is included correctly
-            return actual;
+            FTypeRef underlyingType = typedef.getActualType();
+
+            CppElements.CppType actual = map(underlyingType);
+
+            // TODO find where typedef is declared
+            // TODO make sure its file is included correctly
+
+            // actually use the typedef in this case, not the underlying type
+            return new CppElements.CppType(type, typedef.getName(), actual.info);
         }
     }
 
     private static CppElements.CppType mapArray(FTypeRef type, FArrayType array) {
         if (array.getElementType() == null) {
+            System.err.println("Failed resolving reference " + type.getDerived() + " ");
             return new CppElements.CppType(type,"NO ELEMENT TYPE FOUND", CppElements.TypeInfo.Invalid);
         } else {
             CppElements.CppType actual = map(array.getElementType());
-            String typeName = "std::vector< " + actual.typeName + " >";
 
-            Set<String> includes = actual.includes;
-            includes.add(VECTOR_INCLUDE);
-            return new CppElements.CppType(type, typeName, CppElements.TypeInfo.Complex, includes, asList(actual));
+            String typeName = array.getName(); // use name defined for array
+            if (typeName != null) {
+                // TODO lookup where typedef came from, setup includes
+                Set<String> includes = Collections.emptySet();
+                return new CppElements.CppType(type, typeName, CppElements.TypeInfo.Complex, includes, asList(actual));
+            }
+
+            return wrapArrayType(type, actual);
         }
+    }
+
+    public static CppElements.CppType wrapArrayType(FTypeRef type, CppElements.CppType actual) {
+        Set<String> includes = actual.includes;
+        includes.add(VECTOR_INCLUDE);
+        String typeName = "std::vector< " + actual.typeName + " >"; // if no name is given, fallback to underlying type
+
+        return new CppElements.CppType(type, typeName, CppElements.TypeInfo.Complex, includes, asList(actual));
     }
 
     private static CppElements.CppType mapMap(FTypeRef type, FMapType map) {
@@ -102,7 +122,7 @@ public class CppTypeMapper {
 
     private static boolean isInstanceId(FTypeDef typedef) {
         return typedef.getActualType().getDerived() != null &&
-               typedef.getActualType().getDerived().getName().equals("InstanceId");
+                "InstanceId".equals(typedef.getActualType().getDerived().getName());
     }
 
     private static CppElements.CppType mapPredefined(FTypeRef type) {
