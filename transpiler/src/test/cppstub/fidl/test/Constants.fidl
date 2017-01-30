@@ -32,6 +32,8 @@ typeCollection TestConstants {
   const Boolean b2 = maxCount > 3 // unsupported
   const Boolean b3 = (a && b) || foo == "bar" // unsupported
 
+  const String[] emptyList = [] // unsupported
+
   const Array1 empty = [] // unsupported
   const Array1 full = [ 1, 2, 2 + 3, 100 * 100 + 100 ] // unsupported
   const Struct1 s1 = { e1: true, e2: 1, e3: "foo" }

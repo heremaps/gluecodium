@@ -1,0 +1,25 @@
+package test.sub
+
+typeCollection TestTypeSubDef {
+  version {
+    major 1
+    minor 0
+  }
+
+  array Array1 of UInt16
+
+  struct Struct1 {
+    Boolean e1
+    UInt16 e2
+    String e3
+  }
+
+  map Map1 {
+    UInt16 to String
+  }
+
+  enumeration EnumTest {
+    Value1
+    Value2
+  }
+}

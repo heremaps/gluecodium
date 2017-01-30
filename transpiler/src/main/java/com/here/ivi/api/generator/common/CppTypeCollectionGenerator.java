@@ -71,7 +71,7 @@ public class CppTypeCollectionGenerator {
             if (constant.isValid()) {
                 result.members.add(constant);
             } else {
-                System.out.println("Failed generating constant! " + constantDef.getName() + constantDef.getRhs().getClass());
+                System.err.println("Failed generating constant! " + constantDef.getName() + " " + constantDef.getRhs().getClass());
             }
         }
         // TODO validate constant name uniqueness
@@ -97,6 +97,10 @@ public class CppTypeCollectionGenerator {
             CppElements.CppField field = new CppElements.CppField();
 
             field.type = CppTypeMapper.map(fieldInfo.getType());
+            // handle inline array definition
+            if (fieldInfo.isArray()) {
+                field.type = CppTypeMapper.wrapArrayType(fieldInfo.getType(), field.type);
+            }
             field.name = nameRules.fieldName(fieldInfo.getName());
 
             // FIXME No way to do initial values for fields in fidl!!!

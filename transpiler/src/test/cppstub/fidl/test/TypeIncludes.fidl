@@ -1,0 +1,30 @@
+package test
+
+import test.TestTypeDef.* from "./TypeDef.fidl"
+import model "./sub/TypeSubDef.fidl"
+
+interface TestTypeIncludes {
+  version {
+    major 1
+    minor 0
+  }
+
+  /**
+   * Creates a Runtime instance with a particular configuration and initial profile.
+   */
+  method create {
+    in {
+      TestInterface inOne   // no other way of accepting an instance of self or any interface
+      TypeIncludes inTwo    // no other way of accepting an instance of self or any interface
+      Struct2 inThree
+      test.sub.TestTypeSubDef.Array1 inFour
+    }
+    out {
+      TestInterface outOne  // no other way of returning an instance of self or any interface
+      TypeIncludes outTwo   // no other way of returning an instance of self or any interface
+      TypeThree outThree
+      test.sub.TestTypeSubDef.Array1 outFour
+    }
+  }
+
+}
