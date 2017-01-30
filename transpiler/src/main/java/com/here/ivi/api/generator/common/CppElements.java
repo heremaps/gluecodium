@@ -93,6 +93,11 @@ public class CppElements {
     public static class CppElement {
         public Visibility visibility = Visibility.Default;
         public String name;
+
+        @Override
+        public int hashCode() {
+            return name.hashCode();
+        }
     }
 
     public static class CppTypeDef extends CppElement {
@@ -146,6 +151,27 @@ public class CppElements {
     public static class CppParameter extends CppElement {
         public CppType type;
         public CppValue value;
+
+        public boolean equals(Object other) {
+            if (other == null) {
+                return false;
+            }
+            if (other == this) {
+                return true;
+            }
+            if (!(other instanceof CppParameter)) {
+                return false;
+            }
+
+            CppParameter otherParameter = (CppParameter) other;
+            return type.equals(otherParameter.type);// CppValue comparison is irrelevant.
+        }
+
+
+    }
+
+    public static class CppClass extends CppElement{
+        public Set<CppMethod> methods = new HashSet();
     }
 
     public static class CppMethod extends CppElement {
@@ -155,6 +181,31 @@ public class CppElements {
         public List<CharSequence> qualifiers = new ArrayList<>();
         public List<CppParameter> inParameters = new ArrayList<>();
         public List<CppParameter> outParameters = new ArrayList<>();
+
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null) {
+                return false;
+            }
+            if (other == this) {
+                return true;
+            }
+            if (!(other instanceof CppMethod)) {
+                return false;
+            }
+            CppMethod otherMethod= (CppMethod)other;
+
+            //TODO move to a helper.
+            boolean inParamsEquality = areEqual(inParameters, otherMethod.inParameters);
+            boolean outParamsEquality = areEqual(outParameters, otherMethod.outParameters);
+            boolean specifiersEquality = areEqual(specifiers, otherMethod.specifiers);
+            boolean qualifiersEquality = areEqual(qualifiers, otherMethod.qualifiers);
+
+            return name.equals(otherMethod.name) &&
+                   returnType.equals(otherMethod.returnType) && inParamsEquality && outParamsEquality
+                    && specifiersEquality && qualifiersEquality;
+        }
     }
 
     public static class CppNamespace extends CppElement {
@@ -209,6 +260,26 @@ public class CppElements {
             this.includes = new HashSet<>(includes);
             this.referencedTypes = new HashSet<>(referencedTypes);
         }
+
+        @Override
+        public int hashCode() {
+            return typeName.hashCode();
+        }
+
+        public boolean equals(Object other) {
+            if (other == null) {
+                return false;
+            }
+            if (other == this) {
+                return true;
+            }
+            if (!(other instanceof CppType)) {
+                return false;
+            }
+
+            CppType otherType = (CppType) other;
+            return typeName.equals(otherType.typeName);
+        }
     }
 
     public static CppNamespace packageToNamespace(String[] packages) {
@@ -227,7 +298,7 @@ public class CppElements {
     public static Set<Include> collectIncludes(CppElements.CppNamespace root) {
         Set<Include> results = new HashSet<>();
 
-        for ( CppElements.CppElement m : root.members ) {
+        for (CppElements.CppElement m : root.members) {
 
             if (m instanceof CppNamespace) {
                 results.addAll(collectIncludes((CppNamespace) m));
@@ -244,5 +315,14 @@ public class CppElements {
         }
 
         return results;
+    }
+
+    //TODO move to helper class
+    public static <T> boolean areEqual(List<T> a, List<T> b) {
+        List<T> listOne = new ArrayList<>(a);
+        List<T> listTwo = new ArrayList<>(b);
+        listOne.removeAll(b);
+        listTwo.removeAll(a);
+        return listOne.isEmpty() && listTwo.isEmpty();
     }
 }
