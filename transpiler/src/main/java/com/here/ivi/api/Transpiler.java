@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
+import com.here.ivi.api.output.ConsoleOutput;
+import com.here.ivi.api.output.FileOutput;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.franca.core.dsl.FrancaIDLStandaloneSetup;
 import org.franca.deploymodel.dsl.FDeployStandaloneSetup;
@@ -54,33 +56,26 @@ public class Transpiler {
 
     public static <IA, TA> void generate(SpecAccessorFactory<IA, TA> specAccessorFactory,
                                          GeneratorSuite<IA, TA> generatorSuite,
-                                         String path) {
+                                         String inputPath) {
         final FrancaModelLoader<IA, TA> fml = new FrancaModelLoader<>(specAccessorFactory);
         fdeplInjector.injectMembers(fml);
         fidlInjector.injectMembers(fml);
-        FrancaModel<IA, TA> model = fml.load(specAccessorFactory.getSpecPath(), path);
+        FrancaModel<IA, TA> model = fml.load(specAccessorFactory.getSpecPath(), inputPath);
 
         // invoke the right generator
         final List<GeneratedFile> files = generatorSuite.generate(model);
-        printFiles(files);
-    }
 
-    private static void printFiles(List<GeneratedFile> files) {
-        files.forEach(file -> {
-            StringConcatenation builder = new StringConcatenation();
-            builder.append("Generated ");
-            builder.append(file.targetFile.getPath(), "");
-            builder.append(":");
-            builder.newLineIfNotEmpty();
-            builder.newLine();
-            builder.append("        ");
-            builder.append(file.content, "        ");
-            builder.newLineIfNotEmpty();
+        try {
+            ConsoleOutput co = new ConsoleOutput();
+            co.output(files);
+        } catch (IOException e) {
+        }
 
-            System.out.println(builder.toString());
-        });
-
-        System.out.println("Done.");
+        try {
+            FileOutput fo = new FileOutput(new File("./generated/"));
+            fo.output(files);
+        } catch (IOException e) {
+        }
     }
 
     public Version getVersion() {
