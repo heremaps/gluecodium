@@ -1,5 +1,7 @@
 package com.here.ivi.api.model.cppmodel;
 
+import java.util.stream.Stream;
+
 public class CppParameter extends CppElement {
 
     public enum Mode{
@@ -27,4 +29,8 @@ public class CppParameter extends CppElement {
         return type.equals(otherParameter.type);
     }
 
+    @Override
+    public Stream<CppElement> stream() {
+        return Stream.of(type, value);
+    }
 }

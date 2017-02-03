@@ -3,6 +3,7 @@ package com.here.ivi.api.model.cppmodel;
 import com.here.ivi.api.model.Includes;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CppElements {
 
@@ -38,30 +39,10 @@ public class CppElements {
     }
 
     public static Set<Includes.Include> collectIncludes(CppNamespace root) {
-        Set<Includes.Include> results = new HashSet<>();
-
-        // TODO change to visitor?
-        for ( CppElement m : root.members ) {
-
-            if (m instanceof CppNamespace) {
-                results.addAll(collectIncludes((CppNamespace) m));
-            } else if (m instanceof CppStruct) {
-                CppStruct struct = (CppStruct) m;
-                struct.fields.stream().map(f -> f.type.includes).forEach(results::addAll);
-            } else if (m instanceof CppConstant) {
-                CppConstant constant = (CppConstant) m;
-                results.addAll(constant.type.includes);
-            } else if (m instanceof CppTypeDef) {
-                CppTypeDef td = (CppTypeDef) m;
-                results.addAll(td.targetType.includes);
-            } else if (m instanceof CppClass) {
-                CppClass clazz = (CppClass)m;
-                results.addAll(collectIncludes((CppNamespace) m));
-            }
-            // TODO go through classes, and methods
-        }
-
-        return results;
+        return root.streamRecursive()
+                .filter(p -> p instanceof CppType)
+                .map(CppType.class::cast)
+                .map(t -> t.includes).flatMap(Set::stream).collect(Collectors.toSet());
     }
 
     //TODO move to helper class

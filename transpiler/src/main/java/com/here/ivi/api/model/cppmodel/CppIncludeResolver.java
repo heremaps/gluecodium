@@ -25,38 +25,10 @@ public class CppIncludeResolver {
     }
 
     public void resolveLazyIncludes(CppElement root) {
-        // TODO change to visitor?
-        if (root instanceof CppNamespace) {
-            CppNamespace ns = ((CppNamespace) root);
-            for ( CppElement m : ns.members ) {
-                resolveLazyIncludes(m);
-            }
-        } else if (root instanceof CppStruct) {
-            CppStruct struct = ((CppStruct) root);
-            for ( CppField f : struct.fields ) {
-                resolveLazyIncludes(f.type);
-            }
-        } else if (root instanceof CppClass) {
-            CppClass clazz = ((CppClass) root);
-            for ( CppMethod m: clazz.methods ) {
-                resolveLazyIncludes(m);
-            }
-        } else if (root instanceof CppConstant) {
-            CppConstant constant = (CppConstant) root;
-            resolveLazyIncludes(constant.type);
-        } else if (root instanceof CppTypeDef) {
-            CppTypeDef td = (CppTypeDef) root;
-            resolveLazyIncludes(td.targetType);
-        } else if (root instanceof CppMethod) {
-            CppMethod method = (CppMethod) root;
-            for ( CppParameter p : method.inParameters ) {
-                resolveLazyIncludes(p.type);
-            }
-            for ( CppParameter p : method.outParameters ) {
-                resolveLazyIncludes(p.type);
-            }
-        }
-        // TODO go through classes, and methods
+        root.streamRecursive()
+                .filter(p -> p instanceof CppType)
+                .map(CppType.class::cast)
+                .forEach(this::resolveLazyIncludes);
     }
 
     private void resolveLazyIncludes(CppType type) {
