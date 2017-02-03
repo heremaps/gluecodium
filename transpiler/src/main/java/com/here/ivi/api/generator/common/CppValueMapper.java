@@ -1,5 +1,8 @@
 package com.here.ivi.api.generator.common;
 
+import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
+import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.*;
 
 import java.math.BigInteger;
@@ -9,7 +12,15 @@ import java.math.BigInteger;
 // Then translate into target language
 public class CppValueMapper {
 
-    public static CppElements.CppValue map(FInitializerExpression rhs) {
+    public static CppValue map(CppType type, FInitializerExpression rhs) {
+        if (rhs instanceof FCompoundInitializer) {
+            return map(type, (FCompoundInitializer)rhs);
+        }
+
+        return map(rhs);
+    }
+
+    public static CppValue map(FInitializerExpression rhs) {
         if (rhs instanceof FBooleanConstant) {
             return map((FBooleanConstant)rhs);
         } else if (rhs instanceof FIntegerConstant) {
@@ -20,55 +31,39 @@ public class CppValueMapper {
             return map((FFloatConstant)rhs);
         } else if (rhs instanceof FDoubleConstant) {
             return map((FDoubleConstant)rhs);
-        } else if (rhs instanceof FCompoundInitializer) {
-            return map((FCompoundInitializer)rhs);
         }
 
-        return new CppElements.CppValue();
+        return new CppValue();
     }
 
-    public static CppElements.CppValue map(FBooleanConstant bc) {
+    public static CppValue map(FBooleanConstant bc) {
         final String value = bc.isVal() ? "true" : "false";
-        return new CppElements.CppValue(value, bc);
+        return new CppValue(value, bc);
     }
 
-    public static CppElements.CppValue map(FStringConstant sc) {
+    public static CppValue map(FStringConstant sc) {
         final String value = sc.getVal();
-        return new CppElements.CppValue('"' + value + '"', sc);
+        return new CppValue('"' + value + '"', sc);
     }
 
-    public static CppElements.CppValue map(FIntegerConstant ic) {
+    public static CppValue map(FIntegerConstant ic) {
         final BigInteger value = ic.getVal();
-        return new CppElements.CppValue(String.valueOf(value), ic);
+        return new CppValue(String.valueOf(value), ic);
     }
 
-    public static CppElements.CppValue map(FFloatConstant fc) {
+    public static CppValue map(FFloatConstant fc) {
         final Float value = fc.getVal();
-        return new CppElements.CppValue(String.valueOf(value) + 'f', fc);
+        return new CppValue(String.valueOf(value) + 'f', fc);
     }
 
-    public static CppElements.CppValue map(FDoubleConstant dc) {
+    public static CppValue map(FDoubleConstant dc) {
         final Double value = dc.getVal();
-        return new CppElements.CppValue(String.valueOf(value), dc);
+        return new CppValue(String.valueOf(value), dc);
     }
 
-    public static CppElements.CppValue map(FCompoundInitializer ci) {
-        // TODO this is c-99 style, will cause pedantic warnings in c++11, replace with something nicer
-        StringBuilder sb = new StringBuilder();
-        sb.append("{ ");
-        boolean needComma = false;
-        for (FFieldInitializer fi : ci.getElements()) {
-            CppElements.CppValue value = CppValueMapper.map(fi.getValue());
-            if (needComma) {
-                sb.append(", ");
-            }
-            if (value.isValid()) {
-                sb.append('.').append(fi.getElement().getName()).append(" = ").append(value.value);
-                needComma = true;
-            }
-        }
-        sb.append(" }");
-        return new CppElements.CppValue(sb.toString(), ci);
+    public static CppValue map(CppType type, FCompoundInitializer ci) {
+        // FIXME having a template in here is not-so-nice, this should be some CppType
+        return new CppValue(CppConstantTemplate.generate(type, ci).toString(), ci);
     }
 
 }

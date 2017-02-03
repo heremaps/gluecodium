@@ -2,10 +2,16 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.generator.common.templates.*;
 import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.cppmodel.CppElement;
+import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cppmodel.CppEnumItem;
+import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
 import java.io.IOException;
+
+import static com.here.ivi.api.model.cppmodel.CppElements.packageToNamespace;
 
 public class CppTypeCollectionGenerator {
 
@@ -32,13 +38,13 @@ public class CppTypeCollectionGenerator {
                                            ? extends CppStubSpec.TypeCollectionPropertyAccessor> coreModel,
                                    FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
 
-        CppElements.CppNamespace model = generateCppModel(tc);
+        CppNamespace model = generateCppModel(tc);
 
 
         String[] packageDesc = nameRules.packageName(tc.getPackage());
         String outputFile = nameRules.typeCollectionTarget(packageDesc, tc);
 
-
+        // find included files and resolve relative to generated path
         CppIncludeResolver resolver = new CppIncludeResolver(coreModel, tc, nameRules);
         resolver.resolveLazyIncludes(model);
 
@@ -49,12 +55,12 @@ public class CppTypeCollectionGenerator {
         return new GeneratedFile(fileContent, outputFile);
     }
 
-    public CppElements.CppNamespace generateCppModel(FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+    public CppNamespace generateCppModel(FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
 
         String[] packageDesc = nameRules.packageName(tc.getPackage());
-        CppElements.CppNamespace packageNs = CppElements.packageToNamespace(packageDesc);
+        CppNamespace packageNs = packageToNamespace(packageDesc);
 
-        CppElements.CppNamespace result = new CppElements.CppNamespace(tc.getName());
+        CppNamespace result = new CppNamespace(tc.getName());
 
         for (FType type : tc.fTypeCollection.getTypes()) {
             // struct
@@ -62,6 +68,8 @@ public class CppTypeCollectionGenerator {
                 result.members.add(generateCppStruct((FStructType) type));
             } else if (type instanceof FTypeDef) {
                 result.members.add(generateTypeDef((FTypeDef) type));
+            } else if (type instanceof FArrayType) {
+                result.members.add(generateArray((FArrayType) type));
             } else if (type instanceof FEnumerationType) {
                 if (tc.accessor.getIsClass((FEnumerationType) type)) {
                     result.members.add(generateCppEnumClass((FEnumerationType) type));
@@ -73,7 +81,7 @@ public class CppTypeCollectionGenerator {
 
         // constants
         for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
-            CppElements.CppConstant constant = generateCppConstant(constantDef);
+            CppConstant constant = generateCppConstant(constantDef);
 
             if (constant.isValid()) {
                 result.members.add(constant);
@@ -87,27 +95,34 @@ public class CppTypeCollectionGenerator {
         return packageNs;
     }
 
-
-    private CppElements.CppElement generateTypeDef(FTypeDef type) {
-        CppElements.CppTypeDef typeDef = new CppElements.CppTypeDef();
+    private CppElement generateTypeDef(FTypeDef type) {
+        CppTypeDef typeDef = new CppTypeDef();
         typeDef.name = nameRules.typedefName(type.getName());
         typeDef.targetType = CppTypeMapper.map(type.getActualType());
 
         return typeDef;
     }
 
-    private CppElements.CppStruct generateCppStruct(FStructType structType) {
+    private CppElement generateArray(FArrayType type) {
+        CppTypeDef typeDef = new CppTypeDef();
+        typeDef.name = nameRules.typedefName(type.getName());
+        typeDef.targetType = CppTypeMapper.wrapArrayType(CppTypeMapper.map(type.getElementType()));
 
-        CppElements.CppStruct struct = new CppElements.CppStruct();
+        return typeDef;
+    }
+
+    private CppStruct generateCppStruct(FStructType structType) {
+
+        CppStruct struct = new CppStruct();
         struct.name = nameRules.structName(structType.getName());
 
         for (FField fieldInfo : structType.getElements()) {
-            CppElements.CppField field = new CppElements.CppField();
+            CppField field = new CppField();
 
             field.type = CppTypeMapper.map(fieldInfo.getType());
             // handle inline array definition
             if (fieldInfo.isArray()) {
-                field.type = CppTypeMapper.wrapArrayType(fieldInfo.getType(), field.type);
+                field.type = CppTypeMapper.wrapArrayType(field.type);
             }
             field.name = nameRules.fieldName(fieldInfo.getName());
 
@@ -120,12 +135,12 @@ public class CppTypeCollectionGenerator {
         return struct;
     }
 
-    private CppElements.CppEnum generateCppEnum(FEnumerationType enumerationType) {
-        CppElements.CppEnum enumeration = new CppElements.CppEnum();
+    private CppEnum generateCppEnum(FEnumerationType enumerationType) {
+        CppEnum enumeration = new CppEnum();
         enumeration.name = nameRules.enumName(enumerationType.getName());
 
         for (FEnumerator enumerator : enumerationType.getEnumerators()) {
-            CppElements.CppEnumItem item = new CppElements.CppEnumItem();
+            CppEnumItem item = new CppEnumItem();
 
             item.name = nameRules.fieldName(enumerator.getName());
             item.value = CppValueMapper.map(enumerator.getValue());
@@ -140,20 +155,20 @@ public class CppTypeCollectionGenerator {
         return enumeration;
     }
 
-    private CppElements.CppEnumClass generateCppEnumClass( FEnumerationType enumerationType ) {
-        CppElements.CppEnumClass enumClass = new CppElements.CppEnumClass();
+    private CppEnumClass generateCppEnumClass( FEnumerationType enumerationType ) {
+        CppEnumClass enumClass = new CppEnumClass();
         enumClass.enumeration = generateCppEnum(enumerationType);
 
         return enumClass;
     }
 
-    private CppElements.CppConstant generateCppConstant(FConstantDef constantDef) {
-        CppElements.CppConstant constant = new CppElements.CppConstant();
+    private CppConstant generateCppConstant(FConstantDef constantDef) {
+        CppConstant constant = new CppConstant();
 
         // no need to check isArray here, it is redundant
         constant.type = CppTypeMapper.map(constantDef.getType());
         constant.name = nameRules.constantName(constantDef.getName());
-        constant.value = CppValueMapper.map(constantDef.getRhs());
+        constant.value = CppValueMapper.map(constant.type, constantDef.getRhs());
 
         return constant;
     }

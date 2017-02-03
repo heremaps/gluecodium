@@ -1,9 +1,9 @@
 package com.here.ivi.api.generator.common.templates
 
-import com.here.ivi.api.generator.common.CppElements
+import com.here.ivi.api.model.cppmodel.*
 
 class CppTypeCollectionContentTemplate {
-  static def generate(CppElements.CppNamespace ns) '''
+  static def generate(CppNamespace ns) '''
     #pragma once
 
     «FOR include : CppElements.collectIncludes(ns)»
