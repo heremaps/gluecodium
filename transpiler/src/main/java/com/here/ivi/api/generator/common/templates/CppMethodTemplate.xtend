@@ -1,17 +1,17 @@
 package com.here.ivi.api.generator.common.templates
 
-import com.here.ivi.api.generator.common.CppElements
+import com.here.ivi.api.model.cppmodel.*
 
-public class CppMethod {
-    def static generate(CppElements.CppParameter p) '''«p.type.typeName» «p.name»'''
-    def static signature(CppElements.CppMethod it) '''
+public class CppMethodTemplate {
+    def static generate(CppParameter p) '''«p.type.typeName» «p.name»'''
+    def static signature(CppMethod it) '''
       /**
        * «comment»
        */
       «specifiers.join(' ')» «returnType» «name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ')»;
     '''
 
-    def static signature(CppElements.CppMethod it, String className)'''
+    def static signature(CppMethod it, String className)'''
       «returnType» «className»::«name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ')»
     '''
 }

@@ -1,9 +1,9 @@
 package com.here.ivi.api.generator.common.templates
 
-import com.here.ivi.api.generator.common.CppElements
+import com.here.ivi.api.model.cppmodel.*
 
 class CppPureStructTemplate {
-  static def generate(CppElements.CppStruct struct) '''
+  static def generate(CppStruct struct) '''
     /**
      */
     struct «struct.name» {

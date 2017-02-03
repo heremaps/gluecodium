@@ -21,8 +21,6 @@ typeCollection TestTypeDef {
 
   typedef TypeThree is TypeTwo
 
-  typedef Flag is Integer(0,1) // unsupported
-
   typedef InstanceId is UInt32 // required for referencing instances via interfaces
 
   struct Struct2 {

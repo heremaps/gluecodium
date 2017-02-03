@@ -1,9 +1,9 @@
 package com.here.ivi.api.generator.common.templates
 
-import com.here.ivi.api.generator.common.CppElements
+import com.here.ivi.api.model.cppmodel.*
 
 class CppEnumClassTemplate {
-    static def generate(CppElements.CppEnumClass enumClass) '''
+    static def generate(CppEnumClass enumClass) '''
     /**
      */
     enum class «enumClass.enumeration.name» {
