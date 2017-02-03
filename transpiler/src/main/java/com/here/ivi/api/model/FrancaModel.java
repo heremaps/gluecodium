@@ -15,7 +15,9 @@ import org.franca.deploymodel.dsl.fDeploy.FDTypes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SuppressWarnings("WeakerAccess")
 public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
@@ -33,12 +35,34 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
 
     // TODO add iterators for common usecases (e.g. get all referenced types for interface)
 
+    public interface FrancaElement {
+        String getName();
+        String[] getPackage();
+        ModelInfo getModel();
+    }
+
     // FInterface with accessor
-    static public class Interface<Accessor> {
+    static public class Interface<Accessor> implements FrancaElement {
         public FInterface fInterface;
         public Accessor accessor;
         public FDInterface fdInterface;
         public ModelInfo model;
+
+        @Override
+        public String getName() {
+            return fInterface.getName();
+        }
+
+        @Override
+        public ModelInfo getModel() {
+            return model;
+        }
+
+        @Override
+        public String[] getPackage() {
+            String name = model.fModel.getName();
+            return name.split("\\.");
+        }
 
         // finds a matching FDInterface for an FInterface, if one is found, creates a valid InterfacePropertyAccessor,
         // otherwise creates an empty accessor that will return the defaults for a spec
@@ -65,23 +89,26 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
             }
             return result;
         }
-
-        public String getName() {
-            return fInterface.getName();
-        }
     }
 
     // FTypeCollection with accessor
-    static public class TypeCollection<Accessor> {
+    static public class TypeCollection<Accessor> implements FrancaElement {
         public FTypeCollection fTypeCollection;
         public Accessor accessor;
         public FDTypes fdTypes;
         public ModelInfo model;
 
+        @Override
         public String getName() {
             return fTypeCollection.getName();
         }
 
+        @Override
+        public ModelInfo getModel() {
+            return model;
+        }
+
+        @Override
         public String[] getPackage() {
             String name = model.fModel.getName();
             return name.split("\\.");
@@ -144,17 +171,10 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         typeCollections.addAll(other.typeCollections);
     }
 
-    public Interface<InterfaceAccessor> find(FModel model, FInterface fi) {
-        return interfaces.stream().filter(i -> {
-            return i.getName().equals(fi.getName()) && i.model.getName().equals(model.getName());
-        }).findFirst().get();
-    }
-
-
-    public TypeCollection<TypeCollectionAccessor> find(FModel model, FTypeCollection ft) {
-        return typeCollections.stream().filter(t -> {
-            return t.getName().equals(ft.getName()) && t.model.getName().equals(model.getName());
-        }).findFirst().get();
+    public Optional<FrancaElement> find(FModel model, FTypeCollection needle) {
+        return Stream.concat(typeCollections.stream(), interfaces.stream())
+                .filter(i -> i.getName().equals(needle.getName()) && i.getModel().getName().equals(model.getName()))
+                .findFirst();
     }
 
     public List<Interface<InterfaceAccessor>> interfaces = new ArrayList<>();

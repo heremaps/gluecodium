@@ -1,9 +1,10 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.model.Includes;
+import org.franca.core.franca.FModel;
+import org.franca.core.franca.FTypeCollection;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -11,10 +12,20 @@ import java.util.stream.Stream;
 import static java.util.Arrays.asList;
 
 public class CppType extends CppElement {
+    static public class DefinedBy {
+        public final FTypeCollection type; // FInterface is FTypeCollection as well
+        public final FModel model;
+
+        public DefinedBy(FTypeCollection type, FModel model) {
+            this.type = type;
+            this.model = model;
+        }
+    }
+
     public String typeName = "INVALID";
     public CppElements.TypeInfo info = CppElements.TypeInfo.Invalid;
     public Set<Includes.Include> includes;
-    public Set<CppType> referencedTypes;
+    public DefinedBy definedIn;
 
     public boolean isValid() {
         return info != CppElements.TypeInfo.Invalid;
@@ -23,24 +34,16 @@ public class CppType extends CppElement {
     public CppType() {
     }
 
-    public CppType(String typeName, CppElements.TypeInfo info) {
-        this(typeName, info, Collections.emptySet());
+    public CppType(DefinedBy def, String typeName, CppElements.TypeInfo info, Includes.Include... includes) {
+        this(def, typeName, info, asList(includes));
     }
 
-    public CppType(String typeName, CppElements.TypeInfo info, Includes.Include... includes) {
-        this(typeName, info, asList(includes));
-    }
-
-    public CppType(String typeName, CppElements.TypeInfo info, Collection<Includes.Include> includes) {
-        this(typeName, info, includes, Collections.emptySet());
-    }
-
-    public CppType(String typeName, CppElements.TypeInfo info,
-                   Collection<Includes.Include> includes, Collection<CppType> referencedTypes) {
+    public CppType(DefinedBy def, String typeName, CppElements.TypeInfo info,
+                   Collection<Includes.Include> includes) {
+        this.definedIn = def;
         this.typeName = typeName;
         this.info = info;
         this.includes = new HashSet<>(includes);
-        this.referencedTypes = new HashSet<>(referencedTypes);
     }
 
     @Override

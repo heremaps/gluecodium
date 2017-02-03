@@ -106,13 +106,16 @@ public class CppTypeCollectionGenerator {
     private CppElement generateArray(FArrayType type) {
         CppTypeDef typeDef = new CppTypeDef();
         typeDef.name = nameRules.typedefName(type.getName());
-        typeDef.targetType = CppTypeMapper.wrapArrayType(CppTypeMapper.map(type.getElementType()));
+        typeDef.targetType = CppTypeMapper.wrapArrayType(
+                CppTypeMapper.getDefinedBy(type),
+                CppTypeMapper.map(type.getElementType()));
 
         return typeDef;
     }
 
     private CppStruct generateCppStruct(FStructType structType) {
 
+        CppType.DefinedBy structDefiner = CppTypeMapper.getDefinedBy(structType);
         CppStruct struct = new CppStruct();
         struct.name = nameRules.structName(structType.getName());
 
@@ -122,7 +125,9 @@ public class CppTypeCollectionGenerator {
             field.type = CppTypeMapper.map(fieldInfo.getType());
             // handle inline array definition
             if (fieldInfo.isArray()) {
-                field.type = CppTypeMapper.wrapArrayType(field.type);
+                field.type = CppTypeMapper.wrapArrayType(
+                        structDefiner,
+                        field.type);
             }
             field.name = nameRules.fieldName(fieldInfo.getName());
 
