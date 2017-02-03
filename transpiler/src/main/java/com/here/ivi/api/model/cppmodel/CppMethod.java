@@ -2,6 +2,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static com.here.ivi.api.model.cppmodel.CppElements.areEqual;
 
@@ -36,5 +37,10 @@ public class CppMethod extends CppElement {
         return name.equals(otherMethod.name) &&
                 returnType.equals(otherMethod.returnType) && inParamsEquality && outParamsEquality
                 && specifiersEquality && qualifiersEquality;
+    }
+
+    @Override
+    public Stream<CppElement> stream() {
+        return Stream.concat(inParameters.stream(), outParameters.stream());
     }
 }

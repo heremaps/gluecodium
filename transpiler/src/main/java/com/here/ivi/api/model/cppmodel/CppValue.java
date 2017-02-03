@@ -2,7 +2,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import org.franca.core.franca.FInitializerExpression;
 
-public class CppValue {
+public class CppValue extends CppElement {
     public String value;
     public FInitializerExpression expression;
 

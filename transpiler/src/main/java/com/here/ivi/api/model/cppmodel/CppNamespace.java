@@ -2,6 +2,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class CppNamespace extends CppElement {
     public List<CppElement> members = new ArrayList<>();
@@ -19,5 +20,10 @@ public class CppNamespace extends CppElement {
         if (lastNs != null) {
             this.members.add(lastNs);
         }
+    }
+
+    @Override
+    public Stream<CppElement> stream() {
+        return members.stream();
     }
 }

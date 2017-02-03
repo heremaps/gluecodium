@@ -2,6 +2,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Created by hhinrich on 03/02/2017.
@@ -18,5 +19,10 @@ public class CppEnum extends CppElement {
             }
         }
         return !items.isEmpty() && !name.isEmpty() && ret;
+    }
+
+    @Override
+    public Stream<CppElement> stream() {
+        return items.stream().map(CppElement.class::cast);
     }
 }

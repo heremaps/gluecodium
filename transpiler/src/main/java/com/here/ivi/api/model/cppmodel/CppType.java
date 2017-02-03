@@ -6,10 +6,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
-public class CppType {
+public class CppType extends CppElement {
     public String typeName = "INVALID";
     public CppElements.TypeInfo info = CppElements.TypeInfo.Invalid;
     public Set<Includes.Include> includes;
@@ -47,6 +48,7 @@ public class CppType {
         return typeName.hashCode();
     }
 
+    @Override
     public boolean equals(Object other) {
         if (other == null) {
             return false;
@@ -60,5 +62,10 @@ public class CppType {
 
         CppType otherType = (CppType) other;
         return typeName.equals(otherType.typeName);
+    }
+
+    @Override
+    public Stream<CppElement> stream() {
+        return Stream.empty();
     }
 }
