@@ -23,14 +23,23 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.franca.core.dsl.FrancaIDLStandaloneSetup;
 import org.franca.deploymodel.dsl.FDeployStandaloneSetup;
 
+import com.here.ivi.api.OptionReader;
+import com.here.ivi.api.OptionReaderException;
+
 public class Transpiler {
 
     public static void main(final String[] args) {
-        new Transpiler("../fidl").execute();
+        try {
+            new Transpiler("../fidl", new OptionReader(args)).execute();
+        } catch (OptionReaderException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
     }
 
-    public Transpiler(String path) {
+    public Transpiler(String path, OptionReader options) {
         this.rootPath = path;
+        this.options = options;
     }
 
     public void execute() {
@@ -54,7 +63,7 @@ public class Transpiler {
         generate(specAccessorFactory, cgs, path);
     }
 
-    public static <IA, TA> void generate(SpecAccessorFactory<IA, TA> specAccessorFactory,
+    public <IA, TA> void generate(SpecAccessorFactory<IA, TA> specAccessorFactory,
                                          GeneratorSuite<IA, TA> generatorSuite,
                                          String inputPath) {
         final FrancaModelLoader<IA, TA> fml = new FrancaModelLoader<>(specAccessorFactory);
@@ -65,16 +74,21 @@ public class Transpiler {
         // invoke the right generator
         final List<GeneratedFile> files = generatorSuite.generate(model);
 
-        try {
-            ConsoleOutput co = new ConsoleOutput();
-            co.output(files);
-        } catch (IOException e) {
+        if (options.dumpToStdout()) {
+            try {
+                ConsoleOutput co = new ConsoleOutput();
+                co.output(files);
+            } catch (IOException e) {
+            }
         }
 
-        try {
-            FileOutput fo = new FileOutput(new File("./generated/"));
-            fo.output(files);
-        } catch (IOException e) {
+        String outdir = options.getOutputDir();
+        if (outdir != null) {
+            try {
+                FileOutput fo = new FileOutput(new File(outdir));
+                fo.output(files);
+            } catch (IOException e) {
+            }
         }
     }
 
@@ -96,6 +110,7 @@ public class Transpiler {
     }
 
     private final String rootPath;
+    private final OptionReader options;
 
     private final static Injector fdeplInjector = new FDeployStandaloneSetup().createInjectorAndDoEMFRegistration();
     private final static Injector fidlInjector = new FrancaIDLStandaloneSetup().createInjectorAndDoEMFRegistration();

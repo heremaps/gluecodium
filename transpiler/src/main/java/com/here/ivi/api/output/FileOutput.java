@@ -11,7 +11,10 @@ import java.util.List;
 public class FileOutput implements GeneratorOutput {
     public FileOutput(File rootPath) throws IOException {
         if (!rootPath.exists()) {
-            throw new FileNotFoundException(rootPath.getPath()  + " (Missing root path)");
+            if (!rootPath.mkdir()) {
+                throw new FileNotFoundException(rootPath.getPath() +
+                        " (Can't create output directory)");
+            }
         }
         this.rootPath = rootPath;
     }
