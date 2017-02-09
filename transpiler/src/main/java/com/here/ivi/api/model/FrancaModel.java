@@ -39,6 +39,7 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         String getName();
         String[] getPackage();
         ModelInfo getModel();
+        Version getVersion();
     }
 
     // FInterface with accessor
@@ -62,6 +63,11 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         public String[] getPackage() {
             String name = model.fModel.getName();
             return name.split("\\.");
+        }
+
+        @Override
+        public Version getVersion() {
+            return Version.create(fInterface.getVersion());
         }
 
         // finds a matching FDInterface for an FInterface, if one is found, creates a valid InterfacePropertyAccessor,
@@ -112,6 +118,11 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         public String[] getPackage() {
             String name = model.fModel.getName();
             return name.split("\\.");
+        }
+
+        @Override
+        public Version getVersion() {
+            return Version.create(fTypeCollection.getVersion());
         }
 
         // finds a matching FDTypes for a FTypeCollection, if one is found, creates a valid T
