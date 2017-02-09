@@ -9,27 +9,12 @@ import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
-import java.io.IOException;
-
 import static com.here.ivi.api.model.cppmodel.CppElements.packageToNamespace;
 
 public class CppTypeCollectionGenerator {
 
     public CppTypeCollectionGenerator(CppNameRules rules) {
         this.nameRules = rules;
-    }
-
-    public static Object generateGeneratorNotice(GeneratorSuite<?,?> suite,
-                                                 FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
-                                                 String outputTarget) {
-        String inputFile;
-        try {
-            inputFile = suite.getTool().resolveRelativeToRootPath(tc.model.getPath());
-        } catch (IOException e) {
-            inputFile = "Could not resolve";
-        }
-        String inputDefinition = "TypeCollection " + tc.fTypeCollection.getName() + ':' + Version.create(tc.fTypeCollection.getVersion());
-        return GeneratorNoticeTemplate.generate(suite, inputDefinition, inputFile, outputTarget);
     }
 
     public GeneratedFile generate( GeneratorSuite<?,?> suite,
@@ -48,7 +33,7 @@ public class CppTypeCollectionGenerator {
         CppIncludeResolver resolver = new CppIncludeResolver(coreModel, tc, nameRules);
         resolver.resolveLazyIncludes(model);
 
-        Object generatorNotice = CppTypeCollectionGenerator.generateGeneratorNotice(suite, tc, outputFile);
+        Object generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, tc, outputFile);
         Object innerContent = CppTypeCollectionContentTemplate.generate(model);
         String fileContent = CppFileTemplate.generate(generatorNotice, innerContent).toString();
 
