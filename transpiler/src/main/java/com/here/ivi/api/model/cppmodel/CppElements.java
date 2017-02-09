@@ -45,6 +45,20 @@ public class CppElements {
                 .map(t -> t.includes).flatMap(Set::stream).collect(Collectors.toSet());
     }
 
+    public static Set<Includes.Include> collectIncludes(CppClass cppClass) {
+        Set<Includes.Include> result = new HashSet();
+        for (CppMethod method : cppClass.methods){
+            for(CppParameter inParam : method.inParameters) {
+                result.addAll(inParam.type.includes);
+            }
+            for(CppParameter outParam : method.outParameters) {
+                result.addAll(outParam.type.includes);
+            }
+            //TODO add also return type for all methods, once the return type changes from current String to CppType
+        }
+        return result;
+    }
+
     //TODO move to helper class
     public static <T> boolean areEqual(List<T> a, List<T> b) {
         List<T> listOne = new ArrayList<>(a);
