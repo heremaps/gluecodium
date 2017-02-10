@@ -1,5 +1,6 @@
 package test
 
+import com.here.* from "classpath:/com/here/BuiltIn.fidl"
 import test.sub.TestTypeSubDef.* from  "./sub/TypeSubDef.fidl"
 
 interface TestInterface {
@@ -7,6 +8,8 @@ interface TestInterface {
     major 1
     minor 0
   }
+
+  typedef Instance is BuiltIn.InstanceId
 }
 
 typeCollection TestTypeDef {
@@ -21,15 +24,10 @@ typeCollection TestTypeDef {
 
   typedef TypeThree is TypeTwo
 
-  typedef InstanceId is UInt32 // required for referencing instances via interfaces
-
   struct Struct2 {
     String[] e0
     Array1 e1
     Struct1 e2
     TypeThree e3
   }
-
-  typedef TypeIncludes is InstanceId // required for referencing TypeIncludes instances via interfaces
-  typedef TestInterface is InstanceId // required for referencing TypeIncludes instances via interfaces
 }

@@ -31,7 +31,8 @@ sourceSets {
         }
         resources {
             srcDirs "spec"
-            include "**/*Spec.fdepl"
+            include "**/*.fdepl"
+            include "**/*.fidl"
         }
     }
 }

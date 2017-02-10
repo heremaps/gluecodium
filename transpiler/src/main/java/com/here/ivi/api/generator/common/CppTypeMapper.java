@@ -25,6 +25,12 @@ public class CppTypeMapper {
 
     private static CppType mapDerived(FTypeRef type) {
         FType derived = type.getDerived();
+
+        // types without a parent are not valid
+        if (derived.eContainer() == null) {
+            return mapInvalidType(type);
+        }
+
         if (derived instanceof FTypeDef) {
             return mapTypeDef( (FTypeDef) derived);
         }
@@ -41,6 +47,24 @@ public class CppTypeMapper {
         return new CppType(null, "UNMAPPED DERIVED", CppElements.TypeInfo.Invalid);
     }
 
+    private static CppType mapInvalidType(FTypeRef type) {
+        CppType.DefinedBy definer = getDefinedBy(type);
+        String name = "unknown";
+        String typeDesc = "derived type";
+        if (type.eContainer() instanceof FTypeDef) {
+            name = ((FTypeDef) type.eContainer()).getName();
+            typeDesc = "type reference";
+        } else if (type.eContainer() instanceof FArgument) {
+            name = ((FArgument) type.eContainer()).getName(); // TODO look at method name as well
+            typeDesc = "argument";
+        } else if (type.eContainer() instanceof FField) {
+            name = ((FField) type.eContainer()).getName();
+            typeDesc = "field";
+        }
+        System.err.println("Failed resolving " + typeDesc + " for '" + name + "' in " + definer + " (indicates wrong typedef or missing include)");
+        return new CppType(definer, "INVALID DERIVED FOUND", CppElements.TypeInfo.Invalid);
+    }
+
     // TODO there is a difference in the includes needed when defining a type versus when it is being used
     // This is not handled at the moment.
 
@@ -51,12 +75,9 @@ public class CppTypeMapper {
         if (typedef.getActualType() == null) {
             return new CppType(typeRefDefiner, "NO ACTUAL TYPE FOUND", CppElements.TypeInfo.Invalid);
         } else if (isInstanceId(typedef)) {
-
-            // TODO check that this InstanceId is actually the correct one or add special fdepl info to it
-            // TODO figure out the right include for this type
-            // TODO figure out correct reference definer (should be an FInterface!)
-
-            return new CppType(typeRefDefiner, typedef.getName(), CppElements.TypeInfo.InterfaceInstance);
+            // each Instance type is defined directly in the Interface that is refers to, this is already
+            // resolved in the typeRefDefiner
+            return new CppType(typeRefDefiner, typeRefDefiner.type.getName(), CppElements.TypeInfo.InterfaceInstance);
         } else {
             FTypeRef underlyingType = typedef.getActualType();
             CppType.DefinedBy underlyingTypeDefiner = getDefinedBy(underlyingType);
@@ -101,31 +122,26 @@ public class CppTypeMapper {
 
         CppType.DefinedBy arrayDefiner = getDefinedBy(array);
 
-        if (array.getElementType() == null) {
-            System.err.println("Failed resolving array element type (indicates wrong typedef)");
-            return new CppType(arrayDefiner, "NO ELEMENT TYPE FOUND", CppElements.TypeInfo.Invalid);
-        } else {
-            FTypeRef elementType = array.getElementType();
-            CppType actual = map(elementType);
+        FTypeRef elementType = array.getElementType();
+        CppType actual = map(elementType);
 
-            String typeName = array.getName(); // use name defined for array
-            if (typeName != null) {
-                // lookup where array typedef came from, setup includes
-                Set<Includes.Include> includes = Sets.newHashSet(new Includes.LazyInternalInclude(arrayDefiner));
+        String typeName = array.getName(); // use name defined for array
+        if (typeName != null) {
+            // lookup where array typedef came from, setup includes
+            Set<Includes.Include> includes = Sets.newHashSet(new Includes.LazyInternalInclude(arrayDefiner));
 
-                return new CppType( arrayDefiner, typeName, CppElements.TypeInfo.Complex, includes);
-            }
-
-            CppType.DefinedBy elementDefiner = getDefinedBy(elementType);
-
-            // lookup where array element type came from, setup includes
-            Includes.Include include = new Includes.LazyInternalInclude(elementDefiner);
-
-            CppType tmp = wrapArrayType(arrayDefiner, actual);
-            tmp.includes.add(include);
-
-            return tmp;
+            return new CppType( arrayDefiner, typeName, CppElements.TypeInfo.Complex, includes);
         }
+
+        CppType.DefinedBy elementDefiner = getDefinedBy(elementType);
+
+        // lookup where array element type came from, setup includes
+        Includes.Include include = new Includes.LazyInternalInclude(elementDefiner);
+
+        CppType tmp = wrapArrayType(arrayDefiner, actual);
+        tmp.includes.add(include);
+
+        return tmp;
     }
 
     public static CppType wrapArrayType(CppType.DefinedBy definedIn, CppType actual) {
@@ -171,9 +187,43 @@ public class CppTypeMapper {
         }
     }
 
+    static final private String INSTANCE_ID_NAME = "Instance";
+    static final private String INSTANCE_ID_TYPE = "InstanceId";
+    static final private String INSTANCE_ID_MODEL = "com.here.BuiltIn";
+
+    /*
+     * This method is used in conjunction with com.here.BuiltIn.InstanceId
+     * If a typedef is of the builtin type, than it will be resolved to the Interface that
+     * contains the typedef.
+     *
+     * Example definition:
+     *
+     *  package com.here.navigation
+     *
+     *  import com.here.* from "classpath:/com/here/BuiltIn.fidl"
+     *
+     *  interface CustomInterface {
+     *     version { major 1  minor 0 }
+     *
+     *     typedef Instance is BuiltIn.InstanceId
+     *  }
+     */
     private static boolean isInstanceId(FTypeDef typedef) {
-        return typedef.getActualType().getDerived() != null &&
-                "InstanceId".equals(typedef.getActualType().getDerived().getName());
+
+        // must be named Instance
+        if (INSTANCE_ID_NAME.equals(typedef.getName())) {
+            // must reference a valid type
+            FType target = typedef.getActualType().getDerived();
+            if (target != null) {
+                // must point to the exact com.here.BuiltIn.InstanceId
+                if (INSTANCE_ID_TYPE.equals(target.getName())) {
+                    CppType.DefinedBy defined = getDefinedBy(target);
+                    return INSTANCE_ID_MODEL.equals(defined.toString());
+                }
+            }
+        }
+
+        return false;
     }
 
     private static CppType mapPredefined(FTypeRef type) {
