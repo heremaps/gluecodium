@@ -35,7 +35,7 @@ public class CppIncludeResolver {
         this.nameRules = nameRules;
 
         String[] packageDesc = nameRules.packageName(forType.getPackage());
-        this.outputFile = "TODO"; // resolve name for Interface
+        this.outputFile = nameRules.interfaceTarget(packageDesc, forType);
     }
 
     public void resolveLazyIncludes(CppElement root) {
@@ -67,7 +67,8 @@ public class CppIncludeResolver {
                     includeName = nameRules.typeCollectionTarget(externalPackage,
                             (FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor>) externalDefinition);
                 } else {
-                    includeName = "TODO"; // resolve name for Interface
+                    includeName = nameRules.interfaceTarget(externalPackage,
+                            (FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor>) externalDefinition);
                 }
 
                 // no self includes needed

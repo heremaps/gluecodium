@@ -29,5 +29,7 @@ typeCollection TestTypeDef {
     Array1 e1
     Struct1 e2
     TypeThree e3
+
+    TestInterface.Instance instanceField
   }
 }

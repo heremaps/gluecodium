@@ -42,4 +42,8 @@ class CppStubNameRules implements CppNameRules {
           String[] packageDesc, FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
     String.join(File.separator, packageDesc) + File.separator + tc.getName() + headerFileSuffix();
   }
+  override String interfaceTarget(
+          String[] packageDesc, FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> tc) {
+    String.join(File.separator, packageDesc) + File.separator + tc.getName() + headerFileSuffix();
+  }
 }
