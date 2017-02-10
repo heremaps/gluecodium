@@ -1,0 +1,13 @@
+package com.here
+
+typeCollection BuiltIn {
+  version {
+    major 1
+    minor 0
+  }
+
+  // The InstanceId type is used to allow interface to reference instances of other interfaces
+  // as this is not foreseen in franca. We detect any typedef of InstanceId, and resolve them to
+  // the interface it contains
+  typedef InstanceId is UInt32
+}

@@ -1,24 +1,15 @@
 package com.here.navigation
 
+import com.here.* from "classpath:/com/here/BuiltIn.fidl"
 import com.here.navigation.* from "NavigationTypes.fidl"
-
-/** Internal factory helper */
-typeCollection RuntimeTypes {
-  version {
-    major 1
-    minor 0
-  }
-
-  typedef Runtime is NavigationTypes.InstanceId
-  typedef Module is NavigationTypes.InstanceId
-  typedef Route is NavigationTypes.InstanceId
-}
 
 interface Module {
   version {
     major 1
     minor 0
   }
+
+  typedef Instance is BuiltIn.InstanceId
 }
 
 /**
@@ -57,7 +48,7 @@ interface Runtime {
 
     out {
       /** This is set to a valid Runtime object when the runtime is successfully **/
-      RuntimeTypes.Runtime runtime // no other way of returning an instance of self or any interface
+      Runtime.Instance runtime // no other way of returning an instance of self or any interface
     }
 
     /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
@@ -74,7 +65,7 @@ interface Runtime {
     }
 
     out {
-      RuntimeTypes.Module runtime
+      Module.Instance runtime
     }
 
     /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
@@ -97,4 +88,6 @@ interface Runtime {
     /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
     error NavigationTypes.ErrorCode
   }
+
+  typedef Instance is BuiltIn.InstanceId
 }

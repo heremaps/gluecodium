@@ -6,18 +6,18 @@ typeCollection NavigationTypes {
         minor 0
     }
 
-    array ExampleArrayRow of UInt8
-    array ExampleArray of ExampleArrayRow
-
-    enumeration ErrorCode { // Reuse legacy::ErrorCode instead of generation
+    // TODO in legacy integration prototype - reuse legacy::ErrorCode instead of generating this
+    enumeration ErrorCode {
       None
       Unknown
     }
 
-    typedef InstanceId is UInt32
+    // will use the verbatim type name and try to use it from the original declaration in legacy
+    // TODO remove after legacy integration prototype is done
+    typedef RawLegacyType is UInt32
 
     struct RoadInfo {
-        String date
+        String field
     }
 
     struct Duration {

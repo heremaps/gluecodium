@@ -15,7 +15,7 @@ interface NavcoreModule extends legacy_Module { // Needs to extend original
      GuidanceTypes.MapMatcher legacy_mm
     }
     out {
-      GuidanceTypes.Guidance guidance
+      Guidance.Instance guidance
     }
     error NavigationTypes.Error
   }

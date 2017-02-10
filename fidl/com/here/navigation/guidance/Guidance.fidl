@@ -1,5 +1,6 @@
 package com.here.navigation.guidance
 
+import com.here.* from "classpath:/com/here/BuiltIn.fidl"
 import com.here.navigation.* from "../NavigationTypes.fidl"
 import com.here.navigation.routing.* from "../routing/RoutingTypes.fidl"
 
@@ -13,11 +14,10 @@ typeCollection GuidanceTypes {
     RoutingTypes.Route to Boolean
   }
 
-  typedef Guidance is NavigationTypes.InstanceId
-  typedef GuidanceSession is NavigationTypes.InstanceId  // Not generated, use legacy
-  typedef MainRouteChangeReason is NavigationTypes.InstanceId // Not generated, use legacy
-  typedef MapMatcher is NavigationTypes.InstanceId // Not generated, use legacy
-  typedef NavigationOptions is NavigationTypes.InstanceId // Not generated, use legacy
+  typedef GuidanceSession is NavigationTypes.RawLegacyType  // Not generated, use legacy
+  typedef MainRouteChangeReason is NavigationTypes.RawLegacyType // Not generated, use legacy
+  typedef MapMatcher is NavigationTypes.RawLegacyType // Not generated, use legacy
+  typedef NavigationOptions is NavigationTypes.RawLegacyType // Not generated, use legacy
 }
 
 interface Guidance {
@@ -88,4 +88,6 @@ interface Guidance {
   }
 
   // use existing legacy impl
+
+  typedef Instance is BuiltIn.InstanceId
 }

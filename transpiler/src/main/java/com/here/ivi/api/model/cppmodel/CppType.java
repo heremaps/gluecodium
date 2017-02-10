@@ -20,6 +20,11 @@ public class CppType extends CppElement {
             this.type = type;
             this.model = model;
         }
+
+        @Override
+        public String toString() {
+            return model.getName() + "." + type.getName();
+        }
     }
 
     public String typeName = "INVALID";
