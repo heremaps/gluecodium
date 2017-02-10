@@ -26,11 +26,13 @@ public class CppStubGeneratorSuite
         //   ? without struct tag it is mapped to class, to a struct otherwise
         // generate one file for each type collection, containing all the typedefs, enums, etc.
 
-        CppTypeCollectionGenerator generator = new CppTypeCollectionGenerator(new CppStubNameRules());
+        CppStubNameRules rules = new CppStubNameRules();
         
         return model.typeCollections.parallelStream()
-                .map(tc -> generator.generate(this, model, tc))
-                .collect(Collectors.toList());
+                .map(tc -> {
+                    CppTypeCollectionGenerator generator = new CppTypeCollectionGenerator(this, model, rules, tc);
+                    return generator.generate();
+                }).collect(Collectors.toList());
     }
 
     @Override

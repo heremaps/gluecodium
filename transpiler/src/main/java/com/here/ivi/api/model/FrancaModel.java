@@ -33,6 +33,10 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         }
     }
 
+    static public String[] splitPackage(String modelName) {
+        return modelName.split("\\.");
+    }
+
     // TODO add iterators for common usecases (e.g. get all referenced types for interface)
 
     public interface FrancaElement {
@@ -62,7 +66,7 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         @Override
         public String[] getPackage() {
             String name = model.fModel.getName();
-            return name.split("\\.");
+            return splitPackage(name);
         }
 
         @Override
@@ -117,7 +121,7 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         @Override
         public String[] getPackage() {
             String name = model.fModel.getName();
-            return name.split("\\.");
+            return splitPackage(name);
         }
 
         @Override
