@@ -75,9 +75,11 @@ public class CppTypeMapper {
         if (typedef.getActualType() == null) {
             return new CppType(typeRefDefiner, "NO ACTUAL TYPE FOUND", CppElements.TypeInfo.Invalid);
         } else if (isInstanceId(typedef)) {
+            Includes.Include include = new Includes.LazyInternalInclude(typeRefDefiner);
             // each Instance type is defined directly in the Interface that is refers to, this is already
             // resolved in the typeRefDefiner
-            return new CppType(typeRefDefiner, typeRefDefiner.type.getName(), CppElements.TypeInfo.InterfaceInstance);
+            return new CppType(typeRefDefiner, typeRefDefiner.type.getName(),
+                    CppElements.TypeInfo.InterfaceInstance, include);
         } else {
             FTypeRef underlyingType = typedef.getActualType();
             CppType.DefinedBy underlyingTypeDefiner = getDefinedBy(underlyingType);

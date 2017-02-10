@@ -16,4 +16,6 @@ interface CppNameRules {
   def String headerFileSuffix()
   def String typeCollectionTarget(String[] packageDesc,
         FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc)
+  def String interfaceTarget(String[] packageDesc,
+        FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> tc)
 }
