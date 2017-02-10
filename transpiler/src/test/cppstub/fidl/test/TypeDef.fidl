@@ -25,11 +25,22 @@ typeCollection TestTypeDef {
   typedef TypeThree is TypeTwo
 
   struct Struct2 {
-    String[] e0
-    Array1 e1
-    Struct1 e2
-    TypeThree e3
+    String base
+    String[] baseArr
 
-    TestInterface.Instance instanceField
+    Array1 externalArrayRef
+    Array1[] externalArrayRefArray
+
+    Struct1 externalStruct
+    Struct1[] externalStructArray
+
+    TypeThree internalArrayRef
+    TypeThree[] internalArrayRefArray
+
+    EnumTest externalEnumRef
+    EnumTest[] externalEnumRefArray
+
+    TestInterface.Instance instanceRef
+    TestInterface.Instance[] instanceRefArray
   }
 }
