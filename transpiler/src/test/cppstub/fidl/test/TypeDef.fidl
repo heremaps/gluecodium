@@ -39,8 +39,5 @@ typeCollection TestTypeDef {
 
     EnumTest externalEnumRef
     EnumTest[] externalEnumRefArray
-
-    TestInterface.Instance instanceRef
-    TestInterface.Instance[] instanceRefArray
   }
 }

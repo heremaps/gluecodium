@@ -15,6 +15,7 @@ class CppNamespaceTemplate {
         CppNamespace: CppNamespaceTemplate.generate(member)
         CppStruct: CppPureStructTemplate.generate(member)
         CppTypeDef: CppTypeDefTemplate.generate(member)
+        CppClass : CppClassTemplate.generate(member)
         default: '''// Missing mapping «member.class»'''
       }»
 

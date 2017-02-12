@@ -1,5 +1,6 @@
-package com.here.ivi.api.generator.common;
+package com.here.ivi.api.generator.cppstub;
 
+import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.*;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.cppmodel.CppElement;
@@ -19,7 +20,7 @@ import static com.here.ivi.api.model.cppmodel.CppElements.packageToNamespace;
  * (e.g. Java + JNI, Swift, …) or use them directly (traditional legacy).
  *
  */
-public class CppTypeCollectionGenerator {
+public class TypeCollectionGenerator {
 
     private final GeneratorSuite<?, ?> suite;
     private final FrancaModel coreModel;
@@ -29,12 +30,12 @@ public class CppTypeCollectionGenerator {
     private final CppType.DefinedBy rootType;
 
 
-    public CppTypeCollectionGenerator(GeneratorSuite<?, ?> suite,
-                                      FrancaModel<
+    public TypeCollectionGenerator(GeneratorSuite<?, ?> suite,
+                                   FrancaModel<
                                               ? extends CppStubSpec.InterfacePropertyAccessor,
                                               ? extends CppStubSpec.TypeCollectionPropertyAccessor> coreModel,
-                                      CppNameRules rules,
-                                      FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+                                   CppNameRules rules,
+                                   FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
         this.nameRules = rules;
         this.suite = suite;
         this.coreModel = coreModel;

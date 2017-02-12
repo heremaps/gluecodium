@@ -7,6 +7,13 @@ public class CppElement {
     public CppElements.Visibility visibility = CppElements.Visibility.Default;
     public String name;
 
+    public CppElement() {
+    }
+
+    public CppElement(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

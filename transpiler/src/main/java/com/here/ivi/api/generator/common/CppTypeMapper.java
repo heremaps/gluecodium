@@ -181,16 +181,26 @@ public class CppTypeMapper {
         if (map.getKeyType() == null || map.getValueType() == null ) {
             return new CppType(mapDefiner, "NO KEY OR VALUE TYPE FOUND", CppElements.TypeInfo.Invalid);
         } else {
+
+            String typeName = map.getName(); // use name defined for map
+            if (typeName != null) {
+                // lookup where map typedef came from, setup includes
+                Set<Includes.Include> includes = Sets.newHashSet(new Includes.LazyInternalInclude(mapDefiner));
+                typeName = prefixNamespace(rootType, mapDefiner, typeName);
+
+                return new CppType( mapDefiner, typeName, CppElements.TypeInfo.Complex, includes);
+            }
+
             CppType key = map(rootType, map.getKeyType());
             CppType value = map(rootType, map.getValueType());
-            String typeName = "std::map< " + key.typeName + ", " + value.typeName + " >";
+            String mapType = "std::map< " + key.typeName + ", " + value.typeName + " >";
 
             // include key type, value type and the map
             Set<Includes.Include> includes = new HashSet<>(key.includes);
             includes.addAll(value.includes);
             includes.add(MAP_INCLUDE);
 
-            return new CppType(mapDefiner, typeName, CppElements.TypeInfo.Complex, includes);
+            return new CppType(mapDefiner, mapType, CppElements.TypeInfo.Complex, includes);
         }
     }
 
@@ -209,7 +219,7 @@ public class CppTypeMapper {
         }
     }
 
-    private static CppType mapEnum(CppType.DefinedBy rootType, FEnumerationType enumeration) {
+    public static CppType mapEnum(CppType.DefinedBy rootType, FEnumerationType enumeration) {
         CppType.DefinedBy enumDefiner = getDefinedBy(enumeration);
 
         if (enumeration.getEnumerators().isEmpty() ) {
