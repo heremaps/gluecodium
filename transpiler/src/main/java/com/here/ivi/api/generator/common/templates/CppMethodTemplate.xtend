@@ -17,10 +17,8 @@ public class CppMethodTemplate {
       /**
        * «comment»
        */
-      «specifiers.join(' ')» «returnType» «name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ')»;
-    '''
+      «specifiers.join(' ')» «returnType» «name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ')»;'''
 
     def static signature(CppMethod it, String className)'''
-      «returnType» «className»::«name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ')»
-    '''
+      «returnType» «className»::«name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ')»'''
 }

@@ -8,7 +8,7 @@ import static com.here.ivi.api.model.cppmodel.CppElements.areEqual;
 
 public class CppMethod extends CppElement {
     public String comment;
-    public String returnType; //TODO: this should be CppType, once this supports existing types
+    public String returnType = "void"; //TODO: this should be CppType, once this supports existing types
     public List<CharSequence> specifiers = new ArrayList<>();
     public List<CharSequence> qualifiers = new ArrayList<>();
     public List<CppParameter> inParameters = new ArrayList<>();

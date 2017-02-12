@@ -8,11 +8,12 @@ import com.here.navigation.CppStubSpec;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
- * This generator will build all the CppStubs that will have to be implemented on the client side @ref TODO-DOES-NOT-EXIST
- * as well as the data used by this stubs @ref CppTypeCollectionGenerator.
+ * This generator will build all the CppStubs that will have to be implemented on the client side @ref StubGenerator
+ * as well as the data used by this stubs @ref TypeCollectionGenerator.
  *
  * It is the underlying generator, that all others depend on, as they will invoke the actual implementation through
  * the Stub interfaces.
@@ -125,8 +126,7 @@ import java.util.stream.Collectors;
  * @enduml
  */
 public class CppStubGeneratorSuite
-        implements GeneratorSuite<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
-{
+        implements GeneratorSuite<CppStubSpec.InterfacePropertyAccessor,CppStubSpec.TypeCollectionPropertyAccessor> {
     private final Transpiler tool;
 
     public CppStubGeneratorSuite(Transpiler tp) {
@@ -142,12 +142,19 @@ public class CppStubGeneratorSuite
         // generate one file for each type collection, containing all the typedefs, enums, etc.
 
         CppStubNameRules rules = new CppStubNameRules();
-        
-        return model.typeCollections.parallelStream()
-                .map(tc -> {
-                    CppTypeCollectionGenerator generator = new CppTypeCollectionGenerator(this, model, rules, tc);
-                    return generator.generate();
-                }).collect(Collectors.toList());
+
+        return Stream.concat(
+                model.typeCollections.stream()
+                    .map(tc -> {
+                        TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
+                        return generator.generate();
+                    }),
+                model.interfaces.stream()
+                    .map(iface -> {
+                        StubGenerator generator = new StubGenerator(this, model, rules, iface);
+                        return generator.generate();
+                    })
+            ).collect(Collectors.toList());
     }
 
     @Override
