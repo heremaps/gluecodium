@@ -14,10 +14,17 @@ typeCollection GuidanceTypes {
     RoutingTypes.Route to Boolean
   }
 
-  typedef GuidanceSession is NavigationTypes.RawLegacyType  // Not generated, use legacy
-  typedef MainRouteChangeReason is NavigationTypes.RawLegacyType // Not generated, use legacy
-  typedef MapMatcher is NavigationTypes.RawLegacyType // Not generated, use legacy
-  typedef NavigationOptions is NavigationTypes.RawLegacyType // Not generated, use legacy
+  <** @source-uri: legacy/navcore/GuidanceSession.h **>
+  typedef GuidanceSession is BuiltIn.ExternalType  // Not generated, use legacy
+
+  <** @source-uri: legacy/navcore/GuidanceTypes.h **>
+  typedef MainRouteChangedReason is BuiltIn.ExternalType // Not generated, use legacy
+
+  <** @source-uri: legacy/navcore/MapMatcher.h **>
+  typedef MapMatcher is BuiltIn.ExternalType // Not generated, use legacy
+
+  <** @source-uri: legacy/navcore/NavigationOptions.h **>
+  typedef NavigationOptions is BuiltIn.ExternalType // Not generated, use legacy
 }
 
 interface Guidance {
@@ -34,7 +41,7 @@ interface Guidance {
   broadcast onRouteUpdated {
     out {
         RoutingTypes.Route route
-        GuidanceTypes.MainRouteChangeReason reason
+        GuidanceTypes.MainRouteChangedReason reason
     }
   }
 

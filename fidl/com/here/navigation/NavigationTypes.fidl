@@ -12,10 +12,6 @@ typeCollection NavigationTypes {
       Unknown
     }
 
-    // will use the verbatim type name and try to use it from the original declaration in legacy
-    // TODO remove after legacy integration prototype is done
-    typedef RawLegacyType is UInt32
-
     struct RoadInfo {
         String field
     }
