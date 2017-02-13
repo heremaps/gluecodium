@@ -90,13 +90,18 @@ public class TypeCollectionGenerator {
                 result.members.add(buildTypeDef(typeDef));
             } else if (type instanceof FArrayType) {
                 result.members.add(buildArray((FArrayType) type));
+            } else if (type instanceof FMapType) {
+                result.members.add(buildMap((FMapType) type));
             } else if (type instanceof FEnumerationType) {
                 if (tc.accessor.getIsClass((FEnumerationType) type)) {
                     result.members.add(buildCppEnumClass((FEnumerationType) type));
                 } else {
                     result.members.add(buildCppEnum((FEnumerationType) type));
                 }
+            } else {
+                System.err.println("Missing type map in " + rootType + " for " + type.getClass().getName());
             }
+
         }
 
         // constants
@@ -118,9 +123,20 @@ public class TypeCollectionGenerator {
         return packageNs;
     }
 
+    private CppElement buildMap(FMapType type) {
+        CppTypeDef typeDef = new CppTypeDef();
+        typeDef.name = nameRules.typedefName(type.getName()); // TODO use name rules
+        typeDef.targetType = CppTypeMapper.wrapMapType(
+                CppTypeMapper.getDefinedBy(type),
+                CppTypeMapper.map(rootType, type.getKeyType()),
+                CppTypeMapper.map(rootType, type.getValueType()));
+
+        return typeDef;
+    }
+
     private CppElement buildTypeDef(FTypeDef type) {
         CppTypeDef typeDef = new CppTypeDef();
-        typeDef.name = nameRules.typedefName(type.getName());
+        typeDef.name = nameRules.typedefName(type.getName()); // TODO use name rules
         typeDef.targetType = CppTypeMapper.map(rootType, type.getActualType());
 
         return typeDef;
@@ -128,8 +144,8 @@ public class TypeCollectionGenerator {
 
     private CppElement buildArray(FArrayType type) {
         CppTypeDef typeDef = new CppTypeDef();
-        typeDef.name = nameRules.typedefName(type.getName());
-        typeDef.targetType = CppTypeMapper.wrapArrayType(rootType,
+        typeDef.name = nameRules.typedefName(type.getName());  // TODO use name rules
+        typeDef.targetType = CppTypeMapper.wrapArrayType(
                 CppTypeMapper.getDefinedBy(type),
                 CppTypeMapper.map(rootType, type.getElementType()));
 
@@ -148,7 +164,7 @@ public class TypeCollectionGenerator {
             field.type = CppTypeMapper.map(rootType, fieldInfo.getType());
             // handle inline array definition
             if (fieldInfo.isArray()) {
-                field.type = CppTypeMapper.wrapArrayType(rootType, structDefiner, field.type);
+                field.type = CppTypeMapper.wrapArrayType(structDefiner, field.type);
             }
             field.name = nameRules.fieldName(fieldInfo.getName());
 

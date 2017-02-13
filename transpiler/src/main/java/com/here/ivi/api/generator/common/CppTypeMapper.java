@@ -166,22 +166,21 @@ public class CppTypeMapper {
             return new CppType( arrayDefiner, typeName, CppElements.TypeInfo.Complex, includes);
         }
 
-        // lookup where array element type came from, setup includes
-        Includes.Include include = new Includes.LazyInternalInclude(actual.definedIn);
-
-        CppType tmp = wrapArrayType(rootType, arrayDefiner, actual);
-        tmp.includes.add(include);
-
-        return tmp;
+        // if no name is given, fallback to underlying type
+        return wrapArrayType(arrayDefiner, actual);
     }
 
-    public static CppType wrapArrayType(CppType.DefinedBy rootType, CppType.DefinedBy definedIn, CppType actual) {
+    public static CppType wrapArrayType(CppType.DefinedBy definedIn, CppType elementType) {
 
         // include element type and the vector
-        Set<Includes.Include> includes = actual.includes;
+        Set<Includes.Include> includes = elementType.includes;
         includes.add(VECTOR_INCLUDE);
 
-        String typeName = "std::vector< " + actual.typeName + " >"; // if no name is given, fallback to underlying type
+        // lookup where array element type came from, setup includes
+        Includes.Include include = new Includes.LazyInternalInclude(elementType.definedIn);
+        includes.add(include);
+
+        String typeName = "std::vector< " + elementType.typeName + " >";
 
         return new CppType( definedIn, typeName, CppElements.TypeInfo.Complex, includes );
     }
@@ -204,15 +203,27 @@ public class CppTypeMapper {
 
             CppType key = map(rootType, map.getKeyType());
             CppType value = map(rootType, map.getValueType());
-            String mapType = "std::map< " + key.typeName + ", " + value.typeName + " >";
 
-            // include key type, value type and the map
-            Set<Includes.Include> includes = new HashSet<>(key.includes);
-            includes.addAll(value.includes);
-            includes.add(MAP_INCLUDE);
-
-            return new CppType(mapDefiner, mapType, CppElements.TypeInfo.Complex, includes);
+            // if no names are given, fallback to underlying type
+            return wrapMapType(mapDefiner, key, value);
         }
+    }
+
+    public static CppType wrapMapType(CppType.DefinedBy mapDefiner, CppType key, CppType value)
+    {
+        // lookup where array element type came from, setup includes
+        Includes.Include keyInclude = new Includes.LazyInternalInclude(key.definedIn);
+        Includes.Include valueInclude = new Includes.LazyInternalInclude(value.definedIn);
+
+        String mapType = "std::map< " + key.typeName + ", " + value.typeName + " >";
+
+        // include key type, value type and the map
+        Set<Includes.Include> includes = new HashSet<>(key.includes);
+        includes.add(keyInclude);
+        includes.add(valueInclude);
+        includes.add(MAP_INCLUDE);
+
+        return new CppType(mapDefiner, mapType, CppElements.TypeInfo.Complex, includes);
     }
 
     private static CppType mapStruct(CppType.DefinedBy rootType, FStructType struct) {
