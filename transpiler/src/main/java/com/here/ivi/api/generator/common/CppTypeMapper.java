@@ -1,6 +1,7 @@
 package com.here.ivi.api.generator.common;
 
 import com.google.common.collect.Sets;
+import com.here.ivi.api.model.FrancaAnnotations;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.Includes;
 import org.eclipse.emf.ecore.EObject;
@@ -83,6 +84,16 @@ public class CppTypeMapper {
             // resolved in the typeRefDefiner
             return new CppType(typeRefDefiner, typeRefDefiner.type.getName(),
                     CppElements.TypeInfo.InterfaceInstance, include);
+        } else if (isExternalReference(typedef)) {
+
+            Map<FAnnotationType, Set<String>> comments = FrancaAnnotations.toMap(typedef.getComment().getElements());
+
+            // resolve external includes
+            Set<Includes.Include> includes = new HashSet<>();
+            for (String uri : comments.get(FAnnotationType.SOURCE_URI)) {
+                includes.add(new Includes.SystemInclude(uri));
+            }
+            return new CppType(typeRefDefiner, typedef.getName(), CppElements.TypeInfo.Complex, includes);
         } else {
             CppType actual = map(rootType, typedef.getActualType());
             CppType.DefinedBy actualTypeDefiner = actual.definedIn;
@@ -232,9 +243,9 @@ public class CppTypeMapper {
         }
     }
 
+    static final private String BUILTIN_MODEL = "com.here.BuiltIn";
     static final private String INSTANCE_ID_NAME = "Instance";
     static final private String INSTANCE_ID_TYPE = "InstanceId";
-    static final private String INSTANCE_ID_MODEL = "com.here.BuiltIn";
 
     /*
      * This method is used in conjunction with com.here.BuiltIn.InstanceId
@@ -263,8 +274,23 @@ public class CppTypeMapper {
                 // must point to the exact com.here.BuiltIn.InstanceId
                 if (INSTANCE_ID_TYPE.equals(target.getName())) {
                     CppType.DefinedBy defined = getDefinedBy(target);
-                    return INSTANCE_ID_MODEL.equals(defined.toString());
+                    return BUILTIN_MODEL.equals(defined.toString());
                 }
+            }
+        }
+
+        return false;
+    }
+
+    static final private String EXTERNAL_TYPE = "ExternalType";
+
+    private static boolean isExternalReference(FTypeDef typedef) {
+        FType target = typedef.getActualType().getDerived();
+        if (target != null) {
+            // must point to the exact com.here.BuiltIn.ExternalType
+            if (EXTERNAL_TYPE.equals(target.getName())) {
+                CppType.DefinedBy defined = getDefinedBy(target);
+                return BUILTIN_MODEL.equals(defined.toString());
             }
         }
 
