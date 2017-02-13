@@ -1,10 +1,8 @@
 package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.model.FrancaModel;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
