@@ -1,8 +1,9 @@
 package com.here.ivi.api.generator.common;
 
 
-import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
+import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.cppmodel.CppMethod;
 
 import java.io.IOException;
 
@@ -20,5 +21,20 @@ public class CppGeneratorHelper{
                                 // TODO "TypeCollection or Interface " +
         String inputDefinition =  element.getName() + ':' + element.getVersion();
         return GeneratorNoticeTemplate.generate(suite, inputDefinition, inputFile, outputTarget);
+    }
+
+    public static CppMethod generateDtor(String className){
+        CppMethod dtor = new CppMethod();
+        dtor.name = "~" + className;
+        dtor.returnType = "";
+        dtor.specifiers.add("virtual");
+        return dtor;
+    }
+
+    public static CppMethod generateEmptyCtor(String className){
+        CppMethod ctor = new CppMethod();
+        ctor.name = className;
+        ctor.returnType = "";
+        return ctor;
     }
 }
