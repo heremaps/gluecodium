@@ -22,6 +22,10 @@ public class CppNamespace extends CppElement {
         }
     }
 
+    public boolean isEmpty() {
+        return members.isEmpty();
+    }
+
     @Override
     public Stream<CppElement> stream() {
         return members.stream();

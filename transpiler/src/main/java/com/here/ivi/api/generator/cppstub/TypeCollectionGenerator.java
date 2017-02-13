@@ -49,6 +49,10 @@ public class TypeCollectionGenerator {
     public GeneratedFile generate() {
         CppNamespace model = buildCppModel();
 
+        if (model.isEmpty()) {
+            return null;
+        }
+
         String[] packageDesc = nameRules.packageName(tc.getPackage());
         String outputFile = nameRules.typeCollectionTarget(packageDesc, tc);
 
@@ -106,7 +110,10 @@ public class TypeCollectionGenerator {
             }
         }
 
-        packageNs.members.add(result);
+        // ensure to not create empty namespaces
+        if (!result.isEmpty()) {
+            packageNs.members.add(result);
+        }
 
         return packageNs;
     }

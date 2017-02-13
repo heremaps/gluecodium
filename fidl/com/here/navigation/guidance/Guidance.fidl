@@ -2,16 +2,11 @@ package com.here.navigation.guidance
 
 import com.here.* from "classpath:/com/here/BuiltIn.fidl"
 import com.here.navigation.* from "../NavigationTypes.fidl"
-import com.here.navigation.routing.* from "../routing/RoutingTypes.fidl"
 
 typeCollection GuidanceTypes {
   version {
     major 1
     minor 0
-  }
-
-  map RouteToCompute {
-    RoutingTypes.Route to Boolean
   }
 
   <** @source-uri: legacy/navcore/GuidanceSession.h **>
@@ -25,6 +20,16 @@ typeCollection GuidanceTypes {
 
   <** @source-uri: legacy/navcore/NavigationOptions.h **>
   typedef NavigationOptions is BuiltIn.ExternalType // Not generated, use legacy
+
+  <** @source-uri: legacy/navcore/MainRouteOptions.h **>
+  typedef MainRouteOptions is BuiltIn.ExternalType // Not generated, use legacy
+
+  <** @source-uri: legacy/navcore/Route.h **>
+  typedef Route is BuiltIn.ExternalType // Not generated, use legacy
+
+  map RouteToCompute {
+    Route to Boolean
+  }
 }
 
 interface Guidance {
@@ -40,7 +45,7 @@ interface Guidance {
 
   broadcast onRouteUpdated {
     out {
-        RoutingTypes.Route route
+        GuidanceTypes.Route route
         GuidanceTypes.MainRouteChangedReason reason
     }
   }
@@ -60,7 +65,7 @@ interface Guidance {
 
   method startNavigation:ThreeParams {
     in {
-      RoutingTypes.Route route // Not generated, use legacy object, therefore not recognized as ComplexObject
+      GuidanceTypes.Route route // Not generated, use legacy object, therefore not recognized as ComplexObject
       GuidanceTypes.RouteToCompute alternatives
       GuidanceTypes.NavigationOptions options // Not generated, use legacy
     }
@@ -86,8 +91,9 @@ interface Guidance {
 
   method updateRoute{
     in {
-        RoutingTypes.Route route
+        GuidanceTypes.Route route
         UInt32 startStopoverIndex
+        GuidanceTypes.MainRouteOptions options
     }
   }
 

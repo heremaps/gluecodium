@@ -51,6 +51,10 @@ public class StubGenerator {
     public GeneratedFile generate() {
         CppNamespace model = buildCppModel();
 
+        if (model.isEmpty()) {
+            return null;
+        }
+
         String[] packageDesc = nameRules.packageName(iface.getPackage());
         String outputFile = nameRules.interfaceStubTarget(packageDesc, iface);
 
@@ -83,8 +87,6 @@ public class StubGenerator {
             CppMethod method = buildNotifierMethod(b);
             result.methods.add(method);
         }
-
-        packageNs.members.add(result);
 
         return packageNs;
 
