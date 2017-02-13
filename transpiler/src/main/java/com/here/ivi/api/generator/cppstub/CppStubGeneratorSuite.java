@@ -7,6 +7,7 @@ import com.here.ivi.api.model.FrancaModel;
 import com.here.navigation.CppStubSpec;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -137,24 +138,23 @@ public class CppStubGeneratorSuite
     public List<GeneratedFile> generate(
             FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> model) {
 
-        // every interface gets its own file
-        //   ? without struct tag it is mapped to class, to a struct otherwise
-        // generate one file for each type collection, containing all the typedefs, enums, etc.
-
         CppStubNameRules rules = new CppStubNameRules();
 
         return Stream.concat(
-                model.typeCollections.stream()
-                    .map(tc -> {
-                        TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
-                        return generator.generate();
-                    }),
-                model.interfaces.stream()
-                    .map(iface -> {
-                        StubGenerator generator = new StubGenerator(this, model, rules, iface);
-                        return generator.generate();
-                    })
-            ).collect(Collectors.toList());
+            // generate one file for each type collection, containing all the typedefs, enums, etc.
+            model.typeCollections.stream()
+                .map(tc -> {
+                    TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
+                    return generator.generate();
+                }),
+            // every interface gets its own file
+            model.interfaces.stream()
+                .map(iface -> {
+                    StubGenerator generator = new StubGenerator(this, model, rules, iface);
+                    return generator.generate();
+                })
+        ).filter(Objects::nonNull)
+         .collect(Collectors.toList());
     }
 
     @Override

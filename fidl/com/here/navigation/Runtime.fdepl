@@ -1,14 +1,6 @@
-// import the deployment specification
 import "classpath:/com/here/navigation/LegacySpec.fdepl"
-
-// import the actual Franca interfaces we want to deploy
 import "./Runtime.fidl"
 
-/**
- * One example deployment of SimpleInterface according to specification SimpleSpec.
- * Note that the deployment uses overwrites to get specific deployment of struct
- * SomeStruct in different use cases.
- */
 define com.here.navigation.LegacySpec for interface com.here.navigation.Runtime
 {
   method createRuntime {
