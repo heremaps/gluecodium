@@ -264,7 +264,7 @@ public class CppTypeMapper {
      *     typedef Instance is BuiltIn.InstanceId
      *  }
      */
-    private static boolean isInstanceId(FTypeDef typedef) {
+    public static boolean isInstanceId(FTypeDef typedef) {
 
         // must be named Instance
         if (INSTANCE_ID_NAME.equals(typedef.getName())) {
@@ -284,7 +284,7 @@ public class CppTypeMapper {
 
     static final private String EXTERNAL_TYPE = "ExternalType";
 
-    private static boolean isExternalReference(FTypeDef typedef) {
+    public static boolean isExternalReference(FTypeDef typedef) {
         FType target = typedef.getActualType().getDerived();
         if (target != null) {
             // must point to the exact com.here.BuiltIn.ExternalType

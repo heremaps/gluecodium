@@ -75,7 +75,15 @@ public class TypeCollectionGenerator {
             if (type instanceof FStructType) {
                 result.members.add(buildCppStruct((FStructType) type));
             } else if (type instanceof FTypeDef) {
-                result.members.add(buildTypeDef((FTypeDef) type));
+
+                FTypeDef typeDef = (FTypeDef) type;
+                // skip the typedefs for external reference and instanceId typedefs
+                // as these types are purely internal
+                if (CppTypeMapper.isExternalReference(typeDef) ||
+                        CppTypeMapper.isInstanceId(typeDef)) {
+                    continue;
+                }
+                result.members.add(buildTypeDef(typeDef));
             } else if (type instanceof FArrayType) {
                 result.members.add(buildArray((FArrayType) type));
             } else if (type instanceof FEnumerationType) {
