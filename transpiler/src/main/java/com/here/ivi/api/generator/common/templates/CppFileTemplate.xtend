@@ -1,8 +1,5 @@
 package com.here.ivi.api.generator.common.templates
 
-
-import org.eclipse.xtend2.lib.StringConcatenation
-
 class CppFileTemplate {
   static def generate(Object generatorNotice, Object content) '''
     // -------------------------------------------------------------------------------------------------
