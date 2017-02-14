@@ -103,9 +103,8 @@ public class FrancaModelLoader<IA, TA> {
 
     // builds a lists of FrancaModels for all the fidl & fdepl files in the given path
     public FrancaModel<IA, TA> load(String specPath, String path) {
-        // TODO make configurable to allow different Specs in the future
         final FDSpecification spec = loadSpecification(specPath);
-        System.out.println(spec);
+        System.out.println("Loaded specification " + spec);
 
         Collection<File> targetFiles = listFilesRecursively(new File(path));
         Map<String, List<File>> bySuffix = separateFiles(targetFiles);
@@ -154,6 +153,7 @@ public class FrancaModelLoader<IA, TA> {
     }
 
     private final SpecAccessorFactory<IA, TA> m_factory;
+
     @Inject
     private FDeployPersistenceManager m_fdeplLoader;
     @Inject

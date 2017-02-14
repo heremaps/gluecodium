@@ -27,8 +27,11 @@ public class FileOutput implements GeneratorOutput {
     }
 
     public void output(GeneratedFile file) throws IOException {
+
         // write file
         File targetFile = new File(rootPath, file.targetFile.getPath());
+
+        System.out.println("Writing " + targetFile);
 
         // create missing path(s)
         Path path = Paths.get(targetFile.getParent());
