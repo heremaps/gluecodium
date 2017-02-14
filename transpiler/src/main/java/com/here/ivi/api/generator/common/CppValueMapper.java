@@ -33,13 +33,18 @@ public class CppValueMapper {
         } else if (rhs instanceof FDoubleConstant) {
             return map((FDoubleConstant)rhs);
         } else if (rhs instanceof FUnaryOperation) {
-            FUnaryOperation xx = ((FUnaryOperation) rhs);
-            CppValue base = map(xx.getOperand());
-            // luckily all the operators look the same as in cpp, still 90% do not make much sense
-            return new CppValue( xx.getOp().getLiteral() + base.value, rhs );
+            return map((FUnaryOperation)rhs);
+        } else if (rhs instanceof FQualifiedElementRef) {
+            return map((FQualifiedElementRef)rhs);
         }
 
         return new CppValue();
+    }
+
+    private static CppValue map(FUnaryOperation rhs) {
+        CppValue base = map(rhs.getOperand());
+        // luckily all the operators look the same as in cpp, still 90% do not make much sense
+        return new CppValue( rhs.getOp().getLiteral() + base.value, rhs );
     }
 
     public static CppValue map(FBooleanConstant bc) {
@@ -72,4 +77,30 @@ public class CppValueMapper {
         return new CppValue(CppConstantTemplate.generate(type, ci).toString(), ci);
     }
 
+    // TODO move to shared Helper with CppTypeMapper
+    static final private String BUILTIN_MODEL = "com.here.BuiltIn";
+    static final private String FLOAT_MAX_CONSTANT = "MaxFloat";
+
+    public static CppValue map(FQualifiedElementRef dc) {
+
+        if (dc.getElement() == null) {
+            // TODO improve error output as seen in TypeMapper
+            System.err.println("Failed resolving value reference");
+            return new CppValue();
+        }
+
+        CppType.DefinedBy referenceDefiner = CppTypeMapper.getDefinedBy(dc.getElement());
+        String name = dc.getElement().getName();
+
+        // check for built-in types
+        if (BUILTIN_MODEL.equals(referenceDefiner.toString())) {
+            if (FLOAT_MAX_CONSTANT.equals(name)) {
+                name = "std::numeric_limits< float >::max( )";
+            }
+        }
+
+        // TODO handle includes and namespaces here as well
+        // just use the name of the type, missing ns resolution & includes
+        return new CppValue(name, dc);
+    }
 }

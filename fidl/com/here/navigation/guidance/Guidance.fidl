@@ -100,7 +100,7 @@ typeCollection GuidanceTypes {
   const UInt32 InvalidDistance = -1
   const UInt32 InvalidTime = -1
   const UInt32 TtaBlocked = -2
-  const Float InvalidSpeed = 14000 // should be max-float!
+  const Float InvalidSpeed = BuiltIn.MaxFloat
 
   typedef ManeuverWithDistance is UInt8 // typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
 }

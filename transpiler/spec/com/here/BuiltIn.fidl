@@ -16,4 +16,7 @@ typeCollection BuiltIn {
   // together with the @source-uri comment, an include can be specified
   // will use the verbatim type name and ignore namespace definitions
   typedef ExternalType is UInt32
+
+  // will be translated to target language in generators
+  const Float MaxFloat = 3.4028235E38
 }
