@@ -307,6 +307,14 @@ interface Guidance {
   method getNextManeuver{
   }
 
+  <** @description: Return currently used navigation options. **>
+  method getNavigationOptions{
+      in {
+          <** @description: The navigation options to be used during this navigation session.**>
+          GuidanceTypes.NavigationOptions options // Not generated, use legacy
+      }
+      error NavigationTypes.ErrorCode
+  }
   // use existing legacy impl
 
   typedef Instance is BuiltIn.InstanceId

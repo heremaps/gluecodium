@@ -124,6 +124,11 @@ public class StubGenerator {
 
         method.returnType = buildStubMethodReturnType(m);
         method.specifiers.add("virtual");
+
+        if (iface.accessor.getConst(m)) {
+            // const needs to be before = 0; This smells more than the = 0 below
+            method.qualifiers.add(" const");
+        }
         method.qualifiers.add(" = 0"); // TODO this smells a bit, move to template
 
         for (FArgument inArg : m.getInArgs()) {

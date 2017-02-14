@@ -5,10 +5,11 @@ specification com.here.navigation.CppStubSpec
   }
 
   for methods {
- 		Creates: Interface;
- 	}
+    Const:   Boolean (default: false);
+    Creates: Interface;
+  }
 
   for enumerations {
     IsClass: Boolean ( default: false );
- 	}
+  }
 }
