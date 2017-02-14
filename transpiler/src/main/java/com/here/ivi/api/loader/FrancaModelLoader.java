@@ -75,7 +75,6 @@ public class FrancaModelLoader<IA, TA> {
     static private List<File> extractFidlImports(FDModel model) {
         File baseResource = new File(model.eResource().getURI().toFileString()).getParentFile();
 
-        System.out.println(baseResource);
         ArrayList<File> imports = new ArrayList<>();
         for (Import imp : model.getImports() ) {
             URI u = URI.createURI(imp.getImportURI());
