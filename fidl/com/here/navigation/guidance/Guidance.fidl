@@ -45,8 +45,8 @@ interface Guidance {
 
   broadcast onRouteUpdated {
     out {
-        GuidanceTypes.Route route
-        GuidanceTypes.MainRouteChangedReason reason
+        GuidanceTypes.Route route // Not generated, use legacy object
+        GuidanceTypes.MainRouteChangedReason reason // Not generated, use legacy object
     }
   }
 
@@ -58,14 +58,14 @@ interface Guidance {
 
   method startNavigation:OneParam {
     in {
-      GuidanceTypes.GuidanceSession session // Not generated, use legacy object, therefore not recognized as ComplexObject
+      GuidanceTypes.GuidanceSession session // Not generated, use legacy object
     }
     error NavigationTypes.ErrorCode
   }
 
   method startNavigation:ThreeParams {
     in {
-      GuidanceTypes.Route route // Not generated, use legacy object, therefore not recognized as ComplexObject
+      GuidanceTypes.Route route // Not generated, use legacy object
       GuidanceTypes.RouteToCompute alternatives
       GuidanceTypes.NavigationOptions options // Not generated, use legacy
     }
@@ -91,15 +91,15 @@ interface Guidance {
 
   method getRoute{
     out {
-        RoutingTypes.Route route // Not generated, use legacy object, therefore not recognized as ComplexObject
+        GuidanceTypes.Route route // Not generated, use legacy object
     }
   }
 
   method updateRoute{
     in {
-        GuidanceTypes.Route route
+        GuidanceTypes.Route route // Not generated, use legacy object
         UInt32 startStopoverIndex
-        GuidanceTypes.MainRouteOptions options
+        GuidanceTypes.MainRouteOptions options // Not generated, use legacy object
     }
   }
 
