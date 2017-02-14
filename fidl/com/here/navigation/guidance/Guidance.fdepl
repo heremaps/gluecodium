@@ -9,4 +9,9 @@ define com.here.navigation.LegacySpec for interface com.here.navigation.guidance
   method resume {
     CallSemantics = synchronous
   }
+  method getNavigationOptions {
+    CallSemantics = synchronous
+    Const = true
+  }
 }
+
