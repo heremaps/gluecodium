@@ -9,38 +9,49 @@ typeCollection GuidanceTypes {
     minor 0
   }
 
+  // FIXME: The following entries are workarounds to allow Guidance to work with the existing legacy APIs
+  // These will be references to other fidl files in the final version
+
   <** @source-uri: legacy/navcore/GuidanceSession.h **>
   typedef GuidanceSession is BuiltIn.ExternalType  // Not generated, use legacy
-
   <** @source-uri: legacy/navcore/MapMatcher.h **>
   typedef MapMatcher is BuiltIn.ExternalType // Not generated, use legacy
-
   <** @source-uri: legacy/navcore/NavigationOptions.h **>
   typedef NavigationOptions is BuiltIn.ExternalType // Not generated, use legacy
-
-  <** @source-uri: legacy/navcore/MainRouteOptions.h **>
+  <** @source-uri: legacy/navcore/MainRouteOptions.h
+      @source-alias: nocomplex **>
   typedef MainRouteOptions is BuiltIn.ExternalType // Not generated, use legacy
-
   <** @source-uri: legacy/navcore/Route.h **>
   typedef Route is BuiltIn.ExternalType // Not generated, use legacy
-
   <** @source-uri: legacy/navcore/ChangePointInfo.h **>
   typedef ChangePointInfo is BuiltIn.ExternalType // Not generated, use legacy
-
   <** @source-uri: legacy/navcore/LaneInfo.h **>
   typedef LaneInfo is BuiltIn.ExternalType // Not generated, use legacy
-
   <** @source-uri: legacy/navcore/RouteAlternativeInfo.h **>
   typedef RouteAlternativeInfo is BuiltIn.ExternalType // Not generated, use legacy
-
   <** @source-uri: legacy/common/RoutePlan.h **>
   typedef RoutePlan is BuiltIn.ExternalType // Not generated, use legacy
-
   <** @source-uri: legacy/navcore/RouteTta.h **>
   typedef RouteTta is BuiltIn.ExternalType // Not generated, use legacy
-
   <** @source-uri: legacy/navcore/Maneuver.h **>
   typedef Maneuver is BuiltIn.ExternalType // Not generated, use legacy
+  <** @source-uri: legacy/navcore/CountryInfo.h **>
+  typedef CountryInfo is BuiltIn.ExternalType // Not generated, use legacy
+  <** @source-uri: legacy/navcore/GuidanceProgress.h **>
+  typedef GuidanceProgress is BuiltIn.ExternalType // Not generated, use legacy
+  <** @source-uri: legacy/navcore/RouterPenalty.h **>
+  typedef RouterPenalty is BuiltIn.ExternalType // Not generated, use legacy
+  <** @source-uri: legacy/navcore/VoicePackage.h **>
+  typedef VoicePackage is BuiltIn.ExternalType // Not generated, use legacy
+  <** @source-uri: legacy/navcore/VoiceOutput.h **>
+  typedef VoiceOutput is BuiltIn.ExternalType // Not generated, use legacy
+  <** @source-uri: legacy/navcore/RouterOptions.h **>
+  typedef RouterOptions is BuiltIn.ExternalType // Not generated, use legacy
+  <** @source-uri: legacy/common/ErrorCodes.h
+      @source-alias: nocomplex
+  **>
+  typedef ErrorCode is BuiltIn.ExternalType // Not generated, use legacy
+
 
   map RouteToCompute {
     Route to Boolean
@@ -110,6 +121,8 @@ interface Guidance {
     major 1
     minor 0
   }
+
+  //////// Broadcasts    ////////
 
   broadcast changePointInfosUpdated {
     out {
@@ -251,71 +264,407 @@ interface Guidance {
     }
   }
 
+  //////// Attributes    ////////
+
   attribute NavigationTypes.NavigationOptions options
   attribute NavigationTypes.GuidanceMode mode readonly
   attribute NavigationTypes.GuidanceState state readonly
   attribute NavigationTypes.RouterPenalty penalty
 
+  //////// Methods       ////////
 
-  method startNavigation:OneParam {
-    in {
-      GuidanceTypes.GuidanceSession session // Not generated, use legacy object
-    }
-    error NavigationTypes.ErrorCode
+  method checkForOptimalTtaRoute {
+    in {}
+    out {}
+    error GuidanceTypes.ErrorCode
   }
 
-  method startNavigation:ThreeParams {
+  method getAllManeuvers {
+    in {}
+    out {
+      GuidanceTypes.ManeuverWithDistance[] maneuversWithDistancesM
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // naming in impl and listener unaligned (getAverageSpeedMS)
+  method getAverageSpeed {
+    in {}
+    out {
+      Float avgSpeedMS
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // naming in impl and listener unaligned (getBreakOutCountBeforeManeuver)
+  method getBreakCountBeforeManeuver {
     in {
-      GuidanceTypes.Route route // Not generated, use legacy object
-      GuidanceTypes.RouteToCompute alternatives
-      GuidanceTypes.NavigationOptions options // Not generated, use legacy
+      GuidanceTypes.BreakOutManeuver maneuver
+      GuidanceTypes.BreakOutType breakType
     }
     out {
-      GuidanceTypes.RouteToCompute alternatives
+      UInt16 breakCount
     }
-    error NavigationTypes.ErrorCode
+    error GuidanceTypes.ErrorCode
   }
 
-  method startTracking {
-    in {
-    }
-    error NavigationTypes.ErrorCode
-  }
+  // missing in GuidanceImpl
+  // method getChangePointInfos {
+  //   in {}
+  //   out {
+  //     GuidanceTypes.ChangePointInfo[] changePointInfos
+  //   }
+  //   error GuidanceTypes.ErrorCode
+  //   // has no error in listener, surely a mistake
+  // }
 
-  method pause {
-    error NavigationTypes.ErrorCode
-  }
-
-  method resume {
-    error NavigationTypes.ErrorCode
-  }
-
-  method getRoute{
+  method getCountryInfo {
+    in {}
     out {
-        GuidanceTypes.Route route // Not generated, use legacy object
+      GuidanceTypes.CountryInfo countryInfo
     }
+    error GuidanceTypes.ErrorCode
   }
 
-  method updateRoute{
+  method getDistanceToNextDecisionPoint {
+    in {}
+    out {
+      UInt32 distance
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  method getDistanceToNextManeuver {
+    in {}
+    out {
+      UInt32 distance
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // naming in impl and listener unaligned (getElapsedDistanceM)
+  method getElapsedDistance {
     in {
-        GuidanceTypes.Route route // Not generated, use legacy object
-        UInt32 startStopoverIndex
-        GuidanceTypes.MainRouteOptions options // Not generated, use legacy object
+      GuidanceTypes.RouteScope scope
     }
+    out {
+      UInt32 distance
+    }
+    error GuidanceTypes.ErrorCode
   }
 
-  method getNextManeuver{
+  // naming in impl and listener unaligned (getElapsedDistanceM)
+  method getElapsedTime {
+    in {}
+    out {
+      UInt32 elapsedTime
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  method getGuidanceProgress {
+    in {}
+    out {
+      GuidanceTypes.GuidanceProgress progress
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  method getHeadingToNextManeuver {
+    in {}
+    out {
+      UInt16 heading
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  method getLastSession {
+    in {}
+    out {
+      GuidanceTypes.GuidanceSession session
+    }
+    error GuidanceTypes.ErrorCode
   }
 
   <** @description: Return currently used navigation options. **>
-  method getNavigationOptions{
+  method getNavigationOptions {
       in {
           <** @description: The navigation options to be used during this navigation session.**>
           GuidanceTypes.NavigationOptions options // Not generated, use legacy
       }
       error NavigationTypes.ErrorCode
   }
-  // use existing legacy impl
+
+  method getNextManeuver {
+    in {}
+    out {
+      GuidanceTypes.ManeuverWithDistance maneuverWithDistanceM
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // naming in impl and listener unaligned (getRemainingDistanceM)
+  method getRemainingDistance {
+    in {
+      GuidanceTypes.RouteScope scope
+    }
+    out {
+      UInt32 distance
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // uses the same callback as below
+  method getRemainingManeuvers::Primary {
+    in {}
+    out {
+      GuidanceTypes.ManeuverWithDistance[] maneuversWithDistancesM
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // uses the same callback as above
+  method getRemainingManeuvers::LimitManeuvers {
+    in {
+      UInt32 maxNumberOfRemainingManeuvers
+    }
+    out {
+      GuidanceTypes.ManeuverWithDistance[] maneuversWithDistancesM
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  method getRoute {
+    in {}
+    out {
+      GuidanceTypes.Route route
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // uses the same callback as below
+  method getTimeToArrival:ToManeuverOld {
+    in {
+      GuidanceTypes.Maneuver maneuver
+    }
+    out {
+      GuidanceTypes.RouteTta tta
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // uses the same callback as below
+  method getTimeToArrival:ToManeuver {
+    in {
+      GuidanceTypes.Maneuver maneuver
+      GuidanceTypes.RouterPenalty penalty
+    }
+    out {
+      GuidanceTypes.RouteTta ttaWithPenalty
+      GuidanceTypes.RouteTta ttaWithoutPenalty
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // uses the same callback as above
+  method getTimeToArrival:ToRoute {
+    in {
+      GuidanceTypes.RouteScope scope
+      GuidanceTypes.RouterPenalty penalty
+    }
+    out {
+      GuidanceTypes.RouteTta ttaWithPenalty
+      GuidanceTypes.RouteTta ttaWithoutPenalty
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // uses the same callback as above
+  method getTimeToArrival:ToRouteOld {
+    in {
+      GuidanceTypes.RouteScope scope
+    }
+    out {
+      GuidanceTypes.RouteTta tta
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // defined in VoiceOutputListener
+  method initVoiceOutput {
+    in {
+      GuidanceTypes.VoicePackage voicePackage
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // async version is deprecated
+  method pause {
+    in {}
+    out {}
+    error GuidanceTypes.ErrorCode
+  }
+
+  // async version is deprecated
+  method resume {
+    in {}
+    out {}
+    error GuidanceTypes.ErrorCode
+  }
+
+  // defined in VoiceOutputListener
+  method repeatLastOutput {
+    in {}
+    out {
+      GuidanceTypes.VoiceOutput lastOutput
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // missing in GuidanceImpl
+  // ongoing request with request id, but callback in changePointInfosUpdated
+  // method requestChangePointInfosNotifications {
+  //  in {
+  //  }
+  //  error GuidanceTypes.ErrorCode
+  // }
+
+  method startNavigation:WithSession {
+    in {
+      GuidanceTypes.GuidanceSession session
+    }
+    out {}
+    error GuidanceTypes.ErrorCode
+  }
+
+  method startNavigation:WithRoute {
+    in {
+      GuidanceTypes.Route route
+      GuidanceTypes.RouteToCompute alternatives
+      GuidanceTypes.NavigationOptions options
+    }
+    out {
+      GuidanceTypes.Route[] acceptedAlternatives  // this should be a set
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  // method missing in impl
+  // method startNavigation:WithRouteAndWaypoint {
+  //   in {
+  //     GuidanceTypes.Route route
+  //     UInt32 startWaypointIndex
+  //     GuidanceTypes.RouteToCompute alternatives
+  //     GuidanceTypes.NavigationOptions options
+  //   }
+  //   out {
+  //     GuidanceTypes.Route[] acceptedAlternatives  // this should be a set
+  //   }
+  //   error GuidanceTypes.ErrorCode
+  // }
+
+  method startNavigation:WithRouteAndWaypointAndAdditionalOptions {
+    in {
+      GuidanceTypes.Route route
+      UInt32 startWaypointIndex
+      GuidanceTypes.RouteToCompute alternatives
+      GuidanceTypes.NavigationOptions options
+      GuidanceTypes.MainRouteOptions mainrouteOptions
+    }
+    out {
+      GuidanceTypes.Route[] acceptedAlternatives  // this should be a set
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  method startObservation {
+    in {
+      GuidanceTypes.Route route
+      GuidanceTypes.Route[] alternatives // this should be a set
+    }
+    out {
+      GuidanceTypes.Route[] acceptedAlternatives  // this should be a set
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  method startTracking {
+    in {}
+    out {}
+    error GuidanceTypes.ErrorCode
+  }
+
+  method triggerAvoidanceRerouting {
+    in {}
+    out {}
+    error GuidanceTypes.ErrorCode
+  }
+
+
+  method updateNavigationOptions {
+    in {
+      GuidanceTypes.NavigationOptions options
+    }
+    out {}
+    error GuidanceTypes.ErrorCode
+  }
+
+  // method missing in impl
+  // method updateRoute {
+  //   in {
+  //     GuidanceTypes.Route route
+  //     UInt32 startStopoverIndex
+  //   }
+  //   out {}
+  //   error GuidanceTypes.ErrorCode
+  // }
+
+  method updateRoute {
+    in {
+      GuidanceTypes.Route route
+      UInt32 startStopoverIndex
+      GuidanceTypes.MainRouteOptions options
+    }
+    out {}
+    error GuidanceTypes.ErrorCode
+  }
+
+  method updateRouteAlternatives {
+    in {
+      GuidanceTypes.RouteToCompute newRouteAlternatives
+    }
+    out {
+      GuidanceTypes.Route[] acceptedAlternatives // this should be a set
+      GuidanceTypes.Route[] rejectedAlternatives // this should be a set
+    }
+    error GuidanceTypes.ErrorCode
+  }
+
+  method updateRoutePlan::Primary {
+    in {
+      GuidanceTypes.RoutePlan routePlan
+      GuidanceTypes.RouterOptions routerOptions
+      GuidanceTypes.RouterPenalty penalty
+      UInt32 startStopoverIndex
+      GuidanceTypes.MainRouteOptions mainrouteOptions
+    }
+    out {}
+    error GuidanceTypes.ErrorCode
+  }
+
+  // method missing in impl
+  // method updateRoutePlan::NoMainRouteOptions {
+  //   in {
+  //     GuidanceTypes.RoutePlan routePlan
+  //     GuidanceTypes.RouterOptions routerOptions
+  //     GuidanceTypes.RouterPenalty penalty
+  //     UInt32 startStopoverIndex
+  //   }
+  //   out {}
+  //   error GuidanceTypes.ErrorCode
+  // }
+
+  //////// TypeDefs      ////////
 
   typedef Instance is BuiltIn.InstanceId
 }
