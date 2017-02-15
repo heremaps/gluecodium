@@ -1,10 +1,10 @@
 package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
+import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.*;
-import org.franca.core.franca.impl.FUnaryOperationImpl;
 
 import java.math.BigInteger;
 
@@ -89,7 +89,7 @@ public class CppValueMapper {
             return new CppValue();
         }
 
-        CppType.DefinedBy referenceDefiner = CppTypeMapper.getDefinedBy(dc.getElement());
+        DefinedBy referenceDefiner = CppTypeMapper.getDefinedBy(dc.getElement());
         String name = dc.getElement().getName();
 
         // check for built-in types

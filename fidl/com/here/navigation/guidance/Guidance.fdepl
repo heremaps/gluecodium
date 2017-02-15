@@ -1,6 +1,14 @@
 import "classpath:/com/here/navigation/LegacySpec.fdepl"
 import "./Guidance.fidl"
 
+
+define com.here.navigation.LegacySpec for typeCollection com.here.navigation.guidance.GuidanceTypes
+{
+  array RouteAlternatives {
+    IsSet = true
+  }
+}
+
 define com.here.navigation.LegacySpec for interface com.here.navigation.guidance.Guidance
 {
   method pause {

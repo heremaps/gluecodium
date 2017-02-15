@@ -107,6 +107,7 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         public Accessor accessor;
         public FDTypes fdTypes;
         public ModelInfo model;
+        public DefinedBy rootDefinition;
 
         @Override
         public String getName() {
@@ -137,6 +138,7 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
             result.fTypeCollection = tc;
             result.accessor = f.createTypeCollectionAccessor(FDHelper.createDummyFDElement(spec, tc));
             result.model = info;
+            result.rootDefinition = new DefinedBy(tc, info.fModel);
 
             if (fdm != null) {
                 FDModelExtender ext = new FDModelExtender(fdm);

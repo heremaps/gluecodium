@@ -12,4 +12,8 @@ specification com.here.navigation.CppStubSpec
   for enumerations {
     IsClass: Boolean ( default: false );
   }
+
+  for arrays {
+    IsSet: Boolean (default: false );
+  }
 }

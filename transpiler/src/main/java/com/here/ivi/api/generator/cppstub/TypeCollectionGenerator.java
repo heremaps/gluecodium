@@ -2,6 +2,7 @@ package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.*;
+import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.*;
@@ -27,7 +28,7 @@ public class TypeCollectionGenerator {
     private final CppNameRules nameRules;
 
     private final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc;
-    private final CppType.DefinedBy rootType;
+    private final CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel;
 
 
     public TypeCollectionGenerator(GeneratorSuite<?, ?> suite,
@@ -41,9 +42,8 @@ public class TypeCollectionGenerator {
         this.coreModel = coreModel;
         this.tc = tc;
 
-
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootType = new CppType.DefinedBy(tc.fTypeCollection, tc.getModel().fModel);
+        rootModel = new CppModelAccessor<>(tc.fTypeCollection, tc.getModel().fModel, tc.accessor);
     }
 
     public GeneratedFile generate() {
@@ -99,7 +99,7 @@ public class TypeCollectionGenerator {
                     result.members.add(buildCppEnum((FEnumerationType) type));
                 }
             } else {
-                System.err.println("Missing type map in " + rootType + " for " + type.getClass().getName());
+                System.err.println("Missing type map in " + rootModel + " for " + type.getClass().getName());
             }
 
         }
@@ -128,8 +128,8 @@ public class TypeCollectionGenerator {
         typeDef.name = nameRules.typedefName(type.getName()); // TODO use name rules
         typeDef.targetType = CppTypeMapper.wrapMapType(
                 CppTypeMapper.getDefinedBy(type),
-                CppTypeMapper.map(rootType, type.getKeyType()),
-                CppTypeMapper.map(rootType, type.getValueType()));
+                CppTypeMapper.map(rootModel, type.getKeyType()),
+                CppTypeMapper.map(rootModel, type.getValueType()));
 
         return typeDef;
     }
@@ -137,7 +137,7 @@ public class TypeCollectionGenerator {
     private CppElement buildTypeDef(FTypeDef type) {
         CppTypeDef typeDef = new CppTypeDef();
         typeDef.name = nameRules.typedefName(type.getName()); // TODO use name rules
-        typeDef.targetType = CppTypeMapper.map(rootType, type.getActualType());
+        typeDef.targetType = CppTypeMapper.map(rootModel, type.getActualType());
 
         return typeDef;
     }
@@ -147,24 +147,26 @@ public class TypeCollectionGenerator {
         typeDef.name = nameRules.typedefName(type.getName());  // TODO use name rules
         typeDef.targetType = CppTypeMapper.wrapArrayType(
                 CppTypeMapper.getDefinedBy(type),
-                CppTypeMapper.map(rootType, type.getElementType()));
+                CppTypeMapper.map(rootModel, type.getElementType()),
+                CppTypeMapper.ArrayMode.map(rootModel, type));
 
         return typeDef;
     }
 
     private CppStruct buildCppStruct(FStructType structType) {
 
-        CppType.DefinedBy structDefiner = CppTypeMapper.getDefinedBy(structType);
+        DefinedBy structDefiner = CppTypeMapper.getDefinedBy(structType);
         CppStruct struct = new CppStruct();
         struct.name = nameRules.structName(structType.getName());
 
         for (FField fieldInfo : structType.getElements()) {
             CppField field = new CppField();
 
-            field.type = CppTypeMapper.map(rootType, fieldInfo.getType());
+            field.type = CppTypeMapper.map(rootModel, fieldInfo.getType());
             // handle inline array definition
             if (fieldInfo.isArray()) {
-                field.type = CppTypeMapper.wrapArrayType(structDefiner, field.type);
+                field.type = CppTypeMapper.wrapArrayType(structDefiner,
+                        field.type, CppTypeMapper.ArrayMode.map(rootModel, fieldInfo));
             }
             field.name = nameRules.fieldName(fieldInfo.getName());
 
@@ -208,7 +210,7 @@ public class TypeCollectionGenerator {
         CppConstant constant = new CppConstant();
 
         // no need to check isArray here, it is redundant
-        constant.type = CppTypeMapper.map(rootType, constantDef.getType());
+        constant.type = CppTypeMapper.map(rootModel, constantDef.getType());
         constant.name = nameRules.constantName(constantDef.getName());
         constant.value = CppValueMapper.map(constant.type, constantDef.getRhs());
 
