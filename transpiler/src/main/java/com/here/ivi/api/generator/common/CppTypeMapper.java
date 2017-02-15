@@ -1,9 +1,12 @@
 package com.here.ivi.api.generator.common;
 
 import com.google.common.collect.Sets;
+import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaAnnotations;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.Includes;
+import com.here.navigation.LegacySpec;
+import com.here.navigation.CppStubSpec;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
@@ -15,47 +18,49 @@ import java.util.*;
 public class CppTypeMapper {
     private final static Includes.SystemInclude INTYPES_INCLUDE = new Includes.SystemInclude("stdint.h");
     private final static Includes.SystemInclude VECTOR_INCLUDE = new Includes.SystemInclude("vector");
+    private final static Includes.SystemInclude SET_INCLUDE = new Includes.SystemInclude("set");
     private final static Includes.SystemInclude MAP_INCLUDE = new Includes.SystemInclude("map");
     private final static Includes.SystemInclude STRING_INCLUDE = new Includes.SystemInclude("string");
 
-    public static CppType map(CppType.DefinedBy rootType, FTypeRef type) {
+    public static CppType map(CppModelAccessor rootModel, FTypeRef type) {
+
         if (type.getDerived() != null) {
-            return mapDerived(rootType, type);
+            return mapDerived(rootModel, type);
         } else if (type.getPredefined() != null) {
             return mapPredefined(type);
         }
         return new CppType();
     }
 
-    private static CppType mapDerived(CppType.DefinedBy rootType, FTypeRef type) {
+    private static CppType mapDerived(CppModelAccessor rootModel, FTypeRef type) {
         FType derived = type.getDerived();
 
         // types without a parent are not valid
         if (derived.eContainer() == null) {
-            return mapInvalidType(rootType, type);
+            return mapInvalidType(rootModel, type);
         }
 
         if (derived instanceof FTypeDef) {
-            return mapTypeDef( rootType, (FTypeDef) derived);
+            return mapTypeDef( rootModel, (FTypeDef) derived);
         }
         if (derived instanceof FArrayType) {
-            return mapArray( rootType, (FArrayType) derived);
+            return mapArray( rootModel, (FArrayType) derived);
         }
         if (derived instanceof FMapType) {
-            return mapMap( rootType, (FMapType) derived);
+            return mapMap( rootModel, (FMapType) derived);
         }
         if (derived instanceof FStructType) {
-            return mapStruct( rootType, (FStructType) derived);
+            return mapStruct( rootModel, (FStructType) derived);
         }
         if (derived instanceof FEnumerationType) {
-            return mapEnum( rootType, (FEnumerationType) derived);
+            return mapEnum( rootModel, (FEnumerationType) derived);
         }
 
         return new CppType(null, "UNMAPPED DERIVED", CppElements.TypeInfo.Invalid);
     }
 
-    private static CppType mapInvalidType(CppType.DefinedBy rootType, FTypeRef type) {
-        CppType.DefinedBy definer = getDefinedBy(type);
+    private static CppType mapInvalidType(CppModelAccessor rootModel, FTypeRef type) {
+        DefinedBy definer = getDefinedBy(type);
         String name = "unknown";
         String typeDesc = "derived type";
         if (type.eContainer() instanceof FTypeDef) {
@@ -72,9 +77,9 @@ public class CppTypeMapper {
         return new CppType(definer, "INVALID DERIVED FOUND", CppElements.TypeInfo.Invalid);
     }
 
-    private static CppType mapTypeDef(CppType.DefinedBy rootType, FTypeDef typedef) {
+    private static CppType mapTypeDef(CppModelAccessor rootModel, FTypeDef typedef) {
 
-        CppType.DefinedBy typeRefDefiner = getDefinedBy(typedef);
+        DefinedBy typeRefDefiner = getDefinedBy(typedef);
 
         if (typedef.getActualType() == null) {
             return new CppType(typeRefDefiner, "NO ACTUAL TYPE FOUND", CppElements.TypeInfo.Invalid);
@@ -93,27 +98,33 @@ public class CppTypeMapper {
             for (String uri : comments.get(FAnnotationType.SOURCE_URI)) {
                 includes.add(new Includes.SystemInclude(uri));
             }
-            return new CppType(typeRefDefiner, typedef.getName(), CppElements.TypeInfo.Complex, includes);
+
+            CppElements.TypeInfo typeInfo = CppElements.TypeInfo.Complex;
+            if (comments.get(FAnnotationType.SOURCE_URI).contains("nocomplex")) {
+                typeInfo = CppElements.TypeInfo.BuiltIn;
+            }
+
+            return new CppType(typeRefDefiner, typedef.getName(), typeInfo, includes);
         } else {
-            CppType actual = map(rootType, typedef.getActualType());
-            CppType.DefinedBy actualTypeDefiner = actual.definedIn;
+            CppType actual = map(rootModel, typedef.getActualType());
+            DefinedBy actualTypeDefiner = actual.definedIn;
 
             // lookup where type came from, setup includes
             Includes.Include include = new Includes.LazyInternalInclude(actualTypeDefiner);
 
-            String namespacedName = prefixNamespace(rootType, typeRefDefiner, typedef.getName());
+            String namespacedName = prefixNamespace(rootModel, typeRefDefiner, typedef.getName());
             // actually use the typedef in this case, not the underlying type
             return new CppType(typeRefDefiner, namespacedName, actual.info, include);
         }
     }
 
-    private static String prefixNamespace(CppType.DefinedBy rootType,
-                                          CppType.DefinedBy typeDefiner,
+    private static String prefixNamespace(CppModelAccessor rootModel,
+                                          DefinedBy typeDefiner,
                                           String originalName) {
 
         // check that definition does not come from the same type
-        if (rootType == null || (rootType.model.getName().equals(typeDefiner.model.getName()) &&
-                 rootType.type.getName().equals(typeDefiner.type.getName()))) {
+        if (rootModel == null || (rootModel.model.getName().equals(typeDefiner.model.getName()) &&
+                 rootModel.type.getName().equals(typeDefiner.type.getName()))) {
             return originalName;
         }
 
@@ -137,7 +148,7 @@ public class CppTypeMapper {
         return findDefiningTypeCollection(parent);
     }
 
-    public static CppType.DefinedBy getDefinedBy(EObject obj) {
+    public static DefinedBy getDefinedBy(EObject obj) {
         // search for parent type collection
         FTypeCollection tc = findDefiningTypeCollection(obj);
 
@@ -146,47 +157,85 @@ public class CppTypeMapper {
         }
 
         FModel model = (FModel)tc.eContainer();
-        return new CppType.DefinedBy(tc, model);
+        return new DefinedBy(tc, model);
     }
 
-    public static CppType mapArray(CppType.DefinedBy rootType, FArrayType array) {
+    public static CppType mapArray(CppModelAccessor rootModel, FArrayType array) {
 
-        CppType.DefinedBy arrayDefiner = getDefinedBy(array);
+        DefinedBy arrayDefiner = getDefinedBy(array);
 
         FTypeRef elementType = array.getElementType();
-        CppType actual = map(rootType, elementType);
+        CppType actual = map(rootModel, elementType);
 
         String typeName = array.getName(); // use name defined for array
         if (typeName != null) {
             // lookup where array typedef came from, setup includes
             Set<Includes.Include> includes = Sets.newHashSet(new Includes.LazyInternalInclude(arrayDefiner));
 
-            typeName = prefixNamespace(rootType, arrayDefiner, typeName);
+            typeName = prefixNamespace(rootModel, arrayDefiner, typeName);
 
             return new CppType( arrayDefiner, typeName, CppElements.TypeInfo.Complex, includes);
         }
 
         // if no name is given, fallback to underlying type
-        return wrapArrayType(arrayDefiner, actual);
+        return wrapArrayType(arrayDefiner, actual, ArrayMode.map(rootModel, array));
     }
 
-    public static CppType wrapArrayType(CppType.DefinedBy definedIn, CppType elementType) {
+    public enum ArrayMode {
+        STD_VECTOR,
+        STD_SET;
+
+        public static ArrayMode map(CppModelAccessor<?> rootModel, FArrayType array) {
+            if (rootModel.accessor.getIsSet(array)) {
+                return STD_SET;
+            }
+            return STD_VECTOR;
+        }
+
+        public static ArrayMode map(CppModelAccessor<?> rootModel, FField field) {
+            if (rootModel.accessor.getIsSet(field)) {
+                return STD_SET;
+            }
+            return STD_VECTOR;
+        }
+
+        public static ArrayMode map(CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
+                                    FArgument argument) {
+            if (rootModel.accessor.getIsSet(argument)) {
+                return STD_SET;
+            }
+            return STD_VECTOR;
+        }
+    }
+
+    public static CppType wrapArrayType(DefinedBy definedIn, CppType elementType, ArrayMode mode) {
 
         // include element type and the vector
         Set<Includes.Include> includes = elementType.includes;
-        includes.add(VECTOR_INCLUDE);
 
         // lookup where array element type came from, setup includes
         Includes.Include include = new Includes.LazyInternalInclude(elementType.definedIn);
         includes.add(include);
 
-        String typeName = "std::vector< " + elementType.typeName + " >";
+        String typeName = elementType.typeName;
+        switch (mode) {
+            case STD_VECTOR: {
+                typeName = "std::vector< " + typeName  + " >";
+                includes.add(VECTOR_INCLUDE);
+                break;
+            }
+            case STD_SET: {
+                typeName = "std::set< " + typeName  + " >";
+                includes.add(SET_INCLUDE);
+                break;
+            }
+        }
 
         return new CppType( definedIn, typeName, CppElements.TypeInfo.Complex, includes );
     }
 
-    private static CppType mapMap(CppType.DefinedBy rootType, FMapType map) {
-        CppType.DefinedBy mapDefiner = getDefinedBy(map);
+    private static CppType mapMap(CppModelAccessor rootModel, FMapType map) {
+        DefinedBy mapDefiner = getDefinedBy(map);
 
         if (map.getKeyType() == null || map.getValueType() == null ) {
             return new CppType(mapDefiner, "NO KEY OR VALUE TYPE FOUND", CppElements.TypeInfo.Invalid);
@@ -196,20 +245,20 @@ public class CppTypeMapper {
             if (typeName != null) {
                 // lookup where map typedef came from, setup includes
                 Set<Includes.Include> includes = Sets.newHashSet(new Includes.LazyInternalInclude(mapDefiner));
-                typeName = prefixNamespace(rootType, mapDefiner, typeName);
+                typeName = prefixNamespace(rootModel, mapDefiner, typeName);
 
                 return new CppType( mapDefiner, typeName, CppElements.TypeInfo.Complex, includes);
             }
 
-            CppType key = map(rootType, map.getKeyType());
-            CppType value = map(rootType, map.getValueType());
+            CppType key = map(rootModel, map.getKeyType());
+            CppType value = map(rootModel, map.getValueType());
 
             // if no names are given, fallback to underlying type
             return wrapMapType(mapDefiner, key, value);
         }
     }
 
-    public static CppType wrapMapType(CppType.DefinedBy mapDefiner, CppType key, CppType value)
+    public static CppType wrapMapType(DefinedBy mapDefiner, CppType key, CppType value)
     {
         // lookup where array element type came from, setup includes
         Includes.Include keyInclude = new Includes.LazyInternalInclude(key.definedIn);
@@ -226,31 +275,31 @@ public class CppTypeMapper {
         return new CppType(mapDefiner, mapType, CppElements.TypeInfo.Complex, includes);
     }
 
-    private static CppType mapStruct(CppType.DefinedBy rootType, FStructType struct) {
+    private static CppType mapStruct(CppModelAccessor rootModel, FStructType struct) {
 
-        CppType.DefinedBy structDefiner = getDefinedBy(struct);
+        DefinedBy structDefiner = getDefinedBy(struct);
 
         if (struct.getElements().isEmpty() ) {
             return new CppType(structDefiner, "EMPTY STRUCT", CppElements.TypeInfo.Invalid);
         } else {
             Includes.Include include = new Includes.LazyInternalInclude(structDefiner);
 
-            String typeName = prefixNamespace(rootType, structDefiner, struct.getName());
+            String typeName = prefixNamespace(rootModel, structDefiner, struct.getName());
 
             return new CppType(structDefiner, typeName, CppElements.TypeInfo.Complex, include);
         }
     }
 
-    public static CppType mapEnum(CppType.DefinedBy rootType, FEnumerationType enumeration) {
-        CppType.DefinedBy enumDefiner = getDefinedBy(enumeration);
+    public static CppType mapEnum(CppModelAccessor rootModel, FEnumerationType enumeration) {
+        DefinedBy enumDefiner = getDefinedBy(enumeration);
 
         if (enumeration.getEnumerators().isEmpty() ) {
             return new CppType(enumDefiner, "EMPTY ENUM", CppElements.TypeInfo.Invalid);
         } else {
             Includes.Include include = new Includes.LazyInternalInclude(enumDefiner);
-            String typeName = prefixNamespace(rootType, enumDefiner, enumeration.getName());
+            String typeName = prefixNamespace(rootModel, enumDefiner, enumeration.getName());
 
-            return new CppType(enumDefiner, typeName, CppElements.TypeInfo.Complex, include);
+            return new CppType(enumDefiner, typeName, CppElements.TypeInfo.BuiltIn, include);
         }
     }
 
@@ -284,7 +333,7 @@ public class CppTypeMapper {
             if (target != null) {
                 // must point to the exact com.here.BuiltIn.InstanceId
                 if (INSTANCE_ID_TYPE.equals(target.getName())) {
-                    CppType.DefinedBy defined = getDefinedBy(target);
+                    DefinedBy defined = getDefinedBy(target);
                     return BUILTIN_MODEL.equals(defined.toString());
                 }
             }
@@ -300,7 +349,7 @@ public class CppTypeMapper {
         if (target != null) {
             // must point to the exact com.here.BuiltIn.ExternalType
             if (EXTERNAL_TYPE.equals(target.getName())) {
-                CppType.DefinedBy defined = getDefinedBy(target);
+                DefinedBy defined = getDefinedBy(target);
                 return BUILTIN_MODEL.equals(defined.toString());
             }
         }
@@ -310,7 +359,7 @@ public class CppTypeMapper {
 
     private static CppType mapPredefined(FTypeRef type) {
 
-        CppType.DefinedBy definer = getDefinedBy(type); // actually not needed for builtin types
+        DefinedBy definer = getDefinedBy(type); // actually not needed for builtin types
 
         int v = type.getPredefined().getValue();
         switch (v) {

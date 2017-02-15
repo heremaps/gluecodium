@@ -1,8 +1,7 @@
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
-import org.franca.core.franca.FModel;
-import org.franca.core.franca.FTypeCollection;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,20 +11,6 @@ import java.util.stream.Stream;
 import static java.util.Arrays.asList;
 
 public class CppType extends CppElement {
-    static public class DefinedBy {
-        public final FTypeCollection type; // FInterface is FTypeCollection as well
-        public final FModel model;
-
-        public DefinedBy(FTypeCollection type, FModel model) {
-            this.type = type;
-            this.model = model;
-        }
-
-        @Override
-        public String toString() {
-            return model.getName() + "." + type.getName();
-        }
-    }
 
     public String typeName = "INVALID";
     public CppElements.TypeInfo info = CppElements.TypeInfo.Invalid;

@@ -113,6 +113,8 @@ typeCollection GuidanceTypes {
   const UInt32 TtaBlocked = -2
   const Float InvalidSpeed = BuiltIn.MaxFloat
 
+  array RouteAlternatives of GuidanceTypes.Route
+
   typedef ManeuverWithDistance is UInt8 // typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
 }
 
@@ -544,7 +546,7 @@ interface Guidance {
       GuidanceTypes.NavigationOptions options
     }
     out {
-      GuidanceTypes.Route[] acceptedAlternatives  // this should be a set
+      GuidanceTypes.RouteAlternatives acceptedAlternatives
     }
     error GuidanceTypes.ErrorCode
   }
@@ -558,7 +560,7 @@ interface Guidance {
   //     GuidanceTypes.NavigationOptions options
   //   }
   //   out {
-  //     GuidanceTypes.Route[] acceptedAlternatives  // this should be a set
+  //     GuidanceTypes.RouteAlternatives acceptedAlternatives
   //   }
   //   error GuidanceTypes.ErrorCode
   // }
@@ -572,7 +574,7 @@ interface Guidance {
       GuidanceTypes.MainRouteOptions mainrouteOptions
     }
     out {
-      GuidanceTypes.Route[] acceptedAlternatives  // this should be a set
+      GuidanceTypes.RouteAlternatives acceptedAlternatives
     }
     error GuidanceTypes.ErrorCode
   }
@@ -580,10 +582,10 @@ interface Guidance {
   method startObservation {
     in {
       GuidanceTypes.Route route
-      GuidanceTypes.Route[] alternatives // this should be a set
+      GuidanceTypes.RouteAlternatives alternatives
     }
     out {
-      GuidanceTypes.Route[] acceptedAlternatives  // this should be a set
+      GuidanceTypes.RouteAlternatives acceptedAlternatives
     }
     error GuidanceTypes.ErrorCode
   }
@@ -634,8 +636,8 @@ interface Guidance {
       GuidanceTypes.RouteToCompute newRouteAlternatives
     }
     out {
-      GuidanceTypes.Route[] acceptedAlternatives // this should be a set
-      GuidanceTypes.Route[] rejectedAlternatives // this should be a set
+      GuidanceTypes.RouteAlternatives acceptedAlternatives
+      GuidanceTypes.RouteAlternatives rejectedAlternatives
     }
     error GuidanceTypes.ErrorCode
   }

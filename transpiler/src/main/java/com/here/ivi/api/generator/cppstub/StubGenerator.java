@@ -8,6 +8,7 @@ import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.templates.CppFileTemplate;
 import com.here.ivi.api.generator.common.templates.CppNameRules;
 import com.here.ivi.api.generator.common.templates.CppTypeCollectionContentTemplate;
+import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.navigation.CppStubSpec;
@@ -30,7 +31,7 @@ public class StubGenerator {
     private final CppNameRules nameRules;
 
     private final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface;
-    private final CppType.DefinedBy rootType;
+    private final CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel;
 
 
     public StubGenerator(GeneratorSuite<?, ?> suite,
@@ -45,7 +46,7 @@ public class StubGenerator {
         this.iface = iface;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootType = new CppType.DefinedBy(iface.fInterface, iface.getModel().fModel);
+        rootModel = new CppModelAccessor<>(iface.fInterface, iface.getModel().fModel, iface.accessor);
     }
 
     public GeneratedFile generate() {
@@ -106,7 +107,7 @@ public class StubGenerator {
             CppParameter param = new CppParameter();
             param.name = outArgs.getName(); // TODO use name template
             param.mode = CppParameter.Mode.Input;
-            param.type = CppTypeMapper.map(rootType, outArgs.getType());
+            param.type = CppTypeMapper.map(rootModel, outArgs.getType());
             method.inParameters.add(param);
         }
 
@@ -135,7 +136,7 @@ public class StubGenerator {
             CppParameter param = new CppParameter();
             param.name = inArg.getName(); // TODO use name template
             param.mode = CppParameter.Mode.Input;
-            param.type = CppTypeMapper.map(rootType, inArg.getType());
+            param.type = CppTypeMapper.map(rootModel, inArg.getType());
             method.inParameters.add(param);
         }
         return method;
@@ -147,13 +148,13 @@ public class StubGenerator {
 
         // TODO do we need to support Errors, instead of ErrorEnum as well - might need to create an inline type
         if (m.getErrorEnum() != null) {
-            CppType mapped = CppTypeMapper.mapEnum(rootType, m.getErrorEnum());
+            CppType mapped = CppTypeMapper.mapEnum(rootModel, m.getErrorEnum());
             returnTypes.add(mapped.typeName);
         }
 
         for (FArgument outArg : m.getOutArgs()) {
             // TODO check for isArray
-            CppType mapped = CppTypeMapper.map(rootType, outArg.getType());
+            CppType mapped = CppTypeMapper.map(rootModel, outArg.getType());
             returnTypes.add(mapped.typeName);
         }
 

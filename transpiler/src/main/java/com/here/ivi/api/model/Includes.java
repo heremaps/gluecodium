@@ -1,6 +1,5 @@
 package com.here.ivi.api.model;
 
-import com.here.ivi.api.model.cppmodel.CppType;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 
@@ -58,7 +57,7 @@ public class Includes {
         public final FTypeCollection tc;
         public final FModel model;
 
-        public LazyInternalInclude(CppType.DefinedBy def) {
+        public LazyInternalInclude(DefinedBy def) {
             this.tc = def.type;
             this.model = def.model;
         }
