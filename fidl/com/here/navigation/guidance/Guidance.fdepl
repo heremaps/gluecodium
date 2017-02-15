@@ -21,5 +21,26 @@ define com.here.navigation.LegacySpec for interface com.here.navigation.guidance
     CallSemantics = synchronous
     Const = true
   }
+  method getAverageSpeed {
+    ImplName = "get_average_speed_m_s"
+  }
+  method getElapsedDistance {
+    ImplName = "get_elapsed_distance_m"
+  }
+  method getElapsedTime {
+    ImplName = "get_elapsed_time_s"
+  }
+  method getRemainingDistance {
+    ImplName = "get_remaining_distance_m"
+  }
+  method updateRoute:NoOptions {
+    ImplName = ""
+  }
+  method startNavigation:WithRouteAndWaypoint {
+    ImplName = ""
+  }
+  method updateRoutePlan:NoMainRouteOptions {
+    ImplName = ""
+  }
 }
 

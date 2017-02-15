@@ -1,5 +1,7 @@
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.generator.cppstub.templates.MethodBodyTemplate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -14,6 +16,7 @@ public class CppMethod extends CppElement {
     public List<CppParameter> inParameters = new ArrayList<>();
     public List<CppParameter> outParameters = new ArrayList<>();
 
+    public MethodBodyTemplate mbt;
 
     @Override
     public boolean equals(Object other) {

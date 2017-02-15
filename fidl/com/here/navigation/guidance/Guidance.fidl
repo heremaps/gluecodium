@@ -552,18 +552,18 @@ interface Guidance {
   }
 
   // method missing in impl
-  // method startNavigation:WithRouteAndWaypoint {
-  //   in {
-  //     GuidanceTypes.Route route
-  //     UInt32 startWaypointIndex
-  //     GuidanceTypes.RouteToCompute alternatives
-  //     GuidanceTypes.NavigationOptions options
-  //   }
-  //   out {
-  //     GuidanceTypes.RouteAlternatives acceptedAlternatives
-  //   }
-  //   error GuidanceTypes.ErrorCode
-  // }
+  method startNavigation:WithRouteAndWaypoint {
+    in {
+      GuidanceTypes.Route route
+      UInt32 startWaypointIndex
+      GuidanceTypes.RouteToCompute alternatives
+      GuidanceTypes.NavigationOptions options
+    }
+    out {
+      GuidanceTypes.RouteAlternatives acceptedAlternatives
+    }
+    error GuidanceTypes.ErrorCode
+  }
 
   method startNavigation:WithRouteAndWaypointAndAdditionalOptions {
     in {
@@ -612,16 +612,16 @@ interface Guidance {
   }
 
   // method missing in impl
-  // method updateRoute {
-  //   in {
-  //     GuidanceTypes.Route route
-  //     UInt32 startStopoverIndex
-  //   }
-  //   out {}
-  //   error GuidanceTypes.ErrorCode
-  // }
+  method updateRoute:NoOptions {
+    in {
+      GuidanceTypes.Route route
+      UInt32 startStopoverIndex
+    }
+    out {}
+    error GuidanceTypes.ErrorCode
+  }
 
-  method updateRoute {
+  method updateRoute:Primary {
     in {
       GuidanceTypes.Route route
       UInt32 startStopoverIndex
@@ -642,7 +642,7 @@ interface Guidance {
     error GuidanceTypes.ErrorCode
   }
 
-  method updateRoutePlan::Primary {
+  method updateRoutePlan:Primary {
     in {
       GuidanceTypes.RoutePlan routePlan
       GuidanceTypes.RouterOptions routerOptions
@@ -655,16 +655,16 @@ interface Guidance {
   }
 
   // method missing in impl
-  // method updateRoutePlan::NoMainRouteOptions {
-  //   in {
-  //     GuidanceTypes.RoutePlan routePlan
-  //     GuidanceTypes.RouterOptions routerOptions
-  //     GuidanceTypes.RouterPenalty penalty
-  //     UInt32 startStopoverIndex
-  //   }
-  //   out {}
-  //   error GuidanceTypes.ErrorCode
-  // }
+  method updateRoutePlan:NoMainRouteOptions {
+    in {
+      GuidanceTypes.RoutePlan routePlan
+      GuidanceTypes.RouterOptions routerOptions
+      GuidanceTypes.RouterPenalty penalty
+      UInt32 startStopoverIndex
+    }
+    out {}
+    error GuidanceTypes.ErrorCode
+  }
 
   //////// TypeDefs      ////////
 
