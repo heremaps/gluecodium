@@ -4,6 +4,7 @@ import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.*;
+import org.franca.core.franca.impl.FUnaryOperationImpl;
 
 import java.math.BigInteger;
 
@@ -31,6 +32,11 @@ public class CppValueMapper {
             return map((FFloatConstant)rhs);
         } else if (rhs instanceof FDoubleConstant) {
             return map((FDoubleConstant)rhs);
+        } else if (rhs instanceof FUnaryOperation) {
+            FUnaryOperation xx = ((FUnaryOperation) rhs);
+            CppValue base = map(xx.getOperand());
+            // luckily all the operators look the same as in cpp, still 90% do not make much sense
+            return new CppValue( xx.getOp().getLiteral() + base.value, rhs );
         }
 
         return new CppValue();
