@@ -12,9 +12,6 @@ typeCollection GuidanceTypes {
   <** @source-uri: legacy/navcore/GuidanceSession.h **>
   typedef GuidanceSession is BuiltIn.ExternalType  // Not generated, use legacy
 
-  <** @source-uri: legacy/navcore/GuidanceTypes.h **>
-  typedef MainRouteChangedReason is BuiltIn.ExternalType // Not generated, use legacy
-
   <** @source-uri: legacy/navcore/MapMatcher.h **>
   typedef MapMatcher is BuiltIn.ExternalType // Not generated, use legacy
 
@@ -27,9 +24,85 @@ typeCollection GuidanceTypes {
   <** @source-uri: legacy/navcore/Route.h **>
   typedef Route is BuiltIn.ExternalType // Not generated, use legacy
 
+  <** @source-uri: legacy/navcore/ChangePointInfo.h **>
+  typedef ChangePointInfo is BuiltIn.ExternalType // Not generated, use legacy
+
+  <** @source-uri: legacy/navcore/LaneInfo.h **>
+  typedef LaneInfo is BuiltIn.ExternalType // Not generated, use legacy
+
+  <** @source-uri: legacy/navcore/RouteAlternativeInfo.h **>
+  typedef RouteAlternativeInfo is BuiltIn.ExternalType // Not generated, use legacy
+
+  <** @source-uri: legacy/common/RoutePlan.h **>
+  typedef RoutePlan is BuiltIn.ExternalType // Not generated, use legacy
+
+  <** @source-uri: legacy/navcore/RouteTta.h **>
+  typedef RouteTta is BuiltIn.ExternalType // Not generated, use legacy
+
+  <** @source-uri: legacy/navcore/Maneuver.h **>
+  typedef Maneuver is BuiltIn.ExternalType // Not generated, use legacy
+
   map RouteToCompute {
     Route to Boolean
   }
+
+  enumeration GuidanceMode {
+    Undefined
+    Tracking
+    Observation
+    Navigation
+  }
+
+  enumeration GuidanceState // TODO enum class in fdepl
+  {
+      Unknown
+      Onroad
+      Offroad
+  }
+
+  enumeration RouteScope
+  {
+      CurrentRouteLeg
+      WholeRoute
+  }
+
+  enumeration MainRouteChangedReason
+  {
+      MainRouteChangedDeviation
+      MainRouteChangedUpdateRoute
+      MainRouteChangedTrafficAvoidance
+  }
+
+  enumeration AlternativeRoutesChangedReason
+  {
+      AlternativeAddedTrafficAvoidance
+      AlternativeAddedPreviousMainRoute
+      AlternativeRemovedAfterDecisionPoint
+      AlternativeAddedAfterDecisionPoint
+      AlternativeRemovedPromotedToMainRoute
+  }
+
+  enumeration BreakOutManeuver
+  {
+      NextManeuver
+      AfterNextManeuver
+  }
+
+  enumeration BreakOutType
+  {
+      LeftBreakOut
+      RightBreakOut
+      HighwayExit
+  }
+
+  const UInt16 InvalidBreakCount = -1
+  const UInt16 InvalidHeading = -1
+  const UInt32 InvalidDistance = -1
+  const UInt32 InvalidTime = -1
+  const UInt32 TtaBlocked = -2
+  const Float InvalidSpeed = 14000 // should be max-float!
+
+  typedef ManeuverWithDistance is UInt8 // typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
 }
 
 interface Guidance {
@@ -38,15 +111,143 @@ interface Guidance {
     minor 0
   }
 
-  broadcast onRouteLeft {
+  broadcast changePointInfosUpdated {
     out {
+      GuidanceTypes.ChangePointInfo[] changePoints
     }
   }
 
-  broadcast onRouteUpdated {
+  broadcast currentRoadNameChanged {
     out {
-        GuidanceTypes.Route route // Not generated, use legacy object
-        GuidanceTypes.MainRouteChangedReason reason // Not generated, use legacy object
+      String newRoadName
+    }
+  }
+
+  broadcast currentSpeedChanged {
+    out {
+      Float newSpeedMS
+    }
+  }
+
+  broadcast destinationReached { }
+
+  broadcast distanceToNextManeuverChanged {
+    out {
+      UInt32 newDistance
+    }
+  }
+
+  broadcast gpsLost { }
+
+  broadcast gpsRestored { }
+
+  broadcast headingToNextManeuverChanged {
+    out {
+      UInt16 newHeading
+    }
+  }
+
+  broadcast laneInfoShow {
+    out {
+      GuidanceTypes.LaneInfo[] laneInfos
+    }
+  }
+
+  broadcast maneuverAvailable {
+    out {
+      GuidanceTypes.ManeuverWithDistance maneuverWithDistance
+    }
+  }
+
+  broadcast noDetourFound { }
+
+  broadcast noRouteAlternativeAvailable { }
+
+  broadcast optimalTtaRouteAvailable {
+    out {
+      GuidanceTypes.Route route
+    }
+  }
+
+  broadcast remainingDistanceChanged {
+    out {
+      UInt32 newRemainingDistanceM
+    }
+  }
+
+  broadcast rerouteBegin { }
+
+  broadcast rerouteEnd { }
+
+  broadcast rerouteFailed { }
+
+  broadcast routeAlternativeTimeToArrivalChanged {
+    out {
+      GuidanceTypes.RouteAlternativeInfo routeInfo
+    }
+  }
+
+  broadcast routeAlternativesChanged {
+    out {
+      GuidanceTypes.AlternativeRoutesChangedReason reason
+      GuidanceTypes.Route route
+    }
+  }
+
+  broadcast routeLeft {
+  }
+
+  broadcast routeUpdated {
+    out {
+      GuidanceTypes.Route route
+      GuidanceTypes.MainRouteChangedReason reason
+    }
+  }
+
+  broadcast routeUpdated {
+    out {
+      GuidanceTypes.Route route
+      UInt32 lastReachedStopoverIndex
+      GuidanceTypes.MainRouteChangedReason reason
+    }
+  }
+
+  broadcast signpostShow {
+    out {
+      GuidanceTypes.Maneuver maneuver
+    }
+  }
+
+  broadcast stateChanged {
+    out {
+      GuidanceTypes.GuidanceState newState
+    }
+  }
+
+  broadcast stopoverReached {
+    out {
+      GuidanceTypes.RoutePlan routePlan
+      UInt32 stopover
+    }
+  }
+
+  broadcast timeToArrivalChanged {
+    out {
+      GuidanceTypes.RouteTta newTtaWithPenalty
+      GuidanceTypes.RouteTta newTtaWithoutPenalty
+    }
+  }
+
+  broadcast timeToNextManeuverChanged {
+    out {
+      GuidanceTypes.RouteTta newTtaWithPenalty
+      GuidanceTypes.RouteTta newTtaWithoutPenalty
+    }
+  }
+
+  broadcast trackingDistanceChanged {
+    out {
+      UInt32 newDistanceM
     }
   }
 
