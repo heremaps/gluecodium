@@ -1,6 +1,10 @@
 package com.here.ivi.api.generator.common;
 
 
+import com.here.ivi.api.generator.legacy.templates.LegacyAssignOp;
+import com.here.ivi.api.generator.legacy.templates.LegacyCopyCtor;
+import com.here.ivi.api.generator.legacy.templates.LegacyCtor;
+import com.here.ivi.api.generator.legacy.templates.LegacyDtor;
 import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.cppmodel.CppElements;
@@ -29,6 +33,7 @@ public class CppGeneratorHelper{
     public static CppMethod generateDtor(String className){
         CppMethod dtor = new CppMethod();
         dtor.name = "~" + className;
+        dtor.mbt = new LegacyDtor();
         dtor.returnType = "";
         dtor.specifiers.add("virtual");
         return dtor;
@@ -36,6 +41,7 @@ public class CppGeneratorHelper{
 
     public static CppMethod generateEmptyCtor(String className){
         CppMethod ctor = new CppMethod();
+        ctor.mbt = new LegacyCtor();
         ctor.name = className;
         ctor.returnType = "";
         return ctor;
@@ -43,6 +49,7 @@ public class CppGeneratorHelper{
 
     public static CppMethod generateCopyCtor(String className){
         CppMethod ctor = new CppMethod();
+        ctor.mbt = new LegacyCopyCtor();
         ctor.name = className;
         ctor.returnType = "";
         ctor.inParameters.add(generateClassParam(className));
@@ -51,6 +58,7 @@ public class CppGeneratorHelper{
 
     public static CppMethod generateAssignOp(String className){
         CppMethod ctor = new CppMethod();
+        ctor.mbt = new LegacyAssignOp();
         ctor.name = "operator=";
         ctor.returnType = className + "&"; //TODO ugly ref here...
         ctor.inParameters.add(generateClassParam(className));
