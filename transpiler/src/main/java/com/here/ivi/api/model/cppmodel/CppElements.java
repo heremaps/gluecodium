@@ -59,12 +59,27 @@ public class CppElements {
         return result;
     }
 
-    //TODO move to helper class
-    public static <T> boolean areEqual(List<T> a, List<T> b) {
-        List<T> listOne = new ArrayList<>(a);
-        List<T> listTwo = new ArrayList<>(b);
-        listOne.removeAll(b);
-        listTwo.removeAll(a);
-        return listOne.isEmpty() && listTwo.isEmpty();
+    // TODO move to helper class
+    public static <T> boolean areEqual(Collection<T> a, Collection<T> b) {
+        if (a == null && b == null) {
+            return true;
+        }
+        if (a == null || b == null || a.size() != b.size()) {
+            return false;
+        }
+
+        return a.containsAll(b); // same length so if a is in b, b is also in a
+    }
+
+    // TODO move to helper class
+    public static <T> boolean areEqualOrdered(List<T> a, List<T> b) {
+        if (a == null && b == null) {
+            return true;
+        }
+        if (a == null || b == null) {
+            return false;
+        }
+
+        return a.equals(b);
     }
 }

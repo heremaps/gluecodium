@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 public class CppParameter extends CppElement {
 
-    public enum Mode{
+    public enum Mode {
         Input,
         Output,
         Listener
@@ -26,7 +26,7 @@ public class CppParameter extends CppElement {
         }
 
         CppParameter otherParameter = (CppParameter) other;
-        return type.equals(otherParameter.type);
+        return super.equals(other) && type.equals(otherParameter.type);
     }
 
     @Override
