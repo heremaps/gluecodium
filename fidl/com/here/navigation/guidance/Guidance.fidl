@@ -278,10 +278,10 @@ interface Guidance {
 
   //////// Attributes    ////////
 
-  attribute NavigationTypes.NavigationOptions options
-  attribute NavigationTypes.GuidanceMode mode readonly
-  attribute NavigationTypes.GuidanceState state readonly
-  attribute NavigationTypes.RouterPenalty penalty
+  attribute GuidanceTypes.NavigationOptions navigationOptions readonly
+  attribute GuidanceTypes.GuidanceMode mode readonly
+  attribute GuidanceTypes.GuidanceState ^state readonly  // state is a reserved keyword
+  attribute GuidanceTypes.RouterPenalty penalty
 
   //////// Methods       ////////
 
@@ -396,15 +396,6 @@ interface Guidance {
       GuidanceTypes.GuidanceSession session
     }
     error GuidanceTypes.ErrorCode
-  }
-
-  <** @description: Return currently used navigation options. **>
-  method getNavigationOptions {
-      out {
-          <** @description: The navigation options to be used during this navigation session.**>
-          GuidanceTypes.NavigationOptions options // Not generated, use legacy
-      }
-      error NavigationTypes.ErrorCode
   }
 
   method getNextManeuver {

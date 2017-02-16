@@ -72,6 +72,9 @@ public class CppTypeMapper {
         } else if (type.eContainer() instanceof FField) {
             name = ((FField) type.eContainer()).getName();
             typeDesc = "field";
+        } else if (type.eContainer() instanceof FAttribute) {
+            name = ((FAttribute) type.eContainer()).getName();
+            typeDesc = "attribute";
         }
         System.err.println("Failed resolving " + typeDesc + " for '" + name + "' in " + definer + " (indicates wrong typedef or missing include)");
         return new CppType(definer, "INVALID DERIVED FOUND", CppElements.TypeInfo.Invalid);
@@ -207,6 +210,14 @@ public class CppTypeMapper {
 
         public static ArrayMode map(CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
                                     FArgument argument) {
+            if (rootModel.accessor.getIsSet(argument)) {
+                return STD_SET;
+            }
+            return STD_VECTOR;
+        }
+
+        public static ArrayMode map(CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
+                                    FAttribute argument) {
             if (rootModel.accessor.getIsSet(argument)) {
                 return STD_SET;
             }
