@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.here.ivi.api.model.cppmodel.CppElements.areEqual;
+import static com.here.ivi.api.model.cppmodel.CppElements.areEqualOrdered;
 
 public class CppMethod extends CppElement {
     public String comment;
     public String returnType = "void"; //TODO: this should be CppType, once this supports existing types
-    public List<CharSequence> specifiers = new ArrayList<>();
-    public List<CharSequence> qualifiers = new ArrayList<>();
+    public List<String> specifiers = new ArrayList<>();
+    public List<String> qualifiers = new ArrayList<>();
     public List<CppParameter> inParameters = new ArrayList<>();
     public List<CppParameter> outParameters = new ArrayList<>();
 
@@ -31,13 +32,13 @@ public class CppMethod extends CppElement {
         }
         CppMethod otherMethod = (CppMethod) other;
 
-        //TODO move to a helper.
-        boolean inParamsEquality = areEqual(inParameters, otherMethod.inParameters);
-        boolean outParamsEquality = areEqual(outParameters, otherMethod.outParameters);
+        // TODO move to a helper.
+        boolean inParamsEquality = areEqualOrdered(inParameters, otherMethod.inParameters);
+        boolean outParamsEquality = areEqualOrdered(outParameters, otherMethod.outParameters);
         boolean specifiersEquality = areEqual(specifiers, otherMethod.specifiers);
         boolean qualifiersEquality = areEqual(qualifiers, otherMethod.qualifiers);
 
-        return name.equals(otherMethod.name) &&
+        return super.equals(other) &&
                 returnType.equals(otherMethod.returnType) && inParamsEquality && outParamsEquality
                 && specifiersEquality && qualifiersEquality;
     }
