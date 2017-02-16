@@ -115,7 +115,7 @@ typeCollection GuidanceTypes {
 
   array RouteAlternatives of GuidanceTypes.Route
 
-  typedef ManeuverWithDistance is UInt8 // typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
+  typedef ManeuverWithDistance is Maneuver // typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
 }
 
 interface Guidance {
@@ -298,8 +298,8 @@ interface Guidance {
     error GuidanceTypes.ErrorCode
   }
 
-  // naming in impl and listener unaligned (getBreakOutCountBeforeManeuver)
-  method getBreakCountBeforeManeuver {
+  // naming in impl and listener unaligned (getBreakCountBeforeManeuver)
+  method getBreakOutCountBeforeManeuver {
     in {
       GuidanceTypes.BreakOutManeuver maneuver
       GuidanceTypes.BreakOutType breakType
