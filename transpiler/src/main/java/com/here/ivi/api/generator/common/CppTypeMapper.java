@@ -93,14 +93,20 @@ public class CppTypeMapper {
 
             Map<FAnnotationType, Set<String>> comments = FrancaAnnotations.toMap(typedef.getComment().getElements());
 
-            // resolve external includes
-            Set<Includes.Include> includes = new HashSet<>();
-            for (String uri : comments.get(FAnnotationType.SOURCE_URI)) {
-                includes.add(new Includes.SystemInclude(uri));
-            }
 
+            Set<Includes.Include> includes = new HashSet<>();
             CppElements.TypeInfo typeInfo = CppElements.TypeInfo.Complex;
-            if (comments.get(FAnnotationType.SOURCE_URI).contains("nocomplex")) {
+
+            // resolve external includes
+            Set<String> sourceUris = comments.get(FAnnotationType.SOURCE_URI);
+            if (sourceUris != null) {
+                for (String uri : sourceUris) {
+                    includes.add(new Includes.SystemInclude(uri));
+                }
+            }
+            // resolve external typedef
+            Set<String> sourceAliases = comments.get(FAnnotationType.SOURCE_ALIAS);
+            if (sourceAliases != null && sourceAliases.contains("nocomplex")) {
                 typeInfo = CppElements.TypeInfo.BuiltIn;
             }
 

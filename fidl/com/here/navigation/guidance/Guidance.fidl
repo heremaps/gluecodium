@@ -45,6 +45,8 @@ typeCollection GuidanceTypes {
   typedef VoicePackage is BuiltIn.ExternalType // Not generated, use legacy
   <** @source-uri: legacy/navcore/VoiceOutput.h **>
   typedef VoiceOutput is BuiltIn.ExternalType // Not generated, use legacy
+  <** @source-alias: nocomplex **>
+  typedef VoiceOutputType is BuiltIn.ExternalType // Not generated, use legacy
   <** @source-uri: legacy/navcore/RouterOptions.h **>
   typedef RouterOptions is BuiltIn.ExternalType // Not generated, use legacy
   <** @source-uri: legacy/common/ErrorCodes.h
@@ -125,6 +127,14 @@ interface Guidance {
   }
 
   //////// Broadcasts    ////////
+
+  // defined in VoiceOutputListener
+  broadcast announcementNotification {
+    out {
+      GuidanceTypes.VoiceOutputType outputType
+      GuidanceTypes.VoiceOutput output
+    }
+  }
 
   broadcast changePointInfosUpdated {
     out {
