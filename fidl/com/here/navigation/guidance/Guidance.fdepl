@@ -33,6 +33,9 @@ define com.here.navigation.LegacySpec for interface com.here.navigation.guidance
   method getRemainingDistance {
     ImplName = "get_remaining_distance_m"
   }
+  method getBreakOutCountBeforeManeuver {
+    ImplName = "get_break_count_before_maneuver"
+  }
   method updateRoute:NoOptions {
     ImplName = ""
   }
