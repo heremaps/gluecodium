@@ -390,7 +390,7 @@ interface Guidance {
 
   <** @description: Return currently used navigation options. **>
   method getNavigationOptions {
-      in {
+      out {
           <** @description: The navigation options to be used during this navigation session.**>
           GuidanceTypes.NavigationOptions options // Not generated, use legacy
       }
