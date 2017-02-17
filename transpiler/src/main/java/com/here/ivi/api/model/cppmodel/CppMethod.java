@@ -1,13 +1,11 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.generator.cppstub.templates.MethodBodyTemplate;
+import com.here.ivi.api.model.CollectionsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
-
-import static com.here.ivi.api.model.cppmodel.CppElements.areEqual;
-import static com.here.ivi.api.model.cppmodel.CppElements.areEqualOrdered;
 
 public class CppMethod extends CppElement {
     public String comment;
@@ -33,10 +31,10 @@ public class CppMethod extends CppElement {
         CppMethod otherMethod = (CppMethod) other;
 
         // TODO move to a helper.
-        boolean inParamsEquality = areEqualOrdered(inParameters, otherMethod.inParameters);
-        boolean outParamsEquality = areEqualOrdered(outParameters, otherMethod.outParameters);
-        boolean specifiersEquality = areEqual(specifiers, otherMethod.specifiers);
-        boolean qualifiersEquality = areEqual(qualifiers, otherMethod.qualifiers);
+        boolean inParamsEquality = CollectionsHelper.areEqualOrdered(inParameters, otherMethod.inParameters);
+        boolean outParamsEquality = CollectionsHelper.areEqualOrdered(outParameters, otherMethod.outParameters);
+        boolean specifiersEquality = CollectionsHelper.areEqual(specifiers, otherMethod.specifiers);
+        boolean qualifiersEquality = CollectionsHelper.areEqual(qualifiers, otherMethod.qualifiers);
 
         return super.equals(other) &&
                 returnType.equals(otherMethod.returnType) && inParamsEquality && outParamsEquality
