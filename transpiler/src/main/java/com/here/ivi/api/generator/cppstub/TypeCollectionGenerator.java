@@ -134,7 +134,7 @@ public class TypeCollectionGenerator {
 
     private CppElement buildTypeDef(FTypeDef type) {
         CppTypeDef typeDef = new CppTypeDef();
-        typeDef.name = nameRules.typedefName(type.getName()); // TODO use name rules
+        typeDef.name = nameRules.typedefName(type.getName());
         typeDef.targetType = CppTypeMapper.map(rootModel, type.getActualType());
 
         return typeDef;
@@ -142,12 +142,8 @@ public class TypeCollectionGenerator {
 
     private CppElement buildArray(FArrayType type) {
         CppTypeDef typeDef = new CppTypeDef();
-        typeDef.name = nameRules.typedefName(type.getName());  // TODO use name rules
-        typeDef.targetType = CppTypeMapper.wrapArrayType(
-                CppTypeMapper.getDefinedBy(type),
-                CppTypeMapper.map(rootModel, type.getElementType()),
-                CppTypeMapper.ArrayMode.map(rootModel, type));
-
+        typeDef.name = nameRules.typedefName(type.getName());
+        typeDef.targetType = CppTypeMapper.mapArray(rootModel, type);
         return typeDef;
     }
 
@@ -160,12 +156,7 @@ public class TypeCollectionGenerator {
         for (FField fieldInfo : structType.getElements()) {
             CppField field = new CppField();
 
-            field.type = CppTypeMapper.map(rootModel, fieldInfo.getType());
-            // handle inline array definition
-            if (fieldInfo.isArray()) {
-                field.type = CppTypeMapper.wrapArrayType(structDefiner,
-                        field.type, CppTypeMapper.ArrayMode.map(rootModel, fieldInfo));
-            }
+            field.type = CppTypeMapper.map(rootModel, fieldInfo);
             field.name = nameRules.fieldName(fieldInfo.getName());
 
             // FIXME No way to do initial values for fields in fidl!!!

@@ -22,6 +22,36 @@ public class CppTypeMapper {
     private final static Includes.SystemInclude MAP_INCLUDE = new Includes.SystemInclude("map");
     private final static Includes.SystemInclude STRING_INCLUDE = new Includes.SystemInclude("string");
 
+    public static CppType map(CppModelAccessor rootModel, FArgument argument) {
+        CppType type = CppTypeMapper.map(rootModel, argument.getType());
+
+        if (argument.isArray()) {
+            type = CppTypeMapper.wrapArrayType(rootModel, type, CppTypeMapper.ArrayMode.map(rootModel, argument));
+        }
+
+        return type;
+    }
+
+    public static CppType map(CppModelAccessor rootModel, FAttribute attribute) {
+        CppType type = CppTypeMapper.map(rootModel, attribute.getType());
+
+        if (attribute.isArray()) {
+            type = CppTypeMapper.wrapArrayType(rootModel, type, CppTypeMapper.ArrayMode.map(rootModel, attribute));
+        }
+
+        return type;
+    }
+
+    public static CppType map(CppModelAccessor rootModel, FField field) {
+        CppType type = CppTypeMapper.map(rootModel, field.getType());
+
+        if (field.isArray()) {
+            type = CppTypeMapper.wrapArrayType(rootModel, type, CppTypeMapper.ArrayMode.map(rootModel, field));
+        }
+
+        return type;
+    }
+
     public static CppType map(CppModelAccessor rootModel, FTypeRef type) {
 
         if (type.getDerived() != null) {
@@ -225,7 +255,7 @@ public class CppTypeMapper {
         }
     }
 
-    public static CppType wrapArrayType(DefinedBy definedIn, CppType elementType, ArrayMode mode) {
+    private static CppType wrapArrayType(DefinedBy definedIn, CppType elementType, ArrayMode mode) {
 
         // include element type and the vector
         Set<Includes.Include> includes = elementType.includes;

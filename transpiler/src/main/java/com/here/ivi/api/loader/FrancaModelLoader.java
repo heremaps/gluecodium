@@ -95,7 +95,7 @@ public class FrancaModelLoader<IA, TA> {
         FDModel model = m_fdeplLoader.loadModel(URI.createURI(uri), ROOT_URI);
 
         if (model.getSpecifications().isEmpty()) {
-            throw new RuntimeException("Could not load LegacySpec.fdepl from classpath.");
+            throw new RuntimeException("Could not load spec: " + uri +  ".");
         }
 
         return model.getSpecifications().get(0);
