@@ -8,7 +8,6 @@ import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.templates.CppFileTemplate;
 import com.here.ivi.api.generator.common.templates.CppNameRules;
 import com.here.ivi.api.generator.common.templates.CppTypeCollectionContentTemplate;
-import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.navigation.CppStubSpec;
@@ -18,8 +17,6 @@ import org.franca.core.franca.FMethod;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.here.ivi.api.model.cppmodel.CppElements.packageToNamespace;
 
 /**
  * This generator will create the stub interfaces that will then be used by the other generators.
@@ -73,7 +70,7 @@ public class StubGenerator {
     private CppNamespace buildCppModel() {
 
         String[] packageDesc = nameRules.packageName(iface.getPackage());
-        CppNamespace packageNs = packageToNamespace(packageDesc);
+        CppNamespace packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
 
         CppClass result = new CppClass(iface.getName() + "Stub"); // TODO use name template
 

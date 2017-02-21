@@ -7,10 +7,7 @@ import com.here.ivi.api.generator.legacy.templates.LegacyCtor;
 import com.here.ivi.api.generator.legacy.templates.LegacyDtor;
 import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.model.cppmodel.CppElements;
-import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.*;
 
 import java.io.IOException;
 
@@ -71,5 +68,18 @@ public class CppGeneratorHelper{
         other.type = new CppType(null, className, CppElements.TypeInfo.Complex);
         other.mode = CppParameter.Mode.Input;
         return other;
+    }
+
+    public static CppNamespace packageToNamespace(String[] packages) {
+        CppNamespace lastNs = null;
+        for (String p : packages) {
+            lastNs = new CppNamespace(p, lastNs);
+        }
+
+        if (lastNs != null) {
+            return lastNs;
+        }
+
+        return new CppNamespace();
     }
 }

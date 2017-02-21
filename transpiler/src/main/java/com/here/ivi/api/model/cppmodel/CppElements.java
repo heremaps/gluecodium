@@ -25,19 +25,6 @@ public class CppElements {
         Complex
     }
 
-    public static CppNamespace packageToNamespace(String[] packages) {
-        CppNamespace lastNs = null;
-        for (String p : packages) {
-            lastNs = new CppNamespace(p, lastNs);
-        }
-
-        if (lastNs != null) {
-            return lastNs;
-        }
-
-        return new CppNamespace();
-    }
-
     public static Set<Includes.Include> collectIncludes(CppNamespace root) {
         return root.streamRecursive()
                 .filter(p -> p instanceof CppType)

@@ -4,14 +4,12 @@ import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.*;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppEnumItem;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.navigation.CppStubSpec;
 import org.franca.core.franca.*;
-
-import static com.here.ivi.api.model.cppmodel.CppElements.packageToNamespace;
 
 /**
  * This generator will create the cpp data types for any type mentioned in a typeCollection.
@@ -70,7 +68,7 @@ public class TypeCollectionGenerator {
     private CppNamespace buildCppModel() {
 
         String[] packageDesc = nameRules.packageName(tc.getPackage());
-        CppNamespace packageNs = packageToNamespace(packageDesc);
+        CppNamespace packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
 
         CppNamespace result = new CppNamespace(tc.getName());
 
