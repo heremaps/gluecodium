@@ -78,7 +78,7 @@ public class CppValueMapper {
     }
 
     // TODO move to shared Helper with CppTypeMapper
-    static final private String BUILTIN_MODEL = "com.here.BuiltIn";
+    static final private String BUILTIN_MODEL = "navigation.BuiltIn";
     static final private String FLOAT_MAX_CONSTANT = "MaxFloat";
 
     public static CppValue map(FQualifiedElementRef dc) {

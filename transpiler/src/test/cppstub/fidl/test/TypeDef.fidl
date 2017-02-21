@@ -1,6 +1,6 @@
 package test
 
-import com.here.* from "classpath:/com/here/BuiltIn.fidl"
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import test.sub.TestTypeSubDef.* from  "./sub/TypeSubDef.fidl"
 
 interface TestInterface {

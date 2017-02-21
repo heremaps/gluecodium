@@ -3,7 +3,7 @@ package com.here.ivi.api.model.cppmodel;
 import com.here.ivi.api.generator.common.templates.CppNameRules;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Includes;
-import com.here.navigation.CppStubSpec;
+import navigation.CppStubSpec;
 
 import java.util.Objects;
 import java.util.Optional;

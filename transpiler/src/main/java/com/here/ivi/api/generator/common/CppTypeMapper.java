@@ -5,8 +5,7 @@ import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaAnnotations;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.Includes;
-import com.here.navigation.LegacySpec;
-import com.here.navigation.CppStubSpec;
+import navigation.CppStubSpec;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
@@ -350,20 +349,20 @@ public class CppTypeMapper {
         }
     }
 
-    static final private String BUILTIN_MODEL = "com.here.BuiltIn";
+    static final private String BUILTIN_MODEL = "navigation.BuiltIn";
     static final private String INSTANCE_ID_NAME = "Instance";
     static final private String INSTANCE_ID_TYPE = "InstanceId";
 
     /*
-     * This method is used in conjunction with com.here.BuiltIn.InstanceId
+     * This method is used in conjunction with navigation.BuiltIn.InstanceId
      * If a typedef is of the builtin type, than it will be resolved to the Interface that
      * contains the typedef.
      *
      * Example definition:
      *
-     *  package com.here.navigation
+     *  package navigation
      *
-     *  import com.here.* from "classpath:/com/here/BuiltIn.fidl"
+     *  import navigation.* from "classpath:/navigation/BuiltIn.fidl"
      *
      *  interface CustomInterface {
      *     version { major 1  minor 0 }
@@ -378,7 +377,7 @@ public class CppTypeMapper {
             // must reference a valid type
             FType target = typedef.getActualType().getDerived();
             if (target != null) {
-                // must point to the exact com.here.BuiltIn.InstanceId
+                // must point to the exact navigation.BuiltIn.InstanceId
                 if (INSTANCE_ID_TYPE.equals(target.getName())) {
                     DefinedBy defined = getDefinedBy(target);
                     return BUILTIN_MODEL.equals(defined.toString());
@@ -394,7 +393,7 @@ public class CppTypeMapper {
     public static boolean isExternalReference(FTypeDef typedef) {
         FType target = typedef.getActualType().getDerived();
         if (target != null) {
-            // must point to the exact com.here.BuiltIn.ExternalType
+            // must point to the exact navigation.BuiltIn.ExternalType
             if (EXTERNAL_TYPE.equals(target.getName())) {
                 DefinedBy defined = getDefinedBy(target);
                 return BUILTIN_MODEL.equals(defined.toString());

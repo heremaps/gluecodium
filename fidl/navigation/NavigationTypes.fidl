@@ -1,4 +1,4 @@
-package com.here.navigation
+package navigation
 
 typeCollection NavigationTypes {
     version {

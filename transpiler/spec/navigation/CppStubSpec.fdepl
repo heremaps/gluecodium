@@ -1,4 +1,4 @@
-specification com.here.navigation.CppStubSpec
+specification navigation.CppStubSpec
 {
   for interfaces {
     IsStruct: Boolean ( default: false );

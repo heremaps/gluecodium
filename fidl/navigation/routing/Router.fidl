@@ -1,7 +1,7 @@
-package com.here.navigation.routing
+package navigation.routing
 
-import com.here.navigation.routing.* from "RoutingTypes.fidl"
-import com.here.navigation.* from "../NavigationTypes.fidl"
+import navigation.routing.* from "RoutingTypes.fidl"
+import navigation.* from "../NavigationTypes.fidl"
 
 interface Router {
   version {

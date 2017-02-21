@@ -1,6 +1,6 @@
-package com.here.navigation.routing
+package navigation.routing
 
-import com.here.navigation.* from "../NavigationTypes.fidl"
+import navigation.* from "../NavigationTypes.fidl"
 
 typeCollection RoutingTypes {
     version {

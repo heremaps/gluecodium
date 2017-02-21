@@ -1,7 +1,7 @@
-package com.here.navigation
+package navigation
 
-import com.here.* from "classpath:/com/here/BuiltIn.fidl"
-import com.here.navigation.* from "NavigationTypes.fidl"
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+import navigation.* from "NavigationTypes.fidl"
 
 interface Module {
   version {

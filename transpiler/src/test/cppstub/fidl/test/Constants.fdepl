@@ -1,10 +1,10 @@
 // import the deployment specification
-import "classpath:/com/here/navigation/CppStubSpec.fdepl"
+import "classpath:/navigation/CppStubSpec.fdepl"
 
 // import the actual Franca interfaces we want to deploy
 import "./Constants.fidl"
 
-define com.here.navigation.CppStubSpec for typeCollection test.TestConstants
+define navigation.CppStubSpec for typeCollection test.TestConstants
 {
   enumeration EnumTest {
     IsClass = true
