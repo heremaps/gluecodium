@@ -86,8 +86,9 @@ public class StubGenerator {
             result.methods.add(method);
         }
 
-        return packageNs;
+        packageNs.members.add(result);
 
+        return packageNs;
     }
 
     // TODO think about how broadcast can work in a generic way

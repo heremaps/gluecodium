@@ -149,6 +149,7 @@ public class CppStubGeneratorSuite
                     TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
                     return generator.generate();
                 }),
+
             // every interface gets its own file
             model.interfaces.stream()
                 .map(iface -> {
