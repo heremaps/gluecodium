@@ -1,6 +1,6 @@
-package com.here.navigation
+package navigation
 
-import com.here.navigation.* from "NavigationTypes.fidl"
+import navigation.* from "NavigationTypes.fidl"
 
 
 // Don't generate, write as cpp

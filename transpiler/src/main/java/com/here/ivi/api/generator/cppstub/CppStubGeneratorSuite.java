@@ -6,7 +6,7 @@ import com.here.ivi.api.generator.cppstub.templates.CppStubNameRules;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
-import com.here.navigation.CppStubSpec;
+import navigation.CppStubSpec;
 
 import java.util.List;
 import java.util.Objects;

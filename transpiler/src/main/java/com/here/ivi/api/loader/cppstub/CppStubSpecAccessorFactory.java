@@ -1,7 +1,7 @@
 package com.here.ivi.api.loader.cppstub;
 
 import com.here.ivi.api.loader.SpecAccessorFactory;
-import com.here.navigation.CppStubSpec;
+import navigation.CppStubSpec;
 import org.franca.deploymodel.core.FDeployedInterface;
 import org.franca.deploymodel.core.FDeployedTypeCollection;
 
@@ -10,7 +10,7 @@ public class CppStubSpecAccessorFactory
 {
     @Override
     public String getSpecPath() {
-        return "classpath:/com/here/navigation/CppStubSpec.fdepl";
+        return "classpath:/navigation/CppStubSpec.fdepl";
     }
 
     @Override

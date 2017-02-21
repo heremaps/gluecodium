@@ -1,7 +1,7 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.model.DefinedBy;
-import com.here.navigation.CppStubSpec;
+import navigation.CppStubSpec;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 

@@ -14,8 +14,8 @@ import java.util.List;
 /**
  * The base for all the generators.
  *
- * @param <IA> the InterfaceAccessor, such as @ref com.here.navigation.LegacySpec.InterfacePropertyAccesor
- * @param <TA> the TypeCollectionAccesor, such as @ref com.here.navigation.LegacySpec.TypeCollectionPropertyAccesor
+ * @param <IA> the InterfaceAccessor, such as @ref navigation.LegacySpec.InterfacePropertyAccesor
+ * @param <TA> the TypeCollectionAccesor, such as @ref navigation.LegacySpec.TypeCollectionPropertyAccesor
  */
 public interface GeneratorSuite<IA, TA> {
 

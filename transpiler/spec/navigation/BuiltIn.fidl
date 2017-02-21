@@ -1,4 +1,4 @@
-package com.here
+package navigation
 
 typeCollection BuiltIn {
   version {

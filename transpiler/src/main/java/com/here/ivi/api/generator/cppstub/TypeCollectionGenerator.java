@@ -8,7 +8,7 @@ import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppEnumItem;
 import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.navigation.CppStubSpec;
+import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
 /**

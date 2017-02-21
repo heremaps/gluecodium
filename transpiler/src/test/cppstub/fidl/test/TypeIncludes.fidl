@@ -2,7 +2,7 @@ package test
 
 import test.* from "./TypeDef.fidl"
 import test.TestTypeDef.* from "./TypeDef.fidl"
-import com.here.* from "classpath:/com/here/BuiltIn.fidl"
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 
 import model "./sub/TypeSubDef.fidl"
 

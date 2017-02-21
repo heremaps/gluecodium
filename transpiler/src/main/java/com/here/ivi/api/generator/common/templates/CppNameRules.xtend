@@ -1,7 +1,7 @@
 package com.here.ivi.api.generator.common.templates
 
 import com.here.ivi.api.model.FrancaModel
-import com.here.navigation.CppStubSpec
+import navigation.CppStubSpec
 
 interface CppNameRules {
   def String className(String base)

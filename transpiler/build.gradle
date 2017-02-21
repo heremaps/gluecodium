@@ -60,13 +60,13 @@ def buildDeployModelConfiguration(fdeplFile, output) {
 }
 
 task buildCppStubDeployModel(type: JavaExec) {
-    configure buildDeployModelConfiguration('com/here/navigation/CppStubSpec.fdepl', fdeplOutput)
+    configure buildDeployModelConfiguration('navigation/CppStubSpec.fdepl', fdeplOutput)
 }
 generateXtext.dependsOn(buildCppStubDeployModel)
 clean.dependsOn(cleanBuildCppStubDeployModel)
 
 task buildLegacyDeployModel(type: JavaExec) {
-    configure buildDeployModelConfiguration('com/here/navigation/LegacySpec.fdepl', fdeplOutput)
+    configure buildDeployModelConfiguration('navigation/LegacySpec.fdepl', fdeplOutput)
 }
 generateXtext.dependsOn(buildLegacyDeployModel)
 clean.dependsOn(cleanBuildLegacyDeployModel)

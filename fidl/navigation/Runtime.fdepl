@@ -1,0 +1,14 @@
+import "classpath:/navigation/LegacySpec.fdepl"
+import "./Runtime.fidl"
+
+define navigation.LegacySpec for interface navigation.Runtime
+{
+  method createRuntime {
+    CallSemantics = synchronous
+    Static = true
+    Creates = &navigation.Runtime
+  }
+  method createModule {
+    Creates = &navigation.Module
+  }
+}
