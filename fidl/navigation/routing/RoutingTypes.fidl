@@ -24,7 +24,7 @@ typeCollection RoutingTypes {
     	UInt8 someThing
     }
 
-    enumeration CalculationError extends NavigationTypes.Error {
+    enumeration CalculationError extends NavigationTypes.ErrorCode {
       RoutingError
     }
 }

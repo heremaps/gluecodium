@@ -1,6 +1,5 @@
 package com.here.ivi.api.generator.common;
 
-
 import com.here.ivi.api.generator.legacy.templates.LegacyAssignOp;
 import com.here.ivi.api.generator.legacy.templates.LegacyCopyCtor;
 import com.here.ivi.api.generator.legacy.templates.LegacyCtor;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CppGeneratorHelper{
+
     public static Object generateGeneratorNotice(GeneratorSuite<?,?> suite,
                                                  FrancaModel.FrancaElement element,
                                                  String outputTarget) {

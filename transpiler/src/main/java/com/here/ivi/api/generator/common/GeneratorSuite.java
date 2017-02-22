@@ -4,7 +4,6 @@ import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.legacy.LegacyGeneratorSuite;
 import com.here.ivi.api.generator.cppstub.CppStubGeneratorSuite;
 import com.here.ivi.api.loader.SpecAccessorFactory;
-import com.here.ivi.api.model.FrancaModel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -40,7 +39,7 @@ public interface GeneratorSuite<IA, TA> {
      * @param model The model of all the parsed franca and fdepl files
      * @return a list of generated files with their relative target paths
      */
-    List<GeneratedFile> generate(FrancaModel<IA, TA> model);
+    List<GeneratedFile> generate();
 
     /**
      * Creates the spec accessor factory required for this generator, that will then
@@ -49,6 +48,19 @@ public interface GeneratorSuite<IA, TA> {
      * @return the accessor that will be used to load the fdepl files
      */
     SpecAccessorFactory<IA, TA> createModelAccessorFactory();
+
+    /**
+     * Uses the internal validator to validate the model.
+     *
+     * @return boolean True if the model is valid, false otherwise.
+     */
+    boolean validate();
+
+    /**
+     * Uses the FrancaModelLoader to keep a copy of the model.
+     * @param inputDir The root directory of the fidl/fdepl files.
+     */
+    void buildModel(String inputPath);
 
     /**
      * Generates a specific GeneratorSuite instance as specified by the first class parameter.

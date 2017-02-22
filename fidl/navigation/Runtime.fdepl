@@ -1,5 +1,6 @@
 import "classpath:/navigation/LegacySpec.fdepl"
 import "./Runtime.fidl"
+import "./Module.fidl"
 
 define navigation.LegacySpec for interface navigation.Runtime
 {

@@ -1,18 +1,26 @@
 package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.generator.common.*;
+import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.cppstub.templates.CppStubNameRules;
+import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.ModelHelper;
+import com.here.ivi.api.validator.common.BasicValidator;
+import com.here.ivi.api.validator.cppstub.CppStubValidator;
 import navigation.CppStubSpec;
 import org.apache.commons.io.IOUtils;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -136,14 +144,18 @@ import java.util.stream.Stream;
 public class CppStubGeneratorSuite
         implements GeneratorSuite<CppStubSpec.InterfacePropertyAccessor,CppStubSpec.TypeCollectionPropertyAccessor> {
     private final Transpiler tool;
+    private final CppStubValidator validator = new CppStubValidator();
+    private FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> model;
+    private FrancaModelLoader<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> fml;
+    private Collection<File> currentFiles;
 
     public CppStubGeneratorSuite(Transpiler tp) {
         this.tool = tp;
     }
 
     @Override
-    public List<GeneratedFile> generate(
-            FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> model) {
+    public List<GeneratedFile> generate() {
+        //TODO add model null check
 
         CppStubNameRules rules = new CppStubNameRules();
 
@@ -204,5 +216,25 @@ public class CppStubGeneratorSuite
     @Override
     public SpecAccessorFactory<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> createModelAccessorFactory() {
         return new CppStubSpecAccessorFactory();
+    }
+
+    @Override
+    public void buildModel(String inputPath){
+        final SpecAccessorFactory<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
+                specAccessorFactory = createModelAccessorFactory();
+
+        // load model
+        fml = new FrancaModelLoader<>(specAccessorFactory);
+
+        ModelHelper.getFdeplInjector().injectMembers(fml);
+        currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
+
+        model = fml.load(specAccessorFactory.getSpecPath(), inputPath);
+    }
+
+    @Override
+    public boolean validate() {
+        ResourceSet rs = fml.getResourceSetProvider().get();
+        return BasicValidator.validate(rs, currentFiles) && validator.validate(model);
     }
 }
