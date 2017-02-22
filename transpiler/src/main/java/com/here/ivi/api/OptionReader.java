@@ -25,10 +25,12 @@ public class OptionReader {
         public List<String> getGenerators() {
             return generators;
         }
-
+        public boolean validateOnly() { return validateOnly; }
         protected String inputDir;
+
         protected String outputDir;
         protected boolean stdoutDump;
+        protected boolean validateOnly = false;
 
         protected List<String> generators;
     }
@@ -40,8 +42,8 @@ public class OptionReader {
         options.addOption("output", true, "Generated files output destination");
         options.addOption("nostdout", false, "Don't dump generated files to stdout");
         options.addOption("help", false, "Shows this help and exits.");
-
         options.addOption("listGenerators", false, "Prints out all available generators and exits.");
+        options.addOption("validateOnly", false, "Perform fidl and fdepl files validation without generating any code.");
 
         Option generatorsOpt = new Option("generators", true,
                 "The generators to use, separated by comma. Uses all available generators by default.");
@@ -79,6 +81,7 @@ public class OptionReader {
 
             if (cmd.hasOption("output")) {
                 res.outputDir = cmd.getOptionValue("output");
+
             } else {
                 res.outputDir = null;
             }
@@ -87,6 +90,10 @@ public class OptionReader {
                 res.generators = Arrays.asList(cmd.getOptionValues("generators"));
             } else {
                 res.generators = GeneratorSuite.generatorShortNames();
+            }
+
+            if (cmd.hasOption("validateOnly")) {
+                res.validateOnly = true;
             }
 
             res.stdoutDump = !cmd.hasOption("nostdout");

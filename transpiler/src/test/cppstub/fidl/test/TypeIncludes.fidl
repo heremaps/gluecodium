@@ -30,5 +30,5 @@ interface TestTypeIncludes {
     }
   }
 
-  typedef Instance is BuiltIn.InstanceId
+  public typedef Instance is BuiltIn.InstanceId
 }

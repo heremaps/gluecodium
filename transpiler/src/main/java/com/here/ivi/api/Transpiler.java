@@ -1,38 +1,27 @@
 package com.here.ivi.api;
 
-import com.google.inject.Injector;
-import com.here.ivi.api.generator.legacy.LegacyGenerator;
+import com.here.ivi.api.OptionReader;
+import com.here.ivi.api.OptionReaderException;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.legacy.LegacyGeneratorSuite;
 import com.here.ivi.api.generator.common.Version;
-import com.here.ivi.api.generator.cppstub.CppStubGeneratorSuite;
-import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.SpecAccessorFactory;
-import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
-import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.loader.legacy.LegacySpecAccessorFactory;
+import com.here.ivi.api.output.ConsoleOutput;
+import com.here.ivi.api.output.FileOutput;
+import com.here.ivi.api.validator.common.BasicValidator;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
-
-import com.here.ivi.api.output.ConsoleOutput;
-import com.here.ivi.api.output.FileOutput;
-import org.eclipse.xtend2.lib.StringConcatenation;
-import org.franca.core.dsl.FrancaIDLStandaloneSetup;
-import org.franca.deploymodel.dsl.FDeployStandaloneSetup;
-
-import com.here.ivi.api.OptionReader;
-import com.here.ivi.api.OptionReaderException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Transpiler {
 
     static List<String> GENERATORS = Arrays.asList("legacy", "stub");
+    static Logger logger = Logger.getLogger(BasicValidator.class.getName());
 
     public static void main(final String[] args) {
 
@@ -52,15 +41,26 @@ public class Transpiler {
     }
 
     public void execute() {
+
+        //Generation
         List<String> generators = options.getGenerators();
 
         for ( String sn : generators ) {
             System.out.println("Using generator " + sn);
 
             try {
+
                 GeneratorSuite<?, ?> generator = GeneratorSuite.instantiateByShortName(sn, this);
+
+                generator.buildModel(options.getInputDir());
                 System.out.println("Instantiated generator " + generator.getName() + " " + generator.getVersion());
-                List<GeneratedFile> outputFiles = generate(generator, options.getInputDir());
+                boolean valid = generator.validate();
+                logger.log(Level.INFO, valid ? "Validation Succeeded" : "Validation Failed");
+
+                if (options.validateOnly()){
+                    return;
+                }
+                List<GeneratedFile> outputFiles = generator.generate();
                 output(outputFiles);
             } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
                 System.err.println("Failed instantiation of generator '" + sn + "'");
@@ -68,22 +68,6 @@ public class Transpiler {
 
             System.out.println("");
         }
-    }
-
-    public <IA, TA> List<GeneratedFile> generate(GeneratorSuite<IA, TA> generatorSuite, String inputPath) {
-        // build accessor factory
-        final SpecAccessorFactory<IA, TA> specAccessorFactory = generatorSuite.createModelAccessorFactory();
-
-        // load model
-        final FrancaModelLoader<IA, TA> fml = new FrancaModelLoader<>(specAccessorFactory);
-        fdeplInjector.injectMembers(fml);
-        fidlInjector.injectMembers(fml);
-
-        FrancaModel<IA, TA> model = fml.load(specAccessorFactory.getSpecPath(), inputPath);
-
-        // invoke the generator
-        // sadly this has to use a specific generic, otherwise the whole chain of generics would be sane
-        return generatorSuite.generate(model);
     }
 
     public void output(List<GeneratedFile> files) {
@@ -124,7 +108,4 @@ public class Transpiler {
     }
 
     private final OptionReader.TranspilerOptions options;
-
-    private final static Injector fdeplInjector = new FDeployStandaloneSetup().createInjectorAndDoEMFRegistration();
-    private final static Injector fidlInjector = new FrancaIDLStandaloneSetup().createInjectorAndDoEMFRegistration();
 }

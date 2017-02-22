@@ -9,7 +9,7 @@ interface TestInterface {
     minor 0
   }
 
-  typedef Instance is BuiltIn.InstanceId
+  public typedef Instance is BuiltIn.InstanceId
 }
 
 typeCollection TestTypeDef {

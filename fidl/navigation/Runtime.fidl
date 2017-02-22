@@ -81,5 +81,5 @@ interface Runtime {
     error NavigationTypes.ErrorCode
   }
 
-  typedef Instance is BuiltIn.InstanceId
+  public typedef Instance is BuiltIn.InstanceId
 }

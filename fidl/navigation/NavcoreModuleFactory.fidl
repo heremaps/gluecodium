@@ -4,7 +4,7 @@ import navigation.* from "NavigationTypes.fidl"
 
 
 // Don't generate, write as cpp
-interface NavcoreModuleFactory extends legacy_ModuleFactory { // Needs to extend original
+interface NavcoreModuleFactory {
   version {
     major 1
     minor 0

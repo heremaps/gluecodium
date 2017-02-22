@@ -407,7 +407,7 @@ interface Guidance {
   }
 
   // uses the same callback as below
-  method getRemainingManeuvers::Primary {
+  method getRemainingManeuvers:Primary {
     in {}
     out {
       GuidanceTypes.ManeuverWithDistance[] maneuversWithDistancesM
@@ -416,7 +416,7 @@ interface Guidance {
   }
 
   // uses the same callback as above
-  method getRemainingManeuvers::LimitManeuvers {
+  method getRemainingManeuvers:LimitManeuvers {
     in {
       UInt32 maxNumberOfRemainingManeuvers
     }
@@ -658,5 +658,5 @@ interface Guidance {
 
   //////// TypeDefs      ////////
 
-  typedef Instance is BuiltIn.InstanceId
+  public typedef Instance is BuiltIn.InstanceId
 }

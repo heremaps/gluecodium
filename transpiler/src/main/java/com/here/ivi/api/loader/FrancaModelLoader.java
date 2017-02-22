@@ -1,6 +1,7 @@
 package com.here.ivi.api.loader;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import org.apache.commons.io.FileUtils;
@@ -9,6 +10,7 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.OrFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.deploymodel.dsl.FDeployPersistenceManager;
 import org.franca.deploymodel.dsl.fDeploy.*;
@@ -37,7 +39,7 @@ public class FrancaModelLoader<IA, TA> {
     private static final URI ROOT_URI = URI.createURI("classpath:/");
 
     // finds all fidl and fdepl files
-    static private Collection<File> listFilesRecursively(File path) {
+    static public Collection<File> listFilesRecursively(File path) {
         if (path.isFile()) {
             return Collections.singletonList(path);
         }
@@ -72,7 +74,7 @@ public class FrancaModelLoader<IA, TA> {
     }
 
     // gets all the imported fidl from a fdepl file
-    static private List<File> extractFidlImports(FDModel model) {
+    static public List<File> extractFidlImports(FDModel model) {
         File baseResource = new File(model.eResource().getURI().toFileString()).getParentFile();
 
         ArrayList<File> imports = new ArrayList<>();
@@ -152,10 +154,17 @@ public class FrancaModelLoader<IA, TA> {
         this.m_factory = m_factory;
     }
 
+
+    public Provider<ResourceSet> getResourceSetProvider() {
+        return resourceSetProvider;
+    }
+
     private final SpecAccessorFactory<IA, TA> m_factory;
 
     @Inject
     private FDeployPersistenceManager m_fdeplLoader;
     @Inject
     private FrancaPersistenceManager m_fidlLoader;
+    @Inject
+    private Provider<ResourceSet> resourceSetProvider;
 }
