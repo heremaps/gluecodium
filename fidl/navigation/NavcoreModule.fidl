@@ -1,10 +1,11 @@
 package navigation
 
 import navigation.* from "NavigationTypes.fidl"
+import navigation.* from "Module.fidl"
 import navigation.guidance.* from "./guidance/Guidance.fidl"
 
 // generate
-interface NavcoreModule extends legacy_Module { // Needs to extend original
+interface NavcoreModule extends Module {
   version {
     major 1
     minor 0
@@ -17,8 +18,6 @@ interface NavcoreModule extends legacy_Module { // Needs to extend original
     out {
       Guidance.Instance guidance
     }
-    error NavigationTypes.Error
+    error NavigationTypes.ErrorCode
   }
-
-  // Reuse impl from legacy
 }
