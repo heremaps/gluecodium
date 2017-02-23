@@ -15,11 +15,17 @@ public class CppMethodTemplate {
         }
     }
 
+    // as used in std::function declaration
+    def static pureSignature(CppMethod it) '''
+        «returnType»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )'''
+
     def static signature(CppMethod it) '''
       /**
        * «comment»
        */
       «specifiers.join(' ')» «returnType» «name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ',' ','') [ it ]»;'''
+
+
 
     def static signature(CppMethod it, String className)'''
       «returnType» «className»::«name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ',' ','') [ it ]»'''

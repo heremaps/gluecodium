@@ -1,14 +1,14 @@
 package com.here.ivi.api.generator.cppstub;
 
 
-import com.here.ivi.api.generator.common.CppGeneratorHelper;
-import com.here.ivi.api.generator.common.CppTypeMapper;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.CppFileTemplate;
 import com.here.ivi.api.generator.common.templates.CppNameRules;
 import com.here.ivi.api.generator.common.templates.CppTypeCollectionContentTemplate;
+import com.here.ivi.api.generator.cppstub.templates.NotifierBodyTemplate;
+import com.here.ivi.api.generator.cppstub.templates.NotifierTypeTemplate;
 import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.*;
 import navigation.CppStubSpec;
 import org.franca.core.franca.FArgument;
@@ -72,7 +72,7 @@ public class StubGenerator {
         String[] packageDesc = nameRules.packageName(iface.getPackage());
         CppNamespace packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
 
-        CppClass result = new CppClass(iface.getName() + "Stub"); // TODO use name template
+        CppClass result = new CppClass(iface.getName() + "Stub" ); // TODO use name template
 
         // TODO reuse TypeCollectionGenerator to generate types in interface definition
 
@@ -83,6 +83,12 @@ public class StubGenerator {
 
         for (FBroadcast b : iface.fInterface.getBroadcasts()) {
             CppMethod method = buildNotifierMethod(b);
+
+            String notifierName = NotifierTypeTemplate.generateName(b);
+            CppType notifierType = new CppType(null, NotifierTypeTemplate.generateType(method),
+                    CppElements.TypeInfo.Complex, new Includes.SystemInclude("functional"));
+
+            result.usings.add(new CppUsing(notifierName, notifierType));
             result.methods.add(method);
         }
 
@@ -110,6 +116,7 @@ public class StubGenerator {
         }
 
         // TODO add method body template (with some interface)
+        method.mbt = new NotifierBodyTemplate();
 
 
         return method;
