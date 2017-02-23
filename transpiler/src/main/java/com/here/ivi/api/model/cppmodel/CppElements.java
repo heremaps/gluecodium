@@ -1,5 +1,6 @@
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.generator.common.CppUsing;
 import com.here.ivi.api.model.Includes;
 
 import java.util.*;
@@ -34,14 +35,17 @@ public class CppElements {
 
     public static Set<Includes.Include> collectIncludes(CppClass cppClass) {
         Set<Includes.Include> result = new HashSet();
-        for (CppMethod method : cppClass.methods){
-            for(CppParameter inParam : method.inParameters) {
+        for (CppMethod method : cppClass.methods) {
+            for (CppParameter inParam : method.inParameters) {
                 result.addAll(inParam.type.includes);
             }
-            for(CppParameter outParam : method.outParameters) {
+            for (CppParameter outParam : method.outParameters) {
                 result.addAll(outParam.type.includes);
             }
             //TODO add also return type for all methods, once the return type changes from current String to CppType
+        }
+        for (CppUsing using : cppClass.usings) {
+            result.addAll(using.definition.includes);
         }
         return result;
     }
