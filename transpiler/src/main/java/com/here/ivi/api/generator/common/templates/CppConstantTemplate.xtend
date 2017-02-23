@@ -9,15 +9,15 @@ import org.franca.core.franca.FCompoundInitializer
 
 class CppConstantTemplate {
   static def generate(CppConstant constant) '''
-    static const «constant.type.typeName» «constant.name» = «constant.value.value»;
+    static const «constant.type.name» «constant.name» = «constant.value.name»;
   '''
 
   static def generate(CppType type, FCompoundInitializer fci) '''
     []() {
-      «type.typeName» tmp;
+      «type.name» tmp;
       «FOR elem : fci.getElements()»
       «IF CppValueMapper.map(elem.getValue()).isValid()»
-          tmp.«elem.getElement().getName()» = «CppValueMapper.map(elem.getValue()).value»;
+          tmp.«elem.getElement().getName()» = «CppValueMapper.map(elem.getValue()).name»;
       «ENDIF»
       «ENDFOR»
       return tmp;

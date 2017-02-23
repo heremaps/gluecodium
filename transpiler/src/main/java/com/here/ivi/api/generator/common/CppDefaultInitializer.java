@@ -26,15 +26,15 @@ public class CppDefaultInitializer {
                 case FBasicTypeId.UINT16_VALUE:
                 case FBasicTypeId.UINT32_VALUE:
                 case FBasicTypeId.UINT64_VALUE:
-                    return new CppValue( "0", expr);
+                    return new CppValue( "0" );
                 case FBasicTypeId.STRING_VALUE:
                     return null;
                 case FBasicTypeId.BOOLEAN_VALUE:
-                    return new CppValue( "false", expr);
+                    return new CppValue( "false" );
                 case FBasicTypeId.FLOAT_VALUE:
-                    return new CppValue( "std::numeric_limits<float>::quiet_NaN()", expr);
+                    return new CppValue( "std::numeric_limits<float>::quiet_NaN()" );
                 case FBasicTypeId.DOUBLE_VALUE:
-                    return new CppValue( "std::numeric_limits<double>::quiet_NaN()", expr);
+                    return new CppValue( "std::numeric_limits<double>::quiet_NaN()" );
                 case FBasicTypeId.BYTE_BUFFER_VALUE:
                     return null;
             }

@@ -7,11 +7,11 @@ import com.here.ivi.api.model.cppmodel.CppMethod
 public class CppMethodTemplate {
     def static generate(CppParameter p) {
         if( p.mode == CppParameter.Mode.Input ) {
-            '''«CppElements.CONST_QUALIFIER» «p.type.typeName»«IF p.type.info == CppElements.TypeInfo.Complex || p.type.info == CppElements.TypeInfo.InterfaceInstance»«CppElements.REF_QUALIFIER»«ENDIF» «p.name»'''
+            '''«CppElements.CONST_QUALIFIER» «p.type.name»«IF p.type.info == CppElements.TypeInfo.Complex || p.type.info == CppElements.TypeInfo.InterfaceInstance»«CppElements.REF_QUALIFIER»«ENDIF» «p.name»'''
         } else if(p.mode == CppParameter.Mode.Output) {
-            '''«p.type.typeName»«CppElements.REF_QUALIFIER» «p.name»'''
+            '''«p.type.name»«CppElements.REF_QUALIFIER» «p.name»'''
         } else {
-            '''«p.type.typeName»«CppElements.POINTER» «p.name»'''
+            '''«p.type.name»«CppElements.POINTER» «p.name»'''
         }
     }
 
