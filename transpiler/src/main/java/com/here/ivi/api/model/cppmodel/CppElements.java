@@ -1,6 +1,5 @@
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.generator.common.CppUsing;
 import com.here.ivi.api.model.Includes;
 
 import java.util.*;

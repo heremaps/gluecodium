@@ -10,14 +10,17 @@ class CppClassTemplate {
     class «clazz.name» {
     public:
         «FOR u : clazz.usings»
-        using «u.name» = «u.definition.typeName»;
+        using «u.name» = «u.definition.name»;
         «ENDFOR»
-
 
     public:
         «FOR m : clazz.methods»
-          «CppMethodTemplate.signature(m)»
+        «CppMethodTemplate.signature(m)»
+        «ENDFOR»
 
+    private:
+        «FOR f : clazz.fields»
+        «f.type.name» «f.name» = «f.initializer.name»;
         «ENDFOR»
     };
   '''

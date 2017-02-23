@@ -143,7 +143,7 @@ public class TypeCollectionGenerator {
     private CppElement buildArray(FArrayType type) {
         CppTypeDef typeDef = new CppTypeDef();
         typeDef.name = nameRules.typedefName(type.getName());
-        typeDef.targetType = CppTypeMapper.mapArray(rootModel, type);
+        typeDef.targetType = CppTypeMapper.defineArray(rootModel, type);
         return typeDef;
     }
 

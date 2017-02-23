@@ -234,6 +234,14 @@ public class CppTypeMapper {
         return wrapArrayType(arrayDefiner, actual, ArrayMode.map(rootModel, array));
     }
 
+    public static CppType defineArray(CppModelAccessor rootModel, FArrayType array) {
+        DefinedBy arrayDefiner = getDefinedBy(array);
+        FTypeRef elementType = array.getElementType();
+        CppType actual = map(rootModel, elementType);
+
+        return wrapArrayType(arrayDefiner, actual, ArrayMode.map(rootModel, array));
+    }
+
     public enum ArrayMode {
         STD_VECTOR,
         STD_SET;
@@ -278,7 +286,7 @@ public class CppTypeMapper {
         Includes.Include include = new Includes.LazyInternalInclude(elementType.definedIn);
         includes.add(include);
 
-        String typeName = elementType.typeName;
+        String typeName = elementType.name;
         switch (mode) {
             case STD_VECTOR: {
                 typeName = "std::vector< " + typeName  + " >";
@@ -325,7 +333,7 @@ public class CppTypeMapper {
         Includes.Include keyInclude = new Includes.LazyInternalInclude(key.definedIn);
         Includes.Include valueInclude = new Includes.LazyInternalInclude(value.definedIn);
 
-        String mapType = "std::map< " + key.typeName + ", " + value.typeName + " >";
+        String mapType = "std::map< " + key.name + ", " + value.name + " >";
 
         // include key type, value type and the map
         Set<Includes.Include> includes = new HashSet<>(key.includes);

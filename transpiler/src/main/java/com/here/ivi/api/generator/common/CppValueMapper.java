@@ -44,37 +44,37 @@ public class CppValueMapper {
     private static CppValue map(FUnaryOperation rhs) {
         CppValue base = map(rhs.getOperand());
         // luckily all the operators look the same as in cpp, still 90% do not make much sense
-        return new CppValue( rhs.getOp().getLiteral() + base.value, rhs );
+        return new CppValue(rhs.getOp().getLiteral() + base.name);
     }
 
     public static CppValue map(FBooleanConstant bc) {
         final String value = bc.isVal() ? "true" : "false";
-        return new CppValue(value, bc);
+        return new CppValue(value);
     }
 
     public static CppValue map(FStringConstant sc) {
         final String value = sc.getVal();
-        return new CppValue('"' + value + '"', sc);
+        return new CppValue('"' + value + '"');
     }
 
     public static CppValue map(FIntegerConstant ic) {
         final BigInteger value = ic.getVal();
-        return new CppValue(String.valueOf(value), ic);
+        return new CppValue(String.valueOf(value));
     }
 
     public static CppValue map(FFloatConstant fc) {
         final Float value = fc.getVal();
-        return new CppValue(String.valueOf(value) + 'f', fc);
+        return new CppValue(String.valueOf(value) + 'f');
     }
 
     public static CppValue map(FDoubleConstant dc) {
         final Double value = dc.getVal();
-        return new CppValue(String.valueOf(value), dc);
+        return new CppValue(String.valueOf(value));
     }
 
     public static CppValue map(CppType type, FCompoundInitializer ci) {
         // FIXME having a template in here is not-so-nice, this should be some CppType
-        return new CppValue(CppConstantTemplate.generate(type, ci).toString(), ci);
+        return new CppValue(CppConstantTemplate.generate(type, ci).toString());
     }
 
     // TODO move to shared Helper with CppTypeMapper
@@ -101,6 +101,6 @@ public class CppValueMapper {
 
         // TODO handle includes and namespaces here as well
         // just use the name of the type, missing ns resolution & includes
-        return new CppValue(name, dc);
+        return new CppValue(name);
     }
 }

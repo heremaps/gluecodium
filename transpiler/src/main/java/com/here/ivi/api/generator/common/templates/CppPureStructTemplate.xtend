@@ -9,7 +9,7 @@ class CppPureStructTemplate {
     struct «struct.name» {
         «FOR field : struct.fields»
           ///
-          «field.type.typeName» «field.name»«IF field.initializer !== null && field.initializer.isValid()» = «field.initializer.value»«ENDIF»;
+          «field.type.name» «field.name»«IF field.initializer !== null && field.initializer.isValid()» = «field.initializer.name»«ENDIF»;
 
         «ENDFOR»
     };

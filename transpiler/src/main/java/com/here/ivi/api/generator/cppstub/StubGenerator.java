@@ -87,9 +87,12 @@ public class StubGenerator {
             String notifierName = NotifierTypeTemplate.generateName(b);
             CppType notifierType = new CppType(null, NotifierTypeTemplate.generateType(method),
                     CppElements.TypeInfo.Complex, new Includes.SystemInclude("functional"));
+            String notifierVariableName = "m_" + notifierName;
 
             result.usings.add(new CppUsing(notifierName, notifierType));
             result.methods.add(method);
+            result.fields.add(new CppField(new CppType(notifierName),
+                    notifierVariableName, new CppValue("nullptr")));
         }
 
         packageNs.members.add(result);
@@ -154,13 +157,12 @@ public class StubGenerator {
         // TODO do we need to support Errors, instead of ErrorEnum as well - might need to create an inline type
         if (m.getErrorEnum() != null) {
             CppType mapped = CppTypeMapper.mapEnum(rootModel, m.getErrorEnum());
-            returnTypes.add(mapped.typeName);
+            returnTypes.add(mapped.name);
         }
 
         for (FArgument outArg : m.getOutArgs()) {
-            // TODO check for isArray
-            CppType mapped = CppTypeMapper.map(rootModel, outArg.getType());
-            returnTypes.add(mapped.typeName);
+            CppType mapped = CppTypeMapper.map(rootModel, outArg);
+            returnTypes.add(mapped.name);
         }
 
         if (!returnTypes.isEmpty()) {
@@ -169,7 +171,7 @@ public class StubGenerator {
             } else {
                 // TODO still too much string magic!!
                 // FIXME no way to mark std::tuple as required include, as returnType is String only
-                returnType = "std::tuple<" + String.join(", ", returnTypes) + ">";
+                returnType = "std::tuple< " + String.join(", ", returnTypes) + " >";
             }
         }
         return returnType;
