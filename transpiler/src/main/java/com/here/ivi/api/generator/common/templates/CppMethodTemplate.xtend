@@ -23,9 +23,7 @@ public class CppMethodTemplate {
       /**
        * «comment»
        */
-      «specifiers.join(' ')» «returnType» «name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ',' ','') [ it ]»;'''
-
-
+      «specifiers.join(' ')» «returnType» «name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ',' ','') [ it ]»'''
 
     def static signature(CppMethod it, String className)'''
       «returnType» «className»::«name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ',' ','') [ it ]»'''

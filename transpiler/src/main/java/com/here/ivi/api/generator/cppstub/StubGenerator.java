@@ -72,7 +72,7 @@ public class StubGenerator {
         String[] packageDesc = nameRules.packageName(iface.getPackage());
         CppNamespace packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
 
-        CppClass result = new CppClass(iface.getName() + "Stub" ); // TODO use name template
+        CppClass result = new CppClass(iface.getName() + "Stub" );
 
         // TODO reuse TypeCollectionGenerator to generate types in interface definition
 
@@ -82,12 +82,13 @@ public class StubGenerator {
         }
 
         for (FBroadcast b : iface.fInterface.getBroadcasts()) {
-            CppMethod method = buildNotifierMethod(b);
 
             String notifierName = NotifierTypeTemplate.generateName(b);
+            String notifierVariableName = NotifierTypeTemplate.generateNotifier(b);
+
+            CppMethod method = buildNotifierMethod(b, notifierVariableName);
             CppType notifierType = new CppType(null, NotifierTypeTemplate.generateType(method),
                     CppElements.TypeInfo.Complex, new Includes.SystemInclude("functional"));
-            String notifierVariableName = "m_" + notifierName;
 
             result.usings.add(new CppUsing(notifierName, notifierType));
             result.methods.add(method);
@@ -103,24 +104,21 @@ public class StubGenerator {
     // TODO think about how broadcast can work in a generic way
     // they will be called from the cpp implementation, and this will then be forwarded in some
     // api specific way to the next level
-    private CppMethod buildNotifierMethod(FBroadcast b) {
+    private CppMethod buildNotifierMethod(FBroadcast b, String notifierVariableName) {
         CppMethod method = new CppMethod();
 
-        // TODO support for selectors
-
-        method.name = "notify_" + b.getName(); // TODO use name template
+        method.name = "notify" + NameHelper.toUpperCamel(b.getName());
 
         for (FArgument outArgs : b.getOutArgs()) {
             CppParameter param = new CppParameter();
-            param.name = outArgs.getName(); // TODO use name template
+            param.name = outArgs.getName();
             param.mode = CppParameter.Mode.Input;
             param.type = CppTypeMapper.map(rootModel, outArgs.getType());
             method.inParameters.add(param);
         }
 
-        // TODO add method body template (with some interface)
-        method.mbt = new NotifierBodyTemplate();
-
+        // add method body template
+        method.mbt = new NotifierBodyTemplate(notifierVariableName);
 
         return method;
     }

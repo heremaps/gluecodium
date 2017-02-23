@@ -15,7 +15,12 @@ class CppClassTemplate {
 
     public:
         «FOR m : clazz.methods»
-        «CppMethodTemplate.signature(m)»
+        «IF m.hasBody»
+          «CppMethodTemplate.signature(m)»
+          «m.generateBody()»
+        «ELSE»
+          «CppMethodTemplate.signature(m)»;
+        «ENDIF»
         «ENDFOR»
 
     private:

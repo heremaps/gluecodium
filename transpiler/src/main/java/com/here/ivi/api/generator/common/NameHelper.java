@@ -14,4 +14,8 @@ public class NameHelper {
     static public String toUpperCamel(String input) {
         return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input);
     }
+
+    static public String toLowerCamel(String input) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input);
+    }
 }
