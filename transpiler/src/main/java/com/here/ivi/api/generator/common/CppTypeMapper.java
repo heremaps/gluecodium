@@ -21,7 +21,8 @@ public class CppTypeMapper {
     private final static Includes.SystemInclude MAP_INCLUDE = new Includes.SystemInclude("map");
     private final static Includes.SystemInclude STRING_INCLUDE = new Includes.SystemInclude("string");
 
-    public static CppType map(CppModelAccessor rootModel, FArgument argument) {
+    public static CppType map(CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
+                              FArgument argument) {
         CppType type = CppTypeMapper.map(rootModel, argument.getType());
 
         if (argument.isArray()) {
@@ -31,7 +32,8 @@ public class CppTypeMapper {
         return type;
     }
 
-    public static CppType map(CppModelAccessor rootModel, FAttribute attribute) {
+    public static CppType map(CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
+                              FAttribute attribute) {
         CppType type = CppTypeMapper.map(rootModel, attribute.getType());
 
         if (attribute.isArray()) {
@@ -92,11 +94,21 @@ public class CppTypeMapper {
         DefinedBy definer = getDefinedBy(type);
         String name = "unknown";
         String typeDesc = "derived type";
+
         if (type.eContainer() instanceof FTypeDef) {
             name = ((FTypeDef) type.eContainer()).getName();
             typeDesc = "type reference";
         } else if (type.eContainer() instanceof FArgument) {
-            name = ((FArgument) type.eContainer()).getName(); // TODO look at method name as well
+            FArgument arg = (FArgument) type.eContainer();
+            name = arg.getName();
+
+            // look at method name as well
+            if (arg.eContainer() instanceof FMethod) {
+                name = ((FMethod) arg.eContainer()).getName() + "::" + name;
+            } else if (arg.eContainer() instanceof FBroadcast) {
+                name = ((FMethod) arg.eContainer()).getName() + "::" + name;
+            }
+
             typeDesc = "argument";
         } else if (type.eContainer() instanceof FField) {
             name = ((FField) type.eContainer()).getName();
@@ -105,7 +117,10 @@ public class CppTypeMapper {
             name = ((FAttribute) type.eContainer()).getName();
             typeDesc = "attribute";
         }
-        System.err.println("Failed resolving " + typeDesc + " for '" + name + "' in " + definer + " (indicates wrong typedef or missing include)");
+
+        System.err.println("Failed resolving " + typeDesc + " for '" + name + "' in " + definer +
+                " (indicates wrong typedef or missing include). Type included in " + rootModel + ".");
+
         return new CppType(definer, "INVALID DERIVED FOUND", CppElements.TypeInfo.Invalid);
     }
 
@@ -191,7 +206,7 @@ public class CppTypeMapper {
         FTypeCollection tc = findDefiningTypeCollection(obj);
 
         if (tc == null || !(tc.eContainer() instanceof FModel)) {
-            return null;
+            throw new RuntimeException("Could not resolve root of EObject. Invalid franca definition. " + obj);
         }
 
         FModel model = (FModel)tc.eContainer();
@@ -405,7 +420,7 @@ public class CppTypeMapper {
 
     private static CppType mapPredefined(FTypeRef type) {
 
-        DefinedBy definer = getDefinedBy(type); // actually not needed for builtin types
+        DefinedBy definer = getDefinedBy(type);
 
         int v = type.getPredefined().getValue();
         switch (v) {
