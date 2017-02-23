@@ -9,6 +9,9 @@ class NotifierTypeTemplate {
   public static def String generateName(FBroadcast b) '''
   «NameHelper.toUpperCamel(b.getName())»«b.getSelector»Notifier'''
 
+  public static def String generateNotifier(FBroadcast b) '''
+  m_«NameHelper.toLowerCamel(b.getName())»«b.getSelector»Notifier'''
+
   public static def String generateType(CppMethod m) '''
   std::function< «CppMethodTemplate.pureSignature(m)» >'''
 }

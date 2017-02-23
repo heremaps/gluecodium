@@ -17,6 +17,18 @@ public class CppMethod extends CppElement {
 
     public MethodBodyTemplate mbt;
 
+    public CharSequence generateBody() {
+        if (mbt == null) {
+            return null;
+        }
+
+        return mbt.generate(this);
+    }
+
+    public boolean hasBody() {
+        return mbt != null;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {
