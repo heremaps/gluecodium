@@ -1,5 +1,6 @@
 package com.here.ivi.api.generator.cppstub;
 
+import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.*;
 import com.here.ivi.api.model.DefinedBy;
@@ -10,6 +11,8 @@ import com.here.ivi.api.model.cppmodel.CppEnumItem;
 import com.here.ivi.api.model.cppmodel.CppField;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
+
+import java.util.List;
 
 /**
  * This generator will create the cpp data types for any type mentioned in a typeCollection.
@@ -68,7 +71,7 @@ public class TypeCollectionGenerator {
     private CppNamespace buildCppModel() {
 
         String[] packageDesc = nameRules.packageName(tc.getPackage());
-        CppNamespace packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
+        List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
 
         CppNamespace result = new CppNamespace(tc.getName());
 
@@ -115,10 +118,12 @@ public class TypeCollectionGenerator {
 
         // ensure to not create empty namespaces
         if (!result.isEmpty()) {
-            packageNs.members.add(result);
+            // add to innermost namespace
+            Iterables.getLast(packageNs).members.add(result);
         }
 
-        return packageNs;
+        // return outermost namespace
+        return Iterables.getFirst(packageNs, null);
     }
 
     private CppElement buildMap(FMapType type) {
