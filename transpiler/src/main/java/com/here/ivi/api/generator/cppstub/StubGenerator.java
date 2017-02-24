@@ -1,6 +1,7 @@
 package com.here.ivi.api.generator.cppstub;
 
 
+import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.CppFileTemplate;
 import com.here.ivi.api.generator.common.templates.CppNameRules;
@@ -72,7 +73,7 @@ public class StubGenerator {
     private CppNamespace buildCppModel() {
 
         String[] packageDesc = nameRules.packageName(iface.getPackage());
-        CppNamespace packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
+        List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
 
         CppClass result = new CppClass(iface.getName() + "Stub" );
 
@@ -98,18 +99,20 @@ public class StubGenerator {
                     notifierVariableName, new CppValue("nullptr")));
         }
 
-        packageNs.members.add(result);
+        // add to innermost namespace
+        Iterables.getLast(packageNs).members.add(result);
 
-        return packageNs;
+        // return outermost namespace
+        return Iterables.getFirst(packageNs, null);
     }
 
-    // TODO think about how broadcast can work in a generic way
     // they will be called from the cpp implementation, and this will then be forwarded in some
     // api specific way to the next level
     private CppMethod buildNotifierMethod(FBroadcast b, String notifierVariableName) {
         CppMethod method = new CppMethod();
 
-        method.name = "notify" + NameHelper.toUpperCamel(b.getName());
+        method.name = "notify" + NameHelper.toUpperCamel(b.getName()) +
+                NameHelper.toUpperCamel(b.getSelector());
 
         for (FArgument outArgs : b.getOutArgs()) {
             CppParameter param = new CppParameter();
@@ -128,9 +131,7 @@ public class StubGenerator {
     private CppMethod buildStubMethod(FMethod m) {
         CppMethod method = new CppMethod();
 
-        // TODO support for selectors
-        method.name = m.getName(); // TODO use name template
-
+        method.name = m.getName() + NameHelper.toUpperCamel(m.getSelector());
         method.returnType = buildStubMethodReturnType(m);
         method.specifiers.add("virtual");
 
@@ -138,11 +139,11 @@ public class StubGenerator {
             // const needs to be before = 0; This smells more than the = 0 below
             method.qualifiers.add(" const");
         }
-        method.qualifiers.add(" = 0"); // TODO this smells a bit, move to template
+        method.qualifiers.add(" = 0");
 
         for (FArgument inArg : m.getInArgs()) {
             CppParameter param = new CppParameter();
-            param.name = inArg.getName(); // TODO use name template
+            param.name = inArg.getName();
             param.mode = CppParameter.Mode.Input;
             param.type = CppTypeMapper.map(rootModel, inArg.getType());
             method.inParameters.add(param);

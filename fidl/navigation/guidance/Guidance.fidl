@@ -217,14 +217,14 @@ interface Guidance {
   broadcast routeLeft {
   }
 
-  broadcast routeUpdated {
+  broadcast routeUpdated:Base {
     out {
       GuidanceTypes.Route route
       GuidanceTypes.MainRouteChangedReason reason
     }
   }
 
-  broadcast routeUpdated {
+  broadcast routeUpdated:LastStopOverReached {
     out {
       GuidanceTypes.Route route
       UInt32 lastReachedStopoverIndex

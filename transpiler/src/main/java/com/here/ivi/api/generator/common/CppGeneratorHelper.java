@@ -10,6 +10,8 @@ import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.cppmodel.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CppGeneratorHelper{
     public static Object generateGeneratorNotice(GeneratorSuite<?,?> suite,
@@ -70,16 +72,18 @@ public class CppGeneratorHelper{
         return other;
     }
 
-    public static CppNamespace packageToNamespace(String[] packages) {
-        CppNamespace lastNs = null;
+    public static List<CppNamespace> packageToNamespace(String[] packages) {
+        List<CppNamespace> namespaces = new ArrayList<>();
+        CppNamespace parentNs = null;
         for (String p : packages) {
-            lastNs = new CppNamespace(p, lastNs);
+            CppNamespace newNs = new CppNamespace(p);
+            if (parentNs != null) {
+                parentNs.members.add(newNs);
+            }
+            namespaces.add(newNs);
+            parentNs = newNs;
         }
 
-        if (lastNs != null) {
-            return lastNs;
-        }
-
-        return new CppNamespace();
+        return namespaces;
     }
 }
