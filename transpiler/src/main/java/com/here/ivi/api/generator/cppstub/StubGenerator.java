@@ -17,6 +17,8 @@ import org.franca.core.franca.FMethod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * This generator will create the stub interfaces that will then be used by the other generators.
@@ -148,30 +150,42 @@ public class StubGenerator {
         return method;
     }
 
-    private String buildStubMethodReturnType(FMethod m) {
-        String returnType = "void";
-        List<String> returnTypes = new ArrayList<>();
+    private final static Includes.SystemInclude TUPLE_INCLUDE = new Includes.SystemInclude("tuple");
+
+    private CppType buildStubMethodReturnType(FMethod m) {
+        List<CppType> returnTypes = new ArrayList<>();
 
         // TODO do we need to support Errors, instead of ErrorEnum as well - might need to create an inline type
         if (m.getErrorEnum() != null) {
             CppType mapped = CppTypeMapper.mapEnum(rootModel, m.getErrorEnum());
-            returnTypes.add(mapped.name);
+            returnTypes.add(mapped);
         }
 
         for (FArgument outArg : m.getOutArgs()) {
             CppType mapped = CppTypeMapper.map(rootModel, outArg);
-            returnTypes.add(mapped.name);
+            returnTypes.add(mapped);
         }
 
         if (!returnTypes.isEmpty()) {
             if (returnTypes.size() == 1) {
-                returnType = returnTypes.get(0);
+                return returnTypes.get(0);
             } else {
+                List<String> names = returnTypes.stream().map(t -> t.name).collect(Collectors.toList());
+                Set<Includes.Include> includes = returnTypes.stream()
+                        .flatMap(t -> t.includes.stream())
+                        .collect(Collectors.toSet());
+                includes.add(TUPLE_INCLUDE);
+
                 // TODO still too much string magic!!
-                // FIXME no way to mark std::tuple as required include, as returnType is String only
-                returnType = "std::tuple< " + String.join(", ", returnTypes) + " >";
+                // TODO missing type definition
+                return new CppType(
+                        null,
+                        "std::tuple< " + String.join(", ", names) + " >",
+                        CppElements.TypeInfo.Complex,
+                        includes );
             }
         }
-        return returnType;
+
+        return CppType.Void;
     }
 }

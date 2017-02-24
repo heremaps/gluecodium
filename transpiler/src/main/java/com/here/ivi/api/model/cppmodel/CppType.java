@@ -12,6 +12,9 @@ import java.util.stream.Stream;
 import static java.util.Arrays.asList;
 
 public class CppType extends CppElement {
+    public final static CppType None = new CppType("");
+    public final static CppType Void = new CppType("void");
+
     public CppElements.TypeInfo info = CppElements.TypeInfo.Invalid;
     public Set<Includes.Include> includes = Collections.emptySet();
     public DefinedBy definedIn;
@@ -26,6 +29,7 @@ public class CppType extends CppElement {
 
     public CppType(String typeName) {
         super(typeName);
+        this.info = CppElements.TypeInfo.BuiltIn;
     }
 
     public CppType(DefinedBy def, String typeName, CppElements.TypeInfo info, Includes.Include... includes) {

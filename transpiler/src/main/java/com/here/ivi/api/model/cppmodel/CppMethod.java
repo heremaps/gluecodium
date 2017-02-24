@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public class CppMethod extends CppElement {
     public String comment;
-    public String returnType = "void"; //TODO: this should be CppType, once this supports existing types
+    public CppType returnType = CppType.Void;
     public List<String> specifiers = new ArrayList<>();
     public List<String> qualifiers = new ArrayList<>();
     public List<CppParameter> inParameters = new ArrayList<>();
@@ -55,6 +55,10 @@ public class CppMethod extends CppElement {
 
     @Override
     public Stream<CppElement> stream() {
-        return Stream.concat(inParameters.stream(), outParameters.stream());
+        return Stream.concat(
+                Stream.of(returnType),
+                Stream.concat(
+                        inParameters.stream(),
+                        outParameters.stream()));
     }
 }
