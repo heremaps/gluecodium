@@ -8,6 +8,7 @@ import com.here.ivi.api.generator.common.templates.CppNameRules;
 import com.here.ivi.api.generator.common.templates.CppTypeCollectionContentTemplate;
 import com.here.ivi.api.generator.cppstub.templates.NotifierBodyTemplate;
 import com.here.ivi.api.generator.cppstub.templates.NotifierTypeTemplate;
+import com.here.ivi.api.generator.cppstub.templates.SetNotifierBodyTemplate;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.*;
@@ -89,14 +90,17 @@ public class StubGenerator {
             String notifierName = NotifierTypeTemplate.generateName(b);
             String notifierVariableName = NotifierTypeTemplate.generateNotifier(b);
 
+
             CppMethod method = buildNotifierMethod(b, notifierVariableName);
             CppType notifierType = new CppType(null, NotifierTypeTemplate.generateType(method),
                     CppElements.TypeInfo.Complex, new Includes.SystemInclude("functional"));
+            CppType notifierTypeRef = new CppType(null, notifierName, CppElements.TypeInfo.Complex);
 
             result.usings.add(new CppUsing(notifierName, notifierType));
+            result.fields.add(new CppField(notifierTypeRef, notifierVariableName, new CppValue("nullptr")));
             result.methods.add(method);
-            result.fields.add(new CppField(new CppType(notifierName),
-                    notifierVariableName, new CppValue("nullptr")));
+            result.methods.add(buildSetNotifierMethod(b, notifierTypeRef, notifierVariableName));
+
         }
 
         // add to innermost namespace
@@ -124,6 +128,24 @@ public class StubGenerator {
 
         // add method body template
         method.mbt = new NotifierBodyTemplate(notifierVariableName);
+
+        return method;
+    }
+
+    private CppMethod buildSetNotifierMethod(FBroadcast b, CppType notifierType, String notifierVariableName) {
+        CppMethod method = new CppMethod();
+
+        method.name = "set" + NameHelper.toUpperCamel(b.getName()) +
+                NameHelper.toUpperCamel(b.getSelector()) + "Notifier";
+
+        CppParameter param = new CppParameter();
+        param.name = "notifier";
+        param.mode = CppParameter.Mode.Input;
+        param.type = notifierType;
+        method.inParameters.add(param);
+
+        // add method body template
+        method.mbt = new SetNotifierBodyTemplate(notifierVariableName, "notifier");
 
         return method;
     }
