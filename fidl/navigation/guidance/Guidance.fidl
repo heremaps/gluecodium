@@ -238,12 +238,6 @@ interface Guidance {
     }
   }
 
-  broadcast stateChanged {
-    out {
-      GuidanceTypes.GuidanceState newState
-    }
-  }
-
   broadcast stopoverReached {
     out {
       GuidanceTypes.RoutePlan routePlan
