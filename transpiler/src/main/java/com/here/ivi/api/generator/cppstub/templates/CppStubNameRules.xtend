@@ -33,18 +33,18 @@ class CppStubNameRules implements CppNameRules {
   «base»'''
 
   override String[] packageName(String[] packages) {
-    return #["legacy"];
+    return packages;
   }
   override String headerFileSuffix() {
     '.h'
   }
   override String typeCollectionTarget(
           String[] packageDesc, FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
-    String.join(File.separator, packageDesc) + File.separator + "navcore" + File.separator + tc.getName() + headerFileSuffix();
+    String.join(File.separator, packageDesc) + File.separator + tc.getName() + headerFileSuffix();
   }
   override String interfaceTarget(
           String[] packageDesc, FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface) {
-    String.join(File.separator, packageDesc) + File.separator + "navcore" + File.separator + iface.getName() + headerFileSuffix();
+    String.join(File.separator, packageDesc) + File.separator + iface.getName() + headerFileSuffix();
   }
   override String interfaceStubTarget(
           String[] packageDesc, FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface) {

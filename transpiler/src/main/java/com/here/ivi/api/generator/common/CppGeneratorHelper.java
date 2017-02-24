@@ -31,7 +31,7 @@ public class CppGeneratorHelper{
         CppMethod dtor = new CppMethod();
         dtor.name = "~" + className;
         dtor.mbt = new LegacyDtor();
-        dtor.returnType = "";
+        dtor.returnType = CppType.None;
         dtor.specifiers.add("virtual");
         return dtor;
     }
@@ -40,7 +40,7 @@ public class CppGeneratorHelper{
         CppMethod ctor = new CppMethod();
         ctor.mbt = new LegacyCtor();
         ctor.name = className;
-        ctor.returnType = "";
+        ctor.returnType = CppType.None;
         return ctor;
     }
 
@@ -48,7 +48,7 @@ public class CppGeneratorHelper{
         CppMethod ctor = new CppMethod();
         ctor.mbt = new LegacyCopyCtor();
         ctor.name = className;
-        ctor.returnType = "";
+        ctor.returnType = CppType.None;
         ctor.inParameters.add(generateClassParam(className));
         return ctor;
     }
@@ -57,7 +57,7 @@ public class CppGeneratorHelper{
         CppMethod ctor = new CppMethod();
         ctor.mbt = new LegacyAssignOp();
         ctor.name = "operator=";
-        ctor.returnType = className + "&"; //TODO ugly ref here...
+        ctor.returnType = new CppType(className + "&"); //TODO ugly ref here...
         ctor.inParameters.add(generateClassParam(className));
         return ctor;
     }
