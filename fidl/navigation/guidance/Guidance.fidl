@@ -110,6 +110,47 @@ typeCollection GuidanceTypes {
   typedef ManeuverWithDistance is Maneuver // typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
 }
 
+<** @description: Guidance is a legacy SDK component that is used to deliver turn-by-turn directions, generate voice
+ commands, inform about guidance events changes (time to arrival, remaining distance etc), provide
+ lane information and maintain route alternatives (if any present at given time).
+
+ Guidance (if configured accordingly) will deliver events on the most common guidance events,
+ that is: current road changed, speed changed, remaining distance changed, distance to next
+ maneuver changed and time to arrival changed. If any other guidance events are needed they can
+ be taken from Guidance at any time with dedicated "on demand" API (e.g. break count, time to
+ arrival with custom RouterPenalty, distance to next decision point etc).
+
+ ${ref} GuidanceProgress${/ref} struct can be used to get most of guidance properties at once, without
+ invoking asynchronous calls one by one for all of the properties (which might be quite
+ expensive and it should be only used if really needed).
+
+ Guidance session is usually started with a route object, which is a result of call to ${ref} Router${/ref}
+ API. The given route is the so called "main route", i.e. the route being currently used
+ for navigation. Next to the main route, guidance is able to maintain a set of alternative routes
+ (${see} Guidance::update_route_alternatives${/see}). A given route alternative is maintained by Guidance
+ as long as its decision point has not been passed through (i.e. main route and route alternative
+ still share some common part), after which the given route alternative is discarded ${see:legacy}
+ GuidanceListener::on_route_alternatives_changed${/see}.
+
+ If Guidance is configured to use traffic avoidance (${see}
+ NavigationOptions::traffic_avoidance_mode${/see}), faster routes (in terms of time to arrival) can
+ appear as alternatives, as they are found.
+ Optimal tta route will be added to the alternatives set if traffic avoidance is equal to ${see}
+ NavigationOptions::AVOIDANCE_MANUAL.${/see}
+ If traffic avoidance is equal to ${see} NavigationOptions::AVOIDANCE_DYNAMIC${/see}, optimal tta route
+ will automatically be switched with current main route (which will be added to the alternatives).
+ If traffic avoidance is equal to ${see} NavigationOptions::AVOIDANCE_DISABLED ${/see} no traffic optimized
+ routes will be calculated by guidance (however user can still add route alternatives using ${see}
+ Guidance::update_route_alternatives${/see} API if needed).
+
+ If enabled (${see} enable_session_storage${/see}) guidance automatically saves its last state which can be
+ at any time restored by calling ${see} Guidance::get_last_session${/see} and starting guidance based on
+ returned object (it could be used for quick guidance session restore after full system shutdown).
+ ${listener}Listener interface for callbacks during guidance.
+
+ ${generator:legacy}In order to receive callbacks from Guidance, establish a GuidanceListener in legacy::NavCoreModule.
+ ${see} legacy::NavCoreModule::create_guidance${/see}${/generator}${/listener}
+ **>
 interface Guidance extends navigation.guidance.VoiceOutput {
   version {
     major 1
@@ -166,12 +207,36 @@ interface Guidance extends navigation.guidance.VoiceOutput {
     }
   }
 
+ <** @description: Inform that the search for a local detour did not produce a better route.
+
+   This broadcast is fired after rerouting has been attempted due to traffic timer or traffic
+   event. It means that there is no route alternative that is better (by the threshold defined by
+   NavigationOptions) than the current main route.
+   The broadcast will be fired in dynamic and manual traffic avoidance mode
+
+   ${note} to customize when this broadcast will be fired${/note}
+   ${see} NavigationOptions::dynamic_route_replace_tta_relative${/see}
+   ${see} NavigationOptions::dynamic_route_replace_tta_absolute${/see}
+   ${see} NavigationOptions::alternatives_better_tta_notification_relative${/see}
+   ${see} NavigationOptions::alternatives_better_tta_notification_absolute${/see}
+  **>
   broadcast noDetourFound { }
 
   broadcast noRouteAlternativeAvailable { }
 
+  <** @description: Inform about tta optimal route available at the moment.
+
+  This broadcast will be fired when there is an alternative route that has a tta that is better
+  (by the threshold defined by NavigationOptions) than that of the currently used main route.
+  The broadcast will be fired only when the optimal route changes and only in manual traffic
+  avoidance mode.
+
+  ${note} to customize when this broadcast will be fired${/note}
+  ${see} NavigationOptions::alternatives_better_tta_notification_relative${/see} and
+  ${see} NavigationOptions::alternatives_better_tta_notification_absolute${/see}. **>
   broadcast optimalTtaRouteAvailable {
     out {
+      <** @description: route with best possible tta at the moment **>
       GuidanceTypes.Route route
     }
   }
@@ -254,6 +319,17 @@ interface Guidance extends navigation.guidance.VoiceOutput {
 
   //////// Attributes    ////////
 
+  <** @description: Return currently used navigation options.
+
+     ${note} this method can be called only when guidance is running in navigation mode.${/note}
+
+     ${param:legacy}[in] options The navigation options to be used during this navigation session.${/param}
+     ${param:android}[in] Options Android specific comment.${/param}
+
+     ${return:android} MY_OTHER_PLATFORM way of failing${/return}
+     ${return:legacy} CARLO_ERROR_NONE if the operation completes successfully,
+             CARLO_ERROR_INVALID_OPERATION if guidance is not running in navigation mode,
+             CARLO_ERROR_NOT_VALID if guidance object is not properly initialized${/return}**>
   attribute GuidanceTypes.NavigationOptions navigationOptions readonly
   attribute GuidanceTypes.GuidanceMode mode readonly
   attribute GuidanceTypes.GuidanceState ^state readonly  // state is a reserved keyword
@@ -470,6 +546,20 @@ interface Guidance extends navigation.guidance.VoiceOutput {
   }
 
   // async version is deprecated
+  <** @description: Pause guidance. Call resume() to continue.
+
+  When a guidance session is paused, all guidance activity (e.g. voice command generation,
+  checking for maneuvers, distances, warners, position matching) is suspended. In the paused
+  state, CPU power is not consumed by the guidance engine. The guidance session can be resumed
+  at any point by calling the resume() method.
+
+  ${remarks} the paused state is only saved in RAM memory, which means the pause/resume API${/remarks}
+  can't be used to persist the guidance state and then restore it after a full system
+  shutdown. To restore guidance information after a full shutdown, use the session
+  API ${see:legacy} get last session( RequestId &id )${/see}
+
+  ${remarks} while paused, CPU power is not used by the guidance engine, however pausing does
+  not release the memory it uses. To free the memory use cancel().${/remarks} **>
   method pause {
     in {}
     out {}
@@ -477,6 +567,10 @@ interface Guidance extends navigation.guidance.VoiceOutput {
   }
 
   // async version is deprecated
+  <** @description:Resume paused navigation.
+    ${remarks} resume can only be used to resume a previously paused guidance session whose state${/remarks}
+    is still in RAM memory. To resume guidance state after a full system shutdown,
+    use the session API (${see} get_last_session( RequestId &id${/see} )) **>
   method resume {
     in {}
     out {}
@@ -491,21 +585,47 @@ interface Guidance extends navigation.guidance.VoiceOutput {
   //  error NavigationTypes.ErrorCode
   // }
 
+  <** @description: Start guidance, resuming a previously saved guidance session. **>
   method startNavigation:WithSession {
     in {
+      <** @description: A saved session, accessed by calling get_last_session.**>
       GuidanceTypes.GuidanceSession session
     }
     out {}
     error NavigationTypes.ErrorCode
   }
 
+  <** @description: Start guidance along the given route with options and route alternatives.
+
+      Passed alternatives must be valid and share at least one common road element with the main
+      guidance route at the last known position on main route. Only these routes will be accepted
+      by guidance as valid alternatives (${see} GuidanceListener::on_update_route_alternatives_done ${/see}).
+
+      The map value specifies if an alternative route should be recomputed after passing deviation
+      point. If set to true: after deviation point is passed the alternative route will be
+      removed (as described above), but a new route calculation will be scheduled in background.
+      Once the calculation is finished the new route will be added to set of alternatives, and
+      ${see} GuidanceListener::on_route_alternatives_changed${/see} with
+      ${see} GuidanceTypes::ALTERNATIVE_ADDED_AFTER_DECISION_POINT${/see} parameter callback is fired.
+      The following rules apply to recomputation:
+      1) If multiple routes with same options are added, the recomputation will be triggered
+      only when last route is removed. And then only single route will be added to alternatives
+      2) Newly computed may not be accepted by guidance, as the result no route will
+      be added and no further re-computation planned. For route to be accepted it must be different
+      to all other routes; start on the main route and share destination with a main route.**>
   method startNavigation:WithRoute {
     in {
+      <** @description: The route the guidance will use.**>
       GuidanceTypes.Route route
+      <** @description: map of new route alternatives with recomputation flag to be used in
+                guidance, could be empty if no alternatives should be used. **>
       GuidanceTypes.RouteToCompute alternatives
+      <** @description: The navigation options to be used during this navigation session.**>
       GuidanceTypes.NavigationOptions options
     }
     out {
+      <** @description: accepted_alternatives set of route alternatives which were accepted and will be
+        maintained **>
       GuidanceTypes.RouteAlternatives acceptedAlternatives
     }
     error NavigationTypes.ErrorCode
@@ -532,17 +652,6 @@ interface Guidance extends navigation.guidance.VoiceOutput {
       GuidanceTypes.RouteToCompute alternatives
       GuidanceTypes.NavigationOptions options
       GuidanceTypes.MainRouteOptions mainrouteOptions
-    }
-    out {
-      GuidanceTypes.RouteAlternatives acceptedAlternatives
-    }
-    error NavigationTypes.ErrorCode
-  }
-
-  method startObservation {
-    in {
-      GuidanceTypes.Route route
-      GuidanceTypes.RouteAlternatives alternatives
     }
     out {
       GuidanceTypes.RouteAlternatives acceptedAlternatives
@@ -602,15 +711,42 @@ interface Guidance extends navigation.guidance.VoiceOutput {
     error NavigationTypes.ErrorCode
   }
 
+  <** @description: Update route plan of running guidance session.
+
+     Used ${param} route_plan${/param} should contain at least one waypoint if
+     ${see} RoutePlan::derive_start_way_point_from_current_position${/see}
+     is equal to true, otherwise at least two waypoints. The calculated route will be set to
+     guidance. It's a convenience method to calculate route internally in guidance engine,
+     effectively the same result can be achieved by using Router outside of Guidance to calculate
+     a new route and then setting it to guidance with ${see} Guidance::update_route${/see}.
+
+     ${note} Guidance must be already running in navigation mode(based on previously passed route)
+     for this method to complete successfully, it is meant to change route requirements when
+     guidance is in progress not to start guidance session from scratch${/note}
+
+     ${generator:legacy} The current method completes with the callback on_update_route_plan_done. When updating
+     route plan is finished previous main route will be discarded and not added to alternatives ${/generator}**>
+
   method updateRoutePlan:Primary {
     in {
+      <** @description: The routeplan.**>
       GuidanceTypes.RoutePlan routePlan
+      <** @description: RouterOptions to be used for updated route.**>
       GuidanceTypes.RouterOptions routerOptions
+      <** @description: RouterPenalty instance to be used for updated route.**>
       GuidanceTypes.RouterPenalty penalty
+      <** @description: Zero-based index of the starting stopover on route
+             (navigation will ignore the previous stopovers). If equal to zero,
+             guidance will start from the very first stopover.**>
       UInt32 startStopoverIndex
+      <** @description: mainroute_options Configuration options for how this route should be
+             handled**>
       GuidanceTypes.MainRouteOptions mainrouteOptions
     }
     out {}
+    <** @description: ${generator:legacy}CARLO_ERROR_NONE if the request completed successfully,
+                      CARLO_ERROR_INVALID_OPERATION if guidance is not running in navigation mode
+                      or RoutePlan could not be updated ${/generator} **>
     error NavigationTypes.ErrorCode
   }
 
