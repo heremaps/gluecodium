@@ -9,6 +9,8 @@ public class CppClass extends CppElement {
     public Set<CppUsing> usings = new LinkedHashSet<>();
     public Set<CppField> fields = new LinkedHashSet<>();
 
+    public String comment = null;
+
     public CppClass(String name) {
         super( name );
     }

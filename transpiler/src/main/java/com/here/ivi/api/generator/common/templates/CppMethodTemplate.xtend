@@ -20,9 +20,14 @@ public class CppMethodTemplate {
         «returnType.name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )'''
 
     def static signature(CppMethod it) '''
+      «IF comment !== null && !comment.isEmpty()»
       /**
        * «comment»
        */
+      «ENDIF»
+       «IF deprecatedComment !== null && !deprecatedComment.isEmpty()»
+       CARLO_DEPRECATED_TEXT( "«deprecatedComment»" )
+       «ENDIF»
       «specifiers.join(' ')» «returnType.name» «name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ',' ','') [ it ]»'''
 
     def static signature(CppMethod it, String className)'''
