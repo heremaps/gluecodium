@@ -2,15 +2,7 @@ package navigation
 
 import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import navigation.* from "NavigationTypes.fidl"
-
-interface Module {
-  version {
-    major 1
-    minor 0
-  }
-
-  typedef Instance is BuiltIn.InstanceId
-}
+import navigation.* from "Module.fidl"
 
 /**
  * The main entry point to the navigation services.

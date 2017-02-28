@@ -47,5 +47,6 @@ interface Router {
       // The route to be calculated
       RoutingTypes.Route route
     }
+    error NavigationTypes.ErrorCode
   }
 }
