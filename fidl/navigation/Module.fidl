@@ -1,5 +1,6 @@
 package navigation
 
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import navigation.* from "NavigationTypes.fidl"
 
 // generate
@@ -8,4 +9,6 @@ interface Module {
     major 1
     minor 0
   }
+
+  typedef Instance is BuiltIn.InstanceId
 }
