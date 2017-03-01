@@ -28,6 +28,9 @@
     <content url="file://$MODULE_DIR$/../../../transpiler/spec">
       <sourceFolder url="file://$MODULE_DIR$/../../../transpiler/spec" type="java-resource" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../transpiler/src/cpphelpers">
+      <sourceFolder url="file://$MODULE_DIR$/../../../transpiler/src/cpphelpers" type="java-resource" />
+    </content>
     <content url="file://$MODULE_DIR$/../../../transpiler/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../../transpiler/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../transpiler/src/main/resources" type="java-resource" />

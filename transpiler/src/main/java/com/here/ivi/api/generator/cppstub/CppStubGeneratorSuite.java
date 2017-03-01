@@ -7,7 +7,12 @@ import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import navigation.CppStubSpec;
+import org.apache.commons.io.IOUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -142,22 +147,43 @@ public class CppStubGeneratorSuite
 
         CppStubNameRules rules = new CppStubNameRules();
 
-        return Stream.concat(
-            // generate one file for each type collection, containing all the typedefs, enums, etc.
-            model.typeCollections.stream()
-                .map(tc -> {
-                    TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
-                    return generator.generate();
-                }),
+        Stream<GeneratedFile> generatorStreams = Stream.concat(
+                // generate one file for each type collection, containing all the typedefs, enums, etc.
+                model.typeCollections.stream()
+                        .map(tc -> {
+                            TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
+                            return generator.generate();
+                        }),
 
-            // every interface gets its own file
-            model.interfaces.stream()
-                .map(iface -> {
-                    StubGenerator generator = new StubGenerator(this, model, rules, iface);
-                    return generator.generate();
-                })
-        ).filter(Objects::nonNull)
-         .collect(Collectors.toList());
+                // every interface gets its own file
+                model.interfaces.stream()
+                        .map(iface -> {
+                            StubGenerator generator = new StubGenerator(this, model, rules, iface);
+                            return generator.generate();
+                        })
+        );
+
+
+        List<GeneratedFile> list = generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
+        list.add(copyTarget("here/internal/expected.h", "src/"));
+
+        return list;
+    }
+
+    private static GeneratedFile copyTarget(String fileName, String target) {
+        InputStream stream = CppStubGeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
+
+        if (stream != null) {
+            try {
+                String content = IOUtils.toString(stream, Charset.defaultCharset());
+                return new GeneratedFile(content, target + File.separator + fileName);
+            } catch (IOException ignored) {
+            }
+        }
+
+        System.err.println("Failed loading resource " + fileName);
+
+        return null;
     }
 
     @Override
