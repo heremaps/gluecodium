@@ -82,7 +82,7 @@ public class StubGenerator {
         // TODO reuse TypeCollectionGenerator to generate types in interface definition
 
         for (FMethod m : iface.fInterface.getMethods()) {
-            result.methods.add(buildStubMethod(m));
+            appendMethodElements(result, m);
         }
 
         for (FBroadcast b : iface.fInterface.getBroadcasts()) {
@@ -98,6 +98,24 @@ public class StubGenerator {
 
         // return outermost namespace
         return Iterables.getFirst(packageNs, null);
+    }
+
+    private void appendMethodElements(CppClass result, FMethod m) {
+        String uniqueMethodName = m.getName() + NameHelper.toUpperCamel(m.getSelector()); // TODO use name template
+
+        // build return type
+        CppType returnType = buildStubMethodReturnType(m);
+        if (returnType != CppType.Void) {
+            // create using for this type
+            String usingTypeName = NameHelper.toUpperCamel(uniqueMethodName) + "Result"; // TODO use name template
+            // add using
+            result.usings.add(new CppUsing(usingTypeName, returnType));
+            returnType = new CppType(usingTypeName);
+        }
+
+
+        // add method
+        result.methods.add(buildStubMethod(m, returnType));
     }
 
     private void appendAttributeAccessorElements(CppClass result, FAttribute a) {
@@ -192,11 +210,11 @@ public class StubGenerator {
         return method;
     }
 
-    private CppMethod buildStubMethod(FMethod m) {
+    private CppMethod buildStubMethod(FMethod m, CppType returnTypeName) {
         CppMethod method = new CppMethod();
 
         method.name = m.getName() + NameHelper.toUpperCamel(m.getSelector());
-        method.returnType = buildStubMethodReturnType(m);
+        method.returnType = returnTypeName;
         method.specifiers.add("virtual");
 
         if (iface.accessor.getConst(m)) {
@@ -215,7 +233,8 @@ public class StubGenerator {
         return method;
     }
 
-    private final static Includes.SystemInclude TUPLE_INCLUDE = new Includes.SystemInclude("tuple");
+    private final static Includes.SystemInclude EXPECTED_INCLUDE =
+            new Includes.SystemInclude("here/internal/expected.h");
 
     private CppType buildStubMethodReturnType(FMethod m) {
         List<CppType> returnTypes = new ArrayList<>();
@@ -224,6 +243,9 @@ public class StubGenerator {
         if (m.getErrorEnum() != null) {
             CppType mapped = CppTypeMapper.mapEnum(rootModel, m.getErrorEnum());
             returnTypes.add(mapped);
+        } else {
+            System.err.println("Missing error type for method " + m.getName());
+            returnTypes.add(CppType.Void);
         }
 
         for (FArgument outArg : m.getOutArgs()) {
@@ -232,22 +254,18 @@ public class StubGenerator {
         }
 
         if (!returnTypes.isEmpty()) {
-            if (returnTypes.size() == 1) {
-                return returnTypes.get(0);
-            } else {
-                List<String> names = returnTypes.stream().map(t -> t.name).collect(Collectors.toList());
-                Set<Includes.Include> includes = returnTypes.stream()
-                        .flatMap(t -> t.includes.stream())
-                        .collect(Collectors.toSet());
-                includes.add(TUPLE_INCLUDE);
+            List<String> names = returnTypes.stream().map(t -> t.name).collect(Collectors.toList());
+            Set<Includes.Include> includes = returnTypes.stream()
+                    .flatMap(t -> t.includes.stream())
+                    .collect(Collectors.toSet());
+            includes.add(EXPECTED_INCLUDE);
 
-                // TODO still too much string magic!!
-                return new CppType(
-                        rootModel,
-                        "std::tuple< " + String.join(", ", names) + " >",
-                        CppElements.TypeInfo.Complex,
-                        includes );
-            }
+            // TODO still too much string magic!!
+            return new CppType(
+                    rootModel,
+                    "here::internal::Expected< " + String.join(", ", names) + " >",
+                    CppElements.TypeInfo.Complex,
+                    includes );
         }
 
         return CppType.Void;

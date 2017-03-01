@@ -31,8 +31,11 @@ sourceSets {
         }
         resources {
             srcDirs "spec"
+            srcDirs "src/cpphelpers"
             include "**/*.fdepl"
             include "**/*.fidl"
+            include "**/*.h"
+            include "**/*.cpp"
         }
     }
 }
