@@ -1,5 +1,4 @@
 .gradle
-.idea
 bin
 build
 .DS_Store
@@ -12,3 +11,7 @@ gradlew.bat
 xtend-gen
 local.properties
 out
+.idea/workspace.xml
+.idea/libraries/
+.idea/xtextAutoBuilderState.xml
+

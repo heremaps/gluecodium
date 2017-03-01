@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api-transpiler.iml" filepath="$PROJECT_DIR$/.idea/modules/api-transpiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/core/core.iml" group="externals/core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/core/core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/core/core_main.iml" group="externals/core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/core/core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/core/core_test.iml" group="externals/core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/deploymodel/deploymodel.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/deploymodel/deploymodel.iml" group="externals/deploymodel" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/deploymodel/deploymodel_main.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/deploymodel/deploymodel_main.iml" group="externals/deploymodel" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/deploymodel/deploymodel_test.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/deploymodel/deploymodel_test.iml" group="externals/deploymodel" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/dsl/dsl.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/dsl/dsl.iml" group="externals/dsl" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/dsl/dsl_main.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/dsl/dsl_main.iml" group="externals/dsl" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/dsl/dsl_test.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/dsl/dsl_test.iml" group="externals/dsl" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/externals.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/externals.iml" group="externals" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/externals_main.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/externals_main.iml" group="externals" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/externals_test.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/externals_test.iml" group="externals" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/fdeplgen/fdeplgen.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/fdeplgen/fdeplgen.iml" group="tools/fdeplgen" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/fdeplgen/fdeplgen_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/fdeplgen/fdeplgen_main.iml" group="tools/fdeplgen" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/fdeplgen/fdeplgen_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/fdeplgen/fdeplgen_test.iml" group="tools/fdeplgen" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/generator/generator.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/generator/generator.iml" group="externals/generator" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/generator/generator_main.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/generator/generator_main.iml" group="externals/generator" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/externals/generator/generator_test.iml" filepath="$PROJECT_DIR$/.idea/modules/externals/generator/generator_test.iml" group="externals/generator" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/tools.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/tools.iml" group="tools" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/transpiler/transpiler.iml" filepath="$PROJECT_DIR$/.idea/modules/transpiler/transpiler.iml" group="transpiler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/transpiler/transpiler_main.iml" filepath="$PROJECT_DIR$/.idea/modules/transpiler/transpiler_main.iml" group="transpiler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/transpiler/transpiler_test.iml" filepath="$PROJECT_DIR$/.idea/modules/transpiler/transpiler_test.iml" group="transpiler" />
+    </modules>
+  </component>
+</project>

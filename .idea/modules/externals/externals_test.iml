@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":externals:test" external.linked.project.path="$MODULE_DIR$/../../../externals" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="api-transpiler" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+    <output-test url="file://$MODULE_DIR$/../../../externals/build/classes/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../externals/build/xtend/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../../externals/build/xtend/test" isTestSource="true" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../externals/src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../../externals/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../externals/src/test/resources" type="java-test-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="externals_main" />
+  </component>
+  <component name="TestModuleProperties" production-module="externals_main" />
+</module>

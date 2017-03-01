@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="api-transpiler_main" target="1.8" />
+      <module name="api-transpiler_test" target="1.8" />
+      <module name="buildSrc_main" target="1.8" />
+      <module name="buildSrc_test" target="1.8" />
+      <module name="core_main" target="1.8" />
+      <module name="core_test" target="1.8" />
+      <module name="deploymodel_main" target="1.8" />
+      <module name="deploymodel_test" target="1.8" />
+      <module name="dsl_main" target="1.8" />
+      <module name="dsl_test" target="1.8" />
+      <module name="externals_core_main" target="1.8" />
+      <module name="externals_core_test" target="1.8" />
+      <module name="externals_deploymodel_main" target="1.8" />
+      <module name="externals_deploymodel_test" target="1.8" />
+      <module name="externals_dsl_main" target="1.8" />
+      <module name="externals_dsl_test" target="1.8" />
+      <module name="externals_generator_main" target="1.8" />
+      <module name="externals_generator_test" target="1.8" />
+      <module name="externals_main" target="1.8" />
+      <module name="externals_test" target="1.8" />
+      <module name="fdeplgen_main" target="1.8" />
+      <module name="fdeplgen_test" target="1.8" />
+      <module name="generator_main" target="1.8" />
+      <module name="generator_test" target="1.8" />
+      <module name="tools_fdepl-generator_main" target="1.8" />
+      <module name="tools_fdepl-generator_test" target="1.8" />
+      <module name="transpiler_fdepl" target="1.8" />
+      <module name="transpiler_main" target="1.8" />
+      <module name="transpiler_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
