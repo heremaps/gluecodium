@@ -1,0 +1,185 @@
+package navigation.guidance
+
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+import navigation.* from "../NavigationTypes.fidl"
+
+typeCollection VoiceOutputTypes {
+    version {
+        major 1
+        minor 0
+    }
+
+    <** @description: string to string mapping for voice specific settings. **>
+    map VoiceSettingsMap {
+        String to String
+    }
+
+    <** @description: A VoicePackage object represents one single voice package with useful information. **>
+    struct VoicePackage
+    {
+        <** @description: Unique id of voice package **>
+        UInt32 id
+
+        <** @description: Description of voice package **>
+        String description
+
+        <** @description: Output type whether the voice package is tts or non-tts (audio) **>
+        Boolean IsTts
+
+        <** @description: Gender of voice package e.g. "f" for female, "m" for male or "m/f" if both genders are supported. **>
+        String gender
+
+        <** @description: Language code of voice package accoding to ISO639-2/B **>
+        String languageCode
+
+        <** @description: Language name of voice package **>
+        String languageName
+
+        <** @description: Version of voice package **>
+        String ^version
+
+        <** @description: Information whether this voice package is already installed or not **>
+        Boolean installed
+
+        <**
+         @description: Information whether this voice package is removable or not. A NON removable
+         voice package means that it is pre-installed and a removable one means
+         that the voice package is downloadable or can be removed from the system.
+         **>
+        Boolean removable
+
+        <**
+         @description: Information whether this voice package's settings can be configured. If installed
+         is false, this attribute is also false.
+         **>
+        Boolean configurable
+
+        <** @description: Settings of this voice package. Can be reconfigured, if configurable is true. **>
+        VoiceSettingsMap settings
+    }
+
+    <** @description: The type of voice output or speech announcement **>
+    enumeration VoiceOutputType
+    {
+         <** @description: Unknown type of announcement. **>
+         Unknown
+         <** @description: On maneuver reminder 1 announcement. **>
+         OnManeuverReminder1
+         <** @description: On maneuver reminder 2 announcement. **>
+         OnManeuverReminder2
+         <** @description: On maneuver command announcement. **>
+         OnManeuverCommand
+         <** @description: On maneuver announcement announcement. **>
+         OnManeuverAnnouncement
+         <** @description: On GPS lost announcement. **>
+         OnGpsLost
+         <** @description: On GPS restored announcement. **>
+         OnGpsRestored
+         <** @description: On destination reached announcement. **>
+         OnDestinationReached
+         <** @description: On stopover reached announcement. **>
+         OnStopoverReached
+         <** @description: On rerouting begin announcement. **>
+         OnRerouteBegin
+         <** @description: On rerouting failed announcement. **>
+         OnRerouteFailed
+         <** @description: On rerouting end announcement. **>
+         OnRerouteEnd
+         <** @description: On traffic announcement (triggered by Warner). **>
+         OnTraffic
+         <** @description: On begin avoid traffic announcement. **>
+         OnBeginAvoidTraffic
+         <** @description: On safety spot announcement (triggered by Warner). **>
+         OnSafetySpot
+         <** @description: On speed exceeded announcement (triggered by Warner). **>
+         OnSpeedExceeded
+         <** @description: On speed exceeded end announcement (triggered by Warner). **>
+         OnSpeedExceededEnd
+         <** @description: On avoid traffic failed announcement. **>
+         OnAvoidTrafficFailed
+         <** @description: On single routing begin (trig'd by VoiceOutputTrigger). **>
+         OnRoutingSingleBegin
+         <** @description: On single routing end (trig'd by VoiceOutputTrigger). **>
+         OnRoutingSingleEnd
+         <** @description: On multiple routing begin (trig'd by VoiceOutputTrigger). **>
+         OnRoutingMultipleBegin
+         <** @description: On multiple routing end (trig' by VoiceOutputTrigger). **>
+         OnRoutingMultipleEnd
+         <** @description: On route violation (triggered by VoiceOutputTrigger). **>
+         OnRouteViolation
+         <** @description: On route notification (triggered by VoiceOutputTrigger). **>
+         OnRouteNotification
+         <** @description: On segment notification (triggered by VoiceOutputTrigger). **>
+         OnSegmentNotification
+         <** @description: On traffic notification (triggered by VoiceOutputTrigger). **>
+         OnTrafficNotification
+         <** @description: On traffic tmc (triggered by VoiceOutputTrigger). **>
+         OnTrafficTmcNotification
+         <** @description: On starting the navigation off-road. **>
+         OnOffroadStart
+         <** @description: On reaching the destination off-road. **>
+         OnOffroadDestination
+         <** @description: On reaching a stopover off-road. **>
+         OnOffroadStopover
+         <** @description: New dynamic route (triggered by VoiceOutputTrigger). **>
+         OnRouteUpdatedDynamic
+         <** @description: New manual route (triggered by VoiceOutputTrigger). **>
+         OnRouteUpdatedManual
+         <** @description: Inactive guidance voice prompts  (triggered by VoiceOutputTrigger). **>
+         OnInactiveVoiceGuidance
+         <** @description: On reaching the destination area off-road. **>
+         OnOffroadDestinationArea
+         <** @description: On reaching the exit point of the mapped area and continuing offroad. **>
+         OnOffroadDestinationArrow
+    }
+
+    <**
+     @description: A single shot of audio file paths or TTS output generated by the Guidance, the Warner or
+     the VoiceOutputTrigger.
+     **>
+    struct VoiceOutput
+    {
+        <**
+         @description: The audio output which is a vector of audio file paths.
+         **>
+        String[] audioOutput
+
+        <**
+         @description: Textual output for TTS which is a string holding the text to be synthesized.
+         **>
+        String textOutput
+    }
+}
+
+<**
+ @description: Base interface for voice output related functionality.
+ Used by Warner and Guidance.
+ **>
+interface VoiceOutput {
+    version {
+        major 1
+        minor 0
+    }
+
+    broadcast announcementNotification {
+        out {
+            VoiceOutputTypes.VoiceOutputType outputType
+            VoiceOutputTypes.VoiceOutput output
+        }
+    }
+
+    method initVoiceOutput {
+        in {
+            VoiceOutputTypes.VoicePackage voicePackage
+        }
+        error NavigationTypes.ErrorCode
+    }
+
+    method repeatLastOutput {
+        in {}
+        out {
+            VoiceOutputTypes.VoiceOutput lastOutput
+        }
+        error NavigationTypes.ErrorCode
+    }
+}

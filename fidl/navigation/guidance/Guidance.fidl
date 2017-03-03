@@ -2,6 +2,7 @@ package navigation.guidance
 
 import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import navigation.* from "../NavigationTypes.fidl"
+import navigation.* from "VoiceOutput.fidl"
 
 typeCollection GuidanceTypes {
   version {
@@ -41,12 +42,6 @@ typeCollection GuidanceTypes {
   typedef GuidanceProgress is BuiltIn.ExternalType // Not generated, use legacy
   <** @source-uri: legacy/navcore/RouterPenalty.h **>
   typedef RouterPenalty is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/VoicePackage.h **>
-  typedef VoicePackage is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/VoiceOutput.h **>
-  typedef VoiceOutput is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-alias: nocomplex **>
-  typedef VoiceOutputType is BuiltIn.ExternalType // Not generated, use legacy
   <** @source-uri: legacy/navcore/RouterOptions.h **>
   typedef RouterOptions is BuiltIn.ExternalType // Not generated, use legacy
 
@@ -115,21 +110,13 @@ typeCollection GuidanceTypes {
   typedef ManeuverWithDistance is Maneuver // typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
 }
 
-interface Guidance {
+interface Guidance extends navigation.guidance.VoiceOutput {
   version {
     major 1
     minor 0
   }
 
   //////// Broadcasts    ////////
-
-  // defined in VoiceOutputListener
-  broadcast announcementNotification {
-    out {
-      GuidanceTypes.VoiceOutputType outputType
-      GuidanceTypes.VoiceOutput output
-    }
-  }
 
   broadcast changePointInfosUpdated {
     out {
@@ -482,14 +469,6 @@ interface Guidance {
     error NavigationTypes.ErrorCode
   }
 
-  // defined in VoiceOutputListener
-  method initVoiceOutput {
-    in {
-      GuidanceTypes.VoicePackage voicePackage
-    }
-    error NavigationTypes.ErrorCode
-  }
-
   // async version is deprecated
   method pause {
     in {}
@@ -501,15 +480,6 @@ interface Guidance {
   method resume {
     in {}
     out {}
-    error NavigationTypes.ErrorCode
-  }
-
-  // defined in VoiceOutputListener
-  method repeatLastOutput {
-    in {}
-    out {
-      GuidanceTypes.VoiceOutput lastOutput
-    }
     error NavigationTypes.ErrorCode
   }
 
