@@ -13,6 +13,7 @@ import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This generator will create the cpp data types for any type mentioned in a typeCollection.
@@ -31,6 +32,7 @@ public class TypeCollectionGenerator {
     private final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc;
     private final CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel;
 
+    static Logger logger = java.util.logging.Logger.getLogger(TypeCollectionGenerator.class.getName());
 
     public TypeCollectionGenerator(GeneratorSuite<?, ?> suite,
                                    FrancaModel<
@@ -100,7 +102,7 @@ public class TypeCollectionGenerator {
                     result.members.add(buildCppEnum((FEnumerationType) type));
                 }
             } else {
-                System.err.println("Missing type map in " + rootModel + " for " + type.getClass().getName());
+               logger.severe("Missing type map in " + rootModel + " for " + type.getClass().getName());
             }
 
         }
@@ -112,7 +114,7 @@ public class TypeCollectionGenerator {
             if (constant.isValid()) {
                 result.members.add(constant);
             } else {
-                System.err.println("Failed generating constant! " + constantDef.getName() + " " + constantDef.getRhs().getClass());
+                logger.severe("Failed generating constant! " + constantDef.getName() + " " + constantDef.getRhs().getClass());
             }
         }
 
@@ -187,7 +189,7 @@ public class TypeCollectionGenerator {
         }
 
         if (!enumeration.isValid()) {
-            System.out.println("Invalid enum: " + enumerationType.getName());
+            logger.warning("Invalid enum: " + enumerationType.getName());
         }
 
         return enumeration;

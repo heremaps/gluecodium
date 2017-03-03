@@ -1,13 +1,11 @@
 package com.here.ivi.api;
 
-import com.here.ivi.api.OptionReader;
-import com.here.ivi.api.OptionReaderException;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.Version;
+import com.here.ivi.api.logger.TranspilerLogger;
 import com.here.ivi.api.output.ConsoleOutput;
 import com.here.ivi.api.output.FileOutput;
-import com.here.ivi.api.validator.common.BasicValidator;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,13 +13,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Transpiler {
 
     static List<String> GENERATORS = Arrays.asList("legacy", "stub");
-    static Logger logger = Logger.getLogger(BasicValidator.class.getName());
+
+    static Logger logger = Logger.getLogger(Transpiler.class.getName());
 
     public static void main(final String[] args) {
 
@@ -30,7 +28,7 @@ public class Transpiler {
             OptionReader.TranspilerOptions options = or.read(args);
             new Transpiler(options).execute();
         } catch (OptionReaderException e) {
-            System.err.println("Failed reading options: " + e.getMessage() + "\n");
+            logger.severe("Failed reading options: " + e.getMessage());
             or.printUsage();
             System.exit(1);
         }
@@ -38,6 +36,7 @@ public class Transpiler {
 
     public Transpiler(OptionReader.TranspilerOptions options) {
         this.options = options;
+        TranspilerLogger.initialize("com/here/ivi/api/logger/logging.properties");
     }
 
     public void execute() {
@@ -46,16 +45,16 @@ public class Transpiler {
         List<String> generators = options.getGenerators();
 
         for ( String sn : generators ) {
-            System.out.println("Using generator " + sn);
+            logger.info("Using generator " + sn);
 
             try {
 
                 GeneratorSuite<?, ?> generator = GeneratorSuite.instantiateByShortName(sn, this);
 
                 generator.buildModel(options.getInputDir());
-                System.out.println("Instantiated generator " + generator.getName() + " " + generator.getVersion());
+                logger.info("Instantiated generator " + generator.getName() + " " + generator.getVersion());
                 boolean valid = generator.validate();
-                logger.log(Level.INFO, valid ? "Validation Succeeded" : "Validation Failed");
+                logger.info( valid ? "Validation Succeeded" : "Validation Failed");
 
                 if (options.validateOnly()){
                     return;
@@ -63,10 +62,8 @@ public class Transpiler {
                 List<GeneratedFile> outputFiles = generator.generate();
                 output(outputFiles);
             } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
-                System.err.println("Failed instantiation of generator '" + sn + "'");
+                logger.severe("Failed instantiation of generator '" + sn + "'");
             }
-
-            System.out.println("");
         }
     }
 

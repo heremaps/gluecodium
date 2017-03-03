@@ -21,6 +21,7 @@ import org.franca.core.franca.FBroadcast;
 import org.franca.core.franca.FMethod;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -35,6 +36,7 @@ public class StubGenerator {
     private final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface;
     private final CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel;
 
+    static Logger logger = java.util.logging.Logger.getLogger(StubGenerator.class.getName());
 
     public StubGenerator(GeneratorSuite<?, ?> suite,
                          FrancaModel<
@@ -244,7 +246,7 @@ public class StubGenerator {
             CppType mapped = CppTypeMapper.mapEnum(rootModel, m.getErrorEnum());
             returnTypes.add(mapped);
         } else {
-            System.err.println("Missing error type for method " + m.getName());
+            logger.severe("Missing error type for method " + m.getName());
             returnTypes.add(CppType.Void);
         }
 

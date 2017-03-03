@@ -11,8 +11,11 @@ import com.here.ivi.api.model.cppmodel.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CppGeneratorHelper{
+
+    static Logger logger = java.util.logging.Logger.getLogger(CppGeneratorHelper.class.getName());
 
     public static Object generateGeneratorNotice(GeneratorSuite<?,?> suite,
                                                  FrancaModel.FrancaElement element,
@@ -22,7 +25,7 @@ public class CppGeneratorHelper{
             inputFile = suite.getTool().resolveRelativeToRootPath(element.getModel().getPath());
         } catch (IOException e) {
             inputFile = "Could not resolve";
-            System.err.println("Could not resolve input file ");
+            logger.severe("Could not resolve input file ");
         }
 
         String inputDefinition =  element.getName() + ':' + element.getVersion();
