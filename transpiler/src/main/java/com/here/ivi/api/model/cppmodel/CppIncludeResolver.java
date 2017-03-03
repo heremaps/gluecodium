@@ -7,9 +7,12 @@ import navigation.CppStubSpec;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class CppIncludeResolver {
+
+    static Logger logger = java.util.logging.Logger.getLogger(CppIncludeResolver.class.getName());
 
     private FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
                         ? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel;
@@ -55,7 +58,7 @@ public class CppIncludeResolver {
 
                 Optional<FrancaModel.FrancaElement> externalDefinitionOpt = rootModel.find(li.model, li.tc);
                 if (!externalDefinitionOpt.isPresent()) {
-                    System.err.println("Could not resolve type collection include " + li);
+                    logger.severe("Could not resolve type collection include " + li);
                     return null;
                 }
 

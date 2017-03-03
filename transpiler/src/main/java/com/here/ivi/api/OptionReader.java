@@ -1,8 +1,5 @@
 package com.here.ivi.api;
 
-import com.here.ivi.api.OptionReaderException;
-
-import com.here.ivi.api.generator.legacy.LegacyGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import org.apache.commons.cli.*;
 
@@ -111,9 +108,11 @@ public class OptionReader {
 
     private void printGenerators() {
         System.out.println("Available generators: \n");
+        //logger.log(Level.INFO, "Available generators:");
 
         for (String sn : GeneratorSuite.generatorShortNames()) {
             System.out.println("  Found generator " + sn);
+            //logger.log(Level.INFO, " Found generator ");
 
             try {
                 GeneratorSuite<?, ?> gen = GeneratorSuite.instantiateByShortName(sn, null);

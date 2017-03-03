@@ -12,7 +12,6 @@ import org.eclipse.xtext.validation.Issue;
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class BasicValidator {
@@ -28,9 +27,9 @@ public class BasicValidator {
             List<Issue> issues = fModelValidator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
 
             if (!issues.isEmpty()) {
-                logger.log(Level.SEVERE, "Validation Failed");
+                logger.severe("Validation Failed");
                 for (Issue i : issues ){
-                    logger.log(Level.SEVERE, i.getUriToProblem().toString()+ ":" + String.valueOf(i.getLineNumber()
+                    logger.severe(i.getUriToProblem().toString()+ ":" + String.valueOf(i.getLineNumber()
                         + " " + i.getSeverity().toString() +" " + i.getMessage()));
                 }
                 result = false;

@@ -1,6 +1,7 @@
 package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.Transpiler;
+import com.here.ivi.api.generator.legacy.LegacyGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.Version;
@@ -23,6 +24,7 @@ import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -149,6 +151,8 @@ public class CppStubGeneratorSuite
     private FrancaModelLoader<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> fml;
     private Collection<File> currentFiles;
 
+    static Logger logger = java.util.logging.Logger.getLogger(CppStubGeneratorSuite.class.getName());
+
     public CppStubGeneratorSuite(Transpiler tp) {
         this.tool = tp;
     }
@@ -193,7 +197,7 @@ public class CppStubGeneratorSuite
             }
         }
 
-        System.err.println("Failed loading resource " + fileName);
+        logger.severe("Failed loading resource " + fileName);
 
         return null;
     }

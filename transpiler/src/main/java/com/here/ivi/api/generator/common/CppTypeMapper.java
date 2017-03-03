@@ -1,6 +1,7 @@
 package com.here.ivi.api.generator.common;
 
 import com.google.common.collect.Sets;
+import com.here.ivi.api.generator.cppstub.TypeCollectionGenerator;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaAnnotations;
 import com.here.ivi.api.model.cppmodel.*;
@@ -10,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 // TODO there is a difference in the includes needed when defining a type versus when it is being used
 // This is not handled at the moment.
@@ -20,6 +22,8 @@ public class CppTypeMapper {
     private final static Includes.SystemInclude SET_INCLUDE = new Includes.SystemInclude("set");
     private final static Includes.SystemInclude MAP_INCLUDE = new Includes.SystemInclude("map");
     private final static Includes.SystemInclude STRING_INCLUDE = new Includes.SystemInclude("string");
+
+    static Logger logger = java.util.logging.Logger.getLogger(CppTypeMapper.class.getName());
 
     public static CppType map(CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
                               FArgument argument) {
@@ -118,7 +122,7 @@ public class CppTypeMapper {
             typeDesc = "attribute";
         }
 
-        System.err.println("Failed resolving " + typeDesc + " for '" + name + "' in " + definer +
+        logger.severe("Failed resolving " + typeDesc + " for '" + name + "' in " + definer +
                 " (indicates wrong typedef or missing include). Type included in " + rootModel + ".");
 
         return new CppType(definer, "INVALID DERIVED FOUND", CppElements.TypeInfo.Invalid);

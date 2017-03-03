@@ -1,17 +1,21 @@
 package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
+import com.here.ivi.api.generator.cppstub.TypeCollectionGenerator;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.*;
 
 import java.math.BigInteger;
+import java.util.logging.Logger;
 
 // TODO this whole thing should be more abstract, needed for more than one language
 // First do the logic mapping to JavaTypes that support validation and other things
 // Then translate into target language
 public class CppValueMapper {
+
+    static Logger logger = java.util.logging.Logger.getLogger(CppValueMapper.class.getName());
 
     public static CppValue map(CppType type, FInitializerExpression rhs) {
         if (rhs instanceof FCompoundInitializer) {
@@ -85,7 +89,7 @@ public class CppValueMapper {
 
         if (dc.getElement() == null) {
             // TODO improve error output as seen in TypeMapper
-            System.err.println("Failed resolving value reference");
+            logger.severe("Failed resolving value reference");
             return new CppValue();
         }
 
