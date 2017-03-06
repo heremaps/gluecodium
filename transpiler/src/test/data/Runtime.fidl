@@ -1,0 +1,103 @@
+package navigation
+
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+import navigation.* from "NavigationTypes.fidl"
+import navigation.* from "Module.fidl"
+
+/**
+ * The main entry point to the navigation services.
+ *
+ * You can use the Runtime class to request an instances of the components and
+ * services available here or in the factory. Results are propagated through
+ * RuntimeListener which is set when creating an instance via create_runtime().
+ *
+ * The copy constructor allows you to have many instances of Runtime but each
+ * instance points to the same reference counted implementation instance.
+ *
+ * If the last instance of the Runtime gets deleted, the whole legacy stack gets shut down and cannot
+ * be used anymore (equivalent to calling Runtime::shutdown()). Thus at least on copy of the
+ * Runtime object must be kept while using legacy.
+ *
+ */
+interface Runtime {
+  version {
+    major 2
+    minor 0
+  }
+
+  /**
+   * Creates a Runtime instance with a particular configuration and initial profile.
+   */
+  method createRuntime {
+    in {
+      /** Path to a json config file that configures the system.  **/
+      String configFile
+      /** Identifier of the initial profile. **/
+      String initialProfile
+      /** BCP47 language tag of the initial language. **/
+      String initialLanguage
+    }
+
+    out {
+      /** This is set to a valid Runtime object when the runtime is successfully **/
+      Runtime.Instance runtime // no other way of returning an instance of self or any interface
+    }
+
+    /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
+    error NavigationTypes.ErrorCode
+  }
+
+  <** @description: create a module of a given type.
+                    macht tollen Spaß!
+      @author: everybody
+  **>
+  method createModule {
+    in {
+      String moduleName
+    }
+
+    out {
+      Module.Instance runtime
+    }
+
+    /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
+    error NavigationTypes.ErrorCode
+  }
+
+  // We need some way to access the legacy runtime from this, to support
+
+  method setLanguage {
+    in {
+      /** BCP47 language tag of the target language. **/
+      String targetLanguage
+    }
+
+    out {
+      /** BCP47 language tag of the set language. **/
+      String setLanguage
+    }
+
+    /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
+    error NavigationTypes.ErrorCode
+  }
+
+  attribute UInt64 rich readonly;
+
+  typedef Instance is BuiltIn.InstanceId
+}
+
+interface Visionaries {
+  version {
+    minor 1
+    major 0
+  }
+
+  method goAhead {
+    in {
+      String doubts
+    }
+    out {
+      String plans
+    }
+  }
+}

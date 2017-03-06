@@ -74,6 +74,13 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
             return Version.create(fInterface.getVersion());
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (o == null || !(o instanceof FrancaModel.Interface<?>)) return false;
+            FrancaModel.Interface<Accessor> co = (FrancaModel.Interface<Accessor>)o;
+            return getName().equals(co.getName()) && model.fModel.getName().equals(co.model.fModel.getName());
+        }
+
         // finds a matching FDInterface for an FInterface, if one is found, creates a valid InterfacePropertyAccessor,
         // otherwise creates an empty accessor that will return the defaults for a spec
         static public <IA> Interface<IA> create(SpecAccessorFactory<IA, ?> f, FDSpecification spec,
