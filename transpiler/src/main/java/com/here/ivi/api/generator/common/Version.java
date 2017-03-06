@@ -3,9 +3,9 @@ package com.here.ivi.api.generator.common;
 import org.franca.core.franca.FVersion;
 
 public class Version {
-    final int major;
-    final int minor;
-    final int patch;
+    public final int major;
+    public final int minor;
+    public final int patch;
 
     public Version(int major, int minor, int patch) {
         this.major = major;

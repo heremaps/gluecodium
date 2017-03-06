@@ -89,11 +89,22 @@ jar {
 
 run {
     /* By default gradle doesn't forward the command line arguments to main.
-     This allows to provide a -Dexec="args" when the user calls gradle
+     This allows to provide a -Dexec.args="args" when the user calls gradle
      :transpiler:run. This way args will map to the args in main. */
     if (System.getProperty("exec.args") != null) {
         args System.getProperty("exec.args").split()
     } else {
         args "../fidl"
     }
+}
+
+task diff(type: JavaExec) {
+     classpath=sourceSets.main.runtimeClasspath
+     main = 'com.here.ivi.api.Fidldif'
+     if (System.getProperty("exec.args") != null) {
+       args System.getProperty("exec.args").split()
+     }
+     else {
+       args 'src/test/data/Runtime.old.fidl', 'src/test/data/Runtime.fidl'
+     }
 }
