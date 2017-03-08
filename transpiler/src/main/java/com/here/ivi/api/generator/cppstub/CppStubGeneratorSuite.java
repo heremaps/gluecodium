@@ -1,7 +1,6 @@
 package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.generator.legacy.LegacyGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.Version;
