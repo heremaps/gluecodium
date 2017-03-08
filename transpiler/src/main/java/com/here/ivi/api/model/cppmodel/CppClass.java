@@ -8,6 +8,7 @@ public class CppClass extends CppElement {
     public Set<CppMethod> methods = new LinkedHashSet<>(); // preserve insertion order
     public Set<CppUsing> usings = new LinkedHashSet<>();
     public Set<CppField> fields = new LinkedHashSet<>();
+    public CppInheritance inheritance;
 
     public String comment = null;
 
@@ -18,6 +19,7 @@ public class CppClass extends CppElement {
     @Override
     public Stream<CppElement> stream() {
         return Stream.concat(methods.stream(),
-                Stream.concat(usings.stream(), fields.stream())).map(CppElement.class::cast);
+                Stream.concat(usings.stream(),
+                 Stream.concat(fields.stream(), Stream.of(inheritance)))).map(CppElement.class::cast);
     }
 }

@@ -1,5 +1,6 @@
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.generator.legacy.templates.LegacyNames;
 import com.here.ivi.api.model.Includes;
 
 import java.util.*;
@@ -45,6 +46,12 @@ public class CppElements {
         }
         for (CppUsing using : cppClass.usings) {
             result.addAll(using.definition.includes);
+        }
+
+        if (cppClass.inheritance != null){
+            String includeFilename = LegacyNames.headerFilename(cppClass.inheritance.parent).toString();
+            Includes.Include include = new Includes.InternalPublicInclude(includeFilename);
+            result.add(include);
         }
         return result;
     }
