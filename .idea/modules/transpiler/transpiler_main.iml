@@ -39,6 +39,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.eclipse.xtend:org.eclipse.xtend.lib:2.11.0.beta2" level="project" />
     <orderEntry type="library" name="Gradle: commons-io:commons-io:2.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.5" level="project" />
     <orderEntry type="module" module-name="core_main" />
     <orderEntry type="module" module-name="dsl_main" />
     <orderEntry type="module" module-name="deploymodel_main" />
@@ -47,7 +48,7 @@
     <orderEntry type="library" name="Gradle: org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:1.1.100" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.xpand:org.eclipse.xtend.typesystem.emf:2.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.xpand:org.eclipse.xpand:2.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-core:2.8" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-core:2.8.1" level="project" />
     <orderEntry type="library" name="Gradle: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.osgi:org.osgi.core:6.0.0" level="project" />
@@ -56,7 +57,7 @@
     <orderEntry type="library" name="Gradle: org.eclipse.equinox:common:3.6.200-v20130402-1505" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.equinox:registry:3.5.400-v20140428-1507" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.core:runtime:3.10.0-v20140318-2214" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.8" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.8.1" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.emf:org.eclipse.emf.mwe2.runtime:2.9.0.201605261059" level="project" />
     <orderEntry type="library" name="Gradle: commons-cli:commons-cli:1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.xtext:org.eclipse.xtext:2.9.2" level="project" />
