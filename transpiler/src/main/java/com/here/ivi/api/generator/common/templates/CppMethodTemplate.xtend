@@ -1,5 +1,6 @@
 package com.here.ivi.api.generator.common.templates
 
+import java.util.List;
 import com.here.ivi.api.model.cppmodel.CppParameter
 import com.here.ivi.api.model.cppmodel.CppElements
 import com.here.ivi.api.model.cppmodel.CppMethod
@@ -15,21 +16,27 @@ public class CppMethodTemplate {
         }
     }
 
+    def static whitespaceFormatter(String field) '''
+        «field»«IF !field.isEmpty» «ENDIF»'''
+
+    def static parameterFormatter(List<CppParameter> inParameters, List<CppParameter> outParameters) '''
+        «(inParameters + outParameters).map[ p | p.generate].join(', ')»'''
+
     // as used in std::function declaration
     def static pureSignature(CppMethod it) '''
         «returnType.name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )'''
 
     def static signature(CppMethod it) '''
-      «IF comment !== null && !comment.isEmpty()»
+      «IF comment !== null && !comment.isEmpty»
       /**
        * «comment»
        */
       «ENDIF»
-       «IF deprecatedComment !== null && !deprecatedComment.isEmpty()»
-       CARLO_DEPRECATED_TEXT( "«deprecatedComment»" )
-       «ENDIF»
-      «specifiers.join(' ')» «returnType.name» «name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ',' ','') [ it ]»'''
+      «IF deprecatedComment !== null && !deprecatedComment.isEmpty»
+      CARLO_DEPRECATED_TEXT( "«deprecatedComment»" )
+      «ENDIF»
+      «whitespaceFormatter(specifiers.join(' '))»«whitespaceFormatter(returnType.name)»«name»( «parameterFormatter(inParameters, outParameters)» )«qualifiers.join(' ',' ','') [ it ]»'''
 
     def static signature(CppMethod it, String className)'''
-      «returnType.name» «className»::«name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )«qualifiers.join(' ',' ','') [ it ]»'''
+      «whitespaceFormatter(returnType.name)»«className»::«name»( «parameterFormatter(inParameters, outParameters)» )«qualifiers.join(' ',' ','') [ it ]»'''
 }
