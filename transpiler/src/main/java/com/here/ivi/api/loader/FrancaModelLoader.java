@@ -77,7 +77,7 @@ public class FrancaModelLoader<IA, TA> {
     }
 
     // gets all the imported fidl from a fdepl file
-    static public List<File> extractFidlImports(FDModel model) {
+    private static List<File> extractFidlImports(FDModel model) {
         File baseResource = new File(model.eResource().getURI().toFileString()).getParentFile();
 
         ArrayList<File> imports = new ArrayList<>();

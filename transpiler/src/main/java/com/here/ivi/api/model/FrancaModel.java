@@ -25,7 +25,6 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
     // Information about the models
     static public class ModelInfo {
         public FModel fModel;
-        public FDModel fdModel;
 
         public String getName() { return fModel.getName(); }
         public String getPath() {
@@ -36,8 +35,6 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
     static public String[] splitPackage(String modelName) {
         return modelName.split("\\.");
     }
-
-    // TODO add iterators for common usecases (e.g. get all referenced types for interface)
 
     public interface FrancaElement {
         String getName();
@@ -50,7 +47,6 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
     static public class Interface<Accessor> implements FrancaElement {
         public FInterface fInterface;
         public Accessor accessor;
-        public FDInterface fdInterface;
         public ModelInfo model;
 
         @Override
@@ -105,7 +101,6 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
                 } else if (!matches.isEmpty()) {
                     final FDInterface found = matches.get(0);
                     result.fInterface = found.getTarget();
-                    result.fdInterface = found;
                     result.accessor = f.createInterfaceAccessor(new FDeployedInterface(found));
                 }
             }
@@ -117,7 +112,6 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
     static public class TypeCollection<Accessor> implements FrancaElement {
         public FTypeCollection fTypeCollection;
         public Accessor accessor;
-        public FDTypes fdTypes;
         public ModelInfo model;
         public DefinedBy rootDefinition;
 
@@ -162,7 +156,6 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
                 } else if (!matches.isEmpty()) {
                     final FDTypes found = matches.get(0);
                     result.fTypeCollection = found.getTarget();
-                    result.fdTypes = found;
                     result.accessor = f.createTypeCollectionAccessor(new FDeployedTypeCollection(found));
                 }
             }
@@ -178,7 +171,6 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
 
         ModelInfo info = new ModelInfo();
         info.fModel = fm;
-        info.fdModel = fdm;
 
         // get interface helpers
         result.interfaces = fm.getInterfaces()
