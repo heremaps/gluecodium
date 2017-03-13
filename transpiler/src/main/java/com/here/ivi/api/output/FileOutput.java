@@ -7,8 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileOutput implements GeneratorOutput {
+
+    private static Logger logger = Logger.getLogger(FileOutput.class.getName());
+
     public FileOutput(File rootPath) throws IOException {
         if (!rootPath.exists()) {
             if (!rootPath.mkdir()) {
@@ -30,8 +35,7 @@ public class FileOutput implements GeneratorOutput {
 
         // write file
         File targetFile = new File(rootPath, file.targetFile.getPath());
-
-        System.out.println("Writing " + targetFile);
+        logger.log(Level.INFO, "Writing " + targetFile);
 
         // create missing path(s)
         Path path = Paths.get(targetFile.getParent());
