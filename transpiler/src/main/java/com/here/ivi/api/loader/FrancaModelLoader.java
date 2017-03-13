@@ -2,7 +2,6 @@ package com.here.ivi.api.loader;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -19,6 +18,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +38,8 @@ public class FrancaModelLoader<IA, TA> {
     private static final String FIDL_SUFFIX = "fidl";
     private static final String FDEPL_SUFFIX = "fdepl";
     private static final URI ROOT_URI = URI.createURI("classpath:/");
+
+    private static Logger logger = Logger.getLogger(FrancaModelLoader.class.getName());
 
     // finds all fidl and fdepl files
     static public Collection<File> listFilesRecursively(File path) {
@@ -85,7 +88,7 @@ public class FrancaModelLoader<IA, TA> {
                     File resolved = new File(baseResource, u.toFileString()).getCanonicalFile();
                     imports.add(resolved);
                 } catch (IOException ignored) {
-                    System.out.println("Could not resolve import " + u + " in " + baseResource);
+                    logger.log(Level.SEVERE, "Could not resolve import " + u + " in " + baseResource);
                 }
             }
         }
@@ -106,7 +109,7 @@ public class FrancaModelLoader<IA, TA> {
     // builds a lists of FrancaModels for all the fidl & fdepl files in the given path
     public FrancaModel<IA, TA> load(String specPath, String path) {
         final FDSpecification spec = loadSpecification(specPath);
-        System.out.println("Loaded specification " + spec);
+        logger.log(Level.INFO, "Loaded specification " + spec);
 
         Collection<File> targetFiles = listFilesRecursively(new File(path));
         Map<String, List<File>> bySuffix = separateFiles(targetFiles);
@@ -115,7 +118,7 @@ public class FrancaModelLoader<IA, TA> {
         List<FDModel> extendedModels = bySuffix.get(FDEPL_SUFFIX).parallelStream().map(f -> {
             URI asUri = URI.createFileURI(f.getAbsolutePath());
             FDModel fdmodel = m_fdeplLoader.loadModel(asUri, ROOT_URI);
-            System.out.println("Loading fdepl " + asUri);
+            logger.log(Level.FINE, "Loading fdepl" + asUri);
             return fdmodel;
         }).collect(Collectors.toList());
 
@@ -134,7 +137,7 @@ public class FrancaModelLoader<IA, TA> {
         // load all found fidl files and fill the FrancaModel from them
         List<FrancaModel<IA, TA>> models = fidlFiles.parallelStream().map(f -> {
             URI asUri = URI.createFileURI(f.getAbsolutePath());
-            System.out.println("Loading fidl " + asUri);
+            logger.log(Level.FINE, "Loading fidl " + asUri);
             return m_fidlLoader.loadModel(asUri, ROOT_URI);
         }).map(fm -> {
             // try to fetch additional data, wrap in FrancaModel
