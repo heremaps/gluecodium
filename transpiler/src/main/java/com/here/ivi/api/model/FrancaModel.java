@@ -71,7 +71,12 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
 
         @Override
         public Version getVersion() {
-            return Version.create(fInterface.getVersion());
+            if (fInterface.getVersion() != null) {
+                return Version.create(fInterface.getVersion());
+            }
+            else {
+                return new Version(0,0,0);
+            }
         }
 
         @Override
