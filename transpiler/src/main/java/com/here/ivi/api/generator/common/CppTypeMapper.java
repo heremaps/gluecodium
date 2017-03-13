@@ -138,12 +138,11 @@ public class CppTypeMapper {
             Includes.Include include = new Includes.LazyInternalInclude(typeRefDefiner);
             // each Instance type is defined directly in the Interface that is refers to, this is already
             // resolved in the typeRefDefiner
-            return new CppType(typeRefDefiner, typeRefDefiner.type.getName(),
+            return new CppType(typeRefDefiner, typeRefDefiner.getBaseName(),
                     CppElements.TypeInfo.InterfaceInstance, include);
         } else if (isExternalReference(typedef)) {
 
             Map<FAnnotationType, Set<String>> comments = FrancaAnnotations.toMap(typedef.getComment().getElements());
-
 
             Set<Includes.Include> includes = new HashSet<>();
             CppElements.TypeInfo typeInfo = CppElements.TypeInfo.Complex;
@@ -179,16 +178,15 @@ public class CppTypeMapper {
                                           DefinedBy typeDefiner,
                                           String originalName) {
 
-        // check that definition does not come from the same type
-        if (rootModel == null || (rootModel.model.getName().equals(typeDefiner.model.getName()) &&
-                 rootModel.type.getName().equals(typeDefiner.type.getName()))) {
+        // no prefix if definition does not come from the same type
+        if (rootModel == null || rootModel.equals(typeDefiner)) {
             return originalName;
         }
 
         // TODO use namespace resolution that actually works across multiple namespaces
         // TODO use namespace resolution that respects the NameRules for packages
 
-        return typeDefiner.type.getName() + "::" + originalName;
+        return typeDefiner.getBaseName() + "::" + originalName;
     }
 
     private static FTypeCollection findDefiningTypeCollection(EObject obj) {
