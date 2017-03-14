@@ -1,0 +1,9 @@
+import "classpath:/navigation/CppStubSpec.fdepl"
+import "./RoutingTypes.fidl"
+
+define navigation.CppStubSpec for typeCollection navigation.routing.RoutingTypes
+{
+  array RouteAlternatives {
+    IsSet = true
+  }
+}

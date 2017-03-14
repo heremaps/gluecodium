@@ -1,10 +1,16 @@
 package navigation.routing
 
-import navigation.* from "../NavigationTypes.fidl"
+import navigation.routing.* from "./Route.fidl"
 
 typeCollection RoutingTypes {
     version {
         major 1
         minor 0
     }
+
+    map RouteToCompute {
+        Route.Instance to Boolean
+    }
+
+    array RouteAlternatives of Route.Instance
 }
