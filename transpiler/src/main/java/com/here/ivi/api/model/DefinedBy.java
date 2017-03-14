@@ -1,5 +1,6 @@
 package com.here.ivi.api.model;
 
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 
@@ -18,9 +19,14 @@ public class DefinedBy {
         return type.getName();
     }
 
-    /** Returns the package, eg. com.here.navigation.guidance */
+    /** Returns the full package name, eg. com.here.navigation.guidance */
     public String getPackageName() {
         return model.getName();
+    }
+
+    /** Returns the split packages */
+    public String[] getPackages() {
+        return FrancaModel.splitPackage(getPackageName());
     }
 
     @Override

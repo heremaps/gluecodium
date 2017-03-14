@@ -9,7 +9,7 @@ import java.io.File
 class CppStubNameRules implements CppNameRules {
 
   override String className(String base)  '''
-  «base»'''
+  «base»Stub'''
 
   override String methodName(String base) '''
   «NameHelper.toSnakeCase(base)»'''
@@ -35,19 +35,18 @@ class CppStubNameRules implements CppNameRules {
   override String[] packageName(String[] packages) {
     return packages;
   }
+
   override String headerFileSuffix() {
     '.h'
   }
+
   override String typeCollectionTarget(
           String[] packageDesc, FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
-    String.join(File.separator, packageDesc) + File.separator + tc.getName() + headerFileSuffix();
+    "stub" + File.separator + String.join(File.separator, packageDesc) + File.separator + tc.getName() + headerFileSuffix();
   }
+
   override String interfaceTarget(
           String[] packageDesc, FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface) {
-    String.join(File.separator, packageDesc) + File.separator + iface.getName() + headerFileSuffix();
-  }
-  override String interfaceStubTarget(
-          String[] packageDesc, FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface) {
-    "stub" + File.separator + String.join(File.separator, packageDesc) + File.separator + iface.getName() + 'Stub' + headerFileSuffix();
+    "stub" + File.separator + String.join(File.separator, packageDesc) + File.separator + className(iface.getName()) + headerFileSuffix();
   }
 }

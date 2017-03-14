@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 /**
  * This generator will create the stub interfaces that will then be used by the other generators.
  */
-public class StubGenerator {
+public class StubGenerator implements CppModelAccessor.IModelNameRules {
 
     private final GeneratorSuite<?, ?> suite;
     private final FrancaModel coreModel;
@@ -36,21 +36,19 @@ public class StubGenerator {
     private final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface;
     private final CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel;
 
-    static Logger logger = java.util.logging.Logger.getLogger(StubGenerator.class.getName());
+    private static Logger logger = java.util.logging.Logger.getLogger(StubGenerator.class.getName());
 
-    public StubGenerator(GeneratorSuite<?, ?> suite,
-                         FrancaModel<
-                                 ? extends CppStubSpec.InterfacePropertyAccessor,
-                                 ? extends CppStubSpec.TypeCollectionPropertyAccessor> coreModel,
+    public <IA extends CppStubSpec.InterfacePropertyAccessor> StubGenerator(GeneratorSuite<IA, ?> suite,
+                         FrancaModel<IA, ?> coreModel,
                          CppNameRules rules,
-                         FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface) {
+                         FrancaModel.Interface<IA> iface) {
         this.nameRules = rules;
         this.suite = suite;
         this.coreModel = coreModel;
         this.iface = iface;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<>(iface.fInterface, iface.getModel().fModel, iface.accessor);
+        rootModel = new CppModelAccessor<IA>(iface.fInterface, iface.getModel().fModel, iface.accessor, this);
     }
 
     public GeneratedFile generate() {
@@ -61,7 +59,7 @@ public class StubGenerator {
         }
 
         String[] packageDesc = nameRules.packageName(iface.getPackage());
-        String outputFile = nameRules.interfaceStubTarget(packageDesc, iface);
+        String outputFile = nameRules.interfaceTarget(packageDesc, iface);
 
         // find included files and resolve relative to generated path
         CppIncludeResolver resolver = new CppIncludeResolver(coreModel, iface, nameRules);
@@ -79,7 +77,7 @@ public class StubGenerator {
         String[] packageDesc = nameRules.packageName(iface.getPackage());
         List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
 
-        CppClass result = new CppClass(iface.getName() + "Stub" );
+        CppClass result = new CppClass(nameRules.className(iface.getName()));
 
         // TODO reuse TypeCollectionGenerator to generate types in interface definition
 
@@ -198,7 +196,7 @@ public class StubGenerator {
     private CppMethod buildSetNotifierMethod(String name, CppType notifierType, String notifierVariableName) {
         CppMethod method = new CppMethod();
 
-        method.name = "set" +  NameHelper.toUpperCamel(name) + "Notifier";
+        method.name = "set" +  NameHelper.toUpperCamel(name) + "Notifier"; // TODO use name rules
 
         CppParameter param = new CppParameter();
         param.name = "notifier";
@@ -271,6 +269,16 @@ public class StubGenerator {
         }
 
         return CppType.Void;
+    }
+
+    @Override
+    public String getInterfaceName(String baseName) {
+        return nameRules.className(baseName);
+    }
+
+    @Override
+    public String[] getNamespace(String[] packages) {
+        return nameRules.packageName(packages);
     }
 
     private enum AttributeAccessorMode {

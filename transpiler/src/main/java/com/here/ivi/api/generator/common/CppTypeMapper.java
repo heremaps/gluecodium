@@ -1,7 +1,6 @@
 package com.here.ivi.api.generator.common;
 
 import com.google.common.collect.Sets;
-import com.here.ivi.api.generator.cppstub.TypeCollectionGenerator;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaAnnotations;
 import com.here.ivi.api.model.cppmodel.*;
@@ -135,10 +134,15 @@ public class CppTypeMapper {
         if (typedef.getActualType() == null) {
             return new CppType(typeRefDefiner, "NO ACTUAL TYPE FOUND", CppElements.TypeInfo.Invalid);
         } else if (isInstanceId(typedef)) {
-            Includes.Include include = new Includes.LazyInternalInclude(typeRefDefiner);
+            Includes.Include include = new Includes.LazyInternalInclude(typeRefDefiner, Includes.InternalType.Interface);
+
             // each Instance type is defined directly in the Interface that is refers to, this is already
-            // resolved in the typeRefDefiner
-            return new CppType(typeRefDefiner, typeRefDefiner.getBaseName(),
+            // resolved in the typeRefDefiner, and named as the interface
+
+            String name = rootModel.getModelInterfaceName(typeRefDefiner.getBaseName());
+            String namespacedName = prefixInterfaceNamespace(rootModel, typeRefDefiner, name);
+
+            return new CppType(typeRefDefiner, namespacedName,
                     CppElements.TypeInfo.InterfaceInstance, include);
         } else if (isExternalReference(typedef)) {
 
@@ -160,7 +164,8 @@ public class CppTypeMapper {
                 typeInfo = CppElements.TypeInfo.BuiltIn;
             }
 
-            return new CppType(typeRefDefiner, typedef.getName(), typeInfo, includes);
+            // all external types currently come from the legacy namespace, this is only for the PoC
+            return new CppType(typeRefDefiner, "legacy::" + typedef.getName(), typeInfo, includes);
         } else {
             CppType actual = map(rootModel, typedef.getActualType());
             DefinedBy actualTypeDefiner = actual.definedIn;
@@ -186,7 +191,23 @@ public class CppTypeMapper {
         // TODO use namespace resolution that actually works across multiple namespaces
         // TODO use namespace resolution that respects the NameRules for packages
 
+        // this only produces TypeCollectionName::TypeName
         return typeDefiner.getBaseName() + "::" + originalName;
+    }
+
+    private static String prefixInterfaceNamespace(CppModelAccessor rootModel,
+                                                   DefinedBy typeDefiner,
+                                                   String originalName) {
+        // no prefix if definition does not come from the same type
+        if (rootModel == null || rootModel.equals(typeDefiner)) {
+            return originalName;
+        }
+
+        // TODO use namespace resolution that actually works across multiple namespaces
+        // TODO use namespace resolution that respects the NameRules for packages
+
+        // this only produces TypeName
+        return originalName;
     }
 
     private static FTypeCollection findDefiningTypeCollection(EObject obj) {
@@ -249,14 +270,14 @@ public class CppTypeMapper {
         STD_SET;
 
         public static ArrayMode map(CppModelAccessor<?> rootModel, FArrayType array) {
-            if (rootModel.accessor.getIsSet(array)) {
+            if (rootModel.getAccessor().getIsSet(array)) {
                 return STD_SET;
             }
             return STD_VECTOR;
         }
 
         public static ArrayMode map(CppModelAccessor<?> rootModel, FField field) {
-            if (rootModel.accessor.getIsSet(field)) {
+            if (rootModel.getAccessor().getIsSet(field)) {
                 return STD_SET;
             }
             return STD_VECTOR;
@@ -264,7 +285,7 @@ public class CppTypeMapper {
 
         public static ArrayMode map(CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
                                     FArgument argument) {
-            if (rootModel.accessor.getIsSet(argument)) {
+            if (rootModel.getAccessor().getIsSet(argument)) {
                 return STD_SET;
             }
             return STD_VECTOR;
@@ -272,7 +293,7 @@ public class CppTypeMapper {
 
         public static ArrayMode map(CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
                                     FAttribute argument) {
-            if (rootModel.accessor.getIsSet(argument)) {
+            if (rootModel.getAccessor().getIsSet(argument)) {
                 return STD_SET;
             }
             return STD_VECTOR;
