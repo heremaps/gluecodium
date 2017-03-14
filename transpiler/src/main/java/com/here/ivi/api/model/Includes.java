@@ -53,13 +53,24 @@ public class Includes {
         }
     }
 
+    public enum InternalType {
+        Interface,
+        TypeCollection
+    }
+
     public static class LazyInternalInclude implements Include {
         public final FTypeCollection tc;
         public final FModel model;
+        public final InternalType type;
 
         public LazyInternalInclude(DefinedBy def) {
+            this(def, InternalType.TypeCollection);
+        }
+
+        public LazyInternalInclude(DefinedBy def, InternalType type) {
             this.tc = def.type;
             this.model = def.model;
+            this.type = type;
         }
 
         @Override

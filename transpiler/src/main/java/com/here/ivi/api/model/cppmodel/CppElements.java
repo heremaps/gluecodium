@@ -34,7 +34,7 @@ public class CppElements {
     }
 
     public static Set<Includes.Include> collectIncludes(CppClass cppClass) {
-        Set<Includes.Include> result = new HashSet();
+        Set<Includes.Include> result = new HashSet<>();
         for (CppMethod method : cppClass.methods) {
             for (CppParameter inParam : method.inParameters) {
                 result.addAll(inParam.type.includes);
@@ -42,7 +42,7 @@ public class CppElements {
             for (CppParameter outParam : method.outParameters) {
                 result.addAll(outParam.type.includes);
             }
-            //TODO add also return type for all methods, once the return type changes from current String to CppType
+            result.addAll(method.returnType.includes);
         }
         for (CppUsing using : cppClass.usings) {
             result.addAll(using.definition.includes);

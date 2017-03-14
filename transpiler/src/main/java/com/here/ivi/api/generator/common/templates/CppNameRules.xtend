@@ -18,6 +18,4 @@ interface CppNameRules {
         FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc)
   def String interfaceTarget(String[] packageDesc,
         FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface)
-  def String interfaceStubTarget(String[] packageDesc,
-        FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface)
 }

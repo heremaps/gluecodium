@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * (e.g. Java + JNI, Swift, …) or use them directly (traditional legacy).
  *
  */
-public class TypeCollectionGenerator {
+public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules {
 
     private final GeneratorSuite<?, ?> suite;
     private final FrancaModel coreModel;
@@ -32,21 +32,19 @@ public class TypeCollectionGenerator {
     private final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc;
     private final CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel;
 
-    static Logger logger = java.util.logging.Logger.getLogger(TypeCollectionGenerator.class.getName());
+    private static Logger logger = java.util.logging.Logger.getLogger(TypeCollectionGenerator.class.getName());
 
-    public TypeCollectionGenerator(GeneratorSuite<?, ?> suite,
-                                   FrancaModel<
-                                              ? extends CppStubSpec.InterfacePropertyAccessor,
-                                              ? extends CppStubSpec.TypeCollectionPropertyAccessor> coreModel,
+    public <TA extends CppStubSpec.TypeCollectionPropertyAccessor> TypeCollectionGenerator(GeneratorSuite<?, TA> suite,
+                                   FrancaModel<?, TA> coreModel,
                                    CppNameRules rules,
-                                   FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+                                   FrancaModel.TypeCollection<TA> tc) {
         this.nameRules = rules;
         this.suite = suite;
         this.coreModel = coreModel;
         this.tc = tc;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<>(tc.fTypeCollection, tc.getModel().fModel, tc.accessor);
+        rootModel = new CppModelAccessor<>(tc.fTypeCollection, tc.getModel().fModel, tc.accessor, this);
     }
 
     public GeneratedFile generate() {
@@ -211,5 +209,15 @@ public class TypeCollectionGenerator {
         constant.value = CppValueMapper.map(constant.type, constantDef.getRhs());
 
         return constant;
+    }
+
+    @Override
+    public String getInterfaceName(String baseName) {
+        return nameRules.className(baseName);
+    }
+
+    @Override
+    public String[] getNamespace(String[] packages) {
+        return nameRules.packageName(packages);
     }
 }
