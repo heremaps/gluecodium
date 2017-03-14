@@ -3,8 +3,10 @@ package navigation.guidance
 import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 
 import navigation.* from "../NavigationTypes.fidl"
-import navigation.* from "VoiceOutput.fidl"
 
+import navigation.guidance.* from "./VoiceOutput.fidl"
+
+import navigation.routing.* from "../routing/RoutingTypes.fidl"
 import navigation.routing.* from "../routing/Route.fidl"
 
 typeCollection GuidanceTypes {
@@ -46,15 +48,12 @@ typeCollection GuidanceTypes {
   <** @source-uri: legacy/navcore/RouterOptions.h **>
   typedef RouterOptions is BuiltIn.ExternalType // Not generated, use legacy
 
-  map RouteToCompute {
-    Route.Instance to Boolean
-  }
 
   enumeration GuidanceMode {
-    Undefined
-    Tracking
-    Observation
-    Navigation
+      Undefined
+      Tracking
+      Observation
+      Navigation
   }
 
   enumeration GuidanceState // TODO enum class in fdepl
@@ -106,8 +105,6 @@ typeCollection GuidanceTypes {
   const UInt32 TtaBlocked = -2
   const Float InvalidSpeed = BuiltIn.MaxFloat
 
-  array RouteAlternatives of Route.Instance
-
   typedef ManeuverWithDistance is Maneuver // typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
 }
 
@@ -152,7 +149,7 @@ typeCollection GuidanceTypes {
  ${generator:legacy}In order to receive callbacks from Guidance, establish a GuidanceListener in legacy::NavCoreModule.
  ${see} legacy::NavCoreModule::create_guidance${/see}${/generator}${/listener}
  **>
-interface Guidance extends navigation.guidance.VoiceOutput {
+interface Guidance extends VoiceOutput {
   version {
     major 1
     minor 0
@@ -620,14 +617,14 @@ interface Guidance extends navigation.guidance.VoiceOutput {
       Route.Instance route
       <** @description: map of new route alternatives with recomputation flag to be used in
                 guidance, could be empty if no alternatives should be used. **>
-      GuidanceTypes.RouteToCompute alternatives
+      RoutingTypes.RouteToCompute alternatives
       <** @description: The navigation options to be used during this navigation session.**>
       GuidanceTypes.NavigationOptions options
     }
     out {
       <** @description: accepted_alternatives set of route alternatives which were accepted and will be
         maintained **>
-      GuidanceTypes.RouteAlternatives acceptedAlternatives
+      RoutingTypes.RouteAlternatives acceptedAlternatives
     }
     error NavigationTypes.ErrorCode
   }
@@ -637,11 +634,11 @@ interface Guidance extends navigation.guidance.VoiceOutput {
     in {
       Route.Instance route
       UInt32 startWaypointIndex
-      GuidanceTypes.RouteToCompute alternatives
+      RoutingTypes.RouteToCompute alternatives
       GuidanceTypes.NavigationOptions options
     }
     out {
-      GuidanceTypes.RouteAlternatives acceptedAlternatives
+      RoutingTypes.RouteAlternatives acceptedAlternatives
     }
     error NavigationTypes.ErrorCode
   }
@@ -650,12 +647,12 @@ interface Guidance extends navigation.guidance.VoiceOutput {
     in {
       Route.Instance route
       UInt32 startWaypointIndex
-      GuidanceTypes.RouteToCompute alternatives
+      RoutingTypes.RouteToCompute alternatives
       GuidanceTypes.NavigationOptions options
       GuidanceTypes.MainRouteOptions mainrouteOptions
     }
     out {
-      GuidanceTypes.RouteAlternatives acceptedAlternatives
+      RoutingTypes.RouteAlternatives acceptedAlternatives
     }
     error NavigationTypes.ErrorCode
   }
@@ -703,11 +700,11 @@ interface Guidance extends navigation.guidance.VoiceOutput {
 
   method updateRouteAlternatives {
     in {
-      GuidanceTypes.RouteToCompute newRouteAlternatives
+      RoutingTypes.RouteToCompute newRouteAlternatives
     }
     out {
-      GuidanceTypes.RouteAlternatives acceptedAlternatives
-      GuidanceTypes.RouteAlternatives rejectedAlternatives
+      RoutingTypes.RouteAlternatives acceptedAlternatives
+      RoutingTypes.RouteAlternatives rejectedAlternatives
     }
     error NavigationTypes.ErrorCode
   }

@@ -1,14 +1,6 @@
 import "classpath:/navigation/LegacySpec.fdepl"
 import "./Guidance.fidl"
 
-
-define navigation.LegacySpec for typeCollection navigation.guidance.GuidanceTypes
-{
-  array RouteAlternatives {
-    IsSet = true
-  }
-}
-
 define navigation.LegacySpec for interface navigation.guidance.Guidance
 {
   method pause {

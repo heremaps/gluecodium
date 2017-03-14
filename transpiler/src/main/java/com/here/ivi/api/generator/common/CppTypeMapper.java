@@ -12,9 +12,6 @@ import org.franca.core.franca.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-// TODO there is a difference in the includes needed when defining a type versus when it is being used
-// This is not handled at the moment.
-
 public class CppTypeMapper {
     private final static Includes.SystemInclude INTYPES_INCLUDE = new Includes.SystemInclude("stdint.h");
     private final static Includes.SystemInclude VECTOR_INCLUDE = new Includes.SystemInclude("vector");
@@ -179,35 +176,53 @@ public class CppTypeMapper {
         }
     }
 
+    /** Creates a namespace prefix to access the type with `name` defined in `typeDefiner` from the `rootModel`
+     *  Assumes the referenced type is in a TypeCollection namespace or part of an Interface */
     private static String prefixNamespace(CppModelAccessor rootModel,
                                           DefinedBy typeDefiner,
-                                          String originalName) {
+                                          String name) {
 
-        // no prefix if definition does not come from the same type
-        if (rootModel == null || rootModel.equals(typeDefiner)) {
-            return originalName;
-        }
+        List<String> names = builtDisjointNamespace(
+                rootModel.getModelNamespace(),
+                rootModel.getModelNamespace(typeDefiner.getPackages()));
+        names.add(typeDefiner.getBaseName()); // TODO allow name rules for typeCollection names
+        names.add(name);
 
-        // TODO use namespace resolution that actually works across multiple namespaces
-        // TODO use namespace resolution that respects the NameRules for packages
-
-        // this only produces TypeCollectionName::TypeName
-        return typeDefiner.getBaseName() + "::" + originalName;
+        return String.join("::", names);
     }
 
+    /** Creates a namespace prefix to access the type with `name` defined in `typeDefiner` from the `rootModel`
+     *  Assumes the referenced type is a Interface */
     private static String prefixInterfaceNamespace(CppModelAccessor rootModel,
                                                    DefinedBy typeDefiner,
-                                                   String originalName) {
-        // no prefix if definition does not come from the same type
-        if (rootModel == null || rootModel.equals(typeDefiner)) {
-            return originalName;
+                                                   String name) {
+
+        List<String> names = builtDisjointNamespace(
+                rootModel.getModelNamespace(),
+                rootModel.getModelNamespace(typeDefiner.getPackages()));
+        names.add(name);
+
+        return String.join("::", names);
+    }
+
+    /**
+     * Creates the namespace needed to reference a type in the target namespace from the base
+     * namespace:
+     *
+     * e.g. for b: navigation.guidance, t: navigation.routing - the result will be routing
+     *      for b: com.here.test,       t: navigation.routing - the result will be navigation.routing
+     */
+    private static ArrayList<String> builtDisjointNamespace(String[] base, String[] target) {
+        int i = 0;
+        // find largest common part…
+        for (; i < base.length && i < target.length; i++) {
+            if (!base[i].equals(target[i])) {
+                break;
+            }
         }
 
-        // TODO use namespace resolution that actually works across multiple namespaces
-        // TODO use namespace resolution that respects the NameRules for packages
-
-        // this only produces TypeName
-        return originalName;
+        // … and strip it off
+        return new ArrayList<>(Arrays.asList(target).subList(i, target.length));
     }
 
     private static FTypeCollection findDefiningTypeCollection(EObject obj) {
