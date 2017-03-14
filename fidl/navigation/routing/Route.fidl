@@ -1,0 +1,12 @@
+package navigation.routing
+
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+
+interface Route {
+  version {
+    major 1
+    minor 0
+  }
+
+  public typedef Instance is BuiltIn.InstanceId
+}

@@ -1,8 +1,11 @@
 package navigation.guidance
 
 import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+
 import navigation.* from "../NavigationTypes.fidl"
 import navigation.* from "VoiceOutput.fidl"
+
+import navigation.routing.* from "../routing/Route.fidl"
 
 typeCollection GuidanceTypes {
   version {
@@ -22,8 +25,6 @@ typeCollection GuidanceTypes {
   <** @source-uri: legacy/navcore/MainRouteOptions.h
       @source-alias: nocomplex **>
   typedef MainRouteOptions is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/Route.h **>
-  typedef Route is BuiltIn.ExternalType // Not generated, use legacy
   <** @source-uri: legacy/navcore/ChangePointInfo.h **>
   typedef ChangePointInfo is BuiltIn.ExternalType // Not generated, use legacy
   <** @source-uri: legacy/navcore/LaneInfo.h **>
@@ -46,7 +47,7 @@ typeCollection GuidanceTypes {
   typedef RouterOptions is BuiltIn.ExternalType // Not generated, use legacy
 
   map RouteToCompute {
-    Route to Boolean
+    Route.Instance to Boolean
   }
 
   enumeration GuidanceMode {
@@ -105,7 +106,7 @@ typeCollection GuidanceTypes {
   const UInt32 TtaBlocked = -2
   const Float InvalidSpeed = BuiltIn.MaxFloat
 
-  array RouteAlternatives of GuidanceTypes.Route
+  array RouteAlternatives of Route.Instance
 
   typedef ManeuverWithDistance is Maneuver // typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
 }
@@ -237,7 +238,7 @@ interface Guidance extends navigation.guidance.VoiceOutput {
   broadcast optimalTtaRouteAvailable {
     out {
       <** @description: route with best possible tta at the moment **>
-      GuidanceTypes.Route route
+      Route.Instance route
     }
   }
 
@@ -262,7 +263,7 @@ interface Guidance extends navigation.guidance.VoiceOutput {
   broadcast routeAlternativesChanged {
     out {
       GuidanceTypes.AlternativeRoutesChangedReason reason
-      GuidanceTypes.Route route
+      Route.Instance route
     }
   }
 
@@ -271,14 +272,14 @@ interface Guidance extends navigation.guidance.VoiceOutput {
 
   broadcast routeUpdated:Base {
     out {
-      GuidanceTypes.Route route
+      Route.Instance route
       GuidanceTypes.MainRouteChangedReason reason
     }
   }
 
   broadcast routeUpdated:LastStopOverReached {
     out {
-      GuidanceTypes.Route route
+      Route.Instance route
       UInt32 lastReachedStopoverIndex
       GuidanceTypes.MainRouteChangedReason reason
     }
@@ -492,7 +493,7 @@ interface Guidance extends navigation.guidance.VoiceOutput {
   method getRoute {
     in {}
     out {
-      GuidanceTypes.Route route
+      Route.Instance route
     }
     error NavigationTypes.ErrorCode
   }
@@ -616,7 +617,7 @@ interface Guidance extends navigation.guidance.VoiceOutput {
   method startNavigation:WithRoute {
     in {
       <** @description: The route the guidance will use.**>
-      GuidanceTypes.Route route
+      Route.Instance route
       <** @description: map of new route alternatives with recomputation flag to be used in
                 guidance, could be empty if no alternatives should be used. **>
       GuidanceTypes.RouteToCompute alternatives
@@ -634,7 +635,7 @@ interface Guidance extends navigation.guidance.VoiceOutput {
   // method missing in impl
   method startNavigation:WithRouteAndWaypoint {
     in {
-      GuidanceTypes.Route route
+      Route.Instance route
       UInt32 startWaypointIndex
       GuidanceTypes.RouteToCompute alternatives
       GuidanceTypes.NavigationOptions options
@@ -647,7 +648,7 @@ interface Guidance extends navigation.guidance.VoiceOutput {
 
   method startNavigation:WithRouteAndWaypointAndAdditionalOptions {
     in {
-      GuidanceTypes.Route route
+      Route.Instance route
       UInt32 startWaypointIndex
       GuidanceTypes.RouteToCompute alternatives
       GuidanceTypes.NavigationOptions options
@@ -683,7 +684,7 @@ interface Guidance extends navigation.guidance.VoiceOutput {
   // method missing in impl
   method updateRoute:NoOptions {
     in {
-      GuidanceTypes.Route route
+      Route.Instance route
       UInt32 startStopoverIndex
     }
     out {}
@@ -692,7 +693,7 @@ interface Guidance extends navigation.guidance.VoiceOutput {
 
   method updateRoute:Primary {
     in {
-      GuidanceTypes.Route route
+      Route.Instance route
       UInt32 startStopoverIndex
       GuidanceTypes.MainRouteOptions options
     }
