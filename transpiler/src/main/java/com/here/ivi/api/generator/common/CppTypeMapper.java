@@ -142,28 +142,6 @@ public class CppTypeMapper {
 
             return new CppType(typeRefDefiner, namespacedName,
                     CppElements.TypeInfo.InterfaceInstance, include);
-        } else if (isExternalReference(typedef)) {
-
-            Map<FAnnotationType, Set<String>> comments = FrancaAnnotations.toMap(typedef.getComment().getElements());
-
-            Set<Includes.Include> includes = new HashSet<>();
-            CppElements.TypeInfo typeInfo = CppElements.TypeInfo.Complex;
-
-            // resolve external includes
-            Set<String> sourceUris = comments.get(FAnnotationType.SOURCE_URI);
-            if (sourceUris != null) {
-                for (String uri : sourceUris) {
-                    includes.add(new Includes.SystemInclude(uri));
-                }
-            }
-            // resolve external typedef
-            Set<String> sourceAliases = comments.get(FAnnotationType.SOURCE_ALIAS);
-            if (sourceAliases != null && sourceAliases.contains("nocomplex")) {
-                typeInfo = CppElements.TypeInfo.BuiltIn;
-            }
-
-            // all external types currently come from the legacy namespace, this is only for the PoC
-            return new CppType(typeRefDefiner, "legacy::" + typedef.getName(), typeInfo, includes);
         } else {
             CppType actual = map(rootModel, typedef.getActualType());
             DefinedBy actualTypeDefiner = actual.definedIn;
@@ -459,21 +437,6 @@ public class CppTypeMapper {
                     DefinedBy defined = getDefinedBy(target);
                     return BUILTIN_MODEL.equals(defined.toString());
                 }
-            }
-        }
-
-        return false;
-    }
-
-    static final private String EXTERNAL_TYPE = "ExternalType";
-
-    public static boolean isExternalReference(FTypeDef typedef) {
-        FType target = typedef.getActualType().getDerived();
-        if (target != null) {
-            // must point to the exact navigation.BuiltIn.ExternalType
-            if (EXTERNAL_TYPE.equals(target.getName())) {
-                DefinedBy defined = getDefinedBy(target);
-                return BUILTIN_MODEL.equals(defined.toString());
             }
         }
 

@@ -5,108 +5,11 @@ import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import navigation.* from "../NavigationTypes.fidl"
 
 import navigation.guidance.* from "./VoiceOutput.fidl"
+import navigation.guidance.* from "./GuidanceSession.fidl"
+import navigation.guidance.* from "./GuidanceTypes.fidl"
 
 import navigation.routing.* from "../routing/RoutingTypes.fidl"
 import navigation.routing.* from "../routing/Route.fidl"
-
-typeCollection GuidanceTypes {
-  version {
-    major 1
-    minor 0
-  }
-
-  // FIXME: The following entries are workarounds to allow Guidance to work with the existing legacy APIs
-  // These will be references to other fidl files in the final version
-
-  <** @source-uri: legacy/navcore/GuidanceSession.h **>
-  typedef GuidanceSession is BuiltIn.ExternalType  // Not generated, use legacy
-  <** @source-uri: legacy/navcore/MapMatcher.h **>
-  typedef MapMatcher is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/NavigationOptions.h **>
-  typedef NavigationOptions is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/MainRouteOptions.h
-      @source-alias: nocomplex **>
-  typedef MainRouteOptions is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/ChangePointInfo.h **>
-  typedef ChangePointInfo is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/LaneInfo.h **>
-  typedef LaneInfo is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/RouteAlternativeInfo.h **>
-  typedef RouteAlternativeInfo is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/common/RoutePlan.h **>
-  typedef RoutePlan is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/RouteTta.h **>
-  typedef RouteTta is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/Maneuver.h **>
-  typedef Maneuver is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/CountryInfo.h **>
-  typedef CountryInfo is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/GuidanceProgress.h **>
-  typedef GuidanceProgress is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/RouterPenalty.h **>
-  typedef RouterPenalty is BuiltIn.ExternalType // Not generated, use legacy
-  <** @source-uri: legacy/navcore/RouterOptions.h **>
-  typedef RouterOptions is BuiltIn.ExternalType // Not generated, use legacy
-
-
-  enumeration GuidanceMode {
-      Undefined
-      Tracking
-      Observation
-      Navigation
-  }
-
-  enumeration GuidanceState // TODO enum class in fdepl
-  {
-      Unknown
-      Onroad
-      Offroad
-  }
-
-  enumeration RouteScope
-  {
-      CurrentRouteLeg
-      WholeRoute
-  }
-
-  enumeration MainRouteChangedReason
-  {
-      MainRouteChangedDeviation
-      MainRouteChangedUpdateRoute
-      MainRouteChangedTrafficAvoidance
-  }
-
-  enumeration AlternativeRoutesChangedReason
-  {
-      AlternativeAddedTrafficAvoidance
-      AlternativeAddedPreviousMainRoute
-      AlternativeRemovedAfterDecisionPoint
-      AlternativeAddedAfterDecisionPoint
-      AlternativeRemovedPromotedToMainRoute
-  }
-
-  enumeration BreakOutManeuver
-  {
-      NextManeuver
-      AfterNextManeuver
-  }
-
-  enumeration BreakOutType
-  {
-      LeftBreakOut
-      RightBreakOut
-      HighwayExit
-  }
-
-  const UInt16 InvalidBreakCount = -1
-  const UInt16 InvalidHeading = -1
-  const UInt32 InvalidDistance = -1
-  const UInt32 InvalidTime = -1
-  const UInt32 TtaBlocked = -2
-  const Float InvalidSpeed = BuiltIn.MaxFloat
-
-  typedef ManeuverWithDistance is Maneuver // typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
-}
 
 <** @description: Guidance is a legacy SDK component that is used to deliver turn-by-turn directions, generate voice
  commands, inform about guidance events changes (time to arrival, remaining distance etc), provide
@@ -284,28 +187,28 @@ interface Guidance extends VoiceOutput {
 
   broadcast signpostShow {
     out {
-      GuidanceTypes.Maneuver maneuver
+      RoutingTypes.Maneuver maneuver
     }
   }
 
   broadcast stopoverReached {
     out {
-      GuidanceTypes.RoutePlan routePlan
+      RoutingTypes.RoutePlan routePlan
       UInt32 stopover
     }
   }
 
   broadcast timeToArrivalChanged {
     out {
-      GuidanceTypes.RouteTta newTtaWithPenalty
-      GuidanceTypes.RouteTta newTtaWithoutPenalty
+      RoutingTypes.RouteTta newTtaWithPenalty
+      RoutingTypes.RouteTta newTtaWithoutPenalty
     }
   }
 
   broadcast timeToNextManeuverChanged {
     out {
-      GuidanceTypes.RouteTta newTtaWithPenalty
-      GuidanceTypes.RouteTta newTtaWithoutPenalty
+      RoutingTypes.RouteTta newTtaWithPenalty
+      RoutingTypes.RouteTta newTtaWithoutPenalty
     }
   }
 
@@ -331,7 +234,7 @@ interface Guidance extends VoiceOutput {
   attribute GuidanceTypes.NavigationOptions navigationOptions readonly
   attribute GuidanceTypes.GuidanceMode mode readonly
   attribute GuidanceTypes.GuidanceState ^state readonly  // state is a reserved keyword
-  attribute GuidanceTypes.RouterPenalty penalty
+  attribute RoutingTypes.RouterPenalty penalty
 
   //////// Methods       ////////
 
@@ -370,20 +273,10 @@ interface Guidance extends VoiceOutput {
     error NavigationTypes.ErrorCode
   }
 
-  // missing in GuidanceImpl
-  // method getChangePointInfos {
-  //   in {}
-  //   out {
-  //     GuidanceTypes.ChangePointInfo[] changePointInfos
-  //   }
-  //   error NavigationTypes.ErrorCode
-  //   // has no error in listener, surely a mistake
-  // }
-
   method getCountryInfo {
     in {}
     out {
-      GuidanceTypes.CountryInfo countryInfo
+      NavigationTypes.CountryInfo countryInfo
     }
     error NavigationTypes.ErrorCode
   }
@@ -443,7 +336,7 @@ interface Guidance extends VoiceOutput {
   method getLastSession {
     in {}
     out {
-      GuidanceTypes.GuidanceSession session
+      GuidanceSession.Instance session
     }
     error NavigationTypes.ErrorCode
   }
@@ -498,10 +391,10 @@ interface Guidance extends VoiceOutput {
   // uses the same callback as below
   method getTimeToArrival:ToManeuverOld {
     in {
-      GuidanceTypes.Maneuver maneuver
+      RoutingTypes.Maneuver maneuver
     }
     out {
-      GuidanceTypes.RouteTta tta
+      RoutingTypes.RouteTta tta
     }
     error NavigationTypes.ErrorCode
   }
@@ -509,12 +402,12 @@ interface Guidance extends VoiceOutput {
   // uses the same callback as below
   method getTimeToArrival:ToManeuver {
     in {
-      GuidanceTypes.Maneuver maneuver
-      GuidanceTypes.RouterPenalty penalty
+      RoutingTypes.Maneuver maneuver
+      RoutingTypes.RouterPenalty penalty
     }
     out {
-      GuidanceTypes.RouteTta ttaWithPenalty
-      GuidanceTypes.RouteTta ttaWithoutPenalty
+      RoutingTypes.RouteTta ttaWithPenalty
+      RoutingTypes.RouteTta ttaWithoutPenalty
     }
     error NavigationTypes.ErrorCode
   }
@@ -523,11 +416,11 @@ interface Guidance extends VoiceOutput {
   method getTimeToArrival:ToRoute {
     in {
       GuidanceTypes.RouteScope scope
-      GuidanceTypes.RouterPenalty penalty
+      RoutingTypes.RouterPenalty penalty
     }
     out {
-      GuidanceTypes.RouteTta ttaWithPenalty
-      GuidanceTypes.RouteTta ttaWithoutPenalty
+      RoutingTypes.RouteTta ttaWithPenalty
+      RoutingTypes.RouteTta ttaWithoutPenalty
     }
     error NavigationTypes.ErrorCode
   }
@@ -538,7 +431,7 @@ interface Guidance extends VoiceOutput {
       GuidanceTypes.RouteScope scope
     }
     out {
-      GuidanceTypes.RouteTta tta
+      RoutingTypes.RouteTta tta
     }
     error NavigationTypes.ErrorCode
   }
@@ -587,7 +480,7 @@ interface Guidance extends VoiceOutput {
   method startNavigation:WithSession {
     in {
       <** @description: A saved session, accessed by calling get_last_session.**>
-      GuidanceTypes.GuidanceSession session
+      GuidanceSession.Instance session
     }
     out {}
     error NavigationTypes.ErrorCode
@@ -728,16 +621,16 @@ interface Guidance extends VoiceOutput {
   method updateRoutePlan:Primary {
     in {
       <** @description: The routeplan.**>
-      GuidanceTypes.RoutePlan routePlan
+      RoutingTypes.RoutePlan routePlan
       <** @description: RouterOptions to be used for updated route.**>
-      GuidanceTypes.RouterOptions routerOptions
+      RoutingTypes.RouterOptions routerOptions
       <** @description: RouterPenalty instance to be used for updated route.**>
-      GuidanceTypes.RouterPenalty penalty
+      RoutingTypes.RouterPenalty penalty
       <** @description: Zero-based index of the starting stopover on route
              (navigation will ignore the previous stopovers). If equal to zero,
              guidance will start from the very first stopover.**>
       UInt32 startStopoverIndex
-      <** @description: mainroute_options Configuration options for how this route should be
+      <** @description: Configuration options for how this route should be
              handled**>
       GuidanceTypes.MainRouteOptions mainrouteOptions
     }
@@ -751,9 +644,9 @@ interface Guidance extends VoiceOutput {
   // method missing in impl
   method updateRoutePlan:NoMainRouteOptions {
     in {
-      GuidanceTypes.RoutePlan routePlan
-      GuidanceTypes.RouterOptions routerOptions
-      GuidanceTypes.RouterPenalty penalty
+      RoutingTypes.RoutePlan routePlan
+      RoutingTypes.RouterOptions routerOptions
+      RoutingTypes.RouterPenalty penalty
       UInt32 startStopoverIndex
     }
     out {}
