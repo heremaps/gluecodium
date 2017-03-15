@@ -1,0 +1,12 @@
+package navigation.positioning
+
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+
+interface MapMatcher {
+  version {
+    major 1
+    minor 0
+  }
+
+  public typedef Instance is BuiltIn.InstanceId
+}

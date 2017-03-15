@@ -82,10 +82,8 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
             } else if (type instanceof FTypeDef) {
 
                 FTypeDef typeDef = (FTypeDef) type;
-                // skip the typedefs for external reference and instanceId typedefs
-                // as these types are purely internal
-                if (CppTypeMapper.isExternalReference(typeDef) ||
-                        CppTypeMapper.isInstanceId(typeDef)) {
+                // skip the typedefs for instanceId typedefs as these types are purely internal
+                if (CppTypeMapper.isInstanceId(typeDef)) {
                     continue;
                 }
                 result.members.add(buildTypeDef(typeDef));

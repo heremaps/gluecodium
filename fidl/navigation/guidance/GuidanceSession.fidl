@@ -1,0 +1,12 @@
+package navigation.guidance
+
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+
+interface GuidanceSession {
+  version {
+    major 1
+    minor 0
+  }
+
+  public typedef Instance is BuiltIn.InstanceId
+}

@@ -1,0 +1,97 @@
+package navigation.guidance
+
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+
+import navigation.* from "../NavigationTypes.fidl"
+
+import navigation.routing.* from "../routing/RoutingTypes.fidl"
+import navigation.routing.* from "../routing/Route.fidl"
+
+typeCollection GuidanceTypes {
+  version {
+    major 1
+    minor 0
+  }
+
+  enumeration GuidanceMode {
+      Undefined
+      Tracking
+      Observation
+      Navigation
+  }
+
+  enumeration GuidanceState
+  {
+      Unknown
+      Onroad
+      Offroad
+  }
+
+  enumeration RouteScope
+  {
+      CurrentRouteLeg
+      WholeRoute
+  }
+
+  enumeration MainRouteChangedReason
+  {
+      MainRouteChangedDeviation
+      MainRouteChangedUpdateRoute
+      MainRouteChangedTrafficAvoidance
+  }
+
+  enumeration AlternativeRoutesChangedReason
+  {
+      AlternativeAddedTrafficAvoidance
+      AlternativeAddedPreviousMainRoute
+      AlternativeRemovedAfterDecisionPoint
+      AlternativeAddedAfterDecisionPoint
+      AlternativeRemovedPromotedToMainRoute
+  }
+
+  enumeration BreakOutManeuver
+  {
+      NextManeuver
+      AfterNextManeuver
+  }
+
+  enumeration BreakOutType
+  {
+      LeftBreakOut
+      RightBreakOut
+      HighwayExit
+  }
+
+  struct NavigationOptions {
+    UInt32 placeholder
+  }
+
+  struct MainRouteOptions {
+    UInt32 placeholder
+  }
+
+  struct ChangePointInfo {
+    UInt32 placeholder
+  }
+
+  struct LaneInfo {
+    UInt32 placeholder
+  }
+
+  struct RouteAlternativeInfo {
+    UInt32 placeholder
+  }
+
+  struct GuidanceProgress {
+    UInt32 placeholder
+  }
+
+  const UInt16 InvalidBreakCount = -1
+  const UInt16 InvalidHeading = -1
+  const UInt32 InvalidDistance = -1
+  const UInt32 InvalidTime = -1
+  const UInt32 TtaBlocked = -2
+  const Float InvalidSpeed = BuiltIn.MaxFloat
+
+  typedef ManeuverWithDistance is RoutingTypes.Maneuver // TODO model as typedef std::pair< Maneuver, uint32_t > ManeuverWithDistance;
+}

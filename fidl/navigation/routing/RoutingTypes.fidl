@@ -8,6 +8,26 @@ typeCollection RoutingTypes {
         minor 0
     }
 
+    struct RoutePlan {
+        UInt32 placeholder
+    }
+
+    struct RouteTta {
+        UInt32 placeholder
+    }
+
+    struct Maneuver {
+        UInt32 placeholder
+    }
+
+    struct RouterPenalty {
+        UInt32 placeholder
+    }
+
+    struct RouterOptions {
+        UInt32 placeholder
+    }
+
     map RouteToCompute {
         Route.Instance to Boolean
     }
