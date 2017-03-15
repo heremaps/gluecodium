@@ -48,7 +48,7 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
         this.iface = iface;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<IA>(iface.fInterface, iface.getModel().fModel, iface.accessor, this);
+        rootModel = new CppModelAccessor<>(iface.fInterface, iface.getModel().fModel, iface.accessor, this);
     }
 
     public GeneratedFile generate() {
@@ -65,8 +65,8 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
         CppIncludeResolver resolver = new CppIncludeResolver(coreModel, iface, nameRules);
         resolver.resolveLazyIncludes(model);
 
-        Object generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, iface, outputFile);
-        Object innerContent = CppTypeCollectionContentTemplate.generate(model);
+        CharSequence generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, iface, outputFile);
+        CharSequence innerContent = CppTypeCollectionContentTemplate.generate(model);
         String fileContent = CppFileTemplate.generate(generatorNotice, innerContent).toString();
 
         return new GeneratedFile(fileContent, outputFile);
@@ -113,7 +113,6 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
             returnType = new CppType(usingTypeName);
         }
 
-
         // add method
         result.methods.add(buildStubMethod(m, returnType));
     }
@@ -137,7 +136,11 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
         CppParameter param = new CppParameter();
         param.name = a.getName();
         param.mode = CppParameter.Mode.Input;
+
         param.type = CppTypeMapper.map(rootModel, a);
+        if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
+            param.type = CppTypeMapper.wrapSharedPtr(param.type);
+        }
 
         appendNotifierElements(result, uniqueNotifierName, Collections.singletonList(param));
     }
@@ -149,7 +152,12 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
             CppParameter param = new CppParameter();
             param.name = a.getName();
             param.mode = CppParameter.Mode.Input;
+
             param.type = CppTypeMapper.map(rootModel, a.getType());
+            if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
+                param.type = CppTypeMapper.wrapSharedPtr(param.type);
+            }
+
             return param;
         }).collect(Collectors.toList());
 
@@ -227,7 +235,12 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
             CppParameter param = new CppParameter();
             param.name = inArg.getName();
             param.mode = CppParameter.Mode.Input;
+
             param.type = CppTypeMapper.map(rootModel, inArg.getType());
+            if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
+                param.type = CppTypeMapper.wrapSharedPtr(param.type);
+            }
+
             method.inParameters.add(param);
         }
         return method;
@@ -250,6 +263,9 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
 
         for (FArgument outArg : m.getOutArgs()) {
             CppType mapped = CppTypeMapper.map(rootModel, outArg);
+            if (mapped.info == CppElements.TypeInfo.InterfaceInstance) {
+                mapped = CppTypeMapper.wrapSharedPtr(mapped);
+            }
             returnTypes.add(mapped);
         }
 
@@ -293,6 +309,9 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
         m.specifiers.add("virtual");
 
         CppType type = CppTypeMapper.map(rootType, attribute);
+        if (type.info == CppElements.TypeInfo.InterfaceInstance) {
+            type = CppTypeMapper.wrapSharedPtr(type);
+        }
 
         switch (mode) {
             case GET: {

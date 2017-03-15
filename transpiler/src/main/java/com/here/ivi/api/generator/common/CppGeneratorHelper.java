@@ -17,7 +17,7 @@ public class CppGeneratorHelper{
 
     static Logger logger = java.util.logging.Logger.getLogger(CppGeneratorHelper.class.getName());
 
-    public static Object generateGeneratorNotice(GeneratorSuite<?,?> suite,
+    public static CharSequence generateGeneratorNotice(GeneratorSuite<?,?> suite,
                                                  FrancaModel.FrancaElement element,
                                                  String outputTarget) {
         String inputFile;

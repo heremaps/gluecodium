@@ -18,6 +18,7 @@ public class CppTypeMapper {
     private final static Includes.SystemInclude SET_INCLUDE = new Includes.SystemInclude("set");
     private final static Includes.SystemInclude MAP_INCLUDE = new Includes.SystemInclude("map");
     private final static Includes.SystemInclude STRING_INCLUDE = new Includes.SystemInclude("string");
+    private final static Includes.SystemInclude SHARED_PTR_INCLUDE = new Includes.SystemInclude("memory");
 
     static Logger logger = java.util.logging.Logger.getLogger(CppTypeMapper.class.getName());
 
@@ -367,7 +368,7 @@ public class CppTypeMapper {
 
     public static CppType wrapMapType(DefinedBy mapDefiner, CppType key, CppType value)
     {
-        // lookup where array element type came from, setup includes
+        // lookup where map types came from, setup includes
         Includes.Include keyInclude = new Includes.LazyInternalInclude(key.definedIn);
         Includes.Include valueInclude = new Includes.LazyInternalInclude(value.definedIn);
 
@@ -408,6 +409,21 @@ public class CppTypeMapper {
 
             return new CppType(enumDefiner, typeName, CppElements.TypeInfo.BuiltIn, include);
         }
+    }
+
+    public static CppType wrapSharedPtr(CppType content)
+    {
+        // lookup where content type came from, setup includes
+        Includes.Include typeInclude = new Includes.LazyInternalInclude(content.definedIn);
+
+        String mapType = "std::shared_ptr< " + content.name + " >";
+
+        // include content type and the shared_ptr
+        Set<Includes.Include> includes = new HashSet<>(content.includes);
+        includes.add(typeInclude);
+        includes.add(SHARED_PTR_INCLUDE);
+
+        return new CppType(content.definedIn, mapType, CppElements.TypeInfo.Complex, includes);
     }
 
     static final private String BUILTIN_MODEL = "navigation.BuiltIn";
