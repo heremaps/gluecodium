@@ -35,6 +35,7 @@ public class CppElements {
 
     public static Set<Includes.Include> collectIncludes(CppClass cppClass) {
         Set<Includes.Include> result = new HashSet<>();
+
         for (CppMethod method : cppClass.methods) {
             for (CppParameter inParam : method.inParameters) {
                 result.addAll(inParam.type.includes);
@@ -44,15 +45,15 @@ public class CppElements {
             }
             result.addAll(method.returnType.includes);
         }
+
         for (CppUsing using : cppClass.usings) {
             result.addAll(using.definition.includes);
         }
 
-        if (cppClass.inheritance != null){
-            String includeFilename = LegacyNames.headerFilename(cppClass.inheritance.parent).toString();
-            Includes.Include include = new Includes.InternalPublicInclude(includeFilename);
-            result.add(include);
+        for (CppInheritance inheritance : cppClass.inheritances){
+            result.addAll(inheritance.parent.includes);
         }
+
         return result;
     }
 }
