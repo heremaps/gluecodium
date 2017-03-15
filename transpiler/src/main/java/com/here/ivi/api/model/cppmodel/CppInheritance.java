@@ -10,17 +10,18 @@ public class CppInheritance extends CppElement{
         Private
     }
 
-    public CppClass parent;
-    public Type type;
+    public CppType parent;
+    public Type visibility;
 
-    public CppInheritance(CppClass parent, Type type) {
+    public CppInheritance(CppType parent, Type type) {
         super(null);
         this.parent = parent;
-        this.type = type;
+        this.visibility = type;
     }
+
     @Override
     public Stream<CppElement> stream() {
-        return parent.stream();
+        return Stream.of(parent);
     }
 }
 

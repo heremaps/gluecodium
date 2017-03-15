@@ -50,9 +50,7 @@ public class CppIncludeResolver {
 
     private void resolveLazyIncludes(CppType type) {
         type.includes = type.includes.stream().map(i -> {
-            if (i instanceof Includes.SystemInclude) {
-                return i;
-            } else if (i instanceof Includes.LazyInternalInclude) {
+            if (i instanceof Includes.LazyInternalInclude) {
 
                 Includes.LazyInternalInclude li = (Includes.LazyInternalInclude)i;
 
@@ -83,7 +81,7 @@ public class CppIncludeResolver {
                 return new Includes.InternalPublicInclude(includeName);
             }
 
-            return null;
+            return i;
         }).filter(Objects::nonNull).collect(Collectors.toSet());
     }
 }

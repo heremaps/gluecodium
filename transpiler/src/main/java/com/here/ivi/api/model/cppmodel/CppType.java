@@ -3,10 +3,7 @@ package com.here.ivi.api.model.cppmodel;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
@@ -42,6 +39,10 @@ public class CppType extends CppElement {
         this.definedIn = def;
         this.info = info;
         this.includes = new HashSet<>(includes);
+    }
+
+    public void setIncludes(Includes.Include... includes) {
+        this.includes = new HashSet<>(Arrays.asList(includes));
     }
 
     @Override

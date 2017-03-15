@@ -7,7 +7,7 @@ class CppClassTemplate {
     /**
      *
      */
-    class «clazz.name» {
+    class «clazz.name» «CppInheritanceTemplate.generate(clazz)»{
     public:
         «FOR u : clazz.usings»
         using «u.name» = «u.definition.name»;
