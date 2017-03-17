@@ -2,8 +2,6 @@ package com.here.ivi.api.generator.cppstub;
 
 
 import com.google.common.collect.Iterables;
-import com.here.ivi.api.generator.legacy.LegacyGenerator;
-import com.here.ivi.api.generator.legacy.templates.LegacyImpl;
 import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.CppFileTemplate;
 import com.here.ivi.api.generator.common.templates.CppNameRules;
@@ -20,7 +18,10 @@ import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBroadcast;
 import org.franca.core.franca.FMethod;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 

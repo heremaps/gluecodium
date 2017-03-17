@@ -1,10 +1,7 @@
 package com.here.ivi.api.generator.common;
 
-import com.here.ivi.api.generator.legacy.templates.LegacyAssignOp;
-import com.here.ivi.api.generator.legacy.templates.LegacyCopyCtor;
-import com.here.ivi.api.generator.legacy.templates.LegacyCtor;
-import com.here.ivi.api.generator.legacy.templates.LegacyDtor;
 import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
+import com.here.ivi.api.generator.cppstub.templates.MethodBodyTemplate;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.cppmodel.*;
 
@@ -32,35 +29,35 @@ public class CppGeneratorHelper{
         return GeneratorNoticeTemplate.generate(suite, inputDefinition, inputFile, outputTarget);
     }
 
-    public static CppMethod generateDtor(String className){
+    public static CppMethod generateDtor(String className, MethodBodyTemplate mbt){
         CppMethod dtor = new CppMethod();
         dtor.name = "~" + className;
-        dtor.mbt = new LegacyDtor();
+        dtor.mbt = mbt;
         dtor.returnType = CppType.None;
         dtor.specifiers.add("virtual");
         return dtor;
     }
 
-    public static CppMethod generateEmptyCtor(String className){
+    public static CppMethod generateEmptyCtor(String className, MethodBodyTemplate mbt){
         CppMethod ctor = new CppMethod();
-        ctor.mbt = new LegacyCtor();
+        ctor.mbt = mbt;
         ctor.name = className;
         ctor.returnType = CppType.None;
         return ctor;
     }
 
-    public static CppMethod generateCopyCtor(String className){
+    public static CppMethod generateCopyCtor(String className, MethodBodyTemplate mbt){
         CppMethod ctor = new CppMethod();
-        ctor.mbt = new LegacyCopyCtor();
+        ctor.mbt = mbt;
         ctor.name = className;
         ctor.returnType = CppType.None;
         ctor.inParameters.add(generateClassParam(className));
         return ctor;
     }
 
-    public static CppMethod generateAssignOp(String className){
+    public static CppMethod generateAssignOp(String className, MethodBodyTemplate mbt){
         CppMethod ctor = new CppMethod();
-        ctor.mbt = new LegacyAssignOp();
+        ctor.mbt = mbt;
         ctor.name = "operator=";
         ctor.returnType = new CppType(className + "&"); //TODO ugly ref here...
         ctor.inParameters.add(generateClassParam(className));
