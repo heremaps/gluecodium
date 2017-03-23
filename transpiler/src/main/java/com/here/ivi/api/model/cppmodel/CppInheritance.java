@@ -1,5 +1,7 @@
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.model.CollectionsHelper;
+
 import java.util.stream.Stream;
 
 public class CppInheritance extends CppElement{
@@ -41,5 +43,6 @@ public class CppInheritance extends CppElement{
     public Stream<CppElement> stream() {
         return Stream.of(parent);
     }
+
 }
 

@@ -12,6 +12,7 @@ public class CppMethod extends CppElement {
     public String deprecatedComment = null;
     public CppType returnType = CppType.Void;
     public List<String> specifiers = new ArrayList<>();
+    public List<String> virtSpecifierSeq = new ArrayList<>();
     public List<String> qualifiers = new ArrayList<>();
     public List<CppParameter> inParameters = new ArrayList<>();
     public List<CppParameter> outParameters = new ArrayList<>();
