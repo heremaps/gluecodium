@@ -468,14 +468,6 @@ interface Guidance extends VoiceOutput {
     error NavigationTypes.ErrorCode
   }
 
-  // missing in GuidanceImpl
-  // ongoing request with request id, but callback in changePointInfosUpdated
-  // method requestChangePointInfosNotifications {
-  //  in {
-  //  }
-  //  error NavigationTypes.ErrorCode
-  // }
-
   <** @description: Start guidance, resuming a previously saved guidance session. **>
   method startNavigation:WithSession {
     in {

@@ -9,10 +9,6 @@ specification navigation.CppStubSpec
     Creates: Interface (optional);
   }
 
-  for enumerations {
-    IsClass: Boolean (optional, default: false);
-  }
-
   for arrays {
     IsSet: Boolean (optional, default: false);
   }
