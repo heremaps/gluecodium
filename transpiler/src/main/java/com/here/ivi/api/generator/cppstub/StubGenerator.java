@@ -276,7 +276,6 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
                     .collect(Collectors.toSet());
             includes.add(EXPECTED_INCLUDE);
 
-            // TODO still too much string magic!!
             return new CppType(
                     rootModel,
                     "here::internal::Expected< " + String.join(", ", names) + " >",

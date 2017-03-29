@@ -92,11 +92,7 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
             } else if (type instanceof FMapType) {
                 result.members.add(buildMap((FMapType) type));
             } else if (type instanceof FEnumerationType) {
-                if (tc.accessor.getIsClass((FEnumerationType) type)) {
-                    result.members.add(buildCppEnumClass((FEnumerationType) type));
-                } else {
-                    result.members.add(buildCppEnum((FEnumerationType) type));
-                }
+                result.members.add(buildCppEnumClass((FEnumerationType) type));
             } else {
                logger.severe("Missing type map in " + rootModel + " for " + type.getClass().getName());
             }
