@@ -4,12 +4,43 @@ import "./Module.fidl"
 
 define navigation.LegacySpec for interface navigation.Runtime
 {
-  method createRuntime {
-    CallSemantics = synchronous
-    Static = true
-    Creates = &navigation.Runtime
-  }
-  method createModule {
-    Creates = &navigation.Module
-  }
+    method createRuntime:Defaults {
+        Static = true
+        Creates = &navigation.Runtime
+    }
+    method createRuntime:WithConfig {
+        Static = true
+        Creates = &navigation.Runtime
+    }
+    method createRuntime:Full {
+        Static = true
+        Creates = &navigation.Runtime
+    }
+    method createModule {
+        CallSemantics = synchronous
+        Creates = &navigation.Module
+    }
+    method shutdownCompleted {
+        CallSemantics = synchronous
+        Const = true
+    }
+    method stop {
+        CallSemantics = synchronous
+    }
+    method resume {
+        CallSemantics = synchronous
+    }
+    method registerModuleFactory {
+        CallSemantics = synchronous
+    }
+
+    attribute profileManager {
+        IsReference = true
+    }
+    attribute systemInformation {
+        IsReference = true
+    }
+    attribute networkConfiguration {
+        IsReference = true
+    }
 }

@@ -6,6 +6,12 @@ typeCollection NavigationTypes {
         minor 0
     }
 
+    <** @description: A language in ISO-639-1 format - a IETF language tag (BCP 47), eg. "en-GB", "en-US", "fr-CA" **>
+    typedef Language is String
+
+    <** @description: A country code ISO 3166 ALPHA-3 country code **>
+    typedef CountryCode is String
+
     enumeration ErrorCode {
       None
       Unknown
