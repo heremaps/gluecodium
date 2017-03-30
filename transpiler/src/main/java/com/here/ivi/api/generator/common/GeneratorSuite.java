@@ -58,9 +58,9 @@ public interface GeneratorSuite<IA, TA> {
 
     /**
      * Uses the FrancaModelLoader to keep a copy of the model.
-     * @param inputDir The root directory of the fidl/fdepl files.
+     * @param inputPath The root directory of the fidl/fdepl files.
      */
-    void buildModel(String inputPath);
+    boolean buildModel(String inputPath);
 
     /**
      * Generates a specific GeneratorSuite instance as specified by the first class parameter.

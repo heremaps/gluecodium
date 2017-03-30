@@ -198,6 +198,10 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
                 .findFirst();
     }
 
+    public boolean isEmpty() {
+        return interfaces.isEmpty() && typeCollections.isEmpty();
+    }
+
     public List<Interface<InterfaceAccessor>> interfaces = new ArrayList<>();
     public List<TypeCollection<TypeCollectionAccessor>> typeCollections = new ArrayList<>();
 }

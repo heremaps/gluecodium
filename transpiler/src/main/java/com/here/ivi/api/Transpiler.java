@@ -24,14 +24,16 @@ public class Transpiler {
     public static void main(final String[] args) {
 
         OptionReader or = new OptionReader( );
+        int status = 1;
         try {
             OptionReader.TranspilerOptions options = or.read(args);
-            new Transpiler(options).execute();
+            status = new Transpiler(options).execute() ? 0 : 1;
         } catch (OptionReaderException e) {
             logger.severe("Failed reading options: " + e.getMessage());
             or.printUsage();
-            System.exit(1);
         }
+
+        System.exit(status);
     }
 
     public Transpiler(OptionReader.TranspilerOptions options) {
@@ -39,10 +41,11 @@ public class Transpiler {
         TranspilerLogger.initialize("com/here/ivi/api/logger/logging.properties");
     }
 
-    public void execute() {
+    public boolean execute() {
 
         //Generation
         List<String> generators = options.getGenerators();
+        boolean succeeded = true;
 
         for ( String sn : generators ) {
             logger.info("Using generator " + sn);
@@ -51,20 +54,35 @@ public class Transpiler {
 
                 GeneratorSuite<?, ?> generator = GeneratorSuite.instantiateByShortName(sn, this);
 
-                generator.buildModel(options.getInputDir());
+                boolean valid = generator.buildModel(options.getInputDir());
+                if (!valid) {
+                    logger.severe("No input to generate from found. Aborting.");
+                    succeeded = false;
+                    continue;
+                }
+
                 logger.info("Instantiated generator " + generator.getName() + " " + generator.getVersion());
-                boolean valid = generator.validate();
+                valid = generator.validate();
                 logger.info( valid ? "Validation Succeeded" : "Validation Failed");
 
                 if (options.validateOnly()){
-                    return;
+                    succeeded = succeeded && valid;
+                    continue;
                 }
-                List<GeneratedFile> outputFiles = generator.generate();
-                output(outputFiles);
+
+                if (valid) {
+                    List<GeneratedFile> outputFiles = generator.generate();
+                    output(outputFiles);
+                }
+
+                succeeded = succeeded && valid;
             } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
                 logger.severe("Failed instantiation of generator '" + sn + "'");
+                succeeded = false;
             }
         }
+
+        return succeeded;
     }
 
     public void output(List<GeneratedFile> files) {
