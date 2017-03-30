@@ -222,7 +222,7 @@ public class CppStubGeneratorSuite
     }
 
     @Override
-    public void buildModel(String inputPath){
+    public boolean buildModel(String inputPath){
         final SpecAccessorFactory<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
                 specAccessorFactory = createModelAccessorFactory();
 
@@ -233,6 +233,8 @@ public class CppStubGeneratorSuite
         currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
 
         model = fml.load(specAccessorFactory.getSpecPath(), inputPath);
+
+        return !model.isEmpty();
     }
 
     @Override
