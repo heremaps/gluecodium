@@ -1,14 +1,13 @@
 package navigation
 
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import navigation.* from "NavigationTypes.fidl"
 
-
-// Don't generate, write as cpp
 interface NavcoreModuleFactory {
-  version {
-    major 1
-    minor 0
-  }
+    version {
+        major 1
+        minor 0
+    }
 
-  // Needs special impl extending the legacy_ModuleFactoryImpl
+    public typedef Instance is BuiltIn.InstanceId
 }
