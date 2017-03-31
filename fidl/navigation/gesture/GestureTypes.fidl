@@ -1,0 +1,48 @@
+package navigation.gesture
+
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+import navigation.* from "../NavigationTypes.fidl"
+
+typeCollection GestureTypes {
+    version {
+        major 1
+        minor 0
+    }
+
+    enumeration TouchAction
+    {
+        TouchActionDown = 1
+        TouchActionMove
+        TouchActionUp
+    }
+
+    enumeration MapGesture
+    {
+        MapGesturePan
+        MapGestureFlick
+        MapGestureTap
+        MapGestureDoubleTap
+        MapGestureLongTap
+        MapGestureTwoFingerTap
+        MapGestureTwoFingerPan
+        MapGestureTwoFingerPinch
+        MapGestureTwoFingerRotate
+        MapGestureTwoFingerTilt
+    }
+
+    enumeration MapGestureBehavior
+    {
+        MapGestureBehaviorIgnore
+        MapGestureBehaviorReport
+        MapGestureBehaviorTriggerDefaultActionAndReport
+    }
+
+    struct TouchPoint
+    {
+        Int32 id
+        GestureTypes.TouchAction action
+        Float posX
+        Float posY
+        UInt64 frameId
+    }
+}

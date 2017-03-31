@@ -1,0 +1,287 @@
+package navigation.gesture
+
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+
+import navigation.* from "../NavigationTypes.fidl"
+import navigation.gesture.* from "./GestureTypes.fidl"
+
+<** @description: ${brief} Recognizes and handles touch-screen gestures on map${/brief}.
+
+ Various touch-screen gestures like tap, pinch and pan can be captured from
+ the map. ${generator:legacy}The complete list of recognised gestures are defined in
+ legacy::GestureTypes.${/generator}
+
+ This class can also be configured to perform default actions for each kind
+ of gesture. **>
+interface Gesture {
+    version {
+        major 1
+        minor 0
+    }
+
+    <** @description: Called when the user pans the map with one finger.
+
+      For each move with one finger this method is called. The end of this gesture is indicated
+      by a call of on_gesture_ended( MAP_GESTURE_PAN ).
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there. **>
+    broadcast panTriggered {
+        out {
+          <** @description:  from Previous finger position on the map. **>
+          NavigationTypes.PixelPoint From
+          <** @description:  to Current finger position on the map. **>
+          NavigationTypes.PixelPoint To
+        }
+    }
+
+    <** @description: Called when a flick gesture occurs.
+
+      If the Pan gesture is not activated, a flick gesture consists of a touch down event, an
+      arbitrary number of touch move events and a touch up event. The entire gesture is performed
+      fast and quickly. This means the time difference between touch down and touch up is short
+      and the speed for moving from touch down point to touch up point is high.
+
+      If the Pan gesture is activated, a flick gesture follows a Pan gesture as long as the exit
+      speed is high. The exit speed is the speed of the last touch move events before a touch up
+      event occurs.
+
+      This gesture is a one-shot gesture so on_gesture_ended( MAP_GESTURE_FLICK ) is called
+      after execution of this method.
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there. **>
+    broadcast flickTriggered {
+        out {
+          <** @description:  delta_x The X-part of the vector indicating the flick direction and speed. The
+                  unit of the speed is pixels per second. **>
+          Float deltaX
+          <** @description:  delta_y The Y-part of the vector indicating the flick direction and speed. The
+                  unit of the speed is pixels per second. **>
+          Float deltaY
+        }
+    }
+
+    <** @description: Called when the user performs a tap gesture on the map.
+
+      This gesture is a one-shot gesture so on_gesture_ended( MAP_GESTURE_TAP ) is called after
+      execution of this method.
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there.**>
+    broadcast tapTriggered {
+        out {
+          <** @description: pos Tap position. **>
+          NavigationTypes.PixelPoint pos
+        }
+    }
+
+    <** @description: Called when the user performs a double tap gesture on the map.
+
+      This gesture is a one-shot gesture so on_gesture_ended( MAP_GESTURE_DOUBLE_TAP ) is called
+      after execution of this method.
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there. **>
+    broadcast doubleTapTriggered {
+        out {
+          <** @description: pos Double tap position. **>
+          NavigationTypes.PixelPoint pos
+        }
+    }
+
+    <** @description: Called when the user performs a touch and hold gesture on the map.
+
+      This gesture is a one-shot gesture so on_gesture_ended( MAP_GESTURE_LONG_TAP ) is called
+      after execution of this method.
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there. **>
+    broadcast longTapTriggered {
+        out {
+          <** @description pos Long tap position. **>
+          NavigationTypes.PixelPoint pos
+        }
+    }
+
+    <** @description: Called when the user performs a tap gesture with two fingers on the map.
+
+      This gesture is a one-shot gesture so on_gesture_ended( MAP_GESTURE_TWO_FINGER_TAP ) is
+      called after execution of this method.
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there. **>
+    broadcast twoFingerTapTriggered {
+        out {
+          <** @description: pos1 Tap position of the first finger. **>
+          NavigationTypes.PixelPoint pos1
+          <** @description: pos2 Tap position of the second finger. **>
+          NavigationTypes.PixelPoint pos2
+        }
+    }
+
+    <** @description: Called when the user pans the map with two fingers. This includes all possible two finger
+      manipulations when at least one of the two fingers has moved except for the two finger
+      vertical swipe (Tilt). As some of such gestures may involve Pinch or Rotate at the same
+      time on_two_finger_pinch_triggered() and on_two_finger_rotate_triggered() may arrive
+      together with this callback if these gestures are activated.
+
+      For each move with two fingers other than Tap/Tilt this method is called. The end of this
+      gesture is indicated by the call of on_gesture_ended( MAP_GESTURE_TWO_FINGER_PAN ).
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there. **>
+    broadcast twoFingerPanTriggered {
+        out {
+          <** @description: from_pos1 Previous position of the first finger on the map. **>
+          NavigationTypes.PixelPoint fromPos1
+          <** @description: to_pos1 Current position of the first finger on the map. **>
+          NavigationTypes.PixelPoint toPos1
+          <** @description: from_pos2 Previous position of the second finger on the map. **>
+          NavigationTypes.PixelPoint fromPos2
+          <** @description: to_pos2 Current position of the second finger on the map. **>
+          NavigationTypes.PixelPoint toPos2
+        }
+    }
+
+    <** @description: Called when the user pinches or stretches with two fingers on the map. If Pan gesture is
+      activated this callback occures together with on_two_finger_pan_triggered(). This is due to
+      the fact that Pinch gesture involves changing positions of fingers (possibly as well as the
+      center between the two fingers), which means map may need to be panned at the same time.
+      Rotate gesture may not overlap with the Pinch gesture.
+
+      For each move with one of the two fingers this method is called. The end of this gesture is
+      indicated by the call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_PINCH ).
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there. **>
+    broadcast twoFingerPinchTriggered {
+        out {
+          <** @description: center Center position on the map between the two fingers when this gesture has
+              started. **>
+          NavigationTypes.PixelPoint center
+          <** @description: start_length The distance in pixels between the two fingers on the map when this
+              gesture has started. **>
+          Float startLength
+          <** @description: current_length The distance in pixels between the current two finger positions on
+                  the map. **>
+          Float currentLength
+        }
+    }
+
+    <** @description: Called when the user rotates the map with two fingers. If Pan gesture is activated this
+      callback occures together with on_two_finger_pan_triggered(). This is due to the fact that
+      Rotate gesture involves changing positions of fingers (possibly as well as the center
+      between the two fingers), which means map may need to be panned at the same time. Pinch
+      gesture may not overlap with Rotate gesture.
+
+      For each move with the second finger this method is called. The end of this gesture is
+      indicated by a call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_ROTATE ).
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there. **>
+    broadcast twoFingerRotateTriggered {
+        out {
+          <** @description: center Center position on the map between the two fingers when this gesture has
+              started. **>
+          NavigationTypes.PixelPoint center
+          <** @description: start_angle Angle between touch points in the beginning of rotation in degree. **>
+          <** @description: current_angle Angle between current touch points in degree. **>
+          Float startAngle
+          Float currentAngle
+        }
+    }
+
+
+    <** @description: Called when the user does two finger vertical swipe on the map. No other gesture can
+      be triggered while Tilt is ongoing.
+
+      For each move with two fingers this method is called. The end of this gesture is indicated
+      by a call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_TILT ).
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there. **>
+    broadcast twoFingerTiltTriggered {
+        out {
+          <** @description: from_pos1 Previous position of the first finger on the map. **>
+          NavigationTypes.PixelPoint fromPos1
+          <** @description: to_pos1 Current position of the first finger on the map. **>
+          NavigationTypes.PixelPoint toPos1
+          <** @description: from_pos2 Previous position of the second finger on the map. **>
+          NavigationTypes.PixelPoint fromPos2
+          <** @description: to_pos2 Current position of the second finger on the map. **>
+          NavigationTypes.PixelPoint toPos2
+          <** @description: start_y_pos Y-coordinate of the center position between the two fingers in the
+              beginning of swipe. **>
+          Float startYPos
+          <** @description: current_y_pos Y-coordinate of the center position between the two fingers at the
+              current stage of swipe. **>
+          Float currentYPos
+        }
+    }
+
+    <** @description: Called whenever (one of) the current gesture(s) ends.
+
+      The implementation of this method is empty and needs to be overridden in a derived class in
+      case it should be handled there. **>
+    broadcast gestureEnded {
+        out {
+          <** @description: gesture Type of gesture that has ended. **>
+          GestureTypes.MapGesture gesture
+        }
+    }
+
+    <** @description: Returns the current behavior for the specific gesture.  **>
+    method getGestureBehavior {
+        in {
+          <** @description: gesture The gesture whose behavior should be retrieved. **>
+          GestureTypes.MapGesture gesture
+        }
+        out {
+          <** @description: behavior The current behavior of the given gesture. **>
+          GestureTypes.MapGestureBehavior behavior
+        }
+        error NavigationTypes.ErrorCode
+    }
+
+    <** @description: Configures the behavior for a specific gesture.
+
+      ${param}[in] gesture The gesture whose behavior should be configured.${/param}
+      ${param}[in] behavior The behavior that should be associated with the given gesture.${/param}
+      ${return:legacy} legacy::CARLO_ERROR_NONE if the gesture object is valid, otherwise
+               legacy::CARLO_ERROR_NOT_VALID.${/return}
+      **>
+    method setGestureBehavior {
+        in {
+          GestureTypes.MapGesture gesture
+          GestureTypes.MapGestureBehavior behavior
+        }
+        out { }
+        error NavigationTypes.ErrorCode
+    }
+
+    <** @description: Sets touch points to be recognized by Gesture.
+
+      ${param}[in] touch_points Touch points to be processed${/param}
+      ${return:legacy} legacy::CARLO_ERROR_NONE if the gesture object is valid, otherwise
+               legacy::CARLO_ERROR_NOT_VALID.${/return}
+      **>
+    method setTouchPoints {
+        in {
+          GestureTypes.TouchPoint[] touchPoints
+        }
+        out {}
+        error NavigationTypes.ErrorCode
+    }
+
+    <** @description: Sets touch point to be recognized by Gesture. **>
+    method setTouchPoint {
+        in {
+          <** @description: touch_point The touch point to be processed **>
+          GestureTypes.TouchPoint touchPoint
+        }
+        out {}
+        error NavigationTypes.ErrorCode
+    }
+
+}
