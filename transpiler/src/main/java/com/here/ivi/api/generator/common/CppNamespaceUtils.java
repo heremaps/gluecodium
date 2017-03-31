@@ -2,26 +2,51 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;
-import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.FModel;
-import org.franca.core.franca.FTypeCollection;
+import navigation.CppStubSpec;
+import org.franca.core.franca.FModelElement;
+import org.franca.core.franca.FStructType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class CppNamespaceUtils {
+
+    private static boolean isComplexStruct(CppModelAccessor rootModel, DefinedBy definer)
+    {
+        Optional<CppStubSpec.IDataPropertyAccessor> acc = rootModel.getAccessor(definer);
+        if(!acc.isPresent() ) {
+            throw new RuntimeException("Could not find accessor. Invalid franca definition. " + definer);
+        }
+        try {
+            //complex structs are defined exclusively inside typecollections ...
+            return (acc.get() instanceof CppStubSpec.TypeCollectionPropertyAccessor) &&
+                    acc.get().getIsStructDefinition(definer.type);
+        }catch(NullPointerException e) {
+            //property is optional, if not set this could cause a null pointer exception
+            return false;
+        }
+    }
+
     /** Creates a namespace prefix to access the type with `name` defined in `typeDefiner` from the `rootModel`
      *  Assumes the referenced type is in a TypeCollection namespace or part of an Interface */
     public static String prefixNamespace(CppModelAccessor rootModel,
                                   DefinedBy typeDefiner,
-                                  String name) {
+                                  FModelElement element) {
 
         List<String> names = builtDisjointNamespace(
                 rootModel.getModelNamespace(),
                 rootModel.getModelNamespace(typeDefiner.getPackages()));
+
         names.add(typeDefiner.getBaseName());
-        names.add(name);
+
+        //complex structs are modelled as fidl structs encapsulated in typecollections
+        //such structs are translated to c++ without the containing type collection but taking its name
+        if(!(element instanceof FStructType && isComplexStruct(rootModel,typeDefiner)))
+        {
+            names.add(element.getName());
+        }
 
         return String.join("::", names);
     }
@@ -58,42 +83,5 @@ public class CppNamespaceUtils {
 
         // … and strip it off
         return new ArrayList<>(Arrays.asList(target).subList(i, target.length));
-    }
-
-    /**
-     * Find the TypeCollection that contains this type by moving up the hierarchy recursively
-     *
-     * @param obj The franca object
-     * @return The type collection that contains this type
-     */
-    public static FTypeCollection findDefiningTypeCollection(EObject obj) {
-        if (obj instanceof FTypeCollection) {
-            return (FTypeCollection)obj; // FInterface is a FTypeCollection as well
-        }
-
-        EObject parent = obj.eContainer();
-
-        if ((parent == obj) || (parent == null)) {
-            return null;
-        }
-
-        return findDefiningTypeCollection(parent);
-    }
-
-    /**
-     * Gets the  model and interface that defined the given franca object
-     * @param obj The franca object
-     * @return The model and interface that defined the given object
-     */
-    public static DefinedBy getDefinedBy(EObject obj) {
-        // search for parent type collection
-        FTypeCollection tc = findDefiningTypeCollection(obj);
-
-        if (tc == null || !(tc.eContainer() instanceof FModel)) {
-            throw new RuntimeException("Could not resolve root of EObject. Invalid franca definition. " + obj);
-        }
-
-        FModel model = (FModel)tc.eContainer();
-        return new DefinedBy(tc, model);
     }
 }

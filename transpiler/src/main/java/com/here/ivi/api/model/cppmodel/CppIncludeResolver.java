@@ -54,7 +54,7 @@ public class CppIncludeResolver {
 
                 Includes.LazyInternalInclude li = (Includes.LazyInternalInclude)i;
 
-                Optional<FrancaModel.FrancaElement> externalDefinitionOpt = rootModel.find(li.model, li.tc);
+                Optional<? extends FrancaModel.FrancaElement> externalDefinitionOpt = rootModel.find(li.model, li.tc);
                 if (!externalDefinitionOpt.isPresent()) {
                     logger.severe("Could not resolve type collection include " + li);
                     return null;

@@ -37,7 +37,7 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
     private static Logger logger = java.util.logging.Logger.getLogger(StubGenerator.class.getName());
 
     public <IA extends CppStubSpec.InterfacePropertyAccessor> StubGenerator(GeneratorSuite<IA, ?> suite,
-                         FrancaModel<IA, ?> coreModel,
+                         FrancaModel<IA, ? extends CppStubSpec.TypeCollectionPropertyAccessor> coreModel,
                          CppNameRules rules,
                          FrancaModel.Interface<IA> iface) {
         this.nameRules = rules;
@@ -46,7 +46,7 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
         this.iface = iface;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<>(iface.fInterface, iface.getModel().fModel, iface.accessor, this);
+        rootModel = new CppModelAccessor<IA>(iface.fInterface, iface.getModel().fModel, iface.accessor, this, coreModel);
     }
 
     public GeneratedFile generate() {
@@ -110,7 +110,7 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
 
         FInterface base = iface.fInterface.getBase();
         if (base != null) {
-            DefinedBy baseDefinition = CppNamespaceUtils.getDefinedBy(base);
+            DefinedBy baseDefinition = DefinedBy.getDefinedBy(base);
 
             stubClass.inheritances.add(new CppInheritance(
                     new CppType(

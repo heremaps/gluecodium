@@ -1,7 +1,12 @@
 specification navigation.CppStubSpec
 {
     for interfaces {
-        IsStruct: Boolean (optional, default: false );
+        IsMethodContainer: Boolean (optional, default: false);
+    }
+
+    for type_collections {
+        IsStructDefinition: Boolean (optional, default: false);
+        BelongingMethodContainer: Interface (optional);
     }
 
     for methods {
