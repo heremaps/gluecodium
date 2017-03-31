@@ -35,4 +35,9 @@ typeCollection NavigationTypes {
     struct Duration {
         UInt32 placeholder
     }
+
+    struct PixelPoint {
+      Float x
+      Float y
+    }
 }
