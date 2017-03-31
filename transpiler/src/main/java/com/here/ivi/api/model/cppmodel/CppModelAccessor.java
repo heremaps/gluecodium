@@ -1,9 +1,12 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.model.DefinedBy;
+import com.here.ivi.api.model.FrancaModel;
 import navigation.CppStubSpec;
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
+import java.util.Optional;
 
 public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> extends DefinedBy {
 
@@ -27,14 +30,43 @@ public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> ext
         String[] getNamespace(String[] packages);
     }
 
-    public CppModelAccessor(FTypeCollection type, FModel model, DPA accessor, IModelNameRules rules) {
+    public CppModelAccessor(FTypeCollection type, FModel model, DPA accessor, IModelNameRules rules,
+           FrancaModel<? extends CppStubSpec.IDataPropertyAccessor,? extends CppStubSpec.IDataPropertyAccessor> fModel){
+
         super(type, model);
         this.accessor = accessor;
         this.rules = rules;
+        this.model = fModel;
     }
+
 
     public DPA getAccessor() {
         return accessor;
+    }
+
+    /**
+     * Searches an accessor object for given type-collection and model.
+     * @param definer the definer containing type-collection and model
+     * @return The franca accessor for the given model and type-collection
+     */
+    public Optional<CppStubSpec.IDataPropertyAccessor> getAccessor(DefinedBy definer){
+
+        FTypeCollection tc = definer.type;
+        FModel model = definer.model;
+
+        Optional<? extends FrancaModel.FrancaElement> result =
+           tc instanceof FInterface ?
+           ((FrancaModel<CppStubSpec.IDataPropertyAccessor,CppStubSpec.IDataPropertyAccessor>)this.model).findInterface(model,(FInterface) tc) :
+           ((FrancaModel<CppStubSpec.IDataPropertyAccessor,CppStubSpec.IDataPropertyAccessor>)this.model).findTypeCollection(model,tc);
+
+        if(result.isPresent()) {
+            return Optional.of(
+                    tc instanceof FInterface ?
+                            ((FrancaModel.Interface<CppStubSpec.IDataPropertyAccessor>) result.get()).accessor :
+                            ((FrancaModel.TypeCollection<CppStubSpec.IDataPropertyAccessor>) result.get()).accessor
+            );
+        }
+        return Optional.empty();
     }
 
     /** gets the name of the interface as defined by the IModelNameRules */
@@ -54,4 +86,5 @@ public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> ext
 
     private final DPA accessor;
     private final IModelNameRules rules;
+    private final FrancaModel<? extends CppStubSpec.IDataPropertyAccessor,? extends CppStubSpec.IDataPropertyAccessor> model;
 }

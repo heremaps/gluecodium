@@ -92,7 +92,7 @@ public class CppValueMapper {
             return new CppValue();
         }
 
-        DefinedBy referenceDefiner = CppNamespaceUtils.getDefinedBy(dc.getElement());
+        DefinedBy referenceDefiner = DefinedBy.getDefinedBy(dc.getElement());
         String name = dc.getElement().getName();
 
         // check for built-in types

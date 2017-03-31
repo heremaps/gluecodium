@@ -1,6 +1,6 @@
 package com.here.ivi.api.model;
 
-import org.franca.core.franca.FInterface;
+import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 
@@ -12,6 +12,23 @@ public class DefinedBy {
     public DefinedBy(FTypeCollection type, FModel model) {
         this.type = type;
         this.model = model;
+    }
+
+    /**
+     * Gets the  model and interface that defined the given franca object
+     * @param obj The franca object
+     * @return The model and interface that defined the given object
+     */
+    public static DefinedBy getDefinedBy(EObject obj) {
+        // search for parent type collection
+        FTypeCollection tc = findDefiningTypeCollection(obj);
+
+        if (tc == null || !(tc.eContainer() instanceof FModel)) {
+            throw new RuntimeException("Could not resolve root of EObject. Invalid franca definition. " + obj);
+        }
+
+        FModel model = (FModel)tc.eContainer();
+        return new DefinedBy(tc, model);
     }
 
     /** Returns the base name, eg. MyInterface */
@@ -53,7 +70,27 @@ public class DefinedBy {
     public String toString() {
         return getPackageName() + "." + getBaseName();
     }
-    
-    protected final FTypeCollection type; // A FInterface is a FTypeCollection as well
-    protected final FModel model;
+
+    /**
+     * Find the TypeCollection that contains this type by moving up the hierarchy recursively
+     *
+     * @param obj The franca object
+     * @return The type collection that contains this type
+     */
+    private static FTypeCollection findDefiningTypeCollection(EObject obj) {
+        if (obj instanceof FTypeCollection) {
+            return (FTypeCollection)obj; // FInterface is a FTypeCollection as well
+        }
+
+        EObject parent = obj.eContainer();
+
+        if ((parent == obj) || (parent == null)) {
+            return null;
+        }
+
+        return findDefiningTypeCollection(parent);
+    }
+
+    public final FTypeCollection type; // A FInterface is a FTypeCollection as well
+    public final FModel model;
 }

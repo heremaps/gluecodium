@@ -35,7 +35,7 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
     private static Logger logger = java.util.logging.Logger.getLogger(TypeCollectionGenerator.class.getName());
 
     public <TA extends CppStubSpec.TypeCollectionPropertyAccessor> TypeCollectionGenerator(GeneratorSuite<?, TA> suite,
-                                   FrancaModel<?, TA> coreModel,
+                                   FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor, TA> coreModel,
                                    CppNameRules rules,
                                    FrancaModel.TypeCollection<TA> tc) {
         this.nameRules = rules;
@@ -44,7 +44,7 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
         this.tc = tc;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<>(tc.fTypeCollection, tc.getModel().fModel, tc.accessor, this);
+        rootModel = new CppModelAccessor<TA>(tc.fTypeCollection, tc.getModel().fModel, tc.accessor, this, coreModel);
     }
 
     public GeneratedFile generate() {
@@ -124,7 +124,7 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
         CppTypeDef typeDef = new CppTypeDef();
         typeDef.name = nameRules.typedefName(type.getName()); // TODO use name rules
         typeDef.targetType = CppTypeMapper.wrapMapType(
-                CppNamespaceUtils.getDefinedBy(type),
+                DefinedBy.getDefinedBy(type),
                 CppTypeMapper.map(rootModel, type.getKeyType()),
                 CppTypeMapper.map(rootModel, type.getValueType()));
 
@@ -148,7 +148,6 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
 
     private CppStruct buildCppStruct(FStructType structType) {
 
-        DefinedBy structDefiner = CppNamespaceUtils.getDefinedBy(structType);
         CppStruct struct = new CppStruct();
         struct.name = nameRules.structName(structType.getName());
 

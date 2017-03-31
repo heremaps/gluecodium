@@ -192,8 +192,18 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         typeCollections.addAll(other.typeCollections);
     }
 
-    public Optional<FrancaElement> find(FModel model, FTypeCollection needle) {
-        return Stream.concat(typeCollections.stream(), interfaces.stream())
+    public Optional<? extends FrancaElement> find(FModel model, FTypeCollection needle) {
+        return needle instanceof FInterface ? findInterface(model,(FInterface)needle) : findTypeCollection(model,needle);
+    }
+
+    public Optional<Interface<InterfaceAccessor>> findInterface(FModel model, FInterface needle) {
+        return interfaces.stream()
+                .filter(i -> i.getName().equals(needle.getName()) && i.getModel().getName().equals(model.getName()))
+                .findFirst();
+    }
+
+    public Optional<TypeCollection<TypeCollectionAccessor>> findTypeCollection(FModel model, FTypeCollection needle) {
+        return typeCollections.stream()
                 .filter(i -> i.getName().equals(needle.getName()) && i.getModel().getName().equals(model.getName()))
                 .findFirst();
     }
