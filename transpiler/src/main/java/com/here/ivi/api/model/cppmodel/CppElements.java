@@ -46,6 +46,10 @@ public class CppElements {
             result.addAll(method.returnType.includes);
         }
 
+        for (CppField field : cppClass.fields) {
+            result.addAll(field.type.includes);
+        }
+
         for (CppUsing using : cppClass.usings) {
             result.addAll(using.definition.includes);
         }

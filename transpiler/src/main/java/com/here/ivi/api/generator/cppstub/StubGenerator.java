@@ -6,9 +6,8 @@ import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.CppFileTemplate;
 import com.here.ivi.api.generator.common.templates.CppNameRules;
 import com.here.ivi.api.generator.common.templates.CppTypeCollectionContentTemplate;
+import com.here.ivi.api.generator.cppstub.templates.EmptyBodyTemplate;
 import com.here.ivi.api.generator.cppstub.templates.NotifierBodyTemplate;
-import com.here.ivi.api.generator.cppstub.templates.NotifierTypeTemplate;
-import com.here.ivi.api.generator.cppstub.templates.SetNotifierBodyTemplate;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.*;
@@ -78,30 +77,49 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
         String[] packageDesc = nameRules.packageName(iface.getPackage());
         List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
 
-        CppClass result = new CppClass(nameRules.className(iface.getName()));
+        CppClass stubListenerClass = new CppClass(nameRules.className(iface.getName()) + "Listener");
+        CppClass stubClass = new CppClass(nameRules.className(iface.getName()));
+
+        CppType sharedFromThis = new CppType("std::enable_shared_from_this< " + stubClass.name + " >");
+        sharedFromThis.setIncludes(new Includes.SystemInclude("memory"));
+        stubClass.inheritances.add(new CppInheritance(sharedFromThis, CppInheritance.Type.Public));
 
         // TODO reuse TypeCollectionGenerator to generate types in interface definition
 
         for (FMethod m : iface.fInterface.getMethods()) {
-            appendMethodElements(result, m);
+            appendMethodElements(stubClass, m);
         }
 
         for (FBroadcast b : iface.fInterface.getBroadcasts()) {
-            appendNotifierElements(result, b);
+            appendNotifierElements(stubClass, stubListenerClass, b);
         }
 
         for (FAttribute a : iface.fInterface.getAttributes()) {
-            appendAttributeAccessorElements(result, a);
+            appendAttributeAccessorElements(stubClass, stubListenerClass, a);
+        }
+
+        if (!stubListenerClass.methods.isEmpty()) {
+
+            stubClass.inheritances.add(new CppInheritance(
+                    new CppType("here::internal::ListenerVector< " + stubListenerClass.name + " >",
+                            new Includes.SystemInclude("here/internal/ListenerVector.h")), CppInheritance.Type.Public));
+
+            // add to innermost namespace
+            Iterables.getLast(packageNs).members.add(stubListenerClass);
         }
 
         // add to innermost namespace
-        Iterables.getLast(packageNs).members.add(result);
+        Iterables.getLast(packageNs).members.add(stubClass);
 
         // return outermost namespace
         return Iterables.getFirst(packageNs, null);
     }
 
-    private void appendMethodElements(CppClass result, FMethod m) {
+    private CppType buildListenerList(CppClass stubListenerClass) {
+        return CppTypeMapper.wrapVector(CppTypeMapper.wrapWeakPtr(new CppType(rootModel, stubListenerClass.name)));
+    }
+
+    private void appendMethodElements(CppClass stubClass, FMethod m) {
         String uniqueMethodName = m.getName() + NameHelper.toUpperCamel(m.getSelector()); // TODO use name template
 
         // build return type
@@ -110,28 +128,28 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
             // create using for this type
             String usingTypeName = NameHelper.toUpperCamel(uniqueMethodName) + "Result"; // TODO use name template
             // add using
-            result.usings.add(new CppUsing(usingTypeName, returnType));
+            stubClass.usings.add(new CppUsing(usingTypeName, returnType));
             returnType = new CppType(usingTypeName);
         }
 
         // add method
-        result.methods.add(buildStubMethod(m, returnType));
+        stubClass.methods.add(buildStubMethod(m, returnType));
     }
 
-    private void appendAttributeAccessorElements(CppClass result, FAttribute a) {
+    private void appendAttributeAccessorElements(CppClass stubClass, CppClass stubListenerClass, FAttribute a) {
         // getter
-        result.methods.add(buildAttributeAccessor(rootModel, a, AttributeAccessorMode.GET));
+        stubClass.methods.add(buildAttributeAccessor(rootModel, a, AttributeAccessorMode.GET));
         // setter if not readonly
         if (!a.isReadonly()) {
-            result.methods.add(buildAttributeAccessor(rootModel, a, AttributeAccessorMode.SET));
+            stubClass.methods.add(buildAttributeAccessor(rootModel, a, AttributeAccessorMode.SET));
         }
         // notifier if not subscriptions disabled
         if (!a.isNoSubscriptions()) {
-            appendNotifierElements(result, a);
+            appendNotifierElements(stubClass, stubListenerClass, a);
         }
     }
 
-    private void appendNotifierElements(CppClass result, FAttribute a) {
+    private void appendNotifierElements(CppClass stubClass, CppClass stubListenerClass, FAttribute a) {
         String uniqueNotifierName = a.getName() + "Changed"; // TODO use name template
 
         CppParameter param = new CppParameter();
@@ -143,10 +161,10 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
             param.type = CppTypeMapper.wrapSharedPtr(param.type);
         }
 
-        appendNotifierElements(result, uniqueNotifierName, Collections.singletonList(param));
+        appendNotifierElements(stubClass, stubListenerClass, uniqueNotifierName, Collections.singletonList(param));
     }
 
-    private void appendNotifierElements(CppClass result, FBroadcast b) {
+    private void appendNotifierElements(CppClass stubClass, CppClass stubListenerClass, FBroadcast b) {
         String uniqueNotifierName = b.getName() + NameHelper.toUpperCamel(b.getSelector()); // TODO use name template
 
         List<CppParameter> params = b.getOutArgs().stream().map(a -> {
@@ -162,60 +180,41 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
             return param;
         }).collect(Collectors.toList());
 
-        appendNotifierElements(result, uniqueNotifierName, params);
+        appendNotifierElements(stubClass, stubListenerClass, uniqueNotifierName, params);
     }
 
-    private void appendNotifierElements(CppClass result, String uniqueNotifierName, List<CppParameter> params) {
-        String notifierName = NotifierTypeTemplate.generateName(uniqueNotifierName);
-        String notifierVariableName = NotifierTypeTemplate.generateNotifier(uniqueNotifierName);
+    private void appendNotifierElements(CppClass stubClass, CppClass stubListenerClass, String uniqueNotifierName, List<CppParameter> params) {
+
+        CppMethod listenerMethod = buildListenerMethod(
+                uniqueNotifierName,
+                params);
+        stubListenerClass.methods.add(listenerMethod);
 
         // notifier method (stub to api layer)
         CppMethod method = buildNotifierMethod(
+                stubListenerClass,
                 uniqueNotifierName,
-                params,
-                notifierVariableName);
-        result.methods.add(method);
+                params);
+        stubClass.methods.add(method);
 
-        // std::function with all the broadcast arguments
-        CppType notifierType = new CppType(rootModel, NotifierTypeTemplate.generateType(method),
-                CppElements.TypeInfo.Complex, new Includes.SystemInclude("functional"));
-        // declare using for the complex std::function
-        result.usings.add(new CppUsing(notifierName, notifierType));
-
-        // named reference to what is defined in the type above
-        CppType notifierTypeRef = new CppType(rootModel, notifierName, CppElements.TypeInfo.Complex);
-
-        // add member field for the notifier
-        result.fields.add(new CppField(notifierTypeRef, notifierVariableName, new CppValue("nullptr")));
-
-        // add setter for the notifier
-        result.methods.add(buildSetNotifierMethod(uniqueNotifierName, notifierTypeRef, notifierVariableName));
     }
 
-    // they will be called from the cpp implementation, and this will then be forwarded in some
-    // api specific way to the next level, e.g. by using listeners
-    private CppMethod buildNotifierMethod(String baseName, List<CppParameter> parameters, String notifierVariableName) {
+    // they will be called from the cpp implementation
+    private CppMethod buildNotifierMethod(CppClass stubListenerClass, String baseName, List<CppParameter> parameters) {
         CppMethod method = new CppMethod();
         method.name = "notify" + NameHelper.toUpperCamel(baseName);
         method.inParameters.addAll(parameters);
-        method.mbt = new NotifierBodyTemplate(notifierVariableName);
+        method.mbt = new NotifierBodyTemplate(stubListenerClass.name, "on" + NameHelper.toUpperCamel(baseName));
         return method;
     }
 
-    private CppMethod buildSetNotifierMethod(String name, CppType notifierType, String notifierVariableName) {
+    // they will be implemented by the next generator or other stubs
+    private CppMethod buildListenerMethod(String baseName, List<CppParameter> parameters) {
         CppMethod method = new CppMethod();
-
-        method.name = "set" +  NameHelper.toUpperCamel(name) + "Notifier"; // TODO use name rules
-
-        CppParameter param = new CppParameter();
-        param.name = "notifier";
-        param.mode = CppParameter.Mode.Input;
-        param.type = notifierType;
-        method.inParameters.add(param);
-
-        // add method body template
-        method.mbt = new SetNotifierBodyTemplate(notifierVariableName, "notifier");
-
+        method.name = "on" + NameHelper.toUpperCamel(baseName);
+        method.inParameters.addAll(parameters);
+        method.mbt = new EmptyBodyTemplate();
+        method.specifiers.add("virtual");
         return method;
     }
 

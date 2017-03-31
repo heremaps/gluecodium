@@ -181,6 +181,7 @@ public class CppStubGeneratorSuite
 
         List<GeneratedFile> list = generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
         list.add(copyTarget("here/internal/expected.h", "src/"));
+        list.add(copyTarget("here/internal/ListenerVector.h", "src/"));
 
         return list;
     }

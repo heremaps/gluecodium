@@ -25,8 +25,15 @@ public class CppType extends CppElement {
     }
 
     public CppType(String typeName) {
-        super(typeName);
-        this.info = CppElements.TypeInfo.BuiltIn;
+        this(null, typeName);
+    }
+
+    public CppType(String typeName, Includes.Include... includes) {
+        this(null, typeName, CppElements.TypeInfo.BuiltIn, asList(includes));
+    }
+
+    public CppType(DefinedBy def, String typeName) {
+        this(def, typeName, CppElements.TypeInfo.BuiltIn, Collections.emptyList());
     }
 
     public CppType(DefinedBy def, String typeName, CppElements.TypeInfo info, Includes.Include... includes) {

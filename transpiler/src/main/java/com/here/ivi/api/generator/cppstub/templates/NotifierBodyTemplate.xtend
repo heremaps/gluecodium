@@ -1,21 +1,38 @@
 package com.here.ivi.api.generator.cppstub.templates
 
 import com.here.ivi.api.model.cppmodel.CppMethod
+import com.here.ivi.api.model.cppmodel.CppElements
+import com.here.ivi.api.model.cppmodel.CppParameter
 import org.eclipse.xtend2.lib.StringConcatenation
 
 class NotifierBodyTemplate implements MethodBodyTemplate {
-  private String fieldName
+    private String listenerName
+    private String callbackName
 
-  public new (String fieldName) {
-    this.fieldName = fieldName;
-  }
+    public new (String listenerName, String callbackName) {
+        this.listenerName = listenerName
+        this.callbackName = callbackName
+    }
 
-  override StringConcatenation generate(CppMethod m) '''
-  {
-      if ( «fieldName» != nullptr )
-      {
-          «fieldName»( «(m.inParameters + m.outParameters).map[ p | p.name].join(', ')» );
-      }
-  }
-  '''
+    def static generate(CppParameter p) {
+        if( p.mode == CppParameter.Mode.Input ) {
+            '''«CppElements.CONST_QUALIFIER» «p.type.name»«IF p.type.info == CppElements.TypeInfo.Complex || p.type.info == CppElements.TypeInfo.InterfaceInstance»«CppElements.REF_QUALIFIER»«ENDIF»'''
+        } else if(p.mode == CppParameter.Mode.Output) {
+            '''«p.type.name»«CppElements.REF_QUALIFIER»'''
+        } else {
+            '''«p.type.name»«CppElements.POINTER»'''
+        }
+    }
+
+    override StringConcatenation generate(CppMethod m) '''
+    {
+        «IF m.hasParameters»
+            call_all< «(m.inParameters + m.outParameters).map[ p | p.generate ].join(', ')» >(
+                &«listenerName»::«callbackName»,
+                «(m.inParameters + m.outParameters).map[ p | p.name ].join(', ')» );
+        «ELSE»
+            call_all( &«listenerName»::«callbackName» );
+        «ENDIF»
+    }
+    '''
 }
