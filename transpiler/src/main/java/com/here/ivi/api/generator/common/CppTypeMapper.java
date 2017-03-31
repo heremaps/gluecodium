@@ -19,6 +19,7 @@ public class CppTypeMapper {
     private final static Includes.SystemInclude MAP_INCLUDE = new Includes.SystemInclude("map");
     private final static Includes.SystemInclude STRING_INCLUDE = new Includes.SystemInclude("string");
     private final static Includes.SystemInclude SHARED_PTR_INCLUDE = new Includes.SystemInclude("memory");
+    private final static Includes.SystemInclude WEAK_PTR_INCLUDE = new Includes.SystemInclude("memory");
 
     static Logger logger = java.util.logging.Logger.getLogger(CppTypeMapper.class.getName());
 
@@ -295,29 +296,19 @@ public class CppTypeMapper {
     }
 
     private static CppType wrapArrayType(DefinedBy definedIn, CppType elementType, ArrayMode mode) {
-
-        // include element type and the vector
-        Set<Includes.Include> includes = elementType.includes;
-
-        // lookup where array element type came from, setup includes
-        Includes.Include include = new Includes.LazyInternalInclude(elementType.definedIn);
-        includes.add(include);
-
-        String typeName = elementType.name;
+        CppType result = null;
         switch (mode) {
             case STD_VECTOR: {
-                typeName = "std::vector< " + typeName  + " >";
-                includes.add(VECTOR_INCLUDE);
+                result = wrapVector(elementType);
                 break;
             }
             case STD_SET: {
-                typeName = "std::set< " + typeName  + " >";
-                includes.add(SET_INCLUDE);
+                result = wrapSet(elementType);
                 break;
             }
         }
-
-        return new CppType( definedIn, typeName, CppElements.TypeInfo.Complex, includes );
+        result.definedIn = definedIn;
+        return result;
     }
 
     private static CppType mapMap(CppModelAccessor rootModel, FMapType map) {
@@ -342,23 +333,6 @@ public class CppTypeMapper {
             // if no names are given, fallback to underlying type
             return wrapMapType(mapDefiner, key, value);
         }
-    }
-
-    public static CppType wrapMapType(DefinedBy mapDefiner, CppType key, CppType value)
-    {
-        // lookup where map types came from, setup includes
-        Includes.Include keyInclude = new Includes.LazyInternalInclude(key.definedIn);
-        Includes.Include valueInclude = new Includes.LazyInternalInclude(value.definedIn);
-
-        String mapType = "std::map< " + key.name + ", " + value.name + " >";
-
-        // include key type, value type and the map
-        Set<Includes.Include> includes = new HashSet<>(key.includes);
-        includes.add(keyInclude);
-        includes.add(valueInclude);
-        includes.add(MAP_INCLUDE);
-
-        return new CppType(mapDefiner, mapType, CppElements.TypeInfo.Complex, includes);
     }
 
     private static CppType mapStruct(CppModelAccessor rootModel, FStructType struct) {
@@ -389,6 +363,24 @@ public class CppTypeMapper {
         }
     }
 
+
+    public static CppType wrapMapType(DefinedBy mapDefiner, CppType key, CppType value)
+    {
+        // lookup where map types came from, setup includes
+        Includes.Include keyInclude = new Includes.LazyInternalInclude(key.definedIn);
+        Includes.Include valueInclude = new Includes.LazyInternalInclude(value.definedIn);
+
+        String mapType = "std::map< " + key.name + ", " + value.name + " >";
+
+        // include key type, value type and the map
+        Set<Includes.Include> includes = new HashSet<>(key.includes);
+        includes.add(keyInclude);
+        includes.add(valueInclude);
+        includes.add(MAP_INCLUDE);
+
+        return new CppType(mapDefiner, mapType, CppElements.TypeInfo.Complex, includes);
+    }
+
     public static CppType wrapSharedPtr(CppType content)
     {
         // lookup where content type came from, setup includes
@@ -400,6 +392,51 @@ public class CppTypeMapper {
         Set<Includes.Include> includes = new HashSet<>(content.includes);
         includes.add(typeInclude);
         includes.add(SHARED_PTR_INCLUDE);
+
+        return new CppType(content.definedIn, mapType, CppElements.TypeInfo.Complex, includes);
+    }
+
+    public static CppType wrapWeakPtr(CppType content)
+    {
+        // lookup where content type came from, setup includes
+        Includes.Include typeInclude = new Includes.LazyInternalInclude(content.definedIn);
+
+        String mapType = "std::weak_ptr< " + content.name + " >";
+
+        // include content type and the weak_ptr
+        Set<Includes.Include> includes = new HashSet<>(content.includes);
+        includes.add(typeInclude);
+        includes.add(WEAK_PTR_INCLUDE);
+
+        return new CppType(content.definedIn, mapType, CppElements.TypeInfo.Complex, includes);
+    }
+
+    public static CppType wrapVector(CppType content)
+    {
+        // lookup where content type came from, setup includes
+        Includes.Include typeInclude = new Includes.LazyInternalInclude(content.definedIn);
+
+        String mapType = "std::vector< " + content.name + " >";
+
+        // include content type and the weak_ptr
+        Set<Includes.Include> includes = new HashSet<>(content.includes);
+        includes.add(typeInclude);
+        includes.add(VECTOR_INCLUDE);
+
+        return new CppType(content.definedIn, mapType, CppElements.TypeInfo.Complex, includes);
+    }
+
+    public static CppType wrapSet(CppType content)
+    {
+        // lookup where content type came from, setup includes
+        Includes.Include typeInclude = new Includes.LazyInternalInclude(content.definedIn);
+
+        String mapType = "std::set< " + content.name + " >";
+
+        // include content type and the weak_ptr
+        Set<Includes.Include> includes = new HashSet<>(content.includes);
+        includes.add(typeInclude);
+        includes.add(SET_INCLUDE);
 
         return new CppType(content.definedIn, mapType, CppElements.TypeInfo.Complex, includes);
     }

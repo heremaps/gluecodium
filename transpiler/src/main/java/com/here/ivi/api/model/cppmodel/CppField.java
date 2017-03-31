@@ -9,6 +9,10 @@ public class CppField extends CppElement {
     public CppField() {
     }
 
+    public CppField(CppType type, String name) {
+        this(type, name, null);
+    }
+
     public CppField(CppType type, String name, CppValue initializer) {
         super(name);
         this.type = type;

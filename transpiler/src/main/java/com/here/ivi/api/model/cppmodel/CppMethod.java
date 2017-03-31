@@ -29,6 +29,9 @@ public class CppMethod extends CppElement {
     public boolean hasBody() {
         return mbt != null;
     }
+    public boolean hasParameters() {
+        return !(inParameters.isEmpty() && outParameters.isEmpty());
+    }
 
     @Override
     public boolean equals(Object other) {
