@@ -53,16 +53,12 @@ public class Transpiler {
             try {
 
                 GeneratorSuite<?, ?> generator = GeneratorSuite.instantiateByShortName(sn, this);
-
-                boolean valid = generator.buildModel(options.getInputDir());
-                if (!valid) {
-                    logger.severe("No input to generate from found. Aborting.");
-                    succeeded = false;
-                    continue;
-                }
-
                 logger.info("Instantiated generator " + generator.getName() + " " + generator.getVersion());
-                valid = generator.validate();
+
+                generator.buildModel(options.getInputDir());
+                logger.info("Built franca model");
+
+                boolean valid = generator.validate();
                 logger.info( valid ? "Validation Succeeded" : "Validation Failed");
 
                 if (options.validateOnly()){
