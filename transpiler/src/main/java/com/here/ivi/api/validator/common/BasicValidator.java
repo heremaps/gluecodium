@@ -20,17 +20,34 @@ public class BasicValidator {
 
     public static boolean validate(ResourceSet resourceSet, Collection<File> currentFiles) {
         boolean result = true;
+
+        if (currentFiles.isEmpty()) {
+            logger.severe("No input to generate from found. Aborting.");
+            return false;
+        }
+
         for (File file : currentFiles) {
             Resource resource = resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
+
+            if (!resource.getErrors().isEmpty()) {
+                logger.severe("Parsing " + resource.getURI() + " failed");
+                for (Resource.Diagnostic e : resource.getErrors()) {
+                    logger.severe(resource.getURI() + ":" + String.valueOf(e.getLine()
+                            + " " + e.getMessage()));
+                }
+                result = false;
+                continue;
+            }
+
             // Validate the Franca deployment model
             IResourceValidator fModelValidator = ((XtextResource) resource).getResourceServiceProvider().getResourceValidator();
             List<Issue> issues = fModelValidator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
 
             if (!issues.isEmpty()) {
-                logger.severe("Validation Failed");
+                logger.severe("Validating " + resource.getURI() + " failed");
                 for (Issue i : issues ){
                     logger.severe(i.getUriToProblem().toString()+ ":" + String.valueOf(i.getLineNumber()
-                        + " " + i.getSeverity().toString() +" " + i.getMessage()));
+                        + " " + i.getSeverity().toString() + " " + i.getMessage()));
                 }
                 result = false;
             }
