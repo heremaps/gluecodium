@@ -1,24 +1,27 @@
 package navigation
 
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import navigation.* from "NavigationTypes.fidl"
 import navigation.* from "Module.fidl"
 import navigation.guidance.* from "./guidance/Guidance.fidl"
 import navigation.positioning.* from "./positioning/MapMatcher.fidl"
 
-// generate
 interface NavcoreModule extends Module {
-  version {
-      major 1
-      minor 0
-  }
+    version {
+        major 1
+        minor 0
+    }
 
-  method createGuidance {
-      in {
-           MapMatcher.Instance mapMatcher
-      }
-      out {
-          Guidance.Instance guidance
-      }
-      error NavigationTypes.ErrorCode
-  }
+    method createGuidance {
+        in {
+             MapMatcher.Instance mapMatcher
+        }
+        out {
+            Guidance.Instance guidance
+        }
+        error NavigationTypes.ErrorCode
+    }
+
+
+    public typedef NavcoreModuleInstance is BuiltIn.InstanceId
 }

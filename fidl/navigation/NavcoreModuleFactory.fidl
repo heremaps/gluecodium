@@ -2,12 +2,13 @@ package navigation
 
 import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import navigation.* from "NavigationTypes.fidl"
+import navigation.* from "ModuleFactory.fidl"
 
-interface NavcoreModuleFactory {
+interface NavcoreModuleFactory extends ModuleFactory {
     version {
         major 1
         minor 0
     }
 
-    public typedef Instance is BuiltIn.InstanceId
+    public typedef NavcoreModuleFactoryInstance is BuiltIn.InstanceId
 }

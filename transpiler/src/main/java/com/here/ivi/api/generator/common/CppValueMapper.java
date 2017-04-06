@@ -1,7 +1,6 @@
 package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
-import com.here.ivi.api.generator.cppstub.TypeCollectionGenerator;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.cppmodel.CppValue;
@@ -93,7 +92,7 @@ public class CppValueMapper {
             return new CppValue();
         }
 
-        DefinedBy referenceDefiner = CppTypeMapper.getDefinedBy(dc.getElement());
+        DefinedBy referenceDefiner = CppNamespaceUtils.getDefinedBy(dc.getElement());
         String name = dc.getElement().getName();
 
         // check for built-in types

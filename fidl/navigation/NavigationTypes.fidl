@@ -9,12 +9,19 @@ typeCollection NavigationTypes {
     <** @description: A language in ISO-639-1 format - a IETF language tag (BCP 47), eg. "en-GB", "en-US", "fr-CA" **>
     typedef Language is String
 
-    <** @description: A country code ISO 3166 ALPHA-3 country code **>
+    <** @description: A country code in ISO 3166 ALPHA-3 **>
     typedef CountryCode is String
 
+    <** @description: The base error codes used in all methods **>
     enumeration ErrorCode {
-      None
-      Unknown
+        <** @description: No error occurred **>
+        None
+        <** @description: Method not implemented **>
+        NotImplemented
+        <** @description: Call timed out **>
+        TimeOut
+        <** @description: Unknown error **>
+        Unknown
     }
 
     struct CountryInfo {
