@@ -58,6 +58,11 @@ public class CppElements {
             result.addAll(inheritance.parent.includes);
         }
 
+        for(CppField field : cppClass.fields)
+        {
+            result.addAll(field.type.includes);
+        }
+
         return result;
     }
 }

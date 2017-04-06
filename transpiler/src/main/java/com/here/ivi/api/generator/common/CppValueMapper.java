@@ -20,6 +20,9 @@ public class CppValueMapper {
         if (rhs instanceof FCompoundInitializer) {
             return map(type, (FCompoundInitializer)rhs);
         }
+        if (rhs instanceof FQualifiedElementRef) {
+            return map(type, (FQualifiedElementRef)rhs);
+        }
 
         return map(rhs);
     }
@@ -37,8 +40,6 @@ public class CppValueMapper {
             return map((FDoubleConstant)rhs);
         } else if (rhs instanceof FUnaryOperation) {
             return map((FUnaryOperation)rhs);
-        } else if (rhs instanceof FQualifiedElementRef) {
-            return map((FQualifiedElementRef)rhs);
         }
 
         return new CppValue();
@@ -83,8 +84,11 @@ public class CppValueMapper {
     // TODO move to shared Helper with CppTypeMapper
     static final private String BUILTIN_MODEL = "navigation.BuiltIn";
     static final private String FLOAT_MAX_CONSTANT = "MaxFloat";
+    static final private String FLOAT_NAN_CONSTANT = "NaNFloat";
+    static final private String DOUBLE_NAN_CONSTANT = "NaNDouble";
 
-    public static CppValue map(FQualifiedElementRef dc) {
+
+    public static CppValue map(CppType type, FQualifiedElementRef dc) {
 
         if (dc.getElement() == null) {
             // TODO improve error output as seen in TypeMapper
@@ -94,16 +98,29 @@ public class CppValueMapper {
 
         DefinedBy referenceDefiner = DefinedBy.getDefinedBy(dc.getElement());
         String name = dc.getElement().getName();
+        String result = name;
 
         // check for built-in types
         if (BUILTIN_MODEL.equals(referenceDefiner.toString())) {
-            if (FLOAT_MAX_CONSTANT.equals(name)) {
-                name = "std::numeric_limits< float >::max( )";
+            switch (name){
+                case FLOAT_MAX_CONSTANT:
+                    result = "std::numeric_limits< float >::max( )";
+                    break;
+                case FLOAT_NAN_CONSTANT:
+                    result = "std::numeric_limits< float >::quiet_NaN( )";
+                    break;
+                case DOUBLE_NAN_CONSTANT:
+                    result = "std::numeric_limits< double >::quiet_NaN( )";
+                    break;
+            }
+        //non built-in types (atm just default constructor of complex type)
+        }else{
+            if (type.info == CppElements.TypeInfo.Complex && CppValue.DefaultValueString.equals(name)) {
+              return CppValue.DefaultValue;
             }
         }
-
         // TODO handle includes and namespaces here as well
         // just use the name of the type, missing ns resolution & includes
-        return new CppValue(name);
+        return new CppValue(result);
     }
 }

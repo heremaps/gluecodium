@@ -16,8 +16,8 @@ class CppConstantTemplate {
     []() {
       «type.name» tmp;
       «FOR elem : fci.getElements()»
-      «IF CppValueMapper.map(elem.getValue()).isValid()»
-          tmp.«elem.getElement().getName()» = «CppValueMapper.map(elem.getValue()).name»;
+      «IF CppValueMapper.map(type,elem.getValue()).isValid() && !CppValueMapper.map(type,elem.getValue()).isDefault()»
+          tmp.«elem.getElement().getName()» = «CppValueMapper.map(type,elem.getValue()).name»;
       «ENDIF»
       «ENDFOR»
       return tmp;

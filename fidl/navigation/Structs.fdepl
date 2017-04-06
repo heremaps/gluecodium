@@ -1,0 +1,24 @@
+import "classpath:/navigation/CppStubSpec.fdepl"
+import "./GeoCoordinates.fidl"
+import "./GeoLocation.fidl"
+import "./SatelliteInfo.fidl"
+
+define navigation.CppStubSpec for interface navigation.GeoCoordinatesMethods
+{
+  IsMethodContainer = true
+}
+define navigation.CppStubSpec for typeCollection navigation.GeoCoordinates
+{
+  IsStructDefinition = true
+  BelongingMethodContainer = &navigation.GeoCoordinatesMethods
+}
+
+define navigation.CppStubSpec for typeCollection navigation.GeoLocation
+{
+  IsStructDefinition = true
+}
+
+define navigation.CppStubSpec for typeCollection navigation.SatelliteInfo
+{
+  IsStructDefinition = true
+}

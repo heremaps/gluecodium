@@ -12,6 +12,9 @@ typeCollection NavigationTypes {
     <** @description: A country code in ISO 3166 ALPHA-3 **>
     typedef CountryCode is String
 
+    <** @description: represents a timestamp as milliseconds since 1st of January 1970. **>
+    typedef TimeStampMs is UInt64
+
     <** @description: The base error codes used in all methods **>
     enumeration ErrorCode {
         <** @description: No error occurred **>
@@ -41,3 +44,4 @@ typeCollection NavigationTypes {
       Float y
     }
 }
+
