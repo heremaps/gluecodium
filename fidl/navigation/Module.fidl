@@ -4,14 +4,16 @@ import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import navigation.* from "NavigationTypes.fidl"
 
 interface Module {
-
     version {
         major 1
         minor 0
     }
 
     <** @description: The module version. **>
-    attribute String ^version readonly
+    attribute String ^version readonly noSubscriptions
 
-    public typedef Instance is BuiltIn.InstanceId
+    <** @description: The module name. Used for instantiation through the runtime **>
+    attribute String name readonly noSubscriptions
+
+    public typedef ModuleInstance is BuiltIn.InstanceId
 }

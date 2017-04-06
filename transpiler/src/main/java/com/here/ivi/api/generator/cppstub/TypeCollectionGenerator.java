@@ -124,7 +124,7 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
         CppTypeDef typeDef = new CppTypeDef();
         typeDef.name = nameRules.typedefName(type.getName()); // TODO use name rules
         typeDef.targetType = CppTypeMapper.wrapMapType(
-                CppTypeMapper.getDefinedBy(type),
+                CppNamespaceUtils.getDefinedBy(type),
                 CppTypeMapper.map(rootModel, type.getKeyType()),
                 CppTypeMapper.map(rootModel, type.getValueType()));
 
@@ -148,7 +148,7 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
 
     private CppStruct buildCppStruct(FStructType structType) {
 
-        DefinedBy structDefiner = CppTypeMapper.getDefinedBy(structType);
+        DefinedBy structDefiner = CppNamespaceUtils.getDefinedBy(structType);
         CppStruct struct = new CppStruct();
         struct.name = nameRules.structName(structType.getName());
 

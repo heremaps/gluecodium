@@ -8,14 +8,12 @@ import com.here.ivi.api.generator.common.templates.CppNameRules;
 import com.here.ivi.api.generator.common.templates.CppTypeCollectionContentTemplate;
 import com.here.ivi.api.generator.cppstub.templates.EmptyBodyTemplate;
 import com.here.ivi.api.generator.cppstub.templates.NotifierBodyTemplate;
+import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.*;
 import navigation.CppStubSpec;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
-import org.franca.core.franca.FBroadcast;
-import org.franca.core.franca.FMethod;
+import org.franca.core.franca.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,10 +74,13 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
 
         String[] packageDesc = nameRules.packageName(iface.getPackage());
         List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
+        // add to innermost namespace
+        CppNamespace innermostNs = Iterables.getLast(packageNs);
 
         CppClass stubListenerClass = new CppClass(nameRules.className(iface.getName()) + "Listener");
         CppClass stubClass = new CppClass(nameRules.className(iface.getName()));
 
+        // allow creating a shared pointer from within this class
         CppType sharedFromThis = new CppType("std::enable_shared_from_this< " + stubClass.name + " >");
         sharedFromThis.setIncludes(new Includes.SystemInclude("memory"));
         stubClass.inheritances.add(new CppInheritance(sharedFromThis, CppInheritance.Type.Public));
@@ -98,21 +99,40 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
             appendAttributeAccessorElements(stubClass, stubListenerClass, a);
         }
 
+        // inherit from listener vector if there are any methods on the listener
         if (!stubListenerClass.methods.isEmpty()) {
-
             stubClass.inheritances.add(new CppInheritance(
                     new CppType("here::internal::ListenerVector< " + stubListenerClass.name + " >",
                             new Includes.SystemInclude("here/internal/ListenerVector.h")), CppInheritance.Type.Public));
 
-            // add to innermost namespace
-            Iterables.getLast(packageNs).members.add(stubListenerClass);
+            innermostNs.members.add(stubListenerClass);
+        }
+
+        FInterface base = iface.fInterface.getBase();
+        if (base != null) {
+            DefinedBy baseDefinition = CppNamespaceUtils.getDefinedBy(base);
+
+            stubClass.inheritances.add(new CppInheritance(
+                    new CppType(
+                            CppNamespaceUtils.prefixInterfaceNamespace(rootModel, baseDefinition,
+                                    nameRules.className(base.getName())),
+                            new Includes.LazyInternalInclude(baseDefinition, Includes.InternalType.Interface)),
+                    CppInheritance.Type.Public));
+
+            // TODO ensure that there is actually a listener for the base class (go through broadcasts & attributes)
+            stubListenerClass.inheritances.add(new CppInheritance(
+                    new CppType(
+                            CppNamespaceUtils.prefixInterfaceNamespace(rootModel, baseDefinition,
+                                    nameRules.className(base.getName()) + "Listener"),
+                            new Includes.LazyInternalInclude(baseDefinition, Includes.InternalType.Interface)),
+                    CppInheritance.Type.Public));
         }
 
         // add to innermost namespace
-        Iterables.getLast(packageNs).members.add(stubClass);
+        innermostNs.members.add(stubClass);
 
         // return outermost namespace
-        return Iterables.getFirst(packageNs, null);
+        return Iterables.getFirst(packageNs,null);
     }
 
     private CppType buildListenerList(CppClass stubListenerClass) {
@@ -203,6 +223,7 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
     private CppMethod buildNotifierMethod(CppClass stubListenerClass, String baseName, List<CppParameter> parameters) {
         CppMethod method = new CppMethod();
         method.name = "notify" + NameHelper.toUpperCamel(baseName);
+        method.specifiers.add("inline");
         method.inParameters.addAll(parameters);
         method.mbt = new NotifierBodyTemplate(stubListenerClass.name, "on" + NameHelper.toUpperCamel(baseName));
         return method;

@@ -125,7 +125,7 @@ interface Runtime {
     method registerModuleFactory {
         in {
             <** @description: The reference to a factory instance. **>
-            ModuleFactory.Instance moduleFactory
+            ModuleFactory.ModuleFactoryInstance moduleFactory
         }
         out {}
         <** @description: ErrorNone on success, or another error code otherwise. **>
@@ -141,7 +141,7 @@ interface Runtime {
         }
         out {
             <** @description: The created Module **>
-            Module.Instance module
+            Module.ModuleInstance module
         }
         <** @description: ErrorNone on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode

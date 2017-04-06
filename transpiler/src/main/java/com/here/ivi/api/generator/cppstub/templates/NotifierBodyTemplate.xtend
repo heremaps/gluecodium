@@ -27,11 +27,11 @@ class NotifierBodyTemplate implements MethodBodyTemplate {
     override StringConcatenation generate(CppMethod m) '''
     {
         «IF m.hasParameters»
-            call_all< «(m.inParameters + m.outParameters).map[ p | p.generate ].join(', ')» >(
+            here::internal::ListenerVector< «listenerName» >::call_all< «(m.inParameters + m.outParameters).map[ p | p.generate ].join(', ')» >(
                 &«listenerName»::«callbackName»,
                 «(m.inParameters + m.outParameters).map[ p | p.name ].join(', ')» );
         «ELSE»
-            call_all( &«listenerName»::«callbackName» );
+            here::internal::ListenerVector< «listenerName» >::call_all( &«listenerName»::«callbackName» );
         «ENDIF»
     }
     '''
