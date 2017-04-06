@@ -244,13 +244,17 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
 
         method.name = m.getName() + NameHelper.toUpperCamel(m.getSelector());
         method.returnType = returnTypeName;
-        method.specifiers.add("virtual");
 
-        if (iface.accessor.getConst(m)) {
-            // const needs to be before = 0; This smells more than the = 0 below
-            method.qualifiers.add(" const");
+        if (rootModel.getAccessor().getStatic(m)) {
+            method.specifiers.add("static");
+        } else {
+            if (iface.accessor.getConst(m)) {
+                // const needs to be before = 0; This smells more than the = 0 below
+                method.qualifiers.add(" const");
+            }
+            method.specifiers.add("virtual");
+            method.qualifiers.add(" = 0"); // pure virtual
         }
-        method.qualifiers.add(" = 0"); // pure virtual
 
         for (FArgument inArg : m.getInArgs()) {
             CppParameter param = new CppParameter();

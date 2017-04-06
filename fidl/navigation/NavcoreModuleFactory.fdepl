@@ -1,0 +1,10 @@
+import "classpath:/navigation/CppStubSpec.fdepl"
+import "./NavcoreModuleFactory.fidl"
+
+define navigation.CppStubSpec for interface navigation.NavcoreModuleFactory
+{
+    method create {
+        Static = true
+        Creates = &navigation.NavcoreModuleFactory
+    }
+}

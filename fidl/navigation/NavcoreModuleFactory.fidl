@@ -10,5 +10,15 @@ interface NavcoreModuleFactory extends ModuleFactory {
         minor 0
     }
 
+    method create {
+        in { }
+        out {
+            <** @description: The factory object created. **>
+            NavcoreModuleFactory.NavcoreModuleFactoryInstance factory
+        }
+        <** @description: ErrorNone on success, or another error code otherwise. **>
+        error NavigationTypes.ErrorCode
+    }
+
     public typedef NavcoreModuleFactoryInstance is BuiltIn.InstanceId
 }
