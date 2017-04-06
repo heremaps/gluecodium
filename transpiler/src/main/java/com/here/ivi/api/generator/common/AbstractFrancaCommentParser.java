@@ -51,9 +51,9 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
         this.commentFormatter = formatter;
     }
 
-    public AbstractFrancaCommentParser(final FInterface iface, ICommentFormatter formatter) {
-        this.francaElement = iface;
-        this.className = iface.getName();
+    public AbstractFrancaCommentParser(final FModelElement elem, ICommentFormatter formatter) {
+        this.francaElement = elem;
+        this.className = elem.getName();
         this.parser = this::parseInterfaceDocumentation;
         this.commentFormatter = formatter;
     }

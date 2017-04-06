@@ -1,0 +1,47 @@
+package navigation
+
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+import navigation.* from "./NavigationTypes.fidl"
+
+typeCollection GeoCoordinates {
+    version {
+        major 1
+        minor 0
+    }
+    //specification of the struct itself
+    struct type{ Double latitude
+                 Double longitude
+                 Double altitude
+               }
+
+    // specification of the default value
+    const GeoCoordinates.type defaultValues  = { latitude: BuiltIn.NaNDouble,
+                                                 longitude: BuiltIn.NaNDouble,
+                                                 altitude: BuiltIn.NaNDouble }
+}
+
+interface GeoCoordinatesMethods {
+  version {
+    major 1
+    minor 0
+  }
+
+  // default constructor is generated automatically
+
+  // non-default constructor
+  method init
+  {
+    in
+    {
+        Double latitude
+        Double longitude
+    }
+
+    out
+    {
+        GeoCoordinates.type object
+    }
+  }
+}
+
+

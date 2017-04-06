@@ -13,4 +13,8 @@ typeCollection BuiltIn {
 
   // will be translated to target language in generators
   const Float MaxFloat = 3.4028235E38
+
+  const Double NaNDouble = -0.0d
+  const Double NaNFloat  = -0.0f
+
 }

@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -162,21 +163,35 @@ public class CppStubGeneratorSuite
 
         CppStubNameRules rules = new CppStubNameRules();
 
-        Stream<GeneratedFile> generatorStreams = Stream.concat(
-                // generate one file for each type collection, containing all the typedefs, enums, etc.
-                model.typeCollections.stream()
-                        .map(tc -> {
-                            TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
-                            return generator.generate();
-                        }),
+        CppStubStructGenerator structGenerator = new CppStubStructGenerator(rules);
 
-                // every interface gets its own file
-                model.interfaces.stream()
-                        .map(iface -> {
-                            StubGenerator generator = new StubGenerator(this, model, rules, iface);
-                            return generator.generate();
-                        })
-        );
+        //structs could have a belonging interface containing its methods !!!
+        List<AbstractMap.SimpleEntry<
+                FrancaModel.TypeCollection<CppStubSpec.TypeCollectionPropertyAccessor>,
+                FrancaModel.Interface<CppStubSpec.InterfacePropertyAccessor> > > mapping = CppStubStructGenerator.collectMethodContainers(model);
+
+        Stream<GeneratedFile> generatorStreams = Stream.concat(
+                Stream.concat(
+                    // generate one file for each type collection, containing all the typedefs, enums, etc.
+                    model.typeCollections.stream()
+                            .filter( tc -> tc.accessor.getIsStructDefinition(tc.fTypeCollection) == false )
+                            .map(tc -> {
+                                TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
+                                return generator.generate();
+                            }),
+
+                    // every interface (that is not a struct) gets its own file
+                    model.interfaces.stream()
+                            .filter( iface -> iface.accessor.getIsMethodContainer(iface.fInterface) == null ||
+                                              iface.accessor.getIsMethodContainer(iface.fInterface) == false)
+                            .map(iface -> {
+                                StubGenerator generator = new StubGenerator(this, model, rules, iface);
+                                return generator.generate();
+                            })
+                    ),
+                mapping.stream()
+                        .map(pair -> structGenerator.generateFiles(this,model,pair.getValue(),pair.getKey())));
+
 
 
         List<GeneratedFile> list = generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
