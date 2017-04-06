@@ -1,15 +1,16 @@
 specification navigation.CppStubSpec
 {
-  for interfaces {
-    IsStruct: Boolean (optional, default: false );
-  }
+    for interfaces {
+        IsStruct: Boolean (optional, default: false );
+    }
 
-  for methods {
-    Const:   Boolean (optional, default: false);
-    Creates: Interface (optional);
-  }
+    for methods {
+        Const:   Boolean (optional, default: false);
+        Static:        Boolean (optional, default: false);
+        Creates: Interface (optional);
+    }
 
-  for arrays {
-    IsSet: Boolean (optional, default: false);
-  }
+    for arrays {
+        IsSet: Boolean (optional, default: false);
+    }
 }
