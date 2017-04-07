@@ -7,7 +7,7 @@ public class CppParameter extends CppElement {
     public enum Mode {
         Input,
         Output,
-        Listener
+        RawPointer
     }
 
     public CppType type;
