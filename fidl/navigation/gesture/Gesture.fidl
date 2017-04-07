@@ -99,7 +99,7 @@ interface Gesture {
       case it should be handled there. **>
     broadcast longTapTriggered {
         out {
-          <** @description pos Long tap position. **>
+          <** @description: pos Long tap position. **>
           NavigationTypes.PixelPoint pos
         }
     }
@@ -186,8 +186,8 @@ interface Gesture {
               started. **>
           NavigationTypes.PixelPoint center
           <** @description: start_angle Angle between touch points in the beginning of rotation in degree. **>
-          <** @description: current_angle Angle between current touch points in degree. **>
           Float startAngle
+          <** @description: current_angle Angle between current touch points in degree. **>
           Float currentAngle
         }
     }
