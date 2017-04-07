@@ -13,15 +13,12 @@ interface NavcoreModule extends Module {
     }
 
     method createGuidance {
-        in {
-             MapMatcher.Instance mapMatcher
-        }
+        in {}
         out {
             Guidance.Instance guidance
         }
         error NavigationTypes.ErrorCode
     }
-
 
     public typedef NavcoreModuleInstance is BuiltIn.InstanceId
 }

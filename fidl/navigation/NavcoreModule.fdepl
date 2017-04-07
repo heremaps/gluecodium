@@ -1,0 +1,10 @@
+import "classpath:/navigation/CppStubSpec.fdepl"
+import "./NavcoreModule.fidl"
+import "./guidance/Guidance.fidl"
+
+define navigation.CppStubSpec for interface navigation.NavcoreModule
+{
+    method createGuidance {
+        Creates = &navigation.guidance.Guidance
+    }
+}
