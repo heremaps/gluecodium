@@ -2,6 +2,7 @@ package navigation
 
 import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import navigation.* from "NavigationTypes.fidl"
+import navigation.* from "Module.fidl"
 
 interface ModuleFactory {
 
@@ -10,12 +11,19 @@ interface ModuleFactory {
         minor 0
     }
 
+    method createModule {
+        in { }
+        out {
+             Module.ModuleInstance module
+        }
+        error NavigationTypes.ErrorCode
+    }
+
     <** @description: The version of the module produced by this factory. **>
     attribute String ^moduleVersion readonly noSubscriptions
 
     <** @description: The name of the supported module. **>
     attribute String name readonly noSubscriptions
-
 
     public typedef ModuleFactoryInstance is BuiltIn.InstanceId
 }
