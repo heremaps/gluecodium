@@ -142,11 +142,62 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
     private void appendMethodElements(CppClass stubClass, FMethod m) {
         String uniqueMethodName = m.getName() + NameHelper.toUpperCamel(m.getSelector()); // TODO use name template
 
-        // build return type
-        CppType returnType = buildStubMethodReturnType(m);
-        if (returnType != CppType.Void) {
+        CppType errorType;
+        if (m.getErrorEnum() != null) {
+            // TODO do we need to support Errors, instead of ErrorEnum as well - might need to create an inline type
+            errorType = CppTypeMapper.mapEnum(rootModel, m.getErrorEnum());
+        } else {
+            logger.severe("Missing error type for method " + m.getName());
+            errorType = CppType.Void;
+        }
+
+        CppType returnType;
+        if (m.getOutArgs().isEmpty()) {
+            returnType = errorType;
+        } else {
+
+            List<CppType> returnTypes = new ArrayList<>();
+            returnTypes.add(errorType);
+
+            // create struct for multiple out arguments
+            if (m.getOutArgs().size() > 1) {
+                CppStruct struct = new CppStruct();
+                struct.name = NameHelper.toUpperCamel(uniqueMethodName) + "Result";
+                struct.fields = m.getOutArgs().stream().map(a -> {
+                    CppType type = CppTypeMapper.map(rootModel, a);
+                    if (type.info == CppElements.TypeInfo.InterfaceInstance) {
+                        type = CppTypeMapper.wrapSharedPtr(type);
+                    }
+                    return new CppField(type, NameHelper.toLowerCamel(a.getName()));
+                }).collect(Collectors.toList());
+                stubClass.structs.add(struct);
+
+                returnTypes.add(new CppType(struct.name));
+            }
+            // take first argument
+            else {
+                CppType type = CppTypeMapper.map(rootModel, m.getOutArgs().get(0));
+                if (type.info == CppElements.TypeInfo.InterfaceInstance) {
+                    type = CppTypeMapper.wrapSharedPtr(type);
+                }
+                returnTypes.add(type);
+            }
+
+            // always wrap multiple out values (error + outArgs) in their own type
+            List<String> names = returnTypes.stream().map(t -> t.name).collect(Collectors.toList());
+            Set<Includes.Include> includes = returnTypes.stream()
+                    .flatMap(t -> t.includes.stream())
+                    .collect(Collectors.toSet());
+            includes.add(EXPECTED_INCLUDE);
+
+            returnType = new CppType(
+                    rootModel,
+                    "here::internal::Expected< " + String.join(", ", names) + " >",
+                    CppElements.TypeInfo.Complex,
+                    includes);
+
             // create using for this type
-            String usingTypeName = NameHelper.toUpperCamel(uniqueMethodName) + "Result"; // TODO use name template
+            String usingTypeName = NameHelper.toUpperCamel(uniqueMethodName) + "Expected"; // TODO use name template
             // add using
             stubClass.usings.add(new CppUsing(usingTypeName, returnType));
             returnType = new CppType(usingTypeName);
@@ -273,43 +324,6 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
 
     private final static Includes.SystemInclude EXPECTED_INCLUDE =
             new Includes.SystemInclude("here/internal/expected.h");
-
-    private CppType buildStubMethodReturnType(FMethod m) {
-        List<CppType> returnTypes = new ArrayList<>();
-
-        // TODO do we need to support Errors, instead of ErrorEnum as well - might need to create an inline type
-        if (m.getErrorEnum() != null) {
-            CppType mapped = CppTypeMapper.mapEnum(rootModel, m.getErrorEnum());
-            returnTypes.add(mapped);
-        } else {
-            logger.severe("Missing error type for method " + m.getName());
-            returnTypes.add(CppType.Void);
-        }
-
-        for (FArgument outArg : m.getOutArgs()) {
-            CppType mapped = CppTypeMapper.map(rootModel, outArg);
-            if (mapped.info == CppElements.TypeInfo.InterfaceInstance) {
-                mapped = CppTypeMapper.wrapSharedPtr(mapped);
-            }
-            returnTypes.add(mapped);
-        }
-
-        if (!returnTypes.isEmpty()) {
-            List<String> names = returnTypes.stream().map(t -> t.name).collect(Collectors.toList());
-            Set<Includes.Include> includes = returnTypes.stream()
-                    .flatMap(t -> t.includes.stream())
-                    .collect(Collectors.toSet());
-            includes.add(EXPECTED_INCLUDE);
-
-            return new CppType(
-                    rootModel,
-                    "here::internal::Expected< " + String.join(", ", names) + " >",
-                    CppElements.TypeInfo.Complex,
-                    includes );
-        }
-
-        return CppType.Void;
-    }
 
     @Override
     public String getInterfaceName(String baseName) {

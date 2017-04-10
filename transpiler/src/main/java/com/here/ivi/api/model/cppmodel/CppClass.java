@@ -9,6 +9,7 @@ public class CppClass extends CppElement {
     public Set<CppUsing> usings = new LinkedHashSet<>();
     public Set<CppField> fields = new LinkedHashSet<>();
     public Set<CppInheritance> inheritances = new LinkedHashSet<>();
+    public Set<CppStruct> structs = new LinkedHashSet<>();
 
     public String comment = null;
 
@@ -19,8 +20,9 @@ public class CppClass extends CppElement {
     @Override
     public Stream<CppElement> stream() {
         return Stream.concat(methods.stream(),
-                Stream.concat(usings.stream(),
-                 Stream.concat(fields.stream(),
-                         inheritances.stream()))).map(CppElement.class::cast);
+                Stream.concat(structs.stream(),
+                 Stream.concat(usings.stream(),
+                  Stream.concat(fields.stream(),
+                          inheritances.stream())))).map(CppElement.class::cast);
     }
 }
