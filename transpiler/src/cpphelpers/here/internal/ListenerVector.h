@@ -14,6 +14,7 @@
 
 #include <cassert>
 #include <mutex>
+#include <memory>
 #include <vector>
 
 namespace here {
