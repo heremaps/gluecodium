@@ -8,12 +8,11 @@ import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
-public class CppType extends CppElement {
+public class CppType extends CppElementWithIncludes {
     public final static CppType None = new CppType("");
     public final static CppType Void = new CppType("void");
 
     public CppElements.TypeInfo info = CppElements.TypeInfo.Invalid;
-    public Set<Includes.Include> includes = Collections.emptySet();
     public DefinedBy definedIn;
 
     public boolean isValid() {
@@ -42,14 +41,13 @@ public class CppType extends CppElement {
 
     public CppType(DefinedBy def, String typeName, CppElements.TypeInfo info,
                    Collection<Includes.Include> includes) {
-        super(typeName);
+        super(typeName,includes);
         this.definedIn = def;
         this.info = info;
-        this.includes = new HashSet<>(includes);
     }
 
     public void setIncludes(Includes.Include... includes) {
-        this.includes = new HashSet<>(Arrays.asList(includes));
+        super.includes = new HashSet<>(Arrays.asList(includes));
     }
 
     @Override

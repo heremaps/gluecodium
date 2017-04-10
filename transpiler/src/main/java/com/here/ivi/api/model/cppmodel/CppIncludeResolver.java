@@ -43,12 +43,12 @@ public class CppIncludeResolver {
 
     public void resolveLazyIncludes(CppElement root) {
         root.streamRecursive()
-                .filter(p -> p instanceof CppType)
-                .map(CppType.class::cast)
+                .filter(p -> p instanceof CppElementWithIncludes)
+                .map(CppElementWithIncludes.class::cast)
                 .forEach(this::resolveLazyIncludes);
     }
 
-    private void resolveLazyIncludes(CppType type) {
+    private void resolveLazyIncludes(CppElementWithIncludes type) {
         type.includes = type.includes.stream().map(i -> {
             if (i instanceof Includes.LazyInternalInclude) {
 
