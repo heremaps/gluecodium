@@ -13,7 +13,7 @@ namespace internal {
  * Can wrap error & multiple result types.
  * To be used by generated code.
  */
-template <typename E, typename... T_values>
+template <typename E, typename T>
 struct Expected
 {
 public:
@@ -23,10 +23,9 @@ public:
      * @param values The values in a parameter pack
      * @return The created result object
      */
-    static Expected result(T_values&&... values) {
+    static Expected result(T value) {
         // this will also call the default constructor of the error, to be fixed when using optional
-        return Expected(std::piecewise_construct, // ensure the right constructor is called
-                        std::forward_as_tuple(values...)); // this still involves a copy constructor call
+        return Expected(value);
     }
 
     /**
@@ -68,12 +67,12 @@ public:
      * @return The values
      * @note will abort if there was an error
      */
-    inline const std::tuple<T_values...>& get_values() {
+    inline const T& get_result() {
         if (!m_succeeded) {
             std::cerr << "Do not read a result from a invalid object!" << std::endl; // TODO switch to logging
             std::terminate(); // fail here, this is an error in the generated code
         }
-        return m_values;
+        return m_result;
     }
 
 private:
@@ -86,15 +85,14 @@ private:
         m_error(std::move(error)) { } // move here to prevent another copy
 
     /// Creates successful instance
-    Expected(std::piecewise_construct_t,
-             std::tuple<T_values...>&& values) :
+    Expected(T result) :
         m_succeeded(true),
-        m_values(std::move(values)) { } // move here to prevent another copy
+        m_result(std::move(result)) { } // move here to prevent another copy
 
     // TODO look into variant/optional usage later
     bool m_succeeded; /// stores whether the call was successful or not
     E m_error; /// the error type
-    std::tuple<T_values...> m_values; /// the result values
+    T m_result; /// the result value
 };
 
 } // internal

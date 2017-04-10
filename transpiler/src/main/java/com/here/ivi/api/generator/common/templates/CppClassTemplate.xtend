@@ -9,6 +9,11 @@ class CppClassTemplate {
          */
         class «clazz.name» «CppInheritanceTemplate.generate(clazz)»{
         public:
+            «FOR s : clazz.structs»
+              «CppPureStructTemplate.generate(s)»
+            «ENDFOR»
+
+        public:
             «FOR u : clazz.usings»
             using «u.name» = «u.definition.name»;
             «ENDFOR»
