@@ -39,15 +39,22 @@ public class CppElements {
         for (CppMethod method : cppClass.methods) {
             for (CppParameter inParam : method.inParameters) {
                 result.addAll(inParam.type.includes);
+                if(inParam.value != null) {
+                    result.addAll(inParam.value.includes);
+                }
             }
             for (CppParameter outParam : method.outParameters) {
                 result.addAll(outParam.type.includes);
+                if(outParam.value != null) {
+                    result.addAll(outParam.value.includes);
+                }
             }
             result.addAll(method.returnType.includes);
         }
 
         for (CppField field : cppClass.fields) {
             result.addAll(field.type.includes);
+            result.addAll(field.initializer.includes);
         }
 
         for (CppUsing using : cppClass.usings) {
@@ -56,11 +63,6 @@ public class CppElements {
 
         for (CppInheritance inheritance : cppClass.inheritances){
             result.addAll(inheritance.parent.includes);
-        }
-
-        for(CppField field : cppClass.fields)
-        {
-            result.addAll(field.type.includes);
         }
 
         return result;

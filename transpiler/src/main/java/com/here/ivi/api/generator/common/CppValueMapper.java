@@ -2,6 +2,7 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
 import com.here.ivi.api.model.DefinedBy;
+import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.*;
@@ -13,6 +14,8 @@ import java.util.logging.Logger;
 // First do the logic mapping to JavaTypes that support validation and other things
 // Then translate into target language
 public class CppValueMapper {
+
+    private final static Includes.SystemInclude LIMITS_INCLUDE = new Includes.SystemInclude("limits");
 
     static Logger logger = java.util.logging.Logger.getLogger(CppValueMapper.class.getName());
 
@@ -78,7 +81,7 @@ public class CppValueMapper {
 
     public static CppValue map(CppType type, FCompoundInitializer ci) {
         // FIXME having a template in here is not-so-nice, this should be some CppType
-        return new CppValue(CppConstantTemplate.generate(type, ci).toString());
+        return new CppValue(CppConstantTemplate.generate(type, ci).toString(), type.includes);
     }
 
     // TODO move to shared Helper with CppTypeMapper
@@ -88,6 +91,7 @@ public class CppValueMapper {
     static final private String DOUBLE_NAN_CONSTANT = "NaNDouble";
 
 
+    // TODO handle namespaces here as well
     public static CppValue map(CppType type, FQualifiedElementRef dc) {
 
         if (dc.getElement() == null) {
@@ -100,7 +104,7 @@ public class CppValueMapper {
         String name = dc.getElement().getName();
         String result = name;
 
-        // check for built-in types
+        // check for built-in types (atm all values are from <limits>)
         if (BUILTIN_MODEL.equals(referenceDefiner.toString())) {
             switch (name){
                 case FLOAT_MAX_CONSTANT:
@@ -112,15 +116,18 @@ public class CppValueMapper {
                 case DOUBLE_NAN_CONSTANT:
                     result = "std::numeric_limits< double >::quiet_NaN( )";
                     break;
+                default:
+                    throw new RuntimeException("Could not built-in value. Invalid franca definition. " + dc);
             }
+            return new CppValue(result, LIMITS_INCLUDE);
+
         //non built-in types (atm just default constructor of complex type)
         }else{
             if (type.info == CppElements.TypeInfo.Complex && CppValue.DefaultValueString.equals(name)) {
-              return CppValue.DefaultValue;
+                return new CppValue(CppValue.DefaultValueString, type.includes);
             }
         }
-        // TODO handle includes and namespaces here as well
-        // just use the name of the type, missing ns resolution & includes
-        return new CppValue(result);
+        // just use the name of the type and its includes, missing ns resolution
+        return new CppValue(result, type.includes);
     }
 }
