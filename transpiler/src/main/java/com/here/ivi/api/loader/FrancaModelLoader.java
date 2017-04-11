@@ -3,6 +3,7 @@ package com.here.ivi.api.loader;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.here.ivi.api.model.FrancaModel;
+import navigation.CppStubSpec;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
@@ -33,7 +34,8 @@ import java.util.stream.Collectors;
  *
  * @note The loader does not support more than one fdepl file describing the same interfaces or types
  */
-public class FrancaModelLoader<IA, TA> {
+public class FrancaModelLoader<IA extends CppStubSpec.InterfacePropertyAccessor,
+                               TA extends CppStubSpec.TypeCollectionPropertyAccessor> {
 
     private static final String FIDL_SUFFIX = "fidl";
     private static final String FDEPL_SUFFIX = "fdepl";

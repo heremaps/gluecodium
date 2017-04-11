@@ -2,6 +2,7 @@ package com.here.ivi.api.model;
 
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.SpecAccessorFactory;
+import navigation.CppStubSpec;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
@@ -17,10 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-@SuppressWarnings("WeakerAccess")
-public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
+public class FrancaModel<InterfaceAccessor extends CppStubSpec.InterfacePropertyAccessor,
+                         TypeCollectionAccessor extends CppStubSpec.TypeCollectionPropertyAccessor> {
 
     // Information about the models
     static public class ModelInfo {
@@ -32,7 +32,7 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         }
     }
 
-    static public String[] splitPackage(String modelName) {
+    static String[] splitPackage(String modelName) {
         return modelName.split("\\.");
     }
 
@@ -41,10 +41,11 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         String[] getPackage();
         ModelInfo getModel();
         Version getVersion();
+        CppStubSpec.IDataPropertyAccessor getAccessor();
     }
 
     // FInterface with accessor
-    static public class Interface<Accessor> implements FrancaElement {
+    static public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor> implements FrancaElement {
         public FInterface fInterface;
         public Accessor accessor;
         public ModelInfo model;
@@ -76,16 +77,22 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         }
 
         @Override
+        public CppStubSpec.IDataPropertyAccessor getAccessor() {
+            return accessor;
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (o == null || !(o instanceof FrancaModel.Interface<?>)) return false;
-            FrancaModel.Interface<Accessor> co = (FrancaModel.Interface<Accessor>)o;
+            FrancaModel.Interface<?> co = (FrancaModel.Interface<?>)o;
             return getName().equals(co.getName()) && model.fModel.getName().equals(co.model.fModel.getName());
         }
 
         // finds a matching FDInterface for an FInterface, if one is found, creates a valid InterfacePropertyAccessor,
         // otherwise creates an empty accessor that will return the defaults for a spec
-        static public <IA> Interface<IA> create(SpecAccessorFactory<IA, ?> f, FDSpecification spec,
-                                                ModelInfo info, FInterface fi, FDModel fdm) {
+        static public <IA extends CppStubSpec.InterfacePropertyAccessor> Interface<IA>
+        create(SpecAccessorFactory<IA, ?> f, FDSpecification spec, ModelInfo info, FInterface fi, FDModel fdm) {
+
             Interface<IA> result = new Interface<>();
             result.fInterface = fi;
             result.accessor = f.createInterfaceAccessor(FDHelper.createDummyFDElement(spec, fi));
@@ -109,7 +116,7 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
     }
 
     // FTypeCollection with accessor
-    static public class TypeCollection<Accessor> implements FrancaElement {
+    static public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyAccessor> implements FrancaElement {
         public FTypeCollection fTypeCollection;
         public Accessor accessor;
         public ModelInfo model;
@@ -136,10 +143,23 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
             return Version.create(fTypeCollection.getVersion());
         }
 
+        @Override
+        public CppStubSpec.IDataPropertyAccessor getAccessor() {
+            return accessor;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null || !(o instanceof FrancaModel.TypeCollection<?>)) return false;
+            FrancaModel.TypeCollection<?> co = (FrancaModel.TypeCollection<?>)o;
+            return getName().equals(co.getName()) && model.fModel.getName().equals(co.model.fModel.getName());
+        }
+
         // finds a matching FDTypes for a FTypeCollection, if one is found, creates a valid T
         // ypeCollectionPropertyAccessor, otherwise creates an empty accessor that will return the defaults for a spec
-        static public <TA> TypeCollection<TA> create(SpecAccessorFactory<?, TA> f, FDSpecification spec,
-                                                     ModelInfo info, FTypeCollection tc, FDModel fdm) {
+        static public <TA extends CppStubSpec.TypeCollectionPropertyAccessor> TypeCollection<TA>
+        create(SpecAccessorFactory<?, TA> f, FDSpecification spec, ModelInfo info, FTypeCollection tc, FDModel fdm) {
+
             TypeCollection<TA> result = new TypeCollection<>();
             result.fTypeCollection = tc;
             result.accessor = f.createTypeCollectionAccessor(FDHelper.createDummyFDElement(spec, tc));
@@ -165,8 +185,9 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
 
     // creates a FrancaModel from the given FModel & FDModel, ensuring that there are PropertyAccessors for each
     // element
-    public static <IA, TA> FrancaModel<IA, TA> create(SpecAccessorFactory<IA, TA> factory,
-                                                      FDSpecification spec, FModel fm, FDModel fdm) {
+    public static <IA extends CppStubSpec.InterfacePropertyAccessor, TA extends CppStubSpec.TypeCollectionPropertyAccessor> FrancaModel<IA, TA>
+    create(SpecAccessorFactory<IA, TA> factory, FDSpecification spec, FModel fm, FDModel fdm) {
+
         FrancaModel<IA, TA> result = new FrancaModel<>();
 
         ModelInfo info = new ModelInfo();
@@ -192,8 +213,13 @@ public class FrancaModel<InterfaceAccessor, TypeCollectionAccessor> {
         typeCollections.addAll(other.typeCollections);
     }
 
+    public Optional<? extends FrancaElement> find(DefinedBy definer) {
+        return find(definer.model, definer.type);
+    }
+
     public Optional<? extends FrancaElement> find(FModel model, FTypeCollection needle) {
-        return needle instanceof FInterface ? findInterface(model,(FInterface)needle) : findTypeCollection(model,needle);
+        return needle instanceof FInterface ? findInterface(model, (FInterface)needle) :
+                                              findTypeCollection(model, needle);
     }
 
     public Optional<Interface<InterfaceAccessor>> findInterface(FModel model, FInterface needle) {
