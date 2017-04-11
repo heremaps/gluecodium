@@ -35,8 +35,7 @@ public class CppStubStructGenerator {
         //for each type collection: search its methods (if any)
         for (FrancaModel.TypeCollection<CppStubSpec.TypeCollectionPropertyAccessor> tc : model.typeCollections) {
 
-            if (tc.accessor.getIsStructDefinition(tc.fTypeCollection) != null &&
-                tc.accessor.getIsStructDefinition(tc.fTypeCollection) == true) {
+            if (tc.accessor.getIsStructDefinition(tc.fTypeCollection)) {
                 //find real interface
                 FInterface fi = tc.accessor.getBelongingMethodContainer(tc.fTypeCollection);
                 Optional<FrancaModel.Interface<CppStubSpec.InterfacePropertyAccessor>> fiOptional =
@@ -50,7 +49,7 @@ public class CppStubStructGenerator {
                     logger.severe("Error: interface could not be found: " + fi);
                 }
                 FrancaModel.Interface<CppStubSpec.InterfacePropertyAccessor> fullInterface =
-                        fiOptional.isPresent() ? fiOptional.get() : null;
+                        fiOptional.orElse(null);
 
                 result.add(new AbstractMap.SimpleEntry<>(tc, fullInterface));
             }

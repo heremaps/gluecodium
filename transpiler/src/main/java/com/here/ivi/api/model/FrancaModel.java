@@ -97,7 +97,8 @@ public class FrancaModel<InterfaceAccessor extends CppStubSpec.InterfaceProperty
 
             Interface<IA> result = new Interface<>();
             result.fInterface = fi;
-            result.accessor = f.createInterfaceAccessor(FDHelper.createDummyFDElement(spec, fi));
+            result.accessor = f.createInterfaceAccessor(
+                    (FDeployedInterface) FDHelper.createDummyFDElement(spec, fi));
             result.model = info;
 
             if (fdm != null) {
@@ -164,7 +165,8 @@ public class FrancaModel<InterfaceAccessor extends CppStubSpec.InterfaceProperty
 
             TypeCollection<TA> result = new TypeCollection<>();
             result.fTypeCollection = tc;
-            result.accessor = f.createTypeCollectionAccessor(FDHelper.createDummyFDElement(spec, tc));
+            result.accessor = f.createTypeCollectionAccessor(
+                    (FDeployedTypeCollection) FDHelper.createDummyFDElement(spec, tc));
             result.model = info;
             result.rootDefinition = new DefinedBy(tc, info.fModel);
 

@@ -87,7 +87,7 @@ public class Transpiler {
             try {
                 ConsoleOutput co = new ConsoleOutput();
                 co.output(files);
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
 
@@ -96,7 +96,7 @@ public class Transpiler {
             try {
                 FileOutput fo = new FileOutput(new File(outdir));
                 fo.output(files);
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
     }

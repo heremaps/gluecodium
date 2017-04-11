@@ -174,7 +174,7 @@ public class CppStubGeneratorSuite
                 Stream.concat(
                     // generate one file for each type collection, containing all the typedefs, enums, etc.
                     model.typeCollections.stream()
-                            .filter( tc -> tc.accessor.getIsStructDefinition(tc.fTypeCollection) == false )
+                            .filter(tc -> !tc.accessor.getIsStructDefinition(tc.fTypeCollection))
                             .map(tc -> {
                                 TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
                                 return generator.generate();
@@ -182,8 +182,8 @@ public class CppStubGeneratorSuite
 
                     // every interface (that is not a struct) gets its own file
                     model.interfaces.stream()
-                            .filter( iface -> iface.accessor.getIsMethodContainer(iface.fInterface) == null ||
-                                              iface.accessor.getIsMethodContainer(iface.fInterface) == false)
+                            .filter(iface -> iface.accessor.getIsMethodContainer(iface.fInterface) == null ||
+                                    !iface.accessor.getIsMethodContainer(iface.fInterface))
                             .map(iface -> {
                                 StubGenerator generator = new StubGenerator(this, model, rules, iface);
                                 return generator.generate();

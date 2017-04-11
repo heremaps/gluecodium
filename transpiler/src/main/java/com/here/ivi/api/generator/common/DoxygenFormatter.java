@@ -10,7 +10,7 @@ import com.here.ivi.api.generator.common.ICommentFormatter;
 final public class DoxygenFormatter implements ICommentFormatter {
     public DoxygenFormatter(String generator) {
         doxygenTagsToKeep =
-            Pattern.compile("\\$\\{(?<tag>\\w*)(:" + generator + ")*?\\}(?<comment>.+?)\\$\\{/\\w*\\}",
+            Pattern.compile("\\$\\{(?<tag>\\w*)(:" + generator + ")*?}(?<comment>.+?)\\$\\{/\\w*}",
                     Pattern.DOTALL);
     }
     @Override
@@ -37,11 +37,10 @@ final public class DoxygenFormatter implements ICommentFormatter {
     @Override
     public String formatTag(String tag, String text)
     {
-        String formatted = "";
         String[] lines = text.split("\n");
+        String formatted = " " + tag + lines[0];
 
-        formatted = " " + tag + lines[0];
-        for(int i=1; i<lines.length; i++) {
+        for (int i=1; i < lines.length; i++) {
             formatted += "\n* " + tag.replaceAll(".", " ") + lines[i].trim();
         }
         return formatted;
@@ -71,5 +70,5 @@ final public class DoxygenFormatter implements ICommentFormatter {
      * This matches both ${tag} and ${tag:<generator_specific>}.
      */
     final static private Pattern doxygenTagsToRemove =
-        Pattern.compile(" *\\$\\{\\w*:\\w*\\}.*\\$\\{/\\w*\\} *", Pattern.DOTALL);
+        Pattern.compile(" *\\$\\{\\w*:\\w*}.*\\$\\{/\\w*} *", Pattern.DOTALL);
 }

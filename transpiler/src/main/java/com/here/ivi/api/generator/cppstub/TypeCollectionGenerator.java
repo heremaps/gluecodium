@@ -7,9 +7,6 @@ import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.InstanceHelper;
 import com.here.ivi.api.model.cppmodel.*;
-import com.here.ivi.api.model.cppmodel.CppElement;
-import com.here.ivi.api.model.cppmodel.CppEnumItem;
-import com.here.ivi.api.model.cppmodel.CppField;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 

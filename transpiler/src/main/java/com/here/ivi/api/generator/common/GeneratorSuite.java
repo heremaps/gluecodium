@@ -34,10 +34,9 @@ public interface GeneratorSuite<IA, TA> {
     String getName();
 
     /**
-     * Generates the files of this generator
+     * Triggers the generation
      *
-     * @param model The model of all the parsed franca and fdepl files
-     * @return a list of generated files with their relative target paths
+     * @return a list of generated files with their relative destination paths
      */
     List<GeneratedFile> generate();
 
