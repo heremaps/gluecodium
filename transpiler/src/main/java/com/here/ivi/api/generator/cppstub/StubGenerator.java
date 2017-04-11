@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class StubGenerator implements CppModelAccessor.IModelNameRules {
 
     private final GeneratorSuite<?, ?> suite;
-    private final FrancaModel coreModel;
+    private final FrancaModel<?, ?> coreModel;
     private final CppNameRules nameRules;
 
     private final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface;
