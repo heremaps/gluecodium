@@ -28,8 +28,8 @@ public class Fidldif {
         if (args.length != 2) return;
 
         // using the CppStubSpec to keep things simple ...
-        final SpecAccessorFactory specAccessorFactory = new CppStubSpecAccessorFactory();
-        final FrancaModelLoader fml = new FrancaModelLoader<>(specAccessorFactory);
+        final CppStubSpecAccessorFactory specAccessorFactory = new CppStubSpecAccessorFactory();
+        final FrancaModelLoader<?, ?> fml = new FrancaModelLoader<>(specAccessorFactory);
         ModelHelper.getFdeplInjector().injectMembers(fml);
 
 
@@ -59,7 +59,7 @@ public class Fidldif {
         for (FrancaModel.Interface<?> ifa : a.interfaces) {
             int bndx = b.interfaces.indexOf(ifa);
             if (bndx >= 0) {
-                FrancaModel.Interface ifb = b.interfaces.get(bndx);
+                FrancaModel.Interface<?> ifb = b.interfaces.get(bndx);
 
                 // removed methods
                 List<FMethod> removedMethods = ifa.fInterface.getMethods().stream()
@@ -155,7 +155,6 @@ public class Fidldif {
             if (aarg.getType().getPredefined() != barg.getType().getPredefined()) {
                 System.out.println(ifName + " input argument " + aarg.getName() + " changed type");
                 result = false;
-                continue;
             }
         }
 

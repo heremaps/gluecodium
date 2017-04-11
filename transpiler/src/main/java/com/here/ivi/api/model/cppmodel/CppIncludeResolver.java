@@ -14,8 +14,7 @@ public class CppIncludeResolver {
 
     static Logger logger = java.util.logging.Logger.getLogger(CppIncludeResolver.class.getName());
 
-    private FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
-                        ? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel;
+    private FrancaModel<?, ?> rootModel;
     private CppNameRules nameRules;
     private String outputFile;
 

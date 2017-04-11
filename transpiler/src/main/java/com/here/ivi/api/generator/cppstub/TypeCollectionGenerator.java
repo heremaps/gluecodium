@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules {
 
     private final GeneratorSuite<?, ?> suite;
-    private final FrancaModel coreModel;
+    private final FrancaModel<?, ?> coreModel;
     private final CppNameRules nameRules;
 
     private final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc;

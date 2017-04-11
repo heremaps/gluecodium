@@ -13,17 +13,17 @@ import java.util.Optional;
 
 public class CppNamespaceUtils {
 
-    private static boolean isComplexStruct(CppModelAccessor rootModel, DefinedBy definer)
+    private static boolean isComplexStruct(CppModelAccessor<?> rootModel, DefinedBy definer)
     {
-        Optional<CppStubSpec.IDataPropertyAccessor> acc = rootModel.getAccessor(definer);
-        if(!acc.isPresent() ) {
+        Optional<? extends CppStubSpec.IDataPropertyAccessor> acc = rootModel.getAccessor(definer);
+        if (!acc.isPresent() ) {
             throw new RuntimeException("Could not find accessor. Invalid franca definition. " + definer);
         }
         try {
             //complex structs are defined exclusively inside typecollections ...
             return (acc.get() instanceof CppStubSpec.TypeCollectionPropertyAccessor) &&
                     acc.get().getIsStructDefinition(definer.type);
-        }catch(NullPointerException e) {
+        } catch(NullPointerException e) {
             //property is optional, if not set this could cause a null pointer exception
             return false;
         }

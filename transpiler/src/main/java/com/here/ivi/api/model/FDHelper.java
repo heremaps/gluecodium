@@ -24,17 +24,16 @@ public class FDHelper {
         return spec;
     }
 
-
-    public static <T extends MappingGenericPropertyAccessor> T createDummyFDElement(FDSpecification spec, EObject obj) {
+    static <T extends MappingGenericPropertyAccessor> T createDummyFDElement(FDSpecification spec, EObject obj) {
         if (obj instanceof FInterface) {
             FDInterface el = FDeployFactory.eINSTANCE.createFDInterface();
             el.setSpec(spec);
-            ((FDInterface) el).setTarget((FInterface) obj);
+            el.setTarget((FInterface) obj);
             return (T)new FDeployedInterface(el);
         } else if (obj instanceof FTypeCollection) {
             FDTypes el = FDeployFactory.eINSTANCE.createFDTypes();
             el.setSpec(spec);
-            ((FDTypes) el).setTarget((FTypeCollection) obj);
+            el.setTarget((FTypeCollection) obj);
             return (T)new FDeployedTypeCollection(el);
         }
 
