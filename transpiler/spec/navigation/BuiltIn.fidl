@@ -12,7 +12,7 @@ typeCollection BuiltIn {
   typedef InstanceId is UInt32
 
   // will be translated to target language in generators
-  const Float MaxFloat = 3.4028235E38
+  const Float MaxFloat = 3.4028235e38f
 
   const Double NaNDouble = -0.0d
   const Double NaNFloat  = -0.0f
