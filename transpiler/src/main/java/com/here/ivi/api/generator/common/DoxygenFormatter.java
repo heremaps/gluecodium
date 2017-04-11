@@ -1,11 +1,10 @@
 package com.here.ivi.api.generator.common;
 
+import com.google.common.base.Strings;
 import org.franca.core.franca.FAnnotation;
 import org.franca.core.franca.FAnnotationBlock;
 
 import java.util.regex.Pattern;
-
-import com.here.ivi.api.generator.common.ICommentFormatter;
 
 final public class DoxygenFormatter implements ICommentFormatter {
     public DoxygenFormatter(String generator) {
@@ -27,23 +26,26 @@ final public class DoxygenFormatter implements ICommentFormatter {
 
         String param = "@param[" + direction + "] ";
 
-        String res = "";
+        StringBuilder formatted = new StringBuilder();
         for (FAnnotation c: parameterComment.getElements()) {
-            res += "\n*" + formatTag(param + name + " ", c.getComment());
+            formatted.append("\n*").append(formatTag(param + name + " ", c.getComment()));
         }
-        return res;
+        return formatted.toString();
     }
 
     @Override
     public String formatTag(String tag, String text)
     {
         String[] lines = text.split("\n");
-        String formatted = " " + tag + lines[0];
 
-        for (int i=1; i < lines.length; i++) {
-            formatted += "\n* " + tag.replaceAll(".", " ") + lines[i].trim();
+        StringBuilder formatted = new StringBuilder();
+        formatted.append("\n* ").append(tag).append(lines[0]);
+
+        String indent = Strings.padEnd("", tag.length(), ' ');
+        for (int i = 1; i < lines.length; i++) {
+            formatted.append("\n* ").append(indent).append(lines[i].trim());
         }
-        return formatted;
+        return formatted.toString();
     }
 
     @Override
@@ -66,6 +68,7 @@ final public class DoxygenFormatter implements ICommentFormatter {
      * Pattern.compile("\\$\\{(?<tag>\\w*)(:legacy)*?\\}(?<comment>.+?)\\$\\{/\\w*\\}", Pattern.DOTALL);
      * in the legacy generator in order to keep any tags meant only for the legacy generator */
     final private Pattern doxygenTagsToKeep;
+
     /* Match any {fullword}Doxygen comment{/fullword} from the fidl @description tags.
      * This matches both ${tag} and ${tag:<generator_specific>}.
      */

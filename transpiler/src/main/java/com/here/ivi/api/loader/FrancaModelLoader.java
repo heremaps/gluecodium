@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  * 4. Lastly it loads & parses all fidl files that were not imported by the fdepl files using the
  *    FrancaPersistenceManager, and collects the ones that were not already specified in the fdepl.
  *
- * @note The loader does not support more than one fdepl file describing the same interfaces or types
+ * @implNote The loader does not support more than one fdepl file describing the same interfaces or types
  */
 public class FrancaModelLoader<IA extends CppStubSpec.InterfacePropertyAccessor,
                                TA extends CppStubSpec.TypeCollectionPropertyAccessor> {

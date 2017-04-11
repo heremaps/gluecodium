@@ -78,9 +78,10 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
         if (annotationBlock == null) {
             return false;
         }
+
         /* There are 14 tags in Franca. From them only two are relevant for the doxygen
          * documentation: @description: and @deprecated: */
-        comments.mainBodyText = "";
+        StringBuilder sb = new StringBuilder();
         for (FAnnotation annotation: annotationBlock.getElements()) {
             switch (annotation.getType().getValue()) {
                 case FAnnotationType.DESCRIPTION_VALUE:
@@ -105,8 +106,7 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
                     if (generatorSpecificPattern != null) {
                         franca_comment = generatorSpecificPattern.match(franca_comment);
                     }
-
-                    comments.mainBodyText += commentFormatter.formatBody(franca_comment);
+                    sb.append(commentFormatter.formatBody(franca_comment));
                     break;
                 case FAnnotationType.DEPRECATED_VALUE:
                     comments.deprecatedText = annotation.getComment();
@@ -115,6 +115,7 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
                     break;
             }
         }
+        comments.mainBodyText = sb.toString();
         return true;
     }
 

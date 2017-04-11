@@ -22,10 +22,7 @@ interface Gesture {
     <** @description: Called when the user pans the map with one finger.
 
       For each move with one finger this method is called. The end of this gesture is indicated
-      by a call of on_gesture_ended( MAP_GESTURE_PAN ).
-
-      The implementation of this method is empty and needs to be overridden in a derived class in
-      case it should be handled there. **>
+      by a call of on_gesture_ended( MAP_GESTURE_PAN ). **>
     broadcast panTriggered {
         out {
           <** @description:  from Previous finger position on the map. **>
@@ -47,10 +44,7 @@ interface Gesture {
       event occurs.
 
       This gesture is a one-shot gesture so on_gesture_ended( MAP_GESTURE_FLICK ) is called
-      after execution of this method.
-
-      The implementation of this method is empty and needs to be overridden in a derived class in
-      case it should be handled there. **>
+      after execution of this method. **>
     broadcast flickTriggered {
         out {
           <** @description:  delta_x The X-part of the vector indicating the flick direction and speed. The
@@ -79,10 +73,7 @@ interface Gesture {
     <** @description: Called when the user performs a double tap gesture on the map.
 
       This gesture is a one-shot gesture so on_gesture_ended( MAP_GESTURE_DOUBLE_TAP ) is called
-      after execution of this method.
-
-      The implementation of this method is empty and needs to be overridden in a derived class in
-      case it should be handled there. **>
+      after execution of this method.**>
     broadcast doubleTapTriggered {
         out {
           <** @description: pos Double tap position. **>
@@ -93,10 +84,7 @@ interface Gesture {
     <** @description: Called when the user performs a touch and hold gesture on the map.
 
       This gesture is a one-shot gesture so on_gesture_ended( MAP_GESTURE_LONG_TAP ) is called
-      after execution of this method.
-
-      The implementation of this method is empty and needs to be overridden in a derived class in
-      case it should be handled there. **>
+      after execution of this method.**>
     broadcast longTapTriggered {
         out {
           <** @description: pos Long tap position. **>
@@ -107,10 +95,7 @@ interface Gesture {
     <** @description: Called when the user performs a tap gesture with two fingers on the map.
 
       This gesture is a one-shot gesture so on_gesture_ended( MAP_GESTURE_TWO_FINGER_TAP ) is
-      called after execution of this method.
-
-      The implementation of this method is empty and needs to be overridden in a derived class in
-      case it should be handled there. **>
+      called after execution of this method.**>
     broadcast twoFingerTapTriggered {
         out {
           <** @description: pos1 Tap position of the first finger. **>
@@ -127,10 +112,7 @@ interface Gesture {
       together with this callback if these gestures are activated.
 
       For each move with two fingers other than Tap/Tilt this method is called. The end of this
-      gesture is indicated by the call of on_gesture_ended( MAP_GESTURE_TWO_FINGER_PAN ).
-
-      The implementation of this method is empty and needs to be overridden in a derived class in
-      case it should be handled there. **>
+      gesture is indicated by the call of on_gesture_ended( MAP_GESTURE_TWO_FINGER_PAN ). **>
     broadcast twoFingerPanTriggered {
         out {
           <** @description: from_pos1 Previous position of the first finger on the map. **>
@@ -151,10 +133,7 @@ interface Gesture {
       Rotate gesture may not overlap with the Pinch gesture.
 
       For each move with one of the two fingers this method is called. The end of this gesture is
-      indicated by the call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_PINCH ).
-
-      The implementation of this method is empty and needs to be overridden in a derived class in
-      case it should be handled there. **>
+      indicated by the call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_PINCH ). **>
     broadcast twoFingerPinchTriggered {
         out {
           <** @description: center Center position on the map between the two fingers when this gesture has
@@ -176,10 +155,7 @@ interface Gesture {
       gesture may not overlap with Rotate gesture.
 
       For each move with the second finger this method is called. The end of this gesture is
-      indicated by a call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_ROTATE ).
-
-      The implementation of this method is empty and needs to be overridden in a derived class in
-      case it should be handled there. **>
+      indicated by a call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_ROTATE ). **>
     broadcast twoFingerRotateTriggered {
         out {
           <** @description: center Center position on the map between the two fingers when this gesture has
@@ -197,10 +173,7 @@ interface Gesture {
       be triggered while Tilt is ongoing.
 
       For each move with two fingers this method is called. The end of this gesture is indicated
-      by a call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_TILT ).
-
-      The implementation of this method is empty and needs to be overridden in a derived class in
-      case it should be handled there. **>
+      by a call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_TILT ). **>
     broadcast twoFingerTiltTriggered {
         out {
           <** @description: from_pos1 Previous position of the first finger on the map. **>
@@ -220,10 +193,7 @@ interface Gesture {
         }
     }
 
-    <** @description: Called whenever (one of) the current gesture(s) ends.
-
-      The implementation of this method is empty and needs to be overridden in a derived class in
-      case it should be handled there. **>
+    <** @description: Called whenever (one of) the current gesture(s) ends. **>
     broadcast gestureEnded {
         out {
           <** @description: gesture Type of gesture that has ended. **>
@@ -234,53 +204,49 @@ interface Gesture {
     <** @description: Returns the current behavior for the specific gesture.  **>
     method getGestureBehavior {
         in {
-          <** @description: gesture The gesture whose behavior should be retrieved. **>
+          <** @description: The gesture whose behavior should be retrieved. **>
           GestureTypes.MapGesture gesture
         }
         out {
-          <** @description: behavior The current behavior of the given gesture. **>
+          <** @description: The current behavior of the given gesture. **>
           GestureTypes.MapGestureBehavior behavior
         }
+        <** @description: The error that occurred during this call or None  **>
         error NavigationTypes.ErrorCode
     }
 
-    <** @description: Configures the behavior for a specific gesture.
-
-      ${param}[in] gesture The gesture whose behavior should be configured.${/param}
-      ${param}[in] behavior The behavior that should be associated with the given gesture.${/param}
-      ${return:legacy} legacy::CARLO_ERROR_NONE if the gesture object is valid, otherwise
-               legacy::CARLO_ERROR_NOT_VALID.${/return}
-      **>
+    <** @description: Configures the behavior for a specific gesture. **>
     method setGestureBehavior {
         in {
+          <** @description: The gesture whose behavior should be configured. **>
           GestureTypes.MapGesture gesture
+          <** @description: The behavior that should be associated with the given gesture. **>
           GestureTypes.MapGestureBehavior behavior
         }
         out { }
+        <** @description: The error that occurred during this call or None  **>
         error NavigationTypes.ErrorCode
     }
 
-    <** @description: Sets touch points to be recognized by Gesture.
-
-      ${param}[in] touch_points Touch points to be processed${/param}
-      ${return:legacy} legacy::CARLO_ERROR_NONE if the gesture object is valid, otherwise
-               legacy::CARLO_ERROR_NOT_VALID.${/return}
-      **>
+    <** @description: Sets touch points to be recognized by Gesture. **>
     method setTouchPoints {
         in {
+          <** @description: The touch points to be processed **>
           GestureTypes.TouchPoint[] touchPoints
         }
         out {}
+        <** @description: The error that occurred during this call or None **>
         error NavigationTypes.ErrorCode
     }
 
     <** @description: Sets touch point to be recognized by Gesture. **>
     method setTouchPoint {
         in {
-          <** @description: touch_point The touch point to be processed **>
+          <** @description: The touch point to be processed **>
           GestureTypes.TouchPoint touchPoint
         }
         out {}
+        <** @description: The error that occurred during this call or None  **>
         error NavigationTypes.ErrorCode
     }
 
