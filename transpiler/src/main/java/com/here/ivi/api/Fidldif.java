@@ -1,28 +1,21 @@
 package com.here.ivi.api;
 
-import com.google.inject.Injector;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
 import com.here.ivi.api.generator.common.Version;
 
-import org.franca.core.dsl.FrancaIDLStandaloneSetup;
-import org.franca.deploymodel.dsl.FDeployStandaloneSetup;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FArgument;
 
-import navigation.CppStubSpec;
-
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class Fidldif {
     public static void main(final String[] args) {
         if (args.length != 2) return;

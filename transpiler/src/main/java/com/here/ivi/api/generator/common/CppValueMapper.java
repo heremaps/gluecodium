@@ -4,7 +4,6 @@ import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.*;
-import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.*;
 
 import java.math.BigInteger;

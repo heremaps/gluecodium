@@ -46,7 +46,7 @@ public class StubGenerator {
         this.iface = iface;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<IA>(iface.fInterface, iface.getModel().fModel, iface.accessor, nameRules, coreModel);
+        rootModel = new CppModelAccessor<>(iface.fInterface, iface.getModel().fModel, iface.accessor, nameRules, coreModel);
     }
 
     public GeneratedFile generate() {

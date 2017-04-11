@@ -1,7 +1,5 @@
 package com.here.ivi.api.logger;
 
-import com.here.ivi.api.generator.cppstub.CppStubGeneratorSuite;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.LogManager;

@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-/**
- * Created by hhinrich on 03/02/2017.
- */
 public class CppEnum extends CppElement {
     public List<CppEnumItem> items = new ArrayList<>();
 

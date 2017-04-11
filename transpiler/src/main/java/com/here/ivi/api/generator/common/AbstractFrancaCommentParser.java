@@ -9,10 +9,8 @@ import java.util.regex.Pattern;
 import org.franca.core.franca.FAnnotation;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FAnnotationType;
-import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBroadcast;
-import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModelElement;
 
@@ -60,12 +58,12 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
 
 
     @FunctionalInterface
-    protected static interface FTYpeCollectionParser {
+    protected interface FTYpeCollectionParser {
         void parse();
     }
 
     @FunctionalInterface
-    protected static interface GeneratorSpecificPattern {
+    protected interface GeneratorSpecificPattern {
         String match(String fidlText);
     }
 
@@ -151,7 +149,9 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
      * their equivalent doxygen tag (for example {see}Multi-line comment{/see} with @see Multi-line
      * comment) we need to add Pattern.DOTALL in the pattern.
      */
-    final protected static Pattern fidlCommentsToRemove = Pattern.compile("\\$\\{generator:\\w*\\}(.*)\\$\\{/generator}", Pattern.DOTALL);
+    final protected static Pattern fidlCommentsToRemove = Pattern.compile(
+            "\\$\\{generator:\\w*}(.*)\\$\\{/generator}", Pattern.DOTALL);
+
     /* fidlCommentsToKeep should be a pattern similar to:
      * "\\$\\{generator:<concrete_generator>\\}(.*)\\$\\{/generator}"
      * where concrete_generator is the name of in the fidl file of comments that target a specific target.
