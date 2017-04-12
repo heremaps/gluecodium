@@ -19,7 +19,7 @@ VoiceOutputStub::RepeatLastOutputExpected GuidanceImpl::repeatLastOutput()
 
 NavigationTypes::ErrorCode GuidanceImpl::checkForOptimalTtaRoute()
 {
-    return NavigationTypes::ErrorCode::TIME_OUT;
+    return NavigationTypes::ErrorCode::TimeOut;
 }
 
 GuidanceStub::GetAllManeuversExpected GuidanceImpl::getAllManeuvers()

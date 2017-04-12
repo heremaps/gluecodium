@@ -72,7 +72,7 @@ public class CppGeneratorHelper{
         return other;
     }
 
-    public static List<CppNamespace> packageToNamespace(String[] packages) {
+    public static List<CppNamespace> packageToNamespace(List<String> packages) {
         List<CppNamespace> namespaces = new ArrayList<>();
         CppNamespace parentNs = null;
         for (String p : packages) {

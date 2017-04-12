@@ -45,10 +45,10 @@ NavigationTypes::ErrorCode RuntimeImpl::registerModuleFactory(
         const std::shared_ptr<ModuleFactoryStub> &moduleFactory)
 {
     if (moduleFactory == nullptr) {
-        return NavigationTypes::ErrorCode::UNKNOWN; // Invalid arguments
+        return NavigationTypes::ErrorCode::Unknown; // Invalid arguments
     }
     m_factories.push_back( moduleFactory );
-    return NavigationTypes::ErrorCode::NONE;
+    return NavigationTypes::ErrorCode::None;
 }
 
 RuntimeStub::CreateModuleExpected RuntimeImpl::createModule(const std::string &name)
@@ -61,7 +61,7 @@ RuntimeStub::CreateModuleExpected RuntimeImpl::createModule(const std::string &n
         }
     }
 
-    return RuntimeStub::CreateModuleExpected::fail(NavigationTypes::ErrorCode::UNKNOWN); // Not found
+    return RuntimeStub::CreateModuleExpected::fail(NavigationTypes::ErrorCode::Unknown); // Not found
 }
 
 std::shared_ptr<ProfileManagerStub> RuntimeImpl::getProfileManager() const

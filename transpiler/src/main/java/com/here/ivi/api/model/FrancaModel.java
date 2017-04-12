@@ -3,6 +3,7 @@ package com.here.ivi.api.model;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import navigation.CppStubSpec;
+import org.eclipse.xtext.util.Strings;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
@@ -15,6 +16,7 @@ import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 import org.franca.deploymodel.dsl.fDeploy.FDTypes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,13 +34,13 @@ public class FrancaModel<InterfaceAccessor extends CppStubSpec.InterfaceProperty
         }
     }
 
-    static String[] splitPackage(String modelName) {
-        return modelName.split("\\.");
+    static List<String> splitPackage(String modelName) {
+        return Strings.split(modelName, ".");
     }
 
     public interface FrancaElement {
         String getName();
-        String[] getPackage();
+        List<String> getPackage();
         ModelInfo getModel();
         Version getVersion();
         CppStubSpec.IDataPropertyAccessor getAccessor();
@@ -61,7 +63,7 @@ public class FrancaModel<InterfaceAccessor extends CppStubSpec.InterfaceProperty
         }
 
         @Override
-        public String[] getPackage() {
+        public List<String> getPackage() {
             String name = model.fModel.getName();
             return splitPackage(name);
         }
@@ -133,7 +135,7 @@ public class FrancaModel<InterfaceAccessor extends CppStubSpec.InterfaceProperty
         }
 
         @Override
-        public String[] getPackage() {
+        public List<String> getPackage() {
             String name = model.fModel.getName();
             return splitPackage(name);
         }

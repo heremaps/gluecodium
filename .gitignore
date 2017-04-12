@@ -15,4 +15,5 @@ out
 .idea/libraries/
 .idea/xtextAutoBuilderState.xml
 .gitreview
+transpiler/generated/
 
