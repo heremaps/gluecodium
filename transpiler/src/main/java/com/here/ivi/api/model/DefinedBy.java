@@ -6,7 +6,8 @@ import org.franca.core.franca.FTypeCollection;
 
 /**
  * This class stores the information where a type was defined
- * It is used for resolving namespaces
+ *
+ * It is used for resolving namespaces and includes.
  */
 public class DefinedBy {
     public DefinedBy(FTypeCollection type, FModel model) {

@@ -32,8 +32,8 @@ public class CppNamespaceUtils {
     /** Creates a namespace prefix to access the type with `name` defined in `typeDefiner` from the `rootModel`
      *  Assumes the referenced type is in a TypeCollection namespace or part of an Interface */
     public static String prefixNamespace(CppModelAccessor rootModel,
-                                  DefinedBy typeDefiner,
-                                  FModelElement element) {
+                                         DefinedBy typeDefiner,
+                                         FModelElement element) {
 
         List<String> names = builtDisjointNamespace(
                 rootModel.getModelNamespace(),
@@ -41,9 +41,9 @@ public class CppNamespaceUtils {
 
         names.add(typeDefiner.getBaseName());
 
-        //complex structs are modelled as fidl structs encapsulated in typecollections
-        //such structs are translated to c++ without the containing type collection but taking its name
-        if(!(element instanceof FStructType && isComplexStruct(rootModel,typeDefiner)))
+        // complex structs are modelled as fidl structs encapsulated in typecollections
+        // such structs are translated to c++ without the containing type collection but taking its name
+        if (!(element instanceof FStructType && isComplexStruct(rootModel,typeDefiner)))
         {
             names.add(element.getName());
         }
@@ -54,8 +54,8 @@ public class CppNamespaceUtils {
     /** Creates a namespace prefix to access the type with `name` defined in `typeDefiner` from the `rootModel`
      *  Assumes the referenced type is a Interface */
     public static String prefixInterfaceNamespace(CppModelAccessor rootModel,
-                                           DefinedBy typeDefiner,
-                                           String name) {
+                                                  DefinedBy typeDefiner,
+                                                  String name) {
 
         List<String> names = builtDisjointNamespace(
                 rootModel.getModelNamespace(),

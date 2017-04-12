@@ -3,6 +3,7 @@ package com.here.ivi.api.generator.common;
 import com.google.common.collect.Sets;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.InstanceHelper;
 import com.here.ivi.api.model.cppmodel.CppElements;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import com.here.ivi.api.model.cppmodel.CppType;
@@ -133,7 +134,7 @@ public class CppTypeMapper {
 
         if (typedef.getActualType() == null) {
             return new CppType(typeRefDefiner, "NO ACTUAL TYPE FOUND", CppElements.TypeInfo.Invalid);
-        } else if (isInstanceId(typedef)) {
+        } else if (InstanceHelper.isInstanceId(typedef)) {
             Includes.Include include = new Includes.LazyInternalInclude(typeRefDefiner, Includes.InternalType.Interface);
 
             // each Instance type is defined directly in the Interface that is refers to, this is already
@@ -365,46 +366,6 @@ public class CppTypeMapper {
         includes.add(SET_INCLUDE);
 
         return new CppType(content.definedIn, mapType, CppElements.TypeInfo.Complex, includes);
-    }
-
-    static final private String BUILTIN_MODEL = "navigation.BuiltIn";
-    static final private String INSTANCE_ID_NAME = "Instance";
-    static final private String INSTANCE_ID_TYPE = "InstanceId";
-
-    /*
-     * This method is used in conjunction with navigation.BuiltIn.InstanceId
-     * If a typedef is of the builtin type, than it will be resolved to the Interface that
-     * contains the typedef.
-     *
-     * Example definition:
-     *
-     *  package navigation
-     *
-     *  import navigation.* from "classpath:/navigation/BuiltIn.fidl"
-     *
-     *  interface CustomInterface {
-     *     version { major 1  minor 0 }
-     *
-     *     typedef CustomInterfaceInstance is BuiltIn.InstanceId
-     *  }
-     */
-    public static boolean isInstanceId(FTypeDef typedef) {
-
-        // must be ending with Instance
-        if (typedef.getName() != null &&
-                typedef.getName().endsWith(INSTANCE_ID_NAME)) {
-            // must reference a valid type
-            FType target = typedef.getActualType().getDerived();
-            if (target != null) {
-                // must point to the exact navigation.BuiltIn.InstanceId
-                if (INSTANCE_ID_TYPE.equals(target.getName())) {
-                    DefinedBy defined = DefinedBy.getDefinedBy(target);
-                    return BUILTIN_MODEL.equals(defined.toString());
-                }
-            }
-        }
-
-        return false;
     }
 
     private static CppType mapPredefined(FTypeRef type) {
