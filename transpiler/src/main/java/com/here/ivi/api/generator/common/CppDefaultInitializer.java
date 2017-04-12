@@ -15,7 +15,6 @@ public class CppDefaultInitializer {
         }
         else
         {
-            FInitializer expr = FrancaFactory.eINSTANCE.createFInitializer();
             switch (it.getPredefined().getValue())
             {
                 case FBasicTypeId.INT8_VALUE:
@@ -32,9 +31,9 @@ public class CppDefaultInitializer {
                 case FBasicTypeId.BOOLEAN_VALUE:
                     return new CppValue( "false" );
                 case FBasicTypeId.FLOAT_VALUE:
-                    return new CppValue( "std::numeric_limits<float>::quiet_NaN()" );
+                    return CppValueMapper.NAN_FLOAT;
                 case FBasicTypeId.DOUBLE_VALUE:
-                    return new CppValue( "std::numeric_limits<double>::quiet_NaN()" );
+                    return CppValueMapper.NAN_DOUBLE;
                 case FBasicTypeId.BYTE_BUFFER_VALUE:
                     return null;
             }

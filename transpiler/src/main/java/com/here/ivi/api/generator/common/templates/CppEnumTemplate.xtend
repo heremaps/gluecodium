@@ -9,9 +9,9 @@ class CppEnumTemplate {
     enum «enumeration.name» {
         «FOR item : enumeration.items»
             «IF item == enumeration.items.get(enumeration.items.size() - 1)»
-                «item.name.toUpperCase»«IF item.value.isValid()» = «item.value» «ENDIF» ///
+                «item.name»«IF item.value.isValid()» = «item.value» «ENDIF» ///
             «ELSE»
-                «item.name.toUpperCase»«IF item.value.isValid()» = «item.value» «ENDIF», ///
+                «item.name»«IF item.value.isValid()» = «item.value» «ENDIF», ///
             «ENDIF»
         «ENDFOR»
     };

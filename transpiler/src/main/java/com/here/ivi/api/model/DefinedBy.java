@@ -4,6 +4,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 
+import java.util.List;
+
 /**
  * This class stores the information where a type was defined
  *
@@ -42,8 +44,8 @@ public class DefinedBy {
         return model.getName();
     }
 
-    /** Returns the split packages */
-    public String[] getPackages() {
+    /** Returns the split packages from the model */
+    public List<String> getPackages() {
         return FrancaModel.splitPackage(getPackageName());
     }
 

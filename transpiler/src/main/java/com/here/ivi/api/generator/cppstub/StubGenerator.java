@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * This generator will create the stub interfaces that will then be used by the other generators.
  */
-public class StubGenerator implements CppModelAccessor.IModelNameRules {
+public class StubGenerator {
 
     private final GeneratorSuite<?, ?> suite;
     private final FrancaModel<?, ?> coreModel;
@@ -46,7 +46,7 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
         this.iface = iface;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<IA>(iface.fInterface, iface.getModel().fModel, iface.accessor, this, coreModel);
+        rootModel = new CppModelAccessor<IA>(iface.fInterface, iface.getModel().fModel, iface.accessor, nameRules, coreModel);
     }
 
     public GeneratedFile generate() {
@@ -56,8 +56,8 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
             return null;
         }
 
-        String[] packageDesc = nameRules.packageName(iface.getPackage());
-        String outputFile = nameRules.interfaceTarget(packageDesc, iface);
+        List<String> baseDirectories = nameRules.packageToDirectoryStructure(iface.getPackage());
+        String outputFile = nameRules.interfaceTarget(baseDirectories, iface);
 
         // find included files and resolve relative to generated path
         CppIncludeResolver resolver = new CppIncludeResolver(coreModel, iface, nameRules);
@@ -71,9 +71,8 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
     }
 
     private CppNamespace buildCppModel() {
+        List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(iface.getPackage());
 
-        String[] packageDesc = nameRules.packageName(iface.getPackage());
-        List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
         // add to innermost namespace
         CppNamespace innermostNs = Iterables.getLast(packageNs);
 
@@ -114,7 +113,7 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
 
             stubClass.inheritances.add(new CppInheritance(
                     new CppType(
-                            CppNamespaceUtils.prefixInterfaceNamespace(rootModel, baseDefinition,
+                            CppNamespaceUtils.prefixNamespace(rootModel, baseDefinition,
                                     nameRules.className(base.getName())),
                             new Includes.LazyInternalInclude(baseDefinition, Includes.InternalType.Interface)),
                     CppInheritance.Type.Public));
@@ -122,7 +121,7 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
             // TODO ensure that there is actually a listener for the base class (go through broadcasts & attributes)
             stubListenerClass.inheritances.add(new CppInheritance(
                     new CppType(
-                            CppNamespaceUtils.prefixInterfaceNamespace(rootModel, baseDefinition,
+                            CppNamespaceUtils.prefixNamespace(rootModel, baseDefinition,
                                     nameRules.className(base.getName()) + "Listener"),
                             new Includes.LazyInternalInclude(baseDefinition, Includes.InternalType.Interface)),
                     CppInheritance.Type.Public));
@@ -324,16 +323,6 @@ public class StubGenerator implements CppModelAccessor.IModelNameRules {
 
     private final static Includes.SystemInclude EXPECTED_INCLUDE =
             new Includes.SystemInclude("here/internal/expected.h");
-
-    @Override
-    public String getInterfaceName(String baseName) {
-        return nameRules.className(baseName);
-    }
-
-    @Override
-    public String[] getNamespace(String[] packages) {
-        return nameRules.packageName(packages);
-    }
 
     private enum AttributeAccessorMode {
         GET, SET

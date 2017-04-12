@@ -17,7 +17,7 @@ bool testStubImpl()
         auto runtime = re.get_result();
 
         auto registerError = runtime->registerModuleFactory(NavcoreModuleFactoryStub::create().get_result());
-        if (registerError != ErrorCode::NONE) {
+        if (registerError != ErrorCode::None) {
             std::cerr << "Failed registerModuleFactory" << " (" << (int)registerError << ")" << std::endl;
             return false;
         }

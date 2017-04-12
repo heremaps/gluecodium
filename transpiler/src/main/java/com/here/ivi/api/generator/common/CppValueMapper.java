@@ -17,6 +17,10 @@ public class CppValueMapper {
 
     private final static Includes.SystemInclude LIMITS_INCLUDE = new Includes.SystemInclude("limits");
 
+    public final static CppValue NAN_FLOAT = new CppValue("std::numeric_limits< float >::quiet_NaN( )", LIMITS_INCLUDE);
+    public final static CppValue NAN_DOUBLE = new CppValue("std::numeric_limits< double >::quiet_NaN( )", LIMITS_INCLUDE);
+    public final static CppValue MAX_FLOAT = new CppValue("std::numeric_limits< float >::max( )", LIMITS_INCLUDE);
+
     static Logger logger = java.util.logging.Logger.getLogger(CppValueMapper.class.getName());
 
     public static CppValue map(CppType type, FInitializerExpression rhs) {
@@ -108,19 +112,14 @@ public class CppValueMapper {
         if (BUILTIN_MODEL.equals(referenceDefiner.toString())) {
             switch (name){
                 case FLOAT_MAX_CONSTANT:
-                    result = "std::numeric_limits< float >::max( )";
-                    break;
+                    return MAX_FLOAT;
                 case FLOAT_NAN_CONSTANT:
-                    result = "std::numeric_limits< float >::quiet_NaN( )";
-                    break;
+                    return NAN_FLOAT;
                 case DOUBLE_NAN_CONSTANT:
-                    result = "std::numeric_limits< double >::quiet_NaN( )";
-                    break;
+                    return NAN_DOUBLE;
                 default:
                     throw new RuntimeException("Could not built-in value. Invalid franca definition. " + dc);
             }
-            return new CppValue(result, LIMITS_INCLUDE);
-
         //non built-in types (atm just default constructor of complex type)
         }else{
             if (type.info == CppElements.TypeInfo.Complex && CppValue.DefaultValueString.equals(name)) {

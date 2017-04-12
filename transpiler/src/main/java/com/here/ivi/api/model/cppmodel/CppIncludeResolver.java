@@ -5,6 +5,7 @@ import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Includes;
 import navigation.CppStubSpec;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -25,8 +26,8 @@ public class CppIncludeResolver {
         this.rootModel = rootModel;
         this.nameRules = nameRules;
 
-        String[] packageDesc = nameRules.packageName(forType.getPackage());
-        this.outputFile = nameRules.typeCollectionTarget(packageDesc, forType);
+        List<String> directories = nameRules.packageToDirectoryStructure(forType.getPackage());
+        this.outputFile = nameRules.typeCollectionTarget(directories, forType);
     }
 
     public CppIncludeResolver(FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
@@ -36,8 +37,8 @@ public class CppIncludeResolver {
         this.rootModel = rootModel;
         this.nameRules = nameRules;
 
-        String[] packageDesc = nameRules.packageName(forType.getPackage());
-        this.outputFile = nameRules.interfaceTarget(packageDesc, forType);
+        List<String> directories = nameRules.packageToDirectoryStructure(forType.getPackage());
+        this.outputFile = nameRules.interfaceTarget(directories, forType);
     }
 
     public void resolveLazyIncludes(CppElement root) {
@@ -60,14 +61,14 @@ public class CppIncludeResolver {
                 }
 
                 FrancaModel.FrancaElement externalDefinition = externalDefinitionOpt.get();
-                String[] externalPackage = nameRules.packageName(externalDefinition.getPackage());
+                List<String> externalDirectories = nameRules.packageToDirectoryStructure(externalDefinition.getPackage());
 
                 String includeName;
                 if (externalDefinition instanceof FrancaModel.TypeCollection<?>) {
-                    includeName = nameRules.typeCollectionTarget(externalPackage,
+                    includeName = nameRules.typeCollectionTarget(externalDirectories,
                             (FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor>) externalDefinition);
                 } else {
-                    includeName = nameRules.interfaceTarget(externalPackage,
+                    includeName = nameRules.interfaceTarget(externalDirectories,
                             (FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor>) externalDefinition);
                 }
 

@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * (e.g. Java + JNI, Swift, …) or use them directly (traditional legacy).
  *
  */
-public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules {
+public class TypeCollectionGenerator {
 
     private final GeneratorSuite<?, ?> suite;
     private final FrancaModel<?, ?> coreModel;
@@ -45,7 +45,7 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
         this.tc = tc;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<TA>(tc.fTypeCollection, tc.getModel().fModel, tc.accessor, this, coreModel);
+        rootModel = new CppModelAccessor<>(tc.fTypeCollection, tc.getModel().fModel, tc.accessor, nameRules, coreModel);
     }
 
     public GeneratedFile generate() {
@@ -55,8 +55,8 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
             return null;
         }
 
-        String[] packageDesc = nameRules.packageName(tc.getPackage());
-        String outputFile = nameRules.typeCollectionTarget(packageDesc, tc);
+        List<String> baseDirectories = nameRules.packageToDirectoryStructure(tc.getPackage());
+        String outputFile = nameRules.typeCollectionTarget(baseDirectories, tc);
 
         // find included files and resolve relative to generated path
         CppIncludeResolver resolver = new CppIncludeResolver(coreModel, tc, nameRules);
@@ -70,11 +70,9 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
     }
 
     private CppNamespace buildCppModel() {
+        List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(tc.getPackage());
 
-        String[] packageDesc = nameRules.packageName(tc.getPackage());
-        List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(packageDesc);
-
-        CppNamespace result = new CppNamespace(tc.getName());
+        CppNamespace result = new CppNamespace(nameRules.typeCollectionName(tc.getName()));
 
         for (FType type : tc.fTypeCollection.getTypes()) {
             // struct
@@ -97,7 +95,6 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
             } else {
                logger.severe("Missing type map in " + rootModel + " for " + type.getClass().getName());
             }
-
         }
 
         // constants
@@ -123,7 +120,7 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
 
     private CppElement buildMap(FMapType type) {
         CppTypeDef typeDef = new CppTypeDef();
-        typeDef.name = nameRules.typedefName(type.getName()); // TODO use name rules
+        typeDef.name = nameRules.typedefName(type.getName());
         typeDef.targetType = CppTypeMapper.wrapMapType(
                 DefinedBy.getDefinedBy(type),
                 CppTypeMapper.map(rootModel, type.getKeyType()),
@@ -174,7 +171,7 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
         for (FEnumerator enumerator : enumerationType.getEnumerators()) {
             CppEnumItem item = new CppEnumItem();
 
-            item.name = nameRules.fieldName(enumerator.getName());
+            item.name = nameRules.enumEntryName(enumerator.getName());
             item.value = CppValueMapper.map(enumerator.getValue());
 
             enumeration.items.add(item);
@@ -203,15 +200,5 @@ public class TypeCollectionGenerator implements CppModelAccessor.IModelNameRules
         constant.value = CppValueMapper.map(constant.type, constantDef.getRhs());
 
         return constant;
-    }
-
-    @Override
-    public String getInterfaceName(String baseName) {
-        return nameRules.className(baseName);
-    }
-
-    @Override
-    public String[] getNamespace(String[] packages) {
-        return nameRules.packageName(packages);
     }
 }

@@ -78,8 +78,8 @@ public class CppStubStructGenerator {
         CppIncludeResolver resolver = new CppIncludeResolver(model, tc, nameRules);
         resolver.resolveLazyIncludes(newClass);
 
-        String[] packageDesc = nameRules.packageName(tc.getPackage());
-        String fileName =  nameRules.typeCollectionTarget(packageDesc, tc);
+        List<String> directories = nameRules.packageToDirectoryStructure(tc.getPackage());
+        String fileName =  nameRules.typeCollectionTarget(directories, tc);
 
         Object generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, tc, fileName);
         String fileContent = CppFileTemplate.generate(generatorNotice, ApiStructHeader.generate(newClass)).toString();
@@ -103,7 +103,7 @@ public class CppStubStructGenerator {
                                                     ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
 
         CppModelAccessor<CppStubSpec.TypeCollectionPropertyAccessor> rootType =
-                new CppModelAccessor<>(tc.fTypeCollection, tc.model.fModel, tc.accessor, new NameRules(),model);
+                new CppModelAccessor<>(tc.fTypeCollection, tc.model.fModel, tc.accessor,  nameRules, model);
 
         CppClass newClass = new CppClass(tc.getName());
 
@@ -160,7 +160,7 @@ public class CppStubStructGenerator {
 
         if(api != null) {
             CppModelAccessor<CppStubSpec.InterfacePropertyAccessor> rootModelIf =
-                    new CppModelAccessor<>(api.fInterface, api.model.fModel, api.accessor, new NameRules(),model);
+                    new CppModelAccessor<>(api.fInterface, api.model.fModel, api.accessor, nameRules, model);
 
             //non default-constructors ...
             StructCtor templateCtor = new StructCtor();
@@ -185,18 +185,5 @@ public class CppStubStructGenerator {
         }
 
         return newClass;
-    }
-
-    // legacy specific interface name rules
-    private class NameRules implements CppModelAccessor.IModelNameRules {
-        @Override
-        public String getInterfaceName(String baseName) {
-            return nameRules.className(baseName);
-        }
-
-        @Override
-        public String[] getNamespace(String[] _packages) {
-            return nameRules.packageName(_packages);
-        }
     }
 }

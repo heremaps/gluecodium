@@ -28,8 +28,8 @@ public class CppElements {
 
     public static Set<Includes.Include> collectIncludes(CppNamespace root) {
         return root.streamRecursive()
-                .filter(p -> p instanceof CppType)
-                .map(CppType.class::cast)
+                .filter(p -> p instanceof CppElementWithIncludes)
+                .map(CppElementWithIncludes.class::cast)
                 .map(t -> t.includes).flatMap(Set::stream).collect(Collectors.toSet());
     }
 
