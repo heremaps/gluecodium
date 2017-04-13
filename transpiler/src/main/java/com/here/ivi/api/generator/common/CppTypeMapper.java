@@ -140,8 +140,8 @@ public class CppTypeMapper {
             // each Instance type is defined directly in the Interface that is refers to, this is already
             // resolved in the typeRefDefiner, and named as the interface
 
-            String name = rootModel.getRules().className(typeRefDefiner.getBaseName());
-            String namespacedName = CppNamespaceUtils.prefixNamespace(rootModel, typeRefDefiner, name);
+            String name = rootModel.getRules().className(typeRefDefiner.type);
+            String namespacedName = CppNamespaceUtils.getCppTypename(rootModel, typeRefDefiner, name);
 
             return new CppType(typeRefDefiner, namespacedName,
                     CppElements.TypeInfo.InterfaceInstance, include);
@@ -152,7 +152,7 @@ public class CppTypeMapper {
             // lookup where type came from, setup includes
             Includes.Include include = new Includes.LazyInternalInclude(actualTypeDefiner);
 
-            String namespacedName = CppNamespaceUtils.prefixNamespace(rootModel, typeRefDefiner, typedef);
+            String namespacedName = CppNamespaceUtils.getCppTypename(rootModel, typedef);
             // actually use the typedef in this case, not the underlying type
             return new CppType(typeRefDefiner, namespacedName, actual.info, include);
         }
@@ -170,7 +170,7 @@ public class CppTypeMapper {
             // lookup where array typedef came from, setup includes
             Set<Includes.Include> includes = Sets.newHashSet(new Includes.LazyInternalInclude(arrayDefiner));
 
-            typeName = CppNamespaceUtils.prefixNamespace(rootModel, arrayDefiner, array);
+            typeName = CppNamespaceUtils.getCppTypename(rootModel, array);
 
             return new CppType( arrayDefiner, typeName, CppElements.TypeInfo.Complex, includes);
         }
@@ -249,7 +249,7 @@ public class CppTypeMapper {
             if (typeName != null) {
                 // lookup where map typedef came from, setup includes
                 Set<Includes.Include> includes = Sets.newHashSet(new Includes.LazyInternalInclude(mapDefiner));
-                typeName = CppNamespaceUtils.prefixNamespace(rootModel, mapDefiner, map);
+                typeName = CppNamespaceUtils.getCppTypename(rootModel, map);
 
                 return new CppType( mapDefiner, typeName, CppElements.TypeInfo.Complex, includes);
             }
@@ -271,7 +271,7 @@ public class CppTypeMapper {
         } else {
             Includes.Include include = new Includes.LazyInternalInclude(structDefiner);
 
-            String typeName = CppNamespaceUtils.prefixNamespace(rootModel, structDefiner, struct);
+            String typeName = CppNamespaceUtils.getCppTypename(rootModel, struct);
 
             return new CppType(structDefiner, typeName, CppElements.TypeInfo.Complex, include);
         }
@@ -284,7 +284,7 @@ public class CppTypeMapper {
             return new CppType(enumDefiner, "EMPTY ENUM", CppElements.TypeInfo.Invalid);
         } else {
             Includes.Include include = new Includes.LazyInternalInclude(enumDefiner);
-            String typeName = CppNamespaceUtils.prefixNamespace(rootModel, enumDefiner, enumeration);
+            String typeName = CppNamespaceUtils.getCppTypename(rootModel, enumeration);
 
             return new CppType(enumDefiner, typeName, CppElements.TypeInfo.BuiltIn, include);
         }

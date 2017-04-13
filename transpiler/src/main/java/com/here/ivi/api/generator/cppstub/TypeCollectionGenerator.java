@@ -69,7 +69,7 @@ public class TypeCollectionGenerator {
     private CppNamespace buildCppModel() {
         List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(tc.getPackage());
 
-        CppNamespace result = new CppNamespace(nameRules.typeCollectionName(tc.getName()));
+        CppNamespace result = new CppNamespace(nameRules.typeCollectionName(tc.fTypeCollection));
 
         for (FType type : tc.fTypeCollection.getTypes()) {
             // struct

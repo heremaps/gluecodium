@@ -4,7 +4,7 @@ import com.here.ivi.api.generator.legacy.LegacyFrancaCommentParser;
 import com.here.ivi.api.generator.legacy.LegacyFrancaCommentParser.LegacyComments;
 import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.CppFileTemplate;
-import com.here.ivi.api.generator.common.templates.CppNameRules;
+import com.here.ivi.api.generator.common.CppNameRules;
 import com.here.ivi.api.generator.cppstub.templates.ApiStructHeader;
 import com.here.ivi.api.generator.cppstub.templates.StructCtor;
 import com.here.ivi.api.model.DefaultValuesHelper;

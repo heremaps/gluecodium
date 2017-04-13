@@ -4,7 +4,7 @@ import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.Version;
-import com.here.ivi.api.generator.cppstub.templates.CppStubNameRules;
+
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
@@ -21,10 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.AbstractMap;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -57,19 +54,19 @@ public class CppStubGeneratorSuite
     public List<GeneratedFile> generate() {
         // TODO add model null check
 
-        CppStubNameRules rules = new CppStubNameRules();
+        CppStubNameRules nameRules = new CppStubNameRules(model);
 
-        CppStubStructGenerator structGenerator = new CppStubStructGenerator(rules);
+        CppStubStructGenerator structGenerator = new CppStubStructGenerator(nameRules);
 
         // partition model into ifaces, typecollections and structWithMethods and generate files from that
         Stream<GeneratedFile> generatorStreams = StructMethodHelper.partitionModel(
                 model,
                 iface -> {
-                    StubGenerator generator = new StubGenerator(this, model, rules, iface);
+                    StubGenerator generator = new StubGenerator(this, model, nameRules, iface);
                     return generator.generate();
                 },
                 tc -> {
-                    TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
+                    TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, nameRules, tc);
                     return generator.generate();
                 },
                 smp -> structGenerator.generateFiles(this, model, smp.iface, smp.type)
@@ -121,7 +118,7 @@ public class CppStubGeneratorSuite
     }
 
     @Override
-    public void buildModel(String inputPath){
+    public void buildModel(String inputPath) {
         final SpecAccessorFactory<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
                 specAccessorFactory = createModelAccessorFactory();
 
@@ -140,3 +137,4 @@ public class CppStubGeneratorSuite
         return BasicValidator.validate(rs, currentFiles) && validator.validate(model);
     }
 }
+

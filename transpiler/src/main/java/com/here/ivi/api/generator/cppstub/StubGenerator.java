@@ -4,7 +4,7 @@ package com.here.ivi.api.generator.cppstub;
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.templates.CppFileTemplate;
-import com.here.ivi.api.generator.common.templates.CppNameRules;
+import com.here.ivi.api.generator.common.CppNameRules;
 import com.here.ivi.api.generator.common.templates.CppTypeCollectionContentTemplate;
 import com.here.ivi.api.generator.cppstub.templates.EmptyBodyTemplate;
 import com.here.ivi.api.generator.cppstub.templates.NotifierBodyTemplate;
@@ -76,8 +76,8 @@ public class StubGenerator {
         // add to innermost namespace
         CppNamespace innermostNs = Iterables.getLast(packageNs);
 
-        CppClass stubListenerClass = new CppClass(nameRules.className(iface.getName()) + "Listener");
-        CppClass stubClass = new CppClass(nameRules.className(iface.getName()));
+        CppClass stubListenerClass = new CppClass(CppStubNameRules.listenerName(iface.fInterface));
+        CppClass stubClass = new CppClass(nameRules.className(iface.fInterface));
 
         // allow creating a shared pointer from within this class
         CppType sharedFromThis = new CppType("std::enable_shared_from_this< " + stubClass.name + " >");
@@ -113,16 +113,16 @@ public class StubGenerator {
 
             stubClass.inheritances.add(new CppInheritance(
                     new CppType(
-                            CppNamespaceUtils.prefixNamespace(rootModel, baseDefinition,
-                                    nameRules.className(base.getName())),
+                            CppNamespaceUtils.getCppTypename(rootModel, baseDefinition,
+                                    nameRules.className(base)),
                             new Includes.LazyInternalInclude(baseDefinition, Includes.InternalType.Interface)),
                     CppInheritance.Type.Public));
 
             // TODO ensure that there is actually a listener for the base class (go through broadcasts & attributes)
             stubListenerClass.inheritances.add(new CppInheritance(
                     new CppType(
-                            CppNamespaceUtils.prefixNamespace(rootModel, baseDefinition,
-                                    nameRules.className(base.getName()) + "Listener"),
+                            CppNamespaceUtils.getCppTypename(rootModel, baseDefinition,
+                                    CppStubNameRules.listenerName(base)),
                             new Includes.LazyInternalInclude(baseDefinition, Includes.InternalType.Interface)),
                     CppInheritance.Type.Public));
         }
