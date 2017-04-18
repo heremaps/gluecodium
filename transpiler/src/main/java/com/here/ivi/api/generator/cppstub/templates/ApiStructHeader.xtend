@@ -33,10 +33,10 @@ public class ApiStructHeader {
         «ENDFOR»
 
         «FOR f : cppClass.fields»
-        «IF f.initializer.isDefault()»
-            «f.type.name» «f.name»{};
+        «IF f.initializer != null && f.initializer.isValid()»
+            «f.type.name» «f.name» = «f.initializer.name»;
         «ELSE»
-            «f.type.name» «f.name»{«f.initializer.name»};
+            «f.type.name» «f.name»;
         «ENDIF»
         «ENDFOR»
 

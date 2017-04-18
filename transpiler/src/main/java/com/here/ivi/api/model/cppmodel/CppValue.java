@@ -8,9 +8,6 @@ import static java.util.Arrays.asList;
 
 public class CppValue extends CppElementWithIncludes {
 
-    public static final String DefaultValueString = "defaultValues";
-
-
     public CppValue() {
         super(null);
     }
@@ -30,6 +27,4 @@ public class CppValue extends CppElementWithIncludes {
     public boolean isValid() {
         return name != null;
     }
-
-    public boolean isDefault() { return name.equals(DefaultValueString); }
 }
