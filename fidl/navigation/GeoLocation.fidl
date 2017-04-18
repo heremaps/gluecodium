@@ -19,8 +19,9 @@ typeCollection GeoLocation {
         <** @description: Dead reckoning source.   **>
         DeadReckoning  = 0x20
     }
-    //specification of the struct itself
-    struct type{
+
+    // specification of the struct itself
+    struct type {
       <** @description: Position **>
       GeoCoordinates.type coordinates
       <** @description: Speed in m/s **>

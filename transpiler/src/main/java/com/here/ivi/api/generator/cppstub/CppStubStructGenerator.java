@@ -7,6 +7,7 @@ import com.here.ivi.api.generator.common.templates.CppFileTemplate;
 import com.here.ivi.api.generator.common.templates.CppNameRules;
 import com.here.ivi.api.generator.cppstub.templates.ApiStructHeader;
 import com.here.ivi.api.generator.cppstub.templates.StructCtor;
+import com.here.ivi.api.model.DefaultValuesHelper;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.cppmodel.*;
 import navigation.CppStubSpec;
@@ -14,6 +15,7 @@ import org.franca.core.franca.*;
 
 import java.util.*;
 import java.util.logging.Logger;
+
 
 public class CppStubStructGenerator {
 
@@ -107,47 +109,46 @@ public class CppStubStructGenerator {
         CppClass newClass = new CppClass(tc.getName());
 
         // find member struct ///////////////////////////
+
         // search for a struct inside the type collection of name StructName
         FStructType memberStruct = null;
         for(FType type : tc.fTypeCollection.getTypes())
         {
-            if(type.getName().equals(StructName) &&
-               type instanceof FStructType) {
+            if (type.getName().equals(StructName) &&
+                    type instanceof FStructType) {
                 memberStruct = (FStructType) type;
                 break;
             }
         }
-        if(memberStruct == null)
-        {
+
+        if (memberStruct == null) {
             logger.severe("Failed to find type struct! ");
             return newClass;
         }
+
         // default values //////////////////////////
+
         //search for constants from type collection
         FCompoundInitializer defaultInitializer = null;
         for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
-            //only structs of the same type as belonging interface with correct name will be checked
-            if(constantDef.getType().getDerived() != null &&
-               constantDef.getName().equals(CppValue.DefaultValueString) &&
-               constantDef.getType().getDerived() instanceof FStructType &&
-               constantDef.getType().getDerived().getName().equals(StructName))
-            {
-                //must be valid because constantDef is a struct ...
+            // only structs of the same type as belonging interface with correct name will be checked
+            if (DefaultValuesHelper.isStructDefaultValueConstant(constantDef) &&
+                    constantDef.getType().getDerived().getName().equals(StructName)) {
+                // is valid as constantDef was parsed as a struct ...
                 defaultInitializer = (FCompoundInitializer) constantDef.getRhs();
                 break;
             }
         }
-        if (defaultInitializer == null)
-        {
-            logger.severe("Failed to find default values of " + memberStruct.getName() );
+
+        if (defaultInitializer == null) {
+            logger.severe("Failed to find default values of " + memberStruct.getName());
             return newClass;
         }
 
         // generate fields /////////////////////////////////
         Iterator<FField> memberIterator           = memberStruct.getElements().iterator();
         Iterator<FFieldInitializer> valueIterator = defaultInitializer.getElements().iterator();
-        while(memberIterator.hasNext() && valueIterator.hasNext())
-        {
+        while(memberIterator.hasNext() && valueIterator.hasNext()) {
             CppField field = generateCppField(rootType,memberIterator.next(),valueIterator.next() );
             newClass.fields.add(field);
         }
@@ -157,7 +158,7 @@ public class CppStubStructGenerator {
 
         //default constructor is added via xtend template ...
 
-        if(api != null) {
+        if (api != null) {
             CppModelAccessor<CppStubSpec.InterfacePropertyAccessor> rootModelIf =
                     new CppModelAccessor<>(api.fInterface, api.model.fModel, api.accessor, nameRules, model);
 

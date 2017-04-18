@@ -1,6 +1,7 @@
 package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
+import com.here.ivi.api.model.DefaultValuesHelper;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.*;
@@ -9,9 +10,6 @@ import org.franca.core.franca.*;
 import java.math.BigInteger;
 import java.util.logging.Logger;
 
-// TODO this whole thing should be more abstract, needed for more than one language
-// First do the logic mapping to JavaTypes that support validation and other things
-// Then translate into target language
 public class CppValueMapper {
 
     private final static Includes.SystemInclude LIMITS_INCLUDE = new Includes.SystemInclude("limits");
@@ -93,23 +91,21 @@ public class CppValueMapper {
     static final private String FLOAT_NAN_CONSTANT = "NaNFloat";
     static final private String DOUBLE_NAN_CONSTANT = "NaNDouble";
 
-
     // TODO handle namespaces here as well
-    public static CppValue map(CppType type, FQualifiedElementRef dc) {
+    public static CppValue map(CppType type, FQualifiedElementRef qer) {
 
-        if (dc.getElement() == null) {
+        if (qer.getElement() == null) {
             // TODO improve error output as seen in TypeMapper
-            logger.severe("Failed resolving value reference");
+            logger.severe("Failed resolving value reference" + qer);
             return new CppValue();
         }
 
-        DefinedBy referenceDefiner = DefinedBy.getDefinedBy(dc.getElement());
-        String name = dc.getElement().getName();
-        String result = name;
+        DefinedBy referenceDefiner = DefinedBy.getDefinedBy(qer.getElement());
+        String name = qer.getElement().getName();
 
         // check for built-in types (atm all values are from <limits>)
         if (BUILTIN_MODEL.equals(referenceDefiner.toString())) {
-            switch (name){
+            switch (name) {
                 case FLOAT_MAX_CONSTANT:
                     return MAX_FLOAT;
                 case FLOAT_NAN_CONSTANT:
@@ -117,15 +113,18 @@ public class CppValueMapper {
                 case DOUBLE_NAN_CONSTANT:
                     return NAN_DOUBLE;
                 default:
-                    throw new RuntimeException("Could not built-in value. Invalid franca definition. " + dc);
-            }
-        //non built-in types (atm just default constructor of complex type)
-        }else{
-            if (type.info == CppElements.TypeInfo.Complex && CppValue.DefaultValueString.equals(name)) {
-                return new CppValue(CppValue.DefaultValueString, type.includes);
+                    logger.severe("Could not resolve built-in value. Invalid franca definition. " + qer);
+                    return new CppValue();
             }
         }
-        // just use the name of the type and its includes, missing ns resolution
-        return new CppValue(result, type.includes);
+
+        // struct default values are just invalid
+        if (DefaultValuesHelper.isStructDefaultValueConstant(qer)) {
+            return new CppValue(null, new Includes.LazyInternalInclude(referenceDefiner));
+        }
+
+        // TODO add ns resolution for referenced name
+        // just use the name of the type and include the defining type
+        return new CppValue(name, new Includes.LazyInternalInclude(referenceDefiner));
     }
 }
