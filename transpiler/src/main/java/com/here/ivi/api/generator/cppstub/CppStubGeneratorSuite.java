@@ -10,6 +10,7 @@ import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
+import com.here.ivi.api.model.StructMethodHelper;
 import com.here.ivi.api.validator.common.BasicValidator;
 import com.here.ivi.api.validator.cppstub.CppStubValidator;
 import navigation.CppStubSpec;
@@ -159,16 +160,14 @@ public class CppStubGeneratorSuite
 
     @Override
     public List<GeneratedFile> generate() {
-        //TODO add model null check
+        // TODO add model null check
 
         CppStubNameRules rules = new CppStubNameRules();
 
         CppStubStructGenerator structGenerator = new CppStubStructGenerator(rules);
 
-        //structs could have a belonging interface containing its methods !!!
-        List<AbstractMap.SimpleEntry<
-                FrancaModel.TypeCollection<CppStubSpec.TypeCollectionPropertyAccessor>,
-                FrancaModel.Interface<CppStubSpec.InterfacePropertyAccessor> > > mapping = CppStubStructGenerator.collectMethodContainers(model);
+        // structs could have a belonging interface containing its methods !!!
+        List<StructMethodHelper.StructMethodPair> structMethodPairs = StructMethodHelper.collectMethodContainers(model);
 
         Stream<GeneratedFile> generatorStreams = Stream.concat(
                 Stream.concat(
@@ -176,7 +175,8 @@ public class CppStubGeneratorSuite
                     model.typeCollections.stream()
                             .filter(tc -> !tc.accessor.getIsStructDefinition(tc.fTypeCollection))
                             .map(tc -> {
-                                TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
+                                TypeCollectionGenerator generator = new TypeCollectionGenerator(
+                                        this, model, rules, tc);
                                 return generator.generate();
                             }),
 
@@ -189,8 +189,8 @@ public class CppStubGeneratorSuite
                                 return generator.generate();
                             })
                     ),
-                mapping.stream()
-                        .map(pair -> structGenerator.generateFiles(this,model,pair.getValue(),pair.getKey())));
+                structMethodPairs.stream()
+                        .map(smp -> structGenerator.generateFiles(this, model, smp.iface, smp.type)));
 
 
 
