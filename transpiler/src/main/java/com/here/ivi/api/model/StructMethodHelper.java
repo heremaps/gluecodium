@@ -11,7 +11,7 @@ public class StructMethodHelper {
     private static final Logger logger = Logger.getLogger(StructMethodHelper.class.getName());
 
     private static final String STRUCT_INITIALIZER_METHOD_NAME = "init";
-    private static final String BELONGING_STRUCT_CONSTANT_NAME = "type";
+    private static final String BELONGING_STRUCT_CONSTANT_NAME = "DefiningType";
 
     public static FStructType findStructType(
             FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {

@@ -10,14 +10,14 @@ typeCollection GeoCoordinates {
     }
 
     // specification of the struct itself
-    struct type {
+    struct DefiningType {
         Double latitude
         Double longitude
         Double altitude
     }
 
     // specification of the default value
-    const GeoCoordinates.type defaultValues = {
+    const DefiningType DefaultValues = {
         latitude: BuiltIn.NaNDouble,
         longitude: BuiltIn.NaNDouble,
         altitude: BuiltIn.NaNDouble
@@ -40,7 +40,7 @@ interface GeoCoordinatesMethods {
         }
 
         out {
-            GeoCoordinates.type object
+            GeoCoordinates.DefiningType object
         }
     }
 }

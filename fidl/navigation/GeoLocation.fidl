@@ -13,17 +13,17 @@ typeCollection GeoLocation {
 
     enumeration PositionSource
     {   <** @description: Unknown location source. **>
-        Unknown        = 0x01
-        <** @description: Satellite source.        **>
-        Satellite      = 0x02
-        <** @description: Dead reckoning source.   **>
-        DeadReckoning  = 0x20
+        Unknown = 0x01
+        <** @description: Satellite source. **>
+        Satellite = 0x02
+        <** @description: Dead reckoning source. **>
+        DeadReckoning = 0x20
     }
 
     // specification of the struct itself
-    struct type {
+    struct DefiningType {
       <** @description: Position **>
-      GeoCoordinates.type coordinates
+      GeoCoordinates.DefiningType coordinates
       <** @description: Speed in m/s **>
       Float speed
       <** @description: Heading in degrees relative to true north **>
@@ -47,7 +47,7 @@ typeCollection GeoLocation {
       <** @description: Demonstration position **>
       Boolean isDemo
       <** @description: Additional satellite information **>
-      SatelliteInfo.type satelliteInfo
+      SatelliteInfo.DefiningType satelliteInfo
       <** @description: System time this position was acquired **>
       NavigationTypes.TimeStampMs timestamp
       <** @description: UTC-Time, this position was acquired **>
@@ -57,9 +57,12 @@ typeCollection GeoLocation {
     }
 
     // specification of default value
-    const GeoLocation.type defaultValues  =
-    {
-        coordinates:  { latitude: BuiltIn.NaNDouble, longitude: BuiltIn.NaNDouble, altitude: BuiltIn.NaNDouble },
+    const GeoLocation.DefiningType DefaultValues = {
+        coordinates: {
+            latitude: BuiltIn.NaNDouble,
+            longitude: BuiltIn.NaNDouble,
+            altitude: BuiltIn.NaNDouble
+        },
         speed: BuiltIn.NaNFloat,
         heading: BuiltIn.NaNFloat,
         pitch: BuiltIn.NaNFloat,
@@ -71,7 +74,7 @@ typeCollection GeoLocation {
         pitchAccuracy: BuiltIn.NaNFloat,
         odometerAccuracy: BuiltIn.NaNFloat,
         isDemo: false,
-        satelliteInfo: SatelliteInfo.defaultValues,
+        satelliteInfo: SatelliteInfo.DefaultValues,
         timestamp: 0,
         utcTimestamp: 0,
         positionSource: 0

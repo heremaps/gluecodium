@@ -9,14 +9,11 @@ typeCollection SatelliteInfo {
         minor 0
     }
 
-
-    /** constants defined in a type collection that belongs to an interface will be modeled as static const members
-     *  inside the belonging interface
-     */
-    const UInt8 INVALID_SATELLITES_NO = 0xFF //Indicates an invalid number of satellites.
+    <** @description: Indicates an invalid number of satellites **>
+    const UInt8 InvalidSatellitesCount = 0xFF
 
     //specification of the struct itself
-    struct type{
+    struct DefiningType {
         <** @description: Number of visible satellites **>
         UInt8 visibleSatellites
         <** @description: Number of used satellites **>
@@ -24,9 +21,9 @@ typeCollection SatelliteInfo {
     }
 
     // specification of default value
-    const SatelliteInfo.type defaultValues  =
-    { visibleSatellites: SatelliteInfo.INVALID_SATELLITES_NO,
-      usedSatellites: SatelliteInfo.INVALID_SATELLITES_NO
+    const SatelliteInfo.DefiningType DefaultValues = {
+        visibleSatellites: SatelliteInfo.InvalidSatellitesCount,
+        usedSatellites: SatelliteInfo.InvalidSatellitesCount
     }
 }
 

@@ -6,7 +6,7 @@ import org.franca.core.franca.FStructType;
 
 public class DefaultValuesHelper {
     // Used to identify the definition of default values of struct
-    static final private String DEFAULT_VALUE_CONSTANT = "defaultValues";
+    static final private String DEFAULT_VALUE_CONSTANT = "DefaultValues";
 
     public static boolean isStructDefaultValueConstant(FQualifiedElementRef qer) {
         if (qer.getElement() instanceof FConstantDef) {
