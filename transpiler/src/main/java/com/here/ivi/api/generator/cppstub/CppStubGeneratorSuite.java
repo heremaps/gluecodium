@@ -37,115 +37,10 @@ import java.util.stream.Stream;
  * It is the underlying generator, that all others depend on, as they will invoke the actual implementation through
  * the Stub interfaces.
  *
- * @startuml
- *
- *   title Generators
- *
- *   rectangle "Legacy Generator" {
- *
- *   rectangle PC #FFE [
- *   Public APIs
- *
- *   (.h)
- *   ]
- *   rectangle PrC [
- *   Public Impl
- *
- *   (.cpp)
- *   ]
- *   rectangle PIMPL [
- *   Private Impl
- *
- *   (.h, .cpp)
- *   ]
- *
- *   PC -down-> PrC : calls
- *   PrC -down-> PIMPL : calls
- *   }
- *
- *   rectangle "iOS Generator" {
- *
- *   rectangle Swift #FFE [
- *   Public APIs
- *
- *   (.swift)
- *   ]
- *   rectangle ObjectiveC [
- *   ObjectiveC
- *
- *   (.h, .mm)
- *   ]
- *
- *   Swift -down-> ObjectiveC : calls
- *   }
- *
- *   rectangle "Android Generator" {
- *
- *   rectangle Java #FFE [
- *   Public APIs
- *
- *   (.java)
- *   ]
- *   rectangle JNI [
- *   JNI
- *
- *   (.h, .cpp)
- *   ]
- *
- *   Java -down-> JNI : calls
- *   }
- *
- *   rectangle "CppStub Generator" {
- *   rectangle CS [
- *   Cpp Stub
- *
- *   (.h)
- *   ]
- *
- *   rectangle CT #FFE [
- *   Cpp Types
- *
- *   (.h)
- *   ]
- *   }
- *
- *   rectangle "Manual Implementation" {
- *   rectangle CTI #4CE [
- *   Cpp Types Implementation
- *
- *   (.incl)
- *   ]
- *
- *   rectangle CSI #4CE [
- *   Cpp Stub Implementation
- *
- *   (.cpp)
- *   ]
- *   }
- *   rectangle "Implementation Stack" {
- *   rectangle Legacy #2AC [
- *   Legacy
- *   ]
- *   }
- *
- *   CT .down.> CTI : uses
- *   CS .right.> CT  : uses
- *   CSI -up-|> CS : implements
- *
- *   CSI -down-> Legacy : calls
- *
- *   JNI -> CS : calls
- *   JNI ..> CT : uses
- *
- *   PIMPL --> CS : calls
- *   PC --|> CT : contains
- *
- *   ObjectiveC -> CS : calls
- *
- * @enduml
  */
 public class CppStubGeneratorSuite
-        implements GeneratorSuite<CppStubSpec.InterfacePropertyAccessor,CppStubSpec.TypeCollectionPropertyAccessor> {
+        implements GeneratorSuite<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> {
+
     private final Transpiler tool;
     private final CppStubValidator validator = new CppStubValidator();
     private FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> model;
@@ -166,33 +61,19 @@ public class CppStubGeneratorSuite
 
         CppStubStructGenerator structGenerator = new CppStubStructGenerator(rules);
 
-        // structs could have a belonging interface containing its methods !!!
-        List<StructMethodHelper.StructMethodPair> structMethodPairs = StructMethodHelper.collectMethodContainers(model);
-
-        Stream<GeneratedFile> generatorStreams = Stream.concat(
-                Stream.concat(
-                    // generate one file for each type collection, containing all the typedefs, enums, etc.
-                    model.typeCollections.stream()
-                            .filter(tc -> !tc.accessor.getIsStructDefinition(tc.fTypeCollection))
-                            .map(tc -> {
-                                TypeCollectionGenerator generator = new TypeCollectionGenerator(
-                                        this, model, rules, tc);
-                                return generator.generate();
-                            }),
-
-                    // every interface (that is not a struct) gets its own file
-                    model.interfaces.stream()
-                            .filter(iface -> iface.accessor.getIsMethodContainer(iface.fInterface) == null ||
-                                    !iface.accessor.getIsMethodContainer(iface.fInterface))
-                            .map(iface -> {
-                                StubGenerator generator = new StubGenerator(this, model, rules, iface);
-                                return generator.generate();
-                            })
-                    ),
-                structMethodPairs.stream()
-                        .map(smp -> structGenerator.generateFiles(this, model, smp.iface, smp.type)));
-
-
+        // partition model into ifaces, typecollections and structWithMethods and generate files from that
+        Stream<GeneratedFile> generatorStreams = StructMethodHelper.partitionModel(
+                model,
+                iface -> {
+                    StubGenerator generator = new StubGenerator(this, model, rules, iface);
+                    return generator.generate();
+                },
+                tc -> {
+                    TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, rules, tc);
+                    return generator.generate();
+                },
+                smp -> structGenerator.generateFiles(this, model, smp.iface, smp.type)
+        );
 
         List<GeneratedFile> list = generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
         list.add(copyTarget("here/internal/AsyncAPI.h", "src/"));
