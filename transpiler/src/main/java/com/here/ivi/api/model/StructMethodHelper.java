@@ -150,7 +150,7 @@ public class StructMethodHelper {
                         logger.severe("Error: FranceModel.Interface could not be found: " + fi);
                     }
                 } else {
-                    logger.severe("Error: Belonging interface could not be found for " + tc);
+                    result.add(new StructMethodPair<>(null, tc));
                 }
             }
         }
