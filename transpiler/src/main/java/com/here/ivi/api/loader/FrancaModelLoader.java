@@ -38,13 +38,18 @@ public class FrancaModelLoader<IA extends CppStubSpec.InterfacePropertyAccessor,
                                TA extends CppStubSpec.TypeCollectionPropertyAccessor> {
 
     private static final String FIDL_SUFFIX = "fidl";
-    private static final String FDEPL_SUFFIX = "fdepl";
-    private static final URI ROOT_URI = URI.createURI("classpath:/");
+    public static final String FDEPL_SUFFIX = "fdepl";
+    public static final URI ROOT_URI = URI.createURI("classpath:/");
 
     private static Logger logger = Logger.getLogger(FrancaModelLoader.class.getName());
 
     // finds all fidl and fdepl files
     static public Collection<File> listFilesRecursively(File path) {
+        String p = path.getPath();
+        if (p.startsWith("~" + File.separator)) {
+            p = System.getProperty("user.home") + p.substring(1);
+            path = new File(p);
+        }
         if (path.isFile()) {
             return Collections.singletonList(path);
         }
@@ -108,12 +113,11 @@ public class FrancaModelLoader<IA extends CppStubSpec.InterfacePropertyAccessor,
         return model.getSpecifications().get(0);
     }
 
-    // builds a lists of FrancaModels for all the fidl & fdepl files in the given path
-    public FrancaModel<IA, TA> load(String specPath, String path) {
+    // builds a lists of FrancaModels for all the fidl & fdepl provided
+    public FrancaModel<IA, TA> load(String specPath, Collection<File> targetFiles) {
         final FDSpecification spec = loadSpecification(specPath);
-        logger.log(Level.INFO, "Loaded specification " + spec);
+        logger.log(Level.INFO, "Loaded specification " + spec.getName());
 
-        Collection<File> targetFiles = listFilesRecursively(new File(path));
         Map<String, List<File>> bySuffix = separateFiles(targetFiles);
 
         // load all found fdepl resources

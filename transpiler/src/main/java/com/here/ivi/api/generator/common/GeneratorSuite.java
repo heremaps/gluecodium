@@ -3,12 +3,16 @@ package com.here.ivi.api.generator.common;
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.legacy.LegacyGeneratorSuite;
 import com.here.ivi.api.generator.cppstub.CppStubGeneratorSuite;
-import com.here.ivi.api.loader.SpecAccessorFactory;
+import com.here.ivi.api.model.FDHelper;
+import org.franca.deploymodel.dsl.fDeploy.FDModel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Logger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The base for all the generators.
@@ -17,6 +21,10 @@ import java.util.List;
  * @param <TA> the TypeCollectionAccesor, such as @ref navigation.LegacySpec.TypeCollectionPropertyAccesor
  */
 public interface GeneratorSuite<IA, TA> {
+    /**
+     * @return the path to specification used by generator
+     */
+    String getSpecPath();
 
     /**
      * @return the tool this generator belongs to
@@ -39,14 +47,6 @@ public interface GeneratorSuite<IA, TA> {
      * @return a list of generated files with their relative destination paths
      */
     List<GeneratedFile> generate();
-
-    /**
-     * Creates the spec accessor factory required for this generator, that will then
-     * create the SpecAccessors.
-     *
-     * @return the accessor that will be used to load the fdepl files
-     */
-    SpecAccessorFactory<IA, TA> createModelAccessorFactory();
 
     /**
      * Uses the internal validator to validate the model.
@@ -91,5 +91,30 @@ public interface GeneratorSuite<IA, TA> {
      */
     static List<String> generatorShortNames() {
         return Arrays.asList("legacy", "stub");
+    }
+
+    /**
+     * Construct list of generators needed to process provided fidl/fdepl files.
+     * @param inputPath The root directory of the fidl/fdepl files.
+     * @param tool Transpiler object used to instantiate generators
+     * @return List of generators needed to process provided files
+     */
+    static List<String> generatorsFromFdepl(String inputPath, Transpiler tool)
+            throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        Set<String> specNames = FDHelper.findSpecificationNames(inputPath);
+        List<String> generators = new ArrayList<>();
+        for (String sn : generatorShortNames()) {
+            GeneratorSuite<?, ?> generator = instantiateByShortName(sn, tool);
+            FDModel model = FDHelper.loadModel(generator.getSpecPath());
+            if (!model.getSpecifications().isEmpty()) {
+                String generatorSpecName = model.getSpecifications().get(0).getName();
+                if (specNames.contains(generatorSpecName)) {
+                    Logger logger = Logger.getLogger(GeneratorSuite.class.getName());
+                    logger.info(String.format("Adding generator %1$s needed for %2$s", sn, generatorSpecName));
+                    generators.add(sn);
+                }
+            }
+        }
+        return generators;
     }
 }

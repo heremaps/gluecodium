@@ -11,13 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class Transpiler {
-
-    static List<String> GENERATORS = Arrays.asList("legacy", "stub");
 
     static Logger logger = Logger.getLogger(Transpiler.class.getName());
 
@@ -44,7 +41,7 @@ public class Transpiler {
     public boolean execute() {
 
         //Generation
-        List<String> generators = options.getGenerators();
+        List<String> generators = discoverGenerators();
         boolean succeeded = true;
 
         for ( String sn : generators ) {
@@ -79,6 +76,28 @@ public class Transpiler {
         }
 
         return succeeded;
+    }
+
+    private List<String> discoverGenerators() {
+        List<String> generators = options.getGenerators();
+        if (generators != null) {
+            logger.info("Following generators were specified on command line: " + generators);
+            return generators;
+        }
+        logger.info("No generators specified, using auto-discovery");
+        List<String> availableGenerators = GeneratorSuite.generatorShortNames();
+        try {
+            generators = GeneratorSuite.generatorsFromFdepl(options.getInputDir(), this);
+            if (generators.isEmpty()) {
+                logger.info("No generators discovered, switching to use all available: " + availableGenerators);
+            }
+        } catch (Exception e) {
+            logger.severe("Auto-discovery failed, using all available generators: " + availableGenerators);
+        }
+        if (generators == null || generators.isEmpty()) {
+            generators = availableGenerators;
+        }
+        return generators;
     }
 
     public void output(List<GeneratedFile> files) {

@@ -41,10 +41,14 @@ public class OptionReader {
         options.addOption("help", false, "Shows this help and exits.");
         options.addOption("listGenerators", false, "Prints out all available generators and exits.");
         options.addOption("validateOnly", false, "Perform fidl and fdepl files validation without generating any code.");
-
         Option generatorsOpt = new Option("generators", true,
-                "The generators to use, separated by comma. Uses all available generators by default.");
+                String.join("\n",
+                        "List of generators to use, separated by comma,",
+                        "if empty <arg> provided - uses all available generators.",
+                        "Default behaviour - uses automatic generator resolution based on .fdepl files provided."));
         generatorsOpt.setValueSeparator(',');
+        generatorsOpt.setOptionalArg(true);
+        generatorsOpt.setArgs(Option.UNLIMITED_VALUES);
         options.addOption(generatorsOpt);
     }
 
@@ -84,9 +88,13 @@ public class OptionReader {
             }
 
             if (cmd.hasOption("generators")) {
-                res.generators = Arrays.asList(cmd.getOptionValues("generators"));
-            } else {
-                res.generators = GeneratorSuite.generatorShortNames();
+                String[] arg = cmd.getOptionValues("generators");
+                // use all generators if option provided without argument
+                if (arg == null) {
+                    res.generators = GeneratorSuite.generatorShortNames();
+                } else {
+                    res.generators = Arrays.asList(arg);
+                }
             }
 
             if (cmd.hasOption("validateOnly")) {
