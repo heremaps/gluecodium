@@ -37,8 +37,9 @@ import java.util.stream.Stream;
  */
 public class CppStubGeneratorSuite
         implements GeneratorSuite<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> {
-
     private final Transpiler tool;
+    private final SpecAccessorFactory<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
+            specAccessorFactory;
     private final CppStubValidator validator = new CppStubValidator();
     private FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> model;
     private FrancaModelLoader<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> fml;
@@ -47,7 +48,8 @@ public class CppStubGeneratorSuite
     static Logger logger = java.util.logging.Logger.getLogger(CppStubGeneratorSuite.class.getName());
 
     public CppStubGeneratorSuite(Transpiler tp) {
-        this.tool = tp;
+        tool = tp;
+        specAccessorFactory = new CppStubSpecAccessorFactory();
     }
 
     @Override
@@ -113,22 +115,19 @@ public class CppStubGeneratorSuite
     }
 
     @Override
-    public SpecAccessorFactory<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> createModelAccessorFactory() {
-        return new CppStubSpecAccessorFactory();
+    public String getSpecPath() {
+        return specAccessorFactory.getSpecPath();
     }
 
     @Override
     public void buildModel(String inputPath) {
-        final SpecAccessorFactory<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
-                specAccessorFactory = createModelAccessorFactory();
-
         // load model
         fml = new FrancaModelLoader<>(specAccessorFactory);
 
         ModelHelper.getFdeplInjector().injectMembers(fml);
         currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
 
-        model = fml.load(specAccessorFactory.getSpecPath(), inputPath);
+        model = fml.load(specAccessorFactory.getSpecPath(), currentFiles);
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FArgument;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,8 +27,8 @@ public class Fidldif {
         ModelHelper.getFdeplInjector().injectMembers(fml);
 
 
-        final FrancaModel<?, ?> a = fml.load(specAccessorFactory.getSpecPath(), args[0]);
-        final FrancaModel<?, ?> b = fml.load(specAccessorFactory.getSpecPath(), args[1]);
+        final FrancaModel<?, ?> a = fml.load(specAccessorFactory.getSpecPath(), FrancaModelLoader.listFilesRecursively(new File(args[0])));
+        final FrancaModel<?, ?> b = fml.load(specAccessorFactory.getSpecPath(), FrancaModelLoader.listFilesRecursively(new File(args[1])));
 
         // find removed interfaces
         List<FrancaModel.Interface<?>> removedInterfaces = a.interfaces.stream()

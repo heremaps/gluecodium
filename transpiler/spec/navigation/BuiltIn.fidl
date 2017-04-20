@@ -15,6 +15,6 @@ typeCollection BuiltIn {
   const Float MaxFloat = 3.4028235e38f
 
   const Double NaNDouble = -0.0d
-  const Double NaNFloat  = -0.0f
+  const Float NaNFloat  = -0.0f
 
 }
