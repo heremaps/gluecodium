@@ -3,9 +3,9 @@ package com.here.ivi.api.generator.cppstub;
 
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.*;
-import com.here.ivi.api.generator.common.templates.CppFileTemplate;
+import com.here.ivi.api.generator.common.templates.CppDelegatorTemplate;
 import com.here.ivi.api.generator.common.CppNameRules;
-import com.here.ivi.api.generator.common.templates.CppTypeCollectionContentTemplate;
+import com.here.ivi.api.generator.common.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.cppstub.templates.EmptyBodyTemplate;
 import com.here.ivi.api.generator.cppstub.templates.NotifierBodyTemplate;
 import com.here.ivi.api.model.DefinedBy;
@@ -64,8 +64,8 @@ public class StubGenerator {
         resolver.resolveLazyIncludes(model);
 
         CharSequence generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, iface, outputFile);
-        CharSequence innerContent = CppTypeCollectionContentTemplate.generate(model);
-        String fileContent = CppFileTemplate.generate(generatorNotice, innerContent).toString();
+        CharSequence innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), model);
+        String fileContent = CppCommentHeaderTemplate.generate(generatorNotice, innerContent).toString();
 
         return new GeneratedFile(fileContent, outputFile);
     }

@@ -7,27 +7,27 @@ import com.here.ivi.api.model.cppmodel.CppEnumClass
 import com.here.ivi.api.model.cppmodel.CppStruct
 import com.here.ivi.api.model.cppmodel.CppTypeDef
 import com.here.ivi.api.model.cppmodel.CppClass
-import org.eclipse.xtend2.lib.StringConcatenation
+import com.here.ivi.api.generator.common.CppTemplateDelegator
 
 class CppNamespaceTemplate {
-  static def StringConcatenation generate(CppNamespace ns) '''
-      namespace «ns.name» {
+    static def generate(CppTemplateDelegator templates, CppNamespace ns) '''
+        namespace «ns.name» {
 
-      «FOR member : ns.members»
-      «
-      switch (member) {
-        CppConstant: CppConstantTemplate.generate(member)
-        CppEnum : CppEnumTemplate.generate(member)
-        CppEnumClass : CppEnumClassTemplate.generate(member)
-        CppNamespace: CppNamespaceTemplate.generate(member)
-        CppStruct: CppPureStructTemplate.generate(member)
-        CppTypeDef: CppTypeDefTemplate.generate(member)
-        CppClass : CppClassTemplate.generate(member)
-        default: '''// Missing mapping «member.class»'''
-      }»
+        «FOR member : ns.members»
+        «
+        switch (member) {
+            CppConstant: templates.generate(member)
+            CppEnum : templates.generate(member)
+            CppEnumClass : templates.generate(member)
+            CppNamespace: templates.generate(member)
+            CppStruct: templates.generate(member)
+            CppTypeDef: templates.generate(member)
+            CppClass : templates.generate(member)
+            default: '''// Missing mapping «member.class»'''
+        }»
 
-      «ENDFOR»
+        «ENDFOR»
 
-      } // namespace «ns.name»
-  '''
+        } // namespace «ns.name»
+    '''
 }

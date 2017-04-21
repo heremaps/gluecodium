@@ -60,8 +60,8 @@ public class TypeCollectionGenerator {
         resolver.resolveLazyIncludes(model);
 
         Object generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, tc, outputFile);
-        Object innerContent = CppTypeCollectionContentTemplate.generate(model);
-        String fileContent = CppFileTemplate.generate(generatorNotice, innerContent).toString();
+        Object innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), model);
+        String fileContent = CppCommentHeaderTemplate.generate(generatorNotice, innerContent).toString();
 
         return new GeneratedFile(fileContent, outputFile);
     }

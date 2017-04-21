@@ -1,11 +1,11 @@
 package com.here.ivi.api.generator.cppstub;
 
-import com.here.ivi.api.generator.legacy.LegacyFrancaCommentParser;
-import com.here.ivi.api.generator.legacy.LegacyFrancaCommentParser.LegacyComments;
+import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.*;
-import com.here.ivi.api.generator.common.templates.CppFileTemplate;
+import com.here.ivi.api.generator.common.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.common.CppNameRules;
-import com.here.ivi.api.generator.cppstub.templates.ApiStructHeader;
+import com.here.ivi.api.generator.common.templates.CppDelegatorTemplate;
+import com.here.ivi.api.generator.common.templates.CppStructWithMethodsTemplate;
 import com.here.ivi.api.generator.cppstub.templates.StructCtor;
 import com.here.ivi.api.model.DefaultValuesHelper;
 import com.here.ivi.api.model.FrancaModel;
@@ -34,25 +34,27 @@ public class CppStubStructGenerator {
                                        final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
                                        final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
 
-        CppClass newClass = generateClass(methods, tc, model);
-
-        LegacyComments comments = LegacyFrancaCommentParser.createCommentParser(tc.fTypeCollection);
-
-        newClass.comment = comments.getMainBodyText();
+        CppNamespace ns = generateCppModel(methods, tc, model);
 
         CppIncludeResolver resolver = new CppIncludeResolver(model, tc, nameRules);
-        resolver.resolveLazyIncludes(newClass);
+        resolver.resolveLazyIncludes(ns);
 
         List<String> directories = nameRules.packageToDirectoryStructure(tc.getPackage());
-        String fileName =  nameRules.typeCollectionTarget(directories, tc);
+        String outputFile =  nameRules.typeCollectionTarget(directories, tc);
 
-        Object generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, tc, fileName);
-        String fileContent = CppFileTemplate.generate(generatorNotice, ApiStructHeader.generate(newClass)).toString();
-        return new GeneratedFile(fileContent,fileName);
+        CharSequence generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, tc, outputFile);
+        CharSequence innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator() {
+            public CharSequence generate(CppClass cppClass) {
+                return CppStructWithMethodsTemplate.generate(cppClass);
+            }
+        }, ns);
+        String fileContent = CppCommentHeaderTemplate.generate(generatorNotice, innerContent).toString();
+
+        return new GeneratedFile(fileContent, outputFile);
     }
 
-    public CppField generateCppField(CppModelAccessor<CppStubSpec.TypeCollectionPropertyAccessor> rootType,
-                                     FField ffield, FFieldInitializer initializer) {
+    private CppField generateCppField(CppModelAccessor<CppStubSpec.TypeCollectionPropertyAccessor> rootType,
+                                      FField ffield, FFieldInitializer initializer) {
 
         FTypeRef typeRef = ffield.getType();
         CppField field = new CppField();
@@ -62,10 +64,26 @@ public class CppStubStructGenerator {
         return field;
     }
 
-    public CppClass generateClass(final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
-                                  final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
-                                  final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
-                                                    ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
+    private CppNamespace generateCppModel(FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
+                                          FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
+                                          FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
+                                                  ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
+
+        List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(tc.getPackage());
+
+        CppClass newClass = generateClass(methods, tc, model);
+
+        // add to innermost namespace
+        Iterables.getLast(packageNs).members.add(newClass);
+
+        // return outermost namespace
+        return Iterables.getFirst(packageNs, null);
+    }
+
+    private CppClass generateClass(final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
+                                   final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
+                                   final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
+                                           ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
 
         CppModelAccessor<CppStubSpec.TypeCollectionPropertyAccessor> rootType =
                 new CppModelAccessor<>(tc.fTypeCollection, tc.model.fModel, tc.accessor,  nameRules, model);

@@ -1,23 +1,11 @@
-package com.here.ivi.api.generator.cppstub.templates
+package com.here.ivi.api.generator.common.templates
 
 import com.here.ivi.api.generator.common.templates.CppMethodTemplate
-import com.here.ivi.api.generator.common.templates.CppIncludeTemplate
 import com.here.ivi.api.model.cppmodel.CppClass
-import com.here.ivi.api.model.cppmodel.CppElements
 
 
-public class ApiStructHeader {
+public class CppStructWithMethodsTemplate {
     def static generate(CppClass cppClass) '''
-    #pragma once
-
-    #include <legacy/common/defines.h>
-
-    «FOR include : CppElements.collectIncludes(cppClass)»
-      «CppIncludeTemplate.generate(include)»
-    «ENDFOR»
-
-    namespace legacy {
-
     «IF cppClass.comment !== null && !cppClass.comment.isEmpty()»
     /**
      * «cppClass.comment»
@@ -41,7 +29,5 @@ public class ApiStructHeader {
         «ENDFOR»
 
     };
-
-    } // namespace legacy
     '''
 }

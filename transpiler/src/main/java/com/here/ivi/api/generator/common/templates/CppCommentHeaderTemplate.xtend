@@ -1,6 +1,6 @@
 package com.here.ivi.api.generator.common.templates
 
-class CppFileTemplate {
+class CppCommentHeaderTemplate {
   static def generate(Object generatorNotice, Object content) '''
     // -------------------------------------------------------------------------------------------------
     //
