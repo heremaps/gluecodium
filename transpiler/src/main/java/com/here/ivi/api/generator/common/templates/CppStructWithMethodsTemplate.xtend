@@ -2,17 +2,22 @@ package com.here.ivi.api.generator.common.templates
 
 import com.here.ivi.api.generator.common.templates.CppMethodTemplate
 import com.here.ivi.api.model.cppmodel.CppClass
-
+import com.here.ivi.api.generator.common.CppTemplateDelegator
 
 public class CppStructWithMethodsTemplate {
-    def static generate(CppClass cppClass) '''
+    def static generate(CppTemplateDelegator templates, CppClass cppClass) '''
     «IF cppClass.comment !== null && !cppClass.comment.isEmpty()»
     /**
      * «cppClass.comment»
      */
     «ENDIF»
-    struct «cppClass.name»{
+    struct «cppClass.name» {
 
+        «FOR f : cppClass.constants»
+        «templates.generate(f)»
+        «ENDFOR»
+
+        /** Default constructor */
         «cppClass.name»( ) = default;
 
         «FOR m : cppClass.methods»
@@ -27,7 +32,6 @@ public class CppStructWithMethodsTemplate {
             «f.type.name» «f.name»;
         «ENDIF»
         «ENDFOR»
-
     };
     '''
 }

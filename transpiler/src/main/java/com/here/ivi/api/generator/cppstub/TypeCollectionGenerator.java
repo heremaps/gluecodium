@@ -96,7 +96,7 @@ public class TypeCollectionGenerator {
 
         // constants
         for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
-            CppConstant constant = buildCppConstant(constantDef);
+            CppConstant constant = TypeGenerationHelper.buildCppConstant(nameRules, rootModel, constantDef);
 
             if (constant.isValid()) {
                 result.members.add(constant);
@@ -147,15 +147,7 @@ public class TypeCollectionGenerator {
         struct.name = nameRules.structName(structType.getName());
 
         for (FField fieldInfo : structType.getElements()) {
-            CppField field = new CppField();
-
-            field.type = CppTypeMapper.map(rootModel, fieldInfo);
-            field.name = nameRules.fieldName(fieldInfo.getName());
-
-            // FIXME No way to do initial values for fields in fidl!!!
-            field.initializer = CppDefaultInitializer.map(fieldInfo.getType());
-
-            struct.fields.add(field);
+            struct.fields.add(TypeGenerationHelper.buildCppField(nameRules, rootModel, fieldInfo, null));
         }
 
         return struct;
@@ -188,14 +180,4 @@ public class TypeCollectionGenerator {
         return enumClass;
     }
 
-    private CppConstant buildCppConstant(FConstantDef constantDef) {
-        CppConstant constant = new CppConstant();
-
-        // no need to check isArray here, it is redundant
-        constant.type = CppTypeMapper.map(rootModel, constantDef.getType());
-        constant.name = nameRules.constantName(constantDef.getName());
-        constant.value = CppValueMapper.map(constant.type, constantDef.getRhs());
-
-        return constant;
-    }
 }
