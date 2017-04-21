@@ -45,23 +45,12 @@ public class CppStubStructGenerator {
         CharSequence generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, tc, outputFile);
         CharSequence innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator() {
             public CharSequence generate(CppClass cppClass) {
-                return CppStructWithMethodsTemplate.generate(cppClass);
+                return CppStructWithMethodsTemplate.generate(this, cppClass);
             }
         }, ns);
         String fileContent = CppCommentHeaderTemplate.generate(generatorNotice, innerContent).toString();
 
         return new GeneratedFile(fileContent, outputFile);
-    }
-
-    private CppField generateCppField(CppModelAccessor<CppStubSpec.TypeCollectionPropertyAccessor> rootType,
-                                      FField ffield, FFieldInitializer initializer) {
-
-        FTypeRef typeRef = ffield.getType();
-        CppField field = new CppField();
-        field.name = nameRules.fieldName(ffield.getName());
-        field.type = CppTypeMapper.map(rootType, typeRef);
-        field.initializer = CppValueMapper.map(field.type, initializer.getValue());
-        return field;
     }
 
     private CppNamespace generateCppModel(FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
@@ -123,7 +112,7 @@ public class CppStubStructGenerator {
         Iterator<FField> memberIterator = memberStruct.getElements().iterator();
         Iterator<FFieldInitializer> valueIterator = defaultInitializer.getElements().iterator();
         while (memberIterator.hasNext() && valueIterator.hasNext()) {
-            CppField field = generateCppField(rootType, memberIterator.next(), valueIterator.next());
+            CppField field = TypeGenerationHelper.buildCppField(nameRules, rootType, memberIterator.next(), valueIterator.next());
             newClass.fields.add(field);
         }
 
@@ -156,6 +145,22 @@ public class CppStubStructGenerator {
                                 newClass.methods.add(nonDefaultCtor);
                             }
                     );
+        }
+
+        // constants
+        for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
+
+            // skip all default values in the generation
+            if (DefaultValuesHelper.isStructDefaultValueConstant(constantDef)) {
+                continue;
+            }
+
+            CppConstant constant = TypeGenerationHelper.buildCppConstant(nameRules, rootType, constantDef);
+            if (constant.isValid()) {
+                newClass.constants.add(constant);
+            } else {
+                logger.severe("Failed generating constant! " + constantDef.getName() + " " + constantDef.getRhs().getClass());
+            }
         }
 
         return newClass;
