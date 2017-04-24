@@ -8,7 +8,7 @@ public interface ICommentFormatter {
         Output,
         ReturnValue
     }
-    String addParameter(FAnnotationBlock parameterComment, String name, ParameterType type);
+    String formatParam(FAnnotationBlock parameterComment, String name, ParameterType type);
     String formatTag(String tag, String text);
-    String formatBody(String CommentBody);
+    String formatComment(String CommentBody);
 }

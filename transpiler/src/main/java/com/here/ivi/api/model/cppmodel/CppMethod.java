@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class CppMethod extends CppElement {
-    public String comment = null;
     public String deprecatedComment = null;
     public CppType returnType = CppType.Void;
     public List<String> specifiers = new ArrayList<>();

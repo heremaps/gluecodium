@@ -25,9 +25,9 @@ interface Gesture {
       by a call of on_gesture_ended( MAP_GESTURE_PAN ). **>
     broadcast panTriggered {
         out {
-          <** @description:  from Previous finger position on the map. **>
+          <** @description: Previous finger position on the map. **>
           NavigationTypes.PixelPoint From
-          <** @description:  to Current finger position on the map. **>
+          <** @description: Current finger position on the map. **>
           NavigationTypes.PixelPoint To
         }
     }
@@ -47,10 +47,10 @@ interface Gesture {
       after execution of this method. **>
     broadcast flickTriggered {
         out {
-          <** @description:  delta_x The X-part of the vector indicating the flick direction and speed. The
+          <** @description: The X-part of the vector indicating the flick direction and speed. The
                   unit of the speed is pixels per second. **>
           Float deltaX
-          <** @description:  delta_y The Y-part of the vector indicating the flick direction and speed. The
+          <** @description: The Y-part of the vector indicating the flick direction and speed. The
                   unit of the speed is pixels per second. **>
           Float deltaY
         }
@@ -65,7 +65,7 @@ interface Gesture {
       case it should be handled there.**>
     broadcast tapTriggered {
         out {
-          <** @description: pos Tap position. **>
+          <** @description: Tap position. **>
           NavigationTypes.PixelPoint pos
         }
     }
@@ -76,7 +76,7 @@ interface Gesture {
       after execution of this method.**>
     broadcast doubleTapTriggered {
         out {
-          <** @description: pos Double tap position. **>
+          <** @description: Double tap position. **>
           NavigationTypes.PixelPoint pos
         }
     }
@@ -87,7 +87,7 @@ interface Gesture {
       after execution of this method.**>
     broadcast longTapTriggered {
         out {
-          <** @description: pos Long tap position. **>
+          <** @description: Long tap position. **>
           NavigationTypes.PixelPoint pos
         }
     }
@@ -98,9 +98,9 @@ interface Gesture {
       called after execution of this method.**>
     broadcast twoFingerTapTriggered {
         out {
-          <** @description: pos1 Tap position of the first finger. **>
+          <** @description: Tap position of the first finger. **>
           NavigationTypes.PixelPoint pos1
-          <** @description: pos2 Tap position of the second finger. **>
+          <** @description: Tap position of the second finger. **>
           NavigationTypes.PixelPoint pos2
         }
     }
@@ -115,13 +115,13 @@ interface Gesture {
       gesture is indicated by the call of on_gesture_ended( MAP_GESTURE_TWO_FINGER_PAN ). **>
     broadcast twoFingerPanTriggered {
         out {
-          <** @description: from_pos1 Previous position of the first finger on the map. **>
+          <** @description: Previous position of the first finger on the map. **>
           NavigationTypes.PixelPoint fromPos1
-          <** @description: to_pos1 Current position of the first finger on the map. **>
+          <** @description: Current position of the first finger on the map. **>
           NavigationTypes.PixelPoint toPos1
-          <** @description: from_pos2 Previous position of the second finger on the map. **>
+          <** @description: Previous position of the second finger on the map. **>
           NavigationTypes.PixelPoint fromPos2
-          <** @description: to_pos2 Current position of the second finger on the map. **>
+          <** @description: Current position of the second finger on the map. **>
           NavigationTypes.PixelPoint toPos2
         }
     }
@@ -136,14 +136,11 @@ interface Gesture {
       indicated by the call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_PINCH ). **>
     broadcast twoFingerPinchTriggered {
         out {
-          <** @description: center Center position on the map between the two fingers when this gesture has
-              started. **>
+          <** @description: Center position on the map between the two fingers when this gesture has started. **>
           NavigationTypes.PixelPoint center
-          <** @description: start_length The distance in pixels between the two fingers on the map when this
-              gesture has started. **>
+          <** @description: The distance in pixels between the two fingers on the map when this gesture has started. **>
           Float startLength
-          <** @description: current_length The distance in pixels between the current two finger positions on
-                  the map. **>
+          <** @description: The distance in pixels between the current two finger positions on the map. **>
           Float currentLength
         }
     }
@@ -158,12 +155,11 @@ interface Gesture {
       indicated by a call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_ROTATE ). **>
     broadcast twoFingerRotateTriggered {
         out {
-          <** @description: center Center position on the map between the two fingers when this gesture has
-              started. **>
+          <** @description: Center position on the map between the two fingers when this gesture has started. **>
           NavigationTypes.PixelPoint center
-          <** @description: start_angle Angle between touch points in the beginning of rotation in degree. **>
+          <** @description: Angle between touch points in the beginning of rotation in degree. **>
           Float startAngle
-          <** @description: current_angle Angle between current touch points in degree. **>
+          <** @description: Angle between current touch points in degree. **>
           Float currentAngle
         }
     }
@@ -176,18 +172,18 @@ interface Gesture {
       by a call to on_gesture_ended( MAP_GESTURE_TWO_FINGER_TILT ). **>
     broadcast twoFingerTiltTriggered {
         out {
-          <** @description: from_pos1 Previous position of the first finger on the map. **>
+          <** @description: Previous position of the first finger on the map. **>
           NavigationTypes.PixelPoint fromPos1
-          <** @description: to_pos1 Current position of the first finger on the map. **>
+          <** @description: Current position of the first finger on the map. **>
           NavigationTypes.PixelPoint toPos1
-          <** @description: from_pos2 Previous position of the second finger on the map. **>
+          <** @description: Previous position of the second finger on the map. **>
           NavigationTypes.PixelPoint fromPos2
-          <** @description: to_pos2 Current position of the second finger on the map. **>
+          <** @description: Current position of the second finger on the map. **>
           NavigationTypes.PixelPoint toPos2
-          <** @description: start_y_pos Y-coordinate of the center position between the two fingers in the
+          <** @description: Y-coordinate of the center position between the two fingers in the
               beginning of swipe. **>
           Float startYPos
-          <** @description: current_y_pos Y-coordinate of the center position between the two fingers at the
+          <** @description: Y-coordinate of the center position between the two fingers at the
               current stage of swipe. **>
           Float currentYPos
         }
@@ -196,7 +192,7 @@ interface Gesture {
     <** @description: Called whenever (one of) the current gesture(s) ends. **>
     broadcast gestureEnded {
         out {
-          <** @description: gesture Type of gesture that has ended. **>
+          <** @description: Type of gesture that has ended. **>
           GestureTypes.MapGesture gesture
         }
     }

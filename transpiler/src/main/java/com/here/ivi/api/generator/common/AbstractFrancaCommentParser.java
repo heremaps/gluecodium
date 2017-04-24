@@ -1,7 +1,5 @@
 package com.here.ivi.api.generator.common;
 
-import com.here.ivi.api.generator.common.ICommentFormatter;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -104,7 +102,7 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
                     if (generatorSpecificPattern != null) {
                         franca_comment = generatorSpecificPattern.match(franca_comment);
                     }
-                    sb.append(commentFormatter.formatBody(franca_comment));
+                    sb.append(commentFormatter.formatComment(franca_comment));
                     break;
                 case FAnnotationType.DEPRECATED_VALUE:
                     comments.deprecatedText = annotation.getComment();

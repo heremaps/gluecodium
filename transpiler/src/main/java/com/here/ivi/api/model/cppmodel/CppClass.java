@@ -11,8 +11,6 @@ public class CppClass extends CppElement {
     public Set<CppInheritance> inheritances = new LinkedHashSet<>();
     public Set<CppStruct> structs = new LinkedHashSet<>();
 
-    public String comment = null;
-
     public CppClass(String name) {
         super( name );
     }

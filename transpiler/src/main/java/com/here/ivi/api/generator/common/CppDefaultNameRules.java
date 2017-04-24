@@ -17,11 +17,11 @@ public abstract class CppDefaultNameRules implements CppNameRules {
     }
 
     public String methodName(String base) {
-        return NameHelper.toSnakeCase(base); // doStuff
+        return NameHelper.toLowerCamel(base); // doStuff
     }
 
     public String argumentName(String base) {
-        return NameHelper.toSnakeCase(base); // myArg
+        return NameHelper.toLowerCamel(base); // myArg
     }
 
     public String constantName(String base) {
