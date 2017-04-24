@@ -4,10 +4,13 @@ import com.here.ivi.api.model.cppmodel.CppClass
 
 class CppClassTemplate {
     static def generate(CppClass clazz) '''
+
+        «IF clazz.comment !== null && !clazz.comment.isEmpty()»
         /**
-         *
+         * «clazz.comment»
          */
-        class «clazz.name» «CppInheritanceTemplate.generate(clazz)»{
+        «ENDIF»
+        class «clazz.name» «CppInheritanceTemplate.generate(clazz)» {
         public:
             «FOR s : clazz.structs»
               «CppPureStructTemplate.generate(s)»
