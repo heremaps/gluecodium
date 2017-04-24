@@ -28,30 +28,26 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
         public String deprecatedText = null;
     }
 
-    public AbstractFrancaCommentParser(final FMethod method, final String className, ICommentFormatter formatter) {
+    public AbstractFrancaCommentParser(final FMethod method, ICommentFormatter formatter) {
         this.francaElement = method;
-        this.className = className;
         this.parser = this::parseMethodDocumentation;
         this.commentFormatter = formatter;
     }
 
-    public AbstractFrancaCommentParser(final FBroadcast broadcast, final String className, ICommentFormatter formatter) {
+    public AbstractFrancaCommentParser(final FBroadcast broadcast, ICommentFormatter formatter) {
         this.francaElement = broadcast;
-        this.className = className;
         this.parser = this::parseBroadcastDocumentation;
         this.commentFormatter = formatter;
     }
 
-    public AbstractFrancaCommentParser(final FAttribute attribute, final String className, ICommentFormatter formatter) {
+    public AbstractFrancaCommentParser(final FAttribute attribute, ICommentFormatter formatter) {
         this.francaElement = attribute;
-        this.className = className;
         this.parser = this::parseAttributeDocumentation;
         this.commentFormatter = formatter;
     }
 
     public AbstractFrancaCommentParser(final FModelElement elem, ICommentFormatter formatter) {
         this.francaElement = elem;
-        this.className = elem.getName();
         this.parser = this::parseInterfaceDocumentation;
         this.commentFormatter = formatter;
     }
@@ -87,17 +83,19 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
                 case FAnnotationType.DESCRIPTION_VALUE:
                     String franca_comment = annotation.getComment();
 
-                    // Keep generator specifc comments
-                    Matcher matcher = fidlCommentsToKeep.matcher(franca_comment);
-                    if (matcher.find()) {
-                        franca_comment = matcher.replaceAll("$1");
+                    if (fidlCommentsToKeep != null) {
+                        // Keep generator specifc comments
+                        Matcher matcher = fidlCommentsToKeep.matcher(franca_comment);
+                        if (matcher.find()) {
+                            franca_comment = matcher.replaceAll("$1");
+                        }
                     }
 
                     /* Remove comments specific to non-matching generators (anything between
                      * ${generator:word} and ${/generator} where word is different than the actual
                      * generator running.
                      */
-                    matcher = fidlCommentsToRemove.matcher(franca_comment);
+                    Matcher matcher = fidlCommentsToRemove.matcher(franca_comment);
                     franca_comment = matcher.replaceAll("");
 
                     // If any class implementing an AbstractFrancaCommentParser needs to match some
@@ -138,7 +136,6 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
     protected FTYpeCollectionParser parser;
 
     protected FModelElement francaElement;
-    protected String className;
 
     protected T comments;
     protected ICommentFormatter commentFormatter;
