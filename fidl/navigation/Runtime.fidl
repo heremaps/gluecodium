@@ -9,21 +9,20 @@ import navigation.* from "SystemInformation.fidl"
 import navigation.* from "NetworkConfiguration.fidl"
 
 
-/**
- * The main entry point to the navigation services.
- *
- * You can use the Runtime class to request an instances of the components and
- * services available here or in the factory. Results are propagated through
- * RuntimeListener which is set when creating an instance via create_runtime().
- *
- * The copy constructor allows you to have many instances of Runtime but each
- * instance points to the same reference counted implementation instance.
- *
- * If the last instance of the Runtime gets deleted, the whole legacy stack gets shut down and cannot
- * be used anymore (equivalent to calling Runtime::shutdown()). Thus at least on copy of the
- * Runtime object must be kept while using legacy.
- *
- */
+<** @description:
+ The main entry point to the navigation services.
+
+ You can use the Runtime class to request an instances of the components and
+ services available here or in the factory. Results are propagated through
+ RuntimeListener which is set when creating an instance via create_runtime().
+
+ The copy constructor allows you to have many instances of Runtime but each
+ instance points to the same reference counted implementation instance.
+
+ If the last instance of the Runtime gets deleted, the whole legacy stack gets shut down and cannot
+ be used anymore (equivalent to calling Runtime::shutdown()). Thus at least on copy of the
+ Runtime object must be kept while using legacy.
+ **>
 interface Runtime {
     version {
         major 1
@@ -176,22 +175,22 @@ interface Runtime {
     attribute String applicationCode readonly noSubscriptions
 
     <** @description: The brand variant to be passed to the Modules.
-      Needs to be called before a module is created.
+      Needs to be set before a module is created.
     **>
     attribute String brandVariant
 
     <** @description:
-      Configures the currently active region by putting restriction on the map so only specific
-      map parts corresponding to that region are shown to the client.
-      For example, a car owner in Australia should not be able to see and use Asia maps,
+      The currently active region.
+      Puts restriction on the map so only specific map parts corresponding to that region are shown to the client.
+      For example, the map owner can be configured, that a user in Australia is not be able to see and use Asia maps,
       even if the regions physically exist in the deployed map database.
 
       Restriction sets are defined inside the map database and only those values must be used.
       Please check the database documentation for more details.
 
-      If this method is not being used default restriction will apply.
+      If this attribute is not set, the default restriction will apply.
 
-      NOTE: This method must be called before creating Modules otherwise default features and restrictions will apply.
+      NOTE: This attribute must be set before creating Modules otherwise default features and restrictions will apply.
     **>
     attribute Int16 restrictedSetId
 

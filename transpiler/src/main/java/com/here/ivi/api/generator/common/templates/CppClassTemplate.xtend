@@ -18,6 +18,11 @@ class CppClassTemplate {
 
         public:
             «FOR u : clazz.usings»
+            «IF u.comment !== null && !u.comment.isEmpty()»
+            /**
+             * «u.comment»
+             */
+            «ENDIF»
             using «u.name» = «u.definition.name»;
             «ENDFOR»
 

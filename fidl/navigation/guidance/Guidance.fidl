@@ -588,7 +588,9 @@ interface Guidance extends VoiceOutput {
       RoutingTypes.RouteToCompute newRouteAlternatives
     }
     out {
+      <** @description: The route alternatives that were accepted. Can be empty. **>
       RoutingTypes.RouteAlternatives acceptedAlternatives
+      <** @description: The route alternatives that were rejected. Can be empty. **>
       RoutingTypes.RouteAlternatives rejectedAlternatives
     }
     error NavigationTypes.ErrorCode

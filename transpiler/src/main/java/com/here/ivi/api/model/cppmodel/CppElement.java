@@ -6,6 +6,7 @@ package com.here.ivi.api.model.cppmodel;
 public class CppElement {
     public CppElements.Visibility visibility = CppElements.Visibility.Default;
     public String name;
+    public String comment = null;
 
     public CppElement() {
     }
