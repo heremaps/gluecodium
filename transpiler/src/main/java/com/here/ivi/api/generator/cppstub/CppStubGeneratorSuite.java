@@ -1,9 +1,7 @@
 package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.Version;
+import com.here.ivi.api.generator.common.*;
 
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
@@ -36,8 +34,7 @@ import java.util.stream.Stream;
  *
  */
 public class CppStubGeneratorSuite
-        implements GeneratorSuite<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> {
-    private final Transpiler tool;
+        extends Generator<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> {
     private final SpecAccessorFactory<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
             specAccessorFactory;
     private final CppStubValidator validator = new CppStubValidator();
@@ -48,12 +45,12 @@ public class CppStubGeneratorSuite
     static Logger logger = java.util.logging.Logger.getLogger(CppStubGeneratorSuite.class.getName());
 
     public CppStubGeneratorSuite(Transpiler tp) {
-        tool = tp;
+        super(tp);
         specAccessorFactory = new CppStubSpecAccessorFactory();
     }
 
     @Override
-    public List<GeneratedFile> generate() {
+    public List<GeneratedFile> generateFiles() {
         // TODO add model null check
 
         CppStubNameRules nameRules = new CppStubNameRules(model);
@@ -100,11 +97,6 @@ public class CppStubGeneratorSuite
     }
 
     @Override
-    public Transpiler getTool() {
-        return tool;
-    }
-
-    @Override
     public Version getVersion() {
         return new Version(0, 0, 1);
     }
@@ -134,6 +126,22 @@ public class CppStubGeneratorSuite
     public boolean validate() {
         ResourceSet rs = fml.getResourceSetProvider().get();
         return BasicValidator.validate(rs, currentFiles) && validator.validate(model);
+    }
+
+    @Override
+    protected List<IFileTool> registerTools() {
+        try {
+            List<IFileTool> tools = new LinkedList<>();
+
+            tools.add(new ConditionalExecutor(
+                    ConditionalExecutor.FileExtensionFilter(Arrays.asList("cpp", "h")),
+                    new ClangFormatter("cpp_style/.clang-format", ClangFormatter.Language.CPP)));
+
+            return tools;
+        } catch (IOException e) {
+            logger.severe(String.format("Registering tools failed with error: %s", e));
+            return new LinkedList<>();
+        }
     }
 }
 

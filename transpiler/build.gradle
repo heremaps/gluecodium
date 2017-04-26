@@ -33,10 +33,12 @@ sourceSets {
             srcDirs "spec"
             srcDirs "src/cpphelpers"
             srcDirs "src/main/java"
+            srcDirs "resources"
             include "**/*.fdepl"
             include "**/*.fidl"
             include "**/*.h"
             include "**/*.cpp"
+            include "**/.clang-format"
             include "**/*.properties"
         }
     }

@@ -1,0 +1,23 @@
+Language: Cpp
+BasedOnStyle:  Google
+AccessModifierOffset: -4
+BreakBeforeBinaryOperators: true
+BreakBeforeTernaryOperators: true
+BinPackParameters: false
+ColumnLimit:     100
+DerivePointerBinding: false
+PenaltyBreakComment: 60
+IndentWidth:     4
+TabWidth:        4
+BreakBeforeBraces: Allman
+SpacesInParentheses: true
+SpacesInSquareBrackets: true
+SpacesInAngles:  true
+SpaceInEmptyParentheses: true
+IndentCaseLabels : false
+AllowShortFunctionsOnASingleLine : false
+BreakConstructorInitializersBeforeComma: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterDefinitionReturnType: true

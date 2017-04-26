@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * The base for all the generators.
+ * The interface for all the generators.
  *
  * @param <IA> the InterfaceAccessor, such as @ref navigation.LegacySpec.InterfacePropertyAccesor
  * @param <TA> the TypeCollectionAccesor, such as @ref navigation.LegacySpec.TypeCollectionPropertyAccesor
