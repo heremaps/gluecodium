@@ -4,5 +4,10 @@ import com.here.ivi.api.model.cppmodel.CppTypeDef
 
 class CppTypeDefTemplate {
   static def generate(CppTypeDef td) '''
-  typedef «td.targetType.name» «td.name»;'''
+    «IF td.comment !== null && !td.comment.isEmpty»
+    /**
+     * «td.comment»
+     */
+    «ENDIF»
+    typedef «td.targetType.name» «td.name»;'''
 }
