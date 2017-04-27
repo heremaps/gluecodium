@@ -30,6 +30,11 @@ public class CppStructWithMethodsTemplate {
         «ENDFOR»
 
         «FOR f : cppClass.fields»
+        «IF f.comment !== null && !f.comment.isEmpty()»
+        /**
+         * «f.comment»
+         */
+        «ENDIF»
         «IF f.initializer !== null && f.initializer.isValid()»
             «f.type.name» «f.name» = «f.initializer.name»;
         «ELSE»
