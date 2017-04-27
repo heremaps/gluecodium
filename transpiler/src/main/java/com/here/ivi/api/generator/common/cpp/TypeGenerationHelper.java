@@ -24,11 +24,10 @@ public class TypeGenerationHelper {
   public static CppField buildCppField(
       CppModelAccessor<?> rootType, FField ffield, FFieldInitializer initializer) {
 
-    FTypeRef typeRef = ffield.getType();
     CppField field = new CppField();
     CppNameRules nameRules = rootType.getRules();
     field.name = nameRules.getFieldName(ffield.getName());
-    field.type = CppTypeMapper.map(rootType, typeRef);
+    field.type = CppTypeMapper.map(rootType, ffield);
 
     // if default values are specified in another object (see DefaultValueRules), use them
     if (initializer != null) {
@@ -41,10 +40,9 @@ public class TypeGenerationHelper {
 
   public static CppConstant buildCppConstant(
       CppModelAccessor<?> rootModel, FConstantDef constantDef) {
-    CppConstant constant = new CppConstant();
 
-    // no need to check isArray here, it is redundant
-    constant.type = CppTypeMapper.map(rootModel, constantDef.getType());
+    CppConstant constant = new CppConstant();
+    constant.type = CppTypeMapper.map(rootModel, constantDef);
     CppNameRules nameRules = rootModel.getRules();
     constant.name = nameRules.getConstantName(constantDef.getName());
     constant.value = CppValueMapper.map(constant.type, constantDef.getRhs(), nameRules);

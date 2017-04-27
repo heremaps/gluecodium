@@ -151,7 +151,7 @@ typeCollection VoiceOutputTypes {
     struct VoiceOutput
     {
         <**
-         @description: The audio output which is a vector of audio file paths.
+         @description: The audio output, a list of audio file paths.
          **>
         String[] audioOutput
 
