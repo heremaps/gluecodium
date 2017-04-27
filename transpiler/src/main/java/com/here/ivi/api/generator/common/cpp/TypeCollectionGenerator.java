@@ -116,6 +116,7 @@ public class TypeCollectionGenerator {
     // constants
     for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
       CppConstant constant = TypeGenerationHelper.buildCppConstant(rootModel, constantDef);
+      constant.comment = StubCommentParser.parse(constantDef).getMainBodyText();
 
       if (constant.isValid()) {
         result.members.add(constant);
@@ -140,6 +141,7 @@ public class TypeCollectionGenerator {
 
   private CppElement buildMap(FMapType type) {
     CppTypeDef typeDef = new CppTypeDef();
+    typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
     typeDef.name = nameRules.typedefName(type.getName());
     typeDef.targetType =
         CppTypeMapper.wrapMapType(
@@ -152,6 +154,7 @@ public class TypeCollectionGenerator {
 
   private CppElement buildTypeDef(FTypeDef type) {
     CppTypeDef typeDef = new CppTypeDef();
+    typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
     typeDef.name = nameRules.typedefName(type.getName());
     typeDef.targetType = CppTypeMapper.map(rootModel, type.getActualType());
 
@@ -160,6 +163,7 @@ public class TypeCollectionGenerator {
 
   private CppElement buildArray(FArrayType type) {
     CppTypeDef typeDef = new CppTypeDef();
+    typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
     typeDef.name = nameRules.typedefName(type.getName());
     typeDef.targetType = CppTypeMapper.defineArray(rootModel, type);
     return typeDef;
