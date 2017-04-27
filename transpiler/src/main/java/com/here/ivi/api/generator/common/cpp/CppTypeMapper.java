@@ -62,6 +62,20 @@ public class CppTypeMapper {
     return type;
   }
 
+  public static CppType map(CppModelAccessor<?> rootModel, FConstantDef constant) {
+    CppType type = CppTypeMapper.map(rootModel, constant.getType());
+
+    if (constant.isArray()) {
+      // FIXME impossible to define if a constant is a set or not inside Franca, always putting as vector
+      // should have CppTypeMapper.ArrayMode.map(rootModel, constant)
+      type =
+          CppTypeMapper.wrapArrayType(
+              rootModel.getDefiner(), type, ArrayMode.STD_VECTOR, rootModel.getRules());
+    }
+
+    return type;
+  }
+
   public static CppType map(CppModelAccessor<?> rootModel, FField field) {
     CppType type = CppTypeMapper.map(rootModel, field.getType());
 
