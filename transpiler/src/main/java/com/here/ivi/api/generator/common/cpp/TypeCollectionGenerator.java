@@ -146,10 +146,13 @@ public class TypeCollectionGenerator {
     private CppStruct buildCppStruct(FStructType structType) {
 
         CppStruct struct = new CppStruct();
+        struct.comment = StubCommentParser.parse(structType).getMainBodyText();
         struct.name = nameRules.structName(structType.getName());
 
         for (FField fieldInfo : structType.getElements()) {
-            struct.fields.add(TypeGenerationHelper.buildCppField(nameRules, rootModel, fieldInfo, null));
+            CppField field = TypeGenerationHelper.buildCppField(nameRules, rootModel, fieldInfo, null);
+            field.comment = StubCommentParser.parse(fieldInfo).getMainBodyText();
+            struct.fields.add(field);
         }
 
         return struct;
