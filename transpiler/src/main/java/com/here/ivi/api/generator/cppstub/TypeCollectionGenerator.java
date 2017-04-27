@@ -155,6 +155,7 @@ public class TypeCollectionGenerator {
 
     private CppEnum buildCppEnum(FEnumerationType enumerationType) {
         CppEnum enumeration = new CppEnum();
+        enumeration.comment = StubCommentParser.parse(enumerationType).getMainBodyText();
         enumeration.name = nameRules.enumName(enumerationType.getName());
 
         for (FEnumerator enumerator : enumerationType.getEnumerators()) {
@@ -162,6 +163,7 @@ public class TypeCollectionGenerator {
 
             item.name = nameRules.enumEntryName(enumerator.getName());
             item.value = CppValueMapper.map(enumerator.getValue());
+            item.comment = StubCommentParser.parse(enumerator).getMainBodyText();
 
             enumeration.items.add(item);
         }
