@@ -3,20 +3,24 @@ package navigation
 import navigation.* from "classpath:/navigation/BuiltIn.fidl"
 import navigation.* from "./NavigationTypes.fidl"
 
+<** @description: Type for geographic locations **>
 typeCollection GeoCoordinates {
     version {
         major 1
         minor 0
     }
 
-    // specification of the struct itself
+    <** @description: A geographic location with altitude using WGS84 coordinates. **>
     struct DefiningType {
+        <** @description: WGS84 latitude in degrees. Valid values are in [-90, 90] range. **>
         Double latitude
+        <** @description: WGS84 longitude in degrees. Valid values are in [-180, 180) range **>
         Double longitude
+        <** @description: WGS84 ellipsoid datum in meters **>
         Double altitude
     }
 
-    // specification of the default value
+    // specification of the default value, will not be generated
     const DefiningType DefaultValues = {
         latitude: BuiltIn.NaNDouble,
         longitude: BuiltIn.NaNDouble,
@@ -24,22 +28,23 @@ typeCollection GeoCoordinates {
     }
 }
 
+<** @description: Helper methods for geographic locations **>
 interface GeoCoordinatesMethods {
     version {
       major 1
       minor 0
     }
 
-    // default constructor is generated automatically
-
-    // non-default constructor
+    <** @description: Creates GeoCoordinates with latitude and longitude **>
     method init {
         in {
+            <** @description: WGS84 latitude in degrees. Valid values are in [-90, 90] range. **>
             Double latitude
+            <** @description: WGS84 longitude in degrees. Valid values are in [-180, 180) range **>
             Double longitude
         }
-
         out {
+            <** @description: The created GeoCoordinates object **>
             GeoCoordinates.DefiningType object
         }
     }

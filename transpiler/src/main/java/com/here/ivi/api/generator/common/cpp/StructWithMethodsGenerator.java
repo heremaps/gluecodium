@@ -3,10 +3,10 @@ package com.here.ivi.api.generator.common.cpp;
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.common.templates.CppDelegatorTemplate;
 import com.here.ivi.api.generator.common.templates.CppStructWithMethodsTemplate;
+import com.here.ivi.api.generator.cppstub.StubCommentParser;
 import com.here.ivi.api.generator.cppstub.templates.StructCtor;
 import com.here.ivi.api.model.*;
 import com.here.ivi.api.model.cppmodel.*;
@@ -90,7 +90,10 @@ public class StructWithMethodsGenerator {
             return newClass;
         }
 
+        newClass.comment = StubCommentParser.parse(memberStruct).getMainBodyText();
+
         // default values of members //////////////////////////
+
         FCompoundInitializer defaultInitializer = null;
         for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
             // only structs of the same type as belonging interface with correct name will be checked
@@ -102,19 +105,27 @@ public class StructWithMethodsGenerator {
             }
         }
 
-        if (defaultInitializer == null) {
-            logger.severe("Failed to find default values of " + memberStruct.getName());
-            return newClass;
-        }
-
         CppModelAccessor<?> rootType = new CppModelAccessor<>(tc, nameRules, model);
 
-        // generate fields /////////////////////////////////
-        Iterator<FField> memberIterator = memberStruct.getElements().iterator();
-        Iterator<FFieldInitializer> valueIterator = defaultInitializer.getElements().iterator();
-        while (memberIterator.hasNext() && valueIterator.hasNext()) {
-            CppField field = TypeGenerationHelper.buildCppField(rootType, memberIterator.next(), valueIterator.next());
-            newClass.fields.add(field);
+        // if no specific defaults are defined, generate fields without any addition
+        if (defaultInitializer == null) {
+            logger.info("Failed to find default values of " + memberStruct.getName());
+            for (FField fieldInfo : memberStruct.getElements()) {
+                CppField field = TypeGenerationHelper.buildCppField(rootType, fieldInfo, null);
+                field.comment = StubCommentParser.parse(fieldInfo).getMainBodyText();
+                newClass.fields.add(field);
+            }
+        } else {
+            // generate fields /////////////////////////////////
+            Iterator<FField> memberIterator = memberStruct.getElements().iterator();
+            Iterator<FFieldInitializer> valueIterator = defaultInitializer.getElements().iterator();
+            while (memberIterator.hasNext() && valueIterator.hasNext()) {
+                FField fieldInfo = memberIterator.next();
+                FFieldInitializer value = valueIterator.next();
+                CppField field = TypeGenerationHelper.buildCppField(rootType, fieldInfo, value);
+                field.comment = StubCommentParser.parse(fieldInfo).getMainBodyText();
+                newClass.fields.add(field);
+            }
         }
 
         // methods ////////////////////////////
@@ -134,6 +145,7 @@ public class StructWithMethodsGenerator {
 
             CppConstant constant = TypeGenerationHelper.buildCppConstant(rootType, constantDef);
             if (constant.isValid()) {
+                constant.comment = StubCommentParser.parse(constantDef).getMainBodyText();
                 newClass.constants.add(constant);
             } else {
                 logger.severe("Failed generating constant! " + constantDef.getName() + " " + constantDef.getRhs().getClass());
@@ -170,9 +182,11 @@ public class StructWithMethodsGenerator {
                                 nonDefaultCtor.specifiers.add(CppMethod.Specifier.EXPLICIT);
                             }
 
+                            nonDefaultCtor.comment = StubCommentParser.parse(method).getMainBodyText();
+
                             for (FArgument arg : method.getInArgs()) {
                                 CppParameter param = new CppParameter();
-                                param.name = NameHelper.toSnakeCase(arg.getName());
+                                param.name = nameRules.argumentName(arg.getName());
                                 param.type = CppTypeMapper.map(rootModelIf, arg);
                                 param.mode = CppParameter.Mode.Input;
                                 nonDefaultCtor.inParameters.add(param);
