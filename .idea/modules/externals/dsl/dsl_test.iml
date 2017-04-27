@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id=":externals:dsl:test" external.linked.project.path="$MODULE_DIR$/../../../../externals/dsl" external.root.project.path="$MODULE_DIR$/../../../.." external.system.id="GRADLE" external.system.module.group="api-transpiler.externals" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output-test url="file://$MODULE_DIR$/../../../../externals/dsl/build/classes/test" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../../externals/dsl/build/xcore/test">
@@ -19,7 +19,7 @@
     <orderEntry type="library" name="Gradle: org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:1.1.100" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.xpand:org.eclipse.xtend.typesystem.emf:2.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.xpand:org.eclipse.xpand:2.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-core:2.8.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-core:2.8.2" level="project" />
     <orderEntry type="library" name="Gradle: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.osgi:org.osgi.core:6.0.0" level="project" />
@@ -30,7 +30,7 @@
     <orderEntry type="library" name="Gradle: org.eclipse.equinox:registry:3.5.400-v20140428-1507" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.core:runtime:3.10.0-v20140318-2214" level="project" />
     <orderEntry type="module" module-name="core_main" />
-    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.8.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.8.2" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.emf:org.eclipse.emf.mwe2.runtime:2.9.0.201605261059" level="project" />
     <orderEntry type="library" name="Gradle: commons-cli:commons-cli:1.2" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:14.0.1" level="project" />
