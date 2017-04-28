@@ -1,4 +1,4 @@
-package com.here.ivi.api.generator.cppstub;
+package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;

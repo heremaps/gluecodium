@@ -1,13 +1,9 @@
-package com.here.ivi.api.generator.cppstub;
+package com.here.ivi.api.generator.common.cpp;
 
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.generator.common.cpp.CppGeneratorHelper;
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator;
-import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.common.templates.CppDelegatorTemplate;
 import com.here.ivi.api.generator.common.templates.CppStructWithMethodsTemplate;
@@ -24,21 +20,21 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-public class CppStubStructGenerator {
+public class StructWithMethodsGenerator {
 
-    static Logger logger = Logger.getLogger(CppStubStructGenerator.class.getName());
+    static Logger logger = Logger.getLogger(StructWithMethodsGenerator.class.getName());
 
     private final CppNameRules nameRules;
 
-    public CppStubStructGenerator(CppNameRules rules) {
+    public StructWithMethodsGenerator(CppNameRules rules) {
         this.nameRules = rules;
     }
 
-    public GeneratedFile generateFiles(final GeneratorSuite<?,?> suite,
-                                       final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
+    public GeneratedFile generate(final GeneratorSuite<?,?> suite,
+                                  final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
                                                          ? extends CppStubSpec.TypeCollectionPropertyAccessor> model,
-                                       final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
-                                       final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+                                  final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
+                                  final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
 
         CppNamespace ns = generateCppModel(methods, tc, model);
 
@@ -46,7 +42,7 @@ public class CppStubStructGenerator {
         resolver.resolveLazyIncludes(ns);
 
         List<String> directories = nameRules.packageToDirectoryStructure(tc.getPackage());
-        String outputFile =  nameRules.typeCollectionTarget(directories, tc);
+        String outputFile = nameRules.typeCollectionTarget(directories, tc);
 
         CharSequence generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, tc, outputFile);
         CharSequence innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator() {
@@ -64,7 +60,7 @@ public class CppStubStructGenerator {
                                           FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
                                                   ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
 
-        List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(tc.getPackage());
+        List<CppNamespace> packageNs = CppGeneratorHelper.packageToCppNamespace(nameRules.packageToNamespace(tc.getPackage()));
 
         CppClass newClass = generateClass(methods, tc, model);
 

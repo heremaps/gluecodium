@@ -1,5 +1,6 @@
 package com.here.ivi.api.model;
 
+import com.here.ivi.api.generator.common.GeneratedFile;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
@@ -96,7 +97,7 @@ public class StructMethodHelper {
     public static
     <Result, IA extends CppStubSpec.InterfacePropertyAccessor, TA extends CppStubSpec.TypeCollectionPropertyAccessor>
     Stream< Result > partitionModel(FrancaModel<IA, TA> model,
-                                    Function<FrancaModel.Interface<IA>, Result> interfaceCollector,
+                                    Function<FrancaModel.Interface<IA>, List<Result> > interfaceCollector,
                                     Function<FrancaModel.TypeCollection<TA>, Result> typeCollector,
                                     Function<StructMethodPair<IA, TA>, Result> structWithMethodCollector) {
 
@@ -114,6 +115,7 @@ public class StructMethodHelper {
                                 .filter(iface -> iface.accessor.getIsMethodContainer(iface.fInterface) == null ||
                                         !iface.accessor.getIsMethodContainer(iface.fInterface))
                                 .map(interfaceCollector)
+                                .flatMap(Collection::stream)
                 ),
                 structMethodPairs.stream().map(structWithMethodCollector));
     }
