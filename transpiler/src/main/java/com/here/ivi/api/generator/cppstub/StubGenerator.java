@@ -71,7 +71,7 @@ public class StubGenerator {
     }
 
     private CppNamespace buildCppModel() {
-        List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(iface.getPackage());
+        List<CppNamespace> packageNs = CppGeneratorHelper.packageToCppNamespace(iface.getPackage());
 
         // add to innermost namespace
         CppNamespace innermostNs = Iterables.getLast(packageNs);

@@ -11,15 +11,12 @@ import org.franca.core.franca.FTypeCollection;
 
 import java.io.File;
 import java.util.List;
-import java.util.Optional;
 
 public class CppStubNameRules extends CppDefaultNameRules {
 
-    private FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> model;
-
     public CppStubNameRules(FrancaModel<CppStubSpec.InterfacePropertyAccessor,
                                     CppStubSpec.TypeCollectionPropertyAccessor> model) {
-        this.model = model;
+        super(model);
     }
 
     public List<String> namespace(FType type) {
@@ -33,18 +30,20 @@ public class CppStubNameRules extends CppDefaultNameRules {
         return result;
     }
 
-    public String cppTypename(FType type) {
-        DefinedBy definer = DefinedBy.getDefinedBy(type);
-        // complex structs are modelled as fidl structs encapsulated in type collections
-        // such structs are translated to c++ without the containing type collection but taking its name
-        if(isComplexStruct(definer)) {
-            return definer.type.getName();
-        }
-        return type.getName();
-    }
-
     public String className(FTypeCollection base) {
         return getClassName(base);
+    }
+
+    public String enumEntryName(String base) {
+        return NameHelper.toUpperCamel(base); // MyEnumEntry
+    }
+
+    public String fieldName(String base) {
+        return NameHelper.toLowerCamel(base); // myField
+    }
+
+    public String constantName(String base) {
+        return NameHelper.toUpperCamel(base); // MyConstant
     }
 
     public String typeCollectionTarget(List<String> directories, FrancaModel.TypeCollection<?> tc) {
@@ -55,21 +54,12 @@ public class CppStubNameRules extends CppDefaultNameRules {
         return "stub" + File.separator + String.join(File.separator, directories) + File.separator + className(iface.fInterface) + headerFileSuffix();
     }
 
-    private boolean isComplexStruct(DefinedBy definer) {
-        Optional<? extends CppStubSpec.IDataPropertyAccessor> acc =
-                model.find(definer).map(FrancaModel.FrancaElement::getAccessor);
+    public List<String> packageToDirectoryStructure(List<String> packages) {
+        return packages; // keep directory structure as package structure
+    }
 
-        if (!acc.isPresent()) {
-            throw new RuntimeException("Could not find accessor. Invalid franca definition. " + definer);
-        }
-        try {
-            //complex structs are defined exclusively inside type collections ...
-            return (acc.get() instanceof CppStubSpec.TypeCollectionPropertyAccessor) &&
-                    acc.get().getIsStructDefinition(definer.type);
-        } catch (NullPointerException e) {
-            //property is optional, if not set this could cause a null pointer exception
-            return false;
-        }
+    public List<String> packageToNamespace(List<String> packages) {
+        return packages; // keep namespace structure as package structure
     }
 
     public static String listenerName(FInterface iface) {

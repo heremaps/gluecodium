@@ -1,8 +1,9 @@
-package com.here.ivi.api.generator.cppstub;
+package com.here.ivi.api.generator.common.cpp;
 
 import com.google.common.collect.Iterables;
-import com.here.ivi.api.generator.common.*;
-import com.here.ivi.api.generator.common.cpp.*;
+import com.here.ivi.api.generator.cppstub.StubCommentParser;
+import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.templates.*;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
@@ -68,7 +69,7 @@ public class TypeCollectionGenerator {
     }
 
     private CppNamespace buildCppModel() {
-        List<CppNamespace> packageNs = CppGeneratorHelper.packageToNamespace(tc.getPackage());
+        List<CppNamespace> packageNs = CppGeneratorHelper.packageToCppNamespace(nameRules.packageToNamespace(tc.getPackage()));
 
         CppNamespace result = new CppNamespace(nameRules.typeCollectionName(tc.fTypeCollection));
 

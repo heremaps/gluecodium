@@ -3,6 +3,8 @@ package com.here.ivi.api.generator.cppstub;
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.common.*;
 
+import com.here.ivi.api.generator.common.cpp.StructWithMethodsGenerator;
+import com.here.ivi.api.generator.common.cpp.TypeCollectionGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
@@ -55,20 +57,22 @@ public class CppStubGeneratorSuite
 
         CppStubNameRules nameRules = new CppStubNameRules(model);
 
-        CppStubStructGenerator structGenerator = new CppStubStructGenerator(nameRules);
+        StructWithMethodsGenerator structGenerator = new StructWithMethodsGenerator(nameRules);
 
         // partition model into ifaces, typecollections and structWithMethods and generate files from that
         Stream<GeneratedFile> generatorStreams = StructMethodHelper.partitionModel(
                 model,
                 iface -> {
                     StubGenerator generator = new StubGenerator(this, model, nameRules, iface);
-                    return generator.generate();
+                    List<GeneratedFile> files = new LinkedList<>();
+                    files.add(generator.generate());
+                    return files;
                 },
                 tc -> {
                     TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, nameRules, tc);
                     return generator.generate();
                 },
-                smp -> structGenerator.generateFiles(this, model, smp.iface, smp.type)
+                smp -> structGenerator.generate(this, model, smp.iface, smp.type)
         );
 
         List<GeneratedFile> list = generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
