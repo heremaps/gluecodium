@@ -1,5 +1,6 @@
 package com.here.ivi.api.loader;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.here.ivi.api.model.FrancaModel;
@@ -138,7 +139,6 @@ public class FrancaModelLoader<IA extends CppStubSpec.InterfacePropertyAccessor,
         Set<File> fidlFiles = new HashSet<>(extendedFidl.keySet());
         fidlFiles.addAll(bySuffix.get(FIDL_SUFFIX));
 
-        FrancaModel<IA, TA> jointModel = new FrancaModel<>();
 
         // load all found fidl files and fill the FrancaModel from them
         List<FrancaModel<IA, TA>> models = fidlFiles.parallelStream().map(f -> {
@@ -153,10 +153,7 @@ public class FrancaModelLoader<IA extends CppStubSpec.InterfacePropertyAccessor,
             return FrancaModel.create(m_factory, spec, fm, fdm);
         }).collect(Collectors.toList());
 
-        // join all individual models into one
-        models.forEach(jointModel::merge);
-
-        return jointModel;
+        return FrancaModel.joinModels(models);
     }
 
     public FrancaModelLoader(SpecAccessorFactory<IA, TA> m_factory) {

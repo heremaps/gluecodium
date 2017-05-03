@@ -106,12 +106,12 @@ public class StructMethodHelper {
         return Stream.concat(
                 Stream.concat(
                         // generate one file for each type collection, containing all the typedefs, enums, etc.
-                        model.typeCollections.stream()
+                        model.getTypeCollections().stream()
                                 .filter(tc -> !tc.accessor.getIsStructDefinition(tc.fTypeCollection))
                                 .map(typeCollector),
 
                         // every interface (that is not a struct) gets its own file
-                        model.interfaces.stream()
+                        model.getInterfaces().stream()
                                 .filter(iface -> iface.accessor.getIsMethodContainer(iface.fInterface) == null ||
                                         !iface.accessor.getIsMethodContainer(iface.fInterface))
                                 .map(interfaceCollector)
@@ -136,7 +136,7 @@ public class StructMethodHelper {
         List< StructMethodPair<IA, TA> > result = new ArrayList<>();
 
         // for each type collection: search its methods (if any)
-        for (FrancaModel.TypeCollection<TA> tc : model.typeCollections) {
+        for (FrancaModel.TypeCollection<TA> tc : model.getTypeCollections()) {
 
             if (tc.accessor.getIsStructDefinition(tc.fTypeCollection)) {
                 // find real interface
@@ -144,7 +144,7 @@ public class StructMethodHelper {
 
                 if (fi != null) {
                     Optional<FrancaModel.Interface<IA>> fiOptional =
-                            model.interfaces.stream().filter(i -> fi.equals(i.fInterface)).findFirst();
+                            model.getInterfaces().stream().filter(i -> fi.equals(i.fInterface)).findFirst();
 
                     if (fiOptional.isPresent()) {
                         result.add(new StructMethodPair<>(fiOptional.orElse(null), tc));
