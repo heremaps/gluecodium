@@ -46,7 +46,7 @@ public class DefinedBy {
 
     /** Returns the split packages from the model */
     public List<String> getPackages() {
-        return FrancaModel.splitPackage(getPackageName());
+        return PackageHelper.splitPackage(getPackageName());
     }
 
     @Override

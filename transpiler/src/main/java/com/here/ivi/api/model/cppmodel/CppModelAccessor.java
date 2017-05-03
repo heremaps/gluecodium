@@ -2,6 +2,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.DefinedBy;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.FrancaModel;
 import navigation.CppStubSpec;
 import org.franca.core.franca.FModel;
@@ -35,7 +36,7 @@ public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> ext
      * @return The franca accessor for the given francaModel and type-collection
      */
     public Optional<CppStubSpec.IDataPropertyAccessor> getAccessor(DefinedBy definer){
-        return francaModel.find(definer).map(FrancaModel.FrancaElement::getAccessor);
+        return francaModel.find(definer).map(FrancaElement::getAccessor);
     }
 
     /**

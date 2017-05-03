@@ -1,8 +1,7 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.*;
 import navigation.CppStubSpec;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class CppIncludeResolver {
 
     public CppIncludeResolver(FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
                                           ? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel,
-                              FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> forType,
+                              TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> forType,
                               CppNameRules nameRules) {
         this.rootModel = rootModel;
         this.nameRules = nameRules;
@@ -32,7 +31,7 @@ public class CppIncludeResolver {
 
     public CppIncludeResolver(FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
                                           ? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel,
-                              FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> forType,
+                              Interface<? extends CppStubSpec.InterfacePropertyAccessor> forType,
                               CppNameRules nameRules) {
         this.rootModel = rootModel;
         this.nameRules = nameRules;
@@ -54,22 +53,22 @@ public class CppIncludeResolver {
 
                 Includes.LazyInternalInclude li = (Includes.LazyInternalInclude)i;
 
-                Optional<? extends FrancaModel.FrancaElement> externalDefinitionOpt = rootModel.find(li.model, li.tc);
+                Optional<? extends FrancaElement> externalDefinitionOpt = rootModel.find(li.model, li.tc);
                 if (!externalDefinitionOpt.isPresent()) {
                     logger.severe("Could not resolve type collection include " + li);
                     return null;
                 }
 
-                FrancaModel.FrancaElement externalDefinition = externalDefinitionOpt.get();
+                FrancaElement externalDefinition = externalDefinitionOpt.get();
                 List<String> externalDirectories = nameRules.packageToDirectoryStructure(externalDefinition.getPackage());
 
                 String includeName;
-                if (externalDefinition instanceof FrancaModel.TypeCollection<?>) {
+                if (externalDefinition instanceof TypeCollection<?>) {
                     includeName = nameRules.typeCollectionTarget(externalDirectories,
-                            (FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor>) externalDefinition);
+                            (TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor>) externalDefinition);
                 } else {
                     includeName = nameRules.interfaceTarget(externalDirectories,
-                            (FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor>) externalDefinition);
+                            (Interface<? extends CppStubSpec.InterfacePropertyAccessor>) externalDefinition);
                 }
 
                 // no self includes needed

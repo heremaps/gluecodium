@@ -2,6 +2,7 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.DefinedBy;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.FrancaModel;
 import navigation.CppStubSpec;
 import org.franca.core.franca.FStructType;
@@ -22,7 +23,7 @@ public abstract class CppDefaultNameRules implements CppNameRules {
 
     protected boolean definesStructWithMethods(DefinedBy definer) {
         Optional<? extends CppStubSpec.IDataPropertyAccessor> accessor =
-                model.find(definer).map(FrancaModel.FrancaElement::getAccessor);
+                model.find(definer).map(FrancaElement::getAccessor);
 
         if (!accessor.isPresent()) {
             throw new RuntimeException("Could not find accessor. Invalid franca definition. " + definer);

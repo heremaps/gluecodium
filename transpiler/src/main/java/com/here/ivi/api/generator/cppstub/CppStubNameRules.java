@@ -2,8 +2,7 @@ package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppDefaultNameRules;
-import com.here.ivi.api.model.DefinedBy;
-import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.*;
 import navigation.CppStubSpec;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FType;
@@ -46,12 +45,12 @@ public class CppStubNameRules extends CppDefaultNameRules {
         return NameHelper.toUpperCamel(base); // MyConstant
     }
 
-    public String typeCollectionTarget(List<String> directories, FrancaModel.TypeCollection<?> tc) {
-        return "stub" + File.separator + String.join(File.separator, directories) + File.separator + typeCollectionName(tc.fTypeCollection) + headerFileSuffix();
+    public String typeCollectionTarget(List<String> directories, TypeCollection<?> tc) {
+        return "stub" + File.separator + String.join(File.separator, directories) + File.separator + typeCollectionName(tc.getFrancaTypeCollection()) + headerFileSuffix();
     }
 
-    public String interfaceTarget(List<String> directories, FrancaModel.Interface<?> iface) {
-        return "stub" + File.separator + String.join(File.separator, directories) + File.separator + className(iface.fInterface) + headerFileSuffix();
+    public String interfaceTarget(List<String> directories, Interface<?> iface) {
+        return "stub" + File.separator + String.join(File.separator, directories) + File.separator + className(iface.getFrancaInterface()) + headerFileSuffix();
     }
 
     public List<String> packageToDirectoryStructure(List<String> packages) {

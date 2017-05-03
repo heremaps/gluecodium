@@ -1,6 +1,7 @@
 package com.here.ivi.api;
 
 import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
@@ -31,59 +32,59 @@ public class Fidldif {
         final FrancaModel<?, ?> b = fml.load(specAccessorFactory.getSpecPath(), FrancaModelLoader.listFilesRecursively(new File(args[1])));
 
         // find removed interfaces
-        List<FrancaModel.Interface<?>> removedInterfaces = a.getInterfaces().stream()
+        List<Interface<?>> removedInterfaces = a.getInterfaces().stream()
             .filter(f -> !b.getInterfaces().contains(f)).collect(Collectors.toList());
 
         // find added interfaces
-        List<FrancaModel.Interface<?>> addedInterfaces = b.getInterfaces().stream()
+        List<Interface<?>> addedInterfaces = b.getInterfaces().stream()
             .filter(f -> !a.getInterfaces().contains(f)).collect(Collectors.toList());
 
         System.out.println("removed interfaces:");
-        for (FrancaModel.Interface<?> iface : removedInterfaces) {
+        for (Interface<?> iface : removedInterfaces) {
             System.out.println("   * " + iface.getName());
         }
         System.out.println("added interfaces:");
-        for (FrancaModel.Interface<?> iface : addedInterfaces) {
+        for (Interface<?> iface : addedInterfaces) {
             System.out.println("   * " + iface.getName());
         }
 
         int resultCode = 0;
 
         // compare interfaces
-        for (FrancaModel.Interface<?> ifa : a.getInterfaces()) {
+        for (Interface<?> ifa : a.getInterfaces()) {
             int bndx = b.getInterfaces().indexOf(ifa);
             if (bndx >= 0) {
-                FrancaModel.Interface<?> ifb = b.getInterfaces().get(bndx);
+                Interface<?> ifb = b.getInterfaces().get(bndx);
 
                 // removed methods
-                List<FMethod> removedMethods = ifa.fInterface.getMethods().stream()
-                    .filter(i -> !findF(i, ifb.fInterface.getMethods())).collect(Collectors.toList());
+                List<FMethod> removedMethods = ifa.getFrancaInterface().getMethods().stream()
+                    .filter(i -> !findF(i, ifb.getFrancaInterface().getMethods())).collect(Collectors.toList());
 
                 removedMethods
                     .forEach(ma -> System.out.println("in " + ifa.getName() + " removed method " + ma.getName()));
 
                 // added methods
-                List<FMethod> addedMethods = ifb.fInterface.getMethods().stream()
-                    .filter(i -> !findF(i, ifa.fInterface.getMethods())).collect(Collectors.toList());
+                List<FMethod> addedMethods = ifb.getFrancaInterface().getMethods().stream()
+                    .filter(i -> !findF(i, ifa.getFrancaInterface().getMethods())).collect(Collectors.toList());
                 addedMethods
                     .forEach(mb -> System.out.println("in " + ifb.getName() + " added method " + mb.getName()));
 
                 // removed attributes
-                List<FAttribute> removedAttributes = ifa.fInterface.getAttributes().stream()
-                    .filter(i -> !findF(i, ifb.fInterface.getAttributes())).collect(Collectors.toList());
+                List<FAttribute> removedAttributes = ifa.getFrancaInterface().getAttributes().stream()
+                    .filter(i -> !findF(i, ifb.getFrancaInterface().getAttributes())).collect(Collectors.toList());
                 removedAttributes
                     .forEach(aa -> System.out.println("in " + ifa.getName() + " removed attribute " + aa.getName()));
 
                 // added attributes
-                List<FAttribute> addedAttributes = ifb.fInterface.getAttributes().stream()
-                    .filter(i -> !findF(i, ifa.fInterface.getAttributes())).collect(Collectors.toList());
+                List<FAttribute> addedAttributes = ifb.getFrancaInterface().getAttributes().stream()
+                    .filter(i -> !findF(i, ifa.getFrancaInterface().getAttributes())).collect(Collectors.toList());
                 addedAttributes
                     .forEach(ab -> System.out.println("in " + ifb.getName() + " added attribute " + ab.getName()));
 
 
                 boolean changedArgs = false;
-                for (FMethod am : ifa.fInterface.getMethods()) {
-                    for (FMethod bm : ifb.fInterface.getMethods()) {
+                for (FMethod am : ifa.getFrancaInterface().getMethods()) {
+                    for (FMethod bm : ifb.getFrancaInterface().getMethods()) {
                         if (bm.getName().equals(am.getName())) {
                             if (am.getInArgs().size() == bm.getInArgs().size()
                                 && am.getOutArgs().size() == bm.getOutArgs().size()) {

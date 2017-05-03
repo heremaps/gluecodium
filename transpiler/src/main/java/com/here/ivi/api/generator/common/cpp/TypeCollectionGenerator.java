@@ -9,6 +9,7 @@ import com.here.ivi.api.generator.cppstub.StubCommentParser;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.InstanceHelper;
+import com.here.ivi.api.model.TypeCollection;
 import com.here.ivi.api.model.cppmodel.*;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
@@ -30,7 +31,7 @@ public class TypeCollectionGenerator {
     private final FrancaModel<?, ?> coreModel;
     private final CppNameRules nameRules;
 
-    private final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc;
+    private final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc;
     private final CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel;
 
     private static Logger logger = java.util.logging.Logger.getLogger(TypeCollectionGenerator.class.getName());
@@ -38,14 +39,14 @@ public class TypeCollectionGenerator {
     public <TA extends CppStubSpec.TypeCollectionPropertyAccessor> TypeCollectionGenerator(GeneratorSuite<?, TA> suite,
                                    FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor, TA> coreModel,
                                    CppNameRules rules,
-                                   FrancaModel.TypeCollection<TA> tc) {
+                                   TypeCollection<TA> tc) {
         this.nameRules = rules;
         this.suite = suite;
         this.coreModel = coreModel;
         this.tc = tc;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<>(tc.fTypeCollection, tc.getModel().fModel, tc.accessor, nameRules, coreModel);
+        rootModel = new CppModelAccessor<>(tc.getFrancaTypeCollection(), tc.getModel().getFrancaModel(), tc.getTypeCollectionAccessor(), nameRules, coreModel);
     }
 
     public GeneratedFile generate() {
@@ -72,9 +73,9 @@ public class TypeCollectionGenerator {
     private CppNamespace buildCppModel() {
         List<CppNamespace> packageNs = CppGeneratorHelper.packageToCppNamespace(nameRules.packageToNamespace(tc.getPackage()));
 
-        CppNamespace result = new CppNamespace(nameRules.typeCollectionName(tc.fTypeCollection));
+        CppNamespace result = new CppNamespace(nameRules.typeCollectionName(tc.getFrancaTypeCollection()));
 
-        for (FType type : tc.fTypeCollection.getTypes()) {
+        for (FType type : tc.getFrancaTypeCollection().getTypes()) {
             // struct
             if (type instanceof FStructType) {
                 result.members.add(buildCppStruct((FStructType) type));
@@ -98,7 +99,7 @@ public class TypeCollectionGenerator {
         }
 
         // constants
-        for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
+        for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
             CppConstant constant = TypeGenerationHelper.buildCppConstant(nameRules, rootModel, constantDef);
 
             if (constant.isValid()) {

@@ -1,9 +1,9 @@
 package com.here.ivi.api.generator.common.cpp;
 
-import com.here.ivi.api.model.FrancaModel;
-
-import org.franca.core.franca.FTypeCollection;
+import com.here.ivi.api.model.Interface;
+import com.here.ivi.api.model.TypeCollection;
 import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeCollection;
 
 import java.util.List;
 
@@ -55,8 +55,8 @@ public interface CppNameRules {
     String headerFileSuffix();
 
     /** Returns the path for typeCollections */
-    String typeCollectionTarget(List<String> directories, FrancaModel.TypeCollection<?> tc);
+    String typeCollectionTarget(List<String> directories, TypeCollection<?> tc);
 
     /** Returns the path for interfaces */
-    String interfaceTarget(List<String> directories, FrancaModel.Interface<?> iface);
+    String interfaceTarget(List<String> directories, Interface<?> iface);
 }
