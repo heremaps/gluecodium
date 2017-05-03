@@ -31,12 +31,12 @@ public class Fidldif {
         final FrancaModel<?, ?> b = fml.load(specAccessorFactory.getSpecPath(), FrancaModelLoader.listFilesRecursively(new File(args[1])));
 
         // find removed interfaces
-        List<FrancaModel.Interface<?>> removedInterfaces = a.interfaces.stream()
-            .filter(f -> !b.interfaces.contains(f)).collect(Collectors.toList());
+        List<FrancaModel.Interface<?>> removedInterfaces = a.getInterfaces().stream()
+            .filter(f -> !b.getInterfaces().contains(f)).collect(Collectors.toList());
 
         // find added interfaces
-        List<FrancaModel.Interface<?>> addedInterfaces = b.interfaces.stream()
-            .filter(f -> !a.interfaces.contains(f)).collect(Collectors.toList());
+        List<FrancaModel.Interface<?>> addedInterfaces = b.getInterfaces().stream()
+            .filter(f -> !a.getInterfaces().contains(f)).collect(Collectors.toList());
 
         System.out.println("removed interfaces:");
         for (FrancaModel.Interface<?> iface : removedInterfaces) {
@@ -50,10 +50,10 @@ public class Fidldif {
         int resultCode = 0;
 
         // compare interfaces
-        for (FrancaModel.Interface<?> ifa : a.interfaces) {
-            int bndx = b.interfaces.indexOf(ifa);
+        for (FrancaModel.Interface<?> ifa : a.getInterfaces()) {
+            int bndx = b.getInterfaces().indexOf(ifa);
             if (bndx >= 0) {
-                FrancaModel.Interface<?> ifb = b.interfaces.get(bndx);
+                FrancaModel.Interface<?> ifb = b.getInterfaces().get(bndx);
 
                 // removed methods
                 List<FMethod> removedMethods = ifa.fInterface.getMethods().stream()

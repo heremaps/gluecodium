@@ -1,5 +1,7 @@
 package com.here.ivi.api.model;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import navigation.CppStubSpec;
@@ -188,32 +190,59 @@ public class FrancaModel<InterfaceAccessor extends CppStubSpec.InterfaceProperty
 
     // creates a FrancaModel from the given FModel & FDModel, ensuring that there are PropertyAccessors for each
     // element
-    public static <IA extends CppStubSpec.InterfacePropertyAccessor, TA extends CppStubSpec.TypeCollectionPropertyAccessor> FrancaModel<IA, TA>
+    public static <IA extends CppStubSpec.InterfacePropertyAccessor,
+                   TA extends CppStubSpec.TypeCollectionPropertyAccessor>
+    FrancaModel<IA, TA>
     create(SpecAccessorFactory<IA, TA> factory, FDSpecification spec, FModel fm, FDModel fdm) {
 
-        FrancaModel<IA, TA> result = new FrancaModel<>();
 
         ModelInfo info = new ModelInfo();
         info.fModel = fm;
 
         // get interface helpers
-        result.interfaces = fm.getInterfaces()
+        ImmutableList<Interface<IA>> interfaces = fm.getInterfaces()
                 .parallelStream()
                 .map(fi -> FrancaModel.Interface.create(factory, spec, info, fi, fdm))
-                .collect(Collectors.toList());
+                .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
 
         // get type collection helpers
-        result.typeCollections = fm.getTypeCollections()
+        ImmutableList<TypeCollection<TA>> typeCollections = fm.getTypeCollections()
                 .parallelStream()
                 .map(fi -> FrancaModel.TypeCollection.create(factory, spec, info, fi, fdm))
-                .collect(Collectors.toList());
+                .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
 
-        return result;
+        return new FrancaModel<>(interfaces, typeCollections);
     }
 
-    public synchronized void merge(FrancaModel<InterfaceAccessor, TypeCollectionAccessor> other) {
-        interfaces.addAll(other.interfaces);
-        typeCollections.addAll(other.typeCollections);
+    public static <IA extends CppStubSpec.InterfacePropertyAccessor,
+                   TA extends CppStubSpec.TypeCollectionPropertyAccessor>
+    FrancaModel<IA, TA>
+    joinModels(List<FrancaModel<IA, TA>> models) {
+        ImmutableList.Builder<FrancaModel.Interface<IA>> interfaces = new ImmutableList.Builder<>();
+        ImmutableList.Builder<FrancaModel.TypeCollection<TA>> typeCollections = new ImmutableList.Builder<>();
+        models.forEach(m -> {
+            interfaces.addAll(m.getInterfaces());
+            typeCollections.addAll(m.getTypeCollections());
+        });
+        return new FrancaModel<>(interfaces.build(), typeCollections.build());
+    }
+
+    public boolean isEmpty() {
+        return getInterfaces().isEmpty() && getTypeCollections().isEmpty();
+    }
+
+    public FrancaModel(ImmutableList<Interface<InterfaceAccessor>> interfaces,
+                       ImmutableList<TypeCollection<TypeCollectionAccessor>> typeCollections) {
+        this.interfaces = interfaces;
+        this.typeCollections = typeCollections;
+    }
+
+    public ImmutableList<Interface<InterfaceAccessor>> getInterfaces() {
+        return interfaces;
+    }
+
+    public ImmutableList<TypeCollection<TypeCollectionAccessor>> getTypeCollections() {
+        return typeCollections;
     }
 
     public Optional<? extends FrancaElement> find(DefinedBy definer) {
@@ -225,22 +254,18 @@ public class FrancaModel<InterfaceAccessor extends CppStubSpec.InterfaceProperty
                                               findTypeCollection(model, needle);
     }
 
-    public Optional<Interface<InterfaceAccessor>> findInterface(FModel model, FInterface needle) {
-        return interfaces.stream()
+    private Optional<Interface<InterfaceAccessor>> findInterface(FModel model, FInterface needle) {
+        return getInterfaces().stream()
                 .filter(i -> i.getName().equals(needle.getName()) && i.getModel().getName().equals(model.getName()))
                 .findFirst();
     }
 
-    public Optional<TypeCollection<TypeCollectionAccessor>> findTypeCollection(FModel model, FTypeCollection needle) {
-        return typeCollections.stream()
+    private Optional<TypeCollection<TypeCollectionAccessor>> findTypeCollection(FModel model, FTypeCollection needle) {
+        return getTypeCollections().stream()
                 .filter(i -> i.getName().equals(needle.getName()) && i.getModel().getName().equals(model.getName()))
                 .findFirst();
     }
 
-    public boolean isEmpty() {
-        return interfaces.isEmpty() && typeCollections.isEmpty();
-    }
-
-    public List<Interface<InterfaceAccessor>> interfaces = new ArrayList<>();
-    public List<TypeCollection<TypeCollectionAccessor>> typeCollections = new ArrayList<>();
+    private final ImmutableList<Interface<InterfaceAccessor>> interfaces;
+    private final ImmutableList<TypeCollection<TypeCollectionAccessor>> typeCollections;
 }
