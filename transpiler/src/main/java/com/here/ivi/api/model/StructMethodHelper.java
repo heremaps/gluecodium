@@ -25,10 +25,10 @@ public class StructMethodHelper {
      * @return the struct or null if
      */
     public static FStructType findStructType(
-            FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+            TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
 
         FStructType memberStruct = null;
-        for (FType type : tc.fTypeCollection.getTypes()) {
+        for (FType type : tc.getFrancaTypeCollection().getTypes()) {
             if (type.getName().equals(BELONGING_STRUCT_CONSTANT_NAME) &&
                     type instanceof FStructType) {
                 memberStruct = (FStructType) type;
@@ -66,10 +66,10 @@ public class StructMethodHelper {
     public static class StructMethodPair<
             IA extends CppStubSpec.InterfacePropertyAccessor,
             TA extends CppStubSpec.TypeCollectionPropertyAccessor> {
-        public final FrancaModel.Interface<IA> iface;
-        public final FrancaModel.TypeCollection<TA> type;
+        public final Interface<IA> iface;
+        public final TypeCollection<TA> type;
 
-        StructMethodPair(FrancaModel.Interface<IA> iface, FrancaModel.TypeCollection<TA> type) {
+        StructMethodPair(Interface<IA> iface, TypeCollection<TA> type) {
             this.iface = iface;
             this.type = type;
         }
@@ -97,8 +97,8 @@ public class StructMethodHelper {
     public static
     <Result, IA extends CppStubSpec.InterfacePropertyAccessor, TA extends CppStubSpec.TypeCollectionPropertyAccessor>
     Stream< Result > partitionModel(FrancaModel<IA, TA> model,
-                                    Function<FrancaModel.Interface<IA>, List<Result> > interfaceCollector,
-                                    Function<FrancaModel.TypeCollection<TA>, Result> typeCollector,
+                                    Function<Interface<IA>, List<Result> > interfaceCollector,
+                                    Function<TypeCollection<TA>, Result> typeCollector,
                                     Function<StructMethodPair<IA, TA>, Result> structWithMethodCollector) {
 
         List<StructMethodPair<IA, TA>> structMethodPairs = collectMethodContainers(model);
@@ -107,13 +107,13 @@ public class StructMethodHelper {
                 Stream.concat(
                         // generate one file for each type collection, containing all the typedefs, enums, etc.
                         model.getTypeCollections().stream()
-                                .filter(tc -> !tc.accessor.getIsStructDefinition(tc.fTypeCollection))
+                                .filter(tc -> !tc.getTypeCollectionAccessor().getIsStructDefinition(tc.getFrancaTypeCollection()))
                                 .map(typeCollector),
 
                         // every interface (that is not a struct) gets its own file
                         model.getInterfaces().stream()
-                                .filter(iface -> iface.accessor.getIsMethodContainer(iface.fInterface) == null ||
-                                        !iface.accessor.getIsMethodContainer(iface.fInterface))
+                                .filter(iface -> iface.getInterfaceAccessor().getIsMethodContainer(iface.getFrancaInterface()) == null ||
+                                        !iface.getInterfaceAccessor().getIsMethodContainer(iface.getFrancaInterface()))
                                 .map(interfaceCollector)
                                 .flatMap(Collection::stream)
                 ),
@@ -136,15 +136,15 @@ public class StructMethodHelper {
         List< StructMethodPair<IA, TA> > result = new ArrayList<>();
 
         // for each type collection: search its methods (if any)
-        for (FrancaModel.TypeCollection<TA> tc : model.getTypeCollections()) {
+        for (TypeCollection<TA> tc : model.getTypeCollections()) {
 
-            if (tc.accessor.getIsStructDefinition(tc.fTypeCollection)) {
+            if (tc.getTypeCollectionAccessor().getIsStructDefinition(tc.getFrancaTypeCollection())) {
                 // find real interface
-                FInterface fi = tc.accessor.getBelongingMethodContainer(tc.fTypeCollection);
+                FInterface fi = tc.getTypeCollectionAccessor().getBelongingMethodContainer(tc.getFrancaTypeCollection());
 
                 if (fi != null) {
-                    Optional<FrancaModel.Interface<IA>> fiOptional =
-                            model.getInterfaces().stream().filter(i -> fi.equals(i.fInterface)).findFirst();
+                    Optional<Interface<IA>> fiOptional =
+                            model.getInterfaces().stream().filter(i -> fi.equals(i.getFrancaInterface())).findFirst();
 
                     if (fiOptional.isPresent()) {
                         result.add(new StructMethodPair<>(fiOptional.orElse(null), tc));

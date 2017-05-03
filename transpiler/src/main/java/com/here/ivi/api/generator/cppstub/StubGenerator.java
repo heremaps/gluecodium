@@ -11,6 +11,7 @@ import com.here.ivi.api.generator.cppstub.templates.NotifierBodyTemplate;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cppmodel.*;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
@@ -31,7 +32,7 @@ public class StubGenerator {
     private final FrancaModel<?, ?> coreModel;
     private final CppNameRules nameRules;
 
-    private final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface;
+    private final Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface;
     private final CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel;
 
     private static Logger logger = java.util.logging.Logger.getLogger(StubGenerator.class.getName());
@@ -39,14 +40,14 @@ public class StubGenerator {
     public <IA extends CppStubSpec.InterfacePropertyAccessor> StubGenerator(GeneratorSuite<IA, ?> suite,
                          FrancaModel<IA, ? extends CppStubSpec.TypeCollectionPropertyAccessor> coreModel,
                          CppNameRules rules,
-                         FrancaModel.Interface<IA> iface) {
+                         Interface<IA> iface) {
         this.nameRules = rules;
         this.suite = suite;
         this.coreModel = coreModel;
         this.iface = iface;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<>(iface.fInterface, iface.getModel().fModel, iface.accessor, nameRules, coreModel);
+        rootModel = new CppModelAccessor<>(iface.getFrancaInterface(), iface.getModel().getFrancaModel(), iface.getInterfaceAccessor(), nameRules, coreModel);
     }
 
     public GeneratedFile generate() {
@@ -77,11 +78,11 @@ public class StubGenerator {
         CppNamespace innermostNs = Iterables.getLast(packageNs);
 
 
-        CppClass stubClass = new CppClass(nameRules.className(iface.fInterface));
-        AbstractFrancaCommentParser.Comments comment = StubCommentParser.parse(iface.fInterface);
+        CppClass stubClass = new CppClass(nameRules.className(iface.getFrancaInterface()));
+        AbstractFrancaCommentParser.Comments comment = StubCommentParser.parse(iface.getFrancaInterface());
         stubClass.comment = comment.getMainBodyText();
 
-        CppClass stubListenerClass = new CppClass(CppStubNameRules.listenerName(iface.fInterface));
+        CppClass stubListenerClass = new CppClass(CppStubNameRules.listenerName(iface.getFrancaInterface()));
         stubListenerClass.comment = "The listener for @ref " + stubClass.name +
                 ". Implement to receive broadcasts and attribute change notifications.";
 
@@ -92,15 +93,15 @@ public class StubGenerator {
 
         // TODO reuse TypeCollectionGenerator to generate types in interface definition
 
-        for (FMethod m : iface.fInterface.getMethods()) {
+        for (FMethod m : iface.getFrancaInterface().getMethods()) {
             appendMethodElements(stubClass, m);
         }
 
-        for (FBroadcast b : iface.fInterface.getBroadcasts()) {
+        for (FBroadcast b : iface.getFrancaInterface().getBroadcasts()) {
             appendNotifierElements(stubClass, stubListenerClass, b);
         }
 
-        for (FAttribute a : iface.fInterface.getAttributes()) {
+        for (FAttribute a : iface.getFrancaInterface().getAttributes()) {
             appendAttributeAccessorElements(stubClass, stubListenerClass, a);
         }
 
@@ -113,7 +114,7 @@ public class StubGenerator {
             innermostNs.members.add(stubListenerClass);
         }
 
-        FInterface base = iface.fInterface.getBase();
+        FInterface base = iface.getFrancaInterface().getBase();
         if (base != null) {
             DefinedBy baseDefinition = DefinedBy.getDefinedBy(base);
 
@@ -357,7 +358,7 @@ public class StubGenerator {
         if (rootModel.getAccessor().getStatic(m)) {
             method.specifiers.add(CppMethod.Specifier.STATIC);
         } else {
-            if (iface.accessor.getConst(m)) {
+            if (iface.getInterfaceAccessor().getConst(m)) {
                 // const needs to be before = 0; This smells more than the = 0 below
                 method.qualifiers.add(CppMethod.Qualifier.CONST);
             }

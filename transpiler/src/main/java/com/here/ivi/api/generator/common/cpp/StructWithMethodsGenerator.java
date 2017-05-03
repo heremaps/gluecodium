@@ -8,9 +8,7 @@ import com.here.ivi.api.generator.common.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.common.templates.CppDelegatorTemplate;
 import com.here.ivi.api.generator.common.templates.CppStructWithMethodsTemplate;
 import com.here.ivi.api.generator.cppstub.templates.StructCtor;
-import com.here.ivi.api.model.DefaultValuesHelper;
-import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.model.StructMethodHelper;
+import com.here.ivi.api.model.*;
 import com.here.ivi.api.model.cppmodel.*;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
@@ -31,9 +29,9 @@ public class StructWithMethodsGenerator {
 
     public GeneratedFile generate(final GeneratorSuite<?,?> suite,
                                   final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
-                                                         ? extends CppStubSpec.TypeCollectionPropertyAccessor> model,
-                                  final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
-                                  final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+                                                    ? extends CppStubSpec.TypeCollectionPropertyAccessor> model,
+                                  final Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
+                                  final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
 
         CppNamespace ns = generateCppModel(methods, tc, model);
 
@@ -54,8 +52,8 @@ public class StructWithMethodsGenerator {
         return new GeneratedFile(fileContent, outputFile);
     }
 
-    private CppNamespace generateCppModel(FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
-                                          FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
+    private CppNamespace generateCppModel(Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
+                                          TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
                                           FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
                                                   ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
 
@@ -70,18 +68,18 @@ public class StructWithMethodsGenerator {
         return Iterables.getFirst(packageNs, null);
     }
 
-    private CppClass generateClass(final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
-                                   final FrancaModel.TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
+    private CppClass generateClass(final Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
+                                   final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
                                    final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
                                            ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
 
         CppModelAccessor<CppStubSpec.TypeCollectionPropertyAccessor> rootType =
-                new CppModelAccessor<>(tc.fTypeCollection, tc.model.fModel, tc.accessor,  nameRules, model);
+                new CppModelAccessor<>(tc.getFrancaTypeCollection(), tc.getModel().getFrancaModel(), tc.getTypeCollectionAccessor(),  nameRules, model);
 
         CppClass newClass = new CppClass(nameRules.structName(tc.getName()));
 
         // nested enums //////////////////////////
-        for (FType type : tc.fTypeCollection.getTypes()) {
+        for (FType type : tc.getFrancaTypeCollection().getTypes()) {
             if (type instanceof FEnumerationType) {
                 newClass.enums.add(TypeGenerationHelper.buildCppEnumClass(nameRules, (FEnumerationType) type));
             }
@@ -97,7 +95,7 @@ public class StructWithMethodsGenerator {
 
         // default values of members //////////////////////////
         FCompoundInitializer defaultInitializer = null;
-        for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
+        for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
             // only structs of the same type as belonging interface with correct name will be checked
             if (DefaultValuesHelper.isStructDefaultValueConstant(constantDef) &&
                     StructMethodHelper.isBelongingStruct(constantDef)) {
@@ -128,7 +126,7 @@ public class StructWithMethodsGenerator {
         generateNonDefaultConstructors(newClass, api, model);
 
         // constants
-        for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
+        for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
 
             // skip all default values in the generation
             if (DefaultValuesHelper.isStructDefaultValueConstant(constantDef)) {
@@ -147,7 +145,7 @@ public class StructWithMethodsGenerator {
     }
 
     private void generateNonDefaultConstructors(CppClass newClass,
-                                                final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
+                                                final Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
                                                 final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
                                                         ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
         if (api == null) {
@@ -155,10 +153,12 @@ public class StructWithMethodsGenerator {
         }
 
         CppModelAccessor<CppStubSpec.InterfacePropertyAccessor> rootModelIf =
-                new CppModelAccessor<>(api.fInterface, api.model.fModel, api.accessor, nameRules, model);
+                new CppModelAccessor<>(api.getFrancaInterface(), api.getModel().getFrancaModel(),
+                        api.getInterfaceAccessor(), nameRules, model);
 
+        // non default-constructors ...
         StructCtor templateCtor = new StructCtor();
-        api.fInterface.getMethods()
+        api.getFrancaInterface().getMethods()
                 .stream()
                 .filter(StructMethodHelper::isStructInitializer)
                 .forEach(method -> {

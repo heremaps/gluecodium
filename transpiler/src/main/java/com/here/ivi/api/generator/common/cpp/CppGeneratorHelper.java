@@ -3,7 +3,7 @@ package com.here.ivi.api.generator.common.cpp;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.generator.common.templates.MethodBodyTemplate;
-import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.*;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class CppGeneratorHelper{
     static Logger logger = java.util.logging.Logger.getLogger(CppGeneratorHelper.class.getName());
 
     public static CharSequence generateGeneratorNotice(GeneratorSuite<?,?> suite,
-                                                 FrancaModel.FrancaElement element,
+                                                 FrancaElement element,
                                                  String outputTarget) {
         String inputFile;
         try {
