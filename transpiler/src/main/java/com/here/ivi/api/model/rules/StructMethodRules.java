@@ -9,9 +9,12 @@
  *
  */
 
-package com.here.ivi.api.model;
+package com.here.ivi.api.model.rules;
 
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.Interface;
+import com.here.ivi.api.model.TypeCollection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,14 +23,18 @@ import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import navigation.CppStubSpec;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
 
 /**
  * This class contains methods that identify struct-with-method pairs and allows filtering the
  * FrancaModel accordingly.
  */
-public class StructMethodHelper {
-  private static final Logger logger = Logger.getLogger(StructMethodHelper.class.getName());
+public class StructMethodRules {
+  private static final Logger logger = Logger.getLogger(StructMethodRules.class.getName());
 
   private static final String STRUCT_INITIALIZER_METHOD_NAME = "init";
   private static final String BELONGING_STRUCT_CONSTANT_NAME = "DefiningType";

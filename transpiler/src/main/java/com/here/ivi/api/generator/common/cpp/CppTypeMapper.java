@@ -15,10 +15,10 @@ import com.google.common.collect.Sets;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
-import com.here.ivi.api.model.InstanceHelper;
 import com.here.ivi.api.model.cppmodel.CppElements;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -168,7 +168,7 @@ public class CppTypeMapper {
 
     if (typedef.getActualType() == null) {
       return new CppType(typeRefDefiner, "NO ACTUAL TYPE FOUND", CppElements.TypeInfo.Invalid);
-    } else if (InstanceHelper.isInstanceId(typedef)) {
+    } else if (InstanceRules.isInstanceId(typedef)) {
       Includes.Include include =
           new Includes.LazyInternalInclude(
               typeRefDefiner, Includes.InternalType.Interface, rootModel.getRules());

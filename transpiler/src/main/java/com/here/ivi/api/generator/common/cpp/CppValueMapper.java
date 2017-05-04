@@ -13,12 +13,14 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
-import com.here.ivi.api.model.DefaultValuesHelper;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppValue;
+import com.here.ivi.api.model.rules.BuiltInValueRules;
+import com.here.ivi.api.model.rules.DefaultValuesRules;
 import java.math.BigInteger;
+import java.util.Optional;
 import java.util.logging.Logger;
 import org.franca.core.franca.*;
 
@@ -27,7 +29,7 @@ public class CppValueMapper {
       new CppValue("std::numeric_limits< float >::quiet_NaN( )", CppLibraryIncludes.LIMITS);
   public static final CppValue NAN_DOUBLE =
       new CppValue("std::numeric_limits< double >::quiet_NaN( )", CppLibraryIncludes.LIMITS);
-  public static final CppValue MAX_FLOAT =
+  private static final CppValue MAX_FLOAT =
       new CppValue("std::numeric_limits< float >::max( )", CppLibraryIncludes.LIMITS);
 
   private static Logger logger = java.util.logging.Logger.getLogger(CppValueMapper.class.getName());
@@ -93,16 +95,10 @@ public class CppValueMapper {
   }
 
   public static CppValue map(CppType type, FCompoundInitializer ci, CppNameRules nameRules) {
-    // FIXME having a template in here is not-so-nice, this should be some CppType
+    // TODO having a template in here is not-so-nice, this should be some CppType
     return new CppValue(
         CppConstantTemplate.generate(type, ci, nameRules).toString(), type.includes);
   }
-
-  // TODO move to shared Helper with CppTypeMapper
-  private static final String BUILTIN_MODEL = "navigation.BuiltIn";
-  private static final String FLOAT_MAX_CONSTANT = "MaxFloat";
-  private static final String FLOAT_NAN_CONSTANT = "NaNFloat";
-  private static final String DOUBLE_NAN_CONSTANT = "NaNDouble";
 
   // TODO handle namespaces here as well
   public static CppValue map(CppType type, FQualifiedElementRef qer, CppNameRules nameRules) {
@@ -113,30 +109,29 @@ public class CppValueMapper {
           String.format("Failed resolving value reference %s.", qer));
     }
 
-    DefinedBy referenceDefiner = DefinedBy.createFromFModelElement(qer.getElement());
-    String name = qer.getElement().getName();
-
     // check for built-in types (atm all values are from <limits>)
-    if (BUILTIN_MODEL.equals(referenceDefiner.toString())) {
-      switch (name) {
-        case FLOAT_MAX_CONSTANT:
+    Optional<BuiltInValueRules.BuiltInValues> constant = BuiltInValueRules.resolveReference(qer);
+    if (constant.isPresent()) {
+      switch (constant.get()) {
+        case FloatMax:
           return MAX_FLOAT;
-        case FLOAT_NAN_CONSTANT:
+        case FloatNan:
           return NAN_FLOAT;
-        case DOUBLE_NAN_CONSTANT:
+        case DoubleNan:
           return NAN_DOUBLE;
-        default:
-          throw new TranspilerExecutionException(
-              String.format(
-                  "Could not resolve built-in value. Invalid franca definition %s.", qer));
       }
     }
-    if (DefaultValuesHelper.isEnumerator(qer)) {
+
+    DefinedBy referenceDefiner = DefinedBy.createFromFModelElement(qer.getElement());
+
+    String name = qer.getElement().getName();
+
+    if (DefaultValuesRules.isEnumerator(qer)) {
       name = nameRules.getEnumEntryName(name);
     }
 
     // struct default values are just invalid
-    if (DefaultValuesHelper.isStructDefaultValueConstant(qer)) {
+    if (DefaultValuesRules.isStructDefaultValueConstant(qer)) {
       return new CppValue(null, new Includes.LazyInternalInclude(referenceDefiner, nameRules));
     }
 

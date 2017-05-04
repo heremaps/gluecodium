@@ -22,6 +22,8 @@ import com.here.ivi.api.generator.cppstub.StubCommentParser;
 import com.here.ivi.api.generator.cppstub.templates.StructCtor;
 import com.here.ivi.api.model.*;
 import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.rules.DefaultValuesRules;
+import com.here.ivi.api.model.rules.StructMethodRules;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -93,7 +95,7 @@ public class StructWithMethodsGenerator {
     }
 
     // find member struct ///////////////////////////
-    FStructType memberStruct = StructMethodHelper.findStructType(tc);
+    FStructType memberStruct = StructMethodRules.findStructType(tc);
 
     if (memberStruct == null) {
       logger.warning("Failed to find type struct! ");
@@ -107,8 +109,8 @@ public class StructWithMethodsGenerator {
     FCompoundInitializer defaultInitializer = null;
     for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
       // only structs of the same type as belonging interface with correct name will be checked
-      if (DefaultValuesHelper.isStructDefaultValueConstant(constantDef)
-          && StructMethodHelper.isBelongingStruct(constantDef)) {
+      if (DefaultValuesRules.isStructDefaultValueConstant(constantDef)
+          && StructMethodRules.isBelongingStruct(constantDef)) {
         // is valid as constantDef was parsed as a struct ...
         defaultInitializer = (FCompoundInitializer) constantDef.getRhs();
         break;
@@ -149,7 +151,7 @@ public class StructWithMethodsGenerator {
     for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
 
       // skip all default values in the generation
-      if (DefaultValuesHelper.isStructDefaultValueConstant(constantDef)) {
+      if (DefaultValuesRules.isStructDefaultValueConstant(constantDef)) {
         continue;
       }
 
@@ -181,7 +183,7 @@ public class StructWithMethodsGenerator {
     api.getFrancaInterface()
         .getMethods()
         .stream()
-        .filter(StructMethodHelper::isStructInitializer)
+        .filter(StructMethodRules::isStructInitializer)
         .forEach(
             method -> {
               CppMethod nonDefaultCtor = new CppMethod();
