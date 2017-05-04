@@ -1,5 +1,6 @@
 package com.here.ivi.api.generator.common.cpp;
 
+import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.cpp.CppValueMapper;
@@ -23,8 +24,12 @@ public class TypeGenerationHelper {
         CppField field = new CppField();
         field.name = nameRules.fieldName(ffield.getName());
         field.type = CppTypeMapper.map(rootType, typeRef);
+
+        // if default values are specified in another object (see DefaultValueRules), use them
         if (initializer != null) {
             field.initializer = CppValueMapper.map(field.type, initializer.getValue());
+        } else {
+            field.initializer = CppDefaultInitializer.map(ffield);
         }
         return field;
     }
