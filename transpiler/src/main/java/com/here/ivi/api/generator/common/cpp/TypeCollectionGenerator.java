@@ -20,9 +20,9 @@ import com.here.ivi.api.generator.common.templates.CppDelegatorTemplate;
 import com.here.ivi.api.generator.cppstub.StubCommentParser;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.model.InstanceHelper;
 import com.here.ivi.api.model.TypeCollection;
 import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.List;
 import java.util.logging.Logger;
 import navigation.CppStubSpec;
@@ -98,7 +98,7 @@ public class TypeCollectionGenerator {
 
         FTypeDef typeDef = (FTypeDef) type;
         // skip the typedefs for instanceId typedefs as these types are purely internal
-        if (InstanceHelper.isInstanceId(typeDef)) {
+        if (InstanceRules.isInstanceId(typeDef)) {
           continue;
         }
         result.members.add(buildTypeDef(typeDef));

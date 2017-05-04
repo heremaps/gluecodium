@@ -26,7 +26,7 @@ import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
-import com.here.ivi.api.model.StructMethodHelper;
+import com.here.ivi.api.model.rules.StructMethodRules;
 import com.here.ivi.api.validator.common.BasicValidator;
 import com.here.ivi.api.validator.cppstub.CppStubValidator;
 import java.io.File;
@@ -80,7 +80,7 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
 
     // partition model into ifaces, typecollections and structWithMethods and generate files from that
     Stream<GeneratedFile> generatorStreams =
-        StructMethodHelper.partitionModel(
+        StructMethodRules.partitionModel(
             model,
             iface -> {
               StubGenerator generator = new StubGenerator(this, model, nameRules, iface);
