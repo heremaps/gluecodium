@@ -107,7 +107,7 @@ public class Fidldif {
                 Version va = ifa.getVersion();
                 Version vb = ifb.getVersion();
 
-                // check if major if neccessary
+                // check if major if necessary
                 if ((removedMethods.size() > 0 || removedAttributes.size() > 0 || changedArgs)
                     && va.major >= vb.major) {
                     System.err.println("incompatible change in " + ifb.getName() + "! Major version increase needed");

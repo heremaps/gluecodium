@@ -1,12 +1,6 @@
 package com.here.ivi.api.generator.common;
 
-import com.here.ivi.api.model.DefinedBy;
-import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.model.cppmodel.CppClass;
-
 import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FType;
-import com.here.ivi.api.generator.common.NameHelper;
 
 import java.util.List;
 

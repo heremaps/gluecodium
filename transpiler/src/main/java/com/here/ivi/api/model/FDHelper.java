@@ -49,7 +49,7 @@ public class FDHelper {
     private static List<FDSpecification> findSpecifications(Collection<FDModel> models) {
         List<FDSpecification> specs = new ArrayList<>();
         for ( FDModel model : models) {
-            specs.addAll(model.getDeployments().stream().map(d -> d.getSpec()).collect(Collectors.toList()));
+            specs.addAll(model.getDeployments().stream().map(FDRootElement::getSpec).collect(Collectors.toList()));
         }
         return specs;
     }

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class Transpiler {
 
-    static Logger logger = Logger.getLogger(Transpiler.class.getName());
+    private static Logger logger = Logger.getLogger(Transpiler.class.getName());
 
     public static void main(final String[] args) {
 
@@ -24,7 +24,7 @@ public class Transpiler {
         int status = 1;
         try {
             OptionReader.TranspilerOptions options = or.read(args);
-            status = new Transpiler(options).execute() ? 0 : 1;
+            status = (options == null || new Transpiler(options).execute()) ? 0 : 1;
         } catch (OptionReaderException e) {
             logger.severe("Failed reading options: " + e.getMessage());
             or.printUsage();
@@ -33,12 +33,12 @@ public class Transpiler {
         System.exit(status);
     }
 
-    public Transpiler(OptionReader.TranspilerOptions options) {
+    private Transpiler(OptionReader.TranspilerOptions options) {
         this.options = options;
         TranspilerLogger.initialize("com/here/ivi/api/logger/logging.properties");
     }
 
-    public boolean execute() {
+    private boolean execute() {
 
         //Generation
         List<String> generators = discoverGenerators();
@@ -91,7 +91,7 @@ public class Transpiler {
             if (generators.isEmpty()) {
                 logger.info("No generators discovered, switching to use all available: " + availableGenerators);
             }
-        } catch (Exception e) {
+        } catch (NoSuchMethodException|InstantiationException|IllegalAccessException|InvocationTargetException e) {
             logger.severe("Auto-discovery failed, using all available generators: " + availableGenerators);
         }
         if (generators == null || generators.isEmpty()) {
