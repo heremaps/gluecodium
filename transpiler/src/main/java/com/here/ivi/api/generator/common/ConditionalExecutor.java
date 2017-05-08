@@ -42,7 +42,7 @@ public class ConditionalExecutor implements IFileTool {
      * @param extensions List of file extensions for which tool should be run
      * @return Predicate to use as {@link com.here.ivi.api.generator.common.ConditionalExecutor#ConditionalExecutor(Predicate, IFileTool) cond}
      */
-    public static Predicate<GeneratedFile> FileExtensionFilter(List<String> extensions) {
+    public static Predicate<GeneratedFile> fileExtensionFilter(List<String> extensions) {
         Set<String> allowedExtensions = new HashSet<>(extensions);
         return f -> allowedExtensions.contains(
                 FilenameUtils.getExtension(f.targetFile.getPath()));

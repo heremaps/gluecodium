@@ -9,11 +9,7 @@ public class DefaultValuesHelper {
     static final private String DEFAULT_VALUE_CONSTANT = "DefaultValues";
 
     public static boolean isStructDefaultValueConstant(FQualifiedElementRef qer) {
-        if (qer.getElement() instanceof FConstantDef) {
-            return isStructDefaultValueConstant((FConstantDef) qer.getElement());
-        }
-
-        return false;
+        return qer.getElement() instanceof FConstantDef && isStructDefaultValueConstant((FConstantDef) qer.getElement());
     }
 
     public static boolean isStructDefaultValueConstant(FConstantDef cd) {

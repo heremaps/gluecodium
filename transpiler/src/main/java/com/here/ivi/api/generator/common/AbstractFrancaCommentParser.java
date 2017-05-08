@@ -82,7 +82,7 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
                     String franca_comment = annotation.getComment();
 
                     if (fidlCommentsToKeep != null) {
-                        // Keep generator specifc comments
+                        // Keep generator-specific comments
                         Matcher matcher = fidlCommentsToKeep.matcher(franca_comment);
                         if (matcher.find()) {
                             franca_comment = matcher.replaceAll("$1");
@@ -104,6 +104,7 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
                     }
                     sb.append(commentFormatter.formatComment(franca_comment));
                     break;
+                //noinspection deprecation
                 case FAnnotationType.DEPRECATED_VALUE:
                     comments.deprecatedText = annotation.getComment();
                     break;

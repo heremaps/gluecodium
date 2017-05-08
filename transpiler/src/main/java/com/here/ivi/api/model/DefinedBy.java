@@ -56,10 +56,7 @@ public class DefinedBy {
 
         DefinedBy definedBy = (DefinedBy) o;
 
-        if (!getBaseName().equals(definedBy.getBaseName())) {
-            return false;
-        }
-        return getPackageName().equals(definedBy.getPackageName());
+        return getBaseName().equals(definedBy.getBaseName()) && getPackageName().equals(definedBy.getPackageName());
     }
 
     @Override

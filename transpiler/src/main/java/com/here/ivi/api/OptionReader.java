@@ -61,12 +61,12 @@ public class OptionReader {
 
             if (cmd.hasOption("listGenerators")) {
                 printGenerators();
-                System.exit(0);
+                return null;
             }
 
             if (cmd.hasOption("help")) {
                 printUsage();
-                System.exit(0);
+                return null;
             }
 
             String[] remainingArgs = cmd.getArgs();

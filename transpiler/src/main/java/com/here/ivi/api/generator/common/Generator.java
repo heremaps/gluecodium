@@ -3,7 +3,6 @@ package com.here.ivi.api.generator.common;
 import com.here.ivi.api.Transpiler;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The base for all the generators that runs additional tools on each file generated.

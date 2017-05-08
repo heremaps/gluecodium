@@ -134,7 +134,7 @@ public class CppStubGeneratorSuite
             List<IFileTool> tools = new LinkedList<>();
 
             tools.add(new ConditionalExecutor(
-                    ConditionalExecutor.FileExtensionFilter(Arrays.asList("cpp", "h")),
+                    ConditionalExecutor.fileExtensionFilter(Arrays.asList("cpp", "h")),
                     new ClangFormatter("cpp_style/.clang-format", ClangFormatter.Language.CPP)));
 
             return tools;

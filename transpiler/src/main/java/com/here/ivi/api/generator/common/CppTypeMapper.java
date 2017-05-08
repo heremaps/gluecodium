@@ -234,7 +234,9 @@ public class CppTypeMapper {
                 break;
             }
         }
-        result.definedIn = definedIn;
+        if (result != null) {
+            result.definedIn = definedIn;
+        }
         return result;
     }
 
