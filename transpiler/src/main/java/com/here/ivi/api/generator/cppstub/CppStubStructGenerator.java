@@ -121,31 +121,7 @@ public class CppStubStructGenerator {
 
         // default constructor is added via xtend template ...
 
-        if (api != null) {
-            CppModelAccessor<CppStubSpec.InterfacePropertyAccessor> rootModelIf =
-                    new CppModelAccessor<>(api.fInterface, api.model.fModel, api.accessor, nameRules, model);
-
-            //non default-constructors ...
-            StructCtor templateCtor = new StructCtor();
-            api.fInterface.getMethods()
-                    .stream()
-                    .filter(StructMethodHelper::isStructInitializer)
-                    .forEach(method -> {
-                                CppMethod nonDefaultCtor = new CppMethod();
-                                nonDefaultCtor.mbt = templateCtor;
-                                nonDefaultCtor.name = newClass.name;
-                                nonDefaultCtor.returnType = CppType.None;
-                                for (FArgument arg : method.getInArgs()) {
-                                    CppParameter param = new CppParameter();
-                                    param.name = NameHelper.toSnakeCase(arg.getName());
-                                    param.type = CppTypeMapper.map(rootModelIf, arg);
-                                    param.mode = CppParameter.Mode.Input;
-                                    nonDefaultCtor.inParameters.add(param);
-                                }
-                                newClass.methods.add(nonDefaultCtor);
-                            }
-                    );
-        }
+        generateNonDefaultConstructors(newClass, api, model);
 
         // constants
         for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
@@ -164,6 +140,45 @@ public class CppStubStructGenerator {
         }
 
         return newClass;
+    }
+
+    private void generateNonDefaultConstructors(CppClass newClass,
+                                                final FrancaModel.Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
+                                                final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
+                                                        ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
+        if (api == null) {
+            return;
+        }
+
+        CppModelAccessor<CppStubSpec.InterfacePropertyAccessor> rootModelIf =
+                new CppModelAccessor<>(api.fInterface, api.model.fModel, api.accessor, nameRules, model);
+
+        StructCtor templateCtor = new StructCtor();
+        api.fInterface.getMethods()
+                .stream()
+                .filter(StructMethodHelper::isStructInitializer)
+                .forEach(method -> {
+                            CppMethod nonDefaultCtor = new CppMethod();
+                            nonDefaultCtor.mbt = templateCtor;
+                            nonDefaultCtor.name = newClass.name;
+                            nonDefaultCtor.returnType = CppType.None;
+
+                            final List<FArgument> inArgs = method.getInArgs();
+                            if (inArgs.size() == 1) {
+                                nonDefaultCtor.specifiers.add("explicit");
+                            }
+
+                            for (FArgument arg : method.getInArgs()) {
+                                CppParameter param = new CppParameter();
+                                param.name = NameHelper.toSnakeCase(arg.getName());
+                                param.type = CppTypeMapper.map(rootModelIf, arg);
+                                param.mode = CppParameter.Mode.Input;
+                                nonDefaultCtor.inParameters.add(param);
+                            }
+
+                            newClass.methods.add(nonDefaultCtor);
+                        }
+                );
     }
 
 }
