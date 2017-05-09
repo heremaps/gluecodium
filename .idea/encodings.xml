@@ -12,5 +12,6 @@
     <file url="file://$PROJECT_DIR$/../external/franca/plugins/org.franca.deploymodel.dsl/src/org/franca/deploymodel/dsl/generator/internal/OverwriteAccessorGenerator.xtend" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/../external/franca/plugins/org.franca.deploymodel.dsl/src/org/franca/deploymodel/dsl/generator/internal/ProviderAccessorGenerator.xtend" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/../external/franca/plugins/org.franca.deploymodel.dsl/src/org/franca/deploymodel/dsl/generator/internal/TypeCollectionAccessorGenerator.xtend" charset="ISO-8859-1" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

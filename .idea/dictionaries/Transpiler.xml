@@ -1,9 +1,23 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Transpiler">
     <words>
+      <w>cppstub</w>
+      <w>dotall</w>
+      <w>doxygen</w>
+      <w>fdepl</w>
       <w>fidl</w>
       <w>franca</w>
+      <w>ietf</w>
+      <w>infos</w>
+      <w>navcore</w>
+      <w>outdir</w>
+      <w>stdin</w>
+      <w>struct</w>
+      <w>structs</w>
       <w>transpiler</w>
+      <w>typecollection</w>
+      <w>usings</w>
+      <w>waypoint</w>
     </words>
   </dictionary>
 </component>
