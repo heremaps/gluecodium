@@ -105,6 +105,6 @@ task diff(type: JavaExec) {
        args System.getProperty("exec.args").split()
      }
      else {
-       args 'src/test/data/Runtime.old.fidl', 'src/test/data/Runtime.fidl'
+       args 'test/data/Runtime.old.fidl', 'test/data/Runtime.fidl'
      }
 }
