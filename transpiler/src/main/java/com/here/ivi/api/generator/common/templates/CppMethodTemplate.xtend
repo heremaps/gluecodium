@@ -35,8 +35,8 @@ public class CppMethodTemplate {
       «IF deprecatedComment !== null && !deprecatedComment.isEmpty»
       CARLO_DEPRECATED_TEXT( "«deprecatedComment»" )
       «ENDIF»
-      «whitespaceFormatter(specifiers.join(' '))»«whitespaceFormatter(returnType.name)»«name»( «parameterFormatter(inParameters, outParameters)» )«qualifiers.join(' ',' ','') [ it ]»«virtSpecifierSeq.join(' ',' ','') [ it ]»'''
+      «whitespaceFormatter(specifiers.join(' '))»«whitespaceFormatter(returnType.name)»«name»( «parameterFormatter(inParameters, outParameters)» ) «qualifiers.join(' ')»'''
 
     def static signature(CppMethod it, String className)'''
-      «whitespaceFormatter(returnType.name)»«className»::«name»( «parameterFormatter(inParameters, outParameters)» )«qualifiers.join(' ',' ','') [ it ]»'''
+      «whitespaceFormatter(returnType.name)»«className»::«name»( «parameterFormatter(inParameters, outParameters)» ) «qualifiers.join(' ')»'''
 }
