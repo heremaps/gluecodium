@@ -3,14 +3,31 @@ package com.here.ivi.api.model.cppmodel;
 import com.here.ivi.api.generator.cppstub.templates.MethodBodyTemplate;
 import com.here.ivi.api.model.CollectionsHelper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class CppMethod extends CppElement {
+    public enum Specifier {
+        EXPLICIT ("explicit"),
+        INLINE ("inline"),
+        STATIC ("static"),
+        VIRTUAL ("virtual");
+
+        private final String text;
+
+        Specifier(final String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
+    }
+
     public String deprecatedComment = null;
     public CppType returnType = CppType.Void;
-    public List<String> specifiers = new ArrayList<>();
+    public Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
     public List<String> virtSpecifierSeq = new ArrayList<>();
     public List<String> qualifiers = new ArrayList<>();
     public List<CppParameter> inParameters = new ArrayList<>();
