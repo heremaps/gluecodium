@@ -167,7 +167,7 @@ public class StructWithMethodsGenerator {
 
                             final List<FArgument> inArgs = method.getInArgs();
                             if (inArgs.size() == 1) {
-                                nonDefaultCtor.specifiers.add("explicit");
+                                nonDefaultCtor.specifiers.add(CppMethod.Specifier.EXPLICIT);
                             }
 
                             for (FArgument arg : method.getInArgs()) {

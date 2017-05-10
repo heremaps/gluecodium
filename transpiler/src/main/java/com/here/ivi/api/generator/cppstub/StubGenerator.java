@@ -330,7 +330,7 @@ public class StubGenerator {
     private CppMethod buildNotifierMethod(CppClass stubListenerClass, String baseName, List<CppParameter> parameters) {
         CppMethod method = new CppMethod();
         method.name = "notify" + NameHelper.toUpperCamel(baseName);
-        method.specifiers.add("inline");
+        method.specifiers.add(CppMethod.Specifier.INLINE);
         method.inParameters.addAll(parameters);
         method.mbt = new NotifierBodyTemplate(stubListenerClass.name, "on" + NameHelper.toUpperCamel(baseName));
 
@@ -343,7 +343,7 @@ public class StubGenerator {
         method.name = "on" + NameHelper.toUpperCamel(baseName);
         method.inParameters.addAll(parameters);
         method.mbt = new EmptyBodyTemplate();
-        method.specifiers.add("virtual");
+        method.specifiers.add(CppMethod.Specifier.VIRTUAL);
 
         return method;
     }
@@ -355,13 +355,13 @@ public class StubGenerator {
         method.returnType = returnTypeName;
 
         if (rootModel.getAccessor().getStatic(m)) {
-            method.specifiers.add("static");
+            method.specifiers.add(CppMethod.Specifier.STATIC);
         } else {
             if (iface.accessor.getConst(m)) {
                 // const needs to be before = 0; This smells more than the = 0 below
                 method.qualifiers.add(" const");
             }
-            method.specifiers.add("virtual");
+            method.specifiers.add(CppMethod.Specifier.VIRTUAL);
             method.qualifiers.add(" = 0"); // pure virtual
         }
 
@@ -395,7 +395,7 @@ public class StubGenerator {
                                              FAttribute attribute,
                                              AttributeAccessorMode mode) {
         CppMethod m = new CppMethod();
-        m.specifiers.add("virtual");
+        m.specifiers.add(CppMethod.Specifier.VIRTUAL);
 
         CppType type = CppTypeMapper.map(rootType, attribute);
         if (type.info == CppElements.TypeInfo.InterfaceInstance) {

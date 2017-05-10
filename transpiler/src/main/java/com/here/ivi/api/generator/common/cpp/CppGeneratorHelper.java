@@ -35,7 +35,7 @@ public class CppGeneratorHelper{
         dtor.name = "~" + className;
         dtor.mbt = mbt;
         dtor.returnType = CppType.None;
-        dtor.specifiers.add("virtual");
+        dtor.specifiers.add(CppMethod.Specifier.VIRTUAL);
         return dtor;
     }
 
