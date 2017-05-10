@@ -32,8 +32,7 @@ public class BasicValidator {
             if (!resource.getErrors().isEmpty()) {
                 logger.severe("Parsing " + resource.getURI() + " failed");
                 for (Resource.Diagnostic e : resource.getErrors()) {
-                    logger.severe(resource.getURI() + ":" + String.valueOf(e.getLine()
-                            + " " + e.getMessage()));
+                    logger.severe(resource.getURI() + ":" + e.getLine() + " " + e.getMessage());
                 }
                 result = false;
                 continue;
@@ -46,8 +45,8 @@ public class BasicValidator {
             if (!issues.isEmpty()) {
                 logger.severe("Validating " + resource.getURI() + " failed");
                 for (Issue i : issues ){
-                    logger.severe(i.getUriToProblem().toString()+ ":" + String.valueOf(i.getLineNumber()
-                        + " " + i.getSeverity().toString() + " " + i.getMessage()));
+                    logger.severe(i.getUriToProblem().toString()+ ":" + i.getLineNumber()
+                        + " " + i.getSeverity().toString() + " " + i.getMessage());
                 }
                 result = false;
             }

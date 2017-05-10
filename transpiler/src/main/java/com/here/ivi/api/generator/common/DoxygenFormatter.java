@@ -32,7 +32,7 @@ final public class DoxygenFormatter implements ICommentFormatter {
         String[] lines = text.split("\n");
 
         StringBuilder formatted = new StringBuilder();
-        formatted.append("\n* ").append(tag).append(" ").append(lines[0]);
+        formatted.append("\n* ").append(tag).append(' ').append(lines[0]);
 
         String indent = Strings.padEnd("", tag.length() + 1, ' ');
         for (int i = 1; i < lines.length; i++) {

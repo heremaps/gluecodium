@@ -51,8 +51,12 @@ public class DefinedBy {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         DefinedBy definedBy = (DefinedBy) o;
 
@@ -84,7 +88,7 @@ public class DefinedBy {
 
         EObject parent = obj.eContainer();
 
-        if ((parent == obj) || (parent == null)) {
+        if (parent == obj || parent == null) {
             return null;
         }
 

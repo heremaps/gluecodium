@@ -7,6 +7,7 @@ public class CppField extends CppElement {
     public CppValue initializer;
 
     public CppField() {
+        super();
     }
 
     public CppField(CppType type, String name) {
