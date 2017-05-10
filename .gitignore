@@ -11,6 +11,7 @@ gradlew.bat
 xtend-gen
 local.properties
 out
+.idea/gradle.xml
 .idea/workspace.xml
 .idea/libraries/
 .idea/xtextAutoBuilderState.xml
