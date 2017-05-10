@@ -2,7 +2,6 @@ plugins {
     id "org.xtext.xtend" version "1.0.15"
 }
 
-apply plugin: 'java'
 apply plugin: 'org.xtext.xtend'
 
 xtend {
@@ -78,8 +77,6 @@ task buildLegacyDeployModel(type: JavaExec) {
 }
 generateXtext.dependsOn(buildLegacyDeployModel)
 clean.dependsOn(cleanBuildLegacyDeployModel)
-
-
 
 apply plugin: 'application'
 mainClassName = 'com.here.ivi.api.Transpiler'
