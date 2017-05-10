@@ -359,10 +359,10 @@ public class StubGenerator {
         } else {
             if (iface.accessor.getConst(m)) {
                 // const needs to be before = 0; This smells more than the = 0 below
-                method.qualifiers.add(" const");
+                method.qualifiers.add(CppMethod.Qualifier.CONST);
             }
             method.specifiers.add(CppMethod.Specifier.VIRTUAL);
-            method.qualifiers.add(" = 0"); // pure virtual
+            method.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
         }
 
         for (FArgument inArg : m.getInArgs()) {
@@ -407,7 +407,7 @@ public class StubGenerator {
         switch (mode) {
             case GET: {
                 m.name = "get" + NameHelper.toUpperCamel(attributeName);
-                m.qualifiers.add("const");
+                m.qualifiers.add(CppMethod.Qualifier.CONST);
                 m.returnType = type;
                 m.comment = "Reads the " + attributeName + " attribute.\n*" +
                         StubCommentParser.FORMATTER.formatWithTag("@return", attribute);
@@ -428,7 +428,7 @@ public class StubGenerator {
             }
         }
 
-        m.qualifiers.add(" = 0"); // pure virtual, add after the const from before
+        m.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
 
         return m;
     }

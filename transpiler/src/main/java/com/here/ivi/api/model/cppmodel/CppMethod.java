@@ -25,11 +25,27 @@ public class CppMethod extends CppElement {
         }
     }
 
+    public enum Qualifier {
+        CONST ("const"),
+        OVERRIDE ("override"),
+        PURE_VIRTUAL ("= 0");
+
+        private final String text;
+
+        Qualifier(final String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
+    }
+
     public String deprecatedComment = null;
     public CppType returnType = CppType.Void;
     public Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
-    public List<String> virtSpecifierSeq = new ArrayList<>();
-    public List<String> qualifiers = new ArrayList<>();
+    public Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
     public List<CppParameter> inParameters = new ArrayList<>();
     public List<CppParameter> outParameters = new ArrayList<>();
 
