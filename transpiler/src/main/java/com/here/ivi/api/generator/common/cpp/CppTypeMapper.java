@@ -225,14 +225,12 @@ public class CppTypeMapper {
     private static CppType wrapArrayType(DefinedBy definedIn, CppType elementType, ArrayMode mode) {
         CppType result = null;
         switch (mode) {
-            case STD_VECTOR: {
+            case STD_VECTOR:
                 result = wrapVector(elementType);
                 break;
-            }
-            case STD_SET: {
+            case STD_SET:
                 result = wrapSet(elementType);
                 break;
-            }
         }
         if (result != null) {
             result.definedIn = definedIn;

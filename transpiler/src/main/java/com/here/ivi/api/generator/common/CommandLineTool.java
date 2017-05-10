@@ -99,9 +99,10 @@ public class CommandLineTool implements IFileTool{
 
             StrBuilder outputBuilder = new StrBuilder();
             try (BufferedReader outputReader = new BufferedReader(new InputStreamReader(stdout))) {
-                String line;
-                while ((line = outputReader.readLine()) != null) {
+                String line = outputReader.readLine();
+                while (line != null) {
                     outputBuilder.appendln(line);
+                    line = outputReader.readLine();
                 }
             } catch (IOException e) {
                 logger.severe(String.format("Reading stdout of tool '%s' failed with: %s", cmd, e.toString()));
@@ -112,9 +113,10 @@ public class CommandLineTool implements IFileTool{
             String error = "";
             try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(stderr))) {
                 StrBuilder errorBuilder = new StrBuilder();
-                String line;
-                while ((line = errorReader.readLine()) != null) {
+                String line = errorReader.readLine();
+                while (line != null) {
                     errorBuilder.appendln(line);
+                    line = errorReader.readLine();
                 }
                 error = errorBuilder.toString();
             } catch (IOException e) {

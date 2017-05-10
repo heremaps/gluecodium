@@ -23,31 +23,30 @@ public class CppDefaultInitializer {
         {
             return null;
         }
-        else
+
+        switch (it.getPredefined().getValue())
         {
-            switch (it.getPredefined().getValue())
-            {
-                case FBasicTypeId.INT8_VALUE:
-                case FBasicTypeId.INT16_VALUE:
-                case FBasicTypeId.INT32_VALUE:
-                case FBasicTypeId.INT64_VALUE:
-                case FBasicTypeId.UINT8_VALUE:
-                case FBasicTypeId.UINT16_VALUE:
-                case FBasicTypeId.UINT32_VALUE:
-                case FBasicTypeId.UINT64_VALUE:
-                    return new CppValue( "0" );
-                case FBasicTypeId.STRING_VALUE:
-                    return null;
-                case FBasicTypeId.BOOLEAN_VALUE:
-                    return new CppValue( "false" );
-                case FBasicTypeId.FLOAT_VALUE:
-                    return CppValueMapper.NAN_FLOAT;
-                case FBasicTypeId.DOUBLE_VALUE:
-                    return CppValueMapper.NAN_DOUBLE;
-                case FBasicTypeId.BYTE_BUFFER_VALUE:
-                    return null;
-            }
+            case FBasicTypeId.INT8_VALUE:
+            case FBasicTypeId.INT16_VALUE:
+            case FBasicTypeId.INT32_VALUE:
+            case FBasicTypeId.INT64_VALUE:
+            case FBasicTypeId.UINT8_VALUE:
+            case FBasicTypeId.UINT16_VALUE:
+            case FBasicTypeId.UINT32_VALUE:
+            case FBasicTypeId.UINT64_VALUE:
+                return new CppValue( "0" );
+            case FBasicTypeId.STRING_VALUE:
+                return null;
+            case FBasicTypeId.BOOLEAN_VALUE:
+                return new CppValue( "false" );
+            case FBasicTypeId.FLOAT_VALUE:
+                return CppValueMapper.NAN_FLOAT;
+            case FBasicTypeId.DOUBLE_VALUE:
+                return CppValueMapper.NAN_DOUBLE;
+            case FBasicTypeId.BYTE_BUFFER_VALUE:
+                return null;
         }
+
 
         return null;
     }

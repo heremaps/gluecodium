@@ -108,14 +108,14 @@ public class Fidldif {
                 Version vb = ifb.getVersion();
 
                 // check if major if necessary
-                if ((removedMethods.size() > 0 || removedAttributes.size() > 0 || changedArgs)
+                if ((removedMethods.isEmpty() || removedAttributes.isEmpty() || changedArgs)
                     && va.major >= vb.major) {
                     System.err.println("incompatible change in " + ifb.getName() + "! Major version increase needed");
                     resultCode = -1;
                 }
 
                 // same for minor
-                if ((addedMethods.size() > 0 || addedAttributes.size() > 0)
+                if ((addedMethods.isEmpty() || addedAttributes.isEmpty())
                     && (va.major == vb.major && va.minor >= vb.minor)) {
                     System.err.println("elements added in " + ifb.getName() + "! Minor version increase needed");
                     resultCode = -1;
