@@ -16,3 +16,4 @@ out
 .idea/libraries/
 .idea/xtextAutoBuilderState.xml
 transpiler/generated/
+*.orig
