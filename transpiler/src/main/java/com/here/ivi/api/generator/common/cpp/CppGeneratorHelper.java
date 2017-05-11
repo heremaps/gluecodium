@@ -1,5 +1,6 @@
-package com.here.ivi.api.generator.common;
+package com.here.ivi.api.generator.common.cpp;
 
+import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.generator.cppstub.templates.MethodBodyTemplate;
 import com.here.ivi.api.model.FrancaModel;

@@ -1,9 +1,14 @@
 package com.here.ivi.api.generator.cppstub;
 
 import com.google.common.collect.Iterables;
-import com.here.ivi.api.generator.common.*;
+import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.generator.common.NameHelper;
+import com.here.ivi.api.generator.common.cpp.CppGeneratorHelper;
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
+import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator;
+import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.templates.CppCommentHeaderTemplate;
-import com.here.ivi.api.generator.common.CppNameRules;
 import com.here.ivi.api.generator.common.templates.CppDelegatorTemplate;
 import com.here.ivi.api.generator.common.templates.CppStructWithMethodsTemplate;
 import com.here.ivi.api.generator.cppstub.templates.StructCtor;
@@ -14,7 +19,8 @@ import com.here.ivi.api.model.cppmodel.*;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
 

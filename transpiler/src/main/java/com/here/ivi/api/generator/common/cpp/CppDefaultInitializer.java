@@ -1,10 +1,8 @@
-package com.here.ivi.api.generator.common;
+package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FInitializer;
 import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FrancaFactory;
 
 public class CppDefaultInitializer {
     public static CppValue map(FTypeRef it)

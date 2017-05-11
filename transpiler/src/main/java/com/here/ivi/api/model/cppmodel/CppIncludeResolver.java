@@ -1,6 +1,6 @@
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.generator.common.CppNameRules;
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Includes;
 import navigation.CppStubSpec;

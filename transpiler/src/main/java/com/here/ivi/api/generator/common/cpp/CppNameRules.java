@@ -1,4 +1,4 @@
-package com.here.ivi.api.generator.common;
+package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.model.FrancaModel;
 
