@@ -11,6 +11,7 @@ public class CppClass extends CppElement {
     public Set<CppInheritance> inheritances = new LinkedHashSet<>();
     public Set<CppStruct> structs = new LinkedHashSet<>();
     public Set<CppConstant> constants = new LinkedHashSet<>();
+    public Set<CppEnumClass> enums = new LinkedHashSet<>();
 
     public CppClass(String name) {
         super( name );
@@ -23,6 +24,7 @@ public class CppClass extends CppElement {
                  Stream.concat(usings.stream(),
                   Stream.concat(fields.stream(),
                    Stream.concat(constants.stream(),
-                           inheritances.stream()))))).map(CppElement.class::cast);
+                    Stream.concat(enums.stream(),
+                           inheritances.stream())))))).map(CppElement.class::cast);
     }
 }

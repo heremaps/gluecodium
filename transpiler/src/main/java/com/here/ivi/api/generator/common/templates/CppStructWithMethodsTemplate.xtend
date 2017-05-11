@@ -13,6 +13,10 @@ public class CppStructWithMethodsTemplate {
     «ENDIF»
     struct «cppClass.name» {
 
+        «FOR e : cppClass.enums»
+        «templates.generate(e)»
+        «ENDFOR»
+
         «FOR f : cppClass.constants»
         «templates.generate(f)»
         «ENDFOR»

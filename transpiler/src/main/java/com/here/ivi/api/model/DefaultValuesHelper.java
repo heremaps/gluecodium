@@ -1,8 +1,6 @@
 package com.here.ivi.api.model;
 
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FQualifiedElementRef;
-import org.franca.core.franca.FStructType;
+import org.franca.core.franca.*;
 
 public class DefaultValuesHelper {
     // Used to identify the definition of default values of struct
@@ -16,4 +14,9 @@ public class DefaultValuesHelper {
         return cd.getType().getDerived() instanceof FStructType &&
                 DEFAULT_VALUE_CONSTANT.equals(cd.getName());
     }
+
+    public static boolean isEnumerator(FQualifiedElementRef qer) {
+        return qer.getElement() instanceof FEnumerator;
+    }
+
 }

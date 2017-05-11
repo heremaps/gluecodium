@@ -4,7 +4,8 @@ import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
 import com.here.ivi.api.model.DefaultValuesHelper;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.*;
 
 import java.math.BigInteger;
@@ -20,12 +21,12 @@ public class CppValueMapper {
 
     static Logger logger = java.util.logging.Logger.getLogger(CppValueMapper.class.getName());
 
-    public static CppValue map(CppType type, FInitializerExpression rhs) {
+    public static CppValue map(CppType type, FInitializerExpression rhs, CppNameRules nameRules) {
         if (rhs instanceof FCompoundInitializer) {
-            return map(type, (FCompoundInitializer)rhs);
+            return map(type, (FCompoundInitializer)rhs, nameRules);
         }
         if (rhs instanceof FQualifiedElementRef) {
-            return map(type, (FQualifiedElementRef)rhs);
+            return map(type, (FQualifiedElementRef)rhs, nameRules);
         }
 
         return map(rhs);
@@ -80,9 +81,9 @@ public class CppValueMapper {
         return new CppValue(String.valueOf(value));
     }
 
-    public static CppValue map(CppType type, FCompoundInitializer ci) {
+    public static CppValue map(CppType type, FCompoundInitializer ci, CppNameRules nameRules) {
         // FIXME having a template in here is not-so-nice, this should be some CppType
-        return new CppValue(CppConstantTemplate.generate(type, ci).toString(), type.includes);
+        return new CppValue(CppConstantTemplate.generate(type, ci, nameRules).toString(), type.includes);
     }
 
     // TODO move to shared Helper with CppTypeMapper
@@ -92,7 +93,7 @@ public class CppValueMapper {
     static final private String DOUBLE_NAN_CONSTANT = "NaNDouble";
 
     // TODO handle namespaces here as well
-    public static CppValue map(CppType type, FQualifiedElementRef qer) {
+    public static CppValue map(CppType type, FQualifiedElementRef qer, CppNameRules nameRules) {
 
         if (qer.getElement() == null) {
             // TODO improve error output as seen in TypeMapper
@@ -116,6 +117,9 @@ public class CppValueMapper {
                     logger.severe("Could not resolve built-in value. Invalid franca definition. " + qer);
                     return new CppValue();
             }
+        }
+        if (DefaultValuesHelper.isEnumerator(qer)) {
+            name = nameRules.enumEntryName(name);
         }
 
         // struct default values are just invalid

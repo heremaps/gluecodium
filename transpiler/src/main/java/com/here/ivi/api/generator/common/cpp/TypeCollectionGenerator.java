@@ -1,10 +1,10 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.google.common.collect.Iterables;
-import com.here.ivi.api.generator.cppstub.StubCommentParser;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.templates.*;
+import com.here.ivi.api.generator.common.templates.CppCommentHeaderTemplate;
+import com.here.ivi.api.generator.common.templates.CppDelegatorTemplate;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.InstanceHelper;
@@ -90,7 +90,7 @@ public class TypeCollectionGenerator {
             } else if (type instanceof FMapType) {
                 result.members.add(buildMap((FMapType) type));
             } else if (type instanceof FEnumerationType) {
-                result.members.add(buildCppEnumClass((FEnumerationType) type));
+                result.members.add(TypeGenerationHelper.buildCppEnumClass(nameRules, (FEnumerationType) type));
             } else {
                logger.severe("Missing type map in " + rootModel + " for " + type.getClass().getName());
             }
@@ -155,33 +155,6 @@ public class TypeCollectionGenerator {
         return struct;
     }
 
-    private CppEnum buildCppEnum(FEnumerationType enumerationType) {
-        CppEnum enumeration = new CppEnum();
-        enumeration.comment = StubCommentParser.parse(enumerationType).getMainBodyText();
-        enumeration.name = nameRules.enumName(enumerationType.getName());
 
-        for (FEnumerator enumerator : enumerationType.getEnumerators()) {
-            CppEnumItem item = new CppEnumItem();
-
-            item.name = nameRules.enumEntryName(enumerator.getName());
-            item.value = CppValueMapper.map(enumerator.getValue());
-            item.comment = StubCommentParser.parse(enumerator).getMainBodyText();
-
-            enumeration.items.add(item);
-        }
-
-        if (!enumeration.isValid()) {
-            logger.warning("Invalid enum: " + enumerationType.getName());
-        }
-
-        return enumeration;
-    }
-
-    private CppEnumClass buildCppEnumClass(FEnumerationType enumerationType) {
-        CppEnumClass enumClass = new CppEnumClass();
-        enumClass.enumeration = buildCppEnum(enumerationType);
-
-        return enumClass;
-    }
 
 }

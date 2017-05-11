@@ -1,0 +1,74 @@
+package navigation
+
+import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+import navigation.* from "./NavigationTypes.fidl"
+
+typeCollection NetworkProxy {
+    version {
+        major 1
+        minor 0
+    }
+
+    enumeration ProxyType
+    {   <** @description: a http/https proxy. **>
+        Http = 0
+        <** @description: a socks 4 proxy. **>
+        Socks4 = 4
+        <** @description: a socks 4A proxy. **>
+        Socks4A = 5
+        <** @description: a socks 5 proxy. **>
+        Socks5 = 6
+        <** @description: A socks proxy with hostname. **>
+        Socks5HostName = 7
+    }
+
+    // specification of the struct itself
+    struct DefiningType {
+      <** @description: Name of the proxy server. **>
+      String name
+      <** @description: Port of the proxy server. **>
+      UInt16 port
+      <** @description: Type of the proxy server. **>
+      ProxyType type
+      <** @description: Proxy user name. **>
+      String userName
+      <** @description: Proxy server user password. **>
+      String userPassword
+    }
+
+    // specification of default value
+    const NetworkProxy.DefiningType DefaultValues = {
+        name: "",
+        port: 0,
+        type: ProxyType.Http,
+        userName: "",
+        userPassword: ""
+    }
+}
+
+interface NetworkProxyMethods {
+    version {
+      major 1
+      minor 0
+    }
+
+    // default constructor is generated automatically
+
+    // non-default constructor
+    method init {
+        in {
+            String name
+            UInt16 port
+            NetworkProxy.ProxyType type
+            String userName
+            String userPassword
+        }
+
+        out {
+            NetworkProxy.DefiningType object
+        }
+    }
+}
+
+
+
