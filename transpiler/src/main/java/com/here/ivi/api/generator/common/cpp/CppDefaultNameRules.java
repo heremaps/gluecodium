@@ -1,5 +1,6 @@
-package com.here.ivi.api.generator.common;
+package com.here.ivi.api.generator.common.cpp;
 
+import com.here.ivi.api.generator.common.NameHelper;
 import org.franca.core.franca.FTypeCollection;
 
 import java.util.List;

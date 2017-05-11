@@ -1,8 +1,8 @@
 package com.here.ivi.api.generator.cppstub;
 
-import com.here.ivi.api.generator.common.CppNameRules;
-import com.here.ivi.api.generator.common.CppTypeMapper;
-import com.here.ivi.api.generator.common.CppValueMapper;
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
+import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
+import com.here.ivi.api.generator.common.cpp.CppValueMapper;
 import com.here.ivi.api.model.cppmodel.CppConstant;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;

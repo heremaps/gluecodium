@@ -7,7 +7,7 @@ import com.here.ivi.api.model.cppmodel.CppEnumClass
 import com.here.ivi.api.model.cppmodel.CppStruct
 import com.here.ivi.api.model.cppmodel.CppTypeDef
 import com.here.ivi.api.model.cppmodel.CppClass
-import com.here.ivi.api.generator.common.CppTemplateDelegator
+import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator
 
 class CppNamespaceTemplate {
     static def generate(CppTemplateDelegator templates, CppNamespace ns) '''

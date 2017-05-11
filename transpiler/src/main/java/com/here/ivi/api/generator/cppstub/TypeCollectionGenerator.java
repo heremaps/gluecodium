@@ -2,6 +2,7 @@ package com.here.ivi.api.generator.cppstub;
 
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.*;
+import com.here.ivi.api.generator.common.cpp.*;
 import com.here.ivi.api.generator.common.templates.*;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;

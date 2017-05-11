@@ -2,7 +2,7 @@ package com.here.ivi.api.generator.common.templates
 
 import com.here.ivi.api.generator.common.templates.CppMethodTemplate
 import com.here.ivi.api.model.cppmodel.CppClass
-import com.here.ivi.api.generator.common.CppTemplateDelegator
+import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator
 
 public class CppStructWithMethodsTemplate {
     def static generate(CppTemplateDelegator templates, CppClass cppClass) '''

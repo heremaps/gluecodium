@@ -1,7 +1,7 @@
 package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.generator.common.CppDefaultNameRules;
+import com.here.ivi.api.generator.common.cpp.CppDefaultNameRules;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import navigation.CppStubSpec;
