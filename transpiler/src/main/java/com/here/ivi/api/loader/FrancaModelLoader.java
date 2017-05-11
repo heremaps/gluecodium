@@ -13,6 +13,7 @@ package com.here.ivi.api.loader;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.FrancaModel;
 import java.io.File;
 import java.io.IOException;
@@ -119,7 +120,8 @@ public class FrancaModelLoader<
           File resolved = new File(baseResource, u.toFileString()).getCanonicalFile();
           imports.add(resolved);
         } catch (IOException ignored) {
-          logger.log(Level.SEVERE, "Could not resolve import " + u + " in " + baseResource);
+          throw new TranspilerExecutionException(
+              String.format("Could not resolve import %s in %s.", u, baseResource));
         }
       }
     }

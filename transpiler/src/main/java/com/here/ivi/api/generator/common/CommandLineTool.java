@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +62,7 @@ public class CommandLineTool implements IFileTool {
     try {
       processedContent = executeCommand(file.content);
     } catch (Exception e) {
-      logger.severe(String.format("Executing tool failed with error: %s", e.toString()));
+      throw new TranspilerExecutionException("Executing tool failed with error:", e);
     }
     return new GeneratedFile(processedContent, file.targetFile);
   }
@@ -107,8 +108,8 @@ public class CommandLineTool implements IFileTool {
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin))) {
           writer.append(input);
         } catch (IOException e) {
-          logger.severe(
-              String.format("Writing to stdin of tool '%s' failed with: %s", cmd, e.toString()));
+          throw new TranspilerExecutionException(
+              String.format("Writing to stdin of tool '%s' failed with error:", cmd), e);
         }
       }
 
@@ -121,9 +122,8 @@ public class CommandLineTool implements IFileTool {
           line = outputReader.readLine();
         }
       } catch (IOException e) {
-        logger.severe(
-            String.format("Reading stdout of tool '%s' failed with: %s", cmd, e.toString()));
-        throw e;
+        throw new TranspilerExecutionException(
+            String.format("Reading stdout of tool '%s' failed with error:", cmd), e);
       }
 
       InputStream stderr = process.getErrorStream();
@@ -137,8 +137,8 @@ public class CommandLineTool implements IFileTool {
         }
         error = errorBuilder.toString();
       } catch (IOException e) {
-        logger.severe(
-            String.format("Reading stderr of tool '%s' failed with error: %s", cmd, e.toString()));
+        throw new TranspilerExecutionException(
+            String.format("Reading stderr of tool '%s' failed with error:", cmd), e);
       }
 
       process.waitFor();
@@ -146,12 +146,12 @@ public class CommandLineTool implements IFileTool {
       if (processExitValue != 0 || !error.isEmpty()) {
         StrBuilder errorMessage = new StrBuilder();
         errorMessage.appendln(
-            String.format("Tool '%s' failed with code: %d.", cmd, processExitValue));
+            String.format("Tool '%s' ended with code: %d.", cmd, processExitValue));
         if (!error.isEmpty()) {
           errorMessage.appendln("Producing following error:");
           errorMessage.appendln(error);
         }
-        throw new IOException(errorMessage.toString());
+        throw new TranspilerExecutionException(errorMessage.toString());
       }
 
       return outputBuilder.toString();

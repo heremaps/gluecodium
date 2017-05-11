@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.google.common.collect.Iterables;
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.templates.CppCommentHeaderTemplate;
@@ -95,7 +96,7 @@ public class StructWithMethodsGenerator {
     FStructType memberStruct = StructMethodHelper.findStructType(tc);
 
     if (memberStruct == null) {
-      logger.severe("Failed to find type struct! ");
+      logger.warning("Failed to find type struct! ");
       return newClass;
     }
 
@@ -157,11 +158,10 @@ public class StructWithMethodsGenerator {
         constant.comment = StubCommentParser.parse(constantDef).getMainBodyText();
         newClass.constants.add(constant);
       } else {
-        logger.severe(
-            "Failed generating constant! "
-                + constantDef.getName()
-                + " "
-                + constantDef.getRhs().getClass());
+        throw new TranspilerExecutionException(
+            String.format(
+                "Failed generating constant! %s %s.",
+                constantDef.getName(), constantDef.getRhs().getClass()));
       }
     }
 

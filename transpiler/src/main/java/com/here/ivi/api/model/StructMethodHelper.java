@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -182,7 +183,8 @@ public class StructMethodHelper {
           if (fiOptional.isPresent()) {
             result.add(new StructMethodPair<>(fiOptional.orElse(null), tc));
           } else {
-            logger.severe("Error: FranceModel.Interface could not be found: " + fi);
+            throw new TranspilerExecutionException(
+                String.format("FrancaModel.Interface could not be found: %s.", fi));
           }
         } else {
           result.add(new StructMethodPair<>(null, tc));

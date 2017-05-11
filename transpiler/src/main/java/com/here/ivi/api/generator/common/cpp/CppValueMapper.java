@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.templates.CppConstantTemplate;
 import com.here.ivi.api.model.DefaultValuesHelper;
 import com.here.ivi.api.model.DefinedBy;
@@ -108,8 +109,8 @@ public class CppValueMapper {
 
     if (qer.getElement() == null) {
       // TODO improve error output as seen in TypeMapper
-      logger.severe("Failed resolving value reference" + qer);
-      return new CppValue();
+      throw new TranspilerExecutionException(
+          String.format("Failed resolving value reference %s.", qer));
     }
 
     DefinedBy referenceDefiner = DefinedBy.getDefinedBy(qer.getElement());
@@ -125,8 +126,9 @@ public class CppValueMapper {
         case DOUBLE_NAN_CONSTANT:
           return NAN_DOUBLE;
         default:
-          logger.severe("Could not resolve built-in value. Invalid franca definition. " + qer);
-          return new CppValue();
+          throw new TranspilerExecutionException(
+              String.format(
+                  "Could not resolve built-in value. Invalid franca definition %s.", qer));
       }
     }
     if (DefaultValuesHelper.isEnumerator(qer)) {
