@@ -169,7 +169,7 @@ public class StubGenerator {
       errorType = CppTypeMapper.mapEnum(rootModel, m.getErrorEnum());
       errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(m);
     } else {
-      logger.severe("Missing error type for method " + m.getName());
+      logger.warning("Missing error type for method " + m.getName());
       errorType = CppType.Void;
     }
 

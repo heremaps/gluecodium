@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.generator.common.templates.MethodBodyTemplate;
@@ -31,8 +32,8 @@ public class CppGeneratorHelper {
     try {
       inputFile = suite.getTool().resolveRelativeToRootPath(element.getModel().getPath());
     } catch (IOException e) {
-      inputFile = "Could not resolve";
-      logger.severe("Could not resolve input file ");
+      throw new TranspilerExecutionException(
+          String.format("Could not resolve input file %s.", element.getModel().getPath()));
     }
 
     String inputDefinition = element.getName() + ':' + element.getVersion();

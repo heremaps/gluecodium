@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.Transpiler;
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.ClangFormatter;
 import com.here.ivi.api.generator.common.ConditionalExecutor;
@@ -110,18 +111,15 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
   private static GeneratedFile copyTarget(String fileName, String targetDir) {
     InputStream stream = CppStubGeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
 
-    if (stream == null) {
-      logger.severe("Failed loading resource " + fileName);
-      return null;
+    if (stream != null) {
+      try {
+        String content = IOUtils.toString(stream, Charset.defaultCharset());
+        return new GeneratedFile(content, targetDir + File.separator + fileName);
+      } catch (IOException e) {
+        throw new TranspilerExecutionException("Copying resource file failed with error:", e);
+      }
     }
-
-    try {
-      String content = IOUtils.toString(stream, Charset.defaultCharset());
-      return new GeneratedFile(content, targetDir + File.separator + fileName);
-    } catch (IOException ignored) {
-      logger.severe("Failed reading resource " + fileName);
-      return null;
-    }
+    throw new TranspilerExecutionException(String.format("Failed loading resource %s.", fileName));
   }
 
   @Override
@@ -158,18 +156,15 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   protected List<IFileTool> registerTools() {
+    List<IFileTool> tools = new LinkedList<>();
     try {
-      List<IFileTool> tools = new LinkedList<>();
-
       tools.add(
           new ConditionalExecutor(
               ConditionalExecutor.fileExtensionFilter(Arrays.asList("cpp", "h")),
               new ClangFormatter("cpp_style/.clang-format", ClangFormatter.Language.CPP)));
-
-      return tools;
     } catch (IOException e) {
-      logger.severe(String.format("Registering tools failed with error: %s", e));
-      return new LinkedList<>();
+      throw new TranspilerExecutionException("Registering tools failed with error:", e);
     }
+    return tools;
   }
 }

@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.google.common.collect.Iterables;
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.templates.CppCommentHeaderTemplate;
@@ -109,7 +110,8 @@ public class TypeCollectionGenerator {
         result.members.add(
             TypeGenerationHelper.buildCppEnumClass(nameRules, (FEnumerationType) type));
       } else {
-        logger.severe("Missing type map in " + rootModel + " for " + type.getClass().getName());
+        throw new TranspilerExecutionException(
+            String.format("Missing type map in %s for %s.", rootModel, type.getClass().getName()));
       }
     }
 
@@ -121,11 +123,10 @@ public class TypeCollectionGenerator {
       if (constant.isValid()) {
         result.members.add(constant);
       } else {
-        logger.severe(
-            "Failed generating constant! "
-                + constantDef.getName()
-                + " "
-                + constantDef.getRhs().getClass());
+        throw new TranspilerExecutionException(
+            String.format(
+                "Failed generating constant! %s %s.",
+                constantDef.getName(), constantDef.getRhs().getClass()));
       }
     }
 

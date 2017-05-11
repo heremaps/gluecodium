@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.*;
 import java.util.Objects;
 import java.util.Optional;
@@ -49,8 +50,8 @@ public class CppIncludeResolver {
                     Optional<? extends FrancaElement<?>> externalDefinitionOpt =
                         rootModel.find(li.model, li.tc);
                     if (!externalDefinitionOpt.isPresent()) {
-                      logger.severe("Could not resolve type collection include " + li);
-                      return null;
+                      throw new TranspilerExecutionException(
+                          String.format("Could not resolve type collection include %s.", li));
                     }
 
                     FrancaElement<?> externalDefinition = externalDefinitionOpt.get();

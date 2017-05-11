@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.google.common.collect.Sets;
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.InstanceHelper;
@@ -91,7 +92,7 @@ public class CppTypeMapper {
 
     // types without a parent are not valid
     if (derived.eContainer() == null) {
-      return mapInvalidType(rootModel, type);
+      return reportInvalidType(rootModel, type);
     }
 
     if (derived instanceof FTypeDef) {
@@ -113,7 +114,7 @@ public class CppTypeMapper {
     return new CppType(null, "UNMAPPED DERIVED", CppElements.TypeInfo.Invalid);
   }
 
-  private static CppType mapInvalidType(CppModelAccessor<?> rootModel, FTypeRef type) {
+  private static CppType reportInvalidType(CppModelAccessor<?> rootModel, FTypeRef type) {
     DefinedBy definer = DefinedBy.getDefinedBy(type);
     String name = "unknown";
     String typeDesc = "derived type";
@@ -141,18 +142,11 @@ public class CppTypeMapper {
       typeDesc = "attribute";
     }
 
-    logger.severe(
-        "Failed resolving "
-            + typeDesc
-            + " for '"
-            + name
-            + "' in "
-            + definer
-            + " (indicates wrong typedef or missing include). Type included in "
-            + rootModel
-            + ".");
-
-    return new CppType(definer, "INVALID DERIVED FOUND", CppElements.TypeInfo.Invalid);
+    String formatMessage =
+        "Failed resolving %s for '%s' in %s (indicates wrong typedef or missing include). "
+            + "Type included in %s.";
+    throw new TranspilerExecutionException(
+        String.format(formatMessage, typeDesc, name, definer, rootModel));
   }
 
   private static CppType mapTypeDef(CppModelAccessor<?> rootModel, FTypeDef typedef) {

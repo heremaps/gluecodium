@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Transpiler {
@@ -35,6 +36,8 @@ public class Transpiler {
     try {
       OptionReader.TranspilerOptions options = or.read(args);
       status = (options == null || new Transpiler(options).execute()) ? 0 : 1;
+    } catch (TranspilerExecutionException e) {
+      logger.log(Level.SEVERE, "Running Transpiler failed!", e);
     } catch (OptionReaderException e) {
       logger.severe("Failed reading options: " + e.getMessage());
       or.printUsage();
@@ -109,7 +112,7 @@ public class Transpiler {
         | InstantiationException
         | IllegalAccessException
         | InvocationTargetException e) {
-      logger.severe(
+      logger.warning(
           "Auto-discovery failed, using all available generators: " + availableGenerators);
     }
     if (generators == null || generators.isEmpty()) {
