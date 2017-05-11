@@ -26,7 +26,7 @@ public class CppStructWithMethodsTemplate {
         «ENDFOR»
 
         «FOR f : cppClass.fields»
-        «IF f.initializer != null && f.initializer.isValid()»
+        «IF f.initializer !== null && f.initializer.isValid()»
             «f.type.name» «f.name» = «f.initializer.name»;
         «ELSE»
             «f.type.name» «f.name»;
