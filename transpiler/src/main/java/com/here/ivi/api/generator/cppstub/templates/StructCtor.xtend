@@ -1,7 +1,7 @@
 package com.here.ivi.api.generator.cppstub.templates
 
 import com.here.ivi.api.model.cppmodel.CppMethod
-import com.here.ivi.api.generator.cppstub.templates.MethodBodyTemplate
+import com.here.ivi.api.generator.common.templates.MethodBodyTemplate
 
 class StructCtor implements MethodBodyTemplate {
 
