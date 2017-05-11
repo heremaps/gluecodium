@@ -1,27 +1,19 @@
 package com.here.tools;
 
-import java.io.File;
-import java.util.ArrayList
-import java.util.List
-import java.util.Set
-
-import org.franca.deploymodel.dsl.FDeployStandaloneSetup
-import org.franca.deploymodel.dsl.generator.FDeployGenerator
-
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-
-import org.eclipse.xtext.diagnostics.Severity;
-import org.eclipse.xtext.generator.JavaIoFileSystemAccess;
-import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.util.CancelIndicator;
-import org.eclipse.xtext.validation.CheckMode;
-import org.eclipse.xtext.validation.IResourceValidator;
-import org.eclipse.xtext.validation.Issue;
-
 import com.google.inject.Inject
 import com.google.inject.Provider
+import java.io.File
+import java.util.List
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.xtext.diagnostics.Severity
+import org.eclipse.xtext.generator.JavaIoFileSystemAccess
+import org.eclipse.xtext.resource.XtextResource
+import org.eclipse.xtext.util.CancelIndicator
+import org.eclipse.xtext.validation.CheckMode
+import org.eclipse.xtext.validation.Issue
+import org.franca.deploymodel.dsl.FDeployStandaloneSetup
+import org.franca.deploymodel.dsl.generator.FDeployGenerator
 
 public class FrancaDeploymodelGenerator {
 
