@@ -1,6 +1,7 @@
 import "classpath:/navigation/CppStubSpec.fdepl"
 import "./GeoCoordinates.fidl"
 import "./GeoLocation.fidl"
+import "./NetworkProxy.fidl"
 import "./SatelliteInfo.fidl"
 
 define navigation.CppStubSpec for interface navigation.GeoCoordinatesMethods
@@ -21,4 +22,15 @@ define navigation.CppStubSpec for typeCollection navigation.GeoLocation
 define navigation.CppStubSpec for typeCollection navigation.SatelliteInfo
 {
   IsStructDefinition = true
+}
+
+define navigation.CppStubSpec for interface navigation.NetworkProxyMethods
+{
+  IsMethodContainer = true
+}
+
+define navigation.CppStubSpec for typeCollection navigation.NetworkProxy
+{
+  IsStructDefinition = true
+  BelongingMethodContainer = &navigation.NetworkProxyMethods
 }

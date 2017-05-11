@@ -4,6 +4,7 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import navigation.CppStubSpec;
+import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 
@@ -19,7 +20,7 @@ public abstract class CppDefaultNameRules implements CppNameRules {
         this.model = model;
     }
 
-    protected boolean isComplexStruct(DefinedBy definer) {
+    protected boolean definesStructWithMethods(DefinedBy definer) {
         Optional<? extends CppStubSpec.IDataPropertyAccessor> accessor =
                 model.find(definer).map(FrancaModel.FrancaElement::getAccessor);
 
@@ -40,7 +41,7 @@ public abstract class CppDefaultNameRules implements CppNameRules {
         DefinedBy definer = DefinedBy.getDefinedBy(type);
         // complex structs are modelled as fidl structs encapsulated in type collections
         // such structs are translated to c++ without the containing type collection but taking its name
-        return isComplexStruct(definer) ? definer.type.getName() : type.getName();
+        return definesStructWithMethods(definer) && type instanceof FStructType ? definer.type.getName() : type.getName();
     }
 
     public String typeCollectionName(FTypeCollection base) {

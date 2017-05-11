@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-
 public class StructWithMethodsGenerator {
 
     static Logger logger = Logger.getLogger(StructWithMethodsGenerator.class.getName());
@@ -81,9 +80,14 @@ public class StructWithMethodsGenerator {
 
         CppClass newClass = new CppClass(nameRules.structName(tc.getName()));
 
-        // find member struct ///////////////////////////
+        // nested enums //////////////////////////
+        for (FType type : tc.fTypeCollection.getTypes()) {
+            if (type instanceof FEnumerationType) {
+                newClass.enums.add(TypeGenerationHelper.buildCppEnumClass(nameRules, (FEnumerationType) type));
+            }
+        }
 
-        // search for a struct inside the type collection of name StructName
+        // find member struct ///////////////////////////
         FStructType memberStruct = StructMethodHelper.findStructType(tc);
 
         if (memberStruct == null) {
@@ -91,9 +95,7 @@ public class StructWithMethodsGenerator {
             return newClass;
         }
 
-        // default values //////////////////////////
-
-        // search for constants from type collection
+        // default values of members //////////////////////////
         FCompoundInitializer defaultInitializer = null;
         for (FConstantDef constantDef : tc.fTypeCollection.getConstants()) {
             // only structs of the same type as belonging interface with correct name will be checked

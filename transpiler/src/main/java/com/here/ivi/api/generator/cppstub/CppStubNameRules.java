@@ -24,7 +24,7 @@ public class CppStubNameRules extends CppDefaultNameRules {
         List<String> result = definer.getPackages();
         // complex structs are modelled as fidl structs encapsulated in type collections
         // such structs are translated to c++ without the containing type collection but taking its name
-        if(!isComplexStruct(definer)) {
+        if(!definesStructWithMethods(definer)) {
             result.add(typeCollectionName(definer.type));
         }
         return result;
