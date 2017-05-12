@@ -41,6 +41,11 @@ sourceSets {
             include "**/*.properties"
         }
     }
+    test {
+        java {
+            srcDirs 'test/unit/java'
+        }
+    }
 }
 
 dependencies {
@@ -52,6 +57,9 @@ dependencies {
     compile project(':externals:deploymodel')
 
     buildDeployModel project(':tools:fdeplgen')
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.+'
 }
 
 def buildDeployModelConfiguration(fdeplFile, output) {

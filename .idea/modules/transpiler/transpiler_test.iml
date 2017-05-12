@@ -10,6 +10,9 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../transpiler/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../transpiler/src/test/resources" type="java-test-resource" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../transpiler/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../../transpiler/test/unit/java" isTestSource="true" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="transpiler_main" />
@@ -19,6 +22,8 @@
     <orderEntry type="module" module-name="core_main" />
     <orderEntry type="module" module-name="dsl_main" />
     <orderEntry type="module" module-name="deploymodel_main" />
+    <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
+    <orderEntry type="library" name="Gradle: org.mockito:mockito-core:2.8.9" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.11.0.beta2" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.xtend:org.eclipse.xtend.lib.macro:2.11.0.beta2" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:1.1.100" level="project" />
@@ -33,6 +38,10 @@
     <orderEntry type="library" name="Gradle: org.eclipse.equinox:common:3.6.200-v20130402-1505" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.equinox:registry:3.5.400-v20140428-1507" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.core:runtime:3.10.0-v20140318-2214" level="project" />
+    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="library" name="Gradle: net.bytebuddy:byte-buddy:1.6.14" level="project" />
+    <orderEntry type="library" name="Gradle: net.bytebuddy:byte-buddy-agent:1.6.14" level="project" />
+    <orderEntry type="library" name="Gradle: org.objenesis:objenesis:2.5" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.8.2" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.emf:org.eclipse.emf.mwe2.runtime:2.9.0.201605261059" level="project" />
     <orderEntry type="library" name="Gradle: commons-cli:commons-cli:1.2" level="project" />

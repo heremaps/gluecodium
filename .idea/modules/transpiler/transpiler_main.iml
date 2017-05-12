@@ -25,6 +25,9 @@
     <content url="file://$MODULE_DIR$/../../../transpiler/build/xtend/main">
       <sourceFolder url="file://$MODULE_DIR$/../../../transpiler/build/xtend/main" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../transpiler/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../../transpiler/resources" type="java-resource" />
+    </content>
     <content url="file://$MODULE_DIR$/../../../transpiler/spec">
       <sourceFolder url="file://$MODULE_DIR$/../../../transpiler/spec" type="java-resource" />
     </content>
