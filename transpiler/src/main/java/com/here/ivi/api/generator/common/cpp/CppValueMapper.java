@@ -12,14 +12,11 @@ import java.math.BigInteger;
 import java.util.logging.Logger;
 
 public class CppValueMapper {
+    public final static CppValue NAN_FLOAT = new CppValue("std::numeric_limits< float >::quiet_NaN( )", CppLibraryIncludes.LIMITS);
+    public final static CppValue NAN_DOUBLE = new CppValue("std::numeric_limits< double >::quiet_NaN( )", CppLibraryIncludes.LIMITS);
+    public final static CppValue MAX_FLOAT = new CppValue("std::numeric_limits< float >::max( )", CppLibraryIncludes.LIMITS);
 
-    private final static Includes.SystemInclude LIMITS_INCLUDE = new Includes.SystemInclude("limits");
-
-    public final static CppValue NAN_FLOAT = new CppValue("std::numeric_limits< float >::quiet_NaN( )", LIMITS_INCLUDE);
-    public final static CppValue NAN_DOUBLE = new CppValue("std::numeric_limits< double >::quiet_NaN( )", LIMITS_INCLUDE);
-    public final static CppValue MAX_FLOAT = new CppValue("std::numeric_limits< float >::max( )", LIMITS_INCLUDE);
-
-    static Logger logger = java.util.logging.Logger.getLogger(CppValueMapper.class.getName());
+    private static Logger logger = java.util.logging.Logger.getLogger(CppValueMapper.class.getName());
 
     public static CppValue map(CppType type, FInitializerExpression rhs, CppNameRules nameRules) {
         if (rhs instanceof FCompoundInitializer) {
