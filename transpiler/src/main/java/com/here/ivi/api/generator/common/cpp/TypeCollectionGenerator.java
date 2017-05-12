@@ -5,6 +5,7 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.common.templates.CppDelegatorTemplate;
+import com.here.ivi.api.generator.cppstub.StubCommentParser;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.InstanceHelper;
@@ -144,7 +145,6 @@ public class TypeCollectionGenerator {
     }
 
     private CppStruct buildCppStruct(FStructType structType) {
-
         CppStruct struct = new CppStruct();
         struct.comment = StubCommentParser.parse(structType).getMainBodyText();
         struct.name = nameRules.structName(structType.getName());
