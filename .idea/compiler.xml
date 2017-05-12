@@ -28,6 +28,8 @@
       <module name="generator_test" target="1.8" />
       <module name="tools_fdepl-generator_main" target="1.8" />
       <module name="tools_fdepl-generator_test" target="1.8" />
+      <module name="tools_main" target="1.8" />
+      <module name="tools_test" target="1.8" />
       <module name="transpiler_fdepl" target="1.8" />
       <module name="transpiler_main" target="1.8" />
       <module name="transpiler_test" target="1.8" />
