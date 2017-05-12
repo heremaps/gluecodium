@@ -20,6 +20,7 @@ public class CppTypeMapper {
     private final static Includes.SystemInclude SET_INCLUDE = new Includes.SystemInclude("set");
     private final static Includes.SystemInclude MAP_INCLUDE = new Includes.SystemInclude("map");
     private final static Includes.SystemInclude STRING_INCLUDE = new Includes.SystemInclude("string");
+    private final static Includes.SystemInclude UNIQUE_PTR_INCLUDE = new Includes.SystemInclude("memory");
     private final static Includes.SystemInclude SHARED_PTR_INCLUDE = new Includes.SystemInclude("memory");
     private final static Includes.SystemInclude WEAK_PTR_INCLUDE = new Includes.SystemInclude("memory");
 
@@ -306,6 +307,21 @@ public class CppTypeMapper {
         includes.add(MAP_INCLUDE);
 
         return new CppType(mapDefiner, mapType, CppElements.TypeInfo.Complex, includes);
+    }
+
+    public static CppType wrapUniquePtr(CppType content)
+    {
+        // lookup where content type came from, setup includes
+        Includes.Include typeInclude = new Includes.LazyInternalInclude(content.definedIn);
+
+        String mapType = "std::unique_ptr< " + content.name + " >";
+
+        // include content type and the shared_ptr
+        Set<Includes.Include> includes = new HashSet<>(content.includes);
+        includes.add(typeInclude);
+        includes.add(UNIQUE_PTR_INCLUDE);
+
+        return new CppType(content.definedIn, mapType, CppElements.TypeInfo.Complex, includes);
     }
 
     public static CppType wrapSharedPtr(CppType content)
