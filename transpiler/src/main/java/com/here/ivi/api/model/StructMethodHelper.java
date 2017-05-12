@@ -1,10 +1,12 @@
 package com.here.ivi.api.model;
 
-import com.here.ivi.api.generator.common.GeneratedFile;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -107,13 +109,13 @@ public class StructMethodHelper {
                 Stream.concat(
                         // generate one file for each type collection, containing all the typedefs, enums, etc.
                         model.getTypeCollections().stream()
-                                .filter(tc -> !tc.getTypeCollectionAccessor().getIsStructDefinition(tc.getFrancaTypeCollection()))
+                                .filter(tc -> !tc.getPropertyAccessor().getIsStructDefinition(tc.getFrancaTypeCollection()))
                                 .map(typeCollector),
 
                         // every interface (that is not a struct) gets its own file
                         model.getInterfaces().stream()
-                                .filter(iface -> iface.getInterfaceAccessor().getIsMethodContainer(iface.getFrancaInterface()) == null ||
-                                        !iface.getInterfaceAccessor().getIsMethodContainer(iface.getFrancaInterface()))
+                                .filter(iface -> iface.getPropertyAccessor().getIsMethodContainer(iface.getFrancaInterface()) == null ||
+                                        !iface.getPropertyAccessor().getIsMethodContainer(iface.getFrancaInterface()))
                                 .map(interfaceCollector)
                                 .flatMap(Collection::stream)
                 ),
@@ -138,9 +140,9 @@ public class StructMethodHelper {
         // for each type collection: search its methods (if any)
         for (TypeCollection<TA> tc : model.getTypeCollections()) {
 
-            if (tc.getTypeCollectionAccessor().getIsStructDefinition(tc.getFrancaTypeCollection())) {
+            if (tc.getPropertyAccessor().getIsStructDefinition(tc.getFrancaTypeCollection())) {
                 // find real interface
-                FInterface fi = tc.getTypeCollectionAccessor().getBelongingMethodContainer(tc.getFrancaTypeCollection());
+                FInterface fi = tc.getPropertyAccessor().getBelongingMethodContainer(tc.getFrancaTypeCollection());
 
                 if (fi != null) {
                     Optional<Interface<IA>> fiOptional =

@@ -4,6 +4,7 @@ import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import navigation.CppStubSpec;
 import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.core.FDModelExtender;
 import org.franca.deploymodel.core.FDeployedInterface;
 import org.franca.deploymodel.dsl.fDeploy.FDInterface;
@@ -53,7 +54,7 @@ public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor> i
     }
 
     @Override
-    public CppStubSpec.IDataPropertyAccessor getAccessor() {
+    public Accessor getPropertyAccessor() {
         return accessor;
     }
 
@@ -64,12 +65,13 @@ public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor> i
         return getName().equals(co.getName()) && model.getFrancaModel().getName().equals(co.model.getFrancaModel().getName());
     }
 
-    public FInterface getFrancaInterface() {
-        return francaInterface;
+    @Override
+    public FTypeCollection getFrancaTypeCollection() {
+        return getFrancaInterface(); // an interface is type collection as well
     }
 
-    public Accessor getInterfaceAccessor() {
-        return accessor;
+    public FInterface getFrancaInterface() {
+        return francaInterface;
     }
 
     // finds a matching FDInterface for an FInterface, if one is found, creates a valid InterfacePropertyAccessor,
