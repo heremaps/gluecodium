@@ -177,8 +177,13 @@ public class StubGenerator {
                 struct.fields = m.getOutArgs().stream().map(a -> {
                     CppType type = CppTypeMapper.map(rootModel, a);
                     if (type.info == CppElements.TypeInfo.InterfaceInstance) {
-                        type = CppTypeMapper.wrapSharedPtr(type);
+                        if (isCreator(m)) {
+                            type = CppTypeMapper.wrapUniquePtr(type);
+                        } else {
+                            type = CppTypeMapper.wrapSharedPtr(type);
+                        }
                     }
+
                     CppField field = new CppField(type, NameHelper.toLowerCamel(a.getName()));
                     // document struct field with argument comment
                     field.comment = StubCommentParser.FORMATTER.readCleanedComment(a);
@@ -199,7 +204,11 @@ public class StubGenerator {
                 FArgument arg = m.getOutArgs().get(0);
                 CppType type = CppTypeMapper.map(rootModel, arg);
                 if (type.info == CppElements.TypeInfo.InterfaceInstance) {
-                    type = CppTypeMapper.wrapSharedPtr(type);
+                    if (isCreator(m)) {
+                        type = CppTypeMapper.wrapUniquePtr(type);
+                    } else {
+                        type = CppTypeMapper.wrapSharedPtr(type);
+                    }
                 }
 
                 // document return type and append value information to type documentation
@@ -431,5 +440,9 @@ public class StubGenerator {
         m.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
 
         return m;
+    }
+
+    private boolean isCreator(final FMethod m) {
+        return rootModel.getAccessor().getCreates(m) != null;
     }
 }
