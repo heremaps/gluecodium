@@ -396,10 +396,6 @@ public class StubGenerator {
     private final static Includes.SystemInclude EXPECTED_INCLUDE =
             new Includes.SystemInclude("here/internal/expected.h");
 
-    private enum AttributeAccessorMode {
-        GET, SET
-    }
-
     private CppMethod buildAttributeAccessor(CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootType,
                                              FAttribute attribute,
                                              AttributeAccessorMode mode) {
