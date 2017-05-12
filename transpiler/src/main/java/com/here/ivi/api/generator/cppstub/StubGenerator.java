@@ -87,7 +87,7 @@ public class StubGenerator {
 
         // allow creating a shared pointer from within this class
         CppType sharedFromThis = new CppType("std::enable_shared_from_this< " + stubClass.name + " >");
-        sharedFromThis.setIncludes(new Includes.SystemInclude("memory"));
+        sharedFromThis.setIncludes(CppLibraryIncludes.MEMORY);
         stubClass.inheritances.add(new CppInheritance(sharedFromThis, CppInheritance.Type.Public));
 
         // TODO reuse TypeCollectionGenerator to generate types in interface definition
