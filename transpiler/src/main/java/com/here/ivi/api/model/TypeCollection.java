@@ -40,7 +40,7 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
     }
 
     @Override
-    public CppStubSpec.IDataPropertyAccessor getAccessor() {
+    public Accessor getPropertyAccessor() {
         return accessor;
     }
 
@@ -51,12 +51,9 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
         return getName().equals(co.getName()) && model.getFrancaModel().getName().equals(co.model.getFrancaModel().getName());
     }
 
+    @Override
     public FTypeCollection getFrancaTypeCollection() {
         return francaTypeCollection;
-    }
-
-    public Accessor getTypeCollectionAccessor() {
-        return accessor;
     }
 
     // finds a matching FDTypes for a FTypeCollection, if one is found, creates a valid T

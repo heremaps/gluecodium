@@ -5,26 +5,24 @@ import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.FrancaModel;
 import navigation.CppStubSpec;
-import org.franca.core.franca.FModel;
-import org.franca.core.franca.FTypeCollection;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> extends DefinedBy {
 
-    public CppModelAccessor(FTypeCollection type, FModel model, DPA accessor, CppNameRules rules,
-           FrancaModel<? extends CppStubSpec.IDataPropertyAccessor,
-                       ? extends CppStubSpec.IDataPropertyAccessor> fModel){
+    public CppModelAccessor(FrancaElement<DPA> francaElement, CppNameRules rules,
+                            FrancaModel<? extends CppStubSpec.IDataPropertyAccessor,
+                                    ? extends CppStubSpec.IDataPropertyAccessor> fModel){
 
-        super(type, model);
-        this.accessor = accessor;
+        super(francaElement.getFrancaTypeCollection(), francaElement.getModel().getFrancaModel());
+        this.francaElement = francaElement;
         this.rules = rules;
         this.francaModel = fModel;
     }
 
     public DPA getAccessor() {
-        return accessor;
+        return francaElement.getPropertyAccessor();
     }
 
     /**
@@ -35,8 +33,8 @@ public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> ext
      * @param definer the definer containing type-collection and francaModel
      * @return The franca accessor for the given francaModel and type-collection
      */
-    public Optional<CppStubSpec.IDataPropertyAccessor> getAccessor(DefinedBy definer){
-        return francaModel.find(definer).map(FrancaElement::getAccessor);
+    public Optional<? extends CppStubSpec.IDataPropertyAccessor> getAccessor(DefinedBy definer){
+        return francaModel.find(definer).map(FrancaElement::getPropertyAccessor);
     }
 
     /**
@@ -50,9 +48,8 @@ public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> ext
         return rules.packageToNamespace(getPackages());
     }
 
-    private final DPA accessor;
+    private final FrancaElement<DPA> francaElement;
     private final CppNameRules rules;
     private final FrancaModel<? extends CppStubSpec.IDataPropertyAccessor,
                               ? extends CppStubSpec.IDataPropertyAccessor> francaModel;
-
 }

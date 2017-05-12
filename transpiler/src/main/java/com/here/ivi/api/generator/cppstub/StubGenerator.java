@@ -1,6 +1,5 @@
 package com.here.ivi.api.generator.cppstub;
 
-
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.common.cpp.*;
@@ -47,7 +46,7 @@ public class StubGenerator {
         this.iface = iface;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<>(iface.getFrancaInterface(), iface.getModel().getFrancaModel(), iface.getInterfaceAccessor(), nameRules, coreModel);
+        rootModel = new CppModelAccessor<>(iface, nameRules, coreModel);
     }
 
     public GeneratedFile generate() {
@@ -358,7 +357,7 @@ public class StubGenerator {
         if (rootModel.getAccessor().getStatic(m)) {
             method.specifiers.add(CppMethod.Specifier.STATIC);
         } else {
-            if (iface.getInterfaceAccessor().getConst(m)) {
+            if (iface.getPropertyAccessor().getConst(m)) {
                 // const needs to be before = 0; This smells more than the = 0 below
                 method.qualifiers.add(CppMethod.Qualifier.CONST);
             }

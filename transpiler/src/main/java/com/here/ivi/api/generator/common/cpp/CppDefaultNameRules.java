@@ -23,7 +23,7 @@ public abstract class CppDefaultNameRules implements CppNameRules {
 
     protected boolean definesStructWithMethods(DefinedBy definer) {
         Optional<? extends CppStubSpec.IDataPropertyAccessor> accessor =
-                model.find(definer).map(FrancaElement::getAccessor);
+                model.find(definer).map(FrancaElement::getPropertyAccessor);
 
         if (!accessor.isPresent()) {
             throw new RuntimeException("Could not find accessor. Invalid franca definition. " + definer);

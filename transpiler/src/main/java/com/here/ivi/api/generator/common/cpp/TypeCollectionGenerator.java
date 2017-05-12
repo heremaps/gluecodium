@@ -46,7 +46,7 @@ public class TypeCollectionGenerator {
         this.tc = tc;
 
         // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-        rootModel = new CppModelAccessor<>(tc.getFrancaTypeCollection(), tc.getModel().getFrancaModel(), tc.getTypeCollectionAccessor(), nameRules, coreModel);
+        rootModel = new CppModelAccessor<>(tc, nameRules, coreModel);
     }
 
     public GeneratedFile generate() {
