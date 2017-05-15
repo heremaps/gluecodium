@@ -32,7 +32,7 @@ public class TypeCollectionGenerator {
     private final CppNameRules nameRules;
 
     private final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc;
-    private final CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel;
+    private final CppModelAccessor<?> rootModel;
 
     private static Logger logger = java.util.logging.Logger.getLogger(TypeCollectionGenerator.class.getName());
 
@@ -100,7 +100,7 @@ public class TypeCollectionGenerator {
 
         // constants
         for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
-            CppConstant constant = TypeGenerationHelper.buildCppConstant(nameRules, rootModel, constantDef);
+            CppConstant constant = TypeGenerationHelper.buildCppConstant(rootModel, constantDef);
 
             if (constant.isValid()) {
                 result.members.add(constant);
@@ -151,14 +151,11 @@ public class TypeCollectionGenerator {
         struct.name = nameRules.structName(structType.getName());
 
         for (FField fieldInfo : structType.getElements()) {
-            CppField field = TypeGenerationHelper.buildCppField(nameRules, rootModel, fieldInfo, null);
+            CppField field = TypeGenerationHelper.buildCppField(rootModel, fieldInfo, null);
             field.comment = StubCommentParser.parse(fieldInfo).getMainBodyText();
             struct.fields.add(field);
         }
 
         return struct;
     }
-
-
-
 }

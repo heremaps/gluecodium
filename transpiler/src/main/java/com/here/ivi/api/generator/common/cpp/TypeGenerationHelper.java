@@ -11,13 +11,13 @@ public class TypeGenerationHelper {
 
     private static Logger logger = java.util.logging.Logger.getLogger(TypeGenerationHelper.class.getName());
 
-    public static CppField buildCppField(CppNameRules nameRules,
-                                         CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootType,
+    public static CppField buildCppField(CppModelAccessor<?> rootType,
                                          FField ffield,
                                          FFieldInitializer initializer) {
 
         FTypeRef typeRef = ffield.getType();
         CppField field = new CppField();
+        CppNameRules nameRules = rootType.getRules();
         field.name = nameRules.fieldName(ffield.getName());
         field.type = CppTypeMapper.map(rootType, typeRef);
 
@@ -30,13 +30,13 @@ public class TypeGenerationHelper {
         return field;
     }
 
-    public static CppConstant buildCppConstant(CppNameRules nameRules,
-                                               CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel,
+    public static CppConstant buildCppConstant(CppModelAccessor<?> rootModel,
                                                FConstantDef constantDef) {
         CppConstant constant = new CppConstant();
 
         // no need to check isArray here, it is redundant
         constant.type = CppTypeMapper.map(rootModel, constantDef.getType());
+        CppNameRules nameRules = rootModel.getRules();
         constant.name = nameRules.constantName(constantDef.getName());
         constant.value = CppValueMapper.map(constant.type, constantDef.getRhs(), nameRules);
 
