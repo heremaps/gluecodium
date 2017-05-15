@@ -71,7 +71,7 @@ public class TypeCollectionGenerator {
     String outputFile = nameRules.typeCollectionTarget(baseDirectories, tc);
 
     // find included files and resolve relative to generated path
-    CppIncludeResolver resolver = new CppIncludeResolver(coreModel, tc, nameRules);
+    CppIncludeResolver resolver = new CppIncludeResolver(coreModel, outputFile);
     resolver.resolveLazyIncludes(model);
 
     Object generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, tc, outputFile);
@@ -147,7 +147,8 @@ public class TypeCollectionGenerator {
         CppTypeMapper.wrapMapType(
             DefinedBy.getDefinedBy(type),
             CppTypeMapper.map(rootModel, type.getKeyType()),
-            CppTypeMapper.map(rootModel, type.getValueType()));
+            CppTypeMapper.map(rootModel, type.getValueType()),
+            nameRules);
 
     return typeDef;
   }

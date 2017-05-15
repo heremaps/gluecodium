@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model;
 
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 
@@ -80,15 +81,17 @@ public class Includes {
     public final FTypeCollection tc;
     public final FModel model;
     public final InternalType type;
+    public final CppNameRules nameRules;
 
-    public LazyInternalInclude(DefinedBy def) {
-      this(def, InternalType.TypeCollection);
+    public LazyInternalInclude(DefinedBy def, CppNameRules nameRules) {
+      this(def, InternalType.TypeCollection, nameRules);
     }
 
-    public LazyInternalInclude(DefinedBy def, InternalType type) {
+    public LazyInternalInclude(DefinedBy def, InternalType type, CppNameRules nameRules) {
       this.tc = def.type;
       this.model = def.model;
       this.type = type;
+      this.nameRules = nameRules;
     }
 
     @Override
