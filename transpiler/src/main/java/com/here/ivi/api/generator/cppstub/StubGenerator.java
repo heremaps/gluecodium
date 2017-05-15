@@ -229,7 +229,7 @@ public class StubGenerator {
             includes.add(EXPECTED_INCLUDE);
 
             returnType = new CppType(
-                    rootModel,
+                    rootModel.getDefiner(),
                     "here::internal::Expected< " + String.join(", ", names) + " >",
                     CppElements.TypeInfo.Complex,
                     includes);

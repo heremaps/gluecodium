@@ -31,7 +31,7 @@ public class CppTypeMapper {
         CppType type = CppTypeMapper.map(rootModel, argument.getType());
 
         if (argument.isArray()) {
-            type = CppTypeMapper.wrapArrayType(rootModel, type, CppTypeMapper.ArrayMode.map(rootModel, argument));
+            type = CppTypeMapper.wrapArrayType(rootModel.getDefiner(), type, CppTypeMapper.ArrayMode.map(rootModel, argument));
         }
 
         return type;
@@ -42,7 +42,7 @@ public class CppTypeMapper {
         CppType type = CppTypeMapper.map(rootModel, attribute.getType());
 
         if (attribute.isArray()) {
-            type = CppTypeMapper.wrapArrayType(rootModel, type, CppTypeMapper.ArrayMode.map(rootModel, attribute));
+            type = CppTypeMapper.wrapArrayType(rootModel.getDefiner(), type, CppTypeMapper.ArrayMode.map(rootModel, attribute));
         }
 
         return type;
@@ -52,7 +52,7 @@ public class CppTypeMapper {
         CppType type = CppTypeMapper.map(rootModel, field.getType());
 
         if (field.isArray()) {
-            type = CppTypeMapper.wrapArrayType(rootModel, type, CppTypeMapper.ArrayMode.map(rootModel, field));
+            type = CppTypeMapper.wrapArrayType(rootModel.getDefiner(), type, CppTypeMapper.ArrayMode.map(rootModel, field));
         }
 
         return type;
