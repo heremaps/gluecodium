@@ -7,7 +7,7 @@ import org.franca.core.franca.*;
 import java.util.List;
 
 public class CppNamespaceUtils {
-    /** Creates a cpp typename including namespace prefix to access the type `element` defined from the `rootModel`
+    /** Creates a cpp typename including namespace prefix to access the type 'element' defined from the 'rootModel'
      *  Assumes the referenced type is in a TypeCollection namespace or part of an Interface */
     public static String getCppTypename(CppModelAccessor<?> rootModel,
                                         FType element) {
@@ -20,7 +20,7 @@ public class CppNamespaceUtils {
         return String.join("::", names);
     }
 
-    /** Creates a cpp typename  including namespace prefix to access the type with `name` defined in `typeDefiner` from the `rootModel` */
+    /** Creates a cpp typename  including namespace prefix to access the type with 'name' defined in 'typeDefiner' from the 'rootModel' */
     public static String getCppTypename(CppModelAccessor<?> rootModel,
                                         DefinedBy typeDefiner,
                                         String name) {
@@ -40,14 +40,14 @@ public class CppNamespaceUtils {
      */
     private static List<String> builtDisjointNamespace(List<String> base, List<String> target) {
         int i = 0;
-        // find largest common part…
+        // find largest common part...
         for (; i < base.size() && i < target.size(); i++) {
             if (!base.get(i).equals(target.get(i))) {
                 break;
             }
         }
 
-        // … and strip it off
+        // ... and strip it off
         return target.subList(i, target.size());
     }
 }
