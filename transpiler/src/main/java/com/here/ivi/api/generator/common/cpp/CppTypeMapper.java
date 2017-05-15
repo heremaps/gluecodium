@@ -39,7 +39,7 @@ public class CppTypeMapper {
         return type;
     }
 
-    public static CppType map(CppModelAccessor rootModel, FField field) {
+    public static CppType map(CppModelAccessor<?> rootModel, FField field) {
         CppType type = CppTypeMapper.map(rootModel, field.getType());
 
         if (field.isArray()) {
@@ -49,7 +49,7 @@ public class CppTypeMapper {
         return type;
     }
 
-    public static CppType map(CppModelAccessor rootModel, FTypeRef type) {
+    public static CppType map(CppModelAccessor<?> rootModel, FTypeRef type) {
 
         if (type.getDerived() != null) {
             return mapDerived(rootModel, type);
@@ -59,7 +59,7 @@ public class CppTypeMapper {
         return new CppType();
     }
 
-    private static CppType mapDerived(CppModelAccessor rootModel, FTypeRef type) {
+    private static CppType mapDerived(CppModelAccessor<?> rootModel, FTypeRef type) {
         FType derived = type.getDerived();
 
         // types without a parent are not valid
@@ -86,7 +86,7 @@ public class CppTypeMapper {
         return new CppType(null, "UNMAPPED DERIVED", CppElements.TypeInfo.Invalid);
     }
 
-    private static CppType mapInvalidType(CppModelAccessor rootModel, FTypeRef type) {
+    private static CppType mapInvalidType(CppModelAccessor<?> rootModel, FTypeRef type) {
         DefinedBy definer = DefinedBy.getDefinedBy(type);
         String name = "unknown";
         String typeDesc = "derived type";
@@ -120,7 +120,7 @@ public class CppTypeMapper {
         return new CppType(definer, "INVALID DERIVED FOUND", CppElements.TypeInfo.Invalid);
     }
 
-    private static CppType mapTypeDef(CppModelAccessor rootModel, FTypeDef typedef) {
+    private static CppType mapTypeDef(CppModelAccessor<?> rootModel, FTypeDef typedef) {
         DefinedBy typeRefDefiner = DefinedBy.getDefinedBy(typedef);
 
         if (typedef.getActualType() == null) {
@@ -149,7 +149,7 @@ public class CppTypeMapper {
         }
     }
 
-    private static CppType mapArray(CppModelAccessor rootModel, FArrayType array) {
+    private static CppType mapArray(CppModelAccessor<?> rootModel, FArrayType array) {
         DefinedBy arrayDefiner = DefinedBy.getDefinedBy(array);
 
         FTypeRef elementType = array.getElementType();
@@ -169,7 +169,7 @@ public class CppTypeMapper {
         return wrapArrayType(arrayDefiner, actual, ArrayMode.map(rootModel, array));
     }
 
-    public static CppType defineArray(CppModelAccessor rootModel, FArrayType array) {
+    public static CppType defineArray(CppModelAccessor<?> rootModel, FArrayType array) {
         DefinedBy arrayDefiner = DefinedBy.getDefinedBy(array);
         FTypeRef elementType = array.getElementType();
         CppType actual = map(rootModel, elementType);
@@ -216,7 +216,7 @@ public class CppTypeMapper {
         return result;
     }
 
-    private static CppType mapMap(CppModelAccessor rootModel, FMapType map) {
+    private static CppType mapMap(CppModelAccessor<?> rootModel, FMapType map) {
         DefinedBy mapDefiner = DefinedBy.getDefinedBy(map);
 
         if (map.getKeyType() == null || map.getValueType() == null ) {
@@ -240,7 +240,7 @@ public class CppTypeMapper {
         }
     }
 
-    private static CppType mapStruct(CppModelAccessor rootModel, FStructType struct) {
+    private static CppType mapStruct(CppModelAccessor<?> rootModel, FStructType struct) {
         DefinedBy structDefiner = DefinedBy.getDefinedBy(struct);
 
         if (struct.getElements().isEmpty() ) {
@@ -253,7 +253,7 @@ public class CppTypeMapper {
         }
     }
 
-    public static CppType mapEnum(CppModelAccessor rootModel, FEnumerationType enumeration) {
+    public static CppType mapEnum(CppModelAccessor<?> rootModel, FEnumerationType enumeration) {
         DefinedBy enumDefiner = DefinedBy.getDefinedBy(enumeration);
 
         if (enumeration.getEnumerators().isEmpty() ) {
