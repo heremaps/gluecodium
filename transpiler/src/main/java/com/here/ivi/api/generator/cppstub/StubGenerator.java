@@ -71,7 +71,7 @@ public class StubGenerator {
     String outputFile = nameRules.interfaceTarget(baseDirectories, iface);
 
     // find included files and resolve relative to generated path
-    CppIncludeResolver resolver = new CppIncludeResolver(coreModel, iface, nameRules);
+    CppIncludeResolver resolver = new CppIncludeResolver(coreModel, outputFile);
     resolver.resolveLazyIncludes(model);
 
     CharSequence generatorNotice =
@@ -142,7 +142,7 @@ public class StubGenerator {
                   CppNamespaceUtils.getCppTypename(
                       rootModel, baseDefinition, nameRules.className(base)),
                   new Includes.LazyInternalInclude(
-                      baseDefinition, Includes.InternalType.Interface)),
+                      baseDefinition, Includes.InternalType.Interface, nameRules)),
               CppInheritance.Type.Public));
 
       // TODO ensure that there is actually a listener for the base class (go through broadcasts & attributes)
@@ -152,7 +152,7 @@ public class StubGenerator {
                   CppNamespaceUtils.getCppTypename(
                       rootModel, baseDefinition, CppStubNameRules.listenerName(base)),
                   new Includes.LazyInternalInclude(
-                      baseDefinition, Includes.InternalType.Interface)),
+                      baseDefinition, Includes.InternalType.Interface, nameRules)),
               CppInheritance.Type.Public));
     }
 
@@ -206,9 +206,9 @@ public class StubGenerator {
                       CppType type = CppTypeMapper.map(rootModel, a);
                       if (type.info == CppElements.TypeInfo.InterfaceInstance) {
                         if (isCreator(m)) {
-                          type = CppTypeMapper.wrapUniquePtr(type);
+                          type = CppTypeMapper.wrapUniquePtr(type, nameRules);
                         } else {
-                          type = CppTypeMapper.wrapSharedPtr(type);
+                          type = CppTypeMapper.wrapSharedPtr(type, nameRules);
                         }
                       }
 
@@ -234,9 +234,9 @@ public class StubGenerator {
         CppType type = CppTypeMapper.map(rootModel, arg);
         if (type.info == CppElements.TypeInfo.InterfaceInstance) {
           if (isCreator(m)) {
-            type = CppTypeMapper.wrapUniquePtr(type);
+            type = CppTypeMapper.wrapUniquePtr(type, nameRules);
           } else {
-            type = CppTypeMapper.wrapSharedPtr(type);
+            type = CppTypeMapper.wrapSharedPtr(type, nameRules);
           }
         }
 
@@ -301,10 +301,9 @@ public class StubGenerator {
     CppParameter param = new CppParameter();
     param.name = a.getName();
     param.mode = CppParameter.Mode.Input;
-
     param.type = CppTypeMapper.map(rootModel, a);
     if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
-      param.type = CppTypeMapper.wrapSharedPtr(param.type);
+      param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
     }
 
     // generate arguments as input params
@@ -356,7 +355,7 @@ public class StubGenerator {
 
                   param.type = CppTypeMapper.map(rootModel, a.getType());
                   if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
-                    param.type = CppTypeMapper.wrapSharedPtr(param.type);
+                    param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
                   }
 
                   return param;
@@ -440,7 +439,7 @@ public class StubGenerator {
 
       param.type = CppTypeMapper.map(rootModel, inArg.getType());
       if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
-        param.type = CppTypeMapper.wrapSharedPtr(param.type);
+        param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
       }
 
       method.inParameters.add(param);
@@ -464,7 +463,7 @@ public class StubGenerator {
 
     CppType type = CppTypeMapper.map(rootType, attribute);
     if (type.info == CppElements.TypeInfo.InterfaceInstance) {
-      type = CppTypeMapper.wrapSharedPtr(type);
+      type = CppTypeMapper.wrapSharedPtr(type, nameRules);
     }
 
     String attributeName = nameRules.fieldName(attribute.getName());

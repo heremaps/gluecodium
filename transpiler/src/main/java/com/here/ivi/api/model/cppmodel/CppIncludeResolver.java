@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.*;
 import java.util.List;
 import java.util.Objects;
@@ -24,25 +23,11 @@ public class CppIncludeResolver {
   static Logger logger = java.util.logging.Logger.getLogger(CppIncludeResolver.class.getName());
 
   private FrancaModel<?, ?> rootModel;
-  private CppNameRules nameRules;
   private String outputFile;
 
-  public CppIncludeResolver(
-      FrancaModel<?, ?> rootModel, TypeCollection<?> forType, CppNameRules nameRules) {
+  public CppIncludeResolver(FrancaModel<?, ?> rootModel, String outputFile) {
     this.rootModel = rootModel;
-    this.nameRules = nameRules;
-
-    List<String> directories = nameRules.packageToDirectoryStructure(forType.getPackage());
-    this.outputFile = nameRules.typeCollectionTarget(directories, forType);
-  }
-
-  public CppIncludeResolver(
-      FrancaModel<?, ?> rootModel, Interface<?> forType, CppNameRules nameRules) {
-    this.rootModel = rootModel;
-    this.nameRules = nameRules;
-
-    List<String> directories = nameRules.packageToDirectoryStructure(forType.getPackage());
-    this.outputFile = nameRules.interfaceTarget(directories, forType);
+    this.outputFile = outputFile;
   }
 
   public void resolveLazyIncludes(CppElement root) {
@@ -71,16 +56,16 @@ public class CppIncludeResolver {
 
                     FrancaElement<?> externalDefinition = externalDefinitionOpt.get();
                     List<String> externalDirectories =
-                        nameRules.packageToDirectoryStructure(externalDefinition.getPackage());
+                        li.nameRules.packageToDirectoryStructure(externalDefinition.getPackage());
 
                     String includeName;
                     if (externalDefinition instanceof TypeCollection<?>) {
                       includeName =
-                          nameRules.typeCollectionTarget(
+                          li.nameRules.typeCollectionTarget(
                               externalDirectories, (TypeCollection<?>) externalDefinition);
                     } else {
                       includeName =
-                          nameRules.interfaceTarget(
+                          li.nameRules.interfaceTarget(
                               externalDirectories, (Interface<?>) externalDefinition);
                     }
 

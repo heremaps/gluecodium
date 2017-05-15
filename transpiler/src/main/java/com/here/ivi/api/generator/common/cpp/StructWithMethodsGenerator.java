@@ -44,12 +44,10 @@ public class StructWithMethodsGenerator {
       final TypeCollection<?> tc) {
 
     CppNamespace ns = generateCppModel(methods, tc, model);
-
-    CppIncludeResolver resolver = new CppIncludeResolver(model, tc, nameRules);
-    resolver.resolveLazyIncludes(ns);
-
     List<String> directories = nameRules.packageToDirectoryStructure(tc.getPackage());
     String outputFile = nameRules.typeCollectionTarget(directories, tc);
+    CppIncludeResolver resolver = new CppIncludeResolver(model, outputFile);
+    resolver.resolveLazyIncludes(ns);
 
     CharSequence generatorNotice =
         CppGeneratorHelper.generateGeneratorNotice(suite, tc, outputFile);
