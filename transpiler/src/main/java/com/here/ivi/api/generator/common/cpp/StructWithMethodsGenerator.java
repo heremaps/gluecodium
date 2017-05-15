@@ -107,14 +107,13 @@ public class StructWithMethodsGenerator {
             return newClass;
         }
 
-        CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootType =
-            new CppModelAccessor<>(tc, nameRules, model);
+        CppModelAccessor<?> rootType = new CppModelAccessor<>(tc, nameRules, model);
 
         // generate fields /////////////////////////////////
         Iterator<FField> memberIterator = memberStruct.getElements().iterator();
         Iterator<FFieldInitializer> valueIterator = defaultInitializer.getElements().iterator();
         while (memberIterator.hasNext() && valueIterator.hasNext()) {
-            CppField field = TypeGenerationHelper.buildCppField(nameRules, rootType, memberIterator.next(), valueIterator.next());
+            CppField field = TypeGenerationHelper.buildCppField(rootType, memberIterator.next(), valueIterator.next());
             newClass.fields.add(field);
         }
 
@@ -133,7 +132,7 @@ public class StructWithMethodsGenerator {
                 continue;
             }
 
-            CppConstant constant = TypeGenerationHelper.buildCppConstant(nameRules, rootType, constantDef);
+            CppConstant constant = TypeGenerationHelper.buildCppConstant(rootType, constantDef);
             if (constant.isValid()) {
                 newClass.constants.add(constant);
             } else {
