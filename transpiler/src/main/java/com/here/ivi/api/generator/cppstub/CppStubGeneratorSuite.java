@@ -74,6 +74,8 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
 
     StructWithMethodsGenerator structGenerator =
         new StructWithMethodsGenerator(this, nameRules, model);
+    TypeCollectionGenerator typeCollectionGenerator =
+        new TypeCollectionGenerator(this, nameRules, model);
 
     // partition model into ifaces, typecollections and structWithMethods and generate files from that
     Stream<GeneratedFile> generatorStreams =
@@ -85,11 +87,7 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
               files.add(generator.generate());
               return files;
             },
-            typeCollection -> {
-              TypeCollectionGenerator generator =
-                  new TypeCollectionGenerator(this, model, nameRules, typeCollection);
-              return generator.generate();
-            },
+            typeCollectionGenerator::generate,
             structMethodPair ->
                 structGenerator.generate(structMethodPair.iface, structMethodPair.type));
 
