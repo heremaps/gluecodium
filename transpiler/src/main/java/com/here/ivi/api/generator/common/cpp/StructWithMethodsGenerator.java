@@ -32,22 +32,25 @@ import org.franca.core.franca.*;
 
 public class StructWithMethodsGenerator {
 
+  private final GeneratorSuite suite;
   private final CppNameRules nameRules;
+  private final FrancaModel<?, ?> model;
 
   private static final Logger logger = Logger.getLogger(StructWithMethodsGenerator.class.getName());
 
-  public StructWithMethodsGenerator(CppNameRules rules) {
+  public StructWithMethodsGenerator(
+      GeneratorSuite suite, CppNameRules rules, FrancaModel<?, ?> model) {
+    this.suite = suite;
     this.nameRules = rules;
+    this.model = model;
   }
 
   public GeneratedFile generate(
-      final GeneratorSuite suite,
-      final FrancaModel<?, ?> model,
-      final Interface<?> methods,
-      final TypeCollection<?> typeCollection) {
+      final Interface<?> methods, final TypeCollection<?> typeCollection) {
 
     CppNamespace ns = generateCppModel(methods, typeCollection);
     String outputFile = nameRules.getHeaderPath(typeCollection);
+
     CppIncludeResolver resolver = new CppIncludeResolver(model, outputFile);
     resolver.resolveLazyIncludes(ns);
 
@@ -82,7 +85,8 @@ public class StructWithMethodsGenerator {
     return Iterables.getFirst(packageNs, null);
   }
 
-  private CppClass generateClass(final Interface<?> api, final TypeCollection<?> typeCollection) {
+  private CppClass generateClass(
+      final Interface<?> methods, final TypeCollection<?> typeCollection) {
 
     CppClass newClass = new CppClass(nameRules.getStructName(typeCollection.getName()));
 
@@ -145,7 +149,7 @@ public class StructWithMethodsGenerator {
 
     // default constructor is added via xtend template ...
 
-    generateNonDefaultConstructors(newClass, api);
+    generateNonDefaultConstructors(newClass, methods);
 
     // constants
     for (FConstantDef constantDef : typeCollection.getFrancaTypeCollection().getConstants()) {
@@ -170,17 +174,19 @@ public class StructWithMethodsGenerator {
     return newClass;
   }
 
-  private void generateNonDefaultConstructors(CppClass newClass, final Interface<?> api) {
-    if (api == null) {
+  private void generateNonDefaultConstructors(CppClass newClass, Interface<?> methods) {
+
+    if (methods == null) {
       return;
     }
 
     CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModelIf =
-        new CppModelAccessor<>(api, nameRules);
+        new CppModelAccessor<>(methods, nameRules);
 
     // non default-constructors ...
     StructCtor templateCtor = new StructCtor();
-    api.getFrancaInterface()
+    methods
+        .getFrancaInterface()
         .getMethods()
         .stream()
         .filter(StructMethodRules::isStructInitializer)
