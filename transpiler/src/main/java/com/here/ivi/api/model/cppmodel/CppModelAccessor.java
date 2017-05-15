@@ -9,16 +9,20 @@ import navigation.CppStubSpec;
 import java.util.List;
 import java.util.Optional;
 
-public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> extends DefinedBy {
+public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> {
 
     public CppModelAccessor(FrancaElement<DPA> francaElement, CppNameRules rules,
                             FrancaModel<? extends CppStubSpec.IDataPropertyAccessor,
                                     ? extends CppStubSpec.IDataPropertyAccessor> fModel){
 
-        super(francaElement.getFrancaTypeCollection(), francaElement.getModel().getFrancaModel());
         this.francaElement = francaElement;
+        this.definer = new DefinedBy(francaElement.getFrancaTypeCollection(), francaElement.getModel().getFrancaModel());
         this.rules = rules;
         this.francaModel = fModel;
+    }
+
+    public DefinedBy getDefiner() {
+        return definer;
     }
 
     public DPA getAccessor() {
@@ -45,10 +49,11 @@ public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> ext
     }
 
     public List<String> getNamespace() {
-        return rules.packageToNamespace(getPackages());
+        return rules.packageToNamespace(definer.getPackages());
     }
 
     private final FrancaElement<DPA> francaElement;
+    private final DefinedBy definer;
     private final CppNameRules rules;
     private final FrancaModel<? extends CppStubSpec.IDataPropertyAccessor,
                               ? extends CppStubSpec.IDataPropertyAccessor> francaModel;
