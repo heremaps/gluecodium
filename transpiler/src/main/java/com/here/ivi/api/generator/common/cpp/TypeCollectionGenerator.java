@@ -24,7 +24,6 @@ import com.here.ivi.api.model.TypeCollection;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.List;
-import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
 /**
@@ -37,39 +36,31 @@ import org.franca.core.franca.*;
 public class TypeCollectionGenerator {
 
   private final GeneratorSuite suite;
-  private final FrancaModel<?, ?> coreModel;
   private final CppNameRules nameRules;
-  private final TypeCollection<?> tc;
-  private final CppModelAccessor<?> rootModel;
+  private final FrancaModel<?, ?> coreModel;
 
-  public <TA extends CppStubSpec.TypeCollectionPropertyAccessor> TypeCollectionGenerator(
-      GeneratorSuite suite,
-      FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor, TA> coreModel,
-      CppNameRules rules,
-      TypeCollection<TA> tc) {
-    this.nameRules = rules;
+  public TypeCollectionGenerator(
+      GeneratorSuite suite, CppNameRules nameRules, FrancaModel<?, ?> coreModel) {
     this.suite = suite;
     this.coreModel = coreModel;
-    this.tc = tc;
-
-    // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-    rootModel = new CppModelAccessor<>(tc, nameRules);
+    this.nameRules = nameRules;
   }
 
-  public GeneratedFile generate() {
-    CppNamespace model = buildCppModel();
+  public GeneratedFile generate(TypeCollection<?> typeCollection) {
+    CppNamespace model = buildCppModel(typeCollection);
 
     if (model.isEmpty()) {
       return null;
     }
 
-    String outputFile = nameRules.getHeaderPath(tc);
+    String outputFile = nameRules.getHeaderPath(typeCollection);
 
     // find included files and resolve relative to generated path
     CppIncludeResolver resolver = new CppIncludeResolver(coreModel, outputFile);
     resolver.resolveLazyIncludes(model);
 
-    Object generatorNotice = CppGeneratorHelper.generateGeneratorNotice(suite, tc, outputFile);
+    Object generatorNotice =
+        CppGeneratorHelper.generateGeneratorNotice(suite, typeCollection, outputFile);
     Object innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), model);
     String fileContent =
         CppCommentHeaderTemplate.generate(generatorNotice, innerContent).toString();
@@ -77,15 +68,17 @@ public class TypeCollectionGenerator {
     return new GeneratedFile(fileContent, outputFile);
   }
 
-  private CppNamespace buildCppModel() {
+  private CppNamespace buildCppModel(TypeCollection<?> typeCollection) {
 
     CppNamespace result =
-        new CppNamespace(nameRules.getTypeCollectionName(tc.getFrancaTypeCollection()));
+        new CppNamespace(nameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection()));
 
-    for (FType type : tc.getFrancaTypeCollection().getTypes()) {
+    CppModelAccessor<?> rootModel = new CppModelAccessor<>(typeCollection, nameRules);
+
+    for (FType type : typeCollection.getFrancaTypeCollection().getTypes()) {
       // struct
       if (type instanceof FStructType) {
-        result.members.add(buildCppStruct((FStructType) type));
+        result.members.add(buildCppStruct((FStructType) type, rootModel));
       } else if (type instanceof FTypeDef) {
 
         FTypeDef typeDef = (FTypeDef) type;
@@ -93,11 +86,11 @@ public class TypeCollectionGenerator {
         if (InstanceRules.isInstanceId(typeDef)) {
           continue;
         }
-        result.members.add(buildTypeDef(typeDef));
+        result.members.add(buildTypeDef(typeDef, rootModel));
       } else if (type instanceof FArrayType) {
-        result.members.add(buildArray((FArrayType) type));
+        result.members.add(buildArray((FArrayType) type, rootModel));
       } else if (type instanceof FMapType) {
-        result.members.add(buildMap((FMapType) type));
+        result.members.add(buildMap((FMapType) type, rootModel));
       } else if (type instanceof FEnumerationType) {
         result.members.add(
             TypeGenerationHelper.buildCppEnumClass(nameRules, (FEnumerationType) type));
@@ -108,7 +101,7 @@ public class TypeCollectionGenerator {
     }
 
     // constants
-    for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
+    for (FConstantDef constantDef : typeCollection.getFrancaTypeCollection().getConstants()) {
       CppConstant constant = TypeGenerationHelper.buildCppConstant(rootModel, constantDef);
       constant.comment = StubCommentParser.parse(constantDef).getMainBodyText();
 
@@ -124,7 +117,7 @@ public class TypeCollectionGenerator {
 
     List<CppNamespace> packageNs =
         CppGeneratorHelper.packageToCppNamespace(
-            nameRules.getNamespace(DefinedBy.createFromFrancaElement(tc)));
+            nameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection)));
 
     // ensure to not create empty namespaces
     if (!result.isEmpty()) {
@@ -136,7 +129,7 @@ public class TypeCollectionGenerator {
     return Iterables.getFirst(packageNs, null);
   }
 
-  private CppElement buildMap(FMapType type) {
+  private CppElement buildMap(FMapType type, CppModelAccessor<?> rootModel) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
     typeDef.name = nameRules.getTypedefName(type.getName());
@@ -150,7 +143,7 @@ public class TypeCollectionGenerator {
     return typeDef;
   }
 
-  private CppElement buildTypeDef(FTypeDef type) {
+  private CppElement buildTypeDef(FTypeDef type, CppModelAccessor<?> rootModel) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
     typeDef.name = nameRules.getTypedefName(type.getName());
@@ -159,15 +152,16 @@ public class TypeCollectionGenerator {
     return typeDef;
   }
 
-  private CppElement buildArray(FArrayType type) {
+  private CppElement buildArray(FArrayType type, CppModelAccessor<?> rootModel) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
     typeDef.name = nameRules.getTypedefName(type.getName());
     typeDef.targetType = CppTypeMapper.defineArray(rootModel, type);
+
     return typeDef;
   }
 
-  private CppStruct buildCppStruct(FStructType structType) {
+  private CppStruct buildCppStruct(FStructType structType, CppModelAccessor<?> rootModel) {
     CppStruct struct = new CppStruct();
     struct.comment = StubCommentParser.parse(structType).getMainBodyText();
     struct.name = nameRules.getStructName(structType.getName());
