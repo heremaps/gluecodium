@@ -28,8 +28,7 @@ public class StructWithMethodsGenerator {
     }
 
     public GeneratedFile generate(final GeneratorSuite<?,?> suite,
-                                  final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
-                                                    ? extends CppStubSpec.TypeCollectionPropertyAccessor> model,
+                                  final FrancaModel<?, ?> model,
                                   final Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
                                   final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
 
@@ -54,8 +53,7 @@ public class StructWithMethodsGenerator {
 
     private CppNamespace generateCppModel(Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
                                           TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
-                                          FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
-                                                  ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
+                                          FrancaModel<?, ?> model) {
 
         List<CppNamespace> packageNs = CppGeneratorHelper.packageToCppNamespace(nameRules.packageToNamespace(tc.getPackage()));
 
@@ -70,8 +68,7 @@ public class StructWithMethodsGenerator {
 
     private CppClass generateClass(final Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
                                    final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
-                                   final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
-                                           ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
+                                   final FrancaModel<?, ?> model) {
 
         CppClass newClass = new CppClass(nameRules.structName(tc.getName()));
 
@@ -157,8 +154,7 @@ public class StructWithMethodsGenerator {
 
     private void generateNonDefaultConstructors(CppClass newClass,
                                                 final Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
-                                                final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
-                                                        ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
+                                                final FrancaModel<?, ?> model) {
         if (api == null) {
             return;
         }

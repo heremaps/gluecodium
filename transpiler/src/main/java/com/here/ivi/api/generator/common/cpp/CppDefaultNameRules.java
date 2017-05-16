@@ -14,10 +14,9 @@ import java.util.Optional;
 
 public abstract class CppDefaultNameRules implements CppNameRules {
 
-    protected FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor, ? extends CppStubSpec.TypeCollectionPropertyAccessor> model;
+    private FrancaModel<?, ?> model;
 
-    public CppDefaultNameRules(FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
-            ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
+    public CppDefaultNameRules(FrancaModel<?, ?> model) {
         this.model = model;
     }
 

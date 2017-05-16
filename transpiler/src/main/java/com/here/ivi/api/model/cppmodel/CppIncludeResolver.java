@@ -18,8 +18,7 @@ public class CppIncludeResolver {
     private CppNameRules nameRules;
     private String outputFile;
 
-    public CppIncludeResolver(FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
-                                          ? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel,
+    public CppIncludeResolver(FrancaModel<?, ?> rootModel,
                               TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> forType,
                               CppNameRules nameRules) {
         this.rootModel = rootModel;
@@ -29,8 +28,7 @@ public class CppIncludeResolver {
         this.outputFile = nameRules.typeCollectionTarget(directories, forType);
     }
 
-    public CppIncludeResolver(FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
-                                          ? extends CppStubSpec.TypeCollectionPropertyAccessor> rootModel,
+    public CppIncludeResolver(FrancaModel<?, ?> rootModel,
                               Interface<? extends CppStubSpec.InterfacePropertyAccessor> forType,
                               CppNameRules nameRules) {
         this.rootModel = rootModel;
