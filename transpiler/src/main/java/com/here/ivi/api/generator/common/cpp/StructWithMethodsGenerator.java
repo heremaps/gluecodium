@@ -73,7 +73,7 @@ public class StructWithMethodsGenerator {
                                    final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
                                            ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
 
-        CppModelAccessor<CppStubSpec.TypeCollectionPropertyAccessor> rootType =
+        CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootType =
                 new CppModelAccessor<>(tc, nameRules, model);
 
         CppClass newClass = new CppClass(nameRules.structName(tc.getName()));
@@ -152,7 +152,7 @@ public class StructWithMethodsGenerator {
             return;
         }
 
-        CppModelAccessor<CppStubSpec.InterfacePropertyAccessor> rootModelIf =
+        CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModelIf =
                 new CppModelAccessor<>(api, nameRules, model);
 
         // non default-constructors ...

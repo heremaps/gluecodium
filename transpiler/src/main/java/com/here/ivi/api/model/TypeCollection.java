@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * FTypeCollection with accessor
  */
-public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyAccessor> implements FrancaElement {
+public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyAccessor> implements FrancaElement<Accessor> {
 
     @Override
     public String getName() {

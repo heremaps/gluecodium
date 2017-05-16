@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 /**
  * FInterface with accessor
  */
-public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor> implements FrancaElement {
+public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor> implements FrancaElement<Accessor> {
     private Interface(FInterface francaInterface, Accessor accessor, ModelInfo model) {
         this.francaInterface = francaInterface;
         this.accessor = accessor;
