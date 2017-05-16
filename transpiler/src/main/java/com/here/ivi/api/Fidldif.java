@@ -117,7 +117,7 @@ public class Fidldif {
 
                 // same for minor
                 if ((addedMethods.isEmpty() || addedAttributes.isEmpty())
-                    && (va.major == vb.major && va.minor >= vb.minor)) {
+                    && va.major == vb.major && va.minor >= vb.minor) {
                     System.err.println("elements added in " + ifb.getName() + "! Minor version increase needed");
                     resultCode = -1;
                 }

@@ -30,7 +30,7 @@ public abstract class CppDefaultNameRules implements CppNameRules {
         }
         try {
             //complex structs are defined exclusively inside type collections ...
-            return (accessor.get() instanceof CppStubSpec.TypeCollectionPropertyAccessor) &&
+            return accessor.get() instanceof CppStubSpec.TypeCollectionPropertyAccessor &&
                     accessor.get().getIsStructDefinition(definer.type);
         } catch (NullPointerException e) {
             //property is optional, if not set this could cause a null pointer exception

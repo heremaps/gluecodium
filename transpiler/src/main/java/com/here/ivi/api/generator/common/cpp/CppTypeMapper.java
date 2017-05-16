@@ -152,9 +152,6 @@ public class CppTypeMapper {
     private static CppType mapArray(CppModelAccessor<?> rootModel, FArrayType array) {
         DefinedBy arrayDefiner = DefinedBy.getDefinedBy(array);
 
-        FTypeRef elementType = array.getElementType();
-        CppType actual = map(rootModel, elementType);
-
         String typeName = array.getName(); // use name defined for array
         if (typeName != null) {
             // lookup where array typedef came from, setup includes
@@ -164,6 +161,9 @@ public class CppTypeMapper {
 
             return new CppType( arrayDefiner, typeName, CppElements.TypeInfo.Complex, includes);
         }
+
+        FTypeRef elementType = array.getElementType();
+        CppType actual = map(rootModel, elementType);
 
         // if no name is given, fallback to underlying type
         return wrapArrayType(arrayDefiner, actual, ArrayMode.map(rootModel, array));

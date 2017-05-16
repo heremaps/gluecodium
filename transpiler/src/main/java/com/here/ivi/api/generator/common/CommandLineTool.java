@@ -86,8 +86,6 @@ public class CommandLineTool implements IFileTool{
         try {
             String cmd = String.join(" ", processBuilder.command());
 
-            InputStream stderr = process.getErrorStream();
-            InputStream stdout = process.getInputStream();
             OutputStream stdin = process.getOutputStream();
             if (input.length() > 0) {
                 try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin))) {
@@ -97,6 +95,7 @@ public class CommandLineTool implements IFileTool{
                 }
             }
 
+            InputStream stdout = process.getInputStream();
             StrBuilder outputBuilder = new StrBuilder();
             try (BufferedReader outputReader = new BufferedReader(new InputStreamReader(stdout))) {
                 String line = outputReader.readLine();
@@ -109,7 +108,7 @@ public class CommandLineTool implements IFileTool{
                 throw e;
             }
 
-
+            InputStream stderr = process.getErrorStream();
             String error = "";
             try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(stderr))) {
                 StrBuilder errorBuilder = new StrBuilder();

@@ -1,6 +1,5 @@
 package com.here.ivi.api.loader;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.here.ivi.api.model.FrancaModel;

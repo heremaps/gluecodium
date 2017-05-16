@@ -164,7 +164,7 @@ public class StubGenerator {
             returnTypes.add(errorType);
 
             // documentation for the result type
-            String typeComment = "Result type for @ref " + stubClass.name +"::" + uniqueMethodName + "";
+            String typeComment = "Result type for @ref " + stubClass.name +"::" + uniqueMethodName;
             if (!errorComment.isEmpty()) {
                 // add error template arg documentation
                 typeComment += StubCommentParser.FORMATTER.formatTag("@arg Error", errorComment);
