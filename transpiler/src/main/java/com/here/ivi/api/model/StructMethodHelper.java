@@ -27,7 +27,7 @@ public class StructMethodHelper {
      * @return the struct or null if
      */
     public static FStructType findStructType(
-            TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+            TypeCollection<?> tc) {
 
         FStructType memberStruct = null;
         for (FType type : tc.getFrancaTypeCollection().getTypes()) {

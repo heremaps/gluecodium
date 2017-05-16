@@ -30,7 +30,7 @@ public class StructWithMethodsGenerator {
     public GeneratedFile generate(final GeneratorSuite<?,?> suite,
                                   final FrancaModel<?, ?> model,
                                   final Interface<?> methods,
-                                  final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
+                                  final TypeCollection<?> tc) {
 
         CppNamespace ns = generateCppModel(methods, tc, model);
 
@@ -52,7 +52,7 @@ public class StructWithMethodsGenerator {
     }
 
     private CppNamespace generateCppModel(Interface<?> methods,
-                                          TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
+                                          TypeCollection<?> tc,
                                           FrancaModel<?, ?> model) {
 
         List<CppNamespace> packageNs = CppGeneratorHelper.packageToCppNamespace(nameRules.packageToNamespace(tc.getPackage()));
@@ -67,7 +67,7 @@ public class StructWithMethodsGenerator {
     }
 
     private CppClass generateClass(final Interface<?> api,
-                                   final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
+                                   final TypeCollection<?> tc,
                                    final FrancaModel<?, ?> model) {
 
         CppClass newClass = new CppClass(nameRules.structName(tc.getName()));

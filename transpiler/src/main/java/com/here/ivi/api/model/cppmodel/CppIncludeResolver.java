@@ -19,7 +19,7 @@ public class CppIncludeResolver {
     private String outputFile;
 
     public CppIncludeResolver(FrancaModel<?, ?> rootModel,
-                              TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> forType,
+                              TypeCollection<?> forType,
                               CppNameRules nameRules) {
         this.rootModel = rootModel;
         this.nameRules = nameRules;
@@ -63,7 +63,7 @@ public class CppIncludeResolver {
                 String includeName;
                 if (externalDefinition instanceof TypeCollection<?>) {
                     includeName = nameRules.typeCollectionTarget(externalDirectories,
-                            (TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor>) externalDefinition);
+                            (TypeCollection<?>) externalDefinition);
                 } else {
                     includeName = nameRules.interfaceTarget(externalDirectories,
                             (Interface<?>) externalDefinition);
