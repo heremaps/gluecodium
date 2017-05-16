@@ -53,13 +53,13 @@ public class CppIncludeResolver {
 
                 Includes.LazyInternalInclude li = (Includes.LazyInternalInclude)i;
 
-                Optional<? extends FrancaElement> externalDefinitionOpt = rootModel.find(li.model, li.tc);
+                Optional<? extends FrancaElement<?>> externalDefinitionOpt = rootModel.find(li.model, li.tc);
                 if (!externalDefinitionOpt.isPresent()) {
                     logger.severe("Could not resolve type collection include " + li);
                     return null;
                 }
 
-                FrancaElement externalDefinition = externalDefinitionOpt.get();
+                FrancaElement<?> externalDefinition = externalDefinitionOpt.get();
                 List<String> externalDirectories = nameRules.packageToDirectoryStructure(externalDefinition.getPackage());
 
                 String includeName;

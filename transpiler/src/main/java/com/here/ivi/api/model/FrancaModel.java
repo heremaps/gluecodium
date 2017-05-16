@@ -69,11 +69,11 @@ public class FrancaModel<InterfaceAccessor extends CppStubSpec.InterfaceProperty
         return typeCollections;
     }
 
-    public Optional<? extends FrancaElement> find(DefinedBy definer) {
+    public Optional<? extends FrancaElement<?>> find(DefinedBy definer) {
         return find(definer.model, definer.type);
     }
 
-    public Optional<? extends FrancaElement> find(FModel model, FTypeCollection needle) {
+    public Optional<? extends FrancaElement<?>> find(FModel model, FTypeCollection needle) {
         return needle instanceof FInterface ? findInterface(model, (FInterface)needle) :
                                               findTypeCollection(model, needle);
     }
