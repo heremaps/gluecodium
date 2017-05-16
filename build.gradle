@@ -9,4 +9,12 @@ allprojects {
     compileJava {
         options.encoding = "UTF-8"
     }
+
+    javadoc {
+        options.tags = [
+                "generated:a:Generated",
+                "implNote:a:Implementation note",
+                "model:a:Model",
+                "ordered:a:Ordered" ]
+    }
 }
