@@ -31,7 +31,7 @@ public class StubGenerator {
     private final FrancaModel<?, ?> coreModel;
     private final CppNameRules nameRules;
 
-    private final Interface<? extends CppStubSpec.InterfacePropertyAccessor> iface;
+    private final Interface<?> iface;
     private final CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel;
 
     private static Logger logger = java.util.logging.Logger.getLogger(StubGenerator.class.getName());

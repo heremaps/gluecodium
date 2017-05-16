@@ -29,7 +29,7 @@ public class CppIncludeResolver {
     }
 
     public CppIncludeResolver(FrancaModel<?, ?> rootModel,
-                              Interface<? extends CppStubSpec.InterfacePropertyAccessor> forType,
+                              Interface<?> forType,
                               CppNameRules nameRules) {
         this.rootModel = rootModel;
         this.nameRules = nameRules;
@@ -66,7 +66,7 @@ public class CppIncludeResolver {
                             (TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor>) externalDefinition);
                 } else {
                     includeName = nameRules.interfaceTarget(externalDirectories,
-                            (Interface<? extends CppStubSpec.InterfacePropertyAccessor>) externalDefinition);
+                            (Interface<?>) externalDefinition);
                 }
 
                 // no self includes needed
