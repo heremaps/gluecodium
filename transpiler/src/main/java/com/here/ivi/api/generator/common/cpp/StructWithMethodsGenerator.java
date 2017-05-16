@@ -29,7 +29,7 @@ public class StructWithMethodsGenerator {
 
     public GeneratedFile generate(final GeneratorSuite<?,?> suite,
                                   final FrancaModel<?, ?> model,
-                                  final Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
+                                  final Interface<?> methods,
                                   final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc) {
 
         CppNamespace ns = generateCppModel(methods, tc, model);
@@ -51,7 +51,7 @@ public class StructWithMethodsGenerator {
         return new GeneratedFile(fileContent, outputFile);
     }
 
-    private CppNamespace generateCppModel(Interface<? extends CppStubSpec.InterfacePropertyAccessor> methods,
+    private CppNamespace generateCppModel(Interface<?> methods,
                                           TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
                                           FrancaModel<?, ?> model) {
 
@@ -66,7 +66,7 @@ public class StructWithMethodsGenerator {
         return Iterables.getFirst(packageNs, null);
     }
 
-    private CppClass generateClass(final Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
+    private CppClass generateClass(final Interface<?> api,
                                    final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc,
                                    final FrancaModel<?, ?> model) {
 
@@ -153,7 +153,7 @@ public class StructWithMethodsGenerator {
     }
 
     private void generateNonDefaultConstructors(CppClass newClass,
-                                                final Interface<? extends CppStubSpec.InterfacePropertyAccessor> api,
+                                                final Interface<?> api,
                                                 final FrancaModel<?, ?> model) {
         if (api == null) {
             return;
