@@ -1,74 +1,85 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.FrancaModel;
+import java.util.Optional;
 import navigation.CppStubSpec;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 
-import java.util.Optional;
-
-
 public abstract class CppDefaultNameRules implements CppNameRules {
 
-    private FrancaModel<?, ?> model;
+  private FrancaModel<?, ?> model;
 
-    public CppDefaultNameRules(FrancaModel<?, ?> model) {
-        this.model = model;
+  public CppDefaultNameRules(FrancaModel<?, ?> model) {
+    this.model = model;
+  }
+
+  protected boolean definesStructWithMethods(DefinedBy definer) {
+    Optional<? extends CppStubSpec.IDataPropertyAccessor> accessor =
+        model.find(definer).map(FrancaElement::getPropertyAccessor);
+
+    if (!accessor.isPresent()) {
+      throw new RuntimeException("Could not find accessor. Invalid franca definition. " + definer);
     }
-
-    protected boolean definesStructWithMethods(DefinedBy definer) {
-        Optional<? extends CppStubSpec.IDataPropertyAccessor> accessor =
-                model.find(definer).map(FrancaElement::getPropertyAccessor);
-
-        if (!accessor.isPresent()) {
-            throw new RuntimeException("Could not find accessor. Invalid franca definition. " + definer);
-        }
-        try {
-            //complex structs are defined exclusively inside type collections ...
-            return accessor.get() instanceof CppStubSpec.TypeCollectionPropertyAccessor &&
-                    accessor.get().getIsStructDefinition(definer.type);
-        } catch (NullPointerException e) {
-            //property is optional, if not set this could cause a null pointer exception
-            return false;
-        }
+    try {
+      //complex structs are defined exclusively inside type collections ...
+      return accessor.get() instanceof CppStubSpec.TypeCollectionPropertyAccessor
+          && accessor.get().getIsStructDefinition(definer.type);
+    } catch (NullPointerException e) {
+      //property is optional, if not set this could cause a null pointer exception
+      return false;
     }
+  }
 
-    public String cppTypename(FType type) {
-        DefinedBy definer = DefinedBy.getDefinedBy(type);
-        // complex structs are modelled as fidl structs encapsulated in type collections
-        // such structs are translated to c++ without the containing type collection but taking its name
-        return definesStructWithMethods(definer) && type instanceof FStructType ? definer.type.getName() : type.getName();
-    }
+  public String cppTypename(FType type) {
+    DefinedBy definer = DefinedBy.getDefinedBy(type);
+    // complex structs are modelled as fidl structs encapsulated in type collections
+    // such structs are translated to c++ without the containing type collection but taking its name
+    return definesStructWithMethods(definer) && type instanceof FStructType
+        ? definer.type.getName()
+        : type.getName();
+  }
 
-    public String typeCollectionName(FTypeCollection base) {
-        return NameHelper.toUpperCamel(base.getName());// MyTypeCollection
-    }
+  public String typeCollectionName(FTypeCollection base) {
+    return NameHelper.toUpperCamel(base.getName()); // MyTypeCollection
+  }
 
-    public String methodName(String base) {
-        return NameHelper.toLowerCamel(base); // doStuff
-    }
+  public String methodName(String base) {
+    return NameHelper.toLowerCamel(base); // doStuff
+  }
 
-    public String argumentName(String base) {
-        return NameHelper.toLowerCamel(base); // myArg
-    }
+  public String argumentName(String base) {
+    return NameHelper.toLowerCamel(base); // myArg
+  }
 
-    public String enumName(String base) {
-        return NameHelper.toUpperCamel(base); // MyEnum
-    }
+  public String enumName(String base) {
+    return NameHelper.toUpperCamel(base); // MyEnum
+  }
 
-    public String structName(String base) {
-        return NameHelper.toUpperCamel(base); // MyStruct
-    }
+  public String structName(String base) {
+    return NameHelper.toUpperCamel(base); // MyStruct
+  }
 
-    public String typedefName(String base) {
-        return NameHelper.toUpperCamel(base); // MyTypedef
-    }
+  public String typedefName(String base) {
+    return NameHelper.toUpperCamel(base); // MyTypedef
+  }
 
-    public String headerFileSuffix() {
-        return ".h";
-    }
+  public String headerFileSuffix() {
+    return ".h";
+  }
 }

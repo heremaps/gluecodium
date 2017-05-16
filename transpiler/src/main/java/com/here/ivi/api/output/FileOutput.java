@@ -1,7 +1,17 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
 package com.here.ivi.api.output;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,41 +22,40 @@ import java.util.logging.Logger;
 
 public class FileOutput implements GeneratorOutput {
 
-    private static Logger logger = Logger.getLogger(FileOutput.class.getName());
+  private static Logger logger = Logger.getLogger(FileOutput.class.getName());
 
-    public FileOutput(File rootPath) throws IOException {
-        if (!rootPath.exists()) {
-            if (!rootPath.mkdir()) {
-                throw new FileNotFoundException(rootPath.getPath() +
-                        " (Can't create output directory)");
-            }
-        }
-        this.rootPath = rootPath;
+  public FileOutput(File rootPath) throws IOException {
+    if (!rootPath.exists()) {
+      if (!rootPath.mkdir()) {
+        throw new FileNotFoundException(rootPath.getPath() + " (Can't create output directory)");
+      }
+    }
+    this.rootPath = rootPath;
+  }
+
+  @Override
+  public void output(List<GeneratedFile> files) throws IOException {
+    for (GeneratedFile f : files) {
+      output(f);
+    }
+  }
+
+  public void output(GeneratedFile file) throws IOException {
+
+    // write file
+    File targetFile = new File(rootPath, file.targetFile.getPath());
+    logger.log(Level.INFO, "Writing " + targetFile);
+
+    // create missing path(s)
+    Path path = Paths.get(targetFile.getParent());
+    if (Files.notExists(path)) {
+      Files.createDirectories(path);
     }
 
-    @Override
-    public void output(List<GeneratedFile> files) throws IOException {
-        for (GeneratedFile f : files) {
-            output(f);
-        }
-    }
+    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetFile));
+    bufferedWriter.write(file.content.toString());
+    bufferedWriter.close();
+  }
 
-    public void output(GeneratedFile file) throws IOException {
-
-        // write file
-        File targetFile = new File(rootPath, file.targetFile.getPath());
-        logger.log(Level.INFO, "Writing " + targetFile);
-
-        // create missing path(s)
-        Path path = Paths.get(targetFile.getParent());
-        if (Files.notExists(path)) {
-            Files.createDirectories(path);
-        }
-
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetFile));
-        bufferedWriter.write(file.content.toString());
-        bufferedWriter.close();
-    }
-
-    private final File rootPath;
+  private final File rootPath;
 }
