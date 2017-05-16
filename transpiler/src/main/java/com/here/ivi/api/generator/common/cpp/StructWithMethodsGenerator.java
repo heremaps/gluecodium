@@ -73,9 +73,6 @@ public class StructWithMethodsGenerator {
                                    final FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor,
                                            ? extends CppStubSpec.TypeCollectionPropertyAccessor> model) {
 
-        CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootType =
-                new CppModelAccessor<>(tc, nameRules, model);
-
         CppClass newClass = new CppClass(nameRules.structName(tc.getName()));
 
         // nested enums //////////////////////////
@@ -109,6 +106,9 @@ public class StructWithMethodsGenerator {
             logger.severe("Failed to find default values of " + memberStruct.getName());
             return newClass;
         }
+
+        CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootType =
+            new CppModelAccessor<>(tc, nameRules, model);
 
         // generate fields /////////////////////////////////
         Iterator<FField> memberIterator = memberStruct.getElements().iterator();

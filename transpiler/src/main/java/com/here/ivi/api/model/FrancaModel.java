@@ -3,7 +3,6 @@ package com.here.ivi.api.model;
 import com.google.common.collect.ImmutableList;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import navigation.CppStubSpec;
-import org.eclipse.xtext.util.Strings;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;

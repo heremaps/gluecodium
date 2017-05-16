@@ -19,12 +19,13 @@ public class BasicValidator {
     static Logger logger = Logger.getLogger(BasicValidator.class.getName());
 
     public static boolean validate(ResourceSet resourceSet, Collection<File> currentFiles) {
-        boolean result = true;
 
         if (currentFiles.isEmpty()) {
             logger.severe("No input to generate from found. Aborting.");
             return false;
         }
+
+        boolean result = true;
 
         for (File file : currentFiles) {
             Resource resource = resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);

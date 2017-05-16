@@ -13,8 +13,6 @@ import org.franca.deploymodel.dsl.FDeployPersistenceManager;
 import org.franca.deploymodel.dsl.fDeploy.*;
 import java.util.*;
 import java.io.*;
-import java.util.Collection;
-import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
