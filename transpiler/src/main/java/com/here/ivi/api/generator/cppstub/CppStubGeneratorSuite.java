@@ -14,6 +14,8 @@ import com.here.ivi.api.model.StructMethodHelper;
 import com.here.ivi.api.validator.common.BasicValidator;
 import com.here.ivi.api.validator.cppstub.CppStubValidator;
 import navigation.CppStubSpec;
+import navigation.CppStubSpec.InterfacePropertyAccessor;
+import navigation.CppStubSpec.TypeCollectionPropertyAccessor;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -36,7 +38,7 @@ import java.util.stream.Stream;
  *
  */
 public class CppStubGeneratorSuite
-        extends Generator<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> {
+        extends AbstractGeneratorSuite<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> {
     private final SpecAccessorFactory<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
             specAccessorFactory;
     private final CppStubValidator validator = new CppStubValidator();
