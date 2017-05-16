@@ -1,8 +1,18 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
 package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.common.*;
-
 import com.here.ivi.api.generator.common.cpp.StructWithMethodsGenerator;
 import com.here.ivi.api.generator.common.cpp.TypeCollectionGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -13,12 +23,6 @@ import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.model.StructMethodHelper;
 import com.here.ivi.api.validator.common.BasicValidator;
 import com.here.ivi.api.validator.cppstub.CppStubValidator;
-import navigation.CppStubSpec;
-import navigation.CppStubSpec.InterfacePropertyAccessor;
-import navigation.CppStubSpec.TypeCollectionPropertyAccessor;
-import org.apache.commons.io.IOUtils;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,127 +31,137 @@ import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+import navigation.CppStubSpec;
+import navigation.CppStubSpec.InterfacePropertyAccessor;
+import navigation.CppStubSpec.TypeCollectionPropertyAccessor;
+import org.apache.commons.io.IOUtils;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
- * This generator will build all the CppStubs that will have to be implemented on the client side @ref StubGenerator
- * as well as the data used by this stubs @ref TypeCollectionGenerator.
+ * This generator will build all the CppStubs that will have to be implemented on the client
+ * side @ref StubGenerator as well as the data used by this stubs @ref TypeCollectionGenerator.
  *
- * It is the underlying generator, that all others depend on, as they will invoke the actual implementation through
- * the Stub interfaces.
- *
+ * <p>It is the underlying generator, that all others depend on, as they will invoke the actual
+ * implementation through the Stub interfaces.
  */
 public class CppStubGeneratorSuite
-        extends AbstractGeneratorSuite<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> {
-    private final SpecAccessorFactory<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
-            specAccessorFactory;
-    private final CppStubValidator validator = new CppStubValidator();
-    private FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> model;
-    private FrancaModelLoader<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> fml;
-    private Collection<File> currentFiles;
+    extends AbstractGeneratorSuite<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> {
+  private final SpecAccessorFactory<
+          CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
+      specAccessorFactory;
+  private final CppStubValidator validator = new CppStubValidator();
+  private FrancaModel<
+          CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
+      model;
+  private FrancaModelLoader<
+          CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
+      fml;
+  private Collection<File> currentFiles;
 
-    static Logger logger = java.util.logging.Logger.getLogger(CppStubGeneratorSuite.class.getName());
+  static Logger logger = java.util.logging.Logger.getLogger(CppStubGeneratorSuite.class.getName());
 
-    public CppStubGeneratorSuite(Transpiler tp) {
-        super(tp);
-        specAccessorFactory = new CppStubSpecAccessorFactory();
+  public CppStubGeneratorSuite(Transpiler tp) {
+    super(tp);
+    specAccessorFactory = new CppStubSpecAccessorFactory();
+  }
+
+  @Override
+  public List<GeneratedFile> generateFiles() {
+    // TODO add model null check
+
+    CppStubNameRules nameRules = new CppStubNameRules(model);
+
+    StructWithMethodsGenerator structGenerator = new StructWithMethodsGenerator(nameRules);
+
+    // partition model into ifaces, typecollections and structWithMethods and generate files from that
+    Stream<GeneratedFile> generatorStreams =
+        StructMethodHelper.partitionModel(
+            model,
+            iface -> {
+              StubGenerator generator = new StubGenerator(this, model, nameRules, iface);
+              List<GeneratedFile> files = new LinkedList<>();
+              files.add(generator.generate());
+              return files;
+            },
+            tc -> {
+              TypeCollectionGenerator generator =
+                  new TypeCollectionGenerator(this, model, nameRules, tc);
+              return generator.generate();
+            },
+            smp -> structGenerator.generate(this, model, smp.iface, smp.type));
+
+    List<GeneratedFile> list =
+        generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
+    list.add(copyTarget("here/internal/AsyncAPI.h", "src/"));
+    list.add(copyTarget("here/internal/AsyncAPI.cpp", "src/"));
+    list.add(copyTarget("here/internal/expected.h", "src/"));
+    list.add(copyTarget("here/internal/ListenerVector.h", "src/"));
+
+    return list;
+  }
+
+  private static GeneratedFile copyTarget(String fileName, String target) {
+    InputStream stream = CppStubGeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
+
+    if (stream != null) {
+      try {
+        String content = IOUtils.toString(stream, Charset.defaultCharset());
+        return new GeneratedFile(content, target + File.separator + fileName);
+      } catch (IOException ignored) {
+      }
     }
 
-    @Override
-    public List<GeneratedFile> generateFiles() {
-        // TODO add model null check
+    logger.severe("Failed loading resource " + fileName);
 
-        CppStubNameRules nameRules = new CppStubNameRules(model);
+    return null;
+  }
 
-        StructWithMethodsGenerator structGenerator = new StructWithMethodsGenerator(nameRules);
+  @Override
+  public Version getVersion() {
+    return new Version(0, 0, 1);
+  }
 
-        // partition model into ifaces, typecollections and structWithMethods and generate files from that
-        Stream<GeneratedFile> generatorStreams = StructMethodHelper.partitionModel(
-                model,
-                iface -> {
-                    StubGenerator generator = new StubGenerator(this, model, nameRules, iface);
-                    List<GeneratedFile> files = new LinkedList<>();
-                    files.add(generator.generate());
-                    return files;
-                },
-                tc -> {
-                    TypeCollectionGenerator generator = new TypeCollectionGenerator(this, model, nameRules, tc);
-                    return generator.generate();
-                },
-                smp -> structGenerator.generate(this, model, smp.iface, smp.type)
-        );
+  @Override
+  public String getName() {
+    return "com.here.CppStubGenerator";
+  }
 
-        List<GeneratedFile> list = generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
-        list.add(copyTarget("here/internal/AsyncAPI.h", "src/"));
-        list.add(copyTarget("here/internal/AsyncAPI.cpp", "src/"));
-        list.add(copyTarget("here/internal/expected.h", "src/"));
-        list.add(copyTarget("here/internal/ListenerVector.h", "src/"));
+  @Override
+  public String getSpecPath() {
+    return specAccessorFactory.getSpecPath();
+  }
 
-        return list;
+  @Override
+  public void buildModel(String inputPath) {
+    // load model
+    fml = new FrancaModelLoader<>(specAccessorFactory);
+
+    ModelHelper.getFdeplInjector().injectMembers(fml);
+    currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
+
+    model = fml.load(specAccessorFactory.getSpecPath(), currentFiles);
+  }
+
+  @Override
+  public boolean validate() {
+    ResourceSet rs = fml.getResourceSetProvider().get();
+    return BasicValidator.validate(rs, currentFiles) && validator.validate(model);
+  }
+
+  @Override
+  protected List<IFileTool> registerTools() {
+    try {
+      List<IFileTool> tools = new LinkedList<>();
+
+      tools.add(
+          new ConditionalExecutor(
+              ConditionalExecutor.fileExtensionFilter(Arrays.asList("cpp", "h")),
+              new ClangFormatter("cpp_style/.clang-format", ClangFormatter.Language.CPP)));
+
+      return tools;
+    } catch (IOException e) {
+      logger.severe(String.format("Registering tools failed with error: %s", e));
+      return new LinkedList<>();
     }
-
-    private static GeneratedFile copyTarget(String fileName, String target) {
-        InputStream stream = CppStubGeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
-
-        if (stream != null) {
-            try {
-                String content = IOUtils.toString(stream, Charset.defaultCharset());
-                return new GeneratedFile(content, target + File.separator + fileName);
-            } catch (IOException ignored) {
-            }
-        }
-
-        logger.severe("Failed loading resource " + fileName);
-
-        return null;
-    }
-
-    @Override
-    public Version getVersion() {
-        return new Version(0, 0, 1);
-    }
-
-    @Override
-    public String getName() {
-        return "com.here.CppStubGenerator";
-    }
-
-    @Override
-    public String getSpecPath() {
-        return specAccessorFactory.getSpecPath();
-    }
-
-    @Override
-    public void buildModel(String inputPath) {
-        // load model
-        fml = new FrancaModelLoader<>(specAccessorFactory);
-
-        ModelHelper.getFdeplInjector().injectMembers(fml);
-        currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
-
-        model = fml.load(specAccessorFactory.getSpecPath(), currentFiles);
-    }
-
-    @Override
-    public boolean validate() {
-        ResourceSet rs = fml.getResourceSetProvider().get();
-        return BasicValidator.validate(rs, currentFiles) && validator.validate(model);
-    }
-
-    @Override
-    protected List<IFileTool> registerTools() {
-        try {
-            List<IFileTool> tools = new LinkedList<>();
-
-            tools.add(new ConditionalExecutor(
-                    ConditionalExecutor.fileExtensionFilter(Arrays.asList("cpp", "h")),
-                    new ClangFormatter("cpp_style/.clang-format", ClangFormatter.Language.CPP)));
-
-            return tools;
-        } catch (IOException e) {
-            logger.severe(String.format("Registering tools failed with error: %s", e));
-            return new LinkedList<>();
-        }
-    }
+  }
 }
-
