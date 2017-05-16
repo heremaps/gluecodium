@@ -31,7 +31,7 @@ public class TypeCollectionGenerator {
     private final FrancaModel<?, ?> coreModel;
     private final CppNameRules nameRules;
 
-    private final TypeCollection<? extends CppStubSpec.TypeCollectionPropertyAccessor> tc;
+    private final TypeCollection<?> tc;
     private final CppModelAccessor<?> rootModel;
 
     private static Logger logger = java.util.logging.Logger.getLogger(TypeCollectionGenerator.class.getName());
