@@ -11,11 +11,14 @@ class CppClassTemplate {
          */
         «ENDIF»
         class «clazz.name» «CppInheritanceTemplate.generate(clazz)» {
+        «IF !clazz.structs.isEmpty()»
         public:
             «FOR s : clazz.structs»
               «CppPureStructTemplate.generate(s)»
             «ENDFOR»
+        «ENDIF»
 
+        «IF !clazz.usings.isEmpty()»
         public:
             «FOR u : clazz.usings»
             «IF u.comment !== null && !u.comment.isEmpty()»
@@ -25,7 +28,9 @@ class CppClassTemplate {
             «ENDIF»
             using «u.name» = «u.definition.name»;
             «ENDFOR»
+        «ENDIF»
 
+        «IF !clazz.methods.isEmpty()»
         public:
             «FOR m : clazz.methods»
             «IF m.hasBody»
@@ -35,7 +40,9 @@ class CppClassTemplate {
               «CppMethodTemplate.signature(m)»;
             «ENDIF»
             «ENDFOR»
+        «ENDIF»
 
+        «IF !clazz.fields.isEmpty()»
         private:
             «FOR f : clazz.fields»
             «IF f.initializer?.name.isNullOrEmpty»
@@ -44,6 +51,7 @@ class CppClassTemplate {
             «f.type.name» «f.name» = «f.initializer.name»;
             «ENDIF»
             «ENDFOR»
+        «ENDIF»
         };
     '''
 }
