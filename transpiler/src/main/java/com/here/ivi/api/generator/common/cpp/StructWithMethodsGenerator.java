@@ -43,7 +43,7 @@ public class StructWithMethodsGenerator {
       final Interface<?> methods,
       final TypeCollection<?> tc) {
 
-    CppNamespace ns = generateCppModel(methods, tc, model);
+    CppNamespace ns = generateCppModel(methods, tc);
     List<String> directories = nameRules.packageToDirectoryStructure(tc.getPackage());
     String outputFile = nameRules.typeCollectionTarget(directories, tc);
     CppIncludeResolver resolver = new CppIncludeResolver(model, outputFile);
@@ -65,13 +65,12 @@ public class StructWithMethodsGenerator {
     return new GeneratedFile(fileContent, outputFile);
   }
 
-  private CppNamespace generateCppModel(
-      Interface<?> methods, TypeCollection<?> tc, FrancaModel<?, ?> model) {
+  private CppNamespace generateCppModel(Interface<?> methods, TypeCollection<?> tc) {
 
     List<CppNamespace> packageNs =
         CppGeneratorHelper.packageToCppNamespace(nameRules.packageToNamespace(tc.getPackage()));
 
-    CppClass newClass = generateClass(methods, tc, model);
+    CppClass newClass = generateClass(methods, tc);
 
     // add to innermost namespace
     Iterables.getLast(packageNs).members.add(newClass);
@@ -80,8 +79,7 @@ public class StructWithMethodsGenerator {
     return Iterables.getFirst(packageNs, null);
   }
 
-  private CppClass generateClass(
-      final Interface<?> api, final TypeCollection<?> tc, final FrancaModel<?, ?> model) {
+  private CppClass generateClass(final Interface<?> api, final TypeCollection<?> tc) {
 
     CppClass newClass = new CppClass(nameRules.structName(tc.getName()));
 
@@ -116,7 +114,7 @@ public class StructWithMethodsGenerator {
       }
     }
 
-    CppModelAccessor<?> rootType = new CppModelAccessor<>(tc, nameRules, model);
+    CppModelAccessor<?> rootType = new CppModelAccessor<>(tc, nameRules);
 
     // if no specific defaults are defined, generate fields without any addition
     if (defaultInitializer == null) {
@@ -144,7 +142,7 @@ public class StructWithMethodsGenerator {
 
     // default constructor is added via xtend template ...
 
-    generateNonDefaultConstructors(newClass, api, model);
+    generateNonDefaultConstructors(newClass, api);
 
     // constants
     for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
@@ -170,14 +168,13 @@ public class StructWithMethodsGenerator {
     return newClass;
   }
 
-  private void generateNonDefaultConstructors(
-      CppClass newClass, final Interface<?> api, final FrancaModel<?, ?> model) {
+  private void generateNonDefaultConstructors(CppClass newClass, final Interface<?> api) {
     if (api == null) {
       return;
     }
 
     CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModelIf =
-        new CppModelAccessor<>(api, nameRules, model);
+        new CppModelAccessor<>(api, nameRules);
 
     // non default-constructors ...
     StructCtor templateCtor = new StructCtor();
