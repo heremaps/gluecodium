@@ -12,32 +12,44 @@
 
 #pragma once
 
-#include <tuple>
 #include <iostream>
 
-namespace here {
-
-namespace internal {
-
+namespace here
+{
+namespace internal
+{
 /**
  * A generic result holder.
  *
  * Can wrap error & multiple result types.
  * To be used by generated code.
  */
-template <typename E, typename T>
+template < typename E, typename T >
 struct Expected
 {
 public:
     /**
-     * Creates a new successful result with the given values.
+     * Creates a new successful result with the given value.
      *
-     * @param values The values in a parameter pack
+     * @param value The value to hold as result
      * @return The created result object
      */
-    static Expected result(T value) {
-        // this will also call the default constructor of the error, to be fixed when using optional
-        return Expected(std::move(value));
+    static Expected
+    result( const T& value )
+    {
+        return Expected( value );
+    }
+
+    /**
+     * Creates a new successful result with the given value.
+     *
+     * @param value The value to hold as result
+     * @return The created result object
+     */
+    static Expected
+    result( T&& value )
+    {
+        return Expected( std::move( value ) );
     }
 
     /**
@@ -46,17 +58,19 @@ public:
      * @param error The error
      * @return The created failure object
      */
-    static Expected fail(E error) {
-        // this will also call the default constructor of the result, to be fixed when using optional
-        return Expected(error);
+    static Expected
+    fail( const E& error )
+    {
+        return Expected( error );
     }
 
     /**
      * Checks whether the Expected is an error or a success.
      * @return true when the result succeeded, false if there was an error
      */
-    inline bool succeeded() const {
-        return m_succeeded;
+    inline explicit operator bool( ) const
+    {
+        return heldType == TypeIndex::Result;
     }
 
     /**
@@ -65,10 +79,14 @@ public:
      * @return The error type
      * @note will abort if there was no error
      */
-    inline E get_error() const {
-        if (m_succeeded) {
-            std::cerr << "Do not read an error from a valid object!" << std::endl; // TODO switch to logging
-            std::terminate(); // fail here, this is an error in the generated code
+    inline E
+    get_error( ) const
+    {
+        if ( heldType != TypeIndex::Error )
+        {
+            std::cerr << "Do not read an error from a valid object!"
+                      << std::endl;  // TODO switch to logging
+            std::terminate( );       // fail here, this is an error in the generated code
         }
         return m_error;
     }
@@ -79,10 +97,14 @@ public:
      * @return A reference of the expected value
      * @note will abort if there was an error
      */
-    inline const T& get_result() {
-        if (!m_succeeded) {
-            std::cerr << "Do not read a result from a invalid object!" << std::endl; // TODO switch to logging
-            std::terminate(); // fail here, this is an error in the generated code
+    inline const T&
+    get_result( )
+    {
+        if ( heldType != TypeIndex::Result )
+        {
+            std::cerr << "Do not read a result from a invalid object!"
+                      << std::endl;  // TODO switch to logging
+            std::terminate( );       // fail here, this is an error in the generated code
         }
         return m_result;
     }
@@ -95,34 +117,81 @@ public:
      * @return The value, moved out of this object.
      * @note will abort if there was an error
      */
-    inline T take_result() {
-        if (!m_succeeded) {
-            std::cerr << "Do not take a result from a invalid object!" << std::endl; // TODO switch to logging
-            std::terminate(); // fail here, this is an error in the generated code
+    inline T
+    take_result( )
+    {
+        if ( heldType != TypeIndex::Result )
+        {
+            std::cerr << "Do not take a result from a invalid object!"
+                      << std::endl;  // TODO switch to logging
+            std::terminate( );       // fail here, this is an error in the generated code
         }
-        return std::move(m_result);
+        T rv = std::move( m_result );
+        heldType = TypeIndex::None;
+        return rv;
+    }
+
+    Expected( Expected&& rhs )
+        : heldType( rhs.heldType )
+    {
+        if ( heldType == TypeIndex::Error )
+        {
+            new ( &m_error ) E( std::move( rhs.m_error ) );
+        }
+        else
+        {
+            new ( &m_result ) T( std::move( rhs.m_result ) );
+        }
+    }
+
+    ~Expected( )
+    {
+        if ( heldType == TypeIndex::Error )
+        {
+            m_error.~E( );
+        }
+        else
+        {
+            m_result.~T( );
+        }
     }
 
 private:
-    /// private constructor
-    Expected() {}
-
     /// Creates failed instance
-    Expected(E error) :
-        m_succeeded(false),
-        m_error(std::move(error)) { } // move here to prevent another copy
+    Expected( const E& error )
+        : heldType( TypeIndex::Error )
+        , m_error( error )
+    {
+    }
 
-    /// Creates successful instance
-    Expected(T result) :
-        m_succeeded(true),
-        m_result(std::move(result)) { } // move here to prevent another copy
+    /// Creates successful instance by copying
+    Expected( const T& result )
+        : heldType( TypeIndex::Result )
+        , m_result( result )
+    {
+    }
 
-    // TODO look into variant/optional usage later
-    bool m_succeeded; /// stores whether the call was successful or not
-    E m_error; /// the error type
-    T m_result; /// the result value
+    /// Creates successful instance by moving
+    Expected( T&& result )
+        : heldType( TypeIndex::Result )
+        , m_result( std::move( result ) )
+    {
+    }
+
+    enum class TypeIndex
+    {
+        None,
+        Result,
+        Error
+    };
+
+    TypeIndex heldType;
+    union {
+        E m_error;
+        T m_result;
+    };
 };
 
-} // internal
+}  // internal
 
-} // here
+}  // here

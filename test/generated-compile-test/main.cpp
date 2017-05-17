@@ -24,10 +24,10 @@ bool testStubImpl()
     using namespace navigation::NavigationTypes;
     using namespace navigation::guidance;
 
-    RuntimeStub::CreateRuntimeWithConfigExpected re = RuntimeStub::createRuntimeWithConfig("foo/bar.json");
+    auto createdRuntime = RuntimeStub::createRuntimeWithConfig("foo/bar.json");
 
-    if (re.succeeded()) {
-        auto runtime = re.take_result();
+    if (createdRuntime) {
+        auto runtime = createdRuntime.take_result();
 
         auto registerError = runtime->registerModuleFactory(NavcoreModuleFactoryStub::create().take_result());
         if (registerError != ErrorCode::None) {
@@ -35,31 +35,31 @@ bool testStubImpl()
             return false;
         }
 
-        auto me = runtime->createModule("navcore");
-        if (!me.succeeded()) {
-            std::cerr << "Failed createModule" << " (" << (int)me.get_error() << ")" << std::endl;
+        auto createdModule = runtime->createModule("navcore");
+        if (!createdModule) {
+            std::cerr << "Failed createModule" << " (" << (int)createdModule.get_error() << ")" << std::endl;
             return false;
         }
 
-        std::unique_ptr<ModuleStub> module = me.take_result();
-        auto ge = static_cast<NavcoreModuleStub*>(module.get())->createGuidance(); // this is not nice, we need to rethink module creation
-        if (!me.succeeded()) {
-            std::cerr << "Failed createGuidance" << " (" << (int)ge.get_error() << ")" << std::endl;
+        std::unique_ptr<ModuleStub> module = createdModule.take_result();
+        auto createdGuidance = static_cast<NavcoreModuleStub*>(module.get())->createGuidance(); // this is not nice, we need to rethink module creation
+        if (!createdGuidance) {
+            std::cerr << "Failed createGuidance" << " (" << (int)createdGuidance.get_error() << ")" << std::endl;
             return false;
         }
 
-        auto guidance = ge.take_result();
+        auto guidance = createdGuidance.take_result();
 
         auto opt = guidance->checkForOptimalTtaRoute();
         std::cout << (int)opt << std::endl;
 
-        auto ae = guidance->getAllManeuvers();
-        if (!ae.succeeded()) {
-            std::cerr << "Failed createGuidance" << " (" << (int)ae.get_error() << ")" << std::endl;
+        auto getAllManeuversResult = guidance->getAllManeuvers();
+        if (!getAllManeuversResult) {
+            std::cerr << "Failed getAllManeuvers" << " (" << (int)getAllManeuversResult.get_error() << ")" << std::endl;
             return false;
         }
 
-        std::cout << ae.get_result().size() << std::endl;
+        std::cout << getAllManeuversResult.get_result().size() << std::endl;
 
         return true;
     }
