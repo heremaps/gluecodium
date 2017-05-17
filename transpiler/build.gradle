@@ -9,7 +9,11 @@ apply plugin: "com.diffplug.gradle.spotless"
 // Static analysis tasks
 spotless {
     java {
-        target 'src/**/*.java'
+        target project.fileTree(project.projectDir) {
+            include '**/*.java'
+            exclude 'transpiler.license.java'
+            exclude 'build/**/*.java'
+        }
         googleJavaFormat()
         licenseHeaderFile 'transpiler.license.java'
         trimTrailingWhitespace()
