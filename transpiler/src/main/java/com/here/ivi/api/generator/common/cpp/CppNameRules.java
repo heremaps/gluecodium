@@ -11,62 +11,58 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
-import com.here.ivi.api.model.Interface;
-import com.here.ivi.api.model.TypeCollection;
+import com.here.ivi.api.model.FrancaElement;
 import java.util.List;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 
+//TODO this interface should be split into filename-related and identifier-related interfaces
+//see: APIGEN-106
+
 public interface CppNameRules {
 
-  /** Returns the cpp namespace of given type */
-  List<String> namespace(FType type);
+  /** Returns the cpp getNamespace of given type */
+  List<String> getNamespace(FType type);
 
   /** Returns the cpp typename of given type */
-  String cppTypename(FType type);
+  String getCppTypename(FType type);
 
   /** Formats a name as a group of types and constants */
-  String typeCollectionName(FTypeCollection base);
+  String getTypeCollectionName(FTypeCollection base);
 
   /** Formats a name as a class */
-  String className(FTypeCollection base);
+  String getClassName(FTypeCollection base);
 
   /** Formats a name as a method */
-  String methodName(String base);
+  String getMethodName(String base);
 
   /** Formats a name as a argument */
-  String argumentName(String base);
+  String getArgumentName(String base);
 
   /** Formats a name as a constant */
-  String constantName(String base);
+  String getConstantName(String base);
 
   /** Formats a name as a enum */
-  String enumName(String base);
+  String getEnumName(String base);
 
   /** Formats a name as a enum entry */
-  String enumEntryName(String base);
+  String getEnumEntryName(String base);
 
   /** Formats a name as a field */
-  String fieldName(String base);
+  String getFieldName(String base);
 
   /** Formats a name as a struct */
-  String structName(String base);
+  String getStructName(String base);
 
   /** Formats a name as a typedef */
-  String typedefName(String base);
-
-  /** Maps fidl package name to directory structure */
-  List<String> packageToDirectoryStructure(List<String> packages);
+  String getTypedefName(String base);
 
   /** Maps fidl package name to namespace */
-  List<String> packageToNamespace(List<String> packages);
+  List<String> convertPackageToNamespace(List<String> packages);
 
   /** Returns the name to use for header files (.h/.hpp) */
-  String headerFileSuffix();
+  String getHeaderFileSuffix();
 
-  /** Returns the path for typeCollections */
-  String typeCollectionTarget(List<String> directories, TypeCollection<?> tc);
-
-  /** Returns the path for interfaces */
-  String interfaceTarget(List<String> directories, Interface<?> iface);
+  /** Returns the path of belonging header file */
+  String getHeaderPath(FrancaElement<?> francaElement);
 }

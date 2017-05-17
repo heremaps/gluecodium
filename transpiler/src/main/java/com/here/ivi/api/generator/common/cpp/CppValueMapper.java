@@ -130,7 +130,7 @@ public class CppValueMapper {
       }
     }
     if (DefaultValuesHelper.isEnumerator(qer)) {
-      name = nameRules.enumEntryName(name);
+      name = nameRules.getEnumEntryName(name);
     }
 
     // struct default values are just invalid

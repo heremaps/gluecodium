@@ -27,7 +27,7 @@ public class TypeGenerationHelper {
     FTypeRef typeRef = ffield.getType();
     CppField field = new CppField();
     CppNameRules nameRules = rootType.getRules();
-    field.name = nameRules.fieldName(ffield.getName());
+    field.name = nameRules.getFieldName(ffield.getName());
     field.type = CppTypeMapper.map(rootType, typeRef);
 
     // if default values are specified in another object (see DefaultValueRules), use them
@@ -46,7 +46,7 @@ public class TypeGenerationHelper {
     // no need to check isArray here, it is redundant
     constant.type = CppTypeMapper.map(rootModel, constantDef.getType());
     CppNameRules nameRules = rootModel.getRules();
-    constant.name = nameRules.constantName(constantDef.getName());
+    constant.name = nameRules.getConstantName(constantDef.getName());
     constant.value = CppValueMapper.map(constant.type, constantDef.getRhs(), nameRules);
 
     return constant;
@@ -63,12 +63,12 @@ public class TypeGenerationHelper {
   public static CppEnum buildCppEnum(CppNameRules nameRules, FEnumerationType enumerationType) {
     CppEnum enumeration = new CppEnum();
     enumeration.comment = StubCommentParser.parse(enumerationType).getMainBodyText();
-    enumeration.name = nameRules.enumName(enumerationType.getName());
+    enumeration.name = nameRules.getEnumName(enumerationType.getName());
 
     for (FEnumerator enumerator : enumerationType.getEnumerators()) {
       CppEnumItem item = new CppEnumItem();
 
-      item.name = nameRules.enumEntryName(enumerator.getName());
+      item.name = nameRules.getEnumEntryName(enumerator.getName());
       item.value = CppValueMapper.map(enumerator.getValue());
       item.comment = StubCommentParser.parse(enumerator).getMainBodyText();
 

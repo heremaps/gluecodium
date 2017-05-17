@@ -67,8 +67,7 @@ public class TypeCollectionGenerator {
       return null;
     }
 
-    List<String> baseDirectories = nameRules.packageToDirectoryStructure(tc.getPackage());
-    String outputFile = nameRules.typeCollectionTarget(baseDirectories, tc);
+    String outputFile = nameRules.getHeaderPath(tc);
 
     // find included files and resolve relative to generated path
     CppIncludeResolver resolver = new CppIncludeResolver(coreModel, outputFile);
@@ -84,10 +83,11 @@ public class TypeCollectionGenerator {
 
   private CppNamespace buildCppModel() {
     List<CppNamespace> packageNs =
-        CppGeneratorHelper.packageToCppNamespace(nameRules.packageToNamespace(tc.getPackage()));
+        CppGeneratorHelper.packageToCppNamespace(
+            nameRules.convertPackageToNamespace(tc.getPackage()));
 
     CppNamespace result =
-        new CppNamespace(nameRules.typeCollectionName(tc.getFrancaTypeCollection()));
+        new CppNamespace(nameRules.getTypeCollectionName(tc.getFrancaTypeCollection()));
 
     for (FType type : tc.getFrancaTypeCollection().getTypes()) {
       // struct
@@ -142,7 +142,7 @@ public class TypeCollectionGenerator {
   private CppElement buildMap(FMapType type) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
-    typeDef.name = nameRules.typedefName(type.getName());
+    typeDef.name = nameRules.getTypedefName(type.getName());
     typeDef.targetType =
         CppTypeMapper.wrapMapType(
             DefinedBy.getDefinedBy(type),
@@ -156,7 +156,7 @@ public class TypeCollectionGenerator {
   private CppElement buildTypeDef(FTypeDef type) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
-    typeDef.name = nameRules.typedefName(type.getName());
+    typeDef.name = nameRules.getTypedefName(type.getName());
     typeDef.targetType = CppTypeMapper.map(rootModel, type.getActualType());
 
     return typeDef;
@@ -165,7 +165,7 @@ public class TypeCollectionGenerator {
   private CppElement buildArray(FArrayType type) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
-    typeDef.name = nameRules.typedefName(type.getName());
+    typeDef.name = nameRules.getTypedefName(type.getName());
     typeDef.targetType = CppTypeMapper.defineArray(rootModel, type);
     return typeDef;
   }
@@ -173,7 +173,7 @@ public class TypeCollectionGenerator {
   private CppStruct buildCppStruct(FStructType structType) {
     CppStruct struct = new CppStruct();
     struct.comment = StubCommentParser.parse(structType).getMainBodyText();
-    struct.name = nameRules.structName(structType.getName());
+    struct.name = nameRules.getStructName(structType.getName());
 
     for (FField fieldInfo : structType.getElements()) {
       CppField field = TypeGenerationHelper.buildCppField(rootModel, fieldInfo, null);
