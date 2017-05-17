@@ -11,9 +11,12 @@
 
 package com.here.ivi.api.loader;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.model.FrancaDeploymentModel;
 import com.here.ivi.api.model.FrancaModel;
 import java.io.File;
 import java.io.IOException;
@@ -147,7 +150,7 @@ public class FrancaModelLoader<
     Map<String, List<File>> bySuffix = separateFiles(targetFiles);
 
     // load all found fdepl resources
-    List<FDModel> extendedModels =
+    Set<FDModel> extendedModels =
         bySuffix
             .get(FDEPL_SUFFIX)
             .parallelStream()
@@ -158,17 +161,18 @@ public class FrancaModelLoader<
                   logger.log(Level.FINE, "Loading fdepl" + asUri);
                   return fdmodel;
                 })
-            .collect(Collectors.toList());
+            .collect(toSet());
 
-    // collect all fidl files that are referenced by the fdepl, as the FDModel only
-    // gives access to the interfaces and types that have deploy information attached
-    // this is used for looking up deploy data below
-    Map<File, FDModel> extendedFidl = new HashMap<>();
-    for (FDModel fdm : extendedModels) {
-      extractFidlImports(fdm).forEach(f -> extendedFidl.put(f, fdm));
-    }
-    Set<File> fidlFiles = new HashSet<>(extendedFidl.keySet());
+    // collect all fidl files that are referenced by the fdepl in addition to the ones found by directory scanning
+    Set<File> fidlFiles =
+        extendedModels
+            .stream()
+            .map(FrancaModelLoader::extractFidlImports)
+            .flatMap(List::stream)
+            .collect(toSet());
     fidlFiles.addAll(bySuffix.get(FIDL_SUFFIX));
+
+    FrancaDeploymentModel deploymentModel = FrancaDeploymentModel.create(extendedModels);
 
     // load all found fidl files and fill the FrancaModel from them
     List<FrancaModel<IA, TA>> models =
@@ -184,9 +188,7 @@ public class FrancaModelLoader<
                 fm -> {
                   // try to fetch additional data, wrap in FrancaModel
                   File resPath = new File(fm.eResource().getURI().toFileString());
-                  FDModel fdm = extendedFidl.get(resPath);
-
-                  return FrancaModel.create(m_factory, spec, fm, fdm);
+                  return FrancaModel.create(m_factory, spec, fm, deploymentModel);
                 })
             .collect(Collectors.toList());
 

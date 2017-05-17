@@ -18,10 +18,8 @@ import java.util.stream.Collectors;
 import navigation.CppStubSpec;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FTypeCollection;
-import org.franca.deploymodel.core.FDModelExtender;
 import org.franca.deploymodel.core.FDeployedInterface;
 import org.franca.deploymodel.dsl.fDeploy.FDInterface;
-import org.franca.deploymodel.dsl.fDeploy.FDModel;
 import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 
 /** FInterface with accessor */
@@ -91,14 +89,14 @@ public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor>
       FDSpecification spec,
       ModelInfo info,
       FInterface fi,
-      FDModel fdm) {
+      FrancaDeploymentModel deploymentModel) {
 
     FInterface francaInterface = fi;
     IA accessor = null;
-    if (fdm != null) {
-      FDModelExtender ext = new FDModelExtender(fdm);
+    if (deploymentModel != null) {
       List<FDInterface> matches =
-          ext.getFDInterfaces()
+          deploymentModel
+              .getFDInterfaces()
               .stream()
               .filter(fdi -> fi.getName().equals(fdi.getTarget().getName()))
               .collect(Collectors.toList());

@@ -20,7 +20,6 @@ import navigation.CppStubSpec;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
-import org.franca.deploymodel.dsl.fDeploy.FDModel;
 import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 
 public class FrancaModel<
@@ -33,7 +32,10 @@ public class FrancaModel<
           IA extends CppStubSpec.InterfacePropertyAccessor,
           TA extends CppStubSpec.TypeCollectionPropertyAccessor>
       FrancaModel<IA, TA> create(
-          SpecAccessorFactory<IA, TA> factory, FDSpecification spec, FModel fm, FDModel fdm) {
+          SpecAccessorFactory<IA, TA> factory,
+          FDSpecification spec,
+          FModel fm,
+          FrancaDeploymentModel deploymentModel) {
 
     ModelInfo info = new ModelInfo(fm);
 
@@ -41,14 +43,14 @@ public class FrancaModel<
     ImmutableList<Interface<IA>> interfaces =
         fm.getInterfaces()
             .parallelStream()
-            .map(fi -> Interface.create(factory, spec, info, fi, fdm))
+            .map(fi -> Interface.create(factory, spec, info, fi, deploymentModel))
             .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
 
     // create type collection helpers
     ImmutableList<TypeCollection<TA>> typeCollections =
         fm.getTypeCollections()
             .parallelStream()
-            .map(fi -> TypeCollection.create(factory, spec, info, fi, fdm))
+            .map(fi -> TypeCollection.create(factory, spec, info, fi, deploymentModel))
             .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
 
     return new FrancaModel<>(interfaces, typeCollections);
