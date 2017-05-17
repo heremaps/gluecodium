@@ -12,7 +12,12 @@
 package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.generator.common.*;
+import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
+import com.here.ivi.api.generator.common.ClangFormatter;
+import com.here.ivi.api.generator.common.ConditionalExecutor;
+import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.IFileTool;
+import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.common.cpp.StructWithMethodsGenerator;
 import com.here.ivi.api.generator.common.cpp.TypeCollectionGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -27,11 +32,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import navigation.CppStubSpec;
+import navigation.CppStubSpec.InterfacePropertyAccessor;
+import navigation.CppStubSpec.TypeCollectionPropertyAccessor;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -43,19 +53,16 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  * implementation through the Stub interfaces.
  */
 public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
-  private final SpecAccessorFactory<
-          CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
+
+  private final SpecAccessorFactory<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
       specAccessorFactory;
   private final CppStubValidator validator = new CppStubValidator();
-  private FrancaModel<
-          CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
-      model;
-  private FrancaModelLoader<
-          CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
-      fml;
+  private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
+  private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> fml;
   private Collection<File> currentFiles;
 
-  static Logger logger = java.util.logging.Logger.getLogger(CppStubGeneratorSuite.class.getName());
+  private static Logger logger =
+      java.util.logging.Logger.getLogger(CppStubGeneratorSuite.class.getName());
 
   public CppStubGeneratorSuite(Transpiler tp) {
     super(tp);
@@ -80,37 +87,41 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
               files.add(generator.generate());
               return files;
             },
-            tc -> {
+            typeCollection -> {
               TypeCollectionGenerator generator =
-                  new TypeCollectionGenerator(this, model, nameRules, tc);
+                  new TypeCollectionGenerator(this, model, nameRules, typeCollection);
               return generator.generate();
             },
-            smp -> structGenerator.generate(this, model, smp.iface, smp.type));
+            structMethodPair ->
+                structGenerator.generate(
+                    this, model, structMethodPair.iface, structMethodPair.type));
 
     List<GeneratedFile> list =
         generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
-    list.add(copyTarget("here/internal/AsyncAPI.h", "src/"));
-    list.add(copyTarget("here/internal/AsyncAPI.cpp", "src/"));
-    list.add(copyTarget("here/internal/expected.h", "src/"));
-    list.add(copyTarget("here/internal/ListenerVector.h", "src/"));
+    final String targetDir = "src/";
+    list.add(copyTarget("here/internal/AsyncAPI.h", targetDir));
+    list.add(copyTarget("here/internal/AsyncAPI.cpp", targetDir));
+    list.add(copyTarget("here/internal/expected.h", targetDir));
+    list.add(copyTarget("here/internal/ListenerVector.h", targetDir));
 
     return list;
   }
 
-  private static GeneratedFile copyTarget(String fileName, String target) {
+  private static GeneratedFile copyTarget(String fileName, String targetDir) {
     InputStream stream = CppStubGeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
 
-    if (stream != null) {
-      try {
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
-        return new GeneratedFile(content, target + File.separator + fileName);
-      } catch (IOException ignored) {
-      }
+    if (stream == null) {
+      logger.severe("Failed loading resource " + fileName);
+      return null;
     }
 
-    logger.severe("Failed loading resource " + fileName);
-
-    return null;
+    try {
+      String content = IOUtils.toString(stream, Charset.defaultCharset());
+      return new GeneratedFile(content, targetDir + File.separator + fileName);
+    } catch (IOException ignored) {
+      logger.severe("Failed reading resource " + fileName);
+      return null;
+    }
   }
 
   @Override
