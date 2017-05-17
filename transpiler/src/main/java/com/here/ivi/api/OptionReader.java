@@ -147,7 +147,7 @@ public class OptionReader {
       //logger.log(Level.INFO, " Found generator ");
 
       try {
-        GeneratorSuite<?, ?> gen = GeneratorSuite.instantiateByShortName(sn, null);
+        GeneratorSuite gen = GeneratorSuite.instantiateByShortName(sn, null);
         System.out.println("   DefinedIn:  " + gen.getClass().getName());
         System.out.println("   Name:       " + gen.getName());
         System.out.println("   Version:    " + gen.getVersion());
