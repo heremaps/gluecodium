@@ -11,25 +11,24 @@ spotless {
     java {
         target project.fileTree(project.projectDir) {
             include '**/*.java'
-            exclude 'transpiler.license.java'
             exclude 'build/**/*.java'
         }
         googleJavaFormat()
-        licenseHeaderFile 'transpiler.license.java'
+        licenseHeaderFile 'transpiler_java.license'
         trimTrailingWhitespace()
         endWithNewline()
     }
 
     format 'cpp', {
         target 'src/**/*.h', 'src/**/*.cpp'
-        licenseHeaderFile 'transpiler.license.cpp', "#"
+        licenseHeaderFile 'transpiler_cpp.license', "#"
         trimTrailingWhitespace()
         endWithNewline()
     }
 
     format 'fidl', {
         target '**/*.fidl'
-        licenseHeaderFile 'transpiler.license.java', "package"
+        licenseHeaderFile 'transpiler_java.license', "package"
         trimTrailingWhitespace()
         endWithNewline()
     }
