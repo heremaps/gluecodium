@@ -33,7 +33,7 @@ public class CppStubNameRules extends CppDefaultNameRules {
   }
 
   public List<String> getNamespace(FType type) {
-    DefinedBy definer = DefinedBy.getDefinedBy(type);
+    DefinedBy definer = DefinedBy.createFromFModelElement(type);
     List<String> result = definer.getPackages();
     // complex structs are modelled as fidl structs encapsulated in type collections
     // such structs are translated to c++ without the containing type collection but taking its name

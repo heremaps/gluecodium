@@ -129,7 +129,7 @@ public class CppTypeMapper {
   }
 
   private static CppType reportInvalidType(CppModelAccessor<?> rootModel, FTypeRef type) {
-    DefinedBy definer = DefinedBy.getDefinedBy(type);
+    DefinedBy definer = DefinedBy.createFromFModelElement(type);
     String name = "unknown";
     String typeDesc = "derived type";
 
@@ -164,7 +164,7 @@ public class CppTypeMapper {
   }
 
   private static CppType mapTypeDef(CppModelAccessor<?> rootModel, FTypeDef typedef) {
-    DefinedBy typeRefDefiner = DefinedBy.getDefinedBy(typedef);
+    DefinedBy typeRefDefiner = DefinedBy.createFromFModelElement(typedef);
 
     if (typedef.getActualType() == null) {
       return new CppType(typeRefDefiner, "NO ACTUAL TYPE FOUND", CppElements.TypeInfo.Invalid);
@@ -196,7 +196,7 @@ public class CppTypeMapper {
   }
 
   private static CppType mapArray(CppModelAccessor<?> rootModel, FArrayType array) {
-    DefinedBy arrayDefiner = DefinedBy.getDefinedBy(array);
+    DefinedBy arrayDefiner = DefinedBy.createFromFModelElement(array);
 
     String typeName = array.getName(); // use name defined for array
     if (typeName != null) {
@@ -218,7 +218,7 @@ public class CppTypeMapper {
   }
 
   public static CppType defineArray(CppModelAccessor<?> rootModel, FArrayType array) {
-    DefinedBy arrayDefiner = DefinedBy.getDefinedBy(array);
+    DefinedBy arrayDefiner = DefinedBy.createFromFModelElement(array);
     FTypeRef elementType = array.getElementType();
     CppType actual = map(rootModel, elementType);
 
@@ -269,7 +269,7 @@ public class CppTypeMapper {
   }
 
   private static CppType mapMap(CppModelAccessor<?> rootModel, FMapType map) {
-    DefinedBy mapDefiner = DefinedBy.getDefinedBy(map);
+    DefinedBy mapDefiner = DefinedBy.createFromFModelElement(map);
 
     if (map.getKeyType() == null || map.getValueType() == null) {
       return new CppType(mapDefiner, "NO KEY OR VALUE TYPE FOUND", CppElements.TypeInfo.Invalid);
@@ -294,7 +294,7 @@ public class CppTypeMapper {
   }
 
   private static CppType mapStruct(CppModelAccessor<?> rootModel, FStructType struct) {
-    DefinedBy structDefiner = DefinedBy.getDefinedBy(struct);
+    DefinedBy structDefiner = DefinedBy.createFromFModelElement(struct);
 
     if (struct.getElements().isEmpty()) {
       return new CppType(structDefiner, "EMPTY STRUCT", CppElements.TypeInfo.Invalid);
@@ -308,7 +308,7 @@ public class CppTypeMapper {
   }
 
   public static CppType mapEnum(CppModelAccessor<?> rootModel, FEnumerationType enumeration) {
-    DefinedBy enumDefiner = DefinedBy.getDefinedBy(enumeration);
+    DefinedBy enumDefiner = DefinedBy.createFromFModelElement(enumeration);
 
     if (enumeration.getEnumerators().isEmpty()) {
       return new CppType(enumDefiner, "EMPTY ENUM", CppElements.TypeInfo.Invalid);
@@ -376,7 +376,7 @@ public class CppTypeMapper {
   }
 
   private static CppType mapPredefined(FTypeRef type) {
-    DefinedBy definer = DefinedBy.getDefinedBy(type);
+    DefinedBy definer = DefinedBy.createFromFModelElement(type);
 
     switch (type.getPredefined().getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:

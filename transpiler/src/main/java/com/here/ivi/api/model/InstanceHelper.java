@@ -45,7 +45,7 @@ public final class InstanceHelper {
       if (target != null) {
         // and it must point to the exact navigation.BuiltIn.InstanceId
         if (INSTANCE_ID_TYPE.equals(target.getName())) {
-          DefinedBy defined = DefinedBy.getDefinedBy(target);
+          DefinedBy defined = DefinedBy.createFromFModelElement(target);
           return BUILTIN_MODEL.equals(defined.toString());
         }
       }

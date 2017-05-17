@@ -47,7 +47,7 @@ public abstract class CppDefaultNameRules implements CppNameRules {
   }
 
   public String getCppTypename(FType type) {
-    DefinedBy definer = DefinedBy.getDefinedBy(type);
+    DefinedBy definer = DefinedBy.createFromFModelElement(type);
     // complex structs are modelled as fidl structs encapsulated in type collections
     // such structs are translated to c++ without the containing type collection but taking its name
     return definesStructWithMethods(definer) && type instanceof FStructType
