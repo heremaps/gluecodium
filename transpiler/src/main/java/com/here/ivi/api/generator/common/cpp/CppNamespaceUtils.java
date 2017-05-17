@@ -27,10 +27,10 @@ public class CppNamespaceUtils {
     CppNameRules nameRules = rootModel.getRules();
     List<String> names =
         builtDisjointNamespace(
-            nameRules.packageToNamespace(rootModel.getDefiner().getPackages()),
-            nameRules.namespace(element));
+            nameRules.convertPackageToNamespace(rootModel.getDefiner().getPackages()),
+            nameRules.getNamespace(element));
 
-    names.add(nameRules.cppTypename(element));
+    names.add(nameRules.getCppTypename(element));
 
     return String.join("::", names);
   }
@@ -45,8 +45,8 @@ public class CppNamespaceUtils {
     CppNameRules nameRules = rootModel.getRules();
     List<String> names =
         builtDisjointNamespace(
-            nameRules.packageToNamespace(rootModel.getDefiner().getPackages()),
-            nameRules.packageToNamespace(typeDefiner.getPackages()));
+            nameRules.convertPackageToNamespace(rootModel.getDefiner().getPackages()),
+            nameRules.convertPackageToNamespace(typeDefiner.getPackages()));
     names.add(name);
     return String.join("::", names);
   }

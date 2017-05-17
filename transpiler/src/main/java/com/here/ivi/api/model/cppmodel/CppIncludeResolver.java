@@ -12,7 +12,6 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.model.*;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -55,19 +54,7 @@ public class CppIncludeResolver {
                     }
 
                     FrancaElement<?> externalDefinition = externalDefinitionOpt.get();
-                    List<String> externalDirectories =
-                        li.nameRules.packageToDirectoryStructure(externalDefinition.getPackage());
-
-                    String includeName;
-                    if (externalDefinition instanceof TypeCollection<?>) {
-                      includeName =
-                          li.nameRules.typeCollectionTarget(
-                              externalDirectories, (TypeCollection<?>) externalDefinition);
-                    } else {
-                      includeName =
-                          li.nameRules.interfaceTarget(
-                              externalDirectories, (Interface<?>) externalDefinition);
-                    }
+                    String includeName = li.nameRules.getHeaderPath(externalDefinition);
 
                     // no self includes needed
                     if (includeName.equals(outputFile)) {

@@ -44,8 +44,7 @@ public class StructWithMethodsGenerator {
       final TypeCollection<?> tc) {
 
     CppNamespace ns = generateCppModel(methods, tc);
-    List<String> directories = nameRules.packageToDirectoryStructure(tc.getPackage());
-    String outputFile = nameRules.typeCollectionTarget(directories, tc);
+    String outputFile = nameRules.getHeaderPath(tc);
     CppIncludeResolver resolver = new CppIncludeResolver(model, outputFile);
     resolver.resolveLazyIncludes(ns);
 
@@ -68,7 +67,8 @@ public class StructWithMethodsGenerator {
   private CppNamespace generateCppModel(Interface<?> methods, TypeCollection<?> tc) {
 
     List<CppNamespace> packageNs =
-        CppGeneratorHelper.packageToCppNamespace(nameRules.packageToNamespace(tc.getPackage()));
+        CppGeneratorHelper.packageToCppNamespace(
+            nameRules.convertPackageToNamespace(tc.getPackage()));
 
     CppClass newClass = generateClass(methods, tc);
 
@@ -81,7 +81,7 @@ public class StructWithMethodsGenerator {
 
   private CppClass generateClass(final Interface<?> api, final TypeCollection<?> tc) {
 
-    CppClass newClass = new CppClass(nameRules.structName(tc.getName()));
+    CppClass newClass = new CppClass(nameRules.getStructName(tc.getName()));
 
     // nested enums //////////////////////////
     for (FType type : tc.getFrancaTypeCollection().getTypes()) {
@@ -198,7 +198,7 @@ public class StructWithMethodsGenerator {
 
               for (FArgument arg : method.getInArgs()) {
                 CppParameter param = new CppParameter();
-                param.name = nameRules.argumentName(arg.getName());
+                param.name = nameRules.getArgumentName(arg.getName());
                 param.type = CppTypeMapper.map(rootModelIf, arg);
                 param.mode = CppParameter.Mode.Input;
                 nonDefaultCtor.inParameters.add(param);

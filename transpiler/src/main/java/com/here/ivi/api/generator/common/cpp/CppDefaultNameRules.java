@@ -46,7 +46,7 @@ public abstract class CppDefaultNameRules implements CppNameRules {
     }
   }
 
-  public String cppTypename(FType type) {
+  public String getCppTypename(FType type) {
     DefinedBy definer = DefinedBy.getDefinedBy(type);
     // complex structs are modelled as fidl structs encapsulated in type collections
     // such structs are translated to c++ without the containing type collection but taking its name
@@ -55,31 +55,31 @@ public abstract class CppDefaultNameRules implements CppNameRules {
         : type.getName();
   }
 
-  public String typeCollectionName(FTypeCollection base) {
+  public String getTypeCollectionName(FTypeCollection base) {
     return NameHelper.toUpperCamel(base.getName()); // MyTypeCollection
   }
 
-  public String methodName(String base) {
+  public String getMethodName(String base) {
     return NameHelper.toLowerCamel(base); // doStuff
   }
 
-  public String argumentName(String base) {
+  public String getArgumentName(String base) {
     return NameHelper.toLowerCamel(base); // myArg
   }
 
-  public String enumName(String base) {
+  public String getEnumName(String base) {
     return NameHelper.toUpperCamel(base); // MyEnum
   }
 
-  public String structName(String base) {
+  public String getStructName(String base) {
     return NameHelper.toUpperCamel(base); // MyStruct
   }
 
-  public String typedefName(String base) {
+  public String getTypedefName(String base) {
     return NameHelper.toUpperCamel(base); // MyTypedef
   }
 
-  public String headerFileSuffix() {
+  public String getHeaderFileSuffix() {
     return ".h";
   }
 }

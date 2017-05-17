@@ -64,8 +64,7 @@ public class StubGenerator {
       return null;
     }
 
-    List<String> baseDirectories = nameRules.packageToDirectoryStructure(iface.getPackage());
-    String outputFile = nameRules.interfaceTarget(baseDirectories, iface);
+    String outputFile = nameRules.getHeaderPath(iface);
 
     // find included files and resolve relative to generated path
     CppIncludeResolver resolver = new CppIncludeResolver(coreModel, outputFile);
@@ -86,13 +85,13 @@ public class StubGenerator {
     // add to innermost namespace
     CppNamespace innermostNs = Iterables.getLast(packageNs);
 
-    CppClass stubClass = new CppClass(nameRules.className(iface.getFrancaInterface()));
+    CppClass stubClass = new CppClass(nameRules.getClassName(iface.getFrancaInterface()));
     AbstractFrancaCommentParser.Comments comment =
         StubCommentParser.parse(iface.getFrancaInterface());
     stubClass.comment = comment.getMainBodyText();
 
     CppClass stubListenerClass =
-        new CppClass(CppStubNameRules.listenerName(iface.getFrancaInterface()));
+        new CppClass(CppStubNameRules.getListenerName(iface.getFrancaInterface()));
     stubListenerClass.comment =
         "The listener for @ref "
             + stubClass.name
@@ -137,7 +136,7 @@ public class StubGenerator {
           new CppInheritance(
               new CppType(
                   CppNamespaceUtils.getCppTypename(
-                      rootModel, baseDefinition, nameRules.className(base)),
+                      rootModel, baseDefinition, nameRules.getClassName(base)),
                   new Includes.LazyInternalInclude(
                       baseDefinition, Includes.InternalType.Interface, nameRules)),
               CppInheritance.Type.Public));
@@ -147,7 +146,7 @@ public class StubGenerator {
           new CppInheritance(
               new CppType(
                   CppNamespaceUtils.getCppTypename(
-                      rootModel, baseDefinition, CppStubNameRules.listenerName(base)),
+                      rootModel, baseDefinition, CppStubNameRules.getListenerName(base)),
                   new Includes.LazyInternalInclude(
                       baseDefinition, Includes.InternalType.Interface, nameRules)),
               CppInheritance.Type.Public));
@@ -162,7 +161,7 @@ public class StubGenerator {
 
   private void appendMethodElements(CppClass stubClass, FMethod m) {
     String uniqueMethodName =
-        nameRules.methodName(m.getName()) + NameHelper.toUpperCamel(m.getSelector());
+        nameRules.getMethodName(m.getName()) + NameHelper.toUpperCamel(m.getSelector());
 
     CppType errorType;
     String errorComment = "";
@@ -463,7 +462,7 @@ public class StubGenerator {
       type = CppTypeMapper.wrapSharedPtr(type, nameRules);
     }
 
-    String attributeName = nameRules.fieldName(attribute.getName());
+    String attributeName = nameRules.getFieldName(attribute.getName());
 
     switch (mode) {
       case GET:
