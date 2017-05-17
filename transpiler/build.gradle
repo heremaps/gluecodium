@@ -1,44 +1,8 @@
 plugins {
     id "org.xtext.xtend" version "1.0.15"
-    id "com.diffplug.gradle.spotless" version "3.3.2"
 }
 
 apply plugin: 'org.xtext.xtend'
-apply plugin: "com.diffplug.gradle.spotless"
-
-// Static analysis tasks
-spotless {
-    java {
-        target project.fileTree(project.projectDir) {
-            include '**/*.java'
-            exclude 'build/**/*.java'
-        }
-        googleJavaFormat()
-        licenseHeaderFile 'transpiler_java.license'
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-
-    format 'cpp', {
-        target 'src/**/*.h', 'src/**/*.cpp'
-        licenseHeaderFile 'transpiler_cpp.license', "#"
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-
-    format 'fidl', {
-        target '**/*.fidl'
-        licenseHeaderFile 'transpiler_java.license', "package"
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-
-    format 'fdepl', {
-        target '**/*.fdepl'
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-}
 
 xtend {
     // generate xtend debug symbols

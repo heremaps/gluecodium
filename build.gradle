@@ -1,3 +1,7 @@
+plugins {
+    id 'com.diffplug.gradle.spotless' version '3.3.2'
+}
+
 allprojects {
     repositories {
         jcenter()
@@ -5,6 +9,7 @@ allprojects {
 
     apply plugin: 'java'
     apply plugin: 'idea'
+    apply plugin: 'com.diffplug.gradle.spotless'
 
     compileJava {
         options.encoding = "UTF-8"
@@ -16,5 +21,48 @@ allprojects {
                 "implNote:a:Implementation note",
                 "model:a:Model",
                 "ordered:a:Ordered" ]
+    }
+
+    spotless {
+        java {
+            target project.fileTree(project.projectDir) {
+                include '**/*.java'
+                exclude '**/build', 'externals'
+            }
+            googleJavaFormat()
+            licenseHeaderFile rootProject.file('here_java.license')
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+
+        format 'cpp', {
+            target project.fileTree(project.projectDir) {
+                include '**/*.h', '**/*.cpp'
+                exclude '**/build', 'externals'
+            }
+            licenseHeaderFile rootProject.file('here_cpp.license'), '(#pragma|#include)'
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+
+        format 'franca', {
+            target project.fileTree(project.projectDir) {
+                include '**/*.fidl', '**/*.fdepl'
+                exclude '**/build', 'externals'
+            }
+            licenseHeaderFile rootProject.file('here_java.license'),
+                    '(package|import|specification)'
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+
+        format 'misc', {
+            target project.fileTree(project.rootDir) {
+                include '**/*.gradle', '**/*.md', '**/*.gitignore'
+                exclude '.gradle', '.idea'
+            }
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
     }
 }
