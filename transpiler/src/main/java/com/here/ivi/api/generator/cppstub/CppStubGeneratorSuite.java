@@ -32,8 +32,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import navigation.CppStubSpec;
-import navigation.CppStubSpec.InterfacePropertyAccessor;
-import navigation.CppStubSpec.TypeCollectionPropertyAccessor;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -44,8 +42,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  * <p>It is the underlying generator, that all others depend on, as they will invoke the actual
  * implementation through the Stub interfaces.
  */
-public class CppStubGeneratorSuite
-    extends AbstractGeneratorSuite<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> {
+public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
   private final SpecAccessorFactory<
           CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
       specAccessorFactory;

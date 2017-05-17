@@ -20,7 +20,7 @@ import java.util.List;
  *
  * <p>Actual file generation is delegated to {@link AbstractGeneratorSuite#generateFiles} method.
  */
-public abstract class AbstractGeneratorSuite<IA, TA> implements GeneratorSuite<IA, TA> {
+public abstract class AbstractGeneratorSuite implements GeneratorSuite {
 
   private final Transpiler tool;
   private final List<IFileTool> fileTools;

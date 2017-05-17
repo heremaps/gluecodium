@@ -36,7 +36,7 @@ import org.franca.core.franca.*;
  */
 public class TypeCollectionGenerator {
 
-  private final GeneratorSuite<?, ?> suite;
+  private final GeneratorSuite suite;
   private final FrancaModel<?, ?> coreModel;
   private final CppNameRules nameRules;
 
@@ -47,7 +47,7 @@ public class TypeCollectionGenerator {
       java.util.logging.Logger.getLogger(TypeCollectionGenerator.class.getName());
 
   public <TA extends CppStubSpec.TypeCollectionPropertyAccessor> TypeCollectionGenerator(
-      GeneratorSuite<?, TA> suite,
+      GeneratorSuite suite,
       FrancaModel<? extends CppStubSpec.InterfacePropertyAccessor, TA> coreModel,
       CppNameRules rules,
       TypeCollection<TA> tc) {

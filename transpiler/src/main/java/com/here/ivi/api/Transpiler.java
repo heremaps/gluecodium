@@ -59,7 +59,7 @@ public class Transpiler {
 
       try {
 
-        GeneratorSuite<?, ?> generator = GeneratorSuite.instantiateByShortName(sn, this);
+        GeneratorSuite generator = GeneratorSuite.instantiateByShortName(sn, this);
         logger.info("Instantiated generator " + generator.getName() + " " + generator.getVersion());
 
         generator.buildModel(options.getInputDir());

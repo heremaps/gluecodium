@@ -38,7 +38,7 @@ public class StructWithMethodsGenerator {
   }
 
   public GeneratedFile generate(
-      final GeneratorSuite<?, ?> suite,
+      final GeneratorSuite suite,
       final FrancaModel<?, ?> model,
       final Interface<?> methods,
       final TypeCollection<?> tc) {

@@ -26,7 +26,7 @@ public class CppGeneratorHelper {
   static Logger logger = java.util.logging.Logger.getLogger(CppGeneratorHelper.class.getName());
 
   public static CharSequence generateGeneratorNotice(
-      GeneratorSuite<?, ?> suite, FrancaElement<?> element, String outputTarget) {
+      GeneratorSuite suite, FrancaElement<?> element, String outputTarget) {
     String inputFile;
     try {
       inputFile = suite.getTool().resolveRelativeToRootPath(element.getModel().getPath());
