@@ -22,7 +22,7 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModelElement;
 
 public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommentParser.Comments> {
-  public class Comments {
+  public static class Comments {
     public String getMainBodyText() {
       return mainBodyText;
     }
