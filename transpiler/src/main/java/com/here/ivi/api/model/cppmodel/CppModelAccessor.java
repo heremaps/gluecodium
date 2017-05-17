@@ -14,9 +14,6 @@ package com.here.ivi.api.model.cppmodel;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
-import com.here.ivi.api.model.FrancaModel;
-import java.util.List;
-import java.util.Optional;
 import navigation.CppStubSpec;
 
 public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> {
@@ -24,17 +21,14 @@ public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> {
   private final FrancaElement<DPA> francaElement;
   private final DefinedBy definer;
   private final CppNameRules rules;
-  private final FrancaModel<?, ?> francaModel;
 
-  public CppModelAccessor(
-      FrancaElement<DPA> francaElement, CppNameRules rules, FrancaModel<?, ?> fModel) {
+  public CppModelAccessor(FrancaElement<DPA> francaElement, CppNameRules rules) {
 
     this.francaElement = francaElement;
     this.definer =
         new DefinedBy(
             francaElement.getFrancaTypeCollection(), francaElement.getModel().getFrancaModel());
     this.rules = rules;
-    this.francaModel = fModel;
   }
 
   public DefinedBy getDefiner() {
@@ -45,23 +39,7 @@ public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> {
     return francaElement.getPropertyAccessor();
   }
 
-  /**
-   * Searches for an accessor object by the given type-collection and francaModel.
-   *
-   * @implNote Will search through all the loaded franca models.
-   * @param definer the definer containing type-collection and francaModel
-   * @return The franca accessor for the given francaModel and type-collection
-   */
-  public Optional<? extends CppStubSpec.IDataPropertyAccessor> getAccessor(DefinedBy definer) {
-    return francaModel.find(definer).map(FrancaElement::getPropertyAccessor);
-  }
-
-  /** @return the name rules */
   public CppNameRules getRules() {
     return rules;
-  }
-
-  public List<String> getNamespace() {
-    return rules.packageToNamespace(definer.getPackages());
   }
 }
