@@ -17,9 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import navigation.CppStubSpec;
 import org.franca.core.franca.FTypeCollection;
-import org.franca.deploymodel.core.FDModelExtender;
 import org.franca.deploymodel.core.FDeployedTypeCollection;
-import org.franca.deploymodel.dsl.fDeploy.FDModel;
 import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 import org.franca.deploymodel.dsl.fDeploy.FDTypes;
 
@@ -73,15 +71,15 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
       FDSpecification spec,
       ModelInfo info,
       FTypeCollection tc,
-      FDModel fdm) {
+      FrancaDeploymentModel deploymentModel) {
 
     FTypeCollection francaTypeCollection = tc;
 
     TA accessor = null;
-    if (fdm != null) {
-      FDModelExtender ext = new FDModelExtender(fdm);
+    if (deploymentModel != null) {
       List<FDTypes> matches =
-          ext.getFDTypesList()
+          deploymentModel
+              .getFDTypesList()
               .stream()
               .filter(fdt -> tc.getName().equals(fdt.getTarget().getName()))
               .collect(Collectors.toList());
