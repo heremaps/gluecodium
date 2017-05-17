@@ -22,7 +22,11 @@ import org.franca.core.franca.FTypeCollection;
  * <p>It is used for resolving namespaces and includes.
  */
 public class DefinedBy {
-  public DefinedBy(FTypeCollection type, FModel model) {
+
+  public final FTypeCollection type; // A FInterface is a FTypeCollection as well
+  public final FModel model;
+
+  private DefinedBy(FTypeCollection type, FModel model) {
     this.type = type;
     this.model = model;
   }
@@ -30,10 +34,10 @@ public class DefinedBy {
   /**
    * Gets the model and interface that defined the given franca object
    *
-   * @param obj The franca object
+   * @param obj The franca model object
    * @return The model and interface that defined the given object
    */
-  public static DefinedBy getDefinedBy(EObject obj) {
+  public static DefinedBy createFromFModelElement(EObject obj) {
     // search for parent type collection
     FTypeCollection tc = findDefiningTypeCollection(obj);
 
@@ -44,6 +48,17 @@ public class DefinedBy {
 
     FModel model = (FModel) tc.eContainer();
     return new DefinedBy(tc, model);
+  }
+
+  /**
+   * Gets the model and interface that defined the given franca element
+   *
+   * @param francaElement The franca element
+   * @return The model and interface that defined the given object
+   */
+  public static DefinedBy createFromFrancaElement(FrancaElement<?> francaElement) {
+    return new DefinedBy(
+        francaElement.getFrancaTypeCollection(), francaElement.getModel().getFrancaModel());
   }
 
   /** Returns the base name, eg. MyInterface */
@@ -107,7 +122,4 @@ public class DefinedBy {
 
     return findDefiningTypeCollection(parent);
   }
-
-  public final FTypeCollection type; // A FInterface is a FTypeCollection as well
-  public final FModel model;
 }

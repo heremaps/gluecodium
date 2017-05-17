@@ -130,7 +130,7 @@ public class StubGenerator {
 
     FInterface base = iface.getFrancaInterface().getBase();
     if (base != null) {
-      DefinedBy baseDefinition = DefinedBy.getDefinedBy(base);
+      DefinedBy baseDefinition = DefinedBy.createFromFModelElement(base);
 
       stubClass.inheritances.add(
           new CppInheritance(

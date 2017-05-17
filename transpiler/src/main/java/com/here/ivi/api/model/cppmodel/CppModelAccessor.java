@@ -25,9 +25,7 @@ public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> {
   public CppModelAccessor(FrancaElement<DPA> francaElement, CppNameRules rules) {
 
     this.francaElement = francaElement;
-    this.definer =
-        new DefinedBy(
-            francaElement.getFrancaTypeCollection(), francaElement.getModel().getFrancaModel());
+    this.definer = DefinedBy.createFromFrancaElement(francaElement);
     this.rules = rules;
   }
 

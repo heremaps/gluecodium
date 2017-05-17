@@ -113,7 +113,7 @@ public class CppValueMapper {
           String.format("Failed resolving value reference %s.", qer));
     }
 
-    DefinedBy referenceDefiner = DefinedBy.getDefinedBy(qer.getElement());
+    DefinedBy referenceDefiner = DefinedBy.createFromFModelElement(qer.getElement());
     String name = qer.getElement().getName();
 
     // check for built-in types (atm all values are from <limits>)

@@ -146,7 +146,7 @@ public class TypeCollectionGenerator {
     typeDef.name = nameRules.getTypedefName(type.getName());
     typeDef.targetType =
         CppTypeMapper.wrapMapType(
-            DefinedBy.getDefinedBy(type),
+            DefinedBy.createFromFModelElement(type),
             CppTypeMapper.map(rootModel, type.getKeyType()),
             CppTypeMapper.map(rootModel, type.getValueType()),
             nameRules);
