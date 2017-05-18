@@ -24,7 +24,6 @@ import com.here.ivi.api.model.TypeCollection;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.List;
-import java.util.logging.Logger;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
@@ -40,12 +39,8 @@ public class TypeCollectionGenerator {
   private final GeneratorSuite suite;
   private final FrancaModel<?, ?> coreModel;
   private final CppNameRules nameRules;
-
   private final TypeCollection<?> tc;
   private final CppModelAccessor<?> rootModel;
-
-  private static Logger logger =
-      java.util.logging.Logger.getLogger(TypeCollectionGenerator.class.getName());
 
   public <TA extends CppStubSpec.TypeCollectionPropertyAccessor> TypeCollectionGenerator(
       GeneratorSuite suite,

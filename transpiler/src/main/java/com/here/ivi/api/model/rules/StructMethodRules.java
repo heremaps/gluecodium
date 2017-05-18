@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 import navigation.CppStubSpec;
 import org.franca.core.franca.FConstantDef;
@@ -34,7 +33,6 @@ import org.franca.core.franca.FType;
  * FrancaModel accordingly.
  */
 public class StructMethodRules {
-  private static final Logger logger = Logger.getLogger(StructMethodRules.class.getName());
 
   private static final String STRUCT_INITIALIZER_METHOD_NAME = "init";
   private static final String BELONGING_STRUCT_CONSTANT_NAME = "DefiningType";

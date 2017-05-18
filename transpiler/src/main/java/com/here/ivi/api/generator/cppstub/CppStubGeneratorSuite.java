@@ -38,7 +38,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import navigation.CppStubSpec.InterfacePropertyAccessor;
@@ -61,9 +60,6 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
   private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
   private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> fml;
   private Collection<File> currentFiles;
-
-  private static Logger logger =
-      java.util.logging.Logger.getLogger(CppStubGeneratorSuite.class.getName());
 
   public CppStubGeneratorSuite(Transpiler tp) {
     super(tp);

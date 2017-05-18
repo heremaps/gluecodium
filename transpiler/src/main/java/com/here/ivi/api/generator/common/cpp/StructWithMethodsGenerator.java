@@ -32,9 +32,9 @@ import org.franca.core.franca.*;
 
 public class StructWithMethodsGenerator {
 
-  static Logger logger = Logger.getLogger(StructWithMethodsGenerator.class.getName());
-
   private final CppNameRules nameRules;
+
+  private static final Logger logger = Logger.getLogger(StructWithMethodsGenerator.class.getName());
 
   public StructWithMethodsGenerator(CppNameRules rules) {
     this.nameRules = rules;

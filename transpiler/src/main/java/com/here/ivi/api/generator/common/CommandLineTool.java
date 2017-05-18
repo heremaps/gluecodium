@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 import org.apache.commons.lang.text.StrBuilder;
 
 /**
@@ -27,7 +26,6 @@ import org.apache.commons.lang.text.StrBuilder;
  */
 public class CommandLineTool implements FileTool {
 
-  private static Logger logger = Logger.getLogger(CommandLineTool.class.getName());
   private final String command;
   private List<String> initialArgs;
   private String cwd = "";

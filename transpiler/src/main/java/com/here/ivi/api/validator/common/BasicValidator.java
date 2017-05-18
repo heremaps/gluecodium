@@ -26,7 +26,7 @@ import org.eclipse.xtext.validation.Issue;
 
 public class BasicValidator {
 
-  static Logger logger = Logger.getLogger(BasicValidator.class.getName());
+  private static final Logger logger = Logger.getLogger(BasicValidator.class.getName());
 
   public static boolean validate(ResourceSet resourceSet, Collection<File> currentFiles) {
 

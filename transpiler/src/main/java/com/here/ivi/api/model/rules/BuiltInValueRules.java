@@ -45,7 +45,7 @@ public class BuiltInValueRules {
   private static final String FLOAT_NAN_CONSTANT = "NaNFloat";
   private static final String DOUBLE_NAN_CONSTANT = "NaNDouble";
 
-  private static Logger logger =
+  private static final Logger logger =
       java.util.logging.Logger.getLogger(BuiltInValueRules.class.getName());
 
   public enum BuiltInValues {
