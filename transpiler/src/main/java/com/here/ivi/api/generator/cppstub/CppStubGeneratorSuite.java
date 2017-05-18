@@ -72,6 +72,7 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
 
     CppStubNameRules nameRules = new CppStubNameRules(model);
 
+    StubGenerator stubGenerator = new StubGenerator(this, nameRules, model);
     StructWithMethodsGenerator structGenerator =
         new StructWithMethodsGenerator(this, nameRules, model);
     TypeCollectionGenerator typeCollectionGenerator =
@@ -82,9 +83,8 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
         StructMethodRules.partitionModel(
             model,
             iface -> {
-              StubGenerator generator = new StubGenerator(this, model, nameRules, iface);
               List<GeneratedFile> files = new LinkedList<>();
-              files.add(generator.generate());
+              files.add(stubGenerator.generate(iface));
               return files;
             },
             typeCollectionGenerator::generate,

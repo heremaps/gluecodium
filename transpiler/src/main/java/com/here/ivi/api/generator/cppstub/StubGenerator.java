@@ -38,27 +38,19 @@ import org.franca.core.franca.*;
 public class StubGenerator {
 
   private final GeneratorSuite suite;
-  private final FrancaModel<?, ?> coreModel;
   private final CppNameRules nameRules;
-
-  private final Interface<?> iface;
-  private final CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel;
+  private final FrancaModel<?, ?> coreModel;
 
   private static Logger logger = java.util.logging.Logger.getLogger(StubGenerator.class.getName());
 
-  public <IA extends CppStubSpec.InterfacePropertyAccessor> StubGenerator(
-      GeneratorSuite suite, FrancaModel<IA, ?> coreModel, CppNameRules rules, Interface<IA> iface) {
-    this.nameRules = rules;
+  public StubGenerator(GeneratorSuite suite, CppNameRules nameRules, FrancaModel<?, ?> coreModel) {
     this.suite = suite;
+    this.nameRules = nameRules;
     this.coreModel = coreModel;
-    this.iface = iface;
-
-    // this is the main type of the file, all namespaces and includes have to be resolved relative to it
-    rootModel = new CppModelAccessor<>(iface, nameRules);
   }
 
-  public GeneratedFile generate() {
-    CppNamespace model = buildCppModel();
+  public GeneratedFile generate(Interface<?> iface) {
+    CppNamespace model = buildCppModel(iface);
 
     if (model.isEmpty()) {
       return null;
@@ -79,7 +71,7 @@ public class StubGenerator {
     return new GeneratedFile(fileContent, outputFile);
   }
 
-  private CppNamespace buildCppModel() {
+  private CppNamespace buildCppModel(Interface<?> iface) {
     List<CppNamespace> packageNs = CppGeneratorHelper.packageToCppNamespace(iface.getPackage());
 
     // add to innermost namespace
@@ -102,18 +94,21 @@ public class StubGenerator {
     sharedFromThis.setIncludes(CppLibraryIncludes.MEMORY);
     stubClass.inheritances.add(new CppInheritance(sharedFromThis, CppInheritance.Type.Public));
 
+    CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel =
+        new CppModelAccessor<>(iface, nameRules);
+
     // TODO reuse TypeCollectionGenerator to generate types in interface definition
 
     for (FMethod method : iface.getFrancaInterface().getMethods()) {
-      appendMethodElements(stubClass, method);
+      appendMethodElements(stubClass, method, rootModel);
     }
 
     for (FBroadcast broadcast : iface.getFrancaInterface().getBroadcasts()) {
-      appendNotifierElements(stubClass, stubListenerClass, broadcast);
+      appendNotifierElements(stubClass, stubListenerClass, broadcast, rootModel);
     }
 
     for (FAttribute attribute : iface.getFrancaInterface().getAttributes()) {
-      appendAttributeAccessorElements(stubClass, stubListenerClass, attribute);
+      appendAttributeAccessorElements(stubClass, stubListenerClass, attribute, rootModel);
     }
 
     // inherit from listener vector if there are any methods on the listener
@@ -159,7 +154,10 @@ public class StubGenerator {
     return Iterables.getFirst(packageNs, null);
   }
 
-  private void appendMethodElements(CppClass stubClass, FMethod method) {
+  private void appendMethodElements(
+      CppClass stubClass,
+      FMethod method,
+      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel) {
     String uniqueMethodName =
         nameRules.getMethodName(method.getName())
             + NameHelper.toUpperCamelCase(method.getSelector());
@@ -191,8 +189,8 @@ public class StubGenerator {
         typeComment += StubCommentParser.FORMATTER.formatTag("@arg Error", errorComment);
       }
 
-      // create struct for multiple out arguments
-      if (method.getOutArgs().size() > 1) {
+      final boolean isCreator = rootModel.getAccessor().getCreates(method) != null;
+      if (method.getOutArgs().size() > 1) { // create struct for multiple out arguments
         CppStruct struct = new CppStruct();
         struct.name = NameHelper.toUpperCamelCase(uniqueMethodName) + "Result";
         struct.fields =
@@ -203,7 +201,7 @@ public class StubGenerator {
                     argument -> {
                       CppType type = CppTypeMapper.map(rootModel, argument);
                       if (type.info == CppElements.TypeInfo.InterfaceInstance) {
-                        if (isCreator(method)) {
+                        if (isCreator) {
                           type = CppTypeMapper.wrapUniquePtr(type, nameRules);
                         } else {
                           type = CppTypeMapper.wrapSharedPtr(type, nameRules);
@@ -226,13 +224,11 @@ public class StubGenerator {
         // register with model
         stubClass.structs.add(struct);
         returnTypes.add(new CppType(struct.name));
-      }
-      // take first & only argument
-      else {
+      } else { // take first & only argument
         FArgument argument = method.getOutArgs().get(0);
         CppType type = CppTypeMapper.map(rootModel, argument);
         if (type.info == CppElements.TypeInfo.InterfaceInstance) {
-          if (isCreator(method)) {
+          if (isCreator) {
             type = CppTypeMapper.wrapUniquePtr(type, nameRules);
           } else {
             type = CppTypeMapper.wrapSharedPtr(type, nameRules);
@@ -272,7 +268,7 @@ public class StubGenerator {
     }
 
     // create & add method, add return value documentation as this is not done in buildStubMethod
-    CppMethod cppMethod = buildStubMethod(method, returnType);
+    CppMethod cppMethod = buildStubMethod(method, returnType, rootModel);
     if (!returnComment.isEmpty()) {
       cppMethod.comment += StubCommentParser.FORMATTER.formatTag("@return", returnComment);
     }
@@ -280,7 +276,10 @@ public class StubGenerator {
   }
 
   private void appendAttributeAccessorElements(
-      CppClass stubClass, CppClass stubListenerClass, FAttribute attribute) {
+      CppClass stubClass,
+      CppClass stubListenerClass,
+      FAttribute attribute,
+      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel) {
     // getter
     stubClass.methods.add(buildAttributeAccessor(rootModel, attribute, AttributeAccessorMode.GET));
     // setter if not readonly
@@ -290,13 +289,15 @@ public class StubGenerator {
     }
     // notifier if not subscriptions disabled
     if (!attribute.isNoSubscriptions()) {
-      appendNotifierElements(stubClass, stubListenerClass, attribute);
+      appendNotifierElements(stubClass, stubListenerClass, attribute, rootModel);
     }
   }
 
   private void appendNotifierElements(
-      CppClass stubClass, CppClass stubListenerClass, FAttribute attribute) {
-    String uniqueNotifierName = attribute.getName() + "Changed";
+      CppClass stubClass,
+      CppClass stubListenerClass,
+      FAttribute attribute,
+      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel) {
 
     CppParameter param = new CppParameter();
     param.name = attribute.getName();
@@ -313,6 +314,8 @@ public class StubGenerator {
                 Collections.singletonList(attribute),
                 CommentFormatter.ParameterType.Input)
             .toString();
+
+    String uniqueNotifierName = attribute.getName() + "Changed";
 
     // listener method
     CppMethod listenerMethod =
@@ -341,7 +344,10 @@ public class StubGenerator {
   }
 
   private void appendNotifierElements(
-      CppClass stubClass, CppClass stubListenerClass, FBroadcast broadcast) {
+      CppClass stubClass,
+      CppClass stubListenerClass,
+      FBroadcast broadcast,
+      CppModelAccessor<?> rootModel) {
     String uniqueNotifierName =
         broadcast.getName() + NameHelper.toUpperCamelCase(broadcast.getSelector());
 
@@ -420,16 +426,19 @@ public class StubGenerator {
     return method;
   }
 
-  private CppMethod buildStubMethod(FMethod method, CppType returnTypeName) {
-    CppMethod cppMethod = new CppMethod();
+  private CppMethod buildStubMethod(
+      FMethod method,
+      CppType returnTypeName,
+      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel) {
 
+    CppMethod cppMethod = new CppMethod();
     cppMethod.name = method.getName() + NameHelper.toUpperCamelCase(method.getSelector());
     cppMethod.returnType = returnTypeName;
 
     if (rootModel.getAccessor().getStatic(method)) {
       cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
     } else {
-      if (iface.getPropertyAccessor().getConst(method)) {
+      if (rootModel.getAccessor().getConst(method)) {
         // const needs to be before = 0; This smells more than the = 0 below
         cppMethod.qualifiers.add(CppMethod.Qualifier.CONST);
       }
@@ -508,9 +517,5 @@ public class StubGenerator {
     m.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
 
     return m;
-  }
-
-  private boolean isCreator(final FMethod m) {
-    return rootModel.getAccessor().getCreates(m) != null;
   }
 }
