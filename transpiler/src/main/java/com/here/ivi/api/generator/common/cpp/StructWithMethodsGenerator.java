@@ -77,7 +77,7 @@ public class StructWithMethodsGenerator {
 
     List<CppNamespace> packageNs =
         CppGeneratorHelper.packageToCppNamespace(
-            nameRules.convertPackageToNamespace(typeCollection.getPackage()));
+            nameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection)));
 
     CppClass newClass = generateClass(methods, typeCollection);
 
