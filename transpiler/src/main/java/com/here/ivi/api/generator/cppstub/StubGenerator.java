@@ -104,16 +104,16 @@ public class StubGenerator {
 
     // TODO reuse TypeCollectionGenerator to generate types in interface definition
 
-    for (FMethod m : iface.getFrancaInterface().getMethods()) {
-      appendMethodElements(stubClass, m);
+    for (FMethod method : iface.getFrancaInterface().getMethods()) {
+      appendMethodElements(stubClass, method);
     }
 
-    for (FBroadcast b : iface.getFrancaInterface().getBroadcasts()) {
-      appendNotifierElements(stubClass, stubListenerClass, b);
+    for (FBroadcast broadcast : iface.getFrancaInterface().getBroadcasts()) {
+      appendNotifierElements(stubClass, stubListenerClass, broadcast);
     }
 
-    for (FAttribute a : iface.getFrancaInterface().getAttributes()) {
-      appendAttributeAccessorElements(stubClass, stubListenerClass, a);
+    for (FAttribute attribute : iface.getFrancaInterface().getAttributes()) {
+      appendAttributeAccessorElements(stubClass, stubListenerClass, attribute);
     }
 
     // inherit from listener vector if there are any methods on the listener
@@ -159,24 +159,24 @@ public class StubGenerator {
     return Iterables.getFirst(packageNs, null);
   }
 
-  private void appendMethodElements(CppClass stubClass, FMethod m) {
+  private void appendMethodElements(CppClass stubClass, FMethod method) {
     String uniqueMethodName =
-        nameRules.getMethodName(m.getName()) + NameHelper.toUpperCamel(m.getSelector());
+        nameRules.getMethodName(method.getName()) + NameHelper.toUpperCamel(method.getSelector());
 
     CppType errorType;
     String errorComment = "";
-    if (m.getErrorEnum() != null) {
-      errorType = CppTypeMapper.mapEnum(rootModel, m.getErrorEnum());
-      errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(m);
+    if (method.getErrorEnum() != null) {
+      errorType = CppTypeMapper.mapEnum(rootModel, method.getErrorEnum());
+      errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(method);
     } else {
-      logger.warning("Missing error type for method " + m.getName());
+      logger.warning("Missing error type for method " + method.getName());
       errorType = CppType.Void;
     }
 
     String returnComment;
     CppType returnType;
 
-    if (m.getOutArgs().isEmpty()) {
+    if (method.getOutArgs().isEmpty()) {
       returnType = errorType;
       returnComment = errorComment;
     } else {
@@ -191,26 +191,28 @@ public class StubGenerator {
       }
 
       // create struct for multiple out arguments
-      if (m.getOutArgs().size() > 1) {
+      if (method.getOutArgs().size() > 1) {
         CppStruct struct = new CppStruct();
         struct.name = NameHelper.toUpperCamel(uniqueMethodName) + "Result";
         struct.fields =
-            m.getOutArgs()
+            method
+                .getOutArgs()
                 .stream()
                 .map(
-                    a -> {
-                      CppType type = CppTypeMapper.map(rootModel, a);
+                    argument -> {
+                      CppType type = CppTypeMapper.map(rootModel, argument);
                       if (type.info == CppElements.TypeInfo.InterfaceInstance) {
-                        if (isCreator(m)) {
+                        if (isCreator(method)) {
                           type = CppTypeMapper.wrapUniquePtr(type, nameRules);
                         } else {
                           type = CppTypeMapper.wrapSharedPtr(type, nameRules);
                         }
                       }
 
-                      CppField field = new CppField(type, NameHelper.toLowerCamel(a.getName()));
+                      CppField field =
+                          new CppField(type, NameHelper.toLowerCamel(argument.getName()));
                       // document struct field with argument comment
-                      field.comment = StubCommentParser.FORMATTER.readCleanedComment(a);
+                      field.comment = StubCommentParser.FORMATTER.readCleanedComment(argument);
                       return field;
                     })
                 .collect(Collectors.toList());
@@ -226,10 +228,10 @@ public class StubGenerator {
       }
       // take first & only argument
       else {
-        FArgument arg = m.getOutArgs().get(0);
-        CppType type = CppTypeMapper.map(rootModel, arg);
+        FArgument argument = method.getOutArgs().get(0);
+        CppType type = CppTypeMapper.map(rootModel, argument);
         if (type.info == CppElements.TypeInfo.InterfaceInstance) {
-          if (isCreator(m)) {
+          if (isCreator(method)) {
             type = CppTypeMapper.wrapUniquePtr(type, nameRules);
           } else {
             type = CppTypeMapper.wrapSharedPtr(type, nameRules);
@@ -240,7 +242,7 @@ public class StubGenerator {
         returnComment =
             "The result type, containing either an error or the " + type.name + " value.";
         if (!errorComment.isEmpty()) {
-          typeComment += StubCommentParser.FORMATTER.formatWithTag("@arg Value", arg);
+          typeComment += StubCommentParser.FORMATTER.formatWithTag("@argument Value", argument);
         }
 
         // register with model
@@ -269,35 +271,36 @@ public class StubGenerator {
     }
 
     // create & add method, add return value documentation as this is not done in buildStubMethod
-    CppMethod method = buildStubMethod(m, returnType);
+    CppMethod cppMethod = buildStubMethod(method, returnType);
     if (!returnComment.isEmpty()) {
-      method.comment += StubCommentParser.FORMATTER.formatTag("@return", returnComment);
+      cppMethod.comment += StubCommentParser.FORMATTER.formatTag("@return", returnComment);
     }
-    stubClass.methods.add(method);
+    stubClass.methods.add(cppMethod);
   }
 
   private void appendAttributeAccessorElements(
-      CppClass stubClass, CppClass stubListenerClass, FAttribute a) {
+      CppClass stubClass, CppClass stubListenerClass, FAttribute attribute) {
     // getter
-    stubClass.methods.add(buildAttributeAccessor(rootModel, a, AttributeAccessorMode.GET));
+    stubClass.methods.add(buildAttributeAccessor(rootModel, attribute, AttributeAccessorMode.GET));
     // setter if not readonly
-    if (!a.isReadonly()) {
-      stubClass.methods.add(buildAttributeAccessor(rootModel, a, AttributeAccessorMode.SET));
+    if (!attribute.isReadonly()) {
+      stubClass.methods.add(
+          buildAttributeAccessor(rootModel, attribute, AttributeAccessorMode.SET));
     }
     // notifier if not subscriptions disabled
-    if (!a.isNoSubscriptions()) {
-      appendNotifierElements(stubClass, stubListenerClass, a);
+    if (!attribute.isNoSubscriptions()) {
+      appendNotifierElements(stubClass, stubListenerClass, attribute);
     }
   }
 
   private void appendNotifierElements(
-      CppClass stubClass, CppClass stubListenerClass, FAttribute a) {
-    String uniqueNotifierName = a.getName() + "Changed";
+      CppClass stubClass, CppClass stubListenerClass, FAttribute attribute) {
+    String uniqueNotifierName = attribute.getName() + "Changed";
 
     CppParameter param = new CppParameter();
-    param.name = a.getName();
+    param.name = attribute.getName();
     param.mode = CppParameter.Mode.Input;
-    param.type = CppTypeMapper.map(rootModel, a);
+    param.type = CppTypeMapper.map(rootModel, attribute);
     if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
       param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
     }
@@ -306,7 +309,7 @@ public class StubGenerator {
     String arguments =
         StubCommentParser.generateParamDocumentation(
                 StubCommentParser.FORMATTER,
-                Collections.singletonList(a),
+                Collections.singletonList(attribute),
                 CommentFormatter.ParameterType.Input)
             .toString();
 
@@ -337,19 +340,21 @@ public class StubGenerator {
   }
 
   private void appendNotifierElements(
-      CppClass stubClass, CppClass stubListenerClass, FBroadcast b) {
-    String uniqueNotifierName = b.getName() + NameHelper.toUpperCamel(b.getSelector());
+      CppClass stubClass, CppClass stubListenerClass, FBroadcast broadcast) {
+    String uniqueNotifierName =
+        broadcast.getName() + NameHelper.toUpperCamel(broadcast.getSelector());
 
-    List<CppParameter> params =
-        b.getOutArgs()
+    List<CppParameter> parameters =
+        broadcast
+            .getOutArgs()
             .stream()
             .map(
-                a -> {
+                argument -> {
                   CppParameter param = new CppParameter();
-                  param.name = a.getName();
+                  param.name = argument.getName();
                   param.mode = CppParameter.Mode.Input;
 
-                  param.type = CppTypeMapper.map(rootModel, a.getType());
+                  param.type = CppTypeMapper.map(rootModel, argument.getType());
                   if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
                     param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
                   }
@@ -358,19 +363,21 @@ public class StubGenerator {
                 })
             .collect(Collectors.toList());
 
-    // generate arguments as input params
+    // generate arguments as input parameters
     String arguments =
         StubCommentParser.generateParamDocumentation(
-                StubCommentParser.FORMATTER, b.getOutArgs(), CommentFormatter.ParameterType.Input)
+                StubCommentParser.FORMATTER,
+                broadcast.getOutArgs(),
+                CommentFormatter.ParameterType.Input)
             .toString();
 
     // listener method
-    CppMethod listenerMethod = buildListenerMethod(uniqueNotifierName, params);
+    CppMethod listenerMethod = buildListenerMethod(uniqueNotifierName, parameters);
     listenerMethod.comment = "Called when the broadcast " + uniqueNotifierName + " is emitted\n*";
     listenerMethod.comment += arguments;
 
     // notifier method (stub to api layer)
-    CppMethod method = buildNotifierMethod(stubListenerClass, uniqueNotifierName, params);
+    CppMethod method = buildNotifierMethod(stubListenerClass, uniqueNotifierName, parameters);
     method.comment =
         "Notifier for the broadcast "
             + uniqueNotifierName
@@ -394,7 +401,7 @@ public class StubGenerator {
     method.name = "notify" + NameHelper.toUpperCamel(baseName);
     method.specifiers.add(CppMethod.Specifier.INLINE);
     method.inParameters.addAll(parameters);
-    method.mbt =
+    method.bodyTemplate =
         new NotifierBodyTemplate(stubListenerClass.name, "on" + NameHelper.toUpperCamel(baseName));
 
     return method;
@@ -405,7 +412,7 @@ public class StubGenerator {
     CppMethod method = new CppMethod();
     method.name = "on" + NameHelper.toUpperCamel(baseName);
     method.inParameters.addAll(parameters);
-    method.mbt = new EmptyBodyTemplate();
+    method.bodyTemplate = new EmptyBodyTemplate();
     method.specifiers.add(CppMethod.Specifier.VIRTUAL);
 
     return method;

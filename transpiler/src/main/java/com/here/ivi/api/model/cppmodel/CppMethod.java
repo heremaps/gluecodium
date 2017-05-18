@@ -59,18 +59,18 @@ public class CppMethod extends CppElement {
   public List<CppParameter> inParameters = new ArrayList<>();
   public List<CppParameter> outParameters = new ArrayList<>();
 
-  public MethodBodyTemplate mbt;
+  public MethodBodyTemplate bodyTemplate;
 
   public CharSequence generateBody() {
-    if (mbt == null) {
+    if (bodyTemplate == null) {
       return null;
     }
 
-    return mbt.generate(this);
+    return bodyTemplate.generate(this);
   }
 
   public boolean hasBody() {
-    return mbt != null;
+    return bodyTemplate != null;
   }
 
   public boolean hasParameters() {

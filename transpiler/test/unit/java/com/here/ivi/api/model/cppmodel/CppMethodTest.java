@@ -24,7 +24,7 @@ public class CppMethodTest {
 
   @Test
   public void generateBodyWithNullMethodBodyTemplate() {
-    cppMethod.mbt = null;
+    cppMethod.bodyTemplate = null;
 
     assertNull(cppMethod.generateBody());
   }
@@ -34,7 +34,7 @@ public class CppMethodTest {
     MethodBodyTemplate methodBodyTemplate = mock(MethodBodyTemplate.class);
     when(methodBodyTemplate.generate(cppMethod)).thenReturn(new StringConcatenation());
 
-    cppMethod.mbt = methodBodyTemplate;
+    cppMethod.bodyTemplate = methodBodyTemplate;
 
     assertNotNull(cppMethod.generateBody());
     verify(methodBodyTemplate).generate(cppMethod);

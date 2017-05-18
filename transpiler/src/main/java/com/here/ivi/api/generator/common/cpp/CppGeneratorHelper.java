@@ -37,35 +37,38 @@ public class CppGeneratorHelper {
     return GeneratorNoticeTemplate.generate(suite, inputDefinition, inputFile, outputTarget);
   }
 
-  public static CppMethod generateDtor(String className, MethodBodyTemplate mbt) {
+  public static CppMethod generateDtor(String className, MethodBodyTemplate methodBodyTemplate) {
     CppMethod dtor = new CppMethod();
     dtor.name = "~" + className;
-    dtor.mbt = mbt;
+    dtor.bodyTemplate = methodBodyTemplate;
     dtor.returnType = CppType.None;
     dtor.specifiers.add(CppMethod.Specifier.VIRTUAL);
     return dtor;
   }
 
-  public static CppMethod generateEmptyCtor(String className, MethodBodyTemplate mbt) {
+  public static CppMethod generateEmptyCtor(
+      String className, MethodBodyTemplate methodBodyTemplate) {
     CppMethod ctor = new CppMethod();
-    ctor.mbt = mbt;
+    ctor.bodyTemplate = methodBodyTemplate;
     ctor.name = className;
     ctor.returnType = CppType.None;
     return ctor;
   }
 
-  public static CppMethod generateCopyCtor(String className, MethodBodyTemplate mbt) {
+  public static CppMethod generateCopyCtor(
+      String className, MethodBodyTemplate methodBodyTemplate) {
     CppMethod ctor = new CppMethod();
-    ctor.mbt = mbt;
+    ctor.bodyTemplate = methodBodyTemplate;
     ctor.name = className;
     ctor.returnType = CppType.None;
     ctor.inParameters.add(generateClassParam(className));
     return ctor;
   }
 
-  public static CppMethod generateAssignOp(String className, MethodBodyTemplate mbt) {
+  public static CppMethod generateAssignOp(
+      String className, MethodBodyTemplate methodBodyTemplate) {
     CppMethod ctor = new CppMethod();
-    ctor.mbt = mbt;
+    ctor.bodyTemplate = methodBodyTemplate;
     ctor.name = "operator=";
     ctor.returnType = new CppType(className + "&"); //TODO ugly ref here...
     ctor.inParameters.add(generateClassParam(className));
