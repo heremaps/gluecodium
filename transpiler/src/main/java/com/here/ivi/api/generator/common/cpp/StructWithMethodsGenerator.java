@@ -44,15 +44,15 @@ public class StructWithMethodsGenerator {
       final GeneratorSuite suite,
       final FrancaModel<?, ?> model,
       final Interface<?> methods,
-      final TypeCollection<?> tc) {
+      final TypeCollection<?> typeCollection) {
 
-    CppNamespace ns = generateCppModel(methods, tc);
-    String outputFile = nameRules.getHeaderPath(tc);
+    CppNamespace ns = generateCppModel(methods, typeCollection);
+    String outputFile = nameRules.getHeaderPath(typeCollection);
     CppIncludeResolver resolver = new CppIncludeResolver(model, outputFile);
     resolver.resolveLazyIncludes(ns);
 
     CharSequence generatorNotice =
-        CppGeneratorHelper.generateGeneratorNotice(suite, tc, outputFile);
+        CppGeneratorHelper.generateGeneratorNotice(suite, typeCollection, outputFile);
     CharSequence innerContent =
         CppDelegatorTemplate.generate(
             new CppTemplateDelegator() {
@@ -67,13 +67,13 @@ public class StructWithMethodsGenerator {
     return new GeneratedFile(fileContent, outputFile);
   }
 
-  private CppNamespace generateCppModel(Interface<?> methods, TypeCollection<?> tc) {
+  private CppNamespace generateCppModel(Interface<?> methods, TypeCollection<?> typeCollection) {
 
     List<CppNamespace> packageNs =
         CppGeneratorHelper.packageToCppNamespace(
-            nameRules.convertPackageToNamespace(tc.getPackage()));
+            nameRules.convertPackageToNamespace(typeCollection.getPackage()));
 
-    CppClass newClass = generateClass(methods, tc);
+    CppClass newClass = generateClass(methods, typeCollection);
 
     // add to innermost namespace
     Iterables.getLast(packageNs).members.add(newClass);
@@ -82,12 +82,12 @@ public class StructWithMethodsGenerator {
     return Iterables.getFirst(packageNs, null);
   }
 
-  private CppClass generateClass(final Interface<?> api, final TypeCollection<?> tc) {
+  private CppClass generateClass(final Interface<?> api, final TypeCollection<?> typeCollection) {
 
-    CppClass newClass = new CppClass(nameRules.getStructName(tc.getName()));
+    CppClass newClass = new CppClass(nameRules.getStructName(typeCollection.getName()));
 
     // nested enums //////////////////////////
-    for (FType type : tc.getFrancaTypeCollection().getTypes()) {
+    for (FType type : typeCollection.getFrancaTypeCollection().getTypes()) {
       if (type instanceof FEnumerationType) {
         newClass.enums.add(
             TypeGenerationHelper.buildCppEnumClass(nameRules, (FEnumerationType) type));
@@ -95,7 +95,7 @@ public class StructWithMethodsGenerator {
     }
 
     // find member struct ///////////////////////////
-    FStructType memberStruct = StructMethodRules.findStructType(tc);
+    FStructType memberStruct = StructMethodRules.findStructType(typeCollection);
 
     if (memberStruct == null) {
       logger.warning("Failed to find type struct! ");
@@ -107,7 +107,7 @@ public class StructWithMethodsGenerator {
     // default values of members //////////////////////////
 
     FCompoundInitializer defaultInitializer = null;
-    for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
+    for (FConstantDef constantDef : typeCollection.getFrancaTypeCollection().getConstants()) {
       // only structs of the same type as belonging interface with correct name will be checked
       if (DefaultValuesRules.isStructDefaultValueConstant(constantDef)
           && StructMethodRules.isBelongingStruct(constantDef)) {
@@ -117,7 +117,7 @@ public class StructWithMethodsGenerator {
       }
     }
 
-    CppModelAccessor<?> rootType = new CppModelAccessor<>(tc, nameRules);
+    CppModelAccessor<?> rootType = new CppModelAccessor<>(typeCollection, nameRules);
 
     // if no specific defaults are defined, generate fields without any addition
     if (defaultInitializer == null) {
@@ -148,7 +148,7 @@ public class StructWithMethodsGenerator {
     generateNonDefaultConstructors(newClass, api);
 
     // constants
-    for (FConstantDef constantDef : tc.getFrancaTypeCollection().getConstants()) {
+    for (FConstantDef constantDef : typeCollection.getFrancaTypeCollection().getConstants()) {
 
       // skip all default values in the generation
       if (DefaultValuesRules.isStructDefaultValueConstant(constantDef)) {
@@ -187,7 +187,7 @@ public class StructWithMethodsGenerator {
         .forEach(
             method -> {
               CppMethod nonDefaultCtor = new CppMethod();
-              nonDefaultCtor.mbt = templateCtor;
+              nonDefaultCtor.bodyTemplate = templateCtor;
               nonDefaultCtor.name = newClass.name;
               nonDefaultCtor.returnType = CppType.None;
 
@@ -198,10 +198,10 @@ public class StructWithMethodsGenerator {
 
               nonDefaultCtor.comment = StubCommentParser.parse(method).getMainBodyText();
 
-              for (FArgument arg : method.getInArgs()) {
+              for (FArgument argument : method.getInArgs()) {
                 CppParameter param = new CppParameter();
-                param.name = nameRules.getArgumentName(arg.getName());
-                param.type = CppTypeMapper.map(rootModelIf, arg);
+                param.name = nameRules.getArgumentName(argument.getName());
+                param.type = CppTypeMapper.map(rootModelIf, argument);
                 param.mode = CppParameter.Mode.Input;
                 nonDefaultCtor.inParameters.add(param);
               }
