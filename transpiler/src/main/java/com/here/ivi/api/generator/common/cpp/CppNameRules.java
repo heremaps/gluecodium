@@ -11,7 +11,9 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
+import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
+import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import java.util.List;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
@@ -23,6 +25,12 @@ public interface CppNameRules {
 
   /** Returns the cpp getNamespace of given type */
   List<String> getNamespace(FType type);
+
+  /** Returns the cpp getNamespace of given definedBy */
+  List<String> getNamespace(DefinedBy definer);
+
+  /** Returns the cpp getNamespace of given ModelAccessor */
+  List<String> getNamespace(CppModelAccessor<?> modelAccesor);
 
   /** Returns the cpp typename of given type */
   String getCppTypename(FType type);
@@ -56,9 +64,6 @@ public interface CppNameRules {
 
   /** Formats a name as a typedef */
   String getTypedefName(String base);
-
-  /** Maps fidl package name to namespace */
-  List<String> convertPackageToNamespace(List<String> packages);
 
   /** Returns the name to use for header files (.h/.hpp) */
   String getHeaderFileSuffix();

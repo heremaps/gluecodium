@@ -124,7 +124,7 @@ public class TypeCollectionGenerator {
 
     List<CppNamespace> packageNs =
         CppGeneratorHelper.packageToCppNamespace(
-            nameRules.convertPackageToNamespace(tc.getPackage()));
+            nameRules.getNamespace(DefinedBy.createFromFrancaElement(tc)));
 
     // ensure to not create empty namespaces
     if (!result.isEmpty()) {

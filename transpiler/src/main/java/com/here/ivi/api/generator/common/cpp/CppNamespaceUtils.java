@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.common.cpp;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import java.util.List;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FType;
 
 public class CppNamespaceUtils {
   /**
@@ -26,9 +26,7 @@ public class CppNamespaceUtils {
 
     CppNameRules nameRules = rootModel.getRules();
     List<String> names =
-        builtDisjointNamespace(
-            nameRules.convertPackageToNamespace(rootModel.getDefiner().getPackages()),
-            nameRules.getNamespace(element));
+        builtDisjointNamespace(nameRules.getNamespace(rootModel), nameRules.getNamespace(element));
 
     names.add(nameRules.getCppTypename(element));
 
@@ -45,8 +43,7 @@ public class CppNamespaceUtils {
     CppNameRules nameRules = rootModel.getRules();
     List<String> names =
         builtDisjointNamespace(
-            nameRules.convertPackageToNamespace(rootModel.getDefiner().getPackages()),
-            nameRules.convertPackageToNamespace(typeDefiner.getPackages()));
+            nameRules.getNamespace(rootModel), nameRules.getNamespace(typeDefiner));
     names.add(name);
     return String.join("::", names);
   }

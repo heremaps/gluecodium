@@ -17,6 +17,7 @@ import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Interface;
+import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import java.io.File;
 import java.util.List;
 import navigation.CppStubSpec;
@@ -34,13 +35,25 @@ public class CppStubNameRules extends CppDefaultNameRules {
 
   public List<String> getNamespace(FType type) {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
-    List<String> result = definer.getPackages();
+    List<String> result = getNamespace(definer);
     // complex structs are modelled as fidl structs encapsulated in type collections
     // such structs are translated to c++ without the containing type collection but taking its name
     if (!definesStructWithMethods(definer)) {
       result.add(getTypeCollectionName(definer.type));
     }
     return result;
+  }
+
+  public List<String> getNamespace(DefinedBy definer) {
+    return definer.getPackages();
+  }
+
+  //this looks redundant in current revision, but it is required for APIGEN-42
+  //in short: for converter generation it is required to generate multiple cpp types
+  //out of one fidl definition
+  //see: APIGEN-42 & APIGEN-110
+  public List<String> getNamespace(CppModelAccessor<?> modelAccessor) {
+    return getNamespace(modelAccessor.getDefiner());
   }
 
   public String getClassName(FTypeCollection base) {
@@ -68,10 +81,6 @@ public class CppStubNameRules extends CppDefaultNameRules {
             ? getClassName(((Interface<?>) francaElement).getFrancaInterface())
             : getTypeCollectionName(francaElement.getFrancaTypeCollection()))
         + getHeaderFileSuffix();
-  }
-
-  public List<String> convertPackageToNamespace(List<String> packages) {
-    return packages; // keep namespace structure as package structure
   }
 
   public static String getListenerName(FInterface iface) {
