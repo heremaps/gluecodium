@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 
 public class Transpiler {
 
-  private static Logger logger = Logger.getLogger(Transpiler.class.getName());
+  private static final Logger logger = Logger.getLogger(Transpiler.class.getName());
 
   public static void main(final String[] args) {
 

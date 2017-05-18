@@ -15,12 +15,9 @@ import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.*;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class CppIncludeResolver {
-
-  static Logger logger = java.util.logging.Logger.getLogger(CppIncludeResolver.class.getName());
 
   private FrancaModel<?, ?> rootModel;
   private String outputFile;

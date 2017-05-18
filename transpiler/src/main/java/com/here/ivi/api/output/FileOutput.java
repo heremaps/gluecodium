@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 public class FileOutput implements GeneratorOutput {
 
-  private static Logger logger = Logger.getLogger(FileOutput.class.getName());
+  private static final Logger logger = Logger.getLogger(FileOutput.class.getName());
 
   public FileOutput(File rootPath) throws IOException {
     if (!rootPath.exists()) {

@@ -21,12 +21,10 @@ import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Logger;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
 public class CppTypeMapper {
-  private static Logger logger = java.util.logging.Logger.getLogger(CppTypeMapper.class.getName());
 
   public static CppType map(
       CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,

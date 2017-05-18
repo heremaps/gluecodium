@@ -18,7 +18,7 @@ import org.franca.core.franca.*;
 
 public class TypeGenerationHelper {
 
-  private static Logger logger =
+  private static final Logger logger =
       java.util.logging.Logger.getLogger(TypeGenerationHelper.class.getName());
 
   public static CppField buildCppField(

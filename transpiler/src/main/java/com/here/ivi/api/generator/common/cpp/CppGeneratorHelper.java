@@ -20,11 +20,8 @@ import com.here.ivi.api.model.cppmodel.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class CppGeneratorHelper {
-
-  static Logger logger = java.util.logging.Logger.getLogger(CppGeneratorHelper.class.getName());
 
   public static CharSequence generateGeneratorNotice(
       GeneratorSuite suite, FrancaElement<?> element, String outputTarget) {

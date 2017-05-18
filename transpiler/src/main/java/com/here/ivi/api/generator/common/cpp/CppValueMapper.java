@@ -21,7 +21,6 @@ import com.here.ivi.api.model.rules.BuiltInValueRules;
 import com.here.ivi.api.model.rules.DefaultValuesRules;
 import java.math.BigInteger;
 import java.util.Optional;
-import java.util.logging.Logger;
 import org.franca.core.franca.*;
 
 public class CppValueMapper {
@@ -31,8 +30,6 @@ public class CppValueMapper {
       new CppValue("std::numeric_limits< double >::quiet_NaN( )", CppLibraryIncludes.LIMITS);
   private static final CppValue MAX_FLOAT =
       new CppValue("std::numeric_limits< float >::max( )", CppLibraryIncludes.LIMITS);
-
-  private static Logger logger = java.util.logging.Logger.getLogger(CppValueMapper.class.getName());
 
   public static CppValue map(CppType type, FInitializerExpression rhs, CppNameRules nameRules) {
     if (rhs instanceof FCompoundInitializer) {
