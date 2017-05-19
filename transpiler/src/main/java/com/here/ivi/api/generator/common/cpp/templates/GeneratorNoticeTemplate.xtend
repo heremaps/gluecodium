@@ -1,4 +1,4 @@
-package com.here.ivi.api.generator.common.templates
+package com.here.ivi.api.generator.common.cpp.templates
 
 import java.util.Date
 import java.text.SimpleDateFormat

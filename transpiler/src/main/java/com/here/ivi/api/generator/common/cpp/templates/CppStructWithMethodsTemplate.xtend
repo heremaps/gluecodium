@@ -1,6 +1,6 @@
-package com.here.ivi.api.generator.common.templates
+package com.here.ivi.api.generator.common.cpp.templates
 
-import com.here.ivi.api.generator.common.templates.CppMethodTemplate
+import com.here.ivi.api.generator.common.cpp.templates.CppMethodTemplate
 import com.here.ivi.api.model.cppmodel.CppClass
 import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator
 
