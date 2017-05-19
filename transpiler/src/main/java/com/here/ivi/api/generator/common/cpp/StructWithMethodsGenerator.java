@@ -33,19 +33,14 @@ import java.util.stream.Collectors;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
-public class StructWithMethodsGenerator {
-
-  private final GeneratorSuite suite;
-  private final CppNameRules nameRules;
-  private final FrancaModel<?, ?> model;
+public class StructWithMethodsGenerator extends AbstractCppGenerator {
 
   private static final Logger logger = Logger.getLogger(StructWithMethodsGenerator.class.getName());
 
   public StructWithMethodsGenerator(
-      GeneratorSuite suite, CppNameRules rules, FrancaModel<?, ?> model) {
-    this.suite = suite;
-    this.nameRules = rules;
-    this.model = model;
+      GeneratorSuite suite, CppNameRules nameRules, FrancaModel<?, ?> coreModel) {
+
+    super(suite, nameRules, coreModel);
   }
 
   public GeneratedFile generate(
@@ -54,11 +49,10 @@ public class StructWithMethodsGenerator {
     CppNamespace ns = generateCppModel(methods, typeCollection);
     String outputFile = nameRules.getHeaderPath(typeCollection);
 
-    CppIncludeResolver resolver = new CppIncludeResolver(model, outputFile);
+    CppIncludeResolver resolver = getIncludeResolver(outputFile);
     resolver.resolveLazyIncludes(ns);
 
-    CharSequence generatorNotice =
-        CppGeneratorHelper.generateGeneratorNotice(suite, typeCollection, outputFile);
+    CharSequence generatorNotice = getGeneratorNotice(typeCollection, outputFile);
     CharSequence innerContent =
         CppDelegatorTemplate.generate(
             new CppTemplateDelegator() {

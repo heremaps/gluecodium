@@ -33,17 +33,12 @@ import org.franca.core.franca.*;
  * <p>Individual generators on top of the CppStubGenerator can then decide to either wrap these
  * types (e.g. Java + JNI, Swift, ...) or use them directly (traditional legacy).
  */
-public class TypeCollectionGenerator {
-
-  private final GeneratorSuite suite;
-  private final CppNameRules nameRules;
-  private final FrancaModel<?, ?> coreModel;
+public class TypeCollectionGenerator extends AbstractCppGenerator {
 
   public TypeCollectionGenerator(
       GeneratorSuite suite, CppNameRules nameRules, FrancaModel<?, ?> coreModel) {
-    this.suite = suite;
-    this.coreModel = coreModel;
-    this.nameRules = nameRules;
+
+    super(suite, nameRules, coreModel);
   }
 
   public GeneratedFile generate(TypeCollection<?> typeCollection) {
@@ -56,11 +51,10 @@ public class TypeCollectionGenerator {
     String outputFile = nameRules.getHeaderPath(typeCollection);
 
     // find included files and resolve relative to generated path
-    CppIncludeResolver resolver = new CppIncludeResolver(coreModel, outputFile);
+    CppIncludeResolver resolver = getIncludeResolver(outputFile);
     resolver.resolveLazyIncludes(model);
 
-    Object generatorNotice =
-        CppGeneratorHelper.generateGeneratorNotice(suite, typeCollection, outputFile);
+    Object generatorNotice = getGeneratorNotice(typeCollection, outputFile);
     Object innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), model);
     String fileContent =
         CppCommentHeaderTemplate.generate(generatorNotice, innerContent).toString();
