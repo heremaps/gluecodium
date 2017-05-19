@@ -63,4 +63,8 @@ public class DefaultValuesRules {
   public static boolean isEnumerator(FQualifiedElementRef qer) {
     return qer.getElement() instanceof FEnumerator;
   }
+
+  public static boolean isConstant(FQualifiedElementRef qer) {
+    return qer.getElement() instanceof FConstantDef;
+  }
 }
