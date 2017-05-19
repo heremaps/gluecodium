@@ -17,12 +17,12 @@ import java.math.BigInteger;
 import org.franca.core.franca.*;
 
 public class JavaValueMapper {
-  public static JavaValue map(JavaType type, FInitializerExpression rhs, JavaNameRules nameRules) {
+  public static JavaValue map(JavaType type, FInitializerExpression rhs) {
     if (rhs instanceof FCompoundInitializer) {
-      return map(type, (FCompoundInitializer) rhs, nameRules);
+      return map(type, (FCompoundInitializer) rhs);
     }
     if (rhs instanceof FQualifiedElementRef) {
-      return map(type, (FQualifiedElementRef) rhs, nameRules);
+      return map(type, (FQualifiedElementRef) rhs);
     }
 
     return map(rhs);

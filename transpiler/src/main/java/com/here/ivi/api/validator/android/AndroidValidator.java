@@ -13,8 +13,8 @@ package com.here.ivi.api.validator.android;
 
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.validator.common.ModelValidator;
-import navigation.LegacySpec.InterfacePropertyAccessor;
-import navigation.LegacySpec.TypeCollectionPropertyAccessor;
+import navigation.CppStubSpec.InterfacePropertyAccessor;
+import navigation.CppStubSpec.TypeCollectionPropertyAccessor;
 
 public final class AndroidValidator
     implements ModelValidator<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> {
