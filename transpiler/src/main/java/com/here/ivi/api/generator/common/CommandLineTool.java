@@ -25,7 +25,7 @@ import org.apache.commons.lang.text.StrBuilder;
  * com.here.ivi.api.generator.common.GeneratorSuite}. Executed command must accept input data on
  * stdin and return processed data to stdout
  */
-public class CommandLineTool implements IFileTool {
+public class CommandLineTool implements FileTool {
 
   private static Logger logger = Logger.getLogger(CommandLineTool.class.getName());
   private final String command;
@@ -58,7 +58,7 @@ public class CommandLineTool implements IFileTool {
 
   @Override
   public GeneratedFile process(GeneratedFile file) {
-    CharSequence processedContent = "";
+    CharSequence processedContent;
     try {
       processedContent = executeCommand(file.content);
     } catch (Exception e) {
@@ -127,7 +127,7 @@ public class CommandLineTool implements IFileTool {
       }
 
       InputStream stderr = process.getErrorStream();
-      String error = "";
+      String error;
       try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(stderr))) {
         StrBuilder errorBuilder = new StrBuilder();
         String line = errorReader.readLine();

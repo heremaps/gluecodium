@@ -15,7 +15,7 @@ import com.google.common.base.Strings;
 import java.util.regex.Pattern;
 import org.franca.core.franca.*;
 
-public final class DoxygenFormatter implements ICommentFormatter {
+public final class DoxygenFormatter implements CommentFormatter {
   public DoxygenFormatter(String generator) {
     doxygenTagsToKeep =
         Pattern.compile(

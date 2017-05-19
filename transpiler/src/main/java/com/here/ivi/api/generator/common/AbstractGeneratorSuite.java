@@ -23,7 +23,7 @@ import java.util.List;
 public abstract class AbstractGeneratorSuite implements GeneratorSuite {
 
   private final Transpiler tool;
-  private final List<IFileTool> fileTools;
+  private final List<FileTool> fileTools;
 
   public AbstractGeneratorSuite(Transpiler tp) {
     tool = tp;
@@ -45,7 +45,7 @@ public abstract class AbstractGeneratorSuite implements GeneratorSuite {
   @Override
   public final List<GeneratedFile> generate() {
     List<GeneratedFile> files = generateFiles();
-    for (IFileTool fileTool : fileTools) {
+    for (FileTool fileTool : fileTools) {
       files.replaceAll(fileTool::process);
     }
     return files;
@@ -64,7 +64,7 @@ public abstract class AbstractGeneratorSuite implements GeneratorSuite {
    *     AbstractGeneratorSuite#generateFiles} method. Inheriting classes should provide their own
    *     implementation with own set of tools to run.
    */
-  protected List<IFileTool> registerTools() {
+  protected List<FileTool> registerTools() {
     return new ArrayList<>();
   }
 }

@@ -12,8 +12,8 @@
 package com.here.ivi.api.generator.cppstub;
 
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
+import com.here.ivi.api.generator.common.CommentFormatter;
 import com.here.ivi.api.generator.common.DoxygenFormatter;
-import com.here.ivi.api.generator.common.ICommentFormatter;
 import java.util.Collection;
 import org.franca.core.franca.*;
 
@@ -73,14 +73,14 @@ public class StubCommentParser
     FMethod method = (FMethod) francaElement;
     StringBuilder sb =
         generateParamDocumentation(
-            commentFormatter, method.getInArgs(), ICommentFormatter.ParameterType.Input);
+            commentFormatter, method.getInArgs(), CommentFormatter.ParameterType.Input);
     comments.mainBodyText += sb.toString();
   }
 
   public static StringBuilder generateParamDocumentation(
-      ICommentFormatter formatter,
+      CommentFormatter formatter,
       Collection<? extends FModelElement> args,
-      ICommentFormatter.ParameterType input) {
+      CommentFormatter.ParameterType input) {
     StringBuilder sb = new StringBuilder();
 
     for (FModelElement parameter : args) {

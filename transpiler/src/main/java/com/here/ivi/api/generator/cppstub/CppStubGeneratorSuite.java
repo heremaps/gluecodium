@@ -16,8 +16,8 @@ import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.ClangFormatter;
 import com.here.ivi.api.generator.common.ConditionalExecutor;
+import com.here.ivi.api.generator.common.FileTool;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.IFileTool;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.common.cpp.StructWithMethodsGenerator;
 import com.here.ivi.api.generator.common.cpp.TypeCollectionGenerator;
@@ -155,8 +155,8 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
   }
 
   @Override
-  protected List<IFileTool> registerTools() {
-    List<IFileTool> tools = new LinkedList<>();
+  protected List<FileTool> registerTools() {
+    List<FileTool> tools = new LinkedList<>();
     try {
       tools.add(
           new ConditionalExecutor(

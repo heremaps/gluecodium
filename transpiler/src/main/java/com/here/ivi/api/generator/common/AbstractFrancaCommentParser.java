@@ -35,25 +35,25 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
     public String deprecatedText = null;
   }
 
-  public AbstractFrancaCommentParser(final FMethod method, ICommentFormatter formatter) {
+  public AbstractFrancaCommentParser(final FMethod method, CommentFormatter formatter) {
     this.francaElement = method;
     this.parser = this::parseMethodDocumentation;
     this.commentFormatter = formatter;
   }
 
-  public AbstractFrancaCommentParser(final FBroadcast broadcast, ICommentFormatter formatter) {
+  public AbstractFrancaCommentParser(final FBroadcast broadcast, CommentFormatter formatter) {
     this.francaElement = broadcast;
     this.parser = this::parseBroadcastDocumentation;
     this.commentFormatter = formatter;
   }
 
-  public AbstractFrancaCommentParser(final FAttribute attribute, ICommentFormatter formatter) {
+  public AbstractFrancaCommentParser(final FAttribute attribute, CommentFormatter formatter) {
     this.francaElement = attribute;
     this.parser = this::parseAttributeDocumentation;
     this.commentFormatter = formatter;
   }
 
-  public AbstractFrancaCommentParser(final FModelElement elem, ICommentFormatter formatter) {
+  public AbstractFrancaCommentParser(final FModelElement elem, CommentFormatter formatter) {
     this.francaElement = elem;
     this.parser = this::parseInterfaceDocumentation;
     this.commentFormatter = formatter;
@@ -148,7 +148,7 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
   protected FModelElement francaElement;
 
   protected T comments;
-  protected ICommentFormatter commentFormatter;
+  protected CommentFormatter commentFormatter;
 
   /* Try to match comment encapsulated between {tag} and {/tag} blocks in the fidl @description
    * annotation blocks.
