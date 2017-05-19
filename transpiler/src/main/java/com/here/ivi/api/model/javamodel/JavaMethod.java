@@ -42,6 +42,13 @@ public class JavaMethod extends JavaElement {
   public List<JavaParameter> outParameters = new ArrayList<>();
   public JavaMethodBodyTemplate mbt;
 
+  /** Empty default constructor for xtend templates. */
+  public JavaMethod() {}
+
+  public JavaMethod(String name) {
+    super(name);
+  }
+
   public CharSequence generateBody() {
     if (mbt == null) {
       return null;

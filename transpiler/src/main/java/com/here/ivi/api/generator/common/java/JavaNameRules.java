@@ -11,33 +11,59 @@
 
 package com.here.ivi.api.generator.common.java;
 
+import com.here.ivi.api.generator.common.NameHelper;
+import com.here.ivi.api.model.javamodel.JavaClass;
+import java.io.File;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 
-//TODO Find common parts with CppNameRules and split into multiple interfaces
-public interface JavaNameRules {
+public final class JavaNameRules {
+  private static final String JAVA_FILE_ENDING = ".java";
+  private static final String JAVA_PACKAGE_SEPARATOR = ".";
 
-  /** Returns the Java typename of given type */
-  String getTypename(FType type);
+  // TODO: Fetch package root from AndroidSpec later on:
+  private static final String JAVA_PACKAGE_ROOT = "com.here.ivi";
 
-  /** Formats a name as a class */
-  String getClassName(FTypeCollection base);
+  private JavaNameRules() {}
 
-  /** Formats a name as a method */
-  String getMethodName(String base);
+  public static String getFileName(final JavaClass javaClass, final String namespace) {
+    return namespace
+        + File.separator
+        + JAVA_PACKAGE_ROOT.replace(JAVA_PACKAGE_SEPARATOR, File.separator)
+        + File.separator
+        + javaClass.name
+        + JAVA_FILE_ENDING;
+  }
 
-  /** Formats a name as a argument */
-  String getArgumentName(String base);
+  public static String getTypename(final FType type) {
+    return type.getName();
+  }
 
-  /** Formats a name as a constant */
-  String getConstantName(String base);
+  public static String getClassName(final FTypeCollection base) {
+    return NameHelper.toUpperCamelCase(base.getName());
+  }
 
-  /** Formats a name as a enum */
-  String getEnumName(String base);
+  public static String getMethodName(final String base) {
+    return NameHelper.toLowerCamelCase(base);
+  }
 
-  /** Formats a name as a enum entry */
-  String getEnumEntryName(String base);
+  public static String getArgumentName(final String base) {
+    return NameHelper.toLowerCamelCase(base);
+  }
 
-  /** Formats a name as a field */
-  String getFieldName(String base);
+  public static String getConstantName(final String base) {
+    return NameHelper.toUpperSnakeCase(base);
+  }
+
+  public static String getEnumName(final String base) {
+    return NameHelper.toLowerCamelCase(base);
+  }
+
+  public static String getEnumEntryName(final String base) {
+    return NameHelper.toLowerCamelCase(base);
+  }
+
+  public static String getFieldName(final String base) {
+    return NameHelper.toLowerCamelCase(base);
+  }
 }

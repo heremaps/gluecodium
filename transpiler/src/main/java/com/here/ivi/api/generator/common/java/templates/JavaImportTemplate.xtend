@@ -14,10 +14,9 @@ package com.here.ivi.api.generator.common.java.templates
 import com.here.ivi.api.model.Includes
 
 class JavaImportTemplate {
-
   // TODO group includes
   // TODO Split 'Include' class into platform specifics?!?
-  static def generate(Includes.Include incl) '''
+  def static generate(Includes.Include incl) '''
     «
     switch (incl) {
       Includes.SystemInclude : '''import <«incl.file»>'''

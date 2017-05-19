@@ -9,25 +9,15 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.generator.common.java.templates
 
-import java.util.stream.Stream;
+import com.here.ivi.api.generator.common.cpp.templates.CopyrightNotice;
 
-public class JavaConstant extends JavaElement {
-  public JavaType type;
-  public JavaValue value;
-
-  public JavaConstant(final JavaType type, final String name) {
-    super(name);
-    this.type = type;
-  }
-
-  public boolean isValid() {
-    return type != null && value != null && type.isValid() && value.isValid();
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.of(type, value);
-  }
+class JavaCopyrightHeaderTemplate {
+  def static generate() '''
+    /*
+    «FOR line : CopyrightNotice.generate.toString.split(System.lineSeparator())» * «line»
+    «ENDFOR»
+     */
+  '''
 }

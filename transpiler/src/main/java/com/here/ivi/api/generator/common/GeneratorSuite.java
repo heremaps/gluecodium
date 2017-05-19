@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.Transpiler;
+import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.legacy.LegacyGeneratorSuite;
 import com.here.ivi.api.generator.converter.ConverterGeneratorSuite;
 import com.here.ivi.api.generator.cppstub.CppStubGeneratorSuite;
@@ -78,6 +79,8 @@ public interface GeneratorSuite {
       throws InvocationTargetException, NoSuchMethodException, InstantiationException,
           IllegalAccessException {
     switch (shortName) {
+      case "android":
+        return instantiate(AndroidGeneratorSuite.class, tool);
       case "legacy":
         return instantiate(LegacyGeneratorSuite.class, tool);
       case "stub":
@@ -93,7 +96,7 @@ public interface GeneratorSuite {
 
   /** @return all available generators */
   static List<String> generatorShortNames() {
-    return Arrays.asList("legacy", "stub", "objc", "legacyStubConverter");
+    return Arrays.asList("android", "legacy", "stub", "objc", "legacyStubConverter");
   }
 
   /**

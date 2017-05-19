@@ -18,6 +18,7 @@ public class JavaElement {
   public String name;
   public String comment = null;
 
+  /** Empty default constructor for xtend templates. */
   public JavaElement() {}
 
   public JavaElement(String name) {
