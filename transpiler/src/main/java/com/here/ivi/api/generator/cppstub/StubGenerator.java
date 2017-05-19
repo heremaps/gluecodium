@@ -307,7 +307,7 @@ public class StubGenerator {
         StubCommentParser.generateParamDocumentation(
                 StubCommentParser.FORMATTER,
                 Collections.singletonList(a),
-                ICommentFormatter.ParameterType.Input)
+                CommentFormatter.ParameterType.Input)
             .toString();
 
     // listener method
@@ -361,7 +361,7 @@ public class StubGenerator {
     // generate arguments as input params
     String arguments =
         StubCommentParser.generateParamDocumentation(
-                StubCommentParser.FORMATTER, b.getOutArgs(), ICommentFormatter.ParameterType.Input)
+                StubCommentParser.FORMATTER, b.getOutArgs(), CommentFormatter.ParameterType.Input)
             .toString();
 
     // listener method

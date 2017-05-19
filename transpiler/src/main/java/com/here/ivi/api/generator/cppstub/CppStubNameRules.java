@@ -65,7 +65,7 @@ public class CppStubNameRules extends CppDefaultNameRules {
         + String.join(File.separator, francaElement.getPackage())
         + File.separator
         + (francaElement instanceof Interface<?>
-            ? getClassName(((Interface) francaElement).getFrancaInterface())
+            ? getClassName(((Interface<?>) francaElement).getFrancaInterface())
             : getTypeCollectionName(francaElement.getFrancaTypeCollection()))
         + getHeaderFileSuffix();
   }

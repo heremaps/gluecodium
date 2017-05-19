@@ -18,17 +18,16 @@ import java.util.function.Predicate;
 import org.apache.commons.io.FilenameUtils;
 
 /** Class for conditional execution of arbitrary tool */
-public class ConditionalExecutor implements IFileTool {
+public class ConditionalExecutor implements FileTool {
 
-  private final IFileTool actualTool;
+  private final FileTool actualTool;
   private final Predicate<GeneratedFile> condition;
 
   /**
    * @param cond {@link java.util.function.Predicate Predicate} deciding when execute actual tool
-   * @param toolToExecute Actual {@link com.here.ivi.api.generator.common.IFileTool} to be executed
-   *     on file when condition is met
+   * @param toolToExecute Actual {@link FileTool} to be executed on file when condition is met
    */
-  public ConditionalExecutor(Predicate<GeneratedFile> cond, IFileTool toolToExecute) {
+  public ConditionalExecutor(Predicate<GeneratedFile> cond, FileTool toolToExecute) {
     actualTool = toolToExecute;
     condition = cond;
   }
@@ -55,7 +54,7 @@ public class ConditionalExecutor implements IFileTool {
    * @param extensions List of file extensions for which tool should be run
    * @return Predicate to use as {@link
    *     com.here.ivi.api.generator.common.ConditionalExecutor#ConditionalExecutor(Predicate,
-   *     IFileTool) cond}
+   *     FileTool) cond}
    */
   public static Predicate<GeneratedFile> fileExtensionFilter(List<String> extensions) {
     Set<String> allowedExtensions = new HashSet<>(extensions);
