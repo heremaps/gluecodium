@@ -44,7 +44,6 @@ sourceSets {
             srcDirs "${externalPath}/src-gen"
             srcDirs "${externalPath}/src"
             srcDirs "${externalPath}/model"
-            srcDirs "${externalPath}/xtend-gen"
         }
 
         // if these resources are not included, the xtext parsing will not work at runtime
