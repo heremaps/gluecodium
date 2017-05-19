@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
-import com.here.ivi.api.generator.common.templates.MethodBodyTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.MethodBodyTemplate;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.junit.Test;
 

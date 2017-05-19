@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.generator.common.templates.MethodBodyTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.MethodBodyTemplate;
 import com.here.ivi.api.model.CollectionsHelper;
 import java.util.*;
 import java.util.stream.Stream;

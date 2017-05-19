@@ -13,8 +13,8 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.templates.GeneratorNoticeTemplate;
-import com.here.ivi.api.generator.common.templates.MethodBodyTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.GeneratorNoticeTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.MethodBodyTemplate;
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.*;
 import java.io.IOException;

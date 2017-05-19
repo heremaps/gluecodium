@@ -1,4 +1,4 @@
-package com.here.ivi.api.generator.common.templates
+package com.here.ivi.api.generator.common.cpp.templates
 
 import com.here.ivi.api.model.cppmodel.CppNamespace
 import com.here.ivi.api.model.cppmodel.CppConstant
