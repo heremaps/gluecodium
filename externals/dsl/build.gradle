@@ -45,7 +45,6 @@ sourceSets {
         java {
             srcDirs "${externalPath}/src-gen"
             srcDirs "${externalPath}/src"
-            srcDirs "${externalPath}/xtend-gen"
         }
 
         // if these resources are not included, the xtext parsing will not work at runtime
