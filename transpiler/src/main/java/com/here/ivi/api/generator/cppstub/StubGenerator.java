@@ -35,18 +35,13 @@ import org.franca.core.franca.*;
 /**
  * This generator will create the stub interfaces that will then be used by the other generators.
  */
-public class StubGenerator {
-
-  private final GeneratorSuite suite;
-  private final CppNameRules nameRules;
-  private final FrancaModel<?, ?> coreModel;
+public class StubGenerator extends AbstractCppGenerator {
 
   private static Logger logger = java.util.logging.Logger.getLogger(StubGenerator.class.getName());
 
   public StubGenerator(GeneratorSuite suite, CppNameRules nameRules, FrancaModel<?, ?> coreModel) {
-    this.suite = suite;
-    this.nameRules = nameRules;
-    this.coreModel = coreModel;
+
+    super(suite, nameRules, coreModel);
   }
 
   public GeneratedFile generate(Interface<?> iface) {
@@ -59,11 +54,10 @@ public class StubGenerator {
     String outputFile = nameRules.getHeaderPath(iface);
 
     // find included files and resolve relative to generated path
-    CppIncludeResolver resolver = new CppIncludeResolver(coreModel, outputFile);
+    CppIncludeResolver resolver = getIncludeResolver(outputFile);
     resolver.resolveLazyIncludes(model);
 
-    CharSequence generatorNotice =
-        CppGeneratorHelper.generateGeneratorNotice(suite, iface, outputFile);
+    CharSequence generatorNotice = getGeneratorNotice(iface, outputFile);
     CharSequence innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), model);
     String fileContent =
         CppCommentHeaderTemplate.generate(generatorNotice, innerContent).toString();
