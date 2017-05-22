@@ -28,7 +28,7 @@ std::string NavcoreModuleImpl::getName() const
 NavcoreModuleStub::CreateGuidanceExpected NavcoreModuleImpl::createGuidance()
 {
     return NavcoreModuleStub::CreateGuidanceExpected::result(
-                std::make_shared<navigation::guidance::internal::GuidanceImpl>());
+                std::unique_ptr<navigation::guidance::internal::GuidanceImpl>(new navigation::guidance::internal::GuidanceImpl()));
 }
 
 } // namespace internal

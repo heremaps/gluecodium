@@ -37,7 +37,7 @@ public:
      */
     static Expected result(T value) {
         // this will also call the default constructor of the error, to be fixed when using optional
-        return Expected(value);
+        return Expected(std::move(value));
     }
 
     /**
@@ -74,9 +74,9 @@ public:
     }
 
     /**
-     * Retrieves the values from the result as a reference to a tuple
+     * Retrieves the value from the result as a reference.
      *
-     * @return The values
+     * @return A reference of the expected value
      * @note will abort if there was an error
      */
     inline const T& get_result() {
@@ -85,6 +85,22 @@ public:
             std::terminate(); // fail here, this is an error in the generated code
         }
         return m_result;
+    }
+
+    /**
+     * Takes the value from the result.
+     * This transfers the ownership of the result to the caller.
+     * After this call the result must not be used again.
+     *
+     * @return The value, moved out of this object.
+     * @note will abort if there was an error
+     */
+    inline T take_result() {
+        if (!m_succeeded) {
+            std::cerr << "Do not take a result from a invalid object!" << std::endl; // TODO switch to logging
+            std::terminate(); // fail here, this is an error in the generated code
+        }
+        return std::move(m_result);
     }
 
 private:

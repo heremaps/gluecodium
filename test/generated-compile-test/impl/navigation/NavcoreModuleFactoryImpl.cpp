@@ -17,7 +17,7 @@ namespace navigation {
 
 NavcoreModuleFactoryStub::CreateExpected NavcoreModuleFactoryStub::create()
 {
-    return NavcoreModuleFactoryStub::CreateExpected::result(std::make_shared<internal::NavcoreModuleFactoryImpl>());
+    return NavcoreModuleFactoryStub::CreateExpected::result(std::unique_ptr<internal::NavcoreModuleFactoryImpl>(new internal::NavcoreModuleFactoryImpl()));
 }
 
 namespace internal {
@@ -34,7 +34,7 @@ std::string NavcoreModuleFactoryImpl::getName() const
 
 NavcoreModuleFactoryStub::CreateModuleExpected NavcoreModuleFactoryImpl::createModule()
 {
-    return CreateModuleExpected::result(std::static_pointer_cast<ModuleStub>(std::make_shared<NavcoreModuleImpl>()));
+    return CreateModuleExpected::result(std::unique_ptr<ModuleStub>(new NavcoreModuleImpl()));
 }
 
 } // namespace internal

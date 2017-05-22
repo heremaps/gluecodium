@@ -16,23 +16,23 @@ namespace navigation {
 
 RuntimeStub::CreateRuntimeDefaultsExpected RuntimeStub::createRuntimeDefaults(  )
 {
-    auto runtime = std::make_shared<internal::RuntimeImpl>();
+    auto runtime = std::unique_ptr<internal::RuntimeImpl>(new internal::RuntimeImpl());
 
-    return RuntimeStub::CreateRuntimeDefaultsExpected::result(runtime);
+    return RuntimeStub::CreateRuntimeDefaultsExpected::result(std::move(runtime));
 }
 
 RuntimeStub::CreateRuntimeWithConfigExpected RuntimeStub::createRuntimeWithConfig( const std::string& configFile )
 {
-    auto runtime = std::make_shared<internal::RuntimeImpl>();
+    auto runtime = std::unique_ptr<internal::RuntimeImpl>(new internal::RuntimeImpl());
 
-    return RuntimeStub::CreateRuntimeWithConfigExpected::result(runtime);
+    return RuntimeStub::CreateRuntimeWithConfigExpected::result(std::move(runtime));
 }
 
 RuntimeStub::CreateRuntimeFullExpected RuntimeStub::createRuntimeFull( const std::string& configFile, const std::string& initialProfile, const std::string& initialLanguage )
 {
-    auto runtime = std::make_shared<internal::RuntimeImpl>();
+    auto runtime = std::unique_ptr<internal::RuntimeImpl>(new internal::RuntimeImpl());
 
-    return RuntimeStub::CreateRuntimeFullExpected::result(runtime);
+    return RuntimeStub::CreateRuntimeFullExpected::result(std::move(runtime));
 }
 
 namespace internal {
@@ -67,9 +67,8 @@ RuntimeStub::CreateModuleExpected RuntimeImpl::createModule(const std::string &n
 {
     for (auto factory : m_factories) {
         if (factory->getName() == name) {
-            return RuntimeStub::CreateModuleExpected::result(
-                        std::shared_ptr<ModuleStub>(factory->createModule().get_result())
-                        );
+            auto module_result = factory->createModule();
+            return RuntimeStub::CreateModuleExpected::result(std::move(module_result.take_result()));
         }
     }
 
