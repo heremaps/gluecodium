@@ -1,9 +1,9 @@
 package com.here.ivi.api.generator.cppstub.templates
 
 import com.here.ivi.api.model.cppmodel.CppMethod
-import com.here.ivi.api.generator.common.cpp.templates.MethodBodyTemplate
+import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate
 
-class StructCtor implements MethodBodyTemplate {
+class StructCtor implements CppMethodBodyTemplate {
 
   override generate(CppMethod m)
   {

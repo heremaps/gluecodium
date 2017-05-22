@@ -13,8 +13,8 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate;
 import com.here.ivi.api.generator.common.cpp.templates.GeneratorNoticeTemplate;
-import com.here.ivi.api.generator.common.cpp.templates.MethodBodyTemplate;
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.*;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class CppGeneratorHelper {
     return GeneratorNoticeTemplate.generate(suite, inputDefinition, inputFile, outputTarget);
   }
 
-  public static CppMethod generateDtor(String className, MethodBodyTemplate methodBodyTemplate) {
+  public static CppMethod generateDtor(String className, CppMethodBodyTemplate methodBodyTemplate) {
     CppMethod dtor = new CppMethod();
     dtor.name = "~" + className;
     dtor.bodyTemplate = methodBodyTemplate;
@@ -47,7 +47,7 @@ public class CppGeneratorHelper {
   }
 
   public static CppMethod generateEmptyCtor(
-      String className, MethodBodyTemplate methodBodyTemplate) {
+      String className, CppMethodBodyTemplate methodBodyTemplate) {
     CppMethod ctor = new CppMethod();
     ctor.bodyTemplate = methodBodyTemplate;
     ctor.name = className;
@@ -56,7 +56,7 @@ public class CppGeneratorHelper {
   }
 
   public static CppMethod generateCopyCtor(
-      String className, MethodBodyTemplate methodBodyTemplate) {
+      String className, CppMethodBodyTemplate methodBodyTemplate) {
     CppMethod ctor = new CppMethod();
     ctor.bodyTemplate = methodBodyTemplate;
     ctor.name = className;
@@ -66,7 +66,7 @@ public class CppGeneratorHelper {
   }
 
   public static CppMethod generateAssignOp(
-      String className, MethodBodyTemplate methodBodyTemplate) {
+      String className, CppMethodBodyTemplate methodBodyTemplate) {
     CppMethod ctor = new CppMethod();
     ctor.bodyTemplate = methodBodyTemplate;
     ctor.name = "operator=";

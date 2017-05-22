@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
-import com.here.ivi.api.generator.common.cpp.templates.MethodBodyTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.junit.Test;
 
@@ -23,15 +23,15 @@ public class CppMethodTest {
   private CppMethod cppMethod = new CppMethod();
 
   @Test
-  public void generateBodyWithNullMethodBodyTemplate() {
+  public void generateBodyWithNullCppMethodBodyTemplate() {
     cppMethod.bodyTemplate = null;
 
     assertNull(cppMethod.generateBody());
   }
 
   @Test
-  public void generateBodyWithMockMethodBodyTemplate() {
-    MethodBodyTemplate methodBodyTemplate = mock(MethodBodyTemplate.class);
+  public void generateBodyWithMockCppMethodBodyTemplate() {
+    CppMethodBodyTemplate methodBodyTemplate = mock(CppMethodBodyTemplate.class);
     when(methodBodyTemplate.generate(cppMethod)).thenReturn(new StringConcatenation());
 
     cppMethod.bodyTemplate = methodBodyTemplate;
