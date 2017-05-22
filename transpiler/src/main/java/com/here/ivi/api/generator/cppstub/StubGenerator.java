@@ -19,7 +19,6 @@ import com.here.ivi.api.generator.common.cpp.templates.CppDelegatorTemplate;
 import com.here.ivi.api.generator.cppstub.templates.EmptyBodyTemplate;
 import com.here.ivi.api.generator.cppstub.templates.NotifierBodyTemplate;
 import com.here.ivi.api.model.DefinedBy;
-import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cppmodel.*;
@@ -39,9 +38,10 @@ public class StubGenerator extends AbstractCppGenerator {
 
   private static Logger logger = java.util.logging.Logger.getLogger(StubGenerator.class.getName());
 
-  public StubGenerator(GeneratorSuite suite, CppNameRules nameRules, FrancaModel<?, ?> coreModel) {
+  public StubGenerator(
+      GeneratorSuite suite, CppNameRules nameRules, CppIncludeResolver includeResolver) {
 
-    super(suite, nameRules, coreModel);
+    super(suite, nameRules, includeResolver);
   }
 
   public GeneratedFile generate(Interface<?> iface) {
@@ -54,8 +54,7 @@ public class StubGenerator extends AbstractCppGenerator {
     String outputFile = nameRules.getHeaderPath(iface);
 
     // find included files and resolve relative to generated path
-    CppIncludeResolver resolver = getIncludeResolver(outputFile);
-    resolver.resolveLazyIncludes(model);
+    includeResolver.resolveLazyIncludes(model, outputFile);
 
     CharSequence generatorNotice = getGeneratorNotice(iface, outputFile);
     CharSequence innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), model);

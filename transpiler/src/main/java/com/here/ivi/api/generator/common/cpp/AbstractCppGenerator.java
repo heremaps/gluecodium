@@ -13,27 +13,22 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.model.FrancaElement;
-import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 
 public abstract class AbstractCppGenerator {
 
   private final GeneratorSuite suite;
   protected final CppNameRules nameRules;
-  private final FrancaModel<?, ?> coreModel;
+  protected final CppIncludeResolver includeResolver;
 
   public AbstractCppGenerator(
-      GeneratorSuite suite, CppNameRules nameRules, FrancaModel<?, ?> coreModel) {
+      GeneratorSuite suite, CppNameRules nameRules, CppIncludeResolver includeResolver) {
     this.suite = suite;
     this.nameRules = nameRules;
-    this.coreModel = coreModel;
+    this.includeResolver = includeResolver;
   }
 
   protected CharSequence getGeneratorNotice(FrancaElement<?> element, String fileName) {
     return CppGeneratorHelper.generateGeneratorNotice(suite, element, fileName);
-  }
-
-  protected CppIncludeResolver getIncludeResolver(String fileName) {
-    return new CppIncludeResolver(coreModel, fileName);
   }
 }
