@@ -16,6 +16,7 @@
 #include "stub/navigation/guidance/GuidanceStub.h"
 
 #include <iostream>
+#include <memory>
 
 bool testStubImpl()
 {
@@ -26,9 +27,9 @@ bool testStubImpl()
     RuntimeStub::CreateRuntimeWithConfigExpected re = RuntimeStub::createRuntimeWithConfig("foo/bar.json");
 
     if (re.succeeded()) {
-        auto runtime = re.get_result();
+        auto runtime = re.take_result();
 
-        auto registerError = runtime->registerModuleFactory(NavcoreModuleFactoryStub::create().get_result());
+        auto registerError = runtime->registerModuleFactory(NavcoreModuleFactoryStub::create().take_result());
         if (registerError != ErrorCode::None) {
             std::cerr << "Failed registerModuleFactory" << " (" << (int)registerError << ")" << std::endl;
             return false;
@@ -40,14 +41,14 @@ bool testStubImpl()
             return false;
         }
 
-        auto module = me.get_result();
-        auto ge = std::static_pointer_cast<NavcoreModuleStub>(module)->createGuidance();
+        std::unique_ptr<ModuleStub> module = me.take_result();
+        auto ge = static_cast<NavcoreModuleStub*>(module.get())->createGuidance(); // this is not nice, we need to rethink module creation
         if (!me.succeeded()) {
             std::cerr << "Failed createGuidance" << " (" << (int)ge.get_error() << ")" << std::endl;
             return false;
         }
 
-        auto guidance = ge.get_result();
+        auto guidance = ge.take_result();
 
         auto opt = guidance->checkForOptimalTtaRoute();
         std::cout << (int)opt << std::endl;
