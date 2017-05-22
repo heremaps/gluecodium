@@ -6,4 +6,4 @@ Ensure that you got this repository by using the api-transpiler manifest:
 
 # Building
 
-    gradle build
+    ./gradlew build
