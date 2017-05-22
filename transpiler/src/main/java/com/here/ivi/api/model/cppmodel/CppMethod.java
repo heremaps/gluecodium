@@ -52,7 +52,7 @@ public class CppMethod extends CppElement {
     }
   }
 
-  public String deprecatedComment = null;
+  public String deprecatedComment;
   public CppType returnType = CppType.Void;
   public Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
   public Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);

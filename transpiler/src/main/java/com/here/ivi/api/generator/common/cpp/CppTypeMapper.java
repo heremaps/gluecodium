@@ -93,7 +93,8 @@ public class CppTypeMapper {
 
     if (type.getDerived() != null) {
       return mapDerived(rootModel, type);
-    } else if (type.getPredefined() != null) {
+    }
+    if (type.getPredefined() != null) {
       return mapPredefined(type);
     }
     return new CppType();

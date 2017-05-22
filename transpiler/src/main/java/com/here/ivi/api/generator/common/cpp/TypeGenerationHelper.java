@@ -30,10 +30,10 @@ public class TypeGenerationHelper {
     field.type = CppTypeMapper.map(rootType, ffield);
 
     // if default values are specified in another object (see DefaultValueRules), use them
-    if (initializer != null) {
-      field.initializer = CppValueMapper.map(field.type, initializer.getValue(), nameRules);
-    } else {
+    if (initializer == null) {
       field.initializer = CppDefaultInitializer.map(ffield);
+    } else {
+      field.initializer = CppValueMapper.map(field.type, initializer.getValue(), nameRules);
     }
     return field;
   }

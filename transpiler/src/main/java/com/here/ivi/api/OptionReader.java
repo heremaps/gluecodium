@@ -28,7 +28,7 @@ public class OptionReader {
       return outputDir;
     }
 
-    public boolean dumpToStdout() {
+    public boolean isDumpingToStdout() {
       return stdoutDump;
     }
 
@@ -36,7 +36,7 @@ public class OptionReader {
       return generators;
     }
 
-    public boolean validateOnly() {
+    public boolean isValidatingOnly() {
       return validateOnly;
     }
 
@@ -44,7 +44,7 @@ public class OptionReader {
 
     protected String outputDir;
     protected boolean stdoutDump;
-    protected boolean validateOnly = false;
+    protected boolean validateOnly;
 
     protected List<String> generators;
   }
