@@ -69,11 +69,7 @@ typeCollection GeoLocation {
 
     // specification of default value
     const GeoLocation.DefiningType DefaultValues = {
-        coordinates: {
-            latitude: BuiltIn.NaNDouble,
-            longitude: BuiltIn.NaNDouble,
-            altitude: BuiltIn.NaNDouble
-        },
+        isDemo: false,
         speed: BuiltIn.NaNFloat,
         heading: BuiltIn.NaNFloat,
         pitch: BuiltIn.NaNFloat,
@@ -84,10 +80,14 @@ typeCollection GeoLocation {
         headingAccuracy: BuiltIn.NaNFloat,
         pitchAccuracy: BuiltIn.NaNFloat,
         odometerAccuracy: BuiltIn.NaNFloat,
-        isDemo: false,
         satelliteInfo: SatelliteInfo.DefaultValues,
         timestamp: 0,
         utcTimestamp: 0,
-        positionSource: 0
+        positionSource: 0,
+        coordinates: {
+            latitude: BuiltIn.NaNDouble,
+            longitude: BuiltIn.NaNDouble,
+            altitude: BuiltIn.NaNDouble
+        }
     }
 }
