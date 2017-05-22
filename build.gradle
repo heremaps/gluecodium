@@ -9,7 +9,6 @@ allprojects {
 
     apply plugin: 'java'
     apply plugin: 'idea'
-    apply plugin: 'com.diffplug.gradle.spotless'
 
     compileJava {
         options.encoding = "UTF-8"
@@ -23,6 +22,7 @@ allprojects {
                 "ordered:a:Ordered" ]
     }
 
+    apply plugin: 'com.diffplug.gradle.spotless'
     spotless {
         java {
             target project.fileTree(project.projectDir) {
@@ -30,7 +30,7 @@ allprojects {
                 exclude '**/build', 'externals'
             }
             googleJavaFormat()
-            licenseHeaderFile rootProject.file('here_java.license')
+            licenseHeaderFile rootProject.file('config/spotless/here_java.license')
             trimTrailingWhitespace()
             endWithNewline()
         }
@@ -40,7 +40,7 @@ allprojects {
                 include '**/*.h', '**/*.cpp'
                 exclude '**/build', 'externals'
             }
-            licenseHeaderFile rootProject.file('here_cpp.license'), '(#pragma|#include)'
+            licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'), '(#pragma|#include)'
             trimTrailingWhitespace()
             endWithNewline()
         }
@@ -50,7 +50,7 @@ allprojects {
                 include '**/*.fidl', '**/*.fdepl'
                 exclude '**/build', 'externals'
             }
-            licenseHeaderFile rootProject.file('here_java.license'),
+            licenseHeaderFile rootProject.file('config/spotless/here_java.license'),
                     '(package|import|specification)'
             trimTrailingWhitespace()
             endWithNewline()
