@@ -20,29 +20,27 @@ import java.util.stream.Collectors;
 public class CppIncludeResolver {
 
   private FrancaModel<?, ?> rootModel;
-  private String outputFile;
 
-  public CppIncludeResolver(FrancaModel<?, ?> rootModel, String outputFile) {
+  public CppIncludeResolver(FrancaModel<?, ?> rootModel) {
     this.rootModel = rootModel;
-    this.outputFile = outputFile;
   }
 
-  public void resolveLazyIncludes(CppElement root) {
+  public void resolveLazyIncludes(CppElement root, String outputFile) {
     root.streamRecursive()
         .filter(p -> p instanceof CppElementWithIncludes)
         .map(CppElementWithIncludes.class::cast)
-        .forEach(this::resolveLazyIncludes);
+        .forEach(type -> resolveLazyIncludes(type, outputFile));
   }
 
-  private void resolveLazyIncludes(CppElementWithIncludes type) {
+  private void resolveLazyIncludes(CppElementWithIncludes type, String outputFile) {
     type.includes =
         type.includes
             .stream()
             .map(
-                i -> {
-                  if (i instanceof Includes.LazyInternalInclude) {
+                include -> {
+                  if (include instanceof Includes.LazyInternalInclude) {
 
-                    Includes.LazyInternalInclude li = (Includes.LazyInternalInclude) i;
+                    Includes.LazyInternalInclude li = (Includes.LazyInternalInclude) include;
 
                     Optional<? extends FrancaElement<?>> externalDefinitionOpt =
                         rootModel.find(li.model, li.tc);
@@ -63,7 +61,7 @@ public class CppIncludeResolver {
                     return new Includes.InternalPublicInclude(includeName);
                   }
 
-                  return i;
+                  return include;
                 })
             .filter(Objects::nonNull)
             .collect(Collectors.toSet());

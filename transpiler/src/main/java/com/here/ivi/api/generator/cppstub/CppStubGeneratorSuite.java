@@ -26,6 +26,7 @@ import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
+import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.rules.StructMethodRules;
 import com.here.ivi.api.validator.common.BasicValidator;
 import com.here.ivi.api.validator.cppstub.CppStubValidator;
@@ -71,12 +72,13 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
     // TODO add model null check
 
     CppStubNameRules nameRules = new CppStubNameRules(model);
+    CppIncludeResolver includeResolver = new CppIncludeResolver(model);
 
-    StubGenerator stubGenerator = new StubGenerator(this, nameRules, model);
-    StructWithMethodsGenerator structGenerator =
-        new StructWithMethodsGenerator(this, nameRules, model);
+    StubGenerator stubGenerator = new StubGenerator(this, nameRules, includeResolver);
     TypeCollectionGenerator typeCollectionGenerator =
-        new TypeCollectionGenerator(this, nameRules, model);
+        new TypeCollectionGenerator(this, nameRules, includeResolver);
+    StructWithMethodsGenerator structGenerator =
+        new StructWithMethodsGenerator(this, nameRules, includeResolver);
 
     // partition model into ifaces, typecollections and structWithMethods and generate files from that
     Stream<GeneratedFile> generatorStreams =

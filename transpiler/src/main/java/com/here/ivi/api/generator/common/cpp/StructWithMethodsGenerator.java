@@ -38,9 +38,9 @@ public class StructWithMethodsGenerator extends AbstractCppGenerator {
   private static final Logger logger = Logger.getLogger(StructWithMethodsGenerator.class.getName());
 
   public StructWithMethodsGenerator(
-      GeneratorSuite suite, CppNameRules nameRules, FrancaModel<?, ?> coreModel) {
+      GeneratorSuite suite, CppNameRules nameRules, CppIncludeResolver includeResolver) {
 
-    super(suite, nameRules, coreModel);
+    super(suite, nameRules, includeResolver);
   }
 
   public GeneratedFile generate(
@@ -49,8 +49,7 @@ public class StructWithMethodsGenerator extends AbstractCppGenerator {
     CppNamespace ns = generateCppModel(methods, typeCollection);
     String outputFile = nameRules.getHeaderPath(typeCollection);
 
-    CppIncludeResolver resolver = getIncludeResolver(outputFile);
-    resolver.resolveLazyIncludes(ns);
+    includeResolver.resolveLazyIncludes(ns, outputFile);
 
     CharSequence generatorNotice = getGeneratorNotice(typeCollection, outputFile);
     CharSequence innerContent =

@@ -19,7 +19,6 @@ import com.here.ivi.api.generator.common.cpp.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.common.cpp.templates.CppDelegatorTemplate;
 import com.here.ivi.api.generator.cppstub.StubCommentParser;
 import com.here.ivi.api.model.DefinedBy;
-import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.TypeCollection;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -36,9 +35,9 @@ import org.franca.core.franca.*;
 public class TypeCollectionGenerator extends AbstractCppGenerator {
 
   public TypeCollectionGenerator(
-      GeneratorSuite suite, CppNameRules nameRules, FrancaModel<?, ?> coreModel) {
+      GeneratorSuite suite, CppNameRules nameRules, CppIncludeResolver includeResolver) {
 
-    super(suite, nameRules, coreModel);
+    super(suite, nameRules, includeResolver);
   }
 
   public GeneratedFile generate(TypeCollection<?> typeCollection) {
@@ -51,8 +50,7 @@ public class TypeCollectionGenerator extends AbstractCppGenerator {
     String outputFile = nameRules.getHeaderPath(typeCollection);
 
     // find included files and resolve relative to generated path
-    CppIncludeResolver resolver = getIncludeResolver(outputFile);
-    resolver.resolveLazyIncludes(model);
+    includeResolver.resolveLazyIncludes(model, outputFile);
 
     Object generatorNotice = getGeneratorNotice(typeCollection, outputFile);
     Object innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), model);
