@@ -35,13 +35,4 @@ define navigation.LegacySpec for interface navigation.guidance.Guidance
   method getBreakOutCountBeforeManeuver {
     ImplName = "get_break_count_before_maneuver"
   }
-  method updateRoute:NoOptions {
-    ImplName = ""
-  }
-  method startNavigation:WithRouteAndWaypoint {
-    ImplName = ""
-  }
-  method updateRoutePlan:NoMainRouteOptions {
-    ImplName = ""
-  }
 }
