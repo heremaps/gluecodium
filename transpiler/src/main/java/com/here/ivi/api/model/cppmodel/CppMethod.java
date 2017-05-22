@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.generator.common.cpp.templates.MethodBodyTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate;
 import com.here.ivi.api.model.CollectionsHelper;
 import java.util.*;
 import java.util.stream.Stream;
@@ -59,7 +59,7 @@ public class CppMethod extends CppElement {
   public List<CppParameter> inParameters = new ArrayList<>();
   public List<CppParameter> outParameters = new ArrayList<>();
 
-  public MethodBodyTemplate bodyTemplate;
+  public CppMethodBodyTemplate bodyTemplate;
 
   public CharSequence generateBody() {
     if (bodyTemplate == null) {
