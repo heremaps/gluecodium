@@ -36,7 +36,7 @@ public class CppValueMapper {
       return map(type, (FCompoundInitializer) rhs, nameRules);
     }
     if (rhs instanceof FQualifiedElementRef) {
-      return map((FQualifiedElementRef) rhs, nameRules);
+      return map(type, (FQualifiedElementRef) rhs, nameRules);
     }
 
     return map(rhs);
@@ -98,7 +98,7 @@ public class CppValueMapper {
   }
 
   // TODO handle namespaces here as well
-  public static CppValue map(FQualifiedElementRef qer, CppNameRules nameRules) {
+  public static CppValue map(CppType type, FQualifiedElementRef qer, CppNameRules nameRules) {
 
     if (qer.getElement() == null) {
       // TODO improve error output as seen in TypeMapper
@@ -124,7 +124,8 @@ public class CppValueMapper {
     String name = qer.getElement().getName();
 
     if (DefaultValuesRules.isEnumerator(qer)) {
-      name = nameRules.getEnumEntryName(name);
+      //as we don't generate plain enums but enum class, we need to add the enumeration name as well
+      name = type.name + "::" + nameRules.getEnumEntryName(name);
     }
 
     if (DefaultValuesRules.isConstant(qer)) {

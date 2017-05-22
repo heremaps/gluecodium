@@ -48,4 +48,34 @@ public class CppValueMapperTest {
     assertEquals(mappedValue.name, outputConstantName);
     verify(nameRules).getConstantName(inputConstantName);
   }
+
+  @Test
+  public void mapEnumeratorTest() {
+
+    //constant
+    final CppType cppType = new CppType("MyFancyType");
+    final String inputEnumeratorName = "EnumeratorIn";
+    final String outputEnumeratorName = "EnumeratorOut";
+    final String outputTypeName = cppType.name + "::" + outputEnumeratorName;
+
+    //mock franca types
+    FTypeCollection fTypeCollection = mock(FTypeCollection.class);
+    when(fTypeCollection.eContainer()).thenReturn(mock(FModel.class));
+
+    FEnumerator fEnumerator = mock(FEnumerator.class);
+    when(fEnumerator.getName()).thenReturn(inputEnumeratorName);
+    when(fEnumerator.eContainer()).thenReturn(fTypeCollection);
+
+    FQualifiedElementRef qualifiedElementRef = mock(FQualifiedElementRef.class);
+    when(qualifiedElementRef.getElement()).thenReturn(fEnumerator);
+
+    //mock nameRules
+    CppNameRules nameRules = mock(CppNameRules.class);
+    when(nameRules.getEnumEntryName(inputEnumeratorName)).thenReturn(outputEnumeratorName);
+
+    //actual test
+    CppValue mappedValue = CppValueMapper.map(cppType, qualifiedElementRef, nameRules);
+    assertEquals(mappedValue.name, outputTypeName);
+    verify(nameRules).getEnumEntryName(inputEnumeratorName);
+  }
 }
