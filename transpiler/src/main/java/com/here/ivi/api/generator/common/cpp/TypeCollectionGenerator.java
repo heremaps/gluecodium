@@ -78,9 +78,6 @@ public class TypeCollectionGenerator {
   }
 
   private CppNamespace buildCppModel() {
-    List<CppNamespace> packageNs =
-        CppGeneratorHelper.packageToCppNamespace(
-            nameRules.convertPackageToNamespace(tc.getPackage()));
 
     CppNamespace result =
         new CppNamespace(nameRules.getTypeCollectionName(tc.getFrancaTypeCollection()));
@@ -124,6 +121,10 @@ public class TypeCollectionGenerator {
                 constantDef.getName(), constantDef.getRhs().getClass()));
       }
     }
+
+    List<CppNamespace> packageNs =
+        CppGeneratorHelper.packageToCppNamespace(
+            nameRules.convertPackageToNamespace(tc.getPackage()));
 
     // ensure to not create empty namespaces
     if (!result.isEmpty()) {

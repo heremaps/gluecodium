@@ -21,7 +21,7 @@ import org.franca.core.franca.FTypeCollection;
  *
  * <p>It is used for resolving namespaces and includes.
  */
-public class DefinedBy {
+public final class DefinedBy {
 
   public final FTypeCollection type; // A FInterface is a FTypeCollection as well
   public final FModel model;
@@ -116,7 +116,7 @@ public class DefinedBy {
 
     EObject parent = obj.eContainer();
 
-    if (parent == obj || parent == null) {
+    if (parent == obj || parent == null) { // NOPMD
       return null;
     }
 

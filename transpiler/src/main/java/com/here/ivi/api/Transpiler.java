@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Transpiler {
+public final class Transpiler {
 
   private static final Logger logger = Logger.getLogger(Transpiler.class.getName());
 
@@ -71,7 +71,7 @@ public class Transpiler {
         boolean valid = generator.validate();
         logger.info(valid ? "Validation Succeeded" : "Validation Failed");
 
-        if (options.validateOnly()) {
+        if (options.isValidatingOnly()) {
           succeeded = succeeded && valid;
           continue;
         }
@@ -123,7 +123,7 @@ public class Transpiler {
 
   public void output(List<GeneratedFile> files) {
     // handle output options
-    if (options.dumpToStdout()) {
+    if (options.isDumpingToStdout()) {
       try {
         ConsoleOutput co = new ConsoleOutput();
         co.output(files);

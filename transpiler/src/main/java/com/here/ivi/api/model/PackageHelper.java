@@ -14,8 +14,8 @@ package com.here.ivi.api.model;
 import java.util.List;
 import org.eclipse.xtext.util.Strings;
 
-class PackageHelper {
-  static List<String> splitPackage(String modelName) {
+public class PackageHelper {
+  public static List<String> splitPackage(String modelName) {
     return Strings.split(modelName, ".");
   }
 }
