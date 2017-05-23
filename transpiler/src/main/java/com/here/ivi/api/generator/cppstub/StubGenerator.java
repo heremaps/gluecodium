@@ -122,7 +122,7 @@ public class StubGenerator {
           new CppInheritance(
               new CppType(
                   "here::internal::ListenerVector< " + stubListenerClass.name + " >",
-                  new Includes.SystemInclude("here/internal/ListenerVector.h")),
+                  new Includes.SystemInclude("cpp/internal/ListenerVector.h")),
               CppInheritance.Type.Public));
 
       innermostNs.members.add(stubListenerClass);
@@ -455,7 +455,7 @@ public class StubGenerator {
   }
 
   private static final Includes.SystemInclude EXPECTED_INCLUDE =
-      new Includes.SystemInclude("here/internal/expected.h");
+      new Includes.SystemInclude("cpp/internal/expected.h");
 
   private CppMethod buildAttributeAccessor(
       CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootType,

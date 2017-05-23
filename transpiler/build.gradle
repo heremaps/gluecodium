@@ -29,10 +29,7 @@ sourceSets {
             srcDirs 'src/main/java', 'build/fdepl-gen'
         }
         resources {
-            srcDirs "spec"
-            srcDirs "src/cpphelpers"
             srcDirs "src/main/java"
-            srcDirs "resources"
             include "**/*.fdepl"
             include "**/*.fidl"
             include "**/*.h"
@@ -64,7 +61,7 @@ dependencies {
 
 def buildDeployModelConfiguration(fdeplFile, output) {
     return {
-        workingDir = "spec"
+        workingDir = "src/main/resources"
         main = 'com.here.tools.FrancaDeploymodelGenerator'
         classpath = configurations.buildDeployModel
         inputs.file "${fdeplFile}"
@@ -75,13 +72,13 @@ def buildDeployModelConfiguration(fdeplFile, output) {
 }
 
 task buildCppStubDeployModel(type: JavaExec) {
-    configure buildDeployModelConfiguration('navigation/CppStubSpec.fdepl', fdeplOutput)
+    configure buildDeployModelConfiguration('franca/spec/CppStubSpec.fdepl', fdeplOutput)
 }
 generateXtext.dependsOn(buildCppStubDeployModel)
 clean.dependsOn(cleanBuildCppStubDeployModel)
 
 task buildLegacyDeployModel(type: JavaExec) {
-    configure buildDeployModelConfiguration('navigation/LegacySpec.fdepl', fdeplOutput)
+    configure buildDeployModelConfiguration('franca/spec/LegacySpec.fdepl', fdeplOutput)
 }
 generateXtext.dependsOn(buildLegacyDeployModel)
 clean.dependsOn(cleanBuildLegacyDeployModel)

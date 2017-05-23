@@ -11,7 +11,7 @@
 
 package navigation.positioning
 
-import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+import navigation.* from "classpath:/franca/spec/BuiltIn.fidl"
 
 interface MapMatcher {
   version {

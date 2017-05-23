@@ -13,7 +13,7 @@ package test
 
 import test.* from "./TypeDef.fidl"
 import test.TestTypeDef.* from "./TypeDef.fidl"
-import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+import navigation.* from "classpath:/franca/spec/BuiltIn.fidl"
 
 import model "./sub/TypeSubDef.fidl"
 

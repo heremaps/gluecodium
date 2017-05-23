@@ -11,7 +11,7 @@
 
 package test
 
-import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+import navigation.* from "classpath:/franca/spec/BuiltIn.fidl"
 import test.sub.TestTypeSubDef.* from  "./sub/TypeSubDef.fidl"
 
 interface TestInterface {

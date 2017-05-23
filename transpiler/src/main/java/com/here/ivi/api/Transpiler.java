@@ -48,7 +48,7 @@ public final class Transpiler {
 
   private Transpiler(OptionReader.TranspilerOptions options) {
     this.options = options;
-    TranspilerLogger.initialize("com/here/ivi/api/logger/logging.properties");
+    TranspilerLogger.initialize("logging.properties");
   }
 
   private boolean execute() {

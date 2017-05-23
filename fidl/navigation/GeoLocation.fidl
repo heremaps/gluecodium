@@ -11,7 +11,7 @@
 
 package navigation
 
-import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+import navigation.* from "classpath:/franca/spec/BuiltIn.fidl"
 import navigation.* from "./NavigationTypes.fidl"
 import navigation.* from "./GeoCoordinates.fidl"
 import navigation.* from "./SatelliteInfo.fidl"

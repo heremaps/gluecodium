@@ -29,7 +29,7 @@ public interface SpecAccessorFactory<InterfaceAccessor, TypeCollectionAccessor> 
    * Returns the full path to the Spec.fdepl file. This path is used to load the spec and create
    * default spec accessors that return the default values as defined in the Spec.
    *
-   * @return The path, e.g. "classpath:/navigation/LegacySpec.fdepl"
+   * @return The path, e.g. "classpath:/franca/spec/LegacySpec.fdepl"
    */
   String getSpecPath();
 
