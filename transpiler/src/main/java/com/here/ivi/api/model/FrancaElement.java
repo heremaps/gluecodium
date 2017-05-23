@@ -21,7 +21,7 @@ public interface FrancaElement<DPA extends CppStubSpec.IDataPropertyAccessor> {
 
   List<String> getPackage();
 
-  ModelInfo getModel();
+  ModelInfo getModelInfo();
 
   FTypeCollection getFrancaTypeCollection();
 

@@ -105,7 +105,7 @@ public class FrancaModel<
         .filter(
             i ->
                 i.getName().equals(needle.getName())
-                    && i.getModel().getName().equals(model.getName()))
+                    && i.getModelInfo().getName().equals(model.getName()))
         .findFirst();
   }
 
@@ -116,7 +116,7 @@ public class FrancaModel<
         .filter(
             i ->
                 i.getName().equals(needle.getName())
-                    && i.getModel().getName().equals(model.getName()))
+                    && i.getModelInfo().getName().equals(model.getName()))
         .findFirst();
   }
 

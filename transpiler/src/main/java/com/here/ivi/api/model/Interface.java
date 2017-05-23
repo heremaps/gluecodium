@@ -41,7 +41,7 @@ public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor>
   }
 
   @Override
-  public ModelInfo getModel() {
+  public ModelInfo getModelInfo() {
     return model;
   }
 
