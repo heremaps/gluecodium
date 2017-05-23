@@ -3,6 +3,7 @@ plugins {
 }
 
 apply plugin: 'org.xtext.xtend'
+apply plugin: 'jacoco'
 
 xtend {
     // generate xtend debug symbols
@@ -83,6 +84,34 @@ clean.dependsOn(cleanBuildLegacyDeployModel)
 
 apply plugin: 'application'
 mainClassName = 'com.here.ivi.api.Transpiler'
+
+jacoco {
+    toolVersion = "0.7.9"
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            limit {
+                counter = 'LINE'
+                minimum = 0.01
+            }
+        }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        csv.enabled true
+        html.enabled true
+        xml.enabled true
+
+        csv.destination file("${buildDir}/reports/coverage/coverageReport.csv")
+        html.destination file("${buildDir}/reports/coverage/html")
+        xml.destination file("${buildDir}/reports/coverage/coverageReport.xml")
+    }
+}
 
 jar {
     manifest {
