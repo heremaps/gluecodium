@@ -40,7 +40,6 @@ sourceSets {
     }
     test {
         java {
-            srcDirs 'test/unit/java'
         }
     }
 }
