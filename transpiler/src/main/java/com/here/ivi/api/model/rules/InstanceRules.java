@@ -23,7 +23,7 @@ import org.franca.core.franca.FTypeDef;
  * <p>Example definition: <code>
  * package navigation
  *
- * import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+ * import navigation.* from "classpath:/franca/spec/BuiltIn.fidl"
  *
  * interface CustomInterface {
  *    version { major 1  minor 0 }

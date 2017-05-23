@@ -9,7 +9,7 @@
  *
  */
 
-import "classpath:/navigation/CppStubSpec.fdepl"
+import "classpath:/franca/spec/CppStubSpec.fdepl"
 import "./NavcoreModule.fidl"
 import "./guidance/Guidance.fidl"
 

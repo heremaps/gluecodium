@@ -21,7 +21,7 @@ public class CppStubSpecAccessorFactory
         CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> {
   @Override
   public String getSpecPath() {
-    return "classpath:/navigation/CppStubSpec.fdepl";
+    return "classpath:/franca/spec/CppStubSpec.fdepl";
   }
 
   @Override

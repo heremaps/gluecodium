@@ -96,10 +96,10 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
     List<GeneratedFile> list =
         generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
     final String targetDir = "src/";
-    list.add(copyTarget("here/internal/AsyncAPI.h", targetDir));
-    list.add(copyTarget("here/internal/AsyncAPI.cpp", targetDir));
-    list.add(copyTarget("here/internal/expected.h", targetDir));
-    list.add(copyTarget("here/internal/ListenerVector.h", targetDir));
+    list.add(copyTarget("cpp/internal/AsyncAPI.h", targetDir));
+    list.add(copyTarget("cpp/internal/AsyncAPI.cpp", targetDir));
+    list.add(copyTarget("cpp/internal/expected.h", targetDir));
+    list.add(copyTarget("cpp/internal/ListenerVector.h", targetDir));
 
     return list;
   }
@@ -157,7 +157,7 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
       tools.add(
           new ConditionalExecutor(
               ConditionalExecutor.fileExtensionFilter(Arrays.asList("cpp", "h")),
-              new ClangFormatter("cpp_style/.clang-format", ClangFormatter.Language.CPP)));
+              new ClangFormatter("cpp/.clang-format", ClangFormatter.Language.CPP)));
     } catch (IOException e) {
       throw new TranspilerExecutionException("Registering tools failed with error:", e);
     }

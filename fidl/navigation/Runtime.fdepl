@@ -9,7 +9,7 @@
  *
  */
 
-import "classpath:/navigation/LegacySpec.fdepl"
+import "classpath:/franca/spec/LegacySpec.fdepl"
 import "./Runtime.fidl"
 import "./Module.fidl"
 

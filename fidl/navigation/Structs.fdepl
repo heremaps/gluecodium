@@ -9,7 +9,7 @@
  *
  */
 
-import "classpath:/navigation/CppStubSpec.fdepl"
+import "classpath:/franca/spec/CppStubSpec.fdepl"
 import "./GeoCoordinates.fidl"
 import "./GeoLocation.fidl"
 import "./NetworkProxy.fidl"

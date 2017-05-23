@@ -24,7 +24,7 @@ import org.franca.core.franca.FQualifiedElementRef;
  * values. <code>
  * package navigation
  *
- * import navigation.* from "classpath:/navigation/BuiltIn.fidl"
+ * import navigation.* from "classpath:/franca/spec/BuiltIn.fidl"
  *
  * typeCollection MyTypes {
  *     version {

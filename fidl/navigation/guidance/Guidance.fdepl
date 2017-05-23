@@ -9,7 +9,7 @@
  *
  */
 
-import "classpath:/navigation/LegacySpec.fdepl"
+import "classpath:/franca/spec/LegacySpec.fdepl"
 import "./Guidance.fidl"
 
 define navigation.LegacySpec for interface navigation.guidance.Guidance
