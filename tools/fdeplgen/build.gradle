@@ -1,9 +1,0 @@
-plugins {
-    id "org.xtext.xtend" version "1.0.15"
-}
-
-apply plugin: 'org.xtext.xtend'
-
-dependencies {
-    compile project(':externals:generator')
-}
