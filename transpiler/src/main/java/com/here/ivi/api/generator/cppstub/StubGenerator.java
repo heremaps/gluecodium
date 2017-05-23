@@ -420,24 +420,24 @@ public class StubGenerator {
     return method;
   }
 
-  private CppMethod buildStubMethod(FMethod m, CppType returnTypeName) {
-    CppMethod method = new CppMethod();
+  private CppMethod buildStubMethod(FMethod method, CppType returnTypeName) {
+    CppMethod cppMethod = new CppMethod();
 
-    method.name = m.getName() + NameHelper.toUpperCamelCase(m.getSelector());
-    method.returnType = returnTypeName;
+    cppMethod.name = method.getName() + NameHelper.toUpperCamelCase(method.getSelector());
+    cppMethod.returnType = returnTypeName;
 
-    if (rootModel.getAccessor().getStatic(m)) {
-      method.specifiers.add(CppMethod.Specifier.STATIC);
+    if (rootModel.getAccessor().getStatic(method)) {
+      cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
     } else {
-      if (iface.getPropertyAccessor().getConst(m)) {
+      if (iface.getPropertyAccessor().getConst(method)) {
         // const needs to be before = 0; This smells more than the = 0 below
-        method.qualifiers.add(CppMethod.Qualifier.CONST);
+        cppMethod.qualifiers.add(CppMethod.Qualifier.CONST);
       }
-      method.specifiers.add(CppMethod.Specifier.VIRTUAL);
-      method.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
+      cppMethod.specifiers.add(CppMethod.Specifier.VIRTUAL);
+      cppMethod.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
     }
 
-    for (FArgument inArg : m.getInArgs()) {
+    for (FArgument inArg : method.getInArgs()) {
       CppParameter param = new CppParameter();
       param.name = inArg.getName();
       param.mode = CppParameter.Mode.Input;
@@ -447,13 +447,13 @@ public class StubGenerator {
         param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
       }
 
-      method.inParameters.add(param);
+      cppMethod.inParameters.add(param);
     }
 
-    AbstractFrancaCommentParser.Comments comment = StubCommentParser.parse(m);
-    method.comment = comment.getMainBodyText();
+    AbstractFrancaCommentParser.Comments comment = StubCommentParser.parse(method);
+    cppMethod.comment = comment.getMainBodyText();
 
-    return method;
+    return cppMethod;
   }
 
   private static final Includes.SystemInclude EXPECTED_INCLUDE =
