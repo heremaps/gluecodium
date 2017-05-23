@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.common;
 import com.google.common.base.CaseFormat;
 
 public class NameHelper {
+
   public static String toSnakeCase(String input) {
     if (input == null) {
       return "";
@@ -28,14 +29,14 @@ public class NameHelper {
     return CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, input);
   }
 
-  public static String toUpperCamel(String input) {
+  public static String toUpperCamelCase(String input) {
     if (input == null) {
       return "";
     }
     return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input);
   }
 
-  public static String toLowerCamel(String input) {
+  public static String toLowerCamelCase(String input) {
     if (input == null) {
       return "";
     }

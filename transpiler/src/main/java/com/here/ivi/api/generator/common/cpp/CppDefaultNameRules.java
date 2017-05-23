@@ -56,27 +56,27 @@ public abstract class CppDefaultNameRules implements CppNameRules {
   }
 
   public String getTypeCollectionName(FTypeCollection base) {
-    return NameHelper.toUpperCamel(base.getName()); // MyTypeCollection
+    return NameHelper.toUpperCamelCase(base.getName()); // MyTypeCollection
   }
 
   public String getMethodName(String base) {
-    return NameHelper.toLowerCamel(base); // doStuff
+    return NameHelper.toLowerCamelCase(base); // doStuff
   }
 
   public String getArgumentName(String base) {
-    return NameHelper.toLowerCamel(base); // myArg
+    return NameHelper.toLowerCamelCase(base); // myArg
   }
 
   public String getEnumName(String base) {
-    return NameHelper.toUpperCamel(base); // MyEnum
+    return NameHelper.toUpperCamelCase(base); // MyEnum
   }
 
   public String getStructName(String base) {
-    return NameHelper.toUpperCamel(base); // MyStruct
+    return NameHelper.toUpperCamelCase(base); // MyStruct
   }
 
   public String getTypedefName(String base) {
-    return NameHelper.toUpperCamel(base); // MyTypedef
+    return NameHelper.toUpperCamelCase(base); // MyTypedef
   }
 
   public String getHeaderFileSuffix() {

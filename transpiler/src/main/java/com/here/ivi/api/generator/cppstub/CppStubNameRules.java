@@ -61,15 +61,15 @@ public class CppStubNameRules extends CppDefaultNameRules {
   }
 
   public String getEnumEntryName(String base) {
-    return NameHelper.toUpperCamel(base); // MyEnumEntry
+    return NameHelper.toUpperCamelCase(base); // MyEnumEntry
   }
 
   public String getFieldName(String base) {
-    return NameHelper.toLowerCamel(base); // myField
+    return NameHelper.toLowerCamelCase(base); // myField
   }
 
   public String getConstantName(String base) {
-    return NameHelper.toUpperCamel(base); // MyConstant
+    return NameHelper.toUpperCamelCase(base); // MyConstant
   }
 
   public String getHeaderPath(FrancaElement<?> francaElement) {
@@ -88,6 +88,6 @@ public class CppStubNameRules extends CppDefaultNameRules {
   }
 
   private static String computeClassName(FTypeCollection base) {
-    return NameHelper.toUpperCamel(base.getName()) + "Stub";
+    return NameHelper.toUpperCamelCase(base.getName()) + "Stub";
   }
 }

@@ -161,7 +161,8 @@ public class StubGenerator {
 
   private void appendMethodElements(CppClass stubClass, FMethod method) {
     String uniqueMethodName =
-        nameRules.getMethodName(method.getName()) + NameHelper.toUpperCamel(method.getSelector());
+        nameRules.getMethodName(method.getName())
+            + NameHelper.toUpperCamelCase(method.getSelector());
 
     CppType errorType;
     String errorComment = "";
@@ -193,7 +194,7 @@ public class StubGenerator {
       // create struct for multiple out arguments
       if (method.getOutArgs().size() > 1) {
         CppStruct struct = new CppStruct();
-        struct.name = NameHelper.toUpperCamel(uniqueMethodName) + "Result";
+        struct.name = NameHelper.toUpperCamelCase(uniqueMethodName) + "Result";
         struct.fields =
             method
                 .getOutArgs()
@@ -210,7 +211,7 @@ public class StubGenerator {
                       }
 
                       CppField field =
-                          new CppField(type, NameHelper.toLowerCamel(argument.getName()));
+                          new CppField(type, NameHelper.toLowerCamelCase(argument.getName()));
                       // document struct field with argument comment
                       field.comment = StubCommentParser.FORMATTER.readCleanedComment(argument);
                       return field;
@@ -263,7 +264,7 @@ public class StubGenerator {
               includes);
 
       // create & add using for this type with correct documentation
-      String usingTypeName = NameHelper.toUpperCamel(uniqueMethodName) + "Expected";
+      String usingTypeName = NameHelper.toUpperCamelCase(uniqueMethodName) + "Expected";
       CppUsing using = new CppUsing(usingTypeName, returnType);
       using.comment = typeComment;
       stubClass.usings.add(using);
@@ -342,7 +343,7 @@ public class StubGenerator {
   private void appendNotifierElements(
       CppClass stubClass, CppClass stubListenerClass, FBroadcast broadcast) {
     String uniqueNotifierName =
-        broadcast.getName() + NameHelper.toUpperCamel(broadcast.getSelector());
+        broadcast.getName() + NameHelper.toUpperCamelCase(broadcast.getSelector());
 
     List<CppParameter> parameters =
         broadcast
@@ -398,11 +399,12 @@ public class StubGenerator {
   private CppMethod buildNotifierMethod(
       CppClass stubListenerClass, String baseName, List<CppParameter> parameters) {
     CppMethod method = new CppMethod();
-    method.name = "notify" + NameHelper.toUpperCamel(baseName);
+    method.name = "notify" + NameHelper.toUpperCamelCase(baseName);
     method.specifiers.add(CppMethod.Specifier.INLINE);
     method.inParameters.addAll(parameters);
     method.bodyTemplate =
-        new NotifierBodyTemplate(stubListenerClass.name, "on" + NameHelper.toUpperCamel(baseName));
+        new NotifierBodyTemplate(
+            stubListenerClass.name, "on" + NameHelper.toUpperCamelCase(baseName));
 
     return method;
   }
@@ -410,7 +412,7 @@ public class StubGenerator {
   // they will be implemented by the next generator or other stubs
   private CppMethod buildListenerMethod(String baseName, List<CppParameter> parameters) {
     CppMethod method = new CppMethod();
-    method.name = "on" + NameHelper.toUpperCamel(baseName);
+    method.name = "on" + NameHelper.toUpperCamelCase(baseName);
     method.inParameters.addAll(parameters);
     method.bodyTemplate = new EmptyBodyTemplate();
     method.specifiers.add(CppMethod.Specifier.VIRTUAL);
@@ -421,7 +423,7 @@ public class StubGenerator {
   private CppMethod buildStubMethod(FMethod m, CppType returnTypeName) {
     CppMethod method = new CppMethod();
 
-    method.name = m.getName() + NameHelper.toUpperCamel(m.getSelector());
+    method.name = m.getName() + NameHelper.toUpperCamelCase(m.getSelector());
     method.returnType = returnTypeName;
 
     if (rootModel.getAccessor().getStatic(m)) {
@@ -474,7 +476,7 @@ public class StubGenerator {
     switch (mode) {
       case GET:
         {
-          m.name = "get" + NameHelper.toUpperCamel(attributeName);
+          m.name = "get" + NameHelper.toUpperCamelCase(attributeName);
           m.qualifiers.add(CppMethod.Qualifier.CONST);
           m.returnType = type;
           m.comment =
@@ -487,11 +489,11 @@ public class StubGenerator {
       case SET:
         {
           CppParameter param = new CppParameter();
-          param.name = NameHelper.toLowerCamel(attributeName);
+          param.name = NameHelper.toLowerCamelCase(attributeName);
           param.mode = CppParameter.Mode.Input;
           param.type = type;
 
-          m.name = "set" + NameHelper.toUpperCamel(attributeName);
+          m.name = "set" + NameHelper.toUpperCamelCase(attributeName);
           m.inParameters.add(param);
           m.returnType = CppType.Void;
           m.comment =
