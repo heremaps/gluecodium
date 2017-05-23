@@ -21,7 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,11 +53,31 @@ public final class Transpiler {
     TranspilerLogger.initialize("logging.properties");
   }
 
+  private static boolean checkForFileNameCollisions(
+      Map<String, String> fileNamesCache, List<GeneratedFile> files, String generatorName) {
+    boolean succeeded = true;
+    for (GeneratedFile file : files) {
+      String path = file.targetFile.getPath();
+      String previousEntry = fileNamesCache.get(path);
+      if (previousEntry == null) {
+        fileNamesCache.put(path, generatorName);
+      } else {
+        logger.severe(
+            String.format(
+                "Generator '%s' is overwriting file %s created already by '%s' ",
+                generatorName, path, previousEntry));
+        succeeded = false;
+      }
+    }
+    return succeeded;
+  }
+
   private boolean execute() {
 
     //Generation
     List<String> generators = discoverGenerators();
     boolean succeeded = true;
+    Map<String, String> fileNamesCache = new HashMap<>();
 
     for (String sn : generators) {
       logger.info("Using generator " + sn);
@@ -78,6 +100,9 @@ public final class Transpiler {
 
         if (valid) {
           List<GeneratedFile> outputFiles = generator.generate();
+          boolean processedWithoutCollisions =
+              checkForFileNameCollisions(fileNamesCache, outputFiles, sn);
+          succeeded = succeeded && processedWithoutCollisions;
           output(outputFiles);
         }
 
