@@ -111,3 +111,9 @@ task diff(type: JavaExec) {
        args 'test/data/Runtime.old.fidl', 'test/data/Runtime.fidl'
      }
 }
+
+apply plugin: 'pmd'
+pmd {
+    ruleSetFiles = files(rootProject.file('config/pmd/pmd-hard.xml'))
+    ignoreFailures true
+}
