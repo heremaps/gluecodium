@@ -17,7 +17,7 @@ import org.franca.core.franca.FTypeCollection;
 //TODO Find common parts with CppNameRules and split into multiple interfaces
 public interface JavaNameRules {
 
-  /** Returns the cpp typename of given type */
+  /** Returns the Java typename of given type */
   String getTypename(FType type);
 
   /** Formats a name as a class */
