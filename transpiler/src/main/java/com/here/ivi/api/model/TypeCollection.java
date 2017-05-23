@@ -31,13 +31,13 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
   }
 
   @Override
-  public ModelInfo getModel() {
-    return model;
+  public ModelInfo getModelInfo() {
+    return modelInfo;
   }
 
   @Override
   public List<String> getPackage() {
-    String name = model.getFrancaModel().getName();
+    String name = modelInfo.getFrancaModel().getName();
     return PackageHelper.splitPackage(name);
   }
 
@@ -56,7 +56,7 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
     if (o == null || !(o instanceof TypeCollection<?>)) return false;
     TypeCollection<?> co = (TypeCollection<?>) o;
     return getName().equals(co.getName())
-        && model.getFrancaModel().getName().equals(co.model.getFrancaModel().getName());
+        && modelInfo.getFrancaModel().getName().equals(co.modelInfo.getFrancaModel().getName());
   }
 
   @Override
@@ -100,13 +100,14 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
     return new TypeCollection<>(francaTypeCollection, accessor, info);
   }
 
-  public TypeCollection(FTypeCollection francaTypeCollection, Accessor accessor, ModelInfo model) {
+  public TypeCollection(
+      FTypeCollection francaTypeCollection, Accessor accessor, ModelInfo modelInfo) {
     this.francaTypeCollection = francaTypeCollection;
     this.accessor = accessor;
-    this.model = model;
+    this.modelInfo = modelInfo;
   }
 
   private final FTypeCollection francaTypeCollection;
   private final Accessor accessor;
-  private final ModelInfo model;
+  private final ModelInfo modelInfo;
 }

@@ -27,10 +27,10 @@ public class CppGeneratorHelper {
       GeneratorSuite suite, FrancaElement<?> element, String outputTarget) {
     String inputFile;
     try {
-      inputFile = suite.getTool().resolveRelativeToRootPath(element.getModel().getPath());
+      inputFile = suite.getTool().resolveRelativeToRootPath(element.getModelInfo().getPath());
     } catch (IOException e) {
       throw new TranspilerExecutionException(
-          String.format("Could not resolve input file %s.", element.getModel().getPath()));
+          String.format("Could not resolve input file %s.", element.getModelInfo().getPath()));
     }
 
     String inputDefinition = element.getName() + ':' + element.getVersion();
