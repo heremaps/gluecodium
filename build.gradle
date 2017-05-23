@@ -40,7 +40,8 @@ allprojects {
                 include '**/*.h', '**/*.cpp'
                 exclude '**/build', 'externals'
             }
-            licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'), '(#pragma|#include)'
+            licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
+                    '(#pragma|#include)'
             trimTrailingWhitespace()
             endWithNewline()
         }
@@ -52,6 +53,17 @@ allprojects {
             }
             licenseHeaderFile rootProject.file('config/spotless/here_java.license'),
                     '(package|import|specification)'
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+
+        format 'xtend', {
+            target project.fileTree(project.projectDir) {
+                include '**/*.xtend'
+                exclude '**/build', 'externals'
+            }
+            licenseHeaderFile rootProject.file('config/spotless/here_java.license'),
+                    '(package|import)'
             trimTrailingWhitespace()
             endWithNewline()
         }
