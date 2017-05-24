@@ -1,0 +1,45 @@
+// API Transpiler spotless configuration
+apply plugin: 'com.diffplug.gradle.spotless'
+spotless {
+    java {
+        target project.fileTree(project.projectDir) {
+            include '**/*.java'
+            exclude '**/build'
+        }
+        googleJavaFormat()
+        licenseHeaderFile rootProject.file('config/spotless/here_java.license')
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    format 'cpp', {
+        target project.fileTree(project.projectDir) {
+            include '**/*.h', '**/*.cpp'
+            exclude '**/build'
+        }
+        licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
+                '(#pragma|#include)'
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    format 'xtend', {
+        target project.fileTree(project.projectDir) {
+            include '**/*.xtend'
+            exclude '**/build'
+        }
+        licenseHeaderFile rootProject.file('config/spotless/here_java.license'),
+                '(package|import)'
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    format 'misc', {
+        target project.fileTree(project.rootDir) {
+            include '**/*.gradle', '**/*.md', '**/*.gitignore'
+            exclude '.gradle', '.idea'
+        }
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
