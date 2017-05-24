@@ -1,5 +1,4 @@
 plugins {
-    id 'com.diffplug.gradle.spotless' version '3.3.2'
     id 'com.jfrog.artifactory' version '4.4.0'
 }
 
@@ -25,61 +24,5 @@ allprojects {
                 "implNote:a:Implementation note",
                 "model:a:Model",
                 "ordered:a:Ordered" ]
-    }
-
-    apply plugin: 'com.diffplug.gradle.spotless'
-    spotless {
-        java {
-            target project.fileTree(project.projectDir) {
-                include '**/*.java'
-                exclude '**/build', 'externals'
-            }
-            googleJavaFormat()
-            licenseHeaderFile rootProject.file('config/spotless/here_java.license')
-            trimTrailingWhitespace()
-            endWithNewline()
-        }
-
-        format 'cpp', {
-            target project.fileTree(project.projectDir) {
-                include '**/*.h', '**/*.cpp'
-                exclude '**/build', 'externals'
-            }
-            licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
-                    '(#pragma|#include)'
-            trimTrailingWhitespace()
-            endWithNewline()
-        }
-
-        format 'franca', {
-            target project.fileTree(project.projectDir) {
-                include '**/*.fidl', '**/*.fdepl'
-                exclude '**/build', 'externals'
-            }
-            licenseHeaderFile rootProject.file('config/spotless/here_java.license'),
-                    '(package|import|specification)'
-            trimTrailingWhitespace()
-            endWithNewline()
-        }
-
-        format 'xtend', {
-            target project.fileTree(project.projectDir) {
-                include '**/*.xtend'
-                exclude '**/build', 'externals'
-            }
-            licenseHeaderFile rootProject.file('config/spotless/here_java.license'),
-                    '(package|import)'
-            trimTrailingWhitespace()
-            endWithNewline()
-        }
-
-        format 'misc', {
-            target project.fileTree(project.rootDir) {
-                include '**/*.gradle', '**/*.md', '**/*.gitignore'
-                exclude '.gradle', '.idea'
-            }
-            trimTrailingWhitespace()
-            endWithNewline()
-        }
     }
 }

@@ -1,6 +1,9 @@
 plugins {
     id "org.xtext.xtend" version "1.0.17"
+    id 'com.diffplug.gradle.spotless' version '3.3.2'
 }
+
+apply from: '../gradle/spotless.gradle'
 
 dependencies {
     compile project(':externals:deploymodel')
