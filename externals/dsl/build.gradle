@@ -18,6 +18,7 @@ dependencies {
     compile 'org.eclipse.emf:org.eclipse.emf.mwe.core:+'
     compile "org.eclipse.xtext:org.eclipse.xtext.xbase.lib:${xtextVersion}"
     compile "org.eclipse.xtext:org.eclipse.xtext.ecore:${xtextVersion}"
+    compile "org.eclipse.xtext:xtext-antlr-generator:2.1.1"
     compile "org.eclipse.equinox:common:+"
     compile "org.eclipse.equinox:registry:+"
     compile "org.eclipse.core:runtime:+"
@@ -27,13 +28,12 @@ dependencies {
     xtextLanguages 'org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:+'
     xtextLanguages 'org.eclipse.emf:org.eclipse.emf.codegen.ecore:+'
     xtextLanguages 'org.eclipse.emf:org.eclipse.emf.codegen.ecore.xtext:+'
-    xtextLanguages "org.eclipse.xtext:org.eclipse.xtext.xtext:${xtextVersion}"
+    xtextLanguages "org.eclipse.xtext:org.eclipse.xtext.generator:${xtextVersion}"
     xtextLanguages "org.eclipse.xtext:org.eclipse.xtext.ecore:${xtextVersion}"
     xtextLanguages project(':externals:core')
 
     mwe2 'org.eclipse.emf:org.eclipse.emf.mwe2.launch:2.8.2'
     mwe2 "org.eclipse.xtend:org.eclipse.xtend.lib:${xtextVersion}"
-    mwe2 "org.eclipse.xtext:org.eclipse.xtext.xtext:${xtextVersion}"
     mwe2 "org.eclipse.xtend:org.eclipse.xtend.lib:${xtextVersion}"
     mwe2 "org.eclipse.xtend:org.eclipse.xtend.core:${xtextVersion}"
 }

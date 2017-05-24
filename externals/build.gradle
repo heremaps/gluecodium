@@ -1,10 +1,9 @@
 plugins {
-    id "org.xtext.xtend" version "1.0.15"
+    id "org.xtext.xtend" version "1.0.17"
 }
 
-// Found this xtextVersion working quite well across all franca projects, mixing led to problems
-// defined as a global variable, so all sub projects can reuse it
-ext.xtextVersion = '2.9.2'
+ext.xtextVersion = '2.11.0'
+ext.xtendVersion = '2.11.0'
 ext.externalRoot = "${projectDir}/../../external"
 
 if (!new File("${externalRoot}").exists()) {
