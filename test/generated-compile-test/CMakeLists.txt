@@ -3,15 +3,10 @@ project( GeneratedTestImpl )
 
 set(GENERATED_BASE ${CMAKE_CURRENT_SOURCE_DIR}/../../transpiler/generated)
 
+file(GLOB_RECURSE STUB_HEADERS "${GENERATED_BASE}/stub/*.h")
+
 add_library( gentestlib
-  ${GENERATED_BASE}/stub/navigation/guidance/GuidanceTypes.h
-  ${GENERATED_BASE}/stub/navigation/guidance/GuidanceStub.h
-  ${GENERATED_BASE}/stub/navigation/routing/RoutingTypes.h
-  ${GENERATED_BASE}/stub/navigation/routing/RouteStub.h
-  ${GENERATED_BASE}/stub/navigation/NavigationTypes.h
-  ${GENERATED_BASE}/stub/navigation/RuntimeStub.h
-  ${GENERATED_BASE}/stub/navigation/ModuleStub.h
-  ${GENERATED_BASE}/stub/navigation/ModuleFactoryStub.h
+  ${STUB_HEADERS}
 
   ${GENERATED_BASE}/src/here/internal/expected.h
   ${GENERATED_BASE}/src/here/internal/ListenerVector.h
@@ -27,6 +22,16 @@ add_library( gentestlib
 )
 target_include_directories( gentestlib PUBLIC ${GENERATED_BASE} )
 target_include_directories( gentestlib PUBLIC "${GENERATED_BASE}/src/" )
+
+# force include all found headers into the main.cpp without needing to mention them by hand
+foreach(HEADER IN LISTS ${STUB_HEADERS})
+    if(MSVC)
+        set_source_files_properties(main.cpp PROPERTIES COMPILE_FLAGS -FI stub/${HEADER})
+    else()
+        # GCC or Clang
+        set_source_files_properties(main.cpp PROPERTIES COMPILE_FLAGS -include stub/${HEADER})
+    endif()
+endforeach(HEADER)
 
 # enable c++11
 target_compile_features( gentestlib PUBLIC cxx_range_for )
