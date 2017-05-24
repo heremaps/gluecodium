@@ -112,6 +112,12 @@ task diff(type: JavaExec) {
      }
 }
 
+apply plugin: 'checkstyle'
+checkstyle {
+    configFile = rootProject.file('config/checkstyle/checkstyle-hard.xml')
+    ignoreFailures true
+}
+
 apply plugin: 'pmd'
 pmd {
     ruleSetFiles = files(rootProject.file('config/pmd/pmd-hard.xml'))
