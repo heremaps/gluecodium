@@ -12,8 +12,19 @@
 package com.here.ivi.api.generator.cppstub;
 
 import com.google.common.collect.Iterables;
-import com.here.ivi.api.generator.common.*;
-import com.here.ivi.api.generator.common.cpp.*;
+import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
+import com.here.ivi.api.generator.common.CommentFormatter;
+import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.generator.common.NameHelper;
+import com.here.ivi.api.generator.common.cpp.AbstractCppGenerator;
+import com.here.ivi.api.generator.common.cpp.AttributeAccessorMode;
+import com.here.ivi.api.generator.common.cpp.CppGeneratorHelper;
+import com.here.ivi.api.generator.common.cpp.CppLibraryIncludes;
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
+import com.here.ivi.api.generator.common.cpp.CppNamespaceUtils;
+import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator;
+import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.cpp.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.common.cpp.templates.CppDelegatorTemplate;
 import com.here.ivi.api.generator.cppstub.templates.EmptyBodyTemplate;
@@ -21,7 +32,18 @@ import com.here.ivi.api.generator.cppstub.templates.NotifierBodyTemplate;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.Interface;
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cppmodel.CppClass;
+import com.here.ivi.api.model.cppmodel.CppElements;
+import com.here.ivi.api.model.cppmodel.CppField;
+import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
+import com.here.ivi.api.model.cppmodel.CppInheritance;
+import com.here.ivi.api.model.cppmodel.CppMethod;
+import com.here.ivi.api.model.cppmodel.CppModelAccessor;
+import com.here.ivi.api.model.cppmodel.CppNamespace;
+import com.here.ivi.api.model.cppmodel.CppParameter;
+import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppUsing;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +51,11 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import navigation.CppStubSpec;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FBroadcast;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMethod;
 
 /**
  * This generator will create the stub interfaces that will then be used by the other generators.
@@ -69,21 +95,25 @@ public class StubGenerator extends AbstractCppGenerator {
 
     // add to innermost namespace
     CppNamespace innermostNs = Iterables.getLast(packageNs);
+    String stubClassName = nameRules.getClassName(iface.getFrancaInterface());
+    CppClass stubClass =
+        new CppClass.Builder(stubClassName)
+            .comment(StubCommentParser.parse(iface.getFrancaInterface()).getMainBodyText())
+            .build();
 
-    CppClass stubClass = new CppClass(nameRules.getClassName(iface.getFrancaInterface()));
-    AbstractFrancaCommentParser.Comments comment =
-        StubCommentParser.parse(iface.getFrancaInterface());
-    stubClass.comment = comment.getMainBodyText();
-
+    String stubListenerName = CppStubNameRules.getListenerName(iface.getFrancaInterface());
     CppClass stubListenerClass =
-        new CppClass(CppStubNameRules.getListenerName(iface.getFrancaInterface()));
-    stubListenerClass.comment =
-        "The listener for @ref "
-            + stubClass.name
-            + ". Implement to receive broadcasts and attribute change notifications.";
+        new CppClass.Builder(stubListenerName)
+            .comment(
+                "The listener for @ref "
+                    + stubClassName
+                    + ". Implement to receive broadcasts and attribute change notifications.")
+            .build();
+
+    // TODO APIGEN-126: use a builder for CppClass for fill the fields: methods, inheritances, ..
 
     // allow creating a shared pointer from within this class
-    CppType sharedFromThis = new CppType("std::enable_shared_from_this< " + stubClass.name + " >");
+    CppType sharedFromThis = new CppType("std::enable_shared_from_this< " + stubClassName + " >");
     sharedFromThis.setIncludes(CppLibraryIncludes.MEMORY);
     stubClass.inheritances.add(new CppInheritance(sharedFromThis, CppInheritance.Type.Public));
 

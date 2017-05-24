@@ -84,7 +84,17 @@ public class StructWithMethodsGenerator extends AbstractCppGenerator {
   private CppClass generateClass(
       final Interface<?> methods, final TypeCollection<?> typeCollection) {
 
-    CppClass newClass = new CppClass(nameRules.getStructName(typeCollection.getName()));
+    String newClassName = nameRules.getStructName(typeCollection.getName());
+    CppClass.Builder newClassBuilder = new CppClass.Builder(newClassName);
+    // find member struct ///////////////////////////
+    FStructType memberStruct = StructMethodRules.findStructType(typeCollection);
+    if (memberStruct == null) {
+      logger.warning("Failed to find type struct! ");
+      return newClassBuilder.build();
+    }
+
+    CppClass newClass =
+        newClassBuilder.comment(StubCommentParser.parse(memberStruct).getMainBodyText()).build();
 
     // nested enums //////////////////////////
     for (FType type : typeCollection.getFrancaTypeCollection().getTypes()) {
@@ -93,16 +103,6 @@ public class StructWithMethodsGenerator extends AbstractCppGenerator {
             TypeGenerationHelper.buildCppEnumClass(nameRules, (FEnumerationType) type));
       }
     }
-
-    // find member struct ///////////////////////////
-    FStructType memberStruct = StructMethodRules.findStructType(typeCollection);
-
-    if (memberStruct == null) {
-      logger.warning("Failed to find type struct! ");
-      return newClass;
-    }
-
-    newClass.comment = StubCommentParser.parse(memberStruct).getMainBodyText();
 
     // default values of members //////////////////////////
 
