@@ -29,7 +29,7 @@ public class ModelInfo {
     return fModel.eResource().getURI().path();
   }
 
-  public FModel getFrancaModel() {
+  public FModel getFModel() {
     return fModel;
   }
 }
