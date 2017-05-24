@@ -1,5 +1,5 @@
 plugins {
-    id "org.xtext.xtend" version "1.0.15"
+    id "org.xtext.xtend" version "1.0.17"
 }
 
 apply plugin: 'org.xtext.xtend'
@@ -45,7 +45,6 @@ sourceSets {
 }
 
 dependencies {
-    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.11.0.beta2' // this is a nice version of xtend, that handles nested classes well
     compile 'commons-io:commons-io:+' // apache commons io for FileUtils
     compile 'org.apache.commons:commons-lang3:3.+'
     compile project(':externals:core')
