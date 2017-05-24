@@ -47,7 +47,7 @@ public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor>
 
   @Override
   public List<String> getPackage() {
-    String name = model.getFrancaModel().getName();
+    String name = model.getFModel().getName();
     return PackageHelper.splitPackage(name);
   }
 
@@ -70,7 +70,7 @@ public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor>
     if (o == null || !(o instanceof Interface<?>)) return false;
     Interface<?> co = (Interface<?>) o;
     return getName().equals(co.getName())
-        && model.getFrancaModel().getName().equals(co.model.getFrancaModel().getName());
+        && model.getFModel().getName().equals(co.model.getFModel().getName());
   }
 
   @Override

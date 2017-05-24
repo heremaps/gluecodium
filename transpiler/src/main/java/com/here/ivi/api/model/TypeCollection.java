@@ -37,7 +37,7 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
 
   @Override
   public List<String> getPackage() {
-    String name = modelInfo.getFrancaModel().getName();
+    String name = modelInfo.getFModel().getName();
     return PackageHelper.splitPackage(name);
   }
 
@@ -56,7 +56,7 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
     if (o == null || !(o instanceof TypeCollection<?>)) return false;
     TypeCollection<?> co = (TypeCollection<?>) o;
     return getName().equals(co.getName())
-        && modelInfo.getFrancaModel().getName().equals(co.modelInfo.getFrancaModel().getName());
+        && modelInfo.getFModel().getName().equals(co.modelInfo.getFModel().getName());
   }
 
   @Override
