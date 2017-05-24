@@ -16,6 +16,6 @@ import com.here.ivi.api.model.javamodel.JavaClass
 class JavaInheritanceTemplate {
     static def generate(JavaClass clazz) '''
         «FOR i : clazz.inheritances BEFORE 'extends ' SEPARATOR ', ' AFTER ' '»
-        «i.visibility.name().toLowerCase()» «i.parent.name»
+        «i.parent.name»
         «ENDFOR»'''
 }
