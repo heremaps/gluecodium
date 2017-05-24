@@ -495,8 +495,9 @@ public class StubGenerator extends AbstractCppGenerator {
       CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootType,
       FAttribute attribute,
       AttributeAccessorMode mode) {
-    CppMethod m = new CppMethod();
-    m.specifiers.add(CppMethod.Specifier.VIRTUAL);
+
+    CppMethod method = new CppMethod();
+    method.specifiers.add(CppMethod.Specifier.VIRTUAL);
 
     CppType type = CppTypeMapper.map(rootType, attribute);
     if (type.info == CppElements.TypeInfo.InterfaceInstance) {
@@ -508,10 +509,10 @@ public class StubGenerator extends AbstractCppGenerator {
     switch (mode) {
       case GET:
         {
-          m.name = "get" + NameHelper.toUpperCamelCase(attributeName);
-          m.qualifiers.add(CppMethod.Qualifier.CONST);
-          m.returnType = type;
-          m.comment =
+          method.name = "get" + NameHelper.toUpperCamelCase(attributeName);
+          method.qualifiers.add(CppMethod.Qualifier.CONST);
+          method.returnType = type;
+          method.comment =
               "Reads the "
                   + attributeName
                   + " attribute.\n*"
@@ -525,10 +526,10 @@ public class StubGenerator extends AbstractCppGenerator {
           param.mode = CppParameter.Mode.Input;
           param.type = type;
 
-          m.name = "set" + NameHelper.toUpperCamelCase(attributeName);
-          m.inParameters.add(param);
-          m.returnType = CppType.Void;
-          m.comment =
+          method.name = "set" + NameHelper.toUpperCamelCase(attributeName);
+          method.inParameters.add(param);
+          method.returnType = CppType.Void;
+          method.comment =
               "Sets the "
                   + attributeName
                   + " attribute.\n*"
@@ -537,8 +538,8 @@ public class StubGenerator extends AbstractCppGenerator {
         }
     }
 
-    m.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
+    method.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
 
-    return m;
+    return method;
   }
 }

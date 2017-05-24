@@ -75,8 +75,8 @@ public final class DoxygenFormatter implements CommentFormatter {
   }
 
   // TODO move to cppstubcommentparsethingie
-  public String readCleanedErrorComment(FMethod m) {
-    FAnnotationBlock errorComment = m.getErrorComment();
+  public String readCleanedErrorComment(FMethod method) {
+    FAnnotationBlock errorComment = method.getErrorComment();
     if (errorComment != null) {
       return cleanUpFrancaComment(readDescription(errorComment));
     }
