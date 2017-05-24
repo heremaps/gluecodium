@@ -8,7 +8,6 @@ allprojects {
     }
 
     apply plugin: 'java'
-    apply plugin: 'idea'
 
     compileJava {
         options.encoding = "UTF-8"
