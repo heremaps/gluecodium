@@ -23,4 +23,30 @@ public class CppAssignments {
       return leftHandSide.isValid() && rightHandSide.isValid();
     }
   }
+
+  /*
+   * This class models an assignment via a method call. Suppose the conversion from class A to class B like
+   *
+   * A sourceObject = <some initialization>;
+   * B target;
+   * convert(A,B);
+   *
+   * signature of belonging convert method:
+   * public static convert(const A& in, B& out);
+   */
+  public static class MethodAssignment extends CppElementWithIncludes implements CppAssignment {
+
+    public MethodAssignment(String name, CppValue inputParameter, CppValue outputParameter) {
+      super(name);
+      this.inputParameter = inputParameter;
+      this.outputParameter = outputParameter;
+    }
+
+    public CppValue inputParameter;
+    public CppValue outputParameter;
+
+    public boolean isValid() {
+      return name != null && inputParameter.isValid() && outputParameter.isValid();
+    }
+  }
 }
