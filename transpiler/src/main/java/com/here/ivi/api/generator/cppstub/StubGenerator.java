@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.cppstub;
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.common.CommentFormatter;
+import com.here.ivi.api.generator.common.CppElementFactory;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.NameHelper;
@@ -56,6 +57,8 @@ import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBroadcast;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeDef;
 
 /**
  * This generator will create the stub interfaces that will then be used by the other generators.
@@ -96,10 +99,9 @@ public class StubGenerator extends AbstractCppGenerator {
     // add to innermost namespace
     CppNamespace innermostNs = Iterables.getLast(packageNs);
     String stubClassName = nameRules.getClassName(iface.getFrancaInterface());
-    CppClass stubClass =
+    CppClass.Builder stubClassBuilder =
         new CppClass.Builder(stubClassName)
-            .comment(StubCommentParser.parse(iface.getFrancaInterface()).getMainBodyText())
-            .build();
+            .comment(StubCommentParser.parse(iface.getFrancaInterface()).getMainBodyText());
 
     String stubListenerName = CppStubNameRules.getListenerName(iface.getFrancaInterface());
     CppClass stubListenerClass =
@@ -112,15 +114,25 @@ public class StubGenerator extends AbstractCppGenerator {
 
     // TODO APIGEN-126: use a builder for CppClass for fill the fields: methods, inheritances, ..
 
+    CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel =
+        new CppModelAccessor<>(iface, nameRules);
+
+    for (FType type : iface.getFrancaInterface().getTypes()) {
+      if (type instanceof FTypeDef) {
+        FTypeDef typeDefinition = (FTypeDef) type;
+        CppUsing cppUsing = CppElementFactory.create(rootModel, typeDefinition);
+        if (cppUsing != null) {
+          stubClassBuilder.using(cppUsing);
+        }
+      }
+    }
+
+    CppClass stubClass = stubClassBuilder.build();
+
     // allow creating a shared pointer from within this class
     CppType sharedFromThis = new CppType("std::enable_shared_from_this< " + stubClassName + " >");
     sharedFromThis.setIncludes(CppLibraryIncludes.MEMORY);
     stubClass.inheritances.add(new CppInheritance(sharedFromThis, CppInheritance.Type.Public));
-
-    CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel =
-        new CppModelAccessor<>(iface, nameRules);
-
-    // TODO reuse TypeCollectionGenerator to generate types in interface definition
 
     for (FMethod method : iface.getFrancaInterface().getMethods()) {
       appendMethodElements(stubClass, method, rootModel);
