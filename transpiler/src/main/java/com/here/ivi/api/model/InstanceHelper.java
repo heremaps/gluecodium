@@ -16,9 +16,9 @@ import org.franca.core.franca.FTypeDef;
 
 /** This class takes care of identifying instance references */
 public final class InstanceHelper {
-  private static final String BUILTIN_MODEL = "navigation.BuiltIn";
-  private static final String INSTANCE_ID_POSTFIX = "Instance";
-  private static final String INSTANCE_ID_TYPE = "InstanceId";
+  public static final String BUILTIN_MODEL = "navigation.BuiltIn";
+  public static final String INSTANCE_ID_POSTFIX = "Instance";
+  public static final String INSTANCE_ID_TYPE = "InstanceId";
 
   /**
    * This method is used in conjunction with navigation.BuiltIn.InstanceId If a typedef is of the

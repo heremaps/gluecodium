@@ -81,6 +81,11 @@ public class CppClass extends CppElement {
       return this;
     }
 
+    public Builder using(CppUsing using) {
+      usings.add(using);
+      return this;
+    }
+
     public CppClass build() {
       return new CppClass(this);
     }
