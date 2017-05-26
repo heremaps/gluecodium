@@ -8,8 +8,8 @@ file(GLOB_RECURSE STUB_HEADERS "${GENERATED_BASE}/stub/*.h")
 add_library( gentestlib
   ${STUB_HEADERS}
 
-  ${GENERATED_BASE}/src/here/internal/expected.h
-  ${GENERATED_BASE}/src/here/internal/ListenerVector.h
+  ${GENERATED_BASE}/src/cpp/internal/expected.h
+  ${GENERATED_BASE}/src/cpp/internal/ListenerVector.h
 
   ${CMAKE_CURRENT_SOURCE_DIR}/impl/navigation/guidance/GuidanceImpl.h
   ${CMAKE_CURRENT_SOURCE_DIR}/impl/navigation/guidance/GuidanceImpl.cpp
