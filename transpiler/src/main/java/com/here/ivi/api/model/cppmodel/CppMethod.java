@@ -16,7 +16,7 @@ import com.here.ivi.api.model.CollectionsHelper;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class CppMethod extends CppElement {
+public class CppMethod extends CppElementWithIncludes {
   public enum Specifier {
     EXPLICIT("explicit"),
     INLINE("inline"),

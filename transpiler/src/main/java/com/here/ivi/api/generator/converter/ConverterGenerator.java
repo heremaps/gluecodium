@@ -82,29 +82,34 @@ public class ConverterGenerator extends AbstractCppGenerator {
   private <DPA extends CppStubSpec.TypeCollectionPropertyAccessor>
       CppNamespace generateConversionNamespace(final TypeCollection<DPA> tc) {
 
-    //conversion is done from a cpp type defined using rootType to the same
-    //type but defined by rootTypeOpposite (and vice versa)
-    CppModelAccessor<DPA> rootType = new CppModelAccessor<>(tc, super.nameRules);
-    CppModelAccessor<DPA> rootTypeOpposite = new CppModelAccessor<>(tc, nameRulesOpposite);
+    //conversion is done from a cpp type defined using rootTypeA to cpp type
+    //defined using rootTypeB (and vice versa)
+    CppModelAccessor<DPA> rootTypeA = new CppModelAccessor<>(tc, super.nameRules);
+    CppModelAccessor<DPA> rootTypeB = new CppModelAccessor<>(tc, nameRulesOpposite);
 
     CppNamespace conversionNamespace = new CppNamespace(conversionNamespaceName);
 
     // find types to be converted
     for (FType type : tc.getFrancaTypeCollection().getTypes()) {
-      // struct TODO: APIGEN-144
+
       if (type instanceof FStructType) {
-        // arrays, sets TODO: APIGEN-143 APIGEN-145
+        conversionNamespace.members.add(
+            ConverterGeneratorHelper.buildConvertMethod(
+                coreModel, rootTypeA, rootTypeB, (FStructType) type));
+        conversionNamespace.members.add(
+            ConverterGeneratorHelper.buildConvertMethod(
+                coreModel, rootTypeB, rootTypeA, (FStructType) type));
       } else if (type instanceof FArrayType) {
-        //maps TODO: APIGEN-142
+        // TODO APIGEN-143 APIGEN-145
       } else if (type instanceof FMapType) {
-        //enumeration
+        // TODO: APIGEN-142
       } else if (type instanceof FEnumerationType) {
         conversionNamespace.members.add(
             ConverterGeneratorHelper.buildConvertMethod(
-                coreModel, rootType, rootTypeOpposite, (FEnumerationType) type));
+                coreModel, rootTypeA, rootTypeB, (FEnumerationType) type));
         conversionNamespace.members.add(
             ConverterGeneratorHelper.buildConvertMethod(
-                coreModel, rootTypeOpposite, rootType, (FEnumerationType) type));
+                coreModel, rootTypeB, rootTypeA, (FEnumerationType) type));
       }
     }
     return conversionNamespace;

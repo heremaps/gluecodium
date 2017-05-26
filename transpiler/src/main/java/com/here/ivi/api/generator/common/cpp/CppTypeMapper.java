@@ -292,7 +292,7 @@ public class CppTypeMapper {
     }
   }
 
-  private static CppType mapStruct(CppModelAccessor<?> rootModel, FStructType struct) {
+  public static CppType mapStruct(CppModelAccessor<?> rootModel, FStructType struct) {
     DefinedBy structDefiner = DefinedBy.createFromFModelElement(struct);
 
     if (struct.getElements().isEmpty()) {
