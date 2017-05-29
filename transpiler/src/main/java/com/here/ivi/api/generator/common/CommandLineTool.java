@@ -13,8 +13,6 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.lang.text.StrBuilder;
@@ -27,31 +25,18 @@ import org.apache.commons.lang.text.StrBuilder;
 public class CommandLineTool implements FileTool {
 
   private final String command;
-  private List<String> initialArgs;
-  private String cwd = "";
-
-  /** @param cmd command to execute, excluding arguments */
-  public CommandLineTool(String cmd) {
-    command = cmd;
-    initialArgs = new ArrayList<>();
-  }
+  private final String cwd;
+  private final List<String> initialArgs;
 
   /**
-   * Method to set list of commands argument known prior to execution
-   *
-   * @param args list of arguments to pass to command
+   * @param command command to execute, excluding arguments
+   * @param cwd existing path which will be current working directory of executed command
+   * @param initialArgs list of arguments to pass to command*
    */
-  public void setArgs(String[] args) {
-    initialArgs = Arrays.asList(args);
-  }
-
-  /**
-   * Directory to execute command in.
-   *
-   * @param path existing path which will be current working directory of executed command
-   */
-  public void setCWD(String path) {
-    cwd = path;
+  public CommandLineTool(String command, String cwd, List<String> initialArgs) {
+    this.command = command;
+    this.cwd = cwd;
+    this.initialArgs = initialArgs;
   }
 
   @Override
