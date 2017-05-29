@@ -23,11 +23,9 @@ import java.util.List;
 public abstract class AbstractGeneratorSuite implements GeneratorSuite {
 
   private final Transpiler tool;
-  private final List<FileTool> fileTools;
 
   public AbstractGeneratorSuite(Transpiler tp) {
     tool = tp;
-    fileTools = registerTools();
   }
 
   @Override
@@ -44,8 +42,9 @@ public abstract class AbstractGeneratorSuite implements GeneratorSuite {
    */
   @Override
   public final List<GeneratedFile> generate() {
-    List<GeneratedFile> files = generateFiles();
-    for (FileTool fileTool : fileTools) {
+    // generateFiles() is not guaranteed to return a mutable List, so make a mutable copy
+    List<GeneratedFile> files = new ArrayList<>(generateFiles());
+    for (FileTool fileTool : registerTools()) {
       files.replaceAll(fileTool::process);
     }
     return files;
