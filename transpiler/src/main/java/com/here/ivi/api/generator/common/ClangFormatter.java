@@ -14,14 +14,21 @@ package com.here.ivi.api.generator.common;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 
 /** Class using clang-format tool to process file content */
 public class ClangFormatter extends CommandLineTool {
 
   /** Enums to choose language used while formatting files */
   public enum Language {
-    CPP,
-    JAVA,
+    CPP("cpp"),
+    JAVA("java");
+
+    public final String fileName;
+
+    Language(String fileName) {
+      this.fileName = fileName;
+    }
   }
 
   /**
@@ -34,8 +41,14 @@ public class ClangFormatter extends CommandLineTool {
    *     found in resources or has name different than '.clang-format'
    */
   public ClangFormatter(String styleFile, Language language) throws IOException {
-    super("clang-format");
-    URL resource = getClass().getClassLoader().getResource(styleFile);
+    super(
+        "clang-format",
+        getResourceDirectory(styleFile),
+        Arrays.asList("-style=file", String.format("-assume-filename=.%s", language.fileName)));
+  }
+
+  private static String getResourceDirectory(String styleFile) throws IOException {
+    URL resource = ClangFormatter.class.getClassLoader().getResource(styleFile);
     if (resource == null) {
       throw new IOException(
           String.format("Unable to load style file from resources: %s", styleFile));
@@ -49,26 +62,6 @@ public class ClangFormatter extends CommandLineTool {
           String.format(
               "Provided resource '%s' does not refer to '.clang-format' file", styleFile));
     }
-    String directory = file.getParent();
-    this.setCWD(directory);
-    this.setArgs(
-        new String[] {
-          "-style=file", String.format("-assume-filename=.%s", filenameFromLanguage(language))
-        });
-  }
-
-  private static String filenameFromLanguage(Language language) throws IOException {
-    String assumeFilename;
-    switch (language) {
-      case CPP:
-        assumeFilename = "cpp";
-        break;
-      case JAVA:
-        assumeFilename = "java";
-        break;
-      default:
-        throw new IOException(String.format("Unsupported language requested: '%s'", language));
-    }
-    return assumeFilename;
+    return file.getParent();
   }
 }
