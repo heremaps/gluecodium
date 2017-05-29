@@ -13,13 +13,57 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.cppstub.StubCommentParser;
 import com.here.ivi.api.model.cppmodel.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
 public class TypeGenerationHelper {
 
   private static final Logger logger =
       java.util.logging.Logger.getLogger(TypeGenerationHelper.class.getName());
+
+  /**
+   * This methods creates all fields for the given struct.
+   *
+   * <p>It will use the values assigned to the fields in the defaultInitializer if given to set the
+   * default values or fall back to values from the CppDefaultInitializer.
+   *
+   * @param rootType The type in which the fields will be used. Defines the naming rules and include
+   *     paths.
+   * @param struct The struct from which the fields are read
+   * @param defaultInitializer The default values for all the fields, can be null
+   * @return the list of cpp fields
+   */
+  public static List<CppField> buildCppFields(
+      CppModelAccessor<?> rootType, FStructType struct, FCompoundInitializer defaultInitializer) {
+
+    List<CppField> fields = new ArrayList<>();
+
+    // map matching fields to defaultInitializer constant to speed up lookup below
+    Map<FField, FFieldInitializer> initializerLookup = Collections.emptyMap();
+    if (defaultInitializer != null) {
+      initializerLookup =
+          defaultInitializer
+              .getElements()
+              .stream()
+              .collect(Collectors.toMap(FFieldInitializer::getElement, Function.identity()));
+    }
+
+    // if no specific defaults are defined, generate fields without any specific default values
+    for (FField fieldInfo : struct.getElements()) {
+      FFieldInitializer initializerValue = initializerLookup.get(fieldInfo);
+      CppField field = TypeGenerationHelper.buildCppField(rootType, fieldInfo, initializerValue);
+      field.comment = StubCommentParser.parse(fieldInfo).getMainBodyText();
+      fields.add(field);
+    }
+
+    return fields;
+  }
 
   public static CppField buildCppField(
       CppModelAccessor<?> rootType, FField ffield, FFieldInitializer initializer) {

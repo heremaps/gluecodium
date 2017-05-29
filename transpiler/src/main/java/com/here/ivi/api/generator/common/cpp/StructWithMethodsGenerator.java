@@ -24,12 +24,8 @@ import com.here.ivi.api.model.*;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.DefaultValuesRules;
 import com.here.ivi.api.model.rules.StructMethodRules;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import navigation.CppStubSpec;
 import org.franca.core.franca.*;
 
@@ -117,33 +113,15 @@ public class StructWithMethodsGenerator extends AbstractCppGenerator {
       }
     }
 
-    CppModelAccessor<?> rootType = new CppModelAccessor<>(typeCollection, nameRules);
-
     // generate fields /////////////////////////////////
-
-    // map matching fields to defaultInitializer constant
-    Map<FField, FFieldInitializer> initializerLookup = Collections.emptyMap();
-    if (defaultInitializer != null) {
-      initializerLookup =
-          defaultInitializer
-              .getElements()
-              .stream()
-              .collect(Collectors.toMap(FFieldInitializer::getElement, Function.identity()));
-    }
-
-    // if no specific defaults are defined, generate fields without any specific default values
-    for (FField fieldInfo : memberStruct.getElements()) {
-      FFieldInitializer initializerValue = initializerLookup.get(fieldInfo);
-      CppField field = TypeGenerationHelper.buildCppField(rootType, fieldInfo, initializerValue);
-      field.comment = StubCommentParser.parse(fieldInfo).getMainBodyText();
-      newClass.fields.add(field);
-    }
+    CppModelAccessor<?> rootType = new CppModelAccessor<>(typeCollection, nameRules);
+    newClass.fields.addAll(
+        TypeGenerationHelper.buildCppFields(rootType, memberStruct, defaultInitializer));
 
     // methods ////////////////////////////
     //////////////////////////////////////
 
     // default constructor is added via xtend template ...
-
     generateNonDefaultConstructors(newClass, methods);
 
     // constants
