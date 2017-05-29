@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import java.io.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.text.StrBuilder;
 
@@ -24,122 +24,122 @@ import org.apache.commons.lang.text.StrBuilder;
  */
 public class CommandLineTool implements FileTool {
 
-  private final String command;
+  private final List<String> processCommand;
   private final String cwd;
-  private final List<String> initialArgs;
 
   /**
    * @param command command to execute, excluding arguments
    * @param cwd existing path which will be current working directory of executed command
-   * @param initialArgs list of arguments to pass to command*
+   * @param initialArgs list of arguments to pass to command
    */
   public CommandLineTool(String command, String cwd, List<String> initialArgs) {
-    this.command = command;
     this.cwd = cwd;
-    this.initialArgs = initialArgs;
+
+    processCommand = new ArrayList<>();
+    processCommand.add(command);
+    processCommand.addAll(initialArgs);
   }
 
   @Override
   public GeneratedFile process(GeneratedFile file) {
-    CharSequence processedContent;
-    try {
-      processedContent = executeCommand(file.content);
-    } catch (Exception e) {
-      throw new TranspilerExecutionException("Executing tool failed with error:", e);
-    }
+
+    CharSequence processedContent = executeCommand(file.content);
     return new GeneratedFile(processedContent, file.targetFile);
   }
 
   /**
-   * Method to actually execute command
+   * Create and start system process with a given command line
    *
-   * @param input content to be processed
-   * @return processed data
-   * @throws IOException thrown in case of errors reading tool stdout or in case tool ended with
-   *     error
+   * @return system process
+   * @apiNote protected overridable for mock Process injection in tests
    */
-  protected CharSequence executeCommand(CharSequence input) throws Exception {
-    return executeCommand(input, new LinkedList<>());
+  protected Process startSystemProcess() {
+
+    ProcessBuilder processBuilder = new ProcessBuilder(processCommand);
+    if (!cwd.isEmpty()) {
+      processBuilder.directory(new File(cwd));
+    }
+
+    try {
+      return processBuilder.start();
+    } catch (IOException e) {
+      throw new TranspilerExecutionException(
+          String.format("Starting a process for tool '%s' failed with error:", processCommand), e);
+    }
   }
 
   /**
    * Method to actually execute command.
    *
    * @param input content to be processed
-   * @param additionalArgs additional argument to be passed to command. Can be used when ultimate
-   *     command line depends on content to be processed
    * @return processed data
-   * @throws IOException thrown in case of errors reading tool stdout or in case tool ended with
-   *     error
    */
-  protected CharSequence executeCommand(CharSequence input, List<String> additionalArgs)
-      throws Exception {
-    ProcessBuilder processBuilder = new ProcessBuilder();
-    processBuilder.command().add(command);
-    processBuilder.command().addAll(initialArgs);
-    processBuilder.command().addAll(additionalArgs);
-    if (!cwd.isEmpty()) {
-      processBuilder.directory(new File(cwd));
-    }
+  private CharSequence executeCommand(CharSequence input) {
 
-    Process process = processBuilder.start();
+    Process process = startSystemProcess();
     try {
-      String cmd = String.join(" ", processBuilder.command());
-
-      OutputStream stdin = process.getOutputStream();
-      if (input.length() > 0) {
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin))) {
-          writer.append(input);
-        } catch (IOException e) {
-          throw new TranspilerExecutionException(
-              String.format("Writing to stdin of tool '%s' failed with error:", cmd), e);
-        }
-      }
-
-      InputStream stdout = process.getInputStream();
-      StrBuilder outputBuilder = new StrBuilder();
-      try (BufferedReader outputReader = new BufferedReader(new InputStreamReader(stdout))) {
-        String line = outputReader.readLine();
-        while (line != null) {
-          outputBuilder.appendln(line);
-          line = outputReader.readLine();
-        }
-      } catch (IOException e) {
-        throw new TranspilerExecutionException(
-            String.format("Reading stdout of tool '%s' failed with error:", cmd), e);
-      }
-
-      InputStream stderr = process.getErrorStream();
-      String error;
-      try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(stderr))) {
-        StrBuilder errorBuilder = new StrBuilder();
-        String line = errorReader.readLine();
-        while (line != null) {
-          errorBuilder.appendln(line);
-          line = errorReader.readLine();
-        }
-        error = errorBuilder.toString();
-      } catch (IOException e) {
-        throw new TranspilerExecutionException(
-            String.format("Reading stderr of tool '%s' failed with error:", cmd), e);
-      }
+      writeInput(process, input);
+      String output = readOutput(process.getInputStream(), "stdout");
+      String error = readOutput(process.getErrorStream(), "stderr");
 
       process.waitFor();
-      int processExitValue = process.exitValue();
-      if (processExitValue != 0 || !error.isEmpty()) {
-        StrBuilder errorMessage = new StrBuilder();
-        errorMessage.appendln(
-            String.format("Tool '%s' ended with code: %d.", cmd, processExitValue));
-        if (!error.isEmpty()) {
-          errorMessage.appendln("Producing following error:");
-          errorMessage.appendln(error);
-        }
-        throw new TranspilerExecutionException(errorMessage.toString());
-      }
 
-      return outputBuilder.toString();
+      throwIfError(process, error);
+
+      return output;
+    } catch (InterruptedException e) {
+      throw new TranspilerExecutionException(
+          String.format("Waiting for the process of tool '%s' failed with error:", processCommand),
+          e);
     } finally {
       process.destroy();
+    }
+  }
+
+  private void writeInput(Process process, CharSequence input) {
+
+    if (input.length() == 0) {
+      return;
+    }
+
+    OutputStream stdin = process.getOutputStream();
+    try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin))) {
+      writer.append(input);
+    } catch (IOException e) {
+      throw new TranspilerExecutionException(
+          String.format("Writing to stdin of tool '%s' failed with error:", processCommand), e);
+    }
+  }
+
+  private String readOutput(InputStream inputStream, String streamName) {
+
+    try (BufferedReader outputReader = new BufferedReader(new InputStreamReader(inputStream))) {
+      StrBuilder outputBuilder = new StrBuilder();
+      String line = outputReader.readLine();
+      while (line != null) {
+        outputBuilder.appendln(line);
+        line = outputReader.readLine();
+      }
+      return outputBuilder.toString();
+    } catch (IOException e) {
+      throw new TranspilerExecutionException(
+          String.format("Reading %s of tool '%s' failed with error:", streamName, processCommand),
+          e);
+    }
+  }
+
+  private void throwIfError(Process process, String error) {
+
+    int processExitValue = process.exitValue();
+    if (processExitValue != 0 || !error.isEmpty()) {
+      StrBuilder errorMessage = new StrBuilder();
+      errorMessage.appendln(
+          String.format("Tool '%s' ended with code: %d.", processCommand, processExitValue));
+      if (!error.isEmpty()) {
+        errorMessage.appendln("Producing following error:");
+        errorMessage.appendln(error);
+      }
+      throw new TranspilerExecutionException(errorMessage.toString());
     }
   }
 }
