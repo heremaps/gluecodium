@@ -18,9 +18,12 @@ import static org.mockito.Mockito.*;
 import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public class CppMethodTest {
-  private CppMethod cppMethod = new CppMethod();
+@RunWith(JUnit4.class)
+public final class CppMethodTest {
+  private final CppMethod cppMethod = new CppMethod();
 
   @Test
   public void generateBodyWithNullCppMethodBodyTemplate() {

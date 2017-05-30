@@ -26,7 +26,7 @@ public class JavaEnum extends JavaElement {
         break;
       }
     }
-    return !items.isEmpty() && !name.isEmpty() && ret;
+    return !items.isEmpty() && name != null && !name.isEmpty() && ret;
   }
 
   @Override

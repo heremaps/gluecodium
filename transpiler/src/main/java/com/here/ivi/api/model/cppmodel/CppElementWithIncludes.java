@@ -17,13 +17,13 @@ import java.util.*;
 public class CppElementWithIncludes extends CppElement {
   public Set<Includes.Include> includes = Collections.emptySet();
 
-  public CppElementWithIncludes(String value) {
-    super(value);
+  public CppElementWithIncludes(final String name) {
+    super(name);
     this.includes = new HashSet<>();
   }
 
-  public CppElementWithIncludes(String value, Collection<Includes.Include> includes) {
-    super(value);
+  public CppElementWithIncludes(final String name, final Collection<Includes.Include> includes) {
+    super(name);
     this.includes = new HashSet<>(includes);
   }
 }

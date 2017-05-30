@@ -18,12 +18,13 @@ import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.*;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public class CppValueMapperTest {
-
+@RunWith(JUnit4.class)
+public final class CppValueMapperTest {
   @Test
   public void mapConstantValueTest() {
-
     final String inputConstantName = "SomeFancyName";
     final String outputConstantName = "desiredOutputName";
 
@@ -51,7 +52,6 @@ public class CppValueMapperTest {
 
   @Test
   public void mapEnumeratorTest() {
-
     //constant
     final CppType cppType = new CppType("MyFancyType");
     final String inputEnumeratorName = "EnumeratorIn";
