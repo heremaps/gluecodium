@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.common;
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.legacy.LegacyGeneratorSuite;
 import com.here.ivi.api.generator.cppstub.CppStubGeneratorSuite;
+import com.here.ivi.api.generator.objc.ObjCGeneratorSuite;
 import com.here.ivi.api.model.FDHelper;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -80,6 +81,8 @@ public interface GeneratorSuite {
         return instantiate(LegacyGeneratorSuite.class, tool);
       case "stub":
         return instantiate(CppStubGeneratorSuite.class, tool);
+      case "objc":
+        return instantiate(ObjCGeneratorSuite.class, tool);
     }
 
     throw new InstantiationException();
@@ -87,7 +90,7 @@ public interface GeneratorSuite {
 
   /** @return all available generators */
   static List<String> generatorShortNames() {
-    return Arrays.asList("legacy", "stub");
+    return Arrays.asList("legacy", "stub", "objc");
   }
 
   /**
