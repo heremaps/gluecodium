@@ -21,8 +21,8 @@ public class JavaValue extends JavaElementWithIncludes {
     super(null);
   }
 
-  public JavaValue(String value) {
-    super(value);
+  public JavaValue(String name) {
+    super(name);
   }
 
   public JavaValue(String value, Includes.Include... includes) {

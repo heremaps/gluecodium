@@ -20,13 +20,13 @@ import java.util.Set;
 public class JavaElementWithIncludes extends JavaElement {
   public Set<Includes.Include> includes = Collections.emptySet();
 
-  public JavaElementWithIncludes(String value) {
-    super(value);
+  public JavaElementWithIncludes(String name) {
+    super(name);
     includes = new HashSet<>();
   }
 
-  public JavaElementWithIncludes(String value, Collection<Includes.Include> includes) {
-    super(value);
+  public JavaElementWithIncludes(String name, Collection<Includes.Include> includes) {
+    super(name);
     this.includes = new HashSet<>(includes);
   }
 }

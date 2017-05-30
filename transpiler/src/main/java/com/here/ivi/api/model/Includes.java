@@ -36,12 +36,12 @@ public class Includes {
 
       SystemInclude that = (SystemInclude) o;
 
-      return file.equals(that.file);
+      return file != null ? file.equals(that.file) : that.file == null;
     }
 
     @Override
     public int hashCode() {
-      return file.hashCode();
+      return file != null ? file.hashCode() : 0;
     }
   }
 
@@ -63,12 +63,12 @@ public class Includes {
 
       InternalPublicInclude that = (InternalPublicInclude) o;
 
-      return file.equals(that.file);
+      return file != null ? file.equals(that.file) : that.file == null;
     }
 
     @Override
     public int hashCode() {
-      return file.hashCode();
+      return file != null ? file.hashCode() : 0;
     }
   }
 
@@ -110,12 +110,25 @@ public class Includes {
 
       LazyInternalInclude that = (LazyInternalInclude) o;
 
-      return toString().equals(that.toString());
+      if (tc != null ? !tc.equals(that.tc) : that.tc != null) {
+        return false;
+      }
+      if (model != null ? !model.equals(that.model) : that.model != null) {
+        return false;
+      }
+      if (type != that.type) {
+        return false;
+      }
+      return nameRules != null ? nameRules.equals(that.nameRules) : that.nameRules == null;
     }
 
     @Override
     public int hashCode() {
-      return toString().hashCode();
+      int result = tc != null ? tc.hashCode() : 0;
+      result = 31 * result + (model != null ? model.hashCode() : 0);
+      result = 31 * result + (type != null ? type.hashCode() : 0);
+      result = 31 * result + (nameRules != null ? nameRules.hashCode() : 0);
+      return result;
     }
   }
 }

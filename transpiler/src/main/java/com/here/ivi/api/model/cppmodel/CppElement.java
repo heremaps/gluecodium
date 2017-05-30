@@ -21,7 +21,7 @@ public class CppElement {
 
   public CppElement() {}
 
-  public CppElement(String name) {
+  public CppElement(final String name) {
     this.name = name;
   }
 

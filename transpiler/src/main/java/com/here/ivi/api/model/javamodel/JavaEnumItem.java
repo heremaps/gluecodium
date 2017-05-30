@@ -17,7 +17,7 @@ public class JavaEnumItem extends JavaElement {
   public JavaValue value;
 
   public boolean isValid() {
-    return !name.isEmpty();
+    return value != null && value.isValid() && !name.isEmpty();
   }
 
   @Override

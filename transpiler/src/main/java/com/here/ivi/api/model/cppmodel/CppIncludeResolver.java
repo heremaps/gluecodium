@@ -17,22 +17,21 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class CppIncludeResolver {
-
-  private FrancaModel<?, ?> rootModel;
+public final class CppIncludeResolver {
+  private final FrancaModel<?, ?> rootModel;
 
   public CppIncludeResolver(FrancaModel<?, ?> rootModel) {
     this.rootModel = rootModel;
   }
 
-  public void resolveLazyIncludes(CppElement root, String outputFile) {
+  public void resolveLazyIncludes(final CppElement root, final String outputFile) {
     root.streamRecursive()
         .filter(p -> p instanceof CppElementWithIncludes)
         .map(CppElementWithIncludes.class::cast)
         .forEach(type -> resolveLazyIncludes(type, outputFile));
   }
 
-  private void resolveLazyIncludes(CppElementWithIncludes type, String outputFile) {
+  private void resolveLazyIncludes(final CppElementWithIncludes type, final String outputFile) {
     type.includes =
         type.includes
             .stream()
