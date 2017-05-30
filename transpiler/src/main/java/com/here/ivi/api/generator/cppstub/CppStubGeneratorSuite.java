@@ -22,7 +22,6 @@ import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.common.cpp.StructWithMethodsGenerator;
 import com.here.ivi.api.generator.common.cpp.TypeCollectionGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
@@ -55,16 +54,23 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
 
-  private final SpecAccessorFactory<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
-      specAccessorFactory;
-  private final CppStubValidator validator = new CppStubValidator();
+  private final CppStubSpecAccessorFactory specAccessorFactory;
+  private final CppStubValidator validator;
   private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
   private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> fml;
   private Collection<File> currentFiles;
 
-  public CppStubGeneratorSuite(Transpiler tp) {
-    super(tp);
-    specAccessorFactory = new CppStubSpecAccessorFactory();
+  public CppStubGeneratorSuite(Transpiler transpiler) {
+    this(transpiler, new CppStubSpecAccessorFactory(), new CppStubValidator());
+  }
+
+  public CppStubGeneratorSuite(
+      Transpiler transpiler,
+      CppStubSpecAccessorFactory specAccessorFactory,
+      CppStubValidator validator) {
+    super(transpiler);
+    this.specAccessorFactory = specAccessorFactory;
+    this.validator = validator;
   }
 
   @Override

@@ -24,8 +24,8 @@ public abstract class AbstractGeneratorSuite implements GeneratorSuite {
 
   private final Transpiler tool;
 
-  public AbstractGeneratorSuite(Transpiler tp) {
-    tool = tp;
+  public AbstractGeneratorSuite(Transpiler transpiler) {
+    tool = transpiler;
   }
 
   @Override
