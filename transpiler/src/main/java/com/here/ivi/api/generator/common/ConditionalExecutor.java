@@ -11,8 +11,8 @@
 
 package com.here.ivi.api.generator.common;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import org.apache.commons.io.FilenameUtils;
@@ -24,12 +24,13 @@ public class ConditionalExecutor implements FileTool {
   private final Predicate<GeneratedFile> condition;
 
   /**
-   * @param cond {@link java.util.function.Predicate Predicate} deciding when execute actual tool
-   * @param toolToExecute Actual {@link FileTool} to be executed on file when condition is met
+   * @param condition {@link java.util.function.Predicate Predicate} deciding whether to execute the
+   *     actual tool
+   * @param actualTool Actual {@link FileTool} to be executed on a file when the condition is met
    */
-  public ConditionalExecutor(Predicate<GeneratedFile> cond, FileTool toolToExecute) {
-    actualTool = toolToExecute;
-    condition = cond;
+  public ConditionalExecutor(final Predicate<GeneratedFile> condition, final FileTool actualTool) {
+    this.condition = condition;
+    this.actualTool = actualTool;
   }
 
   /**
@@ -54,10 +55,10 @@ public class ConditionalExecutor implements FileTool {
    * @param extensions List of file extensions for which tool should be run
    * @return Predicate to use as {@link
    *     com.here.ivi.api.generator.common.ConditionalExecutor#ConditionalExecutor(Predicate,
-   *     FileTool) cond}
+   *     FileTool) condition}
    */
-  public static Predicate<GeneratedFile> fileExtensionFilter(List<String> extensions) {
-    Set<String> allowedExtensions = new HashSet<>(extensions);
+  public static Predicate<GeneratedFile> fileExtensionFilter(Collection<String> extensions) {
+    final Set<String> allowedExtensions = new HashSet<>(extensions);
     return f -> allowedExtensions.contains(FilenameUtils.getExtension(f.targetFile.getPath()));
   }
 }
