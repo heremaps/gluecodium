@@ -1,3 +1,10 @@
+plugins {
+    id "org.xtext.xtend" version "1.0.17"
+}
+
+ext.xtextVersion = '2.11.0'
+ext.externalPath = "${projectDir}/../../../external/franca/plugins/org.franca.deploymodel.dsl/"
+
 configurations {
     mwe2 {
         extendsFrom compile
@@ -35,8 +42,6 @@ dependencies {
     mwe2 "org.eclipse.xtend:org.eclipse.xtend.core:${xtextVersion}"
 }
 
-def externalPath = "${externalRoot}/franca/plugins/org.franca.deploymodel.dsl/"
-
 sourceSets {
     main {
         java {
@@ -59,8 +64,6 @@ sourceSets {
         }
     }
 }
-
-apply plugin: 'org.xtext.xtend'
 
 task generateXTextLanguage(type: JavaExec) {
     def mwe2File = 'src/org/franca/deploymodel/dsl/GenerateFDeploy.mwe2'

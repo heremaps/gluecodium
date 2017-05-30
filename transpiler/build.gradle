@@ -2,7 +2,6 @@ plugins {
     id "org.xtext.xtend" version "1.0.17"
 }
 
-apply plugin: 'org.xtext.xtend'
 apply plugin: 'jacoco'
 
 xtend {

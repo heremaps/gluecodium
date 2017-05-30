@@ -1,3 +1,10 @@
+plugins {
+    id "org.xtext.xtend" version "1.0.17"
+}
+
+ext.xtextVersion = '2.11.0'
+ext.externalPath = "${projectDir}/../../../external/franca/releng/org.franca.deploymodel.maven.plugin/"
+
 dependencies {
     compile 'org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:+'
     compile 'org.eclipse.xpand:org.eclipse.xtend.typesystem.emf:+'
@@ -17,8 +24,6 @@ dependencies {
     compile project(':externals:dsl')
     compile project(':externals:deploymodel')
 }
-
-def externalPath = "${externalRoot}/franca/releng/org.franca.deploymodel.maven.plugin/"
 
 sourceSets {
     main {
