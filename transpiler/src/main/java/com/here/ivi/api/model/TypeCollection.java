@@ -64,8 +64,9 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
     return francaTypeCollection;
   }
 
-  // finds a matching FDTypes for a FTypeCollection, if one is found, creates a valid T
-  // ypeCollectionPropertyAccessor, otherwise creates an empty accessor that will return the defaults for a spec
+  // finds a matching FDTypes for a FTypeCollection, if one is found, creates a valid
+  // TypeCollectionPropertyAccessor, otherwise creates an empty accessor that will return the
+  // defaults for a spec
   public static <TA extends CppStubSpec.TypeCollectionPropertyAccessor> TypeCollection<TA> create(
       SpecAccessorFactory<?, TA> f,
       FDSpecification spec,
@@ -85,7 +86,8 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
               .collect(Collectors.toList());
 
       if (matches.size() > 1) {
-        throw new RuntimeException("Found multiple Interface matches, aborting.");
+        throw new RuntimeException(
+            "Found multiple deployment types matching the type collection, aborting.");
       } else if (!matches.isEmpty()) {
         final FDTypes found = matches.get(0);
         francaTypeCollection = found.getTarget();
