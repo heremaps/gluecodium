@@ -64,25 +64,31 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
     return francaTypeCollection;
   }
 
-  // finds a matching FDTypes for a FTypeCollection, if one is found, creates a valid
-  // TypeCollectionPropertyAccessor, otherwise creates an empty accessor that will return the
-  // defaults for a spec
-  public static <TA extends CppStubSpec.TypeCollectionPropertyAccessor> TypeCollection<TA> create(
-      SpecAccessorFactory<?, TA> f,
-      FDSpecification spec,
-      ModelInfo info,
-      FTypeCollection tc,
-      FrancaDeploymentModel deploymentModel) {
+  /**
+   * Find a matching FDTypes for a FTypeCollection.
+   *
+   * @return A valid TypeCollectionPropertyAccessor if a match is found, an empty accessor which
+   *     will return the defaults otherwise.
+   */
+  public static <TypeAccessor extends CppStubSpec.TypeCollectionPropertyAccessor>
+      TypeCollection<TypeAccessor> create(
+          SpecAccessorFactory<?, TypeAccessor> accessorFactory,
+          FDSpecification spec,
+          ModelInfo info,
+          FTypeCollection typeCollection,
+          FrancaDeploymentModel deploymentModel) {
 
-    FTypeCollection francaTypeCollection = tc;
+    FTypeCollection francaTypeCollection = typeCollection;
 
-    TA accessor = null;
+    TypeAccessor accessor = null;
     if (deploymentModel != null) {
       List<FDTypes> matches =
           deploymentModel
               .getFDTypesList()
               .stream()
-              .filter(fdt -> tc.getName().equals(fdt.getTarget().getName()))
+              .filter(
+                  deploymentTypes ->
+                      typeCollection.getName().equals(deploymentTypes.getTarget().getName()))
               .collect(Collectors.toList());
 
       if (matches.size() > 1) {
@@ -91,13 +97,13 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
       } else if (!matches.isEmpty()) {
         final FDTypes found = matches.get(0);
         francaTypeCollection = found.getTarget();
-        accessor = f.createTypeCollectionAccessor(new FDeployedTypeCollection(found));
+        accessor = accessorFactory.createTypeCollectionAccessor(new FDeployedTypeCollection(found));
       }
     }
     if (accessor == null) {
       accessor =
-          f.createTypeCollectionAccessor(
-              (FDeployedTypeCollection) FDHelper.createDummyFDElement(spec, tc));
+          accessorFactory.createTypeCollectionAccessor(
+              (FDeployedTypeCollection) FDHelper.createDummyFDElement(spec, typeCollection));
     }
     return new TypeCollection<>(francaTypeCollection, accessor, info);
   }
