@@ -28,7 +28,9 @@ import org.franca.core.franca.FTypeCollection;
 public class CppStubNameRules extends CppDefaultNameRules {
 
   public CppStubNameRules(
-      FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
+      FrancaModel<
+              ? extends CppStubSpec.InterfacePropertyAccessor,
+              ? extends CppStubSpec.TypeCollectionPropertyAccessor>
           model) {
     super(model);
   }

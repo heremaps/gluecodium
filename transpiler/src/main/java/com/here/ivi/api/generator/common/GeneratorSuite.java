@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.legacy.LegacyGeneratorSuite;
+import com.here.ivi.api.generator.converter.ConverterGeneratorSuite;
 import com.here.ivi.api.generator.cppstub.CppStubGeneratorSuite;
 import com.here.ivi.api.generator.objc.ObjCGeneratorSuite;
 import com.here.ivi.api.model.FDHelper;
@@ -83,6 +84,8 @@ public interface GeneratorSuite {
         return instantiate(CppStubGeneratorSuite.class, tool);
       case "objc":
         return instantiate(ObjCGeneratorSuite.class, tool);
+      case "legacyStubConverter":
+        return instantiate(ConverterGeneratorSuite.class, tool);
     }
 
     throw new InstantiationException();
@@ -90,7 +93,7 @@ public interface GeneratorSuite {
 
   /** @return all available generators */
   static List<String> generatorShortNames() {
-    return Arrays.asList("legacy", "stub", "objc");
+    return Arrays.asList("legacy", "stub", "objc", "legacyStubConverter");
   }
 
   /**

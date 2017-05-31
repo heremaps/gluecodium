@@ -15,6 +15,7 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.FrancaModel;
+import java.io.File;
 import java.util.Optional;
 import navigation.CppStubSpec;
 import org.franca.core.franca.FStructType;
@@ -81,5 +82,15 @@ public abstract class CppDefaultNameRules implements CppNameRules {
 
   public String getHeaderFileSuffix() {
     return ".h";
+  }
+
+  public String getConversionHeaderPath(final FrancaElement<?> francaElement) {
+    return "legacy"
+        + File.separator
+        + String.join(File.separator, "conversion")
+        + File.separator
+        + getTypeCollectionName(francaElement.getFrancaTypeCollection())
+        + "Converter"
+        + getHeaderFileSuffix();
   }
 }
