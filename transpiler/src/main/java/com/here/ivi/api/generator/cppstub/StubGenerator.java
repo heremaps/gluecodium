@@ -262,7 +262,7 @@ public class StubGenerator extends AbstractCppGenerator {
         returnComment =
             "The result type, containing either an error or the " + type.name + " value.";
         if (!errorComment.isEmpty()) {
-          typeComment += StubCommentParser.FORMATTER.formatWithTag("@argument Value", argument);
+          typeComment += StubCommentParser.FORMATTER.formatWithTag("@arg Value", argument);
         }
 
         // register with model
