@@ -27,8 +27,8 @@ import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.rules.StructMethodRules;
-import com.here.ivi.api.validator.common.BasicValidator;
-import com.here.ivi.api.validator.cppstub.CppStubValidator;
+import com.here.ivi.api.validator.common.ResourceValidator;
+import com.here.ivi.api.validator.cppstub.CppStubModelValidator;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +43,6 @@ import java.util.stream.Stream;
 import navigation.CppStubSpec.InterfacePropertyAccessor;
 import navigation.CppStubSpec.TypeCollectionPropertyAccessor;
 import org.apache.commons.io.IOUtils;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
  * This generator will build all the CppStubs that will have to be implemented on the client
@@ -55,19 +54,19 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
 
   private final CppStubSpecAccessorFactory specAccessorFactory;
-  private final CppStubValidator validator;
+  private final CppStubModelValidator validator;
   private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
   private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> fml;
   private Collection<File> currentFiles;
 
   public CppStubGeneratorSuite(Transpiler transpiler) {
-    this(transpiler, new CppStubSpecAccessorFactory(), new CppStubValidator());
+    this(transpiler, new CppStubSpecAccessorFactory(), new CppStubModelValidator());
   }
 
   public CppStubGeneratorSuite(
       Transpiler transpiler,
       CppStubSpecAccessorFactory specAccessorFactory,
-      CppStubValidator validator) {
+      CppStubModelValidator validator) {
     super(transpiler);
     this.specAccessorFactory = specAccessorFactory;
     this.validator = validator;
@@ -152,8 +151,8 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public boolean validate() {
-    ResourceSet rs = fml.getResourceSetProvider().get();
-    return BasicValidator.validate(rs, currentFiles) && validator.validate(model);
+    ResourceValidator resourceValidator = new ResourceValidator(fml.getResourceSetProvider().get());
+    return resourceValidator.validate(currentFiles) && validator.validate(model);
   }
 
   @Override
