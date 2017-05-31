@@ -18,7 +18,7 @@ import com.here.ivi.api.model.javamodel.JavaMethod
 
 public class JavaMethodTemplate {
     def static generate(JavaParameter p)
-        '''«IF p.type.info == JavaElements.TypeInfo.Final»«JavaElements.FINAL_QUALIFIER»«ENDIF» «p.name»'''
+        '''«IF p.type.info == JavaElements.TypeInfo.Final»«JavaElements.FINAL_QUALIFIER» «ENDIF»«p.type.name» «p.name»'''
 
     def static whitespaceFormatter(String field) '''
         «field»«IF !field.isEmpty» «ENDIF»'''
@@ -28,21 +28,21 @@ public class JavaMethodTemplate {
 
     // as used in std::function declaration
     def static pureSignature(JavaMethod it) '''
-        «returnType.name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )'''
+        «returnType.name» «name»(«(inParameters + outParameters).map[ p | p.generate].join(', ')»)'''
 
     def static signature(JavaMethod it) '''
       «IF comment !== null && !comment.isEmpty»
       /**
        * «comment»
       «IF deprecatedComment !== null && !deprecatedComment.isEmpty»
-       * @deprecated "«deprecatedComment»"
+      «' '»* @deprecated «deprecatedComment»
       «ENDIF»
        */
       «ENDIF»
       «IF deprecatedComment !== null && !deprecatedComment.isEmpty»
       @Deprecated
       «ENDIF»
-      «whitespaceFormatter(specifiers.join(' '))»«whitespaceFormatter(returnType.name)»«name»( «parameterFormatter(inParameters, outParameters)» )'''
+      «whitespaceFormatter(visibility.toAccessModifier)»«whitespaceFormatter(specifiers.join(' '))»«whitespaceFormatter(returnType.name)»«name»(«parameterFormatter(inParameters, outParameters)»)'''
 
     def static signature(JavaMethod it, String className)'''
       «whitespaceFormatter(returnType.name)»«className»::«name»( «parameterFormatter(inParameters, outParameters)» )'''

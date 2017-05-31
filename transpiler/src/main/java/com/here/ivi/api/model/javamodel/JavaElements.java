@@ -23,7 +23,20 @@ public class JavaElements {
     Package,
     Public,
     Protected,
-    Private
+    Private;
+
+    public String toAccessModifier() {
+      switch (this) {
+        case Public:
+          return "public";
+        case Protected:
+          return "protected";
+        case Private:
+          return "private";
+        default:
+          return "";
+      }
+    }
   }
 
   public enum TypeInfo {
