@@ -24,20 +24,27 @@ import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 
-public class BasicValidator {
+public class ResourceValidator {
 
-  private static final Logger logger = Logger.getLogger(BasicValidator.class.getName());
+  private final ResourceSet resourceSet;
 
-  public static boolean validate(ResourceSet resourceSet, Collection<File> currentFiles) {
+  private static final Logger logger = Logger.getLogger(ResourceValidator.class.getName());
 
-    if (currentFiles.isEmpty()) {
+  public ResourceValidator(ResourceSet resourceSet) {
+
+    this.resourceSet = resourceSet;
+  }
+
+  public boolean validate(Collection<File> files) {
+
+    if (files.isEmpty()) {
       logger.severe("No input to generate from found. Aborting.");
       return false;
     }
 
     boolean result = true;
 
-    for (File file : currentFiles) {
+    for (File file : files) {
       Resource resource = resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
 
       if (!resource.getErrors().isEmpty()) {
@@ -70,6 +77,7 @@ public class BasicValidator {
         result = false;
       }
     }
+
     return result;
   }
 }

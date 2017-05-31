@@ -9,21 +9,14 @@
  *
  */
 
-package com.here.ivi.api.validator.cppstub;
+package com.here.ivi.api.validator.common;
 
 import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.validator.common.ValidatorInterface;
 import navigation.CppStubSpec;
 
-public class CppStubValidator
-    implements ValidatorInterface<
-        CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> {
+public interface ModelValidator<
+    IA extends CppStubSpec.InterfacePropertyAccessor,
+    TA extends CppStubSpec.TypeCollectionPropertyAccessor> {
 
-  @Override
-  public boolean validate(
-      FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
-          model) {
-    //TODO put here cppstub specific validation.
-    return true;
-  }
+  boolean validate(FrancaModel<IA, TA> model);
 }
