@@ -60,7 +60,7 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
   }
 
   @FunctionalInterface
-  protected interface FTYpeCollectionParser {
+  private interface FTypeCollectionParser {
     void parse();
   }
 
@@ -83,7 +83,8 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
 
     /* There are 14 tags in Franca. From them only two are relevant for the doxygen
      * documentation: @description: and @deprecated: */
-    StringBuilder sb = new StringBuilder();
+    StringBuilder descriptionBuilder = new StringBuilder();
+    StringBuilder deprecatedBuilder = new StringBuilder();
     for (FAnnotation annotation : annotationBlock.getElements()) {
       switch (annotation.getType().getValue()) {
         case FAnnotationType.DESCRIPTION_VALUE:
@@ -110,17 +111,20 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
           if (generatorSpecificPattern != null) {
             franca_comment = generatorSpecificPattern.match(franca_comment);
           }
-          sb.append(commentFormatter.formatComment(franca_comment));
+          descriptionBuilder.append(commentFormatter.formatComment(franca_comment));
           break;
           //noinspection deprecation
         case FAnnotationType.DEPRECATED_VALUE:
-          comments.deprecatedText = annotation.getComment();
+          deprecatedBuilder.append(annotation.getComment());
           break;
         default:
           break;
       }
     }
-    comments.mainBodyText = sb.toString();
+
+    comments.mainBodyText = descriptionBuilder.toString();
+    comments.deprecatedText = deprecatedBuilder.toString();
+
     return true;
   }
 
@@ -143,7 +147,7 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
   protected abstract void parseInterfaceDocumentation();
 
   // Everything below needs to be accessible by any class extending this one
-  protected FTYpeCollectionParser parser;
+  protected FTypeCollectionParser parser;
 
   protected FModelElement francaElement;
 
