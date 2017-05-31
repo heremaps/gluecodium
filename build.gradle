@@ -4,7 +4,10 @@ plugins {
 
 allprojects {
     repositories {
-        jcenter()
+        maven {
+            name 'Local proxy of external Maven repositories'
+            url 'example.com'
+        }
     }
 
     apply plugin: 'java'
