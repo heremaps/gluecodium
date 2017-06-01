@@ -14,21 +14,22 @@ package com.here.ivi.api.generator.common.java.templates
 import com.here.ivi.api.generator.common.java.templates.JavaImportTemplate
 import com.here.ivi.api.generator.common.java.templates.JavaInheritanceTemplate
 import com.here.ivi.api.generator.common.java.templates.JavaMethodTemplate
-import com.here.ivi.api.model.javamodel.JavaClass
+import com.here.ivi.api.model.javamodel.JavaInterface
 import com.here.ivi.api.model.javamodel.JavaElements
 
-public class JavaInterface {
-    def static generate(JavaClass javaClass) '''
+public class JavaInterfaceTemplate {
+    def static generate(JavaInterface javaInterface) '''
     package com.here.android;
-
-    «FOR include : JavaElements.collectIncludes(javaClass)»
+    «FOR include : JavaElements.collectIncludes(javaInterface)»
       «JavaImportTemplate.generate(include)»
     «ENDFOR»
 
-    interface «javaClass.name» «JavaInheritanceTemplate.generate(javaClass)»{
-        «FOR m : javaClass.methods»
-        «JavaMethodTemplate.signature(m)»;
-        «ENDFOR»
-    };
-    '''
+    /**
+     * «javaInterface.comment»
+     */
+    interface «javaInterface.name» «JavaInheritanceTemplate.generate(javaInterface.inheritances)»{
+    «FOR m : javaInterface.methods»
+    «"  "»«JavaMethodTemplate.pureSignature(m)»;
+    «ENDFOR»
+    }'''
 }

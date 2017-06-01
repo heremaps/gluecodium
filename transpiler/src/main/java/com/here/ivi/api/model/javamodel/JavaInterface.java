@@ -9,14 +9,16 @@
  *
  */
 
-package com.here.ivi.api.generator.common.java.templates
+package com.here.ivi.api.model.javamodel;
 
-import com.here.ivi.api.model.javamodel.JavaInheritance
-import java.util.Set
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-class JavaInheritanceTemplate {
-    static def generate(Set<JavaInheritance> inheritances) '''
-        «FOR i : inheritances BEFORE 'extends ' SEPARATOR ', ' AFTER ' '»
-        «i.parent.name»
-        «ENDFOR»'''
+public class JavaInterface extends JavaElement {
+  public JavaInterface(String name) {
+    super(name);
+  }
+
+  public Set<JavaMethod> methods = new LinkedHashSet<>();
+  public Set<JavaInheritance> inheritances = new LinkedHashSet<>();
 }
