@@ -19,8 +19,6 @@ import com.here.ivi.api.loader.FrancaModelLoader
 import com.here.ivi.api.loader.legacy.LegacySpecAccessorFactory
 import com.here.ivi.api.model.FrancaModel
 import com.here.ivi.api.model.ModelHelper
-import com.here.ivi.api.model.rules.StructMethodRules
-import com.here.ivi.api.validator.legacy.LegacyModelValidator
 import com.here.ivi.api.validator.common.ResourceValidator
 import java.io.File
 import java.util.Objects
@@ -30,13 +28,11 @@ import navigation.LegacySpec.TypeCollectionPropertyAccessor
 
 final class ObjCGeneratorSuite extends AbstractGeneratorSuite implements GeneratorSuite {
 
-    // TODO: APIGEN-149 SpecAccessoryFactory for objective C will be implemented in separate patch
+    // TODO: APIGEN-149 - Create an ObjCSpecAccessorFactory
     val specAccessorFactory = new LegacySpecAccessorFactory
     File[] currentFiles
     FrancaModel<InterfacePropertyAccessor,TypeCollectionPropertyAccessor> model
     FrancaModelLoader<InterfacePropertyAccessor,TypeCollectionPropertyAccessor> modelLoader
-    // TODO: APIGEN-149 Validator for objective C will be implemented in separate patch
-    val validator = new LegacyModelValidator
 
     new (Transpiler transpiler) {
         super(transpiler)
@@ -45,16 +41,14 @@ final class ObjCGeneratorSuite extends AbstractGeneratorSuite implements Generat
     override generateFiles() {
         val nameRules = new ObjCNameRules
         val includeResolver = new ObjCIncludeResolver
-        val apiGenerator = new ObjCApiGenerator
-        val typeCollectionGenerator = new ObjCTypeCollectionGenerator
-        val structGenerator = new ObjCStructGenerator(this, nameRules, includeResolver)
+        // TODO: APIGEN-108 Add all other possible generators and call them here
+        val headerGenerator = new ObjCHeaderGenerator(this, nameRules, includeResolver)
+        val generatorStream = model.getInterfaces().stream().filter([
+            getPropertyAccessor().getIsMethodContainer(it.getFrancaInterface()) === null ||
+                !it.getPropertyAccessor().getIsMethodContainer(it.getFrancaInterface())
+        ]).map([headerGenerator.generate(it)]).flatMap([stream]);
 
-        val generatorStreams = StructMethodRules.partitionModel(
-                model,
-                [apiGenerator.generateFiles(it)],
-                [typeCollectionGenerator.generate(it)],
-                [structGenerator.generate(it.iface, it.type)])
-        return generatorStreams.filter([Objects.nonNull(it)]).collect(Collectors.toList)
+        return generatorStream.filter([Objects.nonNull(it)]).collect(Collectors.toList)
     }
 
     override getSpecPath() {
@@ -71,7 +65,7 @@ final class ObjCGeneratorSuite extends AbstractGeneratorSuite implements Generat
 
     override validate() {
         val resourceSet = modelLoader.getResourceSetProvider.get
-        return new ResourceValidator(resourceSet).validate(currentFiles) && validator.validate(model)
+        return new ResourceValidator(resourceSet).validate(currentFiles)
     }
 
     override buildModel(String inputPath) {
