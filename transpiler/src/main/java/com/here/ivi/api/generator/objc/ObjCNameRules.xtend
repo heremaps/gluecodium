@@ -19,7 +19,7 @@ import org.franca.core.franca.FTypeCollection
 
 class ObjCNameRules {
 
-    def getHeaderPath(FrancaElement<?> francaElement) {
+    def getHeaderFileName(FrancaElement<?> francaElement) {
         return "objc"
                 + File.separator
                 + String.join(File.separator, francaElement.getPackage())
