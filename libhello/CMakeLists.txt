@@ -24,8 +24,8 @@ set(HELLO_VERSION_PATCH 1)
 set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_PATCH})
 
 set(HEADERS
-    inc/hello/config.h
-    inc/hello/GeoLocation.h)
+    include/hello/config.h
+    include/hello/GeoLocation.h)
 
 set(SOURCES
     src/GeoLocation.cpp)
@@ -41,7 +41,7 @@ if(BUILD_SHARED_LIBS)
 endif()
 target_include_directories(hello
     PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     INTERFACE
         $<INSTALL_INTERFACE:include>
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
