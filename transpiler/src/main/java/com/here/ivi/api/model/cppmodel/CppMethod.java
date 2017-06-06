@@ -13,10 +13,13 @@ package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate;
 import com.here.ivi.api.model.CollectionsHelper;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
-public class CppMethod extends CppElementWithIncludes {
+public final class CppMethod extends CppElementWithIncludes {
   public enum Specifier {
     EXPLICIT("explicit"),
     INLINE("inline"),
@@ -52,14 +55,25 @@ public class CppMethod extends CppElementWithIncludes {
     }
   }
 
-  public String deprecatedComment;
-  public CppType returnType = CppType.Void;
-  public Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
-  public Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
-  public List<CppParameter> inParameters = new ArrayList<>();
-  public List<CppParameter> outParameters = new ArrayList<>();
+  private CppMethod(Builder builder) {
+    this.name = builder.name;
+    this.comment = builder.methodComment;
+    this.deprecatedComment = builder.deprecatedComment;
+    this.returnType = builder.returnType;
+    this.specifiers = builder.specifiers;
+    this.qualifiers = builder.qualifiers;
+    this.inParameters = builder.inParameters;
+    this.outParameters = builder.outParameters;
+    this.bodyTemplate = builder.theBodyTemplate;
+  }
 
-  public CppMethodBodyTemplate bodyTemplate;
+  private final String deprecatedComment;
+  private final CppType returnType;
+  private final Set<Specifier> specifiers;
+  private final Set<Qualifier> qualifiers;
+  private final List<CppParameter> inParameters;
+  private final List<CppParameter> outParameters;
+  private final CppMethodBodyTemplate bodyTemplate;
 
   public CharSequence generateBody() {
     if (bodyTemplate == null) {
@@ -67,6 +81,30 @@ public class CppMethod extends CppElementWithIncludes {
     }
 
     return bodyTemplate.generate(this);
+  }
+
+  public String getDeprecatedComment() {
+    return deprecatedComment;
+  }
+
+  public CppType getReturnType() {
+    return returnType;
+  }
+
+  public Set<Specifier> getSpecifiers() {
+    return specifiers;
+  }
+
+  public Set<Qualifier> getQualifiers() {
+    return qualifiers;
+  }
+
+  public List<CppParameter> getInParameters() {
+    return inParameters;
+  }
+
+  public List<CppParameter> getOutParameters() {
+    return outParameters;
   }
 
   public boolean hasBody() {
@@ -104,6 +142,56 @@ public class CppMethod extends CppElementWithIncludes {
         && outParamsEquality
         && specifiersEquality
         && qualifiersEquality;
+  }
+
+  public static class Builder {
+    private final String name;
+    private String methodComment;
+    private String deprecatedComment;
+    private CppType returnType = CppType.Void;
+    private Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
+    private Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
+    private List<CppParameter> inParameters = new ArrayList<>();
+    private List<CppParameter> outParameters = new ArrayList<>();
+    private CppMethodBodyTemplate theBodyTemplate = null;
+
+    public Builder(String name) {
+      this.name = name;
+    }
+
+    public Builder comment(String comment) {
+      this.methodComment = comment;
+      return this;
+    }
+
+    public Builder returnType(CppType type) {
+      this.returnType = type;
+      return this;
+    }
+
+    public Builder specifier(Specifier theSpecifier) {
+      this.specifiers.add(theSpecifier);
+      return this;
+    }
+
+    public Builder qualifier(Qualifier theQualifier) {
+      this.qualifiers.add(theQualifier);
+      return this;
+    }
+
+    public Builder inParameter(CppParameter parameter) {
+      this.inParameters.add(parameter);
+      return this;
+    }
+
+    public Builder bodyTemplate(CppMethodBodyTemplate template) {
+      this.theBodyTemplate = template;
+      return this;
+    }
+
+    public CppMethod build() {
+      return new CppMethod(this);
+    }
   }
 
   @Override

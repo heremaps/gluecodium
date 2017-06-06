@@ -23,23 +23,23 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class CppMethodTest {
-  private final CppMethod cppMethod = new CppMethod();
+  private static final String METHOD_NAME = "doSomething";
 
   @Test
   public void generateBodyWithNullCppMethodBodyTemplate() {
-    cppMethod.bodyTemplate = null;
-
+    CppMethod cppMethod = new CppMethod.Builder(METHOD_NAME).build();
     assertNull(cppMethod.generateBody());
   }
 
   @Test
   public void generateBodyWithMockCppMethodBodyTemplate() {
     CppMethodBodyTemplate methodBodyTemplate = mock(CppMethodBodyTemplate.class);
+    CppMethod cppMethod =
+        new CppMethod.Builder(METHOD_NAME).bodyTemplate(methodBodyTemplate).build();
     when(methodBodyTemplate.generate(cppMethod)).thenReturn(new StringConcatenation());
 
-    cppMethod.bodyTemplate = methodBodyTemplate;
-
     assertNotNull(cppMethod.generateBody());
+
     verify(methodBodyTemplate).generate(cppMethod);
   }
 }
