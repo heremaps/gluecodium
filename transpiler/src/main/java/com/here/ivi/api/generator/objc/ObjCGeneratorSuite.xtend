@@ -20,8 +20,8 @@ import com.here.ivi.api.loader.legacy.LegacySpecAccessorFactory
 import com.here.ivi.api.model.FrancaModel
 import com.here.ivi.api.model.ModelHelper
 import com.here.ivi.api.model.rules.StructMethodRules
-import com.here.ivi.api.validator.legacy.LegacyValidator
-import com.here.ivi.api.validator.common.BasicValidator
+import com.here.ivi.api.validator.legacy.LegacyModelValidator
+import com.here.ivi.api.validator.common.ResourceValidator
 import java.io.File
 import java.util.Objects
 import java.util.stream.Collectors
@@ -36,7 +36,7 @@ final class ObjCGeneratorSuite extends AbstractGeneratorSuite implements Generat
     FrancaModel<InterfacePropertyAccessor,TypeCollectionPropertyAccessor> model
     FrancaModelLoader<InterfacePropertyAccessor,TypeCollectionPropertyAccessor> modelLoader
     // TODO: APIGEN-149 Validator for objective C will be implemented in separate patch
-    val validator = new LegacyValidator
+    val validator = new LegacyModelValidator
 
     new (Transpiler transpiler) {
         super(transpiler)
@@ -71,7 +71,7 @@ final class ObjCGeneratorSuite extends AbstractGeneratorSuite implements Generat
 
     override validate() {
         val resourceSet = modelLoader.getResourceSetProvider.get
-        return BasicValidator.validate(resourceSet, currentFiles) && validator.validate(model)
+        return new ResourceValidator(resourceSet).validate(currentFiles) && validator.validate(model)
     }
 
     override buildModel(String inputPath) {

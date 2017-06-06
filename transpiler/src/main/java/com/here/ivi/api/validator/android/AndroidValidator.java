@@ -12,12 +12,12 @@
 package com.here.ivi.api.validator.android;
 
 import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.validator.common.ValidatorInterface;
+import com.here.ivi.api.validator.common.ModelValidator;
 import navigation.LegacySpec.InterfacePropertyAccessor;
 import navigation.LegacySpec.TypeCollectionPropertyAccessor;
 
 public final class AndroidValidator
-    implements ValidatorInterface<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> {
+    implements ModelValidator<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> {
 
   @Override
   public boolean validate(
