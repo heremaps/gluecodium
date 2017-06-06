@@ -48,19 +48,19 @@ public class CppElements {
     Set<Includes.Include> result = new HashSet<>();
 
     for (CppMethod method : cppClass.methods) {
-      for (CppParameter inParam : method.inParameters) {
+      for (CppParameter inParam : method.getInParameters()) {
         result.addAll(inParam.type.includes);
         if (inParam.value != null) {
           result.addAll(inParam.value.includes);
         }
       }
-      for (CppParameter outParam : method.outParameters) {
+      for (CppParameter outParam : method.getOutParameters()) {
         result.addAll(outParam.type.includes);
         if (outParam.value != null) {
           result.addAll(outParam.value.includes);
         }
       }
-      result.addAll(method.returnType.includes);
+      result.addAll(method.getReturnType().includes);
     }
 
     for (CppField field : cppClass.fields) {

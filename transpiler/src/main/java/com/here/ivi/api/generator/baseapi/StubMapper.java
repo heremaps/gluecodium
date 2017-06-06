@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.baseapi;
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.baseapi.templates.EmptyBodyTemplate;
 import com.here.ivi.api.generator.baseapi.templates.NotifierBodyTemplate;
-import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.common.CommentFormatter;
 import com.here.ivi.api.generator.common.CppElementFactory;
 import com.here.ivi.api.generator.common.NameHelper;
@@ -422,26 +421,32 @@ public class StubMapper extends AbstractCppModelMapper {
   // they will be called from the cpp implementation
   private CppMethod buildNotifierMethod(
       CppClass stubListenerClass, String baseName, List<CppParameter> parameters) {
-    CppMethod method = new CppMethod();
-    method.name = "notify" + NameHelper.toUpperCamelCase(baseName);
-    method.specifiers.add(CppMethod.Specifier.INLINE);
-    method.inParameters.addAll(parameters);
-    method.bodyTemplate =
-        new NotifierBodyTemplate(
-            stubListenerClass.name, "on" + NameHelper.toUpperCamelCase(baseName));
+    CppMethod.Builder builder =
+        new CppMethod.Builder("notify" + NameHelper.toUpperCamelCase(baseName))
+            .specifier(CppMethod.Specifier.INLINE)
+            .bodyTemplate(
+                new NotifierBodyTemplate(
+                    stubListenerClass.name, "on" + NameHelper.toUpperCamelCase(baseName)));
 
-    return method;
+    for (CppParameter parameter : parameters) {
+      builder.inParameter(parameter);
+    }
+
+    return builder.build();
   }
 
   // they will be implemented by the next generator or other stubs
   private CppMethod buildListenerMethod(String baseName, List<CppParameter> parameters) {
-    CppMethod method = new CppMethod();
-    method.name = "on" + NameHelper.toUpperCamelCase(baseName);
-    method.inParameters.addAll(parameters);
-    method.bodyTemplate = new EmptyBodyTemplate();
-    method.specifiers.add(CppMethod.Specifier.VIRTUAL);
+    CppMethod.Builder builder =
+        new CppMethod.Builder("on" + NameHelper.toUpperCamelCase(baseName))
+            .specifier(CppMethod.Specifier.VIRTUAL)
+            .bodyTemplate(new EmptyBodyTemplate());
 
-    return method;
+    for (CppParameter parameter : parameters) {
+      builder.inParameter(parameter);
+    }
+
+    return builder.build();
   }
 
   private CppMethod buildStubMethod(
@@ -449,19 +454,19 @@ public class StubMapper extends AbstractCppModelMapper {
       CppType returnTypeName,
       CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
-    CppMethod cppMethod = new CppMethod();
-    cppMethod.name = method.getName() + NameHelper.toUpperCamelCase(method.getSelector());
-    cppMethod.returnType = returnTypeName;
+    CppMethod.Builder builder =
+        new CppMethod.Builder(method.getName() + NameHelper.toUpperCamelCase(method.getSelector()))
+            .returnType(returnTypeName);
 
     if (rootModel.getAccessor().getStatic(method)) {
-      cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
+      builder.specifier(CppMethod.Specifier.STATIC);
     } else {
       if (rootModel.getAccessor().getConst(method)) {
         // const needs to be before = 0; This smells more than the = 0 below
-        cppMethod.qualifiers.add(CppMethod.Qualifier.CONST);
+        builder.qualifier(CppMethod.Qualifier.CONST);
       }
-      cppMethod.specifiers.add(CppMethod.Specifier.VIRTUAL);
-      cppMethod.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
+      builder.specifier(CppMethod.Specifier.VIRTUAL);
+      builder.qualifier(CppMethod.Qualifier.PURE_VIRTUAL);
     }
 
     for (FArgument inArg : method.getInArgs()) {
@@ -474,44 +479,45 @@ public class StubMapper extends AbstractCppModelMapper {
         param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
       }
 
-      cppMethod.inParameters.add(param);
+      builder.inParameter(param);
     }
 
-    AbstractFrancaCommentParser.Comments comment = StubCommentParser.parse(method);
-    cppMethod.comment = comment.getMainBodyText();
+    builder.comment(StubCommentParser.parse(method).getMainBodyText());
 
-    return cppMethod;
+    return builder.build();
   }
 
   private static final Includes.SystemInclude EXPECTED_INCLUDE =
       new Includes.SystemInclude("cpp/internal/expected.h");
 
   private CppMethod buildAttributeAccessor(
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootType,
+      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
       FAttribute attribute,
       AttributeAccessorMode mode) {
 
-    CppMethod method = new CppMethod();
-    method.specifiers.add(CppMethod.Specifier.VIRTUAL);
+    String attributeName = nameRules.getFieldName(attribute.getName());
+    String methodName =
+        (mode == AttributeAccessorMode.GET ? "get" : "set")
+            + NameHelper.toUpperCamelCase(attributeName);
+    CppMethod.Builder builder = new CppMethod.Builder(methodName);
+    builder.specifier(CppMethod.Specifier.VIRTUAL);
 
-    CppType type = CppTypeMapper.map(rootType, attribute);
+    CppType type = CppTypeMapper.map(rootModel, attribute);
     if (type.info == CppElements.TypeInfo.InterfaceInstance) {
       type = CppTypeMapper.wrapSharedPtr(type, nameRules);
     }
 
-    String attributeName = nameRules.getFieldName(attribute.getName());
-
     switch (mode) {
       case GET:
         {
-          method.name = "get" + NameHelper.toUpperCamelCase(attributeName);
-          method.qualifiers.add(CppMethod.Qualifier.CONST);
-          method.returnType = type;
-          method.comment =
-              "Reads the "
-                  + attributeName
-                  + " attribute.\n*"
-                  + StubCommentParser.FORMATTER.formatWithTag("@return", attribute);
+          builder
+              .qualifier(CppMethod.Qualifier.CONST)
+              .returnType(type)
+              .comment(
+                  "Reads the "
+                      + attributeName
+                      + " attribute.\n*"
+                      + StubCommentParser.FORMATTER.formatWithTag("@return", attribute));
           break;
         }
       case SET:
@@ -521,20 +527,19 @@ public class StubMapper extends AbstractCppModelMapper {
           param.mode = CppParameter.Mode.Input;
           param.type = type;
 
-          method.name = "set" + NameHelper.toUpperCamelCase(attributeName);
-          method.inParameters.add(param);
-          method.returnType = CppType.Void;
-          method.comment =
-              "Sets the "
-                  + attributeName
-                  + " attribute.\n*"
-                  + StubCommentParser.FORMATTER.formatWithTag("@param " + param.name, attribute);
+          builder
+              .inParameter(param)
+              .comment(
+                  "Sets the "
+                      + attributeName
+                      + " attribute.\n*"
+                      + StubCommentParser.FORMATTER.formatWithTag(
+                          "@param " + param.name, attribute));
           break;
         }
     }
 
-    method.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
-
-    return method;
+    builder.qualifier(CppMethod.Qualifier.PURE_VIRTUAL);
+    return builder.build();
   }
 }

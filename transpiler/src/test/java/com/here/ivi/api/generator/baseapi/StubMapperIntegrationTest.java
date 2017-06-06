@@ -21,9 +21,11 @@ import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
+import com.here.ivi.api.model.cppmodel.CppParameter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Iterator;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -51,24 +53,27 @@ public class StubMapperIntegrationTest {
     Iterator<CppMethod> iterator = actualClass.methods.iterator();
     CppMethod method = iterator.next();
     assertEquals(method.name, "methodNoOutParams");
-    assertEquals(method.inParameters.size(), 1);
-    assertEquals(method.inParameters.get(0).type.name, "std::string");
-    assertEquals(method.inParameters.get(0).name, "input");
-    assertEquals(method.returnType.name, "void");
+    List<CppParameter> inParameters = method.getInParameters();
+    assertEquals(inParameters.size(), 1);
+    assertEquals(inParameters.get(0).type.name, "std::string");
+    assertEquals(inParameters.get(0).name, "input");
+    assertEquals(method.getReturnType().name, "void");
 
     method = iterator.next();
     assertEquals(method.name, "methodOneOutParam");
-    assertEquals(method.inParameters.size(), 1);
-    assertEquals(method.inParameters.get(0).type.name, "std::string");
-    assertEquals(method.inParameters.get(0).name, "input");
-    assertEquals(method.returnType.name, "std::string");
+    inParameters = method.getInParameters();
+    assertEquals(inParameters.size(), 1);
+    assertEquals(inParameters.get(0).type.name, "std::string");
+    assertEquals(inParameters.get(0).name, "input");
+    assertEquals(method.getReturnType().name, "std::string");
 
     method = iterator.next();
     assertEquals(method.name, "methodTwoOutParams");
-    assertEquals(method.inParameters.size(), 1);
-    assertEquals(method.inParameters.get(0).type.name, "std::string");
-    assertEquals(method.inParameters.get(0).name, "input");
-    assertEquals(method.returnType.name, "MethodTwoOutParamsResult");
+    inParameters = method.getInParameters();
+    assertEquals(inParameters.size(), 1);
+    assertEquals(inParameters.get(0).type.name, "std::string");
+    assertEquals(inParameters.get(0).name, "input");
+    assertEquals(method.getReturnType().name, "MethodTwoOutParamsResult");
   }
 
   private StubMapper createStubGeneratorForTest() throws IOException {
