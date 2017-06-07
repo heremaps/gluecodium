@@ -25,10 +25,10 @@ set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_
 
 set(HEADERS
     include/hello/config.h
-    include/hello/GeoLocation.h)
+    build/stub/libhello/HelloWorldStub.h)
 
 set(SOURCES
-    src/GeoLocation.cpp)
+    src/HelloWorldStub.cpp)
 
 # Public library, either shared or static depending BUILD_SHARED_LIBS
 add_library(hello ${HEADERS} ${SOURCES})
@@ -39,12 +39,15 @@ if(BUILD_SHARED_LIBS)
     target_compile_definitions(hello
         PRIVATE HELLO_SHARED)
 endif()
+
 target_include_directories(hello
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     INTERFACE
         $<INSTALL_INTERFACE:include>
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+    PRIVATE
+        build)
+
 target_link_libraries(hello)
 
 install(TARGETS hello EXPORT helloTargets
