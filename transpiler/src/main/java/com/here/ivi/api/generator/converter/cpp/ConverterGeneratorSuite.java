@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.converter;
+package com.here.ivi.api.generator.converter.cpp;
 
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.TranspilerExecutionException;
