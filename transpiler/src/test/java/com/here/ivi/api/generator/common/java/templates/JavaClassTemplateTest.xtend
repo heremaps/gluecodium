@@ -49,14 +49,9 @@ class JavaClassTemplateTest {
   @Test
   def classWithMethodGeneration() {
     val exampleType = new JavaType("ExampleType")
-    val parameter = new JavaParameter => [
-      name = "param"
-      type = new JavaType("InParamType")
-    ]
-    val classMethod = new JavaMethod => [
-      name = "someMethod"
-      specifiers = #{ JavaMethod.Specifier.NATIVE }
-      returnType = exampleType
+    val parameter = new JavaParameter(new JavaType("InParamType"), "param")
+    val classMethod = new JavaMethod("someMethod", exampleType) => [
+      qualifiers = #{ JavaMethod.Qualifier.NATIVE }
       inParameters = #[ parameter ]
       comment = "Method comment"
     ]
@@ -87,12 +82,8 @@ class JavaClassTemplateTest {
 
   @Test
   def classWithEnumGeneration() {
-    val enumItem = new JavaEnumItem => [
-      name = "ITEM"
-      value = new JavaValue("1")
-    ]
-    val classEnum = new JavaEnum => [
-      name = "ExampleEnum"
+    val enumItem = new JavaEnumItem("ITEM", new JavaValue("1"))
+    val classEnum = new JavaEnum("ExampleEnum") => [
       items = #[ enumItem ]
       comment = "Enum comment"
     ]
@@ -123,18 +114,12 @@ class JavaClassTemplateTest {
 
   @Test
   def classWithEnumAndMethodsGeneration() {
-    val classMethod = new JavaMethod => [
-      name = "someMethod"
-      specifiers = #{ JavaMethod.Specifier.NATIVE }
-      returnType = new JavaType("void")
+    val classMethod = new JavaMethod("someMethod", new JavaType("void")) => [
+      qualifiers = #{ JavaMethod.Qualifier.NATIVE }
       comment = "Method comment"
     ]
-    val enumItem = new JavaEnumItem => [
-      name = "ITEM"
-      value = new JavaValue("1")
-    ]
-    val classEnum = new JavaEnum => [
-      name = "ExampleEnum"
+    val enumItem = new JavaEnumItem("ITEM", new JavaValue("1"))
+    val classEnum = new JavaEnum("ExampleEnum") => [
       items = #[ enumItem ]
       comment = "Enum comment"
     ]

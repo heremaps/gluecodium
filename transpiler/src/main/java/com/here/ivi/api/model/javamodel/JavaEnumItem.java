@@ -14,7 +14,12 @@ package com.here.ivi.api.model.javamodel;
 import java.util.stream.Stream;
 
 public class JavaEnumItem extends JavaElement {
-  public JavaValue value;
+  public final JavaValue value;
+
+  public JavaEnumItem(final String name, final JavaValue value) {
+    super(name);
+    this.value = value;
+  }
 
   public boolean isValid() {
     return value != null && value.isValid() && !name.isEmpty();

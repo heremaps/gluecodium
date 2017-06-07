@@ -32,7 +32,7 @@ public class JavaMethodTemplate {
 
     def static signature(JavaMethod it) {
       val accessModifier = whitespaceFormatter(visibility.toAccessModifier)
-      val specifiersJoined = whitespaceFormatter(specifiers.join(' '))
+      val specifiersJoined = whitespaceFormatter(qualifiers.join(' '))
       val parameters = parameterFormatter(inParameters, outParameters)
       '''
       «IF comment !== null && !comment.isEmpty»

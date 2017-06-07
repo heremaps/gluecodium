@@ -16,20 +16,17 @@ import static java.util.Arrays.asList;
 import com.here.ivi.api.model.Includes;
 import java.util.Collection;
 
-public class JavaValue extends JavaElementWithIncludes {
-  public JavaValue() {
-    super(null);
+// TODO: Currently has a 'name' due to inheritance from JavaElement, should have a 'value' instead.
+public final class JavaValue extends JavaElementWithIncludes {
+  public JavaValue(final String value) {
+    super(value);
   }
 
-  public JavaValue(String name) {
-    super(name);
-  }
-
-  public JavaValue(String value, Includes.Include... includes) {
+  public JavaValue(final String value, final Includes.Include... includes) {
     super(value, asList(includes));
   }
 
-  public JavaValue(String value, Collection<Includes.Include> includes) {
+  public JavaValue(final String value, final Collection<Includes.Include> includes) {
     super(value, includes);
   }
 

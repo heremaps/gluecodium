@@ -15,8 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class JavaEnum extends JavaElement {
+public final class JavaEnum extends JavaElement {
   public List<JavaEnumItem> items = new ArrayList<>();
+
+  public JavaEnum(final String name) {
+    super(name);
+  }
 
   public boolean isValid() {
     boolean ret = true;

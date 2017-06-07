@@ -15,6 +15,7 @@ import com.here.ivi.api.model.javamodel.JavaMethod
 
 import org.eclipse.xtend2.lib.StringConcatenation
 
-interface JavaMethodBodyTemplate {
-  def abstract StringConcatenation generate(JavaMethod m)
+public class JavaMethodBodyTemplate {
+  def static StringConcatenation generate(JavaMethod m) '''
+  '''
 }

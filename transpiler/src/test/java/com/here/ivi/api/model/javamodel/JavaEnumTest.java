@@ -11,6 +11,8 @@
 
 package com.here.ivi.api.model.javamodel;
 
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
@@ -19,24 +21,30 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaEnumTest {
+  private static final String TEST_ENUM_NAME = "TestEnum";
+
   @Test
   public void newJavaEnumWithoutValuesIsInvalid() {
     // Arrange, act
-    JavaEnum javaEnum = new JavaEnum();
+    JavaEnum javaEnum = new JavaEnum(TEST_ENUM_NAME);
 
     // Assert
+    assertEquals(TEST_ENUM_NAME, javaEnum.name);
+    assertTrue(javaEnum.items.isEmpty());
     assertFalse(javaEnum.isValid());
   }
 
   @Test
   public void newJavaEnumWithInvalidValueIsInvalid() {
     // Arrange
-    JavaEnum javaEnum = new JavaEnum();
+    JavaEnum javaEnum = new JavaEnum(TEST_ENUM_NAME);
 
     // Act
-    javaEnum.items.add(new JavaEnumItem());
+    javaEnum.items.add(new JavaEnumItem("TestEnumItem", null));
 
     // Assert
+    assertEquals(TEST_ENUM_NAME, javaEnum.name);
+    assertFalse(javaEnum.items.isEmpty());
     assertFalse(javaEnum.isValid());
   }
 }
