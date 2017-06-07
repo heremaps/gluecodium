@@ -20,7 +20,8 @@ import java.util.stream.Stream;
 
 public class JavaMethod extends JavaElement {
   public enum Specifier {
-    STATIC("static");
+    STATIC("static"),
+    NATIVE("native");
 
     private final String text;
 
@@ -47,6 +48,13 @@ public class JavaMethod extends JavaElement {
 
   public JavaMethod(String name) {
     super(name);
+  }
+
+  public boolean isNative() {
+    if (specifiers == null) {
+      return false;
+    }
+    return specifiers.contains(Specifier.NATIVE);
   }
 
   public CharSequence generateBody() {
