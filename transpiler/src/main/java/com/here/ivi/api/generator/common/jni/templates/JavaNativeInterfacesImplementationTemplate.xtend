@@ -9,9 +9,23 @@
  *
  */
 
-package com.here.ivi.api.generator.android;
+package com.here.ivi.api.generator.common.jni.templates
 
-final class JavaNativeInterfacesImplGenerator {
+import com.here.ivi.api.model.javamodel.JavaClass
+import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate;
 
-  JavaNativeInterfacesImplGenerator() {}
+public class JavaNativeInterfacesImplementationTemplate {
+  def static generate(JavaClass javaClass) '''
+    «JavaCopyrightHeaderTemplate.generate()»
+
+    /**
+     * JNI implementation for class «javaClass.name»
+     */
+
+    #include "TOOD"
+
+    «FOR method : javaClass.methods»
+    //TODO
+    «ENDFOR»
+  '''
 }

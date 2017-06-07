@@ -13,34 +13,35 @@ package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.java.JavaClassMapper;
-import com.here.ivi.api.generator.common.java.JavaNameRules;
-import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate;
+import com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules;
+import com.here.ivi.api.generator.common.jni.templates.JavaNativeInterfacesHeaderTemplate;
+import com.here.ivi.api.generator.common.jni.templates.JavaNativeInterfacesImplementationTemplate;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaIncludeResolver;
 import java.util.LinkedList;
 import java.util.List;
 import navigation.CppStubSpec.InterfacePropertyAccessor;
 
-final class JavaGenerator {
-  private final AndroidGeneratorSuite generatorSuite;
-  private final JavaIncludeResolver includeResolver;
+final class JavaNativeInterfacesGenerator {
 
-  JavaGenerator(
-      final AndroidGeneratorSuite generatorSuite, final JavaIncludeResolver includeResolver) {
-    this.generatorSuite = generatorSuite;
-    this.includeResolver = includeResolver;
-  }
+  JavaNativeInterfacesGenerator() {}
 
   public List<GeneratedFile> generateFiles(final Interface<InterfacePropertyAccessor> api) {
     List<GeneratedFile> files = new LinkedList<>();
 
     JavaClass javaClass = JavaClassMapper.map(api);
 
-    String fileContent = JavaCopyrightHeaderTemplate.generate().toString();
+    // JNI Header
+    files.add(
+        new GeneratedFile(
+            JavaNativeInterfacesHeaderTemplate.generate(javaClass).toString(),
+            JavaNativeInterfacesNameRules.getHeaderFileName(javaClass)));
 
-    String fileName = JavaNameRules.getFileName(javaClass);
-    files.add(new GeneratedFile(fileContent, fileName));
+    // JNI Implementation
+    files.add(
+        new GeneratedFile(
+            JavaNativeInterfacesImplementationTemplate.generate(javaClass).toString(),
+            JavaNativeInterfacesNameRules.getImplementationFileName(javaClass)));
 
     return files;
   }
