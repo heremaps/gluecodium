@@ -20,19 +20,20 @@ public class JavaElements {
   public static final String FINAL_QUALIFIER = "const";
 
   public enum Visibility {
-    Package,
-    Public,
-    Protected,
-    Private;
+    PACKAGE,
+    PUBLIC,
+    PROTECTED,
+    PRIVATE;
 
     public String toAccessModifier() {
       switch (this) {
-        case Public:
+        case PUBLIC:
           return "public";
-        case Protected:
+        case PROTECTED:
           return "protected";
-        case Private:
+        case PRIVATE:
           return "private";
+        case PACKAGE:
         default:
           return "";
       }

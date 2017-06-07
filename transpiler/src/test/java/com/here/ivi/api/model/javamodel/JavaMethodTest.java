@@ -1,0 +1,95 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package com.here.ivi.api.model.javamodel;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import com.here.ivi.api.model.javamodel.JavaElements.Visibility;
+import com.here.ivi.api.model.javamodel.JavaMethod.Qualifier;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
+public final class JavaMethodTest {
+  private static final String TEST_METHOD_NAME = "fancyMethod";
+  private static final JavaType TEST_STRING_RETURN_TYPE = new JavaType("String");
+
+  @Test
+  public void newMethodWithNullReturnType() {
+    // Arrange, act
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, JavaType.NULL);
+
+    // Verify
+    assertEquals(TEST_METHOD_NAME, javaMethod.name);
+    assertEquals(JavaType.NULL, javaMethod.returnType);
+  }
+
+  @Test
+  public void newMethodWithCustomReturnType() {
+    // Arrange, act
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, TEST_STRING_RETURN_TYPE);
+
+    // Verify
+    assertEquals(TEST_METHOD_NAME, javaMethod.name);
+    assertEquals(TEST_STRING_RETURN_TYPE, javaMethod.returnType);
+  }
+
+  @Test
+  public void specifierStatic() {
+    // Arrange
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, JavaType.NULL);
+
+    // Act
+    javaMethod.qualifiers.add(Qualifier.STATIC);
+
+    // Verify
+    assertTrue(javaMethod.qualifiers.contains(Qualifier.STATIC));
+  }
+
+  @Test
+  public void visibilityPackage() {
+    // Arrange
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, JavaType.NULL);
+
+    // Act
+    javaMethod.visibility = Visibility.PACKAGE;
+
+    // Verify
+    assertEquals(Visibility.PACKAGE, javaMethod.visibility);
+  }
+
+  @Test
+  public void visibilityPrivate() {
+    // Arrange
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, JavaType.NULL);
+
+    // Act
+    javaMethod.visibility = Visibility.PRIVATE;
+
+    // Verify
+    assertEquals(Visibility.PRIVATE, javaMethod.visibility);
+  }
+
+  @Test
+  public void visibilityPublic() {
+    // Arrange
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, JavaType.NULL);
+
+    // Act
+    javaMethod.visibility = Visibility.PUBLIC;
+
+    // Verify
+    assertEquals(Visibility.PUBLIC, javaMethod.visibility);
+  }
+}

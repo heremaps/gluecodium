@@ -65,7 +65,7 @@ public class JavaMethodTemplateTest {
 
     val javaMethod = new JavaMethod("complexMethod", new JavaType("ComplexType")) => [
       comment = "Method comment"
-      visibility = JavaElements.Visibility.Public
+      visibility = JavaElements.Visibility.PUBLIC
       qualifiers = # { JavaMethod.Qualifier.STATIC }
       inParameters = #[ inParamter1, inParamter2 ]
       outParameters = #[ outParamter ]
