@@ -14,35 +14,17 @@ package com.here.ivi.api.model.javamodel;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class JavaElement {
-  public String name;
-  public String comment = null;
+public abstract class JavaElement {
+  public final String name;
+  public String comment = "";
 
-  /** Empty default constructor for xtend templates. */
-  public JavaElement() {}
-
-  public JavaElement(String name) {
+  public JavaElement(final String name) {
     this.name = name;
   }
 
   @Override
   public String toString() {
     return getClass().getSimpleName() + "." + name;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    JavaElement that = (JavaElement) o;
-
-    return name != null ? !name.equals(that.name) : that.name != null;
-  }
-
-  @Override
-  public int hashCode() {
-    return name != null ? name.hashCode() : 0;
   }
 
   public Stream<JavaElement> stream() {

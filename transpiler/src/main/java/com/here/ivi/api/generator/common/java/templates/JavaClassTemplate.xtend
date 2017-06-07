@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaClass
 import com.here.ivi.api.model.javamodel.JavaElements
+import com.here.ivi.api.generator.common.java.templates.JavaMethodBodyTemplate
 
 public class JavaClassTemplate {
   def static generate(JavaClass javaClass) '''package com.here.android;
@@ -31,7 +32,7 @@ class «javaClass.name» «JavaInheritanceTemplate.generate(javaClass.inheritanc
     «JavaEnumTemplate.generate(enumerator)»
   «ENDFOR»
   «FOR method : javaClass.methods»
-    «JavaMethodTemplate.signature(method)»«IF method.isNative»;«ELSE»«method.generateBody»«ENDIF»
+    «JavaMethodTemplate.signature(method)»«IF method.isNative»;«ELSE»«JavaMethodBodyTemplate.generate(method)»«ENDIF»
   «ENDFOR»
 }'''
 }

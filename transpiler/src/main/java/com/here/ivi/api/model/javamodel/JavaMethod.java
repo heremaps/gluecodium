@@ -11,78 +11,47 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import com.here.ivi.api.generator.common.java.templates.JavaMethodBodyTemplate;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class JavaMethod extends JavaElement {
-  public enum Specifier {
+public final class JavaMethod extends JavaElement {
+  public enum Qualifier {
     STATIC("static"),
     NATIVE("native");
 
-    private final String text;
+    private final String value;
 
-    Specifier(final String text) {
-      this.text = text;
+    Qualifier(final String value) {
+      this.value = value;
     }
 
     @Override
     public String toString() {
-      return text;
+      return value;
     }
   }
 
   public String deprecatedComment = null;
   public JavaElements.Visibility visibility = JavaElements.Visibility.Private;
-  public JavaType returnType = JavaType.Null;
-  public Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
+  public final JavaType returnType;
+  public Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
   public List<JavaParameter> inParameters = new ArrayList<>();
   public List<JavaParameter> outParameters = new ArrayList<>();
-  public JavaMethodBodyTemplate mbt;
 
-  /** Empty default constructor for xtend templates. */
-  public JavaMethod() {}
+  public JavaMethod(final String name) {
+    this(name, JavaType.NULL);
+  }
 
-  public JavaMethod(String name) {
+  public JavaMethod(final String name, final JavaType returnType) {
     super(name);
+    this.returnType = returnType;
   }
 
   public boolean isNative() {
-    if (specifiers == null) {
-      return false;
-    }
-    return specifiers.contains(Specifier.NATIVE);
-  }
-
-  public CharSequence generateBody() {
-    if (mbt == null) {
-      return null;
-    }
-
-    return mbt.generate(this);
-  }
-
-  public boolean hasBody() {
-    return mbt != null;
-  }
-
-  public boolean hasParameters() {
-    return !(inParameters.isEmpty() && outParameters.isEmpty());
-  }
-
-  @Override
-  public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + (deprecatedComment != null ? deprecatedComment.hashCode() : 0);
-    result = 31 * result + (returnType != null ? returnType.hashCode() : 0);
-    result = 31 * result + (specifiers != null ? specifiers.hashCode() : 0);
-    result = 31 * result + (inParameters != null ? inParameters.hashCode() : 0);
-    result = 31 * result + (outParameters != null ? outParameters.hashCode() : 0);
-    result = 31 * result + (mbt != null ? mbt.hashCode() : 0);
-    return result;
+    return qualifiers != null && qualifiers.contains(Qualifier.NATIVE);
   }
 
   @Override

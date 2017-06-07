@@ -23,7 +23,7 @@ public class JavaValueTest {
   @Test
   public void newJavaValueWithoutValueIsInvalid() {
     // Arrange, act
-    JavaValue javaValue = new JavaValue();
+    JavaValue javaValue = new JavaValue(null);
 
     // Assert
     assertFalse(javaValue.isValid());
@@ -32,7 +32,7 @@ public class JavaValueTest {
   @Test
   public void newJavaValueWithValueIsValid() {
     // Arrange, act
-    JavaValue javaValue = new JavaValue("value");
+    JavaValue javaValue = new JavaValue("defaultValue");
 
     // Assert
     assertTrue(javaValue.isValid());

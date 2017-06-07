@@ -11,7 +11,10 @@
 
 package com.here.ivi.api.model.javamodel;
 
+import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -20,33 +23,41 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaEnumItemTest {
+  private static final String TEST_ENUM_ITEM_NAME = "TestEnumItem";
+  private static final String TEST_ENUM_ITEM_VALUE = "SomeValue";
+
   @Test
   public void newJavaEnumItemWithoutNameAndValueIsInvalid() {
     // Arrange, act
-    JavaEnumItem javaEnumItem = new JavaEnumItem();
+    JavaEnumItem javaEnumItem = new JavaEnumItem(null, null);
 
     // Assert
+    assertNull(javaEnumItem.name);
+    assertNull(javaEnumItem.value);
     assertFalse(javaEnumItem.isValid());
   }
 
   @Test
   public void newJavaEnumItemWithoutValueIsInvalid() {
     // Arrange, act
-    JavaEnumItem javaEnumItem = new JavaEnumItem();
-    javaEnumItem.name = "test";
+    JavaEnumItem javaEnumItem = new JavaEnumItem(TEST_ENUM_ITEM_NAME, null);
 
     // Assert
+    assertEquals(TEST_ENUM_ITEM_NAME, javaEnumItem.name);
+    assertNull(javaEnumItem.value);
     assertFalse(javaEnumItem.isValid());
   }
 
   @Test
   public void newJavaEnumItemWithNameAndValidValueIsValid() {
     // Arrange, act
-    JavaEnumItem javaEnumItem = new JavaEnumItem();
-    javaEnumItem.name = "test";
-    javaEnumItem.value = new JavaValue("something");
+    JavaEnumItem javaEnumItem =
+        new JavaEnumItem(TEST_ENUM_ITEM_NAME, new JavaValue(TEST_ENUM_ITEM_VALUE));
 
     // Assert
+    assertEquals(TEST_ENUM_ITEM_NAME, javaEnumItem.name);
+    assertNotNull(javaEnumItem.value);
+    assertEquals(TEST_ENUM_ITEM_VALUE, javaEnumItem.value.name);
     assertTrue(javaEnumItem.isValid());
   }
 }

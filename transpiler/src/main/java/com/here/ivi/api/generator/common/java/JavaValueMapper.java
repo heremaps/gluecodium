@@ -43,7 +43,7 @@ public class JavaValueMapper {
       return map((FUnaryOperation) rhs);
     }
 
-    return new JavaValue();
+    return null;
   }
 
   private static JavaValue map(FUnaryOperation rhs) {

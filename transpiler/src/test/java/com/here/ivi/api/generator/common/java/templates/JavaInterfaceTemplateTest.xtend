@@ -46,13 +46,8 @@ class JavaInterfaceTemplateTest {
   @Test
   def complexInterfaceGeneration() {
     val exampleType = new JavaType("ExampleType")
-    val parameter = new JavaParameter => [
-      name = "param"
-      type = new JavaType("InParamType")
-    ]
-    val interfaceMethod = new JavaMethod => [
-      name = "someMethod"
-      returnType = exampleType
+    val parameter = new JavaParameter(new JavaType("InParamType"), "param")
+    val interfaceMethod = new JavaMethod("someMethod", exampleType) => [
       inParameters = #[ parameter ]
       comment = "Method comment"
     ]
@@ -60,9 +55,8 @@ class JavaInterfaceTemplateTest {
       comment = "Example interface comment"
       methods = #{ interfaceMethod }
     ]
-    val inheritance = new JavaInheritance(exampleType) => [
+    val inheritance = new JavaInheritance(exampleType)
 
-    ]
     val expected = '''
     package com.here.android;
 

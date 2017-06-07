@@ -12,9 +12,6 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaConstant
-import com.here.ivi.api.model.javamodel.JavaType
-import com.here.ivi.api.generator.common.java.JavaValueMapper
-import org.franca.core.franca.FCompoundInitializer;
 
 class JavaConstantTemplate {
     static def generate(JavaConstant constant) '''
@@ -25,15 +22,4 @@ class JavaConstantTemplate {
         «ENDIF»
         static final «constant.type.name» «constant.name» = «constant.value.name»;
     '''
-
-    static def generate(JavaType type, FCompoundInitializer fci) '''
-      []() {
-        «type.name» tmp;
-        «FOR elem : fci.getElements()»
-        «IF JavaValueMapper.map(type,elem.getValue()).isValid()»
-            tmp.«elem.getElement().getName()» = «JavaValueMapper.map(type,elem.getValue()).name»;
-        «ENDIF»
-        «ENDFOR»
-        return tmp;
-      }()'''
 }

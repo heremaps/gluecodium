@@ -14,12 +14,13 @@ package com.here.ivi.api.model.javamodel;
 import java.util.stream.Stream;
 
 public class JavaConstant extends JavaElement {
-  public JavaType type;
-  public JavaValue value;
+  public final JavaType type;
+  public final JavaValue value;
 
-  public JavaConstant(final JavaType type, final String name) {
+  public JavaConstant(final JavaType type, final String name, final JavaValue value) {
     super(name);
     this.type = type;
+    this.value = value;
   }
 
   public boolean isValid() {

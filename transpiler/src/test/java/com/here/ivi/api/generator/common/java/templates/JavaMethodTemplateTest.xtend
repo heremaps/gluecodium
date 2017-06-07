@@ -20,17 +20,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
-import com.here.ivi.api.model.javamodel.JavaElement
 
 @RunWith(typeof(XtextRunner))
 public class JavaMethodTemplateTest {
 
   @Test
   def simpleMethodGeneration() {
-    val javaMethod = new JavaMethod => [
-      name = "simpleMethod"
+    val javaMethod = new JavaMethod("simpleMethod", new JavaType("void")) => [
       comment = "Simple method comment"
-      returnType = new JavaType("void")
     ]
     val expected = '''
       /**
@@ -45,11 +42,9 @@ public class JavaMethodTemplateTest {
 
   @Test
   def nativeMethodGeneration() {
-    val javaMethod = new JavaMethod => [
-      name = "nativeMethod"
+    val javaMethod = new JavaMethod("nativeMethod", new JavaType("void")) => [
       comment = "Native method comment"
-      specifiers = #{ JavaMethod.Specifier.NATIVE }
-      returnType = new JavaType("void")
+      qualifiers = #{ JavaMethod.Qualifier.NATIVE }
     ]
     val expected = '''
       /**
@@ -64,25 +59,14 @@ public class JavaMethodTemplateTest {
 
   @Test
   def complexMethodGeneration() {
-    val inParamter1 = new JavaParameter => [
-      name = "firstParam"
-      type = new JavaType("InParamType1")
-    ]
-    val inParamter2 = new JavaParameter => [
-      name = "secondParam"
-      type = new JavaType("InParamType2")
-    ]
-    val outParamter = new JavaParameter => [
-      name = "thirdParam"
-      type = new JavaType("OutParamType")
-    ]
+    val inParamter1 = new JavaParameter(new JavaType("InParamType1"), "firstParam")
+    val inParamter2 = new JavaParameter(new JavaType("InParamType2"), "secondParam")
+    val outParamter = new JavaParameter(new JavaType("OutParamType"), "thirdParam")
 
-    val javaMethod = new JavaMethod => [
-      name = "complexMethod"
+    val javaMethod = new JavaMethod("complexMethod", new JavaType("ComplexType")) => [
       comment = "Method comment"
       visibility = JavaElements.Visibility.Public
-      specifiers = # { JavaMethod.Specifier.STATIC }
-      returnType = new JavaType("ComplexType")
+      qualifiers = # { JavaMethod.Qualifier.STATIC }
       inParameters = #[ inParamter1, inParamter2 ]
       outParameters = #[ outParamter ]
       deprecatedComment = "Method is deprecated"
@@ -102,13 +86,8 @@ public class JavaMethodTemplateTest {
 
   @Test
   def pureSignatureMethodGeneration() {
-    val parameter = new JavaParameter => [
-      name = "param"
-      type = new JavaType("InParamType")
-    ]
-    val javaMethod = new JavaMethod => [
-      name = "someMethod"
-      returnType = new JavaType("ReturnType")
+    val parameter = new JavaParameter(new JavaType("InParamType"), "param")
+    val javaMethod = new JavaMethod("someMethod", new JavaType("ReturnType")) => [
       inParameters = #[ parameter ]
       comment = "Method comment"
     ]

@@ -18,25 +18,20 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Stream;
 
-public class JavaType extends JavaElementWithIncludes {
-  public static final JavaType None = new JavaType("");
-  public static final JavaType Null = new JavaType("null");
+public final class JavaType extends JavaElementWithIncludes {
+  public static final JavaType NULL = new JavaType("null");
 
   public JavaElements.TypeInfo info = JavaElements.TypeInfo.Invalid;
 
-  public JavaType() {
-    super("INVALID");
-  }
-
-  public JavaType(String typeName) {
+  public JavaType(final String typeName) {
     this(typeName, JavaElements.TypeInfo.BuiltIn, Collections.emptyList());
   }
 
-  public JavaType(String typeName, Includes.Include... includes) {
+  public JavaType(final String typeName, Includes.Include... includes) {
     this(typeName, JavaElements.TypeInfo.BuiltIn, asList(includes));
   }
 
-  public JavaType(String typeName, JavaElements.TypeInfo info, Includes.Include... includes) {
+  public JavaType(final String typeName, JavaElements.TypeInfo info, Includes.Include... includes) {
     this(typeName, info, asList(includes));
   }
 

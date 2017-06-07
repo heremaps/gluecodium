@@ -13,32 +13,22 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.stream.Stream;
 
-public class JavaParameter extends JavaElement {
-  public enum Mode {
-    Input // TODO: Think about modifiers like 'final'
+public final class JavaParameter extends JavaElement {
+  public final JavaType type;
+  public JavaValue defaultValue;
+
+  public JavaParameter(final JavaType type, final String name) {
+    this(type, name, null);
   }
 
-  public JavaType type;
-  public JavaValue value;
-  public Mode mode;
-
-  public boolean equals(Object other) {
-    if (other == null) {
-      return false;
-    }
-    if (other == this) {
-      return true;
-    }
-    if (!(other instanceof JavaParameter)) {
-      return false;
-    }
-
-    JavaParameter otherParameter = (JavaParameter) other;
-    return super.equals(other) && type.equals(otherParameter.type);
+  public JavaParameter(final JavaType type, final String name, final JavaValue defaultValue) {
+    super(name);
+    this.type = type;
+    this.defaultValue = defaultValue;
   }
 
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.of(type, value);
+    return Stream.of(type, defaultValue);
   }
 }

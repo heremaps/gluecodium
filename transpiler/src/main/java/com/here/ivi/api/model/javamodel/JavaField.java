@@ -13,19 +13,15 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.stream.Stream;
 
-public class JavaField extends JavaElement {
-  public JavaType type;
-  public JavaValue initial;
+public final class JavaField extends JavaElement {
+  public final JavaType type;
+  public final JavaValue initial;
 
-  public JavaField() {
-    super();
-  }
-
-  public JavaField(JavaType type, String name) {
+  public JavaField(final JavaType type, final String name) {
     this(type, name, null);
   }
 
-  public JavaField(JavaType type, String name, JavaValue initial) {
+  public JavaField(final JavaType type, final String name, final JavaValue initial) {
     super(name);
     this.type = type;
     this.initial = initial;

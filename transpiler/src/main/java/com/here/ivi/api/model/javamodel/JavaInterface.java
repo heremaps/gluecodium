@@ -14,11 +14,11 @@ package com.here.ivi.api.model.javamodel;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class JavaInterface extends JavaElement {
-  public JavaInterface(String name) {
-    super(name);
-  }
-
+public final class JavaInterface extends JavaElement {
   public Set<JavaMethod> methods = new LinkedHashSet<>();
   public Set<JavaInheritance> inheritances = new LinkedHashSet<>();
+
+  public JavaInterface(final String name) {
+    super(name);
+  }
 }
