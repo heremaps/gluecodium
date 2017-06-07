@@ -23,7 +23,7 @@ public class JavaClassTemplate {
       «JavaImportTemplate.generate(include)»
     «ENDFOR»
 
-    class «javaClass.name» «JavaInheritanceTemplate.generate(javaClass)»{
+    class «javaClass.name» «JavaInheritanceTemplate.generate(javaClass.inheritances)»{
         «FOR f : javaClass.fields»
         «JavaFieldTemplate.generate(f)»;
         «ENDFOR»
