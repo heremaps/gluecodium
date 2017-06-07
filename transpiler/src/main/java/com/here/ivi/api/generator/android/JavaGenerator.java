@@ -41,8 +41,7 @@ public final class JavaGenerator {
 
     String fileContent = JavaCopyrightHeaderTemplate.generate().toString();
 
-    String fileName =
-        JavaNameRules.getFileName(javaClass, AndroidGeneratorSuite.GENERATOR_NAMESPACE);
+    String fileName = JavaNameRules.getFileName(javaClass);
     files.add(new GeneratedFile(fileContent, fileName));
 
     return files;

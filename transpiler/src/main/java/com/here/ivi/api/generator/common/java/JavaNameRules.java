@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common.java;
 
+import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.io.File;
@@ -18,16 +19,16 @@ import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 
 public final class JavaNameRules {
-  private static final String JAVA_FILE_ENDING = ".java";
-  private static final String JAVA_PACKAGE_SEPARATOR = ".";
+  public static final String JAVA_FILE_ENDING = ".java";
+  public static final String JAVA_PACKAGE_SEPARATOR = ".";
 
-  // TODO: Fetch package root from AndroidSpec later on:
+  // TODO: Fetch package root from JavaClass!
   private static final String JAVA_PACKAGE_ROOT = "com.here.ivi";
 
   private JavaNameRules() {}
 
-  public static String getFileName(final JavaClass javaClass, final String namespace) {
-    return namespace
+  public static String getFileName(final JavaClass javaClass) {
+    return AndroidGeneratorSuite.GENERATOR_NAMESPACE
         + File.separator
         + JAVA_PACKAGE_ROOT.replace(JAVA_PACKAGE_SEPARATOR, File.separator)
         + File.separator
