@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class Transpiler {
+public class Transpiler {
 
   private static final Logger logger = Logger.getLogger(Transpiler.class.getName());
 
