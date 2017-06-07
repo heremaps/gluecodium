@@ -34,7 +34,7 @@ public final class JavaEnum extends JavaElement {
   }
 
   @Override
-  public Stream<JavaElement> stream() {
+  public Stream<JavaNamedEntity> stream() {
     return items.stream().map(JavaElement.class::cast);
   }
 }

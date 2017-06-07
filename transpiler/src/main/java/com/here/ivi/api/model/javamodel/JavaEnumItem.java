@@ -26,7 +26,7 @@ public class JavaEnumItem extends JavaElement {
   }
 
   @Override
-  public Stream<JavaElement> stream() {
+  public Stream<JavaNamedEntity> stream() {
     return Stream.of(value);
   }
 }

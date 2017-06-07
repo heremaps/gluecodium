@@ -11,9 +11,13 @@
 
 package com.here.ivi.api.model.javamodel;
 
-public interface JavaType extends JavaNamedEntity {
+import java.util.stream.Stream;
 
-  boolean isFinal();
+public interface JavaNamedEntity {
 
-  boolean isValid();
+  String getName();
+
+  Stream<JavaNamedEntity> stream();
+
+  Stream<JavaNamedEntity> streamRecursive();
 }
