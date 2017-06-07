@@ -30,7 +30,11 @@ public class JavaMethodTemplate {
     def static pureSignature(JavaMethod it) '''
         «returnType.name» «name»(«(inParameters + outParameters).map[ p | p.generate].join(', ')»)'''
 
-    def static signature(JavaMethod it) '''
+    def static signature(JavaMethod it) {
+      val accessModifier = whitespaceFormatter(visibility.toAccessModifier)
+      val specifiersJoined = whitespaceFormatter(specifiers.join(' '))
+      val parameters = parameterFormatter(inParameters, outParameters)
+      '''
       «IF comment !== null && !comment.isEmpty»
       /**
        * «comment»
@@ -42,7 +46,8 @@ public class JavaMethodTemplate {
       «IF deprecatedComment !== null && !deprecatedComment.isEmpty»
       @Deprecated
       «ENDIF»
-      «whitespaceFormatter(visibility.toAccessModifier)»«whitespaceFormatter(specifiers.join(' '))»«whitespaceFormatter(returnType.name)»«name»(«parameterFormatter(inParameters, outParameters)»)'''
+      «accessModifier»«specifiersJoined»«returnType.name» «name»(«parameters»)'''
+    }
 
     def static signature(JavaMethod it, String className)'''
       «whitespaceFormatter(returnType.name)»«className»::«name»( «parameterFormatter(inParameters, outParameters)» )'''

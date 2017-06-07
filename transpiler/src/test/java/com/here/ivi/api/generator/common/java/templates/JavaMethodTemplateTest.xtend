@@ -20,6 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import com.here.ivi.api.model.javamodel.JavaElement
 
 @RunWith(typeof(XtextRunner))
 public class JavaMethodTemplateTest {
@@ -36,6 +37,25 @@ public class JavaMethodTemplateTest {
        * Simple method comment
        */
       private void simpleMethod()'''
+
+    val generated = JavaMethodTemplate.signature(javaMethod)
+
+    assertEquals(expected, generated.toString)
+  }
+
+  @Test
+  def nativeMethodGeneration() {
+    val javaMethod = new JavaMethod => [
+      name = "nativeMethod"
+      comment = "Native method comment"
+      specifiers = #{ JavaMethod.Specifier.NATIVE }
+      returnType = new JavaType("void")
+    ]
+    val expected = '''
+      /**
+       * Native method comment
+       */
+      private native void nativeMethod()'''
 
     val generated = JavaMethodTemplate.signature(javaMethod)
 
