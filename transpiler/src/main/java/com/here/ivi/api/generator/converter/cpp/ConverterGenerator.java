@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.converter;
+package com.here.ivi.api.generator.converter.cpp;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -18,7 +18,7 @@ import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator;
 import com.here.ivi.api.generator.common.cpp.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.common.cpp.templates.CppDelegatorTemplate;
-import com.here.ivi.api.generator.converter.templates.CppConverterMethodsTemplate;
+import com.here.ivi.api.generator.converter.cpp.templates.CppConverterMethodsTemplate;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.TypeCollection;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;

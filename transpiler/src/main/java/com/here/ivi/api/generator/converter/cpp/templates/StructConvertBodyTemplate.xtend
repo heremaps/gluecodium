@@ -9,36 +9,37 @@
  *
  */
 
-package com.here.ivi.api.generator.converter.templates
+package com.here.ivi.api.generator.converter.cpp.templates
 
 import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate
 import com.here.ivi.api.model.cppmodel.CppAssignments
 import com.here.ivi.api.model.cppmodel.CppMethod
+import java.util.List
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class EnumConvertBodyTemplate implements CppMethodBodyTemplate{
+class StructConvertBodyTemplate implements CppMethodBodyTemplate {
+    private final List<? extends CppAssignments.CppAssignment> assignments
 
     private static Logger logger = Logger.getLogger(typeof(EnumConvertBodyTemplate).getName())
 
-    private final CppAssignments.CppAssignment assignment
-
-    public new (CppAssignments.CppAssignment assignment) {
-        this.assignment = assignment
+    public new (List<? extends CppAssignments.CppAssignment> assignments) {
+        this.assignments = assignments
     }
 
     override generate(CppMethod m) '''
     {
         «IF m.inParameters.size != 1 || m.outParameters.size != 1»
-            «logger.log(Level.WARNING, "Invalid method signature, generated code won't compile")»
+             «logger.log(Level.WARNING, "Invalid method signature, generated code might not compile")»
         «ENDIF»
-        «IF !(assignment instanceof CppAssignments.PlainAssignment)»
-            «logger.log(Level.WARNING, "Invalid cpp assignment, generated code won't compile")»
-        «ENDIF»
+        «FOR assignment : this.assignments»
         «IF assignment instanceof CppAssignments.PlainAssignment»
             «assignment.leftHandSide.name»=«assignment.rightHandSide.name»;
         «ENDIF»
-        }
+        «IF assignment instanceof CppAssignments.MethodAssignment»
+            «assignment.name»(«assignment.inputParameter», «assignment.outputParameter»);
+        «ENDIF»
+        «ENDFOR»
     }
     '''
 }

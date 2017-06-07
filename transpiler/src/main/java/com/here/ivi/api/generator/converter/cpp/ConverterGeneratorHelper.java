@@ -9,12 +9,12 @@
  *
  */
 
-package com.here.ivi.api.generator.converter;
+package com.here.ivi.api.generator.converter.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
-import com.here.ivi.api.generator.converter.templates.EnumConvertBodyTemplate;
-import com.here.ivi.api.generator.converter.templates.StructConvertBodyTemplate;
+import com.here.ivi.api.generator.converter.cpp.templates.EnumConvertBodyTemplate;
+import com.here.ivi.api.generator.converter.cpp.templates.StructConvertBodyTemplate;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.FrancaModel;

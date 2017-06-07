@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.converter.templates
+package com.here.ivi.api.generator.converter.cpp.templates
 
 import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator
 import com.here.ivi.api.generator.common.cpp.templates.CppMethodTemplate
