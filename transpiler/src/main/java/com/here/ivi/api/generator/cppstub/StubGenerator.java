@@ -203,7 +203,6 @@ public class StubGenerator extends AbstractCppGenerator {
       errorType = CppTypeMapper.mapEnum(rootModel, method.getErrorEnum());
       errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(method);
     } else {
-      logger.warning("Missing error type for method " + method.getName());
       errorType = CppType.Void;
     }
 
@@ -215,13 +214,15 @@ public class StubGenerator extends AbstractCppGenerator {
       returnComment = errorComment;
     } else {
       List<CppType> returnTypes = new ArrayList<>();
-      returnTypes.add(errorType);
-
       // documentation for the result type
       String typeComment = "Result type for @ref " + stubClass.name + "::" + uniqueMethodName;
-      if (!errorComment.isEmpty()) {
-        // add error template arg documentation
-        typeComment += StubCommentParser.FORMATTER.formatTag("@arg Error", errorComment);
+
+      if (!errorType.equals(CppType.Void)) {
+        returnTypes.add(errorType);
+        if (!errorComment.isEmpty()) {
+          // add error template arg documentation
+          typeComment += StubCommentParser.FORMATTER.formatTag("@arg Error", errorComment);
+        }
       }
 
       final boolean isCreator = rootModel.getAccessor().getCreates(method) != null;
@@ -254,7 +255,10 @@ public class StubGenerator extends AbstractCppGenerator {
         // document return type, struct and append value information to type documentation
         struct.comment = "Result struct for @ref " + stubClass.name + "::" + uniqueMethodName + ".";
         typeComment += "\n* @arg Value The value struct instance";
-        returnComment = "The result type, containing an error and a struct of values.";
+        returnComment =
+            errorType.equals(CppType.Void)
+                ? "The result type, containing a struct of values."
+                : "The result type, containing an error and a struct of values.";
 
         // register with model
         stubClass.structs.add(struct);
@@ -271,8 +275,11 @@ public class StubGenerator extends AbstractCppGenerator {
         }
 
         // document return type and append value information to type documentation
+
         returnComment =
-            "The result type, containing either an error or the " + type.name + " value.";
+            errorType.equals(CppType.Void)
+                ? "The result type, containing " + type.name + " value."
+                : "The result type, containing either an error or the " + type.name + " value.";
         if (!errorComment.isEmpty()) {
           typeComment += StubCommentParser.FORMATTER.formatWithTag("@arg Value", argument);
         }
@@ -281,25 +288,29 @@ public class StubGenerator extends AbstractCppGenerator {
         returnTypes.add(type);
       }
 
-      // always wrap multiple out values (error + outArgs) in their own type
-      List<String> names = returnTypes.stream().map(t -> t.name).collect(Collectors.toList());
-      Set<Includes.Include> includes =
-          returnTypes.stream().flatMap(t -> t.includes.stream()).collect(Collectors.toSet());
-      includes.add(EXPECTED_INCLUDE);
+      if (returnTypes.size() > 1) {
+        // always wrap multiple out values (error + outArgs) in their own type
+        List<String> names = returnTypes.stream().map(t -> t.name).collect(Collectors.toList());
+        Set<Includes.Include> includes =
+            returnTypes.stream().flatMap(t -> t.includes.stream()).collect(Collectors.toSet());
+        includes.add(EXPECTED_INCLUDE);
 
-      returnType =
-          new CppType(
-              rootModel.getDefiner(),
-              "here::internal::Expected< " + String.join(", ", names) + " >",
-              CppElements.TypeInfo.Complex,
-              includes);
+        returnType =
+            new CppType(
+                rootModel.getDefiner(),
+                "here::internal::Expected< " + String.join(", ", names) + " >",
+                CppElements.TypeInfo.Complex,
+                includes);
 
-      // create & add using for this type with correct documentation
-      String usingTypeName = NameHelper.toUpperCamelCase(uniqueMethodName) + "Expected";
-      CppUsing using = new CppUsing(usingTypeName, returnType);
-      using.comment = typeComment;
-      stubClass.usings.add(using);
-      returnType = new CppType(usingTypeName);
+        // create & add using for this type with correct documentation
+        String usingTypeName = NameHelper.toUpperCamelCase(uniqueMethodName) + "Expected";
+        CppUsing using = new CppUsing(usingTypeName, returnType);
+        using.comment = typeComment;
+        stubClass.usings.add(using);
+        returnType = new CppType(usingTypeName);
+      } else {
+        returnType = returnTypes.get(0);
+      }
     }
 
     // create & add method, add return value documentation as this is not done in buildStubMethod
