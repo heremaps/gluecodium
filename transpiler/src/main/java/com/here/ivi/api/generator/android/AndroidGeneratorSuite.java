@@ -103,15 +103,12 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
     // - java to jni type conversion
     //   Object subclasses -> jobject
     //   pojo clases like "long" -> jlong
-    JavaNativeInterfacesHeaderGenerator jniHeaderGenerator =
-        new JavaNativeInterfacesHeaderGenerator();
-
     // JNI impl generator will need:
     // - cpp name rules
     // - java to jni type conversion (see above)
     // - jni to cpp type converter
     //   jlong to long
-    JavaNativeInterfacesImplGenerator jniImplGenerator = new JavaNativeInterfacesImplGenerator();
+    JavaNativeInterfacesGenerator jniGenerator = new JavaNativeInterfacesGenerator();
 
     Stream<GeneratedFile> generatorStream =
         model
@@ -124,7 +121,12 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
                         || !iface
                             .getPropertyAccessor()
                             .getIsMethodContainer(iface.getFrancaInterface()))
-            .map(javaGenerator::generateFiles)
+            .map(
+                iface -> {
+                  List<GeneratedFile> files = javaGenerator.generateFiles(iface);
+                  files.addAll(jniGenerator.generateFiles(iface));
+                  return files;
+                })
             .flatMap(Collection::stream);
 
     return generatorStream.filter(Objects::nonNull).collect(Collectors.toList());
