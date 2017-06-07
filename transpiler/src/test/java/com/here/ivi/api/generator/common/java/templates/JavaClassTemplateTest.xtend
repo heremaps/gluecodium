@@ -12,12 +12,13 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaClass
+import com.here.ivi.api.model.javamodel.JavaComplexType
 import com.here.ivi.api.model.javamodel.JavaEnum
 import com.here.ivi.api.model.javamodel.JavaEnumItem
 import com.here.ivi.api.model.javamodel.JavaInheritance
 import com.here.ivi.api.model.javamodel.JavaMethod
 import com.here.ivi.api.model.javamodel.JavaParameter
-import com.here.ivi.api.model.javamodel.JavaType
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType
 import com.here.ivi.api.model.javamodel.JavaValue
 import org.eclipse.xtext.junit4.XtextRunner
 import org.junit.Test
@@ -48,8 +49,8 @@ class JavaClassTemplateTest {
 
   @Test
   def classWithMethodGeneration() {
-    val exampleType = new JavaType("ExampleType")
-    val parameter = new JavaParameter(new JavaType("InParamType"), "param")
+    val exampleType =new JavaComplexType("ExampleType")
+    val parameter = new JavaParameter(new JavaComplexType("InParamType"), "param")
     val classMethod = new JavaMethod("someMethod", exampleType) => [
       qualifiers = #{ JavaMethod.Qualifier.NATIVE }
       inParameters = #[ parameter ]
@@ -114,7 +115,7 @@ class JavaClassTemplateTest {
 
   @Test
   def classWithEnumAndMethodsGeneration() {
-    val classMethod = new JavaMethod("someMethod", new JavaType("void")) => [
+    val classMethod = new JavaMethod("someMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID)) => [
       qualifiers = #{ JavaMethod.Qualifier.NATIVE }
       comment = "Method comment"
     ]

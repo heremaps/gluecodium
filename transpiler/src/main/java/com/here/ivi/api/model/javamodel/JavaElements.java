@@ -40,12 +40,6 @@ public class JavaElements {
     }
   }
 
-  public enum TypeInfo {
-    Invalid,
-    Final,
-    BuiltIn,
-  }
-
   public static Set<Includes.Include> collectIncludes(JavaElement root) {
     return root.streamRecursive()
         .filter(p -> p instanceof JavaElementWithIncludes)

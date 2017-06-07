@@ -42,7 +42,7 @@ public final class JavaMethod extends JavaElement {
   public List<JavaParameter> outParameters = new ArrayList<>();
 
   public JavaMethod(final String name) {
-    this(name, JavaType.NULL);
+    this(name, new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
   }
 
   public JavaMethod(final String name, final JavaType returnType) {
@@ -55,7 +55,7 @@ public final class JavaMethod extends JavaElement {
   }
 
   @Override
-  public Stream<JavaElement> stream() {
+  public Stream<JavaNamedEntity> stream() {
     return Stream.concat(
         Stream.of(returnType), Stream.concat(inParameters.stream(), outParameters.stream()));
   }

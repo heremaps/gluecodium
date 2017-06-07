@@ -18,7 +18,7 @@ import com.here.ivi.api.model.javamodel.JavaMethod
 
 public class JavaMethodTemplate {
     def static generate(JavaParameter p)
-        '''«IF p.type.info == JavaElements.TypeInfo.Final»«JavaElements.FINAL_QUALIFIER» «ENDIF»«p.type.name» «p.name»'''
+        '''«IF p.type.isFinal»«JavaElements.FINAL_QUALIFIER» «ENDIF»«p.type.name» «p.name»'''
 
     def static whitespaceFormatter(String field) '''
         «field»«IF !field.isEmpty» «ENDIF»'''

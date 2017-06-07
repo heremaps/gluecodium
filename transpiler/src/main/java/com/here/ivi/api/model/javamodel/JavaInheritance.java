@@ -22,7 +22,7 @@ public class JavaInheritance extends JavaElement {
   }
 
   @Override
-  public Stream<JavaElement> stream() {
+  public Stream<JavaNamedEntity> stream() {
     return Stream.of(parent);
   }
 }

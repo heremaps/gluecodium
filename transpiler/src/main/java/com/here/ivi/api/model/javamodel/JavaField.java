@@ -28,7 +28,7 @@ public final class JavaField extends JavaElement {
   }
 
   @Override
-  public Stream<JavaElement> stream() {
+  public Stream<JavaNamedEntity> stream() {
     return Stream.of(type, initial);
   }
 }

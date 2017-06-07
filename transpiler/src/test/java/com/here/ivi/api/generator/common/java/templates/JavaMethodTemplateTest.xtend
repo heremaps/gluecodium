@@ -11,10 +11,11 @@
 
 package com.here.ivi.api.generator.common.java.templates
 
+import com.here.ivi.api.model.javamodel.JavaComplexType
 import com.here.ivi.api.model.javamodel.JavaElements
 import com.here.ivi.api.model.javamodel.JavaMethod
 import com.here.ivi.api.model.javamodel.JavaParameter
-import com.here.ivi.api.model.javamodel.JavaType
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType
 import org.eclipse.xtext.junit4.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,7 +27,7 @@ public class JavaMethodTemplateTest {
 
   @Test
   def simpleMethodGeneration() {
-    val javaMethod = new JavaMethod("simpleMethod", new JavaType("void")) => [
+    val javaMethod = new JavaMethod("simpleMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID)) => [
       comment = "Simple method comment"
     ]
     val expected = '''
@@ -42,7 +43,7 @@ public class JavaMethodTemplateTest {
 
   @Test
   def nativeMethodGeneration() {
-    val javaMethod = new JavaMethod("nativeMethod", new JavaType("void")) => [
+    val javaMethod = new JavaMethod("nativeMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID)) => [
       comment = "Native method comment"
       qualifiers = #{ JavaMethod.Qualifier.NATIVE }
     ]
@@ -59,11 +60,11 @@ public class JavaMethodTemplateTest {
 
   @Test
   def complexMethodGeneration() {
-    val inParamter1 = new JavaParameter(new JavaType("InParamType1"), "firstParam")
-    val inParamter2 = new JavaParameter(new JavaType("InParamType2"), "secondParam")
-    val outParamter = new JavaParameter(new JavaType("OutParamType"), "thirdParam")
+    val inParamter1 = new JavaParameter(new JavaComplexType("InParamType1"), "firstParam")
+    val inParamter2 = new JavaParameter(new JavaComplexType("InParamType2"), "secondParam")
+    val outParamter = new JavaParameter(new JavaComplexType("OutParamType"), "thirdParam")
 
-    val javaMethod = new JavaMethod("complexMethod", new JavaType("ComplexType")) => [
+    val javaMethod = new JavaMethod("complexMethod", new JavaComplexType("ComplexType")) => [
       comment = "Method comment"
       visibility = JavaElements.Visibility.PUBLIC
       qualifiers = # { JavaMethod.Qualifier.STATIC }
@@ -86,8 +87,8 @@ public class JavaMethodTemplateTest {
 
   @Test
   def pureSignatureMethodGeneration() {
-    val parameter = new JavaParameter(new JavaType("InParamType"), "param")
-    val javaMethod = new JavaMethod("someMethod", new JavaType("ReturnType")) => [
+    val parameter = new JavaParameter(new JavaComplexType("InParamType"), "param")
+    val javaMethod = new JavaMethod("someMethod", new JavaComplexType("ReturnType")) => [
       inParameters = #[ parameter ]
       comment = "Method comment"
     ]
