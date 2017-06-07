@@ -1,0 +1,41 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package navigation
+
+/**
+ * Simple test fidl
+ *
+ */
+interface Simple {
+  version {
+    major 1
+    minor 0
+  }
+
+  /**
+   * Sing a song
+   */
+  method sing {
+    in {
+      /** Title. **/
+      String title
+    }
+
+    out {
+      /** Text of the song. **/
+      String text
+    }
+
+    /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
+    error NavigationTypes.ErrorCode
+  }
+}
