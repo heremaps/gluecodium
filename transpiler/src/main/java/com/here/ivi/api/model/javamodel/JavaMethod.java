@@ -35,7 +35,7 @@ public final class JavaMethod extends JavaElement {
   }
 
   public String deprecatedComment = null;
-  public JavaElements.Visibility visibility = JavaElements.Visibility.Private;
+  public JavaElements.Visibility visibility = JavaElements.Visibility.PRIVATE;
   public final JavaType returnType;
   public Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
   public List<JavaParameter> inParameters = new ArrayList<>();
