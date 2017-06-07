@@ -38,7 +38,7 @@ public class JavaPrimitiveType implements JavaType {
     }
   }
 
-  private final Type type;
+  public final Type type;
   private final boolean hasFinalModifier;
 
   public JavaPrimitiveType(Type type) {
