@@ -36,12 +36,14 @@ class ObjCMethod {
         this.name = name
         this.returnType = new ObjCType("void")
         this.parameters = #{}
+        this.comment = ""
     }
 
     new(ObjCMethodParameter[] parameters) {
         this.returnType = new ObjCType("void")
         this.parameters = parameters
         this.name = null
+        this.comment = ""
     }
 
     enum Visibility {
@@ -49,8 +51,8 @@ class ObjCMethod {
         Private
     }
     final public String name
-    public String documention
-    final public ObjCType returnType
+    public String comment
+    public ObjCType returnType
     final public ObjCMethodParameter[] parameters
     public boolean isStatic
     public boolean isConst
