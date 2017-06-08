@@ -22,7 +22,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class JavaParameterTest {
   private static final String TEST_PARAMETER_NAME = "myParam";
-  private static final JavaType TEST_STRING_TYPE = new JavaType("String");
+  private static final JavaType TEST_STRING_TYPE = new JavaComplexType("String");
   private static final JavaValue TEST_DEFAULT_VALUE = new JavaValue("SomeString");
 
   @Test
