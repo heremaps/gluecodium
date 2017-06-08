@@ -51,7 +51,11 @@ public class JavaPrimitiveType implements JavaType {
   }
 
   public boolean equals(Object other) {
-    return this.type.equals(other);
+    if (!(other instanceof JavaPrimitiveType)) {
+      return false;
+    }
+    JavaPrimitiveType otherType = (JavaPrimitiveType) other;
+    return type.equals(otherType.type) && hasFinalModifier == otherType.hasFinalModifier;
   }
 
   public int hashCode() {

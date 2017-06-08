@@ -16,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.model.javamodel.JavaElements.Visibility;
 import com.here.ivi.api.model.javamodel.JavaMethod.Qualifier;
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -23,16 +24,17 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class JavaMethodTest {
   private static final String TEST_METHOD_NAME = "fancyMethod";
-  private static final JavaType TEST_STRING_RETURN_TYPE = new JavaType("String");
+  private static final JavaType TEST_STRING_RETURN_TYPE = new JavaComplexType("String");
+  private static final JavaType TEST_VOID_RETURN_TYPE = new JavaPrimitiveType(Type.VOID);
 
   @Test
-  public void newMethodWithNullReturnType() {
+  public void newMethodWithVoidReturnType() {
     // Arrange, act
-    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, JavaType.NULL);
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, TEST_VOID_RETURN_TYPE);
 
     // Verify
     assertEquals(TEST_METHOD_NAME, javaMethod.name);
-    assertEquals(JavaType.NULL, javaMethod.returnType);
+    assertEquals(TEST_VOID_RETURN_TYPE, javaMethod.returnType);
   }
 
   @Test
@@ -48,7 +50,7 @@ public final class JavaMethodTest {
   @Test
   public void specifierStatic() {
     // Arrange
-    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, JavaType.NULL);
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, TEST_VOID_RETURN_TYPE);
 
     // Act
     javaMethod.qualifiers.add(Qualifier.STATIC);
@@ -60,7 +62,7 @@ public final class JavaMethodTest {
   @Test
   public void visibilityPackage() {
     // Arrange
-    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, JavaType.NULL);
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, TEST_VOID_RETURN_TYPE);
 
     // Act
     javaMethod.visibility = Visibility.PACKAGE;
@@ -72,7 +74,7 @@ public final class JavaMethodTest {
   @Test
   public void visibilityPrivate() {
     // Arrange
-    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, JavaType.NULL);
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, TEST_VOID_RETURN_TYPE);
 
     // Act
     javaMethod.visibility = Visibility.PRIVATE;
@@ -84,7 +86,7 @@ public final class JavaMethodTest {
   @Test
   public void visibilityPublic() {
     // Arrange
-    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, JavaType.NULL);
+    JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, TEST_VOID_RETURN_TYPE);
 
     // Act
     javaMethod.visibility = Visibility.PUBLIC;
