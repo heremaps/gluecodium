@@ -1,7 +1,10 @@
 cmake_minimum_required (VERSION 3.4)
 project( GeneratedTestImpl )
 
-set(GENERATED_BASE ${CMAKE_CURRENT_SOURCE_DIR}/../../transpiler/generated)
+set(GENERATED_BASE
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../transpiler/generated
+    CACHE PATH
+    "Path to generated headers.")
 
 file(GLOB_RECURSE STUB_HEADERS "${GENERATED_BASE}/stub/*.h")
 
