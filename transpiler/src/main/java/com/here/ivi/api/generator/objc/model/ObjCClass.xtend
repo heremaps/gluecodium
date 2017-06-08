@@ -20,6 +20,7 @@ final class ObjCClass {
         this.properties = #{}
         this.includes = #{}
         this.methods = #{}
+        this.comment = ""
     }
 
     final public String name

@@ -22,7 +22,7 @@ class ObjCHeaderFileTemplate {
 
     public static def generate(ObjCClass objCClass) '''
     //
-    //  Copyright (C) 2015 - 2016 HERE Global B.V. and its affiliate(s).
+    //  Copyright (C) 2015 - 2017 HERE Global B.V. and its affiliate(s).
     //
     //  All rights reserved. This software and other materials contain
     //  proprietary information of HERE and are protected by applicable
@@ -33,16 +33,18 @@ class ObjCHeaderFileTemplate {
     //  of such agreement, the use of the software is not allowed.
     //
     //  Automatically generated. Do not modify. Your changes will be lost.
-    «FOR importFile : objCClass.includes»
+    «FOR importFile : objCClass.includes BEFORE '\n'»
         «generateInclude(importFile)»
     «ENDFOR»
 
+    «generateComment(objCClass.comment)»
     @interface «objCClass.name»«generateClassTypeDefinition(objCClass.parentClass, objCClass.implementsProtocols)»
 
     «FOR property : objCClass.properties»
             @property «generatePropertyDeclaration(property)»
     «ENDFOR»
     «FOR method : objCClass.methods»
+            «generateComment(method.comment)»
             «generateMethodHeader(method)»
     «ENDFOR»
 
@@ -55,6 +57,17 @@ class ObjCHeaderFileTemplate {
             case ObjCIncludes.Type.SYSTEM: '''#import <«include.path»>'''
             default: '''#import "«include.path»"'''
         }
+    }
+
+    def static generateComment(String comment) {
+        if (comment.isEmpty) {
+            return ""
+        }
+        return '''
+            /**
+             * «comment»
+             */
+        '''
     }
 
     def static generateClassTypeDefinition(String parentClass, String[] implementProtocols)
