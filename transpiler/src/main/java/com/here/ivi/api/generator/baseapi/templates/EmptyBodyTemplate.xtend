@@ -9,24 +9,15 @@
  *
  */
 
-package com.here.ivi.api.generator.cppstub.templates
+package com.here.ivi.api.generator.baseapi.templates
 
 import com.here.ivi.api.model.cppmodel.CppMethod
 import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate
 import org.eclipse.xtend2.lib.StringConcatenation
 
-class SetNotifierBodyTemplate implements CppMethodBodyTemplate {
-  private String fieldName
-  private String parameterName
-
-  public new (String fieldName, String parameterName) {
-    this.fieldName = fieldName;
-    this.parameterName = parameterName;
-  }
-
+class EmptyBodyTemplate implements CppMethodBodyTemplate {
   override StringConcatenation generate(CppMethod m) '''
   {
-      «fieldName» = «parameterName»;
   }
   '''
 }

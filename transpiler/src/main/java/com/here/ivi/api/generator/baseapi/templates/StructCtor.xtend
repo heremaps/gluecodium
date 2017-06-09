@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.cppstub.templates
+package com.here.ivi.api.generator.baseapi.templates
 
 import com.here.ivi.api.model.cppmodel.CppMethod
 import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate

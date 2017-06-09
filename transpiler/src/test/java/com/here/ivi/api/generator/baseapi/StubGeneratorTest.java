@@ -19,11 +19,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.generator.cppstub.CppStubGeneratorSuite;
-import com.here.ivi.api.generator.cppstub.CppStubNameRules;
-import com.here.ivi.api.generator.cppstub.StubGenerator;
+import com.here.ivi.api.generator.baseapi.CppStubGeneratorSuite;
+import com.here.ivi.api.generator.baseapi.CppStubNameRules;
+import com.here.ivi.api.generator.baseapi.StubGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
+import com.here.ivi.api.loader.baseapi.CppStubSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.ModelHelper;

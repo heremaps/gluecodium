@@ -54,11 +54,11 @@ public class FrancaModelLoaderTest {
         ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Simple.fidl");
     URL simpleFdepl =
         ClassLoader.getSystemClassLoader()
-            .getResource("francamodelloadertest/cppstub/Simple.fdepl");
+            .getResource("francamodelloadertest/baseapi/Simple.fdepl");
     // Additional deployment rule also includes Simple.fidl and would replace the information from Simple.fdepl
     URL additionalFdepl =
         ClassLoader.getSystemClassLoader()
-            .getResource("francamodelloadertest/cppstub/DependentOnSimple.fdepl");
+            .getResource("francamodelloadertest/baseapi/DependentOnSimple.fdepl");
 
     Collection<File> currentFiles =
         Arrays.asList(

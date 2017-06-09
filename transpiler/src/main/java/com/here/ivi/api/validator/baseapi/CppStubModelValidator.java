@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.validator.cppstub;
+package com.here.ivi.api.validator.baseapi;
 
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.validator.common.ModelValidator;
@@ -23,7 +23,7 @@ public class CppStubModelValidator
   public boolean validate(
       FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
           model) {
-    //TODO put here cppstub specific validation.
+    //TODO put here baseapi specific validation.
     return true;
   }
 }

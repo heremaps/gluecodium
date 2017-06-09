@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
-import com.here.ivi.api.generator.cppstub.StubCommentParser;
+import com.here.ivi.api.generator.baseapi.StubCommentParser;
 import com.here.ivi.api.model.cppmodel.*;
 import java.util.ArrayList;
 import java.util.Collections;

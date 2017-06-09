@@ -13,9 +13,9 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
+import com.here.ivi.api.generator.baseapi.CppStubGeneratorSuite;
 import com.here.ivi.api.generator.legacy.LegacyGeneratorSuite;
 import com.here.ivi.api.generator.converter.cpp.ConverterGeneratorSuite;
-import com.here.ivi.api.generator.cppstub.CppStubGeneratorSuite;
 import com.here.ivi.api.generator.objc.ObjCGeneratorSuite;
 import com.here.ivi.api.model.FDHelper;
 import java.lang.reflect.Constructor;

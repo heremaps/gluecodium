@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.loader.cppstub;
+package com.here.ivi.api.loader.baseapi;
 
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import navigation.CppStubSpec;
