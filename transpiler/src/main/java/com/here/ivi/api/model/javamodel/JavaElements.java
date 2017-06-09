@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import com.here.ivi.api.model.Includes;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,11 +18,11 @@ public class JavaElements {
 
   public static final String FINAL_QUALIFIER = "const";
 
-  public static Set<Includes.Include> collectIncludes(JavaElement root) {
+  public static Set<JavaImport> collectIncludes(JavaElement root) {
     return root.streamRecursive()
-        .filter(p -> p instanceof JavaElementWithIncludes)
-        .map(JavaElementWithIncludes.class::cast)
-        .map(t -> t.includes)
+        .filter(p -> p instanceof JavaElementWithImports)
+        .map(JavaElementWithImports.class::cast)
+        .map(t -> t.imports)
         .flatMap(Set::stream)
         .collect(Collectors.toSet());
   }

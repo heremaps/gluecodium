@@ -11,22 +11,23 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import com.here.ivi.api.model.Includes;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+/**
+ * This class represents an import in java. It distinguishes between system, external and internal
+ * imports.
+ */
+public class JavaImport {
+  public final String importStatement;
+  public final ImportType type;
 
-public class JavaElementWithIncludes extends JavaElement {
-  public Set<Includes.Include> includes = Collections.emptySet();
-
-  public JavaElementWithIncludes(String name) {
-    super(name);
-    includes = new HashSet<>();
+  public JavaImport(String importStatement, ImportType type) {
+    this.importStatement = importStatement;
+    this.type = type;
   }
 
-  public JavaElementWithIncludes(String name, Collection<Includes.Include> includes) {
-    super(name);
-    this.includes = new HashSet<>(includes);
+  public enum ImportType {
+    SYSTEM,
+    INTERNAL,
+    EXTERNAL,
+    STATIC
   }
 }

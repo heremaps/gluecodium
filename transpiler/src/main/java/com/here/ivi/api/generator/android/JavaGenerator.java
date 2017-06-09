@@ -17,19 +17,15 @@ import com.here.ivi.api.generator.common.java.JavaNameRules;
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaIncludeResolver;
 import java.util.LinkedList;
 import java.util.List;
 import navigation.CppStubSpec.InterfacePropertyAccessor;
 
 final class JavaGenerator {
   private final AndroidGeneratorSuite generatorSuite;
-  private final JavaIncludeResolver includeResolver;
 
-  JavaGenerator(
-      final AndroidGeneratorSuite generatorSuite, final JavaIncludeResolver includeResolver) {
+  JavaGenerator(final AndroidGeneratorSuite generatorSuite) {
     this.generatorSuite = generatorSuite;
-    this.includeResolver = includeResolver;
   }
 
   public List<GeneratedFile> generateFiles(final Interface<InterfacePropertyAccessor> api) {

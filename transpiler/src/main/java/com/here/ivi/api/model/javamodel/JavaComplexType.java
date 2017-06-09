@@ -13,11 +13,10 @@ package com.here.ivi.api.model.javamodel;
 
 import static java.util.Arrays.asList;
 
-import com.here.ivi.api.model.Includes;
 import java.util.Collection;
 import java.util.Collections;
 
-public class JavaComplexType extends JavaElementWithIncludes implements JavaType {
+public class JavaComplexType extends JavaElementWithImports implements JavaType {
 
   private final boolean hasFinalModifier;
 
@@ -30,13 +29,13 @@ public class JavaComplexType extends JavaElementWithIncludes implements JavaType
     this(typeName, false, Collections.emptyList());
   }
 
-  public JavaComplexType(String typeName, boolean hasFinalModifier, Includes.Include... includes) {
-    this(typeName, hasFinalModifier, asList(includes));
+  public JavaComplexType(String typeName, boolean hasFinalModifier, JavaImport... imports) {
+    this(typeName, hasFinalModifier, asList(imports));
   }
 
   public JavaComplexType(
-      String typeName, boolean hasFinalModifier, Collection<Includes.Include> includes) {
-    super(typeName, includes);
+      String typeName, boolean hasFinalModifier, Collection<JavaImport> imports) {
+    super(typeName, imports);
     this.hasFinalModifier = hasFinalModifier;
   }
 

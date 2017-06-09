@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.java.templates
 
-import com.here.ivi.api.generator.common.java.templates.JavaImportTemplate
+import com.here.ivi.api.generator.common.java.templates.JavaImportsTemplate
 import com.here.ivi.api.generator.common.java.templates.JavaInheritanceTemplate
 import com.here.ivi.api.generator.common.java.templates.JavaMethodTemplate
 import com.here.ivi.api.model.javamodel.JavaInterface
@@ -20,9 +20,7 @@ import com.here.ivi.api.model.javamodel.JavaElements
 public class JavaInterfaceTemplate {
     def static generate(JavaInterface javaInterface) '''
     package com.here.android;
-    «FOR include : JavaElements.collectIncludes(javaInterface)»
-      «JavaImportTemplate.generate(include)»
-    «ENDFOR»
+    «JavaImportsTemplate.generate(javaInterface)»
 
     /**
      * «javaInterface.comment»
