@@ -11,20 +11,24 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import com.here.ivi.api.model.Includes;
-import java.util.Set;
-import java.util.stream.Collectors;
+public enum JavaVisibility {
+  PACKAGE,
+  PUBLIC,
+  PROTECTED,
+  PRIVATE;
 
-public class JavaElements {
-
-  public static final String FINAL_QUALIFIER = "const";
-
-  public static Set<Includes.Include> collectIncludes(JavaElement root) {
-    return root.streamRecursive()
-        .filter(p -> p instanceof JavaElementWithIncludes)
-        .map(JavaElementWithIncludes.class::cast)
-        .map(t -> t.includes)
-        .flatMap(Set::stream)
-        .collect(Collectors.toSet());
+  public String toAccessModifier() {
+    switch (this) {
+      case PUBLIC:
+        return "public";
+      case PROTECTED:
+        return "protected";
+      case PACKAGE:
+        return "";
+      case PRIVATE:
+        return "private";
+      default:
+        return "";
+    }
   }
 }

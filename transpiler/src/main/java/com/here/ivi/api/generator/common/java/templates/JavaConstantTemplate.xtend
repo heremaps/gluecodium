@@ -14,12 +14,14 @@ package com.here.ivi.api.generator.common.java.templates
 import com.here.ivi.api.model.javamodel.JavaConstant
 
 class JavaConstantTemplate {
-    static def generate(JavaConstant constant) '''
-        «IF constant.comment !== null && !constant.comment.isEmpty»
-        /**
-         * «constant.comment»
-         */
+  static def generate(JavaConstant it) {
+    val accessModifier = visibility.toAccessModifier
+    val String accessModifierFormatted = '''«IF !accessModifier.isEmpty»«accessModifier» «ENDIF»'''
+    '''«IF comment !== null && !comment.isEmpty»
+          /**
+           * «comment»
+           */
         «ENDIF»
-        static final «constant.type.name» «constant.name» = «constant.value.name»;
-    '''
+«accessModifierFormatted»static final «type.name» «name» = «value.name»;'''
+  }
 }

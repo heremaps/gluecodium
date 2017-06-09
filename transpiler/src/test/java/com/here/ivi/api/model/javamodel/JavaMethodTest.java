@@ -14,7 +14,6 @@ package com.here.ivi.api.model.javamodel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.model.javamodel.JavaElements.Visibility;
 import com.here.ivi.api.model.javamodel.JavaMethod.Qualifier;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import org.junit.Test;
@@ -65,10 +64,10 @@ public final class JavaMethodTest {
     JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, TEST_VOID_RETURN_TYPE);
 
     // Act
-    javaMethod.visibility = Visibility.PACKAGE;
+    javaMethod.visibility = JavaVisibility.PACKAGE;
 
     // Verify
-    assertEquals(Visibility.PACKAGE, javaMethod.visibility);
+    assertEquals(JavaVisibility.PACKAGE, javaMethod.visibility);
   }
 
   @Test
@@ -77,10 +76,10 @@ public final class JavaMethodTest {
     JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, TEST_VOID_RETURN_TYPE);
 
     // Act
-    javaMethod.visibility = Visibility.PRIVATE;
+    javaMethod.visibility = JavaVisibility.PRIVATE;
 
     // Verify
-    assertEquals(Visibility.PRIVATE, javaMethod.visibility);
+    assertEquals(JavaVisibility.PRIVATE, javaMethod.visibility);
   }
 
   @Test
@@ -89,9 +88,9 @@ public final class JavaMethodTest {
     JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, TEST_VOID_RETURN_TYPE);
 
     // Act
-    javaMethod.visibility = Visibility.PUBLIC;
+    javaMethod.visibility = JavaVisibility.PUBLIC;
 
     // Verify
-    assertEquals(Visibility.PUBLIC, javaMethod.visibility);
+    assertEquals(JavaVisibility.PUBLIC, javaMethod.visibility);
   }
 }
