@@ -14,9 +14,6 @@ package com.here.ivi.api.generator.cppstub;
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
-import com.here.ivi.api.generator.common.ClangFormatter;
-import com.here.ivi.api.generator.common.ConditionalExecutor;
-import com.here.ivi.api.generator.common.FileTool;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.common.cpp.StructWithMethodsGenerator;
@@ -33,7 +30,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -153,19 +149,5 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
   public boolean validate() {
     ResourceValidator resourceValidator = new ResourceValidator(fml.getResourceSetProvider().get());
     return resourceValidator.validate(currentFiles) && validator.validate(model);
-  }
-
-  @Override
-  protected List<FileTool> registerTools() {
-    List<FileTool> tools = new LinkedList<>();
-    try {
-      tools.add(
-          new ConditionalExecutor(
-              ConditionalExecutor.fileExtensionFilter(Arrays.asList("cpp", "h")),
-              new ClangFormatter("cpp/.clang-format", ClangFormatter.Language.CPP)));
-    } catch (IOException e) {
-      throw new TranspilerExecutionException("Registering tools failed with error:", e);
-    }
-    return tools;
   }
 }
