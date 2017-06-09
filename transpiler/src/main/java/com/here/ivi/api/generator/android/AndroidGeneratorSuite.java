@@ -23,7 +23,6 @@ import com.here.ivi.api.loader.java.AndroidSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
-import com.here.ivi.api.model.javamodel.JavaIncludeResolver;
 import com.here.ivi.api.validator.android.AndroidValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
@@ -90,13 +89,12 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public List<GeneratedFile> generateFiles() {
-    JavaIncludeResolver includeResolver = new JavaIncludeResolver(model);
     CppNameRules cppNameRules = new CppStubNameRules(model);
     CppIncludeResolver cppIncludeResolver = new CppIncludeResolver(model);
 
     // Java generator needs:
     // - java name rules
-    JavaGenerator javaGenerator = new JavaGenerator(this, includeResolver);
+    JavaGenerator javaGenerator = new JavaGenerator(this);
 
     // JNI header generator will need:
     // - java name rules

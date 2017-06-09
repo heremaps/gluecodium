@@ -9,19 +9,23 @@
  *
  */
 
-package com.here.ivi.api.generator.common.java.templates
+package com.here.ivi.api.model.javamodel;
 
-import com.here.ivi.api.model.Includes
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-class JavaImportTemplate {
-  // TODO group includes
-  // TODO Split 'Include' class into platform specifics?!?
-  def static generate(Includes.Include incl) '''
-    «
-    switch (incl) {
-      Includes.SystemInclude : '''import <«incl.file»>'''
-      Includes.InternalPublicInclude : '''import <«incl.file»>'''
-      default: '''// Unknown or unresolved include «incl» of «incl.class»'''
-    }
-    »'''
+public class JavaElementWithImports extends JavaElement {
+  public Set<JavaImport> imports = Collections.emptySet();
+
+  public JavaElementWithImports(String name) {
+    super(name);
+    imports = new HashSet<>();
+  }
+
+  public JavaElementWithImports(String name, Collection<JavaImport> imports) {
+    super(name);
+    this.imports = new HashSet<>(imports);
+  }
 }

@@ -17,9 +17,7 @@ import com.here.ivi.api.generator.common.java.templates.JavaMethodBodyTemplate
 
 public class JavaClassTemplate {
   def static generate(JavaClass javaClass) '''package com.here.android;
-  «FOR include : JavaElements.collectIncludes(javaClass)»
-    «JavaImportTemplate.generate(include)»
-  «ENDFOR»
+  «JavaImportsTemplate.generate(javaClass)»
 
 /**
  * «javaClass.comment»

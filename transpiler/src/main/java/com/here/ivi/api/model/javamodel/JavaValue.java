@@ -13,20 +13,19 @@ package com.here.ivi.api.model.javamodel;
 
 import static java.util.Arrays.asList;
 
-import com.here.ivi.api.model.Includes;
 import java.util.Collection;
 
 // TODO: Currently has a 'name' due to inheritance from JavaElement, should have a 'value' instead.
-public final class JavaValue extends JavaElementWithIncludes {
+public final class JavaValue extends JavaElementWithImports {
   public JavaValue(final String value) {
     super(value);
   }
 
-  public JavaValue(final String value, final Includes.Include... includes) {
+  public JavaValue(final String value, final JavaImport... includes) {
     super(value, asList(includes));
   }
 
-  public JavaValue(final String value, final Collection<Includes.Include> includes) {
+  public JavaValue(final String value, final Collection<JavaImport> includes) {
     super(value, includes);
   }
 
