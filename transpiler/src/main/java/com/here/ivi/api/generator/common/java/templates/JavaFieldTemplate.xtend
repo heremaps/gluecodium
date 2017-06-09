@@ -14,7 +14,16 @@ package com.here.ivi.api.generator.common.java.templates
 import com.here.ivi.api.model.javamodel.JavaField
 
 class JavaFieldTemplate {
-  def static generate(JavaField javaField) '''
-  «javaField.name»;
-  '''
+  def private static whitespaceFormatter(String field) '''
+        «field»«IF !field.isEmpty» «ENDIF»'''
+
+  def static generate(JavaField it) {
+    val accessModifier = whitespaceFormatter(visibility.toAccessModifier)
+    val optionalInitializer = '''«IF initial !== null» = «initial.name»«ENDIF»'''
+    '''«IF comment !== null && !comment.isEmpty»
+          /**
+           * «comment»
+           */
+«ENDIF»«accessModifier»«type.name» «name»«optionalInitializer»;'''
+  }
 }
