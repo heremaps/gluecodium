@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 public class JavaElement implements JavaNamedEntity {
   public String name;
   public String comment = "";
+  public JavaVisibility visibility = JavaVisibility.PACKAGE;
 
   public JavaElement(final String name) {
     this.name = name;

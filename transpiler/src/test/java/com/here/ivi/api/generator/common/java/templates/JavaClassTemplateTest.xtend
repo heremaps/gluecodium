@@ -20,6 +20,7 @@ import com.here.ivi.api.model.javamodel.JavaMethod
 import com.here.ivi.api.model.javamodel.JavaParameter
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType
 import com.here.ivi.api.model.javamodel.JavaValue
+import com.here.ivi.api.model.javamodel.JavaVisibility
 import org.eclipse.xtext.junit4.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -53,6 +54,7 @@ class JavaClassTemplateTest {
     val parameter = new JavaParameter(new JavaComplexType("InParamType"), "param")
     val classMethod = new JavaMethod("someMethod", exampleType) => [
       qualifiers = #{ JavaMethod.Qualifier.NATIVE }
+      visibility = JavaVisibility.PRIVATE
       inParameters = #[ parameter ]
       comment = "Method comment"
     ]
@@ -146,7 +148,7 @@ class JavaClassTemplateTest {
       /**
        * Method comment
        */
-      private native void someMethod();
+      native void someMethod();
     }'''
 
     val generated = JavaClassTemplate.generate(javaClass)

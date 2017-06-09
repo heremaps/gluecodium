@@ -12,10 +12,10 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaComplexType
-import com.here.ivi.api.model.javamodel.JavaElements
 import com.here.ivi.api.model.javamodel.JavaMethod
 import com.here.ivi.api.model.javamodel.JavaParameter
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType
+import com.here.ivi.api.model.javamodel.JavaVisibility
 import org.eclipse.xtext.junit4.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +34,7 @@ public class JavaMethodTemplateTest {
       /**
        * Simple method comment
        */
-      private void simpleMethod()'''
+      void simpleMethod()'''
 
     val generated = JavaMethodTemplate.signature(javaMethod)
 
@@ -51,7 +51,7 @@ public class JavaMethodTemplateTest {
       /**
        * Native method comment
        */
-      private native void nativeMethod()'''
+      native void nativeMethod()'''
 
     val generated = JavaMethodTemplate.signature(javaMethod)
 
@@ -66,7 +66,7 @@ public class JavaMethodTemplateTest {
 
     val javaMethod = new JavaMethod("complexMethod", new JavaComplexType("ComplexType")) => [
       comment = "Method comment"
-      visibility = JavaElements.Visibility.PUBLIC
+      visibility = JavaVisibility.PUBLIC
       qualifiers = # { JavaMethod.Qualifier.STATIC }
       inParameters = #[ inParamter1, inParamter2 ]
       outParameters = #[ outParamter ]
