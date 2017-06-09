@@ -116,8 +116,25 @@ jacocoTestReport {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.here.ivi.api.Transpiler'
+        attributes ('Main-Class': 'com.here.ivi.api.Transpiler',
+                    'Class-Path': configurations.runtime.files.collect { it.getName() }.join(' '))
     }
+}
+
+task transpilerStandaloneJar(type: Jar) {
+    baseName = project.name + '-standalone'
+    manifest {
+        attributes('Main-Class': 'com.here.ivi.api.Transpiler',
+                   'Class-Path': configurations.runtime.files.collect { it.getName() }.join(' '))
+    }
+    from {
+        configurations.runtime.files.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
 }
 
 run {
