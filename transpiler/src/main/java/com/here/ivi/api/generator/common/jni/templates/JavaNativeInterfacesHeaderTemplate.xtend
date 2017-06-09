@@ -33,7 +33,7 @@ public class JavaNativeInterfacesHeaderTemplate {
     /**
      * Function for «javaClass.name».«method.name»()
      */
-    JNIEXPORT «method.returnType» JNICALL
+    JNIEXPORT «method.returnType.name» JNICALL
     Java_com_here_ivi_«javaClass.name»_«method.name»(JNIEnv* env, jobject jinstance«FOR param : method.inParameters», j«param.type» j«param.name»«ENDFOR»);
 
     «ENDFOR»
