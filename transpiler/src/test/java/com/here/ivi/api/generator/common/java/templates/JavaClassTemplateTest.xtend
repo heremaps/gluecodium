@@ -155,4 +155,25 @@ class JavaClassTemplateTest {
 
     assertEquals(expected, generated.toString)
   }
+
+  @Test
+  def classWithInheritanceGeneration() {
+    val javaClass = new JavaClass("ChildClass") => [
+      comment = "Child class comment"
+      inheritance = new JavaInheritance(new JavaComplexType("ParentClass"))
+    ]
+
+    val expected = '''
+    package com.here.android;
+
+    /**
+     * Child class comment
+     */
+    class ChildClass extends ParentClass {
+    }'''
+
+    val generated = JavaClassTemplate.generate(javaClass)
+
+    assertEquals(expected, generated.toString)
+  }
 }

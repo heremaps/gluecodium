@@ -16,9 +16,10 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class JavaClass extends JavaElement {
+
   public Set<JavaMethod> methods = new LinkedHashSet<>();
   public Set<JavaField> fields = new LinkedHashSet<>();
-  public Set<JavaInheritance> inheritances = new LinkedHashSet<>();
+  public JavaInheritance inheritance = null;
   public Set<JavaConstant> constants = new LinkedHashSet<>();
   public Set<JavaEnum> enums = new LinkedHashSet<>();
 
@@ -33,7 +34,10 @@ public class JavaClass extends JavaElement {
             Stream.concat(
                 fields.stream(),
                 Stream.concat(
-                    constants.stream(), Stream.concat(enums.stream(), inheritances.stream()))))
+                    constants.stream(),
+                    inheritance == null
+                        ? enums.stream()
+                        : Stream.concat(enums.stream(), inheritance.stream()))))
         .map(JavaElement.class::cast);
   }
 }

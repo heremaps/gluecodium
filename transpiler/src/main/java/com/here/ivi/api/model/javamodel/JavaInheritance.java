@@ -14,15 +14,19 @@ package com.here.ivi.api.model.javamodel;
 import java.util.stream.Stream;
 
 public class JavaInheritance extends JavaElement {
-  public JavaType parent;
+  private final JavaComplexType type;
 
-  public JavaInheritance(JavaType parent) {
+  public JavaInheritance(final JavaComplexType type) {
     super(null);
-    this.parent = parent;
+    this.type = type;
+  }
+
+  public JavaComplexType getType() {
+    return type;
   }
 
   @Override
   public Stream<JavaNamedEntity> stream() {
-    return Stream.of(parent);
+    return Stream.of(type);
   }
 }

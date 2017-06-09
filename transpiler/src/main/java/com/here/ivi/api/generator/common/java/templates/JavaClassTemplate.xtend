@@ -22,7 +22,7 @@ public class JavaClassTemplate {
 /**
  * «javaClass.comment»
  */
-class «javaClass.name» «JavaInheritanceTemplate.generate(javaClass.inheritances)»{
+class «javaClass.name» «JavaInheritanceTemplate.generate(javaClass.inheritance)»{
   «FOR constant : javaClass.constants»
     «JavaConstantTemplate.generate(constant)»
   «ENDFOR»
