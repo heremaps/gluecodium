@@ -15,8 +15,19 @@ import com.here.ivi.api.model.javamodel.JavaInheritance
 import java.util.Set
 
 class JavaInheritanceTemplate {
+    /*
+    * Generates inheritances for an interface
+    * @param inheritances set of interface inheritances
+    */
     static def generate(Set<JavaInheritance> inheritances) '''
         «FOR i : inheritances BEFORE 'extends ' SEPARATOR ', ' AFTER ' '»
-        «i.parent.name»
+        «i.type.name»
         «ENDFOR»'''
+
+    /*
+    * Generates inheritance for a class
+    * @param inheritance the class inheritance object
+    */
+    static def generate(JavaInheritance inheritance)'''
+    «IF inheritance != null»extends «inheritance.type.name» «ENDIF»'''
 }
