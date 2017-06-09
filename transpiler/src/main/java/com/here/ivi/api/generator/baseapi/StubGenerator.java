@@ -9,9 +9,11 @@
  *
  */
 
-package com.here.ivi.api.generator.cppstub;
+package com.here.ivi.api.generator.baseapi;
 
 import com.google.common.collect.Iterables;
+import com.here.ivi.api.generator.baseapi.templates.EmptyBodyTemplate;
+import com.here.ivi.api.generator.baseapi.templates.NotifierBodyTemplate;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.common.CommentFormatter;
 import com.here.ivi.api.generator.common.CppElementFactory;
@@ -28,8 +30,6 @@ import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.cpp.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.common.cpp.templates.CppDelegatorTemplate;
-import com.here.ivi.api.generator.cppstub.templates.EmptyBodyTemplate;
-import com.here.ivi.api.generator.cppstub.templates.NotifierBodyTemplate;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.Interface;

@@ -13,13 +13,13 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.generator.baseapi.StubCommentParser;
+import com.here.ivi.api.generator.baseapi.templates.StructCtor;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.cpp.templates.CppCommentHeaderTemplate;
 import com.here.ivi.api.generator.common.cpp.templates.CppDelegatorTemplate;
 import com.here.ivi.api.generator.common.cpp.templates.CppStructWithMethodsTemplate;
-import com.here.ivi.api.generator.cppstub.StubCommentParser;
-import com.here.ivi.api.generator.cppstub.templates.StructCtor;
 import com.here.ivi.api.model.*;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.DefaultValuesRules;

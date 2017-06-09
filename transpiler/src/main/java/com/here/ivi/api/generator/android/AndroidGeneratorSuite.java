@@ -12,11 +12,11 @@
 package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.Transpiler;
+import com.here.ivi.api.generator.baseapi.CppStubNameRules;
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.generator.cppstub.CppStubNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.java.AndroidSpecAccessorFactory;

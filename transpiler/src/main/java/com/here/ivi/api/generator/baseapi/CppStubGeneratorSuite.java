@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.cppstub;
+package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.TranspilerExecutionException;
@@ -19,13 +19,13 @@ import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.common.cpp.StructWithMethodsGenerator;
 import com.here.ivi.api.generator.common.cpp.TypeCollectionGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
+import com.here.ivi.api.loader.baseapi.CppStubSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.rules.StructMethodRules;
+import com.here.ivi.api.validator.baseapi.CppStubModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
-import com.here.ivi.api.validator.cppstub.CppStubModelValidator;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

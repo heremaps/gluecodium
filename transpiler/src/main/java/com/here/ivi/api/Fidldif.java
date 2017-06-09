@@ -13,7 +13,7 @@ package com.here.ivi.api;
 
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.cppstub.CppStubSpecAccessorFactory;
+import com.here.ivi.api.loader.baseapi.CppStubSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.ModelHelper;

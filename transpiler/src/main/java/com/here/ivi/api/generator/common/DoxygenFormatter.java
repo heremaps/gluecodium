@@ -74,7 +74,7 @@ public final class DoxygenFormatter implements CommentFormatter {
     return formatTag(tag, cleanUpFrancaComment(readDescription(comment)));
   }
 
-  // TODO move to cppstubcommentparsethingie
+  // TODO move to baseapicommentparsethingie
   public String readCleanedErrorComment(FMethod method) {
     FAnnotationBlock errorComment = method.getErrorComment();
     if (errorComment != null) {
@@ -85,7 +85,7 @@ public final class DoxygenFormatter implements CommentFormatter {
     return "";
   }
 
-  // TODO move to cppstubcommentparsethingie
+  // TODO move to baseapicommentparsethingie
   public String readCleanedComment(FModelElement element) {
     FAnnotationBlock comment = element.getComment();
     if (comment == null) {

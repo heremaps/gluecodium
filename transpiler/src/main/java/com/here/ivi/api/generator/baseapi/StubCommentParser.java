@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.cppstub;
+package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.common.CommentFormatter;

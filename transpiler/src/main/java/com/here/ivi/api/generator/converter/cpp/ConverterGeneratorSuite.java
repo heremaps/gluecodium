@@ -12,9 +12,9 @@
 package com.here.ivi.api.generator.converter.cpp;
 
 import com.here.ivi.api.Transpiler;
+import com.here.ivi.api.generator.baseapi.CppStubNameRules;
 import com.here.ivi.api.generator.legacy.LegacyNameRules;
 import com.here.ivi.api.generator.common.*;
-import com.here.ivi.api.generator.cppstub.CppStubNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.legacy.LegacySpecAccessorFactory;
