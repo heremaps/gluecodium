@@ -13,10 +13,8 @@ package com.here.ivi.api.generator.common;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -38,18 +36,13 @@ public class AbstractGeneratorSuiteTest {
 
   @Test
   public void generateWithNoFiles() {
-    FileTool fileTool = mock(FileTool.class);
-    when(generatorSuite.registerTools()).thenReturn(Collections.singletonList(fileTool));
-
     List<GeneratedFile> files = generatorSuite.generate();
 
     assertTrue(files.isEmpty());
-    verify(fileTool, never()).process(any());
   }
 
   @Test
-  public void generateWithNoTools() {
-    when(generatorSuite.registerTools()).thenReturn(new ArrayList<>());
+  public void generateWithFiles() {
 
     GeneratedFile generatedFile = new GeneratedFile("", "");
     when(generatorSuite.generateFiles()).thenReturn(Collections.singletonList(generatedFile));
@@ -62,9 +55,6 @@ public class AbstractGeneratorSuiteTest {
 
   @Test
   public void generateWithTwoFiles() {
-    FileTool fileTool = mock(FileTool.class);
-    when(generatorSuite.registerTools()).thenReturn(Collections.singletonList(fileTool));
-
     GeneratedFile generatedFile1 = new GeneratedFile("1", "");
     GeneratedFile generatedFile2 = new GeneratedFile("2", "");
     when(generatorSuite.generateFiles()).thenReturn(Arrays.asList(generatedFile1, generatedFile2));
@@ -72,27 +62,5 @@ public class AbstractGeneratorSuiteTest {
     List<GeneratedFile> files = generatorSuite.generate();
 
     assertEquals(2, files.size());
-    verify(fileTool).process(generatedFile1);
-    verify(fileTool).process(generatedFile2);
-  }
-
-  @Test
-  public void generateWithTwoTools() {
-    FileTool fileTool1 = mock(FileTool.class);
-    FileTool fileTool2 = mock(FileTool.class);
-    when(generatorSuite.registerTools()).thenReturn(Arrays.asList(fileTool1, fileTool2));
-
-    GeneratedFile processedByFirstToolFile = new GeneratedFile("processed", "");
-    when(fileTool1.process(any())).thenReturn(processedByFirstToolFile);
-
-    GeneratedFile initialGeneratedFile = new GeneratedFile("generated", "");
-    when(generatorSuite.generateFiles())
-        .thenReturn(Collections.singletonList(initialGeneratedFile));
-
-    List<GeneratedFile> files = generatorSuite.generate();
-
-    assertEquals(1, files.size());
-    verify(fileTool1).process(initialGeneratedFile);
-    verify(fileTool2).process(processedByFirstToolFile);
   }
 }

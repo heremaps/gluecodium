@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.converter.cpp;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.legacy.LegacyNameRules;
 import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.generator.cppstub.CppStubNameRules;
@@ -27,7 +26,6 @@ import com.here.ivi.api.model.rules.StructMethodRules;
 import com.here.ivi.api.validator.legacy.LegacyModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -117,19 +115,5 @@ public class ConverterGeneratorSuite extends AbstractGeneratorSuite {
     ResourceValidator resourceValidator =
         new ResourceValidator(francaModelLoader.getResourceSetProvider().get());
     return resourceValidator.validate(currentFiles) && validator.validate(model);
-  }
-
-  @Override
-  protected List<FileTool> registerTools() {
-    List<FileTool> tools = new LinkedList<>();
-    try {
-      tools.add(
-          new ConditionalExecutor(
-              ConditionalExecutor.fileExtensionFilter(Arrays.asList("cpp", "h")),
-              new ClangFormatter("cpp/.clang-format", ClangFormatter.Language.CPP)));
-    } catch (IOException e) {
-      throw new TranspilerExecutionException("Registering tools failed with error:", e);
-    }
-    return tools;
   }
 }
