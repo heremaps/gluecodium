@@ -12,10 +12,6 @@ xtend {
     }
 }
 
-def fdeplOutput = "${buildDir}/fdepl-gen/"
-// TODO move into generator
-mkdir(buildDir)
-mkdir(fdeplOutput)
 
 configurations {
     buildDeployModel {
@@ -23,10 +19,14 @@ configurations {
     }
 }
 
+ext {
+    fdeplOutput = "${buildDir}/fdepl-gen/"
+}
+
 sourceSets {
     main {
         java {
-            srcDirs 'src/main/java', 'build/fdepl-gen'
+            srcDirs 'src/main/java', project.fdeplOutput
         }
         resources {
             srcDirs "src/main/java"
@@ -44,13 +44,13 @@ sourceSets {
 }
 
 dependencies {
+    buildDeployModel project(':fdeplgen')
+
     compile 'commons-io:commons-io:+' // apache commons io for FileUtils
     compile 'org.apache.commons:commons-lang3:3.+'
     compile project(':externals:core')
     compile project(':externals:dsl')
     compile project(':externals:deploymodel')
-
-    buildDeployModel project(':fdeplgen')
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.+'
@@ -59,23 +59,19 @@ dependencies {
     testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
 }
 
-def buildDeployModelConfiguration(fdeplFile, output) {
+def buildDeployModelConfiguration() {
     return {
-        workingDir = "src/main/resources"
-        main = 'com.here.tools.FrancaDeploymodelGenerator'
         classpath = configurations.buildDeployModel
-        inputs.file "${fdeplFile}"
-        outputs.dir output
-        args += fdeplFile
-        args += output
+        main = 'com.here.ivi.api.FrancaDeployModelGenerator'
+        workingDir = 'src/main/resources'
+        args += project.fdeplOutput
+        args += 'franca/spec/BaseApiSpec.fdepl'
     }
 }
-
-task buildBaseApiDeployModel(type: JavaExec) {
-    configure buildDeployModelConfiguration('franca/spec/BaseApiSpec.fdepl', fdeplOutput)
+task buildDeployModel(type: JavaExec) {
+    configure buildDeployModelConfiguration()
 }
-generateXtext.dependsOn(buildBaseApiDeployModel)
-clean.dependsOn(cleanBuildBaseApiDeployModel)
+generateXtext.dependsOn(buildDeployModel)
 
 apply plugin: 'application'
 mainClassName = 'com.here.ivi.api.Transpiler'
