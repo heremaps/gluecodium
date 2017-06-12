@@ -26,16 +26,9 @@ import org.eclipse.xtext.validation.Issue;
 
 public class ResourceValidator {
 
-  private final ResourceSet resourceSet;
-
   private static final Logger logger = Logger.getLogger(ResourceValidator.class.getName());
 
-  public ResourceValidator(ResourceSet resourceSet) {
-
-    this.resourceSet = resourceSet;
-  }
-
-  public boolean validate(Collection<File> files) {
+  public boolean validate(ResourceSet resourceSet, Collection<File> files) {
 
     if (files.isEmpty()) {
       logger.severe("No input to generate from found. Aborting.");

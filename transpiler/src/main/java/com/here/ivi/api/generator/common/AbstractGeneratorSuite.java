@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.Transpiler;
+import com.here.ivi.api.validator.common.ResourceValidator;
 import java.util.List;
 
 /**
@@ -22,9 +23,11 @@ import java.util.List;
 public abstract class AbstractGeneratorSuite implements GeneratorSuite {
 
   private final Transpiler tool;
+  protected final ResourceValidator resourceValidator;
 
-  public AbstractGeneratorSuite(Transpiler transpiler) {
+  public AbstractGeneratorSuite(Transpiler transpiler, ResourceValidator resourceValidator) {
     tool = transpiler;
+    this.resourceValidator = resourceValidator;
   }
 
   @Override
