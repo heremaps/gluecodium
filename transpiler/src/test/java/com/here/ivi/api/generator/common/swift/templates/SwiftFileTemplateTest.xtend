@@ -9,25 +9,25 @@
  *
  */
 
-package com.here.ivi.api.generator.common.objc.templates
+package com.here.ivi.api.generator.common.swift.templates
 
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import com.here.ivi.api.generator.objc.model.ObjCClass
-import com.here.ivi.api.generator.objc.templates.ObjCHeaderFileTemplate
+import com.here.ivi.api.model.swift.SwiftClass
+import com.here.ivi.api.generator.swift.templates.SwiftFileTemplate
 import static org.junit.Assert.*
-import com.here.ivi.api.generator.objc.model.ObjCMethod
-import com.here.ivi.api.generator.objc.model.ObjCMethodParameter
-import com.here.ivi.api.generator.objc.model.ObjCType
-import com.here.ivi.api.generator.objc.model.ObjCIncludes
+import com.here.ivi.api.model.swift.SwiftMethod
+import com.here.ivi.api.model.swift.SwiftMethodParameter
+import com.here.ivi.api.model.swift.SwiftType
+import com.here.ivi.api.model.swift.SwiftIncludes
 
 @RunWith(typeof(XtextRunner))
-class ObjCHeaderFileTemplateTest {
+class SwiftFileTemplateTest {
 
     @Test
     def simpleInterfaceGeneration() {
-        val objCClass = new ObjCClass("ExampleClass", null)
+        val swiftClass = new SwiftClass("ExampleClass", null)
         val expected = '''
             //
             //  Copyright (C) 2015 - 2017 HERE Global B.V. and its affiliate(s).
@@ -48,14 +48,14 @@ class ObjCHeaderFileTemplateTest {
             @end
         '''
 
-        val generated = ObjCHeaderFileTemplate.generate(objCClass)
+        val generated = SwiftFileTemplate.generate(swiftClass)
 
         assertEquals(expected, generated.toString)
     }
 
     @Test
     def interfaceWithCommentGeneration() {
-        val objCClass = new ObjCClass("ExampleClass", null) => [
+        val swiftClass = new SwiftClass("ExampleClass", null) => [
             comment = "One really classy example"
         ]
         val expected = '''
@@ -81,17 +81,17 @@ class ObjCHeaderFileTemplateTest {
             @end
         '''
 
-        val generated = ObjCHeaderFileTemplate.generate(objCClass)
+        val generated = SwiftFileTemplate.generate(swiftClass)
 
         assertEquals(expected, generated.toString)
     }
 
     @Test
     def simpleMethodGeneration() {
-        val objCClass = new ObjCClass("ExampleClass", null) => [
-            methods = #[new ObjCMethod(
-                #[new ObjCMethodParameter("myMethod", new ObjCType("int"), "input")]) => [
-                    returnType = new ObjCType("int")
+        val swiftClass = new SwiftClass("ExampleClass", null) => [
+            methods = #[new SwiftMethod(
+                #[new SwiftMethodParameter("myMethod", new SwiftType("int"), "input")]) => [
+                    returnType = new SwiftType("int")
                 ]
             ]
         ]
@@ -116,17 +116,17 @@ class ObjCHeaderFileTemplateTest {
             @end
         '''
 
-        val generated = ObjCHeaderFileTemplate.generate(objCClass)
+        val generated = SwiftFileTemplate.generate(swiftClass)
 
         assertEquals(expected, generated.toString)
     }
 
     @Test
     def methodWithComment() {
-        val objCClass = new ObjCClass("ExampleClass", null) => [
-            methods = #[new ObjCMethod(
-                #[new ObjCMethodParameter("myMethod", new ObjCType("int"), "input")]) => [
-                    returnType = new ObjCType("int")
+        val swiftClass = new SwiftClass("ExampleClass", null) => [
+            methods = #[new SwiftMethod(
+                #[new SwiftMethodParameter("myMethod", new SwiftType("int"), "input")]) => [
+                    returnType = new SwiftType("int")
                     comment = "Do something"
                 ]
             ]
@@ -155,24 +155,24 @@ class ObjCHeaderFileTemplateTest {
             @end
         '''
 
-        val generated = ObjCHeaderFileTemplate.generate(objCClass)
+        val generated = SwiftFileTemplate.generate(swiftClass)
 
         assertEquals(expected, generated.toString)
     }
 
     @Test
     def helloWorldGeneration() {
-        val objCClass = new ObjCClass("HelloWorld", "NSObject") => [
-            includes = #[new ObjCIncludes() => [
-                    type = ObjCIncludes.Type.SYSTEM
+        val swiftClass = new SwiftClass("HelloWorld", "NSObject") => [
+            includes = #[new SwiftIncludes() => [
+                    type = SwiftIncludes.Type.SYSTEM
                     path = "Foundation/Foundation.h"
                 ]
             ]
-            methods = #[new ObjCMethod(#[
-                    new ObjCMethodParameter("helloWorldMethod",
-                        new ObjCType("NSString", ObjCType.Subtype.POINTER), "inputString")
+            methods = #[new SwiftMethod(#[
+                    new SwiftMethodParameter("helloWorldMethod",
+                        new SwiftType("NSString", SwiftType.Subtype.POINTER), "inputString")
                 ]) => [
-                    returnType = new ObjCType("NSString", ObjCType.Subtype.POINTER)
+                    returnType = new SwiftType("NSString", SwiftType.Subtype.POINTER)
                     isStatic = true
                 ]
             ]
@@ -200,7 +200,7 @@ class ObjCHeaderFileTemplateTest {
             @end
         '''
 
-        val generated = ObjCHeaderFileTemplate.generate(objCClass)
+        val generated = SwiftFileTemplate.generate(swiftClass)
 
         assertEquals(expected, generated.toString)
     }

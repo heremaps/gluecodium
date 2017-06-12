@@ -9,9 +9,9 @@
  *
  */
 
-package com.here.ivi.api.generator.objc.model
+package com.here.ivi.api.model.swift
 
-class ObjCType {
+class SwiftType {
 
     new(String name) {
         this.name = name
@@ -36,7 +36,7 @@ class ObjCType {
     final public String name
     public String templatedTypeName
     public String documentation
-    public ObjCType blockReturnType
-    public ObjCType[] blockParameters
+    public SwiftType blockReturnType
+    public SwiftType[] blockParameters
     public Boolean isConst
 }

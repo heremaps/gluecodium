@@ -9,9 +9,9 @@
  *
  */
 
-package com.here.ivi.api.generator.objc.model
+package com.here.ivi.api.model.swift
 
-final class ObjCClass {
+final class SwiftClass {
 
     static final private String BASE_CLASS = "NSObject"
 
@@ -34,7 +34,7 @@ final class ObjCClass {
     public String prefix
     final public String parentClass
     public String[] implementsProtocols
-    public ObjCProperty[] properties
-    public ObjCIncludes[] includes
-    public ObjCMethod[] methods
+    public SwiftProperty[] properties
+    public SwiftIncludes[] includes
+    public SwiftMethod[] methods
 }

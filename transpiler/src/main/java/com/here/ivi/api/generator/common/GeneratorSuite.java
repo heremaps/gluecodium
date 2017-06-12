@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.common;
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.baseapi.CppStubGeneratorSuite;
-import com.here.ivi.api.generator.objc.ObjCGeneratorSuite;
+import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
 import com.here.ivi.api.model.FDHelper;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -81,8 +81,8 @@ public interface GeneratorSuite {
         return instantiate(AndroidGeneratorSuite.class, tool);
       case "stub":
         return instantiate(CppStubGeneratorSuite.class, tool);
-      case "objc":
-        return instantiate(ObjCGeneratorSuite.class, tool);
+      case "swift":
+        return instantiate(SwiftGeneratorSuite.class, tool);
     }
 
     throw new InstantiationException();
@@ -90,7 +90,7 @@ public interface GeneratorSuite {
 
   /** @return all available generators */
   static List<String> generatorShortNames() {
-    return Arrays.asList("android", "stub", "objc");
+    return Arrays.asList("android", "stub", "swift");
   }
 
   /**

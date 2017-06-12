@@ -9,16 +9,16 @@
  *
  */
 
-package com.here.ivi.api.generator.objc
+package com.here.ivi.api.generator.swift
 
 import com.here.ivi.api.generator.baseapi.StubCommentParser
 import com.here.ivi.api.generator.common.GeneratedFile
 import com.here.ivi.api.generator.common.GeneratorSuite
-import com.here.ivi.api.generator.objc.model.ObjCClass
-import com.here.ivi.api.generator.objc.model.ObjCMethod
-import com.here.ivi.api.generator.objc.model.ObjCMethodParameter
-import com.here.ivi.api.generator.objc.model.ObjCType
-import com.here.ivi.api.generator.objc.templates.ObjCHeaderFileTemplate
+import com.here.ivi.api.model.swift.SwiftClass
+import com.here.ivi.api.model.swift.SwiftMethod
+import com.here.ivi.api.model.swift.SwiftMethodParameter
+import com.here.ivi.api.model.swift.SwiftType
+import com.here.ivi.api.generator.swift.templates.SwiftFileTemplate
 import java.util.stream.Collectors;
 import com.here.ivi.api.model.Interface
 import java.util.List
@@ -27,28 +27,28 @@ import java.util.stream.IntStream
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FMethod
 
-class ObjCHeaderGenerator {
+class SwiftGenerator {
 
-    ObjCNameRules nameRules
-    ObjCIncludeResolver includeResolver
+    SwiftNameRules nameRules
+    SwiftIncludeResolver includeResolver
     GeneratorSuite generatorSuite
 
-    new(GeneratorSuite suite, ObjCNameRules rules, ObjCIncludeResolver resolver) {
+    new(GeneratorSuite suite, SwiftNameRules rules, SwiftIncludeResolver resolver) {
         nameRules = rules
         includeResolver = resolver
         generatorSuite = suite
     }
 
     def List<GeneratedFile> generate(Interface<CppStubSpec.InterfacePropertyAccessor> api) {
-        val objCClass = buildObjCModel(api)
-        val content = ObjCHeaderFileTemplate.generate(objCClass)
+        val swiftClass = buildSwiftModel(api)
+        val content = SwiftFileTemplate.generate(swiftClass)
 
         return #[new GeneratedFile(content, nameRules.getHeaderFileName(api))]
     }
 
-    def buildObjCModel(Interface<?> iface) {
+    def buildSwiftModel(Interface<?> iface) {
         val className = nameRules.getClassName(iface.getFrancaInterface());
-        var resultingClass = new ObjCClass(className) => [
+        var resultingClass = new SwiftClass(className) => [
             // TODO use own objective-c comment parser
             comment = StubCommentParser.parse(iface.getFrancaInterface()).getMainBodyText() ?: ""
             methods = iface.getFrancaInterface().getMethods().stream().map([constructMethod]).collect(Collectors.toList())
@@ -57,16 +57,16 @@ class ObjCHeaderGenerator {
     }
     def constructMethod(FMethod method) {
         if (method.getInArgs().isEmpty) {
-            return new ObjCMethod(method.name) => [
+            return new SwiftMethod(method.name) => [
                 returnType = constructMethodReturnType(method)
             ]
         } else {
             val params = IntStream.range(0, method.getInArgs().size()).boxed().map([
                 val arg = method.getInArgs.get(it)
-                return new ObjCMethodParameter(if (it == 0) method.name else arg.name, mapType(arg), arg.name)
+                return new SwiftMethodParameter(if (it == 0) method.name else arg.name, mapType(arg), arg.name)
             ]).collect(Collectors.toList())
 
-            return new ObjCMethod(params) => [
+            return new SwiftMethod(params) => [
                 returnType = constructMethodReturnType(method)
             ]
         }
@@ -74,10 +74,10 @@ class ObjCHeaderGenerator {
 
     def constructMethodReturnType(FMethod method) {
         // TODO Wrap multiple return values and/or error code with subsequemt version of Hello World milestone
-        return method.getOutArgs.stream.findFirst().map([mapType]).orElse(new ObjCType("void"))
+        return method.getOutArgs.stream.findFirst().map([mapType]).orElse(new SwiftType("void"))
     }
 
     def mapType(FArgument argument) {
-        return new ObjCType("NSString", ObjCType.Subtype.POINTER)
+        return new SwiftType("NSString", SwiftType.Subtype.POINTER)
     }
 }

@@ -9,12 +9,14 @@
  *
  */
 
-package com.here.ivi.api.generator.objc
+package com.here.ivi.api.generator.swift
 
-class ObjCIncludeResolver {
+import com.here.ivi.api.generator.common.GeneratedFile
+import com.here.ivi.api.model.TypeCollection
 
-    def resolveLazyIncludes(Object object, String string) {
-        throw new UnsupportedOperationException("TODO: auto-generated method stub")
+class SwiftTypeCollectionGenerator {
+
+    def GeneratedFile generate(TypeCollection<?> typeCollection) {
+
     }
-
 }

@@ -9,10 +9,10 @@
  *
  */
 
-package com.here.ivi.api.generator.objc.model
+package com.here.ivi.api.model.swift
 
 
-class ObjCProperty {
+class SwiftProperty {
     enum Visibility {
         PUBLIC,
         PRIVATE
@@ -40,5 +40,5 @@ class ObjCProperty {
     public MemoryBehaviour memoryBehaviour
     public Nullability nullability
     public String name
-    public ObjCType type
+    public SwiftType type
 }

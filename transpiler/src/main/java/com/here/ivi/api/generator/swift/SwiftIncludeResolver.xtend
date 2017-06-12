@@ -9,17 +9,12 @@
  *
  */
 
-package com.here.ivi.api.generator.objc
+package com.here.ivi.api.generator.swift
 
-import com.here.ivi.api.generator.common.GeneratedFile
-import com.here.ivi.api.model.Interface
-import navigation.LegacySpec;
-import java.util.List
-import java.util.LinkedList
+class SwiftIncludeResolver {
 
-class ObjCApiGenerator {
-
-    def List<GeneratedFile> generateFiles(Interface<LegacySpec.InterfacePropertyAccessor> api) {
-        return new LinkedList
+    def resolveLazyIncludes(Object object, String string) {
+        throw new UnsupportedOperationException("TODO: auto-generated method stub")
     }
+
 }

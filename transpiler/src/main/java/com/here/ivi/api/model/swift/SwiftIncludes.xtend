@@ -9,14 +9,14 @@
  *
  */
 
-package com.here.ivi.api.generator.objc
+package com.here.ivi.api.model.swift
 
-import com.here.ivi.api.generator.common.GeneratedFile
-import com.here.ivi.api.model.TypeCollection
-
-class ObjCTypeCollectionGenerator {
-
-    def GeneratedFile generate(TypeCollection<?> typeCollection) {
-
+final class SwiftIncludes {
+    enum Type {
+        MODULE,
+        SYSTEM,
+        LOCAL
     }
+    public Type type
+    public String path
 }

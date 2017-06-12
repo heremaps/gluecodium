@@ -9,18 +9,18 @@
  *
  */
 
-package com.here.ivi.api.generator.objc.templates
+package com.here.ivi.api.generator.swift.templates
 
-import com.here.ivi.api.generator.objc.model.ObjCClass
-import com.here.ivi.api.generator.objc.model.ObjCIncludes
-import com.here.ivi.api.generator.objc.model.ObjCProperty
-import com.here.ivi.api.generator.objc.model.ObjCType
-import com.here.ivi.api.generator.objc.model.ObjCMethod
-import com.here.ivi.api.generator.objc.model.ObjCMethodParameter
+import com.here.ivi.api.model.swift.SwiftClass
+import com.here.ivi.api.model.swift.SwiftIncludes
+import com.here.ivi.api.model.swift.SwiftProperty
+import com.here.ivi.api.model.swift.SwiftType
+import com.here.ivi.api.model.swift.SwiftMethod
+import com.here.ivi.api.model.swift.SwiftMethodParameter
 
-class ObjCHeaderFileTemplate {
+class SwiftFileTemplate {
 
-    public static def generate(ObjCClass objCClass) '''
+    public static def generate(SwiftClass swiftClass) '''
     //
     //  Copyright (C) 2015 - 2017 HERE Global B.V. and its affiliate(s).
     //
@@ -33,17 +33,17 @@ class ObjCHeaderFileTemplate {
     //  of such agreement, the use of the software is not allowed.
     //
     //  Automatically generated. Do not modify. Your changes will be lost.
-    «FOR importFile : objCClass.includes BEFORE '\n'»
+    «FOR importFile : swiftClass.includes BEFORE '\n'»
         «generateInclude(importFile)»
     «ENDFOR»
 
-    «generateComment(objCClass.comment)»
-    @interface «objCClass.name»«generateClassTypeDefinition(objCClass.parentClass, objCClass.implementsProtocols)»
+    «generateComment(swiftClass.comment)»
+    @interface «swiftClass.name»«generateClassTypeDefinition(swiftClass.parentClass, swiftClass.implementsProtocols)»
 
-    «FOR property : objCClass.properties»
+    «FOR property : swiftClass.properties»
             @property «generatePropertyDeclaration(property)»
     «ENDFOR»
-    «FOR method : objCClass.methods»
+    «FOR method : swiftClass.methods»
             «generateComment(method.comment)»
             «generateMethodHeader(method)»
     «ENDFOR»
@@ -51,10 +51,10 @@ class ObjCHeaderFileTemplate {
     @end
     '''
 
-    def static generateInclude(ObjCIncludes include) {
+    def static generateInclude(SwiftIncludes include) {
         switch include.type {
-            case ObjCIncludes.Type.MODULE: '''@import «include.path»'''
-            case ObjCIncludes.Type.SYSTEM: '''#import <«include.path»>'''
+            case SwiftIncludes.Type.MODULE: '''@import «include.path»'''
+            case SwiftIncludes.Type.SYSTEM: '''#import <«include.path»>'''
             default: '''#import "«include.path»"'''
         }
     }
@@ -78,33 +78,33 @@ class ObjCHeaderFileTemplate {
         ''' : «parentClass»«FOR proto : implementProtocols BEFORE '< ' SEPARATOR ', ' AFTER ' >'»«proto»«ENDFOR»'''
     }
 
-    def static generatePropertyDeclaration(ObjCProperty property) {
+    def static generatePropertyDeclaration(SwiftProperty property) {
         var String[] attributes
-        if (property.atomicity == ObjCProperty.Atomicity.NONATOMIC) attributes.add("nonatomic")
-        if (property.accessibility == ObjCProperty.Accessibility.READONLY) attributes.add("readonly")
+        if (property.atomicity == SwiftProperty.Atomicity.NONATOMIC) attributes.add("nonatomic")
+        if (property.accessibility == SwiftProperty.Accessibility.READONLY) attributes.add("readonly")
         switch (property.memoryBehaviour) {
-            case ObjCProperty.MemoryBehaviour.STRONG: attributes.add("strong")
-            case ObjCProperty.MemoryBehaviour.WEAK: attributes.add("weak")
+            case SwiftProperty.MemoryBehaviour.STRONG: attributes.add("strong")
+            case SwiftProperty.MemoryBehaviour.WEAK: attributes.add("weak")
             default: {}
         }
-        if (property.nullability == ObjCProperty.Nullability.NONNULL) attributes.add("nonnull")
+        if (property.nullability == SwiftProperty.Nullability.NONNULL) attributes.add("nonnull")
         var typeName = generateTypeDefinition(property.type)
         '''«FOR attrib : attributes BEFORE '(' SEPARATOR ', ' AFTER ')'»«attrib»«ENDFOR» «typeName» «property.name»;'''
     }
 
-    def static generateTypeDefinition(ObjCType type) {
+    def static generateTypeDefinition(SwiftType type) {
         val typeName = if (type.templatedTypeName !== null) '''«type.name»<«type.templatedTypeName»>''' else type.name
         switch (type.subtype) {
-            case ObjCType.Subtype.POINTER: '''«typeName» *'''
-            case ObjCType.Subtype.REFERENCE: '''«typeName» &'''
+            case SwiftType.Subtype.POINTER: '''«typeName» *'''
+            case SwiftType.Subtype.REFERENCE: '''«typeName» &'''
             default: typeName
         }
     }
 
-    def static generateMethodParam(ObjCMethodParameter methodParameter) '''
+    def static generateMethodParam(SwiftMethodParameter methodParameter) '''
     «methodParameter.interfaceName»:(«generateTypeDefinition(methodParameter.type)») «methodParameter.variableName»'''
 
-    def static generateMethodHeader(ObjCMethod method) {
+    def static generateMethodHeader(SwiftMethod method) {
         val methodType = if (method.isStatic) "+" else "-"
         val methodReturnType = '''«methodType»(«generateTypeDefinition(method.returnType)»)'''
         if (method.parameters !== null && method.parameters.size > 0) {

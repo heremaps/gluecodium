@@ -9,14 +9,17 @@
  *
  */
 
-package com.here.ivi.api.generator.objc.model
+package com.here.ivi.api.generator.swift
 
-final class ObjCIncludes {
-    enum Type {
-        MODULE,
-        SYSTEM,
-        LOCAL
+import com.here.ivi.api.generator.common.GeneratedFile
+import com.here.ivi.api.model.Interface
+import navigation.LegacySpec;
+import java.util.List
+import java.util.LinkedList
+
+class SwiftApiGenerator {
+
+    def List<GeneratedFile> generateFiles(Interface<LegacySpec.InterfacePropertyAccessor> api) {
+        return new LinkedList
     }
-    public Type type
-    public String path
 }

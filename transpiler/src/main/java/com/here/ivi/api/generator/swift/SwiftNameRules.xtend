@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.objc
+package com.here.ivi.api.generator.swift
 
 import com.here.ivi.api.generator.common.NameHelper
 import com.here.ivi.api.model.FrancaElement
@@ -17,7 +17,7 @@ import com.here.ivi.api.model.Interface
 import java.io.File
 import org.franca.core.franca.FTypeCollection
 
-class ObjCNameRules {
+class SwiftNameRules {
 
     def getHeaderFileName(FrancaElement<?> francaElement) {
         return "objc"
