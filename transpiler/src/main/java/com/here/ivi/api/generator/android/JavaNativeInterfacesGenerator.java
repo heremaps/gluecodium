@@ -34,13 +34,13 @@ final class JavaNativeInterfacesGenerator {
     // JNI Header
     files.add(
         new GeneratedFile(
-            JavaNativeInterfacesHeaderTemplate.generate(javaClass).toString(),
+            JavaNativeInterfacesHeaderTemplate.generate(javaClass),
             JavaNativeInterfacesNameRules.getHeaderFileName(javaClass)));
 
     // JNI Implementation
     files.add(
         new GeneratedFile(
-            JavaNativeInterfacesImplementationTemplate.generate(javaClass).toString(),
+            JavaNativeInterfacesImplementationTemplate.generate(javaClass),
             JavaNativeInterfacesNameRules.getImplementationFileName(javaClass)));
 
     return files;

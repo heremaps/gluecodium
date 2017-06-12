@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import com.here.ivi.api.model.javamodel.JavaReferenceType.Type;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -22,7 +23,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class JavaParameterTest {
   private static final String TEST_PARAMETER_NAME = "myParam";
-  private static final JavaType TEST_STRING_TYPE = new JavaComplexType("String");
+  private static final JavaType TEST_STRING_TYPE = new JavaReferenceType(Type.STRING);
   private static final JavaValue TEST_DEFAULT_VALUE = new JavaValue("SomeString");
 
   @Test

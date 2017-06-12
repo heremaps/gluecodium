@@ -14,14 +14,14 @@ package com.here.ivi.api.model.javamodel;
 import java.util.stream.Stream;
 
 public class JavaInheritance extends JavaElement {
-  private final JavaComplexType type;
+  private final JavaType type;
 
-  public JavaInheritance(final JavaComplexType type) {
+  public JavaInheritance(final JavaType type) {
     super(null);
     this.type = type;
   }
 
-  public JavaComplexType getType() {
+  public JavaType getType() {
     return type;
   }
 

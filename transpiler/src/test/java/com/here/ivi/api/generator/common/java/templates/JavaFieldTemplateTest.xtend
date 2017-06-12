@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.common.java.templates
 
-import com.here.ivi.api.model.javamodel.JavaComplexType
 import com.here.ivi.api.model.javamodel.JavaField
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType
 import com.here.ivi.api.model.javamodel.JavaValue
@@ -21,6 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import com.here.ivi.api.model.javamodel.JavaReferenceType
 
 @RunWith(typeof(XtextRunner))
 class JavaFieldTemplateTest {
@@ -49,7 +49,7 @@ class JavaFieldTemplateTest {
 
   @Test
   def stringFieldWithCommentGeneration() {
-    val javaField = new JavaField(new JavaComplexType("String"), "stringField") => [
+    val javaField = new JavaField(new JavaReferenceType(JavaReferenceType.Type.STRING), "stringField") => [
       visibility = JavaVisibility.PUBLIC
       comment = "Field comment"
     ]

@@ -23,7 +23,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class JavaMethodTest {
   private static final String TEST_METHOD_NAME = "fancyMethod";
-  private static final JavaType TEST_STRING_RETURN_TYPE = new JavaComplexType("String");
+  private static final JavaType TEST_STRING_RETURN_TYPE =
+      new JavaReferenceType(JavaReferenceType.Type.STRING);
   private static final JavaType TEST_VOID_RETURN_TYPE = new JavaPrimitiveType(Type.VOID);
 
   @Test

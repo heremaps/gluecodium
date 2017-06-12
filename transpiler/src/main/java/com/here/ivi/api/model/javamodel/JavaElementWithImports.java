@@ -19,12 +19,12 @@ import java.util.Set;
 public class JavaElementWithImports extends JavaElement {
   public Set<JavaImport> imports = Collections.emptySet();
 
-  public JavaElementWithImports(String name) {
+  public JavaElementWithImports(final String name) {
     super(name);
     imports = new HashSet<>();
   }
 
-  public JavaElementWithImports(String name, Collection<JavaImport> imports) {
+  public JavaElementWithImports(final String name, final Collection<JavaImport> imports) {
     super(name);
     this.imports = new HashSet<>(imports);
   }

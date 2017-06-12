@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.java.templates
 
-import com.here.ivi.api.model.javamodel.JavaComplexType
+import com.here.ivi.api.model.javamodel.JavaReferenceType
 import com.here.ivi.api.model.javamodel.JavaConstant
 import com.here.ivi.api.model.javamodel.JavaValue
 import com.here.ivi.api.model.javamodel.JavaVisibility
@@ -20,13 +20,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import com.here.ivi.api.model.javamodel.JavaCustomType
 
 @RunWith(typeof(XtextRunner))
 class JavaConstantTemplateTest {
 
   @Test
   def stringConstantGeneration() {
-    val javaConstant = new JavaConstant(new JavaComplexType("String"), "STRING_CONSTANT",
+    val javaConstant = new JavaConstant(new JavaReferenceType(JavaReferenceType.Type.STRING), "STRING_CONSTANT",
       new JavaValue("\"myString\"")) => [
       comment = "Constant string comment"
     ]
@@ -43,7 +44,7 @@ class JavaConstantTemplateTest {
 
   @Test
   def customTypeConstantGeneration() {
-    val javaConstant = new JavaConstant(new JavaComplexType("ConstantType"),
+    val javaConstant = new JavaConstant(new JavaCustomType("ConstantType"),
       "EXAMPLE_CONSTANT", new JavaValue("new ConstantType()")) => [
       visibility = JavaVisibility.PUBLIC
       comment = "Constant javadoc comment"

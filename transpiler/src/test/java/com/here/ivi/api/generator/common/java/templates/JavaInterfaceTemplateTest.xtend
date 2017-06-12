@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.common.java.templates
 
-import com.here.ivi.api.model.javamodel.JavaComplexType
 import com.here.ivi.api.model.javamodel.JavaInheritance
 import com.here.ivi.api.model.javamodel.JavaInterface
 import com.here.ivi.api.model.javamodel.JavaMethod
@@ -22,6 +21,7 @@ import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
 import com.here.ivi.api.model.javamodel.JavaPackage
+import com.here.ivi.api.model.javamodel.JavaCustomType
 
 @RunWith(typeof(XtextRunner))
 class JavaInterfaceTemplateTest {
@@ -46,8 +46,8 @@ class JavaInterfaceTemplateTest {
 
   @Test
   def complexInterfaceGeneration() {
-    val exampleType = new JavaComplexType("ExampleType")
-    val parameter = new JavaParameter(new JavaComplexType("InParamType"), "param")
+    val exampleType = new JavaCustomType("ExampleType")
+    val parameter = new JavaParameter(new JavaCustomType("InParamType"), "param")
     val interfaceMethod = new JavaMethod("someMethod", exampleType) => [
       parameters = #[ parameter ]
       comment = "Method comment"

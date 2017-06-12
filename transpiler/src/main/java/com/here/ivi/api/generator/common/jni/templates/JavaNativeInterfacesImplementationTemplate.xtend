@@ -25,7 +25,7 @@ public class JavaNativeInterfacesImplementationTemplate {
     #include "TODO"
 
     «FOR method : javaClass.methods»
-    «method.returnType.name» «JavaNativeFunctionSignatureTemplate.generate(javaClass.name,method)»{
+    «method.returnType.name» «JavaNativeFunctionSignatureTemplate.generate(javaClass.name, method)»{
         //TODO
     }
     «ENDFOR»

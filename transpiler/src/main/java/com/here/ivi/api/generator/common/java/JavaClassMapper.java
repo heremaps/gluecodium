@@ -14,8 +14,11 @@ package com.here.ivi.api.generator.common.java;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaMethod;
+import com.here.ivi.api.model.javamodel.JavaParameter;
+import com.here.ivi.api.model.javamodel.JavaType;
 import navigation.BaseApiSpec;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
+import org.eclipse.emf.common.util.EList;
+import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;
 
 /**
@@ -24,8 +27,9 @@ import org.franca.core.franca.FMethod;
  * <p>TODO: Should be merged / combined with JavaValueMapper at some point
  */
 public final class JavaClassMapper {
+  private JavaClassMapper() {}
 
-  public static JavaClass map(final Interface<InterfacePropertyAccessor> api) {
+  public static JavaClass map(final Interface<BaseApiSpec.InterfacePropertyAccessor> api) {
     JavaClass javaClass = new JavaClass(api.getName());
 
     // TODO(APIGEN-107): Add fields, constants ...
@@ -39,9 +43,32 @@ public final class JavaClassMapper {
 
   private static JavaMethod generateMethod(
       final Interface<BaseApiSpec.InterfacePropertyAccessor> api, final FMethod fMethod) {
-    JavaMethod javaMethod = new JavaMethod(fMethod.getName());
+    JavaMethod javaMethod;
 
-    // TODO(APIGEN-107): Add body, return type, parameters, visibility ...
+    // Map return type
+    EList<FArgument> outArgs = fMethod.getOutArgs();
+    if (outArgs.isEmpty()) { // Void return type
+      javaMethod = new JavaMethod(fMethod.getName());
+    } else if (outArgs.size() == 1) {
+      JavaType returnType = JavaTypeMapper.map(api, outArgs.get(0).getType());
+
+      javaMethod = new JavaMethod(fMethod.getName(), returnType);
+    } else {
+      // TODO: Wrap comlex return type in an immutable container class
+      javaMethod = new JavaMethod(fMethod.getName());
+    }
+
+    // Map method arguments
+    for (FArgument fArgument : fMethod.getInArgs()) {
+      JavaType javaArgumentType = JavaTypeMapper.map(api, fArgument.getType());
+      javaMethod.parameters.add(new JavaParameter(javaArgumentType, fArgument.getName()));
+    }
+
+    // TODO: Map errors to exception(s)
+    // Either create a per-Interface exception and add mapped enum values to it's EnumSet member
+    // Or do something different...
+
+    // TODO(APIGEN-107): Add body, visibility ...
 
     return javaMethod;
   }

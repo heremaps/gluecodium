@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.java.templates
 
-import com.here.ivi.api.model.javamodel.JavaComplexType
+import com.here.ivi.api.model.javamodel.JavaReferenceType
 import com.here.ivi.api.model.javamodel.JavaMethod
 import com.here.ivi.api.model.javamodel.JavaParameter
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType
@@ -21,6 +21,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import com.here.ivi.api.model.javamodel.JavaCustomType
 
 @RunWith(typeof(XtextRunner))
 public class JavaMethodTemplateTest {
@@ -60,10 +61,10 @@ public class JavaMethodTemplateTest {
 
   @Test
   def complexMethodGeneration() {
-    val parameter1 = new JavaParameter(new JavaComplexType("InParamType1"), "firstParam")
-    val parameter2 = new JavaParameter(new JavaComplexType("InParamType2"), "secondParam")
+    val parameter1 = new JavaParameter(new JavaReferenceType(JavaReferenceType.Type.STRING), "firstParam")
+    val parameter2 = new JavaParameter(new JavaCustomType("InParamType2"), "secondParam")
 
-    val javaMethod = new JavaMethod("complexMethod", new JavaComplexType("ComplexType")) => [
+    val javaMethod = new JavaMethod("complexMethod", new JavaCustomType("ComplexType")) => [
       comment = "Method comment"
       visibility = JavaVisibility.PUBLIC
       qualifiers = # { JavaMethod.Qualifier.STATIC }
@@ -76,7 +77,7 @@ public class JavaMethodTemplateTest {
        * @deprecated Method is deprecated
        */
       @Deprecated
-      public static ComplexType complexMethod(final InParamType1 firstParam, final InParamType2 secondParam)'''
+      public static ComplexType complexMethod(final String firstParam, final InParamType2 secondParam)'''
 
     val generated = JavaMethodTemplate.signature(javaMethod)
 
@@ -85,8 +86,8 @@ public class JavaMethodTemplateTest {
 
   @Test
   def pureSignatureMethodGeneration() {
-    val parameter = new JavaParameter(new JavaComplexType("InParamType"), "param")
-    val javaMethod = new JavaMethod("someMethod", new JavaComplexType("ReturnType")) => [
+    val parameter = new JavaParameter(new JavaCustomType("InParamType"), "param")
+    val javaMethod = new JavaMethod("someMethod", new JavaCustomType("ReturnType")) => [
       parameters = #[ parameter ]
       comment = "Method comment"
     ]
