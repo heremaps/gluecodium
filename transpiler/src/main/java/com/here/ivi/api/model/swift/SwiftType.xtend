@@ -12,6 +12,7 @@
 package com.here.ivi.api.model.swift
 
 class SwiftType {
+    public static final val VOID = new SwiftType("void")
 
     new(String name) {
         this.name = name
@@ -28,10 +29,20 @@ class SwiftType {
         REFERENCE,
         BLOCK
     }
+
     enum Nullability {
         NONNULL,
         NULLABLE
     }
+
+    override equals(Object o) {
+        if (o instanceof SwiftType) {
+            val other = o as SwiftType
+            return other.subtype == subtype && other.name.equals(name) && other.isConst == isConst
+        }
+        return false
+    }
+
     public Subtype subtype
     final public String name
     public String templatedTypeName

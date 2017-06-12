@@ -63,10 +63,10 @@ class SwiftGenerator {
         } else {
             val params = IntStream.range(0, method.getInArgs().size()).boxed().map([
                 val arg = method.getInArgs.get(it)
-                return new SwiftMethodParameter(if (it == 0) method.name else arg.name, mapType(arg), arg.name)
+                return new SwiftMethodParameter(arg.name, mapType(arg))
             ]).collect(Collectors.toList())
 
-            return new SwiftMethod(params) => [
+            return new SwiftMethod(method.name, params) => [
                 returnType = constructMethodReturnType(method)
             ]
         }
