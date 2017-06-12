@@ -11,10 +11,7 @@
 
 package com.here.ivi.api.generator.swift
 
-import com.here.ivi.api.Transpiler
-import com.here.ivi.api.generator.common.AbstractGeneratorSuite
 import com.here.ivi.api.generator.common.GeneratorSuite
-import com.here.ivi.api.generator.common.Version
 import com.here.ivi.api.loader.FrancaModelLoader
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory
 import com.here.ivi.api.model.FrancaModel
@@ -25,34 +22,27 @@ import java.util.Objects
 import java.util.stream.Collectors
 import navigation.BaseApiSpec;
 
-
-
-final class SwiftGeneratorSuite extends AbstractGeneratorSuite implements GeneratorSuite {
-
+final class SwiftGeneratorSuite implements GeneratorSuite {
     // TODO: APIGEN-149 - Create an ObjCSpecAccessorFactory
     val specAccessorFactory = new BaseApiSpecAccessorFactory
     File[] currentFiles
     FrancaModel<BaseApiSpec.InterfacePropertyAccessor,BaseApiSpec.TypeCollectionPropertyAccessor> model
     FrancaModelLoader<BaseApiSpec.InterfacePropertyAccessor,BaseApiSpec.TypeCollectionPropertyAccessor> modelLoader
 
-    new (Transpiler transpiler) {
-        super(transpiler, new ResourceValidator)
+    new () {
         modelLoader = new FrancaModelLoader(specAccessorFactory)
     }
 
-    new (Transpiler transpiler,
-        ResourceValidator resourceValidator,
-        FrancaModelLoader<BaseApiSpec.InterfacePropertyAccessor,
+    new (FrancaModelLoader<BaseApiSpec.InterfacePropertyAccessor,
         BaseApiSpec.TypeCollectionPropertyAccessor> modelLoader) {
-        super(transpiler, resourceValidator)
-        this.modelLoader = modelLoader
+        this.modelLoader = modelLoader;
     }
 
-    override generateFiles() {
+    override generate() {
         val nameRules = new SwiftNameRules
         val includeResolver = new SwiftIncludeResolver
         // TODO: APIGEN-108 Add all other possible generators and call them here
-        val headerGenerator = new SwiftGenerator(this, nameRules, includeResolver)
+        val headerGenerator = new SwiftGenerator(nameRules, includeResolver)
         val generatorStream = model.getInterfaces().stream().map([headerGenerator.generate(it)]).flatMap([stream]);
 
         return generatorStream.filter([Objects.nonNull(it)]).collect(Collectors.toList)
@@ -68,7 +58,7 @@ final class SwiftGeneratorSuite extends AbstractGeneratorSuite implements Genera
 
     override validate() {
         val resourceSet = modelLoader.getResourceSetProvider.get
-        return resourceValidator.validate(resourceSet, currentFiles)
+        return ResourceValidator.validate(resourceSet, currentFiles)
     }
 
     override buildModel(String inputPath) {

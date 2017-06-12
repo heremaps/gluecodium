@@ -17,7 +17,6 @@ import static extension com.here.ivi.api.generator.swift.templates.SwiftFileTemp
 import static extension com.here.ivi.api.generator.swift.SwiftTypeMapper.mappedType
 import static extension com.here.ivi.api.generator.swift.SwiftTypeMapper.mappedReturnValue
 import com.here.ivi.api.generator.common.GeneratedFile
-import com.here.ivi.api.generator.common.GeneratorSuite
 import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.model.swift.SwiftMethod
 import com.here.ivi.api.model.swift.SwiftMethodParameter
@@ -28,15 +27,12 @@ import navigation.BaseApiSpec
 import org.franca.core.franca.FMethod
 
 class SwiftGenerator {
-
     extension SwiftNameRules nameRules
     SwiftIncludeResolver includeResolver
-    GeneratorSuite generatorSuite
 
-    new(GeneratorSuite suite, SwiftNameRules rules, SwiftIncludeResolver resolver) {
+    new(SwiftNameRules rules, SwiftIncludeResolver resolver) {
         nameRules = rules
         includeResolver = resolver
-        generatorSuite = suite
     }
 
     def List<GeneratedFile> generate(Interface<BaseApiSpec.InterfacePropertyAccessor> iface) {

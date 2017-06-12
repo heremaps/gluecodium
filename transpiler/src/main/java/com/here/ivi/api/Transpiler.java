@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,28 +28,13 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Transpiler {
+public final class Transpiler {
   private static final Logger logger = Logger.getLogger(Transpiler.class.getName());
+
+  private final OptionReader.TranspilerOptions options;
   private final Version version;
 
-  public static void main(final String[] args) {
-
-    OptionReader or = new OptionReader();
-    int status = 1;
-    try {
-      OptionReader.TranspilerOptions options = or.read(args);
-      status = (options == null || new Transpiler(options).execute()) ? 0 : 1;
-    } catch (TranspilerExecutionException e) {
-      logger.log(Level.SEVERE, "Running Transpiler failed!", e);
-    } catch (OptionReaderException e) {
-      logger.severe("Failed reading options: " + e.getMessage());
-      or.printUsage();
-    }
-
-    System.exit(status);
-  }
-
-  public Transpiler(OptionReader.TranspilerOptions options) {
+  private Transpiler(final OptionReader.TranspilerOptions options) {
     this.options = options;
     TranspilerLogger.initialize("logging.properties");
     version = parseVersion();
@@ -90,7 +74,6 @@ public class Transpiler {
   }
 
   private boolean execute() {
-
     //Generation
     List<String> generators = discoverGenerators();
     boolean succeeded = true;
@@ -100,8 +83,7 @@ public class Transpiler {
       logger.info("Using generator " + sn);
 
       try {
-
-        GeneratorSuite generator = GeneratorSuite.instantiateByShortName(sn, this);
+        GeneratorSuite generator = GeneratorSuite.instantiateByShortName(sn);
         logger.info("Instantiated generator " + generator.getName());
 
         generator.buildModel(options.getInputDir());
@@ -145,7 +127,7 @@ public class Transpiler {
     logger.info("No generators specified, using auto-discovery");
     List<String> availableGenerators = GeneratorSuite.generatorShortNames();
     try {
-      generators = GeneratorSuite.generatorsFromFdepl(options.getInputDir(), this);
+      generators = GeneratorSuite.generatorsFromFdepl(options.getInputDir());
       if (generators.isEmpty()) {
         logger.info(
             "No generators discovered, switching to use all available: " + availableGenerators);
@@ -191,15 +173,19 @@ public class Transpiler {
     return "com.here.Transpiler";
   }
 
-  public String resolveRelativeToRootPath(String other) throws IOException {
-    File rootFile = new File(options.getInputDir());
-    if (rootFile.isFile()) {
-      rootFile = rootFile.getParentFile();
+  public static void main(final String[] args) {
+    OptionReader or = new OptionReader();
+    int status = 1;
+    try {
+      OptionReader.TranspilerOptions options = or.read(args);
+      status = (options == null || new Transpiler(options).execute()) ? 0 : 1;
+    } catch (TranspilerExecutionException e) {
+      logger.log(Level.SEVERE, "Running Transpiler failed!", e);
+    } catch (OptionReaderException e) {
+      logger.severe("Failed reading options: " + e.getMessage());
+      or.printUsage();
     }
-    final URI parentURI = URI.create(rootFile.getCanonicalPath());
-    final URI childURI = URI.create(other);
-    return parentURI.relativize(childURI).toString();
-  }
 
-  private final OptionReader.TranspilerOptions options;
+    System.exit(status);
+  }
 }

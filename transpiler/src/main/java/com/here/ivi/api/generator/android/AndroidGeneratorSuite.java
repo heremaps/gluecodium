@@ -11,10 +11,9 @@
 
 package com.here.ivi.api.generator.android;
 
-import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.baseapi.BaseApiNameRules;
-import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
@@ -34,7 +33,7 @@ import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
-public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
+public final class AndroidGeneratorSuite implements GeneratorSuite {
   public static final String GENERATOR_NAMESPACE = "android";
 
   private final SpecAccessorFactory<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
@@ -45,21 +44,17 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
   private Collection<File> currentFiles;
   private final AndroidValidator validator;
 
-  public AndroidGeneratorSuite(final Transpiler transpiler) {
-    super(transpiler, new ResourceValidator());
-    specAccessorFactory = new AndroidSpecAccessorFactory();
-    validator = new AndroidValidator();
-    francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
+  public AndroidGeneratorSuite() {
+    this.specAccessorFactory = new AndroidSpecAccessorFactory();
+    this.validator = new AndroidValidator();
+    this.francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
   }
 
   public AndroidGeneratorSuite(
-      final Transpiler transpiler,
-      final ResourceValidator resourceValidator,
       final AndroidSpecAccessorFactory specAccessorFactory,
       final AndroidValidator validator,
-      FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
+      final FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
           francaModelLoader) {
-    super(transpiler, resourceValidator);
     this.specAccessorFactory = specAccessorFactory;
     this.validator = validator;
     this.francaModelLoader = francaModelLoader;
@@ -78,7 +73,7 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
   @Override
   public boolean validate() {
     ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
-    return resourceValidator.validate(resources, currentFiles) && validator.validate(model);
+    return ResourceValidator.validate(resources, currentFiles) && validator.validate(model);
   }
 
   @Override
@@ -89,7 +84,7 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
   }
 
   @Override
-  public List<GeneratedFile> generateFiles() {
+  public List<GeneratedFile> generate() {
     CppNameRules cppNameRules = new BaseApiNameRules();
     CppIncludeResolver cppIncludeResolver = new CppIncludeResolver(model);
 

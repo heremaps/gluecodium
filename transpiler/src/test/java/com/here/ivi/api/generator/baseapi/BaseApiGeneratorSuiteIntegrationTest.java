@@ -14,10 +14,7 @@ package com.here.ivi.api.generator.baseapi;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
-import com.here.ivi.api.OptionReader;
-import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import java.util.List;
 import org.junit.Before;
@@ -30,30 +27,18 @@ public class BaseApiGeneratorSuiteIntegrationTest {
   private final String francaFilesPath = "src/test/resources/baseapi_generator_suite/fidl";
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
 
-  private OptionReader.TranspilerOptions generateTranspilerOptions() {
-    OptionReader.TranspilerOptions options = null;
-    OptionReader optionReader = new OptionReader();
-    try {
-      options = optionReader.read(new String[] {francaFilesPath});
-    } catch (Exception exception) {
-      fail("Error while generating Transpiler options: " + exception.getMessage());
-    }
-    return options;
-  }
-
   @Before
   public void setUp() {
-    Transpiler transpiler = new Transpiler(generateTranspilerOptions());
-    baseApiGeneratorSuite = new BaseApiGeneratorSuite(transpiler);
+    baseApiGeneratorSuite = new BaseApiGeneratorSuite();
   }
 
   @Test
-  public void generateFilesIntegration() {
+  public void generate() {
     // TODO: APIGEN-229 This test should spy stubGenerator::generate and
     // typeCollectionGenerator::generate to check with verify() that they are called accordingly
     baseApiGeneratorSuite.buildModel(francaFilesPath);
 
-    List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generateFiles();
+    List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 
     assertNotNull(generatedFiles);
     assertEquals("Expected cpp/internal files and test generated file", 3, generatedFiles.size());
