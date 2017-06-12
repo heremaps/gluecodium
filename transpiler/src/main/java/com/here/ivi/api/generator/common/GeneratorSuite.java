@@ -14,8 +14,6 @@ package com.here.ivi.api.generator.common;
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.baseapi.CppStubGeneratorSuite;
-import com.here.ivi.api.generator.legacy.LegacyGeneratorSuite;
-import com.here.ivi.api.generator.converter.cpp.ConverterGeneratorSuite;
 import com.here.ivi.api.generator.objc.ObjCGeneratorSuite;
 import com.here.ivi.api.model.FDHelper;
 import java.lang.reflect.Constructor;
@@ -81,14 +79,10 @@ public interface GeneratorSuite {
     switch (shortName) {
       case "android":
         return instantiate(AndroidGeneratorSuite.class, tool);
-      case "legacy":
-        return instantiate(LegacyGeneratorSuite.class, tool);
       case "stub":
         return instantiate(CppStubGeneratorSuite.class, tool);
       case "objc":
         return instantiate(ObjCGeneratorSuite.class, tool);
-      case "legacyStubConverter":
-        return instantiate(ConverterGeneratorSuite.class, tool);
     }
 
     throw new InstantiationException();
@@ -96,7 +90,7 @@ public interface GeneratorSuite {
 
   /** @return all available generators */
   static List<String> generatorShortNames() {
-    return Arrays.asList("android", "legacy", "stub", "objc", "legacyStubConverter");
+    return Arrays.asList("android", "stub", "objc");
   }
 
   /**
