@@ -36,15 +36,15 @@ final class SwiftGeneratorSuite extends AbstractGeneratorSuite implements Genera
     FrancaModelLoader<BaseApiSpec.InterfacePropertyAccessor,BaseApiSpec.TypeCollectionPropertyAccessor> modelLoader
 
     new (Transpiler transpiler) {
-        super(transpiler)
+        super(transpiler, new ResourceValidator)
         modelLoader = new FrancaModelLoader(specAccessorFactory)
     }
 
     new (Transpiler transpiler,
-         FrancaModelLoader<BaseApiSpec.InterfacePropertyAccessor,
-         BaseApiSpec.TypeCollectionPropertyAccessor>
-         modelLoader) {
-        super(transpiler)
+        ResourceValidator resourceValidator,
+        FrancaModelLoader<BaseApiSpec.InterfacePropertyAccessor,
+        BaseApiSpec.TypeCollectionPropertyAccessor> modelLoader) {
+        super(transpiler, resourceValidator)
         this.modelLoader = modelLoader
     }
 
@@ -68,7 +68,7 @@ final class SwiftGeneratorSuite extends AbstractGeneratorSuite implements Genera
 
     override validate() {
         val resourceSet = modelLoader.getResourceSetProvider.get
-        return new ResourceValidator(resourceSet).validate(currentFiles)
+        return resourceValidator.validate(resourceSet, currentFiles)
     }
 
     override buildModel(String inputPath) {

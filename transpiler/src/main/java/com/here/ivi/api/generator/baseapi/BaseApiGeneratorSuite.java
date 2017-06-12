@@ -41,6 +41,7 @@ import java.util.stream.Stream;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.apache.commons.io.IOUtils;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
  * This generator will build all the BaseApis that will have to be implemented on the client
@@ -60,7 +61,7 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
 
   @SuppressWarnings("unused")
   public BaseApiGeneratorSuite(Transpiler transpiler) {
-    super(transpiler);
+    super(transpiler, new ResourceValidator());
     this.specAccessorFactory = new BaseApiSpecAccessorFactory();
     this.validator = new BaseApiModelValidator();
     this.francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
@@ -68,11 +69,12 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
 
   private BaseApiGeneratorSuite(
       Transpiler transpiler,
+      ResourceValidator resourceValidator,
       BaseApiSpecAccessorFactory specAccessorFactory,
       BaseApiModelValidator validator,
       FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
           francaModelLoader) {
-    super(transpiler);
+    super(transpiler, resourceValidator);
     this.specAccessorFactory = specAccessorFactory;
     this.validator = validator;
     this.francaModelLoader = francaModelLoader;
@@ -174,8 +176,7 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public boolean validate() {
-    ResourceValidator resourceValidator =
-        new ResourceValidator(francaModelLoader.getResourceSetProvider().get());
-    return resourceValidator.validate(currentFiles) && validator.validate(model);
+    ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
+    return resourceValidator.validate(resources, currentFiles) && validator.validate(model);
   }
 }

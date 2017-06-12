@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
   public static final String GENERATOR_NAMESPACE = "android";
@@ -45,7 +46,7 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
   private final AndroidValidator validator;
 
   public AndroidGeneratorSuite(final Transpiler transpiler) {
-    super(transpiler);
+    super(transpiler, new ResourceValidator());
     specAccessorFactory = new AndroidSpecAccessorFactory();
     validator = new AndroidValidator();
     francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
@@ -53,11 +54,12 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
 
   public AndroidGeneratorSuite(
       final Transpiler transpiler,
+      final ResourceValidator resourceValidator,
       final AndroidSpecAccessorFactory specAccessorFactory,
       final AndroidValidator validator,
       FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
           francaModelLoader) {
-    super(transpiler);
+    super(transpiler, resourceValidator);
     this.specAccessorFactory = specAccessorFactory;
     this.validator = validator;
     this.francaModelLoader = francaModelLoader;
@@ -75,9 +77,8 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public boolean validate() {
-    ResourceValidator resourceValidator =
-        new ResourceValidator(francaModelLoader.getResourceSetProvider().get());
-    return resourceValidator.validate(currentFiles) && validator.validate(model);
+    ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
+    return resourceValidator.validate(resources, currentFiles) && validator.validate(model);
   }
 
   @Override
