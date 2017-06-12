@@ -16,23 +16,24 @@ import com.here.ivi.api.generator.common.AbstractGeneratorSuite
 import com.here.ivi.api.generator.common.GeneratorSuite
 import com.here.ivi.api.generator.common.Version
 import com.here.ivi.api.loader.FrancaModelLoader
-import com.here.ivi.api.loader.legacy.LegacySpecAccessorFactory
+import com.here.ivi.api.loader.baseapi.CppStubSpecAccessorFactory
 import com.here.ivi.api.model.FrancaModel
 import com.here.ivi.api.model.ModelHelper
 import com.here.ivi.api.validator.common.ResourceValidator
 import java.io.File
 import java.util.Objects
 import java.util.stream.Collectors
-import navigation.LegacySpec.InterfacePropertyAccessor
-import navigation.LegacySpec.TypeCollectionPropertyAccessor
+import navigation.CppStubSpec;
+
+
 
 final class ObjCGeneratorSuite extends AbstractGeneratorSuite implements GeneratorSuite {
 
     // TODO: APIGEN-149 - Create an ObjCSpecAccessorFactory
-    val specAccessorFactory = new LegacySpecAccessorFactory
+    val specAccessorFactory = new CppStubSpecAccessorFactory
     File[] currentFiles
-    FrancaModel<InterfacePropertyAccessor,TypeCollectionPropertyAccessor> model
-    FrancaModelLoader<InterfacePropertyAccessor,TypeCollectionPropertyAccessor> modelLoader
+    FrancaModel<CppStubSpec.InterfacePropertyAccessor,CppStubSpec.TypeCollectionPropertyAccessor> model
+    FrancaModelLoader<CppStubSpec.InterfacePropertyAccessor,CppStubSpec.TypeCollectionPropertyAccessor> modelLoader
 
     new (Transpiler transpiler) {
         super(transpiler)

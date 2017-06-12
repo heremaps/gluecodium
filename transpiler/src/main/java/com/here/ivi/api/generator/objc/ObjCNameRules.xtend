@@ -35,6 +35,10 @@ class ObjCNameRules {
         }
     }
 
+    def getClassName(FTypeCollection base) {
+        return computeClassName(base);
+    }
+
     def String getTypeCollectionName(FTypeCollection base) {
         return NameHelper.toUpperCamelCase(base.getName())
     }
