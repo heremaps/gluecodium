@@ -39,21 +39,28 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
   private final SpecAccessorFactory<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
       specAccessorFactory;
   private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
-  private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> fml;
+  private final FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
+      francaModelLoader;
   private Collection<File> currentFiles;
   private final AndroidValidator validator;
 
   public AndroidGeneratorSuite(final Transpiler transpiler) {
-    this(transpiler, new AndroidSpecAccessorFactory(), new AndroidValidator());
+    super(transpiler);
+    specAccessorFactory = new AndroidSpecAccessorFactory();
+    validator = new AndroidValidator();
+    francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
   }
 
   public AndroidGeneratorSuite(
       final Transpiler transpiler,
       final AndroidSpecAccessorFactory specAccessorFactory,
-      final AndroidValidator validator) {
+      final AndroidValidator validator,
+      FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
+          francaModelLoader) {
     super(transpiler);
     this.specAccessorFactory = specAccessorFactory;
     this.validator = validator;
+    this.francaModelLoader = francaModelLoader;
   }
 
   @Override
@@ -68,17 +75,16 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public boolean validate() {
-    ResourceValidator resourceValidator = new ResourceValidator(fml.getResourceSetProvider().get());
+    ResourceValidator resourceValidator =
+        new ResourceValidator(francaModelLoader.getResourceSetProvider().get());
     return resourceValidator.validate(currentFiles) && validator.validate(model);
   }
 
   @Override
   public void buildModel(String inputPath) {
-    fml = new FrancaModelLoader<>(specAccessorFactory);
-
-    ModelHelper.getFdeplInjector().injectMembers(fml);
+    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
     currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
-    model = fml.load(specAccessorFactory.getSpecPath(), currentFiles);
+    model = francaModelLoader.load(specAccessorFactory.getSpecPath(), currentFiles);
   }
 
   @Override

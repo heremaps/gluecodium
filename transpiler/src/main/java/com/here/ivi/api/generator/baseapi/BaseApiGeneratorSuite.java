@@ -54,21 +54,28 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
   private final BaseApiSpecAccessorFactory specAccessorFactory;
   private final BaseApiModelValidator validator;
   private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
-  private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> fml;
+  private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
+      francaModelLoader;
   private Collection<File> currentFiles;
 
   @SuppressWarnings("unused")
   public BaseApiGeneratorSuite(Transpiler transpiler) {
-    this(transpiler, new BaseApiSpecAccessorFactory(), new BaseApiModelValidator());
+    super(transpiler);
+    this.specAccessorFactory = new BaseApiSpecAccessorFactory();
+    this.validator = new BaseApiModelValidator();
+    this.francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
   }
 
   private BaseApiGeneratorSuite(
       Transpiler transpiler,
       BaseApiSpecAccessorFactory specAccessorFactory,
-      BaseApiModelValidator validator) {
+      BaseApiModelValidator validator,
+      FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
+          francaModelLoader) {
     super(transpiler);
     this.specAccessorFactory = specAccessorFactory;
     this.validator = validator;
+    this.francaModelLoader = francaModelLoader;
   }
 
   @Override
@@ -159,18 +166,16 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public void buildModel(String inputPath) {
-    // load model
-    fml = new FrancaModelLoader<>(specAccessorFactory);
-
-    ModelHelper.getFdeplInjector().injectMembers(fml);
+    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
     currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
 
-    model = fml.load(specAccessorFactory.getSpecPath(), currentFiles);
+    model = francaModelLoader.load(specAccessorFactory.getSpecPath(), currentFiles);
   }
 
   @Override
   public boolean validate() {
-    ResourceValidator resourceValidator = new ResourceValidator(fml.getResourceSetProvider().get());
+    ResourceValidator resourceValidator =
+        new ResourceValidator(francaModelLoader.getResourceSetProvider().get());
     return resourceValidator.validate(currentFiles) && validator.validate(model);
   }
 }
