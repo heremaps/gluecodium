@@ -37,6 +37,15 @@ final class SwiftGeneratorSuite extends AbstractGeneratorSuite implements Genera
 
     new (Transpiler transpiler) {
         super(transpiler)
+        modelLoader = new FrancaModelLoader(specAccessorFactory)
+    }
+
+    new (Transpiler transpiler,
+         FrancaModelLoader<BaseApiSpec.InterfacePropertyAccessor,
+         BaseApiSpec.TypeCollectionPropertyAccessor>
+         modelLoader) {
+        super(transpiler)
+        this.modelLoader = modelLoader
     }
 
     override generateFiles() {
@@ -63,7 +72,6 @@ final class SwiftGeneratorSuite extends AbstractGeneratorSuite implements Genera
     }
 
     override buildModel(String inputPath) {
-        modelLoader = new FrancaModelLoader(specAccessorFactory)
         ModelHelper.getFdeplInjector.injectMembers(modelLoader)
         currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath))
         model = modelLoader.load(specAccessorFactory.getSpecPath, currentFiles)
