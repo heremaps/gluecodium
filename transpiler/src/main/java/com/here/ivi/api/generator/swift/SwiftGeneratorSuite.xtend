@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.objc
+package com.here.ivi.api.generator.swift
 
 import com.here.ivi.api.Transpiler
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite
@@ -27,7 +27,7 @@ import navigation.CppStubSpec;
 
 
 
-final class ObjCGeneratorSuite extends AbstractGeneratorSuite implements GeneratorSuite {
+final class SwiftGeneratorSuite extends AbstractGeneratorSuite implements GeneratorSuite {
 
     // TODO: APIGEN-149 - Create an ObjCSpecAccessorFactory
     val specAccessorFactory = new CppStubSpecAccessorFactory
@@ -40,10 +40,10 @@ final class ObjCGeneratorSuite extends AbstractGeneratorSuite implements Generat
     }
 
     override generateFiles() {
-        val nameRules = new ObjCNameRules
-        val includeResolver = new ObjCIncludeResolver
+        val nameRules = new SwiftNameRules
+        val includeResolver = new SwiftIncludeResolver
         // TODO: APIGEN-108 Add all other possible generators and call them here
-        val headerGenerator = new ObjCHeaderGenerator(this, nameRules, includeResolver)
+        val headerGenerator = new SwiftGenerator(this, nameRules, includeResolver)
         val generatorStream = model.getInterfaces().stream().filter([
             getPropertyAccessor().getIsMethodContainer(it.getFrancaInterface()) === null ||
                 !it.getPropertyAccessor().getIsMethodContainer(it.getFrancaInterface())
@@ -61,7 +61,7 @@ final class ObjCGeneratorSuite extends AbstractGeneratorSuite implements Generat
     }
 
     override getName() {
-        return "com.here.ObjCGenerator"
+        return "com.here.SwiftGenerator"
     }
 
     override validate() {

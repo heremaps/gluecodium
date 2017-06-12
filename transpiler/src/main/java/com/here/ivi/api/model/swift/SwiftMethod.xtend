@@ -9,38 +9,38 @@
  *
  */
 
-package com.here.ivi.api.generator.objc.model
+package com.here.ivi.api.model.swift
 
-class ObjCMethodParameter {
+class SwiftMethodParameter {
 
-    new(String interfaceName, ObjCType type) {
+    new(String interfaceName, SwiftType type) {
         this.interfaceName = interfaceName
         this.type = type
         this.variableName = interfaceName
     }
 
-    new(String interfaceName, ObjCType type, String variableName) {
+    new(String interfaceName, SwiftType type, String variableName) {
         this.interfaceName = interfaceName
         this.type = type
         this.variableName = variableName
     }
 
     public String interfaceName
-    public ObjCType type
+    public SwiftType type
     public String variableName
 }
 
-class ObjCMethod {
+class SwiftMethod {
 
     new(String name) {
         this.name = name
-        this.returnType = new ObjCType("void")
+        this.returnType = new SwiftType("void")
         this.parameters = #{}
         this.comment = ""
     }
 
-    new(ObjCMethodParameter[] parameters) {
-        this.returnType = new ObjCType("void")
+    new(SwiftMethodParameter[] parameters) {
+        this.returnType = new SwiftType("void")
         this.parameters = parameters
         this.name = null
         this.comment = ""
@@ -52,8 +52,8 @@ class ObjCMethod {
     }
     final public String name
     public String comment
-    public ObjCType returnType
-    final public ObjCMethodParameter[] parameters
+    public SwiftType returnType
+    final public SwiftMethodParameter[] parameters
     public boolean isStatic
     public boolean isConst
 }
