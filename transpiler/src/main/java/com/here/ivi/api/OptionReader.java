@@ -17,8 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.cli.*;
 
-public class OptionReader {
-
+public final class OptionReader {
   public static class TranspilerOptions {
     public String getInputDir() {
       return inputDir;
@@ -140,14 +139,10 @@ public class OptionReader {
 
   private void printGenerators() {
     System.out.println("Available generators: \n");
-    //logger.log(Level.INFO, "Available generators:");
-
     for (String sn : GeneratorSuite.generatorShortNames()) {
       System.out.println("  Found generator " + sn);
-      //logger.log(Level.INFO, " Found generator ");
-
       try {
-        GeneratorSuite gen = GeneratorSuite.instantiateByShortName(sn, null);
+        GeneratorSuite gen = GeneratorSuite.instantiateByShortName(sn);
         System.out.println("   DefinedIn:  " + gen.getClass().getName());
         System.out.println("   Name:       " + gen.getName());
       } catch (NoSuchMethodException
@@ -156,12 +151,11 @@ public class OptionReader {
           | InstantiationException e) {
         System.err.println("   Instantiation failed!");
       }
-
       System.out.println("");
     }
   }
 
-  public void printUsage() {
+  void printUsage() {
     String header = "Transpiler - Generate APIs for franca files\n\n";
     String footer = "\nPlease report issues at /dev/null";
 

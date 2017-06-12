@@ -21,7 +21,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.OptionReader;
-import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
@@ -34,16 +33,18 @@ import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Answers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(JUnit4.class)
-public class BaseApiGeneratorSuiteTest {
-
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ResourceValidator.class})
+public final class BaseApiGeneratorSuiteTest {
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
-  @Mock private ResourceValidator resourceValidator;
   @Mock private BaseApiModelValidator baseApiModelValidator;
   @Mock private OptionReader.TranspilerOptions options;
 
@@ -62,20 +63,14 @@ public class BaseApiGeneratorSuiteTest {
 
   @Before
   public void setUp() {
+    PowerMockito.mockStatic(ResourceValidator.class);
     MockitoAnnotations.initMocks(this);
 
     when(specAccessorFactory.getSpecPath()).thenReturn(mockSpecPath);
     when(options.getInputDir()).thenReturn(mockInputPath);
 
-    Transpiler transpiler = new Transpiler(options);
-
     baseApiGeneratorSuite =
-        new BaseApiGeneratorSuite(
-            transpiler,
-            resourceValidator,
-            specAccessorFactory,
-            baseApiModelValidator,
-            francaModelLoader);
+        new BaseApiGeneratorSuite(specAccessorFactory, baseApiModelValidator, francaModelLoader);
   }
 
   @Test
@@ -90,61 +85,66 @@ public class BaseApiGeneratorSuiteTest {
   public void validateWithNullModel() {
     assertFalse(baseApiGeneratorSuite.validate());
 
-    verify(resourceValidator, never()).validate(any(), any());
+    PowerMockito.verifyStatic(Mockito.times(0));
+    ResourceValidator.validate(any(), any());
     verify(baseApiModelValidator, never()).validate(any());
   }
 
   @Test
   public void validateWithNotNullAndValidModel() {
     baseApiGeneratorSuite.buildModel(mockInputPath);
-    when(resourceValidator.validate(any(), any())).thenReturn(true);
+    when(ResourceValidator.validate(any(), any())).thenReturn(true);
     when(baseApiModelValidator.validate(any())).thenReturn(true);
 
     assertTrue(baseApiGeneratorSuite.validate());
 
-    verify(resourceValidator).validate(any(), any());
+    PowerMockito.verifyStatic(); // 1
+    ResourceValidator.validate(any(), any());
     verify(baseApiModelValidator).validate(baseApiGeneratorSuite.getModel());
   }
 
   @Test
   public void validateWithInvalidBaseApiValidation() {
     baseApiGeneratorSuite.buildModel(mockInputPath);
-    when(resourceValidator.validate(any(), any())).thenReturn(true);
+    when(ResourceValidator.validate(any(), any())).thenReturn(true);
     when(baseApiModelValidator.validate(any())).thenReturn(false);
 
     assertFalse(baseApiGeneratorSuite.validate());
 
-    verify(resourceValidator).validate(any(), any());
+    PowerMockito.verifyStatic(); // 1
+    ResourceValidator.validate(any(), any());
     verify(baseApiModelValidator).validate(baseApiGeneratorSuite.getModel());
   }
 
   @Test
   public void validateWithInvalidResourceValidation() {
     baseApiGeneratorSuite.buildModel(mockInputPath);
-    when(resourceValidator.validate(any(), any())).thenReturn(false);
+    when(ResourceValidator.validate(any(), any())).thenReturn(false);
     when(baseApiModelValidator.validate(any())).thenReturn(true);
 
     assertFalse(baseApiGeneratorSuite.validate());
 
-    verify(resourceValidator).validate(any(), any());
+    PowerMockito.verifyStatic(); // 1
+    ResourceValidator.validate(any(), any());
     verify(baseApiModelValidator, never()).validate(baseApiGeneratorSuite.getModel());
   }
 
   @Test
   public void validateWithInvalidResourceAndModelValidation() {
     baseApiGeneratorSuite.buildModel(mockInputPath);
-    when(resourceValidator.validate(any(), any())).thenReturn(false);
+    when(ResourceValidator.validate(any(), any())).thenReturn(false);
     when(baseApiModelValidator.validate(any())).thenReturn(false);
 
     assertFalse(baseApiGeneratorSuite.validate());
 
-    verify(resourceValidator).validate(any(), any());
+    PowerMockito.verifyStatic(); // 1
+    ResourceValidator.validate(any(), any());
     verify(baseApiModelValidator, never()).validate(baseApiGeneratorSuite.getModel());
   }
 
   @Test
   public void generateFilesNullModel() {
-    List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generateFiles();
+    List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 
     verify(specAccessorFactory, never()).createInterfaceAccessor(any());
     verify(specAccessorFactory, never()).createTypeCollectionAccessor(any());
@@ -157,7 +157,7 @@ public class BaseApiGeneratorSuiteTest {
     when(francaModelLoader.load(any(), any())).thenReturn(mockFrancaModel);
     baseApiGeneratorSuite.buildModel(mockInputPath);
 
-    List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generateFiles();
+    List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 
     assertNotNull(generatedFiles);
     assertEquals(

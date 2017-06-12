@@ -11,12 +11,10 @@
 
 package com.here.ivi.api.generator.common;
 
-import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
 import com.here.ivi.api.model.FDHelper;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,9 +27,6 @@ import org.franca.deploymodel.dsl.fDeploy.FDModel;
 public interface GeneratorSuite {
   /** @return the path to specification used by generator */
   String getSpecPath();
-
-  /** @return the tool this generator belongs to */
-  Transpiler getTool();
 
   /** @return the human readable name of this generator */
   String getName();
@@ -57,29 +52,17 @@ public interface GeneratorSuite {
    */
   void buildModel(String inputPath);
 
-  /**
-   * Generates a specific GeneratorSuite instance as specified by the first class parameter. You
-   * have to pass in an actual class type, as during runtime it is not known.
-   */
-  static GeneratorSuite instantiate(Class<? extends GeneratorSuite> generatorSuite, Transpiler tool)
-      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
-          InstantiationException {
-    Constructor<? extends GeneratorSuite> constructor =
-        generatorSuite.getConstructor(Transpiler.class);
-    return constructor.newInstance(tool);
-  }
-
   /** Creates a new instance of a generator suite by its short identifier */
-  static GeneratorSuite instantiateByShortName(String shortName, Transpiler tool)
+  static GeneratorSuite instantiateByShortName(String shortName)
       throws InvocationTargetException, NoSuchMethodException, InstantiationException,
           IllegalAccessException {
     switch (shortName) {
       case "android":
-        return instantiate(AndroidGeneratorSuite.class, tool);
+        return new AndroidGeneratorSuite();
       case "stub":
-        return instantiate(BaseApiGeneratorSuite.class, tool);
+        return new BaseApiGeneratorSuite();
       case "swift":
-        return instantiate(SwiftGeneratorSuite.class, tool);
+        return new SwiftGeneratorSuite();
     }
 
     throw new InstantiationException();
@@ -94,16 +77,15 @@ public interface GeneratorSuite {
    * Construct list of generators needed to process provided fidl/fdepl files.
    *
    * @param inputPath The root directory of the fidl/fdepl files.
-   * @param tool Transpiler object used to instantiate generators
    * @return List of generators needed to process provided files
    */
-  static List<String> generatorsFromFdepl(String inputPath, Transpiler tool)
+  static List<String> generatorsFromFdepl(String inputPath)
       throws NoSuchMethodException, InstantiationException, IllegalAccessException,
           InvocationTargetException {
     Set<String> specNames = FDHelper.findSpecificationNames(inputPath);
     List<String> generators = new ArrayList<>();
     for (String sn : generatorShortNames()) {
-      GeneratorSuite generator = instantiateByShortName(sn, tool);
+      GeneratorSuite generator = instantiateByShortName(sn);
       FDModel model = FDHelper.loadModel(generator.getSpecPath());
       if (!model.getSpecifications().isEmpty()) {
         String generatorSpecName = model.getSpecifications().get(0).getName();

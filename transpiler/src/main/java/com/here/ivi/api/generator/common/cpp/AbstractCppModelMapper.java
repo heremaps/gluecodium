@@ -17,11 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractCppModelMapper {
-
   public abstract CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaModel);
 
   protected static List<CppNamespace> packageToCppNamespace(List<String> packages) {
-
     List<CppNamespace> namespaces = new ArrayList<>();
 
     if (packages == null) {

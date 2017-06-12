@@ -11,9 +11,7 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.cpp.AbstractCppModelMapper;
@@ -51,8 +49,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  * <p>It is the underlying generator, that all others depend on, as they will invoke the actual
  * implementation through the Stub interfaces.
  */
-public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
-
+public final class BaseApiGeneratorSuite implements GeneratorSuite {
   private final BaseApiSpecAccessorFactory specAccessorFactory;
   private final BaseApiModelValidator validator;
   private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
@@ -61,28 +58,23 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
   private Collection<File> currentFiles;
 
   @SuppressWarnings("unused")
-  public BaseApiGeneratorSuite(Transpiler transpiler) {
-    super(transpiler, new ResourceValidator());
+  public BaseApiGeneratorSuite() {
     this.specAccessorFactory = new BaseApiSpecAccessorFactory();
     this.validator = new BaseApiModelValidator();
     this.francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
   }
 
   public BaseApiGeneratorSuite(
-      Transpiler transpiler,
-      ResourceValidator resourceValidator,
-      BaseApiSpecAccessorFactory specAccessorFactory,
-      BaseApiModelValidator validator,
-      FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
+      final BaseApiSpecAccessorFactory specAccessorFactory,
+      final BaseApiModelValidator validator,
+      final FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
           francaModelLoader) {
-    super(transpiler, resourceValidator);
     this.specAccessorFactory = specAccessorFactory;
     this.validator = validator;
     this.francaModelLoader = francaModelLoader;
   }
 
-  @Override
-  public List<GeneratedFile> generateFiles() {
+  public List<GeneratedFile> generate() {
     if (model == null) {
       return Collections.emptyList();
     }
@@ -131,16 +123,9 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
 
   private static CharSequence generateGeneratorNotice(
       GeneratorSuite suite, FrancaElement<?> element, String outputTarget) {
-    String inputFile;
-    try {
-      inputFile = suite.getTool().resolveRelativeToRootPath(element.getModelInfo().getPath());
-    } catch (IOException e) {
-      throw new TranspilerExecutionException(
-          String.format("Could not resolve input file %s.", element.getModelInfo().getPath()));
-    }
 
     String inputDefinition = element.getName() + ':' + element.getVersion();
-    return GeneratorNoticeTemplate.generate(suite, inputDefinition, inputFile, outputTarget);
+    return GeneratorNoticeTemplate.generate(suite, inputDefinition, outputTarget);
   }
 
   private static GeneratedFile copyTarget(String fileName, String targetDir) {
@@ -182,7 +167,7 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
     }
 
     ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
-    return resourceValidator.validate(resources, currentFiles) && validator.validate(model);
+    return ResourceValidator.validate(resources, currentFiles) && validator.validate(model);
   }
 
   public FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> getModel() {

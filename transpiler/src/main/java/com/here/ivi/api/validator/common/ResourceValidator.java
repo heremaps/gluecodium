@@ -24,12 +24,12 @@ import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 
-public class ResourceValidator {
-
+public final class ResourceValidator {
   private static final Logger logger = Logger.getLogger(ResourceValidator.class.getName());
 
-  public boolean validate(ResourceSet resourceSet, Collection<File> files) {
+  private ResourceValidator() {}
 
+  public static boolean validate(final ResourceSet resourceSet, final Collection<File> files) {
     if (files.isEmpty()) {
       logger.severe("No input to generate from found. Aborting.");
       return false;

@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.swift
 
-import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import org.junit.Test
 import org.mockito.Mock
 import static org.mockito.Mockito.*
@@ -24,8 +23,6 @@ import static com.here.ivi.api.generator.utils.LoadModelHelper.readInFrancaModel
 import static extension com.here.ivi.api.generator.utils.LoadModelHelper.extractNthInterfaceFromModel
 
 class SwiftGeneratorIntegrationTest {
-
-    @Mock private AbstractGeneratorSuite suite
     @Mock private SwiftNameRules nameRules
     @Mock private SwiftIncludeResolver includeResolver
     private static val TEST_FIDL_FILE = "swift/fidl/test/SwiftGeneratorTest.fdepl"
@@ -35,11 +32,10 @@ class SwiftGeneratorIntegrationTest {
     private val METHOD_NAME = "MockedMethodName"
     private val PARAM_NAME = "MockedParameterName"
 
-
     @Before
     def void setUp() {
         initMocks;
-        generator = new SwiftGenerator(suite, nameRules, includeResolver)
+        generator = new SwiftGenerator(nameRules, includeResolver)
         when(nameRules.getClassName(any())).thenReturn(CLASS_NAME)
         when(nameRules.getMethodName(any())).thenReturn(METHOD_NAME)
         when(nameRules.getParameterName(any())).thenReturn(PARAM_NAME)
