@@ -11,8 +11,8 @@
 
 package com.here.ivi.api.generator.common.jni.templates
 
+import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 import com.here.ivi.api.model.javamodel.JavaClass
-import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate;
 
 public class JavaNativeInterfacesHeaderTemplate {
   def static generate(JavaClass javaClass) '''
@@ -34,8 +34,7 @@ public class JavaNativeInterfacesHeaderTemplate {
      * Function for «javaClass.name».«method.name»()
      */
     JNIEXPORT «method.returnType.name» JNICALL
-    Java_com_here_ivi_«javaClass.name»_«method.name»(JNIEnv* env, jobject jinstance«FOR param : method.inParameters», j«param.type» j«param.name»«ENDFOR»);
-
+    «JavaNativeFunctionSignatureTemplate.generate(javaClass.name,method)»;
     «ENDFOR»
 
     #ifdef __cplusplus

@@ -11,23 +11,13 @@
 
 package com.here.ivi.api.generator.common.jni.templates
 
-import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
-import com.here.ivi.api.model.javamodel.JavaClass
+import com.here.ivi.api.generator.converter.java.JavaJniTypeConverter
+import com.here.ivi.api.model.javamodel.JavaMethod
 
-public class JavaNativeInterfacesImplementationTemplate {
-  def static generate(JavaClass javaClass) '''
-    «JavaCopyrightHeaderTemplate.generate()»
-
-    /**
-     * JNI implementation for class «javaClass.name»
-     */
-
-    #include "TODO"
-
-    «FOR method : javaClass.methods»
-    «method.returnType.name» «JavaNativeFunctionSignatureTemplate.generate(javaClass.name,method)»{
-        //TODO
-    }
-    «ENDFOR»
-  '''
+/**
+ * Template of a java native function's signature without the return type.
+ */
+class JavaNativeFunctionSignatureTemplate {
+    def static generate(String javaClassName, JavaMethod method) '''
+    Java_com_here_ivi_«javaClassName»_«method.name»(JNIEnv* env, jobject jinstance«FOR param : method.inParameters», «JavaJniTypeConverter.convertToJniType(param.type)» j«param.name»«ENDFOR»)'''
 }
