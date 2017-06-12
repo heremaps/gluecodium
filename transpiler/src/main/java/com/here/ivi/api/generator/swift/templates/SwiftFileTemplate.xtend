@@ -38,25 +38,20 @@ class SwiftFileTemplate {
     «ENDFOR»
 
     «generateComment(swiftClass.comment)»
-    @interface «swiftClass.name»«generateClassTypeDefinition(swiftClass.parentClass, swiftClass.implementsProtocols)»
+    public class «swiftClass.name»«generateClassTypeDefinition(swiftClass.parentClass, swiftClass.implementsProtocols)» {
 
     «FOR property : swiftClass.properties»
             @property «generatePropertyDeclaration(property)»
     «ENDFOR»
-    «FOR method : swiftClass.methods»
-            «generateComment(method.comment)»
-            «generateMethodHeader(method)»
-    «ENDFOR»
-
-    @end
+        «FOR method : swiftClass.methods»
+                «generateComment(method.comment)»
+                «generateMethodHeader(method)»
+        «ENDFOR»
+    }
     '''
 
     def static generateInclude(SwiftIncludes include) {
-        switch include.type {
-            case SwiftIncludes.Type.MODULE: '''@import «include.path»'''
-            case SwiftIncludes.Type.SYSTEM: '''#import <«include.path»>'''
-            default: '''#import "«include.path»"'''
-        }
+        '''import «include.path»'''
     }
 
     def static generateComment(String comment) {
@@ -65,7 +60,7 @@ class SwiftFileTemplate {
         }
         return '''
             /**
-             * «comment»
+             «comment»
              */
         '''
     }
@@ -101,17 +96,18 @@ class SwiftFileTemplate {
         }
     }
 
-    def static generateMethodParam(SwiftMethodParameter methodParameter) '''
-    «methodParameter.interfaceName»:(«generateTypeDefinition(methodParameter.type)») «methodParameter.variableName»'''
+    def static generateMethodParam(SwiftMethodParameter methodParameter) {
+        val variableName = if (methodParameter.variableName.empty) "" else ''' «methodParameter.variableName»'''
+        '''«methodParameter.interfaceName»«variableName»: «generateTypeDefinition(methodParameter.type)»'''
+    }
 
     def static generateMethodHeader(SwiftMethod method) {
-        val methodType = if (method.isStatic) "+" else "-"
-        val methodReturnType = '''«methodType»(«generateTypeDefinition(method.returnType)»)'''
-        if (method.parameters !== null && method.parameters.size > 0) {
-            '''«methodReturnType»«FOR param: method.parameters»«generateMethodParam(param)»«ENDFOR»;'''
+        val returnType = if (SwiftType.VOID.equals(method.returnType)) '''''' else ''' -> «generateTypeDefinition(method.returnType)»'''
+        val parameters = '''«FOR param: method.parameters SEPARATOR ", "»«generateMethodParam(param)»«ENDFOR»'''
+        val visibility = if (method.isStatic) '''static''' else '''public'''
+        '''
+        «visibility» func «method.name»(«parameters»)«returnType» {
         }
-        else {
-            '''«methodReturnType»«method.name»;'''
-        }
+        '''
     }
 }

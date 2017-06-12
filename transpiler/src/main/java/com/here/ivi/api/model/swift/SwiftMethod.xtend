@@ -16,7 +16,7 @@ class SwiftMethodParameter {
     new(String interfaceName, SwiftType type) {
         this.interfaceName = interfaceName
         this.type = type
-        this.variableName = interfaceName
+        this.variableName = ""
     }
 
     new(String interfaceName, SwiftType type, String variableName) {
@@ -33,16 +33,13 @@ class SwiftMethodParameter {
 class SwiftMethod {
 
     new(String name) {
-        this.name = name
-        this.returnType = new SwiftType("void")
-        this.parameters = #{}
-        this.comment = ""
+        this(name, #[])
     }
 
-    new(SwiftMethodParameter[] parameters) {
+    new(String name, SwiftMethodParameter[] parameters) {
         this.returnType = new SwiftType("void")
         this.parameters = parameters
-        this.name = null
+        this.name = name
         this.comment = ""
     }
 
