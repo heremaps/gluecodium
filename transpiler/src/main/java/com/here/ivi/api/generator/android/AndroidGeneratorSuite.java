@@ -94,7 +94,7 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
 
     // Java generator needs:
     // - java name rules
-    JavaGenerator javaGenerator = new JavaGenerator(this);
+    JavaGenerator javaGenerator = new JavaGenerator();
 
     // JNI header generator will need:
     // - java name rules

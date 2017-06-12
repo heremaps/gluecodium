@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaClass
-import com.here.ivi.api.model.javamodel.JavaComplexType
+import com.here.ivi.api.model.javamodel.JavaCustomType
 import com.here.ivi.api.model.javamodel.JavaEnum
 import com.here.ivi.api.model.javamodel.JavaEnumItem
 import com.here.ivi.api.model.javamodel.JavaInheritance
@@ -50,8 +50,8 @@ class ExampleClass {
 
   @Test
   def classWithMethodGeneration() {
-    val exampleType =new JavaComplexType("ExampleType")
-    val parameter = new JavaParameter(new JavaComplexType("InParamType"), "param")
+    val exampleType =new JavaCustomType("ExampleType")
+    val parameter = new JavaParameter(new JavaCustomType("InParamType"), "param")
     val classMethod = new JavaMethod("someMethod", exampleType) => [
       qualifiers = #{ JavaMethod.Qualifier.NATIVE }
       visibility = JavaVisibility.PRIVATE
@@ -159,7 +159,7 @@ class ExampleClass {
   def classWithInheritanceGeneration() {
     val javaClass = new JavaClass("ChildClass") => [
       comment = "Child class comment"
-      inheritance = new JavaInheritance(new JavaComplexType("ParentClass"))
+      inheritance = new JavaInheritance(new JavaCustomType("ParentClass"))
     ]
 
     val expected = '''

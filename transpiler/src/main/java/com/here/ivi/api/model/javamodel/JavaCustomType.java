@@ -11,15 +11,25 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import static java.util.Arrays.asList;
+import java.util.Collection;
 
-public class JavaComplexType extends JavaElementWithImports implements JavaType {
-  public JavaComplexType() {
-    super("INVALID");
+/**
+ * A custom Java type.
+ *
+ * <p>It is by nature a {@link JavaReferenceType} with a type that (indirectly) devices from {@link
+ * java.lang.Object}.
+ */
+public final class JavaCustomType extends JavaReferenceType implements JavaType {
+  private final String name;
+
+  public JavaCustomType(final String name) {
+    super(Type.OBJECT);
+    this.name = name;
   }
 
-  public JavaComplexType(String typeName, JavaImport... imports) {
-    super(typeName, asList(imports));
+  public JavaCustomType(final String name, final Collection<JavaImport> imports) {
+    super(Type.OBJECT, imports);
+    this.name = name;
   }
 
   @Override

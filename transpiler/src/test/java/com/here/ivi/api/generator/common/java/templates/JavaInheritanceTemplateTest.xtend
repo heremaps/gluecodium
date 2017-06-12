@@ -18,13 +18,13 @@ import org.junit.runner.RunWith
 import org.junit.Test
 
 import com.here.ivi.api.model.javamodel.JavaInheritance
-import com.here.ivi.api.model.javamodel.JavaComplexType
+import com.here.ivi.api.model.javamodel.JavaCustomType
 
 @RunWith(typeof(XtextRunner))
 class JavaInheritanceTemplateTest {
   @Test
   def inheritanceGeneration() {
-    val type = new JavaComplexType("A")
+    val type = new JavaCustomType("A")
     val generated = JavaInheritanceTemplate.generate(new JavaInheritance(type))
     val expected = "extends A "
     assertEquals(expected, generated.toString)

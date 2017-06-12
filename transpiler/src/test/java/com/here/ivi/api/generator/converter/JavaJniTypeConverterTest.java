@@ -16,9 +16,10 @@ import static org.mockito.Mockito.*;
 
 import com.here.ivi.api.generator.converter.java.JavaJniTypeConverter;
 import com.here.ivi.api.model.cppmodel.CppType;
-import com.here.ivi.api.model.javamodel.JavaComplexType;
+import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
+import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,89 +29,255 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaJniTypeConverterTest {
-
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Test
   public void convertVoidType() {
+    // Arrange
     JavaType javaPrimitiveType = new JavaPrimitiveType(Type.VOID);
+
+    // Act, assert
     expectedException.expect(IllegalArgumentException.class);
-    JavaJniTypeConverter.convertToJniType(javaPrimitiveType);
+    JavaJniTypeConverter.map(javaPrimitiveType);
   }
 
   @Test
   public void convertBooleanType() {
+    // Arrange
     JavaType javaBool = new JavaPrimitiveType(Type.BOOL);
-    CppType jniBool = JavaJniTypeConverter.convertToJniType(javaBool);
+
+    // Act
+    CppType jniBool = JavaJniTypeConverter.map(javaBool);
+
+    // Assert
     assertEquals(jniBool.name, ("j" + javaBool.getName()));
   }
 
   @Test
   public void convertByteType() {
+    // Arrange
     JavaType javaByte = new JavaPrimitiveType(Type.BYTE);
-    CppType jniByte = JavaJniTypeConverter.convertToJniType(javaByte);
+
+    // Act
+    CppType jniByte = JavaJniTypeConverter.map(javaByte);
+
+    // Assert
     assertEquals(jniByte.name, ("j" + javaByte.getName()));
   }
 
   @Test
   public void convertCharType() {
+    // Arrange
     JavaType javaChar = new JavaPrimitiveType(Type.CHAR);
-    CppType jniChar = JavaJniTypeConverter.convertToJniType(javaChar);
+
+    // Act
+    CppType jniChar = JavaJniTypeConverter.map(javaChar);
+
+    // Assert
     assertEquals(jniChar.name, ("j" + javaChar.getName()));
   }
 
   @Test
   public void convertDoubleType() {
+    // Arrange
     JavaType javaDouble = new JavaPrimitiveType(Type.DOUBLE);
-    CppType jniDouble = JavaJniTypeConverter.convertToJniType(javaDouble);
+
+    // Act
+    CppType jniDouble = JavaJniTypeConverter.map(javaDouble);
+
+    // Assert
     assertEquals(jniDouble.name, ("j" + javaDouble.getName()));
   }
 
   @Test
   public void convertFloatType() {
+    // Arrange
     JavaType javaFloat = new JavaPrimitiveType(Type.FLOAT);
-    CppType jniFloat = JavaJniTypeConverter.convertToJniType(javaFloat);
+
+    // Act
+    CppType jniFloat = JavaJniTypeConverter.map(javaFloat);
+
+    // Assert
     assertEquals(jniFloat.name, ("j" + javaFloat.getName()));
   }
 
   @Test
   public void convertIntType() {
+    // Arrange
     JavaType javaInt = new JavaPrimitiveType(Type.INT);
-    CppType jniInt = JavaJniTypeConverter.convertToJniType(javaInt);
+
+    // Act
+    CppType jniInt = JavaJniTypeConverter.map(javaInt);
+
+    // Assert
     assertEquals(jniInt.name, ("j" + javaInt.getName()));
   }
 
   @Test
   public void convertLongType() {
+    // Arrange
     JavaType javaLong = new JavaPrimitiveType(Type.LONG);
-    CppType jniLong = JavaJniTypeConverter.convertToJniType(javaLong);
+
+    // Act
+    CppType jniLong = JavaJniTypeConverter.map(javaLong);
+
+    // Assert
     assertEquals(jniLong.name, ("j" + javaLong.getName()));
   }
 
   @Test
   public void convertShortType() {
+    // Arrange
     JavaType javaShort = new JavaPrimitiveType(Type.SHORT);
-    CppType jniShort = JavaJniTypeConverter.convertToJniType(javaShort);
+
+    // Act
+    CppType jniShort = JavaJniTypeConverter.map(javaShort);
+
+    // Assert
     assertEquals(jniShort.name, ("j" + javaShort.getName()));
   }
 
   @Test
-  public void convertComplexType() {
-    JavaComplexType javaComplex = mock(JavaComplexType.class);
-    when(javaComplex.getName()).thenReturn("MyFancyType");
+  public void convertClassType() {
+    // Arrange
+    JavaType javaClass = new JavaReferenceType(JavaReferenceType.Type.CLASS);
 
-    CppType jniComplex = JavaJniTypeConverter.convertToJniType(javaComplex);
-    assertEquals(jniComplex.name, "jobject");
-    verify(javaComplex).getName();
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaClass);
+
+    // Assert
+    assertEquals(jniString.name, "jclass");
   }
 
   @Test
   public void convertStringType() {
-    JavaComplexType javaString = mock(JavaComplexType.class);
-    when(javaString.getName()).thenReturn("String");
+    // Arrange
+    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.STRING);
 
-    CppType jniString = JavaJniTypeConverter.convertToJniType(javaString);
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaString);
+
+    // Assert
     assertEquals(jniString.name, "jstring");
-    verify(javaString).getName();
+  }
+
+  @Test
+  public void convertObjectArrayType() {
+    // Arrange
+    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.OBJECT_ARRAY);
+
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaString);
+
+    // Assert
+    assertEquals(jniString.name, "jobjectArray");
+  }
+
+  @Test
+  public void convertByteArrayType() {
+    // Arrange
+    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.BYTE_ARRAY);
+
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaString);
+
+    // Assert
+    assertEquals(jniString.name, "jbyteArray");
+  }
+
+  @Test
+  public void convertCharArrayType() {
+    // Arrange
+    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.CHAR_ARRAY);
+
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaString);
+
+    // Assert
+    assertEquals(jniString.name, "jcharArray");
+  }
+
+  @Test
+  public void convertShortArrayType() {
+    // Arrange
+    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.SHORT_ARRAY);
+
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaString);
+
+    // Assert
+    assertEquals(jniString.name, "jshortArray");
+  }
+
+  @Test
+  public void convertIntArrayType() {
+    // Arrange
+    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.INT_ARRAY);
+
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaString);
+
+    // Assert
+    assertEquals(jniString.name, "jintArray");
+  }
+
+  @Test
+  public void convertLongArrayType() {
+    // Arrange
+    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.LONG_ARRAY);
+
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaString);
+
+    // Assert
+    assertEquals(jniString.name, "jlongArray");
+  }
+
+  @Test
+  public void convertFloatArrayType() {
+    // Arrange
+    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.FLOAT_ARRAY);
+
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaString);
+
+    // Assert
+    assertEquals(jniString.name, "jfloatArray");
+  }
+
+  @Test
+  public void convertDoubleArrayType() {
+    // Arrange
+    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.DOUBLE_ARRAY);
+
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaString);
+
+    // Assert
+    assertEquals(jniString.name, "jdoubleArray");
+  }
+
+  @Test
+  public void convertThrowableType() {
+    // Arrange
+    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.THROWABLE);
+
+    // Act
+    CppType jniString = JavaJniTypeConverter.map(javaString);
+
+    // Assert
+    assertEquals(jniString.name, "jthrowable");
+  }
+
+  @Test
+  public void convertCustomType() {
+    // Arrange
+    JavaType javaCustom = new JavaCustomType("MyFancyType");
+
+    // Act
+    CppType jniCustom = JavaJniTypeConverter.map(javaCustom);
+
+    // Assert
+    assertEquals(jniCustom.name, "jobject");
   }
 }

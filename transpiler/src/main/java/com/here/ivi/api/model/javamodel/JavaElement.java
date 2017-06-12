@@ -19,6 +19,25 @@ public class JavaElement implements JavaNamedEntity {
   public String comment = "";
   public JavaVisibility visibility = JavaVisibility.PACKAGE;
 
+  public enum Qualifier {
+    /** Fields, parameters can be final, {@link JavaConstant} always is. */
+    FINAL("final"),
+
+    /** Constants. */
+    STATIC("static");
+
+    private final String value;
+
+    Qualifier(final String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+  }
+
   public JavaElement(final String name) {
     this.name = name;
   }

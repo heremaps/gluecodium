@@ -11,23 +11,26 @@
 
 package com.here.ivi.api.model.javamodel;
 
+import java.util.Collection;
 import java.util.EnumSet;
-import java.util.Objects;
-import java.util.stream.Stream;
 
-public final class JavaPrimitiveType implements JavaType {
+public class JavaReferenceType extends JavaElementWithImports implements JavaType {
   public static final EnumSet<Type> TYPES = EnumSet.allOf(Type.class);
 
   public enum Type {
-    VOID("void"),
-    BYTE("byte"),
-    SHORT("short"),
-    INT("int"),
-    LONG("long"),
-    FLOAT("float"),
-    DOUBLE("double"),
-    BOOL("boolean"),
-    CHAR("char");
+    OBJECT("Object"), // All java objects
+    CLASS("Class"), // java.lang.Class objects
+    STRING("String"), // java.lang.String objects
+    OBJECT_ARRAY("Object[]"),
+    BOOLEAN_ARRAY("boolean[]"),
+    BYTE_ARRAY("byte[]"),
+    CHAR_ARRAY("char[]"),
+    SHORT_ARRAY("short[]"),
+    INT_ARRAY("int[]"),
+    LONG_ARRAY("long[]"),
+    FLOAT_ARRAY("float[]"),
+    DOUBLE_ARRAY("double[]"),
+    THROWABLE("Throwable"); // java.lang.Throwable objects
 
     private final String value;
 
@@ -42,7 +45,17 @@ public final class JavaPrimitiveType implements JavaType {
 
   public final Type type;
 
-  public JavaPrimitiveType(final Type type) {
+  public JavaReferenceType(final Type type) {
+    super(type.getValue());
+    this.type = type;
+  }
+
+  /**
+   * Package local constructor for sub-classes with imports. Pre-defined reference types have no
+   * explicit imports (as java.lang.* is implicit).
+   */
+  JavaReferenceType(final Type type, final Collection<JavaImport> imports) {
+    super(type.getValue(), imports);
     this.type = type;
   }
 
@@ -54,36 +67,5 @@ public final class JavaPrimitiveType implements JavaType {
   @Override
   public boolean isValid() {
     return true;
-  }
-
-  @Override
-  public Stream<JavaNamedEntity> stream() {
-    return Stream.empty();
-  }
-
-  @Override
-  public final Stream<JavaNamedEntity> streamRecursive() {
-    return Stream.concat(
-        Stream.of(this),
-        stream().filter(Objects::nonNull).flatMap(JavaNamedEntity::streamRecursive));
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    JavaPrimitiveType that = (JavaPrimitiveType) o;
-
-    return type == that.type;
-  }
-
-  @Override
-  public int hashCode() {
-    return type != null ? type.hashCode() : 0;
   }
 }
