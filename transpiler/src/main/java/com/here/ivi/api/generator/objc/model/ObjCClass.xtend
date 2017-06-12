@@ -13,6 +13,8 @@ package com.here.ivi.api.generator.objc.model
 
 final class ObjCClass {
 
+    static final private String BASE_CLASS = "NSObject"
+
     new(String name, String parentClass) {
         this.name = name
         this.parentClass = parentClass
@@ -21,6 +23,10 @@ final class ObjCClass {
         this.includes = #{}
         this.methods = #{}
         this.comment = ""
+    }
+
+    new(String name) {
+        this(name, BASE_CLASS)
     }
 
     final public String name
