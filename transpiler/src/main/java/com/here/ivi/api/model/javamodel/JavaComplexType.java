@@ -13,30 +13,13 @@ package com.here.ivi.api.model.javamodel;
 
 import static java.util.Arrays.asList;
 
-import java.util.Collection;
-import java.util.Collections;
-
 public class JavaComplexType extends JavaElementWithImports implements JavaType {
-
-  private final boolean hasFinalModifier;
-
   public JavaComplexType() {
     super("INVALID");
-    this.hasFinalModifier = false;
   }
 
-  public JavaComplexType(String typeName) {
-    this(typeName, false, Collections.emptyList());
-  }
-
-  public JavaComplexType(String typeName, boolean hasFinalModifier, JavaImport... imports) {
-    this(typeName, hasFinalModifier, asList(imports));
-  }
-
-  public JavaComplexType(
-      String typeName, boolean hasFinalModifier, Collection<JavaImport> imports) {
-    super(typeName, imports);
-    this.hasFinalModifier = hasFinalModifier;
+  public JavaComplexType(String typeName, JavaImport... imports) {
+    super(typeName, asList(imports));
   }
 
   @Override
@@ -47,10 +30,5 @@ public class JavaComplexType extends JavaElementWithImports implements JavaType 
   @Override
   public boolean isValid() {
     return name != null && !name.isEmpty();
-  }
-
-  @Override
-  public boolean isFinal() {
-    return hasFinalModifier;
   }
 }

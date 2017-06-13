@@ -76,7 +76,7 @@ public class JavaMethodTemplateTest {
        * @deprecated Method is deprecated
        */
       @Deprecated
-      public static ComplexType complexMethod(InParamType1 firstParam, InParamType2 secondParam)'''
+      public static ComplexType complexMethod(final InParamType1 firstParam, final InParamType2 secondParam)'''
 
     val generated = JavaMethodTemplate.signature(javaMethod)
 
@@ -90,7 +90,7 @@ public class JavaMethodTemplateTest {
       parameters = #[ parameter ]
       comment = "Method comment"
     ]
-    val expected = "ReturnType someMethod(InParamType param)"
+    val expected = "ReturnType someMethod(final InParamType param)"
 
     val generated = JavaMethodTemplate.pureSignature(javaMethod)
 

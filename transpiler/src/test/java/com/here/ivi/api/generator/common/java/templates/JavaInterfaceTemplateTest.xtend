@@ -66,7 +66,7 @@ class JavaInterfaceTemplateTest {
      * Example interface comment
      */
     interface ExampleInterface {
-    «"  "»ExampleType someMethod(InParamType param);
+    «"  "»ExampleType someMethod(final InParamType param);
     }'''
 
     val generated = JavaInterfaceTemplate.generate(javaInterface)
