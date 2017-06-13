@@ -11,15 +11,6 @@
 
 specification navigation.BaseApiSpec
 {
-    for interfaces {
-        IsMethodContainer: Boolean (optional, default: false);
-    }
-
-    for type_collections {
-        IsStructDefinition: Boolean (optional, default: false);
-        BelongingMethodContainer: Interface (optional);
-    }
-
     for methods {
         Const:   Boolean (optional, default: false);
         Static:        Boolean (optional, default: false);

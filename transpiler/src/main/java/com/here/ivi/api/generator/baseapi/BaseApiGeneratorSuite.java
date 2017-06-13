@@ -16,14 +16,12 @@ import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.Version;
-import com.here.ivi.api.generator.common.cpp.StructWithMethodsGenerator;
 import com.here.ivi.api.generator.common.cpp.TypeCollectionGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
-import com.here.ivi.api.model.rules.StructMethodRules;
 import com.here.ivi.api.validator.baseapi.BaseApiModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
@@ -31,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -72,27 +69,18 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
   public List<GeneratedFile> generateFiles() {
     // TODO add model null check
 
-    BaseApiNameRules nameRules = new BaseApiNameRules(model);
+    BaseApiNameRules nameRules = new BaseApiNameRules();
     CppIncludeResolver includeResolver = new CppIncludeResolver(model);
 
     StubGenerator stubGenerator = new StubGenerator(this, nameRules, includeResolver);
     TypeCollectionGenerator typeCollectionGenerator =
         new TypeCollectionGenerator(this, nameRules, includeResolver);
-    StructWithMethodsGenerator structGenerator =
-        new StructWithMethodsGenerator(this, nameRules, includeResolver);
 
-    // partition model into ifaces, typecollections and structWithMethods and generate files from that
+    // process all interfaces and type collections
     Stream<GeneratedFile> generatorStreams =
-        StructMethodRules.partitionModel(
-            model,
-            iface -> {
-              List<GeneratedFile> files = new LinkedList<>();
-              files.add(stubGenerator.generate(iface));
-              return files;
-            },
-            typeCollectionGenerator::generate,
-            structMethodPair ->
-                structGenerator.generate(structMethodPair.iface, structMethodPair.type));
+        Stream.concat(
+            model.getInterfaces().stream().map(stubGenerator::generate),
+            model.getTypeCollections().stream().map(typeCollectionGenerator::generate));
 
     List<GeneratedFile> list =
         generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());

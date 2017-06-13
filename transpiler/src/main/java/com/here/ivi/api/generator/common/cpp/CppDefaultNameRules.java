@@ -12,48 +12,15 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
-import com.here.ivi.api.model.FrancaModel;
 import java.io.File;
-import java.util.Optional;
-import navigation.BaseApiSpec;
-import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 
 public abstract class CppDefaultNameRules implements CppNameRules {
 
-  private FrancaModel<?, ?> model;
-
-  public CppDefaultNameRules(FrancaModel<?, ?> model) {
-    this.model = model;
-  }
-
-  protected boolean definesStructWithMethods(DefinedBy definer) {
-    Optional<? extends BaseApiSpec.IDataPropertyAccessor> accessor =
-        model.find(definer).map(FrancaElement::getPropertyAccessor);
-
-    if (!accessor.isPresent()) {
-      throw new RuntimeException("Could not find accessor. Invalid franca definition. " + definer);
-    }
-    try {
-      //complex structs are defined exclusively inside type collections ...
-      return accessor.get() instanceof BaseApiSpec.TypeCollectionPropertyAccessor
-          && accessor.get().getIsStructDefinition(definer.type);
-    } catch (NullPointerException e) {
-      //property is optional, if not set this could cause a null pointer exception
-      return false;
-    }
-  }
-
   public String getCppTypename(FType type) {
-    DefinedBy definer = DefinedBy.createFromFModelElement(type);
-    // complex structs are modelled as fidl structs encapsulated in type collections
-    // such structs are translated to c++ without the containing type collection but taking its name
-    return definesStructWithMethods(definer) && type instanceof FStructType
-        ? definer.type.getName()
-        : type.getName();
+    return type.getName();
   }
 
   public String getTypeCollectionName(FTypeCollection base) {

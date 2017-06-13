@@ -44,10 +44,7 @@ final class SwiftGeneratorSuite extends AbstractGeneratorSuite implements Genera
         val includeResolver = new SwiftIncludeResolver
         // TODO: APIGEN-108 Add all other possible generators and call them here
         val headerGenerator = new SwiftGenerator(this, nameRules, includeResolver)
-        val generatorStream = model.getInterfaces().stream().filter([
-            getPropertyAccessor().getIsMethodContainer(it.getFrancaInterface()) === null ||
-                !it.getPropertyAccessor().getIsMethodContainer(it.getFrancaInterface())
-        ]).map([headerGenerator.generate(it)]).flatMap([stream]);
+        val generatorStream = model.getInterfaces().stream().map([headerGenerator.generate(it)]).flatMap([stream]);
 
         return generatorStream.filter([Objects.nonNull(it)]).collect(Collectors.toList)
     }

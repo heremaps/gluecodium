@@ -89,7 +89,7 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public List<GeneratedFile> generateFiles() {
-    CppNameRules cppNameRules = new BaseApiNameRules(model);
+    CppNameRules cppNameRules = new BaseApiNameRules();
     CppIncludeResolver cppIncludeResolver = new CppIncludeResolver(model);
 
     // Java generator needs:
@@ -112,13 +112,6 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
         model
             .getInterfaces()
             .stream()
-            .filter(
-                iface ->
-                    iface.getPropertyAccessor().getIsMethodContainer(iface.getFrancaInterface())
-                            == null
-                        || !iface
-                            .getPropertyAccessor()
-                            .getIsMethodContainer(iface.getFrancaInterface()))
             .map(
                 iface -> {
                   List<GeneratedFile> files = javaGenerator.generateFiles(iface);

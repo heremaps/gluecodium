@@ -15,34 +15,20 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppDefaultNameRules;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
-import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import java.io.File;
 import java.util.List;
-import navigation.BaseApiSpec;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 
 public class BaseApiNameRules extends CppDefaultNameRules {
 
-  public BaseApiNameRules(
-      FrancaModel<
-              ? extends BaseApiSpec.InterfacePropertyAccessor,
-              ? extends BaseApiSpec.TypeCollectionPropertyAccessor>
-          model) {
-    super(model);
-  }
-
   public List<String> getNamespace(FType type) {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
     List<String> result = getNamespace(definer);
-    // complex structs are modelled as fidl structs encapsulated in type collections
-    // such structs are translated to c++ without the containing type collection but taking its name
-    if (!definesStructWithMethods(definer)) {
-      result.add(getTypeCollectionName(definer.type));
-    }
+    result.add(getTypeCollectionName(definer.type));
     return result;
   }
 
