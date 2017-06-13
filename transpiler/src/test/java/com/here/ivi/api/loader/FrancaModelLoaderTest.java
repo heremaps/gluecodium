@@ -14,7 +14,7 @@ package com.here.ivi.api.loader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.loader.legacy.LegacySpecAccessorFactory;
+import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.ModelHelper;
@@ -45,7 +45,7 @@ public class FrancaModelLoaderTest {
    */
   @Test
   public void multipleDeploymentsIncludingSameFidl() throws URISyntaxException {
-    LegacySpecAccessorFactory accessorFactory = new LegacySpecAccessorFactory();
+    BaseApiSpecAccessorFactory accessorFactory = new BaseApiSpecAccessorFactory();
 
     FrancaModelLoader<?, ?> loader = new FrancaModelLoader<>(accessorFactory);
     ModelHelper.getFdeplInjector().injectMembers(loader);

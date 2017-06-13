@@ -9,11 +9,11 @@
  *
  */
 
-import "classpath:/franca/spec/LegacySpec.fdepl"
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./ModuleFactory.fidl"
 import "./Module.fidl"
 
-define navigation.LegacySpec for interface navigation.ModuleFactory
+define navigation.BaseApiSpec for interface navigation.ModuleFactory
 {
     method createModule {
         Creates = &navigation.Module

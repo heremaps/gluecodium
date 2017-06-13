@@ -9,11 +9,11 @@
  *
  */
 
-import "classpath:/franca/spec/LegacySpec.fdepl"
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./Runtime.fidl"
 import "./Module.fidl"
 
-define navigation.LegacySpec for interface navigation.Runtime
+define navigation.BaseApiSpec for interface navigation.Runtime
 {
     method createRuntime:Defaults {
         Static = true
@@ -28,30 +28,10 @@ define navigation.LegacySpec for interface navigation.Runtime
         Creates = &navigation.Runtime
     }
     method createModule {
-        CallSemantics = synchronous
         Creates = &navigation.Module
     }
     method shutdownCompleted {
-        CallSemantics = synchronous
         Const = true
     }
-    method stop {
-        CallSemantics = synchronous
-    }
-    method resume {
-        CallSemantics = synchronous
-    }
-    method registerModuleFactory {
-        CallSemantics = synchronous
-    }
 
-    attribute profileManager {
-        IsReference = true
-    }
-    attribute systemInformation {
-        IsReference = true
-    }
-    attribute networkConfiguration {
-        IsReference = true
-    }
 }

@@ -77,12 +77,6 @@ task buildBaseApiDeployModel(type: JavaExec) {
 generateXtext.dependsOn(buildBaseApiDeployModel)
 clean.dependsOn(cleanBuildBaseApiDeployModel)
 
-task buildLegacyDeployModel(type: JavaExec) {
-    configure buildDeployModelConfiguration('franca/spec/LegacySpec.fdepl', fdeplOutput)
-}
-generateXtext.dependsOn(buildLegacyDeployModel)
-clean.dependsOn(cleanBuildLegacyDeployModel)
-
 apply plugin: 'application'
 mainClassName = 'com.here.ivi.api.Transpiler'
 

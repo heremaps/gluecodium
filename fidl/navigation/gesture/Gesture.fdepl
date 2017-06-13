@@ -9,22 +9,12 @@
  *
  */
 
-import "classpath:/franca/spec/LegacySpec.fdepl"
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./Gesture.fidl"
 
-define navigation.LegacySpec for interface navigation.gesture.Gesture
+define navigation.BaseApiSpec for interface navigation.gesture.Gesture
 {
     method getGestureBehavior {
-        CallSemantics = synchronous
         Const = true
-    }
-    method setGestureBehavior {
-        CallSemantics = synchronous
-    }
-    method setTouchPoints {
-        CallSemantics = synchronous
-    }
-    method setTouchPoint {
-        CallSemantics = synchronous
     }
 }

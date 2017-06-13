@@ -13,13 +13,13 @@ package com.here.ivi.api.generator.swift
 
 import com.here.ivi.api.generator.common.GeneratedFile
 import com.here.ivi.api.model.Interface
-import navigation.LegacySpec;
+import navigation.BaseApiSpec;
 import java.util.List
 import java.util.LinkedList
 
 class SwiftApiGenerator {
 
-    def List<GeneratedFile> generateFiles(Interface<LegacySpec.InterfacePropertyAccessor> api) {
+    def List<GeneratedFile> generateFiles(Interface<BaseApiSpec.InterfacePropertyAccessor> api) {
         return new LinkedList
     }
 }
