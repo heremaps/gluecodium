@@ -14,7 +14,9 @@ package com.here.ivi.api.generator.converter.cpp;
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.baseapi.BaseApiNameRules;
 import com.here.ivi.api.generator.legacy.LegacyNameRules;
-import com.here.ivi.api.generator.common.*;
+import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
+import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.legacy.LegacySpecAccessorFactory;
@@ -22,11 +24,13 @@ import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;
-import com.here.ivi.api.model.rules.StructMethodRules;
 import com.here.ivi.api.validator.legacy.LegacyModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import navigation.LegacySpec.InterfacePropertyAccessor;
@@ -67,7 +71,7 @@ public class ConverterGeneratorSuite extends AbstractGeneratorSuite {
 
     //we need to inject root models namespace
     LegacyNameRules nameRulesFirst =
-        new LegacyNameRules(this.model) {
+        new LegacyNameRules() {
           public List<String> getNamespace(CppModelAccessor<?> modelAccessor) {
             List<String> result = new LinkedList<>();
             result.add(ConverterGenerator.conversionNamespaceName);
@@ -76,7 +80,7 @@ public class ConverterGeneratorSuite extends AbstractGeneratorSuite {
         };
 
     BaseApiNameRules nameRulesSecond =
-        new BaseApiNameRules(this.model) {
+        new BaseApiNameRules() {
           public List<String> getNamespace(CppModelAccessor<?> modelAccessor) {
             List<String> result = new LinkedList<>();
             result.add(ConverterGenerator.conversionNamespaceName);
@@ -91,11 +95,7 @@ public class ConverterGeneratorSuite extends AbstractGeneratorSuite {
 
     // partition model into interfaces, type-collections and structWithMethods and generate files from that
     Stream<GeneratedFile> generatorStreams =
-        StructMethodRules.partitionModel(
-            model,
-            iface -> new LinkedList<>(),
-            converterGenerator::generate,
-            structMethodPair -> null);
+        model.getTypeCollections().stream().map(converterGenerator::generate);
 
     return generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
   }

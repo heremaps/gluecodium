@@ -132,11 +132,6 @@ public class CppValueMapper {
       name = nameRules.getConstantName(name);
     }
 
-    // struct default values are just invalid
-    if (DefaultValuesRules.isStructDefaultValueConstant(qer)) {
-      return new CppValue(null, new Includes.LazyInternalInclude(referenceDefiner, nameRules));
-    }
-
     // TODO add ns resolution for referenced name
     // just use the name of the type and include the defining type
     return new CppValue(name, new Includes.LazyInternalInclude(referenceDefiner, nameRules));

@@ -84,7 +84,7 @@ public class StubGeneratorTest {
     when(suite.getTool()).thenReturn(transpiler);
     when(transpiler.resolveRelativeToRootPath(anyString())).thenReturn("output.test");
 
-    BaseApiNameRules nameRules = new BaseApiNameRules(model);
+    BaseApiNameRules nameRules = new BaseApiNameRules();
     CppIncludeResolver includeResolver = new CppIncludeResolver(model);
 
     return new StubGenerator(suite, nameRules, includeResolver);
