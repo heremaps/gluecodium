@@ -18,12 +18,13 @@ public class JavaNativeInterfacesHeaderTemplate {
   def static generate(JavaClass javaClass) '''
     «JavaCopyrightHeaderTemplate.generate()»
 
-    #include <jni.h>
 
     /**
      * JNI header for class «javaClass.name»
      */
-    pragma once
+    #pragma once
+
+    #include <jni.h>
 
     #ifdef __cplusplus
     extern "C" {
