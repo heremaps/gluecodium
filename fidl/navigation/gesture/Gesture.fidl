@@ -19,8 +19,7 @@ import navigation.gesture.* from "./GestureTypes.fidl"
 <** @description: ${brief} Recognizes and handles touch-screen gestures on map${/brief}.
 
  Various touch-screen gestures like tap, pinch and pan can be captured from
- the map. ${generator:legacy}The complete list of recognised gestures are defined in
- legacy::GestureTypes.${/generator}
+ the map.
 
  This class can also be configured to perform default actions for each kind
  of gesture. **>

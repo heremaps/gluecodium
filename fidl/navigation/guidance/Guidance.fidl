@@ -22,7 +22,7 @@ import navigation.guidance.* from "./GuidanceTypes.fidl"
 import navigation.routing.* from "../routing/RoutingTypes.fidl"
 import navigation.routing.* from "../routing/Route.fidl"
 
-<** @description: Guidance is a legacy SDK component that is used to deliver turn-by-turn directions, generate voice
+<** @description: Guidance is a SDK component that is used to deliver turn-by-turn directions, generate voice
  commands, inform about guidance events changes (time to arrival, remaining distance etc), provide
  lane information and maintain route alternatives (if any present at given time).
 
@@ -41,8 +41,7 @@ import navigation.routing.* from "../routing/Route.fidl"
  for navigation. Next to the main route, guidance is able to maintain a set of alternative routes
  (${see} Guidance::update_route_alternatives${/see}). A given route alternative is maintained by Guidance
  as long as its decision point has not been passed through (i.e. main route and route alternative
- still share some common part), after which the given route alternative is discarded ${see:legacy}
- GuidanceListener::on_route_alternatives_changed${/see}.
+ still share some common part), after which the given route alternative is discarded.
 
  If Guidance is configured to use traffic avoidance (${see}
  NavigationOptions::traffic_avoidance_mode${/see}), faster routes (in terms of time to arrival) can
@@ -60,8 +59,7 @@ import navigation.routing.* from "../routing/Route.fidl"
  returned object (it could be used for quick guidance session restore after full system shutdown).
  ${listener}Listener interface for callbacks during guidance.
 
- ${generator:legacy}In order to receive callbacks from Guidance, establish a GuidanceListener in legacy::NavCoreModule.
- ${see} legacy::NavCoreModule::create_guidance${/see}${/generator}${/listener}
+ ${/listener}
  **>
 interface Guidance extends VoiceOutput {
   version {
@@ -235,13 +233,9 @@ interface Guidance extends VoiceOutput {
 
      ${note} this method can be called only when guidance is running in navigation mode.${/note}
 
-     ${param:legacy}[in] options The navigation options to be used during this navigation session.${/param}
      ${param:android}[in] Options Android specific comment.${/param}
 
-     ${return:android} MY_OTHER_PLATFORM way of failing${/return}
-     ${return:legacy} CARLO_ERROR_NONE if the operation completes successfully,
-             CARLO_ERROR_INVALID_OPERATION if guidance is not running in navigation mode,
-             CARLO_ERROR_NOT_VALID if guidance object is not properly initialized${/return}**>
+     ${return:android} MY_OTHER_PLATFORM way of failing${/return}**>
   attribute GuidanceTypes.NavigationOptions navigationOptions readonly
   attribute GuidanceTypes.GuidanceMode mode readonly
   attribute GuidanceTypes.GuidanceState ^state readonly  // state is a reserved keyword
@@ -458,7 +452,7 @@ interface Guidance extends VoiceOutput {
   ${remarks} the paused state is only saved in RAM memory, which means the pause/resume API${/remarks}
   can't be used to persist the guidance state and then restore it after a full system
   shutdown. To restore guidance information after a full shutdown, use the session
-  API ${see:legacy} get last session( RequestId &id )${/see}
+  API.
 
   ${remarks} while paused, CPU power is not used by the guidance engine, however pausing does
   not release the memory it uses. To free the memory use cancel().${/remarks} **>
@@ -620,8 +614,7 @@ interface Guidance extends VoiceOutput {
      for this method to complete successfully, it is meant to change route requirements when
      guidance is in progress not to start guidance session from scratch${/note}
 
-     ${generator:legacy} The current method completes with the callback on_update_route_plan_done. When updating
-     route plan is finished previous main route will be discarded and not added to alternatives ${/generator}**>
+     **>
 
   method updateRoutePlan:Primary {
     in {
@@ -640,9 +633,6 @@ interface Guidance extends VoiceOutput {
       GuidanceTypes.MainRouteOptions mainrouteOptions
     }
     out {}
-    <** @description: ${generator:legacy}CARLO_ERROR_NONE if the request completed successfully,
-                      CARLO_ERROR_INVALID_OPERATION if guidance is not running in navigation mode
-                      or RoutePlan could not be updated ${/generator} **>
     error NavigationTypes.ErrorCode
   }
 

@@ -21,7 +21,7 @@ public class AndroidSpecAccessorFactory
     implements SpecAccessorFactory<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> {
   @Override
   public String getSpecPath() {
-    return "classpath:/franca/spec/LegacySpec.fdepl";
+    return "classpath:/franca/spec/BaseApiSpec.fdepl";
   }
 
   @Override

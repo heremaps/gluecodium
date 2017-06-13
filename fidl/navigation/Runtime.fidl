@@ -30,9 +30,6 @@ import navigation.* from "NetworkConfiguration.fidl"
  The copy constructor allows you to have many instances of Runtime but each
  instance points to the same reference counted implementation instance.
 
- If the last instance of the Runtime gets deleted, the whole legacy stack gets shut down and cannot
- be used anymore (equivalent to calling Runtime::shutdown()). Thus at least on copy of the
- Runtime object must be kept while using legacy.
  **>
 interface Runtime {
     version {
