@@ -32,3 +32,5 @@ sourceSets {
         }
     }
 }
+
+apply from: "$rootDir/gradle/publish.gradle"

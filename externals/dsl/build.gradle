@@ -102,3 +102,5 @@ xtext {
 
 generateXtext.dependsOn(generateXTextLanguage)
 clean.dependsOn(cleanGenerateXTextLanguage)
+
+apply from: "$rootDir/gradle/publish.gradle"
