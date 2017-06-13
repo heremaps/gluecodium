@@ -70,7 +70,4 @@ public interface CppNameRules {
 
   /** Returns the path of belonging header file */
   String getHeaderPath(FrancaElement<?> francaElement);
-
-  /** Returns the path for converter methods */
-  String getConversionHeaderPath(FrancaElement<?> tc);
 }
