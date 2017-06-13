@@ -26,6 +26,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import com.here.ivi.api.model.javamodel.JavaPackage
 
 @RunWith(typeof(XtextRunner))
 class JavaClassTemplateTest {
@@ -34,14 +35,13 @@ class JavaClassTemplateTest {
     val javaClass = new JavaClass("ExampleClass") => [
       comment = "Example class comment"
     ]
-    val expected = '''
-    package com.here.android;
+    val expected = '''package com.here.android;
 
-    /**
-     * Example class comment
-     */
-    class ExampleClass {
-    }'''
+/**
+ * Example class comment
+ */
+class ExampleClass {
+}'''
 
     val generated = JavaClassTemplate.generate(javaClass)
 
@@ -59,24 +59,24 @@ class JavaClassTemplateTest {
       comment = "Method comment"
     ]
     val javaClass = new JavaClass("ExampleClass") => [
+      javaPackage = new JavaPackage("com.here.generator.example")
       comment = "Example class comment"
       methods = #{ classMethod }
     ]
     val inheritance = new JavaInheritance(exampleType) => [
 
     ]
-    val expected = '''
-    package com.here.android;
+    val expected = '''package com.here.generator.example;
 
-    /**
-     * Example class comment
-     */
-    class ExampleClass {
-      /**
-       * Method comment
-       */
-      private native ExampleType someMethod(InParamType param);
-    }'''
+/**
+ * Example class comment
+ */
+class ExampleClass {
+  /**
+   * Method comment
+   */
+  private native ExampleType someMethod(InParamType param);
+}'''
 
     val generated = JavaClassTemplate.generate(javaClass)
 
@@ -91,24 +91,24 @@ class JavaClassTemplateTest {
       comment = "Enum comment"
     ]
     val javaClass = new JavaClass("ExampleClass") => [
+      javaPackage = new JavaPackage("com.here.enums")
       comment = "Example class comment"
       enums = # { classEnum }
     ]
 
-    val expected = '''
-    package com.here.android;
+    val expected = '''package com.here.enums;
 
-    /**
-     * Example class comment
-     */
-    class ExampleClass {
-      /**
-       * Enum comment
-       */
-      enum ExampleEnum {
-          ITEM = 1
-      };
-    }'''
+/**
+ * Example class comment
+ */
+class ExampleClass {
+  /**
+   * Enum comment
+   */
+  enum ExampleEnum {
+      ITEM = 1
+  };
+}'''
 
     val generated = JavaClassTemplate.generate(javaClass)
 
@@ -132,24 +132,23 @@ class JavaClassTemplateTest {
       enums = #{ classEnum }
     ]
 
-    val expected = '''
-    package com.here.android;
+    val expected = '''package com.here.android;
 
-    /**
-     * Example class comment
-     */
-    class ExampleClass {
-      /**
-       * Enum comment
-       */
-      enum ExampleEnum {
-          ITEM = 1
-      };
-      /**
-       * Method comment
-       */
-      native void someMethod();
-    }'''
+/**
+ * Example class comment
+ */
+class ExampleClass {
+  /**
+   * Enum comment
+   */
+  enum ExampleEnum {
+      ITEM = 1
+  };
+  /**
+   * Method comment
+   */
+  native void someMethod();
+}'''
 
     val generated = JavaClassTemplate.generate(javaClass)
 

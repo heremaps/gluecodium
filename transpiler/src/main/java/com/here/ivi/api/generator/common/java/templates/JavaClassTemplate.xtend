@@ -12,25 +12,23 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaClass
-import com.here.ivi.api.model.javamodel.JavaElements
-import com.here.ivi.api.generator.common.java.templates.JavaMethodBodyTemplate
 
 public class JavaClassTemplate {
-  def static generate(JavaClass javaClass) '''package com.here.android;
-  «JavaImportsTemplate.generate(javaClass)»
+  def static generate(JavaClass it) '''«JavaPackageTemplate.generate(javaPackage)»
+  «JavaImportsTemplate.generate(it)»
 
 /**
- * «javaClass.comment»
+ * «comment»
  */
-class «javaClass.name» «JavaInheritanceTemplate.generate(javaClass.inheritance)»{
-  «FOR constant : javaClass.constants»
-    «JavaConstantTemplate.generate(constant)»
+class «name» «JavaInheritanceTemplate.generate(inheritance)»{
+  «FOR constant : constants»
+  «JavaConstantTemplate.generate(constant)»
   «ENDFOR»
-  «FOR enumerator : javaClass.enums»
-    «JavaEnumTemplate.generate(enumerator)»
+  «FOR enumerator : enums»
+  «JavaEnumTemplate.generate(enumerator)»
   «ENDFOR»
-  «FOR method : javaClass.methods»
-    «JavaMethodTemplate.signature(method)»«IF method.isNative»;«ELSE»«JavaMethodBodyTemplate.generate(method)»«ENDIF»
+  «FOR method : methods»
+  «JavaMethodTemplate.signature(method)»«IF method.isNative»;«ELSE»«JavaMethodBodyTemplate.generate(method)»«ENDIF»
   «ENDFOR»
 }'''
 }

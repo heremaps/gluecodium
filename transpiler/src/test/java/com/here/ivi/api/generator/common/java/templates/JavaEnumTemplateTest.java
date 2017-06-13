@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.model.javamodel.JavaEnum;
 import com.here.ivi.api.model.javamodel.JavaEnumItem;
+import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import java.util.Arrays;
 import org.eclipse.xtext.junit4.XtextRunner;
@@ -39,6 +40,36 @@ public final class JavaEnumTemplateTest {
     // Assert
     String expected =
         "/**\n"
+            + " * A test enum\n"
+            + " */\n"
+            + "enum MyEnum {\n"
+            + "    FooName = FooValue,\n"
+            + "    BarName = BarValue\n"
+            + "};\n";
+
+    assertEquals(expected, generated);
+  }
+
+  @Test
+  public void topLevelEnumGeneration() {
+    // Arrange
+    JavaEnum javaEnum = new JavaEnum("MyEnum");
+    javaEnum.isTopLevel = true;
+    javaEnum.javaPackage = new JavaPackage("com.here.enums.example");
+    javaEnum.comment = "A test enum";
+    javaEnum.items =
+        Arrays.asList(
+            new JavaEnumItem("FooName", new JavaValue("FooValue")),
+            new JavaEnumItem("BarName", new JavaValue("BarValue")));
+
+    // Act
+    String generated = JavaEnumTemplate.generate(javaEnum).toString();
+
+    // Assert
+    String expected =
+        "package com.here.enums.example;\n"
+            + "\n"
+            + "/**\n"
             + " * A test enum\n"
             + " */\n"
             + "enum MyEnum {\n"

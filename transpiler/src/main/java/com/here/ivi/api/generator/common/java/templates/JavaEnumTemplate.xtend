@@ -14,21 +14,24 @@ package com.here.ivi.api.generator.common.java.templates
 import com.here.ivi.api.model.javamodel.JavaEnum
 
 class JavaEnumTemplate {
-    static def generate(JavaEnum enumeration) '''
-    «IF enumeration.comment !== null && !enumeration.comment.isEmpty»
-    /**
-     * «enumeration.comment»
-     */
+  static def generate(JavaEnum it) '''«IF isTopLevel»
+    «JavaPackageTemplate.generate(javaPackage)»
+
     «ENDIF»
-    enum «enumeration.name» {
-        «FOR item : enumeration.items SEPARATOR ','»
-            «IF item.comment !== null && !item.comment.isEmpty»
-            /**
-             * «item.comment»
-             */
-            «ENDIF»
-            «item.name»«IF item.value.isValid()» = «item.value.name»«ENDIF»
-        «ENDFOR»
-    };
-    '''
+    «IF comment !== null && !comment.isEmpty»
+  /**
+   * «comment»
+   */
+  «ENDIF»
+enum «name» {
+  «FOR item : items SEPARATOR ','»
+  «IF item.comment !== null && !item.comment.isEmpty»
+  /**
+    * «item.comment»
+    */
+  «ENDIF»
+    «item.name»«IF item.value.isValid()» = «item.value.name»«ENDIF»
+  «ENDFOR»
+};
+'''
 }
