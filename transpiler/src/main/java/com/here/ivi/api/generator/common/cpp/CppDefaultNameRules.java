@@ -12,8 +12,6 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.FrancaElement;
-import java.io.File;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 
@@ -49,15 +47,5 @@ public abstract class CppDefaultNameRules implements CppNameRules {
 
   public String getHeaderFileSuffix() {
     return ".h";
-  }
-
-  public String getConversionHeaderPath(final FrancaElement<?> francaElement) {
-    return "legacy"
-        + File.separator
-        + String.join(File.separator, "conversion")
-        + File.separator
-        + getTypeCollectionName(francaElement.getFrancaTypeCollection())
-        + "Converter"
-        + getHeaderFileSuffix();
   }
 }
