@@ -75,7 +75,7 @@ class ExampleClass {
   /**
    * Method comment
    */
-  private native ExampleType someMethod(InParamType param);
+  private native ExampleType someMethod(final InParamType param);
 }'''
 
     val generated = JavaClassTemplate.generate(javaClass)

@@ -14,7 +14,6 @@ package com.here.ivi.api.model.javamodel;
 import java.util.stream.Stream;
 
 public interface JavaNamedEntity {
-
   String getName();
 
   Stream<JavaNamedEntity> stream();

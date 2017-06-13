@@ -15,9 +15,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JavaElements {
-
-  public static final String FINAL_QUALIFIER = "const";
-
   public static Set<JavaImport> collectIncludes(JavaElement root) {
     return root.streamRecursive()
         .filter(p -> p instanceof JavaElementWithImports)

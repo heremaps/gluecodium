@@ -12,8 +12,5 @@
 package com.here.ivi.api.model.javamodel;
 
 public interface JavaType extends JavaNamedEntity {
-
-  boolean isFinal();
-
   boolean isValid();
 }

@@ -13,12 +13,11 @@ package com.here.ivi.api.generator.common.java.templates
 
 import java.util.List;
 import com.here.ivi.api.model.javamodel.JavaParameter
-import com.here.ivi.api.model.javamodel.JavaElements
 import com.here.ivi.api.model.javamodel.JavaMethod
 
 public class JavaMethodTemplate {
     def static generate(JavaParameter p)
-        '''«IF p.type.isFinal»«JavaElements.FINAL_QUALIFIER» «ENDIF»«p.type.name» «p.name»'''
+        '''final «p.type.name» «p.name»'''
 
     def static whitespaceFormatter(String field) '''
         «field»«IF !field.isEmpty» «ENDIF»'''

@@ -14,8 +14,7 @@ package com.here.ivi.api.model.javamodel;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class JavaPrimitiveType implements JavaType {
-
+public final class JavaPrimitiveType implements JavaType {
   public enum Type {
     VOID("void"),
     BYTE("byte"),
@@ -39,28 +38,9 @@ public class JavaPrimitiveType implements JavaType {
   }
 
   public final Type type;
-  private final boolean hasFinalModifier;
 
-  public JavaPrimitiveType(Type type) {
-    this(type, false);
-  }
-
-  public JavaPrimitiveType(Type type, boolean hasFinalModifier) {
+  public JavaPrimitiveType(final Type type) {
     this.type = type;
-    this.hasFinalModifier = hasFinalModifier;
-  }
-
-  public boolean equals(Object other) {
-    if (!(other instanceof JavaPrimitiveType)) {
-      return false;
-    }
-    JavaPrimitiveType otherType = (JavaPrimitiveType) other;
-    return type.equals(otherType.type) && hasFinalModifier == otherType.hasFinalModifier;
-  }
-
-  public int hashCode() {
-    int hashCode = 31 + this.type.hashCode();
-    return 31 * hashCode + (hasFinalModifier == true ? 1 : 0);
   }
 
   public String getName() {
@@ -68,22 +48,38 @@ public class JavaPrimitiveType implements JavaType {
   }
 
   @Override
-  public boolean isFinal() {
-    return hasFinalModifier;
-  }
-
-  @Override
   public boolean isValid() {
     return true;
   }
 
+  @Override
   public Stream<JavaNamedEntity> stream() {
     return Stream.empty();
   }
 
+  @Override
   public final Stream<JavaNamedEntity> streamRecursive() {
     return Stream.concat(
         Stream.of(this),
         stream().filter(Objects::nonNull).flatMap(JavaNamedEntity::streamRecursive));
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    JavaPrimitiveType that = (JavaPrimitiveType) o;
+
+    return type == that.type;
+  }
+
+  @Override
+  public int hashCode() {
+    return type != null ? type.hashCode() : 0;
   }
 }
