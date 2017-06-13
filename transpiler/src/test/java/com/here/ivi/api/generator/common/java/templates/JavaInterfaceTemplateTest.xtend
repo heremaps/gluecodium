@@ -49,7 +49,7 @@ class JavaInterfaceTemplateTest {
     val exampleType = new JavaComplexType("ExampleType")
     val parameter = new JavaParameter(new JavaComplexType("InParamType"), "param")
     val interfaceMethod = new JavaMethod("someMethod", exampleType) => [
-      inParameters = #[ parameter ]
+      parameters = #[ parameter ]
       comment = "Method comment"
     ]
     val javaInterface = new JavaInterface("ExampleInterface") => [

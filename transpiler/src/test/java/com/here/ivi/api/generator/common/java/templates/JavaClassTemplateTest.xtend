@@ -55,7 +55,7 @@ class ExampleClass {
     val classMethod = new JavaMethod("someMethod", exampleType) => [
       qualifiers = #{ JavaMethod.Qualifier.NATIVE }
       visibility = JavaVisibility.PRIVATE
-      inParameters = #[ parameter ]
+      parameters = #[ parameter ]
       comment = "Method comment"
     ]
     val javaClass = new JavaClass("ExampleClass") => [

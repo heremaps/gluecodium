@@ -19,5 +19,5 @@ import com.here.ivi.api.model.javamodel.JavaMethod
  */
 class JavaNativeFunctionSignatureTemplate {
     def static generate(String javaClassName, JavaMethod method) '''
-    Java_com_here_ivi_«javaClassName»_«method.name»(JNIEnv* env, jobject jinstance«FOR param : method.inParameters», «JavaJniTypeConverter.convertToJniType(param.type)» j«param.name»«ENDFOR»)'''
+    Java_com_here_ivi_«javaClassName»_«method.name»(JNIEnv* env, jobject jinstance«FOR param : method.parameters», «JavaJniTypeConverter.convertToJniType(param.type)» j«param.name»«ENDFOR»)'''
 }

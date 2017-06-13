@@ -37,8 +37,7 @@ public final class JavaMethod extends JavaElement {
   public String deprecatedComment = null;
   public final JavaType returnType;
   public Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
-  public List<JavaParameter> inParameters = new ArrayList<>();
-  public List<JavaParameter> outParameters = new ArrayList<>();
+  public List<JavaParameter> parameters = new ArrayList<>();
 
   public JavaMethod(final String name) {
     this(name, new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
@@ -55,7 +54,6 @@ public final class JavaMethod extends JavaElement {
 
   @Override
   public Stream<JavaNamedEntity> stream() {
-    return Stream.concat(
-        Stream.of(returnType), Stream.concat(inParameters.stream(), outParameters.stream()));
+    return Stream.concat(Stream.of(returnType), parameters.stream());
   }
 }

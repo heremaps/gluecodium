@@ -23,17 +23,17 @@ public class JavaMethodTemplate {
     def static whitespaceFormatter(String field) '''
         «field»«IF !field.isEmpty» «ENDIF»'''
 
-    def static parameterFormatter(List<JavaParameter> inParameters, List<JavaParameter> outParameters) '''
-        «(inParameters + outParameters).map[ p | p.generate].join(', ')»'''
+    def static parameterFormatter(List<JavaParameter> parameters) '''
+        «(parameters).map[ p | p.generate].join(', ')»'''
 
     // as used in std::function declaration
     def static pureSignature(JavaMethod it) '''
-        «returnType.name» «name»(«(inParameters + outParameters).map[ p | p.generate].join(', ')»)'''
+        «returnType.name» «name»(«(parameters).map[ p | p.generate].join(', ')»)'''
 
     def static signature(JavaMethod it) {
       val accessModifier = whitespaceFormatter(visibility.toAccessModifier)
       val specifiersJoined = whitespaceFormatter(qualifiers.join(' '))
-      val parameters = parameterFormatter(inParameters, outParameters)
+      val parameters = parameterFormatter(parameters)
       '''
       «IF comment !== null && !comment.isEmpty»
       /**
@@ -50,5 +50,5 @@ public class JavaMethodTemplate {
     }
 
     def static signature(JavaMethod it, String className)'''
-      «whitespaceFormatter(returnType.name)»«className»::«name»( «parameterFormatter(inParameters, outParameters)» )'''
+      «whitespaceFormatter(returnType.name)»«className»::«name»( «parameterFormatter(parameters)» )'''
 }
