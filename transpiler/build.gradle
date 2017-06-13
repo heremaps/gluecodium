@@ -34,7 +34,6 @@ sourceSets {
             include "**/*.fidl"
             include "**/*.h"
             include "**/*.cpp"
-            include "**/.clang-format"
             include "**/*.properties"
         }
     }
