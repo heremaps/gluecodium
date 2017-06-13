@@ -15,8 +15,6 @@
 cmake_minimum_required(VERSION 3.2)
 project(hello)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC")
-
 set(HELLO_VERSION_MAJOR 0)
 set(HELLO_VERSION_MINOR 0)
 set(HELLO_VERSION_PATCH 1)
@@ -30,6 +28,7 @@ set(SOURCES
 
 # Public library, either shared or static depending BUILD_SHARED_LIBS
 add_library(hello ${HEADERS} ${SOURCES})
+target_compile_features(hello PUBLIC cxx_range_for)
 set_target_properties(hello PROPERTIES
     VERSION ${HELLO_VERSION}
     SOVERSION ${HELLO_VERSION_MAJOR})
@@ -46,13 +45,10 @@ transpile(hello
 target_include_directories(hello
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        ${CMAKE_CURRENT_BINARY_DIR}/api
     INTERFACE
         $<INSTALL_INTERFACE:include>
-    PRIVATE
-        ${CMAKE_CURRENT_BINARY_DIR}/api)
-
-target_link_libraries(hello)
-
+     )
 install(TARGETS hello EXPORT helloTargets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib

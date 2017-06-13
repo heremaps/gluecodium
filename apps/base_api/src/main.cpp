@@ -12,11 +12,18 @@
 
 #include "stub/libhello/HelloWorldStub.h"
 
-namespace libhello
+#include <iostream>
+#include <string>
+
+using namespace libhello;
+
+int main()
 {
-    std::string
-    HelloWorldStub::helloWorldMethod(const std::string& inputString)
-    {
-        return "Hello " + inputString;
-    }
+    std::string user_name;
+
+    std::cout << "Write your name: ";
+
+    std::getline(std::cin, user_name);
+
+    std::cout << HelloWorldStub::helloWorldMethod(user_name) << std::endl;
 }
