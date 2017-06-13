@@ -165,31 +165,4 @@ pmd {
     ignoreFailures true
 }
 
-
-group = 'com.here.ivi.api'
-version = '0.0.1'
-
-apply plugin: 'maven-publish'
-publishing {
-    publications {
-        transpiler(MavenPublication) {
-            from components.java
-        }
-    }
-}
-
-apply plugin: 'com.jfrog.artifactory'
-artifactory {
-    contextUrl = 'example.com'
-    publish {
-        repository {
-            username = project.properties['artifactory.username']
-            password = project.properties['artifactory.password']
-            //repoKey = 'android-release-local' // Only used for official releases!
-            repoKey = 'gradle-plugins-release-local' // Use for development
-        }
-        defaults {
-            publications 'transpiler'
-        }
-    }
-}
+apply from: "$rootDir/gradle/publish.gradle"
