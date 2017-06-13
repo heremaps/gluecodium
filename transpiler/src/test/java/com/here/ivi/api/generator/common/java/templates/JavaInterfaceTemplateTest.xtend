@@ -21,6 +21,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.*
+import com.here.ivi.api.model.javamodel.JavaPackage
 
 @RunWith(typeof(XtextRunner))
 class JavaInterfaceTemplateTest {
@@ -52,13 +53,14 @@ class JavaInterfaceTemplateTest {
       comment = "Method comment"
     ]
     val javaInterface = new JavaInterface("ExampleInterface") => [
+      javaPackage = new JavaPackage("com.here.example.interfaces")
       comment = "Example interface comment"
       methods = #{ interfaceMethod }
     ]
     val inheritance = new JavaInheritance(exampleType)
 
     val expected = '''
-    package com.here.android;
+    package com.here.example.interfaces;
 
     /**
      * Example interface comment

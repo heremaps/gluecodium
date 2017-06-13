@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public final class JavaEnum extends JavaElement {
+  public boolean isTopLevel = false;
+  public JavaPackage javaPackage = new JavaPackage("com.here.android");
   public List<JavaEnumItem> items = new ArrayList<>();
 
   public JavaEnum(final String name) {

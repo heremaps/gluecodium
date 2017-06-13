@@ -11,18 +11,8 @@
 
 package com.here.ivi.api.generator.common.java.templates
 
-import com.here.ivi.api.model.javamodel.JavaInterface
+import com.here.ivi.api.model.javamodel.JavaPackage
 
-public class JavaInterfaceTemplate {
-    def static generate(JavaInterface javaInterface) '''«JavaPackageTemplate.generate(javaInterface.javaPackage)»
-    «JavaImportsTemplate.generate(javaInterface)»
-
-/**
- * «javaInterface.comment»
- */
-interface «javaInterface.name» «JavaInheritanceTemplate.generate(javaInterface.inheritances)»{
-«FOR m : javaInterface.methods»
-«"  "»«JavaMethodTemplate.pureSignature(m)»;
-«ENDFOR»
-}'''
+class JavaPackageTemplate {
+  static def generate(JavaPackage javaPackage) '''package «javaPackage.name»;'''
 }

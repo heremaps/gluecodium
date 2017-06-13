@@ -11,15 +11,10 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+public class JavaPackage {
+  public final String name;
 
-public final class JavaInterface extends JavaElement {
-  public JavaPackage javaPackage = new JavaPackage("com.here.android");
-  public Set<JavaMethod> methods = new LinkedHashSet<>();
-  public Set<JavaInheritance> inheritances = new LinkedHashSet<>();
-
-  public JavaInterface(final String name) {
-    super(name);
+  public JavaPackage(String packageName) {
+    this.name = packageName;
   }
 }

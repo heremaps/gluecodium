@@ -11,18 +11,22 @@
 
 package com.here.ivi.api.generator.common.java.templates
 
-import com.here.ivi.api.model.javamodel.JavaInterface
+import com.here.ivi.api.model.javamodel.JavaPackage
+import org.eclipse.xtext.junit4.XtextRunner
+import org.junit.Test
+import org.junit.runner.RunWith
 
-public class JavaInterfaceTemplate {
-    def static generate(JavaInterface javaInterface) '''«JavaPackageTemplate.generate(javaInterface.javaPackage)»
-    «JavaImportsTemplate.generate(javaInterface)»
+import static org.junit.Assert.*
 
-/**
- * «javaInterface.comment»
- */
-interface «javaInterface.name» «JavaInheritanceTemplate.generate(javaInterface.inheritances)»{
-«FOR m : javaInterface.methods»
-«"  "»«JavaMethodTemplate.pureSignature(m)»;
-«ENDFOR»
-}'''
+@RunWith(typeof(XtextRunner))
+class JavaPackageTemplateTest {
+
+  @Test
+  def packageGeneration() {
+    val expected = '''package com.here.packages.example;'''
+
+    val generated = JavaPackageTemplate.generate(new JavaPackage("com.here.packages.example"))
+
+    assertEquals(expected, generated.toString)
+  }
 }
