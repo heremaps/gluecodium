@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -67,7 +68,7 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
     this.francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
   }
 
-  private BaseApiGeneratorSuite(
+  public BaseApiGeneratorSuite(
       Transpiler transpiler,
       ResourceValidator resourceValidator,
       BaseApiSpecAccessorFactory specAccessorFactory,
@@ -82,7 +83,9 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public List<GeneratedFile> generateFiles() {
-    // TODO add model null check
+    if (model == null) {
+      return Collections.emptyList();
+    }
 
     BaseApiNameRules nameRules = new BaseApiNameRules();
     CppIncludeResolver includeResolver = new CppIncludeResolver(model);
@@ -106,15 +109,15 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
                         generateFromFrancaElement(
                             typeCollection, nameRules, typeCollectionMapper, generator)));
 
-    List<GeneratedFile> list =
+    List<GeneratedFile> generatedFiles =
         generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
     final String targetDir = "src/";
-    list.add(copyTarget("cpp/internal/AsyncAPI.h", targetDir));
-    list.add(copyTarget("cpp/internal/AsyncAPI.cpp", targetDir));
-    list.add(copyTarget("cpp/internal/expected.h", targetDir));
-    list.add(copyTarget("cpp/internal/ListenerVector.h", targetDir));
+    generatedFiles.add(copyTarget("cpp/internal/AsyncAPI.h", targetDir));
+    generatedFiles.add(copyTarget("cpp/internal/AsyncAPI.cpp", targetDir));
+    generatedFiles.add(copyTarget("cpp/internal/expected.h", targetDir));
+    generatedFiles.add(copyTarget("cpp/internal/ListenerVector.h", targetDir));
 
-    return list;
+    return generatedFiles;
   }
 
   private GeneratedFile generateFromFrancaElement(
@@ -176,7 +179,19 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public boolean validate() {
+    if (model == null) {
+      return false;
+    }
+
     ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
     return resourceValidator.validate(resources, currentFiles) && validator.validate(model);
+  }
+
+  public FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> getModel() {
+    return model;
+  }
+
+  public Collection<File> getCurrentFiles() {
+    return currentFiles;
   }
 }

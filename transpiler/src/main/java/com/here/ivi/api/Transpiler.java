@@ -50,7 +50,7 @@ public class Transpiler {
     System.exit(status);
   }
 
-  private Transpiler(OptionReader.TranspilerOptions options) {
+  public Transpiler(OptionReader.TranspilerOptions options) {
     this.options = options;
     TranspilerLogger.initialize("logging.properties");
     version = parseVersion();
