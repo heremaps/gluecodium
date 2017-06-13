@@ -13,15 +13,15 @@ package com.here.ivi.api.validator.baseapi;
 
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.validator.common.ModelValidator;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 
-public class CppStubModelValidator
+public class BaseApiModelValidator
     implements ModelValidator<
-        CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> {
+        BaseApiSpec.InterfacePropertyAccessor, BaseApiSpec.TypeCollectionPropertyAccessor> {
 
   @Override
   public boolean validate(
-      FrancaModel<CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor>
+      FrancaModel<BaseApiSpec.InterfacePropertyAccessor, BaseApiSpec.TypeCollectionPropertyAccessor>
           model) {
     //TODO put here baseapi specific validation.
     return true;

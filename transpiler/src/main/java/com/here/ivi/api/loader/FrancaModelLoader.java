@@ -25,7 +25,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
@@ -55,8 +55,8 @@ import org.franca.deploymodel.dsl.fDeploy.*;
  *     types
  */
 public class FrancaModelLoader<
-    IA extends CppStubSpec.InterfacePropertyAccessor,
-    TA extends CppStubSpec.TypeCollectionPropertyAccessor> {
+    IA extends BaseApiSpec.InterfacePropertyAccessor,
+    TA extends BaseApiSpec.TypeCollectionPropertyAccessor> {
 
   private static final String FIDL_SUFFIX = "fidl";
   public static final String FDEPL_SUFFIX = "fdepl";

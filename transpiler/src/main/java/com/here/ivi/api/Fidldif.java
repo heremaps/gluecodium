@@ -13,7 +13,7 @@ package com.here.ivi.api;
 
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.baseapi.CppStubSpecAccessorFactory;
+import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.ModelHelper;
@@ -31,8 +31,8 @@ public class Fidldif {
   public static void main(final String[] args) {
     if (args.length != 2) return;
 
-    // using the CppStubSpec to keep things simple ...
-    final CppStubSpecAccessorFactory specAccessorFactory = new CppStubSpecAccessorFactory();
+    // using the BaseApiSpec to keep things simple ...
+    final BaseApiSpecAccessorFactory specAccessorFactory = new BaseApiSpecAccessorFactory();
     final FrancaModelLoader<?, ?> fml = new FrancaModelLoader<>(specAccessorFactory);
     ModelHelper.getFdeplInjector().injectMembers(fml);
 

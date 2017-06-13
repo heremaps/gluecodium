@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBroadcast;
@@ -103,7 +103,7 @@ public class StubGenerator extends AbstractCppGenerator {
         new CppClass.Builder(stubClassName)
             .comment(StubCommentParser.parse(iface.getFrancaInterface()).getMainBodyText());
 
-    String stubListenerName = CppStubNameRules.getListenerName(iface.getFrancaInterface());
+    String stubListenerName = BaseApiNameRules.getListenerName(iface.getFrancaInterface());
     CppClass stubListenerClass =
         new CppClass.Builder(stubListenerName)
             .comment(
@@ -114,7 +114,7 @@ public class StubGenerator extends AbstractCppGenerator {
 
     // TODO APIGEN-126: use a builder for CppClass for fill the fields: methods, inheritances, ..
 
-    CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel =
+    CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel =
         new CppModelAccessor<>(iface, nameRules);
 
     for (FType type : iface.getFrancaInterface().getTypes()) {
@@ -176,7 +176,7 @@ public class StubGenerator extends AbstractCppGenerator {
           new CppInheritance(
               new CppType(
                   CppNamespaceUtils.getCppTypename(
-                      rootModel, baseDefinition, CppStubNameRules.getListenerName(base)),
+                      rootModel, baseDefinition, BaseApiNameRules.getListenerName(base)),
                   new Includes.LazyInternalInclude(
                       baseDefinition, Includes.InternalType.Interface, nameRules)),
               CppInheritance.Type.Public));
@@ -192,7 +192,7 @@ public class StubGenerator extends AbstractCppGenerator {
   private void appendMethodElements(
       CppClass stubClass,
       FMethod method,
-      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel) {
+      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
     String uniqueMethodName =
         nameRules.getMethodName(method.getName())
             + NameHelper.toUpperCamelCase(method.getSelector());
@@ -325,7 +325,7 @@ public class StubGenerator extends AbstractCppGenerator {
       CppClass stubClass,
       CppClass stubListenerClass,
       FAttribute attribute,
-      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel) {
+      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
     // getter
     stubClass.methods.add(buildAttributeAccessor(rootModel, attribute, AttributeAccessorMode.GET));
     // setter if not readonly
@@ -343,7 +343,7 @@ public class StubGenerator extends AbstractCppGenerator {
       CppClass stubClass,
       CppClass stubListenerClass,
       FAttribute attribute,
-      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel) {
+      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
     CppParameter param = new CppParameter();
     param.name = attribute.getName();
@@ -475,7 +475,7 @@ public class StubGenerator extends AbstractCppGenerator {
   private CppMethod buildStubMethod(
       FMethod method,
       CppType returnTypeName,
-      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel) {
+      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
     CppMethod cppMethod = new CppMethod();
     cppMethod.name = method.getName() + NameHelper.toUpperCamelCase(method.getSelector());
@@ -515,7 +515,7 @@ public class StubGenerator extends AbstractCppGenerator {
       new Includes.SystemInclude("cpp/internal/expected.h");
 
   private CppMethod buildAttributeAccessor(
-      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootType,
+      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootType,
       FAttribute attribute,
       AttributeAccessorMode mode) {
 

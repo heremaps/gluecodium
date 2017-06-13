@@ -14,9 +14,9 @@ package com.here.ivi.api.model.cppmodel;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 
-public class CppModelAccessor<DPA extends CppStubSpec.IDataPropertyAccessor> {
+public class CppModelAccessor<DPA extends BaseApiSpec.IDataPropertyAccessor> {
 
   private final FrancaElement<DPA> francaElement;
   private final DefinedBy definer;

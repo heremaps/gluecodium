@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -82,8 +82,8 @@ public class StructMethodRules {
    * @param <TA> The TypeCollection accessor
    */
   public static class StructMethodPair<
-      IA extends CppStubSpec.InterfacePropertyAccessor,
-      TA extends CppStubSpec.TypeCollectionPropertyAccessor> {
+      IA extends BaseApiSpec.InterfacePropertyAccessor,
+      TA extends BaseApiSpec.TypeCollectionPropertyAccessor> {
     public final Interface<IA> iface;
     public final TypeCollection<TA> type;
 
@@ -115,8 +115,8 @@ public class StructMethodRules {
    */
   public static <
           Result,
-          IA extends CppStubSpec.InterfacePropertyAccessor,
-          TA extends CppStubSpec.TypeCollectionPropertyAccessor>
+          IA extends BaseApiSpec.InterfacePropertyAccessor,
+          TA extends BaseApiSpec.TypeCollectionPropertyAccessor>
       Stream<Result> partitionModel(
           FrancaModel<IA, TA> model,
           Function<Interface<IA>, List<Result>> interfaceCollector,
@@ -163,8 +163,8 @@ public class StructMethodRules {
    * @return A list of interface typeCollection pairs
    */
   private static <
-          IA extends CppStubSpec.InterfacePropertyAccessor,
-          TA extends CppStubSpec.TypeCollectionPropertyAccessor>
+          IA extends BaseApiSpec.InterfacePropertyAccessor,
+          TA extends BaseApiSpec.TypeCollectionPropertyAccessor>
       List<StructMethodPair<IA, TA>> collectMethodContainers(final FrancaModel<IA, TA> model) {
 
     List<StructMethodPair<IA, TA>> result = new ArrayList<>();

@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/CppStubSpec.fdepl"
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./NavcoreModuleFactory.fidl"
 
-define navigation.CppStubSpec for interface navigation.NavcoreModuleFactory
+define navigation.BaseApiSpec for interface navigation.NavcoreModuleFactory
 {
     method create {
         Static = true

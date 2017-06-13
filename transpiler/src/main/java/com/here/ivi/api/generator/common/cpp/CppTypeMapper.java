@@ -21,13 +21,13 @@ import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.HashSet;
 import java.util.Set;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.*;
 
 public class CppTypeMapper {
 
   public static CppType map(
-      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
+      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
       FArgument argument) {
     CppType type = CppTypeMapper.map(rootModel, argument.getType());
 
@@ -44,7 +44,7 @@ public class CppTypeMapper {
   }
 
   public static CppType map(
-      CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
+      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
       FAttribute attribute) {
     CppType type = CppTypeMapper.map(rootModel, attribute.getType());
 
@@ -238,13 +238,13 @@ public class CppTypeMapper {
     }
 
     public static ArrayMode map(
-        CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
+        CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
         FArgument argument) {
       return rootModel.getAccessor().getIsSet(argument) ? STD_SET : STD_VECTOR;
     }
 
     public static ArrayMode map(
-        CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModel,
+        CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
         FAttribute argument) {
       return rootModel.getAccessor().getIsSet(argument) ? STD_SET : STD_VECTOR;
     }

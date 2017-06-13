@@ -24,7 +24,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FMethod;
 import org.junit.Test;
@@ -75,7 +75,7 @@ public class FrancaModelLoaderTest {
     assertEquals(1, methods.size());
     FMethod constMethod = methods.get(0);
 
-    CppStubSpec.InterfacePropertyAccessor propertyAccessor = iface.getPropertyAccessor();
+    BaseApiSpec.InterfacePropertyAccessor propertyAccessor = iface.getPropertyAccessor();
     assertTrue(propertyAccessor.getConst(constMethod));
   }
 }

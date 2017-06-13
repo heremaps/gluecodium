@@ -14,8 +14,8 @@ package com.here.ivi.api.generator.common.java;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaMethod;
-import navigation.CppStubSpec;
-import navigation.CppStubSpec.InterfacePropertyAccessor;
+import navigation.BaseApiSpec;
+import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import org.franca.core.franca.FMethod;
 
 /**
@@ -38,7 +38,7 @@ public final class JavaClassMapper {
   }
 
   private static JavaMethod generateMethod(
-      final Interface<CppStubSpec.InterfacePropertyAccessor> api, final FMethod fMethod) {
+      final Interface<BaseApiSpec.InterfacePropertyAccessor> api, final FMethod fMethod) {
     JavaMethod javaMethod = new JavaMethod(fMethod.getName());
 
     // TODO(APIGEN-107): Add body, return type, parameters, visibility ...

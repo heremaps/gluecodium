@@ -16,21 +16,21 @@ import com.here.ivi.api.loader.SpecAccessorFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 
 public class FrancaModel<
-    InterfaceAccessor extends CppStubSpec.InterfacePropertyAccessor,
-    TypeCollectionAccessor extends CppStubSpec.TypeCollectionPropertyAccessor> {
+    InterfaceAccessor extends BaseApiSpec.InterfacePropertyAccessor,
+    TypeCollectionAccessor extends BaseApiSpec.TypeCollectionPropertyAccessor> {
 
   // creates a FrancaModel from the given FModel & FDModel,
   // ensuring that there are PropertyAccessors for each element
   public static <
-          IA extends CppStubSpec.InterfacePropertyAccessor,
-          TA extends CppStubSpec.TypeCollectionPropertyAccessor>
+          IA extends BaseApiSpec.InterfacePropertyAccessor,
+          TA extends BaseApiSpec.TypeCollectionPropertyAccessor>
       FrancaModel<IA, TA> create(
           SpecAccessorFactory<IA, TA> factory,
           FDSpecification spec,
@@ -57,8 +57,8 @@ public class FrancaModel<
   }
 
   public static <
-          IA extends CppStubSpec.InterfacePropertyAccessor,
-          TA extends CppStubSpec.TypeCollectionPropertyAccessor>
+          IA extends BaseApiSpec.InterfacePropertyAccessor,
+          TA extends BaseApiSpec.TypeCollectionPropertyAccessor>
       FrancaModel<IA, TA> joinModels(List<FrancaModel<IA, TA>> models) {
     ImmutableList.Builder<Interface<IA>> interfaces = new ImmutableList.Builder<>();
     ImmutableList.Builder<TypeCollection<TA>> typeCollections = new ImmutableList.Builder<>();

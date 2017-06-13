@@ -22,7 +22,7 @@ import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.*;
 
 public class ConverterGeneratorHelper {
@@ -33,8 +33,8 @@ public class ConverterGeneratorHelper {
 
   public static CppMethod buildConvertMethod(
       FrancaModel<?, ?> model,
-      CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootTypeSource,
-      CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootTypeTarget,
+      CppModelAccessor<? extends BaseApiSpec.TypeCollectionPropertyAccessor> rootTypeSource,
+      CppModelAccessor<? extends BaseApiSpec.TypeCollectionPropertyAccessor> rootTypeTarget,
       FStructType fStruct) {
 
     CppMethod result = new CppMethod();
@@ -110,8 +110,8 @@ public class ConverterGeneratorHelper {
   private static void generateConversions(
       FStructType structType,
       FrancaModel<?, ?> model,
-      CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootTypeSource,
-      CppModelAccessor<? extends CppStubSpec.TypeCollectionPropertyAccessor> rootTypeTarget,
+      CppModelAccessor<? extends BaseApiSpec.TypeCollectionPropertyAccessor> rootTypeSource,
+      CppModelAccessor<? extends BaseApiSpec.TypeCollectionPropertyAccessor> rootTypeTarget,
       String targetNamePrefix,
       String sourceNamePrefix,
       List<CppAssignments.CppAssignment> conversions) {

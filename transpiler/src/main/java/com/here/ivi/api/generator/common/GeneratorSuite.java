@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
-import com.here.ivi.api.generator.baseapi.CppStubGeneratorSuite;
+import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
 import com.here.ivi.api.model.FDHelper;
 import java.lang.reflect.Constructor;
@@ -80,7 +80,7 @@ public interface GeneratorSuite {
       case "android":
         return instantiate(AndroidGeneratorSuite.class, tool);
       case "stub":
-        return instantiate(CppStubGeneratorSuite.class, tool);
+        return instantiate(BaseApiGeneratorSuite.class, tool);
       case "swift":
         return instantiate(SwiftGeneratorSuite.class, tool);
     }

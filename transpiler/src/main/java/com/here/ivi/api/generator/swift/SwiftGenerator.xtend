@@ -22,7 +22,7 @@ import com.here.ivi.api.generator.swift.templates.SwiftFileTemplate
 import java.util.stream.Collectors;
 import com.here.ivi.api.model.Interface
 import java.util.List
-import navigation.CppStubSpec
+import navigation.BaseApiSpec
 import java.util.stream.IntStream
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FMethod
@@ -39,7 +39,7 @@ class SwiftGenerator {
         generatorSuite = suite
     }
 
-    def List<GeneratedFile> generate(Interface<CppStubSpec.InterfacePropertyAccessor> api) {
+    def List<GeneratedFile> generate(Interface<BaseApiSpec.InterfacePropertyAccessor> api) {
         val swiftClass = buildSwiftModel(api)
         val content = SwiftFileTemplate.generate(swiftClass)
 

@@ -12,27 +12,27 @@
 package com.here.ivi.api.loader.baseapi;
 
 import com.here.ivi.api.loader.SpecAccessorFactory;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.deploymodel.core.FDeployedInterface;
 import org.franca.deploymodel.core.FDeployedTypeCollection;
 
-public class CppStubSpecAccessorFactory
+public class BaseApiSpecAccessorFactory
     implements SpecAccessorFactory<
-        CppStubSpec.InterfacePropertyAccessor, CppStubSpec.TypeCollectionPropertyAccessor> {
+        BaseApiSpec.InterfacePropertyAccessor, BaseApiSpec.TypeCollectionPropertyAccessor> {
   @Override
   public String getSpecPath() {
-    return "classpath:/franca/spec/CppStubSpec.fdepl";
+    return "classpath:/franca/spec/BaseApiSpec.fdepl";
   }
 
   @Override
-  public CppStubSpec.InterfacePropertyAccessor createInterfaceAccessor(
+  public BaseApiSpec.InterfacePropertyAccessor createInterfaceAccessor(
       FDeployedInterface fdInterface) {
-    return new CppStubSpec.InterfacePropertyAccessor(fdInterface);
+    return new BaseApiSpec.InterfacePropertyAccessor(fdInterface);
   }
 
   @Override
-  public CppStubSpec.TypeCollectionPropertyAccessor createTypeCollectionAccessor(
+  public BaseApiSpec.TypeCollectionPropertyAccessor createTypeCollectionAccessor(
       FDeployedTypeCollection fdTypeCollection) {
-    return new CppStubSpec.TypeCollectionPropertyAccessor(fdTypeCollection);
+    return new BaseApiSpec.TypeCollectionPropertyAccessor(fdTypeCollection);
   }
 }

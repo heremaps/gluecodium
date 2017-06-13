@@ -19,12 +19,12 @@ import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.common.cpp.StructWithMethodsGenerator;
 import com.here.ivi.api.generator.common.cpp.TypeCollectionGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.baseapi.CppStubSpecAccessorFactory;
+import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.rules.StructMethodRules;
-import com.here.ivi.api.validator.baseapi.CppStubModelValidator;
+import com.here.ivi.api.validator.baseapi.BaseApiModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
 import java.io.IOException;
@@ -36,33 +36,33 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import navigation.CppStubSpec.InterfacePropertyAccessor;
-import navigation.CppStubSpec.TypeCollectionPropertyAccessor;
+import navigation.BaseApiSpec.InterfacePropertyAccessor;
+import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.apache.commons.io.IOUtils;
 
 /**
- * This generator will build all the CppStubs that will have to be implemented on the client
+ * This generator will build all the BaseApis that will have to be implemented on the client
  * side @ref StubGenerator as well as the data used by this stubs @ref TypeCollectionGenerator.
  *
  * <p>It is the underlying generator, that all others depend on, as they will invoke the actual
  * implementation through the Stub interfaces.
  */
-public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
+public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
 
-  private final CppStubSpecAccessorFactory specAccessorFactory;
-  private final CppStubModelValidator validator;
+  private final BaseApiSpecAccessorFactory specAccessorFactory;
+  private final BaseApiModelValidator validator;
   private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
   private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> fml;
   private Collection<File> currentFiles;
 
-  public CppStubGeneratorSuite(Transpiler transpiler) {
-    this(transpiler, new CppStubSpecAccessorFactory(), new CppStubModelValidator());
+  public BaseApiGeneratorSuite(Transpiler transpiler) {
+    this(transpiler, new BaseApiSpecAccessorFactory(), new BaseApiModelValidator());
   }
 
-  public CppStubGeneratorSuite(
+  public BaseApiGeneratorSuite(
       Transpiler transpiler,
-      CppStubSpecAccessorFactory specAccessorFactory,
-      CppStubModelValidator validator) {
+      BaseApiSpecAccessorFactory specAccessorFactory,
+      BaseApiModelValidator validator) {
     super(transpiler);
     this.specAccessorFactory = specAccessorFactory;
     this.validator = validator;
@@ -72,7 +72,7 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
   public List<GeneratedFile> generateFiles() {
     // TODO add model null check
 
-    CppStubNameRules nameRules = new CppStubNameRules(model);
+    BaseApiNameRules nameRules = new BaseApiNameRules(model);
     CppIncludeResolver includeResolver = new CppIncludeResolver(model);
 
     StubGenerator stubGenerator = new StubGenerator(this, nameRules, includeResolver);
@@ -106,7 +106,7 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
   }
 
   private static GeneratedFile copyTarget(String fileName, String targetDir) {
-    InputStream stream = CppStubGeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
+    InputStream stream = BaseApiGeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
 
     if (stream != null) {
       try {
@@ -126,7 +126,7 @@ public class CppStubGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public String getName() {
-    return "com.here.CppStubGenerator";
+    return "com.here.BaseApiGenerator";
   }
 
   @Override

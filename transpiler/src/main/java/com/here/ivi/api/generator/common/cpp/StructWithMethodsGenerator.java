@@ -26,7 +26,7 @@ import com.here.ivi.api.model.rules.DefaultValuesRules;
 import com.here.ivi.api.model.rules.StructMethodRules;
 import java.util.List;
 import java.util.logging.Logger;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.*;
 
 public class StructWithMethodsGenerator extends AbstractCppGenerator {
@@ -153,7 +153,7 @@ public class StructWithMethodsGenerator extends AbstractCppGenerator {
       return;
     }
 
-    CppModelAccessor<? extends CppStubSpec.InterfacePropertyAccessor> rootModelIf =
+    CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModelIf =
         new CppModelAccessor<>(methods, nameRules);
 
     // non default-constructors ...

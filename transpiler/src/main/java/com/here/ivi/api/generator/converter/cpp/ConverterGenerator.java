@@ -24,7 +24,7 @@ import com.here.ivi.api.model.TypeCollection;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.*;
 
 public class ConverterGenerator extends AbstractCppGenerator {
@@ -79,7 +79,7 @@ public class ConverterGenerator extends AbstractCppGenerator {
     return new GeneratedFile(fileContent, outputFileName);
   }
 
-  private <DPA extends CppStubSpec.TypeCollectionPropertyAccessor>
+  private <DPA extends BaseApiSpec.TypeCollectionPropertyAccessor>
       CppNamespace generateConversionNamespace(final TypeCollection<DPA> tc) {
 
     //conversion is done from a cpp type defined using rootTypeA to cpp type

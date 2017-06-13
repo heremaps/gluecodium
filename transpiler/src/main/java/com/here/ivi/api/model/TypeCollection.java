@@ -15,14 +15,14 @@ import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import java.util.List;
 import java.util.stream.Collectors;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.core.FDeployedTypeCollection;
 import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 import org.franca.deploymodel.dsl.fDeploy.FDTypes;
 
 /** FTypeCollection with accessor */
-public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyAccessor>
+public class TypeCollection<Accessor extends BaseApiSpec.TypeCollectionPropertyAccessor>
     implements FrancaElement<Accessor> {
 
   @Override
@@ -70,7 +70,7 @@ public class TypeCollection<Accessor extends CppStubSpec.TypeCollectionPropertyA
    * @return A valid TypeCollectionPropertyAccessor if a match is found, an empty accessor which
    *     will return the defaults otherwise.
    */
-  public static <TypeAccessor extends CppStubSpec.TypeCollectionPropertyAccessor>
+  public static <TypeAccessor extends BaseApiSpec.TypeCollectionPropertyAccessor>
       TypeCollection<TypeAccessor> create(
           SpecAccessorFactory<?, TypeAccessor> accessorFactory,
           FDSpecification spec,

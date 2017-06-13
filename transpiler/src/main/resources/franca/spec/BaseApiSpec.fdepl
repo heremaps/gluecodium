@@ -9,7 +9,7 @@
  *
  */
 
-specification navigation.CppStubSpec
+specification navigation.BaseApiSpec
 {
     for interfaces {
         IsMethodContainer: Boolean (optional, default: false);

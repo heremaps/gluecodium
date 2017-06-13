@@ -9,11 +9,11 @@
  *
  */
 
-import "classpath:/franca/spec/CppStubSpec.fdepl"
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./NavcoreModule.fidl"
 import "./guidance/Guidance.fidl"
 
-define navigation.CppStubSpec for interface navigation.NavcoreModule
+define navigation.BaseApiSpec for interface navigation.NavcoreModule
 {
     method createGuidance {
         Creates = &navigation.guidance.Guidance

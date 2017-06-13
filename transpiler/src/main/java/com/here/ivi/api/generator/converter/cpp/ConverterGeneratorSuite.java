@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.converter.cpp;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.generator.baseapi.CppStubNameRules;
+import com.here.ivi.api.generator.baseapi.BaseApiNameRules;
 import com.here.ivi.api.generator.legacy.LegacyNameRules;
 import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -75,8 +75,8 @@ public class ConverterGeneratorSuite extends AbstractGeneratorSuite {
           }
         };
 
-    CppStubNameRules nameRulesSecond =
-        new CppStubNameRules(this.model) {
+    BaseApiNameRules nameRulesSecond =
+        new BaseApiNameRules(this.model) {
           public List<String> getNamespace(CppModelAccessor<?> modelAccessor) {
             List<String> result = new LinkedList<>();
             result.add(ConverterGenerator.conversionNamespaceName);

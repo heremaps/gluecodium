@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/CppStubSpec.fdepl"
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "../Simple.fidl"
 
-define navigation.CppStubSpec for interface navigation.Simple
+define navigation.BaseApiSpec for interface navigation.Simple
 {
   method sing {
     Const = true
