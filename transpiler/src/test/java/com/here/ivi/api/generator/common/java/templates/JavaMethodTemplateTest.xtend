@@ -60,16 +60,14 @@ public class JavaMethodTemplateTest {
 
   @Test
   def complexMethodGeneration() {
-    val inParamter1 = new JavaParameter(new JavaComplexType("InParamType1"), "firstParam")
-    val inParamter2 = new JavaParameter(new JavaComplexType("InParamType2"), "secondParam")
-    val outParamter = new JavaParameter(new JavaComplexType("OutParamType"), "thirdParam")
+    val parameter1 = new JavaParameter(new JavaComplexType("InParamType1"), "firstParam")
+    val parameter2 = new JavaParameter(new JavaComplexType("InParamType2"), "secondParam")
 
     val javaMethod = new JavaMethod("complexMethod", new JavaComplexType("ComplexType")) => [
       comment = "Method comment"
       visibility = JavaVisibility.PUBLIC
       qualifiers = # { JavaMethod.Qualifier.STATIC }
-      inParameters = #[ inParamter1, inParamter2 ]
-      outParameters = #[ outParamter ]
+      parameters = #[ parameter1, parameter2 ]
       deprecatedComment = "Method is deprecated"
     ]
     val expected = '''
@@ -78,7 +76,7 @@ public class JavaMethodTemplateTest {
        * @deprecated Method is deprecated
        */
       @Deprecated
-      public static ComplexType complexMethod(InParamType1 firstParam, InParamType2 secondParam, OutParamType thirdParam)'''
+      public static ComplexType complexMethod(InParamType1 firstParam, InParamType2 secondParam)'''
 
     val generated = JavaMethodTemplate.signature(javaMethod)
 
@@ -89,7 +87,7 @@ public class JavaMethodTemplateTest {
   def pureSignatureMethodGeneration() {
     val parameter = new JavaParameter(new JavaComplexType("InParamType"), "param")
     val javaMethod = new JavaMethod("someMethod", new JavaComplexType("ReturnType")) => [
-      inParameters = #[ parameter ]
+      parameters = #[ parameter ]
       comment = "Method comment"
     ]
     val expected = "ReturnType someMethod(InParamType param)"
