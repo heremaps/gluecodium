@@ -19,7 +19,7 @@ import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.LinkedList;
 import java.util.List;
-import navigation.CppStubSpec.InterfacePropertyAccessor;
+import navigation.BaseApiSpec.InterfacePropertyAccessor;
 
 final class JavaGenerator {
   private final AndroidGeneratorSuite generatorSuite;

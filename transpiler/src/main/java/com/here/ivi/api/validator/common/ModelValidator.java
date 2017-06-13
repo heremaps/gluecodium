@@ -12,11 +12,11 @@
 package com.here.ivi.api.validator.common;
 
 import com.here.ivi.api.model.FrancaModel;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 
 public interface ModelValidator<
-    IA extends CppStubSpec.InterfacePropertyAccessor,
-    TA extends CppStubSpec.TypeCollectionPropertyAccessor> {
+    IA extends BaseApiSpec.InterfacePropertyAccessor,
+    TA extends BaseApiSpec.TypeCollectionPropertyAccessor> {
 
   boolean validate(FrancaModel<IA, TA> model);
 }

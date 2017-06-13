@@ -12,8 +12,8 @@
 package com.here.ivi.api.loader.java;
 
 import com.here.ivi.api.loader.SpecAccessorFactory;
-import navigation.CppStubSpec.InterfacePropertyAccessor;
-import navigation.CppStubSpec.TypeCollectionPropertyAccessor;
+import navigation.BaseApiSpec.InterfacePropertyAccessor;
+import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.franca.deploymodel.core.FDeployedInterface;
 import org.franca.deploymodel.core.FDeployedTypeCollection;
 

@@ -13,10 +13,10 @@ package com.here.ivi.api.model;
 
 import com.here.ivi.api.generator.common.Version;
 import java.util.List;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.FTypeCollection;
 
-public interface FrancaElement<DPA extends CppStubSpec.IDataPropertyAccessor> {
+public interface FrancaElement<DPA extends BaseApiSpec.IDataPropertyAccessor> {
   String getName();
 
   List<String> getPackage();

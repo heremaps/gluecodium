@@ -20,17 +20,17 @@ import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import java.io.File;
 import java.util.List;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 
-public class CppStubNameRules extends CppDefaultNameRules {
+public class BaseApiNameRules extends CppDefaultNameRules {
 
-  public CppStubNameRules(
+  public BaseApiNameRules(
       FrancaModel<
-              ? extends CppStubSpec.InterfacePropertyAccessor,
-              ? extends CppStubSpec.TypeCollectionPropertyAccessor>
+              ? extends BaseApiSpec.InterfacePropertyAccessor,
+              ? extends BaseApiSpec.TypeCollectionPropertyAccessor>
           model) {
     super(model);
   }

@@ -15,7 +15,7 @@ import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import java.util.List;
 import java.util.stream.Collectors;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.core.FDeployedInterface;
@@ -23,7 +23,7 @@ import org.franca.deploymodel.dsl.fDeploy.FDInterface;
 import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 
 /** FInterface with accessor */
-public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor>
+public class Interface<Accessor extends BaseApiSpec.InterfacePropertyAccessor>
     implements FrancaElement<Accessor> {
   private Interface(FInterface francaInterface, Accessor accessor, ModelInfo model) {
     this.francaInterface = francaInterface;
@@ -84,7 +84,7 @@ public class Interface<Accessor extends CppStubSpec.InterfacePropertyAccessor>
 
   // finds a matching FDInterface for an FInterface, if one is found, creates a valid InterfacePropertyAccessor,
   // otherwise creates an empty accessor that will return the defaults for a spec
-  public static <IA extends CppStubSpec.InterfacePropertyAccessor> Interface<IA> create(
+  public static <IA extends BaseApiSpec.InterfacePropertyAccessor> Interface<IA> create(
       SpecAccessorFactory<IA, ?> f,
       FDSpecification spec,
       ModelInfo info,

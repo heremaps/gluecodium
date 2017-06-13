@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/CppStubSpec.fdepl" // import the deployment specification
+import "classpath:/franca/spec/BaseApiSpec.fdepl" // import the deployment specification
 import "./Constants.fidl" // import the actual Franca interfaces we want to deploy
 
-define navigation.CppStubSpec for typeCollection test.TestConstants
+define navigation.BaseApiSpec for typeCollection test.TestConstants
 {
   enumeration EnumTest {
     IsClass = true

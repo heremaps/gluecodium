@@ -17,7 +17,7 @@ import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.FrancaModel;
 import java.io.File;
 import java.util.Optional;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
@@ -31,7 +31,7 @@ public abstract class CppDefaultNameRules implements CppNameRules {
   }
 
   protected boolean definesStructWithMethods(DefinedBy definer) {
-    Optional<? extends CppStubSpec.IDataPropertyAccessor> accessor =
+    Optional<? extends BaseApiSpec.IDataPropertyAccessor> accessor =
         model.find(definer).map(FrancaElement::getPropertyAccessor);
 
     if (!accessor.isPresent()) {
@@ -39,7 +39,7 @@ public abstract class CppDefaultNameRules implements CppNameRules {
     }
     try {
       //complex structs are defined exclusively inside type collections ...
-      return accessor.get() instanceof CppStubSpec.TypeCollectionPropertyAccessor
+      return accessor.get() instanceof BaseApiSpec.TypeCollectionPropertyAccessor
           && accessor.get().getIsStructDefinition(definer.type);
     } catch (NullPointerException e) {
       //property is optional, if not set this could cause a null pointer exception

@@ -9,38 +9,38 @@
  *
  */
 
-import "classpath:/franca/spec/CppStubSpec.fdepl"
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./GeoCoordinates.fidl"
 import "./GeoLocation.fidl"
 import "./NetworkProxy.fidl"
 import "./SatelliteInfo.fidl"
 
-define navigation.CppStubSpec for interface navigation.GeoCoordinatesMethods
+define navigation.BaseApiSpec for interface navigation.GeoCoordinatesMethods
 {
   IsMethodContainer = true
 }
-define navigation.CppStubSpec for typeCollection navigation.GeoCoordinates
+define navigation.BaseApiSpec for typeCollection navigation.GeoCoordinates
 {
   IsStructDefinition = true
   BelongingMethodContainer = &navigation.GeoCoordinatesMethods
 }
 
-define navigation.CppStubSpec for typeCollection navigation.GeoLocation
+define navigation.BaseApiSpec for typeCollection navigation.GeoLocation
 {
   IsStructDefinition = true
 }
 
-define navigation.CppStubSpec for typeCollection navigation.SatelliteInfo
+define navigation.BaseApiSpec for typeCollection navigation.SatelliteInfo
 {
   IsStructDefinition = true
 }
 
-define navigation.CppStubSpec for interface navigation.NetworkProxyMethods
+define navigation.BaseApiSpec for interface navigation.NetworkProxyMethods
 {
   IsMethodContainer = true
 }
 
-define navigation.CppStubSpec for typeCollection navigation.NetworkProxy
+define navigation.BaseApiSpec for typeCollection navigation.NetworkProxy
 {
   IsStructDefinition = true
   BelongingMethodContainer = &navigation.NetworkProxyMethods

@@ -71,11 +71,11 @@ def buildDeployModelConfiguration(fdeplFile, output) {
     }
 }
 
-task buildCppStubDeployModel(type: JavaExec) {
-    configure buildDeployModelConfiguration('franca/spec/CppStubSpec.fdepl', fdeplOutput)
+task buildBaseApiDeployModel(type: JavaExec) {
+    configure buildDeployModelConfiguration('franca/spec/BaseApiSpec.fdepl', fdeplOutput)
 }
-generateXtext.dependsOn(buildCppStubDeployModel)
-clean.dependsOn(cleanBuildCppStubDeployModel)
+generateXtext.dependsOn(buildBaseApiDeployModel)
+clean.dependsOn(cleanBuildBaseApiDeployModel)
 
 task buildLegacyDeployModel(type: JavaExec) {
     configure buildDeployModelConfiguration('franca/spec/LegacySpec.fdepl', fdeplOutput)

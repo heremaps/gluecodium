@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/CppStubSpec.fdepl"
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./RoutingTypes.fidl"
 
-define navigation.CppStubSpec for typeCollection navigation.routing.RoutingTypes
+define navigation.BaseApiSpec for typeCollection navigation.routing.RoutingTypes
 {
   array RouteAlternatives {
     IsSet = true

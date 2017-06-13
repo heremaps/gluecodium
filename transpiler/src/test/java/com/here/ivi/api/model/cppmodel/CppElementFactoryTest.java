@@ -21,7 +21,7 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 import com.here.ivi.api.generator.common.CppElementFactory;
 import com.here.ivi.api.model.InstanceHelper;
-import navigation.CppStubSpec;
+import navigation.BaseApiSpec;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FType;
@@ -36,7 +36,7 @@ import org.mockito.Mock;
 
 @RunWith(JUnit4.class)
 public class CppElementFactoryTest {
-  @Mock private CppModelAccessor<CppStubSpec.InterfacePropertyAccessor> rootModel;
+  @Mock private CppModelAccessor<BaseApiSpec.InterfacePropertyAccessor> rootModel;
   @Mock private FTypeDef definition;
   @Mock private FTypeRef reference;
   @Mock private FAnnotationBlock annotationBlock;

@@ -27,9 +27,9 @@ import org.franca.core.franca.*;
 
 /**
  * This generator will create the cpp data types for any type mentioned in a typeCollection. The cpp
- * data structs, enums and typedefs are then used by the CppStubGenerator.
+ * data structs, enums and typedefs are then used by the BaseApiGenerator.
  *
- * <p>Individual generators on top of the CppStubGenerator can then decide to either wrap these
+ * <p>Individual generators on top of the BaseApiGenerator can then decide to either wrap these
  * types (e.g. Java + JNI, Swift, ...) or use them directly (traditional legacy).
  */
 public class TypeCollectionGenerator extends AbstractCppGenerator {

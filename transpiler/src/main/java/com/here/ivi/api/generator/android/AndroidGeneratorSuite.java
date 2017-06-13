@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.generator.baseapi.CppStubNameRules;
+import com.here.ivi.api.generator.baseapi.BaseApiNameRules;
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.Version;
@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import navigation.CppStubSpec.InterfacePropertyAccessor;
-import navigation.CppStubSpec.TypeCollectionPropertyAccessor;
+import navigation.BaseApiSpec.InterfacePropertyAccessor;
+import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 
 public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
   public static final String GENERATOR_NAMESPACE = "android";
@@ -89,7 +89,7 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
 
   @Override
   public List<GeneratedFile> generateFiles() {
-    CppNameRules cppNameRules = new CppStubNameRules(model);
+    CppNameRules cppNameRules = new BaseApiNameRules(model);
     CppIncludeResolver cppIncludeResolver = new CppIncludeResolver(model);
 
     // Java generator needs:

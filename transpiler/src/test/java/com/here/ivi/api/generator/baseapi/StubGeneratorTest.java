@@ -19,11 +19,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.generator.baseapi.CppStubGeneratorSuite;
-import com.here.ivi.api.generator.baseapi.CppStubNameRules;
+import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
+import com.here.ivi.api.generator.baseapi.BaseApiNameRules;
 import com.here.ivi.api.generator.baseapi.StubGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.baseapi.CppStubSpecAccessorFactory;
+import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.ModelHelper;
@@ -65,7 +65,7 @@ public class StubGeneratorTest {
     URL testFidl = ClassLoader.getSystemClassLoader().getResource(fileName);
     Collection<File> testFiles = Arrays.asList(new File(testFidl.toURI()));
 
-    CppStubSpecAccessorFactory specAccessorFactory = new CppStubSpecAccessorFactory();
+    BaseApiSpecAccessorFactory specAccessorFactory = new BaseApiSpecAccessorFactory();
     FrancaModelLoader<?, ?> francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
 
@@ -79,12 +79,12 @@ public class StubGeneratorTest {
   }
 
   private StubGenerator createStubGeneratorForTest(FrancaModel<?, ?> model) throws IOException {
-    CppStubGeneratorSuite suite = mock(CppStubGeneratorSuite.class);
+    BaseApiGeneratorSuite suite = mock(BaseApiGeneratorSuite.class);
     Transpiler transpiler = mock(Transpiler.class);
     when(suite.getTool()).thenReturn(transpiler);
     when(transpiler.resolveRelativeToRootPath(anyString())).thenReturn("output.test");
 
-    CppStubNameRules nameRules = new CppStubNameRules(model);
+    BaseApiNameRules nameRules = new BaseApiNameRules(model);
     CppIncludeResolver includeResolver = new CppIncludeResolver(model);
 
     return new StubGenerator(suite, nameRules, includeResolver);
