@@ -21,7 +21,7 @@ import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.List;
 import org.franca.core.franca.*;
 
-public final class TypeCollectionMapper implements AbstractCppModelMapper {
+public final class TypeCollectionMapper extends AbstractCppModelMapper {
 
   private final CppNameRules nameRules;
 
@@ -78,7 +78,7 @@ public final class TypeCollectionMapper implements AbstractCppModelMapper {
     }
 
     List<CppNamespace> packageNs =
-        CppGeneratorHelper.packageToCppNamespace(
+        packageToCppNamespace(
             nameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection)));
 
     // ensure to not create empty namespaces

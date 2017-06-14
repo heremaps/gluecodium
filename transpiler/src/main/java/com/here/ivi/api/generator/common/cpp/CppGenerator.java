@@ -19,7 +19,7 @@ import com.here.ivi.api.model.cppmodel.CppNamespace;
 
 public class CppGenerator {
 
-  protected final CppIncludeResolver includeResolver;
+  private final CppIncludeResolver includeResolver;
 
   public CppGenerator(CppIncludeResolver includeResolver) {
     this.includeResolver = includeResolver;
@@ -28,17 +28,16 @@ public class CppGenerator {
   public GeneratedFile generateCode(
       CppNamespace cppModel, String outputFileName, CharSequence copyrightNotice) {
 
-    if (cppModel.isEmpty()) {
+    if (cppModel == null || cppModel.isEmpty()) {
       return null;
     }
 
     // find included files and resolve relative to generated path
     includeResolver.resolveLazyIncludes(cppModel, outputFileName);
 
-    Object innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), cppModel);
-    String fileContent =
-        CppCommentHeaderTemplate.generate(copyrightNotice, innerContent).toString();
+    CharSequence headerContent = CppCommentHeaderTemplate.generate(copyrightNotice);
+    CharSequence innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), cppModel);
 
-    return new GeneratedFile(fileContent, outputFileName);
+    return new GeneratedFile(headerContent.toString() + innerContent.toString(), outputFileName);
   }
 }
