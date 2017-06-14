@@ -14,9 +14,7 @@ package com.here.ivi.api.model.swift
 class SwiftMethodParameter {
 
     new(String interfaceName, SwiftType type) {
-        this.interfaceName = interfaceName
-        this.type = type
-        this.variableName = ""
+        this(interfaceName, type, null)
     }
 
     new(String interfaceName, SwiftType type, String variableName) {
@@ -25,9 +23,17 @@ class SwiftMethodParameter {
         this.variableName = variableName
     }
 
+    def getVariableName() {
+        if (variableName === null) interfaceName else variableName
+    }
+
+    def hasDifferentVariableName() {
+        variableName != null
+    }
+
     public String interfaceName
     public SwiftType type
-    public String variableName
+    final private String variableName
 }
 
 class SwiftMethod {

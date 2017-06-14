@@ -51,7 +51,8 @@ class SwiftGenerator {
         var resultingClass = new SwiftClass(className) => [
             // TODO use own objective-c comment parser
             comment = StubCommentParser.parse(iface.getFrancaInterface()).getMainBodyText() ?: ""
-            methods = iface.getFrancaInterface().getMethods().stream().map([constructMethod]).collect(Collectors.toList())
+            methods = iface.getFrancaInterface().getMethods().stream().map([constructMethod])
+                      .collect(Collectors.toList())
         ]
         return resultingClass;
     }
@@ -63,7 +64,7 @@ class SwiftGenerator {
         } else {
             val params = IntStream.range(0, method.getInArgs().size()).boxed().map([
                 val arg = method.getInArgs.get(it)
-                return new SwiftMethodParameter(arg.name, mapType(arg))
+                return new SwiftMethodParameter(arg.name, SwiftTypeMapper.mapType(arg))
             ]).collect(Collectors.toList())
 
             return new SwiftMethod(method.name, params) => [
@@ -73,11 +74,6 @@ class SwiftGenerator {
     }
 
     def constructMethodReturnType(FMethod method) {
-        // TODO Wrap multiple return values and/or error code with subsequemt version of Hello World milestone
-        return method.getOutArgs.stream.findFirst().map([mapType]).orElse(new SwiftType("void"))
-    }
-
-    def mapType(FArgument argument) {
-        return new SwiftType("NSString", SwiftType.Subtype.POINTER)
+        return SwiftTypeMapper.mapReturnValue(method);
     }
 }

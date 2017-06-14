@@ -46,7 +46,6 @@ class SwiftType {
     public Subtype subtype
     final public String name
     public String templatedTypeName
-    public String documentation
     public SwiftType blockReturnType
     public SwiftType[] blockParameters
     public Boolean isConst

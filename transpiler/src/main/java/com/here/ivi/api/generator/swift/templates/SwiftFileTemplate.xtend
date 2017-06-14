@@ -44,7 +44,7 @@ class SwiftFileTemplate {
     «ENDFOR»
         «FOR method : swiftClass.methods»
                 «generateComment(method.comment)»
-                «generateMethodHeader(method)»
+                «generateMethod(swiftClass, method)»
         «ENDFOR»
     }
     '''
@@ -92,17 +92,35 @@ class SwiftFileTemplate {
     }
 
     def static generateMethodParam(SwiftMethodParameter methodParameter) {
-        val variableName = if (methodParameter.variableName.empty) "" else ''' «methodParameter.variableName»'''
+        val variableName = if (methodParameter.hasDifferentVariableName) ''' «methodParameter.variableName»'''
         '''«methodParameter.interfaceName»«variableName»: «generateTypeDefinition(methodParameter.type)»'''
     }
 
-    def static generateMethodHeader(SwiftMethod method) {
-        val returnType = if (SwiftType.VOID.equals(method.returnType)) '''''' else ''' -> «generateTypeDefinition(method.returnType)»'''
+    def static generateMethod(SwiftClass cl, SwiftMethod method) {
+        val returnType = if (SwiftType.VOID.equals(method.returnType)) ''''''
+                         else ''' -> «generateTypeDefinition(method.returnType)»'''
         val parameters = '''«FOR param: method.parameters SEPARATOR ", "»«generateMethodParam(param)»«ENDFOR»'''
         val visibility = if (method.isStatic) '''static''' else '''public'''
         '''
         «visibility» func «method.name»(«parameters»)«returnType» {
+            «generateCBridgeCall(cl, method)»
         }
+        '''
+    }
+
+    def static generateCBridgeCall(SwiftClass cl, SwiftMethod method) {
+        '''
+        «FOR param: method.parameters»
+            «convertParameter(param)»
+        «ENDFOR»
+        return «SwiftTypeConversionTemplate.convertCToSwift(
+                method.returnType,
+                '''«cl.name»_«method.name»(«FOR param: method.parameters SEPARATOR ", "»c_«param.variableName»«ENDFOR»)''')»'''
+    }
+
+    def static convertParameter(SwiftMethodParameter parameter) {
+        '''
+        let c_«parameter.variableName» = «SwiftTypeConversionTemplate.convertSwiftToC(parameter.type, parameter.variableName)»
         '''
     }
 }
