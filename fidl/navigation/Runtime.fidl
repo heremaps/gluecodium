@@ -44,7 +44,7 @@ interface Runtime {
             <** @description: The Runtime object created. **>
             Runtime.Instance runtime
         }
-        <** @description: ErrorNone on success, or another error code otherwise. **>
+        <** @description: None on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode
     }
 
@@ -58,7 +58,7 @@ interface Runtime {
             <** @description: The Runtime object created. **>
             Runtime.Instance runtime
         }
-        <** @description: ErrorNone on success, or another error code otherwise. **>
+        <** @description: None on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode
     }
 
@@ -76,7 +76,7 @@ interface Runtime {
             <** @description: The Runtime object created. **>
             Runtime.Instance runtime
         }
-        <** @description: ErrorNone on success, or another error code otherwise. **>
+        <** @description: None on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode
     }
 
@@ -97,7 +97,7 @@ interface Runtime {
     method shutdown {
         in {}
         out {}
-        <** @description: ErrorNone on success, or another error code otherwise. **>
+        <** @description: None on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode
     }
 
@@ -108,7 +108,7 @@ interface Runtime {
             <** @description: true, if shutdown is done. **>
             Boolean done
         }
-        <** @description: ErrorNone on success, or another error code otherwise. **>
+        <** @description: None on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode
     }
 
@@ -116,7 +116,7 @@ interface Runtime {
     method resume {
         in {}
         out {}
-        <** @description: ErrorNone on success, or another error code otherwise. **>
+        <** @description: None on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode
     }
 
@@ -124,7 +124,7 @@ interface Runtime {
     method stop {
         in {}
         out {}
-        <** @description: ErrorNone on success, or another error code otherwise. **>
+        <** @description: None on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode
     }
 
@@ -135,7 +135,7 @@ interface Runtime {
             ModuleFactory.ModuleFactoryInstance moduleFactory
         }
         out {}
-        <** @description: ErrorNone on success, or another error code otherwise. **>
+        <** @description: None on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode
     }
 
@@ -150,7 +150,7 @@ interface Runtime {
             <** @description: The created Module **>
             Module.ModuleInstance module
         }
-        <** @description: ErrorNone on success, or another error code otherwise. **>
+        <** @description: None on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode
     }
 
