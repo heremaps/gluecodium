@@ -18,7 +18,7 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeRef;
 
 public class SwiftTypeMapper {
-  public static SwiftType mapType(FArgument argument) {
+  public static SwiftType mappedType(FArgument argument) {
     return mapPredefined(argument.getType());
   }
 
@@ -31,13 +31,13 @@ public class SwiftTypeMapper {
     }
   }
 
-  public static SwiftType mapReturnValue(FMethod method) {
+  public static SwiftType mappedReturnValue(FMethod method) {
     // TODO Wrap multiple return values and/or error code with subsequent version of Hello World milestone
     return method
         .getOutArgs()
         .stream()
         .findFirst()
-        .map(SwiftTypeMapper::mapType)
+        .map(SwiftTypeMapper::mappedType)
         .orElse(new SwiftType("void"));
   }
 }

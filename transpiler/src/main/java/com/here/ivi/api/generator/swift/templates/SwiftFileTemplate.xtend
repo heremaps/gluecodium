@@ -55,7 +55,7 @@ class SwiftFileTemplate {
         }
         return '''
             /**
-             «comment»
+             * «comment»
              */
         '''
     }

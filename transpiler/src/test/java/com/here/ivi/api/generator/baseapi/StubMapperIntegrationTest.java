@@ -14,22 +14,16 @@ package com.here.ivi.api.generator.baseapi;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.loader.FrancaModelLoader;
+import com.here.ivi.api.generator.utils.LoadModelHelper;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Interface;
-import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -39,8 +33,10 @@ public class StubMapperIntegrationTest {
 
   @Test
   public void generateStubForMethodsWithoutErrorCode() throws URISyntaxException, IOException {
-    FrancaModel<?, ?> model = readInModel("baseapi/fidl/test/MethodsWithoutError.fidl");
-    Interface<?> iface = extractInterfaceFromModel(model);
+    FrancaModel<?, ?> model =
+        LoadModelHelper.readInFrancaModel(
+            "baseapi/fidl/test/MethodsWithoutError.fidl", new BaseApiSpecAccessorFactory());
+    Interface<?> iface = LoadModelHelper.extractNthInterfaceFromModel(model, 0);
     StubMapper stubGenerator = createStubGeneratorForTest();
 
     CppNamespace actualContent = stubGenerator.mapFrancaModelToCppModel(iface);
@@ -73,23 +69,6 @@ public class StubMapperIntegrationTest {
     assertEquals(method.inParameters.get(0).type.name, "std::string");
     assertEquals(method.inParameters.get(0).name, "input");
     assertEquals(method.returnType.name, "MethodTwoOutParamsResult");
-  }
-
-  private FrancaModel<?, ?> readInModel(String fileName) throws URISyntaxException {
-    URL testFidl = ClassLoader.getSystemClassLoader().getResource(fileName);
-    Collection<File> testFiles = Arrays.asList(new File(testFidl.toURI()));
-
-    BaseApiSpecAccessorFactory specAccessorFactory = new BaseApiSpecAccessorFactory();
-    FrancaModelLoader<?, ?> francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
-    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
-
-    return francaModelLoader.load(specAccessorFactory.getSpecPath(), testFiles);
-  }
-
-  private Interface<?> extractInterfaceFromModel(FrancaModel<?, ?> model) {
-    List<? extends Interface<?>> interfaces = model.getInterfaces();
-    assertEquals(1, interfaces.size());
-    return interfaces.get(0);
   }
 
   private StubMapper createStubGeneratorForTest() throws IOException {

@@ -29,7 +29,6 @@ final class SwiftClass {
 
     final public String name
     public String comment
-    public String prefix
     final public String parentClass
     public String[] implementsProtocols
     public SwiftProperty[] properties
