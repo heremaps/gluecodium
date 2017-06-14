@@ -16,12 +16,17 @@ import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.Version;
-import com.here.ivi.api.generator.common.cpp.TypeCollectionGenerator;
+import com.here.ivi.api.generator.common.cpp.AbstractCppModelMapper;
+import com.here.ivi.api.generator.common.cpp.CppGenerator;
+import com.here.ivi.api.generator.common.cpp.CppGeneratorHelper;
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.ModelHelper;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
+import com.here.ivi.api.model.cppmodel.CppNamespace;
 import com.here.ivi.api.validator.baseapi.BaseApiModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
@@ -39,7 +44,7 @@ import org.apache.commons.io.IOUtils;
 
 /**
  * This generator will build all the BaseApis that will have to be implemented on the client
- * side @ref StubGenerator as well as the data used by this stubs @ref TypeCollectionGenerator.
+ * side @ref StubMapper as well as the data used by this stubs @ref TypeCollectionMapper.
  *
  * <p>It is the underlying generator, that all others depend on, as they will invoke the actual
  * implementation through the Stub interfaces.
@@ -72,15 +77,24 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
     BaseApiNameRules nameRules = new BaseApiNameRules();
     CppIncludeResolver includeResolver = new CppIncludeResolver(model);
 
-    StubGenerator stubGenerator = new StubGenerator(this, nameRules, includeResolver);
-    TypeCollectionGenerator typeCollectionGenerator =
-        new TypeCollectionGenerator(this, nameRules, includeResolver);
+    CppGenerator generator = new CppGenerator(includeResolver);
+    TypeCollectionMapper typeCollectionMapper = new TypeCollectionMapper(nameRules);
+    StubMapper stubMapper = new StubMapper(nameRules);
 
     // process all interfaces and type collections
     Stream<GeneratedFile> generatorStreams =
         Stream.concat(
-            model.getInterfaces().stream().map(stubGenerator::generate),
-            model.getTypeCollections().stream().map(typeCollectionGenerator::generate));
+            model
+                .getInterfaces()
+                .stream()
+                .map(iface -> generateFromFrancaElement(iface, nameRules, stubMapper, generator)),
+            model
+                .getTypeCollections()
+                .stream()
+                .map(
+                    typeCollection ->
+                        generateFromFrancaElement(
+                            typeCollection, nameRules, typeCollectionMapper, generator)));
 
     List<GeneratedFile> list =
         generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
@@ -91,6 +105,18 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
     list.add(copyTarget("cpp/internal/ListenerVector.h", targetDir));
 
     return list;
+  }
+
+  private GeneratedFile generateFromFrancaElement(
+      FrancaElement<?> francaElement,
+      CppNameRules nameRules,
+      AbstractCppModelMapper mapper,
+      CppGenerator generator) {
+    String fileName = nameRules.getHeaderPath(francaElement);
+    CppNamespace cppModel = mapper.mapFrancaModelToCppModel(francaElement);
+    CharSequence copyRightNotice =
+        CppGeneratorHelper.generateGeneratorNotice(this, francaElement, fileName);
+    return generator.generateCode(cppModel, fileName, copyRightNotice);
   }
 
   private static GeneratedFile copyTarget(String fileName, String targetDir) {

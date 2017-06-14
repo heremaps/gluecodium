@@ -9,58 +9,28 @@
  *
  */
 
-package com.here.ivi.api.generator.common.cpp;
+package com.here.ivi.api.generator.baseapi;
 
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.baseapi.StubCommentParser;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.cpp.templates.CppCommentHeaderTemplate;
-import com.here.ivi.api.generator.common.cpp.templates.CppDelegatorTemplate;
+import com.here.ivi.api.generator.common.cpp.*;
 import com.here.ivi.api.model.DefinedBy;
-import com.here.ivi.api.model.TypeCollection;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.List;
 import org.franca.core.franca.*;
 
-/**
- * This generator will create the cpp data types for any type mentioned in a typeCollection. The cpp
- * data structs, enums and typedefs are then used by the BaseApiGenerator.
- *
- * <p>Individual generators on top of the BaseApiGenerator can then decide to either wrap these
- * types (e.g. Java + JNI, Swift, ...) or use them directly (traditional legacy).
- */
-public class TypeCollectionGenerator extends AbstractCppGenerator {
+public final class TypeCollectionMapper implements AbstractCppModelMapper {
 
-  public TypeCollectionGenerator(
-      GeneratorSuite suite, CppNameRules nameRules, CppIncludeResolver includeResolver) {
+  private final CppNameRules nameRules;
 
-    super(suite, nameRules, includeResolver);
+  public TypeCollectionMapper(CppNameRules nameRules) {
+    this.nameRules = nameRules;
   }
 
-  public GeneratedFile generate(TypeCollection<?> typeCollection) {
-    CppNamespace model = buildCppModel(typeCollection);
-
-    if (model.isEmpty()) {
-      return null;
-    }
-
-    String outputFile = nameRules.getHeaderPath(typeCollection);
-
-    // find included files and resolve relative to generated path
-    includeResolver.resolveLazyIncludes(model, outputFile);
-
-    Object generatorNotice = getGeneratorNotice(typeCollection, outputFile);
-    Object innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), model);
-    String fileContent =
-        CppCommentHeaderTemplate.generate(generatorNotice, innerContent).toString();
-
-    return new GeneratedFile(fileContent, outputFile);
-  }
-
-  private CppNamespace buildCppModel(TypeCollection<?> typeCollection) {
+  @Override
+  public CppNamespace mapFrancaModelToCppModel(FrancaElement<?> typeCollection) {
 
     CppNamespace result =
         new CppNamespace(nameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection()));
