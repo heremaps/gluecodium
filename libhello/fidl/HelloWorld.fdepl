@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/CppStubSpec.fdepl"
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./HelloWorld.fidl"
 
-define navigation.CppStubSpec for interface libhello.HelloWorld
+define navigation.BaseApiSpec for interface libhello.HelloWorld
 {
     method helloWorldMethod {
         Static = true
