@@ -27,7 +27,7 @@ interface NavcoreModuleFactory extends ModuleFactory {
             <** @description: The factory object created. **>
             NavcoreModuleFactory.NavcoreModuleFactoryInstance factory
         }
-        <** @description: ErrorNone on success, or another error code otherwise. **>
+        <** @description: None on success, or another error code otherwise. **>
         error NavigationTypes.ErrorCode
     }
 
