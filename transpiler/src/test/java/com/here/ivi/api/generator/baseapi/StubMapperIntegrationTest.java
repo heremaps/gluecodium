@@ -11,51 +11,68 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.ModelHelper;
-import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
+import com.here.ivi.api.model.cppmodel.CppClass;
+import com.here.ivi.api.model.cppmodel.CppMethod;
+import com.here.ivi.api.model.cppmodel.CppNamespace;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public class StubGeneratorIntegrationTest {
-
-  private final String NO_OUT_PARAMS_METHOD_SIGNATURE =
-      "void methodNoOutParams( const std::string& input )";
-  private final String ONE_OUT_PARAM_METHOD_SIGNATURE =
-      "std::string methodOneOutParam( const std::string& input )";
-  private final String TWO_OUT_PARAMS_METHOD_SIGNATURE =
-      "MethodTwoOutParamsResult methodTwoOutParams( const std::string& input )";
-  private final String RESULT_STRUCT_DECLARATION = "struct MethodTwoOutParamsResult";
+@RunWith(JUnit4.class)
+public class StubMapperIntegrationTest {
 
   @Test
   public void generateStubForMethodsWithoutErrorCode() throws URISyntaxException, IOException {
     FrancaModel<?, ?> model = readInModel("baseapi/fidl/test/MethodsWithoutError.fidl");
     Interface<?> iface = extractInterfaceFromModel(model);
-    StubGenerator stubGenerator = createStubGeneratorForTest(model);
+    StubMapper stubGenerator = createStubGeneratorForTest();
 
-    String actualContent = stubGenerator.generate(iface).content.toString();
+    CppNamespace actualContent = stubGenerator.mapFrancaModelToCppModel(iface);
 
-    assertThat(actualContent, containsString(NO_OUT_PARAMS_METHOD_SIGNATURE));
-    assertThat(actualContent, containsString(ONE_OUT_PARAM_METHOD_SIGNATURE));
-    assertThat(actualContent, containsString(RESULT_STRUCT_DECLARATION));
-    assertThat(actualContent, containsString(TWO_OUT_PARAMS_METHOD_SIGNATURE));
+    assertEquals(actualContent.name, "test");
+    assertEquals(actualContent.members.size(), 1);
+    assertTrue(actualContent.members.get(0) instanceof CppClass);
+    assertTrue(actualContent.members.get(0) instanceof CppClass);
+    CppClass actualClass = (CppClass) actualContent.members.get(0);
+    assertEquals(actualClass.methods.size(), 3);
+
+    Iterator<CppMethod> iterator = actualClass.methods.iterator();
+    CppMethod method = iterator.next();
+    assertEquals(method.name, "methodNoOutParams");
+    assertEquals(method.inParameters.size(), 1);
+    assertEquals(method.inParameters.get(0).type.name, "std::string");
+    assertEquals(method.inParameters.get(0).name, "input");
+    assertEquals(method.returnType.name, "void");
+
+    method = iterator.next();
+    assertEquals(method.name, "methodOneOutParam");
+    assertEquals(method.inParameters.size(), 1);
+    assertEquals(method.inParameters.get(0).type.name, "std::string");
+    assertEquals(method.inParameters.get(0).name, "input");
+    assertEquals(method.returnType.name, "std::string");
+
+    method = iterator.next();
+    assertEquals(method.name, "methodTwoOutParams");
+    assertEquals(method.inParameters.size(), 1);
+    assertEquals(method.inParameters.get(0).type.name, "std::string");
+    assertEquals(method.inParameters.get(0).name, "input");
+    assertEquals(method.returnType.name, "MethodTwoOutParamsResult");
   }
 
   private FrancaModel<?, ?> readInModel(String fileName) throws URISyntaxException {
@@ -75,15 +92,8 @@ public class StubGeneratorIntegrationTest {
     return interfaces.get(0);
   }
 
-  private StubGenerator createStubGeneratorForTest(FrancaModel<?, ?> model) throws IOException {
-    BaseApiGeneratorSuite suite = mock(BaseApiGeneratorSuite.class);
-    Transpiler transpiler = mock(Transpiler.class);
-    when(suite.getTool()).thenReturn(transpiler);
-    when(transpiler.resolveRelativeToRootPath(anyString())).thenReturn("output.test");
-
+  private StubMapper createStubGeneratorForTest() throws IOException {
     BaseApiNameRules nameRules = new BaseApiNameRules();
-    CppIncludeResolver includeResolver = new CppIncludeResolver(model);
-
-    return new StubGenerator(suite, nameRules, includeResolver);
+    return new StubMapper(nameRules);
   }
 }

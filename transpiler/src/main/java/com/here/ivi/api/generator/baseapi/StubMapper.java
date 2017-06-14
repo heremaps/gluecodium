@@ -17,26 +17,15 @@ import com.here.ivi.api.generator.baseapi.templates.NotifierBodyTemplate;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.common.CommentFormatter;
 import com.here.ivi.api.generator.common.CppElementFactory;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.generator.common.cpp.AbstractCppGenerator;
-import com.here.ivi.api.generator.common.cpp.AttributeAccessorMode;
-import com.here.ivi.api.generator.common.cpp.CppGeneratorHelper;
-import com.here.ivi.api.generator.common.cpp.CppLibraryIncludes;
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.generator.common.cpp.CppNamespaceUtils;
-import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator;
-import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
-import com.here.ivi.api.generator.common.cpp.templates.CppCommentHeaderTemplate;
-import com.here.ivi.api.generator.common.cpp.templates.CppDelegatorTemplate;
+import com.here.ivi.api.generator.common.cpp.*;
 import com.here.ivi.api.model.DefinedBy;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppElements;
 import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppInheritance;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;
@@ -49,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
@@ -63,37 +51,21 @@ import org.franca.core.franca.FTypeDef;
 /**
  * This generator will create the stub interfaces that will then be used by the other generators.
  */
-public class StubGenerator extends AbstractCppGenerator {
+public class StubMapper implements AbstractCppModelMapper {
 
-  private static Logger logger = java.util.logging.Logger.getLogger(StubGenerator.class.getName());
+  private final CppNameRules nameRules;
 
-  public StubGenerator(
-      GeneratorSuite suite, CppNameRules nameRules, CppIncludeResolver includeResolver) {
-
-    super(suite, nameRules, includeResolver);
+  public StubMapper(CppNameRules nameRules) {
+    this.nameRules = nameRules;
   }
 
-  public GeneratedFile generate(Interface<?> iface) {
-    CppNamespace model = buildCppModel(iface);
+  public CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaElement) {
 
-    if (model.isEmpty()) {
+    if (!(francaElement instanceof Interface<?>)) {
       return null;
     }
 
-    String outputFile = nameRules.getHeaderPath(iface);
-
-    // find included files and resolve relative to generated path
-    includeResolver.resolveLazyIncludes(model, outputFile);
-
-    CharSequence generatorNotice = getGeneratorNotice(iface, outputFile);
-    CharSequence innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), model);
-    String fileContent =
-        CppCommentHeaderTemplate.generate(generatorNotice, innerContent).toString();
-
-    return new GeneratedFile(fileContent, outputFile);
-  }
-
-  private CppNamespace buildCppModel(Interface<?> iface) {
+    Interface<?> iface = (Interface<?>) francaElement;
     List<CppNamespace> packageNs = CppGeneratorHelper.packageToCppNamespace(iface.getPackage());
 
     // add to innermost namespace
