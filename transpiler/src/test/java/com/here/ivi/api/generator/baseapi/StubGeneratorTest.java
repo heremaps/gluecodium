@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.cppStub;
+package com.here.ivi.api.generator.baseapi;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
@@ -19,9 +19,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.Transpiler;
-import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
-import com.here.ivi.api.generator.baseapi.BaseApiNameRules;
-import com.here.ivi.api.generator.baseapi.StubGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaModel;
@@ -49,7 +46,7 @@ public class StubGeneratorTest {
 
   @Test
   public void generateStubForMethodsWithoutErrorCode() throws URISyntaxException, IOException {
-    FrancaModel<?, ?> model = readInModel("cppstub/fidl/test/MethodsWithoutError.fidl");
+    FrancaModel<?, ?> model = readInModel("baseapi/fidl/test/MethodsWithoutError.fidl");
     Interface<?> iface = extractInterfaceFromModel(model);
     StubGenerator stubGenerator = createStubGeneratorForTest(model);
 
