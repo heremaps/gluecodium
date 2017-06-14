@@ -13,20 +13,18 @@ package com.here.ivi.api.model.swift
 
 final class SwiftClass {
 
-    static final private String BASE_CLASS = "NSObject"
-
     new(String name, String parentClass) {
         this.name = name
         this.parentClass = parentClass
         this.implementsProtocols = #{}
         this.properties = #{}
-        this.includes = #{}
+        this.imports = #{}
         this.methods = #{}
         this.comment = ""
     }
 
     new(String name) {
-        this(name, BASE_CLASS)
+        this(name, null)
     }
 
     final public String name
@@ -35,6 +33,6 @@ final class SwiftClass {
     final public String parentClass
     public String[] implementsProtocols
     public SwiftProperty[] properties
-    public SwiftIncludes[] includes
+    public String[] imports
     public SwiftMethod[] methods
 }

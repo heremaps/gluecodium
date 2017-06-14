@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.swift.templates
 
 import com.here.ivi.api.model.swift.SwiftClass
-import com.here.ivi.api.model.swift.SwiftIncludes
 import com.here.ivi.api.model.swift.SwiftProperty
 import com.here.ivi.api.model.swift.SwiftType
 import com.here.ivi.api.model.swift.SwiftMethod
@@ -33,8 +32,8 @@ class SwiftFileTemplate {
     //  of such agreement, the use of the software is not allowed.
     //
     //  Automatically generated. Do not modify. Your changes will be lost.
-    «FOR importFile : swiftClass.includes BEFORE '\n'»
-        «generateInclude(importFile)»
+    «FOR importFile : swiftClass.imports BEFORE '\n'»
+        import «importFile»
     «ENDFOR»
 
     «generateComment(swiftClass.comment)»
@@ -49,10 +48,6 @@ class SwiftFileTemplate {
         «ENDFOR»
     }
     '''
-
-    def static generateInclude(SwiftIncludes include) {
-        '''import «include.path»'''
-    }
 
     def static generateComment(String comment) {
         if (comment.isEmpty) {
