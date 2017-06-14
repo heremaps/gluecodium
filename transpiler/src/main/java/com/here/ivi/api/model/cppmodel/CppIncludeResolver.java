@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public final class CppIncludeResolver {
+public class CppIncludeResolver {
   private final FrancaModel<?, ?> rootModel;
 
   public CppIncludeResolver(FrancaModel<?, ?> rootModel) {
