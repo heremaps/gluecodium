@@ -16,23 +16,33 @@ import com.here.ivi.api.model.FrancaElement
 import com.here.ivi.api.model.Interface
 import java.io.File
 import org.franca.core.franca.FTypeCollection
+import org.franca.core.franca.FMethod
+import org.franca.core.franca.FArgument
 
 class SwiftNameRules {
 
-    def getHeaderFileName(FrancaElement<?> francaElement) {
-        return "objc"
+    def getFileName(FrancaElement<?> francaElement) {
+        return "swift"
                 + File.separator
                 + String.join(File.separator, francaElement.getPackage())
                 + File.separator
                 + getFilename(francaElement)
-                + ".h";
+                + ".swift";
     }
 
-    def getFilename(FrancaElement<?> francaElement) {
+    private def getFilename(FrancaElement<?> francaElement) {
         switch francaElement {
             Interface<?>  : computeClassName(francaElement.francaInterface)
             default : getTypeCollectionName(francaElement.francaTypeCollection)
         }
+    }
+
+    def getMethodName(FMethod method) {
+        return method.name
+    }
+
+    def getParameterName(FArgument argument) {
+        return argument.name
     }
 
     def getClassName(FTypeCollection base) {

@@ -11,25 +11,25 @@
 
 package com.here.ivi.api.generator.swift
 
-import com.here.ivi.api.generator.baseapi.StubCommentParser
+// TODO use own objective-c comment parser
+import static extension com.here.ivi.api.generator.baseapi.StubCommentParser.parse
+import static extension com.here.ivi.api.generator.swift.templates.SwiftFileTemplate.generate
+import static extension com.here.ivi.api.generator.swift.SwiftTypeMapper.mappedType
+import static extension com.here.ivi.api.generator.swift.SwiftTypeMapper.mappedReturnValue
 import com.here.ivi.api.generator.common.GeneratedFile
 import com.here.ivi.api.generator.common.GeneratorSuite
 import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.model.swift.SwiftMethod
 import com.here.ivi.api.model.swift.SwiftMethodParameter
-import com.here.ivi.api.model.swift.SwiftType
-import com.here.ivi.api.generator.swift.templates.SwiftFileTemplate
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 import com.here.ivi.api.model.Interface
 import java.util.List
 import navigation.BaseApiSpec
-import java.util.stream.IntStream
-import org.franca.core.franca.FArgument
 import org.franca.core.franca.FMethod
 
 class SwiftGenerator {
 
-    SwiftNameRules nameRules
+    extension SwiftNameRules nameRules
     SwiftIncludeResolver includeResolver
     GeneratorSuite generatorSuite
 
@@ -39,41 +39,27 @@ class SwiftGenerator {
         generatorSuite = suite
     }
 
-    def List<GeneratedFile> generate(Interface<BaseApiSpec.InterfacePropertyAccessor> api) {
-        val swiftClass = buildSwiftModel(api)
-        val content = SwiftFileTemplate.generate(swiftClass)
-
-        return #[new GeneratedFile(content, nameRules.getHeaderFileName(api))]
+    def List<GeneratedFile> generate(Interface<BaseApiSpec.InterfacePropertyAccessor> iface) {
+        return #[new GeneratedFile(iface.buildSwiftModel.generate, iface.getFileName)]
     }
 
-    def buildSwiftModel(Interface<?> iface) {
-        val className = nameRules.getClassName(iface.getFrancaInterface());
-        var resultingClass = new SwiftClass(className) => [
-            // TODO use own objective-c comment parser
-            comment = StubCommentParser.parse(iface.getFrancaInterface()).getMainBodyText() ?: ""
-            methods = iface.getFrancaInterface().getMethods().stream().map([constructMethod])
-                      .collect(Collectors.toList())
+    protected def buildSwiftModel(Interface<?> iface) {
+        val propertyAccessor = iface.getPropertyAccessor
+        val clazz = iface.getFrancaInterface
+        return new SwiftClass(clazz.getClassName) => [
+            comment = clazz.parse.getMainBodyText() ?: ""
+            methods = clazz.getMethods.stream.map([constructMethod(propertyAccessor)]).collect(toList)
         ]
-        return resultingClass;
-    }
-    def constructMethod(FMethod method) {
-        if (method.getInArgs().isEmpty) {
-            return new SwiftMethod(method.name) => [
-                returnType = constructMethodReturnType(method)
-            ]
-        } else {
-            val params = IntStream.range(0, method.getInArgs().size()).boxed().map([
-                val arg = method.getInArgs.get(it)
-                return new SwiftMethodParameter(arg.name, SwiftTypeMapper.mapType(arg))
-            ]).collect(Collectors.toList())
-
-            return new SwiftMethod(method.name, params) => [
-                returnType = constructMethodReturnType(method)
-            ]
-        }
     }
 
-    def constructMethodReturnType(FMethod method) {
-        return SwiftTypeMapper.mapReturnValue(method);
+    private def constructMethod(FMethod method, extension BaseApiSpec.InterfacePropertyAccessor propertyAccessor) {
+        val parameters = method.getInArgs.stream
+            .map([param | new SwiftMethodParameter(param.getParameterName, param.mappedType)])
+            .collect(toList)
+        return new SwiftMethod(method.getMethodName, parameters) => [
+            returnType = method.mappedReturnValue
+            comment = method.parse.getMainBodyText ?: ""
+            isStatic = method.getStatic
+        ]
     }
 }

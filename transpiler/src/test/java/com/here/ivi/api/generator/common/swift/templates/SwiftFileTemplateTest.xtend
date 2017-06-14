@@ -76,7 +76,7 @@ class SwiftFileTemplateTest {
         ]
         val expected = '''
             /**
-             One really classy example
+             * One really classy example
              */
             public class ExampleClassWithComment {
 
@@ -172,7 +172,7 @@ class SwiftFileTemplateTest {
         val expected = '''
             public class CommentedExampleClass {
                 /**
-                 Do something
+                 * Do something
                  */
                 public func myMethod(myParameter: String) -> Int {
                     let c_myParameter = myParameter.cString(using: String.Encoding.utf8)
