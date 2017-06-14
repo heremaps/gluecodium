@@ -20,7 +20,6 @@ import static org.junit.Assert.*
 import com.here.ivi.api.model.swift.SwiftMethod
 import com.here.ivi.api.model.swift.SwiftMethodParameter
 import com.here.ivi.api.model.swift.SwiftType
-import com.here.ivi.api.model.swift.SwiftIncludes
 
 @RunWith(typeof(XtextRunner))
 class SwiftFileTemplateTest {
@@ -201,11 +200,7 @@ class SwiftFileTemplateTest {
     @Test
     def systemImport() {
         val swiftClass = new SwiftClass("SomeClass", null) => [
-            includes = #[new SwiftIncludes() => [
-                    type = SwiftIncludes.Type.SYSTEM
-                    path = "Foundation"
-                ]
-            ]
+            imports = #["Foundation"]
         ]
 
         val expected = '''
@@ -223,11 +218,7 @@ class SwiftFileTemplateTest {
     @Test
     def helloWorldGeneration() {
         val swiftClass = new SwiftClass("HelloWorld", null) => [
-            includes = #[new SwiftIncludes() => [
-                    type = SwiftIncludes.Type.SYSTEM
-                    path = "Foundation"
-                ]
-            ]
+            imports = #["Foundation"]
             methods = #[new SwiftMethod("helloWorldMethod", #[
                     new SwiftMethodParameter("inputString",
                         new SwiftType("String"))
