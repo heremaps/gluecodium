@@ -1,0 +1,20 @@
+repositories {
+      mavenCentral()
+    maven {
+        url 'example.com'
+    }
+}
+
+apply plugin: 'application'
+
+dependencies {
+    runtime 'com.here.ivi.api:transpiler:0.0.1'
+}
+
+mainClassName = 'com.here.ivi.api.Transpiler'
+
+run {
+    if (System.getProperty("exec.args") != null) {
+        args System.getProperty("exec.args").split()
+    }
+}

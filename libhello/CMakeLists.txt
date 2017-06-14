@@ -15,7 +15,6 @@
 cmake_minimum_required(VERSION 3.2)
 project(hello)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC")
 
 set(HELLO_VERSION_MAJOR 0)
@@ -24,8 +23,7 @@ set(HELLO_VERSION_PATCH 1)
 set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_PATCH})
 
 set(HEADERS
-    include/hello/config.h
-    build/stub/libhello/HelloWorldStub.h)
+    include/hello/config.h)
 
 set(SOURCES
     src/HelloWorldStub.cpp)
@@ -40,13 +38,18 @@ if(BUILD_SHARED_LIBS)
         PRIVATE HELLO_SHARED)
 endif()
 
+include(Transpiler)
+transpile(hello
+    ${CMAKE_CURRENT_SOURCE_DIR}/fidl
+    ${CMAKE_CURRENT_BINARY_DIR}/api)
+
 target_include_directories(hello
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     INTERFACE
         $<INSTALL_INTERFACE:include>
     PRIVATE
-        build)
+        ${CMAKE_CURRENT_BINARY_DIR}/api)
 
 target_link_libraries(hello)
 
