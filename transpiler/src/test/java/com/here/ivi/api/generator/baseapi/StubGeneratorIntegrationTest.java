@@ -34,7 +34,7 @@ import java.util.Collection;
 import java.util.List;
 import org.junit.Test;
 
-public class StubGeneratorTest {
+public class StubGeneratorIntegrationTest {
 
   private final String NO_OUT_PARAMS_METHOD_SIGNATURE =
       "void methodNoOutParams( const std::string& input )";
