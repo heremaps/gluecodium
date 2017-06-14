@@ -15,11 +15,12 @@ import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.common.cpp.AbstractCppModelMapper;
 import com.here.ivi.api.generator.common.cpp.CppGenerator;
-import com.here.ivi.api.generator.common.cpp.CppGeneratorHelper;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
+import com.here.ivi.api.generator.common.cpp.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.FrancaElement;
@@ -57,11 +58,12 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
   private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> fml;
   private Collection<File> currentFiles;
 
+  @SuppressWarnings("unused")
   public BaseApiGeneratorSuite(Transpiler transpiler) {
     this(transpiler, new BaseApiSpecAccessorFactory(), new BaseApiModelValidator());
   }
 
-  public BaseApiGeneratorSuite(
+  private BaseApiGeneratorSuite(
       Transpiler transpiler,
       BaseApiSpecAccessorFactory specAccessorFactory,
       BaseApiModelValidator validator) {
@@ -114,9 +116,22 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
       CppGenerator generator) {
     String fileName = nameRules.getHeaderPath(francaElement);
     CppNamespace cppModel = mapper.mapFrancaModelToCppModel(francaElement);
-    CharSequence copyRightNotice =
-        CppGeneratorHelper.generateGeneratorNotice(this, francaElement, fileName);
+    CharSequence copyRightNotice = generateGeneratorNotice(this, francaElement, fileName);
     return generator.generateCode(cppModel, fileName, copyRightNotice);
+  }
+
+  private static CharSequence generateGeneratorNotice(
+      GeneratorSuite suite, FrancaElement<?> element, String outputTarget) {
+    String inputFile;
+    try {
+      inputFile = suite.getTool().resolveRelativeToRootPath(element.getModelInfo().getPath());
+    } catch (IOException e) {
+      throw new TranspilerExecutionException(
+          String.format("Could not resolve input file %s.", element.getModelInfo().getPath()));
+    }
+
+    String inputDefinition = element.getName() + ':' + element.getVersion();
+    return GeneratorNoticeTemplate.generate(suite, inputDefinition, inputFile, outputTarget);
   }
 
   private static GeneratedFile copyTarget(String fileName, String targetDir) {

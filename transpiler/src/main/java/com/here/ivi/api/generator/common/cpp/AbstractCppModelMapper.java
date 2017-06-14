@@ -13,8 +13,26 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface AbstractCppModelMapper {
+public abstract class AbstractCppModelMapper {
 
-  CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaModel);
+  public abstract CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaModel);
+
+  protected static List<CppNamespace> packageToCppNamespace(List<String> packages) {
+
+    List<CppNamespace> namespaces = new ArrayList<>();
+    CppNamespace parentNs = null;
+    for (String p : packages) {
+      CppNamespace newNs = new CppNamespace(p);
+      if (parentNs != null) {
+        parentNs.members.add(newNs);
+      }
+      namespaces.add(newNs);
+      parentNs = newNs;
+    }
+
+    return namespaces;
+  }
 }

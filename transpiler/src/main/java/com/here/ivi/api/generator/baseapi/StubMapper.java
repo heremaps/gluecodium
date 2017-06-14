@@ -51,7 +51,7 @@ import org.franca.core.franca.FTypeDef;
 /**
  * This generator will create the stub interfaces that will then be used by the other generators.
  */
-public class StubMapper implements AbstractCppModelMapper {
+public class StubMapper extends AbstractCppModelMapper {
 
   private final CppNameRules nameRules;
 
@@ -66,7 +66,7 @@ public class StubMapper implements AbstractCppModelMapper {
     }
 
     Interface<?> iface = (Interface<?>) francaElement;
-    List<CppNamespace> packageNs = CppGeneratorHelper.packageToCppNamespace(iface.getPackage());
+    List<CppNamespace> packageNs = packageToCppNamespace(iface.getPackage());
 
     // add to innermost namespace
     CppNamespace innermostNs = Iterables.getLast(packageNs);

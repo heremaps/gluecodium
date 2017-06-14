@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.common.cpp.templates
 
 class CppCommentHeaderTemplate {
-  static def generate(Object generatorNotice, Object content) '''
+  static def generate(Object generatorNotice) '''
     // -------------------------------------------------------------------------------------------------
     //
     «FOR line : CopyrightNotice.generate.toString.split(System.lineSeparator())»
@@ -27,6 +27,5 @@ class CppCommentHeaderTemplate {
     //
     // -------------------------------------------------------------------------------------------------
 
-    «content»
   '''
 }
