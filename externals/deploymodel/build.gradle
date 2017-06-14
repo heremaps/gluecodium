@@ -19,8 +19,6 @@ dependencies {
     compile 'org.eclipse.xpand:org.eclipse.xtend.typesystem.emf:+'
     compile 'org.eclipse.xpand:org.eclipse.xpand:+'
     compile 'org.apache.logging.log4j:log4j-core:+'
-    compile 'commons-lang:commons-lang:+'
-    compile 'commons-logging:commons-logging:1.2'
     compile 'org.osgi:org.osgi.core:+'
     compile 'org.eclipse.emf:org.eclipse.emf.mwe.core:+'
     compile "org.eclipse.xtext:org.eclipse.xtext.xbase.lib:${xtextVersion}"
