@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate;
 import com.here.ivi.api.generator.common.cpp.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.*;
@@ -35,52 +34,6 @@ public class CppGeneratorHelper {
 
     String inputDefinition = element.getName() + ':' + element.getVersion();
     return GeneratorNoticeTemplate.generate(suite, inputDefinition, inputFile, outputTarget);
-  }
-
-  public static CppMethod generateDtor(String className, CppMethodBodyTemplate methodBodyTemplate) {
-    CppMethod dtor = new CppMethod();
-    dtor.name = "~" + className;
-    dtor.bodyTemplate = methodBodyTemplate;
-    dtor.returnType = CppType.None;
-    dtor.specifiers.add(CppMethod.Specifier.VIRTUAL);
-    return dtor;
-  }
-
-  public static CppMethod generateEmptyCtor(
-      String className, CppMethodBodyTemplate methodBodyTemplate) {
-    CppMethod ctor = new CppMethod();
-    ctor.bodyTemplate = methodBodyTemplate;
-    ctor.name = className;
-    ctor.returnType = CppType.None;
-    return ctor;
-  }
-
-  public static CppMethod generateCopyCtor(
-      String className, CppMethodBodyTemplate methodBodyTemplate) {
-    CppMethod ctor = new CppMethod();
-    ctor.bodyTemplate = methodBodyTemplate;
-    ctor.name = className;
-    ctor.returnType = CppType.None;
-    ctor.inParameters.add(generateClassParam(className));
-    return ctor;
-  }
-
-  public static CppMethod generateAssignOp(
-      String className, CppMethodBodyTemplate methodBodyTemplate) {
-    CppMethod ctor = new CppMethod();
-    ctor.bodyTemplate = methodBodyTemplate;
-    ctor.name = "operator=";
-    ctor.returnType = new CppType(className + "&"); //TODO ugly ref here...
-    ctor.inParameters.add(generateClassParam(className));
-    return ctor;
-  }
-
-  private static CppParameter generateClassParam(String className) {
-    CppParameter other = new CppParameter();
-    other.name = "other";
-    other.type = new CppType(null, className, CppElements.TypeInfo.Complex);
-    other.mode = CppParameter.Mode.Input;
-    return other;
   }
 
   public static List<CppNamespace> packageToCppNamespace(List<String> packages) {
