@@ -16,7 +16,6 @@ import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.common.cpp.AbstractCppModelMapper;
 import com.here.ivi.api.generator.common.cpp.CppGenerator;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
@@ -146,11 +145,6 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
       }
     }
     throw new TranspilerExecutionException(String.format("Failed loading resource %s.", fileName));
-  }
-
-  @Override
-  public Version getVersion() {
-    return new Version(0, 0, 1);
   }
 
   @Override

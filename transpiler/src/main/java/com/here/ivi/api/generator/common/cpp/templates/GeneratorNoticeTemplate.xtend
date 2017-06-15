@@ -24,7 +24,6 @@ class GeneratorNoticeTemplate {
          InputFile:         «input»
          InputDefinition:   «inputDefinition»
          ToolVersion:       «gen.tool.version»
-         GeneratorVersion:  «gen.version»
 
          GeneratedOn:       «date»
 

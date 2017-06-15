@@ -16,3 +16,7 @@ function safe {
     fi
     return $status
 }
+
+function get_version {
+    echo $(grep "version \=" $1 | cut -d" " -f3)
+}

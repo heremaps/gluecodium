@@ -15,7 +15,6 @@ import com.here.ivi.api.Transpiler;
 import com.here.ivi.api.generator.baseapi.BaseApiNameRules;
 import com.here.ivi.api.generator.common.AbstractGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
@@ -55,11 +54,6 @@ public final class AndroidGeneratorSuite extends AbstractGeneratorSuite {
     super(transpiler);
     this.specAccessorFactory = specAccessorFactory;
     this.validator = validator;
-  }
-
-  @Override
-  public Version getVersion() {
-    return new Version(0, 0, 1);
   }
 
   @Override

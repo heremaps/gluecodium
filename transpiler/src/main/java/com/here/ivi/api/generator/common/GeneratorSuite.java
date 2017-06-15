@@ -33,9 +33,6 @@ public interface GeneratorSuite {
   /** @return the tool this generator belongs to */
   Transpiler getTool();
 
-  /** @return the version of this generator */
-  Version getVersion();
-
   /** @return the human readable name of this generator */
   String getName();
 
