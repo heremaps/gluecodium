@@ -19,17 +19,19 @@ import com.here.ivi.api.output.ConsoleOutput;
 import com.here.ivi.api.output.FileOutput;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Transpiler {
-
   private static final Logger logger = Logger.getLogger(Transpiler.class.getName());
+  private final Version version;
 
   public static void main(final String[] args) {
 
@@ -51,6 +53,25 @@ public class Transpiler {
   private Transpiler(OptionReader.TranspilerOptions options) {
     this.options = options;
     TranspilerLogger.initialize("logging.properties");
+    version = parseVersion();
+  }
+
+  private Version parseVersion() {
+    // Parse version
+    Properties prop = new Properties();
+    try {
+      InputStream stream =
+          this.getClass().getClassLoader().getResourceAsStream("version.properties");
+      prop.load(stream);
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
+
+    String versionString = prop.getProperty("version", "0.0.1");
+
+    String[] splits = versionString.split("\\.", 3);
+    return new Version(
+        Integer.parseInt(splits[0]), Integer.parseInt(splits[1]), Integer.parseInt(splits[2]));
   }
 
   private static boolean checkForFileNameCollisions(
@@ -85,7 +106,7 @@ public class Transpiler {
       try {
 
         GeneratorSuite generator = GeneratorSuite.instantiateByShortName(sn, this);
-        logger.info("Instantiated generator " + generator.getName() + " " + generator.getVersion());
+        logger.info("Instantiated generator " + generator.getName());
 
         generator.buildModel(options.getInputDir());
         logger.info("Built franca model");
@@ -167,7 +188,7 @@ public class Transpiler {
   }
 
   public Version getVersion() {
-    return new Version(0, 0, 1);
+    return version;
   }
 
   public String getName() {

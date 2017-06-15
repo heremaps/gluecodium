@@ -150,7 +150,6 @@ public class OptionReader {
         GeneratorSuite gen = GeneratorSuite.instantiateByShortName(sn, null);
         System.out.println("   DefinedIn:  " + gen.getClass().getName());
         System.out.println("   Name:       " + gen.getName());
-        System.out.println("   Version:    " + gen.getVersion());
       } catch (NoSuchMethodException
           | IllegalAccessException
           | InvocationTargetException

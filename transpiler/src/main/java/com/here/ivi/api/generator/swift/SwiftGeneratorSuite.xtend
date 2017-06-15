@@ -53,10 +53,6 @@ final class SwiftGeneratorSuite extends AbstractGeneratorSuite implements Genera
         return specAccessorFactory.getSpecPath
     }
 
-    override getVersion() {
-        return new Version(0,0,1)
-    }
-
     override getName() {
         return "com.here.SwiftGenerator"
     }
