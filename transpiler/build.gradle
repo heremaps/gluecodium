@@ -86,7 +86,7 @@ jacocoTestCoverageVerification {
             enabled = true
             limit {
                 counter = 'LINE'
-                minimum = 0.25
+                minimum = 0.35
             }
         }
     }
