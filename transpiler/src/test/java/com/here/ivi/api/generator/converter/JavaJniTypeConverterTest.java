@@ -36,9 +36,11 @@ public final class JavaJniTypeConverterTest {
     // Arrange
     JavaType javaPrimitiveType = new JavaPrimitiveType(Type.VOID);
 
-    // Act, assert
-    expectedException.expect(IllegalArgumentException.class);
-    JavaJniTypeConverter.map(javaPrimitiveType);
+    // Act
+    CppType voidType = JavaJniTypeConverter.map(javaPrimitiveType);
+
+    // Assert
+    assertEquals("void", voidType.name);
   }
 
   @Test

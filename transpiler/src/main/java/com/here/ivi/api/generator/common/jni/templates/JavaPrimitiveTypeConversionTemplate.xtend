@@ -11,14 +11,13 @@
 
 package com.here.ivi.api.generator.common.jni.templates
 
-import com.here.ivi.api.generator.converter.java.JavaJniTypeConverter
-import com.here.ivi.api.model.javamodel.JavaMethod
+import com.here.ivi.api.model.cppmodel.CppType
+import com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules
+import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getNativeParameterName
 import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getJniParameterName
 
-/**
- * Template of a java native function's signature without the return type.
- */
-class JavaNativeFunctionSignatureTemplate {
-    def static generate(String javaClassName, JavaMethod method) '''
-    Java_com_here_ivi_«javaClassName»_«method.name»(JNIEnv* env, jobject jinstance«FOR param : method.parameters», «JavaJniTypeConverter.map(param.type).name» «getJniParameterName(param.name)»«ENDFOR»)'''
+class JavaPrimitiveTypeConversionTemplate {
+    def static generate(CppType cppType, String baseName)'''
+        «cppType.name» «getNativeParameterName(baseName)» = static_cast<«cppType.name»>(«getJniParameterName(baseName)»);
+    '''
 }

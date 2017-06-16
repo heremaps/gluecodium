@@ -26,6 +26,14 @@ public final class JavaNativeInterfacesNameRules {
 
   private JavaNativeInterfacesNameRules() {}
 
+  public static String getJniParameterName(final String javaParameterName) {
+    return "j" + javaParameterName;
+  }
+
+  public static String getNativeParameterName(final String javaParameterName) {
+    return "n" + javaParameterName;
+  }
+
   public static String getHeaderFileName(final JavaClass javaClass) {
     return AndroidGeneratorSuite.GENERATOR_NAMESPACE
         + File.separator
