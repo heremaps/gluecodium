@@ -182,7 +182,7 @@ public class StubMapper extends AbstractCppModelMapper {
       errorType = CppTypeMapper.mapEnum(rootModel, method.getErrorEnum());
       errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(method);
     } else {
-      errorType = CppType.Void;
+      errorType = CppType.VOID;
     }
 
     String returnComment;
@@ -196,7 +196,7 @@ public class StubMapper extends AbstractCppModelMapper {
       // documentation for the result type
       String typeComment = "Result type for @ref " + stubClass.name + "::" + uniqueMethodName;
 
-      if (!errorType.equals(CppType.Void)) {
+      if (!errorType.equals(CppType.VOID)) {
         returnTypes.add(errorType);
         if (!errorComment.isEmpty()) {
           // add error template arg documentation
@@ -226,7 +226,7 @@ public class StubMapper extends AbstractCppModelMapper {
         struct.comment = "Result struct for @ref " + stubClass.name + "::" + uniqueMethodName + ".";
         typeComment += "\n* @arg Value The value struct instance";
         returnComment =
-            errorType.equals(CppType.Void)
+            errorType.equals(CppType.VOID)
                 ? "The result type, containing a struct of values."
                 : "The result type, containing an error and a struct of values.";
 
@@ -240,7 +240,7 @@ public class StubMapper extends AbstractCppModelMapper {
         // document return type and append value information to type documentation
 
         returnComment =
-            errorType.equals(CppType.Void)
+            errorType.equals(CppType.VOID)
                 ? "The result type, containing " + type.name + " value."
                 : "The result type, containing either an error or the " + type.name + " value.";
         if (!errorComment.isEmpty()) {

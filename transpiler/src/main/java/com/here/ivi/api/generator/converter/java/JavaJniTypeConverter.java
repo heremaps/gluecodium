@@ -69,10 +69,7 @@ public final class JavaJniTypeConverter {
       JavaPrimitiveType javaPrimitiveType = (JavaPrimitiveType) javaType;
       if (JavaPrimitiveType.TYPES.contains(javaPrimitiveType.type)) {
         if (javaPrimitiveType.type == Type.VOID) {
-
-          throw new IllegalArgumentException(
-              "Conversion from Java type to JNI type is not possible: "
-                  + javaPrimitiveType.type.getValue());
+          return CppType.VOID;
         }
 
         return new CppType("j" + javaPrimitiveType.type.getValue(), JNI_INCLUDE);

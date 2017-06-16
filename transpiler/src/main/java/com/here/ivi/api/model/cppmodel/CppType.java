@@ -19,8 +19,8 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class CppType extends CppElementWithIncludes {
-  public static final CppType None = new CppType("");
-  public static final CppType Void = new CppType("void");
+  public static final CppType NONE = new CppType("");
+  public static final CppType VOID = new CppType("void");
 
   public CppElements.TypeInfo info = CppElements.TypeInfo.Invalid;
   public DefinedBy definedIn;
