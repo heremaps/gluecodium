@@ -52,6 +52,9 @@ import org.franca.core.franca.FTypeDef;
  */
 public class StubMapper extends AbstractCppModelMapper {
 
+  private static final Includes.SystemInclude EXPECTED_INCLUDE =
+      new Includes.SystemInclude("cpp/internal/expected.h");
+
   private final CppNameRules nameRules;
 
   public StubMapper(CppNameRules nameRules) {
@@ -67,8 +70,10 @@ public class StubMapper extends AbstractCppModelMapper {
     Interface<?> iface = (Interface<?>) francaElement;
     List<CppNamespace> packageNs = packageToCppNamespace(iface.getPackage());
 
-    // add to innermost namespace
-    CppNamespace innermostNs = Iterables.getLast(packageNs);
+    if (packageNs.isEmpty()) {
+      return null;
+    }
+
     String stubClassName = nameRules.getClassName(iface.getFrancaInterface());
     CppClass.Builder stubClassBuilder =
         new CppClass.Builder(stubClassName)
@@ -116,6 +121,9 @@ public class StubMapper extends AbstractCppModelMapper {
     for (FAttribute attribute : iface.getFrancaInterface().getAttributes()) {
       appendAttributeAccessorElements(stubClass, stubListenerClass, attribute, rootModel);
     }
+
+    // add to innermost namespace
+    CppNamespace innermostNs = Iterables.getLast(packageNs);
 
     // inherit from listener vector if there are any methods on the listener
     if (!stubListenerClass.methods.isEmpty()) {
@@ -196,7 +204,6 @@ public class StubMapper extends AbstractCppModelMapper {
         }
       }
 
-      final boolean isCreator = rootModel.getAccessor().getCreates(method) != null;
       if (method.getOutArgs().size() > 1) { // create struct for multiple out arguments
         CppStruct struct = new CppStruct();
         struct.name = NameHelper.toUpperCamelCase(uniqueMethodName) + "Result";
@@ -206,15 +213,7 @@ public class StubMapper extends AbstractCppModelMapper {
                 .stream()
                 .map(
                     argument -> {
-                      CppType type = CppTypeMapper.map(rootModel, argument);
-                      if (type.info == CppElements.TypeInfo.InterfaceInstance) {
-                        if (isCreator) {
-                          type = CppTypeMapper.wrapUniquePtr(type, nameRules);
-                        } else {
-                          type = CppTypeMapper.wrapSharedPtr(type, nameRules);
-                        }
-                      }
-
+                      CppType type = mapCppType(rootModel, argument, method);
                       CppField field =
                           new CppField(type, NameHelper.toLowerCamelCase(argument.getName()));
                       // document struct field with argument comment
@@ -236,14 +235,7 @@ public class StubMapper extends AbstractCppModelMapper {
         returnTypes.add(new CppType(struct.name));
       } else { // take first & only argument
         FArgument argument = method.getOutArgs().get(0);
-        CppType type = CppTypeMapper.map(rootModel, argument);
-        if (type.info == CppElements.TypeInfo.InterfaceInstance) {
-          if (isCreator) {
-            type = CppTypeMapper.wrapUniquePtr(type, nameRules);
-          } else {
-            type = CppTypeMapper.wrapSharedPtr(type, nameRules);
-          }
-        }
+        CppType type = mapCppType(rootModel, argument, method);
 
         // document return type and append value information to type documentation
 
@@ -290,6 +282,24 @@ public class StubMapper extends AbstractCppModelMapper {
       cppMethod.comment += StubCommentParser.FORMATTER.formatTag("@return", returnComment);
     }
     stubClass.methods.add(cppMethod);
+  }
+
+  private CppType mapCppType(
+      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
+      FArgument argument,
+      FMethod method) {
+
+    CppType type = CppTypeMapper.map(rootModel, argument);
+
+    if (type.info != CppElements.TypeInfo.InterfaceInstance) {
+      return type;
+    }
+
+    if (rootModel.getAccessor().getCreates(method) == null) {
+      return CppTypeMapper.wrapSharedPtr(type, nameRules);
+    } else {
+      return CppTypeMapper.wrapUniquePtr(type, nameRules);
+    }
   }
 
   private void appendAttributeAccessorElements(
@@ -451,12 +461,12 @@ public class StubMapper extends AbstractCppModelMapper {
 
   private CppMethod buildStubMethod(
       FMethod method,
-      CppType returnTypeName,
+      CppType returnType,
       CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
     CppMethod.Builder builder =
         new CppMethod.Builder(method.getName() + NameHelper.toUpperCamelCase(method.getSelector()))
-            .returnType(returnTypeName);
+            .returnType(returnType);
 
     if (rootModel.getAccessor().getStatic(method)) {
       builder.specifier(CppMethod.Specifier.STATIC);
@@ -486,9 +496,6 @@ public class StubMapper extends AbstractCppModelMapper {
 
     return builder.build();
   }
-
-  private static final Includes.SystemInclude EXPECTED_INCLUDE =
-      new Includes.SystemInclude("cpp/internal/expected.h");
 
   private CppMethod buildAttributeAccessor(
       CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
