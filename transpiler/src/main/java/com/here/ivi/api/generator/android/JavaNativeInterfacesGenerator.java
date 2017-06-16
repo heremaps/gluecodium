@@ -24,8 +24,6 @@ import navigation.BaseApiSpec.InterfacePropertyAccessor;
 
 final class JavaNativeInterfacesGenerator {
 
-  JavaNativeInterfacesGenerator() {}
-
   public List<GeneratedFile> generateFiles(final Interface<InterfacePropertyAccessor> api) {
     List<GeneratedFile> files = new LinkedList<>();
 
