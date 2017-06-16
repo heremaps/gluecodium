@@ -12,15 +12,20 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaClass
+import com.here.ivi.api.generator.common.java.JavaCommentFormatter
 
 public class JavaClassTemplate {
+  def static whitespaceFormatter(String field) '''«field»«IF !field.isEmpty» «ENDIF»'''
+
   def static generate(JavaClass it) '''«JavaPackageTemplate.generate(javaPackage)»
   «JavaImportsTemplate.generate(it)»
 
+«IF comment !== null && !comment.isEmpty»
 /**
- * «comment»
+ * «JavaCommentFormatter.format(comment)»
  */
-class «name» «JavaInheritanceTemplate.generate(inheritance)»{
+«ENDIF»
+«whitespaceFormatter(visibility.toAccessModifier)»class «name» «JavaInheritanceTemplate.generate(inheritance)»{
   «FOR constant : constants»
   «JavaConstantTemplate.generate(constant)»
   «ENDFOR»

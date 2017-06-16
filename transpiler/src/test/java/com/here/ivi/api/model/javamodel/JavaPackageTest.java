@@ -9,12 +9,25 @@
  *
  */
 
-package com.here.ivi.api.generator.common.jni.templates
-import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getNativeParameterName
-import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getParameterName
+package com.here.ivi.api.model.javamodel;
 
-class JavaStringConversionTemplate {
-    def static generate(String baseName)'''
-        std::string «getNativeParameterName(baseName)» = std::string(env->GetStringUTFChars(«getParameterName(baseName)», 0));
-    '''
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.List;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
+public class JavaPackageTest {
+
+  @Test
+  public void javaPackageListConstructor() {
+    List<String> packages = Arrays.asList("com", "here", "test");
+
+    JavaPackage javaPackage = new JavaPackage(packages);
+
+    assertEquals("com.here.test", javaPackage.name);
+  }
 }

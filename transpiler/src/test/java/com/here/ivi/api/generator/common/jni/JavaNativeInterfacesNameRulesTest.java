@@ -15,6 +15,11 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaPackage;
+import com.here.ivi.api.model.javamodel.JavaParameter;
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
+import com.here.ivi.api.model.javamodel.JavaType;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -64,5 +69,68 @@ public final class JavaNativeInterfacesNameRulesTest {
     // Arrange, act, assert
     expectedException.expect(NullPointerException.class);
     JavaNativeInterfacesNameRules.getImplementationFileName(null);
+  }
+
+  @Test
+  public void getJNIParameterNameFromJavaParameter() {
+    JavaType javaType = new JavaPrimitiveType(Type.INT);
+    JavaParameter javaParameter = new JavaParameter(javaType, "parameterName");
+
+    assertEquals(
+        "jparameterName", JavaNativeInterfacesNameRules.getParameterName(javaParameter.name));
+  }
+
+  @Test
+  public void getJNIParameterNameFromNullJavaParameter() {
+    assertEquals("", JavaNativeInterfacesNameRules.getParameterName(null));
+  }
+
+  @Test
+  public void getJNIParameterNameFromEmptyJavaParameter() {
+    JavaType javaType = new JavaPrimitiveType(Type.INT);
+    JavaParameter javaParameter = new JavaParameter(javaType, "");
+
+    assertEquals("", JavaNativeInterfacesNameRules.getParameterName(javaParameter.name));
+  }
+
+  @Test
+  public void getParameterNameFromJavaNativeParameter() {
+    JavaType javaType = new JavaPrimitiveType(Type.INT);
+    JavaParameter javaParameter = new JavaParameter(javaType, "parameterName");
+
+    assertEquals(
+        "nparameterName", JavaNativeInterfacesNameRules.getNativeParameterName(javaParameter.name));
+  }
+
+  @Test
+  public void getParameterNameFromNullJavaNativeParameter() {
+    assertEquals("", JavaNativeInterfacesNameRules.getNativeParameterName(null));
+  }
+
+  @Test
+  public void getParameterNameFromEmptyJavaNativeParameter() {
+    JavaType javaType = new JavaPrimitiveType(Type.INT);
+    JavaParameter javaParameter = new JavaParameter(javaType, "");
+
+    assertEquals("", JavaNativeInterfacesNameRules.getNativeParameterName(javaParameter.name));
+  }
+
+  @Test
+  public void getJNIPackageNameFromJavaPackage() {
+    JavaPackage javaPackage = new JavaPackage("com.here.test");
+
+    assertEquals("com_here_test", JavaNativeInterfacesNameRules.getPackageName(javaPackage));
+  }
+
+  @Test
+  public void getJNIPackageNameFromNullJavaPackage() {
+    assertEquals("", JavaNativeInterfacesNameRules.getPackageName(null));
+  }
+
+  @Test
+  public void getJNIPackageNameFromEmptyJavaPackage() {
+    JavaPackage javaPackage = new JavaPackage("");
+
+    assertEquals("", JavaNativeInterfacesNameRules.getPackageName(javaPackage));
   }
 }

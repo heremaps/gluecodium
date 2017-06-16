@@ -100,7 +100,6 @@ public final class DoxygenFormatter implements CommentFormatter {
   }
 
   public String readDescription(FAnnotationBlock comment) {
-
     if (comment == null || comment.getElements() == null) {
       // TODO warn about missing documentation
       return "";

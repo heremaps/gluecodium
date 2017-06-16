@@ -36,7 +36,7 @@ public class JavaNativeInterfacesHeaderTemplate {
      * Function for «javaClass.name».«method.name»()
      */
     JNIEXPORT «JavaJniTypeConverter.map(method.returnType).name» JNICALL
-    «JavaNativeFunctionSignatureTemplate.generate(javaClass.name, method)»;
+    «JavaNativeFunctionSignatureTemplate.generate(javaClass, method)»;
     «ENDFOR»
 
     #ifdef __cplusplus

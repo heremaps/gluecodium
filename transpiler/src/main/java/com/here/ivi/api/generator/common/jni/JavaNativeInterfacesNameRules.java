@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.common.jni;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.common.java.JavaNameRules;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.io.File;
 
 public final class JavaNativeInterfacesNameRules {
@@ -22,17 +23,7 @@ public final class JavaNativeInterfacesNameRules {
 
   // TODO: Fetch package root from JavaClass!
   private static final String JAVA_PACKAGE_ROOT = "com.here.ivi";
-  public static final String UNDERSCORE = "_";
-
-  private JavaNativeInterfacesNameRules() {}
-
-  public static String getJniParameterName(final String javaParameterName) {
-    return "j" + javaParameterName;
-  }
-
-  public static String getNativeParameterName(final String javaParameterName) {
-    return "n" + javaParameterName;
-  }
+  private static final String UNDERSCORE = "_";
 
   public static String getHeaderFileName(final JavaClass javaClass) {
     return AndroidGeneratorSuite.GENERATOR_NAMESPACE
@@ -54,5 +45,29 @@ public final class JavaNativeInterfacesNameRules {
         + UNDERSCORE
         + javaClass.name
         + JNI_IMPLEMENTATION_FILE_ENDING;
+  }
+
+  public static String getParameterName(final String javaParameterName) {
+    if (javaParameterName == null || javaParameterName.isEmpty()) {
+      return "";
+    }
+
+    return "j" + javaParameterName;
+  }
+
+  public static String getNativeParameterName(final String javaParameterName) {
+    if (javaParameterName == null || javaParameterName.isEmpty()) {
+      return "";
+    }
+
+    return "n" + javaParameterName;
+  }
+
+  public static String getPackageName(final JavaPackage javaPackage) {
+    if (javaPackage == null || javaPackage.name == null || javaPackage.name.isEmpty()) {
+      return "";
+    }
+
+    return javaPackage.name.replace('.', UNDERSCORE.charAt(0));
   }
 }

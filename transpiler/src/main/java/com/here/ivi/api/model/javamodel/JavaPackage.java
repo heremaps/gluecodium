@@ -11,10 +11,16 @@
 
 package com.here.ivi.api.model.javamodel;
 
-public class JavaPackage {
+import java.util.List;
+
+public final class JavaPackage {
   public final String name;
 
-  public JavaPackage(String packageName) {
+  public JavaPackage(final String packageName) {
     this.name = packageName;
+  }
+
+  public JavaPackage(final List<String> packageList) {
+    name = String.join(".", packageList);
   }
 }

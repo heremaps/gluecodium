@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.common.java.templates
 import java.util.List;
 import com.here.ivi.api.model.javamodel.JavaParameter
 import com.here.ivi.api.model.javamodel.JavaMethod
+import com.here.ivi.api.generator.common.java.JavaCommentFormatter
 
 public class JavaMethodTemplate {
     def static generate(JavaParameter p)
@@ -36,7 +37,7 @@ public class JavaMethodTemplate {
       '''
       «IF comment !== null && !comment.isEmpty»
       /**
-       * «comment»
+       * «JavaCommentFormatter.format(comment)»
       «IF deprecatedComment !== null && !deprecatedComment.isEmpty»
       «' '»* @deprecated «deprecatedComment»
       «ENDIF»
