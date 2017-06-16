@@ -23,6 +23,11 @@ public abstract class AbstractCppModelMapper {
   protected static List<CppNamespace> packageToCppNamespace(List<String> packages) {
 
     List<CppNamespace> namespaces = new ArrayList<>();
+
+    if (packages == null) {
+      return namespaces;
+    }
+
     CppNamespace parentNs = null;
     for (String p : packages) {
       CppNamespace newNs = new CppNamespace(p);
