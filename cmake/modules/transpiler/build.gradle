@@ -1,8 +1,9 @@
 repositories {
-      mavenCentral()
+    mavenLocal()
     maven {
         url 'example.com'
     }
+    mavenCentral()
 }
 
 apply plugin: 'application'
