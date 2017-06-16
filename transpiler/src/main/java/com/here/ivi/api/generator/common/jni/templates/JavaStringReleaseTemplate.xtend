@@ -10,11 +10,11 @@
  */
 
 package com.here.ivi.api.generator.common.jni.templates
+import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getParameterName
 import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getNativeParameterName
-import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getJniParameterName
 
 class JavaStringReleaseTemplate {
     def static generate(String baseName)'''
-        env->ReleaseStringUTFChars(«getJniParameterName(baseName)», «getNativeParameterName(baseName)»);
+        env->ReleaseStringUTFChars(«getParameterName(baseName)», «getNativeParameterName(baseName)»);
     '''
 }

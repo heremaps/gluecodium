@@ -62,6 +62,7 @@ class ExampleClass {
       javaPackage = new JavaPackage("com.here.generator.example")
       comment = "Example class comment"
       methods = #{ classMethod }
+      visibility = JavaVisibility.PUBLIC
     ]
     val inheritance = new JavaInheritance(exampleType) => [
 
@@ -71,7 +72,7 @@ class ExampleClass {
 /**
  * Example class comment
  */
-class ExampleClass {
+public class ExampleClass {
   /**
    * Method comment
    */

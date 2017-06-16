@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaField
+import com.here.ivi.api.generator.common.java.JavaCommentFormatter
 
 class JavaFieldTemplate {
   def private static whitespaceFormatter(String field) '''
@@ -22,7 +23,7 @@ class JavaFieldTemplate {
     val optionalInitializer = '''«IF initial !== null» = «initial.name»«ENDIF»'''
     '''«IF comment !== null && !comment.isEmpty»
           /**
-           * «comment»
+           * «JavaCommentFormatter.format(comment)»
            */
 «ENDIF»«accessModifier»«type.name» «name»«optionalInitializer»;'''
   }

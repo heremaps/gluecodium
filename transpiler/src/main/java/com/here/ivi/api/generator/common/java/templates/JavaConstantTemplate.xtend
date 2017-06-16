@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaConstant
+import com.here.ivi.api.generator.common.java.JavaCommentFormatter
 
 class JavaConstantTemplate {
   static def generate(JavaConstant it) {
@@ -19,7 +20,7 @@ class JavaConstantTemplate {
     val String accessModifierFormatted = '''«IF !accessModifier.isEmpty»«accessModifier» «ENDIF»'''
     '''«IF comment !== null && !comment.isEmpty»
           /**
-           * «comment»
+           * «JavaCommentFormatter.format(comment)»
            */
         «ENDIF»
 «accessModifierFormatted»static final «type.name» «name» = «value.name»;'''

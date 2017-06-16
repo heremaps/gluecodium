@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common.jni.templates
 
+import com.here.ivi.api.generator.converter.java.JavaJniTypeConverter
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 import com.here.ivi.api.model.javamodel.JavaClass
 
@@ -27,8 +28,8 @@ public class JavaNativeInterfacesImplementationTemplate {
       #include "TODO"
 
       «FOR method : javaClass.methods»
-      extern "C" «method.returnType.name»
-      «JavaNativeFunctionSignatureTemplate.generate(javaClass.name, method)»
+      extern "C" «JavaJniTypeConverter.map(method.returnType).name»
+      «JavaNativeFunctionSignatureTemplate.generate(javaClass, method)»
       {
           //TODO
       }

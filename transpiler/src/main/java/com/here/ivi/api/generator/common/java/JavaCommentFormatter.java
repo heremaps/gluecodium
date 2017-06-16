@@ -9,12 +9,11 @@
  *
  */
 
-package com.here.ivi.api.generator.common.jni.templates
-import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getNativeParameterName
-import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getParameterName
+package com.here.ivi.api.generator.common.java;
 
-class JavaStringConversionTemplate {
-    def static generate(String baseName)'''
-        std::string «getNativeParameterName(baseName)» = std::string(env->GetStringUTFChars(«getParameterName(baseName)», 0));
-    '''
+public class JavaCommentFormatter {
+
+  public static String format(String comment) {
+    return comment.replaceAll("\n", "\n* ");
+  }
 }

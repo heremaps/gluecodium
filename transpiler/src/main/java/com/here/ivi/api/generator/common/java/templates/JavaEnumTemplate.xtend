@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaEnum
+import com.here.ivi.api.generator.common.java.JavaCommentFormatter
 
 class JavaEnumTemplate {
   static def generate(JavaEnum it) '''«IF isTopLevel»
@@ -20,15 +21,15 @@ class JavaEnumTemplate {
     «ENDIF»
     «IF comment !== null && !comment.isEmpty»
   /**
-   * «comment»
+   * «JavaCommentFormatter.format(comment)»
    */
   «ENDIF»
 enum «name» {
   «FOR item : items SEPARATOR ','»
   «IF item.comment !== null && !item.comment.isEmpty»
   /**
-    * «item.comment»
-    */
+   * «JavaCommentFormatter.format(item.comment)»
+   */
   «ENDIF»
     «item.name»«IF item.value.isValid()» = «item.value.name»«ENDIF»
   «ENDFOR»

@@ -45,8 +45,8 @@ public class JavaNativeInterfacesImplementationTemplateTest {
   }
 
   private String expectedGeneratedJNIMethod(String methodName) {
-    return "\nextern \"C\" int\n"
-        + "Java_com_here_ivi_TestClass_"
+    return "\nextern \"C\" jint\n"
+        + "Java_com_here_android_TestClass_"
         + methodName
         + "(JNIEnv* env, jobject jinstance, jint jparam)\n"
         + "{\n"
