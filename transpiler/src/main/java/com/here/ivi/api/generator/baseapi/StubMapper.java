@@ -24,22 +24,17 @@ import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppElements;
-import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppInheritance;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
 import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppUsing;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import navigation.BaseApiSpec;
-import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBroadcast;
 import org.franca.core.franca.FInterface;
@@ -52,13 +47,16 @@ import org.franca.core.franca.FTypeDef;
  */
 public class StubMapper extends AbstractCppModelMapper {
 
-  private static final Includes.SystemInclude EXPECTED_INCLUDE =
-      new Includes.SystemInclude("cpp/internal/expected.h");
-
   private final CppNameRules nameRules;
+  private final StubMethodMapper methodMapper;
 
   public StubMapper(CppNameRules nameRules) {
+    this(nameRules, new StubMethodMapper(nameRules));
+  }
+
+  public StubMapper(CppNameRules nameRules, StubMethodMapper methodMapper) {
     this.nameRules = nameRules;
+    this.methodMapper = methodMapper;
   }
 
   public CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaElement) {
@@ -106,7 +104,7 @@ public class StubMapper extends AbstractCppModelMapper {
     CppClass stubClass = stubClassBuilder.build();
 
     for (FMethod method : iface.getFrancaInterface().getMethods()) {
-      appendMethodElements(stubClass, method, rootModel);
+      methodMapper.mapMethodElements(stubClass, method, rootModel);
     }
 
     for (FBroadcast broadcast : iface.getFrancaInterface().getBroadcasts()) {
@@ -161,140 +159,6 @@ public class StubMapper extends AbstractCppModelMapper {
 
     // return outermost namespace
     return Iterables.getFirst(packageNs, null);
-  }
-
-  private void appendMethodElements(
-      CppClass stubClass,
-      FMethod method,
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
-    String uniqueMethodName =
-        nameRules.getMethodName(method.getName())
-            + NameHelper.toUpperCamelCase(method.getSelector());
-
-    CppType errorType;
-    String errorComment = "";
-    if (method.getErrorEnum() != null) {
-      errorType = CppTypeMapper.mapEnum(rootModel, method.getErrorEnum());
-      errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(method);
-    } else {
-      errorType = CppType.VOID;
-    }
-
-    String returnComment;
-    CppType returnType;
-
-    if (method.getOutArgs().isEmpty()) {
-      returnType = errorType;
-      returnComment = errorComment;
-    } else {
-      List<CppType> returnTypes = new ArrayList<>();
-      // documentation for the result type
-      String typeComment = "Result type for @ref " + stubClass.name + "::" + uniqueMethodName;
-
-      if (!errorType.equals(CppType.VOID)) {
-        returnTypes.add(errorType);
-        if (!errorComment.isEmpty()) {
-          // add error template arg documentation
-          typeComment += StubCommentParser.FORMATTER.formatTag("@arg Error", errorComment);
-        }
-      }
-
-      if (method.getOutArgs().size() > 1) { // create struct for multiple out arguments
-        CppStruct struct = new CppStruct();
-        struct.name = NameHelper.toUpperCamelCase(uniqueMethodName) + "Result";
-        struct.fields =
-            method
-                .getOutArgs()
-                .stream()
-                .map(
-                    argument -> {
-                      CppType type = mapCppType(rootModel, argument, method);
-                      CppField field =
-                          new CppField(type, NameHelper.toLowerCamelCase(argument.getName()));
-                      // document struct field with argument comment
-                      field.comment = StubCommentParser.FORMATTER.readCleanedComment(argument);
-                      return field;
-                    })
-                .collect(Collectors.toList());
-
-        // document return type, struct and append value information to type documentation
-        struct.comment = "Result struct for @ref " + stubClass.name + "::" + uniqueMethodName + ".";
-        typeComment += "\n* @arg Value The value struct instance";
-        returnComment =
-            errorType.equals(CppType.VOID)
-                ? "The result type, containing a struct of values."
-                : "The result type, containing an error and a struct of values.";
-
-        // register with model
-        stubClass.structs.add(struct);
-        returnTypes.add(new CppType(struct.name));
-      } else { // take first & only argument
-        FArgument argument = method.getOutArgs().get(0);
-        CppType type = mapCppType(rootModel, argument, method);
-
-        // document return type and append value information to type documentation
-
-        returnComment =
-            errorType.equals(CppType.VOID)
-                ? "The result type, containing " + type.name + " value."
-                : "The result type, containing either an error or the " + type.name + " value.";
-        if (!errorComment.isEmpty()) {
-          typeComment += StubCommentParser.FORMATTER.formatWithTag("@arg Value", argument);
-        }
-
-        // register with model
-        returnTypes.add(type);
-      }
-
-      if (returnTypes.size() > 1) {
-        // always wrap multiple out values (error + outArgs) in their own type
-        List<String> names = returnTypes.stream().map(t -> t.name).collect(Collectors.toList());
-        Set<Includes.Include> includes =
-            returnTypes.stream().flatMap(t -> t.includes.stream()).collect(Collectors.toSet());
-        includes.add(EXPECTED_INCLUDE);
-
-        returnType =
-            new CppType(
-                rootModel.getDefiner(),
-                "here::internal::Expected< " + String.join(", ", names) + " >",
-                CppElements.TypeInfo.Complex,
-                includes);
-
-        // create & add using for this type with correct documentation
-        String usingTypeName = NameHelper.toUpperCamelCase(uniqueMethodName) + "Expected";
-        CppUsing using = new CppUsing(usingTypeName, returnType);
-        using.comment = typeComment;
-        stubClass.usings.add(using);
-        returnType = new CppType(usingTypeName);
-      } else {
-        returnType = returnTypes.get(0);
-      }
-    }
-
-    // create & add method, add return value documentation as this is not done in buildStubMethod
-    CppMethod cppMethod = buildStubMethod(method, returnType, rootModel);
-    if (!returnComment.isEmpty()) {
-      cppMethod.comment += StubCommentParser.FORMATTER.formatTag("@return", returnComment);
-    }
-    stubClass.methods.add(cppMethod);
-  }
-
-  private CppType mapCppType(
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
-      FArgument argument,
-      FMethod method) {
-
-    CppType type = CppTypeMapper.map(rootModel, argument);
-
-    if (type.info != CppElements.TypeInfo.InterfaceInstance) {
-      return type;
-    }
-
-    if (rootModel.getAccessor().getCreates(method) == null) {
-      return CppTypeMapper.wrapSharedPtr(type, nameRules);
-    } else {
-      return CppTypeMapper.wrapUniquePtr(type, nameRules);
-    }
   }
 
   private void appendAttributeAccessorElements(
@@ -450,44 +314,6 @@ public class StubMapper extends AbstractCppModelMapper {
     for (CppParameter parameter : parameters) {
       builder.inParameter(parameter);
     }
-
-    return builder.build();
-  }
-
-  private CppMethod buildStubMethod(
-      FMethod method,
-      CppType returnType,
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
-
-    CppMethod.Builder builder =
-        new CppMethod.Builder(method.getName() + NameHelper.toUpperCamelCase(method.getSelector()))
-            .returnType(returnType);
-
-    if (rootModel.getAccessor().getStatic(method)) {
-      builder.specifier(CppMethod.Specifier.STATIC);
-    } else {
-      if (rootModel.getAccessor().getConst(method)) {
-        // const needs to be before = 0; This smells more than the = 0 below
-        builder.qualifier(CppMethod.Qualifier.CONST);
-      }
-      builder.specifier(CppMethod.Specifier.VIRTUAL);
-      builder.qualifier(CppMethod.Qualifier.PURE_VIRTUAL);
-    }
-
-    for (FArgument inArg : method.getInArgs()) {
-      CppParameter param = new CppParameter();
-      param.name = inArg.getName();
-      param.mode = CppParameter.Mode.Input;
-
-      param.type = CppTypeMapper.map(rootModel, inArg.getType());
-      if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
-        param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
-      }
-
-      builder.inParameter(param);
-    }
-
-    builder.comment(StubCommentParser.parse(method).getMainBodyText());
 
     return builder.build();
   }

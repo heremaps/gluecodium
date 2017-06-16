@@ -15,7 +15,9 @@ import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.*;
 
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.Interface;
@@ -42,6 +44,8 @@ public class StubMapperTest {
   @SuppressWarnings("unused")
   @Mock
   private CppNameRules nameRules;
+
+  @Mock private StubMethodMapper methodMapper;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface;
@@ -95,5 +99,18 @@ public class StubMapperTest {
     CppElement cppElement = namespace.members.get(0);
     assertTrue(cppElement instanceof CppClass);
     assertEquals(0, ((CppClass) cppElement).methods.size());
+
+    verify(methodMapper, never()).mapMethodElements(any(), any(), any());
+  }
+
+  @Test
+  public void mapFrancaModelToCppModelWithOneMethod() {
+    FMethod francaMethod = mock(FMethod.class);
+    methods.add(francaMethod);
+
+    CppNamespace namespace = mapper.mapFrancaModelToCppModel(anInterface);
+
+    assertNotNull(namespace);
+    verify(methodMapper).mapMethodElements(any(), same(francaMethod), any());
   }
 }
