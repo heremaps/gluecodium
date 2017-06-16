@@ -28,12 +28,15 @@ import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 
 public final class JavaTypeMapper {
+  private JavaTypeMapper() {}
+
   public static JavaType map(
       final Interface<BaseApiSpec.InterfacePropertyAccessor> api, final FTypeRef fTypeRef) {
     if (fTypeRef.getDerived() != null) {
       return mapDerived(api, fTypeRef);
     }
-    if (fTypeRef.getPredefined() != null) {
+
+    if (fTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
       return mapPredefined(fTypeRef);
     }
 
