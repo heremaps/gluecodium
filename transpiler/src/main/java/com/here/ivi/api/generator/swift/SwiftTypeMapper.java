@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.swift;
 
+import com.here.ivi.api.model.swift.SwiftArrayType;
 import com.here.ivi.api.model.swift.SwiftType;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FBasicTypeId;
@@ -23,12 +24,38 @@ public class SwiftTypeMapper {
   }
 
   public static SwiftType mapPredefined(FTypeRef type) {
-    switch (type.getPredefined().getValue()) {
+    FBasicTypeId typeId = type.getPredefined();
+    switch (typeId.getValue()) {
+      case FBasicTypeId.UNDEFINED_VALUE:
+        return SwiftType.VOID;
+      case FBasicTypeId.INT8_VALUE:
+        return new SwiftType("Int8");
+      case FBasicTypeId.UINT8_VALUE:
+        return new SwiftType("UInt8");
+      case FBasicTypeId.INT16_VALUE:
+        return new SwiftType("Int16");
+      case FBasicTypeId.UINT16_VALUE:
+        return new SwiftType("UInt16");
+      case FBasicTypeId.INT32_VALUE:
+        return new SwiftType("Int32");
+      case FBasicTypeId.UINT32_VALUE:
+        return new SwiftType("UInt32");
+      case FBasicTypeId.INT64_VALUE:
+        return new SwiftType("Int64");
+      case FBasicTypeId.UINT64_VALUE:
+        return new SwiftType("UInt64");
+      case FBasicTypeId.BOOLEAN_VALUE:
+        return new SwiftType("Bool");
       case FBasicTypeId.STRING_VALUE:
         return new SwiftType("String");
-      default:
-        return new SwiftType(type.getPredefined().getName());
+      case FBasicTypeId.FLOAT_VALUE:
+        return new SwiftType("Float");
+      case FBasicTypeId.DOUBLE_VALUE:
+        return new SwiftType("Double");
+      case FBasicTypeId.BYTE_BUFFER_VALUE:
+        return new SwiftArrayType("UInt8");
     }
+    return SwiftType.VOID;
   }
 
   public static SwiftType mappedReturnValue(FMethod method) {
@@ -38,6 +65,6 @@ public class SwiftTypeMapper {
         .stream()
         .findFirst()
         .map(SwiftTypeMapper::mappedType)
-        .orElse(new SwiftType("void"));
+        .orElse(SwiftType.VOID);
   }
 }

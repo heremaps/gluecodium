@@ -43,7 +43,7 @@ class SwiftMethod {
     }
 
     new(String name, SwiftMethodParameter[] parameters) {
-        this.returnType = new SwiftType("void")
+        this.returnType = SwiftType.VOID
         this.parameters = parameters
         this.name = name
         this.comment = ""

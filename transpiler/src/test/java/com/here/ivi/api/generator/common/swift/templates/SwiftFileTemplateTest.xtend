@@ -20,6 +20,7 @@ import static org.junit.Assert.*
 import com.here.ivi.api.model.swift.SwiftMethod
 import com.here.ivi.api.model.swift.SwiftMethodParameter
 import com.here.ivi.api.model.swift.SwiftType
+import com.here.ivi.api.model.swift.SwiftArrayType
 
 @RunWith(typeof(XtextRunner))
 class SwiftFileTemplateTest {
@@ -122,7 +123,7 @@ class SwiftFileTemplateTest {
         val expected = '''
             public class ExampleClass {
 
-                public func myMethod(parameterInterfaceName parameterVariableName: Int) {
+                public func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void {
                     let c_parameterVariableName = parameterVariableName
                     return ExampleClass_myMethod(c_parameterVariableName)
                 }
@@ -146,10 +147,29 @@ class SwiftFileTemplateTest {
         val expected = '''
             public class ExampleClass {
 
-                public func myMethod(parameterOne: Int, parameterTwo: String) {
+                public func myMethod(parameterOne: Int, parameterTwo: String) -> Void {
                     let c_parameterOne = parameterOne
                     let c_parameterTwo = parameterTwo.cString(using: String.Encoding.utf8)
                     return ExampleClass_myMethod(c_parameterOne, c_parameterTwo)
+                }
+            }
+        '''
+
+        val generated = SwiftFileTemplate.generate(swiftClass)
+
+        assertEqualContent(expected, generated.toString)
+    }
+
+    @Test
+    def methodWithArrayParameter() {
+        val swiftClass = new SwiftClass("MyClass", null) => [
+            methods = #[new SwiftMethod("myMethod", #[new SwiftMethodParameter("array", new SwiftArrayType("UInt8"))])]
+        ]
+        val expected = '''
+            public class MyClass {
+                public func myMethod(array: [UInt8]) -> Void {
+                    let c_array = array
+                    return MyClass_myMethod(c_array)
                 }
             }
         '''
@@ -196,7 +216,7 @@ class SwiftFileTemplateTest {
         ]
         val expected = '''
             public class MyClass {
-                static func myStaticMethod() {
+                static func myStaticMethod() -> Void {
                     return MyClass_myStaticMethod()
                 }
             }
