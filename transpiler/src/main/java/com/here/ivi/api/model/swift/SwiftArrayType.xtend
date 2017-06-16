@@ -11,16 +11,13 @@
 
 package com.here.ivi.api.model.swift
 
-class SwiftType {
-    public static final val VOID = new SwiftType("Void");
+class SwiftArrayType extends SwiftType {
 
-    new(String name) {
-        this.name = name
+    new (String name) {
+        super(name)
     }
 
     override toString() {
-        name;
+        return '''[«name»]'''
     }
-
-    final public String name
 }

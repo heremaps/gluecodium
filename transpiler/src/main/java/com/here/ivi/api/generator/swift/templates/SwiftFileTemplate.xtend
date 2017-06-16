@@ -78,31 +78,19 @@ class SwiftFileTemplate {
             default: {}
         }
         if (property.nullability == SwiftProperty.Nullability.NONNULL) attributes.add("nonnull")
-        var typeName = generateTypeDefinition(property.type)
-        '''«FOR attrib : attributes BEFORE '(' SEPARATOR ', ' AFTER ')'»«attrib»«ENDFOR» «typeName» «property.name»;'''
-    }
-
-    def static generateTypeDefinition(SwiftType type) {
-        val typeName = if (type.templatedTypeName !== null) '''«type.name»<«type.templatedTypeName»>''' else type.name
-        switch (type.subtype) {
-            case SwiftType.Subtype.POINTER: '''«typeName» *'''
-            case SwiftType.Subtype.REFERENCE: '''«typeName» &'''
-            default: typeName
-        }
+        '''«FOR attrib : attributes BEFORE '(' SEPARATOR ', ' AFTER ')'»«attrib»«ENDFOR» «property.type» «property.name»;'''
     }
 
     def static generateMethodParam(SwiftMethodParameter methodParameter) {
         val variableName = if (methodParameter.hasDifferentVariableName) ''' «methodParameter.variableName»'''
-        '''«methodParameter.interfaceName»«variableName»: «generateTypeDefinition(methodParameter.type)»'''
+        '''«methodParameter.interfaceName»«variableName»: «methodParameter.type»'''
     }
 
     def static generateMethod(SwiftClass cl, SwiftMethod method) {
-        val returnType = if (SwiftType.VOID.equals(method.returnType)) ''''''
-                         else ''' -> «generateTypeDefinition(method.returnType)»'''
         val parameters = '''«FOR param: method.parameters SEPARATOR ", "»«generateMethodParam(param)»«ENDFOR»'''
         val visibility = if (method.isStatic) '''static''' else '''public'''
         '''
-        «visibility» func «method.name»(«parameters»)«returnType» {
+        «visibility» func «method.name»(«parameters») -> «method.returnType» {
             «generateCBridgeCall(cl, method)»
         }
         '''
