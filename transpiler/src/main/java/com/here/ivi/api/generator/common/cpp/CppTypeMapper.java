@@ -94,9 +94,11 @@ public class CppTypeMapper {
     if (type.getDerived() != null) {
       return mapDerived(rootModel, type);
     }
-    if (type.getPredefined() != null) {
+
+    if (type.getPredefined() != FBasicTypeId.UNDEFINED) {
       return mapPredefined(type);
     }
+
     return new CppType();
   }
 

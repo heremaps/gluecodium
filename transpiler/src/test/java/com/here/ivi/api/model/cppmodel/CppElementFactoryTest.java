@@ -23,6 +23,7 @@ import com.here.ivi.api.generator.common.CppElementFactory;
 import com.here.ivi.api.model.InstanceHelper;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FAnnotationBlock;
+import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
@@ -52,6 +53,7 @@ public class CppElementFactoryTest {
   @Test
   public void createCppUsingWithUncommentedTypeAlias() {
     when(definition.getActualType()).thenReturn(reference);
+    when(reference.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
 
     CppUsing cppUsing = CppElementFactory.create(rootModel, definition);
     assertNotNull(cppUsing);
@@ -65,6 +67,7 @@ public class CppElementFactoryTest {
   @Test
   public void createCppUsingWithCommentedTypeAlias() {
     when(definition.getActualType()).thenReturn(reference);
+    when(reference.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(definition.getComment()).thenReturn(annotationBlock);
     String comment = "bla bla";
     when(annotationBlock.toString()).thenReturn(comment);
