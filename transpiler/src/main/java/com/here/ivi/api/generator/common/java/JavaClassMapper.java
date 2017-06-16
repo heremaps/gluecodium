@@ -30,7 +30,7 @@ public final class JavaClassMapper {
   private JavaClassMapper() {}
 
   public static JavaClass map(final Interface<BaseApiSpec.InterfacePropertyAccessor> api) {
-    JavaClass javaClass = new JavaClass(api.getName());
+    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(api.getName()));
 
     // TODO(APIGEN-107): Add fields, constants ...
 
@@ -48,20 +48,21 @@ public final class JavaClassMapper {
     // Map return type
     EList<FArgument> outArgs = fMethod.getOutArgs();
     if (outArgs.isEmpty()) { // Void return type
-      javaMethod = new JavaMethod(fMethod.getName());
+      javaMethod = new JavaMethod(JavaNameRules.getMethodName(fMethod.getName()));
     } else if (outArgs.size() == 1) {
       JavaType returnType = JavaTypeMapper.map(api, outArgs.get(0).getType());
 
-      javaMethod = new JavaMethod(fMethod.getName(), returnType);
+      javaMethod = new JavaMethod(JavaNameRules.getMethodName(fMethod.getName()), returnType);
     } else {
       // TODO: Wrap comlex return type in an immutable container class
-      javaMethod = new JavaMethod(fMethod.getName());
+      javaMethod = new JavaMethod(JavaNameRules.getMethodName(fMethod.getName()));
     }
 
     // Map method arguments
     for (FArgument fArgument : fMethod.getInArgs()) {
       JavaType javaArgumentType = JavaTypeMapper.map(api, fArgument.getType());
-      javaMethod.parameters.add(new JavaParameter(javaArgumentType, fArgument.getName()));
+      javaMethod.parameters.add(
+          new JavaParameter(javaArgumentType, JavaNameRules.getArgumentName(fArgument.getName())));
     }
 
     // TODO: Map errors to exception(s)
