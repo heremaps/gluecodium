@@ -15,19 +15,24 @@ import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTempl
 import com.here.ivi.api.model.javamodel.JavaClass
 
 public class JavaNativeInterfacesImplementationTemplate {
-  def static generate(JavaClass javaClass) '''
-    «JavaCopyrightHeaderTemplate.generate()»
-
-    /**
-     * JNI implementation for class «javaClass.name»
-     */
-
-    #include "TODO"
-
-    «FOR method : javaClass.methods»
-    «method.returnType.name» «JavaNativeFunctionSignatureTemplate.generate(javaClass.name, method)»{
-        //TODO
+  def static generate(JavaClass javaClass) {
+    if (javaClass == null) {
+      return ""
     }
-    «ENDFOR»
-  '''
+
+    return
+      '''
+      «JavaCopyrightHeaderTemplate.generate()»
+
+      #include "TODO"
+
+      «FOR method : javaClass.methods»
+      extern "C" «method.returnType.name»
+      «JavaNativeFunctionSignatureTemplate.generate(javaClass.name, method)»
+      {
+          //TODO
+      }
+      «ENDFOR»
+    '''
+  }
 }
