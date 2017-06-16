@@ -15,10 +15,8 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-import java.util.Arrays;
-import java.util.Collections;
+import com.here.ivi.api.test.ArrayEList;
 import java.util.regex.Pattern;
-import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FAnnotation;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FAnnotationType;
@@ -30,6 +28,7 @@ import org.junit.runners.JUnit4;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 @RunWith(JUnit4.class)
 public class AbstractFrancaCommentParserTest {
@@ -54,9 +53,10 @@ public class AbstractFrancaCommentParserTest {
   @Mock private CommentFormatter formatter;
   @Mock private FModelElement element;
   @Mock private FAnnotationBlock annotationBlock;
-  @Mock private EList<FAnnotation> annotationList;
   @Mock private FAnnotation annotation;
   @Mock private FAnnotation secondAnnotation;
+
+  @Spy private ArrayEList<FAnnotation> annotationList = new ArrayEList<>();
 
   @Before
   public void setUp() {
@@ -91,8 +91,6 @@ public class AbstractFrancaCommentParserTest {
 
   @Test
   public void parseCommentBlockWithEmptyComment() {
-    when(annotationList.iterator()).thenReturn(Collections.<FAnnotation>emptyList().iterator());
-
     boolean result = commentParser.parseCommentBlock();
 
     assertTrue(result);
@@ -103,7 +101,7 @@ public class AbstractFrancaCommentParserTest {
 
   @Test
   public void parseCommentBlockWithOneIrrelevantType() {
-    when(annotationList.iterator()).thenReturn(Collections.singletonList(annotation).iterator());
+    annotationList.add(annotation);
     when(annotation.getType()).thenReturn(FAnnotationType.EXPERIMENTAL);
 
     boolean result = commentParser.parseCommentBlock();
@@ -117,7 +115,7 @@ public class AbstractFrancaCommentParserTest {
 
   @Test
   public void parseCommentBlockWithOneDescription() {
-    when(annotationList.iterator()).thenReturn(Collections.singletonList(annotation).iterator());
+    annotationList.add(annotation);
     when(annotation.getType()).thenReturn(FAnnotationType.DESCRIPTION);
 
     commentParser.parseCommentBlock();
@@ -129,7 +127,7 @@ public class AbstractFrancaCommentParserTest {
 
   @Test
   public void parseCommentBlockWithOneDeprecated() {
-    when(annotationList.iterator()).thenReturn(Collections.singletonList(annotation).iterator());
+    annotationList.add(annotation);
     when(annotation.getType()).thenReturn(FAnnotationType.DEPRECATED);
 
     commentParser.parseCommentBlock();
@@ -141,8 +139,8 @@ public class AbstractFrancaCommentParserTest {
 
   @Test
   public void parseCommentBlockWithTwoDescriptions() {
-    when(annotationList.iterator())
-        .thenReturn(Arrays.asList(annotation, secondAnnotation).iterator());
+    annotationList.add(annotation);
+    annotationList.add(secondAnnotation);
     when(annotation.getType()).thenReturn(FAnnotationType.DESCRIPTION);
     when(secondAnnotation.getType()).thenReturn(FAnnotationType.DESCRIPTION);
 
@@ -154,8 +152,8 @@ public class AbstractFrancaCommentParserTest {
 
   @Test
   public void parseCommentBlockWithTwoDeprecateds() {
-    when(annotationList.iterator())
-        .thenReturn(Arrays.asList(annotation, secondAnnotation).iterator());
+    annotationList.add(annotation);
+    annotationList.add(secondAnnotation);
     when(annotation.getType()).thenReturn(FAnnotationType.DEPRECATED);
     when(secondAnnotation.getType()).thenReturn(FAnnotationType.DEPRECATED);
 
@@ -168,9 +166,9 @@ public class AbstractFrancaCommentParserTest {
   @Test
   public void parseCommentBlockWithOneEach() {
     FAnnotation thirdAnnotation = mock(FAnnotation.class);
-
-    when(annotationList.iterator())
-        .thenReturn(Arrays.asList(annotation, secondAnnotation, thirdAnnotation).iterator());
+    annotationList.add(annotation);
+    annotationList.add(secondAnnotation);
+    annotationList.add(thirdAnnotation);
     when(annotation.getType()).thenReturn(FAnnotationType.DESCRIPTION);
     when(secondAnnotation.getType()).thenReturn(FAnnotationType.DEPRECATED);
     when(thirdAnnotation.getType()).thenReturn(FAnnotationType.EXPERIMENTAL);
