@@ -17,7 +17,6 @@ typeCollection NavigationTypes {
         minor 0
     }
 
-    // TODO in legacy integration prototype - reuse legacy::ErrorCode instead of generating this
     enumeration ErrorCode {
       None
       Unknown
