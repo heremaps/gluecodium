@@ -76,27 +76,20 @@ public final class DoxygenFormatter implements CommentFormatter {
 
   // TODO move to baseapicommentparsethingie
   public String readCleanedErrorComment(FMethod method) {
-    FAnnotationBlock errorComment = method.getErrorComment();
-    if (errorComment != null) {
-      return cleanUpFrancaComment(readDescription(errorComment));
-    }
-
-    // TODO warn about missing documentation
-    return "";
+    return cleanUpFrancaComment(readDescription(method.getErrorComment()));
   }
 
   // TODO move to baseapicommentparsethingie
   public String readCleanedComment(FModelElement element) {
-    FAnnotationBlock comment = element.getComment();
-    if (comment == null) {
-      // TODO warn about missing documentation
-      return "";
-    }
-
-    return cleanUpFrancaComment(readDescription(comment));
+    return cleanUpFrancaComment(readDescription(element.getComment()));
   }
 
   private String cleanUpFrancaComment(String comment) {
+
+    if (comment.isEmpty()) {
+      return comment;
+    }
+
     // keep all remaining ${doxygenTag}Text${/doxygenTag} and ${doxygenTag:<generator>} with @doxygenTag Text
     String result = doxygenTagsToKeep.matcher(comment).replaceAll("@${tag}${comment}");
     // and drop all ${doxygenTag:<other_generators>} tags
@@ -107,6 +100,11 @@ public final class DoxygenFormatter implements CommentFormatter {
   }
 
   public String readDescription(FAnnotationBlock comment) {
+
+    if (comment == null || comment.getElements() == null) {
+      // TODO warn about missing documentation
+      return "";
+    }
 
     for (FAnnotation annotation : comment.getElements()) {
       // skip all types but description
