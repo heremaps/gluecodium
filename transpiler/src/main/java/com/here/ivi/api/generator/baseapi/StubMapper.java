@@ -105,11 +105,6 @@ public class StubMapper extends AbstractCppModelMapper {
 
     CppClass stubClass = stubClassBuilder.build();
 
-    // allow creating a shared pointer from within this class
-    CppType sharedFromThis = new CppType("std::enable_shared_from_this< " + stubClassName + " >");
-    sharedFromThis.setIncludes(CppLibraryIncludes.MEMORY);
-    stubClass.inheritances.add(new CppInheritance(sharedFromThis, CppInheritance.Type.Public));
-
     for (FMethod method : iface.getFrancaInterface().getMethods()) {
       appendMethodElements(stubClass, method, rootModel);
     }
