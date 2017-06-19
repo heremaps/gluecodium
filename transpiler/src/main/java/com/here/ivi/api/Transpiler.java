@@ -83,7 +83,7 @@ public final class Transpiler {
       logger.info("Using generator " + sn);
 
       try {
-        GeneratorSuite generator = GeneratorSuite.instantiateByShortName(sn);
+        GeneratorSuite generator = GeneratorSuite.instantiateByShortName(sn, options);
         logger.info("Instantiated generator " + generator.getName());
 
         generator.buildModel(options.getInputDir());
@@ -127,7 +127,7 @@ public final class Transpiler {
     logger.info("No generators specified, using auto-discovery");
     List<String> availableGenerators = GeneratorSuite.generatorShortNames();
     try {
-      generators = GeneratorSuite.generatorsFromFdepl(options.getInputDir());
+      generators = GeneratorSuite.generatorsFromFdepl(options);
       if (generators.isEmpty()) {
         logger.info(
             "No generators discovered, switching to use all available: " + availableGenerators);

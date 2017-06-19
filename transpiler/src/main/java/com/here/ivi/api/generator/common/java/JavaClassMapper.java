@@ -13,8 +13,16 @@ package com.here.ivi.api.generator.common.java;
 
 import com.here.ivi.api.generator.baseapi.StubCommentParser;
 import com.here.ivi.api.model.Interface;
-import com.here.ivi.api.model.javamodel.*;
+import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaConstant;
+import com.here.ivi.api.model.javamodel.JavaField;
+import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaMethod.Qualifier;
+import com.here.ivi.api.model.javamodel.JavaPackage;
+import com.here.ivi.api.model.javamodel.JavaParameter;
+import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.javamodel.JavaValue;
+import com.here.ivi.api.model.javamodel.JavaVisibility;
 import navigation.BaseApiSpec;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FAnnotationBlock;
@@ -31,10 +39,11 @@ import org.franca.core.franca.FMethod;
 public final class JavaClassMapper {
   private JavaClassMapper() {}
 
-  public static JavaClass map(final Interface<BaseApiSpec.InterfacePropertyAccessor> api) {
+  public static JavaClass map(
+      final Interface<BaseApiSpec.InterfacePropertyAccessor> api, JavaPackage javaPackage) {
     JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(api.getName()));
     javaClass.visibility = JavaVisibility.PUBLIC;
-    javaClass.javaPackage = new JavaPackage(api.getPackage());
+    javaClass.javaPackage = javaPackage;
     FAnnotationBlock comment = api.getFrancaInterface().getComment();
     if (comment != null && comment.getElements() != null) {
       javaClass.comment = StubCommentParser.FORMATTER.readDescription(comment);

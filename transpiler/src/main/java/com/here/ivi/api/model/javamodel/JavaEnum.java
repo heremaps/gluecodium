@@ -12,13 +12,12 @@
 package com.here.ivi.api.model.javamodel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
 public final class JavaEnum extends JavaElement {
   public boolean isTopLevel = false;
-  public JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "android"));
+  public JavaPackage javaPackage = JavaPackage.DEFAULT;
   public List<JavaEnumItem> items = new ArrayList<>();
 
   public JavaEnum(final String name) {

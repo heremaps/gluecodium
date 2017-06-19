@@ -11,14 +11,13 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
 public class JavaClass extends JavaElement {
 
-  public JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "android"));
+  public JavaPackage javaPackage = JavaPackage.DEFAULT;
   public Set<JavaMethod> methods = new LinkedHashSet<>();
   public Set<JavaField> fields = new LinkedHashSet<>();
   public JavaInheritance inheritance = null;
