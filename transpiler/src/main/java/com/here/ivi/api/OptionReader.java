@@ -11,9 +11,12 @@
 
 package com.here.ivi.api;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.cli.*;
 
@@ -25,6 +28,10 @@ public final class OptionReader {
 
     public String getOutputDir() {
       return outputDir;
+    }
+
+    public List<String> getJavaPackageList() {
+      return javaPackageList;
     }
 
     public boolean isDumpingToStdout() {
@@ -40,8 +47,8 @@ public final class OptionReader {
     }
 
     protected String inputDir;
-
     protected String outputDir;
+    protected List<String> javaPackageList;
     protected boolean stdoutDump;
     protected boolean validateOnly;
 
@@ -53,6 +60,7 @@ public final class OptionReader {
 
     options.addOption("input", true, "The path or the file to use for generation");
     options.addOption("output", true, "Generated files output destination");
+    options.addOption("javapackage", true, "Java package name");
     options.addOption("nostdout", false, "Don't dump generated files to stdout");
     options.addOption("help", false, "Shows this help and exits.");
     options.addOption("listGenerators", false, "Prints out all available generators and exits.");
@@ -103,12 +111,11 @@ public final class OptionReader {
         res.inputDir = remainingArgs[0];
       }
 
-      if (cmd.hasOption("output")) {
-        res.outputDir = cmd.getOptionValue("output");
-
-      } else {
-        res.outputDir = null;
-      }
+      res.outputDir = cmd.hasOption("output") ? cmd.getOptionValue("output") : null;
+      res.javaPackageList =
+          cmd.hasOption("javapackage")
+              ? Lists.newArrayList(Splitter.on(".").split(cmd.getOptionValue("javapackage")))
+              : Collections.emptyList();
 
       if (cmd.hasOption("generators")) {
         String[] arg = cmd.getOptionValues("generators");
@@ -142,7 +149,7 @@ public final class OptionReader {
     for (String sn : GeneratorSuite.generatorShortNames()) {
       System.out.println("  Found generator " + sn);
       try {
-        GeneratorSuite gen = GeneratorSuite.instantiateByShortName(sn);
+        GeneratorSuite gen = GeneratorSuite.instantiateByShortName(sn, new TranspilerOptions());
         System.out.println("   DefinedIn:  " + gen.getClass().getName());
         System.out.println("   Name:       " + gen.getName());
       } catch (NoSuchMethodException

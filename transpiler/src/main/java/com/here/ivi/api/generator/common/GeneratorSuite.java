@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common;
 
+import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
@@ -53,12 +54,13 @@ public interface GeneratorSuite {
   void buildModel(String inputPath);
 
   /** Creates a new instance of a generator suite by its short identifier */
-  static GeneratorSuite instantiateByShortName(String shortName)
+  static GeneratorSuite instantiateByShortName(
+      String shortName, OptionReader.TranspilerOptions options)
       throws InvocationTargetException, NoSuchMethodException, InstantiationException,
           IllegalAccessException {
     switch (shortName) {
       case "android":
-        return new AndroidGeneratorSuite();
+        return new AndroidGeneratorSuite(options);
       case "stub":
         return new BaseApiGeneratorSuite();
       case "swift":
@@ -79,13 +81,14 @@ public interface GeneratorSuite {
    * @param inputPath The root directory of the fidl/fdepl files.
    * @return List of generators needed to process provided files
    */
-  static List<String> generatorsFromFdepl(String inputPath)
+  static List<String> generatorsFromFdepl(OptionReader.TranspilerOptions options)
       throws NoSuchMethodException, InstantiationException, IllegalAccessException,
           InvocationTargetException {
+    String inputPath = options.getInputDir();
     Set<String> specNames = FDHelper.findSpecificationNames(inputPath);
     List<String> generators = new ArrayList<>();
     for (String sn : generatorShortNames()) {
-      GeneratorSuite generator = instantiateByShortName(sn);
+      GeneratorSuite generator = instantiateByShortName(sn, options);
       FDModel model = FDHelper.loadModel(generator.getSpecPath());
       if (!model.getSpecifications().isEmpty()) {
         String generatorSpecName = model.getSpecifications().get(0).getName();

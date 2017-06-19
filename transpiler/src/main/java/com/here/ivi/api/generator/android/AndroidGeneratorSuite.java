@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.android;
 
+import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.baseapi.BaseApiNameRules;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -36,6 +37,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 public final class AndroidGeneratorSuite implements GeneratorSuite {
   public static final String GENERATOR_NAMESPACE = "android";
 
+  private final OptionReader.TranspilerOptions transpilerOptions;
+
   private final SpecAccessorFactory<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
       specAccessorFactory;
   private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
@@ -44,20 +47,11 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
   private Collection<File> currentFiles;
   private final AndroidValidator validator;
 
-  public AndroidGeneratorSuite() {
+  public AndroidGeneratorSuite(OptionReader.TranspilerOptions transpilerOptions) {
     this.specAccessorFactory = new AndroidSpecAccessorFactory();
     this.validator = new AndroidValidator();
     this.francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
-  }
-
-  public AndroidGeneratorSuite(
-      final AndroidSpecAccessorFactory specAccessorFactory,
-      final AndroidValidator validator,
-      final FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
-          francaModelLoader) {
-    this.specAccessorFactory = specAccessorFactory;
-    this.validator = validator;
-    this.francaModelLoader = francaModelLoader;
+    this.transpilerOptions = transpilerOptions;
   }
 
   @Override
@@ -90,7 +84,7 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
 
     // Java generator needs:
     // - java name rules
-    JavaGenerator javaGenerator = new JavaGenerator();
+    JavaGenerator javaGenerator = new JavaGenerator(transpilerOptions.getJavaPackageList());
 
     // JNI header generator will need:
     // - java name rules
@@ -102,7 +96,8 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
     // - java to jni type conversion (see above)
     // - jni to cpp type converter
     //   jlong to long
-    JavaNativeInterfacesGenerator jniGenerator = new JavaNativeInterfacesGenerator(cppNameRules);
+    JavaNativeInterfacesGenerator jniGenerator =
+        new JavaNativeInterfacesGenerator(cppNameRules, transpilerOptions.getJavaPackageList());
 
     Stream<GeneratedFile> generatorStream =
         model

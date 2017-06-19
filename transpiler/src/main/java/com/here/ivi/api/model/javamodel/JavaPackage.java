@@ -11,9 +11,13 @@
 
 package com.here.ivi.api.model.javamodel;
 
+import java.util.Arrays;
 import java.util.List;
 
 public final class JavaPackage {
+  public static final JavaPackage DEFAULT =
+      new JavaPackage(Arrays.asList("com", "here", "android"));
+
   public final List<String> packageNames;
 
   public JavaPackage(final List<String> packageList) {

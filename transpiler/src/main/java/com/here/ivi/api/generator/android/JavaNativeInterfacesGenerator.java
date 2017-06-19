@@ -21,17 +21,19 @@ import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.Includes.InternalPublicInclude;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
 
 final class JavaNativeInterfacesGenerator {
-
   private final CppNameRules cppNameRules;
+  private final List<String> javaPackageList;
 
-  JavaNativeInterfacesGenerator(CppNameRules cppNameRules) {
+  JavaNativeInterfacesGenerator(CppNameRules cppNameRules, List<String> javaPackageList) {
     this.cppNameRules = cppNameRules;
+    this.javaPackageList = javaPackageList;
   }
 
   private List<Includes.InternalPublicInclude> getIncludes(
@@ -49,7 +51,11 @@ final class JavaNativeInterfacesGenerator {
   public List<GeneratedFile> generateFiles(final Interface<InterfacePropertyAccessor> api) {
     List<GeneratedFile> files = new LinkedList<>();
 
-    JavaClass javaClass = JavaClassMapper.map(api);
+    JavaPackage javaPackage =
+        javaPackageList == null || javaPackageList.isEmpty()
+            ? JavaPackage.DEFAULT
+            : new JavaPackage(javaPackageList);
+    JavaClass javaClass = JavaClassMapper.map(api, javaPackage);
 
     // JNI Header
     files.add(
