@@ -14,8 +14,15 @@ package com.here.ivi.api.model.cppmodel;
 import java.util.stream.Stream;
 
 public class CppConstant extends CppElement {
-  public CppType type;
-  public CppValue value;
+
+  public final CppType type;
+  public final CppValue value;
+
+  public CppConstant(final String name, final CppType type, final CppValue value) {
+    super(name);
+    this.type = type;
+    this.value = value;
+  }
 
   public boolean isValid() {
     return type != null && value != null && type.isValid() && value.isValid();

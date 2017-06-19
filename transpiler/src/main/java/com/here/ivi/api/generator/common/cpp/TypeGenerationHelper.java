@@ -85,13 +85,12 @@ public class TypeGenerationHelper {
   public static CppConstant buildCppConstant(
       CppModelAccessor<?> rootModel, FConstantDef constantDef) {
 
-    CppConstant constant = new CppConstant();
-    constant.type = CppTypeMapper.map(rootModel, constantDef);
     CppNameRules nameRules = rootModel.getRules();
-    constant.name = nameRules.getConstantName(constantDef.getName());
-    constant.value = CppValueMapper.map(constant.type, constantDef.getRhs(), nameRules);
+    String name = nameRules.getConstantName(constantDef.getName());
+    CppType type = CppTypeMapper.map(rootModel, constantDef);
+    CppValue value = CppValueMapper.map(type, constantDef.getRhs(), nameRules);
 
-    return constant;
+    return new CppConstant(name, type, value);
   }
 
   public static CppEnumClass buildCppEnumClass(
