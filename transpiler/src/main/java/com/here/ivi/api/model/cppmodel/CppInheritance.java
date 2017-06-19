@@ -21,8 +21,8 @@ public class CppInheritance extends CppElement {
     Private
   }
 
-  public CppType parent;
-  public Type visibility;
+  public final CppType parent;
+  public final Type visibility;
 
   public CppInheritance(CppType parent, Type type) {
     super(null);
