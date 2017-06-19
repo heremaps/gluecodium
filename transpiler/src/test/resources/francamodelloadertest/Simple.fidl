@@ -35,7 +35,7 @@ interface Simple {
       String text
     }
 
-    /** CARLO_ERROR_NONE on success, or another error code otherwise. **/
+    /** None on success, or another error code otherwise. **/
     error NavigationTypes.ErrorCode
   }
 }

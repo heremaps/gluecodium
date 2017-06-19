@@ -162,7 +162,7 @@ public class BaseApiGeneratorSuiteTest {
     assertNotNull(generatedFiles);
     assertEquals(
         "The cpp/internal files should always be generated, even with empty model",
-        4,
+        2,
         generatedFiles.size());
     for (GeneratedFile generatedFile : generatedFiles) {
       assertFalse(generatedFile.content.toString().isEmpty());

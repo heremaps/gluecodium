@@ -112,8 +112,6 @@ public class BaseApiGeneratorSuite extends AbstractGeneratorSuite {
     List<GeneratedFile> generatedFiles =
         generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
     final String targetDir = "src/";
-    generatedFiles.add(copyTarget("cpp/internal/AsyncAPI.h", targetDir));
-    generatedFiles.add(copyTarget("cpp/internal/AsyncAPI.cpp", targetDir));
     generatedFiles.add(copyTarget("cpp/internal/expected.h", targetDir));
     generatedFiles.add(copyTarget("cpp/internal/ListenerVector.h", targetDir));
 
