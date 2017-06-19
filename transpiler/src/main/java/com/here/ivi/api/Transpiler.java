@@ -70,8 +70,21 @@ public class Transpiler {
     String versionString = prop.getProperty("version", "0.0.1");
 
     String[] splits = versionString.split("\\.", 3);
+
+    // Handle optional version suffix separated by dash
+    String patchVersion = splits[2];
+    String suffixVersion = "";
+    if (patchVersion.contains("-")) {
+      String[] patchAndSuffix = splits[2].split("-", 2);
+      patchVersion = patchAndSuffix[0];
+      suffixVersion = patchAndSuffix[1];
+    }
+
     return new Version(
-        Integer.parseInt(splits[0]), Integer.parseInt(splits[1]), Integer.parseInt(splits[2]));
+        Integer.parseInt(splits[0]),
+        Integer.parseInt(splits[1]),
+        Integer.parseInt(patchVersion),
+        suffixVersion);
   }
 
   private static boolean checkForFileNameCollisions(

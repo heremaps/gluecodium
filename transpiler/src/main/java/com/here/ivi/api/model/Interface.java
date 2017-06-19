@@ -56,7 +56,7 @@ public class Interface<Accessor extends BaseApiSpec.InterfacePropertyAccessor>
     if (francaInterface.getVersion() != null) {
       return Version.create(francaInterface.getVersion());
     } else {
-      return new Version(0, 0, 0);
+      return new Version(0, 0, 0, "");
     }
   }
 

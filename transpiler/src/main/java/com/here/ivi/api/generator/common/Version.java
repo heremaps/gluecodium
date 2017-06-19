@@ -17,19 +17,26 @@ public class Version {
   public final int major;
   public final int minor;
   public final int patch;
+  public final String suffix;
 
-  public Version(int major, int minor, int patch) {
+  public Version(int major, int minor, int patch, String suffix) {
     this.major = major;
     this.minor = minor;
     this.patch = patch;
+    this.suffix = suffix;
   }
 
   public static Version create(FVersion version) {
-    return new Version(version.getMajor(), version.getMinor(), 0);
+    return new Version(version.getMajor(), version.getMinor(), 0, "");
   }
 
   @Override
   public String toString() {
-    return String.valueOf(major) + '.' + minor + '.' + patch;
+    return String.valueOf(major)
+        + '.'
+        + minor
+        + '.'
+        + patch
+        + (suffix.isEmpty() ? "" : "-" + suffix);
   }
 }
