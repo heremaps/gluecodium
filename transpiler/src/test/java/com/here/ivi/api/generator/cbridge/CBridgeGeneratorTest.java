@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.cbridge;
 
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.generator.baseapi.BaseApiNameRules;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cmodel.CInterface;
 import java.util.Collections;
@@ -29,14 +28,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 public class CBridgeGeneratorTest {
-
   private CBridgeGenerator generator;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface;
 
   @Mock private FInterface fInterface;
-
   @Mock private EList<FMethod> methods;
 
   @Before
@@ -46,7 +43,7 @@ public class CBridgeGeneratorTest {
     when(fInterface.getName()).thenReturn("TEST_NAME");
     when(fInterface.getMethods()).thenReturn(methods);
     when(anInterface.getPackage()).thenReturn(Collections.singletonList("Package"));
-    generator = new CBridgeGenerator(new CBridgeNameRules(), new BaseApiNameRules());
+    generator = new CBridgeGenerator(new CBridgeNameRules());
   }
 
   @Test

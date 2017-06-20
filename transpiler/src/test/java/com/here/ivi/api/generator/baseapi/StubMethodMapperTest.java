@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.baseapi;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.test.ArrayEList;
@@ -32,14 +31,9 @@ import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
 public class StubMethodMapperTest {
-
   private static final String methodName = "shoot foot";
   private static final String argumentName = "which foot";
   private static final String stdString = "std::string";
-
-  @SuppressWarnings("unused")
-  @Mock
-  private CppNameRules nameRules;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMethod francaMethod;

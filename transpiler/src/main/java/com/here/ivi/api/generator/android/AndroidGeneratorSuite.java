@@ -12,10 +12,8 @@
 package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.OptionReader;
-import com.here.ivi.api.generator.baseapi.BaseApiNameRules;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.java.AndroidSpecAccessorFactory;
@@ -79,7 +77,6 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
 
   @Override
   public List<GeneratedFile> generate() {
-    CppNameRules cppNameRules = new BaseApiNameRules();
     CppIncludeResolver cppIncludeResolver = new CppIncludeResolver(model);
 
     // Java generator needs:
@@ -97,7 +94,7 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
     // - jni to cpp type converter
     //   jlong to long
     JavaNativeInterfacesGenerator jniGenerator =
-        new JavaNativeInterfacesGenerator(cppNameRules, transpilerOptions.getJavaPackageList());
+        new JavaNativeInterfacesGenerator(transpilerOptions.getJavaPackageList());
 
     Stream<GeneratedFile> generatorStream =
         model

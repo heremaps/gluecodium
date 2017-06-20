@@ -12,6 +12,7 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.*;
 import java.util.Objects;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public class CppIncludeResolver {
                     }
 
                     FrancaElement<?> externalDefinition = externalDefinitionOpt.get();
-                    String includeName = li.nameRules.getHeaderPath(externalDefinition);
+                    String includeName = CppNameRules.getHeaderPath(externalDefinition);
 
                     // no self includes needed
                     if (includeName.equals(outputFile)) {

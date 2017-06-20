@@ -22,20 +22,14 @@ import java.util.List;
 import org.franca.core.franca.*;
 
 public final class TypeCollectionMapper extends AbstractCppModelMapper {
-
-  private final CppNameRules nameRules;
-
-  public TypeCollectionMapper(CppNameRules nameRules) {
-    this.nameRules = nameRules;
-  }
-
   @Override
   public CppNamespace mapFrancaModelToCppModel(FrancaElement<?> typeCollection) {
 
     CppNamespace result =
-        new CppNamespace(nameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection()));
+        new CppNamespace(
+            CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection()));
 
-    CppModelAccessor<?> rootModel = new CppModelAccessor<>(typeCollection, nameRules);
+    CppModelAccessor<?> rootModel = new CppModelAccessor<>(typeCollection);
 
     for (FType type : typeCollection.getFrancaTypeCollection().getTypes()) {
       // struct
@@ -54,8 +48,7 @@ public final class TypeCollectionMapper extends AbstractCppModelMapper {
       } else if (type instanceof FMapType) {
         result.members.add(buildMap((FMapType) type, rootModel));
       } else if (type instanceof FEnumerationType) {
-        result.members.add(
-            TypeGenerationHelper.buildCppEnumClass(nameRules, (FEnumerationType) type));
+        result.members.add(TypeGenerationHelper.buildCppEnumClass((FEnumerationType) type));
       } else {
         throw new TranspilerExecutionException(
             String.format("Missing type map in %s for %s.", rootModel, type.getClass().getName()));
@@ -79,7 +72,7 @@ public final class TypeCollectionMapper extends AbstractCppModelMapper {
 
     List<CppNamespace> packageNs =
         packageToCppNamespace(
-            nameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection)));
+            CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection)));
 
     // ensure to not create empty namespaces
     if (!result.isEmpty()) {
@@ -94,13 +87,12 @@ public final class TypeCollectionMapper extends AbstractCppModelMapper {
   private CppElement buildMap(FMapType type, CppModelAccessor<?> rootModel) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
-    typeDef.name = nameRules.getTypedefName(type.getName());
+    typeDef.name = CppNameRules.getTypedefName(type.getName());
     typeDef.targetType =
         CppTypeMapper.wrapMapType(
             DefinedBy.createFromFModelElement(type),
             CppTypeMapper.map(rootModel, type.getKeyType()),
-            CppTypeMapper.map(rootModel, type.getValueType()),
-            nameRules);
+            CppTypeMapper.map(rootModel, type.getValueType()));
 
     return typeDef;
   }
@@ -108,7 +100,7 @@ public final class TypeCollectionMapper extends AbstractCppModelMapper {
   private CppElement buildTypeDef(FTypeDef type, CppModelAccessor<?> rootModel) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
-    typeDef.name = nameRules.getTypedefName(type.getName());
+    typeDef.name = CppNameRules.getTypedefName(type.getName());
     typeDef.targetType = CppTypeMapper.map(rootModel, type.getActualType());
 
     return typeDef;
@@ -117,7 +109,7 @@ public final class TypeCollectionMapper extends AbstractCppModelMapper {
   private CppElement buildArray(FArrayType type, CppModelAccessor<?> rootModel) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
-    typeDef.name = nameRules.getTypedefName(type.getName());
+    typeDef.name = CppNameRules.getTypedefName(type.getName());
     typeDef.targetType = CppTypeMapper.defineArray(rootModel, type);
 
     return typeDef;
@@ -126,7 +118,7 @@ public final class TypeCollectionMapper extends AbstractCppModelMapper {
   private CppStruct buildCppStruct(FStructType structType, CppModelAccessor<?> rootModel) {
     CppStruct struct = new CppStruct();
     struct.comment = StubCommentParser.parse(structType).getMainBodyText();
-    struct.name = nameRules.getStructName(structType.getName());
+    struct.name = CppNameRules.getStructName(structType.getName());
 
     for (FField fieldInfo : structType.getElements()) {
       CppField field = TypeGenerationHelper.buildCppField(rootModel, fieldInfo, null);

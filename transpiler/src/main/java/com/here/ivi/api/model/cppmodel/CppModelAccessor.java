@@ -11,22 +11,17 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
 import navigation.BaseApiSpec;
 
 public class CppModelAccessor<DPA extends BaseApiSpec.IDataPropertyAccessor> {
-
   private final FrancaElement<DPA> francaElement;
   private final DefinedBy definer;
-  private final CppNameRules rules;
 
-  public CppModelAccessor(FrancaElement<DPA> francaElement, CppNameRules rules) {
-
+  public CppModelAccessor(FrancaElement<DPA> francaElement) {
     this.francaElement = francaElement;
     this.definer = DefinedBy.createFromFrancaElement(francaElement);
-    this.rules = rules;
   }
 
   public DefinedBy getDefiner() {
@@ -35,9 +30,5 @@ public class CppModelAccessor<DPA extends BaseApiSpec.IDataPropertyAccessor> {
 
   public DPA getAccessor() {
     return francaElement.getPropertyAccessor();
-  }
-
-  public CppNameRules getRules() {
-    return rules;
   }
 }

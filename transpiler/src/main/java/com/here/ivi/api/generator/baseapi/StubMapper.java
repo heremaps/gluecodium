@@ -46,16 +46,13 @@ import org.franca.core.franca.FTypeDef;
  * This generator will create the stub interfaces that will then be used by the other generators.
  */
 public class StubMapper extends AbstractCppModelMapper {
-
-  private final CppNameRules nameRules;
   private final StubMethodMapper methodMapper;
 
-  public StubMapper(CppNameRules nameRules) {
-    this(nameRules, new StubMethodMapper(nameRules));
+  StubMapper() {
+    this(new StubMethodMapper());
   }
 
-  public StubMapper(CppNameRules nameRules, StubMethodMapper methodMapper) {
-    this.nameRules = nameRules;
+  StubMapper(StubMethodMapper methodMapper) {
     this.methodMapper = methodMapper;
   }
 
@@ -72,12 +69,12 @@ public class StubMapper extends AbstractCppModelMapper {
       return null;
     }
 
-    String stubClassName = nameRules.getClassName(iface.getFrancaInterface());
+    String stubClassName = CppNameRules.getClassName(iface.getFrancaInterface());
     CppClass.Builder stubClassBuilder =
         new CppClass.Builder(stubClassName)
             .comment(StubCommentParser.parse(iface.getFrancaInterface()).getMainBodyText());
 
-    String stubListenerName = BaseApiNameRules.getListenerName(iface.getFrancaInterface());
+    String stubListenerName = CppNameRules.getListenerName(iface.getFrancaInterface());
     CppClass stubListenerClass =
         new CppClass.Builder(stubListenerName)
             .comment(
@@ -89,7 +86,7 @@ public class StubMapper extends AbstractCppModelMapper {
     // TODO APIGEN-126: use a builder for CppClass for fill the fields: methods, inheritances, ..
 
     CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel =
-        new CppModelAccessor<>(iface, nameRules);
+        new CppModelAccessor<>(iface);
 
     for (FType type : iface.getFrancaInterface().getTypes()) {
       if (type instanceof FTypeDef) {
@@ -138,9 +135,9 @@ public class StubMapper extends AbstractCppModelMapper {
           new CppInheritance(
               new CppType(
                   CppNamespaceUtils.getCppTypename(
-                      rootModel, baseDefinition, nameRules.getClassName(base)),
+                      rootModel, baseDefinition, CppNameRules.getClassName(base)),
                   new Includes.LazyInternalInclude(
-                      baseDefinition, Includes.InternalType.Interface, nameRules)),
+                      baseDefinition, Includes.InternalType.Interface)),
               CppInheritance.Type.Public));
 
       // TODO ensure that there is actually a listener for the base class (go through broadcasts & attributes)
@@ -148,9 +145,9 @@ public class StubMapper extends AbstractCppModelMapper {
           new CppInheritance(
               new CppType(
                   CppNamespaceUtils.getCppTypename(
-                      rootModel, baseDefinition, BaseApiNameRules.getListenerName(base)),
+                      rootModel, baseDefinition, CppNameRules.getListenerName(base)),
                   new Includes.LazyInternalInclude(
-                      baseDefinition, Includes.InternalType.Interface, nameRules)),
+                      baseDefinition, Includes.InternalType.Interface)),
               CppInheritance.Type.Public));
     }
 
@@ -190,7 +187,7 @@ public class StubMapper extends AbstractCppModelMapper {
     param.mode = CppParameter.Mode.Input;
     param.type = CppTypeMapper.map(rootModel, attribute);
     if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
-      param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
+      param.type = CppTypeMapper.wrapSharedPtr(param.type);
     }
 
     // generate arguments as input params
@@ -249,7 +246,7 @@ public class StubMapper extends AbstractCppModelMapper {
 
                   param.type = CppTypeMapper.map(rootModel, argument.getType());
                   if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
-                    param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
+                    param.type = CppTypeMapper.wrapSharedPtr(param.type);
                   }
 
                   return param;
@@ -323,7 +320,7 @@ public class StubMapper extends AbstractCppModelMapper {
       FAttribute attribute,
       AttributeAccessorMode mode) {
 
-    String attributeName = nameRules.getFieldName(attribute.getName());
+    String attributeName = CppNameRules.getFieldName(attribute.getName());
     String methodName =
         (mode == AttributeAccessorMode.GET ? "get" : "set")
             + NameHelper.toUpperCamelCase(attributeName);
@@ -332,7 +329,7 @@ public class StubMapper extends AbstractCppModelMapper {
 
     CppType type = CppTypeMapper.map(rootModel, attribute);
     if (type.info == CppElements.TypeInfo.InterfaceInstance) {
-      type = CppTypeMapper.wrapSharedPtr(type, nameRules);
+      type = CppTypeMapper.wrapSharedPtr(type);
     }
 
     switch (mode) {
