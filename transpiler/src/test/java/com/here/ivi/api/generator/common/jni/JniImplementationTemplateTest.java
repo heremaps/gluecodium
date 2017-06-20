@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.common.jni;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.generator.common.jni.templates.JavaNativeInterfacesImplementationTemplate;
+import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaMethod.Qualifier;
@@ -31,8 +31,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class JavaNativeInterfacesImplementationTemplateTest {
-
+public class JniImplementationTemplateTest {
   private JavaMethod createStaticMethod(String methodName) {
     JavaType javaType = new JavaPrimitiveType(Type.INT);
     JavaMethod classMethod = new JavaMethod(methodName, javaType);
@@ -81,14 +80,14 @@ public class JavaNativeInterfacesImplementationTemplateTest {
 
   @Test
   public void generateWithNullClass() {
-    String generatedImplementation = JavaNativeInterfacesImplementationTemplate.generate(null);
+    String generatedImplementation = JniImplementationTemplate.generate(null);
 
     assertTrue(generatedImplementation.isEmpty());
   }
 
   @Test
   public void generateWithNoMethods() {
-    String generatedImplementation = JavaNativeInterfacesImplementationTemplate.generate(javaClass);
+    String generatedImplementation = JniImplementationTemplate.generate(javaClass);
 
     assertEquals(jniImplementationBase + endOfFile, generatedImplementation);
   }
@@ -97,7 +96,7 @@ public class JavaNativeInterfacesImplementationTemplateTest {
   public void generateWithOneMethods() {
     javaClass.methods.add(createStaticMethod("method1"));
 
-    String generatedImplementation = JavaNativeInterfacesImplementationTemplate.generate(javaClass);
+    String generatedImplementation = JniImplementationTemplate.generate(javaClass);
 
     assertEquals(
         jniImplementationBase + expectedGeneratedJNIMethod("method1") + endOfFile,
@@ -109,7 +108,7 @@ public class JavaNativeInterfacesImplementationTemplateTest {
     javaClass.methods.add(createStaticMethod("method1"));
     javaClass.methods.add(createStaticMethod("method2"));
 
-    String generatedImplementation = JavaNativeInterfacesImplementationTemplate.generate(javaClass);
+    String generatedImplementation = JniImplementationTemplate.generate(javaClass);
 
     assertEquals(
         jniImplementationBase

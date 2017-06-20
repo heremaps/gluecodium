@@ -13,9 +13,9 @@ package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.java.JavaClassMapper;
-import com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules;
-import com.here.ivi.api.generator.common.jni.templates.JavaNativeInterfacesHeaderTemplate;
-import com.here.ivi.api.generator.common.jni.templates.JavaNativeInterfacesImplementationTemplate;
+import com.here.ivi.api.generator.common.jni.JniNameRules;
+import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
+import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.LinkedList;
@@ -32,14 +32,13 @@ final class JavaNativeInterfacesGenerator {
     // JNI Header
     files.add(
         new GeneratedFile(
-            JavaNativeInterfacesHeaderTemplate.generate(javaClass),
-            JavaNativeInterfacesNameRules.getHeaderFileName(javaClass)));
+            JniHeaderTemplate.generate(javaClass), JniNameRules.getHeaderFileName(javaClass)));
 
     // JNI Implementation
     files.add(
         new GeneratedFile(
-            JavaNativeInterfacesImplementationTemplate.generate(javaClass),
-            JavaNativeInterfacesNameRules.getImplementationFileName(javaClass)));
+            JniImplementationTemplate.generate(javaClass),
+            JniNameRules.getImplementationFileName(javaClass)));
 
     return files;
   }

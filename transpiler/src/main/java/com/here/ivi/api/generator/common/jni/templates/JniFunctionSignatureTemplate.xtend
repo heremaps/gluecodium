@@ -11,18 +11,18 @@
 
 package com.here.ivi.api.generator.common.jni.templates
 
-import com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules
-import com.here.ivi.api.generator.converter.java.JavaJniTypeConverter
+import com.here.ivi.api.generator.common.jni.JniNameRules
+import com.here.ivi.api.generator.common.jni.JniTypeConverter
 import com.here.ivi.api.model.javamodel.JavaMethod
 import com.here.ivi.api.model.javamodel.JavaClass
 
 /**
  * Template of a java native function's signature without the return type.
  */
-class JavaNativeFunctionSignatureTemplate {
+class JniFunctionSignatureTemplate {
   def static generate(JavaClass javaClass, JavaMethod method) {
-    val prefix = '''Java_«JavaNativeInterfacesNameRules.getPackageName(javaClass.javaPackage)»_«javaClass.name»_«method.name»'''
-    val parameters = '''«FOR param : method.parameters», «JavaJniTypeConverter.map(param.type).name» «JavaNativeInterfacesNameRules.getParameterName(param.name)»«ENDFOR»'''
+    val prefix = '''Java_«JniNameRules.getPackageName(javaClass.javaPackage)»_«javaClass.name»_«method.name»'''
+    val parameters = '''«FOR param : method.parameters», «JniTypeConverter.map(param.type).name» «JniNameRules.getParameterName(param.name)»«ENDFOR»'''
     '''«prefix»(JNIEnv* env, jobject jinstance«parameters»)'''
   }
 }

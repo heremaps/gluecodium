@@ -18,24 +18,17 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class JavaStringConversionTemplateIntegrationTest {
-
+public final class JniStringReleaseTemplateTest {
   @Test
-  public void generation() {
+  public void generate() {
+    // Arrange
+    String baseName = "javaParameterName";
+    String expected = "env->ReleaseStringUTFChars(j" + baseName + ", n" + baseName + ");\n";
 
-    // arrange
-    String baseName = new String("javaParameterName");
+    // Act
+    String result = JniStringReleaseTemplate.generate(baseName).toString();
 
-    // act
-    String result = JavaStringConversionTemplate.generate(baseName).toString();
-
-    // assert
-    String expected =
-        "std::string n"
-            + baseName
-            + " = std::string(env->GetStringUTFChars(j"
-            + baseName
-            + ", 0));\n";
+    // Assert
     assertEquals(expected, result);
   }
 }

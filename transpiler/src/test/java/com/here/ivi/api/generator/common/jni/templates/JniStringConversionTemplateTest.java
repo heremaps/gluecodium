@@ -13,26 +13,27 @@ package com.here.ivi.api.generator.common.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.cppmodel.CppType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class JavaPrimitiveTypeConversionTemplateIntegrationTest {
-
+public final class JniStringConversionTemplateTest {
   @Test
-  public void generation() {
+  public void generate() {
+    // Arrange
+    String baseName = "javaParameterName";
+    String expected =
+        "std::string n"
+            + baseName
+            + " = std::string(env->GetStringUTFChars(j"
+            + baseName
+            + ", 0));\n";
 
-    // arrange
-    CppType cppType = new CppType("int");
-    String baseName = new String("parameterName");
+    // Act
+    String result = JniStringConversionTemplate.generate(baseName).toString();
 
-    // act
-    String result = JavaPrimitiveTypeConversionTemplate.generate(cppType, baseName).toString();
-
-    // assert
-    String expected = "int n" + baseName + " = static_cast<int>(j" + baseName + ");\n";
+    // Assert
     assertEquals(expected, result);
   }
 }

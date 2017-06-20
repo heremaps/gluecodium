@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.jni.templates.JavaStringReleaseTemplate;
+import com.here.ivi.api.generator.common.jni.templates.JniStringReleaseTemplate;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
@@ -39,7 +39,7 @@ public class JniReleaseCodeTemplateDelegator {
   private CharSequence generate(JavaReferenceType javaType, String baseName) {
     switch (javaType.type) {
       case STRING:
-        return JavaStringReleaseTemplate.generate(baseName);
+        return JniStringReleaseTemplate.generate(baseName);
     }
     throw new IllegalArgumentException(
         "Conversion from Java type to Cpp type is not supported: " + javaType.getName());
