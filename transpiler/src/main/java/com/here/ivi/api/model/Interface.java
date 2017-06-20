@@ -54,7 +54,7 @@ public class Interface<Accessor extends BaseApiSpec.InterfacePropertyAccessor>
   @Override
   public Version getVersion() {
     if (francaInterface.getVersion() != null) {
-      return Version.create(francaInterface.getVersion());
+      return Version.createFromFrancaVersion(francaInterface.getVersion());
     } else {
       return new Version(0, 0, 0, "");
     }

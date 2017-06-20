@@ -11,9 +11,17 @@
 
 package com.here.ivi.api.generator.common;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.franca.core.franca.FVersion;
 
 public class Version {
+
+  private static final String VERSION_FORMAT = "%d.%d.%d";
+  private static final String VERSION_FORMAT_WITH_SUFFIX = "%d.%d.%d-%s";
+  private static final Pattern VERSION_PATTERN =
+      Pattern.compile("(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-(?<suffix>.+))?");
+
   public final int major;
   public final int minor;
   public final int patch;
@@ -26,17 +34,29 @@ public class Version {
     this.suffix = suffix;
   }
 
-  public static Version create(FVersion version) {
+  @Override
+  public String toString() {
+    final String versionFormat = suffix.isEmpty() ? VERSION_FORMAT : VERSION_FORMAT_WITH_SUFFIX;
+    return String.format(versionFormat, major, minor, patch, suffix);
+  }
+
+  public static Version createFromFrancaVersion(FVersion version) {
     return new Version(version.getMajor(), version.getMinor(), 0, "");
   }
 
-  @Override
-  public String toString() {
-    return String.valueOf(major)
-        + '.'
-        + minor
-        + '.'
-        + patch
-        + (suffix.isEmpty() ? "" : "-" + suffix);
+  public static Version createFromString(final String versionString) {
+
+    Matcher matcher = VERSION_PATTERN.matcher(versionString);
+
+    if (matcher.matches()) {
+      String suffix = matcher.group("suffix");
+      return new Version(
+          Integer.parseInt(matcher.group("major")),
+          Integer.parseInt(matcher.group("minor")),
+          Integer.parseInt(matcher.group("patch")),
+          suffix != null ? suffix : "");
+    } else {
+      return new Version(0, 0, 0, "");
+    }
   }
 }

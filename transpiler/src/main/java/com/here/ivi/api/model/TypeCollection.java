@@ -43,7 +43,7 @@ public class TypeCollection<Accessor extends BaseApiSpec.TypeCollectionPropertyA
 
   @Override
   public Version getVersion() {
-    return Version.create(francaTypeCollection.getVersion());
+    return Version.createFromFrancaVersion(francaTypeCollection.getVersion());
   }
 
   @Override
