@@ -14,12 +14,10 @@ package com.here.ivi.api.generator.common.jni;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
-import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaPackage;
-import com.here.ivi.api.model.javamodel.JavaParameter;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
+import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
-import com.here.ivi.api.model.javamodel.JavaType;
+import java.util.Arrays;
+import java.util.Collections;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -117,7 +115,7 @@ public final class JavaNativeInterfacesNameRulesTest {
 
   @Test
   public void getJNIPackageNameFromJavaPackage() {
-    JavaPackage javaPackage = new JavaPackage("com.here.test");
+    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "test"));
 
     assertEquals("com_here_test", JavaNativeInterfacesNameRules.getPackageName(javaPackage));
   }
@@ -129,7 +127,7 @@ public final class JavaNativeInterfacesNameRulesTest {
 
   @Test
   public void getJNIPackageNameFromEmptyJavaPackage() {
-    JavaPackage javaPackage = new JavaPackage("");
+    JavaPackage javaPackage = new JavaPackage(Collections.emptyList());
 
     assertEquals("", JavaNativeInterfacesNameRules.getPackageName(javaPackage));
   }

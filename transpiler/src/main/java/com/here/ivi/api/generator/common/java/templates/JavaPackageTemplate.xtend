@@ -14,5 +14,5 @@ package com.here.ivi.api.generator.common.java.templates
 import com.here.ivi.api.model.javamodel.JavaPackage
 
 class JavaPackageTemplate {
-  static def generate(JavaPackage javaPackage) '''package «javaPackage.name»;'''
+  static def generate(JavaPackage javaPackage) '''package «String.join(".", javaPackage.packageNames)»;'''
 }

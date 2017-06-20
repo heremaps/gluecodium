@@ -14,13 +14,9 @@ package com.here.ivi.api.model.javamodel;
 import java.util.List;
 
 public final class JavaPackage {
-  public final String name;
-
-  public JavaPackage(final String packageName) {
-    this.name = packageName;
-  }
+  public final List<String> packageNames;
 
   public JavaPackage(final List<String> packageList) {
-    name = String.join(".", packageList);
+    packageNames = packageList;
   }
 }

@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaPackage
+import java.util.Arrays
 import org.eclipse.xtext.junit4.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,7 +26,7 @@ class JavaPackageTemplateTest {
   def packageGeneration() {
     val expected = '''package com.here.packages.example;'''
 
-    val generated = JavaPackageTemplate.generate(new JavaPackage("com.here.packages.example"))
+    val generated = JavaPackageTemplate.generate(new JavaPackage(Arrays.asList("com", "here", "packages", "example")))
 
     assertEquals(expected, generated.toString)
   }
