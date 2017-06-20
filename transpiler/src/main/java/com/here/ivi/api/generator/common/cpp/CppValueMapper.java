@@ -31,12 +31,12 @@ public class CppValueMapper {
   private static final CppValue MAX_FLOAT =
       new CppValue("std::numeric_limits< float >::max( )", CppLibraryIncludes.LIMITS);
 
-  public static CppValue map(CppType type, FInitializerExpression rhs, CppNameRules nameRules) {
+  public static CppValue map(CppType type, FInitializerExpression rhs) {
     if (rhs instanceof FCompoundInitializer) {
-      return map(type, (FCompoundInitializer) rhs, nameRules);
+      return map(type, (FCompoundInitializer) rhs);
     }
     if (rhs instanceof FQualifiedElementRef) {
-      return map(type, (FQualifiedElementRef) rhs, nameRules);
+      return map(type, (FQualifiedElementRef) rhs);
     }
 
     return map(rhs);
@@ -91,14 +91,13 @@ public class CppValueMapper {
     return new CppValue(String.valueOf(value));
   }
 
-  public static CppValue map(CppType type, FCompoundInitializer ci, CppNameRules nameRules) {
+  public static CppValue map(CppType type, FCompoundInitializer ci) {
     // TODO having a template in here is not-so-nice, this should be some CppType
-    return new CppValue(
-        CppConstantTemplate.generate(type, ci, nameRules).toString(), type.includes);
+    return new CppValue(CppConstantTemplate.generate(type, ci).toString(), type.includes);
   }
 
   // TODO handle namespaces here as well
-  public static CppValue map(CppType type, FQualifiedElementRef qer, CppNameRules nameRules) {
+  public static CppValue map(CppType type, FQualifiedElementRef qer) {
 
     if (qer.getElement() == null) {
       // TODO improve error output as seen in TypeMapper
@@ -125,15 +124,15 @@ public class CppValueMapper {
 
     if (DefaultValuesRules.isEnumerator(qer)) {
       //as we don't generate plain enums but enum class, we need to add the enumeration name as well
-      name = type.name + "::" + nameRules.getEnumEntryName(name);
+      name = type.name + "::" + CppNameRules.getEnumEntryName(name);
     }
 
     if (DefaultValuesRules.isConstant(qer)) {
-      name = nameRules.getConstantName(name);
+      name = CppNameRules.getConstantName(name);
     }
 
     // TODO add ns resolution for referenced name
     // just use the name of the type and include the defining type
-    return new CppValue(name, new Includes.LazyInternalInclude(referenceDefiner, nameRules));
+    return new CppValue(name, new Includes.LazyInternalInclude(referenceDefiner));
   }
 }

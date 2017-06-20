@@ -17,14 +17,23 @@ import static org.mockito.Mockito.*;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.*;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(JUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({CppNameRules.class})
 public final class CppValueMapperTest {
+  @Before
+  public void setUp() {
+    PowerMockito.mockStatic(CppNameRules.class);
+  }
+
   @Test
-  public void mapConstantValueTest() {
+  public void mapConstantValue() {
     final String inputConstantName = "SomeFancyName";
     final String outputConstantName = "desiredOutputName";
 
@@ -41,17 +50,17 @@ public final class CppValueMapperTest {
     when(qualifiedElementRef.getElement()).thenReturn(fConstant);
 
     //mock nameRules
-    CppNameRules nameRules = mock(CppNameRules.class);
-    when(nameRules.getConstantName(inputConstantName)).thenReturn(outputConstantName);
+    when(CppNameRules.getConstantName(anyString())).thenReturn(outputConstantName);
 
     //actual test
-    CppValue mappedValue = CppValueMapper.map(mock(CppType.class), qualifiedElementRef, nameRules);
+    CppValue mappedValue = CppValueMapper.map(mock(CppType.class), qualifiedElementRef);
     assertEquals(mappedValue.name, outputConstantName);
-    verify(nameRules).getConstantName(inputConstantName);
+    PowerMockito.verifyStatic(); // 1
+    CppNameRules.getConstantName(inputConstantName);
   }
 
   @Test
-  public void mapEnumeratorTest() {
+  public void mapEnumerator() {
     //constant
     final CppType cppType = new CppType("MyFancyType");
     final String inputEnumeratorName = "EnumeratorIn";
@@ -70,12 +79,12 @@ public final class CppValueMapperTest {
     when(qualifiedElementRef.getElement()).thenReturn(fEnumerator);
 
     //mock nameRules
-    CppNameRules nameRules = mock(CppNameRules.class);
-    when(nameRules.getEnumEntryName(inputEnumeratorName)).thenReturn(outputEnumeratorName);
+    when(CppNameRules.getEnumEntryName(anyString())).thenReturn(outputEnumeratorName);
 
     //actual test
-    CppValue mappedValue = CppValueMapper.map(cppType, qualifiedElementRef, nameRules);
+    CppValue mappedValue = CppValueMapper.map(cppType, qualifiedElementRef);
     assertEquals(mappedValue.name, outputTypeName);
-    verify(nameRules).getEnumEntryName(inputEnumeratorName);
+    PowerMockito.verifyStatic(); // 1
+    CppNameRules.getEnumEntryName(inputEnumeratorName);
   }
 }

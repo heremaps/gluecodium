@@ -28,22 +28,18 @@ import java.util.List;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
 
 final class JavaNativeInterfacesGenerator {
-  private final CppNameRules cppNameRules;
   private final List<String> javaPackageList;
 
-  JavaNativeInterfacesGenerator(CppNameRules cppNameRules, List<String> javaPackageList) {
-    this.cppNameRules = cppNameRules;
+  JavaNativeInterfacesGenerator(List<String> javaPackageList) {
     this.javaPackageList = javaPackageList;
   }
 
   private List<Includes.InternalPublicInclude> getIncludes(
-      final Interface<InterfacePropertyAccessor> api,
-      final JavaClass javaClass,
-      final CppNameRules cppNameRules) {
+      final Interface<InterfacePropertyAccessor> api, final JavaClass javaClass) {
     Includes.InternalPublicInclude jniHeaderInclude =
         new InternalPublicInclude(JniNameRules.getHeaderFileName(javaClass));
     Includes.InternalPublicInclude baseApiHeaderInclude =
-        new InternalPublicInclude(cppNameRules.getHeaderPath(api));
+        new InternalPublicInclude(CppNameRules.getHeaderPath(api));
 
     return Arrays.asList(jniHeaderInclude, baseApiHeaderInclude);
   }
@@ -65,8 +61,7 @@ final class JavaNativeInterfacesGenerator {
     // JNI Implementation
     files.add(
         new GeneratedFile(
-            JniImplementationTemplate.generate(
-                javaClass, getIncludes(api, javaClass, cppNameRules)),
+            JniImplementationTemplate.generate(javaClass, getIncludes(api, javaClass)),
             JniNameRules.getImplementationFileName(javaClass)));
 
     return files;

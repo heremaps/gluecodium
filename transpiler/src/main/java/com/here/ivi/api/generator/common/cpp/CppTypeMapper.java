@@ -34,10 +34,7 @@ public class CppTypeMapper {
     if (argument.isArray()) {
       type =
           CppTypeMapper.wrapArrayType(
-              rootModel.getDefiner(),
-              type,
-              CppTypeMapper.ArrayMode.map(rootModel, argument),
-              rootModel.getRules());
+              rootModel.getDefiner(), type, CppTypeMapper.ArrayMode.map(rootModel, argument));
     }
 
     return type;
@@ -51,10 +48,7 @@ public class CppTypeMapper {
     if (attribute.isArray()) {
       type =
           CppTypeMapper.wrapArrayType(
-              rootModel.getDefiner(),
-              type,
-              CppTypeMapper.ArrayMode.map(rootModel, attribute),
-              rootModel.getRules());
+              rootModel.getDefiner(), type, CppTypeMapper.ArrayMode.map(rootModel, attribute));
     }
 
     return type;
@@ -66,9 +60,7 @@ public class CppTypeMapper {
     if (constant.isArray()) {
       // FIXME impossible to define if a constant is a set or not inside Franca, always putting as vector
       // should have CppTypeMapper.ArrayMode.map(rootModel, constant)
-      type =
-          CppTypeMapper.wrapArrayType(
-              rootModel.getDefiner(), type, ArrayMode.STD_VECTOR, rootModel.getRules());
+      type = CppTypeMapper.wrapArrayType(rootModel.getDefiner(), type, ArrayMode.STD_VECTOR);
     }
 
     return type;
@@ -80,10 +72,7 @@ public class CppTypeMapper {
     if (field.isArray()) {
       type =
           CppTypeMapper.wrapArrayType(
-              rootModel.getDefiner(),
-              type,
-              CppTypeMapper.ArrayMode.map(rootModel, field),
-              rootModel.getRules());
+              rootModel.getDefiner(), type, CppTypeMapper.ArrayMode.map(rootModel, field));
     }
 
     return type;
@@ -171,13 +160,12 @@ public class CppTypeMapper {
       return new CppType(typeRefDefiner, "NO ACTUAL TYPE FOUND", CppElements.TypeInfo.Invalid);
     } else if (InstanceRules.isInstanceId(typedef)) {
       Includes.Include include =
-          new Includes.LazyInternalInclude(
-              typeRefDefiner, Includes.InternalType.Interface, rootModel.getRules());
+          new Includes.LazyInternalInclude(typeRefDefiner, Includes.InternalType.Interface);
 
       // each Instance type is defined directly in the Interface that is refers to, this is already
       // resolved in the typeRefDefiner, and named as the interface
 
-      String name = rootModel.getRules().getClassName(typeRefDefiner.type);
+      String name = CppNameRules.getClassName(typeRefDefiner.type);
       String namespacedName = CppNamespaceUtils.getCppTypename(rootModel, typeRefDefiner, name);
 
       return new CppType(
@@ -187,8 +175,7 @@ public class CppTypeMapper {
       DefinedBy actualTypeDefiner = actual.definedIn;
 
       // lookup where type came from, setup includes
-      Includes.Include include =
-          new Includes.LazyInternalInclude(actualTypeDefiner, rootModel.getRules());
+      Includes.Include include = new Includes.LazyInternalInclude(actualTypeDefiner);
 
       String namespacedName = CppNamespaceUtils.getCppTypename(rootModel, typedef);
       // actually use the typedef in this case, not the underlying type
@@ -203,7 +190,7 @@ public class CppTypeMapper {
     if (typeName != null) {
       // lookup where array typedef came from, setup includes
       Set<Includes.Include> includes =
-          Sets.newHashSet(new Includes.LazyInternalInclude(arrayDefiner, rootModel.getRules()));
+          Sets.newHashSet(new Includes.LazyInternalInclude(arrayDefiner));
 
       typeName = CppNamespaceUtils.getCppTypename(rootModel, array);
 
@@ -214,8 +201,7 @@ public class CppTypeMapper {
     CppType actual = map(rootModel, elementType);
 
     // if no name is given, fallback to underlying type
-    return wrapArrayType(
-        arrayDefiner, actual, ArrayMode.map(rootModel, array), rootModel.getRules());
+    return wrapArrayType(arrayDefiner, actual, ArrayMode.map(rootModel, array));
   }
 
   public static CppType defineArray(CppModelAccessor<?> rootModel, FArrayType array) {
@@ -223,8 +209,7 @@ public class CppTypeMapper {
     FTypeRef elementType = array.getElementType();
     CppType actual = map(rootModel, elementType);
 
-    return wrapArrayType(
-        arrayDefiner, actual, ArrayMode.map(rootModel, array), rootModel.getRules());
+    return wrapArrayType(arrayDefiner, actual, ArrayMode.map(rootModel, array));
   }
 
   private enum ArrayMode {
@@ -252,15 +237,14 @@ public class CppTypeMapper {
     }
   }
 
-  private static CppType wrapArrayType(
-      DefinedBy definedIn, CppType elementType, ArrayMode mode, CppNameRules nameRules) {
+  private static CppType wrapArrayType(DefinedBy definedIn, CppType elementType, ArrayMode mode) {
     CppType result;
     switch (mode) {
       case STD_VECTOR:
-        result = wrapVector(elementType, nameRules);
+        result = wrapVector(elementType);
         break;
       case STD_SET:
-        result = wrapSet(elementType, nameRules);
+        result = wrapSet(elementType);
         break;
       default:
         return null;
@@ -280,7 +264,7 @@ public class CppTypeMapper {
       if (typeName != null) {
         // lookup where map typedef came from, setup includes
         Set<Includes.Include> includes =
-            Sets.newHashSet(new Includes.LazyInternalInclude(mapDefiner, rootModel.getRules()));
+            Sets.newHashSet(new Includes.LazyInternalInclude(mapDefiner));
         typeName = CppNamespaceUtils.getCppTypename(rootModel, map);
 
         return new CppType(mapDefiner, typeName, CppElements.TypeInfo.Complex, includes);
@@ -290,7 +274,7 @@ public class CppTypeMapper {
       CppType value = map(rootModel, map.getValueType());
 
       // if no names are given, fallback to underlying type
-      return wrapMapType(mapDefiner, key, value, rootModel.getRules());
+      return wrapMapType(mapDefiner, key, value);
     }
   }
 
@@ -300,8 +284,7 @@ public class CppTypeMapper {
     if (struct.getElements().isEmpty()) {
       return new CppType(structDefiner, "EMPTY STRUCT", CppElements.TypeInfo.Invalid);
     } else {
-      Includes.Include include =
-          new Includes.LazyInternalInclude(structDefiner, rootModel.getRules());
+      Includes.Include include = new Includes.LazyInternalInclude(structDefiner);
       String typeName = CppNamespaceUtils.getCppTypename(rootModel, struct);
 
       return new CppType(structDefiner, typeName, CppElements.TypeInfo.Complex, include);
@@ -314,19 +297,17 @@ public class CppTypeMapper {
     if (enumeration.getEnumerators().isEmpty()) {
       return new CppType(enumDefiner, "EMPTY ENUM", CppElements.TypeInfo.Invalid);
     } else {
-      Includes.Include include =
-          new Includes.LazyInternalInclude(enumDefiner, rootModel.getRules());
+      Includes.Include include = new Includes.LazyInternalInclude(enumDefiner);
       String typeName = CppNamespaceUtils.getCppTypename(rootModel, enumeration);
 
       return new CppType(enumDefiner, typeName, CppElements.TypeInfo.BuiltIn, include);
     }
   }
 
-  public static CppType wrapMapType(
-      DefinedBy mapDefiner, CppType key, CppType value, CppNameRules nameRules) {
+  public static CppType wrapMapType(DefinedBy mapDefiner, CppType key, CppType value) {
     // lookup where map types came from, setup includes
-    Includes.Include keyInclude = new Includes.LazyInternalInclude(key.definedIn, nameRules);
-    Includes.Include valueInclude = new Includes.LazyInternalInclude(value.definedIn, nameRules);
+    Includes.Include keyInclude = new Includes.LazyInternalInclude(key.definedIn);
+    Includes.Include valueInclude = new Includes.LazyInternalInclude(value.definedIn);
 
     String mapType = "std::map< " + key.name + ", " + value.name + " >";
 
@@ -340,12 +321,9 @@ public class CppTypeMapper {
   }
 
   private static CppType wrapStdTemplateType(
-      CppType content,
-      String templateName,
-      Includes.Include libraryInclude,
-      CppNameRules nameRules) {
+      CppType content, String templateName, Includes.Include libraryInclude) {
     // lookup where content type came from, setup includes
-    Includes.Include typeInclude = new Includes.LazyInternalInclude(content.definedIn, nameRules);
+    Includes.Include typeInclude = new Includes.LazyInternalInclude(content.definedIn);
 
     String mapType = "std::" + templateName + "< " + content.name + " >";
 
@@ -356,24 +334,24 @@ public class CppTypeMapper {
     return new CppType(content.definedIn, mapType, CppElements.TypeInfo.Complex, includes);
   }
 
-  public static CppType wrapUniquePtr(CppType content, CppNameRules nameRules) {
-    return wrapStdTemplateType(content, "unique_ptr", CppLibraryIncludes.MEMORY, nameRules);
+  public static CppType wrapUniquePtr(CppType content) {
+    return wrapStdTemplateType(content, "unique_ptr", CppLibraryIncludes.MEMORY);
   }
 
-  public static CppType wrapSharedPtr(CppType content, CppNameRules nameRules) {
-    return wrapStdTemplateType(content, "shared_ptr", CppLibraryIncludes.MEMORY, nameRules);
+  public static CppType wrapSharedPtr(CppType content) {
+    return wrapStdTemplateType(content, "shared_ptr", CppLibraryIncludes.MEMORY);
   }
 
-  public static CppType wrapWeakPtr(CppType content, CppNameRules nameRules) {
-    return wrapStdTemplateType(content, "weak_ptr", CppLibraryIncludes.MEMORY, nameRules);
+  public static CppType wrapWeakPtr(CppType content) {
+    return wrapStdTemplateType(content, "weak_ptr", CppLibraryIncludes.MEMORY);
   }
 
-  public static CppType wrapVector(CppType content, CppNameRules nameRules) {
-    return wrapStdTemplateType(content, "vector", CppLibraryIncludes.VECTOR, nameRules);
+  public static CppType wrapVector(CppType content) {
+    return wrapStdTemplateType(content, "vector", CppLibraryIncludes.VECTOR);
   }
 
-  public static CppType wrapSet(CppType content, CppNameRules nameRules) {
-    return wrapStdTemplateType(content, "set", CppLibraryIncludes.SET, nameRules);
+  public static CppType wrapSet(CppType content) {
+    return wrapStdTemplateType(content, "set", CppLibraryIncludes.SET);
   }
 
   public static String mapPredefinedToTypeName(final FBasicTypeId basicTypeId) {

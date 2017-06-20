@@ -28,11 +28,9 @@ import org.franca.core.franca.FMethod;
 
 public class CBridgeGenerator {
   private final CBridgeNameRules cBridgeNameRules;
-  private final CppNameRules cppNameRules;
 
-  public CBridgeGenerator(CBridgeNameRules nameRules, CppNameRules cppNameRules) {
+  public CBridgeGenerator(CBridgeNameRules nameRules) {
     this.cBridgeNameRules = nameRules;
-    this.cppNameRules = cppNameRules;
   }
 
   public List<GeneratedFile> generate(Interface<BaseApiSpec.InterfacePropertyAccessor> iface) {
@@ -50,7 +48,7 @@ public class CBridgeGenerator {
     BaseApiSpec.InterfacePropertyAccessor propertyAccessor = iface.getPropertyAccessor();
     CInterface cInterface = new CInterface();
     cInterface.fileName = cBridgeNameRules.getHeaderFileName(iface);
-    cInterface.stubHeaderFileName = cppNameRules.getHeaderPath(iface);
+    cInterface.stubHeaderFileName = CppNameRules.getHeaderPath(iface);
 
     cInterface.functions =
         iface

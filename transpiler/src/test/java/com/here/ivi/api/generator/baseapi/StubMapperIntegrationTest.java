@@ -31,15 +31,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class StubMapperIntegrationTest {
-
+public final class StubMapperIntegrationTest {
   @Test
   public void generateStubForMethodsWithoutErrorCode() throws URISyntaxException, IOException {
     FrancaModel<?, ?> model =
         LoadModelHelper.readInFrancaModel(
             "baseapi/fidl/test/MethodsWithoutError.fidl", new BaseApiSpecAccessorFactory());
     Interface<?> iface = LoadModelHelper.extractNthInterfaceFromModel(model, 0);
-    StubMapper stubGenerator = createStubGeneratorForTest();
+    StubMapper stubGenerator = new StubMapper();
 
     CppNamespace actualContent = stubGenerator.mapFrancaModelToCppModel(iface);
 
@@ -74,10 +73,5 @@ public class StubMapperIntegrationTest {
     assertEquals(inParameters.get(0).type.name, "std::string");
     assertEquals(inParameters.get(0).name, "input");
     assertEquals(method.getReturnType().name, "MethodTwoOutParamsResult");
-  }
-
-  private StubMapper createStubGeneratorForTest() throws IOException {
-    BaseApiNameRules nameRules = new BaseApiNameRules();
-    return new StubMapper(nameRules);
   }
 }

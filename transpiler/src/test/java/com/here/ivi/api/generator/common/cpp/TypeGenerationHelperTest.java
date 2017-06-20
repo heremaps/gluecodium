@@ -14,8 +14,6 @@ package com.here.ivi.api.generator.common.cpp;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -64,10 +62,7 @@ public class TypeGenerationHelperTest {
     // reverse list to ensure order is different than fields given
     Collections.reverse(ffieldInitializers);
 
-    CppNameRules rules = mock(CppNameRules.class);
-    when(rules.getFieldName(anyString())).then(returnsFirstArg());
     CppModelAccessor<?> rootType = mock(CppModelAccessor.class);
-    when(rootType.getRules()).thenReturn(rules);
 
     FStructType struct = mock(FStructType.class);
     when(struct.getElements()).thenReturn(ffields);

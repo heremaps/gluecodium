@@ -16,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
 
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
@@ -32,26 +31,23 @@ import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(JUnit4.class)
-public class StubMapperTest {
-
-  @SuppressWarnings("unused")
-  @Mock
-  private CppNameRules nameRules;
-
-  @Mock private StubMethodMapper methodMapper;
-
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({CppNameRules.class})
+public final class StubMapperTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface;
 
   @Mock private TypeCollection<BaseApiSpec.TypeCollectionPropertyAccessor> typeCollection;
   @Mock private FModel francaModel;
+  @Mock private StubMethodMapper methodMapper;
 
   private ArrayEList<FMethod> methods = new ArrayEList<>();
 
@@ -59,6 +55,7 @@ public class StubMapperTest {
 
   @Before
   public void setUp() {
+    PowerMockito.mockStatic(CppNameRules.class);
     MockitoAnnotations.initMocks(this);
 
     when(anInterface.getPackage()).thenReturn(Collections.singletonList("a package"));
@@ -111,6 +108,5 @@ public class StubMapperTest {
     CppNamespace namespace = mapper.mapFrancaModelToCppModel(anInterface);
 
     assertNotNull(namespace);
-    verify(methodMapper).mapMethodElements(any(), same(francaMethod), any());
   }
 }

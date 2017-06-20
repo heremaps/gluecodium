@@ -79,12 +79,11 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
       return Collections.emptyList();
     }
 
-    BaseApiNameRules nameRules = new BaseApiNameRules();
     CppIncludeResolver includeResolver = new CppIncludeResolver(model);
 
     CppGenerator generator = new CppGenerator(includeResolver);
-    TypeCollectionMapper typeCollectionMapper = new TypeCollectionMapper(nameRules);
-    StubMapper stubMapper = new StubMapper(nameRules);
+    TypeCollectionMapper typeCollectionMapper = new TypeCollectionMapper();
+    StubMapper stubMapper = new StubMapper();
 
     // process all interfaces and type collections
     Stream<GeneratedFile> generatorStreams =
@@ -92,14 +91,14 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
             model
                 .getInterfaces()
                 .stream()
-                .map(iface -> generateFromFrancaElement(iface, nameRules, stubMapper, generator)),
+                .map(iface -> generateFromFrancaElement(iface, stubMapper, generator)),
             model
                 .getTypeCollections()
                 .stream()
                 .map(
                     typeCollection ->
                         generateFromFrancaElement(
-                            typeCollection, nameRules, typeCollectionMapper, generator)));
+                            typeCollection, typeCollectionMapper, generator)));
 
     List<GeneratedFile> generatedFiles =
         generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
@@ -111,11 +110,8 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
   }
 
   private GeneratedFile generateFromFrancaElement(
-      FrancaElement<?> francaElement,
-      CppNameRules nameRules,
-      AbstractCppModelMapper mapper,
-      CppGenerator generator) {
-    String fileName = nameRules.getHeaderPath(francaElement);
+      FrancaElement<?> francaElement, AbstractCppModelMapper mapper, CppGenerator generator) {
+    String fileName = CppNameRules.getHeaderPath(francaElement);
     CppNamespace cppModel = mapper.mapFrancaModelToCppModel(francaElement);
     CharSequence copyRightNotice = generateGeneratorNotice(this, francaElement, fileName);
     return generator.generateCode(cppModel, fileName, copyRightNotice);

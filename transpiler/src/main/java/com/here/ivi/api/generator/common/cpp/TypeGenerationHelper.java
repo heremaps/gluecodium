@@ -69,15 +69,14 @@ public class TypeGenerationHelper {
       CppModelAccessor<?> rootType, FField ffield, FFieldInitializer initializer) {
 
     CppField field = new CppField();
-    CppNameRules nameRules = rootType.getRules();
-    field.name = nameRules.getFieldName(ffield.getName());
+    field.name = CppNameRules.getFieldName(ffield.getName());
     field.type = CppTypeMapper.map(rootType, ffield);
 
     // if default values are specified in another object (see DefaultValueRules), use them
     if (initializer == null) {
       field.initializer = CppDefaultInitializer.map(ffield);
     } else {
-      field.initializer = CppValueMapper.map(field.type, initializer.getValue(), nameRules);
+      field.initializer = CppValueMapper.map(field.type, initializer.getValue());
     }
     return field;
   }
@@ -85,31 +84,29 @@ public class TypeGenerationHelper {
   public static CppConstant buildCppConstant(
       CppModelAccessor<?> rootModel, FConstantDef constantDef) {
 
-    CppNameRules nameRules = rootModel.getRules();
-    String name = nameRules.getConstantName(constantDef.getName());
+    String name = CppNameRules.getConstantName(constantDef.getName());
     CppType type = CppTypeMapper.map(rootModel, constantDef);
-    CppValue value = CppValueMapper.map(type, constantDef.getRhs(), nameRules);
+    CppValue value = CppValueMapper.map(type, constantDef.getRhs());
 
     return new CppConstant(name, type, value);
   }
 
-  public static CppEnumClass buildCppEnumClass(
-      CppNameRules nameRules, FEnumerationType enumerationType) {
+  public static CppEnumClass buildCppEnumClass(FEnumerationType enumerationType) {
     CppEnumClass enumClass = new CppEnumClass();
-    enumClass.enumeration = buildCppEnum(nameRules, enumerationType);
+    enumClass.enumeration = buildCppEnum(enumerationType);
 
     return enumClass;
   }
 
-  public static CppEnum buildCppEnum(CppNameRules nameRules, FEnumerationType enumerationType) {
+  public static CppEnum buildCppEnum(FEnumerationType enumerationType) {
     CppEnum enumeration = new CppEnum();
     enumeration.comment = StubCommentParser.parse(enumerationType).getMainBodyText();
-    enumeration.name = nameRules.getEnumName(enumerationType.getName());
+    enumeration.name = CppNameRules.getEnumName(enumerationType.getName());
 
     for (FEnumerator enumerator : enumerationType.getEnumerators()) {
       CppEnumItem item = new CppEnumItem();
 
-      item.name = nameRules.getEnumEntryName(enumerator.getName());
+      item.name = CppNameRules.getEnumEntryName(enumerator.getName());
       item.value = CppValueMapper.map(enumerator.getValue());
       item.comment = StubCommentParser.parse(enumerator).getMainBodyText();
 

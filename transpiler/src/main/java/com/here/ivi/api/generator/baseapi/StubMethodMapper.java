@@ -24,24 +24,17 @@ import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;
 
-public class StubMethodMapper {
-
+class StubMethodMapper {
   private static final Includes.SystemInclude EXPECTED_INCLUDE =
       new Includes.SystemInclude("cpp/internal/expected.h");
 
-  private final CppNameRules nameRules;
-
-  public StubMethodMapper(CppNameRules nameRules) {
-    this.nameRules = nameRules;
-  }
-
-  public void mapMethodElements(
+  void mapMethodElements(
       CppClass stubClass,
       FMethod method,
       CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
     String uniqueMethodName =
-        nameRules.getMethodName(method.getName())
+        CppNameRules.getMethodName(method.getName())
             + NameHelper.toUpperCamelCase(method.getSelector());
 
     CppType errorType;
@@ -164,9 +157,9 @@ public class StubMethodMapper {
     }
 
     if (rootModel.getAccessor().getCreates(method) == null) {
-      return CppTypeMapper.wrapSharedPtr(type, nameRules);
+      return CppTypeMapper.wrapSharedPtr(type);
     } else {
-      return CppTypeMapper.wrapUniquePtr(type, nameRules);
+      return CppTypeMapper.wrapUniquePtr(type);
     }
   }
 
@@ -197,7 +190,7 @@ public class StubMethodMapper {
 
       param.type = CppTypeMapper.map(rootModel, inArg.getType());
       if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
-        param.type = CppTypeMapper.wrapSharedPtr(param.type, nameRules);
+        param.type = CppTypeMapper.wrapSharedPtr(param.type);
       }
 
       builder.inParameter(param);

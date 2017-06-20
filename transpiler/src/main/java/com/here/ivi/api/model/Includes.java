@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.model;
 
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 
@@ -81,17 +80,15 @@ public class Includes {
     public final FTypeCollection tc;
     public final FModel model;
     public final InternalType type;
-    public final CppNameRules nameRules;
 
-    public LazyInternalInclude(DefinedBy def, CppNameRules nameRules) {
-      this(def, InternalType.TypeCollection, nameRules);
+    public LazyInternalInclude(DefinedBy def) {
+      this(def, InternalType.TypeCollection);
     }
 
-    public LazyInternalInclude(DefinedBy def, InternalType type, CppNameRules nameRules) {
+    public LazyInternalInclude(DefinedBy def, InternalType type) {
       this.tc = def.type;
       this.model = def.model;
       this.type = type;
-      this.nameRules = nameRules;
     }
 
     @Override
@@ -116,10 +113,7 @@ public class Includes {
       if (model != null ? !model.equals(that.model) : that.model != null) {
         return false;
       }
-      if (type != that.type) {
-        return false;
-      }
-      return nameRules != null ? nameRules.equals(that.nameRules) : that.nameRules == null;
+      return type == that.type;
     }
 
     @Override
@@ -127,7 +121,6 @@ public class Includes {
       int result = tc != null ? tc.hashCode() : 0;
       result = 31 * result + (model != null ? model.hashCode() : 0);
       result = 31 * result + (type != null ? type.hashCode() : 0);
-      result = 31 * result + (nameRules != null ? nameRules.hashCode() : 0);
       return result;
     }
   }
