@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.converter.java;
+package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.CppType;
@@ -19,7 +19,7 @@ import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
 
-public final class JavaJniTypeConverter {
+public final class JniTypeConverter {
   private static final Includes.SystemInclude JNI_INCLUDE = new Includes.SystemInclude("jni.h");
 
   /**

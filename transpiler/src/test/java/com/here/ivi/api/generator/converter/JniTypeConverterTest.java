@@ -12,9 +12,8 @@
 package com.here.ivi.api.generator.converter;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
 
-import com.here.ivi.api.generator.converter.java.JavaJniTypeConverter;
+import com.here.ivi.api.generator.common.jni.JniTypeConverter;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
@@ -28,7 +27,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class JavaJniTypeConverterTest {
+public final class JniTypeConverterTest {
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Test
@@ -37,7 +36,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaPrimitiveType = new JavaPrimitiveType(Type.VOID);
 
     // Act
-    CppType voidType = JavaJniTypeConverter.map(javaPrimitiveType);
+    CppType voidType = JniTypeConverter.map(javaPrimitiveType);
 
     // Assert
     assertEquals("void", voidType.name);
@@ -49,7 +48,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaBool = new JavaPrimitiveType(Type.BOOL);
 
     // Act
-    CppType jniBool = JavaJniTypeConverter.map(javaBool);
+    CppType jniBool = JniTypeConverter.map(javaBool);
 
     // Assert
     assertEquals(jniBool.name, ("j" + javaBool.getName()));
@@ -61,7 +60,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaByte = new JavaPrimitiveType(Type.BYTE);
 
     // Act
-    CppType jniByte = JavaJniTypeConverter.map(javaByte);
+    CppType jniByte = JniTypeConverter.map(javaByte);
 
     // Assert
     assertEquals(jniByte.name, ("j" + javaByte.getName()));
@@ -73,7 +72,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaChar = new JavaPrimitiveType(Type.CHAR);
 
     // Act
-    CppType jniChar = JavaJniTypeConverter.map(javaChar);
+    CppType jniChar = JniTypeConverter.map(javaChar);
 
     // Assert
     assertEquals(jniChar.name, ("j" + javaChar.getName()));
@@ -85,7 +84,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaDouble = new JavaPrimitiveType(Type.DOUBLE);
 
     // Act
-    CppType jniDouble = JavaJniTypeConverter.map(javaDouble);
+    CppType jniDouble = JniTypeConverter.map(javaDouble);
 
     // Assert
     assertEquals(jniDouble.name, ("j" + javaDouble.getName()));
@@ -97,7 +96,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaFloat = new JavaPrimitiveType(Type.FLOAT);
 
     // Act
-    CppType jniFloat = JavaJniTypeConverter.map(javaFloat);
+    CppType jniFloat = JniTypeConverter.map(javaFloat);
 
     // Assert
     assertEquals(jniFloat.name, ("j" + javaFloat.getName()));
@@ -109,7 +108,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaInt = new JavaPrimitiveType(Type.INT);
 
     // Act
-    CppType jniInt = JavaJniTypeConverter.map(javaInt);
+    CppType jniInt = JniTypeConverter.map(javaInt);
 
     // Assert
     assertEquals(jniInt.name, ("j" + javaInt.getName()));
@@ -121,7 +120,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaLong = new JavaPrimitiveType(Type.LONG);
 
     // Act
-    CppType jniLong = JavaJniTypeConverter.map(javaLong);
+    CppType jniLong = JniTypeConverter.map(javaLong);
 
     // Assert
     assertEquals(jniLong.name, ("j" + javaLong.getName()));
@@ -133,7 +132,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaShort = new JavaPrimitiveType(Type.SHORT);
 
     // Act
-    CppType jniShort = JavaJniTypeConverter.map(javaShort);
+    CppType jniShort = JniTypeConverter.map(javaShort);
 
     // Assert
     assertEquals(jniShort.name, ("j" + javaShort.getName()));
@@ -145,7 +144,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaClass = new JavaReferenceType(JavaReferenceType.Type.CLASS);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaClass);
+    CppType jniString = JniTypeConverter.map(javaClass);
 
     // Assert
     assertEquals(jniString.name, "jclass");
@@ -157,7 +156,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.STRING);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaString);
+    CppType jniString = JniTypeConverter.map(javaString);
 
     // Assert
     assertEquals(jniString.name, "jstring");
@@ -169,7 +168,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.OBJECT_ARRAY);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaString);
+    CppType jniString = JniTypeConverter.map(javaString);
 
     // Assert
     assertEquals(jniString.name, "jobjectArray");
@@ -181,7 +180,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.BYTE_ARRAY);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaString);
+    CppType jniString = JniTypeConverter.map(javaString);
 
     // Assert
     assertEquals(jniString.name, "jbyteArray");
@@ -193,7 +192,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.CHAR_ARRAY);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaString);
+    CppType jniString = JniTypeConverter.map(javaString);
 
     // Assert
     assertEquals(jniString.name, "jcharArray");
@@ -205,7 +204,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.SHORT_ARRAY);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaString);
+    CppType jniString = JniTypeConverter.map(javaString);
 
     // Assert
     assertEquals(jniString.name, "jshortArray");
@@ -217,7 +216,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.INT_ARRAY);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaString);
+    CppType jniString = JniTypeConverter.map(javaString);
 
     // Assert
     assertEquals(jniString.name, "jintArray");
@@ -229,7 +228,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.LONG_ARRAY);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaString);
+    CppType jniString = JniTypeConverter.map(javaString);
 
     // Assert
     assertEquals(jniString.name, "jlongArray");
@@ -241,7 +240,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.FLOAT_ARRAY);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaString);
+    CppType jniString = JniTypeConverter.map(javaString);
 
     // Assert
     assertEquals(jniString.name, "jfloatArray");
@@ -253,7 +252,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.DOUBLE_ARRAY);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaString);
+    CppType jniString = JniTypeConverter.map(javaString);
 
     // Assert
     assertEquals(jniString.name, "jdoubleArray");
@@ -265,7 +264,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.THROWABLE);
 
     // Act
-    CppType jniString = JavaJniTypeConverter.map(javaString);
+    CppType jniString = JniTypeConverter.map(javaString);
 
     // Assert
     assertEquals(jniString.name, "jthrowable");
@@ -277,7 +276,7 @@ public final class JavaJniTypeConverterTest {
     JavaType javaCustom = new JavaCustomType("MyFancyType");
 
     // Act
-    CppType jniCustom = JavaJniTypeConverter.map(javaCustom);
+    CppType jniCustom = JniTypeConverter.map(javaCustom);
 
     // Assert
     assertEquals(jniCustom.name, "jobject");

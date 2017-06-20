@@ -17,7 +17,7 @@ import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.io.File;
 
-public final class JavaNativeInterfacesNameRules {
+public final class JniNameRules {
   private static final String JNI_HEADER_FILE_ENDING = ".h";
   private static final String JNI_IMPLEMENTATION_FILE_ENDING = ".cpp";
 

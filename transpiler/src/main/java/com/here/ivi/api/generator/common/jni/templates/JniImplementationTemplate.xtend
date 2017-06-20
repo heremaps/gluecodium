@@ -11,36 +11,29 @@
 
 package com.here.ivi.api.generator.common.jni.templates
 
+import com.here.ivi.api.generator.common.jni.JniTypeConverter
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 import com.here.ivi.api.model.javamodel.JavaClass
-import com.here.ivi.api.generator.converter.java.JavaJniTypeConverter
 
-public class JavaNativeInterfacesHeaderTemplate {
-  def static generate(JavaClass javaClass) '''
-    «JavaCopyrightHeaderTemplate.generate()»
-
-
-    /**
-     * JNI header for class «javaClass.name»
-     */
-    #pragma once
-
-    #include <jni.h>
-
-    #ifdef __cplusplus
-    extern "C" {
-    #endif
-
-    «FOR method : javaClass.methods»
-    /**
-     * Function for «javaClass.name».«method.name»()
-     */
-    JNIEXPORT «JavaJniTypeConverter.map(method.returnType).name» JNICALL
-    «JavaNativeFunctionSignatureTemplate.generate(javaClass, method)»;
-    «ENDFOR»
-
-    #ifdef __cplusplus
+public class JniImplementationTemplate {
+  def static generate(JavaClass javaClass) {
+    if (javaClass == null) {
+      return ""
     }
-    #endif
-  '''
+
+    return
+      '''
+      «JavaCopyrightHeaderTemplate.generate()»
+
+      #include "TODO"
+
+      «FOR method : javaClass.methods»
+      extern "C" «JniTypeConverter.map(method.returnType).name»
+      «JniFunctionSignatureTemplate.generate(javaClass, method)»
+      {
+          //TODO
+      }
+      «ENDFOR»
+    '''
+  }
 }

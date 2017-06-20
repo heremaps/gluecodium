@@ -12,10 +12,10 @@
 package com.here.ivi.api.generator.common.jni.templates
 
 import com.here.ivi.api.model.cppmodel.CppType
-import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getNativeParameterName
-import static com.here.ivi.api.generator.common.jni.JavaNativeInterfacesNameRules.getParameterName
+import static com.here.ivi.api.generator.common.jni.JniNameRules.getNativeParameterName
+import static com.here.ivi.api.generator.common.jni.JniNameRules.getParameterName
 
-class JavaPrimitiveTypeConversionTemplate {
+class JniPrimitiveTypeConversionTemplate {
     def static generate(CppType cppType, String baseName)'''
         «cppType.name» «getNativeParameterName(baseName)» = static_cast<«cppType.name»>(«getParameterName(baseName)»);
     '''
