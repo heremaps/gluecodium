@@ -24,6 +24,7 @@ import com.here.ivi.api.model.javamodel.JavaVisibility
 import org.eclipse.xtext.junit4.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Arrays
 
 import static org.junit.Assert.*
 import com.here.ivi.api.model.javamodel.JavaPackage
@@ -59,7 +60,7 @@ class ExampleClass {
       comment = "Method comment"
     ]
     val javaClass = new JavaClass("ExampleClass") => [
-      javaPackage = new JavaPackage("com.here.generator.example")
+      javaPackage = new JavaPackage(Arrays.asList("com", "here", "generator", "example"))
       comment = "Example class comment"
       methods = #{ classMethod }
       visibility = JavaVisibility.PUBLIC
@@ -92,7 +93,7 @@ public class ExampleClass {
       comment = "Enum comment"
     ]
     val javaClass = new JavaClass("ExampleClass") => [
-      javaPackage = new JavaPackage("com.here.enums")
+      javaPackage = new JavaPackage(Arrays.asList("com", "here", "enums"))
       comment = "Example class comment"
       enums = # { classEnum }
     ]

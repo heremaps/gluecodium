@@ -28,6 +28,6 @@ public class JavaPackageTest {
 
     JavaPackage javaPackage = new JavaPackage(packages);
 
-    assertEquals("com.here.test", javaPackage.name);
+    assertEquals(packages, javaPackage.packageNames);
   }
 }

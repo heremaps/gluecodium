@@ -64,10 +64,12 @@ public final class JavaNativeInterfacesNameRules {
   }
 
   public static String getPackageName(final JavaPackage javaPackage) {
-    if (javaPackage == null || javaPackage.name == null || javaPackage.name.isEmpty()) {
+    if (javaPackage == null
+        || javaPackage.packageNames == null
+        || javaPackage.packageNames.isEmpty()) {
       return "";
     }
 
-    return javaPackage.name.replace('.', UNDERSCORE.charAt(0));
+    return String.join(UNDERSCORE, javaPackage.packageNames);
   }
 }
