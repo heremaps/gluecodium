@@ -37,14 +37,14 @@ public final class JavaTypeMapper {
     }
 
     if (fTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
-      return mapPredefined(fTypeRef);
+      return mapPredefined(fTypeRef.getPredefined());
     }
 
     return new JavaPrimitiveType(Type.VOID);
   }
 
-  private static JavaType mapPredefined(FTypeRef type) {
-    switch (type.getPredefined().getValue()) {
+  public static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
+    switch (basicTypeId.getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
         return new JavaPrimitiveType(Type.BOOL);
       case FBasicTypeId.FLOAT_VALUE:

@@ -376,54 +376,76 @@ public class CppTypeMapper {
     return wrapStdTemplateType(content, "set", CppLibraryIncludes.SET, nameRules);
   }
 
-  private static CppType mapPredefined(FTypeRef type) {
+  public static String mapPredefinedToTypeName(final FBasicTypeId basicTypeId) {
+    switch (basicTypeId.getValue()) {
+      case FBasicTypeId.BOOLEAN_VALUE:
+        return "bool";
+      case FBasicTypeId.FLOAT_VALUE:
+        return "float";
+      case FBasicTypeId.DOUBLE_VALUE:
+        return "double";
+      case FBasicTypeId.INT8_VALUE:
+        return "int8_t";
+      case FBasicTypeId.INT16_VALUE:
+        return "int16_t";
+      case FBasicTypeId.INT32_VALUE:
+        return "int32_t";
+      case FBasicTypeId.INT64_VALUE:
+        return "int64_t";
+      case FBasicTypeId.UINT8_VALUE:
+        return "uint8_t";
+      case FBasicTypeId.UINT16_VALUE:
+        return "uint16_t";
+      case FBasicTypeId.UINT32_VALUE:
+        return "uint32_t";
+      case FBasicTypeId.UINT64_VALUE:
+        return "uint64_t";
+      case FBasicTypeId.STRING_VALUE:
+        return "std::string";
+      case FBasicTypeId.BYTE_BUFFER_VALUE:
+        return "std::vector< uint8_t >";
+      default:
+        return "UNMAPPED PREDEFINED [" + basicTypeId.getName() + "]";
+    }
+  }
+
+  private static CppType mapPredefined(final FTypeRef type) {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
 
     switch (type.getPredefined().getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
-        return new CppType(definer, "bool", CppElements.TypeInfo.BuiltIn);
       case FBasicTypeId.FLOAT_VALUE:
-        return new CppType(definer, "float", CppElements.TypeInfo.BuiltIn);
       case FBasicTypeId.DOUBLE_VALUE:
-        return new CppType(definer, "double", CppElements.TypeInfo.BuiltIn);
+        return new CppType(
+            definer, mapPredefinedToTypeName(type.getPredefined()), CppElements.TypeInfo.BuiltIn);
       case FBasicTypeId.INT8_VALUE:
-        return new CppType(
-            definer, "int8_t", CppElements.TypeInfo.BuiltIn, CppLibraryIncludes.INT_TYPES);
       case FBasicTypeId.INT16_VALUE:
-        return new CppType(
-            definer, "int16_t", CppElements.TypeInfo.BuiltIn, CppLibraryIncludes.INT_TYPES);
       case FBasicTypeId.INT32_VALUE:
-        return new CppType(
-            definer, "int32_t", CppElements.TypeInfo.BuiltIn, CppLibraryIncludes.INT_TYPES);
       case FBasicTypeId.INT64_VALUE:
-        return new CppType(
-            definer, "int64_t", CppElements.TypeInfo.BuiltIn, CppLibraryIncludes.INT_TYPES);
       case FBasicTypeId.UINT8_VALUE:
-        return new CppType(
-            definer, "uint8_t", CppElements.TypeInfo.BuiltIn, CppLibraryIncludes.INT_TYPES);
       case FBasicTypeId.UINT16_VALUE:
-        return new CppType(
-            definer, "uint16_t", CppElements.TypeInfo.BuiltIn, CppLibraryIncludes.INT_TYPES);
       case FBasicTypeId.UINT32_VALUE:
-        return new CppType(
-            definer, "uint32_t", CppElements.TypeInfo.BuiltIn, CppLibraryIncludes.INT_TYPES);
       case FBasicTypeId.UINT64_VALUE:
         return new CppType(
-            definer, "uint64_t", CppElements.TypeInfo.BuiltIn, CppLibraryIncludes.INT_TYPES);
+            definer,
+            mapPredefinedToTypeName(type.getPredefined()),
+            CppElements.TypeInfo.BuiltIn,
+            CppLibraryIncludes.INT_TYPES);
       case FBasicTypeId.STRING_VALUE:
         return new CppType(
-            definer, "std::string", CppElements.TypeInfo.Complex, CppLibraryIncludes.STRING);
+            definer,
+            mapPredefinedToTypeName(type.getPredefined()),
+            CppElements.TypeInfo.Complex,
+            CppLibraryIncludes.STRING);
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return new CppType(
             definer,
-            "std::vector< uint8_t >",
+            mapPredefinedToTypeName(type.getPredefined()),
             CppElements.TypeInfo.Complex,
             CppLibraryIncludes.VECTOR);
       default:
         return new CppType(
-            definer,
-            "UNMAPPED PREDEFINED [" + type.getPredefined().getName() + "]",
-            CppElements.TypeInfo.Invalid);
+            definer, mapPredefinedToTypeName(type.getPredefined()), CppElements.TypeInfo.Invalid);
     }
   }
 }
