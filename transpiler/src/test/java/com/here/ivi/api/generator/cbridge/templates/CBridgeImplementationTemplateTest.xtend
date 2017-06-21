@@ -133,7 +133,7 @@ class CBridgeImplementationTemplateTest {
         val expected = '''
         const char* HelloWorldStub_helloWorldMethod(const char* inputString) {
             auto cpp_inputString = std::string(inputString);
-            return HelloWorldStub::helloWorldMethod(cpp_inputString).c_str();
+            return strdup(HelloWorldStub::helloWorldMethod(cpp_inputString).c_str());
         }
         '''
 

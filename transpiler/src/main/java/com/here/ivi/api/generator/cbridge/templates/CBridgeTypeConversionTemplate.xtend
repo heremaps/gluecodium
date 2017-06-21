@@ -30,7 +30,7 @@ class CBridgeTypeConversionTemplate {
     def static String convertCppToC(CType type, String expression) {
         switch(type.toString) {
             //TODO map based on type of type
-            case "const char*": '''«expression».c_str()'''
+            case "const char*": '''strdup(«expression».c_str())'''
             default: expression
         }
     }
