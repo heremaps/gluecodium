@@ -37,11 +37,6 @@ if(BUILD_SHARED_LIBS)
         PRIVATE HELLO_SHARED)
 endif()
 
-include(Transpiler)
-transpile(hello
-    ${CMAKE_CURRENT_SOURCE_DIR}/fidl
-    ${CMAKE_CURRENT_BINARY_DIR}/api)
-
 target_include_directories(hello
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
