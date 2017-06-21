@@ -11,11 +11,13 @@
 #
 # ============================================================================
 
-
 cmake_minimum_required(VERSION 3.2)
 project(hello_world)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
+
+include(Transpiler)
+transpile()
 
 add_subdirectory(libhello)
 add_subdirectory(apps/base_api)

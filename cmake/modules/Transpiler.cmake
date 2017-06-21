@@ -26,6 +26,10 @@ else()
     set(TRANSPILER_GRADLE_WRAPPER ./gradlew)
 endif()
 
+set(FIDL_INPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/libhello/fidl)
+set(OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libhello/api)
+set(TRANSPILER_ARGS "-input ${FIDL_INPUT_DIRECTORY} -output ${OUTPUT_DIRECTORY} -nostdout")
+
 #[========================================[.rst:
 
 ==========
@@ -38,24 +42,22 @@ The general form of the command is:
 
 ::
 
-   transpile(target inputDir outputDir)
+   transpile()
 
 This function invokes the API transpiler based on a set of of input *.fidl
-files and puts the generated API sources into outputDir.
+files from FIDL_INPUT_DIRECTORY and puts the generated API sources into OUTPUT_DIRECTORY.
 
 
 #]========================================]
+function(transpile)
 
-function(transpile target input output)
+    message(STATUS "Transpile
+    Input:  '${FIDL_INPUT_DIRECTORY}'
+    Output: '${OUTPUT_DIRECTORY}'")
 
-    message(STATUS "Transpile target '${target}'
-    Input: '${input}'
-    Output: '${output}'")
-
-    add_custom_target(transpile_${target}
-        WORKING_DIRECTORY ${TRANSPILER_DIR}
-        COMMAND ${TRANSPILER_GRADLE_WRAPPER} run -Dexec.args=\"-input ${input} -output ${output} -nostdout\")
-
-    add_dependencies(${target} transpile_${target})
+    execute_process(
+        COMMAND mkdir -p ${OUTPUT_DIRECTORY} # otherwise java.io.File won't have permissions to create files at configure time
+        COMMAND ${TRANSPILER_GRADLE_WRAPPER} run -Dexec.args=${TRANSPILER_ARGS}
+        WORKING_DIRECTORY ${TRANSPILER_DIR})
 
 endfunction(transpile)
