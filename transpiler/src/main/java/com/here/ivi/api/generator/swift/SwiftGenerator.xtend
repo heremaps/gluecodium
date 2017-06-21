@@ -14,8 +14,7 @@ package com.here.ivi.api.generator.swift
 // TODO use own objective-c comment parser
 import static extension com.here.ivi.api.generator.baseapi.StubCommentParser.parse
 import static extension com.here.ivi.api.generator.swift.templates.SwiftFileTemplate.generate
-import static extension com.here.ivi.api.generator.swift.SwiftTypeMapper.mappedType
-import static extension com.here.ivi.api.generator.swift.SwiftTypeMapper.mappedReturnValue
+import com.here.ivi.api.generator.swift.SwiftTypeMapper
 import com.here.ivi.api.generator.common.GeneratedFile
 import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.model.swift.SwiftMethod
@@ -27,7 +26,7 @@ import navigation.BaseApiSpec
 import org.franca.core.franca.FMethod
 
 class SwiftGenerator {
-    extension SwiftNameRules nameRules
+    SwiftNameRules nameRules
     SwiftIncludeResolver includeResolver
 
     new(SwiftNameRules rules, SwiftIncludeResolver resolver) {
@@ -36,13 +35,13 @@ class SwiftGenerator {
     }
 
     def List<GeneratedFile> generate(Interface<BaseApiSpec.InterfacePropertyAccessor> iface) {
-        return #[new GeneratedFile(iface.buildSwiftModel.generate, iface.getFileName)]
+        return #[new GeneratedFile(iface.buildSwiftModel.generate, nameRules.getImplementationFileName(iface))]
     }
 
     protected def buildSwiftModel(Interface<?> iface) {
         val propertyAccessor = iface.getPropertyAccessor
         val clazz = iface.getFrancaInterface
-        return new SwiftClass(clazz.getClassName) => [
+        return new SwiftClass(nameRules.getClassName(clazz)) => [
             comment = clazz.parse.getMainBodyText() ?: ""
             methods = clazz.getMethods.stream.map([constructMethod(propertyAccessor)]).collect(toList)
         ]
@@ -50,10 +49,10 @@ class SwiftGenerator {
 
     private def constructMethod(FMethod method, extension BaseApiSpec.InterfacePropertyAccessor propertyAccessor) {
         val parameters = method.getInArgs.stream
-            .map([param | new SwiftMethodParameter(param.getParameterName, param.mappedType)])
+            .map([param | new SwiftMethodParameter(nameRules.getParameterName(param), SwiftTypeMapper.mapType(param))])
             .collect(toList)
-        return new SwiftMethod(method.getMethodName, parameters) => [
-            returnType = method.mappedReturnValue
+        return new SwiftMethod(nameRules.getMethodName(method), parameters) => [
+            returnType = SwiftTypeMapper.mapReturnValue(method)
             comment = method.parse.getMainBodyText ?: ""
             isStatic = method.getStatic
         ]
