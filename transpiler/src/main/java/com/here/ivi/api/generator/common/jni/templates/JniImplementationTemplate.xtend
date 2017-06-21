@@ -11,13 +11,15 @@
 
 package com.here.ivi.api.generator.common.jni.templates
 
+import java.util.List;
+import com.here.ivi.api.model.Includes
 import com.here.ivi.api.generator.common.jni.JniTypeConverter
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 import com.here.ivi.api.model.javamodel.JavaClass
 
 public class JniImplementationTemplate {
-  def static generate(JavaClass javaClass) {
-    if (javaClass == null) {
+  def static generate(JavaClass javaClass, List<Includes.InternalPublicInclude> includes) {
+    if (javaClass === null || includes === null || includes.isEmpty()) {
       return ""
     }
 
@@ -25,7 +27,9 @@ public class JniImplementationTemplate {
       '''
       «JavaCopyrightHeaderTemplate.generate()»
 
-      #include "TODO"
+      «FOR include : includes»
+      #include "«include.file»"
+      «ENDFOR»
 
       «FOR method : javaClass.methods»
       extern "C" «JniTypeConverter.map(method.returnType).name»
@@ -34,6 +38,6 @@ public class JniImplementationTemplate {
           //TODO
       }
       «ENDFOR»
-    '''
+      '''
   }
 }
