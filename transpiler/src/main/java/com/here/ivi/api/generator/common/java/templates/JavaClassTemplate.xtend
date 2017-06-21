@@ -17,23 +17,26 @@ import com.here.ivi.api.generator.common.java.JavaCommentFormatter
 public class JavaClassTemplate {
   def static whitespaceFormatter(String field) '''«field»«IF !field.isEmpty» «ENDIF»'''
 
-  def static generate(JavaClass it) '''«JavaPackageTemplate.generate(javaPackage)»
-  «JavaImportsTemplate.generate(it)»
+  def static generate(JavaClass it)'''
+    «JavaCopyrightHeaderTemplate.generate()»
 
-«IF comment !== null && !comment.isEmpty»
-/**
- * «JavaCommentFormatter.format(comment)»
- */
-«ENDIF»
-«whitespaceFormatter(visibility.toAccessModifier)»class «name» «JavaInheritanceTemplate.generate(inheritance)»{
-  «FOR constant : constants»
-  «JavaConstantTemplate.generate(constant)»
-  «ENDFOR»
-  «FOR enumerator : enums»
-  «JavaEnumTemplate.generate(enumerator)»
-  «ENDFOR»
-  «FOR method : methods»
-  «JavaMethodTemplate.signature(method)»«IF method.isNative»;«ELSE»«JavaMethodBodyTemplate.generate(method)»«ENDIF»
-  «ENDFOR»
-}'''
+    «JavaPackageTemplate.generate(javaPackage)»
+    «JavaImportsTemplate.generate(it)»
+
+    «IF comment !== null && !comment.isEmpty»
+    /**
+     * «JavaCommentFormatter.format(comment)»
+     */
+    «ENDIF»
+    «whitespaceFormatter(visibility.toAccessModifier)»class «name» «JavaInheritanceTemplate.generate(inheritance)»{
+      «FOR constant : constants»
+      «JavaConstantTemplate.generate(constant)»
+      «ENDFOR»
+      «FOR enumerator : enums»
+      «JavaEnumTemplate.generate(enumerator)»
+      «ENDFOR»
+      «FOR method : methods»
+      «JavaMethodTemplate.signature(method)»«IF method.isNative»;«ELSE»«JavaMethodBodyTemplate.generate(method)»«ENDIF»
+      «ENDFOR»
+    }'''
 }

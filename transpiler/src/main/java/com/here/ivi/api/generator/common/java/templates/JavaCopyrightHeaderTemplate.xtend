@@ -18,6 +18,9 @@ class JavaCopyrightHeaderTemplate {
     /*
     «FOR line : CopyrightNotice.generate.toString.split(System.lineSeparator())» * «line»
     «ENDFOR»
+     *
+     * Automatically generated. Do not modify. Your changes will be lost.
+     *
      */
   '''
 }

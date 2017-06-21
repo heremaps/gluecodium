@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common.java.templates
 
+import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 import com.here.ivi.api.model.javamodel.JavaClass
 import com.here.ivi.api.model.javamodel.JavaCustomType
 import com.here.ivi.api.model.javamodel.JavaEnum
@@ -31,6 +32,8 @@ import com.here.ivi.api.model.javamodel.JavaPackage
 
 @RunWith(typeof(XtextRunner))
 class JavaClassTemplateTest {
+  val copyrightNotice = JavaCopyrightHeaderTemplate.generate() + "\n"
+
   @Test
   def minimumClassGeneration() {
     val javaClass = new JavaClass("ExampleClass") => [
@@ -46,7 +49,7 @@ class ExampleClass {
 
     val generated = JavaClassTemplate.generate(javaClass)
 
-    assertEquals(expected, generated.toString)
+    assertEquals(copyrightNotice + expected, generated.toString)
   }
 
   @Test
@@ -82,7 +85,7 @@ public class ExampleClass {
 
     val generated = JavaClassTemplate.generate(javaClass)
 
-    assertEquals(expected, generated.toString)
+    assertEquals(copyrightNotice + expected, generated.toString)
   }
 
   @Test
@@ -114,7 +117,7 @@ class ExampleClass {
 
     val generated = JavaClassTemplate.generate(javaClass)
 
-    assertEquals(expected, generated.toString)
+    assertEquals(copyrightNotice + expected, generated.toString)
   }
 
   @Test
@@ -154,7 +157,7 @@ class ExampleClass {
 
     val generated = JavaClassTemplate.generate(javaClass)
 
-    assertEquals(expected, generated.toString)
+    assertEquals(copyrightNotice + expected, generated.toString)
   }
 
   @Test
@@ -175,6 +178,6 @@ class ExampleClass {
 
     val generated = JavaClassTemplate.generate(javaClass)
 
-    assertEquals(expected, generated.toString)
+    assertEquals(copyrightNotice + expected, generated.toString)
   }
 }
