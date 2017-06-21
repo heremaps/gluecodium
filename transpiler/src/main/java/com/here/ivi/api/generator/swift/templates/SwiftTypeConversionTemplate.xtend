@@ -21,14 +21,20 @@ Additional conversion functions for pointers, optionals etc. need to be added in
 class SwiftTypeConversionTemplate {
     def static String convertCToSwift(SwiftType type, String expression) {
         switch(type.name) {
-            case "String": '''String(cString:«expression»)'''
+            case "String": '''
+                {
+                    let ret_pointer = «expression»
+                    let ret_value = String(cString:ret_pointer)
+                    //TODO delete_string(ret_pointer)
+                    return ret_value
+                }()
+                '''
             default: expression
         }
     }
 
     def static String convertSwiftToC(SwiftType type, String expression) {
         switch(type.name) {
-            case "String": '''«expression».cString(using: String.Encoding.utf8)'''
             default: expression
         }
     }

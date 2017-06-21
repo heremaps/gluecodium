@@ -118,7 +118,7 @@ class SwiftFileTemplateTest {
 
                 public func myMethod(parameterOne: Int, parameterTwo: String) -> Void {
                     let c_parameterOne = parameterOne
-                    let c_parameterTwo = parameterTwo.cString(using: String.Encoding.utf8)
+                    let c_parameterTwo = parameterTwo
                     return ExampleClass_myMethod(c_parameterOne, c_parameterTwo)
                 }
             }
@@ -164,7 +164,7 @@ class SwiftFileTemplateTest {
                  * Do something
                  */
                 public func myMethod(myParameter: String) -> Int {
-                    let c_myParameter = myParameter.cString(using: String.Encoding.utf8)
+                    let c_myParameter = myParameter
                     return CommentedExampleClass_myMethod(c_myParameter)
                 }
             }
@@ -232,8 +232,13 @@ class SwiftFileTemplateTest {
 
             public class HelloWorld {
                 static func helloWorldMethod(inputString: String) -> String {
-                    let c_inputString = inputString.cString(using: String.Encoding.utf8)
-                    return String(cString:HelloWorld_helloWorldMethod(c_inputString))
+                    let c_inputString = inputString
+                    return {
+                        let ret_pointer = HelloWorld_helloWorldMethod(c_inputString)
+                        let ret_value = String(cString:ret_pointer)
+                        //TODO delete_string(ret_pointer)
+                        return ret_value
+                    }()
                 }
             }
         '''
