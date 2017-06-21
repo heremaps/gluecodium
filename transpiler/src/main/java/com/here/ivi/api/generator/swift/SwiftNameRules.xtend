@@ -21,16 +21,16 @@ import org.franca.core.franca.FArgument
 
 class SwiftNameRules {
 
-    def getFileName(FrancaElement<?> francaElement) {
+    def getImplementationFileName(FrancaElement<?> francaElement) {
         return "swift"
                 + File.separator
                 + String.join(File.separator, francaElement.getPackage())
                 + File.separator
-                + getFilename(francaElement)
+                + getFileName(francaElement)
                 + ".swift";
     }
 
-    private def getFilename(FrancaElement<?> francaElement) {
+    private def getFileName(FrancaElement<?> francaElement) {
         switch francaElement {
             Interface<?>  : computeClassName(francaElement.francaInterface)
             default : getTypeCollectionName(francaElement.francaTypeCollection)

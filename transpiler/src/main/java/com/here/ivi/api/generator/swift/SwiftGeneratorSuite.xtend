@@ -19,8 +19,11 @@ import com.here.ivi.api.model.ModelHelper
 import com.here.ivi.api.validator.common.ResourceValidator
 import java.io.File
 import java.util.Objects
-import java.util.stream.Collectors
+import static java.util.stream.Collectors.toList
 import navigation.BaseApiSpec;
+import static java.util.stream.Stream.concat
+import com.here.ivi.api.generator.cbridge.CBridgeNameRules
+import com.here.ivi.api.generator.cbridge.CBridgeGenerator
 
 final class SwiftGeneratorSuite implements GeneratorSuite {
     // TODO: APIGEN-149 - Create an ObjCSpecAccessorFactory
@@ -39,13 +42,19 @@ final class SwiftGeneratorSuite implements GeneratorSuite {
     }
 
     override generate() {
-        val nameRules = new SwiftNameRules
+        val swiftNameRules = new SwiftNameRules
+        val cBridgeNameRules = new CBridgeNameRules
         val includeResolver = new SwiftIncludeResolver
-        // TODO: APIGEN-108 Add all other possible generators and call them here
-        val headerGenerator = new SwiftGenerator(nameRules, includeResolver)
-        val generatorStream = model.getInterfaces().stream().map([headerGenerator.generate(it)]).flatMap([stream]);
 
-        return generatorStream.filter([Objects.nonNull(it)]).collect(Collectors.toList)
+        // TODO: APIGEN-108 Add all other possible generators and call them here
+
+        val swiftGenerator = new SwiftGenerator(swiftNameRules, includeResolver)
+        val cBrigdeGenerator = new CBridgeGenerator(cBridgeNameRules)
+
+        val swiftStream = model.getInterfaces().stream().map([swiftGenerator.generate(it)]).flatMap([stream])
+        val cBridgeStream = model.getInterfaces().stream().map([cBrigdeGenerator.generate(it)]).flatMap([stream])
+
+        return concat(swiftStream, cBridgeStream).filter([Objects.nonNull(it)]).collect(toList)
     }
 
     override getSpecPath() {

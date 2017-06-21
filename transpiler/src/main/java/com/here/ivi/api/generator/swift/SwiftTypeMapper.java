@@ -19,11 +19,11 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeRef;
 
 public class SwiftTypeMapper {
-  public static SwiftType mappedType(FArgument argument) {
+  public static SwiftType mapType(FArgument argument) {
     return mapPredefined(argument.getType());
   }
 
-  public static SwiftType mapPredefined(FTypeRef type) {
+  private static SwiftType mapPredefined(FTypeRef type) {
     FBasicTypeId typeId = type.getPredefined();
     switch (typeId.getValue()) {
       case FBasicTypeId.UNDEFINED_VALUE:
@@ -58,13 +58,13 @@ public class SwiftTypeMapper {
     return SwiftType.VOID;
   }
 
-  public static SwiftType mappedReturnValue(FMethod method) {
+  public static SwiftType mapReturnValue(FMethod method) {
     // TODO Wrap multiple return values and/or error code with subsequent version of Hello World milestone
     return method
         .getOutArgs()
         .stream()
         .findFirst()
-        .map(SwiftTypeMapper::mappedType)
+        .map(SwiftTypeMapper::mapType)
         .orElse(SwiftType.VOID);
   }
 }
