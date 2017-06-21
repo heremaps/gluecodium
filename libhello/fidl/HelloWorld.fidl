@@ -9,7 +9,7 @@
  *
  */
 
-package libhello
+package hello
 
 interface HelloWorld {
 
