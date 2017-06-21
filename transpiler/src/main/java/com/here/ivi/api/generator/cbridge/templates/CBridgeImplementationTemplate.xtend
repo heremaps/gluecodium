@@ -32,6 +32,8 @@ class CBridgeImplementationTemplate {
     //  of such agreement, the use of the software is not allowed.
     //
     //  Automatically generated. Do not modify. Your changes will be lost.
+    «generateHardcodedIncludes(cInterface)»
+
     «FOR include: cInterface.includes BEFORE '\n'»
         «CppIncludeTemplate.generate(include)»
     «ENDFOR»
@@ -41,6 +43,21 @@ class CBridgeImplementationTemplate {
     «ENDFOR»
 
     '''
+
+    static def generateHardcodedIncludes(CInterface cInterface) {
+        if (cInterface.fileName !== null && cInterface.stubHeaderFileName !== null) {
+            '''
+            extern "C" {
+            #include "«cInterface.fileName»"
+            }
+            #include <«cInterface.stubHeaderFileName»>
+            #import <string>
+            '''
+        }
+        else return ""
+    }
+
+
 
     static def generateFunctionSignature(CFunction function) {
         '''

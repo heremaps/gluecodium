@@ -141,4 +141,38 @@ class CBridgeImplementationTemplateTest {
 
         assertEqualContent(expected, generated.toString)
     }
+
+    @Test
+    def testHardcodedHeaders() {
+        var cInterface = new CInterface()
+        var generatedCode = CBridgeImplementationTemplate.generateHardcodedIncludes(cInterface)
+        assertEquals("There should be no generated code if interface name or implementation not known", "", generatedCode)
+
+        cInterface = new CInterface() => [
+            fileName = "test.h"
+        ]
+        generatedCode = CBridgeImplementationTemplate.generateHardcodedIncludes(cInterface)
+        assertEquals("There should be no generated code if implementation not known", "", generatedCode)
+
+        cInterface = new CInterface() => [
+            stubHeaderFileName = "stubtest.h"
+        ]
+        generatedCode = CBridgeImplementationTemplate.generateHardcodedIncludes(cInterface)
+        assertEquals("There should be no generated code if interface name not known", "", generatedCode)
+
+        cInterface = new CInterface() => [
+            stubHeaderFileName = "stubtest.h"
+            fileName = "test.h"
+        ]
+        val expected =
+            '''
+            extern "C" {
+            #include "test.h"
+            }
+            #include <stubtest.h>
+            #import <string>
+            '''
+        generatedCode = CBridgeImplementationTemplate.generateHardcodedIncludes(cInterface)
+        assertEquals("There be the correct includes for interface and implementation", expected, generatedCode.toString)
+    }
 }
