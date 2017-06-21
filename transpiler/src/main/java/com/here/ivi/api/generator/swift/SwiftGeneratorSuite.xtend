@@ -24,6 +24,7 @@ import navigation.BaseApiSpec;
 import static java.util.stream.Stream.concat
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator
+import com.here.ivi.api.generator.baseapi.BaseApiNameRules
 
 final class SwiftGeneratorSuite implements GeneratorSuite {
     // TODO: APIGEN-149 - Create an ObjCSpecAccessorFactory
@@ -44,12 +45,13 @@ final class SwiftGeneratorSuite implements GeneratorSuite {
     override generate() {
         val swiftNameRules = new SwiftNameRules
         val cBridgeNameRules = new CBridgeNameRules
+        val cppNameRules = new BaseApiNameRules
         val includeResolver = new SwiftIncludeResolver
 
         // TODO: APIGEN-108 Add all other possible generators and call them here
 
         val swiftGenerator = new SwiftGenerator(swiftNameRules, includeResolver)
-        val cBrigdeGenerator = new CBridgeGenerator(cBridgeNameRules)
+        val cBrigdeGenerator = new CBridgeGenerator(cBridgeNameRules, cppNameRules)
 
         val swiftStream = model.getInterfaces().stream().map([swiftGenerator.generate(it)]).flatMap([stream])
         val cBridgeStream = model.getInterfaces().stream().map([cBrigdeGenerator.generate(it)]).flatMap([stream])

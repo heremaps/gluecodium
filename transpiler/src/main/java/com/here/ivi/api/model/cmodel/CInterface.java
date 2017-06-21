@@ -22,4 +22,6 @@ public class CInterface {
   public Set<Includes.Include> includes = Collections.emptySet();
   public List<CStruct> structs = new LinkedList<>();
   public List<CFunction> functions = new LinkedList<>();
+  public String fileName;
+  public String stubHeaderFileName;
 }

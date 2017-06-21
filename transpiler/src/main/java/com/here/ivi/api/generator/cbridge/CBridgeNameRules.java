@@ -20,12 +20,20 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeCollection;
 
 public class CBridgeNameRules {
+  public String getHeaderFileNameWithPath(final FrancaElement<?> francaElement) {
+    return getDirectoryName(francaElement) + getHeaderFileName(francaElement);
+  }
+
+  public String getImplementationFileNameWithPath(final FrancaElement<?> francaElement) {
+    return getDirectoryName(francaElement) + getImplementationFileName(francaElement);
+  }
+
   public String getHeaderFileName(final FrancaElement<?> francaElement) {
-    return getDirectoryName(francaElement) + getFileName(francaElement) + ".h";
+    return getFileName(francaElement) + ".h";
   }
 
   public String getImplementationFileName(final FrancaElement<?> francaElement) {
-    return getDirectoryName(francaElement) + getFileName(francaElement) + ".cpp";
+    return getFileName(francaElement) + ".cpp";
   }
 
   private String getDirectoryName(final FrancaElement<?> francaElement) {

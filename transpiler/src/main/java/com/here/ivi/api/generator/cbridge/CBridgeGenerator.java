@@ -16,6 +16,7 @@ import static java.util.stream.Collectors.toList;
 import com.here.ivi.api.generator.cbridge.templates.CBridgeHeaderTemplate;
 import com.here.ivi.api.generator.cbridge.templates.CBridgeImplementationTemplate;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cmodel.CFunction;
 import com.here.ivi.api.model.cmodel.CInterface;
@@ -27,24 +28,30 @@ import org.franca.core.franca.FMethod;
 
 public class CBridgeGenerator {
   private final CBridgeNameRules cBridgeNameRules;
+  private final CppNameRules cppNameRules;
 
-  public CBridgeGenerator(CBridgeNameRules nameRules) {
+  public CBridgeGenerator(CBridgeNameRules nameRules, CppNameRules cppNameRules) {
     this.cBridgeNameRules = nameRules;
+    this.cppNameRules = cppNameRules;
   }
 
   public List<GeneratedFile> generate(Interface<BaseApiSpec.InterfacePropertyAccessor> iface) {
     CInterface cModel = buildCBridgeModel(iface);
     return Arrays.asList(
         new GeneratedFile(
-            CBridgeHeaderTemplate.generate(cModel), cBridgeNameRules.getHeaderFileName(iface)),
+            CBridgeHeaderTemplate.generate(cModel),
+            cBridgeNameRules.getHeaderFileNameWithPath(iface)),
         new GeneratedFile(
             CBridgeImplementationTemplate.generate(cModel),
-            cBridgeNameRules.getImplementationFileName(iface)));
+            cBridgeNameRules.getImplementationFileNameWithPath(iface)));
   }
 
   protected CInterface buildCBridgeModel(Interface<BaseApiSpec.InterfacePropertyAccessor> iface) {
     BaseApiSpec.InterfacePropertyAccessor propertyAccessor = iface.getPropertyAccessor();
     CInterface cInterface = new CInterface();
+    cInterface.fileName = cBridgeNameRules.getHeaderFileName(iface);
+    cInterface.stubHeaderFileName = cppNameRules.getHeaderPath(iface);
+
     cInterface.functions =
         iface
             .getFrancaInterface()
