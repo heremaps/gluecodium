@@ -66,12 +66,14 @@ public class JniImplementationTemplateTest {
           + "reserved.\n"
           + " * \n"
           + " * This software, including documentation, is protected by copyright controlled by\n"
-          + " * HERE Global B.V. All rights are reserved. Copying, including reproducing, "
-          + "storing,\n"
+          + " * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,\n"
           + " * adapting or translating, any or all of this material requires the prior written\n"
           + " * consent of HERE Global B.V. This material also contains confidential information,\n"
-          + " * which may not be disclosed to others without prior written consent of HERE Global"
-          + " B.V.\n"
+          + " * which may not be disclosed to others without prior written consent of HERE Global B.V"
+          + ".\n"
+          + " *\n"
+          + " * Automatically generated. Do not modify. Your changes will be lost.\n"
+          + " *\n"
           + " */\n"
           + "\n";
   private final String jniHeaderInclude = "#include \"stub/libhello/TestClassStub.h\"\n";
