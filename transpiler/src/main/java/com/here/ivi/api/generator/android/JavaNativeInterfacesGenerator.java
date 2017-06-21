@@ -12,17 +12,39 @@
 package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.java.JavaClassMapper;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
+import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.Includes.InternalPublicInclude;
 import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
 
 final class JavaNativeInterfacesGenerator {
+
+  private final CppNameRules cppNameRules;
+
+  JavaNativeInterfacesGenerator(CppNameRules cppNameRules) {
+    this.cppNameRules = cppNameRules;
+  }
+
+  private List<Includes.InternalPublicInclude> getIncludes(
+      final Interface<InterfacePropertyAccessor> api,
+      final JavaClass javaClass,
+      final CppNameRules cppNameRules) {
+    Includes.InternalPublicInclude jniHeaderInclude =
+        new InternalPublicInclude(JniNameRules.getHeaderFileName(javaClass));
+    Includes.InternalPublicInclude baseApiHeaderInclude =
+        new InternalPublicInclude(cppNameRules.getHeaderPath(api));
+
+    return Arrays.asList(jniHeaderInclude, baseApiHeaderInclude);
+  }
 
   public List<GeneratedFile> generateFiles(final Interface<InterfacePropertyAccessor> api) {
     List<GeneratedFile> files = new LinkedList<>();
@@ -37,7 +59,8 @@ final class JavaNativeInterfacesGenerator {
     // JNI Implementation
     files.add(
         new GeneratedFile(
-            JniImplementationTemplate.generate(javaClass),
+            JniImplementationTemplate.generate(
+                javaClass, getIncludes(api, javaClass, cppNameRules)),
             JniNameRules.getImplementationFileName(javaClass)));
 
     return files;

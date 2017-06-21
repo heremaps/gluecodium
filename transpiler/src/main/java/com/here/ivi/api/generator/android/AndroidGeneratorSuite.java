@@ -102,7 +102,7 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
     // - java to jni type conversion (see above)
     // - jni to cpp type converter
     //   jlong to long
-    JavaNativeInterfacesGenerator jniGenerator = new JavaNativeInterfacesGenerator();
+    JavaNativeInterfacesGenerator jniGenerator = new JavaNativeInterfacesGenerator(cppNameRules);
 
     Stream<GeneratedFile> generatorStream =
         model
