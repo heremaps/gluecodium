@@ -10,12 +10,12 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/libhello/HelloWorldStub.h"
+#include "stub/hello/HelloWorldStub.h"
 
 #include <iostream>
 #include <string>
 
-using namespace libhello;
+using namespace hello;
 
 int main()
 {

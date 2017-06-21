@@ -10,9 +10,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/libhello/HelloWorldStub.h"
+#include "stub/hello/HelloWorldStub.h"
 
-namespace libhello
+namespace hello
 {
     std::string
     HelloWorldStub::helloWorldMethod(const std::string& inputString)
