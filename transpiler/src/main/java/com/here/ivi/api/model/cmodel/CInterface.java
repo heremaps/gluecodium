@@ -11,17 +11,17 @@
 
 package com.here.ivi.api.model.cmodel;
 
+import static java.util.Collections.emptySet;
+
 import com.here.ivi.api.model.Includes;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 /** Collection of related methods and structs forming an interface (like a C header file) */
 public class CInterface {
-  public Set<Includes.Include> includes = Collections.emptySet();
+  public Set<Includes.Include> headerIncludes = emptySet();
+  public Set<Includes.Include> implementationIncludes = emptySet();
   public List<CStruct> structs = new LinkedList<>();
   public List<CFunction> functions = new LinkedList<>();
-  public String fileName;
-  public String stubHeaderFileName;
 }

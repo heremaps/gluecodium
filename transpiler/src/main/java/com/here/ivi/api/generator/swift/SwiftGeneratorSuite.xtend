@@ -22,8 +22,8 @@ import java.util.Objects
 import static java.util.stream.Collectors.toList
 import navigation.BaseApiSpec;
 import static java.util.stream.Stream.concat
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator
+import com.here.ivi.api.generator.cbridge.CBridgeNameRules
 
 final class SwiftGeneratorSuite implements GeneratorSuite {
     // TODO: APIGEN-173 - Deal with multiple deployment specificiations and use different accessor factory

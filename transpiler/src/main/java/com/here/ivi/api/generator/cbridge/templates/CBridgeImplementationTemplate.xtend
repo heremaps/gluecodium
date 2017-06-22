@@ -31,9 +31,8 @@ class CBridgeImplementationTemplate {
     //  of such agreement, the use of the software is not allowed.
     //
     //  Automatically generated. Do not modify. Your changes will be lost.
-    «generateHardcodedIncludes(cInterface)»
 
-    «FOR include: cInterface.includes BEFORE '\n'»
+    «FOR include: cInterface.implementationIncludes BEFORE '\n'»
         «CppIncludeTemplate.generate(include)»
     «ENDFOR»
 
@@ -43,43 +42,28 @@ class CBridgeImplementationTemplate {
 
     '''
 
-    static def generateHardcodedIncludes(CInterface cInterface) {
-        if (cInterface.fileName !== null && cInterface.stubHeaderFileName !== null) {
-            '''
-            extern "C" {
-            #include "«cInterface.fileName»"
-            }
-            #include <string.h>
-            #include <«cInterface.stubHeaderFileName»>
-            #include <iosfwd>
-            #include <string>
-            '''
-        }
-        else return ""
-    }
-
-
-
     static def generateFunctionSignature(CFunction function) {
         '''
             «function.returnType» «function.name»(«FOR parameter: function.parameters SEPARATOR ', '»«parameter.type» «parameter.name»«ENDFOR») {
-                «FOR parameter: function.parameters»
-                    «generateParameterConversion(parameter)»
+                «FOR conversion: function.conversions»
+                    auto cpp_«conversion.name» = «conversion.expression»;
                 «ENDFOR»
+
                 «generateDelegateCall(function)»
             }
         '''
     }
 
-    static def generateParameterConversion(CParameter parameter) {
-        '''auto cpp_«parameter.name» = «CBridgeTypeConversionTemplate.convertCToCpp(parameter.type, parameter.name)»;'''
-    }
-
     static def generateDelegateCall(CFunction function) {
-        '''
-        return «CBridgeTypeConversionTemplate.convertCppToC(function.returnType,
-            '''«function.delegateName»(«FOR parameter: function.parameters SEPARATOR ', '»cpp_«parameter.name»«ENDFOR»)'''
-        )»;
-        '''
+        if (function.returnConversion !== null) {
+            '''
+            {
+                auto&& «function.returnConversion.name» = «function.delegateName»(«FOR conversion: function.conversions SEPARATOR ', '»cpp_«conversion.name»«ENDFOR»);
+                return «function.returnConversion.expression»;
+            }
+            '''
+        } else {
+            '''«function.delegateName»(«FOR conversion: function.conversions SEPARATOR ', '»cpp_«conversion.name»«ENDFOR»);'''
+        }
     }
 }
