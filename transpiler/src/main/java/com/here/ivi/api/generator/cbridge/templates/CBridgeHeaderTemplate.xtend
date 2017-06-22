@@ -29,7 +29,13 @@ class CBridgeHeaderTemplate{
     //  of such agreement, the use of the software is not allowed.
     //
     //  Automatically generated. Do not modify. Your changes will be lost.
-    «FOR include: cInterface.includes BEFORE '\n'»
+
+    #pragma once
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
+
+    «FOR include: cInterface.headerIncludes BEFORE '\n'»
         «CppIncludeTemplate.generate(include)»
     «ENDFOR»
 
@@ -37,6 +43,9 @@ class CBridgeHeaderTemplate{
         «generateFunctionSignature(function)»
     «ENDFOR»
 
+    #ifdef __cplusplus
+    }
+    #endif
     '''
 
     static def generateFunctionSignature(CFunction function) {

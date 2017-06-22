@@ -19,16 +19,15 @@ import com.here.ivi.api.model.cmodel.CFunction
 import com.here.ivi.api.model.cmodel.CType
 import com.here.ivi.api.model.cmodel.CPointerType
 import com.here.ivi.api.model.Includes;
-import static org.junit.Assert.*
 import com.here.ivi.api.model.cmodel.CParameter
-import static com.here.ivi.api.test.TemplateComparison.assertEqualContent
+import static com.here.ivi.api.test.TemplateComparison.assertEqualImplementationContent
 
 @RunWith(typeof(XtextRunner))
 class CBridgeImplementationTemplateTest {
     @Test
     def systemInclude() {
         val cInterface = new CInterface() => [
-            includes = #{new Includes.SystemInclude("header.h")}
+            implementationIncludes = #{new Includes.SystemInclude("header.h")}
 
         ]
         val expected = '''
@@ -37,7 +36,7 @@ class CBridgeImplementationTemplateTest {
 
         val generated = CBridgeImplementationTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualImplementationContent(expected, generated.toString)
     }
 
     @Test
@@ -48,19 +47,19 @@ class CBridgeImplementationTemplateTest {
         ]
         val expected = '''
         void functionName() {
-            return functionDelegate();
+            functionDelegate();
         }
         '''
 
         val generated = CBridgeImplementationTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualImplementationContent(expected, generated.toString)
     }
 
     @Test
     def functionWithOneParameter() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("parameterFunctionName", #[new CParameter("one", new CType("int32_t"))]) => [
+             functions = #[new CFunction("parameterFunctionName", #[new CParameter("one", CType.INT32)]) => [
                      delegateName = "delegator"
                  ]
              ]
@@ -68,21 +67,21 @@ class CBridgeImplementationTemplateTest {
         val expected = '''
         void parameterFunctionName(int32_t one) {
             auto cpp_one = one;
-            return delegator(cpp_one);
+            delegator(cpp_one);
         }
         '''
 
         val generated = CBridgeImplementationTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualImplementationContent(expected, generated.toString)
     }
 
     @Test
     def functionWithTwoParameters() {
          val cInterface = new CInterface() => [
              functions = #[new CFunction("doubleFunction", #[
-                     new CParameter("first", new CType("int16_t")),
-                     new CParameter("second", new CType("double"))]) => [
+                     new CParameter("first", CType.INT16),
+                     new CParameter("second", CType.DOUBLE)]) => [
                      delegateName = "namespacy::classy::doubleFunction"
                  ]
              ]
@@ -91,41 +90,44 @@ class CBridgeImplementationTemplateTest {
         void doubleFunction(int16_t first, double second) {
             auto cpp_first = first;
             auto cpp_second = second;
-            return namespacy::classy::doubleFunction(cpp_first, cpp_second);
+            namespacy::classy::doubleFunction(cpp_first, cpp_second);
         }
         '''
 
         val generated = CBridgeImplementationTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualImplementationContent(expected, generated.toString)
     }
 
     @Test
     def functionWithReturnValue() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("returner") => [
-                     returnType = new CType("float")
+             functions = #[new CFunction("returner", CType.FLOAT) => [
                      delegateName = "delegate"
                  ]
              ]
         ]
         val expected = '''
         float returner() {
-            return delegate();
+            {
+                auto&& result = delegate();
+                return result;
+            }
         }
         '''
 
         val generated = CBridgeImplementationTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualImplementationContent(expected, generated.toString)
     }
 
     @Test
     def helloWorldTest() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("HelloWorldStub_helloWorldMethod",
-                             #[new CParameter("inputString", new CPointerType("char") => [isConst = true])]) => [
-                     returnType = new CPointerType("char") => [isConst = true]
+             functions = #[new CFunction(
+                         "HelloWorldStub_helloWorldMethod",
+                         CPointerType.CONST_CHAR_PTR,
+                         #[new CParameter("inputString", CPointerType.CONST_CHAR_PTR)]) => [
                      delegateName = "HelloWorldStub::helloWorldMethod"
                  ]
              ]
@@ -133,48 +135,15 @@ class CBridgeImplementationTemplateTest {
         val expected = '''
         const char* HelloWorldStub_helloWorldMethod(const char* inputString) {
             auto cpp_inputString = std::string(inputString);
-            return strdup(HelloWorldStub::helloWorldMethod(cpp_inputString).c_str());
+            {
+                auto&& result = HelloWorldStub::helloWorldMethod(cpp_inputString);
+                return strdup(result.c_str());
+            }
         }
         '''
 
         val generated = CBridgeImplementationTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
-    }
-
-    @Test
-    def testHardcodedHeaders() {
-        var cInterface = new CInterface()
-        var generatedCode = CBridgeImplementationTemplate.generateHardcodedIncludes(cInterface)
-        assertEquals("There should be no generated code if interface name or implementation not known", "", generatedCode)
-
-        cInterface = new CInterface() => [
-            fileName = "test.h"
-        ]
-        generatedCode = CBridgeImplementationTemplate.generateHardcodedIncludes(cInterface)
-        assertEquals("There should be no generated code if implementation not known", "", generatedCode)
-
-        cInterface = new CInterface() => [
-            stubHeaderFileName = "stubtest.h"
-        ]
-        generatedCode = CBridgeImplementationTemplate.generateHardcodedIncludes(cInterface)
-        assertEquals("There should be no generated code if interface name not known", "", generatedCode)
-
-        cInterface = new CInterface() => [
-            stubHeaderFileName = "stubtest.h"
-            fileName = "test.h"
-        ]
-        val expected =
-            '''
-            extern "C" {
-            #include "test.h"
-            }
-            #include <string.h>
-            #include <stubtest.h>
-            #include <iosfwd>
-            #include <string>
-            '''
-        generatedCode = CBridgeImplementationTemplate.generateHardcodedIncludes(cInterface)
-        assertEquals("There be the correct includes for interface and implementation", expected, generatedCode.toString)
+        assertEqualImplementationContent(expected, generated.toString)
     }
 }

@@ -11,22 +11,37 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.utils.LoadModelHelper.extractNthInterfaceFromModel;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.cmodel.CFunction;
+import com.here.ivi.api.loader.FrancaModelLoader;
+import com.here.ivi.api.loader.SpecAccessorFactory;
+import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
+import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cmodel.CInterface;
+import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.Interface;
-import java.util.Collections;
-import navigation.BaseApiSpec;
-import org.eclipse.emf.common.util.BasicEList;
+import com.here.ivi.api.model.franca.ModelHelper;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import navigation.BaseApiSpec.InterfacePropertyAccessor;
+import org.apache.commons.io.FileUtils;
 import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMethod;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -34,8 +49,10 @@ import org.mockito.MockitoAnnotations;
 public class CBridgeGeneratorTest {
   private CBridgeGenerator generator;
 
+  @Rule public TemporaryFolder tempFolder = new TemporaryFolder();
+
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface;
+  private Interface<InterfacePropertyAccessor> anInterface;
 
   @Mock private FInterface fInterface;
   @Mock private EList<FMethod> methods;
@@ -46,40 +63,141 @@ public class CBridgeGeneratorTest {
     when(anInterface.getFrancaInterface()).thenReturn(fInterface);
     when(fInterface.getName()).thenReturn("TEST_NAME");
     when(fInterface.getMethods()).thenReturn(methods);
-    when(anInterface.getPackage()).thenReturn(Collections.singletonList("Package"));
+    when(anInterface.getPackage()).thenReturn(singletonList("Package"));
     generator = new CBridgeGenerator(new CBridgeNameRules());
   }
 
   @Test
-  public void basicModel() {
+  public void createIncludesToBaseapiAndHeaderInImplementationFile() {
     CInterface cModel = generator.buildCBridgeModel(anInterface);
-    assertEquals("Should generate cmodel with filename", "TEST_NAME.h", cModel.fileName);
+
     assertEquals(
-        "Should generate cmodel with path to stub header file",
-        "stub/Package/TEST_NAMEStub.h",
-        cModel.stubHeaderFileName);
-    assertNotNull("Function list should be instantiated", cModel.functions);
-    assertTrue("Function list by default empty", cModel.functions.isEmpty());
+        "Model should contain 2 imports, to header file and API header file",
+        2,
+        cModel.implementationIncludes.size());
+    assertEqualImplementationIncludes(
+        asList("TEST_NAME.h", "stub/Package/TEST_NAMEStub.h"), cModel);
   }
 
   @Test
-  public void basicFunctions() {
+  public void createIncludesToBaseapiAndHeaderForSimpleMethod() throws IOException {
+    Interface<?> iface =
+        createFrancaInterface(
+            "package cbridge.test",
+            "interface TestInterface {",
+            "version {major 0 minor 1}",
+            "  method TestMethod {",
+            "    in {}",
+            "    out {}",
+            "  }",
+            "}");
 
-    EList<FMethod> myMethods = new BasicEList<>();
-    FMethod method = mock(FMethod.class);
-    when(method.getName()).thenReturn("function1");
-    when(method.getInArgs()).thenReturn(new BasicEList<>());
-    when(method.getOutArgs()).thenReturn(new BasicEList<>());
-    myMethods.add(method);
-    when(fInterface.getMethods()).thenReturn(myMethods);
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
-    assertNotNull("Model should be instantiated", cModel);
-    assertNotNull("Function list should be instantiated", cModel.functions);
-    assertEquals("there should be a function", 1, cModel.functions.size());
-    CFunction functionToTest = cModel.functions.get(0);
-    assertEquals(
-        "The method delegate should be set to its base API stub name",
-        "Package::Stub::function1",
-        functionToTest.delegateName);
+    CInterface cModel = generator.buildCBridgeModel(iface);
+
+    assertEqualImplementationIncludes(
+        asList("TestInterface.h", "stub/cbridge/test/TestInterfaceStub.h"), cModel);
+    assertEqualHeaderIncludes(emptyList(), cModel);
+  }
+
+  @Test
+  public void createIncludesForMethodTakingString() throws IOException {
+    Interface<?> iface =
+        createFrancaInterface(
+            "package cbridge.test",
+            "interface TestInterface {",
+            "version {major 0 minor 1}",
+            "  method TestMethod {",
+            "    in {String inputParam}",
+            "    out {}",
+            "  }",
+            "}");
+
+    CInterface cModel = generator.buildCBridgeModel(iface);
+    assertEquals("Should be one function created", 1, cModel.functions.size());
+    assertEqualImplementationIncludes(
+        asList("string", "TestInterface.h", "stub/cbridge/test/TestInterfaceStub.h"), cModel);
+    assertEqualHeaderIncludes(emptyList(), cModel);
+  }
+
+  @Test
+  public void createIncludesForMethodRequiringTwoWayStringTypeConversion() throws IOException {
+    Interface<?> iface =
+        createFrancaInterface(
+            "package cbridge.test",
+            "interface TestInterface {",
+            "version {major 0 minor 1}",
+            "  method TestMethod {",
+            "    in {String inputParam}",
+            "    out {String outputParam}",
+            "  }",
+            "}");
+
+    CInterface cModel = generator.buildCBridgeModel(iface);
+    assertEquals("Should be one function created", 1, cModel.functions.size());
+    assertEqualImplementationIncludes(
+        asList("string.h", "string", "TestInterface.h", "stub/cbridge/test/TestInterfaceStub.h"),
+        cModel);
+    assertEqualHeaderIncludes(emptyList(), cModel);
+  }
+
+  @Test
+  public void createIncludesForMethodRequiringTwoWayInt16TypeConversion() throws IOException {
+    Interface<?> iface =
+        createFrancaInterface(
+            "package cbridge.test",
+            "interface TestInterface {",
+            "version {major 0 minor 1}",
+            "  method TestMethod {",
+            "    in {Int16 inputParam}",
+            "    out {Int16 outputParam}",
+            "  }",
+            "}");
+
+    CInterface cModel = generator.buildCBridgeModel(iface);
+    assertEquals("Should be one function created", 1, cModel.functions.size());
+    assertEqualImplementationIncludes(
+        asList("TestInterface.h", "stub/cbridge/test/TestInterfaceStub.h"), cModel);
+    assertEqualHeaderIncludes(asList("stdint.h"), cModel);
+  }
+
+  private FrancaModel<?, ?> readInFrancaModel(
+      String content, SpecAccessorFactory specAccessorFactory) throws IOException {
+    File tempFile = tempFolder.newFile("test.fidl");
+    FileUtils.writeStringToFile(tempFile, content, (Charset) null);
+    FrancaModelLoader<?, ?> francaModelLoader = new FrancaModelLoader(specAccessorFactory);
+    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
+
+    return francaModelLoader.load(specAccessorFactory.getSpecPath(), singletonList(tempFile));
+  }
+
+  Interface<?> createFrancaInterface(String... fidlLines) throws IOException {
+    String sourceFidl = String.join("\n", fidlLines);
+    Interface<?> iface =
+        extractNthInterfaceFromModel(
+            readInFrancaModel(sourceFidl, new BaseApiSpecAccessorFactory()), 0);
+    return iface;
+  }
+
+  private void assertEqualHeaderIncludes(List<String> includes, CInterface cModel) {
+    Set<String> expectedIncludes = new HashSet<>(includes);
+    Set<String> actualImports = extractIncludes(cModel.headerIncludes);
+    assertEquals(expectedIncludes, actualImports);
+  }
+
+  private void assertEqualImplementationIncludes(List<String> includes, CInterface cModel) {
+    Set<String> expectedIncludes = new HashSet<>(includes);
+    Set<String> actualImports = extractIncludes(cModel.implementationIncludes);
+    assertEquals(expectedIncludes, actualImports);
+  }
+
+  private Set<String> extractIncludes(Set<Includes.Include> includes) {
+    return includes.stream().map(include -> getIncludeName(include)).collect(Collectors.toSet());
+  }
+
+  private static String getIncludeName(Includes.Include include) {
+    if (include instanceof Includes.SystemInclude) return ((Includes.SystemInclude) include).file;
+    else if (include instanceof Includes.InternalPublicInclude)
+      return ((Includes.InternalPublicInclude) include).file;
+    else return "";
   }
 }

@@ -11,9 +11,12 @@
 
 package com.here.ivi.api.model.cmodel;
 
+import java.util.ArrayList;
+
 public class CArrayType extends CType {
-  public CArrayType(String name) {
-    super(name);
+  public CArrayType(CType type) {
+    super(type.name, new ArrayList<>(type.includes));
+    isConst = type.isConst;
   }
 
   @Override

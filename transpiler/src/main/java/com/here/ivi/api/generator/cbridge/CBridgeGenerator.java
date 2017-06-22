@@ -17,12 +17,16 @@ import com.here.ivi.api.generator.cbridge.templates.CBridgeHeaderTemplate;
 import com.here.ivi.api.generator.cbridge.templates.CBridgeImplementationTemplate;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
+import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cmodel.CFunction;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.CParameter;
+import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.franca.Interface;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FMethod;
 
@@ -44,12 +48,9 @@ public class CBridgeGenerator {
             cBridgeNameRules.getImplementationFileNameWithPath(iface)));
   }
 
-  protected CInterface buildCBridgeModel(Interface<BaseApiSpec.InterfacePropertyAccessor> iface) {
+  protected CInterface buildCBridgeModel(Interface<?> iface) {
     BaseApiSpec.InterfacePropertyAccessor propertyAccessor = iface.getPropertyAccessor();
     CInterface cInterface = new CInterface();
-    cInterface.fileName = cBridgeNameRules.getHeaderFileName(iface);
-    cInterface.stubHeaderFileName = CppNameRules.getHeaderPath(iface);
-
     cInterface.functions =
         iface
             .getFrancaInterface()
@@ -57,7 +58,41 @@ public class CBridgeGenerator {
             .stream()
             .map(method -> constructFunction(method, iface, propertyAccessor))
             .collect(toList());
+
+    cInterface.headerIncludes = collectHeaderIncludes(cInterface);
+    cInterface.implementationIncludes = collectImplementationIncludes(iface, cInterface);
     return cInterface;
+  }
+
+  private Set<Includes.Include> collectImplementationIncludes(
+      Interface<?> iface, CInterface cInterface) {
+    Set<Includes.Include> includes = new HashSet<>();
+    includes.add(new Includes.InternalPublicInclude(cBridgeNameRules.getHeaderFileName(iface)));
+    includes.add(new Includes.InternalPublicInclude(CppNameRules.getHeaderPath(iface)));
+
+    for (CFunction function : cInterface.functions) {
+      for (TypeConverter.TypeConversion conversion : function.conversions) {
+        includes.addAll(conversion.includes);
+      }
+      if (function.returnConversion != null) {
+        includes.addAll(function.returnConversion.includes);
+      }
+    }
+
+    includes.removeAll(cInterface.headerIncludes);
+    return includes;
+  }
+
+  private Set<Includes.Include> collectHeaderIncludes(CInterface cInterface) {
+    Set<Includes.Include> includes = new HashSet<>();
+
+    for (CFunction function : cInterface.functions) {
+      for (CParameter param : function.parameters) {
+        includes.addAll(param.type.includes);
+      }
+      includes.addAll(function.returnType.includes);
+    }
+    return includes;
   }
 
   private CFunction constructFunction(
@@ -71,8 +106,9 @@ public class CBridgeGenerator {
                     new CParameter(
                         cBridgeNameRules.getParameterName(param), CTypeMapper.mappedType(param)))
             .collect(toList());
-    CFunction function = new CFunction(cBridgeNameRules.getMethodName(iface, method), parameters);
-    function.returnType = CTypeMapper.mappedReturnValue(method);
+    String functionName = cBridgeNameRules.getMethodName(iface, method);
+    CType returnType = CTypeMapper.mappedReturnValue(method);
+    CFunction function = new CFunction(functionName, returnType, parameters);
     function.delegateName = cBridgeNameRules.getDelegateMethodName(iface, method);
     return function;
   }

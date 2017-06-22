@@ -11,20 +11,39 @@
 
 package com.here.ivi.api.model.cmodel;
 
+import com.here.ivi.api.generator.cbridge.TypeConverter;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CFunction extends CElement {
   public final List<CParameter> parameters;
-  public CType returnType = CType.VOID;
+  public final List<TypeConverter.TypeConversion> conversions;
+  public final CType returnType;
+  public final TypeConverter.TypeConversion returnConversion;
   public String delegateName;
 
   public CFunction(final String name) {
-    this(name, Collections.emptyList());
+    this(name, CType.VOID, Collections.emptyList());
+  }
+
+  public CFunction(final String name, CType returnType) {
+    this(name, returnType, Collections.emptyList());
   }
 
   public CFunction(final String name, final List<CParameter> parameters) {
+    this(name, CType.VOID, parameters);
+  }
+
+  public CFunction(final String name, CType returnType, final List<CParameter> parameters) {
     super(name);
+    this.returnType = returnType;
+    returnConversion = TypeConverter.createReturnValueConversionRoutine(returnType);
     this.parameters = parameters;
+    conversions =
+        parameters
+            .stream()
+            .map(TypeConverter::createParamConversionRoutine)
+            .collect(Collectors.toList());
   }
 }

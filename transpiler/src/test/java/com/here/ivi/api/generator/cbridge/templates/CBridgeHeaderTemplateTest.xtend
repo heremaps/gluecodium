@@ -20,14 +20,14 @@ import com.here.ivi.api.model.cmodel.CType
 import com.here.ivi.api.model.cmodel.CPointerType
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cmodel.CParameter
-import static com.here.ivi.api.test.TemplateComparison.assertEqualContent
+import static com.here.ivi.api.test.TemplateComparison.assertEqualHeaderContent
 
 @RunWith(typeof(XtextRunner))
 class CBridgeHeaderTemplateTest {
     @Test
     def systemInclude() {
         val cInterface = new CInterface() => [
-            includes = #{new Includes.SystemInclude("header.h")}
+            headerIncludes = #{new Includes.SystemInclude("header.h")}
 
         ]
         val expected = '''
@@ -36,7 +36,7 @@ class CBridgeHeaderTemplateTest {
 
         val generated = CBridgeHeaderTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualHeaderContent(expected, generated.toString)
     }
 
     @Test
@@ -51,13 +51,13 @@ class CBridgeHeaderTemplateTest {
 
         val generated = CBridgeHeaderTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualHeaderContent(expected, generated.toString)
     }
 
     @Test
     def functionWithOneParameter() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("parameterFunctionName", #[new CParameter("one", new CType("int32_t"))])]
+             functions = #[new CFunction("parameterFunctionName", #[new CParameter("one", CType.INT32)])]
 
         ]
         val expected = '''
@@ -66,15 +66,15 @@ class CBridgeHeaderTemplateTest {
 
         val generated = CBridgeHeaderTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualHeaderContent(expected, generated.toString)
     }
 
     @Test
     def functionWithTwoParameters() {
          val cInterface = new CInterface() => [
              functions = #[new CFunction("doubleFunction", #[
-                     new CParameter("first", new CType("int16_t")),
-                     new CParameter("second", new CType("double"))])
+                     new CParameter("first", CType.INT16),
+                     new CParameter("second", CType.DOUBLE)])
              ]
         ]
         val expected = '''
@@ -83,16 +83,13 @@ class CBridgeHeaderTemplateTest {
 
         val generated = CBridgeHeaderTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualHeaderContent(expected, generated.toString)
     }
 
     @Test
     def functionWithReturnValue() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("returner") => [
-                     returnType = new CType("float")
-                 ]
-             ]
+             functions = #[new CFunction("returner", CType.FLOAT)]
         ]
         val expected = '''
         float returner();
@@ -100,16 +97,16 @@ class CBridgeHeaderTemplateTest {
 
         val generated = CBridgeHeaderTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualHeaderContent(expected, generated.toString)
     }
 
     @Test
     def helloWorldTest() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("HelloWorldStub_HelloWorldMethod",
-                             #[new CParameter("inputString", new CPointerType("char") => [isConst = true])]) => [
-                     returnType = new CPointerType("char") => [isConst = true]
-                 ]
+             functions = #[new CFunction(
+                         "HelloWorldStub_HelloWorldMethod",
+                         CPointerType.CONST_CHAR_PTR,
+                         #[new CParameter("inputString",CPointerType.CONST_CHAR_PTR)])
              ]
         ]
         val expected = '''
@@ -118,6 +115,6 @@ class CBridgeHeaderTemplateTest {
 
         val generated = CBridgeHeaderTemplate.generate(cInterface)
 
-        assertEqualContent(expected, generated.toString)
+        assertEqualHeaderContent(expected, generated.toString)
     }
 }

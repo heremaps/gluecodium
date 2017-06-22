@@ -20,6 +20,7 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeRef;
 
 public final class CTypeMapper {
+
   public static final CType mappedType(final FArgument argument) {
     return mapPredefined(argument.getType());
   }
@@ -30,33 +31,31 @@ public final class CTypeMapper {
       case FBasicTypeId.UNDEFINED_VALUE:
         return CType.VOID;
       case FBasicTypeId.INT8_VALUE:
-        return new CType("int8_t");
+        return CType.INT8;
       case FBasicTypeId.UINT8_VALUE:
-        return new CType("uint8_t");
+        return CType.UINT8;
       case FBasicTypeId.INT16_VALUE:
-        return new CType("int16_t");
+        return CType.INT16;
       case FBasicTypeId.UINT16_VALUE:
-        return new CType("uint16_t");
+        return CType.UINT16;
       case FBasicTypeId.INT32_VALUE:
-        return new CType("int32_t");
+        return CType.INT32;
       case FBasicTypeId.UINT32_VALUE:
-        return new CType("uint32_t");
+        return CType.UINT32;
       case FBasicTypeId.INT64_VALUE:
-        return new CType("int64_t");
+        return CType.INT64;
       case FBasicTypeId.UINT64_VALUE:
-        return new CType("uint64_t");
+        return CType.UINT64;
       case FBasicTypeId.BOOLEAN_VALUE:
-        return new CType("bool");
+        return CType.BOOL;
       case FBasicTypeId.STRING_VALUE:
-        CType stringType = new CPointerType("char");
-        stringType.isConst = true;
-        return stringType;
+        return CPointerType.CONST_CHAR_PTR;
       case FBasicTypeId.FLOAT_VALUE:
-        return new CType("float");
+        return CType.FLOAT;
       case FBasicTypeId.DOUBLE_VALUE:
-        return new CType("double");
+        return CType.DOUBLE;
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return new CArrayType("uint8_t");
+        return new CArrayType(CType.UINT8);
     }
     return CType.VOID;
   }
