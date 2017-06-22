@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.generator.swift.templates.SwiftFileTemplate
-import static org.junit.Assert.*
 import com.here.ivi.api.model.swift.SwiftMethod
 import com.here.ivi.api.model.swift.SwiftMethodParameter
 import com.here.ivi.api.model.swift.SwiftType
@@ -66,13 +65,15 @@ class SwiftFileTemplateTest {
                     returnType = new SwiftType("Int")
                 ]
             ]
+            nameSpace = "myPackage"
+
         ]
         val expected = '''
             public class ExampleClass {
 
                 public func myMethod(parameter: Int) -> Int {
                     let c_parameter = parameter
-                    return ExampleClass_myMethod(c_parameter)
+                    return myPackage_ExampleClass_myMethod(c_parameter)
                 }
             }
         '''
@@ -234,10 +235,14 @@ class SwiftFileTemplateTest {
                 static func helloWorldMethod(inputString: String) -> String {
                     let c_inputString = inputString
                     return {
-                        let ret_pointer = HelloWorld_helloWorldMethod(c_inputString)
-                        let ret_value = String(cString:ret_pointer)
-                        //TODO delete_string(ret_pointer)
-                        return ret_value
+                        if let ret_pointer = HelloWorld_helloWorldMethod(c_inputString) {
+                            let ret_value = String(cString:ret_pointer)
+                            //TODO delete_string(ret_pointer)
+                            return ret_value
+                        }
+                        else {
+                            return ""
+                        }
                     }()
                 }
             }

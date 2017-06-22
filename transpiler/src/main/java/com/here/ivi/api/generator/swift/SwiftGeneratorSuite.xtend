@@ -26,7 +26,7 @@ import com.here.ivi.api.generator.cbridge.CBridgeNameRules
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator
 
 final class SwiftGeneratorSuite implements GeneratorSuite {
-    // TODO: APIGEN-149 - Create an ObjCSpecAccessorFactory
+    // TODO: APIGEN-173 - Deal with multiple deployment specificiations and use different accessor factory
     val specAccessorFactory = new BaseApiSpecAccessorFactory
     File[] currentFiles
     FrancaModel<BaseApiSpec.InterfacePropertyAccessor,BaseApiSpec.TypeCollectionPropertyAccessor> model

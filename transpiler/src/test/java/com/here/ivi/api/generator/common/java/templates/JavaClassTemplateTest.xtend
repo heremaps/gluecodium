@@ -68,9 +68,6 @@ class ExampleClass {
       methods = #{ classMethod }
       visibility = JavaVisibility.PUBLIC
     ]
-    val inheritance = new JavaInheritance(exampleType) => [
-
-    ]
     val expected = '''package com.here.generator.example;
 
 /**

@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.swift.templates
 
 import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.model.swift.SwiftProperty
-import com.here.ivi.api.model.swift.SwiftType
 import com.here.ivi.api.model.swift.SwiftMethod
 import com.here.ivi.api.model.swift.SwiftMethodParameter
 
@@ -96,14 +95,15 @@ class SwiftFileTemplate {
         '''
     }
 
-    def static generateCBridgeCall(SwiftClass cl, SwiftMethod method) {
+    def static generateCBridgeCall(SwiftClass swiftClass, SwiftMethod method) {
+        val prefix = if (swiftClass.nameSpace.length > 0) '''«swiftClass.nameSpace»_«swiftClass.name»''' else swiftClass.name
         '''
         «FOR param: method.parameters»
             «convertParameter(param)»
         «ENDFOR»
         return «SwiftTypeConversionTemplate.convertCToSwift(
                 method.returnType,
-                '''«cl.name»_«method.name»(«FOR param: method.parameters SEPARATOR ", "»c_«param.variableName»«ENDFOR»)''')»'''
+                '''«prefix»_«method.name»(«FOR param: method.parameters SEPARATOR ", "»c_«param.variableName»«ENDFOR»)''')»'''
     }
 
     def static convertParameter(SwiftMethodParameter parameter) {

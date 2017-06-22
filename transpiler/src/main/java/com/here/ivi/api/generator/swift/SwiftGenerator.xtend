@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.swift
 
-// TODO use own objective-c comment parser
 import static extension com.here.ivi.api.generator.baseapi.StubCommentParser.parse
 import static extension com.here.ivi.api.generator.swift.templates.SwiftFileTemplate.generate
 import com.here.ivi.api.generator.swift.SwiftTypeMapper
@@ -41,9 +40,12 @@ class SwiftGenerator {
     protected def buildSwiftModel(Interface<?> iface) {
         val propertyAccessor = iface.getPropertyAccessor
         val clazz = iface.getFrancaInterface
+        val bridgeNameSpace = '''«FOR pkg :iface.getPackage SEPARATOR '_'»«pkg»«ENDFOR»'''
         return new SwiftClass(nameRules.getClassName(clazz)) => [
             comment = clazz.parse.getMainBodyText() ?: ""
             methods = clazz.getMethods.stream.map([constructMethod(propertyAccessor)]).collect(toList)
+            imports = #["c_" + bridgeNameSpace]
+            nameSpace = bridgeNameSpace
         ]
     }
 

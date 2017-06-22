@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaCustomType
-import com.here.ivi.api.model.javamodel.JavaInheritance
 import com.here.ivi.api.model.javamodel.JavaInterface
 import com.here.ivi.api.model.javamodel.JavaMethod
 import com.here.ivi.api.model.javamodel.JavaPackage
@@ -58,7 +57,6 @@ class JavaInterfaceTemplateTest {
       comment = "Example interface comment"
       methods = #{ interfaceMethod }
     ]
-    val inheritance = new JavaInheritance(exampleType)
 
     val expected = '''
     package com.here.example.interfaces;

@@ -11,16 +11,21 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.Interface;
+import com.here.ivi.api.model.cmodel.CFunction;
 import com.here.ivi.api.model.cmodel.CInterface;
 import java.util.Collections;
 import navigation.BaseApiSpec;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.junit.Assert;
+import org.eclipse.emf.ecore.*;
+import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Answers;
@@ -47,12 +52,35 @@ public class CBridgeGeneratorTest {
   }
 
   @Test
-  public void createStaticHeaderIncludes() {
+  public void basicModel() {
     CInterface cModel = generator.buildCBridgeModel(anInterface);
-    Assert.assertEquals("Should generate cmodel with filename", "TEST_NAME.h", cModel.fileName);
-    Assert.assertEquals(
+    assertEquals("Should generate cmodel with filename", "TEST_NAME.h", cModel.fileName);
+    assertEquals(
         "Should generate cmodel with path to stub header file",
         "stub/Package/TEST_NAMEStub.h",
         cModel.stubHeaderFileName);
+    assertNotNull("Function list should be instantiated", cModel.functions);
+    assertTrue("Function list by default empty", cModel.functions.isEmpty());
+  }
+
+  @Test
+  public void basicFunctions() {
+
+    EList<FMethod> myMethods = new BasicEList<>();
+    FMethod method = mock(FMethod.class);
+    when(method.getName()).thenReturn("function1");
+    when(method.getInArgs()).thenReturn(new BasicEList<>());
+    when(method.getOutArgs()).thenReturn(new BasicEList<>());
+    myMethods.add(method);
+    when(fInterface.getMethods()).thenReturn(myMethods);
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    assertNotNull("Model should be instantiated", cModel);
+    assertNotNull("Function list should be instantiated", cModel.functions);
+    assertEquals("there should be a function", 1, cModel.functions.size());
+    CFunction functionToTest = cModel.functions.get(0);
+    assertEquals(
+        "The method delegate should be set to its base API stub name",
+        "Package::Stub::function1",
+        functionToTest.delegateName);
   }
 }
