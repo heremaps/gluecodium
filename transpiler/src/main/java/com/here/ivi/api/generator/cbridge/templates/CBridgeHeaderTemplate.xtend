@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.cbridge.templates
 
 import com.here.ivi.api.generator.common.cpp.templates.CppIncludeTemplate
-import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cmodel.CInterface
 import com.here.ivi.api.model.cmodel.CFunction
 

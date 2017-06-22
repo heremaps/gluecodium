@@ -21,6 +21,7 @@ final class SwiftClass {
         this.imports = #{}
         this.methods = #{}
         this.comment = ""
+        this.nameSpace = ""
     }
 
     new(String name) {
@@ -34,4 +35,5 @@ final class SwiftClass {
     public SwiftProperty[] properties
     public String[] imports
     public SwiftMethod[] methods
+    public String nameSpace
 }

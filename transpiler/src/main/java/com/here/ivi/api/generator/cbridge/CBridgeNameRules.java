@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.cbridge;
 
 import com.here.ivi.api.generator.common.NameHelper;
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.Interface;
 import java.io.File;
@@ -20,6 +21,9 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeCollection;
 
 public class CBridgeNameRules {
+
+  public static final String CPP_NAMESPACE_DELIMITER = "::";
+
   public String getHeaderFileNameWithPath(final FrancaElement<?> francaElement) {
     return getDirectoryName(francaElement) + getHeaderFileName(francaElement);
   }
@@ -53,7 +57,11 @@ public class CBridgeNameRules {
   }
 
   public String getDelegateMethodName(final Interface<?> iface, final FMethod method) {
-    return String.join("::", iface.getPackage()) + "::" + iface.getName() + "::" + method.getName();
+    return String.join(CPP_NAMESPACE_DELIMITER, iface.getPackage())
+        + CPP_NAMESPACE_DELIMITER
+        + CppNameRules.getClassName(iface.getFrancaTypeCollection().getName())
+        + CPP_NAMESPACE_DELIMITER
+        + CppNameRules.getMethodName(method.getName());
   }
 
   public String getMethodName(final Interface<?> iface, final FMethod method) {

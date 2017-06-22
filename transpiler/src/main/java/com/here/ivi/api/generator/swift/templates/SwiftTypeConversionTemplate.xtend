@@ -23,10 +23,14 @@ class SwiftTypeConversionTemplate {
         switch(type.name) {
             case "String": '''
                 {
-                    let ret_pointer = «expression»
-                    let ret_value = String(cString:ret_pointer)
-                    //TODO delete_string(ret_pointer)
-                    return ret_value
+                    if let ret_pointer = «expression» {
+                        let ret_value = String(cString:ret_pointer)
+                        //TODO delete_string(ret_pointer)
+                        return ret_value
+                    }
+                    else {
+                        return ""
+                    }
                 }()
                 '''
             default: expression

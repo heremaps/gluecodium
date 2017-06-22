@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.cbridge.templates
 
 import com.here.ivi.api.generator.common.cpp.templates.CppIncludeTemplate
-import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cmodel.CInterface
 import com.here.ivi.api.model.cmodel.CFunction
 import com.here.ivi.api.model.cmodel.CParameter
@@ -50,8 +49,10 @@ class CBridgeImplementationTemplate {
             extern "C" {
             #include "«cInterface.fileName»"
             }
+            #include <string.h>
             #include <«cInterface.stubHeaderFileName»>
-            #import <string>
+            #include <iosfwd>
+            #include <string>
             '''
         }
         else return ""

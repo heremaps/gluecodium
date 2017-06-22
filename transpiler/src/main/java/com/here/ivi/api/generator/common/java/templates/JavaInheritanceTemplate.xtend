@@ -29,5 +29,5 @@ class JavaInheritanceTemplate {
     * @param inheritance the class inheritance object
     */
     static def generate(JavaInheritance inheritance)'''
-    «IF inheritance != null»extends «inheritance.type.name» «ENDIF»'''
+    «IF inheritance !== null»extends «inheritance.type.name» «ENDIF»'''
 }

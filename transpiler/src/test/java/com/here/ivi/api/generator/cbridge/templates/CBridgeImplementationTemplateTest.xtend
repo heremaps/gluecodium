@@ -169,8 +169,10 @@ class CBridgeImplementationTemplateTest {
             extern "C" {
             #include "test.h"
             }
+            #include <string.h>
             #include <stubtest.h>
-            #import <string>
+            #include <iosfwd>
+            #include <string>
             '''
         generatedCode = CBridgeImplementationTemplate.generateHardcodedIncludes(cInterface)
         assertEquals("There be the correct includes for interface and implementation", expected, generatedCode.toString)

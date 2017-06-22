@@ -28,7 +28,7 @@ class SwiftMethodParameter {
     }
 
     def hasDifferentVariableName() {
-        variableName != null
+        variableName !== null
     }
 
     public String interfaceName
