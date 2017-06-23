@@ -1,4 +1,12 @@
 #!/bin/bash
+#
+# Script to build the entire project with some defaults.
+#
+# Note:
+#  At the moment this only does a plain host build suitable for
+#  stub and apps/base_api. Later on this might get expanded to
+#  allow for other build types (e.g. which would disable apps/base_api
+#  and use a different toolchain)
 
 . "scripts/inc.functions"
 
