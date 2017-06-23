@@ -17,5 +17,6 @@ option(HELLO_ENABLE_APPS "Build example apps" ON)
 include(Transpiler)
 transpile()
 
+enable_testing()
 add_subdirectory(libhello)
 add_subdirectory(apps)

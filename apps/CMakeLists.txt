@@ -14,3 +14,4 @@ if(NOT HELLO_ENABLE_APPS)
 endif()
 
 add_subdirectory(base_api)
+add_subdirectory(ios)
