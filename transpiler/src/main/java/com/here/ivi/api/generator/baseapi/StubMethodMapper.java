@@ -14,6 +14,8 @@ package com.here.ivi.api.generator.baseapi;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
+import com.here.ivi.api.model.DefinedBy;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.*;
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ class StubMethodMapper {
   void mapMethodElements(
       CppClass stubClass,
       FMethod method,
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
+      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
     String uniqueMethodName =
         CppNameRules.getMethodName(method.getName())
@@ -121,7 +123,7 @@ class StubMethodMapper {
 
         returnType =
             new CppType(
-                rootModel.getDefiner(),
+                DefinedBy.createFromFrancaElement(rootModel),
                 "here::internal::Expected< " + String.join(", ", names) + " >",
                 CppElements.TypeInfo.Complex,
                 includes);
@@ -146,7 +148,7 @@ class StubMethodMapper {
   }
 
   private CppType mapCppType(
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
+      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
       FArgument argument,
       FMethod method) {
 
@@ -156,7 +158,7 @@ class StubMethodMapper {
       return type;
     }
 
-    if (rootModel.getAccessor().getCreates(method) == null) {
+    if (rootModel.getPropertyAccessor().getCreates(method) == null) {
       return CppTypeMapper.wrapSharedPtr(type);
     } else {
       return CppTypeMapper.wrapUniquePtr(type);
@@ -166,16 +168,16 @@ class StubMethodMapper {
   private CppMethod buildStubMethod(
       FMethod method,
       CppType returnType,
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
+      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
     CppMethod.Builder builder =
         new CppMethod.Builder(method.getName() + NameHelper.toUpperCamelCase(method.getSelector()))
             .returnType(returnType);
 
-    if (rootModel.getAccessor().getStatic(method)) {
+    if (rootModel.getPropertyAccessor().getStatic(method)) {
       builder.specifier(CppMethod.Specifier.STATIC);
     } else {
-      if (rootModel.getAccessor().getConst(method)) {
+      if (rootModel.getPropertyAccessor().getConst(method)) {
         // const needs to be before "= 0" pure virtual specifier
         builder.qualifier(CppMethod.Qualifier.CONST);
       }

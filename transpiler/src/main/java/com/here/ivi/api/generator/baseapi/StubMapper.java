@@ -25,7 +25,6 @@ import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppElements;
 import com.here.ivi.api.model.cppmodel.CppInheritance;
 import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppType;
@@ -79,13 +78,10 @@ public class StubMapper implements CppModelMapper {
 
     // TODO APIGEN-126: use a builder for CppClass for fill the fields: methods, inheritances, ..
 
-    CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel =
-        new CppModelAccessor<>(iface);
-
     for (FType type : iface.getFrancaInterface().getTypes()) {
       if (type instanceof FTypeDef) {
         FTypeDef typeDefinition = (FTypeDef) type;
-        CppUsing cppUsing = CppElementFactory.create(rootModel, typeDefinition);
+        CppUsing cppUsing = CppElementFactory.create(iface, typeDefinition);
         if (cppUsing != null) {
           stubClassBuilder.using(cppUsing);
         }
@@ -95,15 +91,15 @@ public class StubMapper implements CppModelMapper {
     CppClass stubClass = stubClassBuilder.build();
 
     for (FMethod method : iface.getFrancaInterface().getMethods()) {
-      methodMapper.mapMethodElements(stubClass, method, rootModel);
+      methodMapper.mapMethodElements(stubClass, method, iface);
     }
 
     for (FBroadcast broadcast : iface.getFrancaInterface().getBroadcasts()) {
-      appendNotifierElements(stubClass, stubListenerClass, broadcast, rootModel);
+      appendNotifierElements(stubClass, stubListenerClass, broadcast, iface);
     }
 
     for (FAttribute attribute : iface.getFrancaInterface().getAttributes()) {
-      appendAttributeAccessorElements(stubClass, stubListenerClass, attribute, rootModel);
+      appendAttributeAccessorElements(stubClass, stubListenerClass, attribute, iface);
     }
 
     CppNamespace namespace = new CppNamespace(iface.getPackage());
@@ -128,7 +124,7 @@ public class StubMapper implements CppModelMapper {
           new CppInheritance(
               new CppType(
                   CppNamespaceUtils.getCppTypename(
-                      rootModel, baseDefinition, CppNameRules.getClassName(base.getName())),
+                      iface, baseDefinition, CppNameRules.getClassName(base.getName())),
                   new Includes.LazyInternalInclude(
                       baseDefinition, Includes.InternalType.Interface)),
               CppInheritance.Type.Public));
@@ -138,7 +134,7 @@ public class StubMapper implements CppModelMapper {
           new CppInheritance(
               new CppType(
                   CppNamespaceUtils.getCppTypename(
-                      rootModel, baseDefinition, CppNameRules.getListenerName(base.getName())),
+                      iface, baseDefinition, CppNameRules.getListenerName(base.getName())),
                   new Includes.LazyInternalInclude(
                       baseDefinition, Includes.InternalType.Interface)),
               CppInheritance.Type.Public));
@@ -153,7 +149,7 @@ public class StubMapper implements CppModelMapper {
       CppClass stubClass,
       CppClass stubListenerClass,
       FAttribute attribute,
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
+      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
     // getter
     stubClass.methods.add(buildAttributeAccessor(rootModel, attribute, AttributeAccessorMode.GET));
     // setter if not readonly
@@ -171,7 +167,7 @@ public class StubMapper implements CppModelMapper {
       CppClass stubClass,
       CppClass stubListenerClass,
       FAttribute attribute,
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
+      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
     CppParameter param = new CppParameter();
     param.name = attribute.getName();
@@ -221,7 +217,7 @@ public class StubMapper implements CppModelMapper {
       CppClass stubClass,
       CppClass stubListenerClass,
       FBroadcast broadcast,
-      CppModelAccessor<?> rootModel) {
+      FrancaElement<?> rootModel) {
     String uniqueNotifierName =
         broadcast.getName() + NameHelper.toUpperCamelCase(broadcast.getSelector());
 
@@ -307,7 +303,7 @@ public class StubMapper implements CppModelMapper {
   }
 
   private CppMethod buildAttributeAccessor(
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
+      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
       FAttribute attribute,
       AttributeAccessorMode mode) {
 

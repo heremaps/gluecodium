@@ -32,12 +32,10 @@ public final class TypeCollectionMapper implements CppModelMapper {
 
     CppNamespace result = new CppNamespace(namespaceName);
 
-    CppModelAccessor<?> rootModel = new CppModelAccessor<>(typeCollection);
-
     for (FType type : typeCollection.getFrancaTypeCollection().getTypes()) {
       // struct
       if (type instanceof FStructType) {
-        result.members.add(buildCppStruct((FStructType) type, rootModel));
+        result.members.add(buildCppStruct((FStructType) type, typeCollection));
       } else if (type instanceof FTypeDef) {
 
         FTypeDef typeDef = (FTypeDef) type;
@@ -45,22 +43,23 @@ public final class TypeCollectionMapper implements CppModelMapper {
         if (InstanceRules.isInstanceId(typeDef)) {
           continue;
         }
-        result.members.add(buildTypeDef(typeDef, rootModel));
+        result.members.add(buildTypeDef(typeDef, typeCollection));
       } else if (type instanceof FArrayType) {
-        result.members.add(buildArray((FArrayType) type, rootModel));
+        result.members.add(buildArray((FArrayType) type, typeCollection));
       } else if (type instanceof FMapType) {
-        result.members.add(buildMap((FMapType) type, rootModel));
+        result.members.add(buildMap((FMapType) type, typeCollection));
       } else if (type instanceof FEnumerationType) {
         result.members.add(TypeGenerationHelper.buildCppEnumClass((FEnumerationType) type));
       } else {
         throw new TranspilerExecutionException(
-            String.format("Missing type map in %s for %s.", rootModel, type.getClass().getName()));
+            String.format(
+                "Missing type map in %s for %s.", typeCollection, type.getClass().getName()));
       }
     }
 
     // constants
     for (FConstantDef constantDef : typeCollection.getFrancaTypeCollection().getConstants()) {
-      CppConstant constant = TypeGenerationHelper.buildCppConstant(rootModel, constantDef);
+      CppConstant constant = TypeGenerationHelper.buildCppConstant(typeCollection, constantDef);
       constant.comment = StubCommentParser.parse(constantDef).getMainBodyText();
 
       if (constant.isValid()) {
@@ -76,7 +75,7 @@ public final class TypeCollectionMapper implements CppModelMapper {
     return result;
   }
 
-  private CppElement buildMap(FMapType type, CppModelAccessor<?> rootModel) {
+  private CppElement buildMap(FMapType type, FrancaElement<?> rootModel) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
     typeDef.name = CppNameRules.getTypedefName(type.getName());
@@ -89,7 +88,7 @@ public final class TypeCollectionMapper implements CppModelMapper {
     return typeDef;
   }
 
-  private CppElement buildTypeDef(FTypeDef type, CppModelAccessor<?> rootModel) {
+  private CppElement buildTypeDef(FTypeDef type, FrancaElement<?> rootModel) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
     typeDef.name = CppNameRules.getTypedefName(type.getName());
@@ -98,7 +97,7 @@ public final class TypeCollectionMapper implements CppModelMapper {
     return typeDef;
   }
 
-  private CppElement buildArray(FArrayType type, CppModelAccessor<?> rootModel) {
+  private CppElement buildArray(FArrayType type, FrancaElement<?> rootModel) {
     CppTypeDef typeDef = new CppTypeDef();
     typeDef.comment = StubCommentParser.parse(type).getMainBodyText();
     typeDef.name = CppNameRules.getTypedefName(type.getName());
@@ -107,7 +106,7 @@ public final class TypeCollectionMapper implements CppModelMapper {
     return typeDef;
   }
 
-  private CppStruct buildCppStruct(FStructType structType, CppModelAccessor<?> rootModel) {
+  private CppStruct buildCppStruct(FStructType structType, FrancaElement<?> rootModel) {
     CppStruct struct = new CppStruct();
     struct.comment = StubCommentParser.parse(structType).getMainBodyText();
     struct.name = CppNameRules.getStructName(structType.getName());

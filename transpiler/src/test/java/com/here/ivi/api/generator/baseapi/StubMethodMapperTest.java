@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.baseapi;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import com.here.ivi.api.model.Interface;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.test.ArrayEList;
 import navigation.BaseApiSpec;
@@ -38,13 +38,10 @@ public class StubMethodMapperTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMethod francaMethod;
 
-  @SuppressWarnings("unused")
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface;
+  @Mock private FrancaElement<BaseApiSpec.InterfacePropertyAccessor> francaElement;
+  @Mock private BaseApiSpec.InterfacePropertyAccessor propertyAccessor;
 
   @InjectMocks private StubMethodMapper mapper;
-
-  @InjectMocks private CppModelAccessor<BaseApiSpec.InterfacePropertyAccessor> modelAccessor;
 
   private CppClass cppClass = new CppClass("");
 
@@ -55,6 +52,8 @@ public class StubMethodMapperTest {
     when(francaMethod.getErrorEnum()).thenReturn(null);
     when(francaMethod.getOutArgs()).thenReturn(new ArrayEList<>());
     when(francaMethod.getName()).thenReturn(methodName);
+
+    when(francaElement.getPropertyAccessor()).thenReturn(propertyAccessor);
   }
 
   private CppMethod getFirstMethod() {
@@ -87,7 +86,7 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapMethodElementsNoArguments() {
-    mapper.mapMethodElements(cppClass, francaMethod, modelAccessor);
+    mapper.mapMethodElements(cppClass, francaMethod, francaElement);
 
     CppMethod cppMethod = getFirstMethod();
     assertEquals(methodName, cppMethod.name);
@@ -98,9 +97,9 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapMethodElementsStaticMethod() {
-    when(anInterface.getPropertyAccessor().getStatic(francaMethod)).thenReturn(true);
+    when(propertyAccessor.getStatic(francaMethod)).thenReturn(true);
 
-    mapper.mapMethodElements(cppClass, francaMethod, modelAccessor);
+    mapper.mapMethodElements(cppClass, francaMethod, francaElement);
 
     CppMethod cppMethod = getFirstMethod();
     assertTrue(cppMethod.getSpecifiers().contains(CppMethod.Specifier.STATIC));
@@ -111,7 +110,7 @@ public class StubMethodMapperTest {
     EList<FArgument> francaArguments = createFrancaArgumentsArray();
     when(francaMethod.getInArgs()).thenReturn(francaArguments);
 
-    mapper.mapMethodElements(cppClass, francaMethod, modelAccessor);
+    mapper.mapMethodElements(cppClass, francaMethod, francaElement);
 
     CppMethod cppMethod = getFirstMethod();
     assertEquals(1, cppMethod.getInParameters().size());
@@ -127,7 +126,7 @@ public class StubMethodMapperTest {
     EList<FArgument> francaArguments = createFrancaArgumentsArray();
     when(francaMethod.getOutArgs()).thenReturn(francaArguments);
 
-    mapper.mapMethodElements(cppClass, francaMethod, modelAccessor);
+    mapper.mapMethodElements(cppClass, francaMethod, francaElement);
 
     CppMethod cppMethod = getFirstMethod();
     assertTrue(cppMethod.getOutParameters().isEmpty());

@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.baseapi.StubCommentParser;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +41,7 @@ public class TypeGenerationHelper {
    * @return the list of cpp fields
    */
   public static List<CppField> buildCppFields(
-      CppModelAccessor<?> rootType, FStructType struct, FCompoundInitializer defaultInitializer) {
+      FrancaElement<?> rootType, FStructType struct, FCompoundInitializer defaultInitializer) {
 
     List<CppField> fields = new ArrayList<>();
 
@@ -66,7 +67,7 @@ public class TypeGenerationHelper {
   }
 
   public static CppField buildCppField(
-      CppModelAccessor<?> rootType, FField ffield, FFieldInitializer initializer) {
+      FrancaElement<?> rootType, FField ffield, FFieldInitializer initializer) {
 
     CppField field = new CppField();
     field.name = CppNameRules.getFieldName(ffield.getName());
@@ -81,8 +82,7 @@ public class TypeGenerationHelper {
     return field;
   }
 
-  public static CppConstant buildCppConstant(
-      CppModelAccessor<?> rootModel, FConstantDef constantDef) {
+  public static CppConstant buildCppConstant(FrancaElement<?> rootModel, FConstantDef constantDef) {
 
     String name = CppNameRules.getConstantName(constantDef.getName());
     CppType type = CppTypeMapper.map(rootModel, constantDef);
