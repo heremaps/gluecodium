@@ -15,22 +15,19 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.DefinedBy;
 import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.Interface;
-import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import java.io.File;
 import java.util.List;
-import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeCollection;
 
 public final class CppNameRules {
   private CppNameRules() {}
 
-  public static String getCppTypename(FType type) {
-    return type.getName();
+  public static String getCppTypename(String baseName) {
+    return baseName;
   }
 
-  public static String getTypeCollectionName(FTypeCollection base) {
-    return NameHelper.toUpperCamelCase(base.getName()); // MyTypeCollection
+  public static String getTypeCollectionName(String typeCollectionName) {
+    return NameHelper.toUpperCamelCase(typeCollectionName); // MyTypeCollection
   }
 
   public static String getMethodName(String base) {
@@ -60,7 +57,7 @@ public final class CppNameRules {
   public static List<String> getNamespace(FType type) {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
     List<String> result = getNamespace(definer);
-    result.add(getTypeCollectionName(definer.type));
+    result.add(getTypeCollectionName(definer.type.getName()));
     return result;
   }
 
@@ -68,16 +65,8 @@ public final class CppNameRules {
     return definer.getPackages();
   }
 
-  //this looks redundant in current revision, but it is required for APIGEN-42
-  //in short: for converter generation it is required to generate multiple cpp types
-  //out of one fidl definition
-  //see: APIGEN-42 & APIGEN-110
-  public static List<String> getNamespace(CppModelAccessor<?> modelAccessor) {
-    return getNamespace(modelAccessor.getDefiner());
-  }
-
-  public static String getClassName(FTypeCollection base) {
-    return NameHelper.toUpperCamelCase(base.getName()) + "Stub";
+  public static String getClassName(String typeCollectionName) {
+    return NameHelper.toUpperCamelCase(typeCollectionName) + "Stub";
   }
 
   public static String getEnumEntryName(String base) {
@@ -98,12 +87,12 @@ public final class CppNameRules {
         + String.join(File.separator, francaElement.getPackage())
         + File.separator
         + (francaElement instanceof Interface<?>
-            ? getClassName(((Interface<?>) francaElement).getFrancaInterface())
-            : getTypeCollectionName(francaElement.getFrancaTypeCollection()))
+            ? getClassName(((Interface<?>) francaElement).getFrancaInterface().getName())
+            : getTypeCollectionName(francaElement.getFrancaTypeCollection().getName()))
         + getHeaderFileSuffix();
   }
 
-  public static String getListenerName(FInterface iface) {
-    return (NameHelper.toUpperCamelCase(iface.getName()) + "Stub") + "Listener";
+  public static String getListenerName(String interfaceName) {
+    return (NameHelper.toUpperCamelCase(interfaceName) + "Stub") + "Listener";
   }
 }

@@ -27,7 +27,8 @@ public final class TypeCollectionMapper implements CppModelMapper {
 
     List<String> namespaceName =
         CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection));
-    namespaceName.add(CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection()));
+    namespaceName.add(
+        CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection().getName()));
 
     CppNamespace result = new CppNamespace(namespaceName);
 
