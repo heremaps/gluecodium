@@ -154,6 +154,7 @@ task diff(type: JavaExec) {
 apply plugin: 'checkstyle'
 checkstyle {
     configFile = rootProject.file('config/checkstyle/checkstyle-hard.xml')
+    toolVersion = "7.8.2"
     ignoreFailures true
 }
 
