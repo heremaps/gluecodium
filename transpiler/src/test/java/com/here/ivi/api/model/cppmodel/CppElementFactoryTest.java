@@ -21,7 +21,7 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 import com.here.ivi.api.generator.common.CppElementFactory;
 import com.here.ivi.api.model.FrancaElement;
-import com.here.ivi.api.model.InstanceHelper;
+import com.here.ivi.api.model.rules.InstanceRules;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FBasicTypeId;
@@ -84,13 +84,13 @@ public class CppElementFactoryTest {
 
   @Test
   public void createCppUsingWithTypeAliasInstanceId() {
-    when(definition.getName()).thenReturn(InstanceHelper.INSTANCE_ID_POSTFIX);
+    when(definition.getName()).thenReturn(InstanceRules.INSTANCE_ID_POSTFIX);
     when(definition.getActualType()).thenReturn(reference);
     when(reference.getDerived()).thenReturn(derived);
     when(derived.eContainer()).thenReturn(container);
     when(container.eContainer()).thenReturn(model);
-    when(derived.getName()).thenReturn(InstanceHelper.INSTANCE_ID_TYPE);
-    String[] builtinModelParts = InstanceHelper.BUILTIN_MODEL.split("\\.");
+    when(derived.getName()).thenReturn(InstanceRules.INSTANCE_ID_TYPE);
+    String[] builtinModelParts = InstanceRules.BUILTIN_MODEL.split("\\.");
     when(model.getName()).thenReturn(builtinModelParts[0]);
     when(container.getName()).thenReturn(builtinModelParts[1]);
 
