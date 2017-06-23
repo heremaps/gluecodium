@@ -37,15 +37,18 @@ if(BUILD_SHARED_LIBS)
         PRIVATE HELLO_SHARED)
 endif()
 
+set(API_GEN_BASE_DIR ${CMAKE_CURRENT_BINARY_DIR}/api)
+set_property(GLOBAL PROPERTY api_gen_base_dir ${API_GEN_BASE_DIR})
+
 if(CMAKE_SYSTEM_NAME STREQUAL Android)
     target_include_directories(hello
-        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/api
+        PRIVATE ${API_GEN_BASE_DIR}
         PRIVATE ${TRANSPILER_ANDROID_JNI_DIR}
         PRIVATE ${JNI_LIBRARIES})
     target_link_libraries(hello ${JNI_LIBRARIES})
 else()
     target_include_directories(hello
-        PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/api
+        PUBLIC ${API_GEN_BASE_DIR}
         INTERFACE $<INSTALL_INTERFACE:include>)
 endif()
 
