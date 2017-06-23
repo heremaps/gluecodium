@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">HelloApplication</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Hello Transpiler</string>
+    <string name="greet">Greet!</string>
 </resources>
