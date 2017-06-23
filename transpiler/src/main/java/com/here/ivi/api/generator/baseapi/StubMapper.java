@@ -63,12 +63,12 @@ public class StubMapper implements CppModelMapper {
 
     Interface<?> iface = (Interface<?>) francaElement;
 
-    String stubClassName = CppNameRules.getClassName(iface.getFrancaInterface());
+    String stubClassName = CppNameRules.getClassName(iface.getFrancaInterface().getName());
     CppClass.Builder stubClassBuilder =
         new CppClass.Builder(stubClassName)
             .comment(StubCommentParser.parse(iface.getFrancaInterface()).getMainBodyText());
 
-    String stubListenerName = CppNameRules.getListenerName(iface.getFrancaInterface());
+    String stubListenerName = CppNameRules.getListenerName(iface.getFrancaInterface().getName());
     CppClass stubListenerClass =
         new CppClass.Builder(stubListenerName)
             .comment(
@@ -128,7 +128,7 @@ public class StubMapper implements CppModelMapper {
           new CppInheritance(
               new CppType(
                   CppNamespaceUtils.getCppTypename(
-                      rootModel, baseDefinition, CppNameRules.getClassName(base)),
+                      rootModel, baseDefinition, CppNameRules.getClassName(base.getName())),
                   new Includes.LazyInternalInclude(
                       baseDefinition, Includes.InternalType.Interface)),
               CppInheritance.Type.Public));
@@ -138,7 +138,7 @@ public class StubMapper implements CppModelMapper {
           new CppInheritance(
               new CppType(
                   CppNamespaceUtils.getCppTypename(
-                      rootModel, baseDefinition, CppNameRules.getListenerName(base)),
+                      rootModel, baseDefinition, CppNameRules.getListenerName(base.getName())),
                   new Includes.LazyInternalInclude(
                       baseDefinition, Includes.InternalType.Interface)),
               CppInheritance.Type.Public));

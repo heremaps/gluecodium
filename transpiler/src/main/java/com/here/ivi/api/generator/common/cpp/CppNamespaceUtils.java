@@ -25,9 +25,9 @@ public class CppNamespaceUtils {
   public static String getCppTypename(CppModelAccessor<?> rootModel, FType element) {
     List<String> names =
         builtDisjointNamespace(
-            CppNameRules.getNamespace(rootModel), CppNameRules.getNamespace(element));
+            CppNameRules.getNamespace(rootModel.getDefiner()), CppNameRules.getNamespace(element));
 
-    names.add(CppNameRules.getCppTypename(element));
+    names.add(CppNameRules.getCppTypename(element.getName()));
 
     return String.join("::", names);
   }
@@ -40,7 +40,8 @@ public class CppNamespaceUtils {
       CppModelAccessor<?> rootModel, DefinedBy typeDefiner, String name) {
     List<String> names =
         builtDisjointNamespace(
-            CppNameRules.getNamespace(rootModel), CppNameRules.getNamespace(typeDefiner));
+            CppNameRules.getNamespace(rootModel.getDefiner()),
+            CppNameRules.getNamespace(typeDefiner));
     names.add(name);
     return String.join("::", names);
   }

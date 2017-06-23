@@ -165,7 +165,7 @@ public class CppTypeMapper {
       // each Instance type is defined directly in the Interface that is refers to, this is already
       // resolved in the typeRefDefiner, and named as the interface
 
-      String name = CppNameRules.getClassName(typeRefDefiner.type);
+      String name = CppNameRules.getClassName(typeRefDefiner.type.getName());
       String namespacedName = CppNamespaceUtils.getCppTypename(rootModel, typeRefDefiner, name);
 
       return new CppType(
