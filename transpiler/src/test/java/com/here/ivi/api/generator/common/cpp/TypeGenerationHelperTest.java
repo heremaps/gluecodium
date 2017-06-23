@@ -18,8 +18,8 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.Issue;
 import java.util.Arrays;
@@ -62,7 +62,7 @@ public class TypeGenerationHelperTest {
     // reverse list to ensure order is different than fields given
     Collections.reverse(ffieldInitializers);
 
-    CppModelAccessor<?> rootType = mock(CppModelAccessor.class);
+    FrancaElement<?> rootType = mock(FrancaElement.class);
 
     FStructType struct = mock(FStructType.class);
     when(struct.getElements()).thenReturn(ffields);

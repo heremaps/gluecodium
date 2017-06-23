@@ -14,9 +14,9 @@ package com.here.ivi.api.generator.common.cpp;
 import com.google.common.collect.Sets;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.DefinedBy;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cppmodel.CppElements;
-import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.HashSet;
@@ -27,58 +27,66 @@ import org.franca.core.franca.*;
 public class CppTypeMapper {
 
   public static CppType map(
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
+      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
       FArgument argument) {
     CppType type = CppTypeMapper.map(rootModel, argument.getType());
 
     if (argument.isArray()) {
       type =
           CppTypeMapper.wrapArrayType(
-              rootModel.getDefiner(), type, CppTypeMapper.ArrayMode.map(rootModel, argument));
+              DefinedBy.createFromFrancaElement(rootModel),
+              type,
+              CppTypeMapper.ArrayMode.map(rootModel, argument));
     }
 
     return type;
   }
 
   public static CppType map(
-      CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
+      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
       FAttribute attribute) {
     CppType type = CppTypeMapper.map(rootModel, attribute.getType());
 
     if (attribute.isArray()) {
       type =
           CppTypeMapper.wrapArrayType(
-              rootModel.getDefiner(), type, CppTypeMapper.ArrayMode.map(rootModel, attribute));
+              DefinedBy.createFromFrancaElement(rootModel),
+              type,
+              CppTypeMapper.ArrayMode.map(rootModel, attribute));
     }
 
     return type;
   }
 
-  public static CppType map(CppModelAccessor<?> rootModel, FConstantDef constant) {
+  public static CppType map(FrancaElement<?> rootModel, FConstantDef constant) {
     CppType type = CppTypeMapper.map(rootModel, constant.getType());
 
     if (constant.isArray()) {
       // FIXME impossible to define if a constant is a set or not inside Franca, always putting as vector
       // should have CppTypeMapper.ArrayMode.map(rootModel, constant)
-      type = CppTypeMapper.wrapArrayType(rootModel.getDefiner(), type, ArrayMode.STD_VECTOR);
+      type =
+          CppTypeMapper.wrapArrayType(
+              DefinedBy.createFromFrancaElement(rootModel), type, ArrayMode.STD_VECTOR);
     }
 
     return type;
   }
 
-  public static CppType map(CppModelAccessor<?> rootModel, FField field) {
+  public static CppType map(FrancaElement<?> rootModel, FField field) {
     CppType type = CppTypeMapper.map(rootModel, field.getType());
 
     if (field.isArray()) {
       type =
           CppTypeMapper.wrapArrayType(
-              rootModel.getDefiner(), type, CppTypeMapper.ArrayMode.map(rootModel, field));
+              DefinedBy.createFromFrancaElement(rootModel),
+              type,
+              CppTypeMapper.ArrayMode.map(rootModel, field));
     }
 
     return type;
   }
 
-  public static CppType map(CppModelAccessor<?> rootModel, FTypeRef type) {
+  public static CppType map(FrancaElement<?> rootModel, FTypeRef type) {
 
     if (type.getDerived() != null) {
       return mapDerived(rootModel, type);
@@ -91,7 +99,7 @@ public class CppTypeMapper {
     return new CppType();
   }
 
-  private static CppType mapDerived(CppModelAccessor<?> rootModel, FTypeRef type) {
+  private static CppType mapDerived(FrancaElement<?> rootModel, FTypeRef type) {
     FType derived = type.getDerived();
 
     // types without a parent are not valid
@@ -118,7 +126,7 @@ public class CppTypeMapper {
     return new CppType(null, "UNMAPPED DERIVED", CppElements.TypeInfo.Invalid);
   }
 
-  private static CppType reportInvalidType(CppModelAccessor<?> rootModel, FTypeRef type) {
+  private static CppType reportInvalidType(FrancaElement<?> rootModel, FTypeRef type) {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
     String name = "unknown";
     String typeDesc = "derived type";
@@ -153,7 +161,7 @@ public class CppTypeMapper {
         String.format(formatMessage, typeDesc, name, definer, rootModel));
   }
 
-  private static CppType mapTypeDef(CppModelAccessor<?> rootModel, FTypeDef typedef) {
+  private static CppType mapTypeDef(FrancaElement<?> rootModel, FTypeDef typedef) {
     DefinedBy typeRefDefiner = DefinedBy.createFromFModelElement(typedef);
 
     if (typedef.getActualType() == null) {
@@ -183,7 +191,7 @@ public class CppTypeMapper {
     }
   }
 
-  private static CppType mapArray(CppModelAccessor<?> rootModel, FArrayType array) {
+  private static CppType mapArray(FrancaElement<?> rootModel, FArrayType array) {
     DefinedBy arrayDefiner = DefinedBy.createFromFModelElement(array);
 
     String typeName = array.getName(); // use name defined for array
@@ -204,7 +212,7 @@ public class CppTypeMapper {
     return wrapArrayType(arrayDefiner, actual, ArrayMode.map(rootModel, array));
   }
 
-  public static CppType defineArray(CppModelAccessor<?> rootModel, FArrayType array) {
+  public static CppType defineArray(FrancaElement<?> rootModel, FArrayType array) {
     DefinedBy arrayDefiner = DefinedBy.createFromFModelElement(array);
     FTypeRef elementType = array.getElementType();
     CppType actual = map(rootModel, elementType);
@@ -216,24 +224,24 @@ public class CppTypeMapper {
     STD_VECTOR,
     STD_SET;
 
-    public static ArrayMode map(CppModelAccessor<?> rootModel, FArrayType array) {
-      return rootModel.getAccessor().getIsSet(array) ? STD_SET : STD_VECTOR;
+    public static ArrayMode map(FrancaElement<?> rootModel, FArrayType array) {
+      return rootModel.getPropertyAccessor().getIsSet(array) ? STD_SET : STD_VECTOR;
     }
 
-    public static ArrayMode map(CppModelAccessor<?> rootModel, FField field) {
-      return rootModel.getAccessor().getIsSet(field) ? STD_SET : STD_VECTOR;
+    public static ArrayMode map(FrancaElement<?> rootModel, FField field) {
+      return rootModel.getPropertyAccessor().getIsSet(field) ? STD_SET : STD_VECTOR;
     }
 
     public static ArrayMode map(
-        CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
+        FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
         FArgument argument) {
-      return rootModel.getAccessor().getIsSet(argument) ? STD_SET : STD_VECTOR;
+      return rootModel.getPropertyAccessor().getIsSet(argument) ? STD_SET : STD_VECTOR;
     }
 
     public static ArrayMode map(
-        CppModelAccessor<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
+        FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
         FAttribute argument) {
-      return rootModel.getAccessor().getIsSet(argument) ? STD_SET : STD_VECTOR;
+      return rootModel.getPropertyAccessor().getIsSet(argument) ? STD_SET : STD_VECTOR;
     }
   }
 
@@ -253,7 +261,7 @@ public class CppTypeMapper {
     return result;
   }
 
-  private static CppType mapMap(CppModelAccessor<?> rootModel, FMapType map) {
+  private static CppType mapMap(FrancaElement<?> rootModel, FMapType map) {
     DefinedBy mapDefiner = DefinedBy.createFromFModelElement(map);
 
     if (map.getKeyType() == null || map.getValueType() == null) {
@@ -278,7 +286,7 @@ public class CppTypeMapper {
     }
   }
 
-  public static CppType mapStruct(CppModelAccessor<?> rootModel, FStructType struct) {
+  public static CppType mapStruct(FrancaElement<?> rootModel, FStructType struct) {
     DefinedBy structDefiner = DefinedBy.createFromFModelElement(struct);
 
     if (struct.getElements().isEmpty()) {
@@ -291,7 +299,7 @@ public class CppTypeMapper {
     }
   }
 
-  public static CppType mapEnum(CppModelAccessor<?> rootModel, FEnumerationType enumeration) {
+  public static CppType mapEnum(FrancaElement<?> rootModel, FEnumerationType enumeration) {
     DefinedBy enumDefiner = DefinedBy.createFromFModelElement(enumeration);
 
     if (enumeration.getEnumerators().isEmpty()) {

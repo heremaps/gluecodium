@@ -12,8 +12,8 @@
 package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
+import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.InstanceHelper;
-import com.here.ivi.api.model.cppmodel.CppModelAccessor;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppUsing;
 import org.franca.core.franca.FAnnotationBlock;
@@ -21,7 +21,7 @@ import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 
 public class CppElementFactory {
-  public static CppUsing create(CppModelAccessor<?> rootModel, FTypeDef typeDefinition) {
+  public static CppUsing create(FrancaElement<?> rootModel, FTypeDef typeDefinition) {
     /*
      The InstanceId type is used to allow interfaces to reference instances of other interfaces as
      this is not foreseen in franca. Useful only within Fidl files. No need to be resolved in the

@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.model.DefinedBy;
-import com.here.ivi.api.model.cppmodel.CppModelAccessor;
+import com.here.ivi.api.model.FrancaElement;
 import java.util.List;
 import org.franca.core.franca.FType;
 
@@ -22,10 +22,11 @@ public class CppNamespaceUtils {
    * 'rootModel' Assumes the referenced type is in a TypeCollection namespace or part of an
    * Interface
    */
-  public static String getCppTypename(CppModelAccessor<?> rootModel, FType element) {
+  public static String getCppTypename(FrancaElement<?> rootModel, FType element) {
     List<String> names =
         builtDisjointNamespace(
-            CppNameRules.getNamespace(rootModel.getDefiner()), CppNameRules.getNamespace(element));
+            CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(rootModel)),
+            CppNameRules.getNamespace(element));
 
     names.add(CppNameRules.getCppTypename(element.getName()));
 
@@ -37,10 +38,10 @@ public class CppNamespaceUtils {
    * 'typeDefiner' from the 'rootModel'
    */
   public static String getCppTypename(
-      CppModelAccessor<?> rootModel, DefinedBy typeDefiner, String name) {
+      FrancaElement<?> rootModel, DefinedBy typeDefiner, String name) {
     List<String> names =
         builtDisjointNamespace(
-            CppNameRules.getNamespace(rootModel.getDefiner()),
+            CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(rootModel)),
             CppNameRules.getNamespace(typeDefiner));
     names.add(name);
     return String.join("::", names);
