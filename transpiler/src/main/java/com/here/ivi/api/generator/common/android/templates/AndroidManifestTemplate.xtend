@@ -9,22 +9,20 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.generator.common.android.templates
 
-import java.util.Arrays;
-import java.util.List;
+import com.here.ivi.api.model.javamodel.JavaPackage
+import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 
-public final class JavaPackage {
-  public static final JavaPackage DEFAULT =
-      new JavaPackage(Arrays.asList("com", "here", "android"));
+class AndroidManifestTemplate {
+  def static generate(JavaPackage javaPackage) '''
+«JavaCopyrightHeaderTemplate.generate()»
 
-  public final List<String> packageNames;
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="«javaPackage.flatten()»">
 
-  public JavaPackage(final List<String> packageList) {
-    packageNames = packageList;
-  }
+    <uses-permission android:name="android.permission.INTERNET"/>
 
-  public String flatten() {
-    return String.join(".", packageNames);
-  }
+</manifest>'''
 }
