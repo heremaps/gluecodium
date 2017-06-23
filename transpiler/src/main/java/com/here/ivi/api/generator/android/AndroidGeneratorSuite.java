@@ -96,17 +96,24 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
     JavaNativeInterfacesGenerator jniGenerator =
         new JavaNativeInterfacesGenerator(transpilerOptions.getJavaPackageList());
 
+    // This generator is special in that it generates only one file
+    // At the moment it does not need to iterate over all interfaces
+    AndroidManifestGenerator androidManifestGenerator =
+        new AndroidManifestGenerator(transpilerOptions.getJavaPackageList());
+
     Stream<GeneratedFile> generatorStream =
-        model
-            .getInterfaces()
-            .stream()
-            .map(
-                iface -> {
-                  List<GeneratedFile> files = javaGenerator.generateFiles(iface);
-                  files.addAll(jniGenerator.generateFiles(iface));
-                  return files;
-                })
-            .flatMap(Collection::stream);
+        Stream.concat(
+            model
+                .getInterfaces()
+                .stream()
+                .map(
+                    iface -> {
+                      List<GeneratedFile> files = javaGenerator.generateFiles(iface);
+                      files.addAll(jniGenerator.generateFiles(iface));
+                      return files;
+                    })
+                .flatMap(Collection::stream),
+            androidManifestGenerator.generate().stream());
 
     return generatorStream.filter(Objects::nonNull).collect(Collectors.toList());
   }

@@ -9,22 +9,15 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.generator.common.android;
 
-import java.util.Arrays;
-import java.util.List;
+import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
+import java.io.File;
 
-public final class JavaPackage {
-  public static final JavaPackage DEFAULT =
-      new JavaPackage(Arrays.asList("com", "here", "android"));
+public final class AndroidNameRules {
+  private AndroidNameRules() {}
 
-  public final List<String> packageNames;
-
-  public JavaPackage(final List<String> packageList) {
-    packageNames = packageList;
-  }
-
-  public String flatten() {
-    return String.join(".", packageNames);
+  public static String getManifestFilename() {
+    return AndroidGeneratorSuite.GENERATOR_NAMESPACE + File.separator + "AndroidManifest.xml";
   }
 }
