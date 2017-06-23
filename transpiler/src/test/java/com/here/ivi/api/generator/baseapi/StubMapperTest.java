@@ -78,15 +78,6 @@ public final class StubMapperTest {
   }
 
   @Test
-  public void mapFrancaModelToCppModelWithEmptyInterface() {
-    when(anInterface.getPackage()).thenReturn(Collections.emptyList());
-
-    CppNamespace namespace = mapper.mapFrancaModelToCppModel(anInterface);
-
-    assertNull(namespace);
-  }
-
-  @Test
   public void mapFrancaModelToCppModelWithAnInterface() {
     CppNamespace namespace = mapper.mapFrancaModelToCppModel(anInterface);
 

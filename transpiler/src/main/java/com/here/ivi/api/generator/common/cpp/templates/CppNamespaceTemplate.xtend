@@ -22,15 +22,16 @@ import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator
 
 class CppNamespaceTemplate {
     static def generate(CppTemplateDelegator templates, CppNamespace ns) '''
-        namespace «ns.name» {
+        «FOR namePart : ns.name»
+        namespace «namePart» {
 
+        «ENDFOR»
         «FOR member : ns.members»
         «
         switch (member) {
             CppConstant: templates.generate(member)
             CppEnum : templates.generate(member)
             CppEnumClass : templates.generate(member)
-            CppNamespace: templates.generate(member)
             CppStruct: templates.generate(member)
             CppTypeDef: templates.generate(member)
             CppClass : templates.generate(member)
@@ -38,7 +39,8 @@ class CppNamespaceTemplate {
         }»
 
         «ENDFOR»
-
-        } // namespace «ns.name»
+        «FOR namePart : ns.name.reverseView»
+        } // namespace «namePart»
+        «ENDFOR»
     '''
 }

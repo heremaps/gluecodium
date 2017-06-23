@@ -42,7 +42,8 @@ public final class StubMapperIntegrationTest {
 
     CppNamespace actualContent = stubGenerator.mapFrancaModelToCppModel(iface);
 
-    assertEquals(actualContent.name, "test");
+    assertEquals(1, actualContent.name.size(), 1);
+    assertEquals("test", actualContent.name.get(0));
     assertEquals(actualContent.members.size(), 1);
     assertTrue(actualContent.members.get(0) instanceof CppClass);
     assertTrue(actualContent.members.get(0) instanceof CppClass);

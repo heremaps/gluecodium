@@ -13,25 +13,23 @@ package com.here.ivi.api.model.cppmodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
-public class CppNamespace extends CppElement {
+public class CppNamespace {
+
+  public final List<String> name;
   public List<CppElement> members = new ArrayList<>();
 
-  public CppNamespace() {
-    super("");
-  }
-
-  public CppNamespace(String name) {
-    super(name);
+  public CppNamespace(List<String> name) {
+    this.name = name;
   }
 
   public boolean isEmpty() {
     return members.isEmpty();
   }
 
-  @Override
-  public Stream<CppElement> stream() {
-    return members.stream();
+  public final Stream<CppElement> streamRecursive() {
+    return members.stream().filter(Objects::nonNull).flatMap(CppElement::streamRecursive);
   }
 }

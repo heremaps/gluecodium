@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import com.google.common.collect.Iterables;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.cpp.*;
 import com.here.ivi.api.model.DefinedBy;
@@ -21,13 +20,16 @@ import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.List;
 import org.franca.core.franca.*;
 
-public final class TypeCollectionMapper extends AbstractCppModelMapper {
+public final class TypeCollectionMapper implements CppModelMapper {
+
   @Override
   public CppNamespace mapFrancaModelToCppModel(FrancaElement<?> typeCollection) {
 
-    CppNamespace result =
-        new CppNamespace(
-            CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection()));
+    List<String> namespaceName =
+        CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection));
+    namespaceName.add(CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection()));
+
+    CppNamespace result = new CppNamespace(namespaceName);
 
     CppModelAccessor<?> rootModel = new CppModelAccessor<>(typeCollection);
 
@@ -70,18 +72,7 @@ public final class TypeCollectionMapper extends AbstractCppModelMapper {
       }
     }
 
-    List<CppNamespace> packageNs =
-        packageToCppNamespace(
-            CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection)));
-
-    // ensure to not create empty namespaces
-    if (!result.isEmpty()) {
-      // add to innermost namespace
-      Iterables.getLast(packageNs).members.add(result);
-    }
-
-    // return outermost namespace
-    return Iterables.getFirst(packageNs, null);
+    return result;
   }
 
   private CppElement buildMap(FMapType type, CppModelAccessor<?> rootModel) {
