@@ -25,7 +25,7 @@ public class CppIncludeResolver {
     this.rootModel = rootModel;
   }
 
-  public void resolveLazyIncludes(final CppElement root, final String outputFile) {
+  public void resolveLazyIncludes(final CppNamespace root, final String outputFile) {
     root.streamRecursive()
         .filter(p -> p instanceof CppElementWithIncludes)
         .map(CppElementWithIncludes.class::cast)

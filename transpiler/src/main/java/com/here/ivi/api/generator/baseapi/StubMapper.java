@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import com.google.common.collect.Iterables;
 import com.here.ivi.api.generator.baseapi.templates.EmptyBodyTemplate;
 import com.here.ivi.api.generator.baseapi.templates.NotifierBodyTemplate;
 import com.here.ivi.api.generator.common.CommentFormatter;
@@ -45,7 +44,7 @@ import org.franca.core.franca.FTypeDef;
 /**
  * This generator will create the stub interfaces that will then be used by the other generators.
  */
-public class StubMapper extends AbstractCppModelMapper {
+public class StubMapper implements CppModelMapper {
   private final StubMethodMapper methodMapper;
 
   StubMapper() {
@@ -63,11 +62,6 @@ public class StubMapper extends AbstractCppModelMapper {
     }
 
     Interface<?> iface = (Interface<?>) francaElement;
-    List<CppNamespace> packageNs = packageToCppNamespace(iface.getPackage());
-
-    if (packageNs.isEmpty()) {
-      return null;
-    }
 
     String stubClassName = CppNameRules.getClassName(iface.getFrancaInterface());
     CppClass.Builder stubClassBuilder =
@@ -112,8 +106,7 @@ public class StubMapper extends AbstractCppModelMapper {
       appendAttributeAccessorElements(stubClass, stubListenerClass, attribute, rootModel);
     }
 
-    // add to innermost namespace
-    CppNamespace innermostNs = Iterables.getLast(packageNs);
+    CppNamespace namespace = new CppNamespace(iface.getPackage());
 
     // inherit from listener vector if there are any methods on the listener
     if (!stubListenerClass.methods.isEmpty()) {
@@ -124,7 +117,7 @@ public class StubMapper extends AbstractCppModelMapper {
                   new Includes.SystemInclude("cpp/internal/ListenerVector.h")),
               CppInheritance.Type.Public));
 
-      innermostNs.members.add(stubListenerClass);
+      namespace.members.add(stubListenerClass);
     }
 
     FInterface base = iface.getFrancaInterface().getBase();
@@ -151,11 +144,9 @@ public class StubMapper extends AbstractCppModelMapper {
               CppInheritance.Type.Public));
     }
 
-    // add to innermost namespace
-    innermostNs.members.add(stubClass);
+    namespace.members.add(stubClass);
 
-    // return outermost namespace
-    return Iterables.getFirst(packageNs, null);
+    return namespace;
   }
 
   private void appendAttributeAccessorElements(

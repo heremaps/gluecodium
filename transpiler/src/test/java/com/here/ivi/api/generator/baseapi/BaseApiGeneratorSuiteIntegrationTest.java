@@ -24,7 +24,6 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class BaseApiGeneratorSuiteIntegrationTest {
-  private final String francaFilesPath = "src/test/resources/baseapi_generator_suite/fidl";
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
 
   @Before
@@ -36,6 +35,7 @@ public class BaseApiGeneratorSuiteIntegrationTest {
   public void generate() {
     // TODO: APIGEN-229 This test should spy stubGenerator::generate and
     // typeCollectionGenerator::generate to check with verify() that they are called accordingly
+    final String francaFilesPath = "src/test/resources/baseapi_generator_suite/fidl";
     baseApiGeneratorSuite.buildModel(francaFilesPath);
 
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();

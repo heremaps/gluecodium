@@ -21,6 +21,7 @@ import com.here.ivi.api.generator.common.cpp.CppGenerator;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
+import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
@@ -34,7 +35,7 @@ public class CppGeneratorTest {
 
   @InjectMocks private CppGenerator cppGenerator;
 
-  private CppNamespace cppModel = new CppNamespace();
+  private CppNamespace cppModel = new CppNamespace(Collections.emptyList());
 
   @Before
   public void setUp() {

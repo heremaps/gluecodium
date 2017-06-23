@@ -14,8 +14,8 @@ package com.here.ivi.api.generator.baseapi;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.cpp.AbstractCppModelMapper;
 import com.here.ivi.api.generator.common.cpp.CppGenerator;
+import com.here.ivi.api.generator.common.cpp.CppModelMapper;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -110,7 +110,8 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
   }
 
   private GeneratedFile generateFromFrancaElement(
-      FrancaElement<?> francaElement, AbstractCppModelMapper mapper, CppGenerator generator) {
+      FrancaElement<?> francaElement, CppModelMapper mapper, CppGenerator generator) {
+
     String fileName = CppNameRules.getHeaderPath(francaElement);
     CppNamespace cppModel = mapper.mapFrancaModelToCppModel(francaElement);
     CharSequence copyRightNotice = generateGeneratorNotice(this, francaElement, fileName);
