@@ -140,17 +140,6 @@ run {
     }
 }
 
-task diff(type: JavaExec) {
-     classpath=sourceSets.main.runtimeClasspath
-     main = 'com.here.ivi.api.Fidldif'
-     if (System.getProperty("exec.args") != null) {
-       args System.getProperty("exec.args").split()
-     }
-     else {
-       args 'test/data/Runtime.old.fidl', 'test/data/Runtime.fidl'
-     }
-}
-
 apply plugin: 'checkstyle'
 checkstyle {
     configFile = rootProject.file('config/checkstyle/checkstyle-hard.xml')
