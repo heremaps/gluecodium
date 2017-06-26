@@ -21,42 +21,22 @@ set(SOURCES
     src/test/StaticStringMethodsTestStub.cpp
 )
 
-if(CMAKE_SYSTEM_NAME STREQUAL Android)
-    set(TRANSPILER_ANDROID_JNI_DIR ${CMAKE_CURRENT_BINARY_DIR}/api/android/jni)
-    #TODO: Change this soon:
-    file(GLOB JNI_SOURCES ${TRANSPILER_ANDROID_JNI_DIR}/*.cpp)
-    list(APPEND SOURCES ${JNI_SOURCES})
-endif()
-
-# Public library, either shared or static depending BUILD_SHARED_LIBS
 add_library(hello ${SOURCES})
 target_compile_features(hello PUBLIC cxx_range_for)
 set_target_properties(hello PROPERTIES
     POSITION_INDEPENDENT_CODE ON
-    VERSION ${HELLO_VERSION}
-    SOVERSION ${HELLO_VERSION_MAJOR})
-if(BUILD_SHARED_LIBS)
-    target_compile_definitions(hello
-        PRIVATE HELLO_SHARED)
-endif()
-
-set(API_GEN_BASE_DIR ${CMAKE_CURRENT_BINARY_DIR}/api)
-set_property(GLOBAL PROPERTY api_gen_base_dir ${API_GEN_BASE_DIR})
-
-if(CMAKE_SYSTEM_NAME STREQUAL Android)
-    target_include_directories(hello
-        PRIVATE ${API_GEN_BASE_DIR}
-        PRIVATE ${TRANSPILER_ANDROID_JNI_DIR}
-        PRIVATE ${JNI_LIBRARIES})
-    target_link_libraries(hello ${JNI_LIBRARIES})
-else()
-    target_include_directories(hello
-        PUBLIC ${API_GEN_BASE_DIR}
-        INTERFACE $<INSTALL_INTERFACE:include>)
-endif()
-
+    SOVERSION ${HELLO_VERSION_MAJOR}
+    VERSION ${HELLO_VERSION})
 install(TARGETS hello EXPORT helloTargets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
     INCLUDES DESTINATION include)
+
+include(Apigen)
+apigen_transpile(hello
+    ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
+    ${CMAKE_CURRENT_BINARY_DIR}/api/
+    ${HELLO_APIGEN_TRANSPILER_GENERATOR})
+apigen_target_include_directories(hello)
+apigen_target_sources(hello)

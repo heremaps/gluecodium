@@ -1,12 +1,7 @@
 #!/bin/bash
 #
-# Script to build the entire project with some defaults.
-#
-# Note:
-#  At the moment this only does a plain host build suitable for
-#  stub and apps/base_api. Later on this might get expanded to
-#  allow for other build types (e.g. which would disable apps/base_api
-#  and use a different toolchain)
+# Script to build the "hello" library for an Android consumer. This is
+# demonstrated by the apps/android application which is build externally.
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
@@ -27,7 +22,9 @@ for arch in x86 armeabi-v7a ; do
         -DCMAKE_ANDROID_ARCH_ABI=${arch} \
         -DCMAKE_ANDROID_NDK=$NDK_ROOT \
         -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
-        -DHELLO_ENABLE_APPS=OFF \
+        -DHELLO_APIGEN_TRANSPILER_GENERATOR=android \
+        -DHELLO_BUILD_CPP_APP=OFF \
+        -DHELLO_BUILD_IOS_APP=OFF \
         -G Ninja \
         ..
     popd

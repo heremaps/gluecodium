@@ -7,11 +7,7 @@
 # material also contains confidential information which may not be
 # disclosed to others without the prior written consent of HERE.
 
-cmake_minimum_required(VERSION 3.5)
-
-if(NOT HELLO_ENABLE_APPS)
-    return()
-endif()
+cmake_minimum_required(VERSION 3.7)
 
 add_subdirectory(base_api)
 add_subdirectory(ios)
