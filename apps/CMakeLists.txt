@@ -1,4 +1,4 @@
-# Copyright (c) 2017 HERE Europe B.V.
+#Copyright Copyright (c) 2017 HERE Europe B.V.
 #
 # All rights reserved.  This software, including documentation, is protected
 # by copyright controlled by HERE.  All rights are reserved.  Copying,
@@ -8,14 +8,9 @@
 # disclosed to others without the prior written consent of HERE.
 
 cmake_minimum_required(VERSION 3.5)
-project(hello_world)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
+if(NOT HELLO_ENABLE_APPS)
+    return()
+endif()
 
-option(HELLO_ENABLE_APPS "Build example apps" ON)
-
-include(Transpiler)
-transpile()
-
-add_subdirectory(libhello)
-add_subdirectory(apps)
+add_subdirectory(base_api)

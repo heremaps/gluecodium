@@ -8,7 +8,8 @@
 #  allow for other build types (e.g. which would disable apps/base_api
 #  and use a different toolchain)
 
-. "scripts/inc.functions"
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+. "${SCRIPT_DIR}/inc.functions"
 
 BUILD_DIR=build
 CWD=$PWD

@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Script to build the entire project with some defaults.
+#
+# Note:
+#  At the moment this only does a plain host build suitable for
+#  stub and apps/base_api. Later on this might get expanded to
+#  allow for other build types (e.g. which would disable apps/base_api
+#  and use a different toolchain)
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+. "${SCRIPT_DIR}/inc.functions"
+
+# Build shared libraries
+for arch in x86 armeabi-v7a ; do
+    build_dir=build-android-${arch}
+    if [ ! -d ${build_dir} ] ; then
+        safe mkdir -p ${build_dir}
+    fi
+
+    pushd ${build_dir}
+    safe cmake \
+        -DBUILD_SHARED_LIBS=ON \
+        -DCMAKE_INSTALL_PREFIX=$CWD/dist \
+        -DCMAKE_SYSTEM_NAME=Android \
+        -DCMAKE_SYSTEM_VERSION=21 \
+        -DCMAKE_ANDROID_ARCH_ABI=${arch} \
+        -DCMAKE_ANDROID_NDK=$NDK_ROOT \
+        -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
+        -DHELLO_ENABLE_APPS=OFF \
+        -G Ninja \
+        ..
+    popd
+    safe cmake \
+        --build ${build_dir}
+done

@@ -1,18 +1,13 @@
 # Copyright (c) 2017 HERE Europe B.V.
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# All rights reserved.  This software, including documentation, is protected
+# by copyright controlled by HERE.  All rights are reserved.  Copying,
+# including reproducing, storing, adapting or translating, any or all of
+# this material requires the prior written consent of HERE.  This
+# material also contains confidential information which may not be
+# disclosed to others without the prior written consent of HERE.
 
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.7)
 project(hello)
 
 set(HELLO_VERSION_MAJOR 0)
@@ -20,17 +15,21 @@ set(HELLO_VERSION_MINOR 0)
 set(HELLO_VERSION_PATCH 1)
 set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_PATCH})
 
-set(HEADERS
-    include/hello/config.h)
-
 set(SOURCES
     src/HelloWorldStub.cpp)
 
+if(CMAKE_SYSTEM_NAME STREQUAL Android)
+    set(TRANSPILER_ANDROID_JNI_DIR ${CMAKE_CURRENT_BINARY_DIR}/api/android/jni)
+    #TODO: Change this soon:
+    file(GLOB JNI_SOURCES ${TRANSPILER_ANDROID_JNI_DIR}/*.cpp)
+    list(APPEND SOURCES ${JNI_SOURCES})
+endif()
+
 # Public library, either shared or static depending BUILD_SHARED_LIBS
-add_library(hello ${HEADERS} ${SOURCES})
+add_library(hello ${SOURCES})
 target_compile_features(hello PUBLIC cxx_range_for)
-set_property(TARGET hello PROPERTY POSITION_INDEPENDENT_CODE ON)
 set_target_properties(hello PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
     VERSION ${HELLO_VERSION}
     SOVERSION ${HELLO_VERSION_MAJOR})
 if(BUILD_SHARED_LIBS)
@@ -38,18 +37,20 @@ if(BUILD_SHARED_LIBS)
         PRIVATE HELLO_SHARED)
 endif()
 
-target_include_directories(hello
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        ${CMAKE_CURRENT_BINARY_DIR}/api
-    INTERFACE
-        $<INSTALL_INTERFACE:include>
-     )
+if(CMAKE_SYSTEM_NAME STREQUAL Android)
+    target_include_directories(hello
+        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/api
+        PRIVATE ${TRANSPILER_ANDROID_JNI_DIR}
+        PRIVATE ${JNI_LIBRARIES})
+    target_link_libraries(hello ${JNI_LIBRARIES})
+else()
+    target_include_directories(hello
+        PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/api
+        INTERFACE $<INSTALL_INTERFACE:include>)
+endif()
+
 install(TARGETS hello EXPORT helloTargets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
     INCLUDES DESTINATION include)
-install(FILES ${HEADERS}
-    DESTINATION include/hello
-    COMPONENT Devel)
