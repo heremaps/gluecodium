@@ -29,6 +29,7 @@ set(SOURCES
 # Public library, either shared or static depending BUILD_SHARED_LIBS
 add_library(hello ${HEADERS} ${SOURCES})
 target_compile_features(hello PUBLIC cxx_range_for)
+set_property(TARGET hello PROPERTY POSITION_INDEPENDENT_CODE ON)
 set_target_properties(hello PROPERTIES
     VERSION ${HELLO_VERSION}
     SOVERSION ${HELLO_VERSION_MAJOR})
