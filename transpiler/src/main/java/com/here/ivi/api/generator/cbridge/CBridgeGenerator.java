@@ -68,7 +68,7 @@ public class CBridgeGenerator {
       Interface<?> iface, CInterface cInterface) {
     Set<Includes.Include> includes = new HashSet<>();
     includes.add(new Includes.InternalPublicInclude(cBridgeNameRules.getHeaderFileName(iface)));
-    includes.add(new Includes.InternalPublicInclude(CppNameRules.getHeaderPath(iface)));
+    includes.add(new Includes.SystemInclude(CppNameRules.getHeaderPath(iface)));
 
     for (CFunction function : cInterface.functions) {
       for (TypeConverter.TypeConversion conversion : function.conversions) {

@@ -28,15 +28,28 @@ class CBridgeHeaderTemplateTest {
     def systemInclude() {
         val cInterface = new CInterface() => [
             headerIncludes = #{new Includes.SystemInclude("header.h")}
-
         ]
         val expected = '''
             #include <header.h>
         '''
 
-        val generated = CBridgeHeaderTemplate.generate(cInterface)
+        val generated = CBridgeHeaderTemplate.generate(cInterface).toString
 
-        assertEqualHeaderContent(expected, generated.toString)
+        assertEqualHeaderContent(expected, generated)
+    }
+
+    @Test
+    def projectInclude() {
+        val cInterface = new CInterface() => [
+            headerIncludes = #{new Includes.InternalPublicInclude("header.h")}
+        ]
+        val expected = '''
+            #include "header.h"
+        '''
+
+        val generated = CBridgeHeaderTemplate.generate(cInterface).toString
+
+        assertEqualHeaderContent(expected, generated)
     }
 
     @Test

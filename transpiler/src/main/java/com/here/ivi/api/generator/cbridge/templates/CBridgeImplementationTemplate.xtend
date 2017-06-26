@@ -11,10 +11,9 @@
 
 package com.here.ivi.api.generator.cbridge.templates
 
-import com.here.ivi.api.generator.common.cpp.templates.CppIncludeTemplate
+import com.here.ivi.api.generator.cbridge.templates.CBridgeIncludeTemplate
 import com.here.ivi.api.model.cmodel.CInterface
 import com.here.ivi.api.model.cmodel.CFunction
-import com.here.ivi.api.model.cmodel.CParameter
 
 class CBridgeImplementationTemplate {
 
@@ -33,7 +32,7 @@ class CBridgeImplementationTemplate {
     //  Automatically generated. Do not modify. Your changes will be lost.
 
     «FOR include: cInterface.implementationIncludes BEFORE '\n'»
-        «CppIncludeTemplate.generate(include)»
+        «CBridgeIncludeTemplate.generate(include)»
     «ENDFOR»
 
     «FOR function: cInterface.functions»
