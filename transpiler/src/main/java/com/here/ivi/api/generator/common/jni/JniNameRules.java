@@ -12,26 +12,25 @@
 package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
-import com.here.ivi.api.generator.common.java.JavaNameRules;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.io.File;
+import java.util.List;
 
 public final class JniNameRules {
   private static final String JNI_HEADER_FILE_ENDING = ".h";
   private static final String JNI_IMPLEMENTATION_FILE_ENDING = ".cpp";
 
-  // TODO: Fetch package root from JavaClass!
-  private static final String JAVA_PACKAGE_ROOT = "com.here.ivi";
-  private static final String UNDERSCORE = "_";
+  private static String formatPackageName(List<String> packageNames) {
+    return packageNames.isEmpty() ? "" : String.join("_", packageNames) + "_";
+  }
 
   public static String getHeaderFileName(final JavaClass javaClass) {
     return AndroidGeneratorSuite.GENERATOR_NAMESPACE
         + File.separator
         + "jni"
         + File.separator
-        + JAVA_PACKAGE_ROOT.replace(JavaNameRules.JAVA_PACKAGE_SEPARATOR, UNDERSCORE)
-        + UNDERSCORE
+        + formatPackageName(javaClass.javaPackage.packageNames)
         + javaClass.name
         + JNI_HEADER_FILE_ENDING;
   }
@@ -41,8 +40,7 @@ public final class JniNameRules {
         + File.separator
         + "jni"
         + File.separator
-        + JAVA_PACKAGE_ROOT.replace(JavaNameRules.JAVA_PACKAGE_SEPARATOR, UNDERSCORE)
-        + UNDERSCORE
+        + formatPackageName(javaClass.javaPackage.packageNames)
         + javaClass.name
         + JNI_IMPLEMENTATION_FILE_ENDING;
   }
@@ -70,6 +68,6 @@ public final class JniNameRules {
       return "";
     }
 
-    return String.join(UNDERSCORE, javaPackage.packageNames);
+    return String.join("_", javaPackage.packageNames);
   }
 }

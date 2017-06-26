@@ -15,22 +15,22 @@ import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.io.File;
+import java.util.List;
 import org.franca.core.franca.FType;
 
 public final class JavaNameRules {
   public static final String JAVA_FILE_ENDING = ".java";
-  public static final String JAVA_PACKAGE_SEPARATOR = ".";
-
-  // TODO: Fetch package root from JavaClass!
-  private static final String JAVA_PACKAGE_ROOT = "com.here.ivi";
 
   private JavaNameRules() {}
+
+  private static String formatPackageName(List<String> packageNames) {
+    return packageNames.isEmpty() ? "" : String.join(File.separator, packageNames) + File.separator;
+  }
 
   public static String getFileName(final JavaClass javaClass) {
     return AndroidGeneratorSuite.GENERATOR_NAMESPACE
         + File.separator
-        + JAVA_PACKAGE_ROOT.replace(JAVA_PACKAGE_SEPARATOR, File.separator)
-        + File.separator
+        + formatPackageName(javaClass.javaPackage.packageNames)
         + javaClass.name
         + JAVA_FILE_ENDING;
   }

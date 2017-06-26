@@ -14,8 +14,12 @@ package com.here.ivi.api.generator.common.jni;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
-import com.here.ivi.api.model.javamodel.*;
+import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaPackage;
+import com.here.ivi.api.model.javamodel.JavaParameter;
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
+import com.here.ivi.api.model.javamodel.JavaType;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Rule;
@@ -38,7 +42,8 @@ public final class JniNameRulesTest {
 
     // Assert
     assertEquals(
-        AndroidGeneratorSuite.GENERATOR_NAMESPACE + "/jni/com_here_ivi_MyClass.h", headerFileName);
+        AndroidGeneratorSuite.GENERATOR_NAMESPACE + "/jni/com_here_android_MyClass.h",
+        headerFileName);
   }
 
   @Test
@@ -58,7 +63,7 @@ public final class JniNameRulesTest {
 
     // Assert
     assertEquals(
-        AndroidGeneratorSuite.GENERATOR_NAMESPACE + "/jni/com_here_ivi_MyClass.cpp",
+        AndroidGeneratorSuite.GENERATOR_NAMESPACE + "/jni/com_here_android_MyClass.cpp",
         headerFileName);
   }
 
