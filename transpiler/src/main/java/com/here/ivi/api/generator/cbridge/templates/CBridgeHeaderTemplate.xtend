@@ -11,7 +11,8 @@
 
 package com.here.ivi.api.generator.cbridge.templates
 
-import com.here.ivi.api.generator.common.cpp.templates.CppIncludeTemplate
+
+import com.here.ivi.api.generator.cbridge.templates.CBridgeIncludeTemplate
 import com.here.ivi.api.model.cmodel.CInterface
 import com.here.ivi.api.model.cmodel.CFunction
 
@@ -36,7 +37,7 @@ class CBridgeHeaderTemplate{
     #endif
 
     «FOR include: cInterface.headerIncludes BEFORE '\n'»
-        «CppIncludeTemplate.generate(include)»
+        «CBridgeIncludeTemplate.generate(include)»
     «ENDFOR»
 
     «FOR function: cInterface.functions»
