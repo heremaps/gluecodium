@@ -1,3 +1,5 @@
+build*/
+dist/
 ### https://raw.github.com/github/gitignore/9a3dea4649365dc90bef39d1e6f76d2e47060d43/C++.gitignore
 
 ### Where the generated APIs will be stored
