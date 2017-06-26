@@ -26,7 +26,7 @@ public final class JavaNameRulesTest {
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Test
-  public void getFieldName() {
+  public void getFileName() {
     // Arrange
     JavaClass javaClass = new JavaClass("MyClass");
 
@@ -35,11 +35,11 @@ public final class JavaNameRulesTest {
 
     // Assert
     assertEquals(
-        AndroidGeneratorSuite.GENERATOR_NAMESPACE + "/com/here/ivi/MyClass.java", javaFile);
+        AndroidGeneratorSuite.GENERATOR_NAMESPACE + "/com/here/android/MyClass.java", javaFile);
   }
 
   @Test
-  public void getFieldNameThrowsForNullClass() {
+  public void getFileNameThrowsForNullClass() {
     // Arrange, act, assert
     expectedException.expect(NullPointerException.class);
     JavaNameRules.getFileName(null);
