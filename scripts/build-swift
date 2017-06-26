@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# Script to build the "hello" library for a C++ consumer. This is demonstrated
-# by the base_api application.
+# Script to build the "hello" library for an iOS consumer. This is demonstrated
+# by the apps/swift application.
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
-BUILD_DIR=build
+BUILD_DIR=build-swift
 CWD=$PWD
 
 if [ ! -d ${BUILD_DIR} ] ; then
@@ -15,8 +15,9 @@ if [ ! -d ${BUILD_DIR} ] ; then
     safe cmake \
         -DBUILD_SHARED_LIBS=ON \
         -DCMAKE_INSTALL_PREFIX=$CWD/dist \
-        -DHELLO_APIGEN_TRANSPILER_GENERATOR=stub \
-        -DHELLO_BUILD_IOS_APP=OFF \
+        -DCMAKE_SYSTEM_NAME=Swift \
+        -DHELLO_APIGEN_TRANSPILER_GENERATOR=cbridge,swift \
+        -DHELLO_BUILD_CPP_APP=OFF \
         -G Ninja \
         ..
     cd ${CWD}

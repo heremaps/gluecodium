@@ -1,9 +1,24 @@
+# Copyright (c) 2017 HERE Europe B.V.
+#
+# All rights reserved.  This software, including documentation, is protected
+# by copyright controlled by HERE.  All rights are reserved.  Copying,
+# including reproducing, storing, adapting or translating, any or all of
+# this material requires the prior written consent of HERE.  This
+# material also contains confidential information which may not be
+# disclosed to others without the prior written consent of HERE.
+
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+project(ios)
+
+if(NOT HELLO_BUILD_IOS_APP)
+    return()
+endif()
+
 set(CMAKE_CXX_STANDARD 11)
 set(package_name hello)
 set(bridge_target c_${package_name})
 
-get_property(API_GEN_BASE_DIR GLOBAL PROPERTY api_gen_base_dir)
+get_target_property(API_GEN_BASE_DIR hello APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
 
 add_library(${bridge_target} STATIC ${API_GEN_BASE_DIR}/cbridge/${package_name}/HelloWorld)
 target_link_libraries(${bridge_target} hello)
