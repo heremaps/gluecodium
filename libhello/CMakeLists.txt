@@ -36,7 +36,14 @@ install(TARGETS hello EXPORT helloTargets
 include(Apigen)
 apigen_transpile(hello
     ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
-    ${CMAKE_CURRENT_BINARY_DIR}/api/
     ${HELLO_APIGEN_TRANSPILER_GENERATOR})
 apigen_target_include_directories(hello)
 apigen_target_sources(hello)
+
+if(CMAKE_SYSTEM_NAME STREQUAL Android)
+    apigen_java_compile(hello)
+    apigen_java_jar(hello)
+    apigen_android_archive(hello)
+elseif(CMAKE_SYSTEM_NAME STREQUAL Swift)
+    #apigen_swift_package(hello ...)
+endif()
