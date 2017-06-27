@@ -31,7 +31,7 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#     apigen_transpile(target inputDir outputDir generator)
+#     apigen_transpile(target inputDir generator)
 #
 # This function invokes the API transpiler based on a set of of input *.fidl
 # files with a specific target language generator.
@@ -44,11 +44,20 @@ else()
     set(APIGEN_TRANSPILER_GRADLE_WRAPPER ./gradlew)
 endif()
 
-function(apigen_transpile target inputDir outputDir generator)
+function(apigen_transpile target inputDir generator)
 
     message(STATUS "Transpile '${target}' with '${generator}' generator
-    Input: '${inputDir}'
-    Output: '${outputDir}'")
+    Input: '${inputDir}'")
+
+    # Transpiler invocations for different generators need different output directories
+    # as the transpiler currently wipes the directory upon start.
+    set(TRANSPILER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${generator}-transpile)
+
+    # Attach properties to target for re-use in other modules
+    set_target_properties(${target} PROPERTIES
+        APIGEN_TRANSPILER_GENERATOR ${generator}
+        APIGEN_TRANSPILER_GENERATOR_INPUT_DIR ${inputDir}
+        APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR ${TRANSPILER_OUTPUT_DIR})
 
     if(NOT generator MATCHES stub)
         # This can be optimized. If a previous invocation of this function already
@@ -57,17 +66,10 @@ function(apigen_transpile target inputDir outputDir generator)
         set(generator "stub,${generator}")
     endif()
 
-    set(APIGEN_TRANSPILER_ARGS "-input ${inputDir} -output ${outputDir} -generators ${generator} -nostdout")
-
+    set(APIGEN_TRANSPILER_ARGS "-input ${inputDir} -output ${TRANSPILER_OUTPUT_DIR} -generators ${generator} -nostdout")
     execute_process(
-        COMMAND mkdir -p ${outputDir} # otherwise java.io.File won't have permissions to create files at configure time
+        COMMAND mkdir -p ${TRANSPILER_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
         COMMAND ${APIGEN_TRANSPILER_GRADLE_WRAPPER} run -Dexec.args=${APIGEN_TRANSPILER_ARGS}
         WORKING_DIRECTORY ${APIGEN_TRANSPILER_DIR})
-
-    # Attach properties to target for re-use in other modules
-    set_target_properties(${target} PROPERTIES
-        APIGEN_TRANSPILER_GENERATOR ${generator}
-        APIGEN_TRANSPILER_GENERATOR_INPUT_DIR ${inputDir}
-        APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR ${outputDir})
 
 endfunction(apigen_transpile)
