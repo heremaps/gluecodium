@@ -91,8 +91,4 @@ public final class CppNameRules {
             : getTypeCollectionName(francaElement.getFrancaTypeCollection().getName()))
         + getHeaderFileSuffix();
   }
-
-  public static String getListenerName(String interfaceName) {
-    return (NameHelper.toUpperCamelCase(interfaceName) + "Stub") + "Listener";
-  }
 }

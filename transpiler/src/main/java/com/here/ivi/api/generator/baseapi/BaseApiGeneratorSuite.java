@@ -104,7 +104,6 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
         generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
     final String targetDir = "src/";
     generatedFiles.add(copyTarget("cpp/internal/expected.h", targetDir));
-    generatedFiles.add(copyTarget("cpp/internal/ListenerVector.h", targetDir));
 
     return generatedFiles;
   }

@@ -57,9 +57,6 @@ import navigation.routing.* from "../routing/Route.fidl"
  If enabled (${see} enable_session_storage${/see}) guidance automatically saves its last state which can be
  at any time restored by calling ${see} Guidance::get_last_session${/see} and starting guidance based on
  returned object (it could be used for quick guidance session restore after full system shutdown).
- ${listener}Listener interface for callbacks during guidance.
-
- ${/listener}
  **>
 interface Guidance extends VoiceOutput {
   version {
@@ -257,7 +254,6 @@ interface Guidance extends VoiceOutput {
     error NavigationTypes.ErrorCode
   }
 
-  // naming in impl and listener unaligned (getAverageSpeedMS)
   method getAverageSpeed {
     in {}
     out {
@@ -266,7 +262,6 @@ interface Guidance extends VoiceOutput {
     error NavigationTypes.ErrorCode
   }
 
-  // naming in impl and listener unaligned (getBreakCountBeforeManeuver)
   method getBreakOutCountBeforeManeuver {
     in {
       GuidanceTypes.BreakOutManeuver maneuver
@@ -302,7 +297,6 @@ interface Guidance extends VoiceOutput {
     error NavigationTypes.ErrorCode
   }
 
-  // naming in impl and listener unaligned (getElapsedDistanceM)
   method getElapsedDistance {
     in {
       GuidanceTypes.RouteScope scope
@@ -313,7 +307,6 @@ interface Guidance extends VoiceOutput {
     error NavigationTypes.ErrorCode
   }
 
-  // naming in impl and listener unaligned (getElapsedDistanceM)
   method getElapsedTime {
     in {}
     out {
@@ -354,7 +347,6 @@ interface Guidance extends VoiceOutput {
     error NavigationTypes.ErrorCode
   }
 
-  // naming in impl and listener unaligned (getRemainingDistanceM)
   method getRemainingDistance {
     in {
       GuidanceTypes.RouteScope scope
@@ -487,14 +479,14 @@ interface Guidance extends VoiceOutput {
 
       Passed alternatives must be valid and share at least one common road element with the main
       guidance route at the last known position on main route. Only these routes will be accepted
-      by guidance as valid alternatives (${see} GuidanceListener::on_update_route_alternatives_done ${/see}).
+      by guidance as valid alternative. (related broadcast: routeUpdated).
 
       The map value specifies if an alternative route should be recomputed after passing deviation
       point. If set to true: after deviation point is passed the alternative route will be
       removed (as described above), but a new route calculation will be scheduled in background.
-      Once the calculation is finished the new route will be added to set of alternatives, and
-      ${see} GuidanceListener::on_route_alternatives_changed${/see} with
-      ${see} GuidanceTypes::ALTERNATIVE_ADDED_AFTER_DECISION_POINT${/see} parameter callback is fired.
+      Once the calculation is finished the new route will be added to set of alternatives
+      (related broadcast: routeAlternativesChanged).
+
       The following rules apply to recomputation:
       1) If multiple routes with same options are added, the recomputation will be triggered
       only when last route is removed. And then only single route will be added to alternatives
