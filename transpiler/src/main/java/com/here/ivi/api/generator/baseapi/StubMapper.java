@@ -27,15 +27,6 @@ import org.franca.core.franca.FTypeDef;
  * This generator will create the stub interfaces that will then be used by the other generators.
  */
 public class StubMapper implements CppModelMapper {
-  private final StubMethodMapper methodMapper;
-
-  StubMapper() {
-    this(new StubMethodMapper());
-  }
-
-  StubMapper(StubMethodMapper methodMapper) {
-    this.methodMapper = methodMapper;
-  }
 
   public CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaElement) {
 
@@ -65,7 +56,7 @@ public class StubMapper implements CppModelMapper {
     CppClass stubClass = stubClassBuilder.build();
 
     for (FMethod method : iface.getFrancaInterface().getMethods()) {
-      methodMapper.mapMethodElements(stubClass, method, iface);
+      StubMethodMapper.mapMethodElements(stubClass, method, iface);
     }
 
     CppNamespace namespace = new CppNamespace(iface.getPackage());

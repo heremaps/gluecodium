@@ -30,7 +30,7 @@ class StubMethodMapper {
   private static final Includes.SystemInclude EXPECTED_INCLUDE =
       new Includes.SystemInclude("cpp/internal/expected.h");
 
-  void mapMethodElements(
+  static void mapMethodElements(
       CppClass stubClass,
       FMethod method,
       FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
@@ -147,7 +147,7 @@ class StubMethodMapper {
     stubClass.methods.add(cppMethod);
   }
 
-  private CppType mapCppType(
+  private static CppType mapCppType(
       FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
       FArgument argument,
       FMethod method) {
@@ -165,7 +165,7 @@ class StubMethodMapper {
     }
   }
 
-  private CppMethod buildStubMethod(
+  private static CppMethod buildStubMethod(
       FMethod method,
       CppType returnType,
       FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
