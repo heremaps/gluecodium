@@ -18,13 +18,13 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public final class JavaMethod extends JavaElement {
-  public enum Qualifier {
+  public enum MethodQualifier {
     STATIC("static"),
     NATIVE("native");
 
     private final String value;
 
-    Qualifier(final String value) {
+    MethodQualifier(final String value) {
       this.value = value;
     }
 
@@ -36,7 +36,7 @@ public final class JavaMethod extends JavaElement {
 
   public String deprecatedComment = null;
   public final JavaType returnType;
-  public Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
+  public Set<MethodQualifier> qualifiers = EnumSet.noneOf(MethodQualifier.class);
   public List<JavaParameter> parameters = new ArrayList<>();
 
   public JavaMethod(final String name) {
@@ -49,7 +49,7 @@ public final class JavaMethod extends JavaElement {
   }
 
   public boolean isNative() {
-    return qualifiers != null && qualifiers.contains(Qualifier.NATIVE);
+    return qualifiers != null && qualifiers.contains(MethodQualifier.NATIVE);
   }
 
   @Override

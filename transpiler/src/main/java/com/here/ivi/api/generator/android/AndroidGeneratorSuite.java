@@ -101,20 +101,34 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
     AndroidManifestGenerator androidManifestGenerator =
         new AndroidManifestGenerator(transpilerOptions.getJavaPackageList());
 
+    Stream<GeneratedFile> interfacesFileStream =
+        model
+            .getInterfaces()
+            .stream()
+            .map(
+                iface -> {
+                  List<GeneratedFile> files = javaGenerator.generateFiles(iface);
+                  files.addAll(jniGenerator.generateFiles(iface));
+                  return files;
+                })
+            .flatMap(Collection::stream);
+
+    Stream<GeneratedFile> typeCollectionsFileStream =
+        model
+            .getTypeCollections()
+            .stream()
+            .map(
+                typeCollection -> {
+                  List<GeneratedFile> files = javaGenerator.generateFiles(typeCollection);
+                  // Currently no JNI files to be generated for type collections
+                  return files;
+                })
+            .flatMap(Collection::stream);
+
     Stream<GeneratedFile> generatorStream =
         Stream.concat(
-            model
-                .getInterfaces()
-                .stream()
-                .map(
-                    iface -> {
-                      List<GeneratedFile> files = javaGenerator.generateFiles(iface);
-                      files.addAll(jniGenerator.generateFiles(iface));
-                      return files;
-                    })
-                .flatMap(Collection::stream),
+            Stream.concat(interfacesFileStream, typeCollectionsFileStream),
             androidManifestGenerator.generate().stream());
-
     return generatorStream.filter(Objects::nonNull).collect(Collectors.toList());
   }
 }

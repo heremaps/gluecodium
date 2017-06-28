@@ -75,4 +75,14 @@ public class JavaValueMapper {
     final Double value = dc.getVal();
     return new JavaValue(String.valueOf(value));
   }
+
+  private static JavaValue map(JavaType type, FCompoundInitializer rhs) {
+    // TODO APIGEN-218 handle this case
+    return new JavaValue("TODO");
+  }
+
+  private static JavaValue map(JavaType type, FQualifiedElementRef rhs) {
+    // TODO APIGEN-218 handle this case
+    return new JavaValue("TODO");
+  }
 }

@@ -46,7 +46,7 @@ public class JavaMethodTemplateTest {
   def nativeMethodGeneration() {
     val javaMethod = new JavaMethod("nativeMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID)) => [
       comment = "Native method comment"
-      qualifiers = #{ JavaMethod.Qualifier.NATIVE }
+      qualifiers = #{ JavaMethod.MethodQualifier.NATIVE }
     ]
     val expected = '''
       /**
@@ -67,7 +67,7 @@ public class JavaMethodTemplateTest {
     val javaMethod = new JavaMethod("complexMethod", new JavaCustomType("ComplexType")) => [
       comment = "Method comment"
       visibility = JavaVisibility.PUBLIC
-      qualifiers = # { JavaMethod.Qualifier.STATIC }
+      qualifiers = # { JavaMethod.MethodQualifier.STATIC }
       parameters = #[ parameter1, parameter2 ]
       deprecatedComment = "Method is deprecated"
     ]

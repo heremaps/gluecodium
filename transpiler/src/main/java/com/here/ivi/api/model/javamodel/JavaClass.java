@@ -16,6 +16,21 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class JavaClass extends JavaElement {
+  public enum ClassQualifier {
+    STATIC("static"),
+    FINAL("final");
+
+    private final String value;
+
+    ClassQualifier(final String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+  }
 
   public JavaPackage javaPackage = JavaPackage.DEFAULT;
   public Set<JavaMethod> methods = new LinkedHashSet<>();
@@ -23,6 +38,8 @@ public class JavaClass extends JavaElement {
   public JavaInheritance inheritance = null;
   public Set<JavaConstant> constants = new LinkedHashSet<>();
   public Set<JavaEnum> enums = new LinkedHashSet<>();
+  public Set<JavaClass> innerClasses = new LinkedHashSet<>();
+  public Set<ClassQualifier> qualifiers = new LinkedHashSet<>();
 
   public JavaClass(String name) {
     super(name);

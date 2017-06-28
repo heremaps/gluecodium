@@ -19,7 +19,7 @@ import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.Includes.InternalPublicInclude;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaMethod;
-import com.here.ivi.api.model.javamodel.JavaMethod.Qualifier;
+import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
@@ -42,7 +42,7 @@ public class JniImplementationTemplateTest {
     classMethod.visibility = JavaVisibility.PUBLIC;
     JavaParameter parameter1 = new JavaParameter(javaType, "param");
     classMethod.parameters = new ArrayList<>(Arrays.asList(parameter1));
-    classMethod.qualifiers.add(Qualifier.STATIC);
+    classMethod.qualifiers.add(MethodQualifier.STATIC);
 
     return classMethod;
   }

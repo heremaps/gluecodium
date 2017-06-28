@@ -11,13 +11,11 @@
 
 package com.here.ivi.api.generator.common.java;
 
-import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
-import navigation.BaseApiSpec;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
@@ -30,10 +28,9 @@ import org.franca.core.franca.FTypeRef;
 public final class JavaTypeMapper {
   private JavaTypeMapper() {}
 
-  public static JavaType map(
-      final Interface<BaseApiSpec.InterfacePropertyAccessor> api, final FTypeRef fTypeRef) {
+  public static JavaType map(final FTypeRef fTypeRef) {
     if (fTypeRef.getDerived() != null) {
-      return mapDerived(api, fTypeRef);
+      return mapDerived(fTypeRef);
     }
 
     if (fTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
@@ -69,8 +66,7 @@ public final class JavaTypeMapper {
     }
   }
 
-  private static JavaType mapDerived(
-      final Interface<BaseApiSpec.InterfacePropertyAccessor> api, final FTypeRef type) {
+  private static JavaType mapDerived(final FTypeRef type) {
     FType derived = type.getDerived();
 
     // types without a parent are not valid

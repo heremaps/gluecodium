@@ -14,7 +14,7 @@ package com.here.ivi.api.model.javamodel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.model.javamodel.JavaMethod.Qualifier;
+import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,10 +53,10 @@ public final class JavaMethodTest {
     JavaMethod javaMethod = new JavaMethod(TEST_METHOD_NAME, TEST_VOID_RETURN_TYPE);
 
     // Act
-    javaMethod.qualifiers.add(Qualifier.STATIC);
+    javaMethod.qualifiers.add(MethodQualifier.STATIC);
 
     // Verify
-    assertTrue(javaMethod.qualifiers.contains(Qualifier.STATIC));
+    assertTrue(javaMethod.qualifiers.contains(MethodQualifier.STATIC));
   }
 
   @Test

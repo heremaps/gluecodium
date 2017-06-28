@@ -11,25 +11,35 @@
 
 package com.here.ivi.api.generator.common.java;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.baseapi.StubCommentParser;
 import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaClass.ClassQualifier;
 import com.here.ivi.api.model.javamodel.JavaConstant;
 import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaMethod;
-import com.here.ivi.api.model.javamodel.JavaMethod.Qualifier;
+import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
 import navigation.BaseApiSpec;
+import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypedElement;
 
 /**
  * Maps Franca models to Java models
@@ -51,21 +61,70 @@ public final class JavaClassMapper {
 
     api.getFrancaInterface()
         .getConstants()
-        .forEach(fConstantDef -> javaClass.constants.add(generateConstant(api, fConstantDef)));
+        .forEach(fConstantDef -> javaClass.constants.add(generateConstant(fConstantDef)));
 
     api.getFrancaInterface()
         .getAttributes()
-        .forEach(fAttribute -> javaClass.fields.add(generateField(api, fAttribute)));
+        .forEach(fAttribute -> javaClass.fields.add(generateField(fAttribute)));
 
     api.getFrancaInterface()
         .getMethods()
-        .forEach(fMethod -> javaClass.methods.add(generateMethod(api, fMethod)));
+        .forEach(fMethod -> javaClass.methods.add(generateMethod(fMethod)));
 
     return javaClass;
   }
 
-  private static JavaMethod generateMethod(
-      final Interface<BaseApiSpec.InterfacePropertyAccessor> api, final FMethod fMethod) {
+  public static JavaClass map(
+      final TypeCollection<TypeCollectionPropertyAccessor> typeCollection,
+      JavaPackage javaPackage) {
+    JavaClass javaClass = new JavaClass(typeCollection.getName());
+    javaClass.javaPackage = javaPackage;
+    javaClass.visibility = JavaVisibility.PUBLIC;
+    FAnnotationBlock comment = typeCollection.getFrancaTypeCollection().getComment();
+    if (comment != null && comment.getElements() != null) {
+      javaClass.comment = StubCommentParser.FORMATTER.readDescription(comment);
+    }
+
+    typeCollection
+        .getFrancaTypeCollection()
+        .getConstants()
+        .forEach(fConstantDef -> javaClass.constants.add(generateConstant(fConstantDef)));
+
+    for (FType type : typeCollection.getFrancaTypeCollection().getTypes()) {
+      if (type instanceof FStructType) {
+        javaClass.innerClasses.add(
+            generateJavaClassFromStruct((FStructType) type, javaClass.javaPackage));
+      } else if (type instanceof FTypeDef) {
+        // TODO APIGEN-218 Map type defs
+      } else if (type instanceof FArrayType) {
+        // TODO APIGEN-218 Map array types
+      } else if (type instanceof FMapType) {
+        // TODO APIGEN-218 Map map types
+      } else if (type instanceof FEnumerationType) {
+        // TODO APIGEN-218 Map enum types
+      } else {
+        throw new TranspilerExecutionException(
+            String.format("Missing type map for %s.", type.getClass().getName()));
+      }
+    }
+    return javaClass;
+  }
+
+  private static JavaClass generateJavaClassFromStruct(FStructType type, JavaPackage javaPackage) {
+    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(type.getName()));
+    javaClass.javaPackage = javaPackage;
+    javaClass.visibility = JavaVisibility.PUBLIC;
+    javaClass.qualifiers.add(ClassQualifier.STATIC);
+
+    FAnnotationBlock comment = type.getComment();
+    if (comment != null && comment.getElements() != null) {
+      javaClass.comment = StubCommentParser.FORMATTER.readDescription(comment);
+    }
+    type.getElements().forEach(field -> javaClass.fields.add(generateField(field)));
+    return javaClass;
+  }
+
+  private static JavaMethod generateMethod(final FMethod fMethod) {
     JavaMethod javaMethod;
 
     // Map return type
@@ -73,7 +132,7 @@ public final class JavaClassMapper {
     if (outArgs.isEmpty()) { // Void return type
       javaMethod = new JavaMethod(JavaNameRules.getMethodName(fMethod.getName()));
     } else if (outArgs.size() == 1) {
-      JavaType returnType = JavaTypeMapper.map(api, outArgs.get(0).getType());
+      JavaType returnType = JavaTypeMapper.map(outArgs.get(0).getType());
 
       javaMethod = new JavaMethod(JavaNameRules.getMethodName(fMethod.getName()), returnType);
     } else {
@@ -83,7 +142,7 @@ public final class JavaClassMapper {
 
     // Map method arguments
     for (FArgument fArgument : fMethod.getInArgs()) {
-      JavaType javaArgumentType = JavaTypeMapper.map(api, fArgument.getType());
+      JavaType javaArgumentType = JavaTypeMapper.map(fArgument.getType());
       javaMethod.parameters.add(
           new JavaParameter(javaArgumentType, JavaNameRules.getArgumentName(fArgument.getName())));
     }
@@ -95,15 +154,14 @@ public final class JavaClassMapper {
     javaMethod.comment = StubCommentParser.FORMATTER.readDescription(fMethod.getComment());
 
     // For now we assume all interface methods are native and public
-    javaMethod.qualifiers.add(Qualifier.NATIVE);
+    javaMethod.qualifiers.add(MethodQualifier.NATIVE);
     javaMethod.visibility = JavaVisibility.PUBLIC;
 
     return javaMethod;
   }
 
-  private static JavaConstant generateConstant(
-      final Interface<BaseApiSpec.InterfacePropertyAccessor> api, final FConstantDef fConstantDef) {
-    JavaType type = JavaTypeMapper.map(api, fConstantDef.getType());
+  private static JavaConstant generateConstant(final FConstantDef fConstantDef) {
+    JavaType type = JavaTypeMapper.map(fConstantDef.getType());
     JavaValue value = JavaValueMapper.map(type, fConstantDef.getRhs());
     JavaConstant constant =
         new JavaConstant(type, JavaNameRules.getConstantName(fConstantDef.getName()), value);
@@ -114,11 +172,10 @@ public final class JavaClassMapper {
     return constant;
   }
 
-  private static JavaField generateField(
-      final Interface<BaseApiSpec.InterfacePropertyAccessor> api, final FAttribute fAttribute) {
-    JavaType type = JavaTypeMapper.map(api, fAttribute.getType());
-    JavaField field = new JavaField(type, JavaNameRules.getFieldName(fAttribute.getName()));
-    FAnnotationBlock comment = fAttribute.getComment();
+  private static JavaField generateField(final FTypedElement fTypedElement) {
+    JavaType type = JavaTypeMapper.map(fTypedElement.getType());
+    JavaField field = new JavaField(type, JavaNameRules.getFieldName(fTypedElement.getName()));
+    FAnnotationBlock comment = fTypedElement.getComment();
     if (comment != null && comment.getElements() != null) {
       field.comment = StubCommentParser.FORMATTER.readDescription(comment);
     }
