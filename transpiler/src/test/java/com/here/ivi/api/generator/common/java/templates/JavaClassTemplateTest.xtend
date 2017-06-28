@@ -29,6 +29,7 @@ import java.util.Arrays
 
 import static org.junit.Assert.*
 import com.here.ivi.api.model.javamodel.JavaPackage
+import com.here.ivi.api.model.javamodel.JavaField
 
 @RunWith(typeof(XtextRunner))
 class JavaClassTemplateTest {
@@ -57,7 +58,7 @@ class ExampleClass {
     val exampleType =new JavaCustomType("ExampleType")
     val parameter = new JavaParameter(new JavaCustomType("InParamType"), "param")
     val classMethod = new JavaMethod("someMethod", exampleType) => [
-      qualifiers = #{ JavaMethod.Qualifier.NATIVE }
+      qualifiers = #{ JavaMethod.MethodQualifier.NATIVE }
       visibility = JavaVisibility.PRIVATE
       parameters = #[ parameter ]
       comment = "Method comment"
@@ -120,7 +121,7 @@ class ExampleClass {
   @Test
   def classWithEnumAndMethodsGeneration() {
     val classMethod = new JavaMethod("someMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID)) => [
-      qualifiers = #{ JavaMethod.Qualifier.NATIVE }
+      qualifiers = #{ JavaMethod.MethodQualifier.NATIVE }
       comment = "Method comment"
     ]
     val enumItem = new JavaEnumItem("ITEM", new JavaValue("1"))
@@ -172,6 +173,92 @@ class ExampleClass {
      */
     class ChildClass extends ParentClass {
     }'''
+
+    val generated = JavaClassTemplate.generate(javaClass)
+
+    assertEquals(copyrightNotice + expected, generated.toString)
+  }
+
+  @Test
+  def classWithInnerClassGeneration() {
+    val intField = new JavaField(new JavaPrimitiveType(JavaPrimitiveType.Type.INT), "intField", new JavaValue("1"))
+    val innerClass = new JavaClass("InnerClass") => [
+      comment = "Inner class comment"
+      fields = # { intField }
+      visibility = JavaVisibility.PUBLIC
+    ]
+    val javaClass = new JavaClass("ExampleClass") => [
+      comment = "Example class comment"
+      visibility = JavaVisibility.PUBLIC
+      innerClasses = #{ innerClass }
+    ]
+
+    val expected = '''package com.here.android;
+
+/**
+ * Example class comment
+ */
+public class ExampleClass {
+  /**
+   * Inner class comment
+   */
+  public class InnerClass {
+    int intField = 1;
+  }
+}'''
+
+    val generated = JavaClassTemplate.generate(javaClass)
+
+    assertEquals(copyrightNotice + expected, generated.toString)
+  }
+
+  @Test
+  def staticClassGeneration() {
+    val intField = new JavaField(new JavaPrimitiveType(JavaPrimitiveType.Type.INT), "intField", new JavaValue("1"))
+    val innerClass = new JavaClass("StaticInnerClass") => [
+      comment = "Inner class comment"
+      fields = # { intField }
+      visibility = JavaVisibility.PUBLIC
+      qualifiers = # { JavaClass.ClassQualifier.STATIC }
+    ]
+    val javaClass = new JavaClass("ExampleClass") => [
+      comment = "Example class comment"
+      visibility = JavaVisibility.PUBLIC
+      innerClasses = #{ innerClass }
+    ]
+
+    val expected = '''package com.here.android;
+
+/**
+ * Example class comment
+ */
+public class ExampleClass {
+  /**
+   * Inner class comment
+   */
+  public static class StaticInnerClass {
+    int intField = 1;
+  }
+}'''
+
+    val generated = JavaClassTemplate.generate(javaClass)
+
+    assertEquals(copyrightNotice + expected, generated.toString)
+  }
+
+  @Test
+  def finalClassGeneration() {
+    val javaClass = new JavaClass("ExampleClass") => [
+      comment = "Example class comment"
+      qualifiers = # { JavaClass.ClassQualifier.FINAL }
+    ]
+    val expected = '''package com.here.android;
+
+/**
+ * Example class comment
+ */
+final class ExampleClass {
+}'''
 
     val generated = JavaClassTemplate.generate(javaClass)
 

@@ -20,7 +20,12 @@ public class JavaConstant extends JavaElement {
   public JavaConstant(final JavaType type, final String name, final JavaValue value) {
     super(name);
     this.type = type;
-    this.value = value;
+    if (value == null) {
+      // TODO APIGEN-218 handle this case
+      this.value = new JavaValue("TODO");
+    } else {
+      this.value = value;
+    }
   }
 
   public boolean isValid() {

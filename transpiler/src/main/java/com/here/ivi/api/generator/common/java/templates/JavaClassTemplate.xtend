@@ -17,7 +17,11 @@ import com.here.ivi.api.generator.common.java.JavaCommentFormatter
 public class JavaClassTemplate {
   def static whitespaceFormatter(String field) '''«field»«IF !field.isEmpty» «ENDIF»'''
 
-  def static generate(JavaClass it)'''
+  def static generate(JavaClass it) {
+    val classVisibility = whitespaceFormatter(visibility.toAccessModifier)
+    val qualifierString = '''«FOR qualifier : qualifiers»«whitespaceFormatter(qualifier.toString)»«ENDFOR»'''
+
+    '''
     «JavaCopyrightHeaderTemplate.generate()»
 
     «JavaPackageTemplate.generate(javaPackage)»
@@ -28,9 +32,12 @@ public class JavaClassTemplate {
      * «JavaCommentFormatter.format(comment)»
      */
     «ENDIF»
-    «whitespaceFormatter(visibility.toAccessModifier)»class «name» «JavaInheritanceTemplate.generate(inheritance)»{
+    «classVisibility»«qualifierString»class «name» «JavaInheritanceTemplate.generate(inheritance)»{
       «FOR constant : constants»
       «JavaConstantTemplate.generate(constant)»
+      «ENDFOR»
+      «FOR field : fields»
+      «JavaFieldTemplate.generate(field)»
       «ENDFOR»
       «FOR enumerator : enums»
       «JavaEnumTemplate.generate(enumerator)»
@@ -38,5 +45,33 @@ public class JavaClassTemplate {
       «FOR method : methods»
       «JavaMethodTemplate.signature(method)»«IF method.isNative»;«ELSE»«JavaMethodBodyTemplate.generate(method)»«ENDIF»
       «ENDFOR»
+      «FOR innerClass : innerClasses»
+      «generateInnerClass(innerClass)»
+      «ENDFOR»
     }'''
+  }
+
+  def private static generateInnerClass(JavaClass it) {
+    val classVisibility = whitespaceFormatter(visibility.toAccessModifier)
+    val qualifierString = '''«FOR qualifier : qualifiers»«whitespaceFormatter(qualifier.toString)»«ENDFOR»'''
+
+
+    '''
+    «IF comment !== null && !comment.isEmpty»
+    /**
+     * «JavaCommentFormatter.format(comment)»
+     */
+    «ENDIF»
+    «classVisibility»«qualifierString»class «name» «JavaInheritanceTemplate.generate(inheritance)»{
+      «FOR constant : constants»
+      «JavaConstantTemplate.generate(constant)»
+      «ENDFOR»
+      «FOR field : fields»
+      «JavaFieldTemplate.generate(field)»
+      «ENDFOR»
+      «FOR enumerator : enums»
+      «JavaEnumTemplate.generate(enumerator)»
+      «ENDFOR»
+    }'''
+  }
 }
