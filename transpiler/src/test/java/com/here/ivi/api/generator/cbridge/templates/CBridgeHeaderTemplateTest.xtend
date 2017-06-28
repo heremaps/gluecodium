@@ -18,7 +18,7 @@ import com.here.ivi.api.model.cmodel.CInterface
 import com.here.ivi.api.model.cmodel.CFunction
 import com.here.ivi.api.model.cmodel.CType
 import com.here.ivi.api.model.cmodel.CPointerType
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cmodel.CParameter
 import static com.here.ivi.api.test.TemplateComparison.assertEqualHeaderContent
 

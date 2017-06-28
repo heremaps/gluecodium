@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.baseapi;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;

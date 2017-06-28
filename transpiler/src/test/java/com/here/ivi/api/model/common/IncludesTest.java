@@ -9,12 +9,12 @@
  *
  */
 
-package com.here.ivi.api.model;
+package com.here.ivi.api.model.common;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import com.here.ivi.api.model.Includes.SystemInclude;
+import com.here.ivi.api.model.common.Includes.SystemInclude;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

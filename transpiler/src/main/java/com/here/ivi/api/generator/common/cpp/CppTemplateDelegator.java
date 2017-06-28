@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.common.cpp.templates.*;
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cppmodel.*;
 
 public class CppTemplateDelegator {

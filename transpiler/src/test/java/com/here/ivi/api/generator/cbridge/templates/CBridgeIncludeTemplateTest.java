@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.cbridge.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

@@ -15,8 +15,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
-import com.here.ivi.api.model.Includes;
-import com.here.ivi.api.model.Includes.InternalPublicInclude;
+import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Includes.InternalPublicInclude;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;

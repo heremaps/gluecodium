@@ -12,7 +12,7 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate;
-import com.here.ivi.api.model.CollectionsHelper;
+import com.here.ivi.api.model.common.CollectionsHelper;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;

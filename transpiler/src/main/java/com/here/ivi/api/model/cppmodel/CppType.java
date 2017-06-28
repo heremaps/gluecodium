@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import static java.util.Arrays.asList;
 
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.franca.DefinedBy;
 import java.util.*;
 import java.util.stream.Stream;

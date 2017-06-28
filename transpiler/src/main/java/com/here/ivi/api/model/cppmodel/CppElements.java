@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 import java.util.*;
 import java.util.stream.Collectors;
 
