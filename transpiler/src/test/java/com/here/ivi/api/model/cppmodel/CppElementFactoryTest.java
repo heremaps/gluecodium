@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 import com.here.ivi.api.generator.common.CppElementFactory;
-import com.here.ivi.api.model.FrancaElement;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FAnnotationBlock;

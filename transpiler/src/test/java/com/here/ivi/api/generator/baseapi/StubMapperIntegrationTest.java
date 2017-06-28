@@ -16,12 +16,12 @@ import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.generator.utils.LoadModelHelper;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
-import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
 import com.here.ivi.api.model.cppmodel.CppParameter;
+import com.here.ivi.api.model.franca.FrancaModel;
+import com.here.ivi.api.model.franca.Interface;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Iterator;

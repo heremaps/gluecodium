@@ -9,23 +9,16 @@
  *
  */
 
-package com.here.ivi.api.model;
+package com.here.ivi.api.model.franca;
 
-import com.here.ivi.api.generator.common.Version;
-import java.util.List;
-import navigation.BaseApiSpec;
-import org.franca.core.franca.FTypeCollection;
+import com.google.inject.Injector;
+import org.franca.deploymodel.dsl.FDeployStandaloneSetup;
 
-public interface FrancaElement<DPA extends BaseApiSpec.IDataPropertyAccessor> {
-  String getName();
+public class ModelHelper {
+  private static final Injector fdeplInjector =
+      new FDeployStandaloneSetup().createInjectorAndDoEMFRegistration();
 
-  List<String> getPackage();
-
-  ModelInfo getModelInfo();
-
-  FTypeCollection getFrancaTypeCollection();
-
-  Version getVersion();
-
-  DPA getPropertyAccessor();
+  public static Injector getFdeplInjector() {
+    return fdeplInjector;
+  }
 }

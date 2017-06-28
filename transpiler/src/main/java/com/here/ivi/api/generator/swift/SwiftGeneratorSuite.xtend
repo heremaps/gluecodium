@@ -14,8 +14,8 @@ package com.here.ivi.api.generator.swift
 import com.here.ivi.api.generator.common.GeneratorSuite
 import com.here.ivi.api.loader.FrancaModelLoader
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory
-import com.here.ivi.api.model.FrancaModel
-import com.here.ivi.api.model.ModelHelper
+import com.here.ivi.api.model.franca.FrancaModel
+import com.here.ivi.api.model.franca.ModelHelper
 import com.here.ivi.api.validator.common.ResourceValidator
 import java.io.File
 import java.util.Objects

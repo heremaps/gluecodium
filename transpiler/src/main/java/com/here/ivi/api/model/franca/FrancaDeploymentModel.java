@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model;
+package com.here.ivi.api.model.franca;
 
 import java.util.List;
 import java.util.Set;

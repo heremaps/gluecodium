@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.validator.common;
 
-import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.franca.FrancaModel;
 import navigation.BaseApiSpec;
 
 public interface ModelValidator<

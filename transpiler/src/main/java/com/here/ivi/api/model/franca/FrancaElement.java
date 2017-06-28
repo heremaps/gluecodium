@@ -9,13 +9,23 @@
  *
  */
 
-package com.here.ivi.api.model;
+package com.here.ivi.api.model.franca;
 
+import com.here.ivi.api.generator.common.Version;
 import java.util.List;
-import org.eclipse.xtext.util.Strings;
+import navigation.BaseApiSpec;
+import org.franca.core.franca.FTypeCollection;
 
-public class PackageHelper {
-  public static List<String> splitPackage(String modelName) {
-    return Strings.split(modelName, ".");
-  }
+public interface FrancaElement<DPA extends BaseApiSpec.IDataPropertyAccessor> {
+  String getName();
+
+  List<String> getPackage();
+
+  ModelInfo getModelInfo();
+
+  FTypeCollection getFrancaTypeCollection();
+
+  Version getVersion();
+
+  DPA getPropertyAccessor();
 }

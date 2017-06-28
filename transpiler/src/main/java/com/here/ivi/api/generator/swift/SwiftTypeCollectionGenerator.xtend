@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.swift
 
 import com.here.ivi.api.generator.common.GeneratedFile
-import com.here.ivi.api.model.TypeCollection
+import com.here.ivi.api.model.franca.TypeCollection
 
 class SwiftTypeCollectionGenerator {
 

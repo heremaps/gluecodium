@@ -15,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
-import com.here.ivi.api.model.FrancaModel;
-import com.here.ivi.api.model.Interface;
-import com.here.ivi.api.model.ModelHelper;
+import com.here.ivi.api.model.franca.FrancaModel;
+import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.ModelHelper;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;

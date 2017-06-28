@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.java;
 
-import com.here.ivi.api.model.Interface;
+import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;

@@ -9,10 +9,11 @@
  *
  */
 
-package com.here.ivi.api.model;
+package com.here.ivi.api.model.franca;
 
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.util.Strings;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 
@@ -73,7 +74,7 @@ public final class DefinedBy {
 
   /** Returns the split packages from the model */
   public List<String> getPackages() {
-    return PackageHelper.splitPackage(getPackageName());
+    return Strings.split(getPackageName(), ".");
   }
 
   @Override

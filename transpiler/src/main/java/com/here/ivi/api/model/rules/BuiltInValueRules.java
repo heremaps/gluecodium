@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.rules;
 
-import com.here.ivi.api.model.DefinedBy;
+import com.here.ivi.api.model.franca.DefinedBy;
 import java.util.Optional;
 import java.util.logging.Logger;
 import org.franca.core.franca.FQualifiedElementRef;

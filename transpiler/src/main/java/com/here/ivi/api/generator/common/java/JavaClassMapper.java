@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.common.java;
 
 import com.here.ivi.api.generator.baseapi.StubCommentParser;
-import com.here.ivi.api.model.Interface;
+import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaConstant;
 import com.here.ivi.api.model.javamodel.JavaField;

@@ -13,9 +13,9 @@ package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.cpp.*;
-import com.here.ivi.api.model.DefinedBy;
-import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.List;
 import org.franca.core.franca.*;

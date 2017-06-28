@@ -24,7 +24,7 @@ import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
-import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.validator.baseapi.BaseApiModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.util.List;

@@ -12,9 +12,9 @@
 package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
-import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppUsing;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FTypeDef;

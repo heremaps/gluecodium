@@ -13,8 +13,8 @@ package com.here.ivi.api.generator.cbridge;
 
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.model.FrancaElement;
-import com.here.ivi.api.model.Interface;
+import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.Interface;
 import java.io.File;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;

@@ -12,8 +12,8 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.baseapi.StubCommentParser;
-import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

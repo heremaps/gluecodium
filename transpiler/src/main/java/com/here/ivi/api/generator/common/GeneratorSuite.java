@@ -15,7 +15,7 @@ import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
-import com.here.ivi.api.model.FDHelper;
+import com.here.ivi.api.model.franca.FDHelper;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
