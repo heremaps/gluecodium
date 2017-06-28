@@ -14,9 +14,13 @@ package com.here.ivi.api.generator.baseapi;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cppmodel.CppElement;
+import com.here.ivi.api.model.cppmodel.CppMethod;
+import com.here.ivi.api.model.cppmodel.CppParameter;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.test.ArrayEList;
+import java.util.List;
 import navigation.BaseApiSpec;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
@@ -25,7 +29,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Answers;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -41,10 +44,6 @@ public class StubMethodMapperTest {
   @Mock private FrancaElement<BaseApiSpec.InterfacePropertyAccessor> francaElement;
   @Mock private BaseApiSpec.InterfacePropertyAccessor propertyAccessor;
 
-  @InjectMocks private StubMethodMapper mapper;
-
-  private CppClass cppClass = new CppClass("");
-
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
@@ -56,14 +55,14 @@ public class StubMethodMapperTest {
     when(francaElement.getPropertyAccessor()).thenReturn(propertyAccessor);
   }
 
-  private CppMethod getFirstMethod() {
-    assertNotNull(cppClass.methods);
-    assertEquals(1, cppClass.methods.size());
+  private static CppMethod getFirstMethod(List<CppElement> elements) {
+    assertNotNull(elements);
+    assertEquals(1, elements.size());
 
-    CppMethod cppMethod = cppClass.methods.iterator().next();
-    assertNotNull(cppMethod);
+    CppElement element = elements.get(0);
+    assertTrue(element instanceof CppMethod);
 
-    return cppMethod;
+    return (CppMethod) element;
   }
 
   private EList<FArgument> createFrancaArgumentsArray() {
@@ -86,9 +85,9 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapMethodElementsNoArguments() {
-    mapper.mapMethodElements(cppClass, francaMethod, francaElement);
+    List<CppElement> elements = StubMethodMapper.mapMethodElements("", francaMethod, francaElement);
 
-    CppMethod cppMethod = getFirstMethod();
+    CppMethod cppMethod = getFirstMethod(elements);
     assertEquals(methodName, cppMethod.name);
     assertTrue(cppMethod.getInParameters().isEmpty());
     assertTrue(cppMethod.getOutParameters().isEmpty());
@@ -99,9 +98,9 @@ public class StubMethodMapperTest {
   public void mapMethodElementsStaticMethod() {
     when(propertyAccessor.getStatic(francaMethod)).thenReturn(true);
 
-    mapper.mapMethodElements(cppClass, francaMethod, francaElement);
+    List<CppElement> elements = StubMethodMapper.mapMethodElements("", francaMethod, francaElement);
 
-    CppMethod cppMethod = getFirstMethod();
+    CppMethod cppMethod = getFirstMethod(elements);
     assertTrue(cppMethod.getSpecifiers().contains(CppMethod.Specifier.STATIC));
   }
 
@@ -110,9 +109,9 @@ public class StubMethodMapperTest {
     EList<FArgument> francaArguments = createFrancaArgumentsArray();
     when(francaMethod.getInArgs()).thenReturn(francaArguments);
 
-    mapper.mapMethodElements(cppClass, francaMethod, francaElement);
+    List<CppElement> elements = StubMethodMapper.mapMethodElements("", francaMethod, francaElement);
 
-    CppMethod cppMethod = getFirstMethod();
+    CppMethod cppMethod = getFirstMethod(elements);
     assertEquals(1, cppMethod.getInParameters().size());
 
     CppParameter cppParameter = cppMethod.getInParameters().get(0);
@@ -126,9 +125,9 @@ public class StubMethodMapperTest {
     EList<FArgument> francaArguments = createFrancaArgumentsArray();
     when(francaMethod.getOutArgs()).thenReturn(francaArguments);
 
-    mapper.mapMethodElements(cppClass, francaMethod, francaElement);
+    List<CppElement> elements = StubMethodMapper.mapMethodElements("", francaMethod, francaElement);
 
-    CppMethod cppMethod = getFirstMethod();
+    CppMethod cppMethod = getFirstMethod(elements);
     assertTrue(cppMethod.getOutParameters().isEmpty());
 
     assertNotNull(cppMethod.getReturnType());

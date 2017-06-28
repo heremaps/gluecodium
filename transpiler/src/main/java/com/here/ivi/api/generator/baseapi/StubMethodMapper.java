@@ -27,14 +27,16 @@ import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;
 
-class StubMethodMapper {
+public final class StubMethodMapper {
   private static final Includes.SystemInclude EXPECTED_INCLUDE =
       new Includes.SystemInclude("cpp/internal/expected.h");
 
-  static void mapMethodElements(
-      CppClass stubClass,
+  public static List<CppElement> mapMethodElements(
+      String className,
       FMethod method,
       FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
+
+    List<CppElement> elements = new ArrayList<>();
 
     String uniqueMethodName =
         CppNameRules.getMethodName(method.getName())
@@ -62,7 +64,7 @@ class StubMethodMapper {
 
       List<CppType> returnTypes = new ArrayList<>();
       // documentation for the result type
-      String typeComment = "Result type for @ref " + stubClass.name + "::" + uniqueMethodName;
+      String typeComment = "Result type for @ref " + className + "::" + uniqueMethodName;
 
       if (!errorType.equals(CppPrimitiveType.VOID_TYPE)) {
         returnTypes.add(errorType);
@@ -105,7 +107,7 @@ class StubMethodMapper {
         String usingTypeName = NameHelper.toUpperCamelCase(uniqueMethodName) + "Expected";
         CppUsing using = new CppUsing(usingTypeName, returnType);
         using.comment = typeComment;
-        stubClass.usings.add(using);
+        elements.add(using);
         returnType = new CppCustomType(usingTypeName, CppElements.TypeInfo.Complex);
       } else {
         returnType = returnTypes.get(0);
@@ -117,7 +119,9 @@ class StubMethodMapper {
     if (!returnComment.isEmpty()) {
       cppMethod.comment += StubCommentParser.FORMATTER.formatTag("@return", returnComment);
     }
-    stubClass.methods.add(cppMethod);
+    elements.add(cppMethod);
+
+    return elements;
   }
 
   private static CppType mapCppType(

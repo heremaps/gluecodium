@@ -11,21 +11,14 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import com.here.ivi.api.generator.common.CppElementFactory;
+import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.cpp.CppModelMapper;
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
-import com.here.ivi.api.model.cppmodel.CppUsing;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeDef;
+import java.util.Collections;
 
-/**
- * This generator will create the stub interfaces that will then be used by the other generators.
- */
+/** This mapper will create the stub interfaces that will then be used by the other generators. */
 public class StubMapper implements CppModelMapper {
 
   public CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaElement) {
@@ -34,33 +27,16 @@ public class StubMapper implements CppModelMapper {
       return null;
     }
 
-    Interface<?> iface = (Interface<?>) francaElement;
+    Interface<?> anInterface = (Interface<?>) francaElement;
 
-    String stubClassName = CppNameRules.getClassName(iface.getFrancaInterface().getName());
-    CppClass.Builder stubClassBuilder =
-        new CppClass.Builder(stubClassName)
-            .comment(StubCommentParser.parse(iface.getFrancaInterface()).getMainBodyText());
+    // TODO: APIGEN-261 get rid of CppModelMapper classes, do it with the walker
+    StubModelBuilder builder = new StubModelBuilder(anInterface);
+    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
-    // TODO APIGEN-126: use a builder for CppClass for fill the fields: methods, inheritances, ..
+    treeWalker.walk(anInterface);
 
-    for (FType type : iface.getFrancaInterface().getTypes()) {
-      if (type instanceof FTypeDef) {
-        FTypeDef typeDefinition = (FTypeDef) type;
-        CppUsing cppUsing = CppElementFactory.create(iface, typeDefinition);
-        if (cppUsing != null) {
-          stubClassBuilder.using(cppUsing);
-        }
-      }
-    }
-
-    CppClass stubClass = stubClassBuilder.build();
-
-    for (FMethod method : iface.getFrancaInterface().getMethods()) {
-      StubMethodMapper.mapMethodElements(stubClass, method, iface);
-    }
-
-    CppNamespace namespace = new CppNamespace(iface.getPackage());
-    namespace.members.add(stubClass);
+    CppNamespace namespace = new CppNamespace(anInterface.getPackage());
+    namespace.members.addAll(builder.getResults());
 
     return namespace;
   }
