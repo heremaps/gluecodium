@@ -12,8 +12,8 @@
 package com.here.ivi.api.generator.common.jni.templates
 
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
-import com.here.ivi.api.model.javamodel.JavaClass
 import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
+import com.here.ivi.api.model.javamodel.JavaClass
 
 public class JniHeaderTemplate {
   def static generate(JavaClass javaClass) '''

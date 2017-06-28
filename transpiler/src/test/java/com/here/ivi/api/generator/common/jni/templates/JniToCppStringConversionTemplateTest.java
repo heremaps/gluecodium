@@ -13,23 +13,25 @@ package com.here.ivi.api.generator.common.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
-import com.here.ivi.api.model.cppmodel.CppType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class JniPrimitiveTypeConversionTemplateTest {
+public final class JniToCppStringConversionTemplateTest {
   @Test
   public void generate() {
     // Arrange
-    CppType cppType = new CppPrimitiveType(CppPrimitiveType.Type.UINT64);
-    String baseName = "parameterName";
-    String expected = "uint64_t n" + baseName + " = static_cast<uint64_t>(j" + baseName + ");\n";
+    String baseName = "javaParameterName";
+    String expected =
+        "std::string n"
+            + baseName
+            + " = std::string(env->GetStringUTFChars(j"
+            + baseName
+            + ", 0));\n";
 
     // Act
-    String result = JniPrimitiveTypeConversionTemplate.generate(cppType, baseName).toString();
+    String result = JniToCppStringConversionTemplate.generate(baseName).toString();
 
     // Assert
     assertEquals(expected, result);
