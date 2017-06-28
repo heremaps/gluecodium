@@ -11,11 +11,13 @@
 
 package com.here.ivi.api.generator.common.cpp.templates
 
+import com.here.ivi.api.generator.common.templates.CopyrightNoticeTemplate;
+
 class CppCommentHeaderTemplate {
   static def generate(Object generatorNotice) '''
     // -------------------------------------------------------------------------------------------------
     //
-    «FOR line : CopyrightNotice.generate.toString.split(System.lineSeparator())»
+    «FOR line : CopyrightNoticeTemplate.generate.split(System.lineSeparator())»
     // «line»
     «ENDFOR»
     //

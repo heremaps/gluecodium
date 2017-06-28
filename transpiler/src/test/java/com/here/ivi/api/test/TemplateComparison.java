@@ -16,6 +16,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.junit.Assert.assertEquals;
 
+import java.time.Year;
+
 public class TemplateComparison {
 
   static String ignoreWhitespace(String text) {
@@ -27,17 +29,17 @@ public class TemplateComparison {
   static String checkAndStripCopyright(String text) {
     String copyright =
         "//\n"
-            + "//  Copyright (C) 2015 - 2017 HERE Global B.V. and its affiliate(s).\n"
+            + "// Copyright (C) "
+            + Year.now().getValue()
+            + " HERE Global B.V. and/or its affiliated companies. All rights reserved.\n"
+            + "// \n"
+            + "// This software, including documentation, is protected by copyright controlled by\n"
+            + "// HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,\n"
+            + "// adapting or translating, any or all of this material requires the prior written\n"
+            + "// consent of HERE Global B.V. This material also contains confidential information,\n"
+            + "// which may not be disclosed to others without prior written consent of HERE Global B.V.\n"
             + "//\n"
-            + "//  All rights reserved. This software and other materials contain\n"
-            + "//  proprietary information of HERE and are protected by applicable\n"
-            + "//  copyright legislation. Any use and utilization of this software\n"
-            + "//  and other materials and disclosure to any third parties is\n"
-            + "//  conditional upon having a separate agreement with HERE for the\n"
-            + "//  use, utilization or disclosure of this software. In the absence\n"
-            + "//  of such agreement, the use of the software is not allowed.\n"
-            + "//\n"
-            + "//  Automatically generated. Do not modify. Your changes will be lost.\n";
+            + "// Automatically generated. Do not modify. Your changes will be lost.\n";
     assertTrue(text.startsWith(copyright));
     return text.substring(copyright.length());
   }

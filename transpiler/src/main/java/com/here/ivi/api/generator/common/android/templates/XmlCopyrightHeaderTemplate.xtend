@@ -11,12 +11,12 @@
 
 package com.here.ivi.api.generator.common.android.templates
 
-import com.here.ivi.api.generator.common.cpp.templates.CopyrightNotice;
+import com.here.ivi.api.generator.common.templates.CopyrightNoticeTemplate
 
 class XmlCopyrightHeaderTemplate {
   def static generate() '''
     <!--
-    «FOR line : CopyrightNotice.generate.toString.split(System.lineSeparator())»«line»
+    «FOR line : CopyrightNoticeTemplate.generate.split(System.lineSeparator())»«line»
     «ENDFOR»
 
     Automatically generated. Do not modify. Your changes will be lost.
