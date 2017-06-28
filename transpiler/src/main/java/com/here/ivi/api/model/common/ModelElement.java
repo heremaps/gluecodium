@@ -9,15 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.common;
 
-import com.here.ivi.api.model.common.ModelElement;
-import java.util.stream.Stream;
-
-public interface JavaNamedEntity extends ModelElement {
-  String getName();
-
-  Stream<JavaNamedEntity> stream();
-
-  Stream<JavaNamedEntity> streamRecursive();
-}
+/** This interface should be implemented by all model elements of all java and cpp models */
+public interface ModelElement {}

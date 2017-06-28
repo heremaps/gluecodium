@@ -11,10 +11,11 @@
 
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.model.common.ModelElement;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class CppElement {
+public class CppElement implements ModelElement {
   public CppElements.Visibility visibility = CppElements.Visibility.Default;
   public String name;
   public String comment = null;
