@@ -35,6 +35,7 @@ sourceSets {
             include "**/*.h"
             include "**/*.cpp"
             include "**/*.properties"
+            include "**/*.mustache"
         }
     }
     test {
@@ -48,6 +49,7 @@ dependencies {
 
     compile 'commons-io:commons-io:+' // apache commons io for FileUtils
     compile 'org.apache.commons:commons-lang3:3.+'
+    compile 'org.trimou:trimou-core:2.2.0.Final'
     compile project(':externals:core')
     compile project(':externals:dsl')
     compile project(':externals:deploymodel')

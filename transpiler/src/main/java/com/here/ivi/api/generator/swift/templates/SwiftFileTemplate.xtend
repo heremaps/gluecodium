@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.swift.templates
 
+import com.here.ivi.api.generator.common.templates.CopyrightNoticeTemplate;
 import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.model.swift.SwiftProperty
 import com.here.ivi.api.model.swift.SwiftMethod
@@ -20,17 +21,11 @@ class SwiftFileTemplate {
 
     public static def generate(SwiftClass swiftClass) '''
     //
-    //  Copyright (C) 2015 - 2017 HERE Global B.V. and its affiliate(s).
+    «FOR line : CopyrightNoticeTemplate.generate.split(System.lineSeparator())»
+    // «line»
+    «ENDFOR»
     //
-    //  All rights reserved. This software and other materials contain
-    //  proprietary information of HERE and are protected by applicable
-    //  copyright legislation. Any use and utilization of this software
-    //  and other materials and disclosure to any third parties is
-    //  conditional upon having a separate agreement with HERE for the
-    //  use, utilization or disclosure of this software. In the absence
-    //  of such agreement, the use of the software is not allowed.
-    //
-    //  Automatically generated. Do not modify. Your changes will be lost.
+    // Automatically generated. Do not modify. Your changes will be lost.
     «FOR importFile : swiftClass.imports BEFORE '\n'»
         import «importFile»
     «ENDFOR»

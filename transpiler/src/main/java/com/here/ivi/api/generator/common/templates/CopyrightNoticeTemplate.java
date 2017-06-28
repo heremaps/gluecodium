@@ -9,18 +9,14 @@
  *
  */
 
-package com.here.ivi.api.generator.common.java.templates
+package com.here.ivi.api.generator.common.templates;
 
-import com.here.ivi.api.generator.common.templates.CopyrightNoticeTemplate;
+import com.here.ivi.api.generator.common.TemplateEngine;
+import java.time.Year;
 
-class JavaCopyrightHeaderTemplate {
-  def static generate() '''
-    /*
-    «FOR line : CopyrightNoticeTemplate.generate.split(System.lineSeparator())» * «line»
-    «ENDFOR»
-     *
-     * Automatically generated. Do not modify. Your changes will be lost.
-     *
-     */
-  '''
+public final class CopyrightNoticeTemplate {
+
+  public static String generate() {
+    return TemplateEngine.render("common/CopyrightNotice", Year.now().getValue());
+  }
 }
