@@ -48,7 +48,7 @@ public final class StubMapperIntegrationTest {
     assertTrue(actualContent.members.get(0) instanceof CppClass);
     assertTrue(actualContent.members.get(0) instanceof CppClass);
     CppClass actualClass = (CppClass) actualContent.members.get(0);
-    assertEquals(actualClass.methods.size(), 3);
+    assertEquals(actualClass.methods.size(), 2);
 
     Iterator<CppMethod> iterator = actualClass.methods.iterator();
     CppMethod method = iterator.next();
@@ -66,13 +66,5 @@ public final class StubMapperIntegrationTest {
     assertEquals(inParameters.get(0).type.name, "std::string");
     assertEquals(inParameters.get(0).name, "input");
     assertEquals(method.getReturnType().name, "std::string");
-
-    method = iterator.next();
-    assertEquals(method.name, "methodTwoOutParams");
-    inParameters = method.getInParameters();
-    assertEquals(inParameters.size(), 1);
-    assertEquals(inParameters.get(0).type.name, "std::string");
-    assertEquals(inParameters.get(0).name, "input");
-    assertEquals(method.getReturnType().name, "MethodTwoOutParamsResult");
   }
 }

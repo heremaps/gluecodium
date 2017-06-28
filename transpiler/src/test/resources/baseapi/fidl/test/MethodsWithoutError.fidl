@@ -33,14 +33,4 @@ interface TestInterface {
           String output
         }
     }
-
-    method methodTwoOutParams {
-        in {
-          String input
-        }
-        out {
-          String output1
-          String output2
-        }
-    }
 }
