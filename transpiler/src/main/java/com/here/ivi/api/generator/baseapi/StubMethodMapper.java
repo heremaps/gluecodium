@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import navigation.BaseApiSpec;
+import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;
 
@@ -51,10 +52,14 @@ class StubMethodMapper {
     String returnComment;
     CppType returnType;
 
-    if (method.getOutArgs().isEmpty()) {
+    EList<FArgument> outArgs = method.getOutArgs();
+    if (outArgs.isEmpty()) {
       returnType = errorType;
       returnComment = errorComment;
     } else {
+      // If outArgs size is 2 or more, the output has to be wrapped in a struct,
+      // which is not supported yet.
+
       List<CppType> returnTypes = new ArrayList<>();
       // documentation for the result type
       String typeComment = "Result type for @ref " + stubClass.name + "::" + uniqueMethodName;
@@ -67,52 +72,21 @@ class StubMethodMapper {
         }
       }
 
-      if (method.getOutArgs().size() > 1) { // create struct for multiple out arguments
-        CppStruct struct = new CppStruct();
-        struct.name = NameHelper.toUpperCamelCase(uniqueMethodName) + "Result";
-        struct.fields =
-            method
-                .getOutArgs()
-                .stream()
-                .map(
-                    argument -> {
-                      CppType type = mapCppType(rootModel, argument, method);
-                      CppField field =
-                          new CppField(type, NameHelper.toLowerCamelCase(argument.getName()));
-                      // document struct field with argument comment
-                      field.comment = StubCommentParser.FORMATTER.readCleanedComment(argument);
-                      return field;
-                    })
-                .collect(Collectors.toList());
+      FArgument argument = outArgs.get(0);
+      CppType type = mapCppType(rootModel, argument, method);
 
-        // document return type, struct and append value information to type documentation
-        struct.comment = "Result struct for @ref " + stubClass.name + "::" + uniqueMethodName + ".";
-        typeComment += "\n* @arg Value The value struct instance";
-        returnComment =
-            errorType.equals(CppType.VOID)
-                ? "The result type, containing a struct of values."
-                : "The result type, containing an error and a struct of values.";
+      // document return type and append value information to type documentation
 
-        // register with model
-        stubClass.structs.add(struct);
-        returnTypes.add(new CppType(struct.name));
-      } else { // take first & only argument
-        FArgument argument = method.getOutArgs().get(0);
-        CppType type = mapCppType(rootModel, argument, method);
-
-        // document return type and append value information to type documentation
-
-        returnComment =
-            errorType.equals(CppType.VOID)
-                ? "The result type, containing " + type.name + " value."
-                : "The result type, containing either an error or the " + type.name + " value.";
-        if (!errorComment.isEmpty()) {
-          typeComment += StubCommentParser.FORMATTER.formatWithTag("@arg Value", argument);
-        }
-
-        // register with model
-        returnTypes.add(type);
+      returnComment =
+          errorType.equals(CppType.VOID)
+              ? "The result type, containing " + type.name + " value."
+              : "The result type, containing either an error or the " + type.name + " value.";
+      if (!errorComment.isEmpty()) {
+        typeComment += StubCommentParser.FORMATTER.formatWithTag("@arg Value", argument);
       }
+
+      // register with model
+      returnTypes.add(type);
 
       if (returnTypes.size() > 1) {
         // always wrap multiple out values (error + outArgs) in their own type
