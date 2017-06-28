@@ -17,11 +17,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.model.Interface;
-import com.here.ivi.api.model.TypeCollection;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
+import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
 import navigation.BaseApiSpec;

@@ -12,8 +12,8 @@
 package com.here.ivi.api.generator.swift
 
 import com.here.ivi.api.generator.common.NameHelper
-import com.here.ivi.api.model.FrancaElement
-import com.here.ivi.api.model.Interface
+import com.here.ivi.api.model.franca.FrancaElement
+import com.here.ivi.api.model.franca.Interface
 import java.io.File
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FMethod

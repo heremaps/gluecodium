@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model;
+package com.here.ivi.api.model.franca;
 
 import org.franca.core.franca.FModel;
 

@@ -18,8 +18,8 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.CppField;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.Issue;
 import java.util.Arrays;

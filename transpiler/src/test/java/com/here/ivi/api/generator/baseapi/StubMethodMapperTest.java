@@ -14,8 +14,8 @@ package com.here.ivi.api.generator.baseapi;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.test.ArrayEList;
 import navigation.BaseApiSpec;
 import org.eclipse.emf.common.util.EList;

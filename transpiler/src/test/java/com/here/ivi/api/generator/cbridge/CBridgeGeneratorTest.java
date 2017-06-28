@@ -17,14 +17,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.Interface;
 import com.here.ivi.api.model.cmodel.CFunction;
 import com.here.ivi.api.model.cmodel.CInterface;
+import com.here.ivi.api.model.franca.Interface;
 import java.util.Collections;
 import navigation.BaseApiSpec;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.*;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;

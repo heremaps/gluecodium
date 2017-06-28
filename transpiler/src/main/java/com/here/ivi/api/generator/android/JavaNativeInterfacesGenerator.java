@@ -19,7 +19,7 @@ import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.Includes.InternalPublicInclude;
-import com.here.ivi.api.model.Interface;
+import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.util.Arrays;

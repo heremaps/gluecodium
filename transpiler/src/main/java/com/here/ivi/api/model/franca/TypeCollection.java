@@ -9,13 +9,14 @@
  *
  */
 
-package com.here.ivi.api.model;
+package com.here.ivi.api.model.franca;
 
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 import navigation.BaseApiSpec;
+import org.eclipse.xtext.util.Strings;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.core.FDeployedTypeCollection;
 import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
@@ -38,7 +39,7 @@ public class TypeCollection<Accessor extends BaseApiSpec.TypeCollectionPropertyA
   @Override
   public List<String> getPackage() {
     String name = modelInfo.getFModel().getName();
-    return PackageHelper.splitPackage(name);
+    return Strings.split(name, ".");
   }
 
   @Override

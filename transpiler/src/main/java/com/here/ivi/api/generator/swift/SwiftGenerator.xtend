@@ -19,7 +19,7 @@ import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.model.swift.SwiftMethod
 import com.here.ivi.api.model.swift.SwiftMethodParameter
 import static java.util.stream.Collectors.toList;
-import com.here.ivi.api.model.Interface
+import com.here.ivi.api.model.franca.Interface
 import java.util.List
 import navigation.BaseApiSpec
 import org.franca.core.franca.FMethod

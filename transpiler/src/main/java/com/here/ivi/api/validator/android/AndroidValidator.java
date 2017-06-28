@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.validator.android;
 
-import com.here.ivi.api.model.FrancaModel;
+import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.validator.common.ModelValidator;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;

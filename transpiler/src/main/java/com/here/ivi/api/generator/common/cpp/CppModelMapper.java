@@ -11,8 +11,8 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
-import com.here.ivi.api.model.FrancaElement;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
+import com.here.ivi.api.model.franca.FrancaElement;
 
 public interface CppModelMapper {
   CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaModel);

@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.rules;
 
-import com.here.ivi.api.model.DefinedBy;
+import com.here.ivi.api.model.franca.DefinedBy;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
 

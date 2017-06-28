@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model;
+package com.here.ivi.api.model.franca;
 
 import com.google.common.collect.ImmutableList;
 import com.here.ivi.api.loader.SpecAccessorFactory;

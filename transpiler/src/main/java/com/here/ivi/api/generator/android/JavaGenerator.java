@@ -15,7 +15,7 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.java.JavaClassMapper;
 import com.here.ivi.api.generator.common.java.JavaNameRules;
 import com.here.ivi.api.generator.common.java.templates.JavaClassTemplate;
-import com.here.ivi.api.model.Interface;
+import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.util.LinkedList;
