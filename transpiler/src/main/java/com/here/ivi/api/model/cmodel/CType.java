@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cmodel;
 
 import static java.util.Collections.singletonList;
 
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;

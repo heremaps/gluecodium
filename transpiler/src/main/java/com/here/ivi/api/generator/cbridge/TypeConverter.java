@@ -11,10 +11,10 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import com.here.ivi.api.model.Includes;
 import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.cmodel.CPointerType;
 import com.here.ivi.api.model.cmodel.CType;
+import com.here.ivi.api.model.common.Includes;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

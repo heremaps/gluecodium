@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 
 public class CppLibraryIncludes {
   public static final Includes.SystemInclude INT_TYPES = new Includes.SystemInclude("stdint.h");

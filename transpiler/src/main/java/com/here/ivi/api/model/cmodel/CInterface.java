@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cmodel;
 
 import static java.util.Collections.emptySet;
 
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;

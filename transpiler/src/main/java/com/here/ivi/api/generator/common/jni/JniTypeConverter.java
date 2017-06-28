@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.jni;
 
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;

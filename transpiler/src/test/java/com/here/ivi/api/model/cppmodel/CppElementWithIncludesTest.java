@@ -17,8 +17,8 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.model.Includes.Include;
-import com.here.ivi.api.model.Includes.SystemInclude;
+import com.here.ivi.api.model.common.Includes.Include;
+import com.here.ivi.api.model.common.Includes.SystemInclude;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Test;

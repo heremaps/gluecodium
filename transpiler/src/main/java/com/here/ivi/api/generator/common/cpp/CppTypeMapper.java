@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.google.common.collect.Sets;
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.model.Includes;
+import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cppmodel.CppElements;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.franca.DefinedBy;
