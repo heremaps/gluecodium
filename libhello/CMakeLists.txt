@@ -16,7 +16,10 @@ set(HELLO_VERSION_PATCH 1)
 set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_PATCH})
 
 set(SOURCES
-    src/HelloWorldStub.cpp)
+    src/hello/HelloWorldStub.cpp
+
+    src/test/StaticStringMethodsTestStub.cpp
+)
 
 if(CMAKE_SYSTEM_NAME STREQUAL Android)
     set(TRANSPILER_ANDROID_JNI_DIR ${CMAKE_CURRENT_BINARY_DIR}/api/android/jni)
