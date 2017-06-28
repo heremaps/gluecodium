@@ -11,11 +11,11 @@
 
 package com.here.ivi.api.generator.common.jni.templates
 
-import java.util.List;
-import com.here.ivi.api.model.common.Includes
-import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
+import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
+import com.here.ivi.api.model.common.Includes
 import com.here.ivi.api.model.javamodel.JavaClass
+import java.util.List
 
 public class JniImplementationTemplate {
   def static generate(JavaClass javaClass, List<Includes.InternalPublicInclude> includes) {

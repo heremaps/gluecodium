@@ -15,7 +15,7 @@ import com.here.ivi.api.model.cppmodel.CppType
 import static com.here.ivi.api.generator.common.jni.JniNameRules.getNativeParameterName
 import static com.here.ivi.api.generator.common.jni.JniNameRules.getParameterName
 
-class JniPrimitiveTypeConversionTemplate {
+class JniToCppPrimitiveTypeConversionTemplate {
     def static generate(CppType cppType, String baseName)'''
         «cppType.name» «getNativeParameterName(baseName)» = static_cast<«cppType.name»>(«getParameterName(baseName)»);
     '''

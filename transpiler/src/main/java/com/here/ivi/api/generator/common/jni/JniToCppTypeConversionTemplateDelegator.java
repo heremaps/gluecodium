@@ -12,8 +12,8 @@
 package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.jni.templates.JniPrimitiveTypeConversionTemplate;
-import com.here.ivi.api.generator.common.jni.templates.JniStringConversionTemplate;
+import com.here.ivi.api.generator.common.jni.templates.CppToJniStringConversionTemplate;
+import com.here.ivi.api.generator.common.jni.templates.JniToCppPrimitiveTypeConversionTemplate;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
@@ -22,7 +22,7 @@ import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 
-public class JavaParameterConversionTemplateDelegator {
+public class JniToCppTypeConversionTemplateDelegator {
 
   public CharSequence generate(JavaParameter javaParameter, CppParameter cppParameter) {
 
@@ -43,7 +43,7 @@ public class JavaParameterConversionTemplateDelegator {
   private CharSequence generate(JavaPrimitiveType javaType, CppType cppType, String baseName) {
     //void type is not allowed as method parameter
     if (JavaPrimitiveType.TYPES.contains(javaType.type) && javaType.type != Type.VOID) {
-      return JniPrimitiveTypeConversionTemplate.generate(cppType, baseName);
+      return JniToCppPrimitiveTypeConversionTemplate.generate(cppType, baseName);
     }
     throw new IllegalArgumentException(
         "Conversion from Java type to cpp type is not possible: " + javaType.getName());
@@ -57,7 +57,7 @@ public class JavaParameterConversionTemplateDelegator {
   private CharSequence generate(JavaReferenceType javaType, String baseName) {
     switch (javaType.type) {
       case STRING:
-        return JniStringConversionTemplate.generate(baseName);
+        return CppToJniStringConversionTemplate.generate(baseName);
     }
     throw new IllegalArgumentException(
         "conversion from java type to cpp type is not supported: " + javaType.getName());

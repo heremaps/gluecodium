@@ -10,11 +10,8 @@
  */
 
 package com.here.ivi.api.generator.common.jni.templates
-import static com.here.ivi.api.generator.common.jni.JniNameRules.getNativeParameterName
-import static com.here.ivi.api.generator.common.jni.JniNameRules.getParameterName
 
-class JniStringConversionTemplate {
-    def static generate(String baseName)'''
-        std::string «getNativeParameterName(baseName)» = std::string(env->GetStringUTFChars(«getParameterName(baseName)», 0));
-    '''
+class CppToJniPrimitiveTypeConversionTemplate {
+    def static generate(String jniTypename, String cppName)'''
+        static_cast<«jniTypename»>(«cppName»)'''
 }
