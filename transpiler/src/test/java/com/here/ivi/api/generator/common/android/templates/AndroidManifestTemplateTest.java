@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.common.android.templates;
 
 import static junit.framework.TestCase.assertEquals;
 
-import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.util.Arrays;
 import org.junit.Test;
@@ -23,7 +22,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class AndroidManifestTemplateTest {
   private static final String TEST_COPYRIGHT_NOTICE =
-      JavaCopyrightHeaderTemplate.generate().toString();
+      XmlCopyrightHeaderTemplate.generate().toString();
 
   @Test
   public void generate() {

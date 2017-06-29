@@ -11,18 +11,15 @@
 
 package com.here.ivi.api.generator.common.android.templates
 
-import com.here.ivi.api.model.javamodel.JavaPackage
-import com.here.ivi.api.generator.common.android.templates.XmlCopyrightHeaderTemplate
+import com.here.ivi.api.generator.common.cpp.templates.CopyrightNotice;
 
-class AndroidManifestTemplate {
-  def static generate(JavaPackage javaPackage) '''
-«XmlCopyrightHeaderTemplate.generate()»
+class XmlCopyrightHeaderTemplate {
+  def static generate() '''
+    <!--
+    «FOR line : CopyrightNotice.generate.toString.split(System.lineSeparator())»«line»
+    «ENDFOR»
 
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="«javaPackage.flatten()»">
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-
-</manifest>'''
+    Automatically generated. Do not modify. Your changes will be lost.
+    -->
+  '''
 }
