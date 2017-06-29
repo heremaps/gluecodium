@@ -1,0 +1,9 @@
+module ${SWIFT_LIBRARY} {
+    umbrella "${C_BRIDGE_HEADER_PATH}"
+}
+// for mac tests
+module ${SWIFT_LIBRARY}Tests {
+}
+// for linux tests
+module ${SWIFT_LIBRARY}PackageTests {
+}

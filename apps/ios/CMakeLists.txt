@@ -14,6 +14,15 @@ if(NOT HELLO_BUILD_IOS_APP)
     return()
 endif()
 
+function(prefix_arguments output prefix)
+    list(REMOVE_AT ARGV 0 1)
+    set(prefixed)
+    foreach(arg IN LISTS ARGV)
+        list(APPEND prefixed ${prefix} ${arg})
+    endforeach()
+    set(${output} ${prefixed} PARENT_SCOPE)
+endfunction()
+
 set(CMAKE_CXX_STANDARD 11)
 set(package_name hello)
 set(bridge_target c_${package_name})
@@ -21,27 +30,37 @@ set(bridge_target c_${package_name})
 get_target_property(API_GEN_BASE_DIR hello APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
 
 set(SWIFT_LIBRARY ${package_name})
-set(SWIFT_LIBRARY_C_BRIDGE ${bridge_target})
+set(C_BRIDGE ${bridge_target})
+set(C_BRIDGE_LIBRARY hello)
+set(C_BRIDGE_HEADER_PATH ${API_GEN_BASE_DIR}/cbridge/${package_name})
 configure_file(resources/Package.swift.in swift/Package.swift)
+configure_file(resources/module.modulemap.in swift/Modules/module.modulemap)
 
 #TODO generate into the right folder
 file(COPY ${API_GEN_BASE_DIR}/swift/${package_name} DESTINATION swift/Source/${package_name} )
-file(COPY ${API_GEN_BASE_DIR}/cbridge/${package_name} DESTINATION swift/Source/${bridge_target}/include FILES_MATCHING PATTERN *.h)
-
-file(COPY resources/empty.c DESTINATION swift/Source/${bridge_target})
 file(COPY resources/Tests DESTINATION swift/)
+file(COPY resources/assemble-framework DESTINATION swift/)
 
 set(swift_lib_target ${package_name}_swift_lib)
 
-# Linux wants the linked library in the format -l:libTARGET.a while OSX wants -lTARGET and needs additional -lc++
-# Generator expressions are escaped as these are only evaluated when used inside add_custom_target.
-if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    set(SWIFT_LINK_ARGUMENTS -Xlinker -L\$<TARGET_FILE_DIR:hello> -Xlinker -l:\$<TARGET_FILE_NAME:hello>)
-elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(SWIFT_LINK_ARGUMENTS -Xlinker -L\$<TARGET_FILE_DIR:hello> -Xlinker -lhello -Xlinker -lc++)
+set(SWIFT_ARGUMENTS
+    -IModules
+    -import-underlying-module
+    -L\$<TARGET_FILE_DIR:hello>
+    -lhello
+)
+# OSX needs additional -lc++
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    list(APPEND SWIFT_ARGUMENTS -lc++)
 endif()
 
+prefix_arguments(BUILD_ARGUMENTS "-Xswiftc" ${SWIFT_ARGUMENTS})
+prefix_arguments(EMIT_ARGUMENTS "-Xswiftc" -emit-module -emit-library -emit-objc-header)
+
 add_custom_target(${swift_lib_target} ALL
-    COMMAND swift test -C swift ${SWIFT_LINK_ARGUMENTS}
+    COMMAND swift test ${BUILD_ARGUMENTS}
+    COMMAND swift build ${BUILD_ARGUMENTS} ${EMIT_ARGUMENTS}
+    COMMAND ./assemble-framework ${package_name}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/swift
 )
 add_dependencies(${swift_lib_target} hello)

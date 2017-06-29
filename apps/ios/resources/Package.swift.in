@@ -3,6 +3,6 @@ import PackageDescription
 let package = Package(
     name: "${SWIFT_LIBRARY}",
     targets: [
-        Target(name: "${SWIFT_LIBRARY}", dependencies: ["${SWIFT_LIBRARY_C_BRIDGE}"])
+        Target(name: "${SWIFT_LIBRARY}")
     ]
 )
