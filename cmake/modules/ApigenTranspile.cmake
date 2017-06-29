@@ -54,7 +54,7 @@ function(apigen_transpile target inputDir outputDir generator)
         # This can be optimized. If a previous invocation of this function already
         # transpiled 'stub', it should be re-used. At the moment this is not possible
         # because the transpiler cleans it's output directory in the beginning
-        string(APPEND generator ,stub)
+        set(generator "stub,${generator}")
     endif()
 
     set(APIGEN_TRANSPILER_ARGS "-input ${inputDir} -output ${outputDir} -generators ${generator} -nostdout")
