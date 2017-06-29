@@ -26,6 +26,8 @@ import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
+import java.util.ArrayList;
+import java.util.List;
 import navigation.BaseApiSpec;
 import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.eclipse.emf.common.util.EList;
@@ -49,11 +51,20 @@ import org.franca.core.franca.FTypedElement;
 public final class JavaClassMapper {
   private JavaClassMapper() {}
 
+  private static JavaPackage createJavaPackage(
+      final List<String> defaultJavaPackages, final List<String> apiPackages) {
+    ArrayList<String> packages = new ArrayList<>(defaultJavaPackages);
+    packages.addAll(apiPackages);
+
+    return new JavaPackage(packages);
+  }
+
   public static JavaClass map(
-      final Interface<BaseApiSpec.InterfacePropertyAccessor> api, JavaPackage javaPackage) {
+      final Interface<BaseApiSpec.InterfacePropertyAccessor> api, final JavaPackage javaPackage) {
     JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(api.getName()));
     javaClass.visibility = JavaVisibility.PUBLIC;
-    javaClass.javaPackage = javaPackage;
+    javaClass.javaPackage = createJavaPackage(javaPackage.packageNames, api.getPackage());
+
     FAnnotationBlock comment = api.getFrancaInterface().getComment();
     if (comment != null && comment.getElements() != null) {
       javaClass.comment = StubCommentParser.FORMATTER.readDescription(comment);
