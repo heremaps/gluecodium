@@ -7,7 +7,7 @@
 # material also contains confidential information which may not be
 # disclosed to others without the prior written consent of HERE.
 
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(ios)
 
 if(NOT HELLO_BUILD_IOS_APP)
@@ -19,9 +19,6 @@ set(package_name hello)
 set(bridge_target c_${package_name})
 
 get_target_property(API_GEN_BASE_DIR hello APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
-
-add_library(${bridge_target} STATIC ${API_GEN_BASE_DIR}/cbridge/${package_name}/HelloWorld)
-target_link_libraries(${bridge_target} hello)
 
 set(SWIFT_LIBRARY ${package_name})
 set(SWIFT_LIBRARY_C_BRIDGE ${bridge_target})
@@ -39,16 +36,12 @@ set(swift_lib_target ${package_name}_swift_lib)
 # Linux wants the linked library in the format -l:libTARGET.a while OSX wants -lTARGET and needs additional -lc++
 # Generator expressions are escaped as these are only evaluated when used inside add_custom_target.
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    set(SWIFT_LINK_ARGUMENTS -Xlinker -L\$<TARGET_FILE_DIR:${bridge_target}> -Xlinker -l:\$<TARGET_FILE_NAME:${bridge_target}> -Xlinker -L\$<TARGET_FILE_DIR:${package_name}> -Xlinker -l:\$<TARGET_FILE_NAME:${package_name}>)
+    set(SWIFT_LINK_ARGUMENTS -Xlinker -L\$<TARGET_FILE_DIR:hello> -Xlinker -l:\$<TARGET_FILE_NAME:hello>)
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(SWIFT_LINK_ARGUMENTS -Xlinker -L\$<TARGET_FILE_DIR:${bridge_target}> -Xlinker -l${bridge_target} -Xlinker -L\$<TARGET_FILE_DIR:${package_name}> -Xlinker -l${package_name} -Xlinker -lc++)
+    set(SWIFT_LINK_ARGUMENTS -Xlinker -L\$<TARGET_FILE_DIR:hello> -Xlinker -lhello -Xlinker -lc++)
 endif()
 
 add_custom_target(${swift_lib_target} ALL
-    COMMAND swift build -C swift ${SWIFT_LINK_ARGUMENTS}
-)
-add_dependencies(${swift_lib_target} hello ${bridge_target})
-
-add_test(NAME swift_test
     COMMAND swift test -C swift ${SWIFT_LINK_ARGUMENTS}
 )
+add_dependencies(${swift_lib_target} hello)

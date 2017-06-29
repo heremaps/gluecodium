@@ -7,20 +7,17 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
 BUILD_DIR=build-swift
-CWD=$PWD
+CWD=${PWD}
 
 if [ ! -d ${BUILD_DIR} ] ; then
     mkdir -p ${BUILD_DIR}
-    cd ${BUILD_DIR}
+    safe cd ${BUILD_DIR}
     safe cmake \
-        -DBUILD_SHARED_LIBS=ON \
-        -DCMAKE_INSTALL_PREFIX=$CWD/dist \
-        -DCMAKE_SYSTEM_NAME=Swift \
-        -DHELLO_APIGEN_TRANSPILER_GENERATOR=cbridge,swift \
+        -DCMAKE_INSTALL_PREFIX="${CWD}"/dist \
+        -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
         -DHELLO_BUILD_CPP_APP=OFF \
-        -G Ninja \
         ..
-    cd ${CWD}
+    safe cd "${CWD}"
 fi
 
 safe cmake --build ${BUILD_DIR}
