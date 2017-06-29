@@ -1,0 +1,41 @@
+#!/bin/bash -x
+# Usage: ./assemble-framework <name>
+
+#input
+FRAMEWORK=$1
+VERSION=A
+BUILD=.build/debug/
+LIBRARY_NAME=lib$FRAMEWORK.dylib
+
+#derived
+FRAMEWORK_BASE_DIR=$FRAMEWORK.framework
+FRAMEWORK_CURRENT_DIR=$FRAMEWORK_BASE_DIR/Versions/$VERSION/
+
+rm -r "$FRAMEWORK_BASE_DIR" >/dev/null || true
+
+MODULES_DIR="$FRAMEWORK_CURRENT_DIR/Modules/$FRAMEWORK.swiftmodule"
+mkdir -p "$MODULES_DIR"
+cp "$BUILD/$FRAMEWORK.swiftmodule" "$MODULES_DIR/x86_64.swiftmodule"
+cp "$BUILD/$FRAMEWORK.swiftdoc" "$MODULES_DIR/x86_64.swiftdoc"
+cat > "$FRAMEWORK_CURRENT_DIR/Modules/module.modulemap" <<EOF
+framework module $FRAMEWORK {
+    header "$FRAMEWORK.h"
+}
+EOF
+
+HEADERS_DIR="$FRAMEWORK_CURRENT_DIR/Headers"
+mkdir -p "$HEADERS_DIR"
+cp "$BUILD/$FRAMEWORK.h" "$HEADERS_DIR/"
+
+lipo "$LIBRARY_NAME" -create -output "$FRAMEWORK_CURRENT_DIR/$FRAMEWORK"
+install_name_tool -id "@rpath/$FRAMEWORK_CURRENT_DIR/$FRAMEWORK" "$FRAMEWORK_CURRENT_DIR/$FRAMEWORK"
+
+pushd "$FRAMEWORK_BASE_DIR/Versions"
+ln -s "$VERSION" Current
+popd
+
+pushd "$FRAMEWORK_BASE_DIR"
+for X in Versions/Current/*; do
+    ln -s "$X"
+done
+popd
