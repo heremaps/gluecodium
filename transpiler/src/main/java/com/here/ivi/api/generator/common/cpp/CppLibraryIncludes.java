@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.common.cpp;
 import com.here.ivi.api.model.common.Includes;
 
 public class CppLibraryIncludes {
-  public static final Includes.SystemInclude INT_TYPES = new Includes.SystemInclude("stdint.h");
+
   public static final Includes.SystemInclude LIMITS = new Includes.SystemInclude("limits");
   public static final Includes.SystemInclude MAP = new Includes.SystemInclude("map");
   public static final Includes.SystemInclude MEMORY = new Includes.SystemInclude("memory");

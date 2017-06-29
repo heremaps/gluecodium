@@ -92,7 +92,7 @@ public class StubMethodMapperTest {
     assertEquals(methodName, cppMethod.name);
     assertTrue(cppMethod.getInParameters().isEmpty());
     assertTrue(cppMethod.getOutParameters().isEmpty());
-    assertEquals(CppType.VOID, cppMethod.getReturnType());
+    assertEquals(CppPrimitiveType.VOID_TYPE, cppMethod.getReturnType());
   }
 
   @Test

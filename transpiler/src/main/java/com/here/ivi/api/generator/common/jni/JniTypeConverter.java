@@ -12,6 +12,8 @@
 package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.cppmodel.CppCustomType;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
@@ -32,47 +34,47 @@ public final class JniTypeConverter {
    */
   public static CppType map(final JavaType javaType) {
     if (javaType instanceof JavaCustomType) {
-      return new CppType("jobject", JNI_INCLUDE);
+      return new CppCustomType("jobject", JNI_INCLUDE);
     } else if (javaType instanceof JavaReferenceType) {
       JavaReferenceType javaReferenceType = (JavaReferenceType) javaType;
       if (JavaReferenceType.TYPES.contains(javaReferenceType.type)) {
         switch (javaReferenceType.type) {
           case OBJECT:
-            return new CppType("jobject", JNI_INCLUDE);
+            return new CppCustomType("jobject", JNI_INCLUDE);
           case CLASS:
-            return new CppType("jclass", JNI_INCLUDE);
+            return new CppCustomType("jclass", JNI_INCLUDE);
           case STRING:
-            return new CppType("jstring", JNI_INCLUDE);
+            return new CppCustomType("jstring", JNI_INCLUDE);
           case OBJECT_ARRAY:
-            return new CppType("jobjectArray", JNI_INCLUDE);
+            return new CppCustomType("jobjectArray", JNI_INCLUDE);
           case BOOLEAN_ARRAY:
-            return new CppType("jbooleanArray", JNI_INCLUDE);
+            return new CppCustomType("jbooleanArray", JNI_INCLUDE);
           case BYTE_ARRAY:
-            return new CppType("jbyteArray", JNI_INCLUDE);
+            return new CppCustomType("jbyteArray", JNI_INCLUDE);
           case CHAR_ARRAY:
-            return new CppType("jcharArray", JNI_INCLUDE);
+            return new CppCustomType("jcharArray", JNI_INCLUDE);
           case SHORT_ARRAY:
-            return new CppType("jshortArray", JNI_INCLUDE);
+            return new CppCustomType("jshortArray", JNI_INCLUDE);
           case INT_ARRAY:
-            return new CppType("jintArray", JNI_INCLUDE);
+            return new CppCustomType("jintArray", JNI_INCLUDE);
           case LONG_ARRAY:
-            return new CppType("jlongArray", JNI_INCLUDE);
+            return new CppCustomType("jlongArray", JNI_INCLUDE);
           case FLOAT_ARRAY:
-            return new CppType("jfloatArray", JNI_INCLUDE);
+            return new CppCustomType("jfloatArray", JNI_INCLUDE);
           case DOUBLE_ARRAY:
-            return new CppType("jdoubleArray", JNI_INCLUDE);
+            return new CppCustomType("jdoubleArray", JNI_INCLUDE);
           case THROWABLE:
-            return new CppType("jthrowable", JNI_INCLUDE);
+            return new CppCustomType("jthrowable", JNI_INCLUDE);
         }
       }
     } else if (javaType instanceof JavaPrimitiveType) {
       JavaPrimitiveType javaPrimitiveType = (JavaPrimitiveType) javaType;
       if (JavaPrimitiveType.TYPES.contains(javaPrimitiveType.type)) {
         if (javaPrimitiveType.type == Type.VOID) {
-          return CppType.VOID;
+          return CppPrimitiveType.VOID_TYPE;
         }
 
-        return new CppType("j" + javaPrimitiveType.type.getValue(), JNI_INCLUDE);
+        return new CppCustomType("j" + javaPrimitiveType.type.getValue(), JNI_INCLUDE);
       }
     }
 

@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.cppmodel.CppType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +24,9 @@ public final class JniPrimitiveTypeConversionTemplateTest {
   @Test
   public void generate() {
     // Arrange
-    CppType cppType = new CppType("int");
+    CppType cppType = new CppPrimitiveType(CppPrimitiveType.Type.UINT64);
     String baseName = "parameterName";
-    String expected = "int n" + baseName + " = static_cast<int>(j" + baseName + ");\n";
+    String expected = "uint64_t n" + baseName + " = static_cast<uint64_t>(j" + baseName + ");\n";
 
     // Act
     String result = JniPrimitiveTypeConversionTemplate.generate(cppType, baseName).toString();

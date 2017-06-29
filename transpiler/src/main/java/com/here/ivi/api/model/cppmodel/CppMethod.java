@@ -148,7 +148,7 @@ public final class CppMethod extends CppElementWithIncludes {
     private final String name;
     private String methodComment;
     private String deprecatedComment;
-    private CppType returnType = CppType.VOID;
+    private CppType returnType = CppPrimitiveType.VOID_TYPE;
     private Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
     private Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
     private List<CppParameter> inParameters = new ArrayList<>();
