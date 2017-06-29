@@ -11,11 +11,16 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.collect.Sets;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.cppmodel.CppCustomType;
 import com.here.ivi.api.model.cppmodel.CppElements;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppTypeDefType;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -96,7 +101,7 @@ public class CppTypeMapper {
       return mapPredefined(type);
     }
 
-    return new CppType();
+    return new CppCustomType("UNMAPPED FTYPEREF", CppElements.TypeInfo.Invalid);
   }
 
   private static CppType mapDerived(FrancaElement<?> rootModel, FTypeRef type) {
@@ -123,7 +128,7 @@ public class CppTypeMapper {
       return mapEnum(rootModel, (FEnumerationType) derived);
     }
 
-    return new CppType(null, "UNMAPPED DERIVED", CppElements.TypeInfo.Invalid);
+    return new CppCustomType(null, "UNMAPPED DERIVED", CppElements.TypeInfo.Invalid);
   }
 
   private static CppType reportInvalidType(FrancaElement<?> rootModel, FTypeRef type) {
@@ -165,7 +170,8 @@ public class CppTypeMapper {
     DefinedBy typeRefDefiner = DefinedBy.createFromFModelElement(typedef);
 
     if (typedef.getActualType() == null) {
-      return new CppType(typeRefDefiner, "NO ACTUAL TYPE FOUND", CppElements.TypeInfo.Invalid);
+      return new CppCustomType(
+          typeRefDefiner, "NO ACTUAL TYPE FOUND", CppElements.TypeInfo.Invalid);
     } else if (InstanceRules.isInstanceId(typedef)) {
       Includes.Include include =
           new Includes.LazyInternalInclude(typeRefDefiner, Includes.InternalType.Interface);
@@ -176,7 +182,7 @@ public class CppTypeMapper {
       String name = CppNameRules.getClassName(typeRefDefiner.type.getName());
       String namespacedName = CppNamespaceUtils.getCppTypename(rootModel, typeRefDefiner, name);
 
-      return new CppType(
+      return new CppCustomType(
           typeRefDefiner, namespacedName, CppElements.TypeInfo.InterfaceInstance, include);
     } else {
       CppType actual = map(rootModel, typedef.getActualType());
@@ -186,12 +192,13 @@ public class CppTypeMapper {
       Includes.Include include = new Includes.LazyInternalInclude(actualTypeDefiner);
 
       String namespacedName = CppNamespaceUtils.getCppTypename(rootModel, typedef);
+
       // actually use the typedef in this case, not the underlying type
-      return new CppType(typeRefDefiner, namespacedName, actual.info, include);
+      return new CppTypeDefType(typeRefDefiner, namespacedName, actual, asList(include));
     }
   }
 
-  private static CppType mapArray(FrancaElement<?> rootModel, FArrayType array) {
+  private static CppCustomType mapArray(FrancaElement<?> rootModel, FArrayType array) {
     DefinedBy arrayDefiner = DefinedBy.createFromFModelElement(array);
 
     String typeName = array.getName(); // use name defined for array
@@ -202,7 +209,7 @@ public class CppTypeMapper {
 
       typeName = CppNamespaceUtils.getCppTypename(rootModel, array);
 
-      return new CppType(arrayDefiner, typeName, CppElements.TypeInfo.Complex, includes);
+      return new CppCustomType(arrayDefiner, typeName, CppElements.TypeInfo.Complex, includes);
     }
 
     FTypeRef elementType = array.getElementType();
@@ -245,8 +252,9 @@ public class CppTypeMapper {
     }
   }
 
-  private static CppType wrapArrayType(DefinedBy definedIn, CppType elementType, ArrayMode mode) {
-    CppType result;
+  private static CppCustomType wrapArrayType(
+      DefinedBy definedIn, CppType elementType, ArrayMode mode) {
+    CppCustomType result;
     switch (mode) {
       case STD_VECTOR:
         result = wrapVector(elementType);
@@ -261,11 +269,12 @@ public class CppTypeMapper {
     return result;
   }
 
-  private static CppType mapMap(FrancaElement<?> rootModel, FMapType map) {
+  private static CppCustomType mapMap(FrancaElement<?> rootModel, FMapType map) {
     DefinedBy mapDefiner = DefinedBy.createFromFModelElement(map);
 
     if (map.getKeyType() == null || map.getValueType() == null) {
-      return new CppType(mapDefiner, "NO KEY OR VALUE TYPE FOUND", CppElements.TypeInfo.Invalid);
+      return new CppCustomType(
+          mapDefiner, "NO KEY OR VALUE TYPE FOUND", CppElements.TypeInfo.Invalid);
     } else {
 
       String typeName = map.getName(); // use name defined for map
@@ -275,7 +284,7 @@ public class CppTypeMapper {
             Sets.newHashSet(new Includes.LazyInternalInclude(mapDefiner));
         typeName = CppNamespaceUtils.getCppTypename(rootModel, map);
 
-        return new CppType(mapDefiner, typeName, CppElements.TypeInfo.Complex, includes);
+        return new CppCustomType(mapDefiner, typeName, CppElements.TypeInfo.Complex, includes);
       }
 
       CppType key = map(rootModel, map.getKeyType());
@@ -286,33 +295,33 @@ public class CppTypeMapper {
     }
   }
 
-  public static CppType mapStruct(FrancaElement<?> rootModel, FStructType struct) {
+  public static CppCustomType mapStruct(FrancaElement<?> rootModel, FStructType struct) {
     DefinedBy structDefiner = DefinedBy.createFromFModelElement(struct);
 
     if (struct.getElements().isEmpty()) {
-      return new CppType(structDefiner, "EMPTY STRUCT", CppElements.TypeInfo.Invalid);
+      return new CppCustomType(structDefiner, "EMPTY STRUCT", CppElements.TypeInfo.Invalid);
     } else {
       Includes.Include include = new Includes.LazyInternalInclude(structDefiner);
       String typeName = CppNamespaceUtils.getCppTypename(rootModel, struct);
 
-      return new CppType(structDefiner, typeName, CppElements.TypeInfo.Complex, include);
+      return new CppCustomType(structDefiner, typeName, CppElements.TypeInfo.Complex, include);
     }
   }
 
-  public static CppType mapEnum(FrancaElement<?> rootModel, FEnumerationType enumeration) {
+  public static CppCustomType mapEnum(FrancaElement<?> rootModel, FEnumerationType enumeration) {
     DefinedBy enumDefiner = DefinedBy.createFromFModelElement(enumeration);
 
     if (enumeration.getEnumerators().isEmpty()) {
-      return new CppType(enumDefiner, "EMPTY ENUM", CppElements.TypeInfo.Invalid);
+      return new CppCustomType(enumDefiner, "EMPTY ENUM", CppElements.TypeInfo.Invalid);
     } else {
       Includes.Include include = new Includes.LazyInternalInclude(enumDefiner);
       String typeName = CppNamespaceUtils.getCppTypename(rootModel, enumeration);
 
-      return new CppType(enumDefiner, typeName, CppElements.TypeInfo.BuiltIn, include);
+      return new CppCustomType(enumDefiner, typeName, CppElements.TypeInfo.Enumeration, include);
     }
   }
 
-  public static CppType wrapMapType(DefinedBy mapDefiner, CppType key, CppType value) {
+  public static CppCustomType wrapMapType(DefinedBy mapDefiner, CppType key, CppType value) {
     // lookup where map types came from, setup includes
     Includes.Include keyInclude = new Includes.LazyInternalInclude(key.definedIn);
     Includes.Include valueInclude = new Includes.LazyInternalInclude(value.definedIn);
@@ -325,10 +334,10 @@ public class CppTypeMapper {
     includes.add(valueInclude);
     includes.add(CppLibraryIncludes.MAP);
 
-    return new CppType(mapDefiner, mapType, CppElements.TypeInfo.Complex, includes);
+    return new CppCustomType(mapDefiner, mapType, CppElements.TypeInfo.Complex, includes);
   }
 
-  private static CppType wrapStdTemplateType(
+  private static CppCustomType wrapStdTemplateType(
       CppType content, String templateName, Includes.Include libraryInclude) {
     // lookup where content type came from, setup includes
     Includes.Include typeInclude = new Includes.LazyInternalInclude(content.definedIn);
@@ -339,60 +348,27 @@ public class CppTypeMapper {
     includes.add(typeInclude);
     includes.add(libraryInclude);
 
-    return new CppType(content.definedIn, mapType, CppElements.TypeInfo.Complex, includes);
+    return new CppCustomType(content.definedIn, mapType, CppElements.TypeInfo.Complex, includes);
   }
 
-  public static CppType wrapUniquePtr(CppType content) {
+  public static CppCustomType wrapUniquePtr(CppType content) {
     return wrapStdTemplateType(content, "unique_ptr", CppLibraryIncludes.MEMORY);
   }
 
-  public static CppType wrapSharedPtr(CppType content) {
+  public static CppCustomType wrapSharedPtr(CppType content) {
     return wrapStdTemplateType(content, "shared_ptr", CppLibraryIncludes.MEMORY);
   }
 
-  public static CppType wrapWeakPtr(CppType content) {
+  public static CppCustomType wrapWeakPtr(CppType content) {
     return wrapStdTemplateType(content, "weak_ptr", CppLibraryIncludes.MEMORY);
   }
 
-  public static CppType wrapVector(CppType content) {
+  public static CppCustomType wrapVector(CppType content) {
     return wrapStdTemplateType(content, "vector", CppLibraryIncludes.VECTOR);
   }
 
-  public static CppType wrapSet(CppType content) {
+  public static CppCustomType wrapSet(CppType content) {
     return wrapStdTemplateType(content, "set", CppLibraryIncludes.SET);
-  }
-
-  public static String mapPredefinedToTypeName(final FBasicTypeId basicTypeId) {
-    switch (basicTypeId.getValue()) {
-      case FBasicTypeId.BOOLEAN_VALUE:
-        return "bool";
-      case FBasicTypeId.FLOAT_VALUE:
-        return "float";
-      case FBasicTypeId.DOUBLE_VALUE:
-        return "double";
-      case FBasicTypeId.INT8_VALUE:
-        return "int8_t";
-      case FBasicTypeId.INT16_VALUE:
-        return "int16_t";
-      case FBasicTypeId.INT32_VALUE:
-        return "int32_t";
-      case FBasicTypeId.INT64_VALUE:
-        return "int64_t";
-      case FBasicTypeId.UINT8_VALUE:
-        return "uint8_t";
-      case FBasicTypeId.UINT16_VALUE:
-        return "uint16_t";
-      case FBasicTypeId.UINT32_VALUE:
-        return "uint32_t";
-      case FBasicTypeId.UINT64_VALUE:
-        return "uint64_t";
-      case FBasicTypeId.STRING_VALUE:
-        return "std::string";
-      case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return "std::vector< uint8_t >";
-      default:
-        return "UNMAPPED PREDEFINED [" + basicTypeId.getName() + "]";
-    }
   }
 
   private static CppType mapPredefined(final FTypeRef type) {
@@ -400,38 +376,44 @@ public class CppTypeMapper {
 
     switch (type.getPredefined().getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.BOOL);
       case FBasicTypeId.FLOAT_VALUE:
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.FLOAT);
       case FBasicTypeId.DOUBLE_VALUE:
-        return new CppType(
-            definer, mapPredefinedToTypeName(type.getPredefined()), CppElements.TypeInfo.BuiltIn);
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.DOUBLE);
       case FBasicTypeId.INT8_VALUE:
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.INT8);
       case FBasicTypeId.INT16_VALUE:
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.INT16);
       case FBasicTypeId.INT32_VALUE:
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.INT32);
       case FBasicTypeId.INT64_VALUE:
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.INT64);
       case FBasicTypeId.UINT8_VALUE:
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.UINT8);
       case FBasicTypeId.UINT16_VALUE:
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.UINT16);
       case FBasicTypeId.UINT32_VALUE:
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.UINT32);
       case FBasicTypeId.UINT64_VALUE:
-        return new CppType(
-            definer,
-            mapPredefinedToTypeName(type.getPredefined()),
-            CppElements.TypeInfo.BuiltIn,
-            CppLibraryIncludes.INT_TYPES);
+        return new CppPrimitiveType(definer, CppPrimitiveType.Type.UINT64);
       case FBasicTypeId.STRING_VALUE:
-        return new CppType(
+        return new CppCustomType(
             definer,
-            mapPredefinedToTypeName(type.getPredefined()),
+            CppCustomType.STRING_TYPE_NAME,
             CppElements.TypeInfo.Complex,
             CppLibraryIncludes.STRING);
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return new CppType(
+        return new CppCustomType(
             definer,
-            mapPredefinedToTypeName(type.getPredefined()),
+            "std::vector< uint8_t >",
             CppElements.TypeInfo.Complex,
             CppLibraryIncludes.VECTOR);
       default:
-        return new CppType(
-            definer, mapPredefinedToTypeName(type.getPredefined()), CppElements.TypeInfo.Invalid);
+        return new CppCustomType(
+            definer,
+            "UNMAPPED PREDEFINED [" + type.getPredefined().getName() + "]",
+            CppElements.TypeInfo.Invalid);
     }
   }
 }

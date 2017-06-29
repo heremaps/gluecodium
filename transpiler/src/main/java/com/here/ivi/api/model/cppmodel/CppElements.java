@@ -29,10 +29,10 @@ public class CppElements {
   }
 
   public enum TypeInfo {
-    Invalid,
-    BuiltIn,
     InterfaceInstance,
-    Complex
+    Invalid,
+    Complex,
+    Enumeration
   }
 
   public static Set<Includes.Include> collectIncludes(CppNamespace root) {

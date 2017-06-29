@@ -11,61 +11,31 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import static java.util.Arrays.asList;
-
 import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.franca.DefinedBy;
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.Collection;
+import java.util.Collections;
 
-public class CppType extends CppElementWithIncludes {
-  public static final CppType NONE = new CppType("");
-  public static final CppType VOID = new CppType("void");
+public abstract class CppType extends CppElementWithIncludes {
 
-  public CppElements.TypeInfo info = CppElements.TypeInfo.Invalid;
   public DefinedBy definedIn;
 
-  public boolean isValid() {
-    return info != CppElements.TypeInfo.Invalid;
-  }
-
-  public CppType() {
-    super("INVALID");
-  }
-
   public CppType(String typeName) {
-    this(null, typeName);
-  }
-
-  public CppType(String typeName, Includes.Include... includes) {
-    this(null, typeName, CppElements.TypeInfo.BuiltIn, asList(includes));
+    super(typeName);
   }
 
   public CppType(DefinedBy def, String typeName) {
-    this(def, typeName, CppElements.TypeInfo.BuiltIn, Collections.emptyList());
+    this(def, typeName, Collections.emptyList());
   }
 
-  public CppType(
-      DefinedBy def, String typeName, CppElements.TypeInfo info, Includes.Include... includes) {
-    this(def, typeName, info, asList(includes));
+  public CppType(String typeName, final Collection<Includes.Include> includes) {
+    super(typeName, includes);
   }
 
-  public CppType(
-      DefinedBy def,
-      String typeName,
-      CppElements.TypeInfo info,
-      Collection<Includes.Include> includes) {
+  public CppType(DefinedBy def, String typeName, final Collection<Includes.Include> includes) {
     super(typeName, includes);
     this.definedIn = def;
-    this.info = info;
   }
 
-  public void setIncludes(Includes.Include... includes) {
-    super.includes = new HashSet<>(Arrays.asList(includes));
-  }
-
-  @Override
-  public Stream<CppElement> stream() {
-    return Stream.empty();
-  }
+  public abstract boolean isValid();
 }

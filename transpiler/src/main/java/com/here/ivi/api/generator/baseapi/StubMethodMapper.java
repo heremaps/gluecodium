@@ -46,7 +46,7 @@ class StubMethodMapper {
       errorType = CppTypeMapper.mapEnum(rootModel, method.getErrorEnum());
       errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(method);
     } else {
-      errorType = CppType.VOID;
+      errorType = CppPrimitiveType.VOID_TYPE;
     }
 
     String returnComment;
@@ -64,7 +64,7 @@ class StubMethodMapper {
       // documentation for the result type
       String typeComment = "Result type for @ref " + stubClass.name + "::" + uniqueMethodName;
 
-      if (!errorType.equals(CppType.VOID)) {
+      if (!errorType.equals(CppPrimitiveType.VOID_TYPE)) {
         returnTypes.add(errorType);
         if (!errorComment.isEmpty()) {
           // add error template arg documentation
@@ -74,11 +74,10 @@ class StubMethodMapper {
 
       FArgument argument = outArgs.get(0);
       CppType type = mapCppType(rootModel, argument, method);
-
       // document return type and append value information to type documentation
 
       returnComment =
-          errorType.equals(CppType.VOID)
+          errorType.equals(CppPrimitiveType.VOID_TYPE)
               ? "The result type, containing " + type.name + " value."
               : "The result type, containing either an error or the " + type.name + " value.";
       if (!errorComment.isEmpty()) {
@@ -96,7 +95,7 @@ class StubMethodMapper {
         includes.add(EXPECTED_INCLUDE);
 
         returnType =
-            new CppType(
+            new CppCustomType(
                 DefinedBy.createFromFrancaElement(rootModel),
                 "here::internal::Expected< " + String.join(", ", names) + " >",
                 CppElements.TypeInfo.Complex,
@@ -107,7 +106,7 @@ class StubMethodMapper {
         CppUsing using = new CppUsing(usingTypeName, returnType);
         using.comment = typeComment;
         stubClass.usings.add(using);
-        returnType = new CppType(usingTypeName);
+        returnType = new CppCustomType(usingTypeName, CppElements.TypeInfo.Complex);
       } else {
         returnType = returnTypes.get(0);
       }
@@ -128,7 +127,8 @@ class StubMethodMapper {
 
     CppType type = CppTypeMapper.map(rootModel, argument);
 
-    if (type.info != CppElements.TypeInfo.InterfaceInstance) {
+    if (!(type instanceof CppCustomType)
+        || ((CppCustomType) type).info != CppElements.TypeInfo.InterfaceInstance) {
       return type;
     }
 
@@ -165,7 +165,8 @@ class StubMethodMapper {
       param.mode = CppParameter.Mode.Input;
 
       param.type = CppTypeMapper.map(rootModel, inArg.getType());
-      if (param.type.info == CppElements.TypeInfo.InterfaceInstance) {
+      if (param.type instanceof CppCustomType
+          && ((CppCustomType) param.type).info == CppElements.TypeInfo.InterfaceInstance) {
         param.type = CppTypeMapper.wrapSharedPtr(param.type);
       }
 

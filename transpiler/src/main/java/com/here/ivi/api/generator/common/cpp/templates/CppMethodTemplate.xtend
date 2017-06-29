@@ -15,11 +15,35 @@ import java.util.List;
 import com.here.ivi.api.model.cppmodel.CppParameter
 import com.here.ivi.api.model.cppmodel.CppElements
 import com.here.ivi.api.model.cppmodel.CppMethod
+import com.here.ivi.api.model.cppmodel.CppCustomType
+import com.here.ivi.api.model.cppmodel.CppType
+import com.here.ivi.api.model.cppmodel.CppPrimitiveType
+import com.here.ivi.api.model.cppmodel.CppTypeDefType
 
 public class CppMethodTemplate {
+
+    def static generateInputType(CppPrimitiveType type)'''
+        «CppElements.CONST_QUALIFIER» «type.name»'''
+
+    def static generateInputType(CppCustomType type)'''
+        «CppElements.CONST_QUALIFIER» «type.name»«IF type.info != CppElements.TypeInfo.Enumeration»«CppElements.REF_QUALIFIER»«ENDIF»'''
+
+    def static generateInputType(CppTypeDefType type)'''
+        «CppElements.CONST_QUALIFIER» «type.name»«IF type.getActualType instanceof CppCustomType»«CppElements.REF_QUALIFIER»«ENDIF»'''
+
+    def static generateInputType(CppType type){
+        if(type instanceof CppPrimitiveType){
+            return generateInputType(type as CppPrimitiveType)
+        } else if(type instanceof CppCustomType){
+            return generateInputType(type as CppCustomType)
+        } else if(type instanceof CppTypeDefType) {
+            return generateInputType(type as CppTypeDefType)
+        }
+    }
+
     def static generate(CppParameter p) {
         if( p.mode == CppParameter.Mode.Input ) {
-            '''«CppElements.CONST_QUALIFIER» «p.type.name»«IF p.type.info == CppElements.TypeInfo.Complex || p.type.info == CppElements.TypeInfo.InterfaceInstance»«CppElements.REF_QUALIFIER»«ENDIF» «p.name»'''
+            '''«generateInputType(p.type)» «p.name»'''
         } else if(p.mode == CppParameter.Mode.Output) {
             '''«p.type.name»«CppElements.REF_QUALIFIER» «p.name»'''
         } else {
