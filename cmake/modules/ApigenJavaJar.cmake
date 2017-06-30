@@ -50,6 +50,9 @@ function(apigen_java_jar target)
             COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_JAR_OUTPUT_DIR}
             COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_JAVA_JAR} -C ${APIGEN_JAVA_OUTPUT_DIR} .
             COMMENT "Creating Java JAR from class files...")
+        # TODO: Installs unconditionally, allow to configure the module:
+        #install(FILES ${APIGEN_JAVA_JAR}
+        #    DESTINATION lib)
 
     endif()
 
