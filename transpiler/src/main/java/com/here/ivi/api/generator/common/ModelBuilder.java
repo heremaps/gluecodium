@@ -13,6 +13,8 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.model.franca.FrancaElement;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeRef;
@@ -26,9 +28,15 @@ public interface ModelBuilder {
 
   void startBuilding(FMethod francaMethod);
 
-  void startBuilding(FArgument francaArgument);
+  void startBuildingInputArgument(FArgument francaArgument);
+
+  void startBuildingOutputArgument(FArgument francaArgument);
 
   void startBuilding(FTypeRef francaTypeRef);
+
+  void startBuilding(FConstantDef francaConstant);
+
+  void startBuilding(FAttribute francaAttribute);
 
   void finishBuilding(FrancaElement<?> element);
 
@@ -36,7 +44,13 @@ public interface ModelBuilder {
 
   void finishBuilding(FMethod francaMethod);
 
-  void finishBuilding(FArgument francaArgument);
+  void finishBuildingInputArgument(FArgument francaArgument);
+
+  void finishBuildingOutputArgument(FArgument francaArgument);
 
   void finishBuilding(FTypeRef francaTypeRef);
+
+  void finishBuilding(FConstantDef francaConstant);
+
+  void finishBuilding(FAttribute francaAttribute);
 }

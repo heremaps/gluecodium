@@ -15,6 +15,8 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeRef;
@@ -44,12 +46,27 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
-  public void startBuilding(FArgument francaArgument) {
+  public void startBuildingInputArgument(FArgument francaArgument) {
+    contextStack.openContext();
+  }
+
+  @Override
+  public void startBuildingOutputArgument(FArgument francaArgument) {
     contextStack.openContext();
   }
 
   @Override
   public void startBuilding(FTypeRef francaTypeRef) {
+    contextStack.openContext();
+  }
+
+  @Override
+  public void startBuilding(FConstantDef francaConstant) {
+    contextStack.openContext();
+  }
+
+  @Override
+  public void startBuilding(FAttribute francaAttribute) {
     contextStack.openContext();
   }
 
@@ -69,13 +86,28 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
-  public void finishBuilding(FArgument francaArgument) {
+  public void finishBuildingInputArgument(FArgument francaArgument) {
+    resultContext = contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuildingOutputArgument(FArgument francaArgument) {
     resultContext = contextStack.closeContext();
   }
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
     resultContext = contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FConstantDef francaConstant) {
+    contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FAttribute francaAttribute) {
+    contextStack.closeContext();
   }
 
   public List<E> getResults() {

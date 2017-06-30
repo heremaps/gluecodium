@@ -13,41 +13,33 @@ package com.here.ivi.api.generator.common.java;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.baseapi.StubCommentParser;
+import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaClass.ClassQualifier;
 import com.here.ivi.api.model.javamodel.JavaConstant;
 import com.here.ivi.api.model.javamodel.JavaField;
-import com.here.ivi.api.model.javamodel.JavaMethod;
-import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
 import com.here.ivi.api.model.javamodel.JavaPackage;
-import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import navigation.BaseApiSpec;
 import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
-import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FAnnotationBlock;
-import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypedElement;
 
-/**
- * Maps Franca models to Java models
- *
- * <p>TODO: Should be merged / combined with JavaValueMapper at some point
- */
+/** Maps Franca models to Java models */
 public final class JavaClassMapper {
   private JavaClassMapper() {}
 
@@ -60,34 +52,22 @@ public final class JavaClassMapper {
   }
 
   public static JavaClass map(
-      final Interface<BaseApiSpec.InterfacePropertyAccessor> api, final JavaPackage javaPackage) {
-    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(api.getName()));
-    javaClass.visibility = JavaVisibility.PUBLIC;
-    javaClass.javaPackage = createJavaPackage(javaPackage.packageNames, api.getPackage());
+      final Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface,
+      final JavaPackage javaPackage) {
 
-    FAnnotationBlock comment = api.getFrancaInterface().getComment();
-    if (comment != null && comment.getElements() != null) {
-      javaClass.comment = StubCommentParser.FORMATTER.readDescription(comment);
-    }
+    JavaModelBuilder builder =
+        new JavaModelBuilder(createJavaPackage(javaPackage.packageNames, anInterface.getPackage()));
+    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
-    api.getFrancaInterface()
-        .getConstants()
-        .forEach(fConstantDef -> javaClass.constants.add(generateConstant(fConstantDef)));
+    treeWalker.walk(anInterface);
 
-    api.getFrancaInterface()
-        .getAttributes()
-        .forEach(fAttribute -> javaClass.fields.add(generateField(fAttribute)));
-
-    api.getFrancaInterface()
-        .getMethods()
-        .forEach(fMethod -> javaClass.methods.add(generateMethod(fMethod)));
-
-    return javaClass;
+    return (JavaClass) builder.getResults().get(0);
   }
 
+  // TODO: APIGEN-261 get rid of JavaClassMapper class, do it with the walker
   public static JavaClass map(
       final TypeCollection<TypeCollectionPropertyAccessor> typeCollection,
-      JavaPackage javaPackage) {
+      final JavaPackage javaPackage) {
     JavaClass javaClass = new JavaClass(typeCollection.getName());
     javaClass.javaPackage = javaPackage;
     javaClass.visibility = JavaVisibility.PUBLIC;
@@ -135,43 +115,7 @@ public final class JavaClassMapper {
     return javaClass;
   }
 
-  private static JavaMethod generateMethod(final FMethod fMethod) {
-    JavaMethod javaMethod;
-
-    // Map return type
-    EList<FArgument> outArgs = fMethod.getOutArgs();
-    if (outArgs.isEmpty()) { // Void return type
-      javaMethod = new JavaMethod(JavaNameRules.getMethodName(fMethod.getName()));
-    } else if (outArgs.size() == 1) {
-      JavaType returnType = JavaTypeMapper.map(outArgs.get(0).getType());
-
-      javaMethod = new JavaMethod(JavaNameRules.getMethodName(fMethod.getName()), returnType);
-    } else {
-      // TODO: Wrap comlex return type in an immutable container class
-      javaMethod = new JavaMethod(JavaNameRules.getMethodName(fMethod.getName()));
-    }
-
-    // Map method arguments
-    for (FArgument fArgument : fMethod.getInArgs()) {
-      JavaType javaArgumentType = JavaTypeMapper.map(fArgument.getType());
-      javaMethod.parameters.add(
-          new JavaParameter(javaArgumentType, JavaNameRules.getArgumentName(fArgument.getName())));
-    }
-
-    // TODO: Map errors to exception(s)
-    // Either create a per-Interface exception and add mapped enum values to it's EnumSet member
-    // Or do something different...
-
-    javaMethod.comment = StubCommentParser.FORMATTER.readDescription(fMethod.getComment());
-
-    // For now we assume all interface methods are native and public
-    javaMethod.qualifiers.add(MethodQualifier.NATIVE);
-    javaMethod.visibility = JavaVisibility.PUBLIC;
-
-    return javaMethod;
-  }
-
-  private static JavaConstant generateConstant(final FConstantDef fConstantDef) {
+  public static JavaConstant generateConstant(final FConstantDef fConstantDef) {
     JavaType type = JavaTypeMapper.map(fConstantDef.getType());
     JavaValue value = JavaValueMapper.map(type, fConstantDef.getRhs());
     JavaConstant constant =
@@ -183,7 +127,7 @@ public final class JavaClassMapper {
     return constant;
   }
 
-  private static JavaField generateField(final FTypedElement fTypedElement) {
+  public static JavaField generateField(final FTypedElement fTypedElement) {
     JavaType type = JavaTypeMapper.map(fTypedElement.getType());
     JavaField field = new JavaField(type, JavaNameRules.getFieldName(fTypedElement.getName()));
     FAnnotationBlock comment = fTypedElement.getComment();

@@ -1,0 +1,136 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package com.here.ivi.api.generator.common.java;
+
+import com.here.ivi.api.generator.baseapi.StubCommentParser;
+import com.here.ivi.api.generator.common.AbstractModelBuilder;
+import com.here.ivi.api.generator.common.ModelBuilderContextStack;
+import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaConstant;
+import com.here.ivi.api.model.javamodel.JavaElement;
+import com.here.ivi.api.model.javamodel.JavaField;
+import com.here.ivi.api.model.javamodel.JavaMethod;
+import com.here.ivi.api.model.javamodel.JavaPackage;
+import com.here.ivi.api.model.javamodel.JavaParameter;
+import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.javamodel.JavaVisibility;
+import org.eclipse.emf.common.util.EList;
+import org.franca.core.franca.FAnnotationBlock;
+import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMethod;
+
+public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
+
+  private final JavaPackage javaPackage;
+
+  public JavaModelBuilder(
+      final ModelBuilderContextStack<JavaElement> contextStack, final JavaPackage javaPackage) {
+    super(contextStack);
+    this.javaPackage = javaPackage;
+  }
+
+  public JavaModelBuilder(final JavaPackage javaPackage) {
+    super(new ModelBuilderContextStack<>());
+    this.javaPackage = javaPackage;
+  }
+
+  @Override
+  public void finishBuilding(FInterface francaInterface) {
+
+    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaInterface.getName()));
+    javaClass.visibility = JavaVisibility.PUBLIC;
+    javaClass.javaPackage = javaPackage;
+    FAnnotationBlock comment = francaInterface.getComment();
+    if (comment != null && comment.getElements() != null) {
+      javaClass.comment = StubCommentParser.FORMATTER.readDescription(comment);
+    }
+
+    for (JavaElement javaElement : contextStack.getCurrentContext().results) {
+      if (javaElement instanceof JavaConstant) {
+        javaClass.constants.add((JavaConstant) javaElement);
+      } else if (javaElement instanceof JavaField) {
+        javaClass.fields.add((JavaField) javaElement);
+      } else if (javaElement instanceof JavaMethod) {
+        javaClass.methods.add((JavaMethod) javaElement);
+      }
+    }
+
+    storeToParentContext(javaClass);
+    contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FMethod francaMethod) {
+
+    JavaMethod javaMethod;
+
+    // Map return type
+    EList<FArgument> outArgs = francaMethod.getOutArgs();
+    if (outArgs.isEmpty()) { // Void return type
+      javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()));
+    } else if (outArgs.size() == 1) {
+      JavaType returnType = JavaTypeMapper.map(outArgs.get(0).getType());
+      javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()), returnType);
+    } else {
+      // TODO: Wrap complex return type in an immutable container class
+      javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()));
+    }
+
+    // TODO: Map errors to exception(s)
+    // Either create a per-Interface exception and add mapped enum values to it's EnumSet member
+    // Or do something different...
+
+    javaMethod.comment = StubCommentParser.FORMATTER.readDescription(francaMethod.getComment());
+
+    // For now we assume all interface methods are native and public
+    javaMethod.qualifiers.add(JavaMethod.MethodQualifier.NATIVE);
+    javaMethod.visibility = JavaVisibility.PUBLIC;
+
+    for (JavaElement javaElement : contextStack.getCurrentContext().results) {
+      if (javaElement instanceof JavaParameter) {
+        javaMethod.parameters.add((JavaParameter) javaElement);
+      }
+    }
+
+    storeToParentContext(javaMethod);
+    contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuildingInputArgument(FArgument francaArgument) {
+
+    JavaType javaArgumentType = JavaTypeMapper.map(francaArgument.getType());
+    JavaParameter javaParameter =
+        new JavaParameter(
+            javaArgumentType, JavaNameRules.getArgumentName(francaArgument.getName()));
+
+    storeToParentContext(javaParameter);
+    contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FConstantDef francaConstant) {
+
+    storeToParentContext(JavaClassMapper.generateConstant(francaConstant));
+    contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FAttribute francaAttribute) {
+
+    storeToParentContext(JavaClassMapper.generateField(francaAttribute));
+    contextStack.closeContext();
+  }
+}

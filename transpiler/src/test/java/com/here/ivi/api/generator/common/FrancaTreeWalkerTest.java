@@ -21,6 +21,8 @@ import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeRef;
@@ -41,9 +43,13 @@ public class FrancaTreeWalkerTest {
   @Mock private FArgument francaArgument;
   @Mock private FArgument anotherFrancaArgument;
   @Mock private FTypeRef francaTypeRef;
+  @Mock private FConstantDef francaConstant;
+  @Mock private FAttribute francaAttribute;
 
   private final ArrayEList<FMethod> methods = new ArrayEList<>();
   private final ArrayEList<FArgument> arguments = new ArrayEList<>();
+  private final ArrayEList<FConstantDef> constants = new ArrayEList<>();
+  private final ArrayEList<FAttribute> attributes = new ArrayEList<>();
 
   private FrancaTreeWalker treeWalker;
 
@@ -55,9 +61,13 @@ public class FrancaTreeWalkerTest {
 
     methods.add(francaMethod);
     arguments.add(francaArgument);
+    constants.add(francaConstant);
+    attributes.add(francaAttribute);
 
     when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
     when(francaInterface.getMethods()).thenReturn(methods);
+    when(francaInterface.getConstants()).thenReturn(constants);
+    when(francaInterface.getAttributes()).thenReturn(attributes);
 
     when(francaMethod.getInArgs()).thenReturn(arguments);
     when(francaArgument.getType()).thenReturn(francaTypeRef);
@@ -111,8 +121,8 @@ public class FrancaTreeWalkerTest {
   public void walkWithOneInArg() {
     treeWalker.walk(anInterface);
 
-    verify(modelBuilder).startBuilding(francaArgument);
-    verify(modelBuilder).finishBuilding(francaArgument);
+    verify(modelBuilder).startBuildingInputArgument(francaArgument);
+    verify(modelBuilder).finishBuildingInputArgument(francaArgument);
   }
 
   @Test
@@ -121,10 +131,10 @@ public class FrancaTreeWalkerTest {
 
     treeWalker.walk(anInterface);
 
-    verify(modelBuilder).startBuilding(francaArgument);
-    verify(modelBuilder).finishBuilding(francaArgument);
-    verify(modelBuilder).startBuilding(anotherFrancaArgument);
-    verify(modelBuilder).finishBuilding(anotherFrancaArgument);
+    verify(modelBuilder).startBuildingInputArgument(francaArgument);
+    verify(modelBuilder).finishBuildingInputArgument(francaArgument);
+    verify(modelBuilder).startBuildingInputArgument(anotherFrancaArgument);
+    verify(modelBuilder).finishBuildingInputArgument(anotherFrancaArgument);
   }
 
   @Test
@@ -134,8 +144,8 @@ public class FrancaTreeWalkerTest {
 
     treeWalker.walk(anInterface);
 
-    verify(modelBuilder).startBuilding(francaArgument);
-    verify(modelBuilder).finishBuilding(francaArgument);
+    verify(modelBuilder).startBuildingOutputArgument(francaArgument);
+    verify(modelBuilder).finishBuildingOutputArgument(francaArgument);
   }
 
   @Test
@@ -146,10 +156,10 @@ public class FrancaTreeWalkerTest {
 
     treeWalker.walk(anInterface);
 
-    verify(modelBuilder).startBuilding(francaArgument);
-    verify(modelBuilder).finishBuilding(francaArgument);
-    verify(modelBuilder).startBuilding(anotherFrancaArgument);
-    verify(modelBuilder).finishBuilding(anotherFrancaArgument);
+    verify(modelBuilder).startBuildingOutputArgument(francaArgument);
+    verify(modelBuilder).finishBuildingOutputArgument(francaArgument);
+    verify(modelBuilder).startBuildingOutputArgument(anotherFrancaArgument);
+    verify(modelBuilder).finishBuildingOutputArgument(anotherFrancaArgument);
   }
 
   @Test
@@ -160,10 +170,10 @@ public class FrancaTreeWalkerTest {
 
     treeWalker.walk(anInterface);
 
-    verify(modelBuilder).startBuilding(francaArgument);
-    verify(modelBuilder).finishBuilding(francaArgument);
-    verify(modelBuilder).startBuilding(anotherFrancaArgument);
-    verify(modelBuilder).finishBuilding(anotherFrancaArgument);
+    verify(modelBuilder).startBuildingInputArgument(francaArgument);
+    verify(modelBuilder).finishBuildingInputArgument(francaArgument);
+    verify(modelBuilder).startBuildingOutputArgument(anotherFrancaArgument);
+    verify(modelBuilder).finishBuildingOutputArgument(anotherFrancaArgument);
   }
 
   @Test
@@ -172,5 +182,47 @@ public class FrancaTreeWalkerTest {
 
     verify(modelBuilder).startBuilding(francaTypeRef);
     verify(modelBuilder).finishBuilding(francaTypeRef);
+  }
+
+  @Test
+  public void walkWithOneConstant() {
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaConstant);
+    verify(modelBuilder).finishBuilding(francaConstant);
+  }
+
+  @Test
+  public void walkWithTwoConstants() {
+    FConstantDef anotherFrancaConstant = mock(FConstantDef.class);
+    constants.add(anotherFrancaConstant);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaConstant);
+    verify(modelBuilder).finishBuilding(francaConstant);
+    verify(modelBuilder).startBuilding(anotherFrancaConstant);
+    verify(modelBuilder).finishBuilding(anotherFrancaConstant);
+  }
+
+  @Test
+  public void walkWithOneAttribute() {
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaAttribute);
+    verify(modelBuilder).finishBuilding(francaAttribute);
+  }
+
+  @Test
+  public void walkWithTwoAttributes() {
+    FAttribute anotherFrancaAttribute = mock(FAttribute.class);
+    attributes.add(anotherFrancaAttribute);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaAttribute);
+    verify(modelBuilder).finishBuilding(francaAttribute);
+    verify(modelBuilder).startBuilding(anotherFrancaAttribute);
+    verify(modelBuilder).finishBuilding(anotherFrancaAttribute);
   }
 }
