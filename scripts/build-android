@@ -6,6 +6,9 @@
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
+ANDROID_DIR=${PWD}/apps/android
+ANDROID_APP_LIB_DIR=${ANDROID_DIR}/app/libs
+
 for arch in x86 armeabi-v7a ; do
     build_dir=${PWD}/build-android-${arch}
     install_dir=${PWD}/dist/android/${arch}
@@ -33,4 +36,12 @@ for arch in x86 armeabi-v7a ; do
     safe cmake \
         --build ${build_dir} \
         --target install
+
+    # After a successful build, copy the AARs to the example app
+    cp dist/android-${arch}/lib/hello.aar ${ANDROID_APP_LIB_DIR}/hello-${arch}.aar
 done
+
+# Finally build the example app itself
+pushd ${ANDROID_DIR}
+./gradlew assembleDebug
+popd
