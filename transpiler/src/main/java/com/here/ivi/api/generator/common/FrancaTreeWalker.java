@@ -17,6 +17,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 
@@ -102,6 +104,18 @@ public class FrancaTreeWalker {
             this::walkChildNodes);
       }
     }
+    EList<FConstantDef> constants = francaInterface.getConstants();
+    if (constants != null) {
+      for (FConstantDef constant : constants) {
+        walk(constant, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+      }
+    }
+    EList<FAttribute> attributes = francaInterface.getAttributes();
+    if (attributes != null) {
+      for (FAttribute attribute : attributes) {
+        walk(attribute, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+      }
+    }
   }
 
   private void walkChildNodes(FMethod francaMethod) {
@@ -110,8 +124,8 @@ public class FrancaTreeWalker {
       for (FArgument argument : inArgs) {
         walk(
             argument,
-            ModelBuilder::startBuilding,
-            ModelBuilder::finishBuilding,
+            ModelBuilder::startBuildingInputArgument,
+            ModelBuilder::finishBuildingInputArgument,
             this::walkChildNodes);
       }
     }
@@ -120,8 +134,8 @@ public class FrancaTreeWalker {
       for (FArgument argument : outArgs) {
         walk(
             argument,
-            ModelBuilder::startBuilding,
-            ModelBuilder::finishBuilding,
+            ModelBuilder::startBuildingOutputArgument,
+            ModelBuilder::finishBuildingOutputArgument,
             this::walkChildNodes);
       }
     }
