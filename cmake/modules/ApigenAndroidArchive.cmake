@@ -56,6 +56,8 @@ function(apigen_android_archive target)
             COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_ANDROID_ARCHIVE} .
             WORKING_DIRECTORY ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}
             COMMENT "Generating Android Archive...")
+        install(FILES ${APIGEN_ANDROID_ARCHIVE}
+            DESTINATION lib)
 
     endif()
 

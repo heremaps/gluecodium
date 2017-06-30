@@ -47,6 +47,7 @@ function(apigen_java_compile target)
         set_target_properties(${target} PROPERTIES
             APIGEN_JAVA_COMPILE_OUTPUT_DIR ${APIGEN_JAVA_COMPILE_OUTPUT_DIR})
 
+        set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7")
         file(GLOB JAVA_SOURCES ${APIGEN_TRANSPILER_JAVA_SOURCE_DIR}/*.java)
         add_custom_command(TARGET ${target} POST_BUILD
             COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
