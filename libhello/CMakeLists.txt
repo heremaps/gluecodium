@@ -17,9 +17,19 @@ set(HELLO_VERSION_MINOR 0)
 set(HELLO_VERSION_PATCH 1)
 set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_PATCH})
 
-set(HELLO_SOURCES
-    src/hello/HelloWorldStub.cpp
-    src/test/StaticStringMethodsTestStub.cpp)
+#TODO Remove this workaround for builtin types for Swift and just do the else part once
+#APIGEN-202 is done
+if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
+    set(HELLO_SOURCES
+        #src/hello/HelloWorldBuiltinTypesStub.cpp
+        src/hello/HelloWorldStub.cpp
+        src/test/StaticStringMethodsTestStub.cpp)
+else()
+    set(HELLO_SOURCES
+        src/hello/HelloWorldBuiltinTypesStub.cpp
+        src/hello/HelloWorldStub.cpp
+        src/test/StaticStringMethodsTestStub.cpp)
+endif()
 
 add_library(hello ${HELLO_SOURCES})
 target_compile_features(hello PUBLIC cxx_range_for)
@@ -29,9 +39,27 @@ set_target_properties(hello PROPERTIES
     VERSION ${HELLO_VERSION})
 
 include(apigen/Apigen)
-apigen_transpile(hello
-    ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
-    ${HELLO_APIGEN_TRANSPILER_GENERATOR})
+
+#TODO Remove this workaround for builtin types for Swift and just do the else part once
+#APIGEN-202 is done
+if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
+    set(HELLO_WORLD_BASE_FILES
+        #fidl/HelloWorldBuiltinTypes.fdepl
+        #fidl/HelloWorldBuiltinTypes.fidl
+        fidl/HelloWorld.fdepl
+        fidl/HelloWorld.fidl
+        fidl/StaticStringMethodsTest.fdepl
+        fidl/StaticStringMethodsTest.fidl
+    )
+    file(COPY ${HELLO_WORLD_BASE_FILES} DESTINATION swift-fidl)
+    apigen_transpile(hello
+        ${CMAKE_CURRENT_BINARY_DIR}/swift-fidl/
+        ${HELLO_APIGEN_TRANSPILER_GENERATOR})
+else()
+    apigen_transpile(hello
+        ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
+        ${HELLO_APIGEN_TRANSPILER_GENERATOR})
+endif()
 apigen_target_include_directories(hello)
 apigen_target_sources(hello)
 
@@ -50,7 +78,7 @@ elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
     # Swift customers want a module...
     apigen_swift_build(hello TESTS ${HELLO_SWIFT_TESTS})
-    #TODO: Investigate ways to separate debug host-builds (no cross toolchain) 
+    #TODO: Investigate ways to separate debug host-builds (no cross toolchain)
     # for testing from debug/release cross-builds for iOS targets.
     #apigen_swift_test(hello test/folder)
     #apigen_ios_framework(hello)
