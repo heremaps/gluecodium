@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.common.jni.templates
 
 import java.util.List;
 import com.here.ivi.api.model.common.Includes
-import com.here.ivi.api.generator.common.jni.JniTypeConverter
+import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 import com.here.ivi.api.model.javamodel.JavaClass
 
@@ -32,7 +32,7 @@ public class JniImplementationTemplate {
       «ENDFOR»
 
       «FOR method : javaClass.methods»
-      extern "C" «JniTypeConverter.map(method.returnType).name»
+      extern "C" «JniTypeNameMapper.map(method.returnType)»
       «JniFunctionSignatureTemplate.generate(javaClass, method)»
       {
           //TODO

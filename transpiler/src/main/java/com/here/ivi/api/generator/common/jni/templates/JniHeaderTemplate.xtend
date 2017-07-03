@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.common.jni.templates
 
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 import com.here.ivi.api.model.javamodel.JavaClass
-import com.here.ivi.api.generator.common.jni.JniTypeConverter
+import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
 
 public class JniHeaderTemplate {
   def static generate(JavaClass javaClass) '''
@@ -34,7 +34,7 @@ public class JniHeaderTemplate {
     /**
      * Function for «javaClass.name».«method.name»()
      */
-    JNIEXPORT «JniTypeConverter.map(method.returnType).name» JNICALL
+    JNIEXPORT «JniTypeNameMapper.map(method.returnType)» JNICALL
     «JniFunctionSignatureTemplate.generate(javaClass, method)»;
     «ENDFOR»
 
