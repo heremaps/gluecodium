@@ -124,7 +124,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     return GeneratorNoticeTemplate.generate(suite, inputDefinition, outputTarget);
   }
 
-  private static GeneratedFile copyTarget(String fileName, String targetDir) {
+  public static GeneratedFile copyTarget(String fileName, String targetDir) {
     InputStream stream = BaseApiGeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
 
     if (stream != null) {

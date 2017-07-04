@@ -35,7 +35,10 @@ public class JniImplementationTemplate {
       extern "C" «JniTypeNameMapper.map(method.returnType)»
       «JniFunctionSignatureTemplate.generate(javaClass, method)»
       {
-          //TODO
+          «IF !javaClass.name.contains("Test")»
+          const std::string cpp_string(here::internal::convert_jstring_to_std_string(env, jinputString));
+          return here::internal::convert_std_string_to_jstring(env, hello::HelloWorldStub::helloWorldMethod(cpp_string));
+          «ENDIF»
       }
       «ENDFOR»
       '''
