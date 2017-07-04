@@ -11,51 +11,61 @@
 
 package com.here.ivi.api.generator.android;
 
+import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.java.JavaClassMapper;
+import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.generator.common.java.JavaNameRules;
 import com.here.ivi.api.generator.common.java.templates.JavaClassTemplate;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaPackage;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 import navigation.BaseApiSpec;
 import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 
-final class JavaGenerator {
-  private final List<String> javaPackageList;
+public class JavaGenerator {
 
-  JavaGenerator(List<String> javaPackageList) {
-    this.javaPackageList = javaPackageList;
-  }
+  private final JavaPackage basePackage;
 
-  public List<GeneratedFile> generateFiles(
-      final Interface<BaseApiSpec.InterfacePropertyAccessor> api) {
-    JavaPackage javaPackage =
+  public JavaGenerator(final List<String> javaPackageList) {
+
+    basePackage =
         javaPackageList == null || javaPackageList.isEmpty()
             ? JavaPackage.DEFAULT
             : new JavaPackage(javaPackageList);
-    JavaClass javaClass = JavaClassMapper.map(api, javaPackage);
-    return generateFilesForClass(javaClass);
+  }
+
+  public List<GeneratedFile> generateFiles(
+      final Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface) {
+
+    JavaModelBuilder modelBuilder =
+        new JavaModelBuilder(basePackage.createChildPackage(anInterface.getPackage()));
+    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
+
+    treeWalker.walk(anInterface);
+
+    return generateFilesForClass((JavaClass) modelBuilder.getResults().get(0));
   }
 
   public List<GeneratedFile> generateFiles(
       TypeCollection<TypeCollectionPropertyAccessor> typeCollection) {
-    JavaPackage javaPackage =
-        javaPackageList == null || javaPackageList.isEmpty()
-            ? JavaPackage.DEFAULT
-            : new JavaPackage(javaPackageList);
-    JavaClass javaClass = JavaClassMapper.map(typeCollection, javaPackage);
-    return generateFilesForClass(javaClass);
+
+    JavaModelBuilder modelBuilder =
+        new JavaModelBuilder(basePackage.createChildPackage(typeCollection.getPackage()));
+    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
+
+    treeWalker.walk(typeCollection);
+
+    return generateFilesForClass((JavaClass) modelBuilder.getResults().get(0));
   }
 
-  private List<GeneratedFile> generateFilesForClass(JavaClass javaClass) {
-    List<GeneratedFile> files = new LinkedList<>();
+  private static List<GeneratedFile> generateFilesForClass(JavaClass javaClass) {
+
     CharSequence fileContent = JavaClassTemplate.generate(javaClass);
     String fileName = JavaNameRules.getFileName(javaClass);
-    files.add(new GeneratedFile(fileContent, fileName));
-    return files;
+
+    return Collections.singletonList(new GeneratedFile(fileContent, fileName));
   }
 }

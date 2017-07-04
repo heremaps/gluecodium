@@ -22,14 +22,18 @@ import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FModelElement;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypedElement;
 
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
@@ -49,13 +53,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
-    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaInterface.getName()));
-    javaClass.visibility = JavaVisibility.PUBLIC;
-    javaClass.javaPackage = javaPackage;
-    FAnnotationBlock comment = francaInterface.getComment();
-    if (comment != null && comment.getElements() != null) {
-      javaClass.comment = StubCommentParser.FORMATTER.readDescription(comment);
-    }
+    JavaClass javaClass = createJavaClass(francaInterface);
 
     for (JavaElement javaElement : contextStack.getCurrentContext().results) {
       if (javaElement instanceof JavaConstant) {
@@ -64,6 +62,23 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         javaClass.fields.add((JavaField) javaElement);
       } else if (javaElement instanceof JavaMethod) {
         javaClass.methods.add((JavaMethod) javaElement);
+      }
+    }
+
+    storeToParentContext(javaClass);
+    contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FTypeCollection francaTypeCollection) {
+
+    JavaClass javaClass = createJavaClass(francaTypeCollection);
+
+    for (JavaElement javaElement : contextStack.getCurrentContext().results) {
+      if (javaElement instanceof JavaConstant) {
+        javaClass.constants.add((JavaConstant) javaElement);
+      } else if (javaElement instanceof JavaClass) {
+        javaClass.innerClasses.add((JavaClass) javaElement);
       }
     }
 
@@ -123,14 +138,63 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
-    storeToParentContext(JavaClassMapper.generateConstant(francaConstant));
+    JavaType type = JavaTypeMapper.map(francaConstant.getType());
+    JavaValue value = JavaValueMapper.map(type, francaConstant.getRhs());
+    JavaConstant javaConstant =
+        new JavaConstant(type, JavaNameRules.getConstantName(francaConstant.getName()), value);
+    javaConstant.comment = getCommentString(francaConstant);
+
+    storeToParentContext(javaConstant);
     contextStack.closeContext();
   }
 
   @Override
-  public void finishBuilding(FAttribute francaAttribute) {
+  public void finishBuilding(FTypedElement francaTypedElement) {
 
-    storeToParentContext(JavaClassMapper.generateField(francaAttribute));
+    JavaField javaField =
+        new JavaField(
+            JavaTypeMapper.map(francaTypedElement.getType()),
+            JavaNameRules.getFieldName(francaTypedElement.getName()));
+    javaField.comment = getCommentString(francaTypedElement);
+
+    storeToParentContext(javaField);
     contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FStructType francaStructType) {
+
+    JavaClass javaClass = createJavaClass(francaStructType);
+    javaClass.qualifiers.add(JavaClass.ClassQualifier.STATIC);
+
+    for (JavaElement javaElement : contextStack.getCurrentContext().results) {
+      if (javaElement instanceof JavaField) {
+        javaClass.fields.add((JavaField) javaElement);
+      }
+    }
+
+    storeToParentContext(javaClass);
+    contextStack.closeContext();
+  }
+
+  private JavaClass createJavaClass(FModelElement francaTypeCollection) {
+
+    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaTypeCollection.getName()));
+    javaClass.visibility = JavaVisibility.PUBLIC;
+    javaClass.javaPackage = javaPackage;
+    javaClass.comment = getCommentString(francaTypeCollection);
+
+    return javaClass;
+  }
+
+  private static String getCommentString(FModelElement francaModelElement) {
+
+    String comment = "";
+    FAnnotationBlock francaComment = francaModelElement.getComment();
+    if (francaComment != null && francaComment.getElements() != null) {
+      comment = StubCommentParser.FORMATTER.readDescription(francaComment);
+    }
+
+    return comment;
   }
 }

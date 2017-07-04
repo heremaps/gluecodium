@@ -13,11 +13,13 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.model.franca.FrancaElement;
 import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.FTypedElement;
 
 /** An interface for a model builder, used by @see FrancaTreeWalker. */
 public interface ModelBuilder {
@@ -25,6 +27,8 @@ public interface ModelBuilder {
   void startBuilding(FrancaElement<?> element);
 
   void startBuilding(FInterface francaInterface);
+
+  void startBuilding(FTypeCollection francaTypeCollection);
 
   void startBuilding(FMethod francaMethod);
 
@@ -36,11 +40,15 @@ public interface ModelBuilder {
 
   void startBuilding(FConstantDef francaConstant);
 
-  void startBuilding(FAttribute francaAttribute);
+  void startBuilding(FTypedElement francaTypedElement);
+
+  void startBuilding(FStructType francaStructType);
 
   void finishBuilding(FrancaElement<?> element);
 
   void finishBuilding(FInterface francaInterface);
+
+  void finishBuilding(FTypeCollection francaTypeCollection);
 
   void finishBuilding(FMethod francaMethod);
 
@@ -52,5 +60,7 @@ public interface ModelBuilder {
 
   void finishBuilding(FConstantDef francaConstant);
 
-  void finishBuilding(FAttribute francaAttribute);
+  void finishBuilding(FTypedElement francaTypedElement);
+
+  void finishBuilding(FStructType francaStructType);
 }

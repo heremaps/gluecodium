@@ -18,13 +18,14 @@ import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.java.AndroidSpecAccessorFactory;
-import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.validator.android.AndroidValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -34,8 +35,9 @@ import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 public final class AndroidGeneratorSuite implements GeneratorSuite {
+
   public static final String GENERATOR_NAMESPACE = "android";
-  public static final String CONVERSION_UTILS_HEADER = "android/jni/JniCppConversionUtils.h";
+  private static final String CONVERSION_UTILS_HEADER = "android/jni/JniCppConversionUtils.h";
   private static final String CONVERSION_UTILS_CPP = "android/jni/JniCppConversionUtils.cpp";
   private static final String CONVERSION_UTILS_TARGET_DIR = "";
 
@@ -80,7 +82,6 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
 
   @Override
   public List<GeneratedFile> generate() {
-    CppIncludeResolver cppIncludeResolver = new CppIncludeResolver(model);
 
     // Java generator needs:
     // - java name rules
@@ -90,14 +91,16 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
     // - java name rules
     // - java to jni type conversion
     //   Object subclasses -> jobject
-    //   pojo clases like "long" -> jlong
+    //   POJO classes like "long" -> jlong
     // JNI impl generator will need:
     // - cpp name rules
     // - java to jni type conversion (see above)
     // - jni to cpp type converter
     //   jlong to long
     JavaNativeInterfacesGenerator jniGenerator =
-        new JavaNativeInterfacesGenerator(transpilerOptions.getJavaPackageList());
+        new JavaNativeInterfacesGenerator(
+            transpilerOptions.getJavaPackageList(),
+            Collections.singletonList(CONVERSION_UTILS_HEADER));
 
     // This generator is special in that it generates only one file
     // At the moment it does not need to iterate over all interfaces
@@ -109,9 +112,10 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
             .getInterfaces()
             .stream()
             .map(
-                iface -> {
-                  List<GeneratedFile> files = javaGenerator.generateFiles(iface);
-                  files.addAll(jniGenerator.generateFiles(iface));
+                anInterface -> {
+                  List<GeneratedFile> files = new LinkedList<>();
+                  files.addAll(javaGenerator.generateFiles(anInterface));
+                  files.addAll(jniGenerator.generateFiles(anInterface));
                   return files;
                 })
             .flatMap(Collection::stream);
@@ -122,8 +126,9 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
             .stream()
             .map(
                 typeCollection -> {
-                  List<GeneratedFile> files = javaGenerator.generateFiles(typeCollection);
-                  // Currently no JNI files to be generated for type collections
+                  List<GeneratedFile> files = new LinkedList<>();
+                  files.addAll(javaGenerator.generateFiles(typeCollection));
+                  files.addAll(jniGenerator.generateFiles(typeCollection));
                   return files;
                 })
             .flatMap(Collection::stream);
