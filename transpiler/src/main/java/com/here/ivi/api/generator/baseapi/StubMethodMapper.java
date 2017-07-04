@@ -16,7 +16,6 @@ import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cppmodel.*;
-import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +97,6 @@ public final class StubMethodMapper {
 
         returnType =
             new CppCustomType(
-                DefinedBy.createFromFrancaElement(rootModel),
                 "here::internal::Expected< " + String.join(", ", names) + " >",
                 CppElements.TypeInfo.Complex,
                 includes);
