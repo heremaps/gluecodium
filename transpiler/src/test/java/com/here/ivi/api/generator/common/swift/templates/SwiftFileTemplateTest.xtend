@@ -186,7 +186,7 @@ class SwiftFileTemplateTest {
         ]
         val expected = '''
             public class MyClass {
-                static func myStaticMethod() -> Void {
+                public static func myStaticMethod() -> Void {
                     return MyClass_myStaticMethod()
                 }
             }
@@ -232,7 +232,7 @@ class SwiftFileTemplateTest {
             import Foundation
 
             public class HelloWorld {
-                static func helloWorldMethod(inputString: String) -> String {
+                public static func helloWorldMethod(inputString: String) -> String {
                     let c_inputString = inputString
                     return {
                         if let ret_pointer = HelloWorld_helloWorldMethod(c_inputString) {
