@@ -6,9 +6,6 @@
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
-ANDROID_DIR=${PWD}/apps/android
-ANDROID_APP_LIB_DIR=${ANDROID_DIR}/app/libs
-
 for arch in x86 armeabi-v7a ; do
     build_dir=${PWD}/build-android-${arch}
     install_dir=${PWD}/dist/android/${arch}
@@ -36,10 +33,17 @@ for arch in x86 armeabi-v7a ; do
     safe cmake \
         --build ${build_dir} \
         --target install
-
-    # After a successful build, copy the AARs to the example app
-    cp dist/android-${arch}/lib/hello.aar ${ANDROID_APP_LIB_DIR}/hello-${arch}.aar
 done
+
+# At the moment we build one AAR per target architecture as it is not straightforward
+# to do a multi-arch build in one CMake build invocation. However, for simplicity we
+# want to include all architectures into one Android Archive. Hence do it in bash:
+ANDROID_DIR=${PWD}/apps/android
+TARGET_AAR=${ANDROID_DIR}/app/libs/hello.aar
+
+TMP_DIR=$(mktemp -d)
+find dist/android -name *.aar -exec unzip -n {} -d ${TMP_DIR} \;
+jar cvf ${TARGET_AAR} -C ${TMP_DIR} .
 
 # Finally build the example app itself
 pushd ${ANDROID_DIR}
