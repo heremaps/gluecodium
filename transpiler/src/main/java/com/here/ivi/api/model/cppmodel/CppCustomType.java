@@ -14,8 +14,8 @@ package com.here.ivi.api.model.cppmodel;
 import static java.util.Arrays.asList;
 
 import com.here.ivi.api.model.common.Includes;
-import com.here.ivi.api.model.franca.DefinedBy;
 import java.util.Collection;
+import java.util.Collections;
 
 public class CppCustomType extends CppType {
 
@@ -28,25 +28,20 @@ public class CppCustomType extends CppType {
   }
 
   public CppCustomType(String typeName, CppElements.TypeInfo info) {
-    this(null, typeName, info);
+    this(typeName, info, Collections.emptyList());
   }
 
   public CppCustomType(String typeName, Includes.Include... includes) {
-    this(null, typeName, CppElements.TypeInfo.Complex, asList(includes));
+    this(typeName, CppElements.TypeInfo.Complex, asList(includes));
+  }
+
+  public CppCustomType(String typeName, CppElements.TypeInfo info, Includes.Include... includes) {
+    this(typeName, info, asList(includes));
   }
 
   public CppCustomType(
-      DefinedBy def, String typeName, CppElements.TypeInfo info, Includes.Include... includes) {
-    this(def, typeName, info, asList(includes));
-  }
-
-  public CppCustomType(
-      DefinedBy def,
-      String typeName,
-      CppElements.TypeInfo info,
-      final Collection<Includes.Include> includes) {
-    super(def, typeName, includes);
-    this.definedIn = def;
+      String typeName, CppElements.TypeInfo info, final Collection<Includes.Include> includes) {
+    super(typeName, includes);
     this.info = info;
   }
 }

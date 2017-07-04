@@ -12,7 +12,6 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.model.common.Includes;
-import com.here.ivi.api.model.franca.DefinedBy;
 
 public class CppPrimitiveType extends CppType {
 
@@ -48,12 +47,6 @@ public class CppPrimitiveType extends CppType {
 
   public CppPrimitiveType(final Type type) {
     super(type.getValue());
-    this.type = type;
-    addIncludes();
-  }
-
-  public CppPrimitiveType(final DefinedBy definer, final Type type) {
-    super(definer, type.getValue());
     this.type = type;
     addIncludes();
   }

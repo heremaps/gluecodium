@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.cpp.*;
+import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -81,7 +82,7 @@ public final class TypeCollectionMapper implements CppModelMapper {
     typeDef.name = CppNameRules.getTypedefName(type.getName());
     typeDef.targetType =
         CppTypeMapper.wrapMapType(
-            DefinedBy.createFromFModelElement(type),
+            new Includes.LazyInternalInclude(DefinedBy.createFromFModelElement(type)),
             CppTypeMapper.map(rootModel, type.getKeyType()),
             CppTypeMapper.map(rootModel, type.getValueType()));
 

@@ -12,29 +12,16 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.model.common.Includes;
-import com.here.ivi.api.model.franca.DefinedBy;
 import java.util.Collection;
-import java.util.Collections;
 
 public abstract class CppType extends CppElementWithIncludes {
-
-  public DefinedBy definedIn;
 
   public CppType(String typeName) {
     super(typeName);
   }
 
-  public CppType(DefinedBy def, String typeName) {
-    this(def, typeName, Collections.emptyList());
-  }
-
   public CppType(String typeName, final Collection<Includes.Include> includes) {
     super(typeName, includes);
-  }
-
-  public CppType(DefinedBy def, String typeName, final Collection<Includes.Include> includes) {
-    super(typeName, includes);
-    this.definedIn = def;
   }
 
   public abstract boolean isValid();
