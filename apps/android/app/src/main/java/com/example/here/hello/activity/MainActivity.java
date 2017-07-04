@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.here.hello.R;
+import com.here.android.hello.HelloWorld;
 
 public final class MainActivity extends AppCompatActivity {
     private EditText user;
@@ -27,9 +28,10 @@ public final class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String username = user.getText().toString();
-                // TODO: once APIGEN-245 is solved, use HelloWorld::helloWorldMethod( ) imported
-                // from Java APIs .aar
-                String userGreeting = "Hello " + username;
+                // TODO: native method should be static, needs to be parsed from the deployment
+                // model accordingly
+                HelloWorld helloWorld = new HelloWorld();
+                String userGreeting = helloWorld.helloWorldMethod(username);
                 Snackbar.make(user, userGreeting, Snackbar.LENGTH_INDEFINITE)
                         .show();
             }
