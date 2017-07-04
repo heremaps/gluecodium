@@ -31,8 +31,10 @@ public class JniImplementationTemplate {
       #include "«include.file»"
       «ENDFOR»
 
+      extern "C" {
+
       «FOR method : javaClass.methods»
-      extern "C" «JniTypeNameMapper.map(method.returnType)»
+      «JniTypeNameMapper.map(method.returnType)»
       «JniFunctionSignatureTemplate.generate(javaClass, method)»
       {
           «IF !javaClass.name.contains("Test")»
@@ -40,7 +42,9 @@ public class JniImplementationTemplate {
           return here::internal::convert_std_string_to_jstring(env, hello::HelloWorldStub::helloWorldMethod(cpp_string));
           «ENDIF»
       }
+
       «ENDFOR»
+      }
       '''
   }
 }

@@ -48,12 +48,12 @@ public class JniImplementationTemplateTest {
   }
 
   private String expectedGeneratedJNIMethod(String methodName) {
-    return "\nextern \"C\" jint\n"
+    return "\njint\n"
         + "Java_com_here_android_TestClass_"
         + methodName
         + "(JNIEnv* env, jobject jinstance, jint jparam)\n"
         + "{\n"
-        + "}";
+        + "}\n";
   }
 
   private JavaClass javaClass;
@@ -76,7 +76,8 @@ public class JniImplementationTemplateTest {
           + " */\n"
           + "\n";
   private final String jniHeaderInclude = "#include \"stub/libhello/TestClassStub.h\"\n";
-  private final String endOfFile = "\n";
+  private final String externC = "\nextern \"C\" {\n";
+  private final String endOfFile = "\n}\n";
 
   @Before
   public void setUp() {
@@ -117,6 +118,7 @@ public class JniImplementationTemplateTest {
         copyrightNotice
             + "#include \"jni_header.h\"\n"
             + "#include \"base_api_header.h\"\n"
+            + externC
             + endOfFile,
         generatedImplementation);
   }
@@ -132,7 +134,7 @@ public class JniImplementationTemplateTest {
   public void generateWithNoMethods() {
     String generatedImplementation = JniImplementationTemplate.generate(javaClass, jniIncludes);
 
-    assertEquals(copyrightNotice + jniHeaderInclude + endOfFile, generatedImplementation);
+    assertEquals(copyrightNotice + jniHeaderInclude + externC + endOfFile, generatedImplementation);
   }
 
   @Test
@@ -142,7 +144,11 @@ public class JniImplementationTemplateTest {
     String generatedImplementation = JniImplementationTemplate.generate(javaClass, jniIncludes);
 
     assertEquals(
-        copyrightNotice + jniHeaderInclude + expectedGeneratedJNIMethod("method1") + endOfFile,
+        copyrightNotice
+            + jniHeaderInclude
+            + externC
+            + expectedGeneratedJNIMethod("method1")
+            + endOfFile,
         generatedImplementation);
   }
 
@@ -156,6 +162,7 @@ public class JniImplementationTemplateTest {
     assertEquals(
         copyrightNotice
             + jniHeaderInclude
+            + externC
             + expectedGeneratedJNIMethod("method1")
             + expectedGeneratedJNIMethod("method2")
             + endOfFile,
