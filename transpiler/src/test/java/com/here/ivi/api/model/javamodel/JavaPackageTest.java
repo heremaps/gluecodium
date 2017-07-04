@@ -14,6 +14,7 @@ package com.here.ivi.api.model.javamodel;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,12 +23,28 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class JavaPackageTest {
 
+  private static final List<String> PACKAGE_LIST = Arrays.asList("com", "here", "test");
+
+  private final JavaPackage javaPackage = new JavaPackage(PACKAGE_LIST);
+
   @Test
-  public void javaPackageListConstructor() {
-    List<String> packages = Arrays.asList("com", "here", "test");
+  public void createChildPackageWithNullList() {
+    JavaPackage childPackage = javaPackage.createChildPackage(null);
 
-    JavaPackage javaPackage = new JavaPackage(packages);
+    assertEquals(PACKAGE_LIST, childPackage.packageNames);
+  }
 
-    assertEquals(packages, javaPackage.packageNames);
+  @Test
+  public void createChildPackageWithEmptyList() {
+    JavaPackage childPackage = javaPackage.createChildPackage(Collections.emptyList());
+
+    assertEquals(PACKAGE_LIST, childPackage.packageNames);
+  }
+
+  @Test
+  public void createChildPackageWithNonEmptyList() {
+    JavaPackage childPackage = javaPackage.createChildPackage(Collections.singletonList("boom"));
+
+    assertEquals(Arrays.asList("com", "here", "test", "boom"), childPackage.packageNames);
   }
 }

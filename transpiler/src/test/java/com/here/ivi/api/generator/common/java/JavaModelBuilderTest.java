@@ -35,11 +35,13 @@ import java.util.Collections;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.FTypedElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,29 +53,34 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({JavaTypeMapper.class, JavaClassMapper.class})
+@PrepareForTest(JavaTypeMapper.class)
 public class JavaModelBuilderTest {
 
-  private static final String INTERFACE_NAME = "in the face";
+  private static final String CLASS_NAME = "classy";
   private static final String METHOD_NAME = "methodical";
   private static final String PARAMETER_NAME = "curvature";
+  private static final String CONSTANT_NAME = "permanent";
+  private static final String FIELD_NAME = "flowers";
+  private static final String STRUCT_NAME = "nonsense";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private ModelBuilderContextStack<JavaElement> contextStack;
 
   @Mock private FInterface francaInterface;
+  @Mock private FTypeCollection francaTypeCollection;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FTypeRef francaType;
   @Mock private FConstantDef francaConstant;
-  @Mock private FAttribute francaAttribute;
+  @Mock private FTypedElement francaTypedElement;
+  @Mock private FStructType francaStructType;
 
   private final EList<FArgument> arguments = new ArrayEList<>();
 
   private final JavaType javaTypeVoid = new JavaPrimitiveType(JavaPrimitiveType.Type.VOID);
   private final JavaConstant javaConstant =
-      new JavaConstant(javaTypeVoid, "permanent", new JavaValue("valuable"));
-  private final JavaField javaField = new JavaField(javaTypeVoid, "flowers");
+      new JavaConstant(javaTypeVoid, CONSTANT_NAME, new JavaValue("valuable"));
+  private final JavaField javaField = new JavaField(javaTypeVoid, FIELD_NAME);
 
   private JavaModelBuilder modelBuilder;
 
@@ -90,7 +97,7 @@ public class JavaModelBuilderTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(JavaTypeMapper.class, JavaClassMapper.class);
+    PowerMockito.mockStatic(JavaTypeMapper.class);
     MockitoAnnotations.initMocks(this);
 
     modelBuilder = new JavaModelBuilder(contextStack, new JavaPackage(Collections.emptyList()));
@@ -98,13 +105,28 @@ public class JavaModelBuilderTest {
     contextStack.getCurrentContext().results = new ArrayList<>();
     contextStack.getParentContext().results = new ArrayList<>();
 
-    when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
+    when(francaInterface.getName()).thenReturn(CLASS_NAME);
+    when(francaConstant.getName()).thenReturn(CONSTANT_NAME);
+    when(francaTypedElement.getName()).thenReturn(FIELD_NAME);
+    when(francaStructType.getName()).thenReturn(STRUCT_NAME);
 
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
     when(francaMethod.getOutArgs()).thenReturn(arguments);
 
     when(francaArgument.getName()).thenReturn(PARAMETER_NAME);
     when(francaArgument.getType()).thenReturn(francaType);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterface() {
+    injectResult(javaConstant);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaElement result = getFirstResult();
+    assertTrue(result instanceof JavaClass);
+
+    assertEquals(CLASS_NAME, ((JavaClass) result).name.toLowerCase());
   }
 
   @Test
@@ -227,26 +249,77 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaTypeCollectionReadsConstants() {
+    injectResult(javaConstant);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    JavaElement result = getFirstResult();
+    assertTrue(result instanceof JavaClass);
+
+    JavaClass javaClass = (JavaClass) result;
+    assertFalse(javaClass.constants.isEmpty());
+    assertEquals(javaConstant, javaClass.constants.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionReadsClasses() {
+    final JavaClass innerClass = new JavaClass(CLASS_NAME);
+    injectResult(innerClass);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    JavaElement result = getFirstResult();
+    assertTrue(result instanceof JavaClass);
+
+    JavaClass javaClass = (JavaClass) result;
+    assertFalse(javaClass.innerClasses.isEmpty());
+    assertEquals(innerClass, javaClass.innerClasses.iterator().next());
+  }
+
+  @Test
   public void finishBuildingFrancaConstant() {
-    when(JavaClassMapper.generateConstant(francaConstant)).thenReturn(javaConstant);
     modelBuilder.finishBuilding(francaConstant);
 
     JavaElement result = getFirstResult();
     assertTrue(result instanceof JavaConstant);
 
-    PowerMockito.verifyStatic();
-    JavaClassMapper.generateConstant(francaConstant);
+    JavaConstant javaConstant = (JavaConstant) result;
+    assertEquals(CONSTANT_NAME, javaConstant.name.toLowerCase());
   }
 
   @Test
-  public void finishBuildingFrancaAttribute() {
-    when(JavaClassMapper.generateField(francaAttribute)).thenReturn(javaField);
-    modelBuilder.finishBuilding(francaAttribute);
+  public void finishBuildingFrancaTypedElement() {
+    modelBuilder.finishBuilding(francaTypedElement);
 
     JavaElement result = getFirstResult();
     assertTrue(result instanceof JavaField);
 
-    PowerMockito.verifyStatic();
-    JavaClassMapper.generateField(francaAttribute);
+    JavaField javaField = (JavaField) result;
+    assertEquals(FIELD_NAME, javaField.name.toLowerCase());
+  }
+
+  @Test
+  public void finishBuildingFrancaStructType() {
+    modelBuilder.finishBuilding(francaStructType);
+
+    JavaElement result = getFirstResult();
+    assertTrue(result instanceof JavaClass);
+
+    assertEquals(STRUCT_NAME, ((JavaClass) result).name.toLowerCase());
+  }
+
+  @Test
+  public void finishBuildingFrancaStructTypeReadsFields() {
+    injectResult(javaField);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    JavaElement result = getFirstResult();
+    assertTrue(result instanceof JavaClass);
+
+    JavaClass javaClass = (JavaClass) result;
+    assertFalse(javaClass.fields.isEmpty());
+    assertEquals(javaField, javaClass.fields.iterator().next());
   }
 }

@@ -15,11 +15,13 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.FTypedElement;
 
 public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
@@ -37,6 +39,11 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   @Override
   public void startBuilding(FInterface francaInterface) {
+    contextStack.openContext();
+  }
+
+  @Override
+  public void startBuilding(FTypeCollection francaTypeCollection) {
     contextStack.openContext();
   }
 
@@ -66,7 +73,12 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
-  public void startBuilding(FAttribute francaAttribute) {
+  public void startBuilding(FTypedElement francaTypedElement) {
+    contextStack.openContext();
+  }
+
+  @Override
+  public void startBuilding(FStructType francaStructType) {
     contextStack.openContext();
   }
 
@@ -77,6 +89,11 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
+    resultContext = contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FTypeCollection francaTypeCollection) {
     resultContext = contextStack.closeContext();
   }
 
@@ -106,8 +123,13 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
-  public void finishBuilding(FAttribute francaAttribute) {
+  public void finishBuilding(FTypedElement francaTypedElement) {
     contextStack.closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FStructType francaStructType) {
+    resultContext = contextStack.closeContext();
   }
 
   public List<E> getResults() {

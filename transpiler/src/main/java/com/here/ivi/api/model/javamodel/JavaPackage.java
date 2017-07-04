@@ -12,6 +12,7 @@
 package com.here.ivi.api.model.javamodel;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public final class JavaPackage {
@@ -26,5 +27,15 @@ public final class JavaPackage {
 
   public String flatten() {
     return String.join(".", packageNames);
+  }
+
+  public JavaPackage createChildPackage(final List<String> additionalPackages) {
+
+    List<String> packages = new LinkedList<>(packageNames);
+    if (additionalPackages != null) {
+      packages.addAll(additionalPackages);
+    }
+
+    return new JavaPackage(packages);
   }
 }

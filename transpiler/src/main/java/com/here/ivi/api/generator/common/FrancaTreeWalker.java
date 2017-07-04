@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.Collection;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -19,8 +20,12 @@ import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FField;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeCollection;
 
 /**
  * Tree walker for the Franca model tree decouples tree traversal from the creation of
@@ -61,6 +66,19 @@ public class FrancaTreeWalker {
         this::walkChildNodes);
   }
 
+  public void walk(final TypeCollection<?> typeCollection) {
+
+    if (typeCollection == null || builders == null || builders.isEmpty()) {
+      return;
+    }
+
+    walk(
+        typeCollection,
+        ModelBuilder::startBuilding,
+        ModelBuilder::finishBuilding,
+        this::walkChildNodes);
+  }
+
   private <T> void walk(
       final T francaElement,
       final BiConsumer<ModelBuilder, T> startMethod,
@@ -93,6 +111,17 @@ public class FrancaTreeWalker {
     }
   }
 
+  private void walkChildNodes(TypeCollection<?> typeCollection) {
+    FTypeCollection francaTypeCollection = typeCollection.getFrancaTypeCollection();
+    if (francaTypeCollection != null) {
+      walk(
+          francaTypeCollection,
+          ModelBuilder::startBuilding,
+          ModelBuilder::finishBuilding,
+          this::walkChildNodes);
+    }
+  }
+
   private void walkChildNodes(FInterface francaInterface) {
     EList<FMethod> methods = francaInterface.getMethods();
     if (methods != null) {
@@ -114,6 +143,28 @@ public class FrancaTreeWalker {
     if (attributes != null) {
       for (FAttribute attribute : attributes) {
         walk(attribute, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+      }
+    }
+  }
+
+  private void walkChildNodes(FTypeCollection francaTypeCollection) {
+    EList<FConstantDef> constants = francaTypeCollection.getConstants();
+    if (constants != null) {
+      for (FConstantDef constant : constants) {
+        walk(constant, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+      }
+    }
+    EList<FType> types = francaTypeCollection.getTypes();
+    if (types != null) {
+      for (FType type : types) {
+        if (type instanceof FStructType) {
+          walk(
+              (FStructType) type,
+              ModelBuilder::startBuilding,
+              ModelBuilder::finishBuilding,
+              this::walkChildNodes);
+        }
+        // TODO APIGEN-218 Walk other types
       }
     }
   }
@@ -143,5 +194,14 @@ public class FrancaTreeWalker {
 
   private void walkChildNodes(FArgument francaArgument) {
     walk(francaArgument.getType(), ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+  }
+
+  private void walkChildNodes(FStructType francaStructType) {
+    EList<FField> fields = francaStructType.getElements();
+    if (fields != null) {
+      for (FField field : fields) {
+        walk(field, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+      }
+    }
   }
 }
