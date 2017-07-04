@@ -82,7 +82,7 @@ class SwiftFileTemplate {
 
     def static generateMethod(SwiftClass cl, SwiftMethod method) {
         val parameters = '''«FOR param: method.parameters SEPARATOR ", "»«generateMethodParam(param)»«ENDFOR»'''
-        val visibility = if (method.isStatic) '''static''' else '''public'''
+        val visibility = if (method.isStatic) '''public static''' else '''public'''
         '''
         «visibility» func «method.name»(«parameters») -> «method.returnType» {
             «generateCBridgeCall(cl, method)»
