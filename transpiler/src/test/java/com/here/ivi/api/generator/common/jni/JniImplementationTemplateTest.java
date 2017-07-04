@@ -53,7 +53,6 @@ public class JniImplementationTemplateTest {
         + methodName
         + "(JNIEnv* env, jobject jinstance, jint jparam)\n"
         + "{\n"
-        + "    //TODO\n"
         + "}";
   }
 

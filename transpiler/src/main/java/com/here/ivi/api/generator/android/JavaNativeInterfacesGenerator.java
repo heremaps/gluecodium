@@ -11,6 +11,8 @@
 
 package com.here.ivi.api.generator.android;
 
+import static com.here.ivi.api.generator.android.AndroidGeneratorSuite.CONVERSION_UTILS_HEADER;
+
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.java.JavaClassMapper;
@@ -40,8 +42,10 @@ final class JavaNativeInterfacesGenerator {
         new InternalPublicInclude(JniNameRules.getHeaderFileName(javaClass));
     Includes.InternalPublicInclude baseApiHeaderInclude =
         new InternalPublicInclude(CppNameRules.getHeaderPath(api));
+    Includes.InternalPublicInclude conversionUtilsHeaderInclude =
+        new InternalPublicInclude(CONVERSION_UTILS_HEADER);
 
-    return Arrays.asList(jniHeaderInclude, baseApiHeaderInclude);
+    return Arrays.asList(jniHeaderInclude, baseApiHeaderInclude, conversionUtilsHeaderInclude);
   }
 
   public List<GeneratedFile> generateFiles(final Interface<InterfacePropertyAccessor> api) {

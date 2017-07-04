@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.OptionReader;
+import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -34,9 +35,11 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 
 public final class AndroidGeneratorSuite implements GeneratorSuite {
   public static final String GENERATOR_NAMESPACE = "android";
+  public static final String CONVERSION_UTILS_HEADER = "android/jni/JniCppConversionUtils.h";
+  private static final String CONVERSION_UTILS_CPP = "android/jni/JniCppConversionUtils.cpp";
+  private static final String CONVERSION_UTILS_TARGET_DIR = "";
 
   private final OptionReader.TranspilerOptions transpilerOptions;
-
   private final SpecAccessorFactory<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
       specAccessorFactory;
   private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
@@ -125,10 +128,16 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
                 })
             .flatMap(Collection::stream);
 
+    List<GeneratedFile> additionalFiles = androidManifestGenerator.generate();
+    additionalFiles.add(
+        BaseApiGeneratorSuite.copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    additionalFiles.add(
+        BaseApiGeneratorSuite.copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
+
     Stream<GeneratedFile> generatorStream =
         Stream.concat(
             Stream.concat(interfacesFileStream, typeCollectionsFileStream),
-            androidManifestGenerator.generate().stream());
+            additionalFiles.stream());
     return generatorStream.filter(Objects::nonNull).collect(Collectors.toList());
   }
 }
