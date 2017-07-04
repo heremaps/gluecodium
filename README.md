@@ -4,7 +4,9 @@ The project is structured as follows:
 
     .
     ├── platforms           Example apps using transpiled sources and functional tests
-    │   ├── android         Android example app
+    │   ├── android         Android related projects
+    │   │   ├── app         Android example app
+    │   │   └── test        Functional tests for generated Android library
     │   ├── base_api        C++ example app
     │   └── ios             iOS example app
     ├── cmake

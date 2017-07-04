@@ -26,10 +26,6 @@ define navigation.BaseApiSpec for interface test.StaticStringMethodsTest
         Static = true
     }
 
-    method noReturnValue {
-        Static = true
-    }
-
     method returnEmpty {
         Static = true
     }

@@ -46,13 +46,6 @@ interface StaticStringMethodsTest {
     }
 
     <** @description:
-    Test method that takes a string as input and doesn't return anything
-    **>
-    method noReturnValue {
-        in { String inputString }
-    }
-
-    <** @description:
     Test method that always returns ""
     **>
     method returnEmpty {

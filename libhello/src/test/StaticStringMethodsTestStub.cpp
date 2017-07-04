@@ -33,11 +33,6 @@ StaticStringMethodsTestStub::returnHelloString(  )
     return "hello";
 }
 
-void
-StaticStringMethodsTestStub::noReturnValue( const std::string& inputString )
-{
-}
-
 std::string
 StaticStringMethodsTestStub::returnEmpty(  )
 {
