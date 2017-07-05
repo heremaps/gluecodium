@@ -40,20 +40,20 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void startBuilding(FInterface francaInterface) {
 
-    contextStack.openContext();
-    contextStack.getCurrentContext().name = CppNameRules.getClassName(francaInterface.getName());
+    openContext();
+    getCurrentContext().name = CppNameRules.getClassName(francaInterface.getName());
   }
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
     CppClass.Builder stubClassBuilder =
-        new CppClass.Builder(contextStack.getCurrentContext().name)
+        new CppClass.Builder(getCurrentContext().name)
             .comment(StubCommentParser.parse(francaInterface).getMainBodyText());
 
     CppClass cppClass = stubClassBuilder.build();
 
-    for (CppElement cppElement : contextStack.getCurrentContext().results) {
+    for (CppElement cppElement : getCurrentContext().results) {
       if (cppElement instanceof CppUsing) {
         cppClass.usings.add((CppUsing) cppElement);
       } else if (cppElement instanceof CppMethod) {
@@ -62,18 +62,18 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     }
 
     storeToParentContext(cppClass);
-    contextStack.closeContext();
+    closeContext();
   }
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    ModelBuilderContext<CppElement> parentContext = contextStack.getParentContext();
+    ModelBuilderContext<CppElement> parentContext = getParentContext();
     String className = parentContext != null ? parentContext.name : "";
 
     // TODO: APIGEN-261 process method arguments through the Builder as well
     StubMethodMapper.mapMethodElements(className, francaMethod, rootModel)
         .forEach(this::storeToParentContext);
-    contextStack.closeContext();
+    closeContext();
   }
 }
