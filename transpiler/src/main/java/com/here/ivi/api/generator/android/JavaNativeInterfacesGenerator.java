@@ -11,15 +11,21 @@
 
 package com.here.ivi.api.generator.android;
 
+import static com.here.ivi.api.generator.common.jni.JniModelBuilder.CorrespondenceTreeNode;
+import static com.here.ivi.api.generator.common.jni.JniModelBuilder.ElementPair;
+
+import com.here.ivi.api.generator.baseapi.StubModelBuilder;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
+import com.here.ivi.api.generator.common.jni.JniModelBuilder;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.common.Includes.InternalPublicInclude;
+import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
@@ -63,13 +69,24 @@ public class JavaNativeInterfacesGenerator {
 
   public List<GeneratedFile> generateFiles(final Interface<InterfacePropertyAccessor> anInterface) {
 
-    JavaModelBuilder builder =
+    JavaModelBuilder javaBuilder =
         new JavaModelBuilder(basePackage.createChildPackage(anInterface.getPackage()), anInterface);
-    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
+    StubModelBuilder stubBuilder = new StubModelBuilder(anInterface);
+    JniModelBuilder jniBuilder = new JniModelBuilder(javaBuilder, stubBuilder);
+
+    FrancaTreeWalker treeWalker =
+        new FrancaTreeWalker(Arrays.asList(javaBuilder, stubBuilder, jniBuilder));
     treeWalker.walk(anInterface);
 
-    JavaClass javaClass = (JavaClass) builder.getResults().get(0);
+    CorrespondenceTreeNode correspondenceTree = jniBuilder.getResults().get(0);
+    //convert data for template
+    JavaClass javaClass = (JavaClass) correspondenceTree.elementPair.javaElement;
+    CppClass stubClass = (CppClass) correspondenceTree.elementPair.stubElement;
+    List<ElementPair> methodPairs = new LinkedList<>();
+    for (CorrespondenceTreeNode node : correspondenceTree.children) {
+      methodPairs.add(node.elementPair);
+    }
 
     GeneratedFile jniHeader =
         new GeneratedFile(
@@ -77,7 +94,8 @@ public class JavaNativeInterfacesGenerator {
 
     GeneratedFile jniImplementation =
         new GeneratedFile(
-            JniImplementationTemplate.generate(javaClass, getIncludes(anInterface, javaClass)),
+            JniImplementationTemplate.generate(
+                javaClass, stubClass, methodPairs, getIncludes(anInterface, javaClass)),
             JniNameRules.getImplementationFileName(javaClass));
 
     return Arrays.asList(jniHeader, jniImplementation);

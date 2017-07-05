@@ -35,7 +35,7 @@ public class StubMapper implements CppModelMapper {
 
     treeWalker.walk(anInterface);
 
-    CppNamespace namespace = new CppNamespace(anInterface.getPackage());
+    CppNamespace namespace = new CppNamespace(builder.getNamespaceMembers());
     namespace.members.addAll(builder.getResults());
 
     return namespace;

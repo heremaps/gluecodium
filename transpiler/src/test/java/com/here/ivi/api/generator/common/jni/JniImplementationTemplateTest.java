@@ -17,6 +17,11 @@ import static org.junit.Assert.assertTrue;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.common.Includes.InternalPublicInclude;
+import com.here.ivi.api.model.cppmodel.CppClass;
+import com.here.ivi.api.model.cppmodel.CppMethod;
+import com.here.ivi.api.model.cppmodel.CppParameter;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
+import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
@@ -36,15 +41,25 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class JniImplementationTemplateTest {
-  private JavaMethod createStaticMethod(String methodName) {
+  private JniModelBuilder.ElementPair createStaticMethodPair(String methodName) {
     JavaType javaType = new JavaPrimitiveType(Type.INT);
-    JavaMethod classMethod = new JavaMethod(methodName, javaType);
-    classMethod.visibility = JavaVisibility.PUBLIC;
-    JavaParameter parameter1 = new JavaParameter(javaType, "param");
-    classMethod.parameters = new ArrayList<>(Arrays.asList(parameter1));
-    classMethod.qualifiers.add(MethodQualifier.STATIC);
+    JavaMethod javaMethod = new JavaMethod(methodName, javaType);
+    javaMethod.visibility = JavaVisibility.PUBLIC;
+    JavaParameter javaParameter = new JavaParameter(javaType, "param");
+    javaMethod.parameters = new ArrayList<>(Arrays.asList(javaParameter));
+    javaMethod.qualifiers.add(MethodQualifier.STATIC);
 
-    return classMethod;
+    CppType primitiveType = new CppPrimitiveType(CppPrimitiveType.Type.INT8);
+    CppParameter cppParameter = new CppParameter();
+    cppParameter.name = "param";
+    CppMethod cppMethod =
+        new CppMethod.Builder(methodName)
+            .returnType(primitiveType)
+            .inParameter(cppParameter)
+            .build();
+    cppMethod.getSpecifiers().add(CppMethod.Specifier.STATIC);
+
+    return new JniModelBuilder.ElementPair(javaMethod, cppMethod);
   }
 
   private String expectedGeneratedJNIMethod(String methodName) {
@@ -57,6 +72,8 @@ public class JniImplementationTemplateTest {
   }
 
   private JavaClass javaClass;
+  private CppClass cppClass;
+
   private final List<InternalPublicInclude> jniIncludes =
       Arrays.asList(new InternalPublicInclude("stub/libhello/TestClassStub.h"));
   private final String copyrightNotice =
@@ -81,12 +98,15 @@ public class JniImplementationTemplateTest {
 
   @Before
   public void setUp() {
+
     javaClass = new JavaClass("TestClass");
+    cppClass = new CppClass("cppClass");
   }
 
   @Test
   public void generateWithNullIncludes() {
-    String generatedImplementation = JniImplementationTemplate.generate(javaClass, null);
+    String generatedImplementation =
+        JniImplementationTemplate.generate(javaClass, cppClass, Collections.emptyList(), null);
 
     assertTrue(
         "At least the JNI header should be included, otherwise the JNI implementation "
@@ -97,7 +117,8 @@ public class JniImplementationTemplateTest {
   @Test
   public void generateWithEmptyIncludes() {
     String generatedImplementation =
-        JniImplementationTemplate.generate(javaClass, Collections.emptyList());
+        JniImplementationTemplate.generate(
+            javaClass, cppClass, Collections.emptyList(), Collections.emptyList());
 
     assertTrue(
         "At least the JNI header should be included, otherwise the JNI implementation "
@@ -112,7 +133,9 @@ public class JniImplementationTemplateTest {
             new InternalPublicInclude("jni_header.h"),
             new InternalPublicInclude("base_api_header.h"));
 
-    String generatedImplementation = JniImplementationTemplate.generate(javaClass, includesList);
+    String generatedImplementation =
+        JniImplementationTemplate.generate(
+            javaClass, cppClass, Collections.emptyList(), includesList);
 
     assertEquals(
         copyrightNotice
@@ -124,24 +147,36 @@ public class JniImplementationTemplateTest {
   }
 
   @Test
-  public void generateWithNullClass() {
-    String generatedImplementation = JniImplementationTemplate.generate(null, jniIncludes);
+  public void generateWithNullJavaClass() {
+    String generatedImplementation =
+        JniImplementationTemplate.generate(null, cppClass, null, jniIncludes);
+
+    assertTrue(generatedImplementation.isEmpty());
+  }
+
+  @Test
+  public void generateWithNullCppClass() {
+    String generatedImplementation =
+        JniImplementationTemplate.generate(javaClass, null, null, jniIncludes);
 
     assertTrue(generatedImplementation.isEmpty());
   }
 
   @Test
   public void generateWithNoMethods() {
-    String generatedImplementation = JniImplementationTemplate.generate(javaClass, jniIncludes);
+    String generatedImplementation =
+        JniImplementationTemplate.generate(
+            javaClass, cppClass, Collections.emptyList(), jniIncludes);
 
     assertEquals(copyrightNotice + jniHeaderInclude + externC + endOfFile, generatedImplementation);
   }
 
   @Test
   public void generateWithOneMethods() {
-    javaClass.methods.add(createStaticMethod("method1"));
 
-    String generatedImplementation = JniImplementationTemplate.generate(javaClass, jniIncludes);
+    String generatedImplementation =
+        JniImplementationTemplate.generate(
+            javaClass, cppClass, Arrays.asList(createStaticMethodPair("method1")), jniIncludes);
 
     assertEquals(
         copyrightNotice
@@ -154,10 +189,13 @@ public class JniImplementationTemplateTest {
 
   @Test
   public void generateWithMultipleMethods() {
-    javaClass.methods.add(createStaticMethod("method1"));
-    javaClass.methods.add(createStaticMethod("method2"));
 
-    String generatedImplementation = JniImplementationTemplate.generate(javaClass, jniIncludes);
+    String generatedImplementation =
+        JniImplementationTemplate.generate(
+            javaClass,
+            cppClass,
+            Arrays.asList(createStaticMethodPair("method1"), createStaticMethodPair("method2")),
+            jniIncludes);
 
     assertEquals(
         copyrightNotice
