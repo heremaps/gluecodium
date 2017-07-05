@@ -14,16 +14,20 @@ package com.here.ivi.api.generator.common.java;
 import com.here.ivi.api.generator.baseapi.StubCommentParser;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaConstant;
 import com.here.ivi.api.model.javamodel.JavaElement;
 import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaMethod;
+import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
+import navigation.BaseApiSpec;
+import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FArgument;
@@ -38,16 +42,21 @@ import org.franca.core.franca.FTypedElement;
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   private final JavaPackage javaPackage;
+  private final FrancaElement rootModel;
 
   public JavaModelBuilder(
-      final ModelBuilderContextStack<JavaElement> contextStack, final JavaPackage javaPackage) {
+      final ModelBuilderContextStack<JavaElement> contextStack,
+      final JavaPackage javaPackage,
+      final FrancaElement rootModel) {
     super(contextStack);
     this.javaPackage = javaPackage;
+    this.rootModel = rootModel;
   }
 
-  public JavaModelBuilder(final JavaPackage javaPackage) {
+  public JavaModelBuilder(final JavaPackage javaPackage, final FrancaElement rootModel) {
     super(new ModelBuilderContextStack<>());
     this.javaPackage = javaPackage;
+    this.rootModel = rootModel;
   }
 
   @Override
@@ -109,8 +118,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     javaMethod.comment = StubCommentParser.FORMATTER.readDescription(francaMethod.getComment());
 
+    if (isMethodStatic(francaMethod)) {
+      javaMethod.qualifiers.add(MethodQualifier.STATIC);
+    }
     // For now we assume all interface methods are native and public
-    javaMethod.qualifiers.add(JavaMethod.MethodQualifier.NATIVE);
+    javaMethod.qualifiers.add(MethodQualifier.NATIVE);
     javaMethod.visibility = JavaVisibility.PUBLIC;
 
     for (JavaElement javaElement : getCurrentContext().results) {
@@ -121,6 +133,15 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     storeToParentContext(javaMethod);
     closeContext();
+  }
+
+  private boolean isMethodStatic(FMethod francaMethod) {
+    BaseApiSpec.IDataPropertyAccessor propertyAccessor = rootModel.getPropertyAccessor();
+    if (propertyAccessor instanceof InterfacePropertyAccessor) {
+      return ((InterfacePropertyAccessor) propertyAccessor).getStatic(francaMethod);
+    } else {
+      return false;
+    }
   }
 
   @Override
