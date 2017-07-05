@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class CppElement implements ModelElement {
-  public CppElements.Visibility visibility = CppElements.Visibility.Default;
   public String name;
   public String comment = null;
 

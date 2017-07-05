@@ -21,13 +21,6 @@ public class CppElements {
   public static final String REF_QUALIFIER = "&";
   public static final String POINTER = "*";
 
-  public enum Visibility {
-    Default,
-    Public,
-    Protected,
-    Private
-  }
-
   public enum TypeInfo {
     InterfaceInstance,
     Invalid,
