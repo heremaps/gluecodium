@@ -25,7 +25,7 @@ import org.franca.core.franca.FTypedElement;
 
 public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
-  protected final ModelBuilderContextStack<E> contextStack;
+  private final ModelBuilderContextStack<E> contextStack;
   private ModelBuilderContext<E> resultContext = null;
 
   protected AbstractModelBuilder(final ModelBuilderContextStack<E> contextStack) {
@@ -34,97 +34,97 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   @Override
   public void startBuilding(FrancaElement<?> element) {
-    contextStack.openContext();
+    openContext();
   }
 
   @Override
   public void startBuilding(FInterface francaInterface) {
-    contextStack.openContext();
+    openContext();
   }
 
   @Override
   public void startBuilding(FTypeCollection francaTypeCollection) {
-    contextStack.openContext();
+    openContext();
   }
 
   @Override
   public void startBuilding(FMethod francaMethod) {
-    contextStack.openContext();
+    openContext();
   }
 
   @Override
   public void startBuildingInputArgument(FArgument francaArgument) {
-    contextStack.openContext();
+    openContext();
   }
 
   @Override
   public void startBuildingOutputArgument(FArgument francaArgument) {
-    contextStack.openContext();
+    openContext();
   }
 
   @Override
   public void startBuilding(FTypeRef francaTypeRef) {
-    contextStack.openContext();
+    openContext();
   }
 
   @Override
   public void startBuilding(FConstantDef francaConstant) {
-    contextStack.openContext();
+    openContext();
   }
 
   @Override
   public void startBuilding(FTypedElement francaTypedElement) {
-    contextStack.openContext();
+    openContext();
   }
 
   @Override
   public void startBuilding(FStructType francaStructType) {
-    contextStack.openContext();
+    openContext();
   }
 
   @Override
   public void finishBuilding(FrancaElement<?> element) {
-    resultContext = contextStack.closeContext();
+    closeContext();
   }
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
-    resultContext = contextStack.closeContext();
+    closeContext();
   }
 
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
-    resultContext = contextStack.closeContext();
+    closeContext();
   }
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
-    resultContext = contextStack.closeContext();
+    closeContext();
   }
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
-    resultContext = contextStack.closeContext();
+    closeContext();
   }
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    resultContext = contextStack.closeContext();
+    closeContext();
   }
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
-    resultContext = contextStack.closeContext();
+    closeContext();
   }
 
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
-    contextStack.closeContext();
+    closeContext();
   }
 
   @Override
   public void finishBuilding(FTypedElement francaTypedElement) {
-    contextStack.closeContext();
+    closeContext();
   }
 
   @Override
@@ -134,6 +134,22 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   public List<E> getResults() {
     return resultContext != null ? resultContext.results : Collections.emptyList();
+  }
+
+  protected final void openContext() {
+    contextStack.openContext();
+  }
+
+  protected final void closeContext() {
+    resultContext = contextStack.closeContext();
+  }
+
+  protected final ModelBuilderContext<E> getCurrentContext() {
+    return contextStack.getCurrentContext();
+  }
+
+  protected final ModelBuilderContext<E> getParentContext() {
+    return contextStack.getParentContext();
   }
 
   protected final void storeToParentContext(final E element) {
