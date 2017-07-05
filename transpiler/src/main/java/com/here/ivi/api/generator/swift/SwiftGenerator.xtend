@@ -44,7 +44,6 @@ class SwiftGenerator {
         return new SwiftClass(nameRules.getClassName(clazz)) => [
             comment = clazz.parse.getMainBodyText() ?: ""
             methods = clazz.getMethods.stream.map([constructMethod(propertyAccessor)]).collect(toList)
-            imports = #["c_" + bridgeNameSpace]
             nameSpace = bridgeNameSpace
         ]
     }
