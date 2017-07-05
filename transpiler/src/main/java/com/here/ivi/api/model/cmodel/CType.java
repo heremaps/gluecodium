@@ -49,11 +49,11 @@ public class CType {
   public Boolean isConst = false;
   public Set<Includes.Include> includes = Collections.emptySet();
 
-  protected CType(String name) {
+  public CType(String name) {
     this.name = name;
   }
 
-  protected CType(String name, List<Includes.Include> includes) {
+  public CType(String name, List<Includes.Include> includes) {
     this.name = name;
     this.includes = new HashSet<>(includes);
   }

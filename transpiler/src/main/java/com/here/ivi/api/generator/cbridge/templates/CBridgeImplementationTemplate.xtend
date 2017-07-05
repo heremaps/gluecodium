@@ -30,7 +30,7 @@ class CBridgeImplementationTemplate {
         «CBridgeIncludeTemplate.generate(include)»
     «ENDFOR»
 
-    «FOR function: cInterface.functions»
+    «FOR function: cInterface.functions SEPARATOR '\n'»
         «generateFunctionSignature(function)»
     «ENDFOR»
 
@@ -40,9 +40,8 @@ class CBridgeImplementationTemplate {
         '''
             «function.returnType» «function.name»(«FOR parameter: function.parameters SEPARATOR ', '»«parameter.type» «parameter.name»«ENDFOR») {
                 «FOR conversion: function.conversions»
-                    auto cpp_«conversion.name» = «conversion.expression»;
+                    auto «conversion.name» = «conversion.expression»;
                 «ENDFOR»
-
                 «generateDelegateCall(function)»
             }
         '''
@@ -52,12 +51,12 @@ class CBridgeImplementationTemplate {
         if (function.returnConversion !== null) {
             '''
             {
-                auto&& «function.returnConversion.name» = «function.delegateName»(«FOR conversion: function.conversions SEPARATOR ', '»cpp_«conversion.name»«ENDFOR»);
+                auto&& «function.returnConversion.name» = «function.delegateCall»;
                 return «function.returnConversion.expression»;
             }
             '''
         } else {
-            '''«function.delegateName»(«FOR conversion: function.conversions SEPARATOR ', '»cpp_«conversion.name»«ENDFOR»);'''
+            '''«function.delegateCall»;'''
         }
     }
 }
