@@ -12,19 +12,26 @@
 package com.here.ivi.api.generator.baseapi;
 
 import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
 import navigation.BaseApiSpec;
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
 import org.junit.Before;
@@ -39,7 +46,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CppNameRules.class, StubMethodMapper.class})
+@PrepareForTest({CppNameRules.class, StubMethodMapper.class, StubCommentParser.class})
 public final class StubMapperTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface;
@@ -53,9 +60,12 @@ public final class StubMapperTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(CppNameRules.class);
-    PowerMockito.mockStatic(StubMethodMapper.class);
+    PowerMockito.mockStatic(CppNameRules.class, StubMethodMapper.class, StubCommentParser.class);
     MockitoAnnotations.initMocks(this);
+
+    final AbstractFrancaCommentParser.Comments comments = new StubCommentParser.Comments();
+    when(StubCommentParser.parse(any(FInterface.class))).thenReturn(comments);
+    when(StubCommentParser.parse(any(FMethod.class))).thenReturn(comments);
 
     when(anInterface.getPackage()).thenReturn(Collections.singletonList("a package"));
     when(anInterface.getFrancaInterface().getMethods()).thenReturn(methods);
@@ -88,11 +98,14 @@ public final class StubMapperTest {
     assertEquals(0, ((CppClass) cppElement).methods.size());
 
     PowerMockito.verifyStatic(never());
-    StubMethodMapper.mapMethodElements(any(), any());
+    StubMethodMapper.mapMethodReturnType(any(), any());
   }
 
   @Test
   public void mapFrancaModelToCppModelWithOneMethod() {
+    when(StubMethodMapper.mapMethodReturnType(any(), any()))
+        .thenReturn(new StubMethodMapper.ReturnTypeData(CppPrimitiveType.VOID_TYPE, ""));
+
     FMethod francaMethod = mock(FMethod.class);
     methods.add(francaMethod);
 

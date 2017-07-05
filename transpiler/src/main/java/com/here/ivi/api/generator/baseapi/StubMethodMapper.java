@@ -11,154 +11,106 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
-import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppElements;
-import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.franca.FrancaElement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 import navigation.BaseApiSpec;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;
 
+/**
+ * Helper class for mapping FMethod and related Franca model elements into the C++ model. All
+ * methods in the class operate with a precondition of Franca model being valid.
+ */
 public final class StubMethodMapper {
+
+  public static class ReturnTypeData {
+    public final CppType type;
+    public final String comment;
+
+    public ReturnTypeData(final CppType type, final String comment) {
+      this.type = type;
+      this.comment = comment;
+    }
+  }
+
   private static final Includes.SystemInclude EXPECTED_INCLUDE =
       new Includes.SystemInclude("cpp/internal/expected.h");
 
-  public static List<CppElement> mapMethodElements(
-      FMethod method, FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
+  public static ReturnTypeData mapMethodReturnType(
+      FMethod francaMethod,
+      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
-    CppType errorType;
+    CppType errorType = null;
     String errorComment = "";
-    if (method.getErrorEnum() != null) {
-      errorType = CppTypeMapper.mapEnum(rootModel, method.getErrorEnum());
-      errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(method);
-    } else {
-      errorType = CppPrimitiveType.VOID_TYPE;
+
+    if (francaMethod.getErrorEnum() != null) {
+      errorType = CppTypeMapper.mapEnum(rootModel, francaMethod.getErrorEnum());
+      errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(francaMethod);
     }
 
-    String returnComment;
-    CppType returnType;
+    CppType outArgType = null;
+    String outArgComment = "";
 
-    EList<FArgument> outArgs = method.getOutArgs();
-    if (outArgs.isEmpty()) {
-      returnType = errorType;
-      returnComment = errorComment;
-    } else {
+    EList<FArgument> outArgs = francaMethod.getOutArgs();
+    if (!outArgs.isEmpty()) {
       // If outArgs size is 2 or more, the output has to be wrapped in a struct,
       // which is not supported yet.
-
-      List<CppType> returnTypes = new ArrayList<>();
-      // documentation for the result type
-
-      if (!errorType.equals(CppPrimitiveType.VOID_TYPE)) {
-        returnTypes.add(errorType);
-      }
-
-      FArgument argument = outArgs.get(0);
-      CppType type = mapCppType(rootModel, argument, method);
-      // document return type and append value information to type documentation
-
-      returnComment =
-          errorType.equals(CppPrimitiveType.VOID_TYPE)
-              ? "The result type, containing " + type.name + " value."
-              : "The result type, containing either an error or the " + type.name + " value.";
-
-      // register with model
-      returnTypes.add(type);
-
-      if (returnTypes.size() > 1) {
-        // always wrap multiple out values (error + outArgs) in their own type
-        List<String> names = returnTypes.stream().map(t -> t.name).collect(Collectors.toList());
-        Set<Includes.Include> includes =
-            returnTypes.stream().flatMap(t -> t.includes.stream()).collect(Collectors.toSet());
-        includes.add(EXPECTED_INCLUDE);
-
-        returnType =
-            new CppCustomType(
-                "here::internal::Expected< " + String.join(", ", names) + " >",
-                CppElements.TypeInfo.Complex,
-                includes);
-      } else {
-        returnType = returnTypes.get(0);
-      }
+      outArgType = mapArgumentType(outArgs.get(0), francaMethod, rootModel);
+      outArgComment = "The result type, containing " + outArgType.name + " value.";
     }
 
-    // create & add method, add return value documentation as this is not done in buildStubMethod
-    CppMethod cppMethod = buildStubMethod(method, returnType, rootModel);
-    if (!returnComment.isEmpty()) {
-      cppMethod.comment += StubCommentParser.FORMATTER.formatTag("@return", returnComment);
+    if (errorType == null && outArgType == null) {
+      return new ReturnTypeData(CppPrimitiveType.VOID_TYPE, "");
+    } else if (errorType != null && outArgType == null) {
+      return new ReturnTypeData(errorType, errorComment);
+    } else if (errorType == null) {
+      return new ReturnTypeData(outArgType, outArgComment);
     }
 
-    return Collections.singletonList(cppMethod);
+    // wrap multiple out values (error + outArg) in their own type
+    Set<Includes.Include> includes = new HashSet<>();
+    includes.addAll(errorType.includes);
+    includes.addAll(outArgType.includes);
+    includes.add(EXPECTED_INCLUDE);
+
+    CppType returnType =
+        new CppCustomType(
+            "here::internal::Expected< " + errorType.name + ", " + outArgType.name + " >",
+            CppElements.TypeInfo.Complex,
+            includes);
+
+    String returnComment =
+        "The result type, containing either an error or the " + outArgType.name + " value.";
+
+    return new ReturnTypeData(returnType, returnComment);
   }
 
-  private static CppType mapCppType(
-      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
-      FArgument argument,
-      FMethod method) {
+  public static CppType mapArgumentType(
+      FArgument francaArgument,
+      FMethod francaMethod,
+      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
-    CppType type = CppTypeMapper.map(rootModel, argument);
+    CppType type = CppTypeMapper.map(rootModel, francaArgument);
 
     if (!(type instanceof CppCustomType)
         || ((CppCustomType) type).info != CppElements.TypeInfo.InterfaceInstance) {
       return type;
     }
 
-    if (rootModel.getPropertyAccessor().getCreates(method) == null) {
-      return CppTypeMapper.wrapSharedPtr(type);
-    } else {
+    boolean isFactoryMethod =
+        francaMethod != null && rootModel.getPropertyAccessor().getCreates(francaMethod) != null;
+    if (isFactoryMethod) {
       return CppTypeMapper.wrapUniquePtr(type);
-    }
-  }
-
-  private static CppMethod buildStubMethod(
-      FMethod method,
-      CppType returnType,
-      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
-
-    CppMethod.Builder builder =
-        new CppMethod.Builder(method.getName() + NameHelper.toUpperCamelCase(method.getSelector()))
-            .returnType(returnType);
-
-    if (rootModel.getPropertyAccessor().getStatic(method)) {
-      builder.specifier(CppMethod.Specifier.STATIC);
     } else {
-      if (rootModel.getPropertyAccessor().getConst(method)) {
-        // const needs to be before "= 0" pure virtual specifier
-        builder.qualifier(CppMethod.Qualifier.CONST);
-      }
-      builder.specifier(CppMethod.Specifier.VIRTUAL);
-      builder.qualifier(CppMethod.Qualifier.PURE_VIRTUAL);
+      return CppTypeMapper.wrapSharedPtr(type);
     }
-
-    for (FArgument inArg : method.getInArgs()) {
-      CppParameter param = new CppParameter();
-      param.name = inArg.getName();
-      param.mode = CppParameter.Mode.Input;
-
-      param.type = CppTypeMapper.map(rootModel, inArg.getType());
-      if (param.type instanceof CppCustomType
-          && ((CppCustomType) param.type).info == CppElements.TypeInfo.InterfaceInstance) {
-        param.type = CppTypeMapper.wrapSharedPtr(param.type);
-      }
-
-      builder.inParameter(param);
-    }
-
-    builder.comment(StubCommentParser.parse(method).getMainBodyText());
-
-    return builder.build();
   }
 }

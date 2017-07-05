@@ -21,13 +21,16 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.cppmodel.CppClass;
+import com.here.ivi.api.model.cppmodel.CppCustomType;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppMethod;
+import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.test.ArrayEList;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import navigation.BaseApiSpec;
+import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.junit.Before;
@@ -44,18 +47,23 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest(StubMethodMapper.class)
 public class StubModelBuilderTest {
 
-  private static final String INTERFACE_NAME = "classy";
+  private static final String CLASS_NAME = "classy";
+  private static final String RETURN_TYPE_COMMENT = "no comments";
+  private static final String PARAMETER_NAME = "flowers";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private ModelBuilderContextStack<CppElement> contextStack;
 
   @Mock private FrancaElement<BaseApiSpec.InterfacePropertyAccessor> rootModel;
+  @Mock private BaseApiSpec.InterfacePropertyAccessor propertyAccessor;
 
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
+  @Mock private FArgument francaArgument;
 
   private StubModelBuilder modelBuilder;
 
+  private final CppCustomType cppCustomType = new CppCustomType("typically");
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
 
   private CppElement getFirstResult() {
@@ -80,7 +88,14 @@ public class StubModelBuilderTest {
     contextStack.getCurrentContext().previousResults = new ArrayList<>();
     contextStack.getParentContext().previousResults = new ArrayList<>();
 
-    when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
+    when(rootModel.getPropertyAccessor()).thenReturn(propertyAccessor);
+
+    when(francaInterface.getName()).thenReturn(CLASS_NAME);
+    when(francaMethod.getInArgs()).thenReturn(new ArrayEList<>());
+    when(francaArgument.getName()).thenReturn(PARAMETER_NAME);
+
+    when(StubMethodMapper.mapMethodReturnType(any(), any()))
+        .thenReturn(new StubMethodMapper.ReturnTypeData(cppCustomType, RETURN_TYPE_COMMENT));
   }
 
   @Test
@@ -89,7 +104,7 @@ public class StubModelBuilderTest {
 
     CppElement result = getFirstResult();
     assertTrue(result instanceof CppClass);
-    assertTrue(((CppClass) result).name.toLowerCase().startsWith(INTERFACE_NAME));
+    assertTrue(((CppClass) result).name.toLowerCase().startsWith(CLASS_NAME));
 
     verify(francaInterface).getName();
   }
@@ -109,15 +124,69 @@ public class StubModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaMethodStoresResult() {
-    when(StubMethodMapper.mapMethodElements(any(), any()))
-        .thenReturn(Collections.singletonList(cppMethod));
+  public void finishBuildingFrancaMethodReadsReturnTypeData() {
+    modelBuilder.finishBuilding(francaMethod);
+
+    CppElement result = getFirstResult();
+    assertTrue(result instanceof CppMethod);
+
+    CppMethod cppMethod = (CppMethod) result;
+    assertEquals(cppCustomType, cppMethod.getReturnType());
+    assertTrue(cppMethod.comment.endsWith(RETURN_TYPE_COMMENT));
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsStaticFlag() {
+    when(propertyAccessor.getStatic(francaMethod)).thenReturn(true);
 
     modelBuilder.finishBuilding(francaMethod);
 
-    assertEquals(cppMethod, getFirstResult());
+    CppElement result = getFirstResult();
+    assertTrue(result instanceof CppMethod);
+
+    assertTrue(((CppMethod) result).getSpecifiers().contains(CppMethod.Specifier.STATIC));
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsInputParameters() {
+    CppParameter cppParameter = new CppParameter();
+    cppParameter.name = "flowers";
+    injectResult(cppParameter);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    CppElement result = getFirstResult();
+    assertTrue(result instanceof CppMethod);
+
+    List<CppParameter> cppParameters = ((CppMethod) result).getInParameters();
+    assertFalse(cppParameters.isEmpty());
+    assertEquals(cppParameter, cppParameters.get(0));
+  }
+
+  @Test
+  public void finishBuildingInputArgumentReadsName() {
+    modelBuilder.finishBuildingInputArgument(francaArgument);
+
+    CppElement result = getFirstResult();
+    assertTrue(result instanceof CppParameter);
+
+    CppParameter cppParameter = (CppParameter) result;
+    assertEquals(PARAMETER_NAME, cppParameter.name);
+    assertEquals(CppParameter.Mode.Input, cppParameter.mode);
+  }
+
+  @Test
+  public void finishBuildingInputArgumentMapsType() {
+    when(StubMethodMapper.mapArgumentType(any(), any(), any())).thenReturn(cppCustomType);
+
+    modelBuilder.finishBuildingInputArgument(francaArgument);
+
+    CppElement result = getFirstResult();
+    assertTrue(result instanceof CppParameter);
+
+    assertEquals(cppCustomType, ((CppParameter) result).type);
 
     PowerMockito.verifyStatic();
-    StubMethodMapper.mapMethodElements(any(), same(rootModel));
+    StubMethodMapper.mapArgumentType(same(francaArgument), same(null), same(rootModel));
   }
 }
