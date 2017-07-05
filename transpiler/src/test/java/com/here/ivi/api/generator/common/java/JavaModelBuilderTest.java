@@ -17,6 +17,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaConstant;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
@@ -66,6 +67,9 @@ public class JavaModelBuilderTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private ModelBuilderContextStack<JavaElement> contextStack;
 
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private FrancaElement rootElementModel;
+
   @Mock private FInterface francaInterface;
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FMethod francaMethod;
@@ -100,7 +104,9 @@ public class JavaModelBuilderTest {
     PowerMockito.mockStatic(JavaTypeMapper.class);
     MockitoAnnotations.initMocks(this);
 
-    modelBuilder = new JavaModelBuilder(contextStack, new JavaPackage(Collections.emptyList()));
+    modelBuilder =
+        new JavaModelBuilder(
+            contextStack, new JavaPackage(Collections.emptyList()), rootElementModel);
 
     contextStack.getCurrentContext().results = new ArrayList<>();
     contextStack.getParentContext().results = new ArrayList<>();

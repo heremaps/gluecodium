@@ -41,7 +41,7 @@ public class JavaGenerator {
       final Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface) {
 
     JavaModelBuilder modelBuilder =
-        new JavaModelBuilder(basePackage.createChildPackage(anInterface.getPackage()));
+        new JavaModelBuilder(basePackage.createChildPackage(anInterface.getPackage()), anInterface);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(anInterface);
@@ -53,7 +53,8 @@ public class JavaGenerator {
       TypeCollection<TypeCollectionPropertyAccessor> typeCollection) {
 
     JavaModelBuilder modelBuilder =
-        new JavaModelBuilder(basePackage.createChildPackage(typeCollection.getPackage()));
+        new JavaModelBuilder(
+            basePackage.createChildPackage(typeCollection.getPackage()), typeCollection);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(typeCollection);

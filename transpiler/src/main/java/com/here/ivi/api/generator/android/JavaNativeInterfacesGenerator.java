@@ -64,7 +64,7 @@ public class JavaNativeInterfacesGenerator {
   public List<GeneratedFile> generateFiles(final Interface<InterfacePropertyAccessor> anInterface) {
 
     JavaModelBuilder builder =
-        new JavaModelBuilder(basePackage.createChildPackage(anInterface.getPackage()));
+        new JavaModelBuilder(basePackage.createChildPackage(anInterface.getPackage()), anInterface);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(anInterface);
