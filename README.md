@@ -3,7 +3,7 @@ Serves as a working prototype used to showcase and extend the API transpiler.
 The project is structured as follows:
 
     .
-    ├── apps                Example apps using transpiled sources
+    ├── platforms           Example apps using transpiled sources and functional tests
     │   ├── android         Android example app
     │   ├── base_api        C++ example app
     │   └── ios             iOS example app

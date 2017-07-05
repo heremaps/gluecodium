@@ -18,4 +18,4 @@ set(HELLO_APIGEN_TRANSPILER_GENERATOR "stub,android,swift" CACHE STRING "Transpi
 
 enable_testing()
 add_subdirectory(libhello)
-add_subdirectory(apps)
+add_subdirectory(platforms)
