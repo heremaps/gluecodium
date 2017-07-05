@@ -12,17 +12,19 @@
 package com.here.ivi.api.generator.common.jni.templates
 
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
+import com.here.ivi.api.generator.common.jni.JniModelBuilder
 import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
 import com.here.ivi.api.model.common.Includes
+import com.here.ivi.api.model.cppmodel.CppClass
 import com.here.ivi.api.model.javamodel.JavaClass
+import com.here.ivi.api.model.javamodel.JavaMethod
 import java.util.List
 
 public class JniImplementationTemplate {
-  def static generate(JavaClass javaClass, List<Includes.InternalPublicInclude> includes) {
-    if (javaClass === null || includes === null || includes.isEmpty()) {
+  def static generate(JavaClass javaClass, CppClass cppClass, List<JniModelBuilder.ElementPair> methodPairs, List<Includes.InternalPublicInclude> includes) {
+    if (javaClass === null || cppClass === null || includes === null || includes.isEmpty() ) {
       return ""
     }
-
     return
       '''
       «JavaCopyrightHeaderTemplate.generate()»
@@ -33,7 +35,8 @@ public class JniImplementationTemplate {
 
       extern "C" {
 
-      «FOR method : javaClass.methods»
+      «FOR methodPair : methodPairs»
+      «val method = methodPair.javaElement as JavaMethod»
       «JniTypeNameMapper.map(method.returnType)»
       «JniFunctionSignatureTemplate.generate(javaClass, method)»
       {
