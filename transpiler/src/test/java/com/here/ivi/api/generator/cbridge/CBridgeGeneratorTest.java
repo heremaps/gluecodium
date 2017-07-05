@@ -11,193 +11,410 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static com.here.ivi.api.generator.utils.LoadModelHelper.extractNthInterfaceFromModel;
+import static com.here.ivi.api.test.TemplateComparison.assertEqualHeaderContent;
+import static com.here.ivi.api.test.TemplateComparison.assertEqualImplementationContent;
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.SpecAccessorFactory;
-import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
+import com.here.ivi.api.generator.cbridge.templates.CBridgeHeaderTemplate;
+import com.here.ivi.api.generator.cbridge.templates.CBridgeImplementationTemplate;
+import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.cmodel.CInterface;
-import com.here.ivi.api.model.common.Includes;
-import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.ModelHelper;
-import java.io.File;
+import com.here.ivi.api.test.ArrayEList;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Map;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
-import org.apache.commons.io.FileUtils;
-import org.eclipse.emf.common.util.EList;
+import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 public class CBridgeGeneratorTest {
   private CBridgeGenerator generator;
 
-  @Rule public TemporaryFolder tempFolder = new TemporaryFolder();
+  private static final List<String> PACKAGES = asList("cbridge", "test");
+  private static final String INTERFACE_NAME = "TestInterface";
+  private static final String FUNCTION_NAME = "functionName";
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private Interface<InterfacePropertyAccessor> anInterface;
-
-  @Mock private FInterface fInterface;
-  @Mock private EList<FMethod> methods;
+  @Mock private InterfacePropertyAccessor propertyAccessor;
+  @Mock private Interface<InterfacePropertyAccessor> anInterface;
+  @Mock private FInterface francaInterface;
+  @Mock private FMethod francaMethod;
+  @Mock private FArgument francaArgument_1;
+  @Mock private FTypeRef francaTypeRef_1;
+  @Mock private FArgument francaArgument_2;
+  @Mock private FTypeRef francaTypeRef_2;
+  private final ArrayEList<FMethod> methods = new ArrayEList<>();
+  private final ArrayEList<FArgument> inputArguments = new ArrayEList<>();
+  private final ArrayEList<FArgument> outputArguments = new ArrayEList<>();
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    when(anInterface.getFrancaInterface()).thenReturn(fInterface);
-    when(fInterface.getName()).thenReturn("TEST_NAME");
-    when(fInterface.getMethods()).thenReturn(methods);
-    when(anInterface.getPackage()).thenReturn(singletonList("Package"));
+
+    when(propertyAccessor.getStatic(any())).thenReturn(true);
+
+    when(anInterface.getPropertyAccessor()).thenReturn(propertyAccessor);
+    when(anInterface.getPackage()).thenReturn(PACKAGES);
+    when(anInterface.getName()).thenReturn(INTERFACE_NAME);
+    when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
+    when(anInterface.getFrancaTypeCollection()).thenReturn(francaInterface);
+
+    when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
+    when(francaInterface.getMethods()).thenReturn(methods);
+
+    when(francaMethod.getName()).thenReturn(FUNCTION_NAME);
+    when(francaMethod.getInArgs()).thenReturn(inputArguments);
+    when(francaMethod.getOutArgs()).thenReturn(outputArguments);
+    methods.add(francaMethod);
+
     generator = new CBridgeGenerator(new CBridgeNameRules());
   }
 
   @Test
-  public void createIncludesToBaseapiAndHeaderInImplementationFile() {
+  public void generatesHeaderAndImplementation() {
+    List<GeneratedFile> files = generator.generate(anInterface);
+
+    assertEquals("Should generate header and implementation file", 2, files.size());
+  }
+
+  @Test
+  public void nonStaticFunctionAreNotGenerated() {
+    when(propertyAccessor.getStatic(any())).thenReturn(false);
+
+    String expectedHeader = "";
+    String expectedImplementation =
+        String.join(
+            "\n",
+            "#include \"TestInterface.h\"",
+            "#include <stub/cbridge/test/TestInterfaceStub.h>",
+            "");
+
     CInterface cModel = generator.buildCBridgeModel(anInterface);
 
-    assertEquals(
-        "Model should contain 2 imports, to header file and API header file",
-        2,
-        cModel.implementationIncludes.size());
-    assertEqualImplementationIncludes(
-        asList("TEST_NAME.h", "stub/Package/TEST_NAMEStub.h"), cModel);
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
   }
 
   @Test
-  public void createIncludesToBaseapiAndHeaderForSimpleMethod() throws IOException {
-    Interface<?> iface =
-        createFrancaInterface(
-            "package cbridge.test",
-            "interface TestInterface {",
-            "version {major 0 minor 1}",
-            "  method TestMethod {",
-            "    in {}",
-            "    out {}",
-            "  }",
-            "}");
+  public void createFunctionWithoutArguments() throws IOException {
 
-    CInterface cModel = generator.buildCBridgeModel(iface);
+    String expectedHeader = "void cbridge_test_TestInterface_functionName();\n";
 
-    assertEqualImplementationIncludes(
-        asList("TestInterface.h", "stub/cbridge/test/TestInterfaceStub.h"), cModel);
-    assertEqualHeaderIncludes(emptyList(), cModel);
+    String expectedImplementation =
+        String.join(
+            "\n",
+            "#include \"TestInterface.h\"",
+            "#include <stub/cbridge/test/TestInterfaceStub.h>",
+            "void cbridge_test_TestInterface_functionName() {",
+            "    cbridge::test::TestInterfaceStub::functionName();",
+            "}",
+            "");
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
   }
 
   @Test
-  public void createIncludesForMethodTakingString() throws IOException {
-    Interface<?> iface =
-        createFrancaInterface(
-            "package cbridge.test",
-            "interface TestInterface {",
-            "version {major 0 minor 1}",
-            "  method TestMethod {",
-            "    in {String inputParam}",
-            "    out {}",
-            "  }",
-            "}");
+  public void createFunctionTakingString() throws IOException {
+    when(francaArgument_1.getName()).thenReturn("input");
+    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
+    when(francaTypeRef_1.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    inputArguments.add(francaArgument_1);
 
-    CInterface cModel = generator.buildCBridgeModel(iface);
-    assertEquals("Should be one function created", 1, cModel.functions.size());
-    assertEqualImplementationIncludes(
-        asList("string", "TestInterface.h", "stub/cbridge/test/TestInterfaceStub.h"), cModel);
-    assertEqualHeaderIncludes(emptyList(), cModel);
+    String expectedHeader =
+        String.join("\n", "void cbridge_test_TestInterface_functionName(const char* input);", "");
+
+    String expectedImplementation =
+        String.join(
+            "\n",
+            "#include \"TestInterface.h\"",
+            "#include <string>",
+            "#include <stub/cbridge/test/TestInterfaceStub.h>",
+            "void cbridge_test_TestInterface_functionName(const char* input) {",
+            "    auto cpp_input = std::string(input);",
+            "    cbridge::test::TestInterfaceStub::functionName(cpp_input);",
+            "}",
+            "");
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
   }
 
   @Test
-  public void createIncludesForMethodRequiringTwoWayStringTypeConversion() throws IOException {
-    Interface<?> iface =
-        createFrancaInterface(
-            "package cbridge.test",
-            "interface TestInterface {",
-            "version {major 0 minor 1}",
-            "  method TestMethod {",
-            "    in {String inputParam}",
-            "    out {String outputParam}",
-            "  }",
-            "}");
+  public void createFunctionTakingAndReturningString() throws IOException {
+    when(francaArgument_1.getName()).thenReturn("input");
+    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
+    when(francaTypeRef_1.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    inputArguments.add(francaArgument_1);
 
-    CInterface cModel = generator.buildCBridgeModel(iface);
-    assertEquals("Should be one function created", 1, cModel.functions.size());
-    assertEqualImplementationIncludes(
-        asList("string.h", "string", "TestInterface.h", "stub/cbridge/test/TestInterfaceStub.h"),
-        cModel);
-    assertEqualHeaderIncludes(emptyList(), cModel);
+    when(francaArgument_2.getName()).thenReturn("output");
+    when(francaArgument_2.getType()).thenReturn(francaTypeRef_2);
+    when(francaTypeRef_2.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    outputArguments.add(francaArgument_1);
+
+    String expectedHeader =
+        String.join(
+            "\n",
+            "#include <stdint.h>",
+            "void* cbridge_test_TestInterface_functionName(const char* input);",
+            "void cbridge_test_TestInterface_functionName_release(void* handle);",
+            "const char* cbridge_test_TestInterface_functionName_getData(void* handle);",
+            "uint64_t cbridge_test_TestInterface_functionName_getSize(void* handle);",
+            "");
+
+    String expectedImplementation =
+        String.join(
+            "\n",
+            "#include \"TestInterface.h\"",
+            "#include <string>",
+            "#include <utility>",
+            "#include <stub/cbridge/test/TestInterfaceStub.h>",
+            "void* cbridge_test_TestInterface_functionName(const char* input) {",
+            "    auto cpp_input = std::string(input);",
+            "    {",
+            "        auto&& cpp_result = cbridge::test::TestInterfaceStub::functionName(cpp_input);",
+            "        return new std::string(std::move(cpp_result));",
+            "    }",
+            "}",
+            "void cbridge_test_TestInterface_functionName_release(void* handle) {",
+            "    auto cpp_handle = reinterpret_cast<std::string*>(handle);",
+            "    delete cpp_handle;",
+            "}",
+            "const char* cbridge_test_TestInterface_functionName_getData(void* handle) {",
+            "    auto cpp_handle = reinterpret_cast<std::string*>(handle);",
+            "    {",
+            "        auto&& cpp_result = cpp_handle->c_str();",
+            "        return cpp_result;",
+            "    }",
+            "}",
+            "uint64_t cbridge_test_TestInterface_functionName_getSize(void* handle) {",
+            "    auto cpp_handle = reinterpret_cast<std::string*>(handle);",
+            "    {",
+            "        auto&& cpp_result = cpp_handle->length();",
+            "        return cpp_result;",
+            "    }",
+            "}",
+            "");
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
   }
 
   @Test
-  public void createIncludesForMethodRequiringTwoWayInt16TypeConversion() throws IOException {
-    Interface<?> iface =
-        createFrancaInterface(
-            "package cbridge.test",
-            "interface TestInterface {",
-            "version {major 0 minor 1}",
-            "  method TestMethod {",
-            "    in {Int16 inputParam}",
-            "    out {Int16 outputParam}",
-            "  }",
-            "}");
+  public void createFunctionTakingByteArray() throws IOException {
+    when(francaArgument_1.getName()).thenReturn("input");
+    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
+    when(francaTypeRef_1.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
+    inputArguments.add(francaArgument_1);
 
-    CInterface cModel = generator.buildCBridgeModel(iface);
-    assertEquals("Should be one function created", 1, cModel.functions.size());
-    assertEqualImplementationIncludes(
-        asList("TestInterface.h", "stub/cbridge/test/TestInterfaceStub.h"), cModel);
-    assertEqualHeaderIncludes(asList("stdint.h"), cModel);
+    String expectedHeader =
+        String.join(
+            "\n",
+            "#include <stdint.h>",
+            "void cbridge_test_TestInterface_functionName(uint8_t* input, uint64_t input_1);",
+            "");
+
+    String expectedImplementation =
+        String.join(
+            "\n",
+            "#include \"TestInterface.h\"",
+            "#include <vector>",
+            "#include <stub/cbridge/test/TestInterfaceStub.h>",
+            "void cbridge_test_TestInterface_functionName(uint8_t* input, uint64_t input_1) {",
+            "    auto cpp_input = std::vector<uint8_t>(input, input + input_1);",
+            "    cbridge::test::TestInterfaceStub::functionName(cpp_input);",
+            "}",
+            "");
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
   }
 
-  private FrancaModel<?, ?> readInFrancaModel(
-      String content, SpecAccessorFactory specAccessorFactory) throws IOException {
-    File tempFile = tempFolder.newFile("test.fidl");
-    FileUtils.writeStringToFile(tempFile, content, (Charset) null);
-    FrancaModelLoader<?, ?> francaModelLoader = new FrancaModelLoader(specAccessorFactory);
-    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
+  @Test
+  public void createFunctionTakingAndReturningByteBuffer() throws IOException {
+    when(francaArgument_1.getName()).thenReturn("input");
+    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
+    when(francaTypeRef_1.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
+    inputArguments.add(francaArgument_1);
 
-    return francaModelLoader.load(specAccessorFactory.getSpecPath(), singletonList(tempFile));
+    when(francaArgument_2.getName()).thenReturn("output");
+    when(francaArgument_2.getType()).thenReturn(francaTypeRef_2);
+    when(francaTypeRef_2.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
+    outputArguments.add(francaArgument_2);
+
+    String expectedHeader =
+        String.join(
+            "\n",
+            "#include <stdint.h>",
+            "void* cbridge_test_TestInterface_functionName(uint8_t* input, uint64_t input_1);",
+            "void cbridge_test_TestInterface_functionName_release(void* handle);",
+            "uint8_t* cbridge_test_TestInterface_functionName_getData(void* handle);",
+            "uint64_t cbridge_test_TestInterface_functionName_getSize(void* handle);",
+            "");
+
+    String expectedImplementation =
+        String.join(
+            "\n",
+            "#include \"TestInterface.h\"",
+            "#include <utility>",
+            "#include <vector>",
+            "#include <stub/cbridge/test/TestInterfaceStub.h>",
+            "void* cbridge_test_TestInterface_functionName(uint8_t* input, uint64_t input_1) {",
+            "    auto cpp_input = std::vector<uint8_t>(input, input + input_1);",
+            "    {",
+            "        auto&& cpp_result = cbridge::test::TestInterfaceStub::functionName(cpp_input);",
+            "        return new std::vector<uint8_t>(std::move(cpp_result));",
+            "    }",
+            "}",
+            "void cbridge_test_TestInterface_functionName_release(void* handle) {",
+            "    auto cpp_handle = reinterpret_cast<std::vector<uint8_t>*>(handle);",
+            "    delete cpp_handle;",
+            "}",
+            "uint8_t* cbridge_test_TestInterface_functionName_getData(void* handle) {",
+            "    auto cpp_handle = reinterpret_cast<std::vector<uint8_t>*>(handle);",
+            "    {",
+            "        auto&& cpp_result = &(*cpp_handle)[0];",
+            "        return cpp_result;",
+            "    }",
+            "}",
+            "uint64_t cbridge_test_TestInterface_functionName_getSize(void* handle) {",
+            "    auto cpp_handle = reinterpret_cast<std::vector<uint8_t>*>(handle);",
+            "    {",
+            "        auto&& cpp_result = cpp_handle->size();",
+            "        return cpp_result;",
+            "    }",
+            "}",
+            "");
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
   }
 
-  Interface<?> createFrancaInterface(String... fidlLines) throws IOException {
-    String sourceFidl = String.join("\n", fidlLines);
-    Interface<?> iface =
-        extractNthInterfaceFromModel(
-            readInFrancaModel(sourceFidl, new BaseApiSpecAccessorFactory()), 0);
-    return iface;
+  @Test
+  public void createFunctionTakingAndReturningBasicIntegralTypes() throws IOException {
+    Map<FBasicTypeId, String> expectedCTypes = new HashMap<>();
+    expectedCTypes.put(FBasicTypeId.INT8, "int8_t");
+    expectedCTypes.put(FBasicTypeId.UINT8, "uint8_t");
+    expectedCTypes.put(FBasicTypeId.INT16, "int16_t");
+    expectedCTypes.put(FBasicTypeId.UINT16, "uint16_t");
+    expectedCTypes.put(FBasicTypeId.INT32, "int32_t");
+    expectedCTypes.put(FBasicTypeId.UINT32, "uint32_t");
+    expectedCTypes.put(FBasicTypeId.INT64, "int64_t");
+    expectedCTypes.put(FBasicTypeId.UINT64, "uint64_t");
+
+    when(francaArgument_1.getName()).thenReturn("input");
+    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
+    inputArguments.add(francaArgument_1);
+
+    when(francaArgument_2.getName()).thenReturn("output");
+    when(francaArgument_2.getType()).thenReturn(francaTypeRef_2);
+    outputArguments.add(francaArgument_2);
+
+    String expectedHeaderWithTypePlaceholders =
+        String.join(
+            "\n",
+            "#include <stdint.h>",
+            "%1$s cbridge_test_TestInterface_functionName(%1$s input);",
+            "");
+
+    String expectedImplementationWithTypePlaceholders =
+        String.join(
+            "\n",
+            "#include \"TestInterface.h\"",
+            "#include <stub/cbridge/test/TestInterfaceStub.h>",
+            "%1$s cbridge_test_TestInterface_functionName(%1$s input) {",
+            "    auto cpp_input = input;",
+            "    {",
+            "        auto&& cpp_result = cbridge::test::TestInterfaceStub::functionName(cpp_input);",
+            "        return cpp_result;",
+            "    }",
+            "}",
+            "");
+    for (Map.Entry<FBasicTypeId, String> entry : expectedCTypes.entrySet()) {
+      testFunctionCreationForBasicType(
+          entry.getKey(),
+          entry.getValue(),
+          expectedHeaderWithTypePlaceholders,
+          expectedImplementationWithTypePlaceholders);
+    }
   }
 
-  private void assertEqualHeaderIncludes(List<String> includes, CInterface cModel) {
-    Set<String> expectedIncludes = new HashSet<>(includes);
-    Set<String> actualImports = extractIncludes(cModel.headerIncludes);
-    assertEquals(expectedIncludes, actualImports);
+  @Test
+  public void createFunctionTakingAndReturningBasicNonIntegralTypes() throws IOException {
+    Map<FBasicTypeId, String> expectedCTypes = new HashMap<>();
+    expectedCTypes.put(FBasicTypeId.BOOLEAN, "bool");
+    expectedCTypes.put(FBasicTypeId.FLOAT, "float");
+    expectedCTypes.put(FBasicTypeId.DOUBLE, "double");
+
+    when(francaArgument_1.getName()).thenReturn("input");
+    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
+    inputArguments.add(francaArgument_1);
+
+    when(francaArgument_2.getName()).thenReturn("output");
+    when(francaArgument_2.getType()).thenReturn(francaTypeRef_2);
+    outputArguments.add(francaArgument_2);
+
+    String expectedHeaderWithTypePlaceholders =
+        String.join("\n", "%1$s cbridge_test_TestInterface_functionName(%1$s input);", "");
+
+    String expectedImplementationWithTypePlaceholders =
+        String.join(
+            "\n",
+            "#include \"TestInterface.h\"",
+            "#include <stub/cbridge/test/TestInterfaceStub.h>",
+            "%1$s cbridge_test_TestInterface_functionName(%1$s input) {",
+            "    auto cpp_input = input;",
+            "    {",
+            "        auto&& cpp_result = cbridge::test::TestInterfaceStub::functionName(cpp_input);",
+            "        return cpp_result;",
+            "    }",
+            "}",
+            "");
+    for (Map.Entry<FBasicTypeId, String> entry : expectedCTypes.entrySet()) {
+      testFunctionCreationForBasicType(
+          entry.getKey(),
+          entry.getValue(),
+          expectedHeaderWithTypePlaceholders,
+          expectedImplementationWithTypePlaceholders);
+    }
   }
 
-  private void assertEqualImplementationIncludes(List<String> includes, CInterface cModel) {
-    Set<String> expectedIncludes = new HashSet<>(includes);
-    Set<String> actualImports = extractIncludes(cModel.implementationIncludes);
-    assertEquals(expectedIncludes, actualImports);
+  private void testFunctionCreationForBasicType(
+      FBasicTypeId francaType,
+      String cType,
+      String expectedHeaderWithTypePlaceholders,
+      String expectedImplementationWithTypePlaceholders) {
+    String expectedHeader = String.format(expectedHeaderWithTypePlaceholders, cType);
+    String expectedImplementation =
+        String.format(expectedImplementationWithTypePlaceholders, cType);
+    when(francaTypeRef_1.getPredefined()).thenReturn(francaType);
+    when(francaTypeRef_2.getPredefined()).thenReturn(francaType);
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
   }
 
-  private Set<String> extractIncludes(Set<Includes.Include> includes) {
-    return includes.stream().map(include -> getIncludeName(include)).collect(Collectors.toSet());
-  }
-
-  private static String getIncludeName(Includes.Include include) {
-    if (include instanceof Includes.SystemInclude) return ((Includes.SystemInclude) include).file;
-    else if (include instanceof Includes.InternalPublicInclude)
-      return ((Includes.InternalPublicInclude) include).file;
-    else return "";
+  private void assertContentAsExpected(
+      CInterface cModel, String expectedHeader, String expectedImplementation) {
+    String generatedImplementation = CBridgeImplementationTemplate.generate(cModel).toString();
+    assertEqualImplementationContent(expectedImplementation, generatedImplementation);
+    String generatedHeader = CBridgeHeaderTemplate.generate(cModel).toString();
+    assertEqualHeaderContent(expectedHeader, generatedHeader);
   }
 }

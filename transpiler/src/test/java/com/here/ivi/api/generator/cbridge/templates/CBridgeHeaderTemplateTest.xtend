@@ -55,7 +55,7 @@ class CBridgeHeaderTemplateTest {
     @Test
     def function() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("functionName")]
+             functions = #[new CFunction.Builder("functionName").build()]
 
         ]
         val expected = '''
@@ -70,8 +70,10 @@ class CBridgeHeaderTemplateTest {
     @Test
     def functionWithOneParameter() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("parameterFunctionName", #[new CParameter("one", CType.INT32)])]
-
+             functions = #[new CFunction.Builder("parameterFunctionName")
+                 .parameters(#[new CParameter("one", CType.INT32)])
+                 .build()
+             ]
         ]
         val expected = '''
         void parameterFunctionName(int32_t one);
@@ -85,9 +87,11 @@ class CBridgeHeaderTemplateTest {
     @Test
     def functionWithTwoParameters() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("doubleFunction", #[
+             functions = #[new CFunction.Builder("doubleFunction")
+                 .parameters(#[
                      new CParameter("first", CType.INT16),
                      new CParameter("second", CType.DOUBLE)])
+                 .build()
              ]
         ]
         val expected = '''
@@ -102,7 +106,10 @@ class CBridgeHeaderTemplateTest {
     @Test
     def functionWithReturnValue() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("returner", CType.FLOAT)]
+             functions = #[new CFunction.Builder("returner")
+                 .returnType(CType.FLOAT)
+                 .build()
+             ]
         ]
         val expected = '''
         float returner();
@@ -116,10 +123,10 @@ class CBridgeHeaderTemplateTest {
     @Test
     def helloWorldTest() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction(
-                         "HelloWorldStub_HelloWorldMethod",
-                         CPointerType.CONST_CHAR_PTR,
-                         #[new CParameter("inputString",CPointerType.CONST_CHAR_PTR)])
+             functions = #[new CFunction.Builder("HelloWorldStub_HelloWorldMethod")
+                 .returnType(CPointerType.CONST_CHAR_PTR)
+                 .parameters(#[new CParameter("inputString",CPointerType.CONST_CHAR_PTR)])
+                 .build()
              ]
         ]
         val expected = '''

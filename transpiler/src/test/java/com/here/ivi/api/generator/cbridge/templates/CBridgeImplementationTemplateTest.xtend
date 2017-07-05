@@ -17,13 +17,17 @@ import org.junit.runner.RunWith;
 import com.here.ivi.api.model.cmodel.CInterface
 import com.here.ivi.api.model.cmodel.CFunction
 import com.here.ivi.api.model.cmodel.CType
-import com.here.ivi.api.model.cmodel.CPointerType
 import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cmodel.CParameter
+import org.junit.rules.TemporaryFolder
+import org.junit.Rule
 import static com.here.ivi.api.test.TemplateComparison.assertEqualImplementationContent
 
 @RunWith(typeof(XtextRunner))
 class CBridgeImplementationTemplateTest {
+
+    @Rule public val tempFolder = new TemporaryFolder;
+
     @Test
     def systemInclude() {
         val cInterface = new CInterface() => [
@@ -55,7 +59,7 @@ class CBridgeImplementationTemplateTest {
     @Test
     def function() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("functionName") => [ delegateName = "functionDelegate" ]]
+             functions = #[new CFunction.Builder("functionName").delegateCallTemplate("functionDelegate()").build()]
 
         ]
         val expected = '''
@@ -72,9 +76,10 @@ class CBridgeImplementationTemplateTest {
     @Test
     def functionWithOneParameter() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("parameterFunctionName", #[new CParameter("one", CType.INT32)]) => [
-                     delegateName = "delegator"
-                 ]
+             functions = #[new CFunction.Builder("parameterFunctionName")
+                    .parameters(#[new CParameter("one", CType.INT32)])
+                    .delegateCallTemplate("delegator(%1$s)")
+                    .build()
              ]
         ]
         val expected = '''
@@ -92,11 +97,12 @@ class CBridgeImplementationTemplateTest {
     @Test
     def functionWithTwoParameters() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("doubleFunction", #[
+             functions = #[new CFunction.Builder("doubleFunction")
+                 .parameters(#[
                      new CParameter("first", CType.INT16),
-                     new CParameter("second", CType.DOUBLE)]) => [
-                     delegateName = "namespacy::classy::doubleFunction"
-                 ]
+                     new CParameter("second", CType.DOUBLE)])
+                 .delegateCallTemplate("namespacy::classy::doubleFunction(%1$s, %2$s)")
+                 .build()
              ]
         ]
         val expected = '''
@@ -115,42 +121,17 @@ class CBridgeImplementationTemplateTest {
     @Test
     def functionWithReturnValue() {
          val cInterface = new CInterface() => [
-             functions = #[new CFunction("returner", CType.FLOAT) => [
-                     delegateName = "delegate"
-                 ]
+             functions = #[new CFunction.Builder("returner")
+                    .returnType(CType.FLOAT)
+                    .delegateCallTemplate("delegate()")
+                    .build()
              ]
         ]
         val expected = '''
         float returner() {
             {
-                auto&& result = delegate();
-                return result;
-            }
-        }
-        '''
-
-        val generated = CBridgeImplementationTemplate.generate(cInterface)
-
-        assertEqualImplementationContent(expected, generated.toString)
-    }
-
-    @Test
-    def helloWorldTest() {
-         val cInterface = new CInterface() => [
-             functions = #[new CFunction(
-                         "HelloWorldStub_helloWorldMethod",
-                         CPointerType.CONST_CHAR_PTR,
-                         #[new CParameter("inputString", CPointerType.CONST_CHAR_PTR)]) => [
-                     delegateName = "HelloWorldStub::helloWorldMethod"
-                 ]
-             ]
-        ]
-        val expected = '''
-        const char* HelloWorldStub_helloWorldMethod(const char* inputString) {
-            auto cpp_inputString = std::string(inputString);
-            {
-                auto&& result = HelloWorldStub::helloWorldMethod(cpp_inputString);
-                return strdup(result.c_str());
+                auto&& cpp_result = delegate();
+                return cpp_result;
             }
         }
         '''

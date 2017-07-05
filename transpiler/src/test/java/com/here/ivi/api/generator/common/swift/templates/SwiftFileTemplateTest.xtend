@@ -235,9 +235,9 @@ class SwiftFileTemplateTest {
                 public static func helloWorldMethod(inputString: String) -> String {
                     let c_inputString = inputString
                     return {
-                        if let ret_pointer = HelloWorld_helloWorldMethod(c_inputString) {
-                            let ret_value = String(cString:ret_pointer)
-                            //TODO delete_string(ret_pointer)
+                        if let handler = HelloWorld_helloWorldMethod(c_inputString) {
+                            let ret_value = String(cString:HelloWorld_helloWorldMethod_getData(handler))
+                            HelloWorld_helloWorldMethod_release(handler)
                             return ret_value
                         }
                         else {

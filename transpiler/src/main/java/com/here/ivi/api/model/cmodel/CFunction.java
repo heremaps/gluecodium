@@ -11,39 +11,117 @@
 
 package com.here.ivi.api.model.cmodel;
 
+import static com.here.ivi.api.generator.cbridge.TypeConverter.createParamConversionRoutine;
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+
+import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.generator.cbridge.TypeConverter;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class CFunction extends CElement {
   public final List<CParameter> parameters;
   public final List<TypeConverter.TypeConversion> conversions;
   public final CType returnType;
   public final TypeConverter.TypeConversion returnConversion;
-  public String delegateName;
+  public final String delegateCall;
 
-  public CFunction(final String name) {
-    this(name, CType.VOID, Collections.emptyList());
+  private CFunction(Builder builder) {
+    super(builder.name);
+    parameters = builder.parameters;
+    conversions = builder.conversions;
+    returnType = builder.returnType;
+    returnConversion = builder.returnConversion;
+    delegateCall = builder.delegateCall;
   }
 
-  public CFunction(final String name, CType returnType) {
-    this(name, returnType, Collections.emptyList());
-  }
+  public static class Builder {
+    String name;
+    private List<CParameter> parameters = emptyList();;
+    private List<TypeConverter.TypeConversion> conversions = emptyList();;
+    private CType returnType = CType.VOID;
+    private TypeConverter.TypeConversion returnConversion;
+    private String delegateCall = "";
 
-  public CFunction(final String name, final List<CParameter> parameters) {
-    this(name, CType.VOID, parameters);
-  }
+    public Builder(String name) {
+      this.name = name;
+    }
 
-  public CFunction(final String name, CType returnType, final List<CParameter> parameters) {
-    super(name);
-    this.returnType = returnType;
-    returnConversion = TypeConverter.createReturnValueConversionRoutine(returnType);
-    this.parameters = parameters;
-    conversions =
-        parameters
-            .stream()
-            .map(TypeConverter::createParamConversionRoutine)
-            .collect(Collectors.toList());
+    public CFunction.Builder parameters(List<CParameter> params) {
+      this.parameters = params;
+      return this;
+    }
+
+    public CFunction.Builder conversions(List<TypeConverter.TypeConversion> conversions) {
+      this.conversions = conversions;
+      return this;
+    }
+
+    public CFunction.Builder returnType(CType returnType) {
+      this.returnType = returnType;
+      return this;
+    }
+
+    public CFunction.Builder returnConversion(TypeConverter.TypeConversion returnConversion) {
+      this.returnConversion = returnConversion;
+      return this;
+    }
+
+    public CFunction.Builder delegateCallTemplate(String template) {
+      this.delegateCall = template;
+      return this;
+    }
+
+    public CFunction build() {
+      if (conversions.isEmpty() && !parameters.isEmpty()) {
+        conversions = parameters.stream().map(TypeConverter::identity).collect(toList());
+      }
+      if (!conversions.isEmpty() && !delegateCall.isEmpty()) {
+        delegateCall =
+            String.format(delegateCall, conversions.stream().map(it -> it.name).toArray());
+      }
+      if (returnType != CType.VOID && returnConversion == null) {
+        returnConversion = new TypeConverter.TypeConversion("result");
+      }
+      return new CFunction(this);
+    }
+
+    public Builder parameters(List<String> paramNames, List<CppTypeInfo> types) {
+      this.parameters = createParameters(paramNames, types);
+      this.conversions = createConversions(paramNames, types);
+      return this;
+    }
+
+    private static List<TypeConverter.TypeConversion> createConversions(
+        List<String> names, List<CppTypeInfo> types) {
+      return IntStream.range(0, names.size())
+          .boxed()
+          .map(index -> createParamConversionRoutine(names.get(index), types.get(index)))
+          .collect(toList());
+    }
+
+    private static List<CParameter> createParameters(List<String> names, List<CppTypeInfo> types) {
+      return IntStream.range(0, names.size())
+          .boxed()
+          .map(
+              index ->
+                  splitParametersIfNeeded(
+                      names.get(index), types.get(index).cTypesNeededByConstructor))
+          .flatMap(Collection::stream)
+          .collect(toList());
+    }
+
+    private static List<CParameter> splitParametersIfNeeded(
+        String paramName, List<CType> cTypesNeededByConstructor) {
+      List<String> names = TypeConverter.paramNames(paramName, cTypesNeededByConstructor.size());
+      List<CParameter> params = new ArrayList<>();
+      for (int i = 0; i < cTypesNeededByConstructor.size(); i++) {
+        params.add(new CParameter(names.get(i), cTypesNeededByConstructor.get(i)));
+      }
+      return params;
+    }
   }
 }

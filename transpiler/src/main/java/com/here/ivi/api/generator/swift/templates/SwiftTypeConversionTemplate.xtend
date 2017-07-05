@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.swift.templates
 
 import com.here.ivi.api.model.swift.SwiftType
+import com.here.ivi.api.model.swift.SwiftMethodParameter
 
 /**
 Simple type conversion template.
@@ -19,13 +20,13 @@ Simple type conversion template.
 Additional conversion functions for pointers, optionals etc. need to be added in the future.
 */
 class SwiftTypeConversionTemplate {
-    def static String convertCToSwift(SwiftType type, String expression) {
+    def static String convertCToSwift(SwiftType type, String functionName, SwiftMethodParameter[] params) {
         switch(type.name) {
             case "String": '''
                 {
-                    if let ret_pointer = «expression» {
-                        let ret_value = String(cString:ret_pointer)
-                        //TODO delete_string(ret_pointer)
+                    if let handler = «functionName»(«FOR param: params SEPARATOR ", "»c_«param.variableName»«ENDFOR») {
+                        let ret_value = String(cString:«functionName»_getData(handler))
+                        «functionName»_release(handler)
                         return ret_value
                     }
                     else {
@@ -33,7 +34,7 @@ class SwiftTypeConversionTemplate {
                     }
                 }()
                 '''
-            default: expression
+            default: '''«functionName»(«FOR param: params SEPARATOR ", "»c_«param.variableName»«ENDFOR»)'''
         }
     }
 

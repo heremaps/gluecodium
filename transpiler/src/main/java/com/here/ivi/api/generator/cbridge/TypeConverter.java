@@ -11,50 +11,82 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+
 import com.here.ivi.api.model.cmodel.CParameter;
-import com.here.ivi.api.model.cmodel.CPointerType;
-import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Includes;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 public class TypeConverter {
   public static class TypeConversion {
+
     public final String name;
     public final String expression;
     public final Set<Includes.Include> includes;
 
     TypeConversion(String name, String expression, Includes.Include... includes) {
-      this.name = name;
-      this.expression = String.format(expression, name);
+      this.name = "cpp_" + name;
+      this.expression = expression;
       this.includes = new HashSet<>(Arrays.asList(includes));
     }
 
-    TypeConversion(String name) {
-      this.name = name;
-      this.expression = name;
-      this.includes = new HashSet<>();
+    TypeConversion(String name, String expression, List<Includes.Include> includes) {
+      this.name = "cpp_" + name;
+      this.expression = expression;
+      this.includes = new HashSet<>(includes);
+    }
+
+    public TypeConversion(String name) {
+      this(name, "cpp_" + name);
     }
   }
 
-  public static TypeConversion createParamConversionRoutine(CParameter param) {
-    if (CPointerType.CONST_CHAR_PTR.equals(param.type)) {
-      return new TypeConversion(
-          param.name, "std::string(%s)", new Includes.SystemInclude("string"));
-    } else {
-      return new TypeConversion(param.name);
-    }
+  static TypeConversion reinterpretCast(CParameter param, String targetType) {
+    return new TypeConverter.TypeConversion(
+        param.name, String.format("reinterpret_cast<%1$s*>(%2$s)", targetType, param.name));
   }
 
-  public static TypeConversion createReturnValueConversionRoutine(CType returnType) {
-    if (CPointerType.CONST_CHAR_PTR.equals(returnType)) {
-      return new TypeConversion(
-          "result", "strdup(%s.c_str())", new Includes.SystemInclude("string.h"));
-    } else if (CType.VOID.equals(returnType)) {
+  public static TypeConversion identity(CParameter param) {
+    return new TypeConverter.TypeConversion(param.name, param.name, emptyList());
+  }
+
+  public static List<String> paramNames(String baseName, int numberOfParams) {
+    return IntStream.range(0, numberOfParams)
+        .boxed()
+        .map(
+            index -> {
+              if (index == 0) {
+                return baseName;
+              } else {
+                return baseName + '_' + index;
+              }
+            })
+        .collect(toList());
+  }
+
+  public static TypeConversion createParamConversionRoutine(
+      String paramName, CppTypeInfo baseApiType) {
+    List<String> names = paramNames(paramName, baseApiType.cTypesNeededByConstructor.size());
+    return new TypeConversion(
+        paramName,
+        String.format(baseApiType.constructFromCExpr, names.toArray()),
+        baseApiType.baseTypeIncludes);
+  }
+
+  static TypeConversion createReturnValueConversionRoutine(CppTypeInfo baseApiType) {
+
+    if ("void".equals(baseApiType.baseType)) {
       return null;
     } else {
-      return new TypeConversion("result");
+      return new TypeConversion(
+          "result",
+          String.format(baseApiType.returnValueConstrExpr, "cpp_result"),
+          baseApiType.returnConversionIncludes);
     }
   }
 }

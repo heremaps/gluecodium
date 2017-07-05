@@ -92,13 +92,12 @@ class SwiftFileTemplate {
 
     def static generateCBridgeCall(SwiftClass swiftClass, SwiftMethod method) {
         val prefix = if (swiftClass.nameSpace.length > 0) '''«swiftClass.nameSpace»_«swiftClass.name»''' else swiftClass.name
+        val functionNameWithPrefix = '''«prefix»_«method.name»'''
         '''
         «FOR param: method.parameters»
             «convertParameter(param)»
         «ENDFOR»
-        return «SwiftTypeConversionTemplate.convertCToSwift(
-                method.returnType,
-                '''«prefix»_«method.name»(«FOR param: method.parameters SEPARATOR ", "»c_«param.variableName»«ENDFOR»)''')»'''
+        return «SwiftTypeConversionTemplate.convertCToSwift(method.returnType, functionNameWithPrefix, method.parameters)»'''
     }
 
     def static convertParameter(SwiftMethodParameter parameter) {
