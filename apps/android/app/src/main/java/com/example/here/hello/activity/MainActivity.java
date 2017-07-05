@@ -28,12 +28,8 @@ public final class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String username = user.getText().toString();
-                // TODO: native method should be static, needs to be parsed from the deployment
-                // model accordingly
-                HelloWorld helloWorld = new HelloWorld();
-                String userGreeting = helloWorld.helloWorldMethod(username);
-                Snackbar.make(user, userGreeting, Snackbar.LENGTH_INDEFINITE)
-                        .show();
+                String userGreeting = HelloWorld.helloWorldMethod(username);
+                Snackbar.make(user, userGreeting, Snackbar.LENGTH_INDEFINITE).show();
             }
         });
     }
