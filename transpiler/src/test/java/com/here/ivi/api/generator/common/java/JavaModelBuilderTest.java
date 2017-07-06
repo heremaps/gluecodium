@@ -89,14 +89,14 @@ public class JavaModelBuilderTest {
   private JavaModelBuilder modelBuilder;
 
   private JavaElement getFirstResult() {
-    List<JavaElement> results = contextStack.getParentContext().results;
+    List<JavaElement> results = contextStack.getParentContext().previousResults;
     assertFalse(results.isEmpty());
 
     return results.get(0);
   }
 
   private void injectResult(JavaElement element) {
-    contextStack.getCurrentContext().results.add(element);
+    contextStack.getCurrentContext().previousResults.add(element);
   }
 
   @Before
@@ -108,8 +108,9 @@ public class JavaModelBuilderTest {
         new JavaModelBuilder(
             contextStack, new JavaPackage(Collections.emptyList()), rootElementModel);
 
-    contextStack.getCurrentContext().results = new ArrayList<>();
-    contextStack.getParentContext().results = new ArrayList<>();
+    contextStack.getCurrentContext().currentResults = new ArrayList<>();
+    contextStack.getCurrentContext().previousResults = new ArrayList<>();
+    contextStack.getParentContext().previousResults = new ArrayList<>();
 
     when(francaInterface.getName()).thenReturn(CLASS_NAME);
     when(francaConstant.getName()).thenReturn(CONSTANT_NAME);

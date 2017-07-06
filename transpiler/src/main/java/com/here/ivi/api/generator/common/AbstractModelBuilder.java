@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.common;
 
-import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
@@ -30,11 +29,6 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   protected AbstractModelBuilder(final ModelBuilderContextStack<E> contextStack) {
     this.contextStack = contextStack;
-  }
-
-  @Override
-  public void startBuilding(FrancaElement<?> element) {
-    openContext();
   }
 
   @Override
@@ -83,11 +77,6 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
-  public void finishBuilding(FrancaElement<?> element) {
-    closeContext();
-  }
-
-  @Override
   public void finishBuilding(FInterface francaInterface) {
     closeContext();
   }
@@ -129,11 +118,11 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   @Override
   public void finishBuilding(FStructType francaStructType) {
-    resultContext = contextStack.closeContext();
+    closeContext();
   }
 
   public List<E> getResults() {
-    return resultContext != null ? resultContext.results : Collections.emptyList();
+    return resultContext != null ? resultContext.currentResults : Collections.emptyList();
   }
 
   protected final void openContext() {
@@ -141,7 +130,15 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   protected final void closeContext() {
-    resultContext = contextStack.closeContext();
+    resultContext = contextStack.getCurrentContext();
+    if (resultContext != null) {
+      ModelBuilderContext<E> parentContext = contextStack.getParentContext();
+      if (parentContext != null) {
+        parentContext.previousResults.addAll(resultContext.currentResults);
+      }
+    }
+
+    contextStack.closeContext();
   }
 
   protected final ModelBuilderContext<E> getCurrentContext() {
@@ -152,10 +149,10 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
     return contextStack.getParentContext();
   }
 
-  protected final void storeToParentContext(final E element) {
-    ModelBuilderContext<E> parentContext = contextStack.getParentContext();
-    if (parentContext != null) {
-      parentContext.results.add(element);
+  protected final void storeResult(final E element) {
+    ModelBuilderContext<E> currentContext = contextStack.getCurrentContext();
+    if (currentContext != null) {
+      currentContext.currentResults.add(element);
     }
   }
 }

@@ -53,7 +53,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppClass cppClass = stubClassBuilder.build();
 
-    for (CppElement cppElement : getCurrentContext().results) {
+    for (CppElement cppElement : getCurrentContext().previousResults) {
       if (cppElement instanceof CppUsing) {
         cppClass.usings.add((CppUsing) cppElement);
       } else if (cppElement instanceof CppMethod) {
@@ -61,7 +61,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
       }
     }
 
-    storeToParentContext(cppClass);
+    storeResult(cppClass);
     closeContext();
   }
 
@@ -73,7 +73,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     // TODO: APIGEN-261 process method arguments through the Builder as well
     StubMethodMapper.mapMethodElements(className, francaMethod, rootModel)
-        .forEach(this::storeToParentContext);
+        .forEach(this::storeResult);
     closeContext();
   }
 }

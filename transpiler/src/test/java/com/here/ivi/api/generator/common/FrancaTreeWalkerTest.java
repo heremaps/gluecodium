@@ -96,15 +96,7 @@ public class FrancaTreeWalkerTest {
   public void walkNullInterface() {
     treeWalker.walk((Interface<?>) null);
 
-    verify(modelBuilder, never()).startBuilding(any(Interface.class));
-  }
-
-  @Test
-  public void walkEmptyInterface() {
-    treeWalker.walk(anInterface);
-
-    verify(modelBuilder).startBuilding(anInterface);
-    verify(modelBuilder).finishBuilding(anInterface);
+    verify(modelBuilder, never()).startBuilding(any(FInterface.class));
   }
 
   @Test
@@ -248,15 +240,7 @@ public class FrancaTreeWalkerTest {
   public void walkNullTypeCollection() {
     treeWalker.walk((TypeCollection<?>) null);
 
-    verify(modelBuilder, never()).startBuilding(any(TypeCollection.class));
-  }
-
-  @Test
-  public void walkEmptyTypeCollection() {
-    treeWalker.walk(typeCollection);
-
-    verify(modelBuilder).startBuilding(typeCollection);
-    verify(modelBuilder).finishBuilding(typeCollection);
+    verify(modelBuilder, never()).startBuilding(any(FTypeCollection.class));
   }
 
   @Test

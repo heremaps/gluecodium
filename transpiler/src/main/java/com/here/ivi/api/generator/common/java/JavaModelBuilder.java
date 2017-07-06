@@ -64,7 +64,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaClass javaClass = createJavaClass(francaInterface);
 
-    for (JavaElement javaElement : getCurrentContext().results) {
+    for (JavaElement javaElement : getCurrentContext().previousResults) {
       if (javaElement instanceof JavaConstant) {
         javaClass.constants.add((JavaConstant) javaElement);
       } else if (javaElement instanceof JavaField) {
@@ -74,7 +74,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       }
     }
 
-    storeToParentContext(javaClass);
+    storeResult(javaClass);
     closeContext();
   }
 
@@ -83,7 +83,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaClass javaClass = createJavaClass(francaTypeCollection);
 
-    for (JavaElement javaElement : getCurrentContext().results) {
+    for (JavaElement javaElement : getCurrentContext().previousResults) {
       if (javaElement instanceof JavaConstant) {
         javaClass.constants.add((JavaConstant) javaElement);
       } else if (javaElement instanceof JavaClass) {
@@ -91,7 +91,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       }
     }
 
-    storeToParentContext(javaClass);
+    storeResult(javaClass);
     closeContext();
   }
 
@@ -125,13 +125,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaMethod.qualifiers.add(MethodQualifier.NATIVE);
     javaMethod.visibility = JavaVisibility.PUBLIC;
 
-    for (JavaElement javaElement : getCurrentContext().results) {
+    for (JavaElement javaElement : getCurrentContext().previousResults) {
       if (javaElement instanceof JavaParameter) {
         javaMethod.parameters.add((JavaParameter) javaElement);
       }
     }
 
-    storeToParentContext(javaMethod);
+    storeResult(javaMethod);
     closeContext();
   }
 
@@ -152,7 +152,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         new JavaParameter(
             javaArgumentType, JavaNameRules.getArgumentName(francaArgument.getName()));
 
-    storeToParentContext(javaParameter);
+    storeResult(javaParameter);
     closeContext();
   }
 
@@ -165,7 +165,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         new JavaConstant(type, JavaNameRules.getConstantName(francaConstant.getName()), value);
     javaConstant.comment = getCommentString(francaConstant);
 
-    storeToParentContext(javaConstant);
+    storeResult(javaConstant);
     closeContext();
   }
 
@@ -178,7 +178,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             JavaNameRules.getFieldName(francaTypedElement.getName()));
     javaField.comment = getCommentString(francaTypedElement);
 
-    storeToParentContext(javaField);
+    storeResult(javaField);
     closeContext();
   }
 
@@ -188,13 +188,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaClass javaClass = createJavaClass(francaStructType);
     javaClass.qualifiers.add(JavaClass.ClassQualifier.STATIC);
 
-    for (JavaElement javaElement : getCurrentContext().results) {
+    for (JavaElement javaElement : getCurrentContext().previousResults) {
       if (javaElement instanceof JavaField) {
         javaClass.fields.add((JavaField) javaElement);
       }
     }
 
-    storeToParentContext(javaClass);
+    storeResult(javaClass);
     closeContext();
   }
 

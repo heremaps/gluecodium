@@ -21,5 +21,6 @@ import java.util.List;
  */
 public class ModelBuilderContext<E> {
   public String name = "";
-  public List<E> results = new ArrayList<>();
+  public List<E> previousResults = new ArrayList<>();
+  public List<E> currentResults = new ArrayList<>();
 }
