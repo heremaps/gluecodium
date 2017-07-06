@@ -7,20 +7,42 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
 BUILD_DIR=build-ios
-CWD=$PWD
+INSTALL_DIR=dist
+CWD="$PWD"
 
-if [ ! -d ${BUILD_DIR} ] ; then
-    mkdir -p ${BUILD_DIR}
-    cd ${BUILD_DIR}
-    safe cmake \
-        -DBUILD_SHARED_LIBS=ON \
-        -DCMAKE_TOOLCHAIN_FILE="${SCRIPT_DIR}/../../../apigen-cmake/cmake/toolchains/iOS.cmake" \
-        -DCMAKE_INSTALL_PREFIX="$CWD/dist" \
-        -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
-        -DHELLO_BUILD_CPP_APP=OFF \
-        -G Ninja \
-        ..
-    cd ${CWD}
-fi
+function build {
+    local build_dir="$1"
+    local target="$2"
+    if [ ! -f "${build_dir}/build.ninja" ] ; then
+        mkdir -p "${build_dir}"
+        pushd "${build_dir}"
+        safe cmake \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_TOOLCHAIN_FILE="${SCRIPT_DIR}/../../../apigen-cmake/cmake/toolchains/iOS.cmake" \
+            -DIOS_PLATFORM="${target}" \
+            -DIOS_DEPLOYMENT_TARGET=9.3 \
+            -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
+            -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
+            -DHELLO_BUILD_CPP_APP=OFF \
+            -G Ninja \
+            ../..
+        popd
+    fi
+    safe cmake --build "${build_dir}" --target install
+}
 
-safe cmake --build ${BUILD_DIR}
+BUILD_DIR_IPHONE="${CWD}/${BUILD_DIR}/iphone"
+BUILD_DIR_SIMULATOR="${CWD}/${BUILD_DIR}/simulator"
+
+build "${BUILD_DIR_IPHONE}" OS
+build "${BUILD_DIR_SIMULATOR}" SIMULATOR
+
+mkdir -p ${INSTALL_DIR}
+cp -R "${BUILD_DIR_SIMULATOR}/dist/hello.framework" "${INSTALL_DIR}"
+cp -R "${BUILD_DIR_IPHONE}/dist/hello.framework" "${INSTALL_DIR}"
+lipo \
+    "${BUILD_DIR_IPHONE}/dist/hello.framework/hello" \
+    "${BUILD_DIR_SIMULATOR}/dist/hello.framework/hello" \
+    -create \
+    -output "${INSTALL_DIR}/hello.framework/Versions/Current/hello"
+
