@@ -1,8 +1,8 @@
 import PackageDescription
 
 let package = Package(
-    name: "${SWIFT_LIBRARY}",
+    name: "${target}",
     targets: [
-        Target(name: "${SWIFT_LIBRARY}")
+        Target(name: "${target}")
     ]
 )

@@ -10,4 +10,3 @@
 cmake_minimum_required(VERSION 3.7)
 
 add_subdirectory(base_api)
-add_subdirectory(ios)

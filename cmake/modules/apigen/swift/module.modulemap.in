@@ -1,0 +1,9 @@
+module ${target} {
+    umbrella "${APIGEN_TRANSPILER_C_BRIDGE_SOURCE_DIR}"
+}
+// for mac tests
+module ${target}Tests {
+}
+// for linux tests
+module ${target}PackageTests {
+}
