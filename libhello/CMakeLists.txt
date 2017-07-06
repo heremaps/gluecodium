@@ -8,9 +8,11 @@
 # disclosed to others without the prior written consent of HERE.
 
 cmake_minimum_required(VERSION 3.7)
-project(hello)
+
 # Here we create a new library 'hello' for which to generate target platform bindings.
 # It aims to serve as a blueprint for real-world libraries such as libguidance or librouting.
+project(hello)
+set(CMAKE_CXX_STANDARD 11)
 
 set(HELLO_VERSION_MAJOR 0)
 set(HELLO_VERSION_MINOR 0)
@@ -33,7 +35,6 @@ else()
 endif()
 
 add_library(hello ${HELLO_SOURCES})
-target_compile_features(hello PUBLIC cxx_range_for)
 set_target_properties(hello PROPERTIES
     POSITION_INDEPENDENT_CODE ON
     SOVERSION ${HELLO_VERSION_MAJOR}
