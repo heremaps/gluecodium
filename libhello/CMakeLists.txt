@@ -28,7 +28,7 @@ set_target_properties(hello PROPERTIES
     SOVERSION ${HELLO_VERSION_MAJOR}
     VERSION ${HELLO_VERSION})
 
-include(Apigen)
+include(apigen/Apigen)
 apigen_transpile(hello
     ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
     ${HELLO_APIGEN_TRANSPILER_GENERATOR})
