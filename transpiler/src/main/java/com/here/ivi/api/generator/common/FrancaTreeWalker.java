@@ -59,11 +59,7 @@ public class FrancaTreeWalker {
       return;
     }
 
-    walk(
-        anInterface,
-        ModelBuilder::startBuilding,
-        ModelBuilder::finishBuilding,
-        this::walkChildNodes);
+    walkChildNodes(anInterface);
   }
 
   public void walk(final TypeCollection<?> typeCollection) {
@@ -72,11 +68,7 @@ public class FrancaTreeWalker {
       return;
     }
 
-    walk(
-        typeCollection,
-        ModelBuilder::startBuilding,
-        ModelBuilder::finishBuilding,
-        this::walkChildNodes);
+    walkChildNodes(typeCollection);
   }
 
   private <T> void walk(

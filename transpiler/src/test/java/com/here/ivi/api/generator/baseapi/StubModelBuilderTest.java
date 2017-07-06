@@ -63,14 +63,14 @@ public class StubModelBuilderTest {
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
 
   private CppElement getFirstResult() {
-    List<CppElement> results = contextStack.getParentContext().results;
+    List<CppElement> results = contextStack.getParentContext().previousResults;
     assertFalse(results.isEmpty());
 
     return results.get(0);
   }
 
   private void injectResult(CppElement element) {
-    contextStack.getCurrentContext().results.add(element);
+    contextStack.getCurrentContext().previousResults.add(element);
   }
 
   private void injectParentName(String name) {
@@ -84,8 +84,9 @@ public class StubModelBuilderTest {
 
     modelBuilder = new StubModelBuilder(contextStack, rootModel);
 
-    contextStack.getCurrentContext().results = new ArrayList<>();
-    contextStack.getParentContext().results = new ArrayList<>();
+    contextStack.getCurrentContext().currentResults = new ArrayList<>();
+    contextStack.getCurrentContext().previousResults = new ArrayList<>();
+    contextStack.getParentContext().previousResults = new ArrayList<>();
 
     when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
   }

@@ -21,8 +21,8 @@ public class ModelBuilderContextStack<E> {
     contextStack.push(new ModelBuilderContext<>());
   }
 
-  public ModelBuilderContext<E> closeContext() {
-    return contextStack.poll();
+  public void closeContext() {
+    contextStack.poll();
   }
 
   public ModelBuilderContext<E> getCurrentContext() {
