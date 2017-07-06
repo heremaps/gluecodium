@@ -40,7 +40,7 @@ public final class JavaTypeMapper {
     return new JavaPrimitiveType(Type.VOID);
   }
 
-  public static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
+  private static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
     switch (basicTypeId.getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
         return new JavaPrimitiveType(Type.BOOL);
@@ -49,14 +49,19 @@ public final class JavaTypeMapper {
       case FBasicTypeId.DOUBLE_VALUE:
         return new JavaPrimitiveType(Type.DOUBLE);
       case FBasicTypeId.INT8_VALUE:
+        return new JavaPrimitiveType(Type.BYTE);
       case FBasicTypeId.INT16_VALUE:
+        return new JavaPrimitiveType(Type.SHORT);
       case FBasicTypeId.INT32_VALUE:
+        return new JavaPrimitiveType(Type.INT);
       case FBasicTypeId.INT64_VALUE:
+        return new JavaPrimitiveType(Type.LONG);
       case FBasicTypeId.UINT8_VALUE:
       case FBasicTypeId.UINT16_VALUE:
       case FBasicTypeId.UINT32_VALUE:
       case FBasicTypeId.UINT64_VALUE:
-        return new JavaPrimitiveType(Type.INT);
+        // TODO: APIGEN-217 figure out how to handle unsigned ints
+        return new JavaPrimitiveType(Type.LONG);
       case FBasicTypeId.STRING_VALUE:
         return new JavaReferenceType(JavaReferenceType.Type.STRING);
       case FBasicTypeId.BYTE_BUFFER_VALUE:
