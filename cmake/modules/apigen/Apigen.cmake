@@ -15,14 +15,22 @@ set(includeguard_Apigen ON)
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# The main APIGEN module
+# The main Apigen module
 # ----------------------
 #
-# Includes all other APIGEN modules for convenience
+# Includes all other Apigen modules for convenience.
 
+# Generic modules
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenTargetIncludeDirectories.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenTargetSources.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenTranspile.cmake)
+
+# Java modules
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenJavaCompile.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenJavaJar.cmake)
+
+# Android modules
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenAndroidArchive.cmake)
+
+# Swift modules
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftBuild.cmake)

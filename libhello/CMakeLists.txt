@@ -48,6 +48,8 @@ elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     apigen_java_jar(hello)
     apigen_android_archive(hello)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
-    # Swift customers have to wait a little longer...
-    #apigen_swift_package(hello ...)
+    # Swift customers want a module...
+    apigen_swift_build(hello)
+    #apigen_swift_test(hello test/folder)
+    #apigen_ios_framework(hello)
 endif()

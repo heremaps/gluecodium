@@ -23,4 +23,5 @@ safe cmake \
 popd
 
 safe cmake \
-    --build ${BUILD_DIR}
+    --build ${BUILD_DIR} \
+    --target install
