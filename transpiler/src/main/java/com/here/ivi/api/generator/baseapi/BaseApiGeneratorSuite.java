@@ -12,19 +12,22 @@
 package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.cpp.CppGenerator;
-import com.here.ivi.api.generator.common.cpp.CppModelMapper;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
+import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.ModelHelper;
+import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.validator.baseapi.BaseApiModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
@@ -75,53 +78,22 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
   }
 
   public List<GeneratedFile> generate() {
+
     if (model == null) {
       return Collections.emptyList();
     }
 
-    CppIncludeResolver includeResolver = new CppIncludeResolver(model);
-
-    CppGenerator generator = new CppGenerator(includeResolver);
-    TypeCollectionMapper typeCollectionMapper = new TypeCollectionMapper();
-    StubMapper stubMapper = new StubMapper();
-
-    // process all interfaces and type collections
-    Stream<GeneratedFile> generatorStreams =
-        Stream.concat(
-            model
-                .getInterfaces()
-                .stream()
-                .map(iface -> generateFromFrancaElement(iface, stubMapper, generator)),
-            model
-                .getTypeCollections()
-                .stream()
-                .map(
-                    typeCollection ->
-                        generateFromFrancaElement(
-                            typeCollection, typeCollectionMapper, generator)));
+    CppGenerator generator = new CppGenerator(new CppIncludeResolver(model));
 
     List<GeneratedFile> generatedFiles =
-        generatorStreams.filter(Objects::nonNull).collect(Collectors.toList());
-    final String targetDir = "src/";
-    generatedFiles.add(copyTarget("cpp/internal/expected.h", targetDir));
+        Stream.concat(model.getInterfaces().stream(), model.getTypeCollections().stream())
+            .map(iface -> generateFromFrancaElement(iface, generator))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+
+    generatedFiles.add(copyTarget("cpp/internal/expected.h", "src/"));
 
     return generatedFiles;
-  }
-
-  private GeneratedFile generateFromFrancaElement(
-      FrancaElement<?> francaElement, CppModelMapper mapper, CppGenerator generator) {
-
-    String fileName = CppNameRules.getHeaderPath(francaElement);
-    CppNamespace cppModel = mapper.mapFrancaModelToCppModel(francaElement);
-    CharSequence copyRightNotice = generateGeneratorNotice(this, francaElement, fileName);
-    return generator.generateCode(cppModel, fileName, copyRightNotice);
-  }
-
-  private static CharSequence generateGeneratorNotice(
-      GeneratorSuite suite, FrancaElement<?> element, String outputTarget) {
-
-    String inputDefinition = element.getName() + ':' + element.getVersion();
-    return GeneratorNoticeTemplate.generate(suite, inputDefinition, outputTarget);
   }
 
   public static GeneratedFile copyTarget(String fileName, String targetDir) {
@@ -172,5 +144,62 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
   public Collection<File> getCurrentFiles() {
     return currentFiles;
+  }
+
+  private GeneratedFile generateFromFrancaElement(
+      FrancaElement<?> francaElement, CppGenerator generator) {
+
+    CppNamespace cppModel = mapFrancaModelToCppModel(francaElement);
+    String fileName = CppNameRules.getHeaderPath(francaElement);
+    CharSequence copyRightNotice = generateGeneratorNotice(francaElement, fileName);
+    return generator.generateCode(cppModel, fileName, copyRightNotice);
+  }
+
+  private CharSequence generateGeneratorNotice(FrancaElement<?> element, String outputTarget) {
+
+    String inputDefinition = element.getName() + ':' + element.getVersion();
+    return GeneratorNoticeTemplate.generate(this, inputDefinition, outputTarget);
+  }
+
+  private static CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaElement) {
+
+    if (francaElement instanceof Interface) {
+      return mapFrancaInterfaceToCppModel((Interface<?>) francaElement);
+    }
+    if (francaElement instanceof TypeCollection) {
+      return mapFrancaTypeCollectionToCppModel((TypeCollection<?>) francaElement);
+    }
+    return null;
+  }
+
+  private static CppNamespace mapFrancaInterfaceToCppModel(Interface<?> anInterface) {
+
+    StubModelBuilder builder = new StubModelBuilder(anInterface);
+    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
+
+    treeWalker.walk(anInterface);
+
+    CppNamespace namespace = new CppNamespace(anInterface.getPackage());
+    namespace.members.addAll(builder.getResults());
+
+    return namespace;
+  }
+
+  private static CppNamespace mapFrancaTypeCollectionToCppModel(TypeCollection<?> typeCollection) {
+
+    StubModelBuilder builder = new StubModelBuilder(typeCollection);
+    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
+
+    treeWalker.walk(typeCollection);
+
+    List<String> namespaceName =
+        CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection));
+    namespaceName.add(
+        CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection().getName()));
+
+    CppNamespace namespace = new CppNamespace(namespaceName);
+    namespace.members.addAll(builder.getResults());
+
+    return namespace;
   }
 }

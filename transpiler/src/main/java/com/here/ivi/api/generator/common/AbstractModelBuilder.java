@@ -14,11 +14,15 @@ package com.here.ivi.api.generator.common;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 
@@ -77,6 +81,26 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
+  public void startBuilding(FTypeDef francaTypeDef) {
+    openContext();
+  }
+
+  @Override
+  public void startBuilding(FArrayType francaArrayType) {
+    openContext();
+  }
+
+  @Override
+  public void startBuilding(FMapType francaMapType) {
+    openContext();
+  }
+
+  @Override
+  public void startBuilding(FEnumerationType francaEnumerationType) {
+    openContext();
+  }
+
+  @Override
   public void finishBuilding(FInterface francaInterface) {
     closeContext();
   }
@@ -118,6 +142,26 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   @Override
   public void finishBuilding(FStructType francaStructType) {
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FTypeDef francaTypeDef) {
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FArrayType francaArrayType) {
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FMapType francaMapType) {
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FEnumerationType francaEnumerationType) {
     closeContext();
   }
 

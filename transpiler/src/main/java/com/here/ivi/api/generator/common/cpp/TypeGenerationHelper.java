@@ -67,15 +67,15 @@ public class TypeGenerationHelper {
   }
 
   public static CppField buildCppField(
-      FrancaElement<?> rootType, FField ffield, FFieldInitializer initializer) {
+      FrancaElement<?> rootType, FTypedElement typedElement, FFieldInitializer initializer) {
 
     CppField field = new CppField();
-    field.name = CppNameRules.getFieldName(ffield.getName());
-    field.type = CppTypeMapper.map(rootType, ffield);
+    field.name = CppNameRules.getFieldName(typedElement.getName());
+    field.type = CppTypeMapper.map(rootType, typedElement);
 
     // if default values are specified in another object (see DefaultValueRules), use them
     if (initializer == null) {
-      field.initializer = CppDefaultInitializer.map(ffield);
+      field.initializer = CppDefaultInitializer.map(typedElement);
     } else {
       field.initializer = CppValueMapper.map(field.type, initializer.getValue());
     }
@@ -89,13 +89,6 @@ public class TypeGenerationHelper {
     CppValue value = CppValueMapper.map(type, constantDef.getRhs());
 
     return new CppConstant(name, type, value);
-  }
-
-  public static CppEnumClass buildCppEnumClass(FEnumerationType enumerationType) {
-    CppEnumClass enumClass = new CppEnumClass();
-    enumClass.enumeration = buildCppEnum(enumerationType);
-
-    return enumClass;
   }
 
   public static CppEnum buildCppEnum(FEnumerationType enumerationType) {

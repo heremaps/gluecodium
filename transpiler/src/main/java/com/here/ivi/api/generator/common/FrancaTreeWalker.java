@@ -18,14 +18,18 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeDef;
 
 /**
  * Tree walker for the Franca model tree decouples tree traversal from the creation of
@@ -155,8 +159,15 @@ public class FrancaTreeWalker {
               ModelBuilder::startBuilding,
               ModelBuilder::finishBuilding,
               this::walkChildNodes);
+        } else if (type instanceof FTypeDef) {
+          walk((FTypeDef) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+        } else if (type instanceof FArrayType) {
+          walk((FArrayType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+        } else if (type instanceof FMapType) {
+          walk((FMapType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+        } else if (type instanceof FEnumerationType) {
+          walk((FEnumerationType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
         }
-        // TODO APIGEN-218 Walk other types
       }
     }
   }

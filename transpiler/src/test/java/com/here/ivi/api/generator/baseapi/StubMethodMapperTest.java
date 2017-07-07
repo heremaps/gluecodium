@@ -34,6 +34,7 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.FTypedElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,7 +69,7 @@ public class StubMethodMapperTest {
     PowerMockito.mockStatic(CppTypeMapper.class);
     MockitoAnnotations.initMocks(this);
 
-    when(CppTypeMapper.map(any(), any(FArgument.class))).thenReturn(cppCustomType);
+    when(CppTypeMapper.map(any(), any(FTypedElement.class))).thenReturn(cppCustomType);
 
     when(rootModel.getPropertyAccessor()).thenReturn(propertyAccessor);
 
@@ -127,7 +128,7 @@ public class StubMethodMapperTest {
     assertEquals(TYPE_NAME, returnTypeData.type.name);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.map(same(rootModel), same(francaArguments.get(0)));
+    CppTypeMapper.map(same(rootModel), same(francaArgument));
   }
 
   @Test
@@ -146,7 +147,7 @@ public class StubMethodMapperTest {
         returnTypeData.type.name.toLowerCase());
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.map(same(rootModel), same(francaArguments.get(0)));
+    CppTypeMapper.map(same(rootModel), same(francaArgument));
     CppTypeMapper.mapEnum(same(rootModel), same(francaEnum));
   }
 
