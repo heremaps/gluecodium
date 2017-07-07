@@ -18,7 +18,8 @@ cmake_minimum_required(VERSION 3.5)
 # ApigenSwiftBuild
 # -------------------
 #
-# This module assembles TODO
+# This module builds Swift code and runs optional tests. It also generates an
+# iOS framework and installs it accordingly.
 #
 # .. command:: apigen_swift_build
 #
@@ -41,6 +42,11 @@ function(prefix_arguments output prefix)
 endfunction()
 
 function(apigen_swift_build target)
+    set(options)
+    set(oneValueArgs)
+    set(multiValueArgs TESTS)
+    cmake_parse_arguments(apigen_swift_build "${options}" "${oneValueArgs}"
+        "${multiValueArgs}" ${ARGN})
 
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
@@ -64,10 +70,6 @@ function(apigen_swift_build target)
         configure_file(${APIGEN_SWIFT_DIR}/module.modulemap.in
             ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/Modules/module.modulemap)
 
-        # TODO: Hard-coded, a follow-up function has to parameterize this:
-        file(COPY ${CMAKE_SOURCE_DIR}/platforms/ios/Tests 
-            DESTINATION ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
-
         # Arrange transpiler-generated files acordingly..
         file(COPY ${OUTPUT_DIR}/swift/${target}
             DESTINATION ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/Source/${target})
@@ -89,10 +91,22 @@ function(apigen_swift_build target)
         prefix_arguments(EMIT_ARGUMENTS "-Xswiftc" -emit-module -emit-library -emit-objc-header)
 
         add_custom_command(TARGET ${target} POST_BUILD
-            COMMAND swift test ${BUILD_ARGUMENTS}
             COMMAND swift build ${BUILD_ARGUMENTS} ${EMIT_ARGUMENTS}
             COMMAND ${APIGEN_SWIFT_DIR}/assemble-framework ${target}
-            WORKING_DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
+            WORKING_DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}
+            COMMENT "Building Swift and generating iOS Framework for '${target}'...")
+
+        # Optionally build test if they where supplied as parameters
+        if(NOT ${apigen_swift_build_TESTS} STREQUAL "")
+            foreach(test_dir ${apigen_swift_build_TESTS})
+                file(COPY ${test_dir} DESTINATION ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
+            endforeach(test_dir)
+
+            add_custom_command(TARGET ${target} POST_BUILD
+                COMMAND swift test ${BUILD_ARGUMENTS}
+                WORKING_DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}
+                COMMENT "Running Swift test for target '${target}'...")
+        endif()
 
         install(DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/${target}.framework
             DESTINATION lib)
