@@ -11,8 +11,6 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
-import static java.util.Arrays.asList;
-
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
@@ -23,28 +21,27 @@ import com.here.ivi.api.model.cppmodel.CppTypeDefType;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import navigation.BaseApiSpec;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FArrayType;
+import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FBroadcast;
+import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FField;
+import org.franca.core.franca.FMapType;
+import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.FTypedElement;
 
 public class CppTypeMapper {
-
-  public static CppType map(
-      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
-      FArgument argument) {
-    CppType type = CppTypeMapper.map(rootModel, argument.getType());
-
-    if (argument.isArray()) {
-      type =
-          CppTypeMapper.wrapArrayType(
-              new Includes.LazyInternalInclude(DefinedBy.createFromFrancaElement(rootModel)),
-              type,
-              CppTypeMapper.ArrayMode.map(rootModel, argument));
-    }
-
-    return type;
-  }
 
   public static CppType map(
       FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
@@ -78,15 +75,15 @@ public class CppTypeMapper {
     return type;
   }
 
-  public static CppType map(FrancaElement<?> rootModel, FField field) {
-    CppType type = CppTypeMapper.map(rootModel, field.getType());
+  public static CppType map(FrancaElement<?> rootModel, FTypedElement typedElement) {
+    CppType type = CppTypeMapper.map(rootModel, typedElement.getType());
 
-    if (field.isArray()) {
+    if (typedElement.isArray()) {
       type =
           CppTypeMapper.wrapArrayType(
               new Includes.LazyInternalInclude(DefinedBy.createFromFrancaElement(rootModel)),
               type,
-              CppTypeMapper.ArrayMode.map(rootModel, field));
+              CppTypeMapper.ArrayMode.map(rootModel, typedElement));
     }
 
     return type;
@@ -189,7 +186,7 @@ public class CppTypeMapper {
       String namespacedName = CppNamespaceUtils.getCppTypename(rootModel, typedef);
 
       // actually use the typedef in this case, not the underlying type
-      return new CppTypeDefType(namespacedName, actual, asList(typeDefInclude));
+      return new CppTypeDefType(namespacedName, actual, Collections.singletonList(typeDefInclude));
     }
   }
 
@@ -230,20 +227,23 @@ public class CppTypeMapper {
       return rootModel.getPropertyAccessor().getIsSet(array) ? STD_SET : STD_VECTOR;
     }
 
-    public static ArrayMode map(FrancaElement<?> rootModel, FField field) {
-      return rootModel.getPropertyAccessor().getIsSet(field) ? STD_SET : STD_VECTOR;
-    }
+    public static ArrayMode map(FrancaElement<?> rootModel, FTypedElement typedElement) {
 
-    public static ArrayMode map(
-        FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
-        FArgument argument) {
-      return rootModel.getPropertyAccessor().getIsSet(argument) ? STD_SET : STD_VECTOR;
-    }
+      boolean isSet = false;
+      BaseApiSpec.IDataPropertyAccessor propertyAccessor = rootModel.getPropertyAccessor();
+      if (typedElement instanceof FField) {
+        isSet = propertyAccessor.getIsSet((FField) typedElement);
+      } else if (propertyAccessor instanceof BaseApiSpec.InterfacePropertyAccessor) {
+        BaseApiSpec.InterfacePropertyAccessor interfacePropertyAccessor =
+            (BaseApiSpec.InterfacePropertyAccessor) propertyAccessor;
+        if (typedElement instanceof FArgument) {
+          isSet = interfacePropertyAccessor.getIsSet((FArgument) typedElement);
+        } else if (typedElement instanceof FAttribute) {
+          isSet = interfacePropertyAccessor.getIsSet((FAttribute) typedElement);
+        }
+      }
 
-    public static ArrayMode map(
-        FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
-        FAttribute argument) {
-      return rootModel.getPropertyAccessor().getIsSet(argument) ? STD_SET : STD_VECTOR;
+      return isSet ? STD_SET : STD_VECTOR;
     }
   }
 

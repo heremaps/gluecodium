@@ -12,11 +12,15 @@
 package com.here.ivi.api.generator.common;
 
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 
@@ -41,6 +45,14 @@ public interface ModelBuilder {
 
   void startBuilding(FStructType francaStructType);
 
+  void startBuilding(FTypeDef francaTypeDef);
+
+  void startBuilding(FArrayType francaArrayType);
+
+  void startBuilding(FMapType francaMapType);
+
+  void startBuilding(FEnumerationType francaEnumerationType);
+
   void finishBuilding(FInterface francaInterface);
 
   void finishBuilding(FTypeCollection francaTypeCollection);
@@ -58,4 +70,12 @@ public interface ModelBuilder {
   void finishBuilding(FTypedElement francaTypedElement);
 
   void finishBuilding(FStructType francaStructType);
+
+  void finishBuilding(FTypeDef francaTypeDef);
+
+  void finishBuilding(FArrayType francaArrayType);
+
+  void finishBuilding(FMapType francaMapType);
+
+  void finishBuilding(FEnumerationType francaEnumerationType);
 }

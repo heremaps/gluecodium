@@ -45,8 +45,7 @@ public final class StubMethodMapper {
       new Includes.SystemInclude("cpp/internal/expected.h");
 
   public static ReturnTypeData mapMethodReturnType(
-      FMethod francaMethod,
-      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
+      FMethod francaMethod, FrancaElement<?> rootModel) {
 
     CppType errorType = null;
     String errorComment = "";
@@ -94,9 +93,7 @@ public final class StubMethodMapper {
   }
 
   public static CppType mapArgumentType(
-      FArgument francaArgument,
-      FMethod francaMethod,
-      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
+      FArgument francaArgument, FMethod francaMethod, FrancaElement<?> rootModel) {
 
     CppType type = CppTypeMapper.map(rootModel, francaArgument);
 
@@ -105,8 +102,16 @@ public final class StubMethodMapper {
       return type;
     }
 
-    boolean isFactoryMethod =
-        francaMethod != null && rootModel.getPropertyAccessor().getCreates(francaMethod) != null;
+    boolean isFactoryMethod = false;
+    if (francaMethod != null) {
+      BaseApiSpec.IDataPropertyAccessor propertyAccessor = rootModel.getPropertyAccessor();
+      if (propertyAccessor instanceof BaseApiSpec.InterfacePropertyAccessor
+          && ((BaseApiSpec.InterfacePropertyAccessor) propertyAccessor).getCreates(francaMethod)
+              != null) {
+        isFactoryMethod = true;
+      }
+    }
+
     if (isFactoryMethod) {
       return CppTypeMapper.wrapUniquePtr(type);
     } else {
