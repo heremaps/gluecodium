@@ -12,8 +12,10 @@
 
 #pragma once
 
-#include <string>
+#include <cstdint>
 #include <jni.h>
+#include <string>
+#include <vector>
 
 namespace here
 {
@@ -22,15 +24,25 @@ namespace internal
 
 extern "C" {
 
+// ------------------- JNI to C++ conversion functions ---------------------------------------------
+
 /**
  * Converts a JNI jstring to a std string.
  */
 std::string convert_jstring_to_std_string(JNIEnv* env, const jstring jinputString);
 
+
+// -------------------- C++ to JNI conversion functions --------------------------------------------
+
 /**
  * Converts a std string to a JNI jstring
  */
-jstring convert_std_string_to_jstring(JNIEnv* env, const std::string& inputString);
+jstring convert_std_string_to_jstring(JNIEnv* env, const std::string& nvalue);
+
+/**
+ * Converts a vector of bytes to a jbyteArray
+ */
+jbyteArray convert_byte_vector_to_jbyte_array(JNIEnv* env, const std::vector<uint8_t>& nvalue);
 
 }  // extern "C"
 
