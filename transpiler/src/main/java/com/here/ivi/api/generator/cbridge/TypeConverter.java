@@ -70,21 +70,22 @@ public class TypeConverter {
   }
 
   public static TypeConversion createParamConversionRoutine(
-      String paramName, CppTypeInfo baseApiType) {
-    List<String> names = paramNames(paramName, baseApiType.cTypesNeededByConstructor.size());
+      String paramName, List<CParameter> cParams, CppTypeInfo baseApiType) {
     return new TypeConversion(
         paramName,
-        String.format(baseApiType.constructFromCExpr, names.toArray()),
+        String.format(
+            baseApiType.constructFromCExpr, cParams.stream().map(param -> param.name).toArray()),
         baseApiType.baseTypeIncludes);
   }
 
-  static TypeConversion createReturnValueConversionRoutine(CppTypeInfo baseApiType) {
+  static TypeConversion createReturnValueConversionRoutine(
+      String conversionName, CppTypeInfo baseApiType) {
 
     if ("void".equals(baseApiType.baseType)) {
       return null;
     } else {
       return new TypeConversion(
-          "result",
+          conversionName,
           String.format(baseApiType.returnValueConstrExpr, "cpp_result"),
           baseApiType.returnConversionIncludes);
     }

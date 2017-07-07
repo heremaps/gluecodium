@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 /** Base class for all C types */
-public class CType {
+public class CType extends CElement {
   private static final Includes.SystemInclude FIXED_WIDTH_INTEGERS_INCLUDE =
       new Includes.SystemInclude("stdint.h");
   private static final Includes.SystemInclude BOOL_INCLUDE =
@@ -47,16 +47,15 @@ public class CType {
   public static final CType FLOAT = new CType("float");
   public static final CType DOUBLE = new CType("double");
 
-  public final String name;
   public Boolean isConst = false;
   public Set<Includes.Include> includes = Collections.emptySet();
 
   public CType(String name) {
-    this.name = name;
+    super(name);
   }
 
   public CType(String name, List<Includes.Include> includes) {
-    this.name = name;
+    super(name);
     this.includes = new HashSet<>(includes);
   }
 

@@ -224,7 +224,7 @@ public class CBridgeGeneratorTest {
         String.join(
             "\n",
             "#include <stdint.h>",
-            "void cbridge_test_TestInterface_functionName(uint8_t* input, uint64_t input_1);",
+            "void cbridge_test_TestInterface_functionName(uint8_t* input_ptr, uint64_t input_size);",
             "");
 
     String expectedImplementation =
@@ -233,8 +233,8 @@ public class CBridgeGeneratorTest {
             "#include \"TestInterface.h\"",
             "#include <vector>",
             "#include <stub/cbridge/test/TestInterfaceStub.h>",
-            "void cbridge_test_TestInterface_functionName(uint8_t* input, uint64_t input_1) {",
-            "    auto cpp_input = std::vector<uint8_t>(input, input + input_1);",
+            "void cbridge_test_TestInterface_functionName(uint8_t* input_ptr, uint64_t input_size) {",
+            "    auto cpp_input = std::vector<uint8_t>(input_ptr, input_ptr + input_size);",
             "    cbridge::test::TestInterfaceStub::functionName(cpp_input);",
             "}",
             "");
@@ -260,7 +260,7 @@ public class CBridgeGeneratorTest {
         String.join(
             "\n",
             "#include <stdint.h>",
-            "void* cbridge_test_TestInterface_functionName(uint8_t* input, uint64_t input_1);",
+            "void* cbridge_test_TestInterface_functionName(uint8_t* input_ptr, uint64_t input_size);",
             "void cbridge_test_TestInterface_functionName_release(void* handle);",
             "uint8_t* cbridge_test_TestInterface_functionName_getData(void* handle);",
             "uint64_t cbridge_test_TestInterface_functionName_getSize(void* handle);",
@@ -273,8 +273,8 @@ public class CBridgeGeneratorTest {
             "#include <utility>",
             "#include <vector>",
             "#include <stub/cbridge/test/TestInterfaceStub.h>",
-            "void* cbridge_test_TestInterface_functionName(uint8_t* input, uint64_t input_1) {",
-            "    auto cpp_input = std::vector<uint8_t>(input, input + input_1);",
+            "void* cbridge_test_TestInterface_functionName(uint8_t* input_ptr, uint64_t input_size) {",
+            "    auto cpp_input = std::vector<uint8_t>(input_ptr, input_ptr + input_size);",
             "    {",
             "        auto&& cpp_result = cbridge::test::TestInterfaceStub::functionName(cpp_input);",
             "        return new std::vector<uint8_t>(std::move(cpp_result));",

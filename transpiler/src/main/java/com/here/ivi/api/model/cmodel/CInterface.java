@@ -19,9 +19,13 @@ import java.util.List;
 import java.util.Set;
 
 /** Collection of related methods and structs forming an interface (like a C header file) */
-public class CInterface {
+public class CInterface extends CElement {
   public Set<Includes.Include> headerIncludes = emptySet();
   public Set<Includes.Include> implementationIncludes = emptySet();
   public List<CStruct> structs = new LinkedList<>();
   public List<CFunction> functions = new LinkedList<>();
+
+  public CInterface() {
+    super("");
+  }
 }

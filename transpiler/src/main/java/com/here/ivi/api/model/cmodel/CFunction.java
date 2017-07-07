@@ -11,19 +11,15 @@
 
 package com.here.ivi.api.model.cmodel;
 
-import static com.here.ivi.api.generator.cbridge.TypeConverter.createParamConversionRoutine;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.generator.cbridge.TypeConverter;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Objects;
 
 public class CFunction extends CElement {
-  public final List<CParameter> parameters;
+  public final List<? extends CParameter> parameters;
   public final List<TypeConverter.TypeConversion> conversions;
   public final CType returnType;
   public final TypeConverter.TypeConversion returnConversion;
@@ -40,8 +36,8 @@ public class CFunction extends CElement {
 
   public static class Builder {
     String name;
-    private List<CParameter> parameters = emptyList();;
-    private List<TypeConverter.TypeConversion> conversions = emptyList();;
+    private List<? extends CParameter> parameters = emptyList();
+    private List<TypeConverter.TypeConversion> conversions = emptyList();
     private CType returnType = CType.VOID;
     private TypeConverter.TypeConversion returnConversion;
     private String delegateCall = "";
@@ -50,13 +46,8 @@ public class CFunction extends CElement {
       this.name = name;
     }
 
-    public CFunction.Builder parameters(List<CParameter> params) {
+    public CFunction.Builder parameters(List<? extends CParameter> params) {
       this.parameters = params;
-      return this;
-    }
-
-    public CFunction.Builder conversions(List<TypeConverter.TypeConversion> conversions) {
-      this.conversions = conversions;
       return this;
     }
 
@@ -76,6 +67,14 @@ public class CFunction extends CElement {
     }
 
     public CFunction build() {
+      if (!parameters.isEmpty()) {
+        conversions =
+            parameters
+                .stream()
+                .map(param -> param.conversion)
+                .filter(Objects::nonNull)
+                .collect(toList());
+      }
       if (conversions.isEmpty() && !parameters.isEmpty()) {
         conversions = parameters.stream().map(TypeConverter::identity).collect(toList());
       }
@@ -87,41 +86,6 @@ public class CFunction extends CElement {
         returnConversion = new TypeConverter.TypeConversion("result");
       }
       return new CFunction(this);
-    }
-
-    public Builder parameters(List<String> paramNames, List<CppTypeInfo> types) {
-      this.parameters = createParameters(paramNames, types);
-      this.conversions = createConversions(paramNames, types);
-      return this;
-    }
-
-    private static List<TypeConverter.TypeConversion> createConversions(
-        List<String> names, List<CppTypeInfo> types) {
-      return IntStream.range(0, names.size())
-          .boxed()
-          .map(index -> createParamConversionRoutine(names.get(index), types.get(index)))
-          .collect(toList());
-    }
-
-    private static List<CParameter> createParameters(List<String> names, List<CppTypeInfo> types) {
-      return IntStream.range(0, names.size())
-          .boxed()
-          .map(
-              index ->
-                  splitParametersIfNeeded(
-                      names.get(index), types.get(index).cTypesNeededByConstructor))
-          .flatMap(Collection::stream)
-          .collect(toList());
-    }
-
-    private static List<CParameter> splitParametersIfNeeded(
-        String paramName, List<CType> cTypesNeededByConstructor) {
-      List<String> names = TypeConverter.paramNames(paramName, cTypesNeededByConstructor.size());
-      List<CParameter> params = new ArrayList<>();
-      for (int i = 0; i < cTypesNeededByConstructor.size(); i++) {
-        params.add(new CParameter(names.get(i), cTypesNeededByConstructor.get(i)));
-      }
-      return params;
     }
   }
 }

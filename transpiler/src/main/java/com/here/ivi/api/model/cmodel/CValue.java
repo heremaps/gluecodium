@@ -11,4 +11,8 @@
 
 package com.here.ivi.api.model.cmodel;
 
-public class CValue {}
+public class CValue extends CElement {
+  public CValue(String value) {
+    super(value);
+  }
+}
