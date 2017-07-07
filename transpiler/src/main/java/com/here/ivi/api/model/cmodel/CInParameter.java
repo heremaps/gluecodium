@@ -11,14 +11,9 @@
 
 package com.here.ivi.api.model.cmodel;
 
-import com.here.ivi.api.generator.cbridge.TypeConverter;
+public class CInParameter extends CParameter {
 
-public class CParameter extends CElement {
-  public CType type;
-  public TypeConverter.TypeConversion conversion;
-
-  public CParameter(String name, CType type) {
-    super(name);
-    this.type = type;
+  public CInParameter(String name, CType type) {
+    super(name, type);
   }
 }

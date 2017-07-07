@@ -18,7 +18,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.generator.cbridge.TypeConverter;
 import java.util.List;
 import org.junit.Before;
@@ -78,8 +77,8 @@ public class CFunctionTest {
   public void providedConversionIsPropagated() {
     CParameter param = new CParameter("FLAG", CType.BOOL);
     TypeConverter.TypeConversion conversion = new TypeConverter.TypeConversion("TEST_CONVERSION");
-    CFunction function =
-        builder.parameters(singletonList(param)).conversions(singletonList(conversion)).build();
+    param.conversion = conversion;
+    CFunction function = builder.parameters(singletonList(param)).build();
 
     assertEquals(
         "As there is input parameter, conversion should be created",
@@ -123,15 +122,5 @@ public class CFunctionTest {
 
     function = builder.parameters(params).delegateCallTemplate("delegateCall(%2$s, %1$s)").build();
     assertEquals("delegateCall(cpp_param_2, cpp_param_1)", function.delegateCall);
-  }
-
-  @Test
-  public void createParamsAndConversions() {
-    List<String> paramNames = asList("param1", "param2");
-    List<CppTypeInfo> mappedTypes =
-        asList(new CppTypeInfo(CType.BOOL), new CppTypeInfo(CType.BOOL));
-    CFunction function = builder.parameters(paramNames, mappedTypes).build();
-    assertEquals(2, function.parameters.size());
-    assertEquals(2, function.conversions.size());
   }
 }

@@ -31,6 +31,7 @@ public class CppTypeInfo {
           emptyList(),
           "std::string(%1$s)",
           singletonList(CPointerType.CONST_CHAR_PTR),
+          singletonList(""),
           "new std::string(std::move(%1$s))",
           Arrays.asList(
               new Includes.SystemInclude("string"), new Includes.SystemInclude("utility")),
@@ -46,6 +47,7 @@ public class CppTypeInfo {
           singletonList(new Includes.SystemInclude("stdint.h")),
           "std::vector<uint8_t>(%1$s, %1$s + %2$s)",
           asList(new CPointerType(CType.UINT8), CType.UINT64),
+          asList("_ptr", "_size"),
           "new std::vector<uint8_t>(std::move(%1$s))",
           Arrays.asList(
               new Includes.SystemInclude("vector"),
@@ -59,6 +61,7 @@ public class CppTypeInfo {
   public final String heldType;
   public final String constructFromCExpr;
   public final List<CType> cTypesNeededByConstructor;
+  public final List<String> paramSuffixes;
   public final List<Includes.Include> baseTypeIncludes;
   public final List<Includes.Include> heldTypeIncludes;
   public final String returnValueConstrExpr;
@@ -74,6 +77,7 @@ public class CppTypeInfo {
       List<Includes.Include> heldTypeIncludes,
       String constructFromCExpr,
       List<CType> constructFromCTypes,
+      List<String> paramSuffixes,
       String returnValueConstrExpr,
       List<Includes.Include> returnConversionIncludes,
       CType functionReturntype,
@@ -82,6 +86,7 @@ public class CppTypeInfo {
     this.baseType = baseType;
     this.heldType = heldType;
     this.constructFromCExpr = constructFromCExpr;
+    this.paramSuffixes = paramSuffixes;
     this.cTypesNeededByConstructor = constructFromCTypes;
     this.baseTypeIncludes = baseTypeIncludes;
     this.heldTypeIncludes = heldTypeIncludes;
@@ -97,6 +102,7 @@ public class CppTypeInfo {
     this.heldType = "";
     this.constructFromCExpr = "%1$s";
     this.cTypesNeededByConstructor = singletonList(type);
+    this.paramSuffixes = singletonList("");
     this.baseTypeIncludes = new ArrayList<>(type.includes);
     this.heldTypeIncludes = emptyList();
     this.returnValueConstrExpr = "%1$s";
