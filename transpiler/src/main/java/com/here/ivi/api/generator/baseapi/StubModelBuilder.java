@@ -31,6 +31,7 @@ import com.here.ivi.api.model.cppmodel.CppTypeDef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
+import java.util.List;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
@@ -244,5 +245,15 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     }
 
     return builder.build();
+  }
+
+  /*
+   * This method returns the namespace members for the contained FrancaElement.
+   *
+   * As cpp namespace is not inheriting from cpp element and cpp class has no
+   * namespace member, namespaces are not handled via tree walking but processed separately.
+   */
+  public List<String> getNamespaceMembers() {
+    return rootModel.getPackage();
   }
 }

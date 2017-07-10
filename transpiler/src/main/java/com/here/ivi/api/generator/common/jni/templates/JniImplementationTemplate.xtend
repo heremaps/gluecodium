@@ -12,24 +12,29 @@
 package com.here.ivi.api.generator.common.jni.templates
 
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
-import com.here.ivi.api.generator.common.jni.CorrespondenceBuilder
+import com.here.ivi.api.generator.common.jni.JniModelBuilder
 import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
 import com.here.ivi.api.model.common.Includes
 import com.here.ivi.api.model.cppmodel.CppClass
+import com.here.ivi.api.model.cppmodel.CppMethod
 import com.here.ivi.api.model.javamodel.JavaClass
 import com.here.ivi.api.model.javamodel.JavaMethod
+import com.here.ivi.api.generator.common.TemplateEngine
 import java.util.List
+import com.here.ivi.api.generator.common.jni.JniNameRules
+import com.here.ivi.api.generator.common.jni.JniToCppTypeConversionTemplateDelegator
+import java.util.LinkedList
+import java.util.HashMap
+import com.here.ivi.api.generator.common.jni.CppToJniConversionTemplateDelegator
+import com.here.ivi.api.generator.common.jni.JniModel
 
 public class JniImplementationTemplate {
-  def static generate(JavaClass javaClass,
-                      CppClass cppClass,
-                      List<CorrespondenceBuilder.ElementPair> methodPairs,
-                      List<Includes.InternalPublicInclude> includes) {
-    if (javaClass === null || cppClass === null || includes === null || includes.isEmpty() ) {
+  def static generate(JniModel jniModel, List<Includes.InternalPublicInclude> includes) {
+    if (jniModel === null || includes === null || includes.isEmpty()) {
       return ""
     }
     return
-      '''
+     '''
       «JavaCopyrightHeaderTemplate.generate()»
 
       «FOR include : includes»
@@ -38,17 +43,15 @@ public class JniImplementationTemplate {
 
       extern "C" {
 
-      «FOR methodPair : methodPairs»
-      «val method = methodPair.javaElement as JavaMethod»
-      «JniTypeNameMapper.map(method.returnType)»
-      «JniFunctionSignatureTemplate.generate(javaClass, method)»
+      «FOR jniMethod : jniModel.methods»
+      «JniTypeNameMapper.map(jniMethod.javaReturnType)»
+      «JniFunctionSignatureTemplate.generate(jniMethod)»
       {
-          «IF javaClass.name.equals("HelloWorld")»
-          const std::string cpp_string(here::internal::convert_jstring_to_std_string(env, jinputString));
-          return here::internal::convert_std_string_to_jstring(env, hello::HelloWorldStub::helloWorldMethod(cpp_string));
-          «ELSEIF !javaClass.name.contains("Test")»
-          return 0;
-          «ENDIF»
+        «FOR parameter : jniMethod.parameters»
+          «parameter.cppType» «parameter.baseName» = «JniToCppTypeConversionTemplateDelegator.generate(parameter.javaType, parameter.baseName)»;
+        «ENDFOR»
+        «jniMethod.cppReturnType» result = «TemplateEngine.render("cpp/CppMethodCall", jniMethod)»
+        return «CppToJniConversionTemplateDelegator.generate("result", jniMethod.javaReturnType).toString()»;
       }
 
       «ENDFOR»
