@@ -20,9 +20,9 @@ import com.here.ivi.api.model.javamodel.JavaMethod
  * Template of a java native function's signature without the return type.
  */
 class JniFunctionSignatureTemplate {
-  def static generate(JavaClass javaClass, JavaMethod method) {
-    val prefix = '''Java_«JniNameRules.getPackageName(javaClass.javaPackage.packageNames)»_«javaClass.name»_«method.name»'''
-    val parameters = '''«FOR param : method.parameters», «JniTypeNameMapper.map(param.type)» «JniNameRules.getParameterName(param.name)»«ENDFOR»'''
+  def static generate(com.here.ivi.api.generator.common.jni.JniMethod jniMethod) {
+    val prefix = '''Java_«JniNameRules.getPackageName(jniMethod.owningModel.javaPackages)»_«jniMethod.owningModel.javaClassName»_«jniMethod.javaMethodName»'''
+    val parameters = '''«FOR param : jniMethod.parameters», «JniTypeNameMapper.map(param.javaType)» «JniNameRules.getParameterName(param.baseName)»«ENDFOR»'''
     '''«prefix»(JNIEnv* env, jobject jinstance«parameters»)'''
   }
 }

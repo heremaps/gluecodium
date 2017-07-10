@@ -17,20 +17,8 @@ import static org.junit.Assert.assertTrue;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.common.Includes.InternalPublicInclude;
-import com.here.ivi.api.model.cppmodel.CppClass;
-import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
-import com.here.ivi.api.model.cppmodel.CppType;
-import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaMethod;
-import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
-import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
-import com.here.ivi.api.model.javamodel.JavaType;
-import com.here.ivi.api.model.javamodel.JavaVisibility;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -41,38 +29,62 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class JniImplementationTemplateTest {
-  private CorrespondenceBuilder.ElementPair createStaticMethodPair(String methodName) {
-    JavaType javaType = new JavaPrimitiveType(Type.INT);
-    JavaMethod javaMethod = new JavaMethod(methodName, javaType);
-    javaMethod.visibility = JavaVisibility.PUBLIC;
-    JavaParameter javaParameter = new JavaParameter(javaType, "param");
-    javaMethod.parameters = new ArrayList<>(Arrays.asList(javaParameter));
-    javaMethod.qualifiers.add(MethodQualifier.STATIC);
 
-    CppType primitiveType = new CppPrimitiveType(CppPrimitiveType.Type.INT8);
-    CppParameter cppParameter = new CppParameter();
-    cppParameter.name = "param";
-    CppMethod cppMethod =
-        new CppMethod.Builder(methodName)
-            .returnType(primitiveType)
-            .inParameter(cppParameter)
-            .build();
-    cppMethod.getSpecifiers().add(CppMethod.Specifier.STATIC);
+  private static final String BASE_PARAMETER_NAME = "intParam";
+  private static final String JNI_PARAMETER_NAME = "j" + BASE_PARAMETER_NAME;
 
-    return new CorrespondenceBuilder.ElementPair(javaMethod, cppMethod);
+  private static JniModel createJniModel() {
+    JniModel jniModel = new JniModel();
+    jniModel.cppClassName = "CppClass";
+    jniModel.cppNameSpaces = Arrays.asList("com", "here", "ivi", "test");
+
+    jniModel.javaPackages = Arrays.asList("com", "here", "ivi", "test");
+    jniModel.javaClassName = "TestClass";
+    return jniModel;
+  }
+
+  private static JniMethod createJniMethod(String methodName, JniModel theModel) {
+
+    JniMethod result = new JniMethod();
+
+    result.owningModel = theModel;
+    result.javaMethodName = methodName;
+    result.cppMethodName = methodName;
+    result.javaReturnType = new JavaPrimitiveType(Type.INT);
+    result.cppReturnType = "int8_t";
+
+    JniParameterData param = new JniParameterData();
+
+    param.baseName = BASE_PARAMETER_NAME;
+    param.javaType = new JavaPrimitiveType(Type.INT);
+    param.cppType = "int8_t";
+    result.parameters.add(param);
+    return result;
   }
 
   private String expectedGeneratedJNIMethod(String methodName) {
     return "\njint\n"
-        + "Java_com_here_android_TestClass_"
+        + "Java_com_here_ivi_test_TestClass_"
         + methodName
-        + "(JNIEnv* env, jobject jinstance, jint jparam)\n"
+        + "(JNIEnv* env, jobject jinstance, jint "
+        + JNI_PARAMETER_NAME
+        + ")\n"
         + "{\n"
+        + "  int8_t "
+        + BASE_PARAMETER_NAME
+        + " = "
+        + JNI_PARAMETER_NAME
+        + ";\n"
+        + "  int8_t result = com::here::ivi::test::CppClass::"
+        + methodName
+        + "("
+        + BASE_PARAMETER_NAME
+        + ");\n"
+        + "  return result;\n"
         + "}\n";
   }
 
-  private JavaClass javaClass;
-  private CppClass cppClass;
+  private JniModel jniModel;
 
   private final List<InternalPublicInclude> jniIncludes =
       Arrays.asList(new InternalPublicInclude("stub/libhello/TestClassStub.h"));
@@ -99,14 +111,12 @@ public class JniImplementationTemplateTest {
   @Before
   public void setUp() {
 
-    javaClass = new JavaClass("TestClass");
-    cppClass = new CppClass("cppClass");
+    jniModel = createJniModel();
   }
 
   @Test
   public void generateWithNullIncludes() {
-    String generatedImplementation =
-        JniImplementationTemplate.generate(javaClass, cppClass, Collections.emptyList(), null);
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel, null);
 
     assertTrue(
         "At least the JNI header should be included, otherwise the JNI implementation "
@@ -117,8 +127,7 @@ public class JniImplementationTemplateTest {
   @Test
   public void generateWithEmptyIncludes() {
     String generatedImplementation =
-        JniImplementationTemplate.generate(
-            javaClass, cppClass, Collections.emptyList(), Collections.emptyList());
+        JniImplementationTemplate.generate(jniModel, Collections.emptyList());
 
     assertTrue(
         "At least the JNI header should be included, otherwise the JNI implementation "
@@ -133,9 +142,7 @@ public class JniImplementationTemplateTest {
             new InternalPublicInclude("jni_header.h"),
             new InternalPublicInclude("base_api_header.h"));
 
-    String generatedImplementation =
-        JniImplementationTemplate.generate(
-            javaClass, cppClass, Collections.emptyList(), includesList);
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel, includesList);
 
     assertEquals(
         copyrightNotice
@@ -147,26 +154,15 @@ public class JniImplementationTemplateTest {
   }
 
   @Test
-  public void generateWithNullJavaClass() {
-    String generatedImplementation =
-        JniImplementationTemplate.generate(null, cppClass, null, jniIncludes);
-
-    assertTrue(generatedImplementation.isEmpty());
-  }
-
-  @Test
-  public void generateWithNullCppClass() {
-    String generatedImplementation =
-        JniImplementationTemplate.generate(javaClass, null, null, jniIncludes);
+  public void generateWithNullJniModel() {
+    String generatedImplementation = JniImplementationTemplate.generate(null, jniIncludes);
 
     assertTrue(generatedImplementation.isEmpty());
   }
 
   @Test
   public void generateWithNoMethods() {
-    String generatedImplementation =
-        JniImplementationTemplate.generate(
-            javaClass, cppClass, Collections.emptyList(), jniIncludes);
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel, jniIncludes);
 
     assertEquals(copyrightNotice + jniHeaderInclude + externC + endOfFile, generatedImplementation);
   }
@@ -174,9 +170,8 @@ public class JniImplementationTemplateTest {
   @Test
   public void generateWithOneMethods() {
 
-    String generatedImplementation =
-        JniImplementationTemplate.generate(
-            javaClass, cppClass, Arrays.asList(createStaticMethodPair("method1")), jniIncludes);
+    jniModel.methods.add(createJniMethod("method1", jniModel));
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel, jniIncludes);
 
     assertEquals(
         copyrightNotice
@@ -190,12 +185,10 @@ public class JniImplementationTemplateTest {
   @Test
   public void generateWithMultipleMethods() {
 
-    String generatedImplementation =
-        JniImplementationTemplate.generate(
-            javaClass,
-            cppClass,
-            Arrays.asList(createStaticMethodPair("method1"), createStaticMethodPair("method2")),
-            jniIncludes);
+    jniModel.methods.add(createJniMethod("method1", jniModel));
+    jniModel.methods.add(createJniMethod("method2", jniModel));
+
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel, jniIncludes);
 
     assertEquals(
         copyrightNotice
