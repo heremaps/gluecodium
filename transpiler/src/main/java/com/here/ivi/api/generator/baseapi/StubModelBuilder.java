@@ -12,14 +12,16 @@
 package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
-import com.here.ivi.api.generator.common.ModelBuilderContext;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cppmodel.CppClass;
+import com.here.ivi.api.model.cppmodel.CppElement;
+import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.List;
 import navigation.BaseApiSpec;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMethod;
 
 public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
@@ -39,25 +41,16 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   }
 
   @Override
-  public void startBuilding(FInterface francaInterface) {
-
-    openContext();
-    getCurrentContext().name = CppNameRules.getClassName(francaInterface.getName());
-  }
-
-  @Override
   public void finishBuilding(FInterface francaInterface) {
 
     CppClass.Builder stubClassBuilder =
-        new CppClass.Builder(getCurrentContext().name)
+        new CppClass.Builder(CppNameRules.getClassName(francaInterface.getName()))
             .comment(StubCommentParser.parse(francaInterface).getMainBodyText());
 
     CppClass cppClass = stubClassBuilder.build();
 
     for (CppElement cppElement : getCurrentContext().previousResults) {
-      if (cppElement instanceof CppUsing) {
-        cppClass.usings.add((CppUsing) cppElement);
-      } else if (cppElement instanceof CppMethod) {
+      if (cppElement instanceof CppMethod) {
         cppClass.methods.add((CppMethod) cppElement);
       }
     }
@@ -69,12 +62,8 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    ModelBuilderContext<CppElement> parentContext = getParentContext();
-    String className = parentContext != null ? parentContext.name : "";
-
     // TODO: APIGEN-261 process method arguments through the Builder as well
-    StubMethodMapper.mapMethodElements(className, francaMethod, rootModel)
-        .forEach(this::storeResult);
+    StubMethodMapper.mapMethodElements(francaMethod, rootModel).forEach(this::storeResult);
     closeContext();
   }
 
