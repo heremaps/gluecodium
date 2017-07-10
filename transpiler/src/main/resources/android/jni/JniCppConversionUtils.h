@@ -29,8 +29,12 @@ extern "C" {
 /**
  * Converts a JNI jstring to a std string.
  */
-std::string convert_jstring_to_std_string(JNIEnv* env, const jstring jinputString);
+std::string convert_jstring_to_std_string(JNIEnv* env, const jstring jvalue);
 
+/**
+ * Converts a jbyteArray to a vector of bytes
+ */
+std::vector<uint8_t> convert_jbyte_array_to_byte_vector(JNIEnv* env, const jbyteArray& jvalue);
 
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
