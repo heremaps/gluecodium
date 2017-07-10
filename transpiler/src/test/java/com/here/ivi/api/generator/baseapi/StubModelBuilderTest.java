@@ -15,17 +15,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.cppmodel.CppClass;
-import com.here.ivi.api.model.cppmodel.CppCustomType;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.cppmodel.CppUsing;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +44,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest(StubMethodMapper.class)
 public class StubModelBuilderTest {
 
-  private static final String INTERFACE_NAME = "in the face";
+  private static final String INTERFACE_NAME = "classy";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private ModelBuilderContextStack<CppElement> contextStack;
@@ -59,7 +56,6 @@ public class StubModelBuilderTest {
 
   private StubModelBuilder modelBuilder;
 
-  private final CppUsing cppUsing = new CppUsing("we use", new CppCustomType("typically"));
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
 
   private CppElement getFirstResult() {
@@ -71,10 +67,6 @@ public class StubModelBuilderTest {
 
   private void injectResult(CppElement element) {
     contextStack.getCurrentContext().previousResults.add(element);
-  }
-
-  private void injectParentName(String name) {
-    contextStack.getParentContext().name = name;
   }
 
   @Before
@@ -92,24 +84,14 @@ public class StubModelBuilderTest {
   }
 
   @Test
-  public void startBuildingFrancaInterface() {
-    modelBuilder.startBuilding(francaInterface);
-
-    verify(francaInterface).getName();
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsUsings() {
-    injectResult(cppUsing);
-
+  public void finishBuildingFrancaInterfaceReadsName() {
     modelBuilder.finishBuilding(francaInterface);
 
     CppElement result = getFirstResult();
     assertTrue(result instanceof CppClass);
+    assertTrue(((CppClass) result).name.toLowerCase().startsWith(INTERFACE_NAME));
 
-    CppClass cppClass = (CppClass) result;
-    assertFalse(cppClass.usings.isEmpty());
-    assertEquals(cppUsing, cppClass.usings.iterator().next());
+    verify(francaInterface).getName();
   }
 
   @Test
@@ -127,18 +109,8 @@ public class StubModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaMethodGetsParentContextName() {
-    injectParentName(INTERFACE_NAME);
-
-    modelBuilder.finishBuilding(francaMethod);
-
-    PowerMockito.verifyStatic();
-    StubMethodMapper.mapMethodElements(eq(INTERFACE_NAME), any(), same(rootModel));
-  }
-
-  @Test
   public void finishBuildingFrancaMethodStoresResult() {
-    when(StubMethodMapper.mapMethodElements(any(), any(), any()))
+    when(StubMethodMapper.mapMethodElements(any(), any()))
         .thenReturn(Collections.singletonList(cppMethod));
 
     modelBuilder.finishBuilding(francaMethod);
@@ -146,6 +118,6 @@ public class StubModelBuilderTest {
     assertEquals(cppMethod, getFirstResult());
 
     PowerMockito.verifyStatic();
-    StubMethodMapper.mapMethodElements(any(), any(), same(rootModel));
+    StubMethodMapper.mapMethodElements(any(), same(rootModel));
   }
 }

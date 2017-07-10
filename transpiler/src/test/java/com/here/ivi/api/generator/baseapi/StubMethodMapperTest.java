@@ -85,7 +85,7 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapMethodElementsNoArguments() {
-    List<CppElement> elements = StubMethodMapper.mapMethodElements("", francaMethod, francaElement);
+    List<CppElement> elements = StubMethodMapper.mapMethodElements(francaMethod, francaElement);
 
     CppMethod cppMethod = getFirstMethod(elements);
     assertEquals(methodName, cppMethod.name);
@@ -98,7 +98,7 @@ public class StubMethodMapperTest {
   public void mapMethodElementsStaticMethod() {
     when(propertyAccessor.getStatic(francaMethod)).thenReturn(true);
 
-    List<CppElement> elements = StubMethodMapper.mapMethodElements("", francaMethod, francaElement);
+    List<CppElement> elements = StubMethodMapper.mapMethodElements(francaMethod, francaElement);
 
     CppMethod cppMethod = getFirstMethod(elements);
     assertTrue(cppMethod.getSpecifiers().contains(CppMethod.Specifier.STATIC));
@@ -109,7 +109,7 @@ public class StubMethodMapperTest {
     EList<FArgument> francaArguments = createFrancaArgumentsArray();
     when(francaMethod.getInArgs()).thenReturn(francaArguments);
 
-    List<CppElement> elements = StubMethodMapper.mapMethodElements("", francaMethod, francaElement);
+    List<CppElement> elements = StubMethodMapper.mapMethodElements(francaMethod, francaElement);
 
     CppMethod cppMethod = getFirstMethod(elements);
     assertEquals(1, cppMethod.getInParameters().size());
@@ -125,7 +125,7 @@ public class StubMethodMapperTest {
     EList<FArgument> francaArguments = createFrancaArgumentsArray();
     when(francaMethod.getOutArgs()).thenReturn(francaArguments);
 
-    List<CppElement> elements = StubMethodMapper.mapMethodElements("", francaMethod, francaElement);
+    List<CppElement> elements = StubMethodMapper.mapMethodElements(francaMethod, francaElement);
 
     CppMethod cppMethod = getFirstMethod(elements);
     assertTrue(cppMethod.getOutParameters().isEmpty());

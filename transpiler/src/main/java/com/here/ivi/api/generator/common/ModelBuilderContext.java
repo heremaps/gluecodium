@@ -15,12 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Context of each building step. Used to propagate data between parent- and child-steps. Currently
- * some child steps query parent name, and all child steps push the results back to parent.
- * Additional fields should be added if more data is needed in the future.
+ * Context of each building step. Used to propagate data between parent- and child-steps. Additional
+ * fields should be added if more data is needed in the future.
  */
 public class ModelBuilderContext<E> {
-  public String name = "";
   public List<E> previousResults = new ArrayList<>();
   public List<E> currentResults = new ArrayList<>();
 }

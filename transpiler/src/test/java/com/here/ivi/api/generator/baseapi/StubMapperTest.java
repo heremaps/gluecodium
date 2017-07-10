@@ -88,7 +88,7 @@ public final class StubMapperTest {
     assertEquals(0, ((CppClass) cppElement).methods.size());
 
     PowerMockito.verifyStatic(never());
-    StubMethodMapper.mapMethodElements(any(), any(), any());
+    StubMethodMapper.mapMethodElements(any(), any());
   }
 
   @Test

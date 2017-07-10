@@ -12,12 +12,18 @@
 package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.model.common.Includes;
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cppmodel.CppCustomType;
+import com.here.ivi.api.model.cppmodel.CppElement;
+import com.here.ivi.api.model.cppmodel.CppElements;
+import com.here.ivi.api.model.cppmodel.CppMethod;
+import com.here.ivi.api.model.cppmodel.CppParameter;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
+import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,15 +37,7 @@ public final class StubMethodMapper {
       new Includes.SystemInclude("cpp/internal/expected.h");
 
   public static List<CppElement> mapMethodElements(
-      String className,
-      FMethod method,
-      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
-
-    List<CppElement> elements = new ArrayList<>();
-
-    String uniqueMethodName =
-        CppNameRules.getMethodName(method.getName())
-            + NameHelper.toUpperCamelCase(method.getSelector());
+      FMethod method, FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel) {
 
     CppType errorType;
     String errorComment = "";
@@ -63,14 +61,9 @@ public final class StubMethodMapper {
 
       List<CppType> returnTypes = new ArrayList<>();
       // documentation for the result type
-      String typeComment = "Result type for @ref " + className + "::" + uniqueMethodName;
 
       if (!errorType.equals(CppPrimitiveType.VOID_TYPE)) {
         returnTypes.add(errorType);
-        if (!errorComment.isEmpty()) {
-          // add error template arg documentation
-          typeComment += StubCommentParser.FORMATTER.formatTag("@arg Error", errorComment);
-        }
       }
 
       FArgument argument = outArgs.get(0);
@@ -81,9 +74,6 @@ public final class StubMethodMapper {
           errorType.equals(CppPrimitiveType.VOID_TYPE)
               ? "The result type, containing " + type.name + " value."
               : "The result type, containing either an error or the " + type.name + " value.";
-      if (!errorComment.isEmpty()) {
-        typeComment += StubCommentParser.FORMATTER.formatWithTag("@arg Value", argument);
-      }
 
       // register with model
       returnTypes.add(type);
@@ -100,13 +90,6 @@ public final class StubMethodMapper {
                 "here::internal::Expected< " + String.join(", ", names) + " >",
                 CppElements.TypeInfo.Complex,
                 includes);
-
-        // create & add using for this type with correct documentation
-        String usingTypeName = NameHelper.toUpperCamelCase(uniqueMethodName) + "Expected";
-        CppUsing using = new CppUsing(usingTypeName, returnType);
-        using.comment = typeComment;
-        elements.add(using);
-        returnType = new CppCustomType(usingTypeName, CppElements.TypeInfo.Complex);
       } else {
         returnType = returnTypes.get(0);
       }
@@ -117,9 +100,8 @@ public final class StubMethodMapper {
     if (!returnComment.isEmpty()) {
       cppMethod.comment += StubCommentParser.FORMATTER.formatTag("@return", returnComment);
     }
-    elements.add(cppMethod);
 
-    return elements;
+    return Collections.singletonList(cppMethod);
   }
 
   private static CppType mapCppType(
