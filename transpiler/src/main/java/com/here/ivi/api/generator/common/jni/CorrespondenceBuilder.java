@@ -40,7 +40,8 @@ import org.franca.core.franca.FMethod;
  * accessible via getResults(..) ).
  *
  */
-public class JniModelBuilder extends AbstractModelBuilder<JniModelBuilder.CorrespondenceTreeNode> {
+public class CorrespondenceBuilder
+    extends AbstractModelBuilder<CorrespondenceBuilder.CorrespondenceTreeNode> {
 
   public static class ElementPair {
 
@@ -66,7 +67,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniModelBuilder.Corres
   private final JavaModelBuilder javaBuilder;
   private final StubModelBuilder stubBuilder;
 
-  public JniModelBuilder(
+  public CorrespondenceBuilder(
       final ModelBuilderContextStack<CorrespondenceTreeNode> contextStack,
       final JavaModelBuilder javaBuilder,
       final StubModelBuilder stubBuilder) {
@@ -75,7 +76,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniModelBuilder.Corres
     this.stubBuilder = stubBuilder;
   }
 
-  public JniModelBuilder(final JavaModelBuilder javaBuilder, final StubModelBuilder stubBuilder) {
+  public CorrespondenceBuilder(
+      final JavaModelBuilder javaBuilder, final StubModelBuilder stubBuilder) {
     super(new ModelBuilderContextStack<>());
     this.javaBuilder = javaBuilder;
     this.stubBuilder = stubBuilder;
