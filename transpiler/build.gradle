@@ -54,13 +54,15 @@ dependencies {
     compile project(':externals:dsl')
     compile project(':externals:deploymodel')
 
+    testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.+'
     testCompile 'org.eclipse.xtext:org.eclipse.xtext.junit4:2.9.2'
     testCompile 'org.eclipse.xtext:org.eclipse.xtext.xbase.junit:2.9.2'
     testCompile 'org.powermock:powermock-api-mockito2:1.7.0'
+    testCompile 'org.powermock:powermock-classloading-xstream:1.7.0'
     testCompile 'org.powermock:powermock-module-junit4:1.7.0'
-    testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
+    testCompile 'org.powermock:powermock-module-junit4-rule:1.7.0'
 }
 
 def buildDeployModelConfiguration() {

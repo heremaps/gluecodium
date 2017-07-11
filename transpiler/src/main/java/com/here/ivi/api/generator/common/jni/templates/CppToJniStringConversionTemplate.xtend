@@ -15,7 +15,6 @@ import static com.here.ivi.api.generator.common.jni.JniNameRules.getNativeParame
 import static com.here.ivi.api.generator.common.jni.JniNameRules.getParameterName
 
 class CppToJniStringConversionTemplate {
-    def static generate(String stringName)'''
-        env->NewStringUTF(«stringName».c_str());
-    '''
+    def static generate(String stringName)
+        '''here::internal::convert_std_string_to_jstring(env, «stringName»)'''
 }

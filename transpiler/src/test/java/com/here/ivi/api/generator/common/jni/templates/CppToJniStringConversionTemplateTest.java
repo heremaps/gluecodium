@@ -23,7 +23,7 @@ public final class CppToJniStringConversionTemplateTest {
   public void generate() {
     // Arrange
     String baseName = "cppString";
-    String expected = "env->NewStringUTF(" + baseName + ".c_str());\n";
+    String expected = "here::internal::convert_std_string_to_jstring(env, " + baseName + ")";
 
     // Act
     String result = CppToJniStringConversionTemplate.generate(baseName).toString();

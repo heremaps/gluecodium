@@ -23,12 +23,7 @@ public final class JniToCppStringConversionTemplateTest {
   public void generate() {
     // Arrange
     String baseName = "javaParameterName";
-    String expected =
-        "std::string n"
-            + baseName
-            + " = std::string(env->GetStringUTFChars(j"
-            + baseName
-            + ", 0));\n";
+    String expected = "here::internal::convert_jstring_to_std_string(env, j" + baseName + ")";
 
     // Act
     String result = JniToCppStringConversionTemplate.generate(baseName).toString();
