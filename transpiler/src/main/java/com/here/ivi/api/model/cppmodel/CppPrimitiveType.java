@@ -16,7 +16,7 @@ import com.here.ivi.api.model.common.Includes;
 public class CppPrimitiveType extends CppType {
 
   public static final CppPrimitiveType VOID_TYPE = new CppPrimitiveType(Type.VOID);
-  private static final Includes.SystemInclude INT_TYPES = new Includes.SystemInclude("stdint.h");
+  private static final Includes.SystemInclude INT_TYPES = new Includes.SystemInclude("cstdint");
 
   public enum Type {
     VOID("void"),
