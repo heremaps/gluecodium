@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.jni;
 
-import static com.here.ivi.api.generator.common.jni.JniModelBuilder.CorrespondenceTreeNode;
+import static com.here.ivi.api.generator.common.jni.CorrespondenceBuilder.CorrespondenceTreeNode;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -36,7 +36,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
-public class JniModelBuilderTest {
+public class CorrespondenceBuilderTest {
 
   @Mock private JavaModelBuilder javaBuilder;
   @Mock private StubModelBuilder stubBuilder;
@@ -68,12 +68,13 @@ public class JniModelBuilderTest {
     when(javaBuilder.getResults()).thenReturn(Arrays.asList(myFancyJavaMethod));
     when(stubBuilder.getResults()).thenReturn(Arrays.asList(myFancyCppMethod));
 
-    JniModelBuilder jniModelBuilder = new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
+    CorrespondenceBuilder correspondenceBuilder =
+        new CorrespondenceBuilder(contextStack, javaBuilder, stubBuilder);
     FMethod fMethod = null;
 
     //act
-    jniModelBuilder.finishBuilding(fMethod);
-    List<CorrespondenceTreeNode> result = jniModelBuilder.getResults();
+    correspondenceBuilder.finishBuilding(fMethod);
+    List<CorrespondenceTreeNode> result = correspondenceBuilder.getResults();
 
     //assert
     assertEquals(1, result.size());
@@ -87,12 +88,13 @@ public class JniModelBuilderTest {
     when(javaBuilder.getResults()).thenReturn(Arrays.asList(myFancyJavaMethod));
     when(stubBuilder.getResults()).thenReturn(Arrays.asList(myFancyCppClass));
 
-    JniModelBuilder jniModelBuilder = new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
+    CorrespondenceBuilder correspondenceBuilder =
+        new CorrespondenceBuilder(contextStack, javaBuilder, stubBuilder);
     FMethod fMethod = null;
 
     //act
-    jniModelBuilder.finishBuilding(fMethod);
-    List<CorrespondenceTreeNode> result = jniModelBuilder.getResults();
+    correspondenceBuilder.finishBuilding(fMethod);
+    List<CorrespondenceTreeNode> result = correspondenceBuilder.getResults();
 
     //assert
     assertEquals(0, result.size());
@@ -105,12 +107,13 @@ public class JniModelBuilderTest {
     when(javaBuilder.getResults()).thenReturn(Arrays.asList(myFancyJavaClass));
     when(stubBuilder.getResults()).thenReturn(Arrays.asList(myFancyCppClass));
 
-    JniModelBuilder jniModelBuilder = new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
+    CorrespondenceBuilder correspondenceBuilder =
+        new CorrespondenceBuilder(contextStack, javaBuilder, stubBuilder);
     FInterface fInterface = null;
 
     //act
-    jniModelBuilder.finishBuilding(fInterface);
-    List<CorrespondenceTreeNode> result = jniModelBuilder.getResults();
+    correspondenceBuilder.finishBuilding(fInterface);
+    List<CorrespondenceTreeNode> result = correspondenceBuilder.getResults();
 
     //assert
     assertEquals(1, result.size());
@@ -128,12 +131,13 @@ public class JniModelBuilderTest {
     when(javaBuilder.getResults()).thenReturn(Arrays.asList(myFancyJavaClass));
     when(stubBuilder.getResults()).thenReturn(Arrays.asList(myFancyCppMethod));
 
-    JniModelBuilder jniModelBuilder = new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
+    CorrespondenceBuilder correspondenceBuilder =
+        new CorrespondenceBuilder(contextStack, javaBuilder, stubBuilder);
     FInterface fInterface = null;
 
     //act
-    jniModelBuilder.finishBuilding(fInterface);
-    List<CorrespondenceTreeNode> result = jniModelBuilder.getResults();
+    correspondenceBuilder.finishBuilding(fInterface);
+    List<CorrespondenceTreeNode> result = correspondenceBuilder.getResults();
 
     //assert
     assertEquals(0, result.size());

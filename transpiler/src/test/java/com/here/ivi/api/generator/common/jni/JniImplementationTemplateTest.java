@@ -41,7 +41,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class JniImplementationTemplateTest {
-  private JniModelBuilder.ElementPair createStaticMethodPair(String methodName) {
+  private CorrespondenceBuilder.ElementPair createStaticMethodPair(String methodName) {
     JavaType javaType = new JavaPrimitiveType(Type.INT);
     JavaMethod javaMethod = new JavaMethod(methodName, javaType);
     javaMethod.visibility = JavaVisibility.PUBLIC;
@@ -59,7 +59,7 @@ public class JniImplementationTemplateTest {
             .build();
     cppMethod.getSpecifiers().add(CppMethod.Specifier.STATIC);
 
-    return new JniModelBuilder.ElementPair(javaMethod, cppMethod);
+    return new CorrespondenceBuilder.ElementPair(javaMethod, cppMethod);
   }
 
   private String expectedGeneratedJNIMethod(String methodName) {

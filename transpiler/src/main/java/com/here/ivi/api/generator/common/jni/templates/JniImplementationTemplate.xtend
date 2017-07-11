@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.common.jni.templates
 
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
-import com.here.ivi.api.generator.common.jni.JniModelBuilder
+import com.here.ivi.api.generator.common.jni.CorrespondenceBuilder
 import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
 import com.here.ivi.api.model.common.Includes
 import com.here.ivi.api.model.cppmodel.CppClass
@@ -21,7 +21,10 @@ import com.here.ivi.api.model.javamodel.JavaMethod
 import java.util.List
 
 public class JniImplementationTemplate {
-  def static generate(JavaClass javaClass, CppClass cppClass, List<JniModelBuilder.ElementPair> methodPairs, List<Includes.InternalPublicInclude> includes) {
+  def static generate(JavaClass javaClass,
+                      CppClass cppClass,
+                      List<CorrespondenceBuilder.ElementPair> methodPairs,
+                      List<Includes.InternalPublicInclude> includes) {
     if (javaClass === null || cppClass === null || includes === null || includes.isEmpty() ) {
       return ""
     }

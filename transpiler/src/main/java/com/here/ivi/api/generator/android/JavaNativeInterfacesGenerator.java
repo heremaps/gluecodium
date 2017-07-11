@@ -11,15 +11,15 @@
 
 package com.here.ivi.api.generator.android;
 
-import static com.here.ivi.api.generator.common.jni.JniModelBuilder.CorrespondenceTreeNode;
-import static com.here.ivi.api.generator.common.jni.JniModelBuilder.ElementPair;
+import static com.here.ivi.api.generator.common.jni.CorrespondenceBuilder.CorrespondenceTreeNode;
+import static com.here.ivi.api.generator.common.jni.CorrespondenceBuilder.ElementPair;
 
 import com.here.ivi.api.generator.baseapi.StubModelBuilder;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
-import com.here.ivi.api.generator.common.jni.JniModelBuilder;
+import com.here.ivi.api.generator.common.jni.CorrespondenceBuilder;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
@@ -73,7 +73,7 @@ public class JavaNativeInterfacesGenerator {
         new JavaModelBuilder(basePackage.createChildPackage(anInterface.getPackage()), anInterface);
 
     StubModelBuilder stubBuilder = new StubModelBuilder(anInterface);
-    JniModelBuilder jniBuilder = new JniModelBuilder(javaBuilder, stubBuilder);
+    CorrespondenceBuilder jniBuilder = new CorrespondenceBuilder(javaBuilder, stubBuilder);
 
     FrancaTreeWalker treeWalker =
         new FrancaTreeWalker(Arrays.asList(javaBuilder, stubBuilder, jniBuilder));
