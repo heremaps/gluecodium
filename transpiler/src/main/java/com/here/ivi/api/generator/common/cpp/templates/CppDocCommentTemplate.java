@@ -9,13 +9,13 @@
  *
  */
 
-package com.here.ivi.api.generator.common.cpp.templates
+package com.here.ivi.api.generator.common.cpp.templates;
 
-import com.here.ivi.api.generator.common.cpp.templates.CppDocCommentTemplate
-import com.here.ivi.api.model.cppmodel.CppTypeDef
+import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.cppmodel.CppElement;
 
-class CppTypeDefTemplate {
-  static def generate(CppTypeDef td) '''
-    «CppDocCommentTemplate.generate(td)»
-    typedef «td.targetType.name» «td.name»;'''
+public class CppDocCommentTemplate {
+  public static String generate(final CppElement cppElement) {
+    return TemplateEngine.render("cpp/CppDocComment", cppElement);
+  }
 }

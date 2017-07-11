@@ -11,22 +11,15 @@
 
 package com.here.ivi.api.generator.common.cpp.templates
 
+import com.here.ivi.api.generator.common.cpp.templates.CppDocCommentTemplate
 import com.here.ivi.api.model.cppmodel.CppStruct
 
 class CppPureStructTemplate {
     static def generate(CppStruct struct) '''
-        «IF struct.comment !== null && !struct.comment.isEmpty()»
-        /**
-         * «struct.comment»
-         */
-        «ENDIF»
+        «CppDocCommentTemplate.generate(struct)»
         struct «struct.name» {
             «FOR field : struct.fields»
-            «IF field.comment !== null && !field.comment.isEmpty()»
-            /**
-             * «field.comment»
-             */
-            «ENDIF»
+            «CppDocCommentTemplate.generate(field)»
             «field.type.name» «field.name»«IF field.initializer !== null && field.initializer.isValid()» = «field.initializer.name»«ENDIF»;
             «ENDFOR»
         };

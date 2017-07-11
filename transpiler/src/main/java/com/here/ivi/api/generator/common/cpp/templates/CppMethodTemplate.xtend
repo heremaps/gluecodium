@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.cpp.templates
 
-import java.util.List;
+import com.here.ivi.api.generator.common.cpp.templates.CppDocCommentTemplate
 import com.here.ivi.api.model.cppmodel.CppParameter
 import com.here.ivi.api.model.cppmodel.CppElements
 import com.here.ivi.api.model.cppmodel.CppMethod
@@ -19,6 +19,7 @@ import com.here.ivi.api.model.cppmodel.CppCustomType
 import com.here.ivi.api.model.cppmodel.CppType
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType
 import com.here.ivi.api.model.cppmodel.CppTypeDefType
+import java.util.List;
 
 public class CppMethodTemplate {
 
@@ -62,11 +63,7 @@ public class CppMethodTemplate {
         «returnType.name»(  «(inParameters + outParameters).map[ p | p.generate].join(', ')» )'''
 
     def static signature(CppMethod it) '''
-      «IF comment !== null && !comment.isEmpty»
-      /**
-       * «comment»
-       */
-      «ENDIF»
+      «CppDocCommentTemplate.generate(it)»
       «IF deprecatedComment !== null && !deprecatedComment.isEmpty»
       CARLO_DEPRECATED_TEXT( "«deprecatedComment»" )
       «ENDIF»

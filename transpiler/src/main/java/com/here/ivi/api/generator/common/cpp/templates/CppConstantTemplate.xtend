@@ -12,17 +12,14 @@
 package com.here.ivi.api.generator.common.cpp.templates
 
 import com.here.ivi.api.generator.common.cpp.CppValueMapper
+import com.here.ivi.api.generator.common.cpp.templates.CppDocCommentTemplate
 import com.here.ivi.api.model.cppmodel.CppConstant
 import com.here.ivi.api.model.cppmodel.CppType
 import org.franca.core.franca.FCompoundInitializer
 
 class CppConstantTemplate {
     static def generate(CppConstant constant) '''
-        «IF constant.comment !== null && !constant.comment.isEmpty»
-        /**
-         * «constant.comment»
-         */
-        «ENDIF»
+        «CppDocCommentTemplate.generate(constant)»
         static const «constant.type.name» «constant.name» = «constant.value.name»;
     '''
 

@@ -11,16 +11,13 @@
 
 package com.here.ivi.api.generator.common.cpp.templates
 
+import com.here.ivi.api.generator.common.cpp.templates.CppDocCommentTemplate
 import com.here.ivi.api.model.cppmodel.CppClass
 
 class CppClassTemplate {
     static def generate(CppClass clazz) '''
 
-        «IF clazz.comment !== null && !clazz.comment.isEmpty()»
-        /**
-         * «clazz.comment»
-         */
-        «ENDIF»
+        «CppDocCommentTemplate.generate(clazz)»
         class «clazz.name» «CppInheritanceTemplate.generate(clazz)» {
         «IF !clazz.structs.isEmpty()»
         public:
@@ -32,11 +29,7 @@ class CppClassTemplate {
         «IF !clazz.usings.isEmpty()»
         public:
             «FOR u : clazz.usings»
-            «IF u.comment !== null && !u.comment.isEmpty()»
-            /**
-             * «u.comment»
-             */
-            «ENDIF»
+            «CppDocCommentTemplate.generate(u)»
             using «u.name» = «u.definition.name»;
             «ENDFOR»
         «ENDIF»
