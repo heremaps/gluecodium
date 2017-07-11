@@ -355,9 +355,8 @@ public class CBridgeGeneratorTest {
   }
 
   @Test
-  public void createFunctionTakingAndReturningBasicNonIntegralTypes() throws IOException {
+  public void createFunctionTakingAndReturningFloatTypes() throws IOException {
     Map<FBasicTypeId, String> expectedCTypes = new HashMap<>();
-    expectedCTypes.put(FBasicTypeId.BOOLEAN, "bool");
     expectedCTypes.put(FBasicTypeId.FLOAT, "float");
     expectedCTypes.put(FBasicTypeId.DOUBLE, "double");
 
@@ -392,6 +391,44 @@ public class CBridgeGeneratorTest {
           expectedHeaderWithTypePlaceholders,
           expectedImplementationWithTypePlaceholders);
     }
+  }
+
+  @Test
+  public void createFunctionTakingAndReturningBool() throws IOException {
+    when(francaArgument_1.getName()).thenReturn("input");
+    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
+    when(francaTypeRef_1.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
+    inputArguments.add(francaArgument_1);
+
+    when(francaArgument_2.getName()).thenReturn("output");
+    when(francaArgument_2.getType()).thenReturn(francaTypeRef_2);
+    when(francaTypeRef_2.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
+    outputArguments.add(francaArgument_2);
+
+    String expectedHeader =
+        String.join(
+            "\n",
+            "#include <stdbool.h>",
+            "bool cbridge_test_TestInterface_functionName(bool input);",
+            "");
+
+    String expectedImplementation =
+        String.join(
+            "\n",
+            "#include \"TestInterface.h\"",
+            "#include <stub/cbridge/test/TestInterfaceStub.h>",
+            "bool cbridge_test_TestInterface_functionName(bool input) {",
+            "    auto cpp_input = input;",
+            "    {",
+            "        auto&& cpp_result = cbridge::test::TestInterfaceStub::functionName(cpp_input);",
+            "        return cpp_result;",
+            "    }",
+            "}",
+            "");
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
   }
 
   private void testFunctionCreationForBasicType(

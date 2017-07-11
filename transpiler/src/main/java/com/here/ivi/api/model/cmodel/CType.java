@@ -23,6 +23,8 @@ import java.util.Set;
 public class CType {
   private static final Includes.SystemInclude FIXED_WIDTH_INTEGERS_INCLUDE =
       new Includes.SystemInclude("stdint.h");
+  private static final Includes.SystemInclude BOOL_INCLUDE =
+      new Includes.SystemInclude("stdbool.h");
 
   public static final CType VOID = new CType("void");
   public static final CType CHAR = new CType("char");
@@ -41,7 +43,7 @@ public class CType {
       new CType("int64_t", singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
   public static final CType UINT64 =
       new CType("uint64_t", singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
-  public static final CType BOOL = new CType("bool");
+  public static final CType BOOL = new CType("bool", singletonList(BOOL_INCLUDE));
   public static final CType FLOAT = new CType("float");
   public static final CType DOUBLE = new CType("double");
 
