@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.common.jni;
 
-import com.here.ivi.api.generator.common.jni.templates.CppToJniPrimitiveTypeConversionTemplate;
 import com.here.ivi.api.generator.common.jni.templates.CppToJniStringConversionTemplate;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
@@ -45,8 +44,8 @@ public class CppToJniConversionTemplateDelegator {
 
     if (JavaPrimitiveType.TYPES.contains(targetType.type)
         && targetType.type != JavaPrimitiveType.Type.VOID) {
-      return CppToJniPrimitiveTypeConversionTemplate.generate(
-          JniTypeNameMapper.map(targetType), cppVariableName);
+      //no conversion of primitive types
+      return cppVariableName;
     }
     throw new IllegalArgumentException(
         "conversion to primitive type is not supported: " + targetType.type);
