@@ -11,7 +11,9 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "stub/hello/HelloWorldStub.h"
+#include "stub/hello/HelloWorldBuiltinTypesStub.h"
 
+#include <cstdint>
 #include <iostream>
 #include <string>
 
@@ -19,11 +21,22 @@ using namespace hello;
 
 int main()
 {
-    std::string user_name;
+    std::string string_buffer;
 
     std::cout << "Write your name: ";
+    std::getline(std::cin, string_buffer);
 
-    std::getline(std::cin, user_name);
+    std::cout << HelloWorldStub::helloWorldMethod(string_buffer) << std::endl;
 
-    std::cout << HelloWorldStub::helloWorldMethod(user_name) << std::endl;
+    std::cout << "Write the loan amount (NNNN.NN): ";
+    std::getline(std::cin, string_buffer);
+    float amount = std::stof(string_buffer);
+
+    std::cout << "Write the interest rate (percentage): ";
+    std::getline(std::cin, string_buffer);
+    int8_t percentage = (int8_t)std::stoi(string_buffer);
+
+    std::cout << "Repayment due in 1 year: "
+              << amount + HelloWorldBuiltinTypesStub::methodWithFloatAndInteger(amount, percentage)
+              << std::endl;
 }
