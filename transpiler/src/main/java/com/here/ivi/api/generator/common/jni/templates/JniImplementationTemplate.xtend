@@ -40,9 +40,11 @@ public class JniImplementationTemplate {
       «JniTypeNameMapper.map(method.returnType)»
       «JniFunctionSignatureTemplate.generate(javaClass, method)»
       {
-          «IF !javaClass.name.contains("Test")»
+          «IF javaClass.name.equals("HelloWorld")»
           const std::string cpp_string(here::internal::convert_jstring_to_std_string(env, jinputString));
           return here::internal::convert_std_string_to_jstring(env, hello::HelloWorldStub::helloWorldMethod(cpp_string));
+          «ELSEIF !javaClass.name.contains("Test")»
+          return 0;
           «ENDIF»
       }
 
