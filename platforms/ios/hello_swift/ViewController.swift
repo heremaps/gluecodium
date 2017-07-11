@@ -6,8 +6,18 @@
 //
 
 import UIKit
+import hello
 
 class ViewController: UIViewController {
+
+    @IBOutlet var textInput: UITextField!
+    @IBOutlet var textLabel: UILabel!
+
+    @IBAction func didPressButton(_ sender: Any) {
+        if let text = textInput.text {
+        textLabel.text = HelloWorld.helloWorldMethod(inputString: text)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
