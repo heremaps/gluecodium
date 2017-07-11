@@ -9,18 +9,12 @@
  *
  */
 
-package com.here.ivi.api.model.swift
+package com.here.ivi.api.model.swift;
 
-class SwiftType {
-    public static final val VOID = new SwiftType("Void");
+public class SwiftType extends SwiftModelElement {
+  public static final SwiftType VOID = new SwiftType("Void");
 
-    new(String name) {
-        this.name = name
-    }
-
-    override toString() {
-        name;
-    }
-
-    final public String name
+  public SwiftType(String name) {
+    super(name);
+  }
 }

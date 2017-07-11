@@ -20,14 +20,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class SwiftMethodParameterTest {
+public class SwiftParameterTest {
   private final String interfaceName = "interfaceName";
   private final String variableName = "variableName";
 
   @Test
   public void emptyVariableName() {
-    SwiftMethodParameter parameter =
-        new SwiftMethodParameter(interfaceName, new SwiftType("String"));
+    SwiftParameter parameter = new SwiftParameter(interfaceName, new SwiftType("String"));
 
     assertFalse(parameter.hasDifferentVariableName());
     assertEquals(interfaceName, parameter.getVariableName());
@@ -35,8 +34,8 @@ public class SwiftMethodParameterTest {
 
   @Test
   public void differentVariableName() {
-    SwiftMethodParameter parameter =
-        new SwiftMethodParameter(interfaceName, new SwiftType("String"), variableName);
+    SwiftParameter parameter =
+        new SwiftParameter(interfaceName, new SwiftType("String"), variableName);
 
     assertTrue(parameter.hasDifferentVariableName());
     assertEquals(variableName, parameter.getVariableName());

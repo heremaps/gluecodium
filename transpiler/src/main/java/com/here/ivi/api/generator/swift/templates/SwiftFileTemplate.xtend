@@ -15,7 +15,7 @@ import com.here.ivi.api.generator.common.templates.CopyrightNoticeTemplate;
 import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.model.swift.SwiftProperty
 import com.here.ivi.api.model.swift.SwiftMethod
-import com.here.ivi.api.model.swift.SwiftMethodParameter
+import com.here.ivi.api.model.swift.SwiftParameter
 
 class SwiftFileTemplate {
 
@@ -75,9 +75,9 @@ class SwiftFileTemplate {
         '''«FOR attrib : attributes BEFORE '(' SEPARATOR ', ' AFTER ')'»«attrib»«ENDFOR» «property.type» «property.name»;'''
     }
 
-    def static generateMethodParam(SwiftMethodParameter methodParameter) {
+    def static generateMethodParam(SwiftParameter methodParameter) {
         val variableName = if (methodParameter.hasDifferentVariableName) ''' «methodParameter.variableName»'''
-        '''«methodParameter.interfaceName»«variableName»: «methodParameter.type»'''
+        '''«methodParameter.name»«variableName»: «methodParameter.type»'''
     }
 
     def static generateMethod(SwiftClass cl, SwiftMethod method) {
@@ -100,7 +100,7 @@ class SwiftFileTemplate {
         return «SwiftTypeConversionTemplate.convertCToSwift(method.returnType, functionNameWithPrefix, method.parameters)»'''
     }
 
-    def static convertParameter(SwiftMethodParameter parameter) {
+    def static convertParameter(SwiftParameter parameter) {
         '''
         let c_«parameter.variableName» = «SwiftTypeConversionTemplate.convertSwiftToC(parameter.type, parameter.variableName)»
         '''

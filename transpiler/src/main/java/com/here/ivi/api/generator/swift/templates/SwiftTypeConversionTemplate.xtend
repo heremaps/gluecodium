@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.swift.templates
 
 import com.here.ivi.api.model.swift.SwiftType
-import com.here.ivi.api.model.swift.SwiftMethodParameter
+import com.here.ivi.api.model.swift.SwiftParameter
 
 /**
 Simple type conversion template.
@@ -20,7 +20,7 @@ Simple type conversion template.
 Additional conversion functions for pointers, optionals etc. need to be added in the future.
 */
 class SwiftTypeConversionTemplate {
-    def static String convertCToSwift(SwiftType type, String functionName, SwiftMethodParameter[] params) {
+    def static String convertCToSwift(SwiftType type, String functionName, SwiftParameter[] params) {
         switch(type.name) {
             case "String": '''
                 {
