@@ -21,14 +21,11 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class StaticStringMethodsFunctionalTest {
-
-  private final StaticStringMethodsTest staticStringMethodsTest = new StaticStringMethodsTest();
-
   @Test
   public void returnInputString() {
     String inputString = "Foo";
 
-    String returnedString = staticStringMethodsTest.returnInputString(inputString);
+    String returnedString = StaticStringMethodsTest.returnInputString(inputString);
 
     assertEquals(inputString, returnedString);
   }
@@ -38,14 +35,14 @@ public class StaticStringMethodsFunctionalTest {
     String inputString1 = "Hello";
     String inputString2 = "World";
 
-    String returnedString = staticStringMethodsTest.concatenateStrings(inputString1, inputString2);
+    String returnedString = StaticStringMethodsTest.concatenateStrings(inputString1, inputString2);
 
     assertEquals(inputString1 + inputString2, returnedString);
   }
 
   @Test
   public void returnHelloString() {
-    String returnedString = staticStringMethodsTest.returnHelloString();
+    String returnedString = StaticStringMethodsTest.returnHelloString();
 
     assertEquals("hello", returnedString);
   }
@@ -53,9 +50,8 @@ public class StaticStringMethodsFunctionalTest {
 
   @Test
   public void returnEmpty() {
-    String returnedString = staticStringMethodsTest.returnEmpty();
+    String returnedString = StaticStringMethodsTest.returnEmpty();
 
     assertTrue(returnedString.isEmpty());
   }
 }
-
