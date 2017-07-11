@@ -15,21 +15,19 @@ The project is structured as follows:
     │   ├── fidl            Franca interface definitions for the public API
     │   └── src             Example library implementation
     └── scripts             Usefule scripts
-       ├── build.sh         Builds the entire project
-       └── install.sh       Installs the previously build project
+       ├── build-cpp        Builds the entire project for C++ customers
+       ├── build-android    Builds the entire project for Android customers
+       └── build-swift      Builds the entire project for Swift customers
 
 
 ## Building and testing
-Invoke the following script to build the entire project:
+Invoke the following script to build the entire project for C++ customers:
 
 ```bash
-./scripts/build.sh
+./scripts/build-cpp
 ```
-Invoke the following script to collect install artifacts:
 
-```bash
-./scripts/install.sh
-```
+Install artifacts end up in the dist/ folder and are ready for re-distribution.
 
 ## Contributing
 Work on your stuff locally, branch, commit and modify to your heart's content.
