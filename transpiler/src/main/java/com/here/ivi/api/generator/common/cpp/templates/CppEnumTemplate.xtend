@@ -11,15 +11,12 @@
 
 package com.here.ivi.api.generator.common.cpp.templates
 
+import com.here.ivi.api.generator.common.cpp.templates.CppDocCommentTemplate
 import com.here.ivi.api.model.cppmodel.CppEnum
 
 class CppEnumTemplate {
     static def generate(CppEnum enumeration) '''
-    «IF enumeration.comment !== null && !enumeration.comment.isEmpty»
-    /**
-     * «enumeration.comment»
-     */
-    «ENDIF»
+    «CppDocCommentTemplate.generate(enumeration)»
     enum «IF enumeration.isScoped»class «ENDIF»«enumeration.name» {
         «FOR item : enumeration.items SEPARATOR ','»
             «IF item.comment !== null && !item.comment.isEmpty»
