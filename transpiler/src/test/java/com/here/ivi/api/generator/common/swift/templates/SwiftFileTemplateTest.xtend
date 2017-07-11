@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
 import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.generator.swift.templates.SwiftFileTemplate
 import com.here.ivi.api.model.swift.SwiftMethod
-import com.here.ivi.api.model.swift.SwiftMethodParameter
+import com.here.ivi.api.model.swift.SwiftParameter
 import com.here.ivi.api.model.swift.SwiftType
 import com.here.ivi.api.model.swift.SwiftArrayType
 import static com.here.ivi.api.test.TemplateComparison.assertEqualContent
@@ -61,7 +61,7 @@ class SwiftFileTemplateTest {
     def simpleMethodGeneration() {
         val swiftClass = new SwiftClass("ExampleClass", null) => [
             methods = #[new SwiftMethod("myMethod",
-                #[new SwiftMethodParameter("parameter", new SwiftType("Int"))]) => [
+                #[new SwiftParameter("parameter", new SwiftType("Int"))]) => [
                     returnType = new SwiftType("Int")
                 ]
             ]
@@ -87,7 +87,7 @@ class SwiftFileTemplateTest {
     def methodParameterDifferentInterfaceAndVariableName() {
         val swiftClass = new SwiftClass("ExampleClass", null) => [
             methods = #[new SwiftMethod("myMethod",
-                #[new SwiftMethodParameter("parameterInterfaceName", new SwiftType("Int"), "parameterVariableName")])
+                #[new SwiftParameter("parameterInterfaceName", new SwiftType("Int"), "parameterVariableName")])
             ]
         ]
         val expected = '''
@@ -109,8 +109,8 @@ class SwiftFileTemplateTest {
     def methodWithMultipleParameters() {
         val swiftClass = new SwiftClass("ExampleClass", null) => [
             methods = #[new SwiftMethod("myMethod",
-                #[new SwiftMethodParameter("parameterOne", new SwiftType("Int")),
-                  new SwiftMethodParameter("parameterTwo", new SwiftType("String"))
+                #[new SwiftParameter("parameterOne", new SwiftType("Int")),
+                  new SwiftParameter("parameterTwo", new SwiftType("String"))
                 ])
             ]
         ]
@@ -133,7 +133,7 @@ class SwiftFileTemplateTest {
     @Test
     def methodWithArrayParameter() {
         val swiftClass = new SwiftClass("MyClass", null) => [
-            methods = #[new SwiftMethod("myMethod", #[new SwiftMethodParameter("array", new SwiftArrayType("UInt8"))])]
+            methods = #[new SwiftMethod("myMethod", #[new SwiftParameter("array", new SwiftArrayType("UInt8"))])]
         ]
         val expected = '''
             public class MyClass {
@@ -153,7 +153,7 @@ class SwiftFileTemplateTest {
     def methodWithComment() {
         val swiftClass = new SwiftClass("CommentedExampleClass", null) => [
             methods = #[new SwiftMethod("myMethod",
-                #[new SwiftMethodParameter("myParameter", new SwiftType("String"))]) => [
+                #[new SwiftParameter("myParameter", new SwiftType("String"))]) => [
                     returnType = new SwiftType("Int")
                     comment = "Do something"
                 ]
@@ -220,7 +220,7 @@ class SwiftFileTemplateTest {
         val swiftClass = new SwiftClass("HelloWorld", null) => [
             imports = #["Foundation"]
             methods = #[new SwiftMethod("helloWorldMethod", #[
-                    new SwiftMethodParameter("inputString",
+                    new SwiftParameter("inputString",
                         new SwiftType("String"))
                 ]) => [
                     returnType = new SwiftType("String")

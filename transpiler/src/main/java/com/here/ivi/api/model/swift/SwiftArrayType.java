@@ -9,15 +9,16 @@
  *
  */
 
-package com.here.ivi.api.model.swift
+package com.here.ivi.api.model.swift;
 
-class SwiftArrayType extends SwiftType {
+public class SwiftArrayType extends SwiftType {
 
-    new (String name) {
-        super(name)
-    }
+  public SwiftArrayType(String name) {
+    super(name);
+  }
 
-    override toString() {
-        return '''[«name»]'''
-    }
+  @Override
+  public String toString() {
+    return "[" + name + "]";
+  }
 }

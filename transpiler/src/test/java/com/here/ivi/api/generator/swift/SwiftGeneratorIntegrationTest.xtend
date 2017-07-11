@@ -66,7 +66,7 @@ class SwiftGeneratorIntegrationTest {
             assertEquals(EXPECTED_NUMBER_OF_PARAMS, method.parameters.size)
             for (param : method.parameters) {
                 assertNotNull(param)
-                assertEquals(PARAM_NAME, param.interfaceName)
+                assertEquals(PARAM_NAME, param.name)
             }
             assertNotNull(method.returnType)
             assertEquals("String", method.returnType.name)
@@ -99,7 +99,7 @@ class SwiftGeneratorIntegrationTest {
         assertEquals(EXPECTED_NUMBER_OF_PARAMS, method.parameters.size)
         for (param : method.parameters) {
             assertNotNull(param)
-            assertEquals(PARAM_NAME, param.interfaceName)
+            assertEquals(PARAM_NAME, param.name)
         }
     }
 
@@ -120,7 +120,7 @@ class SwiftGeneratorIntegrationTest {
         val param = method.parameters.get(0)
 
         assertNotNull(param)
-        assertEquals(PARAM_NAME, param.interfaceName)
+        assertEquals(PARAM_NAME, param.name)
     }
 
     @Test
