@@ -2,7 +2,7 @@
 #
 # Update .gitignore with github.com/simonwhitaker/gibo like this:
 #
-#   $ { cat config/.gitignore-custom ; gibo Java Android JetBrains } > .gitignore
+#   $ { cat config/.gitignore-custom ; gibo Java Android JetBrains Vim } > .gitignore
 #
 .idea/.name
 .idea/compiler.xml
@@ -162,5 +162,21 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
+
+### https://raw.github.com/github/gitignore/9a3dea4649365dc90bef39d1e6f76d2e47060d43/Global/Vim.gitignore
+
+# swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
 
 
