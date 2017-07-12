@@ -15,13 +15,13 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaType;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -129,10 +129,10 @@ public final class JniNameRulesTest {
   @Test
   public void getJNIPackageNameFromJavaPackage() {
     // Arrange
-    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "test"));
+    List<String> javaPackageNames = Arrays.asList("com", "here", "test");
 
     // Act, assert
-    assertEquals("com_here_test", JniNameRules.getPackageName(javaPackage));
+    assertEquals("com_here_test", JniNameRules.getPackageName(javaPackageNames));
   }
 
   @Test
@@ -143,9 +143,9 @@ public final class JniNameRulesTest {
   @Test
   public void getJNIPackageNameFromEmptyJavaPackage() {
     // Arrange
-    JavaPackage javaPackage = new JavaPackage(Collections.emptyList());
+    List<String> javaPackageNames = Collections.emptyList();
 
     // Act, assert
-    assertEquals("", JniNameRules.getPackageName(javaPackage));
+    assertEquals("", JniNameRules.getPackageName(javaPackageNames));
   }
 }
