@@ -21,7 +21,7 @@ import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppConstant;
 import com.here.ivi.api.model.cppmodel.CppElement;
-import com.here.ivi.api.model.cppmodel.CppEnumClass;
+import com.here.ivi.api.model.cppmodel.CppEnum;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
@@ -107,7 +107,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     for (CppElement cppElement : getCurrentContext().previousResults) {
       if (cppElement instanceof CppStruct
           || cppElement instanceof CppTypeDef
-          || cppElement instanceof CppEnumClass
+          || cppElement instanceof CppEnum
           || cppElement instanceof CppConstant) {
         storeResult(cppElement);
       }
@@ -200,10 +200,9 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FEnumerationType francaEnumerationType) {
 
-    CppEnumClass enumClass = new CppEnumClass();
-    enumClass.enumeration = TypeGenerationHelper.buildCppEnum(francaEnumerationType);
+    CppEnum cppEnum = TypeGenerationHelper.buildCppEnum(francaEnumerationType);
 
-    storeResult(enumClass);
+    storeResult(cppEnum);
     closeContext();
   }
 

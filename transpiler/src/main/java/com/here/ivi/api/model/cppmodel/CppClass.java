@@ -24,7 +24,7 @@ public class CppClass extends CppElement {
   public Set<CppInheritance> inheritances = new LinkedHashSet<>();
   public Set<CppStruct> structs = new LinkedHashSet<>();
   public Set<CppConstant> constants = new LinkedHashSet<>();
-  public Set<CppEnumClass> enums = new LinkedHashSet<>();
+  public Set<CppEnum> enums = new LinkedHashSet<>();
 
   // TODO APIGEN-126: remove this constructor when builder is done
   public CppClass(String name) {
@@ -70,7 +70,7 @@ public class CppClass extends CppElement {
     private Set<CppInheritance> inheritances = new LinkedHashSet<>();
     private Set<CppStruct> structs = new LinkedHashSet<>();
     private Set<CppConstant> constants = new LinkedHashSet<>();
-    private Set<CppEnumClass> enums = new LinkedHashSet<>();
+    private Set<CppEnum> enums = new LinkedHashSet<>();
 
     public Builder(String name) {
       this.name = name;
