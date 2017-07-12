@@ -15,9 +15,9 @@ import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.cpp.CppGenerator;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.generator.common.cpp.templates.GeneratorNoticeTemplate;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
@@ -34,9 +34,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -157,8 +161,14 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
   private CharSequence generateGeneratorNotice(FrancaElement<?> element, String outputTarget) {
 
-    String inputDefinition = element.getName() + ':' + element.getVersion();
-    return GeneratorNoticeTemplate.generate(this, inputDefinition, outputTarget);
+    Map<String, String> generatorNoticeData = new HashMap<>();
+    generatorNoticeData.put("generatorName", getName());
+    generatorNoticeData.put("outputFile", outputTarget);
+    generatorNoticeData.put("elementName", element.getName());
+    generatorNoticeData.put("elementVersion", element.getVersion().toString());
+    generatorNoticeData.put("date", new SimpleDateFormat("dd.MM.YYYY").format(new Date()));
+
+    return TemplateEngine.render("common/GeneratorNotice", generatorNoticeData);
   }
 
   private static CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaElement) {
