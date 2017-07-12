@@ -1,0 +1,9 @@
+{{>cpp/CppDocComment}}
+struct {{name}} {
+{{#fields}}
+{{#if comment}}
+    {{>cpp/CppDocComment}}
+{{/if}}
+    {{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
+{{/fields}}
+};
