@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common.jni;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.jni.templates.CppToJniStringConversionTemplate;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
@@ -32,8 +33,11 @@ public class CppToJniConversionTemplateDelegator {
 
   private static CharSequence generate(
       final String cppVariableName, final JavaReferenceType targetType) {
-    if (targetType.type == JavaReferenceType.Type.STRING) {
-      return CppToJniStringConversionTemplate.generate(cppVariableName);
+    switch (targetType.type) {
+      case STRING:
+        return CppToJniStringConversionTemplate.generate(cppVariableName);
+      case BYTE_ARRAY:
+        return TemplateEngine.render("jni/CppToJniByteBufferConversion", cppVariableName);
     }
     throw new IllegalArgumentException(
         "conversion to reference type is impossible: " + targetType.type);
