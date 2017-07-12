@@ -12,21 +12,29 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.baseapi.StubCommentParser;
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cppmodel.CppConstant;
+import com.here.ivi.api.model.cppmodel.CppEnum;
+import com.here.ivi.api.model.cppmodel.CppEnumItem;
+import com.here.ivi.api.model.cppmodel.CppField;
+import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FCompoundInitializer;
+import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
+import org.franca.core.franca.FField;
+import org.franca.core.franca.FFieldInitializer;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypedElement;
 
 public class TypeGenerationHelper {
-
-  private static final Logger logger =
-      java.util.logging.Logger.getLogger(TypeGenerationHelper.class.getName());
 
   /**
    * This methods creates all fields for the given struct.
@@ -92,9 +100,8 @@ public class TypeGenerationHelper {
   }
 
   public static CppEnum buildCppEnum(FEnumerationType enumerationType) {
-    CppEnum enumeration = new CppEnum();
+    CppEnum enumeration = new CppEnum(CppNameRules.getEnumName(enumerationType.getName()), true);
     enumeration.comment = StubCommentParser.parse(enumerationType).getMainBodyText();
-    enumeration.name = CppNameRules.getEnumName(enumerationType.getName());
 
     for (FEnumerator enumerator : enumerationType.getEnumerators()) {
       CppEnumItem item = new CppEnumItem();
@@ -104,10 +111,6 @@ public class TypeGenerationHelper {
       item.comment = StubCommentParser.parse(enumerator).getMainBodyText();
 
       enumeration.items.add(item);
-    }
-
-    if (!enumeration.isValid()) {
-      logger.warning("Invalid enum: " + enumerationType.getName());
     }
 
     return enumeration;

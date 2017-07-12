@@ -29,7 +29,6 @@ import com.here.ivi.api.model.cppmodel.CppConstant;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppEnum;
-import com.here.ivi.api.model.cppmodel.CppEnumClass;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
@@ -113,6 +112,7 @@ public class StubModelBuilderTest {
   private final CppConstant cppConstant =
       new CppConstant("permanent", cppCustomType, new CppValue("valuable"));
   private final CppField cppField = new CppField(cppCustomType, "flowers");
+  private final CppEnum cppEnum = new CppEnum("innumerable");
 
   private CppElement getFirstResult() {
     List<CppElement> results = contextStack.getParentContext().previousResults;
@@ -282,15 +282,13 @@ public class StubModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaTypeCollectionReadsEnumClasses() {
-    CppEnumClass cppEnumClass = new CppEnumClass();
-    cppEnumClass.name = "innumerable";
-    injectResult(cppEnumClass);
+  public void finishBuildingFrancaTypeCollectionReadsEnums() {
+    injectResult(cppEnum);
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
     CppElement result = getFirstResult();
-    assertEquals(cppEnumClass, result);
+    assertEquals(cppEnum, result);
   }
 
   @Test
@@ -422,16 +420,12 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationType() {
-    CppEnum cppEnum = new CppEnum();
-    cppEnum.name = "innumerable";
     when(TypeGenerationHelper.buildCppEnum(any())).thenReturn(cppEnum);
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
     CppElement result = getFirstResult();
-    assertTrue(result instanceof CppEnumClass);
-
-    assertEquals(cppEnum, ((CppEnumClass) result).enumeration);
+    assertEquals(cppEnum, result);
 
     PowerMockito.verifyStatic();
     TypeGenerationHelper.buildCppEnum(francaEnumerationType);

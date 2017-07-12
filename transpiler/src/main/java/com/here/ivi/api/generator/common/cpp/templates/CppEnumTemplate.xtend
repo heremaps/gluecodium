@@ -20,7 +20,7 @@ class CppEnumTemplate {
      * «enumeration.comment»
      */
     «ENDIF»
-    enum «enumeration.name» {
+    enum «IF enumeration.isScoped»class «ENDIF»«enumeration.name» {
         «FOR item : enumeration.items SEPARATOR ','»
             «IF item.comment !== null && !item.comment.isEmpty»
             /**

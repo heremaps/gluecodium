@@ -28,10 +28,6 @@ public class CppTemplateDelegator {
     return CppEnumTemplate.generate(cppEnum);
   }
 
-  public CharSequence generate(CppEnumClass cppEnum) {
-    return CppEnumClassTemplate.generate(cppEnum);
-  }
-
   public CharSequence generate(CppStruct struct) {
     return CppPureStructTemplate.generate(struct);
   }

@@ -16,17 +16,18 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class CppEnum extends CppElement {
+
+  public final boolean isScoped;
   public List<CppEnumItem> items = new ArrayList<>();
 
-  public boolean isValid() {
-    boolean ret = true;
-    for (CppEnumItem item : items) {
-      if (!item.isValid()) {
-        ret = false;
-        break;
-      }
-    }
-    return !items.isEmpty() && !name.isEmpty() && ret;
+  public CppEnum(final String name) {
+    super(name);
+    this.isScoped = false;
+  }
+
+  public CppEnum(final String name, final boolean isScoped) {
+    super(name);
+    this.isScoped = isScoped;
   }
 
   @Override
