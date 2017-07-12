@@ -21,7 +21,7 @@ import com.here.ivi.api.model.javamodel.JavaMethod
  */
 class JniFunctionSignatureTemplate {
   def static generate(JavaClass javaClass, JavaMethod method) {
-    val prefix = '''Java_«JniNameRules.getPackageName(javaClass.javaPackage)»_«javaClass.name»_«method.name»'''
+    val prefix = '''Java_«JniNameRules.getPackageName(javaClass.javaPackage.packageNames)»_«javaClass.name»_«method.name»'''
     val parameters = '''«FOR param : method.parameters», «JniTypeNameMapper.map(param.type)» «JniNameRules.getParameterName(param.name)»«ENDFOR»'''
     '''«prefix»(JNIEnv* env, jobject jinstance«parameters»)'''
   }

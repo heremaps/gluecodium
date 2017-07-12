@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.io.File;
 import java.util.List;
 
@@ -61,13 +60,11 @@ public final class JniNameRules {
     return "n" + javaParameterName;
   }
 
-  public static String getPackageName(final JavaPackage javaPackage) {
-    if (javaPackage == null
-        || javaPackage.packageNames == null
-        || javaPackage.packageNames.isEmpty()) {
+  public static String getPackageName(final List<String> javaPackages) {
+    if (javaPackages == null || javaPackages.isEmpty()) {
       return "";
     }
 
-    return String.join("_", javaPackage.packageNames);
+    return String.join("_", javaPackages);
   }
 }
