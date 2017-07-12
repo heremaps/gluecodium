@@ -13,8 +13,8 @@ package com.here.ivi.api.generator.common.jni;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.times;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.jni.templates.CppToJniStringConversionTemplate;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
@@ -32,8 +32,11 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 
 @RunWith(Parameterized.class)
-@PrepareForTest(CppToJniStringConversionTemplate.class)
+@PrepareForTest({CppToJniStringConversionTemplate.class, TemplateEngine.class})
 public class CppToJniConversionTemplateDelegatorTest {
+
+  private static final String CPP_VARIABLE_NAME = "var";
+  private static final String PARAMETER_NAME = JniNameRules.getParameterName(CPP_VARIABLE_NAME);
 
   @Rule public PowerMockRule powerMockRule = new PowerMockRule();
 
@@ -41,6 +44,7 @@ public class CppToJniConversionTemplateDelegatorTest {
   public void setUp() {
 
     PowerMockito.mockStatic(CppToJniStringConversionTemplate.class);
+    PowerMockito.mockStatic(TemplateEngine.class);
   }
 
   @Parameter public JavaType type;
@@ -62,6 +66,7 @@ public class CppToJniConversionTemplateDelegatorTest {
           {new JavaPrimitiveType(Type.BYTE), null},
           {new JavaPrimitiveType(Type.CHAR), null},
           {new JavaPrimitiveType(Type.DOUBLE), null},
+          {new JavaReferenceType(JavaReferenceType.Type.BYTE_ARRAY), null},
           {
             new JavaReferenceType(JavaReferenceType.Type.BOOLEAN_ARRAY),
             IllegalArgumentException.class
@@ -86,8 +91,8 @@ public class CppToJniConversionTemplateDelegatorTest {
 
     try {
       try {
-        CharSequence result = CppToJniConversionTemplateDelegator.generate("var", type);
-        verifyResult(type, "var", result);
+        CharSequence result = CppToJniConversionTemplateDelegator.generate(CPP_VARIABLE_NAME, type);
+        verifyResult(type, result);
       } catch (Exception e) {
         caughtException = e;
       }
@@ -103,15 +108,18 @@ public class CppToJniConversionTemplateDelegatorTest {
     }
   }
 
-  private static void verifyResult(
-      final JavaType javaType, final String cppVariableName, final CharSequence result) {
+  private static void verifyResult(final JavaType javaType, final CharSequence result) {
 
     if (javaType instanceof JavaPrimitiveType) {
-      assertEquals(cppVariableName, result.toString());
+      assertEquals(CPP_VARIABLE_NAME, result.toString());
     } else if (javaType instanceof JavaReferenceType
         && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.STRING) {
-      PowerMockito.verifyStatic(times(1));
+      PowerMockito.verifyStatic();
       CppToJniStringConversionTemplate.generate(null);
+    } else if (javaType instanceof JavaReferenceType
+        && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.BYTE_ARRAY) {
+      PowerMockito.verifyStatic();
+      TemplateEngine.render("jni/CppToJniByteBufferConversion", PARAMETER_NAME);
     } else {
       fail();
     }

@@ -13,20 +13,21 @@ package com.here.ivi.api.generator.common.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class JniStringReleaseTemplateTest {
+public final class CppToJniByteBufferConversionTemplateTest {
   @Test
   public void generate() {
     // Arrange
-    String baseName = "javaParameterName";
-    String expected = "env->ReleaseStringUTFChars(j" + baseName + ", n" + baseName + ");\n";
+    String baseName = "cppString";
+    String expected = "here::internal::convert_byte_vector_to_jbyte_array(env, " + baseName + ")";
 
     // Act
-    String result = JniStringReleaseTemplate.generate(baseName).toString();
+    String result = TemplateEngine.render("jni/CppToJniByteBufferConversion", baseName);
 
     // Assert
     assertEquals(expected, result);

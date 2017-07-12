@@ -12,30 +12,29 @@
 package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.jni.templates.JniToCppStringConversionTemplate;
-import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
+import com.here.ivi.api.model.javamodel.JavaType;
 
 public class JniToCppTypeConversionTemplateDelegator {
 
-  public static CharSequence generate(JavaParameter javaParameter, CppParameter cppParameter) {
+  public static CharSequence generate(JavaType javaType, String baseName) {
 
-    if (javaParameter.type instanceof JavaPrimitiveType) {
-      return generate((JavaPrimitiveType) javaParameter.type, javaParameter.name);
+    if (javaType instanceof JavaPrimitiveType) {
+      return generate((JavaPrimitiveType) javaType, baseName);
     }
-    if (javaParameter.type instanceof JavaCustomType) {
-      return generate((JavaCustomType) javaParameter.type, cppParameter.type, javaParameter.name);
+    if (javaType instanceof JavaCustomType) {
+      return generate((JavaCustomType) javaType, baseName);
     }
-    if (javaParameter.type instanceof JavaReferenceType) {
-      return generate((JavaReferenceType) javaParameter.type, javaParameter.name);
+    if (javaType instanceof JavaReferenceType) {
+      return generate((JavaReferenceType) javaType, baseName);
     }
     throw new TranspilerExecutionException(
-        "conversion from java type to cpp type is not yet supported: " + javaParameter.type);
+        "conversion from java type to cpp type is not yet supported: " + javaType);
   }
 
   private static CharSequence generate(JavaPrimitiveType javaType, String baseName) {
@@ -48,7 +47,7 @@ public class JniToCppTypeConversionTemplateDelegator {
         "Conversion from Java type to cpp type is not possible: " + javaType.getName());
   }
 
-  private static CharSequence generate(JavaCustomType javaType, CppType cppType, String baseName) {
+  private static CharSequence generate(JavaCustomType javaType) {
     throw new TranspilerExecutionException(
         "conversion from JavaCustomType to cpp type is not yet supported: " + javaType.getName());
   }
@@ -57,6 +56,11 @@ public class JniToCppTypeConversionTemplateDelegator {
     switch (javaType.type) {
       case STRING:
         return JniToCppStringConversionTemplate.generate(baseName);
+      case BYTE_ARRAY:
+        //for compatibility reasons (JniNameRules haven't been converted to mustache yet)
+        //it is required to call JniNameRules.getParameter(..) here
+        return TemplateEngine.render(
+            "jni/JniToCppByteBufferConversion", JniNameRules.getParameterName(baseName));
     }
     throw new IllegalArgumentException(
         "conversion from java type to cpp type is not supported: " + javaType.getName());
