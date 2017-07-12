@@ -31,7 +31,8 @@ else()
         src/hello/HelloWorldBuiltinTypesStub.cpp
         src/hello/HelloWorldStub.cpp
         src/test/StaticInt8MethodsTestStub.cpp
-        src/test/StaticStringMethodsTestStub.cpp)
+        src/test/StaticStringMethodsTestStub.cpp
+        src/test/StaticUInt8MethodsTestStub.cpp)
 endif()
 
 add_library(hello ${HELLO_SOURCES})
