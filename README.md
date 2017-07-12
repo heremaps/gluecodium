@@ -21,12 +21,12 @@ the entire project:
 ./gradlew build
 ```
 
-To run the transpiler and generate some output based on the currentl set of
-\*.fidl files:
+To run the transpiler and generate some output based on the current set of
+Hello world project's \*.fidl files:
 
 ```bash
 ./gradlew run \
-    -Dexec.args="-input ../fidl -output ../generated -nostdout" \
+    -Dexec.args="-input ../../projects/hello_world/libhello/fidl -output ../generated -nostdout" \
     --stacktrace
 ```
 
@@ -63,7 +63,7 @@ And add the *TranspilerReviewers* group manually on Gerrit's web interface.
 
 
 ## Continuous integration
-The Jenkins jobs are currently part of Legacy CI and found
+The Jenkins jobs are currently part of IVI CI and found
 [here](example.com).
 
 
