@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class CPointerType extends CType {
   public static final CPointerType CONST_CHAR_PTR = makeConstPointer(CType.CHAR);
   public static final CPointerType VOID_PTR = new CPointerType(CType.VOID);
+  public static final CPointerType CONST_VOID_PTR = makeConstPointer(CType.VOID);
 
   public CPointerType(CType type) {
     super(type.name, new ArrayList<>(type.includes));
@@ -31,7 +32,7 @@ public class CPointerType extends CType {
     return super.equals(that);
   }
 
-  private static CPointerType makeConstPointer(CType type) {
+  public static CPointerType makeConstPointer(CType type) {
     CType underlineType = new CType(type.name, new ArrayList<>(type.includes));
     underlineType.isConst = true;
     return new CPointerType(underlineType);

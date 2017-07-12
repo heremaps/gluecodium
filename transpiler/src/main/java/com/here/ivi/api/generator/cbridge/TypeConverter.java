@@ -48,7 +48,7 @@ public class TypeConverter {
 
   static TypeConversion reinterpretCast(CParameter param, String targetType) {
     return new TypeConverter.TypeConversion(
-        param.name, String.format("reinterpret_cast<%1$s*>(%2$s)", targetType, param.name));
+        param.name, String.format("reinterpret_cast<const %1$s*>(%2$s)", targetType, param.name));
   }
 
   public static TypeConversion identity(CParameter param) {

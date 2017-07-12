@@ -146,18 +146,18 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   }
 
   private CFunction createGetLengthFunction(String baseName, CppTypeInfo cppTypeInfo) {
-    CParameter param = new CParameter("handle", CPointerType.VOID_PTR);
+    CParameter param = new CParameter("handle", CPointerType.CONST_VOID_PTR);
     param.conversion = TypeConverter.reinterpretCast(param, cppTypeInfo.baseType);
     return new CFunction.Builder(baseName + "_" + "getSize")
         .parameters(singletonList(param))
         .delegateCallTemplate(cppTypeInfo.getSizeExpr)
-        .returnType(CType.UINT64)
+        .returnType(CType.INT64)
         .returnConversion(new TypeConverter.TypeConversion("result"))
         .build();
   }
 
   private CFunction createGetDataFunction(String baseName, CppTypeInfo cppTypeInfo) {
-    CParameter param = new CParameter("handle", CPointerType.VOID_PTR);
+    CParameter param = new CParameter("handle", CPointerType.CONST_VOID_PTR);
     param.conversion = TypeConverter.reinterpretCast(param, cppTypeInfo.baseType);
     return new CFunction.Builder(baseName + "_" + "getData")
         .parameters(singletonList(param))
@@ -168,7 +168,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   }
 
   private CFunction createReleaseFunction(String baseName, CppTypeInfo cppTypeInfo) {
-    CParameter param = new CParameter("handle", CPointerType.VOID_PTR);
+    CParameter param = new CParameter("handle", CPointerType.CONST_VOID_PTR);
     param.conversion = TypeConverter.reinterpretCast(param, cppTypeInfo.baseType);
     return new CFunction.Builder(baseName + "_" + "release")
         .parameters(singletonList(param))

@@ -46,7 +46,7 @@ public class CppTypeInfo {
           "uint8_t",
           singletonList(new Includes.SystemInclude("stdint.h")),
           "std::vector<uint8_t>(%1$s, %1$s + %2$s)",
-          asList(new CPointerType(CType.UINT8), CType.UINT64),
+          asList(CPointerType.makeConstPointer(CType.UINT8), CType.INT64),
           asList("_ptr", "_size"),
           "new std::vector<uint8_t>(std::move(%1$s))",
           Arrays.asList(
