@@ -39,6 +39,35 @@
             android:layout_height="wrap_content"
             android:text="@string/greet" />
 
+        <TextView
+            android:id="@+id/builtin_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:text="@string/builtin_text_header"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <Spinner
+            android:id="@+id/builtin_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/builtin_methods"/>
+
+        <EditText
+            android:id="@+id/builtin_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/parameter_value"
+            android:inputType="none" />
+
+        <Button
+            android:id="@+id/builtin_submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submit" />
+
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
