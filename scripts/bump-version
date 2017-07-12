@@ -4,26 +4,27 @@
 #
 # Semantic Versioning: MAJOR.MINOR.PATCH
 
-. "scripts/inc.functions"
+SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+. "${SCRIPT_DIR}/inc.constants"
+. "${SCRIPT_DIR}/inc.functions"
 
 if [ $# -ne 1 ] ; then
     die "Usage: $0 [VERSION_NAME]\n\n\tExample: $0 0.0.1"
 fi
 
 # Increase SDK version (used as versionName in most modules)
-VERSION_GRADLE="transpiler/src/main/resources/version.properties"
-OLD_VERSION=$(get_version $VERSION_GRADLE)
+OLD_VERSION=$(get_version "${TRANSPILER_VERSION_FILE}")
 NEW_VERSION=$1
 
 if [ "$NEW_VERSION" \< "$OLD_VERSION" -o "$NEW_VERSION" = "$OLD_VERSION" ] ; then
     die "Error: We are already at version $OLD_VERSION"
 fi
 
-sed -i -e "s|version = $OLD_VERSION|version = $NEW_VERSION|" $VERSION_GRADLE
+sed -i -e "s|version = $OLD_VERSION|version = $NEW_VERSION|" "${TRANSPILER_VERSION_FILE}"
 
 # Create a commit with appropriate git tag
 git commit \
-    $VERSION_GRADLE \
+    "${TRANSPILER_VERSION_FILE}" \
     -m "Release version $NEW_VERSION"
 
 # We can't tag here, gerrit will almost always rebase the commit. As soon as

@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# Collection of shared constants
+#
+
+SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+TRANSPILER_VERSION_FILE="${SCRIPT_DIR}/../transpiler/src/main/resources/version.properties"
