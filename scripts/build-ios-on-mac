@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# Usage: ./scripts/build-ios-on-mac [framework_output_path]
+#
 # Script to build the "hello" library for an iOS consumer. This is demonstrated
 # by the apps/swift application.
 
@@ -8,6 +10,10 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 BUILD_DIR=build-ios
 INSTALL_DIR=dist
+if [ -n "${1}" ]; then
+    INSTALL_DIR="$1"
+fi
+
 CWD="$PWD"
 
 function build {
@@ -25,7 +31,7 @@ function build {
             -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
             -DHELLO_BUILD_CPP_APP=OFF \
             -G Ninja \
-            ../..
+            "${SCRIPT_DIR}/.."
         popd
     fi
     safe cmake --build "${build_dir}" --target install
