@@ -22,14 +22,18 @@ import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,8 +57,12 @@ public class FrancaTreeWalkerTest {
   @Mock private FConstantDef francaConstant;
   @Mock private FConstantDef anotherFrancaConstant;
   @Mock private FAttribute francaAttribute;
-  @Mock private FStructType francaStructType;
   @Mock private FField francaField;
+  @Mock private FStructType francaStructType;
+  @Mock private FArrayType francaArrayType;
+  @Mock private FEnumerationType francaEnumerationType;
+  @Mock private FMapType francaMapType;
+  @Mock private FTypeDef francaTypeDef;
 
   private final ArrayEList<FMethod> methods = new ArrayEList<>();
   private final ArrayEList<FArgument> arguments = new ArrayEList<>();
@@ -75,8 +83,13 @@ public class FrancaTreeWalkerTest {
     arguments.add(francaArgument);
     constants.add(francaConstant);
     attributes.add(francaAttribute);
-    types.add(francaStructType);
     fields.add(francaField);
+
+    types.add(francaStructType);
+    types.add(francaArrayType);
+    types.add(francaEnumerationType);
+    types.add(francaMapType);
+    types.add(francaTypeDef);
 
     when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
     when(francaInterface.getMethods()).thenReturn(methods);
@@ -272,6 +285,27 @@ public class FrancaTreeWalkerTest {
   }
 
   @Test
+  public void walkWithOneField() {
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaField);
+    verify(modelBuilder).finishBuilding(francaField);
+  }
+
+  @Test
+  public void walkWithTwoFields() {
+    FField anotherFrancaField = mock(FField.class);
+    fields.add(anotherFrancaField);
+
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaField);
+    verify(modelBuilder).finishBuilding(francaField);
+    verify(modelBuilder).startBuilding(anotherFrancaField);
+    verify(modelBuilder).finishBuilding(anotherFrancaField);
+  }
+
+  @Test
   public void walkWithOneStructType() {
     treeWalker.walk(typeCollection);
 
@@ -293,23 +327,86 @@ public class FrancaTreeWalkerTest {
   }
 
   @Test
-  public void walkWithOneField() {
+  public void walkWithOneArrayType() {
     treeWalker.walk(typeCollection);
 
-    verify(modelBuilder).startBuilding(francaField);
-    verify(modelBuilder).finishBuilding(francaField);
+    verify(modelBuilder).startBuilding(francaArrayType);
+    verify(modelBuilder).finishBuilding(francaArrayType);
   }
 
   @Test
-  public void walkWithTwoFields() {
-    FField anotherFrancaField = mock(FField.class);
-    fields.add(anotherFrancaField);
+  public void walkWithTwoArrayTypes() {
+    FArrayType anotherFrancaArrayType = mock(FArrayType.class);
+    types.add(anotherFrancaArrayType);
 
     treeWalker.walk(typeCollection);
 
-    verify(modelBuilder).startBuilding(francaField);
-    verify(modelBuilder).finishBuilding(francaField);
-    verify(modelBuilder).startBuilding(anotherFrancaField);
-    verify(modelBuilder).finishBuilding(anotherFrancaField);
+    verify(modelBuilder).startBuilding(francaArrayType);
+    verify(modelBuilder).finishBuilding(francaArrayType);
+    verify(modelBuilder).startBuilding(anotherFrancaArrayType);
+    verify(modelBuilder).finishBuilding(anotherFrancaArrayType);
+  }
+
+  @Test
+  public void walkWithOneEnumerationType() {
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaEnumerationType);
+    verify(modelBuilder).finishBuilding(francaEnumerationType);
+  }
+
+  @Test
+  public void walkWithTwoEnumerationTypes() {
+    FEnumerationType anotherFrancaEnumerationType = mock(FEnumerationType.class);
+    types.add(anotherFrancaEnumerationType);
+
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaEnumerationType);
+    verify(modelBuilder).finishBuilding(francaEnumerationType);
+    verify(modelBuilder).startBuilding(anotherFrancaEnumerationType);
+    verify(modelBuilder).finishBuilding(anotherFrancaEnumerationType);
+  }
+
+  @Test
+  public void walkWithOneMapType() {
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaMapType);
+    verify(modelBuilder).finishBuilding(francaMapType);
+  }
+
+  @Test
+  public void walkWithTwoMapTypes() {
+    FMapType anotherFrancaMapType = mock(FMapType.class);
+    types.add(anotherFrancaMapType);
+
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaMapType);
+    verify(modelBuilder).finishBuilding(francaMapType);
+    verify(modelBuilder).startBuilding(anotherFrancaMapType);
+    verify(modelBuilder).finishBuilding(anotherFrancaMapType);
+  }
+
+  @Test
+  public void walkWithOneTypeDef() {
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaTypeDef);
+    verify(modelBuilder).finishBuilding(francaTypeDef);
+  }
+
+  @Test
+  public void walkWithTwoTypeDefs() {
+    FTypeDef anotherFrancaTypeDef = mock(FTypeDef.class);
+    types.add(anotherFrancaTypeDef);
+
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaTypeDef);
+    verify(modelBuilder).finishBuilding(francaTypeDef);
+    verify(modelBuilder).startBuilding(anotherFrancaTypeDef);
+    verify(modelBuilder).finishBuilding(anotherFrancaTypeDef);
   }
 }
