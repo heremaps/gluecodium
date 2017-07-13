@@ -15,6 +15,8 @@ import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
+import org.franca.core.franca.FExpression;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
@@ -53,6 +55,10 @@ public interface ModelBuilder {
 
   void startBuilding(FEnumerationType francaEnumerationType);
 
+  void startBuilding(FEnumerator francaEnumerator);
+
+  void startBuilding(FExpression francaExpression);
+
   void finishBuilding(FInterface francaInterface);
 
   void finishBuilding(FTypeCollection francaTypeCollection);
@@ -78,4 +84,8 @@ public interface ModelBuilder {
   void finishBuilding(FMapType francaMapType);
 
   void finishBuilding(FEnumerationType francaEnumerationType);
+
+  void finishBuilding(FEnumerator francaEnumerator);
+
+  void finishBuilding(FExpression francaExpression);
 }

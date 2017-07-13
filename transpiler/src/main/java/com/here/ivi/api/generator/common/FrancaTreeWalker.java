@@ -23,6 +23,7 @@ import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMapType;
@@ -158,7 +159,11 @@ public class FrancaTreeWalker {
         } else if (type instanceof FMapType) {
           walk((FMapType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
         } else if (type instanceof FEnumerationType) {
-          walk((FEnumerationType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+          walk(
+              (FEnumerationType) type,
+              ModelBuilder::startBuilding,
+              ModelBuilder::finishBuilding,
+              this::walkChildNodes);
         }
       }
     }
@@ -199,5 +204,22 @@ public class FrancaTreeWalker {
 
   private void walkChildNodes(FTypedElement francaTypedElement) {
     walk(francaTypedElement.getType(), ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+  }
+
+  private void walkChildNodes(FEnumerationType francaEnumerationType) {
+    EList<FEnumerator> enumerators = francaEnumerationType.getEnumerators();
+    if (enumerators != null) {
+      for (FEnumerator enumerator : enumerators) {
+        walk(
+            enumerator,
+            ModelBuilder::startBuilding,
+            ModelBuilder::finishBuilding,
+            this::walkChildNodes);
+      }
+    }
+  }
+
+  private void walkChildNodes(FEnumerator francaEnumerator) {
+    walk(francaEnumerator.getValue(), ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
   }
 }

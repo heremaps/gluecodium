@@ -28,13 +28,13 @@ import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.cpp.CppTypeRefNameResolver;
 import com.here.ivi.api.generator.common.cpp.CppValueMapper;
-import com.here.ivi.api.generator.common.cpp.TypeGenerationHelper;
 import com.here.ivi.api.model.common.LazyTypeRefName;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppConstant;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppEnum;
+import com.here.ivi.api.model.cppmodel.CppEnumItem;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
@@ -46,13 +46,15 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
+import org.franca.core.franca.FExpression;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FInitializerExpression;
 import org.franca.core.franca.FInterface;
@@ -78,7 +80,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
   StubMethodMapper.class,
-  TypeGenerationHelper.class,
   StubCommentParser.class,
   InstanceRules.class,
   CppTypeMapper.class,
@@ -98,6 +99,8 @@ public class StubModelBuilderTest {
   private static final String MAP_NAME = "tigers";
   private static final String FIELD_NAME = "flowers";
   private static final String CONSTANT_NAME = "permanent";
+  private static final String ENUM_NAME = "innumerable";
+  private static final String ENUM_ITEM_NAME = "enumerated";
 
   private MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
@@ -119,6 +122,9 @@ public class StubModelBuilderTest {
   @Mock private FEnumerationType francaEnumerationType;
   @Mock private FTypeRef francaAnotherTypeRef;
   @Mock private FInitializerExpression francaInitializerExpression;
+  @Mock private FEnumerator francaEnumerator;
+  @Mock private FExpression francaExpression;
+
   @Mock private CppTypeRefNameResolver nameResolver;
 
   private StubModelBuilder modelBuilder;
@@ -127,19 +133,19 @@ public class StubModelBuilderTest {
       new CppComplexTypeRef.Builder("typically").build();
 
   private final CppComplexTypeRef cppCustomTypeLazyName =
-      new CppComplexTypeRef.Builder(new LazyTypeRefName("typeName", Arrays.asList("package")))
+      new CppComplexTypeRef.Builder(
+              new LazyTypeRefName("typeName", Collections.singletonList("package")))
           .build();
 
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
   private final CppValue cppValue = new CppValue("valuable");
-  private final CppEnum cppEnum = new CppEnum("innumerable");
+  private final CppEnum cppEnum = new CppEnum(ENUM_NAME);
   private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
 
   @Before
   public void setUp() {
     PowerMockito.mockStatic(
         StubMethodMapper.class,
-        TypeGenerationHelper.class,
         StubCommentParser.class,
         InstanceRules.class,
         CppTypeMapper.class,
@@ -160,6 +166,8 @@ public class StubModelBuilderTest {
     when(francaMapType.getName()).thenReturn(MAP_NAME);
     when(francaField.getName()).thenReturn(FIELD_NAME);
     when(francaConstant.getName()).thenReturn(CONSTANT_NAME);
+    when(francaEnumerationType.getName()).thenReturn(ENUM_NAME);
+    when(francaEnumerator.getName()).thenReturn(ENUM_ITEM_NAME);
 
     when(francaMethod.getInArgs()).thenReturn(new ArrayEList<>());
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
@@ -454,19 +462,6 @@ public class StubModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaEnumerationType() {
-    when(TypeGenerationHelper.buildCppEnum(any())).thenReturn(cppEnum);
-
-    modelBuilder.finishBuilding(francaEnumerationType);
-
-    CppEnum result = modelBuilder.getFirstResult(CppEnum.class);
-    assertEquals(cppEnum, result);
-
-    PowerMockito.verifyStatic();
-    TypeGenerationHelper.buildCppEnum(francaEnumerationType);
-  }
-
-  @Test
   public void finishBuildingFrancaTypeRef() {
     when(CppTypeMapper.map(any(), any(FTypeRef.class))).thenReturn(cppCustomTypeResolvedName);
 
@@ -477,6 +472,51 @@ public class StubModelBuilderTest {
 
     PowerMockito.verifyStatic();
     CppTypeMapper.map(same(rootModel), same(francaTypeRef));
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeReadsName() {
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    CppEnum cppEnum = modelBuilder.getFirstResult(CppEnum.class);
+    assertNotNull(cppEnum);
+    assertEquals(ENUM_NAME, cppEnum.name.toLowerCase());
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeReadsEnumItems() {
+    CppEnumItem cppEnumItem = new CppEnumItem();
+    cppEnumItem.name = "enumerated";
+    contextStack.injectResult(cppEnumItem);
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    CppEnum cppEnum = modelBuilder.getFirstResult(CppEnum.class);
+    assertNotNull(cppEnum);
+    assertFalse(cppEnum.items.isEmpty());
+    assertEquals(cppEnumItem, cppEnum.items.get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerator() {
+    modelBuilder.finishBuilding(francaEnumerator);
+
+    CppEnumItem cppEnumItem = modelBuilder.getFirstResult(CppEnumItem.class);
+    assertNotNull(cppEnumItem);
+    assertEquals(ENUM_ITEM_NAME, cppEnumItem.name.toLowerCase());
+  }
+
+  @Test
+  public void finishBuildingFrancaExpression() {
+    when(CppValueMapper.map(any(FExpression.class))).thenReturn(cppValue);
+
+    modelBuilder.finishBuilding(francaExpression);
+
+    CppValue result = modelBuilder.getFirstResult(CppValue.class);
+    assertEquals(cppValue, result);
+
+    PowerMockito.verifyStatic();
+    CppValueMapper.map(francaExpression);
   }
 
   @Test

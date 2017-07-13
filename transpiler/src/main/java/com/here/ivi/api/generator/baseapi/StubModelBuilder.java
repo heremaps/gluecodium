@@ -20,12 +20,12 @@ import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.cpp.CppTypeRefNameResolver;
 import com.here.ivi.api.generator.common.cpp.CppValueMapper;
-import com.here.ivi.api.generator.common.cpp.TypeGenerationHelper;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppConstant;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppEnum;
+import com.here.ivi.api.model.cppmodel.CppEnumItem;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
@@ -43,6 +43,8 @@ import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
+import org.franca.core.franca.FExpression;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
@@ -234,9 +236,32 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FEnumerationType francaEnumerationType) {
 
-    CppEnum cppEnum = TypeGenerationHelper.buildCppEnum(francaEnumerationType);
+    CppEnum cppEnum = new CppEnum(CppNameRules.getEnumName(francaEnumerationType.getName()), true);
+    cppEnum.comment = StubCommentParser.parse(francaEnumerationType).getMainBodyText();
+    cppEnum.items =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppEnumItem.class);
 
     storeResult(cppEnum);
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FEnumerator francaEnumerator) {
+
+    CppEnumItem cppEnumItem = new CppEnumItem();
+    cppEnumItem.name = CppNameRules.getEnumEntryName(francaEnumerator.getName());
+    cppEnumItem.comment = StubCommentParser.parse(francaEnumerator).getMainBodyText();
+    cppEnumItem.value =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppValue.class);
+
+    storeResult(cppEnumItem);
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FExpression francaExpression) {
+
+    storeResult(CppValueMapper.map(francaExpression));
     closeContext();
   }
 
