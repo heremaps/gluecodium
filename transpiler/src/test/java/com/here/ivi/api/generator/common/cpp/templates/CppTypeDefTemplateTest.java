@@ -26,7 +26,7 @@ public final class CppTypeDefTemplateTest {
   private static final String TYPE_NAME = "Typical";
   private static final String TYPEDEF_NAME = "Definite";
   private static final String EXPECTED_TYPEDEF_RESULT =
-      "typedef " + TYPE_NAME + " " + TYPEDEF_NAME + ";\n";
+      "using " + TYPEDEF_NAME + " = " + TYPE_NAME + ";\n";
 
   private CppTypeDef cppTypeDef = new CppTypeDef();
 
