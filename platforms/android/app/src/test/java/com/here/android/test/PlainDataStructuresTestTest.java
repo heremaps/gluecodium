@@ -1,10 +1,14 @@
 package com.here.android.test;
 
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+import android.os.Build;
+import android.support.compat.BuildConfig;
+
+import com.here.android.RobolectricApplication;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 
@@ -12,10 +16,9 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public class PlainDataStructuresIntegrationTest {
-
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
+public final class PlainDataStructuresTestTest {
     @Test
     public void returnSimpleDataStructure() {
         PlainDataStructuresTest.Point point = PlainDataStructuresTest.createPoint(1.0, 2.0);

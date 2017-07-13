@@ -10,16 +10,22 @@
  */
 package com.here.android.test;
 
-import android.support.test.runner.AndroidJUnit4;
+import android.os.Build;
+
+import com.example.here.hello.BuildConfig;
+import com.here.android.RobolectricApplication;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
-public final class StaticStringMethodsIntegrationTest {
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
+public final class StaticStringMethodsTestTest {
     @Test
     public void returnInputString() {
         // Arrange
@@ -53,7 +59,6 @@ public final class StaticStringMethodsIntegrationTest {
         // Assert
         assertEquals("hello", returnedString);
     }
-
 
     @Test
     public void returnEmpty() {

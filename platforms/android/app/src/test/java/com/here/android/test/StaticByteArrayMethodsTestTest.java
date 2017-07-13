@@ -11,11 +11,15 @@
 
 package com.here.android.test;
 
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+import android.os.Build;
+import android.support.compat.BuildConfig;
+
+import com.here.android.RobolectricApplication;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -23,10 +27,9 @@ import java.util.Random;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public final class StaticByteArrayMethodsIntegrationTest {
-
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
+public final class StaticByteArrayMethodsTestTest {
     private static final int LARGE_BYTE_ARRAY_SIZE = 100000;
 
     @Test

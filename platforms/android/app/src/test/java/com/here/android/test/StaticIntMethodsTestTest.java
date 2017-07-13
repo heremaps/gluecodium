@@ -10,17 +10,21 @@
  */
 package com.here.android.test;
 
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+import android.os.Build;
+import android.support.compat.BuildConfig;
+
+import com.here.android.RobolectricApplication;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public final class StaticIntMethodsFunctionalTest {
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
+public final class StaticIntMethodsTestTest {
     @Test
     public void returnNextNumberINT8() {
         // Arrange, act

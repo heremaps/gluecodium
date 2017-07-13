@@ -1,21 +1,23 @@
-package com.here.android.test;
+package com.here.android.hello;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+import android.support.compat.BuildConfig;
 
-import com.here.android.hello.HelloWorldPlainDataStructures;
+import com.here.android.RobolectricApplication;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public class HelloWorldPlainDataStucturesIntegrationTest {
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
+public final class HelloWorldPlainDataStucturesTest {
     @Test
-    public void nonNestedPlainDataStruture() {
+    public void methodWithNonNestedType_nonNestedPlainDataStruture() {
         HelloWorldPlainDataStructures.SyncResult input = createSyncResult();
 
         HelloWorldPlainDataStructures.SyncResult result =
@@ -26,7 +28,7 @@ public class HelloWorldPlainDataStucturesIntegrationTest {
     }
 
     @Test
-    public void nestedPlainDataStruture() {
+    public void methodWithNonNestedType_nestedPlainDataStruture() {
         HelloWorldPlainDataStructures.IdentifiableSyncResult input =
                 new HelloWorldPlainDataStructures.IdentifiableSyncResult();
         input.syncResult = createSyncResult();
@@ -41,10 +43,10 @@ public class HelloWorldPlainDataStucturesIntegrationTest {
     }
 
     @NonNull
-    private HelloWorldPlainDataStructures.SyncResult createSyncResult() {
+    private static HelloWorldPlainDataStructures.SyncResult createSyncResult() {
         HelloWorldPlainDataStructures.SyncResult input =
                 new HelloWorldPlainDataStructures.SyncResult();
-        input.lastUpdatedTimeStamp = 100l;
+        input.lastUpdatedTimeStamp = 100L;
         input.numberOfChanges = 5;
         return input;
     }
