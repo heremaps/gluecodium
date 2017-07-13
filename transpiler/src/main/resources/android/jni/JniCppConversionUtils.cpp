@@ -18,7 +18,11 @@ extern "C" {
 
 std::string here::internal::convert_jstring_to_std_string(JNIEnv* env, const jstring jvalue)
 {
-    return std::string(env->GetStringUTFChars(jvalue, JNI_FALSE));
+    const char* jbuffer = env->GetStringUTFChars(jvalue, nullptr);
+    std::string nresult = std::string(jbuffer);
+    env->ReleaseStringUTFChars(jvalue, jbuffer);
+
+    return nresult;
 }
 
 std::vector<uint8_t> here::internal::convert_jbyte_array_to_byte_vector(JNIEnv* env,
