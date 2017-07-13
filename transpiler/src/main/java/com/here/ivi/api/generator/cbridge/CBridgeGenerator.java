@@ -45,6 +45,6 @@ public class CBridgeGenerator {
 
     treeWalker.walk(anInterface);
 
-    return (CInterface) modelBuilder.getResults().get(0);
+    return modelBuilder.getFirstResult(CInterface.class);
   }
 }

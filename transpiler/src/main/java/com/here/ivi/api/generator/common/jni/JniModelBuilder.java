@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common.jni;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.StubModelBuilder;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
@@ -22,7 +23,6 @@ import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 
@@ -64,8 +64,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   public void finishBuilding(FInterface francaInterface) {
 
     //collect classes
-    JavaClass javaClass = getFirstResult(javaBuilder.getResults(), JavaClass.class);
-    CppClass cppClass = getFirstResult(stubBuilder.getResults(), CppClass.class);
+    JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
+    CppClass cppClass = stubBuilder.getFirstResult(CppClass.class);
 
     JniModel result = new JniModel();
     result.cppClassName = cppClass.name;
@@ -73,7 +73,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     result.javaClassName = javaClass.getName();
     result.javaPackages = javaClass.javaPackage.packageNames;
 
-    List<JniMethod> methodList = getAllResult(getCurrentContext().previousResults, JniMethod.class);
+    List<JniMethod> methodList =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniMethod.class);
 
     for (JniMethod method : methodList) {
       method.owningModel = result;
@@ -107,8 +108,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   public void finishBuilding(FMethod francaMethod) {
 
     //collect methods
-    JavaMethod javaMethod = getFirstResult(javaBuilder.getResults(), JavaMethod.class);
-    CppMethod cppMethod = getFirstResult(stubBuilder.getResults(), CppMethod.class);
+    JavaMethod javaMethod = javaBuilder.getFirstResult(JavaMethod.class);
+    CppMethod cppMethod = stubBuilder.getFirstResult(CppMethod.class);
 
     JniMethod jniMethod = createJniMethod(javaMethod, cppMethod);
 
@@ -119,13 +120,5 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     storeResult(jniMethod);
     closeContext();
-  }
-
-  private static <T> T getFirstResult(List<? super T> list, Class<T> clazz) {
-    return list.stream().filter(clazz::isInstance).map(clazz::cast).findFirst().orElse(null);
-  }
-
-  private static <T> List<T> getAllResult(List<? super T> list, Class<T> clazz) {
-    return list.stream().filter(clazz::isInstance).map(clazz::cast).collect(Collectors.toList());
   }
 }

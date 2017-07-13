@@ -46,7 +46,7 @@ public class JavaGenerator {
 
     treeWalker.walk(anInterface);
 
-    return generateFilesForClass((JavaClass) modelBuilder.getResults().get(0));
+    return generateFilesForClass(modelBuilder.getFirstResult(JavaClass.class));
   }
 
   public List<GeneratedFile> generateFiles(
@@ -59,7 +59,7 @@ public class JavaGenerator {
 
     treeWalker.walk(typeCollection);
 
-    return generateFilesForClass((JavaClass) modelBuilder.getResults().get(0));
+    return generateFilesForClass(modelBuilder.getFirstResult(JavaClass.class));
   }
 
   private static List<GeneratedFile> generateFilesForClass(JavaClass javaClass) {

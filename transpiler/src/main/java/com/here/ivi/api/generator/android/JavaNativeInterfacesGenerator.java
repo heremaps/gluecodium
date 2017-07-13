@@ -77,10 +77,10 @@ public class JavaNativeInterfacesGenerator {
         new FrancaTreeWalker(Arrays.asList(javaBuilder, stubBuilder, jniBuilder));
     treeWalker.walk(anInterface);
 
-    JniModel jniModel = (JniModel) jniBuilder.getResults().get(0);
+    JniModel jniModel = jniBuilder.getFirstResult(JniModel.class);
     //convert data for template
-    JavaClass javaClass = (JavaClass) javaBuilder.getResults().get(0);
-    CppClass stubClass = (CppClass) stubBuilder.getResults().get(0);
+    JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
+    CppClass stubClass = stubBuilder.getFirstResult(CppClass.class);
 
     GeneratedFile jniHeader =
         new GeneratedFile(

@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.CElement;
@@ -233,8 +234,7 @@ public class CModelBuilderTest {
     contextStack.getCurrentContext().previousResults.add(element);
   }
 
-  private <T> List<T> getResults(Class<T> clazz) {
-    List<CElement> results = contextStack.getParentContext().previousResults;
-    return results.stream().filter(clazz::isInstance).map(clazz::cast).collect(toList());
+  private <T extends CElement> List<T> getResults(Class<T> clazz) {
+    return CollectionsHelper.getAllOfType(contextStack.getParentContext().previousResults, clazz);
   }
 }
