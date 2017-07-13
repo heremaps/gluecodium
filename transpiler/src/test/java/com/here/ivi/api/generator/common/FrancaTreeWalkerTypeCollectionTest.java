@@ -24,6 +24,8 @@ import java.util.Collections;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
+import org.franca.core.franca.FExpression;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FStructType;
@@ -53,10 +55,13 @@ public class FrancaTreeWalkerTypeCollectionTest {
   @Mock private FEnumerationType francaEnumerationType;
   @Mock private FMapType francaMapType;
   @Mock private FTypeDef francaTypeDef;
+  @Mock private FEnumerator francaEnumerator;
+  @Mock private FExpression francaExpression;
 
   private final ArrayEList<FConstantDef> constants = new ArrayEList<>();
   private final ArrayEList<FType> types = new ArrayEList<>();
   private final ArrayEList<FField> fields = new ArrayEList<>();
+  private final ArrayEList<FEnumerator> enumerators = new ArrayEList<>();
 
   private FrancaTreeWalker treeWalker;
 
@@ -68,6 +73,7 @@ public class FrancaTreeWalkerTypeCollectionTest {
 
     constants.add(francaConstant);
     fields.add(francaField);
+    enumerators.add(francaEnumerator);
 
     types.add(francaStructType);
     types.add(francaArrayType);
@@ -76,11 +82,14 @@ public class FrancaTreeWalkerTypeCollectionTest {
     types.add(francaTypeDef);
 
     when(typeCollection.getFrancaTypeCollection()).thenReturn(francaTypeCollection);
+
     when(francaTypeCollection.getConstants()).thenReturn(constants);
     when(francaTypeCollection.getTypes()).thenReturn(types);
 
     when(francaStructType.getElements()).thenReturn(fields);
     when(francaField.getType()).thenReturn(francaTypeRef);
+    when(francaEnumerationType.getEnumerators()).thenReturn(enumerators);
+    when(francaEnumerator.getValue()).thenReturn(francaExpression);
   }
 
   @Test
@@ -257,5 +266,34 @@ public class FrancaTreeWalkerTypeCollectionTest {
 
     verify(modelBuilder).startBuilding(francaTypeRef);
     verify(modelBuilder).finishBuilding(francaTypeRef);
+  }
+
+  @Test
+  public void walkWithOneEnumerator() {
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaEnumerator);
+    verify(modelBuilder).finishBuilding(francaEnumerator);
+  }
+
+  @Test
+  public void walkWithTwoEnumerators() {
+    FEnumerator anotherFrancaEnumerator = mock(FEnumerator.class);
+    enumerators.add(anotherFrancaEnumerator);
+
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaEnumerator);
+    verify(modelBuilder).finishBuilding(francaEnumerator);
+    verify(modelBuilder).startBuilding(anotherFrancaEnumerator);
+    verify(modelBuilder).finishBuilding(anotherFrancaEnumerator);
+  }
+
+  @Test
+  public void walkWithExpression() {
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaExpression);
+    verify(modelBuilder).finishBuilding(francaExpression);
   }
 }

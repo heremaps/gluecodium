@@ -18,6 +18,8 @@ import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
+import org.franca.core.franca.FExpression;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
@@ -102,6 +104,16 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
+  public void startBuilding(FEnumerator francaEnumerator) {
+    openContext();
+  }
+
+  @Override
+  public void startBuilding(FExpression francaExpression) {
+    openContext();
+  }
+
+  @Override
   public void finishBuilding(FInterface francaInterface) {
     closeContext();
   }
@@ -163,6 +175,16 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   @Override
   public void finishBuilding(FEnumerationType francaEnumerationType) {
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FEnumerator francaEnumerator) {
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FExpression francaExpression) {
     closeContext();
   }
 
