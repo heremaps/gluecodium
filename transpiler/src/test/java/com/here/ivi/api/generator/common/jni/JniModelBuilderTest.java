@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.jni;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.baseapi.StubModelBuilder;
@@ -200,8 +201,8 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFMethodVoid() {
     //arrange
-    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(createJavaMethodVoid()));
-    when(stubBuilder.getResults()).thenReturn(Collections.singletonList(createCppMethodVoid()));
+    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodVoid());
+    when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodVoid());
 
     JniModelBuilder correspondenceBuilder =
         new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
@@ -220,8 +221,8 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFMethodInt() {
     //arrange
-    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(createJavaMethodInt()));
-    when(stubBuilder.getResults()).thenReturn(Collections.singletonList(createCppMethodInt()));
+    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodInt());
+    when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodInt());
 
     JniModelBuilder correspondenceBuilder =
         new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
@@ -240,8 +241,8 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFMethodString() {
     //arrange
-    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(createJavaMethodString()));
-    when(stubBuilder.getResults()).thenReturn(Collections.singletonList(createCppMethodString()));
+    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodString());
+    when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodString());
 
     JniModelBuilder correspondenceBuilder =
         new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
@@ -262,9 +263,8 @@ public class JniModelBuilderTest {
     //arrange
     JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(javaClass));
-    when(stubBuilder.getResults())
-        .thenReturn(Collections.singletonList(new CppClass(CPP_CLASS_NAME)));
+    when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
+    when(stubBuilder.getFirstResult(any())).thenReturn(new CppClass(CPP_CLASS_NAME));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     JniModelBuilder correspondenceBuilder =
@@ -284,9 +284,8 @@ public class JniModelBuilderTest {
     injectResult(createJniMethodVoid(null));
     JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(javaClass));
-    when(stubBuilder.getResults())
-        .thenReturn(Collections.singletonList(new CppClass(CPP_CLASS_NAME)));
+    when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
+    when(stubBuilder.getFirstResult(any())).thenReturn(new CppClass(CPP_CLASS_NAME));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     JniModelBuilder correspondenceBuilder =
@@ -308,9 +307,8 @@ public class JniModelBuilderTest {
     injectResult(createJniMethodString(null));
     JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(javaClass));
-    when(stubBuilder.getResults())
-        .thenReturn(Collections.singletonList(new CppClass(CPP_CLASS_NAME)));
+    when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
+    when(stubBuilder.getFirstResult(any())).thenReturn(new CppClass(CPP_CLASS_NAME));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     JniModelBuilder correspondenceBuilder =

@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
@@ -167,6 +168,12 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   public List<E> getResults() {
     return resultContext != null ? resultContext.currentResults : Collections.emptyList();
+  }
+
+  public <T extends E> T getFirstResult(final Class<T> clazz) {
+    return resultContext != null
+        ? CollectionsHelper.getFirstOfType(resultContext.currentResults, clazz)
+        : null;
   }
 
   protected final void openContext() {

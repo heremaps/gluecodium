@@ -16,6 +16,7 @@ import static java.lang.Math.toIntExact;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
@@ -64,12 +65,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   public void finishBuilding(FInterface francaInterface) {
     CInterface cInterface = new CInterface();
     cInterface.functions =
-        getCurrentContext()
-            .previousResults
-            .stream()
-            .filter(CFunction.class::isInstance)
-            .map(CFunction.class::cast)
-            .collect(toList());
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CFunction.class);
+
     cInterface.headerIncludes = collectHeaderIncludes(cInterface);
     cInterface.implementationIncludes = collectImplementationIncludes(cInterface);
     storeResult(cInterface);
@@ -87,22 +84,14 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     String baseFunctionName = cBridgeNameRules.getMethodName(rootModel, francaMethod);
     String delegateMethodName = cBridgeNameRules.getDelegateMethodName(rootModel, francaMethod);
 
-    List<CParameter> inParams =
-        getCurrentContext()
-            .previousResults
-            .stream()
-            .filter(CInParameter.class::isInstance)
-            .map(CParameter.class::cast)
-            .collect(toList());
+    List<CInParameter> inParams =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CInParameter.class);
+
     // TODO handle multiple return values
     COutParameter returnParam =
-        getCurrentContext()
-            .previousResults
-            .stream()
-            .filter(COutParameter.class::isInstance)
-            .map(COutParameter.class::cast)
-            .findFirst()
-            .orElse(new COutParameter());
+        CollectionsHelper.getFirstOfType(
+            getCurrentContext().previousResults, COutParameter.class, new COutParameter());
+
     CFunction mainCallFunction =
         createMainFunction(inParams, baseFunctionName, delegateMethodName, returnParam);
 
@@ -178,7 +167,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   }
 
   private CFunction createMainFunction(
-      List<CParameter> params,
+      List<CInParameter> params,
       String baseFunctionName,
       String delegateMethodName,
       CParameter returnValue) {

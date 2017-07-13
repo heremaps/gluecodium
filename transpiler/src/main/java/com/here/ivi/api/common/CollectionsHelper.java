@@ -9,12 +9,14 @@
  *
  */
 
-package com.here.ivi.api.model.common;
+package com.here.ivi.api.common;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class CollectionsHelper {
+public final class CollectionsHelper {
 
   public static <T> boolean areEqual(Collection<T> a, Collection<T> b) {
     if (a == null && b == null) {
@@ -36,5 +38,24 @@ public class CollectionsHelper {
     }
 
     return a.equals(b);
+  }
+
+  public static <T> List<T> getAllOfType(
+      final Collection<? super T> collection, final Class<T> clazz) {
+    return getStreamOfType(collection, clazz).collect(Collectors.toList());
+  }
+
+  public static <T> T getFirstOfType(
+      final Collection<? super T> collection, final Class<T> clazz, final T defaultValue) {
+    return getStreamOfType(collection, clazz).findFirst().orElse(defaultValue);
+  }
+
+  public static <T> T getFirstOfType(final Collection<? super T> collection, final Class<T> clazz) {
+    return getFirstOfType(collection, clazz, null);
+  }
+
+  private static <T> Stream<T> getStreamOfType(
+      final Collection<? super T> collection, final Class<T> clazz) {
+    return collection.stream().filter(clazz::isInstance).map(clazz::cast);
   }
 }
