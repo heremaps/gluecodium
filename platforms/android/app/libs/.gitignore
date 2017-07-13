@@ -1,1 +1,3 @@
 *.aar
+*.dylib
+*.so
