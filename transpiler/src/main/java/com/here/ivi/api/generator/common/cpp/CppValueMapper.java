@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.cpp.templates.CppConstantTemplate;
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.DefinedBy;
@@ -133,6 +133,6 @@ public class CppValueMapper {
 
     // TODO add ns resolution for referenced name
     // just use the name of the type and include the defining type
-    return new CppValue(name, new Includes.LazyInternalInclude(referenceDefiner));
+    return new CppValue(name, new LazyInternalInclude(referenceDefiner));
   }
 }

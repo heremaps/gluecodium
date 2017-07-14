@@ -11,11 +11,14 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.model.common.Includes;
-import java.util.*;
+import com.here.ivi.api.model.common.Include;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CppElementWithIncludes extends CppElement {
-  public Set<Includes.Include> includes = Collections.emptySet();
+  public Set<Include> includes = Collections.emptySet();
 
   public CppElementWithIncludes(final String name) {
     super(name);
@@ -27,7 +30,7 @@ public class CppElementWithIncludes extends CppElement {
     this.includes = new HashSet<>();
   }
 
-  public CppElementWithIncludes(final String name, final Collection<Includes.Include> includes) {
+  public CppElementWithIncludes(final String name, final Collection<Include> includes) {
     super(name);
     this.includes = new HashSet<>(includes);
   }

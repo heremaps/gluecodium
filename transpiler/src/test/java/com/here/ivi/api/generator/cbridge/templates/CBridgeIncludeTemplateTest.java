@@ -12,8 +12,10 @@
 package com.here.ivi.api.generator.cbridge.templates;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -23,7 +25,7 @@ public class CBridgeIncludeTemplateTest {
 
   @Test
   public void systemInclude() {
-    Includes.Include include = new Includes.SystemInclude("header.h");
+    Include include = Include.createSystemInclude("header.h");
     String expected = "#include <header.h>";
 
     String generated = CBridgeIncludeTemplate.generate(include).toString();
@@ -33,7 +35,7 @@ public class CBridgeIncludeTemplateTest {
 
   @Test
   public void projectInclude() {
-    Includes.Include include = new Includes.InternalPublicInclude("header.h");
+    Include include = Include.createInternalInclude("header.h");
     String expected = "#include \"header.h\"";
 
     String generated = CBridgeIncludeTemplate.generate(include).toString();
@@ -41,21 +43,14 @@ public class CBridgeIncludeTemplateTest {
     assertEquals(expected, generated);
   }
 
-  private static class TestIncludeClass implements Includes.Include {
-    @Override
-    public String toString() {
-      return "TEST_INCLUDE";
-    }
-  }
-
   @Test
   public void unknownTypeInclude() {
-    Includes.Include include = new TestIncludeClass();
-    String className = "class " + include.getClass().getName();
-    String expected = "// Unknown or unresolved include TEST_INCLUDE of " + className;
+    Include include = mock(Include.class);
+    when(include.toString()).thenReturn("TEST_INCLUDE");
 
     String generated = CBridgeIncludeTemplate.generate(include).toString();
 
+    final String expected = "// Unknown or unresolved include TEST_INCLUDE";
     assertEquals(expected, generated);
   }
 }

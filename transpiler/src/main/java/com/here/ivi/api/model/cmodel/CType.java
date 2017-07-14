@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cmodel;
 
 import static java.util.Collections.singletonList;
 
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -21,10 +21,9 @@ import java.util.Set;
 
 /** Base class for all C types */
 public class CType extends CElement {
-  private static final Includes.SystemInclude FIXED_WIDTH_INTEGERS_INCLUDE =
-      new Includes.SystemInclude("stdint.h");
-  private static final Includes.SystemInclude BOOL_INCLUDE =
-      new Includes.SystemInclude("stdbool.h");
+  private static final Include FIXED_WIDTH_INTEGERS_INCLUDE =
+      Include.createSystemInclude("stdint.h");
+  private static final Include BOOL_INCLUDE = Include.createSystemInclude("stdbool.h");
 
   public static final CType VOID = new CType("void");
   public static final CType CHAR = new CType("char");
@@ -48,13 +47,13 @@ public class CType extends CElement {
   public static final CType DOUBLE = new CType("double");
 
   public Boolean isConst = false;
-  public Set<Includes.Include> includes = Collections.emptySet();
+  public Set<Include> includes = Collections.emptySet();
 
   public CType(String name) {
     super(name);
   }
 
-  public CType(String name, List<Includes.Include> includes) {
+  public CType(String name, List<Include> includes) {
     super(name);
     this.includes = new HashSet<>(includes);
   }

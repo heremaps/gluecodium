@@ -13,7 +13,8 @@ package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
 import java.util.Objects;
@@ -40,12 +41,12 @@ public class CppIncludeResolver {
             .stream()
             .map(
                 include -> {
-                  if (include instanceof Includes.LazyInternalInclude) {
+                  if (include instanceof LazyInternalInclude) {
 
-                    Includes.LazyInternalInclude li = (Includes.LazyInternalInclude) include;
+                    LazyInternalInclude li = (LazyInternalInclude) include;
 
                     Optional<? extends FrancaElement<?>> externalDefinitionOpt =
-                        rootModel.find(li.model, li.tc);
+                        rootModel.find(li.model, li.typeCollection);
                     if (!externalDefinitionOpt.isPresent()) {
                       throw new TranspilerExecutionException(
                           String.format("Could not resolve type collection include %s.", li));
@@ -60,7 +61,7 @@ public class CppIncludeResolver {
                     }
 
                     // TODO think about relative include path resolution and stuff
-                    return new Includes.InternalPublicInclude(includeName);
+                    return Include.createInternalInclude(includeName);
                   }
 
                   return include;

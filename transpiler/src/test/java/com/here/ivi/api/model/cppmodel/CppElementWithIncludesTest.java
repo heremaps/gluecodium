@@ -17,8 +17,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.model.common.Includes.Include;
-import com.here.ivi.api.model.common.Includes.SystemInclude;
+import com.here.ivi.api.model.common.Include;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Test;
@@ -31,8 +30,8 @@ public final class CppElementWithIncludesTest {
   private static final String TEST_NAME = "my_name";
 
   static {
-    TEST_INCLUDES.add(new SystemInclude("file1"));
-    TEST_INCLUDES.add(new SystemInclude("file2"));
+    TEST_INCLUDES.add(Include.createSystemInclude("file1"));
+    TEST_INCLUDES.add(Include.createSystemInclude("file2"));
   }
 
   @Test

@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import static java.util.Arrays.asList;
 
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import java.util.Collection;
 
 public class CppValue extends CppElementWithIncludes {
@@ -26,11 +26,11 @@ public class CppValue extends CppElementWithIncludes {
     super(value);
   }
 
-  public CppValue(String value, Includes.Include... includes) {
+  public CppValue(String value, Include... includes) {
     super(value, asList(includes));
   }
 
-  public CppValue(String value, Collection<Includes.Include> includes) {
+  public CppValue(String value, Collection<Include> includes) {
     super(value, includes);
   }
 

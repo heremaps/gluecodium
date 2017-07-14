@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
 import com.here.ivi.api.model.cmodel.CInterface
 import com.here.ivi.api.model.cmodel.CFunction
 import com.here.ivi.api.model.cmodel.CType
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cmodel.CParameter
 import org.junit.rules.TemporaryFolder
 import org.junit.Rule
@@ -31,7 +31,7 @@ class CBridgeImplementationTemplateTest {
     @Test
     def systemInclude() {
         val cInterface = new CInterface() => [
-            implementationIncludes = #{new Includes.SystemInclude("header.h")}
+            implementationIncludes = #{Include.createSystemInclude("header.h")}
         ]
         val expected = '''
             #include <header.h>
@@ -45,7 +45,7 @@ class CBridgeImplementationTemplateTest {
     @Test
     def projectInclude() {
         val cInterface = new CInterface() => [
-            implementationIncludes = #{new Includes.InternalPublicInclude("header.h")}
+            implementationIncludes = #{Include.createInternalInclude("header.h")}
         ]
         val expected = '''
             #include "header.h"

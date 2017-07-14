@@ -11,16 +11,13 @@
 
 package com.here.ivi.api.generator.cbridge.templates
 
-import com.here.ivi.api.model.common.Includes
+import com.here.ivi.api.model.common.Include
 
 class CBridgeIncludeTemplate {
 
-    static def generate(Includes.Include incl) '''
-    «
-    switch (incl) {
-        Includes.SystemInclude : '''#include <«incl.file»>'''
-        Includes.InternalPublicInclude : '''#include "«incl.file»"'''
-        default: '''// Unknown or unresolved include «incl» of «incl.class»'''
-    }
-    »'''
+  static def generate(Include incl)
+  '''«IF incl.fileName === null»
+  // Unknown or unresolved include «incl»«ELSE»«IF incl.isSystem»
+  #include <«incl.fileName»>«ELSE»
+  #include "«incl.fileName»"«ENDIF»«ENDIF»'''
 }

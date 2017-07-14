@@ -15,8 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
-import com.here.ivi.api.model.common.Includes;
-import com.here.ivi.api.model.common.Includes.InternalPublicInclude;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import java.util.Arrays;
@@ -86,8 +85,8 @@ public class JniImplementationTemplateTest {
 
   private JniModel jniModel;
 
-  private final List<InternalPublicInclude> jniIncludes =
-      Arrays.asList(new InternalPublicInclude("stub/libhello/TestClassStub.h"));
+  private final List<Include> jniIncludes =
+      Collections.singletonList(Include.createInternalInclude("stub/libhello/TestClassStub.h"));
   private final String copyrightNotice =
       "/*\n"
           + " * Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights "
@@ -137,10 +136,10 @@ public class JniImplementationTemplateTest {
 
   @Test
   public void generateWithMultipleIncludes() {
-    List<Includes.InternalPublicInclude> includesList =
+    List<Include> includesList =
         Arrays.asList(
-            new InternalPublicInclude("jni_header.h"),
-            new InternalPublicInclude("base_api_header.h"));
+            Include.createInternalInclude("jni_header.h"),
+            Include.createInternalInclude("base_api_header.h"));
 
     String generatedImplementation = JniImplementationTemplate.generate(jniModel, includesList);
 

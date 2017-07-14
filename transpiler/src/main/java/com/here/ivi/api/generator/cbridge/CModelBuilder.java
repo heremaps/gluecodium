@@ -28,7 +28,7 @@ import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.cmodel.CPointerType;
 import com.here.ivi.api.model.cmodel.CType;
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.Interface;
 import java.util.Collections;
 import java.util.HashSet;
@@ -195,10 +195,10 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         .toString();
   }
 
-  private Set<Includes.Include> collectImplementationIncludes(CInterface cInterface) {
-    Set<Includes.Include> includes = new HashSet<>();
-    includes.add(new Includes.InternalPublicInclude(cBridgeNameRules.getHeaderFileName(rootModel)));
-    includes.add(new Includes.SystemInclude(CppNameRules.getHeaderPath(rootModel)));
+  private Set<Include> collectImplementationIncludes(CInterface cInterface) {
+    Set<Include> includes = new HashSet<>();
+    includes.add(Include.createInternalInclude(cBridgeNameRules.getHeaderFileName(rootModel)));
+    includes.add(Include.createSystemInclude(CppNameRules.getHeaderPath(rootModel)));
 
     for (CFunction function : cInterface.functions) {
       for (TypeConverter.TypeConversion conversion : function.conversions) {
@@ -213,8 +213,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     return includes;
   }
 
-  private Set<Includes.Include> collectHeaderIncludes(CInterface cInterface) {
-    Set<Includes.Include> includes = new HashSet<>();
+  private Set<Include> collectHeaderIncludes(CInterface cInterface) {
+    Set<Include> includes = new HashSet<>();
 
     for (CFunction function : cInterface.functions) {
       for (CParameter param : function.parameters) {

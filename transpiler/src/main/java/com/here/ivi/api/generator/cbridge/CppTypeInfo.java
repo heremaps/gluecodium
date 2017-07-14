@@ -17,7 +17,7 @@ import static java.util.Collections.singletonList;
 
 import com.here.ivi.api.model.cmodel.CPointerType;
 import com.here.ivi.api.model.cmodel.CType;
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ public class CppTypeInfo {
   public static final CppTypeInfo STRING =
       new CppTypeInfo(
           "std::string",
-          singletonList(new Includes.SystemInclude("string")),
+          singletonList(Include.createSystemInclude("string")),
           "const char",
           emptyList(),
           "std::string(%1$s)",
@@ -34,7 +34,7 @@ public class CppTypeInfo {
           singletonList(""),
           "new std::string(std::move(%1$s))",
           Arrays.asList(
-              new Includes.SystemInclude("string"), new Includes.SystemInclude("utility")),
+              Include.createSystemInclude("string"), Include.createSystemInclude("utility")),
           CPointerType.VOID_PTR,
           "%1$s->c_str()",
           "%1$s->length()");
@@ -42,17 +42,17 @@ public class CppTypeInfo {
   static final CppTypeInfo BYTE_VECTOR =
       new CppTypeInfo(
           "std::vector<uint8_t>",
-          singletonList(new Includes.SystemInclude("vector")),
+          singletonList(Include.createSystemInclude("vector")),
           "uint8_t",
-          singletonList(new Includes.SystemInclude("stdint.h")),
+          singletonList(Include.createSystemInclude("stdint.h")),
           "std::vector<uint8_t>(%1$s, %1$s + %2$s)",
           asList(CPointerType.makeConstPointer(CType.UINT8), CType.INT64),
           asList("_ptr", "_size"),
           "new std::vector<uint8_t>(std::move(%1$s))",
           Arrays.asList(
-              new Includes.SystemInclude("vector"),
-              new Includes.SystemInclude("stdint.h"),
-              new Includes.SystemInclude("utility")),
+              Include.createSystemInclude("vector"),
+              Include.createSystemInclude("stdint.h"),
+              Include.createSystemInclude("utility")),
           CPointerType.VOID_PTR,
           "&(*%1$s)[0]",
           "%1$s->size()");
@@ -62,24 +62,24 @@ public class CppTypeInfo {
   public final String constructFromCExpr;
   public final List<CType> cTypesNeededByConstructor;
   public final List<String> paramSuffixes;
-  public final List<Includes.Include> baseTypeIncludes;
-  public final List<Includes.Include> heldTypeIncludes;
+  public final List<Include> baseTypeIncludes;
+  public final List<Include> heldTypeIncludes;
   public final String returnValueConstrExpr;
-  public final List<Includes.Include> returnConversionIncludes;
+  public final List<Include> returnConversionIncludes;
   public final CType functionReturnType;
   public final String getDataExpr;
   public final String getSizeExpr;
 
   private CppTypeInfo(
       String baseType,
-      List<Includes.Include> baseTypeIncludes,
+      List<Include> baseTypeIncludes,
       String heldType,
-      List<Includes.Include> heldTypeIncludes,
+      List<Include> heldTypeIncludes,
       String constructFromCExpr,
       List<CType> constructFromCTypes,
       List<String> paramSuffixes,
       String returnValueConstrExpr,
-      List<Includes.Include> returnConversionIncludes,
+      List<Include> returnConversionIncludes,
       CType functionReturntype,
       String getDataExpr,
       String getSizeExpr) {

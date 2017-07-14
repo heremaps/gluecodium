@@ -11,9 +11,20 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
-import com.here.ivi.api.generator.common.cpp.templates.*;
-import com.here.ivi.api.model.common.Includes;
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.generator.common.cpp.templates.CppClassTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.CppConstantTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.CppEnumTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.CppIncludeTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.CppNamespaceTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.CppPureStructTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.CppTypeDefTemplate;
+import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cppmodel.CppClass;
+import com.here.ivi.api.model.cppmodel.CppConstant;
+import com.here.ivi.api.model.cppmodel.CppEnum;
+import com.here.ivi.api.model.cppmodel.CppNamespace;
+import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.cppmodel.CppTypeDef;
 
 public class CppTemplateDelegator {
   public CharSequence generate(CppNamespace ns) {
@@ -40,7 +51,7 @@ public class CppTemplateDelegator {
     return CppClassTemplate.generate(cppClass);
   }
 
-  public CharSequence generate(Includes.Include include) {
+  public CharSequence generate(Include include) {
     return CppIncludeTemplate.generate(include);
   }
 }

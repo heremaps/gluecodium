@@ -11,15 +11,15 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 
 public class CppLibraryIncludes {
 
-  public static final Includes.SystemInclude INT_TYPES = new Includes.SystemInclude("cstdint");
-  public static final Includes.SystemInclude LIMITS = new Includes.SystemInclude("limits");
-  public static final Includes.SystemInclude MAP = new Includes.SystemInclude("map");
-  public static final Includes.SystemInclude MEMORY = new Includes.SystemInclude("memory");
-  public static final Includes.SystemInclude SET = new Includes.SystemInclude("set");
-  public static final Includes.SystemInclude STRING = new Includes.SystemInclude("string");
-  public static final Includes.SystemInclude VECTOR = new Includes.SystemInclude("vector");
+  public static final Include INT_TYPES = Include.createSystemInclude("cstdint");
+  public static final Include LIMITS = Include.createSystemInclude("limits");
+  public static final Include MAP = Include.createSystemInclude("map");
+  public static final Include MEMORY = Include.createSystemInclude("memory");
+  public static final Include SET = Include.createSystemInclude("set");
+  public static final Include STRING = Include.createSystemInclude("string");
+  public static final Include VECTOR = Include.createSystemInclude("vector");
 }

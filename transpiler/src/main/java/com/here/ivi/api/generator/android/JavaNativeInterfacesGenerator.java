@@ -21,8 +21,7 @@ import com.here.ivi.api.generator.common.jni.JniModelBuilder;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
-import com.here.ivi.api.model.common.Includes;
-import com.here.ivi.api.model.common.Includes.InternalPublicInclude;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
@@ -50,17 +49,19 @@ public class JavaNativeInterfacesGenerator {
     this.additionalIncludes = additionalIncludes;
   }
 
-  private List<Includes.InternalPublicInclude> getIncludes(
+  private List<Include> getIncludes(
       final Interface<InterfacePropertyAccessor> api, final JavaClass javaClass) {
-    Includes.InternalPublicInclude jniHeaderInclude =
-        new InternalPublicInclude(JniNameRules.getHeaderFileName(javaClass));
-    Includes.InternalPublicInclude baseApiHeaderInclude =
-        new InternalPublicInclude(CppNameRules.getHeaderPath(api));
+    Include jniHeaderInclude =
+        Include.createInternalInclude(JniNameRules.getHeaderFileName(javaClass));
+    Include baseApiHeaderInclude = Include.createInternalInclude(CppNameRules.getHeaderPath(api));
 
-    List<Includes.InternalPublicInclude> includes =
+    List<Include> includes =
         new LinkedList<>(Arrays.asList(jniHeaderInclude, baseApiHeaderInclude));
     includes.addAll(
-        additionalIncludes.stream().map(InternalPublicInclude::new).collect(Collectors.toList()));
+        additionalIncludes
+            .stream()
+            .map(Include::createInternalInclude)
+            .collect(Collectors.toList()));
 
     return includes;
   }
