@@ -22,11 +22,10 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.franca.Interface;
-import java.util.ArrayList;
+import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
 import java.util.Objects;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
@@ -34,7 +33,6 @@ import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -47,8 +45,7 @@ public class CModelBuilderTest {
   private static final String DELEGATE_NAME = "DELEGATE_NAME";
   private static final String PARAM_NAME = "inputParam";
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private ModelBuilderContextStack<CElement> contextStack;
+  private MockContextStack<CElement> contextStack = new MockContextStack<>();
 
   @Mock private CBridgeNameRules cBridgeNameRules;
   @Mock private Interface<InterfacePropertyAccessor> anInterface;
@@ -74,9 +71,6 @@ public class CModelBuilderTest {
     when(CTypeMapper.mapType(any())).thenReturn(cppTypeInfo);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
 
-    contextStack.getCurrentContext().currentResults = new ArrayList<>();
-    contextStack.getCurrentContext().previousResults = new ArrayList<>();
-    contextStack.getParentContext().previousResults = new ArrayList<>();
     modelBuilder = new CModelBuilder(anInterface, cBridgeNameRules, contextStack);
   }
 
@@ -137,7 +131,7 @@ public class CModelBuilderTest {
   public void finishBuildingCreatesMethodWithParam() {
     CInParameter param = new CInParameter(PARAM_NAME, CType.DOUBLE);
     param.conversion = TypeConverter.identity(param);
-    injectResult(param);
+    contextStack.injectResult(param);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -153,8 +147,8 @@ public class CModelBuilderTest {
 
   @Test
   public void conversionsAreCreatedForParamsWhenNonParamHasOne() {
-    injectResult(new CInParameter(PARAM_NAME, CType.DOUBLE));
-    injectResult(new CInParameter(PARAM_NAME + "2", CType.BOOL));
+    contextStack.injectResult(new CInParameter(PARAM_NAME, CType.DOUBLE));
+    contextStack.injectResult(new CInParameter(PARAM_NAME + "2", CType.BOOL));
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -167,8 +161,8 @@ public class CModelBuilderTest {
 
   @Test
   public void createdConversionsArePresentInDelegateCall() {
-    injectResult(new CInParameter(PARAM_NAME, CType.DOUBLE));
-    injectResult(new CInParameter(PARAM_NAME + "2", CType.BOOL));
+    contextStack.injectResult(new CInParameter(PARAM_NAME, CType.DOUBLE));
+    contextStack.injectResult(new CInParameter(PARAM_NAME + "2", CType.BOOL));
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -181,7 +175,7 @@ public class CModelBuilderTest {
   @Test
   public void createFourFunctionsForReturningString() {
     COutParameter returnVal = new COutParameter("result", CppTypeInfo.STRING);
-    injectResult(returnVal);
+    contextStack.injectResult(returnVal);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -196,7 +190,7 @@ public class CModelBuilderTest {
   @Test
   public void createFourFunctionsForReturningByteBuffer() {
     COutParameter returnVal = new COutParameter("result", CppTypeInfo.BYTE_VECTOR);
-    injectResult(returnVal);
+    contextStack.injectResult(returnVal);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -211,7 +205,7 @@ public class CModelBuilderTest {
   @Test
   public void finishBuildingCreatesInterface() {
     CFunction function = new CFunction.Builder("SomeName").build();
-    injectResult(function);
+    contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaInterface);
 
@@ -226,8 +220,8 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingStructContainsFields() {
-    injectResult(new CField("field1"));
-    injectResult(new CField("field2"));
+    contextStack.injectResult(new CField("field1"));
+    contextStack.injectResult(new CField("field2"));
 
     modelBuilder.finishBuilding(francaStruct);
 
@@ -241,7 +235,7 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingInterfaceContainsStructs() {
-    injectResult(new CStruct("structor"));
+    contextStack.injectResult(new CStruct("structor"));
 
     modelBuilder.finishBuilding(francaInterface);
 
@@ -260,10 +254,6 @@ public class CModelBuilderTest {
     List<CField> fields = getResults(CField.class);
     assertEquals(1, fields.size());
     assertEquals("field", fields.get(0).name);
-  }
-
-  private void injectResult(CElement element) {
-    contextStack.getCurrentContext().previousResults.add(element);
   }
 
   private <T extends CElement> List<T> getResults(Class<T> clazz) {

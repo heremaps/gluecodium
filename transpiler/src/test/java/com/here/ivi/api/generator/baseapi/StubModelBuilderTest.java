@@ -23,7 +23,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
-import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.cpp.CppValueMapper;
@@ -43,7 +42,7 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.ArrayEList;
-import java.util.ArrayList;
+import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
@@ -64,7 +63,6 @@ import org.franca.core.franca.FTypedElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
@@ -94,8 +92,7 @@ public class StubModelBuilderTest {
   private static final String FIELD_NAME = "flowers";
   private static final String CONSTANT_NAME = "permanent";
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private ModelBuilderContextStack<CppElement> contextStack;
+  private MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
   @Mock private FrancaElement<BaseApiSpec.IDataPropertyAccessor> rootModel;
   @Mock private BaseApiSpec.IDataPropertyAccessor propertyAccessor;
@@ -124,10 +121,6 @@ public class StubModelBuilderTest {
   private final CppEnum cppEnum = new CppEnum("innumerable");
   private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
 
-  private void injectResult(CppElement element) {
-    contextStack.getCurrentContext().previousResults.add(element);
-  }
-
   @Before
   public void setUp() {
     PowerMockito.mockStatic(
@@ -142,10 +135,6 @@ public class StubModelBuilderTest {
     MockitoAnnotations.initMocks(this);
 
     modelBuilder = new StubModelBuilder(contextStack, rootModel);
-
-    contextStack.getCurrentContext().currentResults = new ArrayList<>();
-    contextStack.getCurrentContext().previousResults = new ArrayList<>();
-    contextStack.getParentContext().previousResults = new ArrayList<>();
 
     when(rootModel.getPropertyAccessor()).thenReturn(propertyAccessor);
 
@@ -186,7 +175,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsMethods() {
-    injectResult(cppMethod);
+    contextStack.injectResult(cppMethod);
 
     modelBuilder.finishBuilding(francaInterface);
 
@@ -198,7 +187,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsStructs() {
-    injectResult(cppStruct);
+    contextStack.injectResult(cppStruct);
 
     modelBuilder.finishBuilding(francaInterface);
 
@@ -234,7 +223,7 @@ public class StubModelBuilderTest {
   public void finishBuildingFrancaMethodReadsInputParameters() {
     CppParameter cppParameter = new CppParameter();
     cppParameter.name = "flowers";
-    injectResult(cppParameter);
+    contextStack.injectResult(cppParameter);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -272,7 +261,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionReadsStructs() {
-    injectResult(cppStruct);
+    contextStack.injectResult(cppStruct);
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
@@ -284,7 +273,7 @@ public class StubModelBuilderTest {
   public void finishBuildingFrancaTypeCollectionReadsTypeDefs() {
     CppTypeDef cppTypeDef = new CppTypeDef();
     cppTypeDef.name = TYPE_DEF_NAME;
-    injectResult(cppTypeDef);
+    contextStack.injectResult(cppTypeDef);
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
@@ -294,7 +283,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionReadsEnums() {
-    injectResult(cppEnum);
+    contextStack.injectResult(cppEnum);
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
@@ -305,7 +294,7 @@ public class StubModelBuilderTest {
   @Test
   public void finishBuildingFrancaTypeCollectionReadsConstants() {
     final CppConstant cppConstant = new CppConstant(CONSTANT_NAME, cppCustomType, cppValue);
-    injectResult(cppConstant);
+    contextStack.injectResult(cppConstant);
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
@@ -349,7 +338,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsType() {
-    injectResult(cppCustomType);
+    contextStack.injectResult(cppCustomType);
 
     modelBuilder.finishBuilding(francaField);
 
@@ -370,7 +359,7 @@ public class StubModelBuilderTest {
   @Test
   public void finishBuildingFrancaStructTypeReadsFields() {
     final CppField cppField = new CppField(cppCustomType, FIELD_NAME);
-    injectResult(cppField);
+    contextStack.injectResult(cppField);
 
     modelBuilder.finishBuilding(francaStructType);
 

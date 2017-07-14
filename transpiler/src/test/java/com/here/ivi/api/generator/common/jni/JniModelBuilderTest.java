@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.baseapi.StubModelBuilder;
-import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
@@ -36,7 +35,7 @@ import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
-import java.util.ArrayList;
+import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +48,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -88,8 +86,7 @@ public class JniModelBuilderTest {
 
   private static final String BASE_NAME_PARAMETER = "theParam";
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private ModelBuilderContextStack<JniElement> contextStack;
+  private MockContextStack<JniElement> contextStack = new MockContextStack<>();
 
   private JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null, null);
 
@@ -98,19 +95,10 @@ public class JniModelBuilderTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-
     modelBuilder = new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-
-    contextStack.getCurrentContext().currentResults = new ArrayList<>();
-    contextStack.getCurrentContext().previousResults = new ArrayList<>();
-    contextStack.getParentContext().previousResults = new ArrayList<>();
 
     when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
     when(stubBuilder.getFirstResult(any())).thenReturn(cppClass);
-  }
-
-  private void injectResult(JniElement element) {
-    contextStack.getCurrentContext().previousResults.add(element);
   }
 
   private static JavaMethod createJavaMethodVoid() {
@@ -217,7 +205,7 @@ public class JniModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsJniParameters() {
-    injectResult(jniParameter);
+    contextStack.injectResult(jniParameter);
     when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodInt());
     when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodInt());
 
@@ -246,7 +234,7 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFInterfaceWithSingleMethod() {
     //arrange model builders returning classes and inject some former processed methods
-    injectResult(createJniMethodVoid(null));
+    contextStack.injectResult(createJniMethodVoid(null));
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
@@ -262,8 +250,8 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFInterfaceWithMultipleMethods() {
     //arrange model builders returning classes and inject some former processed methods
-    injectResult(createJniMethodVoid(null));
-    injectResult(createJniMethodString(null));
+    contextStack.injectResult(createJniMethodVoid(null));
+    contextStack.injectResult(createJniMethodString(null));
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
@@ -282,7 +270,7 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsStructs() {
     JniStruct jniStruct = new JniStruct(javaClass, new CppStruct(CPP_CLASS_NAME), null);
-    injectResult(jniStruct);
+    contextStack.injectResult(jniStruct);
 
     modelBuilder.finishBuilding(francaInterface);
 
@@ -329,7 +317,7 @@ public class JniModelBuilderTest {
         new JniField(
             new JavaField(javaCustomType, BASE_NAME_PARAMETER),
             new CppField(cppCustomType, BASE_NAME_PARAMETER));
-    injectResult(jniField);
+    contextStack.injectResult(jniField);
     when(javaBuilder.getFirstResult(any())).thenReturn(null);
     when(stubBuilder.getFirstResult(any())).thenReturn(null);
 
