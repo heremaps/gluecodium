@@ -23,6 +23,7 @@ public final class TemplateEngine {
     ENGINE =
         MustacheEngineBuilder.newBuilder()
             .addTemplateLocator(new ClassPathTemplateLocator(1, "templates", "mustache"))
+            .setProperty("org.trimou.engine.config.skipValueEscaping", true)
             .build();
   }
 

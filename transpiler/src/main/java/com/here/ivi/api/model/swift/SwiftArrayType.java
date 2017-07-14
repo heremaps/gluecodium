@@ -14,11 +14,6 @@ package com.here.ivi.api.model.swift;
 public class SwiftArrayType extends SwiftType {
 
   public SwiftArrayType(String name) {
-    super(name);
-  }
-
-  @Override
-  public String toString() {
-    return "[" + name + "]";
+    super("[" + name + "]");
   }
 }

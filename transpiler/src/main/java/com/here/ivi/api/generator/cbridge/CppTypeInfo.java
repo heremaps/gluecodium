@@ -27,7 +27,7 @@ public class CppTypeInfo {
       new CppTypeInfo(
           "std::string",
           singletonList(Include.createSystemInclude("string")),
-          "const char",
+          "char",
           emptyList(),
           "std::string(%1$s)",
           singletonList(CPointerType.CONST_CHAR_PTR),

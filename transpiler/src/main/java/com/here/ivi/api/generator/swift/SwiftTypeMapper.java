@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.swift;
 
-import com.here.ivi.api.model.swift.SwiftArrayType;
 import com.here.ivi.api.model.swift.SwiftType;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FBasicTypeId;
@@ -53,7 +52,7 @@ public class SwiftTypeMapper {
       case FBasicTypeId.DOUBLE_VALUE:
         return new SwiftType("Double");
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return new SwiftArrayType("UInt8");
+        return new SwiftType("Data");
     }
     return SwiftType.VOID;
   }

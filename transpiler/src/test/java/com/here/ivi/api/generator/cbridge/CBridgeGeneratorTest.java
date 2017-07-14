@@ -262,7 +262,7 @@ public class CBridgeGeneratorTest {
             "#include <stdint.h>",
             "void* cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size);",
             "void cbridge_test_TestInterface_functionName_release(const void* handle);",
-            "uint8_t* cbridge_test_TestInterface_functionName_getData(const void* handle);",
+            "const uint8_t* cbridge_test_TestInterface_functionName_getData(const void* handle);",
             "int64_t cbridge_test_TestInterface_functionName_getSize(const void* handle);",
             "");
 
@@ -284,7 +284,7 @@ public class CBridgeGeneratorTest {
             "    auto cpp_handle = reinterpret_cast<const std::vector<uint8_t>*>(handle);",
             "    delete cpp_handle;",
             "}",
-            "uint8_t* cbridge_test_TestInterface_functionName_getData(const void* handle) {",
+            "const uint8_t* cbridge_test_TestInterface_functionName_getData(const void* handle) {",
             "    auto cpp_handle = reinterpret_cast<const std::vector<uint8_t>*>(handle);",
             "    {",
             "        auto&& cpp_result = &(*cpp_handle)[0];",

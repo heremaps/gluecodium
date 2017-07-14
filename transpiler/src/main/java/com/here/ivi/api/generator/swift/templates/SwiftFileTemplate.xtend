@@ -15,7 +15,6 @@ import com.here.ivi.api.generator.common.templates.CopyrightNoticeTemplate;
 import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.model.swift.SwiftProperty
 import com.here.ivi.api.model.swift.SwiftMethod
-import com.here.ivi.api.model.swift.SwiftParameter
 
 class SwiftFileTemplate {
 
@@ -75,34 +74,11 @@ class SwiftFileTemplate {
         '''«FOR attrib : attributes BEFORE '(' SEPARATOR ', ' AFTER ')'»«attrib»«ENDFOR» «property.type» «property.name»;'''
     }
 
-    def static generateMethodParam(SwiftParameter methodParameter) {
-        val variableName = if (methodParameter.hasDifferentVariableName) ''' «methodParameter.variableName»'''
-        '''«methodParameter.name»«variableName»: «methodParameter.type»'''
-    }
-
-    def static generateMethod(SwiftClass cl, SwiftMethod method) {
-        val parameters = '''«FOR param: method.parameters SEPARATOR ", "»«generateMethodParam(param)»«ENDFOR»'''
-        val visibility = if (method.isStatic) '''public static''' else '''public'''
-        '''
-        «visibility» func «method.name»(«parameters») -> «method.returnType» {
-            «generateCBridgeCall(cl, method)»
-        }
-        '''
-    }
-
-    def static generateCBridgeCall(SwiftClass swiftClass, SwiftMethod method) {
+    def static generateMethod(SwiftClass swiftClass, SwiftMethod method) {
+        //TODO APIGEN-293 move this out of the templating code into the generator or the view model
         val prefix = if (swiftClass.nameSpace.length > 0) '''«swiftClass.nameSpace»_«swiftClass.name»''' else swiftClass.name
-        val functionNameWithPrefix = '''«prefix»_«method.name»'''
-        '''
-        «FOR param: method.parameters»
-            «convertParameter(param)»
-        «ENDFOR»
-        return «SwiftTypeConversionTemplate.convertCToSwift(method.returnType, functionNameWithPrefix, method.parameters)»'''
+        method.cBaseName = '''«prefix»_«method.name»'''
+        SwiftMethodTemplate.generate(method)
     }
 
-    def static convertParameter(SwiftParameter parameter) {
-        '''
-        let c_«parameter.variableName» = «SwiftTypeConversionTemplate.convertSwiftToC(parameter.type, parameter.variableName)»
-        '''
-    }
 }

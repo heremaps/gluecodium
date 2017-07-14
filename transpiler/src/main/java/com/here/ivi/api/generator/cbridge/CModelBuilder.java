@@ -151,7 +151,9 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     return new CFunction.Builder(baseName + "_" + "getData")
         .parameters(singletonList(param))
         .delegateCallTemplate(cppTypeInfo.getDataExpr)
-        .returnType(new CPointerType(new CType(cppTypeInfo.heldType, cppTypeInfo.heldTypeIncludes)))
+        .returnType(
+            CPointerType.makeConstPointer(
+                new CType(cppTypeInfo.heldType, cppTypeInfo.heldTypeIncludes)))
         .returnConversion(new TypeConverter.TypeConversion("result"))
         .build();
   }

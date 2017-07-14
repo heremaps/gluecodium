@@ -135,7 +135,7 @@ class SwiftGeneratorIntegrationTest {
         assertNotNull(clazz.properties)
         assertTrue(clazz.properties.isEmpty)
         assertNotNull(clazz.imports)
-        assertEquals("By default it should not include anything", 0, clazz.imports.size)
+        assertEquals("By default it should include Foundatation only", 1, clazz.imports.size)
         assertEquals("The base namespace should be set to its c_bridge class", "swift_fidl_test", clazz.nameSpace)
         assertEquals(CLASS_NAME, clazz.name)
 
@@ -163,7 +163,7 @@ class SwiftGeneratorIntegrationTest {
         assertNotNull(clazz.properties)
         assertTrue(clazz.properties.isEmpty)
         assertNotNull(clazz.imports)
-        assertEquals("By default it should not include anything", 0, clazz.imports.size)
+        assertEquals("By default it should include Foundatation only", 1, clazz.imports.size)
         assertEquals("The base namespace should be set to its c_bridge class", "swift_fidl_test", clazz.nameSpace)
         assertEquals(CLASS_NAME, clazz.name)
     }

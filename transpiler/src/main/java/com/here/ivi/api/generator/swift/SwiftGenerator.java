@@ -21,6 +21,8 @@ import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.swift.SwiftClass;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FInterface;
@@ -56,6 +58,7 @@ public class SwiftGenerator {
             .map(method -> constructMethod(method, propertyAccessor))
             .collect(toList());
     clazz.nameSpace = bridgeNameSpace;
+    clazz.imports = new ArrayList<>(Arrays.asList("Foundation"));
     return clazz;
   }
 
