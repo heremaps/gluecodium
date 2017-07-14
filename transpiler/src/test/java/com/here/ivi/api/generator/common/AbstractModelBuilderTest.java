@@ -13,14 +13,10 @@ package com.here.ivi.api.generator.common;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import org.junit.Before;
+import com.here.ivi.api.test.MockContextStack;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Answers;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
 public class AbstractModelBuilderTest {
@@ -31,22 +27,10 @@ public class AbstractModelBuilderTest {
     }
   }
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  ModelBuilderContextStack<Object> contextStack;
-
   private final Object resultObject = new Object();
 
-  private TestableModelBuilder modelBuilder;
-
-  @Before
-  public void setUp() {
-    MockitoAnnotations.initMocks(this);
-
-    modelBuilder = new TestableModelBuilder(contextStack);
-
-    contextStack.getCurrentContext().currentResults = new ArrayList<>();
-    contextStack.getParentContext().previousResults = new ArrayList<>();
-  }
+  private MockContextStack<Object> contextStack = new MockContextStack<>();
+  private TestableModelBuilder modelBuilder = new TestableModelBuilder(contextStack);
 
   @Test
   public void closeContextPropagatesResults() {

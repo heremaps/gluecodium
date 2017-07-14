@@ -18,7 +18,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaConstant;
@@ -33,7 +32,7 @@ import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
 import com.here.ivi.api.test.ArrayEList;
-import java.util.ArrayList;
+import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
 import java.util.LinkedList;
 import org.eclipse.emf.common.util.EList;
@@ -69,8 +68,7 @@ public class JavaModelBuilderTest {
   private static final JavaPackage BASE_PACKAGE =
       new JavaPackage(Arrays.asList("these", "are", "prefix", "packages"));
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private ModelBuilderContextStack<JavaElement> contextStack;
+  private MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FrancaElement rootElementModel;
@@ -95,20 +93,12 @@ public class JavaModelBuilderTest {
 
   private JavaModelBuilder modelBuilder;
 
-  private void injectResult(JavaElement element) {
-    contextStack.getCurrentContext().previousResults.add(element);
-  }
-
   @Before
   public void setUp() {
     PowerMockito.mockStatic(JavaTypeMapper.class);
     MockitoAnnotations.initMocks(this);
 
     modelBuilder = new JavaModelBuilder(contextStack, BASE_PACKAGE, rootElementModel);
-
-    contextStack.getCurrentContext().currentResults = new ArrayList<>();
-    contextStack.getCurrentContext().previousResults = new ArrayList<>();
-    contextStack.getParentContext().previousResults = new ArrayList<>();
 
     when(rootElementModel.getModelInfo().getFModel()).thenReturn(fModel);
     when(rootElementModel.getModelInfo().getPackageNames()).thenReturn(new LinkedList<>());
@@ -127,11 +117,9 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInterface() {
-
     when(JavaTypeMapper.createJavaPackage(any(), any()))
         .thenReturn(new JavaPackage(new LinkedList<>()));
-
-    injectResult(javaConstant);
+    contextStack.injectResult(javaConstant);
 
     modelBuilder.finishBuilding(francaInterface);
 
@@ -145,11 +133,9 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsConstants() {
-
     when(JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel))
         .thenReturn(new JavaPackage(new LinkedList<>()));
-
-    injectResult(javaConstant);
+    contextStack.injectResult(javaConstant);
 
     modelBuilder.finishBuilding(francaInterface);
 
@@ -164,11 +150,9 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsFields() {
-
     when(JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel))
         .thenReturn(new JavaPackage(new LinkedList<>()));
-
-    injectResult(javaField);
+    contextStack.injectResult(javaField);
 
     modelBuilder.finishBuilding(francaInterface);
 
@@ -183,12 +167,10 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsMethods() {
-
     when(JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel))
         .thenReturn(new JavaPackage(new LinkedList<>()));
-
     final JavaMethod javaMethod = new JavaMethod(METHOD_NAME);
-    injectResult(javaMethod);
+    contextStack.injectResult(javaMethod);
 
     modelBuilder.finishBuilding(francaInterface);
 
@@ -240,7 +222,7 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaMethodReadsParameters() {
     final JavaParameter javaParameter = new JavaParameter(javaCustomType, PARAMETER_NAME);
-    injectResult(javaParameter);
+    contextStack.injectResult(javaParameter);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -267,7 +249,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionReadsConstants() {
-    injectResult(javaConstant);
+    contextStack.injectResult(javaConstant);
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
@@ -280,7 +262,7 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaTypeCollectionReadsClasses() {
     final JavaClass innerClass = new JavaClass(CLASS_NAME);
-    injectResult(innerClass);
+    contextStack.injectResult(innerClass);
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
@@ -311,7 +293,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypedElementReadsType() {
-    injectResult(javaCustomType);
+    contextStack.injectResult(javaCustomType);
 
     modelBuilder.finishBuilding(francaTypedElement);
 
@@ -331,7 +313,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeReadsFields() {
-    injectResult(javaField);
+    contextStack.injectResult(javaField);
 
     modelBuilder.finishBuilding(francaStructType);
 
