@@ -16,9 +16,20 @@ import java.util.stream.Stream;
 public class CppInheritance extends CppElement {
 
   public enum Type {
-    Public,
-    Protected,
-    Private
+    Public("public"),
+    Protected("protected"),
+    Private("private");
+
+    private final String value;
+
+    Type(final String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
   }
 
   public final CppType parent;
