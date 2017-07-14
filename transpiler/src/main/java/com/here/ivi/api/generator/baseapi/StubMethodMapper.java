@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
 import com.here.ivi.api.model.cppmodel.CppElements;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
@@ -41,8 +41,8 @@ public final class StubMethodMapper {
     }
   }
 
-  private static final Includes.SystemInclude EXPECTED_INCLUDE =
-      new Includes.SystemInclude("cpp/internal/expected.h");
+  private static final Include EXPECTED_INCLUDE =
+      Include.createSystemInclude("cpp/internal/expected.h");
 
   public static ReturnTypeData mapMethodReturnType(
       FMethod francaMethod, FrancaElement<?> rootModel) {
@@ -75,7 +75,7 @@ public final class StubMethodMapper {
     }
 
     // wrap multiple out values (error + outArg) in their own type
-    Set<Includes.Include> includes = new HashSet<>();
+    Set<Include> includes = new HashSet<>();
     includes.addAll(errorType.includes);
     includes.addAll(outArgType.includes);
     includes.add(EXPECTED_INCLUDE);

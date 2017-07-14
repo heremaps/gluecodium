@@ -19,7 +19,7 @@ import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.cpp.CppValueMapper;
 import com.here.ivi.api.generator.common.cpp.TypeGenerationHelper;
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppConstant;
 import com.here.ivi.api.model.cppmodel.CppElement;
@@ -207,7 +207,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     typeDef.name = CppNameRules.getTypedefName(francaMapType.getName());
     typeDef.targetType =
         CppTypeMapper.wrapMapType(
-            new Includes.LazyInternalInclude(DefinedBy.createFromFModelElement(francaMapType)),
+            new LazyInternalInclude(DefinedBy.createFromFModelElement(francaMapType)),
             CppTypeMapper.map(rootModel, francaMapType.getKeyType()),
             CppTypeMapper.map(rootModel, francaMapType.getValueType()));
 

@@ -270,8 +270,8 @@ public class CBridgeGeneratorTest {
         String.join(
             "\n",
             "#include \"TestInterface.h\"",
-            "#include <utility>",
             "#include <vector>",
+            "#include <utility>",
             "#include <stub/cbridge/test/TestInterfaceStub.h>",
             "void* cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {",
             "    auto cpp_input = std::vector<uint8_t>(input_ptr, input_ptr + input_size);",

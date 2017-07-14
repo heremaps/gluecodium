@@ -15,7 +15,7 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 import com.here.ivi.api.model.cmodel.CParameter;
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -27,15 +27,15 @@ public class TypeConverter {
 
     public final String name;
     public final String expression;
-    public final Set<Includes.Include> includes;
+    public final Set<Include> includes;
 
-    TypeConversion(String name, String expression, Includes.Include... includes) {
+    TypeConversion(String name, String expression, Include... includes) {
       this.name = "cpp_" + name;
       this.expression = expression;
       this.includes = new HashSet<>(Arrays.asList(includes));
     }
 
-    TypeConversion(String name, String expression, List<Includes.Include> includes) {
+    TypeConversion(String name, String expression, List<Include> includes) {
       this.name = "cpp_" + name;
       this.expression = expression;
       this.includes = new HashSet<>(includes);

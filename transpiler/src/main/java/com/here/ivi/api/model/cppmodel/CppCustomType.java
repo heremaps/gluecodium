@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import static java.util.Arrays.asList;
 
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -31,16 +31,16 @@ public class CppCustomType extends CppType {
     this(typeName, info, Collections.emptyList());
   }
 
-  public CppCustomType(String typeName, Includes.Include... includes) {
+  public CppCustomType(String typeName, Include... includes) {
     this(typeName, CppElements.TypeInfo.Complex, asList(includes));
   }
 
-  public CppCustomType(String typeName, CppElements.TypeInfo info, Includes.Include... includes) {
+  public CppCustomType(String typeName, CppElements.TypeInfo info, Include... includes) {
     this(typeName, info, asList(includes));
   }
 
   public CppCustomType(
-      String typeName, CppElements.TypeInfo info, final Collection<Includes.Include> includes) {
+      String typeName, CppElements.TypeInfo info, final Collection<Include> includes) {
     super(typeName, includes);
     this.info = info;
   }

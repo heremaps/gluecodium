@@ -11,8 +11,9 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.model.common.Includes;
-import java.util.*;
+import com.here.ivi.api.model.common.Include;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CppElements {
@@ -28,7 +29,7 @@ public class CppElements {
     Enumeration
   }
 
-  public static Set<Includes.Include> collectIncludes(CppNamespace root) {
+  public static Set<Include> collectIncludes(CppNamespace root) {
     return root.streamRecursive()
         .filter(p -> p instanceof CppElementWithIncludes)
         .map(CppElementWithIncludes.class::cast)
@@ -37,8 +38,8 @@ public class CppElements {
         .collect(Collectors.toSet());
   }
 
-  public static Set<Includes.Include> collectIncludes(CppClass cppClass) {
-    Set<Includes.Include> result = new HashSet<>();
+  public static Set<Include> collectIncludes(CppClass cppClass) {
+    Set<Include> result = new HashSet<>();
 
     for (CppMethod method : cppClass.methods) {
       for (CppParameter inParam : method.getInParameters()) {

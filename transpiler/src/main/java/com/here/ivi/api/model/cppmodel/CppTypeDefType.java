@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import java.util.Collection;
 import java.util.stream.Stream;
 
@@ -20,9 +20,7 @@ public class CppTypeDefType extends CppType {
   public final CppType actualType;
 
   public CppTypeDefType(
-      final String typeName,
-      final CppType actualType,
-      final Collection<Includes.Include> includes) {
+      final String typeName, final CppType actualType, final Collection<Include> includes) {
     super(typeName, includes);
     this.actualType = actualType;
   }

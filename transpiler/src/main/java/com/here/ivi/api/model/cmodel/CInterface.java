@@ -13,15 +13,15 @@ package com.here.ivi.api.model.cmodel;
 
 import static java.util.Collections.emptySet;
 
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 /** Collection of related methods and structs forming an interface (like a C header file) */
 public class CInterface extends CElement {
-  public Set<Includes.Include> headerIncludes = emptySet();
-  public Set<Includes.Include> implementationIncludes = emptySet();
+  public Set<Include> headerIncludes = emptySet();
+  public Set<Include> implementationIncludes = emptySet();
   public List<CStruct> structs = new LinkedList<>();
   public List<CFunction> functions = new LinkedList<>();
 

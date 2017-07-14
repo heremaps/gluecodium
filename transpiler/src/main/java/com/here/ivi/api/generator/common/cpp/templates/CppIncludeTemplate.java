@@ -9,19 +9,14 @@
  *
  */
 
-package com.here.ivi.api.generator.common.cpp.templates
+package com.here.ivi.api.generator.common.cpp.templates;
 
-import com.here.ivi.api.model.common.Includes
+import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.common.Include;
 
-class CppIncludeTemplate {
+public class CppIncludeTemplate {
 
-  // TODO group includes
-  static def generate(Includes.Include incl) '''
-    «
-    switch (incl) {
-      Includes.SystemInclude : '''#include <«incl.file»>'''
-      Includes.InternalPublicInclude : '''#include <«incl.file»>'''
-      default: '''// Unknown or unresolved include «incl» of «incl.class»'''
-    }
-    »'''
+  public static String generate(final Include include) {
+    return TemplateEngine.render("cpp/CppInclude", include);
+  }
 }

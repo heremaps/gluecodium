@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import java.util.Collection;
 
 public abstract class CppType extends CppElementWithIncludes {
@@ -20,7 +20,7 @@ public abstract class CppType extends CppElementWithIncludes {
     super(typeName);
   }
 
-  public CppType(String typeName, final Collection<Includes.Include> includes) {
+  public CppType(String typeName, final Collection<Include> includes) {
     super(typeName, includes);
   }
 

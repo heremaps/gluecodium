@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
 import com.here.ivi.api.model.cppmodel.CppElements;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
@@ -182,7 +182,7 @@ public class CppTypeMapperTest {
   }
 
   private void verifyPrimitiveType(
-      CppType actual, CppPrimitiveType.Type expectedType, List<Includes.SystemInclude> includes) {
+      CppType actual, CppPrimitiveType.Type expectedType, List<Include> includes) {
     assertTrue(actual instanceof CppPrimitiveType);
     CppPrimitiveType primitiveType = (CppPrimitiveType) actual;
     assertEquals(expectedType, primitiveType.type);
