@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.common.jni.templates.CppToJniStringConversionTemplate;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
@@ -31,19 +30,17 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 
+@PrepareForTest(TemplateEngine.class)
 @RunWith(Parameterized.class)
-@PrepareForTest({CppToJniStringConversionTemplate.class, TemplateEngine.class})
 public class CppToJniConversionTemplateDelegatorTest {
 
   private static final String CPP_VARIABLE_NAME = "var";
-  private static final String PARAMETER_NAME = JniNameRules.getParameterName(CPP_VARIABLE_NAME);
 
-  @Rule public PowerMockRule powerMockRule = new PowerMockRule();
+  @Rule public PowerMockRule rule = new PowerMockRule();
 
   @Before
   public void setUp() {
 
-    PowerMockito.mockStatic(CppToJniStringConversionTemplate.class);
     PowerMockito.mockStatic(TemplateEngine.class);
   }
 
@@ -76,7 +73,11 @@ public class CppToJniConversionTemplateDelegatorTest {
   }
 
   @Test
+  @PrepareForTest(TemplateEngine.class)
   public void convert() {
+
+    PowerMockito.mockStatic(TemplateEngine.class);
+
     /*
      * explicit exception checking is required here as PowerMockRule does not work with
      * ExpectedException Rule
@@ -87,21 +88,21 @@ public class CppToJniConversionTemplateDelegatorTest {
      *
      */
     boolean exceptionExpected = expectedException != null;
-    Exception caughtException = null;
+    Throwable caughtThrowable = null;
 
     try {
       try {
         CharSequence result = CppToJniConversionTemplateDelegator.generate(CPP_VARIABLE_NAME, type);
         verifyResult(type, result);
-      } catch (Exception e) {
-        caughtException = e;
+      } catch (Throwable t) {
+        caughtThrowable = t;
       }
     } finally {
       //check if exception throwing behaves as expected
       if (exceptionExpected
-              && caughtException != null
-              && expectedException.isAssignableFrom(caughtException.getClass())
-          || !exceptionExpected && caughtException == null) {
+              && caughtThrowable != null
+              && expectedException.isAssignableFrom(caughtThrowable.getClass())
+          || !exceptionExpected && caughtThrowable == null) {
         return;
       }
       fail();
@@ -115,11 +116,11 @@ public class CppToJniConversionTemplateDelegatorTest {
     } else if (javaType instanceof JavaReferenceType
         && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.STRING) {
       PowerMockito.verifyStatic();
-      CppToJniStringConversionTemplate.generate(null);
+      TemplateEngine.render("jni/CppToJniStringConversion", CPP_VARIABLE_NAME);
     } else if (javaType instanceof JavaReferenceType
         && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.BYTE_ARRAY) {
       PowerMockito.verifyStatic();
-      TemplateEngine.render("jni/CppToJniByteBufferConversion", PARAMETER_NAME);
+      TemplateEngine.render("jni/CppToJniByteBufferConversion", CPP_VARIABLE_NAME);
     } else {
       fail();
     }

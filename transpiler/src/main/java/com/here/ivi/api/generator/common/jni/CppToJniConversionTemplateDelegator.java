@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.common.jni.templates.CppToJniStringConversionTemplate;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
@@ -35,7 +34,7 @@ public class CppToJniConversionTemplateDelegator {
       final String cppVariableName, final JavaReferenceType targetType) {
     switch (targetType.type) {
       case STRING:
-        return CppToJniStringConversionTemplate.generate(cppVariableName);
+        return TemplateEngine.render("jni/CppToJniStringConversion", cppVariableName);
       case BYTE_ARRAY:
         return TemplateEngine.render("jni/CppToJniByteBufferConversion", cppVariableName);
     }
