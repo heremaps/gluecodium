@@ -33,9 +33,9 @@ import org.franca.core.franca.FMethod;
  * Preconditions:
  *
  * For correspondence calculation it is assumed to have one to one mapping, i.e. one franca element
- * is mapped to one target model element at maximum.
+ * is mapped to at least one target model element.
  *
- * It is assumed that Java- and StubModelbuilder's finishBuilding methods are called in advance
+ * It is assumed that Java- and StubModelBuilder's finishBuilding methods are called in advance
  * of calling finishBuilding on JniModelBuilder (constructed java and cpp elements need to be
  * accessible via getResults(..) ).
  *
@@ -67,24 +67,20 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JavaClass javaClass = getFirstResult(javaBuilder.getResults(), JavaClass.class);
     CppClass cppClass = getFirstResult(stubBuilder.getResults(), CppClass.class);
 
-    if (javaClass != null && cppClass != null) {
+    JniModel result = new JniModel();
+    result.cppClassName = cppClass.name;
+    result.cppNameSpaces = stubBuilder.getNamespaceMembers();
+    result.javaClassName = javaClass.getName();
+    result.javaPackages = javaClass.javaPackage.packageNames;
 
-      JniModel result = new JniModel();
-      result.cppClassName = cppClass.name;
-      result.cppNameSpaces = stubBuilder.getNamespaceMembers();
-      result.javaClassName = javaClass.getName();
-      result.javaPackages = javaClass.javaPackage.packageNames;
+    List<JniMethod> methodList = getAllResult(getCurrentContext().previousResults, JniMethod.class);
 
-      List<JniMethod> methodList =
-          getAllResult(getCurrentContext().previousResults, JniMethod.class);
-
-      for (JniMethod element : methodList) {
-        JniMethod method = element;
-        method.owningModel = result;
-        result.methods.add(method);
-      }
-      storeResult(result);
+    for (JniMethod method : methodList) {
+      method.owningModel = result;
+      result.methods.add(method);
     }
+
+    storeResult(result);
     closeContext();
   }
 
@@ -114,31 +110,22 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JavaMethod javaMethod = getFirstResult(javaBuilder.getResults(), JavaMethod.class);
     CppMethod cppMethod = getFirstResult(stubBuilder.getResults(), CppMethod.class);
 
-    if (javaMethod != null && cppMethod != null) {
+    JniMethod jniMethod = createJniMethod(javaMethod, cppMethod);
 
-      JniMethod jniMethod = createJniMethod(javaMethod, cppMethod);
-
-      for (int i = 0; i < javaMethod.parameters.size(); ++i) {
-        jniMethod.parameters.add(
-            createJniParameter(javaMethod.parameters.get(i), cppMethod.getInParameters().get(i)));
-      }
-      storeResult(jniMethod);
+    for (int i = 0; i < javaMethod.parameters.size(); ++i) {
+      jniMethod.parameters.add(
+          createJniParameter(javaMethod.parameters.get(i), cppMethod.getInParameters().get(i)));
     }
+
+    storeResult(jniMethod);
     closeContext();
   }
 
-  private static <T> T getFirstResult(List<? super T> list, Class<T> type) {
-    return list.stream()
-        .filter(element -> type.isAssignableFrom(element.getClass()))
-        .map(element -> (T) element)
-        .findFirst()
-        .orElse(null);
+  private static <T> T getFirstResult(List<? super T> list, Class<T> clazz) {
+    return list.stream().filter(clazz::isInstance).map(clazz::cast).findFirst().orElse(null);
   }
 
-  private static <T> List<T> getAllResult(List<? super T> list, Class<T> type) {
-    return list.stream()
-        .filter(element -> type.isAssignableFrom(element.getClass()))
-        .map(element -> (T) element)
-        .collect(Collectors.toList());
+  private static <T> List<T> getAllResult(List<? super T> list, Class<T> clazz) {
+    return list.stream().filter(clazz::isInstance).map(clazz::cast).collect(Collectors.toList());
   }
 }
