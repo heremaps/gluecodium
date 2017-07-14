@@ -11,12 +11,11 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.model.common.Includes;
+import com.here.ivi.api.generator.common.cpp.CppLibraryIncludes;
 
 public class CppPrimitiveType extends CppType {
 
   public static final CppPrimitiveType VOID_TYPE = new CppPrimitiveType(Type.VOID);
-  private static final Includes.SystemInclude INT_TYPES = new Includes.SystemInclude("cstdint");
 
   public enum Type {
     VOID("void"),
@@ -62,7 +61,7 @@ public class CppPrimitiveType extends CppType {
       case UINT16:
       case UINT32:
       case UINT64:
-        this.includes.add(INT_TYPES);
+        this.includes.add(CppLibraryIncludes.INT_TYPES);
     }
   }
 
