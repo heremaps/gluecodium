@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -23,10 +24,10 @@ public final class JniToCppStringConversionTemplateTest {
   public void generate() {
     // Arrange
     String baseName = "javaParameterName";
-    String expected = "here::internal::convert_jstring_to_std_string(env, j" + baseName + ")";
+    String expected = "here::internal::convert_jstring_to_std_string(env, " + baseName + ")";
 
     // Act
-    String result = JniToCppStringConversionTemplate.generate(baseName).toString();
+    String result = TemplateEngine.render("jni/JniToCppStringConversion", baseName);
 
     // Assert
     assertEquals(expected, result);
