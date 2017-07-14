@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.generator.common.cpp.templates.CppMethodBodyTemplate;
 import com.here.ivi.api.model.common.CollectionsHelper;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -20,6 +19,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public final class CppMethod extends CppElementWithIncludes {
+
   public enum Specifier {
     EXPLICIT("explicit"),
     INLINE("inline"),
@@ -64,7 +64,6 @@ public final class CppMethod extends CppElementWithIncludes {
     this.qualifiers = builder.qualifiers;
     this.inParameters = builder.inParameters;
     this.outParameters = builder.outParameters;
-    this.bodyTemplate = builder.theBodyTemplate;
   }
 
   private final String deprecatedComment;
@@ -73,15 +72,6 @@ public final class CppMethod extends CppElementWithIncludes {
   private final Set<Qualifier> qualifiers;
   private final List<CppParameter> inParameters;
   private final List<CppParameter> outParameters;
-  private final CppMethodBodyTemplate bodyTemplate;
-
-  public CharSequence generateBody() {
-    if (bodyTemplate == null) {
-      return null;
-    }
-
-    return bodyTemplate.generate(this);
-  }
 
   public String getDeprecatedComment() {
     return deprecatedComment;
@@ -105,14 +95,6 @@ public final class CppMethod extends CppElementWithIncludes {
 
   public List<CppParameter> getOutParameters() {
     return outParameters;
-  }
-
-  public boolean hasBody() {
-    return bodyTemplate != null;
-  }
-
-  public boolean hasParameters() {
-    return !(inParameters.isEmpty() && outParameters.isEmpty());
   }
 
   @Override
@@ -153,7 +135,6 @@ public final class CppMethod extends CppElementWithIncludes {
     private Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
     private List<CppParameter> inParameters = new ArrayList<>();
     private List<CppParameter> outParameters = new ArrayList<>();
-    private CppMethodBodyTemplate theBodyTemplate = null;
 
     public Builder(String name) {
       this.name = name;
@@ -181,11 +162,6 @@ public final class CppMethod extends CppElementWithIncludes {
 
     public Builder inParameter(CppParameter parameter) {
       this.inParameters.add(parameter);
-      return this;
-    }
-
-    public Builder bodyTemplate(CppMethodBodyTemplate template) {
-      this.theBodyTemplate = template;
       return this;
     }
 
