@@ -393,7 +393,10 @@ public class CppTypeMapper {
             CppLibraryIncludes.STRING);
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return new CppCustomType(
-            "std::vector< uint8_t >", CppElements.TypeInfo.Complex, CppLibraryIncludes.VECTOR);
+            "std::vector< uint8_t >",
+            CppElements.TypeInfo.Complex,
+            CppLibraryIncludes.VECTOR,
+            CppLibraryIncludes.INT_TYPES);
       default:
         return new CppCustomType(
             "UNMAPPED PREDEFINED [" + type.getPredefined().getName() + "]",
