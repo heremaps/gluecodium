@@ -27,9 +27,7 @@ public class SwiftParameterTest {
   @Test
   public void emptyVariableName() {
     SwiftParameter parameter = new SwiftParameter(interfaceName, new SwiftType("String"));
-
-    assertFalse(parameter.hasDifferentVariableName());
-    assertEquals(interfaceName, parameter.getVariableName());
+    assertFalse(parameter.differentInterfaceAndVariableName);
   }
 
   @Test
@@ -37,7 +35,7 @@ public class SwiftParameterTest {
     SwiftParameter parameter =
         new SwiftParameter(interfaceName, new SwiftType("String"), variableName);
 
-    assertTrue(parameter.hasDifferentVariableName());
-    assertEquals(variableName, parameter.getVariableName());
+    assertTrue(parameter.differentInterfaceAndVariableName);
+    assertEquals(variableName, parameter.variableName);
   }
 }

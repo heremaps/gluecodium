@@ -1,0 +1,7 @@
+if let result_string_handle = {{method.cBaseName}}({{#each paramsForBase}}{{.}}{{#if iter.hasNext}}, {{/if}}{{/each}}),
+    let ret_value = String(data: Data(bytes: {{method.cBaseName}}_getData(result_string_handle),
+                                        count: Int({{method.cBaseName}}_getSize(result_string_handle))), encoding: .utf8) {
+    {{method.cBaseName}}_release(result_string_handle)
+    return ret_value
+}
+return "" //TODO: We should return nil in case of error

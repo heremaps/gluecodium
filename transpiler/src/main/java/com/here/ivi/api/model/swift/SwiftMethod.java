@@ -26,6 +26,7 @@ public class SwiftMethod extends SwiftModelElement {
     this.returnType = SwiftType.VOID;
     this.parameters = parameters;
     this.comment = "";
+    this.cBaseName = "";
   }
 
   enum Visibility {
@@ -38,4 +39,5 @@ public class SwiftMethod extends SwiftModelElement {
   public final List<SwiftParameter> parameters;
   public boolean isStatic;
   public boolean isConst;
+  public String cBaseName;
 }

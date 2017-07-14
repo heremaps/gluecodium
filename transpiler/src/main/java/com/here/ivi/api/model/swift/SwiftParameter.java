@@ -11,9 +11,12 @@
 
 package com.here.ivi.api.model.swift;
 
+import java.util.Objects;
+
 public class SwiftParameter extends SwiftModelElement {
   public final SwiftType type;
-  private final String variableName;
+  public final String variableName;
+  public final boolean differentInterfaceAndVariableName;
 
   public SwiftParameter(String interfaceName, SwiftType type) {
     this(interfaceName, type, null);
@@ -22,18 +25,8 @@ public class SwiftParameter extends SwiftModelElement {
   public SwiftParameter(String interfaceName, SwiftType type, String variableName) {
     super(interfaceName);
     this.type = type;
-    this.variableName = variableName;
-  }
-
-  public String getVariableName() {
-    if (variableName == null) {
-      return name;
-    } else {
-      return variableName;
-    }
-  }
-
-  public boolean hasDifferentVariableName() {
-    return variableName != null;
+    this.variableName = variableName != null ? variableName : interfaceName;
+    this.differentInterfaceAndVariableName =
+        variableName != null && !Objects.equals(interfaceName, variableName);
   }
 }
