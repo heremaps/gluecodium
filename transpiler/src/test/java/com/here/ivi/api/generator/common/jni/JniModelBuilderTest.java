@@ -47,6 +47,9 @@ import org.mockito.MockitoAnnotations;
 @RunWith(JUnit4.class)
 public class JniModelBuilderTest {
 
+  @Mock private FInterface francaInterface;
+  @Mock private FMethod francaMethod;
+
   @Mock private JavaModelBuilder javaBuilder;
   @Mock private StubModelBuilder stubBuilder;
 
@@ -74,6 +77,7 @@ public class JniModelBuilderTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
+
     contextStack.getCurrentContext().currentResults = new ArrayList<>();
     contextStack.getCurrentContext().previousResults = new ArrayList<>();
     contextStack.getParentContext().previousResults = new ArrayList<>();
@@ -196,15 +200,14 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFMethodVoid() {
     //arrange
-    when(javaBuilder.getResults()).thenReturn(Arrays.asList(createJavaMethodVoid()));
-    when(stubBuilder.getResults()).thenReturn(Arrays.asList(createCppMethodVoid()));
+    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(createJavaMethodVoid()));
+    when(stubBuilder.getResults()).thenReturn(Collections.singletonList(createCppMethodVoid()));
 
     JniModelBuilder correspondenceBuilder =
         new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-    FMethod fMethod = null;
 
     //act
-    correspondenceBuilder.finishBuilding(fMethod);
+    correspondenceBuilder.finishBuilding(francaMethod);
     List<JniElement> result = correspondenceBuilder.getResults();
 
     //assert
@@ -217,15 +220,14 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFMethodInt() {
     //arrange
-    when(javaBuilder.getResults()).thenReturn(Arrays.asList(createJavaMethodInt()));
-    when(stubBuilder.getResults()).thenReturn(Arrays.asList(createCppMethodInt()));
+    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(createJavaMethodInt()));
+    when(stubBuilder.getResults()).thenReturn(Collections.singletonList(createCppMethodInt()));
 
     JniModelBuilder correspondenceBuilder =
         new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-    FMethod fMethod = null;
 
     //act
-    correspondenceBuilder.finishBuilding(fMethod);
+    correspondenceBuilder.finishBuilding(francaMethod);
     List<JniElement> result = correspondenceBuilder.getResults();
 
     //assert
@@ -238,15 +240,14 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFMethodString() {
     //arrange
-    when(javaBuilder.getResults()).thenReturn(Arrays.asList(createJavaMethodString()));
-    when(stubBuilder.getResults()).thenReturn(Arrays.asList(createCppMethodString()));
+    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(createJavaMethodString()));
+    when(stubBuilder.getResults()).thenReturn(Collections.singletonList(createCppMethodString()));
 
     JniModelBuilder correspondenceBuilder =
         new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-    FMethod fMethod = null;
 
     //act
-    correspondenceBuilder.finishBuilding(fMethod);
+    correspondenceBuilder.finishBuilding(francaMethod);
     List<JniElement> result = correspondenceBuilder.getResults();
 
     //assert
@@ -257,38 +258,20 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFMethodWrongType() {
-    //arrange, kind of types don't match  (method vs class)
-    when(javaBuilder.getResults()).thenReturn(Arrays.asList(createJavaMethodString()));
-    when(stubBuilder.getResults()).thenReturn(Arrays.asList(new CppClass(CPP_CLASS_NAME)));
-
-    JniModelBuilder correspondenceBuilder =
-        new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-    FMethod fMethod = null;
-
-    //act
-    correspondenceBuilder.finishBuilding(fMethod);
-    List<JniElement> result = correspondenceBuilder.getResults();
-
-    //assert
-    assertEquals(0, result.size());
-  }
-
-  @Test
   public void finishBuildingFInterfaceWithOutMethods() {
     //arrange
     JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getResults()).thenReturn(Arrays.asList(javaClass));
-    when(stubBuilder.getResults()).thenReturn(Arrays.asList(new CppClass(CPP_CLASS_NAME)));
+    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(javaClass));
+    when(stubBuilder.getResults())
+        .thenReturn(Collections.singletonList(new CppClass(CPP_CLASS_NAME)));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     JniModelBuilder correspondenceBuilder =
         new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-    FInterface fInterface = null;
 
     //act
-    correspondenceBuilder.finishBuilding(fInterface);
+    correspondenceBuilder.finishBuilding(francaInterface);
     List<JniElement> result = correspondenceBuilder.getResults();
 
     //assert
@@ -301,20 +284,21 @@ public class JniModelBuilderTest {
     injectResult(createJniMethodVoid(null));
     JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getResults()).thenReturn(Arrays.asList(javaClass));
-    when(stubBuilder.getResults()).thenReturn(Arrays.asList(new CppClass(CPP_CLASS_NAME)));
+    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(javaClass));
+    when(stubBuilder.getResults())
+        .thenReturn(Collections.singletonList(new CppClass(CPP_CLASS_NAME)));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     JniModelBuilder correspondenceBuilder =
         new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-    FInterface fInterface = null;
 
     //act
-    correspondenceBuilder.finishBuilding(fInterface);
+    correspondenceBuilder.finishBuilding(francaInterface);
     List<JniElement> result = correspondenceBuilder.getResults();
 
     //assert
-    verifyJniModel(result, Arrays.asList(createJniMethodVoid((JniModel) result.get(0))));
+    verifyJniModel(
+        result, Collections.singletonList(createJniMethodVoid((JniModel) result.get(0))));
   }
 
   @Test
@@ -324,16 +308,16 @@ public class JniModelBuilderTest {
     injectResult(createJniMethodString(null));
     JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getResults()).thenReturn(Arrays.asList(javaClass));
-    when(stubBuilder.getResults()).thenReturn(Arrays.asList(new CppClass(CPP_CLASS_NAME)));
+    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(javaClass));
+    when(stubBuilder.getResults())
+        .thenReturn(Collections.singletonList(new CppClass(CPP_CLASS_NAME)));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     JniModelBuilder correspondenceBuilder =
         new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-    FInterface fInterface = null;
 
     //act
-    correspondenceBuilder.finishBuilding(fInterface);
+    correspondenceBuilder.finishBuilding(francaInterface);
     List<JniElement> result = correspondenceBuilder.getResults();
 
     //assert
@@ -342,23 +326,5 @@ public class JniModelBuilderTest {
         Arrays.asList(
             createJniMethodVoid((JniModel) result.get(0)),
             createJniMethodString((JniModel) result.get(0))));
-  }
-
-  @Test
-  public void finishBuildingFInterfaceWithMethodsWrongTypes() {
-    //arrange wrong kind of types (class vs method)
-    when(javaBuilder.getResults()).thenReturn(Arrays.asList(createJavaMethodVoid()));
-    when(stubBuilder.getResults()).thenReturn(Arrays.asList(new CppClass(CPP_CLASS_NAME)));
-
-    JniModelBuilder correspondenceBuilder =
-        new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-    FInterface fInterface = null;
-
-    //act
-    correspondenceBuilder.finishBuilding(fInterface);
-    List<JniElement> result = correspondenceBuilder.getResults();
-
-    //assert
-    assertEquals(0, result.size());
   }
 }
