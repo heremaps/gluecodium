@@ -37,12 +37,7 @@ class CppClassTemplate {
         «IF !clazz.methods.isEmpty()»
         public:
             «FOR m : clazz.methods»
-            «IF m.hasBody»
-              «CppMethodTemplate.signature(m)»
-              «m.generateBody()»
-            «ELSE»
               «CppMethodTemplate.signature(m)»;
-            «ENDIF»
             «ENDFOR»
         «ENDIF»
 
