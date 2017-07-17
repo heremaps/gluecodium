@@ -15,80 +15,14 @@ import com.here.ivi.api.generator.baseapi.StubCommentParser;
 import com.here.ivi.api.model.cppmodel.CppConstant;
 import com.here.ivi.api.model.cppmodel.CppEnum;
 import com.here.ivi.api.model.cppmodel.CppEnumItem;
-import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.FrancaElement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import org.franca.core.franca.FCompoundInitializer;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FField;
-import org.franca.core.franca.FFieldInitializer;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypedElement;
 
 public class TypeGenerationHelper {
-
-  /**
-   * This methods creates all fields for the given struct.
-   *
-   * <p>It will use the values assigned to the fields in the defaultInitializer if given to set the
-   * default values or fall back to values from the CppDefaultInitializer.
-   *
-   * @param rootType The type in which the fields will be used. Defines the naming rules and include
-   *     paths.
-   * @param struct The struct from which the fields are read
-   * @param defaultInitializer The default values for all the fields, can be null
-   * @return the list of cpp fields
-   */
-  public static List<CppField> buildCppFields(
-      FrancaElement<?> rootType, FStructType struct, FCompoundInitializer defaultInitializer) {
-
-    List<CppField> fields = new ArrayList<>();
-
-    // map matching fields to defaultInitializer constant to speed up lookup below
-    Map<FField, FFieldInitializer> initializerLookup = Collections.emptyMap();
-    if (defaultInitializer != null) {
-      initializerLookup =
-          defaultInitializer
-              .getElements()
-              .stream()
-              .collect(Collectors.toMap(FFieldInitializer::getElement, Function.identity()));
-    }
-
-    // if no specific defaults are defined, generate fields without any specific default values
-    for (FField fieldInfo : struct.getElements()) {
-      FFieldInitializer initializerValue = initializerLookup.get(fieldInfo);
-      CppField field = TypeGenerationHelper.buildCppField(rootType, fieldInfo, initializerValue);
-      field.comment = StubCommentParser.parse(fieldInfo).getMainBodyText();
-      fields.add(field);
-    }
-
-    return fields;
-  }
-
-  public static CppField buildCppField(
-      FrancaElement<?> rootType, FTypedElement typedElement, FFieldInitializer initializer) {
-
-    CppField field = new CppField();
-    field.name = CppNameRules.getFieldName(typedElement.getName());
-    field.type = CppTypeMapper.map(rootType, typedElement);
-
-    // if default values are specified in another object (see DefaultValueRules), use them
-    if (initializer == null) {
-      field.initializer = CppDefaultInitializer.map(typedElement);
-    } else {
-      field.initializer = CppValueMapper.map(field.type, initializer.getValue());
-    }
-    return field;
-  }
 
   public static CppConstant buildCppConstant(FrancaElement<?> rootModel, FConstantDef constantDef) {
 

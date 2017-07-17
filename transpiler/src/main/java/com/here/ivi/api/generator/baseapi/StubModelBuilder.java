@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.baseapi;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.NameHelper;
+import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.cpp.TypeGenerationHelper;
@@ -130,10 +131,13 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FTypedElement francaTypedElement) {
 
-    CppField field = TypeGenerationHelper.buildCppField(rootModel, francaTypedElement, null);
-    field.comment = StubCommentParser.parse(francaTypedElement).getMainBodyText();
+    CppField cppField = new CppField();
+    cppField.name = CppNameRules.getFieldName(francaTypedElement.getName());
+    cppField.type = CppTypeMapper.map(rootModel, francaTypedElement);
+    cppField.initializer = CppDefaultInitializer.map(francaTypedElement);
+    cppField.comment = StubCommentParser.parse(francaTypedElement).getMainBodyText();
 
-    storeResult(field);
+    storeResult(cppField);
     closeContext();
   }
 

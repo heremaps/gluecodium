@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
+import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.cpp.TypeGenerationHelper;
 import com.here.ivi.api.model.cppmodel.CppClass;
@@ -55,6 +56,7 @@ import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.FTypedElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,7 +74,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
   StubCommentParser.class,
   InstanceRules.class,
   CppTypeMapper.class,
-  DefinedBy.class
+  DefinedBy.class,
+  CppDefaultInitializer.class
 })
 public class StubModelBuilderTest {
 
@@ -83,6 +86,7 @@ public class StubModelBuilderTest {
   private static final String TYPE_DEF_NAME = "definitely";
   private static final String ARRAY_NAME = "relay";
   private static final String MAP_NAME = "tigers";
+  private static final String FIELD_NAME = "flowers";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private ModelBuilderContextStack<CppElement> contextStack;
@@ -109,9 +113,8 @@ public class StubModelBuilderTest {
 
   private final CppCustomType cppCustomType = new CppCustomType("typically");
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
-  private final CppConstant cppConstant =
-      new CppConstant("permanent", cppCustomType, new CppValue("valuable"));
-  private final CppField cppField = new CppField(cppCustomType, "flowers");
+  private final CppValue cppValue = new CppValue("valuable");
+  private final CppConstant cppConstant = new CppConstant("permanent", cppCustomType, cppValue);
   private final CppEnum cppEnum = new CppEnum("innumerable");
 
   private CppElement getFirstResult() {
@@ -133,7 +136,8 @@ public class StubModelBuilderTest {
         StubCommentParser.class,
         InstanceRules.class,
         CppTypeMapper.class,
-        DefinedBy.class);
+        DefinedBy.class,
+        CppDefaultInitializer.class);
     MockitoAnnotations.initMocks(this);
 
     modelBuilder = new StubModelBuilder(contextStack, rootModel);
@@ -150,11 +154,13 @@ public class StubModelBuilderTest {
     when(francaTypeDef.getName()).thenReturn(TYPE_DEF_NAME);
     when(francaArrayType.getName()).thenReturn(ARRAY_NAME);
     when(francaMapType.getName()).thenReturn(MAP_NAME);
+    when(francaField.getName()).thenReturn(FIELD_NAME);
 
     when(francaMethod.getInArgs()).thenReturn(new ArrayEList<>());
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
     when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
     when(francaMapType.getValueType()).thenReturn(francaAnotherTypeRef);
+    when(francaField.getType()).thenReturn(francaTypeRef);
 
     when(StubMethodMapper.mapMethodReturnType(any(), any()))
         .thenReturn(new StubMethodMapper.ReturnTypeData(cppCustomType, RETURN_TYPE_COMMENT));
@@ -316,15 +322,22 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaField() {
-    when(TypeGenerationHelper.buildCppField(any(), any(), any())).thenReturn(cppField);
+    when(CppTypeMapper.map(any(), any(FTypedElement.class))).thenReturn(cppCustomType);
+    when(CppDefaultInitializer.map(any(FTypedElement.class))).thenReturn(cppValue);
 
     modelBuilder.finishBuilding(francaField);
 
     CppElement result = getFirstResult();
-    assertEquals(cppField, result);
+    assertTrue(result instanceof CppField);
+
+    CppField cppField = (CppField) result;
+    assertEquals(FIELD_NAME, cppField.name);
+    assertEquals(cppCustomType, cppField.type);
+    assertEquals(cppValue, cppField.initializer);
 
     PowerMockito.verifyStatic();
-    TypeGenerationHelper.buildCppField(rootModel, francaField, null);
+    CppTypeMapper.map(same(rootModel), same(francaField));
+    CppDefaultInitializer.map(same(francaField));
   }
 
   @Test
@@ -338,6 +351,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeReadsFields() {
+    final CppField cppField = new CppField(cppCustomType, FIELD_NAME);
     injectResult(cppField);
 
     modelBuilder.finishBuilding(francaStructType);
