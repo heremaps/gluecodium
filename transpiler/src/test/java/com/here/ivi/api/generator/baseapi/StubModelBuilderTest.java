@@ -24,6 +24,7 @@ import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
+import com.here.ivi.api.generator.common.cpp.CppValueMapper;
 import com.here.ivi.api.generator.common.cpp.TypeGenerationHelper;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppConstant;
@@ -48,6 +49,7 @@ import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FField;
+import org.franca.core.franca.FInitializerExpression;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
@@ -75,7 +77,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
   InstanceRules.class,
   CppTypeMapper.class,
   DefinedBy.class,
-  CppDefaultInitializer.class
+  CppDefaultInitializer.class,
+  CppValueMapper.class
 })
 public class StubModelBuilderTest {
 
@@ -87,6 +90,7 @@ public class StubModelBuilderTest {
   private static final String ARRAY_NAME = "relay";
   private static final String MAP_NAME = "tigers";
   private static final String FIELD_NAME = "flowers";
+  private static final String CONSTANT_NAME = "permanent";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private ModelBuilderContextStack<CppElement> contextStack;
@@ -108,13 +112,13 @@ public class StubModelBuilderTest {
   @Mock private FMapType francaMapType;
   @Mock private FEnumerationType francaEnumerationType;
   @Mock private FTypeRef francaAnotherTypeRef;
+  @Mock private FInitializerExpression francaInitializerExpression;
 
   private StubModelBuilder modelBuilder;
 
   private final CppCustomType cppCustomType = new CppCustomType("typically");
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
   private final CppValue cppValue = new CppValue("valuable");
-  private final CppConstant cppConstant = new CppConstant("permanent", cppCustomType, cppValue);
   private final CppEnum cppEnum = new CppEnum("innumerable");
 
   private CppElement getFirstResult() {
@@ -137,7 +141,8 @@ public class StubModelBuilderTest {
         InstanceRules.class,
         CppTypeMapper.class,
         DefinedBy.class,
-        CppDefaultInitializer.class);
+        CppDefaultInitializer.class,
+        CppValueMapper.class);
     MockitoAnnotations.initMocks(this);
 
     modelBuilder = new StubModelBuilder(contextStack, rootModel);
@@ -155,12 +160,14 @@ public class StubModelBuilderTest {
     when(francaArrayType.getName()).thenReturn(ARRAY_NAME);
     when(francaMapType.getName()).thenReturn(MAP_NAME);
     when(francaField.getName()).thenReturn(FIELD_NAME);
+    when(francaConstant.getName()).thenReturn(CONSTANT_NAME);
 
     when(francaMethod.getInArgs()).thenReturn(new ArrayEList<>());
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
     when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
     when(francaMapType.getValueType()).thenReturn(francaAnotherTypeRef);
     when(francaField.getType()).thenReturn(francaTypeRef);
+    when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
 
     when(StubMethodMapper.mapMethodReturnType(any(), any()))
         .thenReturn(new StubMethodMapper.ReturnTypeData(cppCustomType, RETURN_TYPE_COMMENT));
@@ -299,6 +306,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionReadsConstants() {
+    final CppConstant cppConstant = new CppConstant(CONSTANT_NAME, cppCustomType, cppValue);
     injectResult(cppConstant);
 
     modelBuilder.finishBuilding(francaTypeCollection);
@@ -309,15 +317,22 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaConstant() {
-    when(TypeGenerationHelper.buildCppConstant(any(), any())).thenReturn(cppConstant);
+    when(CppTypeMapper.map(any(), any(FConstantDef.class))).thenReturn(cppCustomType);
+    when(CppValueMapper.map(any(), any(FInitializerExpression.class))).thenReturn(cppValue);
 
     modelBuilder.finishBuilding(francaConstant);
 
     CppElement result = getFirstResult();
-    assertEquals(cppConstant, result);
+    assertTrue(result instanceof CppConstant);
+
+    CppConstant cppConstant = (CppConstant) result;
+    assertEquals(CONSTANT_NAME, cppConstant.name.toLowerCase());
+    assertEquals(cppCustomType, cppConstant.type);
+    assertEquals(cppValue, cppConstant.value);
 
     PowerMockito.verifyStatic();
-    TypeGenerationHelper.buildCppConstant(rootModel, francaConstant);
+    CppTypeMapper.map(same(rootModel), same(francaConstant));
+    CppValueMapper.map(same(cppCustomType), same(francaInitializerExpression));
   }
 
   @Test

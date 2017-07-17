@@ -12,26 +12,12 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.baseapi.StubCommentParser;
-import com.here.ivi.api.model.cppmodel.CppConstant;
 import com.here.ivi.api.model.cppmodel.CppEnum;
 import com.here.ivi.api.model.cppmodel.CppEnumItem;
-import com.here.ivi.api.model.cppmodel.CppType;
-import com.here.ivi.api.model.cppmodel.CppValue;
-import com.here.ivi.api.model.franca.FrancaElement;
-import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FEnumerator;
 
 public class TypeGenerationHelper {
-
-  public static CppConstant buildCppConstant(FrancaElement<?> rootModel, FConstantDef constantDef) {
-
-    String name = CppNameRules.getConstantName(constantDef.getName());
-    CppType type = CppTypeMapper.map(rootModel, constantDef);
-    CppValue value = CppValueMapper.map(type, constantDef.getRhs());
-
-    return new CppConstant(name, type, value);
-  }
 
   public static CppEnum buildCppEnum(FEnumerationType enumerationType) {
     CppEnum enumeration = new CppEnum(CppNameRules.getEnumName(enumerationType.getName()), true);
