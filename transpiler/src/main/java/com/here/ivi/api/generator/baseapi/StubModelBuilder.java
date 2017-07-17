@@ -17,6 +17,7 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
+import com.here.ivi.api.generator.common.cpp.CppValueMapper;
 import com.here.ivi.api.generator.common.cpp.TypeGenerationHelper;
 import com.here.ivi.api.model.common.Includes;
 import com.here.ivi.api.model.cppmodel.CppClass;
@@ -29,6 +30,7 @@ import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppTypeDef;
+import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -122,7 +124,11 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
-    CppConstant cppConstant = TypeGenerationHelper.buildCppConstant(rootModel, francaConstant);
+    String name = CppNameRules.getConstantName(francaConstant.getName());
+    CppType type = CppTypeMapper.map(rootModel, francaConstant);
+    CppValue value = CppValueMapper.map(type, francaConstant.getRhs());
+
+    CppConstant cppConstant = new CppConstant(name, type, value);
     cppConstant.comment = StubCommentParser.parse(francaConstant).getMainBodyText();
 
     storeResult(cppConstant);
