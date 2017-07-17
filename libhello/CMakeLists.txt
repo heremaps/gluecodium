@@ -58,11 +58,22 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
     apigen_transpile(hello
         ${CMAKE_CURRENT_BINARY_DIR}/swift-fidl/
         ${HELLO_APIGEN_TRANSPILER_GENERATOR})
+#TODO Remove this workaround for plain data structures once there transpiler support is finished.
+#exchange code in else() for :
+#    apigen_transpile(hello
+#        ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
+#        ${HELLO_APIGEN_TRANSPILER_GENERATOR})
 else()
+    file(GLOB HELLO_WORLD_BUILTIN_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.*)
+    set(FRANCA_FILES ${HELLO_WORLD_BUILTIN_FILES})
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fidl)
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fdepl)
+    file(COPY ${FRANCA_FILES} DESTINATION fidl-nopods)
     apigen_transpile(hello
-        ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
+        ${CMAKE_CURRENT_BINARY_DIR}/fidl-nopods/
         ${HELLO_APIGEN_TRANSPILER_GENERATOR})
 endif()
+
 apigen_target_include_directories(hello)
 apigen_target_sources(hello)
 
