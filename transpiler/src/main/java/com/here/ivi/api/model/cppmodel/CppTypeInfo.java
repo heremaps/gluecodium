@@ -9,19 +9,11 @@
  *
  */
 
-package com.here.ivi.api.generator.common.cpp.templates
+package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.model.cppmodel.CppNamespace
-import com.here.ivi.api.generator.common.cpp.CppTemplateDelegator
-
-class CppDelegatorTemplate {
-  static def generate(CppTemplateDelegator templates, CppNamespace ns) '''
-    #pragma once
-
-    «FOR include : ns.collectIncludes()»
-      «templates.generate(include)»
-    «ENDFOR»
-
-    «templates.generate(ns)»
-  '''
+public enum CppTypeInfo {
+  InterfaceInstance,
+  Invalid,
+  Complex,
+  Enumeration
 }

@@ -19,9 +19,9 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
-import com.here.ivi.api.model.cppmodel.CppElements;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Arrays;
 import java.util.Collections;
@@ -157,7 +157,7 @@ public class CppTypeMapperTest {
     assertTrue(cppType instanceof CppCustomType);
     CppCustomType customType = (CppCustomType) cppType;
     assertEquals(CppCustomType.STRING_TYPE_NAME, customType.name);
-    assertEquals(CppElements.TypeInfo.Complex, customType.info);
+    assertEquals(CppTypeInfo.Complex, customType.info);
     assertEquals(new HashSet<>(Arrays.asList(CppLibraryIncludes.STRING)), customType.includes);
   }
 
@@ -170,7 +170,7 @@ public class CppTypeMapperTest {
     assertTrue(cppType instanceof CppCustomType);
     CppCustomType customType = (CppCustomType) cppType;
     assertEquals("std::vector< uint8_t >", customType.name);
-    assertEquals(CppElements.TypeInfo.Complex, customType.info);
+    assertEquals(CppTypeInfo.Complex, customType.info);
     assertEquals(
         new HashSet<>(Arrays.asList(CppLibraryIncludes.VECTOR, INT_TYPES)), customType.includes);
   }
