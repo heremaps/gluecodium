@@ -19,23 +19,14 @@ set(HELLO_VERSION_MINOR 0)
 set(HELLO_VERSION_PATCH 1)
 set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_PATCH})
 
-#TODO Remove this workaround for builtin types for Swift and just do the else part once
-#APIGEN-202 is done
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
-    set(HELLO_SOURCES
-        #src/hello/HelloWorldBuiltinTypesStub.cpp
-        src/hello/HelloWorldStub.cpp
-        src/test/StaticStringMethodsTestStub.cpp)
-else()
-    set(HELLO_SOURCES
-        src/hello/HelloWorldBuiltinTypesStub.cpp
-        src/hello/HelloWorldStub.cpp
-        src/test/StaticBooleanMethodsTestStub.cpp
-        src/test/StaticByteArrayMethodsTestStub.cpp
-        src/test/StaticFloatDoubleMethodsTestStub.cpp
-        src/test/StaticIntMethodsTestStub.cpp
-        src/test/StaticStringMethodsTestStub.cpp)
-endif()
+set(HELLO_SOURCES
+    src/hello/HelloWorldBuiltinTypesStub.cpp
+    src/hello/HelloWorldStub.cpp
+    src/test/StaticBooleanMethodsTestStub.cpp
+    src/test/StaticByteArrayMethodsTestStub.cpp
+    src/test/StaticFloatDoubleMethodsTestStub.cpp
+    src/test/StaticIntMethodsTestStub.cpp
+    src/test/StaticStringMethodsTestStub.cpp)
 
 add_library(hello ${HELLO_SOURCES})
 set_target_properties(hello PROPERTIES
@@ -45,36 +36,14 @@ set_target_properties(hello PROPERTIES
 
 include(apigen/Apigen)
 
-#TODO Remove this workaround for builtin types for Swift and just do the else part once
-#APIGEN-202 is done
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
-    set(HELLO_WORLD_BASE_FILES
-        #fidl/HelloWorldBuiltinTypes.fdepl
-        #fidl/HelloWorldBuiltinTypes.fidl
-        fidl/HelloWorld.fdepl
-        fidl/HelloWorld.fidl
-        fidl/StaticStringMethodsTest.fdepl
-        fidl/StaticStringMethodsTest.fidl
-    )
-    file(COPY ${HELLO_WORLD_BASE_FILES} DESTINATION swift-fidl)
-    apigen_transpile(hello
-        ${CMAKE_CURRENT_BINARY_DIR}/swift-fidl/
-        ${HELLO_APIGEN_TRANSPILER_GENERATOR})
-#TODO Remove this workaround for plain data structures once there transpiler support is finished.
-#exchange code in else() for :
-#    apigen_transpile(hello
-#        ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
-#        ${HELLO_APIGEN_TRANSPILER_GENERATOR})
-else()
-    file(GLOB HELLO_WORLD_BUILTIN_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.*)
-    set(FRANCA_FILES ${HELLO_WORLD_BUILTIN_FILES})
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fidl)
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fdepl)
-    file(COPY ${FRANCA_FILES} DESTINATION fidl-nopods)
-    apigen_transpile(hello
-        ${CMAKE_CURRENT_BINARY_DIR}/fidl-nopods/
-        ${HELLO_APIGEN_TRANSPILER_GENERATOR})
-endif()
+file(GLOB HELLO_WORLD_BUILTIN_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.*)
+set(FRANCA_FILES ${HELLO_WORLD_BUILTIN_FILES})
+list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fidl)
+list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fdepl)
+file(COPY ${FRANCA_FILES} DESTINATION fidl-nopods)
+apigen_transpile(hello
+    ${CMAKE_CURRENT_BINARY_DIR}/fidl-nopods/
+    ${HELLO_APIGEN_TRANSPILER_GENERATOR})
 
 apigen_target_include_directories(hello)
 apigen_target_sources(hello)
