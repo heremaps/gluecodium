@@ -26,11 +26,6 @@ public class CppTypeDefType extends CppType {
   }
 
   @Override
-  public boolean isValid() {
-    return actualType.isValid();
-  }
-
-  @Override
   public Stream<CppElement> stream() {
     return Stream.concat(super.stream(), Stream.of(actualType));
   }

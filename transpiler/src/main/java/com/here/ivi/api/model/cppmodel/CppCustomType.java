@@ -23,10 +23,6 @@ public class CppCustomType extends CppType {
 
   public final CppElements.TypeInfo info;
 
-  public boolean isValid() {
-    return info != CppElements.TypeInfo.Invalid;
-  }
-
   public CppCustomType(String typeName, CppElements.TypeInfo info) {
     this(typeName, info, Collections.emptyList());
   }
