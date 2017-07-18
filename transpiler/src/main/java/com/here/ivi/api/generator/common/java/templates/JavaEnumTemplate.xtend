@@ -31,7 +31,7 @@ enum «name» {
    * «JavaCommentFormatter.format(item.comment)»
    */
   «ENDIF»
-    «item.name»«IF item.value.isValid()» = «item.value.name»«ENDIF»
+    «item.name»«IF item.value.name !== null && !item.value.name.isEmpty» = «item.value.name»«ENDIF»
   «ENDFOR»
 };
 '''

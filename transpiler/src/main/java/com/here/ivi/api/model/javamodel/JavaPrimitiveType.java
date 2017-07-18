@@ -52,11 +52,6 @@ public final class JavaPrimitiveType implements JavaType {
   }
 
   @Override
-  public boolean isValid() {
-    return true;
-  }
-
-  @Override
   public Stream<JavaNamedEntity> stream() {
     return Stream.empty();
   }

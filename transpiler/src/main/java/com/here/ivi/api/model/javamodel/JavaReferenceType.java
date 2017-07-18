@@ -65,11 +65,6 @@ public class JavaReferenceType extends JavaElementWithImports implements JavaTyp
   }
 
   @Override
-  public boolean isValid() {
-    return true;
-  }
-
-  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

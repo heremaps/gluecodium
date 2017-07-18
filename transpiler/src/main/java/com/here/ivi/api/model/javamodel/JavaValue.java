@@ -28,8 +28,4 @@ public final class JavaValue extends JavaElementWithImports {
   public JavaValue(final String value, final Collection<JavaImport> includes) {
     super(value, includes);
   }
-
-  public boolean isValid() {
-    return name != null;
-  }
 }
