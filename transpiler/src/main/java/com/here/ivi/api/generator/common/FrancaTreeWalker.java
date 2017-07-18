@@ -30,6 +30,7 @@ import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypedElement;
 
 /**
  * Tree walker for the Franca model tree decouples tree traversal from the creation of
@@ -195,16 +196,17 @@ public class FrancaTreeWalker {
     }
   }
 
-  private void walkChildNodes(FArgument francaArgument) {
-    walk(francaArgument.getType(), ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
-  }
-
   private void walkChildNodes(FStructType francaStructType) {
     EList<FField> fields = francaStructType.getElements();
     if (fields != null) {
       for (FField field : fields) {
-        walk(field, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+        walk(
+            field, ModelBuilder::startBuilding, ModelBuilder::finishBuilding, this::walkChildNodes);
       }
     }
+  }
+
+  private void walkChildNodes(FTypedElement francaTypedElement) {
+    walk(francaTypedElement.getType(), ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
   }
 }

@@ -44,6 +44,7 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 
 public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
@@ -133,9 +134,15 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppField cppField = new CppField();
     cppField.name = CppNameRules.getFieldName(francaTypedElement.getName());
-    cppField.type = CppTypeMapper.map(rootModel, francaTypedElement);
     cppField.initializer = CppDefaultInitializer.map(francaTypedElement);
     cppField.comment = StubCommentParser.parse(francaTypedElement).getMainBodyText();
+
+    for (CppElement cppElement : getCurrentContext().previousResults) {
+      if (cppElement instanceof CppType) {
+        cppField.type = (CppType) cppElement;
+        break;
+      }
+    }
 
     storeResult(cppField);
     closeContext();
@@ -208,6 +215,13 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     CppEnum cppEnum = TypeGenerationHelper.buildCppEnum(francaEnumerationType);
 
     storeResult(cppEnum);
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FTypeRef francaTypeRef) {
+
+    storeResult(CppTypeMapper.map(rootModel, francaTypeRef));
     closeContext();
   }
 

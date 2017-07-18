@@ -321,8 +321,7 @@ public class StubModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaField() {
-    when(CppTypeMapper.map(any(), any(FTypedElement.class))).thenReturn(cppCustomType);
+  public void finishBuildingFrancaFieldReadsName() {
     when(CppDefaultInitializer.map(any(FTypedElement.class))).thenReturn(cppValue);
 
     modelBuilder.finishBuilding(francaField);
@@ -332,12 +331,21 @@ public class StubModelBuilderTest {
 
     CppField cppField = (CppField) result;
     assertEquals(FIELD_NAME, cppField.name);
-    assertEquals(cppCustomType, cppField.type);
     assertEquals(cppValue, cppField.initializer);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.map(same(rootModel), same(francaField));
     CppDefaultInitializer.map(same(francaField));
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsType() {
+    injectResult(cppCustomType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    CppElement result = getFirstResult();
+    assertTrue(result instanceof CppField);
+    assertEquals(cppCustomType, ((CppField) result).type);
   }
 
   @Test
@@ -443,5 +451,18 @@ public class StubModelBuilderTest {
 
     PowerMockito.verifyStatic();
     TypeGenerationHelper.buildCppEnum(francaEnumerationType);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeRef() {
+    when(CppTypeMapper.map(any(), any(FTypeRef.class))).thenReturn(cppCustomType);
+
+    modelBuilder.finishBuilding(francaTypeRef);
+
+    CppElement result = getFirstResult();
+    assertEquals(cppCustomType, result);
+
+    PowerMockito.verifyStatic();
+    CppTypeMapper.map(same(rootModel), same(francaTypeRef));
   }
 }

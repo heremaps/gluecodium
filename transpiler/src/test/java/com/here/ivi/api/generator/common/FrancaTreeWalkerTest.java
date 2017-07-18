@@ -103,6 +103,7 @@ public class FrancaTreeWalkerTest {
     when(francaMethod.getInArgs()).thenReturn(arguments);
     when(francaArgument.getType()).thenReturn(francaTypeRef);
     when(francaStructType.getElements()).thenReturn(fields);
+    when(francaField.getType()).thenReturn(francaTypeRef);
   }
 
   @Test
@@ -408,5 +409,21 @@ public class FrancaTreeWalkerTest {
     verify(modelBuilder).finishBuilding(francaTypeDef);
     verify(modelBuilder).startBuilding(anotherFrancaTypeDef);
     verify(modelBuilder).finishBuilding(anotherFrancaTypeDef);
+  }
+
+  @Test
+  public void walkWithTypeRefInArg() {
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaTypeRef);
+    verify(modelBuilder).finishBuilding(francaTypeRef);
+  }
+
+  @Test
+  public void walkWithTypeRefInField() {
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaTypeRef);
+    verify(modelBuilder).finishBuilding(francaTypeRef);
   }
 }
