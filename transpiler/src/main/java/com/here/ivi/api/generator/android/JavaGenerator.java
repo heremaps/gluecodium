@@ -19,22 +19,15 @@ import com.here.ivi.api.generator.common.java.templates.JavaClassTemplate;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.util.Collections;
 import java.util.List;
 import navigation.BaseApiSpec;
 import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 
-public class JavaGenerator {
+public class JavaGenerator extends AbstractAndroidGenerator {
 
-  private final JavaPackage basePackage;
-
-  public JavaGenerator(final List<String> javaPackageList) {
-
-    basePackage =
-        javaPackageList == null || javaPackageList.isEmpty()
-            ? JavaPackage.DEFAULT
-            : new JavaPackage(javaPackageList);
+  public JavaGenerator(final List<String> packageList) {
+    super(packageList);
   }
 
   public List<GeneratedFile> generateFiles(
