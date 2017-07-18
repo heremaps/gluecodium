@@ -21,19 +21,17 @@ interface HelloWorldPlainDataStructures {
     <** @description:
     Example non nested struct type
     **>
-    struct GeoCoordinate {
-        Double latitude
-        Double longitude
-        Double altitude
+    struct SyncResult {
+        UInt64 lastUpdatedTimeStamp
+        UInt32 numberOfChanges
     }
 
     <** @description:
     Example nested struct type
     **>
-    struct NamedGeoCoordinate {
-        GeoCoordinate coordinates
-        String name
-        ByteBuffer icon
+    struct IdentifiableSyncResult {
+        Int32 id
+        SyncResult syncResult
     }
 
     <** @description:
@@ -43,11 +41,11 @@ interface HelloWorldPlainDataStructures {
     method methodWithNonNestedType {
         in {
             <** @description: input nested struct **>
-            GeoCoordinate inputCoordinate
+            SyncResult input
         }
         out {
             <** @description: output nested struct **>
-            GeoCoordinate outputCoordinate
+            SyncResult output
         }
     }
 
@@ -57,11 +55,11 @@ interface HelloWorldPlainDataStructures {
     method methodWithNestedType {
         in {
             <** @description: input nested struct **>
-            NamedGeoCoordinate inputCoordinate
+            IdentifiableSyncResult input
         }
         out {
             <** @description: output nested struct **>
-            NamedGeoCoordinate outputCoordinate
+            IdentifiableSyncResult output
         }
     }
 }
