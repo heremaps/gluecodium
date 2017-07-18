@@ -40,6 +40,6 @@ public class CppTypeDefType extends CppType {
 
   @Override
   public Stream<CppElement> stream() {
-    return Stream.concat(this.stream(), Stream.of(actualType));
+    return Stream.concat(super.stream(), Stream.of(actualType));
   }
 }
