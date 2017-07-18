@@ -25,4 +25,8 @@ public abstract class CppType extends CppElementWithIncludes {
   }
 
   public abstract boolean isValid();
+
+  public boolean isValueType() {
+    return false;
+  }
 }

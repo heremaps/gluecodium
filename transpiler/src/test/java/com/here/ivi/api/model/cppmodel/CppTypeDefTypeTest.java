@@ -12,7 +12,8 @@
 package com.here.ivi.api.model.cppmodel;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import org.junit.Before;
@@ -20,29 +21,39 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
 public class CppTypeDefTypeTest {
 
-  @Mock CppPrimitiveType primitiveType;
+  @Mock private CppType cppType;
+
+  private CppTypeDefType cppTypeDefType;
 
   @Before
   public void setUp() {
-    initMocks(this);
+    MockitoAnnotations.initMocks(this);
+
+    cppTypeDefType = new CppTypeDefType("", cppType, Collections.emptyList());
   }
 
   @Test
-  public void getActualType() {
+  public void isValueTypeFalsePropagated() {
+    when(cppType.isValueType()).thenReturn(false);
 
-    //arrange
-    CppTypeDefType innerTypeDefType =
-        new CppTypeDefType("TypeDef_inner", primitiveType, Collections.emptyList());
-    CppTypeDefType outerTypeDefType =
-        new CppTypeDefType("TypeDef_outer", innerTypeDefType, Collections.emptyList());
+    boolean result = cppTypeDefType.isValueType();
 
-    //act
-    CppType actualType = outerTypeDefType.getActualType();
+    assertEquals(false, result);
+    verify(cppType).isValueType();
+  }
 
-    assertEquals(primitiveType, actualType);
+  @Test
+  public void isValueTypeTruePropagated() {
+    when(cppType.isValueType()).thenReturn(true);
+
+    boolean result = cppTypeDefType.isValueType();
+
+    assertEquals(true, result);
+    verify(cppType).isValueType();
   }
 }
