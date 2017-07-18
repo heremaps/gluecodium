@@ -13,23 +13,23 @@ package com.here.ivi.api.generator.common.cpp.templates
 
 import com.here.ivi.api.generator.common.cpp.templates.CppDocCommentTemplate
 import com.here.ivi.api.model.cppmodel.CppParameter
-import com.here.ivi.api.model.cppmodel.CppElements
 import com.here.ivi.api.model.cppmodel.CppMethod
 import com.here.ivi.api.model.cppmodel.CppType
+import com.here.ivi.api.model.cppmodel.CppTypeInfo
 import java.util.List;
 
 public class CppMethodTemplate {
 
     def static generateInputType(CppType type)'''
-        «CppElements.CONST_QUALIFIER» «type.name»«IF !type.isValueType»«CppElements.REF_QUALIFIER»«ENDIF»'''
+        const «type.name»«IF !type.isValueType»&«ENDIF»'''
 
     def static generate(CppParameter p) {
         if( p.mode == CppParameter.Mode.Input ) {
             '''«generateInputType(p.type)» «p.name»'''
         } else if(p.mode == CppParameter.Mode.Output) {
-            '''«p.type.name»«CppElements.REF_QUALIFIER» «p.name»'''
+            '''«p.type.name»& «p.name»'''
         } else {
-            '''«p.type.name»«CppElements.POINTER» «p.name»'''
+            '''«p.type.name»* «p.name»'''
         }
     }
 

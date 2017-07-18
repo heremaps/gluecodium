@@ -19,9 +19,9 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
-import com.here.ivi.api.model.cppmodel.CppElements;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.test.ArrayEList;
 import navigation.BaseApiSpec;
@@ -165,7 +165,7 @@ public class StubMethodMapperTest {
   @Test
   public void mapArgumentTypeWrapsInSharedPtr() {
     final CppCustomType cppInterfaceInstance =
-        new CppCustomType(TYPE_NAME, CppElements.TypeInfo.InterfaceInstance);
+        new CppCustomType(TYPE_NAME, CppTypeInfo.InterfaceInstance);
     when(CppTypeMapper.map(any(), any(FArgument.class))).thenReturn(cppInterfaceInstance);
     when(CppTypeMapper.wrapSharedPtr(any())).thenReturn(cppCustomType);
 
@@ -180,7 +180,7 @@ public class StubMethodMapperTest {
   @Test
   public void mapArgumentTypeWrapsInUniquePtr() {
     final CppCustomType cppInterfaceInstance =
-        new CppCustomType(TYPE_NAME, CppElements.TypeInfo.InterfaceInstance);
+        new CppCustomType(TYPE_NAME, CppTypeInfo.InterfaceInstance);
     when(CppTypeMapper.map(any(), any(FArgument.class))).thenReturn(cppInterfaceInstance);
     when(CppTypeMapper.wrapUniquePtr(any())).thenReturn(cppCustomType);
     when(propertyAccessor.getCreates(any())).thenReturn(mock(FInterface.class));

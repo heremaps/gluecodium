@@ -11,9 +11,12 @@
 
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.model.common.Include;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CppNamespace {
@@ -31,5 +34,14 @@ public class CppNamespace {
 
   public final Stream<CppElement> streamRecursive() {
     return members.stream().filter(Objects::nonNull).flatMap(CppElement::streamRecursive);
+  }
+
+  public Set<Include> collectIncludes() {
+    return streamRecursive()
+        .filter(p -> p instanceof CppElementWithIncludes)
+        .map(CppElementWithIncludes.class::cast)
+        .map(t -> t.includes)
+        .flatMap(Set::stream)
+        .collect(Collectors.toSet());
   }
 }

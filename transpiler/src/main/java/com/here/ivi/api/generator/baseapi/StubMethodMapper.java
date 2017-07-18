@@ -14,9 +14,9 @@ package com.here.ivi.api.generator.baseapi;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
-import com.here.ivi.api.model.cppmodel.CppElements;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.HashSet;
 import java.util.Set;
@@ -83,7 +83,7 @@ public final class StubMethodMapper {
     CppType returnType =
         new CppCustomType(
             "here::internal::Expected< " + errorType.name + ", " + outArgType.name + " >",
-            CppElements.TypeInfo.Complex,
+            CppTypeInfo.Complex,
             includes);
 
     String returnComment =
@@ -98,7 +98,7 @@ public final class StubMethodMapper {
     CppType type = CppTypeMapper.map(rootModel, francaArgument);
 
     if (!(type instanceof CppCustomType)
-        || ((CppCustomType) type).info != CppElements.TypeInfo.InterfaceInstance) {
+        || ((CppCustomType) type).info != CppTypeInfo.InterfaceInstance) {
       return type;
     }
 
