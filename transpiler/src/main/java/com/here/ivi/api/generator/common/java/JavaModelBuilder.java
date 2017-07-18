@@ -39,6 +39,7 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
@@ -169,10 +170,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FTypedElement francaTypedElement) {
 
+    JavaType javaType =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
     JavaField javaField =
-        new JavaField(
-            JavaTypeMapper.map(francaTypedElement.getType()),
-            JavaNameRules.getFieldName(francaTypedElement.getName()));
+        new JavaField(javaType, JavaNameRules.getFieldName(francaTypedElement.getName()));
     javaField.comment = getCommentString(francaTypedElement);
 
     storeResult(javaField);
@@ -192,6 +193,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     }
 
     storeResult(javaClass);
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FTypeRef francaTypeRef) {
+
+    storeResult(JavaTypeMapper.map(francaTypeRef));
     closeContext();
   }
 

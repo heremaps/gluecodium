@@ -74,17 +74,17 @@ public class JavaModelBuilderTest {
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
-  @Mock private FTypeRef francaType;
+  @Mock private FTypeRef francaTypeRef;
   @Mock private FConstantDef francaConstant;
   @Mock private FTypedElement francaTypedElement;
   @Mock private FStructType francaStructType;
 
   private final EList<FArgument> arguments = new ArrayEList<>();
 
-  private final JavaType javaTypeVoid = new JavaPrimitiveType(JavaPrimitiveType.Type.VOID);
+  private final JavaType javaCustomType = new JavaCustomType("typical");
   private final JavaConstant javaConstant =
-      new JavaConstant(javaTypeVoid, CONSTANT_NAME, new JavaValue("valuable"));
-  private final JavaField javaField = new JavaField(javaTypeVoid, FIELD_NAME);
+      new JavaConstant(javaCustomType, CONSTANT_NAME, new JavaValue("valuable"));
+  private final JavaField javaField = new JavaField(javaCustomType, FIELD_NAME);
 
   private JavaModelBuilder modelBuilder;
 
@@ -121,7 +121,7 @@ public class JavaModelBuilderTest {
     when(francaMethod.getOutArgs()).thenReturn(arguments);
 
     when(francaArgument.getName()).thenReturn(PARAMETER_NAME);
-    when(francaArgument.getType()).thenReturn(francaType);
+    when(francaArgument.getType()).thenReturn(francaTypeRef);
   }
 
   @Test
@@ -207,8 +207,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodWithOneOutArg() {
-    final JavaType javaTypeCustom = new JavaCustomType("typical");
-    when(JavaTypeMapper.map(francaType)).thenReturn(javaTypeCustom);
+    when(JavaTypeMapper.map(francaTypeRef)).thenReturn(javaCustomType);
     arguments.add(francaArgument);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -216,15 +215,15 @@ public class JavaModelBuilderTest {
     JavaElement result = getFirstResult();
     assertTrue(result instanceof JavaMethod);
 
-    assertEquals(javaTypeCustom, ((JavaMethod) result).returnType);
+    assertEquals(javaCustomType, ((JavaMethod) result).returnType);
 
     PowerMockito.verifyStatic();
-    JavaTypeMapper.map(francaType);
+    JavaTypeMapper.map(francaTypeRef);
   }
 
   @Test
   public void finishBuildingFrancaMethodReadsParameters() {
-    final JavaParameter javaParameter = new JavaParameter(javaTypeVoid, PARAMETER_NAME);
+    final JavaParameter javaParameter = new JavaParameter(javaCustomType, PARAMETER_NAME);
     injectResult(javaParameter);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -240,7 +239,7 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaInputArgument() {
     final JavaType javaTypeCustom = new JavaCustomType("typical");
-    when(JavaTypeMapper.map(francaType)).thenReturn(javaTypeCustom);
+    when(JavaTypeMapper.map(francaTypeRef)).thenReturn(javaTypeCustom);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
@@ -252,7 +251,7 @@ public class JavaModelBuilderTest {
     assertEquals(javaTypeCustom, javaParameter.type);
 
     PowerMockito.verifyStatic();
-    JavaTypeMapper.map(francaType);
+    JavaTypeMapper.map(francaTypeRef);
   }
 
   @Test
@@ -290,20 +289,29 @@ public class JavaModelBuilderTest {
 
     JavaElement result = getFirstResult();
     assertTrue(result instanceof JavaConstant);
-
-    JavaConstant javaConstant = (JavaConstant) result;
-    assertEquals(CONSTANT_NAME, javaConstant.name.toLowerCase());
+    assertEquals(CONSTANT_NAME, result.name.toLowerCase());
   }
 
   @Test
-  public void finishBuildingFrancaTypedElement() {
+  public void finishBuildingFrancaTypedElementReadsName() {
+    modelBuilder.finishBuilding(francaTypedElement);
+
+    JavaElement result = getFirstResult();
+    assertTrue(result instanceof JavaField);
+    assertEquals(FIELD_NAME, result.name.toLowerCase());
+  }
+
+  @Test
+  public void finishBuildingFrancaTypedElementReadsType() {
+    injectResult(javaCustomType);
+
     modelBuilder.finishBuilding(francaTypedElement);
 
     JavaElement result = getFirstResult();
     assertTrue(result instanceof JavaField);
 
     JavaField javaField = (JavaField) result;
-    assertEquals(FIELD_NAME, javaField.name.toLowerCase());
+    assertEquals(javaCustomType, javaField.type);
   }
 
   @Test
@@ -328,5 +336,18 @@ public class JavaModelBuilderTest {
     JavaClass javaClass = (JavaClass) result;
     assertFalse(javaClass.fields.isEmpty());
     assertEquals(javaField, javaClass.fields.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeRef() {
+    when(JavaTypeMapper.map(francaTypeRef)).thenReturn(javaCustomType);
+
+    modelBuilder.finishBuilding(francaTypeRef);
+
+    JavaElement result = getFirstResult();
+    assertEquals(javaCustomType, result);
+
+    PowerMockito.verifyStatic();
+    JavaTypeMapper.map(francaTypeRef);
   }
 }
