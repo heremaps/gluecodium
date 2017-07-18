@@ -44,4 +44,9 @@ public class CppCustomType extends CppType {
     super(typeName, includes);
     this.info = info;
   }
+
+  @Override
+  public boolean isValueType() {
+    return info == CppElements.TypeInfo.Enumeration;
+  }
 }

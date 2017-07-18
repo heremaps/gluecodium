@@ -27,12 +27,6 @@ public class CppTypeDefType extends CppType {
     this.actualType = actualType;
   }
 
-  public CppType getActualType() {
-    return actualType instanceof CppTypeDefType
-        ? ((CppTypeDefType) actualType).getActualType()
-        : actualType;
-  }
-
   @Override
   public boolean isValid() {
     return actualType.isValid();
@@ -41,5 +35,10 @@ public class CppTypeDefType extends CppType {
   @Override
   public Stream<CppElement> stream() {
     return Stream.concat(super.stream(), Stream.of(actualType));
+  }
+
+  @Override
+  public boolean isValueType() {
+    return actualType.isValueType();
   }
 }
