@@ -26,7 +26,13 @@ set(HELLO_SOURCES
     src/test/StaticByteArrayMethodsTestStub.cpp
     src/test/StaticFloatDoubleMethodsTestStub.cpp
     src/test/StaticIntMethodsTestStub.cpp
-    src/test/StaticStringMethodsTestStub.cpp)
+    src/test/StaticStringMethodsTestStub.cpp
+)
+
+#TODO: Remove this workaround once Android/iOS support PODs (APIGEN-268, APIGEN-357)
+if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
+    set(HELLO_SOURCES  ${HELLO_SOURCES} src/hello/HelloWorldPlainDataStructuresStub.cpp)
+endif()
 
 add_library(hello ${HELLO_SOURCES})
 set_target_properties(hello PROPERTIES
@@ -36,14 +42,21 @@ set_target_properties(hello PROPERTIES
 
 include(apigen/Apigen)
 
-file(GLOB HELLO_WORLD_BUILTIN_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.*)
-set(FRANCA_FILES ${HELLO_WORLD_BUILTIN_FILES})
-list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fidl)
-list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fdepl)
-file(COPY ${FRANCA_FILES} DESTINATION fidl-nopods)
-apigen_transpile(hello
-    ${CMAKE_CURRENT_BINARY_DIR}/fidl-nopods/
-    ${HELLO_APIGEN_TRANSPILER_GENERATOR})
+#TODO: Remove this workaround once Android/iOS support PODs (APIGEN-268, APIGEN-357)
+if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
+    apigen_transpile(hello
+        ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
+        ${HELLO_APIGEN_TRANSPILER_GENERATOR})
+else()
+    file(GLOB HELLO_WORLD_BUILTIN_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.*)
+    set(FRANCA_FILES ${HELLO_WORLD_BUILTIN_FILES})
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fidl)
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fdepl)
+    file(COPY ${FRANCA_FILES} DESTINATION fidl-nopods)
+    apigen_transpile(hello
+        ${CMAKE_CURRENT_BINARY_DIR}/fidl-nopods/
+        ${HELLO_APIGEN_TRANSPILER_GENERATOR})
+endif()
 
 apigen_target_include_directories(hello)
 apigen_target_sources(hello)
