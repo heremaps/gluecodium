@@ -31,7 +31,6 @@ import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FBroadcast;
-import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FMapType;
@@ -43,38 +42,6 @@ import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 
 public class CppTypeMapper {
-
-  public static CppType map(
-      FrancaElement<? extends BaseApiSpec.InterfacePropertyAccessor> rootModel,
-      FAttribute attribute) {
-    CppType type = CppTypeMapper.map(rootModel, attribute.getType());
-
-    if (attribute.isArray()) {
-      type =
-          CppTypeMapper.wrapArrayType(
-              new LazyInternalInclude(DefinedBy.createFromFrancaElement(rootModel)),
-              type,
-              CppTypeMapper.ArrayMode.map(rootModel, attribute));
-    }
-
-    return type;
-  }
-
-  public static CppType map(FrancaElement<?> rootModel, FConstantDef constant) {
-    CppType type = CppTypeMapper.map(rootModel, constant.getType());
-
-    if (constant.isArray()) {
-      // FIXME impossible to define if a constant is a set or not inside Franca, always putting as vector
-      // should have CppTypeMapper.ArrayMode.map(rootModel, constant)
-      type =
-          CppTypeMapper.wrapArrayType(
-              new LazyInternalInclude(DefinedBy.createFromFrancaElement(rootModel)),
-              type,
-              ArrayMode.STD_VECTOR);
-    }
-
-    return type;
-  }
 
   public static CppType map(FrancaElement<?> rootModel, FTypedElement typedElement) {
     CppType type = CppTypeMapper.map(rootModel, typedElement.getType());
