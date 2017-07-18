@@ -30,6 +30,7 @@ else()
     set(HELLO_SOURCES
         src/hello/HelloWorldBuiltinTypesStub.cpp
         src/hello/HelloWorldStub.cpp
+        src/test/StaticByteArrayMethodsTestStub.cpp
         src/test/StaticInt8MethodsTestStub.cpp
         src/test/StaticStringMethodsTestStub.cpp
         src/test/StaticUInt8MethodsTestStub.cpp)

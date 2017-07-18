@@ -1,0 +1,64 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+interface StaticByteArrayMethodsTest {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    <** @description:
+    Example static test method which takes a byte buffer and returns it
+    **>
+    method returnInputByteBuffer {
+        in {
+            <** @description: Input buffer **>
+            ByteBuffer inputBuffer
+        }
+        out {
+            <** @description: Output buffer **>
+            ByteBuffer outputBuffer
+        }
+    }
+
+    <** @description:
+    Example static test method which takes a byte buffer and returns it in reverse order
+    **>
+    method returnReverseByteBuffer {
+        in {
+            <** @description: Input buffer **>
+            ByteBuffer inputBuffer
+        }
+        out {
+            <** @description: Output buffer **>
+            ByteBuffer outputBuffer
+        }
+    }
+
+    <** @description:
+    Example static test method which takes two byte buffers and returns a concatenated buffer
+    **>
+    method concatenateByteBuffers {
+        in {
+            <** @description: Input buffer 1 to concatenate **>
+            ByteBuffer input1
+            <** @description: Input buffer 2 to cancatenate **>
+            ByteBuffer input2
+        }
+        out {
+            <** @description: Output buffer **>
+            ByteBuffer outputBuffer
+        }
+    }
+}
