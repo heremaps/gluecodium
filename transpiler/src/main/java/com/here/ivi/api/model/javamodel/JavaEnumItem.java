@@ -21,10 +21,6 @@ public class JavaEnumItem extends JavaElement {
     this.value = value;
   }
 
-  public boolean isValid() {
-    return value != null && value.isValid() && !name.isEmpty();
-  }
-
   @Override
   public Stream<JavaNamedEntity> stream() {
     return Stream.of(value);

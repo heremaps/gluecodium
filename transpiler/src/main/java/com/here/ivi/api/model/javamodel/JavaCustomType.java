@@ -28,9 +28,4 @@ public final class JavaCustomType extends JavaElementWithImports implements Java
   public String getName() {
     return name;
   }
-
-  @Override
-  public boolean isValid() {
-    return name != null && !name.isEmpty();
-  }
 }

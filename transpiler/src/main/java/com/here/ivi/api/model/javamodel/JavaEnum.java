@@ -24,17 +24,6 @@ public final class JavaEnum extends JavaElement {
     super(name);
   }
 
-  public boolean isValid() {
-    boolean ret = true;
-    for (JavaEnumItem item : items) {
-      if (!item.isValid()) {
-        ret = false;
-        break;
-      }
-    }
-    return !items.isEmpty() && name != null && !name.isEmpty() && ret;
-  }
-
   @Override
   public Stream<JavaNamedEntity> stream() {
     return items.stream().map(JavaElement.class::cast);

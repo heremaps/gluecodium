@@ -28,10 +28,6 @@ public class JavaConstant extends JavaElement {
     }
   }
 
-  public boolean isValid() {
-    return type != null && value != null && type.isValid() && value.isValid();
-  }
-
   @Override
   public Stream<JavaNamedEntity> stream() {
     return Stream.of(type, value);
