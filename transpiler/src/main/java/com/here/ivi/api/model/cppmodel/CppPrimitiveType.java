@@ -84,11 +84,6 @@ public class CppPrimitiveType extends CppType {
   }
 
   @Override
-  public boolean isValid() {
-    return true;
-  }
-
-  @Override
   public boolean isValueType() {
     return true;
   }

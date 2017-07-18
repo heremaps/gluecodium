@@ -33,8 +33,4 @@ public class CppValue extends CppElementWithIncludes {
   public CppValue(String value, Collection<Include> includes) {
     super(value, includes);
   }
-
-  public boolean isValid() {
-    return name != null;
-  }
 }

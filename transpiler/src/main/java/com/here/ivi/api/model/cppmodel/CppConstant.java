@@ -24,10 +24,6 @@ public class CppConstant extends CppElement {
     this.value = value;
   }
 
-  public boolean isValid() {
-    return type != null && value != null && type.isValid() && value.isValid();
-  }
-
   @Override
   public Stream<CppElement> stream() {
     return Stream.of(type, value);
