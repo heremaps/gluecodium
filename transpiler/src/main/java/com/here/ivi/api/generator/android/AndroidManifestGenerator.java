@@ -14,24 +14,18 @@ package com.here.ivi.api.generator.android;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.android.AndroidNameRules;
 import com.here.ivi.api.generator.common.android.templates.AndroidManifestTemplate;
-import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.util.ArrayList;
 import java.util.List;
 
-final class AndroidManifestGenerator {
-  private final List<String> javaPackageList;
+final class AndroidManifestGenerator extends AbstractAndroidGenerator {
 
-  AndroidManifestGenerator(final List<String> javaPackageList) {
-    this.javaPackageList = javaPackageList;
+  public AndroidManifestGenerator(final List<String> packageList) {
+    super(packageList);
   }
 
   List<GeneratedFile> generate() {
-    JavaPackage javaPackage =
-        javaPackageList == null || javaPackageList.isEmpty()
-            ? JavaPackage.DEFAULT
-            : new JavaPackage(javaPackageList);
 
-    CharSequence fileContent = AndroidManifestTemplate.generate(javaPackage);
+    CharSequence fileContent = AndroidManifestTemplate.generate(basePackage);
 
     List<GeneratedFile> files = new ArrayList<>();
     files.add(new GeneratedFile(fileContent, AndroidNameRules.getManifestFilename()));

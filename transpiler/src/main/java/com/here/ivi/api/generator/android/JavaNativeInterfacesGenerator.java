@@ -26,7 +26,6 @@ import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaPackage;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -35,17 +34,13 @@ import java.util.stream.Collectors;
 import navigation.BaseApiSpec;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
 
-public class JavaNativeInterfacesGenerator {
+public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
 
-  private final JavaPackage basePackage;
   private final List<String> additionalIncludes;
 
   public JavaNativeInterfacesGenerator(
-      final List<String> javaPackageList, final List<String> additionalIncludes) {
-    basePackage =
-        javaPackageList == null || javaPackageList.isEmpty()
-            ? JavaPackage.DEFAULT
-            : new JavaPackage(javaPackageList);
+      final List<String> packageList, final List<String> additionalIncludes) {
+    super(packageList);
     this.additionalIncludes = additionalIncludes;
   }
 
