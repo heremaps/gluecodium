@@ -14,7 +14,7 @@ package com.here.ivi.api.model.javamodel;
 import java.util.Collection;
 import java.util.EnumSet;
 
-public class JavaReferenceType extends JavaElementWithImports implements JavaType {
+public class JavaReferenceType extends JavaType {
   public static final EnumSet<Type> TYPES = EnumSet.allOf(Type.class);
 
   public enum Type {

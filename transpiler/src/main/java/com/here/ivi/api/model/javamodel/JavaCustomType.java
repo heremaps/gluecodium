@@ -14,7 +14,7 @@ package com.here.ivi.api.model.javamodel;
 import java.util.Collection;
 
 /** A custom Java type. */
-public final class JavaCustomType extends JavaElementWithImports implements JavaType {
+public final class JavaCustomType extends JavaType {
 
   public JavaCustomType(final String name) {
     super(name);
@@ -22,10 +22,5 @@ public final class JavaCustomType extends JavaElementWithImports implements Java
 
   public JavaCustomType(final String name, final Collection<JavaImport> imports) {
     super(name, imports);
-  }
-
-  @Override
-  public String getName() {
-    return name;
   }
 }

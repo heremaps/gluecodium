@@ -12,10 +12,9 @@
 package com.here.ivi.api.model.javamodel;
 
 import java.util.EnumSet;
-import java.util.Objects;
 import java.util.stream.Stream;
 
-public final class JavaPrimitiveType implements JavaType {
+public final class JavaPrimitiveType extends JavaType {
   public static final EnumSet<Type> TYPES = EnumSet.allOf(Type.class);
 
   public enum Type {
@@ -43,6 +42,7 @@ public final class JavaPrimitiveType implements JavaType {
   public final Type type;
 
   public JavaPrimitiveType(final Type type) {
+    super(type.getValue());
     this.type = type;
   }
 
@@ -54,13 +54,6 @@ public final class JavaPrimitiveType implements JavaType {
   @Override
   public Stream<JavaNamedEntity> stream() {
     return Stream.empty();
-  }
-
-  @Override
-  public final Stream<JavaNamedEntity> streamRecursive() {
-    return Stream.concat(
-        Stream.of(this),
-        stream().filter(Objects::nonNull).flatMap(JavaNamedEntity::streamRecursive));
   }
 
   @Override

@@ -11,6 +11,15 @@
 
 package com.here.ivi.api.model.javamodel;
 
-public interface JavaType extends JavaNamedEntity {
-  String getName();
+import java.util.Collection;
+
+public abstract class JavaType extends JavaElementWithImports {
+
+  public JavaType(String name) {
+    super(name);
+  }
+
+  public JavaType(final String name, final Collection<JavaImport> imports) {
+    super(name, imports);
+  }
 }
