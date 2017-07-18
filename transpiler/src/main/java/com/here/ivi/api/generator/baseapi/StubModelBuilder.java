@@ -77,6 +77,9 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
       if (cppElement instanceof CppMethod) {
         cppClass.methods.add((CppMethod) cppElement);
       }
+      if (cppElement instanceof CppStruct) {
+        cppClass.structs.add((CppStruct) cppElement);
+      }
     }
 
     storeResult(cppClass);
@@ -157,9 +160,8 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FStructType francaStructType) {
 
-    CppStruct struct = new CppStruct();
+    CppStruct struct = new CppStruct(CppNameRules.getStructName(francaStructType.getName()));
     struct.comment = StubCommentParser.parse(francaStructType).getMainBodyText();
-    struct.name = CppNameRules.getStructName(francaStructType.getName());
 
     for (CppElement cppElement : getCurrentContext().previousResults) {
       if (cppElement instanceof CppField) {

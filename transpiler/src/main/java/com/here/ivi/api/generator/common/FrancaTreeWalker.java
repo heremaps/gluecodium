@@ -130,18 +130,13 @@ public class FrancaTreeWalker {
             this::walkChildNodes);
       }
     }
-    EList<FConstantDef> constants = francaInterface.getConstants();
-    if (constants != null) {
-      for (FConstantDef constant : constants) {
-        walk(constant, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
-      }
-    }
     EList<FAttribute> attributes = francaInterface.getAttributes();
     if (attributes != null) {
       for (FAttribute attribute : attributes) {
         walk(attribute, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
       }
     }
+    walkChildNodes((FTypeCollection) francaInterface);
   }
 
   private void walkChildNodes(FTypeCollection francaTypeCollection) {

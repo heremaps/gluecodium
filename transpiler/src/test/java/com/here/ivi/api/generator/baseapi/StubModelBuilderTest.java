@@ -120,6 +120,7 @@ public class StubModelBuilderTest {
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
   private final CppValue cppValue = new CppValue("valuable");
   private final CppEnum cppEnum = new CppEnum("innumerable");
+  private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
 
   private CppElement getFirstResult() {
     List<CppElement> results = contextStack.getParentContext().previousResults;
@@ -203,6 +204,20 @@ public class StubModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaInterfaceReadsStructs() {
+    injectResult(cppStruct);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    CppElement result = getFirstResult();
+    assertTrue(result instanceof CppClass);
+
+    CppClass cppClass = (CppClass) result;
+    assertFalse(cppClass.structs.isEmpty());
+    assertEquals(cppStruct, cppClass.structs.iterator().next());
+  }
+
+  @Test
   public void finishBuildingFrancaMethodReadsReturnTypeData() {
     modelBuilder.finishBuilding(francaMethod);
 
@@ -272,8 +287,6 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionReadsStructs() {
-    CppStruct cppStruct = new CppStruct();
-    cppStruct.name = STRUCT_NAME;
     injectResult(cppStruct);
 
     modelBuilder.finishBuilding(francaTypeCollection);

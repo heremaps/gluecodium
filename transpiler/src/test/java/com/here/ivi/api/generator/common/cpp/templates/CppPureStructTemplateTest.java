@@ -35,12 +35,11 @@ public final class CppPureStructTemplateTest {
   private static final String EXPECTED_FIELD_RESULT_FORMAT =
       "    %s" + TYPE_NAME + " " + FIELD_NAME + "%s;\n";
 
-  private CppStruct cppStruct = new CppStruct();
+  private CppStruct cppStruct = new CppStruct(STRUCT_NAME);
   private CppField cppField = new CppField();
 
   @Before
   public void setUp() {
-    cppStruct.name = STRUCT_NAME;
     cppField.name = FIELD_NAME;
     cppField.type = new CppCustomType(TYPE_NAME);
   }
