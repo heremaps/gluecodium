@@ -16,8 +16,13 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class CppStruct extends CppElement {
+
   public CppStruct inherits;
   public List<CppField> fields = new ArrayList<>();
+
+  public CppStruct(final String name) {
+    super(name);
+  }
 
   @Override
   public Stream<CppElement> stream() {
