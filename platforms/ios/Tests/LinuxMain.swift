@@ -4,5 +4,6 @@ import XCTest
 
 XCTMain([
     testCase(HelloWorldTests.allTests),
+    testCase(StaticIntMethodsTests.allTests),
     testCase(StaticStringMethodsTests.allTests),
 ])
