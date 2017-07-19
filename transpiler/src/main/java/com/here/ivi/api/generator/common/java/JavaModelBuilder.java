@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common.java;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.StubCommentParser;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
@@ -26,6 +27,7 @@ import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
+import java.util.List;
 import navigation.BaseApiSpec;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import org.eclipse.emf.common.util.EList;
@@ -64,15 +66,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaClass javaClass = createJavaClass(francaInterface);
 
-    for (JavaElement javaElement : getCurrentContext().previousResults) {
-      if (javaElement instanceof JavaConstant) {
-        javaClass.constants.add((JavaConstant) javaElement);
-      } else if (javaElement instanceof JavaField) {
-        javaClass.fields.add((JavaField) javaElement);
-      } else if (javaElement instanceof JavaMethod) {
-        javaClass.methods.add((JavaMethod) javaElement);
-      }
-    }
+    List<JavaElement> previousResults = getCurrentContext().previousResults;
+    javaClass.constants.addAll(CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
+    javaClass.fields.addAll(CollectionsHelper.getAllOfType(previousResults, JavaField.class));
+    javaClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, JavaMethod.class));
 
     storeResult(javaClass);
     closeContext();
