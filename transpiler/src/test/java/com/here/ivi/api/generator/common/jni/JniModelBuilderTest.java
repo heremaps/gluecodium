@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.jni;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -24,8 +25,8 @@ import com.here.ivi.api.model.cppmodel.CppCustomType;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.junit.Before;
@@ -50,6 +52,7 @@ public class JniModelBuilderTest {
 
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
+  @Mock private FArgument francaArgument;
 
   @Mock private JavaModelBuilder javaBuilder;
   @Mock private StubModelBuilder stubBuilder;
@@ -75,9 +78,15 @@ public class JniModelBuilderTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private ModelBuilderContextStack<JniElement> contextStack;
 
+  private JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null, null);
+
+  private JniModelBuilder correspondenceBuilder;
+
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
+
+    correspondenceBuilder = new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
 
     contextStack.getCurrentContext().currentResults = new ArrayList<>();
     contextStack.getCurrentContext().previousResults = new ArrayList<>();
@@ -106,35 +115,12 @@ public class JniModelBuilderTest {
 
   private static CppMethod createCppMethodInt() {
     CppParameter cppParameter = new CppParameter();
-    cppParameter.type = new CppPrimitiveType(Type.INT8);
-    CppMethod cppMethod =
-        new CppMethod.Builder(CPP_INT_METHOD_NAME)
-            .inParameter(cppParameter)
-            .returnType(new CppPrimitiveType(Type.INT8))
-            .build();
+    cppParameter.type = new CppPrimitiveType(CppPrimitiveType.Type.INT8);
 
-    return cppMethod;
-  }
-
-  private static JavaMethod createJavaMethodString() {
-    JavaMethod javaMethod =
-        new JavaMethod(
-            JAVA_STRING_METHOD_NAME, new JavaReferenceType(JavaReferenceType.Type.STRING));
-    javaMethod.parameters.add(
-        new JavaParameter(
-            new JavaReferenceType(JavaReferenceType.Type.STRING), BASE_NAME_PARAMETER));
-    return javaMethod;
-  }
-
-  private static CppMethod createCppMethodString() {
-    CppParameter cppParameter = new CppParameter();
-    cppParameter.type = new CppCustomType(CppCustomType.STRING_TYPE_NAME);
-    CppMethod cppMethod =
-        new CppMethod.Builder(CPP_STRING_METHOD_NAME)
-            .inParameter(cppParameter)
-            .returnType(new CppCustomType(CppCustomType.STRING_TYPE_NAME))
-            .build();
-    return cppMethod;
+    return new CppMethod.Builder(CPP_INT_METHOD_NAME)
+        .inParameter(cppParameter)
+        .returnType(new CppPrimitiveType(CppPrimitiveType.Type.INT8))
+        .build();
   }
 
   private JniMethod createJniMethodVoid(JniModel jniModel) {
@@ -145,42 +131,23 @@ public class JniModelBuilderTest {
     result.cppMethodName = CPP_VOID_METHOD_NAME;
     result.cppReturnType = "void";
     result.owningModel = jniModel;
-    return result;
-  }
 
-  private JniMethod createJniMethodInt(JniModel jniModel) {
-
-    JavaPrimitiveType intType = new JavaPrimitiveType(JavaPrimitiveType.Type.INT);
-    JniMethod result = new JniMethod();
-    result.javaReturnType = intType;
-    result.javaMethodName = JAVA_INT_METHOD_NAME;
-    result.cppMethodName = CPP_INT_METHOD_NAME;
-    result.cppReturnType = "int8_t";
-    result.owningModel = jniModel;
-
-    JniParameterData parameter = new JniParameterData();
-    parameter.baseName = BASE_NAME_PARAMETER;
-    parameter.javaType = intType;
-    parameter.cppType = "int8_t";
-    result.parameters.add(parameter);
     return result;
   }
 
   private JniMethod createJniMethodString(JniModel jniModel) {
 
-    JavaReferenceType StringType = new JavaReferenceType(JavaReferenceType.Type.STRING);
+    JavaReferenceType stringType = new JavaReferenceType(JavaReferenceType.Type.STRING);
     JniMethod result = new JniMethod();
-    result.javaReturnType = StringType;
+    result.javaReturnType = stringType;
     result.javaMethodName = JAVA_STRING_METHOD_NAME;
     result.cppMethodName = CPP_STRING_METHOD_NAME;
     result.cppReturnType = "std::string";
     result.owningModel = jniModel;
+    result.parameters.add(
+        new JniParameter(
+            BASE_NAME_PARAMETER, stringType, new CppCustomType(CppCustomType.STRING_TYPE_NAME)));
 
-    JniParameterData parameter = new JniParameterData();
-    parameter.baseName = BASE_NAME_PARAMETER;
-    parameter.javaType = StringType;
-    parameter.cppType = "std::string";
-    result.parameters.add(parameter);
     return result;
   }
 
@@ -204,9 +171,6 @@ public class JniModelBuilderTest {
     when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodVoid());
     when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodVoid());
 
-    JniModelBuilder correspondenceBuilder =
-        new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-
     //act
     correspondenceBuilder.finishBuilding(francaMethod);
     List<JniElement> result = correspondenceBuilder.getResults();
@@ -219,43 +183,34 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFMethodInt() {
-    //arrange
-    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodInt());
-    when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodInt());
+  public void finishBuildingFrancaMethodReadsJavaCppMethods() {
+    JavaMethod javaMethod = createJavaMethodInt();
+    CppMethod cppMethod = createCppMethodInt();
+    when(javaBuilder.getFirstResult(any())).thenReturn(javaMethod);
+    when(stubBuilder.getFirstResult(any())).thenReturn(cppMethod);
 
-    JniModelBuilder correspondenceBuilder =
-        new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-
-    //act
     correspondenceBuilder.finishBuilding(francaMethod);
-    List<JniElement> result = correspondenceBuilder.getResults();
 
-    //assert
-    assertEquals(1, result.size());
-    assertTrue(result.get(0) instanceof JniMethod);
-    JniMethod method = (JniMethod) result.get(0);
-    assertEquals(createJniMethodInt(null), method);
+    JniMethod jniMethod = correspondenceBuilder.getFirstResult(JniMethod.class);
+    assertNotNull(jniMethod);
+    assertEquals(javaMethod.name, jniMethod.javaMethodName);
+    assertEquals(javaMethod.returnType, jniMethod.javaReturnType);
+    assertEquals(cppMethod.name, jniMethod.cppMethodName);
+    assertEquals(cppMethod.getReturnType().name, jniMethod.cppReturnType);
   }
 
   @Test
-  public void finishBuildingFMethodString() {
-    //arrange
-    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodString());
-    when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodString());
+  public void finishBuildingFrancaMethodReadsJniParameters() {
+    injectResult(jniParameter);
+    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodInt());
+    when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodInt());
 
-    JniModelBuilder correspondenceBuilder =
-        new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-
-    //act
     correspondenceBuilder.finishBuilding(francaMethod);
-    List<JniElement> result = correspondenceBuilder.getResults();
 
-    //assert
-    assertEquals(1, result.size());
-    assertTrue(result.get(0) instanceof JniMethod);
-    JniMethod method = (JniMethod) result.get(0);
-    assertEquals(createJniMethodString(null), method);
+    JniMethod jniMethod = correspondenceBuilder.getFirstResult(JniMethod.class);
+    assertNotNull(jniMethod);
+    assertEquals(1, jniMethod.parameters.size());
+    assertEquals(jniParameter, jniMethod.parameters.get(0));
   }
 
   @Test
@@ -266,9 +221,6 @@ public class JniModelBuilderTest {
     when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
     when(stubBuilder.getFirstResult(any())).thenReturn(new CppClass(CPP_CLASS_NAME));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
-
-    JniModelBuilder correspondenceBuilder =
-        new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
 
     //act
     correspondenceBuilder.finishBuilding(francaInterface);
@@ -287,9 +239,6 @@ public class JniModelBuilderTest {
     when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
     when(stubBuilder.getFirstResult(any())).thenReturn(new CppClass(CPP_CLASS_NAME));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
-
-    JniModelBuilder correspondenceBuilder =
-        new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
 
     //act
     correspondenceBuilder.finishBuilding(francaInterface);
@@ -311,9 +260,6 @@ public class JniModelBuilderTest {
     when(stubBuilder.getFirstResult(any())).thenReturn(new CppClass(CPP_CLASS_NAME));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
-    JniModelBuilder correspondenceBuilder =
-        new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
-
     //act
     correspondenceBuilder.finishBuilding(francaInterface);
     List<JniElement> result = correspondenceBuilder.getResults();
@@ -324,5 +270,24 @@ public class JniModelBuilderTest {
         Arrays.asList(
             createJniMethodVoid((JniModel) result.get(0)),
             createJniMethodString((JniModel) result.get(0))));
+  }
+
+  @Test
+  public void finishBuildingInputArgumentReadsJavaCppParameters() {
+    JavaParameter javaParameter =
+        new JavaParameter(new JavaCustomType(JAVA_CLASS_NAME), "relative");
+    CppParameter cppParameter = new CppParameter();
+    cppParameter.name = "absolute";
+    cppParameter.type = new CppCustomType(CPP_CLASS_NAME);
+    when(javaBuilder.getFirstResult(any())).thenReturn(javaParameter);
+    when(stubBuilder.getFirstResult(any())).thenReturn(cppParameter);
+
+    correspondenceBuilder.finishBuildingInputArgument(francaArgument);
+
+    JniParameter jniParameter = correspondenceBuilder.getFirstResult(JniParameter.class);
+    assertNotNull(jniParameter);
+    assertEquals(javaParameter.name, jniParameter.name);
+    assertEquals(javaParameter.type, jniParameter.javaType);
+    assertEquals(cppParameter.type, jniParameter.cppType);
   }
 }
