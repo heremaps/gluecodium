@@ -13,12 +13,11 @@ package com.here.ivi.api.generator.common;
 
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.logging.Logger;
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 /**
@@ -39,194 +38,133 @@ import org.franca.core.franca.*;
  * language models the method elements might need to know the class name to be built. The class name
  * could be calculated at startBuilding() step and thus made available to the children.
  */
-public class FrancaTreeWalker {
+public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
 
-  private static final Logger LOGGER = Logger.getLogger(FrancaTreeWalker.class.getName());
+  private static final String IN_ARG_KEY = "InputArgument";
+  private static final String OUT_ARG_KEY = "OutputArgument";
+  private static final Map<Object, TreeNodeInfo<ModelBuilder, ?>> FRANCA_TREE_STRUCTURE =
+      new HashMap<>();
 
-  private final Collection<ModelBuilder> builders;
+  static {
+
+    // Regular nodes
+    initTreeNode(
+        FInterface.class,
+        ModelBuilder::startBuilding,
+        ModelBuilder::finishBuilding,
+        FrancaTreeWalker::walkChildNodes);
+    initTreeNode(
+        FTypeCollection.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(FMethod.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(FAttribute.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(
+        FConstantDef.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(FStructType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(
+        FEnumerationType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(FEnumerator.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(FField.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(FUnionType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(
+        IN_ARG_KEY,
+        FArgument.class,
+        ModelBuilder::startBuildingInputArgument,
+        ModelBuilder::finishBuildingInputArgument,
+        FrancaTreeWalker::walkChildNodes);
+    initTreeNode(
+        OUT_ARG_KEY,
+        FArgument.class,
+        ModelBuilder::startBuildingOutputArgument,
+        ModelBuilder::finishBuildingOutputArgument,
+        FrancaTreeWalker::walkChildNodes);
+
+    // Leaf nodes
+    initTreeNode(FTypeDef.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
+    initTreeNode(FArrayType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
+    initTreeNode(FMapType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
+    initTreeNode(FExpression.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
+    initTreeNode(FTypeRef.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
+  }
 
   public FrancaTreeWalker(final Collection<ModelBuilder> builders) {
-    this.builders = builders;
+    super(builders, FRANCA_TREE_STRUCTURE);
   }
 
   public void walk(final FrancaElement francaElement) {
 
-    if (francaElement == null || builders == null || builders.isEmpty()) {
+    if (francaElement == null) {
       return;
     }
 
     if (francaElement instanceof Interface) {
-      walkChildNodes((Interface) francaElement);
-    } else if (francaElement instanceof TypeCollection) {
-      walkChildNodes((TypeCollection) francaElement);
+      walk(((Interface) francaElement).getFrancaInterface());
+    } else {
+      walk(francaElement.getFrancaTypeCollection());
     }
   }
 
-  private <T> void walk(
-      final T francaElement,
-      final BiConsumer<ModelBuilder, T> startMethod,
-      final BiConsumer<ModelBuilder, T> finishMethod) {
-    walk(francaElement, startMethod, finishMethod, element -> {});
+  private static <T extends EObject> void initTreeNode(
+      final Class<T> clazz,
+      final BiConsumer<ModelBuilder, T> finishMethod,
+      final BiConsumer<FrancaTreeWalker, T> walkChildNodes) {
+
+    initTreeNode(clazz, clazz, ModelBuilder::startBuilding, finishMethod, walkChildNodes);
   }
 
-  private <T> void walk(
-      final T francaElement,
+  private static <T extends EObject> void initTreeNode(
+      final Class<T> clazz,
       final BiConsumer<ModelBuilder, T> startMethod,
       final BiConsumer<ModelBuilder, T> finishMethod,
-      final Consumer<T> walkChildNodes) {
-    for (ModelBuilder builder : builders) {
-      startMethod.accept(builder, francaElement);
-    }
-    walkChildNodes.accept(francaElement);
-    for (ModelBuilder builder : builders) {
-      finishMethod.accept(builder, francaElement);
-    }
+      final BiConsumer<FrancaTreeWalker, T> walkChildNodes) {
+
+    initTreeNode(clazz, clazz, startMethod, finishMethod, walkChildNodes);
   }
 
-  private void walkChildNodes(Interface anInterface) {
-    FInterface francaInterface = anInterface.getFrancaInterface();
-    if (francaInterface != null) {
-      walk(
-          francaInterface,
-          ModelBuilder::startBuilding,
-          ModelBuilder::finishBuilding,
-          this::walkChildNodes);
-    }
-  }
+  private static <T> void initTreeNode(
+      Object key,
+      final Class<T> clazz,
+      final BiConsumer<ModelBuilder, T> startMethod,
+      final BiConsumer<ModelBuilder, T> finishMethod,
+      final BiConsumer<FrancaTreeWalker, T> walkChildNodes) {
 
-  private void walkChildNodes(TypeCollection typeCollection) {
-    FTypeCollection francaTypeCollection = typeCollection.getFrancaTypeCollection();
-    if (francaTypeCollection != null) {
-      walk(
-          francaTypeCollection,
-          ModelBuilder::startBuilding,
-          ModelBuilder::finishBuilding,
-          this::walkChildNodes);
-    }
+    FRANCA_TREE_STRUCTURE.put(
+        key,
+        new TreeNodeInfo<>(
+            clazz,
+            startMethod,
+            finishMethod,
+            (walker, object) -> walkChildNodes.accept((FrancaTreeWalker) walker, object)));
   }
 
   private void walkChildNodes(FInterface francaInterface) {
-    EList<FMethod> methods = francaInterface.getMethods();
-    if (methods != null) {
-      for (FMethod method : methods) {
-        walk(
-            method,
-            ModelBuilder::startBuilding,
-            ModelBuilder::finishBuilding,
-            this::walkChildNodes);
-      }
-    }
-    EList<FAttribute> attributes = francaInterface.getAttributes();
-    if (attributes != null) {
-      for (FAttribute attribute : attributes) {
-        walk(
-            attribute,
-            ModelBuilder::startBuilding,
-            ModelBuilder::finishBuilding,
-            this::walkChildNodes);
-      }
-    }
+    walkCollection(francaInterface.getMethods());
+    walkCollection(francaInterface.getAttributes());
     walkChildNodes((FTypeCollection) francaInterface);
   }
 
   private void walkChildNodes(FTypeCollection francaTypeCollection) {
-    EList<FConstantDef> constants = francaTypeCollection.getConstants();
-    if (constants != null) {
-      for (FConstantDef constant : constants) {
-        walk(
-            constant,
-            ModelBuilder::startBuilding,
-            ModelBuilder::finishBuilding,
-            this::walkChildNodes);
-      }
-    }
-    EList<FType> types = francaTypeCollection.getTypes();
-    if (types != null) {
-      types.forEach(this::walkType);
-    }
-  }
-
-  private void walkType(FType type) {
-    if (type instanceof FStructType) {
-      walk(
-          (FStructType) type,
-          ModelBuilder::startBuilding,
-          ModelBuilder::finishBuilding,
-          this::walkChildNodes);
-    } else if (type instanceof FTypeDef) {
-      walk((FTypeDef) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
-    } else if (type instanceof FArrayType) {
-      walk((FArrayType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
-    } else if (type instanceof FMapType) {
-      walk((FMapType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
-    } else if (type instanceof FEnumerationType) {
-      walk(
-          (FEnumerationType) type,
-          ModelBuilder::startBuilding,
-          ModelBuilder::finishBuilding,
-          this::walkChildNodes);
-    } else if (type instanceof FUnionType) {
-      walk(
-          (FUnionType) type,
-          ModelBuilder::startBuilding,
-          ModelBuilder::finishBuilding,
-          this::walkChildNodes);
-    } else {
-      LOGGER.warning(type.getClass().getName() + " is not supported yet");
-    }
+    walkCollection(francaTypeCollection.getConstants());
+    walkCollection(francaTypeCollection.getTypes());
   }
 
   private void walkChildNodes(FMethod francaMethod) {
-    EList<FArgument> inArgs = francaMethod.getInArgs();
-    if (inArgs != null) {
-      for (FArgument argument : inArgs) {
-        walk(
-            argument,
-            ModelBuilder::startBuildingInputArgument,
-            ModelBuilder::finishBuildingInputArgument,
-            this::walkChildNodes);
-      }
-    }
-    EList<FArgument> outArgs = francaMethod.getOutArgs();
-    if (outArgs != null) {
-      for (FArgument argument : outArgs) {
-        walk(
-            argument,
-            ModelBuilder::startBuildingOutputArgument,
-            ModelBuilder::finishBuildingOutputArgument,
-            this::walkChildNodes);
-      }
-    }
+    walkCollection(IN_ARG_KEY, francaMethod.getInArgs());
+    walkCollection(OUT_ARG_KEY, francaMethod.getOutArgs());
   }
 
   private void walkChildNodes(FCompoundType francaCompoundType) {
-    EList<FField> fields = francaCompoundType.getElements();
-    if (fields != null) {
-      for (FField field : fields) {
-        walk(
-            field, ModelBuilder::startBuilding, ModelBuilder::finishBuilding, this::walkChildNodes);
-      }
-    }
+    walkCollection(francaCompoundType.getElements());
   }
 
   private void walkChildNodes(FTypedElement francaTypedElement) {
-    walk(francaTypedElement.getType(), ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+    walk(francaTypedElement.getType());
   }
 
   private void walkChildNodes(FEnumerationType francaEnumerationType) {
-    EList<FEnumerator> enumerators = francaEnumerationType.getEnumerators();
-    if (enumerators != null) {
-      for (FEnumerator enumerator : enumerators) {
-        walk(
-            enumerator,
-            ModelBuilder::startBuilding,
-            ModelBuilder::finishBuilding,
-            this::walkChildNodes);
-      }
-    }
+    walkCollection(francaEnumerationType.getEnumerators());
   }
 
   private void walkChildNodes(FEnumerator francaEnumerator) {
-    walk(francaEnumerator.getValue(), ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+    walk(francaEnumerator.getValue());
   }
 }
