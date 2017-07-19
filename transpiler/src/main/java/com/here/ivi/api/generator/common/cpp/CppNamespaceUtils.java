@@ -18,11 +18,20 @@ import org.franca.core.franca.FType;
 
 public class CppNamespaceUtils {
   /**
-   * Creates a cpp typename including namespace prefix to access the type 'element' defined from the
-   * 'rootModel' Assumes the referenced type is in a TypeCollection namespace or part of an
-   * Interface
+   * Creates a cpp typename. In case the 'element' is not defined in the given 'rootModel', the name
+   * will include the necessary namespace prefix to access it.
+   *
+   * <p>Assumes the referenced type is in a TypeCollection namespace or part of an Interface
    */
   public static String getCppTypename(FrancaElement<?> rootModel, FType element) {
+    if (rootModel == null || element == null) {
+      throw new IllegalArgumentException();
+    }
+
+    if (rootModel.getFrancaTypeCollection() == element.eContainer()) {
+      return element.getName();
+    }
+
     List<String> names =
         builtDisjointNamespace(
             CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(rootModel)),
@@ -34,16 +43,27 @@ public class CppNamespaceUtils {
   }
 
   /**
-   * Creates a cpp typename including namespace prefix to access the type with 'name' defined in
-   * 'typeDefiner' from the 'rootModel'
+   * Creates a cpp typename for type definers. In case the type is not defined in the given
+   * 'rootModel', the name will include the necessary namespace prefix to access it.
+   *
+   * <p>Assumes the referenced type is in a TypeCollection namespace or part of an Interface
    */
-  public static String getCppTypename(
-      FrancaElement<?> rootModel, DefinedBy typeDefiner, String name) {
+  public static String getCppTypename(FrancaElement<?> rootModel, DefinedBy typeDefiner) {
+    if (rootModel == null || typeDefiner == null || typeDefiner.type == null) {
+      throw new IllegalArgumentException();
+    }
+
+    if (rootModel.getFrancaTypeCollection() == typeDefiner.type.eContainer()) {
+      return typeDefiner.type.getName();
+    }
+
     List<String> names =
         builtDisjointNamespace(
             CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(rootModel)),
             CppNameRules.getNamespace(typeDefiner));
-    names.add(name);
+
+    names.add(CppNameRules.getClassName(typeDefiner.type.getName()));
+
     return String.join("::", names);
   }
 
