@@ -11,15 +11,23 @@
 
 package com.here.ivi.api.generator.common.java;
 
+import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.model.franca.ModelInfo;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
+import com.here.ivi.api.model.javamodel.JavaImport;
+import com.here.ivi.api.model.javamodel.JavaImport.ImportType;
+import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
+import java.util.Collections;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMapType;
+import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
@@ -28,9 +36,14 @@ import org.franca.core.franca.FTypeRef;
 public final class JavaTypeMapper {
   private JavaTypeMapper() {}
 
-  public static JavaType map(final FTypeRef fTypeRef) {
+  public static JavaPackage createJavaPackage(final JavaPackage basePackage, final FModel fModel) {
+    ModelInfo info = new ModelInfo(fModel);
+    return basePackage.createChildPackage(info.getPackageNames());
+  }
+
+  public static JavaType map(final JavaPackage basePackage, final FTypeRef fTypeRef) {
     if (fTypeRef.getDerived() != null) {
-      return mapDerived(fTypeRef);
+      return mapDerived(basePackage, fTypeRef);
     }
 
     if (fTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
@@ -71,7 +84,7 @@ public final class JavaTypeMapper {
     }
   }
 
-  private static JavaType mapDerived(final FTypeRef type) {
+  private static JavaType mapDerived(final JavaPackage basePackage, final FTypeRef type) {
     FType derived = type.getDerived();
 
     // types without a parent are not valid
@@ -89,12 +102,34 @@ public final class JavaTypeMapper {
       //TODO: return mapMap(api, (FMapType) derived);
     }
     if (derived instanceof FStructType) {
-      //TODO: return mapStruct(api, (FStructType) derived);
+      return mapStruct(basePackage, (FStructType) derived);
     }
     if (derived instanceof FEnumerationType) {
       //TODO: return mapEnum(api, (FEnumerationType) derived);
     }
 
     return new JavaCustomType("TODO");
+  }
+
+  private static JavaCustomType mapStruct(
+      final JavaPackage basePackage, final FStructType structType) {
+
+    //get definer
+    DefinedBy definer = DefinedBy.createFromFModelElement(structType);
+
+    String name = JavaNameRules.getClassName(structType.getName());
+
+    //special rule for FInterface: struct class be nested class inside defining class
+    if (definer.type instanceof FInterface) {
+      name = JavaNameRules.getClassName(definer.type.getName()) + "." + name;
+    }
+
+    //determine the package of type to be mapped
+    JavaPackage javaPackage = createJavaPackage(basePackage, definer.model);
+
+    JavaImport javaImport =
+        new JavaImport(String.join(".", javaPackage.packageNames), ImportType.INTERNAL);
+
+    return new JavaCustomType(name, Collections.singletonList(javaImport));
   }
 }
