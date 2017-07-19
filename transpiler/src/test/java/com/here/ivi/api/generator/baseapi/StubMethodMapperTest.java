@@ -148,6 +148,7 @@ public class StubMethodMapperTest {
 
     PowerMockito.verifyStatic();
     CppTypeMapper.map(same(rootModel), same(francaArgument));
+    PowerMockito.verifyStatic();
     CppTypeMapper.mapEnum(same(rootModel), same(francaEnum));
   }
 
