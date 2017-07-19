@@ -71,8 +71,15 @@ public class JavaReferenceType extends JavaElementWithImports implements JavaTyp
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
+    }
 
     JavaReferenceType that = (JavaReferenceType) o;
 
@@ -81,6 +88,8 @@ public class JavaReferenceType extends JavaElementWithImports implements JavaTyp
 
   @Override
   public int hashCode() {
-    return type != null ? type.hashCode() : 0;
+    int result = super.hashCode();
+    result = 31 * result + (type != null ? type.hashCode() : 0);
+    return result;
   }
 }

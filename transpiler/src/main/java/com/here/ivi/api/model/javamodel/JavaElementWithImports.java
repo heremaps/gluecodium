@@ -28,4 +28,28 @@ public class JavaElementWithImports extends JavaElement {
     super(name);
     this.imports = new HashSet<>(imports);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
+    }
+
+    JavaElementWithImports that = (JavaElementWithImports) o;
+
+    return imports != null ? imports.equals(that.imports) : that.imports == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + (imports != null ? imports.hashCode() : 0);
+    return result;
+  }
 }

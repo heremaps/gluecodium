@@ -13,23 +13,15 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.Collection;
 
-/**
- * A custom Java type.
- *
- * <p>It is by nature a {@link JavaReferenceType} with a type that (indirectly) devices from {@link
- * java.lang.Object}.
- */
-public final class JavaCustomType extends JavaReferenceType implements JavaType {
-  private final String name;
+/** A custom Java type. */
+public final class JavaCustomType extends JavaElementWithImports implements JavaType {
 
   public JavaCustomType(final String name) {
-    super(Type.OBJECT);
-    this.name = name;
+    super(name);
   }
 
   public JavaCustomType(final String name, final Collection<JavaImport> imports) {
-    super(Type.OBJECT, imports);
-    this.name = name;
+    super(name, imports);
   }
 
   @Override
@@ -40,23 +32,5 @@ public final class JavaCustomType extends JavaReferenceType implements JavaType 
   @Override
   public boolean isValid() {
     return name != null && !name.isEmpty();
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    if (!super.equals(o)) return false;
-
-    JavaCustomType that = (JavaCustomType) o;
-
-    return name != null ? name.equals(that.name) : that.name == null;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + (name != null ? name.hashCode() : 0);
-    return result;
   }
 }
