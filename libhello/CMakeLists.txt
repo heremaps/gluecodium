@@ -31,6 +31,7 @@ else()
         src/hello/HelloWorldBuiltinTypesStub.cpp
         src/hello/HelloWorldStub.cpp
         src/test/StaticByteArrayMethodsTestStub.cpp
+        src/test/StaticFloatDoubleMethodsTestStub.cpp
         src/test/StaticIntMethodsTestStub.cpp
         src/test/StaticStringMethodsTestStub.cpp)
 endif()
