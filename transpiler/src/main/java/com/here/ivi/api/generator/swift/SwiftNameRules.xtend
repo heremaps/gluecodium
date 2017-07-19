@@ -24,7 +24,7 @@ class SwiftNameRules {
     def getImplementationFileName(FrancaElement<?> francaElement) {
         return "swift"
                 + File.separator
-                + String.join(File.separator, francaElement.getPackage())
+                + String.join(File.separator, francaElement.getModelInfo.getPackageNames())
                 + File.separator
                 + getFileName(francaElement)
                 + ".swift";

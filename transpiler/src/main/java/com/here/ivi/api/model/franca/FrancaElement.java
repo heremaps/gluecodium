@@ -12,14 +12,11 @@
 package com.here.ivi.api.model.franca;
 
 import com.here.ivi.api.generator.common.Version;
-import java.util.List;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FTypeCollection;
 
 public interface FrancaElement<DPA extends BaseApiSpec.IDataPropertyAccessor> {
   String getName();
-
-  List<String> getPackage();
 
   ModelInfo getModelInfo();
 

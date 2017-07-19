@@ -189,7 +189,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
     treeWalker.walk(anInterface);
 
-    CppNamespace namespace = new CppNamespace(anInterface.getPackage());
+    CppNamespace namespace = new CppNamespace(anInterface.getModelInfo().getPackageNames());
     namespace.members.addAll(builder.getResults());
 
     return namespace;

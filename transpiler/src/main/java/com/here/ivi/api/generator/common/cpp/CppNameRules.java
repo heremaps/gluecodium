@@ -84,7 +84,7 @@ public final class CppNameRules {
   public static String getHeaderPath(FrancaElement<?> francaElement) {
     return "stub"
         + File.separator
-        + String.join(File.separator, francaElement.getPackage())
+        + String.join(File.separator, francaElement.getModelInfo().getPackageNames())
         + File.separator
         + (francaElement instanceof Interface<?>
             ? getClassName(((Interface<?>) francaElement).getFrancaInterface().getName())

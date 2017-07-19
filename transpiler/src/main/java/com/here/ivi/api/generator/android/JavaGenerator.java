@@ -34,7 +34,9 @@ public class JavaGenerator extends AbstractAndroidGenerator {
       final Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface) {
 
     JavaModelBuilder modelBuilder =
-        new JavaModelBuilder(basePackage.createChildPackage(anInterface.getPackage()), anInterface);
+        new JavaModelBuilder(
+            basePackage.createChildPackage(anInterface.getModelInfo().getPackageNames()),
+            anInterface);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(anInterface);
@@ -47,7 +49,8 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
     JavaModelBuilder modelBuilder =
         new JavaModelBuilder(
-            basePackage.createChildPackage(typeCollection.getPackage()), typeCollection);
+            basePackage.createChildPackage(typeCollection.getModelInfo().getPackageNames()),
+            typeCollection);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(typeCollection);
