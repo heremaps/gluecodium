@@ -11,13 +11,20 @@
 
 package com.here.ivi.api.generator.common.jni;
 
+import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.javamodel.JavaType;
 
-public class JniParameterData implements JniElement {
+public class JniParameter implements JniElement {
 
-  public String baseName;
-  public JavaType javaType;
-  public String cppType;
+  public final String name;
+  public final JavaType javaType;
+  public final CppType cppType;
+
+  public JniParameter(final String name, final JavaType javaType, final CppType cppType) {
+    this.name = name;
+    this.javaType = javaType;
+    this.cppType = cppType;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -28,9 +35,9 @@ public class JniParameterData implements JniElement {
       return false;
     }
 
-    JniParameterData that = (JniParameterData) o;
+    JniParameter that = (JniParameter) o;
 
-    if (baseName != null ? !baseName.equals(that.baseName) : that.baseName != null) {
+    if (name != null ? !name.equals(that.name) : that.name != null) {
       return false;
     }
     if (javaType != null ? !javaType.equals(that.javaType) : that.javaType != null) {
@@ -41,7 +48,7 @@ public class JniParameterData implements JniElement {
 
   @Override
   public int hashCode() {
-    int result = baseName != null ? baseName.hashCode() : 0;
+    int result = name != null ? name.hashCode() : 0;
     result = 31 * result + (javaType != null ? javaType.hashCode() : 0);
     result = 31 * result + (cppType != null ? cppType.hashCode() : 0);
     return result;

@@ -23,22 +23,22 @@ import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import java.util.List;
+import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 
-/*
+/**
  * This class builds a correspondence-tree containing correspondences between java and cpp model
  * elements. Currently only corresponding classes and theirs corresponding methods are calculated.
  *
- * Preconditions:
+ * <p>Preconditions:
  *
- * For correspondence calculation it is assumed to have one to one mapping, i.e. one franca element
- * is mapped to at least one target model element.
+ * <p>For correspondence calculation it is assumed to have one to one mapping, i.e. one franca
+ * element is mapped to at least one target model element.
  *
- * It is assumed that Java- and StubModelBuilder's finishBuilding methods are called in advance
+ * <p>It is assumed that Java- and StubModelBuilder's finishBuilding methods are called in advance
  * of calling finishBuilding on JniModelBuilder (constructed java and cpp elements need to be
  * accessible via getResults(..) ).
- *
  */
 public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
@@ -49,12 +49,14 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
       final ModelBuilderContextStack<JniElement> contextStack,
       final JavaModelBuilder javaBuilder,
       final StubModelBuilder stubBuilder) {
+
     super(contextStack);
     this.javaBuilder = javaBuilder;
     this.stubBuilder = stubBuilder;
   }
 
   public JniModelBuilder(final JavaModelBuilder javaBuilder, final StubModelBuilder stubBuilder) {
+
     super(new ModelBuilderContextStack<>());
     this.javaBuilder = javaBuilder;
     this.stubBuilder = stubBuilder;
@@ -63,62 +65,49 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
-    //collect classes
     JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
     CppClass cppClass = stubBuilder.getFirstResult(CppClass.class);
 
-    JniModel result = new JniModel();
-    result.cppClassName = cppClass.name;
-    result.cppNameSpaces = stubBuilder.getNamespaceMembers();
-    result.javaClassName = javaClass.getName();
-    result.javaPackages = javaClass.javaPackage.packageNames;
+    JniModel jniModel = new JniModel();
+    jniModel.cppClassName = cppClass.name;
+    jniModel.cppNameSpaces = stubBuilder.getNamespaceMembers();
+    jniModel.javaClassName = javaClass.getName();
+    jniModel.javaPackages = javaClass.javaPackage.packageNames;
 
     List<JniMethod> methodList =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniMethod.class);
+    methodList.forEach(method -> method.owningModel = jniModel);
+    jniModel.methods.addAll(methodList);
 
-    for (JniMethod method : methodList) {
-      method.owningModel = result;
-      result.methods.add(method);
-    }
-
-    storeResult(result);
+    storeResult(jniModel);
     closeContext();
-  }
-
-  private static JniMethod createJniMethod(JavaMethod javaMethod, CppMethod cppMethod) {
-    JniMethod jniMethod = new JniMethod();
-    jniMethod.javaReturnType = javaMethod.returnType;
-    jniMethod.javaMethodName = javaMethod.getName();
-    jniMethod.cppMethodName = cppMethod.name;
-    jniMethod.cppReturnType = cppMethod.getReturnType().name;
-    return jniMethod;
-  }
-
-  private static JniParameterData createJniParameter(
-      JavaParameter javaParameter, CppParameter cppParameter) {
-
-    JniParameterData jniParameter = new JniParameterData();
-    jniParameter.javaType = javaParameter.type;
-    jniParameter.baseName = javaParameter.getName();
-    jniParameter.cppType = cppParameter.type.name;
-    return jniParameter;
   }
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    //collect methods
     JavaMethod javaMethod = javaBuilder.getFirstResult(JavaMethod.class);
     CppMethod cppMethod = stubBuilder.getFirstResult(CppMethod.class);
 
-    JniMethod jniMethod = createJniMethod(javaMethod, cppMethod);
-
-    for (int i = 0; i < javaMethod.parameters.size(); ++i) {
-      jniMethod.parameters.add(
-          createJniParameter(javaMethod.parameters.get(i), cppMethod.getInParameters().get(i)));
-    }
+    JniMethod jniMethod = new JniMethod();
+    jniMethod.javaReturnType = javaMethod.returnType;
+    jniMethod.javaMethodName = javaMethod.getName();
+    jniMethod.cppMethodName = cppMethod.name;
+    jniMethod.cppReturnType = cppMethod.getReturnType().name;
+    jniMethod.parameters.addAll(
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniParameter.class));
 
     storeResult(jniMethod);
+    closeContext();
+  }
+
+  @Override
+  public void finishBuildingInputArgument(FArgument francaArgument) {
+
+    JavaParameter javaParameter = javaBuilder.getFirstResult(JavaParameter.class);
+    CppParameter cppParameter = stubBuilder.getFirstResult(CppParameter.class);
+
+    storeResult(new JniParameter(javaParameter.getName(), javaParameter.type, cppParameter.type));
     closeContext();
   }
 }

@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 import com.here.ivi.api.generator.common.jni.JniMethod;
 import com.here.ivi.api.generator.common.jni.JniModel;
-import com.here.ivi.api.generator.common.jni.JniParameterData;
+import com.here.ivi.api.generator.common.jni.JniParameter;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
@@ -58,20 +58,13 @@ public final class JniFunctionSignatureTemplateTest {
     jniMethod.owningModel = jniModel;
     jniMethod.javaMethodName = "methodName";
 
-    JniParameterData jniParameterData = new JniParameterData();
-    jniParameterData.javaType = new JavaReferenceType(JavaReferenceType.Type.STRING);
-    jniParameterData.baseName = "stringParam";
-    jniMethod.parameters.add(jniParameterData);
-
-    jniParameterData = new JniParameterData();
-    jniParameterData.javaType = new JavaPrimitiveType(JavaPrimitiveType.Type.INT);
-    jniParameterData.baseName = "intParam";
-    jniMethod.parameters.add(jniParameterData);
-
-    jniParameterData = new JniParameterData();
-    jniParameterData.javaType = new JavaCustomType("CustomParamType");
-    jniParameterData.baseName = "customParam";
-    jniMethod.parameters.add(jniParameterData);
+    jniMethod.parameters.add(
+        new JniParameter(
+            "stringParam", new JavaReferenceType(JavaReferenceType.Type.STRING), null));
+    jniMethod.parameters.add(
+        new JniParameter("intParam", new JavaPrimitiveType(JavaPrimitiveType.Type.INT), null));
+    jniMethod.parameters.add(
+        new JniParameter("customParam", new JavaCustomType("CustomParamType"), null));
     jniModel.methods.add(jniMethod);
 
     String expectedParams =

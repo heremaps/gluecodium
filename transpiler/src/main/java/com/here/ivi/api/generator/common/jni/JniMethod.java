@@ -25,7 +25,7 @@ public class JniMethod implements JniElement {
   public String cppMethodName;
   public String cppReturnType;
 
-  public List<JniParameterData> parameters = new LinkedList<>();
+  public List<JniParameter> parameters = new LinkedList<>();
 
   @Override
   public boolean equals(Object o) {
