@@ -33,10 +33,7 @@ public class JavaGenerator extends AbstractAndroidGenerator {
   public List<GeneratedFile> generateFiles(
       final Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface) {
 
-    JavaModelBuilder modelBuilder =
-        new JavaModelBuilder(
-            basePackage.createChildPackage(anInterface.getModelInfo().getPackageNames()),
-            anInterface);
+    JavaModelBuilder modelBuilder = new JavaModelBuilder(basePackage, anInterface);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(anInterface);
@@ -47,10 +44,7 @@ public class JavaGenerator extends AbstractAndroidGenerator {
   public List<GeneratedFile> generateFiles(
       TypeCollection<TypeCollectionPropertyAccessor> typeCollection) {
 
-    JavaModelBuilder modelBuilder =
-        new JavaModelBuilder(
-            basePackage.createChildPackage(typeCollection.getModelInfo().getPackageNames()),
-            typeCollection);
+    JavaModelBuilder modelBuilder = new JavaModelBuilder(basePackage, typeCollection);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(typeCollection);

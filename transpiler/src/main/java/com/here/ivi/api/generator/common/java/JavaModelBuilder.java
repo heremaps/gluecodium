@@ -44,21 +44,21 @@ import org.franca.core.franca.FTypedElement;
 
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
-  private final JavaPackage javaPackage;
+  private final JavaPackage basePackage;
   private final FrancaElement rootModel;
 
   public JavaModelBuilder(
       final ModelBuilderContextStack<JavaElement> contextStack,
-      final JavaPackage javaPackage,
+      final JavaPackage basePackage,
       final FrancaElement rootModel) {
     super(contextStack);
-    this.javaPackage = javaPackage;
+    this.basePackage = basePackage;
     this.rootModel = rootModel;
   }
 
-  public JavaModelBuilder(final JavaPackage javaPackage, final FrancaElement rootModel) {
+  public JavaModelBuilder(final JavaPackage basePackage, final FrancaElement rootModel) {
     super(new ModelBuilderContextStack<>());
-    this.javaPackage = javaPackage;
+    this.basePackage = basePackage;
     this.rootModel = rootModel;
   }
 
@@ -103,7 +103,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     if (outArgs.isEmpty()) { // Void return type
       javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()));
     } else if (outArgs.size() == 1) {
-      JavaType returnType = JavaTypeMapper.map(outArgs.get(0).getType());
+      JavaType returnType = JavaTypeMapper.map(basePackage, outArgs.get(0).getType());
       javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()), returnType);
     } else {
       // TODO: Wrap complex return type in an immutable container class
@@ -145,7 +145,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    JavaType javaArgumentType = JavaTypeMapper.map(francaArgument.getType());
+    JavaType javaArgumentType = JavaTypeMapper.map(basePackage, francaArgument.getType());
     JavaParameter javaParameter =
         new JavaParameter(
             javaArgumentType, JavaNameRules.getArgumentName(francaArgument.getName()));
@@ -157,7 +157,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
-    JavaType type = JavaTypeMapper.map(francaConstant.getType());
+    JavaType type = JavaTypeMapper.map(basePackage, francaConstant.getType());
     JavaValue value = JavaValueMapper.map(type, francaConstant.getRhs());
     JavaConstant javaConstant =
         new JavaConstant(type, JavaNameRules.getConstantName(francaConstant.getName()), value);
@@ -199,7 +199,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
 
-    storeResult(JavaTypeMapper.map(francaTypeRef));
+    storeResult(JavaTypeMapper.map(basePackage, francaTypeRef));
     closeContext();
   }
 
@@ -207,7 +207,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaTypeCollection.getName()));
     javaClass.visibility = JavaVisibility.PUBLIC;
-    javaClass.javaPackage = javaPackage;
+    javaClass.javaPackage =
+        JavaTypeMapper.createJavaPackage(basePackage, rootModel.getModelInfo().getFModel());
     javaClass.comment = getCommentString(francaTypeCollection);
 
     return javaClass;
