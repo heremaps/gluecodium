@@ -44,7 +44,7 @@ public class CBridgeNameRules {
     StringBuilder path = new StringBuilder();
     path.append("cbridge");
     path.append(File.separator);
-    path.append(String.join(File.separator, francaElement.getPackage()));
+    path.append(String.join(File.separator, francaElement.getModelInfo().getPackageNames()));
     path.append(File.separator);
     return path.toString();
   }
@@ -57,7 +57,7 @@ public class CBridgeNameRules {
   }
 
   public String getDelegateMethodName(final Interface<?> iface, final FMethod method) {
-    return String.join(CPP_NAMESPACE_DELIMITER, iface.getPackage())
+    return String.join(CPP_NAMESPACE_DELIMITER, iface.getModelInfo().getPackageNames())
         + CPP_NAMESPACE_DELIMITER
         + CppNameRules.getClassName(iface.getFrancaTypeCollection().getName())
         + CPP_NAMESPACE_DELIMITER
@@ -65,7 +65,11 @@ public class CBridgeNameRules {
   }
 
   public String getMethodName(final Interface<?> iface, final FMethod method) {
-    return String.join("_", iface.getPackage()) + "_" + iface.getName() + "_" + method.getName();
+    return String.join("_", iface.getModelInfo().getPackageNames())
+        + "_"
+        + iface.getName()
+        + "_"
+        + method.getName();
   }
 
   public String getParameterName(final FArgument argument) {

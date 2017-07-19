@@ -64,7 +64,9 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
   public List<GeneratedFile> generateFiles(final Interface<InterfacePropertyAccessor> anInterface) {
 
     JavaModelBuilder javaBuilder =
-        new JavaModelBuilder(basePackage.createChildPackage(anInterface.getPackage()), anInterface);
+        new JavaModelBuilder(
+            basePackage.createChildPackage(anInterface.getModelInfo().getPackageNames()),
+            anInterface);
 
     StubModelBuilder stubBuilder = new StubModelBuilder(anInterface);
     JniModelBuilder jniBuilder = new JniModelBuilder(javaBuilder, stubBuilder);

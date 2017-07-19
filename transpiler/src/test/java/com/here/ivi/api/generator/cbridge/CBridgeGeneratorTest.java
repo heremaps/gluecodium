@@ -36,6 +36,7 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -47,8 +48,12 @@ public class CBridgeGeneratorTest {
   private static final String FUNCTION_NAME = "functionName";
 
   @Mock private InterfacePropertyAccessor propertyAccessor;
-  @Mock private Interface<InterfacePropertyAccessor> anInterface;
+
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private Interface<InterfacePropertyAccessor> anInterface;
+
   @Mock private FInterface francaInterface;
+
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument_1;
   @Mock private FTypeRef francaTypeRef_1;
@@ -65,7 +70,7 @@ public class CBridgeGeneratorTest {
     when(propertyAccessor.getStatic(any())).thenReturn(true);
 
     when(anInterface.getPropertyAccessor()).thenReturn(propertyAccessor);
-    when(anInterface.getPackage()).thenReturn(PACKAGES);
+    when(anInterface.getModelInfo().getPackageNames()).thenReturn(PACKAGES);
     when(anInterface.getName()).thenReturn(INTERFACE_NAME);
     when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
     when(anInterface.getFrancaTypeCollection()).thenReturn(francaInterface);

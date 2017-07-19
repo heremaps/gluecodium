@@ -264,6 +264,6 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
    * namespace member, namespaces are not handled via tree walking but processed separately.
    */
   public List<String> getNamespaceMembers() {
-    return rootModel.getPackage();
+    return rootModel.getModelInfo().getPackageNames();
   }
 }

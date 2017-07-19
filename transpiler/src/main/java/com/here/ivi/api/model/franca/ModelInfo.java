@@ -11,6 +11,8 @@
 
 package com.here.ivi.api.model.franca;
 
+import java.util.List;
+import org.eclipse.xtext.util.Strings;
 import org.franca.core.franca.FModel;
 
 // Information about the models
@@ -31,5 +33,9 @@ public class ModelInfo {
 
   public FModel getFModel() {
     return fModel;
+  }
+
+  public List<String> getPackageNames() {
+    return Strings.split(getName(), ".");
   }
 }

@@ -47,7 +47,7 @@ public class SwiftGenerator {
   protected SwiftClass buildSwiftModel(Interface<?> iface) {
     BaseApiSpec.InterfacePropertyAccessor propertyAccessor = iface.getPropertyAccessor();
     FInterface francaInterface = iface.getFrancaInterface();
-    String bridgeNameSpace = String.join("_", iface.getPackage());
+    String bridgeNameSpace = String.join("_", iface.getModelInfo().getPackageNames());
     SwiftClass clazz = new SwiftClass(nameRules.getClassName(francaInterface));
     String comment = StubCommentParser.parse(francaInterface).getMainBodyText();
     clazz.comment = comment != null ? comment : "";
