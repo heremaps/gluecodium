@@ -332,6 +332,7 @@ public class StubModelBuilderTest {
 
     PowerMockito.verifyStatic();
     CppTypeMapper.map(same(rootModel), same(francaConstant));
+    PowerMockito.verifyStatic();
     CppValueMapper.map(same(cppCustomType), same(francaInitializerExpression));
   }
 
@@ -451,7 +452,9 @@ public class StubModelBuilderTest {
 
     PowerMockito.verifyStatic();
     CppTypeMapper.wrapMapType(any(), same(keyType), same(valueType));
+    PowerMockito.verifyStatic();
     CppTypeMapper.map(rootModel, francaTypeRef);
+    PowerMockito.verifyStatic();
     CppTypeMapper.map(rootModel, francaAnotherTypeRef);
   }
 

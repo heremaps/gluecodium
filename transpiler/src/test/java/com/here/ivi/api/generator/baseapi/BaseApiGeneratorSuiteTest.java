@@ -35,14 +35,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ResourceValidator.class})
+@PrepareForTest(ResourceValidator.class)
 public final class BaseApiGeneratorSuiteTest {
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
   @Mock private BaseApiModelValidator baseApiModelValidator;
@@ -85,7 +84,7 @@ public final class BaseApiGeneratorSuiteTest {
   public void validateWithNullModel() {
     assertFalse(baseApiGeneratorSuite.validate());
 
-    PowerMockito.verifyStatic(Mockito.times(0));
+    PowerMockito.verifyStatic(never());
     ResourceValidator.validate(any(), any());
     verify(baseApiModelValidator, never()).validate(any());
   }
