@@ -11,45 +11,20 @@
 
 package com.here.ivi.api.generator.common;
 
+import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 /** An interface for a model builder, used by @see FrancaTreeWalker. */
 @SuppressWarnings({"PMD.TooManyMethods"})
 public interface ModelBuilder {
 
+  void startBuilding(EObject object);
+
   void startBuilding(FInterface francaInterface);
-
-  void startBuilding(FTypeCollection francaTypeCollection);
-
-  void startBuilding(FMethod francaMethod);
 
   void startBuildingInputArgument(FArgument francaArgument);
 
   void startBuildingOutputArgument(FArgument francaArgument);
-
-  void startBuilding(FTypeRef francaTypeRef);
-
-  void startBuilding(FConstantDef francaConstant);
-
-  void startBuilding(FField francaField);
-
-  void startBuilding(FStructType francaStructType);
-
-  void startBuilding(FTypeDef francaTypeDef);
-
-  void startBuilding(FArrayType francaArrayType);
-
-  void startBuilding(FMapType francaMapType);
-
-  void startBuilding(FEnumerationType francaEnumerationType);
-
-  void startBuilding(FEnumerator francaEnumerator);
-
-  void startBuilding(FExpression francaExpression);
-
-  void startBuilding(FUnionType francaUnionType);
-
-  void startBuilding(FAttribute francaAttribute);
 
   void finishBuilding(FInterface francaInterface);
 

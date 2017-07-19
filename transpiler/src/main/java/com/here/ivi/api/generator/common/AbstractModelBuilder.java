@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.common;
 import com.here.ivi.api.common.CollectionsHelper;
 import java.util.Collections;
 import java.util.List;
+import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 @SuppressWarnings({"PMD.TooManyMethods"})
@@ -27,17 +28,12 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
+  public void startBuilding(EObject object) {
+    openContext();
+  }
+
+  @Override
   public void startBuilding(FInterface francaInterface) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FTypeCollection francaTypeCollection) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FMethod francaMethod) {
     openContext();
   }
 
@@ -48,66 +44,6 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   @Override
   public void startBuildingOutputArgument(FArgument francaArgument) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FTypeRef francaTypeRef) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FConstantDef francaConstant) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FField francaField) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FStructType francaStructType) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FTypeDef francaTypeDef) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FArrayType francaArrayType) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FMapType francaMapType) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FEnumerationType francaEnumerationType) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FEnumerator francaEnumerator) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FExpression francaExpression) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FUnionType francaUnionType) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FAttribute francaAttribute) {
     openContext();
   }
 
