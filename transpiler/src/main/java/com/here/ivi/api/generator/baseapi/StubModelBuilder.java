@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.baseapi;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.NameHelper;
@@ -73,14 +74,9 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppClass cppClass = stubClassBuilder.build();
 
-    for (CppElement cppElement : getCurrentContext().previousResults) {
-      if (cppElement instanceof CppMethod) {
-        cppClass.methods.add((CppMethod) cppElement);
-      }
-      if (cppElement instanceof CppStruct) {
-        cppClass.structs.add((CppStruct) cppElement);
-      }
-    }
+    List<CppElement> previousResults = getCurrentContext().previousResults;
+    cppClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, CppMethod.class));
+    cppClass.structs.addAll(CollectionsHelper.getAllOfType(previousResults, CppStruct.class));
 
     storeResult(cppClass);
     closeContext();
@@ -145,13 +141,8 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     cppField.name = CppNameRules.getFieldName(francaTypedElement.getName());
     cppField.initializer = CppDefaultInitializer.map(francaTypedElement);
     cppField.comment = StubCommentParser.parse(francaTypedElement).getMainBodyText();
-
-    for (CppElement cppElement : getCurrentContext().previousResults) {
-      if (cppElement instanceof CppType) {
-        cppField.type = (CppType) cppElement;
-        break;
-      }
-    }
+    cppField.type =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppType.class);
 
     storeResult(cppField);
     closeContext();
@@ -162,12 +153,8 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppStruct struct = new CppStruct(CppNameRules.getStructName(francaStructType.getName()));
     struct.comment = StubCommentParser.parse(francaStructType).getMainBodyText();
-
-    for (CppElement cppElement : getCurrentContext().previousResults) {
-      if (cppElement instanceof CppField) {
-        struct.fields.add((CppField) cppElement);
-      }
-    }
+    struct.fields.addAll(
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppField.class));
 
     storeResult(struct);
     closeContext();
@@ -264,11 +251,8 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     }
     builder.comment(methodComment);
 
-    for (CppElement cppElement : getCurrentContext().previousResults) {
-      if (cppElement instanceof CppParameter) {
-        builder.inParameter((CppParameter) cppElement);
-      }
-    }
+    CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppParameter.class)
+        .forEach(builder::inParameter);
 
     return builder.build();
   }
