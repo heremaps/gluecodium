@@ -1,4 +1,9 @@
+plugins {
+    id 'com.diffplug.gradle.spotless' version '3.3.2'
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'com.diffplug.gradle.spotless'
 
 android {
     compileSdkVersion 25
@@ -10,6 +15,20 @@ android {
         versionCode 150001
         versionName '0.0.1'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+}
+
+spotless {
+    java {
+        target project.fileTree(project.projectDir) {
+            include '**/*.java'
+            exclude '**/build'
+        }
+
+        googleJavaFormat()
+        licenseHeaderFile rootProject.file('config/here_java.license')
+        trimTrailingWhitespace()
+        endWithNewline()
     }
 }
 
