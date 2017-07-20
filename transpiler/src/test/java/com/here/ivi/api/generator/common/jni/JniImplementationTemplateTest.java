@@ -53,7 +53,7 @@ public class JniImplementationTemplateTest {
     result.javaMethodName = methodName;
     result.cppMethodName = methodName;
     result.javaReturnType = new JavaPrimitiveType(Type.INT);
-    result.cppReturnType = "int8_t";
+    result.cppReturnType = new CppPrimitiveType(CppPrimitiveType.Type.INT8);
     result.parameters.add(
         new JniParameter(BASE_PARAMETER_NAME, javaPrimitiveType, cppPrimitiveType));
 
