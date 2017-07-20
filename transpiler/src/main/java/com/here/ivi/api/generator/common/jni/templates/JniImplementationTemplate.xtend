@@ -43,7 +43,7 @@ public class JniImplementationTemplate {
         «FOR parameter : jniMethod.parameters»
           «parameter.cppType.name» «parameter.name» = «JniToCppTypeConversionTemplateDelegator.generate(parameter.javaType, getParameterName(parameter.name))»;
         «ENDFOR»
-        «jniMethod.cppReturnType» result = «TemplateEngine.render("jni/CppMethodCall", jniMethod)»
+        «jniMethod.cppReturnType.name» result = «TemplateEngine.render("jni/CppMethodCall", jniMethod)»
         return «CppToJniConversionTemplateDelegator.generate("result", jniMethod.javaReturnType).toString()»;
       }
 

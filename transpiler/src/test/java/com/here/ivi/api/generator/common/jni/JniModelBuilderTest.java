@@ -129,7 +129,7 @@ public class JniModelBuilderTest {
     result.javaReturnType = new JavaPrimitiveType(JavaPrimitiveType.Type.VOID);
     result.javaMethodName = JAVA_VOID_METHOD_NAME;
     result.cppMethodName = CPP_VOID_METHOD_NAME;
-    result.cppReturnType = "void";
+    result.cppReturnType = CppPrimitiveType.VOID_TYPE;
     result.owningModel = jniModel;
 
     return result;
@@ -142,7 +142,7 @@ public class JniModelBuilderTest {
     result.javaReturnType = stringType;
     result.javaMethodName = JAVA_STRING_METHOD_NAME;
     result.cppMethodName = CPP_STRING_METHOD_NAME;
-    result.cppReturnType = "std::string";
+    result.cppReturnType = new CppCustomType(CppCustomType.STRING_TYPE_NAME);
     result.owningModel = jniModel;
     result.parameters.add(
         new JniParameter(
@@ -196,7 +196,7 @@ public class JniModelBuilderTest {
     assertEquals(javaMethod.name, jniMethod.javaMethodName);
     assertEquals(javaMethod.returnType, jniMethod.javaReturnType);
     assertEquals(cppMethod.name, jniMethod.cppMethodName);
-    assertEquals(cppMethod.getReturnType().name, jniMethod.cppReturnType);
+    assertEquals(cppMethod.getReturnType(), jniMethod.cppReturnType);
   }
 
   @Test
