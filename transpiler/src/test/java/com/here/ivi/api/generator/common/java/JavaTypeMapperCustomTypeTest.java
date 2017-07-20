@@ -33,13 +33,19 @@ import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.trimou.util.Strings;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(JavaNameRules.class)
 public class JavaTypeMapperCustomTypeTest {
+  private static final String TYPECOLLECTION_NAME = "typeC0Ll3ction";
 
   private static final String FMODEL_NAME = "this.is.A.fancy.t3sT.package";
-  private static final String TYPECOLLECTION_NAME = "typeC0Ll3ction";
+  private static final String PACKAGE_WITH_TYPECOLLECTION = FMODEL_NAME + "." + TYPECOLLECTION_NAME;
+  private static final JavaPackage JAVA_PACKAGE = new JavaPackage(Strings.split(FMODEL_NAME, "."));
+  private static final JavaPackage JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME =
+      new JavaPackage(Strings.split(PACKAGE_WITH_TYPECOLLECTION, "."));
+
   private static final String INTERFACE_NAME = "iNt3RfacE";
   private static final String STRUCT_NAME_INTERFACE = "structDefinedIn_Iface";
   private static final String STRUCT_NAME_TYPECOLLECTION = "structDefinedIn_tC";
@@ -85,7 +91,11 @@ public class JavaTypeMapperCustomTypeTest {
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());
-    assertEquals(FMODEL_NAME, customReturn.imports.iterator().next().importStatement);
+
+    assertEquals(
+        JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME, customReturn.imports.iterator().next().javaPackage);
+
+    assertEquals(STRUCT_NAME_TYPECOLLECTION, customReturn.imports.iterator().next().className);
 
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(STRUCT_NAME_TYPECOLLECTION);
@@ -113,7 +123,8 @@ public class JavaTypeMapperCustomTypeTest {
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());
-    assertEquals(FMODEL_NAME, customReturn.imports.iterator().next().importStatement);
+    assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().javaPackage);
+    assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().className);
 
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(STRUCT_NAME_INTERFACE);

@@ -11,23 +11,59 @@
 
 package com.here.ivi.api.model.javamodel;
 
-/**
- * This class represents an import in java. It distinguishes between system, external and internal
- * imports.
- */
-public class JavaImport {
-  public final String importStatement;
-  public final ImportType type;
+import java.util.List;
 
-  public JavaImport(String importStatement, ImportType type) {
-    this.importStatement = importStatement;
-    this.type = type;
+/** This class represents an import in java. It is based on a java package. */
+public class JavaImport implements Comparable<JavaImport> {
+  public final JavaPackage javaPackage;
+  public final String className;
+
+  public JavaImport(final String className, final JavaPackage javaPackage) {
+    this.javaPackage = javaPackage;
+    this.className = className;
   }
 
-  public enum ImportType {
-    SYSTEM,
-    INTERNAL,
-    EXTERNAL,
-    STATIC
+  @Override
+  public int compareTo(JavaImport otherImport) {
+
+    List<String> thisPackageNames = javaPackage.packageNames;
+    List<String> otherPackageNames = otherImport.javaPackage.packageNames;
+
+    int minimumNameCount = Math.min(thisPackageNames.size(), otherPackageNames.size());
+    for (int i = 0; i < minimumNameCount; ++i) {
+      int comparison = thisPackageNames.get(i).compareTo(otherPackageNames.get(i));
+      if (comparison != 0) {
+        return comparison;
+      }
+    }
+    int comparison = new Integer(thisPackageNames.size()).compareTo(otherPackageNames.size());
+    if (comparison != 0) {
+      return comparison;
+    }
+    return className.compareTo(otherImport.className);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    JavaImport that = (JavaImport) o;
+
+    if (javaPackage != null ? !javaPackage.equals(that.javaPackage) : that.javaPackage != null) {
+      return false;
+    }
+    return className != null ? className.equals(that.className) : that.className == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = javaPackage != null ? javaPackage.hashCode() : 0;
+    result = 31 * result + (className != null ? className.hashCode() : 0);
+    return result;
   }
 }

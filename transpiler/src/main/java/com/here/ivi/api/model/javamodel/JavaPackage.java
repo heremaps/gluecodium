@@ -38,4 +38,25 @@ public final class JavaPackage {
 
     return new JavaPackage(packages);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    JavaPackage that = (JavaPackage) o;
+
+    return packageNames != null
+        ? packageNames.equals(that.packageNames)
+        : that.packageNames == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return packageNames != null ? packageNames.hashCode() : 0;
+  }
 }

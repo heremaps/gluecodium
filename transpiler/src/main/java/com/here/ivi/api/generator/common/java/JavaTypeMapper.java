@@ -15,13 +15,13 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.ModelInfo;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaImport;
-import com.here.ivi.api.model.javamodel.JavaImport.ImportType;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
 import java.util.Collections;
+import java.util.List;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
@@ -114,22 +114,23 @@ public final class JavaTypeMapper {
   private static JavaCustomType mapStruct(
       final JavaPackage basePackage, final FStructType structType) {
 
-    //get definer
     DefinedBy definer = DefinedBy.createFromFModelElement(structType);
+    List<String> packageNames = createJavaPackage(basePackage, definer.model).packageNames;
 
-    String name = JavaNameRules.getClassName(structType.getName());
+    String structName;
+    String importClassName;
 
-    //special rule for FInterface: struct class be nested class inside defining class
+    //struct is nested class inside defining class
     if (definer.type instanceof FInterface) {
-      name = JavaNameRules.getClassName(definer.type.getName()) + "." + name;
+      importClassName = JavaNameRules.getClassName(definer.type.getName());
+      structName = importClassName + "." + JavaNameRules.getClassName(structType.getName());
+    } else { //non nested struct
+      importClassName = JavaNameRules.getClassName(structType.getName());
+      structName = importClassName;
+      packageNames.add(definer.type.getName());
     }
 
-    //determine the package of type to be mapped
-    JavaPackage javaPackage = createJavaPackage(basePackage, definer.model);
-
-    JavaImport javaImport =
-        new JavaImport(String.join(".", javaPackage.packageNames), ImportType.INTERNAL);
-
-    return new JavaCustomType(name, Collections.singletonList(javaImport));
+    JavaImport javaImport = new JavaImport(importClassName, new JavaPackage(packageNames));
+    return new JavaCustomType(structName, Collections.singletonList(javaImport));
   }
 }

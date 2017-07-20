@@ -12,10 +12,12 @@
 package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaInterface
+import com.here.ivi.api.generator.common.TemplateEngine
+import com.here.ivi.api.model.javamodel.JavaElements
 
 public class JavaInterfaceTemplate {
     def static generate(JavaInterface javaInterface) '''«JavaPackageTemplate.generate(javaInterface.javaPackage)»
-    «JavaImportsTemplate.generate(javaInterface)»
+    «TemplateEngine.render("java/Import", JavaElements.collectImports(javaInterface))»
 
 /**
  * «javaInterface.comment»

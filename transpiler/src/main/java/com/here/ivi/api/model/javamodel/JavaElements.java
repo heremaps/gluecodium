@@ -12,15 +12,17 @@
 package com.here.ivi.api.model.javamodel;
 
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class JavaElements {
-  public static Set<JavaImport> collectIncludes(JavaElement root) {
+  public static SortedSet<JavaImport> collectImports(JavaElement root) {
     return root.streamRecursive()
         .filter(p -> p instanceof JavaElementWithImports)
         .map(JavaElementWithImports.class::cast)
         .map(t -> t.imports)
         .flatMap(Set::stream)
-        .collect(Collectors.toSet());
+        .collect(Collectors.toCollection(TreeSet::new));
   }
 }

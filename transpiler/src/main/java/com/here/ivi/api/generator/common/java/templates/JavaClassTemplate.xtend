@@ -13,6 +13,8 @@ package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaClass
 import com.here.ivi.api.generator.common.java.JavaCommentFormatter
+import com.here.ivi.api.generator.common.TemplateEngine
+import com.here.ivi.api.model.javamodel.JavaElements
 
 public class JavaClassTemplate {
   def static whitespaceFormatter(String field) '''«field»«IF !field.isEmpty» «ENDIF»'''
@@ -25,7 +27,7 @@ public class JavaClassTemplate {
     «JavaCopyrightHeaderTemplate.generate()»
 
     «JavaPackageTemplate.generate(javaPackage)»
-    «JavaImportsTemplate.generate(it)»
+    «TemplateEngine.render("java/Import", JavaElements.collectImports(it))»
 
     «IF comment !== null && !comment.isEmpty»
     /**
