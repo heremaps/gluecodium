@@ -12,7 +12,6 @@ package com.here.android.test;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -20,7 +19,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-@Ignore // TODO(APIGEN-344,APIGEN-345): Currently segfaults
 public final class StaticStringMethodsIntegrationTest {
     @Test
     public void returnInputString() {

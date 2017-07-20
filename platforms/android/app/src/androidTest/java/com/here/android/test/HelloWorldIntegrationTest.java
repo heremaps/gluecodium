@@ -15,7 +15,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.here.android.hello.HelloWorld;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -48,7 +47,7 @@ public final class HelloWorldIntegrationTest {
     }
 
 
-    @Ignore // TODO(APIGEN-343): This leads to a segfault
+    @Test
     public void helloWorldMethod_Null() {
         // Arrange, act
         String result = HelloWorld.helloWorldMethod(null);
