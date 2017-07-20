@@ -14,25 +14,26 @@ package com.here.ivi.api.generator.android;
 import com.here.ivi.api.generator.baseapi.StubModelBuilder;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.generator.common.jni.JniModel;
 import com.here.ivi.api.generator.common.jni.JniModelBuilder;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
+import com.here.ivi.api.generator.common.jni.JniStruct;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import navigation.BaseApiSpec;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
 
 public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
 
@@ -44,24 +45,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     this.additionalIncludes = additionalIncludes;
   }
 
-  private List<Include> getIncludes(
-      final Interface<InterfacePropertyAccessor> api, final JavaClass javaClass) {
-    Include jniHeaderInclude =
-        Include.createInternalInclude(JniNameRules.getHeaderFileName(javaClass));
-    Include baseApiHeaderInclude = Include.createInternalInclude(CppNameRules.getHeaderPath(api));
-
-    List<Include> includes =
-        new LinkedList<>(Arrays.asList(jniHeaderInclude, baseApiHeaderInclude));
-    includes.addAll(
-        additionalIncludes
-            .stream()
-            .map(Include::createInternalInclude)
-            .collect(Collectors.toList()));
-
-    return includes;
-  }
-
-  public List<GeneratedFile> generateFiles(final Interface<InterfacePropertyAccessor> anInterface) {
+  public List<GeneratedFile> generateFiles(final Interface<?> anInterface) {
 
     JavaModelBuilder javaBuilder =
         new JavaModelBuilder(
@@ -76,9 +60,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     treeWalker.walk(anInterface);
 
     JniModel jniModel = jniBuilder.getFirstResult(JniModel.class);
-    //convert data for template
     JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
-    CppClass stubClass = stubBuilder.getFirstResult(CppClass.class);
 
     GeneratedFile jniHeader =
         new GeneratedFile(
@@ -89,13 +71,38 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
             JniImplementationTemplate.generate(jniModel, getIncludes(anInterface, javaClass)),
             JniNameRules.getImplementationFileName(javaClass));
 
-    return Arrays.asList(jniHeader, jniImplementation);
+    List<GeneratedFile> results = new ArrayList<>(Arrays.asList(jniHeader, jniImplementation));
+
+    for (JniStruct jniStruct : jniModel.structs) {
+      results.add(
+          new GeneratedFile(
+              TemplateEngine.render("jni/StructConversionHeader", jniStruct),
+              JniNameRules.getConversionHeaderFileName(javaClass, jniStruct.javaClass)));
+      results.add(
+          new GeneratedFile(
+              TemplateEngine.render("jni/StructConversionImplementation", jniStruct),
+              JniNameRules.getConversionImplementationFileName(javaClass, jniStruct.javaClass)));
+    }
+
+    return results;
   }
 
   public List<GeneratedFile> generateFiles(
-      TypeCollection<BaseApiSpec.TypeCollectionPropertyAccessor> typeCollection) {
+      @SuppressWarnings("unused")
+          TypeCollection<BaseApiSpec.TypeCollectionPropertyAccessor> typeCollection) {
 
     // Currently no JNI files to be generated for type collections
     return Collections.emptyList();
+  }
+
+  private List<Include> getIncludes(final Interface<?> anInterface, final JavaClass javaClass) {
+
+    String jniHeaderInclude = JniNameRules.getHeaderFileName(javaClass);
+    String baseApiHeaderInclude = CppNameRules.getHeaderPath(anInterface);
+
+    List<String> includes = new LinkedList<>(Arrays.asList(jniHeaderInclude, baseApiHeaderInclude));
+    includes.addAll(additionalIncludes);
+
+    return includes.stream().map(Include::createInternalInclude).collect(Collectors.toList());
   }
 }

@@ -17,31 +17,33 @@ import java.io.File;
 import java.util.List;
 
 public final class JniNameRules {
-  private static final String JNI_HEADER_FILE_ENDING = ".h";
-  private static final String JNI_IMPLEMENTATION_FILE_ENDING = ".cpp";
 
-  private static String formatPackageName(List<String> packageNames) {
-    return packageNames.isEmpty() ? "" : String.join("_", packageNames) + "_";
-  }
+  private static final String JNI_HEADER_FILE_SUFFIX = ".h";
+  private static final String JNI_IMPLEMENTATION_FILE_SUFFUX = ".cpp";
+  private static final String JNI_CONVERSION_NAME_SUFFUX = "Conversion";
 
   public static String getHeaderFileName(final JavaClass javaClass) {
-    return AndroidGeneratorSuite.GENERATOR_NAMESPACE
-        + File.separator
-        + "jni"
-        + File.separator
-        + formatPackageName(javaClass.javaPackage.packageNames)
-        + javaClass.name
-        + JNI_HEADER_FILE_ENDING;
+    return getJniClassFileName(javaClass) + JNI_HEADER_FILE_SUFFIX;
   }
 
   public static String getImplementationFileName(final JavaClass javaClass) {
-    return AndroidGeneratorSuite.GENERATOR_NAMESPACE
-        + File.separator
-        + "jni"
-        + File.separator
-        + formatPackageName(javaClass.javaPackage.packageNames)
-        + javaClass.name
-        + JNI_IMPLEMENTATION_FILE_ENDING;
+    return getJniClassFileName(javaClass) + JNI_IMPLEMENTATION_FILE_SUFFUX;
+  }
+
+  public static String getConversionHeaderFileName(
+      final JavaClass javaClass, final JavaClass javaStruct) {
+    return getJniClassFileName(javaClass)
+        + javaStruct.name
+        + JNI_CONVERSION_NAME_SUFFUX
+        + JNI_HEADER_FILE_SUFFIX;
+  }
+
+  public static String getConversionImplementationFileName(
+      final JavaClass javaClass, final JavaClass javaStruct) {
+    return getJniClassFileName(javaClass)
+        + javaStruct.name
+        + JNI_CONVERSION_NAME_SUFFUX
+        + JNI_IMPLEMENTATION_FILE_SUFFUX;
   }
 
   public static String getParameterName(final String javaParameterName) {
@@ -66,5 +68,18 @@ public final class JniNameRules {
     }
 
     return String.join("_", javaPackages);
+  }
+
+  private static String formatPackageName(List<String> packageNames) {
+    return packageNames.isEmpty() ? "" : String.join("_", packageNames) + "_";
+  }
+
+  private static String getJniClassFileName(final JavaClass javaClass) {
+    return AndroidGeneratorSuite.GENERATOR_NAMESPACE
+        + File.separator
+        + "jni"
+        + File.separator
+        + formatPackageName(javaClass.javaPackage.packageNames)
+        + javaClass.name;
   }
 }
