@@ -46,7 +46,8 @@ public class JniToCppTypeConversionTemplateDelegator {
         "Conversion from Java type to cpp type is not possible: " + javaType.getName());
   }
 
-  private static CharSequence generate(JavaCustomType javaType) {
+  private static CharSequence generate(
+      JavaCustomType javaType, @SuppressWarnings("unused") String variableName) {
     throw new TranspilerExecutionException(
         "conversion from JavaCustomType to cpp type is not yet supported: " + javaType.getName());
   }
