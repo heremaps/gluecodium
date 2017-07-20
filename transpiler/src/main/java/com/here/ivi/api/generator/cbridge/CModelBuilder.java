@@ -21,12 +21,14 @@ import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.CElement;
+import com.here.ivi.api.model.cmodel.CField;
 import com.here.ivi.api.model.cmodel.CFunction;
 import com.here.ivi.api.model.cmodel.CInParameter;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.cmodel.CPointerType;
+import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.Interface;
@@ -40,6 +42,8 @@ import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypedElement;
 
 public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
@@ -66,6 +70,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     CInterface cInterface = new CInterface();
     cInterface.functions =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CFunction.class);
+    cInterface.structs =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CStruct.class);
 
     cInterface.headerIncludes = collectHeaderIncludes(cInterface);
     cInterface.implementationIncludes = collectImplementationIncludes(cInterface);
@@ -109,7 +115,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
-    CppTypeInfo typeInfo = CTypeMapper.mapType(francaArgument);
+    CppTypeInfo typeInfo = CTypeMapper.mapType(francaArgument.getType());
     String francaArgumentName = francaArgument.getName();
     List<CParameter> cParams =
         IntStream.range(0, typeInfo.cTypesNeededByConstructor.size())
@@ -127,11 +133,31 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    CppTypeInfo typeInfo = CTypeMapper.mapType(francaArgument);
+    CppTypeInfo typeInfo = CTypeMapper.mapType(francaArgument.getType());
     COutParameter param = new COutParameter("result", typeInfo);
     param.conversion = TypeConverter.createReturnValueConversionRoutine(param.name, typeInfo);
     storeResult(param);
     closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FStructType francaStructType) {
+    CStruct cStruct = new CStruct(francaStructType.getName());
+    cStruct.fields =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CField.class);
+    storeResult(cStruct);
+    super.finishBuilding(francaStructType);
+  }
+
+  @Override
+  public void finishBuilding(FTypedElement francaTypedElement) {
+    CField cField = new CField(francaTypedElement.getName());
+    if (francaTypedElement.getComment() != null) {
+      cField.comment = francaTypedElement.getComment().toString();
+    }
+    cField.type = CTypeMapper.mapType(francaTypedElement.getType());
+    storeResult(cField);
+    super.finishBuilding(francaTypedElement);
   }
 
   private CFunction createGetLengthFunction(String baseName, CppTypeInfo cppTypeInfo) {

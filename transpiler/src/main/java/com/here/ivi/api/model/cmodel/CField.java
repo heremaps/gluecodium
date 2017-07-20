@@ -11,9 +11,11 @@
 
 package com.here.ivi.api.model.cmodel;
 
+import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+
 /** Field of a com.here.ivi.api.model.cmodel.CStruct */
 public class CField extends CElement {
-  public CType type;
+  public CppTypeInfo type;
   public CValue initializer;
 
   public CField(String name) {

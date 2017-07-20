@@ -24,21 +24,13 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.model.cmodel.CElement;
-import com.here.ivi.api.model.cmodel.CFunction;
-import com.here.ivi.api.model.cmodel.CInParameter;
-import com.here.ivi.api.model.cmodel.CInterface;
-import com.here.ivi.api.model.cmodel.COutParameter;
-import com.here.ivi.api.model.cmodel.CParameter;
-import com.here.ivi.api.model.cmodel.CType;
+import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.franca.Interface;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
+import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,6 +56,8 @@ public class CModelBuilderTest {
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
+  @Mock private FStructType francaStruct;
+  @Mock private FTypedElement francaTypedElement;
   private CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
   private CModelBuilder modelBuilder;
 
@@ -228,6 +222,44 @@ public class CModelBuilderTest {
     assertSame(function, iface.functions.get(0));
     assertEquals(0, iface.headerIncludes.size());
     assertEquals(2, iface.implementationIncludes.size());
+  }
+
+  @Test
+  public void finishBuildingStructContainsFields() {
+    injectResult(new CField("field1"));
+    injectResult(new CField("field2"));
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    List<CStruct> structs = getResults(CStruct.class);
+    assertEquals(1, structs.size());
+    CStruct cStruct = structs.get(0);
+    assertEquals(2, cStruct.fields.size());
+    assertEquals("field1", cStruct.fields.get(0).name);
+    assertEquals("field2", cStruct.fields.get(1).name);
+  }
+
+  @Test
+  public void finishBuildingInterfaceContainsStructs() {
+    injectResult(new CStruct("structor"));
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    List<CInterface> interfaces = getResults(CInterface.class);
+    assertEquals(1, interfaces.size());
+    assertEquals(1, interfaces.get(0).structs.size());
+    assertEquals("structor", interfaces.get(0).structs.get(0).name);
+  }
+
+  @Test
+  public void finishBuildingTypedElementAddsFields() {
+
+    when(francaTypedElement.getName()).thenReturn("field");
+    modelBuilder.finishBuilding(francaTypedElement);
+
+    List<CField> fields = getResults(CField.class);
+    assertEquals(1, fields.size());
+    assertEquals("field", fields.get(0).name);
   }
 
   private void injectResult(CElement element) {

@@ -12,14 +12,13 @@
 package com.here.ivi.api.generator.cbridge;
 
 import com.here.ivi.api.model.cmodel.CType;
-import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FTypeRef;
 
 public final class CTypeMapper {
 
-  public static CppTypeInfo mapType(final FArgument argument) {
-    return mapPredefined(argument.getType());
+  public static CppTypeInfo mapType(final FTypeRef type) {
+    return mapPredefined(type);
   }
 
   public static CppTypeInfo mapPredefined(final FTypeRef type) {
