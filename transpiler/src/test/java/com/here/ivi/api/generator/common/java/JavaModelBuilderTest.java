@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.java;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +34,6 @@ import com.here.ivi.api.model.javamodel.JavaVisibility;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FConstantDef;
@@ -88,13 +88,6 @@ public class JavaModelBuilderTest {
 
   private JavaModelBuilder modelBuilder;
 
-  private JavaElement getFirstResult() {
-    List<JavaElement> results = contextStack.getParentContext().previousResults;
-    assertFalse(results.isEmpty());
-
-    return results.get(0);
-  }
-
   private void injectResult(JavaElement element) {
     contextStack.getCurrentContext().previousResults.add(element);
   }
@@ -130,10 +123,9 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaClass);
-
-    assertEquals(CLASS_NAME, ((JavaClass) result).name.toLowerCase());
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(CLASS_NAME, javaClass.name.toLowerCase());
   }
 
   @Test
@@ -142,10 +134,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaClass);
-
-    JavaClass javaClass = (JavaClass) result;
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
     assertFalse(javaClass.constants.isEmpty());
     assertEquals(javaConstant, javaClass.constants.iterator().next());
   }
@@ -156,10 +146,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaClass);
-
-    JavaClass javaClass = (JavaClass) result;
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
     assertFalse(javaClass.fields.isEmpty());
     assertEquals(javaField, javaClass.fields.iterator().next());
   }
@@ -171,10 +159,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaClass);
-
-    JavaClass javaClass = (JavaClass) result;
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
     assertFalse(javaClass.methods.isEmpty());
     assertEquals(javaMethod, javaClass.methods.iterator().next());
   }
@@ -183,10 +169,8 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaMethod() {
     modelBuilder.finishBuilding(francaMethod);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaMethod);
-
-    JavaMethod javaMethod = (JavaMethod) result;
+    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    assertNotNull(javaMethod);
     assertEquals(METHOD_NAME, javaMethod.name);
     assertTrue(javaMethod.qualifiers.contains(JavaMethod.MethodQualifier.NATIVE));
     assertEquals(JavaVisibility.PUBLIC, javaMethod.visibility);
@@ -196,12 +180,9 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaMethodWithZeroOutArgs() {
     modelBuilder.finishBuilding(francaMethod);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaMethod);
-
-    JavaMethod javaMethod = (JavaMethod) result;
+    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    assertNotNull(javaMethod);
     assertTrue(javaMethod.returnType instanceof JavaPrimitiveType);
-
     assertEquals(JavaPrimitiveType.Type.VOID, ((JavaPrimitiveType) javaMethod.returnType).type);
   }
 
@@ -212,10 +193,9 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaMethod);
-
-    assertEquals(javaCustomType, ((JavaMethod) result).returnType);
+    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertEquals(javaCustomType, javaMethod.returnType);
 
     PowerMockito.verifyStatic();
     JavaTypeMapper.map(francaTypeRef);
@@ -228,10 +208,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaMethod);
-
-    JavaMethod javaMethod = (JavaMethod) result;
+    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    assertNotNull(javaMethod);
     assertFalse(javaMethod.parameters.isEmpty());
     assertEquals(javaParameter, javaMethod.parameters.get(0));
   }
@@ -243,10 +221,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaParameter);
-
-    JavaParameter javaParameter = (JavaParameter) result;
+    JavaParameter javaParameter = modelBuilder.getFirstResult(JavaParameter.class);
+    assertNotNull(javaParameter);
     assertEquals(PARAMETER_NAME, javaParameter.name);
     assertEquals(javaTypeCustom, javaParameter.type);
 
@@ -260,10 +236,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaClass);
-
-    JavaClass javaClass = (JavaClass) result;
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
     assertFalse(javaClass.constants.isEmpty());
     assertEquals(javaConstant, javaClass.constants.iterator().next());
   }
@@ -275,10 +249,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaClass);
-
-    JavaClass javaClass = (JavaClass) result;
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
     assertFalse(javaClass.innerClasses.isEmpty());
     assertEquals(innerClass, javaClass.innerClasses.iterator().next());
   }
@@ -287,18 +259,19 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaConstant() {
     modelBuilder.finishBuilding(francaConstant);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaConstant);
-    assertEquals(CONSTANT_NAME, result.name.toLowerCase());
+    JavaConstant javaConstant = modelBuilder.getFirstResult(JavaConstant.class);
+    assertNotNull(javaConstant);
+    assertNotNull(javaConstant);
+    assertEquals(CONSTANT_NAME, javaConstant.name.toLowerCase());
   }
 
   @Test
   public void finishBuildingFrancaTypedElementReadsName() {
     modelBuilder.finishBuilding(francaTypedElement);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaField);
-    assertEquals(FIELD_NAME, result.name.toLowerCase());
+    JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
+    assertNotNull(javaField);
+    assertEquals(FIELD_NAME, javaField.name.toLowerCase());
   }
 
   @Test
@@ -307,10 +280,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypedElement);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaField);
-
-    JavaField javaField = (JavaField) result;
+    JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
+    assertNotNull(javaField);
     assertEquals(javaCustomType, javaField.type);
   }
 
@@ -318,10 +289,9 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaStructType() {
     modelBuilder.finishBuilding(francaStructType);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaClass);
-
-    assertEquals(STRUCT_NAME, ((JavaClass) result).name.toLowerCase());
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(STRUCT_NAME, javaClass.name.toLowerCase());
   }
 
   @Test
@@ -330,10 +300,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStructType);
 
-    JavaElement result = getFirstResult();
-    assertTrue(result instanceof JavaClass);
-
-    JavaClass javaClass = (JavaClass) result;
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
     assertFalse(javaClass.fields.isEmpty());
     assertEquals(javaField, javaClass.fields.iterator().next());
   }
@@ -344,8 +312,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeRef);
 
-    JavaElement result = getFirstResult();
-    assertEquals(javaCustomType, result);
+    JavaType javaType = modelBuilder.getFirstResult(JavaType.class);
+    assertEquals(javaCustomType, javaType);
 
     PowerMockito.verifyStatic();
     JavaTypeMapper.map(francaTypeRef);
