@@ -1,0 +1,21 @@
+{
+  {{>jni/FullyQualifiedCppName}}::{{cppStruct.name}} result;
+  jclass javaClass = env->GetObjectClass(jinput);
+{{#fields}}
+  {{#hasCustomType}}
+  result.{{cppField.name}} =
+    convert_jobject_to_{{cppField.type.name}}(
+      env,
+      here::internal::get_object_field(
+        env,
+        javaClass,
+        jinput,
+        "{{javaField.name}}",
+        "L{{#owningModel.javaPackages}}{{.}}/{{/owningModel.javaPackages}}{{owningModel.javaClassName}}${{javaClass.name}};"));
+  {{/hasCustomType}}
+  {{^hasCustomType}}
+  result.{{cppField.name}} = here::internal::get_{{javaField.type.name}}_field(env, javaClass, jinput, "{{javaField.name}}");
+  {{/hasCustomType}}
+{{/fields}}
+  return result;
+}

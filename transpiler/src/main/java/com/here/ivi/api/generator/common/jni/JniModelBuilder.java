@@ -82,8 +82,10 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     methodList.forEach(method -> method.owningModel = jniModel);
     jniModel.methods.addAll(methodList);
 
-    jniModel.structs.addAll(
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniStruct.class));
+    List<JniStruct> structs =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniStruct.class);
+    structs.forEach(struct -> struct.owningModel = jniModel);
+    jniModel.structs.addAll(structs);
 
     storeResult(jniModel);
     closeContext();

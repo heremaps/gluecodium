@@ -1,1 +1,1 @@
-{{#owningModel.cppNameSpaces}}{{.}}::{{/owningModel.cppNameSpaces}}{{owningModel.cppClassName}}::{{{cppMethodName}}}({{#parameters}}{{{name}}}{{#iter.hasNext}},{{/iter.hasNext}}{{/parameters}});
+{{>jni/FullyQualifiedCppName}}::{{{cppMethodName}}}({{#parameters}}{{{name}}}{{#iter.hasNext}},{{/iter.hasNext}}{{/parameters}});
