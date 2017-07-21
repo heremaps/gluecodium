@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.common.jni;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -34,10 +33,8 @@ import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FField;
@@ -78,11 +75,9 @@ public class JniModelBuilderTest {
 
   private static final String CPP_VOID_METHOD_NAME = "cPpWork3R_vOid";
   private static final String CPP_INT_METHOD_NAME = "cPpWork3R_iNt";
-  private static final String CPP_STRING_METHOD_NAME = "cPpWork3R_Stdstring";
 
   private static final String JAVA_VOID_METHOD_NAME = "fancyMEthoD_v0id";
   private static final String JAVA_INT_METHOD_NAME = "fancyMEthoD_integer";
-  private static final String JAVA_STRING_METHOD_NAME = "fancyMEthoD_String";
 
   private static final String BASE_NAME_PARAMETER = "theParam";
 
@@ -101,15 +96,7 @@ public class JniModelBuilderTest {
     when(stubBuilder.getFirstResult(any())).thenReturn(cppClass);
   }
 
-  private static JavaMethod createJavaMethodVoid() {
-    return new JavaMethod(JAVA_VOID_METHOD_NAME);
-  }
-
-  private static CppMethod createCppMethodVoid() {
-    return new CppMethod.Builder(CPP_VOID_METHOD_NAME).build();
-  }
-
-  private static JavaMethod createJavaMethodInt() {
+  private static JavaMethod createJavaMethod() {
     JavaMethod javaMethod =
         new JavaMethod(JAVA_INT_METHOD_NAME, new JavaPrimitiveType(JavaPrimitiveType.Type.INT));
     javaMethod.parameters.add(
@@ -117,7 +104,7 @@ public class JniModelBuilderTest {
     return javaMethod;
   }
 
-  private static CppMethod createCppMethodInt() {
+  private static CppMethod createCppMethod() {
     CppParameter cppParameter = new CppParameter();
     cppParameter.type = new CppPrimitiveType(CppPrimitiveType.Type.INT8);
 
@@ -127,7 +114,7 @@ public class JniModelBuilderTest {
         .build();
   }
 
-  private JniMethod createJniMethodVoid(JniModel jniModel) {
+  private JniMethod createJniMethod(JniModel jniModel) {
 
     JniMethod result = new JniMethod();
     result.javaReturnType = new JavaPrimitiveType(JavaPrimitiveType.Type.VOID);
@@ -139,57 +126,25 @@ public class JniModelBuilderTest {
     return result;
   }
 
-  private JniMethod createJniMethodString(JniModel jniModel) {
-
-    JavaReferenceType stringType = new JavaReferenceType(JavaReferenceType.Type.STRING);
-    JniMethod result = new JniMethod();
-    result.javaReturnType = stringType;
-    result.javaMethodName = JAVA_STRING_METHOD_NAME;
-    result.cppMethodName = CPP_STRING_METHOD_NAME;
-    result.cppReturnType = new CppCustomType(CppCustomType.STRING_TYPE_NAME);
-    result.owningModel = jniModel;
-    result.parameters.add(
-        new JniParameter(
-            BASE_NAME_PARAMETER, stringType, new CppCustomType(CppCustomType.STRING_TYPE_NAME)));
-
-    return result;
-  }
-
-  private void verifyJniModel(List<JniElement> jniElementList, List<JniMethod> expectedMethodList) {
-    assertEquals(1, jniElementList.size());
-    assertTrue(jniElementList.get(0) instanceof JniModel);
-    JniModel jniModel = (JniModel) jniElementList.get(0);
-    assertEquals(CPP_CLASS_NAME, jniModel.cppClassName);
-    assertEquals(JAVA_CLASS_NAME, jniModel.javaClassName);
-    assertEquals(CPP_NAMESPACE_MEMBERS, jniModel.cppNameSpaces);
-    assertEquals(JAVA_PACKAGES, jniModel.javaPackages);
-    assertEquals(expectedMethodList.size(), jniModel.methods.size());
-    for (int i = 0; i < expectedMethodList.size(); ++i) {
-      assertEquals(expectedMethodList.get(i), jniModel.methods.get(i));
-    }
-  }
-
   @Test
   public void finishBuildingFMethodVoid() {
     //arrange
-    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodVoid());
-    when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodVoid());
+    when(javaBuilder.getFirstResult(any())).thenReturn(new JavaMethod(JAVA_VOID_METHOD_NAME));
+    when(stubBuilder.getFirstResult(any()))
+        .thenReturn(new CppMethod.Builder(CPP_VOID_METHOD_NAME).build());
 
     //act
     modelBuilder.finishBuilding(francaMethod);
-    List<JniElement> result = modelBuilder.getResults();
 
     //assert
-    assertEquals(1, result.size());
-    assertTrue(result.get(0) instanceof JniMethod);
-    JniMethod method = (JniMethod) result.get(0);
-    assertEquals(createJniMethodVoid(null), method);
+    JniMethod jniMethod = modelBuilder.getFirstResult(JniMethod.class);
+    assertEquals(createJniMethod(null), jniMethod);
   }
 
   @Test
   public void finishBuildingFrancaMethodReadsJavaCppMethods() {
-    JavaMethod javaMethod = createJavaMethodInt();
-    CppMethod cppMethod = createCppMethodInt();
+    JavaMethod javaMethod = createJavaMethod();
+    CppMethod cppMethod = createCppMethod();
     when(javaBuilder.getFirstResult(any())).thenReturn(javaMethod);
     when(stubBuilder.getFirstResult(any())).thenReturn(cppMethod);
 
@@ -206,8 +161,8 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaMethodReadsJniParameters() {
     contextStack.injectResult(jniParameter);
-    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodInt());
-    when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodInt());
+    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethod());
+    when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethod());
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -218,53 +173,38 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFInterfaceWithoutMethods() {
+  public void finishBuildingFrancaInterfaceReadsJavaCppClasses() {
     //arrange
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     //act
     modelBuilder.finishBuilding(francaInterface);
-    List<JniElement> result = modelBuilder.getResults();
 
     //assert
-    verifyJniModel(result, Collections.emptyList());
+    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
+    assertNotNull(jniModel);
+    assertEquals(CPP_CLASS_NAME, jniModel.cppClassName);
+    assertEquals(JAVA_CLASS_NAME, jniModel.javaClassName);
+    assertEquals(CPP_NAMESPACE_MEMBERS, jniModel.cppNameSpaces);
+    assertEquals(JAVA_PACKAGES, jniModel.javaPackages);
   }
 
   @Test
-  public void finishBuildingFInterfaceWithSingleMethod() {
-    //arrange model builders returning classes and inject some former processed methods
-    contextStack.injectResult(createJniMethodVoid(null));
+  public void finishBuildingFrancaInterfaceReadsMethods() {
+    contextStack.injectResult(createJniMethod(null));
+
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     //act
     modelBuilder.finishBuilding(francaInterface);
-    List<JniElement> result = modelBuilder.getResults();
 
     //assert
-    verifyJniModel(
-        result, Collections.singletonList(createJniMethodVoid((JniModel) result.get(0))));
-  }
-
-  @Test
-  public void finishBuildingFInterfaceWithMultipleMethods() {
-    //arrange model builders returning classes and inject some former processed methods
-    contextStack.injectResult(createJniMethodVoid(null));
-    contextStack.injectResult(createJniMethodString(null));
-    javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
-
-    //act
-    modelBuilder.finishBuilding(francaInterface);
-    List<JniElement> result = modelBuilder.getResults();
-
-    //assert
-    verifyJniModel(
-        result,
-        Arrays.asList(
-            createJniMethodVoid((JniModel) result.get(0)),
-            createJniMethodString((JniModel) result.get(0))));
+    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
+    assertNotNull(jniModel);
+    assertFalse(jniModel.methods.isEmpty());
+    assertEquals(createJniMethod(jniModel), jniModel.methods.get(0));
   }
 
   @Test
