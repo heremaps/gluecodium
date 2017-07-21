@@ -11,17 +11,16 @@
 
 package com.here.ivi.api.generator.common.jni;
 
-import java.util.LinkedList;
-import java.util.List;
+import com.here.ivi.api.model.cppmodel.CppField;
+import com.here.ivi.api.model.javamodel.JavaField;
 
-public class JniModel implements JniElement {
+public class JniField implements JniElement {
 
-  public List<String> javaPackages;
-  public String javaClassName;
+  public final JavaField javaField;
+  public final CppField cppField;
 
-  public List<String> cppNameSpaces;
-  public String cppClassName;
-
-  public List<JniMethod> methods = new LinkedList<>();
-  public List<JniStruct> structs = new LinkedList<>();
+  public JniField(final JavaField javaField, final CppField cppField) {
+    this.javaField = javaField;
+    this.cppField = cppField;
+  }
 }
