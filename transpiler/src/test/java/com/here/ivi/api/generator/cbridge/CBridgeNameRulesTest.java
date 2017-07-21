@@ -19,11 +19,14 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.List;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
+import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,12 +39,17 @@ public class CBridgeNameRulesTest {
 
   private static final List<String> PACKAGES = asList("PKG1", "PKG2");
   private static final String INTERFACE_NAME = "TestInterface";
+  private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
   private static final String STRUCT_NAME = "structName";
   public static final String METHOD_NAME = "testMethod";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface<InterfacePropertyAccessor> anInterface;
 
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private TypeCollection<TypeCollectionPropertyAccessor> typeCollection;
+
+  @Mock private FTypeCollection francaTypeCollection;
   @Mock private FInterface francaInterface;
   @Mock private FStructType francaStruct;
   @Mock private FMethod francaMethod;
@@ -50,11 +58,43 @@ public class CBridgeNameRulesTest {
   @Before
   public void setUp() {
     when(anInterface.getModelInfo().getPackageNames()).thenReturn(PACKAGES);
-    when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
     when(anInterface.getName()).thenReturn(INTERFACE_NAME);
-    when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
+    when(typeCollection.getModelInfo().getPackageNames()).thenReturn(PACKAGES);
+    when(typeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
     when(francaStruct.getName()).thenReturn(STRUCT_NAME);
     nameRules = new CBridgeNameRules();
+  }
+
+  @Test
+  public void getStructNameCreatesProperNameForStructsInTypeCollections() {
+    String expectedName =
+        String.join(
+            "::",
+            (String[])
+                addAll(
+                    PACKAGES.toArray(new String[0]),
+                    TYPE_COLLECTION_NAME,
+                    toUpperCamelCase(STRUCT_NAME)));
+
+    String actualName = nameRules.getStructName(typeCollection, francaStruct);
+
+    assertEquals(expectedName, actualName);
+  }
+
+  @Test
+  public void getStructNameCreatesProperNameForStructsInInterfaces() {
+    String expectedName =
+        String.join(
+            "::",
+            (String[])
+                addAll(
+                    PACKAGES.toArray(new String[0]),
+                    INTERFACE_NAME,
+                    toUpperCamelCase(STRUCT_NAME)));
+
+    String actualName = nameRules.getStructName(anInterface, francaStruct);
+
+    assertEquals(expectedName, actualName);
   }
 
   @Test
@@ -62,6 +102,7 @@ public class CBridgeNameRulesTest {
     String expectedName = prepandNameWithPackageAndInterface(toUpperCamelCase(STRUCT_NAME) + "Ref");
 
     String actualName = nameRules.getHandleName(anInterface, francaStruct);
+
     assertEquals(expectedName, actualName);
   }
 

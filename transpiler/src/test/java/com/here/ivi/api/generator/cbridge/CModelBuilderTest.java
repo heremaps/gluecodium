@@ -68,7 +68,7 @@ public class CModelBuilderTest {
     when(cBridgeNameRules.getMethodName(any(), any())).thenReturn(FULL_FUNCTION_NAME);
     when(cBridgeNameRules.getDelegateMethodName(any(), any())).thenReturn(DELEGATE_NAME);
 
-    when(CTypeMapper.mapType(any())).thenReturn(cppTypeInfo);
+    when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
 
     modelBuilder = new CModelBuilder(anInterface, cBridgeNameRules, contextStack);

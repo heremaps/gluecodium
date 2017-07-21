@@ -18,9 +18,11 @@ import static java.util.Collections.singletonList;
 import com.here.ivi.api.model.cmodel.CPointerType;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.franca.core.franca.FStructType;
 
 public class CppTypeInfo {
   public static final CppTypeInfo STRING =
@@ -56,6 +58,27 @@ public class CppTypeInfo {
           CPointerType.VOID_PTR,
           "&(*%1$s)[0]",
           "%1$s->size()");
+
+  public static CppTypeInfo createStructTypeInfo(
+      final FrancaElement<?> rootModel, final FStructType structType) {
+    CBridgeNameRules rules = new CBridgeNameRules();
+    return new CppTypeInfo(
+        rules.getHandleName(rootModel, structType),
+        singletonList(Include.createInternalInclude(rules.getHeaderFileName(rootModel))),
+        "",
+        emptyList(),
+        "*get_pointer(%1$s)",
+        singletonList(new CType(rules.getHandleName(rootModel, structType))),
+        singletonList(""),
+        rules.getHandleName(rootModel, structType)
+            + "{ new "
+            + rules.getStructName(rootModel, structType)
+            + "(%1$s) }",
+        emptyList(),
+        new CType(rules.getHandleName(rootModel, structType)),
+        "",
+        "");
+  }
 
   public final String baseType;
   public final String heldType;
