@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.jni;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,11 +23,14 @@ import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
+import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
+import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
+import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
@@ -37,8 +41,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FField;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,9 +59,16 @@ public class JniModelBuilderTest {
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
+  @Mock private FStructType francaStructType;
+  @Mock private FField francaField;
 
   @Mock private JavaModelBuilder javaBuilder;
   @Mock private StubModelBuilder stubBuilder;
+
+  private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
+  private final CppClass cppClass = new CppClass(CPP_CLASS_NAME);
+  private final JavaCustomType javaCustomType = new JavaCustomType(JAVA_CLASS_NAME);
+  private final CppCustomType cppCustomType = new CppCustomType(CPP_CLASS_NAME);
 
   private static final List<String> JAVA_PACKAGES = Arrays.asList("my", "java", "test");
 
@@ -80,17 +93,20 @@ public class JniModelBuilderTest {
 
   private JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null, null);
 
-  private JniModelBuilder correspondenceBuilder;
+  private JniModelBuilder modelBuilder;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    correspondenceBuilder = new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
+    modelBuilder = new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
 
     contextStack.getCurrentContext().currentResults = new ArrayList<>();
     contextStack.getCurrentContext().previousResults = new ArrayList<>();
     contextStack.getParentContext().previousResults = new ArrayList<>();
+
+    when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
+    when(stubBuilder.getFirstResult(any())).thenReturn(cppClass);
   }
 
   private void injectResult(JniElement element) {
@@ -172,8 +188,8 @@ public class JniModelBuilderTest {
     when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodVoid());
 
     //act
-    correspondenceBuilder.finishBuilding(francaMethod);
-    List<JniElement> result = correspondenceBuilder.getResults();
+    modelBuilder.finishBuilding(francaMethod);
+    List<JniElement> result = modelBuilder.getResults();
 
     //assert
     assertEquals(1, result.size());
@@ -189,9 +205,9 @@ public class JniModelBuilderTest {
     when(javaBuilder.getFirstResult(any())).thenReturn(javaMethod);
     when(stubBuilder.getFirstResult(any())).thenReturn(cppMethod);
 
-    correspondenceBuilder.finishBuilding(francaMethod);
+    modelBuilder.finishBuilding(francaMethod);
 
-    JniMethod jniMethod = correspondenceBuilder.getFirstResult(JniMethod.class);
+    JniMethod jniMethod = modelBuilder.getFirstResult(JniMethod.class);
     assertNotNull(jniMethod);
     assertEquals(javaMethod.name, jniMethod.javaMethodName);
     assertEquals(javaMethod.returnType, jniMethod.javaReturnType);
@@ -205,26 +221,23 @@ public class JniModelBuilderTest {
     when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethodInt());
     when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethodInt());
 
-    correspondenceBuilder.finishBuilding(francaMethod);
+    modelBuilder.finishBuilding(francaMethod);
 
-    JniMethod jniMethod = correspondenceBuilder.getFirstResult(JniMethod.class);
+    JniMethod jniMethod = modelBuilder.getFirstResult(JniMethod.class);
     assertNotNull(jniMethod);
     assertEquals(1, jniMethod.parameters.size());
     assertEquals(jniParameter, jniMethod.parameters.get(0));
   }
 
   @Test
-  public void finishBuildingFInterfaceWithOutMethods() {
+  public void finishBuildingFInterfaceWithoutMethods() {
     //arrange
-    JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
-    when(stubBuilder.getFirstResult(any())).thenReturn(new CppClass(CPP_CLASS_NAME));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     //act
-    correspondenceBuilder.finishBuilding(francaInterface);
-    List<JniElement> result = correspondenceBuilder.getResults();
+    modelBuilder.finishBuilding(francaInterface);
+    List<JniElement> result = modelBuilder.getResults();
 
     //assert
     verifyJniModel(result, Collections.emptyList());
@@ -234,15 +247,12 @@ public class JniModelBuilderTest {
   public void finishBuildingFInterfaceWithSingleMethod() {
     //arrange model builders returning classes and inject some former processed methods
     injectResult(createJniMethodVoid(null));
-    JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
-    when(stubBuilder.getFirstResult(any())).thenReturn(new CppClass(CPP_CLASS_NAME));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     //act
-    correspondenceBuilder.finishBuilding(francaInterface);
-    List<JniElement> result = correspondenceBuilder.getResults();
+    modelBuilder.finishBuilding(francaInterface);
+    List<JniElement> result = modelBuilder.getResults();
 
     //assert
     verifyJniModel(
@@ -254,15 +264,12 @@ public class JniModelBuilderTest {
     //arrange model builders returning classes and inject some former processed methods
     injectResult(createJniMethodVoid(null));
     injectResult(createJniMethodString(null));
-    JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
-    when(stubBuilder.getFirstResult(any())).thenReturn(new CppClass(CPP_CLASS_NAME));
     when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     //act
-    correspondenceBuilder.finishBuilding(francaInterface);
-    List<JniElement> result = correspondenceBuilder.getResults();
+    modelBuilder.finishBuilding(francaInterface);
+    List<JniElement> result = modelBuilder.getResults();
 
     //assert
     verifyJniModel(
@@ -273,21 +280,79 @@ public class JniModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaInterfaceReadsStructs() {
+    JniStruct jniStruct = new JniStruct(javaClass, new CppStruct(CPP_CLASS_NAME), null);
+    injectResult(jniStruct);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
+    assertNotNull(jniModel);
+    assertFalse(jniModel.structs.isEmpty());
+    assertEquals(jniStruct, jniModel.structs.get(0));
+  }
+
+  @Test
   public void finishBuildingInputArgumentReadsJavaCppParameters() {
-    JavaParameter javaParameter =
-        new JavaParameter(new JavaCustomType(JAVA_CLASS_NAME), "relative");
+    JavaParameter javaParameter = new JavaParameter(javaCustomType, "relative");
     CppParameter cppParameter = new CppParameter();
     cppParameter.name = "absolute";
     cppParameter.type = new CppCustomType(CPP_CLASS_NAME);
     when(javaBuilder.getFirstResult(any())).thenReturn(javaParameter);
     when(stubBuilder.getFirstResult(any())).thenReturn(cppParameter);
 
-    correspondenceBuilder.finishBuildingInputArgument(francaArgument);
+    modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    JniParameter jniParameter = correspondenceBuilder.getFirstResult(JniParameter.class);
+    JniParameter jniParameter = modelBuilder.getFirstResult(JniParameter.class);
     assertNotNull(jniParameter);
     assertEquals(javaParameter.name, jniParameter.name);
     assertEquals(javaParameter.type, jniParameter.javaType);
     assertEquals(cppParameter.type, jniParameter.cppType);
+  }
+
+  @Test
+  public void finishBuildingFrancaStructReadsJavaCppClasses() {
+    CppStruct cppStruct = new CppStruct(CPP_CLASS_NAME);
+    when(stubBuilder.getFirstResult(any())).thenReturn(cppStruct);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    JniStruct jniStruct = modelBuilder.getFirstResult(JniStruct.class);
+    assertNotNull(jniStruct);
+    assertEquals(javaClass, jniStruct.javaClass);
+    assertEquals(cppStruct, jniStruct.cppStruct);
+  }
+
+  @Test
+  public void finishBuildingFrancaStructReadsFields() {
+    JniField jniField =
+        new JniField(
+            new JavaField(javaCustomType, BASE_NAME_PARAMETER),
+            new CppField(cppCustomType, BASE_NAME_PARAMETER));
+    injectResult(jniField);
+    when(javaBuilder.getFirstResult(any())).thenReturn(null);
+    when(stubBuilder.getFirstResult(any())).thenReturn(null);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    JniStruct jniStruct = modelBuilder.getFirstResult(JniStruct.class);
+    assertNotNull(jniStruct);
+    assertFalse(jniStruct.fields.isEmpty());
+    assertEquals(jniField, jniStruct.fields.get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsJavaCppClasses() {
+    JavaField javaField = new JavaField(javaCustomType, BASE_NAME_PARAMETER);
+    CppField cppField = new CppField(cppCustomType, CPP_CLASS_NAME);
+    when(javaBuilder.getFirstResult(any())).thenReturn(javaField);
+    when(stubBuilder.getFirstResult(any())).thenReturn(cppField);
+
+    modelBuilder.finishBuilding(francaField);
+
+    JniField jniField = modelBuilder.getFirstResult(JniField.class);
+    assertNotNull(jniField);
+    assertEquals(javaField, jniField.javaField);
+    assertEquals(cppField, jniField.cppField);
   }
 }

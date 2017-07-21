@@ -17,15 +17,20 @@ import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.model.cppmodel.CppClass;
+import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
+import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import java.util.List;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypedElement;
 
 /**
  * This class builds a correspondence-tree containing correspondences between java and cpp model
@@ -57,9 +62,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
   public JniModelBuilder(final JavaModelBuilder javaBuilder, final StubModelBuilder stubBuilder) {
 
-    super(new ModelBuilderContextStack<>());
-    this.javaBuilder = javaBuilder;
-    this.stubBuilder = stubBuilder;
+    this(new ModelBuilderContextStack<>(), javaBuilder, stubBuilder);
   }
 
   @Override
@@ -78,6 +81,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniMethod.class);
     methodList.forEach(method -> method.owningModel = jniModel);
     jniModel.methods.addAll(methodList);
+
+    jniModel.structs.addAll(
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniStruct.class));
 
     storeResult(jniModel);
     closeContext();
@@ -108,6 +114,28 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     CppParameter cppParameter = stubBuilder.getFirstResult(CppParameter.class);
 
     storeResult(new JniParameter(javaParameter.getName(), javaParameter.type, cppParameter.type));
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FStructType francaStructType) {
+
+    JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
+    CppStruct cppStruct = stubBuilder.getFirstResult(CppStruct.class);
+    List<JniField> jniFields =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniField.class);
+
+    storeResult(new JniStruct(javaClass, cppStruct, jniFields));
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FTypedElement francaTypedElement) {
+
+    JavaField javaField = javaBuilder.getFirstResult(JavaField.class);
+    CppField cppField = stubBuilder.getFirstResult(CppField.class);
+
+    storeResult(new JniField(javaField, cppField));
     closeContext();
   }
 }
