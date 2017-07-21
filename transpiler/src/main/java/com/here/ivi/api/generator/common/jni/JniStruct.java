@@ -17,14 +17,25 @@ import java.util.List;
 
 public class JniStruct implements JniElement {
 
+  public JniModel owningModel;
+
   public final JavaClass javaClass;
   public final CppStruct cppStruct;
   public final List<JniField> fields;
 
   public JniStruct(
-      final JavaClass javaClass, final CppStruct cppStruct, final List<JniField> fields) {
+      final JniModel owningModel,
+      final JavaClass javaClass,
+      final CppStruct cppStruct,
+      final List<JniField> fields) {
+    this.owningModel = owningModel;
     this.javaClass = javaClass;
     this.cppStruct = cppStruct;
     this.fields = fields;
+  }
+
+  public JniStruct(
+      final JavaClass javaClass, final CppStruct cppStruct, final List<JniField> fields) {
+    this(null, javaClass, cppStruct, fields);
   }
 }
