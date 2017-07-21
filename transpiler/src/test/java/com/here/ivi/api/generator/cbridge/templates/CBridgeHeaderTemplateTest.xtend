@@ -21,6 +21,7 @@ import com.here.ivi.api.model.cmodel.CPointerType
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cmodel.CParameter
 import static com.here.ivi.api.test.TemplateComparison.assertEqualHeaderContent
+import com.here.ivi.api.model.cmodel.CStruct
 
 @RunWith(typeof(XtextRunner))
 class CBridgeHeaderTemplateTest {
@@ -136,5 +137,25 @@ class CBridgeHeaderTemplateTest {
         val generated = CBridgeHeaderTemplate.generate(cInterface)
 
         assertEqualHeaderContent(expected, generated.toString)
+    }
+
+    @Test
+    def structDefinition() {
+        val cInterface = new CInterface() => [
+            structs = #[new CStruct("Struct1Ref"), new CStruct("Struct2Ref")]
+        ]
+        val expected = '''
+            typedef struct {
+                void* const private_pointer;
+            } Struct1Ref;
+
+            typedef struct {
+                void* const private_pointer;
+            } Struct2Ref;
+        '''
+
+        val generated = CBridgeHeaderTemplate.generate(cInterface).toString
+
+        assertEqualHeaderContent(expected, generated)
     }
 }
