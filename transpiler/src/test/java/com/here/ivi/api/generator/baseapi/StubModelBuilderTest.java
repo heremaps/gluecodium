@@ -13,6 +13,8 @@ package com.here.ivi.api.generator.baseapi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.same;
@@ -122,13 +124,6 @@ public class StubModelBuilderTest {
   private final CppEnum cppEnum = new CppEnum("innumerable");
   private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
 
-  private CppElement getFirstResult() {
-    List<CppElement> results = contextStack.getParentContext().previousResults;
-    assertFalse(results.isEmpty());
-
-    return results.get(0);
-  }
-
   private void injectResult(CppElement element) {
     contextStack.getCurrentContext().previousResults.add(element);
   }
@@ -182,9 +177,9 @@ public class StubModelBuilderTest {
   public void finishBuildingFrancaInterfaceReadsName() {
     modelBuilder.finishBuilding(francaInterface);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppClass);
-    assertTrue(((CppClass) result).name.toLowerCase().startsWith(CLASS_NAME));
+    CppClass cppClass = modelBuilder.getFirstResult(CppClass.class);
+    assertNotNull(cppClass);
+    assertTrue(cppClass.name.toLowerCase().startsWith(CLASS_NAME));
 
     verify(francaInterface).getName();
   }
@@ -195,10 +190,8 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppClass);
-
-    CppClass cppClass = (CppClass) result;
+    CppClass cppClass = modelBuilder.getFirstResult(CppClass.class);
+    assertNotNull(cppClass);
     assertFalse(cppClass.methods.isEmpty());
     assertEquals(cppMethod, cppClass.methods.iterator().next());
   }
@@ -209,10 +202,8 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppClass);
-
-    CppClass cppClass = (CppClass) result;
+    CppClass cppClass = modelBuilder.getFirstResult(CppClass.class);
+    assertNotNull(cppClass);
     assertFalse(cppClass.structs.isEmpty());
     assertEquals(cppStruct, cppClass.structs.iterator().next());
   }
@@ -221,10 +212,8 @@ public class StubModelBuilderTest {
   public void finishBuildingFrancaMethodReadsReturnTypeData() {
     modelBuilder.finishBuilding(francaMethod);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppMethod);
-
-    CppMethod cppMethod = (CppMethod) result;
+    CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
+    assertNotNull(cppMethod);
     assertEquals(cppCustomType, cppMethod.getReturnType());
     assertTrue(cppMethod.comment.endsWith(RETURN_TYPE_COMMENT));
   }
@@ -236,10 +225,9 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppMethod);
-
-    assertTrue(((CppMethod) result).getSpecifiers().contains(CppMethod.Specifier.STATIC));
+    CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
+    assertNotNull(cppMethod);
+    assertTrue(cppMethod.getSpecifiers().contains(CppMethod.Specifier.STATIC));
   }
 
   @Test
@@ -250,10 +238,10 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppMethod);
+    CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
+    assertNotNull(cppMethod);
 
-    List<CppParameter> cppParameters = ((CppMethod) result).getInParameters();
+    List<CppParameter> cppParameters = cppMethod.getInParameters();
     assertFalse(cppParameters.isEmpty());
     assertEquals(cppParameter, cppParameters.get(0));
   }
@@ -262,10 +250,8 @@ public class StubModelBuilderTest {
   public void finishBuildingInputArgumentReadsName() {
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppParameter);
-
-    CppParameter cppParameter = (CppParameter) result;
+    CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
+    assertNotNull(cppParameter);
     assertEquals(PARAMETER_NAME, cppParameter.name);
     assertEquals(CppParameter.Mode.Input, cppParameter.mode);
   }
@@ -276,10 +262,9 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppParameter);
-
-    assertEquals(cppCustomType, ((CppParameter) result).type);
+    CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
+    assertNotNull(cppParameter);
+    assertEquals(cppCustomType, cppParameter.type);
 
     PowerMockito.verifyStatic();
     StubMethodMapper.mapArgumentType(same(francaArgument), same(null), same(rootModel));
@@ -291,7 +276,7 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    CppElement result = getFirstResult();
+    CppStruct result = modelBuilder.getFirstResult(CppStruct.class);
     assertEquals(cppStruct, result);
   }
 
@@ -303,7 +288,7 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    CppElement result = getFirstResult();
+    CppTypeDef result = modelBuilder.getFirstResult(CppTypeDef.class);
     assertEquals(cppTypeDef, result);
   }
 
@@ -313,7 +298,7 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    CppElement result = getFirstResult();
+    CppEnum result = modelBuilder.getFirstResult(CppEnum.class);
     assertEquals(cppEnum, result);
   }
 
@@ -324,7 +309,7 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    CppElement result = getFirstResult();
+    CppConstant result = modelBuilder.getFirstResult(CppConstant.class);
     assertEquals(cppConstant, result);
   }
 
@@ -335,10 +320,8 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaConstant);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppConstant);
-
-    CppConstant cppConstant = (CppConstant) result;
+    CppConstant cppConstant = modelBuilder.getFirstResult(CppConstant.class);
+    assertNotNull(cppConstant);
     assertEquals(CONSTANT_NAME, cppConstant.name.toLowerCase());
     assertEquals(cppCustomType, cppConstant.type);
     assertEquals(cppValue, cppConstant.value);
@@ -355,10 +338,8 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppField);
-
-    CppField cppField = (CppField) result;
+    CppField cppField = modelBuilder.getFirstResult(CppField.class);
+    assertNotNull(cppField);
     assertEquals(FIELD_NAME, cppField.name);
     assertEquals(cppValue, cppField.initializer);
 
@@ -372,18 +353,18 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppField);
-    assertEquals(cppCustomType, ((CppField) result).type);
+    CppField cppField = modelBuilder.getFirstResult(CppField.class);
+    assertNotNull(cppField);
+    assertEquals(cppCustomType, cppField.type);
   }
 
   @Test
   public void finishBuildingFrancaStructTypeReadsName() {
     modelBuilder.finishBuilding(francaStructType);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppStruct);
-    assertEquals(STRUCT_NAME, result.name.toLowerCase());
+    CppStruct cppStruct = modelBuilder.getFirstResult(CppStruct.class);
+    assertNotNull(cppStruct);
+    assertEquals(STRUCT_NAME, cppStruct.name.toLowerCase());
   }
 
   @Test
@@ -393,10 +374,8 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStructType);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppStruct);
-
-    CppStruct cppStruct = (CppStruct) result;
+    CppStruct cppStruct = modelBuilder.getFirstResult(CppStruct.class);
+    assertNotNull(cppStruct);
     assertFalse(cppStruct.fields.isEmpty());
     assertEquals(cppField, cppStruct.fields.get(0));
   }
@@ -407,8 +386,8 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    List<CppElement> results = contextStack.getParentContext().previousResults;
-    assertTrue(results.isEmpty());
+    CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
+    assertNull(cppTypeDef);
   }
 
   @Test
@@ -417,10 +396,8 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppTypeDef);
-
-    CppTypeDef cppTypeDef = (CppTypeDef) result;
+    CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
+    assertNotNull(cppTypeDef);
     assertEquals(TYPE_DEF_NAME, cppTypeDef.name.toLowerCase());
     assertEquals(cppCustomType, cppTypeDef.targetType);
 
@@ -434,10 +411,8 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaArrayType);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppTypeDef);
-
-    CppTypeDef cppTypeDef = (CppTypeDef) result;
+    CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
+    assertNotNull(cppTypeDef);
     assertEquals(ARRAY_NAME, cppTypeDef.name.toLowerCase());
     assertEquals(cppCustomType, cppTypeDef.targetType);
 
@@ -456,10 +431,8 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMapType);
 
-    CppElement result = getFirstResult();
-    assertTrue(result instanceof CppTypeDef);
-
-    CppTypeDef cppTypeDef = (CppTypeDef) result;
+    CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
+    assertNotNull(cppTypeDef);
     assertEquals(MAP_NAME, cppTypeDef.name.toLowerCase());
     assertEquals(cppCustomType, cppTypeDef.targetType);
 
@@ -477,7 +450,7 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
-    CppElement result = getFirstResult();
+    CppEnum result = modelBuilder.getFirstResult(CppEnum.class);
     assertEquals(cppEnum, result);
 
     PowerMockito.verifyStatic();
@@ -490,7 +463,7 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeRef);
 
-    CppElement result = getFirstResult();
+    CppCustomType result = modelBuilder.getFirstResult(CppCustomType.class);
     assertEquals(cppCustomType, result);
 
     PowerMockito.verifyStatic();
