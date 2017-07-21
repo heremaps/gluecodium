@@ -19,10 +19,8 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import java.nio.file.Paths;
 import java.util.List;
-import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
 
 public class CBridgeNameRules {
 
@@ -39,11 +37,11 @@ public class CBridgeNameRules {
   }
 
   public String getHeaderFileName(final FrancaElement<?> francaElement) {
-    return getFileName(francaElement) + ".h";
+    return getName(francaElement) + ".h";
   }
 
   public String getImplementationFileName(final FrancaElement<?> francaElement) {
-    return getFileName(francaElement) + ".cpp";
+    return getName(francaElement) + ".cpp";
   }
 
   private String getDirectoryName(final FrancaElement<?> francaElement) {
@@ -53,11 +51,10 @@ public class CBridgeNameRules {
         .toString();
   }
 
-  private String getFileName(final FrancaElement<?> francaElement) {
-    if (francaElement instanceof Interface) {
-      return computeClassName(((Interface<?>) francaElement).getFrancaInterface());
-    }
-    return this.getTypeCollectionName(francaElement.getFrancaTypeCollection());
+  private String getName(final FrancaElement<?> francaElement) {
+    return francaElement instanceof Interface
+        ? computeClassName(francaElement.getName())
+        : getTypeCollectionName(francaElement.getName());
   }
 
   public String getDelegateMethodName(final Interface<?> iface, final FMethod method) {
@@ -82,27 +79,29 @@ public class CBridgeNameRules {
         UNDERSCORE_DELIMITER);
   }
 
-  public String getParameterName(final FArgument argument) {
-    return argument.getName();
-  }
-
-  public String getClassName(final FTypeCollection base) {
-    return com.here.ivi.api.generator.swift.SwiftNameRules.computeClassName(base);
-  }
-
-  public String getHandleName(final Interface<?> iface, final FStructType francaStructType) {
+  public String getHandleName(
+      final FrancaElement<?> francaElement, final FStructType francaStructType) {
     return fullyQualifiedName(
-        iface.getModelInfo().getPackageNames(),
-        iface.getName(),
+        francaElement.getModelInfo().getPackageNames(),
+        francaElement.getName(),
         NameHelper.toUpperCamelCase(francaStructType.getName()) + "Ref",
         UNDERSCORE_DELIMITER);
   }
 
-  public String getTypeCollectionName(final FTypeCollection base) {
-    return NameHelper.toUpperCamelCase(base.getName());
+  public String getStructName(
+      final FrancaElement<?> francaElement, final FStructType francaStructType) {
+    return fullyQualifiedName(
+        francaElement.getModelInfo().getPackageNames(),
+        getName(francaElement),
+        NameHelper.toUpperCamelCase(francaStructType.getName()),
+        CPP_NAMESPACE_DELIMITER);
   }
 
-  public static String computeClassName(final FTypeCollection base) {
-    return NameHelper.toUpperCamelCase(base.getName());
+  private String getTypeCollectionName(final String name) {
+    return NameHelper.toUpperCamelCase(name);
+  }
+
+  private String computeClassName(final String name) {
+    return NameHelper.toUpperCamelCase(name);
   }
 }

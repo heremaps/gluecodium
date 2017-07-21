@@ -115,7 +115,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
-    CppTypeInfo typeInfo = CTypeMapper.mapType(francaArgument.getType());
+    CppTypeInfo typeInfo = CTypeMapper.mapType(rootModel, francaArgument.getType());
     String francaArgumentName = francaArgument.getName();
     List<CParameter> cParams =
         IntStream.range(0, typeInfo.cTypesNeededByConstructor.size())
@@ -133,7 +133,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    CppTypeInfo typeInfo = CTypeMapper.mapType(francaArgument.getType());
+    CppTypeInfo typeInfo = CTypeMapper.mapType(rootModel, francaArgument.getType());
     COutParameter param = new COutParameter("result", typeInfo);
     param.conversion = TypeConverter.createReturnValueConversionRoutine(param.name, typeInfo);
     storeResult(param);
@@ -155,7 +155,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     if (francaTypedElement.getComment() != null) {
       cField.comment = francaTypedElement.getComment().toString();
     }
-    cField.type = CTypeMapper.mapType(francaTypedElement.getType());
+    cField.type = CTypeMapper.mapType(rootModel, francaTypedElement.getType());
     storeResult(cField);
     super.finishBuilding(francaTypedElement);
   }
