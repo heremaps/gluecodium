@@ -11,25 +11,31 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static org.apache.commons.lang3.ArrayUtils.addAll;
+
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
-import java.io.File;
+import java.nio.file.Paths;
+import java.util.List;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
 
 public class CBridgeNameRules {
 
   public static final String CPP_NAMESPACE_DELIMITER = "::";
+  public static final String UNDERSCORE_DELIMITER = "_";
 
   public String getHeaderFileNameWithPath(final FrancaElement<?> francaElement) {
-    return getDirectoryName(francaElement) + getHeaderFileName(francaElement);
+    return Paths.get(getDirectoryName(francaElement), getHeaderFileName(francaElement)).toString();
   }
 
   public String getImplementationFileNameWithPath(final FrancaElement<?> francaElement) {
-    return getDirectoryName(francaElement) + getImplementationFileName(francaElement);
+    return Paths.get(getDirectoryName(francaElement), getImplementationFileName(francaElement))
+        .toString();
   }
 
   public String getHeaderFileName(final FrancaElement<?> francaElement) {
@@ -41,12 +47,10 @@ public class CBridgeNameRules {
   }
 
   private String getDirectoryName(final FrancaElement<?> francaElement) {
-    StringBuilder path = new StringBuilder();
-    path.append("cbridge");
-    path.append(File.separator);
-    path.append(String.join(File.separator, francaElement.getModelInfo().getPackageNames()));
-    path.append(File.separator);
-    return path.toString();
+
+    return Paths.get(
+            "cbridge", francaElement.getModelInfo().getPackageNames().toArray(new String[0]))
+        .toString();
   }
 
   private String getFileName(final FrancaElement<?> francaElement) {
@@ -57,19 +61,25 @@ public class CBridgeNameRules {
   }
 
   public String getDelegateMethodName(final Interface<?> iface, final FMethod method) {
-    return String.join(CPP_NAMESPACE_DELIMITER, iface.getModelInfo().getPackageNames())
-        + CPP_NAMESPACE_DELIMITER
-        + CppNameRules.getClassName(iface.getFrancaTypeCollection().getName())
-        + CPP_NAMESPACE_DELIMITER
-        + CppNameRules.getMethodName(method.getName());
+    return fullyQualifiedName(
+        iface.getModelInfo().getPackageNames(),
+        CppNameRules.getClassName(iface.getFrancaTypeCollection().getName()),
+        CppNameRules.getMethodName(method.getName()),
+        CPP_NAMESPACE_DELIMITER);
+  }
+
+  private static String fullyQualifiedName(
+      List<String> packages, String ifaceName, String name, String delimiter) {
+    return String.join(
+        delimiter, (String[]) addAll(packages.toArray(new String[0]), ifaceName, name));
   }
 
   public String getMethodName(final Interface<?> iface, final FMethod method) {
-    return String.join("_", iface.getModelInfo().getPackageNames())
-        + "_"
-        + iface.getName()
-        + "_"
-        + method.getName();
+    return fullyQualifiedName(
+        iface.getModelInfo().getPackageNames(),
+        iface.getName(),
+        method.getName(),
+        UNDERSCORE_DELIMITER);
   }
 
   public String getParameterName(final FArgument argument) {
@@ -78,6 +88,14 @@ public class CBridgeNameRules {
 
   public String getClassName(final FTypeCollection base) {
     return com.here.ivi.api.generator.swift.SwiftNameRules.computeClassName(base);
+  }
+
+  public String getHandleName(final Interface<?> iface, final FStructType francaStructType) {
+    return fullyQualifiedName(
+        iface.getModelInfo().getPackageNames(),
+        iface.getName(),
+        NameHelper.toUpperCamelCase(francaStructType.getName()) + "Ref",
+        UNDERSCORE_DELIMITER);
   }
 
   public String getTypeCollectionName(final FTypeCollection base) {

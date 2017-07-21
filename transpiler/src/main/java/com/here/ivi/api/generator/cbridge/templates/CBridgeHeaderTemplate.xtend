@@ -11,10 +11,12 @@
 
 package com.here.ivi.api.generator.cbridge.templates
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.cbridge.templates.CBridgeIncludeTemplate
 import com.here.ivi.api.generator.common.templates.CopyrightNoticeTemplate;
 import com.here.ivi.api.model.cmodel.CInterface
 import com.here.ivi.api.model.cmodel.CFunction
+import com.here.ivi.api.model.cmodel.CStruct
 
 class CBridgeHeaderTemplate{
     public static def generate(CInterface cInterface) '''
@@ -34,6 +36,10 @@ class CBridgeHeaderTemplate{
         «CBridgeIncludeTemplate.generate(include)»
     «ENDFOR»
 
+    «FOR struct: cInterface.structs SEPARATOR '\n'»
+        «generateStructDefinition(struct)»
+    «ENDFOR»
+
     «FOR function: cInterface.functions»
         «generateFunctionSignature(function)»
     «ENDFOR»
@@ -47,6 +53,9 @@ class CBridgeHeaderTemplate{
         '''
             «function.returnType» «function.name»(«FOR parameter: function.parameters SEPARATOR ', '»«parameter.type» «parameter.name»«ENDFOR»);
         '''
+    }
+    static def String generateStructDefinition(CStruct struct) {
+        return TemplateEngine.render("cbridge/CStruct", struct);
     }
 
 }

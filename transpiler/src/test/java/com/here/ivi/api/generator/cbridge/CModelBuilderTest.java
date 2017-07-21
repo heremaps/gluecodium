@@ -234,6 +234,17 @@ public class CModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingStructCreatesStructWithProperName() {
+    when(cBridgeNameRules.getHandleName(any(), any())).thenReturn("StructNameRef");
+    modelBuilder.finishBuilding(francaStruct);
+
+    List<CStruct> structs = getResults(CStruct.class);
+    assertEquals(1, structs.size());
+    CStruct cStruct = structs.get(0);
+    assertEquals("StructNameRef", cStruct.name);
+  }
+
+  @Test
   public void finishBuildingInterfaceContainsStructs() {
     contextStack.injectResult(new CStruct("structor"));
 

@@ -142,7 +142,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FStructType francaStructType) {
-    CStruct cStruct = new CStruct(francaStructType.getName());
+    CStruct cStruct = new CStruct(cBridgeNameRules.getHandleName(rootModel, francaStructType));
     cStruct.fields =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CField.class);
     storeResult(cStruct);
