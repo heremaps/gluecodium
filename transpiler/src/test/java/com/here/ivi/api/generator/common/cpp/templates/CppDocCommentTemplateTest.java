@@ -49,4 +49,14 @@ public final class CppDocCommentTemplateTest {
     final String expectedResult = "/**\n* nonsense\n*/\n";
     assertEquals(expectedResult, result);
   }
+
+  @Test
+  public void multiLineComment() {
+    cppElement.comment = "complete\nnonsense";
+
+    String result = CppDocCommentTemplate.generate(cppElement);
+
+    final String expectedResult = "/**\n* complete\n* nonsense\n*/\n";
+    assertEquals(expectedResult, result);
+  }
 }
