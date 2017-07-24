@@ -34,6 +34,7 @@ import com.here.ivi.api.model.javamodel.JavaVisibility;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
@@ -116,16 +117,24 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaInterface() {
-    when(JavaTypeMapper.createJavaPackage(any(), any()))
-        .thenReturn(new JavaPackage(new LinkedList<>()));
-    contextStack.injectResult(javaConstant);
-
+  public void finishBuildingFrancaInterfaceReadsClassName() {
     modelBuilder.finishBuilding(francaInterface);
 
     JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
     assertNotNull(javaClass);
     assertEquals(CLASS_NAME, javaClass.name.toLowerCase());
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsPackage() {
+    JavaPackage javaPackage = new JavaPackage(Collections.singletonList("packed"));
+    when(JavaTypeMapper.createJavaPackage(any(), any())).thenReturn(javaPackage);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(javaPackage, javaClass.javaPackage);
 
     PowerMockito.verifyStatic();
     JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel);
@@ -133,8 +142,6 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsConstants() {
-    when(JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel))
-        .thenReturn(new JavaPackage(new LinkedList<>()));
     contextStack.injectResult(javaConstant);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -143,15 +150,10 @@ public class JavaModelBuilderTest {
     assertNotNull(javaClass);
     assertFalse(javaClass.constants.isEmpty());
     assertEquals(javaConstant, javaClass.constants.iterator().next());
-
-    PowerMockito.verifyStatic();
-    JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel);
   }
 
   @Test
   public void finishBuildingFrancaInterfaceReadsFields() {
-    when(JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel))
-        .thenReturn(new JavaPackage(new LinkedList<>()));
     contextStack.injectResult(javaField);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -160,15 +162,10 @@ public class JavaModelBuilderTest {
     assertNotNull(javaClass);
     assertFalse(javaClass.fields.isEmpty());
     assertEquals(javaField, javaClass.fields.iterator().next());
-
-    PowerMockito.verifyStatic();
-    JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel);
   }
 
   @Test
   public void finishBuildingFrancaInterfaceReadsMethods() {
-    when(JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel))
-        .thenReturn(new JavaPackage(new LinkedList<>()));
     final JavaMethod javaMethod = new JavaMethod(METHOD_NAME);
     contextStack.injectResult(javaMethod);
 
@@ -178,9 +175,6 @@ public class JavaModelBuilderTest {
     assertNotNull(javaClass);
     assertFalse(javaClass.methods.isEmpty());
     assertEquals(javaMethod, javaClass.methods.iterator().next());
-
-    PowerMockito.verifyStatic();
-    JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel);
   }
 
   @Test
@@ -219,7 +213,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodWithOneOutArg() {
-    when(JavaTypeMapper.map(BASE_PACKAGE, francaTypeRef)).thenReturn(javaCustomType);
+    when(JavaTypeMapper.map(any(), any())).thenReturn(javaCustomType);
     arguments.add(francaArgument);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -247,7 +241,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInputArgument() {
-    when(JavaTypeMapper.map(BASE_PACKAGE, francaTypeRef)).thenReturn(javaCustomType);
+    when(JavaTypeMapper.map(any(), any())).thenReturn(javaCustomType);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
@@ -347,7 +341,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeRef() {
-    when(JavaTypeMapper.map(BASE_PACKAGE, francaTypeRef)).thenReturn(javaCustomType);
+    when(JavaTypeMapper.map(any(), any())).thenReturn(javaCustomType);
 
     modelBuilder.finishBuilding(francaTypeRef);
 
