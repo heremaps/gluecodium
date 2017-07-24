@@ -1,9 +1,9 @@
 {
   auto javaClass = env->FindClass("L{{>jni/JavaClassSignature}}${{javaClass.name}}");
-  auto result = here::internal::create_object(env, javaClass);
+  auto result = create_object(env, javaClass);
 {{#fields}}
   {{#hasCustomType}}
-  auto j{{cppField.name}} = here::internal::convert_to_jni(env, ninput.{{cppField.name}});
+  auto j{{cppField.name}} = convert_to_jni(env, ninput.{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
   auto j{{cppField.name}} = ninput.{{cppField.name}};
@@ -11,11 +11,11 @@
 {{/fields}}
 {{#fields}}
   {{#hasCustomType}}
-  here::internal::set_object_field(env, javaClass, result, "{{javaField.name}}",
+  set_object_field(env, javaClass, result, "{{javaField.name}}",
   "L{{>jni/JavaClassSignature}}${{javaClass.name}};", j{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
-  here::set_{{javaField.type.name}}_field(env, javaClass, result, "{{javaField.name}}", j{{cppField.name}});
+  set_{{javaField.type.name}}_field(env, javaClass, result, "{{javaField.name}}", j{{cppField.name}});
   {{/hasCustomType}}
 {{/fields}}
   return result;

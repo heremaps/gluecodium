@@ -19,31 +19,23 @@ import java.util.List;
 public final class JniNameRules {
 
   private static final String JNI_HEADER_FILE_SUFFIX = ".h";
-  private static final String JNI_IMPLEMENTATION_FILE_SUFFUX = ".cpp";
-  private static final String JNI_CONVERSION_NAME_SUFFUX = "Conversion";
+  private static final String JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp";
+  private static final String JNI_CONVERSION_NAME = "StructConversion";
 
   public static String getHeaderFileName(final JavaClass javaClass) {
     return getJniClassFileName(javaClass) + JNI_HEADER_FILE_SUFFIX;
   }
 
   public static String getImplementationFileName(final JavaClass javaClass) {
-    return getJniClassFileName(javaClass) + JNI_IMPLEMENTATION_FILE_SUFFUX;
+    return getJniClassFileName(javaClass) + JNI_IMPLEMENTATION_FILE_SUFFIX;
   }
 
-  public static String getConversionHeaderFileName(
-      final JavaClass javaClass, final JavaClass javaStruct) {
-    return getJniClassFileName(javaClass)
-        + javaStruct.name
-        + JNI_CONVERSION_NAME_SUFFUX
-        + JNI_HEADER_FILE_SUFFIX;
+  public static String getConversionHeaderFileName() {
+    return getJniPathPrefix() + JNI_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
   }
 
-  public static String getConversionImplementationFileName(
-      final JavaClass javaClass, final JavaClass javaStruct) {
-    return getJniClassFileName(javaClass)
-        + javaStruct.name
-        + JNI_CONVERSION_NAME_SUFFUX
-        + JNI_IMPLEMENTATION_FILE_SUFFUX;
+  public static String getConversionImplementationFileName() {
+    return getJniPathPrefix() + JNI_CONVERSION_NAME + JNI_IMPLEMENTATION_FILE_SUFFIX;
   }
 
   public static String getParameterName(final String javaParameterName) {
@@ -75,11 +67,12 @@ public final class JniNameRules {
   }
 
   private static String getJniClassFileName(final JavaClass javaClass) {
-    return AndroidGeneratorSuite.GENERATOR_NAMESPACE
-        + File.separator
-        + "jni"
-        + File.separator
+    return getJniPathPrefix()
         + formatPackageName(javaClass.javaPackage.packageNames)
         + javaClass.name;
+  }
+
+  private static String getJniPathPrefix() {
+    return AndroidGeneratorSuite.GENERATOR_NAMESPACE + File.separator + "jni" + File.separator;
   }
 }
