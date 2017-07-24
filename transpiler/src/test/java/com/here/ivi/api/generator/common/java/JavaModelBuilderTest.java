@@ -184,6 +184,19 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaInterfaceReadsInnerClasses() {
+    JavaClass innerClass = new JavaClass("struct");
+    contextStack.injectResult(innerClass);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertFalse(javaClass.innerClasses.isEmpty());
+    assertEquals(innerClass, javaClass.innerClasses.iterator().next());
+  }
+
+  @Test
   public void finishBuildingFrancaMethod() {
     modelBuilder.finishBuilding(francaMethod);
 

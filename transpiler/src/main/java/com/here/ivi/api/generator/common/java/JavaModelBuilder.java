@@ -71,6 +71,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.constants.addAll(CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
     javaClass.fields.addAll(CollectionsHelper.getAllOfType(previousResults, JavaField.class));
     javaClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, JavaMethod.class));
+    javaClass.innerClasses.addAll(CollectionsHelper.getAllOfType(previousResults, JavaClass.class));
 
     storeResult(javaClass);
     closeContext();
@@ -81,13 +82,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaClass javaClass = createJavaClass(francaTypeCollection);
 
-    for (JavaElement javaElement : getCurrentContext().previousResults) {
-      if (javaElement instanceof JavaConstant) {
-        javaClass.constants.add((JavaConstant) javaElement);
-      } else if (javaElement instanceof JavaClass) {
-        javaClass.innerClasses.add((JavaClass) javaElement);
-      }
-    }
+    List<JavaElement> previousResults = getCurrentContext().previousResults;
+    javaClass.constants.addAll(CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
+    javaClass.innerClasses.addAll(CollectionsHelper.getAllOfType(previousResults, JavaClass.class));
 
     storeResult(javaClass);
     closeContext();
@@ -123,23 +120,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaMethod.qualifiers.add(MethodQualifier.NATIVE);
     javaMethod.visibility = JavaVisibility.PUBLIC;
 
-    for (JavaElement javaElement : getCurrentContext().previousResults) {
-      if (javaElement instanceof JavaParameter) {
-        javaMethod.parameters.add((JavaParameter) javaElement);
-      }
-    }
+    javaMethod.parameters.addAll(
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaParameter.class));
 
     storeResult(javaMethod);
     closeContext();
-  }
-
-  private boolean isMethodStatic(FMethod francaMethod) {
-    BaseApiSpec.IDataPropertyAccessor propertyAccessor = rootModel.getPropertyAccessor();
-    if (propertyAccessor instanceof InterfacePropertyAccessor) {
-      return ((InterfacePropertyAccessor) propertyAccessor).getStatic(francaMethod);
-    } else {
-      return false;
-    }
   }
 
   @Override
@@ -185,12 +170,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaClass javaClass = createJavaClass(francaStructType);
     javaClass.qualifiers.add(JavaClass.ClassQualifier.STATIC);
-
-    for (JavaElement javaElement : getCurrentContext().previousResults) {
-      if (javaElement instanceof JavaField) {
-        javaClass.fields.add((JavaField) javaElement);
-      }
-    }
+    javaClass.fields.addAll(
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaField.class));
 
     storeResult(javaClass);
     closeContext();
@@ -201,6 +182,16 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     storeResult(JavaTypeMapper.map(basePackage, francaTypeRef));
     closeContext();
+  }
+
+  private boolean isMethodStatic(FMethod francaMethod) {
+
+    BaseApiSpec.IDataPropertyAccessor propertyAccessor = rootModel.getPropertyAccessor();
+    if (propertyAccessor instanceof InterfacePropertyAccessor) {
+      return ((InterfacePropertyAccessor) propertyAccessor).getStatic(francaMethod);
+    } else {
+      return false;
+    }
   }
 
   private JavaClass createJavaClass(FModelElement francaTypeCollection) {
