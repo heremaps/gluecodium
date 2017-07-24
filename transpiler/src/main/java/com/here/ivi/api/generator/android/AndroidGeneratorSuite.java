@@ -25,9 +25,7 @@ import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
@@ -83,66 +81,40 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
   @Override
   public List<GeneratedFile> generate() {
 
-    // Java generator needs:
-    // - java name rules
+    // Generate Java files
     JavaGenerator javaGenerator = new JavaGenerator(transpilerOptions.getJavaPackageList());
+    Stream<List<GeneratedFile>> javaFilesStream =
+        Stream.concat(
+            model.getInterfaces().stream().map(javaGenerator::generateFiles),
+            model.getTypeCollections().stream().map(javaGenerator::generateFiles));
 
-    // JNI header generator will need:
-    // - java name rules
-    // - java to jni type conversion
-    //   Object subclasses -> jobject
-    //   POJO classes like "long" -> jlong
-    // JNI impl generator will need:
-    // - cpp name rules
-    // - java to jni type conversion (see above)
-    // - jni to cpp type converter
-    //   jlong to long
+    // Generate JNI files
     JavaNativeInterfacesGenerator jniGenerator =
         new JavaNativeInterfacesGenerator(
             transpilerOptions.getJavaPackageList(),
             Collections.singletonList(CONVERSION_UTILS_HEADER));
+    Stream<List<GeneratedFile>> jniFilesStream =
+        model
+            .getInterfaces()
+            .stream()
+            .map(jniGenerator::generateModel)
+            .map(jniGenerator::generateFiles);
 
     // This generator is special in that it generates only one file
     // At the moment it does not need to iterate over all interfaces
     AndroidManifestGenerator androidManifestGenerator =
         new AndroidManifestGenerator(transpilerOptions.getJavaPackageList());
 
-    Stream<GeneratedFile> interfacesFileStream =
-        model
-            .getInterfaces()
-            .stream()
-            .map(
-                anInterface -> {
-                  List<GeneratedFile> files = new LinkedList<>();
-                  files.addAll(javaGenerator.generateFiles(anInterface));
-                  files.addAll(jniGenerator.generateFiles(anInterface));
-                  return files;
-                })
-            .flatMap(Collection::stream);
-
-    Stream<GeneratedFile> typeCollectionsFileStream =
-        model
-            .getTypeCollections()
-            .stream()
-            .map(
-                typeCollection -> {
-                  List<GeneratedFile> files = new LinkedList<>();
-                  files.addAll(javaGenerator.generateFiles(typeCollection));
-                  files.addAll(jniGenerator.generateFiles(typeCollection));
-                  return files;
-                })
-            .flatMap(Collection::stream);
-
-    List<GeneratedFile> additionalFiles = androidManifestGenerator.generate();
-    additionalFiles.add(
+    List<GeneratedFile> results = androidManifestGenerator.generate();
+    results.add(
         BaseApiGeneratorSuite.copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    additionalFiles.add(
+    results.add(
         BaseApiGeneratorSuite.copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
+    results.addAll(
+        Stream.concat(javaFilesStream, jniFilesStream)
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList()));
 
-    Stream<GeneratedFile> generatorStream =
-        Stream.concat(
-            Stream.concat(interfacesFileStream, typeCollectionsFileStream),
-            additionalFiles.stream());
-    return generatorStream.filter(Objects::nonNull).collect(Collectors.toList());
+    return results;
   }
 }

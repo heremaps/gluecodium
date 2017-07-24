@@ -13,9 +13,7 @@ package com.here.ivi.api.generator.common.jni.templates
 
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
-import com.here.ivi.api.model.common.Include
 import com.here.ivi.api.generator.common.TemplateEngine
-import java.util.List
 import static com.here.ivi.api.generator.common.jni.JniNameRules.getParameterName
 import com.here.ivi.api.generator.common.jni.JniToCppTypeConversionTemplateDelegator
 import com.here.ivi.api.generator.common.jni.CppToJniConversionTemplateDelegator
@@ -23,15 +21,15 @@ import com.here.ivi.api.generator.common.jni.JniModel
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType
 
 public class JniImplementationTemplate {
-  def static generate(JniModel jniModel, List<Include> includes) {
-    if (jniModel === null || includes === null || includes.isEmpty()) {
+  def static generate(JniModel jniModel) {
+    if (jniModel === null || jniModel.includes.isEmpty()) {
       return ""
     }
     return
      '''
       «JavaCopyrightHeaderTemplate.generate()»
 
-      «FOR include : includes»
+      «FOR include : jniModel.includes»
       #include "«include.fileName»"
       «ENDFOR»
 

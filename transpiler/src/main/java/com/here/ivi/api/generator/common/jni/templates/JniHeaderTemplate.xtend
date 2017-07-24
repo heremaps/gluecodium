@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.common.jni.templates
 
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
-import com.here.ivi.api.model.javamodel.JavaClass
 import com.here.ivi.api.generator.common.jni.JniModel
 
 public class JniHeaderTemplate {
@@ -21,7 +20,7 @@ public class JniHeaderTemplate {
     «JavaCopyrightHeaderTemplate.generate()»
 
     /**
-     * JNI header for class «jniModel.javaClassName»
+     * JNI header for class «jniModel.javaClass.name»
      */
     #pragma once
 
@@ -33,7 +32,7 @@ public class JniHeaderTemplate {
 
     «FOR method : jniModel.methods»
     /**
-     * Function for «jniModel.javaClassName».«method.javaMethodName»()
+     * Function for «jniModel.javaClass.name».«method.javaMethodName»()
      */
     JNIEXPORT «JniTypeNameMapper.map(method.javaReturnType)» JNICALL
     «JniFunctionSignatureTemplate.generate(method)»;

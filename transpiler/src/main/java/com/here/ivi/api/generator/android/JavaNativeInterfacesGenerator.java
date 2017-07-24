@@ -24,16 +24,13 @@ import com.here.ivi.api.generator.common.jni.JniStruct;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import navigation.BaseApiSpec;
 
 public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
 
@@ -45,57 +42,56 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     this.additionalIncludes = additionalIncludes;
   }
 
-  public List<GeneratedFile> generateFiles(final Interface<?> anInterface) {
+  public JniModel generateModel(final Interface<?> francaElement) {
 
-    JavaModelBuilder javaBuilder = new JavaModelBuilder(basePackage, anInterface);
+    JavaModelBuilder javaBuilder = new JavaModelBuilder(basePackage, francaElement);
 
-    StubModelBuilder stubBuilder = new StubModelBuilder(anInterface);
-    JniModelBuilder jniBuilder = new JniModelBuilder(javaBuilder, stubBuilder);
+    StubModelBuilder stubBuilder = new StubModelBuilder(francaElement);
+    JniModelBuilder jniBuilder = new JniModelBuilder(francaElement, javaBuilder, stubBuilder);
 
     FrancaTreeWalker treeWalker =
         new FrancaTreeWalker(Arrays.asList(javaBuilder, stubBuilder, jniBuilder));
-    treeWalker.walk(anInterface);
+    treeWalker.walk(francaElement);
 
     JniModel jniModel = jniBuilder.getFirstResult(JniModel.class);
-    JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
+    jniModel.includes.addAll(getIncludes(francaElement, jniModel.javaClass));
 
-    GeneratedFile jniHeader =
+    return jniModel;
+  }
+
+  public List<GeneratedFile> generateFiles(final JniModel jniModel) {
+
+    List<GeneratedFile> results = new LinkedList<>();
+
+    results.add(
         new GeneratedFile(
-            JniHeaderTemplate.generate(jniModel), JniNameRules.getHeaderFileName(javaClass));
-
-    GeneratedFile jniImplementation =
+            JniHeaderTemplate.generate(jniModel),
+            JniNameRules.getHeaderFileName(jniModel.javaClass)));
+    results.add(
         new GeneratedFile(
-            JniImplementationTemplate.generate(jniModel, getIncludes(anInterface, javaClass)),
-            JniNameRules.getImplementationFileName(javaClass));
-
-    List<GeneratedFile> results = new ArrayList<>(Arrays.asList(jniHeader, jniImplementation));
+            JniImplementationTemplate.generate(jniModel),
+            JniNameRules.getImplementationFileName(jniModel.javaClass)));
 
     for (JniStruct jniStruct : jniModel.structs) {
       results.add(
           new GeneratedFile(
               TemplateEngine.render("jni/StructConversionHeader", jniStruct),
-              JniNameRules.getConversionHeaderFileName(javaClass, jniStruct.javaClass)));
+              JniNameRules.getConversionHeaderFileName(jniModel.javaClass, jniStruct.javaClass)));
       results.add(
           new GeneratedFile(
               TemplateEngine.render("jni/StructConversionImplementation", jniStruct),
-              JniNameRules.getConversionImplementationFileName(javaClass, jniStruct.javaClass)));
+              JniNameRules.getConversionImplementationFileName(
+                  jniModel.javaClass, jniStruct.javaClass)));
     }
 
     return results;
   }
 
-  public List<GeneratedFile> generateFiles(
-      @SuppressWarnings("unused")
-          TypeCollection<BaseApiSpec.TypeCollectionPropertyAccessor> typeCollection) {
-
-    // Currently no JNI files to be generated for type collections
-    return Collections.emptyList();
-  }
-
-  private List<Include> getIncludes(final Interface<?> anInterface, final JavaClass javaClass) {
+  private List<Include> getIncludes(
+      final FrancaElement<?> francaElement, final JavaClass javaClass) {
 
     String jniHeaderInclude = JniNameRules.getHeaderFileName(javaClass);
-    String baseApiHeaderInclude = CppNameRules.getHeaderPath(anInterface);
+    String baseApiHeaderInclude = CppNameRules.getHeaderPath(francaElement);
 
     List<String> includes = new LinkedList<>(Arrays.asList(jniHeaderInclude, baseApiHeaderInclude));
     includes.addAll(additionalIncludes);

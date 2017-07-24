@@ -17,6 +17,7 @@ import static org.junit.Assert.assertTrue;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
+import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import java.util.Arrays;
@@ -37,9 +38,10 @@ public class JniImplementationTemplateTest {
     JniModel jniModel = new JniModel();
     jniModel.cppClassName = "CppClass";
     jniModel.cppNameSpaces = Arrays.asList("com", "here", "ivi", "test");
-
     jniModel.javaPackages = Arrays.asList("com", "here", "ivi", "test");
-    jniModel.javaClassName = "TestClass";
+    jniModel.javaClass = new JavaClass("TestClass");
+    jniModel.includes.addAll(jniIncludes);
+
     return jniModel;
   }
 
@@ -87,7 +89,7 @@ public class JniImplementationTemplateTest {
 
   private JniModel jniModel;
 
-  private final List<Include> jniIncludes =
+  private static final List<Include> jniIncludes =
       Collections.singletonList(Include.createInternalInclude("stub/libhello/TestClassStub.h"));
   private final String copyrightNotice =
       "/*\n"
@@ -116,19 +118,10 @@ public class JniImplementationTemplateTest {
   }
 
   @Test
-  public void generateWithNullIncludes() {
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel, null);
-
-    assertTrue(
-        "At least the JNI header should be included, otherwise the JNI implementation "
-            + "would not compile",
-        generatedImplementation.isEmpty());
-  }
-
-  @Test
   public void generateWithEmptyIncludes() {
-    String generatedImplementation =
-        JniImplementationTemplate.generate(jniModel, Collections.emptyList());
+    jniModel.includes.clear();
+
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
     assertTrue(
         "At least the JNI header should be included, otherwise the JNI implementation "
@@ -138,16 +131,13 @@ public class JniImplementationTemplateTest {
 
   @Test
   public void generateWithMultipleIncludes() {
-    List<Include> includesList =
-        Arrays.asList(
-            Include.createInternalInclude("jni_header.h"),
-            Include.createInternalInclude("base_api_header.h"));
+    jniModel.includes.add(Include.createInternalInclude("base_api_header.h"));
 
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel, includesList);
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
     assertEquals(
         copyrightNotice
-            + "#include \"jni_header.h\"\n"
+            + jniHeaderInclude
             + "#include \"base_api_header.h\"\n"
             + externC
             + endOfFile,
@@ -156,14 +146,14 @@ public class JniImplementationTemplateTest {
 
   @Test
   public void generateWithNullJniModel() {
-    String generatedImplementation = JniImplementationTemplate.generate(null, jniIncludes);
+    String generatedImplementation = JniImplementationTemplate.generate(null);
 
     assertTrue(generatedImplementation.isEmpty());
   }
 
   @Test
   public void generateWithNoMethods() {
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel, jniIncludes);
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
     assertEquals(copyrightNotice + jniHeaderInclude + externC + endOfFile, generatedImplementation);
   }
@@ -172,7 +162,7 @@ public class JniImplementationTemplateTest {
   public void generateWithOneMethods() {
 
     jniModel.methods.add(createJniMethod("method1", jniModel));
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel, jniIncludes);
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
     assertEquals(
         copyrightNotice
@@ -189,7 +179,7 @@ public class JniImplementationTemplateTest {
     jniModel.methods.add(createJniMethod("method1", jniModel));
     jniModel.methods.add(createJniMethod("method2", jniModel));
 
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel, jniIncludes);
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
     assertEquals(
         copyrightNotice

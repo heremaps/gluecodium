@@ -46,7 +46,7 @@ public final class JniToCppStructConversionSignatureTest {
   public static void setupClass() {
     JNI_MODEL.cppNameSpaces = CPPNAMESPACES;
     JNI_MODEL.cppClassName = CPP_OUTERCLASS_NAME;
-    JNI_MODEL.javaClassName = JAVA_OUTERCLASS_NAME;
+    JNI_MODEL.javaClass = new JavaClass(JAVA_OUTERCLASS_NAME);
   }
 
   @Test
