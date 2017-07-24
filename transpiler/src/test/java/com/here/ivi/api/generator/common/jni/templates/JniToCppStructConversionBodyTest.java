@@ -55,7 +55,7 @@ public final class JniToCppStructConversionBodyTest {
     jniModel = new JniModel();
     jniModel.cppNameSpaces = CPP_NAMESPACES;
     jniModel.cppClassName = CPP_OUTER_CLASS_NAME;
-    jniModel.javaClassName = JAVA_OUTER_CLASS_NAME;
+    jniModel.javaClass = new JavaClass(JAVA_OUTER_CLASS_NAME);
     jniModel.javaPackages = JAVA_PACKAGE;
     jniStruct = new JniStruct(jniModel, JAVA_CLASS_INNER, CPP_STRUCT, new LinkedList<>());
   }
@@ -147,7 +147,7 @@ public final class JniToCppStructConversionBodyTest {
             + "    \"L"
             + String.join("/", jniModel.javaPackages)
             + "/"
-            + jniModel.javaClassName
+            + jniModel.javaClass.name
             + "$"
             + jniStruct.javaClass.name
             + ";\"),\n"
@@ -191,7 +191,7 @@ public final class JniToCppStructConversionBodyTest {
             + "    \"L"
             + String.join("/", jniModel.javaPackages)
             + "/"
-            + jniModel.javaClassName
+            + jniModel.javaClass.name
             + "$"
             + jniStruct.javaClass.name
             + ";\"),\n"

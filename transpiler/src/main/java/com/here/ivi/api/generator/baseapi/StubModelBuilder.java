@@ -256,14 +256,4 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     return builder.build();
   }
-
-  /*
-   * This method returns the namespace members for the contained FrancaElement.
-   *
-   * As cpp namespace is not inheriting from cpp element and cpp class has no
-   * namespace member, namespaces are not handled via tree walking but processed separately.
-   */
-  public List<String> getNamespaceMembers() {
-    return rootModel.getModelInfo().getPackageNames();
-  }
 }

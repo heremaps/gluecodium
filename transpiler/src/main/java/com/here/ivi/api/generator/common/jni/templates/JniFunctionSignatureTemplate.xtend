@@ -19,7 +19,7 @@ import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
  */
 class JniFunctionSignatureTemplate {
   def static generate(com.here.ivi.api.generator.common.jni.JniMethod jniMethod) {
-    val prefix = '''Java_«JniNameRules.getPackageName(jniMethod.owningModel.javaPackages)»_«jniMethod.owningModel.javaClassName»_«jniMethod.javaMethodName»'''
+    val prefix = '''Java_«JniNameRules.getPackageName(jniMethod.owningModel.javaPackages)»_«jniMethod.owningModel.javaClass.name»_«jniMethod.javaMethodName»'''
     val parameters = '''«FOR param : jniMethod.parameters», «JniTypeNameMapper.map(param.javaType)» «JniNameRules.getParameterName(param.name)»«ENDFOR»'''
     '''«prefix»(JNIEnv* env, jobject jinstance«parameters»)'''
   }

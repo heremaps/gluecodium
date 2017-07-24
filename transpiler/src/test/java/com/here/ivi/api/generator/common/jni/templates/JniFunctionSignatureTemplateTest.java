@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 import com.here.ivi.api.generator.common.jni.JniMethod;
 import com.here.ivi.api.generator.common.jni.JniModel;
 import com.here.ivi.api.generator.common.jni.JniParameter;
+import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
@@ -30,7 +31,7 @@ public final class JniFunctionSignatureTemplateTest {
   public void simpleJniMethodGenerationGeneration() {
     // Arrange
     JniModel jniModel = new JniModel();
-    jniModel.javaClassName = "ClassName";
+    jniModel.javaClass = new JavaClass("ClassName");
     jniModel.javaPackages = Arrays.asList("com", "here", "jni", "test");
 
     JniMethod jniMethod = new JniMethod();
@@ -51,7 +52,7 @@ public final class JniFunctionSignatureTemplateTest {
   public void complexJniMethodGenerationGeneration() {
     // Arrange
     JniModel jniModel = new JniModel();
-    jniModel.javaClassName = "ClassName";
+    jniModel.javaClass = new JavaClass("ClassName");
     jniModel.javaPackages = Arrays.asList("com", "here", "jni", "test");
 
     JniMethod jniMethod = new JniMethod();

@@ -21,6 +21,7 @@ import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaMethod;
@@ -47,22 +48,27 @@ import org.franca.core.franca.FTypedElement;
  */
 public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
+  private final FrancaElement<?> rootModel;
   private final JavaModelBuilder javaBuilder;
   private final StubModelBuilder stubBuilder;
 
   public JniModelBuilder(
       final ModelBuilderContextStack<JniElement> contextStack,
+      final FrancaElement<?> rootModel,
       final JavaModelBuilder javaBuilder,
       final StubModelBuilder stubBuilder) {
 
     super(contextStack);
+    this.rootModel = rootModel;
     this.javaBuilder = javaBuilder;
     this.stubBuilder = stubBuilder;
   }
 
-  public JniModelBuilder(final JavaModelBuilder javaBuilder, final StubModelBuilder stubBuilder) {
-
-    this(new ModelBuilderContextStack<>(), javaBuilder, stubBuilder);
+  public JniModelBuilder(
+      final FrancaElement<?> rootModel,
+      final JavaModelBuilder javaBuilder,
+      final StubModelBuilder stubBuilder) {
+    this(new ModelBuilderContextStack<>(), rootModel, javaBuilder, stubBuilder);
   }
 
   @Override
@@ -73,8 +79,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     JniModel jniModel = new JniModel();
     jniModel.cppClassName = cppClass.name;
-    jniModel.cppNameSpaces = stubBuilder.getNamespaceMembers();
-    jniModel.javaClassName = javaClass.getName();
+    jniModel.cppNameSpaces = rootModel.getModelInfo().getPackageNames();
+    jniModel.javaClass = javaClass;
     jniModel.javaPackages = javaClass.javaPackage.packageNames;
 
     List<JniMethod> methodList =

@@ -26,6 +26,7 @@ import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaField;
@@ -45,11 +46,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
 public class JniModelBuilderTest {
+
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private FrancaElement<?> rootModel;
 
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
@@ -90,10 +95,12 @@ public class JniModelBuilderTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    modelBuilder = new JniModelBuilder(contextStack, javaBuilder, stubBuilder);
+    modelBuilder = new JniModelBuilder(contextStack, rootModel, javaBuilder, stubBuilder);
 
     when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
     when(stubBuilder.getFirstResult(any())).thenReturn(cppClass);
+
+    when(rootModel.getModelInfo().getPackageNames()).thenReturn(CPP_NAMESPACE_MEMBERS);
   }
 
   private static JavaMethod createJavaMethod() {
@@ -176,7 +183,6 @@ public class JniModelBuilderTest {
   public void finishBuildingFrancaInterfaceReadsJavaCppClasses() {
     //arrange
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     //act
     modelBuilder.finishBuilding(francaInterface);
@@ -185,7 +191,7 @@ public class JniModelBuilderTest {
     JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
     assertNotNull(jniModel);
     assertEquals(CPP_CLASS_NAME, jniModel.cppClassName);
-    assertEquals(JAVA_CLASS_NAME, jniModel.javaClassName);
+    assertEquals(JAVA_CLASS_NAME, jniModel.javaClass.name);
     assertEquals(CPP_NAMESPACE_MEMBERS, jniModel.cppNameSpaces);
     assertEquals(JAVA_PACKAGES, jniModel.javaPackages);
   }
@@ -195,7 +201,6 @@ public class JniModelBuilderTest {
     contextStack.injectResult(createJniMethod(null));
 
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(stubBuilder.getNamespaceMembers()).thenReturn(CPP_NAMESPACE_MEMBERS);
 
     //act
     modelBuilder.finishBuilding(francaInterface);
@@ -270,7 +275,7 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaFieldReadsJavaCppClasses() {
+  public void finishBuildingFrancaFieldReadsJavaCppFields() {
     JavaField javaField = new JavaField(javaCustomType, BASE_NAME_PARAMETER);
     CppField cppField = new CppField(cppCustomType, CPP_CLASS_NAME);
     when(javaBuilder.getFirstResult(any())).thenReturn(javaField);

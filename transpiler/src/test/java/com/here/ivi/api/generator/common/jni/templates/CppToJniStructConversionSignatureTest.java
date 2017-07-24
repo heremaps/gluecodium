@@ -40,7 +40,7 @@ public final class CppToJniStructConversionSignatureTest {
     jniModel.javaPackages = PACKAGES;
     jniModel.cppNameSpaces = PACKAGES;
     jniModel.cppClassName = OUTER_CLASS_NAME;
-    jniModel.javaClassName = OUTER_CLASS_NAME;
+    jniModel.javaClass = new JavaClass(OUTER_CLASS_NAME);
 
     jniStruct =
         new JniStruct(

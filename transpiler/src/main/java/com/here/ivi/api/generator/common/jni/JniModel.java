@@ -11,17 +11,20 @@
 
 package com.here.ivi.api.generator.common.jni;
 
+import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.LinkedList;
 import java.util.List;
 
 public class JniModel implements JniElement {
 
   public List<String> javaPackages;
-  public String javaClassName;
+  public JavaClass javaClass;
 
   public List<String> cppNameSpaces;
   public String cppClassName;
 
-  public List<JniMethod> methods = new LinkedList<>();
-  public List<JniStruct> structs = new LinkedList<>();
+  public final List<JniMethod> methods = new LinkedList<>();
+  public final List<JniStruct> structs = new LinkedList<>();
+  public final List<Include> includes = new LinkedList<>();
 }
