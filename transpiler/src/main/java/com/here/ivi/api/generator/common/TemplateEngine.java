@@ -39,8 +39,28 @@ public final class TemplateEngine {
       }
 
       final String prefix = (parameters.size() > 1) ? parameters.get(1).toString() : "";
-      List<String> strings = Arrays.asList(parameters.get(0).toString().split("\n"));
-      options.append(strings.stream().map(s -> prefix + s).collect(Collectors.joining("\n")));
+      final String value = getValue(options, parameters.get(0));
+      options.append(
+          Arrays.stream(value.split("\n")).map(s -> prefix + s).collect(Collectors.joining("\n")));
+    }
+
+    public String getValue(final Options options, final Object dataObject) {
+      return dataObject.toString();
+    }
+  }
+
+  /**
+   * Prefix each line of a multi-line partial with a prefix.<br>
+   * Usage: {{prefixPartial "partial-name" "prefix"}}<br>
+   * Example: {{prefixPartial "common/CopyrightNotice" " // "}}
+   */
+  private static class PrefixPartialHelper extends PrefixHelper {
+
+    @Override
+    public String getValue(final Options options, final Object dataObject) {
+      StringBuilder builder = new StringBuilder();
+      options.partial(dataObject.toString(), builder);
+      return builder.toString();
     }
   }
 
@@ -50,6 +70,7 @@ public final class TemplateEngine {
             .addTemplateLocator(new ClassPathTemplateLocator(1, "templates", "mustache"))
             .setProperty("org.trimou.engine.config.skipValueEscaping", true)
             .registerHelper("prefix", new PrefixHelper())
+            .registerHelper("prefixPartial", new PrefixPartialHelper())
             .build();
   }
 
