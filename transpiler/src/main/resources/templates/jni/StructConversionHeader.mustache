@@ -1,15 +1,20 @@
-// Placeholder template for JNI struct conversion header
-
 #pragma once
 
 #include <jni.h>
+{{#includes}}
+#include <{{fileName}}>
+{{/includes}}
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace here {
+namespace internal {
 
-// TODO: implement real template in APIGEN-363, APIGEN-364 and APIGEN-365.
+{{#models}}
+  {{#structs}}
+    {{>jni/JniToCppStructConversionSignature}};
 
-#ifdef __cplusplus
+    {{>jni/CppToJniStructConversionSignature}};
+
+  {{/structs}}
+{{/models}}
 }
-#endif
+}

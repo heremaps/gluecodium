@@ -83,9 +83,9 @@ public class CppToJniStructConversionBodyTest {
             + "$"
             + INNER_CLASS_NAME
             + "\");\n"
-            + "  auto result = here::internal::create_object(env, javaClass);\n"
+            + "  auto result = create_object(env, javaClass);\n"
             + "  auto jcppInt = ninput.cppInt;\n"
-            + "  here::set_int_field(env, javaClass, result, \"intfield\", jcppInt);\n"
+            + "  set_int_field(env, javaClass, result, \"intfield\", jcppInt);\n"
             + "  return result;\n"
             + "}";
 
@@ -105,9 +105,9 @@ public class CppToJniStructConversionBodyTest {
             + "\""
             + innerSignature
             + "\");\n"
-            + "  auto result = here::internal::create_object(env, javaClass);\n"
-            + "  auto jnestedCplusCplus = here::internal::convert_to_jni(env, ninput.nestedCplusCplus);\n"
-            + "  here::internal::set_object_field(env, javaClass, result, \"nestedStruct\",\n"
+            + "  auto result = create_object(env, javaClass);\n"
+            + "  auto jnestedCplusCplus = convert_to_jni(env, ninput.nestedCplusCplus);\n"
+            + "  set_object_field(env, javaClass, result, \"nestedStruct\",\n"
             + "  \""
             + innerSignature
             + ";\", jnestedCplusCplus);\n"
@@ -131,11 +131,11 @@ public class CppToJniStructConversionBodyTest {
             + "\""
             + innerSignature
             + "\");\n"
-            + "  auto result = here::internal::create_object(env, javaClass);\n"
+            + "  auto result = create_object(env, javaClass);\n"
             + "  auto jcppInt = ninput.cppInt;\n"
-            + "  auto jnestedCplusCplus = here::internal::convert_to_jni(env, ninput.nestedCplusCplus);\n"
-            + "  here::set_int_field(env, javaClass, result, \"intfield\", jcppInt);\n"
-            + "  here::internal::set_object_field(env, javaClass, result, \"nestedStruct\",\n"
+            + "  auto jnestedCplusCplus = convert_to_jni(env, ninput.nestedCplusCplus);\n"
+            + "  set_int_field(env, javaClass, result, \"intfield\", jcppInt);\n"
+            + "  set_object_field(env, javaClass, result, \"nestedStruct\",\n"
             + "  \""
             + innerSignature
             + ";\", jnestedCplusCplus);\n"

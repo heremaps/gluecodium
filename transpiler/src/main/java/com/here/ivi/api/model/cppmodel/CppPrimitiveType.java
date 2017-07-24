@@ -12,8 +12,12 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.generator.common.cpp.CppLibraryIncludes;
+import java.util.EnumSet;
 
 public class CppPrimitiveType extends CppType {
+
+  public static final EnumSet<CppPrimitiveType.Type> TYPES =
+      EnumSet.allOf(CppPrimitiveType.Type.class);
 
   public static final CppPrimitiveType VOID_TYPE = new CppPrimitiveType(Type.VOID);
 

@@ -15,12 +15,12 @@ import com.here.ivi.api.generator.baseapi.StubModelBuilder;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.generator.common.cpp.CppLibraryIncludes;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.generator.common.jni.JniModel;
 import com.here.ivi.api.generator.common.jni.JniModelBuilder;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
-import com.here.ivi.api.generator.common.jni.JniStruct;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Include;
@@ -28,11 +28,16 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
+
+  public static final String INCLUDES_NAME = "includes";
+  public static final String MODELS_NAME = "models";
 
   private final List<String> additionalIncludes;
 
@@ -72,17 +77,47 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
             JniImplementationTemplate.generate(jniModel),
             JniNameRules.getImplementationFileName(jniModel.javaClass)));
 
-    for (JniStruct jniStruct : jniModel.structs) {
-      results.add(
-          new GeneratedFile(
-              TemplateEngine.render("jni/StructConversionHeader", jniStruct),
-              JniNameRules.getConversionHeaderFileName(jniModel.javaClass, jniStruct.javaClass)));
-      results.add(
-          new GeneratedFile(
-              TemplateEngine.render("jni/StructConversionImplementation", jniStruct),
-              JniNameRules.getConversionImplementationFileName(
-                  jniModel.javaClass, jniStruct.javaClass)));
+    return results;
+  }
+
+  public List<GeneratedFile> generateConversionFiles(List<JniModel> jniModels) {
+
+    List<GeneratedFile> results = new LinkedList<>();
+
+    if (jniModels == null || jniModels.size() == 0) {
+      return results;
     }
+
+    //memorize all includes
+    List<Include> includeList =
+        jniModels
+            .stream()
+            .map(
+                model ->
+                    Include.createInternalInclude(JniNameRules.getHeaderFileName(model.javaClass)))
+            .collect(Collectors.toList());
+
+    Map<String, List<?>> mustacheData = new HashMap<>();
+    mustacheData.put(INCLUDES_NAME, includeList);
+    mustacheData.put(MODELS_NAME, jniModels);
+
+    results.add(
+        new GeneratedFile(
+            TemplateEngine.render("jni/StructConversionHeader", mustacheData),
+            JniNameRules.getConversionHeaderFileName()));
+
+    mustacheData.put(
+        INCLUDES_NAME,
+        Arrays.asList(
+            Include.createInternalInclude(JniNameRules.getConversionHeaderFileName()),
+            CppLibraryIncludes.INT_TYPES,
+            CppLibraryIncludes.VECTOR,
+            Include.createInternalInclude(AndroidGeneratorSuite.FIELD_ACCESS_UTILS_CPP)));
+
+    results.add(
+        new GeneratedFile(
+            TemplateEngine.render("jni/StructConversionImplementation", mustacheData),
+            JniNameRules.getConversionImplementationFileName()));
 
     return results;
   }

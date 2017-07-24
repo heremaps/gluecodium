@@ -15,6 +15,7 @@ import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.generator.common.jni.JniModel;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.java.AndroidSpecAccessorFactory;
@@ -37,6 +38,8 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
   public static final String GENERATOR_NAMESPACE = "android";
   private static final String CONVERSION_UTILS_HEADER = "android/jni/JniCppConversionUtils.h";
   private static final String CONVERSION_UTILS_CPP = "android/jni/JniCppConversionUtils.cpp";
+  public static final String FIELD_ACCESS_UTILS_CPP = "android/jni/FieldAccessMethods.cpp";
+
   private static final String CONVERSION_UTILS_TARGET_DIR = "";
 
   private final OptionReader.TranspilerOptions transpilerOptions;
@@ -93,12 +96,19 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
         new JavaNativeInterfacesGenerator(
             transpilerOptions.getJavaPackageList(),
             Collections.singletonList(CONVERSION_UTILS_HEADER));
-    Stream<List<GeneratedFile>> jniFilesStream =
+
+    //jni models need to be built first as they are required to generate conversion util file
+    List<JniModel> jniModels =
         model
             .getInterfaces()
             .stream()
             .map(jniGenerator::generateModel)
-            .map(jniGenerator::generateFiles);
+            .collect(Collectors.toList());
+
+    Stream<List<GeneratedFile>> jniFilesStream =
+        Stream.concat(
+            jniModels.stream().map(jniGenerator::generateFiles),
+            Stream.of(jniGenerator.generateConversionFiles(jniModels)));
 
     // This generator is special in that it generates only one file
     // At the moment it does not need to iterate over all interfaces
@@ -110,6 +120,8 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
         BaseApiGeneratorSuite.copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
     results.add(
         BaseApiGeneratorSuite.copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
+    results.add(
+        BaseApiGeneratorSuite.copyTarget(FIELD_ACCESS_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
     results.addAll(
         Stream.concat(javaFilesStream, jniFilesStream)
             .flatMap(Collection::stream)

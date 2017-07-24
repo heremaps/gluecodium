@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.android;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
@@ -21,10 +20,10 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.jni.JniModel;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
-import com.here.ivi.api.generator.common.jni.JniStruct;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,12 +44,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class JavaNativeInterfacesGeneratorTest {
 
   private static final int MAIN_FILES_COUNT = 2;
-  private static final int STRUCT_FILES_COUNT = 2;
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   private JavaClass javaClass = new JavaClass("classy");
-  private JniStruct jniStruct = new JniStruct(javaClass, null, null);
   private JniModel jniModel = new JniModel();
 
   private JavaNativeInterfacesGenerator generator = new JavaNativeInterfacesGenerator(null, null);
@@ -67,8 +64,8 @@ public class JavaNativeInterfacesGeneratorTest {
 
     when(JniNameRules.getHeaderFileName(any())).thenReturn("");
     when(JniNameRules.getImplementationFileName(any())).thenReturn("");
-    when(JniNameRules.getConversionHeaderFileName(any(), any())).thenReturn("");
-    when(JniNameRules.getConversionImplementationFileName(any(), any())).thenReturn("");
+    when(JniNameRules.getConversionHeaderFileName()).thenReturn("");
+    when(JniNameRules.getConversionImplementationFileName()).thenReturn("");
   }
 
   @Test
@@ -79,7 +76,7 @@ public class JavaNativeInterfacesGeneratorTest {
   }
 
   @Test
-  public void generateFilesWithNoStructs() {
+  public void generateFilesWithNonNullModel() {
     List<GeneratedFile> result = generator.generateFiles(jniModel);
 
     assertEquals(MAIN_FILES_COUNT, result.size());
@@ -91,27 +88,13 @@ public class JavaNativeInterfacesGeneratorTest {
   }
 
   @Test
-  public void generateFilesWithOneStruct() {
-    jniModel.structs.add(jniStruct);
+  public void generateConversionFiles() {
+    List<GeneratedFile> result =
+        generator.generateConversionFiles(Collections.singletonList(jniModel));
 
-    List<GeneratedFile> result = generator.generateFiles(jniModel);
-
-    assertEquals(MAIN_FILES_COUNT + STRUCT_FILES_COUNT, result.size());
+    assertEquals(MAIN_FILES_COUNT, result.size());
 
     PowerMockito.verifyStatic(times(2));
-    TemplateEngine.render(any(), same(jniStruct));
-  }
-
-  @Test
-  public void generateFilesWithTwoStructs() {
-    jniModel.structs.add(jniStruct);
-    jniModel.structs.add(jniStruct);
-
-    List<GeneratedFile> result = generator.generateFiles(jniModel);
-
-    assertEquals(MAIN_FILES_COUNT + 2 * STRUCT_FILES_COUNT, result.size());
-
-    PowerMockito.verifyStatic(times(4));
-    TemplateEngine.render(any(), same(jniStruct));
+    TemplateEngine.render(any(), any());
   }
 }
