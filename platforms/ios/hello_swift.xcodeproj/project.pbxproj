@@ -290,7 +290,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#Xcode sets some environment variables which confuse swiftc, TODO APIGEN-355\nenv -i bash -l -c \"../../scripts/build-ios-on-mac Frameworks\"";
+			shellScript = "../../scripts/build-ios-on-mac Frameworks";
 		};
 /* End PBXShellScriptBuildPhase section */
 
