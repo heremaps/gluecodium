@@ -7,7 +7,7 @@ apply plugin: 'com.diffplug.gradle.spotless'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '26.0.0'
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId 'com.here.helloapplication'
         minSdkVersion 15
