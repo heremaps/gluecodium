@@ -142,7 +142,10 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FStructType francaStructType) {
-    CStruct cStruct = new CStruct(cBridgeNameRules.getHandleName(rootModel, francaStructType));
+    CStruct cStruct =
+        new CStruct(
+            cBridgeNameRules.getStructName(rootModel, francaStructType),
+            cBridgeNameRules.getBaseApiStructName(rootModel, francaStructType));
     cStruct.fields =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CField.class);
     storeResult(cStruct);
@@ -152,9 +155,6 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   @Override
   public void finishBuilding(FTypedElement francaTypedElement) {
     CField cField = new CField(francaTypedElement.getName());
-    if (francaTypedElement.getComment() != null) {
-      cField.comment = francaTypedElement.getComment().toString();
-    }
     cField.type = CTypeMapper.mapType(rootModel, francaTypedElement.getType());
     storeResult(cField);
     super.finishBuilding(francaTypedElement);

@@ -1,0 +1,7 @@
+{{name}} {{createFunctionName}}() {
+    return {new {{baseApiName}}};
+}
+
+void {{releaseFunctionName}}({{name}} handle) {
+    delete get_pointer(handle);
+}

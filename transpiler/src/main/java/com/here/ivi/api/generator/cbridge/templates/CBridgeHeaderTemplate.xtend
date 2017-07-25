@@ -40,6 +40,10 @@ class CBridgeHeaderTemplate{
         «generateStructDefinition(struct)»
     «ENDFOR»
 
+    «FOR struct: cInterface.structs SEPARATOR '\n'»
+        «generateCreateStructFunctionDeclaration(struct)»
+    «ENDFOR»
+
     «FOR function: cInterface.functions»
         «generateFunctionSignature(function)»
     «ENDFOR»
@@ -56,6 +60,10 @@ class CBridgeHeaderTemplate{
     }
     static def String generateStructDefinition(CStruct struct) {
         return TemplateEngine.render("cbridge/CStruct", struct);
+    }
+
+    static def String generateCreateStructFunctionDeclaration(CStruct struct) {
+        return TemplateEngine.render("cbridge/CppStruct_CreateRelease_header", struct);
     }
 
 }

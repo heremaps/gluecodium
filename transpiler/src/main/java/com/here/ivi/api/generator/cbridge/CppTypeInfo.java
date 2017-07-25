@@ -62,20 +62,18 @@ public class CppTypeInfo {
   public static CppTypeInfo createStructTypeInfo(
       final FrancaElement<?> rootModel, final FStructType structType) {
     CBridgeNameRules rules = new CBridgeNameRules();
+    String handleName = rules.getStructName(rootModel, structType);
     return new CppTypeInfo(
         rules.getHandleName(rootModel, structType),
         singletonList(Include.createInternalInclude(rules.getHeaderFileName(rootModel))),
         "",
         emptyList(),
         "*get_pointer(%1$s)",
-        singletonList(new CType(rules.getHandleName(rootModel, structType))),
+        singletonList(new CType(handleName)),
         singletonList(""),
-        rules.getHandleName(rootModel, structType)
-            + "{ new "
-            + rules.getStructName(rootModel, structType)
-            + "(%1$s) }",
+        handleName + "{ new " + handleName + "(%1$s) }",
         emptyList(),
-        new CType(rules.getHandleName(rootModel, structType)),
+        new CType(handleName),
         "",
         "");
   }

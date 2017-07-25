@@ -22,6 +22,7 @@ import com.here.ivi.api.model.cmodel.CParameter
 import org.junit.rules.TemporaryFolder
 import org.junit.Rule
 import static com.here.ivi.api.test.TemplateComparison.assertEqualImplementationContent
+import com.here.ivi.api.model.cmodel.CStruct
 
 @RunWith(typeof(XtextRunner))
 class CBridgeImplementationTemplateTest {
@@ -139,5 +140,43 @@ class CBridgeImplementationTemplateTest {
         val generated = CBridgeImplementationTemplate.generate(cInterface)
 
         assertEqualImplementationContent(expected, generated.toString)
+    }
+
+    @Test
+    def structDefinition() {
+        val cInterface = new CInterface() => [
+            structs = #[
+                new CStruct("Struct1Name", "BaseAPIStruct1Name"),
+                new CStruct("Struct2Name", "BaseAPIStruct2Name")
+            ]
+        ]
+        val expected = '''
+            BaseAPIStruct1Name* get_pointer(Struct1NameRef handle) {
+                return static_cast<BaseAPIStruct1Name*>(handle.private_pointer);
+            }
+            BaseAPIStruct2Name* get_pointer(Struct2NameRef handle) {
+                return static_cast<BaseAPIStruct2Name*>(handle.private_pointer);
+            }
+
+            Struct1NameRef Struct1Name_create() {
+                return {new BaseAPIStruct1Name};
+            }
+
+            void Struct1Name_release(Struct1NameRef handle) {
+                delete get_pointer(handle);
+            }
+
+            Struct2NameRef Struct2Name_create() {
+                return {new BaseAPIStruct2Name};
+            }
+
+            void Struct2Name_release(Struct2NameRef handle) {
+                delete get_pointer(handle);
+            }
+        '''
+
+        val generated = CBridgeImplementationTemplate.generate(cInterface).toString
+
+        assertEqualImplementationContent(expected, generated)
     }
 }

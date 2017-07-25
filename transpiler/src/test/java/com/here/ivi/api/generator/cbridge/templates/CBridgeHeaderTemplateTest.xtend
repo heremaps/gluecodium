@@ -142,16 +142,24 @@ class CBridgeHeaderTemplateTest {
     @Test
     def structDefinition() {
         val cInterface = new CInterface() => [
-            structs = #[new CStruct("Struct1Ref"), new CStruct("Struct2Ref")]
+            structs = #[
+                new CStruct("Struct1Name", "BaseAPIStruct1Name"),
+                new CStruct("Struct2Name", "BaseAPIStruct2Name")
+            ]
         ]
         val expected = '''
             typedef struct {
                 void* const private_pointer;
-            } Struct1Ref;
+            } Struct1NameRef;
 
             typedef struct {
                 void* const private_pointer;
-            } Struct2Ref;
+            } Struct2NameRef;
+
+            Struct1NameRef Struct1Name_create();
+            void Struct1Name_release(Struct1NameRef handle);
+            Struct2NameRef Struct2Name_create();
+            void Struct2Name_release(Struct2NameRef handle);
         '''
 
         val generated = CBridgeHeaderTemplate.generate(cInterface).toString

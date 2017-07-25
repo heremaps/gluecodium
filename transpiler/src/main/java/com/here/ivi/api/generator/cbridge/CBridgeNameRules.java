@@ -65,12 +65,6 @@ public class CBridgeNameRules {
         CPP_NAMESPACE_DELIMITER);
   }
 
-  private static String fullyQualifiedName(
-      List<String> packages, String ifaceName, String name, String delimiter) {
-    return String.join(
-        delimiter, (String[]) addAll(packages.toArray(new String[0]), ifaceName, name));
-  }
-
   public String getMethodName(final Interface<?> iface, final FMethod method) {
     return fullyQualifiedName(
         iface.getModelInfo().getPackageNames(),
@@ -94,7 +88,7 @@ public class CBridgeNameRules {
         francaElement.getModelInfo().getPackageNames(),
         getName(francaElement),
         NameHelper.toUpperCamelCase(francaStructType.getName()),
-        CPP_NAMESPACE_DELIMITER);
+        UNDERSCORE_DELIMITER);
   }
 
   private String getTypeCollectionName(final String name) {
@@ -103,5 +97,19 @@ public class CBridgeNameRules {
 
   private String computeClassName(final String name) {
     return NameHelper.toUpperCamelCase(name);
+  }
+
+  public String getBaseApiStructName(FrancaElement<?> francaElement, FStructType struct) {
+    return fullyQualifiedName(
+        francaElement.getModelInfo().getPackageNames(),
+        CppNameRules.getClassName(francaElement.getName()),
+        CppNameRules.getStructName(struct.getName()),
+        CPP_NAMESPACE_DELIMITER);
+  }
+
+  private static String fullyQualifiedName(
+      List<String> packages, String ifaceName, String name, String delimiter) {
+    return String.join(
+        delimiter, (String[]) addAll(packages.toArray(new String[0]), ifaceName, name));
   }
 }
