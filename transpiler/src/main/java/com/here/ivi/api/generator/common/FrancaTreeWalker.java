@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common;
 
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.Collection;
@@ -58,22 +59,17 @@ public class FrancaTreeWalker {
     this.builders = builders;
   }
 
-  public void walk(final Interface<?> anInterface) {
+  public void walk(final FrancaElement<?> francaElement) {
 
-    if (anInterface == null || builders == null || builders.isEmpty()) {
+    if (francaElement == null || builders == null || builders.isEmpty()) {
       return;
     }
 
-    walkChildNodes(anInterface);
-  }
-
-  public void walk(final TypeCollection<?> typeCollection) {
-
-    if (typeCollection == null || builders == null || builders.isEmpty()) {
-      return;
+    if (francaElement instanceof Interface<?>) {
+      walkChildNodes((Interface<?>) francaElement);
+    } else if (francaElement instanceof TypeCollection<?>) {
+      walkChildNodes((TypeCollection<?>) francaElement);
     }
-
-    walkChildNodes(typeCollection);
   }
 
   private <T> void walk(

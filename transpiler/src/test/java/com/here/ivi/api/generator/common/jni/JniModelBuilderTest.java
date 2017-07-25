@@ -42,6 +42,7 @@ import org.franca.core.franca.FField;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,6 +58,7 @@ public class JniModelBuilderTest {
   private FrancaElement<?> rootModel;
 
   @Mock private FInterface francaInterface;
+  @Mock private FTypeCollection francaTypeCollection;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FStructType francaStructType;
@@ -287,5 +289,32 @@ public class JniModelBuilderTest {
     assertNotNull(jniField);
     assertEquals(javaField, jniField.javaField);
     assertEquals(cppField, jniField.cppField);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionReadsJavaClass() {
+    javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
+    assertNotNull(jniModel);
+    assertEquals("", jniModel.cppClassName);
+    assertEquals(JAVA_CLASS_NAME, jniModel.javaClass.name);
+    assertEquals(CPP_NAMESPACE_MEMBERS, jniModel.cppNameSpaces);
+    assertEquals(JAVA_PACKAGES, jniModel.javaPackages);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionReadsStructs() {
+    JniStruct jniStruct = new JniStruct(javaClass, new CppStruct(CPP_CLASS_NAME), null);
+    contextStack.injectResult(jniStruct);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
+    assertNotNull(jniModel);
+    assertFalse(jniModel.structs.isEmpty());
+    assertEquals(jniStruct, jniModel.structs.get(0));
   }
 }

@@ -25,7 +25,6 @@ import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,7 +48,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     this.additionalIncludes = additionalIncludes;
   }
 
-  public JniModel generateModel(final Interface<?> francaElement) {
+  public JniModel generateModel(final FrancaElement<?> francaElement) {
 
     JavaModelBuilder javaBuilder = new JavaModelBuilder(basePackage, francaElement);
 
@@ -82,7 +81,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     return results;
   }
 
-  public List<GeneratedFile> generateConversionFiles(List<JniModel> jniModels) {
+  public List<GeneratedFile> generateConversionFiles(final List<JniModel> jniModels) {
 
     List<GeneratedFile> results = new LinkedList<>();
 
