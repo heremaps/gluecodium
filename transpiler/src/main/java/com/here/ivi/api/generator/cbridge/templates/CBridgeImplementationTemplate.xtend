@@ -11,10 +11,12 @@
 
 package com.here.ivi.api.generator.cbridge.templates
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.cbridge.templates.CBridgeIncludeTemplate
 import com.here.ivi.api.generator.common.templates.CopyrightNoticeTemplate;
 import com.here.ivi.api.model.cmodel.CInterface
 import com.here.ivi.api.model.cmodel.CFunction
+import com.here.ivi.api.model.cmodel.CStruct
 
 class CBridgeImplementationTemplate {
 
@@ -28,6 +30,14 @@ class CBridgeImplementationTemplate {
 
     «FOR include: cInterface.implementationIncludes BEFORE '\n'»
         «CBridgeIncludeTemplate.generate(include)»
+    «ENDFOR»
+
+    «FOR struct: cInterface.structs SEPARATOR '\n'»
+        «generateGetPointerHelpers(struct)»
+    «ENDFOR»
+
+    «FOR struct: cInterface.structs SEPARATOR '\n'»
+        «generateCreateStructFunctionDefinition(struct)»
     «ENDFOR»
 
     «FOR function: cInterface.functions SEPARATOR '\n'»
@@ -58,5 +68,13 @@ class CBridgeImplementationTemplate {
         } else {
             '''«function.delegateCall»;'''
         }
+    }
+
+    static def String generateGetPointerHelpers(CStruct struct) {
+        return TemplateEngine.render("cbridge/getPointer_impl", struct);
+    }
+
+    static def String generateCreateStructFunctionDefinition(CStruct struct) {
+        return TemplateEngine.render("cbridge/CppStruct_CreateRelease_impl", struct);
     }
 }

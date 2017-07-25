@@ -17,6 +17,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -236,24 +237,31 @@ public class CModelBuilderTest {
   @Test
   public void finishBuildingStructCreatesStructWithProperName() {
     when(cBridgeNameRules.getHandleName(any(), any())).thenReturn("StructNameRef");
+    when(cBridgeNameRules.getStructName(any(), any())).thenReturn("StructName");
+    when(cBridgeNameRules.getBaseApiStructName(any(), any())).thenReturn("BaseAPIStructName");
+
     modelBuilder.finishBuilding(francaStruct);
 
     List<CStruct> structs = getResults(CStruct.class);
     assertEquals(1, structs.size());
     CStruct cStruct = structs.get(0);
     assertEquals("StructNameRef", cStruct.name);
+    assertEquals("BaseAPIStructName", cStruct.baseApiName);
+    assertEquals("StructName_create", cStruct.createFunctionName);
+    assertEquals("StructName_release", cStruct.releaseFunctionName);
   }
 
   @Test
   public void finishBuildingInterfaceContainsStructs() {
-    contextStack.injectResult(new CStruct("structor"));
+    CStruct struct = mock(CStruct.class);
+    contextStack.injectResult(struct);
 
     modelBuilder.finishBuilding(francaInterface);
 
     List<CInterface> interfaces = getResults(CInterface.class);
     assertEquals(1, interfaces.size());
     assertEquals(1, interfaces.get(0).structs.size());
-    assertEquals("structor", interfaces.get(0).structs.get(0).name);
+    assertSame(struct, interfaces.get(0).structs.get(0));
   }
 
   @Test

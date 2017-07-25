@@ -69,7 +69,7 @@ public class CBridgeNameRulesTest {
   public void getStructNameCreatesProperNameForStructsInTypeCollections() {
     String expectedName =
         String.join(
-            "::",
+            "_",
             (String[])
                 addAll(
                     PACKAGES.toArray(new String[0]),
@@ -85,7 +85,7 @@ public class CBridgeNameRulesTest {
   public void getStructNameCreatesProperNameForStructsInInterfaces() {
     String expectedName =
         String.join(
-            "::",
+            "_",
             (String[])
                 addAll(
                     PACKAGES.toArray(new String[0]),
@@ -99,7 +99,8 @@ public class CBridgeNameRulesTest {
 
   @Test
   public void getHandleNameCreatesProperName() {
-    String expectedName = prepandNameWithPackageAndInterface(toUpperCamelCase(STRUCT_NAME) + "Ref");
+    String expectedName =
+        prepandNameWithPackageAndInterface(toUpperCamelCase(STRUCT_NAME) + "Ref", "_");
 
     String actualName = nameRules.getHandleName(anInterface, francaStruct);
 
@@ -107,9 +108,25 @@ public class CBridgeNameRulesTest {
   }
 
   @Test
+  public void getBaseApiNameCreatesProperName() {
+    String expectedName =
+        String.join(
+            "::",
+            (String[])
+                addAll(
+                    PACKAGES.toArray(new String[0]),
+                    INTERFACE_NAME + "Stub",
+                    toUpperCamelCase(STRUCT_NAME)));
+
+    String actualName = nameRules.getBaseApiStructName(anInterface, francaStruct);
+
+    assertEquals(expectedName, actualName);
+  }
+
+  @Test
   public void getMethodNameCreatesProperName() {
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
-    String expectedName = prepandNameWithPackageAndInterface(METHOD_NAME);
+    String expectedName = prepandNameWithPackageAndInterface(METHOD_NAME, "_");
 
     String actualName = nameRules.getMethodName(anInterface, francaMethod);
     assertEquals(expectedName, actualName);
@@ -159,8 +176,8 @@ public class CBridgeNameRulesTest {
     assertEquals(expected, actual);
   }
 
-  private String prepandNameWithPackageAndInterface(String name) {
+  private String prepandNameWithPackageAndInterface(String name, String delimiter) {
     return String.join(
-        "_", (String[]) addAll(PACKAGES.toArray(new String[0]), INTERFACE_NAME, name));
+        delimiter, (String[]) addAll(PACKAGES.toArray(new String[0]), INTERFACE_NAME, name));
   }
 }

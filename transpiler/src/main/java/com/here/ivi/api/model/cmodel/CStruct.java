@@ -15,9 +15,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CStruct extends CElement {
+  public final String baseApiName;
+  public final String createFunctionName;
+  public final String releaseFunctionName;
+
   public List<CField> fields = new LinkedList<>();
 
-  public CStruct(String name) {
-    super(name);
+  public CStruct(String name, String baseApiName) {
+    super(name + "Ref");
+    this.baseApiName = baseApiName;
+    createFunctionName = name + "_create";
+    releaseFunctionName = name + "_release";
   }
 }
