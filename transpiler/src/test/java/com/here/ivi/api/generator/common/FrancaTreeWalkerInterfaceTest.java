@@ -17,6 +17,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
@@ -100,8 +101,15 @@ public class FrancaTreeWalkerInterfaceTest {
   }
 
   @Test
-  public void walkNullInterface() {
-    treeWalker.walk((Interface<?>) null);
+  public void walkNullModelDoesNotWalkInterface() {
+    treeWalker.walk(null);
+
+    verify(modelBuilder, never()).startBuilding(any(FInterface.class));
+  }
+
+  @Test
+  public void walkUnsupportedModelDoesNotWalkInterface() {
+    treeWalker.walk(mock(FrancaElement.class));
 
     verify(modelBuilder, never()).startBuilding(any(FInterface.class));
   }

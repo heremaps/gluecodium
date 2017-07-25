@@ -105,6 +105,13 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
             .map(jniGenerator::generateModel)
             .collect(Collectors.toList());
 
+    jniModels.addAll(
+        model
+            .getTypeCollections()
+            .stream()
+            .map(jniGenerator::generateModel)
+            .collect(Collectors.toList()));
+
     Stream<List<GeneratedFile>> jniFilesStream =
         Stream.concat(
             jniModels.stream().map(jniGenerator::generateFiles),

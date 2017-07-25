@@ -17,6 +17,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
@@ -83,8 +84,15 @@ public class FrancaTreeWalkerTypeCollectionTest {
   }
 
   @Test
-  public void walkNullTypeCollection() {
-    treeWalker.walk((TypeCollection<?>) null);
+  public void walkNullModelDoesNotWalkTypeCollection() {
+    treeWalker.walk(null);
+
+    verify(modelBuilder, never()).startBuilding(any(FTypeCollection.class));
+  }
+
+  @Test
+  public void walkUnsupportedModelDoesNotWalkTypeCollection() {
+    treeWalker.walk(mock(FrancaElement.class));
 
     verify(modelBuilder, never()).startBuilding(any(FTypeCollection.class));
   }
