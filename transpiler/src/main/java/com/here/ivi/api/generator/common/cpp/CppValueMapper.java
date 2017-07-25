@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.cpp.templates.CppConstantTemplate;
+import com.here.ivi.api.generator.common.cpp.templates.CppCompoundInitializerTemplate;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppValue;
@@ -93,7 +93,8 @@ public class CppValueMapper {
 
   public static CppValue map(CppType type, FCompoundInitializer ci) {
     // TODO having a template in here is not-so-nice, this should be some CppType
-    return new CppValue(CppConstantTemplate.generate(type, ci).toString(), type.includes);
+    return new CppValue(
+        CppCompoundInitializerTemplate.generate(type, ci).toString(), type.includes);
   }
 
   // TODO handle namespaces here as well
