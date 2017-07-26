@@ -7,13 +7,17 @@ class StaticStringMethodsTests: XCTestCase {
     }
 
     func testTwoStringParameters() {
-        XCTAssertEqual(StaticStringMethodsTest.concatenateStrings(inputString1: "This is", inputString2: " the end"),
-           "This is the end")
+        XCTAssertEqual(
+            StaticStringMethodsTest.concatenateStrings(
+                inputString1: "This is",
+                inputString2: " the end"),
+            "This is the end")
     }
 
     func testTwoStringParametersOneEmpty() {
-        XCTAssertEqual(StaticStringMethodsTest.concatenateStrings(inputString1: "Yesterday", inputString2: ""),
-           "Yesterday")
+        XCTAssertEqual(
+            StaticStringMethodsTest.concatenateStrings(inputString1: "Yesterday", inputString2: ""),
+            "Yesterday")
     }
 
     func testStringReturnString() {
