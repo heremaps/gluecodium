@@ -15,10 +15,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
-import com.here.ivi.api.model.javamodel.JavaReferenceType;
-import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.cppmodel.CppCustomType;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
+import com.here.ivi.api.model.cppmodel.CppType;
 import java.util.Collection;
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,55 +37,37 @@ public class CppToJniConversionTemplateDelegatorTest {
 
   @Rule public PowerMockRule rule = new PowerMockRule();
 
+  @Parameter public CppType type;
+
+  @Parameter(1)
+  public Class<? extends Exception> expectedException;
+
   @Before
   public void setUp() {
 
     PowerMockito.mockStatic(TemplateEngine.class);
   }
 
-  @Parameter public JavaType type;
-
-  @Parameter(1)
-  public Class<? extends Exception> expectedException;
-
   @Parameterized.Parameters
   public static Collection<?> getValues() {
     return java.util.Arrays.asList(
         new Object[][] {
-          // javaType, expected exception
-          {new JavaPrimitiveType(Type.SHORT), null},
-          {new JavaPrimitiveType(Type.VOID), IllegalArgumentException.class},
-          {new JavaPrimitiveType(Type.FLOAT), null},
-          {new JavaPrimitiveType(Type.INT), null},
-          {new JavaPrimitiveType(Type.LONG), null},
-          {new JavaPrimitiveType(Type.BOOL), null},
-          {new JavaPrimitiveType(Type.BYTE), null},
-          {new JavaPrimitiveType(Type.CHAR), null},
-          {new JavaPrimitiveType(Type.DOUBLE), null},
-          {new JavaReferenceType(JavaReferenceType.Type.BYTE_ARRAY), null},
-          {
-            new JavaReferenceType(JavaReferenceType.Type.BOOLEAN_ARRAY),
-            IllegalArgumentException.class
-          },
-          {new JavaReferenceType(JavaReferenceType.Type.STRING), null}
+          // cppType, expected exception
+          {new CppPrimitiveType(CppPrimitiveType.Type.INT16), null},
+          {new CppPrimitiveType(CppPrimitiveType.Type.VOID), IllegalArgumentException.class},
+          {new CppPrimitiveType(CppPrimitiveType.Type.FLOAT), null},
+          {new CppPrimitiveType(CppPrimitiveType.Type.INT32), null},
+          {new CppPrimitiveType(CppPrimitiveType.Type.INT64), null},
+          {new CppPrimitiveType(CppPrimitiveType.Type.BOOL), null},
+          {new CppPrimitiveType(CppPrimitiveType.Type.INT8), null},
+          {new CppPrimitiveType(CppPrimitiveType.Type.UINT8), null},
+          {new CppPrimitiveType(CppPrimitiveType.Type.DOUBLE), null},
+          {new CppCustomType("UserDefined"), null}
         });
   }
 
   @Test
-  @PrepareForTest(TemplateEngine.class)
   public void convert() {
-
-    PowerMockito.mockStatic(TemplateEngine.class);
-
-    /*
-     * explicit exception checking is required here as PowerMockRule does not work with
-     * ExpectedException Rule
-     *
-     * compare:
-     * https://stackoverflow.com/questions/28444919/test-with-expectedexception-fails-when-using-powemock-with-powermockrule
-     * https://github.com/powermock/powermock/issues/396
-     *
-     */
     boolean exceptionExpected = expectedException != null;
     Throwable caughtThrowable = null;
 
@@ -109,18 +90,12 @@ public class CppToJniConversionTemplateDelegatorTest {
     }
   }
 
-  private static void verifyResult(final JavaType javaType, final CharSequence result) {
-
-    if (javaType instanceof JavaPrimitiveType) {
+  private static void verifyResult(final CppType cppType, final CharSequence result) {
+    if (cppType instanceof CppPrimitiveType) {
       assertEquals(CPP_VARIABLE_NAME, result.toString());
-    } else if (javaType instanceof JavaReferenceType
-        && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.STRING) {
+    } else if (cppType instanceof CppCustomType) {
       PowerMockito.verifyStatic();
-      TemplateEngine.render("jni/CppToJniStringConversion", CPP_VARIABLE_NAME);
-    } else if (javaType instanceof JavaReferenceType
-        && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.BYTE_ARRAY) {
-      PowerMockito.verifyStatic();
-      TemplateEngine.render("jni/CppToJniByteBufferConversion", CPP_VARIABLE_NAME);
+      TemplateEngine.render("jni/CppToJniStructConversionCall", CPP_VARIABLE_NAME);
     } else {
       fail();
     }

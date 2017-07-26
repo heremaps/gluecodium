@@ -3,7 +3,7 @@
   auto result = here::internal::create_object(env, javaClass);
 {{#fields}}
   {{#hasCustomType}}
-  auto j{{cppField.name}} = convert_{{cppField.type.name}}_to_jobject(env, ninput.{{cppField.name}});
+  auto j{{cppField.name}} = here::internal::convert_to_jni(env, ninput.{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
   auto j{{cppField.name}} = ninput.{{cppField.name}};

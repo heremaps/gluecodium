@@ -12,8 +12,6 @@
 
 #include "JniCppConversionUtils.h"
 
-extern "C" {
-
 // ------------------- JNI to C++ conversion functions ---------------------------------------------
 
 std::string
@@ -40,14 +38,13 @@ here::internal::convert_jbyte_array_to_byte_vector( JNIEnv* env, const jbyteArra
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
 jstring
-here::internal::convert_std_string_to_jstring( JNIEnv* env, const std::string& nvalue )
+here::internal::convert_to_jni( JNIEnv* env, const std::string& nvalue )
 {
     return env->NewStringUTF( nvalue.c_str( ) );
 }
 
 jbyteArray
-here::internal::convert_byte_vector_to_jbyte_array( JNIEnv* env,
-                                                    const std::vector< uint8_t >& nvalue )
+here::internal::convert_to_jni( JNIEnv* env, const std::vector< uint8_t >& nvalue )
 {
     jsize size = static_cast< jsize >( nvalue.size( ) );
     jbyteArray jresult = env->NewByteArray( size );
@@ -219,5 +216,4 @@ here::internal::set_object_field( JNIEnv* env,
 {
     auto fieldID = env->GetFieldID( javaClass, fieldName, fieldSignature );
     env->SetObjectField( object, fieldID, fieldValue );
-}
 }
