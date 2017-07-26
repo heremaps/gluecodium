@@ -106,7 +106,7 @@ public class CppToJniStructConversionBodyTest {
             + innerSignature
             + "\");\n"
             + "  auto result = here::internal::create_object(env, javaClass);\n"
-            + "  auto jnestedCplusCplus = convert_CppStructType_to_jobject(env, ninput.nestedCplusCplus);\n"
+            + "  auto jnestedCplusCplus = here::internal::convert_to_jni(env, ninput.nestedCplusCplus);\n"
             + "  here::internal::set_object_field(env, javaClass, result, \"nestedStruct\",\n"
             + "  \""
             + innerSignature
@@ -133,7 +133,7 @@ public class CppToJniStructConversionBodyTest {
             + "\");\n"
             + "  auto result = here::internal::create_object(env, javaClass);\n"
             + "  auto jcppInt = ninput.cppInt;\n"
-            + "  auto jnestedCplusCplus = convert_CppStructType_to_jobject(env, ninput.nestedCplusCplus);\n"
+            + "  auto jnestedCplusCplus = here::internal::convert_to_jni(env, ninput.nestedCplusCplus);\n"
             + "  here::set_int_field(env, javaClass, result, \"intfield\", jcppInt);\n"
             + "  here::internal::set_object_field(env, javaClass, result, \"nestedStruct\",\n"
             + "  \""

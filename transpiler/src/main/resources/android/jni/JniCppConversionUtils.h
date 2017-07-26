@@ -21,8 +21,6 @@ namespace here
 {
 namespace internal
 {
-extern "C" {
-
 // ------------------- JNI to C++ conversion functions ---------------------------------------------
 
 /**
@@ -40,12 +38,12 @@ std::vector< uint8_t > convert_jbyte_array_to_byte_vector( JNIEnv* env, const jb
 /**
  * Converts a std string to a JNI jstring
  */
-jstring convert_std_string_to_jstring( JNIEnv* env, const std::string& nvalue );
+jstring convert_to_jni( JNIEnv* env, const std::string& nvalue );
 
 /**
  * Converts a vector of bytes to a jbyteArray
  */
-jbyteArray convert_byte_vector_to_jbyte_array( JNIEnv* env, const std::vector< uint8_t >& nvalue );
+jbyteArray convert_to_jni( JNIEnv* env, const std::vector< uint8_t >& nvalue );
 
 // -------------------- JNI object field getters ---------------------------------------------------
 
@@ -110,8 +108,6 @@ void set_object_field( JNIEnv* env,
                        const char* fieldName,
                        const char* fieldSignature,
                        jobject fieldValue );
-
-}  // extern "C"
 
 }  // internal
 
