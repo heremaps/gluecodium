@@ -58,44 +58,16 @@ public final class CppMethod extends CppElementWithIncludes {
   private CppMethod(Builder builder) {
     this.name = builder.name;
     this.comment = builder.methodComment;
-    this.deprecatedComment = builder.deprecatedComment;
     this.returnType = builder.returnType;
     this.specifiers = builder.specifiers;
     this.qualifiers = builder.qualifiers;
-    this.inParameters = builder.inParameters;
-    this.outParameters = builder.outParameters;
+    this.parameters = builder.parameters;
   }
 
-  private final String deprecatedComment;
-  private final CppType returnType;
-  private final Set<Specifier> specifiers;
-  private final Set<Qualifier> qualifiers;
-  private final List<CppParameter> inParameters;
-  private final List<CppParameter> outParameters;
-
-  public String getDeprecatedComment() {
-    return deprecatedComment;
-  }
-
-  public CppType getReturnType() {
-    return returnType;
-  }
-
-  public Set<Specifier> getSpecifiers() {
-    return specifiers;
-  }
-
-  public Set<Qualifier> getQualifiers() {
-    return qualifiers;
-  }
-
-  public List<CppParameter> getInParameters() {
-    return inParameters;
-  }
-
-  public List<CppParameter> getOutParameters() {
-    return outParameters;
-  }
+  public final CppType returnType;
+  public final Set<Specifier> specifiers;
+  public final Set<Qualifier> qualifiers;
+  public final List<CppParameter> parameters;
 
   @Override
   public boolean equals(Object other) {
@@ -111,17 +83,13 @@ public final class CppMethod extends CppElementWithIncludes {
     CppMethod otherMethod = (CppMethod) other;
 
     // TODO move to a helper.
-    boolean inParamsEquality =
-        CollectionsHelper.areEqualOrdered(inParameters, otherMethod.inParameters);
-    boolean outParamsEquality =
-        CollectionsHelper.areEqualOrdered(outParameters, otherMethod.outParameters);
+    boolean paramsEquality = CollectionsHelper.areEqualOrdered(parameters, otherMethod.parameters);
     boolean specifiersEquality = CollectionsHelper.areEqual(specifiers, otherMethod.specifiers);
     boolean qualifiersEquality = CollectionsHelper.areEqual(qualifiers, otherMethod.qualifiers);
 
     return super.equals(other)
         && returnType.equals(otherMethod.returnType)
-        && inParamsEquality
-        && outParamsEquality
+        && paramsEquality
         && specifiersEquality
         && qualifiersEquality;
   }
@@ -129,12 +97,10 @@ public final class CppMethod extends CppElementWithIncludes {
   public static class Builder {
     private final String name;
     private String methodComment;
-    private String deprecatedComment;
     private CppType returnType = CppPrimitiveType.VOID_TYPE;
     private Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
     private Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
-    private List<CppParameter> inParameters = new ArrayList<>();
-    private List<CppParameter> outParameters = new ArrayList<>();
+    private List<CppParameter> parameters = new ArrayList<>();
 
     public Builder(String name) {
       this.name = name;
@@ -160,8 +126,8 @@ public final class CppMethod extends CppElementWithIncludes {
       return this;
     }
 
-    public Builder inParameter(CppParameter parameter) {
-      this.inParameters.add(parameter);
+    public Builder parameter(CppParameter parameter) {
+      this.parameters.add(parameter);
       return this;
     }
 
@@ -172,7 +138,6 @@ public final class CppMethod extends CppElementWithIncludes {
 
   @Override
   public Stream<CppElement> stream() {
-    return Stream.concat(
-        Stream.of(returnType), Stream.concat(inParameters.stream(), outParameters.stream()));
+    return Stream.concat(Stream.of(returnType), parameters.stream());
   }
 }

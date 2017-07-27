@@ -114,12 +114,12 @@ public class JniModelBuilderTest {
   }
 
   private static CppMethod createCppMethod() {
-    CppParameter cppParameter = new CppParameter();
-    cppParameter.type = new CppPrimitiveType(CppPrimitiveType.Type.INT8);
+    CppPrimitiveType cppPrimitiveType = new CppPrimitiveType(CppPrimitiveType.Type.INT8);
+    CppParameter cppParameter = new CppParameter("", cppPrimitiveType);
 
     return new CppMethod.Builder(CPP_INT_METHOD_NAME)
-        .inParameter(cppParameter)
-        .returnType(new CppPrimitiveType(CppPrimitiveType.Type.INT8))
+        .parameter(cppParameter)
+        .returnType(cppPrimitiveType)
         .build();
   }
 
@@ -164,7 +164,7 @@ public class JniModelBuilderTest {
     assertEquals(javaMethod.name, jniMethod.javaMethodName);
     assertEquals(javaMethod.returnType, jniMethod.javaReturnType);
     assertEquals(cppMethod.name, jniMethod.cppMethodName);
-    assertEquals(cppMethod.getReturnType(), jniMethod.cppReturnType);
+    assertEquals(cppMethod.returnType, jniMethod.cppReturnType);
   }
 
   @Test
@@ -230,9 +230,7 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingInputArgumentReadsJavaCppParameters() {
     JavaParameter javaParameter = new JavaParameter(javaCustomType, "relative");
-    CppParameter cppParameter = new CppParameter();
-    cppParameter.name = "absolute";
-    cppParameter.type = new CppCustomType(CPP_CLASS_NAME);
+    CppParameter cppParameter = new CppParameter("absolute", new CppCustomType(CPP_CLASS_NAME));
     when(javaBuilder.getFirstResult(any())).thenReturn(javaParameter);
     when(stubBuilder.getFirstResult(any())).thenReturn(cppParameter);
 

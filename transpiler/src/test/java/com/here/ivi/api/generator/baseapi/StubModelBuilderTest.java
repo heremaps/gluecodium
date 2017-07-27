@@ -203,7 +203,7 @@ public class StubModelBuilderTest {
 
     CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
     assertNotNull(cppMethod);
-    assertEquals(cppCustomType, cppMethod.getReturnType());
+    assertEquals(cppCustomType, cppMethod.returnType);
     assertTrue(cppMethod.comment.endsWith(RETURN_TYPE_COMMENT));
   }
 
@@ -216,13 +216,12 @@ public class StubModelBuilderTest {
 
     CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
     assertNotNull(cppMethod);
-    assertTrue(cppMethod.getSpecifiers().contains(CppMethod.Specifier.STATIC));
+    assertTrue(cppMethod.specifiers.contains(CppMethod.Specifier.STATIC));
   }
 
   @Test
   public void finishBuildingFrancaMethodReadsInputParameters() {
-    CppParameter cppParameter = new CppParameter();
-    cppParameter.name = "flowers";
+    CppParameter cppParameter = new CppParameter("flowers", null);
     contextStack.injectResult(cppParameter);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -230,7 +229,7 @@ public class StubModelBuilderTest {
     CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
     assertNotNull(cppMethod);
 
-    List<CppParameter> cppParameters = cppMethod.getInParameters();
+    List<CppParameter> cppParameters = cppMethod.parameters;
     assertFalse(cppParameters.isEmpty());
     assertEquals(cppParameter, cppParameters.get(0));
   }
@@ -242,7 +241,6 @@ public class StubModelBuilderTest {
     CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
     assertNotNull(cppParameter);
     assertEquals(PARAMETER_NAME, cppParameter.name);
-    assertEquals(CppParameter.Mode.Input, cppParameter.mode);
   }
 
   @Test

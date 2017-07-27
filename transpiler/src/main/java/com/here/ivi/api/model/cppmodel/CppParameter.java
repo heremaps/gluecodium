@@ -15,15 +15,12 @@ import java.util.stream.Stream;
 
 public class CppParameter extends CppElement {
 
-  public enum Mode {
-    Input,
-    Output,
-    RawPointer
-  }
+  public final CppType type;
 
-  public CppType type;
-  public CppValue value;
-  public Mode mode;
+  public CppParameter(final String name, final CppType type) {
+    super(name);
+    this.type = type;
+  }
 
   public boolean equals(Object other) {
     if (other == null) {
@@ -42,6 +39,6 @@ public class CppParameter extends CppElement {
 
   @Override
   public Stream<CppElement> stream() {
-    return Stream.of(type, value);
+    return Stream.of(type);
   }
 }
