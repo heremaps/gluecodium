@@ -96,10 +96,8 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    CppParameter cppParameter = new CppParameter();
-    cppParameter.name = francaArgument.getName();
-    cppParameter.mode = CppParameter.Mode.Input;
-    cppParameter.type = StubMethodMapper.mapArgumentType(francaArgument, null, rootModel);
+    CppType cppType = StubMethodMapper.mapArgumentType(francaArgument, null, rootModel);
+    CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppType);
 
     storeResult(cppParameter);
     closeContext();
@@ -252,7 +250,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     builder.comment(methodComment);
 
     CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppParameter.class)
-        .forEach(builder::inParameter);
+        .forEach(builder::parameter);
 
     return builder.build();
   }

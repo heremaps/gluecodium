@@ -68,7 +68,7 @@ public final class TemplateEngine {
   /**
    * Apply a partial to each value in an Iterable and join the results with a separator.<br>
    * Usage: {{joinPartial iterable "partial-name" "separator"}}<br>
-   * Example: {{joinPartial inParameters "cpp/CppMethodParameter" ", "}}
+   * Example: {{joinPartial parameters "cpp/CppMethodParameter" ", "}}
    */
   static class JoinPartialHelper extends BasicHelper {
 
