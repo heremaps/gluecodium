@@ -159,6 +159,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
     JavaField javaField =
         new JavaField(javaType, JavaNameRules.getFieldName(francaTypedElement.getName()));
+    javaField.visibility = JavaVisibility.PUBLIC;
     javaField.comment = getCommentString(francaTypedElement);
 
     storeResult(javaField);
