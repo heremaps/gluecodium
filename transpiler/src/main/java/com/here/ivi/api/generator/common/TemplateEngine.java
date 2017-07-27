@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.trimou.engine.MustacheEngine;
@@ -64,6 +65,45 @@ public final class TemplateEngine {
     }
   }
 
+  /**
+   * Apply a partial to each value in an Iterable and join the results with a separator.<br>
+   * Usage: {{joinPartial iterable "partial-name" "separator"}}<br>
+   * Example: {{joinPartial inParameters "cpp/CppMethodParameter" ", "}}
+   */
+  static class JoinPartialHelper extends BasicHelper {
+
+    @Override
+    public void execute(Options options) {
+      List<Object> parameters = options.getParameters();
+      if (parameters.size() < 2) {
+        return;
+      }
+
+      final Object value = parameters.get(0);
+      final String partialName = parameters.get(1).toString();
+      final String separator = (parameters.size() > 2) ? parameters.get(2).toString() : "";
+
+      if (value instanceof Iterable<?>) {
+        Iterator<?> iterator = ((Iterable<?>) value).iterator();
+        while (iterator.hasNext()) {
+          applyPartial(options, partialName, iterator.next());
+          if (iterator.hasNext()) {
+            options.append(separator);
+          }
+        }
+      } else {
+        applyPartial(options, partialName, value);
+      }
+    }
+
+    private static void applyPartial(
+        final Options options, final String partialName, final Object dataObject) {
+      options.push(dataObject);
+      options.partial(partialName);
+      options.pop();
+    }
+  }
+
   static {
     ENGINE =
         MustacheEngineBuilder.newBuilder()
@@ -71,6 +111,7 @@ public final class TemplateEngine {
             .setProperty("org.trimou.engine.config.skipValueEscaping", true)
             .registerHelper("prefix", new PrefixHelper())
             .registerHelper("prefixPartial", new PrefixPartialHelper())
+            .registerHelper("joinPartial", new JoinPartialHelper())
             .build();
   }
 

@@ -1,1 +1,1 @@
-{{#if inheritances}}: {{/if}}{{#inheritances}}{{visibility}} {{parent.name}}{{#if iter.hasNext}}, {{/if}}{{/inheritances}}
+{{#if inheritances}}: {{joinPartial inheritances "cpp/CppInheritanceItem" ", "}}{{/if}}
