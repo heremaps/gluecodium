@@ -316,6 +316,15 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaTypedElementCreatesPublicField() {
+    modelBuilder.finishBuilding(francaTypedElement);
+
+    JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
+    assertNotNull(javaField);
+    assertEquals(JavaVisibility.PUBLIC, javaField.visibility);
+  }
+
+  @Test
   public void finishBuildingFrancaStructType() {
     modelBuilder.finishBuilding(francaStructType);
 
