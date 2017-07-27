@@ -1,9 +1,5 @@
 {{>cpp/CppDocComment}}
 enum {{#isScoped}}class {{/isScoped}}{{name}} {
-{{#items}}
-{{#if comment}}
-    {{>cpp/CppDocComment}}
-{{/if}}
-    {{name}}{{#value}} = {{name}}{{/value}}{{#if iter.hasNext}},{{/if}}
-{{/items}}
+{{joinPartial items "cpp/CppEnumItem" ",
+"}}
 };

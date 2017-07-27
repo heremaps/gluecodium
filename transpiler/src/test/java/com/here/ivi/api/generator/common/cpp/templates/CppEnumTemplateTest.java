@@ -43,7 +43,7 @@ public final class CppEnumTemplateTest {
   public void enumWithoutComment() {
     String result = CppEnumTemplate.generate(cppEnum);
 
-    final String expectedResult = String.format(EXPECTED_ENUM_RESULT_FORMAT, "");
+    final String expectedResult = String.format(EXPECTED_ENUM_RESULT_FORMAT, "\n");
     assertEquals(expectedResult, result);
   }
 
@@ -54,7 +54,7 @@ public final class CppEnumTemplateTest {
     String result = CppEnumTemplate.generate(cppEnum);
 
     final String expectedResult =
-        EXPECTED_COMMENT_RESULT + String.format(EXPECTED_ENUM_RESULT_FORMAT, "");
+        EXPECTED_COMMENT_RESULT + String.format(EXPECTED_ENUM_RESULT_FORMAT, "\n");
     assertEquals(expectedResult, result);
   }
 
@@ -62,7 +62,7 @@ public final class CppEnumTemplateTest {
   public void enumWithClass() {
     String result = CppEnumTemplate.generate(new CppEnum(ENUM_NAME, true));
 
-    final String expectedResult = "enum class " + ENUM_NAME + " {\n};\n";
+    final String expectedResult = "enum class " + ENUM_NAME + " {\n\n};\n";
     assertEquals(expectedResult, result);
   }
 
