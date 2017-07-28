@@ -9,16 +9,14 @@
  *
  */
 
-package com.here.ivi.api.model.cmodel;
+package com.here.ivi.api;
 
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+public class TranspilerNotYetSupportedException extends RuntimeException {
+  public TranspilerNotYetSupportedException(String message) {
+    super(message);
+  }
 
-/** Field of a com.here.ivi.api.model.cmodel.CStruct */
-public class CField extends CElement {
-  public final CppTypeInfo type;
-
-  public CField(String name, CppTypeInfo cppTypeInfo) {
-    super(name);
-    type = cppTypeInfo;
+  public TranspilerNotYetSupportedException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

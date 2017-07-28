@@ -24,8 +24,8 @@ import org.franca.core.franca.FStructType;
 
 public class CBridgeNameRules {
 
-  public static final String CPP_NAMESPACE_DELIMITER = "::";
-  public static final String UNDERSCORE_DELIMITER = "_";
+  private static final String CPP_NAMESPACE_DELIMITER = "::";
+  private static final String UNDERSCORE_DELIMITER = "_";
 
   public String getHeaderFileNameWithPath(final FrancaElement<?> francaElement) {
     return Paths.get(getDirectoryName(francaElement), getHeaderFileName(francaElement)).toString();
@@ -60,7 +60,7 @@ public class CBridgeNameRules {
   public String getDelegateMethodName(final Interface<?> iface, final FMethod method) {
     return fullyQualifiedName(
         iface.getModelInfo().getPackageNames(),
-        CppNameRules.getClassName(iface.getFrancaTypeCollection().getName()),
+        CppNameRules.getClassName(iface.getName()),
         CppNameRules.getMethodName(method.getName()),
         CPP_NAMESPACE_DELIMITER);
   }
@@ -73,16 +73,12 @@ public class CBridgeNameRules {
         UNDERSCORE_DELIMITER);
   }
 
-  public String getHandleName(
+  public String getStructName(
       final FrancaElement<?> francaElement, final FStructType francaStructType) {
-    return fullyQualifiedName(
-        francaElement.getModelInfo().getPackageNames(),
-        francaElement.getName(),
-        NameHelper.toUpperCamelCase(francaStructType.getName()) + "Ref",
-        UNDERSCORE_DELIMITER);
+    return getStructBaseName(francaElement, francaStructType) + "Ref";
   }
 
-  public String getStructName(
+  public String getStructBaseName(
       final FrancaElement<?> francaElement, final FStructType francaStructType) {
     return fullyQualifiedName(
         francaElement.getModelInfo().getPackageNames(),

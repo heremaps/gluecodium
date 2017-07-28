@@ -11,20 +11,37 @@
 
 package com.here.ivi.api.model.cmodel;
 
+import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CStruct extends CElement {
+public class CStruct extends CType {
+
+  public CStruct(String name, String baseName, String baseApiName, CppTypeInfo mappedType) {
+    super(name);
+    this.baseApiName = baseApiName;
+    createFunctionName = baseName + "_create";
+    releaseFunctionName = baseName + "_release";
+    fieldSetterNameTemplate = baseName + "_" + "%s" + "_set";
+    fieldGetterNameTemplate = baseName + "_" + "%s" + "_get";
+    this.mappedType = mappedType;
+    includes.addAll(mappedType.baseTypeIncludes);
+  }
+
+  public String getNameOfFieldSetter(String fieldName) {
+    return String.format(fieldSetterNameTemplate, fieldName);
+  }
+
+  public String getNameOfFieldGetter(String fieldName) {
+    return String.format(fieldGetterNameTemplate, fieldName);
+  }
+
   public final String baseApiName;
   public final String createFunctionName;
   public final String releaseFunctionName;
-
+  public final CppTypeInfo mappedType;
   public List<CField> fields = new LinkedList<>();
 
-  public CStruct(String name, String baseApiName) {
-    super(name + "Ref");
-    this.baseApiName = baseApiName;
-    createFunctionName = name + "_create";
-    releaseFunctionName = name + "_release";
-  }
+  private final String fieldSetterNameTemplate;
+  private final String fieldGetterNameTemplate;
 }

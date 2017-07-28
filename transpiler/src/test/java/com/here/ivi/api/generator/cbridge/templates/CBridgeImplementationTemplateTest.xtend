@@ -19,10 +19,15 @@ import com.here.ivi.api.model.cmodel.CFunction
 import com.here.ivi.api.model.cmodel.CType
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cmodel.CParameter
+import com.here.ivi.api.model.cmodel.CField
+import com.here.ivi.api.generator.cbridge.CppTypeInfo
+import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory
 import org.junit.rules.TemporaryFolder
 import org.junit.Rule
-import static com.here.ivi.api.test.TemplateComparison.assertEqualImplementationContent
 import com.here.ivi.api.model.cmodel.CStruct
+import static com.here.ivi.api.test.TemplateComparison.assertEqualImplementationContent
+import static org.mockito.Mockito.mock;
+
 
 @RunWith(typeof(XtextRunner))
 class CBridgeImplementationTemplateTest {
@@ -85,7 +90,7 @@ class CBridgeImplementationTemplateTest {
         ]
         val expected = '''
         void parameterFunctionName(int32_t one) {
-            auto cpp_one = one;
+            auto&& cpp_one = one;
             delegator(cpp_one);
         }
         '''
@@ -108,8 +113,8 @@ class CBridgeImplementationTemplateTest {
         ]
         val expected = '''
         void doubleFunction(int16_t first, double second) {
-            auto cpp_first = first;
-            auto cpp_second = second;
+            auto&& cpp_first = first;
+            auto&& cpp_second = second;
             namespacy::classy::doubleFunction(cpp_first, cpp_second);
         }
         '''
@@ -143,11 +148,14 @@ class CBridgeImplementationTemplateTest {
     }
 
     @Test
-    def structDefinition() {
+    def emptyStructsDefinitions() {
+        val fakeType = mock(CType);
+        fakeType.includes = newHashSet();
+        val cppTypeInfo = new CppTypeInfo(fakeType);
         val cInterface = new CInterface() => [
             structs = #[
-                new CStruct("Struct1Name", "BaseAPIStruct1Name"),
-                new CStruct("Struct2Name", "BaseAPIStruct2Name")
+                new CStruct("Struct1NameRef", "Struct1Name", "BaseAPIStruct1Name", cppTypeInfo),
+                new CStruct("Struct2NameRef", "Struct2Name", "BaseAPIStruct2Name", cppTypeInfo)
             ]
         ]
         val expected = '''
@@ -156,22 +164,6 @@ class CBridgeImplementationTemplateTest {
             }
             BaseAPIStruct2Name* get_pointer(Struct2NameRef handle) {
                 return static_cast<BaseAPIStruct2Name*>(handle.private_pointer);
-            }
-
-            Struct1NameRef Struct1Name_create() {
-                return {new BaseAPIStruct1Name};
-            }
-
-            void Struct1Name_release(Struct1NameRef handle) {
-                delete get_pointer(handle);
-            }
-
-            Struct2NameRef Struct2Name_create() {
-                return {new BaseAPIStruct2Name};
-            }
-
-            void Struct2Name_release(Struct2NameRef handle) {
-                delete get_pointer(handle);
             }
         '''
 
