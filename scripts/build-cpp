@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-# Script to build the "hello" library for a C++ consumer. This is demonstrated
-# by the base_api application.
+# Script to build the "hello" library for a C++ consumer.
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
