@@ -57,12 +57,13 @@ public final class JniToCppStructConversionSignatureTest {
 
     //assert
     String expected =
-        String.join("::", CPPNAMESPACES)
+        "void convert_from_jni( JNIEnv* env, const jobject jinput, "
+            + String.join("::", CPPNAMESPACES)
             + "::"
             + CPP_OUTERCLASS_NAME
             + "::"
             + CPP_STRUCT.name
-            + " convert_jobject_to_CppStruct(JNIEnv* env, const jobject jinput)";
+            + "& out )";
 
     assertEquals(expected, generated);
   }

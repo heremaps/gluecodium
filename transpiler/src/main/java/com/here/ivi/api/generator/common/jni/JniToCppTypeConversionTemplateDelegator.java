@@ -18,48 +18,30 @@ import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JniToCppTypeConversionTemplateDelegator {
 
-  public static CharSequence generate(JavaType javaType, String variableName) {
+  public static final String CPP_VARIABLE_NAME = "cppVariableName";
+  public static final String JNI_VARIABLE_NAME = "jniVariableName";
 
-    if (javaType instanceof JavaPrimitiveType) {
-      return generate((JavaPrimitiveType) javaType, variableName);
+  public static CharSequence generate(
+      final JavaType javaType, final String jniVariableName, final String cppVariableName) {
+
+    Map<String, String> variableNames = new HashMap<>();
+    variableNames.put(JNI_VARIABLE_NAME, jniVariableName);
+    variableNames.put(CPP_VARIABLE_NAME, cppVariableName);
+
+    if (javaType instanceof JavaPrimitiveType
+        && JavaPrimitiveType.TYPES.contains(((JavaPrimitiveType) javaType).type)
+        && ((JavaPrimitiveType) javaType).type != Type.VOID) {
+      return TemplateEngine.render("jni/JniToCppPrimitiveTypeConversion", variableNames);
     }
-    if (javaType instanceof JavaCustomType) {
-      return generate((JavaCustomType) javaType, variableName);
-    }
-    if (javaType instanceof JavaReferenceType) {
-      return generate((JavaReferenceType) javaType, variableName);
+    if (javaType instanceof JavaCustomType || javaType instanceof JavaReferenceType) {
+      return TemplateEngine.render("jni/JniToCppNonPrimitiveTypeConversion", variableNames);
     }
     throw new TranspilerExecutionException(
         "conversion from java type to cpp type is not yet supported: " + javaType);
-  }
-
-  private static CharSequence generate(JavaPrimitiveType javaType, String variableName) {
-    //void type is not allowed as method parameter
-    if (JavaPrimitiveType.TYPES.contains(javaType.type) && javaType.type != Type.VOID) {
-      //just return java value
-      return variableName;
-    }
-    throw new IllegalArgumentException(
-        "Conversion from Java type to cpp type is not possible: " + javaType.getName());
-  }
-
-  private static CharSequence generate(
-      JavaCustomType javaType, @SuppressWarnings("unused") String variableName) {
-    throw new TranspilerExecutionException(
-        "conversion from JavaCustomType to cpp type is not yet supported: " + javaType.getName());
-  }
-
-  private static CharSequence generate(JavaReferenceType javaType, String variableName) {
-    switch (javaType.type) {
-      case STRING:
-        return TemplateEngine.render("jni/JniToCppStringConversion", variableName);
-      case BYTE_ARRAY:
-        return TemplateEngine.render("jni/JniToCppByteBufferConversion", variableName);
-    }
-    throw new IllegalArgumentException(
-        "conversion from java type to cpp type is not supported: " + javaType.getName());
   }
 }

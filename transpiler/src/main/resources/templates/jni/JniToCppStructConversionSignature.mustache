@@ -1,1 +1,1 @@
-{{>jni/FullyQualifiedCppName}}::{{cppStruct.name}} convert_jobject_to_{{cppStruct.name}}(JNIEnv* env, const jobject jinput)
+void convert_from_jni( JNIEnv* env, const jobject jinput, {{>jni/FullyQualifiedCppName}}::{{cppStruct.name}}& out )

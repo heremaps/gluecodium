@@ -70,6 +70,9 @@ public class JniImplementationTemplateTest {
         + "{\n"
         + "  int8_t "
         + BASE_PARAMETER_NAME
+        + ";\n"
+        + "  "
+        + BASE_PARAMETER_NAME
         + " = "
         + JNI_PARAMETER_NAME
         + ";\n"
