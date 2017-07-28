@@ -19,6 +19,10 @@ public abstract class JavaType extends JavaElementWithImports {
     super(name);
   }
 
+  public String getLiteralName() {
+    return name;
+  }
+
   public JavaType(final String name, final Collection<JavaImport> imports) {
     super(name, imports);
   }

@@ -65,6 +65,34 @@ public class JavaReferenceType extends JavaType {
   }
 
   @Override
+  public String getLiteralName() {
+    switch (type) {
+      case STRING:
+        return "string";
+      case OBJECT_ARRAY:
+        return "object_array";
+      case BOOLEAN_ARRAY:
+        return "boolean_array";
+      case BYTE_ARRAY:
+        return "byte_array";
+      case CHAR_ARRAY:
+        return "char_array";
+      case SHORT_ARRAY:
+        return "short_array";
+      case INT_ARRAY:
+        return "int_array";
+      case LONG_ARRAY:
+        return "long_array";
+      case FLOAT_ARRAY:
+        return "float_array";
+      case DOUBLE_ARRAY:
+        return "double_array";
+      default:
+        return type.getValue();
+    }
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

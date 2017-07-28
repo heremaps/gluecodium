@@ -114,7 +114,7 @@ public final class JniToCppStructConversionBodyTest {
             + "  jclass javaClass = env->GetObjectClass(jinput);\n\n"
             + "  out."
             + jniField.cppField.name
-            + " = get_String_field(env, javaClass, "
+            + " = get_string_field(env, javaClass, "
             + "jinput, \""
             + jniField.javaField.name
             + "\");\n}\n";
@@ -137,7 +137,7 @@ public final class JniToCppStructConversionBodyTest {
             + "  convert_from_jni"
             + "(\n"
             + "    env,\n"
-            + "    here::internal::get_object_field(\n"
+            + "    get_object_field(\n"
             + "    env,\n"
             + "    javaClass,\n"
             + "    jinput,\n"
@@ -181,7 +181,7 @@ public final class JniToCppStructConversionBodyTest {
             + "\");\n\n"
             + "  convert_from_jni(\n"
             + "    env,\n"
-            + "    here::internal::get_object_field(\n"
+            + "    get_object_field(\n"
             + "    env,\n"
             + "    javaClass,\n"
             + "    jinput,\n"
