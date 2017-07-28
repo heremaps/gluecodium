@@ -30,7 +30,7 @@ public final class TemplateEngine {
    * Usage: {{prefix value "prefix"}}<br>
    * Example: {{prefix comment "// "}}
    */
-  private static class PrefixHelper extends BasicHelper {
+  static class PrefixHelper extends BasicHelper {
 
     @Override
     public void execute(Options options) {
@@ -45,7 +45,7 @@ public final class TemplateEngine {
           Arrays.stream(value.split("\n")).map(s -> prefix + s).collect(Collectors.joining("\n")));
     }
 
-    public String getValue(final Options options, final Object dataObject) {
+    protected String getValue(final Options options, final Object dataObject) {
       return dataObject.toString();
     }
   }
@@ -55,10 +55,10 @@ public final class TemplateEngine {
    * Usage: {{prefixPartial "partial-name" "prefix"}}<br>
    * Example: {{prefixPartial "common/CopyrightNotice" " // "}}
    */
-  private static class PrefixPartialHelper extends PrefixHelper {
+  static class PrefixPartialHelper extends PrefixHelper {
 
     @Override
-    public String getValue(final Options options, final Object dataObject) {
+    protected String getValue(final Options options, final Object dataObject) {
       StringBuilder builder = new StringBuilder();
       options.partial(dataObject.toString(), builder);
       return builder.toString();
