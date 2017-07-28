@@ -114,7 +114,13 @@ Source: https://github.com/noveogroup/android-check/blob/master/android-check-pl
         <module name="ParenPad" />
         <module name="TypecastParenPad" />
         <module name="WhitespaceAfter" />
-        <module name="WhitespaceAround" />
+        <module name="WhitespaceAround">
+            <!-- Allow empty curly brackets -->
+            <property name="allowEmptyConstructors" value="true" />
+            <property name="allowEmptyMethods" value="true" />
+            <property name="allowEmptyTypes" value="true" />
+            <property name="allowEmptyLambdas" value="true" />
+        </module>
 
         <!-- Modifier Checks                                    -->
         <!-- See http://checkstyle.sourceforge.net/config_modifiers.html -->
@@ -159,7 +165,9 @@ Source: https://github.com/noveogroup/android-check/blob/master/android-check-pl
         <module name="FinalClass" />
         <module name="InterfaceIsType" />
         <module name="VisibilityModifier" >
+            <!-- Allow public member variables in the class -->
             <property name="allowPublicFinalFields" value="true"/>
+            <property name="publicMemberPattern" value="^[a-z][a-zA-Z0-9]*$"/>
         </module>
 
         <!-- Miscellaneous other checks.                   -->
