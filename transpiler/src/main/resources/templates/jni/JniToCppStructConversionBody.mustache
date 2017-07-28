@@ -6,7 +6,7 @@
 
   convert_from_jni(
     env,
-    here::internal::get_object_field(
+    get_object_field(
     env,
     javaClass,
     jinput,
@@ -16,7 +16,7 @@
   {{/hasCustomType}}
   {{^hasCustomType}}
 
-  out.{{cppField.name}} = get_{{javaField.type.name}}_field(env, javaClass, jinput, "{{javaField.name}}");
+  out.{{cppField.name}} = get_{{javaField.type.literalName}}_field(env, javaClass, jinput, "{{javaField.name}}");
   {{/hasCustomType}}
 {{/fields}}
 }
