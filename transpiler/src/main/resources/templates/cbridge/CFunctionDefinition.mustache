@@ -1,0 +1,13 @@
+{{returnType}} {{name}}({{joinPartial parameters "cbridge/CParamsFormatter" ", "}}) {
+{{#conversions}}    auto&& {{name}} = {{expression}};
+{{/conversions}}
+{{#returnConversion}}
+    {
+        auto&& {{returnConversion.name}} = {{delegateCall}};
+        return {{returnConversion.expression}};
+    }
+{{/returnConversion}}
+{{^returnConversion}}
+    {{delegateCall}};
+{{/returnConversion}}
+}

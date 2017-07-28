@@ -20,11 +20,14 @@ import com.here.ivi.api.model.cmodel.CType
 import com.here.ivi.api.model.cmodel.CPointerType
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cmodel.CParameter
-import static com.here.ivi.api.test.TemplateComparison.assertEqualHeaderContent
+import com.here.ivi.api.generator.cbridge.CppTypeInfo
 import com.here.ivi.api.model.cmodel.CStruct
+import static com.here.ivi.api.test.TemplateComparison.assertEqualHeaderContent
+import static org.mockito.Mockito.mock;
 
 @RunWith(typeof(XtextRunner))
 class CBridgeHeaderTemplateTest {
+
     @Test
     def systemInclude() {
         val cInterface = new CInterface() => [
@@ -140,11 +143,14 @@ class CBridgeHeaderTemplateTest {
     }
 
     @Test
-    def structDefinition() {
+    def emptyStructsDefinition() {
+        val fakeType = mock(CType);
+        fakeType.includes = newHashSet();
+        val cppTypeInfo = new CppTypeInfo(fakeType);
         val cInterface = new CInterface() => [
             structs = #[
-                new CStruct("Struct1Name", "BaseAPIStruct1Name"),
-                new CStruct("Struct2Name", "BaseAPIStruct2Name")
+                new CStruct("Struct1NameRef", "Struct1Name", "BaseAPIStruct1Name", cppTypeInfo),
+                new CStruct("Struct2NameRef", "Struct2Name", "BaseAPIStruct2Name", cppTypeInfo)
             ]
         ]
         val expected = '''
@@ -155,11 +161,6 @@ class CBridgeHeaderTemplateTest {
             typedef struct {
                 void* const private_pointer;
             } Struct2NameRef;
-
-            Struct1NameRef Struct1Name_create();
-            void Struct1Name_release(Struct1NameRef handle);
-            Struct2NameRef Struct2Name_create();
-            void Struct2Name_release(Struct2NameRef handle);
         '''
 
         val generated = CBridgeHeaderTemplate.generate(cInterface).toString

@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.STRUCT;
 import static com.here.ivi.api.generator.cbridge.TypeConverter.createParamConversionRoutine;
 import static java.lang.Math.toIntExact;
 import static java.util.Collections.singletonList;
@@ -32,6 +33,7 @@ import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.Interface;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -117,15 +119,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   public void finishBuildingInputArgument(FArgument francaArgument) {
     CppTypeInfo typeInfo = CTypeMapper.mapType(rootModel, francaArgument.getType());
     String francaArgumentName = francaArgument.getName();
-    List<CParameter> cParams =
-        IntStream.range(0, typeInfo.cTypesNeededByConstructor.size())
-            .boxed()
-            .map(
-                index ->
-                    new CInParameter(
-                        francaArgumentName + typeInfo.paramSuffixes.get(index),
-                        typeInfo.cTypesNeededByConstructor.get(index)))
-            .collect(toList());
+    List<CParameter> cParams = constructCParameters(francaArgumentName, typeInfo);
     cParams.get(0).conversion = createParamConversionRoutine(francaArgumentName, cParams, typeInfo);
     cParams.forEach(this::storeResult);
     closeContext();
@@ -141,23 +135,103 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   }
 
   @Override
-  public void finishBuilding(FStructType francaStructType) {
+  public void finishBuilding(FStructType francaStruct) {
     CStruct cStruct =
         new CStruct(
-            cBridgeNameRules.getStructName(rootModel, francaStructType),
-            cBridgeNameRules.getBaseApiStructName(rootModel, francaStructType));
+            cBridgeNameRules.getStructName(rootModel, francaStruct),
+            cBridgeNameRules.getStructBaseName(rootModel, francaStruct),
+            cBridgeNameRules.getBaseApiStructName(rootModel, francaStruct),
+            CppTypeInfo.createStructTypeInfo(rootModel, francaStruct));
+
     cStruct.fields =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CField.class);
+
     storeResult(cStruct);
-    super.finishBuilding(francaStructType);
+    storeResult(createStructCreateFunction(cStruct));
+    storeResult(createStructReleaseFunction(cStruct));
+    for (CField field : cStruct.fields) {
+      storeResult(createStructFieldGetter(cStruct, field));
+      if (field.type.typeCategory != STRUCT) {
+        storeResult(createStructFieldSetter(cStruct, field));
+      }
+    }
+    super.finishBuilding(francaStruct);
   }
 
   @Override
   public void finishBuilding(FTypedElement francaTypedElement) {
-    CField cField = new CField(francaTypedElement.getName());
-    cField.type = CTypeMapper.mapType(rootModel, francaTypedElement.getType());
+    CField cField =
+        new CField(
+            francaTypedElement.getName(),
+            CTypeMapper.mapType(rootModel, francaTypedElement.getType()));
     storeResult(cField);
     super.finishBuilding(francaTypedElement);
+  }
+
+  private CFunction createStructReleaseFunction(CStruct cStruct) {
+    CParameter param = new CParameter("handle", cStruct);
+    param.conversion = TypeConverter.identity(param);
+    return new CFunction.Builder(cStruct.releaseFunctionName)
+        .parameters(singletonList(param))
+        .delegateCallTemplate("delete get_pointer(%s)")
+        .returnType(CType.VOID)
+        .build();
+  }
+
+  private CFunction createStructCreateFunction(CStruct cStruct) {
+    return new CFunction.Builder(cStruct.createFunctionName)
+        .delegateCallTemplate(String.format(cStruct.mappedType.returnValueConstrExpr, ""))
+        .returnType(cStruct.mappedType.functionReturnType)
+        .build();
+  }
+
+  private CFunction createStructFieldGetter(CStruct cStruct, CField field) {
+    List<CParameter> params = Collections.singletonList(new CParameter("handle", cStruct));
+    return new CFunction.Builder(cStruct.getNameOfFieldGetter(field.name))
+        .parameters(params)
+        .returnType(field.type.functionReturnType)
+        .delegateCallTemplate("get_pointer(%s)->" + field.name)
+        .build();
+  }
+
+  private CFunction createStructFieldSetter(CStruct cStruct, CField field) {
+    List<CParameter> params = new ArrayList<>();
+    CParameter handle = new CParameter("handle", cStruct);
+    List<CParameter> setterParams = constructCParameters(field.name, field.type);
+    params.add(handle);
+    params.addAll(setterParams);
+    return new CFunction.Builder(cStruct.getNameOfFieldSetter(field.name))
+        .parameters(params)
+        .delegateCallTemplate(createCallTemplateForFieldSetter(field))
+        .build();
+  }
+
+  private String createCallTemplateForFieldSetter(CField field) {
+    StringBuilder template = new StringBuilder();
+    template.append("get_pointer(%1$s)->");
+    template.append(field.name);
+    switch (field.type.typeCategory) {
+      case BUILTIN_BYTEBUFFER:
+        template.append(".assign(%2$s, %2$s + %3$s)");
+        break;
+      case BUILTIN_STRING:
+        template.append(".assign(%2$s)");
+        break;
+      default:
+        template.append(" =  %2$s");
+    }
+    return template.toString();
+  }
+
+  private static List<CParameter> constructCParameters(String name, CppTypeInfo cppTypeInfo) {
+    return IntStream.range(0, cppTypeInfo.cTypesNeededByConstructor.size())
+        .boxed()
+        .map(
+            index ->
+                new CInParameter(
+                    name + cppTypeInfo.paramSuffixes.get(index),
+                    cppTypeInfo.cTypesNeededByConstructor.get(index)))
+        .collect(toList());
   }
 
   private CFunction createGetLengthFunction(String baseName, CppTypeInfo cppTypeInfo) {

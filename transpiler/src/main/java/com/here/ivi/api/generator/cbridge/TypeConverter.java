@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.cbridge;
 
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
 
 import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.common.Include;
@@ -20,7 +19,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 public class TypeConverter {
   public static class TypeConversion {
@@ -29,7 +27,7 @@ public class TypeConverter {
     public final String expression;
     public final Set<Include> includes;
 
-    TypeConversion(String name, String expression, Include... includes) {
+    public TypeConversion(String name, String expression, Include... includes) {
       this.name = "cpp_" + name;
       this.expression = expression;
       this.includes = new HashSet<>(Arrays.asList(includes));
@@ -53,20 +51,6 @@ public class TypeConverter {
 
   public static TypeConversion identity(CParameter param) {
     return new TypeConverter.TypeConversion(param.name, param.name, emptyList());
-  }
-
-  public static List<String> paramNames(String baseName, int numberOfParams) {
-    return IntStream.range(0, numberOfParams)
-        .boxed()
-        .map(
-            index -> {
-              if (index == 0) {
-                return baseName;
-              } else {
-                return baseName + '_' + index;
-              }
-            })
-        .collect(toList());
   }
 
   public static TypeConversion createParamConversionRoutine(

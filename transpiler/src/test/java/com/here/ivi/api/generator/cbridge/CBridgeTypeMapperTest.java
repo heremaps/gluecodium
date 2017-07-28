@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.cbridge;
 
 import com.here.ivi.api.model.franca.Interface;
-import java.util.Arrays;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeRef;
@@ -39,12 +38,8 @@ public class CBridgeTypeMapperTest {
     Mockito.when(francaTypeRef.getDerived()).thenReturn(francaStructType);
     Mockito.when(francaStructType.getName()).thenReturn("TestStruct");
 
-    Mockito.when(rootModel.getName()).thenReturn("InterfaceName");
-    Mockito.when(rootModel.getModelInfo().getPackageNames())
-        .thenReturn(Arrays.asList("com", "example"));
-
     CppTypeInfo mapped = CTypeMapper.mapType(rootModel, francaTypeRef);
-    Assert.assertEquals("com_example_InterfaceName_TestStructRef", mapped.baseType);
+    Assert.assertEquals("TestStruct", mapped.baseType);
   }
 
   @Test
@@ -52,7 +47,6 @@ public class CBridgeTypeMapperTest {
     Mockito.when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
 
     CppTypeInfo mapped = CTypeMapper.mapType(rootModel, francaTypeRef);
-
     Assert.assertEquals("bool", mapped.baseType);
   }
 }

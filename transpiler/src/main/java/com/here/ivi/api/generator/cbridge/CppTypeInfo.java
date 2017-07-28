@@ -25,6 +25,14 @@ import java.util.List;
 import org.franca.core.franca.FStructType;
 
 public class CppTypeInfo {
+
+  public enum TypeCategory {
+    BUILTIN_SIMPLE,
+    BUILTIN_STRING,
+    BUILTIN_BYTEBUFFER,
+    STRUCT
+  };
+
   public static final CppTypeInfo STRING =
       new CppTypeInfo(
           "std::string",
@@ -39,7 +47,8 @@ public class CppTypeInfo {
               Include.createSystemInclude("string"), Include.createSystemInclude("utility")),
           CPointerType.VOID_PTR,
           "%1$s->c_str()",
-          "%1$s->length()");
+          "%1$s->length()",
+          TypeCategory.BUILTIN_STRING);
 
   static final CppTypeInfo BYTE_VECTOR =
       new CppTypeInfo(
@@ -57,25 +66,27 @@ public class CppTypeInfo {
               Include.createSystemInclude("utility")),
           CPointerType.VOID_PTR,
           "&(*%1$s)[0]",
-          "%1$s->size()");
+          "%1$s->size()",
+          TypeCategory.BUILTIN_BYTEBUFFER);
 
   public static CppTypeInfo createStructTypeInfo(
       final FrancaElement<?> rootModel, final FStructType structType) {
     CBridgeNameRules rules = new CBridgeNameRules();
     String handleName = rules.getStructName(rootModel, structType);
     return new CppTypeInfo(
-        rules.getHandleName(rootModel, structType),
-        singletonList(Include.createInternalInclude(rules.getHeaderFileName(rootModel))),
+        structType.getName(),
+        emptyList(), //TODO: APIGEN-285 Correct stubs from BaseApi include paths
         "",
         emptyList(),
         "*get_pointer(%1$s)",
         singletonList(new CType(handleName)),
         singletonList(""),
-        handleName + "{ new " + handleName + "(%1$s) }",
+        handleName + "{ new " + rules.getBaseApiStructName(rootModel, structType) + "(%s)}",
         emptyList(),
         new CType(handleName),
         "",
-        "");
+        "",
+        TypeCategory.STRUCT);
   }
 
   public final String baseType;
@@ -83,13 +94,14 @@ public class CppTypeInfo {
   public final String constructFromCExpr;
   public final List<CType> cTypesNeededByConstructor;
   public final List<String> paramSuffixes;
-  public final List<Include> baseTypeIncludes;
+  public List<Include> baseTypeIncludes;
   public final List<Include> heldTypeIncludes;
-  public final String returnValueConstrExpr;
+  public String returnValueConstrExpr;
   public final List<Include> returnConversionIncludes;
   public final CType functionReturnType;
   public final String getDataExpr;
   public final String getSizeExpr;
+  public TypeCategory typeCategory;
 
   private CppTypeInfo(
       String baseType,
@@ -103,7 +115,8 @@ public class CppTypeInfo {
       List<Include> returnConversionIncludes,
       CType functionReturntype,
       String getDataExpr,
-      String getSizeExpr) {
+      String getSizeExpr,
+      TypeCategory category) {
     this.baseType = baseType;
     this.heldType = heldType;
     this.constructFromCExpr = constructFromCExpr;
@@ -116,6 +129,7 @@ public class CppTypeInfo {
     this.functionReturnType = functionReturntype;
     this.getDataExpr = getDataExpr;
     this.getSizeExpr = getSizeExpr;
+    this.typeCategory = category;
   }
 
   public CppTypeInfo(CType type) {
@@ -131,5 +145,6 @@ public class CppTypeInfo {
     this.functionReturnType = type;
     this.getDataExpr = "";
     this.getSizeExpr = "";
+    this.typeCategory = TypeCategory.BUILTIN_SIMPLE;
   }
 }

@@ -11,9 +11,11 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,13 +26,26 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
-import com.here.ivi.api.model.cmodel.*;
+import com.here.ivi.api.model.cmodel.CElement;
+import com.here.ivi.api.model.cmodel.CField;
+import com.here.ivi.api.model.cmodel.CFunction;
+import com.here.ivi.api.model.cmodel.CInParameter;
+import com.here.ivi.api.model.cmodel.CInterface;
+import com.here.ivi.api.model.cmodel.COutParameter;
+import com.here.ivi.api.model.cmodel.CParameter;
+import com.here.ivi.api.model.cmodel.CStruct;
+import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.MockContextStack;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypedElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,12 +54,13 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CTypeMapper.class, CppNameRules.class})
+@PrepareForTest({CTypeMapper.class, CppNameRules.class, CppTypeInfo.class})
 public class CModelBuilderTest {
 
   private static final String FULL_FUNCTION_NAME = "FULL_FUNCTION_NAME";
   private static final String DELEGATE_NAME = "DELEGATE_NAME";
   private static final String PARAM_NAME = "inputParam";
+  private static final String FIELD_NAME = "FIELD1";
 
   private MockContextStack<CElement> contextStack = new MockContextStack<>();
 
@@ -56,13 +72,23 @@ public class CModelBuilderTest {
   @Mock private FArgument francaArgument;
   @Mock private FStructType francaStruct;
   @Mock private FTypedElement francaTypedElement;
+
+  @Mock //(answer = Answers.CALLS_REAL_METHODS)
+  private CppTypeInfo mockedTypeInfo;
+
   private CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
   private CModelBuilder modelBuilder;
 
   @Before
   public void setUp() {
-    mockStatic(CTypeMapper.class, CppNameRules.class);
+    mockStatic(CTypeMapper.class, CppNameRules.class, CppTypeInfo.class);
+    CType fakeType = mock(CType.class);
+    fakeType.includes = new HashSet<>();
+    mockedTypeInfo = new CppTypeInfo(fakeType);
     initMocks(this);
+    mockedTypeInfo.baseTypeIncludes = emptyList();
+    mockedTypeInfo.returnValueConstrExpr = "";
+    when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(mockedTypeInfo);
 
     when(anInterface.getPropertyAccessor()).thenReturn(propertyAccessor);
     when(propertyAccessor.getStatic(any())).thenReturn(true);
@@ -220,9 +246,9 @@ public class CModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingStructContainsFields() {
-    contextStack.injectResult(new CField("field1"));
-    contextStack.injectResult(new CField("field2"));
+  public void finishBuildingStructContainsFields() throws Exception {
+    contextStack.injectResult(new CField("field1", cppTypeInfo));
+    contextStack.injectResult(new CField("field2", cppTypeInfo));
 
     modelBuilder.finishBuilding(francaStruct);
 
@@ -235,9 +261,107 @@ public class CModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingStructContainsFunctionsForStructAndField() {
+    contextStack.injectResult(new CField(FIELD_NAME, cppTypeInfo));
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    List<CStruct> structs = getResults(CStruct.class);
+    assertEquals(1, structs.size());
+    CStruct cStruct = structs.get(0);
+    assertEquals(1, cStruct.fields.size());
+    CField field = cStruct.fields.get(0);
+    assertEquals(FIELD_NAME, field.name);
+    List<CFunction> functions = getResults(CFunction.class);
+    assertEquals("Should be get, set, create and release function", 4, functions.size());
+    CFunction func = getFunction(functions, cStruct.getNameOfFieldGetter(FIELD_NAME));
+    assertNotEquals("Field getter function should be generated", null, func);
+    assertEquals("Getter should take in 1 param", 1, func.parameters.size());
+    assertNotEquals(
+        "Field setter function should be generated",
+        null,
+        getFunction(functions, cStruct.getNameOfFieldSetter(FIELD_NAME)));
+    assertNotEquals(
+        "Struct release function should be generated",
+        null,
+        getFunction(functions, cStruct.releaseFunctionName));
+    assertNotEquals(
+        "Struct create function should be generated",
+        null,
+        getFunction(functions, cStruct.createFunctionName));
+  }
+
+  @Test
+  public void finishBuildingStructDoesNotCreateFieldSetterForNestedStruct() {
+    mockedTypeInfo.typeCategory = CppTypeInfo.TypeCategory.STRUCT;
+    contextStack.injectResult(new CField(FIELD_NAME, mockedTypeInfo));
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    List<CStruct> structs = getResults(CStruct.class);
+    assertEquals(1, structs.size());
+    CStruct cStruct = structs.get(0);
+    assertEquals(1, cStruct.fields.size());
+    CField field = cStruct.fields.get(0);
+    assertEquals(FIELD_NAME, field.name);
+    List<CFunction> functions = getResults(CFunction.class);
+    assertEquals("Should be get, create and release function", 3, functions.size());
+    CFunction func = getFunction(functions, cStruct.getNameOfFieldGetter(FIELD_NAME));
+    assertNotEquals("Field getter function should be generated", null, func);
+    assertEquals("Getter should take in 1 param", 1, func.parameters.size());
+    assertEquals(
+        "Field setter function should not be generated",
+        null,
+        getFunction(functions, cStruct.getNameOfFieldSetter(FIELD_NAME)));
+    assertNotEquals(
+        "Struct release function should be generated",
+        null,
+        getFunction(functions, cStruct.releaseFunctionName));
+    assertNotEquals(
+        "Struct create function should be generated",
+        null,
+        getFunction(functions, cStruct.createFunctionName));
+  }
+
+  @Test
+  public void finishBuildingStructCreatesGetterFunctionWithCorrectProperties() {
+    CType fakeType = mock(CType.class);
+    fakeType.includes = new HashSet<>();
+    mockedTypeInfo = new CppTypeInfo(fakeType);
+    contextStack.injectResult(new CField(FIELD_NAME, mockedTypeInfo));
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    CStruct cStruct = getResults(CStruct.class).get(0);
+    CFunction func =
+        getFunction(getResults(CFunction.class), cStruct.getNameOfFieldGetter(FIELD_NAME));
+    assertSame(fakeType, func.returnType);
+    assertEquals(1, func.parameters.size());
+    assertEquals(cStruct, func.parameters.get(0).type);
+  }
+
+  @Test
+  public void finishBuildingStructCreatesSetterFunctionWithCorrectProperties() {
+    CType fakeType = mock(CType.class);
+    fakeType.includes = new HashSet<>();
+    mockedTypeInfo = new CppTypeInfo(fakeType);
+    contextStack.injectResult(new CField(FIELD_NAME, mockedTypeInfo));
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    CStruct cStruct = getResults(CStruct.class).get(0);
+    CFunction func =
+        getFunction(getResults(CFunction.class), cStruct.getNameOfFieldSetter(FIELD_NAME));
+    assertEquals(CType.VOID, func.returnType);
+    assertEquals(2, func.parameters.size());
+    assertEquals(cStruct, func.parameters.get(0).type);
+    assertEquals(fakeType, func.parameters.get(1).type);
+  }
+
+  @Test
   public void finishBuildingStructCreatesStructWithProperName() {
-    when(cBridgeNameRules.getHandleName(any(), any())).thenReturn("StructNameRef");
-    when(cBridgeNameRules.getStructName(any(), any())).thenReturn("StructName");
+    when(cBridgeNameRules.getStructName(any(), any())).thenReturn("StructNameRef");
+    when(cBridgeNameRules.getStructBaseName(any(), any())).thenReturn("StructName");
     when(cBridgeNameRules.getBaseApiStructName(any(), any())).thenReturn("BaseAPIStructName");
 
     modelBuilder.finishBuilding(francaStruct);
@@ -273,6 +397,15 @@ public class CModelBuilderTest {
     List<CField> fields = getResults(CField.class);
     assertEquals(1, fields.size());
     assertEquals("field", fields.get(0).name);
+  }
+
+  CFunction getFunction(List<CFunction> functions, String functionName) {
+    for (CFunction function : functions) {
+      if (function.name.equals((functionName))) {
+        return function;
+      }
+    }
+    return null;
   }
 
   private <T extends CElement> List<T> getResults(Class<T> clazz) {

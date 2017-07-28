@@ -51,6 +51,7 @@ public class CType extends CElement {
 
   public CType(String name) {
     super(name);
+    this.includes = new HashSet<>();
   }
 
   public CType(String name, List<Include> includes) {

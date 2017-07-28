@@ -15,8 +15,6 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.cbridge.templates.CBridgeIncludeTemplate
 import com.here.ivi.api.generator.common.templates.CopyrightNoticeTemplate;
 import com.here.ivi.api.model.cmodel.CInterface
-import com.here.ivi.api.model.cmodel.CFunction
-import com.here.ivi.api.model.cmodel.CStruct
 
 class CBridgeHeaderTemplate{
     public static def generate(CInterface cInterface) '''
@@ -37,33 +35,15 @@ class CBridgeHeaderTemplate{
     «ENDFOR»
 
     «FOR struct: cInterface.structs SEPARATOR '\n'»
-        «generateStructDefinition(struct)»
-    «ENDFOR»
-
-    «FOR struct: cInterface.structs SEPARATOR '\n'»
-        «generateCreateStructFunctionDeclaration(struct)»
+        «TemplateEngine.render("cbridge/CStruct", struct)»
     «ENDFOR»
 
     «FOR function: cInterface.functions»
-        «generateFunctionSignature(function)»
+        «TemplateEngine.render("cbridge/CFunctionDeclaration", function)»
     «ENDFOR»
 
     #ifdef __cplusplus
     }
     #endif
     '''
-
-    static def generateFunctionSignature(CFunction function) {
-        '''
-            «function.returnType» «function.name»(«FOR parameter: function.parameters SEPARATOR ', '»«parameter.type» «parameter.name»«ENDFOR»);
-        '''
-    }
-    static def String generateStructDefinition(CStruct struct) {
-        return TemplateEngine.render("cbridge/CStruct", struct);
-    }
-
-    static def String generateCreateStructFunctionDeclaration(CStruct struct) {
-        return TemplateEngine.render("cbridge/CppStruct_CreateRelease_header", struct);
-    }
-
 }
