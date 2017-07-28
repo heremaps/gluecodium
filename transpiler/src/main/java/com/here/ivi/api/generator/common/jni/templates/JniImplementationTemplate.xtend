@@ -20,6 +20,7 @@ import static com.here.ivi.api.generator.common.jni.JniNameRules.getParameterNam
 import com.here.ivi.api.generator.common.jni.JniToCppTypeConversionTemplateDelegator
 import com.here.ivi.api.generator.common.jni.CppToJniConversionTemplateDelegator
 import com.here.ivi.api.generator.common.jni.JniModel
+import com.here.ivi.api.model.cppmodel.CppPrimitiveType
 
 public class JniImplementationTemplate {
   def static generate(JniModel jniModel, List<Include> includes) {
@@ -41,7 +42,8 @@ public class JniImplementationTemplate {
       «JniFunctionSignatureTemplate.generate(jniMethod)»
       {
         «FOR parameter : jniMethod.parameters»
-          «parameter.cppType.name» «parameter.name» = «JniToCppTypeConversionTemplateDelegator.generate(parameter.javaType, getParameterName(parameter.name))»;
+          «parameter.cppType.name» «parameter.name»;
+          «JniToCppTypeConversionTemplateDelegator.generate(parameter.javaType,getParameterName(parameter.name), parameter.name)»;
         «ENDFOR»
         «jniMethod.cppReturnType.name» result = «TemplateEngine.render("jni/CppMethodCall", jniMethod)»
         return «CppToJniConversionTemplateDelegator.generate("result", jniMethod.cppReturnType).toString()»;
