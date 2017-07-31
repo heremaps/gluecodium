@@ -29,9 +29,11 @@ import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
@@ -89,16 +91,11 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     }
 
     //memorize all includes
-    List<Include> includeList =
-        jniModels
-            .stream()
-            .map(
-                model ->
-                    Include.createInternalInclude(JniNameRules.getHeaderFileName(model.javaClass)))
-            .collect(Collectors.toList());
+    Set<Include> includes = new HashSet<>();
+    jniModels.forEach(model -> includes.addAll(model.includes));
 
-    Map<String, List<?>> mustacheData = new HashMap<>();
-    mustacheData.put(INCLUDES_NAME, includeList);
+    Map<String, Iterable<?>> mustacheData = new HashMap<>();
+    mustacheData.put(INCLUDES_NAME, includes);
     mustacheData.put(MODELS_NAME, jniModels);
 
     results.add(
