@@ -97,8 +97,18 @@ jstring
 get_string_field( JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName )
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "L/java/lang/String;" );
+    return static_cast< jstring >( env->GetObjectField( object, fieldId ));
+}
 
-    return ( jstring )env->GetObjectField( object, fieldId );
+// -------------------------------------------------------------------------------------------------
+
+jbyteArray
+get_byte_array_field( JNIEnv* env, const jclass javaClass, const jobject object,
+                      const char* fieldName )
+{
+    auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
+
+    return static_cast< jbyteArray >( env->GetObjectField( object, fieldId ) );
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -205,6 +215,19 @@ set_string_field( JNIEnv* env,
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "L/java/lang/String;" );
 
+    return env->SetObjectField( object, fieldId, fieldValue );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+void
+set_byte_array_field( JNIEnv* env,
+                      const jclass javaClass,
+                      const jobject object,
+                      const char* fieldName,
+                      jbyteArray fieldValue)
+{
+    auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
     return env->SetObjectField( object, fieldId, fieldValue );
 }
 
