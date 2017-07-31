@@ -29,8 +29,8 @@ set(HELLO_SOURCES
     src/test/StaticStringMethodsTestStub.cpp
 )
 
-#TODO: Remove this workaround once Android/iOS support PODs (APIGEN-268, APIGEN-357)
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
+#TODO: Remove this workaround once iOS supports PODs (APIGEN-357)
+if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES  ${HELLO_SOURCES} src/hello/HelloWorldPlainDataStructuresStub.cpp)
 endif()
 
@@ -42,8 +42,8 @@ set_target_properties(hello PROPERTIES
 
 include(apigen/Apigen)
 
-#TODO: Remove this workaround once Android/iOS support PODs (APIGEN-268, APIGEN-357)
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
+#TODO: Remove this workaround once iOS support PODs (APIGEN-357)
+if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     apigen_transpile(hello
         ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
         ${HELLO_APIGEN_TRANSPILER_GENERATOR})
