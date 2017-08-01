@@ -1,5 +1,5 @@
 {
-  auto javaClass = env->FindClass("L{{>jni/JavaClassSignature}}${{javaClass.name}}");
+  auto javaClass = env->FindClass("{{>jni/JavaClassSignature}}${{javaClass.name}}");
   auto result = create_object(env, javaClass);
 {{#fields}}
   {{#hasCustomType}}
