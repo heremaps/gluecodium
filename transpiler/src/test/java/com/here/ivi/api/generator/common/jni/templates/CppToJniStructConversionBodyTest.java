@@ -76,7 +76,7 @@ public class CppToJniStructConversionBodyTest {
     String expected =
         "{\n"
             + "  auto javaClass = env->FindClass("
-            + "\"L"
+            + "\""
             + String.join("/", PACKAGES)
             + "/"
             + OUTER_CLASS_NAME
@@ -98,7 +98,7 @@ public class CppToJniStructConversionBodyTest {
   public void generateCustom() {
     jniStruct.fields.add(createCustom());
     String innerSignature =
-        "L" + String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + INNER_CLASS_NAME;
+        String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + INNER_CLASS_NAME;
     String expected =
         "{\n"
             + "  auto javaClass = env->FindClass("
@@ -109,6 +109,7 @@ public class CppToJniStructConversionBodyTest {
             + "  auto jnestedCplusCplus = convert_to_jni(env, ninput.nestedCplusCplus);\n"
             + "  set_object_field(env, javaClass, result, \"nestedStruct\",\n"
             + "  \""
+            + "L"
             + innerSignature
             + ";\", jnestedCplusCplus);\n"
             + "  return result;\n"
@@ -124,7 +125,7 @@ public class CppToJniStructConversionBodyTest {
     jniStruct.fields.add(createIntField());
     jniStruct.fields.add(createCustom());
     String innerSignature =
-        "L" + String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + INNER_CLASS_NAME;
+        String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + INNER_CLASS_NAME;
     String expected =
         "{\n"
             + "  auto javaClass = env->FindClass("
@@ -137,6 +138,7 @@ public class CppToJniStructConversionBodyTest {
             + "  set_int_field(env, javaClass, result, \"intfield\", jcppInt);\n"
             + "  set_object_field(env, javaClass, result, \"nestedStruct\",\n"
             + "  \""
+            + "L"
             + innerSignature
             + ";\", jnestedCplusCplus);\n"
             + "  return result;\n"
