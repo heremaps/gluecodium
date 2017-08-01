@@ -150,8 +150,14 @@ apply plugin: 'checkstyle'
 checkstyle {
     configFile = rootProject.file('config/checkstyle/checkstyle-hard.xml')
     toolVersion = "7.8.2"
-    maxErrors=100
+}
+checkstyleMain {
     ignoreFailures false
+    maxErrors=65
+}
+checkstyleTest {
+    ignoreFailures false
+    maxErrors=95
 }
 
 apply plugin: 'pmd'
