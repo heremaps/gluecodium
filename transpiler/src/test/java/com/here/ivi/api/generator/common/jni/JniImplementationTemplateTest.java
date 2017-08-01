@@ -78,7 +78,7 @@ public class JniImplementationTemplateTest {
         + " = "
         + JNI_PARAMETER_NAME
         + ";\n"
-        + "  int8_t result = com::here::ivi::test::CppClass::"
+        + "  auto result = com::here::ivi::test::CppClass::"
         + methodName
         + "("
         + BASE_PARAMETER_NAME
@@ -139,6 +139,9 @@ public class JniImplementationTemplateTest {
         copyrightNotice
             + jniHeaderInclude
             + "#include \"base_api_header.h\"\n"
+            + "#include \""
+            + JniNameRules.getConversionHeaderFileName()
+            + "\"\n"
             + externC
             + endOfFile,
         generatedImplementation);
@@ -155,7 +158,15 @@ public class JniImplementationTemplateTest {
   public void generateWithNoMethods() {
     String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
-    assertEquals(copyrightNotice + jniHeaderInclude + externC + endOfFile, generatedImplementation);
+    assertEquals(
+        copyrightNotice
+            + jniHeaderInclude
+            + "#include \""
+            + JniNameRules.getConversionHeaderFileName()
+            + "\"\n"
+            + externC
+            + endOfFile,
+        generatedImplementation);
   }
 
   @Test
@@ -167,6 +178,9 @@ public class JniImplementationTemplateTest {
     assertEquals(
         copyrightNotice
             + jniHeaderInclude
+            + "#include \""
+            + JniNameRules.getConversionHeaderFileName()
+            + "\"\n"
             + externC
             + expectedGeneratedJNIMethod("method1")
             + endOfFile,
@@ -184,6 +198,9 @@ public class JniImplementationTemplateTest {
     assertEquals(
         copyrightNotice
             + jniHeaderInclude
+            + "#include \""
+            + JniNameRules.getConversionHeaderFileName()
+            + "\"\n"
             + externC
             + expectedGeneratedJNIMethod("method1")
             + expectedGeneratedJNIMethod("method2")
