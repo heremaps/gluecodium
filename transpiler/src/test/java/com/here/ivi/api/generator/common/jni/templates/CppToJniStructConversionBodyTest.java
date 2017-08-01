@@ -96,9 +96,12 @@ public class CppToJniStructConversionBodyTest {
 
   @Test
   public void generateCustom() {
-    jniStruct.fields.add(createCustom());
+    JniField jniField = createCustom();
+    jniStruct.fields.add(jniField);
     String innerSignature =
         String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + INNER_CLASS_NAME;
+    String fieldSignature =
+        String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + jniField.javaField.type.name;
     String expected =
         "{\n"
             + "  auto javaClass = env->FindClass("
@@ -110,7 +113,7 @@ public class CppToJniStructConversionBodyTest {
             + "  set_object_field(env, javaClass, result, \"nestedStruct\",\n"
             + "  \""
             + "L"
-            + innerSignature
+            + fieldSignature
             + ";\", jnestedCplusCplus);\n"
             + "  return result;\n"
             + "}";
@@ -123,9 +126,12 @@ public class CppToJniStructConversionBodyTest {
   @Test
   public void generateMultipleFields() {
     jniStruct.fields.add(createIntField());
-    jniStruct.fields.add(createCustom());
+    JniField customField = createCustom();
+    jniStruct.fields.add(customField);
     String innerSignature =
         String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + INNER_CLASS_NAME;
+    String fieldSignature =
+        String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + customField.javaField.type.name;
     String expected =
         "{\n"
             + "  auto javaClass = env->FindClass("
@@ -139,7 +145,7 @@ public class CppToJniStructConversionBodyTest {
             + "  set_object_field(env, javaClass, result, \"nestedStruct\",\n"
             + "  \""
             + "L"
-            + innerSignature
+            + fieldSignature
             + ";\", jnestedCplusCplus);\n"
             + "  return result;\n"
             + "}";
