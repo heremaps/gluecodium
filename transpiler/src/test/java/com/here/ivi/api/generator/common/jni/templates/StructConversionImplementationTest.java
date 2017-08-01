@@ -91,7 +91,7 @@ public final class StructConversionImplementationTest {
     String result = TemplateEngine.render("jni/StructConversionImplementation", mustacheData);
 
     //assert
-    String expected = "\n" + "using namespace here::internal;\n" + "\n";
+    String expected = "\n" + "namespace here {\n" + "namespace internal {\n" + "\n\n" + "}\n" + "}";
 
     assertEquals(expected, result);
   }
@@ -119,14 +119,17 @@ public final class StructConversionImplementationTest {
             + includes.get(1).fileName
             + ">\n"
             + "\n"
-            + "using namespace here::internal;\n"
+            + "namespace here {\n"
+            + "namespace internal {\n"
             + "\n"
             + createJniToCppSignature(createJniStruct(model))
             + createJniToCppBody(createJniStruct(model))
             + "\n"
             + createCppToJniSignature(createJniStruct(model))
             + createCppToJniBody(createJniStruct(model))
-            + "\n";
+            + "\n\n"
+            + "}\n"
+            + "}";
 
     assertEquals(expected, result);
   }
@@ -155,7 +158,8 @@ public final class StructConversionImplementationTest {
             + includes.get(1).fileName
             + ">\n"
             + "\n"
-            + "using namespace here::internal;\n"
+            + "namespace here {\n"
+            + "namespace internal {\n"
             + "\n"
             + createJniToCppSignature(createJniStruct(model))
             + createJniToCppBody(createJniStruct(model))
@@ -168,7 +172,9 @@ public final class StructConversionImplementationTest {
             + "\n"
             + createCppToJniSignature(createJniStruct(model2))
             + createCppToJniBody(createJniStruct(model2))
-            + "\n";
+            + "\n\n"
+            + "}\n"
+            + "}";
 
     assertEquals(expected, result);
   }

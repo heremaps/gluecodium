@@ -2,7 +2,8 @@
 #include <{{fileName}}>
 {{/includes}}
 
-using namespace here::internal;
+namespace here {
+namespace internal {
 
 {{#models}}
 {{#structs}}
@@ -14,3 +15,6 @@ using namespace here::internal;
 
 {{/structs}}
 {{/models}}
+
+}
+}
