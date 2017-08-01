@@ -11,7 +11,7 @@
     javaClass,
     jinput,
     "{{javaField.name}}",
-    "L{{#owningModel.javaPackages}}{{.}}/{{/owningModel.javaPackages}}{{owningModel.javaClass.name}}${{javaClass.name}};"),
+    "L{{#owningModel.javaPackages}}{{.}}/{{/owningModel.javaPackages}}{{owningModel.javaClass.name}}${{javaField.type.name}};"),
     out.{{cppField.name}} );
   {{/hasCustomType}}
   {{^hasCustomType}}

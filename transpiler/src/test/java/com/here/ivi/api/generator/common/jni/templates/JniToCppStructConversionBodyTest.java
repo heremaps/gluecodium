@@ -149,7 +149,7 @@ public final class JniToCppStructConversionBodyTest {
             + "/"
             + jniModel.javaClass.name
             + "$"
-            + jniStruct.javaClass.name
+            + field.javaField.type.name
             + ";\"),\n"
             + "    out."
             + field.cppField.name
@@ -193,7 +193,7 @@ public final class JniToCppStructConversionBodyTest {
             + "/"
             + jniModel.javaClass.name
             + "$"
-            + jniStruct.javaClass.name
+            + customField.javaField.type.name
             + ";\"),\n"
             + "    out."
             + customField.cppField.name

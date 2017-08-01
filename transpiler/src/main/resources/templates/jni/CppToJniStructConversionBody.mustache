@@ -12,7 +12,7 @@
 {{#fields}}
   {{#hasCustomType}}
   set_object_field(env, javaClass, result, "{{javaField.name}}",
-  "L{{>jni/JavaClassSignature}}${{javaClass.name}};", j{{cppField.name}});
+  "L{{>jni/JavaClassSignature}}${{javaField.type.name}};", j{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
   set_{{javaField.type.literalName}}_field(env, javaClass, result, "{{javaField.name}}", j{{cppField.name}});
