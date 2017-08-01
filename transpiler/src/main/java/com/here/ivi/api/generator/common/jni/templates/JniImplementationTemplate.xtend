@@ -19,8 +19,20 @@ import com.here.ivi.api.generator.common.jni.JniToCppTypeConversionTemplateDeleg
 import com.here.ivi.api.generator.common.jni.CppToJniConversionTemplateDelegator
 import com.here.ivi.api.generator.common.jni.JniModel
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType
+import com.here.ivi.api.generator.common.jni.JniParameter
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType
+import com.here.ivi.api.model.javamodel.JavaReferenceType
+import com.here.ivi.api.model.javamodel.JavaCustomType
+import com.here.ivi.api.generator.common.jni.JniNameRules
 
 public class JniImplementationTemplate {
+
+  //TODO: this needs to be removed just a temporary fix!!!
+  def static boolean isStructType(JniParameter jniParameter){
+    //at the moment, custom is only used for structs ...
+    return jniParameter.javaType instanceof JavaCustomType
+  }
+
   def static generate(JniModel jniModel) {
     if (jniModel === null || jniModel.includes.isEmpty()) {
       return ""
@@ -32,6 +44,7 @@ public class JniImplementationTemplate {
       «FOR include : jniModel.includes»
       #include "«include.fileName»"
       «ENDFOR»
+      #include "«JniNameRules.getConversionHeaderFileName()»"
 
       extern "C" {
 
@@ -40,10 +53,14 @@ public class JniImplementationTemplate {
       «JniFunctionSignatureTemplate.generate(jniMethod)»
       {
         «FOR parameter : jniMethod.parameters»
+          «IF isStructType(parameter)»
+          «TemplateEngine.render("jni/FullyQualifiedCppName", jniMethod)»::«parameter.cppType.name» «parameter.name»;
+          «ELSE»
           «parameter.cppType.name» «parameter.name»;
+          «ENDIF»
           «JniToCppTypeConversionTemplateDelegator.generate(parameter.javaType,getParameterName(parameter.name), parameter.name)»;
         «ENDFOR»
-        «jniMethod.cppReturnType.name» result = «TemplateEngine.render("jni/CppMethodCall", jniMethod)»
+        auto result = «TemplateEngine.render("jni/CppMethodCall", jniMethod)»
         return «CppToJniConversionTemplateDelegator.generate("result", jniMethod.cppReturnType).toString()»;
       }
 
