@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">Hello Transpiler</string>
-    <string name="greet">Greet!</string>
-    <string name="builtin_text_header">Please select the test method to execute:</string>
+    <string name="text_input">Insert any text</string>
+    <string name="text_result">Result</string>
+    <string name="builtin_text_header">Please select the test method to execute</string>
     <string name="submit">Submit!</string>
-    <string name="parameter_value">parameter value</string>
-    <string name="could_not_convert_to_number">Unable to convert to requested numeric parameter: </string>
+    <string name="parameter_value">Value</string>
     <string name="got_result">Got result: </string>
+    <string name="fragment_base_title">Base</string>
+    <string name="fragment_builtin_title">BuiltIn Types</string>
 </resources>

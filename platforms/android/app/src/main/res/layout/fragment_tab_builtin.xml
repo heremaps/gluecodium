@@ -1,0 +1,53 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="com.example.here.hello.activity.TabFragmentBuiltIn">
+
+  <LinearLayout
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+    <Spinner
+    android:id="@+id/builtin_spinner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:entries="@array/builtin_methods"/>
+
+    <TextView
+    android:id="@+id/builtin_description"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/fab_margin"
+    android:layout_marginBottom="@dimen/fab_margin"
+    android:textAppearance="@style/TextAppearance.AppCompat" />
+    <!--android:text="@string/builtin_text_header"-->
+
+    <EditText
+    android:id="@+id/builtin_edit"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:hint="@string/parameter_value"
+    android:inputType="none" />
+
+    <Button
+    android:id="@+id/builtin_submit_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/submit" />
+
+    <EditText
+      android:id="@+id/builtin_result"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ems="10"
+      android:hint="@string/text_result"
+      android:inputType="none"
+      android:focusable="false"
+      android:clickable="false"/>
+
+  </LinearLayout>
+
+</FrameLayout>
