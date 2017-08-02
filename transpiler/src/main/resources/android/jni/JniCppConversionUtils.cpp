@@ -17,6 +17,11 @@
 void
 here::internal::convert_from_jni( JNIEnv* env, const jstring jvalue, std::string& nresult )
 {
+    if ( env->IsSameObject( jvalue, nullptr ) )
+    {
+        nresult.clear( );
+        return;
+    }
     const char* jbuffer = env->GetStringUTFChars( jvalue, nullptr );
     nresult = std::string( jbuffer );
     env->ReleaseStringUTFChars( jvalue, jbuffer );
@@ -25,6 +30,11 @@ here::internal::convert_from_jni( JNIEnv* env, const jstring jvalue, std::string
 void
 here::internal::convert_from_jni( JNIEnv* env, const jbyteArray& jvalue, std::vector< uint8_t >& nresult )
 {
+    if ( env->IsSameObject( jvalue, nullptr ) )
+    {
+        nresult.clear( );
+        return;
+    }
     size_t size = static_cast< size_t >( env->GetArrayLength( jvalue ) );
     nresult = std::vector< uint8_t >( size );
     jbyte* jbuffer = reinterpret_cast< jbyte* >( nresult.data( ) );
