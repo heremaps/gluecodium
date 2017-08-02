@@ -17,15 +17,9 @@ import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppCustomType;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
 import com.here.ivi.api.model.cppmodel.CppType;
-import com.here.ivi.api.model.cppmodel.CppTypeDefType;
 import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.rules.InstanceRules;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FAttribute;
@@ -47,13 +41,8 @@ public class CppTypeMapper {
     CppType type = CppTypeMapper.map(rootModel, typedElement.getType());
 
     if (typedElement.isArray()) {
-      type =
-          CppTypeMapper.wrapArrayType(
-              new LazyInternalInclude(DefinedBy.createFromFrancaElement(rootModel)),
-              type,
-              CppTypeMapper.ArrayMode.map(rootModel, typedElement));
+      throw new TranspilerExecutionException("wrapping of arrays is not yet supported");
     }
-
     return type;
   }
 
@@ -66,8 +55,7 @@ public class CppTypeMapper {
     if (type.getPredefined() != FBasicTypeId.UNDEFINED) {
       return mapPredefined(type);
     }
-
-    return new CppCustomType("UNMAPPED FTYPEREF", CppTypeInfo.Invalid);
+    throw new TranspilerExecutionException("unmapped ftype ref" + type);
   }
 
   private static CppType mapDerived(FrancaElement<?> rootModel, FTypeRef type) {
@@ -93,8 +81,7 @@ public class CppTypeMapper {
     if (derived instanceof FEnumerationType) {
       return mapEnum(rootModel, (FEnumerationType) derived);
     }
-
-    return new CppCustomType("UNMAPPED DERIVED", CppTypeInfo.Invalid);
+    throw new TranspilerExecutionException("unmapped derived ref" + type);
   }
 
   private static CppType reportInvalidType(FrancaElement<?> rootModel, FTypeRef type) {
@@ -132,124 +119,29 @@ public class CppTypeMapper {
         String.format(formatMessage, typeDesc, name, definer, rootModel));
   }
 
-  private static CppType mapTypeDef(FrancaElement<?> rootModel, FTypeDef typedef) {
-    DefinedBy typeDefDefiner = DefinedBy.createFromFModelElement(typedef);
-    Include typeDefInclude = new LazyInternalInclude(typeDefDefiner);
-
-    if (typedef.getActualType() == null) {
-      return new CppCustomType("NO ACTUAL TYPE FOUND", CppTypeInfo.Invalid);
-    } else if (InstanceRules.isInstanceId(typedef)) {
-
-      // each Instance type is defined directly in the Interface that is refers to, this is already
-      // resolved in the typeRefDefiner, and named as the interface
-
-      String namespacedName = CppNamespaceUtils.getCppTypename(rootModel, typeDefDefiner);
-
-      return new CppCustomType(namespacedName, CppTypeInfo.InterfaceInstance, typeDefInclude);
-    } else {
-      CppType actual = map(rootModel, typedef.getActualType());
-      String namespacedName = CppNamespaceUtils.getCppTypename(rootModel, typedef);
-
-      // actually use the typedef in this case, not the underlying type
-      return new CppTypeDefType(namespacedName, actual, Collections.singletonList(typeDefInclude));
-    }
+  private static CppType mapTypeDef(
+      @SuppressWarnings("unused") FrancaElement<?> rootModel,
+      @SuppressWarnings("unused") FTypeDef typedef) {
+    throw new TranspilerExecutionException("mapping type defs is not yet supported");
   }
 
-  private static CppCustomType mapArray(FrancaElement<?> rootModel, FArrayType array) {
-    // lookup where array typedef came from, setup includes
-    Include arrayInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(array));
-
-    String typeName = array.getName(); // use name defined for array
-    if (typeName != null) {
-
-      typeName = CppNamespaceUtils.getCppTypename(rootModel, array);
-
-      return new CppCustomType(typeName, CppTypeInfo.Complex, arrayInclude);
-    }
-
-    FTypeRef elementType = array.getElementType();
-    CppType actual = map(rootModel, elementType);
-
-    // if no name is given, fallback to underlying type
-    return wrapArrayType(arrayInclude, actual, ArrayMode.map(rootModel, array));
+  private static CppCustomType mapArray(
+      @SuppressWarnings("unused") FrancaElement<?> rootModel,
+      @SuppressWarnings("unused") FArrayType array) {
+    throw new TranspilerExecutionException("mapping arrays is not yet supported");
   }
 
-  public static CppType defineArray(FrancaElement<?> rootModel, FArrayType array) {
-    Include arrayInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(array));
-    FTypeRef elementType = array.getElementType();
-    CppType actual = map(rootModel, elementType);
-
-    return wrapArrayType(arrayInclude, actual, ArrayMode.map(rootModel, array));
+  public static CppType defineArray(
+      @SuppressWarnings("unused") FrancaElement<?> rootModel,
+      @SuppressWarnings("unused") FArrayType array) {
+    throw new TranspilerExecutionException("defining arrays is not yet supported");
   }
 
-  private enum ArrayMode {
-    STD_VECTOR,
-    STD_SET;
+  private static CppCustomType mapMap(
+      @SuppressWarnings("unused") FrancaElement<?> rootModel,
+      @SuppressWarnings("unused") FMapType map) {
 
-    public static ArrayMode map(FrancaElement<?> rootModel, FArrayType array) {
-      return rootModel.getPropertyAccessor().getIsSet(array) ? STD_SET : STD_VECTOR;
-    }
-
-    public static ArrayMode map(FrancaElement<?> rootModel, FTypedElement typedElement) {
-
-      boolean isSet = false;
-      BaseApiSpec.IDataPropertyAccessor propertyAccessor = rootModel.getPropertyAccessor();
-      if (typedElement instanceof FField) {
-        isSet = propertyAccessor.getIsSet((FField) typedElement);
-      } else if (propertyAccessor instanceof BaseApiSpec.InterfacePropertyAccessor) {
-        BaseApiSpec.InterfacePropertyAccessor interfacePropertyAccessor =
-            (BaseApiSpec.InterfacePropertyAccessor) propertyAccessor;
-        if (typedElement instanceof FArgument) {
-          isSet = interfacePropertyAccessor.getIsSet((FArgument) typedElement);
-        } else if (typedElement instanceof FAttribute) {
-          isSet = interfacePropertyAccessor.getIsSet((FAttribute) typedElement);
-        }
-      }
-
-      return isSet ? STD_SET : STD_VECTOR;
-    }
-  }
-
-  private static CppCustomType wrapArrayType(
-      Include arrayInclude, CppType elementType, ArrayMode mode) {
-    CppCustomType result;
-    switch (mode) {
-      case STD_VECTOR:
-        result = wrapVector(elementType);
-        break;
-      case STD_SET:
-        result = wrapSet(elementType);
-        break;
-      default:
-        return null;
-    }
-    result.includes.add(arrayInclude);
-    return result;
-  }
-
-  private static CppCustomType mapMap(FrancaElement<?> rootModel, FMapType map) {
-
-    // lookup where map typedef came from, setup includes
-    Include mapInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(map));
-
-    if (map.getKeyType() == null || map.getValueType() == null) {
-      return new CppCustomType("NO KEY OR VALUE TYPE FOUND", CppTypeInfo.Invalid);
-    } else {
-
-      String typeName = map.getName(); // use name defined for map
-      if (typeName != null) {
-
-        typeName = CppNamespaceUtils.getCppTypename(rootModel, map);
-
-        return new CppCustomType(typeName, CppTypeInfo.Complex, mapInclude);
-      }
-
-      CppType key = map(rootModel, map.getKeyType());
-      CppType value = map(rootModel, map.getValueType());
-
-      // if no names are given, fallback to underlying type
-      return wrapMapType(mapInclude, key, value);
-    }
+    throw new TranspilerExecutionException("map mapping is not yet supported");
   }
 
   public static CppCustomType mapStruct(FrancaElement<?> rootModel, FStructType struct) {
@@ -264,61 +156,27 @@ public class CppTypeMapper {
     }
   }
 
-  public static CppCustomType mapEnum(FrancaElement<?> rootModel, FEnumerationType enumeration) {
+  public static CppCustomType mapEnum(
+      @SuppressWarnings("unused") FrancaElement<?> rootModel,
+      @SuppressWarnings("unused") FEnumerationType enumeration) {
 
-    if (enumeration.getEnumerators().isEmpty()) {
-      return new CppCustomType("EMPTY ENUM", CppTypeInfo.Invalid);
-    } else {
-      Include enumInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(enumeration));
-      String typeName = CppNamespaceUtils.getCppTypename(rootModel, enumeration);
-
-      return new CppCustomType(typeName, CppTypeInfo.Enumeration, enumInclude);
-    }
+    throw new TranspilerExecutionException("mapping enums is not yet supported");
   }
 
-  public static CppCustomType wrapMapType(Include mapInclude, CppType key, CppType value) {
+  public static CppCustomType wrapMapType(
+      @SuppressWarnings("unused") Include mapInclude,
+      @SuppressWarnings("unused") CppType key,
+      @SuppressWarnings("unused") CppType value) {
 
-    String mapType = "std::map< " + key.name + ", " + value.name + " >";
-
-    // include key type, value type and the map
-    Set<Include> includes = new HashSet<>(key.includes);
-    includes.addAll(key.includes);
-    includes.addAll(value.includes);
-    includes.add(CppLibraryIncludes.MAP);
-    includes.add(mapInclude);
-
-    return new CppCustomType(mapType, CppTypeInfo.Complex, includes);
+    throw new TranspilerExecutionException("wrapping of maps is not yet supported");
   }
 
-  private static CppCustomType wrapStdTemplateType(
-      CppType content, String templateName, Include libraryInclude) {
-
-    String mapType = "std::" + templateName + "< " + content.name + " >";
-
-    Set<Include> includes = new HashSet<>(content.includes);
-    includes.add(libraryInclude);
-
-    return new CppCustomType(mapType, CppTypeInfo.Complex, includes);
+  public static CppCustomType wrapUniquePtr(@SuppressWarnings("unused") CppType content) {
+    throw new TranspilerExecutionException("wrapping of unique pointers is not yet supported");
   }
 
-  public static CppCustomType wrapUniquePtr(CppType content) {
-    return wrapStdTemplateType(content, "unique_ptr", CppLibraryIncludes.MEMORY);
-  }
-
-  public static CppCustomType wrapSharedPtr(CppType content) {
-    return wrapStdTemplateType(content, "shared_ptr", CppLibraryIncludes.MEMORY);
-  }
-
-  public static CppCustomType wrapWeakPtr(CppType content) {
-    return wrapStdTemplateType(content, "weak_ptr", CppLibraryIncludes.MEMORY);
-  }
-
-  public static CppCustomType wrapVector(CppType content) {
-    return wrapStdTemplateType(content, "vector", CppLibraryIncludes.VECTOR);
-  }
-
-  public static CppCustomType wrapSet(CppType content) {
-    return wrapStdTemplateType(content, "set", CppLibraryIncludes.SET);
+  public static CppCustomType wrapSharedPtr(@SuppressWarnings("unused") CppType content) {
+    throw new TranspilerExecutionException("wrapping of shared pointers is not yet supported");
   }
 
   private static CppType mapPredefined(final FTypeRef type) {
@@ -356,8 +214,8 @@ public class CppTypeMapper {
             CppLibraryIncludes.VECTOR,
             CppLibraryIncludes.INT_TYPES);
       default:
-        return new CppCustomType(
-            "UNMAPPED PREDEFINED [" + type.getPredefined().getName() + "]", CppTypeInfo.Invalid);
+        throw new TranspilerExecutionException(
+            "unmapped predefined [" + type.getPredefined().getName() + "]");
     }
   }
 }
