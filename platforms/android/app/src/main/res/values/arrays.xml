@@ -15,4 +15,21 @@
         <item>byte[] methodWithByteBuffer(byte[])</item>
         <item>double methodWithFloatAndInteger(float, byte)</item>
     </string-array>
+
+    <string-array name="builtin_methods_description">
+        <item>Returns the input 8 bit int increased by 1</item>
+        <item>Returns the input unsigned 8 bit int increased by 1</item>
+        <item>Returns the input 16 bit int increased by 1</item>
+        <item>Returns the input unsigned 16 bit int increased by 1</item>
+        <item>Returns the input 32 bit int increased by 1</item>
+        <item>Returns the input unsigned 32 bit int increased by 1</item>
+        <item>Returns the input 64 bit int increased by 1</item>
+        <item>Returns the input unsigned 64 bit int increased by 1</item>
+        <item>Returns the inverted value of the input boolean</item>
+        <item>Returns a float, half of the input value</item>
+        <item>Returns a double, two times the value of the input</item>
+        <item>Returns the given string (encoded as a sequence of bytes) in inverted order</item>
+        <item>Returns a double equal to "inputFloat * (0.01 * inputInteger)"\n\nParameters must
+        be passed as "inputFloat,inputInteger" in the text field "Value" below.\n\nExample: 3.0,1</item>
+    </string-array>
 </resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="com.example.here.hello.activity.TabFragmentBase">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+      android:id="@+id/user"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/text_input"
+      android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+    <Button
+      android:id="@+id/greet"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/submit"/>
+    <EditText
+      android:id="@+id/result_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ems="10"
+      android:hint="@string/text_result"
+      android:inputType="none"
+      android:focusable="false"
+      android:clickable="false"/>
+  </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
