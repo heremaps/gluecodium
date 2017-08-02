@@ -15,7 +15,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.here.android.hello.HelloWorld;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -49,7 +48,6 @@ public final class HelloWorldIntegrationTest {
 
 
     @Test
-    @Ignore("Enable once APIGEN-397 is solved")
     public void helloWorldMethod_Null() {
         // Arrange, act
         String result = HelloWorld.helloWorldMethod(null);
