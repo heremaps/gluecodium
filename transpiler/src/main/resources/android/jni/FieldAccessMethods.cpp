@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <jni.h>
 
+#include "JniCppConversionUtils.h"
+
 namespace
 {
 
@@ -93,22 +95,29 @@ get_double_field( JNIEnv* env, const jclass javaClass, const jobject object, con
 
 // -------------------------------------------------------------------------------------------------
 
-jstring
+std::string
 get_string_field( JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName )
 {
+    std::string result;
     auto fieldId = env->GetFieldID( javaClass, fieldName, "L/java/lang/String;" );
-    return static_cast< jstring >( env->GetObjectField( object, fieldId ));
+
+    here::internal::convert_from_jni( env, static_cast< jstring >(
+            env->GetObjectField( object, fieldId ) ), result );
+    return result;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-jbyteArray
+std::vector< uint8_t >
 get_byte_array_field( JNIEnv* env, const jclass javaClass, const jobject object,
                       const char* fieldName )
 {
+    std::vector< uint8_t > result;
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
 
-    return static_cast< jbyteArray >( env->GetObjectField( object, fieldId ) );
+    here::internal::convert_from_jni(
+            env, static_cast< jbyteArray >( env->GetObjectField( object, fieldId ) ), result );
+    return result;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -211,11 +220,11 @@ set_string_field( JNIEnv* env,
                   const jclass javaClass,
                   const jobject object,
                   const char* fieldName,
-                  jstring fieldValue )
+                  const std::string& fieldValue )
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "L/java/lang/String;" );
 
-    return env->SetObjectField( object, fieldId, fieldValue );
+    return env->SetObjectField( object, fieldId, here::internal::convert_to_jni( env, fieldValue ) );
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -225,10 +234,10 @@ set_byte_array_field( JNIEnv* env,
                       const jclass javaClass,
                       const jobject object,
                       const char* fieldName,
-                      jbyteArray fieldValue)
+                      const std::vector< uint8_t >& fieldValue)
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
-    return env->SetObjectField( object, fieldId, fieldValue );
+    return env->SetObjectField( object, fieldId, here::internal::convert_to_jni ( env, fieldValue ) );
 }
 
 // -------------------------------------------------------------------------------------------------
