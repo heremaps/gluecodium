@@ -1,0 +1,137 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+interface PlainDataStructuresTest {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    <** @description:
+    Test basic struct type
+    **>
+    struct Point {
+        Double x
+        Double y
+    }
+
+    <** @description:
+    Test basic struct type
+    **>
+    struct Color {
+        UInt8 red
+        UInt8 green
+        UInt8 blue
+    }
+
+    <** @description:
+    Test nested struct type
+    **>
+    struct Line {
+        Point a
+        Point b
+    }
+
+    <** @description:
+    Test nested struct type
+    **>
+    struct ColoredLine {
+        Line line
+        Color color
+    }
+
+    <** @description:
+    Test struct type containing all builtin and a custom data type
+    **>
+    struct AllTypesStruct {
+        Int8 int8Field
+        UInt8 uint8Field
+        Int16 int16Field
+        UInt16 uint16Field
+        Int32 int32Field
+        UInt32 uint32Field
+        Int64 int64Field
+        UInt64 uint64Field
+        Float floatField
+        Double doubleField
+        String stringField
+        Boolean booleanField
+        ByteBuffer bytesField
+        Point pointField
+    }
+
+    <** @description:
+    Test static method to create a point
+    **>
+    method createPoint {
+        in {
+            Double x
+            Double y
+        }
+        out {
+            Point point
+        }
+    }
+
+    <** @description:
+    Test static method to exchange x and y values of a point
+    **>
+    method swapPointCoordinates {
+        in {
+            Point input
+        }
+        out {
+            Point output
+        }
+    }
+
+    <** @description:
+    Static test method which creates a colored line
+    **>
+    method createLine {
+        in {
+            Point pointA
+            Point pointB
+        }
+        out {
+            Line output
+        }
+    }
+
+    <** @description:
+    Static test method which creates a colored line
+    **>
+    method createColoredLine {
+        in {
+            Line line
+            Color color
+        }
+        out {
+            ColoredLine output
+        }
+    }
+
+    <** @description:
+    Static test method which modifies the AllTypesStruct
+    **>
+    method modifyAllTypesStruct {
+        in {
+            AllTypesStruct input
+        }
+        out {
+            AllTypesStruct output
+        }
+    }
+
+}

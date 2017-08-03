@@ -31,7 +31,7 @@ set(HELLO_SOURCES
 
 #TODO: Remove this workaround once iOS supports PODs (APIGEN-357)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-    set(HELLO_SOURCES  ${HELLO_SOURCES} src/hello/HelloWorldPlainDataStructuresStub.cpp)
+    set(HELLO_SOURCES  ${HELLO_SOURCES} src/hello/HelloWorldPlainDataStructuresStub.cpp src/test/PlainDataStructuresTestStub.cpp)
 endif()
 
 add_library(hello ${HELLO_SOURCES})
@@ -52,6 +52,8 @@ else()
     set(FRANCA_FILES ${HELLO_WORLD_BUILTIN_FILES})
     list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fidl)
     list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fdepl)
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/PlainDataStructuresTest.fidl)
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/PlainDataStructuresTest.fdepl)
     file(COPY ${FRANCA_FILES} DESTINATION fidl-nopods)
     apigen_transpile(hello
         ${CMAKE_CURRENT_BINARY_DIR}/fidl-nopods/
