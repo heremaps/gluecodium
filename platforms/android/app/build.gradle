@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId 'com.here.helloapplication'
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 21
         versionCode 150001
         versionName '0.0.1'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
