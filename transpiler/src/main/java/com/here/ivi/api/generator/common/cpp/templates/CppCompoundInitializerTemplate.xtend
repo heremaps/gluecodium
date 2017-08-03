@@ -12,11 +12,11 @@
 package com.here.ivi.api.generator.common.cpp.templates
 
 import com.here.ivi.api.generator.common.cpp.CppValueMapper
-import com.here.ivi.api.model.cppmodel.CppType
+import com.here.ivi.api.model.cppmodel.CppTypeRef
 import org.franca.core.franca.FCompoundInitializer
 
 class CppCompoundInitializerTemplate {
-    static def generate(CppType type, FCompoundInitializer fci) '''
+    static def generate(CppTypeRef type, FCompoundInitializer fci) '''
       []() {
         «type.name» tmp;
         «FOR elem : fci.getElements()»

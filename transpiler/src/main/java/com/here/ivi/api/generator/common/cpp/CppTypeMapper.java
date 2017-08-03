@@ -14,10 +14,10 @@ package com.here.ivi.api.generator.common.cpp;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.LazyInternalInclude;
-import com.here.ivi.api.model.cppmodel.CppCustomType;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
-import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeInfo;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import org.franca.core.franca.FArgument;
@@ -37,8 +37,8 @@ import org.franca.core.franca.FTypedElement;
 
 public class CppTypeMapper {
 
-  public static CppType map(FrancaElement<?> rootModel, FTypedElement typedElement) {
-    CppType type = CppTypeMapper.map(rootModel, typedElement.getType());
+  public static CppTypeRef map(FrancaElement<?> rootModel, FTypedElement typedElement) {
+    CppTypeRef type = CppTypeMapper.map(rootModel, typedElement.getType());
 
     if (typedElement.isArray()) {
       throw new TranspilerExecutionException("wrapping of arrays is not yet supported");
@@ -46,7 +46,7 @@ public class CppTypeMapper {
     return type;
   }
 
-  public static CppType map(FrancaElement<?> rootModel, FTypeRef type) {
+  public static CppTypeRef map(FrancaElement<?> rootModel, FTypeRef type) {
 
     if (type.getDerived() != null) {
       return mapDerived(rootModel, type);
@@ -58,7 +58,7 @@ public class CppTypeMapper {
     throw new TranspilerExecutionException("unmapped ftype ref" + type);
   }
 
-  private static CppType mapDerived(FrancaElement<?> rootModel, FTypeRef type) {
+  private static CppTypeRef mapDerived(FrancaElement<?> rootModel, FTypeRef type) {
     FType derived = type.getDerived();
 
     // types without a parent are not valid
@@ -84,7 +84,7 @@ public class CppTypeMapper {
     throw new TranspilerExecutionException("unmapped derived ref" + type);
   }
 
-  private static CppType reportInvalidType(FrancaElement<?> rootModel, FTypeRef type) {
+  private static CppTypeRef reportInvalidType(FrancaElement<?> rootModel, FTypeRef type) {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
     String name = "unknown";
     String typeDesc = "derived type";
@@ -119,96 +119,96 @@ public class CppTypeMapper {
         String.format(formatMessage, typeDesc, name, definer, rootModel));
   }
 
-  private static CppType mapTypeDef(
+  private static CppTypeRef mapTypeDef(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FTypeDef typedef) {
     throw new TranspilerExecutionException("mapping type defs is not yet supported");
   }
 
-  private static CppCustomType mapArray(
+  private static CppComplexTypeRef mapArray(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FArrayType array) {
     throw new TranspilerExecutionException("mapping arrays is not yet supported");
   }
 
-  public static CppType defineArray(
+  public static CppTypeRef defineArray(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FArrayType array) {
     throw new TranspilerExecutionException("defining arrays is not yet supported");
   }
 
-  private static CppCustomType mapMap(
+  private static CppComplexTypeRef mapMap(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FMapType map) {
 
     throw new TranspilerExecutionException("map mapping is not yet supported");
   }
 
-  public static CppCustomType mapStruct(FrancaElement<?> rootModel, FStructType struct) {
+  public static CppComplexTypeRef mapStruct(FrancaElement<?> rootModel, FStructType struct) {
 
     if (struct.getElements().isEmpty()) {
-      return new CppCustomType("EMPTY STRUCT", CppTypeInfo.Invalid);
+      return new CppComplexTypeRef("EMPTY STRUCT", CppTypeInfo.Invalid);
     } else {
       Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(struct));
       String typeName = CppNamespaceUtils.getCppTypename(rootModel, struct);
 
-      return new CppCustomType(typeName, CppTypeInfo.Complex, structInclude);
+      return new CppComplexTypeRef(typeName, CppTypeInfo.Complex, structInclude);
     }
   }
 
-  public static CppCustomType mapEnum(
+  public static CppComplexTypeRef mapEnum(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FEnumerationType enumeration) {
 
     throw new TranspilerExecutionException("mapping enums is not yet supported");
   }
 
-  public static CppCustomType wrapMapType(
+  public static CppComplexTypeRef wrapMapType(
       @SuppressWarnings("unused") Include mapInclude,
-      @SuppressWarnings("unused") CppType key,
-      @SuppressWarnings("unused") CppType value) {
+      @SuppressWarnings("unused") CppTypeRef key,
+      @SuppressWarnings("unused") CppTypeRef value) {
 
     throw new TranspilerExecutionException("wrapping of maps is not yet supported");
   }
 
-  public static CppCustomType wrapUniquePtr(@SuppressWarnings("unused") CppType content) {
+  public static CppComplexTypeRef wrapUniquePtr(@SuppressWarnings("unused") CppTypeRef content) {
     throw new TranspilerExecutionException("wrapping of unique pointers is not yet supported");
   }
 
-  public static CppCustomType wrapSharedPtr(@SuppressWarnings("unused") CppType content) {
+  public static CppComplexTypeRef wrapSharedPtr(@SuppressWarnings("unused") CppTypeRef content) {
     throw new TranspilerExecutionException("wrapping of shared pointers is not yet supported");
   }
 
-  private static CppType mapPredefined(final FTypeRef type) {
+  private static CppTypeRef mapPredefined(final FTypeRef type) {
 
     switch (type.getPredefined().getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.BOOL);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.BOOL);
       case FBasicTypeId.FLOAT_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.FLOAT);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.FLOAT);
       case FBasicTypeId.DOUBLE_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.DOUBLE);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.DOUBLE);
       case FBasicTypeId.INT8_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.INT8);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8);
       case FBasicTypeId.INT16_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.INT16);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT16);
       case FBasicTypeId.INT32_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.INT32);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT32);
       case FBasicTypeId.INT64_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.INT64);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64);
       case FBasicTypeId.UINT8_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.UINT8);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT8);
       case FBasicTypeId.UINT16_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.UINT16);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT16);
       case FBasicTypeId.UINT32_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.UINT32);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT32);
       case FBasicTypeId.UINT64_VALUE:
-        return new CppPrimitiveType(CppPrimitiveType.Type.UINT64);
+        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT64);
       case FBasicTypeId.STRING_VALUE:
-        return new CppCustomType(
-            CppCustomType.STRING_TYPE_NAME, CppTypeInfo.Complex, CppLibraryIncludes.STRING);
+        return new CppComplexTypeRef(
+            CppComplexTypeRef.STRING_TYPE_NAME, CppTypeInfo.Complex, CppLibraryIncludes.STRING);
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return new CppCustomType(
+        return new CppComplexTypeRef(
             "std::vector< uint8_t >",
             CppTypeInfo.Complex,
             CppLibraryIncludes.VECTOR,

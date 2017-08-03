@@ -20,11 +20,11 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.generator.baseapi.StubModelBuilder;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.model.cppmodel.CppClass;
-import com.here.ivi.api.model.cppmodel.CppCustomType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.JavaClass;
@@ -70,7 +70,7 @@ public class JniModelBuilderTest {
   private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
   private final CppClass cppClass = new CppClass(CPP_CLASS_NAME);
   private final JavaCustomType javaCustomType = new JavaCustomType(JAVA_CLASS_NAME);
-  private final CppCustomType cppCustomType = new CppCustomType(CPP_CLASS_NAME);
+  private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef(CPP_CLASS_NAME);
 
   private static final List<String> JAVA_PACKAGES = Arrays.asList("my", "java", "test");
 
@@ -114,7 +114,7 @@ public class JniModelBuilderTest {
   }
 
   private static CppMethod createCppMethod() {
-    CppPrimitiveType cppPrimitiveType = new CppPrimitiveType(CppPrimitiveType.Type.INT8);
+    CppPrimitiveTypeRef cppPrimitiveType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8);
     CppParameter cppParameter = new CppParameter("", cppPrimitiveType);
 
     return new CppMethod.Builder(CPP_INT_METHOD_NAME)
@@ -129,7 +129,7 @@ public class JniModelBuilderTest {
     result.javaReturnType = new JavaPrimitiveType(JavaPrimitiveType.Type.VOID);
     result.javaMethodName = JAVA_VOID_METHOD_NAME;
     result.cppMethodName = CPP_VOID_METHOD_NAME;
-    result.cppReturnType = CppPrimitiveType.VOID_TYPE;
+    result.cppReturnType = CppPrimitiveTypeRef.VOID_TYPE;
     result.owningModel = jniModel;
 
     return result;
@@ -230,7 +230,7 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingInputArgumentReadsJavaCppParameters() {
     JavaParameter javaParameter = new JavaParameter(javaCustomType, "relative");
-    CppParameter cppParameter = new CppParameter("absolute", new CppCustomType(CPP_CLASS_NAME));
+    CppParameter cppParameter = new CppParameter("absolute", new CppComplexTypeRef(CPP_CLASS_NAME));
     when(javaBuilder.getFirstResult(any())).thenReturn(javaParameter);
     when(stubBuilder.getFirstResult(any())).thenReturn(cppParameter);
 

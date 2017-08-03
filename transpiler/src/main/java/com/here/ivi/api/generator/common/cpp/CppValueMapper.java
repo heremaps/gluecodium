@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.common.cpp;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.cpp.templates.CppCompoundInitializerTemplate;
 import com.here.ivi.api.model.common.LazyInternalInclude;
-import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.rules.BuiltInValueRules;
@@ -31,7 +31,7 @@ public class CppValueMapper {
   private static final CppValue MAX_FLOAT =
       new CppValue("std::numeric_limits< float >::max( )", CppLibraryIncludes.LIMITS);
 
-  public static CppValue map(CppType type, FInitializerExpression rhs) {
+  public static CppValue map(CppTypeRef type, FInitializerExpression rhs) {
     if (rhs instanceof FCompoundInitializer) {
       return map(type, (FCompoundInitializer) rhs);
     }
@@ -91,14 +91,14 @@ public class CppValueMapper {
     return new CppValue(String.valueOf(value));
   }
 
-  public static CppValue map(CppType type, FCompoundInitializer ci) {
+  public static CppValue map(CppTypeRef type, FCompoundInitializer ci) {
     // TODO having a template in here is not-so-nice, this should be some CppType
     return new CppValue(
         CppCompoundInitializerTemplate.generate(type, ci).toString(), type.includes);
   }
 
   // TODO handle namespaces here as well
-  public static CppValue map(CppType type, FQualifiedElementRef qer) {
+  public static CppValue map(CppTypeRef type, FQualifiedElementRef qer) {
 
     if (qer.getElement() == null) {
       // TODO improve error output as seen in TypeMapper

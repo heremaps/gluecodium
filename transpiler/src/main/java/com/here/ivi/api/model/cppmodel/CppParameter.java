@@ -15,9 +15,9 @@ import java.util.stream.Stream;
 
 public class CppParameter extends CppElement {
 
-  public final CppType type;
+  public final CppTypeRef type;
 
-  public CppParameter(final String name, final CppType type) {
+  public CppParameter(final String name, final CppTypeRef type) {
     super(name);
     this.type = type;
   }

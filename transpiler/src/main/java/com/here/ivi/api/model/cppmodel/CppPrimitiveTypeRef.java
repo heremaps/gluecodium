@@ -12,14 +12,10 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.generator.common.cpp.CppLibraryIncludes;
-import java.util.EnumSet;
 
-public class CppPrimitiveType extends CppType {
+public class CppPrimitiveTypeRef extends CppTypeRef {
 
-  public static final EnumSet<CppPrimitiveType.Type> TYPES =
-      EnumSet.allOf(CppPrimitiveType.Type.class);
-
-  public static final CppPrimitiveType VOID_TYPE = new CppPrimitiveType(Type.VOID);
+  public static final CppPrimitiveTypeRef VOID_TYPE = new CppPrimitiveTypeRef(Type.VOID);
 
   public enum Type {
     VOID("void"),
@@ -48,7 +44,7 @@ public class CppPrimitiveType extends CppType {
 
   public final Type type;
 
-  public CppPrimitiveType(final Type type) {
+  public CppPrimitiveTypeRef(final Type type) {
     super(type.getValue());
     this.type = type;
     addIncludes();
@@ -75,7 +71,7 @@ public class CppPrimitiveType extends CppType {
     if (o == null || getClass() != o.getClass()) return false;
     if (!super.equals(o)) return false;
 
-    CppPrimitiveType that = (CppPrimitiveType) o;
+    CppPrimitiveTypeRef that = (CppPrimitiveTypeRef) o;
 
     return type == that.type;
   }
@@ -88,7 +84,7 @@ public class CppPrimitiveType extends CppType {
   }
 
   @Override
-  public boolean isValueType() {
+  public boolean refersToValueType() {
     return true;
   }
 }

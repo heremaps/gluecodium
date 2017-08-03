@@ -17,31 +17,31 @@ import com.here.ivi.api.model.common.Include;
 import java.util.Collection;
 import java.util.Collections;
 
-public class CppCustomType extends CppType {
+public class CppComplexTypeRef extends CppTypeRef {
 
   public static final String STRING_TYPE_NAME = "std::string";
 
   public final CppTypeInfo info;
 
-  public CppCustomType(String typeName, CppTypeInfo info) {
+  public CppComplexTypeRef(String typeName, CppTypeInfo info) {
     this(typeName, info, Collections.emptyList());
   }
 
-  public CppCustomType(String typeName, Include... includes) {
+  public CppComplexTypeRef(String typeName, Include... includes) {
     this(typeName, CppTypeInfo.Complex, asList(includes));
   }
 
-  public CppCustomType(String typeName, CppTypeInfo info, Include... includes) {
+  public CppComplexTypeRef(String typeName, CppTypeInfo info, Include... includes) {
     this(typeName, info, asList(includes));
   }
 
-  public CppCustomType(String typeName, CppTypeInfo info, final Collection<Include> includes) {
+  public CppComplexTypeRef(String typeName, CppTypeInfo info, final Collection<Include> includes) {
     super(typeName, includes);
     this.info = info;
   }
 
   @Override
-  public boolean isValueType() {
+  public boolean refersToValueType() {
     return info == CppTypeInfo.Enumeration;
   }
 }

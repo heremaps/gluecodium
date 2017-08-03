@@ -18,10 +18,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
-import com.here.ivi.api.model.cppmodel.CppCustomType;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
-import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeInfo;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.test.ArrayEList;
 import navigation.BaseApiSpec;
@@ -62,7 +62,7 @@ public class StubMethodMapperTest {
   @Mock private FEnumerationType francaEnum;
   @Mock private FArgument francaArgument;
 
-  private final CppCustomType cppCustomType = new CppCustomType(TYPE_NAME);
+  private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef(TYPE_NAME);
 
   @Before
   public void setUp() {
@@ -100,7 +100,7 @@ public class StubMethodMapperTest {
     StubMethodMapper.ReturnTypeData returnTypeData =
         StubMethodMapper.mapMethodReturnType(francaMethod, rootModel);
 
-    assertEquals(CppPrimitiveType.VOID_TYPE, returnTypeData.type);
+    assertEquals(CppPrimitiveTypeRef.VOID_TYPE, returnTypeData.type);
   }
 
   @Test
@@ -154,7 +154,7 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapArgumentTypeCallsTypeMapper() {
-    CppType cppType = StubMethodMapper.mapArgumentType(francaArgument, null, rootModel);
+    CppTypeRef cppType = StubMethodMapper.mapArgumentType(francaArgument, null, rootModel);
 
     assertEquals(cppCustomType, cppType);
 
@@ -164,12 +164,12 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapArgumentTypeWrapsInSharedPtr() {
-    final CppCustomType cppInterfaceInstance =
-        new CppCustomType(TYPE_NAME, CppTypeInfo.InterfaceInstance);
+    final CppComplexTypeRef cppInterfaceInstance =
+        new CppComplexTypeRef(TYPE_NAME, CppTypeInfo.InterfaceInstance);
     when(CppTypeMapper.map(any(), any(FArgument.class))).thenReturn(cppInterfaceInstance);
     when(CppTypeMapper.wrapSharedPtr(any())).thenReturn(cppCustomType);
 
-    CppType cppType = StubMethodMapper.mapArgumentType(francaArgument, francaMethod, rootModel);
+    CppTypeRef cppType = StubMethodMapper.mapArgumentType(francaArgument, francaMethod, rootModel);
 
     assertEquals(cppCustomType, cppType);
 
@@ -179,13 +179,13 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapArgumentTypeWrapsInUniquePtr() {
-    final CppCustomType cppInterfaceInstance =
-        new CppCustomType(TYPE_NAME, CppTypeInfo.InterfaceInstance);
+    final CppComplexTypeRef cppInterfaceInstance =
+        new CppComplexTypeRef(TYPE_NAME, CppTypeInfo.InterfaceInstance);
     when(CppTypeMapper.map(any(), any(FArgument.class))).thenReturn(cppInterfaceInstance);
     when(CppTypeMapper.wrapUniquePtr(any())).thenReturn(cppCustomType);
     when(propertyAccessor.getCreates(any())).thenReturn(mock(FInterface.class));
 
-    CppType cppType = StubMethodMapper.mapArgumentType(francaArgument, francaMethod, rootModel);
+    CppTypeRef cppType = StubMethodMapper.mapArgumentType(francaArgument, francaMethod, rootModel);
 
     assertEquals(cppCustomType, cppType);
 
