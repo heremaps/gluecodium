@@ -13,10 +13,10 @@ package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.CppCustomType;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
-import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeInfo;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,10 +32,10 @@ import org.franca.core.franca.FMethod;
 public final class StubMethodMapper {
 
   public static class ReturnTypeData {
-    public final CppType type;
+    public final CppTypeRef type;
     public final String comment;
 
-    public ReturnTypeData(final CppType type, final String comment) {
+    public ReturnTypeData(final CppTypeRef type, final String comment) {
       this.type = type;
       this.comment = comment;
     }
@@ -47,7 +47,7 @@ public final class StubMethodMapper {
   public static ReturnTypeData mapMethodReturnType(
       FMethod francaMethod, FrancaElement<?> rootModel) {
 
-    CppType errorType = null;
+    CppTypeRef errorType = null;
     String errorComment = "";
 
     if (francaMethod.getErrorEnum() != null) {
@@ -55,7 +55,7 @@ public final class StubMethodMapper {
       errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(francaMethod);
     }
 
-    CppType outArgType = null;
+    CppTypeRef outArgType = null;
     String outArgComment = "";
 
     EList<FArgument> outArgs = francaMethod.getOutArgs();
@@ -67,7 +67,7 @@ public final class StubMethodMapper {
     }
 
     if (errorType == null && outArgType == null) {
-      return new ReturnTypeData(CppPrimitiveType.VOID_TYPE, "");
+      return new ReturnTypeData(CppPrimitiveTypeRef.VOID_TYPE, "");
     } else if (errorType != null && outArgType == null) {
       return new ReturnTypeData(errorType, errorComment);
     } else if (errorType == null) {
@@ -80,8 +80,8 @@ public final class StubMethodMapper {
     includes.addAll(outArgType.includes);
     includes.add(EXPECTED_INCLUDE);
 
-    CppType returnType =
-        new CppCustomType(
+    CppTypeRef returnType =
+        new CppComplexTypeRef(
             "here::internal::Expected< " + errorType.name + ", " + outArgType.name + " >",
             CppTypeInfo.Complex,
             includes);
@@ -92,13 +92,13 @@ public final class StubMethodMapper {
     return new ReturnTypeData(returnType, returnComment);
   }
 
-  public static CppType mapArgumentType(
+  public static CppTypeRef mapArgumentType(
       FArgument francaArgument, FMethod francaMethod, FrancaElement<?> rootModel) {
 
-    CppType type = CppTypeMapper.map(rootModel, francaArgument);
+    CppTypeRef type = CppTypeMapper.map(rootModel, francaArgument);
 
-    if (!(type instanceof CppCustomType)
-        || ((CppCustomType) type).info != CppTypeInfo.InterfaceInstance) {
+    if (!(type instanceof CppComplexTypeRef)
+        || ((CppComplexTypeRef) type).info != CppTypeInfo.InterfaceInstance) {
       return type;
     }
 

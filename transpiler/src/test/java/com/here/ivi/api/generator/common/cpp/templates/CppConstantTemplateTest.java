@@ -13,8 +13,8 @@ package com.here.ivi.api.generator.common.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppConstant;
-import com.here.ivi.api.model.cppmodel.CppCustomType;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +29,7 @@ public final class CppConstantTemplateTest {
   private static final String EXPECTED_RESULT = "static const Typical permanent = valuable;";
 
   private CppConstant cppConstant =
-      new CppConstant(CONSTANT_NAME, new CppCustomType(TYPE_NAME), new CppValue(VALUE_NAME));
+      new CppConstant(CONSTANT_NAME, new CppComplexTypeRef(TYPE_NAME), new CppValue(VALUE_NAME));
 
   @Test
   public void nullComment() {

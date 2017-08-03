@@ -14,8 +14,8 @@ package com.here.ivi.api.generator.common.cpp;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-import com.here.ivi.api.model.cppmodel.CppCustomType;
-import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -54,7 +54,7 @@ public final class CppValueMapperTest {
     when(CppNameRules.getConstantName(anyString())).thenReturn(outputConstantName);
 
     //actual test
-    CppValue mappedValue = CppValueMapper.map(mock(CppType.class), qualifiedElementRef);
+    CppValue mappedValue = CppValueMapper.map(mock(CppTypeRef.class), qualifiedElementRef);
     assertEquals(mappedValue.name, outputConstantName);
     PowerMockito.verifyStatic(); // 1
     CppNameRules.getConstantName(inputConstantName);
@@ -63,7 +63,7 @@ public final class CppValueMapperTest {
   @Test
   public void mapEnumerator() {
     //constant
-    final CppType cppType = new CppCustomType("MyFancyType");
+    final CppTypeRef cppType = new CppComplexTypeRef("MyFancyType");
     final String inputEnumeratorName = "EnumeratorIn";
     final String outputEnumeratorName = "EnumeratorOut";
     final String outputTypeName = cppType.name + "::" + outputEnumeratorName;

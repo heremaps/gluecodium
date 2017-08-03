@@ -15,10 +15,10 @@ import java.util.stream.Stream;
 
 public class CppConstant extends CppElement {
 
-  public final CppType type;
+  public final CppTypeRef type;
   public final CppValue value;
 
-  public CppConstant(final String name, final CppType type, final CppValue value) {
+  public CppConstant(final String name, final CppTypeRef type, final CppValue value) {
     super(name);
     this.type = type;
     this.value = value;

@@ -11,16 +11,16 @@
 
 package com.here.ivi.api.generator.common.jni;
 
-import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.javamodel.JavaType;
 
 public class JniParameter implements JniElement {
 
   public final String name;
   public final JavaType javaType;
-  public final CppType cppType;
+  public final CppTypeRef cppType;
 
-  public JniParameter(final String name, final JavaType javaType, final CppType cppType) {
+  public JniParameter(final String name, final JavaType javaType, final CppTypeRef cppType) {
     this.name = name;
     this.javaType = javaType;
     this.cppType = cppType;

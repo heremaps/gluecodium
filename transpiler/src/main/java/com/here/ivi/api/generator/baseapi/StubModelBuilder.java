@@ -29,8 +29,8 @@ import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.cppmodel.CppType;
 import com.here.ivi.api.model.cppmodel.CppTypeDef;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -96,7 +96,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    CppType cppType = StubMethodMapper.mapArgumentType(francaArgument, null, rootModel);
+    CppTypeRef cppType = StubMethodMapper.mapArgumentType(francaArgument, null, rootModel);
     CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppType);
 
     storeResult(cppParameter);
@@ -122,7 +122,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FConstantDef francaConstant) {
 
     String name = CppNameRules.getConstantName(francaConstant.getName());
-    CppType type = CppTypeMapper.map(rootModel, francaConstant);
+    CppTypeRef type = CppTypeMapper.map(rootModel, francaConstant);
     CppValue value = CppValueMapper.map(type, francaConstant.getRhs());
 
     CppConstant cppConstant = new CppConstant(name, type, value);
@@ -140,7 +140,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     cppField.initializer = CppDefaultInitializer.map(francaTypedElement);
     cppField.comment = StubCommentParser.parse(francaTypedElement).getMainBodyText();
     cppField.type =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppType.class);
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
 
     storeResult(cppField);
     closeContext();
@@ -219,7 +219,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   }
 
   private CppMethod buildCppMethod(
-      FMethod francaMethod, CppType returnType, String returnTypeComment) {
+      FMethod francaMethod, CppTypeRef returnType, String returnTypeComment) {
 
     String methodName =
         CppNameRules.getMethodName(francaMethod.getName())

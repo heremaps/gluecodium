@@ -22,18 +22,18 @@ public class CppCustomTypeTest {
 
   @Test
   public void isValueTypeFalseForComplex() {
-    CppCustomType cppCustomType = new CppCustomType("", CppTypeInfo.Complex);
+    CppComplexTypeRef cppCustomType = new CppComplexTypeRef("", CppTypeInfo.Complex);
 
-    boolean result = cppCustomType.isValueType();
+    boolean result = cppCustomType.refersToValueType();
 
     assertEquals(false, result);
   }
 
   @Test
   public void isValueTypeTrueForEnumeration() {
-    CppCustomType cppCustomType = new CppCustomType("", CppTypeInfo.Enumeration);
+    CppComplexTypeRef cppCustomType = new CppComplexTypeRef("", CppTypeInfo.Enumeration);
 
-    boolean result = cppCustomType.isValueType();
+    boolean result = cppCustomType.refersToValueType();
 
     assertEquals(true, result);
   }

@@ -17,9 +17,9 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.jni.JniField;
 import com.here.ivi.api.generator.common.jni.JniModel;
 import com.here.ivi.api.generator.common.jni.JniStruct;
-import com.here.ivi.api.model.cppmodel.CppCustomType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
@@ -63,13 +63,14 @@ public final class JniToCppStructConversionBodyTest {
   private static JniField createIntField() {
     JavaField javaField =
         new JavaField(new JavaPrimitiveType(JavaPrimitiveType.Type.INT), "intfield");
-    CppField cppField = new CppField(new CppPrimitiveType(CppPrimitiveType.Type.INT8), "cppInt");
+    CppField cppField =
+        new CppField(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8), "cppInt");
     return new JniField(javaField, cppField);
   }
 
   private static JniField createCustom() {
     JavaField javaField = new JavaField(new JavaCustomType("JavaStructType"), "nestedStruct");
-    CppField cppField = new CppField(new CppCustomType("CppStructType"), "nestedCplusCplus");
+    CppField cppField = new CppField(new CppComplexTypeRef("CppStructType"), "nestedCplusCplus");
     return new JniField(javaField, cppField);
   }
 
@@ -101,7 +102,7 @@ public final class JniToCppStructConversionBodyTest {
     JavaField javaField =
         new JavaField(new JavaReferenceType(JavaReferenceType.Type.STRING), "StrStructMember");
     CppField cppField =
-        new CppField(new CppCustomType(CppCustomType.STRING_TYPE_NAME), "cppString");
+        new CppField(new CppComplexTypeRef(CppComplexTypeRef.STRING_TYPE_NAME), "cppString");
     JniField jniField = new JniField(javaField, cppField);
     jniStruct.fields.add(jniField);
 

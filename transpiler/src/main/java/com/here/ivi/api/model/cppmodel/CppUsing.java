@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 public class CppUsing extends CppElement {
 
-  public CppUsing(String name, CppType definition) {
+  public CppUsing(String name, CppTypeRef definition) {
     super(name);
     this.definition = definition;
   }
@@ -25,5 +25,5 @@ public class CppUsing extends CppElement {
     return Stream.of(definition);
   }
 
-  public final CppType definition;
+  public final CppTypeRef definition;
 }

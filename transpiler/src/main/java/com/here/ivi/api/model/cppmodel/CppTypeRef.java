@@ -14,17 +14,17 @@ package com.here.ivi.api.model.cppmodel;
 import com.here.ivi.api.model.common.Include;
 import java.util.Collection;
 
-public abstract class CppType extends CppElementWithIncludes {
+public abstract class CppTypeRef extends CppElementWithIncludes {
 
-  public CppType(String typeName) {
+  public CppTypeRef(String typeName) {
     super(typeName);
   }
 
-  public CppType(String typeName, final Collection<Include> includes) {
+  public CppTypeRef(String typeName, final Collection<Include> includes) {
     super(typeName, includes);
   }
 
-  public boolean isValueType() {
+  public boolean refersToValueType() {
     return false;
   }
 }

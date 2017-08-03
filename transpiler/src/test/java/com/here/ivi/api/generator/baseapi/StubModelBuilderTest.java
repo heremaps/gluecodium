@@ -28,8 +28,8 @@ import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.common.cpp.CppValueMapper;
 import com.here.ivi.api.generator.common.cpp.TypeGenerationHelper;
 import com.here.ivi.api.model.cppmodel.CppClass;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppConstant;
-import com.here.ivi.api.model.cppmodel.CppCustomType;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppEnum;
 import com.here.ivi.api.model.cppmodel.CppField;
@@ -115,7 +115,7 @@ public class StubModelBuilderTest {
 
   private StubModelBuilder modelBuilder;
 
-  private final CppCustomType cppCustomType = new CppCustomType("typically");
+  private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef("typically");
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
   private final CppValue cppValue = new CppValue("valuable");
   private final CppEnum cppEnum = new CppEnum("innumerable");
@@ -409,8 +409,8 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMapType() {
-    CppCustomType keyType = new CppCustomType("really");
-    CppCustomType valueType = new CppCustomType("valuable");
+    CppComplexTypeRef keyType = new CppComplexTypeRef("really");
+    CppComplexTypeRef valueType = new CppComplexTypeRef("valuable");
     when(CppTypeMapper.wrapMapType(any(), any(), any())).thenReturn(cppCustomType);
     when(CppTypeMapper.map(any(), same(francaTypeRef))).thenReturn(keyType);
     when(CppTypeMapper.map(any(), same(francaAnotherTypeRef))).thenReturn(valueType);
@@ -450,7 +450,7 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeRef);
 
-    CppCustomType result = modelBuilder.getFirstResult(CppCustomType.class);
+    CppComplexTypeRef result = modelBuilder.getFirstResult(CppComplexTypeRef.class);
     assertEquals(cppCustomType, result);
 
     PowerMockito.verifyStatic();

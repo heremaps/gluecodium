@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.common.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.cppmodel.CppCustomType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeDef;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public final class CppTypeDefTemplateTest {
   @Before
   public void setUp() {
     cppTypeDef.name = TYPEDEF_NAME;
-    cppTypeDef.targetType = new CppCustomType(TYPE_NAME);
+    cppTypeDef.targetType = new CppComplexTypeRef(TYPE_NAME);
   }
 
   @Test

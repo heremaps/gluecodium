@@ -14,9 +14,9 @@ package com.here.ivi.api.generator.common.cpp.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppCustomType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -30,7 +30,7 @@ public final class CppMethodParameterTemplateTest {
   @Test
   public void withPrimitiveType() {
     CppParameter cppParameter =
-        new CppParameter(PARAMETER_NAME, new CppPrimitiveType(CppPrimitiveType.Type.INT8));
+        new CppParameter(PARAMETER_NAME, new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8));
 
     String result = TemplateEngine.render("cpp/CppMethodParameter", cppParameter);
 
@@ -39,7 +39,7 @@ public final class CppMethodParameterTemplateTest {
 
   @Test
   public void withValueType() {
-    CppParameter cppParameter = new CppParameter(PARAMETER_NAME, new CppCustomType(TYPE_NAME));
+    CppParameter cppParameter = new CppParameter(PARAMETER_NAME, new CppComplexTypeRef(TYPE_NAME));
 
     String result = TemplateEngine.render("cpp/CppMethodParameter", cppParameter);
 

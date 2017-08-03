@@ -18,7 +18,7 @@ import static com.here.ivi.api.generator.common.jni.JniNameRules.getParameterNam
 import com.here.ivi.api.generator.common.jni.JniToCppTypeConversionTemplateDelegator
 import com.here.ivi.api.generator.common.jni.CppToJniConversionTemplateDelegator
 import com.here.ivi.api.generator.common.jni.JniModel
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef
 import com.here.ivi.api.generator.common.jni.JniParameter
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType
 import com.here.ivi.api.model.javamodel.JavaReferenceType

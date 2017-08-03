@@ -14,18 +14,18 @@ package com.here.ivi.api.model.cppmodel;
 import java.util.stream.Stream;
 
 public class CppField extends CppElement {
-  public CppType type;
+  public CppTypeRef type;
   public CppValue initializer;
 
   public CppField() {
     super();
   }
 
-  public CppField(CppType type, String name) {
+  public CppField(CppTypeRef type, String name) {
     this(type, name, null);
   }
 
-  public CppField(CppType type, String name, CppValue initializer) {
+  public CppField(CppTypeRef type, String name, CppValue initializer) {
     super(name);
     this.type = type;
     this.initializer = initializer;

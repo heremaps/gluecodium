@@ -15,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppCustomType;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
-import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import java.util.Collection;
 import org.junit.Before;
 import org.junit.Rule;
@@ -37,7 +37,7 @@ public class CppToJniConversionTemplateDelegatorTest {
 
   @Rule public PowerMockRule rule = new PowerMockRule();
 
-  @Parameter public CppType type;
+  @Parameter public CppTypeRef type;
 
   @Parameter(1)
   public Class<? extends Exception> expectedException;
@@ -53,16 +53,16 @@ public class CppToJniConversionTemplateDelegatorTest {
     return java.util.Arrays.asList(
         new Object[][] {
           // cppType, expected exception
-          {new CppPrimitiveType(CppPrimitiveType.Type.INT16), null},
-          {new CppPrimitiveType(CppPrimitiveType.Type.VOID), IllegalArgumentException.class},
-          {new CppPrimitiveType(CppPrimitiveType.Type.FLOAT), null},
-          {new CppPrimitiveType(CppPrimitiveType.Type.INT32), null},
-          {new CppPrimitiveType(CppPrimitiveType.Type.INT64), null},
-          {new CppPrimitiveType(CppPrimitiveType.Type.BOOL), null},
-          {new CppPrimitiveType(CppPrimitiveType.Type.INT8), null},
-          {new CppPrimitiveType(CppPrimitiveType.Type.UINT8), null},
-          {new CppPrimitiveType(CppPrimitiveType.Type.DOUBLE), null},
-          {new CppCustomType("UserDefined"), null}
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT16), null},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID), IllegalArgumentException.class},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.FLOAT), null},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT32), null},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64), null},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.BOOL), null},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8), null},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT8), null},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.DOUBLE), null},
+          {new CppComplexTypeRef("UserDefined"), null}
         });
   }
 
@@ -90,10 +90,10 @@ public class CppToJniConversionTemplateDelegatorTest {
     }
   }
 
-  private static void verifyResult(final CppType cppType, final CharSequence result) {
-    if (cppType instanceof CppPrimitiveType) {
+  private static void verifyResult(final CppTypeRef cppType, final CharSequence result) {
+    if (cppType instanceof CppPrimitiveTypeRef) {
       assertEquals(CPP_VARIABLE_NAME, result.toString());
-    } else if (cppType instanceof CppCustomType) {
+    } else if (cppType instanceof CppComplexTypeRef) {
       PowerMockito.verifyStatic();
       TemplateEngine.render("jni/CppToJniStructConversionCall", CPP_VARIABLE_NAME);
     } else {

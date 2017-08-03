@@ -13,10 +13,10 @@ package com.here.ivi.api.generator.common.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.cppmodel.CppCustomType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -30,7 +30,7 @@ public final class CppMethodSignatureTemplateTest {
   private static final String TYPE_NAME = "Typical";
 
   private CppMethod cppMethod = new CppMethod.Builder(METHOD_NAME).build();
-  private CppCustomType cppCustomType = new CppCustomType(TYPE_NAME);
+  private CppComplexTypeRef cppCustomType = new CppComplexTypeRef(TYPE_NAME);
   private CppParameter cppParameter = new CppParameter(PARAMETER_NAME, cppCustomType);
 
   @Test
@@ -108,7 +108,7 @@ public final class CppMethodSignatureTemplateTest {
   @Test
   public void generateWithTwoInParameters() {
     cppMethod.parameters.add(
-        new CppParameter("age", new CppPrimitiveType(CppPrimitiveType.Type.INT8)));
+        new CppParameter("age", new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8)));
     cppMethod.parameters.add(cppParameter);
 
     String result = CppMethodSignatureTemplate.generate(cppMethod);

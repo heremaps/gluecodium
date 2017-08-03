@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveType;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
@@ -48,14 +48,14 @@ public class JniImplementationTemplateTest {
   private static JniMethod createJniMethod(String methodName, JniModel theModel) {
 
     JavaPrimitiveType javaPrimitiveType = new JavaPrimitiveType(Type.INT);
-    CppPrimitiveType cppPrimitiveType = new CppPrimitiveType(CppPrimitiveType.Type.INT8);
+    CppPrimitiveTypeRef cppPrimitiveType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8);
 
     JniMethod result = new JniMethod();
     result.owningModel = theModel;
     result.javaMethodName = methodName;
     result.cppMethodName = methodName;
     result.javaReturnType = new JavaPrimitiveType(Type.INT);
-    result.cppReturnType = new CppPrimitiveType(CppPrimitiveType.Type.INT8);
+    result.cppReturnType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8);
     result.parameters.add(
         new JniParameter(BASE_PARAMETER_NAME, javaPrimitiveType, cppPrimitiveType));
 

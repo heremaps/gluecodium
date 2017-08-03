@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.common.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.cppmodel.CppCustomType;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.cppmodel.CppValue;
@@ -41,7 +41,7 @@ public final class CppPureStructTemplateTest {
   @Before
   public void setUp() {
     cppField.name = FIELD_NAME;
-    cppField.type = new CppCustomType(TYPE_NAME);
+    cppField.type = new CppComplexTypeRef(TYPE_NAME);
   }
 
   @Test
@@ -104,7 +104,7 @@ public final class CppPureStructTemplateTest {
   public void structWithTwoFields() {
     CppField anotherCppField = new CppField();
     anotherCppField.name = "canola";
-    anotherCppField.type = new CppCustomType("Also");
+    anotherCppField.type = new CppComplexTypeRef("Also");
     cppStruct.fields.add(cppField);
     cppStruct.fields.add(anotherCppField);
 

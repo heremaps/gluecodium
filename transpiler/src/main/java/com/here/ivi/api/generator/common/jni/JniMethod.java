@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.jni;
 
-import com.here.ivi.api.model.cppmodel.CppType;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.javamodel.JavaType;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class JniMethod implements JniElement {
   public JavaType javaReturnType;
 
   public String cppMethodName;
-  public CppType cppReturnType;
+  public CppTypeRef cppReturnType;
 
   public List<JniParameter> parameters = new LinkedList<>();
 

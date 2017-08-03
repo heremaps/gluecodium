@@ -64,7 +64,7 @@ public final class CppMethod extends CppElementWithIncludes {
     this.parameters = builder.parameters;
   }
 
-  public final CppType returnType;
+  public final CppTypeRef returnType;
   public final Set<Specifier> specifiers;
   public final Set<Qualifier> qualifiers;
   public final List<CppParameter> parameters;
@@ -97,7 +97,7 @@ public final class CppMethod extends CppElementWithIncludes {
   public static class Builder {
     private final String name;
     private String methodComment;
-    private CppType returnType = CppPrimitiveType.VOID_TYPE;
+    private CppTypeRef returnType = CppPrimitiveTypeRef.VOID_TYPE;
     private Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
     private Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
     private List<CppParameter> parameters = new ArrayList<>();
@@ -111,7 +111,7 @@ public final class CppMethod extends CppElementWithIncludes {
       return this;
     }
 
-    public Builder returnType(CppType type) {
+    public Builder returnType(CppTypeRef type) {
       this.returnType = type;
       return this;
     }
