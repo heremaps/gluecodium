@@ -99,7 +99,7 @@ std::string
 get_string_field( JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName )
 {
     std::string result;
-    auto fieldId = env->GetFieldID( javaClass, fieldName, "L/java/lang/String;" );
+    auto fieldId = env->GetFieldID( javaClass, fieldName, "Ljava/lang/String;" );
 
     here::internal::convert_from_jni( env, static_cast< jstring >(
             env->GetObjectField( object, fieldId ) ), result );
@@ -222,7 +222,7 @@ set_string_field( JNIEnv* env,
                   const char* fieldName,
                   const std::string& fieldValue )
 {
-    auto fieldId = env->GetFieldID( javaClass, fieldName, "L/java/lang/String;" );
+    auto fieldId = env->GetFieldID( javaClass, fieldName, "Ljava/lang/String;" );
 
     return env->SetObjectField( object, fieldId, here::internal::convert_to_jni( env, fieldValue ) );
 }
