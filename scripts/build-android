@@ -47,5 +47,5 @@ jar cvf ${TARGET_AAR} -C ${TMP_DIR} .
 
 # Finally build the example app itself
 pushd ${ANDROID_DIR}
-safe ./gradlew assembleDebug
+safe ./gradlew assembleDebug assembleDebugAndroidTest
 popd
