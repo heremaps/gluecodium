@@ -147,7 +147,7 @@ public class CppTypeMapper {
   public static CppComplexTypeRef mapStruct(FrancaElement<?> rootModel, FStructType struct) {
 
     if (struct.getElements().isEmpty()) {
-      return new CppComplexTypeRef("EMPTY STRUCT", CppTypeInfo.Invalid);
+      throw new TranspilerExecutionException("empty struct");
     } else {
       Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(struct));
       String typeName = CppNamespaceUtils.getCppTypename(rootModel, struct);
