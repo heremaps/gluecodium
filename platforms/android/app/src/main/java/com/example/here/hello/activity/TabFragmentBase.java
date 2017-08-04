@@ -11,10 +11,6 @@ import com.example.here.hello.R;
 import com.here.android.hello.HelloWorld;
 
 public class TabFragmentBase extends Fragment {
-
-  public TabFragmentBase() {
-  }
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {

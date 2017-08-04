@@ -20,6 +20,7 @@ public final class MainActivity extends AppCompatActivity {
     TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
     tabLayout.addTab(tabLayout.newTab().setText(R.string.fragment_base_title));
     tabLayout.addTab(tabLayout.newTab().setText(R.string.fragment_builtin_title));
+    tabLayout.addTab(tabLayout.newTab().setText(R.string.fragment_plain_old_data_title));
     tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
     final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);

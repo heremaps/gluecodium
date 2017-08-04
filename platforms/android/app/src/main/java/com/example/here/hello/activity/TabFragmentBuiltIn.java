@@ -15,16 +15,12 @@ import com.example.here.hello.R;
 import com.here.android.hello.HelloWorldBuiltinTypes;
 
 public class TabFragmentBuiltIn extends Fragment {
-
   private static final byte BYTE_TEST_VALUE = 10;
   private EditText result;
   private EditText input;
   private Spinner spinner;
   private TextView description;
   private String[] descriptionsText;
-
-  public TabFragmentBuiltIn() {
-  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,

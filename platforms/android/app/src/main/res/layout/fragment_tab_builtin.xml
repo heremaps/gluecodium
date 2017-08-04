@@ -22,7 +22,6 @@
     android:layout_marginTop="@dimen/fab_margin"
     android:layout_marginBottom="@dimen/fab_margin"
     android:textAppearance="@style/TextAppearance.AppCompat" />
-    <!--android:text="@string/builtin_text_header"-->
 
     <EditText
     android:id="@+id/builtin_edit"
