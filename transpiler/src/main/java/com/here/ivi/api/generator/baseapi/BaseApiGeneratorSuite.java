@@ -184,12 +184,15 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
   private static CppNamespace mapFrancaInterfaceToCppModel(Interface<?> anInterface) {
 
-    StubModelBuilder builder = new StubModelBuilder(anInterface);
+    List<String> outmostQualifier = anInterface.getModelInfo().getPackageNames();
+    BaseApiTypeRefNameResolver nameResolver = new BaseApiTypeRefNameResolver(outmostQualifier);
+
+    StubModelBuilder builder = new StubModelBuilder(anInterface, nameResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(anInterface);
 
-    CppNamespace namespace = new CppNamespace(anInterface.getModelInfo().getPackageNames());
+    CppNamespace namespace = new CppNamespace(outmostQualifier);
     namespace.members.addAll(builder.getResults());
 
     return namespace;
@@ -197,17 +200,20 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
   private static CppNamespace mapFrancaTypeCollectionToCppModel(TypeCollection<?> typeCollection) {
 
-    StubModelBuilder builder = new StubModelBuilder(typeCollection);
+    List<String> outmostQualifier =
+        CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection));
+
+    outmostQualifier.add(
+        CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection().getName()));
+
+    BaseApiTypeRefNameResolver nameResolver = new BaseApiTypeRefNameResolver(outmostQualifier);
+
+    StubModelBuilder builder = new StubModelBuilder(typeCollection, nameResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(typeCollection);
 
-    List<String> namespaceName =
-        CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection));
-    namespaceName.add(
-        CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection().getName()));
-
-    CppNamespace namespace = new CppNamespace(namespaceName);
+    CppNamespace namespace = new CppNamespace(outmostQualifier);
     namespace.members.addAll(builder.getResults());
 
     return namespace;

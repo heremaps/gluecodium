@@ -11,22 +11,26 @@
 
 package com.here.ivi.api.generator.common.cpp;
 
-import static com.here.ivi.api.generator.common.cpp.CppLibraryIncludes.INT_TYPES;
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.doCallRealMethod;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyNew;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.LazyInternalInclude;
+import com.here.ivi.api.model.common.LazyTypeRefName;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedList;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
@@ -39,15 +43,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CppNamespaceUtils.class, DefinedBy.class})
+@PrepareForTest({DefinedBy.class, CppTypeMapper.class, CppNameRules.class})
 public class CppTypeMapperComplexTest {
-
-  private static final String STRUCT_NAME = "MyStruct";
 
   @Rule public ExpectedException exception = ExpectedException.none();
 
@@ -62,35 +63,65 @@ public class CppTypeMapperComplexTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(CppNamespaceUtils.class);
-    PowerMockito.mockStatic(DefinedBy.class);
+    mockStatic(CppNameRules.class);
+    mockStatic(DefinedBy.class);
   }
 
   @Test
-  public void mapStringType() {
+  public void mapStringType() throws Exception {
+    //arrange
     FTypeRef typeRef = mockPredefinedType(FBasicTypeId.STRING);
+    CppComplexTypeRef cppTypeRef = new CppComplexTypeRef.Builder("").build();
+    LazyTypeRefName lazyName =
+        new LazyTypeRefName(
+            CppComplexTypeRef.STRING_TYPE_NAME, CppComplexTypeRef.STD_NESTED_NAME_SPECIFIER);
 
+    //mock builder
+    CppComplexTypeRef.Builder builder = mock(CppComplexTypeRef.Builder.class);
+    whenNew(CppComplexTypeRef.Builder.class).withAnyArguments().thenReturn(builder);
+    when(builder.typeInfo(CppTypeInfo.Complex)).thenReturn(builder);
+    when(builder.includes(CppLibraryIncludes.STRING)).thenReturn(builder);
+    when(builder.build()).thenReturn(cppTypeRef);
+
+    //act
     CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, typeRef);
 
-    assertTrue(cppType instanceof CppComplexTypeRef);
-    CppComplexTypeRef customType = (CppComplexTypeRef) cppType;
-    assertEquals(CppComplexTypeRef.STRING_TYPE_NAME, customType.name);
-    assertEquals(CppTypeInfo.Complex, customType.info);
-    assertEquals(new HashSet<>(Arrays.asList(CppLibraryIncludes.STRING)), customType.includes);
+    //assert
+    assertEquals(cppTypeRef, cppType);
+
+    //verify
+    verifyNew(CppComplexTypeRef.Builder.class).withArguments(lazyName);
+    verify(builder).includes(CppLibraryIncludes.STRING);
+    verify(builder).build();
   }
 
   @Test
-  public void mapByteBufferType() {
+  public void mapByteBufferType() throws Exception {
+    //arrange
     FTypeRef typeRef = mockPredefinedType(FBasicTypeId.BYTE_BUFFER);
+    CppComplexTypeRef cppTypeRef = new CppComplexTypeRef.Builder("").build();
+    LazyTypeRefName lazyName =
+        new LazyTypeRefName(
+            CppComplexTypeRef.BYTE_VECTOR_TYPE_NAME, CppComplexTypeRef.STD_NESTED_NAME_SPECIFIER);
 
+    //mock builder
+    CppComplexTypeRef.Builder builder = mock(CppComplexTypeRef.Builder.class);
+    whenNew(CppComplexTypeRef.Builder.class).withArguments(lazyName).thenReturn(builder);
+    when(builder.typeInfo(CppTypeInfo.Complex)).thenReturn(builder);
+    when(builder.includes(CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES))
+        .thenReturn(builder);
+    when(builder.build()).thenReturn(cppTypeRef);
+
+    //act
     CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, typeRef);
 
-    assertTrue(cppType instanceof CppComplexTypeRef);
-    CppComplexTypeRef customType = (CppComplexTypeRef) cppType;
-    assertEquals("std::vector< uint8_t >", customType.name);
-    assertEquals(CppTypeInfo.Complex, customType.info);
-    assertEquals(
-        new HashSet<>(Arrays.asList(CppLibraryIncludes.VECTOR, INT_TYPES)), customType.includes);
+    //assert
+    assertEquals(cppTypeRef, cppType);
+
+    //verify
+    verifyNew(CppComplexTypeRef.Builder.class).withArguments(lazyName);
+    verify(builder).includes(CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES);
+    verify(builder).build();
   }
 
   @Test
@@ -104,39 +135,52 @@ public class CppTypeMapperComplexTest {
   }
 
   @Test
-  public void mapNonEmptyStruct() {
-    FTypeRef typeRef = mock(FTypeRef.class);
-    //type reference and struct
-    when(typeRef.getDerived()).thenReturn(structType);
-    when(structType.getElements().isEmpty()).thenReturn(false);
-    //add typeCollection to hierarchy
-    when(structType.eContainer()).thenReturn(fTypeCollection);
+  public void mapNonEmptyStruct() throws Exception {
 
-    //cpp namespace utils
-    when(CppNamespaceUtils.getCppTypename(mockFrancaModel, structType)).thenReturn(STRUCT_NAME);
+    CppComplexTypeRef cppTypeRef = new CppComplexTypeRef.Builder("").build();
+    LazyTypeRefName lazyName = new LazyTypeRefName("MYSTRUCT", new LinkedList<>());
+
+    //mock franca related stuff
+    FTypeRef typeRef = mock(FTypeRef.class);
+    when(typeRef.getDerived()).thenReturn(structType);
+    when(structType.getName()).thenReturn("MYSTRUCT");
+    when(structType.getElements().isEmpty()).thenReturn(false);
 
     //DefinedBy's constructor is private, so static creator method is excluded from mocking
     //and utilized to create an instance of DefinedBy
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
-    PowerMockito.doCallRealMethod().when(DefinedBy.class);
+    doCallRealMethod().when(DefinedBy.class);
     DefinedBy.createFromFrancaElement(any(FrancaElement.class));
     DefinedBy defined = DefinedBy.createFromFrancaElement(mockFrancaModel);
     when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
+
+    //mock LazyInternalInclude's constructor
+    LazyInternalInclude lazyInclude = new LazyInternalInclude(defined);
+    whenNew(LazyInternalInclude.class).withArguments(defined).thenReturn(lazyInclude);
+
+    //mock CppNameRules
+    when(CppNameRules.getStructName(structType.getName())).thenReturn("MYSTRUCT");
+    when(CppNameRules.getNestedNameSpecifier(structType)).thenReturn(new LinkedList<>());
+
+    //mock CppComplexTypeRef.Builder
+    CppComplexTypeRef.Builder builder = mock(CppComplexTypeRef.Builder.class);
+    whenNew(CppComplexTypeRef.Builder.class).withArguments(lazyName).thenReturn(builder);
+
+    when(builder.typeInfo(CppTypeInfo.Complex)).thenReturn(builder);
+    when(builder.includes(lazyInclude)).thenReturn(builder);
+    when(builder.build()).thenReturn(cppTypeRef);
 
     //act
     CppTypeRef result = CppTypeMapper.map(mockFrancaModel, typeRef);
 
     //assert
-    assertEquals(STRUCT_NAME, result.name);
-    assertTrue(result instanceof CppComplexTypeRef);
-    CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
-    assertEquals(CppTypeInfo.Complex, complexResult.info);
-    assertEquals(1, complexResult.includes.size());
-    assertTrue(complexResult.includes.iterator().next() instanceof LazyInternalInclude);
-    PowerMockito.verifyStatic();
+    assertEquals(cppTypeRef, result);
+
+    //verify
+    verifyStatic();
     DefinedBy.createFromFModelElement(structType);
-    PowerMockito.verifyStatic();
-    CppNamespaceUtils.getCppTypename(mockFrancaModel, structType);
+    verifyNew(LazyInternalInclude.class).withArguments(defined);
+    verifyNew(CppComplexTypeRef.Builder.class).withArguments(lazyName);
   }
 
   private FTypeRef mockPredefinedType(FBasicTypeId predefinedType) {

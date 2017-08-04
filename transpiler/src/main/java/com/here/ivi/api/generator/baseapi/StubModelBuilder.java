@@ -18,6 +18,7 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
+import com.here.ivi.api.generator.common.cpp.CppTypeRefNameResolver;
 import com.here.ivi.api.generator.common.cpp.CppValueMapper;
 import com.here.ivi.api.generator.common.cpp.TypeGenerationHelper;
 import com.here.ivi.api.model.common.LazyInternalInclude;
@@ -35,6 +36,7 @@ import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
+import java.util.Collections;
 import java.util.List;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
@@ -53,28 +55,41 @@ import org.franca.core.franca.FTypedElement;
 public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
   private final FrancaElement<?> rootModel;
+  private final CppTypeRefNameResolver nameResolver;
 
   public StubModelBuilder(
-      final ModelBuilderContextStack<CppElement> contextStack, final FrancaElement<?> rootModel) {
+      final ModelBuilderContextStack<CppElement> contextStack,
+      final FrancaElement<?> rootModel,
+      final CppTypeRefNameResolver nameResolver) {
     super(contextStack);
     this.rootModel = rootModel;
+    this.nameResolver = nameResolver;
   }
 
-  public StubModelBuilder(final FrancaElement<?> rootModel) {
+  public StubModelBuilder(
+      final FrancaElement<?> rootModel, final CppTypeRefNameResolver nameResolver) {
     super(new ModelBuilderContextStack<>());
     this.rootModel = rootModel;
+    this.nameResolver = nameResolver;
   }
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
+    String className = CppNameRules.getClassName(francaInterface.getName());
+
+    List<CppElement> previousResults = getCurrentContext().previousResults;
+
     CppClass.Builder stubClassBuilder =
-        new CppClass.Builder(CppNameRules.getClassName(francaInterface.getName()))
+        new CppClass.Builder(className)
             .comment(StubCommentParser.parse(francaInterface).getMainBodyText());
 
     CppClass cppClass = stubClassBuilder.build();
 
-    List<CppElement> previousResults = getCurrentContext().previousResults;
+    //add name & do resolving
+    nameResolver.resolveLazyNames(
+        nameResolver.addTypeRefScopeNames(Collections.singletonList(className), previousResults));
+
     cppClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, CppMethod.class));
     cppClass.structs.addAll(CollectionsHelper.getAllOfType(previousResults, CppStruct.class));
 
@@ -106,7 +121,14 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
 
-    for (CppElement cppElement : getCurrentContext().previousResults) {
+    List<CppElement> elements = getCurrentContext().previousResults;
+    String typeCollectionName = CppNameRules.getTypeCollectionName(francaTypeCollection.getName());
+
+    //add name & do resolving
+    nameResolver.resolveLazyNames(
+        nameResolver.addTypeRefScopeNames(Collections.singletonList(typeCollectionName), elements));
+
+    for (CppElement cppElement : elements) {
       if (cppElement instanceof CppStruct
           || cppElement instanceof CppTypeDef
           || cppElement instanceof CppEnum
@@ -149,10 +171,17 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FStructType francaStructType) {
 
-    CppStruct struct = new CppStruct(CppNameRules.getStructName(francaStructType.getName()));
+    String cppStructName = CppNameRules.getStructName(francaStructType.getName());
+    CppStruct struct = new CppStruct(cppStructName);
     struct.comment = StubCommentParser.parse(francaStructType).getMainBodyText();
-    struct.fields.addAll(
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppField.class));
+
+    List<CppField> elements =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppField.class);
+
+    //adding scope entry to lazy names
+    nameResolver.addTypeRefScopeNames(Collections.singletonList(cppStructName), elements);
+
+    struct.fields.addAll(elements);
 
     storeResult(struct);
     closeContext();

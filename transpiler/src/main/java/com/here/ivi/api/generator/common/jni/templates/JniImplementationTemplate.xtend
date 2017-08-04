@@ -53,11 +53,7 @@ public class JniImplementationTemplate {
       «JniFunctionSignatureTemplate.generate(jniMethod)»
       {
         «FOR parameter : jniMethod.parameters»
-          «IF isStructType(parameter)»
-          «TemplateEngine.render("jni/FullyQualifiedCppName", jniMethod)»::«parameter.cppType.name» «parameter.name»;
-          «ELSE»
           «parameter.cppType.name» «parameter.name»;
-          «ENDIF»
           «JniToCppTypeConversionTemplateDelegator.generate(parameter.javaType,getParameterName(parameter.name), parameter.name)»;
         «ENDFOR»
         auto result = «TemplateEngine.render("jni/CppMethodCall", jniMethod)»
