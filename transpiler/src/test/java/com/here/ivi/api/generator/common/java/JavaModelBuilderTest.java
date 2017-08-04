@@ -36,6 +36,7 @@ import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FConstantDef;
@@ -66,8 +67,10 @@ public class JavaModelBuilderTest {
   private static final String CONSTANT_NAME = "permanent";
   private static final String FIELD_NAME = "flowers";
   private static final String STRUCT_NAME = "nonsense";
-  private static final JavaPackage BASE_PACKAGE =
-      new JavaPackage(Arrays.asList("these", "are", "prefix", "packages"));
+  private static final List<String> BASE_PACKAGE_NAMES =
+      Arrays.asList("these", "are", "prefix", "packages");
+  private static final JavaPackage BASE_PACKAGE = new JavaPackage(BASE_PACKAGE_NAMES);
+  private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
 
   private MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
@@ -255,28 +258,43 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaTypeCollectionReadsConstants() {
-    contextStack.injectResult(javaConstant);
+  public void finishBuildingFrancaTypeCollectionReadsClasses() {
+    when(JavaTypeMapper.createJavaPackage(any(), any())).thenReturn(BASE_PACKAGE);
+    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+    final JavaClass firstInnerClass = new JavaClass(CLASS_NAME);
+    final JavaClass secondInnerClass = new JavaClass(CLASS_NAME + "Sibling");
+    contextStack.injectResult(firstInnerClass);
+    contextStack.injectResult(secondInnerClass);
 
     modelBuilder.finishBuilding(francaTypeCollection);
+    List<JavaElement> javaElements = modelBuilder.getResults();
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.constants.isEmpty());
-    assertEquals(javaConstant, javaClass.constants.iterator().next());
+    assertNotNull(javaElements);
+    assertEquals(2, javaElements.size());
+
+    JavaClass firstJavaClass = (JavaClass) javaElements.get(0);
+    JavaClass secondJavaClass = (JavaClass) javaElements.get(1);
+
+    assertEquals(firstInnerClass, firstJavaClass);
+    assertEquals(secondInnerClass, secondJavaClass);
   }
 
   @Test
-  public void finishBuildingFrancaTypeCollectionReadsClasses() {
+  public void finishBuildingFrancaTypeCollectionPutsClassesInRightPackage() {
+    when(JavaTypeMapper.createJavaPackage(any(), any())).thenReturn(BASE_PACKAGE);
+    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+
     final JavaClass innerClass = new JavaClass(CLASS_NAME);
     contextStack.injectResult(innerClass);
-
     modelBuilder.finishBuilding(francaTypeCollection);
+    JavaClass javaClass = (JavaClass) modelBuilder.getResults().get(0);
+    String expectedPackage =
+        String.join(".", BASE_PACKAGE_NAMES) + "." + TYPE_COLLECTION_NAME.toLowerCase();
+    String innerPackage = String.join(".", javaClass.javaPackage.packageNames);
+    assertEquals(expectedPackage, innerPackage);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.innerClasses.isEmpty());
-    assertEquals(innerClass, javaClass.innerClasses.iterator().next());
+    PowerMockito.verifyStatic();
+    JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel);
   }
 
   @Test

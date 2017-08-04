@@ -29,7 +29,7 @@ public final class CppNameRules {
   }
 
   public static String getTypeCollectionName(String typeCollectionName) {
-    return NameHelper.toUpperCamelCase(typeCollectionName); // MyTypeCollection
+    return typeCollectionName.toLowerCase(); // mytypecollection
   }
 
   public static String getMethodName(String base) {
