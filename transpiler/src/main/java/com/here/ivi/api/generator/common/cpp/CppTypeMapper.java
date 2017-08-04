@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.common.cpp;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.LazyInternalInclude;
+import com.here.ivi.api.model.common.LazyTypeRefName;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
@@ -76,7 +77,7 @@ public class CppTypeMapper {
       return mapMap(rootModel, (FMapType) derived);
     }
     if (derived instanceof FStructType) {
-      return mapStruct(rootModel, (FStructType) derived);
+      return mapStruct((FStructType) derived);
     }
     if (derived instanceof FEnumerationType) {
       return mapEnum(rootModel, (FEnumerationType) derived);
@@ -145,15 +146,19 @@ public class CppTypeMapper {
     throw new TranspilerExecutionException("map mapping is not yet supported");
   }
 
-  public static CppComplexTypeRef mapStruct(FrancaElement<?> rootModel, FStructType struct) {
+  public static CppComplexTypeRef mapStruct(FStructType struct) {
 
     if (struct.getElements().isEmpty()) {
       throw new TranspilerExecutionException("empty struct");
     } else {
       Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(struct));
-      String typeName = CppNamespaceUtils.getCppTypename(rootModel, struct);
 
-      return new CppComplexTypeRef.Builder(typeName).includes(structInclude).build();
+      return new CppComplexTypeRef.Builder(
+              new LazyTypeRefName(
+                  CppNameRules.getStructName(struct.getName()),
+                  CppNameRules.getNestedNameSpecifier(struct)))
+          .includes(structInclude)
+          .build();
     }
   }
 
@@ -206,11 +211,17 @@ public class CppTypeMapper {
       case FBasicTypeId.UINT64_VALUE:
         return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT64);
       case FBasicTypeId.STRING_VALUE:
-        return new CppComplexTypeRef.Builder(CppComplexTypeRef.STRING_TYPE_NAME)
+        return new CppComplexTypeRef.Builder(
+                new LazyTypeRefName(
+                    CppComplexTypeRef.STRING_TYPE_NAME,
+                    CppComplexTypeRef.STD_NESTED_NAME_SPECIFIER))
             .includes(CppLibraryIncludes.STRING)
             .build();
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return new CppComplexTypeRef.Builder(CppComplexTypeRef.BYTE_VECTOR_TYPE_NAME)
+        return new CppComplexTypeRef.Builder(
+                new LazyTypeRefName(
+                    CppComplexTypeRef.BYTE_VECTOR_TYPE_NAME,
+                    CppComplexTypeRef.STD_NESTED_NAME_SPECIFIER))
             .includes(CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)
             .build();
       default:

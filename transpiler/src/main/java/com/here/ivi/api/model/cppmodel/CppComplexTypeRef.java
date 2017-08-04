@@ -38,8 +38,9 @@ import java.util.List;
  */
 public class CppComplexTypeRef extends CppTypeRef {
 
-  public static final String STRING_TYPE_NAME = "std::string";
-  public static final String BYTE_VECTOR_TYPE_NAME = "std::vector< uint8_t >";
+  public static final String STRING_TYPE_NAME = "string";
+  public static final String BYTE_VECTOR_TYPE_NAME = "vector< uint8_t >";
+  public static final List<String> STD_NESTED_NAME_SPECIFIER = Arrays.asList("std");
 
   public LazyTypeRefName lazyName;
   public final CppTypeInfo info;
