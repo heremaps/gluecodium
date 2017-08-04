@@ -100,7 +100,7 @@ public class CppNameRulesTest {
 
     //assert
     assertEquals(4, qualifier.size());
-    assertEquals(Arrays.asList("my", "fancy", "package", "TCollection"), qualifier);
+    assertEquals(Arrays.asList("my", "fancy", "package", "tcollection"), qualifier);
 
     //verify
     PowerMockito.verifyStatic();

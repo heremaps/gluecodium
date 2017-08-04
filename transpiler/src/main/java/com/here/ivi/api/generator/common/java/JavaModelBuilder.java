@@ -28,6 +28,7 @@ import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
+import java.util.Collections;
 import java.util.List;
 import navigation.BaseApiSpec;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
@@ -72,7 +73,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.constants.addAll(CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
     javaClass.fields.addAll(CollectionsHelper.getAllOfType(previousResults, JavaField.class));
     javaClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, JavaMethod.class));
-    javaClass.innerClasses.addAll(CollectionsHelper.getAllOfType(previousResults, JavaClass.class));
+    List<JavaClass> innerClasses = CollectionsHelper.getAllOfType(previousResults, JavaClass.class);
+    innerClasses.forEach(innerClass -> innerClass.qualifiers.add(JavaClass.ClassQualifier.STATIC));
+    javaClass.innerClasses.addAll(innerClasses);
 
     storeResult(javaClass);
     closeContext();
@@ -80,14 +83,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
-
-    JavaClass javaClass = createJavaClass(francaTypeCollection);
-
-    List<JavaElement> previousResults = getCurrentContext().previousResults;
-    javaClass.constants.addAll(CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
-    javaClass.innerClasses.addAll(CollectionsHelper.getAllOfType(previousResults, JavaClass.class));
-
-    storeResult(javaClass);
+    JavaPackage javaPackage = createJavaPackage(francaTypeCollection);
+    CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaClass.class)
+        .forEach(
+            javaClass -> {
+              javaClass.javaPackage = javaPackage;
+              storeResult(javaClass);
+            });
     closeContext();
   }
 
@@ -176,7 +178,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FStructType francaStructType) {
 
     JavaClass javaClass = createJavaClass(francaStructType);
-    javaClass.qualifiers.add(JavaClass.ClassQualifier.STATIC);
     javaClass.fields.addAll(
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaField.class));
 
@@ -210,6 +211,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.comment = getCommentString(francaTypeCollection);
 
     return javaClass;
+  }
+
+  private JavaPackage createJavaPackage(FModelElement typeCollection) {
+    JavaPackage parentPackage =
+        JavaTypeMapper.createJavaPackage(basePackage, rootModel.getModelInfo().getFModel());
+    String typeCollectionName = JavaNameRules.getTypeCollectionName(typeCollection.getName());
+    return parentPackage.createChildPackage(Collections.singletonList(typeCollectionName));
   }
 
   private static String getCommentString(FModelElement francaModelElement) {

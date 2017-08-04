@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.android;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
@@ -21,6 +22,7 @@ import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import navigation.BaseApiSpec;
 import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 
@@ -49,7 +51,10 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
     treeWalker.walk(typeCollection);
 
-    return generateFilesForClass(modelBuilder.getFirstResult(JavaClass.class));
+    return CollectionsHelper.getAllOfType(modelBuilder.getResults(), JavaClass.class)
+        .stream()
+        .flatMap(javaClass -> generateFilesForClass(javaClass).stream())
+        .collect(Collectors.toList());
   }
 
   private static List<GeneratedFile> generateFilesForClass(JavaClass javaClass) {

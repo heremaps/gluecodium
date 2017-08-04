@@ -44,4 +44,11 @@ public final class JavaNameRulesTest {
     expectedException.expect(NullPointerException.class);
     JavaNameRules.getFileName(null);
   }
+
+  @Test
+  public void getCollectionTypeName() {
+    String collectionTypeName = JavaNameRules.getTypeCollectionName("TestTypeCollection");
+
+    assertEquals("testtypecollection", collectionTypeName);
+  }
 }
