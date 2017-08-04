@@ -8,4 +8,5 @@
     <string name="got_result">Got result: </string>
     <string name="fragment_base_title">Base</string>
     <string name="fragment_builtin_title">BuiltIn Types</string>
+    <string name="fragment_plain_old_data_title">Plain Old Data</string>
 </resources>

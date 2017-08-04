@@ -20,6 +20,8 @@ public class TabFragmentPagerAdapter extends FragmentStatePagerAdapter {
         return new TabFragmentBase();
       case 1:
         return new TabFragmentBuiltIn();
+      case 2:
+        return new TabFragmentPlainOldData();
       default:
         return null;
     }
