@@ -95,7 +95,7 @@ public class CppNamespaceUtilsTest {
     when(DefinedBy.createFromFrancaElement(rootModel)).thenReturn(definedBy);
     when(CppNameRules.getNamespace(definedBy))
         .thenReturn(new ArrayList<>(Arrays.asList("here", "guidance")));
-    when(CppNameRules.getNamespace(fType))
+    when(CppNameRules.getQualifier(fType))
         .thenReturn(new ArrayList<>(Arrays.asList("here", "routing", "rubberband")));
     when(CppNameRules.getCppTypename(fType.getName())).thenReturn("foo");
 
