@@ -17,6 +17,8 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import java.io.File;
 import java.util.List;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 
 public final class CppNameRules {
@@ -54,10 +56,16 @@ public final class CppNameRules {
     return ".h";
   }
 
-  public static List<String> getNamespace(FType type) {
+  public static List<String> getQualifier(FType type) {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
     List<String> result = getNamespace(definer);
-    result.add(getTypeCollectionName(definer.type.getName()));
+    // special rule for structs defined in interfaces ...
+    if (definer.type instanceof FInterface && type instanceof FStructType) {
+      result.add(getClassName(definer.type.getName()));
+    } else {
+      // common rule for all other types
+      result.add(getTypeCollectionName(definer.type.getName()));
+    }
     return result;
   }
 
