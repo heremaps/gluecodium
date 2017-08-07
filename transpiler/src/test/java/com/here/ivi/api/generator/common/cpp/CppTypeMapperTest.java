@@ -56,14 +56,12 @@ public class CppTypeMapperTest {
   @Rule public ExpectedException exception = ExpectedException.none();
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  FrancaElement<?> mockFrancaModel;
-
-  @Mock FTypeRef typeRef;
+  private FrancaElement<?> mockFrancaModel;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  FStructType structType;
+  private FStructType structType;
 
-  @Mock FTypeCollection fTypeCollection;
+  @Mock private FTypeCollection fTypeCollection;
 
   @Before
   public void setUp() {
@@ -208,6 +206,7 @@ public class CppTypeMapperTest {
 
   @Test
   public void mapEmptyStruct() {
+    FTypeRef typeRef = mock(FTypeRef.class);
     exception.expect(TranspilerExecutionException.class);
     when(typeRef.getDerived()).thenReturn(structType);
     when(structType.getElements().isEmpty()).thenReturn(true);
@@ -217,6 +216,7 @@ public class CppTypeMapperTest {
 
   @Test
   public void mapNonEmptyStruct() {
+    FTypeRef typeRef = mock(FTypeRef.class);
     //type reference and struct
     when(typeRef.getDerived()).thenReturn(structType);
     when(structType.getElements().isEmpty()).thenReturn(false);
