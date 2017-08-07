@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.common.jni.templates;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.jni.JniMethod;
 import com.here.ivi.api.generator.common.jni.JniModel;

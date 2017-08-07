@@ -24,7 +24,9 @@ import com.here.ivi.api.model.cppmodel.CppNamespace;
 import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class CppGeneratorTest {
 
