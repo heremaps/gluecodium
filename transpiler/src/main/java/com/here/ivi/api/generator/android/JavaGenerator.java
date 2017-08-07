@@ -51,8 +51,7 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
     treeWalker.walk(typeCollection);
 
-    return CollectionsHelper.getAllOfType(modelBuilder.getResults(), JavaClass.class)
-        .stream()
+    return CollectionsHelper.getStreamOfType(modelBuilder.getResults(), JavaClass.class)
         .flatMap(javaClass -> generateFilesForClass(javaClass).stream())
         .collect(Collectors.toList());
   }

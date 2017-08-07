@@ -73,9 +73,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.constants.addAll(CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
     javaClass.fields.addAll(CollectionsHelper.getAllOfType(previousResults, JavaField.class));
     javaClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, JavaMethod.class));
-    List<JavaClass> innerClasses = CollectionsHelper.getAllOfType(previousResults, JavaClass.class);
-    innerClasses.forEach(innerClass -> innerClass.qualifiers.add(JavaClass.ClassQualifier.STATIC));
-    javaClass.innerClasses.addAll(innerClasses);
+    CollectionsHelper.getStreamOfType(previousResults, JavaClass.class)
+        .forEach(
+            innerClass -> {
+              innerClass.qualifiers.add(JavaClass.ClassQualifier.STATIC);
+              javaClass.innerClasses.add(innerClass);
+            });
 
     storeResult(javaClass);
     closeContext();
@@ -84,7 +87,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
     JavaPackage javaPackage = createJavaPackage(francaTypeCollection);
-    CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaClass.class)
+    CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaClass.class)
         .forEach(
             javaClass -> {
               javaClass.javaPackage = javaPackage;
@@ -122,7 +125,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     // For now we assume all interface methods are native and public
     javaMethod.qualifiers.add(MethodQualifier.NATIVE);
     javaMethod.visibility = JavaVisibility.PUBLIC;
-
     javaMethod.parameters.addAll(
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaParameter.class));
 
@@ -178,6 +180,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FStructType francaStructType) {
 
     JavaClass javaClass = createJavaClass(francaStructType);
+
     javaClass.fields.addAll(
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaField.class));
 
