@@ -54,7 +54,7 @@ public final class CollectionsHelper {
     return getFirstOfType(collection, clazz, null);
   }
 
-  private static <T> Stream<T> getStreamOfType(
+  public static <T> Stream<T> getStreamOfType(
       final Collection<? super T> collection, final Class<T> clazz) {
     return collection.stream().filter(clazz::isInstance).map(clazz::cast);
   }

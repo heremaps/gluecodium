@@ -85,13 +85,13 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             javaClass,
             javaClass.javaPackage.packageNames);
     List<JniElement> previousResults = getCurrentContext().previousResults;
-    CollectionsHelper.getAllOfType(previousResults, JniStruct.class)
+    CollectionsHelper.getStreamOfType(previousResults, JniStruct.class)
         .forEach(
             struct -> {
               struct.owningModel = jniModel;
               jniModel.structs.add(struct);
             });
-    CollectionsHelper.getAllOfType(previousResults, JniMethod.class)
+    CollectionsHelper.getStreamOfType(previousResults, JniMethod.class)
         .forEach(
             method -> {
               method.owningModel = jniModel;
@@ -157,7 +157,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     List<String> cppNamespaces = new LinkedList<>(rootModel.getModelInfo().getPackageNames());
     cppNamespaces.add(typeCollectionName);
 
-    CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniStruct.class)
+    CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
         .forEach(
             jniStruct -> {
               List<String> javaPackages =

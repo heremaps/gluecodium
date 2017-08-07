@@ -249,7 +249,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     }
     builder.comment(methodComment);
 
-    CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppParameter.class)
+    CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
         .forEach(builder::parameter);
 
     return builder.build();
