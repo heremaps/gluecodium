@@ -116,4 +116,21 @@ public class PlainDataStructuresIntegrationTest {
         assertEquals(12.0, result.pointField.x);
         assertEquals(11.0, result.pointField.y);
     }
+
+    @Test
+    public void setStringAndByteArrayToNull() {
+        PlainDataStructuresTest.AllTypesStruct allTypesStruct = new
+                PlainDataStructuresTest.AllTypesStruct();
+        allTypesStruct.pointField = PlainDataStructuresTest.createPoint(11.0, 12.0);
+        allTypesStruct.stringField = null;
+        allTypesStruct.bytesField = null;
+
+        PlainDataStructuresTest.AllTypesStruct result =
+                PlainDataStructuresTest.returnAllTypesStruct(allTypesStruct);
+
+        assertEquals("Strings set to null are converted and returned as empty strings",
+                "", result.stringField);
+        assertTrue("Byte arrays set to null are converted and returned as empty byte arrays",
+                Arrays.equals(new byte[] {}, result.bytesField));
+    }
 }

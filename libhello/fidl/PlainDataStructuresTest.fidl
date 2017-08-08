@@ -123,6 +123,18 @@ interface PlainDataStructuresTest {
     }
 
     <** @description:
+    Static test method which returns AllTypesStruct unmodified
+    **>
+    method returnAllTypesStruct {
+        in {
+            AllTypesStruct input
+        }
+        out {
+            AllTypesStruct output
+        }
+    }
+
+    <** @description:
     Static test method which modifies the AllTypesStruct
     **>
     method modifyAllTypesStruct {
@@ -133,5 +145,4 @@ interface PlainDataStructuresTest {
             AllTypesStruct output
         }
     }
-
 }
