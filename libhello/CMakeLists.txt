@@ -31,7 +31,10 @@ set(HELLO_SOURCES
 
 #TODO: Remove this workaround once iOS supports PODs (APIGEN-357)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-    set(HELLO_SOURCES  ${HELLO_SOURCES} src/hello/HelloWorldPlainDataStructuresStub.cpp src/test/PlainDataStructuresTestStub.cpp)
+    set(HELLO_SOURCES
+        ${HELLO_SOURCES}
+        src/hello/HelloWorldPlainDataStructuresStub.cpp
+        src/test/PlainDataStructuresTestStub.cpp)
 endif()
 
 add_library(hello ${HELLO_SOURCES})
