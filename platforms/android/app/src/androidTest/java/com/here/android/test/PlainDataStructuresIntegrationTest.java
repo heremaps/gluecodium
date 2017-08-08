@@ -133,4 +133,32 @@ public class PlainDataStructuresIntegrationTest {
         assertTrue("Byte arrays set to null are converted and returned as empty byte arrays",
                 Arrays.equals(new byte[] {}, result.bytesField));
     }
+
+    @Test
+    public void useUninitalizedAllTypesStructure() {
+        PlainDataStructuresTest.AllTypesStruct allTypesStruct = new
+                PlainDataStructuresTest.AllTypesStruct();
+
+        PlainDataStructuresTest.AllTypesStruct result =
+                PlainDataStructuresTest.returnAllTypesStruct(allTypesStruct);
+
+        assertNotNull(allTypesStruct.pointField);
+        assertNotNull(result.pointField);
+    }
+
+
+    @Test
+    public void useUninitalizedNestedStructure() {
+        PlainDataStructuresTest.ColoredLine coloredLine = new PlainDataStructuresTest.ColoredLine();
+
+        PlainDataStructuresTest.ColoredLine result =
+                PlainDataStructuresTest.returnColoredLine(coloredLine);
+
+        assertNotNull(coloredLine.line.a);
+        assertNotNull(coloredLine.line.b);
+        assertNotNull(coloredLine.color);
+        assertNotNull(result.line.a);
+        assertNotNull(result.line.b);
+        assertNotNull(result.color);
+    }
 }

@@ -55,6 +55,12 @@ PlainDataStructuresTestStub::createColoredLine( const PlainDataStructuresTestStu
     return coloredLine;
 }
 
+PlainDataStructuresTestStub::ColoredLine
+PlainDataStructuresTestStub::returnColoredLine( const PlainDataStructuresTestStub::ColoredLine& input )
+{
+    return input;
+}
+
 PlainDataStructuresTestStub::AllTypesStruct
 PlainDataStructuresTestStub::returnAllTypesStruct(
                                          const PlainDataStructuresTestStub::AllTypesStruct& input )
