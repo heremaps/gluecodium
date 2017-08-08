@@ -33,7 +33,7 @@ public final class CppTypeDefTemplateTest {
   @Before
   public void setUp() {
     cppTypeDef.name = TYPEDEF_NAME;
-    cppTypeDef.targetType = new CppComplexTypeRef(TYPE_NAME);
+    cppTypeDef.targetType = new CppComplexTypeRef.Builder(TYPE_NAME).build();
   }
 
   @Test

@@ -70,7 +70,8 @@ public class JniModelBuilderTest {
   private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
   private final CppClass cppClass = new CppClass(CPP_CLASS_NAME);
   private final JavaCustomType javaCustomType = new JavaCustomType(JAVA_CLASS_NAME);
-  private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef(CPP_CLASS_NAME);
+  private final CppComplexTypeRef cppCustomType =
+      new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build();
 
   private static final List<String> JAVA_PACKAGES = Arrays.asList("my", "java", "test");
 
@@ -231,7 +232,8 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingInputArgumentReadsJavaCppParameters() {
     JavaParameter javaParameter = new JavaParameter(javaCustomType, "relative");
-    CppParameter cppParameter = new CppParameter("absolute", new CppComplexTypeRef(CPP_CLASS_NAME));
+    CppParameter cppParameter =
+        new CppParameter("absolute", new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build());
     when(javaBuilder.getFirstResult(any())).thenReturn(javaParameter);
     when(stubBuilder.getFirstResult(any())).thenReturn(cppParameter);
 

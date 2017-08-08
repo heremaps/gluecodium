@@ -41,7 +41,7 @@ public final class CppPureStructTemplateTest {
   @Before
   public void setUp() {
     cppField.name = FIELD_NAME;
-    cppField.type = new CppComplexTypeRef(TYPE_NAME);
+    cppField.type = new CppComplexTypeRef.Builder(TYPE_NAME).build();
   }
 
   @Test
@@ -104,7 +104,7 @@ public final class CppPureStructTemplateTest {
   public void structWithTwoFields() {
     CppField anotherCppField = new CppField();
     anotherCppField.name = "canola";
-    anotherCppField.type = new CppComplexTypeRef("Also");
+    anotherCppField.type = new CppComplexTypeRef.Builder("Also").build();
     cppStruct.fields.add(cppField);
     cppStruct.fields.add(anotherCppField);
 

@@ -16,7 +16,6 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -42,7 +41,7 @@ public class CppTypeMapper {
 
     if (typedElement.isArray()) {
       //TODO: APIGEN-145 handle array types
-      return new CppComplexTypeRef("void", CppTypeInfo.Complex);
+      return new CppComplexTypeRef.Builder("void").build();
     }
     return type;
   }
@@ -130,14 +129,14 @@ public class CppTypeMapper {
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FArrayType array) {
     //TODO: APIGEN-145 handle array types
-    return new CppComplexTypeRef("void", CppTypeInfo.Complex);
+    return new CppComplexTypeRef.Builder("void").build();
   }
 
   public static CppTypeRef defineArray(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FArrayType array) {
     //TODO: APIGEN-145 handle array types
-    return new CppComplexTypeRef("void", CppTypeInfo.Complex);
+    return new CppComplexTypeRef.Builder("void").build();
   }
 
   private static CppComplexTypeRef mapMap(
@@ -155,7 +154,7 @@ public class CppTypeMapper {
       Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(struct));
       String typeName = CppNamespaceUtils.getCppTypename(rootModel, struct);
 
-      return new CppComplexTypeRef(typeName, CppTypeInfo.Complex, structInclude);
+      return new CppComplexTypeRef.Builder(typeName).includes(structInclude).build();
     }
   }
 
@@ -163,7 +162,7 @@ public class CppTypeMapper {
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FEnumerationType enumeration) {
     //TODO: APIGEN-145 handle array types
-    return new CppComplexTypeRef("void", CppTypeInfo.Complex);
+    return new CppComplexTypeRef.Builder("void").build();
   }
 
   public static CppComplexTypeRef wrapMapType(
@@ -208,14 +207,13 @@ public class CppTypeMapper {
       case FBasicTypeId.UINT64_VALUE:
         return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT64);
       case FBasicTypeId.STRING_VALUE:
-        return new CppComplexTypeRef(
-            CppComplexTypeRef.STRING_TYPE_NAME, CppTypeInfo.Complex, CppLibraryIncludes.STRING);
+        return new CppComplexTypeRef.Builder(CppComplexTypeRef.STRING_TYPE_NAME)
+            .includes(CppLibraryIncludes.STRING)
+            .build();
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return new CppComplexTypeRef(
-            "std::vector< uint8_t >",
-            CppTypeInfo.Complex,
-            CppLibraryIncludes.VECTOR,
-            CppLibraryIncludes.INT_TYPES);
+        return new CppComplexTypeRef.Builder(CppComplexTypeRef.BYTE_VECTOR_TYPE_NAME)
+            .includes(CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)
+            .build();
       default:
         throw new TranspilerExecutionException(
             "unmapped predefined [" + type.getPredefined().getName() + "]");

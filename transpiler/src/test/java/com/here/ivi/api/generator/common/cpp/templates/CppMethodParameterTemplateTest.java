@@ -39,7 +39,8 @@ public final class CppMethodParameterTemplateTest {
 
   @Test
   public void withValueType() {
-    CppParameter cppParameter = new CppParameter(PARAMETER_NAME, new CppComplexTypeRef(TYPE_NAME));
+    CppParameter cppParameter =
+        new CppParameter(PARAMETER_NAME, new CppComplexTypeRef.Builder(TYPE_NAME).build());
 
     String result = TemplateEngine.render("cpp/CppMethodParameter", cppParameter);
 

@@ -70,7 +70,7 @@ public final class CppValueMapperTest {
   @Test
   public void mapEnumerator() {
     //constant
-    final CppTypeRef cppType = new CppComplexTypeRef("MyFancyType");
+    final CppTypeRef cppType = new CppComplexTypeRef.Builder("MyFancyType").build();
     final String inputEnumeratorName = "EnumeratorIn";
     final String outputEnumeratorName = "EnumeratorOut";
     final String outputTypeName = cppType.name + "::" + outputEnumeratorName;

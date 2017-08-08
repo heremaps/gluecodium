@@ -81,10 +81,10 @@ public final class StubMethodMapper {
     includes.add(EXPECTED_INCLUDE);
 
     CppTypeRef returnType =
-        new CppComplexTypeRef(
-            "here::internal::Expected< " + errorType.name + ", " + outArgType.name + " >",
-            CppTypeInfo.Complex,
-            includes);
+        new CppComplexTypeRef.Builder(
+                "here::internal::Expected< " + errorType.name + ", " + outArgType.name + " >")
+            .includes(includes)
+            .build();
 
     String returnComment =
         "The result type, containing either an error or the " + outArgType.name + " value.";

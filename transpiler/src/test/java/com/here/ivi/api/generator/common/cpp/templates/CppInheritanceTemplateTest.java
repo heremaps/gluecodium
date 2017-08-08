@@ -25,7 +25,8 @@ public final class CppInheritanceTemplateTest {
 
   private CppClass cppClass = new CppClass("Classy");
   private CppInheritance cppInheritance =
-      new CppInheritance(new CppComplexTypeRef("Typical"), CppInheritance.Type.Public);
+      new CppInheritance(
+          new CppComplexTypeRef.Builder("Typical").build(), CppInheritance.Type.Public);
 
   @Test
   public void noInheritances() {
@@ -46,7 +47,8 @@ public final class CppInheritanceTemplateTest {
   @Test
   public void twoInheritances() {
     CppInheritance anotherCppInheritance =
-        new CppInheritance(new CppComplexTypeRef("Nonsense"), CppInheritance.Type.Private);
+        new CppInheritance(
+            new CppComplexTypeRef.Builder("Nonsense").build(), CppInheritance.Type.Private);
     cppClass.inheritances.add(cppInheritance);
     cppClass.inheritances.add(anotherCppInheritance);
 

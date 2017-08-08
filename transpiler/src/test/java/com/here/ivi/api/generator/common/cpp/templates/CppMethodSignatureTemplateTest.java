@@ -30,7 +30,7 @@ public final class CppMethodSignatureTemplateTest {
   private static final String TYPE_NAME = "Typical";
 
   private CppMethod cppMethod = new CppMethod.Builder(METHOD_NAME).build();
-  private CppComplexTypeRef cppCustomType = new CppComplexTypeRef(TYPE_NAME);
+  private CppComplexTypeRef cppCustomType = new CppComplexTypeRef.Builder(TYPE_NAME).build();
   private CppParameter cppParameter = new CppParameter(PARAMETER_NAME, cppCustomType);
 
   @Test

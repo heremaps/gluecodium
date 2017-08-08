@@ -70,7 +70,8 @@ public final class JniToCppStructConversionBodyTest {
 
   private static JniField createCustom() {
     JavaField javaField = new JavaField(new JavaCustomType("JavaStructType"), "nestedStruct");
-    CppField cppField = new CppField(new CppComplexTypeRef("CppStructType"), "nestedCplusCplus");
+    CppField cppField =
+        new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
     return new JniField(javaField, cppField);
   }
 
@@ -102,7 +103,8 @@ public final class JniToCppStructConversionBodyTest {
     JavaField javaField =
         new JavaField(new JavaReferenceType(JavaReferenceType.Type.STRING), "StrStructMember");
     CppField cppField =
-        new CppField(new CppComplexTypeRef(CppComplexTypeRef.STRING_TYPE_NAME), "cppString");
+        new CppField(
+            new CppComplexTypeRef.Builder(CppComplexTypeRef.STRING_TYPE_NAME).build(), "cppString");
     JniField jniField = new JniField(javaField, cppField);
     jniStruct.fields.add(jniField);
 
