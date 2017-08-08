@@ -18,7 +18,15 @@ define navigation.BaseApiSpec for interface test.PlainDataStructuresTest
         Static = true
     }
 
+    method createTypeCollectionTestPoint {
+        Static = true
+    }
+
     method swapPointCoordinates {
+        Static = true
+    }
+
+    method swapTypeCollectionTestPointCoordinates {
         Static = true
     }
 
@@ -26,7 +34,16 @@ define navigation.BaseApiSpec for interface test.PlainDataStructuresTest
         Static = true
     }
 
+    method createTypeCollectionTestLine {
+        Static = true
+    }
+
+
     method createColoredLine {
+        Static = true
+    }
+
+    method createTypeCollectionTestColoredLine {
         Static = true
     }
 
@@ -39,6 +56,10 @@ define navigation.BaseApiSpec for interface test.PlainDataStructuresTest
     }
 
     method modifyAllTypesStruct {
+        Static = true
+    }
+
+    method modifyTypeCollectionTestAllTypesStruct {
         Static = true
     }
 }
