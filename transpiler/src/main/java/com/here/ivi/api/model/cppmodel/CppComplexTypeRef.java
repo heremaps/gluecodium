@@ -11,37 +11,52 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import static java.util.Arrays.asList;
-
 import com.here.ivi.api.model.common.Include;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 public class CppComplexTypeRef extends CppTypeRef {
 
   public static final String STRING_TYPE_NAME = "std::string";
+  public static final String BYTE_VECTOR_TYPE_NAME = "std::vector< uint8_t >";
 
   public final CppTypeInfo info;
 
-  public CppComplexTypeRef(String typeName, CppTypeInfo info) {
-    this(typeName, info, Collections.emptyList());
-  }
-
-  public CppComplexTypeRef(String typeName, Include... includes) {
-    this(typeName, CppTypeInfo.Complex, asList(includes));
-  }
-
-  public CppComplexTypeRef(String typeName, CppTypeInfo info, Include... includes) {
-    this(typeName, info, asList(includes));
-  }
-
-  public CppComplexTypeRef(String typeName, CppTypeInfo info, final Collection<Include> includes) {
-    super(typeName, includes);
-    this.info = info;
+  private CppComplexTypeRef(CppComplexTypeRef.Builder builder) {
+    super(builder.resolvedName, builder.includes);
+    info = builder.typeInfo != null ? builder.typeInfo : CppTypeInfo.Complex;
   }
 
   @Override
   public boolean refersToValueType() {
     return info == CppTypeInfo.Enumeration;
+  }
+
+  public static class Builder {
+    private String resolvedName = null;
+    private Collection<Include> includes = null;
+    private CppTypeInfo typeInfo = null;
+
+    public Builder(final String resolvedName) {
+      this.resolvedName = resolvedName;
+    }
+
+    public Builder includes(final Collection<Include> includes) {
+      this.includes = includes;
+      return this;
+    }
+
+    public Builder includes(final Include... includes) {
+      return includes(Arrays.asList(includes));
+    }
+
+    public Builder typeInfo(final CppTypeInfo typeInfo) {
+      this.typeInfo = typeInfo;
+      return this;
+    }
+
+    public CppComplexTypeRef build() {
+      return new CppComplexTypeRef(this);
+    }
   }
 }

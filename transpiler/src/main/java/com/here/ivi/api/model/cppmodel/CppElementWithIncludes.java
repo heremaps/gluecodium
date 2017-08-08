@@ -32,6 +32,10 @@ public class CppElementWithIncludes extends CppElement {
 
   public CppElementWithIncludes(final String name, final Collection<Include> includes) {
     super(name);
-    this.includes = new HashSet<>(includes);
+    if (includes != null) {
+      this.includes = new HashSet<>(includes);
+    } else {
+      this.includes = new HashSet<>();
+    }
   }
 }

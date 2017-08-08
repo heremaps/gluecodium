@@ -18,11 +18,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class CppCustomTypeTest {
+public class CppComplexTypeRefTest {
 
   @Test
   public void isValueTypeFalseForComplex() {
-    CppComplexTypeRef cppCustomType = new CppComplexTypeRef("", CppTypeInfo.Complex);
+    CppComplexTypeRef cppCustomType =
+        new CppComplexTypeRef.Builder("").typeInfo(CppTypeInfo.Complex).build();
 
     boolean result = cppCustomType.refersToValueType();
 
@@ -31,7 +32,8 @@ public class CppCustomTypeTest {
 
   @Test
   public void isValueTypeTrueForEnumeration() {
-    CppComplexTypeRef cppCustomType = new CppComplexTypeRef("", CppTypeInfo.Enumeration);
+    CppComplexTypeRef cppCustomType =
+        new CppComplexTypeRef.Builder("").typeInfo(CppTypeInfo.Enumeration).build();
 
     boolean result = cppCustomType.refersToValueType();
 

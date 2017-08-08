@@ -115,7 +115,8 @@ public class StubModelBuilderTest {
 
   private StubModelBuilder modelBuilder;
 
-  private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef("typically");
+  private final CppComplexTypeRef cppCustomType =
+      new CppComplexTypeRef.Builder("typically").build();
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
   private final CppValue cppValue = new CppValue("valuable");
   private final CppEnum cppEnum = new CppEnum("innumerable");
@@ -409,8 +410,8 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMapType() {
-    CppComplexTypeRef keyType = new CppComplexTypeRef("really");
-    CppComplexTypeRef valueType = new CppComplexTypeRef("valuable");
+    CppComplexTypeRef keyType = new CppComplexTypeRef.Builder("really").build();
+    CppComplexTypeRef valueType = new CppComplexTypeRef.Builder("valuable").build();
     when(CppTypeMapper.wrapMapType(any(), any(), any())).thenReturn(cppCustomType);
     when(CppTypeMapper.map(any(), same(francaTypeRef))).thenReturn(keyType);
     when(CppTypeMapper.map(any(), same(francaAnotherTypeRef))).thenReturn(valueType);

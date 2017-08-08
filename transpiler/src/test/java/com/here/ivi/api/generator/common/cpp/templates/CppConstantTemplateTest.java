@@ -29,7 +29,10 @@ public final class CppConstantTemplateTest {
   private static final String EXPECTED_RESULT = "static const Typical permanent = valuable;";
 
   private CppConstant cppConstant =
-      new CppConstant(CONSTANT_NAME, new CppComplexTypeRef(TYPE_NAME), new CppValue(VALUE_NAME));
+      new CppConstant(
+          CONSTANT_NAME,
+          new CppComplexTypeRef.Builder(TYPE_NAME).build(),
+          new CppValue(VALUE_NAME));
 
   @Test
   public void nullComment() {

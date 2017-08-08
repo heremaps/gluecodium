@@ -62,7 +62,7 @@ public class CppToJniConversionTemplateDelegatorTest {
           {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8), null},
           {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT8), null},
           {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.DOUBLE), null},
-          {new CppComplexTypeRef("UserDefined"), null}
+          {new CppComplexTypeRef.Builder("UserDefined").build(), null}
         });
   }
 

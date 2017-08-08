@@ -62,7 +62,7 @@ public class StubMethodMapperTest {
   @Mock private FEnumerationType francaEnum;
   @Mock private FArgument francaArgument;
 
-  private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef(TYPE_NAME);
+  private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef.Builder(TYPE_NAME).build();
 
   @Before
   public void setUp() {
@@ -165,7 +165,7 @@ public class StubMethodMapperTest {
   @Test
   public void mapArgumentTypeWrapsInSharedPtr() {
     final CppComplexTypeRef cppInterfaceInstance =
-        new CppComplexTypeRef(TYPE_NAME, CppTypeInfo.InterfaceInstance);
+        new CppComplexTypeRef.Builder(TYPE_NAME).typeInfo(CppTypeInfo.InterfaceInstance).build();
     when(CppTypeMapper.map(any(), any(FArgument.class))).thenReturn(cppInterfaceInstance);
     when(CppTypeMapper.wrapSharedPtr(any())).thenReturn(cppCustomType);
 
@@ -180,7 +180,7 @@ public class StubMethodMapperTest {
   @Test
   public void mapArgumentTypeWrapsInUniquePtr() {
     final CppComplexTypeRef cppInterfaceInstance =
-        new CppComplexTypeRef(TYPE_NAME, CppTypeInfo.InterfaceInstance);
+        new CppComplexTypeRef.Builder(TYPE_NAME).typeInfo(CppTypeInfo.InterfaceInstance).build();
     when(CppTypeMapper.map(any(), any(FArgument.class))).thenReturn(cppInterfaceInstance);
     when(CppTypeMapper.wrapUniquePtr(any())).thenReturn(cppCustomType);
     when(propertyAccessor.getCreates(any())).thenReturn(mock(FInterface.class));
