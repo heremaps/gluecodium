@@ -123,6 +123,18 @@ interface PlainDataStructuresTest {
     }
 
     <** @description:
+    Static test method which returns a colored line unmodified
+    **>
+    method returnColoredLine {
+        in {
+            ColoredLine input
+        }
+        out {
+            ColoredLine output
+        }
+    }
+
+    <** @description:
     Static test method which returns AllTypesStruct unmodified
     **>
     method returnAllTypesStruct {

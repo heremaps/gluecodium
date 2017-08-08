@@ -30,6 +30,10 @@ define navigation.BaseApiSpec for interface test.PlainDataStructuresTest
         Static = true
     }
 
+    method returnColoredLine {
+        Static = true
+    }
+
     method returnAllTypesStruct {
         Static = true
     }
