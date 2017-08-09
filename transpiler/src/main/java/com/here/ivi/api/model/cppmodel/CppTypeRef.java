@@ -24,6 +24,10 @@ public abstract class CppTypeRef extends CppElementWithIncludes {
     super(typeName, includes);
   }
 
+  public String getTextualRepresentation() {
+    return name;
+  }
+
   public boolean refersToValueType() {
     return false;
   }

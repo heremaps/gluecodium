@@ -68,7 +68,7 @@ public class CppNameRulesTest {
     when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
 
     //act
-    List<String> qualifier = CppNameRules.getQualifier(fStructType);
+    List<String> qualifier = CppNameRules.getNestedNameSpecifier(fStructType);
 
     //assert
     assertEquals(4, qualifier.size());
@@ -96,7 +96,7 @@ public class CppNameRulesTest {
     when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
 
     //act
-    List<String> qualifier = CppNameRules.getQualifier(fStructType);
+    List<String> qualifier = CppNameRules.getNestedNameSpecifier(fStructType);
 
     //assert
     assertEquals(4, qualifier.size());
