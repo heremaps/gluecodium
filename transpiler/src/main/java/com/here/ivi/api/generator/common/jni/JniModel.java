@@ -27,4 +27,17 @@ public class JniModel implements JniElement {
   public final List<JniMethod> methods = new LinkedList<>();
   public final List<JniStruct> structs = new LinkedList<>();
   public final List<Include> includes = new LinkedList<>();
+
+  public JniModel() {}
+
+  public JniModel(
+      String cppClassName,
+      List<String> cppNamespaces,
+      JavaClass javaClass,
+      List<String> javaPackages) {
+    this.cppClassName = cppClassName;
+    this.cppNameSpaces = cppNamespaces;
+    this.javaClass = javaClass;
+    this.javaPackages = javaPackages;
+  }
 }

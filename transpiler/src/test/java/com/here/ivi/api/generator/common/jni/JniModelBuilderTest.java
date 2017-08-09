@@ -87,6 +87,7 @@ public class JniModelBuilderTest {
   private static final String JAVA_INT_METHOD_NAME = "fancyMEthoD_integer";
 
   private static final String BASE_NAME_PARAMETER = "theParam";
+  private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
 
   private MockContextStack<JniElement> contextStack = new MockContextStack<>();
 
@@ -290,21 +291,8 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaTypeCollectionReadsJavaClass() {
-    javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-
-    modelBuilder.finishBuilding(francaTypeCollection);
-
-    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
-    assertNotNull(jniModel);
-    assertEquals("", jniModel.cppClassName);
-    assertEquals(JAVA_CLASS_NAME, jniModel.javaClass.name);
-    assertEquals(CPP_NAMESPACE_MEMBERS, jniModel.cppNameSpaces);
-    assertEquals(JAVA_PACKAGES, jniModel.javaPackages);
-  }
-
-  @Test
   public void finishBuildingFrancaTypeCollectionReadsStructs() {
+    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
     JniStruct jniStruct = new JniStruct(javaClass, new CppStruct(CPP_CLASS_NAME), null);
     contextStack.injectResult(jniStruct);
 
@@ -312,7 +300,8 @@ public class JniModelBuilderTest {
 
     JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
     assertNotNull(jniModel);
-    assertFalse(jniModel.structs.isEmpty());
-    assertEquals(jniStruct, jniModel.structs.get(0));
+    assertEquals(jniStruct.javaClass, jniModel.javaClass);
+    String expectedPackage = "com.here.android.testtypecollection";
+    assertEquals(expectedPackage, String.join(".", jniModel.javaPackages));
   }
 }
