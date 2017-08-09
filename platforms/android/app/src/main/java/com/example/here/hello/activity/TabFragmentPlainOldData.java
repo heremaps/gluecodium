@@ -15,9 +15,21 @@ import com.example.here.hello.R;
 import com.here.android.hello.HelloWorldPlainDataStructures;
 import com.here.android.hello.HelloWorldPlainDataStructures.IdentifiableSyncResult;
 import com.here.android.hello.HelloWorldPlainDataStructures.SyncResult;
+import java.util.Locale;
 
 public class TabFragmentPlainOldData extends Fragment {
 
+  static final String syncResultText = "SyncResult {%n"
+      + "    long timeStamp = %d%n"
+      + "    long numberOfUsages = %d%n"
+      + "}";
+  static final String idSyncResultText = "IdSyncResult {%n"
+      + "    int id = %d%n"
+      + "    SyncResult {%n"
+      + "        long timeStamp = %d%n"
+      + "        long numberOfUsages = %d%n"
+      + "    }%n"
+      + "}";
   private EditText result;
   private EditText input;
   private Spinner spinner;
@@ -73,18 +85,24 @@ public class TabFragmentPlainOldData extends Fragment {
         HelloWorldPlainDataStructures.SyncResult outputSyncResult = HelloWorldPlainDataStructures
             .methodWithNonNestedType(syncResult);
 
-        result.setText(String.valueOf(outputSyncResult.numberOfChanges));
+        result.setText(String.format(Locale.getDefault(), syncResultText,
+            outputSyncResult.lastUpdatedTimeStamp,
+            outputSyncResult.numberOfChanges));
         break;
       case 1:
         HelloWorldPlainDataStructures.IdentifiableSyncResult identifiableSyncResult = new
             IdentifiableSyncResult();
-        identifiableSyncResult.id = 42;
+        identifiableSyncResult.id = 99;
         identifiableSyncResult.syncResult = syncResult;
 
         HelloWorldPlainDataStructures.IdentifiableSyncResult outputIdentifiableSyncResult =
             HelloWorldPlainDataStructures.methodWithNestedType(identifiableSyncResult);
 
-        result.setText(String.valueOf(outputIdentifiableSyncResult.syncResult.numberOfChanges));
+        String resultText = String.format(Locale.getDefault(), idSyncResultText,
+            outputIdentifiableSyncResult.id,
+            outputIdentifiableSyncResult.syncResult.lastUpdatedTimeStamp,
+            outputIdentifiableSyncResult.syncResult.numberOfChanges);
+        result.setText(resultText);
         break;
     }
   }

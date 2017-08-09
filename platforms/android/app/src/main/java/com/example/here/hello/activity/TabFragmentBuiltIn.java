@@ -97,6 +97,10 @@ public class TabFragmentBuiltIn extends Fragment {
         result.setText(String.valueOf(resultUInt64));
         break;
       case 8:
+        if (!parameterText.equalsIgnoreCase("true") && !parameterText.equalsIgnoreCase("false")) {
+          throw new NumberFormatException("Invalid bool: only 'true' or 'false' are accepted.");
+        }
+
         boolean booleanResult = HelloWorldBuiltinTypes.methodWithBoolean(
             Boolean.valueOf(parameterText));
         result.setText(String.valueOf(booleanResult));
