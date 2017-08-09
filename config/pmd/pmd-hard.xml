@@ -74,7 +74,11 @@ Excluded: android, logging, GenericsNaming
 
     <rule ref="rulesets/java/imports.xml" />
 
-    <rule ref="rulesets/java/junit.xml" />
+    <rule ref="rulesets/java/junit.xml">
+        <!-- Allow multiple Asserts in JUnit test -->
+        <exclude name="JUnitTestContainsTooManyAsserts" />
+    </rule>
+
 
     <rule ref="rulesets/java/migrating.xml" />
 

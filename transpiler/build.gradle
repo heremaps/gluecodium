@@ -163,6 +163,7 @@ checkstyleTest {
 apply plugin: 'pmd'
 pmd {
     ruleSetFiles = files(rootProject.file('config/pmd/pmd-hard.xml'))
+    rulePriority = 3
     ignoreFailures true
 }
 
