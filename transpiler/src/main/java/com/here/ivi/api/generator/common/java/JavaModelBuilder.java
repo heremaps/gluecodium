@@ -18,6 +18,7 @@ import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaConstant;
+import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaElement;
 import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaMethod;
@@ -157,8 +158,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaType javaType =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
-    JavaField javaField =
-        new JavaField(javaType, JavaNameRules.getFieldName(francaTypedElement.getName()));
+    String fieldName = JavaNameRules.getFieldName(francaTypedElement.getName());
+    JavaField javaField;
+    if (javaType instanceof JavaCustomType) {
+      javaField = new JavaField((JavaCustomType) javaType, fieldName);
+    } else {
+      javaField = new JavaField(javaType, fieldName);
+    }
     javaField.visibility = JavaVisibility.PUBLIC;
     javaField.comment = getCommentString(francaTypedElement);
 

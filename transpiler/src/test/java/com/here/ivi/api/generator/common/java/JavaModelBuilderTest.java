@@ -310,6 +310,17 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaCustomTypedElementHasInitializer() {
+    contextStack.injectResult(javaCustomType);
+
+    modelBuilder.finishBuilding(francaTypedElement);
+
+    JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
+    assertNotNull(javaField);
+    assertEquals(javaCustomType, javaField.customTypeInitial);
+  }
+
+  @Test
   public void finishBuildingFrancaTypedElementCreatesPublicField() {
     modelBuilder.finishBuilding(francaTypedElement);
 

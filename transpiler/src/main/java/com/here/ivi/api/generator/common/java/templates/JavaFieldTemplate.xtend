@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaField
 import com.here.ivi.api.generator.common.java.JavaCommentFormatter
+import com.here.ivi.api.generator.common.TemplateEngine
 
 class JavaFieldTemplate {
   def private static whitespaceFormatter(String field) '''
@@ -25,6 +26,12 @@ class JavaFieldTemplate {
           /**
            * «JavaCommentFormatter.format(comment)»
            */
-«ENDIF»«accessModifier»«type.name» «name»«optionalInitializer»;'''
+«ENDIF»«accessModifier»«type.name» «name»«optionalInitializer»«customTypeInitializerIfPresent()»;'''
+  }
+
+  private def static customTypeInitializerIfPresent(JavaField it) {
+    if (customTypeInitial !== null) {
+      ''' = «TemplateEngine.render("java/CreateNewInstance", customTypeInitial)»'''
+    }
   }
 }
