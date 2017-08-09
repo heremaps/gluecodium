@@ -29,38 +29,16 @@
         <item>Returns a float, half of the input value</item>
         <item>Returns a double, two times the value of the input</item>
         <item>Returns the given string (encoded as a sequence of bytes) in inverted order</item>
-        <item>
-            Returns a double equal to "inputFloat * (0.01 * inputInteger)"\n\n
-            Parameters must be passed as "inputFloat,inputInteger" in the text field "Value"
-            below.\n\n
-            Example: 3.0,1
-        </item>
+        <item>Returns a double equal to: inputFloat * (0.01 * inputInteger)\n\nParameters must be passed as "inputFloat,inputInteger" in the text field below.\n\nExample: 3.0,1</item>
     </string-array>
 
     <string-array name="plain_old_data_methods">
-        <item>methodWithNonNestedType</item>
-        <item>methodWithNestedType</item>
+        <item>SyncResult methodWithNonNestedType(SyncResult)</item>
+        <item>IdSyncResult methodWithNestedType(IdSyncResult)</item>
     </string-array>
 
     <string-array name="plain_old_data_methods_description">
-        <item>
-            Returns input struct with numberOfUsage increased by 1.\n\n
-
-            SyncResult {\n
-            \t\tlong timeStamp\n
-            \t\tlong numberOfUsages = "value"\n
-            }
-        </item>
-        <item>
-            Returns input struct with numberOfUsage increased by 1.\n\n
-
-            IdentifiableSyncResult {\n
-            \t\tint id\n
-            \t\tSyncResult {\n
-            \t\t\t\tlong timeStamp\n
-            \t\t\t\tlong numberOfUsages = "value"\n
-            \t\t}\n
-            }
-        </item>
+        <item>Returns input struct with numberOfUsage increased by 1.\n\nINPUT:\nSyncResult{\n\t\tlong timeStamp = 42\n\t\tlong numberOfUsages = ?\n}</item>
+        <item>Returns input struct with numberOfUsage increased by 1.\n\nINPUT:\nIdSyncResult{\n\t\tint id = 99\n\t\tSyncResult {\n\t\t\t\tlong timeStamp = 42\n\t\t\t\tlongnumberOfUsages = ?\n\t\t}\n}</item>
     </string-array>
 </resources>

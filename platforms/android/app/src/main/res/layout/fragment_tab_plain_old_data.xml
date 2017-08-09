@@ -30,7 +30,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:ems="10"
-      android:hint="@string/parameter_value"
+      android:hint="@string/number_of_usages_input"
       android:inputType="none" />
 
     <Button
