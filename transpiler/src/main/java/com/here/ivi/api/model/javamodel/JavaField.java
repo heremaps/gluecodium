@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 public final class JavaField extends JavaElement {
   public final JavaType type;
   public final JavaValue initial;
+  public final JavaType customTypeInitial;
 
   public JavaField(final JavaType type, final String name) {
     this(type, name, null);
@@ -25,6 +26,14 @@ public final class JavaField extends JavaElement {
     super(name);
     this.type = type;
     this.initial = initial;
+    this.customTypeInitial = null;
+  }
+
+  public JavaField(final JavaCustomType type, final String name) {
+    super(name);
+    this.type = type;
+    this.initial = null;
+    customTypeInitial = type;
   }
 
   @Override

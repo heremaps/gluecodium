@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common.java.templates
 
+import com.here.ivi.api.model.javamodel.JavaCustomType
 import com.here.ivi.api.model.javamodel.JavaField
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType
 import com.here.ivi.api.model.javamodel.JavaValue
@@ -57,6 +58,16 @@ class JavaFieldTemplateTest {
  * Field comment
  */
 public String stringField;'''
+
+    val generated = JavaFieldTemplate.generate(javaField)
+
+    assertEquals(expected, generated.toString)
+  }
+
+  @Test
+  def customTypeWithInitializer() {
+    val javaField = new JavaField(new JavaCustomType("CustomType"), "customField")
+    val expected = '''CustomType customField = new CustomType();'''
 
     val generated = JavaFieldTemplate.generate(javaField)
 
