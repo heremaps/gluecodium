@@ -56,7 +56,7 @@ public final class CppNameRules {
     return ".h";
   }
 
-  public static List<String> getQualifier(FType type) {
+  public static List<String> getNestedNameSpecifier(FType type) {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
     List<String> result = getNamespace(definer);
     // special rule for structs defined in interfaces ...

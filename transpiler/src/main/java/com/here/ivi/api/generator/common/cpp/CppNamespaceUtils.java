@@ -35,7 +35,7 @@ public class CppNamespaceUtils {
     List<String> names =
         builtDisjointNamespace(
             CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(rootModel)),
-            CppNameRules.getQualifier(element));
+            CppNameRules.getNestedNameSpecifier(element));
 
     names.add(CppNameRules.getCppTypename(element.getName()));
 
