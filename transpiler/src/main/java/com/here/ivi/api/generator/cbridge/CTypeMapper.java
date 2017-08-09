@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.franca.FrancaElement;
 import org.franca.core.franca.FBasicTypeId;
@@ -28,7 +27,8 @@ public final class CTypeMapper {
       if (derived instanceof FStructType) {
         return CppTypeInfo.createStructTypeInfo(rootModel, (FStructType) derived);
       }
-      throw new TranspilerExecutionException("Unsupported type mapping for: " + derived);
+      //TODO: APIGEN-145 handle array types
+      return new CppTypeInfo(CType.VOID);
     }
 
     return mapPredefined(type);

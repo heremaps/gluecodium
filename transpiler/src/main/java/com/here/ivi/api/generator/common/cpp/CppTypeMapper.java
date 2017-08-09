@@ -41,7 +41,8 @@ public class CppTypeMapper {
     CppTypeRef type = CppTypeMapper.map(rootModel, typedElement.getType());
 
     if (typedElement.isArray()) {
-      throw new TranspilerExecutionException("wrapping of arrays is not yet supported");
+      //TODO: APIGEN-145 handle array types
+      return new CppComplexTypeRef("void", CppTypeInfo.Complex);
     }
     return type;
   }
@@ -128,13 +129,15 @@ public class CppTypeMapper {
   private static CppComplexTypeRef mapArray(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FArrayType array) {
-    throw new TranspilerExecutionException("mapping arrays is not yet supported");
+    //TODO: APIGEN-145 handle array types
+    return new CppComplexTypeRef("void", CppTypeInfo.Complex);
   }
 
   public static CppTypeRef defineArray(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FArrayType array) {
-    throw new TranspilerExecutionException("defining arrays is not yet supported");
+    //TODO: APIGEN-145 handle array types
+    return new CppComplexTypeRef("void", CppTypeInfo.Complex);
   }
 
   private static CppComplexTypeRef mapMap(
@@ -159,8 +162,8 @@ public class CppTypeMapper {
   public static CppComplexTypeRef mapEnum(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FEnumerationType enumeration) {
-
-    throw new TranspilerExecutionException("mapping enums is not yet supported");
+    //TODO: APIGEN-145 handle array types
+    return new CppComplexTypeRef("void", CppTypeInfo.Complex);
   }
 
   public static CppComplexTypeRef wrapMapType(
