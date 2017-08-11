@@ -93,7 +93,8 @@ public final class JavaTypeMapper {
     }
 
     if (derived instanceof FTypeDef) {
-      //TODO: return mapTypeDef(api, (FTypeDef) derived);
+      // TODO APIGEN-439 Replace this when typedef support is implemented
+      return map(basePackage, ((FTypeDef) derived).getActualType());
     }
     if (derived instanceof FArrayType) {
       //TODO: return mapArray(api, (FArrayType) derived);
