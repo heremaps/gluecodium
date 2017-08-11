@@ -23,15 +23,6 @@ public abstract class JavaType extends JavaElementWithImports {
     return name;
   }
 
-  // TODO APIGEN-268 The string magic should be replaced with improved models
-  public String getOuterName() {
-    if (name.contains(".")) {
-      return name.substring(name.lastIndexOf('.') + 1, name.length());
-    } else {
-      return name;
-    }
-  }
-
   public JavaType(final String name, final Collection<JavaImport> imports) {
     super(name, imports);
   }

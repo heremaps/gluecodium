@@ -119,18 +119,21 @@ public final class JavaTypeMapper {
 
     String structName;
     String importClassName;
+    String className = JavaNameRules.getClassName(structType.getName());
 
     //struct is nested class inside defining class
     if (definer.type instanceof FInterface) {
       importClassName = JavaNameRules.getClassName(definer.type.getName());
-      structName = importClassName + "." + JavaNameRules.getClassName(structType.getName());
+      structName = importClassName + "." + className;
     } else { //non nested struct
-      importClassName = JavaNameRules.getClassName(structType.getName());
-      structName = importClassName;
+      importClassName = structName = className;
       packageNames.add(definer.type.getName());
     }
 
     JavaImport javaImport = new JavaImport(importClassName, new JavaPackage(packageNames));
+    if (!className.equals(structName)) {
+      return new JavaCustomType(structName, className, Collections.singletonList(javaImport));
+    }
     return new JavaCustomType(structName, Collections.singletonList(javaImport));
   }
 }

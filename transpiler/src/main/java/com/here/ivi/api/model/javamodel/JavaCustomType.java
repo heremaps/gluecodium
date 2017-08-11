@@ -16,11 +16,22 @@ import java.util.Collection;
 /** A custom Java type. */
 public final class JavaCustomType extends JavaType {
 
+  /** The class name without outer class if there is one */
+  public final String simpleName;
+
   public JavaCustomType(final String name) {
     super(name);
+    simpleName = name;
   }
 
   public JavaCustomType(final String name, final Collection<JavaImport> imports) {
     super(name, imports);
+    simpleName = name;
+  }
+
+  public JavaCustomType(
+      final String fullName, String className, final Collection<JavaImport> imports) {
+    super(fullName, imports);
+    simpleName = className;
   }
 }
