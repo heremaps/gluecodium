@@ -119,10 +119,9 @@ public class CppTypeMapper {
         String.format(formatMessage, typeDesc, name, definer, rootModel));
   }
 
-  private static CppTypeRef mapTypeDef(
-      @SuppressWarnings("unused") FrancaElement<?> rootModel,
-      @SuppressWarnings("unused") FTypeDef typedef) {
-    throw new TranspilerExecutionException("mapping type defs is not yet supported");
+  private static CppTypeRef mapTypeDef(FrancaElement<?> rootModel, FTypeDef typedef) {
+    // TODO APIGEN-439 Replace this when typedef support is implemented
+    return map(rootModel, typedef.getActualType());
   }
 
   private static CppComplexTypeRef mapArray(
