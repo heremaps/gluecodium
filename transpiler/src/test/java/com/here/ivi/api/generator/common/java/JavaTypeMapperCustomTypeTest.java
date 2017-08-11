@@ -123,6 +123,7 @@ public class JavaTypeMapperCustomTypeTest {
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());
+    assertEquals(STRUCT_NAME_INTERFACE, customReturn.simpleName);
     assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().javaPackage);
     assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().className);
 
