@@ -2,9 +2,11 @@ package com.example.here.hello.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import com.here.android.hello.HelloWorldBuiltinTypes;
 
 public class TabFragmentBuiltIn extends Fragment {
   private static final byte BYTE_TEST_VALUE = 10;
+  private Button submitButton;
   private EditText result;
   private EditText input;
   private Spinner spinner;
@@ -46,8 +49,8 @@ public class TabFragmentBuiltIn extends Fragment {
       }
     });
 
-    Button builtinButton = (Button) rootView.findViewById(R.id.builtin_submit_button);
-    builtinButton.setOnClickListener(new View.OnClickListener() {
+    submitButton = (Button) rootView.findViewById(R.id.builtin_submit_button);
+    submitButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         String parameterText = input.getText().toString();
@@ -56,6 +59,17 @@ public class TabFragmentBuiltIn extends Fragment {
         } catch (NumberFormatException e) {
           result.setText(e.getMessage());
         }
+      }
+    });
+
+    input.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+      @Override
+      public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+          submitButton.performClick();
+          return true;
+        }
+        return false;
       }
     });
 
