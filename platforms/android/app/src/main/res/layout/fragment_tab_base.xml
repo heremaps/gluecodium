@@ -12,10 +12,13 @@
     android:orientation="vertical">
 
     <EditText
-      android:id="@+id/user"
+      android:id="@+id/input"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="@string/text_input"
+      android:inputType="text"
+      android:imeOptions="actionDone"
+      android:maxLines="1"
       android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
     <Button
       android:id="@+id/greet"

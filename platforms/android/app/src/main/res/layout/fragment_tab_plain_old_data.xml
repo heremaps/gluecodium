@@ -31,7 +31,9 @@
       android:layout_height="wrap_content"
       android:ems="10"
       android:hint="@string/number_of_usages_input"
-      android:inputType="none" />
+      android:inputType="text"
+      android:imeOptions="actionDone"
+      android:maxLines="1" />
 
     <Button
       android:id="@+id/plain_old_data_submit_button"

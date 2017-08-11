@@ -1,10 +1,14 @@
 package com.example.here.hello.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -30,6 +34,7 @@ public class TabFragmentPlainOldData extends Fragment {
       + "        long numberOfUsages = %d%n"
       + "    }%n"
       + "}";
+  private Button submitButton;
   private EditText result;
   private EditText input;
   private Spinner spinner;
@@ -60,8 +65,8 @@ public class TabFragmentPlainOldData extends Fragment {
       }
     });
 
-    Button builtinButton = (Button) rootView.findViewById(R.id.plain_old_data_submit_button);
-    builtinButton.setOnClickListener(new View.OnClickListener() {
+    submitButton = (Button) rootView.findViewById(R.id.plain_old_data_submit_button);
+    submitButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         try {
@@ -72,6 +77,23 @@ public class TabFragmentPlainOldData extends Fragment {
         }
       }
     });
+
+    input.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+      @Override
+      public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+          submitButton.performClick();
+
+          // Since description and result text are too big, hide keyboard on click to show results
+          InputMethodManager inputMethodManager = (InputMethodManager) textView.getContext()
+              .getSystemService(Context.INPUT_METHOD_SERVICE);
+          inputMethodManager.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+          return true;
+        }
+        return false;
+      }
+    });
+
     return rootView;
   }
 
