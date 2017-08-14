@@ -27,6 +27,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
@@ -114,7 +115,10 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
 
     Stream<List<GeneratedFile>> jniFilesStream =
         Stream.concat(
-            jniModels.stream().map(jniGenerator::generateFiles),
+            jniModels
+                .stream()
+                .filter(jniModel -> Objects.nonNull(jniModel.javaClass))
+                .map(jniGenerator::generateFiles),
             Stream.of(jniGenerator.generateConversionFiles(jniModels)));
 
     // This generator is special in that it generates only one file

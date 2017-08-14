@@ -19,6 +19,7 @@ import org.trimou.engine.MustacheEngine;
 import org.trimou.engine.MustacheEngineBuilder;
 import org.trimou.engine.locator.ClassPathTemplateLocator;
 import org.trimou.handlebars.BasicHelper;
+import org.trimou.handlebars.JoinHelper;
 import org.trimou.handlebars.Options;
 
 public final class TemplateEngine {
@@ -112,6 +113,7 @@ public final class TemplateEngine {
             .registerHelper("prefix", new PrefixHelper())
             .registerHelper("prefixPartial", new PrefixPartialHelper())
             .registerHelper("joinPartial", new JoinPartialHelper())
+            .registerHelper("join", new JoinHelper())
             .build();
   }
 

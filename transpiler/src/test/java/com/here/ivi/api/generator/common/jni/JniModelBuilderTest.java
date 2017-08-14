@@ -302,8 +302,9 @@ public class JniModelBuilderTest {
 
     JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
     assertNotNull(jniModel);
-    assertEquals(jniStruct.javaClass, jniModel.javaClass);
-    String expectedPackage = "com.here.android.testtypecollection";
-    assertEquals(expectedPackage, String.join(".", jniModel.javaPackages));
+    assertFalse(jniModel.structs.isEmpty());
+    assertEquals(jniStruct.javaClass, jniModel.structs.get(0).javaClass);
+    String expectedNamespace = "my::cpp::stuffs::namespace::testtypecollection";
+    assertEquals(expectedNamespace, String.join("::", jniModel.cppNameSpaces));
   }
 }

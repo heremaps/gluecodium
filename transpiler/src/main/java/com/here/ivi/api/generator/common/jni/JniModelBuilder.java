@@ -16,6 +16,7 @@ import com.here.ivi.api.generator.baseapi.StubModelBuilder;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
+import com.here.ivi.api.generator.common.java.JavaNameRules;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
@@ -153,20 +154,21 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
-    String typeCollectionName = francaTypeCollection.getName().toLowerCase();
-    List<String> cppNamespaces = new LinkedList<>(rootModel.getModelInfo().getPackageNames());
-    cppNamespaces.add(typeCollectionName);
+
+    String typeCollectionName = francaTypeCollection.getName();
+    List<String> packageNames = new LinkedList<>(rootModel.getModelInfo().getPackageNames());
+    packageNames.add(JavaNameRules.getTypeCollectionName(typeCollectionName));
+
+    JniModel jniModel = new JniModel("", packageNames, null, packageNames);
 
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
         .forEach(
-            jniStruct -> {
-              List<String> javaPackages =
-                  new LinkedList<>(jniStruct.javaClass.javaPackage.packageNames);
-              javaPackages.add(typeCollectionName);
-              storeResult(
-                  new JniModel(
-                      jniStruct.cppStruct.name, cppNamespaces, jniStruct.javaClass, javaPackages));
+            struct -> {
+              struct.owningModel = jniModel;
+              jniModel.structs.add(struct);
             });
+
+    storeResult(jniModel);
     closeContext();
   }
 }

@@ -27,6 +27,7 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -121,10 +122,13 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
   private List<Include> getIncludes(
       final FrancaElement<?> francaElement, final JavaClass javaClass) {
 
-    String jniHeaderInclude = JniNameRules.getHeaderFileName(javaClass);
     String baseApiHeaderInclude = CppNameRules.getHeaderPath(francaElement);
 
-    List<String> includes = new LinkedList<>(Arrays.asList(jniHeaderInclude, baseApiHeaderInclude));
+    List<String> includes = new LinkedList<>(Collections.singletonList(baseApiHeaderInclude));
+    if (javaClass != null) {
+      includes.add(JniNameRules.getHeaderFileName(javaClass));
+    }
+
     includes.addAll(additionalIncludes);
 
     return includes.stream().map(Include::createInternalInclude).collect(Collectors.toList());
