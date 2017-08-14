@@ -39,9 +39,6 @@ public class CppToJniConversionTemplateDelegatorTest {
 
   @Parameter public CppTypeRef type;
 
-  @Parameter(1)
-  public Class<? extends Exception> expectedException;
-
   @Before
   public void setUp() {
 
@@ -52,42 +49,23 @@ public class CppToJniConversionTemplateDelegatorTest {
   public static Collection<?> getValues() {
     return java.util.Arrays.asList(
         new Object[][] {
-          // cppType, expected exception
-          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT16), null},
-          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID), IllegalArgumentException.class},
-          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.FLOAT), null},
-          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT32), null},
-          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64), null},
-          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.BOOL), null},
-          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8), null},
-          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT8), null},
-          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.DOUBLE), null},
-          {new CppComplexTypeRef.Builder("UserDefined").build(), null}
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT16)},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID)},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.FLOAT)},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT32)},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64)},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.BOOL)},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8)},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT8)},
+          {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.DOUBLE)},
+          {new CppComplexTypeRef.Builder("UserDefined").build()}
         });
   }
 
   @Test
   public void convert() {
-    boolean exceptionExpected = expectedException != null;
-    Throwable caughtThrowable = null;
-
-    try {
-      try {
-        CharSequence result = CppToJniConversionTemplateDelegator.generate(CPP_VARIABLE_NAME, type);
-        verifyResult(type, result);
-      } catch (Throwable t) {
-        caughtThrowable = t;
-      }
-    } finally {
-      //check if exception throwing behaves as expected
-      if (exceptionExpected
-              && caughtThrowable != null
-              && expectedException.isAssignableFrom(caughtThrowable.getClass())
-          || !exceptionExpected && caughtThrowable == null) {
-        return;
-      }
-      fail();
-    }
+    CharSequence result = CppToJniConversionTemplateDelegator.generate(CPP_VARIABLE_NAME, type);
+    verifyResult(type, result);
   }
 
   private static void verifyResult(final CppTypeRef cppType, final CharSequence result) {

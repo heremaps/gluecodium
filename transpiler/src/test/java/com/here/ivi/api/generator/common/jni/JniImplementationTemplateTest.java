@@ -63,28 +63,38 @@ public class JniImplementationTemplateTest {
   }
 
   private String expectedGeneratedJNIMethod(String methodName) {
-    return "\njint\n"
-        + "Java_com_here_ivi_test_TestClass_"
-        + methodName
-        + "(JNIEnv* env, jobject jinstance, jint "
-        + JNI_PARAMETER_NAME
-        + ")\n"
-        + "{\n"
-        + "  int8_t "
-        + BASE_PARAMETER_NAME
-        + ";\n"
-        + "  "
-        + BASE_PARAMETER_NAME
-        + " = "
-        + JNI_PARAMETER_NAME
-        + ";\n"
-        + "  auto result = com::here::ivi::test::CppClass::"
-        + methodName
-        + "("
-        + BASE_PARAMETER_NAME
-        + ");\n"
-        + "  return result;\n"
-        + "}\n";
+    return expectedGeneratedJNIMethod(methodName, false);
+  }
+
+  private String expectedGeneratedJNIMethod(String methodName, boolean isVoidMethod) {
+    String returnType = isVoidMethod ? "\nvoid\n" : "\njint\n";
+    String methodBody =
+        "Java_com_here_ivi_test_TestClass_"
+            + methodName
+            + "(JNIEnv* env, jobject jinstance, jint "
+            + JNI_PARAMETER_NAME
+            + ")\n"
+            + "{\n"
+            + "  int8_t "
+            + BASE_PARAMETER_NAME
+            + ";\n"
+            + "  "
+            + BASE_PARAMETER_NAME
+            + " = "
+            + JNI_PARAMETER_NAME
+            + ";\n";
+
+    return returnType + methodBody + expectedMethodResultBlock(methodName, isVoidMethod);
+  }
+
+  private String expectedMethodResultBlock(String methodName, boolean isVoidMethod) {
+    String callOnStub =
+        isVoidMethod
+            ? "  com::here::ivi::test::CppClass::"
+            : "  auto result = com::here::ivi::test::CppClass::";
+    String returnLine = isVoidMethod ? "" : "  return result;\n";
+
+    return callOnStub + methodName + "(" + BASE_PARAMETER_NAME + ");\n" + returnLine + "}\n";
   }
 
   private JniModel jniModel;
@@ -204,6 +214,28 @@ public class JniImplementationTemplateTest {
             + externC
             + expectedGeneratedJNIMethod("method1")
             + expectedGeneratedJNIMethod("method2")
+            + endOfFile,
+        generatedImplementation);
+  }
+
+  @Test
+  public void generateVoidMethod() {
+
+    JniMethod voidMethod = createJniMethod("testMethod", jniModel);
+    voidMethod.javaReturnType = new JavaPrimitiveType(Type.VOID);
+    voidMethod.cppReturnType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID);
+    jniModel.methods.add(voidMethod);
+
+    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
+
+    assertEquals(
+        copyrightNotice
+            + jniHeaderInclude
+            + "#include \""
+            + JniNameRules.getConversionHeaderFileName()
+            + "\"\n"
+            + externC
+            + expectedGeneratedJNIMethod("testMethod", true)
             + endOfFile,
         generatedImplementation);
   }
