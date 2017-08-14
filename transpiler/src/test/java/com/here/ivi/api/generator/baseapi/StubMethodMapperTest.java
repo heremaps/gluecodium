@@ -105,7 +105,7 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapMethodReturnTypeWithErrorType() {
-    when(CppTypeMapper.mapEnum(any(), any())).thenReturn(cppCustomType);
+    when(CppTypeMapper.mapEnum(any())).thenReturn(cppCustomType);
     when(francaMethod.getErrorEnum()).thenReturn(francaEnum);
 
     StubMethodMapper.ReturnTypeData returnTypeData =
@@ -114,7 +114,7 @@ public class StubMethodMapperTest {
     assertEquals(TYPE_NAME, returnTypeData.type.name);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.mapEnum(same(rootModel), same(francaEnum));
+    CppTypeMapper.mapEnum(same(francaEnum));
   }
 
   @Test
@@ -133,7 +133,7 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapMethodReturnTypeOneOutputArgumentWithErrorType() {
-    when(CppTypeMapper.mapEnum(any(), any())).thenReturn(cppCustomType);
+    when(CppTypeMapper.mapEnum(any())).thenReturn(cppCustomType);
 
     EList<FArgument> francaArguments = createFrancaArgumentsArray();
     when(francaMethod.getOutArgs()).thenReturn(francaArguments);
@@ -149,7 +149,7 @@ public class StubMethodMapperTest {
     PowerMockito.verifyStatic();
     CppTypeMapper.map(same(rootModel), same(francaArgument));
     PowerMockito.verifyStatic();
-    CppTypeMapper.mapEnum(same(rootModel), same(francaEnum));
+    CppTypeMapper.mapEnum(same(francaEnum));
   }
 
   @Test

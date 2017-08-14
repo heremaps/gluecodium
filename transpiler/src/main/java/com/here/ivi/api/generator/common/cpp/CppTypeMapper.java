@@ -17,6 +17,7 @@ import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.common.LazyTypeRefName;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -80,7 +81,7 @@ public class CppTypeMapper {
       return mapStruct((FStructType) derived);
     }
     if (derived instanceof FEnumerationType) {
-      return mapEnum(rootModel, (FEnumerationType) derived);
+      return mapEnum((FEnumerationType) derived);
     }
     throw new TranspilerExecutionException("unmapped derived ref" + type);
   }
@@ -162,11 +163,17 @@ public class CppTypeMapper {
     }
   }
 
-  public static CppComplexTypeRef mapEnum(
-      @SuppressWarnings("unused") FrancaElement<?> rootModel,
-      @SuppressWarnings("unused") FEnumerationType enumeration) {
-    //TODO: APIGEN-145 handle array types
-    return new CppComplexTypeRef.Builder("void").build();
+  public static CppComplexTypeRef mapEnum(FEnumerationType enumeration) {
+
+    Include enumInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(enumeration));
+
+    return new CppComplexTypeRef.Builder(
+            new LazyTypeRefName(
+                CppNameRules.getEnumName(enumeration.getName()),
+                CppNameRules.getNestedNameSpecifier(enumeration)))
+        .typeInfo(CppTypeInfo.Enumeration)
+        .includes(enumInclude)
+        .build();
   }
 
   public static CppComplexTypeRef wrapMapType(

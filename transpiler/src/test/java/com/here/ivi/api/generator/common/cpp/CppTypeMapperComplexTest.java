@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -23,6 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.common.LazyTypeRefName;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
@@ -32,6 +34,7 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.LinkedList;
 import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
@@ -50,6 +53,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({DefinedBy.class, CppTypeMapper.class, CppNameRules.class})
 public class CppTypeMapperComplexTest {
 
+  private static final String STRUCT_NAME = "MYSTRUCT";
+  private static final String ENUM_NAME = "MYENUMERATION";
+
   @Rule public ExpectedException exception = ExpectedException.none();
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -57,6 +63,9 @@ public class CppTypeMapperComplexTest {
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FStructType structType;
+
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private FEnumerationType enumType;
 
   @Mock private FTypeCollection fTypeCollection;
 
@@ -138,34 +147,25 @@ public class CppTypeMapperComplexTest {
   public void mapNonEmptyStruct() throws Exception {
 
     CppComplexTypeRef cppTypeRef = new CppComplexTypeRef.Builder("").build();
-    LazyTypeRefName lazyName = new LazyTypeRefName("MYSTRUCT", new LinkedList<>());
+    LazyTypeRefName lazyName = new LazyTypeRefName(STRUCT_NAME, new LinkedList<>());
 
     //mock franca related stuff
     FTypeRef typeRef = mock(FTypeRef.class);
     when(typeRef.getDerived()).thenReturn(structType);
-    when(structType.getName()).thenReturn("MYSTRUCT");
+    when(structType.getName()).thenReturn(STRUCT_NAME);
     when(structType.getElements().isEmpty()).thenReturn(false);
 
-    //DefinedBy's constructor is private, so static creator method is excluded from mocking
-    //and utilized to create an instance of DefinedBy
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
-    doCallRealMethod().when(DefinedBy.class);
-    DefinedBy.createFromFrancaElement(any(FrancaElement.class));
-    DefinedBy defined = DefinedBy.createFromFrancaElement(mockFrancaModel);
-    when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
-
-    //mock LazyInternalInclude's constructor
-    LazyInternalInclude lazyInclude = new LazyInternalInclude(defined);
-    whenNew(LazyInternalInclude.class).withArguments(defined).thenReturn(lazyInclude);
+    DefinedBy defined = mockDefinedBy();
+    LazyInternalInclude lazyInclude = mockLazyInclude(defined);
 
     //mock CppNameRules
-    when(CppNameRules.getStructName(structType.getName())).thenReturn("MYSTRUCT");
+    when(CppNameRules.getStructName(structType.getName())).thenReturn(STRUCT_NAME);
     when(CppNameRules.getNestedNameSpecifier(structType)).thenReturn(new LinkedList<>());
 
     //mock CppComplexTypeRef.Builder
     CppComplexTypeRef.Builder builder = mock(CppComplexTypeRef.Builder.class);
     whenNew(CppComplexTypeRef.Builder.class).withArguments(lazyName).thenReturn(builder);
-
     when(builder.typeInfo(CppTypeInfo.Complex)).thenReturn(builder);
     when(builder.includes(lazyInclude)).thenReturn(builder);
     when(builder.build()).thenReturn(cppTypeRef);
@@ -181,6 +181,60 @@ public class CppTypeMapperComplexTest {
     DefinedBy.createFromFModelElement(structType);
     verifyNew(LazyInternalInclude.class).withArguments(defined);
     verifyNew(CppComplexTypeRef.Builder.class).withArguments(lazyName);
+    verify(builder).includes(lazyInclude);
+    verify(builder).build();
+  }
+
+  @Test
+  public void mapNonEmptyEnum() throws Exception {
+    LazyTypeRefName lazyName = new LazyTypeRefName(ENUM_NAME, new LinkedList<>());
+
+    //mock type reference
+    FTypeRef typeRef = mock(FTypeRef.class);
+    when(typeRef.getDerived()).thenReturn(enumType);
+    when(enumType.getName()).thenReturn(ENUM_NAME);
+    when(enumType.getEnumerators().isEmpty()).thenReturn(false);
+
+    when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
+    DefinedBy defined = mockDefinedBy();
+
+    //mock CppNameRules
+    when(CppNameRules.getEnumName(enumType.getName())).thenReturn(ENUM_NAME);
+    when(CppNameRules.getNestedNameSpecifier(enumType)).thenReturn(new LinkedList<>());
+
+    CppTypeRef result = CppTypeMapper.map(mockFrancaModel, typeRef);
+
+    //assert
+    assertTrue(result instanceof CppComplexTypeRef);
+    CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
+    assertTrue(complexResult.hasLazyName());
+    assertEquals(lazyName, complexResult.lazyName);
+    assertEquals(1, complexResult.includes.size());
+    Include include = complexResult.includes.iterator().next();
+    assertTrue(include instanceof LazyInternalInclude);
+    LazyInternalInclude lazyInclude = (LazyInternalInclude) include;
+    assertEquals(defined.type, lazyInclude.typeCollection);
+    assertEquals(defined.model, lazyInclude.model);
+
+    //verify
+    verifyStatic();
+    DefinedBy.createFromFModelElement(enumType);
+  }
+
+  private DefinedBy mockDefinedBy() {
+    //DefinedBy's constructor is private, so static creator method is excluded from mocking
+    //and utilized to create an instance of DefinedBy
+    doCallRealMethod().when(DefinedBy.class);
+    DefinedBy.createFromFrancaElement(any(FrancaElement.class));
+    DefinedBy defined = DefinedBy.createFromFrancaElement(mockFrancaModel);
+    when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
+    return defined;
+  }
+
+  private static LazyInternalInclude mockLazyInclude(DefinedBy definer) throws Exception {
+    LazyInternalInclude lazyInclude = new LazyInternalInclude(definer);
+    whenNew(LazyInternalInclude.class).withArguments(definer).thenReturn(lazyInclude);
+    return lazyInclude;
   }
 
   private FTypeRef mockPredefinedType(FBasicTypeId predefinedType) {
