@@ -51,7 +51,7 @@ public final class StubMethodMapper {
     String errorComment = "";
 
     if (francaMethod.getErrorEnum() != null) {
-      errorType = CppTypeMapper.mapEnum(rootModel, francaMethod.getErrorEnum());
+      errorType = CppTypeMapper.mapEnum(francaMethod.getErrorEnum());
       errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(francaMethod);
     }
 

@@ -57,7 +57,7 @@ public class CppValueMapper {
       return map((FUnaryOperation) rhs);
     }
 
-    return new CppValue();
+    return null;
   }
 
   private static CppValue map(FUnaryOperation rhs) {
