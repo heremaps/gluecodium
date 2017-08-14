@@ -17,7 +17,6 @@ import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.cppmodel.CppValue;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -37,13 +36,8 @@ public final class CppPureStructTemplateTest {
       "    %s" + TYPE_NAME + " " + FIELD_NAME + "%s;\n";
 
   private CppStruct cppStruct = new CppStruct(STRUCT_NAME);
-  private CppField cppField = new CppField();
-
-  @Before
-  public void setUp() {
-    cppField.name = FIELD_NAME;
-    cppField.type = new CppComplexTypeRef.Builder(TYPE_NAME).build();
-  }
+  private CppComplexTypeRef cppComplexTypeRef = new CppComplexTypeRef.Builder(TYPE_NAME).build();
+  private CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME);
 
   @Test
   public void structWithoutComment() {
@@ -90,7 +84,7 @@ public final class CppPureStructTemplateTest {
 
   @Test
   public void structWithFieldWithInitializer() {
-    cppField.initializer = new CppValue("valuable");
+    CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME, new CppValue("valuable"));
     cppStruct.fields.add(cppField);
 
     String result = CppPureStructTemplate.generate(cppStruct);
@@ -103,9 +97,8 @@ public final class CppPureStructTemplateTest {
 
   @Test
   public void structWithTwoFields() {
-    CppField anotherCppField = new CppField();
-    anotherCppField.name = "canola";
-    anotherCppField.type = new CppComplexTypeRef.Builder("Also").build();
+    CppField anotherCppField =
+        new CppField(new CppComplexTypeRef.Builder("Also").build(), "canola");
     cppStruct.fields.add(cppField);
     cppStruct.fields.add(anotherCppField);
 

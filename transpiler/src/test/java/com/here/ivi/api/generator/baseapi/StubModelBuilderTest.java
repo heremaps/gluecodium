@@ -292,8 +292,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionReadsTypeDefs() {
-    CppTypeDef cppTypeDef = new CppTypeDef();
-    cppTypeDef.name = TYPE_DEF_NAME;
+    CppTypeDef cppTypeDef = new CppTypeDef(TYPE_DEF_NAME, null);
     contextStack.injectResult(cppTypeDef);
 
     modelBuilder.finishBuilding(francaTypeCollection);

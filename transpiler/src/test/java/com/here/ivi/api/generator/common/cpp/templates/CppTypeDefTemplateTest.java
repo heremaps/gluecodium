@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeDef;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -28,13 +27,8 @@ public final class CppTypeDefTemplateTest {
   private static final String EXPECTED_TYPEDEF_RESULT =
       "using " + TYPEDEF_NAME + " = " + TYPE_NAME + ";\n";
 
-  private CppTypeDef cppTypeDef = new CppTypeDef();
-
-  @Before
-  public void setUp() {
-    cppTypeDef.name = TYPEDEF_NAME;
-    cppTypeDef.targetType = new CppComplexTypeRef.Builder(TYPE_NAME).build();
-  }
+  private final CppTypeDef cppTypeDef =
+      new CppTypeDef(TYPEDEF_NAME, new CppComplexTypeRef.Builder(TYPE_NAME).build());
 
   @Test
   public void typeDefWithoutComment() {
