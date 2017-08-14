@@ -109,7 +109,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
             Include.createInternalInclude(JniNameRules.getConversionHeaderFileName()),
             CppLibraryIncludes.INT_TYPES,
             CppLibraryIncludes.VECTOR,
-            Include.createInternalInclude(AndroidGeneratorSuite.FIELD_ACCESS_UTILS_CPP)));
+            Include.createInternalInclude(AndroidGeneratorSuite.FIELD_ACCESS_UTILS_HEADER)));
 
     results.add(
         new GeneratedFile(

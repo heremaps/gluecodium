@@ -38,7 +38,7 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
   public static final String GENERATOR_NAMESPACE = "android";
   private static final String CONVERSION_UTILS_HEADER = "android/jni/JniCppConversionUtils.h";
   private static final String CONVERSION_UTILS_CPP = "android/jni/JniCppConversionUtils.cpp";
-  public static final String FIELD_ACCESS_UTILS_CPP = "android/jni/FieldAccessMethods.cpp";
+  public static final String FIELD_ACCESS_UTILS_HEADER = "android/jni/FieldAccessMethods.h";
 
   private static final String CONVERSION_UTILS_TARGET_DIR = "";
 
@@ -128,7 +128,7 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
     results.add(
         BaseApiGeneratorSuite.copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
     results.add(
-        BaseApiGeneratorSuite.copyTarget(FIELD_ACCESS_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
+        BaseApiGeneratorSuite.copyTarget(FIELD_ACCESS_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
     results.addAll(
         Stream.concat(javaFilesStream, jniFilesStream)
             .flatMap(Collection::stream)
