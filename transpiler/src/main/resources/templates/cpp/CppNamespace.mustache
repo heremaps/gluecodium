@@ -1,0 +1,33 @@
+#pragma once
+
+{{#if includes}}
+{{#includes}}
+#include <{{fileName}}>
+{{/includes}}
+
+{{/if}}
+{{#name}}
+namespace {{.}} {
+
+{{/name}}
+{{#constants}}
+{{>cpp/CppConstant}}
+{{/constants}}
+{{#typeDefs}}
+{{>cpp/CppTypeDef}}
+{{/typeDefs}}
+{{#enums}}
+{{>cpp/CppEnum}}
+{{/enums}}
+{{#structs}}
+{{>cpp/CppPureStruct}}
+{{/structs}}
+{{#classes}}
+{{>cpp/CppClass}}
+{{/classes}}
+{{#if members}}
+
+{{/if}}
+{{#name}}
+}
+{{/name}}

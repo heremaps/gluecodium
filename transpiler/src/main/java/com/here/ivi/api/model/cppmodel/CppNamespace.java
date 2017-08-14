@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.model.common.Include;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +37,38 @@ public class CppNamespace {
     return members.stream().filter(Objects::nonNull).flatMap(CppElement::streamRecursive);
   }
 
-  public Set<Include> collectIncludes() {
+  @SuppressWarnings("unused")
+  public Set<Include> getIncludes() {
     return streamRecursive()
         .filter(p -> p instanceof CppElementWithIncludes)
         .map(CppElementWithIncludes.class::cast)
         .map(t -> t.includes)
         .flatMap(Set::stream)
         .collect(Collectors.toSet());
+  }
+
+  @SuppressWarnings("unused")
+  public List<CppConstant> getConstants() {
+    return CollectionsHelper.getAllOfType(members, CppConstant.class);
+  }
+
+  @SuppressWarnings("unused")
+  public List<CppTypeDef> getTypeDefs() {
+    return CollectionsHelper.getAllOfType(members, CppTypeDef.class);
+  }
+
+  @SuppressWarnings("unused")
+  public List<CppEnum> getEnums() {
+    return CollectionsHelper.getAllOfType(members, CppEnum.class);
+  }
+
+  @SuppressWarnings("unused")
+  public List<CppStruct> getStructs() {
+    return CollectionsHelper.getAllOfType(members, CppStruct.class);
+  }
+
+  @SuppressWarnings("unused")
+  public List<CppClass> getClasses() {
+    return CollectionsHelper.getAllOfType(members, CppClass.class);
   }
 }

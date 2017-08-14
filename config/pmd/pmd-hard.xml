@@ -47,6 +47,7 @@ Excluded: android, logging, GenericsNaming
         <!-- while ((x = update()) != null) { process(x); } -->
         <exclude name="AssignmentInOperand" />
         <exclude name="AtLeastOneConstructor" />
+        <exclude name="AvoidFinalLocalVariable" />
         <exclude name="AvoidLiteralsInIfCondition" />
         <exclude name="AvoidPrefixingMethodParameters" />
         <exclude name="DataflowAnomalyAnalysis" />

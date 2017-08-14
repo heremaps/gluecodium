@@ -12,10 +12,12 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.cpp.templates.CppCommentHeaderTemplate;
-import com.here.ivi.api.generator.common.cpp.templates.CppDelegatorTemplate;
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
+import java.time.Year;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CppGenerator {
 
@@ -35,9 +37,17 @@ public class CppGenerator {
     // find included files and resolve relative to generated path
     includeResolver.resolveLazyIncludes(cppModel, outputFileName);
 
-    CharSequence headerContent = CppCommentHeaderTemplate.generate(copyrightNotice);
-    CharSequence innerContent = CppDelegatorTemplate.generate(new CppTemplateDelegator(), cppModel);
+    String commentHeader = generateCommentHeader(copyrightNotice);
+    String mainContent = TemplateEngine.render("cpp/CppNamespace", cppModel);
 
-    return new GeneratedFile(headerContent.toString() + innerContent.toString(), outputFileName);
+    return new GeneratedFile(commentHeader + mainContent, outputFileName);
+  }
+
+  private static String generateCommentHeader(final CharSequence generatorNotice) {
+
+    Map<String, Object> dataObject = new HashMap<>();
+    dataObject.put("year", Year.now().getValue());
+    dataObject.put("generatorNotice", generatorNotice);
+    return TemplateEngine.render("cpp/CppCommentHeader", dataObject);
   }
 }

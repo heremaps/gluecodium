@@ -26,7 +26,7 @@ public final class CppConstantTemplateTest {
   private static final String CONSTANT_NAME = "permanent";
   private static final String TYPE_NAME = "Typical";
   private static final String VALUE_NAME = "valuable";
-  private static final String EXPECTED_RESULT = "static const Typical permanent = valuable;";
+  private static final String EXPECTED_RESULT = "static const Typical permanent = valuable;\n";
 
   private CppConstant cppConstant =
       new CppConstant(

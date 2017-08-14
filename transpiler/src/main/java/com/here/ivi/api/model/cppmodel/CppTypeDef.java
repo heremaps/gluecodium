@@ -14,7 +14,13 @@ package com.here.ivi.api.model.cppmodel;
 import java.util.stream.Stream;
 
 public class CppTypeDef extends CppElement {
-  public CppTypeRef targetType;
+
+  public final CppTypeRef targetType;
+
+  public CppTypeDef(final String name, final CppTypeRef targetType) {
+    super(name);
+    this.targetType = targetType;
+  }
 
   @Override
   public Stream<CppElement> stream() {

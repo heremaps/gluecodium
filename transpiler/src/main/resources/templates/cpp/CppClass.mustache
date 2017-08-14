@@ -1,0 +1,39 @@
+{{>cpp/CppDocComment}}
+class {{name}}{{>cpp/CppInheritance}} {
+{{#if structs}}
+public:
+{{#structs}}
+{{>cpp/CppPureStruct}}
+{{/structs}}
+
+{{/if}}
+{{#if enums}}
+public:
+{{#enums}}
+{{>cpp/CppEnum}}
+{{/enums}}
+
+{{/if}}
+{{#if usings}}
+public:
+{{#usings}}
+{{>cpp/CppDocComment}}
+using {{name}} = {{definition.name}};
+{{/usings}}
+
+{{/if}}
+{{#if methods}}
+public:
+{{#methods}}
+{{>cpp/CppMethodSignature}};
+{{/methods}}
+
+{{/if}}
+{{#if fields}}
+private:
+{{#fields}}
+{{type.name}} {{name}}{{#initializer}} = {{initializer.name}}{{/initializer}};
+{{/fields}}
+
+{{/if}}
+};
