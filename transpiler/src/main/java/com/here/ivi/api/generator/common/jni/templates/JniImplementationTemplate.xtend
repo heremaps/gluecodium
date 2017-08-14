@@ -56,8 +56,12 @@ public class JniImplementationTemplate {
           «parameter.cppType.name» «parameter.name»;
           «JniToCppTypeConversionTemplateDelegator.generate(parameter.javaType,getParameterName(parameter.name), parameter.name)»;
         «ENDFOR»
+        «IF jniMethod.hasVoidReturnType»
+        «TemplateEngine.render("jni/CppMethodCall", jniMethod)»
+        «ELSE»
         auto result = «TemplateEngine.render("jni/CppMethodCall", jniMethod)»
         return «CppToJniConversionTemplateDelegator.generate("result", jniMethod.cppReturnType).toString()»;
+        «ENDIF»
       }
 
       «ENDFOR»

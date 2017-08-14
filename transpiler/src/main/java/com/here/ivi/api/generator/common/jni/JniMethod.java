@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaType;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +28,11 @@ public class JniMethod implements JniElement {
   public CppTypeRef cppReturnType;
 
   public List<JniParameter> parameters = new LinkedList<>();
+
+  public boolean hasVoidReturnType() {
+    return javaReturnType instanceof JavaPrimitiveType
+        && ((JavaPrimitiveType) javaReturnType).type == JavaPrimitiveType.Type.VOID;
+  }
 
   @Override
   public boolean equals(Object o) {
