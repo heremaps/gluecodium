@@ -1,1 +1,1 @@
-{{#owningModel.cppNameSpaces}}{{.}}::{{/owningModel.cppNameSpaces}}{{owningModel.cppClassName}}
+{{join owningModel.cppNameSpaces delimiter="::"}}{{#if owningModel.cppClassName}}::{{owningModel.cppClassName}}{{/if}}
