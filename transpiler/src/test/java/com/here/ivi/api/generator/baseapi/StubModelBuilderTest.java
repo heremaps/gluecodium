@@ -19,16 +19,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
-import com.here.ivi.api.generator.common.cpp.CppTypeRefNameResolver;
 import com.here.ivi.api.generator.common.cpp.CppValueMapper;
-import com.here.ivi.api.model.common.LazyTypeRefName;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppConstant;
@@ -46,7 +43,6 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
-import java.util.Collections;
 import java.util.List;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
@@ -69,9 +65,7 @@ import org.franca.core.franca.FTypedElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -125,17 +119,10 @@ public class StubModelBuilderTest {
   @Mock private FEnumerator francaEnumerator;
   @Mock private FExpression francaExpression;
 
-  @Mock private CppTypeRefNameResolver nameResolver;
-
   private StubModelBuilder modelBuilder;
 
-  private final CppComplexTypeRef cppCustomTypeResolvedName =
-      new CppComplexTypeRef.Builder("typically").build();
-
-  private final CppComplexTypeRef cppCustomTypeLazyName =
-      new CppComplexTypeRef.Builder(
-              new LazyTypeRefName("typeName", Collections.singletonList("package")))
-          .build();
+  private final CppComplexTypeRef fullyQualifiedTypeName =
+      new CppComplexTypeRef.Builder("::typically").build();
 
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
   private final CppValue cppValue = new CppValue("valuable");
@@ -154,7 +141,7 @@ public class StubModelBuilderTest {
         CppValueMapper.class);
     MockitoAnnotations.initMocks(this);
 
-    modelBuilder = new StubModelBuilder(contextStack, rootModel, nameResolver);
+    modelBuilder = new StubModelBuilder(contextStack, rootModel);
 
     when(rootModel.getPropertyAccessor()).thenReturn(propertyAccessor);
 
@@ -179,7 +166,7 @@ public class StubModelBuilderTest {
 
     when(StubMethodMapper.mapMethodReturnType(any(), any()))
         .thenReturn(
-            new StubMethodMapper.ReturnTypeData(cppCustomTypeResolvedName, RETURN_TYPE_COMMENT));
+            new StubMethodMapper.ReturnTypeData(fullyQualifiedTypeName, RETURN_TYPE_COMMENT));
     when(StubCommentParser.parse(any(FModelElement.class)))
         .thenReturn(new AbstractFrancaCommentParser.Comments());
     when(StubCommentParser.parse(any(FMethod.class)))
@@ -227,7 +214,7 @@ public class StubModelBuilderTest {
 
     CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
     assertNotNull(cppMethod);
-    assertEquals(cppCustomTypeResolvedName, cppMethod.returnType);
+    assertEquals(fullyQualifiedTypeName, cppMethod.returnType);
     assertTrue(cppMethod.comment.endsWith(RETURN_TYPE_COMMENT));
   }
 
@@ -269,14 +256,13 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingInputArgumentMapsType() {
-    when(StubMethodMapper.mapArgumentType(any(), any(), any()))
-        .thenReturn(cppCustomTypeResolvedName);
+    when(StubMethodMapper.mapArgumentType(any(), any(), any())).thenReturn(fullyQualifiedTypeName);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
     CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
     assertNotNull(cppParameter);
-    assertEquals(cppCustomTypeResolvedName, cppParameter.type);
+    assertEquals(fullyQualifiedTypeName, cppParameter.type);
 
     PowerMockito.verifyStatic();
     StubMethodMapper.mapArgumentType(same(francaArgument), same(null), same(rootModel));
@@ -302,10 +288,6 @@ public class StubModelBuilderTest {
 
     CppTypeDef result = modelBuilder.getFirstResult(CppTypeDef.class);
     assertEquals(cppTypeDef, result);
-
-    InOrder inOrder = Mockito.inOrder(nameResolver);
-    inOrder.verify(nameResolver).addTypeRefScopeNames(any(), any());
-    inOrder.verify(nameResolver).resolveLazyNames(any());
   }
 
   @Test
@@ -321,7 +303,7 @@ public class StubModelBuilderTest {
   @Test
   public void finishBuildingFrancaTypeCollectionReadsConstants() {
     final CppConstant cppConstant =
-        new CppConstant(CONSTANT_NAME, cppCustomTypeResolvedName, cppValue);
+        new CppConstant(CONSTANT_NAME, fullyQualifiedTypeName, cppValue);
     contextStack.injectResult(cppConstant);
 
     modelBuilder.finishBuilding(francaTypeCollection);
@@ -332,7 +314,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaConstant() {
-    when(CppTypeMapper.map(any(), any(FConstantDef.class))).thenReturn(cppCustomTypeResolvedName);
+    when(CppTypeMapper.map(any(), any(FConstantDef.class))).thenReturn(fullyQualifiedTypeName);
     when(CppValueMapper.map(any(), any(FInitializerExpression.class))).thenReturn(cppValue);
 
     modelBuilder.finishBuilding(francaConstant);
@@ -340,13 +322,13 @@ public class StubModelBuilderTest {
     CppConstant cppConstant = modelBuilder.getFirstResult(CppConstant.class);
     assertNotNull(cppConstant);
     assertEquals(CONSTANT_NAME, cppConstant.name.toLowerCase());
-    assertEquals(cppCustomTypeResolvedName, cppConstant.type);
+    assertEquals(fullyQualifiedTypeName, cppConstant.type);
     assertEquals(cppValue, cppConstant.value);
 
     PowerMockito.verifyStatic();
     CppTypeMapper.map(same(rootModel), same(francaConstant));
     PowerMockito.verifyStatic();
-    CppValueMapper.map(same(cppCustomTypeResolvedName), same(francaInitializerExpression));
+    CppValueMapper.map(same(fullyQualifiedTypeName), same(francaInitializerExpression));
   }
 
   @Test
@@ -366,13 +348,13 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsType() {
-    contextStack.injectResult(cppCustomTypeResolvedName);
+    contextStack.injectResult(fullyQualifiedTypeName);
 
     modelBuilder.finishBuilding(francaField);
 
     CppField cppField = modelBuilder.getFirstResult(CppField.class);
     assertNotNull(cppField);
-    assertEquals(cppCustomTypeResolvedName, cppField.type);
+    assertEquals(fullyQualifiedTypeName, cppField.type);
   }
 
   @Test
@@ -386,7 +368,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeReadsFields() {
-    final CppField cppField = new CppField(cppCustomTypeResolvedName, FIELD_NAME);
+    final CppField cppField = new CppField(fullyQualifiedTypeName, FIELD_NAME);
     contextStack.injectResult(cppField);
 
     modelBuilder.finishBuilding(francaStructType);
@@ -409,14 +391,14 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeDefNotInstanceId() {
-    when(CppTypeMapper.map(any(), any(FTypeRef.class))).thenReturn(cppCustomTypeResolvedName);
+    when(CppTypeMapper.map(any(), any(FTypeRef.class))).thenReturn(fullyQualifiedTypeName);
 
     modelBuilder.finishBuilding(francaTypeDef);
 
     CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
     assertNotNull(cppTypeDef);
     assertEquals(TYPE_DEF_NAME, cppTypeDef.name.toLowerCase());
-    assertEquals(cppCustomTypeResolvedName, cppTypeDef.targetType);
+    assertEquals(fullyQualifiedTypeName, cppTypeDef.targetType);
 
     PowerMockito.verifyStatic();
     CppTypeMapper.map(rootModel, francaTypeRef);
@@ -424,14 +406,14 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaArrayType() {
-    when(CppTypeMapper.defineArray(any(), any())).thenReturn(cppCustomTypeResolvedName);
+    when(CppTypeMapper.defineArray(any(), any())).thenReturn(fullyQualifiedTypeName);
 
     modelBuilder.finishBuilding(francaArrayType);
 
     CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
     assertNotNull(cppTypeDef);
     assertEquals(ARRAY_NAME, cppTypeDef.name.toLowerCase());
-    assertEquals(cppCustomTypeResolvedName, cppTypeDef.targetType);
+    assertEquals(fullyQualifiedTypeName, cppTypeDef.targetType);
 
     PowerMockito.verifyStatic();
     CppTypeMapper.defineArray(rootModel, francaArrayType);
@@ -441,7 +423,7 @@ public class StubModelBuilderTest {
   public void finishBuildingFrancaMapType() {
     CppComplexTypeRef keyType = new CppComplexTypeRef.Builder("really").build();
     CppComplexTypeRef valueType = new CppComplexTypeRef.Builder("valuable").build();
-    when(CppTypeMapper.wrapMapType(any(), any(), any())).thenReturn(cppCustomTypeResolvedName);
+    when(CppTypeMapper.wrapMapType(any(), any(), any())).thenReturn(fullyQualifiedTypeName);
     when(CppTypeMapper.map(any(), same(francaTypeRef))).thenReturn(keyType);
     when(CppTypeMapper.map(any(), same(francaAnotherTypeRef))).thenReturn(valueType);
     when(DefinedBy.createFromFModelElement(any())).thenReturn(mock(DefinedBy.class));
@@ -451,7 +433,7 @@ public class StubModelBuilderTest {
     CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
     assertNotNull(cppTypeDef);
     assertEquals(MAP_NAME, cppTypeDef.name.toLowerCase());
-    assertEquals(cppCustomTypeResolvedName, cppTypeDef.targetType);
+    assertEquals(fullyQualifiedTypeName, cppTypeDef.targetType);
 
     PowerMockito.verifyStatic();
     CppTypeMapper.wrapMapType(any(), same(keyType), same(valueType));
@@ -463,12 +445,12 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeRef() {
-    when(CppTypeMapper.map(any(), any(FTypeRef.class))).thenReturn(cppCustomTypeResolvedName);
+    when(CppTypeMapper.map(any(), any(FTypeRef.class))).thenReturn(fullyQualifiedTypeName);
 
     modelBuilder.finishBuilding(francaTypeRef);
 
     CppComplexTypeRef result = modelBuilder.getFirstResult(CppComplexTypeRef.class);
-    assertEquals(cppCustomTypeResolvedName, result);
+    assertEquals(fullyQualifiedTypeName, result);
 
     PowerMockito.verifyStatic();
     CppTypeMapper.map(same(rootModel), same(francaTypeRef));
@@ -517,38 +499,5 @@ public class StubModelBuilderTest {
 
     PowerMockito.verifyStatic();
     CppValueMapper.map(francaExpression);
-  }
-
-  @Test
-  public void finishBuildingFrancaTypeCollectionReadsStructsNameResolving() {
-    contextStack.injectResult(cppStruct);
-
-    modelBuilder.finishBuilding(francaTypeCollection);
-
-    InOrder inOrder = Mockito.inOrder(nameResolver);
-    inOrder.verify(nameResolver).addTypeRefScopeNames(any(), any());
-    inOrder.verify(nameResolver).resolveLazyNames(any());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsStructsNameResolving() {
-    contextStack.injectResult(cppStruct);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    InOrder inOrder = Mockito.inOrder(nameResolver);
-    inOrder.verify(nameResolver).addTypeRefScopeNames(any(), any());
-    inOrder.verify(nameResolver).resolveLazyNames(any());
-  }
-
-  @Test
-  public void finishBuildingFrancaStructTypeReadsFieldsNameResolving() {
-    final CppField cppField = new CppField(cppCustomTypeLazyName, FIELD_NAME);
-    contextStack.injectResult(cppField);
-
-    modelBuilder.finishBuilding(francaStructType);
-
-    verify(nameResolver).addTypeRefScopeNames(any(), any());
-    verify(nameResolver, never()).resolveLazyNames(any());
   }
 }

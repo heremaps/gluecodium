@@ -14,14 +14,28 @@ package com.here.ivi.api.generator.common.cpp;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.LazyInternalInclude;
-import com.here.ivi.api.model.common.LazyTypeRefName;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
-import org.franca.core.franca.*;
+import java.util.List;
+import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FArrayType;
+import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FBroadcast;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FField;
+import org.franca.core.franca.FMapType;
+import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.FUnionType;
 
 public class CppTypeMapper {
 
@@ -141,28 +155,24 @@ public class CppTypeMapper {
 
   public static CppComplexTypeRef mapStruct(FStructType struct) {
 
-    if (struct.getElements().isEmpty()) {
-      throw new TranspilerExecutionException("empty struct");
-    } else {
-      Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(struct));
+    Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(struct));
+    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(struct);
 
-      return new CppComplexTypeRef.Builder(
-              new LazyTypeRefName(
-                  CppNameRules.getStructName(struct.getName()),
-                  CppNameRules.getNestedNameSpecifier(struct)))
-          .includes(structInclude)
-          .build();
-    }
+    return new CppComplexTypeRef.Builder(
+            createFullyQualifiedName(
+                nestedNameSpecifier, CppNameRules.getStructName(struct.getName())))
+        .includes(structInclude)
+        .build();
   }
 
   public static CppComplexTypeRef mapEnum(FEnumerationType enumeration) {
 
     Include enumInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(enumeration));
+    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(enumeration);
 
     return new CppComplexTypeRef.Builder(
-            new LazyTypeRefName(
-                CppNameRules.getEnumName(enumeration.getName()),
-                CppNameRules.getNestedNameSpecifier(enumeration)))
+            createFullyQualifiedName(
+                nestedNameSpecifier, CppNameRules.getEnumName(enumeration.getName())))
         .typeInfo(CppTypeInfo.Enumeration)
         .includes(enumInclude)
         .build();
@@ -170,18 +180,14 @@ public class CppTypeMapper {
 
   public static CppComplexTypeRef mapUnion(FUnionType union) {
     //TODO: APIGEN-145 handle union types. For now, handle them like structs
-    if (union.getElements().isEmpty()) {
-      throw new TranspilerExecutionException("empty union");
-    } else {
-      Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(union));
+    Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(union));
+    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(union);
 
-      return new CppComplexTypeRef.Builder(
-              new LazyTypeRefName(
-                  CppNameRules.getStructName(union.getName()),
-                  CppNameRules.getNestedNameSpecifier(union)))
-          .includes(structInclude)
-          .build();
-    }
+    return new CppComplexTypeRef.Builder(
+            createFullyQualifiedName(
+                nestedNameSpecifier, CppNameRules.getStructName(union.getName())))
+        .includes(structInclude)
+        .build();
   }
 
   public static CppComplexTypeRef wrapMapType(
@@ -226,22 +232,23 @@ public class CppTypeMapper {
       case FBasicTypeId.UINT64_VALUE:
         return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT64);
       case FBasicTypeId.STRING_VALUE:
-        return new CppComplexTypeRef.Builder(
-                new LazyTypeRefName(
-                    CppComplexTypeRef.STRING_TYPE_NAME,
-                    CppComplexTypeRef.STD_NESTED_NAME_SPECIFIER))
+        return new CppComplexTypeRef.Builder(CppComplexTypeRef.STRING_TYPE_NAME)
             .includes(CppLibraryIncludes.STRING)
             .build();
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return new CppComplexTypeRef.Builder(
-                new LazyTypeRefName(
-                    CppComplexTypeRef.BYTE_VECTOR_TYPE_NAME,
-                    CppComplexTypeRef.STD_NESTED_NAME_SPECIFIER))
+        return new CppComplexTypeRef.Builder(CppComplexTypeRef.BYTE_VECTOR_TYPE_NAME)
             .includes(CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)
             .build();
       default:
         throw new TranspilerExecutionException(
             "unmapped predefined [" + type.getPredefined().getName() + "]");
     }
+  }
+
+  private static String createFullyQualifiedName(
+      List<String> nestedNameSpecifier, String unqualifiedId) {
+    return "::"
+        + (nestedNameSpecifier.size() > 0 ? String.join("::", nestedNameSpecifier) + "::" : "")
+        + unqualifiedId;
   }
 }

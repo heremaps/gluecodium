@@ -18,7 +18,6 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
-import com.here.ivi.api.generator.common.cpp.CppTypeRefNameResolver;
 import com.here.ivi.api.generator.common.cpp.CppValueMapper;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppClass;
@@ -36,7 +35,6 @@ import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
-import java.util.Collections;
 import java.util.List;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
@@ -57,22 +55,16 @@ import org.franca.core.franca.FTypedElement;
 public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
   private final FrancaElement<?> rootModel;
-  private final CppTypeRefNameResolver nameResolver;
 
   public StubModelBuilder(
-      final ModelBuilderContextStack<CppElement> contextStack,
-      final FrancaElement<?> rootModel,
-      final CppTypeRefNameResolver nameResolver) {
+      final ModelBuilderContextStack<CppElement> contextStack, final FrancaElement<?> rootModel) {
     super(contextStack);
     this.rootModel = rootModel;
-    this.nameResolver = nameResolver;
   }
 
-  public StubModelBuilder(
-      final FrancaElement<?> rootModel, final CppTypeRefNameResolver nameResolver) {
+  public StubModelBuilder(final FrancaElement<?> rootModel) {
     super(new ModelBuilderContextStack<>());
     this.rootModel = rootModel;
-    this.nameResolver = nameResolver;
   }
 
   @Override
@@ -87,10 +79,6 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
             .comment(StubCommentParser.parse(francaInterface).getMainBodyText());
 
     CppClass cppClass = stubClassBuilder.build();
-
-    //add name & do resolving
-    nameResolver.resolveLazyNames(
-        nameResolver.addTypeRefScopeNames(Collections.singletonList(className), previousResults));
 
     cppClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, CppMethod.class));
     cppClass.structs.addAll(CollectionsHelper.getAllOfType(previousResults, CppStruct.class));
@@ -125,10 +113,6 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     List<CppElement> elements = getCurrentContext().previousResults;
     String typeCollectionName = CppNameRules.getTypeCollectionName(francaTypeCollection.getName());
-
-    //add name & do resolving
-    nameResolver.resolveLazyNames(
-        nameResolver.addTypeRefScopeNames(Collections.singletonList(typeCollectionName), elements));
 
     for (CppElement cppElement : elements) {
       if (cppElement instanceof CppStruct
@@ -179,9 +163,6 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     List<CppField> elements =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppField.class);
-
-    //adding scope entry to lazy names
-    nameResolver.addTypeRefScopeNames(Collections.singletonList(cppStructName), elements);
 
     struct.fields.addAll(elements);
 

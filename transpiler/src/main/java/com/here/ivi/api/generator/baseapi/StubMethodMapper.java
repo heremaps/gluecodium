@@ -64,8 +64,7 @@ public final class StubMethodMapper {
       // which is not supported yet.
       outArgType = mapArgumentType(outArgs.get(0), francaMethod, rootModel);
 
-      outArgComment =
-          "The result type, containing " + outArgType.getTextualRepresentation() + " value.";
+      outArgComment = "The result type, containing " + outArgType.name + " value.";
     }
 
     if (errorType == null && outArgType == null) {
@@ -84,18 +83,12 @@ public final class StubMethodMapper {
 
     CppTypeRef returnType =
         new CppComplexTypeRef.Builder(
-                "here::internal::Expected< "
-                    + errorType.name
-                    + ", "
-                    + outArgType.getTextualRepresentation()
-                    + " >")
+                "here::internal::Expected< " + errorType.name + ", " + outArgType.name + " >")
             .includes(includes)
             .build();
 
     String returnComment =
-        "The result type, containing either an error or the "
-            + outArgType.getTextualRepresentation()
-            + " value.";
+        "The result type, containing either an error or the " + outArgType.name + " value.";
 
     return new ReturnTypeData(returnType, returnComment);
   }

@@ -52,8 +52,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
 
     JavaModelBuilder javaBuilder = new JavaModelBuilder(basePackage, francaElement);
 
-    StubModelBuilder stubBuilder =
-        new StubModelBuilder(francaElement, new JavaNativeTypeRefNameResolver());
+    StubModelBuilder stubBuilder = new StubModelBuilder(francaElement);
     JniModelBuilder jniBuilder = new JniModelBuilder(francaElement, javaBuilder, stubBuilder);
 
     FrancaTreeWalker treeWalker =
