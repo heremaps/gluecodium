@@ -1,0 +1,60 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package hello
+
+import common.* from "./common/CommonTypes.fidl"
+
+<** @description:
+    Example interface which demonstrates the usage of instances for HelloWorld use case
+**>
+interface ProfileManager {
+
+    <** @description: Representing type for instances of the profile manager **>
+    public typedef Instance is CommonTypes.InstanceId
+
+    <** @description: Creates a profile for a specific instance **>
+    method createProfile {
+        in {
+            <** @description: Reference to the instance for which the profile is created **>
+            Instance instanceRef
+            <** @description: username for the profile **>
+            String username
+        }
+        out {
+        }
+    }
+
+    <** @description: Changes the username for a profile instance and returns the old username **>
+    method changeProfile {
+        in {
+            <** @description: Reference to the instance for which the profile is changed **>
+            Instance instanceRef
+            <** @description: the new username for the profile **>
+            String username
+        }
+        out {
+            <** @description: the username previously associated to this profile **>
+            String oldUsername
+        }
+    }
+
+    <** @description: Deletes profile instance **>
+    method deleteProfile {
+        in {
+            <** @description: Reference to the instance for which the profile should be deleted **>
+            Instance instanceRef
+        }
+        out {
+        }
+    }
+
+}
