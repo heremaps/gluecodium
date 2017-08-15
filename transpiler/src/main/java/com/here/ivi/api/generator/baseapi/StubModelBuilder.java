@@ -260,10 +260,12 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     if (propertyAccessor instanceof BaseApiSpec.InterfacePropertyAccessor) {
       BaseApiSpec.InterfacePropertyAccessor interfacePropertyAccessor =
           (BaseApiSpec.InterfacePropertyAccessor) propertyAccessor;
-      if (interfacePropertyAccessor.getStatic(francaMethod)) {
+      Boolean isStatic = interfacePropertyAccessor.getStatic(francaMethod);
+      if (isStatic != null && isStatic) {
         builder.specifier(CppMethod.Specifier.STATIC);
       } else {
-        if (interfacePropertyAccessor.getConst(francaMethod)) {
+        Boolean isConst = interfacePropertyAccessor.getConst(francaMethod);
+        if (isConst != null && isConst) {
           // const needs to be before "= 0" pure virtual specifier
           builder.qualifier(CppMethod.Qualifier.CONST);
         }
