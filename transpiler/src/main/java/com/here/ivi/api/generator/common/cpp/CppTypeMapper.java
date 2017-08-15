@@ -21,20 +21,7 @@ import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FAttribute;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FBroadcast;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FField;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.*;
 
 public class CppTypeMapper {
 
@@ -57,7 +44,8 @@ public class CppTypeMapper {
     if (type.getPredefined() != FBasicTypeId.UNDEFINED) {
       return mapPredefined(type);
     }
-    throw new TranspilerExecutionException("unmapped ftype ref" + type);
+    throw new TranspilerExecutionException(
+        "unmapped ftype ref" + type + ". Name: " + type.getDerived().getName());
   }
 
   private static CppTypeRef mapDerived(FrancaElement<?> rootModel, FTypeRef type) {
@@ -83,7 +71,11 @@ public class CppTypeMapper {
     if (derived instanceof FEnumerationType) {
       return mapEnum((FEnumerationType) derived);
     }
-    throw new TranspilerExecutionException("unmapped derived ref" + type);
+    if (derived instanceof FUnionType) {
+      return mapUnion((FUnionType) derived);
+    }
+    throw new TranspilerExecutionException(
+        "unmapped derived ref" + type + ". Name: " + type.getDerived().getName());
   }
 
   private static CppTypeRef reportInvalidType(FrancaElement<?> rootModel, FTypeRef type) {
@@ -174,6 +166,22 @@ public class CppTypeMapper {
         .typeInfo(CppTypeInfo.Enumeration)
         .includes(enumInclude)
         .build();
+  }
+
+  public static CppComplexTypeRef mapUnion(FUnionType union) {
+    //TODO: APIGEN-145 handle union types. For now, handle them like structs
+    if (union.getElements().isEmpty()) {
+      throw new TranspilerExecutionException("empty union");
+    } else {
+      Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(union));
+
+      return new CppComplexTypeRef.Builder(
+              new LazyTypeRefName(
+                  CppNameRules.getStructName(union.getName()),
+                  CppNameRules.getNestedNameSpecifier(union)))
+          .includes(structInclude)
+          .build();
+    }
   }
 
   public static CppComplexTypeRef wrapMapType(
