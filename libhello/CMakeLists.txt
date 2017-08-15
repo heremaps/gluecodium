@@ -42,18 +42,25 @@ set_target_properties(hello PROPERTIES
 
 include(apigen/Apigen)
 
-#TODO: Remove this workaround once iOS support PODs (APIGEN-357)
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
+#TODO: the 'if' and the content of the 'else' block should be removed when all fidl files pass the build (APIGEN-357, APIGEN-460, APIGEN-462)
+if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
     apigen_transpile(hello
         ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
         ${HELLO_APIGEN_TRANSPILER_GENERATOR})
 else()
     file(GLOB HELLO_WORLD_BUILTIN_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.*)
     set(FRANCA_FILES ${HELLO_WORLD_BUILTIN_FILES})
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fidl)
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fdepl)
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/PlainDataStructuresTest.fidl)
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/PlainDataStructuresTest.fdepl)
+    #TODO: These excludes can be removed once iOS support PODs (APIGEN-357)
+    if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fidl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldPlainDataStructures.fdepl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/PlainDataStructuresTest.fidl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/PlainDataStructuresTest.fdepl)
+    endif()
+    #TODO: These excludes can be removed once both platforms support instances (APIGEN-460, APIGEN-462)
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldInstances.fidl)
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldFactory.fidl)
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/HelloWorldFactory.fdepl)
     file(COPY ${FRANCA_FILES} DESTINATION fidl-nopods)
     apigen_transpile(hello
         ${CMAKE_CURRENT_BINARY_DIR}/fidl-nopods/
