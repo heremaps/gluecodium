@@ -185,9 +185,8 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
   private static CppNamespace mapFrancaInterfaceToCppModel(Interface<?> anInterface) {
 
     List<String> outmostQualifier = anInterface.getModelInfo().getPackageNames();
-    BaseApiTypeRefNameResolver nameResolver = new BaseApiTypeRefNameResolver(outmostQualifier);
 
-    StubModelBuilder builder = new StubModelBuilder(anInterface, nameResolver);
+    StubModelBuilder builder = new StubModelBuilder(anInterface);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(anInterface);
@@ -206,9 +205,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     outmostQualifier.add(
         CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection().getName()));
 
-    BaseApiTypeRefNameResolver nameResolver = new BaseApiTypeRefNameResolver(outmostQualifier);
-
-    StubModelBuilder builder = new StubModelBuilder(typeCollection, nameResolver);
+    StubModelBuilder builder = new StubModelBuilder(typeCollection);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(typeCollection);
