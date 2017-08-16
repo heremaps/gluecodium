@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppConstant;
 import com.here.ivi.api.model.cppmodel.CppValue;
@@ -23,12 +24,14 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class CppConstantTemplateTest {
 
+  private static final String TEMPLATE_NAME = "cpp/CppConstant";
+
   private static final String CONSTANT_NAME = "permanent";
   private static final String TYPE_NAME = "Typical";
   private static final String VALUE_NAME = "valuable";
   private static final String EXPECTED_RESULT = "static const Typical permanent = valuable;\n";
 
-  private CppConstant cppConstant =
+  private final CppConstant cppConstant =
       new CppConstant(
           CONSTANT_NAME,
           new CppComplexTypeRef.Builder(TYPE_NAME).build(),
@@ -36,7 +39,7 @@ public final class CppConstantTemplateTest {
 
   @Test
   public void nullComment() {
-    String result = CppConstantTemplate.generate(cppConstant);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppConstant);
 
     assertEquals(EXPECTED_RESULT, result);
   }
@@ -45,7 +48,7 @@ public final class CppConstantTemplateTest {
   public void emptyComment() {
     cppConstant.comment = "";
 
-    String result = CppConstantTemplate.generate(cppConstant);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppConstant);
 
     assertEquals(EXPECTED_RESULT, result);
   }
@@ -54,7 +57,7 @@ public final class CppConstantTemplateTest {
   public void someComment() {
     cppConstant.comment = "nonsense";
 
-    String result = CppConstantTemplate.generate(cppConstant);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppConstant);
 
     assertEquals("/**\n* nonsense\n*/\n" + EXPECTED_RESULT, result);
   }

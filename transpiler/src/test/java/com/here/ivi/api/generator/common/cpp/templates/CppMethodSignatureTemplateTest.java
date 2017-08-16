@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
@@ -24,18 +25,20 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class CppMethodSignatureTemplateTest {
 
+  private static final String TEMPLATE_NAME = "cpp/CppMethodSignature";
+
   private static final String METHOD_NAME = "methodical";
   private static final String METHOD_COMMENT = "nonsense";
   private static final String PARAMETER_NAME = "glory";
   private static final String TYPE_NAME = "Typical";
 
-  private CppMethod cppMethod = new CppMethod.Builder(METHOD_NAME).build();
-  private CppComplexTypeRef cppCustomType = new CppComplexTypeRef.Builder(TYPE_NAME).build();
-  private CppParameter cppParameter = new CppParameter(PARAMETER_NAME, cppCustomType);
+  private final CppMethod cppMethod = new CppMethod.Builder(METHOD_NAME).build();
+  private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef.Builder(TYPE_NAME).build();
+  private final CppParameter cppParameter = new CppParameter(PARAMETER_NAME, cppCustomType);
 
   @Test
   public void generateWithoutComment() {
-    String result = CppMethodSignatureTemplate.generate(cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
 
     assertEquals("void methodical(  )", result);
   }
@@ -44,7 +47,7 @@ public final class CppMethodSignatureTemplateTest {
   public void generateWithComment() {
     cppMethod.comment = METHOD_COMMENT;
 
-    String result = CppMethodSignatureTemplate.generate(cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
 
     assertEquals("/**\n* nonsense\n*/\nvoid methodical(  )", result);
   }
@@ -53,7 +56,7 @@ public final class CppMethodSignatureTemplateTest {
   public void generateWithOneSpecifier() {
     cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
 
-    String result = CppMethodSignatureTemplate.generate(cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
 
     assertEquals("static void methodical(  )", result);
   }
@@ -63,7 +66,7 @@ public final class CppMethodSignatureTemplateTest {
     cppMethod.specifiers.add(CppMethod.Specifier.VIRTUAL);
     cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
 
-    String result = CppMethodSignatureTemplate.generate(cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
 
     assertEquals("static virtual void methodical(  )", result);
   }
@@ -72,7 +75,7 @@ public final class CppMethodSignatureTemplateTest {
   public void generateWithReturnType() {
     CppMethod cppMethod = new CppMethod.Builder(METHOD_NAME).returnType(cppCustomType).build();
 
-    String result = CppMethodSignatureTemplate.generate(cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
 
     assertEquals("Typical methodical(  )", result);
   }
@@ -81,7 +84,7 @@ public final class CppMethodSignatureTemplateTest {
   public void generateWithOneQualifier() {
     cppMethod.qualifiers.add(CppMethod.Qualifier.CONST);
 
-    String result = CppMethodSignatureTemplate.generate(cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
 
     assertEquals("void methodical(  ) const", result);
   }
@@ -91,7 +94,7 @@ public final class CppMethodSignatureTemplateTest {
     cppMethod.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
     cppMethod.qualifiers.add(CppMethod.Qualifier.CONST);
 
-    String result = CppMethodSignatureTemplate.generate(cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
 
     assertEquals("void methodical(  ) const = 0", result);
   }
@@ -100,7 +103,7 @@ public final class CppMethodSignatureTemplateTest {
   public void generateWithOneInParameter() {
     cppMethod.parameters.add(cppParameter);
 
-    String result = CppMethodSignatureTemplate.generate(cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
 
     assertEquals("void methodical( const Typical& glory )", result);
   }
@@ -111,7 +114,7 @@ public final class CppMethodSignatureTemplateTest {
         new CppParameter("age", new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8)));
     cppMethod.parameters.add(cppParameter);
 
-    String result = CppMethodSignatureTemplate.generate(cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
 
     assertEquals("void methodical( const int8_t age, const Typical& glory )", result);
   }

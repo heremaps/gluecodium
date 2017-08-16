@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.common.cpp.templates;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,11 +23,13 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class CppDocCommentTemplateTest {
 
-  private CppElement cppElement = new CppElement();
+  private static final String TEMPLATE_NAME = "cpp/CppDocComment";
+
+  private final CppElement cppElement = new CppElement();
 
   @Test
   public void nullComment() {
-    String result = CppDocCommentTemplate.generate(cppElement);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppElement);
 
     assertTrue(result.isEmpty());
   }
@@ -35,7 +38,7 @@ public final class CppDocCommentTemplateTest {
   public void emptyComment() {
     cppElement.comment = "";
 
-    String result = CppDocCommentTemplate.generate(cppElement);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppElement);
 
     assertTrue(result.isEmpty());
   }
@@ -44,7 +47,7 @@ public final class CppDocCommentTemplateTest {
   public void someComment() {
     cppElement.comment = "nonsense";
 
-    String result = CppDocCommentTemplate.generate(cppElement);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppElement);
 
     final String expectedResult = "/**\n* nonsense\n*/\n";
     assertEquals(expectedResult, result);
@@ -54,7 +57,7 @@ public final class CppDocCommentTemplateTest {
   public void multiLineComment() {
     cppElement.comment = "complete\nnonsense";
 
-    String result = CppDocCommentTemplate.generate(cppElement);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppElement);
 
     final String expectedResult = "/**\n* complete\n* nonsense\n*/\n";
     assertEquals(expectedResult, result);

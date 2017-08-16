@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppEnum;
 import com.here.ivi.api.model.cppmodel.CppEnumItem;
 import com.here.ivi.api.model.cppmodel.CppValue;
@@ -23,6 +24,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class CppEnumTemplateTest {
 
+  public static final String TEMPLATE_NAME = "cpp/CppEnum";
+
   private static final String COMMENT_STRING = "nonsense";
   private static final String ENUM_NAME = "Innumerable";
   private static final String ENUM_ITEM_NAME = "Very";
@@ -31,12 +34,12 @@ public final class CppEnumTemplateTest {
   private static final String EXPECTED_ITEM_COMMENT_RESULT = "/**\n    * nonsense\n    */\n";
   private static final String EXPECTED_ITEM_RESULT_FORMAT = "    %s" + ENUM_ITEM_NAME + "%s\n";
 
-  private CppEnum cppEnum = new CppEnum(ENUM_NAME);
-  private CppEnumItem cppEnumItem = new CppEnumItem(ENUM_ITEM_NAME);
+  private final CppEnum cppEnum = new CppEnum(ENUM_NAME);
+  private final CppEnumItem cppEnumItem = new CppEnumItem(ENUM_ITEM_NAME);
 
   @Test
   public void enumWithoutComment() {
-    String result = CppEnumTemplate.generate(cppEnum);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppEnum);
 
     final String expectedResult = String.format(EXPECTED_ENUM_RESULT_FORMAT, "\n");
     assertEquals(expectedResult, result);
@@ -46,7 +49,7 @@ public final class CppEnumTemplateTest {
   public void enumWithComment() {
     cppEnum.comment = COMMENT_STRING;
 
-    String result = CppEnumTemplate.generate(cppEnum);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppEnum);
 
     final String expectedResult =
         EXPECTED_ENUM_COMMENT_RESULT + String.format(EXPECTED_ENUM_RESULT_FORMAT, "\n");
@@ -55,7 +58,7 @@ public final class CppEnumTemplateTest {
 
   @Test
   public void enumWithClass() {
-    String result = CppEnumTemplate.generate(new CppEnum(ENUM_NAME, true));
+    String result = TemplateEngine.render(TEMPLATE_NAME, new CppEnum(ENUM_NAME, true));
 
     final String expectedResult = "enum class " + ENUM_NAME + " {\n\n};\n";
     assertEquals(expectedResult, result);
@@ -65,7 +68,7 @@ public final class CppEnumTemplateTest {
   public void enumWithItem() {
     cppEnum.items.add(cppEnumItem);
 
-    String result = CppEnumTemplate.generate(cppEnum);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppEnum);
 
     final String expectedItemResult = String.format(EXPECTED_ITEM_RESULT_FORMAT, "", "");
     final String expectedResult = String.format(EXPECTED_ENUM_RESULT_FORMAT, expectedItemResult);
@@ -77,7 +80,7 @@ public final class CppEnumTemplateTest {
     cppEnumItem.comment = COMMENT_STRING;
     cppEnum.items.add(cppEnumItem);
 
-    String result = CppEnumTemplate.generate(cppEnum);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppEnum);
 
     final String expectedItemResult =
         String.format(EXPECTED_ITEM_RESULT_FORMAT, EXPECTED_ITEM_COMMENT_RESULT + "    ", "");
@@ -89,7 +92,7 @@ public final class CppEnumTemplateTest {
   public void enumWithItemWithValue() {
     cppEnum.items.add(new CppEnumItem(ENUM_ITEM_NAME, new CppValue("valuable")));
 
-    String result = CppEnumTemplate.generate(cppEnum);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppEnum);
 
     final String expectedItemResult = String.format(EXPECTED_ITEM_RESULT_FORMAT, "", " = valuable");
     final String expectedResult = String.format(EXPECTED_ENUM_RESULT_FORMAT, expectedItemResult);
@@ -101,7 +104,7 @@ public final class CppEnumTemplateTest {
     cppEnum.items.add(cppEnumItem);
     cppEnum.items.add(new CppEnumItem("Less"));
 
-    String result = CppEnumTemplate.generate(cppEnum);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppEnum);
 
     final String expectedItemResult = String.format(EXPECTED_ITEM_RESULT_FORMAT, "", ",");
     final String expectedAnotherItemResult = "    Less\n";

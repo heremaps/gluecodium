@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeDef;
 import org.junit.Test;
@@ -21,6 +22,8 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class CppTypeDefTemplateTest {
+
+  private static final String TEMPLATE_NAME = "cpp/CppTypeDef";
 
   private static final String TYPE_NAME = "Typical";
   private static final String TYPEDEF_NAME = "Definite";
@@ -32,7 +35,7 @@ public final class CppTypeDefTemplateTest {
 
   @Test
   public void typeDefWithoutComment() {
-    String result = CppTypeDefTemplate.generate(cppTypeDef);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppTypeDef);
 
     assertEquals(EXPECTED_TYPEDEF_RESULT, result);
   }
@@ -41,7 +44,7 @@ public final class CppTypeDefTemplateTest {
   public void typeDefWithComment() {
     cppTypeDef.comment = "nonsense";
 
-    String result = CppTypeDefTemplate.generate(cppTypeDef);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppTypeDef);
 
     final String expectedResult = "/**\n* nonsense\n*/\n" + EXPECTED_TYPEDEF_RESULT;
     assertEquals(expectedResult, result);
