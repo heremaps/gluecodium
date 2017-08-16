@@ -49,12 +49,26 @@ sourceSets {
 dependencies {
     buildDeployModel project(':fdeplgen')
 
-    compile 'commons-io:commons-io:+' // apache commons io for FileUtils
+    compile 'commons-io:commons-io:+'
+    compile 'commons-lang:commons-lang:+'
     compile 'org.apache.commons:commons-lang3:3.+'
+    compile 'org.apache.logging.log4j:log4j-core:+'
+    compile 'org.eclipse.core:runtime:+'
+    compile 'org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:+'
+    compile 'org.eclipse.emf:org.eclipse.emf.mwe.core:+'
+    compile 'org.eclipse.equinox:common:+'
+    compile 'org.eclipse.equinox:registry:+'
+    compile 'org.eclipse.xpand:org.eclipse.xpand:+'
+    compile 'org.eclipse.xpand:org.eclipse.xtend.typesystem.emf:+'
+    compile 'org.eclipse.xtext:org.eclipse.xtext.ecore:2.11.0'
+    compile 'org.eclipse.xtext:org.eclipse.xtext.generator:2.11.0'
+    compile 'org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.11.0'
+    compile "org.eclipse.xtext:xtext-antlr-generator:2.1.1"
+    compile 'org.franca:core:0.11.1.201705031527'
+    compile 'org.franca:core-dsl:0.11.1.201705031527'
+    compile 'org.franca:deploymodel-dsl:0.11.1.201705031527'
+    compile 'org.osgi:org.osgi.core:+'
     compile 'org.trimou:trimou-core:2.2.0.Final'
-    compile project(':externals:core')
-    compile project(':externals:dsl')
-    compile project(':externals:deploymodel')
 
     testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
     testCompile 'junit:junit:4.12'

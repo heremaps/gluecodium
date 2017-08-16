@@ -1,6 +1,2 @@
 include ':transpiler'
-include ':externals:core'
-include ':externals:dsl'
-include ':externals:deploymodel'
-include ':externals:generator'
 include ':fdeplgen'
