@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppInheritance;
@@ -23,14 +24,16 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class CppInheritanceTemplateTest {
 
-  private CppClass cppClass = new CppClass("Classy");
-  private CppInheritance cppInheritance =
+  private static final String TEMPLATE_NAME = "cpp/CppInheritance";
+
+  private final CppClass cppClass = new CppClass("Classy");
+  private final CppInheritance cppInheritance =
       new CppInheritance(
           new CppComplexTypeRef.Builder("Typical").build(), CppInheritance.Type.Public);
 
   @Test
   public void noInheritances() {
-    String result = CppInheritanceTemplate.generate(cppClass);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
     assertEquals("", result);
   }
@@ -39,7 +42,7 @@ public final class CppInheritanceTemplateTest {
   public void oneInheritance() {
     cppClass.inheritances.add(cppInheritance);
 
-    String result = CppInheritanceTemplate.generate(cppClass);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
     assertEquals(": public Typical", result);
   }
@@ -52,7 +55,7 @@ public final class CppInheritanceTemplateTest {
     cppClass.inheritances.add(cppInheritance);
     cppClass.inheritances.add(anotherCppInheritance);
 
-    String result = CppInheritanceTemplate.generate(cppClass);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
     assertEquals(": public Typical, private Nonsense", result);
   }

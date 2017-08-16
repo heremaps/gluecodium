@@ -24,6 +24,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class CppMethodParameterTemplateTest {
 
+  private static final String TEMPLATE_NAME = "cpp/CppMethodParameter";
+
   private static final String PARAMETER_NAME = "glory";
   private static final String TYPE_NAME = "Typical";
 
@@ -32,7 +34,7 @@ public final class CppMethodParameterTemplateTest {
     CppParameter cppParameter =
         new CppParameter(PARAMETER_NAME, new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8));
 
-    String result = TemplateEngine.render("cpp/CppMethodParameter", cppParameter);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppParameter);
 
     assertEquals("const int8_t glory", result);
   }
@@ -42,7 +44,7 @@ public final class CppMethodParameterTemplateTest {
     CppParameter cppParameter =
         new CppParameter(PARAMETER_NAME, new CppComplexTypeRef.Builder(TYPE_NAME).build());
 
-    String result = TemplateEngine.render("cpp/CppMethodParameter", cppParameter);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppParameter);
 
     assertEquals("const Typical& glory", result);
   }

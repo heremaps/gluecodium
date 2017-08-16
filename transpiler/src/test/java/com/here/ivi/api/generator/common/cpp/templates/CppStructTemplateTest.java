@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppStruct;
@@ -22,7 +23,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class CppPureStructTemplateTest {
+public final class CppStructTemplateTest {
+
+  private static final String TEMPLATE_NAME = "cpp/CppStruct";
 
   private static final String COMMENT_STRING = "nonsense";
   private static final String STRUCT_NAME = "Structural";
@@ -35,13 +38,14 @@ public final class CppPureStructTemplateTest {
   private static final String EXPECTED_FIELD_RESULT_FORMAT =
       "    %s" + TYPE_NAME + " " + FIELD_NAME + "%s;\n";
 
-  private CppStruct cppStruct = new CppStruct(STRUCT_NAME);
-  private CppComplexTypeRef cppComplexTypeRef = new CppComplexTypeRef.Builder(TYPE_NAME).build();
-  private CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME);
+  private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
+  private final CppComplexTypeRef cppComplexTypeRef =
+      new CppComplexTypeRef.Builder(TYPE_NAME).build();
+  private final CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME);
 
   @Test
   public void structWithoutComment() {
-    String result = CppPureStructTemplate.generate(cppStruct);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 
     final String expectedResult = String.format(EXPECTED_STRUCT_RESULT_FORMAT, "");
     assertEquals(expectedResult, result);
@@ -51,7 +55,7 @@ public final class CppPureStructTemplateTest {
   public void structWithComment() {
     cppStruct.comment = COMMENT_STRING;
 
-    String result = CppPureStructTemplate.generate(cppStruct);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 
     final String expectedResult =
         EXPECTED_STRUCT_COMMENT_RESULT + String.format(EXPECTED_STRUCT_RESULT_FORMAT, "");
@@ -62,7 +66,7 @@ public final class CppPureStructTemplateTest {
   public void structWithField() {
     cppStruct.fields.add(cppField);
 
-    String result = CppPureStructTemplate.generate(cppStruct);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 
     final String expectedFieldResult = String.format(EXPECTED_FIELD_RESULT_FORMAT, "", "");
     final String expectedResult = String.format(EXPECTED_STRUCT_RESULT_FORMAT, expectedFieldResult);
@@ -74,7 +78,7 @@ public final class CppPureStructTemplateTest {
     cppField.comment = COMMENT_STRING;
     cppStruct.fields.add(cppField);
 
-    String result = CppPureStructTemplate.generate(cppStruct);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 
     final String expectedFieldResult =
         String.format(EXPECTED_FIELD_RESULT_FORMAT, EXPECTED_FIELD_COMMENT_RESULT + "    ", "");
@@ -87,7 +91,7 @@ public final class CppPureStructTemplateTest {
     CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME, new CppValue("valuable"));
     cppStruct.fields.add(cppField);
 
-    String result = CppPureStructTemplate.generate(cppStruct);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 
     final String expectedFieldResult =
         String.format(EXPECTED_FIELD_RESULT_FORMAT, "", " = valuable");
@@ -102,7 +106,7 @@ public final class CppPureStructTemplateTest {
     cppStruct.fields.add(cppField);
     cppStruct.fields.add(anotherCppField);
 
-    String result = CppPureStructTemplate.generate(cppStruct);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 
     final String expectedFieldResult = String.format(EXPECTED_FIELD_RESULT_FORMAT, "", "");
     final String expectedAnotherFieldResult = "    Also canola;\n";
