@@ -33,7 +33,7 @@ class ViewControllerBuiltinTypes: UIViewController {
 
         let result = HelloWorldBuiltinTypes.methodWithFloatAndInteger(
             inputFloat: loanAmount, inputInteger: interestRate)
-        textResult.text = String(result + Double(loanAmount))
+        textResult.text = String(result)
     }
 
     override func viewDidLoad() {
