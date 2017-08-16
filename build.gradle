@@ -8,6 +8,9 @@ allprojects {
             name 'Local proxy of external Maven repositories'
             url 'example.com'
         }
+        maven {
+            url 'example.com'
+        }
     }
 
     apply plugin: 'java'

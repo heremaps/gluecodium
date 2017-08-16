@@ -1,10 +1,19 @@
 plugins {
-    id "org.xtext.xtend" version "1.0.17"
+    id 'org.xtext.xtend' version '1.0.17'
     id 'com.diffplug.gradle.spotless' version '3.3.2'
 }
 
 apply from: '../gradle/spotless.gradle'
 
 dependencies {
-    compile project(':externals:deploymodel')
+    compile 'org.apache.logging.log4j:log4j-core:+'
+    compile 'org.eclipse.emf:org.eclipse.emf.ecore.xcore.lib:+'
+    compile 'org.eclipse.emf:org.eclipse.emf.mwe.core:+'
+    compile 'org.eclipse.xpand:org.eclipse.xpand:+'
+    compile 'org.eclipse.xpand:org.eclipse.xtend.typesystem.emf:+'
+    compile 'org.eclipse.xtext:org.eclipse.xtext.ecore:2.11.0'
+    compile 'org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.11.0'
+    compile "org.eclipse.equinox:common:+"
+    compile 'org.franca:deploymodel-dsl:0.11.1.201705031527'
+    compile 'org.osgi:org.osgi.core:+'
 }
