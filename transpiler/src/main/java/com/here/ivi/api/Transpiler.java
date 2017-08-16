@@ -101,8 +101,7 @@ public final class Transpiler {
           List<GeneratedFile> outputFiles = generator.generate();
           boolean processedWithoutCollisions =
               checkForFileNameCollisions(fileNamesCache, outputFiles, sn);
-          succeeded = succeeded && processedWithoutCollisions;
-          output(outputFiles);
+          succeeded = succeeded && processedWithoutCollisions && output(outputFiles);
         }
 
         succeeded = succeeded && valid;
@@ -145,13 +144,15 @@ public final class Transpiler {
     return generators;
   }
 
-  public void output(List<GeneratedFile> files) {
+  public boolean output(List<GeneratedFile> files) {
     // handle output options
     if (options.isDumpingToStdout()) {
       try {
         ConsoleOutput co = new ConsoleOutput();
         co.output(files);
       } catch (IOException ignored) {
+        logger.severe("Cannot open console for output");
+        return false;
       }
     }
 
@@ -161,8 +162,11 @@ public final class Transpiler {
         FileOutput fo = new FileOutput(new File(outdir));
         fo.output(files);
       } catch (IOException ignored) {
+        logger.severe("Cannot open output directory " + outdir + " for writing");
+        return false;
       }
     }
+    return true;
   }
 
   public Version getVersion() {
