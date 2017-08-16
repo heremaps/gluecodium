@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.common.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.cpp.templates.CppCompoundInitializerTemplate;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppValue;
@@ -21,7 +20,16 @@ import com.here.ivi.api.model.rules.BuiltInValueRules;
 import com.here.ivi.api.model.rules.DefaultValuesRules;
 import java.math.BigInteger;
 import java.util.Optional;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FBooleanConstant;
+import org.franca.core.franca.FCompoundInitializer;
+import org.franca.core.franca.FDoubleConstant;
+import org.franca.core.franca.FFieldInitializer;
+import org.franca.core.franca.FFloatConstant;
+import org.franca.core.franca.FInitializerExpression;
+import org.franca.core.franca.FIntegerConstant;
+import org.franca.core.franca.FQualifiedElementRef;
+import org.franca.core.franca.FStringConstant;
+import org.franca.core.franca.FUnaryOperation;
 
 public class CppValueMapper {
   public static final CppValue NAN_FLOAT =
@@ -91,10 +99,24 @@ public class CppValueMapper {
     return new CppValue(String.valueOf(value));
   }
 
-  public static CppValue map(CppTypeRef type, FCompoundInitializer ci) {
-    // TODO having a template in here is not-so-nice, this should be some CppType
-    return new CppValue(
-        CppCompoundInitializerTemplate.generate(type, ci).toString(), type.includes);
+  public static CppValue map(CppTypeRef type, FCompoundInitializer compoundInitializer) {
+
+    // TODO having a multi-line string in here is not-so-nice, this should be some CppType
+    StringBuilder builder = new StringBuilder();
+    builder.append("[]() {\n").append("  ").append(type.name).append(" tmp;\n");
+
+    for (FFieldInitializer initializer : compoundInitializer.getElements()) {
+      builder
+          .append("  ")
+          .append(initializer.getElement().getName())
+          .append(" = ")
+          .append(CppValueMapper.map(type, initializer.getValue()).name)
+          .append(";");
+    }
+
+    builder.append("  return tmp;\n").append("}()");
+
+    return new CppValue(builder.toString(), type.includes);
   }
 
   // TODO handle namespaces here as well
