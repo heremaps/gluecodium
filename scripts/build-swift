@@ -18,7 +18,6 @@ safe cmake \
     -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
     -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
-    -DHELLO_BUILD_CPP_APP=OFF \
     -DHELLO_SWIFT_TESTS=${CWD}/platforms/ios/Tests \
     -G Ninja \
     ..

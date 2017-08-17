@@ -29,7 +29,6 @@ function build {
             -DIOS_DEPLOYMENT_TARGET=9.3 \
             -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
             -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
-            -DHELLO_BUILD_CPP_APP=OFF \
             -G Ninja \
             "${SCRIPT_DIR}/.."
         popd
