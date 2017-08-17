@@ -40,6 +40,8 @@ import org.franca.core.franca.FUnionType;
 
 public class CppTypeMapper {
 
+  private static final String VOID_POINTER = "void*";
+
   public static CppTypeRef map(FrancaElement<?> rootModel, FTypedElement typedElement) {
     CppTypeRef type = CppTypeMapper.map(rootModel, typedElement.getType());
 
@@ -136,21 +138,21 @@ public class CppTypeMapper {
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FArrayType array) {
     //TODO: APIGEN-145 handle array types
-    return new CppComplexTypeRef.Builder("void").build();
+    return new CppComplexTypeRef.Builder(VOID_POINTER).build();
   }
 
   public static CppTypeRef defineArray(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FArrayType array) {
     //TODO: APIGEN-145 handle array types
-    return new CppComplexTypeRef.Builder("void").build();
+    return new CppComplexTypeRef.Builder(VOID_POINTER).build();
   }
 
   private static CppComplexTypeRef mapMap(
       @SuppressWarnings("unused") FrancaElement<?> rootModel,
       @SuppressWarnings("unused") FMapType map) {
-
-    throw new TranspilerExecutionException("map mapping is not yet supported");
+    //TODO: APIGEN-145 handle complex types
+    return new CppComplexTypeRef.Builder(VOID_POINTER).build();
   }
 
   public static CppComplexTypeRef mapStruct(FStructType struct) {
@@ -194,8 +196,8 @@ public class CppTypeMapper {
       @SuppressWarnings("unused") Include mapInclude,
       @SuppressWarnings("unused") CppTypeRef key,
       @SuppressWarnings("unused") CppTypeRef value) {
-
-    throw new TranspilerExecutionException("wrapping of maps is not yet supported");
+    //TODO: APIGEN-145 handle complex types
+    return new CppComplexTypeRef.Builder(VOID_POINTER).build();
   }
 
   public static CppComplexTypeRef wrapUniquePtr(@SuppressWarnings("unused") CppTypeRef content) {
