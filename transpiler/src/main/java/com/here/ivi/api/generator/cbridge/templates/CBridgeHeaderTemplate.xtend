@@ -39,7 +39,7 @@ class CBridgeHeaderTemplate{
     «ENDFOR»
 
     «FOR function: cInterface.functions»
-        «TemplateEngine.render("cbridge/CFunctionDeclaration", function)»
+        «TemplateEngine.render("cbridge/CFunctionSignature", function)»;
     «ENDFOR»
 
     #ifdef __cplusplus

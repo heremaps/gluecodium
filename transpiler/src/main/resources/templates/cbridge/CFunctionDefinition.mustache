@@ -1,4 +1,4 @@
-{{returnType}} {{name}}({{joinPartial parameters "cbridge/CParamsFormatter" ", "}}) {
+{{>cbridge/CFunctionSignature}} {
 {{#conversions}}    auto&& {{name}} = {{expression}};
 {{/conversions}}
 {{#returnConversion}}
