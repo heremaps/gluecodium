@@ -207,4 +207,28 @@ interface HelloWorldBuiltinTypes {
             Double outputNumber
         }
     }
+
+    <** @description:
+    Example static test method without out params and therefore with void return type
+    **>
+    method voidTestMethod {
+        in {
+            <** @description: Input number which can later be queried with getVoidTestMethodParameter() **>
+            Int32 inputNumber
+        }
+        out {
+        }
+    }
+
+    <** @description:
+    Example static method that returns the last number passed to voidTestMethod
+    **>
+    method getVoidTestMethodParameter {
+        in {
+        }
+        out {
+            <** @description: the last number passed to voidTestMethod **>
+            Int32 output
+        }
+    }
 }
