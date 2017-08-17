@@ -17,6 +17,7 @@ import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.Collection;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
@@ -33,6 +34,7 @@ import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.FUnionType;
 
 /**
  * Tree walker for the Franca model tree decouples tree traversal from the creation of
@@ -53,6 +55,8 @@ import org.franca.core.franca.FTypedElement;
  * could be calculated at startBuilding() step and thus made available to the children.
  */
 public class FrancaTreeWalker {
+
+  private static final Logger LOGGER = Logger.getLogger(FrancaTreeWalker.class.getName());
 
   private final Collection<ModelBuilder> builders;
 
@@ -164,6 +168,10 @@ public class FrancaTreeWalker {
               ModelBuilder::startBuilding,
               ModelBuilder::finishBuilding,
               this::walkChildNodes);
+        } else if (type instanceof FUnionType) {
+          walk((FUnionType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+        } else {
+          LOGGER.warning(type.getClass().getName() + " is not supported yet");
         }
       }
     }

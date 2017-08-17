@@ -25,6 +25,7 @@ import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.FUnionType;
 
 /** An interface for a model builder, used by @see FrancaTreeWalker. */
 public interface ModelBuilder {
@@ -59,6 +60,8 @@ public interface ModelBuilder {
 
   void startBuilding(FExpression francaExpression);
 
+  void startBuilding(FUnionType francaUnionType);
+
   void finishBuilding(FInterface francaInterface);
 
   void finishBuilding(FTypeCollection francaTypeCollection);
@@ -88,4 +91,6 @@ public interface ModelBuilder {
   void finishBuilding(FEnumerator francaEnumerator);
 
   void finishBuilding(FExpression francaExpression);
+
+  void finishBuilding(FUnionType francaUnionType);
 }

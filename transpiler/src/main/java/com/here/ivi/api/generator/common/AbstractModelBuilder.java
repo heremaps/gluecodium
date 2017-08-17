@@ -28,6 +28,7 @@ import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.FUnionType;
 
 public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
@@ -114,6 +115,11 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
+  public void startBuilding(FUnionType francaUnionType) {
+    openContext();
+  }
+
+  @Override
   public void finishBuilding(FInterface francaInterface) {
     closeContext();
   }
@@ -185,6 +191,11 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   @Override
   public void finishBuilding(FExpression francaExpression) {
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FUnionType francaUnionType) {
     closeContext();
   }
 
