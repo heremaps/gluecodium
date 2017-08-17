@@ -36,6 +36,7 @@ import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.FUnionType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,6 +65,7 @@ public class FrancaTreeWalkerInterfaceTest {
   @Mock private FTypeDef francaTypeDef;
   @Mock private FEnumerator francaEnumerator;
   @Mock private FExpression francaExpression;
+  @Mock private FUnionType francaUnionType;
 
   private final ArrayEList<FMethod> methods = new ArrayEList<>();
   private final ArrayEList<FArgument> arguments = new ArrayEList<>();
@@ -93,6 +95,7 @@ public class FrancaTreeWalkerInterfaceTest {
     types.add(francaEnumerationType);
     types.add(francaMapType);
     types.add(francaTypeDef);
+    types.add(francaUnionType);
 
     when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
     when(francaInterface.getMethods()).thenReturn(methods);
@@ -424,5 +427,26 @@ public class FrancaTreeWalkerInterfaceTest {
 
     verify(modelBuilder).startBuilding(francaExpression);
     verify(modelBuilder).finishBuilding(francaExpression);
+  }
+
+  @Test
+  public void walkWithOneUnion() {
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaUnionType);
+    verify(modelBuilder).finishBuilding(francaUnionType);
+  }
+
+  @Test
+  public void walkWithTwoUnions() {
+    FUnionType anotherFrancaUnionType = mock(FUnionType.class);
+    types.add(anotherFrancaUnionType);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaUnionType);
+    verify(modelBuilder).finishBuilding(francaUnionType);
+    verify(modelBuilder).startBuilding(anotherFrancaUnionType);
+    verify(modelBuilder).finishBuilding(anotherFrancaUnionType);
   }
 }
