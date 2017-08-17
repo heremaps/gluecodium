@@ -65,4 +65,12 @@ define navigation.BaseApiSpec for interface hello.HelloWorldBuiltinTypes
     method methodWithFloatAndInteger {
         Static = true
     }
+
+    method voidTestMethod {
+        Static = true
+    }
+
+    method getVoidTestMethodParameter {
+        Static = true
+    }
 }

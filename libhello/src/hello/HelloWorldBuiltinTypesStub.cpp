@@ -17,6 +17,8 @@
 namespace hello
 {
 
+static int32_t lastVoidMethodParameter;
+
 int8_t
 HelloWorldBuiltinTypesStub::methodWithInt8( const int8_t inputNumber )
 {
@@ -94,6 +96,17 @@ HelloWorldBuiltinTypesStub::methodWithFloatAndInteger( const float inputFloat,
                                                        const int8_t inputInteger )
 {
     return inputFloat * (0.01 * inputInteger);
+}
+
+void
+HelloWorldBuiltinTypesStub::voidTestMethod( const int32_t inputNumber )
+{
+    lastVoidMethodParameter = inputNumber;
+}
+
+int32_t HelloWorldBuiltinTypesStub::getVoidTestMethodParameter ( )
+{
+    return lastVoidMethodParameter;
 }
 
 }

@@ -5,6 +5,8 @@ import android.support.compat.BuildConfig;
 
 import com.here.android.RobolectricApplication;
 
+import com.here.android.hello.HelloWorldBuiltinTypes;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -163,5 +165,14 @@ public final class PlainDataStructuresTestTest {
         assertNotNull(result.line.a);
         assertNotNull(result.line.b);
         assertNotNull(result.color);
+    }
+
+    @Test
+    public void executeVoidMethod() {
+        final int testValue = 10;
+
+        HelloWorldBuiltinTypes.voidTestMethod(testValue);
+
+        assertEquals(testValue, HelloWorldBuiltinTypes.getVoidTestMethodParameter());
     }
 }
