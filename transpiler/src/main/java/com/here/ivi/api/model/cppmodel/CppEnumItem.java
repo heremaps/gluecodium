@@ -14,10 +14,16 @@ package com.here.ivi.api.model.cppmodel;
 import java.util.stream.Stream;
 
 public class CppEnumItem extends CppElement {
-  public CppValue value;
 
-  public boolean isValid() {
-    return !name.isEmpty();
+  public final CppValue value;
+
+  public CppEnumItem(final String name) {
+    this(name, null);
+  }
+
+  public CppEnumItem(final String name, final CppValue value) {
+    super(name);
+    this.value = value;
   }
 
   @Override
