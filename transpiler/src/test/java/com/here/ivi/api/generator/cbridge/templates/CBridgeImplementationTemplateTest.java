@@ -12,11 +12,9 @@
 package com.here.ivi.api.generator.cbridge.templates;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.model.cmodel.CFunction;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.CParameter;
-import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.test.TemplateComparison;
@@ -27,7 +25,6 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Mockito;
 
 @RunWith(JUnit4.class)
 public class CBridgeImplementationTemplateTest {
@@ -124,28 +121,6 @@ public class CBridgeImplementationTemplateTest {
             + "        auto&& cpp_result = delegate();\n"
             + "        return cpp_result;\n"
             + "    }\n"
-            + "}\n";
-    final String generated = this.generate(cInterface);
-    TemplateComparison.assertEqualImplementationContent(expected, generated);
-  }
-
-  @Test
-  public void emptyStructsDefinitions() {
-    final CType fakeType = Mockito.mock(CType.class);
-    fakeType.includes = Collections.emptySet();
-    final CppTypeInfo cppTypeInfo = new CppTypeInfo(fakeType);
-    CInterface cInterface = new CInterface();
-    final CStruct cStruct1 =
-        new CStruct("Struct1NameRef", "Struct1Name", "BaseAPIStruct1Name", cppTypeInfo);
-    final CStruct cStruct2 =
-        new CStruct("Struct2NameRef", "Struct2Name", "BaseAPIStruct2Name", cppTypeInfo);
-    cInterface.structs = Arrays.asList(cStruct1, cStruct2);
-    final String expected =
-        "BaseAPIStruct1Name* get_pointer(Struct1NameRef handle) {\n"
-            + "    return static_cast<BaseAPIStruct1Name*>(handle.private_pointer);\n"
-            + "}\n"
-            + "BaseAPIStruct2Name* get_pointer(Struct2NameRef handle) {\n"
-            + "    return static_cast<BaseAPIStruct2Name*>(handle.private_pointer);\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
