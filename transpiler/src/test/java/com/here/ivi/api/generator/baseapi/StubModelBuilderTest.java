@@ -209,6 +209,18 @@ public class StubModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaInterfaceReadsEnums() {
+    contextStack.injectResult(cppEnum);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    CppClass cppClass = modelBuilder.getFirstResult(CppClass.class);
+    assertNotNull(cppClass);
+    assertFalse(cppClass.enums.isEmpty());
+    assertEquals(cppEnum, cppClass.enums.iterator().next());
+  }
+
+  @Test
   public void finishBuildingFrancaMethodReadsReturnTypeData() {
     modelBuilder.finishBuilding(francaMethod);
 

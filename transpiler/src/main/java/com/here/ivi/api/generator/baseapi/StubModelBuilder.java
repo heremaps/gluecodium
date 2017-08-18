@@ -82,6 +82,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     cppClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, CppMethod.class));
     cppClass.structs.addAll(CollectionsHelper.getAllOfType(previousResults, CppStruct.class));
+    cppClass.enums.addAll(CollectionsHelper.getAllOfType(previousResults, CppEnum.class));
 
     storeResult(cppClass);
     closeContext();

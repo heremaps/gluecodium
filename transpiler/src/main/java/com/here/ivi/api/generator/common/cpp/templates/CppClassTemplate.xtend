@@ -26,6 +26,13 @@ class CppClassTemplate {
             «ENDFOR»
         «ENDIF»
 
+        «IF !clazz.enums.isEmpty()»
+        public:
+            «FOR e : clazz.enums»
+              «CppEnumTemplate.generate(e)»
+            «ENDFOR»
+        «ENDIF»
+
         «IF !clazz.usings.isEmpty()»
         public:
             «FOR u : clazz.usings»
