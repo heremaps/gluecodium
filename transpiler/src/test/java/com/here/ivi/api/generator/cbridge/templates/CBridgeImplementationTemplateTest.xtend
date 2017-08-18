@@ -21,6 +21,7 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cmodel.CParameter
 import com.here.ivi.api.model.cmodel.CField
 import com.here.ivi.api.generator.cbridge.CppTypeInfo
+import com.here.ivi.api.generator.cbridge.CBridgeGenerator
 import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory
 import org.junit.rules.TemporaryFolder
 import org.junit.Rule
@@ -34,6 +35,10 @@ class CBridgeImplementationTemplateTest {
 
     @Rule public val tempFolder = new TemporaryFolder;
 
+    def generate(CInterface iface) {
+        CBridgeGenerator.generateImplementationContent(iface);
+    }
+
     @Test
     def systemInclude() {
         val cInterface = new CInterface() => [
@@ -43,7 +48,7 @@ class CBridgeImplementationTemplateTest {
             #include <header.h>
         '''
 
-        val generated = CBridgeImplementationTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualImplementationContent(expected, generated.toString)
     }
@@ -57,7 +62,7 @@ class CBridgeImplementationTemplateTest {
             #include "header.h"
         '''
 
-        val generated = CBridgeImplementationTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualImplementationContent(expected, generated.toString)
     }
@@ -74,7 +79,7 @@ class CBridgeImplementationTemplateTest {
         }
         '''
 
-        val generated = CBridgeImplementationTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualImplementationContent(expected, generated.toString)
     }
@@ -95,7 +100,7 @@ class CBridgeImplementationTemplateTest {
         }
         '''
 
-        val generated = CBridgeImplementationTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualImplementationContent(expected, generated.toString)
     }
@@ -119,7 +124,7 @@ class CBridgeImplementationTemplateTest {
         }
         '''
 
-        val generated = CBridgeImplementationTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualImplementationContent(expected, generated.toString)
     }
@@ -142,7 +147,7 @@ class CBridgeImplementationTemplateTest {
         }
         '''
 
-        val generated = CBridgeImplementationTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualImplementationContent(expected, generated.toString)
     }
@@ -167,7 +172,7 @@ class CBridgeImplementationTemplateTest {
             }
         '''
 
-        val generated = CBridgeImplementationTemplate.generate(cInterface).toString
+        val generated = generate(cInterface).toString
 
         assertEqualImplementationContent(expected, generated)
     }
