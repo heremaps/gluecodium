@@ -41,7 +41,8 @@ public class JavaTypeMapperCustomTypeTest {
   private static final String TYPECOLLECTION_NAME = "typeC0Ll3ction";
 
   private static final String FMODEL_NAME = "this.is.A.fancy.t3sT.package";
-  private static final String PACKAGE_WITH_TYPECOLLECTION = FMODEL_NAME + "." + TYPECOLLECTION_NAME;
+  private static final String PACKAGE_WITH_TYPECOLLECTION =
+      FMODEL_NAME + "." + TYPECOLLECTION_NAME.toLowerCase();
   private static final JavaPackage JAVA_PACKAGE = new JavaPackage(Strings.split(FMODEL_NAME, "."));
   private static final JavaPackage JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME =
       new JavaPackage(Strings.split(PACKAGE_WITH_TYPECOLLECTION, "."));
@@ -82,7 +83,8 @@ public class JavaTypeMapperCustomTypeTest {
     when(structType.eContainer()).thenReturn(fTypeCollection);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeRef.getDerived()).thenReturn(structType);
-
+    when(JavaNameRules.getTypeCollectionName(TYPECOLLECTION_NAME))
+        .thenReturn(TYPECOLLECTION_NAME.toLowerCase());
     //act
     JavaType result = JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
 
@@ -99,6 +101,7 @@ public class JavaTypeMapperCustomTypeTest {
 
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(STRUCT_NAME_TYPECOLLECTION);
+    JavaNameRules.getTypeCollectionName(TYPECOLLECTION_NAME);
   }
 
   @Test

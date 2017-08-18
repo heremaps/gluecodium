@@ -126,9 +126,12 @@ public final class JavaTypeMapper {
     if (definer.type instanceof FInterface) {
       importClassName = JavaNameRules.getClassName(definer.type.getName());
       structName = importClassName + "." + className;
-    } else { //non nested struct
-      importClassName = structName = className;
-      packageNames.add(definer.type.getName());
+    } else { // struct from a type collection
+      importClassName = className;
+      structName = className;
+      String typeCollectionName = definer.type.getName();
+      String packageName = JavaNameRules.getTypeCollectionName(typeCollectionName);
+      packageNames.add(packageName);
     }
 
     JavaImport javaImport = new JavaImport(importClassName, new JavaPackage(packageNames));
