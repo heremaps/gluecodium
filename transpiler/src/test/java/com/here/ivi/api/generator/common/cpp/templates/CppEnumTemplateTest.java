@@ -16,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 import com.here.ivi.api.model.cppmodel.CppEnum;
 import com.here.ivi.api.model.cppmodel.CppEnumItem;
 import com.here.ivi.api.model.cppmodel.CppValue;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -33,12 +32,7 @@ public final class CppEnumTemplateTest {
   private static final String EXPECTED_ITEM_RESULT_FORMAT = "    %s" + ENUM_ITEM_NAME + "%s\n";
 
   private CppEnum cppEnum = new CppEnum(ENUM_NAME);
-  private CppEnumItem cppEnumItem = new CppEnumItem();
-
-  @Before
-  public void setUp() {
-    cppEnumItem.name = ENUM_ITEM_NAME;
-  }
+  private CppEnumItem cppEnumItem = new CppEnumItem(ENUM_ITEM_NAME);
 
   @Test
   public void enumWithoutComment() {
@@ -93,8 +87,7 @@ public final class CppEnumTemplateTest {
 
   @Test
   public void enumWithItemWithValue() {
-    cppEnumItem.value = new CppValue("valuable");
-    cppEnum.items.add(cppEnumItem);
+    cppEnum.items.add(new CppEnumItem(ENUM_ITEM_NAME, new CppValue("valuable")));
 
     String result = CppEnumTemplate.generate(cppEnum);
 
@@ -105,10 +98,8 @@ public final class CppEnumTemplateTest {
 
   @Test
   public void enumWithTwoItems() {
-    CppEnumItem anotherCppEnumItem = new CppEnumItem();
-    anotherCppEnumItem.name = "Less";
     cppEnum.items.add(cppEnumItem);
-    cppEnum.items.add(anotherCppEnumItem);
+    cppEnum.items.add(new CppEnumItem("Less"));
 
     String result = CppEnumTemplate.generate(cppEnum);
 

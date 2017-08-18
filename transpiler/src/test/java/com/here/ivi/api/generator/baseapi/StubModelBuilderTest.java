@@ -479,8 +479,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsEnumItems() {
-    CppEnumItem cppEnumItem = new CppEnumItem();
-    cppEnumItem.name = "enumerated";
+    CppEnumItem cppEnumItem = new CppEnumItem("enumerated");
     contextStack.injectResult(cppEnumItem);
 
     modelBuilder.finishBuilding(francaEnumerationType);

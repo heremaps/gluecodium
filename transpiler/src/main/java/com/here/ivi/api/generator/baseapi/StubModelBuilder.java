@@ -230,11 +230,11 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FEnumerator francaEnumerator) {
 
-    CppEnumItem cppEnumItem = new CppEnumItem();
-    cppEnumItem.name = CppNameRules.getEnumEntryName(francaEnumerator.getName());
-    cppEnumItem.comment = StubCommentParser.parse(francaEnumerator).getMainBodyText();
-    cppEnumItem.value =
+    String enumItemName = CppNameRules.getEnumEntryName(francaEnumerator.getName());
+    CppValue cppValue =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppValue.class);
+    CppEnumItem cppEnumItem = new CppEnumItem(enumItemName, cppValue);
+    cppEnumItem.comment = StubCommentParser.parse(francaEnumerator).getMainBodyText();
 
     storeResult(cppEnumItem);
     closeContext();
