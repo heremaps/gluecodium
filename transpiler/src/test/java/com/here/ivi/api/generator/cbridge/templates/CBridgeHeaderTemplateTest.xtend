@@ -21,12 +21,17 @@ import com.here.ivi.api.model.cmodel.CPointerType
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cmodel.CParameter
 import com.here.ivi.api.generator.cbridge.CppTypeInfo
+import com.here.ivi.api.generator.cbridge.CBridgeGenerator
 import com.here.ivi.api.model.cmodel.CStruct
 import static com.here.ivi.api.test.TemplateComparison.assertEqualHeaderContent
 import static org.mockito.Mockito.mock;
 
 @RunWith(typeof(XtextRunner))
 class CBridgeHeaderTemplateTest {
+
+    def generate(CInterface iface) {
+        CBridgeGenerator.generateHeaderContent(iface);
+    }
 
     @Test
     def systemInclude() {
@@ -37,7 +42,7 @@ class CBridgeHeaderTemplateTest {
             #include <header.h>
         '''
 
-        val generated = CBridgeHeaderTemplate.generate(cInterface).toString
+        val generated = generate(cInterface).toString
 
         assertEqualHeaderContent(expected, generated)
     }
@@ -51,7 +56,7 @@ class CBridgeHeaderTemplateTest {
             #include "header.h"
         '''
 
-        val generated = CBridgeHeaderTemplate.generate(cInterface).toString
+        val generated = generate(cInterface).toString
 
         assertEqualHeaderContent(expected, generated)
     }
@@ -66,7 +71,7 @@ class CBridgeHeaderTemplateTest {
         void functionName();
         '''
 
-        val generated = CBridgeHeaderTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualHeaderContent(expected, generated.toString)
     }
@@ -83,7 +88,7 @@ class CBridgeHeaderTemplateTest {
         void parameterFunctionName(int32_t one);
         '''
 
-        val generated = CBridgeHeaderTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualHeaderContent(expected, generated.toString)
     }
@@ -102,7 +107,7 @@ class CBridgeHeaderTemplateTest {
         void doubleFunction(int16_t first, double second);
         '''
 
-        val generated = CBridgeHeaderTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualHeaderContent(expected, generated.toString)
     }
@@ -119,7 +124,7 @@ class CBridgeHeaderTemplateTest {
         float returner();
         '''
 
-        val generated = CBridgeHeaderTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualHeaderContent(expected, generated.toString)
     }
@@ -137,7 +142,7 @@ class CBridgeHeaderTemplateTest {
         const char* HelloWorldStub_HelloWorldMethod(const char* inputString);
         '''
 
-        val generated = CBridgeHeaderTemplate.generate(cInterface)
+        val generated = generate(cInterface)
 
         assertEqualHeaderContent(expected, generated.toString)
     }
@@ -163,7 +168,7 @@ class CBridgeHeaderTemplateTest {
             } Struct2NameRef;
         '''
 
-        val generated = CBridgeHeaderTemplate.generate(cInterface).toString
+        val generated = generate(cInterface).toString
 
         assertEqualHeaderContent(expected, generated)
     }

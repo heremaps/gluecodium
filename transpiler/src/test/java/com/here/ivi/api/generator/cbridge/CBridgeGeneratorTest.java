@@ -18,8 +18,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.generator.cbridge.templates.CBridgeHeaderTemplate;
-import com.here.ivi.api.generator.cbridge.templates.CBridgeImplementationTemplate;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.franca.Interface;
@@ -454,9 +452,9 @@ public class CBridgeGeneratorTest {
 
   private void assertContentAsExpected(
       CInterface cModel, String expectedHeader, String expectedImplementation) {
-    String generatedImplementation = CBridgeImplementationTemplate.generate(cModel).toString();
+    final String generatedImplementation = CBridgeGenerator.generateImplementationContent(cModel);
     assertEqualImplementationContent(expectedImplementation, generatedImplementation);
-    String generatedHeader = CBridgeHeaderTemplate.generate(cModel).toString();
+    final String generatedHeader = CBridgeGenerator.generateHeaderContent(cModel);
     assertEqualHeaderContent(expectedHeader, generatedHeader);
   }
 }

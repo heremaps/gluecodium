@@ -13,7 +13,6 @@ package com.here.ivi.api.test;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.junit.Assert.assertEquals;
 
 import java.time.Year;
@@ -40,7 +39,11 @@ public class TemplateComparison {
             + "// which may not be disclosed to others without prior written consent of HERE Global B.V.\n"
             + "//\n"
             + "// Automatically generated. Do not modify. Your changes will be lost.\n";
-    assertTrue(text.startsWith(copyright));
+    // For nicer error messages compare the longest possible  part of the copyright with the actual
+    // file and only then check the length
+    final int maximalComparisonLength = Math.min(text.length(), copyright.length());
+    assertEquals(copyright, text.substring(0, maximalComparisonLength));
+    assertTrue(copyright.length() <= text.length());
     return text.substring(copyright.length());
   }
 
@@ -61,11 +64,19 @@ public class TemplateComparison {
 
   private static String checkAndStripPragmaAndExternC(String content) {
     content = ignoreWhitespace(content);
-    String opening = "#pragma once\n" + "#ifdef __cplusplus\n" + "extern \"C\" {\n" + "#endif\n";
-    String closing = "#ifdef __cplusplus\n" + "}\n" + "#endif\n";
-    assertTrue("Should start with leading 'extern 'C'{'", content.startsWith(opening));
+    final String opening =
+        "#pragma once\n" + "#ifdef __cplusplus\n" + "extern \"C\" {\n" + "#endif\n";
+    final String closing = "#ifdef __cplusplus\n" + "}\n" + "#endif\n";
+
+    int maxLength = Math.min(opening.length(), content.length());
+    assertEquals(opening, content.substring(0, maxLength));
+    assertThat("Should start with leading 'extern 'C'{'", content.length() >= opening.length());
+
     content = content.substring(opening.length());
-    assertThat(content, endsWith(closing));
+
+    maxLength = Math.min(closing.length(), content.length());
+    assertEquals(closing, content.substring(content.length() - maxLength));
+    assertTrue(content.length() >= closing.length());
     content = content.substring(0, content.length() - closing.length());
     return content;
   }

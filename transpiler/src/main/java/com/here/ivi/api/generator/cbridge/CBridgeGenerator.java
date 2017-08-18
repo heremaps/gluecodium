@@ -11,15 +11,17 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import com.here.ivi.api.generator.cbridge.templates.CBridgeHeaderTemplate;
-import com.here.ivi.api.generator.cbridge.templates.CBridgeImplementationTemplate;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.franca.Interface;
+import java.time.Year;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CBridgeGenerator {
   private final CBridgeNameRules cBridgeNameRules;
@@ -32,11 +34,24 @@ public class CBridgeGenerator {
     CInterface cModel = buildCBridgeModel(iface);
     return Arrays.asList(
         new GeneratedFile(
-            CBridgeHeaderTemplate.generate(cModel),
-            cBridgeNameRules.getHeaderFileNameWithPath(iface)),
+            generateHeaderContent(cModel), cBridgeNameRules.getHeaderFileNameWithPath(iface)),
         new GeneratedFile(
-            CBridgeImplementationTemplate.generate(cModel),
+            generateImplementationContent(cModel),
             cBridgeNameRules.getImplementationFileNameWithPath(iface)));
+  }
+
+  public static String generateHeaderContent(CInterface model) {
+    return generateFileHeader() + TemplateEngine.render("cbridge/Header", model);
+  }
+
+  public static String generateImplementationContent(CInterface model) {
+    return generateFileHeader() + TemplateEngine.render("cbridge/Implementation", model);
+  }
+
+  private static String generateFileHeader() {
+    Map<String, Object> dataObject = new HashMap<>();
+    dataObject.put("year", Year.now().getValue());
+    return TemplateEngine.render("cbridge/FileHeader", dataObject);
   }
 
   CInterface buildCBridgeModel(Interface<?> anInterface) {
