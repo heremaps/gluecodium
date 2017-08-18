@@ -2,7 +2,7 @@
 struct {{name}} {
 {{#fields}}
 {{#if comment}}
-    {{>cpp/CppDocComment}}
+{{prefixPartial "cpp/CppDocComment" "    "}}
 {{/if}}
     {{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
 {{/fields}}

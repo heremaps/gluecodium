@@ -31,7 +31,8 @@ public final class CppPureStructTemplateTest {
   private static final String TYPE_NAME = "Typical";
   private static final String EXPECTED_STRUCT_RESULT_FORMAT =
       "struct " + STRUCT_NAME + " {\n%s};\n";
-  private static final String EXPECTED_COMMENT_RESULT = "/**\n* nonsense\n*/\n";
+  private static final String EXPECTED_STRUCT_COMMENT_RESULT = "/**\n* nonsense\n*/\n";
+  private static final String EXPECTED_FIELD_COMMENT_RESULT = "/**\n    * nonsense\n    */\n";
   private static final String EXPECTED_FIELD_RESULT_FORMAT =
       "    %s" + TYPE_NAME + " " + FIELD_NAME + "%s;\n";
 
@@ -59,7 +60,7 @@ public final class CppPureStructTemplateTest {
     String result = CppPureStructTemplate.generate(cppStruct);
 
     final String expectedResult =
-        EXPECTED_COMMENT_RESULT + String.format(EXPECTED_STRUCT_RESULT_FORMAT, "");
+        EXPECTED_STRUCT_COMMENT_RESULT + String.format(EXPECTED_STRUCT_RESULT_FORMAT, "");
     assertEquals(expectedResult, result);
   }
 
@@ -82,7 +83,7 @@ public final class CppPureStructTemplateTest {
     String result = CppPureStructTemplate.generate(cppStruct);
 
     final String expectedFieldResult =
-        String.format(EXPECTED_FIELD_RESULT_FORMAT, EXPECTED_COMMENT_RESULT + "    ", "");
+        String.format(EXPECTED_FIELD_RESULT_FORMAT, EXPECTED_FIELD_COMMENT_RESULT + "    ", "");
     final String expectedResult = String.format(EXPECTED_STRUCT_RESULT_FORMAT, expectedFieldResult);
     assertEquals(expectedResult, result);
   }

@@ -28,7 +28,8 @@ public final class CppEnumTemplateTest {
   private static final String ENUM_NAME = "Innumerable";
   private static final String ENUM_ITEM_NAME = "Very";
   private static final String EXPECTED_ENUM_RESULT_FORMAT = "enum " + ENUM_NAME + " {\n%s};\n";
-  private static final String EXPECTED_COMMENT_RESULT = "/**\n* nonsense\n*/\n";
+  private static final String EXPECTED_ENUM_COMMENT_RESULT = "/**\n* nonsense\n*/\n";
+  private static final String EXPECTED_ITEM_COMMENT_RESULT = "/**\n    * nonsense\n    */\n";
   private static final String EXPECTED_ITEM_RESULT_FORMAT = "    %s" + ENUM_ITEM_NAME + "%s\n";
 
   private CppEnum cppEnum = new CppEnum(ENUM_NAME);
@@ -54,7 +55,7 @@ public final class CppEnumTemplateTest {
     String result = CppEnumTemplate.generate(cppEnum);
 
     final String expectedResult =
-        EXPECTED_COMMENT_RESULT + String.format(EXPECTED_ENUM_RESULT_FORMAT, "\n");
+        EXPECTED_ENUM_COMMENT_RESULT + String.format(EXPECTED_ENUM_RESULT_FORMAT, "\n");
     assertEquals(expectedResult, result);
   }
 
@@ -85,7 +86,7 @@ public final class CppEnumTemplateTest {
     String result = CppEnumTemplate.generate(cppEnum);
 
     final String expectedItemResult =
-        String.format(EXPECTED_ITEM_RESULT_FORMAT, EXPECTED_COMMENT_RESULT + "    ", "");
+        String.format(EXPECTED_ITEM_RESULT_FORMAT, EXPECTED_ITEM_COMMENT_RESULT + "    ", "");
     final String expectedResult = String.format(EXPECTED_ENUM_RESULT_FORMAT, expectedItemResult);
     assertEquals(expectedResult, result);
   }

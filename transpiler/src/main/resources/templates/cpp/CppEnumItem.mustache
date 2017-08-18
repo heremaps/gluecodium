@@ -1,4 +1,4 @@
 {{#if comment}}
-    {{>cpp/CppDocComment}}
+{{prefixPartial "cpp/CppDocComment" "    "}}
 {{/if}}
     {{name}}{{#value}} = {{name}}{{/value}}
