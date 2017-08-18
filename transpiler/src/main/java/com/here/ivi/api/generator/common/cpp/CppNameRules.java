@@ -18,7 +18,6 @@ import com.here.ivi.api.model.franca.Interface;
 import java.io.File;
 import java.util.List;
 import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 
 public final class CppNameRules {
@@ -60,7 +59,7 @@ public final class CppNameRules {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
     List<String> result = getNamespace(definer);
     // special rule for structs defined in interfaces ...
-    if (definer.type instanceof FInterface && type instanceof FStructType) {
+    if (definer.type instanceof FInterface) {
       result.add(getClassName(definer.type.getName()));
     } else {
       // common rule for all other types
