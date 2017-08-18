@@ -26,7 +26,7 @@ public class JavaClassTemplate {
     '''
     «JavaCopyrightHeaderTemplate.generate()»
 
-    «JavaPackageTemplate.generate(javaPackage)»
+    «TemplateEngine.render("java/Package", javaPackage)»
     «TemplateEngine.render("java/Import", JavaElements.collectImports(it))»
 
     «IF comment !== null && !comment.isEmpty»

@@ -1,2 +1,2 @@
-{{#this}}import {{#javaPackage.packageNames}}{{.}}.{{/javaPackage.packageNames}}{{className}};
+{{#this}}import {{join javaPackage.packageNames delimiter="."}}.{{className}};
 {{/this}}

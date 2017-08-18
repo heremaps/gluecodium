@@ -13,10 +13,11 @@ package com.here.ivi.api.generator.common.java.templates
 
 import com.here.ivi.api.model.javamodel.JavaEnum
 import com.here.ivi.api.generator.common.java.JavaCommentFormatter
+import com.here.ivi.api.generator.common.TemplateEngine
 
 class JavaEnumTemplate {
   static def generate(JavaEnum it) '''«IF isTopLevel»
-    «JavaPackageTemplate.generate(javaPackage)»
+    «TemplateEngine.render("java/Package", javaPackage)»
 
     «ENDIF»
     «IF comment !== null && !comment.isEmpty»
