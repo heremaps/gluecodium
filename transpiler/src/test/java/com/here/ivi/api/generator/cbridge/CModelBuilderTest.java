@@ -273,10 +273,13 @@ public class CModelBuilderTest {
     CField field = cStruct.fields.get(0);
     assertEquals(FIELD_NAME, field.name);
     List<CFunction> functions = getResults(CFunction.class);
-    assertEquals("Should be get, set, create and release function", 4, functions.size());
+    assertEquals(
+        "Should be get_pointer, get, set, create and release functions", 5, functions.size());
     CFunction func = getFunction(functions, cStruct.getNameOfFieldGetter(FIELD_NAME));
     assertNotEquals("Field getter function should be generated", null, func);
     assertEquals("Getter should take in 1 param", 1, func.parameters.size());
+    assertNotEquals(
+        "get_oointer function should be generated", null, getFunction(functions, "get_pointer"));
     assertNotEquals(
         "Field setter function should be generated",
         null,
@@ -305,7 +308,7 @@ public class CModelBuilderTest {
     CField field = cStruct.fields.get(0);
     assertEquals(FIELD_NAME, field.name);
     List<CFunction> functions = getResults(CFunction.class);
-    assertEquals("Should be get, create and release function", 3, functions.size());
+    assertEquals("Should be get_pointer, get, create and release function", 4, functions.size());
     CFunction func = getFunction(functions, cStruct.getNameOfFieldGetter(FIELD_NAME));
     assertNotEquals("Field getter function should be generated", null, func);
     assertEquals("Getter should take in 1 param", 1, func.parameters.size());

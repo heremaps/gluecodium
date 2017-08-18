@@ -24,6 +24,8 @@ public class CFunction extends CElement {
   public final CType returnType;
   public final TypeConverter.TypeConversion returnConversion;
   public final String delegateCall;
+  public String declarationTemplate = "cbridge/FunctionDeclaration";
+  public String definitionTemplate = "cbridge/FunctionDefinition";
 
   private CFunction(Builder builder) {
     super(builder.name);

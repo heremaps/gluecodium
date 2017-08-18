@@ -147,6 +147,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CField.class);
 
     storeResult(cStruct);
+    storeResult(createGetPointerFunction(cStruct.name, cStruct.baseApiName));
     storeResult(createStructCreateFunction(cStruct));
     storeResult(createStructReleaseFunction(cStruct));
     for (CField field : cStruct.fields) {
@@ -166,6 +167,17 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             CTypeMapper.mapType(rootModel, francaTypedElement.getType()));
     storeResult(cField);
     super.finishBuilding(francaTypedElement);
+  }
+
+  private CFunction createGetPointerFunction(String cName, String cppName) {
+    CFunction getPointerFunction =
+        new CFunction.Builder("get_pointer")
+            .parameters(singletonList(new CParameter("handle", new CType(cName))))
+            .returnType(new CType(cppName))
+            .build();
+    getPointerFunction.declarationTemplate = null;
+    getPointerFunction.definitionTemplate = "cbridge/getPointer_impl";
+    return getPointerFunction;
   }
 
   private CFunction createStructReleaseFunction(CStruct cStruct) {

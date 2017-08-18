@@ -3,17 +3,13 @@
 extern "C" {
 #endif
 
-{{#headerIncludes}}
-{{>cbridge/Include}}
-{{/headerIncludes}}
+{{#headerIncludes}}{{>cbridge/Include}}{{/headerIncludes}}
 
 {{#structs}}
 {{>cbridge/CStruct}}
 
 {{/structs}}
-{{#functions}}
-{{>cbridge/FunctionSignature}};
-{{/functions}}
+{{#functions}}{{#declarationTemplate}}{{include .}}{{/declarationTemplate}}{{/functions}}
 
 #ifdef __cplusplus
 }
