@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
-import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class CppNameRulesTest {
   @Mock private FModel fModel;
   @Mock private FTypeCollection fTypeCollection;
   @Mock private FInterface fInterface;
-  @Mock private FStructType fStructType;
+  @Mock private FType fType;
 
   @Before
   public void setUp() {
@@ -57,7 +57,7 @@ public class CppNameRulesTest {
   }
 
   @Test
-  public void getQualifierForStructFromInterface() {
+  public void getNestedNameSpecifierForTypeFromInterface() {
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fInterface);
     when(mockFrancaModel.getModelInfo().getFModel()).thenReturn(fModel);
     when(fInterface.getName()).thenReturn("Iface");
@@ -68,7 +68,7 @@ public class CppNameRulesTest {
     when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
 
     //act
-    List<String> qualifier = CppNameRules.getNestedNameSpecifier(fStructType);
+    List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
 
     //assert
     assertEquals(4, qualifier.size());
@@ -76,7 +76,7 @@ public class CppNameRulesTest {
 
     //verify
     PowerMockito.verifyStatic();
-    DefinedBy.createFromFModelElement(fStructType);
+    DefinedBy.createFromFModelElement(fType);
     Mockito.verify(mockFrancaModel).getFrancaTypeCollection();
     Mockito.verify(mockFrancaModel, Mockito.times(2)).getModelInfo();
     Mockito.verify(mockFrancaModel.getModelInfo()).getFModel();
@@ -85,7 +85,7 @@ public class CppNameRulesTest {
   }
 
   @Test
-  public void getQualifierForStructFromTypeCollection() {
+  public void getNestedNameSpecifierForTypeFromTypeCollection() {
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
     when(mockFrancaModel.getModelInfo().getFModel()).thenReturn(fModel);
     when(fTypeCollection.getName()).thenReturn("TCollection");
@@ -96,7 +96,7 @@ public class CppNameRulesTest {
     when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
 
     //act
-    List<String> qualifier = CppNameRules.getNestedNameSpecifier(fStructType);
+    List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
 
     //assert
     assertEquals(4, qualifier.size());
@@ -104,7 +104,7 @@ public class CppNameRulesTest {
 
     //verify
     PowerMockito.verifyStatic();
-    DefinedBy.createFromFModelElement(fStructType);
+    DefinedBy.createFromFModelElement(fType);
     Mockito.verify(mockFrancaModel).getFrancaTypeCollection();
     Mockito.verify(mockFrancaModel, Mockito.times(2)).getModelInfo();
     Mockito.verify(mockFrancaModel.getModelInfo()).getFModel();
