@@ -20,6 +20,7 @@ import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
+import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
@@ -43,8 +44,7 @@ public class CppTypeMapper {
     CppTypeRef type = CppTypeMapper.map(rootModel, typedElement.getType());
 
     if (typedElement.isArray()) {
-      //TODO: APIGEN-145 handle array types
-      return new CppComplexTypeRef.Builder("void").build();
+      return wrapVector(type);
     }
     return type;
   }
@@ -204,6 +204,14 @@ public class CppTypeMapper {
 
   public static CppComplexTypeRef wrapSharedPtr(@SuppressWarnings("unused") CppTypeRef content) {
     throw new TranspilerExecutionException("wrapping of shared pointers is not yet supported");
+  }
+
+  private static CppComplexTypeRef wrapVector(final CppTypeRef content) {
+    List<Include> includes = new LinkedList<>(content.includes);
+    includes.add(CppLibraryIncludes.VECTOR);
+    return new CppComplexTypeRef.Builder("::std::vector< " + content.name + " >")
+        .includes(includes)
+        .build();
   }
 
   private static CppTypeRef mapPredefined(final FTypeRef type) {
