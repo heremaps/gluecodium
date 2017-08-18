@@ -95,7 +95,7 @@ public final class CppNameRules {
         + File.separator
         + (francaElement instanceof Interface<?>
             ? getClassName(((Interface<?>) francaElement).getFrancaInterface().getName())
-            : getTypeCollectionName(francaElement.getFrancaTypeCollection().getName()))
+            : francaElement.getFrancaTypeCollection().getName())
         + getHeaderFileSuffix();
   }
 }
