@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.common.jni;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -306,5 +307,19 @@ public class JniModelBuilderTest {
     assertEquals(jniStruct.javaClass, jniModel.structs.get(0).javaClass);
     String expectedNamespace = "my::cpp::stuffs::namespace::testtypecollection";
     assertEquals(expectedNamespace, String.join("::", jniModel.cppNameSpaces));
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionWithNoStruct() {
+    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
+
+    assertNotNull(jniModel);
+    assertTrue(jniModel.structs.isEmpty());
+    assertTrue(jniModel.javaPackages.isEmpty());
+    assertEquals(
+        "my.cpp.stuffs.namespace.testtypecollection", String.join(".", jniModel.cppNameSpaces));
   }
 }

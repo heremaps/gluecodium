@@ -136,16 +136,14 @@ public final class JavaTypeMapper {
       structName = importClassName + "." + className;
     } else { // struct from a type collection
       importClassName = className;
-      structName = className;
       String typeCollectionName = definer.type.getName();
       String packageName = JavaNameRules.getTypeCollectionName(typeCollectionName);
       packageNames.add(packageName);
+      structName = String.join(".", packageNames) + "." + className;
     }
 
     JavaImport javaImport = new JavaImport(importClassName, new JavaPackage(packageNames));
-    if (!className.equals(structName)) {
-      return new JavaCustomType(structName, className, Collections.singletonList(javaImport));
-    }
-    return new JavaCustomType(structName, Collections.singletonList(javaImport));
+
+    return new JavaCustomType(structName, className, Collections.singletonList(javaImport));
   }
 }
