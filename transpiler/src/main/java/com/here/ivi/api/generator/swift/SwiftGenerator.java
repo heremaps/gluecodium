@@ -77,7 +77,8 @@ public class SwiftGenerator {
     method.returnType = SwiftTypeMapper.mapReturnValue(francaMethod);
     String comment = StubCommentParser.parse(francaMethod).getMainBodyText();
     method.comment = comment != null ? comment : "";
-    method.isStatic = propertyAccessor.getStatic(francaMethod);
+    Boolean isStatic = propertyAccessor.getStatic(francaMethod);
+    method.isStatic = isStatic != null && isStatic;
     return method;
   }
 }
