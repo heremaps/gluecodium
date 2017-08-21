@@ -196,10 +196,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   }
 
   private boolean isMethodStatic(FMethod francaMethod) {
-
     BaseApiSpec.IDataPropertyAccessor propertyAccessor = rootModel.getPropertyAccessor();
     if (propertyAccessor instanceof InterfacePropertyAccessor) {
-      return ((InterfacePropertyAccessor) propertyAccessor).getStatic(francaMethod);
+      Boolean isStatic = ((InterfacePropertyAccessor) propertyAccessor).getStatic(francaMethod);
+      return isStatic != null && isStatic;
     } else {
       return false;
     }

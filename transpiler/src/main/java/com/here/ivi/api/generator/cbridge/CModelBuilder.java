@@ -83,7 +83,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
-    if (!rootModel.getPropertyAccessor().getStatic(francaMethod)) {
+    Boolean isStatic = rootModel.getPropertyAccessor().getStatic(francaMethod);
+    if (isStatic == null || !isStatic) {
       closeContext();
       return;
     }
