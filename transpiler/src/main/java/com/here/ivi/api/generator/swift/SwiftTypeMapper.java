@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.swift;
 import com.here.ivi.api.model.swift.SwiftType;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeRef;
 
 public class SwiftTypeMapper {
@@ -55,15 +54,5 @@ public class SwiftTypeMapper {
         return new SwiftType("Data");
     }
     return SwiftType.VOID;
-  }
-
-  public static SwiftType mapReturnValue(FMethod method) {
-    // TODO Wrap multiple return values and/or error code with subsequent version of Hello World milestone
-    return method
-        .getOutArgs()
-        .stream()
-        .findFirst()
-        .map(SwiftTypeMapper::mapType)
-        .orElse(SwiftType.VOID);
   }
 }
