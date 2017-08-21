@@ -96,7 +96,9 @@ public class JavaTypeMapperCustomTypeTest {
     JavaType result = JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
 
     //assert & verify
-    assertEquals(STRUCT_NAME_TYPECOLLECTION, result.getName());
+    assertEquals(
+        FMODEL_NAME + "." + TYPECOLLECTION_NAME.toLowerCase() + "." + STRUCT_NAME_TYPECOLLECTION,
+        result.getName());
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());

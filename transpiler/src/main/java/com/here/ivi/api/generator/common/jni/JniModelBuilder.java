@@ -27,6 +27,7 @@ import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaParameter;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.FArgument;
@@ -154,12 +155,16 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
+    List<String> cppNamespaces = new LinkedList<>(rootModel.getModelInfo().getPackageNames());
+    String typeCollectionName = JavaNameRules.getTypeCollectionName(francaTypeCollection.getName());
+    cppNamespaces.add(typeCollectionName);
 
-    String typeCollectionName = francaTypeCollection.getName();
-    List<String> packageNames = new LinkedList<>(rootModel.getModelInfo().getPackageNames());
-    packageNames.add(JavaNameRules.getTypeCollectionName(typeCollectionName));
+    JniStruct jniStruct =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JniStruct.class);
+    List<String> packageNames =
+        jniStruct != null ? jniStruct.javaClass.javaPackage.packageNames : Collections.emptyList();
 
-    JniModel jniModel = new JniModel("", packageNames, null, packageNames);
+    JniModel jniModel = new JniModel("", cppNamespaces, null, packageNames);
 
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
         .forEach(
