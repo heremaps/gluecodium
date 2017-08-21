@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
-import com.here.ivi.api.model.javamodel.JavaClass;
 import java.io.File;
 import java.util.List;
 
@@ -22,12 +21,12 @@ public final class JniNameRules {
   private static final String JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp";
   private static final String JNI_CONVERSION_NAME = "StructConversion";
 
-  public static String getHeaderFileName(final JavaClass javaClass) {
-    return getJniClassFileName(javaClass) + JNI_HEADER_FILE_SUFFIX;
+  public static String getHeaderFileName(JniContainer jniContainer) {
+    return getJniClassFileName(jniContainer) + JNI_HEADER_FILE_SUFFIX;
   }
 
-  public static String getImplementationFileName(final JavaClass javaClass) {
-    return getJniClassFileName(javaClass) + JNI_IMPLEMENTATION_FILE_SUFFIX;
+  public static String getImplementationFileName(JniContainer jniContainer) {
+    return getJniClassFileName(jniContainer) + JNI_IMPLEMENTATION_FILE_SUFFIX;
   }
 
   public static String getConversionHeaderFileName() {
@@ -66,10 +65,10 @@ public final class JniNameRules {
     return packageNames.isEmpty() ? "" : String.join("_", packageNames) + "_";
   }
 
-  private static String getJniClassFileName(final JavaClass javaClass) {
+  private static String getJniClassFileName(final JniContainer jniContainer) {
     return getJniPathPrefix()
-        + formatPackageName(javaClass.javaPackage.packageNames)
-        + javaClass.name;
+        + formatPackageName(jniContainer.javaPackages)
+        + jniContainer.javaName;
   }
 
   private static String getJniPathPrefix() {

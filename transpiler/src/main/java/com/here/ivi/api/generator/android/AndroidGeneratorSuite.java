@@ -15,7 +15,7 @@ import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.jni.JniModel;
+import com.here.ivi.api.generator.common.jni.JniContainer;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import com.here.ivi.api.loader.java.AndroidSpecAccessorFactory;
@@ -27,7 +27,6 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
@@ -99,14 +98,14 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
             Collections.singletonList(CONVERSION_UTILS_HEADER));
 
     //jni models need to be built first as they are required to generate conversion util file
-    List<JniModel> jniModels =
+    List<JniContainer> jniContainers =
         model
             .getInterfaces()
             .stream()
             .map(jniGenerator::generateModel)
             .collect(Collectors.toList());
 
-    jniModels.addAll(
+    jniContainers.addAll(
         model
             .getTypeCollections()
             .stream()
@@ -115,11 +114,11 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
 
     Stream<List<GeneratedFile>> jniFilesStream =
         Stream.concat(
-            jniModels
+            jniContainers
                 .stream()
-                .filter(jniModel -> Objects.nonNull(jniModel.javaClass))
+                .filter(jniContainer -> jniContainer.isInterface)
                 .map(jniGenerator::generateFiles),
-            Stream.of(jniGenerator.generateConversionFiles(jniModels)));
+            Stream.of(jniGenerator.generateConversionFiles(jniContainers)));
 
     // This generator is special in that it generates only one file
     // At the moment it does not need to iterate over all interfaces

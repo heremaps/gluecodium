@@ -12,17 +12,17 @@
 package com.here.ivi.api.generator.android;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.common.jni.JniModel;
+import com.here.ivi.api.generator.common.jni.JniContainer;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
-import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
@@ -47,7 +47,9 @@ public class JavaNativeInterfacesGeneratorTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
-  private final JniModel jniModel = new JniModel(null, null, new JavaClass("classy"), null);
+  private final JniContainer jniContainer =
+      JniContainer.createInterfaceContainer(
+          Collections.emptyList(), Collections.emptyList(), "classy", "classy");
 
   private final JavaNativeInterfacesGenerator generator =
       new JavaNativeInterfacesGenerator(null, null);
@@ -68,27 +70,26 @@ public class JavaNativeInterfacesGeneratorTest {
 
   @Test
   public void generateFilesWithNullModel() {
-    expectedException.expect(NullPointerException.class);
-
-    generator.generateFiles(null);
+    List<GeneratedFile> files = generator.generateFiles(null);
+    assertTrue(files.isEmpty());
   }
 
   @Test
   public void generateFilesWithNonNullModel() {
-    List<GeneratedFile> result = generator.generateFiles(jniModel);
+    List<GeneratedFile> result = generator.generateFiles(jniContainer);
 
     assertEquals(MAIN_FILES_COUNT, result.size());
 
     PowerMockito.verifyStatic();
-    JniHeaderTemplate.generate(jniModel);
+    JniHeaderTemplate.generate(jniContainer);
     PowerMockito.verifyStatic();
-    JniImplementationTemplate.generate(jniModel);
+    JniImplementationTemplate.generate(jniContainer);
   }
 
   @Test
   public void generateConversionFiles() {
     List<GeneratedFile> result =
-        generator.generateConversionFiles(Collections.singletonList(jniModel));
+        generator.generateConversionFiles(Collections.singletonList(jniContainer));
 
     assertEquals(MAIN_FILES_COUNT, result.size());
 

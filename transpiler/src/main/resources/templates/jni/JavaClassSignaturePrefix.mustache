@@ -1,1 +1,1 @@
-{{#owningModel.javaPackages}}{{.}}/{{/owningModel.javaPackages}}{{#owningModel.javaClass}}{{name}}${{/owningModel.javaClass}}
+{{#owningContainer}}{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}{{#isInterface}}${{/isInterface}}{{^isInterface}}/{{/isInterface}}{{/owningContainer}}

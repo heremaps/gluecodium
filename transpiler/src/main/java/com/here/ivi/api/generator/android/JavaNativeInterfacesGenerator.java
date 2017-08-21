@@ -18,14 +18,13 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.cpp.CppLibraryIncludes;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
-import com.here.ivi.api.generator.common.jni.JniModel;
+import com.here.ivi.api.generator.common.jni.JniContainer;
 import com.here.ivi.api.generator.common.jni.JniModelBuilder;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -49,7 +48,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     this.additionalIncludes = additionalIncludes;
   }
 
-  public JniModel generateModel(final FrancaElement<?> francaElement) {
+  public JniContainer generateModel(final FrancaElement<?> francaElement) {
 
     JavaModelBuilder javaBuilder = new JavaModelBuilder(basePackage, francaElement);
 
@@ -60,43 +59,46 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
         new FrancaTreeWalker(Arrays.asList(javaBuilder, stubBuilder, jniBuilder));
     treeWalker.walk(francaElement);
 
-    JniModel jniModel = jniBuilder.getFirstResult(JniModel.class);
-    jniModel.includes.addAll(getIncludes(francaElement, jniModel.javaClass));
+    JniContainer jniContainer = jniBuilder.getFirstResult(JniContainer.class);
+    jniContainer.includes.addAll(getIncludes(francaElement, jniContainer));
 
-    return jniModel;
+    return jniContainer;
   }
 
-  public List<GeneratedFile> generateFiles(final JniModel jniModel) {
+  public List<GeneratedFile> generateFiles(final JniContainer jniContainer) {
 
     List<GeneratedFile> results = new LinkedList<>();
+    if (jniContainer == null) {
+      return results;
+    }
 
     results.add(
         new GeneratedFile(
-            JniHeaderTemplate.generate(jniModel),
-            JniNameRules.getHeaderFileName(jniModel.javaClass)));
+            JniHeaderTemplate.generate(jniContainer),
+            JniNameRules.getHeaderFileName(jniContainer)));
     results.add(
         new GeneratedFile(
-            JniImplementationTemplate.generate(jniModel),
-            JniNameRules.getImplementationFileName(jniModel.javaClass)));
+            JniImplementationTemplate.generate(jniContainer),
+            JniNameRules.getImplementationFileName(jniContainer)));
 
     return results;
   }
 
-  public List<GeneratedFile> generateConversionFiles(final List<JniModel> jniModels) {
+  public List<GeneratedFile> generateConversionFiles(final List<JniContainer> jniContainers) {
 
     List<GeneratedFile> results = new LinkedList<>();
 
-    if (jniModels == null || jniModels.isEmpty()) {
+    if (jniContainers == null || jniContainers.isEmpty()) {
       return results;
     }
 
     //memorize all includes
     Set<Include> includes = new HashSet<>();
-    jniModels.forEach(model -> includes.addAll(model.includes));
+    jniContainers.forEach(model -> includes.addAll(model.includes));
 
     Map<String, Iterable<?>> mustacheData = new HashMap<>();
     mustacheData.put(INCLUDES_NAME, includes);
-    mustacheData.put(MODELS_NAME, jniModels);
+    mustacheData.put(MODELS_NAME, jniContainers);
 
     results.add(
         new GeneratedFile(
@@ -120,13 +122,13 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
   }
 
   private List<Include> getIncludes(
-      final FrancaElement<?> francaElement, final JavaClass javaClass) {
+      final FrancaElement<?> francaElement, final JniContainer jniContainer) {
 
     String baseApiHeaderInclude = CppNameRules.getHeaderPath(francaElement);
 
     List<String> includes = new LinkedList<>(Collections.singletonList(baseApiHeaderInclude));
-    if (javaClass != null) {
-      includes.add(JniNameRules.getHeaderFileName(javaClass));
+    if (jniContainer.isInterface) {
+      includes.add(JniNameRules.getHeaderFileName(jniContainer));
     }
 
     includes.addAll(additionalIncludes);

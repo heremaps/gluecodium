@@ -13,14 +13,14 @@ package com.here.ivi.api.generator.common.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.jni.JniContainer;
 import com.here.ivi.api.generator.common.jni.JniMethod;
-import com.here.ivi.api.generator.common.jni.JniModel;
 import com.here.ivi.api.generator.common.jni.JniParameter;
-import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import java.util.Arrays;
+import java.util.Collections;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -28,17 +28,17 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class JniFunctionSignatureTemplateTest {
 
-  private final JniModel jniModel =
-      new JniModel(
-          null, null, new JavaClass("ClassName"), Arrays.asList("com", "here", "jni", "test"));
+  private final JniContainer jniContainer =
+      JniContainer.createTypeCollectionContainer(
+          Arrays.asList("com", "here", "jni", "test"), Collections.emptyList(), "ClassName", "");
 
   @Test
   public void simpleJniMethodGenerationGeneration() {
     // Arrange
     JniMethod jniMethod = new JniMethod();
-    jniMethod.owningModel = jniModel;
+    jniMethod.owningContainer = jniContainer;
     jniMethod.javaMethodName = "methodName";
-    jniModel.methods.add(jniMethod);
+    jniContainer.methods.add(jniMethod);
 
     String expected = "Java_com_here_jni_test_ClassName_methodName(JNIEnv* env, jobject jinstance)";
 
@@ -53,7 +53,7 @@ public final class JniFunctionSignatureTemplateTest {
   public void complexJniMethodGenerationGeneration() {
     // Arrange
     JniMethod jniMethod = new JniMethod();
-    jniMethod.owningModel = jniModel;
+    jniMethod.owningContainer = jniContainer;
     jniMethod.javaMethodName = "methodName";
 
     jniMethod.parameters.add(
@@ -63,7 +63,7 @@ public final class JniFunctionSignatureTemplateTest {
         new JniParameter("intParam", new JavaPrimitiveType(JavaPrimitiveType.Type.INT), null));
     jniMethod.parameters.add(
         new JniParameter("customParam", new JavaCustomType("CustomParamType"), null));
-    jniModel.methods.add(jniMethod);
+    jniContainer.methods.add(jniMethod);
 
     String expectedParams =
         "JNIEnv* env, jobject jinstance, jstring jstringParam, jint jintParam, jobject jcustomParam";

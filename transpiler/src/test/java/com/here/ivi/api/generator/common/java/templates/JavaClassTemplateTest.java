@@ -36,7 +36,7 @@ public final class JavaClassTemplateTest {
   private static final String COPYRIGHT_NOTICE = JavaCopyrightHeaderTemplate.generate() + "\n";
 
   @Test
-  public void generate_minimumClass() {
+  public void generateMinimumClass() {
     // Arrange
     JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
@@ -58,7 +58,7 @@ public final class JavaClassTemplateTest {
   }
 
   @Test
-  public void generate_classWithMethod() {
+  public void generateClassWithMethod() {
     // Arrange
     JavaCustomType exampleType = new JavaCustomType("ExampleType");
     JavaParameter parameter = new JavaParameter(new JavaCustomType("InParamType"), "param");
@@ -95,7 +95,7 @@ public final class JavaClassTemplateTest {
   }
 
   @Test
-  public void generate_classWithEnum() {
+  public void generateClassWithEnum() {
     // Arrange
     JavaEnumItem enumItem = new JavaEnumItem("ITEM", new JavaValue("1"));
     JavaEnum classEnum = new JavaEnum("ExampleEnum");
@@ -129,7 +129,7 @@ public final class JavaClassTemplateTest {
   }
 
   @Test
-  public void generate_classWithEnumAndMethods() {
+  public void generateClassWithEnumAndMethods() {
     // Arrange
     JavaMethod classMethod =
         new JavaMethod("someMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
@@ -172,7 +172,7 @@ public final class JavaClassTemplateTest {
   }
 
   @Test
-  public void generate_classWithInheritance() {
+  public void generateClassWithInheritance() {
     // Arrange
     JavaClass javaClass = new JavaClass("ChildClass");
     javaClass.comment = "Child class comment";
@@ -195,7 +195,7 @@ public final class JavaClassTemplateTest {
   }
 
   @Test
-  public void generate_classWithInnerClass() {
+  public void generateClassWithInnerClass() {
     // Arrange
     JavaField intField =
         new JavaField(
@@ -231,7 +231,7 @@ public final class JavaClassTemplateTest {
   }
 
   @Test
-  public void generate_staticClass() {
+  public void generateStaticClass() {
     // Arrange
     JavaField intField =
         new JavaField(
@@ -268,7 +268,7 @@ public final class JavaClassTemplateTest {
   }
 
   @Test
-  public void generate_finalClass() {
+  public void generateFinalClass() {
     // Arrange
     JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";

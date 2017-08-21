@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.common.jni.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.common.jni.JniModel;
+import com.here.ivi.api.generator.common.jni.JniContainer;
 import com.here.ivi.api.generator.common.jni.JniStruct;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.javamodel.JavaClass;
@@ -35,11 +35,11 @@ public final class JniToCppStructConversionSignatureTest {
 
   private final JavaClass javaClassInner = new JavaClass("jInner");
   private final CppStruct cppStruct = new CppStruct("CppStruct");
-  private final JniModel jniModel =
-      new JniModel(
-          CPP_OUTER_CLASS_NAME, CPP_NAMESPACES, new JavaClass(JAVA_OUTER_CLASS_NAME), null);
+  private final JniContainer jniContainer =
+      JniContainer.createInterfaceContainer(
+          Collections.emptyList(), CPP_NAMESPACES, JAVA_OUTER_CLASS_NAME, CPP_OUTER_CLASS_NAME);
   private final JniStruct jniStruct =
-      new JniStruct(jniModel, javaClassInner, cppStruct, Collections.emptyList());
+      new JniStruct(jniContainer, javaClassInner, cppStruct, Collections.emptyList());
 
   @Test
   public void generate() {

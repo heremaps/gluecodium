@@ -17,13 +17,13 @@ import com.here.ivi.api.generator.common.TemplateEngine
 import static com.here.ivi.api.generator.common.jni.JniNameRules.getParameterName
 import com.here.ivi.api.generator.common.jni.JniToCppTypeConversionTemplateDelegator
 import com.here.ivi.api.generator.common.jni.CppToJniConversionTemplateDelegator
-import com.here.ivi.api.generator.common.jni.JniModel
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef
 import com.here.ivi.api.generator.common.jni.JniParameter
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType
 import com.here.ivi.api.model.javamodel.JavaReferenceType
 import com.here.ivi.api.model.javamodel.JavaCustomType
 import com.here.ivi.api.generator.common.jni.JniNameRules
+import com.here.ivi.api.generator.common.jni.JniContainer
 
 public class JniImplementationTemplate {
 
@@ -33,22 +33,22 @@ public class JniImplementationTemplate {
     return jniParameter.javaType instanceof JavaCustomType
   }
 
-  def static generate(JniModel jniModel) {
-    if (jniModel === null || jniModel.includes.isEmpty()) {
+  def static generate(JniContainer jniContainer) {
+    if (jniContainer === null || jniContainer.includes.isEmpty()) {
       return ""
     }
     return
      '''
       «JavaCopyrightHeaderTemplate.generate()»
 
-      «FOR include : jniModel.includes»
+      «FOR include : jniContainer.includes»
       #include "«include.fileName»"
       «ENDFOR»
       #include "«JniNameRules.getConversionHeaderFileName()»"
 
       extern "C" {
 
-      «FOR jniMethod : jniModel.methods»
+      «FOR jniMethod : jniContainer.methods»
       «JniTypeNameMapper.map(jniMethod.javaReturnType)»
       «JniFunctionSignatureTemplate.generate(jniMethod)»
       {

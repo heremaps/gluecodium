@@ -126,14 +126,14 @@ public class JniModelBuilderTest {
         .build();
   }
 
-  private JniMethod createJniMethod(JniModel jniModel) {
+  private JniMethod createJniMethod(JniContainer jniContainer) {
 
     JniMethod result = new JniMethod();
     result.javaReturnType = new JavaPrimitiveType(JavaPrimitiveType.Type.VOID);
     result.javaMethodName = JAVA_VOID_METHOD_NAME;
     result.cppMethodName = CPP_VOID_METHOD_NAME;
     result.cppReturnType = CppPrimitiveTypeRef.VOID_TYPE;
-    result.owningModel = jniModel;
+    result.owningContainer = jniContainer;
 
     return result;
   }
@@ -193,12 +193,12 @@ public class JniModelBuilderTest {
     modelBuilder.finishBuilding(francaInterface);
 
     //assert
-    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
-    assertNotNull(jniModel);
-    assertEquals(CPP_CLASS_NAME, jniModel.cppClassName);
-    assertEquals(JAVA_CLASS_NAME, jniModel.javaClass.name);
-    assertEquals(CPP_NAMESPACE_MEMBERS, jniModel.cppNameSpaces);
-    assertEquals(JAVA_PACKAGES, jniModel.javaPackages);
+    JniContainer jniContainer = modelBuilder.getFirstResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertEquals(CPP_CLASS_NAME, jniContainer.cppName);
+    assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
+    assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.cppNameSpaces);
+    assertEquals(JAVA_PACKAGES, jniContainer.javaPackages);
   }
 
   @Test
@@ -211,10 +211,10 @@ public class JniModelBuilderTest {
     modelBuilder.finishBuilding(francaInterface);
 
     //assert
-    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
-    assertNotNull(jniModel);
-    assertFalse(jniModel.methods.isEmpty());
-    assertEquals(createJniMethod(jniModel), jniModel.methods.get(0));
+    JniContainer jniContainer = modelBuilder.getFirstResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertFalse(jniContainer.methods.isEmpty());
+    assertEquals(createJniMethod(jniContainer), jniContainer.methods.get(0));
   }
 
   @Test
@@ -224,10 +224,10 @@ public class JniModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
-    assertNotNull(jniModel);
-    assertFalse(jniModel.structs.isEmpty());
-    assertEquals(jniStruct, jniModel.structs.get(0));
+    JniContainer jniContainer = modelBuilder.getFirstResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertFalse(jniContainer.structs.isEmpty());
+    assertEquals(jniStruct, jniContainer.structs.get(0));
   }
 
   @Test
@@ -301,12 +301,14 @@ public class JniModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
-    assertNotNull(jniModel);
-    assertFalse(jniModel.structs.isEmpty());
-    assertEquals(jniStruct.javaClass, jniModel.structs.get(0).javaClass);
-    String expectedNamespace = "my::cpp::stuffs::namespace::testtypecollection";
-    assertEquals(expectedNamespace, String.join("::", jniModel.cppNameSpaces));
+    JniContainer jniContainer = modelBuilder.getFirstResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertFalse(jniContainer.structs.isEmpty());
+    assertEquals(jniStruct.javaClass, jniContainer.structs.get(0).javaClass);
+    String expectedNamespace = "my::cpp::stuffs::namespace";
+    assertEquals(expectedNamespace, String.join("::", jniContainer.cppNameSpaces));
+    assertEquals("testtypecollection", jniContainer.javaName);
+    assertEquals("testtypecollection", jniContainer.cppName);
   }
 
   @Test
@@ -314,12 +316,13 @@ public class JniModelBuilderTest {
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
 
     modelBuilder.finishBuilding(francaTypeCollection);
-    JniModel jniModel = modelBuilder.getFirstResult(JniModel.class);
+    JniContainer jniContainer = modelBuilder.getFirstResult(JniContainer.class);
 
-    assertNotNull(jniModel);
-    assertTrue(jniModel.structs.isEmpty());
-    assertTrue(jniModel.javaPackages.isEmpty());
-    assertEquals(
-        "my.cpp.stuffs.namespace.testtypecollection", String.join(".", jniModel.cppNameSpaces));
+    assertNotNull(jniContainer);
+    assertTrue(jniContainer.structs.isEmpty());
+    assertTrue(jniContainer.javaPackages.isEmpty());
+    assertEquals("my.cpp.stuffs.namespace", String.join(".", jniContainer.cppNameSpaces));
+    assertEquals("testtypecollection", jniContainer.javaName);
+    assertEquals("testtypecollection", jniContainer.cppName);
   }
 }
