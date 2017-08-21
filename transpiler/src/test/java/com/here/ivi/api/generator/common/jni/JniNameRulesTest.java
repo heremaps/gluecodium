@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.common.jni;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
-import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
@@ -32,15 +31,19 @@ import org.junit.runners.JUnit4;
 public final class JniNameRulesTest {
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
+  private static final List<String> PACKAGES = Arrays.asList("com", "here", "android");
+
+  private JniContainer createJniContainer() {
+    String className = "MyClass";
+    return JniContainer.createInterfaceContainer(PACKAGES, PACKAGES, className, className);
+  }
+
   @Test
   public void getHeaderFileName() {
-    // Arrange
-    JavaClass javaClass = new JavaClass("MyClass");
+    JniContainer jniContainer = createJniContainer();
 
-    // Act
-    String headerFileName = JniNameRules.getHeaderFileName(javaClass);
+    String headerFileName = JniNameRules.getHeaderFileName(jniContainer);
 
-    // Assert
     assertEquals(
         AndroidGeneratorSuite.GENERATOR_NAMESPACE + "/jni/com_here_android_MyClass.h",
         headerFileName);
@@ -55,11 +58,9 @@ public final class JniNameRulesTest {
 
   @Test
   public void getImplementationFileName() {
-    // Arrange
-    JavaClass javaClass = new JavaClass("MyClass");
+    JniContainer jniContainer = createJniContainer();
 
-    // Act
-    String headerFileName = JniNameRules.getImplementationFileName(javaClass);
+    String headerFileName = JniNameRules.getImplementationFileName(jniContainer);
 
     // Assert
     assertEquals(

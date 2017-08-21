@@ -18,7 +18,6 @@ import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTempl
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import java.util.Arrays;
@@ -41,28 +40,28 @@ public final class JniImplementationTemplateTest {
   private static final String END_OF_FILE = "\n}\n";
   private static final List<String> NAMESPACES = Arrays.asList("com", "here", "ivi", "test");
 
-  private JniModel jniModel;
+  private JniContainer jniContainer;
 
   @Before
   public void setUp() {
-    jniModel = createJniModel();
+    jniContainer = createJniContainer();
   }
 
-  private static JniModel createJniModel() {
-    JniModel jniModel =
-        new JniModel("CppClass", NAMESPACES, new JavaClass("TestClass"), NAMESPACES);
-    jniModel.includes.addAll(INCLUDE_LIST);
+  private static JniContainer createJniContainer() {
+    JniContainer jniContainer =
+        JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+    jniContainer.includes.addAll(INCLUDE_LIST);
 
-    return jniModel;
+    return jniContainer;
   }
 
-  private static JniMethod createJniMethod(String methodName, JniModel theModel) {
+  private static JniMethod createJniMethod(String methodName, JniContainer theModel) {
 
     JavaPrimitiveType javaPrimitiveType = new JavaPrimitiveType(Type.INT);
     CppPrimitiveTypeRef cppPrimitiveType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8);
 
     JniMethod result = new JniMethod();
-    result.owningModel = theModel;
+    result.owningContainer = theModel;
     result.javaMethodName = methodName;
     result.cppMethodName = methodName;
     result.javaReturnType = new JavaPrimitiveType(Type.INT);
@@ -110,9 +109,9 @@ public final class JniImplementationTemplateTest {
 
   @Test
   public void generateWithEmptyIncludes() {
-    jniModel.includes.clear();
+    jniContainer.includes.clear();
 
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
+    String generatedImplementation = JniImplementationTemplate.generate(jniContainer);
 
     assertTrue(
         "At least the JNI header should be included, otherwise the JNI implementation "
@@ -122,9 +121,9 @@ public final class JniImplementationTemplateTest {
 
   @Test
   public void generateWithMultipleIncludes() {
-    jniModel.includes.add(Include.createInternalInclude("base_api_header.h"));
+    jniContainer.includes.add(Include.createInternalInclude("base_api_header.h"));
 
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
+    String generatedImplementation = JniImplementationTemplate.generate(jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -139,7 +138,7 @@ public final class JniImplementationTemplateTest {
   }
 
   @Test
-  public void generateWithNullJniModel() {
+  public void generateWithNullJniContainer() {
     String generatedImplementation = JniImplementationTemplate.generate(null);
 
     assertTrue(generatedImplementation.isEmpty());
@@ -147,7 +146,7 @@ public final class JniImplementationTemplateTest {
 
   @Test
   public void generateWithNoMethods() {
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
+    String generatedImplementation = JniImplementationTemplate.generate(jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -163,8 +162,8 @@ public final class JniImplementationTemplateTest {
   @Test
   public void generateWithOneMethods() {
 
-    jniModel.methods.add(createJniMethod("method1", jniModel));
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
+    jniContainer.methods.add(createJniMethod("method1", jniContainer));
+    String generatedImplementation = JniImplementationTemplate.generate(jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -181,10 +180,10 @@ public final class JniImplementationTemplateTest {
   @Test
   public void generateWithMultipleMethods() {
 
-    jniModel.methods.add(createJniMethod("method1", jniModel));
-    jniModel.methods.add(createJniMethod("method2", jniModel));
+    jniContainer.methods.add(createJniMethod("method1", jniContainer));
+    jniContainer.methods.add(createJniMethod("method2", jniContainer));
 
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
+    String generatedImplementation = JniImplementationTemplate.generate(jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -202,12 +201,12 @@ public final class JniImplementationTemplateTest {
   @Test
   public void generateVoidMethod() {
 
-    JniMethod voidMethod = createJniMethod("testMethod", jniModel);
+    JniMethod voidMethod = createJniMethod("testMethod", jniContainer);
     voidMethod.javaReturnType = new JavaPrimitiveType(Type.VOID);
     voidMethod.cppReturnType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID);
-    jniModel.methods.add(voidMethod);
+    jniContainer.methods.add(voidMethod);
 
-    String generatedImplementation = JniImplementationTemplate.generate(jniModel);
+    String generatedImplementation = JniImplementationTemplate.generate(jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE

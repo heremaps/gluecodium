@@ -14,8 +14,8 @@ package com.here.ivi.api.generator.common.jni.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.generator.common.jni.JniContainer;
 import com.here.ivi.api.generator.common.jni.JniField;
-import com.here.ivi.api.generator.common.jni.JniModel;
 import com.here.ivi.api.generator.common.jni.JniStruct;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppField;
@@ -45,11 +45,12 @@ public final class JniToCppStructConversionBodyTest {
   private static final List<String> JAVA_PACKAGE = Arrays.asList("java", "package");
   private static final List<String> CPP_NAMESPACES = Arrays.asList("a", "superfancy", "namespace");
 
-  private final JniModel jniModel =
-      new JniModel(
-          CPP_OUTER_CLASS_NAME, CPP_NAMESPACES, new JavaClass(JAVA_OUTER_CLASS_NAME), JAVA_PACKAGE);
+  private final JniContainer jniContainer =
+      JniContainer.createInterfaceContainer(
+          JAVA_PACKAGE, CPP_NAMESPACES, JAVA_OUTER_CLASS_NAME, CPP_OUTER_CLASS_NAME);
+
   private final JniStruct jniStruct =
-      new JniStruct(jniModel, JAVA_CLASS_INNER, CPP_STRUCT, new LinkedList<>());
+      new JniStruct(jniContainer, JAVA_CLASS_INNER, CPP_STRUCT, new LinkedList<>());
 
   private static JniField createIntField() {
     JavaField javaField =
@@ -139,9 +140,9 @@ public final class JniToCppStructConversionBodyTest {
             + field.javaField.name
             + "\",\n"
             + "    \"L"
-            + String.join("/", jniModel.javaPackages)
+            + String.join("/", jniContainer.javaPackages)
             + "/"
-            + jniModel.javaClass.name
+            + jniContainer.javaName
             + "$"
             + field.javaField.type.name
             + ";\"),\n"
@@ -183,9 +184,9 @@ public final class JniToCppStructConversionBodyTest {
             + customField.javaField.name
             + "\",\n"
             + "    \"L"
-            + String.join("/", jniModel.javaPackages)
+            + String.join("/", jniContainer.javaPackages)
             + "/"
-            + jniModel.javaClass.name
+            + jniContainer.javaName
             + "$"
             + customField.javaField.type.name
             + ";\"),\n"

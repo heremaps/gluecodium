@@ -19,7 +19,7 @@ import java.util.List;
 
 public class JniMethod implements JniElement {
 
-  public JniModel owningModel;
+  public JniContainer owningContainer;
 
   public String javaMethodName;
   public JavaType javaReturnType;
@@ -45,9 +45,9 @@ public class JniMethod implements JniElement {
 
     JniMethod jniMethod = (JniMethod) o;
 
-    if (owningModel != null
-        ? !owningModel.equals(jniMethod.owningModel)
-        : jniMethod.owningModel != null) {
+    if (owningContainer != null
+        ? !owningContainer.equals(jniMethod.owningContainer)
+        : jniMethod.owningContainer != null) {
       return false;
     }
     if (javaMethodName != null
@@ -77,7 +77,7 @@ public class JniMethod implements JniElement {
 
   @Override
   public int hashCode() {
-    int result = owningModel != null ? owningModel.hashCode() : 0;
+    int result = owningContainer != null ? owningContainer.hashCode() : 0;
     result = 31 * result + (javaMethodName != null ? javaMethodName.hashCode() : 0);
     result = 31 * result + (javaReturnType != null ? javaReturnType.hashCode() : 0);
     result = 31 * result + (cppMethodName != null ? cppMethodName.hashCode() : 0);

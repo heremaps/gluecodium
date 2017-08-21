@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.common.jni.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.common.jni.JniModel;
+import com.here.ivi.api.generator.common.jni.JniContainer;
 import com.here.ivi.api.generator.common.jni.JniStruct;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.javamodel.JavaClass;
@@ -30,19 +30,21 @@ public final class JavaClassSignaturePrefixTest {
   private static JavaClass innerClass = new JavaClass("MyInnerClass");
   private static CppStruct innerStruct = new CppStruct("MyInnerStruct");
 
-  private static JniModel createTypeCollectionModel() {
-    List<String> packageNames = Arrays.asList("from", "a", "mytypecollection");
-    return new JniModel("", packageNames, null, packageNames);
+  private static JniContainer createTypeCollectionModel() {
+    final String typeCollectionName = "mytypecollection";
+    List<String> packageNames = Arrays.asList("from", "a");
+    return JniContainer.createTypeCollectionContainer(
+        packageNames, packageNames, typeCollectionName, typeCollectionName);
   }
 
-  private static JniModel createInterfaceModel() {
+  private static JniContainer createInterfaceModel() {
+    final String className = "MyClass";
     List<String> packageNames = Arrays.asList("from", "a", "fancypackage");
-    JavaClass javaClass = new JavaClass("MyClass");
-    return new JniModel("MyClass", packageNames, javaClass, packageNames);
+    return JniContainer.createInterfaceContainer(packageNames, packageNames, className, className);
   }
 
-  private static JniStruct createJniStruct(JniModel jniModel) {
-    return new JniStruct(jniModel, innerClass, innerStruct, Collections.emptyList());
+  private static JniStruct createJniStruct(JniContainer jniContainer) {
+    return new JniStruct(jniContainer, innerClass, innerStruct, Collections.emptyList());
   }
 
   @Test

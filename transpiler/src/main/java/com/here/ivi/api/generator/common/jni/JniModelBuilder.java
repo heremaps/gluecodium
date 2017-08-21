@@ -15,6 +15,7 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.StubModelBuilder;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
+import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.generator.common.java.JavaNameRules;
 import com.here.ivi.api.model.cppmodel.CppClass;
@@ -28,7 +29,6 @@ import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
@@ -80,26 +80,26 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     CppClass cppClass = stubBuilder.getFirstResult(CppClass.class);
     JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
-    JniModel jniModel =
-        new JniModel(
-            cppClass.name,
+    JniContainer jniContainer =
+        JniContainer.createInterfaceContainer(
+            javaClass.javaPackage.packageNames,
             rootModel.getModelInfo().getPackageNames(),
-            javaClass,
-            javaClass.javaPackage.packageNames);
+            javaClass.name,
+            cppClass.name);
     List<JniElement> previousResults = getCurrentContext().previousResults;
     CollectionsHelper.getStreamOfType(previousResults, JniStruct.class)
         .forEach(
             struct -> {
-              struct.owningModel = jniModel;
-              jniModel.structs.add(struct);
+              struct.owningContainer = jniContainer;
+              jniContainer.structs.add(struct);
             });
     CollectionsHelper.getStreamOfType(previousResults, JniMethod.class)
         .forEach(
             method -> {
-              method.owningModel = jniModel;
-              jniModel.methods.add(method);
+              method.owningContainer = jniContainer;
+              jniContainer.methods.add(method);
             });
-    storeResult(jniModel);
+    storeResult(jniContainer);
     closeContext();
   }
 
@@ -155,25 +155,29 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
-    List<String> cppNamespaces = new LinkedList<>(rootModel.getModelInfo().getPackageNames());
-    String typeCollectionName = JavaNameRules.getTypeCollectionName(francaTypeCollection.getName());
-    cppNamespaces.add(typeCollectionName);
-
     JniStruct jniStruct =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JniStruct.class);
-    List<String> packageNames =
+    List<String> structsPackage =
         jniStruct != null ? jniStruct.javaClass.javaPackage.packageNames : Collections.emptyList();
+    List<String> packageNames =
+        structsPackage.isEmpty()
+            ? structsPackage
+            : structsPackage.subList(0, structsPackage.size() - 1);
+    String typeCollectionName = francaTypeCollection.getName();
+    String javaName = JavaNameRules.getTypeCollectionName(typeCollectionName);
+    String cppName = CppNameRules.getTypeCollectionName(typeCollectionName);
 
-    JniModel jniModel = new JniModel("", cppNamespaces, null, packageNames);
-
+    JniContainer jniContainer =
+        JniContainer.createTypeCollectionContainer(
+            packageNames, rootModel.getModelInfo().getPackageNames(), javaName, cppName);
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
         .forEach(
             struct -> {
-              struct.owningModel = jniModel;
-              jniModel.structs.add(struct);
+              struct.owningContainer = jniContainer;
+              jniContainer.structs.add(struct);
             });
 
-    storeResult(jniModel);
+    storeResult(jniContainer);
     closeContext();
   }
 }
