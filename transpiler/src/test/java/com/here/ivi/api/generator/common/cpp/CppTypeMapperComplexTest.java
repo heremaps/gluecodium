@@ -29,6 +29,7 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Arrays;
 import java.util.LinkedList;
+import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FIntegerInterval;
@@ -182,6 +183,27 @@ public class CppTypeMapperComplexTest {
 
     //act
     CppTypeMapper.map(mockFrancaModel, typeRef);
+  }
+
+  @Test
+  public void mapArrayTypeRef() {
+    // Arrange
+    FTypeRef fTypeRefDouble = mockPredefinedType(FBasicTypeId.DOUBLE);
+    FArrayType fArrayType = mock(FArrayType.class);
+    when(fArrayType.getElementType()).thenReturn(fTypeRefDouble);
+    FTypeRef typeRef = mock(FTypeRef.class);
+    when(typeRef.getDerived()).thenReturn(fArrayType);
+    when(fArrayType.eContainer()).thenReturn(typeRef);
+
+    CppComplexTypeRef expected = new CppComplexTypeRef.Builder("::std::vector< double >").build();
+
+    // Act
+    CppTypeRef result = CppTypeMapper.map(mockFrancaModel, typeRef);
+
+    // Assert
+    assertTrue(result instanceof CppComplexTypeRef);
+    CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
+    assertEquals(expected, complexResult);
   }
 
   private DefinedBy mockDefinedBy() {

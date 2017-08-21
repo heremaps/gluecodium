@@ -39,6 +39,10 @@ public final class CppNameRules {
     return NameHelper.toLowerCamelCase(base); // myArg
   }
 
+  public static String getArrayName(String base) {
+    return NameHelper.toUpperCamelCase(base); // MyArray
+  }
+
   public static String getEnumName(String base) {
     return NameHelper.toUpperCamelCase(base); // MyEnum
   }

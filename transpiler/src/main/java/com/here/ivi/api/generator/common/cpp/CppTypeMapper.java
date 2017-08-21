@@ -38,8 +38,7 @@ import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 import org.franca.core.franca.FUnionType;
 
-public class CppTypeMapper {
-
+public final class CppTypeMapper {
   private static final String VOID_POINTER = "void*";
 
   public static CppTypeRef map(FrancaElement<?> rootModel, FTypedElement typedElement) {
@@ -52,9 +51,15 @@ public class CppTypeMapper {
   }
 
   public static CppTypeRef map(FrancaElement<?> rootModel, FTypeRef type) {
-
     if (type.getDerived() != null) {
-      return mapDerived(rootModel, type);
+      FType derived = type.getDerived();
+
+      // types without a parent are not valid
+      if (derived.eContainer() == null) {
+        return reportInvalidType(rootModel, type);
+      }
+
+      return mapDerived(rootModel, derived);
     }
 
     if (type.getPredefined() != FBasicTypeId.UNDEFINED) {
@@ -71,14 +76,7 @@ public class CppTypeMapper {
     throw new TranspilerExecutionException("Unmapped ftype ref" + type);
   }
 
-  private static CppTypeRef mapDerived(FrancaElement<?> rootModel, FTypeRef type) {
-    FType derived = type.getDerived();
-
-    // types without a parent are not valid
-    if (derived.eContainer() == null) {
-      return reportInvalidType(rootModel, type);
-    }
-
+  public static CppTypeRef mapDerived(FrancaElement<?> rootModel, FType derived) {
     if (derived instanceof FTypeDef) {
       return mapTypeDef(rootModel, (FTypeDef) derived);
     }
@@ -97,8 +95,7 @@ public class CppTypeMapper {
     if (derived instanceof FUnionType) {
       return mapUnion((FUnionType) derived);
     }
-    throw new TranspilerExecutionException(
-        "unmapped derived ref" + type + ". Name: " + type.getDerived().getName());
+    throw new TranspilerExecutionException("Unmapped derived type: " + derived.getName());
   }
 
   private static CppTypeRef reportInvalidType(FrancaElement<?> rootModel, FTypeRef type) {
@@ -142,10 +139,12 @@ public class CppTypeMapper {
   }
 
   private static CppComplexTypeRef mapArray(
-      @SuppressWarnings("unused") FrancaElement<?> rootModel,
-      @SuppressWarnings("unused") FArrayType array) {
-    //TODO: APIGEN-145 handle array types
-    return new CppComplexTypeRef.Builder(VOID_POINTER).build();
+      final FrancaElement<?> rootModel, final FArrayType array) {
+    CppTypeRef elementType = map(rootModel, array.getElementType());
+
+    return new CppComplexTypeRef.Builder("::std::vector< " + elementType.name + " >")
+        .includes(elementType.includes)
+        .build();
   }
 
   public static CppTypeRef defineArray(
