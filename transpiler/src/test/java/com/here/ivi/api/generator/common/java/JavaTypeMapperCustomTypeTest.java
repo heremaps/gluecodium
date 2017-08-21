@@ -13,20 +13,25 @@ package com.here.ivi.api.generator.common.java;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaType;
 import java.util.Collections;
 import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FIntegerInterval;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -50,6 +55,8 @@ public class JavaTypeMapperCustomTypeTest {
   private static final String INTERFACE_NAME = "iNt3RfacE";
   private static final String STRUCT_NAME_INTERFACE = "structDefinedIn_Iface";
   private static final String STRUCT_NAME_TYPECOLLECTION = "structDefinedIn_tC";
+
+  @Rule private final ExpectedException expectedException = ExpectedException.none();
 
   @Mock private static FTypeCollection fTypeCollection;
   @Mock private static FInterface fInterface;
@@ -135,5 +142,19 @@ public class JavaTypeMapperCustomTypeTest {
 
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(INTERFACE_NAME);
+  }
+
+  @Test
+  public void mapFIntegerIntervalThrowsTranspilerException() {
+    //mock integer interval type
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
+    when(francaTypeRef.getDerived()).thenReturn(null);
+    when(francaTypeRef.getInterval()).thenReturn(mock(FIntegerInterval.class));
+
+    //pre-verify expected exceptipon
+    expectedException.expect(TranspilerExecutionException.class);
+
+    //act
+    JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
   }
 }
