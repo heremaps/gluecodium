@@ -14,7 +14,8 @@ package com.here.ivi.api.generator.common.java.templates;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import java.time.Year;
 
-public class JavaCopyrightHeaderTemplate {
+public final class JavaCopyrightHeaderTemplate {
+  private JavaCopyrightHeaderTemplate() {}
 
   public static String generate() {
     return TemplateEngine.render("java/CopyrightHeader", Year.now().getValue());

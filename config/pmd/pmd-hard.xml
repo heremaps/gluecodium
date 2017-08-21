@@ -89,6 +89,10 @@ Excluded: android, logging, GenericsNaming
         <exclude name="LongVariable" />
         <exclude name="ShortClassName" />
         <exclude name="ShortVariable" />
+
+        <!-- Does not apply to test methods. It is a very common pattern to name @Test methods
+             like methodUnderTest_specificCase, methodUnderTest_anotherCase for grouping. -->
+        <exclude name="MethodNamingConventions" />
     </rule>
 
     <rule ref="rulesets/java/optimizations.xml">
@@ -99,7 +103,11 @@ Excluded: android, logging, GenericsNaming
 
     <rule ref="rulesets/java/strictexception.xml" />
 
-    <rule ref="rulesets/java/strings.xml" />
+    <rule ref="rulesets/java/strings.xml">
+        <!-- This check is too fine grained, many template tests check against expected strings
+             chopping those into global constants for re-use isn't practical -->
+        <exclude name="AvoidDuplicateLiterals" />
+    </rule>
 
     <rule ref="rulesets/java/typeresolution.xml">
         <exclude name="LooseCoupling" />
