@@ -21,6 +21,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
@@ -30,6 +31,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FIntegerInterval;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
@@ -165,6 +167,21 @@ public class CppTypeMapperComplexTest {
     //verify
     verifyStatic();
     DefinedBy.createFromFModelElement(enumType);
+  }
+
+  @Test
+  public void mapIntegerRangeTypeThrowsTranspilerException() {
+    //mock type reference
+    FTypeRef typeRef = mock(FTypeRef.class);
+    FIntegerInterval intervalType = mock(FIntegerInterval.class);
+    when(typeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
+    when(typeRef.getInterval()).thenReturn(intervalType);
+
+    // pre-verify expected exceptipon
+    exception.expect(TranspilerExecutionException.class);
+
+    //act
+    CppTypeMapper.map(mockFrancaModel, typeRef);
   }
 
   private DefinedBy mockDefinedBy() {

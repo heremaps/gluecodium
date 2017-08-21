@@ -60,8 +60,15 @@ public class CppTypeMapper {
     if (type.getPredefined() != FBasicTypeId.UNDEFINED) {
       return mapPredefined(type);
     }
-    throw new TranspilerExecutionException(
-        "unmapped ftype ref" + type + ". Name: " + type.getDerived().getName());
+
+    if (type.getInterval() != null) {
+      throw new TranspilerExecutionException(
+          "The transpiler does not support integer ranges. "
+              + "Please use regular Integer types like Int64 instead. Type: "
+              + type);
+    }
+
+    throw new TranspilerExecutionException("Unmapped ftype ref" + type);
   }
 
   private static CppTypeRef mapDerived(FrancaElement<?> rootModel, FTypeRef type) {

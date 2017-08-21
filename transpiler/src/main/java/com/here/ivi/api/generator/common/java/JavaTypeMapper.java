@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common.java;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.ModelInfo;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
@@ -48,6 +49,13 @@ public final class JavaTypeMapper {
 
     if (fTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
       return mapPredefined(fTypeRef.getPredefined());
+    }
+
+    if (fTypeRef.getInterval() != null) {
+      throw new TranspilerExecutionException(
+          "The transpiler does not support integer ranges. "
+              + "Please use regular Integer types like Int64 instead. Type: "
+              + fTypeRef);
     }
 
     return new JavaPrimitiveType(Type.VOID);
