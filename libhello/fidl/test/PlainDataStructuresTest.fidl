@@ -200,7 +200,6 @@ interface PlainDataStructuresTest {
         }
     }
 
-
     <** @description:
     Static test method which modifies the AllTypesStruct
     **>

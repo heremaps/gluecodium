@@ -11,7 +11,7 @@
 
 package hello
 
-import common.* from "./common/CommonTypes.fidl"
+import common.* from "../common/CommonTypes.fidl"
 import hello.* from "./HelloWorldInstances.fidl"
 
 <** @description:
