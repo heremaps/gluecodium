@@ -15,30 +15,15 @@ import static java.util.Collections.emptyList;
 
 import java.util.List;
 
-public class SwiftMethod extends SwiftModelElement {
-
-  public SwiftMethod(String methodName) {
-    this(methodName, emptyList());
-  }
-
-  public SwiftMethod(String methodName, List<SwiftParameter> parameters) {
-    super(methodName);
-    this.returnType = SwiftType.VOID;
-    this.parameters = parameters;
-    this.comment = "";
-    this.cBaseName = "";
-    this.visibility = Visibility.Public;
-  }
-
-  enum Visibility {
-    Public,
-    Private
-  }
-
+public class SwiftStruct extends SwiftType {
   public String comment;
-  public SwiftType returnType;
-  public final List<SwiftParameter> parameters;
-  public boolean isStatic;
-  public Visibility visibility;
-  public String cBaseName;
+  public List<SwiftStructField> fields;
+  public List<SwiftMethod> methods;
+
+  public SwiftStruct(String name) {
+    super(name);
+    comment = "";
+    fields = emptyList();
+    methods = emptyList();
+  }
 }

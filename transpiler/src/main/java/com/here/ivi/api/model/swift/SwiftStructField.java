@@ -11,12 +11,13 @@
 
 package com.here.ivi.api.model.swift;
 
-public class SwiftType extends SwiftModelElement {
-  public static final SwiftType VOID = new SwiftType("Void");
-  public final boolean optional;
+public class SwiftStructField extends SwiftModelElement {
+  public final SwiftType type;
+  public String comment;
 
-  public SwiftType(String name) {
+  public SwiftStructField(String name, SwiftType type) {
     super(name);
-    optional = false;
+    this.type = type;
+    comment = "";
   }
 }
