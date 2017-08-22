@@ -25,7 +25,12 @@ public class CollectionsHelperTest {
 
   @SuppressWarnings("UnnecessaryBoxing")
   private static final Collection<Number> NUMBER_LIST =
-      Arrays.asList(new Float(1), new Integer(2), new Double(3), new Integer(4), new Double(5));
+      Arrays.asList(
+          Float.valueOf(1),
+          Integer.valueOf(2),
+          Double.valueOf(3),
+          Integer.valueOf(4),
+          Double.valueOf(5));
 
   @Test
   public void getAllOfTypeNone() {

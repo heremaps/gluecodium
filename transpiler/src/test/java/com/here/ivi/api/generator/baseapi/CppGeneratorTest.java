@@ -30,14 +30,14 @@ import org.mockito.MockitoAnnotations;
 
 public class CppGeneratorTest {
 
-  private static final String outputFileName = "some_fancy.output";
-  private static final String copyrightNotice = "a noticeable copy right";
+  private static final String OUTPUT_FILE_NAME = "some_fancy.output";
+  private static final String COPYRIGHT_NOTICE = "a noticeable copy right";
 
   @Mock private CppIncludeResolver includeResolver;
 
   @InjectMocks private CppGenerator cppGenerator;
 
-  private CppNamespace cppModel = new CppNamespace(Collections.emptyList());
+  private final CppNamespace cppModel = new CppNamespace(Collections.emptyList());
 
   @Before
   public void setUp() {
@@ -46,7 +46,8 @@ public class CppGeneratorTest {
 
   @Test
   public void generateWithNullModel() {
-    GeneratedFile generatedFile = cppGenerator.generateCode(null, outputFileName, copyrightNotice);
+    GeneratedFile generatedFile =
+        cppGenerator.generateCode(null, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
 
     assertNull(generatedFile);
   }
@@ -54,7 +55,7 @@ public class CppGeneratorTest {
   @Test
   public void generateWithEmptyModel() {
     GeneratedFile generatedFile =
-        cppGenerator.generateCode(cppModel, outputFileName, copyrightNotice);
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
 
     assertNull(generatedFile);
   }
@@ -64,9 +65,9 @@ public class CppGeneratorTest {
     cppModel.members.add(new CppElement());
 
     GeneratedFile generatedFile =
-        cppGenerator.generateCode(cppModel, outputFileName, copyrightNotice);
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
 
-    verify(includeResolver).resolveLazyIncludes(cppModel, outputFileName);
+    verify(includeResolver).resolveLazyIncludes(cppModel, OUTPUT_FILE_NAME);
     assertNotNull(generatedFile);
   }
 
@@ -75,10 +76,10 @@ public class CppGeneratorTest {
     cppModel.members.add(new CppElement());
 
     GeneratedFile generatedFile =
-        cppGenerator.generateCode(cppModel, outputFileName, copyrightNotice);
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
 
     assertNotNull(generatedFile);
     assertNotNull(generatedFile.content);
-    assertTrue(generatedFile.content.toString().contains(copyrightNotice));
+    assertTrue(generatedFile.content.toString().contains(COPYRIGHT_NOTICE));
   }
 }

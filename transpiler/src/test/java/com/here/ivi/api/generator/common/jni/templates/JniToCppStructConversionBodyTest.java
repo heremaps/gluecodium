@@ -43,16 +43,14 @@ public final class JniToCppStructConversionBodyTest {
   private static final String CPP_OUTER_CLASS_NAME = "CppOuter";
   private static final CppStruct CPP_STRUCT = new CppStruct("CppStruct");
 
+  private static final List<String> JAVA_PACKAGE = Arrays.asList("java", "package");
   private static final List<String> CPP_NAMESPACES = Arrays.asList("a", "superfancy", "namespace");
 
-  private JniModel jniModel;
+  private final JniModel jniModel = new JniModel();
   private JniStruct jniStruct;
 
-  private static final List<String> JAVA_PACKAGE = Arrays.asList("java", "package");
-
   @Before
-  public void setup() {
-    jniModel = new JniModel();
+  public void setUp() {
     jniModel.cppNameSpaces = CPP_NAMESPACES;
     jniModel.cppClassName = CPP_OUTER_CLASS_NAME;
     jniModel.javaClass = new JavaClass(JAVA_OUTER_CLASS_NAME);

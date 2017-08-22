@@ -53,6 +53,7 @@ Excluded: android, logging, GenericsNaming
         <exclude name="DataflowAnomalyAnalysis" />
         <exclude name="NullAssignment" />
         <exclude name="OnlyOneReturn" />
+        <exclude name="UseConcurrentHashMap" />
     </rule>
 
     <rule ref="rulesets/java/coupling.xml">
@@ -67,6 +68,7 @@ Excluded: android, logging, GenericsNaming
         <exclude name="ConfusingTernary" />
         <exclude name="SwitchStmtsShouldHaveDefault" />
         <exclude name="TooFewBranchesForASwitchStatement" />
+        <exclude name="UseLocaleWithCaseConversions" />
     </rule>
 
     <rule ref="rulesets/java/empty.xml" />
@@ -81,7 +83,9 @@ Excluded: android, logging, GenericsNaming
     </rule>
 
 
-    <rule ref="rulesets/java/migrating.xml" />
+    <rule ref="rulesets/java/migrating.xml" >
+        <exclude name="JUnit4TestShouldUseTestAnnotation" />
+    </rule>
 
     <rule ref="rulesets/java/naming.xml">
         <exclude name="AbstractNaming" />

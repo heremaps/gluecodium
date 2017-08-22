@@ -22,6 +22,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class CppElementTest {
+
   private static final String TEST_NAME = "name";
 
   @Test
@@ -44,15 +45,22 @@ public final class CppElementTest {
   }
 
   @Test
-  public void equals() {
+  public void equalsTwoElementsEqual() {
     // Arrange, act
     CppElement a = new CppElement("elem1");
+    CppElement b = new CppElement("elem1");
+
+    // Assert
+    assertEquals(a, b);
+  }
+
+  @Test
+  public void equalsTwoElementsNotEqual() {
+    // Arrange, act
     CppElement b = new CppElement("elem1");
     CppElement c = new CppElement("elem2");
 
     // Assert
-    assertEquals(a, b);
-    assertNotEquals(a, c);
     assertNotEquals(b, c);
   }
 }

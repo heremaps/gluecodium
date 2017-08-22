@@ -75,7 +75,7 @@ public class CppTypeMapperComplexTest {
   }
 
   @Test
-  public void mapStringType() throws Exception {
+  public void mapStringType() {
     //arrange
     FTypeRef typeRef = mockPredefinedType(FBasicTypeId.STRING);
 
@@ -91,7 +91,7 @@ public class CppTypeMapperComplexTest {
   }
 
   @Test
-  public void mapByteBufferType() throws Exception {
+  public void mapByteBufferType() {
     //arrange
     FTypeRef typeRef = mockPredefinedType(FBasicTypeId.BYTE_BUFFER);
 

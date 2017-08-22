@@ -80,7 +80,7 @@ public class JavaTypeMapperCustomTypeTest {
   }
 
   @Test
-  public void mapFStructTypeToJavaType_TypeCollection() {
+  public void mapFStructTypeToJavaTypeInTypeCollection() {
 
     //static mocks
     when(JavaNameRules.getClassName(STRUCT_NAME_TYPECOLLECTION))
@@ -114,7 +114,7 @@ public class JavaTypeMapperCustomTypeTest {
   }
 
   @Test
-  public void mapFStructTypeToJavaType_Interface() {
+  public void mapFStructTypeToJavaTypeInInterface() {
 
     //static mocks
     when(JavaNameRules.getClassName(STRUCT_NAME_INTERFACE)).thenReturn(STRUCT_NAME_INTERFACE);

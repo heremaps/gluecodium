@@ -17,25 +17,20 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class BaseApiGeneratorSuiteIntegrationTest {
-  private BaseApiGeneratorSuite baseApiGeneratorSuite;
 
-  @Before
-  public void setUp() {
-    baseApiGeneratorSuite = new BaseApiGeneratorSuite();
-  }
+  private final BaseApiGeneratorSuite baseApiGeneratorSuite = new BaseApiGeneratorSuite();
 
   @Test
   public void generate() {
     // TODO: APIGEN-229 This test should spy stubGenerator::generate and
     // typeCollectionGenerator::generate to check with verify() that they are called accordingly
-    final String francaFilesPath = "src/test/resources/baseapi_generator_suite/fidl";
+    String francaFilesPath = "src/test/resources/baseapi_generator_suite/fidl";
     baseApiGeneratorSuite.buildModel(francaFilesPath);
 
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();

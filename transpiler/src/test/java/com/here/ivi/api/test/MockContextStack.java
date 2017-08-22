@@ -20,10 +20,14 @@ public class MockContextStack<E> extends ModelBuilderContextStack<E> {
   private final ModelBuilderContext<E> parentContext = new ModelBuilderContext<>();
 
   @Override
-  public void openContext() {}
+  public void openContext() {
+    // Do nothing
+  }
 
   @Override
-  public void closeContext() {}
+  public void closeContext() {
+    // Do nothing
+  }
 
   @Override
   public ModelBuilderContext<E> getCurrentContext() {

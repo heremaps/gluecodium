@@ -39,14 +39,6 @@ import org.mockito.Spy;
 @RunWith(JUnit4.class)
 public class AbstractFrancaCommentParserTest {
 
-  private abstract static class TestableFrancaCommentParser
-      extends AbstractFrancaCommentParser<AbstractFrancaCommentParser.Comments> {
-
-    TestableFrancaCommentParser() {
-      super((FModelElement) null, null);
-    }
-  }
-
   private static final String ANNOTATION_COMMENT = "Quick brown box";
   private static final String SECOND_ANNOTATION_COMMENT = "jumps over the lazy bog";
   private static final String CONCATENATED_ANNOTATION_COMMENT =
@@ -62,7 +54,15 @@ public class AbstractFrancaCommentParserTest {
   @Mock private FAnnotation annotation;
   @Mock private FAnnotation secondAnnotation;
 
-  @Spy private ArrayEList<FAnnotation> annotationList = new ArrayEList<>();
+  @Spy private final ArrayEList<FAnnotation> annotationList = new ArrayEList<>();
+
+  private abstract static class TestableFrancaCommentParser
+      extends AbstractFrancaCommentParser<AbstractFrancaCommentParser.Comments> {
+
+    TestableFrancaCommentParser() {
+      super((FModelElement) null, null);
+    }
+  }
 
   @Before
   public void setUp() {

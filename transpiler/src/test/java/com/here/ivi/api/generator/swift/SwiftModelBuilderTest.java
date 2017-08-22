@@ -13,7 +13,9 @@ package com.here.ivi.api.generator.swift;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -45,12 +47,14 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({SwiftTypeMapper.class, StubCommentParser.class})
 public class SwiftModelBuilderTest {
+
   private static final String PARAM_NAME = "someParamName";
   private static final String FUNCTION_NAME = "someFunctionName";
   private static final String COMMENT = "some comment on model element";
   private static final List<String> PACKAGES = asList("PKG1", "PKG2");
 
-  private MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
+  private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
+
   @Mock private AbstractFrancaCommentParser.Comments comments;
   @Mock private SwiftNameRules nameRules;
   @Mock private Interface<InterfacePropertyAccessor> anInterface;
@@ -60,6 +64,7 @@ public class SwiftModelBuilderTest {
   @Mock private FArgument francaArgument;
   @Mock private FInterface francaInterface;
   @Mock private SwiftType swiftType;
+
   private SwiftModelBuilder modelBuilder;
 
   @Before
@@ -109,7 +114,7 @@ public class SwiftModelBuilderTest {
 
     List<SwiftMethod> methods = getResults(SwiftMethod.class);
     assertEquals(1, methods.size());
-    assertEquals("Method is marked as static", true, methods.get(0).isStatic);
+    assertTrue("Method is marked as static", methods.get(0).isStatic);
   }
 
   @Test
@@ -120,7 +125,7 @@ public class SwiftModelBuilderTest {
 
     List<SwiftMethod> methods = getResults(SwiftMethod.class);
     assertEquals(1, methods.size());
-    assertEquals("Method is marked as non-static", false, methods.get(0).isStatic);
+    assertFalse("Method is marked as non-static", methods.get(0).isStatic);
   }
 
   @Test

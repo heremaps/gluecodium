@@ -72,7 +72,7 @@ public class JavaModelBuilderTest {
   private static final JavaPackage BASE_PACKAGE = new JavaPackage(BASE_PACKAGE_NAMES);
   private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
 
-  private MockContextStack<JavaElement> contextStack = new MockContextStack<>();
+  private final MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FrancaElement rootElementModel;

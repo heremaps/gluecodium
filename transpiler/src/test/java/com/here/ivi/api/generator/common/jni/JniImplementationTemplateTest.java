@@ -31,8 +31,36 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class JniImplementationTemplateTest {
 
+  private static final List<Include> INCLUDE_LIST =
+      Collections.singletonList(Include.createInternalInclude("stub/libhello/TestClassStub.h"));
   private static final String BASE_PARAMETER_NAME = "intParam";
   private static final String JNI_PARAMETER_NAME = "j" + BASE_PARAMETER_NAME;
+  private static final String COPYRIGHT_NOTICE =
+      "/*\n"
+          + " * Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights "
+          + "reserved.\n"
+          + " * \n"
+          + " * This software, including documentation, is protected by copyright controlled by\n"
+          + " * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,\n"
+          + " * adapting or translating, any or all of this material requires the prior written\n"
+          + " * consent of HERE Global B.V. This material also contains confidential information,\n"
+          + " * which may not be disclosed to others without prior written consent of HERE Global B.V"
+          + ".\n"
+          + " *\n"
+          + " * Automatically generated. Do not modify. Your changes will be lost.\n"
+          + " *\n"
+          + " */\n"
+          + "\n";
+  private static final String JNI_HEADER_INCLUDE = "#include \"stub/libhello/TestClassStub.h\"\n";
+  private static final String EXTERN_C = "\nextern \"C\" {\n";
+  private static final String END_OF_FILE = "\n}\n";
+
+  private JniModel jniModel;
+
+  @Before
+  public void setUp() {
+    jniModel = createJniModel();
+  }
 
   private static JniModel createJniModel() {
     JniModel jniModel = new JniModel();
@@ -40,7 +68,7 @@ public class JniImplementationTemplateTest {
     jniModel.cppNameSpaces = Arrays.asList("com", "here", "ivi", "test");
     jniModel.javaPackages = Arrays.asList("com", "here", "ivi", "test");
     jniModel.javaClass = new JavaClass("TestClass");
-    jniModel.includes.addAll(jniIncludes);
+    jniModel.includes.addAll(INCLUDE_LIST);
 
     return jniModel;
   }
@@ -97,36 +125,6 @@ public class JniImplementationTemplateTest {
     return callOnStub + methodName + "(" + BASE_PARAMETER_NAME + ");\n" + returnLine + "}\n";
   }
 
-  private JniModel jniModel;
-
-  private static final List<Include> jniIncludes =
-      Collections.singletonList(Include.createInternalInclude("stub/libhello/TestClassStub.h"));
-  private final String copyrightNotice =
-      "/*\n"
-          + " * Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights "
-          + "reserved.\n"
-          + " * \n"
-          + " * This software, including documentation, is protected by copyright controlled by\n"
-          + " * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,\n"
-          + " * adapting or translating, any or all of this material requires the prior written\n"
-          + " * consent of HERE Global B.V. This material also contains confidential information,\n"
-          + " * which may not be disclosed to others without prior written consent of HERE Global B.V"
-          + ".\n"
-          + " *\n"
-          + " * Automatically generated. Do not modify. Your changes will be lost.\n"
-          + " *\n"
-          + " */\n"
-          + "\n";
-  private final String jniHeaderInclude = "#include \"stub/libhello/TestClassStub.h\"\n";
-  private final String externC = "\nextern \"C\" {\n";
-  private final String endOfFile = "\n}\n";
-
-  @Before
-  public void setUp() {
-
-    jniModel = createJniModel();
-  }
-
   @Test
   public void generateWithEmptyIncludes() {
     jniModel.includes.clear();
@@ -146,14 +144,14 @@ public class JniImplementationTemplateTest {
     String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
     assertEquals(
-        copyrightNotice
-            + jniHeaderInclude
+        COPYRIGHT_NOTICE
+            + JNI_HEADER_INCLUDE
             + "#include \"base_api_header.h\"\n"
             + "#include \""
             + JniNameRules.getConversionHeaderFileName()
             + "\"\n"
-            + externC
-            + endOfFile,
+            + EXTERN_C
+            + END_OF_FILE,
         generatedImplementation);
   }
 
@@ -169,13 +167,13 @@ public class JniImplementationTemplateTest {
     String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
     assertEquals(
-        copyrightNotice
-            + jniHeaderInclude
+        COPYRIGHT_NOTICE
+            + JNI_HEADER_INCLUDE
             + "#include \""
             + JniNameRules.getConversionHeaderFileName()
             + "\"\n"
-            + externC
-            + endOfFile,
+            + EXTERN_C
+            + END_OF_FILE,
         generatedImplementation);
   }
 
@@ -186,14 +184,14 @@ public class JniImplementationTemplateTest {
     String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
     assertEquals(
-        copyrightNotice
-            + jniHeaderInclude
+        COPYRIGHT_NOTICE
+            + JNI_HEADER_INCLUDE
             + "#include \""
             + JniNameRules.getConversionHeaderFileName()
             + "\"\n"
-            + externC
+            + EXTERN_C
             + expectedGeneratedJNIMethod("method1")
-            + endOfFile,
+            + END_OF_FILE,
         generatedImplementation);
   }
 
@@ -206,15 +204,15 @@ public class JniImplementationTemplateTest {
     String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
     assertEquals(
-        copyrightNotice
-            + jniHeaderInclude
+        COPYRIGHT_NOTICE
+            + JNI_HEADER_INCLUDE
             + "#include \""
             + JniNameRules.getConversionHeaderFileName()
             + "\"\n"
-            + externC
+            + EXTERN_C
             + expectedGeneratedJNIMethod("method1")
             + expectedGeneratedJNIMethod("method2")
-            + endOfFile,
+            + END_OF_FILE,
         generatedImplementation);
   }
 
@@ -229,14 +227,14 @@ public class JniImplementationTemplateTest {
     String generatedImplementation = JniImplementationTemplate.generate(jniModel);
 
     assertEquals(
-        copyrightNotice
-            + jniHeaderInclude
+        COPYRIGHT_NOTICE
+            + JNI_HEADER_INCLUDE
             + "#include \""
             + JniNameRules.getConversionHeaderFileName()
             + "\"\n"
-            + externC
+            + EXTERN_C
             + expectedGeneratedJNIMethod("testMethod", true)
-            + endOfFile,
+            + END_OF_FILE,
         generatedImplementation);
   }
 }

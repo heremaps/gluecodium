@@ -17,15 +17,15 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.Year;
 
-public class TemplateComparison {
+public final class TemplateComparison {
 
-  static String ignoreWhitespace(String text) {
+  private static String ignoreWhitespace(String text) {
     return text.replaceAll("\\[ \\t]", " ") // ignore multiple spaces/tabs
         .replaceAll("\n+", "\n") // ignore empty lines
         .replaceAll("^\\s+", ""); // ignore leading empty lines
   }
 
-  static String checkAndStripCopyright(String text) {
+  private static String checkAndStripCopyright(String text) {
     String copyright =
         "//\n"
             + "// Copyright (C) "

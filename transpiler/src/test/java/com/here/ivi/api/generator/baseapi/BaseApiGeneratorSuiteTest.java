@@ -43,7 +43,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ResourceValidator.class)
 public final class BaseApiGeneratorSuiteTest {
+
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
+
   @Mock private BaseApiModelValidator baseApiModelValidator;
   @Mock private OptionReader.TranspilerOptions options;
 
@@ -57,16 +59,16 @@ public final class BaseApiGeneratorSuiteTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private BaseApiSpecAccessorFactory specAccessorFactory;
 
-  private final String mockInputPath = "../fidl/files/are/here";
-  private final String mockSpecPath = "/a/random/directory/BaseApiSpec.fdepl";
+  private static final String MOCK_INPUT_PATH = "../fidl/files/are/here";
+  private static final String MOCK_SPEC_PATH = "/a/random/directory/BaseApiSpec.fdepl";
 
   @Before
   public void setUp() {
     PowerMockito.mockStatic(ResourceValidator.class);
     MockitoAnnotations.initMocks(this);
 
-    when(specAccessorFactory.getSpecPath()).thenReturn(mockSpecPath);
-    when(options.getInputDir()).thenReturn(mockInputPath);
+    when(specAccessorFactory.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
+    when(options.getInputDir()).thenReturn(MOCK_INPUT_PATH);
 
     baseApiGeneratorSuite =
         new BaseApiGeneratorSuite(specAccessorFactory, baseApiModelValidator, francaModelLoader);
@@ -74,10 +76,10 @@ public final class BaseApiGeneratorSuiteTest {
 
   @Test
   public void buildModel() {
-    baseApiGeneratorSuite.buildModel(mockInputPath);
+    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
 
     verify(specAccessorFactory).getSpecPath();
-    verify(francaModelLoader).load(mockSpecPath, baseApiGeneratorSuite.getCurrentFiles());
+    verify(francaModelLoader).load(MOCK_SPEC_PATH, baseApiGeneratorSuite.getCurrentFiles());
   }
 
   @Test
@@ -91,7 +93,7 @@ public final class BaseApiGeneratorSuiteTest {
 
   @Test
   public void validateWithNotNullAndValidModel() {
-    baseApiGeneratorSuite.buildModel(mockInputPath);
+    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
     when(ResourceValidator.validate(any(), any())).thenReturn(true);
     when(baseApiModelValidator.validate(any())).thenReturn(true);
 
@@ -104,7 +106,7 @@ public final class BaseApiGeneratorSuiteTest {
 
   @Test
   public void validateWithInvalidBaseApiValidation() {
-    baseApiGeneratorSuite.buildModel(mockInputPath);
+    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
     when(ResourceValidator.validate(any(), any())).thenReturn(true);
     when(baseApiModelValidator.validate(any())).thenReturn(false);
 
@@ -117,7 +119,7 @@ public final class BaseApiGeneratorSuiteTest {
 
   @Test
   public void validateWithInvalidResourceValidation() {
-    baseApiGeneratorSuite.buildModel(mockInputPath);
+    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
     when(ResourceValidator.validate(any(), any())).thenReturn(false);
     when(baseApiModelValidator.validate(any())).thenReturn(true);
 
@@ -130,7 +132,7 @@ public final class BaseApiGeneratorSuiteTest {
 
   @Test
   public void validateWithInvalidResourceAndModelValidation() {
-    baseApiGeneratorSuite.buildModel(mockInputPath);
+    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
     when(ResourceValidator.validate(any(), any())).thenReturn(false);
     when(baseApiModelValidator.validate(any())).thenReturn(false);
 
@@ -154,7 +156,7 @@ public final class BaseApiGeneratorSuiteTest {
   @Test
   public void generateFilesEmptyModel() {
     when(francaModelLoader.load(any(), any())).thenReturn(mockFrancaModel);
-    baseApiGeneratorSuite.buildModel(mockInputPath);
+    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
 
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 

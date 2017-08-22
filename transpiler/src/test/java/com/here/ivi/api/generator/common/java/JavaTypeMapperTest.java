@@ -31,6 +31,8 @@ import org.mockito.MockitoAnnotations;
 @RunWith(Parameterized.class)
 public class JavaTypeMapperTest {
 
+  @Mock private FTypeRef francaTypeRef;
+
   private final FBasicTypeId francaBasicType;
   private final String expectedJavaTypeName;
 
@@ -59,8 +61,6 @@ public class JavaTypeMapperTest {
           {FBasicTypeId.UNDEFINED, "void"},
         });
   }
-
-  @Mock private FTypeRef francaTypeRef;
 
   @Before
   public void setUp() {

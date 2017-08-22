@@ -34,11 +34,11 @@ public class TemplateEnginePrefixHelperTest {
   private static final String SECOND_LINE = "nonsense";
   private static final String MULTI_LINE = FIRST_LINE + "\n" + SECOND_LINE;
 
-  private List<Object> parameters = new LinkedList<>();
+  private final List<Object> parameters = new LinkedList<>();
 
   @Mock private Options options;
 
-  private TemplateEngine.PrefixHelper helper = new TemplateEngine.PrefixHelper();
+  private final TemplateEngine.PrefixHelper helper = new TemplateEngine.PrefixHelper();
 
   @Before
   public void setUp() {

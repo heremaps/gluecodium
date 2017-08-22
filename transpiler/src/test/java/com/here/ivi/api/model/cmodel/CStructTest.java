@@ -12,28 +12,17 @@
 package com.here.ivi.api.model.cmodel;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-import java.util.HashSet;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class CStructTest {
 
-  @Mock private CppTypeInfo cppTypeInfo;
-  private CStruct cStruct;
-
-  @Before
-  public void setUp() {
-    initMocks(this);
-    CType fakeType = mock(CType.class);
-    fakeType.includes = new HashSet<>();
-    cppTypeInfo = new CppTypeInfo(fakeType);
-    cStruct = new CStruct("NAME", "BASE_NAME", "BASE_API_NAME", cppTypeInfo);
-  }
+  private final CStruct cStruct =
+      new CStruct("NAME", "BASE_NAME", "BASE_API_NAME", new CppTypeInfo(new CType("")));
 
   @Test
   public void structReturnsCorrectNameForFiledSetter() {

@@ -11,7 +11,8 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,7 @@ public class CppComplexTypeRefTest {
 
     boolean result = cppCustomType.refersToValueType();
 
-    assertEquals(false, result);
+    assertFalse(result);
   }
 
   @Test
@@ -43,6 +44,6 @@ public class CppComplexTypeRefTest {
 
     boolean result = cppCustomType.refersToValueType();
 
-    assertEquals(true, result);
+    assertTrue(result);
   }
 }
