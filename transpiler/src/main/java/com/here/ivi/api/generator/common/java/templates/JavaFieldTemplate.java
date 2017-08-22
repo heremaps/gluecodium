@@ -9,18 +9,15 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.generator.common.java.templates;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.javamodel.JavaField;
 
-public final class JavaInterface extends JavaElement {
-  public JavaPackage javaPackage = JavaPackage.DEFAULT;
-  public Set<JavaMethod> methods = new LinkedHashSet<>();
-  public JavaInterface extendedInterface;
-  public Set<JavaInterface> implementedInterfaces = new LinkedHashSet<>();
+public final class JavaFieldTemplate {
+  private JavaFieldTemplate() {}
 
-  public JavaInterface(final String name) {
-    super(name);
+  public static String generate(final JavaField field) {
+    return TemplateEngine.render("java/Field", field);
   }
 }

@@ -9,13 +9,15 @@
  *
  */
 
-package com.here.ivi.api.generator.common.java.templates
+package com.here.ivi.api.generator.common.java.templates;
 
-import com.here.ivi.api.model.javamodel.JavaMethod
+import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.javamodel.JavaMethod;
 
-import org.eclipse.xtend2.lib.StringConcatenation
+public final class JavaMethodTemplate {
+  private JavaMethodTemplate() {}
 
-public class JavaMethodBodyTemplate {
-  def static StringConcatenation generate(JavaMethod m) '''
-  '''
+  public static String generate(final JavaMethod javaMethod) {
+    return TemplateEngine.render("java/MethodSignature", javaMethod);
+  }
 }

@@ -1,2 +1,2 @@
 {{>common/DocComment}}
-{{#accessModifier}}{{.}} {{/accessModifier}}static final {{type}} {{name}} = {{value}};
+{{#if visibility.toString}}{{visibility}} {{/if}}static final {{type.name}} {{name}} = {{value.name}};

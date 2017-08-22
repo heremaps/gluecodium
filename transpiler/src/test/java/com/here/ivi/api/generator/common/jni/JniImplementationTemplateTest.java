@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.common.jni;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
@@ -29,28 +30,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class JniImplementationTemplateTest {
-
+public final class JniImplementationTemplateTest {
   private static final List<Include> INCLUDE_LIST =
       Collections.singletonList(Include.createInternalInclude("stub/libhello/TestClassStub.h"));
   private static final String BASE_PARAMETER_NAME = "intParam";
   private static final String JNI_PARAMETER_NAME = "j" + BASE_PARAMETER_NAME;
-  private static final String COPYRIGHT_NOTICE =
-      "/*\n"
-          + " * Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights "
-          + "reserved.\n"
-          + " * \n"
-          + " * This software, including documentation, is protected by copyright controlled by\n"
-          + " * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,\n"
-          + " * adapting or translating, any or all of this material requires the prior written\n"
-          + " * consent of HERE Global B.V. This material also contains confidential information,\n"
-          + " * which may not be disclosed to others without prior written consent of HERE Global B.V"
-          + ".\n"
-          + " *\n"
-          + " * Automatically generated. Do not modify. Your changes will be lost.\n"
-          + " *\n"
-          + " */\n"
-          + "\n";
+  private static final String COPYRIGHT_NOTICE = JavaCopyrightHeaderTemplate.generate() + "\n";
   private static final String JNI_HEADER_INCLUDE = "#include \"stub/libhello/TestClassStub.h\"\n";
   private static final String EXTERN_C = "\nextern \"C\" {\n";
   private static final String END_OF_FILE = "\n}\n";

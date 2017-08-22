@@ -20,7 +20,7 @@ public class JavaClassTemplate {
   def static whitespaceFormatter(String field) '''«field»«IF !field.isEmpty» «ENDIF»'''
 
   def static generate(JavaClass it) {
-    val classVisibility = whitespaceFormatter(visibility.toAccessModifier)
+    val classVisibility = whitespaceFormatter(visibility.toString)
     val qualifierString = '''«FOR qualifier : qualifiers»«whitespaceFormatter(qualifier.toString)»«ENDFOR»'''
 
     '''
@@ -45,7 +45,7 @@ public class JavaClassTemplate {
       «JavaEnumTemplate.generate(enumerator)»
       «ENDFOR»
       «FOR method : methods»
-      «JavaMethodTemplate.signature(method)»«IF method.isNative»;«ELSE»«JavaMethodBodyTemplate.generate(method)»«ENDIF»
+      «JavaMethodTemplate.generate(method)»
       «ENDFOR»
       «FOR innerClass : innerClasses»
       «generateInnerClass(innerClass)»
@@ -54,7 +54,7 @@ public class JavaClassTemplate {
   }
 
   def private static generateInnerClass(JavaClass it) {
-    val classVisibility = whitespaceFormatter(visibility.toAccessModifier)
+    val classVisibility = whitespaceFormatter(visibility.toString)
     val qualifierString = '''«FOR qualifier : qualifiers»«whitespaceFormatter(qualifier.toString)»«ENDFOR»'''
 
 

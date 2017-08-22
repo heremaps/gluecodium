@@ -1,0 +1,13 @@
+{{>java/CopyrightHeader}}
+
+{{#javaPackage}}{{>java/Package}}{{/javaPackage}}
+
+{{#imports}}
+{{>java/Import}}
+
+{{/imports}}
+{{>common/DocComment}}
+interface {{name}} {{#extendedInterface}}extends {{name}} {{/extendedInterface}}{
+{{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
+{{/methods}}
+}

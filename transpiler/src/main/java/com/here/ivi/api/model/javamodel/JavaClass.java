@@ -15,8 +15,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class JavaClass extends JavaElement {
-
+public final class JavaClass extends JavaElement {
   public enum ClassQualifier {
     STATIC("static"),
     FINAL("final");
@@ -36,7 +35,11 @@ public class JavaClass extends JavaElement {
   public JavaPackage javaPackage = JavaPackage.DEFAULT;
   public Set<JavaMethod> methods = new LinkedHashSet<>();
   public Set<JavaField> fields = new LinkedHashSet<>();
+
+  // TODO(APIGEN-122): Change to set of javainterface and name "implements", add a nullable
+  // field called "parent" of type JavaClass
   public JavaInheritance inheritance;
+
   public Set<JavaConstant> constants = new LinkedHashSet<>();
   public Set<JavaEnum> enums = new LinkedHashSet<>();
   public Set<JavaClass> innerClasses = new LinkedHashSet<>();

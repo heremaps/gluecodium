@@ -15,8 +15,17 @@ import java.util.stream.Stream;
 
 public final class JavaField extends JavaElement {
   public final JavaType type;
+  //TODO: initial and customTypeInitial are mutually exclusive. Either combine or add checks.
+  // Also, the custom type can' have an initial value at the moment...
   public final JavaValue initial;
   public final JavaType customTypeInitial;
+
+  // TODO: Fix constructors, we have to be able to express:
+  // int foo;
+  // int foo = 3;
+  // Bar bar;
+  // Bar bar = new Bar();
+  // Bar bar = new Bar(3); // ...
 
   public JavaField(final JavaType type, final String name) {
     this(type, name, null);

@@ -12,17 +12,22 @@
 package com.here.ivi.api.generator.common.java.templates;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import java.time.Year;
+import com.here.ivi.api.model.javamodel.JavaInheritance;
 import java.util.HashMap;
 
 // TODO: Kill while porting JavaClassTemplate
-public final class JavaCopyrightHeaderTemplate {
-  private JavaCopyrightHeaderTemplate() {}
+public final class JavaInheritanceTemplate {
+  private JavaInheritanceTemplate() {}
 
-  public static String generate() {
+  /**
+   * Generates extendedInterface for an interface
+   *
+   * @param baseClass set of interface extendedInterface
+   */
+  public static String generate(final JavaInheritance baseClass) {
     HashMap<String, Object> data = new HashMap<>();
-    data.put("year", Year.now().getValue());
+    data.put("base", baseClass);
 
-    return TemplateEngine.render("java/CopyrightHeader", data);
+    return TemplateEngine.render("java/Extends", data);
   }
 }
