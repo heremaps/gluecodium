@@ -26,10 +26,8 @@ import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.List;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
-import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,8 +52,6 @@ public class CBridgeNameRulesTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private TypeCollection<TypeCollectionPropertyAccessor> typeCollection;
 
-  @Mock private FTypeCollection francaTypeCollection;
-  @Mock private FInterface francaInterface;
   @Mock private FStructType francaStruct;
   @Mock private FMethod francaMethod;
   private CBridgeNameRules nameRules;
@@ -139,7 +135,7 @@ public class CBridgeNameRulesTest {
   }
 
   @Test
-  public void ImplementationFileNameReturnsCorrectPath() {
+  public void implementationFileNameReturnsCorrectPath() {
     String expected = INTERFACE_NAME + ".cpp";
 
     String actual = nameRules.getImplementationFileName(anInterface);

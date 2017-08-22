@@ -47,10 +47,11 @@ public class JavaNativeInterfacesGeneratorTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
-  private JavaClass javaClass = new JavaClass("classy");
-  private JniModel jniModel = new JniModel();
+  private final JavaClass javaClass = new JavaClass("classy");
+  private final JniModel jniModel = new JniModel();
 
-  private JavaNativeInterfacesGenerator generator = new JavaNativeInterfacesGenerator(null, null);
+  private final JavaNativeInterfacesGenerator generator =
+      new JavaNativeInterfacesGenerator(null, null);
 
   @Before
   public void setUp() {

@@ -96,7 +96,7 @@ public class StubModelBuilderTest {
   private static final String ENUM_NAME = "innumerable";
   private static final String ENUM_ITEM_NAME = "enumerated";
 
-  private MockContextStack<CppElement> contextStack = new MockContextStack<>();
+  private final MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
   @Mock private FrancaElement<BaseApiSpec.IDataPropertyAccessor> rootModel;
   @Mock private BaseApiSpec.IDataPropertyAccessor propertyAccessor;

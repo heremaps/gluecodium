@@ -11,8 +11,6 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -37,9 +35,11 @@ import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.MockContextStack;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
@@ -62,7 +62,7 @@ public class CModelBuilderTest {
   private static final String PARAM_NAME = "inputParam";
   private static final String FIELD_NAME = "FIELD1";
 
-  private MockContextStack<CElement> contextStack = new MockContextStack<>();
+  private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
   @Mock private CBridgeNameRules cBridgeNameRules;
   @Mock private Interface<InterfacePropertyAccessor> anInterface;
@@ -73,10 +73,9 @@ public class CModelBuilderTest {
   @Mock private FStructType francaStruct;
   @Mock private FTypedElement francaTypedElement;
 
-  @Mock //(answer = Answers.CALLS_REAL_METHODS)
-  private CppTypeInfo mockedTypeInfo;
+  @Mock private CppTypeInfo mockedTypeInfo;
 
-  private CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
+  private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
   private CModelBuilder modelBuilder;
 
   @Before
@@ -86,7 +85,7 @@ public class CModelBuilderTest {
     fakeType.includes = new HashSet<>();
     mockedTypeInfo = new CppTypeInfo(fakeType);
     initMocks(this);
-    mockedTypeInfo.baseTypeIncludes = emptyList();
+    mockedTypeInfo.baseTypeIncludes = Collections.emptyList();
     mockedTypeInfo.returnValueConstrExpr = "";
     when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(mockedTypeInfo);
 
@@ -114,7 +113,11 @@ public class CModelBuilderTest {
       assertEquals(cppTypeInfo.cTypesNeededByConstructor.get(i), param.type);
     }
     List<TypeConverter.TypeConversion> conversions =
-        params.stream().map(param -> param.conversion).filter(Objects::nonNull).collect(toList());
+        params
+            .stream()
+            .map(param -> param.conversion)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     assertFalse(conversions.isEmpty());
   }
 
@@ -246,7 +249,7 @@ public class CModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingStructContainsFields() throws Exception {
+  public void finishBuildingStructContainsFields() {
     contextStack.injectResult(new CField("field1", cppTypeInfo));
     contextStack.injectResult(new CField("field2", cppTypeInfo));
 
@@ -402,9 +405,9 @@ public class CModelBuilderTest {
     assertEquals("field", fields.get(0).name);
   }
 
-  CFunction getFunction(List<CFunction> functions, String functionName) {
+  private CFunction getFunction(List<CFunction> functions, String functionName) {
     for (CFunction function : functions) {
-      if (function.name.equals((functionName))) {
+      if (function.name.equals(functionName)) {
         return function;
       }
     }

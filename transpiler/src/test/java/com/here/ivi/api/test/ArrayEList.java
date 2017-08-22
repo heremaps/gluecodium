@@ -16,10 +16,6 @@ import org.eclipse.emf.common.util.EList;
 
 public class ArrayEList<E> extends ArrayList<E> implements EList<E> {
 
-  public ArrayEList() {
-    super();
-  }
-
   @Override
   public void move(int newPosition, E object) {
     // intentionally left unimplemented

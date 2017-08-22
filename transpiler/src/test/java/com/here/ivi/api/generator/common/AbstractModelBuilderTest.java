@@ -21,16 +21,16 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class AbstractModelBuilderTest {
 
+  private final Object resultObject = new Object();
+
+  private final MockContextStack<Object> contextStack = new MockContextStack<>();
+  private final TestableModelBuilder modelBuilder = new TestableModelBuilder(contextStack);
+
   private static class TestableModelBuilder extends AbstractModelBuilder<Object> {
     public TestableModelBuilder(ModelBuilderContextStack<Object> contextStack) {
       super(contextStack);
     }
   }
-
-  private final Object resultObject = new Object();
-
-  private MockContextStack<Object> contextStack = new MockContextStack<>();
-  private TestableModelBuilder modelBuilder = new TestableModelBuilder(contextStack);
 
   @Test
   public void closeContextPropagatesResults() {

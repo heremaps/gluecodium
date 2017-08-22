@@ -21,19 +21,20 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class SwiftParameterTest {
-  private final String interfaceName = "interfaceName";
-  private final String variableName = "variableName";
+
+  private static final String INTERFACE_NAME = "interfaceName";
 
   @Test
   public void emptyVariableName() {
-    SwiftParameter parameter = new SwiftParameter(interfaceName, new SwiftType("String"));
+    SwiftParameter parameter = new SwiftParameter(INTERFACE_NAME, new SwiftType("String"));
     assertFalse(parameter.differentInterfaceAndVariableName);
   }
 
   @Test
   public void differentVariableName() {
+    final String variableName = "variableName";
     SwiftParameter parameter =
-        new SwiftParameter(interfaceName, new SwiftType("String"), variableName);
+        new SwiftParameter(INTERFACE_NAME, new SwiftType("String"), variableName);
 
     assertTrue(parameter.differentInterfaceAndVariableName);
     assertEquals(variableName, parameter.variableName);

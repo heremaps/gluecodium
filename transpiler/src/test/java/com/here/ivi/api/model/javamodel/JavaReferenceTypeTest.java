@@ -22,6 +22,7 @@ import org.junit.runners.Parameterized.Parameter;
 
 @RunWith(Parameterized.class)
 public class JavaReferenceTypeTest {
+
   @Parameter public Type type;
 
   @Parameter(1)
@@ -46,7 +47,7 @@ public class JavaReferenceTypeTest {
   }
 
   @Test
-  public void literalName() {
+  public void getLiteralName() {
     assertEquals(literalName, new JavaReferenceType(type).getLiteralName());
   }
 }

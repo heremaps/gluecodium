@@ -39,7 +39,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 public class CBridgeGeneratorTest {
-  private CBridgeGenerator generator;
 
   private static final List<String> PACKAGES = asList("cbridge", "test");
   private static final String INTERFACE_NAME = "TestInterface";
@@ -53,13 +52,15 @@ public class CBridgeGeneratorTest {
   @Mock private FInterface francaInterface;
 
   @Mock private FMethod francaMethod;
-  @Mock private FArgument francaArgument_1;
-  @Mock private FTypeRef francaTypeRef_1;
-  @Mock private FArgument francaArgument_2;
-  @Mock private FTypeRef francaTypeRef_2;
+  @Mock private FArgument francaArgument1;
+  @Mock private FTypeRef francaTypeRef1;
+  @Mock private FArgument francaArgument2;
+  @Mock private FTypeRef francaTypeRef2;
   private final ArrayEList<FMethod> methods = new ArrayEList<>();
   private final ArrayEList<FArgument> inputArguments = new ArrayEList<>();
   private final ArrayEList<FArgument> outputArguments = new ArrayEList<>();
+
+  private final CBridgeGenerator generator = new CBridgeGenerator(new CBridgeNameRules());
 
   @Before
   public void setUp() {
@@ -80,8 +81,6 @@ public class CBridgeGeneratorTest {
     when(francaMethod.getInArgs()).thenReturn(inputArguments);
     when(francaMethod.getOutArgs()).thenReturn(outputArguments);
     methods.add(francaMethod);
-
-    generator = new CBridgeGenerator(new CBridgeNameRules());
   }
 
   @Test
@@ -130,10 +129,10 @@ public class CBridgeGeneratorTest {
 
   @Test
   public void createFunctionTakingString() throws IOException {
-    when(francaArgument_1.getName()).thenReturn("input");
-    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
-    when(francaTypeRef_1.getPredefined()).thenReturn(FBasicTypeId.STRING);
-    inputArguments.add(francaArgument_1);
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    inputArguments.add(francaArgument1);
 
     String expectedHeader =
         String.join("\n", "void cbridge_test_TestInterface_functionName(const char* input);", "");
@@ -157,15 +156,15 @@ public class CBridgeGeneratorTest {
 
   @Test
   public void createFunctionTakingAndReturningString() throws IOException {
-    when(francaArgument_1.getName()).thenReturn("input");
-    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
-    when(francaTypeRef_1.getPredefined()).thenReturn(FBasicTypeId.STRING);
-    inputArguments.add(francaArgument_1);
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    inputArguments.add(francaArgument1);
 
-    when(francaArgument_2.getName()).thenReturn("output");
-    when(francaArgument_2.getType()).thenReturn(francaTypeRef_2);
-    when(francaTypeRef_2.getPredefined()).thenReturn(FBasicTypeId.STRING);
-    outputArguments.add(francaArgument_1);
+    when(francaArgument2.getName()).thenReturn("output");
+    when(francaArgument2.getType()).thenReturn(francaTypeRef2);
+    when(francaTypeRef2.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    outputArguments.add(francaArgument1);
 
     String expectedHeader =
         String.join(
@@ -218,10 +217,10 @@ public class CBridgeGeneratorTest {
 
   @Test
   public void createFunctionTakingByteArray() throws IOException {
-    when(francaArgument_1.getName()).thenReturn("input");
-    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
-    when(francaTypeRef_1.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
-    inputArguments.add(francaArgument_1);
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
+    inputArguments.add(francaArgument1);
 
     String expectedHeader =
         String.join(
@@ -249,15 +248,15 @@ public class CBridgeGeneratorTest {
 
   @Test
   public void createFunctionTakingAndReturningByteBuffer() throws IOException {
-    when(francaArgument_1.getName()).thenReturn("input");
-    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
-    when(francaTypeRef_1.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
-    inputArguments.add(francaArgument_1);
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
+    inputArguments.add(francaArgument1);
 
-    when(francaArgument_2.getName()).thenReturn("output");
-    when(francaArgument_2.getType()).thenReturn(francaTypeRef_2);
-    when(francaTypeRef_2.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
-    outputArguments.add(francaArgument_2);
+    when(francaArgument2.getName()).thenReturn("output");
+    when(francaArgument2.getType()).thenReturn(francaTypeRef2);
+    when(francaTypeRef2.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
+    outputArguments.add(francaArgument2);
 
     String expectedHeader =
         String.join(
@@ -320,13 +319,13 @@ public class CBridgeGeneratorTest {
     expectedCTypes.put(FBasicTypeId.INT64, "int64_t");
     expectedCTypes.put(FBasicTypeId.UINT64, "uint64_t");
 
-    when(francaArgument_1.getName()).thenReturn("input");
-    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
-    inputArguments.add(francaArgument_1);
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    inputArguments.add(francaArgument1);
 
-    when(francaArgument_2.getName()).thenReturn("output");
-    when(francaArgument_2.getType()).thenReturn(francaTypeRef_2);
-    outputArguments.add(francaArgument_2);
+    when(francaArgument2.getName()).thenReturn("output");
+    when(francaArgument2.getType()).thenReturn(francaTypeRef2);
+    outputArguments.add(francaArgument2);
 
     String expectedHeaderWithTypePlaceholders =
         String.join(
@@ -363,13 +362,13 @@ public class CBridgeGeneratorTest {
     expectedCTypes.put(FBasicTypeId.FLOAT, "float");
     expectedCTypes.put(FBasicTypeId.DOUBLE, "double");
 
-    when(francaArgument_1.getName()).thenReturn("input");
-    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
-    inputArguments.add(francaArgument_1);
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    inputArguments.add(francaArgument1);
 
-    when(francaArgument_2.getName()).thenReturn("output");
-    when(francaArgument_2.getType()).thenReturn(francaTypeRef_2);
-    outputArguments.add(francaArgument_2);
+    when(francaArgument2.getName()).thenReturn("output");
+    when(francaArgument2.getType()).thenReturn(francaTypeRef2);
+    outputArguments.add(francaArgument2);
 
     String expectedHeaderWithTypePlaceholders =
         String.join("\n", "%1$s cbridge_test_TestInterface_functionName(%1$s input);", "");
@@ -398,15 +397,15 @@ public class CBridgeGeneratorTest {
 
   @Test
   public void createFunctionTakingAndReturningBool() throws IOException {
-    when(francaArgument_1.getName()).thenReturn("input");
-    when(francaArgument_1.getType()).thenReturn(francaTypeRef_1);
-    when(francaTypeRef_1.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
-    inputArguments.add(francaArgument_1);
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
+    inputArguments.add(francaArgument1);
 
-    when(francaArgument_2.getName()).thenReturn("output");
-    when(francaArgument_2.getType()).thenReturn(francaTypeRef_2);
-    when(francaTypeRef_2.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
-    outputArguments.add(francaArgument_2);
+    when(francaArgument2.getName()).thenReturn("output");
+    when(francaArgument2.getType()).thenReturn(francaTypeRef2);
+    when(francaTypeRef2.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
+    outputArguments.add(francaArgument2);
 
     String expectedHeader =
         String.join(
@@ -442,8 +441,8 @@ public class CBridgeGeneratorTest {
     String expectedHeader = String.format(expectedHeaderWithTypePlaceholders, cType);
     String expectedImplementation =
         String.format(expectedImplementationWithTypePlaceholders, cType);
-    when(francaTypeRef_1.getPredefined()).thenReturn(francaType);
-    when(francaTypeRef_2.getPredefined()).thenReturn(francaType);
+    when(francaTypeRef1.getPredefined()).thenReturn(francaType);
+    when(francaTypeRef2.getPredefined()).thenReturn(francaType);
 
     CInterface cModel = generator.buildCBridgeModel(anInterface);
 

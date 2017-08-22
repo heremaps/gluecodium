@@ -35,13 +35,12 @@ public class TemplateEngineJoinPartialHelperTest {
   private static final String FIRST_LINE = "complete";
   private static final String SECOND_LINE = "nonsense";
 
-  private List<String> iterable = new LinkedList<>();
-
-  private List<Object> parameters = new LinkedList<>();
+  private final List<String> iterable = new LinkedList<>();
+  private final List<Object> parameters = new LinkedList<>();
 
   @Mock private Options options;
 
-  private TemplateEngine.JoinPartialHelper helper = new TemplateEngine.JoinPartialHelper();
+  private final TemplateEngine.JoinPartialHelper helper = new TemplateEngine.JoinPartialHelper();
 
   @Before
   public void setUp() {

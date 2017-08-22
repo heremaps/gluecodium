@@ -30,7 +30,8 @@ import org.mockito.Mockito;
 
 @RunWith(JUnit4.class)
 public class CBridgeHeaderTemplateTest {
-  public String generate(final CInterface iface) {
+
+  private String generate(final CInterface iface) {
     return CBridgeGenerator.generateHeaderContent(iface);
   }
 

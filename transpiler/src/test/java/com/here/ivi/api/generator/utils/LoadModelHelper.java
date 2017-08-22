@@ -21,18 +21,25 @@ import com.here.ivi.api.model.franca.ModelHelper;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import navigation.BaseApiSpec;
 
-public class LoadModelHelper {
+public final class LoadModelHelper {
 
-  public static FrancaModel<?, ?> readInFrancaModel(
-      String fileName, SpecAccessorFactory specAccessorFactory) throws URISyntaxException {
+  public static <
+          IA extends BaseApiSpec.InterfacePropertyAccessor,
+          TA extends BaseApiSpec.TypeCollectionPropertyAccessor>
+      FrancaModel<IA, TA> readInFrancaModel(
+          String fileName, SpecAccessorFactory<IA, TA> specAccessorFactory)
+          throws URISyntaxException {
+
     URL testFidlResource = ClassLoader.getSystemClassLoader().getResource(fileName);
-    Collection<File> testFidlFile = Arrays.asList(new File(testFidlResource.toURI()));
+    Collection<File> testFidlFile = Collections.singletonList(new File(testFidlResource.toURI()));
 
-    FrancaModelLoader<?, ?> francaModelLoader = new FrancaModelLoader(specAccessorFactory);
+    FrancaModelLoader<IA, TA> francaModelLoader =
+        new FrancaModelLoader<IA, TA>(specAccessorFactory);
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
 
     return francaModelLoader.load(specAccessorFactory.getSpecPath(), testFidlFile);

@@ -23,69 +23,70 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class VersionTest {
 
-  private static final int majorVersion = 7;
-  private static final int minorVersion = 21;
-  private static final int patchVersion = 302;
-  private static final String versionSuffix = "abc";
-  private static final String versionWithoutSuffix = "7.21.302";
-  private static final String versionWithSuffix = "7.21.302-abc";
-  private static final String invalidVersionString = "not a version";
+  private static final int MAJOR_VERSION = 7;
+  private static final int MINOR_VERSION = 21;
+  private static final int PATCH_VERSION = 302;
+  private static final String VERSION_SUFFIX = "abc";
+  private static final String VERSION_WITHOUT_SUFFIX = "7.21.302";
+  private static final String VERSION_WITH_SUFFIX = "7.21.302-abc";
+  private static final String INVALID_VERSION_STRING = "not a version";
 
   @Test
   public void toStringWithoutSuffix() {
-    final Version version = new Version(majorVersion, minorVersion, patchVersion, "");
+    final Version version = new Version(MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, "");
 
     String versionString = version.toString();
 
-    assertEquals(versionWithoutSuffix, versionString);
+    assertEquals(VERSION_WITHOUT_SUFFIX, versionString);
   }
 
   @Test
   public void toStringWithSuffix() {
-    final Version version = new Version(majorVersion, minorVersion, patchVersion, versionSuffix);
+    final Version version =
+        new Version(MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_SUFFIX);
 
     String versionString = version.toString();
 
-    assertEquals(versionWithSuffix, versionString);
+    assertEquals(VERSION_WITH_SUFFIX, versionString);
   }
 
   @Test
   public void createFromFrancaVersion() {
     FVersion francaVersion = mock(FVersion.class);
-    when(francaVersion.getMajor()).thenReturn(majorVersion);
-    when(francaVersion.getMinor()).thenReturn(minorVersion);
+    when(francaVersion.getMajor()).thenReturn(MAJOR_VERSION);
+    when(francaVersion.getMinor()).thenReturn(MINOR_VERSION);
 
     Version version = Version.createFromFrancaVersion(francaVersion);
 
-    assertEquals(majorVersion, version.major);
-    assertEquals(minorVersion, version.minor);
+    assertEquals(MAJOR_VERSION, version.major);
+    assertEquals(MINOR_VERSION, version.minor);
     assertEquals(0, version.patch);
     assertEquals("", version.suffix);
   }
 
   @Test
   public void createFromStringWithoutSuffix() {
-    Version version = Version.createFromString(versionWithoutSuffix);
+    Version version = Version.createFromString(VERSION_WITHOUT_SUFFIX);
 
-    assertEquals(majorVersion, version.major);
-    assertEquals(minorVersion, version.minor);
-    assertEquals(patchVersion, version.patch);
+    assertEquals(MAJOR_VERSION, version.major);
+    assertEquals(MINOR_VERSION, version.minor);
+    assertEquals(PATCH_VERSION, version.patch);
     assertEquals("", version.suffix);
   }
 
   @Test
   public void createFromStringWithSuffix() {
-    Version version = Version.createFromString(versionWithSuffix);
+    Version version = Version.createFromString(VERSION_WITH_SUFFIX);
 
-    assertEquals(majorVersion, version.major);
-    assertEquals(minorVersion, version.minor);
-    assertEquals(patchVersion, version.patch);
-    assertEquals(versionSuffix, version.suffix);
+    assertEquals(MAJOR_VERSION, version.major);
+    assertEquals(MINOR_VERSION, version.minor);
+    assertEquals(PATCH_VERSION, version.patch);
+    assertEquals(VERSION_SUFFIX, version.suffix);
   }
 
   @Test
   public void createFromStringWithInvalidString() {
-    Version version = Version.createFromString(invalidVersionString);
+    Version version = Version.createFromString(INVALID_VERSION_STRING);
 
     assertEquals(0, version.major);
     assertEquals(0, version.minor);
