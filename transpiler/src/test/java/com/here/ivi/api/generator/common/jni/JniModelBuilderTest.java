@@ -91,9 +91,9 @@ public class JniModelBuilderTest {
   private static final String BASE_NAME_PARAMETER = "theParam";
   private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
 
-  private MockContextStack<JniElement> contextStack = new MockContextStack<>();
+  private final MockContextStack<JniElement> contextStack = new MockContextStack<>();
 
-  private JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null, null);
+  private final JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null, null);
 
   private JniModelBuilder modelBuilder;
 
