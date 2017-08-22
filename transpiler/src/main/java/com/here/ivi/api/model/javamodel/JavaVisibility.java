@@ -12,23 +12,19 @@
 package com.here.ivi.api.model.javamodel;
 
 public enum JavaVisibility {
-  PACKAGE,
-  PUBLIC,
-  PROTECTED,
-  PRIVATE;
+  PACKAGE(""),
+  PUBLIC("public"),
+  PROTECTED("protected"),
+  PRIVATE("private");
 
-  public String toAccessModifier() {
-    switch (this) {
-      case PUBLIC:
-        return "public";
-      case PROTECTED:
-        return "protected";
-      case PACKAGE:
-        return "";
-      case PRIVATE:
-        return "private";
-      default:
-        return "";
-    }
+  private final String value;
+
+  JavaVisibility(final String value) {
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
   }
 }

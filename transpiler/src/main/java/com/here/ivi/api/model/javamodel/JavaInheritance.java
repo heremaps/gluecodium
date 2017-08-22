@@ -13,11 +13,13 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.stream.Stream;
 
+// TODO: Split this class, it mixes two java concepts, namely extending a base class (which can
+// happen only once) and implementing interfaces (multiple are possible)
 public class JavaInheritance extends JavaElement {
   private final JavaType type;
 
   public JavaInheritance(final JavaType type) {
-    super(null);
+    super(type.name);
     this.type = type;
   }
 

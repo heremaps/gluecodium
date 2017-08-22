@@ -203,7 +203,7 @@ public final class JavaClassTemplateTest {
     JavaClass innerClass = new JavaClass("InnerClass");
     innerClass.comment = "Inner class comment";
     innerClass.fields.add(intField);
-    innerClass.visibility = JavaVisibility.PUBLIC;
+    innerClass.visibility = JavaVisibility.PROTECTED;
     JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
     javaClass.visibility = JavaVisibility.PUBLIC;
@@ -218,7 +218,7 @@ public final class JavaClassTemplateTest {
             + "  /**\n"
             + "   * Inner class comment\n"
             + "   */\n"
-            + "  public class InnerClass {\n"
+            + "  protected class InnerClass {\n"
             + "    int intField = 1;\n"
             + "  }\n"
             + "}";
@@ -243,7 +243,7 @@ public final class JavaClassTemplateTest {
     innerClass.qualifiers.add(JavaClass.ClassQualifier.STATIC);
     JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
-    javaClass.visibility = JavaVisibility.PUBLIC;
+    javaClass.visibility = JavaVisibility.PACKAGE;
     javaClass.innerClasses.add(innerClass);
     String expected =
         "package com.here.android;\n"
@@ -251,7 +251,7 @@ public final class JavaClassTemplateTest {
             + "/**\n"
             + " * Example class comment\n"
             + " */\n"
-            + "public class ExampleClass {\n"
+            + "class ExampleClass {\n"
             + "  /**\n"
             + "   * Inner class comment\n"
             + "   */\n"

@@ -56,7 +56,6 @@ public final class JavaEnumTemplateTest {
     JavaEnum javaEnum = new JavaEnum("MyEnum");
     javaEnum.isTopLevel = true;
     javaEnum.javaPackage = new JavaPackage(Arrays.asList("com", "here", "enums", "example"));
-
     javaEnum.comment = "A test enum";
     javaEnum.items =
         Arrays.asList(

@@ -12,25 +12,12 @@
 package com.here.ivi.api.generator.common.java.templates;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.common.java.JavaCommentFormatter;
 import com.here.ivi.api.model.javamodel.JavaConstant;
-import java.util.HashMap;
 
 public final class JavaConstantTemplate {
   private JavaConstantTemplate() {}
 
   public static String generate(final JavaConstant javaConstant) {
-    String accessModifier = javaConstant.visibility.toAccessModifier();
-
-    HashMap<String, Object> data = new HashMap<>();
-    data.put("comment", JavaCommentFormatter.format(javaConstant.comment));
-    if (!accessModifier.isEmpty()) {
-      data.put("accessModifier", accessModifier);
-    }
-    data.put("type", javaConstant.type.name);
-    data.put("name", javaConstant.name);
-    data.put("value", javaConstant.value.name);
-
-    return TemplateEngine.render("java/Constant", data);
+    return TemplateEngine.render("java/Constant", javaConstant);
   }
 }

@@ -24,26 +24,24 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaImportTemplateTest {
-
-  private static final JavaPackage JAVA_PACKAGE =
+  private static final JavaPackage TEST_JAVA_PACKAGE_A =
       new JavaPackage(Arrays.asList("com", "here", "SomeImport"));
-
-  private static final JavaPackage JAVA_PACKAGE2 =
+  private static final JavaPackage TEST_JAVA_PACKAGE_B =
       new JavaPackage(Arrays.asList("com", "here", "SomeImportZ"));
-
-  private static final JavaPackage JAVA_PACKAGE3 =
+  private static final JavaPackage TEST_JAVA_PACKAGE_C =
       new JavaPackage(Arrays.asList("com", "here", "SomeImportY"));
-
-  private static final JavaPackage JAVA_PACKAGE4 = new JavaPackage(Arrays.asList("com", "here"));
+  private static final JavaPackage TEST_JAVA_PACKAGE_D =
+      new JavaPackage(Arrays.asList("com", "here"));
 
   @Test
-  public void multipleImportsGeneration() {
-    JavaImport import1 = new JavaImport("Class", JAVA_PACKAGE);
-    JavaImport import2 = new JavaImport("Class", JAVA_PACKAGE2);
-    JavaImport import3 = new JavaImport("Class", JAVA_PACKAGE3);
-    JavaImport import4 = new JavaImport("Class", JAVA_PACKAGE4);
-
-    List imports = Arrays.asList(import1, import2, import3, import4);
+  public void render_multipleImports() {
+    // Arrange
+    List imports =
+        Arrays.asList(
+            new JavaImport("Class", TEST_JAVA_PACKAGE_A),
+            new JavaImport("Class", TEST_JAVA_PACKAGE_B),
+            new JavaImport("Class", TEST_JAVA_PACKAGE_C),
+            new JavaImport("Class", TEST_JAVA_PACKAGE_D));
 
     String expected =
         "import com.here.SomeImport.Class;\n"
@@ -51,8 +49,10 @@ public final class JavaImportTemplateTest {
             + "import com.here.SomeImportY.Class;\n"
             + "import com.here.Class;\n";
 
+    // Act
     String generated = TemplateEngine.render("java/Import", imports);
 
+    // Assert
     assertEquals(expected, generated);
   }
 }
