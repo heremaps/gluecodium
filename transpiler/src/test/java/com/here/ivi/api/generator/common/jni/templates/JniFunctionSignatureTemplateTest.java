@@ -27,13 +27,14 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JniFunctionSignatureTemplateTest {
+
+  private final JniModel jniModel =
+      new JniModel(
+          null, null, new JavaClass("ClassName"), Arrays.asList("com", "here", "jni", "test"));
+
   @Test
   public void simpleJniMethodGenerationGeneration() {
     // Arrange
-    JniModel jniModel = new JniModel();
-    jniModel.javaClass = new JavaClass("ClassName");
-    jniModel.javaPackages = Arrays.asList("com", "here", "jni", "test");
-
     JniMethod jniMethod = new JniMethod();
     jniMethod.owningModel = jniModel;
     jniMethod.javaMethodName = "methodName";
@@ -51,10 +52,6 @@ public final class JniFunctionSignatureTemplateTest {
   @Test
   public void complexJniMethodGenerationGeneration() {
     // Arrange
-    JniModel jniModel = new JniModel();
-    jniModel.javaClass = new JavaClass("ClassName");
-    jniModel.javaPackages = Arrays.asList("com", "here", "jni", "test");
-
     JniMethod jniMethod = new JniMethod();
     jniMethod.owningModel = jniModel;
     jniMethod.javaMethodName = "methodName";

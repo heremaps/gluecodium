@@ -29,7 +29,6 @@ import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -46,17 +45,11 @@ public final class JniToCppStructConversionBodyTest {
   private static final List<String> JAVA_PACKAGE = Arrays.asList("java", "package");
   private static final List<String> CPP_NAMESPACES = Arrays.asList("a", "superfancy", "namespace");
 
-  private final JniModel jniModel = new JniModel();
-  private JniStruct jniStruct;
-
-  @Before
-  public void setUp() {
-    jniModel.cppNameSpaces = CPP_NAMESPACES;
-    jniModel.cppClassName = CPP_OUTER_CLASS_NAME;
-    jniModel.javaClass = new JavaClass(JAVA_OUTER_CLASS_NAME);
-    jniModel.javaPackages = JAVA_PACKAGE;
-    jniStruct = new JniStruct(jniModel, JAVA_CLASS_INNER, CPP_STRUCT, new LinkedList<>());
-  }
+  private final JniModel jniModel =
+      new JniModel(
+          CPP_OUTER_CLASS_NAME, CPP_NAMESPACES, new JavaClass(JAVA_OUTER_CLASS_NAME), JAVA_PACKAGE);
+  private final JniStruct jniStruct =
+      new JniStruct(jniModel, JAVA_CLASS_INNER, CPP_STRUCT, new LinkedList<>());
 
   private static JniField createIntField() {
     JavaField javaField =

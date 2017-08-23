@@ -18,23 +18,20 @@ import java.util.List;
 
 public class JniModel implements JniElement {
 
-  public List<String> javaPackages;
-  public JavaClass javaClass;
-
-  public List<String> cppNameSpaces;
-  public String cppClassName;
+  public final String cppClassName;
+  public final List<String> cppNameSpaces;
+  public final JavaClass javaClass;
+  public final List<String> javaPackages;
 
   public final List<JniMethod> methods = new LinkedList<>();
   public final List<JniStruct> structs = new LinkedList<>();
   public final List<Include> includes = new LinkedList<>();
 
-  public JniModel() {}
-
   public JniModel(
-      String cppClassName,
-      List<String> cppNamespaces,
-      JavaClass javaClass,
-      List<String> javaPackages) {
+      final String cppClassName,
+      final List<String> cppNamespaces,
+      final JavaClass javaClass,
+      final List<String> javaPackages) {
     this.cppClassName = cppClassName;
     this.cppNameSpaces = cppNamespaces;
     this.javaClass = javaClass;

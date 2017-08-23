@@ -54,6 +54,7 @@ public class JniImplementationTemplateTest {
   private static final String JNI_HEADER_INCLUDE = "#include \"stub/libhello/TestClassStub.h\"\n";
   private static final String EXTERN_C = "\nextern \"C\" {\n";
   private static final String END_OF_FILE = "\n}\n";
+  private static final List<String> NAMESPACES = Arrays.asList("com", "here", "ivi", "test");
 
   private JniModel jniModel;
 
@@ -63,11 +64,8 @@ public class JniImplementationTemplateTest {
   }
 
   private static JniModel createJniModel() {
-    JniModel jniModel = new JniModel();
-    jniModel.cppClassName = "CppClass";
-    jniModel.cppNameSpaces = Arrays.asList("com", "here", "ivi", "test");
-    jniModel.javaPackages = Arrays.asList("com", "here", "ivi", "test");
-    jniModel.javaClass = new JavaClass("TestClass");
+    JniModel jniModel =
+        new JniModel("CppClass", NAMESPACES, new JavaClass("TestClass"), NAMESPACES);
     jniModel.includes.addAll(INCLUDE_LIST);
 
     return jniModel;

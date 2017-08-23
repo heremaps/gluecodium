@@ -67,13 +67,10 @@ public final class StructConversionImplementationTest {
   }
 
   private static JniModel createModel(String outerClassName) {
-    JniModel jniModel = new JniModel();
-    jniModel.javaPackages = PACKAGES;
-    jniModel.cppNameSpaces = PACKAGES;
-    jniModel.cppClassName = outerClassName;
-    jniModel.javaClass = new JavaClass(outerClassName);
-
+    JniModel jniModel =
+        new JniModel(outerClassName, PACKAGES, new JavaClass(outerClassName), PACKAGES);
     jniModel.structs.add(createJniStruct(jniModel));
+
     return jniModel;
   }
 
@@ -81,10 +78,9 @@ public final class StructConversionImplementationTest {
   public void generateWithZeroModelsZeroIncludes() {
 
     //arrange
-    List<Include> includes = new LinkedList<>();
 
     Map<String, List<?>> mustacheData = new HashMap<>();
-    mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, includes);
+    mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, new LinkedList<>());
     mustacheData.put(JavaNativeInterfacesGenerator.MODELS_NAME, Collections.emptyList());
 
     //act
@@ -105,7 +101,7 @@ public final class StructConversionImplementationTest {
 
     Map<String, List<?>> mustacheData = new HashMap<>();
     mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, includes);
-    mustacheData.put(JavaNativeInterfacesGenerator.MODELS_NAME, Arrays.asList(model));
+    mustacheData.put(JavaNativeInterfacesGenerator.MODELS_NAME, Collections.singletonList(model));
 
     //act
     String result = TemplateEngine.render("jni/StructConversionImplementation", mustacheData);

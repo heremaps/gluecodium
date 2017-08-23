@@ -47,8 +47,7 @@ public class JavaNativeInterfacesGeneratorTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
-  private final JavaClass javaClass = new JavaClass("classy");
-  private final JniModel jniModel = new JniModel();
+  private final JniModel jniModel = new JniModel(null, null, new JavaClass("classy"), null);
 
   private final JavaNativeInterfacesGenerator generator =
       new JavaNativeInterfacesGenerator(null, null);
@@ -60,8 +59,6 @@ public class JavaNativeInterfacesGeneratorTest {
         JniHeaderTemplate.class,
         JniImplementationTemplate.class,
         TemplateEngine.class);
-
-    jniModel.javaClass = javaClass;
 
     when(JniNameRules.getHeaderFileName(any())).thenReturn("");
     when(JniNameRules.getImplementationFileName(any())).thenReturn("");
