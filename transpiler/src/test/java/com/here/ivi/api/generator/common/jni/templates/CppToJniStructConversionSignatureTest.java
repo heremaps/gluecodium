@@ -36,11 +36,8 @@ public final class CppToJniStructConversionSignatureTest {
 
   @Before
   public void setUp() {
-    JniModel jniModel = new JniModel();
-    jniModel.javaPackages = PACKAGES;
-    jniModel.cppNameSpaces = PACKAGES;
-    jniModel.cppClassName = OUTER_CLASS_NAME;
-    jniModel.javaClass = new JavaClass(OUTER_CLASS_NAME);
+    JniModel jniModel =
+        new JniModel(OUTER_CLASS_NAME, PACKAGES, new JavaClass(OUTER_CLASS_NAME), PACKAGES);
 
     jniStruct =
         new JniStruct(
