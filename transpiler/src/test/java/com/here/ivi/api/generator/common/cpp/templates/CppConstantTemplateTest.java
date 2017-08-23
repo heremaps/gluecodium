@@ -59,6 +59,6 @@ public final class CppConstantTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppConstant);
 
-    assertEquals("/**\n* nonsense\n*/\n" + EXPECTED_RESULT, result);
+    assertEquals("/**\n * nonsense\n */\n" + EXPECTED_RESULT, result);
   }
 }

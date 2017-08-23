@@ -1,4 +1,4 @@
-{{>cpp/CppDocComment}}
+{{>common/DocComment}}
 class {{name}}{{>cpp/CppInheritance}} {
 {{#if structs}}
 public:
@@ -17,7 +17,7 @@ public:
 {{#if usings}}
 public:
 {{#usings}}
-{{>cpp/CppDocComment}}
+{{>common/DocComment}}
 using {{name}} = {{definition.name}};
 {{/usings}}
 

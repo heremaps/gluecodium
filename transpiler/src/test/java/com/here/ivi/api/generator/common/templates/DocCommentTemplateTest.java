@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.cpp.templates;
+package com.here.ivi.api.generator.common.templates;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,10 +21,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class CppDocCommentTemplateTest {
-
-  private static final String TEMPLATE_NAME = "cpp/CppDocComment";
-
+public final class DocCommentTemplateTest {
+  private static final String TEMPLATE_NAME = "common/DocComment";
   private final CppElement cppElement = new CppElement("");
 
   @Test
@@ -49,7 +47,7 @@ public final class CppDocCommentTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppElement);
 
-    final String expectedResult = "/**\n* nonsense\n*/\n";
+    final String expectedResult = "/**\n * nonsense\n */\n";
     assertEquals(expectedResult, result);
   }
 
@@ -59,7 +57,7 @@ public final class CppDocCommentTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppElement);
 
-    final String expectedResult = "/**\n* complete\n* nonsense\n*/\n";
+    final String expectedResult = "/**\n * complete\n * nonsense\n */\n";
     assertEquals(expectedResult, result);
   }
 }

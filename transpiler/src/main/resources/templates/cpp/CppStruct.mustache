@@ -1,8 +1,8 @@
-{{>cpp/CppDocComment}}
+{{>common/DocComment}}
 struct {{name}} {
 {{#fields}}
 {{#if comment}}
-{{prefixPartial "cpp/CppDocComment" "    "}}
+{{prefixPartial "common/DocComment" "    "}}
 {{/if}}
     {{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
 {{/fields}}

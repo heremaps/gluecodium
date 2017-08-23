@@ -46,7 +46,7 @@ public final class CppTypeDefTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppTypeDef);
 
-    final String expectedResult = "/**\n* nonsense\n*/\n" + EXPECTED_TYPEDEF_RESULT;
+    final String expectedResult = "/**\n * nonsense\n */\n" + EXPECTED_TYPEDEF_RESULT;
     assertEquals(expectedResult, result);
   }
 }
