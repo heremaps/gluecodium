@@ -49,7 +49,7 @@ public final class CppMethodSignatureTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
 
-    assertEquals("/**\n* nonsense\n*/\nvoid methodical(  )", result);
+    assertEquals("/**\n * nonsense\n */\nvoid methodical(  )", result);
   }
 
   @Test

@@ -33,8 +33,8 @@ public final class CppStructTemplateTest {
   private static final String TYPE_NAME = "Typical";
   private static final String EXPECTED_STRUCT_RESULT_FORMAT =
       "struct " + STRUCT_NAME + " {\n%s};\n";
-  private static final String EXPECTED_STRUCT_COMMENT_RESULT = "/**\n* nonsense\n*/\n";
-  private static final String EXPECTED_FIELD_COMMENT_RESULT = "/**\n    * nonsense\n    */\n";
+  private static final String EXPECTED_STRUCT_COMMENT_RESULT = "/**\n * nonsense\n */\n";
+  private static final String EXPECTED_FIELD_COMMENT_RESULT = "/**\n     * nonsense\n     */\n";
   private static final String EXPECTED_FIELD_RESULT_FORMAT =
       "    %s" + TYPE_NAME + " " + FIELD_NAME + "%s;\n";
 

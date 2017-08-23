@@ -30,8 +30,8 @@ public final class CppEnumTemplateTest {
   private static final String ENUM_NAME = "Innumerable";
   private static final String ENUM_ITEM_NAME = "Very";
   private static final String EXPECTED_ENUM_RESULT_FORMAT = "enum " + ENUM_NAME + " {\n%s};\n";
-  private static final String EXPECTED_ENUM_COMMENT_RESULT = "/**\n* nonsense\n*/\n";
-  private static final String EXPECTED_ITEM_COMMENT_RESULT = "/**\n    * nonsense\n    */\n";
+  private static final String EXPECTED_ENUM_COMMENT_RESULT = "/**\n * nonsense\n */\n";
+  private static final String EXPECTED_ITEM_COMMENT_RESULT = "/**\n     * nonsense\n     */\n";
   private static final String EXPECTED_ITEM_RESULT_FORMAT = "    %s" + ENUM_ITEM_NAME + "%s\n";
 
   private final CppEnum cppEnum = new CppEnum(ENUM_NAME);

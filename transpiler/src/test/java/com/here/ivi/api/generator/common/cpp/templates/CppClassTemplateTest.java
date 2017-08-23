@@ -67,7 +67,7 @@ public final class CppClassTemplateTest {
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
     final String expectedResult =
-        "/**\n* nonsense\n*/\n" + String.format(EXPECTED_CLASS_BODY_FORMAT, "", "");
+        "/**\n * nonsense\n */\n" + String.format(EXPECTED_CLASS_BODY_FORMAT, "", "");
     assertEquals(expectedResult, result);
   }
 
