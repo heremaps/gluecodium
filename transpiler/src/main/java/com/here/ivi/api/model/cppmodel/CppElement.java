@@ -16,10 +16,9 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class CppElement implements ModelElement {
-  public String name;
-  public String comment = null;
 
-  public CppElement() {}
+  public final String name;
+  public String comment;
 
   public CppElement(final String name) {
     this.name = name;
@@ -32,8 +31,12 @@ public class CppElement implements ModelElement {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
 
     CppElement that = (CppElement) o;
 

@@ -57,10 +57,11 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  * implementation through the Stub interfaces.
  */
 public final class BaseApiGeneratorSuite implements GeneratorSuite {
+
   private final BaseApiSpecAccessorFactory specAccessorFactory;
   private final BaseApiModelValidator validator;
   private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
-  private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
+  private final FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
       francaModelLoader;
   private Collection<File> currentFiles;
 

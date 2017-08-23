@@ -35,7 +35,7 @@ public class SwiftMethodTemplate {
           }
         };
 
-    List<String> param_calls =
+    List<String> paramCalls =
         swiftMethod
             .parameters
             .stream()
@@ -51,7 +51,7 @@ public class SwiftMethodTemplate {
 
     HashMap<String, Object> returnData = new HashMap<>();
     returnData.put("method", swiftMethod);
-    returnData.put("paramsForBase", param_calls);
+    returnData.put("paramsForBase", paramCalls);
     String generatedCode = TemplateEngine.render(templateToUse.apply(null), returnData);
     String methodReturnType =
         swiftMethod.returnType.name.equals("Data") ? "Data?" : swiftMethod.returnType.name;

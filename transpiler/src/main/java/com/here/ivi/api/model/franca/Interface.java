@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.franca;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import java.util.List;
@@ -25,15 +26,16 @@ import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 /** FInterface with accessor */
 public class Interface<Accessor extends BaseApiSpec.InterfacePropertyAccessor>
     implements FrancaElement<Accessor> {
+
+  private final FInterface francaInterface;
+  private final Accessor accessor;
+  private final ModelInfo model;
+
   private Interface(FInterface francaInterface, Accessor accessor, ModelInfo model) {
     this.francaInterface = francaInterface;
     this.accessor = accessor;
     this.model = model;
   }
-
-  private final FInterface francaInterface;
-  private final Accessor accessor;
-  private final ModelInfo model;
 
   @Override
   public String getName() {
@@ -61,7 +63,9 @@ public class Interface<Accessor extends BaseApiSpec.InterfacePropertyAccessor>
 
   @Override
   public boolean equals(Object o) {
-    if (o == null || !(o instanceof Interface<?>)) return false;
+    if (!(o instanceof Interface<?>)) {
+      return false;
+    }
     Interface<?> co = (Interface<?>) o;
     return getName().equals(co.getName())
         && model.getFModel().getName().equals(co.model.getFModel().getName());
@@ -96,7 +100,7 @@ public class Interface<Accessor extends BaseApiSpec.InterfacePropertyAccessor>
               .collect(Collectors.toList());
 
       if (matches.size() > 1) {
-        throw new RuntimeException("Found multiple Interface matches, aborting.");
+        throw new TranspilerExecutionException("Found multiple Interface matches, aborting.");
       } else if (!matches.isEmpty()) {
         final FDInterface found = matches.get(0);
         francaInterface = found.getTarget();

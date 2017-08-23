@@ -25,7 +25,7 @@ public final class CppDocCommentTemplateTest {
 
   private static final String TEMPLATE_NAME = "cpp/CppDocComment";
 
-  private final CppElement cppElement = new CppElement();
+  private final CppElement cppElement = new CppElement("");
 
   @Test
   public void nullComment() {

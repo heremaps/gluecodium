@@ -17,13 +17,12 @@ public interface CommentFormatter {
 
   enum ParameterType {
     Input,
-    Output,
-    ReturnValue
+    Output
   }
 
   String formatParam(FAnnotationBlock parameterComment, String name, ParameterType type);
 
   String formatTag(String tag, String text);
 
-  String formatComment(String CommentBody);
+  String formatComment(String commentBody);
 }

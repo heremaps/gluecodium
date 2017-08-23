@@ -21,9 +21,10 @@ import com.here.ivi.api.model.swift.SwiftClass;
 import java.util.List;
 
 public class SwiftGenerator {
-  private SwiftNameRules nameRules;
 
-  public SwiftGenerator(SwiftNameRules rules, SwiftIncludeResolver resolver) {
+  private final SwiftNameRules nameRules;
+
+  public SwiftGenerator(SwiftNameRules rules) {
     nameRules = rules;
   }
 

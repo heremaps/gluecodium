@@ -17,13 +17,13 @@ import com.here.ivi.api.generator.common.android.templates.AndroidManifestTempla
 import java.util.ArrayList;
 import java.util.List;
 
-final class AndroidManifestGenerator extends AbstractAndroidGenerator {
+public final class AndroidManifestGenerator extends AbstractAndroidGenerator {
 
   public AndroidManifestGenerator(final List<String> packageList) {
     super(packageList);
   }
 
-  List<GeneratedFile> generate() {
+  public List<GeneratedFile> generate() {
 
     CharSequence fileContent = AndroidManifestTemplate.generate(basePackage);
 

@@ -12,6 +12,7 @@
 package com.here.ivi.api.model.franca;
 
 import com.google.inject.Inject;
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import java.io.*;
 import java.util.*;
@@ -28,10 +29,11 @@ import org.franca.deploymodel.dsl.FDeployPersistenceManager;
 import org.franca.deploymodel.dsl.fDeploy.*;
 
 public class FDHelper {
-  private static Logger logger = Logger.getLogger(FrancaModelLoader.class.getName());
+
+  private static final Logger LOGGER = Logger.getLogger(FrancaModelLoader.class.getName());
 
   private static class FDeplLoader {
-    @Inject public FDeployPersistenceManager m_fdeplLoader;
+    @Inject public FDeployPersistenceManager fdeplLoader;
   }
 
   private static FDModel loadModel(URI uri, FDeployPersistenceManager manager) {
@@ -41,7 +43,7 @@ public class FDHelper {
   public static FDModel loadModel(String uri) {
     FDeplLoader loader = new FDeplLoader();
     ModelHelper.getFdeplInjector().injectMembers(loader);
-    return loadModel(URI.createURI(uri), loader.m_fdeplLoader);
+    return loadModel(URI.createURI(uri), loader.fdeplLoader);
   }
 
   private static List<FDModel> loadModels(Collection<File> fdeplFiles) {
@@ -52,7 +54,7 @@ public class FDHelper {
         .map(
             f -> {
               URI asUri = URI.createFileURI(f.getAbsolutePath());
-              return loadModel(asUri, loader.m_fdeplLoader);
+              return loadModel(asUri, loader.fdeplLoader);
             })
         .collect(Collectors.toList());
   }
@@ -75,7 +77,7 @@ public class FDHelper {
                     FilenameUtils.getExtension(f.getAbsoluteFile().getName())
                         .equals(FrancaModelLoader.FDEPL_SUFFIX))
             .collect(Collectors.toList());
-    logger.info(String.format("Discovery based on %1$d fdepl file(s)", fdeplFiles.size()));
+    LOGGER.info(String.format("Discovery based on %1$d fdepl file(s)", fdeplFiles.size()));
     Collection<FDModel> models = FDHelper.loadModels(fdeplFiles);
     Collection<FDSpecification> specs = FDHelper.findSpecifications(models);
     Set<String> specNames = new HashSet<>();
@@ -87,12 +89,12 @@ public class FDHelper {
       while (spec != null) {
         if (specNames.add(spec.getName())) {
           if (derived != null) {
-            logger.info(
+            LOGGER.info(
                 String.format(
                     "Found usage of spec %1$s which is a base for %2$s",
                     spec.getName(), derived.getName()));
           } else {
-            logger.info("Found usage of spec " + spec.getName());
+            LOGGER.info("Found usage of spec " + spec.getName());
           }
         }
         derived = spec;
@@ -102,7 +104,8 @@ public class FDHelper {
     return specNames;
   }
 
-  static MappingGenericPropertyAccessor createDummyFDElement(FDSpecification spec, EObject obj) {
+  public static MappingGenericPropertyAccessor createDummyFDElement(
+      FDSpecification spec, EObject obj) {
     if (obj instanceof FInterface) {
       FDInterface el = FDeployFactory.eINSTANCE.createFDInterface();
       el.setSpec(spec);
@@ -115,6 +118,6 @@ public class FDHelper {
       return new FDeployedTypeCollection(el);
     }
 
-    throw new RuntimeException("Unknown type");
+    throw new TranspilerExecutionException("Unknown type");
   }
 }

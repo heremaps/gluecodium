@@ -44,7 +44,7 @@ public class TypeConverter {
     }
   }
 
-  static TypeConversion reinterpretCast(CParameter param, String targetType) {
+  public static TypeConversion reinterpretCast(CParameter param, String targetType) {
     return new TypeConverter.TypeConversion(
         param.name, String.format("reinterpret_cast<const %1$s*>(%2$s)", targetType, param.name));
   }
@@ -62,7 +62,7 @@ public class TypeConverter {
         baseApiType.baseTypeIncludes);
   }
 
-  static TypeConversion createReturnValueConversionRoutine(
+  public static TypeConversion createReturnValueConversionRoutine(
       String conversionName, CppTypeInfo baseApiType) {
 
     if ("void".equals(baseApiType.baseType)) {

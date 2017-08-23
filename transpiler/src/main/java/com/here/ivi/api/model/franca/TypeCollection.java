@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.franca;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.SpecAccessorFactory;
 import java.util.List;
@@ -24,6 +25,10 @@ import org.franca.deploymodel.dsl.fDeploy.FDTypes;
 /** FTypeCollection with accessor */
 public class TypeCollection<Accessor extends BaseApiSpec.TypeCollectionPropertyAccessor>
     implements FrancaElement<Accessor> {
+
+  private final FTypeCollection francaTypeCollection;
+  private final Accessor accessor;
+  private final ModelInfo modelInfo;
 
   @Override
   public String getName() {
@@ -47,7 +52,9 @@ public class TypeCollection<Accessor extends BaseApiSpec.TypeCollectionPropertyA
 
   @Override
   public boolean equals(Object o) {
-    if (o == null || !(o instanceof TypeCollection<?>)) return false;
+    if (!(o instanceof TypeCollection<?>)) {
+      return false;
+    }
     TypeCollection<?> co = (TypeCollection<?>) o;
     return getName().equals(co.getName())
         && modelInfo.getFModel().getName().equals(co.modelInfo.getFModel().getName());
@@ -86,7 +93,7 @@ public class TypeCollection<Accessor extends BaseApiSpec.TypeCollectionPropertyA
               .collect(Collectors.toList());
 
       if (matches.size() > 1) {
-        throw new RuntimeException(
+        throw new TranspilerExecutionException(
             "Found multiple deployment types matching the type collection, aborting.");
       } else if (!matches.isEmpty()) {
         final FDTypes found = matches.get(0);
@@ -102,14 +109,10 @@ public class TypeCollection<Accessor extends BaseApiSpec.TypeCollectionPropertyA
     return new TypeCollection<>(francaTypeCollection, accessor, info);
   }
 
-  public TypeCollection(
+  private TypeCollection(
       FTypeCollection francaTypeCollection, Accessor accessor, ModelInfo modelInfo) {
     this.francaTypeCollection = francaTypeCollection;
     this.accessor = accessor;
     this.modelInfo = modelInfo;
   }
-
-  private final FTypeCollection francaTypeCollection;
-  private final Accessor accessor;
-  private final ModelInfo modelInfo;
 }

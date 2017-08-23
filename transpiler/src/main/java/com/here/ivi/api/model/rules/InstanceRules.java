@@ -60,9 +60,10 @@ import org.franca.core.franca.FTypeDef;
  * </code>
  */
 public final class InstanceRules {
-  public static final String BUILTIN_MODEL = "navigation.BuiltIn";
-  public static final String INSTANCE_ID_POSTFIX = "Instance";
-  public static final String INSTANCE_ID_TYPE = "InstanceId";
+
+  private static final String BUILTIN_MODEL = "navigation.BuiltIn";
+  private static final String INSTANCE_ID_POSTFIX = "Instance";
+  private static final String INSTANCE_ID_TYPE = "InstanceId";
 
   /**
    * This method is used in conjunction with navigation.BuiltIn.InstanceId If a typedef is of the
@@ -72,14 +73,11 @@ public final class InstanceRules {
 
     // name must be ending with Instance
     if (typedef.getName() != null && typedef.getName().endsWith(INSTANCE_ID_POSTFIX)) {
-      // it must reference a valid type
+      // it must reference a valid type and it must point to the exact navigation.BuiltIn.InstanceId
       FType target = typedef.getActualType().getDerived();
-      if (target != null) {
-        // and it must point to the exact navigation.BuiltIn.InstanceId
-        if (INSTANCE_ID_TYPE.equals(target.getName())) {
-          DefinedBy defined = DefinedBy.createFromFModelElement(target);
-          return BUILTIN_MODEL.equals(defined.toString());
-        }
+      if (target != null && INSTANCE_ID_TYPE.equals(target.getName())) {
+        DefinedBy defined = DefinedBy.createFromFModelElement(target);
+        return BUILTIN_MODEL.equals(defined.toString());
       }
     }
 

@@ -38,15 +38,15 @@ import org.franca.core.franca.FQualifiedElementRef;
  */
 public class BuiltInValueRules {
 
+  private static final Logger LOGGER =
+      java.util.logging.Logger.getLogger(BuiltInValueRules.class.getName());
+
   // TODO move to shared Helper with CppTypeMapper
   private static final String BUILTIN_MODEL = "navigation.BuiltIn";
 
   private static final String FLOAT_MAX_CONSTANT = "MaxFloat";
   private static final String FLOAT_NAN_CONSTANT = "NaNFloat";
   private static final String DOUBLE_NAN_CONSTANT = "NaNDouble";
-
-  private static final Logger logger =
-      java.util.logging.Logger.getLogger(BuiltInValueRules.class.getName());
 
   public enum BuiltInValues {
     FloatMax,
@@ -67,7 +67,7 @@ public class BuiltInValueRules {
         case DOUBLE_NAN_CONSTANT:
           return Optional.of(BuiltInValues.DoubleNan);
         default:
-          logger.severe("Could not resolve built-in value. Invalid franca definition. " + qer);
+          LOGGER.severe("Could not resolve built-in value. Invalid franca definition. " + qer);
           break;
       }
     }

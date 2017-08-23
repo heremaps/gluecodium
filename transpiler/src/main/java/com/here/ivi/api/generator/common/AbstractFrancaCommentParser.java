@@ -22,17 +22,48 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModelElement;
 
 public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommentParser.Comments> {
+
+  // Everything below needs to be accessible by any class extending this one
+  private FTypeCollectionParser parser;
+
+  protected FModelElement francaElement;
+
+  protected T comments;
+  protected CommentFormatter commentFormatter;
+
+  /* Try to match comment encapsulated between {tag} and {/tag} blocks in the fidl @description
+   * annotation blocks.
+   *
+   * Input strings for pattern matching include '\n' characters, ignored by default when '.' is
+   * used in a regex. In order to be able to replace multi-line fidl tag blocks with
+   * their equivalent doxygen tag (for example {see}Multi-line comment{/see} with @see Multi-line
+   * comment) we need to add Pattern.DOTALL in the pattern.
+   */
+  protected static final Pattern FIDL_COMMENTS_TO_REMOVE =
+      Pattern.compile("\\$\\{generator:\\w*}(.*)\\$\\{/generator}", Pattern.DOTALL);
+
+  /* fidlCommentsToKeep should be a pattern similar to:
+   * "\\$\\{generator:<concrete_generator>\\}(.*)\\$\\{/generator}"
+   * where concrete_generator is the name of in the fidl file of comments that target a specific target.
+   *
+   * For example in the fidl file there can be:
+   * ${generator:legacy}Legacy specific comment${/generator}
+   * ${generator:android}Android specific comment${/generator}
+   * In this case if concrete_generator was "legacy" the generator file would keep the "Legacy specific comment"
+   * and remove the "Android specific comment"
+   *
+   * As a result the actual pattern for this needs to be defined in the implementing class.
+   */
+  protected static Pattern fidlCommentsToKeep;
+
   public static class Comments {
+
+    public String mainBodyText;
+    public String deprecatedText;
+
     public String getMainBodyText() {
       return mainBodyText;
     }
-
-    public String getDeprecatedText() {
-      return deprecatedText;
-    }
-
-    public String mainBodyText = null;
-    public String deprecatedText = null;
   }
 
   public AbstractFrancaCommentParser(final FMethod method, CommentFormatter formatter) {
@@ -64,13 +95,6 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
     void parse();
   }
 
-  @FunctionalInterface
-  protected interface GeneratorSpecificPattern {
-    String match(String fidlText);
-  }
-
-  protected GeneratorSpecificPattern generatorSpecificPattern = null;
-
   /* TODO: This needs to inform the caller in the case there is no annotationBlock.
    * An exception is probably a better idea.
    */
@@ -88,13 +112,13 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
     for (FAnnotation annotation : annotationBlock.getElements()) {
       switch (annotation.getType().getValue()) {
         case FAnnotationType.DESCRIPTION_VALUE:
-          String franca_comment = annotation.getComment();
+          String francaComment = annotation.getComment();
 
           if (fidlCommentsToKeep != null) {
             // Keep generator-specific comments
-            Matcher matcher = fidlCommentsToKeep.matcher(franca_comment);
+            Matcher matcher = fidlCommentsToKeep.matcher(francaComment);
             if (matcher.find()) {
-              franca_comment = matcher.replaceAll("$1");
+              francaComment = matcher.replaceAll("$1");
             }
           }
 
@@ -102,16 +126,10 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
            * ${generator:word} and ${/generator} where word is different than the actual
            * generator running.
            */
-          Matcher matcher = fidlCommentsToRemove.matcher(franca_comment);
-          franca_comment = matcher.replaceAll("");
+          Matcher matcher = FIDL_COMMENTS_TO_REMOVE.matcher(francaComment);
+          francaComment = matcher.replaceAll("");
 
-          // If any class implementing an AbstractFrancaCommentParser needs to match some
-          // specific tags in the fidls they need to create to assign the method doing
-          // the dirty job in generatorSpecificPattern.
-          if (generatorSpecificPattern != null) {
-            franca_comment = generatorSpecificPattern.match(franca_comment);
-          }
-          descriptionBuilder.append(commentFormatter.formatComment(franca_comment));
+          descriptionBuilder.append(commentFormatter.formatComment(francaComment));
           break;
           //noinspection deprecation
         case FAnnotationType.DEPRECATED_VALUE:
@@ -145,34 +163,4 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
   protected abstract void parseBroadcastDocumentation();
 
   protected abstract void parseInterfaceDocumentation();
-
-  // Everything below needs to be accessible by any class extending this one
-  protected FTypeCollectionParser parser;
-
-  protected FModelElement francaElement;
-
-  protected T comments;
-  protected CommentFormatter commentFormatter;
-
-  /* Try to match comment encapsulated between {tag} and {/tag} blocks in the fidl @description
-   * annotation blocks.
-   * Input strings for pattern matching include '\n' characters, ignored by default when '.' is
-   * used in a regex. In order to be able to replace multi-line fidl tag blocks with
-   * their equivalent doxygen tag (for example {see}Multi-line comment{/see} with @see Multi-line
-   * comment) we need to add Pattern.DOTALL in the pattern.
-   */
-  protected static final Pattern fidlCommentsToRemove =
-      Pattern.compile("\\$\\{generator:\\w*}(.*)\\$\\{/generator}", Pattern.DOTALL);
-
-  /* fidlCommentsToKeep should be a pattern similar to:
-   * "\\$\\{generator:<concrete_generator>\\}(.*)\\$\\{/generator}"
-   * where concrete_generator is the name of in the fidl file of comments that target a specific target.
-   * For example in the fidl file there can be:
-   * ${generator:legacy}Legacy specific comment${/generator}
-   * ${generator:android}Android specific comment${/generator}
-   * In this case if concrete_generator was "legacy" the generator file would keep the "Legacy specific comment"
-   * and remove the "Android specific comment"
-   * As a result the actual pattern for this needs to be defined in the implementing class.
-   */
-  protected static Pattern fidlCommentsToKeep;
 }

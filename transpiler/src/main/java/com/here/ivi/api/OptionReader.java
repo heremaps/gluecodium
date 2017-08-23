@@ -21,7 +21,17 @@ import java.util.List;
 import org.apache.commons.cli.*;
 
 public final class OptionReader {
+
+  private final Options options;
+
   public static class TranspilerOptions {
+    private String inputDir;
+    private String outputDir;
+    private List<String> javaPackageList;
+    private boolean stdoutDump;
+    private boolean validateOnly;
+    private List<String> generators;
+
     public String getInputDir() {
       return inputDir;
     }
@@ -45,14 +55,6 @@ public final class OptionReader {
     public boolean isValidatingOnly() {
       return validateOnly;
     }
-
-    protected String inputDir;
-    protected String outputDir;
-    protected List<String> javaPackageList;
-    protected boolean stdoutDump;
-    protected boolean validateOnly;
-
-    protected List<String> generators;
   }
 
   public OptionReader() {
@@ -169,6 +171,4 @@ public final class OptionReader {
     HelpFormatter formatter = new HelpFormatter();
     formatter.printHelp("transpiler [input]", header, options, footer, true);
   }
-
-  private final Options options;
 }

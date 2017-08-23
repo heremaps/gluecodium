@@ -33,9 +33,9 @@ public class CppComplexTypeRef extends CppTypeRef {
   }
 
   public static class Builder {
-    private String fullyQualifiedName = null;
-    Collection<Include> includes = null;
-    private CppTypeInfo typeInfo = null;
+    private String fullyQualifiedName;
+    private Collection<Include> includes;
+    private CppTypeInfo typeInfo;
 
     public Builder(final String fullyQualifiedName) {
       this.fullyQualifiedName = fullyQualifiedName;

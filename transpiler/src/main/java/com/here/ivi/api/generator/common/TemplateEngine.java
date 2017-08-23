@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common;
 
+import com.google.common.annotations.VisibleForTesting;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -31,6 +32,7 @@ public final class TemplateEngine {
    * Usage: {{prefix value "prefix"}}<br>
    * Example: {{prefix comment "// "}}
    */
+  @VisibleForTesting
   static class PrefixHelper extends BasicHelper {
 
     @Override
@@ -56,6 +58,7 @@ public final class TemplateEngine {
    * Usage: {{prefixPartial "partial-name" "prefix"}}<br>
    * Example: {{prefixPartial "common/CopyrightNotice" " // "}}
    */
+  @VisibleForTesting
   static class PrefixPartialHelper extends PrefixHelper {
 
     @Override
@@ -71,6 +74,7 @@ public final class TemplateEngine {
    * Usage: {{joinPartial iterable "partial-name" "separator"}}<br>
    * Example: {{joinPartial parameters "cpp/CppMethodParameter" ", "}}
    */
+  @VisibleForTesting
   static class JoinPartialHelper extends BasicHelper {
 
     @Override

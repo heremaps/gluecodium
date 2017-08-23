@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class CFunction extends CElement {
+
   public final List<? extends CParameter> parameters;
   public final List<TypeConverter.TypeConversion> conversions;
   public final CType returnType;
@@ -37,7 +38,7 @@ public class CFunction extends CElement {
   }
 
   public static class Builder {
-    String name;
+    private final String name;
     private List<? extends CParameter> parameters = emptyList();
     private List<TypeConverter.TypeConversion> conversions = emptyList();
     private CType returnType = CType.VOID;

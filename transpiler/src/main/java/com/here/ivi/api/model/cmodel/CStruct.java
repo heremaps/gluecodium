@@ -17,6 +17,15 @@ import java.util.List;
 
 public class CStruct extends CType {
 
+  public final String baseApiName;
+  public final String createFunctionName;
+  public final String releaseFunctionName;
+  public final CppTypeInfo mappedType;
+  public List<CField> fields = new LinkedList<>();
+
+  private final String fieldSetterNameTemplate;
+  private final String fieldGetterNameTemplate;
+
   public CStruct(String name, String baseName, String baseApiName, CppTypeInfo mappedType) {
     super(name);
     this.baseApiName = baseApiName;
@@ -35,13 +44,4 @@ public class CStruct extends CType {
   public String getNameOfFieldGetter(String fieldName) {
     return String.format(fieldGetterNameTemplate, fieldName);
   }
-
-  public final String baseApiName;
-  public final String createFunctionName;
-  public final String releaseFunctionName;
-  public final CppTypeInfo mappedType;
-  public List<CField> fields = new LinkedList<>();
-
-  private final String fieldSetterNameTemplate;
-  private final String fieldGetterNameTemplate;
 }

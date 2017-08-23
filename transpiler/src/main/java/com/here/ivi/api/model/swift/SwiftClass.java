@@ -17,6 +17,14 @@ import java.util.List;
 
 public final class SwiftClass extends SwiftModelElement {
 
+  public String comment;
+  public final String parentClass;
+  public List<String> implementsProtocols;
+  public List<SwiftProperty> properties;
+  public List<String> imports;
+  public List<SwiftMethod> methods;
+  public String nameSpace;
+
   public SwiftClass(String className, String parentClassName) {
     super(className);
     this.parentClass = parentClassName;
@@ -31,12 +39,4 @@ public final class SwiftClass extends SwiftModelElement {
   public SwiftClass(String className) {
     this(className, null);
   }
-
-  public String comment;
-  public final String parentClass;
-  public List<String> implementsProtocols;
-  public List<SwiftProperty> properties;
-  public List<String> imports;
-  public List<SwiftMethod> methods;
-  public String nameSpace;
 }

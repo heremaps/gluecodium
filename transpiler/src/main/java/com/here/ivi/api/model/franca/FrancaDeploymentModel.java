@@ -20,7 +20,7 @@ import org.franca.deploymodel.dsl.fDeploy.FDModel;
 import org.franca.deploymodel.dsl.fDeploy.FDTypes;
 
 /** Model combining multiple FDModel instances into one. */
-public class FrancaDeploymentModel {
+public final class FrancaDeploymentModel {
 
   private final Set<FDModel> models;
 

@@ -86,7 +86,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
 
     List<GeneratedFile> results = new LinkedList<>();
 
-    if (jniModels == null || jniModels.size() == 0) {
+    if (jniModels == null || jniModels.isEmpty()) {
       return results;
     }
 

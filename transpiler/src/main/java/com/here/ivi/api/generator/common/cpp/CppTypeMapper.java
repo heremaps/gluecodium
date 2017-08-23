@@ -264,7 +264,7 @@ public final class CppTypeMapper {
   private static String createFullyQualifiedName(
       List<String> nestedNameSpecifier, String unqualifiedId) {
     return "::"
-        + (nestedNameSpecifier.size() > 0 ? String.join("::", nestedNameSpecifier) + "::" : "")
+        + (!nestedNameSpecifier.isEmpty() ? String.join("::", nestedNameSpecifier) + "::" : "")
         + unqualifiedId;
   }
 }

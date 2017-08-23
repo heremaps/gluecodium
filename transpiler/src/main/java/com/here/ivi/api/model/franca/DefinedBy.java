@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.franca;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.util.Strings;
@@ -43,7 +44,7 @@ public final class DefinedBy {
     FTypeCollection tc = findDefiningTypeCollection(obj);
 
     if (tc == null || !(tc.eContainer() instanceof FModel)) {
-      throw new RuntimeException(
+      throw new TranspilerExecutionException(
           "Could not resolve root of EObject. Invalid franca definition. " + obj);
     }
 

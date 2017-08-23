@@ -34,7 +34,7 @@ public final class JavaMethod extends JavaElement {
     }
   }
 
-  public String deprecatedComment = null;
+  public String deprecatedComment;
   public final JavaType returnType;
   public Set<MethodQualifier> qualifiers = EnumSet.noneOf(MethodQualifier.class);
   public List<JavaParameter> parameters = new ArrayList<>();

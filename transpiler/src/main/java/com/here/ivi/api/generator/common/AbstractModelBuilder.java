@@ -33,7 +33,7 @@ import org.franca.core.franca.FUnionType;
 public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   private final ModelBuilderContextStack<E> contextStack;
-  private ModelBuilderContext<E> resultContext = null;
+  private ModelBuilderContext<E> resultContext;
 
   protected AbstractModelBuilder(final ModelBuilderContextStack<E> contextStack) {
     this.contextStack = contextStack;

@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class JavaClass extends JavaElement {
+
   public enum ClassQualifier {
     STATIC("static"),
     FINAL("final");
@@ -35,7 +36,7 @@ public class JavaClass extends JavaElement {
   public JavaPackage javaPackage = JavaPackage.DEFAULT;
   public Set<JavaMethod> methods = new LinkedHashSet<>();
   public Set<JavaField> fields = new LinkedHashSet<>();
-  public JavaInheritance inheritance = null;
+  public JavaInheritance inheritance;
   public Set<JavaConstant> constants = new LinkedHashSet<>();
   public Set<JavaEnum> enums = new LinkedHashSet<>();
   public Set<JavaClass> innerClasses = new LinkedHashSet<>();

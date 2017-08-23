@@ -14,7 +14,6 @@ package com.here.ivi.api.model.cppmodel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,15 +23,6 @@ import org.junit.runners.JUnit4;
 public final class CppElementTest {
 
   private static final String TEST_NAME = "name";
-
-  @Test
-  public void newCppElement() {
-    // Arrange, act
-    CppElement cppElement = new CppElement();
-
-    // Assert
-    assertNull(cppElement.name);
-  }
 
   @Test
   public void newCppElementWithName() {

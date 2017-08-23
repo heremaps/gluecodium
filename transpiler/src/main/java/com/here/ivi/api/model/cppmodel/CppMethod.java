@@ -20,6 +20,11 @@ import java.util.stream.Stream;
 
 public final class CppMethod extends CppElementWithIncludes {
 
+  public final CppTypeRef returnType;
+  public final Set<Specifier> specifiers;
+  public final Set<Qualifier> qualifiers;
+  public final List<CppParameter> parameters;
+
   public enum Specifier {
     EXPLICIT("explicit"),
     INLINE("inline"),
@@ -56,18 +61,13 @@ public final class CppMethod extends CppElementWithIncludes {
   }
 
   private CppMethod(Builder builder) {
-    this.name = builder.name;
+    super(builder.name);
     this.comment = builder.methodComment;
     this.returnType = builder.returnType;
     this.specifiers = builder.specifiers;
     this.qualifiers = builder.qualifiers;
     this.parameters = builder.parameters;
   }
-
-  public final CppTypeRef returnType;
-  public final Set<Specifier> specifiers;
-  public final Set<Qualifier> qualifiers;
-  public final List<CppParameter> parameters;
 
   @Override
   public boolean equals(Object other) {
@@ -98,9 +98,10 @@ public final class CppMethod extends CppElementWithIncludes {
     private final String name;
     private String methodComment;
     private CppTypeRef returnType = CppPrimitiveTypeRef.VOID_TYPE;
-    private Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
-    private Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
-    private List<CppParameter> parameters = new ArrayList<>();
+
+    private final Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
+    private final Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
+    private final List<CppParameter> parameters = new ArrayList<>();
 
     public Builder(String name) {
       this.name = name;
