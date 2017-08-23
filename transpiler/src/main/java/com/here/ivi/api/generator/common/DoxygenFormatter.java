@@ -16,6 +16,23 @@ import java.util.regex.Pattern;
 import org.franca.core.franca.*;
 
 public final class DoxygenFormatter implements CommentFormatter {
+
+  /**
+   * This needs to be overwritten by each generator if they need to keep some doxygen Comments: for
+   * example it needs to be set to:
+   * Pattern.compile("\\$\\{(?<tag>\\w*)(:legacy)*?\\}(?<comment>.+?)\\$\\{/\\w*\\}",
+   * Pattern.DOTALL); in the legacy generator in order to keep any tags meant only for the legacy
+   * generator
+   */
+  private final Pattern doxygenTagsToKeep;
+
+  /**
+   * Match any {fullword}Doxygen comment{/fullword} from the fidl @description tags. This matches
+   * both ${tag} and ${tag:<generator_specific>}.
+   */
+  private static final Pattern DOXYGEN_TAGS_TO_REMOVE =
+      Pattern.compile(" *\\$\\{\\w*:\\w*}.*\\$\\{/\\w*} *", Pattern.DOTALL);
+
   public DoxygenFormatter(String generator) {
     doxygenTagsToKeep =
         Pattern.compile(
@@ -60,16 +77,6 @@ public final class DoxygenFormatter implements CommentFormatter {
     return cleanUpFrancaComment(res);
   }
 
-  public String formatWithTag(String tag, FModelElement element) {
-    FAnnotationBlock comment = element.getComment();
-    if (comment == null) {
-      // TODO warn about missing documentation
-      return "";
-    }
-
-    return formatWithTag(tag, comment);
-  }
-
   private String formatWithTag(String tag, FAnnotationBlock comment) {
     return formatTag(tag, cleanUpFrancaComment(readDescription(comment)));
   }
@@ -77,11 +84,6 @@ public final class DoxygenFormatter implements CommentFormatter {
   // TODO move to baseapicommentparsethingie
   public String readCleanedErrorComment(FMethod method) {
     return cleanUpFrancaComment(readDescription(method.getErrorComment()));
-  }
-
-  // TODO move to baseapicommentparsethingie
-  public String readCleanedComment(FModelElement element) {
-    return cleanUpFrancaComment(readDescription(element.getComment()));
   }
 
   private String cleanUpFrancaComment(String comment) {
@@ -93,7 +95,7 @@ public final class DoxygenFormatter implements CommentFormatter {
     // keep all remaining ${doxygenTag}Text${/doxygenTag} and ${doxygenTag:<generator>} with @doxygenTag Text
     String result = doxygenTagsToKeep.matcher(comment).replaceAll("@${tag}${comment}");
     // and drop all ${doxygenTag:<other_generators>} tags
-    result = doxygenTagsToRemove.matcher(result).replaceAll(" ");
+    result = DOXYGEN_TAGS_TO_REMOVE.matcher(result).replaceAll(" ");
 
     // remove also trailing whitespaces and return
     return result.replaceAll("\\s+\n", "\n").trim();
@@ -115,20 +117,4 @@ public final class DoxygenFormatter implements CommentFormatter {
     // TODO warn about missing documentation
     return "";
   }
-
-  /**
-   * This needs to be overwritten by each generator if they need to keep some doxygen Comments: for
-   * example it needs to be set to:
-   * Pattern.compile("\\$\\{(?<tag>\\w*)(:legacy)*?\\}(?<comment>.+?)\\$\\{/\\w*\\}",
-   * Pattern.DOTALL); in the legacy generator in order to keep any tags meant only for the legacy
-   * generator
-   */
-  private final Pattern doxygenTagsToKeep;
-
-  /**
-   * Match any {fullword}Doxygen comment{/fullword} from the fidl @description tags. This matches
-   * both ${tag} and ${tag:<generator_specific>}.
-   */
-  private static final Pattern doxygenTagsToRemove =
-      Pattern.compile(" *\\$\\{\\w*:\\w*}.*\\$\\{/\\w*} *", Pattern.DOTALL);
 }

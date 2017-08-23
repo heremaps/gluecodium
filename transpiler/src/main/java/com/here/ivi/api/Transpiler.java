@@ -29,7 +29,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class Transpiler {
-  private static final Logger logger = Logger.getLogger(Transpiler.class.getName());
+
+  private static final Logger LOGGER = Logger.getLogger(Transpiler.class.getName());
 
   private final OptionReader.TranspilerOptions options;
   private final Version version;
@@ -63,7 +64,7 @@ public final class Transpiler {
       if (previousEntry == null) {
         fileNamesCache.put(path, generatorName);
       } else {
-        logger.severe(
+        LOGGER.severe(
             String.format(
                 "Generator '%s' is overwriting file %s created already by '%s' ",
                 generatorName, path, previousEntry));
@@ -80,17 +81,17 @@ public final class Transpiler {
     Map<String, String> fileNamesCache = new HashMap<>();
 
     for (String sn : generators) {
-      logger.info("Using generator " + sn);
+      LOGGER.info("Using generator " + sn);
 
       try {
         GeneratorSuite generator = GeneratorSuite.instantiateByShortName(sn, options);
-        logger.info("Instantiated generator " + generator.getName());
+        LOGGER.info("Instantiated generator " + generator.getName());
 
         generator.buildModel(options.getInputDir());
-        logger.info("Built franca model");
+        LOGGER.info("Built franca model");
 
         boolean valid = generator.validate();
-        logger.info(valid ? "Validation Succeeded" : "Validation Failed");
+        LOGGER.info(valid ? "Validation Succeeded" : "Validation Failed");
 
         if (options.isValidatingOnly()) {
           succeeded = succeeded && valid;
@@ -109,7 +110,7 @@ public final class Transpiler {
           | InstantiationException
           | NoSuchMethodException
           | InvocationTargetException e) {
-        logger.severe("Failed instantiation of generator '" + sn + "'");
+        LOGGER.severe("Failed instantiation of generator '" + sn + "'");
         succeeded = false;
       }
     }
@@ -120,22 +121,22 @@ public final class Transpiler {
   private List<String> discoverGenerators() {
     List<String> generators = options.getGenerators();
     if (generators != null) {
-      logger.info("Following generators were specified on command line: " + generators);
+      LOGGER.info("Following generators were specified on command line: " + generators);
       return generators;
     }
-    logger.info("No generators specified, using auto-discovery");
+    LOGGER.info("No generators specified, using auto-discovery");
     List<String> availableGenerators = GeneratorSuite.generatorShortNames();
     try {
       generators = GeneratorSuite.generatorsFromFdepl(options);
       if (generators.isEmpty()) {
-        logger.info(
+        LOGGER.info(
             "No generators discovered, switching to use all available: " + availableGenerators);
       }
     } catch (NoSuchMethodException
         | InstantiationException
         | IllegalAccessException
         | InvocationTargetException e) {
-      logger.warning(
+      LOGGER.warning(
           "Auto-discovery failed, using all available generators: " + availableGenerators);
     }
     if (generators == null || generators.isEmpty()) {
@@ -151,7 +152,7 @@ public final class Transpiler {
         ConsoleOutput co = new ConsoleOutput();
         co.output(files);
       } catch (IOException ignored) {
-        logger.severe("Cannot open console for output");
+        LOGGER.severe("Cannot open console for output");
         return false;
       }
     }
@@ -162,7 +163,7 @@ public final class Transpiler {
         FileOutput fo = new FileOutput(new File(outdir));
         fo.output(files);
       } catch (IOException ignored) {
-        logger.severe("Cannot open output directory " + outdir + " for writing");
+        LOGGER.severe("Cannot open output directory " + outdir + " for writing");
         return false;
       }
     }
@@ -184,9 +185,9 @@ public final class Transpiler {
       OptionReader.TranspilerOptions options = or.read(args);
       status = (options == null || new Transpiler(options).execute()) ? 0 : 1;
     } catch (TranspilerExecutionException e) {
-      logger.log(Level.SEVERE, "Running Transpiler failed!", e);
+      LOGGER.log(Level.SEVERE, "Running Transpiler failed!", e);
     } catch (OptionReaderException e) {
-      logger.severe("Failed reading options: " + e.getMessage());
+      LOGGER.severe("Failed reading options: " + e.getMessage());
       or.printUsage();
     }
 

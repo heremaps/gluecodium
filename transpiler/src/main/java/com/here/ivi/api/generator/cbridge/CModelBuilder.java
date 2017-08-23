@@ -11,11 +11,8 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.STRUCT;
-import static com.here.ivi.api.generator.cbridge.TypeConverter.createParamConversionRoutine;
 import static java.lang.Math.toIntExact;
 import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toList;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
@@ -39,6 +36,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
@@ -121,7 +119,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     CppTypeInfo typeInfo = CTypeMapper.mapType(rootModel, francaArgument.getType());
     String francaArgumentName = francaArgument.getName();
     List<CParameter> cParams = constructCParameters(francaArgumentName, typeInfo);
-    cParams.get(0).conversion = createParamConversionRoutine(francaArgumentName, cParams, typeInfo);
+    cParams.get(0).conversion =
+        TypeConverter.createParamConversionRoutine(francaArgumentName, cParams, typeInfo);
     cParams.forEach(this::storeResult);
     closeContext();
   }
@@ -153,7 +152,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     storeResult(createStructReleaseFunction(cStruct));
     for (CField field : cStruct.fields) {
       storeResult(createStructFieldGetter(cStruct, field));
-      if (field.type.typeCategory != STRUCT) {
+      if (field.type.typeCategory != CppTypeInfo.TypeCategory.STRUCT) {
         storeResult(createStructFieldSetter(cStruct, field));
       }
     }
@@ -221,8 +220,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   private String createCallTemplateForFieldSetter(CField field) {
     StringBuilder template = new StringBuilder();
-    template.append("get_pointer(%1$s)->");
-    template.append(field.name);
+    template.append("get_pointer(%1$s)->").append(field.name);
     switch (field.type.typeCategory) {
       case BUILTIN_BYTEBUFFER:
         template.append(".assign(%2$s, %2$s + %3$s)");
@@ -232,6 +230,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         break;
       default:
         template.append(" =  %2$s");
+        break;
     }
     return template.toString();
   }
@@ -244,7 +243,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
                 new CInParameter(
                     name + cppTypeInfo.paramSuffixes.get(index),
                     cppTypeInfo.cTypesNeededByConstructor.get(index)))
-        .collect(toList());
+        .collect(Collectors.toList());
   }
 
   private CFunction createGetLengthFunction(String baseName, CppTypeInfo cppTypeInfo) {
@@ -300,14 +299,12 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         .build();
   }
 
-  private String functionCallTemplateForNParams(
+  private static String functionCallTemplateForNParams(
       String functionName, int numberOfFunctionParameters) {
-    return new StringBuilder()
-        .append(functionName)
-        .append("(")
-        .append(String.join(", ", Collections.nCopies(numberOfFunctionParameters, "%s")))
-        .append(")")
-        .toString();
+    return functionName
+        + "("
+        + String.join(", ", Collections.nCopies(numberOfFunctionParameters, "%s"))
+        + ")";
   }
 
   private Set<Include> collectImplementationIncludes(CInterface cInterface) {

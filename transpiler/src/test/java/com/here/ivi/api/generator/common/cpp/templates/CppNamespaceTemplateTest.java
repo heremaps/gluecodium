@@ -46,7 +46,7 @@ public final class CppNamespaceTemplateTest {
   private final CppTypeDef cppTypeDef = new CppTypeDef("Definite", cppComplexTypeRef);
   private final CppEnum cppEnum = new CppEnum("Innumerable");
   private final CppStruct cppStruct = new CppStruct("Structural");
-  private final CppClass cppClass = new CppClass("Classy");
+  private final CppClass cppClass = new CppClass.Builder("Classy").build();
 
   private final CppNamespace cppNamespace =
       new CppNamespace(Collections.singletonList("outerSpace"));
@@ -189,7 +189,7 @@ public final class CppNamespaceTemplateTest {
   @Test
   public void namespaceWithTwoClasses() {
     cppNamespace.members.add(cppClass);
-    cppNamespace.members.add(new CppClass("Classified"));
+    cppNamespace.members.add(new CppClass.Builder("Classified").build());
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
 

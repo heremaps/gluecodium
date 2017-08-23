@@ -54,7 +54,7 @@ public class CBridgeGenerator {
     return TemplateEngine.render("cbridge/FileHeader", dataObject);
   }
 
-  CInterface buildCBridgeModel(Interface<?> anInterface) {
+  public CInterface buildCBridgeModel(Interface<?> anInterface) {
     CModelBuilder modelBuilder = new CModelBuilder(anInterface);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 

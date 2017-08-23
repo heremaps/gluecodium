@@ -62,7 +62,7 @@ public class CppGeneratorTest {
 
   @Test
   public void generateWithNonEmptyModel() {
-    cppModel.members.add(new CppElement());
+    cppModel.members.add(new CppElement(""));
 
     GeneratedFile generatedFile =
         cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
@@ -73,7 +73,7 @@ public class CppGeneratorTest {
 
   @Test
   public void generatePreservesCopyrightNotice() {
-    cppModel.members.add(new CppElement());
+    cppModel.members.add(new CppElement(""));
 
     GeneratedFile generatedFile =
         cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);

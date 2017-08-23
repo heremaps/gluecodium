@@ -18,21 +18,16 @@ import java.util.stream.Stream;
 public class CppClass extends CppElement {
 
   // TODO APIGEN-126: use a builder for CppClass for all these fields and make them private final
-  public Set<CppMethod> methods = new LinkedHashSet<>();
-  public Set<CppUsing> usings = new LinkedHashSet<>();
-  public Set<CppField> fields = new LinkedHashSet<>();
-  public Set<CppInheritance> inheritances = new LinkedHashSet<>();
-  public Set<CppStruct> structs = new LinkedHashSet<>();
-  public Set<CppConstant> constants = new LinkedHashSet<>();
-  public Set<CppEnum> enums = new LinkedHashSet<>();
-
-  // TODO APIGEN-126: remove this constructor when builder is done
-  public CppClass(String name) {
-    super(name);
-  }
+  public final Set<CppMethod> methods;
+  public final Set<CppUsing> usings;
+  public final Set<CppField> fields;
+  public final Set<CppInheritance> inheritances;
+  public final Set<CppStruct> structs;
+  public final Set<CppConstant> constants;
+  public final Set<CppEnum> enums;
 
   private CppClass(Builder builder) {
-    this.name = builder.name;
+    super(builder.name);
     this.comment = builder.comment;
     this.methods = builder.methods;
     this.usings = builder.usings;
@@ -62,15 +57,15 @@ public class CppClass extends CppElement {
   public static class Builder {
 
     private final String name;
-
     private String comment;
-    private Set<CppMethod> methods = new LinkedHashSet<>();
-    private Set<CppUsing> usings = new LinkedHashSet<>();
-    private Set<CppField> fields = new LinkedHashSet<>();
-    private Set<CppInheritance> inheritances = new LinkedHashSet<>();
-    private Set<CppStruct> structs = new LinkedHashSet<>();
-    private Set<CppConstant> constants = new LinkedHashSet<>();
-    private Set<CppEnum> enums = new LinkedHashSet<>();
+
+    private final Set<CppMethod> methods = new LinkedHashSet<>();
+    private final Set<CppUsing> usings = new LinkedHashSet<>();
+    private final Set<CppField> fields = new LinkedHashSet<>();
+    private final Set<CppInheritance> inheritances = new LinkedHashSet<>();
+    private final Set<CppStruct> structs = new LinkedHashSet<>();
+    private final Set<CppConstant> constants = new LinkedHashSet<>();
+    private final Set<CppEnum> enums = new LinkedHashSet<>();
 
     public Builder(String name) {
       this.name = name;

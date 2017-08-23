@@ -58,11 +58,24 @@ public class FrancaModelLoader<
     IA extends BaseApiSpec.InterfacePropertyAccessor,
     TA extends BaseApiSpec.TypeCollectionPropertyAccessor> {
 
+  private static final Logger LOGGER = Logger.getLogger(FrancaModelLoader.class.getName());
+
   private static final String FIDL_SUFFIX = "fidl";
   public static final String FDEPL_SUFFIX = "fdepl";
   public static final URI ROOT_URI = URI.createURI("classpath:/");
 
-  private static Logger logger = Logger.getLogger(FrancaModelLoader.class.getName());
+  private final SpecAccessorFactory<IA, TA> specAccessorFactory;
+  @Inject private FDeployPersistenceManager fdeplLoader;
+  @Inject private FrancaPersistenceManager fidlLoader;
+  @Inject private Provider<ResourceSet> resourceSetProvider;
+
+  public FrancaModelLoader(SpecAccessorFactory<IA, TA> specAccessorFactory) {
+    this.specAccessorFactory = specAccessorFactory;
+  }
+
+  public Provider<ResourceSet> getResourceSetProvider() {
+    return resourceSetProvider;
+  }
 
   // finds all fidl and fdepl files
   public static Collection<File> listFilesRecursively(File path) {
@@ -97,9 +110,10 @@ public class FrancaModelLoader<
                 f -> {
                   try {
                     return f.getCanonicalFile();
-                  } // this throws, which is not supported by the streams apis
+                  } // this throws, which is not supported by the streams APIs
                   catch (IOException e) {
-                    throw new RuntimeException(e);
+                    throw new TranspilerExecutionException(
+                        "getCanonicalFile() failed for file " + f.toString(), e);
                   }
                 })
             .collect(Collectors.groupingBy(fileSuffix));
@@ -124,7 +138,7 @@ public class FrancaModelLoader<
           imports.add(resolved);
         } catch (IOException ignored) {
           throw new TranspilerExecutionException(
-              String.format("Could not resolve import %s in %s.", u, baseResource));
+              String.format("Could not resolve import %s in %s.", u, baseResource), ignored);
         }
       }
     }
@@ -136,7 +150,7 @@ public class FrancaModelLoader<
     FDModel model = fdeplLoader.loadModel(URI.createURI(uri), ROOT_URI);
 
     if (model.getSpecifications().isEmpty()) {
-      throw new RuntimeException("Could not load spec: " + uri + ".");
+      throw new TranspilerExecutionException("Could not load spec: " + uri + ".");
     }
 
     return model.getSpecifications().get(0);
@@ -145,7 +159,7 @@ public class FrancaModelLoader<
   // builds a lists of FrancaModels for all the fidl & fdepl provided
   public FrancaModel<IA, TA> load(String specPath, Collection<File> targetFiles) {
     final FDSpecification spec = loadSpecification(specPath);
-    logger.log(Level.INFO, "Loaded specification " + spec.getName());
+    LOGGER.log(Level.INFO, "Loaded specification " + spec.getName());
 
     Map<String, List<File>> bySuffix = separateFiles(targetFiles);
 
@@ -158,7 +172,7 @@ public class FrancaModelLoader<
                 f -> {
                   URI asUri = URI.createFileURI(f.getAbsolutePath());
                   FDModel fdmodel = fdeplLoader.loadModel(asUri, ROOT_URI);
-                  logger.log(Level.FINE, "Loading fdepl" + asUri);
+                  LOGGER.log(Level.FINE, "Loading fdepl" + asUri);
                   return fdmodel;
                 })
             .collect(toSet());
@@ -182,30 +196,16 @@ public class FrancaModelLoader<
             .map(
                 f -> {
                   URI asUri = URI.createFileURI(f.getAbsolutePath());
-                  logger.log(Level.FINE, "Loading fidl " + asUri);
+                  LOGGER.log(Level.FINE, "Loading fidl " + asUri);
                   return fidlLoader.loadModel(asUri, ROOT_URI);
                 })
             .map(
                 fm -> {
                   // try to fetch additional data, wrap in FrancaModel
-                  File resPath = new File(fm.eResource().getURI().toFileString());
                   return FrancaModel.create(specAccessorFactory, spec, fm, deploymentModel);
                 })
             .collect(Collectors.toList());
 
     return FrancaModel.joinModels(models);
   }
-
-  public FrancaModelLoader(SpecAccessorFactory<IA, TA> specAccessorFactory) {
-    this.specAccessorFactory = specAccessorFactory;
-  }
-
-  public Provider<ResourceSet> getResourceSetProvider() {
-    return resourceSetProvider;
-  }
-
-  private final SpecAccessorFactory<IA, TA> specAccessorFactory;
-  @Inject private FDeployPersistenceManager fdeplLoader;
-  @Inject private FrancaPersistenceManager fidlLoader;
-  @Inject private Provider<ResourceSet> resourceSetProvider;
 }

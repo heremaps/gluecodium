@@ -53,17 +53,16 @@ public final class SwiftGeneratorSuite implements GeneratorSuite {
   public List<GeneratedFile> generate() {
     SwiftNameRules swiftNameRules = new SwiftNameRules();
     CBridgeNameRules cBridgeNameRules = new CBridgeNameRules();
-    SwiftIncludeResolver includeResolver = new SwiftIncludeResolver();
 
     // TODO: APIGEN-108 Add all other possible generators and call them here
 
-    SwiftGenerator swiftGenerator = new SwiftGenerator(swiftNameRules, includeResolver);
-    CBridgeGenerator cBrigdeGenerator = new CBridgeGenerator(cBridgeNameRules);
+    SwiftGenerator swiftGenerator = new SwiftGenerator(swiftNameRules);
+    CBridgeGenerator cBridgeGenerator = new CBridgeGenerator(cBridgeNameRules);
 
     Stream<GeneratedFile> swiftStream =
         model.getInterfaces().stream().map(swiftGenerator::generate).flatMap(Collection::stream);
     Stream<GeneratedFile> cBridgeStream =
-        model.getInterfaces().stream().map(cBrigdeGenerator::generate).flatMap(Collection::stream);
+        model.getInterfaces().stream().map(cBridgeGenerator::generate).flatMap(Collection::stream);
 
     return concat(swiftStream, cBridgeStream).filter(Objects::nonNull).collect(toList());
   }

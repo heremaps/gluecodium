@@ -13,6 +13,13 @@ package com.here.ivi.api.model.swift;
 
 public class SwiftProperty extends SwiftModelElement {
 
+  public Visibility visibility;
+  public Atomicity atomicity;
+  public Accessibility accessibility;
+  public MemoryBehaviour memoryBehaviour;
+  public Nullability nullability;
+  public SwiftType type;
+
   public SwiftProperty(String propertyName) {
     super(propertyName);
   }
@@ -42,11 +49,4 @@ public class SwiftProperty extends SwiftModelElement {
     NULLABLE,
     NONNULL
   }
-
-  public Visibility visibility;
-  public Atomicity atomicity;
-  public Accessibility accessibility;
-  public MemoryBehaviour memoryBehaviour;
-  public Nullability nullability;
-  public SwiftType type;
 }

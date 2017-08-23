@@ -26,6 +26,9 @@ public class FrancaModel<
     InterfaceAccessor extends BaseApiSpec.InterfacePropertyAccessor,
     TypeCollectionAccessor extends BaseApiSpec.TypeCollectionPropertyAccessor> {
 
+  private final ImmutableList<Interface<InterfaceAccessor>> interfaces;
+  private final ImmutableList<TypeCollection<TypeCollectionAccessor>> typeCollections;
+
   // creates a FrancaModel from the given FModel & FDModel,
   // ensuring that there are PropertyAccessors for each element
   public static <
@@ -89,10 +92,6 @@ public class FrancaModel<
     return typeCollections;
   }
 
-  public Optional<? extends FrancaElement<?>> find(DefinedBy definer) {
-    return find(definer.model, definer.type);
-  }
-
   public Optional<? extends FrancaElement<?>> find(FModel model, FTypeCollection needle) {
     return needle instanceof FInterface
         ? findInterface(model, (FInterface) needle)
@@ -119,7 +118,4 @@ public class FrancaModel<
                     && i.getModelInfo().getName().equals(model.getName()))
         .findFirst();
   }
-
-  private final ImmutableList<Interface<InterfaceAccessor>> interfaces;
-  private final ImmutableList<TypeCollection<TypeCollectionAccessor>> typeCollections;
 }

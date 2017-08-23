@@ -61,8 +61,12 @@ public class CType extends CElement {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
 
     CType that = (CType) o;
     return name.equals(that.name) && isConst == that.isConst;

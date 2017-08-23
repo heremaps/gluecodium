@@ -24,7 +24,6 @@ import static extension com.here.ivi.api.generator.utils.LoadModelHelper.extract
 
 class SwiftGeneratorIntegrationTest {
     @Mock private SwiftNameRules nameRules
-    @Mock private SwiftIncludeResolver includeResolver
     private static val TEST_FIDL_FILE = "swift/fidl/test/SwiftGeneratorTest.fdepl"
     private val francaModel = readInFrancaModel(TEST_FIDL_FILE, new BaseApiSpecAccessorFactory)
     private extension SwiftGenerator generator
@@ -35,7 +34,7 @@ class SwiftGeneratorIntegrationTest {
     @Before
     def void setUp() {
         initMocks;
-        generator = new SwiftGenerator(nameRules, includeResolver)
+        generator = new SwiftGenerator(nameRules)
         when(nameRules.getClassName(any())).thenReturn(CLASS_NAME)
         when(nameRules.getMethodName(any())).thenReturn(METHOD_NAME)
         when(nameRules.getParameterName(any())).thenReturn(PARAM_NAME)

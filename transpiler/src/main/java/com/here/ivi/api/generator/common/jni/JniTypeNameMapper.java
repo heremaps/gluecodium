@@ -38,11 +38,9 @@ public final class JniTypeNameMapper {
     } else if (javaType instanceof JavaPrimitiveType) {
       JavaPrimitiveType javaPrimitiveType = (JavaPrimitiveType) javaType;
       if (JavaPrimitiveType.TYPES.contains(javaPrimitiveType.type)) {
-        if (javaPrimitiveType.type == Type.VOID) {
-          return "void";
-        }
-
-        return "j" + javaPrimitiveType.type.getValue();
+        return javaPrimitiveType.type != Type.VOID
+            ? "j" + javaPrimitiveType.type.getValue()
+            : "void";
       }
     }
     throw new IllegalArgumentException(

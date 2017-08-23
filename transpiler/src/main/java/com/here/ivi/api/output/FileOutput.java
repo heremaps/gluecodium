@@ -22,13 +22,13 @@ import java.util.logging.Logger;
 
 public class FileOutput implements GeneratorOutput {
 
-  private static final Logger logger = Logger.getLogger(FileOutput.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(FileOutput.class.getName());
+
+  private final File rootPath;
 
   public FileOutput(File rootPath) throws IOException {
-    if (!rootPath.exists()) {
-      if (!rootPath.mkdir()) {
-        throw new FileNotFoundException(rootPath.getPath() + " (Can't create output directory)");
-      }
+    if (!rootPath.exists() && !rootPath.mkdir()) {
+      throw new FileNotFoundException(rootPath.getPath() + " (Can't create output directory)");
     }
     this.rootPath = rootPath;
   }
@@ -44,7 +44,7 @@ public class FileOutput implements GeneratorOutput {
 
     // write file
     File targetFile = new File(rootPath, file.targetFile.getPath());
-    logger.log(Level.INFO, "Writing " + targetFile);
+    LOGGER.log(Level.INFO, "Writing " + targetFile);
 
     // create missing path(s)
     Path path = Paths.get(targetFile.getParent());
@@ -56,6 +56,4 @@ public class FileOutput implements GeneratorOutput {
     bufferedWriter.write(file.content.toString());
     bufferedWriter.close();
   }
-
-  private final File rootPath;
 }

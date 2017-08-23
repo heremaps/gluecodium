@@ -19,7 +19,7 @@ import java.util.List;
 
 public class JniMethod implements JniElement {
 
-  public JniModel owningModel = null;
+  public JniModel owningModel;
 
   public String javaMethodName;
   public JavaType javaReturnType;

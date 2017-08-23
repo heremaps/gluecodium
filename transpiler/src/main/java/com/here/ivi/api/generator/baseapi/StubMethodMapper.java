@@ -31,6 +31,9 @@ import org.franca.core.franca.FMethod;
  */
 public final class StubMethodMapper {
 
+  private static final Include EXPECTED_INCLUDE =
+      Include.createSystemInclude("cpp/internal/expected.h");
+
   public static class ReturnTypeData {
     public final CppTypeRef type;
     public final String comment;
@@ -40,9 +43,6 @@ public final class StubMethodMapper {
       this.comment = comment;
     }
   }
-
-  private static final Include EXPECTED_INCLUDE =
-      Include.createSystemInclude("cpp/internal/expected.h");
 
   public static ReturnTypeData mapMethodReturnType(
       FMethod francaMethod, FrancaElement<?> rootModel) {

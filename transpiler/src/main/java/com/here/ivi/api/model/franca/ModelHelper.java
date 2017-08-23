@@ -15,10 +15,10 @@ import com.google.inject.Injector;
 import org.franca.deploymodel.dsl.FDeployStandaloneSetup;
 
 public class ModelHelper {
-  private static final Injector fdeplInjector =
+  private static final Injector FDEPL_INJECTOR =
       new FDeployStandaloneSetup().createInjectorAndDoEMFRegistration();
 
   public static Injector getFdeplInjector() {
-    return fdeplInjector;
+    return FDEPL_INJECTOR;
   }
 }

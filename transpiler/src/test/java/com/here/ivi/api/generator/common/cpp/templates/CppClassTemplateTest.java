@@ -50,7 +50,7 @@ public final class CppClassTemplateTest {
   private final CppMethod cppMethod = new CppMethod.Builder("methodical").build();
   private final CppField cppField = new CppField(cppPrimitiveTypeRef, "flowers");
 
-  private final CppClass cppClass = new CppClass("Classy");
+  private final CppClass cppClass = new CppClass.Builder("Classy").build();
 
   @Test
   public void emptyClass() {

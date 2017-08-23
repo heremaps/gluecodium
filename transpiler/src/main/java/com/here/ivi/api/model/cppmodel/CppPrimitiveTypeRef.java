@@ -17,6 +17,8 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
 
   public static final CppPrimitiveTypeRef VOID_TYPE = new CppPrimitiveTypeRef(Type.VOID);
 
+  public final Type type;
+
   public enum Type {
     VOID("void"),
     BOOL("bool"),
@@ -42,8 +44,6 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
     }
   }
 
-  public final Type type;
-
   public CppPrimitiveTypeRef(final Type type) {
     super(type.getValue());
     this.type = type;
@@ -67,8 +67,12 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     if (!super.equals(o)) return false;
 
     CppPrimitiveTypeRef that = (CppPrimitiveTypeRef) o;

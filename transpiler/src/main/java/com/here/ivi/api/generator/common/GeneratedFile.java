@@ -15,6 +15,9 @@ import java.io.File;
 
 public class GeneratedFile {
 
+  public final CharSequence content;
+  public final File targetFile;
+
   public GeneratedFile(CharSequence content, String targetFile) {
     this(content, new File(targetFile));
   }
@@ -23,7 +26,4 @@ public class GeneratedFile {
     this.content = content;
     this.targetFile = targetFile;
   }
-
-  public final CharSequence content;
-  public final File targetFile;
 }

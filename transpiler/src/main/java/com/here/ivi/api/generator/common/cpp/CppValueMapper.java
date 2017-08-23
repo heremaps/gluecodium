@@ -103,7 +103,7 @@ public class CppValueMapper {
 
     // TODO having a multi-line string in here is not-so-nice, this should be some CppType
     StringBuilder builder = new StringBuilder();
-    builder.append("[]() {\n").append("  ").append(type.name).append(" tmp;\n");
+    builder.append("[]() {\n  ").append(type.name).append(" tmp;\n");
 
     for (FFieldInitializer initializer : compoundInitializer.getElements()) {
       builder
@@ -111,10 +111,10 @@ public class CppValueMapper {
           .append(initializer.getElement().getName())
           .append(" = ")
           .append(CppValueMapper.map(type, initializer.getValue()).name)
-          .append(";");
+          .append(';');
     }
 
-    builder.append("  return tmp;\n").append("}()");
+    builder.append("  return tmp;\n}()");
 
     return new CppValue(builder.toString(), type.includes);
   }

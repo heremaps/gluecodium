@@ -36,7 +36,7 @@ public class JavaImport implements Comparable<JavaImport> {
         return comparison;
       }
     }
-    int comparison = new Integer(thisPackageNames.size()).compareTo(otherPackageNames.size());
+    int comparison = Integer.compare(thisPackageNames.size(), otherPackageNames.size());
     if (comparison != 0) {
       return comparison;
     }

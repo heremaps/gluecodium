@@ -25,13 +25,14 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 
 public final class ResourceValidator {
-  private static final Logger logger = Logger.getLogger(ResourceValidator.class.getName());
+
+  private static final Logger LOGGER = Logger.getLogger(ResourceValidator.class.getName());
 
   private ResourceValidator() {}
 
   public static boolean validate(final ResourceSet resourceSet, final Collection<File> files) {
     if (files.isEmpty()) {
-      logger.severe("No input to generate from found. Aborting.");
+      LOGGER.severe("No input to generate from found. Aborting.");
       return false;
     }
 
@@ -41,9 +42,9 @@ public final class ResourceValidator {
       Resource resource = resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
 
       if (!resource.getErrors().isEmpty()) {
-        logger.severe("Parsing " + resource.getURI() + " failed");
+        LOGGER.severe("Parsing " + resource.getURI() + " failed");
         for (Resource.Diagnostic e : resource.getErrors()) {
-          logger.severe(resource.getURI() + ":" + e.getLine() + " " + e.getMessage());
+          LOGGER.severe(resource.getURI() + ":" + e.getLine() + " " + e.getMessage());
         }
         result = false;
         continue;
@@ -56,9 +57,9 @@ public final class ResourceValidator {
           fModelValidator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
 
       if (!issues.isEmpty()) {
-        logger.severe("Validating " + resource.getURI() + " failed");
+        LOGGER.severe("Validating " + resource.getURI() + " failed");
         for (Issue i : issues) {
-          logger.severe(
+          LOGGER.severe(
               i.getUriToProblem().toString()
                   + ":"
                   + i.getLineNumber()

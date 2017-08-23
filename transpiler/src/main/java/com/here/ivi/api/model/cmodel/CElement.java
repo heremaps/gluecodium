@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cmodel;
 
 public class CElement {
   public final String name;
-  public String comment = null;
+  public String comment;
 
   public CElement(String name) {
     this.name = name;

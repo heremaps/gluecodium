@@ -17,6 +17,13 @@ import java.util.List;
 
 public class SwiftMethod extends SwiftModelElement {
 
+  public String comment;
+  public SwiftType returnType;
+  public final List<SwiftParameter> parameters;
+  public boolean isStatic;
+  public Visibility visibility;
+  public String cBaseName;
+
   public SwiftMethod(String methodName) {
     this(methodName, emptyList());
   }
@@ -34,11 +41,4 @@ public class SwiftMethod extends SwiftModelElement {
     Public,
     Private
   }
-
-  public String comment;
-  public SwiftType returnType;
-  public final List<SwiftParameter> parameters;
-  public boolean isStatic;
-  public Visibility visibility;
-  public String cBaseName;
 }

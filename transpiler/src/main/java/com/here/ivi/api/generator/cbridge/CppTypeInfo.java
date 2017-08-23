@@ -26,12 +26,26 @@ import org.franca.core.franca.FStructType;
 
 public class CppTypeInfo {
 
+  public final String baseType;
+  public final String heldType;
+  public final String constructFromCExpr;
+  public final List<CType> cTypesNeededByConstructor;
+  public final List<String> paramSuffixes;
+  public List<Include> baseTypeIncludes;
+  public final List<Include> heldTypeIncludes;
+  public String returnValueConstrExpr;
+  public final List<Include> returnConversionIncludes;
+  public final CType functionReturnType;
+  public final String getDataExpr;
+  public final String getSizeExpr;
+  public TypeCategory typeCategory;
+
   public enum TypeCategory {
     BUILTIN_SIMPLE,
     BUILTIN_STRING,
     BUILTIN_BYTEBUFFER,
     STRUCT
-  };
+  }
 
   public static final CppTypeInfo STRING =
       new CppTypeInfo(
@@ -88,20 +102,6 @@ public class CppTypeInfo {
         "",
         TypeCategory.STRUCT);
   }
-
-  public final String baseType;
-  public final String heldType;
-  public final String constructFromCExpr;
-  public final List<CType> cTypesNeededByConstructor;
-  public final List<String> paramSuffixes;
-  public List<Include> baseTypeIncludes;
-  public final List<Include> heldTypeIncludes;
-  public String returnValueConstrExpr;
-  public final List<Include> returnConversionIncludes;
-  public final CType functionReturnType;
-  public final String getDataExpr;
-  public final String getSizeExpr;
-  public TypeCategory typeCategory;
 
   private CppTypeInfo(
       String baseType,
