@@ -3,12 +3,12 @@ import XCTest
 
 class StaticBooleanMethodsTests: XCTestCase {
     func testPassOneBool() {
-        XCTAssertEqual(StaticBooleanMethodsTest.returnInvertedBoolean(input: true), false)
-        XCTAssertEqual(StaticBooleanMethodsTest.returnInvertedBoolean(input: false), true)
+        XCTAssertEqual(StaticBooleanMethods.returnInvertedBoolean(input: true), false)
+        XCTAssertEqual(StaticBooleanMethods.returnInvertedBoolean(input: false), true)
     }
 
     func testPassTwoBool() {
-        XCTAssertEqual(StaticBooleanMethodsTest.returnAndBoolean(input1: true, input2: true), true)
+        XCTAssertEqual(StaticBooleanMethods.returnAndBoolean(input1: true, input2: true), true)
     }
 
     static var allTests = [

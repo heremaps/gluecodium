@@ -11,51 +11,40 @@
 
 package test
 
-import test.* from "./TypeCollectionTest.fidl"
+import test.* from "./TypeCollection.fidl"
 
-interface PlainDataStructuresTest {
-
+interface PlainDataStructures {
     version {
         major 0
         minor 1
     }
 
-    <** @description:
-    Test basic struct type
-    **>
+    <** @description: Basic struct type **>
     struct Point {
         Double x
         Double y
     }
 
-    <** @description:
-    Test basic struct type
-    **>
+    <** @description: Basic struct type **>
     struct Color {
         UInt8 red
         UInt8 green
         UInt8 blue
     }
 
-    <** @description:
-    Test nested struct type
-    **>
+    <** @description: Nested struct type **>
     struct Line {
         Point a
         Point b
     }
 
-    <** @description:
-    Test nested struct type
-    **>
+    <** @description: Nested struct type **>
     struct ColoredLine {
         Line line
         Color color
     }
 
-    <** @description:
-    Test struct type containing all builtin and a custom data type
-    **>
+    <** @description: Struct type containing all builtin and a custom data type **>
     struct AllTypesStruct {
         Int8 int8Field
         UInt8 uint8Field
@@ -73,9 +62,7 @@ interface PlainDataStructuresTest {
         Point pointField
     }
 
-    <** @description:
-    Test static method to create a point
-    **>
+    <** @description: Static method to create a point **>
     method createPoint {
         in {
             Double x
@@ -86,23 +73,19 @@ interface PlainDataStructuresTest {
         }
     }
 
-    <** @description:
-    Test static method to create a point of type TypeCollectionTest.Point
-    **>
-    method createTypeCollectionTestPoint {
+    <** @description: Static method to create a point of type TypeCollection.Point **>
+    method createTypeCollectionPoint {
         in {
             Double x
             Double y
         }
         out {
-            TypeCollectionTest.Point point
+            TypeCollection.Point point
         }
     }
 
 
-    <** @description:
-    Test static method to exchange x and y values of a point
-    **>
+    <** @description: Static method to exchange x and y values of a point **>
     method swapPointCoordinates {
         in {
             Point input
@@ -113,14 +96,14 @@ interface PlainDataStructuresTest {
     }
 
     <** @description:
-    Test static method to exchange x and y values of a point of type TypeCollectionTest.Point
+    Static method to exchange x and y values of a point of type TypeCollection.Point
     **>
-    method swapTypeCollectionTestPointCoordinates {
+    method swapTypeCollectionPointCoordinates {
         in {
-            TypeCollectionTest.Point input
+            TypeCollection.Point input
         }
         out {
-            TypeCollectionTest.Point output
+            TypeCollection.Point output
         }
     }
 
@@ -138,15 +121,15 @@ interface PlainDataStructuresTest {
     }
 
     <** @description:
-    Static test method which creates a colored line of type TypeCollectionTest.Line
+    Static test method which creates a colored line of type TypeCollection.Line
     **>
-    method createTypeCollectionTestLine {
+    method createTypeCollectionLine {
         in {
-            TypeCollectionTest.Point pointA
-            TypeCollectionTest.Point pointB
+            TypeCollection.Point pointA
+            TypeCollection.Point pointB
         }
         out {
-            TypeCollectionTest.Line output
+            TypeCollection.Line output
         }
     }
 
@@ -164,15 +147,15 @@ interface PlainDataStructuresTest {
     }
 
     <** @description:
-    Static test method which creates a colored line of type TypeCollectionTest.ColoredLine
+    Static test method which creates a colored line of type TypeCollectiont.ColoredLine
     **>
-    method createTypeCollectionTestColoredLine {
+    method createTypeCollectionColoredLine {
         in {
-            TypeCollectionTest.Line line
-            TypeCollectionTest.Color color
+            TypeCollection.Line line
+            TypeCollection.Color color
         }
         out {
-            TypeCollectionTest.ColoredLine output
+            TypeCollection.ColoredLine output
         }
     }
 
@@ -213,14 +196,14 @@ interface PlainDataStructuresTest {
     }
 
     <** @description:
-    Static test method which modifies the TypeCollectionTest.AllTypesStruct
+    Static test method which modifies the TypeCollection.AllTypesStruct
     **>
-    method modifyTypeCollectionTestAllTypesStruct {
+    method modifyTypeCollectionAllTypesStruct {
         in {
-            TypeCollectionTest.AllTypesStruct input
+            TypeCollection.AllTypesStruct input
         }
         out {
-            TypeCollectionTest.AllTypesStruct output
+            TypeCollection.AllTypesStruct output
         }
     }
 }

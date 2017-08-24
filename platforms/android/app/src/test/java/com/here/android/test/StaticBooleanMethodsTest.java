@@ -15,22 +15,22 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
-public final class StaticBooleanMethodsTestTest {
+public final class StaticBooleanMethodsTest {
     @Test
     public void returnInvertedBoolean_True() {
         // Arrange, act, assert
-        assertFalse(StaticBooleanMethodsTest.returnInvertedBoolean(true));
+        assertFalse(StaticBooleanMethods.returnInvertedBoolean(true));
     }
 
     @Test
     public void returnInvertedBoolean_booleanAndReturnsFalse() {
         // Arrange, act, assert
-        assertFalse(StaticBooleanMethodsTest.returnAndBoolean(true, false));
+        assertFalse(StaticBooleanMethods.returnAndBoolean(true, false));
     }
 
     @Test
     public void returnInvertedBoolean_booleanAndReturnsTrue() {
         // Arrange, act, assert
-        assertTrue(StaticBooleanMethodsTest.returnAndBoolean(true, true));
+        assertTrue(StaticBooleanMethods.returnAndBoolean(true, true));
     }
 }

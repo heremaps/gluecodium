@@ -10,33 +10,21 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/StaticStringMethodsTestStub.h"
+#include "stub/test/StaticBooleanMethodsStub.h"
 
 namespace test {
 
-std::string
-StaticStringMethodsTestStub::returnInputString( const std::string& inputString )
+bool
+StaticBooleanMethodsStub::returnInvertedBoolean( const bool input )
 {
-    return inputString;
+    return !input;
 }
 
-std::string
-StaticStringMethodsTestStub::concatenateStrings( const std::string& inputString1,
-                                                 const std::string& inputString2 )
+bool
+StaticBooleanMethodsStub::returnAndBoolean( const bool input1, const bool input2 )
 {
-    return inputString1 + inputString2;
-}
-
-std::string
-StaticStringMethodsTestStub::returnHelloString(  )
-{
-    return "hello";
-}
-
-std::string
-StaticStringMethodsTestStub::returnEmpty(  )
-{
-    return "";
+    return input1 && input2;
 }
 
 }
+

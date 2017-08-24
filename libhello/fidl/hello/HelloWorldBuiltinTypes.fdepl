@@ -66,11 +66,11 @@ define navigation.BaseApiSpec for interface hello.HelloWorldBuiltinTypes
         Static = true
     }
 
-    method voidTestMethod {
+    method voidMethod {
         Static = true
     }
 
-    method getVoidTestMethodParameter {
+    method getVoidMethodParameter {
         Static = true
     }
 }

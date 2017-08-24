@@ -29,45 +29,56 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
-public final class StaticByteArrayMethodsTestTest {
+public final class StaticByteArrayMethodsTest {
     private static final int LARGE_BYTE_ARRAY_SIZE = 100000;
 
     @Test
-    public void reverseSmallByteArray() {
+    public void returnReverseByteBuffer_smallByteArray() {
+        // Arrange
         byte[] input = "InputBytes".getBytes();
 
-        byte[] output = StaticByteArrayMethodsTest.returnReverseByteBuffer(input);
+        // Act
+        byte[] output = StaticByteArrayMethods.returnReverseByteBuffer(input);
 
+        // Assert
         assertEquals("setyBtupnI", new String(output));
     }
 
     @Test
-    public void emptyByteArray() {
+    public void returnInputByteBuffer_emptyByteArray() {
+        // Arrange
         byte[] input = {};
 
-        byte[] output = StaticByteArrayMethodsTest.returnInputByteBuffer(input);
+        // Act
+        byte[] output = StaticByteArrayMethods.returnInputByteBuffer(input);
 
+        // Assert
         assertTrue(Arrays.equals(input, output));
     }
 
     @Test
-    public void concatenateByteArrays() {
-        byte[] input1 = "byte".getBytes();
-        byte[] input2 = "array".getBytes();
-
-        byte[] output = StaticByteArrayMethodsTest.concatenateByteBuffers(input1, input2);
-
-        assertEquals("bytearray", new String(output));
-    }
-
-
-    @Test
-    public void largeByteArray() {
+    public void returnInputByteBuffer_largeByteArray() {
+        // Arrange
         byte[] input = new byte[LARGE_BYTE_ARRAY_SIZE];
         new Random().nextBytes(input);
 
-        byte[] output = StaticByteArrayMethodsTest.returnInputByteBuffer(input);
+        // Act
+        byte[] output = StaticByteArrayMethods.returnInputByteBuffer(input);
 
+        // Assert
         assertTrue(Arrays.equals(input, output));
+    }
+
+    @Test
+    public void concatenateByteBuffers_twoSimpleByteArrays() {
+        // Arrange
+        byte[] input1 = "byte".getBytes();
+        byte[] input2 = "array".getBytes();
+
+        // Act
+        byte[] output = StaticByteArrayMethods.concatenateByteBuffers(input1, input2);
+
+        // Assert
+        assertEquals("bytearray", new String(output));
     }
 }

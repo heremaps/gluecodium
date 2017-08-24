@@ -11,8 +11,7 @@
 
 package test
 
-interface StaticByteArrayMethodsTest {
-
+interface StaticByteArrayMethods {
     version {
         major 0
         minor 1

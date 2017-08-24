@@ -25,14 +25,14 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
-public final class StaticStringMethodsTestTest {
+public final class StaticStringMethodsTest {
     @Test
     public void returnInputString() {
         // Arrange
         String inputString = "Foo";
 
         // Act
-        String returnedString = StaticStringMethodsTest.returnInputString(inputString);
+        String returnedString = StaticStringMethods.returnInputString(inputString);
 
         // Assert
         assertEquals(inputString, returnedString);
@@ -45,7 +45,7 @@ public final class StaticStringMethodsTestTest {
         String inputString2 = "World";
 
         // Act
-        String returnedString = StaticStringMethodsTest.concatenateStrings(inputString1, inputString2);
+        String returnedString = StaticStringMethods.concatenateStrings(inputString1, inputString2);
 
         // Assert
         assertEquals(inputString1 + inputString2, returnedString);
@@ -54,7 +54,7 @@ public final class StaticStringMethodsTestTest {
     @Test
     public void returnHelloString() {
         // Arrange, act
-        String returnedString = StaticStringMethodsTest.returnHelloString();
+        String returnedString = StaticStringMethods.returnHelloString();
 
         // Assert
         assertEquals("hello", returnedString);
@@ -63,7 +63,7 @@ public final class StaticStringMethodsTestTest {
     @Test
     public void returnEmpty() {
         // Arrange, act
-        String returnedString = StaticStringMethodsTest.returnEmpty();
+        String returnedString = StaticStringMethods.returnEmpty();
 
         // Assert
         assertTrue(returnedString.isEmpty());

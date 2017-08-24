@@ -11,16 +11,15 @@
 
 package test
 
-interface StaticIntMethodsTest {
+interface StaticIntMethods {
 
     version {
         major 0
         minor 1
     }
 
-    // INT8 methods
     <** @description:
-    Test method that takes a int8 as input and returns next integer to input as output where input
+    Method that takes a int8 as input and returns next integer to input as output where input
     must be less than 127
     **>
     method returnNextNumberINT8 {
@@ -29,8 +28,7 @@ interface StaticIntMethodsTest {
     }
 
     <** @description:
-    Test method that takes 2 Int8 as input and returns their sum
-    as output.
+    Method that takes 2 Int8 as input and returns their sum as output.
     **>
     method sumTwoNumbersINT8 {
         in {
@@ -40,16 +38,13 @@ interface StaticIntMethodsTest {
         out { Int8 sum }
     }
 
-    <** @description:
-    Test method that always returns 2
-    **>
+    <** @description: Method that always returns 2 **>
     method returnPrimeINT8 {
         out { Int8 firstPrime }
     }
 
-    // UINT8 methods
     <** @description:
-    Test method that takes a UInt8 as input and returns next integer to input as output where input
+    Method that takes a UInt8 as input and returns next integer to input as output where input
     must be less than 255
     **>
     method returnNextNumberUINT8 {
@@ -58,8 +53,7 @@ interface StaticIntMethodsTest {
     }
 
     <** @description:
-    Test method that takes 2 UInt8 as input and returns their sum
-    as output.
+    Method that takes 2 UInt8 as input and returns their sum as output.
     **>
     method sumTwoNumbersUINT8 {
         in {
@@ -69,16 +63,13 @@ interface StaticIntMethodsTest {
         out { UInt8 sum }
     }
 
-    <** @description:
-    Test method that always returns 131
-    **>
+    <** @description: Method that always returns 131 **>
     method returnPrimeUINT8 {
         out { UInt8 prime }
     }
 
-    // INT16 methods
     <** @description:
-    Test method that takes a UInt16 as input and returns next integer to input as output where input
+    Method that takes a UInt16 as input and returns next integer to input as output where input
     must be less than 32767
     **>
     method returnNextNumberINT16 {
@@ -87,8 +78,7 @@ interface StaticIntMethodsTest {
     }
 
     <** @description:
-    Test method that takes 2 Int16 as input and returns their sum
-    as output.
+    Method that takes 2 Int16 as input and returns their sum as output.
     **>
     method sumTwoNumbersINT16 {
         in {
@@ -98,16 +88,13 @@ interface StaticIntMethodsTest {
         out { Int16 sum }
     }
 
-    <** @description:
-    Test method that always returns 257
-    **>
+    <** @description: Method that always returns 257 **>
     method returnPrimeINT16 {
         out { Int16 prime }
     }
 
-    // UINT16 methods
     <** @description:
-    Test method that takes a UInt16 as input and returns next integer to input as output where input
+    Method that takes a UInt16 as input and returns next integer to input as output where input
     must be less than 65535
     **>
     method returnNextNumberUINT16 {
@@ -116,8 +103,7 @@ interface StaticIntMethodsTest {
     }
 
     <** @description:
-    Test method that takes 2 UInt16 as input and returns their sum
-    as output.
+    Method that takes 2 UInt16 as input and returns their sum as output.
     **>
     method sumTwoNumbersUINT16 {
         in {
@@ -127,16 +113,13 @@ interface StaticIntMethodsTest {
         out { UInt16 sum }
     }
 
-    <** @description:
-    Test method that always returns 32771
-    **>
+    <** @description: Method that always returns 32771 **>
     method returnPrimeUINT16 {
         out { UInt16 prime }
     }
 
-    // INT32 methods
     <** @description:
-    Test method that takes a INT32 as input and returns next integer to input as output where input
+    Method that takes a INT32 as input and returns next integer to input as output where input
     must be less than 2147483647
     **>
     method returnNextNumberINT32 {
@@ -145,8 +128,7 @@ interface StaticIntMethodsTest {
     }
 
     <** @description:
-    Test method that takes 2 INT32 as input and returns their sum
-    as output.
+    Method that takes 2 INT32 as input and returns their sum as output.
     **>
     method sumTwoNumbersINT32 {
         in {
@@ -156,16 +138,13 @@ interface StaticIntMethodsTest {
         out { Int32 sum }
     }
 
-    <** @description:
-    Test method that always returns 65537
-    **>
+    <** @description: Method that always returns 65537 **>
     method returnPrimeINT32 {
         out { Int32 prime }
     }
 
-    // UINT32 methods
     <** @description:
-    Test method that takes a UINT32 as input and returns next integer to input as output where input
+    Method that takes a UINT32 as input and returns next integer to input as output where input
     must be less than 4294967295
     **>
     method returnNextNumberUINT32 {
@@ -174,7 +153,7 @@ interface StaticIntMethodsTest {
     }
 
     <** @description:
-    Test method that takes 2 UINT32 as input and returns their sum
+    Method that takes 2 UINT32 as input and returns their sum
     as output.
     **>
     method sumTwoNumbersUINT32 {
@@ -185,16 +164,13 @@ interface StaticIntMethodsTest {
         out { UInt32 sum }
     }
 
-    <** @description:
-    Test method that always returns 2147483659
-    **>
+    <** @description: Method that always returns 2147483659 **>
     method returnPrimeUINT32 {
         out { UInt32 prime }
     }
 
-    // INT64 methods
     <** @description:
-    Test method that takes a INT64 as input and returns next integer to input as output where input
+    Method that takes a INT64 as input and returns next integer to input as output where input
     must be less than 2^63-1
     **>
     method returnNextNumberINT64 {
@@ -203,7 +179,7 @@ interface StaticIntMethodsTest {
     }
 
     <** @description:
-    Test method that takes 2 INT64 as input and returns their sum
+    Method that takes 2 INT64 as input and returns their sum
     as output.
     **>
     method sumTwoNumbersINT64 {
@@ -214,16 +190,13 @@ interface StaticIntMethodsTest {
         out { Int64 sum }
     }
 
-    <** @description:
-    Test method that always returns 4294967311
-    **>
+    <** @description: Method that always returns 4294967311 **>
     method returnPrimeINT64 {
         out { Int64 prime }
     }
 
-    // UINT64 methods
     <** @description:
-    Test method that takes a UINT64 as input and returns next integer to input as output where input
+    Method that takes a UINT64 as input and returns next integer to input as output where input
     must be less than 2^64-1
     **>
     method returnNextNumberUINT64 {
@@ -232,8 +205,7 @@ interface StaticIntMethodsTest {
     }
 
     <** @description:
-    Test method that takes 2 UINT64 as input and returns their sum
-    as output.
+    Method that takes 2 UINT64 as input and returns their sum as output.
     **>
     method sumTwoNumbersUINT64 {
         in {
@@ -243,9 +215,7 @@ interface StaticIntMethodsTest {
         out { UInt64 sum }
     }
 
-    <** @description:
-    Test method that always returns 4294967311
-    **>
+    <** @description: Method that always returns 4294967311 **>
     method returnPrimeUINT64 {
         out { UInt64 prime }
     }

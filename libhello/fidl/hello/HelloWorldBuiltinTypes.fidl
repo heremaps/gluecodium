@@ -12,7 +12,6 @@
 package hello
 
 interface HelloWorldBuiltinTypes {
-
     version {
         major 0
         minor 1
@@ -211,9 +210,9 @@ interface HelloWorldBuiltinTypes {
     <** @description:
     Example static test method without out params and therefore with void return type
     **>
-    method voidTestMethod {
+    method voidMethod {
         in {
-            <** @description: Input number which can later be queried with getVoidTestMethodParameter() **>
+            <** @description: Input number which can later be queried with getVoidMethodParameter() **>
             Int32 inputNumber
         }
         out {
@@ -221,13 +220,13 @@ interface HelloWorldBuiltinTypes {
     }
 
     <** @description:
-    Example static method that returns the last number passed to voidTestMethod
+    Example static method that returns the last number passed to voidMethod
     **>
-    method getVoidTestMethodParameter {
+    method getVoidMethodParameter {
         in {
         }
         out {
-            <** @description: the last number passed to voidTestMethod **>
+            <** @description: the last number passed to voidMethod **>
             Int32 output
         }
     }

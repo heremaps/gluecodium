@@ -11,32 +11,25 @@
 
 package test
 
-interface StaticFloatDoubleMethodsTest {
-
+interface StaticFloatDoubleMethods {
     version {
         major 0
         minor 1
     }
 
-    <** @description:
-    Test method that takes a float as input and returns it
-    **>
+    <** @description: Method that takes a float as input and returns it **>
     method returnFloat {
         in { Float inputNumber }
         out { Float outputNumber }
     }
 
-    <** @description:
-    Test method that takes a float as input and returns it incremented by 1
-    **>
+    <** @description: Method that takes a float as input and returns it incremented by 1 **>
     method returnIncrementedFloat {
         in { Float inputNumber }
         out { Float outputNumber }
     }
 
-    <** @description:
-    Test method that takes 2 floats and returns the sum
-    **>
+    <** @description: Method that takes 2 floats and returns the sum **>
     method sumTwoFloats {
         in {
             Float inputNumber1
@@ -45,25 +38,19 @@ interface StaticFloatDoubleMethodsTest {
         out { Float sum }
     }
 
-    <** @description:
-    Test method that takes a double as input and returns it
-    **>
+    <** @description: Method that takes a double as input and returns it **>
     method returnDouble {
         in { Double inputNumber }
         out { Double outputNumber }
     }
 
-    <** @description:
-    Test method that takes a double as input and returns it incremented by 1
-    **>
+    <** @description: Method that takes a double as input and returns it incremented by 1 **>
     method returnIncrementedDouble {
         in { Double inputNumber }
         out { Double outputNumber }
     }
 
-    <** @description:
-    Test method that takes 2 doubles and returns the sum
-    **>
+    <** @description: Method that takes 2 doubles and returns the sum **>
     method sumTwoDoubles {
         in {
             Double inputNumber1
@@ -71,6 +58,4 @@ interface StaticFloatDoubleMethodsTest {
         }
         out { Double sum }
     }
-
 }
-
