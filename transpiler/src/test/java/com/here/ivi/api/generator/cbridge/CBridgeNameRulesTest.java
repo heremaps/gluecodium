@@ -37,7 +37,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CppNameRules.class})
+@PrepareForTest(CppNameRules.class)
 public class CBridgeNameRulesTest {
 
   private static final List<String> PACKAGES = asList("PKG1", "PKG2");
@@ -75,7 +75,7 @@ public class CBridgeNameRulesTest {
             "_",
             (String[])
                 addAll(
-                    PACKAGES.toArray(new String[0]),
+                    PACKAGES.toArray(new String[2]),
                     TYPE_COLLECTION_NAME,
                     toUpperCamelCase(STRUCT_NAME) + "Ref"));
 
@@ -91,7 +91,7 @@ public class CBridgeNameRulesTest {
             "_",
             (String[])
                 addAll(
-                    PACKAGES.toArray(new String[0]),
+                    PACKAGES.toArray(new String[2]),
                     INTERFACE_NAME,
                     toUpperCamelCase(STRUCT_NAME) + "Ref"));
 
@@ -189,6 +189,6 @@ public class CBridgeNameRulesTest {
 
   private String prependNameWithPackageAndInterface(String name, String delimiter) {
     return String.join(
-        delimiter, (String[]) addAll(PACKAGES.toArray(new String[0]), INTERFACE_NAME, name));
+        delimiter, (String[]) addAll(PACKAGES.toArray(new String[2]), INTERFACE_NAME, name));
   }
 }

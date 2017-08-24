@@ -67,7 +67,7 @@ public class CppTypeInfo {
           "%1$s->length()",
           TypeCategory.BUILTIN_STRING);
 
-  static final CppTypeInfo BYTE_VECTOR =
+  public static final CppTypeInfo BYTE_VECTOR =
       new CppTypeInfo(
           "std::vector<uint8_t>",
           Arrays.asList(

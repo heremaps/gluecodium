@@ -18,46 +18,7 @@ import org.franca.core.franca.FTypeDef;
 /**
  * This class handles the specific rules for identifying instance references.
  *
- * <p>Each generator has to use the rules to determine if instances of another t.
- *
- * <p>Example definition: <code>
- * package navigation
- *
- * import navigation.* from "classpath:/franca/spec/BuiltIn.fidl"
- *
- * interface CustomInterface {
- *    version { major 1  minor 0 }
- *
- *    typedef CustomInterfaceInstance is BuiltIn.InstanceId
- * }
- * </code> Example usage: <code>
- * package navigation
- *
- * import navigation.* from "CustomInterface.fidl"
- *
- * interface InterfaceUsageInInterface {
- *     version { major 1  minor 0 }
- *
- *     broadcast somethingHappened {
- *         out {
- *             UInt16 reason
- *             CustomInterface.CustomInterfaceInstance instance
- *         }
- *     }
- * }
- *
- * typeCollection MyTypes {
- *     version {
- *         major 1
- *         minor 0
- *     }
- *
- *     // specification of the struct itself
- *     struct InterfaceUsageInStruct {
- *         CustomInterface.CustomInterfaceInstance myField
- *     }
- * }
- * </code>
+ * <p>Each generator has to use the rules to determine if instances of another type.
  */
 public final class InstanceRules {
 

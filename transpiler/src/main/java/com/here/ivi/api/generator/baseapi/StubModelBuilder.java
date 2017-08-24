@@ -280,11 +280,13 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
       }
     }
 
-    String methodComment = StubCommentParser.parse(francaMethod).getMainBodyText();
+    StringBuilder methodCommentBuilder =
+        new StringBuilder(StubCommentParser.parse(francaMethod).getMainBodyText());
     if (!returnTypeComment.isEmpty()) {
-      methodComment += StubCommentParser.FORMATTER.formatTag("@return", returnTypeComment);
+      methodCommentBuilder.append(
+          StubCommentParser.FORMATTER.formatTag("@return", returnTypeComment));
     }
-    builder.comment(methodComment);
+    builder.comment(methodCommentBuilder.toString());
 
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
         .forEach(builder::parameter);

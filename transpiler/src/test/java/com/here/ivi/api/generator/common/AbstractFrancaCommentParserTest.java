@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.common;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -90,8 +89,8 @@ public class AbstractFrancaCommentParserTest {
     boolean result = commentParser.parseCommentBlock();
 
     assertFalse(result);
-    assertNull(commentParser.comments.mainBodyText);
-    assertNull(commentParser.comments.deprecatedText);
+    assertEquals("", commentParser.comments.mainBodyText);
+    assertEquals("", commentParser.comments.deprecatedText);
     verify(element).getComment();
   }
 
