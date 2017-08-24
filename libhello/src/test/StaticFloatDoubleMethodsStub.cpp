@@ -10,42 +10,42 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/StaticFloatDoubleMethodsTestStub.h"
+#include "stub/test/StaticFloatDoubleMethodsStub.h"
 
 namespace test {
 
 float
-StaticFloatDoubleMethodsTestStub::returnFloat( const float inputNumber )
+StaticFloatDoubleMethodsStub::returnFloat( const float inputNumber )
 {
     return inputNumber;
 }
 
 float
-StaticFloatDoubleMethodsTestStub::returnIncrementedFloat( const float inputNumber )
+StaticFloatDoubleMethodsStub::returnIncrementedFloat( const float inputNumber )
 {
     return inputNumber + 1.0f;
 }
 
 float
-StaticFloatDoubleMethodsTestStub::sumTwoFloats( const float inputNumber1, const float inputNumber2 )
+StaticFloatDoubleMethodsStub::sumTwoFloats( const float inputNumber1, const float inputNumber2 )
 {
     return inputNumber1 + inputNumber2;
 }
 
 double
-StaticFloatDoubleMethodsTestStub::returnDouble( const double inputNumber )
+StaticFloatDoubleMethodsStub::returnDouble( const double inputNumber )
 {
     return inputNumber;
 }
 
 double
-StaticFloatDoubleMethodsTestStub::returnIncrementedDouble( const double inputNumber )
+StaticFloatDoubleMethodsStub::returnIncrementedDouble( const double inputNumber )
 {
     return inputNumber + 1.0;
 }
 
 double
-StaticFloatDoubleMethodsTestStub::sumTwoDoubles( const double inputNumber1, const double inputNumber2 )
+StaticFloatDoubleMethodsStub::sumTwoDoubles( const double inputNumber1, const double inputNumber2 )
 {
     return inputNumber1 + inputNumber2;
 }

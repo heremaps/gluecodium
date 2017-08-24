@@ -22,11 +22,11 @@ set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_
 set(HELLO_SOURCES
     src/hello/HelloWorldBuiltinTypesStub.cpp
     src/hello/HelloWorldStub.cpp
-    src/test/StaticBooleanMethodsTestStub.cpp
-    src/test/StaticByteArrayMethodsTestStub.cpp
-    src/test/StaticFloatDoubleMethodsTestStub.cpp
-    src/test/StaticIntMethodsTestStub.cpp
-    src/test/StaticStringMethodsTestStub.cpp
+    src/test/StaticBooleanMethodsStub.cpp
+    src/test/StaticByteArrayMethodsStub.cpp
+    src/test/StaticFloatDoubleMethodsStub.cpp
+    src/test/StaticIntMethodsStub.cpp
+    src/test/StaticStringMethodsStub.cpp
 )
 
 #TODO: Remove this workaround once iOS supports PODs (APIGEN-357)
@@ -34,7 +34,7 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GE
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
         src/hello/HelloWorldPlainDataStructuresStub.cpp
-        src/test/PlainDataStructuresTestStub.cpp)
+        src/test/PlainDataStructuresStub.cpp)
 endif()
 
 add_library(hello ${HELLO_SOURCES})
@@ -60,8 +60,8 @@ else()
     if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldPlainDataStructures.fidl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldPlainDataStructures.fdepl)
-        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructuresTest.fidl)
-        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructuresTest.fdepl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructures.fidl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructures.fdepl)
     endif()
 
     #TODO: These excludes can be removed once both platforms support instances (APIGEN-460, APIGEN-462)

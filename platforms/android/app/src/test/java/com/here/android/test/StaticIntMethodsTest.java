@@ -24,24 +24,24 @@ import static junit.framework.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
-public final class StaticIntMethodsTestTest {
+public final class StaticIntMethodsTest {
     @Test
     public void returnNextNumberINT8() {
         // Arrange, act
-        byte actual = StaticIntMethodsTest.returnNextNumberINT8((byte) 115);
+        byte actual = StaticIntMethods.returnNextNumberINT8((byte) 115);
 
         // Assert
         assertEquals(116, actual);
     }
 
     @Test
-    public void sumTwoNumbersINT18() {
+    public void sumTwoNumbersINT8() {
         // Arrange
         byte firstByte = 50;
         byte secondByte = 60;
 
         // Act
-        byte actual = StaticIntMethodsTest.sumTwoNumbersINT8(firstByte, secondByte);
+        byte actual = StaticIntMethods.sumTwoNumbersINT8(firstByte, secondByte);
 
         // Assert
         assertEquals(firstByte + secondByte, actual);
@@ -49,216 +49,239 @@ public final class StaticIntMethodsTestTest {
 
     @Test
     public void returnPrimeINT8() {
-        // Arrange, act
-        byte actual = StaticIntMethodsTest.returnPrimeINT8();
-
-        // Assert
-        assertEquals(2, actual);
+        // Arrange, act, assert
+        assertEquals(2, StaticIntMethods.returnPrimeINT8());
     }
 
     @Test
     public void returnNextNumberUINT8() {
+        // Arrange
         long number = 200;
-
-        long actual = StaticIntMethodsTest.returnNextNumberUINT8(number);
-
         long expected = 201;
+
+        // Act
+        long actual = StaticIntMethods.returnNextNumberUINT8(number);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void sumTwoNumbersUINT8() {
+        // Arrange
         long firstNumber = 160;
         long secondNumber = 80;
-
-        long actual = StaticIntMethodsTest.sumTwoNumbersUINT8(firstNumber, secondNumber);
-
         long expected = firstNumber + secondNumber;
+
+        // Act
+        long actual = StaticIntMethods.sumTwoNumbersUINT8(firstNumber, secondNumber);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void returnPrimeUINT8() {
-        long actual = StaticIntMethodsTest.returnPrimeUINT8();
-
-        long expected = 131;
-        assertEquals(expected, actual);
+        // Arrange, act, assert
+        assertEquals(131L, StaticIntMethods.returnPrimeUINT8());
     }
 
     @Test
     public void returnNextNumberINT16() {
+        // Arrange
         short number = 2000;
-        short actual = StaticIntMethodsTest.returnNextNumberINT16(number);
-
         short expected = 2001;
 
+        // Act
+        short actual = StaticIntMethods.returnNextNumberINT16(number);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void sumTwoNumbersINT16() {
+        // Arrange
         short firstNumber = 1600;
         short secondNumber = 800;
-
-        short actual = StaticIntMethodsTest.sumTwoNumbersINT16(firstNumber, secondNumber);
-
         long expected = firstNumber + secondNumber;
+
+        // Act
+        short actual = StaticIntMethods.sumTwoNumbersINT16(firstNumber, secondNumber);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void returnPrimeINT16() {
-        short actual = StaticIntMethodsTest.returnPrimeINT16();
-
-        short expected = 257;
-        assertEquals(expected, actual);
+        // Arrange, act, assert
+        assertEquals((short) 257, StaticIntMethods.returnPrimeINT16());
     }
 
     @Test
     public void returnNextNumberUINT16() {
+        // Arrange
         long number = 40000;
-
-        long actual = StaticIntMethodsTest.returnNextNumberUINT16(number);
-
         long expected = 40001;
+
+        // Act
+        long actual = StaticIntMethods.returnNextNumberUINT16(number);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void sumTwoNumbersUINT16() {
+        // Arrange
         long firstNumber = 16000;
         long secondNumber = 8000;
-
-        long actual = StaticIntMethodsTest.sumTwoNumbersUINT16(firstNumber, secondNumber);
-
         long expected = firstNumber + secondNumber;
+
+        // Act
+        long actual = StaticIntMethods.sumTwoNumbersUINT16(firstNumber, secondNumber);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void returnPrimeUINT16() {
-        long actual = StaticIntMethodsTest.returnPrimeUINT16();
-
-        long expected = 32771;
-        assertEquals(expected, actual);
+        // Arrange, act, assert
+        assertEquals(32771L, StaticIntMethods.returnPrimeUINT16());
     }
 
     @Test
     public void returnNextNumberINT32() {
+        // Arrange
         int number = 80000;
-
-        long actual = StaticIntMethodsTest.returnNextNumberINT32(number);
-
         long expected = 80001;
+
+        // Act
+        long actual = StaticIntMethods.returnNextNumberINT32(number);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void sumTwoNumbersINT32() {
+        // Arrange
         int firstNumber = 160000;
         int secondNumber = 80000;
-
-        int actual = StaticIntMethodsTest.sumTwoNumbersINT32(firstNumber, secondNumber);
-
         long expected = firstNumber + secondNumber;
+
+        // Act
+        int actual = StaticIntMethods.sumTwoNumbersINT32(firstNumber, secondNumber);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void returnPrimeINT32() {
-        int actual = StaticIntMethodsTest.returnPrimeINT32();
-
-        int expected = 65537;
-        assertEquals(expected, actual);
+        // Arrange, act, assert
+        assertEquals(65537, StaticIntMethods.returnPrimeINT32());
     }
 
     @Test
     public void returnNextNumberUINT32() {
+        // Arrange
         long number = 2000000000;
-
-        long actual = StaticIntMethodsTest.returnNextNumberUINT32(number);
-
         long expected = 2000000001;
+
+        // Act
+        long actual = StaticIntMethods.returnNextNumberUINT32(number);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void sumTwoNumbersUINT32() {
+        // Arrange
         long firstNumber = 2000000000;
         long secondNumber = 2000000001;
-
-        long actual = StaticIntMethodsTest.sumTwoNumbersUINT32(firstNumber, secondNumber);
-
         long expected = firstNumber + secondNumber;
+
+        // Act
+        long actual = StaticIntMethods.sumTwoNumbersUINT32(firstNumber, secondNumber);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void returnPrimeUINT32() {
-        long actual = StaticIntMethodsTest.returnPrimeUINT32();
-
-        long expected = 2147483659L;
-
-        assertEquals(expected, actual);
+        // Arrange, act, assert
+        assertEquals(2147483659L, StaticIntMethods.returnPrimeUINT32());
     }
 
     @Test
     public void returnNextNumberINT64() {
+        // Arrange
         long number = 5000000000L;
-
-        long actual = StaticIntMethodsTest.returnNextNumberINT64(number);
-
         long expected = 5000000001L;
+
+        // Act
+        long actual = StaticIntMethods.returnNextNumberINT64(number);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void sumTwoNumbersINT64() {
+        // Arrange
         long firstNumber = 5000000000L;
         long secondNumber = 7000000000L;
-
-        long actual = StaticIntMethodsTest.sumTwoNumbersINT64(firstNumber, secondNumber);
-
         long expected = firstNumber + secondNumber;
+
+        // Act
+        long actual = StaticIntMethods.sumTwoNumbersINT64(firstNumber, secondNumber);
+
+        // Assert
         assertEquals(expected, actual);
     }
 
     @Test
     public void returnPrimeINT64() {
-        long actual = StaticIntMethodsTest.returnPrimeINT64();
-
-        long expected = 4294967311L;
-        assertEquals(expected, actual);
+        // Arrange, act, assert
+        assertEquals(4294967311L, StaticIntMethods.returnPrimeINT64());
     }
 
     @Test
     public void returnNextNumberUINT64() {
+        // Arrange
         // TODO APIGEN-217: update this test whith values above 2^63
         long number = 5000000000L;
 
-        long actual = StaticIntMethodsTest.returnNextNumberUINT64(number);
+        // Act
+        long actual = StaticIntMethods.returnNextNumberUINT64(number);
 
-        long expected = 5000000001L;
-        assertEquals(expected, actual);
+        // Assert
+        assertEquals(5000000001L, actual);
     }
 
     @Test
     public void sumTwoNumbersUINT64() {
+        // Arrange
         // TODO APIGEN-217: update this test whith values above 2^63
         long firstNumber = 5000000000L;
         long secondNumber = 7000000000L;
 
-        long actual = StaticIntMethodsTest.sumTwoNumbersUINT64(firstNumber, secondNumber);
+        // Act
+        long actual = StaticIntMethods.sumTwoNumbersUINT64(firstNumber, secondNumber);
 
-        long expected = firstNumber + secondNumber;
-        assertEquals(expected, actual);
+        // Assert
+        assertEquals(firstNumber + secondNumber, actual);
     }
 
     @Test
     public void returnPrimeUINT64() {
+        // Arrange, act, assert
         // TODO APIGEN-217: update this test whith value above 2^63
-        long actual = StaticIntMethodsTest.returnPrimeUINT64();
-        long expected = 4294967311L;
-        assertEquals(expected, actual);
+        assertEquals(4294967311L, StaticIntMethods.returnPrimeUINT64());
     }
 }

@@ -4,94 +4,94 @@ import XCTest
 class StaticIntMethodsTests: XCTestCase {
     func testPassMinimumInt8() {
         XCTAssertEqual(
-            StaticIntMethodsTest.returnNextNumberINT8(inputNumber: Int8.min),
+            StaticIntMethods.returnNextNumberINT8(inputNumber: Int8.min),
             Int8.min + 1)
     }
 
     func testPassMinimumInt16() {
         XCTAssertEqual(
-            StaticIntMethodsTest.returnNextNumberINT16(inputNumber: Int16.min),
+            StaticIntMethods.returnNextNumberINT16(inputNumber: Int16.min),
             Int16.min + 1)
     }
 
     func testPassMinimumInt32() {
         XCTAssertEqual(
-            StaticIntMethodsTest.returnNextNumberINT32(inputNumber: Int32.min),
+            StaticIntMethods.returnNextNumberINT32(inputNumber: Int32.min),
             Int32.min + 1)
     }
 
     func testPassMinimumInt64() {
         XCTAssertEqual(
-            StaticIntMethodsTest.returnNextNumberINT64(inputNumber: Int64.min),
+            StaticIntMethods.returnNextNumberINT64(inputNumber: Int64.min),
             Int64.min + 1)
     }
 
     func testPassMaximumInt8() {
         XCTAssertEqual(
-            StaticIntMethodsTest.returnNextNumberINT8(inputNumber: Int8.max - 1),
+            StaticIntMethods.returnNextNumberINT8(inputNumber: Int8.max - 1),
             Int8.max)
     }
 
     func testPassMaximumInt16() {
         XCTAssertEqual(
-            StaticIntMethodsTest.returnNextNumberINT16(inputNumber: Int16.max - 1),
+            StaticIntMethods.returnNextNumberINT16(inputNumber: Int16.max - 1),
             Int16.max)
     }
 
     func testPassMaximumInt32() {
         XCTAssertEqual(
-            StaticIntMethodsTest.returnNextNumberINT32(inputNumber: Int32.max - 1),
+            StaticIntMethods.returnNextNumberINT32(inputNumber: Int32.max - 1),
             Int32.max)
     }
 
     func testPassMaximumInt64() {
         XCTAssertEqual(
-            StaticIntMethodsTest.returnNextNumberINT64(inputNumber: Int64.max - 1),
+            StaticIntMethods.returnNextNumberINT64(inputNumber: Int64.max - 1),
             Int64.max)
     }
 
     func testPassTwoInt8() {
         XCTAssertEqual(
-            StaticIntMethodsTest.sumTwoNumbersINT8(inputNumber1: -1, inputNumber2: 2),
+            StaticIntMethods.sumTwoNumbersINT8(inputNumber1: -1, inputNumber2: 2),
             1)
     }
 
     func testPassTwoUInt32() {
         XCTAssertEqual(
-            StaticIntMethodsTest.sumTwoNumbersUINT32(inputNumber1: 123, inputNumber2: 456),
+            StaticIntMethods.sumTwoNumbersUINT32(inputNumber1: 123, inputNumber2: 456),
             579)
     }
 
     func testReturnInt8() {
-        XCTAssertEqual(StaticIntMethodsTest.returnPrimeINT8(), 2)
+        XCTAssertEqual(StaticIntMethods.returnPrimeINT8(), 2)
     }
 
     func testReturnUInt8() {
-        XCTAssertEqual(StaticIntMethodsTest.returnPrimeUINT8(), 131)
+        XCTAssertEqual(StaticIntMethods.returnPrimeUINT8(), 131)
     }
 
     func testReturnInt16() {
-        XCTAssertEqual(StaticIntMethodsTest.returnPrimeINT16(), 257)
+        XCTAssertEqual(StaticIntMethods.returnPrimeINT16(), 257)
     }
 
     func testReturnUInt16() {
-        XCTAssertEqual(StaticIntMethodsTest.returnPrimeUINT16(), 32771)
+        XCTAssertEqual(StaticIntMethods.returnPrimeUINT16(), 32771)
     }
 
     func testReturnInt32() {
-        XCTAssertEqual(StaticIntMethodsTest.returnPrimeINT32(), 65537)
+        XCTAssertEqual(StaticIntMethods.returnPrimeINT32(), 65537)
     }
 
     func testReturnUInt32() {
-        XCTAssertEqual(StaticIntMethodsTest.returnPrimeUINT32(), 2_147_483_659)
+        XCTAssertEqual(StaticIntMethods.returnPrimeUINT32(), 2_147_483_659)
     }
 
     func testReturnInt64() {
-        XCTAssertEqual(StaticIntMethodsTest.returnPrimeINT64(), 4_294_967_311)
+        XCTAssertEqual(StaticIntMethods.returnPrimeINT64(), 4_294_967_311)
     }
 
     func testReturnUInt64() {
-        XCTAssertEqual(StaticIntMethodsTest.returnPrimeUINT64(), 4_294_967_311)
+        XCTAssertEqual(StaticIntMethods.returnPrimeUINT64(), 4_294_967_311)
     }
 
     static var allTests = [

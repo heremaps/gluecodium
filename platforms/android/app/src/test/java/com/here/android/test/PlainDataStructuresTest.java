@@ -20,10 +20,10 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
-public final class PlainDataStructuresTestTest {
+public final class PlainDataStructuresTest {
     @Test
     public void returnSimpleDataStructure() {
-        PlainDataStructuresTest.Point point = PlainDataStructuresTest.createPoint(1.0, 2.0);
+        PlainDataStructures.Point point = PlainDataStructures.createPoint(1.0, 2.0);
 
         assertNotNull(point);
         assertEquals(1.0, point.x);
@@ -32,11 +32,11 @@ public final class PlainDataStructuresTestTest {
 
     @Test
     public void manipulateSimpleDataStructure() {
-        PlainDataStructuresTest.Point point = new PlainDataStructuresTest.Point();
+        PlainDataStructures.Point point = new PlainDataStructures.Point();
         point.x = 1.0;
         point.y = 2.0;
 
-        PlainDataStructuresTest.Point result = PlainDataStructuresTest.swapPointCoordinates(point);
+        PlainDataStructures.Point result = PlainDataStructures.swapPointCoordinates(point);
 
         assertNotNull(point);
         assertEquals(2.0, result.x);
@@ -45,12 +45,12 @@ public final class PlainDataStructuresTestTest {
 
     @Test
     public void createNestedDataStructureWithMultipleParams() {
-        PlainDataStructuresTest.Point point1 = PlainDataStructuresTest.createPoint(1.0, 2.0);
-        PlainDataStructuresTest.Point point2 = new PlainDataStructuresTest.Point();
+        PlainDataStructures.Point point1 = PlainDataStructures.createPoint(1.0, 2.0);
+        PlainDataStructures.Point point2 = new PlainDataStructures.Point();
         point2.x = 3.0;
         point2.y = 4.0;
 
-        PlainDataStructuresTest.Line line = PlainDataStructuresTest.createLine(point1, point2);
+        PlainDataStructures.Line line = PlainDataStructures.createLine(point1, point2);
 
         assertNotNull(line);
         assertEquals(1.0, line.a.x);
@@ -61,16 +61,16 @@ public final class PlainDataStructuresTestTest {
 
     @Test
     public void manifoldNestedDataStructure() {
-        PlainDataStructuresTest.Point point1 = PlainDataStructuresTest.createPoint(1.0, 2.0);
-        PlainDataStructuresTest.Point point2 = PlainDataStructuresTest.createPoint(3.0, 4.0);
-        PlainDataStructuresTest.Line line = PlainDataStructuresTest.createLine(point1, point2);
-        PlainDataStructuresTest.Color color = new PlainDataStructuresTest.Color();
+        PlainDataStructures.Point point1 = PlainDataStructures.createPoint(1.0, 2.0);
+        PlainDataStructures.Point point2 = PlainDataStructures.createPoint(3.0, 4.0);
+        PlainDataStructures.Line line = PlainDataStructures.createLine(point1, point2);
+        PlainDataStructures.Color color = new PlainDataStructures.Color();
         color.red = 10;
         color.green = 20;
         color.blue = 30;
 
-        PlainDataStructuresTest.ColoredLine coloredLine =
-                PlainDataStructuresTest.createColoredLine(line, color);
+        PlainDataStructures.ColoredLine coloredLine =
+                PlainDataStructures.createColoredLine(line, color);
 
         assertNotNull(coloredLine);
         assertEquals(1.0, coloredLine.line.a.x);
@@ -84,8 +84,8 @@ public final class PlainDataStructuresTestTest {
 
     @Test
     public void modifyAllBuiltInAndCustomTypesDataStructure() {
-        PlainDataStructuresTest.AllTypesStruct allTypesStruct = new
-                PlainDataStructuresTest.AllTypesStruct();
+        PlainDataStructures.AllTypesStruct allTypesStruct = new
+                PlainDataStructures.AllTypesStruct();
         allTypesStruct.booleanField = true;
         allTypesStruct.bytesField = "hello".getBytes();
         allTypesStruct.doubleField = 1.0;
@@ -99,10 +99,10 @@ public final class PlainDataStructuresTestTest {
         allTypesStruct.uint32Field = 9;
         allTypesStruct.uint64Field = 10;
         allTypesStruct.stringField = "test string";
-        allTypesStruct.pointField = PlainDataStructuresTest.createPoint(11.0, 12.0);
+        allTypesStruct.pointField = PlainDataStructures.createPoint(11.0, 12.0);
 
-        PlainDataStructuresTest.AllTypesStruct result =
-                PlainDataStructuresTest.modifyAllTypesStruct(allTypesStruct);
+        PlainDataStructures.AllTypesStruct result =
+                PlainDataStructures.modifyAllTypesStruct(allTypesStruct);
 
         assertNotNull(result);
         assertEquals(false, result.booleanField);
@@ -124,14 +124,14 @@ public final class PlainDataStructuresTestTest {
 
     @Test
     public void setStringAndByteArrayToNull() {
-        PlainDataStructuresTest.AllTypesStruct allTypesStruct = new
-                PlainDataStructuresTest.AllTypesStruct();
-        allTypesStruct.pointField = PlainDataStructuresTest.createPoint(11.0, 12.0);
+        PlainDataStructures.AllTypesStruct allTypesStruct = new
+                PlainDataStructures.AllTypesStruct();
+        allTypesStruct.pointField = PlainDataStructures.createPoint(11.0, 12.0);
         allTypesStruct.stringField = null;
         allTypesStruct.bytesField = null;
 
-        PlainDataStructuresTest.AllTypesStruct result =
-                PlainDataStructuresTest.returnAllTypesStruct(allTypesStruct);
+        PlainDataStructures.AllTypesStruct result =
+                PlainDataStructures.returnAllTypesStruct(allTypesStruct);
 
         assertEquals("Strings set to null are converted and returned as empty strings",
                 "", result.stringField);
@@ -141,11 +141,11 @@ public final class PlainDataStructuresTestTest {
 
     @Test
     public void useUninitalizedAllTypesStructure() {
-        PlainDataStructuresTest.AllTypesStruct allTypesStruct = new
-                PlainDataStructuresTest.AllTypesStruct();
+        PlainDataStructures.AllTypesStruct allTypesStruct = new
+                PlainDataStructures.AllTypesStruct();
 
-        PlainDataStructuresTest.AllTypesStruct result =
-                PlainDataStructuresTest.returnAllTypesStruct(allTypesStruct);
+        PlainDataStructures.AllTypesStruct result =
+                PlainDataStructures.returnAllTypesStruct(allTypesStruct);
 
         assertNotNull(allTypesStruct.pointField);
         assertNotNull(result.pointField);
@@ -154,10 +154,10 @@ public final class PlainDataStructuresTestTest {
 
     @Test
     public void useUninitalizedNestedStructure() {
-        PlainDataStructuresTest.ColoredLine coloredLine = new PlainDataStructuresTest.ColoredLine();
+        PlainDataStructures.ColoredLine coloredLine = new PlainDataStructures.ColoredLine();
 
-        PlainDataStructuresTest.ColoredLine result =
-                PlainDataStructuresTest.returnColoredLine(coloredLine);
+        PlainDataStructures.ColoredLine result =
+                PlainDataStructures.returnColoredLine(coloredLine);
 
         assertNotNull(coloredLine.line.a);
         assertNotNull(coloredLine.line.b);
@@ -171,8 +171,8 @@ public final class PlainDataStructuresTestTest {
     public void executeVoidMethod() {
         final int testValue = 10;
 
-        HelloWorldBuiltinTypes.voidTestMethod(testValue);
+        HelloWorldBuiltinTypes.voidMethod(testValue);
 
-        assertEquals(testValue, HelloWorldBuiltinTypes.getVoidTestMethodParameter());
+        assertEquals(testValue, HelloWorldBuiltinTypes.getVoidMethodParameter());
     }
 }

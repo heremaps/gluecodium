@@ -10,103 +10,103 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/PlainDataStructuresTestStub.h"
+#include "stub/test/PlainDataStructuresStub.h"
 
 namespace test
 {
-PlainDataStructuresTestStub::Point
-PlainDataStructuresTestStub::createPoint( const double x, const double y )
+PlainDataStructuresStub::Point
+PlainDataStructuresStub::createPoint( const double x, const double y )
 {
-    PlainDataStructuresTestStub::Point output;
+    PlainDataStructuresStub::Point output;
     output.x = x;
     output.y = y;
     return output;
 }
 
-typecollectiontest::Point
-PlainDataStructuresTestStub::createTypeCollectionTestPoint( const double x, const double y )
+typecollection::Point
+PlainDataStructuresStub::createTypeCollectionPoint( const double x, const double y )
 {
-    typecollectiontest::Point output;
+    typecollection::Point output;
     output.x = x;
     output.y = y;
     return output;
 }
 
-PlainDataStructuresTestStub::Point
-PlainDataStructuresTestStub::swapPointCoordinates( const PlainDataStructuresTestStub::Point& point )
+PlainDataStructuresStub::Point
+PlainDataStructuresStub::swapPointCoordinates( const PlainDataStructuresStub::Point& point )
 {
-    PlainDataStructuresTestStub::Point result;
+    PlainDataStructuresStub::Point result;
     result.x = point.y;
     result.y = point.x;
     return result;
 }
 
-typecollectiontest::Point
-PlainDataStructuresTestStub::swapTypeCollectionTestPointCoordinates(
-    const typecollectiontest::Point& point )
+typecollection::Point
+PlainDataStructuresStub::swapTypeCollectionPointCoordinates(
+    const typecollection::Point& point )
 {
-    typecollectiontest::Point result;
+    typecollection::Point result;
     result.x = point.y;
     result.y = point.x;
     return result;
 }
 
-PlainDataStructuresTestStub::Line
-PlainDataStructuresTestStub::createLine( const PlainDataStructuresTestStub::Point& pointA,
-                                         const PlainDataStructuresTestStub::Point& pointB )
+PlainDataStructuresStub::Line
+PlainDataStructuresStub::createLine( const PlainDataStructuresStub::Point& pointA,
+                                         const PlainDataStructuresStub::Point& pointB )
 {
-    PlainDataStructuresTestStub::Line line;
+    PlainDataStructuresStub::Line line;
     line.a = pointA;
     line.b = pointB;
     return line;
 }
 
-typecollectiontest::Line
-PlainDataStructuresTestStub::createTypeCollectionTestLine( const typecollectiontest::Point& pointA,
-                                                           const typecollectiontest::Point& pointB )
+typecollection::Line
+PlainDataStructuresStub::createTypeCollectionLine( const typecollection::Point& pointA,
+                                                           const typecollection::Point& pointB )
 {
-    typecollectiontest::Line line;
+    typecollection::Line line;
     line.a = pointA;
     line.b = pointB;
     return line;
 }
 
-PlainDataStructuresTestStub::ColoredLine
-PlainDataStructuresTestStub::createColoredLine( const PlainDataStructuresTestStub::Line& line,
-                                                const PlainDataStructuresTestStub::Color& color )
+PlainDataStructuresStub::ColoredLine
+PlainDataStructuresStub::createColoredLine( const PlainDataStructuresStub::Line& line,
+                                                const PlainDataStructuresStub::Color& color )
 {
-    PlainDataStructuresTestStub::ColoredLine coloredLine;
+    PlainDataStructuresStub::ColoredLine coloredLine;
     coloredLine.line = line;
     coloredLine.color = color;
     return coloredLine;
 }
 
-PlainDataStructuresTestStub::ColoredLine
-PlainDataStructuresTestStub::returnColoredLine( const PlainDataStructuresTestStub::ColoredLine& input )
+PlainDataStructuresStub::ColoredLine
+PlainDataStructuresStub::returnColoredLine( const PlainDataStructuresStub::ColoredLine& input )
 {
     return input;
 }
 
-PlainDataStructuresTestStub::AllTypesStruct
-PlainDataStructuresTestStub::returnAllTypesStruct(
-                                         const PlainDataStructuresTestStub::AllTypesStruct& input )
+PlainDataStructuresStub::AllTypesStruct
+PlainDataStructuresStub::returnAllTypesStruct(
+                                         const PlainDataStructuresStub::AllTypesStruct& input )
 {
     return input;
 }
 
-typecollectiontest::ColoredLine
-PlainDataStructuresTestStub::createTypeCollectionTestColoredLine(
-    const typecollectiontest::Line& line, const typecollectiontest::Color& color )
+typecollection::ColoredLine
+PlainDataStructuresStub::createTypeCollectionColoredLine(
+    const typecollection::Line& line, const typecollection::Color& color )
 {
-    typecollectiontest::ColoredLine coloredLine;
+    typecollection::ColoredLine coloredLine;
     coloredLine.line = line;
     coloredLine.color = color;
     return coloredLine;
 }
 
-PlainDataStructuresTestStub::AllTypesStruct
-PlainDataStructuresTestStub::modifyAllTypesStruct(
-    const PlainDataStructuresTestStub::AllTypesStruct& input )
+PlainDataStructuresStub::AllTypesStruct
+PlainDataStructuresStub::modifyAllTypesStruct(
+    const PlainDataStructuresStub::AllTypesStruct& input )
 {
     AllTypesStruct output;
     output.int8Field = input.int8Field + 1;
@@ -122,15 +122,15 @@ PlainDataStructuresTestStub::modifyAllTypesStruct(
     output.stringField = "Hello " + input.stringField;
     output.booleanField = !input.booleanField;
     output.bytesField = {input.bytesField.rbegin( ), input.bytesField.rend( )};
-    output.pointField = PlainDataStructuresTestStub::swapPointCoordinates( input.pointField );
+    output.pointField = PlainDataStructuresStub::swapPointCoordinates( input.pointField );
     return output;
 }
 
-typecollectiontest::AllTypesStruct
-PlainDataStructuresTestStub::modifyTypeCollectionTestAllTypesStruct(
-    const typecollectiontest::AllTypesStruct& input )
+typecollection::AllTypesStruct
+PlainDataStructuresStub::modifyTypeCollectionAllTypesStruct(
+    const typecollection::AllTypesStruct& input )
 {
-    typecollectiontest::AllTypesStruct output;
+    typecollection::AllTypesStruct output;
     output.int8Field = input.int8Field + 1;
     output.uint8Field = input.uint8Field + 1;
     output.int16Field = input.int16Field + 1;
@@ -145,7 +145,7 @@ PlainDataStructuresTestStub::modifyTypeCollectionTestAllTypesStruct(
     output.booleanField = !input.booleanField;
     output.bytesField = {input.bytesField.rbegin( ), input.bytesField.rend( )};
     output.pointField
-        = PlainDataStructuresTestStub::swapTypeCollectionTestPointCoordinates( input.pointField );
+        = PlainDataStructuresStub::swapTypeCollectionPointCoordinates( input.pointField );
     return output;
 }
 }

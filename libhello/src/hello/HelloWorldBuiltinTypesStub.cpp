@@ -99,12 +99,12 @@ HelloWorldBuiltinTypesStub::methodWithFloatAndInteger( const float inputFloat,
 }
 
 void
-HelloWorldBuiltinTypesStub::voidTestMethod( const int32_t inputNumber )
+HelloWorldBuiltinTypesStub::voidMethod( const int32_t inputNumber )
 {
     lastVoidMethodParameter = inputNumber;
 }
 
-int32_t HelloWorldBuiltinTypesStub::getVoidTestMethodParameter ( )
+int32_t HelloWorldBuiltinTypesStub::getVoidMethodParameter ( )
 {
     return lastVoidMethodParameter;
 }

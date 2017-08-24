@@ -3,12 +3,12 @@ import XCTest
 
 class StaticStringMethodsTests: XCTestCase {
     func passEmptyString() {
-        XCTAssertEqual(StaticStringMethodsTest.returnInputString(inputString: ""), "")
+        XCTAssertEqual(StaticStringMethods.returnInputString(inputString: ""), "")
     }
 
     func testTwoStringParameters() {
         XCTAssertEqual(
-            StaticStringMethodsTest.concatenateStrings(
+            StaticStringMethods.concatenateStrings(
                 inputString1: "This is",
                 inputString2: " the end"),
             "This is the end")
@@ -16,16 +16,16 @@ class StaticStringMethodsTests: XCTestCase {
 
     func testTwoStringParametersOneEmpty() {
         XCTAssertEqual(
-            StaticStringMethodsTest.concatenateStrings(inputString1: "Yesterday", inputString2: ""),
+            StaticStringMethods.concatenateStrings(inputString1: "Yesterday", inputString2: ""),
             "Yesterday")
     }
 
     func testStringReturnString() {
-        XCTAssertEqual(StaticStringMethodsTest.returnHelloString(), "hello")
+        XCTAssertEqual(StaticStringMethods.returnHelloString(), "hello")
     }
 
     func testEmptyReturnString() {
-        XCTAssertEqual(StaticStringMethodsTest.returnEmpty(), "")
+        XCTAssertEqual(StaticStringMethods.returnEmpty(), "")
     }
 
     static var allTests = [

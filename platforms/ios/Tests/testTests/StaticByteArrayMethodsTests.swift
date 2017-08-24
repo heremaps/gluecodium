@@ -7,7 +7,7 @@ class StaticByteArrayMethodsTests: XCTestCase {
         let input = Data(bytes: [12, 37, 99])
         let expected = Data(bytes: [99, 37, 12])
         XCTAssertEqual(
-            StaticByteArrayMethodsTest.returnReverseByteBuffer(inputBuffer: input),
+            StaticByteArrayMethods.returnReverseByteBuffer(inputBuffer: input),
             expected)
     }
 
@@ -16,7 +16,7 @@ class StaticByteArrayMethodsTests: XCTestCase {
         let input2 = Data(bytes: [47, 11])
         let expected = Data(bytes: [0, 8, 15, 47, 11])
         XCTAssertEqual(
-            StaticByteArrayMethodsTest.concatenateByteBuffers(input1: input1, input2: input2),
+            StaticByteArrayMethods.concatenateByteBuffers(input1: input1, input2: input2),
             expected)
     }
 

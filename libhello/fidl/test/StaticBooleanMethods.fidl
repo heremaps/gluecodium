@@ -11,16 +11,13 @@
 
 package test
 
-interface StaticBooleanMethodsTest {
-
+interface StaticBooleanMethods {
     version {
         major 0
         minor 1
     }
 
-    <**
-    @description: Static test method which takes a boolean and returns inverted boolean
-    **>
+    <** @description: Static test method which takes a boolean and returns inverted boolean **>
     method returnInvertedBoolean {
         in {
             Boolean input
@@ -30,9 +27,7 @@ interface StaticBooleanMethodsTest {
         }
     }
 
-    <**
-    @description: Static test method which takes two boolean and returns logical AND of the parameters
-    **>
+    <** @description: Static test method which takes two boolean and returns logical AND of the parameters **>
     method returnAndBoolean {
         in {
             Boolean input1
@@ -42,6 +37,4 @@ interface StaticBooleanMethodsTest {
             Boolean output
         }
     }
-
 }
-

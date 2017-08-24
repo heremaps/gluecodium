@@ -10,56 +10,31 @@
  */
 
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
-import "./PlainDataStructuresTest.fidl"
+import "./StaticFloatDoubleMethods.fidl"
 
-define navigation.BaseApiSpec for interface test.PlainDataStructuresTest
+define navigation.BaseApiSpec for interface test.StaticFloatDoubleMethods
 {
-    method createPoint {
+    method returnFloat {
         Static = true
     }
 
-    method createTypeCollectionTestPoint {
+    method returnIncrementedFloat {
         Static = true
     }
 
-    method swapPointCoordinates {
+    method sumTwoFloats {
         Static = true
     }
 
-    method swapTypeCollectionTestPointCoordinates {
+    method returnDouble {
         Static = true
     }
 
-    method createLine {
+    method returnIncrementedDouble {
         Static = true
     }
 
-    method createTypeCollectionTestLine {
-        Static = true
-    }
-
-
-    method createColoredLine {
-        Static = true
-    }
-
-    method createTypeCollectionTestColoredLine {
-        Static = true
-    }
-
-    method returnColoredLine {
-        Static = true
-    }
-
-    method returnAllTypesStruct {
-        Static = true
-    }
-
-    method modifyAllTypesStruct {
-        Static = true
-    }
-
-    method modifyTypeCollectionTestAllTypesStruct {
+    method sumTwoDoubles {
         Static = true
     }
 }

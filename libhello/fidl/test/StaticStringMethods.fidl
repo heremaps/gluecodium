@@ -11,23 +11,20 @@
 
 package test
 
-interface StaticStringMethodsTest {
-
+interface StaticStringMethods {
     version {
         major 0
         minor 1
     }
 
-    <** @description:
-    Test method that takes a string as input and returns it as output
-    **>
+    <** @description: Method that takes a string as input and returns it as output **>
     method returnInputString {
         in { String inputString }
         out { String outputString }
     }
 
     <** @description:
-    Test method that takes 2 strings as input and returns their concatenation
+    Method that takes 2 strings as input and returns their concatenation
     as output.
     **>
     method concatenateStrings {
@@ -38,16 +35,12 @@ interface StaticStringMethodsTest {
         out { String inputConcatenationString }
     }
 
-    <** @description:
-    Test method that always returns "hello"
-    **>
+    <** @description: Method that always returns "hello" **>
     method returnHelloString {
         out { String helloString }
     }
 
-    <** @description:
-    Test method that always returns ""
-    **>
+    <** @description: Method that always returns "" **>
     method returnEmpty {
         out { String emptyString }
     }

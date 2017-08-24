@@ -10,15 +10,19 @@
  */
 
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
-import "./StaticBooleanMethodsTest.fidl"
+import "./StaticByteArrayMethods.fidl"
 
-define navigation.BaseApiSpec for interface test.StaticBooleanMethodsTest
+define navigation.BaseApiSpec for interface test.StaticByteArrayMethods
 {
-    method returnInvertedBoolean {
+    method returnInputByteBuffer {
         Static = true
     }
 
-    method returnAndBoolean {
+    method returnReverseByteBuffer {
+        Static = true
+    }
+
+    method concatenateByteBuffers {
         Static = true
     }
 }
