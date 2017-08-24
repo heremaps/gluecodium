@@ -63,7 +63,8 @@ TMP_DIR=$(mktemp -d)
 # to do a multi-arch build in one CMake build invocation. However, for simplicity we
 # want to include all architectures into one Android Archive. Hence do it in bash:
 find ${DIST_ANDROID_DIR} -name *.aar -not -path "*${HOST_ARCH}*" -exec unzip -n {} -d ${TMP_DIR} \;
-jar cvf ${INSTALL_AAR_DIR}/hello.aar -C ${TMP_DIR} .
+jar cvf ${DIST_ANDROID_DIR}/hello.aar -C ${TMP_DIR} .
+cp ${DIST_ANDROID_DIR}/hello.aar ${INSTALL_AAR_DIR}
 
 # Copy the host-build shared object into the application folder as well so that it
 # can be used for testing
