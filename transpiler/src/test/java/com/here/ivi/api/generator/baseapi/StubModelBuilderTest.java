@@ -37,7 +37,6 @@ import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.cppmodel.CppTypeDef;
 import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppUsing;
@@ -321,17 +320,6 @@ public class StubModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaTypeCollectionReadsTypeDefs() {
-    CppTypeDef cppTypeDef = new CppTypeDef(TYPE_DEF_NAME, null);
-    contextStack.injectResult(cppTypeDef);
-
-    modelBuilder.finishBuilding(francaTypeCollection);
-
-    CppTypeDef result = modelBuilder.getFirstResult(CppTypeDef.class);
-    assertEquals(cppTypeDef, result);
-  }
-
-  @Test
   public void finishBuildingFrancaTypeCollectionReadsEnums() {
     contextStack.injectResult(cppEnum);
 
@@ -426,8 +414,8 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
-    assertNull(cppTypeDef);
+    CppUsing cppUsing = modelBuilder.getFirstResult(CppUsing.class);
+    assertNull(cppUsing);
   }
 
   @Test
@@ -451,10 +439,10 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaArrayType);
 
-    CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
-    assertNotNull(cppTypeDef);
-    assertEquals(ARRAY_NAME, cppTypeDef.name.toLowerCase());
-    assertEquals(fullyQualifiedTypeName, cppTypeDef.targetType);
+    CppUsing cppUsing = modelBuilder.getFirstResult(CppUsing.class);
+    assertNotNull(cppUsing);
+    assertEquals(ARRAY_NAME, cppUsing.name.toLowerCase());
+    assertEquals(fullyQualifiedTypeName, cppUsing.definition);
 
     PowerMockito.verifyStatic();
     CppTypeMapper.defineArray(rootModel, francaArrayType);
@@ -471,10 +459,10 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMapType);
 
-    CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
-    assertNotNull(cppTypeDef);
-    assertEquals(MAP_NAME, cppTypeDef.name.toLowerCase());
-    assertEquals(fullyQualifiedTypeName, cppTypeDef.targetType);
+    CppUsing cppUsing = modelBuilder.getFirstResult(CppUsing.class);
+    assertNotNull(cppUsing);
+    assertEquals(MAP_NAME, cppUsing.name.toLowerCase());
+    assertEquals(fullyQualifiedTypeName, cppUsing.definition);
 
     PowerMockito.verifyStatic();
     CppTypeMapper.wrapMapType(any(), same(keyType), same(valueType));

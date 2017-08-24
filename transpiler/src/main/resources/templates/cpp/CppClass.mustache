@@ -17,8 +17,7 @@ public:
 {{#if usings}}
 public:
 {{#usings}}
-{{>common/DocComment}}
-using {{name}} = {{definition.name}};
+{{>cpp/CppUsing}}
 {{/usings}}
 
 {{/if}}

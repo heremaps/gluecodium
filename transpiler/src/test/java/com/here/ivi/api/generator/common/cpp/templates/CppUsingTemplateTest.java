@@ -15,36 +15,36 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppTypeDef;
+import com.here.ivi.api.model.cppmodel.CppUsing;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class CppTypeDefTemplateTest {
+public final class CppUsingTemplateTest {
 
-  private static final String TEMPLATE_NAME = "cpp/CppTypeDef";
+  private static final String TEMPLATE_NAME = "cpp/CppUsing";
 
   private static final String TYPE_NAME = "Typical";
   private static final String TYPEDEF_NAME = "Definite";
   private static final String EXPECTED_TYPEDEF_RESULT =
       "using " + TYPEDEF_NAME + " = " + TYPE_NAME + ";\n";
 
-  private final CppTypeDef cppTypeDef =
-      new CppTypeDef(TYPEDEF_NAME, new CppComplexTypeRef.Builder(TYPE_NAME).build());
+  private final CppUsing cppUsing =
+      new CppUsing(TYPEDEF_NAME, new CppComplexTypeRef.Builder(TYPE_NAME).build());
 
   @Test
-  public void typeDefWithoutComment() {
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppTypeDef);
+  public void usingWithoutComment() {
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppUsing);
 
     assertEquals(EXPECTED_TYPEDEF_RESULT, result);
   }
 
   @Test
-  public void typeDefWithComment() {
-    cppTypeDef.comment = "nonsense";
+  public void usingWithComment() {
+    cppUsing.comment = "nonsense";
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppTypeDef);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppUsing);
 
     final String expectedResult = "/**\n * nonsense\n */\n" + EXPECTED_TYPEDEF_RESULT;
     assertEquals(expectedResult, result);
