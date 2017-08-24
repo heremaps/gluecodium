@@ -122,21 +122,14 @@ public final class OptionReader {
       if (cmd.hasOption("generators")) {
         String[] arg = cmd.getOptionValues("generators");
         // use all generators if option provided without argument
-        if (arg == null) {
-          res.generators = GeneratorSuite.generatorShortNames();
-        } else {
-          res.generators = Arrays.asList(arg);
-        }
+        res.generators = arg != null ? Arrays.asList(arg) : GeneratorSuite.generatorShortNames();
       }
 
-      if (cmd.hasOption("validateOnly")) {
-        res.validateOnly = true;
-      }
-
+      res.validateOnly = cmd.hasOption("validateOnly");
       res.stdoutDump = !cmd.hasOption("nostdout");
 
     } catch (ParseException e) {
-      throw new OptionReaderException(e.getMessage());
+      throw new OptionReaderException(e);
     }
 
     if (res.inputDir == null) {
@@ -164,7 +157,7 @@ public final class OptionReader {
     }
   }
 
-  void printUsage() {
+  public void printUsage() {
     String header = "Transpiler - Generate APIs for franca files\n\n";
     String footer = "\nPlease report issues at /dev/null";
 

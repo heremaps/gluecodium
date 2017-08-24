@@ -149,31 +149,33 @@ public class FrancaTreeWalker {
     }
     EList<FType> types = francaTypeCollection.getTypes();
     if (types != null) {
-      for (FType type : types) {
-        if (type instanceof FStructType) {
-          walk(
-              (FStructType) type,
-              ModelBuilder::startBuilding,
-              ModelBuilder::finishBuilding,
-              this::walkChildNodes);
-        } else if (type instanceof FTypeDef) {
-          walk((FTypeDef) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
-        } else if (type instanceof FArrayType) {
-          walk((FArrayType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
-        } else if (type instanceof FMapType) {
-          walk((FMapType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
-        } else if (type instanceof FEnumerationType) {
-          walk(
-              (FEnumerationType) type,
-              ModelBuilder::startBuilding,
-              ModelBuilder::finishBuilding,
-              this::walkChildNodes);
-        } else if (type instanceof FUnionType) {
-          walk((FUnionType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
-        } else {
-          LOGGER.warning(type.getClass().getName() + " is not supported yet");
-        }
-      }
+      types.forEach(this::walkType);
+    }
+  }
+
+  private void walkType(FType type) {
+    if (type instanceof FStructType) {
+      walk(
+          (FStructType) type,
+          ModelBuilder::startBuilding,
+          ModelBuilder::finishBuilding,
+          this::walkChildNodes);
+    } else if (type instanceof FTypeDef) {
+      walk((FTypeDef) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+    } else if (type instanceof FArrayType) {
+      walk((FArrayType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+    } else if (type instanceof FMapType) {
+      walk((FMapType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+    } else if (type instanceof FEnumerationType) {
+      walk(
+          (FEnumerationType) type,
+          ModelBuilder::startBuilding,
+          ModelBuilder::finishBuilding,
+          this::walkChildNodes);
+    } else if (type instanceof FUnionType) {
+      walk((FUnionType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+    } else {
+      LOGGER.warning(type.getClass().getName() + " is not supported yet");
     }
   }
 

@@ -24,7 +24,7 @@ import org.franca.core.franca.FModelElement;
 public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommentParser.Comments> {
 
   // Everything below needs to be accessible by any class extending this one
-  private FTypeCollectionParser parser;
+  private final FTypeCollectionParser parser;
 
   protected FModelElement francaElement;
 
@@ -44,13 +44,14 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
 
   /* fidlCommentsToKeep should be a pattern similar to:
    * "\\$\\{generator:<concrete_generator>\\}(.*)\\$\\{/generator}"
-   * where concrete_generator is the name of in the fidl file of comments that target a specific target.
+   * where concrete_generator is the name of in the fidl file of comments that target a specific
+   * target.
    *
    * For example in the fidl file there can be:
    * ${generator:legacy}Legacy specific comment${/generator}
    * ${generator:android}Android specific comment${/generator}
-   * In this case if concrete_generator was "legacy" the generator file would keep the "Legacy specific comment"
-   * and remove the "Android specific comment"
+   * In this case if concrete_generator was "legacy" the generator file would keep the
+   * "Legacy specific comment" and remove the "Android specific comment"
    *
    * As a result the actual pattern for this needs to be defined in the implementing class.
    */
@@ -58,8 +59,8 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
 
   public static class Comments {
 
-    public String mainBodyText;
-    public String deprecatedText;
+    public String mainBodyText = "";
+    public String deprecatedText = "";
 
     public String getMainBodyText() {
       return mainBodyText;

@@ -21,11 +21,11 @@ Excluded: android, logging, GenericsNaming
 
     <rule ref="rulesets/java/clone.xml" />
 
-    <rule ref="rulesets/java/codesize.xml" />
-    <rule ref="rulesets/java/codesize.xml/CyclomaticComplexity">
-        <properties>
-            <property name="reportLevel" value="20" />
-        </properties>
+    <rule ref="rulesets/java/codesize.xml">
+        <!-- Disable all complexity checks except modified cyclomatic complexity -->
+        <exclude name="CyclomaticComplexity" />
+        <exclude name="NPathComplexity" />
+        <exclude name="StdCyclomaticComplexity" />
     </rule>
     <rule ref="rulesets/java/codesize.xml/TooManyMethods">
         <properties>
@@ -115,6 +115,7 @@ Excluded: android, logging, GenericsNaming
         <!-- This check is too fine grained, many template tests check against expected strings
              chopping those into global constants for re-use isn't practical -->
         <exclude name="AvoidDuplicateLiterals" />
+        <exclude name="InsufficientStringBufferDeclaration" />
     </rule>
 
     <rule ref="rulesets/java/typeresolution.xml">

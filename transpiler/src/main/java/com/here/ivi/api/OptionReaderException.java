@@ -12,7 +12,12 @@
 package com.here.ivi.api;
 
 public class OptionReaderException extends Exception {
-  public OptionReaderException(String message) {
+
+  public OptionReaderException(final String message) {
     super(message);
+  }
+
+  public OptionReaderException(final Exception e) {
+    super(e.getMessage());
   }
 }

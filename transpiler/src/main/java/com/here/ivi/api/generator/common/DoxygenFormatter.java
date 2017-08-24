@@ -72,8 +72,7 @@ public final class DoxygenFormatter implements CommentFormatter {
   @Override
   public String formatComment(String commentBody) {
     // Drop Franca spaces and create proper C++/Doxygen comment alignment
-    String res = commentBody.replaceAll("\n\\s+", "\n* ").replaceAll("\n\n", "\n*\n");
-    res += "\n*";
+    String res = commentBody.replaceAll("\n\\s+", "\n* ").replaceAll("\n\n", "\n*\n") + "\n*";
     return cleanUpFrancaComment(res);
   }
 
@@ -92,7 +91,8 @@ public final class DoxygenFormatter implements CommentFormatter {
       return comment;
     }
 
-    // keep all remaining ${doxygenTag}Text${/doxygenTag} and ${doxygenTag:<generator>} with @doxygenTag Text
+    // keep all remaining ${doxygenTag}Text${/doxygenTag} and ${doxygenTag:<generator>}
+    // with @doxygenTag Text
     String result = doxygenTagsToKeep.matcher(comment).replaceAll("@${tag}${comment}");
     // and drop all ${doxygenTag:<other_generators>} tags
     result = DOXYGEN_TAGS_TO_REMOVE.matcher(result).replaceAll(" ");

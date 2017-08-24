@@ -11,13 +11,12 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static org.apache.commons.lang3.ArrayUtils.addAll;
-
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
@@ -105,7 +104,9 @@ public class CBridgeNameRules {
 
   private static String fullyQualifiedName(
       List<String> packages, String ifaceName, String name, String delimiter) {
-    return String.join(
-        delimiter, (String[]) addAll(packages.toArray(new String[0]), ifaceName, name));
+    List<String> names = new LinkedList<>(packages);
+    names.add(ifaceName);
+    names.add(name);
+    return String.join(delimiter, names);
   }
 }

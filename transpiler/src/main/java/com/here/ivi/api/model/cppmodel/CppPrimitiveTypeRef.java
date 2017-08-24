@@ -52,7 +52,7 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
 
   private void addIncludes() {
     //add includes for integer types
-    switch (this.type) {
+    switch (type) {
       case INT8:
       case INT16:
       case INT32:
@@ -61,7 +61,8 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
       case UINT16:
       case UINT32:
       case UINT64:
-        this.includes.add(CppLibraryIncludes.INT_TYPES);
+        includes.add(CppLibraryIncludes.INT_TYPES);
+        break;
     }
   }
 
@@ -73,7 +74,9 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    if (!super.equals(o)) return false;
+    if (!super.equals(o)) {
+      return false;
+    }
 
     CppPrimitiveTypeRef that = (CppPrimitiveTypeRef) o;
 

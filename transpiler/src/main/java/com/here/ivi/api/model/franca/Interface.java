@@ -80,8 +80,9 @@ public class Interface<Accessor extends BaseApiSpec.InterfacePropertyAccessor>
     return francaInterface;
   }
 
-  // finds a matching FDInterface for an FInterface, if one is found, creates a valid InterfacePropertyAccessor,
-  // otherwise creates an empty accessor that will return the defaults for a spec
+  // Finds a matching FDInterface for an FInterface, if one is found, creates a valid
+  // InterfacePropertyAccessor, otherwise creates an empty accessor that will return the defaults
+  // for a spec.
   public static <IA extends BaseApiSpec.InterfacePropertyAccessor> Interface<IA> create(
       SpecAccessorFactory<IA, ?> f,
       FDSpecification spec,

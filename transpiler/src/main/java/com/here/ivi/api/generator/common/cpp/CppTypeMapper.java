@@ -32,6 +32,7 @@ import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
@@ -109,13 +110,11 @@ public final class CppTypeMapper {
       typeDesc = "type reference";
     } else if (type.eContainer() instanceof FArgument) {
       FArgument arg = (FArgument) type.eContainer();
-      name = arg.getName();
 
-      // look at method name as well
-      if (arg.eContainer() instanceof FMethod) {
-        name = ((FMethod) arg.eContainer()).getName() + "::" + name;
-      } else if (arg.eContainer() instanceof FBroadcast) {
-        name = ((FMethod) arg.eContainer()).getName() + "::" + name;
+      if (arg.eContainer() instanceof FMethod || arg.eContainer() instanceof FBroadcast) {
+        name = ((FModelElement) arg.eContainer()).getName() + "::" + arg.getName();
+      } else {
+        name = arg.getName();
       }
 
       typeDesc = "argument";

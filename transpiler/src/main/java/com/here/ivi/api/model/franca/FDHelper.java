@@ -33,7 +33,7 @@ public class FDHelper {
   private static final Logger LOGGER = Logger.getLogger(FrancaModelLoader.class.getName());
 
   private static class FDeplLoader {
-    @Inject public FDeployPersistenceManager fdeplLoader;
+    @Inject public FDeployPersistenceManager fdeplManager;
   }
 
   private static FDModel loadModel(URI uri, FDeployPersistenceManager manager) {
@@ -43,7 +43,7 @@ public class FDHelper {
   public static FDModel loadModel(String uri) {
     FDeplLoader loader = new FDeplLoader();
     ModelHelper.getFdeplInjector().injectMembers(loader);
-    return loadModel(URI.createURI(uri), loader.fdeplLoader);
+    return loadModel(URI.createURI(uri), loader.fdeplManager);
   }
 
   private static List<FDModel> loadModels(Collection<File> fdeplFiles) {
@@ -54,7 +54,7 @@ public class FDHelper {
         .map(
             f -> {
               URI asUri = URI.createFileURI(f.getAbsolutePath());
-              return loadModel(asUri, loader.fdeplLoader);
+              return loadModel(asUri, loader.fdeplManager);
             })
         .collect(Collectors.toList());
   }

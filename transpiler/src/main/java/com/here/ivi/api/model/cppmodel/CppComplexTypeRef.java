@@ -33,7 +33,7 @@ public class CppComplexTypeRef extends CppTypeRef {
   }
 
   public static class Builder {
-    private String fullyQualifiedName;
+    private final String fullyQualifiedName;
     private Collection<Include> includes;
     private CppTypeInfo typeInfo;
 
