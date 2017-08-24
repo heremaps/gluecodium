@@ -29,7 +29,6 @@ import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.cppmodel.CppTypeDef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppUsing;
 import com.here.ivi.api.model.cppmodel.CppValue;
@@ -116,7 +115,6 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     for (CppElement cppElement : getCurrentContext().previousResults) {
       if (cppElement instanceof CppStruct
-          || cppElement instanceof CppTypeDef
           || cppElement instanceof CppEnum
           || cppElement instanceof CppConstant
           || cppElement instanceof CppUsing) {
@@ -193,10 +191,10 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     String name = CppNameRules.getTypedefName(francaArrayType.getName());
     CppTypeRef targetType = CppTypeMapper.defineArray(rootModel, francaArrayType);
-    CppTypeDef typeDef = new CppTypeDef(name, targetType);
-    typeDef.comment = StubCommentParser.parse(francaArrayType).getMainBodyText();
+    CppUsing cppUsing = new CppUsing(name, targetType);
+    cppUsing.comment = StubCommentParser.parse(francaArrayType).getMainBodyText();
 
-    storeResult(typeDef);
+    storeResult(cppUsing);
     closeContext();
   }
 
@@ -209,10 +207,10 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
             new LazyInternalInclude(DefinedBy.createFromFModelElement(francaMapType)),
             CppTypeMapper.map(rootModel, francaMapType.getKeyType()),
             CppTypeMapper.map(rootModel, francaMapType.getValueType()));
-    CppTypeDef typeDef = new CppTypeDef(name, targetType);
-    typeDef.comment = StubCommentParser.parse(francaMapType).getMainBodyText();
+    CppUsing cppUsing = new CppUsing(name, targetType);
+    cppUsing.comment = StubCommentParser.parse(francaMapType).getMainBodyText();
 
-    storeResult(typeDef);
+    storeResult(cppUsing);
     closeContext();
   }
 

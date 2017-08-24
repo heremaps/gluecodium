@@ -21,7 +21,7 @@ import com.here.ivi.api.model.cppmodel.CppEnum;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.cppmodel.CppTypeDef;
+import com.here.ivi.api.model.cppmodel.CppUsing;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import java.util.Arrays;
 import java.util.Collections;
@@ -43,7 +43,7 @@ public final class CppNamespaceTemplateTest {
       new CppComplexTypeRef.Builder("Party").build();
   private final CppConstant cppConstant =
       new CppConstant("permanent", cppComplexTypeRef, new CppValue("Over9000"));
-  private final CppTypeDef cppTypeDef = new CppTypeDef("Definite", cppComplexTypeRef);
+  private final CppUsing cppUsing = new CppUsing("Definite", cppComplexTypeRef);
   private final CppEnum cppEnum = new CppEnum("Innumerable");
   private final CppStruct cppStruct = new CppStruct("Structural");
   private final CppClass cppClass = new CppClass.Builder("Classy").build();
@@ -98,8 +98,8 @@ public final class CppNamespaceTemplateTest {
   }
 
   @Test
-  public void namespaceWithOneTypeDef() {
-    cppNamespace.members.add(cppTypeDef);
+  public void namespaceWithOneUsing() {
+    cppNamespace.members.add(cppUsing);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
 
@@ -109,9 +109,9 @@ public final class CppNamespaceTemplateTest {
   }
 
   @Test
-  public void namespaceWithTwoTypeDefs() {
-    cppNamespace.members.add(cppTypeDef);
-    cppNamespace.members.add(new CppTypeDef("Indefinite", cppPrimitiveTypeRef));
+  public void namespaceWithTwoUsings() {
+    cppNamespace.members.add(cppUsing);
+    cppNamespace.members.add(new CppUsing("Indefinite", cppPrimitiveTypeRef));
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
 

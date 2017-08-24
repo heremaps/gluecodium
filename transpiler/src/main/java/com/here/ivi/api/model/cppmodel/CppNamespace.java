@@ -58,11 +58,6 @@ public class CppNamespace {
   }
 
   @SuppressWarnings("unused")
-  public List<CppTypeDef> getTypeDefs() {
-    return CollectionsHelper.getAllOfType(members, CppTypeDef.class);
-  }
-
-  @SuppressWarnings("unused")
   public List<CppEnum> getEnums() {
     return CollectionsHelper.getAllOfType(members, CppEnum.class);
   }
