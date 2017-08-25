@@ -1,0 +1,120 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+import test.* from "./TypeCollection.fidl"
+
+interface StaticTypedef {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    typedef IntTypedef is Int32
+    typedef NestedIntTypedef is IntTypedef
+    typedef StringTypedef is String
+    typedef ByteArrayTypedef is ByteBuffer
+    typedef ExampleStructTypedef is ExampleStruct
+    typedef NestedStructTypedef is ExampleStructTypedef
+
+    <** @description: Example struct **>
+    struct ExampleStruct {
+        String exampleString
+    }
+
+    <** @description:
+    Method that takes and returns a typedef number increased by one
+    **>
+    method returnIntTypedef {
+        in {
+            IntTypedef input
+        }
+        out {
+            IntTypedef output
+        }
+    }
+
+    <** @description:
+    Method that takes and returns a nested int typedef increased by one
+    **>
+    method returnNestedIntTypedef {
+        in {
+            NestedIntTypedef input
+        }
+        out {
+            NestedIntTypedef output
+        }
+    }
+
+    <** @description:
+    Method that takes and returns a typedef string adding 'Hello '
+    **>
+    method returnStringTypedef {
+        in {
+            StringTypedef input
+        }
+        out {
+            StringTypedef output
+        }
+    }
+
+    <** @description:
+    Method that takes and returns a typedef byte buffer in reversed order
+    **>
+    method returnByteBufferTypedef {
+        in {
+            ByteArrayTypedef input
+        }
+        out {
+            ByteArrayTypedef output
+        }
+    }
+
+    <** @description:
+    Method that takes and returns a TypedefPoint defined in typeCollection
+    **>
+    method returnTypedefPointFromTypeCollection {
+        in {
+            TypeCollection.PointTypedef input
+        }
+        out {
+            TypeCollection.PointTypedef output
+        }
+    }
+
+    <** @description:
+    Method that takes and returns a typedef ExampleStruct struct adding
+    'Hello ' to its example string field.
+    **>
+    method returnExampleStructTypedef {
+        in {
+            ExampleStructTypedef input
+        }
+        out {
+            ExampleStructTypedef output
+        }
+    }
+
+    <** @description:
+    Method that takes and returns a nested typedef ExampleStruct adding
+    'Hello ' to its example string field.
+    **>
+    method returnNestedStructTypedef {
+        in {
+            NestedStructTypedef input
+        }
+        out {
+            NestedStructTypedef output
+        }
+    }
+}

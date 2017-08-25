@@ -17,6 +17,9 @@ typeCollection TypeCollection {
         minor 1
     }
 
+    <** @description: Typedef inside TypeCollection **>
+    typedef PointTypedef is Point
+
     <** @description: Basic struct type **>
     struct Point {
         Double x

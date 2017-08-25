@@ -34,7 +34,8 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GE
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
         src/hello/HelloWorldPlainDataStructuresStub.cpp
-        src/test/PlainDataStructuresStub.cpp)
+        src/test/PlainDataStructuresStub.cpp
+        src/test/StaticTypedefStub.cpp)
 endif()
 
 add_library(hello ${HELLO_SOURCES})
@@ -56,12 +57,14 @@ else()
                       ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.fdepl)
     set(FRANCA_FILES ${HELLO_WORLD_FIDL_FILES})
 
-    #TODO: These excludes can be removed once iOS support PODs (APIGEN-357)
+    #TODO: These excludes can be removed once iOS support PODs (APIGEN-357) and Typedefs (APIGEN-282)
     if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldPlainDataStructures.fidl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldPlainDataStructures.fdepl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructures.fidl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructures.fdepl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fidl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fdepl)
     endif()
 
     #TODO: These excludes can be removed once both platforms support instances (APIGEN-460, APIGEN-462)
