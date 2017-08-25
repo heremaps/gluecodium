@@ -28,6 +28,7 @@ import org.franca.core.franca.FTypedElement;
 import org.franca.core.franca.FUnionType;
 
 /** An interface for a model builder, used by @see FrancaTreeWalker. */
+@SuppressWarnings({"PMD.TooManyMethods"})
 public interface ModelBuilder {
 
   void startBuilding(FInterface francaInterface);

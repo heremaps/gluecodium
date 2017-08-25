@@ -15,10 +15,10 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.common.Include;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ public final class CppNamespaceIncludeTemplateTest {
   private static final Include INTERNAL_INCLUDE = Include.createInternalInclude("internally");
 
   private final List<Include> includes = new LinkedList<>();
-  private final Map<String, Object> fakeNamespace = new HashMap<>();
+  private final Map<String, Object> fakeNamespace = new ConcurrentHashMap<>();
 
   @Before
   public void setUpNamespace() {

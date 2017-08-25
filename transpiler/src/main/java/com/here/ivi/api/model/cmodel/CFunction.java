@@ -37,6 +37,7 @@ public class CFunction extends CElement {
     delegateCall = builder.delegateCall;
   }
 
+  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
   public static class Builder {
     private final String name;
     private List<? extends CParameter> parameters = emptyList();

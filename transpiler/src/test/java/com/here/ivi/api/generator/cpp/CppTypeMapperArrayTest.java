@@ -78,6 +78,7 @@ public class CppTypeMapperArrayTest {
   }
 
   @Test
+  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   public void mapArrayOfComplexType() throws Exception {
 
     //mock franca elements

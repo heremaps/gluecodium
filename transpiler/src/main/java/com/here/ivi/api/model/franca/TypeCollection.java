@@ -39,6 +39,11 @@ public class TypeCollection extends FrancaElement {
   }
 
   @Override
+  public int hashCode() {
+    return francaTypeCollection != null ? francaTypeCollection.hashCode() : 0;
+  }
+
+  @Override
   public FTypeCollection getFrancaTypeCollection() {
     return francaTypeCollection;
   }

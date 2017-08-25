@@ -15,8 +15,8 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.jni.JniToCppTypeConversionTemplateDelegator;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -28,7 +28,7 @@ public final class JniToCppNonPrimitiveTypeConversionTest {
     // Arrange
     String cppName = "cppVariable";
     String jniName = "jniVariable";
-    Map<String, String> names = new HashMap();
+    Map<String, String> names = new ConcurrentHashMap<>();
     names.put(JniToCppTypeConversionTemplateDelegator.CPP_VARIABLE_NAME, cppName);
     names.put(JniToCppTypeConversionTemplateDelegator.JNI_VARIABLE_NAME, jniName);
 

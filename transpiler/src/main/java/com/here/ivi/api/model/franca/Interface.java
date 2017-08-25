@@ -38,6 +38,13 @@ public class Interface extends FrancaElement {
   }
 
   @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + (francaInterface != null ? francaInterface.hashCode() : 0);
+    return result;
+  }
+
+  @Override
   public FTypeCollection getFrancaTypeCollection() {
     return getFrancaInterface(); // an interface is type collection as well
   }

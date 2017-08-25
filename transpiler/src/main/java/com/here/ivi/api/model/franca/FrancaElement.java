@@ -68,6 +68,13 @@ public abstract class FrancaElement {
         && modelInfo.getFModel().getName().equals(co.getModelInfo().getFModel().getName());
   }
 
+  @Override
+  public int hashCode() {
+    int result = propertyAccessor != null ? propertyAccessor.hashCode() : 0;
+    result = 31 * result + (modelInfo != null ? modelInfo.hashCode() : 0);
+    return result;
+  }
+
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
     Boolean result = propertyAccessor.getBoolean(francaModelElement, valueName);
     return result != null && result;

@@ -32,6 +32,7 @@ public class CppComplexTypeRef extends CppTypeRef {
     return info == CppTypeInfo.Enumeration;
   }
 
+  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
   public static class Builder {
     private final String fullyQualifiedName;
     private Collection<Include> includes;

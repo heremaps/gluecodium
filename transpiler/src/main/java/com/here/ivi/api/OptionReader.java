@@ -85,6 +85,7 @@ public final class OptionReader {
     options.addOption(generatorsOpt);
   }
 
+  @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
   public TranspilerOptions read(final String[] args) throws OptionReaderException {
     TranspilerOptions res = new TranspilerOptions();
     CommandLineParser parser = new BasicParser();

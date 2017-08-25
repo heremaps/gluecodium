@@ -21,19 +21,6 @@ public class CPointerType extends CType {
     isConst = type.isConst;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    CType that = (CType) o;
-    return super.equals(that);
-  }
-
   public static CPointerType makeConstPointer(CType type) {
     CType underlineType = new CType(type.name, new ArrayList<>(type.includes));
     underlineType.isConst = true;

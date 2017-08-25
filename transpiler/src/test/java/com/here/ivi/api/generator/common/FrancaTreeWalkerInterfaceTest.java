@@ -45,6 +45,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
+@SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods"})
 public class FrancaTreeWalkerInterfaceTest {
 
   @Mock private ModelBuilder modelBuilder;

@@ -22,6 +22,7 @@ public class CppParameter extends CppElement {
     this.type = type;
   }
 
+  @Override
   public boolean equals(Object other) {
     if (other == null) {
       return false;
@@ -35,6 +36,13 @@ public class CppParameter extends CppElement {
 
     CppParameter otherParameter = (CppParameter) other;
     return super.equals(other) && type.equals(otherParameter.type);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + (type != null ? type.hashCode() : 0);
+    return result;
   }
 
   @Override

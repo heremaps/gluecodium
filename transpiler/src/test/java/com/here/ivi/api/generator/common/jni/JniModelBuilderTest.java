@@ -56,6 +56,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
+@SuppressWarnings("PMD.TooManyFields")
 public class JniModelBuilderTest {
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)

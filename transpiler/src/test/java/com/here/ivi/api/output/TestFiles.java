@@ -16,13 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 
 class TestFiles {
-  static final String CONTENT1 = "CONTENT1";
-  static final String CONTENT3 = "CONTENT3";
-  static final String PATH1 = "PATH1_1/PATH1_2/FILE1";
-  static final String PATH2 = "PATH2/FILE2";
-  static final String PATH3 = "FILE3";
+  protected static final String CONTENT1 = "CONTENT1";
+  protected static final String CONTENT3 = "CONTENT3";
+  protected static final String PATH1 = "PATH1_1/PATH1_2/FILE1";
+  protected static final String PATH2 = "PATH2/FILE2";
+  protected static final String PATH3 = "FILE3";
 
-  static final List<GeneratedFile> FILES =
+  protected static final List<GeneratedFile> FILES =
       Arrays.asList(
           new GeneratedFile(CONTENT1, PATH1),
           new GeneratedFile("", PATH2),

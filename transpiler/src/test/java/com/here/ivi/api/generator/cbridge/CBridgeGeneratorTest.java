@@ -23,9 +23,9 @@ import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.ArrayEList;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FInterface;
@@ -268,7 +268,7 @@ public class CBridgeGeneratorTest {
 
   @Test
   public void createFunctionTakingAndReturningBasicIntegralTypes() throws IOException {
-    Map<FBasicTypeId, String> expectedCTypes = new HashMap<>();
+    Map<FBasicTypeId, String> expectedCTypes = new ConcurrentHashMap<>();
     expectedCTypes.put(FBasicTypeId.INT8, "int8_t");
     expectedCTypes.put(FBasicTypeId.UINT8, "uint8_t");
     expectedCTypes.put(FBasicTypeId.INT16, "int16_t");
@@ -317,7 +317,7 @@ public class CBridgeGeneratorTest {
 
   @Test
   public void createFunctionTakingAndReturningFloatTypes() throws IOException {
-    Map<FBasicTypeId, String> expectedCTypes = new HashMap<>();
+    Map<FBasicTypeId, String> expectedCTypes = new ConcurrentHashMap<>();
     expectedCTypes.put(FBasicTypeId.FLOAT, "float");
     expectedCTypes.put(FBasicTypeId.DOUBLE, "double");
 

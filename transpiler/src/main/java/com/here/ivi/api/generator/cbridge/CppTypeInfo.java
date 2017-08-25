@@ -109,6 +109,7 @@ public class CppTypeInfo {
         TypeCategory.STRUCT);
   }
 
+  // TODO (APIGEN-625): refactor this
   private CppTypeInfo(
       String baseType,
       List<Include> baseTypeIncludes,

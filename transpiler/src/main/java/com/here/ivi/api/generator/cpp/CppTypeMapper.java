@@ -41,6 +41,8 @@ import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 import org.franca.core.franca.FUnionType;
 
+// TODO (APIGEN-624): this class should be split apart to be more object-oriented
+// PMD: Possible God class
 public final class CppTypeMapper {
   private static final String VOID_POINTER = "void*";
 

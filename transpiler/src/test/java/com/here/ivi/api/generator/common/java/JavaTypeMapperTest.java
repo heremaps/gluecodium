@@ -31,16 +31,11 @@ import org.mockito.MockitoAnnotations;
 @RunWith(Parameterized.class)
 public class JavaTypeMapperTest {
 
-  @Mock private FTypeRef francaTypeRef;
-
   private final FBasicTypeId francaBasicType;
   private final String expectedJavaTypeName;
+  @Mock private FTypeRef francaTypeRef;
 
-  public JavaTypeMapperTest(final FBasicTypeId francaBasicType, final String expectedJavaTypeName) {
-    this.francaBasicType = francaBasicType;
-    this.expectedJavaTypeName = expectedJavaTypeName;
-  }
-
+  @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
   @Parameterized.Parameters
   public static Collection<Object[]> testData() {
     return Arrays.asList(
@@ -60,6 +55,11 @@ public class JavaTypeMapperTest {
           {FBasicTypeId.BYTE_BUFFER, "byte[]"},
           {FBasicTypeId.UNDEFINED, "void"},
         });
+  }
+
+  public JavaTypeMapperTest(final FBasicTypeId francaBasicType, final String expectedJavaTypeName) {
+    this.francaBasicType = francaBasicType;
+    this.expectedJavaTypeName = expectedJavaTypeName;
   }
 
   @Before
