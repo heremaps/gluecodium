@@ -15,8 +15,6 @@ import java.util.ArrayList;
 
 public class CPointerType extends CType {
   public static final CPointerType CONST_CHAR_PTR = makeConstPointer(CType.CHAR);
-  public static final CPointerType VOID_PTR = new CPointerType(CType.VOID);
-  public static final CPointerType CONST_VOID_PTR = makeConstPointer(CType.VOID);
 
   public CPointerType(CType type) {
     super(type.name, new ArrayList<>(type.includes));

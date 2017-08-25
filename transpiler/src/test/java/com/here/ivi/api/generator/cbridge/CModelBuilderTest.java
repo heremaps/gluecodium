@@ -203,36 +203,6 @@ public class CModelBuilderTest {
   }
 
   @Test
-  public void createFourFunctionsForReturningString() {
-    COutParameter returnVal = new COutParameter("result", CppTypeInfo.STRING);
-    contextStack.injectResult(returnVal);
-
-    modelBuilder.finishBuilding(francaMethod);
-
-    List<CFunction> functions = getResults(CFunction.class);
-    assertEquals(4, functions.size());
-    assertEquals(FULL_FUNCTION_NAME, functions.get(0).name);
-    assertEquals(FULL_FUNCTION_NAME + "_release", functions.get(1).name);
-    assertEquals(FULL_FUNCTION_NAME + "_getData", functions.get(2).name);
-    assertEquals(FULL_FUNCTION_NAME + "_getSize", functions.get(3).name);
-  }
-
-  @Test
-  public void createFourFunctionsForReturningByteBuffer() {
-    COutParameter returnVal = new COutParameter("result", CppTypeInfo.BYTE_VECTOR);
-    contextStack.injectResult(returnVal);
-
-    modelBuilder.finishBuilding(francaMethod);
-
-    List<CFunction> functions = getResults(CFunction.class);
-    assertEquals(4, functions.size());
-    assertEquals(FULL_FUNCTION_NAME, functions.get(0).name);
-    assertEquals(FULL_FUNCTION_NAME + "_release", functions.get(1).name);
-    assertEquals(FULL_FUNCTION_NAME + "_getData", functions.get(2).name);
-    assertEquals(FULL_FUNCTION_NAME + "_getSize", functions.get(3).name);
-  }
-
-  @Test
   public void finishBuildingCreatesInterface() {
     CFunction function = new CFunction.Builder("SomeName").build();
     contextStack.injectResult(function);
