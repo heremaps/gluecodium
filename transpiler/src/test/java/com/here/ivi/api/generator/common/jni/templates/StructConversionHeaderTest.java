@@ -22,10 +22,10 @@ import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniStruct;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -68,7 +68,7 @@ public final class StructConversionHeaderTest {
 
     //arrange
 
-    Map<String, List<?>> mustacheData = new HashMap<>();
+    Map<String, List<?>> mustacheData = new ConcurrentHashMap<>();
     mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, new LinkedList<>());
     mustacheData.put(JavaNativeInterfacesGenerator.MODELS_NAME, Collections.emptyList());
 
@@ -99,7 +99,7 @@ public final class StructConversionHeaderTest {
     JniContainer container = createJniContainer(OUTER_CLASS_NAME);
     JniStruct struct = container.structs.get(0);
 
-    Map<String, List<?>> mustacheData = new HashMap<>();
+    Map<String, List<?>> mustacheData = new ConcurrentHashMap<>();
     mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, includes);
     mustacheData.put(
         JavaNativeInterfacesGenerator.MODELS_NAME, Collections.singletonList(container));
@@ -144,7 +144,7 @@ public final class StructConversionHeaderTest {
     JniContainer container2 = createJniContainer(OUTER_CLASS_NAME2);
     JniStruct struct2 = container2.structs.get(0);
 
-    Map<String, List<?>> mustacheData = new HashMap<>();
+    Map<String, List<?>> mustacheData = new ConcurrentHashMap<>();
     mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, includes);
     mustacheData.put(
         JavaNativeInterfacesGenerator.MODELS_NAME, Arrays.asList(container, container2));

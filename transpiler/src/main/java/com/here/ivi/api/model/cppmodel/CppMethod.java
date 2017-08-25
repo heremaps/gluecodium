@@ -94,6 +94,17 @@ public final class CppMethod extends CppElementWithIncludes {
         && qualifiersEquality;
   }
 
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + (returnType != null ? returnType.hashCode() : 0);
+    result = 31 * result + (specifiers != null ? specifiers.hashCode() : 0);
+    result = 31 * result + (qualifiers != null ? qualifiers.hashCode() : 0);
+    result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
+    return result;
+  }
+
+  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
   public static class Builder {
     private final String name;
     private String methodComment;

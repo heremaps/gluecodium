@@ -73,7 +73,7 @@ public class CBridgeNameRulesTest {
             "_",
             (String[])
                 addAll(
-                    PACKAGES.toArray(new String[2]),
+                    PACKAGES.toArray(new String[PACKAGES.size()]),
                     TYPE_COLLECTION_NAME,
                     toUpperCamelCase(STRUCT_NAME) + "Ref"));
 
@@ -89,7 +89,7 @@ public class CBridgeNameRulesTest {
             "_",
             (String[])
                 addAll(
-                    PACKAGES.toArray(new String[2]),
+                    PACKAGES.toArray(new String[PACKAGES.size()]),
                     INTERFACE_NAME,
                     toUpperCamelCase(STRUCT_NAME) + "Ref"));
 
@@ -187,6 +187,7 @@ public class CBridgeNameRulesTest {
 
   private String prependNameWithPackageAndInterface(String name, String delimiter) {
     return String.join(
-        delimiter, (String[]) addAll(PACKAGES.toArray(new String[2]), INTERFACE_NAME, name));
+        delimiter,
+        (String[]) addAll(PACKAGES.toArray(new String[PACKAGES.size()]), INTERFACE_NAME, name));
   }
 }

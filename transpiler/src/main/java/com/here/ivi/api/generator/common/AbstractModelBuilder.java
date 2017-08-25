@@ -30,6 +30,7 @@ import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 import org.franca.core.franca.FUnionType;
 
+@SuppressWarnings({"PMD.TooManyMethods"})
 public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   private final ModelBuilderContextStack<E> contextStack;

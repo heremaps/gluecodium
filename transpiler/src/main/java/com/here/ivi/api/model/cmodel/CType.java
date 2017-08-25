@@ -73,6 +73,13 @@ public class CType extends CElement {
   }
 
   @Override
+  public int hashCode() {
+    int result = isConst != null ? isConst.hashCode() : 0;
+    result = 31 * result + (name != null ? name.hashCode() : 0);
+    return result;
+  }
+
+  @Override
   public String toString() {
     return isConst ? "const " + name : name;
   }

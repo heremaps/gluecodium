@@ -60,6 +60,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
+@SuppressWarnings("PMD.TooManyFields")
 @PrepareForTest(JavaTypeMapper.class)
 public class JavaModelBuilderTest {
 

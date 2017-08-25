@@ -15,6 +15,7 @@ import java.util.LinkedList;
 
 public class ModelBuilderContextStack<E> {
 
+  @SuppressWarnings({"PMD.LooseCoupling"})
   private final LinkedList<ModelBuilderContext<E>> contextStack = new LinkedList<>();
 
   public void openContext() {

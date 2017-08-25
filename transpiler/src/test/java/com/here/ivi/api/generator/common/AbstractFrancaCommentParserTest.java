@@ -55,14 +55,6 @@ public class AbstractFrancaCommentParserTest {
 
   @Spy private final ArrayEList<FAnnotation> annotationList = new ArrayEList<>();
 
-  private abstract static class TestableFrancaCommentParser
-      extends AbstractFrancaCommentParser<AbstractFrancaCommentParser.Comments> {
-
-    TestableFrancaCommentParser() {
-      super((FModelElement) null, null);
-    }
-  }
-
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
@@ -80,6 +72,15 @@ public class AbstractFrancaCommentParserTest {
 
     when(annotation.getComment()).thenReturn(ANNOTATION_COMMENT);
     when(secondAnnotation.getComment()).thenReturn(SECOND_ANNOTATION_COMMENT);
+  }
+
+  @SuppressWarnings("PMD.CallSuperInConstructor")
+  private abstract static class TestableFrancaCommentParser
+      extends AbstractFrancaCommentParser<AbstractFrancaCommentParser.Comments> {
+
+    TestableFrancaCommentParser() {
+      super((FModelElement) null, null);
+    }
   }
 
   @Test

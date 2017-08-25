@@ -85,6 +85,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
   CppDefaultInitializer.class,
   CppValueMapper.class
 })
+@SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods", "PMD.CouplingBetweenObjects"})
 public class CppModelBuilderTest {
 
   private static final String CLASS_NAME = "classy";

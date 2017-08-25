@@ -54,6 +54,7 @@ public class CppClass extends CppElement {
         .map(CppElement.class::cast);
   }
 
+  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
   public static class Builder {
 
     private final String name;

@@ -22,7 +22,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class SwiftParameterTest {
 
-  private static final String INTERFACE_NAME = "interfaceName";
+  private static final String INTERFACE_NAME = "INTERFACE_NAME";
+  private static final String VARIABLE_NAME = "VARIABLE_NAME";
 
   @Test
   public void emptyVariableName() {
@@ -32,11 +33,10 @@ public class SwiftParameterTest {
 
   @Test
   public void differentVariableName() {
-    final String variableName = "variableName";
     SwiftParameter parameter =
-        new SwiftParameter(INTERFACE_NAME, new SwiftType("String"), variableName);
+        new SwiftParameter(INTERFACE_NAME, new SwiftType("String"), VARIABLE_NAME);
 
     assertTrue(parameter.differentInterfaceAndVariableName);
-    assertEquals(variableName, parameter.variableName);
+    assertEquals(VARIABLE_NAME, parameter.variableName);
   }
 }

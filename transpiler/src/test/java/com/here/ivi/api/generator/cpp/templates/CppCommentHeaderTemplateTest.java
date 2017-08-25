@@ -15,8 +15,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -32,7 +32,7 @@ public final class CppCommentHeaderTemplateTest {
   private static final int GENERATOR_NOTICE_LINES_COUNT = 4;
   private static final int PREFIX_LENGTH = 3;
 
-  private final Map<String, Object> dataObject = new HashMap<>();
+  private final Map<String, Object> dataObject = new ConcurrentHashMap<>();
 
   @Test
   public void nullGeneratorNotice() {

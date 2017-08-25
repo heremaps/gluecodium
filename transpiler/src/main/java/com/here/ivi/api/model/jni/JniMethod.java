@@ -34,6 +34,8 @@ public class JniMethod implements JniElement {
         && ((JavaPrimitiveType) javaReturnType).type == JavaPrimitiveType.Type.VOID;
   }
 
+  // TODO (APIGEN-623): refactor equals method
+  // The method 'equals' has a Modified Cyclomatic Complexity of 14.
   @Override
   public boolean equals(Object o) {
     if (this == o) {

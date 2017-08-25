@@ -73,6 +73,7 @@ Excluded: android, logging, GenericsNaming
         <exclude name="TooFewBranchesForASwitchStatement" />
         <exclude name="UseLocaleWithCaseConversions" />
         <exclude name="UseUtilityClass" />
+        <exclude name="AccessorClassGeneration" />
     </rule>
 
     <rule ref="rulesets/java/empty.xml" />

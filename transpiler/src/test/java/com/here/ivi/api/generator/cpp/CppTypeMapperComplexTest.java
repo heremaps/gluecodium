@@ -112,6 +112,7 @@ public class CppTypeMapperComplexTest {
   }
 
   @Test
+  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   public void mapNonEmptyStruct() throws Exception {
 
     //mock franca related stuff
@@ -144,6 +145,7 @@ public class CppTypeMapperComplexTest {
   }
 
   @Test
+  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   public void mapNonEmptyEnum() throws Exception {
 
     //mock type reference
@@ -243,6 +245,7 @@ public class CppTypeMapperComplexTest {
     return defined;
   }
 
+  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   private static LazyInternalInclude mockLazyInclude(DefinedBy definer) throws Exception {
     LazyInternalInclude lazyInclude = new LazyInternalInclude(definer);
     whenNew(LazyInternalInclude.class).withArguments(definer).thenReturn(lazyInclude);
