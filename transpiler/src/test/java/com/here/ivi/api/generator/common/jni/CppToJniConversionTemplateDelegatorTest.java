@@ -17,6 +17,7 @@ import static org.junit.Assert.fail;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import java.util.Collection;
 import org.junit.Before;
@@ -58,7 +59,8 @@ public class CppToJniConversionTemplateDelegatorTest {
           {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8)},
           {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT8)},
           {new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.DOUBLE)},
-          {new CppComplexTypeRef.Builder("UserDefined").build()}
+          {new CppComplexTypeRef.Builder("UserDefined").build()},
+          {new CppTypeDefRef("Typedef", new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64))}
         });
   }
 
@@ -69,7 +71,7 @@ public class CppToJniConversionTemplateDelegatorTest {
   }
 
   private static void verifyResult(final CppTypeRef cppType, final CharSequence result) {
-    if (cppType instanceof CppPrimitiveTypeRef) {
+    if (cppType instanceof CppPrimitiveTypeRef || cppType instanceof CppTypeDefRef) {
       assertEquals(CPP_VARIABLE_NAME, result.toString());
     } else if (cppType instanceof CppComplexTypeRef) {
       PowerMockito.verifyStatic();

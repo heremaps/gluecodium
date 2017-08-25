@@ -16,6 +16,7 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
 import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
@@ -134,8 +135,11 @@ public final class CppTypeMapper {
   }
 
   private static CppTypeRef mapTypeDef(FrancaElement<?> rootModel, FTypeDef typedef) {
-    // TODO APIGEN-439 Replace this when typedef support is implemented
-    return map(rootModel, typedef.getActualType());
+    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(typedef);
+    String fullyQualifiedName =
+        createFullyQualifiedName(
+            nestedNameSpecifier, CppNameRules.getStructName(typedef.getName()));
+    return new CppTypeDefRef(fullyQualifiedName, map(rootModel, typedef.getActualType()));
   }
 
   private static CppComplexTypeRef mapArray(

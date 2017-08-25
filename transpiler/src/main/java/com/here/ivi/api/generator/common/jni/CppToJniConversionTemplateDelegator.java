@@ -13,10 +13,14 @@ package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 
 public class CppToJniConversionTemplateDelegator {
   public static CharSequence generate(final String cppVariableName, final CppTypeRef cppType) {
+    if (cppType instanceof CppTypeDefRef) {
+      return generate(cppVariableName, ((CppTypeDefRef) cppType).actualType);
+    }
     if (cppType instanceof CppPrimitiveTypeRef) {
       return cppVariableName;
     } else {
