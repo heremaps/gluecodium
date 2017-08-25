@@ -12,22 +12,21 @@
 package com.here.ivi.api.generator.common.java.templates;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.javamodel.JavaInheritance;
+import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaElements;
+import java.time.Year;
 import java.util.HashMap;
 
-// TODO: Kill while porting JavaClassTemplate
-public final class JavaInheritanceTemplate {
-  private JavaInheritanceTemplate() {}
+public final class JavaClassTemplate {
+  private JavaClassTemplate() {}
 
-  /**
-   * Generates extendedInterface for an interface
-   *
-   * @param baseClass set of interface extendedInterface
-   */
-  public static String generate(final JavaInheritance baseClass) {
+  public static String generate(final JavaClass javaClass) {
     HashMap<String, Object> data = new HashMap<>();
-    data.put("base", baseClass);
+    data.put("year", Year.now().getValue()); // Copyright template
+    // TODO(APIGEN-590): Move this into JavaClass
+    data.put("imports", JavaElements.collectImports(javaClass));
+    data.put("javaClass", javaClass);
 
-    return TemplateEngine.render("java/Extends", data);
+    return TemplateEngine.render("java/ClassHeader", data);
   }
 }

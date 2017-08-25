@@ -13,19 +13,36 @@ package com.here.ivi.api.generator.common.java.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaEnum;
 import com.here.ivi.api.model.javamodel.JavaEnumItem;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import java.util.Arrays;
-import org.eclipse.xtext.junit4.XtextRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-@RunWith(XtextRunner.class)
+@RunWith(JUnit4.class)
 public final class JavaEnumTemplateTest {
+  private static final String TEST_COPYRIGHT_HEADER = JavaCopyrightHeaderTemplate.generate() + "\n";
+
   @Test
-  public void simpleEnumGeneration() {
+  public void generate_simple() {
+    // Arrange
+    JavaEnum javaEnum = new JavaEnum("MyEnum");
+    javaEnum.items = Arrays.asList(new JavaEnumItem("FooName"), new JavaEnumItem("BarName"));
+    String expected = "enum MyEnum {\n" + "    FooName,\n" + "    BarName,\n" + "};";
+
+    // Act
+    String generated = TemplateEngine.render("java/Enum", javaEnum);
+
+    // Assert
+    assertEquals(expected, generated);
+  }
+
+  @Test
+  public void generate_withValues() {
     // Arrange
     JavaEnum javaEnum = new JavaEnum("MyEnum");
     javaEnum.comment = "A test enum";
@@ -33,39 +50,32 @@ public final class JavaEnumTemplateTest {
         Arrays.asList(
             new JavaEnumItem("FooName", new JavaValue("FooValue")),
             new JavaEnumItem("BarName", new JavaValue("BarValue")));
-
-    // Act
-    String generated = JavaEnumTemplate.generate(javaEnum).toString();
-
-    // Assert
     String expected =
         "/**\n"
             + " * A test enum\n"
             + " */\n"
             + "enum MyEnum {\n"
             + "    FooName = FooValue,\n"
-            + "    BarName = BarValue\n"
-            + "};\n";
+            + "    BarName = BarValue,\n"
+            + "};";
 
+    // Act
+    String generated = TemplateEngine.render("java/Enum", javaEnum);
+
+    // Assert
     assertEquals(expected, generated);
   }
 
   @Test
-  public void topLevelEnumGeneration() {
+  public void generate_topLevel() {
     // Arrange
     JavaEnum javaEnum = new JavaEnum("MyEnum");
-    javaEnum.isTopLevel = true;
     javaEnum.javaPackage = new JavaPackage(Arrays.asList("com", "here", "enums", "example"));
     javaEnum.comment = "A test enum";
     javaEnum.items =
         Arrays.asList(
             new JavaEnumItem("FooName", new JavaValue("FooValue")),
             new JavaEnumItem("BarName", new JavaValue("BarValue")));
-
-    // Act
-    String generated = JavaEnumTemplate.generate(javaEnum).toString();
-
-    // Assert
     String expected =
         "package com.here.enums.example;\n"
             + "\n"
@@ -74,9 +84,13 @@ public final class JavaEnumTemplateTest {
             + " */\n"
             + "enum MyEnum {\n"
             + "    FooName = FooValue,\n"
-            + "    BarName = BarValue\n"
-            + "};\n";
+            + "    BarName = BarValue,\n"
+            + "};";
 
-    assertEquals(expected, generated);
+    // Act
+    String generated = JavaEnumTemplate.generate(javaEnum);
+
+    // Assert
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 }

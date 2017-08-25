@@ -16,6 +16,10 @@ import java.util.stream.Stream;
 public class JavaEnumItem extends JavaElement {
   public final JavaValue value;
 
+  public JavaEnumItem(final String name) {
+    this(name, null);
+  }
+
   public JavaEnumItem(final String name, final JavaValue value) {
     super(name);
     this.value = value;

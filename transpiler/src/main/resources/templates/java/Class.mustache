@@ -1,0 +1,13 @@
+{{>common/DocComment}}
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}class {{name}} {{#extendedClass}}extends {{name}} {{/extendedClass}}{
+{{#constants}}{{prefixPartial "java/Constant" "    "}}
+{{/constants}}
+{{#fields}}{{prefixPartial "java/Field" "    "}}
+{{/fields}}
+{{#enums}}{{prefixPartial "java/Enum" "    "}}
+{{/enums}}
+{{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
+{{/methods}}
+{{#innerClasses}}{{prefixPartial "java/Class" "    "}}
+{{/innerClasses}}
+}

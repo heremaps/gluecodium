@@ -16,13 +16,13 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public final class JavaClass extends JavaElement {
-  public enum ClassQualifier {
+  public enum Qualifier {
     STATIC("static"),
     FINAL("final");
 
     private final String value;
 
-    ClassQualifier(final String value) {
+    Qualifier(final String value) {
       this.value = value;
     }
 
@@ -36,14 +36,14 @@ public final class JavaClass extends JavaElement {
   public Set<JavaMethod> methods = new LinkedHashSet<>();
   public Set<JavaField> fields = new LinkedHashSet<>();
 
-  // TODO(APIGEN-122): Change to set of javainterface and name "implements", add a nullable
-  // field called "parent" of type JavaClass
-  public JavaInheritance inheritance;
+  public JavaClass extendedClass;
+  // TODO(APIGEN-122, APIGEN-589): Implement interface inheritance later:
+  public Set<JavaInterface> implementedInterfaces = new LinkedHashSet<>();
 
   public Set<JavaConstant> constants = new LinkedHashSet<>();
   public Set<JavaEnum> enums = new LinkedHashSet<>();
   public Set<JavaClass> innerClasses = new LinkedHashSet<>();
-  public Set<ClassQualifier> qualifiers = new LinkedHashSet<>();
+  public Set<Qualifier> qualifiers = new LinkedHashSet<>();
 
   public JavaClass(String name) {
     super(name);
@@ -57,9 +57,9 @@ public final class JavaClass extends JavaElement {
                 fields.stream(),
                 Stream.concat(
                     constants.stream(),
-                    inheritance == null
+                    extendedClass == null
                         ? enums.stream()
-                        : Stream.concat(enums.stream(), inheritance.stream()))))
+                        : Stream.concat(enums.stream(), extendedClass.stream()))))
         .map(JavaElement.class::cast);
   }
 }

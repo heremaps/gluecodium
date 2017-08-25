@@ -40,7 +40,6 @@ public class JniImplementationTemplate {
     return
      '''
       «JavaCopyrightHeaderTemplate.generate()»
-
       «FOR include : jniContainer.includes»
       #include "«include.fileName»"
       «ENDFOR»

@@ -34,7 +34,7 @@ public final class JniImplementationTemplateTest {
       Collections.singletonList(Include.createInternalInclude("stub/libhello/TestClassStub.h"));
   private static final String BASE_PARAMETER_NAME = "intParam";
   private static final String JNI_PARAMETER_NAME = "j" + BASE_PARAMETER_NAME;
-  private static final String COPYRIGHT_NOTICE = JavaCopyrightHeaderTemplate.generate() + "\n";
+  private static final String COPYRIGHT_NOTICE = JavaCopyrightHeaderTemplate.generate();
   private static final String JNI_HEADER_INCLUDE = "#include \"stub/libhello/TestClassStub.h\"\n";
   private static final String EXTERN_C = "\nextern \"C\" {\n";
   private static final String END_OF_FILE = "\n}\n";

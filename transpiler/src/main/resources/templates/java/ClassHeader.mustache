@@ -1,0 +1,11 @@
+{{>java/CopyrightHeader}}
+
+{{#javaClass}}{{#javaPackage}}
+{{>java/Package}}
+{{/javaPackage}}{{/javaClass}}
+
+{{#imports}}
+{{>java/Import}}
+
+{{/imports}}
+{{#javaClass}}{{>java/Class}}{{/javaClass}}

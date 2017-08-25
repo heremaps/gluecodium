@@ -14,16 +14,19 @@ package com.here.ivi.api.generator.common.java.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaClass.Qualifier;
+import com.here.ivi.api.model.javamodel.JavaConstant;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaEnum;
 import com.here.ivi.api.model.javamodel.JavaEnumItem;
 import com.here.ivi.api.model.javamodel.JavaField;
-import com.here.ivi.api.model.javamodel.JavaInheritance;
+import com.here.ivi.api.model.javamodel.JavaImport;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
 import java.util.Arrays;
@@ -33,10 +36,10 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaClassTemplateTest {
-  private static final String COPYRIGHT_NOTICE = JavaCopyrightHeaderTemplate.generate() + "\n";
+  private static final String TEST_COPYRIGHT_HEADER = JavaCopyrightHeaderTemplate.generate() + "\n";
 
   @Test
-  public void generateMinimumClass() {
+  public void generate_minimal() {
     // Arrange
     JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
@@ -50,15 +53,14 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated =
-        com.here.ivi.api.generator.common.java.templates.JavaClassTemplate.generate(javaClass);
+    CharSequence generated = JavaClassTemplate.generate(javaClass);
 
     // Assert
-    assertEquals(COPYRIGHT_NOTICE + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
   }
 
   @Test
-  public void generateClassWithMethod() {
+  public void generate_withMethod() {
     // Arrange
     JavaCustomType exampleType = new JavaCustomType("ExampleType");
     JavaParameter parameter = new JavaParameter(new JavaCustomType("InParamType"), "param");
@@ -80,22 +82,21 @@ public final class JavaClassTemplateTest {
             + " * Example class comment\n"
             + " */\n"
             + "public class ExampleClass {\n"
-            + "  /**\n"
-            + "   * Method comment\n"
-            + "   */\n"
-            + "  private native ExampleType someMethod(final InParamType param);\n"
+            + "    /**\n"
+            + "     * Method comment\n"
+            + "     */\n"
+            + "    private native ExampleType someMethod(final InParamType param);\n"
             + "}";
 
     // Act
-    CharSequence generated =
-        com.here.ivi.api.generator.common.java.templates.JavaClassTemplate.generate(javaClass);
+    CharSequence generated = JavaClassTemplate.generate(javaClass);
 
     // Assert
-    assertEquals(COPYRIGHT_NOTICE + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
   }
 
   @Test
-  public void generateClassWithEnum() {
+  public void generate_withEnum() {
     // Arrange
     JavaEnumItem enumItem = new JavaEnumItem("ITEM", new JavaValue("1"));
     JavaEnum classEnum = new JavaEnum("ExampleEnum");
@@ -112,24 +113,23 @@ public final class JavaClassTemplateTest {
             + " * Example class comment\n"
             + " */\n"
             + "class ExampleClass {\n"
-            + "  /**\n"
-            + "   * Enum comment\n"
-            + "   */\n"
-            + "  enum ExampleEnum {\n"
-            + "      ITEM = 1\n"
-            + "  };\n"
+            + "    /**\n"
+            + "     * Enum comment\n"
+            + "     */\n"
+            + "    enum ExampleEnum {\n"
+            + "        ITEM = 1,\n"
+            + "    };\n"
             + "}";
 
     // Act
-    CharSequence generated =
-        com.here.ivi.api.generator.common.java.templates.JavaClassTemplate.generate(javaClass);
+    CharSequence generated = JavaClassTemplate.generate(javaClass);
 
     // Assert
-    assertEquals(COPYRIGHT_NOTICE + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
   }
 
   @Test
-  public void generateClassWithEnumAndMethods() {
+  public void generate_withEnumAndMethods() {
     // Arrange
     JavaMethod classMethod =
         new JavaMethod("someMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
@@ -151,32 +151,31 @@ public final class JavaClassTemplateTest {
             + " * Example class comment\n"
             + " */\n"
             + "class ExampleClass {\n"
-            + "  /**\n"
-            + "   * Enum comment\n"
-            + "   */\n"
-            + "  enum ExampleEnum {\n"
-            + "      ITEM = 1\n"
-            + "  };\n"
-            + "  /**\n"
-            + "   * Method comment\n"
-            + "   */\n"
-            + "  native void someMethod();\n"
+            + "    /**\n"
+            + "     * Enum comment\n"
+            + "     */\n"
+            + "    enum ExampleEnum {\n"
+            + "        ITEM = 1,\n"
+            + "    };\n"
+            + "    /**\n"
+            + "     * Method comment\n"
+            + "     */\n"
+            + "    native void someMethod();\n"
             + "}";
 
     // Act
-    CharSequence generated =
-        com.here.ivi.api.generator.common.java.templates.JavaClassTemplate.generate(javaClass);
+    CharSequence generated = JavaClassTemplate.generate(javaClass);
 
     // Assert
-    assertEquals(COPYRIGHT_NOTICE + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
   }
 
   @Test
-  public void generateClassWithInheritance() {
+  public void generate_withInheritance() {
     // Arrange
     JavaClass javaClass = new JavaClass("ChildClass");
     javaClass.comment = "Child class comment";
-    javaClass.inheritance = new JavaInheritance(new JavaCustomType("ParentClass"));
+    javaClass.extendedClass = new JavaClass("ParentClass");
     String expected =
         "package com.here.android;\n"
             + "\n"
@@ -187,15 +186,14 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated =
-        com.here.ivi.api.generator.common.java.templates.JavaClassTemplate.generate(javaClass);
+    CharSequence generated = JavaClassTemplate.generate(javaClass);
 
     // Arrange
-    assertEquals(COPYRIGHT_NOTICE + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
   }
 
   @Test
-  public void generateClassWithInnerClass() {
+  public void generate_withInnerClass() {
     // Arrange
     JavaField intField =
         new JavaField(
@@ -215,23 +213,23 @@ public final class JavaClassTemplateTest {
             + " * Example class comment\n"
             + " */\n"
             + "public class ExampleClass {\n"
-            + "  /**\n"
-            + "   * Inner class comment\n"
-            + "   */\n"
-            + "  protected class InnerClass {\n"
-            + "    int intField = 1;\n"
-            + "  }\n"
+            + "    /**\n"
+            + "     * Inner class comment\n"
+            + "     */\n"
+            + "    protected class InnerClass {\n"
+            + "        int intField = 1;\n"
+            + "    }\n"
             + "}";
 
     // Act
     CharSequence generated = JavaClassTemplate.generate(javaClass);
 
     // Arrange
-    assertEquals(COPYRIGHT_NOTICE + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
   }
 
   @Test
-  public void generateStaticClass() {
+  public void generate_staticInnerClass() {
     // Arrange
     JavaField intField =
         new JavaField(
@@ -240,7 +238,7 @@ public final class JavaClassTemplateTest {
     innerClass.comment = "Inner class comment";
     innerClass.fields.add(intField);
     innerClass.visibility = JavaVisibility.PUBLIC;
-    innerClass.qualifiers.add(JavaClass.ClassQualifier.STATIC);
+    innerClass.qualifiers.add(Qualifier.STATIC);
     JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
     javaClass.visibility = JavaVisibility.PACKAGE;
@@ -252,27 +250,29 @@ public final class JavaClassTemplateTest {
             + " * Example class comment\n"
             + " */\n"
             + "class ExampleClass {\n"
-            + "  /**\n"
-            + "   * Inner class comment\n"
-            + "   */\n"
-            + "  public static class StaticInnerClass {\n"
-            + "    int intField = 1;\n"
-            + "  }\n"
+            + "    /**\n"
+            + "     * Inner class comment\n"
+            + "     */\n"
+            + "    public static class StaticInnerClass {\n"
+            + "        int intField = 1;\n"
+            + "    }\n"
             + "}";
 
     // Act
     CharSequence generated = JavaClassTemplate.generate(javaClass);
 
     // Assert
-    assertEquals(COPYRIGHT_NOTICE + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
   }
 
   @Test
-  public void generateFinalClass() {
+  public void generate_finalClassWithConstant() {
     // Arrange
     JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
-    javaClass.qualifiers.add(JavaClass.ClassQualifier.FINAL);
+    javaClass.qualifiers.add(Qualifier.FINAL);
+    javaClass.constants.add(
+        new JavaConstant(new JavaPrimitiveType(Type.FLOAT), "myConst", new JavaValue("42")));
     String expected =
         "package com.here.android;\n"
             + "\n"
@@ -280,12 +280,38 @@ public final class JavaClassTemplateTest {
             + " * Example class comment\n"
             + " */\n"
             + "final class ExampleClass {\n"
+            + "    static final float myConst = 42;\n"
             + "}";
 
     // Act
     CharSequence generated = JavaClassTemplate.generate(javaClass);
 
     // Assert
-    assertEquals(COPYRIGHT_NOTICE + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
+  }
+
+  @Test
+  public void generate_withImports() {
+    // Arrange
+    JavaField fieldWithImports = new JavaField(new JavaCustomType("Foo"), "someField");
+    fieldWithImports.type.imports.add(
+        new JavaImport("Foo", new JavaPackage(Arrays.asList("com", "example"))));
+    JavaClass javaClass = new JavaClass("ClassWithImports");
+    javaClass.qualifiers.add(Qualifier.FINAL);
+    javaClass.fields.add(fieldWithImports);
+    String expected =
+        "package com.here.android;\n"
+            + "\n"
+            + "import com.example.Foo;\n"
+            + "\n"
+            + "final class ClassWithImports {\n"
+            + "    Foo someField = new Foo();\n"
+            + "}";
+
+    // Act
+    CharSequence generated = JavaClassTemplate.generate(javaClass);
+
+    // Assert
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
   }
 }
