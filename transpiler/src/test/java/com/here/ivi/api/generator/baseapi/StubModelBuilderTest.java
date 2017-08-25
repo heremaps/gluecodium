@@ -35,8 +35,12 @@ import com.here.ivi.api.model.cppmodel.CppEnumItem;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.cppmodel.CppTypeDef;
+import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
+import com.here.ivi.api.model.cppmodel.CppUsing;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -95,6 +99,7 @@ public class StubModelBuilderTest {
   private static final String CONSTANT_NAME = "permanent";
   private static final String ENUM_NAME = "innumerable";
   private static final String ENUM_ITEM_NAME = "enumerated";
+  private static final String USING_NAME = "usingName";
 
   private final MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
@@ -128,6 +133,9 @@ public class StubModelBuilderTest {
   private final CppValue cppValue = new CppValue("valuable");
   private final CppEnum cppEnum = new CppEnum(ENUM_NAME);
   private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
+  private final CppTypeRef cppTypeRef = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64);
+  private final CppUsing cppUsing =
+      new CppUsing(USING_NAME, new CppTypeDefRef(USING_NAME, cppTypeRef));
 
   @Before
   public void setUp() {
@@ -221,6 +229,18 @@ public class StubModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaInterfaceReadsUsings() {
+    contextStack.injectResult(cppUsing);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    CppClass cppClass = modelBuilder.getFirstResult(CppClass.class);
+    assertNotNull(cppClass);
+    assertEquals(1, cppClass.usings.size());
+    assertEquals(cppUsing, cppClass.usings.iterator().next());
+  }
+
+  @Test
   public void finishBuildingFrancaMethodReadsReturnTypeData() {
     modelBuilder.finishBuilding(francaMethod);
 
@@ -288,6 +308,16 @@ public class StubModelBuilderTest {
 
     CppStruct result = modelBuilder.getFirstResult(CppStruct.class);
     assertEquals(cppStruct, result);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionReadsUsings() {
+    contextStack.injectResult(cppUsing);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    CppUsing result = modelBuilder.getFirstResult(CppUsing.class);
+    assertEquals(cppUsing, result);
   }
 
   @Test
@@ -406,10 +436,10 @@ public class StubModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    CppTypeDef cppTypeDef = modelBuilder.getFirstResult(CppTypeDef.class);
-    assertNotNull(cppTypeDef);
-    assertEquals(TYPE_DEF_NAME, cppTypeDef.name.toLowerCase());
-    assertEquals(fullyQualifiedTypeName, cppTypeDef.targetType);
+    CppUsing cppUsing = modelBuilder.getFirstResult(CppUsing.class);
+    assertNotNull(cppUsing);
+    assertEquals(TYPE_DEF_NAME, cppUsing.name.toLowerCase());
+    assertEquals(fullyQualifiedTypeName, cppUsing.definition);
 
     PowerMockito.verifyStatic();
     CppTypeMapper.map(rootModel, francaTypeRef);

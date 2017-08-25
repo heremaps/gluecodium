@@ -53,6 +53,11 @@ public class CppNamespace {
   }
 
   @SuppressWarnings("unused")
+  public List<CppUsing> getUsings() {
+    return CollectionsHelper.getAllOfType(members, CppUsing.class);
+  }
+
+  @SuppressWarnings("unused")
   public List<CppTypeDef> getTypeDefs() {
     return CollectionsHelper.getAllOfType(members, CppTypeDef.class);
   }

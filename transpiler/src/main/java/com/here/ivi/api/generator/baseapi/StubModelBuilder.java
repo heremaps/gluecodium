@@ -31,6 +31,7 @@ import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.cppmodel.CppTypeDef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
+import com.here.ivi.api.model.cppmodel.CppUsing;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -83,6 +84,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     cppClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, CppMethod.class));
     cppClass.structs.addAll(CollectionsHelper.getAllOfType(previousResults, CppStruct.class));
     cppClass.enums.addAll(CollectionsHelper.getAllOfType(previousResults, CppEnum.class));
+    cppClass.usings.addAll(CollectionsHelper.getAllOfType(previousResults, CppUsing.class));
 
     storeResult(cppClass);
     closeContext();
@@ -116,7 +118,8 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
       if (cppElement instanceof CppStruct
           || cppElement instanceof CppTypeDef
           || cppElement instanceof CppEnum
-          || cppElement instanceof CppConstant) {
+          || cppElement instanceof CppConstant
+          || cppElement instanceof CppUsing) {
         storeResult(cppElement);
       }
     }
@@ -173,13 +176,13 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FTypeDef francaTypeDef) {
 
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
+      String typedefName = CppNameRules.getTypedefName(francaTypeDef.getName());
+      CppTypeRef typedefType = CppTypeMapper.map(rootModel, francaTypeDef.getActualType());
 
-      String name = CppNameRules.getTypedefName(francaTypeDef.getName());
-      CppTypeRef targetType = CppTypeMapper.map(rootModel, francaTypeDef.getActualType());
-      CppTypeDef typeDef = new CppTypeDef(name, targetType);
-      typeDef.comment = StubCommentParser.parse(francaTypeDef).getMainBodyText();
+      CppUsing cppUsing = new CppUsing(typedefName, typedefType);
+      cppUsing.comment = StubCommentParser.parse(francaTypeDef).getMainBodyText();
 
-      storeResult(typeDef);
+      storeResult(cppUsing);
     }
 
     closeContext();

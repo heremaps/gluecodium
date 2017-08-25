@@ -24,6 +24,8 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -35,6 +37,7 @@ import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FIntegerInterval;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Rule;
@@ -53,6 +56,7 @@ public class CppTypeMapperComplexTest {
 
   private static final String STRUCT_NAME = "MYSTRUCT";
   private static final String ENUM_NAME = "MYENUMERATION";
+  private static final String TYPEDEF_NAME = "MYTYPEDEF";
 
   @Rule public ExpectedException exception = ExpectedException.none();
 
@@ -204,6 +208,28 @@ public class CppTypeMapperComplexTest {
     assertTrue(result instanceof CppComplexTypeRef);
     CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
     assertEquals(expected, complexResult);
+  }
+
+  @Test
+  public void mapTypeDefRef() {
+    // Arrange
+    FTypeDef fTypeDef = mock(FTypeDef.class);
+    FTypeRef fActualType = mockPredefinedType(FBasicTypeId.INT64);
+    when(fTypeDef.getName()).thenReturn(TYPEDEF_NAME);
+    when(fTypeDef.getActualType()).thenReturn(fActualType);
+    FTypeRef typeRef = mock(FTypeRef.class);
+    when(typeRef.getDerived()).thenReturn(fTypeDef);
+    when(fTypeDef.eContainer()).thenReturn(typeRef);
+    when(CppNameRules.getStructName(fTypeDef.getName())).thenReturn(TYPEDEF_NAME);
+
+    // Act
+    CppTypeRef cppTypeRef = CppTypeMapper.map(mockFrancaModel, typeRef);
+
+    // Assert
+    assertTrue(cppTypeRef instanceof CppTypeDefRef);
+    CppTypeDefRef cppTypeDefRef = (CppTypeDefRef) cppTypeRef;
+    assertEquals("::" + TYPEDEF_NAME, cppTypeDefRef.name);
+    assertEquals(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64), cppTypeDefRef.actualType);
   }
 
   private DefinedBy mockDefinedBy() {
