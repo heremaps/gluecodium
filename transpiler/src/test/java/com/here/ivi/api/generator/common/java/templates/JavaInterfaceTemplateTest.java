@@ -20,22 +20,14 @@ import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
-import java.time.Year;
 import java.util.Arrays;
-import java.util.HashMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaInterfaceTemplateTest {
-  private static final String TEST_COPYRIGHT_HEADER;
-
-  static {
-    HashMap<String, Object> data = new HashMap<>();
-    data.put("year", Year.now().getValue());
-    TEST_COPYRIGHT_HEADER = JavaCopyrightHeaderTemplate.generate() + "\n";
-  }
+  private static final String TEST_COPYRIGHT_HEADER = JavaCopyrightHeaderTemplate.generate() + "\n";
 
   @Test
   public void generate_minimumInterface() {
@@ -147,8 +139,4 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     assertEquals(expected, generated.toString());
   }
-}
-
-interface Foo {
-  void bar();
 }

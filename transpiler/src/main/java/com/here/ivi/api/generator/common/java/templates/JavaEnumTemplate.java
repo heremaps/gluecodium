@@ -12,17 +12,21 @@
 package com.here.ivi.api.generator.common.java.templates;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.javamodel.JavaElements;
+import com.here.ivi.api.model.javamodel.JavaEnum;
 import java.time.Year;
 import java.util.HashMap;
 
-// TODO: Kill while porting JavaClassTemplate and JNI templates
-public final class JavaCopyrightHeaderTemplate {
-  private JavaCopyrightHeaderTemplate() {}
+public final class JavaEnumTemplate {
+  private JavaEnumTemplate() {}
 
-  public static String generate() {
+  public static String generate(final JavaEnum javaEnum) {
     HashMap<String, Object> data = new HashMap<>();
-    data.put("year", Year.now().getValue());
+    data.put("year", Year.now().getValue()); // Copyright template
+    // TODO(APIGEN-590): Move this into JavaEnum or parent
+    data.put("imports", JavaElements.collectImports(javaEnum));
+    data.put("javaEnum", javaEnum);
 
-    return TemplateEngine.render("java/CopyrightHeader", data);
+    return TemplateEngine.render("java/EnumHeader", data);
   }
 }

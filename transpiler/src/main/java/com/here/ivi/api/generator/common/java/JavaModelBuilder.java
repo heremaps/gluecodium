@@ -77,7 +77,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     CollectionsHelper.getStreamOfType(previousResults, JavaClass.class)
         .forEach(
             innerClass -> {
-              innerClass.qualifiers.add(JavaClass.ClassQualifier.STATIC);
+              innerClass.qualifiers.add(JavaClass.Qualifier.STATIC);
               javaClass.innerClasses.add(innerClass);
             });
 

@@ -18,6 +18,7 @@ public final class JavaInterface extends JavaElement {
   public JavaPackage javaPackage = JavaPackage.DEFAULT;
   public Set<JavaMethod> methods = new LinkedHashSet<>();
   public JavaInterface extendedInterface;
+  //TODO(APIGEN-589): Properly implement base interfaces
   public Set<JavaInterface> implementedInterfaces = new LinkedHashSet<>();
 
   public JavaInterface(final String name) {

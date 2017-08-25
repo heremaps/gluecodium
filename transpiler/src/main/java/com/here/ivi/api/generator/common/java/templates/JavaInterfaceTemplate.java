@@ -23,12 +23,14 @@ public final class JavaInterfaceTemplate {
   public static String generate(final JavaInterface javaInterface) {
     HashMap<String, Object> data = new HashMap<>();
     data.put("year", Year.now().getValue()); // Copyright template
+    // TODO(APIGEN-590): Move this into JavaInterface
+    data.put("imports", JavaElements.collectImports(javaInterface));
+
+    // TODO: If the above is fixed, all this can go...
     data.put("javaPackage", javaInterface.javaPackage);
     data.put("comment", javaInterface.comment); // DocComment template
     data.put("name", javaInterface.name);
     data.put("extendedInterface", javaInterface.extendedInterface);
-    // TODO: Move this into JavaInterface:
-    data.put("imports", JavaElements.collectImports(javaInterface));
     data.put("methods", javaInterface.methods);
 
     return TemplateEngine.render("java/Interface", data);

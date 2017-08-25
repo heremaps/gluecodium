@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public final class JavaEnum extends JavaElement {
-  public boolean isTopLevel;
   public JavaPackage javaPackage = JavaPackage.DEFAULT;
   public List<JavaEnumItem> items = new ArrayList<>();
 
