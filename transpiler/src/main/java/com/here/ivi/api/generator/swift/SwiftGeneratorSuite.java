@@ -63,6 +63,7 @@ public final class SwiftGeneratorSuite implements GeneratorSuite {
         model.getInterfaces().stream().map(swiftGenerator::generate).flatMap(Collection::stream);
     Stream<GeneratedFile> cBridgeStream =
         model.getInterfaces().stream().map(cBridgeGenerator::generate).flatMap(Collection::stream);
+    cBridgeStream = concat(cBridgeStream, cBridgeGenerator.STATIC_FILES.stream());
 
     return concat(swiftStream, cBridgeStream).filter(Objects::nonNull).collect(toList());
   }

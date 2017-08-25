@@ -25,7 +25,6 @@ import com.here.ivi.api.model.cmodel.CInParameter;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CParameter;
-import com.here.ivi.api.model.cmodel.CPointerType;
 import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
@@ -103,13 +102,6 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         createMainFunction(inParams, baseFunctionName, delegateMethodName, returnParam);
 
     storeResult(mainCallFunction);
-
-    if (CppTypeInfo.BYTE_VECTOR.equals(returnParam.mappedType)
-        || CppTypeInfo.STRING.equals(returnParam.mappedType)) {
-      storeResult(createReleaseFunction(baseFunctionName, returnParam.mappedType));
-      storeResult(createGetDataFunction(baseFunctionName, returnParam.mappedType));
-      storeResult(createGetLengthFunction(baseFunctionName, returnParam.mappedType));
-    }
 
     closeContext();
   }
@@ -244,40 +236,6 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
                     name + cppTypeInfo.paramSuffixes.get(index),
                     cppTypeInfo.cTypesNeededByConstructor.get(index)))
         .collect(Collectors.toList());
-  }
-
-  private CFunction createGetLengthFunction(String baseName, CppTypeInfo cppTypeInfo) {
-    CParameter param = new CParameter("handle", CPointerType.CONST_VOID_PTR);
-    param.conversion = TypeConverter.reinterpretCast(param, cppTypeInfo.baseType);
-    return new CFunction.Builder(baseName + "_" + "getSize")
-        .parameters(singletonList(param))
-        .delegateCallTemplate(cppTypeInfo.getSizeExpr)
-        .returnType(CType.INT64)
-        .returnConversion(new TypeConverter.TypeConversion("result"))
-        .build();
-  }
-
-  private CFunction createGetDataFunction(String baseName, CppTypeInfo cppTypeInfo) {
-    CParameter param = new CParameter("handle", CPointerType.CONST_VOID_PTR);
-    param.conversion = TypeConverter.reinterpretCast(param, cppTypeInfo.baseType);
-    return new CFunction.Builder(baseName + "_" + "getData")
-        .parameters(singletonList(param))
-        .delegateCallTemplate(cppTypeInfo.getDataExpr)
-        .returnType(
-            CPointerType.makeConstPointer(
-                new CType(cppTypeInfo.heldType, cppTypeInfo.heldTypeIncludes)))
-        .returnConversion(new TypeConverter.TypeConversion("result"))
-        .build();
-  }
-
-  private CFunction createReleaseFunction(String baseName, CppTypeInfo cppTypeInfo) {
-    CParameter param = new CParameter("handle", CPointerType.CONST_VOID_PTR);
-    param.conversion = TypeConverter.reinterpretCast(param, cppTypeInfo.baseType);
-    return new CFunction.Builder(baseName + "_" + "release")
-        .parameters(singletonList(param))
-        .delegateCallTemplate("delete %1$s")
-        .returnType(CType.VOID)
-        .build();
   }
 
   private CFunction createMainFunction(

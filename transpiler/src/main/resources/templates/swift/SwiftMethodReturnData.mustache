@@ -1,12 +1,11 @@
-if let result_data_handle = {{method.cBaseName}}({{#each paramsForBase}}{{.}}{{#if iter.hasNext}}, {{/if}}{{/each}}) {
-    let size = {{method.cBaseName}}_getSize(result_data_handle)
-    if size > 0 {
-        let data_handle = {{method.cBaseName}}_getData(result_data_handle)
-        if let data_handle = data_handle {
-            let return_data = Data(bytes: data_handle, count: Int(size))
-            {{method.cBaseName}}_release(result_data_handle)
-            return return_data
-        }
+let result_data_handle = {{method.cBaseName}}({{#each paramsForBase}}{{.}}{{#if iter.hasNext}}, {{/if}}{{/each}})
+let size = byteArray_size_get(result_data_handle)
+if size > 0 {
+    let data_handle = byteArray_data_get(result_data_handle)
+    if let data_handle = data_handle {
+        let return_data = Data(bytes: data_handle, count: Int(size))
+        byteArray_release(result_data_handle)
+        return return_data
     }
 }
 return nil

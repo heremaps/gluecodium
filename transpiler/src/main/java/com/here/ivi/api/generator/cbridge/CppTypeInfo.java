@@ -50,16 +50,19 @@ public class CppTypeInfo {
   public static final CppTypeInfo STRING =
       new CppTypeInfo(
           "std::string",
-          singletonList(Include.createSystemInclude("string")),
+          Arrays.asList(
+              Include.createSystemInclude("string"),
+              Include.createInternalInclude("StringHandleImpl.h")),
           "char",
           emptyList(),
           "std::string(%1$s)",
           singletonList(CPointerType.CONST_CHAR_PTR),
           singletonList(""),
-          "new std::string(std::move(%1$s))",
+          "std_stringRef{new std::string(std::move(%1$s))}",
           Arrays.asList(
               Include.createSystemInclude("string"), Include.createSystemInclude("utility")),
-          CPointerType.VOID_PTR,
+          new CType(
+              "std_stringRef", singletonList(Include.createInternalInclude("StringHandle.h"))),
           "%1$s->c_str()",
           "%1$s->length()",
           TypeCategory.BUILTIN_STRING);
@@ -67,18 +70,21 @@ public class CppTypeInfo {
   static final CppTypeInfo BYTE_VECTOR =
       new CppTypeInfo(
           "std::vector<uint8_t>",
-          singletonList(Include.createSystemInclude("vector")),
+          Arrays.asList(
+              Include.createSystemInclude("vector"),
+              Include.createInternalInclude("ByteArrayHandleImpl.h")),
           "uint8_t",
           singletonList(Include.createSystemInclude("stdint.h")),
           "std::vector<uint8_t>(%1$s, %1$s + %2$s)",
           asList(CPointerType.makeConstPointer(CType.UINT8), CType.INT64),
           asList("_ptr", "_size"),
-          "new std::vector<uint8_t>(std::move(%1$s))",
+          "byteArrayRef{new std::vector<uint8_t>(std::move(%1$s))}",
           Arrays.asList(
               Include.createSystemInclude("vector"),
               Include.createSystemInclude("stdint.h"),
               Include.createSystemInclude("utility")),
-          CPointerType.VOID_PTR,
+          new CType(
+              "byteArrayRef", singletonList(Include.createInternalInclude("ByteArrayHandle.h"))),
           "&(*%1$s)[0]",
           "%1$s->size()",
           TypeCategory.BUILTIN_BYTEBUFFER);

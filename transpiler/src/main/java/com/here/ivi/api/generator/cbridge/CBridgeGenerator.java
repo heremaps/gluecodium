@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
@@ -25,6 +26,15 @@ import java.util.Map;
 
 public class CBridgeGenerator {
   private final CBridgeNameRules cBridgeNameRules;
+
+  public static final List<GeneratedFile> STATIC_FILES =
+      Arrays.asList(
+          BaseApiGeneratorSuite.copyTarget("cbridge/StringHandle.h", ""),
+          BaseApiGeneratorSuite.copyTarget("cbridge/StringHandle.cpp", ""),
+          BaseApiGeneratorSuite.copyTarget("cbridge/StringHandleImpl.h", ""),
+          BaseApiGeneratorSuite.copyTarget("cbridge/ByteArrayHandle.h", ""),
+          BaseApiGeneratorSuite.copyTarget("cbridge/ByteArrayHandle.cpp", ""),
+          BaseApiGeneratorSuite.copyTarget("cbridge/ByteArrayHandleImpl.h", ""));
 
   public CBridgeGenerator(CBridgeNameRules nameRules) {
     this.cBridgeNameRules = nameRules;
