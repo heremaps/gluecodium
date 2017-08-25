@@ -1,10 +1,7 @@
 plugins {
-    id "org.xtext.xtend" version "1.0.17"
+    id 'org.xtext.xtend' version '1.0.17'
     id 'com.diffplug.gradle.spotless' version '3.3.2'
 }
-
-apply from: '../gradle/spotless.gradle'
-apply plugin: 'jacoco'
 
 xtend {
     // generate xtend debug symbols
@@ -13,7 +10,6 @@ xtend {
         hideSyntheticVariables = true
     }
 }
-
 
 configurations {
     buildDeployModel {
@@ -30,13 +26,13 @@ sourceSets {
             srcDirs 'src/main/java', project.fdeplOutput
         }
         resources {
-            srcDirs "src/main/java"
-            include "**/*.fdepl"
-            include "**/*.fidl"
-            include "**/*.h"
-            include "**/*.cpp"
-            include "**/*.properties"
-            include "**/*.mustache"
+            srcDirs 'src/main/java'
+            include '**/*.fdepl'
+            include '**/*.fidl'
+            include '**/*.h'
+            include '**/*.cpp'
+            include '**/*.properties'
+            include '**/*.mustache'
         }
     }
     test {
@@ -59,9 +55,9 @@ dependencies {
     compile 'org.franca:core:0.11.1.201705031527'
     compile 'org.franca:core-dsl:0.11.1.201705031527'
     compile 'org.franca:deploymodel-dsl:0.11.1.201705031527'
-    compile 'org.trimou:trimou-core:2.2.0.Final'
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'org.slf4j:slf4j-jdk14:1.7.25'
+    compile 'org.trimou:trimou-core:2.2.0.Final'
 
     testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
     testCompile 'junit:junit:4.12'
@@ -90,32 +86,14 @@ generateXtext.dependsOn(buildDeployModel)
 
 apply plugin: 'application'
 mainClassName = 'com.here.ivi.api.Transpiler'
-
-jacoco {
-    toolVersion = "0.7.9"
-}
-
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            enabled = true
-            limit {
-                counter = 'LINE'
-                minimum = 0.63
-            }
-        }
-    }
-}
-
-jacocoTestReport {
-    reports {
-        csv.enabled true
-        html.enabled true
-        xml.enabled true
-
-        csv.destination file("${buildDir}/reports/coverage/coverageReport.csv")
-        html.destination file("${buildDir}/reports/coverage/html")
-        xml.destination file("${buildDir}/reports/coverage/coverageReport.xml")
+run {
+    /* By default gradle doesn't forward the command line arguments to main.
+     This allows to provide a -Dexec.args="args" when the user calls gradle
+     :transpiler:run. This way args will map to the args in main. */
+    if (System.getProperty('exec.args') != null) {
+        args System.getProperty('exec.args').split()
+    } else {
+        args '../fidl'
     }
 }
 
@@ -135,28 +113,42 @@ task transpilerStandaloneJar(type: Jar) {
     from {
         configurations.runtime.files.collect { it.isDirectory() ? it : zipTree(it) }
     } {
-        exclude "META-INF/*.SF"
-        exclude "META-INF/*.DSA"
-        exclude "META-INF/*.RSA"
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
     }
     with jar
 }
 
-run {
-    /* By default gradle doesn't forward the command line arguments to main.
-     This allows to provide a -Dexec.args="args" when the user calls gradle
-     :transpiler:run. This way args will map to the args in main. */
-    if (System.getProperty("exec.args") != null) {
-        args System.getProperty("exec.args").split()
-    } else {
-        args "../fidl"
+apply plugin: 'jacoco'
+jacoco {
+    toolVersion = '0.7.9'
+}
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            limit {
+                counter = 'LINE'
+                minimum = 0.63
+            }
+        }
+    }
+}
+jacocoTestReport {
+    reports {
+        html.enabled true
+        xml.enabled true
+
+        html.destination file("${buildDir}/reports/coverage/html")
+        xml.destination file("${buildDir}/reports/coverage/coverageReport.xml")
     }
 }
 
 apply plugin: 'checkstyle'
 checkstyle {
     configFile = rootProject.file('config/checkstyle/checkstyle-hard.xml')
-    toolVersion = "7.8.2"
+    toolVersion = '7.8.2'
 }
 checkstyleMain {
     ignoreFailures false
@@ -175,3 +167,4 @@ pmd {
 }
 
 apply from: "$rootDir/gradle/publish.gradle"
+apply from: "$rootDir/gradle/spotless.gradle"
