@@ -1,9 +1,9 @@
-package com.example.here.hello;
+package com.example.here.hello.application;
 
 /**
  * Main entry point
  */
-public class Application extends android.app.Application {
+public final class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
