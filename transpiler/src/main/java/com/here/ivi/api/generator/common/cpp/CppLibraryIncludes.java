@@ -17,9 +17,8 @@ public class CppLibraryIncludes {
 
   public static final Include INT_TYPES = Include.createSystemInclude("cstdint");
   public static final Include LIMITS = Include.createSystemInclude("limits");
-  public static final Include MAP = Include.createSystemInclude("map");
+  public static final Include MAP = Include.createSystemInclude("unordered_map");
   public static final Include MEMORY = Include.createSystemInclude("memory");
-  public static final Include SET = Include.createSystemInclude("set");
   public static final Include STRING = Include.createSystemInclude("string");
   public static final Include VECTOR = Include.createSystemInclude("vector");
 }

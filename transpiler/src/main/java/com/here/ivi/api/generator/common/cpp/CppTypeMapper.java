@@ -201,12 +201,17 @@ public final class CppTypeMapper {
         .build();
   }
 
-  public static CppComplexTypeRef wrapMapType(
-      @SuppressWarnings("unused") Include mapInclude,
-      @SuppressWarnings("unused") CppTypeRef key,
-      @SuppressWarnings("unused") CppTypeRef value) {
-    //TODO: APIGEN-145 handle complex types
-    return new CppComplexTypeRef.Builder(VOID_POINTER).build();
+  public static CppComplexTypeRef wrapMapType(CppTypeRef key, CppTypeRef value) {
+
+    List<Include> includes = new LinkedList<>();
+    includes.addAll(key.includes);
+    includes.addAll(value.includes);
+    includes.add(CppLibraryIncludes.MAP);
+
+    return new CppComplexTypeRef.Builder(
+            "::std::unordered_map< " + key.name + ", " + value.name + " >")
+        .includes(includes)
+        .build();
   }
 
   public static CppComplexTypeRef wrapUniquePtr(@SuppressWarnings("unused") CppTypeRef content) {
