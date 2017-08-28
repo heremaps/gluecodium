@@ -28,6 +28,7 @@ import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.cppmodel.CppTaggedUnion;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppUsing;
 import com.here.ivi.api.model.cppmodel.CppValue;
@@ -37,6 +38,7 @@ import java.util.List;
 import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
+import org.franca.core.franca.FCompoundType;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FEnumerator;
@@ -49,6 +51,7 @@ import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.FUnionType;
 
 public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
@@ -154,17 +157,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FStructType francaStructType) {
 
-    String cppStructName = CppNameRules.getStructName(francaStructType.getName());
-    CppStruct struct = new CppStruct(cppStructName);
-    struct.comment = CppCommentParser.parse(francaStructType).getMainBodyText();
-
-    List<CppField> elements =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppField.class);
-
-    struct.fields.addAll(elements);
-
-    storeResult(struct);
-    closeContext();
+    finishBuildingCompoundType(francaStructType, false);
   }
 
   @Override
@@ -249,6 +242,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     closeContext();
   }
 
+  @Override
+  public void finishBuilding(FUnionType francaUnionType) {
+
+    finishBuildingCompoundType(francaUnionType, true);
+  }
+
   private CppMethod buildCppMethod(
       FMethod francaMethod, CppTypeRef returnType, String returnTypeComment) {
 
@@ -288,5 +287,22 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
         .forEach(builder::parameter);
 
     return builder.build();
+  }
+
+  private void finishBuildingCompoundType(
+      final FCompoundType francaCompoundType, final boolean isUnion) {
+
+    String cppStructName = CppNameRules.getStructName(francaCompoundType.getName());
+    CppStruct cppStruct =
+        isUnion ? new CppTaggedUnion(cppStructName) : new CppStruct(cppStructName);
+    cppStruct.comment = CppCommentParser.parse(francaCompoundType).getMainBodyText();
+
+    List<CppField> elements =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppField.class);
+
+    cppStruct.fields.addAll(elements);
+
+    storeResult(cppStruct);
+    closeContext();
   }
 }
