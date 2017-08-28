@@ -20,7 +20,7 @@ interface HelloWorldComplexTypes {
     enumeration InternalError {
         ERROR_NONE
         ERROR_FATAL = 999
-     }
+    }
 
     union NavigationError {
         InternalError internalError
@@ -29,7 +29,9 @@ interface HelloWorldComplexTypes {
 
     array NavigationErrorsArray of NavigationError
 
-    typedef Errors is NavigationErrorsArray
+    array InternalErrorArray of InternalError
+
+    typedef Errors is InternalErrorArray
 
     map ErrorCodeToMessage { NavigationError to String }
 
@@ -41,13 +43,15 @@ interface HelloWorldComplexTypes {
         in {
             <** @description: Input enum **>
             InternalError input
-            }
+        }
         out {
             <** @description: Output enum **>
             InternalError output
         }
     }
 
+    /*
+    TODO APIGEN-145: Uncomment this when union is supported.
     <** @description:
     Example static method which takes a union with any InternalError and returns MapError 42.
     **>
@@ -61,6 +65,7 @@ interface HelloWorldComplexTypes {
             NavigationError output
         }
     }
+    */
 
     <** @description:
     Example static method which takes an array and returns an array of same type in reversed order.
@@ -68,11 +73,11 @@ interface HelloWorldComplexTypes {
     method methodWithArray {
         in {
             <** @description: Input array **>
-            NavigationErrorsArray input
-            }
+            InternalErrorArray input
+        }
         out {
             <** @description: Output array **>
-            NavigationError[] output
+            InternalError[] output
         }
     }
 
@@ -84,7 +89,7 @@ interface HelloWorldComplexTypes {
         in {
             <** @description: Input typedef **>
             Errors input
-            }
+        }
         out {
             <** @description: Output typedef **>
             Errors output
@@ -98,7 +103,7 @@ interface HelloWorldComplexTypes {
         in {
             <** @description: Input map **>
             ErrorCodeToMessage input
-            }
+        }
         out {
             <** @description: Output map **>
             ErrorCodeToMessage output
