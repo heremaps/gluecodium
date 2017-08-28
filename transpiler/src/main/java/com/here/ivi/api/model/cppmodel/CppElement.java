@@ -48,11 +48,11 @@ public class CppElement implements ModelElement {
     return name != null ? name.hashCode() : 0;
   }
 
-  public Stream<CppElement> stream() {
+  public Stream<? extends CppElement> stream() {
     return Stream.empty();
   }
 
-  public final Stream<CppElement> streamRecursive() {
+  public final Stream<? extends CppElement> streamRecursive() {
     return Stream.concat(
         Stream.of(this), stream().filter(Objects::nonNull).flatMap(CppElement::streamRecursive));
   }

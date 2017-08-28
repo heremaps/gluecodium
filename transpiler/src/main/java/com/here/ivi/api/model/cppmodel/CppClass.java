@@ -39,7 +39,7 @@ public class CppClass extends CppElement {
   }
 
   @Override
-  public Stream<CppElement> stream() {
+  public Stream<? extends CppElement> stream() {
     return Stream.concat(
             methods.stream(),
             Stream.concat(

@@ -11,21 +11,20 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class CppStruct extends CppElement {
 
-  public CppStruct inherits;
-  public List<CppField> fields = new ArrayList<>();
+  public final List<CppField> fields = new LinkedList<>();
 
   public CppStruct(final String name) {
     super(name);
   }
 
   @Override
-  public Stream<CppElement> stream() {
-    return Stream.concat(fields.stream(), Stream.of(inherits));
+  public Stream<? extends CppElement> stream() {
+    return fields.stream();
   }
 }

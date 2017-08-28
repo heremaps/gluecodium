@@ -138,7 +138,7 @@ public final class CppMethod extends CppElementWithIncludes {
   }
 
   @Override
-  public Stream<CppElement> stream() {
+  public Stream<? extends CppElement> stream() {
     return Stream.concat(Stream.of(returnType), parameters.stream());
   }
 }
