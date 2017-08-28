@@ -71,7 +71,7 @@ public class CppTypeMapperArrayTest {
     assertTrue(result instanceof CppComplexTypeRef);
     CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
     assertEquals(
-        "::std::vector< " + CppPrimitiveTypeRef.Type.UINT32.getValue() + " >", complexResult.name);
+        "::std::vector< " + CppPrimitiveTypeRef.Type.UINT32.value + " >", complexResult.name);
     assertTrue(
         complexResult.includes.containsAll(
             Arrays.asList(CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)));

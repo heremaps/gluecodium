@@ -132,7 +132,7 @@ public class JniModelBuilderTest {
     result.javaReturnType = new JavaPrimitiveType(JavaPrimitiveType.Type.VOID);
     result.javaMethodName = JAVA_VOID_METHOD_NAME;
     result.cppMethodName = CPP_VOID_METHOD_NAME;
-    result.cppReturnType = CppPrimitiveTypeRef.VOID_TYPE;
+    result.cppReturnType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID);
     result.owningContainer = jniContainer;
 
     return result;

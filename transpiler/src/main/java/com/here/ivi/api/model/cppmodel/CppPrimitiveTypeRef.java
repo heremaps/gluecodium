@@ -15,8 +15,6 @@ import com.here.ivi.api.generator.common.cpp.CppLibraryIncludes;
 
 public class CppPrimitiveTypeRef extends CppTypeRef {
 
-  public static final CppPrimitiveTypeRef VOID_TYPE = new CppPrimitiveTypeRef(Type.VOID);
-
   public final Type type;
 
   public enum Type {
@@ -24,45 +22,33 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
     BOOL("bool"),
     FLOAT("float"),
     DOUBLE("double"),
-    INT8("int8_t"),
-    INT16("int16_t"),
-    INT32("int32_t"),
-    INT64("int64_t"),
-    UINT8("uint8_t"),
-    UINT16("uint16_t"),
-    UINT32("uint32_t"),
-    UINT64("uint64_t");
+    INT8("int8_t", true),
+    INT16("int16_t", true),
+    INT32("int32_t", true),
+    INT64("int64_t", true),
+    UINT8("uint8_t", true),
+    UINT16("uint16_t", true),
+    UINT32("uint32_t", true),
+    UINT64("uint64_t", true);
 
-    private final String value;
+    public final String value;
+    private final boolean isIntegerType;
 
     Type(final String value) {
-      this.value = value;
+      this(value, false);
     }
 
-    public String getValue() {
-      return value;
+    Type(final String value, final boolean isIntegerType) {
+      this.value = value;
+      this.isIntegerType = isIntegerType;
     }
   }
 
   public CppPrimitiveTypeRef(final Type type) {
-    super(type.getValue());
+    super(type.value);
     this.type = type;
-    addIncludes();
-  }
-
-  private void addIncludes() {
-    //add includes for integer types
-    switch (type) {
-      case INT8:
-      case INT16:
-      case INT32:
-      case INT64:
-      case UINT8:
-      case UINT16:
-      case UINT32:
-      case UINT64:
-        includes.add(CppLibraryIncludes.INT_TYPES);
-        break;
+    if (type.isIntegerType) {
+      includes.add(CppLibraryIncludes.INT_TYPES);
     }
   }
 
@@ -78,9 +64,7 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
       return false;
     }
 
-    CppPrimitiveTypeRef that = (CppPrimitiveTypeRef) o;
-
-    return type == that.type;
+    return type == ((CppPrimitiveTypeRef) o).type;
   }
 
   @Override
