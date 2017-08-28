@@ -80,6 +80,7 @@ public final class Transpiler {
     boolean succeeded = true;
     Map<String, String> fileNamesCache = new HashMap<>();
 
+    LOGGER.info("Version: " + version);
     for (String sn : generators) {
       LOGGER.info("Using generator " + sn);
 
