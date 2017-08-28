@@ -37,6 +37,7 @@ import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.cppmodel.CppTaggedUnion;
 import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppUsing;
@@ -65,6 +66,7 @@ import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.FUnionType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -86,7 +88,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 })
 public class CppModelBuilderTest {
 
-  private static final String TYPECOLLECTION_NAME = "tCollection";
   private static final String CLASS_NAME = "classy";
   private static final String RETURN_TYPE_COMMENT = "no comments";
   private static final String PARAMETER_NAME = "flowers";
@@ -98,7 +99,8 @@ public class CppModelBuilderTest {
   private static final String CONSTANT_NAME = "permanent";
   private static final String ENUM_NAME = "innumerable";
   private static final String ENUM_ITEM_NAME = "enumerated";
-  private static final String USING_NAME = "usingName";
+  private static final String USING_NAME = "useful";
+  private static final String UNION_NAME = "soviet";
 
   private final MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
@@ -122,6 +124,7 @@ public class CppModelBuilderTest {
   @Mock private FInitializerExpression francaInitializerExpression;
   @Mock private FEnumerator francaEnumerator;
   @Mock private FExpression francaExpression;
+  @Mock private FUnionType francaUnionType;
 
   private CppModelBuilder modelBuilder;
 
@@ -162,6 +165,7 @@ public class CppModelBuilderTest {
     when(francaConstant.getName()).thenReturn(CONSTANT_NAME);
     when(francaEnumerationType.getName()).thenReturn(ENUM_NAME);
     when(francaEnumerator.getName()).thenReturn(ENUM_ITEM_NAME);
+    when(francaUnionType.getName()).thenReturn(UNION_NAME);
 
     when(francaMethod.getInArgs()).thenReturn(new ArrayEList<>());
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
@@ -169,7 +173,6 @@ public class CppModelBuilderTest {
     when(francaMapType.getValueType()).thenReturn(francaAnotherTypeRef);
     when(francaField.getType()).thenReturn(francaTypeRef);
     when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
-    when(francaTypeCollection.getName()).thenReturn(TYPECOLLECTION_NAME);
 
     when(CppMethodMapper.mapMethodReturnType(any(), any()))
         .thenReturn(new CppMethodMapper.ReturnTypeData(cppComplexTypeRef, RETURN_TYPE_COMMENT));
@@ -525,5 +528,27 @@ public class CppModelBuilderTest {
 
     PowerMockito.verifyStatic();
     CppValueMapper.map(francaExpression);
+  }
+
+  @Test
+  public void finishBuildingFrancaUnionTypeReadsName() {
+    modelBuilder.finishBuilding(francaUnionType);
+
+    CppTaggedUnion cppTaggedUnion = modelBuilder.getFirstResult(CppTaggedUnion.class);
+    assertNotNull(cppTaggedUnion);
+    assertEquals(UNION_NAME, cppTaggedUnion.name.toLowerCase());
+  }
+
+  @Test
+  public void finishBuildingFrancaUnionTypeReadsFields() {
+    final CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME);
+    contextStack.injectResult(cppField);
+
+    modelBuilder.finishBuilding(francaUnionType);
+
+    CppStruct cppStruct = modelBuilder.getFirstResult(CppStruct.class);
+    assertNotNull(cppStruct);
+    assertFalse(cppStruct.fields.isEmpty());
+    assertEquals(cppField, cppStruct.fields.get(0));
   }
 }

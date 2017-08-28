@@ -20,6 +20,7 @@ import org.trimou.engine.MustacheEngine;
 import org.trimou.engine.MustacheEngineBuilder;
 import org.trimou.engine.locator.ClassPathTemplateLocator;
 import org.trimou.handlebars.BasicHelper;
+import org.trimou.handlebars.BasicSectionHelper;
 import org.trimou.handlebars.HelpersBuilder;
 import org.trimou.handlebars.Options;
 
@@ -109,6 +110,29 @@ public final class TemplateEngine {
     }
   }
 
+  /**
+   * Execute a block if the class name of the value equals the given string<br>
+   * Usage: {{#instanceOf value "className"}}...{{/instanceOf}}<br>
+   * Example: {{#instanceOf this "CppTaggedUnion"}}...{{/instanceOf}}
+   */
+  @VisibleForTesting
+  static class InstanceOfHelper extends BasicSectionHelper {
+
+    @Override
+    public void execute(Options options) {
+      List<Object> parameters = options.getParameters();
+      if (parameters.size() < 2) {
+        return;
+      }
+
+      Object object = parameters.get(0);
+      String className = parameters.get(1).toString();
+      if (object.getClass().getName().endsWith(className)) {
+        options.fn();
+      }
+    }
+  }
+
   static {
     ENGINE =
         MustacheEngineBuilder.newBuilder()
@@ -117,7 +141,9 @@ public final class TemplateEngine {
             .registerHelper("prefix", new PrefixHelper())
             .registerHelper("prefixPartial", new PrefixPartialHelper())
             .registerHelper("joinPartial", new JoinPartialHelper())
-            .registerHelpers(HelpersBuilder.empty().addJoin().addInclude().build())
+            .registerHelper("instanceOf", new InstanceOfHelper())
+            .registerHelpers(
+                HelpersBuilder.empty().addJoin().addInclude().addFmt().addSet().build())
             .build();
   }
 

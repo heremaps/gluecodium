@@ -1,0 +1,45 @@
+struct {{name}} {
+    enum VariantType {
+    {{#fields}}
+        {{fmt "%S" name}}{{#if iter.hasNext}},{{/if}}
+    {{/fields}}
+    };
+    const VariantType type;
+    union {
+    {{#fields}}
+        {{#if comment}}
+{{prefixPartial "common/DocComment" "    "}}
+        {{/if}}
+        {{type.name}} {{name}};
+    {{/fields}}
+    };
+
+    {{#set unionName=name}}{{#fields}}
+    {{unionName}}(const {{type.name}}& {{name}})
+        : type({{fmt "%S" name}})
+        , {{name}}({{name}}) {};
+
+    {{/fields}}{{/set}}
+    {{name}}(const {{name}}& other)
+        : type(other.type)
+    {
+        switch (other.type) {
+        {{#fields}}
+        case {{fmt "%S" name}}:
+            new (&{{name}}) {{type.name}}(other.{{name}});
+            break;
+        {{/fields}}
+        };
+    };
+
+    ~{{name}}()
+    {
+        switch (type) {
+        {{#fields}}
+        case {{fmt "%S" name}}:
+            {{name}}.~{{type.name}}();
+            break;
+        {{/fields}}
+        };
+    };
+};

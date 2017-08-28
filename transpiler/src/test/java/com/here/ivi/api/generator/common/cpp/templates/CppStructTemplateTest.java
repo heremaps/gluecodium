@@ -27,38 +27,19 @@ public final class CppStructTemplateTest {
 
   private static final String TEMPLATE_NAME = "cpp/CppStruct";
 
-  private static final String COMMENT_STRING = "nonsense";
-  private static final String STRUCT_NAME = "Structural";
-  private static final String FIELD_NAME = "flowers";
-  private static final String TYPE_NAME = "Typical";
-  private static final String EXPECTED_STRUCT_RESULT_FORMAT =
-      "struct " + STRUCT_NAME + " {\n%s};\n";
-  private static final String EXPECTED_STRUCT_COMMENT_RESULT = "/**\n * nonsense\n */\n";
-  private static final String EXPECTED_FIELD_COMMENT_RESULT = "/**\n     * nonsense\n     */\n";
-  private static final String EXPECTED_FIELD_RESULT_FORMAT =
-      "    %s" + TYPE_NAME + " " + FIELD_NAME + "%s;\n";
+  private static final String EXPECTED_STRUCT_RESULT_FORMAT = "struct Structural {\n%s};\n";
+  private static final String EXPECTED_FIELD_RESULT_FORMAT = "    %sTypical flowers%s;\n";
 
-  private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
+  private final CppStruct cppStruct = new CppStruct("Structural");
   private final CppComplexTypeRef cppComplexTypeRef =
-      new CppComplexTypeRef.Builder(TYPE_NAME).build();
-  private final CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME);
+      new CppComplexTypeRef.Builder("Typical").build();
+  private final CppField cppField = new CppField(cppComplexTypeRef, "flowers");
 
   @Test
-  public void structWithoutComment() {
+  public void structEmpty() {
     String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 
     final String expectedResult = String.format(EXPECTED_STRUCT_RESULT_FORMAT, "");
-    assertEquals(expectedResult, result);
-  }
-
-  @Test
-  public void structWithComment() {
-    cppStruct.comment = COMMENT_STRING;
-
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
-
-    final String expectedResult =
-        EXPECTED_STRUCT_COMMENT_RESULT + String.format(EXPECTED_STRUCT_RESULT_FORMAT, "");
     assertEquals(expectedResult, result);
   }
 
@@ -75,20 +56,20 @@ public final class CppStructTemplateTest {
 
   @Test
   public void structWithFieldWithComment() {
-    cppField.comment = COMMENT_STRING;
+    cppField.comment = "nonsense";
     cppStruct.fields.add(cppField);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 
     final String expectedFieldResult =
-        String.format(EXPECTED_FIELD_RESULT_FORMAT, EXPECTED_FIELD_COMMENT_RESULT + "    ", "");
+        String.format(EXPECTED_FIELD_RESULT_FORMAT, "/**\n     * nonsense\n     */\n    ", "");
     final String expectedResult = String.format(EXPECTED_STRUCT_RESULT_FORMAT, expectedFieldResult);
     assertEquals(expectedResult, result);
   }
 
   @Test
   public void structWithFieldWithInitializer() {
-    CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME, new CppValue("valuable"));
+    CppField cppField = new CppField(cppComplexTypeRef, "flowers", new CppValue("valuable"));
     cppStruct.fields.add(cppField);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
