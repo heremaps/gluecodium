@@ -14,9 +14,12 @@ import "./HelloWorldComplexTypes.fidl"
 
 define navigation.BaseApiSpec for interface hello.HelloWorldComplexTypes
 {
+    /*
+    TODO APIGEN-145: Uncomment this when union is supported.
     method methodWithUnion {
         Static = true
     }
+    */
 
     method methodWithEnumeration {
         Static = true

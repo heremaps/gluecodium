@@ -38,6 +38,14 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GE
         src/test/StaticTypedefStub.cpp)
 endif()
 
+#TODO: Remove this workaround once Android and iOS supports complex types(APIGEN-280, APIGEN-281)
+if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
+    set(HELLO_SOURCES
+        ${HELLO_SOURCES}
+        src/hello/HelloWorldComplexTypesStub.cpp)
+
+endif()
+
 add_library(hello ${HELLO_SOURCES})
 set_target_properties(hello PROPERTIES
     POSITION_INDEPENDENT_CODE ON
