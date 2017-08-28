@@ -100,7 +100,7 @@ public class CppMethodMapperTest {
     CppMethodMapper.ReturnTypeData returnTypeData =
         CppMethodMapper.mapMethodReturnType(francaMethod, rootModel);
 
-    assertEquals(CppPrimitiveTypeRef.VOID_TYPE, returnTypeData.type);
+    assertEquals(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID), returnTypeData.type);
   }
 
   @Test
