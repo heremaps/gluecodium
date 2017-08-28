@@ -36,9 +36,8 @@ public final class JniFunctionSignatureTemplateTest {
   public void simpleJniMethodGenerationGeneration() {
     // Arrange
     JniMethod jniMethod = new JniMethod();
-    jniMethod.owningContainer = jniContainer;
     jniMethod.javaMethodName = "methodName";
-    jniContainer.methods.add(jniMethod);
+    jniContainer.add(jniMethod);
 
     String expected = "Java_com_here_jni_test_ClassName_methodName(JNIEnv* env, jobject jinstance)";
 
@@ -63,7 +62,7 @@ public final class JniFunctionSignatureTemplateTest {
         new JniParameter("intParam", new JavaPrimitiveType(JavaPrimitiveType.Type.INT), null));
     jniMethod.parameters.add(
         new JniParameter("customParam", new JavaCustomType("CustomParamType"), null));
-    jniContainer.methods.add(jniMethod);
+    jniContainer.add(jniMethod);
 
     String expectedParams =
         "JNIEnv* env, jobject jinstance, jstring jstringParam, jint jintParam, jobject jcustomParam";

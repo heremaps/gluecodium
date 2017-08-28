@@ -42,12 +42,9 @@ public final class StructConversionHeaderTest {
         Include.createInternalInclude("internal"), Include.createSystemInclude("system"));
   }
 
-  private static JniStruct createJniStruct(JniContainer jniContainer) {
+  private static JniStruct createJniStruct() {
     return new JniStruct(
-        jniContainer,
-        new JavaClass(INNER_CLASS_NAME),
-        new CppStruct(INNER_CLASS_NAME),
-        Collections.emptyList());
+        new JavaClass(INNER_CLASS_NAME), new CppStruct(INNER_CLASS_NAME), Collections.emptyList());
   }
 
   private static String createJniToCppSignature(JniStruct jniStruct) {
@@ -61,7 +58,7 @@ public final class StructConversionHeaderTest {
   private static JniContainer createJniContainer(String outerClassName) {
     JniContainer jniContainer =
         JniContainer.createInterfaceContainer(PACKAGES, PACKAGES, outerClassName, outerClassName);
-    jniContainer.structs.add(createJniStruct(jniContainer));
+    jniContainer.add(createJniStruct());
 
     return jniContainer;
   }
@@ -98,7 +95,9 @@ public final class StructConversionHeaderTest {
 
     //arrange
     List<Include> includes = createIncludes();
+
     JniContainer container = createJniContainer(OUTER_CLASS_NAME);
+    JniStruct struct = container.structs.get(0);
 
     Map<String, List<?>> mustacheData = new HashMap<>();
     mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, includes);
@@ -123,9 +122,9 @@ public final class StructConversionHeaderTest {
             + "namespace here {\n"
             + "namespace internal {\n"
             + "\n    "
-            + createJniToCppSignature(createJniStruct(container))
+            + createJniToCppSignature(struct)
             + ";\n\n    "
-            + createCppToJniSignature(createJniStruct(container))
+            + createCppToJniSignature(struct)
             + ";\n\n"
             + "}\n"
             + "}\n";
@@ -138,8 +137,12 @@ public final class StructConversionHeaderTest {
 
     //arrange
     List<Include> includes = createIncludes();
+
     JniContainer container = createJniContainer(OUTER_CLASS_NAME);
+    JniStruct struct = container.structs.get(0);
+
     JniContainer container2 = createJniContainer(OUTER_CLASS_NAME2);
+    JniStruct struct2 = container2.structs.get(0);
 
     Map<String, List<?>> mustacheData = new HashMap<>();
     mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, includes);
@@ -164,13 +167,13 @@ public final class StructConversionHeaderTest {
             + "namespace here {\n"
             + "namespace internal {\n"
             + "\n    "
-            + createJniToCppSignature(createJniStruct(container))
+            + createJniToCppSignature(struct)
             + ";\n\n    "
-            + createCppToJniSignature(createJniStruct(container))
+            + createCppToJniSignature(struct)
             + ";\n\n    "
-            + createJniToCppSignature(createJniStruct(container2))
+            + createJniToCppSignature(struct2)
             + ";\n\n    "
-            + createCppToJniSignature(createJniStruct(container2))
+            + createCppToJniSignature(struct2)
             + ";\n\n"
             + "}\n"
             + "}\n";

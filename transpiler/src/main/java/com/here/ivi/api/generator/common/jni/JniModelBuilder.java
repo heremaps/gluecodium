@@ -88,17 +88,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             cppClass.name);
     List<JniElement> previousResults = getCurrentContext().previousResults;
     CollectionsHelper.getStreamOfType(previousResults, JniStruct.class)
-        .forEach(
-            struct -> {
-              struct.owningContainer = jniContainer;
-              jniContainer.structs.add(struct);
-            });
+        .forEach(struct -> jniContainer.add(struct));
     CollectionsHelper.getStreamOfType(previousResults, JniMethod.class)
-        .forEach(
-            method -> {
-              method.owningContainer = jniContainer;
-              jniContainer.methods.add(method);
-            });
+        .forEach(method -> jniContainer.add(method));
     storeResult(jniContainer);
     closeContext();
   }
@@ -171,11 +163,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
         JniContainer.createTypeCollectionContainer(
             packageNames, rootModel.getModelInfo().getPackageNames(), javaName, cppName);
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
-        .forEach(
-            struct -> {
-              struct.owningContainer = jniContainer;
-              jniContainer.structs.add(struct);
-            });
+        .forEach(struct -> jniContainer.add(struct));
 
     storeResult(jniContainer);
     closeContext();

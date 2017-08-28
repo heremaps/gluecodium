@@ -56,4 +56,14 @@ public final class JniContainer implements JniElement {
       List<String> javaPackages, List<String> cppNameSpaces, String javaName, String cppName) {
     return new JniContainer(javaPackages, cppNameSpaces, javaName, cppName, true);
   }
+
+  public void add(JniStruct struct) {
+    struct.owningContainer = this;
+    structs.add(struct);
+  }
+
+  public void add(JniMethod method) {
+    method.owningContainer = this;
+    methods.add(method);
+  }
 }

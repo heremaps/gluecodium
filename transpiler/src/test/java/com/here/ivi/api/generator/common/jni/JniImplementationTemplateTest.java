@@ -55,13 +55,12 @@ public final class JniImplementationTemplateTest {
     return jniContainer;
   }
 
-  private static JniMethod createJniMethod(String methodName, JniContainer theModel) {
+  private static JniMethod createJniMethod(String methodName) {
 
     JavaPrimitiveType javaPrimitiveType = new JavaPrimitiveType(Type.INT);
     CppPrimitiveTypeRef cppPrimitiveType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8);
 
     JniMethod result = new JniMethod();
-    result.owningContainer = theModel;
     result.javaMethodName = methodName;
     result.cppMethodName = methodName;
     result.javaReturnType = new JavaPrimitiveType(Type.INT);
@@ -162,7 +161,7 @@ public final class JniImplementationTemplateTest {
   @Test
   public void generateWithOneMethods() {
 
-    jniContainer.methods.add(createJniMethod("method1", jniContainer));
+    jniContainer.add(createJniMethod("method1"));
     String generatedImplementation = JniImplementationTemplate.generate(jniContainer);
 
     assertEquals(
@@ -180,8 +179,8 @@ public final class JniImplementationTemplateTest {
   @Test
   public void generateWithMultipleMethods() {
 
-    jniContainer.methods.add(createJniMethod("method1", jniContainer));
-    jniContainer.methods.add(createJniMethod("method2", jniContainer));
+    jniContainer.add(createJniMethod("method1"));
+    jniContainer.add(createJniMethod("method2"));
 
     String generatedImplementation = JniImplementationTemplate.generate(jniContainer);
 
@@ -201,10 +200,10 @@ public final class JniImplementationTemplateTest {
   @Test
   public void generateVoidMethod() {
 
-    JniMethod voidMethod = createJniMethod("testMethod", jniContainer);
+    JniMethod voidMethod = createJniMethod("testMethod");
     voidMethod.javaReturnType = new JavaPrimitiveType(Type.VOID);
     voidMethod.cppReturnType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID);
-    jniContainer.methods.add(voidMethod);
+    jniContainer.add(voidMethod);
 
     String generatedImplementation = JniImplementationTemplate.generate(jniContainer);
 

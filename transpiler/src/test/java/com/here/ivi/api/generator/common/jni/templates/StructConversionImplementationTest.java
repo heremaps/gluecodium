@@ -42,12 +42,9 @@ public final class StructConversionImplementationTest {
         Include.createInternalInclude("internal"), Include.createSystemInclude("system"));
   }
 
-  private static JniStruct createJniStruct(JniContainer jniContainer) {
+  private static JniStruct createJniStruct() {
     return new JniStruct(
-        jniContainer,
-        new JavaClass(INNER_CLASS_NAME),
-        new CppStruct(INNER_CLASS_NAME),
-        Collections.emptyList());
+        new JavaClass(INNER_CLASS_NAME), new CppStruct(INNER_CLASS_NAME), Collections.emptyList());
   }
 
   private static String createJniToCppSignature(JniStruct jniStruct) {
@@ -69,7 +66,7 @@ public final class StructConversionImplementationTest {
   private static JniContainer createJniContainer(String outerClassName) {
     JniContainer jniContainer =
         JniContainer.createInterfaceContainer(PACKAGES, PACKAGES, outerClassName, outerClassName);
-    jniContainer.structs.add(createJniStruct(jniContainer));
+    jniContainer.add(createJniStruct());
 
     return jniContainer;
   }
@@ -97,11 +94,14 @@ public final class StructConversionImplementationTest {
 
     //arrange
     List<Include> includes = createIncludes();
-    JniContainer model = createJniContainer(OUTER_CLASS_NAME);
+
+    JniContainer jniContainer = createJniContainer(OUTER_CLASS_NAME);
+    JniStruct struct = jniContainer.structs.get(0);
 
     Map<String, List<?>> mustacheData = new HashMap<>();
     mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, includes);
-    mustacheData.put(JavaNativeInterfacesGenerator.MODELS_NAME, Collections.singletonList(model));
+    mustacheData.put(
+        JavaNativeInterfacesGenerator.MODELS_NAME, Collections.singletonList(jniContainer));
 
     //act
     String result = TemplateEngine.render("jni/StructConversionImplementation", mustacheData);
@@ -118,11 +118,11 @@ public final class StructConversionImplementationTest {
             + "namespace here {\n"
             + "namespace internal {\n"
             + "\n"
-            + createJniToCppSignature(createJniStruct(model))
-            + createJniToCppBody(createJniStruct(model))
+            + createJniToCppSignature(struct)
+            + createJniToCppBody(struct)
             + "\n"
-            + createCppToJniSignature(createJniStruct(model))
-            + createCppToJniBody(createJniStruct(model))
+            + createCppToJniSignature(struct)
+            + createCppToJniBody(struct)
             + "\n\n"
             + "}\n"
             + "}";
@@ -135,8 +135,12 @@ public final class StructConversionImplementationTest {
 
     //arrange
     List<Include> includes = createIncludes();
+
     JniContainer container = createJniContainer(OUTER_CLASS_NAME);
+    JniStruct struct = container.structs.get(0);
+
     JniContainer container2 = createJniContainer(OUTER_CLASS_NAME2);
+    JniStruct struct2 = container2.structs.get(0);
 
     Map<String, List<?>> mustacheData = new HashMap<>();
     mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, includes);
@@ -158,17 +162,17 @@ public final class StructConversionImplementationTest {
             + "namespace here {\n"
             + "namespace internal {\n"
             + "\n"
-            + createJniToCppSignature(createJniStruct(container))
-            + createJniToCppBody(createJniStruct(container))
+            + createJniToCppSignature(struct)
+            + createJniToCppBody(struct)
             + "\n"
-            + createCppToJniSignature(createJniStruct(container))
-            + createCppToJniBody(createJniStruct(container))
+            + createCppToJniSignature(struct)
+            + createCppToJniBody(struct)
             + "\n"
-            + createJniToCppSignature(createJniStruct(container2))
-            + createJniToCppBody(createJniStruct(container2))
+            + createJniToCppSignature(struct2)
+            + createJniToCppBody(struct2)
             + "\n"
-            + createCppToJniSignature(createJniStruct(container2))
-            + createCppToJniBody(createJniStruct(container2))
+            + createCppToJniSignature(struct2)
+            + createCppToJniBody(struct2)
             + "\n\n"
             + "}\n"
             + "}";
