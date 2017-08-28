@@ -33,7 +33,7 @@ public class CppNamespace {
     return members.isEmpty();
   }
 
-  public final Stream<CppElement> streamRecursive() {
+  public final Stream<? extends CppElement> streamRecursive() {
     return members.stream().filter(Objects::nonNull).flatMap(CppElement::streamRecursive);
   }
 

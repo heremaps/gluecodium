@@ -66,7 +66,7 @@ public class CppInheritance extends CppElement {
   }
 
   @Override
-  public Stream<CppElement> stream() {
+  public Stream<? extends CppElement> stream() {
     return Stream.of(parent);
   }
 }

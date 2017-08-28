@@ -31,7 +31,7 @@ public class CppEnum extends CppElement {
   }
 
   @Override
-  public Stream<CppElement> stream() {
-    return items.stream().map(CppElement.class::cast);
+  public Stream<? extends CppElement> stream() {
+    return items.stream();
   }
 }
