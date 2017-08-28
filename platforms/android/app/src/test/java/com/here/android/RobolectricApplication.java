@@ -4,14 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.util.Log;
 
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowLog;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * Custom {@link Application} class to load x86_64 shared libraries at runtime.
@@ -53,7 +49,7 @@ public final class RobolectricApplication extends Application {
      * Separate method to load libraries in case you want to subclass and can't load in onCreate().
      */
     @SuppressLint("UnsafeDynamicallyLoadedCode")
-    protected void loadNativeLibraries() {
+    private void loadNativeLibraries() {
         String appArchPath; // Where to find app and NDK shared objects (last path component)
         String systemArch = System.getProperty("os.arch"); // See http://lopica.sourceforge.net/os.html
         if (systemArch.equals("amd64") || systemArch.equals("x86_64")) {

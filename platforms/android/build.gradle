@@ -1,13 +1,9 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         maven {
             name 'Local proxy of external Maven repositories'
             url 'example.com'
         }
-
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -20,7 +16,6 @@ allprojects {
             name 'Local proxy of external Maven repositories'
             url 'example.com'
         }
-        jcenter()
     }
 }
 
