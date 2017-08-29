@@ -22,6 +22,9 @@ interface UnsupportedFeatures {
         minor 1
     }
 
+    <** @description: Check that a String attribute passes the build **>
+    attribute String stringAttribute
+
     <** @description:
     Example for currently unsupported broadcasts feature
     **>
