@@ -1,0 +1,10 @@
+public struct {{name}} {
+{{#fields}}{{prefixPartial "swift/SwiftStructFieldDeclaration" "    "}}
+{{/fields}}
+
+{{prefixPartial "swift/SwiftStructPublicInitMethod" "    "}}
+
+{{prefixPartial "swift/SwiftStructInternalInitMethod" "    "}}
+
+{{prefixPartial "swift/SwiftStructCBaseCreationMethod" "    "}}
+}

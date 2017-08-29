@@ -52,6 +52,10 @@ public class SwiftNameRules {
     return SwiftNameRules.computeClassName(base);
   }
 
+  public static String getStructName(final String structName) {
+    return NameHelper.toUpperCamelCase(structName);
+  }
+
   public String getTypeCollectionName(final FTypeCollection base) {
     return NameHelper.toUpperCamelCase(base.getName());
   }

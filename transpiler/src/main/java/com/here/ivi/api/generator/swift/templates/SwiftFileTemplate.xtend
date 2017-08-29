@@ -35,6 +35,9 @@ class SwiftFileTemplate {
     «FOR property : swiftClass.properties»
             @property «generatePropertyDeclaration(property)»
     «ENDFOR»
+    «FOR struct : swiftClass.structs»
+         «SwiftStructTemplate.generate(struct)»
+    «ENDFOR»
         «FOR method : swiftClass.methods»
                 «generateComment(method.comment)»
                 «generateMethod(swiftClass, method)»

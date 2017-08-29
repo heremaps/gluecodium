@@ -1,0 +1,4 @@
+internal init?(cStruct : {{cType}}) {
+{{#fields}}{{name}} = {{cPrefix}}_{{name}}_get(cStruct)
+{{/fields}}
+}

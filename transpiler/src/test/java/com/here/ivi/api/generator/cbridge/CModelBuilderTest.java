@@ -336,7 +336,7 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingStructCreatesStructWithProperName() {
-    when(cBridgeNameRules.getStructName(any(), any())).thenReturn("StructNameRef");
+    when(cBridgeNameRules.getStructRefType(any(), any())).thenReturn("StructNameRef");
     when(cBridgeNameRules.getStructBaseName(any(), any())).thenReturn("StructName");
     when(cBridgeNameRules.getBaseApiStructName(any(), any())).thenReturn("BaseAPIStructName");
 

@@ -11,14 +11,24 @@
 
 package com.here.ivi.api.generator.swift;
 
+import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftType;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.*;
 
 public class SwiftTypeMapper {
-  public static SwiftType mapType(FArgument argument) {
-    return mapPredefined(argument.getType());
+
+  public static SwiftType mapType(FrancaElement<?> rootModel, final FTypeRef type) {
+    FType derived = type.getDerived();
+
+    if (derived != null) {
+      if (derived instanceof FStructType) {
+        return new SwiftStruct(derived.getName());
+      }
+      return SwiftType.VOID;
+    }
+
+    return mapPredefined(type);
   }
 
   private static SwiftType mapPredefined(FTypeRef type) {

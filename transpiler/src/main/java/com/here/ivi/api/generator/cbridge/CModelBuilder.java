@@ -130,7 +130,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   public void finishBuilding(FStructType francaStruct) {
     CStruct cStruct =
         new CStruct(
-            cBridgeNameRules.getStructName(rootModel, francaStruct),
+            cBridgeNameRules.getStructRefType(rootModel, francaStruct),
             cBridgeNameRules.getStructBaseName(rootModel, francaStruct),
             cBridgeNameRules.getBaseApiStructName(rootModel, francaStruct),
             CppTypeInfo.createStructTypeInfo(rootModel, francaStruct));
