@@ -33,7 +33,7 @@ interface HelloWorldComplexTypes {
 
     typedef Errors is InternalErrorArray
 
-    map ErrorCodeToMessage { NavigationError to String }
+    map ErrorCodeToMessage { InternalError to String }
 
     <** @description:
     Example static method which takes any InternalError and returns the opposite one
