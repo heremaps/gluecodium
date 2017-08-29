@@ -16,6 +16,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -39,6 +40,7 @@ import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -345,6 +347,15 @@ public class JavaModelBuilderTest {
     JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
     assertNotNull(javaField);
     assertEquals(JavaVisibility.PUBLIC, javaField.visibility);
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeIsIgnored() {
+    FAttribute francaAttribute = mock(FAttribute.class);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    assertTrue(modelBuilder.getResults().isEmpty());
   }
 
   @Test

@@ -35,6 +35,7 @@ import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -159,6 +160,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FTypedElement francaTypedElement) {
+    // currently franca attributes are ignored for android generator
+    if (francaTypedElement instanceof FAttribute) {
+      closeContext();
+      return;
+    }
 
     JavaType javaType =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
