@@ -31,6 +31,7 @@ import com.here.ivi.api.model.javamodel.JavaParameter;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
@@ -137,6 +138,11 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
   @Override
   public void finishBuilding(FTypedElement francaTypedElement) {
+    // currently franca attributes are ignored for android generator
+    if (francaTypedElement instanceof FAttribute) {
+      closeContext();
+      return;
+    }
 
     JavaField javaField = javaBuilder.getFirstResult(JavaField.class);
     CppField cppField = cppBuilder.getFirstResult(CppField.class);

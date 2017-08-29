@@ -16,6 +16,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.baseapi.CppModelBuilder;
@@ -39,6 +40,7 @@ import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
 import java.util.List;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -291,6 +293,15 @@ public class JniModelBuilderTest {
     assertNotNull(jniField);
     assertEquals(javaField, jniField.javaField);
     assertEquals(cppField, jniField.cppField);
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeIsIgnored() {
+    FAttribute francaAttribute = mock(FAttribute.class);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    assertTrue(modelBuilder.getResults().isEmpty());
   }
 
   @Test
