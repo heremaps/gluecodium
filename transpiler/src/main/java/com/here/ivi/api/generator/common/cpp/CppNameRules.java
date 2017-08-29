@@ -77,6 +77,7 @@ public final class CppNameRules {
   }
 
   public static String getClassName(String typeCollectionName) {
+    // TODO: APIGEN-253: remove suffix
     return NameHelper.toUpperCamelCase(typeCollectionName) + "Stub";
   }
 
@@ -93,6 +94,7 @@ public final class CppNameRules {
   }
 
   public static String getHeaderPath(FrancaElement<?> francaElement) {
+    // TODO: APIGEN-285: remove "stub" prefix
     return "stub"
         + File.separator
         + String.join(File.separator, francaElement.getModelInfo().getPackageNames())

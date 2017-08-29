@@ -61,6 +61,7 @@ public interface GeneratorSuite {
     switch (shortName) {
       case "android":
         return new AndroidGeneratorSuite(options);
+        // TODO: APIGEN-253: change value to "baseApi"
       case "stub":
         return new BaseApiGeneratorSuite();
       case "swift":
@@ -72,13 +73,13 @@ public interface GeneratorSuite {
 
   /** @return all available generators */
   static List<String> generatorShortNames() {
+    // TODO: APIGEN-253: change second value to "baseApi"
     return Arrays.asList("android", "stub", "swift");
   }
 
   /**
    * Construct list of generators needed to process provided fidl/fdepl files.
    *
-   * @param inputPath The root directory of the fidl/fdepl files.
    * @return List of generators needed to process provided files
    */
   static List<String> generatorsFromFdepl(OptionReader.TranspilerOptions options)

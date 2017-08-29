@@ -17,48 +17,49 @@ import com.here.ivi.api.generator.common.DoxygenFormatter;
 import java.util.Collection;
 import org.franca.core.franca.*;
 
-public class StubCommentParser
+public class CppCommentParser
     extends AbstractFrancaCommentParser<AbstractFrancaCommentParser.Comments> {
 
+  // TODO: APIGEN-253: change value to "baseApi"
   private static final String GENERATOR_NAME = "stub";
   public static final DoxygenFormatter FORMATTER = new DoxygenFormatter(GENERATOR_NAME);
 
   public static AbstractFrancaCommentParser.Comments parse(FModelElement elem) {
-    StubCommentParser parser = new StubCommentParser(elem);
+    CppCommentParser parser = new CppCommentParser(elem);
     return parser.parse();
   }
 
   public static AbstractFrancaCommentParser.Comments parse(FAttribute attribute) {
-    StubCommentParser parser = new StubCommentParser(attribute);
+    CppCommentParser parser = new CppCommentParser(attribute);
     return parser.parse();
   }
 
   public static AbstractFrancaCommentParser.Comments parse(FBroadcast broadcast) {
-    StubCommentParser parser = new StubCommentParser(broadcast);
+    CppCommentParser parser = new CppCommentParser(broadcast);
     return parser.parse();
   }
 
   public static AbstractFrancaCommentParser.Comments parse(FMethod method) {
-    StubCommentParser parser = new StubCommentParser(method);
+    CppCommentParser parser = new CppCommentParser(method);
     return parser.parse();
   }
 
-  public StubCommentParser(FMethod method) {
+  public CppCommentParser(FMethod method) {
     super(method, FORMATTER);
     this.comments = new AbstractFrancaCommentParser.Comments();
   }
 
-  public StubCommentParser(FBroadcast broadcast) {
+  public CppCommentParser(FBroadcast broadcast) {
     super(broadcast, FORMATTER);
     this.comments = new AbstractFrancaCommentParser.Comments();
   }
 
-  public StubCommentParser(FAttribute attribute) {
+  public CppCommentParser(FAttribute attribute) {
     super(attribute, FORMATTER);
     this.comments = new AbstractFrancaCommentParser.Comments();
   }
 
-  public StubCommentParser(FModelElement elem) {
+  public CppCommentParser(FModelElement elem) {
     super(elem, FORMATTER);
     this.comments = new AbstractFrancaCommentParser.Comments();
   }

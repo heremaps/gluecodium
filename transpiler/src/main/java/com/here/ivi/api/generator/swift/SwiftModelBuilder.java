@@ -16,7 +16,7 @@ import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.baseapi.StubCommentParser;
+import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.Interface;
@@ -52,7 +52,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FInterface francaInterface) {
     SwiftClass clazz = new SwiftClass(nameRules.getClassName(francaInterface));
-    String comment = StubCommentParser.parse(francaInterface).getMainBodyText();
+    String comment = CppCommentParser.parse(francaInterface).getMainBodyText();
     clazz.comment = comment != null ? comment : "";
     clazz.methods = getAllOfType(getCurrentContext().previousResults, SwiftMethod.class);
     clazz.nameSpace = String.join("_", rootModel.getModelInfo().getPackageNames());
@@ -92,7 +92,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
         CollectionsHelper.getFirstOfType(
             getCurrentContext().previousResults, SwiftOutParameter.class, new SwiftOutParameter());
     method.returnType = returnParam.type;
-    String comment = StubCommentParser.parse(francaMethod).getMainBodyText();
+    String comment = CppCommentParser.parse(francaMethod).getMainBodyText();
     method.comment = comment != null ? comment : "";
     Boolean isStatic = rootModel.getPropertyAccessor().getStatic(francaMethod);
     method.isStatic = isStatic != null && isStatic;

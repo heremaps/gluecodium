@@ -76,15 +76,15 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
-  StubMethodMapper.class,
-  StubCommentParser.class,
+  CppMethodMapper.class,
+  CppCommentParser.class,
   InstanceRules.class,
   CppTypeMapper.class,
   DefinedBy.class,
   CppDefaultInitializer.class,
   CppValueMapper.class
 })
-public class StubModelBuilderTest {
+public class CppModelBuilderTest {
 
   private static final String TYPECOLLECTION_NAME = "tCollection";
   private static final String CLASS_NAME = "classy";
@@ -123,7 +123,7 @@ public class StubModelBuilderTest {
   @Mock private FEnumerator francaEnumerator;
   @Mock private FExpression francaExpression;
 
-  private StubModelBuilder modelBuilder;
+  private CppModelBuilder modelBuilder;
 
   private final CppComplexTypeRef cppComplexTypeRef =
       new CppComplexTypeRef.Builder("::typically").build();
@@ -139,8 +139,8 @@ public class StubModelBuilderTest {
   @Before
   public void setUp() {
     PowerMockito.mockStatic(
-        StubMethodMapper.class,
-        StubCommentParser.class,
+        CppMethodMapper.class,
+        CppCommentParser.class,
         InstanceRules.class,
         CppTypeMapper.class,
         DefinedBy.class,
@@ -148,7 +148,7 @@ public class StubModelBuilderTest {
         CppValueMapper.class);
     MockitoAnnotations.initMocks(this);
 
-    modelBuilder = new StubModelBuilder(contextStack, rootModel);
+    modelBuilder = new CppModelBuilder(contextStack, rootModel);
 
     when(rootModel.getPropertyAccessor()).thenReturn(propertyAccessor);
 
@@ -171,11 +171,11 @@ public class StubModelBuilderTest {
     when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
     when(francaTypeCollection.getName()).thenReturn(TYPECOLLECTION_NAME);
 
-    when(StubMethodMapper.mapMethodReturnType(any(), any()))
-        .thenReturn(new StubMethodMapper.ReturnTypeData(cppComplexTypeRef, RETURN_TYPE_COMMENT));
-    when(StubCommentParser.parse(any(FModelElement.class)))
+    when(CppMethodMapper.mapMethodReturnType(any(), any()))
+        .thenReturn(new CppMethodMapper.ReturnTypeData(cppComplexTypeRef, RETURN_TYPE_COMMENT));
+    when(CppCommentParser.parse(any(FModelElement.class)))
         .thenReturn(new AbstractFrancaCommentParser.Comments());
-    when(StubCommentParser.parse(any(FMethod.class)))
+    when(CppCommentParser.parse(any(FMethod.class)))
         .thenReturn(new AbstractFrancaCommentParser.Comments());
   }
 
@@ -286,7 +286,7 @@ public class StubModelBuilderTest {
 
   @Test
   public void finishBuildingInputArgumentMapsType() {
-    when(StubMethodMapper.mapArgumentType(any(), any(), any())).thenReturn(cppComplexTypeRef);
+    when(CppMethodMapper.mapArgumentType(any(), any(), any())).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
@@ -295,7 +295,7 @@ public class StubModelBuilderTest {
     assertEquals(cppComplexTypeRef, cppParameter.type);
 
     PowerMockito.verifyStatic();
-    StubMethodMapper.mapArgumentType(same(francaArgument), same(null), same(rootModel));
+    CppMethodMapper.mapArgumentType(same(francaArgument), same(null), same(rootModel));
   }
 
   @Test

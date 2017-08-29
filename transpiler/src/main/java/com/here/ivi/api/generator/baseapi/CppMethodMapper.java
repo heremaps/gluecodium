@@ -29,10 +29,11 @@ import org.franca.core.franca.FMethod;
  * Helper class for mapping FMethod and related Franca model elements into the C++ model. All
  * methods in the class operate with a precondition of Franca model being valid.
  */
-public final class StubMethodMapper {
+public final class CppMethodMapper {
 
+  // TODO: APIGEN-285: remove "stub" prefix
   private static final Include EXPECTED_INCLUDE =
-      Include.createSystemInclude("cpp/internal/expected.h");
+      Include.createSystemInclude("stub/internal/expected.h");
 
   public static class ReturnTypeData {
     public final CppTypeRef type;
@@ -52,7 +53,7 @@ public final class StubMethodMapper {
 
     if (francaMethod.getErrorEnum() != null) {
       errorType = CppTypeMapper.mapEnum(francaMethod.getErrorEnum());
-      errorComment = StubCommentParser.FORMATTER.readCleanedErrorComment(francaMethod);
+      errorComment = CppCommentParser.FORMATTER.readCleanedErrorComment(francaMethod);
     }
 
     CppTypeRef outArgType = null;

@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.baseapi.StubCommentParser;
+import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.ModelInfo;
@@ -45,7 +45,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SwiftTypeMapper.class, StubCommentParser.class})
+@PrepareForTest({SwiftTypeMapper.class, CppCommentParser.class})
 public class SwiftModelBuilderTest {
 
   private static final String PARAM_NAME = "someParamName";
@@ -69,10 +69,10 @@ public class SwiftModelBuilderTest {
 
   @Before
   public void setUp() {
-    mockStatic(SwiftTypeMapper.class, StubCommentParser.class);
+    mockStatic(SwiftTypeMapper.class, CppCommentParser.class);
     when(SwiftTypeMapper.mapType(any())).thenReturn(swiftType);
-    when(StubCommentParser.parse(any(FMethod.class))).thenReturn(comments);
-    when(StubCommentParser.parse(any(FInterface.class))).thenReturn(comments);
+    when(CppCommentParser.parse(any(FMethod.class))).thenReturn(comments);
+    when(CppCommentParser.parse(any(FInterface.class))).thenReturn(comments);
     when(comments.getMainBodyText()).thenReturn(COMMENT);
 
     when(anInterface.getModelInfo()).thenReturn(modelInfo);

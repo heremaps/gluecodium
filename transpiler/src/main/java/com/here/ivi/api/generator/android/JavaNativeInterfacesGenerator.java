@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.android;
 
-import com.here.ivi.api.generator.baseapi.StubModelBuilder;
+import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
@@ -52,11 +52,11 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
 
     JavaModelBuilder javaBuilder = new JavaModelBuilder(basePackage, francaElement);
 
-    StubModelBuilder stubBuilder = new StubModelBuilder(francaElement);
-    JniModelBuilder jniBuilder = new JniModelBuilder(francaElement, javaBuilder, stubBuilder);
+    CppModelBuilder cppBuilder = new CppModelBuilder(francaElement);
+    JniModelBuilder jniBuilder = new JniModelBuilder(francaElement, javaBuilder, cppBuilder);
 
     FrancaTreeWalker treeWalker =
-        new FrancaTreeWalker(Arrays.asList(javaBuilder, stubBuilder, jniBuilder));
+        new FrancaTreeWalker(Arrays.asList(javaBuilder, cppBuilder, jniBuilder));
     treeWalker.walk(francaElement);
 
     JniContainer jniContainer = jniBuilder.getFirstResult(JniContainer.class);

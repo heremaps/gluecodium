@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.common.jni;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.baseapi.StubModelBuilder;
+import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.cpp.CppNameRules;
@@ -46,39 +46,39 @@ import org.franca.core.franca.FTypedElement;
  * <p>For correspondence calculation it is assumed to have one to one mapping, i.e. one franca
  * element is mapped to at least one target model element.
  *
- * <p>It is assumed that Java- and StubModelBuilder's finishBuilding methods are called in advance
- * of calling finishBuilding on JniModelBuilder (constructed java and cpp elements need to be
+ * <p>It is assumed that Java- and CppModelBuilder's finishBuilding methods are called in advance of
+ * calling finishBuilding on JniModelBuilder (constructed java and cpp elements need to be
  * accessible via getResults(..) ).
  */
 public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
   private final FrancaElement<?> rootModel;
   private final JavaModelBuilder javaBuilder;
-  private final StubModelBuilder stubBuilder;
+  private final CppModelBuilder cppBuilder;
 
   public JniModelBuilder(
       final ModelBuilderContextStack<JniElement> contextStack,
       final FrancaElement<?> rootModel,
       final JavaModelBuilder javaBuilder,
-      final StubModelBuilder stubBuilder) {
+      final CppModelBuilder cppBuilder) {
 
     super(contextStack);
     this.rootModel = rootModel;
     this.javaBuilder = javaBuilder;
-    this.stubBuilder = stubBuilder;
+    this.cppBuilder = cppBuilder;
   }
 
   public JniModelBuilder(
       final FrancaElement<?> rootModel,
       final JavaModelBuilder javaBuilder,
-      final StubModelBuilder stubBuilder) {
-    this(new ModelBuilderContextStack<>(), rootModel, javaBuilder, stubBuilder);
+      final CppModelBuilder cppBuilder) {
+    this(new ModelBuilderContextStack<>(), rootModel, javaBuilder, cppBuilder);
   }
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
-    CppClass cppClass = stubBuilder.getFirstResult(CppClass.class);
+    CppClass cppClass = cppBuilder.getFirstResult(CppClass.class);
     JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
     JniContainer jniContainer =
         JniContainer.createInterfaceContainer(
@@ -99,7 +99,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   public void finishBuilding(FMethod francaMethod) {
 
     JavaMethod javaMethod = javaBuilder.getFirstResult(JavaMethod.class);
-    CppMethod cppMethod = stubBuilder.getFirstResult(CppMethod.class);
+    CppMethod cppMethod = cppBuilder.getFirstResult(CppMethod.class);
 
     JniMethod jniMethod = new JniMethod();
     jniMethod.javaReturnType = javaMethod.returnType;
@@ -117,7 +117,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
     JavaParameter javaParameter = javaBuilder.getFirstResult(JavaParameter.class);
-    CppParameter cppParameter = stubBuilder.getFirstResult(CppParameter.class);
+    CppParameter cppParameter = cppBuilder.getFirstResult(CppParameter.class);
 
     storeResult(new JniParameter(javaParameter.getName(), javaParameter.type, cppParameter.type));
     closeContext();
@@ -127,7 +127,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   public void finishBuilding(FStructType francaStructType) {
 
     JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
-    CppStruct cppStruct = stubBuilder.getFirstResult(CppStruct.class);
+    CppStruct cppStruct = cppBuilder.getFirstResult(CppStruct.class);
     List<JniField> jniFields =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniField.class);
 
@@ -139,7 +139,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   public void finishBuilding(FTypedElement francaTypedElement) {
 
     JavaField javaField = javaBuilder.getFirstResult(JavaField.class);
-    CppField cppField = stubBuilder.getFirstResult(CppField.class);
+    CppField cppField = cppBuilder.getFirstResult(CppField.class);
 
     storeResult(new JniField(javaField, cppField));
     closeContext();

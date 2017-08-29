@@ -97,13 +97,13 @@ public final class JniImplementationTemplateTest {
   }
 
   private String expectedMethodResultBlock(String methodName, boolean isVoidMethod) {
-    String callOnStub =
+    String callPrefix =
         isVoidMethod
             ? "  com::here::ivi::test::CppClass::"
             : "  auto result = com::here::ivi::test::CppClass::";
     String returnLine = isVoidMethod ? "" : "  return result;\n";
 
-    return callOnStub + methodName + "(" + BASE_PARAMETER_NAME + ");\n" + returnLine + "}\n";
+    return callPrefix + methodName + "(" + BASE_PARAMETER_NAME + ");\n" + returnLine + "}\n";
   }
 
   @Test

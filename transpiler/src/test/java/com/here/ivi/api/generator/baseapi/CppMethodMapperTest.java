@@ -47,7 +47,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(CppTypeMapper.class)
-public class StubMethodMapperTest {
+public class CppMethodMapperTest {
 
   private static final String METHOD_NAME = "shoot foot";
   private static final String ARGUMENT_NAME = "which foot";
@@ -97,8 +97,8 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapMethodReturnTypeNoArguments() {
-    StubMethodMapper.ReturnTypeData returnTypeData =
-        StubMethodMapper.mapMethodReturnType(francaMethod, rootModel);
+    CppMethodMapper.ReturnTypeData returnTypeData =
+        CppMethodMapper.mapMethodReturnType(francaMethod, rootModel);
 
     assertEquals(CppPrimitiveTypeRef.VOID_TYPE, returnTypeData.type);
   }
@@ -108,8 +108,8 @@ public class StubMethodMapperTest {
     when(CppTypeMapper.mapEnum(any())).thenReturn(cppCustomType);
     when(francaMethod.getErrorEnum()).thenReturn(francaEnum);
 
-    StubMethodMapper.ReturnTypeData returnTypeData =
-        StubMethodMapper.mapMethodReturnType(francaMethod, rootModel);
+    CppMethodMapper.ReturnTypeData returnTypeData =
+        CppMethodMapper.mapMethodReturnType(francaMethod, rootModel);
 
     assertEquals(TYPE_NAME, returnTypeData.type.name);
 
@@ -122,8 +122,8 @@ public class StubMethodMapperTest {
     EList<FArgument> francaArguments = createFrancaArgumentsArray();
     when(francaMethod.getOutArgs()).thenReturn(francaArguments);
 
-    StubMethodMapper.ReturnTypeData returnTypeData =
-        StubMethodMapper.mapMethodReturnType(francaMethod, rootModel);
+    CppMethodMapper.ReturnTypeData returnTypeData =
+        CppMethodMapper.mapMethodReturnType(francaMethod, rootModel);
 
     assertEquals(TYPE_NAME, returnTypeData.type.name);
 
@@ -139,8 +139,8 @@ public class StubMethodMapperTest {
     when(francaMethod.getOutArgs()).thenReturn(francaArguments);
     when(francaMethod.getErrorEnum()).thenReturn(francaEnum);
 
-    StubMethodMapper.ReturnTypeData returnTypeData =
-        StubMethodMapper.mapMethodReturnType(francaMethod, rootModel);
+    CppMethodMapper.ReturnTypeData returnTypeData =
+        CppMethodMapper.mapMethodReturnType(francaMethod, rootModel);
 
     assertEquals(
         "here::internal::expected< " + TYPE_NAME + ", " + TYPE_NAME + " >",
@@ -154,7 +154,7 @@ public class StubMethodMapperTest {
 
   @Test
   public void mapArgumentTypeCallsTypeMapper() {
-    CppTypeRef cppType = StubMethodMapper.mapArgumentType(francaArgument, null, rootModel);
+    CppTypeRef cppType = CppMethodMapper.mapArgumentType(francaArgument, null, rootModel);
 
     assertEquals(cppCustomType, cppType);
 
@@ -169,7 +169,7 @@ public class StubMethodMapperTest {
     when(CppTypeMapper.map(any(), any(FArgument.class))).thenReturn(cppInterfaceInstance);
     when(CppTypeMapper.wrapSharedPtr(any())).thenReturn(cppCustomType);
 
-    CppTypeRef cppType = StubMethodMapper.mapArgumentType(francaArgument, francaMethod, rootModel);
+    CppTypeRef cppType = CppMethodMapper.mapArgumentType(francaArgument, francaMethod, rootModel);
 
     assertEquals(cppCustomType, cppType);
 
@@ -185,7 +185,7 @@ public class StubMethodMapperTest {
     when(CppTypeMapper.wrapUniquePtr(any())).thenReturn(cppCustomType);
     when(propertyAccessor.getCreates(any())).thenReturn(mock(FInterface.class));
 
-    CppTypeRef cppType = StubMethodMapper.mapArgumentType(francaArgument, francaMethod, rootModel);
+    CppTypeRef cppType = CppMethodMapper.mapArgumentType(francaArgument, francaMethod, rootModel);
 
     assertEquals(cppCustomType, cppType);
 
