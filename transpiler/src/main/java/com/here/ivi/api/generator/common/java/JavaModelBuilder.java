@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.common.java;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.baseapi.StubCommentParser;
+import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -117,7 +117,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     // Either create a per-Interface exception and add mapped enum values to it's EnumSet member
     // Or do something different...
 
-    javaMethod.comment = StubCommentParser.FORMATTER.readDescription(francaMethod.getComment());
+    javaMethod.comment = CppCommentParser.FORMATTER.readDescription(francaMethod.getComment());
 
     if (isMethodStatic(francaMethod)) {
       javaMethod.qualifiers.add(MethodQualifier.STATIC);
@@ -228,7 +228,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     String comment = "";
     FAnnotationBlock francaComment = francaModelElement.getComment();
     if (francaComment != null && francaComment.getElements() != null) {
-      comment = StubCommentParser.FORMATTER.readDescription(francaComment);
+      comment = CppCommentParser.FORMATTER.readDescription(francaComment);
     }
 
     return comment;

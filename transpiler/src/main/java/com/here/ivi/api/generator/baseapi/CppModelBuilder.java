@@ -50,17 +50,17 @@ import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 
-public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
+public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
   private final FrancaElement<?> rootModel;
 
-  public StubModelBuilder(
+  public CppModelBuilder(
       final ModelBuilderContextStack<CppElement> contextStack, final FrancaElement<?> rootModel) {
     super(contextStack);
     this.rootModel = rootModel;
   }
 
-  public StubModelBuilder(final FrancaElement<?> rootModel) {
+  public CppModelBuilder(final FrancaElement<?> rootModel) {
     super(new ModelBuilderContextStack<>());
     this.rootModel = rootModel;
   }
@@ -72,11 +72,10 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     List<CppElement> previousResults = getCurrentContext().previousResults;
 
-    CppClass.Builder stubClassBuilder =
+    CppClass cppClass =
         new CppClass.Builder(className)
-            .comment(StubCommentParser.parse(francaInterface).getMainBodyText());
-
-    CppClass cppClass = stubClassBuilder.build();
+            .comment(CppCommentParser.parse(francaInterface).getMainBodyText())
+            .build();
 
     cppClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, CppMethod.class));
     cppClass.structs.addAll(CollectionsHelper.getAllOfType(previousResults, CppStruct.class));
@@ -90,8 +89,8 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    StubMethodMapper.ReturnTypeData returnTypeData =
-        StubMethodMapper.mapMethodReturnType(francaMethod, rootModel);
+    CppMethodMapper.ReturnTypeData returnTypeData =
+        CppMethodMapper.mapMethodReturnType(francaMethod, rootModel);
     CppMethod cppMethod = buildCppMethod(francaMethod, returnTypeData.type, returnTypeData.comment);
 
     storeResult(cppMethod);
@@ -101,7 +100,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    CppTypeRef cppType = StubMethodMapper.mapArgumentType(francaArgument, null, rootModel);
+    CppTypeRef cppType = CppMethodMapper.mapArgumentType(francaArgument, null, rootModel);
     CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppType);
 
     storeResult(cppParameter);
@@ -131,7 +130,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     CppValue value = CppValueMapper.map(type, francaConstant.getRhs());
 
     CppConstant cppConstant = new CppConstant(name, type, value);
-    cppConstant.comment = StubCommentParser.parse(francaConstant).getMainBodyText();
+    cppConstant.comment = CppCommentParser.parse(francaConstant).getMainBodyText();
 
     storeResult(cppConstant);
     closeContext();
@@ -146,7 +145,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     CppValue cppValue = CppDefaultInitializer.map(francaTypedElement);
 
     CppField cppField = new CppField(cppTypeRef, fieldName, cppValue);
-    cppField.comment = StubCommentParser.parse(francaTypedElement).getMainBodyText();
+    cppField.comment = CppCommentParser.parse(francaTypedElement).getMainBodyText();
 
     storeResult(cppField);
     closeContext();
@@ -157,7 +156,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
 
     String cppStructName = CppNameRules.getStructName(francaStructType.getName());
     CppStruct struct = new CppStruct(cppStructName);
-    struct.comment = StubCommentParser.parse(francaStructType).getMainBodyText();
+    struct.comment = CppCommentParser.parse(francaStructType).getMainBodyText();
 
     List<CppField> elements =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppField.class);
@@ -176,7 +175,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
       CppTypeRef typedefType = CppTypeMapper.map(rootModel, francaTypeDef.getActualType());
 
       CppUsing cppUsing = new CppUsing(typedefName, typedefType);
-      cppUsing.comment = StubCommentParser.parse(francaTypeDef).getMainBodyText();
+      cppUsing.comment = CppCommentParser.parse(francaTypeDef).getMainBodyText();
 
       storeResult(cppUsing);
     }
@@ -190,7 +189,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     String name = CppNameRules.getTypedefName(francaArrayType.getName());
     CppTypeRef targetType = CppTypeMapper.defineArray(rootModel, francaArrayType);
     CppUsing cppUsing = new CppUsing(name, targetType);
-    cppUsing.comment = StubCommentParser.parse(francaArrayType).getMainBodyText();
+    cppUsing.comment = CppCommentParser.parse(francaArrayType).getMainBodyText();
 
     storeResult(cppUsing);
     closeContext();
@@ -205,7 +204,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
             CppTypeMapper.map(rootModel, francaMapType.getKeyType()),
             CppTypeMapper.map(rootModel, francaMapType.getValueType()));
     CppUsing cppUsing = new CppUsing(name, targetType);
-    cppUsing.comment = StubCommentParser.parse(francaMapType).getMainBodyText();
+    cppUsing.comment = CppCommentParser.parse(francaMapType).getMainBodyText();
 
     storeResult(cppUsing);
     closeContext();
@@ -215,7 +214,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FEnumerationType francaEnumerationType) {
 
     CppEnum cppEnum = new CppEnum(CppNameRules.getEnumName(francaEnumerationType.getName()), true);
-    cppEnum.comment = StubCommentParser.parse(francaEnumerationType).getMainBodyText();
+    cppEnum.comment = CppCommentParser.parse(francaEnumerationType).getMainBodyText();
     cppEnum.items =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppEnumItem.class);
 
@@ -230,7 +229,7 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     CppValue cppValue =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppValue.class);
     CppEnumItem cppEnumItem = new CppEnumItem(enumItemName, cppValue);
-    cppEnumItem.comment = StubCommentParser.parse(francaEnumerator).getMainBodyText();
+    cppEnumItem.comment = CppCommentParser.parse(francaEnumerator).getMainBodyText();
 
     storeResult(cppEnumItem);
     closeContext();
@@ -278,10 +277,10 @@ public class StubModelBuilder extends AbstractModelBuilder<CppElement> {
     }
 
     StringBuilder methodCommentBuilder =
-        new StringBuilder(StubCommentParser.parse(francaMethod).getMainBodyText());
+        new StringBuilder(CppCommentParser.parse(francaMethod).getMainBodyText());
     if (!returnTypeComment.isEmpty()) {
       methodCommentBuilder.append(
-          StubCommentParser.FORMATTER.formatTag("@return", returnTypeComment));
+          CppCommentParser.FORMATTER.formatTag("@return", returnTypeComment));
     }
     builder.comment(methodCommentBuilder.toString());
 

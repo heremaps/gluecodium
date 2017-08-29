@@ -28,7 +28,7 @@ public class BaseApiGeneratorSuiteIntegrationTest {
 
   @Test
   public void generate() {
-    // TODO: APIGEN-229 This test should spy stubGenerator::generate and
+    // TODO: APIGEN-229 This test should spy CppGenerator::generate and
     // typeCollectionGenerator::generate to check with verify() that they are called accordingly
     String francaFilesPath = "src/test/resources/baseapi_generator_suite/fidl";
     baseApiGeneratorSuite.buildModel(francaFilesPath);

@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.generator.baseapi.StubModelBuilder;
+import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
@@ -66,7 +66,7 @@ public class JniModelBuilderTest {
   @Mock private FField francaField;
 
   @Mock private JavaModelBuilder javaBuilder;
-  @Mock private StubModelBuilder stubBuilder;
+  @Mock private CppModelBuilder cppBuilder;
 
   private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
   private final CppClass cppClass = new CppClass.Builder(CPP_CLASS_NAME).build();
@@ -100,10 +100,10 @@ public class JniModelBuilderTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    modelBuilder = new JniModelBuilder(contextStack, rootModel, javaBuilder, stubBuilder);
+    modelBuilder = new JniModelBuilder(contextStack, rootModel, javaBuilder, cppBuilder);
 
     when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
-    when(stubBuilder.getFirstResult(any())).thenReturn(cppClass);
+    when(cppBuilder.getFirstResult(any())).thenReturn(cppClass);
 
     when(rootModel.getModelInfo().getPackageNames()).thenReturn(CPP_NAMESPACE_MEMBERS);
   }
@@ -142,7 +142,7 @@ public class JniModelBuilderTest {
   public void finishBuildingFMethodVoid() {
     //arrange
     when(javaBuilder.getFirstResult(any())).thenReturn(new JavaMethod(JAVA_VOID_METHOD_NAME));
-    when(stubBuilder.getFirstResult(any()))
+    when(cppBuilder.getFirstResult(any()))
         .thenReturn(new CppMethod.Builder(CPP_VOID_METHOD_NAME).build());
 
     //act
@@ -158,7 +158,7 @@ public class JniModelBuilderTest {
     JavaMethod javaMethod = createJavaMethod();
     CppMethod cppMethod = createCppMethod();
     when(javaBuilder.getFirstResult(any())).thenReturn(javaMethod);
-    when(stubBuilder.getFirstResult(any())).thenReturn(cppMethod);
+    when(cppBuilder.getFirstResult(any())).thenReturn(cppMethod);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -174,7 +174,7 @@ public class JniModelBuilderTest {
   public void finishBuildingFrancaMethodReadsJniParameters() {
     contextStack.injectResult(jniParameter);
     when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethod());
-    when(stubBuilder.getFirstResult(any())).thenReturn(createCppMethod());
+    when(cppBuilder.getFirstResult(any())).thenReturn(createCppMethod());
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -236,7 +236,7 @@ public class JniModelBuilderTest {
     CppParameter cppParameter =
         new CppParameter("absolute", new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build());
     when(javaBuilder.getFirstResult(any())).thenReturn(javaParameter);
-    when(stubBuilder.getFirstResult(any())).thenReturn(cppParameter);
+    when(cppBuilder.getFirstResult(any())).thenReturn(cppParameter);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
@@ -250,7 +250,7 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaStructReadsJavaCppClasses() {
     CppStruct cppStruct = new CppStruct(CPP_CLASS_NAME);
-    when(stubBuilder.getFirstResult(any())).thenReturn(cppStruct);
+    when(cppBuilder.getFirstResult(any())).thenReturn(cppStruct);
 
     modelBuilder.finishBuilding(francaStructType);
 
@@ -268,7 +268,7 @@ public class JniModelBuilderTest {
             new CppField(cppCustomType, BASE_NAME_PARAMETER));
     contextStack.injectResult(jniField);
     when(javaBuilder.getFirstResult(any())).thenReturn(null);
-    when(stubBuilder.getFirstResult(any())).thenReturn(null);
+    when(cppBuilder.getFirstResult(any())).thenReturn(null);
 
     modelBuilder.finishBuilding(francaStructType);
 
@@ -283,7 +283,7 @@ public class JniModelBuilderTest {
     JavaField javaField = new JavaField(javaCustomType, BASE_NAME_PARAMETER);
     CppField cppField = new CppField(cppCustomType, CPP_CLASS_NAME);
     when(javaBuilder.getFirstResult(any())).thenReturn(javaField);
-    when(stubBuilder.getFirstResult(any())).thenReturn(cppField);
+    when(cppBuilder.getFirstResult(any())).thenReturn(cppField);
 
     modelBuilder.finishBuilding(francaField);
 

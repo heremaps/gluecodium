@@ -95,7 +95,7 @@ public class CppTypeInfo {
     String handleName = rules.getStructName(rootModel, structType);
     return new CppTypeInfo(
         structType.getName(),
-        emptyList(), //TODO: APIGEN-285 Correct stubs from BaseApi include paths
+        emptyList(), //TODO: APIGEN-285 Correct files from BaseApi include paths
         "",
         emptyList(),
         "*get_pointer(%1$s)",

@@ -51,10 +51,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
  * This generator will build all the BaseApis that will have to be implemented on the client
- * side @ref StubMapper as well as the data used by this stubs @ref TypeCollectionMapper.
+ * side @ref CppMapper as well as the data used by @ref TypeCollectionMapper.
  *
  * <p>It is the underlying generator, that all others depend on, as they will invoke the actual
- * implementation through the Stub interfaces.
+ * implementation through the C++ interfaces.
  */
 public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
@@ -187,7 +187,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
     List<String> outmostQualifier = anInterface.getModelInfo().getPackageNames();
 
-    StubModelBuilder builder = new StubModelBuilder(anInterface);
+    CppModelBuilder builder = new CppModelBuilder(anInterface);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(anInterface);
@@ -206,7 +206,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     outmostQualifier.add(
         CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection().getName()));
 
-    StubModelBuilder builder = new StubModelBuilder(typeCollection);
+    CppModelBuilder builder = new CppModelBuilder(typeCollection);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(typeCollection);
