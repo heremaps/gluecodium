@@ -79,7 +79,7 @@ public class CBridgeNameRulesTest {
                     TYPE_COLLECTION_NAME,
                     toUpperCamelCase(STRUCT_NAME) + "Ref"));
 
-    String actualName = nameRules.getStructName(typeCollection, francaStruct);
+    String actualName = nameRules.getStructRefType(typeCollection, francaStruct);
 
     assertEquals(expectedName, actualName);
   }
@@ -95,7 +95,7 @@ public class CBridgeNameRulesTest {
                     INTERFACE_NAME,
                     toUpperCamelCase(STRUCT_NAME) + "Ref"));
 
-    String actualName = nameRules.getStructName(anInterface, francaStruct);
+    String actualName = nameRules.getStructRefType(anInterface, francaStruct);
 
     assertEquals(expectedName, actualName);
   }

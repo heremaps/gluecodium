@@ -17,6 +17,7 @@ import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -27,6 +28,7 @@ import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.swift.SwiftClass;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
+import com.here.ivi.api.model.swift.SwiftStruct;
 import java.net.URISyntaxException;
 import navigation.BaseApiSpec;
 import org.junit.Before;
@@ -55,12 +57,36 @@ public class SwiftGeneratorIntegrationTest {
     try {
       francaModel = readInFrancaModel(TEST_FIDL_FILE, new BaseApiSpecAccessorFactory());
     } catch (URISyntaxException e) {
-      assertFalse("Franca model should be readable", true);
+      fail("Franca model should be readable");
     }
     generator = new SwiftGenerator(nameRules);
     when(nameRules.getClassName(any())).thenReturn(CLASS_NAME);
     when(nameRules.getMethodName(any())).thenReturn(METHOD_NAME);
     when(nameRules.getParameterName(any())).thenReturn(PARAM_NAME);
+  }
+
+  @Test
+  public void modelForIfaceWithStruct() {
+    final SwiftClass clazz =
+        this.generator.buildSwiftModel(
+            LoadModelHelper.extractNthInterfaceFromModel(this.francaModel, 7));
+    assertNotNull("The property should not be empty", clazz.structs);
+    assertEquals("It should parse both structs", 2, clazz.structs.size());
+    SwiftStruct struct = clazz.structs.get(0);
+    assertEquals("name should be parsed correctly to Swift", "Struct_0", struct.name);
+    assertEquals("comments should be parsed correctly", "This is a test struct", struct.comment);
+    assertEquals("all fields should be recognized", 2, struct.fields.size());
+    assertEquals("the name of the fields are correct", "elem1", struct.fields.get(0).name);
+    assertEquals(
+        "the type of the fields are correct", "Int64", struct.fields.get(0).type.toString());
+    assertEquals(
+        "CBridge prefix is set correctly",
+        "swift_fidl_test_TestInterface_7_Struct_0",
+        struct.cPrefix);
+    assertEquals(
+        "the CBridge type of the struct is correct",
+        "swift_fidl_test_TestInterface_7_Struct_0Ref",
+        struct.cType);
   }
 
   @Test

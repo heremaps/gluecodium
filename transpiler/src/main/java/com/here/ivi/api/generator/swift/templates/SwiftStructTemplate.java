@@ -9,23 +9,13 @@
  *
  */
 
-package com.here.ivi.api.model.swift;
+package com.here.ivi.api.generator.swift.templates;
 
-import static java.util.Collections.emptyList;
+import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.swift.SwiftStruct;
 
-import java.util.List;
-
-public class SwiftStruct extends SwiftType {
-  public String comment;
-  public List<SwiftStructField> fields;
-  public String cPrefix;
-  public String cType;
-
-  public SwiftStruct(String name) {
-    super(name);
-    comment = "";
-    fields = emptyList();
-    cPrefix = "";
-    cType = "";
+public class SwiftStructTemplate {
+  public static String generate(final SwiftStruct struct) {
+    return TemplateEngine.render("swift/SwiftStruct", struct);
   }
 }

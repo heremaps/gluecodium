@@ -130,7 +130,7 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
           Matcher matcher = FIDL_COMMENTS_TO_REMOVE.matcher(francaComment);
           francaComment = matcher.replaceAll("");
 
-          descriptionBuilder.append(commentFormatter.formatComment(francaComment));
+          descriptionBuilder.append(francaComment);
           break;
           //noinspection deprecation
         case FAnnotationType.DEPRECATED_VALUE:

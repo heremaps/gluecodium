@@ -72,7 +72,7 @@ public class CBridgeNameRules {
         UNDERSCORE_DELIMITER);
   }
 
-  public String getStructName(
+  public String getStructRefType(
       final FrancaElement<?> francaElement, final FStructType francaStructType) {
     return getStructBaseName(francaElement, francaStructType) + "Ref";
   }

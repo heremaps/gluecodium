@@ -70,7 +70,7 @@ public class SwiftModelBuilderTest {
   @Before
   public void setUp() {
     mockStatic(SwiftTypeMapper.class, CppCommentParser.class);
-    when(SwiftTypeMapper.mapType(any())).thenReturn(swiftType);
+    when(SwiftTypeMapper.mapType(any(), any())).thenReturn(swiftType);
     when(CppCommentParser.parse(any(FMethod.class))).thenReturn(comments);
     when(CppCommentParser.parse(any(FInterface.class))).thenReturn(comments);
     when(comments.getMainBodyText()).thenReturn(COMMENT);

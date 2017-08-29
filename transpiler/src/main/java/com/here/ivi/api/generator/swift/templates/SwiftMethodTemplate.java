@@ -41,7 +41,7 @@ public class SwiftMethodTemplate {
             .stream()
             .map(
                 param -> {
-                  if (param.type.name.equals("Data")) {
+                  if ("Data".equals(param.type.name)) {
                     return (param.variableName + "_ptr, Int64(" + param.variableName + ".count)");
                   } else {
                     return param.variableName;
@@ -54,10 +54,10 @@ public class SwiftMethodTemplate {
     returnData.put("paramsForBase", paramCalls);
     String generatedCode = TemplateEngine.render(templateToUse.apply(null), returnData);
     String methodReturnType =
-        swiftMethod.returnType.name.equals("Data") ? "Data?" : swiftMethod.returnType.name;
+        "Data".equals(swiftMethod.returnType.name) ? "Data?" : swiftMethod.returnType.name;
 
     for (SwiftParameter param : swiftMethod.parameters) {
-      if (param.type.name.equals("Data")) {
+      if ("Data".equals(param.type.name)) {
         HashMap<String, Object> dataWrapObject = new HashMap<>();
         dataWrapObject.put("param_name", param.variableName);
         dataWrapObject.put("return_type", methodReturnType);
