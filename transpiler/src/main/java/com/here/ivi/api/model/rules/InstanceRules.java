@@ -12,8 +12,9 @@
 package com.here.ivi.api.model.rules;
 
 import com.here.ivi.api.model.franca.DefinedBy;
-import org.franca.core.franca.FType;
+import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypeRef;
 
 /**
  * This class handles the specific rules for identifying instance references.
@@ -21,27 +22,19 @@ import org.franca.core.franca.FTypeDef;
  * <p>Each generator has to use the rules to determine if instances of another type.
  */
 public final class InstanceRules {
-
-  private static final String BUILTIN_MODEL = "navigation.BuiltIn";
-  private static final String INSTANCE_ID_POSTFIX = "Instance";
-  private static final String INSTANCE_ID_TYPE = "InstanceId";
-
   /**
-   * This method is used in conjunction with navigation.BuiltIn.InstanceId If a typedef is of the
-   * builtin type, then it will be resolved to the Interface that contains the typedef.
+   * This method is used to check if a typedef is for an instance by checking that the typedef
+   * refers to undefined and that has the same name as a the containing class
    */
   public static boolean isInstanceId(FTypeDef typedef) {
-
-    // name must be ending with Instance
-    if (typedef.getName() != null && typedef.getName().endsWith(INSTANCE_ID_POSTFIX)) {
-      // it must reference a valid type and it must point to the exact navigation.BuiltIn.InstanceId
-      FType target = typedef.getActualType().getDerived();
-      if (target != null && INSTANCE_ID_TYPE.equals(target.getName())) {
-        DefinedBy defined = DefinedBy.createFromFModelElement(target);
-        return BUILTIN_MODEL.equals(defined.toString());
-      }
+    FTypeRef type = typedef.getActualType();
+    if (type.getDerived() != null || type.getPredefined() != FBasicTypeId.UNDEFINED) {
+      return false;
     }
 
-    return false;
+    DefinedBy definer = DefinedBy.createFromFModelElement(typedef);
+    String className = definer.getBaseName();
+
+    return typedef.getName().equals(className);
   }
 }
