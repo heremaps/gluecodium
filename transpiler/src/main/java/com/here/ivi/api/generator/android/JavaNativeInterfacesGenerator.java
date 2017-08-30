@@ -18,8 +18,6 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.generator.common.jni.JniModelBuilder;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
-import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
-import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.common.Include;
@@ -74,11 +72,11 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
 
     results.add(
         new GeneratedFile(
-            JniHeaderTemplate.generate(jniContainer),
+            TemplateEngine.render("jni/Header", jniContainer),
             JniNameRules.getHeaderFileName(jniContainer)));
     results.add(
         new GeneratedFile(
-            JniImplementationTemplate.generate(jniContainer),
+            TemplateEngine.render("jni/Implementation", jniContainer),
             JniNameRules.getImplementationFileName(jniContainer)));
 
     return results;

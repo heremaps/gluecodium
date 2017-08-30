@@ -104,10 +104,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     CppMethod cppMethod = cppBuilder.getFirstResult(CppMethod.class);
 
     JniMethod jniMethod = new JniMethod();
-    jniMethod.javaReturnType = javaMethod.returnType;
+    jniMethod.returnType = JniType.createType(javaMethod.returnType, cppMethod.returnType);
     jniMethod.javaMethodName = javaMethod.getName();
     jniMethod.cppMethodName = cppMethod.name;
-    jniMethod.cppReturnType = cppMethod.returnType;
     jniMethod.parameters.addAll(
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniParameter.class));
 
@@ -120,8 +119,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     JavaParameter javaParameter = javaBuilder.getFirstResult(JavaParameter.class);
     CppParameter cppParameter = cppBuilder.getFirstResult(CppParameter.class);
+    JniType jniType = JniType.createType(javaParameter.type, cppParameter.type);
 
-    storeResult(new JniParameter(javaParameter.getName(), javaParameter.type, cppParameter.type));
+    storeResult(new JniParameter(javaParameter.getName(), jniType));
     closeContext();
   }
 

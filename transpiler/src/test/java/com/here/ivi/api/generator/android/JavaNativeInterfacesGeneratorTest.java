@@ -20,8 +20,6 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
-import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
-import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Collections;
 import java.util.List;
@@ -35,12 +33,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({
-  JniNameRules.class,
-  JniHeaderTemplate.class,
-  JniImplementationTemplate.class,
-  TemplateEngine.class
-})
+@PrepareForTest({JniNameRules.class, TemplateEngine.class})
 public class JavaNativeInterfacesGeneratorTest {
 
   private static final int MAIN_FILES_COUNT = 2;
@@ -56,11 +49,7 @@ public class JavaNativeInterfacesGeneratorTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(
-        JniNameRules.class,
-        JniHeaderTemplate.class,
-        JniImplementationTemplate.class,
-        TemplateEngine.class);
+    PowerMockito.mockStatic(JniNameRules.class, TemplateEngine.class);
 
     when(JniNameRules.getHeaderFileName(any())).thenReturn("");
     when(JniNameRules.getImplementationFileName(any())).thenReturn("");
@@ -81,9 +70,9 @@ public class JavaNativeInterfacesGeneratorTest {
     assertEquals(MAIN_FILES_COUNT, result.size());
 
     PowerMockito.verifyStatic();
-    JniHeaderTemplate.generate(jniContainer);
+    TemplateEngine.render("jni/Header", jniContainer);
     PowerMockito.verifyStatic();
-    JniImplementationTemplate.generate(jniContainer);
+    TemplateEngine.render("jni/Implementation", jniContainer);
   }
 
   @Test

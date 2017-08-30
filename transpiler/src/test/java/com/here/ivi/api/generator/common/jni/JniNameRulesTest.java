@@ -20,7 +20,6 @@ import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
@@ -77,32 +76,6 @@ public final class JniNameRulesTest {
   }
 
   @Test
-  public void getJNIParameterNameFromJavaParameter() {
-    // Arrange
-    JavaType javaType = new JavaPrimitiveType(Type.INT);
-    JavaParameter javaParameter = new JavaParameter(javaType, "parameterName");
-
-    // Act, assert
-    assertEquals("jparameterName", JniNameRules.getParameterName(javaParameter.name));
-  }
-
-  @Test
-  public void getJNIParameterNameFromNullJavaParameter() {
-    // Arrange, act, assert
-    assertEquals("", JniNameRules.getParameterName(null));
-  }
-
-  @Test
-  public void getJNIParameterNameFromEmptyJavaParameter() {
-    // Arrange
-    JavaType javaType = new JavaPrimitiveType(Type.INT);
-    JavaParameter javaParameter = new JavaParameter(javaType, "");
-
-    // Act, assert
-    assertEquals("", JniNameRules.getParameterName(javaParameter.name));
-  }
-
-  @Test
   public void getParameterNameFromJavaNativeParameter() {
     // Arrange
     JavaType javaType = new JavaPrimitiveType(Type.INT);
@@ -126,28 +99,5 @@ public final class JniNameRulesTest {
 
     // Act, assert
     assertEquals("", JniNameRules.getNativeParameterName(javaParameter.name));
-  }
-
-  @Test
-  public void getJNIPackageNameFromJavaPackage() {
-    // Arrange
-    List<String> javaPackageNames = Arrays.asList("com", "here", "test");
-
-    // Act, assert
-    assertEquals("com_here_test", JniNameRules.getPackageName(javaPackageNames));
-  }
-
-  @Test
-  public void getJNIPackageNameFromNullJavaPackage() {
-    assertEquals("", JniNameRules.getPackageName(null));
-  }
-
-  @Test
-  public void getJNIPackageNameFromEmptyJavaPackage() {
-    // Arrange
-    List<String> javaPackageNames = Collections.emptyList();
-
-    // Act, assert
-    assertEquals("", JniNameRules.getPackageName(javaPackageNames));
   }
 }
