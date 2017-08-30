@@ -436,7 +436,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaArrayType() {
-    when(CppTypeMapper.defineArray(any(), any())).thenReturn(cppComplexTypeRef);
+    when(CppTypeMapper.mapArray(any(), any())).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaArrayType);
 
@@ -446,7 +446,7 @@ public class CppModelBuilderTest {
     assertEquals(cppComplexTypeRef, cppUsing.definition);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.defineArray(rootModel, francaArrayType);
+    CppTypeMapper.mapArray(rootModel, francaArrayType);
   }
 
   @Test

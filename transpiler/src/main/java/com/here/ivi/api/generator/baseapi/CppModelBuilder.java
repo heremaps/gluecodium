@@ -180,7 +180,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FArrayType francaArrayType) {
 
     String name = CppNameRules.getTypedefName(francaArrayType.getName());
-    CppTypeRef targetType = CppTypeMapper.defineArray(rootModel, francaArrayType);
+    CppTypeRef targetType = CppTypeMapper.mapArray(rootModel, francaArrayType);
     CppUsing cppUsing = new CppUsing(name, targetType);
     cppUsing.comment = CppCommentParser.parse(francaArrayType).getMainBodyText();
 
