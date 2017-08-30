@@ -208,6 +208,7 @@ public class CppTypeMapperComplexTest {
     assertTrue(result instanceof CppComplexTypeRef);
     CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
     assertEquals(expected, complexResult);
+    assertTrue(complexResult.includes.contains(CppLibraryIncludes.VECTOR));
   }
 
   @Test

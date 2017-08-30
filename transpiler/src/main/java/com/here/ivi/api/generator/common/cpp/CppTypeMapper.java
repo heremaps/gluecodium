@@ -23,6 +23,7 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FAttribute;
@@ -141,20 +142,15 @@ public final class CppTypeMapper {
     return new CppTypeDefRef(fullyQualifiedName, map(rootModel, typedef.getActualType()));
   }
 
-  private static CppComplexTypeRef mapArray(
+  public static CppComplexTypeRef mapArray(
       final FrancaElement<?> rootModel, final FArrayType array) {
     CppTypeRef elementType = map(rootModel, array.getElementType());
 
+    Set<Include> includes = elementType.includes;
+    includes.add(CppLibraryIncludes.VECTOR);
     return new CppComplexTypeRef.Builder("::std::vector< " + elementType.name + " >")
-        .includes(elementType.includes)
+        .includes(includes)
         .build();
-  }
-
-  public static CppTypeRef defineArray(
-      @SuppressWarnings("unused") FrancaElement<?> rootModel,
-      @SuppressWarnings("unused") FArrayType array) {
-    //TODO: APIGEN-145 handle array types
-    return new CppComplexTypeRef.Builder(VOID_POINTER).build();
   }
 
   private static CppComplexTypeRef mapMap(
