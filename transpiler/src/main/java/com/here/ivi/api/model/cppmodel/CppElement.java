@@ -11,11 +11,10 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.model.common.ModelElement;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class CppElement implements ModelElement {
+public class CppElement {
 
   public final String name;
   public String comment;
