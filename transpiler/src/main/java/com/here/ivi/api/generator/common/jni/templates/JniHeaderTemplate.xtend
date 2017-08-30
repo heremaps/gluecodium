@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.common.jni.templates
 
 import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTemplate
 import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
-import com.here.ivi.api.generator.common.jni.JniContainer
+import com.here.ivi.api.model.jni.JniContainer
 
 public class JniHeaderTemplate {
   def static generate(JniContainer jniContainer) '''

@@ -15,15 +15,12 @@ import com.here.ivi.api.generator.common.java.templates.JavaCopyrightHeaderTempl
 import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
 import com.here.ivi.api.generator.common.TemplateEngine
 import static com.here.ivi.api.generator.common.jni.JniNameRules.getParameterName
-import com.here.ivi.api.generator.common.jni.JniToCppTypeConversionTemplateDelegator
 import com.here.ivi.api.generator.common.jni.CppToJniConversionTemplateDelegator
-import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef
-import com.here.ivi.api.generator.common.jni.JniParameter
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType
-import com.here.ivi.api.model.javamodel.JavaReferenceType
-import com.here.ivi.api.model.javamodel.JavaCustomType
+import com.here.ivi.api.generator.common.jni.JniToCppTypeConversionTemplateDelegator
 import com.here.ivi.api.generator.common.jni.JniNameRules
-import com.here.ivi.api.generator.common.jni.JniContainer
+import com.here.ivi.api.model.javamodel.JavaCustomType
+import com.here.ivi.api.model.jni.JniParameter
+import com.here.ivi.api.model.jni.JniContainer
 
 public class JniImplementationTemplate {
 

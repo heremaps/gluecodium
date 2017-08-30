@@ -28,6 +28,7 @@ import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaParameter;
+import com.here.ivi.api.model.jni.*;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
