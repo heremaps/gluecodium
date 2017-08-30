@@ -44,7 +44,6 @@ import org.franca.core.franca.FUnionType;
 // TODO (APIGEN-624): this class should be split apart to be more object-oriented
 // PMD: Possible God class
 public final class CppTypeMapper {
-  private static final String VOID_POINTER = "void*";
 
   public static CppTypeRef map(FrancaElement rootModel, FTypedElement typedElement) {
     CppTypeRef type = CppTypeMapper.map(rootModel, typedElement.getType());
@@ -89,7 +88,7 @@ public final class CppTypeMapper {
       return mapArray(rootModel, (FArrayType) derived);
     }
     if (derived instanceof FMapType) {
-      return mapMap(rootModel, (FMapType) derived);
+      return mapMapType(rootModel, (FMapType) derived);
     }
     if (derived instanceof FStructType) {
       return mapStruct((FStructType) derived);
@@ -154,11 +153,20 @@ public final class CppTypeMapper {
         .build();
   }
 
-  private static CppComplexTypeRef mapMap(
-      @SuppressWarnings("unused") FrancaElement rootModel,
-      @SuppressWarnings("unused") FMapType map) {
-    //TODO: APIGEN-145 handle complex types
-    return new CppComplexTypeRef.Builder(VOID_POINTER).build();
+  public static CppComplexTypeRef mapMapType(FrancaElement rootModel, FMapType francaMapType) {
+
+    CppTypeRef key = CppTypeMapper.map(rootModel, francaMapType.getKeyType());
+    CppTypeRef value = CppTypeMapper.map(rootModel, francaMapType.getValueType());
+
+    List<Include> includes = new LinkedList<>();
+    includes.addAll(key.includes);
+    includes.addAll(value.includes);
+    includes.add(CppLibraryIncludes.MAP);
+
+    return new CppComplexTypeRef.Builder(
+            "::std::unordered_map< " + key.name + ", " + value.name + " >")
+        .includes(includes)
+        .build();
   }
 
   public static CppComplexTypeRef mapStruct(FStructType struct) {
@@ -187,7 +195,6 @@ public final class CppTypeMapper {
   }
 
   public static CppComplexTypeRef mapUnion(FUnionType union) {
-    //TODO: APIGEN-145 handle union types. For now, handle them like structs
     Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(union));
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(union);
 
@@ -195,19 +202,6 @@ public final class CppTypeMapper {
             createFullyQualifiedName(
                 nestedNameSpecifier, CppNameRules.getStructName(union.getName())))
         .includes(structInclude)
-        .build();
-  }
-
-  public static CppComplexTypeRef wrapMapType(CppTypeRef key, CppTypeRef value) {
-
-    List<Include> includes = new LinkedList<>();
-    includes.addAll(key.includes);
-    includes.addAll(value.includes);
-    includes.add(CppLibraryIncludes.MAP);
-
-    return new CppComplexTypeRef.Builder(
-            "::std::unordered_map< " + key.name + ", " + value.name + " >")
-        .includes(includes)
         .build();
   }
 
