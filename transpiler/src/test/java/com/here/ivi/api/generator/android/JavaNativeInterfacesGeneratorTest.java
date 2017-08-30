@@ -19,10 +19,10 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.common.jni.JniContainer;
 import com.here.ivi.api.generator.common.jni.JniNameRules;
 import com.here.ivi.api.generator.common.jni.templates.JniHeaderTemplate;
 import com.here.ivi.api.generator.common.jni.templates.JniImplementationTemplate;
+import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;

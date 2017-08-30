@@ -9,6 +9,6 @@
  *
  */
 
-package com.here.ivi.api.generator.common.jni;
+package com.here.ivi.api.model.jni;
 
 public interface JniElement {}

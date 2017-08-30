@@ -18,6 +18,7 @@ import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

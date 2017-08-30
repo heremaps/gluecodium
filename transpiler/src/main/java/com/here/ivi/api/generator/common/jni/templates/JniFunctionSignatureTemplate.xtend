@@ -13,12 +13,13 @@ package com.here.ivi.api.generator.common.jni.templates
 
 import com.here.ivi.api.generator.common.jni.JniNameRules
 import com.here.ivi.api.generator.common.jni.JniTypeNameMapper
+import com.here.ivi.api.model.jni.JniMethod
 
 /**
  * Template of a java native function's signature without the return type.
  */
 class JniFunctionSignatureTemplate {
-  def static generate(com.here.ivi.api.generator.common.jni.JniMethod jniMethod) {
+  def static generate(JniMethod jniMethod) {
     val prefix = '''Java_«JniNameRules.getPackageName(jniMethod.owningContainer.javaPackages)»_«jniMethod.owningContainer.javaName»_«jniMethod.javaMethodName»'''
     val parameters = '''«FOR param : jniMethod.parameters», «JniTypeNameMapper.map(param.javaType)» «JniNameRules.getParameterName(param.name)»«ENDFOR»'''
     '''«prefix»(JNIEnv* env, jobject jinstance«parameters»)'''

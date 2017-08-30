@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.jni;
+package com.here.ivi.api.model.jni;
 
 import com.here.ivi.api.model.common.Include;
 import java.util.LinkedList;

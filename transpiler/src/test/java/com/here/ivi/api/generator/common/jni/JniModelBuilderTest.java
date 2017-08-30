@@ -36,6 +36,7 @@ import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
+import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
 import java.util.List;

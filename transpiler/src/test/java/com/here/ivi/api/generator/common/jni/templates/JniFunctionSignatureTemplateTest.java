@@ -13,12 +13,12 @@ package com.here.ivi.api.generator.common.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.generator.common.jni.JniContainer;
-import com.here.ivi.api.generator.common.jni.JniMethod;
-import com.here.ivi.api.generator.common.jni.JniParameter;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
+import com.here.ivi.api.model.jni.JniContainer;
+import com.here.ivi.api.model.jni.JniMethod;
+import com.here.ivi.api.model.jni.JniParameter;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Test;
