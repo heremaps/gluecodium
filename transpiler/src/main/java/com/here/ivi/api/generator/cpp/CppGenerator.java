@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.cpp;
+package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;

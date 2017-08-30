@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.generator.common.cpp.CppLibraryIncludes;
+import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 
 public class CppPrimitiveTypeRef extends CppTypeRef {
 

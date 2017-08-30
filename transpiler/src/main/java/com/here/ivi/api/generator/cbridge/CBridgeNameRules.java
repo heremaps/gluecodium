@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.cbridge;
 
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
+import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import java.nio.file.Paths;

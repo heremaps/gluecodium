@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
+import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
