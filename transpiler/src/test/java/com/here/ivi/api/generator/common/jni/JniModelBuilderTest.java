@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
@@ -50,13 +51,15 @@ import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(JUnit4.class)
-@SuppressWarnings("PMD.TooManyFields")
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(JniType.class)
 public class JniModelBuilderTest {
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -97,13 +100,16 @@ public class JniModelBuilderTest {
 
   private final MockContextStack<JniElement> contextStack = new MockContextStack<>();
 
-  private final JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null, null);
+  private final JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null);
 
   private JniModelBuilder modelBuilder;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
+
+    PowerMockito.mockStatic(JniType.class);
+
     modelBuilder = new JniModelBuilder(contextStack, rootModel, javaBuilder, cppBuilder);
 
     when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
@@ -133,10 +139,9 @@ public class JniModelBuilderTest {
   private JniMethod createJniMethod(JniContainer jniContainer) {
 
     JniMethod result = new JniMethod();
-    result.javaReturnType = new JavaPrimitiveType(JavaPrimitiveType.Type.VOID);
+    result.returnType = null;
     result.javaMethodName = JAVA_VOID_METHOD_NAME;
     result.cppMethodName = CPP_VOID_METHOD_NAME;
-    result.cppReturnType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID);
     result.owningContainer = jniContainer;
 
     return result;
@@ -169,9 +174,10 @@ public class JniModelBuilderTest {
     JniMethod jniMethod = modelBuilder.getFirstResult(JniMethod.class);
     assertNotNull(jniMethod);
     assertEquals(javaMethod.name, jniMethod.javaMethodName);
-    assertEquals(javaMethod.returnType, jniMethod.javaReturnType);
     assertEquals(cppMethod.name, jniMethod.cppMethodName);
-    assertEquals(cppMethod.returnType, jniMethod.cppReturnType);
+
+    verifyStatic();
+    JniType.createType(javaMethod.returnType, cppMethod.returnType);
   }
 
   @Test
@@ -247,8 +253,9 @@ public class JniModelBuilderTest {
     JniParameter jniParameter = modelBuilder.getFirstResult(JniParameter.class);
     assertNotNull(jniParameter);
     assertEquals(javaParameter.name, jniParameter.name);
-    assertEquals(javaParameter.type, jniParameter.javaType);
-    assertEquals(cppParameter.type, jniParameter.cppType);
+
+    verifyStatic();
+    JniType.createType(javaParameter.type, cppParameter.type);
   }
 
   @Test

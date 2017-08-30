@@ -1,0 +1,29 @@
+{{#if includes}}
+{{>java/CopyrightHeader}}
+{{#includes}}#include "{{fileName}}"
+{{/includes}}
+#include "android/jni/StructConversion.h"
+
+extern "C" {
+
+{{#methods}}
+{{#returnType}}{{name}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{>jni/FunctionSignature}}
+
+{
+{{#parameters}}
+{{#if type.isComplex}}
+    {{type.cppName}} {{name}};
+    here::internal::convert_from_jni( env, j{{name}}, {{name}} );
+{{/if}}
+{{#unless type.isComplex}}
+    {{type.cppName}} {{name}} = j{{name}};
+{{/unless}}
+{{/parameters}}
+    {{#if returnType}}auto result = {{/if}}{{>jni/CppMethodCall}}
+{{#if returnType}}    return {{#if returnType.isComplex}}here::internal::convert_to_jni(env, result){{/if}}{{#unless returnType.isComplex}}result{{/unless}};{{/if}}
+}
+
+{{/methods}}
+}
+{{/if}}

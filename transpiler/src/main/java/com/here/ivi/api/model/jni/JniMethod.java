@@ -11,31 +11,19 @@
 
 package com.here.ivi.api.model.jni;
 
-import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaType;
 import java.util.LinkedList;
 import java.util.List;
 
-public class JniMethod implements JniElement {
+public final class JniMethod implements JniElement {
 
   public JniContainer owningContainer;
 
   public String javaMethodName;
-  public JavaType javaReturnType;
-
   public String cppMethodName;
-  public CppTypeRef cppReturnType;
 
+  public JniType returnType;
   public List<JniParameter> parameters = new LinkedList<>();
 
-  public boolean hasVoidReturnType() {
-    return javaReturnType instanceof JavaPrimitiveType
-        && ((JavaPrimitiveType) javaReturnType).type == JavaPrimitiveType.Type.VOID;
-  }
-
-  // TODO (APIGEN-623): refactor equals method
-  // The method 'equals' has a Modified Cyclomatic Complexity of 14.
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -57,19 +45,14 @@ public class JniMethod implements JniElement {
         : jniMethod.javaMethodName != null) {
       return false;
     }
-    if (javaReturnType != null
-        ? !javaReturnType.equals(jniMethod.javaReturnType)
-        : jniMethod.javaReturnType != null) {
+    if (returnType != null
+        ? !returnType.equals(jniMethod.returnType)
+        : jniMethod.returnType != null) {
       return false;
     }
     if (cppMethodName != null
         ? !cppMethodName.equals(jniMethod.cppMethodName)
         : jniMethod.cppMethodName != null) {
-      return false;
-    }
-    if (cppReturnType != null
-        ? !cppReturnType.equals(jniMethod.cppReturnType)
-        : jniMethod.cppReturnType != null) {
       return false;
     }
     return parameters != null
@@ -81,9 +64,8 @@ public class JniMethod implements JniElement {
   public int hashCode() {
     int result = owningContainer != null ? owningContainer.hashCode() : 0;
     result = 31 * result + (javaMethodName != null ? javaMethodName.hashCode() : 0);
-    result = 31 * result + (javaReturnType != null ? javaReturnType.hashCode() : 0);
+    result = 31 * result + (returnType != null ? returnType.hashCode() : 0);
     result = 31 * result + (cppMethodName != null ? cppMethodName.hashCode() : 0);
-    result = 31 * result + (cppReturnType != null ? cppReturnType.hashCode() : 0);
     result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
     return result;
   }

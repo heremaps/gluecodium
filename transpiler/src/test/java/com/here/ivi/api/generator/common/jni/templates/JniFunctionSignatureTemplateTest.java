@@ -13,12 +13,16 @@ package com.here.ivi.api.generator.common.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniMethod;
 import com.here.ivi.api.model.jni.JniParameter;
+import com.here.ivi.api.model.jni.JniType;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Test;
@@ -42,7 +46,7 @@ public final class JniFunctionSignatureTemplateTest {
     String expected = "Java_com_here_jni_test_ClassName_methodName(JNIEnv* env, jobject jinstance)";
 
     // Act
-    String generated = JniFunctionSignatureTemplate.generate(jniMethod).toString();
+    String generated = TemplateEngine.render("jni/FunctionSignature", jniMethod);
 
     // Assert
     assertEquals(expected, generated);
@@ -57,11 +61,22 @@ public final class JniFunctionSignatureTemplateTest {
 
     jniMethod.parameters.add(
         new JniParameter(
-            "stringParam", new JavaReferenceType(JavaReferenceType.Type.STRING), null));
+            "stringParam",
+            JniType.createType(
+                new JavaReferenceType(JavaReferenceType.Type.STRING),
+                new CppComplexTypeRef.Builder(CppComplexTypeRef.STRING_TYPE_NAME).build())));
     jniMethod.parameters.add(
-        new JniParameter("intParam", new JavaPrimitiveType(JavaPrimitiveType.Type.INT), null));
+        new JniParameter(
+            "intParam",
+            JniType.createType(
+                new JavaPrimitiveType(JavaPrimitiveType.Type.INT),
+                new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8))));
     jniMethod.parameters.add(
-        new JniParameter("customParam", new JavaCustomType("CustomParamType"), null));
+        new JniParameter(
+            "customParam",
+            JniType.createType(
+                new JavaCustomType("CustomParamType"),
+                new CppComplexTypeRef.Builder("customCppType").build())));
     jniContainer.add(jniMethod);
 
     String expectedParams =
@@ -69,7 +84,7 @@ public final class JniFunctionSignatureTemplateTest {
     String expected = "Java_com_here_jni_test_ClassName_methodName(" + expectedParams + ")";
 
     // Act
-    String generated = JniFunctionSignatureTemplate.generate(jniMethod).toString();
+    String generated = TemplateEngine.render("jni/FunctionSignature", jniMethod);
 
     // Assert
     assertEquals(expected, generated);

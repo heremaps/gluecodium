@@ -11,19 +11,14 @@
 
 package com.here.ivi.api.model.jni;
 
-import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.javamodel.JavaType;
-
-public class JniParameter implements JniElement {
+public final class JniParameter implements JniElement {
 
   public final String name;
-  public final JavaType javaType;
-  public final CppTypeRef cppType;
+  public final JniType type;
 
-  public JniParameter(final String name, final JavaType javaType, final CppTypeRef cppType) {
+  public JniParameter(final String name, final JniType type) {
     this.name = name;
-    this.javaType = javaType;
-    this.cppType = cppType;
+    this.type = type;
   }
 
   @Override
@@ -40,17 +35,13 @@ public class JniParameter implements JniElement {
     if (name != null ? !name.equals(that.name) : that.name != null) {
       return false;
     }
-    if (javaType != null ? !javaType.equals(that.javaType) : that.javaType != null) {
-      return false;
-    }
-    return cppType != null ? cppType.equals(that.cppType) : that.cppType == null;
+    return type != null ? type.equals(that.type) : that.type == null;
   }
 
   @Override
   public int hashCode() {
     int result = name != null ? name.hashCode() : 0;
-    result = 31 * result + (javaType != null ? javaType.hashCode() : 0);
-    result = 31 * result + (cppType != null ? cppType.hashCode() : 0);
+    result = 31 * result + (type != null ? type.hashCode() : 0);
     return result;
   }
 }

@@ -38,28 +38,12 @@ public final class JniNameRules {
     return getJniPathPrefix() + JNI_CONVERSION_NAME + JNI_IMPLEMENTATION_FILE_SUFFIX;
   }
 
-  public static String getParameterName(final String javaParameterName) {
-    if (javaParameterName == null || javaParameterName.isEmpty()) {
-      return "";
-    }
-
-    return "j" + javaParameterName;
-  }
-
   public static String getNativeParameterName(final String javaParameterName) {
     if (javaParameterName == null || javaParameterName.isEmpty()) {
       return "";
     }
 
     return "n" + javaParameterName;
-  }
-
-  public static String getPackageName(final List<String> javaPackages) {
-    if (javaPackages == null || javaPackages.isEmpty()) {
-      return "";
-    }
-
-    return String.join("_", javaPackages);
   }
 
   private static String formatPackageName(List<String> packageNames) {
