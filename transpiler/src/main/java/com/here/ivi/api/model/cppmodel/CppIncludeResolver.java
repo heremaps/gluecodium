@@ -12,7 +12,7 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
+import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.franca.FrancaElement;

@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.cpp;
+package com.here.ivi.api.generator.cpp;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;

@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.cpp.templates;
+package com.here.ivi.api.generator.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

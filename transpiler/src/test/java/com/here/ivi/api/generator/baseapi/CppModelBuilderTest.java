@@ -23,9 +23,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
-import com.here.ivi.api.generator.common.cpp.CppDefaultInitializer;
-import com.here.ivi.api.generator.common.cpp.CppTypeMapper;
-import com.here.ivi.api.generator.common.cpp.CppValueMapper;
+import com.here.ivi.api.generator.cpp.CppDefaultInitializer;
+import com.here.ivi.api.generator.cpp.CppTypeMapper;
+import com.here.ivi.api.generator.cpp.CppValueMapper;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppConstant;

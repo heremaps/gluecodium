@@ -23,7 +23,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
+import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CField;
 import com.here.ivi.api.model.cmodel.CFunction;

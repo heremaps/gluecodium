@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.cpp.CppGenerator;
+import com.here.ivi.api.generator.cpp.CppGenerator;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppNamespace;

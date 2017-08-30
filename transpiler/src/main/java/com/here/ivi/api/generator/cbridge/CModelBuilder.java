@@ -17,7 +17,7 @@ import static java.util.Collections.singletonList;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
-import com.here.ivi.api.generator.common.cpp.CppNameRules;
+import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CField;
 import com.here.ivi.api.model.cmodel.CFunction;
