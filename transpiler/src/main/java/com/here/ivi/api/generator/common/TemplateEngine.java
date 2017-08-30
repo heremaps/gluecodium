@@ -54,11 +54,7 @@ public final class TemplateEngine {
     }
 
     protected String getValue(final Options options, final Object dataObject) {
-      if (dataObject != null) {
-        return dataObject.toString();
-      } else {
-        return "";
-      }
+      return (dataObject != null) ? dataObject.toString() : "";
     }
   }
 
