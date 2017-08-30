@@ -1,15 +1,15 @@
 {{! recurse through all the parameters and at the end call the actual function
 }}{{#unless iterator.hasNext}}{{!!
-  }}{{#switch method.returnType.name}}{{!!
-    }}{{#case "Data"}}{{>swift/MethodReturnData}}{{/case}}{{!!
-    }}{{#case "String"}}{{>swift/MethodReturnString}}{{/case}}{{!!
+  }}{{#switch method.returnType.category}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodReturnData}}{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}{{>swift/MethodReturnString}}{{/case}}{{!!
     }}{{#default}}{{>swift/MethodReturn}}{{/default}}{{!!
   }}{{/switch}}
 {{/unless}}
 {{#iterator.hasNext}}{{!!
   }}{{#iterator.next}}{{!!
-    }}{{#switch type.name}}{{!!
-      }}{{#case "Data"}}{{>swift/MethodWrapData}}{{/case}}{{!!
+    }}{{#switch type.category}}{{!!
+      }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodWrapData}}{{/case}}{{!!
       }}{{#default}}{{>swift/ConversionRecursion}}{{/default}}{{!!
     }}{{/switch}}{{!!
   }}{{/iterator.next}}{{!!

@@ -12,15 +12,36 @@
 package com.here.ivi.api.model.swift;
 
 public class SwiftType extends SwiftModelElement {
+
+  public enum TypeCategory {
+    BUILTIN_SIMPLE,
+    BUILTIN_STRING,
+    BUILTIN_BYTEBUFFER,
+    STRUCT
+  };
+
   public static final SwiftType VOID = new SwiftType("Void");
+  public static final SwiftType String = new SwiftType("String", TypeCategory.BUILTIN_STRING);
+  public static final SwiftType Data = new SwiftType("Data", TypeCategory.BUILTIN_BYTEBUFFER);
+
   public boolean optional;
+  private final TypeCategory category;
 
   public SwiftType(String name) {
-    this(name, false);
+    this(name, TypeCategory.BUILTIN_SIMPLE, false);
   }
 
-  public SwiftType(String name, boolean optional) {
+  public SwiftType(String name, TypeCategory category) {
+    this(name, category, false);
+  }
+
+  public SwiftType(String name, TypeCategory category, boolean optional) {
     super(name);
     this.optional = optional;
+    this.category = category;
+  }
+
+  public String getCategory() {
+    return category.toString();
   }
 }

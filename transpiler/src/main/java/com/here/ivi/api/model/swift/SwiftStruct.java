@@ -22,7 +22,7 @@ public class SwiftStruct extends SwiftType {
   public String cType;
 
   public SwiftStruct(String name) {
-    super(name);
+    super(name, TypeCategory.STRUCT);
     comment = "";
     fields = emptyList();
     cPrefix = "";

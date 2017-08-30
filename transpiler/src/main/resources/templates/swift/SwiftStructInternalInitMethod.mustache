@@ -1,4 +1,42 @@
-internal init?(cStruct : {{cType}}) {
-{{#fields}}{{name}} = {{cPrefix}}_{{name}}_get(cStruct)
+internal init?(c{{name}} : {{cType}}) {
+{{#set structName=name}}
+{{#fields}}
+    {{#switch type.category}}
+    {{#case "BUILTIN_STRING"}}{{>assignStringType}}{{/case}}
+    {{#case "BUILTIN_BYTEBUFFER"}}{{>assignDataType}}{{/case}}
+    {{#case "STRUCT"}}{{>assignStruct}}{{/case}}
+    {{#default}}{{>assignBasicType}}{{/default}}
+    {{/switch}}
 {{/fields}}
+{{/set}}
 }
+
+{{+assignBasicType}}{{name}} = {{cPrefix}}_{{name}}_get(c{{structName}})
+{{/assignBasicType}}
+
+{{+assignStringType}}do {
+    let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    {{name}} = String(cString:std_string_data_get({{name}}Handle))
+}
+{{/assignStringType}}
+
+{{+assignDataType}}do {
+    let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    guard
+        let dataHandle = byteArray_data_get({{name}}Handle)
+    else {
+        return nil
+    }
+    {{name}} = Data(bytes: dataHandle, count: Int(byteArray_size_get({{name}}Handle)))
+}
+{{/assignDataType}}
+
+{{+assignStruct}}do {
+    guard
+        let {{name}}Unwrapped = {{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
+    else {
+        return nil
+    }
+    {{name}} = {{name}}Unwrapped
+}
+{{/assignStruct}}
