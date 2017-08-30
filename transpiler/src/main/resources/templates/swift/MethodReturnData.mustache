@@ -1,4 +1,4 @@
-let result_data_handle = {{method.cBaseName}}({{#each paramsForBase}}{{.}}{{#if iter.hasNext}}, {{/if}}{{/each}})
+let result_data_handle = {{>swift/DelegateCall}}
 let size = byteArray_size_get(result_data_handle)
 if size > 0 {
     let data_handle = byteArray_data_get(result_data_handle)

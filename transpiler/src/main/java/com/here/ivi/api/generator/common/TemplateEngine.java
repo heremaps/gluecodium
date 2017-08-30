@@ -173,7 +173,13 @@ public final class TemplateEngine {
             .registerHelper("joinPartial", new JoinPartialHelper())
             .registerHelper("instanceOf", new InstanceOfHelper())
             .registerHelpers(
-                HelpersBuilder.empty().addJoin().addInclude().addFmt().addSet().build())
+                HelpersBuilder.empty()
+                    .addJoin()
+                    .addInclude()
+                    .addFmt()
+                    .addSet()
+                    .addSwitch(true)
+                    .build())
             .addResolver(new NowResolver())
             .build();
   }

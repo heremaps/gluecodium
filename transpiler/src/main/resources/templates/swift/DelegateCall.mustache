@@ -1,0 +1,4 @@
+{{method.cBaseName}}({{#each parameters}}{{#switch type.name}}{{!!
+  }}{{#case "Data"}}{{variableName}}_ptr, Int64({{variableName}}.count){{/case}}{{!!
+  }}{{#default}}{{variableName}}{{/default}}{{!!
+}}{{/switch}}{{#if iter.hasNext}}, {{/if}}{{/each}})

@@ -1,0 +1,3 @@
+return {{variableName}}.withUnsafeBytes { ({{variableName}}_ptr: UnsafePointer<UInt8>) -> {{method.returnType}}{{#if method.returnType.optional}}?{{/if}} in
+{{prefixPartial 'swift/ConversionRecursion' '    '}}
+}
