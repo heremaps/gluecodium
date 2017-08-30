@@ -191,10 +191,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FMapType francaMapType) {
 
     String name = CppNameRules.getTypedefName(francaMapType.getName());
-    CppTypeRef targetType =
-        CppTypeMapper.wrapMapType(
-            CppTypeMapper.map(rootModel, francaMapType.getKeyType()),
-            CppTypeMapper.map(rootModel, francaMapType.getValueType()));
+    CppTypeRef targetType = CppTypeMapper.mapMapType(rootModel, francaMapType);
     CppUsing cppUsing = new CppUsing(name, targetType);
     cppUsing.comment = CppCommentParser.parse(francaMapType).getMainBodyText();
 

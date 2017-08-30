@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.cpp;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.common.Include;
@@ -25,6 +26,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Rule;
@@ -179,17 +181,18 @@ public class CppTypeMapperTest {
   }
 
   @Test
-  public void wrapMapType() {
-    CppTypeRef cppPrimitiveTypeRef = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT32);
-    CppTypeRef cppComplexTypeRef = new CppComplexTypeRef.Builder("Typical").build();
-    Include internalInclude = Include.createInternalInclude("dir/somewhere.h");
-    cppComplexTypeRef.includes.add(internalInclude);
+  public void mapMapType() {
+    FMapType francaMapType = mock(FMapType.class, Answers.RETURNS_DEEP_STUBS);
+    when(francaMapType.getKeyType().getDerived()).thenReturn(null);
+    when(francaMapType.getValueType().getDerived()).thenReturn(null);
+    when(francaMapType.getKeyType().getPredefined()).thenReturn(FBasicTypeId.UINT32);
+    when(francaMapType.getValueType().getPredefined()).thenReturn(FBasicTypeId.STRING);
 
-    CppComplexTypeRef result = CppTypeMapper.wrapMapType(cppPrimitiveTypeRef, cppComplexTypeRef);
+    CppComplexTypeRef result = CppTypeMapper.mapMapType(mockFrancaModel, francaMapType);
 
-    assertEquals("::std::unordered_map< uint32_t, Typical >", result.name);
+    assertEquals("::std::unordered_map< uint32_t, ::std::string >", result.name);
     assertTrue(result.includes.contains(CppLibraryIncludes.INT_TYPES));
-    assertTrue(result.includes.contains(internalInclude));
+    assertTrue(result.includes.contains(CppLibraryIncludes.STRING));
     assertTrue(result.includes.contains(CppLibraryIncludes.MAP));
   }
 
