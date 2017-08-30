@@ -11,10 +11,9 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import com.here.ivi.api.model.common.ModelElement;
 import java.util.stream.Stream;
 
-public interface JavaNamedEntity extends ModelElement {
+public interface JavaNamedEntity {
   String getName();
 
   Stream<JavaNamedEntity> stream();
