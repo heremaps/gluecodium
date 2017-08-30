@@ -21,7 +21,15 @@ import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.swift.*;
+import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftInParameter;
+import com.here.ivi.api.model.swift.SwiftMethod;
+import com.here.ivi.api.model.swift.SwiftModelElement;
+import com.here.ivi.api.model.swift.SwiftOutParameter;
+import com.here.ivi.api.model.swift.SwiftParameter;
+import com.here.ivi.api.model.swift.SwiftStruct;
+import com.here.ivi.api.model.swift.SwiftStructField;
+import com.here.ivi.api.model.swift.SwiftType;
 import java.util.ArrayList;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -92,10 +100,11 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    storeResult(
-        new SwiftOutParameter(
-            nameRules.getParameterName(francaArgument),
-            SwiftTypeMapper.mapType(rootModel, francaArgument.getType())));
+    SwiftType type = SwiftTypeMapper.mapType(rootModel, francaArgument.getType());
+    if ("Data".equals(type.name)) {
+      type.optional = true;
+    }
+    storeResult(new SwiftOutParameter(nameRules.getParameterName(francaArgument), type));
     super.finishBuildingOutputArgument(francaArgument);
   }
 

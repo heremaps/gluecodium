@@ -1,4 +1,4 @@
-let result_string_handle = {{method.cBaseName}}({{#each paramsForBase}}{{.}}{{#if iter.hasNext}}, {{/if}}{{/each}})
+let result_string_handle = {{>swift/DelegateCall}}
 if let ret_value = String(data: Data(bytes: std_string_data_get(result_string_handle),
                                      count: Int(std_string_size_get(result_string_handle))), encoding: .utf8) {
     std_string_release(result_string_handle)

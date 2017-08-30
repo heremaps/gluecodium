@@ -13,10 +13,14 @@ package com.here.ivi.api.model.swift;
 
 public class SwiftType extends SwiftModelElement {
   public static final SwiftType VOID = new SwiftType("Void");
-  public final boolean optional;
+  public boolean optional;
 
   public SwiftType(String name) {
+    this(name, false);
+  }
+
+  public SwiftType(String name, boolean optional) {
     super(name);
-    optional = false;
+    this.optional = optional;
   }
 }

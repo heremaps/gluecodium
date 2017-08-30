@@ -1,3 +1,3 @@
-public {{#is_static}}static {{/is_static}}func {{method_name}}({{>swift/SwiftMethodParameterDeclaration}}) -> {{return_type}} {
-{{innerCode}}
+public {{#isStatic}}static {{/isStatic}}func {{name}}({{>swift/MethodParameterDeclaration}}) -> {{returnType}}{{#if returnType.optional}}?{{/if}} {
+{{#set iterator=parameters.iterator method=.}}{{prefixPartial 'swift/ConversionRecursion' '    '}}{{/set}}
 }
