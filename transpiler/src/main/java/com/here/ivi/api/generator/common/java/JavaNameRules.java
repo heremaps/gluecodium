@@ -16,7 +16,6 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.io.File;
 import java.util.List;
-import org.franca.core.franca.FType;
 
 public final class JavaNameRules {
   public static final String JAVA_FILE_ENDING = ".java";
@@ -35,10 +34,6 @@ public final class JavaNameRules {
         + JAVA_FILE_ENDING;
   }
 
-  public static String getTypename(final FType type) {
-    return type.getName();
-  }
-
   public static String getClassName(String base) {
     return NameHelper.toUpperCamelCase(base);
   }
@@ -53,14 +48,6 @@ public final class JavaNameRules {
 
   public static String getConstantName(final String base) {
     return NameHelper.toUpperSnakeCase(base);
-  }
-
-  public static String getEnumName(final String base) {
-    return NameHelper.toLowerCamelCase(base);
-  }
-
-  public static String getEnumEntryName(final String base) {
-    return NameHelper.toLowerCamelCase(base);
   }
 
   public static String getFieldName(final String base) {
