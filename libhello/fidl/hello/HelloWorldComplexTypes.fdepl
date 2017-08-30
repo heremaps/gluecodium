@@ -29,6 +29,14 @@ define navigation.BaseApiSpec for interface hello.HelloWorldComplexTypes
         Static = true
     }
 
+    method methodWithStructArray {
+        Static = true
+    }
+
+    method methodWithArrayInline {
+        Static = true
+    }
+
     method methodWithTypeDef {
         Static = true
     }

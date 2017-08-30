@@ -27,9 +27,16 @@ interface HelloWorldComplexTypes {
         Int32 mapError
     }
 
+    <** @description: Basic struct type **>
+    struct ExampleStruct {
+        Double value
+    }
+
     array NavigationErrorsArray of NavigationError
 
     array InternalErrorArray of InternalError
+
+    array StructArray of ExampleStruct
 
     typedef Errors is InternalErrorArray
 
@@ -68,7 +75,7 @@ interface HelloWorldComplexTypes {
     */
 
     <** @description:
-    Example static method which takes an array and returns an array of same type in reversed order.
+    Static method which takes an array and returns an array of same type in reversed order.
     **>
     method methodWithArray {
         in {
@@ -77,7 +84,35 @@ interface HelloWorldComplexTypes {
         }
         out {
             <** @description: Output array **>
+            InternalErrorArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns it in reversed order using inline declarations
+    **>
+    method methodWithArrayInline {
+        in {
+            <** @description: Input array **>
+            InternalError[] input
+        }
+        out {
+            <** @description: Output array **>
             InternalError[] output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array of structs (inline and regular declaration) and returns it in reversed order
+    **>
+    method methodWithStructArray {
+        in {
+            <** @description: Input array **>
+            ExampleStruct[] input
+        }
+        out {
+            <** @description: Output array **>
+            StructArray output
         }
     }
 
