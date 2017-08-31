@@ -38,6 +38,13 @@ public class CppClass extends CppElement {
     this.enums = builder.enums;
   }
 
+  @SuppressWarnings("unused")
+  public boolean hasInstanceMethods() {
+    return methods
+        .stream()
+        .anyMatch(method -> !method.specifiers.contains(CppMethod.Specifier.STATIC));
+  }
+
   @Override
   public Stream<? extends CppElement> stream() {
     return Stream.concat(
