@@ -15,6 +15,7 @@ import static java.lang.Math.toIntExact;
 import static java.util.Collections.singletonList;
 
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppNameRules;
@@ -143,7 +144,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     storeResult(createStructReleaseFunction(cStruct));
     for (CField field : cStruct.fields) {
       storeResult(createStructFieldGetter(cStruct, field));
-      if (field.type.typeCategory != CppTypeInfo.TypeCategory.STRUCT) {
+      if (field.type.typeCategory != TypeCategory.STRUCT) {
         storeResult(createStructFieldSetter(cStruct, field));
       }
     }
@@ -190,10 +191,14 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   private CFunction createStructFieldGetter(CStruct cStruct, CField field) {
     List<CParameter> params = Collections.singletonList(new CParameter("handle", cStruct));
+    String delegateCallTemplate =
+        TypeCategory.BUILTIN_SIMPLE.equals(field.type.typeCategory)
+            ? "get_pointer(%s)->" + field.name
+            : field.type.functionReturnType + "{&get_pointer(%s)->" + field.name + "}";
     return new CFunction.Builder(cStruct.getNameOfFieldGetter(field.name))
         .parameters(params)
         .returnType(field.type.functionReturnType)
-        .delegateCallTemplate("get_pointer(%s)->" + field.name)
+        .delegateCallTemplate(delegateCallTemplate)
         .build();
   }
 

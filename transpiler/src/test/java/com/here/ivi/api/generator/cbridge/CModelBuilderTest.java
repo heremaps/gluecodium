@@ -23,6 +23,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CField;
@@ -71,7 +72,7 @@ public class CModelBuilderTest {
   @Mock private FStructType francaStruct;
   @Mock private FTypedElement francaTypedElement;
 
-  @Mock private CppTypeInfo mockedTypeInfo;
+  private CppTypeInfo typeInfo;
 
   private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
   private CModelBuilder modelBuilder;
@@ -81,11 +82,11 @@ public class CModelBuilderTest {
     mockStatic(CTypeMapper.class, CppNameRules.class, CppTypeInfo.class);
     CType fakeType = mock(CType.class);
     fakeType.includes = new HashSet<>();
-    mockedTypeInfo = new CppTypeInfo(fakeType);
+    typeInfo = new CppTypeInfo(fakeType);
     initMocks(this);
-    mockedTypeInfo.baseTypeIncludes = Collections.emptyList();
-    mockedTypeInfo.returnValueConstrExpr = "";
-    when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(mockedTypeInfo);
+    typeInfo.baseTypeIncludes = Collections.emptyList();
+    typeInfo.returnValueConstrExpr = "";
+    when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(typeInfo);
 
     when(anInterface.isStatic(any())).thenReturn(true);
     when(cBridgeNameRules.getMethodName(any(), any())).thenReturn(FULL_FUNCTION_NAME);
@@ -266,8 +267,8 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingStructDoesNotCreateFieldSetterForNestedStruct() {
-    mockedTypeInfo.typeCategory = CppTypeInfo.TypeCategory.STRUCT;
-    contextStack.injectResult(new CField(FIELD_NAME, mockedTypeInfo));
+    typeInfo.typeCategory = TypeCategory.STRUCT;
+    contextStack.injectResult(new CField(FIELD_NAME, typeInfo));
 
     modelBuilder.finishBuilding(francaStruct);
 
@@ -297,11 +298,11 @@ public class CModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingStructCreatesGetterFunctionWithCorrectProperties() {
+  public void finishBuildingStructCreatesGetterFunctionWithCorrectPropertiesForBasicType() {
     CType fakeType = mock(CType.class);
     fakeType.includes = new HashSet<>();
-    mockedTypeInfo = new CppTypeInfo(fakeType);
-    contextStack.injectResult(new CField(FIELD_NAME, mockedTypeInfo));
+    typeInfo = new CppTypeInfo(fakeType);
+    contextStack.injectResult(new CField(FIELD_NAME, typeInfo));
 
     modelBuilder.finishBuilding(francaStruct);
 
@@ -311,14 +312,34 @@ public class CModelBuilderTest {
     assertSame(fakeType, func.returnType);
     assertEquals(1, func.parameters.size());
     assertEquals(cStruct, func.parameters.get(0).type);
+    assertEquals("get_pointer(cpp_handle)->FIELD1", func.delegateCall);
+  }
+
+  @Test
+  public void finishBuildingStructCreatesGetterFunctionWithCorrectPropertiesForComplexType() {
+    CType fakeType = mock(CType.class);
+    when(fakeType.toString()).thenReturn("FakeType");
+    fakeType.includes = new HashSet<>();
+    typeInfo = new CppTypeInfo(fakeType, TypeCategory.STRUCT);
+    contextStack.injectResult(new CField(FIELD_NAME, typeInfo));
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    CStruct cStruct = getResults(CStruct.class).get(0);
+    CFunction func =
+        getFunction(getResults(CFunction.class), cStruct.getNameOfFieldGetter(FIELD_NAME));
+    assertSame(fakeType, func.returnType);
+    assertEquals(1, func.parameters.size());
+    assertEquals(cStruct, func.parameters.get(0).type);
+    assertEquals("FakeType{&get_pointer(cpp_handle)->FIELD1}", func.delegateCall);
   }
 
   @Test
   public void finishBuildingStructCreatesSetterFunctionWithCorrectProperties() {
     CType fakeType = mock(CType.class);
     fakeType.includes = new HashSet<>();
-    mockedTypeInfo = new CppTypeInfo(fakeType);
-    contextStack.injectResult(new CField(FIELD_NAME, mockedTypeInfo));
+    typeInfo = new CppTypeInfo(fakeType);
+    contextStack.injectResult(new CField(FIELD_NAME, typeInfo));
 
     modelBuilder.finishBuilding(francaStruct);
 
