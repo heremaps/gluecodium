@@ -44,7 +44,7 @@ import org.franca.core.franca.FUnionType;
 public final class CppTypeMapper {
   private static final String VOID_POINTER = "void*";
 
-  public static CppTypeRef map(FrancaElement<?> rootModel, FTypedElement typedElement) {
+  public static CppTypeRef map(FrancaElement rootModel, FTypedElement typedElement) {
     CppTypeRef type = CppTypeMapper.map(rootModel, typedElement.getType());
 
     if (typedElement.isArray()) {
@@ -53,7 +53,7 @@ public final class CppTypeMapper {
     return type;
   }
 
-  public static CppTypeRef map(FrancaElement<?> rootModel, FTypeRef type) {
+  public static CppTypeRef map(FrancaElement rootModel, FTypeRef type) {
     if (type.getDerived() != null) {
       FType derived = type.getDerived();
 
@@ -79,7 +79,7 @@ public final class CppTypeMapper {
     throw new TranspilerExecutionException("Unmapped ftype ref" + type);
   }
 
-  public static CppTypeRef mapDerived(FrancaElement<?> rootModel, FType derived) {
+  public static CppTypeRef mapDerived(FrancaElement rootModel, FType derived) {
     if (derived instanceof FTypeDef) {
       return mapTypeDef(rootModel, (FTypeDef) derived);
     }
@@ -101,7 +101,7 @@ public final class CppTypeMapper {
     throw new TranspilerExecutionException("Unmapped derived type: " + derived.getName());
   }
 
-  private static CppTypeRef reportInvalidType(FrancaElement<?> rootModel, FTypeRef type) {
+  private static CppTypeRef reportInvalidType(FrancaElement rootModel, FTypeRef type) {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
     String name = "unknown";
     String typeDesc = "derived type";
@@ -134,7 +134,7 @@ public final class CppTypeMapper {
         String.format(formatMessage, typeDesc, name, definer, rootModel));
   }
 
-  private static CppTypeRef mapTypeDef(FrancaElement<?> rootModel, FTypeDef typedef) {
+  private static CppTypeRef mapTypeDef(FrancaElement rootModel, FTypeDef typedef) {
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(typedef);
     String fullyQualifiedName =
         createFullyQualifiedName(
@@ -142,8 +142,7 @@ public final class CppTypeMapper {
     return new CppTypeDefRef(fullyQualifiedName, map(rootModel, typedef.getActualType()));
   }
 
-  public static CppComplexTypeRef mapArray(
-      final FrancaElement<?> rootModel, final FArrayType array) {
+  public static CppComplexTypeRef mapArray(final FrancaElement rootModel, final FArrayType array) {
     CppTypeRef elementType = map(rootModel, array.getElementType());
 
     Set<Include> includes = elementType.includes;
@@ -154,7 +153,7 @@ public final class CppTypeMapper {
   }
 
   private static CppComplexTypeRef mapMap(
-      @SuppressWarnings("unused") FrancaElement<?> rootModel,
+      @SuppressWarnings("unused") FrancaElement rootModel,
       @SuppressWarnings("unused") FMapType map) {
     //TODO: APIGEN-145 handle complex types
     return new CppComplexTypeRef.Builder(VOID_POINTER).build();

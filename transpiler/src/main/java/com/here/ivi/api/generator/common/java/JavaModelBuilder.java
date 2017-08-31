@@ -30,8 +30,6 @@ import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
 import java.util.Collections;
 import java.util.List;
-import navigation.BaseApiSpec;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FArgument;
@@ -120,7 +118,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     javaMethod.comment = CppCommentParser.FORMATTER.readDescription(francaMethod.getComment());
 
-    if (isMethodStatic(francaMethod)) {
+    if (rootModel.isStatic(francaMethod)) {
       javaMethod.qualifiers.add(MethodQualifier.STATIC);
     }
     // For now we assume all interface methods are native and public
@@ -199,16 +197,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     storeResult(JavaTypeMapper.map(basePackage, francaTypeRef));
     closeContext();
-  }
-
-  private boolean isMethodStatic(FMethod francaMethod) {
-    BaseApiSpec.IDataPropertyAccessor propertyAccessor = rootModel.getPropertyAccessor();
-    if (propertyAccessor instanceof InterfacePropertyAccessor) {
-      Boolean isStatic = ((InterfacePropertyAccessor) propertyAccessor).getStatic(francaMethod);
-      return isStatic != null && isStatic;
-    } else {
-      return false;
-    }
   }
 
   private JavaClass createJavaClass(FModelElement francaTypeCollection) {

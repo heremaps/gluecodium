@@ -48,7 +48,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     this.additionalIncludes = additionalIncludes;
   }
 
-  public JniContainer generateModel(final FrancaElement<?> francaElement) {
+  public JniContainer generateModel(final FrancaElement francaElement) {
 
     JavaModelBuilder javaBuilder = new JavaModelBuilder(basePackage, francaElement);
 
@@ -122,7 +122,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
   }
 
   private List<Include> getIncludes(
-      final FrancaElement<?> francaElement, final JniContainer jniContainer) {
+      final FrancaElement francaElement, final JniContainer jniContainer) {
 
     String baseApiHeaderInclude = CppNameRules.getHeaderPath(francaElement);
 

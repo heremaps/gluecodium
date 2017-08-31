@@ -23,8 +23,6 @@ import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import navigation.BaseApiSpec;
-import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 
 public class JavaGenerator extends AbstractAndroidGenerator {
 
@@ -32,8 +30,7 @@ public class JavaGenerator extends AbstractAndroidGenerator {
     super(packageList);
   }
 
-  public List<GeneratedFile> generateFiles(
-      final Interface<BaseApiSpec.InterfacePropertyAccessor> anInterface) {
+  public List<GeneratedFile> generateFiles(final Interface anInterface) {
 
     JavaModelBuilder modelBuilder = new JavaModelBuilder(basePackage, anInterface);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
@@ -43,8 +40,7 @@ public class JavaGenerator extends AbstractAndroidGenerator {
     return generateFilesForClass(modelBuilder.getFirstResult(JavaClass.class));
   }
 
-  public List<GeneratedFile> generateFiles(
-      TypeCollection<TypeCollectionPropertyAccessor> typeCollection) {
+  public List<GeneratedFile> generateFiles(TypeCollection typeCollection) {
 
     JavaModelBuilder modelBuilder = new JavaModelBuilder(basePackage, typeCollection);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));

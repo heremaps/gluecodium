@@ -64,16 +64,16 @@ public class FrancaTreeWalker {
     this.builders = builders;
   }
 
-  public void walk(final FrancaElement<?> francaElement) {
+  public void walk(final FrancaElement francaElement) {
 
     if (francaElement == null || builders == null || builders.isEmpty()) {
       return;
     }
 
-    if (francaElement instanceof Interface<?>) {
-      walkChildNodes((Interface<?>) francaElement);
-    } else if (francaElement instanceof TypeCollection<?>) {
-      walkChildNodes((TypeCollection<?>) francaElement);
+    if (francaElement instanceof Interface) {
+      walkChildNodes((Interface) francaElement);
+    } else if (francaElement instanceof TypeCollection) {
+      walkChildNodes((TypeCollection) francaElement);
     }
   }
 
@@ -98,7 +98,7 @@ public class FrancaTreeWalker {
     }
   }
 
-  private void walkChildNodes(Interface<?> anInterface) {
+  private void walkChildNodes(Interface anInterface) {
     FInterface francaInterface = anInterface.getFrancaInterface();
     if (francaInterface != null) {
       walk(
@@ -109,7 +109,7 @@ public class FrancaTreeWalker {
     }
   }
 
-  private void walkChildNodes(TypeCollection<?> typeCollection) {
+  private void walkChildNodes(TypeCollection typeCollection) {
     FTypeCollection francaTypeCollection = typeCollection.getFrancaTypeCollection();
     if (francaTypeCollection != null) {
       walk(

@@ -12,17 +12,64 @@
 package com.here.ivi.api.model.franca;
 
 import com.here.ivi.api.generator.common.Version;
-import navigation.BaseApiSpec;
-import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.*;
+import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 
-public interface FrancaElement<DPA extends BaseApiSpec.IDataPropertyAccessor> {
-  String getName();
+public abstract class FrancaElement {
 
-  ModelInfo getModelInfo();
+  private final MappingGenericPropertyAccessor propertyAccessor;
+  private final ModelInfo modelInfo;
 
-  FTypeCollection getFrancaTypeCollection();
+  protected FrancaElement(
+      final MappingGenericPropertyAccessor propertyAccessor, final ModelInfo modelInfo) {
+    this.propertyAccessor = propertyAccessor;
+    this.modelInfo = modelInfo;
+  }
 
-  Version getVersion();
+  public abstract FTypeCollection getFrancaTypeCollection();
 
-  DPA getPropertyAccessor();
+  public String getName() {
+    return getFrancaTypeCollection().getName();
+  }
+
+  public ModelInfo getModelInfo() {
+    return modelInfo;
+  }
+
+  public Version getVersion() {
+    FVersion francaVersion = getFrancaTypeCollection().getVersion();
+    if (francaVersion != null) {
+      return Version.createFromFrancaVersion(francaVersion);
+    } else {
+      return new Version(0, 0, 0, "");
+    }
+  }
+
+  public boolean isStatic(final FMethod francaMethod) {
+    return getBoolean(francaMethod, "Static");
+  }
+
+  public boolean isConst(final FMethod francaMethod) {
+    return getBoolean(francaMethod, "Const");
+  }
+
+  @SuppressWarnings("unused")
+  public boolean isSet(final FArrayType francaArray) {
+    return getBoolean(francaArray, "Set");
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof FrancaElement)) {
+      return false;
+    }
+    FrancaElement co = (FrancaElement) o;
+    return getName().equals(co.getName())
+        && modelInfo.getFModel().getName().equals(co.getModelInfo().getFModel().getName());
+  }
+
+  private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
+    Boolean result = propertyAccessor.getBoolean(francaModelElement, valueName);
+    return result != null && result;
+  }
 }

@@ -40,7 +40,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -65,8 +64,7 @@ public class CModelBuilderTest {
   private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
   @Mock private CBridgeNameRules cBridgeNameRules;
-  @Mock private Interface<InterfacePropertyAccessor> anInterface;
-  @Mock private InterfacePropertyAccessor propertyAccessor;
+  @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
@@ -89,8 +87,7 @@ public class CModelBuilderTest {
     mockedTypeInfo.returnValueConstrExpr = "";
     when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(mockedTypeInfo);
 
-    when(anInterface.getPropertyAccessor()).thenReturn(propertyAccessor);
-    when(propertyAccessor.getStatic(any())).thenReturn(true);
+    when(anInterface.isStatic(any())).thenReturn(true);
     when(cBridgeNameRules.getMethodName(any(), any())).thenReturn(FULL_FUNCTION_NAME);
     when(cBridgeNameRules.getDelegateMethodName(any(), any())).thenReturn(DELEGATE_NAME);
 
@@ -137,7 +134,7 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingMethodProcessesOnlyStaticMethods() {
-    when(propertyAccessor.getStatic(any())).thenReturn(false);
+    when(anInterface.isStatic(any())).thenReturn(false);
 
     modelBuilder.finishBuilding(francaMethod);
 

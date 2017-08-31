@@ -61,7 +61,7 @@ public class CppTypeMapperComplexTest {
   @Rule public ExpectedException exception = ExpectedException.none();
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement<?> mockFrancaModel;
+  private FrancaElement mockFrancaModel;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FStructType structType;

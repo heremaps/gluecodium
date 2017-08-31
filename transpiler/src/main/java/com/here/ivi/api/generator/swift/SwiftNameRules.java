@@ -20,7 +20,7 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeCollection;
 
 public class SwiftNameRules {
-  public String getImplementationFileName(final FrancaElement<?> francaElement) {
+  public String getImplementationFileName(final FrancaElement francaElement) {
     return "swift"
         + File.separator
         + String.join(File.separator, francaElement.getModelInfo().getPackageNames())
@@ -29,11 +29,11 @@ public class SwiftNameRules {
         + ".swift";
   }
 
-  private String getFileName(final FrancaElement<?> francaElement) {
+  private String getFileName(final FrancaElement francaElement) {
     String switchResult = null;
     if (francaElement instanceof Interface) {
       switchResult =
-          SwiftNameRules.computeClassName(((Interface<?>) francaElement).getFrancaInterface());
+          SwiftNameRules.computeClassName(((Interface) francaElement).getFrancaInterface());
     } else {
       switchResult = this.getTypeCollectionName(francaElement.getFrancaTypeCollection());
     }

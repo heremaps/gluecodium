@@ -47,7 +47,7 @@ public class CppTypeMapperTest {
   @Mock private FTypeRef francaTypeRef;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement<?> mockFrancaModel;
+  private FrancaElement mockFrancaModel;
 
   @Before
   public void setUp() {

@@ -18,7 +18,7 @@ import org.franca.core.franca.*;
 
 public class SwiftTypeMapper {
 
-  public static SwiftType mapType(FrancaElement<?> rootModel, final FTypeRef type) {
+  public static SwiftType mapType(FrancaElement rootModel, final FTypeRef type) {
     FType derived = type.getDerived();
 
     if (derived != null) {

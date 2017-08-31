@@ -28,8 +28,6 @@ import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.validator.baseapi.BaseApiModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.util.List;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
-import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +39,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(ResourceValidator.class)
+@PrepareForTest({ResourceValidator.class, BaseApiSpecAccessorFactory.class})
 public final class BaseApiGeneratorSuiteTest {
 
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
@@ -50,36 +48,32 @@ public final class BaseApiGeneratorSuiteTest {
   @Mock private OptionReader.TranspilerOptions options;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> mockFrancaModel;
+  private FrancaModel mockFrancaModel;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
-      francaModelLoader;
-
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private BaseApiSpecAccessorFactory specAccessorFactory;
+  private FrancaModelLoader francaModelLoader;
 
   private static final String MOCK_INPUT_PATH = "../fidl/files/are/here";
   private static final String MOCK_SPEC_PATH = "/a/random/directory/BaseApiSpec.fdepl";
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(ResourceValidator.class);
+    PowerMockito.mockStatic(ResourceValidator.class, BaseApiSpecAccessorFactory.class);
     MockitoAnnotations.initMocks(this);
 
-    when(specAccessorFactory.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
+    when(BaseApiSpecAccessorFactory.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
     when(options.getInputDir()).thenReturn(MOCK_INPUT_PATH);
 
-    baseApiGeneratorSuite =
-        new BaseApiGeneratorSuite(specAccessorFactory, baseApiModelValidator, francaModelLoader);
+    baseApiGeneratorSuite = new BaseApiGeneratorSuite(baseApiModelValidator, francaModelLoader);
   }
 
   @Test
   public void buildModel() {
     baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
 
-    verify(specAccessorFactory).getSpecPath();
     verify(francaModelLoader).load(MOCK_SPEC_PATH, baseApiGeneratorSuite.getCurrentFiles());
+    PowerMockito.verifyStatic();
+    BaseApiSpecAccessorFactory.getSpecPath();
   }
 
   @Test
@@ -147,8 +141,6 @@ public final class BaseApiGeneratorSuiteTest {
   public void generateFilesNullModel() {
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 
-    verify(specAccessorFactory, never()).createInterfaceAccessor(any());
-    verify(specAccessorFactory, never()).createTypeCollectionAccessor(any());
     assertNotNull(generatedFiles);
     assertTrue(generatedFiles.isEmpty());
   }

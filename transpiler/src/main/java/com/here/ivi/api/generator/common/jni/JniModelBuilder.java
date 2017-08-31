@@ -53,13 +53,13 @@ import org.franca.core.franca.FTypedElement;
  */
 public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
-  private final FrancaElement<?> rootModel;
+  private final FrancaElement rootModel;
   private final JavaModelBuilder javaBuilder;
   private final CppModelBuilder cppBuilder;
 
   public JniModelBuilder(
       final ModelBuilderContextStack<JniElement> contextStack,
-      final FrancaElement<?> rootModel,
+      final FrancaElement rootModel,
       final JavaModelBuilder javaBuilder,
       final CppModelBuilder cppBuilder) {
 
@@ -70,7 +70,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   }
 
   public JniModelBuilder(
-      final FrancaElement<?> rootModel,
+      final FrancaElement rootModel,
       final JavaModelBuilder javaBuilder,
       final CppModelBuilder cppBuilder) {
     this(new ModelBuilderContextStack<>(), rootModel, javaBuilder, cppBuilder);

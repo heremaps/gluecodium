@@ -28,14 +28,14 @@ public class SwiftGenerator {
     nameRules = rules;
   }
 
-  public List<GeneratedFile> generate(Interface<?> iface) {
+  public List<GeneratedFile> generate(Interface iface) {
     SwiftClass clazz = buildSwiftModel(iface);
     return singletonList(
         new GeneratedFile(
             SwiftFileTemplate.generate(clazz), nameRules.getImplementationFileName(iface)));
   }
 
-  protected SwiftClass buildSwiftModel(Interface<?> iface) {
+  protected SwiftClass buildSwiftModel(Interface iface) {
     SwiftModelBuilder modelBuilder = new SwiftModelBuilder(iface, nameRules);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(singletonList(modelBuilder));
 

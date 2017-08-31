@@ -12,63 +12,29 @@
 package com.here.ivi.api.model.franca;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.Version;
-import com.here.ivi.api.loader.SpecAccessorFactory;
 import java.util.List;
 import java.util.stream.Collectors;
-import navigation.BaseApiSpec;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.core.FDeployedInterface;
+import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 import org.franca.deploymodel.dsl.fDeploy.FDInterface;
 import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 
 /** FInterface with accessor */
-public class Interface<Accessor extends BaseApiSpec.InterfacePropertyAccessor>
-    implements FrancaElement<Accessor> {
+public class Interface extends FrancaElement {
 
   private final FInterface francaInterface;
-  private final Accessor accessor;
-  private final ModelInfo model;
 
-  private Interface(FInterface francaInterface, Accessor accessor, ModelInfo model) {
+  private Interface(
+      FInterface francaInterface, MappingGenericPropertyAccessor accessor, ModelInfo modelInfo) {
+    super(accessor, modelInfo);
     this.francaInterface = francaInterface;
-    this.accessor = accessor;
-    this.model = model;
-  }
-
-  @Override
-  public String getName() {
-    return francaInterface.getName();
-  }
-
-  @Override
-  public ModelInfo getModelInfo() {
-    return model;
-  }
-
-  @Override
-  public Version getVersion() {
-    if (francaInterface.getVersion() != null) {
-      return Version.createFromFrancaVersion(francaInterface.getVersion());
-    } else {
-      return new Version(0, 0, 0, "");
-    }
-  }
-
-  @Override
-  public Accessor getPropertyAccessor() {
-    return accessor;
   }
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof Interface<?>)) {
-      return false;
-    }
-    Interface<?> co = (Interface<?>) o;
-    return getName().equals(co.getName())
-        && model.getFModel().getName().equals(co.model.getFModel().getName());
+    return o instanceof Interface && super.equals(o);
   }
 
   @Override
@@ -83,15 +49,11 @@ public class Interface<Accessor extends BaseApiSpec.InterfacePropertyAccessor>
   // Finds a matching FDInterface for an FInterface, if one is found, creates a valid
   // InterfacePropertyAccessor, otherwise creates an empty accessor that will return the defaults
   // for a spec.
-  public static <IA extends BaseApiSpec.InterfacePropertyAccessor> Interface<IA> create(
-      SpecAccessorFactory<IA, ?> f,
-      FDSpecification spec,
-      ModelInfo info,
-      FInterface fi,
-      FrancaDeploymentModel deploymentModel) {
+  public static Interface create(
+      FDSpecification spec, ModelInfo info, FInterface fi, FrancaDeploymentModel deploymentModel) {
 
     FInterface francaInterface = fi;
-    IA accessor = null;
+    MappingGenericPropertyAccessor accessor = null;
     if (deploymentModel != null) {
       List<FDInterface> matches =
           deploymentModel
@@ -105,14 +67,13 @@ public class Interface<Accessor extends BaseApiSpec.InterfacePropertyAccessor>
       } else if (!matches.isEmpty()) {
         final FDInterface found = matches.get(0);
         francaInterface = found.getTarget();
-        accessor = f.createInterfaceAccessor(new FDeployedInterface(found));
+        accessor = new FDeployedInterface(found);
       }
     }
     if (accessor == null) {
       // create fallback accessor to use for defaults
-      accessor =
-          f.createInterfaceAccessor((FDeployedInterface) FDHelper.createDummyFDElement(spec, fi));
+      accessor = FDHelper.createDummyFDElement(spec, fi);
     }
-    return new Interface<>(francaInterface, accessor, info);
+    return new Interface(francaInterface, accessor, info);
   }
 }

@@ -45,7 +45,7 @@ import org.mockito.MockitoAnnotations;
 public class FrancaTreeWalkerTypeCollectionTest {
 
   @Mock private ModelBuilder modelBuilder;
-  @Mock private TypeCollection<?> typeCollection;
+  @Mock private TypeCollection typeCollection;
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FTypeRef francaTypeRef;
   @Mock private FConstantDef francaConstant;

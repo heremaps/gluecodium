@@ -12,52 +12,30 @@
 package com.here.ivi.api.model.franca;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.Version;
-import com.here.ivi.api.loader.SpecAccessorFactory;
 import java.util.List;
 import java.util.stream.Collectors;
-import navigation.BaseApiSpec;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.core.FDeployedTypeCollection;
+import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 import org.franca.deploymodel.dsl.fDeploy.FDTypes;
 
 /** FTypeCollection with accessor */
-public class TypeCollection<Accessor extends BaseApiSpec.TypeCollectionPropertyAccessor>
-    implements FrancaElement<Accessor> {
+public class TypeCollection extends FrancaElement {
 
   private final FTypeCollection francaTypeCollection;
-  private final Accessor accessor;
-  private final ModelInfo modelInfo;
 
-  @Override
-  public String getName() {
-    return francaTypeCollection.getName();
-  }
-
-  @Override
-  public ModelInfo getModelInfo() {
-    return modelInfo;
-  }
-
-  @Override
-  public Version getVersion() {
-    return Version.createFromFrancaVersion(francaTypeCollection.getVersion());
-  }
-
-  @Override
-  public Accessor getPropertyAccessor() {
-    return accessor;
+  private TypeCollection(
+      FTypeCollection francaTypeCollection,
+      MappingGenericPropertyAccessor accessor,
+      ModelInfo modelInfo) {
+    super(accessor, modelInfo);
+    this.francaTypeCollection = francaTypeCollection;
   }
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof TypeCollection<?>)) {
-      return false;
-    }
-    TypeCollection<?> co = (TypeCollection<?>) o;
-    return getName().equals(co.getName())
-        && modelInfo.getFModel().getName().equals(co.modelInfo.getFModel().getName());
+    return o instanceof TypeCollection && super.equals(o);
   }
 
   @Override
@@ -71,17 +49,15 @@ public class TypeCollection<Accessor extends BaseApiSpec.TypeCollectionPropertyA
    * @return A valid TypeCollectionPropertyAccessor if a match is found, an empty accessor which
    *     will return the defaults otherwise.
    */
-  public static <TypeAccessor extends BaseApiSpec.TypeCollectionPropertyAccessor>
-      TypeCollection<TypeAccessor> create(
-          SpecAccessorFactory<?, TypeAccessor> accessorFactory,
-          FDSpecification spec,
-          ModelInfo info,
-          FTypeCollection typeCollection,
-          FrancaDeploymentModel deploymentModel) {
+  public static TypeCollection create(
+      FDSpecification spec,
+      ModelInfo info,
+      FTypeCollection typeCollection,
+      FrancaDeploymentModel deploymentModel) {
 
     FTypeCollection francaTypeCollection = typeCollection;
 
-    TypeAccessor accessor = null;
+    MappingGenericPropertyAccessor accessor = null;
     if (deploymentModel != null) {
       List<FDTypes> matches =
           deploymentModel
@@ -98,21 +74,12 @@ public class TypeCollection<Accessor extends BaseApiSpec.TypeCollectionPropertyA
       } else if (!matches.isEmpty()) {
         final FDTypes found = matches.get(0);
         francaTypeCollection = found.getTarget();
-        accessor = accessorFactory.createTypeCollectionAccessor(new FDeployedTypeCollection(found));
+        accessor = new FDeployedTypeCollection(found);
       }
     }
     if (accessor == null) {
-      accessor =
-          accessorFactory.createTypeCollectionAccessor(
-              (FDeployedTypeCollection) FDHelper.createDummyFDElement(spec, typeCollection));
+      accessor = FDHelper.createDummyFDElement(spec, typeCollection);
     }
-    return new TypeCollection<>(francaTypeCollection, accessor, info);
-  }
-
-  private TypeCollection(
-      FTypeCollection francaTypeCollection, Accessor accessor, ModelInfo modelInfo) {
-    this.francaTypeCollection = francaTypeCollection;
-    this.accessor = accessor;
-    this.modelInfo = modelInfo;
+    return new TypeCollection(francaTypeCollection, accessor, info);
   }
 }

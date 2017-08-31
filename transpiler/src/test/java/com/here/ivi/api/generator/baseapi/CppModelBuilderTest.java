@@ -48,7 +48,6 @@ import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
-import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FConstantDef;
@@ -104,9 +103,7 @@ public class CppModelBuilderTest {
 
   private final MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
-  @Mock private FrancaElement<BaseApiSpec.IDataPropertyAccessor> rootModel;
-  @Mock private BaseApiSpec.IDataPropertyAccessor propertyAccessor;
-  @Mock private BaseApiSpec.InterfacePropertyAccessor interfacePropertyAccessor;
+  @Mock private FrancaElement rootModel;
 
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
@@ -152,8 +149,6 @@ public class CppModelBuilderTest {
     MockitoAnnotations.initMocks(this);
 
     modelBuilder = new CppModelBuilder(contextStack, rootModel);
-
-    when(rootModel.getPropertyAccessor()).thenReturn(propertyAccessor);
 
     when(francaInterface.getName()).thenReturn(CLASS_NAME);
     when(francaArgument.getName()).thenReturn(PARAMETER_NAME);
@@ -253,8 +248,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsStaticFlag() {
-    when(interfacePropertyAccessor.getStatic(francaMethod)).thenReturn(true);
-    when(rootModel.getPropertyAccessor()).thenReturn(interfacePropertyAccessor);
+    when(rootModel.isStatic(francaMethod)).thenReturn(true);
 
     modelBuilder.finishBuilding(francaMethod);
 

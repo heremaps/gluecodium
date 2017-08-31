@@ -25,7 +25,6 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import navigation.BaseApiSpec;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
@@ -54,9 +53,7 @@ import org.franca.deploymodel.dsl.fDeploy.*;
  * @implNote The loader does not support more than one fdepl file describing the same interfaces or
  *     types
  */
-public class FrancaModelLoader<
-    IA extends BaseApiSpec.InterfacePropertyAccessor,
-    TA extends BaseApiSpec.TypeCollectionPropertyAccessor> {
+public class FrancaModelLoader {
 
   private static final Logger LOGGER = Logger.getLogger(FrancaModelLoader.class.getName());
 
@@ -64,14 +61,9 @@ public class FrancaModelLoader<
   public static final String FDEPL_SUFFIX = "fdepl";
   public static final URI ROOT_URI = URI.createURI("classpath:/");
 
-  private final SpecAccessorFactory<IA, TA> specAccessorFactory;
   @Inject private FDeployPersistenceManager fdeplLoader;
   @Inject private FrancaPersistenceManager fidlLoader;
   @Inject private Provider<ResourceSet> resourceSetProvider;
-
-  public FrancaModelLoader(SpecAccessorFactory<IA, TA> specAccessorFactory) {
-    this.specAccessorFactory = specAccessorFactory;
-  }
 
   public Provider<ResourceSet> getResourceSetProvider() {
     return resourceSetProvider;
@@ -157,7 +149,7 @@ public class FrancaModelLoader<
   }
 
   // builds a lists of FrancaModels for all the fidl & fdepl provided
-  public FrancaModel<IA, TA> load(String specPath, Collection<File> targetFiles) {
+  public FrancaModel load(String specPath, Collection<File> targetFiles) {
     final FDSpecification spec = loadSpecification(specPath);
     LOGGER.log(Level.INFO, "Loaded specification " + spec.getName());
 
@@ -190,7 +182,7 @@ public class FrancaModelLoader<
     FrancaDeploymentModel deploymentModel = FrancaDeploymentModel.create(extendedModels);
 
     // load all found fidl files and fill the FrancaModel from them
-    List<FrancaModel<IA, TA>> models =
+    List<FrancaModel> models =
         fidlFiles
             .parallelStream()
             .map(
@@ -202,7 +194,7 @@ public class FrancaModelLoader<
             .map(
                 fm -> {
                   // try to fetch additional data, wrap in FrancaModel
-                  return FrancaModel.create(specAccessorFactory, spec, fm, deploymentModel);
+                  return FrancaModel.create(spec, fm, deploymentModel);
                 })
             .collect(Collectors.toList());
 

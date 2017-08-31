@@ -24,12 +24,10 @@ import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.test.ArrayEList;
-import navigation.BaseApiSpec;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
@@ -53,8 +51,7 @@ public class CppMethodMapperTest {
   private static final String ARGUMENT_NAME = "which foot";
   private static final String TYPE_NAME = "typical";
 
-  @Mock private FrancaElement<BaseApiSpec.InterfacePropertyAccessor> rootModel;
-  @Mock private BaseApiSpec.InterfacePropertyAccessor propertyAccessor;
+  @Mock private FrancaElement rootModel;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMethod francaMethod;
@@ -70,8 +67,6 @@ public class CppMethodMapperTest {
     MockitoAnnotations.initMocks(this);
 
     when(CppTypeMapper.map(any(), any(FTypedElement.class))).thenReturn(cppCustomType);
-
-    when(rootModel.getPropertyAccessor()).thenReturn(propertyAccessor);
 
     when(francaMethod.getErrorEnum()).thenReturn(null);
     when(francaMethod.getOutArgs()).thenReturn(new ArrayEList<>());
@@ -175,21 +170,5 @@ public class CppMethodMapperTest {
 
     PowerMockito.verifyStatic();
     CppTypeMapper.wrapSharedPtr(same(cppInterfaceInstance));
-  }
-
-  @Test
-  public void mapArgumentTypeWrapsInUniquePtr() {
-    final CppComplexTypeRef cppInterfaceInstance =
-        new CppComplexTypeRef.Builder(TYPE_NAME).typeInfo(CppTypeInfo.InterfaceInstance).build();
-    when(CppTypeMapper.map(any(), any(FArgument.class))).thenReturn(cppInterfaceInstance);
-    when(CppTypeMapper.wrapUniquePtr(any())).thenReturn(cppCustomType);
-    when(propertyAccessor.getCreates(any())).thenReturn(mock(FInterface.class));
-
-    CppTypeRef cppType = CppMethodMapper.mapArgumentType(francaArgument, francaMethod, rootModel);
-
-    assertEquals(cppCustomType, cppType);
-
-    PowerMockito.verifyStatic();
-    CppTypeMapper.wrapUniquePtr(same(cppInterfaceInstance));
   }
 }

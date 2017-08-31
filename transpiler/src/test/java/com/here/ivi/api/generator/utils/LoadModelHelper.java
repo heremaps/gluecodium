@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.utils;
 import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.SpecAccessorFactory;
+import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.ModelHelper;
@@ -24,29 +24,22 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import navigation.BaseApiSpec;
 
 public final class LoadModelHelper {
 
-  public static <
-          IA extends BaseApiSpec.InterfacePropertyAccessor,
-          TA extends BaseApiSpec.TypeCollectionPropertyAccessor>
-      FrancaModel<IA, TA> readInFrancaModel(
-          String fileName, SpecAccessorFactory<IA, TA> specAccessorFactory)
-          throws URISyntaxException {
+  public static FrancaModel readInFrancaModel(String fileName) throws URISyntaxException {
 
     URL testFidlResource = ClassLoader.getSystemClassLoader().getResource(fileName);
     Collection<File> testFidlFile = Collections.singletonList(new File(testFidlResource.toURI()));
 
-    FrancaModelLoader<IA, TA> francaModelLoader =
-        new FrancaModelLoader<IA, TA>(specAccessorFactory);
+    FrancaModelLoader francaModelLoader = new FrancaModelLoader();
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
 
-    return francaModelLoader.load(specAccessorFactory.getSpecPath(), testFidlFile);
+    return francaModelLoader.load(BaseApiSpecAccessorFactory.getSpecPath(), testFidlFile);
   }
 
-  public static Interface<?> extractNthInterfaceFromModel(FrancaModel<?, ?> model, int index) {
-    List<? extends Interface<?>> interfaces = model.getInterfaces();
+  public static Interface extractNthInterfaceFromModel(FrancaModel model, int index) {
+    List<? extends Interface> interfaces = model.getInterfaces();
     assertTrue(index < interfaces.size());
     return interfaces.get(index);
   }

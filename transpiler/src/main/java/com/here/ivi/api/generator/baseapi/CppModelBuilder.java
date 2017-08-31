@@ -35,7 +35,6 @@ import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.List;
-import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FCompoundType;
@@ -55,15 +54,15 @@ import org.franca.core.franca.FUnionType;
 
 public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
-  private final FrancaElement<?> rootModel;
+  private final FrancaElement rootModel;
 
   public CppModelBuilder(
-      final ModelBuilderContextStack<CppElement> contextStack, final FrancaElement<?> rootModel) {
+      final ModelBuilderContextStack<CppElement> contextStack, final FrancaElement rootModel) {
     super(contextStack);
     this.rootModel = rootModel;
   }
 
-  public CppModelBuilder(final FrancaElement<?> rootModel) {
+  public CppModelBuilder(final FrancaElement rootModel) {
     super(new ModelBuilderContextStack<>());
     this.rootModel = rootModel;
   }
@@ -257,22 +256,15 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppMethod.Builder builder = new CppMethod.Builder(methodName).returnType(returnType);
 
-    BaseApiSpec.IDataPropertyAccessor propertyAccessor = rootModel.getPropertyAccessor();
-    if (propertyAccessor instanceof BaseApiSpec.InterfacePropertyAccessor) {
-      BaseApiSpec.InterfacePropertyAccessor interfacePropertyAccessor =
-          (BaseApiSpec.InterfacePropertyAccessor) propertyAccessor;
-      Boolean isStatic = interfacePropertyAccessor.getStatic(francaMethod);
-      if (isStatic != null && isStatic) {
-        builder.specifier(CppMethod.Specifier.STATIC);
-      } else {
-        Boolean isConst = interfacePropertyAccessor.getConst(francaMethod);
-        if (isConst != null && isConst) {
-          // const needs to be before "= 0" pure virtual specifier
-          builder.qualifier(CppMethod.Qualifier.CONST);
-        }
-        builder.specifier(CppMethod.Specifier.VIRTUAL);
-        builder.qualifier(CppMethod.Qualifier.PURE_VIRTUAL);
+    if (rootModel.isStatic(francaMethod)) {
+      builder.specifier(CppMethod.Specifier.STATIC);
+    } else {
+      if (rootModel.isConst(francaMethod)) {
+        // const needs to be before "= 0" pure virtual specifier
+        builder.qualifier(CppMethod.Qualifier.CONST);
       }
+      builder.specifier(CppMethod.Specifier.VIRTUAL);
+      builder.qualifier(CppMethod.Qualifier.PURE_VIRTUAL);
     }
 
     StringBuilder methodCommentBuilder =

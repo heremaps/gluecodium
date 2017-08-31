@@ -12,11 +12,8 @@
 package com.here.ivi.api.validator.common;
 
 import com.here.ivi.api.model.franca.FrancaModel;
-import navigation.BaseApiSpec;
 
-public interface ModelValidator<
-    IA extends BaseApiSpec.InterfacePropertyAccessor,
-    TA extends BaseApiSpec.TypeCollectionPropertyAccessor> {
+public interface ModelValidator {
 
-  boolean validate(FrancaModel<IA, TA> model);
+  boolean validate(FrancaModel model);
 }

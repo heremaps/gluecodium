@@ -11,11 +11,6 @@ xtend {
     }
 }
 
-configurations {
-    buildDeployModel {
-    }
-}
-
 ext {
     fdeplOutput = "${buildDir}/fdepl-gen/"
 }
@@ -42,8 +37,6 @@ sourceSets {
 }
 
 dependencies {
-    buildDeployModel project(':fdeplgen')
-
     compile 'commons-io:commons-io:+'
     compile 'org.apache.commons:commons-lang3:3.+'
     compile 'org.eclipse.core:runtime:+'
@@ -69,20 +62,6 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:1.7.0'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.7.0'
 }
-
-def buildDeployModelConfiguration() {
-    return {
-        classpath = configurations.buildDeployModel
-        main = 'com.here.ivi.api.FrancaDeployModelGenerator'
-        workingDir = 'src/main/resources'
-        args += project.fdeplOutput
-        args += 'franca/spec/BaseApiSpec.fdepl'
-    }
-}
-task buildDeployModel(type: JavaExec) {
-    configure buildDeployModelConfiguration()
-}
-generateXtext.dependsOn(buildDeployModel)
 
 apply plugin: 'application'
 mainClassName = 'com.here.ivi.api.Transpiler'

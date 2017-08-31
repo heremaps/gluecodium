@@ -32,7 +32,7 @@ public class CBridgeTypeMapperTest {
   @Mock private FTypeRef francaTypeRef;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private Interface<?> rootModel;
+  private Interface rootModel;
 
   @Test
   public void mapStructType() {

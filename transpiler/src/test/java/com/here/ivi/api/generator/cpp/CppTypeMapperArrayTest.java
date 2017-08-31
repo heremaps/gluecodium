@@ -62,7 +62,7 @@ public class CppTypeMapperArrayTest {
 
     when(typedElement.getType()).thenReturn(actualTypeRef);
 
-    FrancaElement<?> mockFrancaModel = mock(FrancaElement.class);
+    FrancaElement mockFrancaModel = mock(FrancaElement.class);
 
     //act
     CppTypeRef result = CppTypeMapper.map(mockFrancaModel, typedElement);
@@ -81,7 +81,7 @@ public class CppTypeMapperArrayTest {
   public void mapArrayOfComplexType() throws Exception {
 
     //mock franca elements
-    FrancaElement<?> mockFrancaModel = mock(FrancaElement.class, Answers.RETURNS_DEEP_STUBS);
+    FrancaElement mockFrancaModel = mock(FrancaElement.class, Answers.RETURNS_DEEP_STUBS);
     FTypeCollection fTypeCollection = mock(FTypeCollection.class);
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
 
@@ -115,7 +115,7 @@ public class CppTypeMapperArrayTest {
         complexResult.includes.containsAll(Arrays.asList(CppLibraryIncludes.VECTOR, lazyInclude)));
   }
 
-  private static DefinedBy mockDefinedBy(FrancaElement<?> francaElement) {
+  private static DefinedBy mockDefinedBy(FrancaElement francaElement) {
     //DefinedBy's constructor is private, so static creator method is excluded from mocking
     //and utilized to create an instance of DefinedBy
     doCallRealMethod().when(DefinedBy.class);

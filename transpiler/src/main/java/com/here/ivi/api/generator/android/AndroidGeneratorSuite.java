@@ -17,8 +17,7 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.jni.JniContainer;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.SpecAccessorFactory;
-import com.here.ivi.api.loader.java.AndroidSpecAccessorFactory;
+import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.validator.android.AndroidValidator;
@@ -29,8 +28,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
-import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 public final class AndroidGeneratorSuite implements GeneratorSuite {
@@ -43,18 +40,14 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
   private static final String CONVERSION_UTILS_TARGET_DIR = "";
 
   private final OptionReader.TranspilerOptions transpilerOptions;
-  private final SpecAccessorFactory<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
-      specAccessorFactory;
-  private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
-  private final FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
-      francaModelLoader;
+  private FrancaModel model;
+  private final FrancaModelLoader francaModelLoader;
   private Collection<File> currentFiles;
   private final AndroidValidator validator;
 
   public AndroidGeneratorSuite(OptionReader.TranspilerOptions transpilerOptions) {
-    this.specAccessorFactory = new AndroidSpecAccessorFactory();
     this.validator = new AndroidValidator();
-    this.francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
+    this.francaModelLoader = new FrancaModelLoader();
     this.transpilerOptions = transpilerOptions;
   }
 
@@ -65,7 +58,7 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
 
   @Override
   public String getSpecPath() {
-    return specAccessorFactory.getSpecPath();
+    return BaseApiSpecAccessorFactory.getSpecPath();
   }
 
   @Override
@@ -78,7 +71,7 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
   public void buildModel(String inputPath) {
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
     currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
-    model = francaModelLoader.load(specAccessorFactory.getSpecPath(), currentFiles);
+    model = francaModelLoader.load(getSpecPath(), currentFiles);
   }
 
   @Override

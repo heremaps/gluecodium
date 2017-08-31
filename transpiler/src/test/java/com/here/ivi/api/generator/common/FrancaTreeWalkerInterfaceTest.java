@@ -48,7 +48,7 @@ import org.mockito.MockitoAnnotations;
 public class FrancaTreeWalkerInterfaceTest {
 
   @Mock private ModelBuilder modelBuilder;
-  @Mock private Interface<?> anInterface;
+  @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;

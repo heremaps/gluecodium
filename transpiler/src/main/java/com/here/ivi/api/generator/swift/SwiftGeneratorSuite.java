@@ -29,23 +29,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
-import navigation.BaseApiSpec;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 public final class SwiftGeneratorSuite implements GeneratorSuite {
-  // TODO: APIGEN-173 - Deal with multiple deployment specificiations and use different accessor factory
-  private final BaseApiSpecAccessorFactory specAccessorFactory;
-  private FrancaModel<
-          BaseApiSpec.InterfacePropertyAccessor, BaseApiSpec.TypeCollectionPropertyAccessor>
-      model;
-  private final FrancaModelLoader<
-          BaseApiSpec.InterfacePropertyAccessor, BaseApiSpec.TypeCollectionPropertyAccessor>
-      modelLoader;
+
+  private FrancaModel model;
+  private final FrancaModelLoader modelLoader;
   private Collection<File> currentFiles;
 
   public SwiftGeneratorSuite() {
-    specAccessorFactory = new BaseApiSpecAccessorFactory();
-    modelLoader = new FrancaModelLoader<>(specAccessorFactory);
+    modelLoader = new FrancaModelLoader();
     currentFiles = new ArrayList<>();
   }
 
@@ -63,14 +56,14 @@ public final class SwiftGeneratorSuite implements GeneratorSuite {
         model.getInterfaces().stream().map(swiftGenerator::generate).flatMap(Collection::stream);
     Stream<GeneratedFile> cBridgeStream =
         model.getInterfaces().stream().map(cBridgeGenerator::generate).flatMap(Collection::stream);
-    cBridgeStream = concat(cBridgeStream, cBridgeGenerator.STATIC_FILES.stream());
+    cBridgeStream = concat(cBridgeStream, CBridgeGenerator.STATIC_FILES.stream());
 
     return concat(swiftStream, cBridgeStream).filter(Objects::nonNull).collect(toList());
   }
 
   @Override
   public String getSpecPath() {
-    return specAccessorFactory.getSpecPath();
+    return BaseApiSpecAccessorFactory.getSpecPath();
   }
 
   @Override
@@ -88,6 +81,6 @@ public final class SwiftGeneratorSuite implements GeneratorSuite {
   public void buildModel(String inputPath) {
     ModelHelper.getFdeplInjector().injectMembers(modelLoader);
     currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
-    model = modelLoader.load(specAccessorFactory.getSpecPath(), currentFiles);
+    model = modelLoader.load(getSpecPath(), currentFiles);
   }
 }

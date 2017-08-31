@@ -11,28 +11,11 @@
 
 package com.here.ivi.api.loader.baseapi;
 
-import com.here.ivi.api.loader.SpecAccessorFactory;
-import navigation.BaseApiSpec;
-import org.franca.deploymodel.core.FDeployedInterface;
-import org.franca.deploymodel.core.FDeployedTypeCollection;
+public final class BaseApiSpecAccessorFactory {
 
-public class BaseApiSpecAccessorFactory
-    implements SpecAccessorFactory<
-        BaseApiSpec.InterfacePropertyAccessor, BaseApiSpec.TypeCollectionPropertyAccessor> {
-  @Override
-  public String getSpecPath() {
+  private BaseApiSpecAccessorFactory() {}
+
+  public static String getSpecPath() {
     return "classpath:/franca/spec/BaseApiSpec.fdepl";
-  }
-
-  @Override
-  public BaseApiSpec.InterfacePropertyAccessor createInterfaceAccessor(
-      FDeployedInterface fdInterface) {
-    return new BaseApiSpec.InterfacePropertyAccessor(fdInterface);
-  }
-
-  @Override
-  public BaseApiSpec.TypeCollectionPropertyAccessor createTypeCollectionAccessor(
-      FDeployedTypeCollection fdTypeCollection) {
-    return new BaseApiSpec.TypeCollectionPropertyAccessor(fdTypeCollection);
   }
 }

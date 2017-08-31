@@ -44,8 +44,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
-import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -58,26 +56,18 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
-  private final BaseApiSpecAccessorFactory specAccessorFactory;
   private final BaseApiModelValidator validator;
-  private FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model;
-  private final FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
-      francaModelLoader;
+  private FrancaModel model;
+  private final FrancaModelLoader francaModelLoader;
   private Collection<File> currentFiles;
 
   @SuppressWarnings("unused")
   public BaseApiGeneratorSuite() {
-    this.specAccessorFactory = new BaseApiSpecAccessorFactory();
-    this.validator = new BaseApiModelValidator();
-    this.francaModelLoader = new FrancaModelLoader<>(specAccessorFactory);
+    this(new BaseApiModelValidator(), new FrancaModelLoader());
   }
 
   public BaseApiGeneratorSuite(
-      final BaseApiSpecAccessorFactory specAccessorFactory,
-      final BaseApiModelValidator validator,
-      final FrancaModelLoader<InterfacePropertyAccessor, TypeCollectionPropertyAccessor>
-          francaModelLoader) {
-    this.specAccessorFactory = specAccessorFactory;
+      final BaseApiModelValidator validator, final FrancaModelLoader francaModelLoader) {
     this.validator = validator;
     this.francaModelLoader = francaModelLoader;
   }
@@ -122,7 +112,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
   @Override
   public String getSpecPath() {
-    return specAccessorFactory.getSpecPath();
+    return BaseApiSpecAccessorFactory.getSpecPath();
   }
 
   @Override
@@ -130,7 +120,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
     currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
 
-    model = francaModelLoader.load(specAccessorFactory.getSpecPath(), currentFiles);
+    model = francaModelLoader.load(getSpecPath(), currentFiles);
   }
 
   @Override
@@ -143,7 +133,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     return ResourceValidator.validate(resources, currentFiles) && validator.validate(model);
   }
 
-  public FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> getModel() {
+  public FrancaModel getModel() {
     return model;
   }
 
@@ -152,7 +142,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
   }
 
   private GeneratedFile generateFromFrancaElement(
-      FrancaElement<?> francaElement, CppGenerator generator) {
+      FrancaElement francaElement, CppGenerator generator) {
 
     CppNamespace cppModel = mapFrancaModelToCppModel(francaElement);
     String fileName = CppNameRules.getHeaderPath(francaElement);
@@ -160,7 +150,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     return generator.generateCode(cppModel, fileName, copyRightNotice);
   }
 
-  private CharSequence generateGeneratorNotice(FrancaElement<?> element, String outputTarget) {
+  private CharSequence generateGeneratorNotice(FrancaElement element, String outputTarget) {
 
     Map<String, String> generatorNoticeData = new HashMap<>();
     generatorNoticeData.put("generatorName", getName());
@@ -172,18 +162,18 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     return TemplateEngine.render("common/GeneratorNotice", generatorNoticeData);
   }
 
-  private static CppNamespace mapFrancaModelToCppModel(FrancaElement<?> francaElement) {
+  private static CppNamespace mapFrancaModelToCppModel(FrancaElement francaElement) {
 
     if (francaElement instanceof Interface) {
-      return mapFrancaInterfaceToCppModel((Interface<?>) francaElement);
+      return mapFrancaInterfaceToCppModel((Interface) francaElement);
     }
     if (francaElement instanceof TypeCollection) {
-      return mapFrancaTypeCollectionToCppModel((TypeCollection<?>) francaElement);
+      return mapFrancaTypeCollectionToCppModel((TypeCollection) francaElement);
     }
     return null;
   }
 
-  private static CppNamespace mapFrancaInterfaceToCppModel(Interface<?> anInterface) {
+  private static CppNamespace mapFrancaInterfaceToCppModel(Interface anInterface) {
 
     List<String> outmostQualifier = anInterface.getModelInfo().getPackageNames();
 
@@ -198,7 +188,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     return namespace;
   }
 
-  private static CppNamespace mapFrancaTypeCollectionToCppModel(TypeCollection<?> typeCollection) {
+  private static CppNamespace mapFrancaTypeCollectionToCppModel(TypeCollection typeCollection) {
 
     List<String> outmostQualifier =
         CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection));
