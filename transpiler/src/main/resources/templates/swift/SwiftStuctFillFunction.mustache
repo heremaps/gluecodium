@@ -1,0 +1,30 @@
+internal func fillFunction(_ c{{name}}: {{cType}}) -> Void {
+{{#set structName=name}}
+{{#fields}}
+{{#switch type.category}}
+{{#case "BUILTIN_BYTEBUFFER"}}
+    {{>fillDataType}}
+{{/case}}
+{{#case "STRUCT"}}
+    {{>fillStruct}}
+{{/case}}
+{{#case "BUILTIN_STRING" break="false"}}{{/case}}
+{{#default}}
+    {{>fillBasicType}}
+{{/default}}
+{{/switch}}
+{{/fields}}
+{{/set}}
+}
+
+{{+fillBasicType}}{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}})
+{{/fillBasicType}}
+
+{{+fillDataType}}{{name}}.withUnsafeBytes { ({{name}}_ptr: UnsafePointer<UInt8>) in
+    {{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}_ptr, Int64({{name}}.count))
+}
+{{/fillDataType}}
+
+{{+fillStruct}}let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+{{name}}.fillFunction({{name}}Handle)
+{{/fillStruct}}
