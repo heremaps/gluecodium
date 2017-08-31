@@ -17,6 +17,7 @@ import com.here.ivi.api.model.swift.SwiftClass;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
 import com.here.ivi.api.model.swift.SwiftType;
+import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -294,7 +295,7 @@ public class SwiftFileTemplateTest {
                       CollectionLiterals.<SwiftParameter>newArrayList(_swiftParameter)));
           final Procedure1<SwiftMethod> _function_1 =
               (SwiftMethod it_1) -> {
-                SwiftType _swiftType_1 = SwiftType.String;
+                SwiftType _swiftType_1 = new SwiftType("String", TypeCategory.BUILTIN_STRING, true);
                 it_1.returnType = _swiftType_1;
                 it_1.isStatic = true;
               };
@@ -309,14 +310,16 @@ public class SwiftFileTemplateTest {
     final String expected =
         "import Foundation\n"
             + "public class HelloWorld {\n"
-            + "    public static func helloWorldMethod(inputString: String) -> String {\n"
+            + "    public static func helloWorldMethod(inputString: String) -> String? {\n"
             + "        let result_string_handle = HelloWorld_helloWorldMethod(inputString)\n"
+            + "        defer {\n"
+            + "            std_string_release(result_string_handle)\n"
+            + "        }\n"
             + "        if let ret_value = String(data: Data(bytes: std_string_data_get(result_string_handle),\n"
             + "                                             count: Int(std_string_size_get(result_string_handle))), encoding: .utf8) {\n"
-            + "            std_string_release(result_string_handle)\n"
             + "            return ret_value\n"
             + "        }\n"
-            + "        return \"\" //TODO: We should return nil in case of error\n"
+            + "        return nil\n"
             + "    }\n"
             + "}\n";
     final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
@@ -415,12 +418,14 @@ public class SwiftFileTemplateTest {
             + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Data? in\n"
             + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Data? in\n"
             + "                let result_data_handle = HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
+            + "                defer {\n"
+            + "                    byteArray_release(result_data_handle)\n"
+            + "                }\n"
             + "                let size = byteArray_size_get(result_data_handle)\n"
             + "                if size > 0 {\n"
             + "                    let data_handle = byteArray_data_get(result_data_handle)\n"
             + "                    if let data_handle = data_handle {\n"
             + "                        let return_data = Data(bytes: data_handle, count: Int(size))\n"
-            + "                        byteArray_release(result_data_handle)\n"
             + "                        return return_data\n"
             + "                    }\n"
             + "                }\n"

@@ -1,10 +1,12 @@
 let result_data_handle = {{>swift/DelegateCall}}
+defer {
+    byteArray_release(result_data_handle)
+}
 let size = byteArray_size_get(result_data_handle)
 if size > 0 {
     let data_handle = byteArray_data_get(result_data_handle)
     if let data_handle = data_handle {
         let return_data = Data(bytes: data_handle, count: Int(size))
-        byteArray_release(result_data_handle)
         return return_data
     }
 }
