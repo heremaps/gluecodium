@@ -138,7 +138,7 @@ public class CppTypeInfo {
     this.typeCategory = category;
   }
 
-  public CppTypeInfo(CType type) {
+  public CppTypeInfo(CType type, TypeCategory category) {
     this.baseType = type.name;
     this.heldType = "";
     this.constructFromCExpr = "%1$s";
@@ -151,6 +151,10 @@ public class CppTypeInfo {
     this.functionReturnType = type;
     this.getDataExpr = "";
     this.getSizeExpr = "";
-    this.typeCategory = TypeCategory.BUILTIN_SIMPLE;
+    this.typeCategory = category;
+  }
+
+  public CppTypeInfo(CType type) {
+    this(type, TypeCategory.BUILTIN_SIMPLE);
   }
 }
