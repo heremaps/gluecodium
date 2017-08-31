@@ -29,7 +29,6 @@ import com.here.ivi.api.model.swift.SwiftOutParameter;
 import com.here.ivi.api.model.swift.SwiftParameter;
 import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftStructField;
-import com.here.ivi.api.model.swift.SwiftType;
 import java.util.ArrayList;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -100,11 +99,10 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    SwiftType type = SwiftTypeMapper.mapType(rootModel, francaArgument.getType());
-    if ("Data".equals(type.name)) {
-      type.optional = true;
-    }
-    storeResult(new SwiftOutParameter(nameRules.getParameterName(francaArgument), type));
+    storeResult(
+        new SwiftOutParameter(
+            nameRules.getParameterName(francaArgument),
+            SwiftTypeMapper.mapOutputType(rootModel, francaArgument.getType())));
     super.finishBuildingOutputArgument(francaArgument);
   }
 

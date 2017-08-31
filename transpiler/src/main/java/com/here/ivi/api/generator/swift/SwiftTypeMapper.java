@@ -31,6 +31,14 @@ public class SwiftTypeMapper {
     return mapPredefined(type);
   }
 
+  public static SwiftType mapOutputType(FrancaElement rootModel, final FTypeRef type) {
+    SwiftType mapped = mapType(rootModel, type);
+    if ("Data".equals(mapped.name) || "String".equals(mapped.name)) {
+      mapped.optional = true;
+    }
+    return mapped;
+  }
+
   private static SwiftType mapPredefined(FTypeRef type) {
     FBasicTypeId typeId = type.getPredefined();
     switch (typeId.getValue()) {
