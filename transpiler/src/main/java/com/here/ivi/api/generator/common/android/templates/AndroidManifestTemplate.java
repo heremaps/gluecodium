@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.common.android.templates;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaPackage;
-import java.time.Year;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +21,6 @@ public final class AndroidManifestTemplate {
 
   public static String generate(final JavaPackage javaPackage) {
     Map<String, Object> data = new HashMap<>();
-    data.put("year", Year.now().getValue());
     data.put("javaPackage", javaPackage.flatten());
 
     return TemplateEngine.render("android/AndroidManifest", data);

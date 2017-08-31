@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.common.java.templates;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaElements;
-import java.time.Year;
 import java.util.HashMap;
 
 public final class JavaClassTemplate {
@@ -22,7 +21,6 @@ public final class JavaClassTemplate {
 
   public static String generate(final JavaClass javaClass) {
     HashMap<String, Object> data = new HashMap<>();
-    data.put("year", Year.now().getValue()); // Copyright template
     // TODO(APIGEN-590): Move this into JavaClass
     data.put("imports", JavaElements.collectImports(javaClass));
     data.put("javaClass", javaClass);

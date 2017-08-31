@@ -15,7 +15,6 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
-import java.time.Year;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +45,6 @@ public class CppGenerator {
   private static String generateCommentHeader(final CharSequence generatorNotice) {
 
     Map<String, Object> dataObject = new HashMap<>();
-    dataObject.put("year", Year.now().getValue());
     dataObject.put("generatorNotice", generatorNotice);
     return TemplateEngine.render("cpp/CppCommentHeader", dataObject);
   }

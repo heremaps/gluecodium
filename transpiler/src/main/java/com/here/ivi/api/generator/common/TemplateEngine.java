@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.common;
 
 import com.google.common.annotations.VisibleForTesting;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +20,9 @@ import java.util.stream.Collectors;
 import org.trimou.engine.MustacheEngine;
 import org.trimou.engine.MustacheEngineBuilder;
 import org.trimou.engine.locator.ClassPathTemplateLocator;
+import org.trimou.engine.resolver.AbstractResolver;
+import org.trimou.engine.resolver.ResolutionContext;
+import org.trimou.engine.resolver.Resolver;
 import org.trimou.handlebars.BasicHelper;
 import org.trimou.handlebars.BasicSectionHelper;
 import org.trimou.handlebars.HelpersBuilder;
@@ -137,6 +141,28 @@ public final class TemplateEngine {
     }
   }
 
+  /**
+   * Resolves "now" keyword into the LocalDate object for the current date and time. Example:
+   * {{now.year}}
+   */
+  @VisibleForTesting
+  static class NowResolver extends AbstractResolver {
+
+    public static final String NAME_NOW = "now";
+
+    public NowResolver() {
+      super(Resolver.DEFAULT_PRIORITY);
+    }
+
+    @Override
+    public Object resolve(Object contextObject, String name, ResolutionContext context) {
+      if (NAME_NOW.equals(name)) {
+        return LocalDate.now();
+      }
+      return null;
+    }
+  }
+
   static {
     ENGINE =
         MustacheEngineBuilder.newBuilder()
@@ -148,6 +174,7 @@ public final class TemplateEngine {
             .registerHelper("instanceOf", new InstanceOfHelper())
             .registerHelpers(
                 HelpersBuilder.empty().addJoin().addInclude().addFmt().addSet().build())
+            .addResolver(new NowResolver())
             .build();
   }
 

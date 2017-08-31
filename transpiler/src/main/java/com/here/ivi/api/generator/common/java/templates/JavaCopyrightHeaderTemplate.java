@@ -12,17 +12,12 @@
 package com.here.ivi.api.generator.common.java.templates;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import java.time.Year;
-import java.util.HashMap;
 
 // TODO: Kill while porting JavaClassTemplate and JNI templates
 public final class JavaCopyrightHeaderTemplate {
   private JavaCopyrightHeaderTemplate() {}
 
   public static String generate() {
-    HashMap<String, Object> data = new HashMap<>();
-    data.put("year", Year.now().getValue());
-
-    return TemplateEngine.render("java/CopyrightHeader", data);
+    return TemplateEngine.render("java/CopyrightHeader", null);
   }
 }
