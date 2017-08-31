@@ -1,5 +1,10 @@
 {{>common/DocComment}}
 class {{name}}{{>cpp/CppInheritance}} {
+{{#if hasInstanceMethods}}
+public:
+    virtual ~{{name}}();
+
+{{/if}}
 {{#if structs}}
 public:
 {{#structs}}

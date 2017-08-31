@@ -47,7 +47,8 @@ public final class CppClassTemplateTest {
   private final CppStruct cppStruct = new CppStruct("Structural");
   private final CppEnum cppEnum = new CppEnum("Innumerable");
   private final CppUsing cppUsing = new CppUsing("Useful", cppPrimitiveTypeRef);
-  private final CppMethod cppMethod = new CppMethod.Builder("methodical").build();
+  private final CppMethod cppMethod =
+      new CppMethod.Builder("methodical").specifier(CppMethod.Specifier.STATIC).build();
   private final CppField cppField = new CppField(cppPrimitiveTypeRef, "flowers");
 
   private final CppClass cppClass = new CppClass.Builder("Classy").build();
@@ -175,24 +176,40 @@ public final class CppClassTemplateTest {
   }
 
   @Test
-  public void classWithOneMethod() {
+  public void classWithOneInstanceMethod() {
+    cppMethod.specifiers.clear();
     cppClass.methods.add(cppMethod);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
+    final String expectedDestructor = "\npublic:\n    virtual ~Classy();\n";
     final String expectedMethods = PUBLIC_PREFIX + "void methodical(  );\n";
+    final String expectedResult =
+        String.format(EXPECTED_CLASS_BODY_FORMAT, "", expectedDestructor + expectedMethods);
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void classWithOneStaticMethod() {
+    cppClass.methods.add(cppMethod);
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
+
+    final String expectedMethods = PUBLIC_PREFIX + "static void methodical(  );\n";
     final String expectedResult = String.format(EXPECTED_CLASS_BODY_FORMAT, "", expectedMethods);
     assertEquals(expectedResult, result);
   }
 
   @Test
-  public void classWithTwoMethods() {
+  public void classWithTwoStaticMethods() {
     cppClass.methods.add(cppMethod);
-    cppClass.methods.add(new CppMethod.Builder("haphazard").build());
+    cppClass.methods.add(
+        new CppMethod.Builder("haphazard").specifier(CppMethod.Specifier.STATIC).build());
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
-    final String expectedMethods = PUBLIC_PREFIX + "void methodical(  );\nvoid haphazard(  );\n";
+    final String expectedMethods =
+        PUBLIC_PREFIX + "static void methodical(  );\nstatic void haphazard(  );\n";
     final String expectedResult = String.format(EXPECTED_CLASS_BODY_FORMAT, "", expectedMethods);
     assertEquals(expectedResult, result);
   }
