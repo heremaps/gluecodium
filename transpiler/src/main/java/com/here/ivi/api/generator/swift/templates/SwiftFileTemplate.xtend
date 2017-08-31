@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.swift.templates
 
-import com.here.ivi.api.generator.common.templates.CopyrightNoticeTemplate;
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.SwiftClass
 import com.here.ivi.api.model.swift.SwiftProperty
 import com.here.ivi.api.model.swift.SwiftMethod
@@ -20,7 +20,7 @@ class SwiftFileTemplate {
 
     public static def generate(SwiftClass swiftClass) '''
     //
-    «FOR line : CopyrightNoticeTemplate.generate.split(System.lineSeparator())»
+    «FOR line : TemplateEngine.render("common/CopyrightNotice", null).split(System.lineSeparator())»
     // «line»
     «ENDFOR»
     //

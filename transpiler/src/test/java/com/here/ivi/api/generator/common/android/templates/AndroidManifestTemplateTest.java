@@ -15,10 +15,7 @@ import static junit.framework.TestCase.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaPackage;
-import java.time.Year;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -28,10 +25,7 @@ public final class AndroidManifestTemplateTest {
   private static final String TEST_COPYRIGHT_HEADER;
 
   static {
-    Map<String, Object> data = new HashMap<>();
-    data.put("year", Year.now().getValue());
-
-    TEST_COPYRIGHT_HEADER = TemplateEngine.render("xml/CopyrightHeader", data);
+    TEST_COPYRIGHT_HEADER = TemplateEngine.render("xml/CopyrightHeader", null);
   }
 
   @Test

@@ -17,12 +17,9 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.franca.Interface;
-import java.time.Year;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CBridgeGenerator {
   private final CBridgeNameRules cBridgeNameRules;
@@ -59,9 +56,7 @@ public class CBridgeGenerator {
   }
 
   private static String generateFileHeader() {
-    Map<String, Object> dataObject = new HashMap<>();
-    dataObject.put("year", Year.now().getValue());
-    return TemplateEngine.render("cbridge/FileHeader", dataObject);
+    return TemplateEngine.render("cbridge/FileHeader", null);
   }
 
   public CInterface buildCBridgeModel(Interface<?> anInterface) {

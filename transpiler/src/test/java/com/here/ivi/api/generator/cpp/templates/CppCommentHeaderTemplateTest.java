@@ -17,7 +17,6 @@ import static org.junit.Assert.assertNotNull;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -34,11 +33,6 @@ public final class CppCommentHeaderTemplateTest {
   private static final int PREFIX_LENGTH = 3;
 
   private final Map<String, Object> dataObject = new HashMap<>();
-
-  @Before
-  public void setUp() {
-    dataObject.put("year", "1984");
-  }
 
   @Test
   public void nullGeneratorNotice() {

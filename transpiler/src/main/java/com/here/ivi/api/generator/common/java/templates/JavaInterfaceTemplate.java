@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.common.java.templates;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaElements;
 import com.here.ivi.api.model.javamodel.JavaInterface;
-import java.time.Year;
 import java.util.HashMap;
 
 public final class JavaInterfaceTemplate {
@@ -22,7 +21,6 @@ public final class JavaInterfaceTemplate {
 
   public static String generate(final JavaInterface javaInterface) {
     HashMap<String, Object> data = new HashMap<>();
-    data.put("year", Year.now().getValue()); // Copyright template
     // TODO(APIGEN-590): Move this into JavaInterface
     data.put("imports", JavaElements.collectImports(javaInterface));
 
