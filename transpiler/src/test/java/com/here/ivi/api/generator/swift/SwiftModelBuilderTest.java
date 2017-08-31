@@ -33,7 +33,6 @@ import com.here.ivi.api.model.swift.SwiftParameter;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -57,8 +56,7 @@ public class SwiftModelBuilderTest {
 
   @Mock private AbstractFrancaCommentParser.Comments comments;
   @Mock private SwiftNameRules nameRules;
-  @Mock private Interface<InterfacePropertyAccessor> anInterface;
-  @Mock private InterfacePropertyAccessor propertyAccessor;
+  @Mock private Interface anInterface;
   @Mock private ModelInfo modelInfo;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
@@ -77,8 +75,7 @@ public class SwiftModelBuilderTest {
 
     when(anInterface.getModelInfo()).thenReturn(modelInfo);
     when(modelInfo.getPackageNames()).thenReturn(PACKAGES);
-    when(anInterface.getPropertyAccessor()).thenReturn(propertyAccessor);
-    when(propertyAccessor.getStatic(any())).thenReturn(true);
+    when(anInterface.isStatic(any())).thenReturn(true);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(nameRules.getParameterName(any())).thenReturn(PARAM_NAME);
     when(nameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
@@ -108,7 +105,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingMethodCreatesStaticMethod() {
-    when(propertyAccessor.getStatic(any())).thenReturn(true);
+    when(anInterface.isStatic(any())).thenReturn(true);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -119,7 +116,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingMethodCreatesNonStaticMethod() {
-    when(propertyAccessor.getStatic(any())).thenReturn(false);
+    when(anInterface.isStatic(any())).thenReturn(false);
 
     modelBuilder.finishBuilding(francaMethod);
 

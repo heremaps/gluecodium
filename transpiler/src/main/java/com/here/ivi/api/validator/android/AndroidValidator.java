@@ -13,15 +13,11 @@ package com.here.ivi.api.validator.android;
 
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.validator.common.ModelValidator;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
-import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 
-public final class AndroidValidator
-    implements ModelValidator<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> {
+public final class AndroidValidator implements ModelValidator {
 
   @Override
-  public boolean validate(
-      FrancaModel<InterfacePropertyAccessor, TypeCollectionPropertyAccessor> model) {
+  public boolean validate(FrancaModel model) {
     return true;
   }
 }

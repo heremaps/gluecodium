@@ -13,16 +13,11 @@ package com.here.ivi.api.validator.baseapi;
 
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.validator.common.ModelValidator;
-import navigation.BaseApiSpec;
 
-public class BaseApiModelValidator
-    implements ModelValidator<
-        BaseApiSpec.InterfacePropertyAccessor, BaseApiSpec.TypeCollectionPropertyAccessor> {
+public class BaseApiModelValidator implements ModelValidator {
 
   @Override
-  public boolean validate(
-      FrancaModel<BaseApiSpec.InterfacePropertyAccessor, BaseApiSpec.TypeCollectionPropertyAccessor>
-          model) {
+  public boolean validate(FrancaModel model) {
     //TODO put here baseapi specific validation.
     return true;
   }

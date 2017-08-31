@@ -27,15 +27,15 @@ import java.util.List;
 import org.franca.core.franca.*;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
-  private final Interface<?> rootModel;
+  private final Interface rootModel;
   private final SwiftNameRules nameRules;
 
-  public SwiftModelBuilder(final Interface<?> rootModel, final SwiftNameRules nameRules) {
+  public SwiftModelBuilder(final Interface rootModel, final SwiftNameRules nameRules) {
     this(rootModel, nameRules, new ModelBuilderContextStack<>());
   }
 
   public SwiftModelBuilder(
-      Interface<?> rootModel,
+      Interface rootModel,
       SwiftNameRules nameRules,
       ModelBuilderContextStack<SwiftModelElement> contextStack) {
     super(contextStack);
@@ -115,8 +115,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     method.returnType = returnParam.type;
     String comment = CppCommentParser.parse(francaMethod).getMainBodyText();
     method.comment = comment != null ? comment : "";
-    Boolean isStatic = rootModel.getPropertyAccessor().getStatic(francaMethod);
-    method.isStatic = isStatic != null && isStatic;
+    method.isStatic = rootModel.isStatic(francaMethod);
     storeResult(method);
     super.finishBuilding(francaMethod);
   }

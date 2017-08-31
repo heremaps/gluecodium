@@ -24,7 +24,6 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import navigation.BaseApiSpec;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FMethod;
 import org.junit.Test;
@@ -45,9 +44,8 @@ public class FrancaModelLoaderTest {
    */
   @Test
   public void multipleDeploymentsIncludingSameFidl() throws URISyntaxException {
-    BaseApiSpecAccessorFactory accessorFactory = new BaseApiSpecAccessorFactory();
 
-    FrancaModelLoader<?, ?> loader = new FrancaModelLoader<>(accessorFactory);
+    FrancaModelLoader loader = new FrancaModelLoader();
     ModelHelper.getFdeplInjector().injectMembers(loader);
 
     URL simpleFidl =
@@ -55,7 +53,8 @@ public class FrancaModelLoaderTest {
     URL simpleFdepl =
         ClassLoader.getSystemClassLoader()
             .getResource("francamodelloadertest/baseapi/Simple.fdepl");
-    // Additional deployment rule also includes Simple.fidl and would replace the information from Simple.fdepl
+    // Additional deployment rule also includes Simple.fidl
+    // and would replace the information from Simple.fdepl
     URL additionalFdepl =
         ClassLoader.getSystemClassLoader()
             .getResource("francamodelloadertest/baseapi/DependentOnSimple.fdepl");
@@ -65,17 +64,16 @@ public class FrancaModelLoaderTest {
             new File(simpleFdepl.toURI()),
             new File(simpleFidl.toURI()),
             new File(additionalFdepl.toURI()));
-    FrancaModel<?, ?> model = loader.load(accessorFactory.getSpecPath(), currentFiles);
+    FrancaModel model = loader.load(BaseApiSpecAccessorFactory.getSpecPath(), currentFiles);
 
-    List<? extends Interface<?>> interfaces = model.getInterfaces();
+    List<? extends Interface> interfaces = model.getInterfaces();
     assertEquals(1, interfaces.size());
-    Interface<?> iface = interfaces.get(0);
+    Interface iface = interfaces.get(0);
 
     EList<FMethod> methods = iface.getFrancaInterface().getMethods();
     assertEquals(1, methods.size());
     FMethod constMethod = methods.get(0);
 
-    BaseApiSpec.InterfacePropertyAccessor propertyAccessor = iface.getPropertyAccessor();
-    assertTrue(propertyAccessor.getConst(constMethod));
+    assertTrue(iface.isConst(constMethod));
   }
 }

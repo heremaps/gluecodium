@@ -26,37 +26,37 @@ public class CBridgeNameRules {
   private static final String CPP_NAMESPACE_DELIMITER = "::";
   private static final String UNDERSCORE_DELIMITER = "_";
 
-  public String getHeaderFileNameWithPath(final FrancaElement<?> francaElement) {
+  public String getHeaderFileNameWithPath(final FrancaElement francaElement) {
     return Paths.get(getDirectoryName(francaElement), getHeaderFileName(francaElement)).toString();
   }
 
-  public String getImplementationFileNameWithPath(final FrancaElement<?> francaElement) {
+  public String getImplementationFileNameWithPath(final FrancaElement francaElement) {
     return Paths.get(getDirectoryName(francaElement), getImplementationFileName(francaElement))
         .toString();
   }
 
-  public String getHeaderFileName(final FrancaElement<?> francaElement) {
+  public String getHeaderFileName(final FrancaElement francaElement) {
     return getName(francaElement) + ".h";
   }
 
-  public String getImplementationFileName(final FrancaElement<?> francaElement) {
+  public String getImplementationFileName(final FrancaElement francaElement) {
     return getName(francaElement) + ".cpp";
   }
 
-  private String getDirectoryName(final FrancaElement<?> francaElement) {
+  private String getDirectoryName(final FrancaElement francaElement) {
 
     return Paths.get(
             "cbridge", francaElement.getModelInfo().getPackageNames().toArray(new String[0]))
         .toString();
   }
 
-  private String getName(final FrancaElement<?> francaElement) {
+  private String getName(final FrancaElement francaElement) {
     return francaElement instanceof Interface
         ? computeClassName(francaElement.getName())
         : getTypeCollectionName(francaElement.getName());
   }
 
-  public String getDelegateMethodName(final Interface<?> iface, final FMethod method) {
+  public String getDelegateMethodName(final Interface iface, final FMethod method) {
     return fullyQualifiedName(
         iface.getModelInfo().getPackageNames(),
         CppNameRules.getClassName(iface.getName()),
@@ -64,7 +64,7 @@ public class CBridgeNameRules {
         CPP_NAMESPACE_DELIMITER);
   }
 
-  public String getMethodName(final Interface<?> iface, final FMethod method) {
+  public String getMethodName(final Interface iface, final FMethod method) {
     return fullyQualifiedName(
         iface.getModelInfo().getPackageNames(),
         iface.getName(),
@@ -73,12 +73,12 @@ public class CBridgeNameRules {
   }
 
   public String getStructRefType(
-      final FrancaElement<?> francaElement, final FStructType francaStructType) {
+      final FrancaElement francaElement, final FStructType francaStructType) {
     return getStructBaseName(francaElement, francaStructType) + "Ref";
   }
 
   public String getStructBaseName(
-      final FrancaElement<?> francaElement, final FStructType francaStructType) {
+      final FrancaElement francaElement, final FStructType francaStructType) {
     return fullyQualifiedName(
         francaElement.getModelInfo().getPackageNames(),
         getName(francaElement),
@@ -94,7 +94,7 @@ public class CBridgeNameRules {
     return NameHelper.toUpperCamelCase(name);
   }
 
-  public String getBaseApiStructName(FrancaElement<?> francaElement, FStructType struct) {
+  public String getBaseApiStructName(FrancaElement francaElement, FStructType struct) {
     return fullyQualifiedName(
         francaElement.getModelInfo().getPackageNames(),
         CppNameRules.getClassName(francaElement.getName()),

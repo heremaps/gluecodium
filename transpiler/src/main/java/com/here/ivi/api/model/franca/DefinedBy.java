@@ -58,7 +58,7 @@ public final class DefinedBy {
    * @param francaElement The franca element
    * @return The model and interface that defined the given object
    */
-  public static DefinedBy createFromFrancaElement(FrancaElement<?> francaElement) {
+  public static DefinedBy createFromFrancaElement(FrancaElement francaElement) {
     return new DefinedBy(
         francaElement.getFrancaTypeCollection(), francaElement.getModelInfo().getFModel());
   }

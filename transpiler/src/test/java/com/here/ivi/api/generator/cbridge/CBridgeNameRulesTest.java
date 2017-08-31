@@ -24,8 +24,6 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.List;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
-import navigation.BaseApiSpec.TypeCollectionPropertyAccessor;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 import org.junit.Before;
@@ -47,10 +45,10 @@ public class CBridgeNameRulesTest {
   public static final String METHOD_NAME = "testMethod";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private Interface<InterfacePropertyAccessor> anInterface;
+  private Interface anInterface;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private TypeCollection<TypeCollectionPropertyAccessor> typeCollection;
+  private TypeCollection typeCollection;
 
   @Mock private FStructType francaStruct;
   @Mock private FMethod francaMethod;

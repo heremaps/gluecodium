@@ -22,9 +22,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CppIncludeResolver {
-  private final FrancaModel<?, ?> rootModel;
+  private final FrancaModel rootModel;
 
-  public CppIncludeResolver(FrancaModel<?, ?> rootModel) {
+  public CppIncludeResolver(FrancaModel rootModel) {
     this.rootModel = rootModel;
   }
 
@@ -45,14 +45,14 @@ public class CppIncludeResolver {
 
                     LazyInternalInclude li = (LazyInternalInclude) include;
 
-                    Optional<? extends FrancaElement<?>> externalDefinitionOpt =
+                    Optional<? extends FrancaElement> externalDefinitionOpt =
                         rootModel.find(li.model, li.typeCollection);
                     if (!externalDefinitionOpt.isPresent()) {
                       throw new TranspilerExecutionException(
                           String.format("Could not resolve type collection include %s.", li));
                     }
 
-                    FrancaElement<?> externalDefinition = externalDefinitionOpt.get();
+                    FrancaElement externalDefinition = externalDefinitionOpt.get();
                     String includeName = CppNameRules.getHeaderPath(externalDefinition);
 
                     // no self includes needed

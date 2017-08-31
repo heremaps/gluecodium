@@ -20,7 +20,6 @@ import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.HashSet;
 import java.util.Set;
-import navigation.BaseApiSpec;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;
@@ -45,8 +44,7 @@ public final class CppMethodMapper {
     }
   }
 
-  public static ReturnTypeData mapMethodReturnType(
-      FMethod francaMethod, FrancaElement<?> rootModel) {
+  public static ReturnTypeData mapMethodReturnType(FMethod francaMethod, FrancaElement rootModel) {
 
     CppTypeRef errorType = null;
     String errorComment = "";
@@ -95,7 +93,7 @@ public final class CppMethodMapper {
   }
 
   public static CppTypeRef mapArgumentType(
-      FArgument francaArgument, FMethod francaMethod, FrancaElement<?> rootModel) {
+      FArgument francaArgument, FMethod francaMethod, FrancaElement rootModel) {
 
     CppTypeRef type = CppTypeMapper.map(rootModel, francaArgument);
 
@@ -104,20 +102,6 @@ public final class CppMethodMapper {
       return type;
     }
 
-    boolean isFactoryMethod = false;
-    if (francaMethod != null) {
-      BaseApiSpec.IDataPropertyAccessor propertyAccessor = rootModel.getPropertyAccessor();
-      if (propertyAccessor instanceof BaseApiSpec.InterfacePropertyAccessor
-          && ((BaseApiSpec.InterfacePropertyAccessor) propertyAccessor).getCreates(francaMethod)
-              != null) {
-        isFactoryMethod = true;
-      }
-    }
-
-    if (isFactoryMethod) {
-      return CppTypeMapper.wrapUniquePtr(type);
-    } else {
-      return CppTypeMapper.wrapSharedPtr(type);
-    }
+    return CppTypeMapper.wrapSharedPtr(type);
   }
 }

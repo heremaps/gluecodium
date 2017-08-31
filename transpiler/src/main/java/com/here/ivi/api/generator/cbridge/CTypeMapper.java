@@ -20,7 +20,7 @@ import org.franca.core.franca.FTypeRef;
 
 public final class CTypeMapper {
 
-  public static CppTypeInfo mapType(FrancaElement<?> rootModel, final FTypeRef type) {
+  public static CppTypeInfo mapType(FrancaElement rootModel, final FTypeRef type) {
     FType derived = type.getDerived();
 
     if (derived != null) {

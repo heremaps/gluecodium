@@ -37,7 +37,7 @@ public class CBridgeGenerator {
     this.cBridgeNameRules = nameRules;
   }
 
-  public List<GeneratedFile> generate(Interface<?> iface) {
+  public List<GeneratedFile> generate(Interface iface) {
     CInterface cModel = buildCBridgeModel(iface);
     return Arrays.asList(
         new GeneratedFile(
@@ -59,7 +59,7 @@ public class CBridgeGenerator {
     return TemplateEngine.render("cbridge/FileHeader", null);
   }
 
-  public CInterface buildCBridgeModel(Interface<?> anInterface) {
+  public CInterface buildCBridgeModel(Interface anInterface) {
     CModelBuilder modelBuilder = new CModelBuilder(anInterface);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 

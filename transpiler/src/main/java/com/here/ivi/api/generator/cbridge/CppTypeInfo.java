@@ -90,7 +90,7 @@ public class CppTypeInfo {
           TypeCategory.BUILTIN_BYTEBUFFER);
 
   public static CppTypeInfo createStructTypeInfo(
-      final FrancaElement<?> rootModel, final FStructType structType) {
+      final FrancaElement rootModel, final FStructType structType) {
     CBridgeNameRules rules = new CBridgeNameRules();
     String handleName = rules.getStructRefType(rootModel, structType);
     return new CppTypeInfo(

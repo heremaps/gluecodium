@@ -85,14 +85,14 @@ public final class CppNameRules {
     return NameHelper.toUpperCamelCase(base); // MyConstant
   }
 
-  public static String getHeaderPath(FrancaElement<?> francaElement) {
+  public static String getHeaderPath(FrancaElement francaElement) {
     // TODO: APIGEN-285: remove "stub" prefix
     return "stub"
         + File.separator
         + String.join(File.separator, francaElement.getModelInfo().getPackageNames())
         + File.separator
-        + (francaElement instanceof Interface<?>
-            ? getClassName(((Interface<?>) francaElement).getFrancaInterface().getName())
+        + (francaElement instanceof Interface
+            ? getClassName(((Interface) francaElement).getFrancaInterface().getName())
             : francaElement.getFrancaTypeCollection().getName())
         + getHeaderFileSuffix();
   }

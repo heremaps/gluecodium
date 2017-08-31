@@ -37,7 +37,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import navigation.BaseApiSpec;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -47,16 +46,16 @@ import org.franca.core.franca.FTypedElement;
 public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   private final CBridgeNameRules cBridgeNameRules;
-  private final Interface<?> rootModel;
+  private final Interface rootModel;
 
-  public CModelBuilder(final Interface<?> rootModel) {
+  public CModelBuilder(final Interface rootModel) {
     super(new ModelBuilderContextStack<>());
     cBridgeNameRules = new CBridgeNameRules();
     this.rootModel = rootModel;
   }
 
   CModelBuilder(
-      Interface<BaseApiSpec.InterfacePropertyAccessor> rootModel,
+      Interface rootModel,
       CBridgeNameRules nameRules,
       ModelBuilderContextStack<CElement> contextStack) {
     super(contextStack);
@@ -80,8 +79,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
-    Boolean isStatic = rootModel.getPropertyAccessor().getStatic(francaMethod);
-    if (isStatic == null || !isStatic) {
+
+    if (!rootModel.isStatic(francaMethod)) {
       closeContext();
       return;
     }

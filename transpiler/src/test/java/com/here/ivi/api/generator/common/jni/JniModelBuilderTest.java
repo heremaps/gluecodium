@@ -58,7 +58,7 @@ import org.mockito.MockitoAnnotations;
 public class JniModelBuilderTest {
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement<?> rootModel;
+  private FrancaElement rootModel;
 
   @Mock private FInterface francaInterface;
   @Mock private FTypeCollection francaTypeCollection;

@@ -14,7 +14,6 @@ specification navigation.BaseApiSpec
     for methods {
         Const:   Boolean (optional, default: false);
         Static:        Boolean (optional, default: false);
-        Creates: Interface (optional);
     }
 
     for arrays {

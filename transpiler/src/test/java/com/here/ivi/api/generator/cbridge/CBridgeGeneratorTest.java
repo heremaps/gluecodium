@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import navigation.BaseApiSpec.InterfacePropertyAccessor;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FInterface;
@@ -44,10 +43,8 @@ public class CBridgeGeneratorTest {
   private static final String INTERFACE_NAME = "TestInterface";
   private static final String FUNCTION_NAME = "functionName";
 
-  @Mock private InterfacePropertyAccessor propertyAccessor;
-
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private Interface<InterfacePropertyAccessor> anInterface;
+  private Interface anInterface;
 
   @Mock private FInterface francaInterface;
 
@@ -66,9 +63,8 @@ public class CBridgeGeneratorTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    when(propertyAccessor.getStatic(any())).thenReturn(true);
+    when(anInterface.isStatic(any())).thenReturn(true);
 
-    when(anInterface.getPropertyAccessor()).thenReturn(propertyAccessor);
     when(anInterface.getModelInfo().getPackageNames()).thenReturn(PACKAGES);
     when(anInterface.getName()).thenReturn(INTERFACE_NAME);
     when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
@@ -92,7 +88,7 @@ public class CBridgeGeneratorTest {
 
   @Test
   public void nonStaticFunctionAreNotGenerated() {
-    when(propertyAccessor.getStatic(any())).thenReturn(false);
+    when(anInterface.isStatic(any())).thenReturn(false);
 
     String expectedHeader = "";
     String expectedImplementation =

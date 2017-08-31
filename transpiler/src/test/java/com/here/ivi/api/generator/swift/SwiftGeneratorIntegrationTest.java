@@ -23,14 +23,12 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.here.ivi.api.generator.utils.LoadModelHelper;
-import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.swift.SwiftClass;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
 import com.here.ivi.api.model.swift.SwiftStruct;
 import java.net.URISyntaxException;
-import navigation.BaseApiSpec;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,16 +44,14 @@ public class SwiftGeneratorIntegrationTest {
   private static final String CLASS_NAME = "MockedClassName";
   private static final String METHOD_NAME = "MockedMethodName";
   private static final String PARAM_NAME = "MockedParameterName";
-  private FrancaModel<
-          BaseApiSpec.InterfacePropertyAccessor, BaseApiSpec.TypeCollectionPropertyAccessor>
-      francaModel;
+  private FrancaModel francaModel;
   private SwiftGenerator generator;
 
   @Before
   public void setUp() {
     initMocks(this);
     try {
-      francaModel = readInFrancaModel(TEST_FIDL_FILE, new BaseApiSpecAccessorFactory());
+      francaModel = readInFrancaModel(TEST_FIDL_FILE);
     } catch (URISyntaxException e) {
       fail("Franca model should be readable");
     }

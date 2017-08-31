@@ -44,7 +44,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class CppNameRulesTest {
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement<?> mockFrancaModel;
+  private FrancaElement mockFrancaModel;
 
   @Mock private FModel fModel;
   @Mock private FTypeCollection fTypeCollection;
