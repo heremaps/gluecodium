@@ -20,8 +20,6 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.cppmodel.CppTypeInfo;
-import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.test.ArrayEList;
 import org.eclipse.emf.common.util.EList;
@@ -145,30 +143,5 @@ public class CppMethodMapperTest {
     CppTypeMapper.map(same(rootModel), same(francaArgument));
     PowerMockito.verifyStatic();
     CppTypeMapper.mapEnum(same(francaEnum));
-  }
-
-  @Test
-  public void mapArgumentTypeCallsTypeMapper() {
-    CppTypeRef cppType = CppMethodMapper.mapArgumentType(francaArgument, null, rootModel);
-
-    assertEquals(cppCustomType, cppType);
-
-    PowerMockito.verifyStatic();
-    CppTypeMapper.map(same(rootModel), same(francaArgument));
-  }
-
-  @Test
-  public void mapArgumentTypeWrapsInSharedPtr() {
-    final CppComplexTypeRef cppInterfaceInstance =
-        new CppComplexTypeRef.Builder(TYPE_NAME).typeInfo(CppTypeInfo.InterfaceInstance).build();
-    when(CppTypeMapper.map(any(), any(FArgument.class))).thenReturn(cppInterfaceInstance);
-    when(CppTypeMapper.wrapSharedPtr(any())).thenReturn(cppCustomType);
-
-    CppTypeRef cppType = CppMethodMapper.mapArgumentType(francaArgument, francaMethod, rootModel);
-
-    assertEquals(cppCustomType, cppType);
-
-    PowerMockito.verifyStatic();
-    CppTypeMapper.wrapSharedPtr(same(cppInterfaceInstance));
   }
 }

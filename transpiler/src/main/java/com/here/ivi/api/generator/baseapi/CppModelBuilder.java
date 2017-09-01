@@ -102,7 +102,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    CppTypeRef cppType = CppMethodMapper.mapArgumentType(francaArgument, null, rootModel);
+    CppTypeRef cppType = CppTypeMapper.map(rootModel, francaArgument);
     CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppType);
 
     storeResult(cppParameter);

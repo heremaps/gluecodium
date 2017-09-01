@@ -21,6 +21,7 @@ import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -136,15 +137,29 @@ public final class CppTypeMapper {
   }
 
   private static CppTypeRef mapTypeDef(FrancaElement rootModel, FTypeDef typedef) {
-    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(typedef);
 
+    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(typedef);
     DefinedBy definer = DefinedBy.createFromFModelElement(typedef);
     Include include = new LazyInternalInclude(definer);
 
-    String fullyQualifiedName =
-        createFullyQualifiedName(
-            nestedNameSpecifier, CppNameRules.getTypedefName(typedef.getName()));
-    return new CppTypeDefRef(fullyQualifiedName, map(rootModel, typedef.getActualType()), include);
+    if (InstanceRules.isInstanceId(typedef)) {
+
+      String className = CppNameRules.getClassName(definer.getBaseName());
+
+      return new CppComplexTypeRef.Builder(
+              "::std::shared_ptr< "
+                  + createFullyQualifiedName(nestedNameSpecifier, className)
+                  + " >")
+          .includes(include, CppLibraryIncludes.MEMORY)
+          .build();
+    } else {
+
+      CppTypeRef actualType = map(rootModel, typedef.getActualType());
+      String typeDefName = CppNameRules.getTypedefName(typedef.getName());
+
+      return new CppTypeDefRef(
+          createFullyQualifiedName(nestedNameSpecifier, typeDefName), actualType, include);
+    }
   }
 
   public static CppComplexTypeRef mapArray(final FrancaElement rootModel, final FArrayType array) {
@@ -207,10 +222,6 @@ public final class CppTypeMapper {
                 nestedNameSpecifier, CppNameRules.getStructName(union.getName())))
         .includes(structInclude)
         .build();
-  }
-
-  public static CppComplexTypeRef wrapSharedPtr(@SuppressWarnings("unused") CppTypeRef content) {
-    throw new TranspilerExecutionException("wrapping of shared pointers is not yet supported");
   }
 
   private static CppComplexTypeRef wrapVector(final CppTypeRef content) {
