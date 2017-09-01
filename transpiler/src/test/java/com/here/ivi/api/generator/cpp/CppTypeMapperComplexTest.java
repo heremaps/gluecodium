@@ -220,7 +220,8 @@ public class CppTypeMapperComplexTest {
     FTypeRef typeRef = mock(FTypeRef.class);
     when(typeRef.getDerived()).thenReturn(fTypeDef);
     when(fTypeDef.eContainer()).thenReturn(typeRef);
-    when(CppNameRules.getStructName(fTypeDef.getName())).thenReturn(TYPEDEF_NAME);
+    when(CppNameRules.getTypedefName(fTypeDef.getName())).thenReturn(TYPEDEF_NAME);
+    DefinedBy definer = mockDefinedBy();
 
     // Act
     CppTypeRef cppTypeRef = CppTypeMapper.map(mockFrancaModel, typeRef);
@@ -230,6 +231,14 @@ public class CppTypeMapperComplexTest {
     CppTypeDefRef cppTypeDefRef = (CppTypeDefRef) cppTypeRef;
     assertEquals("::" + TYPEDEF_NAME, cppTypeDefRef.name);
     assertEquals(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64), cppTypeDefRef.actualType);
+    assertEquals(1, cppTypeDefRef.includes.size());
+    assertTrue(cppTypeDefRef.includes.contains(new LazyInternalInclude(definer)));
+
+    //verify
+    verifyStatic();
+    DefinedBy.createFromFModelElement(fTypeDef);
+    verifyStatic();
+    CppNameRules.getTypedefName(fTypeDef.getName());
   }
 
   private DefinedBy mockDefinedBy() {

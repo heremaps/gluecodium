@@ -137,10 +137,14 @@ public final class CppTypeMapper {
 
   private static CppTypeRef mapTypeDef(FrancaElement rootModel, FTypeDef typedef) {
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(typedef);
+
+    DefinedBy definer = DefinedBy.createFromFModelElement(typedef);
+    Include include = new LazyInternalInclude(definer);
+
     String fullyQualifiedName =
         createFullyQualifiedName(
-            nestedNameSpecifier, CppNameRules.getStructName(typedef.getName()));
-    return new CppTypeDefRef(fullyQualifiedName, map(rootModel, typedef.getActualType()));
+            nestedNameSpecifier, CppNameRules.getTypedefName(typedef.getName()));
+    return new CppTypeDefRef(fullyQualifiedName, map(rootModel, typedef.getActualType()), include);
   }
 
   public static CppComplexTypeRef mapArray(final FrancaElement rootModel, final FArrayType array) {
@@ -203,10 +207,6 @@ public final class CppTypeMapper {
                 nestedNameSpecifier, CppNameRules.getStructName(union.getName())))
         .includes(structInclude)
         .build();
-  }
-
-  public static CppComplexTypeRef wrapUniquePtr(@SuppressWarnings("unused") CppTypeRef content) {
-    throw new TranspilerExecutionException("wrapping of unique pointers is not yet supported");
   }
 
   public static CppComplexTypeRef wrapSharedPtr(@SuppressWarnings("unused") CppTypeRef content) {
