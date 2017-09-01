@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.swift.templates;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.SwiftArrayType;
 import com.here.ivi.api.model.swift.SwiftClass;
 import com.here.ivi.api.model.swift.SwiftMethod;
@@ -35,7 +36,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class SwiftFileTemplateTest {
 
   private static String generate(SwiftClass swiftClass) {
-    return SwiftFileTemplate.generate(swiftClass).toString();
+    return TemplateEngine.render("swift/File", swiftClass);
   }
 
   @Test
@@ -71,6 +72,7 @@ public class SwiftFileTemplateTest {
             Collections.singletonList(new SwiftParameter("parameter", new SwiftType("Int"))));
     swiftClass.methods = Collections.singletonList(method);
     method.returnType = new SwiftType("Int");
+    method.cBaseName = "myPackage_ExampleClass_myMethod";
     final String expected =
         "public class ExampleClass {\n"
             + "\n"
@@ -91,6 +93,7 @@ public class SwiftFileTemplateTest {
             Collections.singletonList(
                 new SwiftParameter(
                     "parameterInterfaceName", new SwiftType("Int"), "parameterVariableName")));
+    method.cBaseName = "ExampleClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
 
     final String expected =
@@ -110,6 +113,7 @@ public class SwiftFileTemplateTest {
     SwiftParameter parameterOne = new SwiftParameter("parameterOne", new SwiftType("Int"));
     SwiftParameter parameterTwo = new SwiftParameter("parameterTwo", new SwiftType("String"));
     SwiftMethod method = new SwiftMethod("myMethod", Arrays.asList(parameterOne, parameterTwo));
+    method.cBaseName = "ExampleClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "public class ExampleClass {\n"
@@ -129,6 +133,7 @@ public class SwiftFileTemplateTest {
         new SwiftMethod(
             "myMethod",
             Collections.singletonList(new SwiftParameter("array", new SwiftArrayType("UInt8"))));
+    method.cBaseName = "MyClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "public class MyClass {\n"
@@ -150,6 +155,7 @@ public class SwiftFileTemplateTest {
 
     method.returnType = new SwiftType("Int");
     method.comment = "Do something";
+    method.cBaseName = "CommentedExampleClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "public class CommentedExampleClass {\n"
@@ -169,6 +175,7 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = new SwiftClass("MyClass", null);
     SwiftMethod method = new SwiftMethod("myStaticMethod");
     method.isStatic = true;
+    method.cBaseName = "MyClass_myStaticMethod";
     swiftClass.methods = Collections.singletonList(method);
 
     final String expected =
@@ -200,6 +207,7 @@ public class SwiftFileTemplateTest {
             Collections.singletonList(new SwiftParameter("inputString", SwiftType.String)));
     method.returnType = new SwiftType("String", TypeCategory.BUILTIN_STRING, true);
     method.isStatic = true;
+    method.cBaseName = "HelloWorld_helloWorldMethod";
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "import Foundation\n"
@@ -227,6 +235,7 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         new SwiftMethod("testBuffer", new ArrayList<>(Arrays.asList(swiftParameter)));
     method.isStatic = true;
+    method.cBaseName = "HelloWorld_testBuffer";
     final String expected =
         "import Foundation\n"
             + "public class HelloWorld {\n"
@@ -249,6 +258,7 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         new SwiftMethod("testBuffer", new ArrayList<>(Arrays.asList(swiftParameter)));
     method.isStatic = true;
+    method.cBaseName = "HelloWorld_testBuffer";
     final String expected =
         "import Foundation\n"
             + "public class HelloWorld {\n"
@@ -275,6 +285,7 @@ public class SwiftFileTemplateTest {
         new SwiftMethod(
             "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
     method.isStatic = true;
+    method.cBaseName = "HelloWorld_testBuffer";
     final String expected =
         "import Foundation\n"
             + "public class HelloWorld {\n"
@@ -304,6 +315,7 @@ public class SwiftFileTemplateTest {
             "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
     method.isStatic = true;
     method.returnType = new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER, true);
+    method.cBaseName = "HelloWorld_testBuffer";
     final String expected =
         "import Foundation\n"
             + "public class HelloWorld {\n"
@@ -345,6 +357,7 @@ public class SwiftFileTemplateTest {
             "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
     method.isStatic = true;
     method.returnType = new SwiftType("Int");
+    method.cBaseName = "HelloWorld_testBuffer";
     final String expected =
         "import Foundation\n"
             + "public class HelloWorld {\n"
@@ -371,6 +384,7 @@ public class SwiftFileTemplateTest {
         new SwiftMethod(
             "methodTakingStruct", singletonList(new SwiftParameter("inputParam", swiftStruct)));
     method.isStatic = true;
+    method.cBaseName = "HelloWorld_methodTakingStruct";
     swiftClass.methods = singletonList(method);
     final String expected =
         "public class HelloWorld {\n"
@@ -382,7 +396,7 @@ public class SwiftFileTemplateTest {
             + "        return HelloWorld_methodTakingStruct(inputParamHandle)\n"
             + "    }\n"
             + "}\n";
-    String generated = SwiftFileTemplate.generate(swiftClass).toString();
+    String generated = generate(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -395,6 +409,7 @@ public class SwiftFileTemplateTest {
     SwiftMethod method = new SwiftMethod("methodReturningStruct");
     method.isStatic = true;
     method.returnType = swiftStruct;
+    method.cBaseName = "HelloWorld_methodReturningStruct";
     swiftClass.methods = singletonList(method);
     final String expected =
         "public class HelloWorld {\n"
@@ -406,7 +421,7 @@ public class SwiftFileTemplateTest {
             + "        return SomeStruct(cSomeStruct: cResult)\n"
             + "    }\n"
             + "}\n";
-    String generated = SwiftFileTemplate.generate(swiftClass).toString();
+    String generated = generate(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -428,6 +443,7 @@ public class SwiftFileTemplateTest {
     outputStruct.cPrefix = swiftClass.name + "_" + outputStruct.name;
     outputStruct.optional = true;
     method.returnType = outputStruct;
+    method.cBaseName = "HelloWorld_fancyMethod";
     swiftClass.methods = singletonList(method);
 
     final String expected =
@@ -447,7 +463,7 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "}\n";
 
-    String generated = SwiftFileTemplate.generate(swiftClass).toString();
+    String generated = generate(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 }

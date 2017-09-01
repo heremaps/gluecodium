@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.swift.templates;
 import static java.util.Collections.singletonList;
 import static junit.framework.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftStructField;
 import com.here.ivi.api.model.swift.SwiftType;
@@ -24,6 +25,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 public class SwiftStructTemplateTest {
+
+  private static String generate(SwiftStruct struct) {
+    return TemplateEngine.render("swift/Struct", struct);
+  }
 
   @Test
   public void generateEmptyStruct() {
@@ -48,7 +53,7 @@ public class SwiftStructTemplateTest {
             + "}";
     struct.cPrefix = "hello_test_SomeStruct";
     struct.cType = "SomeStructRef";
-    String actual = SwiftStructTemplate.generate(struct);
+    String actual = generate(struct);
     assertEquals("it should generate empty structs", expected, actual);
   }
 
@@ -80,7 +85,7 @@ public class SwiftStructTemplateTest {
             + "        hello_HelloWorldPlainDataStructures_GeoCoordinate_counter_set(cBasicStruct, counter)\n"
             + "    }\n"
             + "}";
-    String actual = SwiftStructTemplate.generate(struct);
+    String actual = generate(struct);
     assertEquals("it should generate a struct for integer", expected, actual);
   }
 
@@ -123,7 +128,7 @@ public class SwiftStructTemplateTest {
             + "        hello_HelloWorldPlainDataStructures_GeoCoordinate_altitude_set(cGeoCoordinate, altitude)\n"
             + "    }\n"
             + "}";
-    String actual = SwiftStructTemplate.generate(struct);
+    String actual = generate(struct);
     assertEquals("it should generate a struct with two fields", expected, actual);
   }
 
@@ -161,7 +166,7 @@ public class SwiftStructTemplateTest {
             + "        C_PREFIX_name_set(cSomeStruct, name)\n"
             + "    }\n"
             + "}";
-    String actual = SwiftStructTemplate.generate(struct);
+    String actual = generate(struct);
     assertEquals("it should generate a struct with field of type String", expected, actual);
   }
 
@@ -206,7 +211,7 @@ public class SwiftStructTemplateTest {
             + "        }\n"
             + "    }\n"
             + "}";
-    String actual = SwiftStructTemplate.generate(struct);
+    String actual = generate(struct);
     assertEquals("it should generate a struct with field of type String", expected, actual);
   }
 
@@ -246,7 +251,7 @@ public class SwiftStructTemplateTest {
             + "        nested.fillFunction(nestedHandle)\n"
             + "    }\n"
             + "}";
-    String actual = SwiftStructTemplate.generate(struct);
+    String actual = generate(struct);
     assertEquals("it should generate a struct with field of type String", expected, actual);
   }
 }
