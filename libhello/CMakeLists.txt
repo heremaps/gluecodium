@@ -27,13 +27,13 @@ set(HELLO_SOURCES
     src/test/StaticFloatDoubleMethods.cpp
     src/test/StaticIntMethods.cpp
     src/test/StaticStringMethods.cpp
+    src/hello/HelloWorldPlainDataStructures.cpp
 )
 
 #TODO: Remove this workaround once iOS supports PODs (APIGEN-357)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/hello/HelloWorldPlainDataStructures.cpp
         src/test/PlainDataStructures.cpp
         src/test/StaticTypedef.cpp)
 endif()
@@ -67,8 +67,6 @@ else()
 
     #TODO: These excludes can be removed once iOS support PODs (APIGEN-357) and Typedefs (APIGEN-282)
     if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldPlainDataStructures.fidl)
-        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldPlainDataStructures.fdepl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructures.fidl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructures.fdepl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fidl)
