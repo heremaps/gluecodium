@@ -2,27 +2,6 @@ plugins {
     id 'com.diffplug.gradle.spotless' version '3.3.2'
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs 'src/main/java'
-        }
-        resources {
-            srcDirs 'src/main/java'
-            include '**/*.fdepl'
-            include '**/*.fidl'
-            include '**/*.h'
-            include '**/*.cpp'
-            include '**/*.properties'
-            include '**/*.mustache'
-        }
-    }
-    test {
-        java {
-        }
-    }
-}
-
 dependencies {
     compile 'commons-io:commons-io:+'
     compile 'org.eclipse.core:runtime:+'
