@@ -1,0 +1,19 @@
+//
+{{prefixPartial 'common/CopyrightNotice' '// '}}
+//
+// Automatically generated. Do not modify. Your changes will be lost.
+
+
+{{#imports}}import {{.}}{{/imports}}
+{{#comment}}{{>swift/Comment}}{{/comment}}
+public class {{name}}{{#if parentClass}} : {{parentClass}}{{#implementsProtocols}}< {{join . ' '}} >{{/implementsProtocols}}{{/if}} {
+{{#properties}}
+{{>swift/Property}}
+{{/properties}}
+{{#structs}}
+{{>swift/Struct}}
+{{/structs}}
+{{#methods}}
+{{prefixPartial 'swift/Method' '    '}}
+{{/methods}}
+}

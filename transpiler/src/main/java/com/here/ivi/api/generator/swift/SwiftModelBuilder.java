@@ -127,6 +127,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String comment = CppCommentParser.parse(francaMethod).getMainBodyText();
     method.comment = comment != null ? comment : "";
     method.isStatic = rootModel.isStatic(francaMethod);
+    CBridgeNameRules cbridgeNameRules = new CBridgeNameRules();
+    method.cBaseName = cbridgeNameRules.getMethodName(rootModel, francaMethod);
     storeResult(method);
     super.finishBuilding(francaMethod);
   }

@@ -15,7 +15,7 @@ import static java.util.Collections.singletonList;
 
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.swift.templates.SwiftFileTemplate;
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.swift.SwiftClass;
 import java.util.List;
@@ -32,7 +32,8 @@ public class SwiftGenerator {
     SwiftClass clazz = buildSwiftModel(iface);
     return singletonList(
         new GeneratedFile(
-            SwiftFileTemplate.generate(clazz), nameRules.getImplementationFileName(iface)));
+            TemplateEngine.render("swift/File", clazz),
+            nameRules.getImplementationFileName(iface)));
   }
 
   protected SwiftClass buildSwiftModel(Interface iface) {

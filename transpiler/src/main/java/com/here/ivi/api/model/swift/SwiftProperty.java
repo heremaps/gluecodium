@@ -11,6 +11,9 @@
 
 package com.here.ivi.api.model.swift;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SwiftProperty extends SwiftModelElement {
 
   public Visibility visibility;
@@ -48,5 +51,29 @@ public class SwiftProperty extends SwiftModelElement {
   public enum Nullability {
     NULLABLE,
     NONNULL
+  }
+
+  public List<String> getAttributes() {
+    List<String> attributes = new ArrayList<>();
+    if (atomicity == SwiftProperty.Atomicity.NONATOMIC) {
+      attributes.add("nonatomic");
+    }
+    if (accessibility == SwiftProperty.Accessibility.READONLY) {
+      attributes.add("readonly");
+    }
+    switch (memoryBehaviour) {
+      case STRONG:
+        attributes.add("strong");
+        break;
+      case WEAK:
+        attributes.add("weak");
+        break;
+      default:
+        break;
+    }
+    if (nullability == SwiftProperty.Nullability.NONNULL) {
+      attributes.add("nonnull");
+    }
+    return attributes;
   }
 }
