@@ -15,14 +15,15 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import java.util.Arrays;
 import java.util.List;
 
-class TestFiles {
-  protected static final String CONTENT1 = "CONTENT1";
-  protected static final String CONTENT3 = "CONTENT3";
-  protected static final String PATH1 = "PATH1_1/PATH1_2/FILE1";
-  protected static final String PATH2 = "PATH2/FILE2";
-  protected static final String PATH3 = "FILE3";
+public final class TestFiles {
 
-  protected static final List<GeneratedFile> FILES =
+  public static final String CONTENT1 = "CONTENT1";
+  public static final String CONTENT3 = "CONTENT3";
+  public static final String PATH1 = "PATH1_1/PATH1_2/FILE1";
+  public static final String PATH2 = "PATH2/FILE2";
+  public static final String PATH3 = "FILE3";
+
+  public static final List<GeneratedFile> FILES =
       Arrays.asList(
           new GeneratedFile(CONTENT1, PATH1),
           new GeneratedFile("", PATH2),

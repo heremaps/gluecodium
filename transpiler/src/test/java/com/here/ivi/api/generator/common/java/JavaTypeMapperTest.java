@@ -33,9 +33,14 @@ public class JavaTypeMapperTest {
 
   private final FBasicTypeId francaBasicType;
   private final String expectedJavaTypeName;
+
   @Mock private FTypeRef francaTypeRef;
 
-  @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
+  public JavaTypeMapperTest(final FBasicTypeId francaBasicType, final String expectedJavaTypeName) {
+    this.francaBasicType = francaBasicType;
+    this.expectedJavaTypeName = expectedJavaTypeName;
+  }
+
   @Parameterized.Parameters
   public static Collection<Object[]> testData() {
     return Arrays.asList(
@@ -55,11 +60,6 @@ public class JavaTypeMapperTest {
           {FBasicTypeId.BYTE_BUFFER, "byte[]"},
           {FBasicTypeId.UNDEFINED, "void"},
         });
-  }
-
-  public JavaTypeMapperTest(final FBasicTypeId francaBasicType, final String expectedJavaTypeName) {
-    this.francaBasicType = francaBasicType;
-    this.expectedJavaTypeName = expectedJavaTypeName;
   }
 
   @Before
