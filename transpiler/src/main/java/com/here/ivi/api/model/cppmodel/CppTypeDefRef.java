@@ -11,14 +11,15 @@
 
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.model.common.Include;
+
 public class CppTypeDefRef extends CppTypeRef {
 
   public final CppTypeRef actualType;
 
-  public CppTypeDefRef(String name, CppTypeRef type) {
-    super(name, type.includes);
+  public CppTypeDefRef(String name, CppTypeRef type, Include... includes) {
+    super(name, includes);
     actualType = type;
-    this.includes = actualType.includes;
   }
 
   @Override

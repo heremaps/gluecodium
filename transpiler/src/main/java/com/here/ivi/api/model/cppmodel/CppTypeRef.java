@@ -12,12 +12,17 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.model.common.Include;
+import java.util.Arrays;
 import java.util.Collection;
 
 public abstract class CppTypeRef extends CppElementWithIncludes {
 
   public CppTypeRef(String typeName) {
     super(typeName);
+  }
+
+  public CppTypeRef(String typeName, Include... includes) {
+    this(typeName, Arrays.asList(includes));
   }
 
   public CppTypeRef(String typeName, final Collection<Include> includes) {
