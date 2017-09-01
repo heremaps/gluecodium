@@ -22,9 +22,6 @@ import com.here.ivi.api.test.TemplateComparison;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import org.eclipse.xtext.xbase.lib.CollectionLiterals;
-import org.eclipse.xtext.xbase.lib.ObjectExtensions;
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -32,24 +29,23 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @SuppressWarnings("all")
 public class SwiftFileTemplateTest {
+
+  private static String generate(SwiftClass swiftClass) {
+    return SwiftFileTemplate.generate(swiftClass).toString();
+  }
+
   @Test
   public void simpleInterfaceGeneration() {
     final SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
     final String expected = "public class ExampleClass {\n" + "\n" + "}\n";
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    String _string = generated.toString();
-    TemplateComparison.assertEqualContent(expected, _string);
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void interfaceWithCommentGeneration() {
-    SwiftClass _swiftClass = new SwiftClass("ExampleClassWithComment", null);
-    final Procedure1<SwiftClass> _function =
-        (SwiftClass it) -> {
-          it.comment = "One really classy example";
-        };
-    final SwiftClass swiftClass =
-        ObjectExtensions.<SwiftClass>operator_doubleArrow(_swiftClass, _function);
+    SwiftClass swiftClass = new SwiftClass("ExampleClassWithComment", null);
+    swiftClass.comment = "One really classy example";
     final String expected =
         "/**\n"
             + " * One really classy example\n"
@@ -57,37 +53,20 @@ public class SwiftFileTemplateTest {
             + "public class ExampleClassWithComment {\n"
             + "\n"
             + "}\n";
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    String _string = generated.toString();
-    TemplateComparison.assertEqualContent(expected, _string);
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void simpleMethodGeneration() {
-    SwiftClass _swiftClass = new SwiftClass("ExampleClass", null);
-    final Procedure1<SwiftClass> _function =
-        (SwiftClass it) -> {
-          SwiftType _swiftType = new SwiftType("Int");
-          SwiftParameter _swiftParameter = new SwiftParameter("parameter", _swiftType);
-          SwiftMethod _swiftMethod =
-              new SwiftMethod(
-                  "myMethod",
-                  Collections.<SwiftParameter>unmodifiableList(
-                      CollectionLiterals.<SwiftParameter>newArrayList(_swiftParameter)));
-          final Procedure1<SwiftMethod> _function_1 =
-              (SwiftMethod it_1) -> {
-                SwiftType _swiftType_1 = new SwiftType("Int");
-                it_1.returnType = _swiftType_1;
-              };
-          SwiftMethod _doubleArrow =
-              ObjectExtensions.<SwiftMethod>operator_doubleArrow(_swiftMethod, _function_1);
-          it.methods =
-              Collections.<SwiftMethod>unmodifiableList(
-                  CollectionLiterals.<SwiftMethod>newArrayList(_doubleArrow));
-          it.nameSpace = "myPackage";
-        };
-    final SwiftClass swiftClass =
-        ObjectExtensions.<SwiftClass>operator_doubleArrow(_swiftClass, _function);
+    SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
+    swiftClass.nameSpace = "myPackage";
+    SwiftMethod method =
+        new SwiftMethod(
+            "myMethod",
+            Collections.singletonList(new SwiftParameter("parameter", new SwiftType("Int"))));
+    swiftClass.methods = Collections.singletonList(method);
+    method.returnType = new SwiftType("Int");
     final String expected =
         "public class ExampleClass {\n"
             + "\n"
@@ -95,30 +74,21 @@ public class SwiftFileTemplateTest {
             + "        return myPackage_ExampleClass_myMethod(parameter)\n"
             + "    }\n"
             + "}\n";
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    String _string = generated.toString();
-    TemplateComparison.assertEqualContent(expected, _string);
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void methodParameterDifferentInterfaceAndVariableName() {
-    SwiftClass _swiftClass = new SwiftClass("ExampleClass", null);
-    final Procedure1<SwiftClass> _function =
-        (SwiftClass it) -> {
-          SwiftType _swiftType = new SwiftType("Int");
-          SwiftParameter _swiftParameter =
-              new SwiftParameter("parameterInterfaceName", _swiftType, "parameterVariableName");
-          SwiftMethod _swiftMethod =
-              new SwiftMethod(
-                  "myMethod",
-                  Collections.<SwiftParameter>unmodifiableList(
-                      CollectionLiterals.<SwiftParameter>newArrayList(_swiftParameter)));
-          it.methods =
-              Collections.<SwiftMethod>unmodifiableList(
-                  CollectionLiterals.<SwiftMethod>newArrayList(_swiftMethod));
-        };
-    final SwiftClass swiftClass =
-        ObjectExtensions.<SwiftClass>operator_doubleArrow(_swiftClass, _function);
+    SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
+    SwiftMethod method =
+        new SwiftMethod(
+            "myMethod",
+            Collections.singletonList(
+                new SwiftParameter(
+                    "parameterInterfaceName", new SwiftType("Int"), "parameterVariableName")));
+    swiftClass.methods = Collections.singletonList(method);
+
     final String expected =
         "public class ExampleClass {\n"
             + "\n"
@@ -126,32 +96,17 @@ public class SwiftFileTemplateTest {
             + "        return ExampleClass_myMethod(parameterVariableName)\n"
             + "    }\n"
             + "}\n";
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    String _string = generated.toString();
-    TemplateComparison.assertEqualContent(expected, _string);
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void methodWithMultipleParameters() {
-    SwiftClass _swiftClass = new SwiftClass("ExampleClass", null);
-    final Procedure1<SwiftClass> _function =
-        (SwiftClass it) -> {
-          SwiftType _swiftType = new SwiftType("Int");
-          SwiftParameter _swiftParameter = new SwiftParameter("parameterOne", _swiftType);
-          SwiftType _swiftType_1 = new SwiftType("String");
-          SwiftParameter _swiftParameter_1 = new SwiftParameter("parameterTwo", _swiftType_1);
-          SwiftMethod _swiftMethod =
-              new SwiftMethod(
-                  "myMethod",
-                  Collections.<SwiftParameter>unmodifiableList(
-                      CollectionLiterals.<SwiftParameter>newArrayList(
-                          _swiftParameter, _swiftParameter_1)));
-          it.methods =
-              Collections.<SwiftMethod>unmodifiableList(
-                  CollectionLiterals.<SwiftMethod>newArrayList(_swiftMethod));
-        };
-    final SwiftClass swiftClass =
-        ObjectExtensions.<SwiftClass>operator_doubleArrow(_swiftClass, _function);
+    SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
+    SwiftParameter parameterOne = new SwiftParameter("parameterOne", new SwiftType("Int"));
+    SwiftParameter parameterTwo = new SwiftParameter("parameterTwo", new SwiftType("String"));
+    SwiftMethod method = new SwiftMethod("myMethod", Arrays.asList(parameterOne, parameterTwo));
+    swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "public class ExampleClass {\n"
             + "\n"
@@ -159,66 +114,39 @@ public class SwiftFileTemplateTest {
             + "        return ExampleClass_myMethod(parameterOne, parameterTwo)\n"
             + "    }\n"
             + "}\n";
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    String _string = generated.toString();
-    TemplateComparison.assertEqualContent(expected, _string);
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void methodWithArrayParameter() {
-    SwiftClass _swiftClass = new SwiftClass("MyClass", null);
-    final Procedure1<SwiftClass> _function =
-        (SwiftClass it) -> {
-          SwiftArrayType _swiftArrayType = new SwiftArrayType("UInt8");
-          SwiftParameter _swiftParameter = new SwiftParameter("array", _swiftArrayType);
-          SwiftMethod _swiftMethod =
-              new SwiftMethod(
-                  "myMethod",
-                  Collections.<SwiftParameter>unmodifiableList(
-                      CollectionLiterals.<SwiftParameter>newArrayList(_swiftParameter)));
-          it.methods =
-              Collections.<SwiftMethod>unmodifiableList(
-                  CollectionLiterals.<SwiftMethod>newArrayList(_swiftMethod));
-        };
-    final SwiftClass swiftClass =
-        ObjectExtensions.<SwiftClass>operator_doubleArrow(_swiftClass, _function);
+    SwiftClass swiftClass = new SwiftClass("MyClass", null);
+    SwiftMethod method =
+        new SwiftMethod(
+            "myMethod",
+            Collections.singletonList(new SwiftParameter("array", new SwiftArrayType("UInt8"))));
+    swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "public class MyClass {\n"
             + "    public func myMethod(array: [UInt8]) -> Void {\n"
             + "        return MyClass_myMethod(array)\n"
             + "    }\n"
             + "}\n";
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    String _string = generated.toString();
-    TemplateComparison.assertEqualContent(expected, _string);
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void methodWithComment() {
-    SwiftClass _swiftClass = new SwiftClass("CommentedExampleClass", null);
-    final Procedure1<SwiftClass> _function =
-        (SwiftClass it) -> {
-          SwiftType _swiftType = new SwiftType("String");
-          SwiftParameter _swiftParameter = new SwiftParameter("myParameter", _swiftType);
-          SwiftMethod _swiftMethod =
-              new SwiftMethod(
-                  "myMethod",
-                  Collections.<SwiftParameter>unmodifiableList(
-                      CollectionLiterals.<SwiftParameter>newArrayList(_swiftParameter)));
-          final Procedure1<SwiftMethod> _function_1 =
-              (SwiftMethod it_1) -> {
-                SwiftType _swiftType_1 = new SwiftType("Int");
-                it_1.returnType = _swiftType_1;
-                it_1.comment = "Do something";
-              };
-          SwiftMethod _doubleArrow =
-              ObjectExtensions.<SwiftMethod>operator_doubleArrow(_swiftMethod, _function_1);
-          it.methods =
-              Collections.<SwiftMethod>unmodifiableList(
-                  CollectionLiterals.<SwiftMethod>newArrayList(_doubleArrow));
-        };
-    final SwiftClass swiftClass =
-        ObjectExtensions.<SwiftClass>operator_doubleArrow(_swiftClass, _function);
+    SwiftClass swiftClass = new SwiftClass("CommentedExampleClass", null);
+    SwiftMethod method =
+        new SwiftMethod(
+            "myMethod",
+            Collections.singletonList(new SwiftParameter("myParameter", new SwiftType("String"))));
+
+    method.returnType = new SwiftType("Int");
+    method.comment = "Do something";
+    swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "public class CommentedExampleClass {\n"
             + "    /**\n"
@@ -228,85 +156,47 @@ public class SwiftFileTemplateTest {
             + "        return CommentedExampleClass_myMethod(myParameter)\n"
             + "    }\n"
             + "}\n";
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    String _string = generated.toString();
-    TemplateComparison.assertEqualContent(expected, _string);
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void staticMethod() {
-    SwiftClass _swiftClass = new SwiftClass("MyClass", null);
-    final Procedure1<SwiftClass> _function =
-        (SwiftClass it) -> {
-          SwiftMethod _swiftMethod = new SwiftMethod("myStaticMethod");
-          final Procedure1<SwiftMethod> _function_1 =
-              (SwiftMethod it_1) -> {
-                it_1.isStatic = true;
-              };
-          SwiftMethod _doubleArrow =
-              ObjectExtensions.<SwiftMethod>operator_doubleArrow(_swiftMethod, _function_1);
-          it.methods =
-              Collections.<SwiftMethod>unmodifiableList(
-                  CollectionLiterals.<SwiftMethod>newArrayList(_doubleArrow));
-        };
-    final SwiftClass swiftClass =
-        ObjectExtensions.<SwiftClass>operator_doubleArrow(_swiftClass, _function);
+    SwiftClass swiftClass = new SwiftClass("MyClass", null);
+    SwiftMethod method = new SwiftMethod("myStaticMethod");
+    method.isStatic = true;
+    swiftClass.methods = Collections.singletonList(method);
+
     final String expected =
         "public class MyClass {\n"
             + "    public static func myStaticMethod() -> Void {\n"
             + "        return MyClass_myStaticMethod()\n"
             + "    }\n"
             + "}\n";
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    String _string = generated.toString();
-    TemplateComparison.assertEqualContent(expected, _string);
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void systemImport() {
-    SwiftClass _swiftClass = new SwiftClass("SomeClass", null);
-    final Procedure1<SwiftClass> _function =
-        (SwiftClass it) -> {
-          it.imports =
-              Collections.<String>unmodifiableList(
-                  CollectionLiterals.<String>newArrayList("Foundation"));
-        };
-    final SwiftClass swiftClass =
-        ObjectExtensions.<SwiftClass>operator_doubleArrow(_swiftClass, _function);
+    SwiftClass swiftClass = new SwiftClass("SomeClass", null);
+    swiftClass.imports = Collections.singletonList("Foundation");
     final String expected = "import Foundation\n" + "\n" + "public class SomeClass {\n" + "}\n";
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    String _string = generated.toString();
-    TemplateComparison.assertEqualContent(expected, _string);
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void helloWorldGeneration() {
-    SwiftClass _swiftClass = new SwiftClass("HelloWorld", null);
-    final Procedure1<SwiftClass> _function =
-        (SwiftClass it) -> {
-          it.imports =
-              Collections.<String>unmodifiableList(
-                  CollectionLiterals.<String>newArrayList("Foundation"));
-          SwiftParameter _swiftParameter = new SwiftParameter("inputString", SwiftType.String);
-          SwiftMethod _swiftMethod =
-              new SwiftMethod(
-                  "helloWorldMethod",
-                  Collections.<SwiftParameter>unmodifiableList(
-                      CollectionLiterals.<SwiftParameter>newArrayList(_swiftParameter)));
-          final Procedure1<SwiftMethod> _function_1 =
-              (SwiftMethod it_1) -> {
-                SwiftType _swiftType_1 = new SwiftType("String", TypeCategory.BUILTIN_STRING, true);
-                it_1.returnType = _swiftType_1;
-                it_1.isStatic = true;
-              };
-          SwiftMethod _doubleArrow =
-              ObjectExtensions.<SwiftMethod>operator_doubleArrow(_swiftMethod, _function_1);
-          it.methods =
-              Collections.<SwiftMethod>unmodifiableList(
-                  CollectionLiterals.<SwiftMethod>newArrayList(_doubleArrow));
-        };
-    final SwiftClass swiftClass =
-        ObjectExtensions.<SwiftClass>operator_doubleArrow(_swiftClass, _function);
+    SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
+    swiftClass.imports = Collections.singletonList("Foundation");
+    SwiftMethod method =
+        new SwiftMethod(
+            "helloWorldMethod",
+            Collections.singletonList(new SwiftParameter("inputString", SwiftType.String)));
+    method.returnType = new SwiftType("String", TypeCategory.BUILTIN_STRING, true);
+    method.isStatic = true;
+    swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "import Foundation\n"
             + "public class HelloWorld {\n"
@@ -322,9 +212,8 @@ public class SwiftFileTemplateTest {
             + "        return nil\n"
             + "    }\n"
             + "}\n";
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    String _string = generated.toString();
-    TemplateComparison.assertEqualContent(expected, _string);
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
@@ -345,8 +234,8 @@ public class SwiftFileTemplateTest {
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
     swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated.toString());
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
@@ -367,8 +256,8 @@ public class SwiftFileTemplateTest {
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
     swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated.toString());
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
@@ -395,8 +284,8 @@ public class SwiftFileTemplateTest {
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
     swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated.toString());
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
@@ -436,8 +325,8 @@ public class SwiftFileTemplateTest {
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
     swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated.toString());
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
@@ -465,7 +354,7 @@ public class SwiftFileTemplateTest {
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
     swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
-    final CharSequence generated = SwiftFileTemplate.generate(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated.toString());
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
   }
 }
