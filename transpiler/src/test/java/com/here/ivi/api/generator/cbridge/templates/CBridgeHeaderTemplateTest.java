@@ -102,6 +102,18 @@ public class CBridgeHeaderTemplateTest {
   }
 
   @Test
+  public void privateFunctionNotGeneratedInHeader() {
+    CInterface cInterface = new CInterface();
+    CFunction privateFunction = new CFunction.Builder("privateFunction").build();
+    privateFunction.declareInImplementationOnly = true;
+    cInterface.functions = Collections.singletonList(privateFunction);
+
+    final String expected = "";
+    final String generated = this.generate(cInterface);
+    TemplateComparison.assertEqualHeaderContent(expected, generated);
+  }
+
+  @Test
   public void helloWorldTest() {
     CInterface cInterface = new CInterface();
     CParameter cParameter = new CParameter("inputString", CPointerType.CONST_CHAR_PTR);

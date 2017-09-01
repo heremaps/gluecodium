@@ -18,8 +18,7 @@ import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.test.TemplateComparison;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -122,6 +121,23 @@ public class CBridgeImplementationTemplateTest {
             + "        return cpp_result;\n"
             + "    }\n"
             + "}\n";
+    final String generated = this.generate(cInterface);
+    TemplateComparison.assertEqualImplementationContent(expected, generated);
+  }
+
+  @Test
+  public void privateFunctionInImplementationWithCorrectOrder() {
+    CInterface cInterface = new CInterface();
+    CFunction normalFunction = new CFunction.Builder("publicFunction").build();
+    CFunction privateFunction = new CFunction.Builder("privateFunction").build();
+    List<CFunction> functions = new ArrayList<>();
+    functions.add(normalFunction);
+    functions.add(privateFunction);
+    privateFunction.declareInImplementationOnly = true;
+    cInterface.functions = functions;
+
+    final String expected =
+        "void privateFunction() {\n    ;\n" + "}\n" + "void publicFunction() {\n    ;\n" + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
   }

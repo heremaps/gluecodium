@@ -42,6 +42,8 @@ public class CFunctionTest {
     assertEquals("For empty function there is no parameters", 0, function.parameters.size());
     assertEquals(
         "For empty function there is no parameter conversioins", 0, function.conversions.size());
+    assertEquals(
+        "A new function by default is public", false, function.declareInImplementationOnly);
   }
 
   @Test

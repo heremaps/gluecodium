@@ -247,10 +247,14 @@ public class CModelBuilderTest {
     assertEquals(
         "Should be get_pointer, get, set, create and release functions", 5, functions.size());
     CFunction func = getFunction(functions, cStruct.getNameOfFieldGetter(FIELD_NAME));
+    CFunction getPointerFunc = getFunction(functions, "get_pointer");
     assertNotEquals("Field getter function should be generated", null, func);
     assertEquals("Getter should take in 1 param", 1, func.parameters.size());
-    assertNotEquals(
-        "get_oointer function should be generated", null, getFunction(functions, "get_pointer"));
+    assertNotEquals("get_oointer function should be generated", null, getPointerFunc);
+    assertEquals(
+        "get_pointer should be flagged as private",
+        true,
+        getPointerFunc.declareInImplementationOnly);
     assertNotEquals(
         "Field setter function should be generated",
         null,
