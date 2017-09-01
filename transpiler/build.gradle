@@ -38,7 +38,6 @@ sourceSets {
 
 dependencies {
     compile 'commons-io:commons-io:+'
-    compile 'org.apache.commons:commons-lang3:3.+'
     compile 'org.eclipse.core:runtime:+'
     compile 'org.eclipse.equinox:common:+'
     compile 'org.eclipse.xpand:org.eclipse.xpand:+'
