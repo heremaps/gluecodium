@@ -14,7 +14,7 @@ package com.here.ivi.api.loader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
+import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.ModelHelper;
@@ -64,7 +64,7 @@ public class FrancaModelLoaderTest {
             new File(simpleFdepl.toURI()),
             new File(simpleFidl.toURI()),
             new File(additionalFdepl.toURI()));
-    FrancaModel model = loader.load(BaseApiSpecAccessorFactory.getSpecPath(), currentFiles);
+    FrancaModel model = loader.load(GeneratorSuite.getSpecPath(), currentFiles);
 
     List<? extends Interface> interfaces = model.getInterfaces();
     assertEquals(1, interfaces.size());

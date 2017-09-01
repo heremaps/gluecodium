@@ -13,8 +13,8 @@ package com.here.ivi.api.generator.utils;
 
 import static org.junit.Assert.assertTrue;
 
+import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.ModelHelper;
@@ -35,7 +35,7 @@ public final class LoadModelHelper {
     FrancaModelLoader francaModelLoader = new FrancaModelLoader();
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
 
-    return francaModelLoader.load(BaseApiSpecAccessorFactory.getSpecPath(), testFidlFile);
+    return francaModelLoader.load(GeneratorSuite.getSpecPath(), testFidlFile);
   }
 
   public static Interface extractNthInterfaceFromModel(FrancaModel model, int index) {

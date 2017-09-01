@@ -123,25 +123,9 @@ public final class Transpiler {
     List<String> generators = options.getGenerators();
     if (generators != null) {
       LOGGER.info("Following generators were specified on command line: " + generators);
-      return generators;
-    }
-    LOGGER.info("No generators specified, using auto-discovery");
-    List<String> availableGenerators = GeneratorSuite.generatorShortNames();
-    try {
-      generators = GeneratorSuite.generatorsFromFdepl(options);
-      if (generators.isEmpty()) {
-        LOGGER.info(
-            "No generators discovered, switching to use all available: " + availableGenerators);
-      }
-    } catch (NoSuchMethodException
-        | InstantiationException
-        | IllegalAccessException
-        | InvocationTargetException e) {
-      LOGGER.warning(
-          "Auto-discovery failed, using all available generators: " + availableGenerators);
-    }
-    if (generators == null || generators.isEmpty()) {
-      generators = availableGenerators;
+    } else {
+      generators = GeneratorSuite.generatorShortNames();
+      LOGGER.info("No generators specified, using all available generators: " + generators);
     }
     return generators;
   }
@@ -169,10 +153,6 @@ public final class Transpiler {
       }
     }
     return true;
-  }
-
-  public Version getVersion() {
-    return version;
   }
 
   public String getName() {
