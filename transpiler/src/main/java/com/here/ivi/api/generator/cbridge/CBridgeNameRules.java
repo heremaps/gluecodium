@@ -73,16 +73,16 @@ public class CBridgeNameRules {
   }
 
   public String getStructRefType(
-      final FrancaElement francaElement, final FStructType francaStructType) {
-    return getStructBaseName(francaElement, francaStructType) + "Ref";
+      final FrancaElement francaElement, final String francaElementName) {
+    return getStructBaseName(francaElement, francaElementName) + "Ref";
   }
 
   public String getStructBaseName(
-      final FrancaElement francaElement, final FStructType francaStructType) {
+      final FrancaElement francaElement, final String francaElementName) {
     return fullyQualifiedName(
         francaElement.getModelInfo().getPackageNames(),
         getName(francaElement),
-        NameHelper.toUpperCamelCase(francaStructType.getName()),
+        NameHelper.toUpperCamelCase(francaElementName),
         UNDERSCORE_DELIMITER);
   }
 

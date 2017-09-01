@@ -1,16 +1,32 @@
 {{! recurse through all the parameters and at the end call the actual function
 }}{{#unless iterator.hasNext}}{{!!
-  }}{{#switch method.returnType.category}}{{!!
+  }}{{#switch method.returnType.category.toString}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodReturnData}}{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}{{>swift/MethodReturnString}}{{/case}}{{!!
+    }}{{#case "STRUCT"}}{{>MethodReturnStruct}}{{/case}}{{!!
     }}{{#default}}{{>swift/MethodReturn}}{{/default}}{{!!
   }}{{/switch}}
 {{/unless}}
 {{#iterator.hasNext}}{{!!
   }}{{#iterator.next}}{{!!
-    }}{{#switch type.category}}{{!!
+    }}{{#switch type.category.toString}}{{!!
       }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodWrapData}}{{/case}}{{!!
+      }}{{#case "STRUCT"}}{{>structConversion}}{{/case}}{{!!
       }}{{#default}}{{>swift/ConversionRecursion}}{{/default}}{{!!
     }}{{/switch}}{{!!
   }}{{/iterator.next}}{{!!
 }}{{/iterator.hasNext}}
+
+{{+structConversion}}let {{name}}Handle = {{name}}.convertToCType()
+defer {
+    {{type.cPrefix}}_release({{name}}Handle)
+}
+{{>swift/ConversionRecursion}}
+{{/structConversion}}
+
+{{+MethodReturnStruct}}let cResult = {{>swift/DelegateCall}}
+defer {
+    {{method.returnType.cPrefix}}_release(cResult)
+}
+return {{method.returnType}}(c{{method.returnType}}: cResult)
+{{/MethodReturnStruct}}

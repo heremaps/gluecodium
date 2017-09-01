@@ -11,6 +11,11 @@
 
 package com.here.ivi.api.generator.swift;
 
+import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.BUILTIN_BYTEBUFFER;
+import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.BUILTIN_STRING;
+import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.STRUCT;
+
+import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftType;
@@ -23,7 +28,11 @@ public class SwiftTypeMapper {
 
     if (derived != null) {
       if (derived instanceof FStructType) {
-        return new SwiftStruct(derived.getName());
+        CBridgeNameRules bridgeRules = new CBridgeNameRules();
+        SwiftStruct mappedType = new SwiftStruct(derived.getName());
+        mappedType.cPrefix = bridgeRules.getStructBaseName(rootModel, derived.getName());
+        mappedType.cType = bridgeRules.getStructRefType(rootModel, derived.getName());
+        return mappedType;
       }
       return SwiftType.VOID;
     }
@@ -33,7 +42,9 @@ public class SwiftTypeMapper {
 
   public static SwiftType mapOutputType(FrancaElement rootModel, final FTypeRef type) {
     SwiftType mapped = mapType(rootModel, type);
-    if ("Data".equals(mapped.name) || "String".equals(mapped.name)) {
+    if (mapped.category == BUILTIN_BYTEBUFFER
+        || mapped.category == STRUCT
+        || mapped.category == BUILTIN_STRING) {
       mapped.optional = true;
     }
     return mapped;

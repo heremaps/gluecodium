@@ -9,19 +9,23 @@
  *
  */
 
-package com.here.ivi.api.generator.common.swift.templates;
+package com.here.ivi.api.generator.swift.templates;
 
-import com.here.ivi.api.generator.swift.templates.SwiftFileTemplate;
+import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toList;
+
 import com.here.ivi.api.model.swift.SwiftArrayType;
 import com.here.ivi.api.model.swift.SwiftClass;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
+import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.stream.Stream;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -355,6 +359,95 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
     swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
     final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void staticMethodTakingStruct() {
+    SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
+    SwiftStruct swiftStruct = new SwiftStruct("SomeStruct");
+    swiftStruct.cPrefix = swiftClass.name + "_" + swiftStruct.name;
+    SwiftMethod method =
+        new SwiftMethod(
+            "methodTakingStruct", singletonList(new SwiftParameter("inputParam", swiftStruct)));
+    method.isStatic = true;
+    swiftClass.methods = singletonList(method);
+    final String expected =
+        "public class HelloWorld {\n"
+            + "    public static func methodTakingStruct(inputParam: SomeStruct) -> Void {\n"
+            + "        let inputParamHandle = inputParam.convertToCType()\n"
+            + "        defer {\n"
+            + "            HelloWorld_SomeStruct_release(inputParamHandle)\n"
+            + "        }\n"
+            + "        return HelloWorld_methodTakingStruct(inputParamHandle)\n"
+            + "    }\n"
+            + "}\n";
+    String generated = SwiftFileTemplate.generate(swiftClass).toString();
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void staticMethodReturningStruct() {
+    SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
+    SwiftStruct swiftStruct = new SwiftStruct("SomeStruct");
+    swiftStruct.optional = true;
+    swiftStruct.cPrefix = swiftClass.name + "_" + swiftStruct.name;
+    SwiftMethod method = new SwiftMethod("methodReturningStruct");
+    method.isStatic = true;
+    method.returnType = swiftStruct;
+    swiftClass.methods = singletonList(method);
+    final String expected =
+        "public class HelloWorld {\n"
+            + "    public static func methodReturningStruct() -> SomeStruct? {\n"
+            + "        let cResult = HelloWorld_methodReturningStruct()\n"
+            + "        defer {\n"
+            + "            HelloWorld_SomeStruct_release(cResult)\n"
+            + "        }\n"
+            + "        return SomeStruct(cSomeStruct: cResult)\n"
+            + "    }\n"
+            + "}\n";
+    String generated = SwiftFileTemplate.generate(swiftClass).toString();
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void staticMethodTakingMultipleParamsAndReturningStruct() {
+    SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
+    SwiftStruct inputStruct = new SwiftStruct("GeoLocation");
+    inputStruct.cPrefix = swiftClass.name + "_" + inputStruct.name;
+    SwiftMethod method =
+        new SwiftMethod(
+            "fancyMethod",
+            Stream.of(
+                    new SwiftParameter("icon", SwiftType.Data),
+                    new SwiftParameter("name", SwiftType.String),
+                    new SwiftParameter("location", inputStruct))
+                .collect(toList()));
+    method.isStatic = true;
+    SwiftStruct outputStruct = new SwiftStruct("SomeStruct");
+    outputStruct.cPrefix = swiftClass.name + "_" + outputStruct.name;
+    outputStruct.optional = true;
+    method.returnType = outputStruct;
+    swiftClass.methods = singletonList(method);
+
+    final String expected =
+        "public class HelloWorld {\n"
+            + "    public static func fancyMethod(icon: Data, name: String, location: GeoLocation) -> SomeStruct? {\n"
+            + "        return icon.withUnsafeBytes { (icon_ptr: UnsafePointer<UInt8>) -> SomeStruct? in\n"
+            + "            let locationHandle = location.convertToCType()\n"
+            + "            defer {\n"
+            + "                HelloWorld_GeoLocation_release(locationHandle)\n"
+            + "            }\n"
+            + "            let cResult = HelloWorld_fancyMethod(icon_ptr, Int64(icon.count), name, locationHandle)\n"
+            + "            defer {\n"
+            + "                HelloWorld_SomeStruct_release(cResult)\n"
+            + "            }\n"
+            + "            return SomeStruct(cSomeStruct: cResult)\n"
+            + "        }\n"
+            + "    }\n"
+            + "}\n";
+
+    String generated = SwiftFileTemplate.generate(swiftClass).toString();
     TemplateComparison.assertEqualContent(expected, generated);
   }
 }

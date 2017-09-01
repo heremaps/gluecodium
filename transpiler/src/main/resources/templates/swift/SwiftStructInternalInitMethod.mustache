@@ -1,7 +1,7 @@
 internal init?(c{{name}}: {{cType}}) {
 {{#set structName=name}}
 {{#fields}}
-    {{#switch type.category}}
+    {{#switch type.category.toString}}
     {{#case "BUILTIN_STRING"}}{{>assignStringType}}{{/case}}
     {{#case "BUILTIN_BYTEBUFFER"}}{{>assignDataType}}{{/case}}
     {{#case "STRUCT"}}{{>assignStruct}}{{/case}}

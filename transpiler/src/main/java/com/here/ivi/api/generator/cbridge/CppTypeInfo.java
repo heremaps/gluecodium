@@ -92,7 +92,7 @@ public class CppTypeInfo {
   public static CppTypeInfo createStructTypeInfo(
       final FrancaElement rootModel, final FStructType structType) {
     CBridgeNameRules rules = new CBridgeNameRules();
-    String handleName = rules.getStructRefType(rootModel, structType);
+    String handleName = rules.getStructRefType(rootModel, structType.getName());
     return new CppTypeInfo(
         structType.getName(),
         emptyList(), //TODO: APIGEN-285 Correct files from BaseApi include paths
