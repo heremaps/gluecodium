@@ -116,9 +116,11 @@ jacocoTestCoverageVerification {
 }
 jacocoTestReport {
     reports {
+        csv.enabled true
         html.enabled true
         xml.enabled true
 
+        csv.destination file("${buildDir}/reports/coverage/coverageReport.csv")
         html.destination file("${buildDir}/reports/coverage/html")
         xml.destination file("${buildDir}/reports/coverage/coverageReport.xml")
     }
