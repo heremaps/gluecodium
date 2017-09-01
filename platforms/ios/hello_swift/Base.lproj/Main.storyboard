@@ -12,7 +12,7 @@
         <!--Builtin Types-->
         <scene sceneID="bRq-bw-Z00">
             <objects>
-                <viewController id="sW2-90-ccD" customClass="ViewControllerBuiltinTypes" customModule="hello_swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="sW2-90-ccD" customClass="BuiltinTypesViewController" customModule="hello_swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vuO-pX-k6C"/>
                         <viewControllerLayoutGuide type="bottom" id="cKk-M4-SGV"/>
@@ -90,7 +90,7 @@
         <!--Base-->
         <scene sceneID="tKY-nB-P8k">
             <objects>
-                <viewController id="4I8-zh-Qes" customClass="ViewControllerBase" customModule="hello_swift" sceneMemberID="viewController">
+                <viewController id="4I8-zh-Qes" customClass="BaseViewController" customModule="hello_swift" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="M31-7b-HRK"/>
                         <viewControllerLayoutGuide type="bottom" id="FfB-B6-edO"/>

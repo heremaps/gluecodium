@@ -15,8 +15,8 @@
 		3484FFDE1F0D37EB00986A69 /* hello_swiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3484FFDD1F0D37EB00986A69 /* hello_swiftUITests.swift */; };
 		57FC25B91F1634DF00D84B4D /* hello.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57FC25B81F1634DF00D84B4D /* hello.framework */; };
 		57FC25BA1F1634DF00D84B4D /* hello.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 57FC25B81F1634DF00D84B4D /* hello.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8394336D1F18A820009D5914 /* ViewControlerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8394336C1F18A820009D5914 /* ViewControlerBase.swift */; };
-		8394336F1F18BABC009D5914 /* ViewControlerBuiltinTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8394336E1F18BABC009D5914 /* ViewControlerBuiltinTypes.swift */; };
+		8394336D1F18A820009D5914 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8394336C1F18A820009D5914 /* BaseViewController.swift */; };
+		8394336F1F18BABC009D5914 /* BuiltinTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8394336E1F18BABC009D5914 /* BuiltinTypesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,8 +64,8 @@
 		3484FFDD1F0D37EB00986A69 /* hello_swiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hello_swiftUITests.swift; sourceTree = "<group>"; };
 		3484FFDF1F0D37EB00986A69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57FC25B81F1634DF00D84B4D /* hello.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = hello.framework; path = Frameworks/hello.framework; sourceTree = "<group>"; };
-		8394336C1F18A820009D5914 /* ViewControlerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControlerBase.swift; sourceTree = "<group>"; };
-		8394336E1F18BABC009D5914 /* ViewControlerBuiltinTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControlerBuiltinTypes.swift; sourceTree = "<group>"; };
+		8394336C1F18A820009D5914 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		8394336E1F18BABC009D5914 /* BuiltinTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuiltinTypesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,8 +123,8 @@
 				3484FFC41F0D37EB00986A69 /* Assets.xcassets */,
 				3484FFC61F0D37EB00986A69 /* LaunchScreen.storyboard */,
 				3484FFC91F0D37EB00986A69 /* Info.plist */,
-				8394336C1F18A820009D5914 /* ViewControlerBase.swift */,
-				8394336E1F18BABC009D5914 /* ViewControlerBuiltinTypes.swift */,
+				8394336C1F18A820009D5914 /* BaseViewController.swift */,
+				8394336E1F18BABC009D5914 /* BuiltinTypesViewController.swift */,
 			);
 			path = hello_swift;
 			sourceTree = "<group>";
@@ -299,8 +299,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8394336F1F18BABC009D5914 /* ViewControlerBuiltinTypes.swift in Sources */,
-				8394336D1F18A820009D5914 /* ViewControlerBase.swift in Sources */,
+				8394336F1F18BABC009D5914 /* BuiltinTypesViewController.swift in Sources */,
+				8394336D1F18A820009D5914 /* BaseViewController.swift in Sources */,
 				3484FFBE1F0D37EB00986A69 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,5 +1,5 @@
 //
-//  ViewControlerBuiltinTypes.swift
+//  BuiltinTypesViewController
 //  hello_swift
 ///
 //  Copyright © 2017 HERE. All rights reserved.
@@ -8,7 +8,7 @@
 import UIKit
 import hello
 
-class ViewControllerBuiltinTypes: UIViewController {
+class BuiltinTypesViewController: UIViewController {
     @IBOutlet var textLoanAmount: UITextField!
     @IBOutlet var textInterestRate: UITextField!
     @IBOutlet var textResult: UILabel!
