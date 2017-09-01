@@ -22,8 +22,8 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.validator.baseapi.BaseApiModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
@@ -39,7 +39,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ResourceValidator.class, BaseApiSpecAccessorFactory.class})
+@PrepareForTest({ResourceValidator.class, GeneratorSuite.class})
 public final class BaseApiGeneratorSuiteTest {
 
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
@@ -58,10 +58,10 @@ public final class BaseApiGeneratorSuiteTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(ResourceValidator.class, BaseApiSpecAccessorFactory.class);
+    PowerMockito.mockStatic(ResourceValidator.class, GeneratorSuite.class);
     MockitoAnnotations.initMocks(this);
 
-    when(BaseApiSpecAccessorFactory.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
+    when(GeneratorSuite.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
     when(options.getInputDir()).thenReturn(MOCK_INPUT_PATH);
 
     baseApiGeneratorSuite = new BaseApiGeneratorSuite(baseApiModelValidator, francaModelLoader);
@@ -73,7 +73,7 @@ public final class BaseApiGeneratorSuiteTest {
 
     verify(francaModelLoader).load(MOCK_SPEC_PATH, baseApiGeneratorSuite.getCurrentFiles());
     PowerMockito.verifyStatic();
-    BaseApiSpecAccessorFactory.getSpecPath();
+    GeneratorSuite.getSpecPath();
   }
 
   @Test

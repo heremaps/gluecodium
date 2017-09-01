@@ -19,7 +19,6 @@ import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.validator.common.ResourceValidator;
@@ -62,11 +61,6 @@ public final class SwiftGeneratorSuite implements GeneratorSuite {
   }
 
   @Override
-  public String getSpecPath() {
-    return BaseApiSpecAccessorFactory.getSpecPath();
-  }
-
-  @Override
   public String getName() {
     return "com.here.SwiftGenerator";
   }
@@ -81,6 +75,6 @@ public final class SwiftGeneratorSuite implements GeneratorSuite {
   public void buildModel(String inputPath) {
     ModelHelper.getFdeplInjector().injectMembers(modelLoader);
     currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
-    model = modelLoader.load(getSpecPath(), currentFiles);
+    model = modelLoader.load(GeneratorSuite.getSpecPath(), currentFiles);
   }
 }

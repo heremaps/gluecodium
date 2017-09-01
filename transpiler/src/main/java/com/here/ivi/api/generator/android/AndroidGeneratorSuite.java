@@ -16,7 +16,6 @@ import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.model.jni.JniContainer;
@@ -57,11 +56,6 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
   }
 
   @Override
-  public String getSpecPath() {
-    return BaseApiSpecAccessorFactory.getSpecPath();
-  }
-
-  @Override
   public boolean validate() {
     ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
     return ResourceValidator.validate(resources, currentFiles) && validator.validate(model);
@@ -71,7 +65,7 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
   public void buildModel(String inputPath) {
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
     currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
-    model = francaModelLoader.load(getSpecPath(), currentFiles);
+    model = francaModelLoader.load(GeneratorSuite.getSpecPath(), currentFiles);
   }
 
   @Override

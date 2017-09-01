@@ -19,7 +19,6 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.cpp.CppGenerator;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.loader.baseapi.BaseApiSpecAccessorFactory;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
 import com.here.ivi.api.model.franca.DefinedBy;
@@ -111,16 +110,11 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
   }
 
   @Override
-  public String getSpecPath() {
-    return BaseApiSpecAccessorFactory.getSpecPath();
-  }
-
-  @Override
   public void buildModel(String inputPath) {
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
     currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
 
-    model = francaModelLoader.load(getSpecPath(), currentFiles);
+    model = francaModelLoader.load(GeneratorSuite.getSpecPath(), currentFiles);
   }
 
   @Override
