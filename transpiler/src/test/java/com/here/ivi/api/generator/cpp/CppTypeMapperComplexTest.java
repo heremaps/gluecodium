@@ -19,7 +19,6 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.doCallRealMethod;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.LazyInternalInclude;
@@ -112,8 +111,7 @@ public class CppTypeMapperComplexTest {
   }
 
   @Test
-  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-  public void mapNonEmptyStruct() throws Exception {
+  public void mapNonEmptyStruct() {
 
     //mock franca related stuff
     FTypeRef typeRef = mock(FTypeRef.class);
@@ -123,7 +121,7 @@ public class CppTypeMapperComplexTest {
 
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
     DefinedBy defined = mockDefinedBy();
-    LazyInternalInclude lazyInclude = mockLazyInclude(defined);
+    LazyInternalInclude lazyInclude = new LazyInternalInclude(defined);
 
     //mock CppNameRules
     when(CppNameRules.getStructName(structType.getName())).thenReturn(STRUCT_NAME);
@@ -145,8 +143,7 @@ public class CppTypeMapperComplexTest {
   }
 
   @Test
-  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-  public void mapNonEmptyEnum() throws Exception {
+  public void mapNonEmptyEnum() {
 
     //mock type reference
     FTypeRef typeRef = mock(FTypeRef.class);
@@ -156,7 +153,7 @@ public class CppTypeMapperComplexTest {
 
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
     DefinedBy defined = mockDefinedBy();
-    LazyInternalInclude lazyInclude = mockLazyInclude(defined);
+    LazyInternalInclude lazyInclude = new LazyInternalInclude(defined);
 
     //mock CppNameRules
     when(CppNameRules.getEnumName(enumType.getName())).thenReturn(ENUM_NAME);
@@ -243,13 +240,6 @@ public class CppTypeMapperComplexTest {
     DefinedBy defined = DefinedBy.createFromFrancaElement(mockFrancaModel);
     when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
     return defined;
-  }
-
-  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-  private static LazyInternalInclude mockLazyInclude(DefinedBy definer) throws Exception {
-    LazyInternalInclude lazyInclude = new LazyInternalInclude(definer);
-    whenNew(LazyInternalInclude.class).withArguments(definer).thenReturn(lazyInclude);
-    return lazyInclude;
   }
 
   private FTypeRef mockPredefinedType(FBasicTypeId predefinedType) {
