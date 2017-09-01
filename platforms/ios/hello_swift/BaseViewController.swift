@@ -1,5 +1,5 @@
 //
-//  ViewControlerBase.swift
+//  BaseViewController
 //  hello_swift
 //
 //  Copyright © 2017 HERE. All rights reserved.
@@ -8,7 +8,7 @@
 import UIKit
 import hello
 
-class ViewControllerBase: UIViewController {
+class BaseViewController: UIViewController {
     @IBOutlet var textInput: UITextField!
     @IBOutlet var textLabel: UILabel!
     
