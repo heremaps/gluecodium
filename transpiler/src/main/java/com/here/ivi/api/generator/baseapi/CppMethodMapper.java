@@ -15,7 +15,6 @@ import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.HashSet;
@@ -61,7 +60,7 @@ public final class CppMethodMapper {
     if (!outArgs.isEmpty()) {
       // If outArgs size is 2 or more, the output has to be wrapped in a struct,
       // which is not supported yet.
-      outArgType = mapArgumentType(outArgs.get(0), francaMethod, rootModel);
+      outArgType = CppTypeMapper.map(rootModel, outArgs.get(0));
 
       outArgComment = "The result type, containing " + outArgType.name + " value.";
     }
@@ -90,18 +89,5 @@ public final class CppMethodMapper {
         "The result type, containing either an error or the " + outArgType.name + " value.";
 
     return new ReturnTypeData(returnType, returnComment);
-  }
-
-  public static CppTypeRef mapArgumentType(
-      FArgument francaArgument, FMethod francaMethod, FrancaElement rootModel) {
-
-    CppTypeRef type = CppTypeMapper.map(rootModel, francaArgument);
-
-    if (!(type instanceof CppComplexTypeRef)
-        || ((CppComplexTypeRef) type).info != CppTypeInfo.InterfaceInstance) {
-      return type;
-    }
-
-    return CppTypeMapper.wrapSharedPtr(type);
   }
 }

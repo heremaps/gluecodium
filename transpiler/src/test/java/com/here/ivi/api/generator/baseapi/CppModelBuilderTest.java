@@ -284,7 +284,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingInputArgumentMapsType() {
-    when(CppMethodMapper.mapArgumentType(any(), any(), any())).thenReturn(cppComplexTypeRef);
+    when(CppTypeMapper.map(any(), any(FTypedElement.class))).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
@@ -293,7 +293,7 @@ public class CppModelBuilderTest {
     assertEquals(cppComplexTypeRef, cppParameter.type);
 
     PowerMockito.verifyStatic();
-    CppMethodMapper.mapArgumentType(same(francaArgument), same(null), same(rootModel));
+    CppTypeMapper.map(rootModel, francaArgument);
   }
 
   @Test

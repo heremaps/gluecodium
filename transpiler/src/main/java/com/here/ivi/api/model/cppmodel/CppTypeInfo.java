@@ -12,7 +12,6 @@
 package com.here.ivi.api.model.cppmodel;
 
 public enum CppTypeInfo {
-  InterfaceInstance,
   Complex,
   Enumeration
 }
