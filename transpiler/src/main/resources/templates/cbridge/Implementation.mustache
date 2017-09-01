@@ -1,7 +1,6 @@
 {{#implementationIncludes}}
 {{>cbridge/Include}}
 {{/implementationIncludes}}
-{{#functions}}
-{{#definitionTemplate}}{{include . }}{{/definitionTemplate}}
-{{/functions}}
+{{#functions}}{{#declareInImplementationOnly}}{{#definitionTemplate}}{{include . }}{{/definitionTemplate}}{{/declareInImplementationOnly}}{{/functions}}
+{{#functions}}{{^declareInImplementationOnly}}{{#definitionTemplate}}{{include . }}{{/definitionTemplate}}{{/declareInImplementationOnly}}{{/functions}}
 

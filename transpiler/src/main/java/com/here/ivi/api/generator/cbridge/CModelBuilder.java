@@ -167,8 +167,9 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             .parameters(singletonList(new CParameter("handle", new CType(cName))))
             .returnType(new CType(cppName))
             .build();
-    getPointerFunction.declarationTemplate = null;
+
     getPointerFunction.definitionTemplate = "cbridge/getPointer_impl";
+    getPointerFunction.declareInImplementationOnly = true;
     return getPointerFunction;
   }
 
