@@ -23,17 +23,6 @@ spotless {
         endWithNewline()
     }
 
-    format 'xtend', {
-        target project.fileTree(project.projectDir) {
-            include '**/*.xtend'
-            exclude '**/build'
-        }
-        licenseHeaderFile rootProject.file('config/spotless/here_java.license'),
-                '(package|import)'
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-
     format 'misc', {
         target project.fileTree(project.rootDir) {
             include '**/*.gradle', '**/*.md', '**/*.gitignore'
