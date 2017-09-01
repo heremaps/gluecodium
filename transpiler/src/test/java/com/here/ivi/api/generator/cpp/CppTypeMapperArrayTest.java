@@ -18,7 +18,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.doCallRealMethod;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
@@ -78,8 +77,7 @@ public class CppTypeMapperArrayTest {
   }
 
   @Test
-  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-  public void mapArrayOfComplexType() throws Exception {
+  public void mapArrayOfComplexType() {
 
     //mock franca elements
     FrancaElement mockFrancaModel = mock(FrancaElement.class, Answers.RETURNS_DEEP_STUBS);
@@ -99,7 +97,6 @@ public class CppTypeMapperArrayTest {
     DefinedBy definer = mockDefinedBy(mockFrancaModel);
 
     LazyInternalInclude lazyInclude = new LazyInternalInclude(definer);
-    whenNew(LazyInternalInclude.class).withArguments(definer).thenReturn(lazyInclude);
 
     //mock CppNameRules
     when(CppNameRules.getStructName(structType.getName())).thenReturn("MyStruct");
