@@ -25,7 +25,7 @@ public class SwiftType extends SwiftModelElement {
   public static final SwiftType Data = new SwiftType("Data", TypeCategory.BUILTIN_BYTEBUFFER);
 
   public boolean optional;
-  private final TypeCategory category;
+  public final TypeCategory category;
 
   public SwiftType(String name) {
     this(name, TypeCategory.BUILTIN_SIMPLE, false);
@@ -39,9 +39,5 @@ public class SwiftType extends SwiftModelElement {
     super(name);
     this.optional = optional;
     this.category = category;
-  }
-
-  public String getCategory() {
-    return category.toString();
   }
 }

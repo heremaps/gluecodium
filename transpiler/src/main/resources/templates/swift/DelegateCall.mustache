@@ -1,4 +1,5 @@
-{{method.cBaseName}}({{#each parameters}}{{#switch type.category}}{{!!
+{{method.cBaseName}}({{#each parameters}}{{#switch type.category.toString}}{{!!
   }}{{#case "BUILTIN_BYTEBUFFER"}}{{variableName}}_ptr, Int64({{variableName}}.count){{/case}}{{!!
+  }}{{#case "STRUCT"}}{{variableName}}Handle{{/case}}{{!!
   }}{{#default}}{{variableName}}{{/default}}{{!!
 }}{{/switch}}{{#if iter.hasNext}}, {{/if}}{{/each}})

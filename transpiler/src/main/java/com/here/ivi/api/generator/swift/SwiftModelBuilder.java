@@ -31,7 +31,11 @@ import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftStructField;
 import java.util.ArrayList;
 import java.util.List;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypedElement;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   private final Interface rootModel;
@@ -71,8 +75,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String comment = CppCommentParser.parse(francaStruct).getMainBodyText();
     swiftStruct.comment = comment != null ? comment : "";
     swiftStruct.fields = getAllOfType(getCurrentContext().previousResults, SwiftStructField.class);
-    swiftStruct.cPrefix = bridgeRules.getStructBaseName(rootModel, francaStruct);
-    swiftStruct.cType = bridgeRules.getStructRefType(rootModel, francaStruct);
+    swiftStruct.cPrefix = bridgeRules.getStructBaseName(rootModel, francaStruct.getName());
+    swiftStruct.cType = bridgeRules.getStructRefType(rootModel, francaStruct.getName());
 
     storeResult(swiftStruct);
     super.finishBuilding(francaStruct);

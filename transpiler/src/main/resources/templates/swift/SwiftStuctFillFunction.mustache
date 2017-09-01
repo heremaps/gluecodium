@@ -1,7 +1,7 @@
 internal func fillFunction(_ c{{name}}: {{cType}}) -> Void {
 {{#set structName=name}}
 {{#fields}}
-{{#switch type.category}}
+{{#switch type.category.toString}}
 {{#case "BUILTIN_BYTEBUFFER"}}
     {{>fillDataType}}
 {{/case}}

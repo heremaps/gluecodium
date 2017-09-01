@@ -96,12 +96,14 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingOutputArgumentReturnsCreatedParam() {
+    SwiftType realType = new SwiftType("SomeType");
+    when(SwiftTypeMapper.mapOutputType(any(), any())).thenReturn(realType);
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     List<SwiftParameter> params = getResults(SwiftParameter.class);
     assertEquals(1, params.size());
     assertEquals(PARAM_NAME, params.get(0).variableName);
-    assertSame(swiftType, params.get(0).type);
+    assertSame(realType, params.get(0).type);
   }
 
   @Test
