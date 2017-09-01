@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.cbridge;
 import static com.here.ivi.api.generator.common.NameHelper.toUpperCamelCase;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.apache.commons.lang3.ArrayUtils.addAll;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -69,13 +68,8 @@ public class CBridgeNameRulesTest {
   @Test
   public void getStructNameCreatesProperNameForStructsInTypeCollections() {
     String expectedName =
-        String.join(
-            "_",
-            (String[])
-                addAll(
-                    PACKAGES.toArray(new String[PACKAGES.size()]),
-                    TYPE_COLLECTION_NAME,
-                    toUpperCamelCase(STRUCT_NAME) + "Ref"));
+        prependNameWithPackageAndContainer(
+            toUpperCamelCase(STRUCT_NAME) + "Ref", "_", TYPE_COLLECTION_NAME);
 
     String actualName = nameRules.getStructRefType(typeCollection, francaStruct.getName());
 
@@ -84,14 +78,7 @@ public class CBridgeNameRulesTest {
 
   @Test
   public void getStructNameCreatesProperNameForStructsInInterfaces() {
-    String expectedName =
-        String.join(
-            "_",
-            (String[])
-                addAll(
-                    PACKAGES.toArray(new String[PACKAGES.size()]),
-                    INTERFACE_NAME,
-                    toUpperCamelCase(STRUCT_NAME) + "Ref"));
+    String expectedName = prependNameWithPackageAndInterface(toUpperCamelCase(STRUCT_NAME) + "Ref");
 
     String actualName = nameRules.getStructRefType(anInterface, francaStruct.getName());
 
@@ -186,8 +173,11 @@ public class CBridgeNameRulesTest {
   }
 
   private String prependNameWithPackageAndInterface(String name, String delimiter) {
-    return String.join(
-        delimiter,
-        (String[]) addAll(PACKAGES.toArray(new String[PACKAGES.size()]), INTERFACE_NAME, name));
+    return prependNameWithPackageAndContainer(name, delimiter, INTERFACE_NAME);
+  }
+
+  private String prependNameWithPackageAndContainer(
+      String name, String delimiter, String container) {
+    return String.join(delimiter, PACKAGES.get(0), PACKAGES.get(1), container, name);
   }
 }
