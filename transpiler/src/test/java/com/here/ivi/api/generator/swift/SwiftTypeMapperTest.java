@@ -12,7 +12,8 @@
 package com.here.ivi.api.generator.swift;
 
 import static java.util.Collections.emptyList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -51,8 +52,7 @@ public class SwiftTypeMapperTest {
 
     SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
 
-    assertEquals(
-        "Return value of String type should be mapped as optional", true, mappedType.optional);
+    assertTrue("Return value of String type should be mapped as optional", mappedType.optional);
   }
 
   @Test
@@ -61,8 +61,7 @@ public class SwiftTypeMapperTest {
 
     SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
 
-    assertEquals(
-        "Return value of Data type should be mapped as optional", true, mappedType.optional);
+    assertTrue("Return value of Data type should be mapped as optional", mappedType.optional);
   }
 
   @Test
@@ -71,8 +70,8 @@ public class SwiftTypeMapperTest {
 
     SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
 
-    assertEquals(
-        "Return value of Double type should not be mapped as optional", false, mappedType.optional);
+    assertFalse(
+        "Return value of Double type should not be mapped as optional", mappedType.optional);
   }
 
   @Test
@@ -81,7 +80,6 @@ public class SwiftTypeMapperTest {
 
     SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
 
-    assertEquals(
-        "Return value of Struct type should be mapped as optional", true, mappedType.optional);
+    assertTrue("Return value of Struct type should be mapped as optional", mappedType.optional);
   }
 }

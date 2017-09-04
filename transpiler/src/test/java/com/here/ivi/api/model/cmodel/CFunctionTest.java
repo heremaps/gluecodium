@@ -13,10 +13,7 @@ package com.here.ivi.api.model.cmodel;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 import com.here.ivi.api.generator.cbridge.TypeConverter;
 import java.util.List;
@@ -42,8 +39,7 @@ public class CFunctionTest {
     assertEquals("For empty function there is no parameters", 0, function.parameters.size());
     assertEquals(
         "For empty function there is no parameter conversioins", 0, function.conversions.size());
-    assertEquals(
-        "A new function by default is public", false, function.declareInImplementationOnly);
+    assertFalse("A new function by default is public", function.declareInImplementationOnly);
   }
 
   @Test
