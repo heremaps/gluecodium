@@ -4,8 +4,9 @@ extern "C" {
 #endif
 
 {{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
+
 {{#structs}}{{>cbridge/CStruct}}{{/structs}}
-{{#functions}}{{^declareInImplementationOnly}}{{>cbridge/FunctionSignature}};{{/declareInImplementationOnly}}{{/functions}}
+{{#functions}}{{^internalOnlyFunction}}{{>cbridge/FunctionSignature}};{{/internalOnlyFunction}}{{/functions}}
 
 #ifdef __cplusplus
 }

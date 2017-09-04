@@ -10,8 +10,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "StringHandle.h"
-#include "StringHandleImpl.h"
+#include "cbridge/StringHandle.h"
+#include "cbridge_internal/StringHandleImpl.h"
 
 void std_string_release(std_stringRef handle) {
     delete get_pointer(handle);

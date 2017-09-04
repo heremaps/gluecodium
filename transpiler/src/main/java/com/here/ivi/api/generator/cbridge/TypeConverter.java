@@ -16,7 +16,7 @@ import static java.util.Collections.emptyList;
 import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.common.Include;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,23 +30,18 @@ public class TypeConverter {
     public TypeConversion(String name, String expression, Include... includes) {
       this.name = "cpp_" + name;
       this.expression = expression;
-      this.includes = new HashSet<>(Arrays.asList(includes));
+      this.includes = new LinkedHashSet<>(Arrays.asList(includes));
     }
 
     TypeConversion(String name, String expression, List<Include> includes) {
       this.name = "cpp_" + name;
       this.expression = expression;
-      this.includes = new HashSet<>(includes);
+      this.includes = new LinkedHashSet<>(includes);
     }
 
     public TypeConversion(String name) {
       this(name, "cpp_" + name);
     }
-  }
-
-  public static TypeConversion reinterpretCast(CParameter param, String targetType) {
-    return new TypeConverter.TypeConversion(
-        param.name, String.format("reinterpret_cast<const %1$s*>(%2$s)", targetType, param.name));
   }
 
   public static TypeConversion identity(CParameter param) {
@@ -59,7 +54,7 @@ public class TypeConverter {
         paramName,
         String.format(
             baseApiType.constructFromCExpr, cParams.stream().map(param -> param.name).toArray()),
-        baseApiType.baseTypeIncludes);
+        baseApiType.conversionToCppIncludes);
   }
 
   public static TypeConversion createReturnValueConversionRoutine(
@@ -71,7 +66,7 @@ public class TypeConverter {
       return new TypeConversion(
           conversionName,
           String.format(baseApiType.returnValueConstrExpr, "cpp_result"),
-          baseApiType.returnConversionIncludes);
+          baseApiType.conversionFromCppIncludes);
     }
   }
 }

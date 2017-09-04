@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.cbridge;
 
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.franca.Interface;
 import java.util.ArrayList;
 import org.franca.core.franca.FBasicTypeId;
@@ -23,25 +24,25 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CBridgeTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
+  @Mock private FStructType francaStructType;
+  @Mock private IncludeResolver resolver;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface rootModel;
 
   @Test
   public void mapStructType() {
-    FStructType francaStructType = Mockito.mock(FStructType.class);
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
     when(francaStructType.getName()).thenReturn("TestStruct");
     when(rootModel.getPackageNames()).thenReturn(new ArrayList<>());
 
-    CppTypeInfo mapped = CTypeMapper.mapType(rootModel, francaTypeRef);
+    CppTypeInfo mapped = CTypeMapper.mapType(rootModel, resolver, francaTypeRef);
     Assert.assertEquals("TestStruct", mapped.baseType);
   }
 
@@ -49,7 +50,7 @@ public class CBridgeTypeMapperTest {
   public void mapPredefinedType() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
 
-    CppTypeInfo mapped = CTypeMapper.mapType(rootModel, francaTypeRef);
+    CppTypeInfo mapped = CTypeMapper.mapType(rootModel, resolver, francaTypeRef);
     Assert.assertEquals("bool", mapped.baseType);
   }
 }

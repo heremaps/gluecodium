@@ -11,6 +11,8 @@
 
 package com.here.ivi.api.model.cmodel;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +36,12 @@ public class CStruct extends CType {
     fieldSetterNameTemplate = baseName + "_" + "%s" + "_set";
     fieldGetterNameTemplate = baseName + "_" + "%s" + "_get";
     this.mappedType = mappedType;
-    includes.addAll(mappedType.baseTypeIncludes);
+    includes =
+        mappedType
+            .cTypesNeededByConstructor
+            .stream()
+            .flatMap(type -> type.includes.stream())
+            .collect(toSet());
   }
 
   public String getNameOfFieldSetter(String fieldName) {

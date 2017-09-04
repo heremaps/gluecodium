@@ -10,8 +10,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "ByteArrayHandle.h"
-#include "ByteArrayHandleImpl.h"
+#include "cbridge/ByteArrayHandle.h"
+#include "cbridge_internal/ByteArrayHandleImpl.h"
 
 void byteArray_release(byteArrayRef handle) {
     delete get_pointer(handle);

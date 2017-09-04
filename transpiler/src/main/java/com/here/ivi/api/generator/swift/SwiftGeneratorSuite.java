@@ -19,6 +19,7 @@ import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
+import com.here.ivi.api.model.cmodel.IncludeResolver;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -35,11 +36,12 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
   public List<GeneratedFile> generate() {
     SwiftNameRules swiftNameRules = new SwiftNameRules();
     CBridgeNameRules cBridgeNameRules = new CBridgeNameRules();
+    IncludeResolver includeResolver = new IncludeResolver(model, cBridgeNameRules);
 
     // TODO: APIGEN-108 Add all other possible generators and call them here
 
     SwiftGenerator swiftGenerator = new SwiftGenerator(swiftNameRules);
-    CBridgeGenerator cBridgeGenerator = new CBridgeGenerator(cBridgeNameRules);
+    CBridgeGenerator cBridgeGenerator = new CBridgeGenerator(includeResolver, cBridgeNameRules);
 
     Stream<GeneratedFile> swiftStream =
         model.getInterfaces().stream().map(swiftGenerator::generate).flatMap(Collection::stream);

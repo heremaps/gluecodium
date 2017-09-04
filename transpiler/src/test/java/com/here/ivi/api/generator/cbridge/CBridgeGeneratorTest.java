@@ -13,13 +13,18 @@ package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.test.TemplateComparison.assertEqualHeaderContent;
 import static com.here.ivi.api.test.TemplateComparison.assertEqualImplementationContent;
+import static com.here.ivi.api.test.TemplateComparison.assertEqualPrivateHeaderContent;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.cmodel.CInterface;
+import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.ArrayEList;
 import java.io.IOException;
@@ -30,6 +35,9 @@ import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FModel;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,10 +50,16 @@ public class CBridgeGeneratorTest {
   private static final List<String> PACKAGES = asList("cbridge", "test");
   private static final String INTERFACE_NAME = "TestInterface";
   private static final String FUNCTION_NAME = "functionName";
+  private static final String PRIVATE_HEADER_NAME = "CBRIDGE_PRIVATE_HEADER of TestInterface";
+  private static final String PUBLIC_HEADER_NAME = "CBRIDGE_PUBLIC_HEADER of TestInterface";
+  private static final String CBRIDGE_HEADER_INCLUDE = "#include \"" + PUBLIC_HEADER_NAME + "\"\n";
+  private static final String BASEAPI_HEADER_INCLUDE =
+      "#include \"BASE_API_HEADER of TestInterface\"\n";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface anInterface;
 
+  @Mock private FModel francaModel;
   @Mock private FInterface francaInterface;
 
   @Mock private FMethod francaMethod;
@@ -53,18 +67,21 @@ public class CBridgeGeneratorTest {
   @Mock private FTypeRef francaTypeRef1;
   @Mock private FArgument francaArgument2;
   @Mock private FTypeRef francaTypeRef2;
+
+  @Mock private IncludeResolver resolver;
+  @Mock private CBridgeNameRules nameRules;
+  private final ArrayEList<FType> structs = new ArrayEList<>();
   private final ArrayEList<FMethod> methods = new ArrayEList<>();
   private final ArrayEList<FArgument> inputArguments = new ArrayEList<>();
   private final ArrayEList<FArgument> outputArguments = new ArrayEList<>();
 
-  private final CBridgeGenerator generator = new CBridgeGenerator(new CBridgeNameRules());
+  private CBridgeGenerator generator;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
     when(anInterface.isStatic(any())).thenReturn(true);
-
     when(anInterface.getPackageNames()).thenReturn(PACKAGES);
     when(anInterface.getName()).thenReturn(INTERFACE_NAME);
     when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
@@ -72,11 +89,29 @@ public class CBridgeGeneratorTest {
 
     when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
     when(francaInterface.getMethods()).thenReturn(methods);
-
+    when(francaInterface.eContainer()).thenReturn(francaModel);
+    when(francaInterface.getTypes()).thenReturn(structs);
     when(francaMethod.getName()).thenReturn(FUNCTION_NAME);
     when(francaMethod.getInArgs()).thenReturn(inputArguments);
     when(francaMethod.getOutArgs()).thenReturn(outputArguments);
+    when(francaMethod.eContainer()).thenReturn(francaInterface);
     methods.add(francaMethod);
+
+    when(francaModel.getName()).thenReturn(String.join(".", PACKAGES));
+    when(resolver.resolveInclude(any(), any()))
+        .then(
+            invocation -> {
+              IncludeResolver.HeaderType type =
+                  (IncludeResolver.HeaderType) (invocation.getArguments()[1]);
+              return Include.createInternalInclude(type.toString() + " of " + INTERFACE_NAME);
+            });
+
+    generator = new CBridgeGenerator(resolver, nameRules);
+
+    when(nameRules.getPrivateHeaderFileNameWithPath(any())).thenReturn(PRIVATE_HEADER_NAME);
+    when(nameRules.getHeaderFileNameWithPath(any(FrancaElement.class)))
+        .thenReturn(PUBLIC_HEADER_NAME);
+    when(nameRules.getImplementationFileNameWithPath(any())).thenReturn("");
   }
 
   @Test
@@ -91,12 +126,8 @@ public class CBridgeGeneratorTest {
     when(anInterface.isStatic(any())).thenReturn(false);
 
     String expectedHeader = "";
-    String expectedImplementation =
-        String.join(
-            "\n",
-            "#include \"TestInterface.h\"",
-            "#include <cpp/cbridge/test/TestInterface.h>",
-            "");
+
+    String expectedImplementation = CBRIDGE_HEADER_INCLUDE;
 
     CInterface cModel = generator.buildCBridgeModel(anInterface);
 
@@ -111,8 +142,8 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include \"TestInterface.h\"",
-            "#include <cpp/cbridge/test/TestInterface.h>",
+            BASEAPI_HEADER_INCLUDE,
+            CBRIDGE_HEADER_INCLUDE,
             "void cbridge_test_TestInterface_functionName() {",
             "    cbridge::test::TestInterface::functionName();",
             "}",
@@ -136,10 +167,9 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include \"TestInterface.h\"",
             "#include <string>",
-            "#include \"StringHandleImpl.h\"",
-            "#include <cpp/cbridge/test/TestInterface.h>",
+            BASEAPI_HEADER_INCLUDE,
+            CBRIDGE_HEADER_INCLUDE,
             "void cbridge_test_TestInterface_functionName(const char* input) {",
             "    auto&& cpp_input = std::string(input);",
             "    cbridge::test::TestInterface::functionName(cpp_input);",
@@ -166,18 +196,17 @@ public class CBridgeGeneratorTest {
     String expectedHeader =
         String.join(
             "\n",
-            "#include <StringHandle.h>",
+            "#include \"cbridge/StringHandle.h\"",
             "std_stringRef cbridge_test_TestInterface_functionName(const char* input);",
             "");
 
     String expectedImplementation =
         String.join(
             "\n",
-            "#include \"TestInterface.h\"",
             "#include <string>",
-            "#include \"StringHandleImpl.h\"",
-            "#include <cpp/cbridge/test/TestInterface.h>",
             "#include <utility>",
+            BASEAPI_HEADER_INCLUDE,
+            CBRIDGE_HEADER_INCLUDE,
             "std_stringRef cbridge_test_TestInterface_functionName(const char* input) {",
             "    auto&& cpp_input = std::string(input);",
             "    {",
@@ -209,10 +238,9 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include \"TestInterface.h\"",
-            "#include \"ByteArrayHandleImpl.h\"",
             "#include <vector>",
-            "#include <cpp/cbridge/test/TestInterface.h>",
+            BASEAPI_HEADER_INCLUDE,
+            CBRIDGE_HEADER_INCLUDE,
             "void cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {",
             "    auto&& cpp_input = std::vector<uint8_t>(input_ptr, input_ptr + input_size);",
             "    cbridge::test::TestInterface::functionName(cpp_input);",
@@ -239,19 +267,18 @@ public class CBridgeGeneratorTest {
     String expectedHeader =
         String.join(
             "\n",
-            "#include <ByteArrayHandle.h>",
             "#include <stdint.h>",
+            "#include \"cbridge/ByteArrayHandle.h\"",
             "byteArrayRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size);",
             "");
 
     String expectedImplementation =
         String.join(
             "\n",
-            "#include \"TestInterface.h\"",
-            "#include \"ByteArrayHandleImpl.h\"",
             "#include <vector>",
-            "#include <cpp/cbridge/test/TestInterface.h>",
             "#include <utility>",
+            BASEAPI_HEADER_INCLUDE,
+            CBRIDGE_HEADER_INCLUDE,
             "byteArrayRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {",
             "    auto&& cpp_input = std::vector<uint8_t>(input_ptr, input_ptr + input_size);",
             "    {",
@@ -292,12 +319,11 @@ public class CBridgeGeneratorTest {
             "#include <stdint.h>",
             "%1$s cbridge_test_TestInterface_functionName(%1$s input);",
             "");
-
     String expectedImplementationWithTypePlaceholders =
         String.join(
             "\n",
-            "#include \"TestInterface.h\"",
-            "#include <cpp/cbridge/test/TestInterface.h>",
+            BASEAPI_HEADER_INCLUDE,
+            CBRIDGE_HEADER_INCLUDE,
             "%1$s cbridge_test_TestInterface_functionName(%1$s input) {",
             "    auto&& cpp_input = input;",
             "    {",
@@ -335,8 +361,8 @@ public class CBridgeGeneratorTest {
     String expectedImplementationWithTypePlaceholders =
         String.join(
             "\n",
-            "#include \"TestInterface.h\"",
-            "#include <cpp/cbridge/test/TestInterface.h>",
+            BASEAPI_HEADER_INCLUDE,
+            CBRIDGE_HEADER_INCLUDE,
             "%1$s cbridge_test_TestInterface_functionName(%1$s input) {",
             "    auto&& cpp_input = input;",
             "    {",
@@ -376,8 +402,8 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include \"TestInterface.h\"",
-            "#include <cpp/cbridge/test/TestInterface.h>",
+            BASEAPI_HEADER_INCLUDE,
+            CBRIDGE_HEADER_INCLUDE,
             "bool cbridge_test_TestInterface_functionName(bool input) {",
             "    auto&& cpp_input = input;",
             "    {",
@@ -408,11 +434,62 @@ public class CBridgeGeneratorTest {
     assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
   }
 
+  @Test
+  public void createStructDefinition() {
+    methods.clear();
+    FStructType struct = mock(FStructType.class);
+    when(struct.getName()).thenReturn("SomeStruct");
+    when(struct.eContainer()).thenReturn(francaInterface);
+    structs.add(struct);
+
+    String expectedHeader =
+        "typedef struct {\n"
+            + "    void* const private_pointer;\n"
+            + "} cbridge_test_TestInterface_SomeStructRef;\n"
+            + "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create();\n"
+            + "void cbridge_test_TestInterface_SomeStruct_release(cbridge_test_TestInterface_SomeStructRef handle);\n";
+
+    String expectedPrivateHeader =
+        "#pragma once\n"
+            + CBRIDGE_HEADER_INCLUDE
+            + BASEAPI_HEADER_INCLUDE
+            + "inline cbridge::test::TestInterface::SomeStruct* get_pointer(cbridge_test_TestInterface_SomeStructRef handle) {\n"
+            + "    return static_cast<cbridge::test::TestInterface::SomeStruct*>(handle.private_pointer);\n"
+            + "}\n";
+
+    String expectedImplementation =
+        CBRIDGE_HEADER_INCLUDE
+            + "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create() {\n"
+            + "    {\n"
+            + "        auto&& cpp_result = cbridge_test_TestInterface_SomeStructRef{ new cbridge::test::TestInterface::SomeStruct()};\n"
+            + "        return cpp_result;\n"
+            + "    }\n"
+            + "}\n"
+            + "void cbridge_test_TestInterface_SomeStruct_release(cbridge_test_TestInterface_SomeStructRef handle) {\n"
+            + "    auto&& cpp_handle = handle;\n"
+            + "    delete get_pointer(cpp_handle);\n"
+            + "}\n";
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation, expectedPrivateHeader);
+  }
+
   private void assertContentAsExpected(
-      CInterface cModel, String expectedHeader, String expectedImplementation) {
+      CInterface cModel,
+      String expectedHeader,
+      String expectedImplementation,
+      String expectedPrivateHeader) {
     final String generatedImplementation = CBridgeGenerator.generateImplementationContent(cModel);
     assertEqualImplementationContent(expectedImplementation, generatedImplementation);
     final String generatedHeader = CBridgeGenerator.generateHeaderContent(cModel);
     assertEqualHeaderContent(expectedHeader, generatedHeader);
+    final String generatedPrivateHeader = CBridgeGenerator.generatePrivateHeaderContent(cModel);
+    assertEqualPrivateHeaderContent(expectedPrivateHeader, generatedPrivateHeader);
+  }
+
+  private void assertContentAsExpected(
+      CInterface cModel, String expectedHeader, String expectedImplementation) {
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation, "");
   }
 }

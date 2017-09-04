@@ -15,8 +15,11 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 import com.here.ivi.api.generator.cbridge.TypeConverter;
+import com.here.ivi.api.model.common.Include;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class CFunction extends CElement {
 
@@ -25,22 +28,27 @@ public class CFunction extends CElement {
   public final CType returnType;
   public final TypeConverter.TypeConversion returnConversion;
   public final String delegateCall;
+  public final Set<Include> delegateCallInclude;
   public String definitionTemplate = "cbridge/FunctionDefinition";
-  public boolean declareInImplementationOnly;
+  public boolean internalOnlyFunction;
 
-  private CFunction(
-      final String name,
-      final List<? extends CParameter> parameters,
-      final List<TypeConverter.TypeConversion> conversions,
-      final CType returnType,
-      final TypeConverter.TypeConversion returnConversion,
-      final String delegateCall) {
+  public CFunction(
+      String name,
+      List<? extends CParameter> parameters,
+      List<TypeConverter.TypeConversion> conversions,
+      CType returnType,
+      TypeConverter.TypeConversion returnConversion,
+      String delegateCall,
+      Set<Include> delegateCallInclude,
+      boolean internalOnlyFunction) {
     super(name);
     this.parameters = parameters;
     this.conversions = conversions;
     this.returnType = returnType;
     this.returnConversion = returnConversion;
     this.delegateCall = delegateCall;
+    this.delegateCallInclude = delegateCallInclude;
+    this.internalOnlyFunction = internalOnlyFunction;
   }
 
   @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
@@ -51,6 +59,8 @@ public class CFunction extends CElement {
     private CType returnType = CType.VOID;
     private TypeConverter.TypeConversion returnConversion;
     private String delegateCall = "";
+    private Set<Include> delegateCallInclude = new LinkedHashSet<>();
+    private boolean internalOnlyFunction;
 
     public Builder(String name) {
       this.name = name;
@@ -73,6 +83,16 @@ public class CFunction extends CElement {
 
     public CFunction.Builder delegateCallTemplate(String template) {
       this.delegateCall = template;
+      return this;
+    }
+
+    public CFunction.Builder delegateCallIncludes(Set<Include> includes) {
+      this.delegateCallInclude = includes;
+      return this;
+    }
+
+    public CFunction.Builder markAsInternalOnly() {
+      this.internalOnlyFunction = true;
       return this;
     }
 
@@ -101,7 +121,9 @@ public class CFunction extends CElement {
           this.conversions,
           this.returnType,
           this.returnConversion,
-          this.delegateCall);
+          this.delegateCall,
+          this.delegateCallInclude,
+          this.internalOnlyFunction);
     }
   }
 }

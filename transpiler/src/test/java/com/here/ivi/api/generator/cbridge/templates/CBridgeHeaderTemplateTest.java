@@ -105,7 +105,7 @@ public class CBridgeHeaderTemplateTest {
   public void privateFunctionNotGeneratedInHeader() {
     CInterface cInterface = new CInterface();
     CFunction privateFunction = new CFunction.Builder("privateFunction").build();
-    privateFunction.declareInImplementationOnly = true;
+    privateFunction.internalOnlyFunction = true;
     cInterface.functions = Collections.singletonList(privateFunction);
 
     final String expected = "";

@@ -126,18 +126,17 @@ public class CBridgeImplementationTemplateTest {
   }
 
   @Test
-  public void privateFunctionInImplementationWithCorrectOrder() {
+  public void privateFunctionNotPresentInImplementation() {
     CInterface cInterface = new CInterface();
     CFunction normalFunction = new CFunction.Builder("publicFunction").build();
-    CFunction privateFunction = new CFunction.Builder("privateFunction").build();
+    CFunction privateFunction =
+        new CFunction.Builder("privateFunction").markAsInternalOnly().build();
     List<CFunction> functions = new ArrayList<>();
     functions.add(normalFunction);
     functions.add(privateFunction);
-    privateFunction.declareInImplementationOnly = true;
     cInterface.functions = functions;
 
-    final String expected =
-        "void privateFunction() {\n    ;\n" + "}\n" + "void publicFunction() {\n    ;\n" + "}\n";
+    final String expected = "void publicFunction() {\n    ;\n}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
   }

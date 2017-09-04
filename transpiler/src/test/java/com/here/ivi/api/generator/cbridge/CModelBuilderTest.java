@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static java.util.Collections.singleton;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -30,9 +31,10 @@ import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.CType;
+import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.MockContextStack;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -40,7 +42,9 @@ import java.util.stream.Collectors;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypedElement;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,12 +65,15 @@ public class CModelBuilderTest {
   private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
   @Mock private CBridgeNameRules cBridgeNameRules;
+  @Mock private IncludeResolver resolver;
   @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FStructType francaStruct;
   @Mock private FTypedElement francaTypedElement;
+  @Mock private FTypeCollection francaTypeCollection;
+  @Mock private FModel francaModel;
 
   private CppTypeInfo typeInfo;
 
@@ -76,22 +83,25 @@ public class CModelBuilderTest {
   @Before
   public void setUp() {
     mockStatic(CTypeMapper.class, CppNameRules.class, CppTypeInfo.class);
+    initMocks(this);
+
     CType fakeType = mock(CType.class);
     fakeType.includes = new HashSet<>();
     typeInfo = new CppTypeInfo(fakeType);
-    initMocks(this);
-    typeInfo.baseTypeIncludes = Collections.emptyList();
     typeInfo.returnValueConstrExpr = "";
-    when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(typeInfo);
 
+    when(CppTypeInfo.createStructTypeInfo(any(), any(), any())).thenReturn(typeInfo);
     when(anInterface.isStatic(any())).thenReturn(true);
     when(cBridgeNameRules.getMethodName(any(), any())).thenReturn(FULL_FUNCTION_NAME);
     when(cBridgeNameRules.getDelegateMethodName(any(), any())).thenReturn(DELEGATE_NAME);
 
-    when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
+    when(CTypeMapper.mapType(any(), any(), any())).thenReturn(cppTypeInfo);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
+    when(francaMethod.eContainer()).thenReturn(francaTypeCollection);
+    when(francaTypeCollection.eContainer()).thenReturn(francaModel);
+    when(francaInterface.eContainer()).thenReturn(francaModel);
 
-    modelBuilder = new CModelBuilder(anInterface, cBridgeNameRules, contextStack);
+    modelBuilder = new CModelBuilder(anInterface, cBridgeNameRules, resolver, contextStack);
   }
 
   @Test
@@ -208,8 +218,56 @@ public class CModelBuilderTest {
     CInterface iface = interfaces.get(0);
     assertEquals(1, iface.functions.size());
     assertSame(function, iface.functions.get(0));
-    assertEquals(0, iface.headerIncludes.size());
-    assertEquals(2, iface.implementationIncludes.size());
+  }
+
+  @Test
+  public void properIncludesForVoidFunctionNotCallingToBaseApi() {
+    CFunction function = new CFunction.Builder("SomeName").build();
+    contextStack.injectResult(function);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    assertCorrectIncludes(0, 1, 0);
+  }
+
+  @Test
+  public void properIncludesForVoidFunctionCallingToBaseApi() {
+    CFunction function =
+        new CFunction.Builder("SomeName")
+            .delegateCallTemplate("someBaseApiFunc()")
+            .delegateCallIncludes(singleton(Include.createInternalInclude("baseApiInclude.h")))
+            .build();
+    contextStack.injectResult(function);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    assertCorrectIncludes(0, 2, 0);
+  }
+
+  @Test
+  public void properIncludesForPrivateFunctionRequiringSomeIncludes() {
+    CFunction function =
+        new CFunction.Builder("PrivFunction")
+            .delegateCallTemplate("someCallInPrivFunc()")
+            .delegateCallIncludes(
+                singleton(Include.createInternalInclude("fancyIncludeForPrivFunction.h")))
+            .markAsInternalOnly()
+            .build();
+    contextStack.injectResult(function);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    assertCorrectIncludes(0, 1, 1);
+  }
+
+  private void assertCorrectIncludes(
+      int expectedHederIncludes,
+      int expectedImplementationIncludes,
+      int expectedPrivateHeaderIncludes) {
+    CInterface iface = getResults(CInterface.class).get(0);
+    assertEquals(expectedHederIncludes, iface.headerIncludes.size());
+    assertEquals(expectedImplementationIncludes, iface.implementationIncludes.size());
+    assertEquals(expectedPrivateHeaderIncludes, iface.privateHeaderIncludes.size());
   }
 
   @Test
@@ -247,8 +305,7 @@ public class CModelBuilderTest {
     assertNotEquals("Field getter function should be generated", null, func);
     assertEquals("Getter should take in 1 param", 1, func.parameters.size());
     assertNotEquals("get_oointer function should be generated", null, getPointerFunc);
-    assertTrue(
-        "get_pointer should be flagged as private", getPointerFunc.declareInImplementationOnly);
+    assertTrue("get_pointer should be flagged as private", getPointerFunc.internalOnlyFunction);
     assertNotEquals(
         "Field setter function should be generated",
         null,
