@@ -20,7 +20,6 @@ import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Arrays;
 import java.util.List;
 import org.franca.core.franca.FStructType;
@@ -74,10 +73,9 @@ public class CppTypeInfo {
               Include.createSystemInclude("stdint.h")));
 
   public static CppTypeInfo createStructTypeInfo(
-      final FrancaElement rootModel, final IncludeResolver resolver, final FStructType structType) {
+      final IncludeResolver resolver, final FStructType structType) {
     CBridgeNameRules rules = new CBridgeNameRules();
-
-    String handleName = rules.getStructRefType(rootModel, structType.getName());
+    String handleName = rules.getStructRefType(structType);
     return new CppTypeInfo(
         structType.getName(),
         "*get_pointer(%1$s)",
@@ -87,7 +85,7 @@ public class CppTypeInfo {
                 singletonList(
                     resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER)))),
         singletonList(""),
-        handleName + "{ new " + rules.getBaseApiStructName(rootModel, structType) + "(%s)}",
+        handleName + "{ new " + rules.getBaseApiStructName(structType) + "(%s)}",
         new CType(handleName),
         TypeCategory.STRUCT,
         asList(

@@ -36,6 +36,7 @@ import java.util.List;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,6 +58,7 @@ public class SwiftModelBuilderTest {
   @Mock private AbstractFrancaCommentParser.Comments comments;
   @Mock private SwiftNameRules nameRules;
   @Mock private Interface anInterface;
+  @Mock private FModel francaModel;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FInterface francaInterface;
@@ -78,6 +80,10 @@ public class SwiftModelBuilderTest {
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(nameRules.getParameterName(any())).thenReturn(PARAM_NAME);
     when(nameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
+
+    when(francaMethod.eContainer()).thenReturn(francaInterface);
+    when(francaInterface.eContainer()).thenReturn(francaModel);
+    when(francaModel.getName()).thenReturn("");
 
     modelBuilder = new SwiftModelBuilder(anInterface, nameRules, contextStack);
   }

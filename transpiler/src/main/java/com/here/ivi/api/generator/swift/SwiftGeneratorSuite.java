@@ -34,22 +34,31 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
 
   @Override
   public List<GeneratedFile> generate() {
-    SwiftNameRules swiftNameRules = new SwiftNameRules();
-    CBridgeNameRules cBridgeNameRules = new CBridgeNameRules();
-    IncludeResolver includeResolver = new IncludeResolver(model, cBridgeNameRules);
 
-    // TODO: APIGEN-108 Add all other possible generators and call them here
-
-    SwiftGenerator swiftGenerator = new SwiftGenerator(swiftNameRules);
-    CBridgeGenerator cBridgeGenerator = new CBridgeGenerator(includeResolver, cBridgeNameRules);
+    SwiftGenerator swiftGenerator = new SwiftGenerator(new SwiftNameRules());
+    CBridgeGenerator cBridgeGenerator =
+        new CBridgeGenerator(
+            new IncludeResolver(model, new CBridgeNameRules()), new CBridgeNameRules());
 
     Stream<GeneratedFile> swiftStream =
         model.getInterfaces().stream().map(swiftGenerator::generate).flatMap(Collection::stream);
-    Stream<GeneratedFile> cBridgeStream =
-        model.getInterfaces().stream().map(cBridgeGenerator::generate).flatMap(Collection::stream);
-    cBridgeStream = concat(cBridgeStream, CBridgeGenerator.STATIC_FILES.stream());
 
-    return concat(swiftStream, cBridgeStream).filter(Objects::nonNull).collect(toList());
+    Stream<GeneratedFile> cBridgeInterfaceStream =
+        model.getInterfaces().stream().map(cBridgeGenerator::generate).flatMap(Collection::stream);
+    cBridgeInterfaceStream = concat(cBridgeInterfaceStream, CBridgeGenerator.STATIC_FILES.stream());
+
+    Stream<GeneratedFile> cBridgeTypeCollectionStream =
+        model
+            .getTypeCollections()
+            .stream()
+            .map(cBridgeGenerator::generate)
+            .flatMap(Collection::stream);
+
+    return Stream.of(swiftStream, cBridgeInterfaceStream, cBridgeTypeCollectionStream)
+        .reduce(Stream::concat)
+        .orElseGet(Stream::empty)
+        .filter(Objects::nonNull)
+        .collect(toList());
   }
 
   @Override

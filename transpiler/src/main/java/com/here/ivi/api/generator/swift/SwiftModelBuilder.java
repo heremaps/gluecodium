@@ -75,8 +75,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String comment = CppCommentParser.parse(francaStruct).getMainBodyText();
     swiftStruct.comment = comment != null ? comment : "";
     swiftStruct.fields = getAllOfType(getCurrentContext().previousResults, SwiftStructField.class);
-    swiftStruct.cPrefix = bridgeRules.getStructBaseName(rootModel, francaStruct.getName());
-    swiftStruct.cType = bridgeRules.getStructRefType(rootModel, francaStruct.getName());
+    swiftStruct.cPrefix = bridgeRules.getStructBaseName(francaStruct);
+    swiftStruct.cType = bridgeRules.getStructRefType(francaStruct);
 
     storeResult(swiftStruct);
     super.finishBuilding(francaStruct);
@@ -128,7 +128,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     method.comment = comment != null ? comment : "";
     method.isStatic = rootModel.isStatic(francaMethod);
     CBridgeNameRules cbridgeNameRules = new CBridgeNameRules();
-    method.cBaseName = cbridgeNameRules.getMethodName(rootModel, francaMethod);
+    method.cBaseName = cbridgeNameRules.getMethodName(francaMethod);
     storeResult(method);
     super.finishBuilding(francaMethod);
   }
