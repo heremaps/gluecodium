@@ -111,24 +111,6 @@ public class CBridgeNameRulesTest {
   }
 
   @Test
-  public void getHeaderFileNameReturnsCorrectPath() {
-    String expected = INTERFACE_NAME + ".h";
-
-    String actual = nameRules.getHeaderFileName(anInterface);
-
-    assertEquals(expected, actual);
-  }
-
-  @Test
-  public void implementationFileNameReturnsCorrectPath() {
-    String expected = INTERFACE_NAME + ".cpp";
-
-    String actual = nameRules.getImplementationFileName(anInterface);
-
-    assertEquals(expected, actual);
-  }
-
-  @Test
   public void getHeaderFileNameWithPathReturnsCorrectPath() {
     String expected = "cbridge/PKG1/PKG2/TestInterface.h";
 

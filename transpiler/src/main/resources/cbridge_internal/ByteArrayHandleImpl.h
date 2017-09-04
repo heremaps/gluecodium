@@ -11,9 +11,9 @@
 // -------------------------------------------------------------------------------------------------
 
 #pragma once
-#include "StringHandle.h"
-#include <string>
+#include "cbridge/ByteArrayHandle.h"
+#include <vector>
 
-inline static std::string* get_pointer(std_stringRef handle) {
-    return static_cast<std::string*>(handle.private_pointer);
+inline static std::vector<uint8_t>* get_pointer(byteArrayRef handle) {
+    return static_cast<std::vector<uint8_t>*>(handle.private_pointer);
 }

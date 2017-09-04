@@ -1,0 +1,8 @@
+#pragma once
+
+{{#privateHeaderIncludes}}{{>common/Include}}{{/privateHeaderIncludes}}
+
+{{#functions}}{{#internalOnlyFunction}}
+{{#definitionTemplate}}{{include . }}{{/definitionTemplate}}
+{{/internalOnlyFunction}}{{/functions}}
+

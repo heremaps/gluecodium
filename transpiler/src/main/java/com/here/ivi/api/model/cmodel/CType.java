@@ -13,13 +13,17 @@ package com.here.ivi.api.model.cmodel;
 
 import static java.util.Collections.singletonList;
 
+import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.model.common.Include;
+import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
 
 /** Base class for all C types */
+@EqualsAndHashCode(callSuper = true)
 public class CType extends CElement {
   private static final Include FIXED_WIDTH_INTEGERS_INCLUDE =
       Include.createSystemInclude("stdint.h");
@@ -45,38 +49,30 @@ public class CType extends CElement {
   public static final CType BOOL = new CType("bool", singletonList(BOOL_INCLUDE));
   public static final CType FLOAT = new CType("float");
   public static final CType DOUBLE = new CType("double");
+  public static final CType STRING_REF =
+      new CType(
+          "std_stringRef",
+          singletonList(
+              Include.createInternalInclude(
+                  Paths.get(CBridgeNameRules.SOURCE_FOLDER, "StringHandle.h").toString())));
+  public static final CType BYTE_ARRAY_REF =
+      new CType(
+          "byteArrayRef",
+          singletonList(
+              Include.createInternalInclude(
+                  Paths.get(CBridgeNameRules.SOURCE_FOLDER, "ByteArrayHandle.h").toString())));
 
   public Boolean isConst = false;
   public Set<Include> includes = Collections.emptySet();
 
   public CType(String name) {
     super(name);
-    this.includes = new HashSet<>();
+    this.includes = new LinkedHashSet<>();
   }
 
   public CType(String name, List<Include> includes) {
     super(name);
-    this.includes = new HashSet<>(includes);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    CType that = (CType) o;
-    return name.equals(that.name) && isConst == that.isConst;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = isConst != null ? isConst.hashCode() : 0;
-    result = 31 * result + (name != null ? name.hashCode() : 0);
-    return result;
+    this.includes = new LinkedHashSet<>(includes);
   }
 
   @Override

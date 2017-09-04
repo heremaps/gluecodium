@@ -1,6 +1,9 @@
 {{#implementationIncludes}}
 {{>common/Include}}
 {{/implementationIncludes}}
-{{#functions}}{{#declareInImplementationOnly}}{{#definitionTemplate}}{{include . }}{{/definitionTemplate}}{{/declareInImplementationOnly}}{{/functions}}
-{{#functions}}{{^declareInImplementationOnly}}{{#definitionTemplate}}{{include . }}{{/definitionTemplate}}{{/declareInImplementationOnly}}{{/functions}}
+
+{{#functions}}
+{{^internalOnlyFunction}}{{#definitionTemplate}}{{include . }}{{/definitionTemplate}}{{/internalOnlyFunction}}
+{{/functions}}
+
 

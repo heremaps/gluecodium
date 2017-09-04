@@ -23,29 +23,55 @@ import org.franca.core.franca.FStructType;
 
 public class CBridgeNameRules {
 
+  public static final String SOURCE_FOLDER = "cbridge";
+  private static final String INTERNAL_SOURCE_FOLDER = "cbridge_internal";
+
   private static final String CPP_NAMESPACE_DELIMITER = "::";
   private static final String UNDERSCORE_DELIMITER = "_";
 
   public String getHeaderFileNameWithPath(final FrancaElement francaElement) {
-    return Paths.get(getDirectoryName(francaElement), getHeaderFileName(francaElement)).toString();
-  }
-
-  public String getImplementationFileNameWithPath(final FrancaElement francaElement) {
-    return Paths.get(getDirectoryName(francaElement), getImplementationFileName(francaElement))
+    return Paths.get(
+            getPublicDirectoryName(francaElement.getPackageNames()),
+            getHeaderFileName(getName(francaElement)))
         .toString();
   }
 
-  public String getHeaderFileName(final FrancaElement francaElement) {
-    return getName(francaElement) + ".h";
+  public String getPrivateHeaderFileNameWithPath(final FrancaElement francaElement) {
+    return Paths.get(
+            getPrivateDirectoryName(francaElement.getPackageNames()),
+            getPrivateHeaderFileName(getName(francaElement)))
+        .toString();
   }
 
-  public String getImplementationFileName(final FrancaElement francaElement) {
-    return getName(francaElement) + ".cpp";
+  public String getImplementationFileNameWithPath(final FrancaElement francaElement) {
+    return Paths.get(
+            getPublicDirectoryName(francaElement.getPackageNames()),
+            getImplementationFileName(getName(francaElement)))
+        .toString();
   }
 
-  private String getDirectoryName(final FrancaElement francaElement) {
+  private String getHeaderFileName(final String elementName) {
+    return elementName + ".h";
+  }
 
-    return Paths.get("cbridge", francaElement.getPackageNames().toArray(new String[0])).toString();
+  private String getPrivateHeaderFileName(final String elementName) {
+    return elementName + "Impl.h";
+  }
+
+  private String getImplementationFileName(final String elementName) {
+    return elementName + ".cpp";
+  }
+
+  private String getDirectoryName(final List<String> packages, final String rootFolder) {
+    return Paths.get(rootFolder, packages.toArray(new String[packages.size()])).toString();
+  }
+
+  private String getPublicDirectoryName(final List<String> packages) {
+    return getDirectoryName(packages, SOURCE_FOLDER);
+  }
+
+  private String getPrivateDirectoryName(final List<String> packages) {
+    return getDirectoryName(packages, INTERNAL_SOURCE_FOLDER);
   }
 
   private String getName(final FrancaElement francaElement) {

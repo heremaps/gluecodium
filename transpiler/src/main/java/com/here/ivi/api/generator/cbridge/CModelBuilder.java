@@ -18,7 +18,6 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
-import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CField;
 import com.here.ivi.api.model.cmodel.CFunction;
@@ -26,13 +25,16 @@ import com.here.ivi.api.model.cmodel.CInParameter;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CParameter;
+import com.here.ivi.api.model.cmodel.CPointerType;
 import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.CType;
+import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.Interface;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -48,20 +50,24 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   private final CBridgeNameRules cBridgeNameRules;
   private final Interface rootModel;
+  private final IncludeResolver resolver;
 
-  public CModelBuilder(final Interface rootModel) {
+  public CModelBuilder(final Interface rootModel, IncludeResolver includeResolver) {
     super(new ModelBuilderContextStack<>());
     cBridgeNameRules = new CBridgeNameRules();
     this.rootModel = rootModel;
+    this.resolver = includeResolver;
   }
 
   CModelBuilder(
       Interface rootModel,
       CBridgeNameRules nameRules,
+      IncludeResolver includeResolver,
       ModelBuilderContextStack<CElement> contextStack) {
     super(contextStack);
     cBridgeNameRules = nameRules;
     this.rootModel = rootModel;
+    this.resolver = includeResolver;
   }
 
   @Override
@@ -74,6 +80,11 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
     cInterface.headerIncludes = collectHeaderIncludes(cInterface);
     cInterface.implementationIncludes = collectImplementationIncludes(cInterface);
+
+    cInterface.implementationIncludes.add(
+        resolver.resolveInclude(francaInterface, HeaderType.CBRIDGE_PUBLIC_HEADER));
+
+    cInterface.privateHeaderIncludes = collectPrivateHeaderIncludes(cInterface);
     storeResult(cInterface);
     closeContext();
   }
@@ -100,7 +111,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
     CFunction mainCallFunction =
         createMainFunction(inParams, baseFunctionName, delegateMethodName, returnParam);
-
+    mainCallFunction.delegateCallInclude.add(
+        resolver.resolveInclude(francaMethod, HeaderType.BASE_API_HEADER));
     storeResult(mainCallFunction);
 
     closeContext();
@@ -108,7 +120,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
-    CppTypeInfo typeInfo = CTypeMapper.mapType(rootModel, francaArgument.getType());
+    CppTypeInfo typeInfo = CTypeMapper.mapType(rootModel, resolver, francaArgument.getType());
     String francaArgumentName = francaArgument.getName();
     List<CParameter> cParams = constructCParameters(francaArgumentName, typeInfo);
     cParams.get(0).conversion =
@@ -119,7 +131,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    CppTypeInfo typeInfo = CTypeMapper.mapType(rootModel, francaArgument.getType());
+    CppTypeInfo typeInfo = CTypeMapper.mapType(rootModel, resolver, francaArgument.getType());
     COutParameter param = new COutParameter("result", typeInfo);
     param.conversion = TypeConverter.createReturnValueConversionRoutine(param.name, typeInfo);
     storeResult(param);
@@ -133,13 +145,13 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             cBridgeNameRules.getStructRefType(rootModel, francaStruct.getName()),
             cBridgeNameRules.getStructBaseName(rootModel, francaStruct.getName()),
             cBridgeNameRules.getBaseApiStructName(rootModel, francaStruct),
-            CppTypeInfo.createStructTypeInfo(rootModel, francaStruct));
+            CppTypeInfo.createStructTypeInfo(rootModel, resolver, francaStruct));
 
     cStruct.fields =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CField.class);
 
     storeResult(cStruct);
-    storeResult(createGetPointerFunction(cStruct.name, cStruct.baseApiName));
+    storeResult(createGetPointerFunction(cStruct));
     storeResult(createStructCreateFunction(cStruct));
     storeResult(createStructReleaseFunction(cStruct));
     for (CField field : cStruct.fields) {
@@ -156,20 +168,22 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     CField cField =
         new CField(
             francaTypedElement.getName(),
-            CTypeMapper.mapType(rootModel, francaTypedElement.getType()));
+            CTypeMapper.mapType(rootModel, resolver, francaTypedElement.getType()));
     storeResult(cField);
     super.finishBuilding(francaTypedElement);
   }
 
-  private CFunction createGetPointerFunction(String cName, String cppName) {
+  private CFunction createGetPointerFunction(CStruct cStruct) {
     CFunction getPointerFunction =
         new CFunction.Builder("get_pointer")
-            .parameters(singletonList(new CParameter("handle", new CType(cName))))
-            .returnType(new CType(cppName))
+            .parameters(singletonList(new CParameter("handle", cStruct)))
+            .returnType(
+                new CPointerType(
+                    new CType(cStruct.baseApiName, cStruct.mappedType.conversionFromCppIncludes)))
             .build();
 
     getPointerFunction.definitionTemplate = "cbridge/getPointer_impl";
-    getPointerFunction.declareInImplementationOnly = true;
+    getPointerFunction.internalOnlyFunction = true;
     return getPointerFunction;
   }
 
@@ -271,32 +285,55 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   }
 
   private Set<Include> collectImplementationIncludes(CInterface cInterface) {
-    Set<Include> includes = new HashSet<>();
-    includes.add(Include.createInternalInclude(cBridgeNameRules.getHeaderFileName(rootModel)));
-    includes.add(Include.createSystemInclude(CppNameRules.getHeaderPath(rootModel)));
-
+    Set<Include> includes = new LinkedHashSet<>();
     for (CFunction function : cInterface.functions) {
-      for (TypeConverter.TypeConversion conversion : function.conversions) {
-        includes.addAll(conversion.includes);
-      }
-      if (function.returnConversion != null) {
-        includes.addAll(function.returnConversion.includes);
+      if (!function.internalOnlyFunction) {
+        includes.addAll(collectFunctionSignatureIncludes(function));
+        includes.addAll(collectFunctionBodyIncludes(function));
       }
     }
+    return includes;
+  }
 
-    includes.removeAll(cInterface.headerIncludes);
+  private Set<Include> collectPrivateHeaderIncludes(CInterface cInterface) {
+    Set<Include> includes = new LinkedHashSet<>();
+    for (CFunction function : cInterface.functions) {
+      if (function.internalOnlyFunction) {
+        includes.addAll(collectFunctionSignatureIncludes(function));
+        includes.addAll(collectFunctionBodyIncludes(function));
+      }
+    }
     return includes;
   }
 
   private Set<Include> collectHeaderIncludes(CInterface cInterface) {
-    Set<Include> includes = new HashSet<>();
-
+    Set<Include> includes = new LinkedHashSet<>();
     for (CFunction function : cInterface.functions) {
-      for (CParameter param : function.parameters) {
-        includes.addAll(param.type.includes);
+      if (!function.internalOnlyFunction) {
+        includes.addAll(collectFunctionSignatureIncludes(function));
       }
-      includes.addAll(function.returnType.includes);
     }
+    return includes;
+  }
+
+  private Set<Include> collectFunctionSignatureIncludes(CFunction function) {
+    Set<Include> includes = new LinkedHashSet<>();
+    for (CParameter param : function.parameters) {
+      includes.addAll(param.type.includes);
+    }
+    includes.addAll(function.returnType.includes);
+    return includes;
+  }
+
+  private Set<Include> collectFunctionBodyIncludes(CFunction function) {
+    Set<Include> includes = new LinkedHashSet<>();
+    for (TypeConverter.TypeConversion conversion : function.conversions) {
+      includes.addAll(conversion.includes);
+    }
+    if (function.returnConversion != null) {
+      includes.addAll(function.returnConversion.includes);
+    }
+    includes.addAll(function.delegateCallInclude);
     return includes;
   }
 }

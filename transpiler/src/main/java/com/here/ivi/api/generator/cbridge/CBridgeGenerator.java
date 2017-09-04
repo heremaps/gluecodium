@@ -16,35 +16,55 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cmodel.CInterface;
+import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.Interface;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CBridgeGenerator {
-  private final CBridgeNameRules cBridgeNameRules;
+  private final CBridgeNameRules nameRules;
+  private final IncludeResolver resolver;
 
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
           GeneratorSuite.copyTarget("cbridge/StringHandle.h", ""),
           GeneratorSuite.copyTarget("cbridge/StringHandle.cpp", ""),
-          GeneratorSuite.copyTarget("cbridge/StringHandleImpl.h", ""),
+          GeneratorSuite.copyTarget("cbridge_internal/StringHandleImpl.h", ""),
           GeneratorSuite.copyTarget("cbridge/ByteArrayHandle.h", ""),
           GeneratorSuite.copyTarget("cbridge/ByteArrayHandle.cpp", ""),
-          GeneratorSuite.copyTarget("cbridge/ByteArrayHandleImpl.h", ""));
+          GeneratorSuite.copyTarget("cbridge_internal/ByteArrayHandleImpl.h", ""));
 
-  public CBridgeGenerator(CBridgeNameRules nameRules) {
-    this.cBridgeNameRules = nameRules;
+  public CBridgeGenerator(IncludeResolver includeResolver, CBridgeNameRules nameRules) {
+    this.resolver = includeResolver;
+    this.nameRules = nameRules;
   }
 
   public List<GeneratedFile> generate(Interface iface) {
     CInterface cModel = buildCBridgeModel(iface);
     return Arrays.asList(
-        new GeneratedFile(
-            generateHeaderContent(cModel), cBridgeNameRules.getHeaderFileNameWithPath(iface)),
-        new GeneratedFile(
-            generateImplementationContent(cModel),
-            cBridgeNameRules.getImplementationFileNameWithPath(iface)));
+            new GeneratedFile(
+                generatePrivateHeaderContent(cModel),
+                nameRules.getPrivateHeaderFileNameWithPath(iface)),
+            new GeneratedFile(
+                generateHeaderContent(cModel), nameRules.getHeaderFileNameWithPath(iface)),
+            new GeneratedFile(
+                generateImplementationContent(cModel),
+                nameRules.getImplementationFileNameWithPath(iface)))
+        .stream()
+        .filter(file -> file.content.length() > 0)
+        .collect(Collectors.toList());
+  }
+
+  public static String generatePrivateHeaderContent(CInterface model) {
+
+    if (model.functions.stream().anyMatch(function -> function.internalOnlyFunction)) {
+      return generateFileHeader() + TemplateEngine.render("cbridge/PrivateHeader", model);
+    } else {
+      return "";
+    }
   }
 
   public static String generateHeaderContent(CInterface model) {
@@ -60,11 +80,22 @@ public class CBridgeGenerator {
   }
 
   public CInterface buildCBridgeModel(Interface anInterface) {
-    CModelBuilder modelBuilder = new CModelBuilder(anInterface);
+    CModelBuilder modelBuilder = new CModelBuilder(anInterface, resolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(anInterface);
+    CInterface cModel = modelBuilder.getFirstResult(CInterface.class);
 
-    return modelBuilder.getFirstResult(CInterface.class);
+    removeRedundantIncludes(anInterface, cModel);
+    return cModel;
+  }
+
+  private void removeRedundantIncludes(Interface anInterface, CInterface cModel) {
+    cModel.privateHeaderIncludes.remove(
+        Include.createInternalInclude(nameRules.getPrivateHeaderFileNameWithPath(anInterface)));
+    cModel.headerIncludes.remove(
+        Include.createInternalInclude(nameRules.getHeaderFileNameWithPath(anInterface)));
+    cModel.implementationIncludes.removeAll(cModel.headerIncludes);
+    cModel.privateHeaderIncludes.removeAll(cModel.headerIncludes);
   }
 }
