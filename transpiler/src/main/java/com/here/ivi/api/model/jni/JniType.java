@@ -39,36 +39,4 @@ public final class JniType implements JniElement {
     this.javaName = javaType.name;
     this.isComplex = !(javaType instanceof JavaPrimitiveType);
   }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    JniType jniType = (JniType) o;
-
-    if (isComplex != jniType.isComplex) {
-      return false;
-    }
-    if (name != null ? !name.equals(jniType.name) : jniType.name != null) {
-      return false;
-    }
-    if (cppName != null ? !cppName.equals(jniType.cppName) : jniType.cppName != null) {
-      return false;
-    }
-    return javaName != null ? javaName.equals(jniType.javaName) : jniType.javaName == null;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = name != null ? name.hashCode() : 0;
-    result = 31 * result + (cppName != null ? cppName.hashCode() : 0);
-    result = 31 * result + (javaName != null ? javaName.hashCode() : 0);
-    result = 31 * result + (isComplex ? 1 : 0);
-    return result;
-  }
 }
