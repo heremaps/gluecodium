@@ -34,6 +34,8 @@ dependencies {
     compile 'org.slf4j:slf4j-jdk14:1.7.25'
     compile 'org.trimou:trimou-core:2.2.0.Final'
 
+    compileOnly 'org.projectlombok:lombok:1.16.18'
+
     testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.+'
