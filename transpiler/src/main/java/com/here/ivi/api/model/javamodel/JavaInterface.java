@@ -24,4 +24,8 @@ public final class JavaInterface extends JavaElement {
   public JavaInterface(final String name) {
     super(name);
   }
+
+  public Set<JavaImport> getImports() {
+    return JavaElements.collectImports(this);
+  }
 }

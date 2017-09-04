@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.java.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaClass.Qualifier;
 import com.here.ivi.api.model.javamodel.JavaConstant;
@@ -36,7 +37,11 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaClassTemplateTest {
-  private static final String TEST_COPYRIGHT_HEADER = JavaCopyrightHeaderTemplate.generate() + "\n";
+
+  private static final String TEMPLATE_NAME = "java/ClassHeader";
+
+  private static final String TEST_COPYRIGHT_HEADER =
+      TemplateEngine.render("java/CopyrightHeader", null) + "\n";
 
   @Test
   public void generate_minimal() {
@@ -53,10 +58,10 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaClassTemplate.generate(javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Assert
-    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
   @Test
@@ -89,10 +94,10 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaClassTemplate.generate(javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Assert
-    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
   @Test
@@ -122,10 +127,10 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaClassTemplate.generate(javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Assert
-    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
   @Test
@@ -164,10 +169,10 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaClassTemplate.generate(javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Assert
-    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
   @Test
@@ -186,10 +191,10 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaClassTemplate.generate(javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Arrange
-    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
   @Test
@@ -222,10 +227,10 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaClassTemplate.generate(javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Arrange
-    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
   @Test
@@ -259,10 +264,10 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaClassTemplate.generate(javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Assert
-    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
   @Test
@@ -284,10 +289,10 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaClassTemplate.generate(javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Assert
-    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
   @Test
@@ -309,9 +314,9 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaClassTemplate.generate(javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Assert
-    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated.toString());
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 }

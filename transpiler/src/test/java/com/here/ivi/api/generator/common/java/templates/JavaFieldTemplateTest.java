@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.java.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
@@ -32,7 +33,7 @@ public final class JavaFieldTemplateTest {
         new JavaField(new JavaPrimitiveType(JavaPrimitiveType.Type.INT), "intField");
 
     // Act
-    String generated = JavaFieldTemplate.generate(javaField);
+    String generated = TemplateEngine.render("java/Field", javaField);
 
     // Assert
     assertEquals("int intField;", generated);
@@ -47,7 +48,7 @@ public final class JavaFieldTemplateTest {
     javaField.visibility = JavaVisibility.PRIVATE;
 
     // Act
-    String generated = JavaFieldTemplate.generate(javaField);
+    String generated = TemplateEngine.render("java/Field", javaField);
 
     // Assert
     assertEquals("private int intField = 1;", generated);
@@ -63,7 +64,7 @@ public final class JavaFieldTemplateTest {
     String expected = "/**\n" + " * Field comment\n" + " */\n" + "public String stringField;";
 
     // Act
-    String generated = JavaFieldTemplate.generate(javaField);
+    String generated = TemplateEngine.render("java/Field", javaField);
 
     // Assert
     assertEquals(expected, generated);
@@ -76,7 +77,7 @@ public final class JavaFieldTemplateTest {
     String expected = "CustomType customField = new CustomType();";
 
     // Act
-    String generated = JavaFieldTemplate.generate(javaField);
+    String generated = TemplateEngine.render("java/Field", javaField);
 
     // Assert
     assertEquals(expected, generated);

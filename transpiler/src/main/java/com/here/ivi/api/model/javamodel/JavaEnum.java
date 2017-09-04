@@ -13,6 +13,7 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public final class JavaEnum extends JavaElement {
@@ -26,5 +27,9 @@ public final class JavaEnum extends JavaElement {
   @Override
   public Stream<JavaNamedEntity> stream() {
     return items.stream().map(JavaElement.class::cast);
+  }
+
+  public Set<JavaImport> getImports() {
+    return JavaElements.collectImports(this);
   }
 }

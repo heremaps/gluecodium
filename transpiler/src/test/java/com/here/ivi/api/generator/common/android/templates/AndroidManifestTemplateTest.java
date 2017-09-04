@@ -44,7 +44,7 @@ public final class AndroidManifestTemplateTest {
             + "</manifest>";
 
     // Act
-    String generated = AndroidManifestTemplate.generate(javaPackage);
+    String generated = TemplateEngine.render("android/AndroidManifest", javaPackage.flatten());
 
     // Assert
     assertEquals(expected, generated);

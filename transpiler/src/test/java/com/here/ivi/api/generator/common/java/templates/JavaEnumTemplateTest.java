@@ -25,7 +25,8 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaEnumTemplateTest {
-  private static final String TEST_COPYRIGHT_HEADER = JavaCopyrightHeaderTemplate.generate() + "\n";
+  private static final String TEST_COPYRIGHT_HEADER =
+      TemplateEngine.render("java/CopyrightHeader", null) + "\n";
 
   @Test
   public void generate_simple() {
@@ -88,7 +89,7 @@ public final class JavaEnumTemplateTest {
             + "};";
 
     // Act
-    String generated = JavaEnumTemplate.generate(javaEnum);
+    String generated = TemplateEngine.render("java/EnumHeader", javaEnum);
 
     // Assert
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);

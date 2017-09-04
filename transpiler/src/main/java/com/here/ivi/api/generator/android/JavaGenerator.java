@@ -14,9 +14,9 @@ package com.here.ivi.api.generator.android;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.java.JavaModelBuilder;
 import com.here.ivi.api.generator.common.java.JavaNameRules;
-import com.here.ivi.api.generator.common.java.templates.JavaClassTemplate;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
@@ -54,7 +54,7 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
   private static List<GeneratedFile> generateFilesForClass(JavaClass javaClass) {
 
-    CharSequence fileContent = JavaClassTemplate.generate(javaClass);
+    String fileContent = TemplateEngine.render("java/ClassHeader", javaClass);
     String fileName = JavaNameRules.getFileName(javaClass);
 
     return Collections.singletonList(new GeneratedFile(fileContent, fileName));
