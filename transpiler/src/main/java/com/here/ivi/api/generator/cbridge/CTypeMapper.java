@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.cbridge;
 
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
-import com.here.ivi.api.model.franca.FrancaElement;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
@@ -21,13 +20,12 @@ import org.franca.core.franca.FTypeRef;
 
 public final class CTypeMapper {
 
-  public static CppTypeInfo mapType(
-      FrancaElement rootModel, final IncludeResolver resolver, final FTypeRef type) {
+  public static CppTypeInfo mapType(final IncludeResolver resolver, final FTypeRef type) {
     FType derived = type.getDerived();
 
     if (derived != null) {
       if (derived instanceof FStructType) {
-        return CppTypeInfo.createStructTypeInfo(rootModel, resolver, (FStructType) derived);
+        return CppTypeInfo.createStructTypeInfo(resolver, (FStructType) derived);
       }
       //TODO: APIGEN-145 handle array types
       return new CppTypeInfo(CType.VOID);

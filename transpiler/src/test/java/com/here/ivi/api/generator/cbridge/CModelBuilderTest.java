@@ -90,12 +90,12 @@ public class CModelBuilderTest {
     typeInfo = new CppTypeInfo(fakeType);
     typeInfo.returnValueConstrExpr = "";
 
-    when(CppTypeInfo.createStructTypeInfo(any(), any(), any())).thenReturn(typeInfo);
+    when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(typeInfo);
     when(anInterface.isStatic(any())).thenReturn(true);
-    when(cBridgeNameRules.getMethodName(any(), any())).thenReturn(FULL_FUNCTION_NAME);
-    when(cBridgeNameRules.getDelegateMethodName(any(), any())).thenReturn(DELEGATE_NAME);
+    when(cBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
+    when(cBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
 
-    when(CTypeMapper.mapType(any(), any(), any())).thenReturn(cppTypeInfo);
+    when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaMethod.eContainer()).thenReturn(francaTypeCollection);
     when(francaTypeCollection.eContainer()).thenReturn(francaModel);
@@ -207,12 +207,27 @@ public class CModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingCreatesInterface() {
+  public void finishBuildingCreatesCInterfaceForFInterface() {
     CFunction function = new CFunction.Builder("SomeName").build();
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaInterface);
 
+    assertCorrectCInterfaceCreation(function);
+  }
+
+  @Test
+  public void finishBuildingCreatesCInterfaceForFTypeCollection() {
+
+    CFunction function = new CFunction.Builder("SomeName").build();
+    contextStack.injectResult(function);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    assertCorrectCInterfaceCreation(function);
+  }
+
+  private void assertCorrectCInterfaceCreation(CFunction function) {
     List<CInterface> interfaces = getResults(CInterface.class);
     assertEquals(1, interfaces.size());
     CInterface iface = interfaces.get(0);
@@ -409,9 +424,9 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingStructCreatesStructWithProperName() {
-    when(cBridgeNameRules.getStructRefType(any(), any())).thenReturn("StructNameRef");
-    when(cBridgeNameRules.getStructBaseName(any(), any())).thenReturn("StructName");
-    when(cBridgeNameRules.getBaseApiStructName(any(), any())).thenReturn("BaseAPIStructName");
+    when(cBridgeNameRules.getStructRefType(any())).thenReturn("StructNameRef");
+    when(cBridgeNameRules.getStructBaseName(any())).thenReturn("StructName");
+    when(cBridgeNameRules.getBaseApiStructName(any())).thenReturn("BaseAPIStructName");
 
     modelBuilder.finishBuilding(francaStruct);
 
@@ -431,6 +446,20 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
+    assertCInterfaceContainsStruct(struct);
+  }
+
+  @Test
+  public void finishBuildingTypeCollectionContainsStructs() {
+    CStruct struct = mock(CStruct.class);
+    contextStack.injectResult(struct);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    assertCInterfaceContainsStruct(struct);
+  }
+
+  private void assertCInterfaceContainsStruct(CStruct struct) {
     List<CInterface> interfaces = getResults(CInterface.class);
     assertEquals(1, interfaces.size());
     assertEquals(1, interfaces.get(0).structs.size());

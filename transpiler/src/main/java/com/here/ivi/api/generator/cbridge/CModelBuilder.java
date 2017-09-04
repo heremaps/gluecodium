@@ -31,7 +31,7 @@ import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -44,15 +44,16 @@ import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypedElement;
 
 public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   private final CBridgeNameRules cBridgeNameRules;
-  private final Interface rootModel;
+  private final FrancaElement rootModel;
   private final IncludeResolver resolver;
 
-  public CModelBuilder(final Interface rootModel, IncludeResolver includeResolver) {
+  public CModelBuilder(final FrancaElement rootModel, IncludeResolver includeResolver) {
     super(new ModelBuilderContextStack<>());
     cBridgeNameRules = new CBridgeNameRules();
     this.rootModel = rootModel;
@@ -60,7 +61,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   }
 
   CModelBuilder(
-      Interface rootModel,
+      FrancaElement rootModel,
       CBridgeNameRules nameRules,
       IncludeResolver includeResolver,
       ModelBuilderContextStack<CElement> contextStack) {
@@ -72,6 +73,17 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
+    finishBuilding((FTypeCollection) francaInterface);
+  }
+
+  @Override
+  public void finishBuilding(FTypeCollection francaTypeCollection) {
+    CInterface cInterface = finishBuildingInterfaceOrTypeCollection(francaTypeCollection);
+    storeResult(cInterface);
+    closeContext();
+  }
+
+  private CInterface finishBuildingInterfaceOrTypeCollection(FTypeCollection francaTypeCollection) {
     CInterface cInterface = new CInterface();
     cInterface.functions =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CFunction.class);
@@ -82,24 +94,21 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     cInterface.implementationIncludes = collectImplementationIncludes(cInterface);
 
     cInterface.implementationIncludes.add(
-        resolver.resolveInclude(francaInterface, HeaderType.CBRIDGE_PUBLIC_HEADER));
-
+        resolver.resolveInclude(francaTypeCollection, HeaderType.CBRIDGE_PUBLIC_HEADER));
     cInterface.privateHeaderIncludes = collectPrivateHeaderIncludes(cInterface);
-    storeResult(cInterface);
-    closeContext();
+    return cInterface;
   }
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
-
     if (!rootModel.isStatic(francaMethod)) {
       closeContext();
       return;
     }
 
     // TODO APIGEN-326: Include parameter types in function names
-    String baseFunctionName = cBridgeNameRules.getMethodName(rootModel, francaMethod);
-    String delegateMethodName = cBridgeNameRules.getDelegateMethodName(rootModel, francaMethod);
+    String baseFunctionName = cBridgeNameRules.getMethodName(francaMethod);
+    String delegateMethodName = cBridgeNameRules.getDelegateMethodName(francaMethod);
 
     List<CInParameter> inParams =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CInParameter.class);
@@ -120,7 +129,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
-    CppTypeInfo typeInfo = CTypeMapper.mapType(rootModel, resolver, francaArgument.getType());
+    CppTypeInfo typeInfo = CTypeMapper.mapType(resolver, francaArgument.getType());
     String francaArgumentName = francaArgument.getName();
     List<CParameter> cParams = constructCParameters(francaArgumentName, typeInfo);
     cParams.get(0).conversion =
@@ -131,7 +140,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    CppTypeInfo typeInfo = CTypeMapper.mapType(rootModel, resolver, francaArgument.getType());
+    CppTypeInfo typeInfo = CTypeMapper.mapType(resolver, francaArgument.getType());
     COutParameter param = new COutParameter("result", typeInfo);
     param.conversion = TypeConverter.createReturnValueConversionRoutine(param.name, typeInfo);
     storeResult(param);
@@ -142,10 +151,10 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   public void finishBuilding(FStructType francaStruct) {
     CStruct cStruct =
         new CStruct(
-            cBridgeNameRules.getStructRefType(rootModel, francaStruct.getName()),
-            cBridgeNameRules.getStructBaseName(rootModel, francaStruct.getName()),
-            cBridgeNameRules.getBaseApiStructName(rootModel, francaStruct),
-            CppTypeInfo.createStructTypeInfo(rootModel, resolver, francaStruct));
+            cBridgeNameRules.getStructRefType(francaStruct),
+            cBridgeNameRules.getStructBaseName(francaStruct),
+            cBridgeNameRules.getBaseApiStructName(francaStruct),
+            CppTypeInfo.createStructTypeInfo(resolver, francaStruct));
 
     cStruct.fields =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CField.class);
@@ -168,7 +177,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     CField cField =
         new CField(
             francaTypedElement.getName(),
-            CTypeMapper.mapType(rootModel, resolver, francaTypedElement.getType()));
+            CTypeMapper.mapType(resolver, francaTypedElement.getType()));
     storeResult(cField);
     super.finishBuilding(francaTypedElement);
   }
@@ -180,10 +189,10 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             .returnType(
                 new CPointerType(
                     new CType(cStruct.baseApiName, cStruct.mappedType.conversionFromCppIncludes)))
+            .markAsInternalOnly()
             .build();
 
     getPointerFunction.definitionTemplate = "cbridge/getPointer_impl";
-    getPointerFunction.internalOnlyFunction = true;
     return getPointerFunction;
   }
 
@@ -193,6 +202,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     return new CFunction.Builder(cStruct.releaseFunctionName)
         .parameters(singletonList(param))
         .delegateCallTemplate("delete get_pointer(%s)")
+        .delegateCallIncludes(new LinkedHashSet<>(cStruct.mappedType.conversionToCppIncludes))
         .returnType(CType.VOID)
         .build();
   }
@@ -200,6 +210,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   private CFunction createStructCreateFunction(CStruct cStruct) {
     return new CFunction.Builder(cStruct.createFunctionName)
         .delegateCallTemplate(String.format(cStruct.mappedType.returnValueConstrExpr, ""))
+        .delegateCallIncludes(new LinkedHashSet<>(cStruct.mappedType.conversionFromCppIncludes))
         .returnType(cStruct.mappedType.functionReturnType)
         .build();
   }
@@ -214,6 +225,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         .parameters(params)
         .returnType(field.type.functionReturnType)
         .delegateCallTemplate(delegateCallTemplate)
+        .delegateCallIncludes(new LinkedHashSet<>(cStruct.mappedType.conversionToCppIncludes))
         .build();
   }
 
@@ -226,6 +238,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     return new CFunction.Builder(cStruct.getNameOfFieldSetter(field.name))
         .parameters(params)
         .delegateCallTemplate(createCallTemplateForFieldSetter(field))
+        .delegateCallIncludes(new LinkedHashSet<>(cStruct.mappedType.conversionToCppIncludes))
         .build();
   }
 

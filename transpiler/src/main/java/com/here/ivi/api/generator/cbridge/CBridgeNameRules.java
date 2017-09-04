@@ -13,11 +13,12 @@ package com.here.ivi.api.generator.cbridge;
 
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.cpp.CppNameRules;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.franca.Interface;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 
@@ -75,59 +76,51 @@ public class CBridgeNameRules {
   }
 
   private String getName(final FrancaElement francaElement) {
-    return francaElement instanceof Interface
-        ? computeClassName(francaElement.getName())
-        : getTypeCollectionName(francaElement.getName());
+    return NameHelper.toUpperCamelCase(francaElement.getName());
   }
 
-  public String getDelegateMethodName(final Interface iface, final FMethod method) {
+  public String getDelegateMethodName(final FMethod method) {
     return fullyQualifiedName(
-        iface.getPackageNames(),
-        CppNameRules.getClassName(iface.getName()),
+        CppNameRules.getNestedNameSpecifier(method),
         CppNameRules.getMethodName(method.getName()),
         CPP_NAMESPACE_DELIMITER);
   }
 
-  public String getMethodName(final Interface iface, final FMethod method) {
-    return fullyQualifiedName(
-        iface.getPackageNames(), iface.getName(), method.getName(), UNDERSCORE_DELIMITER);
+  public String getMethodName(final FMethod method) {
+    List<String> nestedNameSpecifier = getNestedNameSpecifier(method);
+    nestedNameSpecifier.add(NameHelper.toLowerCamelCase(method.getName()));
+    return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
   }
 
-  public String getStructRefType(
-      final FrancaElement francaElement, final String francaElementName) {
-    return getStructBaseName(francaElement, francaElementName) + "Ref";
+  public String getStructRefType(final FStructType francaStruct) {
+    return getStructBaseName(francaStruct) + "Ref";
   }
 
-  public String getStructBaseName(
-      final FrancaElement francaElement, final String francaElementName) {
+  public String getStructBaseName(final FStructType francaStruct) {
     return fullyQualifiedName(
-        francaElement.getPackageNames(),
-        getName(francaElement),
-        NameHelper.toUpperCamelCase(francaElementName),
+        getNestedNameSpecifier(francaStruct),
+        NameHelper.toUpperCamelCase(francaStruct.getName()),
         UNDERSCORE_DELIMITER);
   }
 
-  private String getTypeCollectionName(final String name) {
-    return NameHelper.toUpperCamelCase(name);
-  }
-
-  private String computeClassName(final String name) {
-    return NameHelper.toUpperCamelCase(name);
-  }
-
-  public String getBaseApiStructName(FrancaElement francaElement, FStructType struct) {
+  public String getBaseApiStructName(FStructType struct) {
     return fullyQualifiedName(
-        francaElement.getPackageNames(),
-        CppNameRules.getClassName(francaElement.getName()),
+        CppNameRules.getNestedNameSpecifier(struct),
         CppNameRules.getStructName(struct.getName()),
         CPP_NAMESPACE_DELIMITER);
   }
 
   private static String fullyQualifiedName(
-      List<String> packages, String ifaceName, String name, String delimiter) {
-    List<String> names = new LinkedList<>(packages);
-    names.add(ifaceName);
+      List<String> nameSpecifier, String name, String delimiter) {
+    List<String> names = new LinkedList<>(nameSpecifier);
     names.add(name);
     return String.join(delimiter, names);
+  }
+
+  public List<String> getNestedNameSpecifier(EObject type) {
+    DefinedBy definer = DefinedBy.createFromFModelElement(type);
+    List<String> result = definer.getPackages();
+    result.add(NameHelper.toUpperCamelCase(definer.type.getName()));
+    return result;
   }
 }

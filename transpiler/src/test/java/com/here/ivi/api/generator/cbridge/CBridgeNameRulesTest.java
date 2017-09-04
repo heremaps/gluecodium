@@ -21,10 +21,13 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.TypeCollection;
+import java.util.ArrayList;
 import java.util.List;
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,9 +49,9 @@ public class CBridgeNameRulesTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface anInterface;
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private TypeCollection typeCollection;
-
+  @Mock private FModel francaModel;
+  @Mock private FTypeCollection francaTypeCollection;
+  @Mock private FInterface francaInterface;
   @Mock private FStructType francaStruct;
   @Mock private FMethod francaMethod;
   private CBridgeNameRules nameRules;
@@ -58,47 +61,69 @@ public class CBridgeNameRulesTest {
     mockStatic(CppNameRules.class);
     when(anInterface.getPackageNames()).thenReturn(PACKAGES);
     when(anInterface.getName()).thenReturn(INTERFACE_NAME);
-    when(typeCollection.getPackageNames()).thenReturn(PACKAGES);
-    when(typeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+
     when(francaStruct.getName()).thenReturn(STRUCT_NAME);
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
+    when(francaMethod.eContainer()).thenReturn(francaInterface);
+
+    when(francaTypeCollection.eContainer()).thenReturn(francaModel);
+    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+
+    when(francaInterface.eContainer()).thenReturn(francaModel);
+    when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
+
+    when(francaModel.getName()).thenReturn(String.join(".", PACKAGES));
+
     nameRules = new CBridgeNameRules();
   }
 
   @Test
   public void getStructNameCreatesProperNameForStructsInTypeCollections() {
+    when(francaStruct.eContainer()).thenReturn(francaTypeCollection);
     String expectedName =
         prependNameWithPackageAndContainer(
             toUpperCamelCase(STRUCT_NAME) + "Ref", "_", TYPE_COLLECTION_NAME);
 
-    String actualName = nameRules.getStructRefType(typeCollection, francaStruct.getName());
+    String actualName = nameRules.getStructRefType(francaStruct);
 
     assertEquals(expectedName, actualName);
   }
 
   @Test
   public void getStructNameCreatesProperNameForStructsInInterfaces() {
+    when(francaStruct.eContainer()).thenReturn(francaInterface);
     String expectedName = prependNameWithPackageAndInterface(toUpperCamelCase(STRUCT_NAME) + "Ref");
 
-    String actualName = nameRules.getStructRefType(anInterface, francaStruct.getName());
+    String actualName = nameRules.getStructRefType(francaStruct);
 
     assertEquals(expectedName, actualName);
   }
 
   @Test
-  public void getStructBaseNameCreatesProperName() {
+  public void getStructBaseNameCreatesProperNameForStructInInterface() {
+    when(francaStruct.eContainer()).thenReturn(francaInterface);
     String expectedName = prependNameWithPackageAndInterface(toUpperCamelCase(STRUCT_NAME));
 
-    String actualName = nameRules.getStructBaseName(anInterface, francaStruct.getName());
+    String actualName = nameRules.getStructBaseName(francaStruct);
+    assertEquals(expectedName, actualName);
+  }
+
+  @Test
+  public void getStructBaseNameCreatesProperNameForStructInTypeCollection() {
+    when(francaStruct.eContainer()).thenReturn(francaTypeCollection);
+    String expectedName =
+        prependNameWithPackageAndContainer(
+            toUpperCamelCase(STRUCT_NAME), "_", TYPE_COLLECTION_NAME);
+
+    String actualName = nameRules.getStructBaseName(francaStruct);
     assertEquals(expectedName, actualName);
   }
 
   @Test
   public void getMethodNameCreatesProperName() {
-    when(francaMethod.getName()).thenReturn(METHOD_NAME);
     String expectedName = prependNameWithPackageAndInterface(METHOD_NAME);
 
-    String actualName = nameRules.getMethodName(anInterface, francaMethod);
+    String actualName = nameRules.getMethodName(francaMethod);
     assertEquals(expectedName, actualName);
   }
 
@@ -107,7 +132,7 @@ public class CBridgeNameRulesTest {
     when(anInterface.getPackageNames()).thenReturn(singletonList("PKG"));
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
 
-    nameRules.getMethodName(anInterface, francaMethod);
+    nameRules.getMethodName(francaMethod);
   }
 
   @Test
@@ -130,22 +155,28 @@ public class CBridgeNameRulesTest {
 
   @Test
   public void getDelegateNameReturnsCorrectValue() {
-    when(CppNameRules.getClassName(any())).thenReturn(INTERFACE_NAME);
+    List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
+    packagesWithInterface.add(INTERFACE_NAME);
+    when(CppNameRules.getNestedNameSpecifier(any())).thenReturn(packagesWithInterface);
     when(CppNameRules.getMethodName(any())).thenReturn(METHOD_NAME);
+
     String expected = prependNameWithPackageAndInterface(METHOD_NAME, "::");
 
-    String actual = nameRules.getDelegateMethodName(anInterface, francaMethod);
+    String actual = nameRules.getDelegateMethodName(francaMethod);
 
     assertEquals(expected, actual);
   }
 
   @Test
   public void getBaseApiStructNameReturnsCorrectValue() {
-    when(CppNameRules.getClassName(any())).thenReturn(INTERFACE_NAME);
+    List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
+    packagesWithInterface.add(INTERFACE_NAME);
+    when(CppNameRules.getNestedNameSpecifier(any())).thenReturn(packagesWithInterface);
     when(CppNameRules.getStructName(any())).thenReturn(STRUCT_NAME);
+
     String expected = prependNameWithPackageAndInterface(STRUCT_NAME, "::");
 
-    String actual = nameRules.getBaseApiStructName(anInterface, francaStruct);
+    String actual = nameRules.getBaseApiStructName(francaStruct);
 
     assertEquals(expected, actual);
   }

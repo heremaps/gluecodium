@@ -18,9 +18,9 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import java.io.File;
 import java.util.List;
+import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.FCompoundType;
 import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FType;
 
 public final class CppNameRules {
 
@@ -54,7 +54,7 @@ public final class CppNameRules {
     return ".h";
   }
 
-  public static List<String> getNestedNameSpecifier(FType type) {
+  public static List<String> getNestedNameSpecifier(EObject type) {
     DefinedBy definer = DefinedBy.createFromFModelElement(type);
     List<String> result = getNamespace(definer);
     // special rule for structs defined in interfaces ...

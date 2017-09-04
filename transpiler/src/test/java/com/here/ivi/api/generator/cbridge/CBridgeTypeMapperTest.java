@@ -11,46 +11,52 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
-import com.here.ivi.api.model.franca.Interface;
-import java.util.ArrayList;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(CppTypeInfo.class)
 public class CBridgeTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
   @Mock private FStructType francaStructType;
   @Mock private IncludeResolver resolver;
+  @Mock private CppTypeInfo typeInfo;
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private Interface rootModel;
+  @Before
+  public void setUp() {
+    mockStatic(CppTypeInfo.class);
+  }
 
   @Test
   public void mapStructType() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
-    when(francaStructType.getName()).thenReturn("TestStruct");
-    when(rootModel.getPackageNames()).thenReturn(new ArrayList<>());
+    when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(typeInfo);
 
-    CppTypeInfo mapped = CTypeMapper.mapType(rootModel, resolver, francaTypeRef);
-    Assert.assertEquals("TestStruct", mapped.baseType);
+    CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
+
+    Assert.assertSame(typeInfo, mapped);
   }
 
   @Test
   public void mapPredefinedType() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
 
-    CppTypeInfo mapped = CTypeMapper.mapType(rootModel, resolver, francaTypeRef);
-    Assert.assertEquals("bool", mapped.baseType);
+    CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
+    Assert.assertEquals(CType.BOOL.name, mapped.baseType);
   }
 }

@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.swift;
 
-import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -19,6 +18,8 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.SwiftType;
 import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
@@ -35,13 +36,16 @@ public class SwiftTypeMapperTest {
   @Mock private FrancaElement francaElement;
   @Mock private FTypeRef typeRef;
   @Mock private FStructType francaStructType;
+  @Mock private FInterface francaInterface;
+  @Mock private FModel francaModel;
   @Mock private FBasicTypeId francaBasicTypeId;
 
   @Before
   public void setUp() {
-    when(francaElement.getPackageNames()).thenReturn(emptyList());
     when(typeRef.getPredefined()).thenReturn(francaBasicTypeId);
-    when(francaStructType.getName()).thenReturn("Struct");
+    when(francaStructType.eContainer()).thenReturn(francaInterface);
+    when(francaInterface.eContainer()).thenReturn(francaModel);
+    when(francaModel.getName()).thenReturn("");
   }
 
   @Test
@@ -63,7 +67,8 @@ public class SwiftTypeMapperTest {
   }
 
   @Test
-  public void doubleAsReturnValueIsMappedToOptionalType() {
+  public void doubleAsReturnValueIsNotMappedToOptionalType() {
+
     when(francaBasicTypeId.getValue()).thenReturn(FBasicTypeId.DOUBLE_VALUE);
 
     SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);

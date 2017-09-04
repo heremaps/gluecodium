@@ -18,7 +18,7 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -42,17 +42,17 @@ public class CBridgeGenerator {
     this.nameRules = nameRules;
   }
 
-  public List<GeneratedFile> generate(Interface iface) {
-    CInterface cModel = buildCBridgeModel(iface);
+  public List<GeneratedFile> generate(FrancaElement francaElement) {
+    CInterface cModel = buildCBridgeModel(francaElement);
     return Arrays.asList(
             new GeneratedFile(
                 generatePrivateHeaderContent(cModel),
-                nameRules.getPrivateHeaderFileNameWithPath(iface)),
+                nameRules.getPrivateHeaderFileNameWithPath(francaElement)),
             new GeneratedFile(
-                generateHeaderContent(cModel), nameRules.getHeaderFileNameWithPath(iface)),
+                generateHeaderContent(cModel), nameRules.getHeaderFileNameWithPath(francaElement)),
             new GeneratedFile(
                 generateImplementationContent(cModel),
-                nameRules.getImplementationFileNameWithPath(iface)))
+                nameRules.getImplementationFileNameWithPath(francaElement)))
         .stream()
         .filter(file -> file.content.length() > 0)
         .collect(Collectors.toList());
@@ -79,22 +79,22 @@ public class CBridgeGenerator {
     return TemplateEngine.render("cbridge/FileHeader", null);
   }
 
-  public CInterface buildCBridgeModel(Interface anInterface) {
-    CModelBuilder modelBuilder = new CModelBuilder(anInterface, resolver);
+  public CInterface buildCBridgeModel(FrancaElement francaElement) {
+    CModelBuilder modelBuilder = new CModelBuilder(francaElement, resolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
-    treeWalker.walk(anInterface);
+    treeWalker.walk(francaElement);
     CInterface cModel = modelBuilder.getFirstResult(CInterface.class);
 
-    removeRedundantIncludes(anInterface, cModel);
+    removeRedundantIncludes(francaElement, cModel);
     return cModel;
   }
 
-  private void removeRedundantIncludes(Interface anInterface, CInterface cModel) {
+  private void removeRedundantIncludes(FrancaElement francaElement, CInterface cModel) {
     cModel.privateHeaderIncludes.remove(
-        Include.createInternalInclude(nameRules.getPrivateHeaderFileNameWithPath(anInterface)));
+        Include.createInternalInclude(nameRules.getPrivateHeaderFileNameWithPath(francaElement)));
     cModel.headerIncludes.remove(
-        Include.createInternalInclude(nameRules.getHeaderFileNameWithPath(anInterface)));
+        Include.createInternalInclude(nameRules.getHeaderFileNameWithPath(francaElement)));
     cModel.implementationIncludes.removeAll(cModel.headerIncludes);
     cModel.privateHeaderIncludes.removeAll(cModel.headerIncludes);
   }

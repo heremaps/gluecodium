@@ -51,6 +51,7 @@ public class CBridgeGeneratorTest {
   private static final String INTERFACE_NAME = "TestInterface";
   private static final String FUNCTION_NAME = "functionName";
   private static final String PRIVATE_HEADER_NAME = "CBRIDGE_PRIVATE_HEADER of TestInterface";
+  private static final String PRIVATE_HEADER_INCLUDE = "#include \"" + PRIVATE_HEADER_NAME + "\"\n";
   private static final String PUBLIC_HEADER_NAME = "CBRIDGE_PUBLIC_HEADER of TestInterface";
   private static final String CBRIDGE_HEADER_INCLUDE = "#include \"" + PUBLIC_HEADER_NAME + "\"\n";
   private static final String BASEAPI_HEADER_INCLUDE =
@@ -459,6 +460,8 @@ public class CBridgeGeneratorTest {
 
     String expectedImplementation =
         CBRIDGE_HEADER_INCLUDE
+            + BASEAPI_HEADER_INCLUDE
+            + PRIVATE_HEADER_INCLUDE
             + "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create() {\n"
             + "    {\n"
             + "        auto&& cpp_result = cbridge_test_TestInterface_SomeStructRef{ new cbridge::test::TestInterface::SomeStruct()};\n"
