@@ -11,11 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -251,10 +247,8 @@ public class CModelBuilderTest {
     assertNotEquals("Field getter function should be generated", null, func);
     assertEquals("Getter should take in 1 param", 1, func.parameters.size());
     assertNotEquals("get_oointer function should be generated", null, getPointerFunc);
-    assertEquals(
-        "get_pointer should be flagged as private",
-        true,
-        getPointerFunc.declareInImplementationOnly);
+    assertTrue(
+        "get_pointer should be flagged as private", getPointerFunc.declareInImplementationOnly);
     assertNotEquals(
         "Field setter function should be generated",
         null,
