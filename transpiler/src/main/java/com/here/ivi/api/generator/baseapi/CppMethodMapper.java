@@ -29,9 +29,8 @@ import org.franca.core.franca.FMethod;
  */
 public final class CppMethodMapper {
 
-  // TODO: APIGEN-285: remove "stub" prefix
   private static final Include EXPECTED_INCLUDE =
-      Include.createSystemInclude("stub/internal/expected.h");
+      Include.createSystemInclude("cpp/internal/expected.h");
 
   public static class ReturnTypeData {
     public final CppTypeRef type;
