@@ -49,8 +49,6 @@ Excluded: android, logging, GenericsNaming
         <exclude name="AtLeastOneConstructor" />
         <exclude name="AvoidFinalLocalVariable" />
         <exclude name="AvoidLiteralsInIfCondition" />
-        <exclude name="AvoidPrefixingMethodParameters" />
-        <exclude name="DataflowAnomalyAnalysis" />
         <exclude name="NullAssignment" />
         <exclude name="OnlyOneReturn" />
         <exclude name="UseConcurrentHashMap" />
@@ -96,9 +94,7 @@ Excluded: android, logging, GenericsNaming
 
     <rule ref="rulesets/java/naming.xml">
         <exclude name="AbstractNaming" />
-        <exclude name="GenericsNaming" />
         <exclude name="LongVariable" />
-        <exclude name="ShortClassName" />
         <exclude name="ShortVariable" />
 
         <!-- Does not apply to test methods. It is a very common pattern to name @Test methods
