@@ -143,13 +143,8 @@ public final class CppTypeMapper {
     Include include = new LazyInternalInclude(definer);
 
     if (InstanceRules.isInstanceId(typedef)) {
-
-      String className = CppNameRules.getClassName(definer.getBaseName());
-
       return new CppComplexTypeRef.Builder(
-              "::std::shared_ptr< "
-                  + createFullyQualifiedName(nestedNameSpecifier, className)
-                  + " >")
+              "::std::shared_ptr< " + createFullyQualifiedName(nestedNameSpecifier, "") + " >")
           .includes(include, CppLibraryIncludes.MEMORY)
           .build();
     } else {
@@ -273,8 +268,7 @@ public final class CppTypeMapper {
 
   private static String createFullyQualifiedName(
       List<String> nestedNameSpecifier, String unqualifiedId) {
-    return "::"
-        + (!nestedNameSpecifier.isEmpty() ? String.join("::", nestedNameSpecifier) + "::" : "")
-        + unqualifiedId;
+    return (!nestedNameSpecifier.isEmpty() ? "::" + String.join("::", nestedNameSpecifier) : "")
+        + (unqualifiedId.isEmpty() ? "" : "::" + unqualifiedId);
   }
 }

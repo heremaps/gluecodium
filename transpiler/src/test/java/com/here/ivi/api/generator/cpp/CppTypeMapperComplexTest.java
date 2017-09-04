@@ -258,9 +258,9 @@ public class CppTypeMapperComplexTest {
     FTypeRef typeRef = mock(FTypeRef.class);
     when(typeRef.getDerived()).thenReturn(fTypeDef);
     when(fTypeDef.eContainer()).thenReturn(typeRef);
-    when(CppNameRules.getClassName(fTypeDef.getName())).thenReturn(className);
     when(definer.getBaseName()).thenReturn(className);
     when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
+    when(CppNameRules.getNestedNameSpecifier(fTypeDef)).thenReturn(Arrays.asList("MyClazz"));
 
     // Act
     CppTypeRef cppTypeRef = CppTypeMapper.map(mockFrancaModel, typeRef);
@@ -280,7 +280,46 @@ public class CppTypeMapperComplexTest {
     verifyStatic();
     DefinedBy.createFromFModelElement(fTypeDef);
     verifyStatic();
-    CppNameRules.getClassName(className);
+    CppNameRules.getNestedNameSpecifier(fTypeDef);
+    verifyStatic();
+    InstanceRules.isInstanceId(fTypeDef);
+  }
+
+  @Test
+  public void mapInstanceTypeDefWithNamespace() {
+    // Arrange
+    String className = "MyClazz";
+    FTypeDef fTypeDef = mock(FTypeDef.class);
+    DefinedBy definer = mockDefinedBy();
+    when(fTypeDef.getName()).thenReturn(className);
+    FTypeRef typeRef = mock(FTypeRef.class);
+    when(typeRef.getDerived()).thenReturn(fTypeDef);
+    when(fTypeDef.eContainer()).thenReturn(typeRef);
+    when(CppNameRules.getClassName(fTypeDef.getName())).thenReturn(className);
+    when(CppNameRules.getNestedNameSpecifier(fTypeDef))
+        .thenReturn(Arrays.asList("a", "b", "MyClazz"));
+    when(definer.getBaseName()).thenReturn(className);
+    when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
+
+    // Act
+    CppTypeRef cppTypeRef = CppTypeMapper.map(mockFrancaModel, typeRef);
+
+    // Assert
+    assertTrue(cppTypeRef instanceof CppComplexTypeRef);
+    CppComplexTypeRef cppComplexTypeRef = (CppComplexTypeRef) cppTypeRef;
+    assertEquals("::std::shared_ptr< ::a::b::MyClazz >", cppComplexTypeRef.name);
+    assertEquals(CppTypeInfo.Complex, cppComplexTypeRef.info);
+
+    assertEquals(2, cppComplexTypeRef.includes.size());
+    assertTrue(cppComplexTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
+    LazyInternalInclude lazyInc = new LazyInternalInclude(definer);
+    assertTrue(cppComplexTypeRef.includes.contains(lazyInc));
+
+    //verify
+    verifyStatic();
+    DefinedBy.createFromFModelElement(fTypeDef);
+    verifyStatic();
+    CppNameRules.getNestedNameSpecifier(fTypeDef);
     verifyStatic();
     InstanceRules.isInstanceId(fTypeDef);
   }
