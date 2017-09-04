@@ -17,11 +17,12 @@ import org.franca.core.franca.FModel;
 
 // Information about the models
 public class ModelInfo {
-
   private final FModel fModel;
+  private final List<String> packageNames;
 
-  public ModelInfo(FModel fModel) {
+  public ModelInfo(final FModel fModel) {
     this.fModel = fModel;
+    packageNames = Strings.split(getName(), ".");
   }
 
   public String getName() {
@@ -33,6 +34,6 @@ public class ModelInfo {
   }
 
   public List<String> getPackageNames() {
-    return Strings.split(getName(), ".");
+    return packageNames;
   }
 }
