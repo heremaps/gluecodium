@@ -138,6 +138,11 @@ public class CppMethodMapperTest {
     assertEquals(
         "here::internal::expected< " + TYPE_NAME + ", " + TYPE_NAME + " >",
         returnTypeData.type.name.toLowerCase());
+    assertEquals("header for wrapper type included", 1, returnTypeData.type.includes.size());
+    assertEquals(
+        "correct include path",
+        "cpp/internal/expected.h",
+        returnTypeData.type.includes.iterator().next().fileName);
 
     PowerMockito.verifyStatic();
     CppTypeMapper.map(same(rootModel), same(francaArgument));
