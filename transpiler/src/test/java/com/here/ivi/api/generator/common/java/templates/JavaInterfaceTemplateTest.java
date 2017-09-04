@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.java.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaInterface;
 import com.here.ivi.api.model.javamodel.JavaMethod;
@@ -27,7 +28,11 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaInterfaceTemplateTest {
-  private static final String TEST_COPYRIGHT_HEADER = JavaCopyrightHeaderTemplate.generate() + "\n";
+
+  private static final String TEMPLATE_NAME = "java/Interface";
+
+  private static final String TEST_COPYRIGHT_HEADER =
+      TemplateEngine.render("java/CopyrightHeader", null) + "\n";
 
   @Test
   public void generate_minimumInterface() {
@@ -45,10 +50,10 @@ public final class JavaInterfaceTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaInterfaceTemplate.generate(javaInterface);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaInterface);
 
     // Arrange
-    assertEquals(expected, generated.toString());
+    assertEquals(expected, generated);
   }
 
   @Test
@@ -78,10 +83,10 @@ public final class JavaInterfaceTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaInterfaceTemplate.generate(javaInterface);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaInterface);
 
     // Assert
-    assertEquals(expected, generated.toString());
+    assertEquals(expected, generated);
   }
 
   @Test
@@ -110,10 +115,10 @@ public final class JavaInterfaceTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaInterfaceTemplate.generate(javaInterface);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaInterface);
 
     // Assert
-    assertEquals(expected, generated.toString());
+    assertEquals(expected, generated);
   }
 
   @Test
@@ -134,9 +139,9 @@ public final class JavaInterfaceTemplateTest {
             + "}";
 
     // Act
-    CharSequence generated = JavaInterfaceTemplate.generate(javaInterface);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaInterface);
 
     // Assert
-    assertEquals(expected, generated.toString());
+    assertEquals(expected, generated);
   }
 }

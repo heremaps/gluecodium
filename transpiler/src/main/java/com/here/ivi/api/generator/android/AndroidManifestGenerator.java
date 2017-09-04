@@ -12,8 +12,8 @@
 package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.android.AndroidNameRules;
-import com.here.ivi.api.generator.common.android.templates.AndroidManifestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public final class AndroidManifestGenerator extends AbstractAndroidGenerator {
 
   public List<GeneratedFile> generate() {
 
-    CharSequence fileContent = AndroidManifestTemplate.generate(basePackage);
+    String fileContent = TemplateEngine.render("android/AndroidManifest", basePackage.flatten());
 
     List<GeneratedFile> files = new ArrayList<>();
     files.add(new GeneratedFile(fileContent, AndroidNameRules.getManifestFilename()));

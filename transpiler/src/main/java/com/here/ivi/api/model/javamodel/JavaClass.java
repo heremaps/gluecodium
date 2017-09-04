@@ -62,4 +62,8 @@ public final class JavaClass extends JavaElement {
                         : Stream.concat(enums.stream(), extendedClass.stream()))))
         .map(JavaElement.class::cast);
   }
+
+  public Set<JavaImport> getImports() {
+    return JavaElements.collectImports(this);
+  }
 }

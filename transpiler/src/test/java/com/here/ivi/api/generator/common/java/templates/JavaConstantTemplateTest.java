@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.java.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaConstant;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
@@ -25,6 +26,9 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaConstantTemplateTest {
+
+  private static final String TEMPLATE_NAME = "java/Constant";
+
   @Test
   public void generateStringConstant() {
     // Arrange
@@ -39,10 +43,10 @@ public final class JavaConstantTemplateTest {
             + "static final String STRING_CONSTANT = \"myString\";";
 
     // Act
-    CharSequence generated = JavaConstantTemplate.generate(javaConstant);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaConstant);
 
     // Assert
-    assertEquals(expected, generated.toString());
+    assertEquals(expected, generated);
   }
 
   @Test
@@ -62,9 +66,9 @@ public final class JavaConstantTemplateTest {
             + "public static final ConstantType EXAMPLE_CONSTANT = new ConstantType();";
 
     // Act
-    CharSequence generated = JavaConstantTemplate.generate(javaConstant);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaConstant);
 
     // Assert
-    assertEquals(expected, generated.toString());
+    assertEquals(expected, generated);
   }
 }

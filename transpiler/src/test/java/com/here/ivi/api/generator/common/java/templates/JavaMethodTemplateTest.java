@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.common.java.templates;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaParameter;
@@ -26,6 +27,9 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaMethodTemplateTest {
+
+  private static final String TEMPLATE_NAME = "java/MethodSignature";
+
   @Test
   public void generate_simpleMethod() {
     // Arrange
@@ -35,10 +39,10 @@ public final class JavaMethodTemplateTest {
     String expected = "/**\n" + " * Simple method comment\n" + " */\n" + "void simpleMethod();";
 
     // Act
-    CharSequence generated = JavaMethodTemplate.generate(javaMethod);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
 
     // Assert
-    assertEquals(expected, generated.toString());
+    assertEquals(expected, generated);
   }
 
   @Test
@@ -52,10 +56,10 @@ public final class JavaMethodTemplateTest {
         "/**\n" + " * Native method comment\n" + " */\n" + "native void nativeMethod();";
 
     // Act
-    CharSequence generated = JavaMethodTemplate.generate(javaMethod);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
 
     // Assert
-    assertEquals(expected, generated.toString());
+    assertEquals(expected, generated);
   }
 
   @Test
@@ -77,10 +81,10 @@ public final class JavaMethodTemplateTest {
             + "public static ComplexType complexMethod(final String firstParam, final InParamType2 secondParam);";
 
     // Act
-    CharSequence generated = JavaMethodTemplate.generate(javaMethod);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
 
     // Assert
-    assertEquals(expected, generated.toString());
+    assertEquals(expected, generated);
   }
 
   @Ignore // TODO: Either support deprecation in common/DocComment or add java/DocComment
@@ -99,9 +103,9 @@ public final class JavaMethodTemplateTest {
             + "native void nativeMethod();";
 
     // Act
-    CharSequence generated = JavaMethodTemplate.generate(javaMethod);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
 
     // Assert
-    assertEquals(expected, generated.toString());
+    assertEquals(expected, generated);
   }
 }
