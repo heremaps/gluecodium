@@ -32,7 +32,7 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
     UINT64("uint64_t", true);
 
     public final String value;
-    private final boolean isIntegerType;
+    public final boolean isIntegerType;
 
     Type(final String value) {
       this(value, false);

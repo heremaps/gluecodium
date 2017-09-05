@@ -204,7 +204,7 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         new SwiftMethod(
             "helloWorldMethod",
-            Collections.singletonList(new SwiftParameter("inputString", SwiftType.String)));
+            Collections.singletonList(new SwiftParameter("inputString", SwiftType.STRING)));
     method.returnType = new SwiftType("String", TypeCategory.BUILTIN_STRING, true);
     method.isStatic = true;
     method.cBaseName = "HelloWorld_helloWorldMethod";
@@ -231,7 +231,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodWithByteBufferInput() {
     SwiftClass swiftClass = new SwiftClass("HelloWorld");
-    SwiftParameter swiftParameter = new SwiftParameter("byteBuffer", SwiftType.Data);
+    SwiftParameter swiftParameter = new SwiftParameter("byteBuffer", SwiftType.DATA);
     SwiftMethod method =
         new SwiftMethod("testBuffer", new ArrayList<>(Arrays.asList(swiftParameter)));
     method.isStatic = true;
@@ -254,7 +254,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodWithByteBufferInputAndDifferentVariableName() {
     SwiftClass swiftClass = new SwiftClass("HelloWorld");
-    SwiftParameter swiftParameter = new SwiftParameter("data", SwiftType.Data, "byteBuffer");
+    SwiftParameter swiftParameter = new SwiftParameter("data", SwiftType.DATA, "byteBuffer");
     SwiftMethod method =
         new SwiftMethod("testBuffer", new ArrayList<>(Arrays.asList(swiftParameter)));
     method.isStatic = true;
@@ -277,10 +277,10 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodWithMultipleByteBufferInputStringAndInteger() {
     SwiftClass swiftClass = new SwiftClass("HelloWorld");
-    SwiftParameter param1 = new SwiftParameter("byteBuffer", SwiftType.Data);
-    SwiftParameter param2 = new SwiftParameter("text", SwiftType.String);
+    SwiftParameter param1 = new SwiftParameter("byteBuffer", SwiftType.DATA);
+    SwiftParameter param2 = new SwiftParameter("text", SwiftType.STRING);
     SwiftParameter param3 = new SwiftParameter("number", new SwiftType("Int"));
-    SwiftParameter param4 = new SwiftParameter("data2", SwiftType.Data);
+    SwiftParameter param4 = new SwiftParameter("data2", SwiftType.DATA);
     SwiftMethod method =
         new SwiftMethod(
             "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
@@ -306,10 +306,10 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodWithMultipleByteBufferInputStringAndIntegerReturningData() {
     SwiftClass swiftClass = new SwiftClass("HelloWorld");
-    SwiftParameter param1 = new SwiftParameter("byteBuffer", SwiftType.Data);
-    SwiftParameter param2 = new SwiftParameter("text", SwiftType.String);
+    SwiftParameter param1 = new SwiftParameter("byteBuffer", SwiftType.DATA);
+    SwiftParameter param2 = new SwiftParameter("text", SwiftType.STRING);
     SwiftParameter param3 = new SwiftParameter("number", new SwiftType("Int"));
-    SwiftParameter param4 = new SwiftParameter("data2", SwiftType.Data);
+    SwiftParameter param4 = new SwiftParameter("data2", SwiftType.DATA);
     SwiftMethod method =
         new SwiftMethod(
             "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
@@ -348,10 +348,10 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodWithMultipleByteBufferInputStringAndIntegerReturningInt() {
     SwiftClass swiftClass = new SwiftClass("HelloWorld");
-    SwiftParameter param1 = new SwiftParameter("byteBuffer", SwiftType.Data);
-    SwiftParameter param2 = new SwiftParameter("text", SwiftType.String);
+    SwiftParameter param1 = new SwiftParameter("byteBuffer", SwiftType.DATA);
+    SwiftParameter param2 = new SwiftParameter("text", SwiftType.STRING);
     SwiftParameter param3 = new SwiftParameter("number", new SwiftType("Int"));
-    SwiftParameter param4 = new SwiftParameter("data2", SwiftType.Data);
+    SwiftParameter param4 = new SwiftParameter("data2", SwiftType.DATA);
     SwiftMethod method =
         new SwiftMethod(
             "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
@@ -434,8 +434,8 @@ public class SwiftFileTemplateTest {
         new SwiftMethod(
             "fancyMethod",
             Stream.of(
-                    new SwiftParameter("icon", SwiftType.Data),
-                    new SwiftParameter("name", SwiftType.String),
+                    new SwiftParameter("icon", SwiftType.DATA),
+                    new SwiftParameter("name", SwiftType.STRING),
                     new SwiftParameter("location", inputStruct))
                 .collect(toList()));
     method.isStatic = true;
