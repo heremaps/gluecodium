@@ -105,7 +105,6 @@ apply plugin: 'pmd'
 pmd {
     ruleSetFiles = files(rootProject.file('config/pmd/pmd-hard.xml'))
     rulePriority = 3
-    ignoreFailures true
 }
 
 apply from: "$rootDir/gradle/publish.gradle"
