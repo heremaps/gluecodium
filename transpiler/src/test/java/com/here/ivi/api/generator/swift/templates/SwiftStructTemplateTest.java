@@ -54,7 +54,7 @@ public class SwiftStructTemplateTest {
     struct.cPrefix = "hello_test_SomeStruct";
     struct.cType = "SomeStructRef";
     String actual = generate(struct);
-    assertEquals("it should generate empty structs", expected, actual);
+    assertEqualsTrimmed("it should generate empty structs", expected, actual);
   }
 
   @Test
@@ -86,7 +86,7 @@ public class SwiftStructTemplateTest {
             + "    }\n"
             + "}";
     String actual = generate(struct);
-    assertEquals("it should generate a struct for integer", expected, actual);
+    assertEqualsTrimmed("it should generate a struct for integer", expected, actual);
   }
 
   @Test
@@ -129,7 +129,7 @@ public class SwiftStructTemplateTest {
             + "    }\n"
             + "}";
     String actual = generate(struct);
-    assertEquals("it should generate a struct with two fields", expected, actual);
+    assertEqualsTrimmed("it should generate a struct with two fields", expected, actual);
   }
 
   @Test
@@ -167,7 +167,7 @@ public class SwiftStructTemplateTest {
             + "    }\n"
             + "}";
     String actual = generate(struct);
-    assertEquals("it should generate a struct with field of type String", expected, actual);
+    assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
   }
 
   @Test
@@ -212,7 +212,7 @@ public class SwiftStructTemplateTest {
             + "    }\n"
             + "}";
     String actual = generate(struct);
-    assertEquals("it should generate a struct with field of type String", expected, actual);
+    assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
   }
 
   @Test
@@ -252,6 +252,10 @@ public class SwiftStructTemplateTest {
             + "    }\n"
             + "}";
     String actual = generate(struct);
-    assertEquals("it should generate a struct with field of type String", expected, actual);
+    assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
+  }
+
+  private void assertEqualsTrimmed(String message, String expected, String actual) {
+    assertEquals(message, expected.trim(), actual.trim());
   }
 }
