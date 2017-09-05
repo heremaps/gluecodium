@@ -34,12 +34,12 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class JniImplementationTemplateTest {
   private static final List<Include> INCLUDE_LIST =
-      Collections.singletonList(Include.createInternalInclude("stub/libhello/TestClassStub.h"));
+      Collections.singletonList(Include.createInternalInclude("stub/libhello/TestClass.h"));
   private static final String BASE_PARAMETER_NAME = "intParam";
   private static final String JNI_PARAMETER_NAME = "j" + BASE_PARAMETER_NAME;
   private static final String COPYRIGHT_NOTICE =
       TemplateEngine.render("java/CopyrightHeader", null);
-  private static final String JNI_HEADER_INCLUDE = "#include \"stub/libhello/TestClassStub.h\"\n";
+  private static final String JNI_HEADER_INCLUDE = "#include \"stub/libhello/TestClass.h\"\n";
   private static final String EXTERN_C = "\nextern \"C\" {\n";
   private static final String END_OF_FILE = "\n}\n";
   private static final List<String> NAMESPACES = Arrays.asList("com", "here", "ivi", "test");

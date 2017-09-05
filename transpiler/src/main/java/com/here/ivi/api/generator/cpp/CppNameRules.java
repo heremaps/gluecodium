@@ -69,8 +69,7 @@ public final class CppNameRules {
   }
 
   public static String getClassName(String typeCollectionName) {
-    // TODO: APIGEN-253: remove suffix
-    return NameHelper.toUpperCamelCase(typeCollectionName) + "Stub";
+    return NameHelper.toUpperCamelCase(typeCollectionName);
   }
 
   public static String getEnumEntryName(String base) {

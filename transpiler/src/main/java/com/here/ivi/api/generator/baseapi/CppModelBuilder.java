@@ -233,7 +233,6 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
-
     storeResult(CppTypeMapper.map(rootModel, francaTypeRef));
     closeContext();
   }

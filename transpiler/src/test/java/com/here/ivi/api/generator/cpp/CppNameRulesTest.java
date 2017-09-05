@@ -80,7 +80,7 @@ public class CppNameRulesTest {
 
     //assert
     assertEquals(4, qualifier.size());
-    assertEquals(Arrays.asList("my", "fancy", "package", "IfaceStub"), qualifier);
+    assertEquals(Arrays.asList("my", "fancy", "package", "Iface"), qualifier);
 
     //verify
     verifyStatic();
@@ -130,7 +130,7 @@ public class CppNameRulesTest {
 
     String headerPath = CppNameRules.getHeaderPath(anInterface);
 
-    assertEquals("stub/my/fancy/package/FancyNameStub.h", headerPath);
+    assertEquals("stub/my/fancy/package/FancyName.h", headerPath);
 
     verify(anInterface).getModelInfo();
     verify(modelInfo).getPackageNames();
