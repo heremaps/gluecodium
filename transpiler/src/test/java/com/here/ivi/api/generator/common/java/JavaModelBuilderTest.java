@@ -78,7 +78,7 @@ public class JavaModelBuilderTest {
   private final MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement rootElementModel;
+  private FrancaElement rootModel;
 
   @Mock private FInterface francaInterface;
   @Mock private FTypeCollection francaTypeCollection;
@@ -105,10 +105,10 @@ public class JavaModelBuilderTest {
     PowerMockito.mockStatic(JavaTypeMapper.class);
     MockitoAnnotations.initMocks(this);
 
-    modelBuilder = new JavaModelBuilder(contextStack, BASE_PACKAGE, rootElementModel);
+    modelBuilder = new JavaModelBuilder(contextStack, BASE_PACKAGE, rootModel);
 
-    when(rootElementModel.getModelInfo().getFModel()).thenReturn(fModel);
-    when(rootElementModel.getModelInfo().getPackageNames()).thenReturn(new LinkedList<>());
+    when(rootModel.getModelInfo().getFModel()).thenReturn(fModel);
+    when(rootModel.getModelInfo().getPackageNames()).thenReturn(new LinkedList<>());
 
     when(francaInterface.getName()).thenReturn(CLASS_NAME);
     when(francaConstant.getName()).thenReturn(CONSTANT_NAME);
@@ -204,7 +204,19 @@ public class JavaModelBuilderTest {
     assertNotNull(javaMethod);
     assertEquals(METHOD_NAME, javaMethod.name);
     assertTrue(javaMethod.qualifiers.contains(JavaMethod.MethodQualifier.NATIVE));
+    assertFalse(javaMethod.qualifiers.contains(JavaMethod.MethodQualifier.STATIC));
     assertEquals(JavaVisibility.PUBLIC, javaMethod.visibility);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodWithStatic() {
+    when(rootModel.isStatic(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertTrue(javaMethod.qualifiers.contains(JavaMethod.MethodQualifier.STATIC));
   }
 
   @Test
