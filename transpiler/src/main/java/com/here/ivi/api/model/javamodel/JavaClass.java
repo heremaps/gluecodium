@@ -16,6 +16,9 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public final class JavaClass extends JavaElement {
+
+  public static final JavaClass NATIVE_BASE = new JavaClass("NativeBase");
+
   public enum Qualifier {
     STATIC("static"),
     FINAL("final");
@@ -45,7 +48,7 @@ public final class JavaClass extends JavaElement {
   public Set<JavaClass> innerClasses = new LinkedHashSet<>();
   public Set<Qualifier> qualifiers = new LinkedHashSet<>();
 
-  public JavaClass(String name) {
+  public JavaClass(final String name) {
     super(name);
   }
 
@@ -64,6 +67,10 @@ public final class JavaClass extends JavaElement {
   }
 
   public Set<JavaImport> getImports() {
-    return JavaElements.collectImports(this);
+    Set<JavaImport> imports = JavaElements.collectImports(this);
+    if (extendedClass != null) {
+      imports.add(new JavaImport(extendedClass.name, extendedClass.javaPackage));
+    }
+    return imports;
   }
 }

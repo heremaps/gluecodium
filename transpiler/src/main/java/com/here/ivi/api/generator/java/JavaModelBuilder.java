@@ -71,7 +71,14 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     List<JavaElement> previousResults = getCurrentContext().previousResults;
     javaClass.constants.addAll(CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
     javaClass.fields.addAll(CollectionsHelper.getAllOfType(previousResults, JavaField.class));
-    javaClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, JavaMethod.class));
+    List<JavaMethod> methods = CollectionsHelper.getAllOfType(previousResults, JavaMethod.class);
+
+    //check whether class is neither of POD nor of factory type
+    if (containsInstanceMethod(methods)) {
+      javaClass.extendedClass = JavaClass.NATIVE_BASE;
+    }
+
+    javaClass.methods.addAll(methods);
     CollectionsHelper.getStreamOfType(previousResults, JavaClass.class)
         .forEach(
             innerClass -> {
@@ -226,5 +233,14 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     }
 
     return comment;
+  }
+
+  private static boolean containsInstanceMethod(final List<JavaMethod> methods) {
+    for (JavaMethod method : methods) {
+      if (!method.qualifiers.contains(MethodQualifier.STATIC)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

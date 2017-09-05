@@ -184,6 +184,7 @@ public final class JavaClassTemplateTest {
     String expected =
         "package com.here.android;\n"
             + "\n"
+            + "import com.here.android.ParentClass;\n\n"
             + "/**\n"
             + " * Child class comment\n"
             + " */\n"
