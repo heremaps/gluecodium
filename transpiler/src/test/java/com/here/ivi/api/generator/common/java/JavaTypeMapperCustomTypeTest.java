@@ -20,13 +20,17 @@ import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.rules.InstanceRules;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FIntegerInterval;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Rule;
@@ -41,7 +45,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.trimou.util.Strings;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(JavaNameRules.class)
+@PrepareForTest({JavaNameRules.class, InstanceRules.class})
 public class JavaTypeMapperCustomTypeTest {
   private static final String TYPECOLLECTION_NAME = "typeC0Ll3ction";
 
@@ -64,10 +68,12 @@ public class JavaTypeMapperCustomTypeTest {
   @Mock private static FStructType structType;
 
   @Mock private FTypeRef francaTypeRef;
+  @Mock private FTypeDef francaTypeDef;
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(JavaNameRules.class);
+    PowerMockito.mockStatic(JavaNameRules.class, InstanceRules.class);
+
     MockitoAnnotations.initMocks(this);
 
     when(theModel.getName()).thenReturn(FMODEL_NAME);
@@ -158,5 +164,40 @@ public class JavaTypeMapperCustomTypeTest {
 
     //act
     JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
+  }
+
+  @Test
+  public void mapInstance() {
+
+    List<String> packageNames = Arrays.asList("the", "franca", "package", "names");
+
+    //mock typedef and reference
+    String className = "MyClazz";
+    when(francaTypeDef.getName()).thenReturn(className);
+
+    when(francaTypeDef.eContainer()).thenReturn(fInterface);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
+
+    when(theModel.getName()).thenReturn(String.join(".", packageNames));
+    when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
+
+    when(JavaNameRules.getClassName(INTERFACE_NAME)).thenReturn(INTERFACE_NAME);
+
+    //act
+    JavaType result = JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
+
+    assertTrue(result instanceof JavaCustomType);
+    JavaCustomType customResult = (JavaCustomType) result;
+
+    assertEquals(INTERFACE_NAME, customResult.name);
+    assertEquals(1, customResult.imports.size());
+    assertEquals(packageNames, customResult.imports.iterator().next().javaPackage.packageNames);
+
+    PowerMockito.verifyStatic();
+    JavaNameRules.getClassName(INTERFACE_NAME);
+
+    PowerMockito.verifyStatic();
+    InstanceRules.isInstanceId(francaTypeDef);
   }
 }

@@ -21,6 +21,7 @@ import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArrayType;
@@ -99,10 +100,8 @@ public final class JavaTypeMapper {
     if (derived.eContainer() == null) {
       //TODO: return reportInvalidType(api, type);
     }
-
     if (derived instanceof FTypeDef) {
-      // TODO APIGEN-439 Replace this when typedef support is implemented
-      return map(basePackage, ((FTypeDef) derived).getActualType());
+      return mapTypeDef(basePackage, (FTypeDef) derived);
     }
     if (derived instanceof FArrayType) {
       //TODO: return mapArray(api, (FArrayType) derived);
@@ -145,5 +144,21 @@ public final class JavaTypeMapper {
     JavaImport javaImport = new JavaImport(importClassName, new JavaPackage(packageNames));
 
     return new JavaCustomType(structName, className, Collections.singletonList(javaImport));
+  }
+
+  private static JavaType mapTypeDef(final JavaPackage basePackage, final FTypeDef typeDef) {
+
+    if (InstanceRules.isInstanceId(typeDef)) {
+      DefinedBy definer = DefinedBy.createFromFModelElement(typeDef);
+      List<String> packageNames = createJavaPackage(basePackage, definer.model).packageNames;
+      String className = JavaNameRules.getClassName(definer.type.getName());
+      JavaImport classImport = new JavaImport(className, new JavaPackage(packageNames));
+
+      return new JavaCustomType(className, Collections.singletonList(classImport));
+
+    } else {
+      // TODO APIGEN-441 Replace this when typedef support is implemented
+      return map(basePackage, typeDef.getActualType());
+    }
   }
 }
