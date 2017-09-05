@@ -119,12 +119,11 @@ public class CBridgeHeaderTemplateTest {
     CParameter cParameter = new CParameter("inputString", CPointerType.CONST_CHAR_PTR);
     cInterface.functions =
         Collections.singletonList(
-            new CFunction.Builder("HelloWorldStub_HelloWorldMethod")
+            new CFunction.Builder("HelloWorld_HelloWorldMethod")
                 .returnType(CPointerType.CONST_CHAR_PTR)
                 .parameters(Collections.singletonList(cParameter))
                 .build());
-    final String expected =
-        "const char* HelloWorldStub_HelloWorldMethod(const char* inputString);\n";
+    final String expected = "const char* HelloWorld_HelloWorldMethod(const char* inputString);\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
   }
