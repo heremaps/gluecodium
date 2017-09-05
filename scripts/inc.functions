@@ -16,3 +16,17 @@ function safe {
     fi
     return $status
 }
+
+# Returns preferred CMake generator:
+#  Ninja on Linux
+#  XCode on Darwin
+function cmake_generator {
+    case $(uname) in
+        'Linux')
+            echo "Ninja"
+            ;;
+        'Darwin')
+            echo "Xcode"
+            ;;
+    esac
+}

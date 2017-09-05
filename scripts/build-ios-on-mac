@@ -16,6 +16,13 @@ fi
 
 CWD="$PWD"
 
+CMAKE_EXTRA_PARAMETERS=
+# Chose platform-native CMake generator
+if [ "$(cmake_generator)" ] ; then
+CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
+    -G $(cmake_generator)"
+fi
+
 function build {
     local build_dir="$1"
     local target="$2"
@@ -29,7 +36,7 @@ function build {
             -DIOS_DEPLOYMENT_TARGET=9.3 \
             -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
             -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
-            -G Ninja \
+            ${CMAKE_EXTRA_PARAMETERS} \
             "${SCRIPT_DIR}/.."
         popd
     fi
