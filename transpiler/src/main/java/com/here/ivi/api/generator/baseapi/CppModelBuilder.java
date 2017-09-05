@@ -74,10 +74,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     List<CppElement> previousResults = getCurrentContext().previousResults;
 
-    CppClass cppClass =
-        new CppClass.Builder(className)
-            .comment(CppCommentParser.parse(francaInterface).getMainBodyText())
-            .build();
+    CppClass cppClass = new CppClass(className);
+    cppClass.comment = CppCommentParser.parse(francaInterface).getMainBodyText();
 
     cppClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, CppMethod.class));
     cppClass.structs.addAll(CollectionsHelper.getAllOfType(previousResults, CppStruct.class));

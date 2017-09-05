@@ -26,15 +26,21 @@ public class CFunction extends CElement {
   public final TypeConverter.TypeConversion returnConversion;
   public final String delegateCall;
   public String definitionTemplate = "cbridge/FunctionDefinition";
-  public boolean declareInImplementationOnly = false;
+  public boolean declareInImplementationOnly;
 
-  private CFunction(Builder builder) {
-    super(builder.name);
-    parameters = builder.parameters;
-    conversions = builder.conversions;
-    returnType = builder.returnType;
-    returnConversion = builder.returnConversion;
-    delegateCall = builder.delegateCall;
+  private CFunction(
+      final String name,
+      final List<? extends CParameter> parameters,
+      final List<TypeConverter.TypeConversion> conversions,
+      final CType returnType,
+      final TypeConverter.TypeConversion returnConversion,
+      final String delegateCall) {
+    super(name);
+    this.parameters = parameters;
+    this.conversions = conversions;
+    this.returnType = returnType;
+    this.returnConversion = returnConversion;
+    this.delegateCall = delegateCall;
   }
 
   @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
@@ -89,7 +95,13 @@ public class CFunction extends CElement {
       if (returnType != CType.VOID && returnConversion == null) {
         returnConversion = new TypeConverter.TypeConversion("result");
       }
-      return new CFunction(this);
+      return new CFunction(
+          this.name,
+          this.parameters,
+          this.conversions,
+          this.returnType,
+          this.returnConversion,
+          this.delegateCall);
     }
   }
 }

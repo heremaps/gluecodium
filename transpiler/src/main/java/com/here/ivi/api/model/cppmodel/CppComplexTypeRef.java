@@ -22,9 +22,12 @@ public class CppComplexTypeRef extends CppTypeRef {
 
   public final CppTypeInfo info;
 
-  private CppComplexTypeRef(CppComplexTypeRef.Builder builder) {
-    super(builder.fullyQualifiedName, builder.includes);
-    info = builder.typeInfo != null ? builder.typeInfo : CppTypeInfo.Complex;
+  private CppComplexTypeRef(
+      final String fullyQualifiedName,
+      final Collection<Include> includes,
+      final CppTypeInfo typeInfo) {
+    super(fullyQualifiedName, includes);
+    info = typeInfo != null ? typeInfo : CppTypeInfo.Complex;
   }
 
   @Override
@@ -57,7 +60,7 @@ public class CppComplexTypeRef extends CppTypeRef {
     }
 
     public CppComplexTypeRef build() {
-      return new CppComplexTypeRef(this);
+      return new CppComplexTypeRef(this.fullyQualifiedName, this.includes, this.typeInfo);
     }
   }
 }

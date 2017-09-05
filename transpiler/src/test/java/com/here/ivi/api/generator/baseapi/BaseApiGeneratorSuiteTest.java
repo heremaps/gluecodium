@@ -20,7 +20,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -45,7 +44,6 @@ public final class BaseApiGeneratorSuiteTest {
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
 
   @Mock private BaseApiModelValidator baseApiModelValidator;
-  @Mock private OptionReader.TranspilerOptions options;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FrancaModel mockFrancaModel;
@@ -62,7 +60,6 @@ public final class BaseApiGeneratorSuiteTest {
     MockitoAnnotations.initMocks(this);
 
     when(GeneratorSuite.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
-    when(options.getInputDir()).thenReturn(MOCK_INPUT_PATH);
 
     baseApiGeneratorSuite = new BaseApiGeneratorSuite(baseApiModelValidator, francaModelLoader);
   }

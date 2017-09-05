@@ -51,7 +51,7 @@ public final class CppClassTemplateTest {
       new CppMethod.Builder("methodical").specifier(CppMethod.Specifier.STATIC).build();
   private final CppField cppField = new CppField(cppPrimitiveTypeRef, "flowers");
 
-  private final CppClass cppClass = new CppClass.Builder("Classy").build();
+  private final CppClass cppClass = new CppClass("Classy");
 
   @Test
   public void emptyClass() {

@@ -26,7 +26,7 @@ public final class CppInheritanceTemplateTest {
 
   private static final String TEMPLATE_NAME = "cpp/CppInheritance";
 
-  private final CppClass cppClass = new CppClass.Builder("Classy").build();
+  private final CppClass cppClass = new CppClass("Classy");
   private final CppInheritance cppInheritance =
       new CppInheritance(
           new CppComplexTypeRef.Builder("Typical").build(), CppInheritance.Type.Public);

@@ -77,7 +77,7 @@ public class JniModelBuilderTest {
   @Mock private CppModelBuilder cppBuilder;
 
   private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
-  private final CppClass cppClass = new CppClass.Builder(CPP_CLASS_NAME).build();
+  private final CppClass cppClass = new CppClass(CPP_CLASS_NAME);
   private final JavaCustomType javaCustomType = new JavaCustomType(JAVA_CLASS_NAME);
   private final CppComplexTypeRef cppCustomType =
       new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build();
