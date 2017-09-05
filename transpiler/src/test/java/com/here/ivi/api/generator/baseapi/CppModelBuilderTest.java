@@ -412,6 +412,9 @@ public class CppModelBuilderTest {
 
     CppUsing cppUsing = modelBuilder.getFirstResult(CppUsing.class);
     assertNull(cppUsing);
+
+    PowerMockito.verifyStatic();
+    InstanceRules.isInstanceId(francaTypeDef);
   }
 
   @Test
@@ -427,6 +430,8 @@ public class CppModelBuilderTest {
 
     PowerMockito.verifyStatic();
     CppTypeMapper.map(rootModel, francaTypeRef);
+    PowerMockito.verifyStatic();
+    InstanceRules.isInstanceId(francaTypeDef);
   }
 
   @Test
