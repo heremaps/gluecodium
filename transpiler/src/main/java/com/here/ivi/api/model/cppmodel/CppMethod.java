@@ -60,13 +60,19 @@ public final class CppMethod extends CppElementWithIncludes {
     }
   }
 
-  private CppMethod(Builder builder) {
-    super(builder.name);
-    this.comment = builder.methodComment;
-    this.returnType = builder.returnType;
-    this.specifiers = builder.specifiers;
-    this.qualifiers = builder.qualifiers;
-    this.parameters = builder.parameters;
+  private CppMethod(
+      final String name,
+      final String methodComment,
+      final CppTypeRef returnType,
+      final Set<Specifier> specifiers,
+      final Set<Qualifier> qualifiers,
+      final List<CppParameter> parameters) {
+    super(name);
+    this.comment = methodComment;
+    this.returnType = returnType;
+    this.specifiers = specifiers;
+    this.qualifiers = qualifiers;
+    this.parameters = parameters;
   }
 
   @Override
@@ -144,7 +150,13 @@ public final class CppMethod extends CppElementWithIncludes {
     }
 
     public CppMethod build() {
-      return new CppMethod(this);
+      return new CppMethod(
+          this.name,
+          this.methodComment,
+          this.returnType,
+          this.specifiers,
+          this.qualifiers,
+          this.parameters);
     }
   }
 

@@ -18,43 +18,25 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import lombok.Builder;
+import lombok.Value;
 import org.apache.commons.cli.*;
 
 public final class OptionReader {
 
+  private static final TranspilerOptions DEFAULT_OPTIONS = TranspilerOptions.builder().build();
+
   private final Options options;
 
+  @Value
+  @Builder(builderClassName = "Builder")
   public static class TranspilerOptions {
     private String inputDir;
     private String outputDir;
     private List<String> javaPackageList;
-    private boolean stdoutDump;
-    private boolean validateOnly;
+    private boolean dumpingToStdout;
+    private boolean validatingOnly;
     private List<String> generators;
-
-    public String getInputDir() {
-      return inputDir;
-    }
-
-    public String getOutputDir() {
-      return outputDir;
-    }
-
-    public List<String> getJavaPackageList() {
-      return javaPackageList;
-    }
-
-    public boolean isDumpingToStdout() {
-      return stdoutDump;
-    }
-
-    public List<String> getGenerators() {
-      return generators;
-    }
-
-    public boolean isValidatingOnly() {
-      return validateOnly;
-    }
   }
 
   public OptionReader() {
@@ -87,7 +69,7 @@ public final class OptionReader {
 
   @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
   public TranspilerOptions read(final String[] args) throws OptionReaderException {
-    TranspilerOptions res = new TranspilerOptions();
+    TranspilerOptions.Builder builder = TranspilerOptions.builder();
     CommandLineParser parser = new BasicParser();
 
     try {
@@ -109,35 +91,36 @@ public final class OptionReader {
       }
 
       if (cmd.hasOption("input")) {
-        res.inputDir = cmd.getOptionValue("input");
+        builder.inputDir(cmd.getOptionValue("input"));
       } else if (remainingArgs.length == 1) {
-        res.inputDir = remainingArgs[0];
+        builder.inputDir(remainingArgs[0]);
       }
 
-      res.outputDir = cmd.hasOption("output") ? cmd.getOptionValue("output") : null;
-      res.javaPackageList =
+      builder.outputDir(cmd.hasOption("output") ? cmd.getOptionValue("output") : null);
+      builder.javaPackageList(
           cmd.hasOption("javapackage")
               ? Lists.newArrayList(Splitter.on(".").split(cmd.getOptionValue("javapackage")))
-              : Collections.emptyList();
+              : Collections.emptyList());
 
       if (cmd.hasOption("generators")) {
         String[] arg = cmd.getOptionValues("generators");
         // use all generators if option provided without argument
-        res.generators = arg != null ? Arrays.asList(arg) : GeneratorSuite.generatorShortNames();
+        builder.generators(arg != null ? Arrays.asList(arg) : GeneratorSuite.generatorShortNames());
       }
 
-      res.validateOnly = cmd.hasOption("validateOnly");
-      res.stdoutDump = !cmd.hasOption("nostdout");
+      builder.validatingOnly(cmd.hasOption("validateOnly"));
+      builder.dumpingToStdout(!cmd.hasOption("nostdout"));
 
     } catch (ParseException e) {
       throw new OptionReaderException(e);
     }
 
-    if (res.inputDir == null) {
+    TranspilerOptions transpilerOptions = builder.build();
+    if (transpilerOptions.getInputDir() == null) {
       throw new OptionReaderException("input option required");
     }
 
-    return res;
+    return transpilerOptions;
   }
 
   private void printGenerators() {
@@ -145,7 +128,7 @@ public final class OptionReader {
     for (String sn : GeneratorSuite.generatorShortNames()) {
       System.out.println("  Found generator " + sn);
       try {
-        GeneratorSuite gen = GeneratorSuite.instantiateByShortName(sn, new TranspilerOptions());
+        GeneratorSuite gen = GeneratorSuite.instantiateByShortName(sn, DEFAULT_OPTIONS);
         System.out.println("   DefinedIn:  " + gen.getClass().getName());
         System.out.println("   Name:       " + gen.getName());
       } catch (NoSuchMethodException
