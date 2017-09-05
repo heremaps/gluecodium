@@ -20,7 +20,6 @@ import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -30,82 +29,82 @@ public final class JavaMethodTemplateTest {
 
   private static final String TEMPLATE_NAME = "java/MethodSignature";
 
+  private static final String EXPECTED_METHOD_SIGNATURE = "void methodical();";
+
+  private final JavaParameter javaParameter =
+      new JavaParameter(new JavaReferenceType(JavaReferenceType.Type.STRING), "firstParam");
+  private final JavaMethod javaMethod =
+      new JavaMethod("methodical", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
+
   @Test
-  public void generate_simpleMethod() {
-    // Arrange
-    JavaMethod javaMethod =
-        new JavaMethod("simpleMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
-    javaMethod.comment = "Simple method comment";
-    String expected = "/**\n" + " * Simple method comment\n" + " */\n" + "void simpleMethod();";
+  public void generate_instanceMethod() {
+    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
 
-    // Act
-    String generated = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
-
-    // Assert
-    assertEquals(expected, generated);
+    assertEquals(EXPECTED_METHOD_SIGNATURE, result);
   }
 
   @Test
   public void generate_nativeMethod() {
-    // Arrange
-    JavaMethod javaMethod =
-        new JavaMethod("nativeMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
-    javaMethod.comment = "Native method comment";
     javaMethod.qualifiers.add(JavaMethod.MethodQualifier.NATIVE);
-    String expected =
-        "/**\n" + " * Native method comment\n" + " */\n" + "native void nativeMethod();";
 
-    // Act
-    String generated = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
 
-    // Assert
-    assertEquals(expected, generated);
+    assertEquals("native " + EXPECTED_METHOD_SIGNATURE, result);
   }
 
   @Test
-  public void generate_complexMethod() {
-    // Arrange
-    JavaMethod javaMethod = new JavaMethod("complexMethod", new JavaCustomType("ComplexType"));
-    javaMethod.comment = "Method comment";
-    javaMethod.visibility = JavaVisibility.PUBLIC;
-    javaMethod.qualifiers.add(JavaMethod.MethodQualifier.STATIC);
-    javaMethod.parameters.add(
-        new JavaParameter(new JavaReferenceType(JavaReferenceType.Type.STRING), "firstParam"));
-    javaMethod.parameters.add(new JavaParameter(new JavaCustomType("InParamType2"), "secondParam"));
-    javaMethod.deprecatedComment = "Method is deprecated";
-    String expected =
-        "/**\n"
-            + " * Method comment\n"
-            + " */\n"
-            + "@Deprecated\n"
-            + "public static ComplexType complexMethod(final String firstParam, final InParamType2 secondParam);";
+  public void generateMethodWithComment() {
+    javaMethod.comment = "Simple method comment";
 
-    // Act
-    String generated = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
 
-    // Assert
-    assertEquals(expected, generated);
+    assertEquals("/**\n * Simple method comment\n */\n" + EXPECTED_METHOD_SIGNATURE, result);
   }
 
-  @Ignore // TODO: Either support deprecation in common/DocComment or add java/DocComment
-  public void generate_deprecatedMethod() {
-    // Arrange
-    JavaMethod javaMethod =
-        new JavaMethod("deprecatedMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
-    javaMethod.comment = "Some random comment";
-    javaMethod.deprecatedComment = "Removed soon";
-    String expected =
-        "/**\n"
-            + " * Native method comment\n"
-            + " @deprecated Removed soon\n"
-            + " */\n"
-            + "@Deprecated\n"
-            + "native void nativeMethod();";
+  @Test
+  public void generateStaticMethod() {
+    javaMethod.qualifiers.add(JavaMethod.MethodQualifier.STATIC);
 
-    // Act
-    String generated = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
 
-    // Assert
-    assertEquals(expected, generated);
+    assertEquals("static " + EXPECTED_METHOD_SIGNATURE, result);
+  }
+
+  @Test
+  public void generatePublicMethod() {
+    javaMethod.visibility = JavaVisibility.PUBLIC;
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
+
+    assertEquals("public " + EXPECTED_METHOD_SIGNATURE, result);
+  }
+
+  @Test
+  public void generateMethodWithReturnType() {
+    JavaMethod javaMethod = new JavaMethod("methodical", new JavaCustomType("ComplexType"));
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
+
+    assertEquals("ComplexType methodical();", result);
+  }
+
+  @Test
+  public void generateMethodWithOneParameter() {
+    javaMethod.parameters.add(javaParameter);
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
+
+    assertEquals("void methodical(final String firstParam);", result);
+  }
+
+  @Test
+  public void generateMethodWithTwoParameters() {
+    javaMethod.parameters.add(javaParameter);
+    javaMethod.parameters.add(new JavaParameter(new JavaCustomType("InParamType2"), "secondParam"));
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
+
+    assertEquals(
+        "void methodical(final String firstParam, final InParamType2 secondParam);", result);
   }
 }

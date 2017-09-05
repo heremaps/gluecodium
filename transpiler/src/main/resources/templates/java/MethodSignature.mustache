@@ -1,3 +1,2 @@
-{{#this}}{{>common/DocComment}}{{#deprecatedComment}}@Deprecated
-{{/deprecatedComment}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{join this delimiter=" "}} {{/qualifiers}}{{returnType.name}} {{name}}({{joinPartial parameters "java/Parameter" ", "}});{{/this}}
+{{>common/DocComment}}
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{this}} {{/qualifiers}}{{returnType.name}} {{name}}({{joinPartial parameters "java/Parameter" ", "}});
