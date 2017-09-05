@@ -11,53 +11,53 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "stub/test/TypeCollection.h"
-#include "stub/test/StaticTypedefStub.h"
+#include "stub/test/StaticTypedef.h"
 
 namespace test
 {
 
-StaticTypedefStub::IntTypedef
-StaticTypedefStub::returnIntTypedef( const ::test::StaticTypedefStub::IntTypedef input )
+StaticTypedef::IntTypedef
+StaticTypedef::returnIntTypedef( const ::test::StaticTypedef::IntTypedef input )
 {
     return input + 1;
 }
 
-StaticTypedefStub::NestedIntTypedef
-StaticTypedefStub::returnNestedIntTypedef( const ::test::StaticTypedefStub::NestedIntTypedef input )
+StaticTypedef::NestedIntTypedef
+StaticTypedef::returnNestedIntTypedef( const ::test::StaticTypedef::NestedIntTypedef input )
 {
     return input + 1;
 }
 
-StaticTypedefStub::StringTypedef
-StaticTypedefStub::returnStringTypedef( const ::test::StaticTypedefStub::StringTypedef& input )
+StaticTypedef::StringTypedef
+StaticTypedef::returnStringTypedef( const ::test::StaticTypedef::StringTypedef& input )
 {
     return "Hello " + input;
 }
 
-StaticTypedefStub::ByteArrayTypedef
-StaticTypedefStub::returnByteBufferTypedef( const ::test::StaticTypedefStub::ByteArrayTypedef& input )
+StaticTypedef::ByteArrayTypedef
+StaticTypedef::returnByteBufferTypedef( const ::test::StaticTypedef::ByteArrayTypedef& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
-StaticTypedefStub::ExampleStructTypedef
-StaticTypedefStub::returnExampleStructTypedef( const ::test::StaticTypedefStub::ExampleStructTypedef& input )
+StaticTypedef::ExampleStructTypedef
+StaticTypedef::returnExampleStructTypedef( const ::test::StaticTypedef::ExampleStructTypedef& input )
 {
-    StaticTypedefStub::ExampleStructTypedef result;
+    StaticTypedef::ExampleStructTypedef result;
     result.exampleString = "Hello " + input.exampleString;
     return result;
 }
 
 ::test::typecollection::PointTypedef
-StaticTypedefStub::returnTypedefPointFromTypeCollection( const ::test::typecollection::PointTypedef& input )
+StaticTypedef::returnTypedefPointFromTypeCollection( const ::test::typecollection::PointTypedef& input )
 {
     return input;
 }
 
-StaticTypedefStub::NestedStructTypedef
-StaticTypedefStub::returnNestedStructTypedef( const ::test::StaticTypedefStub::NestedStructTypedef& input )
+StaticTypedef::NestedStructTypedef
+StaticTypedef::returnNestedStructTypedef( const ::test::StaticTypedef::NestedStructTypedef& input )
 {
-    StaticTypedefStub::NestedStructTypedef result;
+    StaticTypedef::NestedStructTypedef result;
     result.exampleString = "Hello " + input.exampleString;
     return result;
 }

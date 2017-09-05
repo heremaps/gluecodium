@@ -10,12 +10,12 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/hello/HelloWorldStub.h"
+#include "stub/hello/HelloWorld.h"
 
 namespace hello
 {
     std::string
-    HelloWorldStub::helloWorldMethod(const std::string& inputString)
+    HelloWorld::helloWorldMethod(const std::string& inputString)
     {
         return "Hello " + inputString;
     }

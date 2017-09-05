@@ -10,157 +10,157 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/StaticIntMethodsStub.h"
+#include "stub/test/StaticIntMethods.h"
 
 namespace test
 {
 int8_t
-StaticIntMethodsStub::returnNextNumberINT8( const int8_t inputNumber )
+StaticIntMethods::returnNextNumberINT8( const int8_t inputNumber )
 {
     return inputNumber + 1;
 }
 
 int8_t
-StaticIntMethodsStub::sumTwoNumbersINT8( const int8_t inputNumber1, const int8_t inputNumber2 )
+StaticIntMethods::sumTwoNumbersINT8( const int8_t inputNumber1, const int8_t inputNumber2 )
 {
     return inputNumber1 + inputNumber2;
 }
 
 int8_t
-StaticIntMethodsStub::returnPrimeINT8( )
+StaticIntMethods::returnPrimeINT8( )
 {
     return 2;
 }
 
 uint8_t
-StaticIntMethodsStub::returnNextNumberUINT8( const uint8_t inputNumber )
+StaticIntMethods::returnNextNumberUINT8( const uint8_t inputNumber )
 {
     return inputNumber + 1;
 }
 
 uint8_t
-StaticIntMethodsStub::sumTwoNumbersUINT8( const uint8_t inputNumber1,
+StaticIntMethods::sumTwoNumbersUINT8( const uint8_t inputNumber1,
                                               const uint8_t inputNumber2 )
 {
     return inputNumber1 + inputNumber2;
 }
 
 uint8_t
-StaticIntMethodsStub::returnPrimeUINT8( )
+StaticIntMethods::returnPrimeUINT8( )
 {
     return 131;
 }
 
 int16_t
-StaticIntMethodsStub::returnNextNumberINT16( const int16_t inputNumber )
+StaticIntMethods::returnNextNumberINT16( const int16_t inputNumber )
 {
     return inputNumber + 1;
 }
 
 int16_t
-StaticIntMethodsStub::sumTwoNumbersINT16( const int16_t inputNumber1,
+StaticIntMethods::sumTwoNumbersINT16( const int16_t inputNumber1,
                                               const int16_t inputNumber2 )
 {
     return inputNumber1 + inputNumber2;
 }
 
 int16_t
-StaticIntMethodsStub::returnPrimeINT16( )
+StaticIntMethods::returnPrimeINT16( )
 {
     return 257;
 }
 
 uint16_t
-StaticIntMethodsStub::returnNextNumberUINT16( const uint16_t inputNumber )
+StaticIntMethods::returnNextNumberUINT16( const uint16_t inputNumber )
 {
     return inputNumber + 1;
 }
 
 uint16_t
-StaticIntMethodsStub::sumTwoNumbersUINT16( const uint16_t inputNumber1,
+StaticIntMethods::sumTwoNumbersUINT16( const uint16_t inputNumber1,
                                                const uint16_t inputNumber2 )
 {
     return inputNumber1 + inputNumber2;
 }
 
 uint16_t
-StaticIntMethodsStub::returnPrimeUINT16( )
+StaticIntMethods::returnPrimeUINT16( )
 {
     return 32771;
 }
 
 int32_t
-StaticIntMethodsStub::returnNextNumberINT32( const int32_t inputNumber )
+StaticIntMethods::returnNextNumberINT32( const int32_t inputNumber )
 {
     return inputNumber + 1;
 }
 
 int32_t
-StaticIntMethodsStub::sumTwoNumbersINT32( const int32_t inputNumber1,
+StaticIntMethods::sumTwoNumbersINT32( const int32_t inputNumber1,
                                               const int32_t inputNumber2 )
 {
     return inputNumber1 + inputNumber2;
 }
 
 int32_t
-StaticIntMethodsStub::returnPrimeINT32( )
+StaticIntMethods::returnPrimeINT32( )
 {
     return 65537;
 }
 
 uint32_t
-StaticIntMethodsStub::returnNextNumberUINT32( const uint32_t inputNumber )
+StaticIntMethods::returnNextNumberUINT32( const uint32_t inputNumber )
 {
     return inputNumber + 1;
 }
 
 uint32_t
-StaticIntMethodsStub::sumTwoNumbersUINT32( const uint32_t inputNumber1,
+StaticIntMethods::sumTwoNumbersUINT32( const uint32_t inputNumber1,
                                                const uint32_t inputNumber2 )
 {
     return inputNumber1 + inputNumber2;
 }
 
 uint32_t
-StaticIntMethodsStub::returnPrimeUINT32( )
+StaticIntMethods::returnPrimeUINT32( )
 {
     return 2147483659;
 }
 
 int64_t
-StaticIntMethodsStub::returnNextNumberINT64( const int64_t inputNumber )
+StaticIntMethods::returnNextNumberINT64( const int64_t inputNumber )
 {
     return inputNumber + 1;
 }
 
 int64_t
-StaticIntMethodsStub::sumTwoNumbersINT64( const int64_t inputNumber1,
+StaticIntMethods::sumTwoNumbersINT64( const int64_t inputNumber1,
                                               const int64_t inputNumber2 )
 {
     return inputNumber1 + inputNumber2;
 }
 
 int64_t
-StaticIntMethodsStub::returnPrimeINT64( )
+StaticIntMethods::returnPrimeINT64( )
 {
     return 4294967311L;
 }
 
 uint64_t
-StaticIntMethodsStub::returnNextNumberUINT64( const uint64_t inputNumber )
+StaticIntMethods::returnNextNumberUINT64( const uint64_t inputNumber )
 {
     return inputNumber + 1;
 }
 
 uint64_t
-StaticIntMethodsStub::sumTwoNumbersUINT64( const uint64_t inputNumber1,
+StaticIntMethods::sumTwoNumbersUINT64( const uint64_t inputNumber1,
                                                const uint64_t inputNumber2 )
 {
     return inputNumber1 + inputNumber2;
 }
 
 uint64_t
-StaticIntMethodsStub::returnPrimeUINT64( )
+StaticIntMethods::returnPrimeUINT64( )
 {
     return 4294967311L;
 }
