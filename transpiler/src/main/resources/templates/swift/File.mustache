@@ -10,9 +10,11 @@ public class {{name}}{{#if parentClass}} : {{parentClass}}{{#implementsProtocols
 {{#properties}}
 {{>swift/Property}}
 {{/properties}}
+
 {{#structs}}
 {{>swift/Struct}}
 {{/structs}}
+
 {{#methods}}
 {{prefixPartial 'swift/Method' '    '}}
 {{/methods}}

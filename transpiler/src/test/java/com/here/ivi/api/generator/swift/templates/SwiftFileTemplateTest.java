@@ -466,4 +466,51 @@ public class SwiftFileTemplateTest {
     String generated = generate(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
+
+  @Test
+  public void interfaceWithTwoStructsAndMethod() {
+    SwiftClass swiftClass = new SwiftClass("SomeClass", null);
+    SwiftStruct firstSturct = new SwiftStruct("FirstStruct");
+    firstSturct.cPrefix = "CPrefix";
+    firstSturct.cType = "CType";
+    SwiftStruct secondStruct = new SwiftStruct("SecondStruct");
+    secondStruct.cPrefix = "CPrefix";
+    secondStruct.cType = "CType";
+    swiftClass.structs = Arrays.asList(firstSturct, secondStruct);
+    swiftClass.methods = singletonList(new SwiftMethod("SomeMethod"));
+    final String expected =
+        "public class SomeClass {\n"
+            + "public struct FirstStruct {\n"
+            + "    public init() {\n"
+            + "    }\n"
+            + "    internal init?(cFirstStruct: CType) {\n"
+            + "    }\n"
+            + "    internal func convertToCType() -> CType {\n"
+            + "        let result = CPrefix_create()\n"
+            + "        fillFunction(result)\n"
+            + "        return result\n"
+            + "    }\n"
+            + "    internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
+            + "    }\n"
+            + "}\n"
+            + "public struct SecondStruct {\n"
+            + "    public init() {\n"
+            + "    }\n"
+            + "    internal init?(cSecondStruct: CType) {\n"
+            + "    }\n"
+            + "    internal func convertToCType() -> CType {\n"
+            + "        let result = CPrefix_create()\n"
+            + "        fillFunction(result)\n"
+            + "        return result\n"
+            + "    }\n"
+            + "    internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
+            + "    }\n"
+            + "}\n"
+            + "    public func SomeMethod() -> Void {\n"
+            + "        return ()\n"
+            + "    }\n"
+            + "}\n";
+    final String generated = generate(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
 }
