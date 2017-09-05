@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api;
+package com.here.android;
 
 import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;

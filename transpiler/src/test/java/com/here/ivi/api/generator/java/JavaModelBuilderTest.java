@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.java;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -171,7 +172,22 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaInterfaceReadsMethods() {
+  public void finishBuildingFrancaInterfaceReadsStaticMethods() {
+    final JavaMethod javaMethod = new JavaMethod(METHOD_NAME);
+    javaMethod.qualifiers.add(JavaMethod.MethodQualifier.STATIC);
+    contextStack.injectResult(javaMethod);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertFalse(javaClass.methods.isEmpty());
+    assertEquals(javaMethod, javaClass.methods.iterator().next());
+    assertNull(javaClass.extendedClass);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsNonStaticMethods() {
     final JavaMethod javaMethod = new JavaMethod(METHOD_NAME);
     contextStack.injectResult(javaMethod);
 
@@ -181,6 +197,8 @@ public class JavaModelBuilderTest {
     assertNotNull(javaClass);
     assertFalse(javaClass.methods.isEmpty());
     assertEquals(javaMethod, javaClass.methods.iterator().next());
+    assertNotNull(javaClass.extendedClass);
+    assertEquals(JavaClass.NATIVE_BASE, javaClass.extendedClass);
   }
 
   @Test
