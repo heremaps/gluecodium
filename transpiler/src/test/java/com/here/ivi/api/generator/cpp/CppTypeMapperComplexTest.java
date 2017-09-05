@@ -225,7 +225,6 @@ public class CppTypeMapperComplexTest {
     when(fTypeDef.eContainer()).thenReturn(typeRef);
     when(CppNameRules.getTypedefName(fTypeDef.getName())).thenReturn(TYPEDEF_NAME);
     DefinedBy definer = mockDefinedBy();
-    when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(false);
 
     // Act
     CppTypeRef cppTypeRef = CppTypeMapper.map(mockFrancaModel, typeRef);

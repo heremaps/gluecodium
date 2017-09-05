@@ -17,11 +17,6 @@ typeCollection BuiltIn {
     minor 0
   }
 
-  // The InstanceId type is used to allow interface to reference instances of other interfaces
-  // as this is not foreseen in franca. We detect any typedef of InstanceId, and resolve them to
-  // the interface it contains
-  typedef InstanceId is UInt32
-
   // will be translated to target language in generators
   const Float MaxFloat = 3.4028235e38f
 

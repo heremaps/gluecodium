@@ -13,8 +13,8 @@ package com.here.ivi.api.model.rules;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
-import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.*;
+import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import com.here.ivi.api.model.franca.DefinedBy;
 import org.franca.core.franca.*;
@@ -22,64 +22,65 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(DefinedBy.class)
 public final class InstanceRulesTest {
-  @Mock private FTypeDef typedef;
 
-  @Mock private FTypeRef type;
+  private static final String CLASS_NAME = "MyClass";
 
-  @Mock private FType derived;
-
+  @Mock private FTypeDef francaTypeDef;
+  @Mock private FTypeRef francaTypeRef;
+  @Mock private FType derivedType;
   @Mock private DefinedBy definer;
 
   @Before
   public void setUp() {
-    mockStatic(DefinedBy.class);
-    initMocks(this);
-    when(typedef.getActualType()).thenReturn(type);
+    MockitoAnnotations.initMocks(this);
+    PowerMockito.mockStatic(DefinedBy.class);
+
+    when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
+
+    when(definer.getBaseName()).thenReturn(CLASS_NAME);
+    when(DefinedBy.createFromFModelElement(francaTypeDef)).thenReturn(definer);
   }
 
   @Test
   public void checkDerived() {
-    when(type.getDerived()).thenReturn(derived);
+    when(francaTypeRef.getDerived()).thenReturn(derivedType);
 
-    assertFalse(InstanceRules.isInstanceId(typedef));
+    assertFalse(InstanceRules.isInstanceId(francaTypeDef));
   }
 
   @Test
   public void checkUndefined() {
-    when(type.getPredefined()).thenReturn(FBasicTypeId.INT32);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT32);
 
-    assertFalse(InstanceRules.isInstanceId(typedef));
+    assertFalse(InstanceRules.isInstanceId(francaTypeDef));
   }
 
   @Test
   public void checkTypedefWithDifferentNameThanClass() {
-    when(type.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
-    when(DefinedBy.createFromFModelElement(typedef)).thenReturn(definer);
-    when(typedef.getName()).thenReturn("NotMyClass");
-    when(definer.getBaseName()).thenReturn("MyClass");
+    when(francaTypeDef.getName()).thenReturn("Not" + CLASS_NAME);
 
-    assertFalse(InstanceRules.isInstanceId(typedef));
+    assertFalse(InstanceRules.isInstanceId(francaTypeDef));
 
     verifyStatic();
-    DefinedBy.createFromFModelElement(typedef);
+    DefinedBy.createFromFModelElement(francaTypeDef);
   }
 
   @Test
   public void checkTypedefWithSameNameAsClass() {
-    when(type.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
-    when(DefinedBy.createFromFModelElement(typedef)).thenReturn(definer);
-    when(typedef.getName()).thenReturn("MyClass");
-    when(definer.getBaseName()).thenReturn("MyClass");
+    when(francaTypeDef.getName()).thenReturn(CLASS_NAME);
 
-    assertTrue(InstanceRules.isInstanceId(typedef));
+    assertTrue(InstanceRules.isInstanceId(francaTypeDef));
 
     verifyStatic();
-    DefinedBy.createFromFModelElement(typedef);
+    DefinedBy.createFromFModelElement(francaTypeDef);
   }
 }
