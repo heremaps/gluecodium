@@ -83,7 +83,6 @@ Source: https://github.com/noveogroup/android-check/blob/master/android-check-pl
 
         <!-- Checks for imports                              -->
         <!-- See http://checkstyle.sourceforge.net/config_import.html -->
-        <module name="AvoidStarImport" />
         <module name="IllegalImport" />
         <!-- defaults to sun.* packages -->
         <module name="RedundantImport" />
@@ -175,18 +174,10 @@ Source: https://github.com/noveogroup/android-check/blob/master/android-check-pl
         <module name="ArrayTypeStyle" />
         <module name="UpperEll" />
 
+        <module name="SuppressWarningsHolder" />
     </module>
 
     <!-- Enable suppression comments -->
-    <module name="SuppressionCommentFilter">
-        <property name="offCommentFormat" value="CHECKSTYLE IGNORE\s+(\S+)" />
-        <property name="onCommentFormat" value="CHECKSTYLE END IGNORE\s+(\S+)" />
-        <property name="checkFormat" value="$1" />
-    </module>
-    <module name="SuppressWithNearbyCommentFilter">
-        <property name="commentFormat" value="SUPPRESS CHECKSTYLE (\w+)" />
-        <property name="checkFormat" value="$1" />
-        <property name="influenceFormat" value="1" />
-    </module>
+    <module name="SuppressWarningsFilter" />
 
 </module>

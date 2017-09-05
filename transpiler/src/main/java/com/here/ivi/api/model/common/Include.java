@@ -11,6 +11,9 @@
 
 package com.here.ivi.api.model.common;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class Include {
 
   public final String fileName;
@@ -27,31 +30,5 @@ public class Include {
 
   public static Include createSystemInclude(final String fileName) {
     return new Include(fileName, true);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    Include that = (Include) o;
-
-    if (isSystem != that.isSystem) {
-      return false;
-    }
-
-    return fileName != null ? fileName.equals(that.fileName) : that.fileName == null;
-  }
-
-  @Override
-  public int hashCode() {
-
-    int result = isSystem ? 1 : 0;
-    return 31 * result + (fileName != null ? fileName.hashCode() : 0);
   }
 }

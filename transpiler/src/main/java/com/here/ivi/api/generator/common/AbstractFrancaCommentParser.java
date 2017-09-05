@@ -13,6 +13,9 @@ package com.here.ivi.api.generator.common;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.franca.core.franca.FAnnotation;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FAnnotationType;
@@ -26,10 +29,19 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
   // Everything below needs to be accessible by any class extending this one
   private final FTypeCollectionParser parser;
 
-  protected FModelElement francaElement;
+  @SuppressWarnings({"PMD.ImmutableField"})
+  @Getter(AccessLevel.PROTECTED)
+  @Setter(AccessLevel.PROTECTED)
+  private FModelElement francaElement;
 
-  protected T comments;
-  protected CommentFormatter commentFormatter;
+  @Getter(AccessLevel.PROTECTED)
+  @Setter(AccessLevel.PROTECTED)
+  private T comments;
+
+  @SuppressWarnings({"PMD.ImmutableField"})
+  @Getter(AccessLevel.PROTECTED)
+  @Setter(AccessLevel.PROTECTED)
+  private CommentFormatter commentFormatter;
 
   /* Try to match comment encapsulated between {tag} and {/tag} blocks in the fidl @description
    * annotation blocks.
@@ -55,7 +67,9 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
    *
    * As a result the actual pattern for this needs to be defined in the implementing class.
    */
-  protected static Pattern fidlCommentsToKeep;
+  @Getter
+  @Setter(AccessLevel.PROTECTED)
+  private static Pattern fidlCommentsToKeep;
 
   public static class Comments {
 

@@ -22,6 +22,7 @@ import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 import org.franca.deploymodel.dsl.fDeploy.FDTypes;
 
 /** FTypeCollection with accessor */
+@SuppressWarnings("FinalClass") // Mockito can only mock non-private & non-final classes.
 public class TypeCollection extends FrancaElement {
 
   private final FTypeCollection francaTypeCollection;

@@ -45,7 +45,7 @@ public class SwiftTypeMapperTest {
   }
 
   @Test
-  public void StringAsReturnValueIsMappedToOptionalType() {
+  public void stringAsReturnValueIsMappedToOptionalType() {
     when(francaBasicTypeId.getValue()).thenReturn(FBasicTypeId.STRING_VALUE);
 
     SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
@@ -54,7 +54,7 @@ public class SwiftTypeMapperTest {
   }
 
   @Test
-  public void ByteBufferAsReturnValueIsMappedToOptionalType() {
+  public void byteBufferAsReturnValueIsMappedToOptionalType() {
     when(francaBasicTypeId.getValue()).thenReturn(FBasicTypeId.BYTE_BUFFER_VALUE);
 
     SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
@@ -63,7 +63,7 @@ public class SwiftTypeMapperTest {
   }
 
   @Test
-  public void DoubleAsReturnValueIsMappedToOptionalType() {
+  public void doubleAsReturnValueIsMappedToOptionalType() {
     when(francaBasicTypeId.getValue()).thenReturn(FBasicTypeId.DOUBLE_VALUE);
 
     SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
@@ -73,7 +73,7 @@ public class SwiftTypeMapperTest {
   }
 
   @Test
-  public void StructAsReturnValueIsMappedToOptionalType() {
+  public void structAsReturnValueIsMappedToOptionalType() {
     when(typeRef.getDerived()).thenReturn(francaStructType);
 
     SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);

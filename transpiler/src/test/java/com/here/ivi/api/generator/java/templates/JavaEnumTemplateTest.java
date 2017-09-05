@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@SuppressWarnings({"MethodName"})
 public final class JavaEnumTemplateTest {
   private static final String TEST_COPYRIGHT_HEADER =
       TemplateEngine.render("java/CopyrightHeader", null) + "\n";

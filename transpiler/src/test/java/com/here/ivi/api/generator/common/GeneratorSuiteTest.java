@@ -55,7 +55,7 @@ public class GeneratorSuiteTest {
   private Injector injector;
 
   private static class TestableGeneratorSuite extends GeneratorSuite {
-    public TestableGeneratorSuite(final FrancaModelLoader francaModelLoader) {
+    TestableGeneratorSuite(final FrancaModelLoader francaModelLoader) {
       super(francaModelLoader);
     }
 

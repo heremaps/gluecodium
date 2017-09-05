@@ -15,7 +15,7 @@ import com.here.ivi.api.model.common.Include;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class CppComplexTypeRef extends CppTypeRef {
+public final class CppComplexTypeRef extends CppTypeRef {
 
   public static final String STRING_TYPE_NAME = "::std::string";
   public static final String BYTE_VECTOR_TYPE_NAME = "::std::vector< uint8_t >";

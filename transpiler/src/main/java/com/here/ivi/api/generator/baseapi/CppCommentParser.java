@@ -44,36 +44,36 @@ public class CppCommentParser
 
   public CppCommentParser(FMethod method) {
     super(method, FORMATTER);
-    this.comments = new AbstractFrancaCommentParser.Comments();
+    this.setComments(new AbstractFrancaCommentParser.Comments());
   }
 
   public CppCommentParser(FBroadcast broadcast) {
     super(broadcast, FORMATTER);
-    this.comments = new AbstractFrancaCommentParser.Comments();
+    this.setComments(new AbstractFrancaCommentParser.Comments());
   }
 
   public CppCommentParser(FAttribute attribute) {
     super(attribute, FORMATTER);
-    this.comments = new AbstractFrancaCommentParser.Comments();
+    this.setComments(new AbstractFrancaCommentParser.Comments());
   }
 
   public CppCommentParser(FModelElement elem) {
     super(elem, FORMATTER);
-    this.comments = new AbstractFrancaCommentParser.Comments();
+    this.setComments(new AbstractFrancaCommentParser.Comments());
   }
 
   @Override
   protected void parseMethodDocumentation() {
     if (!parseCommentBlock()) {
       // even though we have no main comment, still add arguments
-      comments.mainBodyText = "";
+      getComments().mainBodyText = "";
     }
 
-    FMethod method = (FMethod) francaElement;
+    FMethod method = (FMethod) getFrancaElement();
     StringBuilder sb =
         generateParamDocumentation(
-            commentFormatter, method.getInArgs(), CommentFormatter.ParameterType.Input);
-    comments.mainBodyText += sb.toString();
+            getCommentFormatter(), method.getInArgs(), CommentFormatter.ParameterType.Input);
+    getComments().mainBodyText += sb.toString();
   }
 
   public static StringBuilder generateParamDocumentation(

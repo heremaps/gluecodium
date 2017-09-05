@@ -12,7 +12,9 @@
 package com.here.ivi.api.model.cppmodel;
 
 import java.util.stream.Stream;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class CppParameter extends CppElement {
 
   public final CppTypeRef type;
@@ -20,29 +22,6 @@ public class CppParameter extends CppElement {
   public CppParameter(final String name, final CppTypeRef type) {
     super(name);
     this.type = type;
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (other == null) {
-      return false;
-    }
-    if (other == this) {
-      return true;
-    }
-    if (!(other instanceof CppParameter)) {
-      return false;
-    }
-
-    CppParameter otherParameter = (CppParameter) other;
-    return super.equals(other) && type.equals(otherParameter.type);
-  }
-
-  @Override
-  public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + (type != null ? type.hashCode() : 0);
-    return result;
   }
 
   @Override

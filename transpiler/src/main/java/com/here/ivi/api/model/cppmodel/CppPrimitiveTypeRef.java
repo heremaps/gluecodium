@@ -12,7 +12,9 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class CppPrimitiveTypeRef extends CppTypeRef {
 
   public final Type type;
@@ -50,28 +52,6 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
     if (type.isIntegerType) {
       includes.add(CppLibraryIncludes.INT_TYPES);
     }
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    if (!super.equals(o)) {
-      return false;
-    }
-
-    return type == ((CppPrimitiveTypeRef) o).type;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + (type != null ? type.hashCode() : 0);
-    return result;
   }
 
   @Override

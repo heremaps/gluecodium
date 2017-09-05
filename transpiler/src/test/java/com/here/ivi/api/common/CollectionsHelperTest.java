@@ -32,6 +32,8 @@ public class CollectionsHelperTest {
           Integer.valueOf(4),
           Double.valueOf(5));
 
+  public static final int DEFAULT_VALUE = 123;
+
   @Test
   public void getAllOfTypeNone() {
     List<Byte> result = CollectionsHelper.getAllOfType(NUMBER_LIST, Byte.class);
@@ -55,9 +57,9 @@ public class CollectionsHelperTest {
 
   @Test
   public void getFirstOfTypeNoneWithDefault() {
-    Byte result = CollectionsHelper.getFirstOfType(NUMBER_LIST, Byte.class, (byte) 123);
+    Byte result = CollectionsHelper.getFirstOfType(NUMBER_LIST, Byte.class, (byte) DEFAULT_VALUE);
 
-    assertEquals(123, result.byteValue());
+    assertEquals(DEFAULT_VALUE, result.byteValue());
   }
 
   @Test
