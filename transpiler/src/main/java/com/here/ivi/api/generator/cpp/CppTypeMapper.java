@@ -24,17 +24,10 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FBroadcast;
 import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FField;
 import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
@@ -42,31 +35,17 @@ import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 import org.franca.core.franca.FUnionType;
 
-// TODO (APIGEN-624): this class should be split apart to be more object-oriented
-// PMD: Possible God class
 public final class CppTypeMapper {
 
   public static CppTypeRef map(FrancaElement rootModel, FTypedElement typedElement) {
     CppTypeRef type = CppTypeMapper.map(rootModel, typedElement.getType());
-
-    if (typedElement.isArray()) {
-      return wrapVector(type);
-    }
-    return type;
+    return typedElement.isArray() ? wrapVector(type) : type;
   }
 
   public static CppTypeRef map(FrancaElement rootModel, FTypeRef type) {
     if (type.getDerived() != null) {
-      FType derived = type.getDerived();
-
-      // types without a parent are not valid
-      if (derived.eContainer() == null) {
-        return reportInvalidType(rootModel, type);
-      }
-
-      return mapDerived(rootModel, derived);
+      return mapDerived(rootModel, type.getDerived());
     }
-
     if (type.getPredefined() != FBasicTypeId.UNDEFINED) {
       return mapPredefined(type);
     }
@@ -81,7 +60,7 @@ public final class CppTypeMapper {
     throw new TranspilerExecutionException("Unmapped ftype ref" + type);
   }
 
-  public static CppTypeRef mapDerived(FrancaElement rootModel, FType derived) {
+  private static CppTypeRef mapDerived(FrancaElement rootModel, FType derived) {
     if (derived instanceof FTypeDef) {
       return mapTypeDef(rootModel, (FTypeDef) derived);
     }
@@ -101,39 +80,6 @@ public final class CppTypeMapper {
       return mapUnion((FUnionType) derived);
     }
     throw new TranspilerExecutionException("Unmapped derived type: " + derived.getName());
-  }
-
-  private static CppTypeRef reportInvalidType(FrancaElement rootModel, FTypeRef type) {
-    DefinedBy definer = DefinedBy.createFromFModelElement(type);
-    String name = "unknown";
-    String typeDesc = "derived type";
-
-    if (type.eContainer() instanceof FTypeDef) {
-      name = ((FTypeDef) type.eContainer()).getName();
-      typeDesc = "type reference";
-    } else if (type.eContainer() instanceof FArgument) {
-      FArgument arg = (FArgument) type.eContainer();
-
-      if (arg.eContainer() instanceof FMethod || arg.eContainer() instanceof FBroadcast) {
-        name = ((FModelElement) arg.eContainer()).getName() + "::" + arg.getName();
-      } else {
-        name = arg.getName();
-      }
-
-      typeDesc = "argument";
-    } else if (type.eContainer() instanceof FField) {
-      name = ((FField) type.eContainer()).getName();
-      typeDesc = "field";
-    } else if (type.eContainer() instanceof FAttribute) {
-      name = ((FAttribute) type.eContainer()).getName();
-      typeDesc = "attribute";
-    }
-
-    String formatMessage =
-        "Failed resolving %s for '%s' in %s (indicates wrong typedef or missing include). "
-            + "Type included in %s.";
-    throw new TranspilerExecutionException(
-        String.format(formatMessage, typeDesc, name, definer, rootModel));
   }
 
   private static CppTypeRef mapTypeDef(FrancaElement rootModel, FTypeDef typedef) {
@@ -159,12 +105,7 @@ public final class CppTypeMapper {
 
   public static CppComplexTypeRef mapArray(final FrancaElement rootModel, final FArrayType array) {
     CppTypeRef elementType = map(rootModel, array.getElementType());
-
-    Set<Include> includes = elementType.includes;
-    includes.add(CppLibraryIncludes.VECTOR);
-    return new CppComplexTypeRef.Builder("::std::vector< " + elementType.name + " >")
-        .includes(includes)
-        .build();
+    return wrapVector(elementType);
   }
 
   public static CppComplexTypeRef mapMapType(FrancaElement rootModel, FMapType francaMapType) {
@@ -208,7 +149,7 @@ public final class CppTypeMapper {
         .build();
   }
 
-  public static CppComplexTypeRef mapUnion(FUnionType union) {
+  private static CppComplexTypeRef mapUnion(FUnionType union) {
     Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(union));
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(union);
 
