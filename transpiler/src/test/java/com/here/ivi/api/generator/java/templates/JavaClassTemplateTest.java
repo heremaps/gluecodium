@@ -14,28 +14,17 @@ package com.here.ivi.api.generator.java.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.javamodel.JavaClass.Qualifier;
-import com.here.ivi.api.model.javamodel.JavaConstant;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaEnum;
-import com.here.ivi.api.model.javamodel.JavaEnumItem;
-import com.here.ivi.api.model.javamodel.JavaField;
-import com.here.ivi.api.model.javamodel.JavaImport;
-import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
-import com.here.ivi.api.model.javamodel.JavaPackage;
-import com.here.ivi.api.model.javamodel.JavaParameter;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
-import com.here.ivi.api.model.javamodel.JavaValue;
-import com.here.ivi.api.model.javamodel.JavaVisibility;
 import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@SuppressWarnings("MethodName")
 public final class JavaClassTemplateTest {
 
   private static final String TEMPLATE_NAME = "java/ClassHeader";

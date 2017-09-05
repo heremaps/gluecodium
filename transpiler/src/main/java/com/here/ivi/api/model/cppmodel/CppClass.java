@@ -15,7 +15,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class CppClass extends CppElement {
+public final class CppClass extends CppElement {
 
   public final Set<CppMethod> methods = new LinkedHashSet<>();
   public final Set<CppUsing> usings = new LinkedHashSet<>();

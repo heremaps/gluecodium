@@ -102,8 +102,8 @@ public class FrancaModelLoader {
                 f -> {
                   try {
                     return f.getCanonicalFile();
-                  } // this throws, which is not supported by the streams APIs
-                  catch (IOException e) {
+                  } catch (IOException e) {
+                    // this throws, which is not supported by the streams APIs
                     throw new TranspilerExecutionException(
                         "getCanonicalFile() failed for file " + f.toString(), e);
                   }

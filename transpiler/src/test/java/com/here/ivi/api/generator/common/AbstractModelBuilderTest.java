@@ -27,7 +27,7 @@ public class AbstractModelBuilderTest {
   private final TestableModelBuilder modelBuilder = new TestableModelBuilder(contextStack);
 
   private static class TestableModelBuilder extends AbstractModelBuilder<Object> {
-    public TestableModelBuilder(ModelBuilderContextStack<Object> contextStack) {
+    TestableModelBuilder(ModelBuilderContextStack<Object> contextStack) {
       super(contextStack);
     }
   }

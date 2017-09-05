@@ -68,10 +68,10 @@ public class AbstractFrancaCommentParserTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    TestableFrancaCommentParser.fidlCommentsToKeep = MATCH_ALL;
-    commentParser.commentFormatter = formatter;
-    commentParser.francaElement = element;
-    commentParser.comments = new AbstractFrancaCommentParser.Comments();
+    TestableFrancaCommentParser.setFidlCommentsToKeep(MATCH_ALL);
+    commentParser.setCommentFormatter(formatter);
+    commentParser.setFrancaElement(element);
+    commentParser.setComments(new AbstractFrancaCommentParser.Comments());
 
     when(formatter.formatComment(anyString()))
         .thenAnswer(invocation -> invocation.getArguments()[0]);
@@ -90,8 +90,8 @@ public class AbstractFrancaCommentParserTest {
     boolean result = commentParser.parseCommentBlock();
 
     assertFalse(result);
-    assertEquals("", commentParser.comments.mainBodyText);
-    assertEquals("", commentParser.comments.deprecatedText);
+    assertEquals("", commentParser.getComments().mainBodyText);
+    assertEquals("", commentParser.getComments().deprecatedText);
     verify(element).getComment();
   }
 
@@ -100,8 +100,8 @@ public class AbstractFrancaCommentParserTest {
     boolean result = commentParser.parseCommentBlock();
 
     assertTrue(result);
-    assertEquals("", commentParser.comments.mainBodyText);
-    assertEquals("", commentParser.comments.deprecatedText);
+    assertEquals("", commentParser.getComments().mainBodyText);
+    assertEquals("", commentParser.getComments().deprecatedText);
     verify(element.getComment()).getElements();
   }
 
@@ -113,8 +113,8 @@ public class AbstractFrancaCommentParserTest {
     boolean result = commentParser.parseCommentBlock();
 
     assertTrue(result);
-    assertEquals("", commentParser.comments.mainBodyText);
-    assertEquals("", commentParser.comments.deprecatedText);
+    assertEquals("", commentParser.getComments().mainBodyText);
+    assertEquals("", commentParser.getComments().deprecatedText);
     verify(annotationList).iterator();
     verify(annotation, never()).getComment();
   }
@@ -126,8 +126,8 @@ public class AbstractFrancaCommentParserTest {
 
     commentParser.parseCommentBlock();
 
-    assertEquals(ANNOTATION_COMMENT, commentParser.comments.mainBodyText);
-    assertEquals("", commentParser.comments.deprecatedText);
+    assertEquals(ANNOTATION_COMMENT, commentParser.getComments().mainBodyText);
+    assertEquals("", commentParser.getComments().deprecatedText);
     verify(annotation).getComment();
   }
 
@@ -138,8 +138,8 @@ public class AbstractFrancaCommentParserTest {
 
     commentParser.parseCommentBlock();
 
-    assertEquals("", commentParser.comments.mainBodyText);
-    assertEquals(ANNOTATION_COMMENT, commentParser.comments.deprecatedText);
+    assertEquals("", commentParser.getComments().mainBodyText);
+    assertEquals(ANNOTATION_COMMENT, commentParser.getComments().deprecatedText);
     verify(annotation).getComment();
   }
 
@@ -152,8 +152,8 @@ public class AbstractFrancaCommentParserTest {
 
     commentParser.parseCommentBlock();
 
-    assertEquals(CONCATENATED_ANNOTATION_COMMENT, commentParser.comments.mainBodyText);
-    assertEquals("", commentParser.comments.deprecatedText);
+    assertEquals(CONCATENATED_ANNOTATION_COMMENT, commentParser.getComments().mainBodyText);
+    assertEquals("", commentParser.getComments().deprecatedText);
   }
 
   @Test
@@ -165,8 +165,8 @@ public class AbstractFrancaCommentParserTest {
 
     commentParser.parseCommentBlock();
 
-    assertEquals("", commentParser.comments.mainBodyText);
-    assertEquals(CONCATENATED_ANNOTATION_COMMENT, commentParser.comments.deprecatedText);
+    assertEquals("", commentParser.getComments().mainBodyText);
+    assertEquals(CONCATENATED_ANNOTATION_COMMENT, commentParser.getComments().deprecatedText);
   }
 
   @Test
@@ -181,8 +181,8 @@ public class AbstractFrancaCommentParserTest {
 
     commentParser.parseCommentBlock();
 
-    assertEquals(ANNOTATION_COMMENT, commentParser.comments.mainBodyText);
-    assertEquals(SECOND_ANNOTATION_COMMENT, commentParser.comments.deprecatedText);
+    assertEquals(ANNOTATION_COMMENT, commentParser.getComments().mainBodyText);
+    assertEquals(SECOND_ANNOTATION_COMMENT, commentParser.getComments().deprecatedText);
     verify(thirdAnnotation, never()).getComment();
   }
 }

@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
+@SuppressWarnings({"MethodName"})
 public final class JavaImportTemplateTest {
   private static final JavaPackage TEST_JAVA_PACKAGE_A =
       new JavaPackage(Arrays.asList("com", "here", "SomeImport"));

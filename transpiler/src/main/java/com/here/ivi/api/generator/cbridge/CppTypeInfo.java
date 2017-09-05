@@ -99,7 +99,7 @@ public class CppTypeInfo {
   }
 
   // TODO (APIGEN-625): refactor this
-  @SuppressWarnings("PMD.ExcessiveParameterList")
+  @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
   private CppTypeInfo(
       String baseType,
       String constructFromCExpr,

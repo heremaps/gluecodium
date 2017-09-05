@@ -146,7 +146,7 @@ public final class TemplateEngine {
 
     public static final String NAME_NOW = "now";
 
-    public NowResolver() {
+    NowResolver() {
       super(Resolver.DEFAULT_PRIORITY);
     }
 

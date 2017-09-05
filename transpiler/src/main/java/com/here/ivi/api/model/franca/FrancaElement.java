@@ -14,9 +14,11 @@ package com.here.ivi.api.model.franca;
 import com.here.ivi.api.generator.common.Version;
 import java.util.Arrays;
 import java.util.List;
+import lombok.EqualsAndHashCode;
 import org.franca.core.franca.*;
 import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 
+@EqualsAndHashCode
 public abstract class FrancaElement {
 
   private final MappingGenericPropertyAccessor propertyAccessor;
@@ -64,23 +66,6 @@ public abstract class FrancaElement {
 
   public FModel getFrancaModel() {
     return francaModel;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof FrancaElement)) {
-      return false;
-    }
-    FrancaElement co = (FrancaElement) o;
-    return getName().equals(co.getName())
-        && francaModel.getName().equals(co.getFrancaModel().getName());
-  }
-
-  @Override
-  public int hashCode() {
-    int result = propertyAccessor != null ? propertyAccessor.hashCode() : 0;
-    result = 31 * result + (francaModel != null ? francaModel.hashCode() : 0);
-    return result;
   }
 
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {

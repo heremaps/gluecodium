@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class CFunction extends CElement {
+public final class CFunction extends CElement {
 
   public final List<? extends CParameter> parameters;
   public final List<TypeConverter.TypeConversion> conversions;
