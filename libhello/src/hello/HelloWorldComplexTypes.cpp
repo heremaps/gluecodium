@@ -10,27 +10,13 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/hello/HelloWorldPlainDataStructuresStub.h"
+#include "stub/hello/HelloWorldComplexTypes.h"
 
 namespace hello
 {
-HelloWorldPlainDataStructuresStub::SyncResult
-HelloWorldPlainDataStructuresStub::methodWithNonNestedType(
-    const HelloWorldPlainDataStructuresStub::SyncResult& input )
-{
-    HelloWorldPlainDataStructuresStub::SyncResult output = input;
-    ++output.numberOfChanges;
-
-    return output;
-}
-
-HelloWorldPlainDataStructuresStub::IdentifiableSyncResult
-HelloWorldPlainDataStructuresStub::methodWithNestedType(
-    const HelloWorldPlainDataStructuresStub::IdentifiableSyncResult& input )
-{
-    HelloWorldPlainDataStructuresStub::IdentifiableSyncResult output = input;
-    ++output.syncResult.numberOfChanges;
-
-    return output;
-}
+    HelloWorldComplexTypes::Errors
+    HelloWorldComplexTypes::methodWithArray( const Errors& errors )
+    {
+        return {errors.rbegin( ), errors.rend( )};
+    }
 }

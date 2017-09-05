@@ -10,13 +10,21 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/hello/HelloWorldComplexTypesStub.h"
+#include "stub/test/StaticBooleanMethods.h"
 
-namespace hello
+namespace test {
+
+bool
+StaticBooleanMethods::returnInvertedBoolean( const bool input )
 {
-    HelloWorldComplexTypesStub::Errors
-    HelloWorldComplexTypesStub::methodWithArray( const Errors& errors )
-    {
-        return {errors.rbegin( ), errors.rend( )};
-    }
+    return !input;
 }
+
+bool
+StaticBooleanMethods::returnAndBoolean( const bool input1, const bool input2 )
+{
+    return input1 && input2;
+}
+
+}
+

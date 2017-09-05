@@ -10,33 +10,27 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/StaticStringMethodsStub.h"
+#include "stub/hello/HelloWorldPlainDataStructures.h"
 
-namespace test {
-
-std::string
-StaticStringMethodsStub::returnInputString( const std::string& inputString )
+namespace hello
 {
-    return inputString;
+HelloWorldPlainDataStructures::SyncResult
+HelloWorldPlainDataStructures::methodWithNonNestedType(
+    const HelloWorldPlainDataStructures::SyncResult& input )
+{
+    HelloWorldPlainDataStructures::SyncResult output = input;
+    ++output.numberOfChanges;
+
+    return output;
 }
 
-std::string
-StaticStringMethodsStub::concatenateStrings( const std::string& inputString1,
-                                             const std::string& inputString2 )
+HelloWorldPlainDataStructures::IdentifiableSyncResult
+HelloWorldPlainDataStructures::methodWithNestedType(
+    const HelloWorldPlainDataStructures::IdentifiableSyncResult& input )
 {
-    return inputString1 + inputString2;
-}
+    HelloWorldPlainDataStructures::IdentifiableSyncResult output = input;
+    ++output.syncResult.numberOfChanges;
 
-std::string
-StaticStringMethodsStub::returnHelloString(  )
-{
-    return "hello";
+    return output;
 }
-
-std::string
-StaticStringMethodsStub::returnEmpty(  )
-{
-    return "";
-}
-
 }

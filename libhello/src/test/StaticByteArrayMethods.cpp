@@ -12,24 +12,24 @@
 
 #include <stdint.h>
 
-#include "stub/test/StaticByteArrayMethodsStub.h"
+#include "stub/test/StaticByteArrayMethods.h"
 
 namespace test {
 
 std::vector< uint8_t >
-StaticByteArrayMethodsStub::returnInputByteBuffer( const std::vector< uint8_t >& inputBuffer )
+StaticByteArrayMethods::returnInputByteBuffer( const std::vector< uint8_t >& inputBuffer )
 {
     return inputBuffer;
 }
 
 std::vector< uint8_t >
-StaticByteArrayMethodsStub::returnReverseByteBuffer( const std::vector< uint8_t >& inputBuffer )
+StaticByteArrayMethods::returnReverseByteBuffer( const std::vector< uint8_t >& inputBuffer )
 {
     return {inputBuffer.rbegin(), inputBuffer.rend()};
 }
 
 std::vector< uint8_t >
-StaticByteArrayMethodsStub::concatenateByteBuffers( const std::vector< uint8_t >& input1,
+StaticByteArrayMethods::concatenateByteBuffers( const std::vector< uint8_t >& input1,
                                                         const std::vector< uint8_t >& input2 )
 {
     std::vector< uint8_t > output( input1 );

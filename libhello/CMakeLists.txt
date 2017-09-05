@@ -20,29 +20,29 @@ set(HELLO_VERSION_PATCH 1)
 set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_PATCH})
 
 set(HELLO_SOURCES
-    src/hello/HelloWorldBuiltinTypesStub.cpp
-    src/hello/HelloWorldStub.cpp
-    src/test/StaticBooleanMethodsStub.cpp
-    src/test/StaticByteArrayMethodsStub.cpp
-    src/test/StaticFloatDoubleMethodsStub.cpp
-    src/test/StaticIntMethodsStub.cpp
-    src/test/StaticStringMethodsStub.cpp
+    src/hello/HelloWorldBuiltinTypes.cpp
+    src/hello/HelloWorld.cpp
+    src/test/StaticBooleanMethods.cpp
+    src/test/StaticByteArrayMethods.cpp
+    src/test/StaticFloatDoubleMethods.cpp
+    src/test/StaticIntMethods.cpp
+    src/test/StaticStringMethods.cpp
 )
 
 #TODO: Remove this workaround once iOS supports PODs (APIGEN-357)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/hello/HelloWorldPlainDataStructuresStub.cpp
-        src/test/PlainDataStructuresStub.cpp
-        src/test/StaticTypedefStub.cpp)
+        src/hello/HelloWorldPlainDataStructures.cpp
+        src/test/PlainDataStructures.cpp
+        src/test/StaticTypedef.cpp)
 endif()
 
 #TODO: Remove this workaround once Android and iOS supports complex types(APIGEN-280, APIGEN-281)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/hello/HelloWorldComplexTypesStub.cpp)
+        src/hello/HelloWorldComplexTypes.cpp)
 
 endif()
 

@@ -10,21 +10,21 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/PlainDataStructuresStub.h"
+#include "stub/test/PlainDataStructures.h"
 
 namespace test
 {
-PlainDataStructuresStub::Point
-PlainDataStructuresStub::createPoint( const double x, const double y )
+PlainDataStructures::Point
+PlainDataStructures::createPoint( const double x, const double y )
 {
-    PlainDataStructuresStub::Point output;
+    PlainDataStructures::Point output;
     output.x = x;
     output.y = y;
     return output;
 }
 
 typecollection::Point
-PlainDataStructuresStub::createTypeCollectionPoint( const double x, const double y )
+PlainDataStructures::createTypeCollectionPoint( const double x, const double y )
 {
     typecollection::Point output;
     output.x = x;
@@ -32,17 +32,17 @@ PlainDataStructuresStub::createTypeCollectionPoint( const double x, const double
     return output;
 }
 
-PlainDataStructuresStub::Point
-PlainDataStructuresStub::swapPointCoordinates( const PlainDataStructuresStub::Point& point )
+PlainDataStructures::Point
+PlainDataStructures::swapPointCoordinates( const PlainDataStructures::Point& point )
 {
-    PlainDataStructuresStub::Point result;
+    PlainDataStructures::Point result;
     result.x = point.y;
     result.y = point.x;
     return result;
 }
 
 typecollection::Point
-PlainDataStructuresStub::swapTypeCollectionPointCoordinates(
+PlainDataStructures::swapTypeCollectionPointCoordinates(
     const typecollection::Point& point )
 {
     typecollection::Point result;
@@ -51,18 +51,18 @@ PlainDataStructuresStub::swapTypeCollectionPointCoordinates(
     return result;
 }
 
-PlainDataStructuresStub::Line
-PlainDataStructuresStub::createLine( const PlainDataStructuresStub::Point& pointA,
-                                         const PlainDataStructuresStub::Point& pointB )
+PlainDataStructures::Line
+PlainDataStructures::createLine( const PlainDataStructures::Point& pointA,
+                                         const PlainDataStructures::Point& pointB )
 {
-    PlainDataStructuresStub::Line line;
+    PlainDataStructures::Line line;
     line.a = pointA;
     line.b = pointB;
     return line;
 }
 
 typecollection::Line
-PlainDataStructuresStub::createTypeCollectionLine( const typecollection::Point& pointA,
+PlainDataStructures::createTypeCollectionLine( const typecollection::Point& pointA,
                                                            const typecollection::Point& pointB )
 {
     typecollection::Line line;
@@ -71,31 +71,31 @@ PlainDataStructuresStub::createTypeCollectionLine( const typecollection::Point& 
     return line;
 }
 
-PlainDataStructuresStub::ColoredLine
-PlainDataStructuresStub::createColoredLine( const PlainDataStructuresStub::Line& line,
-                                                const PlainDataStructuresStub::Color& color )
+PlainDataStructures::ColoredLine
+PlainDataStructures::createColoredLine( const PlainDataStructures::Line& line,
+                                                const PlainDataStructures::Color& color )
 {
-    PlainDataStructuresStub::ColoredLine coloredLine;
+    PlainDataStructures::ColoredLine coloredLine;
     coloredLine.line = line;
     coloredLine.color = color;
     return coloredLine;
 }
 
-PlainDataStructuresStub::ColoredLine
-PlainDataStructuresStub::returnColoredLine( const PlainDataStructuresStub::ColoredLine& input )
+PlainDataStructures::ColoredLine
+PlainDataStructures::returnColoredLine( const PlainDataStructures::ColoredLine& input )
 {
     return input;
 }
 
-PlainDataStructuresStub::AllTypesStruct
-PlainDataStructuresStub::returnAllTypesStruct(
-                                         const PlainDataStructuresStub::AllTypesStruct& input )
+PlainDataStructures::AllTypesStruct
+PlainDataStructures::returnAllTypesStruct(
+                                         const PlainDataStructures::AllTypesStruct& input )
 {
     return input;
 }
 
 typecollection::ColoredLine
-PlainDataStructuresStub::createTypeCollectionColoredLine(
+PlainDataStructures::createTypeCollectionColoredLine(
     const typecollection::Line& line, const typecollection::Color& color )
 {
     typecollection::ColoredLine coloredLine;
@@ -104,9 +104,9 @@ PlainDataStructuresStub::createTypeCollectionColoredLine(
     return coloredLine;
 }
 
-PlainDataStructuresStub::AllTypesStruct
-PlainDataStructuresStub::modifyAllTypesStruct(
-    const PlainDataStructuresStub::AllTypesStruct& input )
+PlainDataStructures::AllTypesStruct
+PlainDataStructures::modifyAllTypesStruct(
+    const PlainDataStructures::AllTypesStruct& input )
 {
     AllTypesStruct output;
     output.int8Field = input.int8Field + 1;
@@ -122,12 +122,12 @@ PlainDataStructuresStub::modifyAllTypesStruct(
     output.stringField = "Hello " + input.stringField;
     output.booleanField = !input.booleanField;
     output.bytesField = {input.bytesField.rbegin( ), input.bytesField.rend( )};
-    output.pointField = PlainDataStructuresStub::swapPointCoordinates( input.pointField );
+    output.pointField = PlainDataStructures::swapPointCoordinates( input.pointField );
     return output;
 }
 
 typecollection::AllTypesStruct
-PlainDataStructuresStub::modifyTypeCollectionAllTypesStruct(
+PlainDataStructures::modifyTypeCollectionAllTypesStruct(
     const typecollection::AllTypesStruct& input )
 {
     typecollection::AllTypesStruct output;
@@ -145,7 +145,7 @@ PlainDataStructuresStub::modifyTypeCollectionAllTypesStruct(
     output.booleanField = !input.booleanField;
     output.bytesField = {input.bytesField.rbegin( ), input.bytesField.rend( )};
     output.pointField
-        = PlainDataStructuresStub::swapTypeCollectionPointCoordinates( input.pointField );
+        = PlainDataStructures::swapTypeCollectionPointCoordinates( input.pointField );
     return output;
 }
 }
