@@ -74,13 +74,13 @@ public class SwiftTypeMapper {
       case FBasicTypeId.BOOLEAN_VALUE:
         return new SwiftType("Bool");
       case FBasicTypeId.STRING_VALUE:
-        return SwiftType.String;
+        return SwiftType.STRING;
       case FBasicTypeId.FLOAT_VALUE:
         return new SwiftType("Float");
       case FBasicTypeId.DOUBLE_VALUE:
         return new SwiftType("Double");
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return SwiftType.Data;
+        return SwiftType.DATA;
     }
     return SwiftType.VOID;
   }

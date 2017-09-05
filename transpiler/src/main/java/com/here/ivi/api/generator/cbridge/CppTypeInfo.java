@@ -110,6 +110,7 @@ public class CppTypeInfo {
   }
 
   // TODO (APIGEN-625): refactor this
+  @SuppressWarnings("PMD.ExcessiveParameterList")
   private CppTypeInfo(
       String baseType,
       List<Include> baseTypeIncludes,

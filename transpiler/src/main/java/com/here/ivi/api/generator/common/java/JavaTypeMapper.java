@@ -93,6 +93,7 @@ public final class JavaTypeMapper {
     }
   }
 
+  @SuppressWarnings("PMD.EmptyIfStmt")
   private static JavaType mapDerived(final JavaPackage basePackage, final FTypeRef type) {
     FType derived = type.getDerived();
 

@@ -21,8 +21,8 @@ public class SwiftType extends SwiftModelElement {
   };
 
   public static final SwiftType VOID = new SwiftType("Void");
-  public static final SwiftType String = new SwiftType("String", TypeCategory.BUILTIN_STRING);
-  public static final SwiftType Data = new SwiftType("Data", TypeCategory.BUILTIN_BYTEBUFFER);
+  public static final SwiftType STRING = new SwiftType("String", TypeCategory.BUILTIN_STRING);
+  public static final SwiftType DATA = new SwiftType("Data", TypeCategory.BUILTIN_BYTEBUFFER);
 
   public boolean optional;
   public final TypeCategory category;

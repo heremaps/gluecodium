@@ -22,7 +22,7 @@ public class ModelInfo {
 
   public ModelInfo(final FModel fModel) {
     this.fModel = fModel;
-    packageNames = Strings.split(getName(), ".");
+    packageNames = Strings.split(fModel.getName(), ".");
   }
 
   public String getName() {

@@ -76,11 +76,13 @@ public class JavaValueMapper {
     return new JavaValue(String.valueOf(value));
   }
 
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   private static JavaValue map(JavaType type, FCompoundInitializer rhs) {
     // TODO APIGEN-218 handle this case
     return new JavaValue("TODO");
   }
 
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   private static JavaValue map(JavaType type, FQualifiedElementRef rhs) {
     // TODO APIGEN-218 handle this case
     return new JavaValue("TODO");
