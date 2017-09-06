@@ -10,15 +10,11 @@
  */
 
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
-import "./HelloWorldFactory.fidl"
+import "./HelloWorldProfileManagerFactory.fidl"
 
-define navigation.BaseApiSpec for interface hello.HelloWorldFactory
+define navigation.BaseApiSpec for interface hello.HelloWorldProfileManagerFactory
 {
-    method createSimple {
-        Static = true
-    }
-
-    method createNested {
+    method createProfileManagerInstance {
         Static = true
     }
 }
