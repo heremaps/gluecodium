@@ -43,6 +43,12 @@ public final class JniImplementationTemplateTest {
   private static final String EXTERN_C = "\nextern \"C\" {\n";
   private static final String END_OF_FILE = "\n}\n";
   private static final List<String> NAMESPACES = Arrays.asList("com", "here", "ivi", "test");
+  private static final String CALL_STATIC = "com::here::ivi::test::CppClass::";
+  private static final String CALL_SHARED_POINTER = "(*pInstanceSharedPointer)->";
+  private static final String RETRIEVE_LONG_PTR =
+      "    auto pointerAsLong = get_long_field(env, env->GetObjectClass(jinstance), jinstance, \"nativeHandle\");\n";
+  private static final String CAST_LONG_TO_SHARED_PTR =
+      "    auto pInstanceSharedPointer = reinterpret_cast < std::shared_ptr< ::com::here::ivi::test::CppClass >* > (pointerAsLong);\n";
 
   private JniContainer jniContainer;
 
@@ -59,7 +65,7 @@ public final class JniImplementationTemplateTest {
     return jniContainer;
   }
 
-  private static JniMethod createJniMethod(String methodName) {
+  private static JniMethod createJniMethod(String methodName, boolean isStatic) {
 
     JniMethod result = new JniMethod();
     result.javaMethodName = methodName;
@@ -69,15 +75,17 @@ public final class JniImplementationTemplateTest {
             new JavaPrimitiveType(Type.INT),
             new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8));
     result.parameters.add(new JniParameter(BASE_PARAMETER_NAME, result.returnType));
+    result.isStatic = isStatic;
 
     return result;
   }
 
   private String expectedGeneratedJNIMethod(String methodName) {
-    return expectedGeneratedJNIMethod(methodName, false);
+    return expectedGeneratedJNIMethod(methodName, true, false);
   }
 
-  private String expectedGeneratedJNIMethod(String methodName, boolean isVoidMethod) {
+  private String expectedGeneratedJNIMethod(
+      String methodName, boolean isStatic, boolean isVoidMethod) {
     String returnType = isVoidMethod ? "\nvoid\n" : "\njint\n";
     String methodBody =
         "Java_com_here_ivi_test_TestClass_"
@@ -92,14 +100,18 @@ public final class JniImplementationTemplateTest {
             + JNI_PARAMETER_NAME
             + ";\n";
 
-    return returnType + methodBody + expectedMethodResultBlock(methodName, isVoidMethod);
+    return returnType + methodBody + expectedMethodResultBlock(methodName, isStatic, isVoidMethod);
   }
 
-  private String expectedMethodResultBlock(String methodName, boolean isVoidMethod) {
+  private String expectedMethodResultBlock(
+      String methodName, boolean isStatic, boolean isVoidMethod) {
+    String expectedMethodCaller = isStatic ? CALL_STATIC : CALL_SHARED_POINTER;
+    String pointerCasting = isStatic ? "" : RETRIEVE_LONG_PTR + CAST_LONG_TO_SHARED_PTR;
     String callPrefix =
-        isVoidMethod
-            ? "    com::here::ivi::test::CppClass::"
-            : "    auto result = com::here::ivi::test::CppClass::";
+        pointerCasting
+            + (isVoidMethod
+                ? "    " + expectedMethodCaller
+                : "    auto result = " + expectedMethodCaller);
     String returnLine = isVoidMethod ? "\n" : "    return result;\n";
 
     return callPrefix + methodName + "(" + BASE_PARAMETER_NAME + ");\n" + returnLine + "}\n";
@@ -160,7 +172,7 @@ public final class JniImplementationTemplateTest {
   @Test
   public void generateWithOneMethods() {
 
-    jniContainer.add(createJniMethod("method1"));
+    jniContainer.add(createJniMethod("method1", true));
     String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
 
     assertEquals(
@@ -178,8 +190,8 @@ public final class JniImplementationTemplateTest {
   @Test
   public void generateWithMultipleMethods() {
 
-    jniContainer.add(createJniMethod("method1"));
-    jniContainer.add(createJniMethod("method2"));
+    jniContainer.add(createJniMethod("method1", true));
+    jniContainer.add(createJniMethod("method2", true));
 
     String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
 
@@ -199,7 +211,7 @@ public final class JniImplementationTemplateTest {
   @Test
   public void generateVoidMethod() {
 
-    JniMethod voidMethod = createJniMethod("testMethod");
+    JniMethod voidMethod = createJniMethod("testMethod", true);
     voidMethod.returnType = null;
     jniContainer.add(voidMethod);
 
@@ -212,7 +224,45 @@ public final class JniImplementationTemplateTest {
             + JniNameRules.getConversionHeaderFileName()
             + "\"\n"
             + EXTERN_C
-            + expectedGeneratedJNIMethod("testMethod", true)
+            + expectedGeneratedJNIMethod("testMethod", true, true)
+            + END_OF_FILE,
+        generatedImplementation);
+  }
+
+  @Test
+  public void generateInstanceMethod() {
+    jniContainer.add(createJniMethod("instanceMethod", false));
+
+    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+
+    assertEquals(
+        COPYRIGHT_NOTICE
+            + JNI_HEADER_INCLUDE
+            + "#include \""
+            + JniNameRules.getConversionHeaderFileName()
+            + "\"\n"
+            + EXTERN_C
+            + expectedGeneratedJNIMethod("instanceMethod", false, false)
+            + END_OF_FILE,
+        generatedImplementation);
+  }
+
+  @Test
+  public void generateInstanceVoidMethod() {
+    JniMethod instanceVoidMethod = createJniMethod("instanceVoidMethod", false);
+    instanceVoidMethod.returnType = null;
+    jniContainer.add(instanceVoidMethod);
+
+    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+
+    assertEquals(
+        COPYRIGHT_NOTICE
+            + JNI_HEADER_INCLUDE
+            + "#include \""
+            + JniNameRules.getConversionHeaderFileName()
+            + "\"\n"
+            + EXTERN_C
+            + expectedGeneratedJNIMethod("instanceVoidMethod", false, true)
             + END_OF_FILE,
         generatedImplementation);
   }

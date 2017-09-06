@@ -22,6 +22,7 @@ public final class JniMethod implements JniElement {
 
   public String javaMethodName;
   public String cppMethodName;
+  public boolean isStatic;
 
   public JniType returnType;
   public List<JniParameter> parameters = new LinkedList<>();
