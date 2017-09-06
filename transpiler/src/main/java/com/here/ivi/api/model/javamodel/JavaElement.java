@@ -42,32 +42,4 @@ public class JavaElement implements JavaNamedEntity {
         Stream.of(this),
         stream().filter(Objects::nonNull).flatMap(JavaNamedEntity::streamRecursive));
   }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    JavaElement that = (JavaElement) o;
-
-    if (name != null ? !name.equals(that.name) : that.name != null) {
-      return false;
-    }
-    if (comment != null ? !comment.equals(that.comment) : that.comment != null) {
-      return false;
-    }
-    return visibility == that.visibility;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = name != null ? name.hashCode() : 0;
-    result = 31 * result + (comment != null ? comment.hashCode() : 0);
-    result = 31 * result + (visibility != null ? visibility.hashCode() : 0);
-    return result;
-  }
 }

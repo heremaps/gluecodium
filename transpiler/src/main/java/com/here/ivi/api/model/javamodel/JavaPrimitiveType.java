@@ -55,23 +55,4 @@ public final class JavaPrimitiveType extends JavaType {
   public Stream<JavaNamedEntity> stream() {
     return Stream.empty();
   }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    JavaPrimitiveType that = (JavaPrimitiveType) o;
-
-    return type == that.type;
-  }
-
-  @Override
-  public int hashCode() {
-    return type != null ? type.hashCode() : 0;
-  }
 }

@@ -14,7 +14,9 @@ package com.here.ivi.api.model.javamodel;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public final class JavaPackage {
   public static final JavaPackage DEFAULT =
       new JavaPackage(Arrays.asList("com", "here", "android"));
@@ -37,26 +39,5 @@ public final class JavaPackage {
     }
 
     return new JavaPackage(packages);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    JavaPackage that = (JavaPackage) o;
-
-    return packageNames != null
-        ? packageNames.equals(that.packageNames)
-        : that.packageNames == null;
-  }
-
-  @Override
-  public int hashCode() {
-    return packageNames != null ? packageNames.hashCode() : 0;
   }
 }
