@@ -22,8 +22,8 @@ import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.validator.android.AndroidValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -82,7 +82,7 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
     JavaNativeInterfacesGenerator jniGenerator =
         new JavaNativeInterfacesGenerator(
             transpilerOptions.getJavaPackageList(),
-            Collections.singletonList(CONVERSION_UTILS_HEADER));
+            Arrays.asList(CONVERSION_UTILS_HEADER, FIELD_ACCESS_UTILS_HEADER));
 
     //jni models need to be built first as they are required to generate conversion util file
     List<JniContainer> jniContainers =

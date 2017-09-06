@@ -193,6 +193,22 @@ public class JniModelBuilderTest {
     assertNotNull(jniMethod);
     assertEquals(1, jniMethod.parameters.size());
     assertEquals(jniParameter, jniMethod.parameters.get(0));
+    assertFalse(jniMethod.isStatic);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsStaticMethods() {
+    contextStack.injectResult(jniParameter);
+    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethod());
+    CppMethod cppMethod = createCppMethod();
+    cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
+    when(cppBuilder.getFirstResult(any())).thenReturn(cppMethod);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JniMethod jniMethod = modelBuilder.getFirstResult(JniMethod.class);
+    assertNotNull(jniMethod);
+    assertTrue(jniMethod.isStatic);
   }
 
   @Test
