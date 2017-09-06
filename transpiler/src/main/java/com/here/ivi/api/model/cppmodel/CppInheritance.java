@@ -12,7 +12,9 @@
 package com.here.ivi.api.model.cppmodel;
 
 import java.util.stream.Stream;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 public class CppInheritance extends CppElement {
 
   public enum Type {
@@ -39,30 +41,6 @@ public class CppInheritance extends CppElement {
     super(null);
     this.parent = parent;
     this.visibility = type;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    if (!super.equals(o)) {
-      return false;
-    }
-
-    CppInheritance that = (CppInheritance) o;
-
-    return parent.equals(that.parent);
-  }
-
-  @Override
-  public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + parent.hashCode();
-    return result;
   }
 
   @Override
