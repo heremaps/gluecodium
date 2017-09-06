@@ -18,6 +18,7 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import java.io.File;
 import java.util.List;
+import org.franca.core.franca.FCompoundType;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FType;
 
@@ -64,6 +65,15 @@ public final class CppNameRules {
       result.add(getTypeCollectionName(definer.type.getName()));
     }
     return result;
+  }
+
+  public static String getFullyQualifiedName(FCompoundType francaCompoundType) {
+    List<String> nestedNameSpecifier = getNestedNameSpecifier(francaCompoundType);
+    String compoundName = getStructName(francaCompoundType.getName());
+
+    return nestedNameSpecifier.isEmpty()
+        ? "::" + compoundName
+        : "::" + String.join("::", nestedNameSpecifier) + "::" + compoundName;
   }
 
   public static List<String> getNamespace(DefinedBy definer) {

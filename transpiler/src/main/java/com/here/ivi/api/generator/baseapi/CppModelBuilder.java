@@ -21,7 +21,7 @@ import com.here.ivi.api.generator.cpp.CppValueMapper;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
-import java.util.List;
+import java.util.*;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FCompoundType;
@@ -65,9 +65,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     cppClass.comment = CppCommentParser.parse(francaInterface).getMainBodyText();
 
     cppClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, CppMethod.class));
-    cppClass.structs.addAll(CollectionsHelper.getAllOfType(previousResults, CppStruct.class));
     cppClass.enums.addAll(CollectionsHelper.getAllOfType(previousResults, CppEnum.class));
     cppClass.usings.addAll(CollectionsHelper.getAllOfType(previousResults, CppUsing.class));
+
+    List<CppStruct> structs = CollectionsHelper.getAllOfType(previousResults, CppStruct.class);
+    cppClass.structs.addAll(TopologicalSort.sort(structs));
 
     storeResult(cppClass);
     closeContext();
@@ -98,13 +100,16 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FTypeCollection francaTypeCollection) {
 
     for (CppElement cppElement : getCurrentContext().previousResults) {
-      if (cppElement instanceof CppStruct
-          || cppElement instanceof CppEnum
+      if (cppElement instanceof CppEnum
           || cppElement instanceof CppConstant
           || cppElement instanceof CppUsing) {
         storeResult(cppElement);
       }
     }
+
+    List<CppStruct> structs =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppStruct.class);
+    TopologicalSort.sort(structs).forEach(struct -> storeResult(struct));
 
     closeContext();
   }
@@ -270,9 +275,13 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
   private CppStruct buildCompoundType(
       final FCompoundType francaCompoundType, final boolean isUnion) {
-    String cppStructName = CppNameRules.getStructName(francaCompoundType.getName());
+
+    String name = CppNameRules.getStructName(francaCompoundType.getName());
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaCompoundType);
     CppStruct cppStruct =
-        isUnion ? new CppTaggedUnion(cppStructName) : new CppStruct(cppStructName);
+        isUnion
+            ? new CppTaggedUnion(name, fullyQualifiedName)
+            : new CppStruct(name, fullyQualifiedName);
     cppStruct.comment = CppCommentParser.parse(francaCompoundType).getMainBodyText();
 
     List<CppField> elements =

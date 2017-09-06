@@ -11,18 +11,13 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.cpp.CppDefaultInitializer;
+import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.cpp.CppValueMapper;
 import com.here.ivi.api.model.cppmodel.*;
@@ -67,7 +62,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
   CppTypeMapper.class,
   DefinedBy.class,
   CppDefaultInitializer.class,
-  CppValueMapper.class
+  CppValueMapper.class,
+  CppNameRules.class
 })
 @SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods", "PMD.CouplingBetweenObjects"})
 public class CppModelBuilderTest {
@@ -132,6 +128,7 @@ public class CppModelBuilderTest {
         DefinedBy.class,
         CppDefaultInitializer.class,
         CppValueMapper.class);
+
     MockitoAnnotations.initMocks(this);
 
     modelBuilder = new CppModelBuilder(contextStack, rootModel);
@@ -390,15 +387,29 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeReadsName() {
+    PowerMockito.mockStatic(CppNameRules.class);
+    when(CppNameRules.getStructName(any())).thenReturn(STRUCT_NAME);
+    when(CppNameRules.getFullyQualifiedName(any())).thenReturn(STRUCT_NAME);
+
     modelBuilder.finishBuilding(francaStructType);
 
     CppStruct cppStruct = modelBuilder.getFirstResult(CppStruct.class);
     assertNotNull(cppStruct);
     assertEquals(STRUCT_NAME, cppStruct.name.toLowerCase());
+
+    PowerMockito.verifyStatic();
+    CppNameRules.getStructName(STRUCT_NAME);
+
+    PowerMockito.verifyStatic();
+    CppNameRules.getFullyQualifiedName(francaStructType);
   }
 
   @Test
   public void finishBuildingFrancaStructTypeReadsFields() {
+    PowerMockito.mockStatic(CppNameRules.class);
+    when(CppNameRules.getStructName(any())).thenReturn(STRUCT_NAME);
+    when(CppNameRules.getFullyQualifiedName(any())).thenReturn(STRUCT_NAME);
+
     final CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME);
     contextStack.injectResult(cppField);
 
@@ -408,10 +419,20 @@ public class CppModelBuilderTest {
     assertNotNull(cppStruct);
     assertFalse(cppStruct.fields.isEmpty());
     assertEquals(cppField, cppStruct.fields.get(0));
+
+    PowerMockito.verifyStatic();
+    CppNameRules.getStructName(STRUCT_NAME);
+
+    PowerMockito.verifyStatic();
+    CppNameRules.getFullyQualifiedName(francaStructType);
   }
 
   @Test
   public void finishBuildingFrancaStructTypeReadsInheritance() {
+    PowerMockito.mockStatic(CppNameRules.class);
+    when(CppNameRules.getStructName(any())).thenReturn(STRUCT_NAME);
+    when(CppNameRules.getFullyQualifiedName(any())).thenReturn(STRUCT_NAME);
+
     when(CppTypeMapper.mapStruct(any())).thenReturn(cppComplexTypeRef);
     when(francaStructType.getBase()).thenReturn(mock(FStructType.class));
 
@@ -427,6 +448,12 @@ public class CppModelBuilderTest {
 
     PowerMockito.verifyStatic();
     CppTypeMapper.mapStruct(francaStructType);
+
+    PowerMockito.verifyStatic();
+    CppNameRules.getStructName(STRUCT_NAME);
+
+    PowerMockito.verifyStatic();
+    CppNameRules.getFullyQualifiedName(francaStructType);
   }
 
   @Test
@@ -549,15 +576,29 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaUnionTypeReadsName() {
+    PowerMockito.mockStatic(CppNameRules.class);
+    when(CppNameRules.getStructName(any())).thenReturn(UNION_NAME);
+    when(CppNameRules.getFullyQualifiedName(any())).thenReturn(UNION_NAME);
+
     modelBuilder.finishBuilding(francaUnionType);
 
     CppTaggedUnion cppTaggedUnion = modelBuilder.getFirstResult(CppTaggedUnion.class);
     assertNotNull(cppTaggedUnion);
     assertEquals(UNION_NAME, cppTaggedUnion.name.toLowerCase());
+
+    PowerMockito.verifyStatic();
+    CppNameRules.getStructName(UNION_NAME);
+
+    PowerMockito.verifyStatic();
+    CppNameRules.getFullyQualifiedName(francaUnionType);
   }
 
   @Test
   public void finishBuildingFrancaUnionTypeReadsFields() {
+    PowerMockito.mockStatic(CppNameRules.class);
+    when(CppNameRules.getStructName(any())).thenReturn(UNION_NAME);
+    when(CppNameRules.getFullyQualifiedName(any())).thenReturn(UNION_NAME);
+
     final CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME);
     contextStack.injectResult(cppField);
 
@@ -567,5 +608,11 @@ public class CppModelBuilderTest {
     assertNotNull(cppStruct);
     assertFalse(cppStruct.fields.isEmpty());
     assertEquals(cppField, cppStruct.fields.get(0));
+
+    PowerMockito.verifyStatic();
+    CppNameRules.getStructName(UNION_NAME);
+
+    PowerMockito.verifyStatic();
+    CppNameRules.getFullyQualifiedName(francaUnionType);
   }
 }
