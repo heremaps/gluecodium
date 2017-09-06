@@ -38,11 +38,20 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GE
         src/test/StaticTypedef.cpp)
 endif()
 
-#TODO: Remove this workaround once Android and iOS supports complex types(APIGEN-280, APIGEN-281)
+#TODO: Remove this workaround once Android and iOS supports complex types (APIGEN-280, APIGEN-281)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
         src/hello/HelloWorldComplexTypes.cpp)
+
+endif()
+
+#TODO: Remove this workaround once Android and iOS supports instances (APIGEN-195, APIGEN-593)
+if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
+    set(HELLO_SOURCES
+        ${HELLO_SOURCES}
+        src/hello/HelloWorldInstances.cpp
+        src/hello/HelloWorldFactory.cpp)
 
 endif()
 
