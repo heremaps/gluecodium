@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import com.here.ivi.api.generator.baseapi.CppModelBuilder;
-import com.here.ivi.api.generator.common.java.JavaModelBuilder;
+import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppField;

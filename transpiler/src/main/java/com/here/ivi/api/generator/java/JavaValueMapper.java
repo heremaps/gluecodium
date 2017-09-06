@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.java;
+package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;

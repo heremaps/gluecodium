@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.java;
+package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.common.NameHelper;

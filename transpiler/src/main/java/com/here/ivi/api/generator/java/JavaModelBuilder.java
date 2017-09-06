@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.java;
+package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
