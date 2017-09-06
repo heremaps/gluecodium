@@ -12,8 +12,10 @@
 package com.here.ivi.api.model.javamodel;
 
 import java.util.List;
+import lombok.EqualsAndHashCode;
 
 /** This class represents an import in java. It is based on a java package. */
+@EqualsAndHashCode
 public class JavaImport implements Comparable<JavaImport> {
   public final JavaPackage javaPackage;
   public final String className;
@@ -41,29 +43,5 @@ public class JavaImport implements Comparable<JavaImport> {
       return comparison;
     }
     return className.compareTo(otherImport.className);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    JavaImport that = (JavaImport) o;
-
-    if (javaPackage != null ? !javaPackage.equals(that.javaPackage) : that.javaPackage != null) {
-      return false;
-    }
-    return className != null ? className.equals(that.className) : that.className == null;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = javaPackage != null ? javaPackage.hashCode() : 0;
-    result = 31 * result + (className != null ? className.hashCode() : 0);
-    return result;
   }
 }
