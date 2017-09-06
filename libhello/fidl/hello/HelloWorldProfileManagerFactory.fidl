@@ -11,33 +11,21 @@
 
 package hello
 
-import hello.SimpleInstantiable.SimpleInstantiable from "./HelloWorldInstances.fidl"
-import hello.NestedInstantiable.NestedInstantiable from "./HelloWorldInstances.fidl"
-
+import common.* from "../common/CommonTypes.fidl"
+import hello.ProfileManager.ProfileManager from "./HelloWorldProfileManager.fidl"
 
 <** @description:
     Interface which creates instances used for the hello world demo
 **>
-interface HelloWorldFactory {
+interface HelloWorldProfileManagerFactory {
 
-    <** @description: Creates an instance of SimpleInstantiable interface **>
-    method createSimple {
+    <** @description: Creates an instance of ProfileManager interface **>
+    method createProfileManagerInstance {
         in {
         }
         out {
             <** @description: Reference to created instance **>
-            SimpleInstantiable instanceRef
-        }
-    }
-
-    <** @description: Creates an instance of NestedInstantiable interface **>
-    method createNested {
-        in {
-            SimpleInstantiable simpleInstanceRef
-        }
-        out {
-            <** @description: Reference to created instance **>
-            NestedInstantiable nestedInstanceRef
+            ProfileManager instanceRef
         }
     }
 }
