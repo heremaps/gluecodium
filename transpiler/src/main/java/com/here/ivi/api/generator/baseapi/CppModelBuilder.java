@@ -18,19 +18,7 @@ import com.here.ivi.api.generator.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.cpp.CppValueMapper;
-import com.here.ivi.api.model.cppmodel.CppClass;
-import com.here.ivi.api.model.cppmodel.CppConstant;
-import com.here.ivi.api.model.cppmodel.CppElement;
-import com.here.ivi.api.model.cppmodel.CppEnum;
-import com.here.ivi.api.model.cppmodel.CppEnumItem;
-import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.cppmodel.CppTaggedUnion;
-import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.cppmodel.CppUsing;
-import com.here.ivi.api.model.cppmodel.CppValue;
+import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.List;
@@ -153,7 +141,14 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FStructType francaStructType) {
 
-    finishBuildingCompoundType(francaStructType, false);
+    CppStruct cppStruct = buildCompoundType(francaStructType, false);
+    if (francaStructType.getBase() != null) {
+      CppTypeRef parentTypeRef = CppTypeMapper.mapStruct(francaStructType);
+      cppStruct.inheritances.add(new CppInheritance(parentTypeRef, CppInheritance.Type.Public));
+    }
+
+    storeResult(cppStruct);
+    closeContext();
   }
 
   @Override
@@ -230,6 +225,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
+
     storeResult(CppTypeMapper.map(francaTypeRef));
     closeContext();
   }
@@ -237,7 +233,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FUnionType francaUnionType) {
 
-    finishBuildingCompoundType(francaUnionType, true);
+    storeResult(buildCompoundType(francaUnionType, true));
+    closeContext();
   }
 
   private CppMethod buildCppMethod(
@@ -271,9 +268,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     return builder.build();
   }
 
-  private void finishBuildingCompoundType(
+  private CppStruct buildCompoundType(
       final FCompoundType francaCompoundType, final boolean isUnion) {
-
     String cppStructName = CppNameRules.getStructName(francaCompoundType.getName());
     CppStruct cppStruct =
         isUnion ? new CppTaggedUnion(cppStructName) : new CppStruct(cppStructName);
@@ -283,8 +279,6 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppField.class);
 
     cppStruct.fields.addAll(elements);
-
-    storeResult(cppStruct);
-    closeContext();
+    return cppStruct;
   }
 }

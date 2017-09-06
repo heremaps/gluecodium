@@ -25,22 +25,7 @@ import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.generator.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.cpp.CppValueMapper;
-import com.here.ivi.api.model.cppmodel.CppClass;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppConstant;
-import com.here.ivi.api.model.cppmodel.CppElement;
-import com.here.ivi.api.model.cppmodel.CppEnum;
-import com.here.ivi.api.model.cppmodel.CppEnumItem;
-import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.cppmodel.CppTaggedUnion;
-import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
-import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.cppmodel.CppUsing;
-import com.here.ivi.api.model.cppmodel.CppValue;
+import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -423,6 +408,25 @@ public class CppModelBuilderTest {
     assertNotNull(cppStruct);
     assertFalse(cppStruct.fields.isEmpty());
     assertEquals(cppField, cppStruct.fields.get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaStructTypeReadsInheritance() {
+    when(CppTypeMapper.mapStruct(any())).thenReturn(cppComplexTypeRef);
+    when(francaStructType.getBase()).thenReturn(mock(FStructType.class));
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    CppStruct cppStruct = modelBuilder.getFirstResult(CppStruct.class);
+    assertNotNull(cppStruct);
+    assertEquals(1, cppStruct.inheritances.size());
+
+    CppInheritance cppInheritance = cppStruct.inheritances.iterator().next();
+    assertEquals(cppComplexTypeRef, cppInheritance.parent);
+    assertEquals(CppInheritance.Type.Public, cppInheritance.visibility);
+
+    PowerMockito.verifyStatic();
+    CppTypeMapper.mapStruct(francaStructType);
   }
 
   @Test

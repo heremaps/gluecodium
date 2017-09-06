@@ -11,13 +11,16 @@
 
 package com.here.ivi.api.model.cppmodel;
 
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class CppStruct extends CppElement {
 
   public final List<CppField> fields = new LinkedList<>();
+  public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
 
   public CppStruct(final String name) {
     super(name);

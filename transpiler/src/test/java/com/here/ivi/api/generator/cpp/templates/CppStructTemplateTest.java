@@ -14,10 +14,7 @@ package com.here.ivi.api.generator.cpp.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.cppmodel.CppValue;
+import com.here.ivi.api.model.cppmodel.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -28,12 +25,18 @@ public final class CppStructTemplateTest {
   private static final String TEMPLATE_NAME = "cpp/CppStruct";
 
   private static final String EXPECTED_STRUCT_RESULT_FORMAT = "struct Structural {\n%s};\n";
+  private static final String EXPECTED_STRUCT_INHERITANCES_RESULT_FORMAT =
+      "struct Structural%s {\n};\n";
   private static final String EXPECTED_FIELD_RESULT_FORMAT = "    %sTypical flowers%s;\n";
 
   private final CppStruct cppStruct = new CppStruct("Structural");
+  private final CppPrimitiveTypeRef cppPrimitiveTypeRef =
+      new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT32);
   private final CppComplexTypeRef cppComplexTypeRef =
       new CppComplexTypeRef.Builder("Typical").build();
   private final CppField cppField = new CppField(cppComplexTypeRef, "flowers");
+  private final CppInheritance cppInheritance =
+      new CppInheritance(cppPrimitiveTypeRef, CppInheritance.Type.Protected);
 
   @Test
   public void structEmpty() {
@@ -94,6 +97,31 @@ public final class CppStructTemplateTest {
     final String expectedResult =
         String.format(
             EXPECTED_STRUCT_RESULT_FORMAT, expectedFieldResult + expectedAnotherFieldResult);
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void classWithOneInheritance() {
+    cppStruct.inheritances.add(cppInheritance);
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
+
+    final String expectedInheritances = ": protected int32_t";
+    final String expectedResult =
+        String.format(EXPECTED_STRUCT_INHERITANCES_RESULT_FORMAT, expectedInheritances);
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void classWithTwoInheritances() {
+    cppStruct.inheritances.add(cppInheritance);
+    cppStruct.inheritances.add(new CppInheritance(cppComplexTypeRef, CppInheritance.Type.Private));
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
+
+    final String expectedInheritances = ": protected int32_t, private Typical";
+    final String expectedResult =
+        String.format(EXPECTED_STRUCT_INHERITANCES_RESULT_FORMAT, expectedInheritances);
     assertEquals(expectedResult, result);
   }
 }
