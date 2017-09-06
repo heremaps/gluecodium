@@ -18,12 +18,18 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class CppStruct extends CppElement {
+  public final String fullyQualifiedName;
 
   public final List<CppField> fields = new LinkedList<>();
   public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
 
   public CppStruct(final String name) {
+    this(name, name);
+  }
+
+  public CppStruct(final String name, final String fullyQualifiedName) {
     super(name);
+    this.fullyQualifiedName = fullyQualifiedName;
   }
 
   @Override
