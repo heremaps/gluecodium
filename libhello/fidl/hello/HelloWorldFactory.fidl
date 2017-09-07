@@ -22,8 +22,6 @@ interface HelloWorldFactory {
 
     <** @description: Creates an instance of SimpleInstantiable interface **>
     method createSimple {
-        in {
-        }
         out {
             <** @description: Reference to created instance **>
             SimpleInstantiable instanceRef
