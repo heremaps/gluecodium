@@ -22,13 +22,9 @@ interface SimpleInstantiable {
         in {
             String stringValue
         }
-        out {
-        }
     }
 
     method getStringValue {
-        in {
-        }
         out {
            String stringValue
         }
@@ -43,13 +39,9 @@ interface NestedInstantiable {
         in {
             SimpleInstantiable.SimpleInstantiable instance
         }
-        out {
-        }
     }
 
     method getInstantiable {
-        in {
-        }
         out {
            SimpleInstantiable.SimpleInstantiable instance
         }

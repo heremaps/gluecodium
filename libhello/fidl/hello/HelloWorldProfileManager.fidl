@@ -27,8 +27,6 @@ interface ProfileManager {
             <** @description: username for the profile **>
             String username
         }
-        out {
-        }
     }
 
     <** @description: Changes the username for a profile instance and returns the old username **>
@@ -48,8 +46,6 @@ interface ProfileManager {
         in {
             <** @description: the username for the profile **>
             String username
-        }
-        out {
         }
     }
 

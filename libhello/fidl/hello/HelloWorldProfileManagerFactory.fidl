@@ -21,8 +21,6 @@ interface HelloWorldProfileManagerFactory {
 
     <** @description: Creates an instance of ProfileManager interface **>
     method createProfileManagerInstance {
-        in {
-        }
         out {
             <** @description: Reference to created instance **>
             ProfileManager instanceRef
