@@ -11,6 +11,7 @@
 
 package com.here.ivi.api;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.Version;
@@ -35,7 +36,8 @@ public final class Transpiler {
   private final OptionReader.TranspilerOptions options;
   private final Version version;
 
-  private Transpiler(final OptionReader.TranspilerOptions options) {
+  @VisibleForTesting
+  Transpiler(final OptionReader.TranspilerOptions options) {
     this.options = options;
     TranspilerLogger.initialize("logging.properties");
     version = parseVersion();
@@ -74,7 +76,8 @@ public final class Transpiler {
     return succeeded;
   }
 
-  private boolean execute() {
+  @VisibleForTesting
+  boolean execute() {
     //Generation
     List<String> generators = discoverGenerators();
     boolean succeeded = true;
@@ -119,7 +122,8 @@ public final class Transpiler {
     return succeeded;
   }
 
-  private List<String> discoverGenerators() {
+  @VisibleForTesting
+  List<String> discoverGenerators() {
     List<String> generators = options.getGenerators();
     if (generators != null) {
       LOGGER.info("Following generators were specified on command line: " + generators);
