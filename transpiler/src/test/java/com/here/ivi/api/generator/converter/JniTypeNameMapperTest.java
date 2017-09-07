@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.converter;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.generator.common.jni.JniTypeNameMapper;
+import com.here.ivi.api.generator.jni.JniTypeNameMapper;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
