@@ -157,17 +157,7 @@ public class FrancaModelLoader {
 
     // load all found fdepl resources
     Set<FDModel> extendedModels =
-        bySuffix
-            .get(FDEPL_SUFFIX)
-            .parallelStream()
-            .map(
-                f -> {
-                  URI asUri = URI.createFileURI(f.getAbsolutePath());
-                  FDModel fdmodel = fdeplLoader.loadModel(asUri, ROOT_URI);
-                  LOGGER.log(Level.FINE, "Loading fdepl" + asUri);
-                  return fdmodel;
-                })
-            .collect(toSet());
+        bySuffix.get(FDEPL_SUFFIX).parallelStream().map(this::loadDeploymentModel).collect(toSet());
 
     // collect all fidl files that are referenced by the fdepl in addition to the ones found by
     // directory scanning
@@ -199,5 +189,20 @@ public class FrancaModelLoader {
             .collect(Collectors.toList());
 
     return FrancaModel.joinModels(models);
+  }
+
+  private FDModel loadDeploymentModel(File file) {
+
+    URI fileURI = URI.createFileURI(file.getAbsolutePath());
+    LOGGER.log(Level.FINE, "Loading fdepl " + fileURI);
+
+    FDModel deploymentModel;
+    try {
+      deploymentModel = fdeplLoader.loadModel(fileURI, ROOT_URI);
+    } catch (IndexOutOfBoundsException e) {
+      throw new TranspilerExecutionException("Loading fdepl failed: " + fileURI, e);
+    }
+
+    return deploymentModel;
   }
 }

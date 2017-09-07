@@ -14,6 +14,7 @@ package com.here.ivi.api.loader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.Interface;
@@ -26,12 +27,24 @@ import java.util.Collection;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FMethod;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class FrancaModelLoaderTest {
+
+  @Rule public final ExpectedException exception = ExpectedException.none();
+
+  private final FrancaModelLoader loader = new FrancaModelLoader();
+
+  @Before
+  public void setUp() {
+    ModelHelper.getFdeplInjector().injectMembers(loader);
+  }
 
   /**
    * The test reproduces bug APIGEN-82. Each fidl got a single fdepl file assigned based on the
@@ -44,10 +57,6 @@ public class FrancaModelLoaderTest {
    */
   @Test
   public void multipleDeploymentsIncludingSameFidl() throws URISyntaxException {
-
-    FrancaModelLoader loader = new FrancaModelLoader();
-    ModelHelper.getFdeplInjector().injectMembers(loader);
-
     URL simpleFidl =
         ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Simple.fidl");
     URL simpleFdepl =
@@ -66,7 +75,7 @@ public class FrancaModelLoaderTest {
             new File(additionalFdepl.toURI()));
     FrancaModel model = loader.load(GeneratorSuite.getSpecPath(), currentFiles);
 
-    List<? extends Interface> interfaces = model.getInterfaces();
+    List<Interface> interfaces = model.getInterfaces();
     assertEquals(1, interfaces.size());
     Interface iface = interfaces.get(0);
 
@@ -75,5 +84,20 @@ public class FrancaModelLoaderTest {
     FMethod constMethod = methods.get(0);
 
     assertTrue(iface.isConst(constMethod));
+  }
+
+  @Test
+  public void loadMalformedDeploymentModelWithPackage() throws URISyntaxException {
+    exception.expect(TranspilerExecutionException.class);
+
+    URL simpleFidl =
+        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Simple.fidl");
+    URL malformedFdepl =
+        ClassLoader.getSystemClassLoader()
+            .getResource("francamodelloadertest/baseapi/MalformedWithPackage.fdepl");
+
+    Collection<File> currentFiles =
+        Arrays.asList(new File(malformedFdepl.toURI()), new File(simpleFidl.toURI()));
+    loader.load(GeneratorSuite.getSpecPath(), currentFiles);
   }
 }
