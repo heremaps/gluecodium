@@ -11,6 +11,7 @@
 
 package com.here.ivi.api;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -123,7 +124,8 @@ public final class OptionReader {
     return transpilerOptions;
   }
 
-  private void printGenerators() {
+  @VisibleForTesting
+  void printGenerators() {
     System.out.println("Available generators: \n");
     for (String sn : GeneratorSuite.generatorShortNames()) {
       System.out.println("  Found generator " + sn);
