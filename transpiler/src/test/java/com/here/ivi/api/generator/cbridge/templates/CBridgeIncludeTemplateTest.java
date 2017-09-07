@@ -25,7 +25,7 @@ import org.junit.runners.JUnit4;
 public class CBridgeIncludeTemplateTest {
 
   private String generate(Include incl) {
-    return TemplateEngine.render("cbridge/Include", incl);
+    return TemplateEngine.render("common/Include", incl);
   }
 
   @Test

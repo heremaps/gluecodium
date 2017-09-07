@@ -1,6 +1,7 @@
 {{#if includes}}
 {{>java/CopyrightHeader}}
-{{#includes}}#include "{{fileName}}"
+{{#includes}}
+{{>common/Include}}
 {{/includes}}
 #include "android/jni/StructConversion.h"
 

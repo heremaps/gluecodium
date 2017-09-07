@@ -3,7 +3,7 @@
 extern "C" {
 #endif
 
-{{#headerIncludes}}{{>cbridge/Include}}{{/headerIncludes}}
+{{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
 {{#structs}}{{>cbridge/CStruct}}{{/structs}}
 {{#functions}}{{^declareInImplementationOnly}}{{>cbridge/FunctionSignature}};{{/declareInImplementationOnly}}{{/functions}}
 
