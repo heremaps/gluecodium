@@ -26,6 +26,9 @@ import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.validator.baseapi.BaseApiModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
+import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,12 +41,16 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ResourceValidator.class, GeneratorSuite.class})
+@PrepareForTest({ResourceValidator.class, GeneratorSuite.class, FrancaModelLoader.class})
 public final class BaseApiGeneratorSuiteTest {
+
+  private static final String MOCK_INPUT_PATH = "../fidl/files/are/here";
+  private static final String MOCK_SPEC_PATH = "/a/random/directory/BaseApiSpec.fdepl";
 
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
 
   @Mock private BaseApiModelValidator baseApiModelValidator;
+  @Mock private FrancaModel francaModel;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FrancaModel mockFrancaModel;
@@ -51,24 +58,25 @@ public final class BaseApiGeneratorSuiteTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FrancaModelLoader francaModelLoader;
 
-  private static final String MOCK_INPUT_PATH = "../fidl/files/are/here";
-  private static final String MOCK_SPEC_PATH = "/a/random/directory/BaseApiSpec.fdepl";
-
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(ResourceValidator.class, GeneratorSuite.class);
+    PowerMockito.mockStatic(ResourceValidator.class, GeneratorSuite.class, FrancaModelLoader.class);
     MockitoAnnotations.initMocks(this);
 
     when(GeneratorSuite.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
+    when(francaModelLoader.load(any(), any())).thenReturn(francaModel);
 
     baseApiGeneratorSuite = new BaseApiGeneratorSuite(baseApiModelValidator, francaModelLoader);
   }
 
   @Test
   public void buildModel() {
+    Collection<File> files = Collections.singletonList(new File("nonsense.fidl"));
+    when(FrancaModelLoader.listFilesRecursively(any())).thenReturn(files);
+
     baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
 
-    verify(francaModelLoader).load(MOCK_SPEC_PATH, baseApiGeneratorSuite.getCurrentFiles());
+    verify(francaModelLoader).load(MOCK_SPEC_PATH, files);
     PowerMockito.verifyStatic();
     GeneratorSuite.getSpecPath();
   }
@@ -92,7 +100,7 @@ public final class BaseApiGeneratorSuiteTest {
 
     PowerMockito.verifyStatic(); // 1
     ResourceValidator.validate(any(), any());
-    verify(baseApiModelValidator).validate(baseApiGeneratorSuite.getModel());
+    verify(baseApiModelValidator).validate(francaModel);
   }
 
   @Test
@@ -105,7 +113,7 @@ public final class BaseApiGeneratorSuiteTest {
 
     PowerMockito.verifyStatic(); // 1
     ResourceValidator.validate(any(), any());
-    verify(baseApiModelValidator).validate(baseApiGeneratorSuite.getModel());
+    verify(baseApiModelValidator).validate(francaModel);
   }
 
   @Test
@@ -118,7 +126,7 @@ public final class BaseApiGeneratorSuiteTest {
 
     PowerMockito.verifyStatic(); // 1
     ResourceValidator.validate(any(), any());
-    verify(baseApiModelValidator, never()).validate(baseApiGeneratorSuite.getModel());
+    verify(baseApiModelValidator, never()).validate(francaModel);
   }
 
   @Test
@@ -131,7 +139,7 @@ public final class BaseApiGeneratorSuiteTest {
 
     PowerMockito.verifyStatic(); // 1
     ResourceValidator.validate(any(), any());
-    verify(baseApiModelValidator, never()).validate(baseApiGeneratorSuite.getModel());
+    verify(baseApiModelValidator, never()).validate(francaModel);
   }
 
   @Test
@@ -144,6 +152,8 @@ public final class BaseApiGeneratorSuiteTest {
 
   @Test
   public void generateFilesEmptyModel() {
+    GeneratedFile generatedFile = new GeneratedFile("a", "b");
+    when(GeneratorSuite.copyTarget(any(), any())).thenReturn(generatedFile);
     when(francaModelLoader.load(any(), any())).thenReturn(mockFrancaModel);
     baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
 
@@ -154,9 +164,6 @@ public final class BaseApiGeneratorSuiteTest {
         "The cpp/internal file should always be generated, even with empty model",
         1,
         generatedFiles.size());
-    for (GeneratedFile generatedFile : generatedFiles) {
-      assertFalse(generatedFile.content.toString().isEmpty());
-      assertFalse(generatedFile.targetFile.getName().isEmpty());
-    }
+    assertEquals(generatedFile, generatedFiles.get(0));
   }
 }

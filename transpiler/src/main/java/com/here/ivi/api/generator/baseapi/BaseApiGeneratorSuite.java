@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -26,13 +25,9 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.ModelHelper;
-import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.validator.baseapi.BaseApiModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -43,7 +38,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.apache.commons.io.IOUtils;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
@@ -85,23 +79,9 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
-    generatedFiles.add(copyTarget("cpp/internal/expected.h", "src/"));
+    generatedFiles.add(GeneratorSuite.copyTarget("cpp/internal/expected.h", "src/"));
 
     return generatedFiles;
-  }
-
-  public static GeneratedFile copyTarget(String fileName, String targetDir) {
-    InputStream stream = BaseApiGeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
-
-    if (stream != null) {
-      try {
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
-        return new GeneratedFile(content, targetDir + File.separator + fileName);
-      } catch (IOException e) {
-        throw new TranspilerExecutionException("Copying resource file failed with error:", e);
-      }
-    }
-    throw new TranspilerExecutionException(String.format("Failed loading resource %s.", fileName));
   }
 
   @Override
@@ -127,18 +107,10 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     return ResourceValidator.validate(resources, currentFiles) && validator.validate(model);
   }
 
-  public FrancaModel getModel() {
-    return model;
-  }
-
-  public Collection<File> getCurrentFiles() {
-    return currentFiles;
-  }
-
   private GeneratedFile generateFromFrancaElement(
       FrancaElement francaElement, CppGenerator generator) {
 
-    CppNamespace cppModel = mapFrancaModelToCppModel(francaElement);
+    CppNamespace cppModel = mapFrancaElementToCppModel(francaElement);
     String fileName = CppNameRules.getHeaderPath(francaElement);
     CharSequence copyRightNotice = generateGeneratorNotice(francaElement, fileName);
     return generator.generateCode(cppModel, fileName, copyRightNotice);
@@ -156,46 +128,24 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     return TemplateEngine.render("common/GeneratorNotice", generatorNoticeData);
   }
 
-  private static CppNamespace mapFrancaModelToCppModel(FrancaElement francaElement) {
+  private static CppNamespace mapFrancaElementToCppModel(final FrancaElement francaElement) {
 
+    List<String> outermostQualifier;
     if (francaElement instanceof Interface) {
-      return mapFrancaInterfaceToCppModel((Interface) francaElement);
+      outermostQualifier = francaElement.getModelInfo().getPackageNames();
+    } else {
+      outermostQualifier =
+          CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(francaElement));
+      outermostQualifier.add(
+          CppNameRules.getTypeCollectionName(francaElement.getFrancaTypeCollection().getName()));
     }
-    if (francaElement instanceof TypeCollection) {
-      return mapFrancaTypeCollectionToCppModel((TypeCollection) francaElement);
-    }
-    return null;
-  }
 
-  private static CppNamespace mapFrancaInterfaceToCppModel(Interface anInterface) {
-
-    List<String> outmostQualifier = anInterface.getModelInfo().getPackageNames();
-
-    CppModelBuilder builder = new CppModelBuilder(anInterface);
+    CppModelBuilder builder = new CppModelBuilder(francaElement);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
-    treeWalker.walk(anInterface);
+    treeWalker.walk(francaElement);
 
-    CppNamespace namespace = new CppNamespace(outmostQualifier);
-    namespace.members.addAll(builder.getResults());
-
-    return namespace;
-  }
-
-  private static CppNamespace mapFrancaTypeCollectionToCppModel(TypeCollection typeCollection) {
-
-    List<String> outmostQualifier =
-        CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(typeCollection));
-
-    outmostQualifier.add(
-        CppNameRules.getTypeCollectionName(typeCollection.getFrancaTypeCollection().getName()));
-
-    CppModelBuilder builder = new CppModelBuilder(typeCollection);
-    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
-
-    treeWalker.walk(typeCollection);
-
-    CppNamespace namespace = new CppNamespace(outmostQualifier);
+    CppNamespace namespace = new CppNamespace(outermostQualifier);
     namespace.members.addAll(builder.getResults());
 
     return namespace;
