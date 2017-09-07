@@ -9,9 +9,8 @@
  *
  */
 
-package com.here.ivi.api.generator.common.android;
+package com.here.ivi.api.generator.android;
 
-import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import java.io.File;
 
 public final class AndroidNameRules {

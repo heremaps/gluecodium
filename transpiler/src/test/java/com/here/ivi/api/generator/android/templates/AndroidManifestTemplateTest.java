@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.android.templates;
+package com.here.ivi.api.generator.android.templates;
 
 import static junit.framework.TestCase.assertEquals;
 
