@@ -166,7 +166,7 @@ public class CBridgeGeneratorTest {
     String expectedHeader =
         String.join(
             "\n",
-            "#include \"StringHandle.h\"",
+            "#include <StringHandle.h>",
             "std_stringRef cbridge_test_TestInterface_functionName(const char* input);",
             "");
 
@@ -239,7 +239,7 @@ public class CBridgeGeneratorTest {
     String expectedHeader =
         String.join(
             "\n",
-            "#include \"ByteArrayHandle.h\"",
+            "#include <ByteArrayHandle.h>",
             "#include <stdint.h>",
             "byteArrayRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size);",
             "");
