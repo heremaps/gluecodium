@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.jni.templates;
+package com.here.ivi.api.generator.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class StructConversionHeaderTest {
+public final class StructConversionImplementationTest {
   private static final String OUTER_CLASS_NAME = "Outer";
   private static final String OUTER_CLASS_NAME2 = "OuterSec";
   private static final String INNER_CLASS_NAME = "Inner";
@@ -46,8 +46,16 @@ public final class StructConversionHeaderTest {
     return TemplateEngine.render("jni/JniToCppStructConversionSignature", jniStruct);
   }
 
+  private static String createJniToCppBody(JniStruct jniStruct) {
+    return TemplateEngine.render("jni/JniToCppStructConversionBody", jniStruct);
+  }
+
   private static String createCppToJniSignature(JniStruct jniStruct) {
     return TemplateEngine.render("jni/CppToJniStructConversionSignature", jniStruct);
+  }
+
+  private static String createCppToJniBody(JniStruct jniStruct) {
+    return TemplateEngine.render("jni/CppToJniStructConversionBody", jniStruct);
   }
 
   private static JniContainer createJniContainer(String outerClassName) {
@@ -68,19 +76,10 @@ public final class StructConversionHeaderTest {
     mustacheData.put(JavaNativeInterfacesGenerator.MODELS_NAME, Collections.emptyList());
 
     //act
-    String result = TemplateEngine.render("jni/StructConversionHeader", mustacheData);
+    String result = TemplateEngine.render("jni/StructConversionImplementation", mustacheData);
 
     //assert
-    String expected =
-        "#pragma once\n"
-            + "\n"
-            + "#include <jni.h>\n"
-            + "\n"
-            + "namespace here {\n"
-            + "namespace internal {\n"
-            + "\n"
-            + "}\n"
-            + "}\n";
+    String expected = "\n" + "namespace here {\n" + "namespace internal {\n" + "\n\n" + "}\n" + "}";
 
     assertEquals(expected, result);
   }
@@ -91,23 +90,20 @@ public final class StructConversionHeaderTest {
     //arrange
     List<Include> includes = createIncludes();
 
-    JniContainer container = createJniContainer(OUTER_CLASS_NAME);
-    JniStruct struct = container.structs.get(0);
+    JniContainer jniContainer = createJniContainer(OUTER_CLASS_NAME);
+    JniStruct struct = jniContainer.structs.get(0);
 
     Map<String, List<?>> mustacheData = new HashMap<>();
     mustacheData.put(JavaNativeInterfacesGenerator.INCLUDES_NAME, includes);
     mustacheData.put(
-        JavaNativeInterfacesGenerator.MODELS_NAME, Collections.singletonList(container));
+        JavaNativeInterfacesGenerator.MODELS_NAME, Collections.singletonList(jniContainer));
 
     //act
-    String result = TemplateEngine.render("jni/StructConversionHeader", mustacheData);
+    String result = TemplateEngine.render("jni/StructConversionImplementation", mustacheData);
 
     //assert
     String expected =
-        "#pragma once\n"
-            + "\n"
-            + "#include <jni.h>\n"
-            + "#include <"
+        "#include <"
             + includes.get(0).fileName
             + ">\n"
             + "#include <"
@@ -116,13 +112,15 @@ public final class StructConversionHeaderTest {
             + "\n"
             + "namespace here {\n"
             + "namespace internal {\n"
-            + "\n    "
+            + "\n"
             + createJniToCppSignature(struct)
-            + ";\n\n    "
+            + createJniToCppBody(struct)
+            + "\n"
             + createCppToJniSignature(struct)
-            + ";\n\n"
+            + createCppToJniBody(struct)
+            + "\n\n"
             + "}\n"
-            + "}\n";
+            + "}";
 
     assertEquals(expected, result);
   }
@@ -145,14 +143,11 @@ public final class StructConversionHeaderTest {
         JavaNativeInterfacesGenerator.MODELS_NAME, Arrays.asList(container, container2));
 
     //act
-    String result = TemplateEngine.render("jni/StructConversionHeader", mustacheData);
+    String result = TemplateEngine.render("jni/StructConversionImplementation", mustacheData);
 
     //assert
     String expected =
-        "#pragma once\n"
-            + "\n"
-            + "#include <jni.h>\n"
-            + "#include <"
+        "#include <"
             + includes.get(0).fileName
             + ">\n"
             + "#include <"
@@ -161,17 +156,21 @@ public final class StructConversionHeaderTest {
             + "\n"
             + "namespace here {\n"
             + "namespace internal {\n"
-            + "\n    "
+            + "\n"
             + createJniToCppSignature(struct)
-            + ";\n\n    "
+            + createJniToCppBody(struct)
+            + "\n"
             + createCppToJniSignature(struct)
-            + ";\n\n    "
+            + createCppToJniBody(struct)
+            + "\n"
             + createJniToCppSignature(struct2)
-            + ";\n\n    "
+            + createJniToCppBody(struct2)
+            + "\n"
             + createCppToJniSignature(struct2)
-            + ";\n\n"
+            + createCppToJniBody(struct2)
+            + "\n\n"
             + "}\n"
-            + "}\n";
+            + "}";
 
     assertEquals(expected, result);
   }

@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.jni;
+package com.here.ivi.api.generator.jni;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppModelBuilder;

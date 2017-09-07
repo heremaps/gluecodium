@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.common.jni.JniNameRules;
+import com.here.ivi.api.generator.jni.JniNameRules;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Collections;
 import java.util.List;

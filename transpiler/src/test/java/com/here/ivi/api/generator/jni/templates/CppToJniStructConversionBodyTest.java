@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.jni.templates;
+package com.here.ivi.api.generator.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 

@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common.jni.templates;
+package com.here.ivi.api.generator.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,45 +21,41 @@ import com.here.ivi.api.model.jni.JniStruct;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class CppToJniStructConversionSignatureTest {
-  private static final String OUTER_CLASS_NAME = "Outer";
-  private static final String INNER_CLASS_NAME = "Inner";
-  private static final List<String> PACKAGES = Arrays.asList("a", "b", "c");
+public final class JniToCppStructConversionSignatureTest {
 
-  private JniStruct jniStruct;
+  private static final String JAVA_OUTER_CLASS_NAME = "MyOuterJavaClass";
+  private static final String CPP_OUTER_CLASS_NAME = "CppOuter";
+  private static final List<String> CPP_NAMESPACES =
+      Arrays.asList("a", "superfancy", "cppnamespace");
 
-  @Before
-  public void setUp() {
-    JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(
-            PACKAGES, PACKAGES, OUTER_CLASS_NAME, OUTER_CLASS_NAME);
-
-    jniStruct =
-        new JniStruct(
-            jniContainer, new JavaClass("Inner"), new CppStruct("Inner"), Collections.emptyList());
-  }
+  private final JavaClass javaClassInner = new JavaClass("jInner");
+  private final CppStruct cppStruct = new CppStruct("CppStruct");
+  private final JniContainer jniContainer =
+      JniContainer.createInterfaceContainer(
+          Collections.emptyList(), CPP_NAMESPACES, JAVA_OUTER_CLASS_NAME, CPP_OUTER_CLASS_NAME);
+  private final JniStruct jniStruct =
+      new JniStruct(jniContainer, javaClassInner, cppStruct, Collections.emptyList());
 
   @Test
   public void generate() {
-    // Act
-    String generated = TemplateEngine.render("jni/CppToJniStructConversionSignature", jniStruct);
+    //act
+    String generated = TemplateEngine.render("jni/JniToCppStructConversionSignature", jniStruct);
 
+    //assert
     String expected =
-        "jobject convert_to_jni(JNIEnv* env, const "
-            + String.join("::", PACKAGES)
+        "void convert_from_jni( JNIEnv* env, const jobject jinput, "
+            + String.join("::", CPP_NAMESPACES)
             + "::"
-            + OUTER_CLASS_NAME
+            + CPP_OUTER_CLASS_NAME
             + "::"
-            + INNER_CLASS_NAME
-            + "& ninput)";
+            + cppStruct.name
+            + "& out )";
 
-    // Assert
     assertEquals(expected, generated);
   }
 }
