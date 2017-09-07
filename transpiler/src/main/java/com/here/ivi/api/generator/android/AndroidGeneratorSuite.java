@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.OptionReader;
-import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -113,12 +112,9 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
         new AndroidManifestGenerator(transpilerOptions.getJavaPackageList());
 
     List<GeneratedFile> results = androidManifestGenerator.generate();
-    results.add(
-        BaseApiGeneratorSuite.copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(
-        BaseApiGeneratorSuite.copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
-    results.add(
-        BaseApiGeneratorSuite.copyTarget(FIELD_ACCESS_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    results.add(GeneratorSuite.copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    results.add(GeneratorSuite.copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
+    results.add(GeneratorSuite.copyTarget(FIELD_ACCESS_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
     results.addAll(
         Stream.concat(javaFilesStream, jniFilesStream)
             .flatMap(Collection::stream)
