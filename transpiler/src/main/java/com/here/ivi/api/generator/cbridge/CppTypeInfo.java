@@ -61,8 +61,7 @@ public class CppTypeInfo {
           "std_stringRef{new std::string(std::move(%1$s))}",
           Arrays.asList(
               Include.createSystemInclude("string"), Include.createSystemInclude("utility")),
-          new CType(
-              "std_stringRef", singletonList(Include.createInternalInclude("StringHandle.h"))),
+          new CType("std_stringRef", singletonList(Include.createSystemInclude("StringHandle.h"))),
           "%1$s->c_str()",
           "%1$s->length()",
           TypeCategory.BUILTIN_STRING);
@@ -84,7 +83,7 @@ public class CppTypeInfo {
               Include.createSystemInclude("stdint.h"),
               Include.createSystemInclude("utility")),
           new CType(
-              "byteArrayRef", singletonList(Include.createInternalInclude("ByteArrayHandle.h"))),
+              "byteArrayRef", singletonList(Include.createSystemInclude("ByteArrayHandle.h"))),
           "&(*%1$s)[0]",
           "%1$s->size()",
           TypeCategory.BUILTIN_BYTEBUFFER);
