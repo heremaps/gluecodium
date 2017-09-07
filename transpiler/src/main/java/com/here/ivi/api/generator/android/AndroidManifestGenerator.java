@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.common.android.AndroidNameRules;
 import java.util.ArrayList;
 import java.util.List;
 
