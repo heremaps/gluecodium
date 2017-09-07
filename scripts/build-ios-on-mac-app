@@ -1,3 +1,3 @@
 #!/bin/bash -e
 cd platforms/ios/
-xcodebuild -sdk iphonesimulator10.3
+xcodebuild -sdk iphonesimulator
