@@ -17,6 +17,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -107,6 +108,30 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingMethodReadsName() {
+    modelBuilder.finishBuilding(francaMethod);
+
+    List<SwiftMethod> methods = getResults(SwiftMethod.class);
+    assertEquals(1, methods.size());
+    SwiftMethod function = methods.get(0);
+    assertEquals(FUNCTION_NAME, function.name);
+
+    verify(nameRules).getMethodName(francaMethod);
+  }
+
+  @Test
+  public void finishBuildingMethodOmitsSelector() {
+    when(francaMethod.getSelector()).thenReturn("selective");
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    List<SwiftMethod> methods = getResults(SwiftMethod.class);
+    assertEquals(1, methods.size());
+    SwiftMethod function = methods.get(0);
+    assertEquals(FUNCTION_NAME, function.name);
+  }
+
+  @Test
   public void finishBuildingMethodCreatesStaticMethod() {
     when(anInterface.isStatic(any())).thenReturn(true);
 
@@ -137,7 +162,6 @@ public class SwiftModelBuilderTest {
     SwiftMethod function = methods.get(0);
     assertEquals(SwiftType.VOID, function.returnType);
     assertEquals(0, function.parameters.size());
-    assertEquals(FUNCTION_NAME, function.name);
   }
 
   @Test

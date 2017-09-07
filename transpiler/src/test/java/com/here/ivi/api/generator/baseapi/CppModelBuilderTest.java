@@ -101,6 +101,7 @@ public class CppModelBuilderTest {
   private static final String ENUM_ITEM_NAME = "enumerated";
   private static final String USING_NAME = "useful";
   private static final String UNION_NAME = "soviet";
+  private static final String METHOD_NAME = "methodical";
 
   private final MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
@@ -162,6 +163,7 @@ public class CppModelBuilderTest {
     when(francaEnumerationType.getName()).thenReturn(ENUM_NAME);
     when(francaEnumerator.getName()).thenReturn(ENUM_ITEM_NAME);
     when(francaUnionType.getName()).thenReturn(UNION_NAME);
+    when(francaMethod.getName()).thenReturn(METHOD_NAME);
 
     when(francaMethod.getInArgs()).thenReturn(new ArrayEList<>());
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
@@ -235,6 +237,26 @@ public class CppModelBuilderTest {
     assertNotNull(cppClass);
     assertEquals(1, cppClass.usings.size());
     assertEquals(cppUsing, cppClass.usings.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsName() {
+    modelBuilder.finishBuilding(francaMethod);
+
+    CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
+    assertNotNull(cppMethod);
+    assertEquals(METHOD_NAME, cppMethod.name);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodOmitsSelector() {
+    when(francaMethod.getSelector()).thenReturn("selective");
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
+    assertNotNull(cppMethod);
+    assertEquals(METHOD_NAME, cppMethod.name);
   }
 
   @Test

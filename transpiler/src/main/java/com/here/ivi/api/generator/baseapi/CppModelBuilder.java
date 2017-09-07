@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.baseapi;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
-import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.cpp.CppDefaultInitializer;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
@@ -244,10 +243,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   private CppMethod buildCppMethod(
       FMethod francaMethod, CppTypeRef returnType, String returnTypeComment) {
 
-    String methodName =
-        CppNameRules.getMethodName(francaMethod.getName())
-            + NameHelper.toUpperCamelCase(francaMethod.getSelector());
-
+    String methodName = CppNameRules.getMethodName(francaMethod.getName());
     CppMethod.Builder builder = new CppMethod.Builder(methodName).returnType(returnType);
 
     if (rootModel.isStatic(francaMethod)) {
