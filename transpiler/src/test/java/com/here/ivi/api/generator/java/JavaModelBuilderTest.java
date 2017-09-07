@@ -227,6 +227,17 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaMethodOmitsSelector() {
+    when(francaMethod.getSelector()).thenReturn("selective");
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertEquals(METHOD_NAME, javaMethod.name);
+  }
+
+  @Test
   public void finishBuildingFrancaMethodWithStatic() {
     when(rootModel.isStatic(any())).thenReturn(true);
 
