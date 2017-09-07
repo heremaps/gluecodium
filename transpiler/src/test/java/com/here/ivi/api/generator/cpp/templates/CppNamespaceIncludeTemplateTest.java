@@ -61,7 +61,7 @@ public final class CppNamespaceIncludeTemplateTest {
     String result = TemplateEngine.render(TEMPLATE_NAME, fakeNamespace);
 
     final String expectedResult =
-        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "#include <internally>");
+        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "#include \"internally\"");
     assertEquals(expectedResult, result);
   }
 
@@ -74,7 +74,7 @@ public final class CppNamespaceIncludeTemplateTest {
 
     final String expectedResult =
         String.format(
-            EXPECTED_NAMESPACE_BODY_FORMAT, "#include <systematic>\n#include <internally>");
+            EXPECTED_NAMESPACE_BODY_FORMAT, "#include <systematic>\n#include \"internally\"");
     assertEquals(expectedResult, result);
   }
 }
