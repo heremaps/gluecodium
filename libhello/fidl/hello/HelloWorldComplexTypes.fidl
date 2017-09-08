@@ -40,7 +40,7 @@ interface HelloWorldComplexTypes {
 
     typedef Errors is InternalErrorArray
 
-    map ErrorCodeToMessage { InternalError to String }
+    map ErrorCodeToMessageMap { Int32 to String }
 
     <** @description:
     Example static method which takes any InternalError and returns the opposite one
@@ -132,16 +132,17 @@ interface HelloWorldComplexTypes {
     }
 
     <** @description:
-    Example static method which takes a map and returns a map of same type in reversed order.
+    Example static method which takes a map and returns a map of same type & having the same keys
+    but values converted to uppercase.
     **>
     method methodWithMap {
         in {
             <** @description: Input map **>
-            ErrorCodeToMessage input
+            ErrorCodeToMessageMap input
         }
         out {
             <** @description: Output map **>
-            ErrorCodeToMessage output
+            ErrorCodeToMessageMap output
         }
     }
 }
