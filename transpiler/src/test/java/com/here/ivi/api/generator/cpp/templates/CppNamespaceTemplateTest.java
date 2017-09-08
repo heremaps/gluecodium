@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.cpp.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppConstant;
@@ -35,7 +36,9 @@ public final class CppNamespaceTemplateTest {
   private static final String TEMPLATE_NAME = "cpp/CppNamespace";
 
   private static final String EXPECTED_NAMESPACE_BODY_FORMAT =
-      "#pragma once\n%s\nnamespace outerSpace {\n%s\n}\n";
+      "#pragma once\n\nnamespace outerSpace {\n%s\n}\n";
+  private static final String EXPECTED_NAMESPACE_INCLUDE_FORMAT =
+      "#pragma once\n%s\nnamespace outerSpace {\n\n}\n";
 
   private final CppPrimitiveTypeRef cppPrimitiveTypeRef =
       new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT32);
@@ -47,6 +50,7 @@ public final class CppNamespaceTemplateTest {
   private final CppEnum cppEnum = new CppEnum("Innumerable");
   private final CppStruct cppStruct = new CppStruct("Structural");
   private final CppClass cppClass = new CppClass("Classy");
+  private final Include systemInclude = Include.createSystemInclude("lasertag");
 
   private final CppNamespace cppNamespace =
       new CppNamespace(Collections.singletonList("outerSpace"));
@@ -55,7 +59,7 @@ public final class CppNamespaceTemplateTest {
   public void emptyNamespace() {
     String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
 
-    final String expectedResult = String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "", "");
+    final String expectedResult = String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "");
     assertEquals(expectedResult, result);
   }
 
@@ -78,7 +82,7 @@ public final class CppNamespaceTemplateTest {
 
     final String expectedResult =
         String.format(
-            EXPECTED_NAMESPACE_BODY_FORMAT, "", "\nstatic const Party permanent = Over9000;\n");
+            EXPECTED_NAMESPACE_BODY_FORMAT, "\nstatic const Party permanent = Over9000;\n");
     assertEquals(expectedResult, result);
   }
 
@@ -92,7 +96,6 @@ public final class CppNamespaceTemplateTest {
     final String expectedResult =
         String.format(
             EXPECTED_NAMESPACE_BODY_FORMAT,
-            "\n#include <cstdint>\n",
             "\nstatic const Party permanent = Over9000;\nstatic const int32_t transient = 42;\n");
     assertEquals(expectedResult, result);
   }
@@ -104,7 +107,7 @@ public final class CppNamespaceTemplateTest {
     String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
 
     final String expectedResult =
-        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "", "\nusing Definite = Party;\n");
+        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nusing Definite = Party;\n");
     assertEquals(expectedResult, result);
   }
 
@@ -118,7 +121,6 @@ public final class CppNamespaceTemplateTest {
     final String expectedResult =
         String.format(
             EXPECTED_NAMESPACE_BODY_FORMAT,
-            "\n#include <cstdint>\n",
             "\nusing Definite = Party;\nusing Indefinite = int32_t;\n");
     assertEquals(expectedResult, result);
   }
@@ -130,7 +132,7 @@ public final class CppNamespaceTemplateTest {
     String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
 
     final String expectedResult =
-        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "", "\nenum Innumerable {\n\n};\n");
+        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nenum Innumerable {\n\n};\n");
     assertEquals(expectedResult, result);
   }
 
@@ -143,9 +145,7 @@ public final class CppNamespaceTemplateTest {
 
     final String expectedResult =
         String.format(
-            EXPECTED_NAMESPACE_BODY_FORMAT,
-            "",
-            "\nenum Innumerable {\n\n};\nenum SomeEnum {\n\n};\n");
+            EXPECTED_NAMESPACE_BODY_FORMAT, "\nenum Innumerable {\n\n};\nenum SomeEnum {\n\n};\n");
     assertEquals(expectedResult, result);
   }
 
@@ -156,7 +156,7 @@ public final class CppNamespaceTemplateTest {
     String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
 
     final String expectedResult =
-        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "", "\nstruct Structural {\n};\n");
+        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nstruct Structural {\n};\n");
     assertEquals(expectedResult, result);
   }
 
@@ -169,9 +169,7 @@ public final class CppNamespaceTemplateTest {
 
     final String expectedResult =
         String.format(
-            EXPECTED_NAMESPACE_BODY_FORMAT,
-            "",
-            "\nstruct Structural {\n};\nstruct SomeStruct {\n};\n");
+            EXPECTED_NAMESPACE_BODY_FORMAT, "\nstruct Structural {\n};\nstruct SomeStruct {\n};\n");
     assertEquals(expectedResult, result);
   }
 
@@ -182,7 +180,7 @@ public final class CppNamespaceTemplateTest {
     String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
 
     final String expectedResult =
-        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "", "\nclass Classy {\n};\n");
+        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nclass Classy {\n};\n");
     assertEquals(expectedResult, result);
   }
 
@@ -195,7 +193,31 @@ public final class CppNamespaceTemplateTest {
 
     final String expectedResult =
         String.format(
-            EXPECTED_NAMESPACE_BODY_FORMAT, "", "\nclass Classy {\n};\nclass Classified {\n};\n");
+            EXPECTED_NAMESPACE_BODY_FORMAT, "\nclass Classy {\n};\nclass Classified {\n};\n");
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void namespaceWithOneInclude() {
+    cppNamespace.includes.add(systemInclude);
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+
+    final String expectedResult =
+        String.format(EXPECTED_NAMESPACE_INCLUDE_FORMAT, "\n#include <lasertag>\n");
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void namespaceWithTwoIncludes() {
+    cppNamespace.includes.add(systemInclude);
+    cppNamespace.includes.add(Include.createInternalInclude("foo.bar"));
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+
+    final String expectedResult =
+        String.format(
+            EXPECTED_NAMESPACE_INCLUDE_FORMAT, "\n#include <lasertag>\n#include \"foo.bar\"\n");
     assertEquals(expectedResult, result);
   }
 }
