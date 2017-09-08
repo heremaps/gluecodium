@@ -78,10 +78,11 @@ public class FrancaModel {
     return typeCollections;
   }
 
-  public Optional<? extends FrancaElement> find(FModel model, FTypeCollection needle) {
-    return needle instanceof FInterface
-        ? findInterface(model, (FInterface) needle)
-        : findTypeCollection(model, needle);
+  public Optional<? extends FrancaElement> find(FTypeCollection typeCollection) {
+    FModel model = (FModel) typeCollection.eContainer();
+    return typeCollection instanceof FInterface
+        ? findInterface(model, (FInterface) typeCollection)
+        : findTypeCollection(model, typeCollection);
   }
 
   private Optional<Interface> findInterface(FModel model, FInterface needle) {

@@ -12,54 +12,21 @@
 package com.here.ivi.api.model.common;
 
 import com.here.ivi.api.model.franca.DefinedBy;
-import org.franca.core.franca.FModel;
+import lombok.EqualsAndHashCode;
+import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
+@EqualsAndHashCode(callSuper = true)
 public class LazyInternalInclude extends Include {
 
   public final FTypeCollection typeCollection;
-  public final FModel model;
 
-  public LazyInternalInclude(FTypeCollection typeCollection, FModel model) {
+  public LazyInternalInclude(final FTypeCollection typeCollection) {
     super(null, false);
     this.typeCollection = typeCollection;
-    this.model = model;
   }
 
-  public LazyInternalInclude(DefinedBy def) {
-    this(def.type, def.model);
-  }
-
-  @Override
-  public String toString() {
-    return model.getName() + "." + typeCollection.getName();
-  }
-
-  @Override
-  public boolean equals(Object o) {
-
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    LazyInternalInclude that = (LazyInternalInclude) o;
-
-    if (typeCollection != null
-        ? !typeCollection.equals(that.typeCollection)
-        : that.typeCollection != null) {
-      return false;
-    }
-
-    return model != null ? model.equals(that.model) : that.model == null;
-  }
-
-  @Override
-  public int hashCode() {
-
-    int result = typeCollection != null ? typeCollection.hashCode() : 0;
-    return 31 * result + (model != null ? model.hashCode() : 0);
+  public LazyInternalInclude(final FModelElement modelElement) {
+    this(DefinedBy.findDefiningTypeCollection(modelElement));
   }
 }

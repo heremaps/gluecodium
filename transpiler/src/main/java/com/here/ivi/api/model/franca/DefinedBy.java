@@ -26,11 +26,11 @@ import org.franca.core.franca.FTypeCollection;
 public final class DefinedBy {
 
   public final FTypeCollection type; // A FInterface is a FTypeCollection as well
-  public final FModel model;
+  private final String modelName;
 
   private DefinedBy(FTypeCollection type, FModel model) {
     this.type = type;
-    this.model = model;
+    modelName = model.getName();
   }
 
   /**
@@ -52,29 +52,14 @@ public final class DefinedBy {
     return new DefinedBy(tc, model);
   }
 
-  /**
-   * Gets the model and interface that defined the given franca element
-   *
-   * @param francaElement The franca element
-   * @return The model and interface that defined the given object
-   */
-  public static DefinedBy createFromFrancaElement(FrancaElement francaElement) {
-    return new DefinedBy(francaElement.getFrancaTypeCollection(), francaElement.getFrancaModel());
-  }
-
   /** Returns the base name, eg. MyInterface */
   public String getBaseName() {
     return type.getName();
   }
 
-  /** Returns the full package name, eg. com.here.navigation.guidance */
-  public String getPackageName() {
-    return model.getName();
-  }
-
   /** Returns the split packages from the model */
   public List<String> getPackages() {
-    return Strings.split(getPackageName(), ".");
+    return Strings.split(modelName, ".");
   }
 
   @Override
@@ -88,20 +73,19 @@ public final class DefinedBy {
 
     DefinedBy definedBy = (DefinedBy) o;
 
-    return getBaseName().equals(definedBy.getBaseName())
-        && getPackageName().equals(definedBy.getPackageName());
+    return getBaseName().equals(definedBy.getBaseName()) && modelName.equals(definedBy.modelName);
   }
 
   @Override
   public int hashCode() {
-    int result = getPackageName().hashCode();
+    int result = modelName.hashCode();
     result = 31 * result + getBaseName().hashCode();
     return result;
   }
 
   @Override
   public String toString() {
-    return getPackageName() + "." + getBaseName();
+    return modelName + "." + getBaseName();
   }
 
   /**
@@ -110,7 +94,7 @@ public final class DefinedBy {
    * @param obj The franca object
    * @return The type collection that contains this type
    */
-  private static FTypeCollection findDefiningTypeCollection(EObject obj) {
+  public static FTypeCollection findDefiningTypeCollection(EObject obj) {
     if (obj instanceof FTypeCollection) {
       return (FTypeCollection) obj; // FInterface is a FTypeCollection as well
     }

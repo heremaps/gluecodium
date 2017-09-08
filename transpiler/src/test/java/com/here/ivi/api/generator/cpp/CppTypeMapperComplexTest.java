@@ -16,7 +16,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.doCallRealMethod;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
@@ -53,7 +52,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({DefinedBy.class, CppTypeMapper.class, CppNameRules.class, InstanceRules.class})
+@PrepareForTest({DefinedBy.class, CppNameRules.class, InstanceRules.class})
 public class CppTypeMapperComplexTest {
 
   private static final String STRUCT_NAME = "MYSTRUCT";
@@ -76,9 +75,9 @@ public class CppTypeMapperComplexTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    mockStatic(CppNameRules.class);
-    mockStatic(DefinedBy.class);
-    mockStatic(InstanceRules.class);
+    mockStatic(CppNameRules.class, DefinedBy.class, InstanceRules.class);
+
+    when(DefinedBy.findDefiningTypeCollection(any())).thenReturn(fTypeCollection);
   }
 
   @Test
@@ -124,8 +123,6 @@ public class CppTypeMapperComplexTest {
     when(structType.getElements().isEmpty()).thenReturn(false);
 
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
-    DefinedBy defined = mockDefinedBy();
-    LazyInternalInclude lazyInclude = new LazyInternalInclude(defined);
 
     //mock CppNameRules
     when(CppNameRules.getStructName(structType.getName())).thenReturn(STRUCT_NAME);
@@ -139,11 +136,11 @@ public class CppTypeMapperComplexTest {
     CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
     assertEquals("::a::b::c::" + STRUCT_NAME, complexResult.name);
     assertEquals(1, complexResult.includes.size());
-    assertTrue(complexResult.includes.contains(lazyInclude));
+    assertTrue(complexResult.includes.contains(new LazyInternalInclude(fTypeCollection)));
 
     //verify
     verifyStatic();
-    DefinedBy.createFromFModelElement(structType);
+    DefinedBy.findDefiningTypeCollection(structType);
   }
 
   @Test
@@ -156,8 +153,6 @@ public class CppTypeMapperComplexTest {
     when(enumType.getEnumerators().isEmpty()).thenReturn(false);
 
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
-    DefinedBy defined = mockDefinedBy();
-    LazyInternalInclude lazyInclude = new LazyInternalInclude(defined);
 
     //mock CppNameRules
     when(CppNameRules.getEnumName(enumType.getName())).thenReturn(ENUM_NAME);
@@ -170,11 +165,11 @@ public class CppTypeMapperComplexTest {
     CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
     assertEquals("::" + ENUM_NAME, complexResult.name);
     assertEquals(1, complexResult.includes.size());
-    assertTrue(complexResult.includes.contains(lazyInclude));
+    assertTrue(complexResult.includes.contains(new LazyInternalInclude(fTypeCollection)));
 
     //verify
     verifyStatic();
-    DefinedBy.createFromFModelElement(enumType);
+    DefinedBy.findDefiningTypeCollection(enumType);
   }
 
   @Test
@@ -225,7 +220,6 @@ public class CppTypeMapperComplexTest {
     when(typeRef.getDerived()).thenReturn(fTypeDef);
     when(fTypeDef.eContainer()).thenReturn(typeRef);
     when(CppNameRules.getTypedefName(fTypeDef.getName())).thenReturn(TYPEDEF_NAME);
-    DefinedBy definer = mockDefinedBy();
 
     // Act
     CppTypeRef cppTypeRef = CppTypeMapper.map(typeRef);
@@ -237,11 +231,11 @@ public class CppTypeMapperComplexTest {
     assertEquals("::" + TYPEDEF_NAME, cppTypeDefRef.name);
     assertEquals(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64), cppTypeDefRef.actualType);
     assertEquals(1, cppTypeDefRef.includes.size());
-    assertTrue(cppTypeDefRef.includes.contains(new LazyInternalInclude(definer)));
+    assertTrue(cppTypeDefRef.includes.contains(new LazyInternalInclude(fTypeCollection)));
 
     //verify
     verifyStatic();
-    DefinedBy.createFromFModelElement(fTypeDef);
+    DefinedBy.findDefiningTypeCollection(fTypeDef);
     verifyStatic();
     CppNameRules.getTypedefName(fTypeDef.getName());
     verifyStatic();
@@ -253,12 +247,10 @@ public class CppTypeMapperComplexTest {
     // Arrange
     String className = "MyClazz";
     FTypeDef fTypeDef = mock(FTypeDef.class);
-    DefinedBy definer = mockDefinedBy();
     when(fTypeDef.getName()).thenReturn(className);
     FTypeRef typeRef = mock(FTypeRef.class);
     when(typeRef.getDerived()).thenReturn(fTypeDef);
     when(fTypeDef.eContainer()).thenReturn(typeRef);
-    when(definer.getBaseName()).thenReturn(className);
     when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
     when(CppNameRules.getNestedNameSpecifier(fTypeDef))
         .thenReturn(Collections.singletonList("MyClazz"));
@@ -274,12 +266,11 @@ public class CppTypeMapperComplexTest {
 
     assertEquals(2, cppComplexTypeRef.includes.size());
     assertTrue(cppComplexTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
-    LazyInternalInclude lazyInc = new LazyInternalInclude(definer);
-    assertTrue(cppComplexTypeRef.includes.contains(lazyInc));
+    assertTrue(cppComplexTypeRef.includes.contains(new LazyInternalInclude(fTypeCollection)));
 
     //verify
     verifyStatic();
-    DefinedBy.createFromFModelElement(fTypeDef);
+    DefinedBy.findDefiningTypeCollection(fTypeDef);
     verifyStatic();
     CppNameRules.getNestedNameSpecifier(fTypeDef);
     verifyStatic();
@@ -291,7 +282,6 @@ public class CppTypeMapperComplexTest {
     // Arrange
     String className = "MyClazz";
     FTypeDef fTypeDef = mock(FTypeDef.class);
-    DefinedBy definer = mockDefinedBy();
     when(fTypeDef.getName()).thenReturn(className);
     FTypeRef typeRef = mock(FTypeRef.class);
     when(typeRef.getDerived()).thenReturn(fTypeDef);
@@ -299,7 +289,6 @@ public class CppTypeMapperComplexTest {
     when(CppNameRules.getClassName(fTypeDef.getName())).thenReturn(className);
     when(CppNameRules.getNestedNameSpecifier(fTypeDef))
         .thenReturn(Arrays.asList("a", "b", "MyClazz"));
-    when(definer.getBaseName()).thenReturn(className);
     when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
 
     // Act
@@ -313,26 +302,15 @@ public class CppTypeMapperComplexTest {
 
     assertEquals(2, cppComplexTypeRef.includes.size());
     assertTrue(cppComplexTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
-    LazyInternalInclude lazyInc = new LazyInternalInclude(definer);
-    assertTrue(cppComplexTypeRef.includes.contains(lazyInc));
+    assertTrue(cppComplexTypeRef.includes.contains(new LazyInternalInclude(fTypeCollection)));
 
     //verify
     verifyStatic();
-    DefinedBy.createFromFModelElement(fTypeDef);
+    DefinedBy.findDefiningTypeCollection(fTypeDef);
     verifyStatic();
     CppNameRules.getNestedNameSpecifier(fTypeDef);
     verifyStatic();
     InstanceRules.isInstanceId(fTypeDef);
-  }
-
-  private DefinedBy mockDefinedBy() {
-    //DefinedBy's constructor is private, so static creator method is excluded from mocking
-    //and utilized to create an instance of DefinedBy
-    doCallRealMethod().when(DefinedBy.class);
-    DefinedBy.createFromFrancaElement(any(FrancaElement.class));
-    DefinedBy defined = DefinedBy.createFromFrancaElement(mockFrancaModel);
-    when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
-    return defined;
   }
 
   private FTypeRef mockPredefinedType(FBasicTypeId predefinedType) {

@@ -135,7 +135,8 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
       outermostQualifier = francaElement.getPackageNames();
     } else {
       outermostQualifier =
-          CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(francaElement));
+          CppNameRules.getNamespace(
+              DefinedBy.createFromFModelElement(francaElement.getFrancaTypeCollection()));
       outermostQualifier.add(
           CppNameRules.getTypeCollectionName(francaElement.getFrancaTypeCollection().getName()));
     }
