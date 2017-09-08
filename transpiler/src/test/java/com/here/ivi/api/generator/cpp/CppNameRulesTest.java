@@ -12,12 +12,9 @@
 package com.here.ivi.api.generator.cpp;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
@@ -33,12 +30,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(DefinedBy.class)
 public class CppNameRulesTest {
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -54,15 +48,12 @@ public class CppNameRulesTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(DefinedBy.class);
 
     when(mockFrancaModel.getFrancaModel()).thenReturn(fModel);
     when(fModel.getName()).thenReturn("");
 
-    //DefinedBy's constructor is private, so static creator method is excluded from mocking
-    //and utilized to create an instance of DefinedBy
-    PowerMockito.doCallRealMethod().when(DefinedBy.class);
-    DefinedBy.createFromFrancaElement(any(FrancaElement.class));
+    when(fInterface.eContainer()).thenReturn(fModel);
+    when(fTypeCollection.eContainer()).thenReturn(fModel);
   }
 
   @Test
@@ -70,10 +61,7 @@ public class CppNameRulesTest {
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fInterface);
     when(fInterface.getName()).thenReturn("Iface");
     when(fModel.getName()).thenReturn("my.fancy.package");
-    DefinedBy defined = DefinedBy.createFromFrancaElement(mockFrancaModel);
-
-    //now specify mock behavior of DefinedBy
-    when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
+    when(fType.eContainer()).thenReturn(fInterface);
 
     //act
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
@@ -81,14 +69,6 @@ public class CppNameRulesTest {
     //assert
     assertEquals(4, qualifier.size());
     assertEquals(Arrays.asList("my", "fancy", "package", "Iface"), qualifier);
-
-    //verify
-    verifyStatic();
-    DefinedBy.createFromFModelElement(fType);
-    verify(mockFrancaModel).getFrancaTypeCollection();
-    verify(mockFrancaModel).getFrancaModel();
-    verify(fInterface).getName();
-    verify(fModel).getName();
   }
 
   @Test
@@ -96,10 +76,7 @@ public class CppNameRulesTest {
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
     when(fTypeCollection.getName()).thenReturn("TCollection");
     when(fModel.getName()).thenReturn("my.fancy.package");
-    DefinedBy defined = DefinedBy.createFromFrancaElement(mockFrancaModel);
-
-    //now specify mock behavior of DefinedBy
-    when(DefinedBy.createFromFModelElement(any())).thenReturn(defined);
+    when(fType.eContainer()).thenReturn(fTypeCollection);
 
     //act
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
@@ -107,13 +84,6 @@ public class CppNameRulesTest {
     //assert
     assertEquals(4, qualifier.size());
     assertEquals(Arrays.asList("my", "fancy", "package", "tcollection"), qualifier);
-
-    //verify
-    verifyStatic();
-    DefinedBy.createFromFModelElement(fType);
-    verify(mockFrancaModel).getFrancaTypeCollection();
-    verify(fTypeCollection).getName();
-    verify(fModel).getName();
   }
 
   @Test

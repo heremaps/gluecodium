@@ -19,7 +19,6 @@ import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
 import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.LinkedList;
 import java.util.List;
@@ -84,13 +83,11 @@ public final class CppTypeMapper {
   private static CppTypeRef mapTypeDef(FTypeDef typedef) {
 
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(typedef);
-    DefinedBy definer = DefinedBy.createFromFModelElement(typedef);
-    Include include = new LazyInternalInclude(definer);
 
     if (InstanceRules.isInstanceId(typedef)) {
       return new CppComplexTypeRef.Builder(
               "::std::shared_ptr< " + createFullyQualifiedName(nestedNameSpecifier, "") + " >")
-          .includes(include, CppLibraryIncludes.MEMORY)
+          .includes(new LazyInternalInclude(typedef), CppLibraryIncludes.MEMORY)
           .build();
     } else {
 
@@ -98,7 +95,9 @@ public final class CppTypeMapper {
       String typeDefName = CppNameRules.getTypedefName(typedef.getName());
 
       return new CppTypeDefRef(
-          createFullyQualifiedName(nestedNameSpecifier, typeDefName), actualType, include);
+          createFullyQualifiedName(nestedNameSpecifier, typeDefName),
+          actualType,
+          (Include) new LazyInternalInclude(typedef));
     }
   }
 
@@ -125,37 +124,35 @@ public final class CppTypeMapper {
 
   public static CppComplexTypeRef mapStruct(FStructType struct) {
 
-    Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(struct));
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(struct);
 
     return new CppComplexTypeRef.Builder(
             createFullyQualifiedName(
                 nestedNameSpecifier, CppNameRules.getStructName(struct.getName())))
-        .includes(structInclude)
+        .includes(new LazyInternalInclude(struct))
         .build();
   }
 
   public static CppComplexTypeRef mapEnum(FEnumerationType enumeration) {
 
-    Include enumInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(enumeration));
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(enumeration);
 
     return new CppComplexTypeRef.Builder(
             createFullyQualifiedName(
                 nestedNameSpecifier, CppNameRules.getEnumName(enumeration.getName())))
         .typeInfo(CppTypeInfo.Enumeration)
-        .includes(enumInclude)
+        .includes(new LazyInternalInclude(enumeration))
         .build();
   }
 
   private static CppComplexTypeRef mapUnion(FUnionType union) {
-    Include structInclude = new LazyInternalInclude(DefinedBy.createFromFModelElement(union));
+
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(union);
 
     return new CppComplexTypeRef.Builder(
             createFullyQualifiedName(
                 nestedNameSpecifier, CppNameRules.getStructName(union.getName())))
-        .includes(structInclude)
+        .includes(new LazyInternalInclude(union))
         .build();
   }
 

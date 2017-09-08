@@ -16,7 +16,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.doCallRealMethod;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.model.common.LazyInternalInclude;
@@ -35,18 +34,23 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({DefinedBy.class, CppTypeMapper.class, CppNameRules.class})
+@PrepareForTest({DefinedBy.class, CppNameRules.class})
 public class CppTypeMapperArrayTest {
+
+  @Mock private FTypeCollection fTypeCollection;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
     mockStatic(CppNameRules.class, DefinedBy.class);
+
+    when(DefinedBy.findDefiningTypeCollection(any())).thenReturn(fTypeCollection);
   }
 
   @Test
@@ -79,7 +83,6 @@ public class CppTypeMapperArrayTest {
 
     //mock franca elements
     FrancaElement mockFrancaModel = mock(FrancaElement.class, Answers.RETURNS_DEEP_STUBS);
-    FTypeCollection fTypeCollection = mock(FTypeCollection.class);
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
 
     FStructType structType = mock(FStructType.class);
@@ -92,9 +95,7 @@ public class CppTypeMapperArrayTest {
     when(typedElement.isArray()).thenReturn(true);
     when(typedElement.getType()).thenReturn(typeRef);
 
-    DefinedBy definer = mockDefinedBy(mockFrancaModel);
-
-    LazyInternalInclude lazyInclude = new LazyInternalInclude(definer);
+    LazyInternalInclude lazyInclude = new LazyInternalInclude(typedElement);
 
     //mock CppNameRules
     when(CppNameRules.getStructName(structType.getName())).thenReturn("MyStruct");
@@ -109,15 +110,5 @@ public class CppTypeMapperArrayTest {
     assertEquals("::std::vector< ::a::b::c::MyStruct >", complexResult.name);
     assertTrue(
         complexResult.includes.containsAll(Arrays.asList(CppLibraryIncludes.VECTOR, lazyInclude)));
-  }
-
-  private static DefinedBy mockDefinedBy(FrancaElement francaElement) {
-    //DefinedBy's constructor is private, so static creator method is excluded from mocking
-    //and utilized to create an instance of DefinedBy
-    doCallRealMethod().when(DefinedBy.class);
-    DefinedBy.createFromFrancaElement(any(FrancaElement.class));
-    DefinedBy definer = DefinedBy.createFromFrancaElement(francaElement);
-    when(DefinedBy.createFromFModelElement(any())).thenReturn(definer);
-    return definer;
   }
 }

@@ -15,7 +15,6 @@ import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.LazyInternalInclude;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppValue;
-import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.rules.BuiltInValueRules;
 import com.here.ivi.api.model.rules.DefaultValuesRules;
 import java.math.BigInteger;
@@ -120,16 +119,18 @@ public class CppValueMapper {
   }
 
   // TODO handle namespaces here as well
-  public static CppValue map(CppTypeRef type, FQualifiedElementRef qer) {
+  public static CppValue map(
+      final CppTypeRef cppTypeRef, final FQualifiedElementRef francaQualifiedElementRef) {
 
-    if (qer.getElement() == null) {
+    if (francaQualifiedElementRef.getElement() == null) {
       // TODO improve error output as seen in TypeMapper
       throw new TranspilerExecutionException(
-          String.format("Failed resolving value reference %s.", qer));
+          String.format("Failed resolving value reference %s.", francaQualifiedElementRef));
     }
 
     // check for built-in types (atm all values are from <limits>)
-    Optional<BuiltInValueRules.BuiltInValues> constant = BuiltInValueRules.resolveReference(qer);
+    Optional<BuiltInValueRules.BuiltInValues> constant =
+        BuiltInValueRules.resolveReference(francaQualifiedElementRef);
     if (constant.isPresent()) {
       switch (constant.get()) {
         case FloatMax:
@@ -141,21 +142,19 @@ public class CppValueMapper {
       }
     }
 
-    DefinedBy referenceDefiner = DefinedBy.createFromFModelElement(qer.getElement());
+    String name = francaQualifiedElementRef.getElement().getName();
 
-    String name = qer.getElement().getName();
-
-    if (DefaultValuesRules.isEnumerator(qer)) {
+    if (DefaultValuesRules.isEnumerator(francaQualifiedElementRef)) {
       //as we don't generate plain enums but enum class, we need to add the enumeration name as well
-      name = type.name + "::" + CppNameRules.getEnumEntryName(name);
+      name = cppTypeRef.name + "::" + CppNameRules.getEnumEntryName(name);
     }
 
-    if (DefaultValuesRules.isConstant(qer)) {
+    if (DefaultValuesRules.isConstant(francaQualifiedElementRef)) {
       name = CppNameRules.getConstantName(name);
     }
 
     // TODO add ns resolution for referenced name
     // just use the name of the type and include the defining type
-    return new CppValue(name, new LazyInternalInclude(referenceDefiner));
+    return new CppValue(name, new LazyInternalInclude(francaQualifiedElementRef.getElement()));
   }
 }
