@@ -10,66 +10,54 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/PlainDataStructures.h"
+#include "stub/test/PlainDataStructuresFromTypeCollection.h"
 
 namespace test
 {
-PlainDataStructures::Point
-PlainDataStructures::createPoint( const double x, const double y )
+typecollection::Point
+PlainDataStructuresFromTypeCollection::createPoint( const double x, const double y )
 {
-    PlainDataStructures::Point output;
+    typecollection::Point output;
     output.x = x;
     output.y = y;
     return output;
 }
 
-PlainDataStructures::Point
-PlainDataStructures::swapPointCoordinates( const PlainDataStructures::Point& point )
+typecollection::Point
+PlainDataStructuresFromTypeCollection::swapPointCoordinates(
+    const typecollection::Point& point )
 {
-    PlainDataStructures::Point result;
+    typecollection::Point result;
     result.x = point.y;
     result.y = point.x;
     return result;
 }
 
-PlainDataStructures::Line
-PlainDataStructures::createLine( const PlainDataStructures::Point& pointA,
-                                         const PlainDataStructures::Point& pointB )
+typecollection::Line
+PlainDataStructuresFromTypeCollection::createLine( const typecollection::Point& pointA,
+                                                   const typecollection::Point& pointB )
 {
-    PlainDataStructures::Line line;
+    typecollection::Line line;
     line.a = pointA;
     line.b = pointB;
     return line;
 }
 
-PlainDataStructures::ColoredLine
-PlainDataStructures::createColoredLine( const PlainDataStructures::Line& line,
-                                                const PlainDataStructures::Color& color )
+typecollection::ColoredLine
+PlainDataStructuresFromTypeCollection::createColoredLine(
+    const typecollection::Line& line, const typecollection::Color& color )
 {
-    PlainDataStructures::ColoredLine coloredLine;
+    typecollection::ColoredLine coloredLine;
     coloredLine.line = line;
     coloredLine.color = color;
     return coloredLine;
 }
 
-PlainDataStructures::ColoredLine
-PlainDataStructures::returnColoredLine( const PlainDataStructures::ColoredLine& input )
+typecollection::AllTypesStruct
+PlainDataStructuresFromTypeCollection::modifyAllTypesStruct(
+    const typecollection::AllTypesStruct& input )
 {
-    return input;
-}
-
-PlainDataStructures::AllTypesStruct
-PlainDataStructures::returnAllTypesStruct(
-                                         const PlainDataStructures::AllTypesStruct& input )
-{
-    return input;
-}
-
-PlainDataStructures::AllTypesStruct
-PlainDataStructures::modifyAllTypesStruct(
-    const PlainDataStructures::AllTypesStruct& input )
-{
-    AllTypesStruct output;
+    typecollection::AllTypesStruct output;
     output.int8Field = input.int8Field + 1;
     output.uint8Field = input.uint8Field + 1;
     output.int16Field = input.int16Field + 1;
@@ -83,8 +71,8 @@ PlainDataStructures::modifyAllTypesStruct(
     output.stringField = "Hello " + input.stringField;
     output.booleanField = !input.booleanField;
     output.bytesField = {input.bytesField.rbegin( ), input.bytesField.rend( )};
-    output.pointField = PlainDataStructures::swapPointCoordinates( input.pointField );
+    output.pointField
+        = PlainDataStructuresFromTypeCollection::swapPointCoordinates( input.pointField );
     return output;
 }
-
 }

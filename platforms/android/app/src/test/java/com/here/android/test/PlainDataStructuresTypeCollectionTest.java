@@ -27,7 +27,7 @@ public class PlainDataStructuresTypeCollectionTest {
 
     @Test
     public void returnSimpleDataStructure() {
-        Point point = PlainDataStructures.createTypeCollectionPoint(1.0, 2.0);
+        Point point = PlainDataStructuresFromTypeCollection.createPoint(1.0, 2.0);
 
         assertNotNull(point);
         assertEquals(1.0, point.x);
@@ -40,7 +40,7 @@ public class PlainDataStructuresTypeCollectionTest {
         point.x = 1.0;
         point.y = 2.0;
 
-        Point result = PlainDataStructures.swapTypeCollectionPointCoordinates(point);
+        Point result = PlainDataStructuresFromTypeCollection.swapPointCoordinates(point);
 
         assertNotNull(point);
         assertEquals(2.0, result.x);
@@ -49,12 +49,12 @@ public class PlainDataStructuresTypeCollectionTest {
 
     @Test
     public void createNestedDataStructureWithMultipleParams() {
-        Point point1 = PlainDataStructures.createTypeCollectionPoint(1.0, 2.0);
+        Point point1 = PlainDataStructuresFromTypeCollection.createPoint(1.0, 2.0);
         Point point2 = new Point();
         point2.x = 3.0;
         point2.y = 4.0;
 
-        Line line = PlainDataStructures.createTypeCollectionLine(point1, point2);
+        Line line = PlainDataStructuresFromTypeCollection.createLine(point1, point2);
 
         assertNotNull(line);
         assertEquals(1.0, line.a.x);
@@ -65,16 +65,16 @@ public class PlainDataStructuresTypeCollectionTest {
 
     @Test
     public void manifoldNestedDataStructure() {
-        Point point1 = PlainDataStructures.createTypeCollectionPoint(1.0, 2.0);
-        Point point2 = PlainDataStructures.createTypeCollectionPoint(3.0, 4.0);
-        Line line = PlainDataStructures.createTypeCollectionLine(point1, point2);
+        Point point1 = PlainDataStructuresFromTypeCollection.createPoint(1.0, 2.0);
+        Point point2 = PlainDataStructuresFromTypeCollection.createPoint(3.0, 4.0);
+        Line line = PlainDataStructuresFromTypeCollection.createLine(point1, point2);
         Color color = new Color();
         color.red = 10;
         color.green = 20;
         color.blue = 30;
 
         ColoredLine coloredLine =
-                PlainDataStructures.createTypeCollectionColoredLine(line, color);
+                PlainDataStructuresFromTypeCollection.createColoredLine(line, color);
 
         assertNotNull(coloredLine);
         assertEquals(1.0, coloredLine.line.a.x);
@@ -102,10 +102,10 @@ public class PlainDataStructuresTypeCollectionTest {
         allTypesStruct.uint32Field = 9;
         allTypesStruct.uint64Field = 10;
         allTypesStruct.stringField = "test string";
-        allTypesStruct.pointField = PlainDataStructures.createTypeCollectionPoint(11.0, 12.0);
+        allTypesStruct.pointField = PlainDataStructuresFromTypeCollection.createPoint(11.0, 12.0);
 
         AllTypesStruct result =
-                PlainDataStructures.modifyTypeCollectionAllTypesStruct(allTypesStruct);
+                PlainDataStructuresFromTypeCollection.modifyAllTypesStruct(allTypesStruct);
 
         assertNotNull(result);
         assertEquals(false, result.booleanField);

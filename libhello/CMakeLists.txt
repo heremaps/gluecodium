@@ -20,8 +20,10 @@ set(HELLO_VERSION_PATCH 1)
 set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_PATCH})
 
 set(HELLO_SOURCES
-    src/hello/HelloWorldBuiltinTypes.cpp
     src/hello/HelloWorld.cpp
+    src/hello/HelloWorldBuiltinTypes.cpp
+    src/hello/HelloWorldPlainDataStructures.cpp
+    src/test/PlainDataStructures.cpp
     src/test/StaticBooleanMethods.cpp
     src/test/StaticByteArrayMethods.cpp
     src/test/StaticFloatDoubleMethods.cpp
@@ -33,9 +35,8 @@ set(HELLO_SOURCES
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/hello/HelloWorldPlainDataStructures.cpp
-        src/test/PlainDataStructures.cpp
-        src/test/StaticTypedef.cpp)
+        src/test/StaticTypedef.cpp
+        src/test/PlainDataStructuresFromTypeCollection.cpp)
 endif()
 
 #TODO: Remove this workaround once Android and iOS supports complex types (APIGEN-280, APIGEN-281)
@@ -76,10 +77,8 @@ else()
 
     #TODO: These excludes can be removed once iOS support PODs (APIGEN-357) and Typedefs (APIGEN-282)
     if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldPlainDataStructures.fidl)
-        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldPlainDataStructures.fdepl)
-        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructures.fidl)
-        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructures.fdepl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructuresFromTypeCollection.fidl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructuresFromTypeCollection.fdepl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fidl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fdepl)
     endif()
