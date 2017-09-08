@@ -19,26 +19,15 @@ import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.model.franca.FrancaModel;
-import com.here.ivi.api.model.franca.ModelHelper;
-import com.here.ivi.api.validator.common.ResourceValidator;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 
-public final class SwiftGeneratorSuite implements GeneratorSuite {
-
-  private FrancaModel model;
-  private final FrancaModelLoader modelLoader;
-  private Collection<File> currentFiles;
+public final class SwiftGeneratorSuite extends GeneratorSuite {
 
   public SwiftGeneratorSuite() {
-    modelLoader = new FrancaModelLoader();
-    currentFiles = new ArrayList<>();
+    super(new FrancaModelLoader());
   }
 
   @Override
@@ -63,18 +52,5 @@ public final class SwiftGeneratorSuite implements GeneratorSuite {
   @Override
   public String getName() {
     return "com.here.SwiftGenerator";
-  }
-
-  @Override
-  public boolean validate() {
-    ResourceSet resourceSet = modelLoader.getResourceSetProvider().get();
-    return ResourceValidator.validate(resourceSet, currentFiles);
-  }
-
-  @Override
-  public void buildModel(String inputPath) {
-    ModelHelper.getFdeplInjector().injectMembers(modelLoader);
-    currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
-    model = modelLoader.load(GeneratorSuite.getSpecPath(), currentFiles);
   }
 }

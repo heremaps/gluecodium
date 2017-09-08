@@ -16,48 +16,72 @@ import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
+import com.here.ivi.api.loader.FrancaModelLoader;
+import com.here.ivi.api.model.franca.FrancaModel;
+import com.here.ivi.api.model.franca.ModelHelper;
+import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
-/** The interface for all the generators. */
-public interface GeneratorSuite {
+/** The base class for all the generators. */
+public abstract class GeneratorSuite {
+
+  protected FrancaModel model;
+  private final FrancaModelLoader francaModelLoader;
+  private Collection<File> currentFiles;
+
+  protected GeneratorSuite(final FrancaModelLoader francaModelLoader) {
+    this.francaModelLoader = francaModelLoader;
+  }
 
   /** @return the human readable name of this generator */
-  String getName();
+  public abstract String getName();
 
   /**
-   * Triggers the generation
+   * Triggers the generation. The model is assumed to be valid.
    *
    * @return a list of generated files with their relative destination paths
    */
-  List<GeneratedFile> generate();
+  public abstract List<GeneratedFile> generate();
 
   /**
    * Uses the internal validator to validate the model.
    *
    * @return boolean True if the model is valid, false otherwise.
    */
-  boolean validate();
+  public boolean validate() {
+    if (model == null) {
+      return false;
+    }
+    ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
+    return ResourceValidator.validate(resources, currentFiles);
+  }
 
   /**
-   * Uses the FrancaModelLoader to keep a copy of the model.
+   * Uses the FrancaModelLoader to build the model.
    *
    * @param inputPath The root directory of the fidl/fdepl files.
    */
-  void buildModel(String inputPath);
+  public void buildModel(String inputPath) {
+    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
+    currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
+    model = francaModelLoader.load(getSpecPath(), currentFiles);
+  }
 
-  static String getSpecPath() {
+  public static String getSpecPath() {
     return "classpath:/franca/spec/BaseApiSpec.fdepl";
   }
 
   /** Creates a new instance of a generator suite by its short identifier */
-  static GeneratorSuite instantiateByShortName(
+  public static GeneratorSuite instantiateByShortName(
       String shortName, OptionReader.TranspilerOptions options)
       throws InvocationTargetException, NoSuchMethodException, InstantiationException,
           IllegalAccessException {
@@ -75,12 +99,12 @@ public interface GeneratorSuite {
   }
 
   /** @return all available generators */
-  static List<String> generatorShortNames() {
+  public static List<String> generatorShortNames() {
     // TODO: APIGEN-253: change second value to "baseApi"
     return Arrays.asList("android", "stub", "swift");
   }
 
-  static GeneratedFile copyTarget(String fileName, String targetDir) {
+  public static GeneratedFile copyTarget(String fileName, String targetDir) {
     InputStream stream = GeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
 
     if (stream != null) {

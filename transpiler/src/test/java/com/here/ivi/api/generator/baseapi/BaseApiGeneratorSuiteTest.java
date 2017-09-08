@@ -11,24 +11,16 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaModel;
-import com.here.ivi.api.validator.baseapi.BaseApiModelValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
-import java.io.File;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +41,6 @@ public final class BaseApiGeneratorSuiteTest {
 
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
 
-  @Mock private BaseApiModelValidator baseApiModelValidator;
   @Mock private FrancaModel francaModel;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -66,88 +57,7 @@ public final class BaseApiGeneratorSuiteTest {
     when(GeneratorSuite.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
     when(francaModelLoader.load(any(), any())).thenReturn(francaModel);
 
-    baseApiGeneratorSuite = new BaseApiGeneratorSuite(baseApiModelValidator, francaModelLoader);
-  }
-
-  @Test
-  public void buildModel() {
-    Collection<File> files = Collections.singletonList(new File("nonsense.fidl"));
-    when(FrancaModelLoader.listFilesRecursively(any())).thenReturn(files);
-
-    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
-
-    verify(francaModelLoader).load(MOCK_SPEC_PATH, files);
-    PowerMockito.verifyStatic();
-    GeneratorSuite.getSpecPath();
-  }
-
-  @Test
-  public void validateWithNullModel() {
-    assertFalse(baseApiGeneratorSuite.validate());
-
-    PowerMockito.verifyStatic(never());
-    ResourceValidator.validate(any(), any());
-    verify(baseApiModelValidator, never()).validate(any());
-  }
-
-  @Test
-  public void validateWithNotNullAndValidModel() {
-    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
-    when(ResourceValidator.validate(any(), any())).thenReturn(true);
-    when(baseApiModelValidator.validate(any())).thenReturn(true);
-
-    assertTrue(baseApiGeneratorSuite.validate());
-
-    PowerMockito.verifyStatic(); // 1
-    ResourceValidator.validate(any(), any());
-    verify(baseApiModelValidator).validate(francaModel);
-  }
-
-  @Test
-  public void validateWithInvalidBaseApiValidation() {
-    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
-    when(ResourceValidator.validate(any(), any())).thenReturn(true);
-    when(baseApiModelValidator.validate(any())).thenReturn(false);
-
-    assertFalse(baseApiGeneratorSuite.validate());
-
-    PowerMockito.verifyStatic(); // 1
-    ResourceValidator.validate(any(), any());
-    verify(baseApiModelValidator).validate(francaModel);
-  }
-
-  @Test
-  public void validateWithInvalidResourceValidation() {
-    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
-    when(ResourceValidator.validate(any(), any())).thenReturn(false);
-    when(baseApiModelValidator.validate(any())).thenReturn(true);
-
-    assertFalse(baseApiGeneratorSuite.validate());
-
-    PowerMockito.verifyStatic(); // 1
-    ResourceValidator.validate(any(), any());
-    verify(baseApiModelValidator, never()).validate(francaModel);
-  }
-
-  @Test
-  public void validateWithInvalidResourceAndModelValidation() {
-    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
-    when(ResourceValidator.validate(any(), any())).thenReturn(false);
-    when(baseApiModelValidator.validate(any())).thenReturn(false);
-
-    assertFalse(baseApiGeneratorSuite.validate());
-
-    PowerMockito.verifyStatic(); // 1
-    ResourceValidator.validate(any(), any());
-    verify(baseApiModelValidator, never()).validate(francaModel);
-  }
-
-  @Test
-  public void generateFilesNullModel() {
-    List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
-
-    assertNotNull(generatedFiles);
-    assertTrue(generatedFiles.isEmpty());
+    baseApiGeneratorSuite = new BaseApiGeneratorSuite(francaModelLoader);
   }
 
   @Test
