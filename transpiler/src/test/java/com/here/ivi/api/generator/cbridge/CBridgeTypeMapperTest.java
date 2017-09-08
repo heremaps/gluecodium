@@ -39,7 +39,7 @@ public class CBridgeTypeMapperTest {
     FStructType francaStructType = Mockito.mock(FStructType.class);
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
     when(francaStructType.getName()).thenReturn("TestStruct");
-    when(rootModel.getModelInfo().getPackageNames()).thenReturn(new ArrayList<>());
+    when(rootModel.getPackageNames()).thenReturn(new ArrayList<>());
 
     CppTypeInfo mapped = CTypeMapper.mapType(rootModel, francaTypeRef);
     Assert.assertEquals("TestStruct", mapped.baseType);

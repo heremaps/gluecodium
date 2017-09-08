@@ -116,7 +116,7 @@ public class JniModelBuilderTest {
     when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFirstResult(any())).thenReturn(cppClass);
 
-    when(rootModel.getModelInfo().getPackageNames()).thenReturn(CPP_NAMESPACE_MEMBERS);
+    when(rootModel.getPackageNames()).thenReturn(CPP_NAMESPACE_MEMBERS);
   }
 
   private static JavaMethod createJavaMethod() {

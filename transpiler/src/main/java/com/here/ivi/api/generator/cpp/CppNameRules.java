@@ -88,7 +88,7 @@ public final class CppNameRules {
     // TODO: APIGEN-285: remove "stub" prefix
     return "stub"
         + File.separator
-        + String.join(File.separator, francaElement.getModelInfo().getPackageNames())
+        + String.join(File.separator, francaElement.getPackageNames())
         + File.separator
         + (francaElement instanceof Interface
             ? getClassName(((Interface) francaElement).getFrancaInterface().getName())

@@ -45,9 +45,7 @@ public class CBridgeNameRules {
 
   private String getDirectoryName(final FrancaElement francaElement) {
 
-    return Paths.get(
-            "cbridge", francaElement.getModelInfo().getPackageNames().toArray(new String[0]))
-        .toString();
+    return Paths.get("cbridge", francaElement.getPackageNames().toArray(new String[0])).toString();
   }
 
   private String getName(final FrancaElement francaElement) {
@@ -58,7 +56,7 @@ public class CBridgeNameRules {
 
   public String getDelegateMethodName(final Interface iface, final FMethod method) {
     return fullyQualifiedName(
-        iface.getModelInfo().getPackageNames(),
+        iface.getPackageNames(),
         CppNameRules.getClassName(iface.getName()),
         CppNameRules.getMethodName(method.getName()),
         CPP_NAMESPACE_DELIMITER);
@@ -66,10 +64,7 @@ public class CBridgeNameRules {
 
   public String getMethodName(final Interface iface, final FMethod method) {
     return fullyQualifiedName(
-        iface.getModelInfo().getPackageNames(),
-        iface.getName(),
-        method.getName(),
-        UNDERSCORE_DELIMITER);
+        iface.getPackageNames(), iface.getName(), method.getName(), UNDERSCORE_DELIMITER);
   }
 
   public String getStructRefType(
@@ -80,7 +75,7 @@ public class CBridgeNameRules {
   public String getStructBaseName(
       final FrancaElement francaElement, final String francaElementName) {
     return fullyQualifiedName(
-        francaElement.getModelInfo().getPackageNames(),
+        francaElement.getPackageNames(),
         getName(francaElement),
         NameHelper.toUpperCamelCase(francaElementName),
         UNDERSCORE_DELIMITER);
@@ -96,7 +91,7 @@ public class CBridgeNameRules {
 
   public String getBaseApiStructName(FrancaElement francaElement, FStructType struct) {
     return fullyQualifiedName(
-        francaElement.getModelInfo().getPackageNames(),
+        francaElement.getPackageNames(),
         CppNameRules.getClassName(francaElement.getName()),
         CppNameRules.getStructName(struct.getName()),
         CPP_NAMESPACE_DELIMITER);

@@ -132,7 +132,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
     List<String> outermostQualifier;
     if (francaElement instanceof Interface) {
-      outermostQualifier = francaElement.getModelInfo().getPackageNames();
+      outermostQualifier = francaElement.getPackageNames();
     } else {
       outermostQualifier =
           CppNameRules.getNamespace(DefinedBy.createFromFrancaElement(francaElement));

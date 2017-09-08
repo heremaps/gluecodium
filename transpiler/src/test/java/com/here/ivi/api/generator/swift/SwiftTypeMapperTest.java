@@ -17,7 +17,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.franca.ModelInfo;
 import com.here.ivi.api.model.swift.SwiftType;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FStructType;
@@ -32,16 +31,15 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(FBasicTypeId.class)
 public class SwiftTypeMapperTest {
+
   @Mock private FrancaElement francaElement;
-  @Mock private ModelInfo modelInfo;
   @Mock private FTypeRef typeRef;
   @Mock private FStructType francaStructType;
   @Mock private FBasicTypeId francaBasicTypeId;
 
   @Before
   public void setUp() {
-    when(francaElement.getModelInfo()).thenReturn(modelInfo);
-    when(modelInfo.getPackageNames()).thenReturn(emptyList());
+    when(francaElement.getPackageNames()).thenReturn(emptyList());
     when(typeRef.getPredefined()).thenReturn(francaBasicTypeId);
     when(francaStructType.getName()).thenReturn("Struct");
   }

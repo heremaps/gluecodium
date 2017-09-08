@@ -15,6 +15,7 @@ import com.here.ivi.api.TranspilerExecutionException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.core.FDeployedInterface;
 import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
@@ -27,8 +28,10 @@ public class Interface extends FrancaElement {
   private final FInterface francaInterface;
 
   private Interface(
-      FInterface francaInterface, MappingGenericPropertyAccessor accessor, ModelInfo modelInfo) {
-    super(accessor, modelInfo);
+      final FInterface francaInterface,
+      final MappingGenericPropertyAccessor accessor,
+      final FModel francaModel) {
+    super(accessor, francaModel);
     this.francaInterface = francaInterface;
   }
 
@@ -57,7 +60,10 @@ public class Interface extends FrancaElement {
   // InterfacePropertyAccessor, otherwise creates an empty accessor that will return the defaults
   // for a spec.
   public static Interface create(
-      FDSpecification spec, ModelInfo info, FInterface fi, FrancaDeploymentModel deploymentModel) {
+      FDSpecification spec,
+      FModel francaModel,
+      FInterface fi,
+      FrancaDeploymentModel deploymentModel) {
 
     FInterface francaInterface = fi;
     MappingGenericPropertyAccessor accessor = null;
@@ -81,6 +87,6 @@ public class Interface extends FrancaElement {
       // create fallback accessor to use for defaults
       accessor = FDHelper.createDummyFDElement(spec, fi);
     }
-    return new Interface(francaInterface, accessor, info);
+    return new Interface(francaInterface, accessor, francaModel);
   }
 }

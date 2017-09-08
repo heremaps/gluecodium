@@ -20,7 +20,6 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.ModelInfo;
 import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +32,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -50,7 +48,6 @@ public class CppNameRulesTest {
   @Mock private FTypeCollection fTypeCollection;
   @Mock private FInterface fInterface;
   @Mock private FType fType;
-  @Mock private ModelInfo modelInfo;
   @Mock private Interface anInterface;
   @Mock private TypeCollection typeCollection;
 
@@ -58,6 +55,10 @@ public class CppNameRulesTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(DefinedBy.class);
+
+    when(mockFrancaModel.getFrancaModel()).thenReturn(fModel);
+    when(fModel.getName()).thenReturn("");
+
     //DefinedBy's constructor is private, so static creator method is excluded from mocking
     //and utilized to create an instance of DefinedBy
     PowerMockito.doCallRealMethod().when(DefinedBy.class);
@@ -67,7 +68,6 @@ public class CppNameRulesTest {
   @Test
   public void getNestedNameSpecifierForTypeFromInterface() {
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fInterface);
-    when(mockFrancaModel.getModelInfo().getFModel()).thenReturn(fModel);
     when(fInterface.getName()).thenReturn("Iface");
     when(fModel.getName()).thenReturn("my.fancy.package");
     DefinedBy defined = DefinedBy.createFromFrancaElement(mockFrancaModel);
@@ -86,8 +86,7 @@ public class CppNameRulesTest {
     verifyStatic();
     DefinedBy.createFromFModelElement(fType);
     verify(mockFrancaModel).getFrancaTypeCollection();
-    verify(mockFrancaModel, Mockito.times(2)).getModelInfo();
-    verify(mockFrancaModel.getModelInfo()).getFModel();
+    verify(mockFrancaModel).getFrancaModel();
     verify(fInterface).getName();
     verify(fModel).getName();
   }
@@ -95,7 +94,6 @@ public class CppNameRulesTest {
   @Test
   public void getNestedNameSpecifierForTypeFromTypeCollection() {
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
-    when(mockFrancaModel.getModelInfo().getFModel()).thenReturn(fModel);
     when(fTypeCollection.getName()).thenReturn("TCollection");
     when(fModel.getName()).thenReturn("my.fancy.package");
     DefinedBy defined = DefinedBy.createFromFrancaElement(mockFrancaModel);
@@ -114,8 +112,6 @@ public class CppNameRulesTest {
     verifyStatic();
     DefinedBy.createFromFModelElement(fType);
     verify(mockFrancaModel).getFrancaTypeCollection();
-    verify(mockFrancaModel, Mockito.times(2)).getModelInfo();
-    verify(mockFrancaModel.getModelInfo()).getFModel();
     verify(fTypeCollection).getName();
     verify(fModel).getName();
   }
@@ -123,8 +119,7 @@ public class CppNameRulesTest {
   @Test
   public void getHeaderNameForInterface() {
     List<String> packageNames = Arrays.asList("my", "fancy", "package");
-    when(anInterface.getModelInfo()).thenReturn(modelInfo);
-    when(modelInfo.getPackageNames()).thenReturn(packageNames);
+    when(anInterface.getPackageNames()).thenReturn(packageNames);
     when(anInterface.getFrancaInterface()).thenReturn(fInterface);
     when(fInterface.getName()).thenReturn("FancyName");
 
@@ -132,8 +127,7 @@ public class CppNameRulesTest {
 
     assertEquals("stub/my/fancy/package/FancyName.h", headerPath);
 
-    verify(anInterface).getModelInfo();
-    verify(modelInfo).getPackageNames();
+    verify(anInterface).getPackageNames();
     verify(anInterface).getFrancaInterface();
     verify(fInterface).getName();
   }
@@ -141,8 +135,7 @@ public class CppNameRulesTest {
   @Test
   public void getHeaderNameForTypeCollection() {
     List<String> packageNames = Arrays.asList("my", "fancy", "package");
-    when(typeCollection.getModelInfo()).thenReturn(modelInfo);
-    when(modelInfo.getPackageNames()).thenReturn(packageNames);
+    when(typeCollection.getPackageNames()).thenReturn(packageNames);
     when(typeCollection.getFrancaTypeCollection()).thenReturn(fTypeCollection);
     when(fTypeCollection.getName()).thenReturn("FancyTypeCollectionName");
 
@@ -150,8 +143,7 @@ public class CppNameRulesTest {
 
     assertEquals("stub/my/fancy/package/FancyTypeCollectionName.h", headerPath);
 
-    verify(typeCollection).getModelInfo();
-    verify(modelInfo).getPackageNames();
+    verify(typeCollection).getPackageNames();
     verify(typeCollection).getFrancaTypeCollection();
     verify(fTypeCollection).getName();
   }

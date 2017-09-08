@@ -11,11 +11,7 @@
 
 package com.here.ivi.api.generator.java;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -45,7 +41,6 @@ import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
@@ -90,8 +85,6 @@ public class JavaModelBuilderTest {
   @Mock private FTypedElement francaTypedElement;
   @Mock private FStructType francaStructType;
 
-  @Mock private FModel fModel;
-
   private final EList<FArgument> arguments = new ArrayEList<>();
 
   private final JavaType javaCustomType = new JavaCustomType("typical");
@@ -108,8 +101,8 @@ public class JavaModelBuilderTest {
 
     modelBuilder = new JavaModelBuilder(contextStack, BASE_PACKAGE, rootModel);
 
-    when(rootModel.getModelInfo().getFModel()).thenReturn(fModel);
-    when(rootModel.getModelInfo().getPackageNames()).thenReturn(new LinkedList<>());
+    when(rootModel.getFrancaModel().getName()).thenReturn("");
+    when(rootModel.getPackageNames()).thenReturn(Collections.emptyList());
 
     when(francaInterface.getName()).thenReturn(CLASS_NAME);
     when(francaConstant.getName()).thenReturn(CONSTANT_NAME);
@@ -134,17 +127,17 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsPackage() {
-    JavaPackage javaPackage = new JavaPackage(Collections.singletonList("packed"));
-    when(JavaTypeMapper.createJavaPackage(any(), any())).thenReturn(javaPackage);
+    String packageName = "packed";
+    when(rootModel.getPackageNames()).thenReturn(Collections.singletonList(packageName));
 
     modelBuilder.finishBuilding(francaInterface);
 
     JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertEquals(javaPackage, javaClass.javaPackage);
 
-    PowerMockito.verifyStatic();
-    JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel);
+    List<String> expectedPackageNames = new LinkedList<>(BASE_PACKAGE.packageNames);
+    expectedPackageNames.add(packageName);
+    assertEquals(expectedPackageNames, javaClass.javaPackage.packageNames);
   }
 
   @Test
@@ -303,7 +296,6 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionReadsClasses() {
-    when(JavaTypeMapper.createJavaPackage(any(), any())).thenReturn(BASE_PACKAGE);
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
     final JavaClass firstInnerClass = new JavaClass(CLASS_NAME);
     final JavaClass secondInnerClass = new JavaClass(CLASS_NAME + "Sibling");
@@ -325,20 +317,16 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionPutsClassesInRightPackage() {
-    when(JavaTypeMapper.createJavaPackage(any(), any())).thenReturn(BASE_PACKAGE);
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+    contextStack.injectResult(new JavaClass(CLASS_NAME));
 
-    final JavaClass innerClass = new JavaClass(CLASS_NAME);
-    contextStack.injectResult(innerClass);
     modelBuilder.finishBuilding(francaTypeCollection);
+
     JavaClass javaClass = (JavaClass) modelBuilder.getResults().get(0);
     String expectedPackage =
         String.join(".", BASE_PACKAGE_NAMES) + "." + TYPE_COLLECTION_NAME.toLowerCase();
     String innerPackage = String.join(".", javaClass.javaPackage.packageNames);
     assertEquals(expectedPackage, innerPackage);
-
-    PowerMockito.verifyStatic();
-    JavaTypeMapper.createJavaPackage(BASE_PACKAGE, fModel);
   }
 
   @Test

@@ -60,7 +60,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String comment = CppCommentParser.parse(francaInterface).getMainBodyText();
     clazz.comment = comment != null ? comment : "";
     clazz.methods = getAllOfType(getCurrentContext().previousResults, SwiftMethod.class);
-    clazz.nameSpace = String.join("_", rootModel.getModelInfo().getPackageNames());
+    clazz.nameSpace = String.join("_", rootModel.getPackageNames());
     clazz.imports = new ArrayList<>(singletonList("Foundation"));
     clazz.structs = getAllOfType(getCurrentContext().previousResults, SwiftStruct.class);
 

@@ -56,9 +56,9 @@ public class CBridgeNameRulesTest {
   @Before
   public void setUp() {
     mockStatic(CppNameRules.class);
-    when(anInterface.getModelInfo().getPackageNames()).thenReturn(PACKAGES);
+    when(anInterface.getPackageNames()).thenReturn(PACKAGES);
     when(anInterface.getName()).thenReturn(INTERFACE_NAME);
-    when(typeCollection.getModelInfo().getPackageNames()).thenReturn(PACKAGES);
+    when(typeCollection.getPackageNames()).thenReturn(PACKAGES);
     when(typeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
     when(francaStruct.getName()).thenReturn(STRUCT_NAME);
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
@@ -104,7 +104,7 @@ public class CBridgeNameRulesTest {
 
   @Test
   public void getMethodNameDoesNotThrowExceptionWhenPackageListIsSingletonList() {
-    when(anInterface.getModelInfo().getPackageNames()).thenReturn(singletonList("PKG"));
+    when(anInterface.getPackageNames()).thenReturn(singletonList("PKG"));
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
 
     nameRules.getMethodName(anInterface, francaMethod);
