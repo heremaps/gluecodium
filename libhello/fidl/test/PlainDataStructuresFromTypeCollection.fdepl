@@ -10,9 +10,9 @@
  */
 
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
-import "./PlainDataStructures.fidl"
+import "./PlainDataStructuresFromTypeCollection.fidl"
 
-define navigation.BaseApiSpec for interface test.PlainDataStructures
+define navigation.BaseApiSpec for interface test.PlainDataStructuresFromTypeCollection
 {
     method createPoint {
         Static = true
@@ -27,14 +27,6 @@ define navigation.BaseApiSpec for interface test.PlainDataStructures
     }
 
     method createColoredLine {
-        Static = true
-    }
-
-    method returnColoredLine {
-        Static = true
-    }
-
-    method returnAllTypesStruct {
         Static = true
     }
 

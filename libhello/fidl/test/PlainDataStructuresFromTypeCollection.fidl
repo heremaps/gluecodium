@@ -10,54 +10,12 @@
  */
 
 package test
+import test.TypeCollection.* from "./TypeCollection.fidl"
 
-interface PlainDataStructures {
+interface PlainDataStructuresFromTypeCollection {
     version {
         major 0
         minor 1
-    }
-
-    <** @description: Basic struct type **>
-    struct Point {
-        Double x
-        Double y
-    }
-
-    <** @description: Basic struct type **>
-    struct Color {
-        UInt8 red
-        UInt8 green
-        UInt8 blue
-    }
-
-    <** @description: Nested struct type **>
-    struct Line {
-        Point a
-        Point b
-    }
-
-    <** @description: Nested struct type **>
-    struct ColoredLine {
-        Line line
-        Color color
-    }
-
-    <** @description: Struct type containing all builtin and a custom data type **>
-    struct AllTypesStruct {
-        Int8 int8Field
-        UInt8 uint8Field
-        Int16 int16Field
-        UInt16 uint16Field
-        Int32 int32Field
-        UInt32 uint32Field
-        Int64 int64Field
-        UInt64 uint64Field
-        Float floatField
-        Double doubleField
-        String stringField
-        Boolean booleanField
-        ByteBuffer bytesField
-        Point pointField
     }
 
     <** @description: Static method to create a point **>
@@ -104,30 +62,6 @@ interface PlainDataStructures {
         }
         out {
             ColoredLine output
-        }
-    }
-
-    <** @description:
-    Static test method which returns a colored line unmodified
-    **>
-    method returnColoredLine {
-        in {
-            ColoredLine input
-        }
-        out {
-            ColoredLine output
-        }
-    }
-
-    <** @description:
-    Static test method which returns AllTypesStruct unmodified
-    **>
-    method returnAllTypesStruct {
-        in {
-            AllTypesStruct input
-        }
-        out {
-            AllTypesStruct output
         }
     }
 
