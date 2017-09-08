@@ -21,7 +21,6 @@ import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -48,9 +47,6 @@ public class CppTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement mockFrancaModel;
-
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
@@ -61,7 +57,7 @@ public class CppTypeMapperTest {
   public void mapBoolType() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(cppType, CppPrimitiveTypeRef.Type.BOOL, Collections.emptyList());
   }
@@ -70,7 +66,7 @@ public class CppTypeMapperTest {
   public void mapFloatType() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.FLOAT);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(cppType, CppPrimitiveTypeRef.Type.FLOAT, Collections.emptyList());
   }
@@ -79,7 +75,7 @@ public class CppTypeMapperTest {
   public void mapDoubleType() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.DOUBLE);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(cppType, CppPrimitiveTypeRef.Type.DOUBLE, Collections.emptyList());
   }
@@ -88,7 +84,7 @@ public class CppTypeMapperTest {
   public void mapInt8Type() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT8);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(
         cppType,
@@ -100,7 +96,7 @@ public class CppTypeMapperTest {
   public void mapInt16Type() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT16);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(
         cppType,
@@ -112,7 +108,7 @@ public class CppTypeMapperTest {
   public void mapInt32Type() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT32);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(
         cppType,
@@ -124,7 +120,7 @@ public class CppTypeMapperTest {
   public void mapInt64Type() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT64);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(
         cppType,
@@ -136,7 +132,7 @@ public class CppTypeMapperTest {
   public void mapUInt8Type() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT8);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(
         cppType,
@@ -148,7 +144,7 @@ public class CppTypeMapperTest {
   public void mapUInt16Type() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT16);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(
         cppType,
@@ -160,7 +156,7 @@ public class CppTypeMapperTest {
   public void mapUInt32Type() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT32);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(
         cppType,
@@ -172,7 +168,7 @@ public class CppTypeMapperTest {
   public void mapUInt64Type() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT64);
 
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, francaTypeRef);
+    CppTypeRef cppType = CppTypeMapper.map(francaTypeRef);
 
     verifyPrimitiveType(
         cppType,
@@ -188,7 +184,7 @@ public class CppTypeMapperTest {
     when(francaMapType.getKeyType().getPredefined()).thenReturn(FBasicTypeId.UINT32);
     when(francaMapType.getValueType().getPredefined()).thenReturn(FBasicTypeId.STRING);
 
-    CppComplexTypeRef result = CppTypeMapper.mapMapType(mockFrancaModel, francaMapType);
+    CppComplexTypeRef result = CppTypeMapper.mapMapType(francaMapType);
 
     assertEquals("::std::unordered_map< uint32_t, ::std::string >", result.name);
     assertTrue(result.includes.contains(CppLibraryIncludes.INT_TYPES));

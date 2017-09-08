@@ -17,7 +17,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -172,7 +171,7 @@ public class CppModelBuilderTest {
     when(francaField.getType()).thenReturn(francaTypeRef);
     when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
 
-    when(CppMethodMapper.mapMethodReturnType(any(), any()))
+    when(CppMethodMapper.mapMethodReturnType(any()))
         .thenReturn(new CppMethodMapper.ReturnTypeData(cppComplexTypeRef, RETURN_TYPE_COMMENT));
     when(CppCommentParser.parse(any(FModelElement.class)))
         .thenReturn(new AbstractFrancaCommentParser.Comments());
@@ -306,7 +305,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingInputArgumentMapsType() {
-    when(CppTypeMapper.map(any(), any(FTypedElement.class))).thenReturn(cppComplexTypeRef);
+    when(CppTypeMapper.map(any(FTypedElement.class))).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
@@ -315,7 +314,7 @@ public class CppModelBuilderTest {
     assertEquals(cppComplexTypeRef, cppParameter.type);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.map(rootModel, francaArgument);
+    CppTypeMapper.map(francaArgument);
   }
 
   @Test
@@ -361,7 +360,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaConstant() {
-    when(CppTypeMapper.map(any(), any(FConstantDef.class))).thenReturn(cppComplexTypeRef);
+    when(CppTypeMapper.map(any(FConstantDef.class))).thenReturn(cppComplexTypeRef);
     when(CppValueMapper.map(any(), any(FInitializerExpression.class))).thenReturn(cppValue);
 
     modelBuilder.finishBuilding(francaConstant);
@@ -373,9 +372,9 @@ public class CppModelBuilderTest {
     assertEquals(cppValue, cppConstant.value);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.map(same(rootModel), same(francaConstant));
+    CppTypeMapper.map(francaConstant);
     PowerMockito.verifyStatic();
-    CppValueMapper.map(same(cppComplexTypeRef), same(francaInitializerExpression));
+    CppValueMapper.map(cppComplexTypeRef, francaInitializerExpression);
   }
 
   @Test
@@ -390,7 +389,7 @@ public class CppModelBuilderTest {
     assertEquals(cppValue, cppField.initializer);
 
     PowerMockito.verifyStatic();
-    CppDefaultInitializer.map(same(francaField));
+    CppDefaultInitializer.map(francaField);
   }
 
   @Test
@@ -441,7 +440,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeDefNotInstanceId() {
-    when(CppTypeMapper.map(any(), any(FTypeRef.class))).thenReturn(cppComplexTypeRef);
+    when(CppTypeMapper.map(any(FTypeRef.class))).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaTypeDef);
 
@@ -451,14 +450,14 @@ public class CppModelBuilderTest {
     assertEquals(cppComplexTypeRef, cppUsing.definition);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.map(rootModel, francaTypeRef);
+    CppTypeMapper.map(francaTypeRef);
     PowerMockito.verifyStatic();
     InstanceRules.isInstanceId(francaTypeDef);
   }
 
   @Test
   public void finishBuildingFrancaArrayType() {
-    when(CppTypeMapper.mapArray(any(), any())).thenReturn(cppComplexTypeRef);
+    when(CppTypeMapper.mapArray(any())).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaArrayType);
 
@@ -468,12 +467,12 @@ public class CppModelBuilderTest {
     assertEquals(cppComplexTypeRef, cppUsing.definition);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.mapArray(rootModel, francaArrayType);
+    CppTypeMapper.mapArray(francaArrayType);
   }
 
   @Test
   public void finishBuildingFrancaMapType() {
-    when(CppTypeMapper.mapMapType(any(), any())).thenReturn(cppComplexTypeRef);
+    when(CppTypeMapper.mapMapType(any())).thenReturn(cppComplexTypeRef);
     when(DefinedBy.createFromFModelElement(any())).thenReturn(mock(DefinedBy.class));
 
     modelBuilder.finishBuilding(francaMapType);
@@ -484,12 +483,12 @@ public class CppModelBuilderTest {
     assertEquals(cppComplexTypeRef, cppUsing.definition);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.mapMapType(rootModel, francaMapType);
+    CppTypeMapper.mapMapType(francaMapType);
   }
 
   @Test
   public void finishBuildingFrancaTypeRef() {
-    when(CppTypeMapper.map(any(), any(FTypeRef.class))).thenReturn(cppComplexTypeRef);
+    when(CppTypeMapper.map(any(FTypeRef.class))).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaTypeRef);
 
@@ -497,7 +496,7 @@ public class CppModelBuilderTest {
     assertEquals(cppComplexTypeRef, result);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.map(same(rootModel), same(francaTypeRef));
+    CppTypeMapper.map(francaTypeRef);
   }
 
   @Test

@@ -31,6 +31,7 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FBasicTypeId;
@@ -86,7 +87,7 @@ public class CppTypeMapperComplexTest {
     FTypeRef typeRef = mockPredefinedType(FBasicTypeId.STRING);
 
     //act
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, typeRef);
+    CppTypeRef cppType = CppTypeMapper.map(typeRef);
 
     //assert
     assertTrue(cppType instanceof CppComplexTypeRef);
@@ -102,7 +103,7 @@ public class CppTypeMapperComplexTest {
     FTypeRef typeRef = mockPredefinedType(FBasicTypeId.BYTE_BUFFER);
 
     //act
-    CppTypeRef cppType = CppTypeMapper.map(mockFrancaModel, typeRef);
+    CppTypeRef cppType = CppTypeMapper.map(typeRef);
 
     //assert
     assertTrue(cppType instanceof CppComplexTypeRef);
@@ -131,7 +132,7 @@ public class CppTypeMapperComplexTest {
     when(CppNameRules.getNestedNameSpecifier(structType)).thenReturn(Arrays.asList("a", "b", "c"));
 
     //act
-    CppTypeRef result = CppTypeMapper.map(mockFrancaModel, typeRef);
+    CppTypeRef result = CppTypeMapper.map(typeRef);
 
     //assert
     assertTrue(result instanceof CppComplexTypeRef);
@@ -162,7 +163,7 @@ public class CppTypeMapperComplexTest {
     when(CppNameRules.getEnumName(enumType.getName())).thenReturn(ENUM_NAME);
     when(CppNameRules.getNestedNameSpecifier(enumType)).thenReturn(new LinkedList<>());
 
-    CppTypeRef result = CppTypeMapper.map(mockFrancaModel, typeRef);
+    CppTypeRef result = CppTypeMapper.map(typeRef);
 
     //assert
     assertTrue(result instanceof CppComplexTypeRef);
@@ -184,11 +185,11 @@ public class CppTypeMapperComplexTest {
     when(typeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(typeRef.getInterval()).thenReturn(intervalType);
 
-    // pre-verify expected exceptipon
+    // pre-verify expected exception
     exception.expect(TranspilerExecutionException.class);
 
     //act
-    CppTypeMapper.map(mockFrancaModel, typeRef);
+    CppTypeMapper.map(typeRef);
   }
 
   @Test
@@ -204,7 +205,7 @@ public class CppTypeMapperComplexTest {
     CppComplexTypeRef expected = new CppComplexTypeRef.Builder("::std::vector< double >").build();
 
     // Act
-    CppTypeRef result = CppTypeMapper.map(mockFrancaModel, typeRef);
+    CppTypeRef result = CppTypeMapper.map(typeRef);
 
     // Assert
     assertTrue(result instanceof CppComplexTypeRef);
@@ -227,7 +228,7 @@ public class CppTypeMapperComplexTest {
     DefinedBy definer = mockDefinedBy();
 
     // Act
-    CppTypeRef cppTypeRef = CppTypeMapper.map(mockFrancaModel, typeRef);
+    CppTypeRef cppTypeRef = CppTypeMapper.map(typeRef);
 
     // Assert
     assertTrue(cppTypeRef instanceof CppTypeDefRef);
@@ -259,10 +260,11 @@ public class CppTypeMapperComplexTest {
     when(fTypeDef.eContainer()).thenReturn(typeRef);
     when(definer.getBaseName()).thenReturn(className);
     when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
-    when(CppNameRules.getNestedNameSpecifier(fTypeDef)).thenReturn(Arrays.asList("MyClazz"));
+    when(CppNameRules.getNestedNameSpecifier(fTypeDef))
+        .thenReturn(Collections.singletonList("MyClazz"));
 
     // Act
-    CppTypeRef cppTypeRef = CppTypeMapper.map(mockFrancaModel, typeRef);
+    CppTypeRef cppTypeRef = CppTypeMapper.map(typeRef);
 
     // Assert
     assertTrue(cppTypeRef instanceof CppComplexTypeRef);
@@ -301,7 +303,7 @@ public class CppTypeMapperComplexTest {
     when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
 
     // Act
-    CppTypeRef cppTypeRef = CppTypeMapper.map(mockFrancaModel, typeRef);
+    CppTypeRef cppTypeRef = CppTypeMapper.map(typeRef);
 
     // Assert
     assertTrue(cppTypeRef instanceof CppComplexTypeRef);
