@@ -25,7 +25,6 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.ModelInfo;
 import com.here.ivi.api.model.swift.SwiftClass;
 import com.here.ivi.api.model.swift.SwiftInParameter;
 import com.here.ivi.api.model.swift.SwiftMethod;
@@ -58,7 +57,6 @@ public class SwiftModelBuilderTest {
   @Mock private AbstractFrancaCommentParser.Comments comments;
   @Mock private SwiftNameRules nameRules;
   @Mock private Interface anInterface;
-  @Mock private ModelInfo modelInfo;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FInterface francaInterface;
@@ -75,8 +73,7 @@ public class SwiftModelBuilderTest {
     when(CppCommentParser.parse(any(FInterface.class))).thenReturn(comments);
     when(comments.getMainBodyText()).thenReturn(COMMENT);
 
-    when(anInterface.getModelInfo()).thenReturn(modelInfo);
-    when(modelInfo.getPackageNames()).thenReturn(PACKAGES);
+    when(anInterface.getPackageNames()).thenReturn(PACKAGES);
     when(anInterface.isStatic(any())).thenReturn(true);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(nameRules.getParameterName(any())).thenReturn(PARAM_NAME);

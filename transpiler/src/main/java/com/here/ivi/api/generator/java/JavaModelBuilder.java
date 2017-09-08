@@ -31,17 +31,7 @@ import com.here.ivi.api.model.javamodel.JavaVisibility;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.FAnnotationBlock;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModelElement;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.*;
 
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
@@ -210,16 +200,14 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaTypeCollection.getName()));
     javaClass.visibility = JavaVisibility.PUBLIC;
-    javaClass.javaPackage =
-        JavaTypeMapper.createJavaPackage(basePackage, rootModel.getModelInfo().getFModel());
+    javaClass.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
     javaClass.comment = getCommentString(francaTypeCollection);
 
     return javaClass;
   }
 
   private JavaPackage createJavaPackage(FModelElement typeCollection) {
-    JavaPackage parentPackage =
-        JavaTypeMapper.createJavaPackage(basePackage, rootModel.getModelInfo().getFModel());
+    JavaPackage parentPackage = basePackage.createChildPackage(rootModel.getPackageNames());
     String typeCollectionName = JavaNameRules.getTypeCollectionName(typeCollection.getName());
     return parentPackage.createChildPackage(Collections.singletonList(typeCollectionName));
   }

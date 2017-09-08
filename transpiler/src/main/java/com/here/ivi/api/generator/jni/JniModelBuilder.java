@@ -85,7 +85,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JniContainer jniContainer =
         JniContainer.createInterfaceContainer(
             javaClass.javaPackage.packageNames,
-            rootModel.getModelInfo().getPackageNames(),
+            rootModel.getPackageNames(),
             javaClass.name,
             cppClass.name);
     List<JniElement> previousResults = getCurrentContext().previousResults;
@@ -169,7 +169,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     JniContainer jniContainer =
         JniContainer.createTypeCollectionContainer(
-            packageNames, rootModel.getModelInfo().getPackageNames(), javaName, cppName);
+            packageNames, rootModel.getPackageNames(), javaName, cppName);
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
         .forEach(struct -> jniContainer.add(struct));
 

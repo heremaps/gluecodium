@@ -14,6 +14,7 @@ package com.here.ivi.api.model.franca;
 import com.here.ivi.api.TranspilerExecutionException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.core.FDeployedTypeCollection;
 import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
@@ -26,10 +27,10 @@ public class TypeCollection extends FrancaElement {
   private final FTypeCollection francaTypeCollection;
 
   private TypeCollection(
-      FTypeCollection francaTypeCollection,
-      MappingGenericPropertyAccessor accessor,
-      ModelInfo modelInfo) {
-    super(accessor, modelInfo);
+      final FTypeCollection francaTypeCollection,
+      final MappingGenericPropertyAccessor accessor,
+      final FModel francaModel) {
+    super(accessor, francaModel);
     this.francaTypeCollection = francaTypeCollection;
   }
 
@@ -56,7 +57,7 @@ public class TypeCollection extends FrancaElement {
    */
   public static TypeCollection create(
       FDSpecification spec,
-      ModelInfo info,
+      FModel francaModel,
       FTypeCollection typeCollection,
       FrancaDeploymentModel deploymentModel) {
 
@@ -85,6 +86,6 @@ public class TypeCollection extends FrancaElement {
     if (accessor == null) {
       accessor = FDHelper.createDummyFDElement(spec, typeCollection);
     }
-    return new TypeCollection(francaTypeCollection, accessor, info);
+    return new TypeCollection(francaTypeCollection, accessor, francaModel);
   }
 }

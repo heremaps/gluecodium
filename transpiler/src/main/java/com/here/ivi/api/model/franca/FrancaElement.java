@@ -12,28 +12,28 @@
 package com.here.ivi.api.model.franca;
 
 import com.here.ivi.api.generator.common.Version;
+import java.util.Arrays;
+import java.util.List;
 import org.franca.core.franca.*;
 import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 
 public abstract class FrancaElement {
 
   private final MappingGenericPropertyAccessor propertyAccessor;
-  private final ModelInfo modelInfo;
+  private final FModel francaModel;
+  private final List<String> packageNames;
 
   protected FrancaElement(
-      final MappingGenericPropertyAccessor propertyAccessor, final ModelInfo modelInfo) {
+      final MappingGenericPropertyAccessor propertyAccessor, final FModel francaModel) {
     this.propertyAccessor = propertyAccessor;
-    this.modelInfo = modelInfo;
+    this.francaModel = francaModel;
+    packageNames = Arrays.asList(francaModel.getName().split("\\."));
   }
 
   public abstract FTypeCollection getFrancaTypeCollection();
 
   public String getName() {
     return getFrancaTypeCollection().getName();
-  }
-
-  public ModelInfo getModelInfo() {
-    return modelInfo;
   }
 
   public Version getVersion() {
@@ -58,6 +58,14 @@ public abstract class FrancaElement {
     return getBoolean(francaArray, "Set");
   }
 
+  public List<String> getPackageNames() {
+    return packageNames;
+  }
+
+  public FModel getFrancaModel() {
+    return francaModel;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof FrancaElement)) {
@@ -65,13 +73,13 @@ public abstract class FrancaElement {
     }
     FrancaElement co = (FrancaElement) o;
     return getName().equals(co.getName())
-        && modelInfo.getFModel().getName().equals(co.getModelInfo().getFModel().getName());
+        && francaModel.getName().equals(co.getFrancaModel().getName());
   }
 
   @Override
   public int hashCode() {
     int result = propertyAccessor != null ? propertyAccessor.hashCode() : 0;
-    result = 31 * result + (modelInfo != null ? modelInfo.hashCode() : 0);
+    result = 31 * result + (francaModel != null ? francaModel.hashCode() : 0);
     return result;
   }
 

@@ -23,7 +23,7 @@ public class SwiftNameRules {
   public String getImplementationFileName(final FrancaElement francaElement) {
     return "swift"
         + File.separator
-        + String.join(File.separator, francaElement.getModelInfo().getPackageNames())
+        + String.join(File.separator, francaElement.getPackageNames())
         + File.separator
         + getFileName(francaElement)
         + ".swift";

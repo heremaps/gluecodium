@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.ModelInfo;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaImport;
 import com.here.ivi.api.model.javamodel.JavaPackage;
@@ -29,20 +28,12 @@ import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 
 public final class JavaTypeMapper {
-  private JavaTypeMapper() {}
-
-  public static JavaPackage createJavaPackage(final JavaPackage basePackage, final FModel fModel) {
-    ModelInfo info = new ModelInfo(fModel);
-    return basePackage.createChildPackage(info.getPackageNames());
-  }
-
   public static JavaType map(final JavaPackage basePackage, final FTypeRef fTypeRef) {
     if (fTypeRef.getDerived() != null) {
       return mapDerived(basePackage, fTypeRef);
@@ -124,7 +115,7 @@ public final class JavaTypeMapper {
       final JavaPackage basePackage, final FStructType structType) {
 
     DefinedBy definer = DefinedBy.createFromFModelElement(structType);
-    List<String> packageNames = createJavaPackage(basePackage, definer.model).packageNames;
+    List<String> packageNames = basePackage.createChildPackage(definer.getPackages()).packageNames;
 
     String structName;
     String importClassName;
@@ -151,7 +142,8 @@ public final class JavaTypeMapper {
 
     if (InstanceRules.isInstanceId(typeDef)) {
       DefinedBy definer = DefinedBy.createFromFModelElement(typeDef);
-      List<String> packageNames = createJavaPackage(basePackage, definer.model).packageNames;
+      List<String> packageNames =
+          basePackage.createChildPackage(definer.getPackages()).packageNames;
       String className = JavaNameRules.getClassName(definer.type.getName());
       JavaImport classImport = new JavaImport(className, new JavaPackage(packageNames));
 

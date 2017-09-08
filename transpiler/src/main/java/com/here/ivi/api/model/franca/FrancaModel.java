@@ -28,22 +28,22 @@ public class FrancaModel {
   // creates a FrancaModel from the given FModel & FDModel,
   // ensuring that there are PropertyAccessors for each element
   public static FrancaModel create(
-      FDSpecification spec, FModel fm, FrancaDeploymentModel deploymentModel) {
-
-    ModelInfo info = new ModelInfo(fm);
+      FDSpecification spec, FModel francaModel, FrancaDeploymentModel deploymentModel) {
 
     // create interface helpers
     ImmutableList<Interface> interfaces =
-        fm.getInterfaces()
+        francaModel
+            .getInterfaces()
             .parallelStream()
-            .map(fi -> Interface.create(spec, info, fi, deploymentModel))
+            .map(fi -> Interface.create(spec, francaModel, fi, deploymentModel))
             .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
 
     // create type collection helpers
     ImmutableList<TypeCollection> typeCollections =
-        fm.getTypeCollections()
+        francaModel
+            .getTypeCollections()
             .parallelStream()
-            .map(fi -> TypeCollection.create(spec, info, fi, deploymentModel))
+            .map(fi -> TypeCollection.create(spec, francaModel, fi, deploymentModel))
             .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
 
     return new FrancaModel(interfaces, typeCollections);
@@ -90,7 +90,7 @@ public class FrancaModel {
         .filter(
             i ->
                 i.getName().equals(needle.getName())
-                    && i.getModelInfo().getName().equals(model.getName()))
+                    && i.getFrancaModel().getName().equals(model.getName()))
         .findFirst();
   }
 
@@ -100,7 +100,7 @@ public class FrancaModel {
         .filter(
             i ->
                 i.getName().equals(needle.getName())
-                    && i.getModelInfo().getName().equals(model.getName()))
+                    && i.getFrancaModel().getName().equals(model.getName()))
         .findFirst();
   }
 }
