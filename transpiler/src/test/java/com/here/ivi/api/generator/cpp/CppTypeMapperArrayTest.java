@@ -61,10 +61,8 @@ public class CppTypeMapperArrayTest {
 
     when(typedElement.getType()).thenReturn(actualTypeRef);
 
-    FrancaElement mockFrancaModel = mock(FrancaElement.class);
-
     //act
-    CppTypeRef result = CppTypeMapper.map(mockFrancaModel, typedElement);
+    CppTypeRef result = CppTypeMapper.map(typedElement);
 
     //assert
     assertTrue(result instanceof CppComplexTypeRef);
@@ -103,7 +101,7 @@ public class CppTypeMapperArrayTest {
     when(CppNameRules.getNestedNameSpecifier(structType)).thenReturn(Arrays.asList("a", "b", "c"));
 
     //act
-    CppTypeRef result = CppTypeMapper.map(mockFrancaModel, typedElement);
+    CppTypeRef result = CppTypeMapper.map(typedElement);
 
     //assert
     assertTrue(result instanceof CppComplexTypeRef);

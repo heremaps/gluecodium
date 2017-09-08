@@ -20,7 +20,6 @@ import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
 import com.here.ivi.api.model.cppmodel.CppTypeInfo;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,14 +36,14 @@ import org.franca.core.franca.FUnionType;
 
 public final class CppTypeMapper {
 
-  public static CppTypeRef map(FrancaElement rootModel, FTypedElement typedElement) {
-    CppTypeRef type = CppTypeMapper.map(rootModel, typedElement.getType());
+  public static CppTypeRef map(FTypedElement typedElement) {
+    CppTypeRef type = CppTypeMapper.map(typedElement.getType());
     return typedElement.isArray() ? wrapVector(type) : type;
   }
 
-  public static CppTypeRef map(FrancaElement rootModel, FTypeRef type) {
+  public static CppTypeRef map(FTypeRef type) {
     if (type.getDerived() != null) {
-      return mapDerived(rootModel, type.getDerived());
+      return mapDerived(type.getDerived());
     }
     if (type.getPredefined() != FBasicTypeId.UNDEFINED) {
       return mapPredefined(type);
@@ -60,15 +59,15 @@ public final class CppTypeMapper {
     throw new TranspilerExecutionException("Unmapped ftype ref" + type);
   }
 
-  private static CppTypeRef mapDerived(FrancaElement rootModel, FType derived) {
+  private static CppTypeRef mapDerived(FType derived) {
     if (derived instanceof FTypeDef) {
-      return mapTypeDef(rootModel, (FTypeDef) derived);
+      return mapTypeDef((FTypeDef) derived);
     }
     if (derived instanceof FArrayType) {
-      return mapArray(rootModel, (FArrayType) derived);
+      return mapArray((FArrayType) derived);
     }
     if (derived instanceof FMapType) {
-      return mapMapType(rootModel, (FMapType) derived);
+      return mapMapType((FMapType) derived);
     }
     if (derived instanceof FStructType) {
       return mapStruct((FStructType) derived);
@@ -82,7 +81,7 @@ public final class CppTypeMapper {
     throw new TranspilerExecutionException("Unmapped derived type: " + derived.getName());
   }
 
-  private static CppTypeRef mapTypeDef(FrancaElement rootModel, FTypeDef typedef) {
+  private static CppTypeRef mapTypeDef(FTypeDef typedef) {
 
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(typedef);
     DefinedBy definer = DefinedBy.createFromFModelElement(typedef);
@@ -95,7 +94,7 @@ public final class CppTypeMapper {
           .build();
     } else {
 
-      CppTypeRef actualType = map(rootModel, typedef.getActualType());
+      CppTypeRef actualType = map(typedef.getActualType());
       String typeDefName = CppNameRules.getTypedefName(typedef.getName());
 
       return new CppTypeDefRef(
@@ -103,15 +102,15 @@ public final class CppTypeMapper {
     }
   }
 
-  public static CppComplexTypeRef mapArray(final FrancaElement rootModel, final FArrayType array) {
-    CppTypeRef elementType = map(rootModel, array.getElementType());
+  public static CppComplexTypeRef mapArray(final FArrayType array) {
+    CppTypeRef elementType = map(array.getElementType());
     return wrapVector(elementType);
   }
 
-  public static CppComplexTypeRef mapMapType(FrancaElement rootModel, FMapType francaMapType) {
+  public static CppComplexTypeRef mapMapType(FMapType francaMapType) {
 
-    CppTypeRef key = CppTypeMapper.map(rootModel, francaMapType.getKeyType());
-    CppTypeRef value = CppTypeMapper.map(rootModel, francaMapType.getValueType());
+    CppTypeRef key = CppTypeMapper.map(francaMapType.getKeyType());
+    CppTypeRef value = CppTypeMapper.map(francaMapType.getValueType());
 
     List<Include> includes = new LinkedList<>();
     includes.addAll(key.includes);

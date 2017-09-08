@@ -16,7 +16,6 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.emf.common.util.EList;
@@ -42,7 +41,7 @@ public final class CppMethodMapper {
     }
   }
 
-  public static ReturnTypeData mapMethodReturnType(FMethod francaMethod, FrancaElement rootModel) {
+  public static ReturnTypeData mapMethodReturnType(FMethod francaMethod) {
 
     CppTypeRef errorType = null;
     String errorComment = "";
@@ -59,7 +58,7 @@ public final class CppMethodMapper {
     if (!outArgs.isEmpty()) {
       // If outArgs size is 2 or more, the output has to be wrapped in a struct,
       // which is not supported yet.
-      outArgType = CppTypeMapper.map(rootModel, outArgs.get(0));
+      outArgType = CppTypeMapper.map(outArgs.get(0));
 
       outArgComment = "The result type, containing " + outArgType.name + " value.";
     }

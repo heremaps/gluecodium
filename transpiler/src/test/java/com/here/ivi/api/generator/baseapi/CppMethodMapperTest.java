@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.baseapi;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -20,7 +19,6 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.test.ArrayEList;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
@@ -49,8 +47,6 @@ public class CppMethodMapperTest {
   private static final String ARGUMENT_NAME = "which foot";
   private static final String TYPE_NAME = "typical";
 
-  @Mock private FrancaElement rootModel;
-
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMethod francaMethod;
 
@@ -64,7 +60,7 @@ public class CppMethodMapperTest {
     PowerMockito.mockStatic(CppTypeMapper.class);
     MockitoAnnotations.initMocks(this);
 
-    when(CppTypeMapper.map(any(), any(FTypedElement.class))).thenReturn(cppCustomType);
+    when(CppTypeMapper.map(any(FTypedElement.class))).thenReturn(cppCustomType);
 
     when(francaMethod.getErrorEnum()).thenReturn(null);
     when(francaMethod.getOutArgs()).thenReturn(new ArrayEList<>());
@@ -91,7 +87,7 @@ public class CppMethodMapperTest {
   @Test
   public void mapMethodReturnTypeNoArguments() {
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(francaMethod, rootModel);
+        CppMethodMapper.mapMethodReturnType(francaMethod);
 
     assertEquals(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID), returnTypeData.type);
   }
@@ -102,12 +98,12 @@ public class CppMethodMapperTest {
     when(francaMethod.getErrorEnum()).thenReturn(francaEnum);
 
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(francaMethod, rootModel);
+        CppMethodMapper.mapMethodReturnType(francaMethod);
 
     assertEquals(TYPE_NAME, returnTypeData.type.name);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.mapEnum(same(francaEnum));
+    CppTypeMapper.mapEnum(francaEnum);
   }
 
   @Test
@@ -116,12 +112,12 @@ public class CppMethodMapperTest {
     when(francaMethod.getOutArgs()).thenReturn(francaArguments);
 
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(francaMethod, rootModel);
+        CppMethodMapper.mapMethodReturnType(francaMethod);
 
     assertEquals(TYPE_NAME, returnTypeData.type.name);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.map(same(rootModel), same(francaArgument));
+    CppTypeMapper.map(francaArgument);
   }
 
   @Test
@@ -133,7 +129,7 @@ public class CppMethodMapperTest {
     when(francaMethod.getErrorEnum()).thenReturn(francaEnum);
 
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(francaMethod, rootModel);
+        CppMethodMapper.mapMethodReturnType(francaMethod);
 
     assertEquals(
         "here::internal::expected< " + TYPE_NAME + ", " + TYPE_NAME + " >",
@@ -145,8 +141,8 @@ public class CppMethodMapperTest {
         returnTypeData.type.includes.iterator().next().fileName);
 
     PowerMockito.verifyStatic();
-    CppTypeMapper.map(same(rootModel), same(francaArgument));
+    CppTypeMapper.map(francaArgument);
     PowerMockito.verifyStatic();
-    CppTypeMapper.mapEnum(same(francaEnum));
+    CppTypeMapper.mapEnum(francaEnum);
   }
 }
