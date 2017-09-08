@@ -11,8 +11,6 @@
 
 package hello
 
-import common.* from "../common/CommonTypes.fidl"
-
 <** @description:
     Example interface which demonstrates the usage of instances for HelloWorld use case
 **>
