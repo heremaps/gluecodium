@@ -71,11 +71,12 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
       return Collections.emptyList();
     }
 
-    CppGenerator generator = new CppGenerator(new CppIncludeResolver(model));
+    CppIncludeResolver includeResolver = new CppIncludeResolver(model);
+    CppGenerator generator = new CppGenerator();
 
     List<GeneratedFile> generatedFiles =
         Stream.concat(model.getInterfaces().stream(), model.getTypeCollections().stream())
-            .map(iface -> generateFromFrancaElement(iface, generator))
+            .map(iface -> generateFromFrancaElement(iface, includeResolver, generator))
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
@@ -108,11 +109,15 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
   }
 
   private GeneratedFile generateFromFrancaElement(
-      FrancaElement francaElement, CppGenerator generator) {
+      final FrancaElement francaElement,
+      final CppIncludeResolver includeResolver,
+      final CppGenerator generator) {
 
-    CppNamespace cppModel = mapFrancaElementToCppModel(francaElement);
+    CppNamespace cppModel = mapFrancaElementToCppModel(francaElement, includeResolver);
+
     String fileName = CppNameRules.getHeaderPath(francaElement);
     CharSequence copyRightNotice = generateGeneratorNotice(francaElement, fileName);
+
     return generator.generateCode(cppModel, fileName, copyRightNotice);
   }
 
@@ -128,7 +133,8 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
     return TemplateEngine.render("common/GeneratorNotice", generatorNoticeData);
   }
 
-  private static CppNamespace mapFrancaElementToCppModel(final FrancaElement francaElement) {
+  private static CppNamespace mapFrancaElementToCppModel(
+      final FrancaElement francaElement, final CppIncludeResolver includeResolver) {
 
     List<String> outermostQualifier;
     if (francaElement instanceof Interface) {
@@ -148,6 +154,7 @@ public final class BaseApiGeneratorSuite implements GeneratorSuite {
 
     CppNamespace namespace = new CppNamespace(outermostQualifier);
     namespace.members.addAll(builder.getResults());
+    includeResolver.resolveLazyIncludes(namespace);
 
     return namespace;
   }

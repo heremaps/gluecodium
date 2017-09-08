@@ -13,17 +13,14 @@ package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.model.common.Include;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class CppNamespace {
 
   public final List<String> name;
-  public List<CppElement> members = new ArrayList<>();
+  public final List<CppElement> members = new LinkedList<>();
+  public final Set<Include> includes = new LinkedHashSet<>();
 
   public CppNamespace(List<String> name) {
     this.name = name;
@@ -35,16 +32,6 @@ public class CppNamespace {
 
   public final Stream<? extends CppElement> streamRecursive() {
     return members.stream().filter(Objects::nonNull).flatMap(CppElement::streamRecursive);
-  }
-
-  @SuppressWarnings("unused")
-  public Set<Include> getIncludes() {
-    return streamRecursive()
-        .filter(p -> p instanceof CppElementWithIncludes)
-        .map(CppElementWithIncludes.class::cast)
-        .map(t -> t.includes)
-        .flatMap(Set::stream)
-        .collect(Collectors.toSet());
   }
 
   @SuppressWarnings("unused")

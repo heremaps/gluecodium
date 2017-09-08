@@ -13,18 +13,11 @@ package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CppGenerator {
-
-  private final CppIncludeResolver includeResolver;
-
-  public CppGenerator(CppIncludeResolver includeResolver) {
-    this.includeResolver = includeResolver;
-  }
 
   public GeneratedFile generateCode(
       CppNamespace cppModel, String outputFileName, CharSequence copyrightNotice) {
@@ -33,8 +26,8 @@ public class CppGenerator {
       return null;
     }
 
-    // find included files and resolve relative to generated path
-    includeResolver.resolveLazyIncludes(cppModel, outputFileName);
+    // Filter out self-includes
+    cppModel.includes.removeIf(include -> include.fileName.equals(outputFileName));
 
     String commentHeader = generateCommentHeader(copyrightNotice);
     String mainContent = TemplateEngine.render("cpp/CppNamespace", cppModel);

@@ -11,37 +11,29 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.*;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.cpp.CppGenerator;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppElement;
-import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
 import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 public class CppGeneratorTest {
 
   private static final String OUTPUT_FILE_NAME = "some_fancy.output";
   private static final String COPYRIGHT_NOTICE = "a noticeable copy right";
 
-  @Mock private CppIncludeResolver includeResolver;
-
-  @InjectMocks private CppGenerator cppGenerator;
+  private final CppGenerator cppGenerator = new CppGenerator();
 
   private final CppNamespace cppModel = new CppNamespace(Collections.emptyList());
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    cppModel.members.add(new CppElement(""));
   }
 
   @Test
@@ -54,6 +46,8 @@ public class CppGeneratorTest {
 
   @Test
   public void generateWithEmptyModel() {
+    cppModel.members.clear();
+
     GeneratedFile generatedFile =
         cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
 
@@ -62,24 +56,32 @@ public class CppGeneratorTest {
 
   @Test
   public void generateWithNonEmptyModel() {
-    cppModel.members.add(new CppElement(""));
-
     GeneratedFile generatedFile =
         cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
 
-    verify(includeResolver).resolveLazyIncludes(cppModel, OUTPUT_FILE_NAME);
     assertNotNull(generatedFile);
   }
 
   @Test
   public void generatePreservesCopyrightNotice() {
-    cppModel.members.add(new CppElement(""));
-
     GeneratedFile generatedFile =
         cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
 
     assertNotNull(generatedFile);
     assertNotNull(generatedFile.content);
     assertTrue(generatedFile.content.toString().contains(COPYRIGHT_NOTICE));
+  }
+
+  @Test
+  public void generateFiltersOutSelfIncludes() {
+    Include nonsenseInclude = Include.createInternalInclude("nonsense");
+    Include selfInclude = Include.createInternalInclude(OUTPUT_FILE_NAME);
+    cppModel.includes.add(nonsenseInclude);
+    cppModel.includes.add(selfInclude);
+
+    cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
+
+    assertTrue(cppModel.includes.contains(nonsenseInclude));
+    assertFalse(cppModel.includes.contains(selfInclude));
   }
 }
