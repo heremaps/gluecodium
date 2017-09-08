@@ -11,7 +11,6 @@
 
 package hello
 
-import common.* from "../common/CommonTypes.fidl"
 import hello.ProfileManager.ProfileManager from "./HelloWorldProfileManager.fidl"
 
 <** @description:
