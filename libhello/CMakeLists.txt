@@ -95,6 +95,10 @@ else()
     list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldComplexTypes.fidl)
     list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldComplexTypes.fdepl)
 
+    #TODO: These excludes can be removed once both platforms support listeners (APIGEN-515,516,517,518)
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fidl)
+    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/CalculatorListener.fidl)
+
     file(COPY ${FRANCA_FILES} DESTINATION fidl-supported-features-only)
     apigen_transpile(hello
         ${CMAKE_CURRENT_BINARY_DIR}/fidl-supported-features-only/
