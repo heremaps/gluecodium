@@ -10,7 +10,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/hello/HelloWorldFactory.h"
+#include "hello/HelloWorldFactory.h"
 
 #include "HelloWorldInstances.h"
 

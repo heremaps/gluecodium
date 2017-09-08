@@ -10,7 +10,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/hello/HelloWorldComplexTypes.h"
+#include "hello/HelloWorldComplexTypes.h"
 
 namespace hello
 {

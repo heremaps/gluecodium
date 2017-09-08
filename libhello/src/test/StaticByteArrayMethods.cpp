@@ -12,7 +12,7 @@
 
 #include <stdint.h>
 
-#include "stub/test/StaticByteArrayMethods.h"
+#include "test/StaticByteArrayMethods.h"
 
 namespace test {
 

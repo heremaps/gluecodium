@@ -10,7 +10,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/StaticBooleanMethods.h"
+#include "test/StaticBooleanMethods.h"
 
 namespace test {
 
