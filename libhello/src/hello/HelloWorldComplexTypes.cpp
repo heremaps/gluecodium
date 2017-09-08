@@ -11,12 +11,62 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "hello/HelloWorldComplexTypes.h"
+#include <algorithm>
 
 namespace hello
 {
-    HelloWorldComplexTypes::Errors
-    HelloWorldComplexTypes::methodWithArray( const Errors& errors )
+
+HelloWorldComplexTypes::InternalError
+methodWithEnumeration( const HelloWorldComplexTypes::InternalError input )
+{
+    if ( input == HelloWorldComplexTypes::InternalError::ERROR_NONE )
     {
-        return {errors.rbegin( ), errors.rend( )};
+        return HelloWorldComplexTypes::InternalError::ERROR_FATAL;
     }
+
+    return HelloWorldComplexTypes::InternalError::ERROR_NONE;
 }
+
+::std::vector< HelloWorldComplexTypes::InternalError >
+HelloWorldComplexTypes::methodWithArray(
+    const ::std::vector< HelloWorldComplexTypes::InternalError >& errors )
+{
+    return { errors.rbegin( ), errors.rend( ) };
+}
+
+::std::vector< HelloWorldComplexTypes::InternalError >
+HelloWorldComplexTypes::methodWithArrayInline(
+    const ::std::vector< HelloWorldComplexTypes::InternalError >& errors )
+{
+    return { errors.rbegin( ), errors.rend( ) };
+}
+
+::std::vector< HelloWorldComplexTypes::ExampleStruct >
+methodWithStructArray( const ::std::vector< HelloWorldComplexTypes::ExampleStruct >& input )
+{
+    return { input.rbegin( ), input.rend( ) };
+}
+
+HelloWorldComplexTypes::Errors
+methodWithTypeDef( const HelloWorldComplexTypes::Errors& input )
+{
+    return { input.rbegin( ), input.rend( ) };
+}
+
+HelloWorldComplexTypes::ErrorCodeToMessageMap
+methodWithMap( const HelloWorldComplexTypes::ErrorCodeToMessageMap& input )
+{
+    HelloWorldComplexTypes::ErrorCodeToMessageMap result;
+    for ( const auto& entry : input )
+    {
+        std::string uppercaseString;
+        std::transform( entry.second.begin( ),
+                        entry.second.end( ),
+                        uppercaseString.begin( ),
+                            ::toupper );
+        result.emplace( std::make_pair( entry.first, uppercaseString ) );
+    }
+
+    return result;
+}
+} // namespace hello
