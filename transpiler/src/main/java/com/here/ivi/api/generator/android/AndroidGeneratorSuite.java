@@ -15,20 +15,14 @@ import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.model.franca.FrancaModel;
-import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.model.jni.JniContainer;
-import com.here.ivi.api.validator.android.AndroidValidator;
-import com.here.ivi.api.validator.common.ResourceValidator;
-import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 
-public final class AndroidGeneratorSuite implements GeneratorSuite {
+public final class AndroidGeneratorSuite extends GeneratorSuite {
 
   public static final String GENERATOR_NAMESPACE = "android";
   private static final String CONVERSION_UTILS_HEADER = "android/jni/JniCppConversionUtils.h";
@@ -38,33 +32,15 @@ public final class AndroidGeneratorSuite implements GeneratorSuite {
   private static final String CONVERSION_UTILS_TARGET_DIR = "";
 
   private final OptionReader.TranspilerOptions transpilerOptions;
-  private FrancaModel model;
-  private final FrancaModelLoader francaModelLoader;
-  private Collection<File> currentFiles;
-  private final AndroidValidator validator;
 
   public AndroidGeneratorSuite(OptionReader.TranspilerOptions transpilerOptions) {
-    this.validator = new AndroidValidator();
-    this.francaModelLoader = new FrancaModelLoader();
+    super(new FrancaModelLoader());
     this.transpilerOptions = transpilerOptions;
   }
 
   @Override
   public String getName() {
     return "com.here.AndroidGenerator";
-  }
-
-  @Override
-  public boolean validate() {
-    ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
-    return ResourceValidator.validate(resources, currentFiles) && validator.validate(model);
-  }
-
-  @Override
-  public void buildModel(String inputPath) {
-    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
-    currentFiles = FrancaModelLoader.listFilesRecursively(new File(inputPath));
-    model = francaModelLoader.load(GeneratorSuite.getSpecPath(), currentFiles);
   }
 
   @Override
