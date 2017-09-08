@@ -32,7 +32,7 @@ set(HELLO_SOURCES
 )
 
 #TODO: Remove this workaround once iOS supports PODs (APIGEN-357)
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
+if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
         src/test/StaticTypedef.cpp
@@ -40,7 +40,7 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub OR HELLO_APIGEN_TRANSPILER_GE
 endif()
 
 #TODO: Remove this workaround once Android and iOS supports complex types (APIGEN-280, APIGEN-281)
-if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
+if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
         src/hello/HelloWorldComplexTypes.cpp)
@@ -48,7 +48,7 @@ if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
 endif()
 
 #TODO: Remove this workaround once Android and iOS supports instances (APIGEN-195, APIGEN-593)
-if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
+if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
         src/hello/HelloWorldInstances.cpp
@@ -65,7 +65,7 @@ set_target_properties(hello PROPERTIES
 include(apigen/Apigen)
 
 #TODO: the 'if' and the content of the 'else' block should be removed when all fidl files pass the build (APIGEN-357, APIGEN-460, APIGEN-462)
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
+if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     apigen_transpile(hello
         ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
         ${HELLO_APIGEN_TRANSPILER_GENERATOR})
@@ -105,7 +105,7 @@ apigen_target_include_directories(hello)
 apigen_target_sources(hello)
 
 # Target platform specific rules to follow...
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL stub)
+if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     # Only install the shared library for C++ customers, others don't care...
     install(TARGETS hello EXPORT helloTargets
         LIBRARY DESTINATION lib

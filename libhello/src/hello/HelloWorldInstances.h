@@ -10,8 +10,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/hello/SimpleInstantiable.h"
-#include "stub/hello/NestedInstantiable.h"
+#include "hello/SimpleInstantiable.h"
+#include "hello/NestedInstantiable.h"
 
 namespace hello
 {

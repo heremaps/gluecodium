@@ -10,7 +10,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/hello/HelloWorldPlainDataStructures.h"
+#include "hello/HelloWorldPlainDataStructures.h"
 
 namespace hello
 {

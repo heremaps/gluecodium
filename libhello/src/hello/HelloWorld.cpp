@@ -10,7 +10,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/hello/HelloWorld.h"
+#include "hello/HelloWorld.h"
 
 namespace hello
 {

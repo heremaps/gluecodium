@@ -10,7 +10,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/StaticIntMethods.h"
+#include "test/StaticIntMethods.h"
 
 namespace test
 {

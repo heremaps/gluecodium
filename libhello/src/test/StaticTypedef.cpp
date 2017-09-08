@@ -10,8 +10,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/TypeCollection.h"
-#include "stub/test/StaticTypedef.h"
+#include "test/TypeCollection.h"
+#include "test/StaticTypedef.h"
 
 namespace test
 {

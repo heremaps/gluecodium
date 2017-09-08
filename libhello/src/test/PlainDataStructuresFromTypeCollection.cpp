@@ -10,7 +10,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/PlainDataStructuresFromTypeCollection.h"
+#include "cpp/test/PlainDataStructuresFromTypeCollection.h"
 
 namespace test
 {

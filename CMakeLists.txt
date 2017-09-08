@@ -13,7 +13,7 @@ project(hello_world)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../../apigen-cmake/cmake/modules/")
 
 option(HELLO_BUILD_IOS_APP "Build example iOS apps" ON)
-set(HELLO_APIGEN_TRANSPILER_GENERATOR "stub,android,swift" CACHE STRING "Transpiler generator(s) to use [defaults to: stub,android,swift]")
+set(HELLO_APIGEN_TRANSPILER_GENERATOR "cpp,android,swift" CACHE STRING "Transpiler generator(s) to use [defaults to: cpp,android,swift]")
 
 enable_testing()
 add_subdirectory(libhello)

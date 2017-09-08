@@ -10,7 +10,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/StaticFloatDoubleMethods.h"
+#include "test/StaticFloatDoubleMethods.h"
 
 namespace test {
 

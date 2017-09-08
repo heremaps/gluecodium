@@ -10,7 +10,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/test/PlainDataStructures.h"
+#include "test/PlainDataStructures.h"
 
 namespace test
 {

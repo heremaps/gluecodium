@@ -10,7 +10,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "stub/hello/HelloWorldBuiltinTypes.h"
+#include "hello/HelloWorldBuiltinTypes.h"
 
 #include <cmath>
 
