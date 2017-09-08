@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cpp;
 
+import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -21,6 +22,7 @@ import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FType;
 
 public final class CppNameRules {
+
   private CppNameRules() {}
 
   public static String getCppTypename(String baseName) {
@@ -85,8 +87,7 @@ public final class CppNameRules {
   }
 
   public static String getHeaderPath(FrancaElement francaElement) {
-    // TODO: APIGEN-285: remove "stub" prefix
-    return "stub"
+    return BaseApiGeneratorSuite.GENERATOR_NAME
         + File.separator
         + String.join(File.separator, francaElement.getPackageNames())
         + File.separator

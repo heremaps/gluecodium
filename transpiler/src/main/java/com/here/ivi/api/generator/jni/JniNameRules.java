@@ -57,6 +57,6 @@ public final class JniNameRules {
   }
 
   private static String getJniPathPrefix() {
-    return AndroidGeneratorSuite.GENERATOR_NAMESPACE + File.separator + "jni" + File.separator;
+    return AndroidGeneratorSuite.GENERATOR_NAME + File.separator + "jni" + File.separator;
   }
 }

@@ -41,7 +41,9 @@ import java.util.stream.Stream;
  * implementation through the C++ interfaces.
  */
 public final class BaseApiGeneratorSuite extends GeneratorSuite {
+  public static final String GENERATOR_NAME = "cpp";
 
+  @SuppressWarnings("unused")
   public BaseApiGeneratorSuite() {
     this(new FrancaModelLoader());
   }
@@ -61,7 +63,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
-    generatedFiles.add(GeneratorSuite.copyTarget("cpp/internal/expected.h", "src/"));
+    generatedFiles.add(GeneratorSuite.copyTarget("cpp/internal/expected.h", ""));
 
     return generatedFiles;
   }

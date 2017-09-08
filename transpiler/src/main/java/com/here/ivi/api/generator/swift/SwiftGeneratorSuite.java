@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public final class SwiftGeneratorSuite extends GeneratorSuite {
+  public static final String GENERATOR_NAME = "swift";
 
   public SwiftGeneratorSuite() {
     super(new FrancaModelLoader());

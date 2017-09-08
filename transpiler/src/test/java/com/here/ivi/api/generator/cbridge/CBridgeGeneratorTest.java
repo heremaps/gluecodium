@@ -94,8 +94,8 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <stub/cbridge/test/TestInterface.h>",
             "#include \"TestInterface.h\"",
+            "#include <cpp/cbridge/test/TestInterface.h>",
             "");
 
     CInterface cModel = generator.buildCBridgeModel(anInterface);
@@ -111,8 +111,8 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <stub/cbridge/test/TestInterface.h>",
             "#include \"TestInterface.h\"",
+            "#include <cpp/cbridge/test/TestInterface.h>",
             "void cbridge_test_TestInterface_functionName() {",
             "    cbridge::test::TestInterface::functionName();",
             "}",
@@ -136,10 +136,10 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <stub/cbridge/test/TestInterface.h>",
             "#include \"TestInterface.h\"",
             "#include <string>",
             "#include \"StringHandleImpl.h\"",
+            "#include <cpp/cbridge/test/TestInterface.h>",
             "void cbridge_test_TestInterface_functionName(const char* input) {",
             "    auto&& cpp_input = std::string(input);",
             "    cbridge::test::TestInterface::functionName(cpp_input);",
@@ -173,10 +173,10 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <stub/cbridge/test/TestInterface.h>",
             "#include \"TestInterface.h\"",
             "#include <string>",
             "#include \"StringHandleImpl.h\"",
+            "#include <cpp/cbridge/test/TestInterface.h>",
             "#include <utility>",
             "std_stringRef cbridge_test_TestInterface_functionName(const char* input) {",
             "    auto&& cpp_input = std::string(input);",
@@ -209,10 +209,10 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <stub/cbridge/test/TestInterface.h>",
             "#include \"TestInterface.h\"",
             "#include \"ByteArrayHandleImpl.h\"",
             "#include <vector>",
+            "#include <cpp/cbridge/test/TestInterface.h>",
             "void cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {",
             "    auto&& cpp_input = std::vector<uint8_t>(input_ptr, input_ptr + input_size);",
             "    cbridge::test::TestInterface::functionName(cpp_input);",
@@ -247,10 +247,10 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <stub/cbridge/test/TestInterface.h>",
             "#include \"TestInterface.h\"",
             "#include \"ByteArrayHandleImpl.h\"",
             "#include <vector>",
+            "#include <cpp/cbridge/test/TestInterface.h>",
             "#include <utility>",
             "byteArrayRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {",
             "    auto&& cpp_input = std::vector<uint8_t>(input_ptr, input_ptr + input_size);",
@@ -296,8 +296,8 @@ public class CBridgeGeneratorTest {
     String expectedImplementationWithTypePlaceholders =
         String.join(
             "\n",
-            "#include <stub/cbridge/test/TestInterface.h>",
             "#include \"TestInterface.h\"",
+            "#include <cpp/cbridge/test/TestInterface.h>",
             "%1$s cbridge_test_TestInterface_functionName(%1$s input) {",
             "    auto&& cpp_input = input;",
             "    {",
@@ -335,8 +335,8 @@ public class CBridgeGeneratorTest {
     String expectedImplementationWithTypePlaceholders =
         String.join(
             "\n",
-            "#include <stub/cbridge/test/TestInterface.h>",
             "#include \"TestInterface.h\"",
+            "#include <cpp/cbridge/test/TestInterface.h>",
             "%1$s cbridge_test_TestInterface_functionName(%1$s input) {",
             "    auto&& cpp_input = input;",
             "    {",
@@ -376,8 +376,8 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <stub/cbridge/test/TestInterface.h>",
             "#include \"TestInterface.h\"",
+            "#include <cpp/cbridge/test/TestInterface.h>",
             "bool cbridge_test_TestInterface_functionName(bool input) {",
             "    auto&& cpp_input = input;",
             "    {",
