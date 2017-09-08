@@ -34,8 +34,7 @@ public final class JavaNameRulesTest {
     String javaFile = JavaNameRules.getFileName(javaClass);
 
     // Assert
-    assertEquals(
-        AndroidGeneratorSuite.GENERATOR_NAMESPACE + "/com/here/android/MyClass.java", javaFile);
+    assertEquals(AndroidGeneratorSuite.GENERATOR_NAME + "/com/here/android/MyClass.java", javaFile);
   }
 
   @Test

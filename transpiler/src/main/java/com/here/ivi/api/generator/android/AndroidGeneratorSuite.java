@@ -23,8 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class AndroidGeneratorSuite extends GeneratorSuite {
-
-  public static final String GENERATOR_NAMESPACE = "android";
+  public static final String GENERATOR_NAME = "android";
   private static final String CONVERSION_UTILS_HEADER = "android/jni/JniCppConversionUtils.h";
   private static final String CONVERSION_UTILS_CPP = "android/jni/JniCppConversionUtils.cpp";
   public static final String FIELD_ACCESS_UTILS_HEADER = "android/jni/FieldAccessMethods.h";

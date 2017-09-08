@@ -39,7 +39,7 @@ public class BaseApiGeneratorSuiteIntegrationTest {
     assertEquals("Expected cpp/internal files and test generated file", 2, generatedFiles.size());
 
     assertFalse(generatedFiles.get(0).content.toString().isEmpty());
-    assertEquals("stub/test/TestInterface.h", generatedFiles.get(0).targetFile.toString());
+    assertEquals("cpp/test/TestInterface.h", generatedFiles.get(0).targetFile.toString());
 
     for (GeneratedFile generatedFile : generatedFiles) {
       assertFalse(generatedFile.content.toString().isEmpty());

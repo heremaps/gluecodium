@@ -27,7 +27,7 @@ public final class JavaNameRules {
   }
 
   public static String getFileName(final JavaClass javaClass) {
-    return AndroidGeneratorSuite.GENERATOR_NAMESPACE
+    return AndroidGeneratorSuite.GENERATOR_NAME
         + File.separator
         + formatPackageName(javaClass.javaPackage.packageNames)
         + javaClass.name

@@ -86,12 +86,11 @@ public abstract class GeneratorSuite {
       throws InvocationTargetException, NoSuchMethodException, InstantiationException,
           IllegalAccessException {
     switch (shortName) {
-      case "android":
+      case AndroidGeneratorSuite.GENERATOR_NAME:
         return new AndroidGeneratorSuite(options);
-        // TODO: APIGEN-253: change value to "baseApi"
-      case "stub":
+      case BaseApiGeneratorSuite.GENERATOR_NAME:
         return new BaseApiGeneratorSuite();
-      case "swift":
+      case SwiftGeneratorSuite.GENERATOR_NAME:
         return new SwiftGeneratorSuite();
     }
 
@@ -100,8 +99,10 @@ public abstract class GeneratorSuite {
 
   /** @return all available generators */
   public static List<String> generatorShortNames() {
-    // TODO: APIGEN-253: change second value to "baseApi"
-    return Arrays.asList("android", "stub", "swift");
+    return Arrays.asList(
+        AndroidGeneratorSuite.GENERATOR_NAME,
+        BaseApiGeneratorSuite.GENERATOR_NAME,
+        SwiftGeneratorSuite.GENERATOR_NAME);
   }
 
   public static GeneratedFile copyTarget(String fileName, String targetDir) {

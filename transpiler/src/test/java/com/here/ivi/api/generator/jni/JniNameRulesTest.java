@@ -45,8 +45,7 @@ public final class JniNameRulesTest {
     String headerFileName = JniNameRules.getHeaderFileName(jniContainer);
 
     assertEquals(
-        AndroidGeneratorSuite.GENERATOR_NAMESPACE + "/jni/com_here_android_MyClass.h",
-        headerFileName);
+        AndroidGeneratorSuite.GENERATOR_NAME + "/jni/com_here_android_MyClass.h", headerFileName);
   }
 
   @Test
@@ -64,8 +63,7 @@ public final class JniNameRulesTest {
 
     // Assert
     assertEquals(
-        AndroidGeneratorSuite.GENERATOR_NAMESPACE + "/jni/com_here_android_MyClass.cpp",
-        headerFileName);
+        AndroidGeneratorSuite.GENERATOR_NAME + "/jni/com_here_android_MyClass.cpp", headerFileName);
   }
 
   @Test

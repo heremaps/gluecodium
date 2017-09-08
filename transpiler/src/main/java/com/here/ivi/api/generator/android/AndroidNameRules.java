@@ -17,6 +17,6 @@ public final class AndroidNameRules {
   private AndroidNameRules() {}
 
   public static String getManifestFilename() {
-    return AndroidGeneratorSuite.GENERATOR_NAMESPACE + File.separator + "AndroidManifest.xml";
+    return AndroidGeneratorSuite.GENERATOR_NAME + File.separator + "AndroidManifest.xml";
   }
 }

@@ -19,9 +19,7 @@ import org.franca.core.franca.*;
 
 public class CppCommentParser
     extends AbstractFrancaCommentParser<AbstractFrancaCommentParser.Comments> {
-
-  // TODO: APIGEN-253: change value to "baseApi"
-  private static final String GENERATOR_NAME = "stub";
+  private static final String GENERATOR_NAME = "cpp";
   public static final DoxygenFormatter FORMATTER = new DoxygenFormatter(GENERATOR_NAME);
 
   public static AbstractFrancaCommentParser.Comments parse(FModelElement elem) {
