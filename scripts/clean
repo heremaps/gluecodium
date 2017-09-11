@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# Wipe all places clean of build artifacts
+#
+
+rm -rf \
+    dist \
+    build-* \
+    platforms/android/app/build \
+    platforms/android/app/libs/* \
+    platforms/android/build \
+    platforms/ios/build/ \
+    platforms/ios/Frameworks/*
