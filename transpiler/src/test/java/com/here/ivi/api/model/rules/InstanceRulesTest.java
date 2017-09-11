@@ -13,6 +13,7 @@ package com.here.ivi.api.model.rules;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
@@ -36,7 +37,7 @@ public final class InstanceRulesTest {
   @Mock private FTypeDef francaTypeDef;
   @Mock private FTypeRef francaTypeRef;
   @Mock private FType derivedType;
-  @Mock private DefinedBy definer;
+  @Mock private FTypeCollection typeCollection;
 
   @Before
   public void setUp() {
@@ -46,8 +47,8 @@ public final class InstanceRulesTest {
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
 
-    when(definer.getBaseName()).thenReturn(CLASS_NAME);
-    when(DefinedBy.createFromFModelElement(francaTypeDef)).thenReturn(definer);
+    when(DefinedBy.findDefiningTypeCollection(any())).thenReturn(typeCollection);
+    when(typeCollection.getName()).thenReturn(CLASS_NAME);
   }
 
   @Test
@@ -71,7 +72,7 @@ public final class InstanceRulesTest {
     assertFalse(InstanceRules.isInstanceId(francaTypeDef));
 
     verifyStatic();
-    DefinedBy.createFromFModelElement(francaTypeDef);
+    DefinedBy.findDefiningTypeCollection(francaTypeDef);
   }
 
   @Test
@@ -81,6 +82,6 @@ public final class InstanceRulesTest {
     assertTrue(InstanceRules.isInstanceId(francaTypeDef));
 
     verifyStatic();
-    DefinedBy.createFromFModelElement(francaTypeDef);
+    DefinedBy.findDefiningTypeCollection(francaTypeDef);
   }
 }

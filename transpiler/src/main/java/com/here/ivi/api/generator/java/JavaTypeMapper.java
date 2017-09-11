@@ -23,15 +23,7 @@ import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Collections;
 import java.util.List;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.*;
 
 public final class JavaTypeMapper {
   public static JavaType map(final JavaPackage basePackage, final FTypeRef fTypeRef) {
@@ -114,20 +106,21 @@ public final class JavaTypeMapper {
   private static JavaCustomType mapStruct(
       final JavaPackage basePackage, final FStructType structType) {
 
-    DefinedBy definer = DefinedBy.createFromFModelElement(structType);
-    List<String> packageNames = basePackage.createChildPackage(definer.getPackages()).packageNames;
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(structType);
+    List<String> packageNames =
+        basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames;
 
     String structName;
     String importClassName;
     String className = JavaNameRules.getClassName(structType.getName());
 
     //struct is nested class inside defining class
-    if (definer.type instanceof FInterface) {
-      importClassName = JavaNameRules.getClassName(definer.type.getName());
+    if (typeCollection instanceof FInterface) {
+      importClassName = JavaNameRules.getClassName(typeCollection.getName());
       structName = importClassName + "." + className;
     } else { // struct from a type collection
       importClassName = className;
-      String typeCollectionName = definer.type.getName();
+      String typeCollectionName = typeCollection.getName();
       String packageName = JavaNameRules.getTypeCollectionName(typeCollectionName);
       packageNames.add(packageName);
       structName = String.join(".", packageNames) + "." + className;
@@ -141,10 +134,10 @@ public final class JavaTypeMapper {
   private static JavaType mapTypeDef(final JavaPackage basePackage, final FTypeDef typeDef) {
 
     if (InstanceRules.isInstanceId(typeDef)) {
-      DefinedBy definer = DefinedBy.createFromFModelElement(typeDef);
+      FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(typeDef);
       List<String> packageNames =
-          basePackage.createChildPackage(definer.getPackages()).packageNames;
-      String className = JavaNameRules.getClassName(definer.type.getName());
+          basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames;
+      String className = JavaNameRules.getClassName(typeCollection.getName());
       JavaImport classImport = new JavaImport(className, new JavaPackage(packageNames));
 
       return new JavaCustomType(className, Collections.singletonList(classImport));

@@ -47,6 +47,7 @@ import org.trimou.util.Strings;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({JavaNameRules.class, InstanceRules.class})
 public class JavaTypeMapperCustomTypeTest {
+
   private static final String TYPECOLLECTION_NAME = "typeC0Ll3ction";
 
   private static final String FMODEL_NAME = "this.is.A.fancy.t3sT.package";
@@ -62,10 +63,10 @@ public class JavaTypeMapperCustomTypeTest {
 
   @Rule private final ExpectedException expectedException = ExpectedException.none();
 
-  @Mock private static FTypeCollection fTypeCollection;
-  @Mock private static FInterface fInterface;
-  @Mock private static FModel theModel;
-  @Mock private static FStructType structType;
+  @Mock private FTypeCollection fTypeCollection;
+  @Mock private FInterface fInterface;
+  @Mock private FModel theModel;
+  @Mock private FStructType structType;
 
   @Mock private FTypeRef francaTypeRef;
   @Mock private FTypeDef francaTypeDef;

@@ -14,7 +14,10 @@ package com.here.ivi.api.model.rules;
 import com.here.ivi.api.model.franca.DefinedBy;
 import java.util.Optional;
 import java.util.logging.Logger;
+import org.eclipse.emf.ecore.EObject;
+import org.franca.core.franca.FModel;
 import org.franca.core.franca.FQualifiedElementRef;
+import org.franca.core.franca.FTypeCollection;
 
 /**
  * This class handles the specific rules for using target language BuiltIn values, such as MaxFloat
@@ -38,8 +41,7 @@ import org.franca.core.franca.FQualifiedElementRef;
  */
 public class BuiltInValueRules {
 
-  private static final Logger LOGGER =
-      java.util.logging.Logger.getLogger(BuiltInValueRules.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(BuiltInValueRules.class.getName());
 
   // TODO move to shared Helper with CppTypeMapper
   private static final String BUILTIN_MODEL = "navigation.BuiltIn";
@@ -54,12 +56,20 @@ public class BuiltInValueRules {
     DoubleNan
   }
 
-  public static Optional<BuiltInValues> resolveReference(FQualifiedElementRef qer) {
-    DefinedBy referenceDefiner = DefinedBy.createFromFModelElement(qer.getElement());
-    String name = qer.getElement().getName();
+  public static Optional<BuiltInValues> resolveReference(
+      final FQualifiedElementRef qualifiedElementRef) {
 
-    if (BUILTIN_MODEL.equals(referenceDefiner.toString())) {
-      switch (name) {
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(qualifiedElementRef);
+    EObject container = typeCollection.eContainer();
+    if (!(container instanceof FModel)) {
+      return Optional.empty();
+    }
+
+    String modelName = ((FModel) container).getName();
+    String qualifiedName = modelName + "." + typeCollection.getName();
+
+    if (BUILTIN_MODEL.equals(qualifiedName)) {
+      switch (qualifiedElementRef.getElement().getName()) {
         case FLOAT_MAX_CONSTANT:
           return Optional.of(BuiltInValues.FloatMax);
         case FLOAT_NAN_CONSTANT:
@@ -67,7 +77,9 @@ public class BuiltInValueRules {
         case DOUBLE_NAN_CONSTANT:
           return Optional.of(BuiltInValues.DoubleNan);
         default:
-          LOGGER.severe("Could not resolve built-in value. Invalid franca definition. " + qer);
+          LOGGER.severe(
+              "Could not resolve built-in value. Invalid franca definition. "
+                  + qualifiedElementRef);
           break;
       }
     }

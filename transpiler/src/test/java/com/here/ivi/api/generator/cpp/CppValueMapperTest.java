@@ -23,6 +23,8 @@ import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppValue;
+import com.here.ivi.api.model.rules.BuiltInValueRules;
+import java.util.Optional;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerator;
 import org.franca.core.franca.FModel;
@@ -39,7 +41,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(CppNameRules.class)
+@PrepareForTest({CppNameRules.class, BuiltInValueRules.class})
 public final class CppValueMapperTest {
 
   @Mock private CppIncludeResolver includeResolver;
@@ -51,7 +53,8 @@ public final class CppValueMapperTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(CppNameRules.class);
+    PowerMockito.mockStatic(CppNameRules.class, BuiltInValueRules.class);
+    when(BuiltInValueRules.resolveReference(any())).thenReturn(Optional.empty());
 
     valueMapper = new CppValueMapper(includeResolver);
 

@@ -18,93 +18,29 @@ import org.eclipse.xtext.util.Strings;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 
-/**
- * This class stores the information where a type was defined
- *
- * <p>It is used for resolving namespaces and includes.
- */
+/** This class is used for resolving namespaces and includes. */
 public final class DefinedBy {
-
-  public final FTypeCollection type; // A FInterface is a FTypeCollection as well
-  private final String modelName;
-
-  private DefinedBy(FTypeCollection type, FModel model) {
-    this.type = type;
-    modelName = model.getName();
-  }
-
-  /**
-   * Gets the model and interface that defined the given franca object
-   *
-   * @param obj The franca model object
-   * @return The model and interface that defined the given object
-   */
-  public static DefinedBy createFromFModelElement(EObject obj) {
-    // search for parent type collection
-    FTypeCollection tc = findDefiningTypeCollection(obj);
-
-    if (tc == null || !(tc.eContainer() instanceof FModel)) {
-      throw new TranspilerExecutionException(
-          "Could not resolve root of EObject. Invalid franca definition. " + obj);
-    }
-
-    FModel model = (FModel) tc.eContainer();
-    return new DefinedBy(tc, model);
-  }
-
-  /** Returns the base name, eg. MyInterface */
-  public String getBaseName() {
-    return type.getName();
-  }
-
-  /** Returns the split packages from the model */
-  public List<String> getPackages() {
-    return Strings.split(modelName, ".");
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    DefinedBy definedBy = (DefinedBy) o;
-
-    return getBaseName().equals(definedBy.getBaseName()) && modelName.equals(definedBy.modelName);
-  }
-
-  @Override
-  public int hashCode() {
-    int result = modelName.hashCode();
-    result = 31 * result + getBaseName().hashCode();
-    return result;
-  }
-
-  @Override
-  public String toString() {
-    return modelName + "." + getBaseName();
-  }
 
   /**
    * Find the TypeCollection that contains this type by moving up the hierarchy recursively
    *
-   * @param obj The franca object
+   * @param modelElement The franca object
    * @return The type collection that contains this type
    */
-  public static FTypeCollection findDefiningTypeCollection(EObject obj) {
-    if (obj instanceof FTypeCollection) {
-      return (FTypeCollection) obj; // FInterface is a FTypeCollection as well
+  public static FTypeCollection findDefiningTypeCollection(final EObject modelElement) {
+    if (modelElement instanceof FTypeCollection) {
+      return (FTypeCollection) modelElement; // FInterface is a FTypeCollection as well
     }
 
-    EObject parent = obj.eContainer();
-
-    if (parent == obj || parent == null) { // NOPMD
-      return null;
+    EObject parent = modelElement.eContainer();
+    if (parent == null) {
+      throw new TranspilerExecutionException("Invalid model element: " + modelElement);
     }
 
     return findDefiningTypeCollection(parent);
+  }
+
+  public static List<String> getPackages(final FTypeCollection typeCollection) {
+    return Strings.split(((FModel) typeCollection.eContainer()).getName(), ".");
   }
 }
