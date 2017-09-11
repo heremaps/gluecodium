@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 
 public class CBridgeNameRules {
 
@@ -118,9 +119,11 @@ public class CBridgeNameRules {
   }
 
   public List<String> getNestedNameSpecifier(EObject type) {
-    DefinedBy definer = DefinedBy.createFromFModelElement(type);
-    List<String> result = definer.getPackages();
-    result.add(NameHelper.toUpperCamelCase(definer.type.getName()));
+
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(type);
+    List<String> result = DefinedBy.getPackages(typeCollection);
+    result.add(NameHelper.toUpperCamelCase(typeCollection.getName()));
+
     return result;
   }
 }

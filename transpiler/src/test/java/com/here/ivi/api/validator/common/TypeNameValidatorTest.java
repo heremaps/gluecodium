@@ -105,6 +105,7 @@ public class TypeNameValidatorTest {
     FTypeCollection fTypeCollection = mock(FTypeCollection.class);
 
     when(typeCollection.getFrancaTypeCollection()).thenReturn(fTypeCollection);
+    when(typeCollection.getFrancaModel()).thenReturn(fModel);
     when(fTypeCollection.eContainer()).thenReturn(fModel);
 
     ArrayEList<FType> types = new ArrayEList<>();

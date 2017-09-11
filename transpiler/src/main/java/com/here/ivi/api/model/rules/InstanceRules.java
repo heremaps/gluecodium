@@ -32,8 +32,7 @@ public final class InstanceRules {
       return false;
     }
 
-    DefinedBy definer = DefinedBy.createFromFModelElement(typedef);
-    String className = definer.getBaseName();
+    String className = DefinedBy.findDefiningTypeCollection(typedef).getName();
 
     return typedef.getName().equals(className);
   }

@@ -21,14 +21,13 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.FCompoundType;
 import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FTypeCollection;
 
 public final class CppNameRules {
 
-  private CppNameRules() {}
+  private static final String HEADER_FILE_SUFFIX = ".h";
 
-  public static String getCppTypename(String baseName) {
-    return baseName;
-  }
+  private CppNameRules() {}
 
   public static String getTypeCollectionName(String typeCollectionName) {
     return typeCollectionName.toLowerCase(); // mytypecollection
@@ -50,20 +49,18 @@ public final class CppNameRules {
     return NameHelper.toUpperCamelCase(base); // MyTypedef
   }
 
-  public static String getHeaderFileSuffix() {
-    return ".h";
-  }
-
   public static List<String> getNestedNameSpecifier(EObject type) {
-    DefinedBy definer = DefinedBy.createFromFModelElement(type);
-    List<String> result = getNamespace(definer);
+
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(type);
+    List<String> result = DefinedBy.getPackages(typeCollection);
     // special rule for structs defined in interfaces ...
-    if (definer.type instanceof FInterface) {
-      result.add(getClassName(definer.type.getName()));
+    if (typeCollection instanceof FInterface) {
+      result.add(getClassName(typeCollection.getName()));
     } else {
       // common rule for all other types
-      result.add(getTypeCollectionName(definer.type.getName()));
+      result.add(getTypeCollectionName(typeCollection.getName()));
     }
+
     return result;
   }
 
@@ -74,10 +71,6 @@ public final class CppNameRules {
     return nestedNameSpecifier.isEmpty()
         ? "::" + compoundName
         : "::" + String.join("::", nestedNameSpecifier) + "::" + compoundName;
-  }
-
-  public static List<String> getNamespace(DefinedBy definer) {
-    return definer.getPackages();
   }
 
   public static String getClassName(String typeCollectionName) {
@@ -104,6 +97,6 @@ public final class CppNameRules {
         + (francaElement instanceof Interface
             ? getClassName(((Interface) francaElement).getFrancaInterface().getName())
             : francaElement.getFrancaTypeCollection().getName())
-        + getHeaderFileSuffix();
+        + HEADER_FILE_SUFFIX;
   }
 }

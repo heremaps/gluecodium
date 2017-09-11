@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.validator.common;
 
-import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.HashMap;
@@ -20,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.franca.core.franca.FModelElement;
 
 public class TypeNameValidator {
 
@@ -27,9 +27,7 @@ public class TypeNameValidator {
 
     Map<String, List<String>> packageNameMapping = new HashMap<>();
     for (TypeCollection typeCollection : model.getTypeCollections()) {
-      DefinedBy definer =
-          DefinedBy.createFromFModelElement(typeCollection.getFrancaTypeCollection());
-      String packageName = String.join(".", definer.getPackages());
+      String packageName = typeCollection.getFrancaModel().getName();
 
       List<String> value = packageNameMapping.get(packageName);
       if (value == null) {
@@ -41,7 +39,7 @@ public class TypeNameValidator {
               .getFrancaTypeCollection()
               .getTypes()
               .stream()
-              .map(type -> type.getName())
+              .map(FModelElement::getName)
               .collect(Collectors.toList()));
     }
 
