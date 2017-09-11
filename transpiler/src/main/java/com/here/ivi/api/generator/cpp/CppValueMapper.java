@@ -11,8 +11,9 @@
 
 package com.here.ivi.api.generator.cpp;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.model.common.LazyInternalInclude;
+import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.rules.BuiltInValueRules;
@@ -31,6 +32,7 @@ import org.franca.core.franca.FStringConstant;
 import org.franca.core.franca.FUnaryOperation;
 
 public class CppValueMapper {
+
   public static final CppValue NAN_FLOAT =
       new CppValue("std::numeric_limits< float >::quiet_NaN( )", CppLibraryIncludes.LIMITS);
   public static final CppValue NAN_DOUBLE =
@@ -38,7 +40,13 @@ public class CppValueMapper {
   private static final CppValue MAX_FLOAT =
       new CppValue("std::numeric_limits< float >::max( )", CppLibraryIncludes.LIMITS);
 
-  public static CppValue map(CppTypeRef type, FInitializerExpression rhs) {
+  private final CppIncludeResolver includeResolver;
+
+  public CppValueMapper(final CppIncludeResolver includeResolver) {
+    this.includeResolver = includeResolver;
+  }
+
+  public CppValue map(CppTypeRef type, FInitializerExpression rhs) {
     if (rhs instanceof FCompoundInitializer) {
       return map(type, (FCompoundInitializer) rhs);
     }
@@ -73,32 +81,32 @@ public class CppValueMapper {
     return new CppValue(rhs.getOp().getLiteral() + base.name);
   }
 
-  public static CppValue map(FBooleanConstant bc) {
+  private static CppValue map(FBooleanConstant bc) {
     final String value = bc.isVal() ? "true" : "false";
     return new CppValue(value);
   }
 
-  public static CppValue map(FStringConstant sc) {
+  private static CppValue map(FStringConstant sc) {
     final String value = sc.getVal();
     return new CppValue('"' + value + '"');
   }
 
-  public static CppValue map(FIntegerConstant ic) {
+  private static CppValue map(FIntegerConstant ic) {
     final BigInteger value = ic.getVal();
     return new CppValue(String.valueOf(value));
   }
 
-  public static CppValue map(FFloatConstant fc) {
+  private static CppValue map(FFloatConstant fc) {
     final Float value = fc.getVal();
     return new CppValue(String.valueOf(value) + 'f');
   }
 
-  public static CppValue map(FDoubleConstant dc) {
+  private static CppValue map(FDoubleConstant dc) {
     final Double value = dc.getVal();
     return new CppValue(String.valueOf(value));
   }
 
-  public static CppValue map(CppTypeRef type, FCompoundInitializer compoundInitializer) {
+  private CppValue map(CppTypeRef type, FCompoundInitializer compoundInitializer) {
 
     // TODO having a multi-line string in here is not-so-nice, this should be some CppType
     StringBuilder builder = new StringBuilder();
@@ -109,7 +117,7 @@ public class CppValueMapper {
           .append("  ")
           .append(initializer.getElement().getName())
           .append(" = ")
-          .append(CppValueMapper.map(type, initializer.getValue()).name)
+          .append(map(type, initializer.getValue()).name)
           .append(';');
     }
 
@@ -119,8 +127,8 @@ public class CppValueMapper {
   }
 
   // TODO handle namespaces here as well
-  public static CppValue map(
-      final CppTypeRef cppTypeRef, final FQualifiedElementRef francaQualifiedElementRef) {
+  @VisibleForTesting
+  CppValue map(final CppTypeRef cppTypeRef, final FQualifiedElementRef francaQualifiedElementRef) {
 
     if (francaQualifiedElementRef.getElement() == null) {
       // TODO improve error output as seen in TypeMapper
@@ -155,6 +163,7 @@ public class CppValueMapper {
 
     // TODO add ns resolution for referenced name
     // just use the name of the type and include the defining type
-    return new CppValue(name, new LazyInternalInclude(francaQualifiedElementRef.getElement()));
+    return new CppValue(
+        name, includeResolver.resolveInclude(francaQualifiedElementRef.getElement()));
   }
 }

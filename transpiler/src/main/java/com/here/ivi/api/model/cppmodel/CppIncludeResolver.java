@@ -14,51 +14,49 @@ package com.here.ivi.api.model.cppmodel;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.common.LazyInternalInclude;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import org.franca.core.franca.FModelElement;
+import org.franca.core.franca.FTypeCollection;
 
 public class CppIncludeResolver {
-  private final FrancaModel rootModel;
 
-  public CppIncludeResolver(FrancaModel rootModel) {
-    this.rootModel = rootModel;
+  private final FrancaModel francaModel;
+  private final Map<FTypeCollection, Include> resolvedIncludes = new HashMap<>();
+
+  public CppIncludeResolver(final FrancaModel francaModel) {
+    this.francaModel = francaModel;
   }
 
-  public void resolveLazyIncludes(final CppNamespace cppModel) {
-    List<Include> includes =
-        cppModel
-            .streamRecursive()
-            .filter(p -> p instanceof CppElementWithIncludes)
-            .map(CppElementWithIncludes.class::cast)
-            .flatMap(type -> type.includes.stream())
-            .map(this::resolveInclude)
-            .collect(Collectors.toList());
-    cppModel.includes.addAll(includes);
-  }
+  public Include resolveInclude(final FModelElement modelElement) {
 
-  private Include resolveInclude(Include include) {
+    if (francaModel == null) {
+      return null;
+    }
 
-    if (!(include instanceof LazyInternalInclude)) {
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
+    Include include = resolvedIncludes.get(typeCollection);
+    if (include != null) {
       return include;
     }
 
-    LazyInternalInclude lazyInclude = (LazyInternalInclude) include;
-
-    Optional<? extends FrancaElement> externalDefinitionOpt =
-        rootModel.find(lazyInclude.typeCollection);
+    Optional<? extends FrancaElement> externalDefinitionOpt = francaModel.find(typeCollection);
     if (!externalDefinitionOpt.isPresent()) {
       throw new TranspilerExecutionException(
-          String.format("Could not resolve type collection include %s.", lazyInclude));
+          String.format("Could not resolve type collection include %s.", typeCollection));
     }
 
     FrancaElement externalDefinition = externalDefinitionOpt.get();
     String includeName = CppNameRules.getHeaderPath(externalDefinition);
 
     // TODO think about relative include path resolution and stuff
-    return Include.createInternalInclude(includeName);
+    include = Include.createInternalInclude(includeName);
+    resolvedIncludes.put(typeCollection, include);
+
+    return include;
   }
 }
