@@ -41,13 +41,14 @@ public final class CppMethodMapper {
     }
   }
 
-  public static ReturnTypeData mapMethodReturnType(FMethod francaMethod) {
+  public static ReturnTypeData mapMethodReturnType(
+      final CppTypeMapper typeMapper, final FMethod francaMethod) {
 
     CppTypeRef errorType = null;
     String errorComment = "";
 
     if (francaMethod.getErrorEnum() != null) {
-      errorType = CppTypeMapper.mapEnum(francaMethod.getErrorEnum());
+      errorType = typeMapper.mapEnum(francaMethod.getErrorEnum());
       errorComment = CppCommentParser.FORMATTER.readCleanedErrorComment(francaMethod);
     }
 
@@ -58,7 +59,7 @@ public final class CppMethodMapper {
     if (!outArgs.isEmpty()) {
       // If outArgs size is 2 or more, the output has to be wrapped in a struct,
       // which is not supported yet.
-      outArgType = CppTypeMapper.map(outArgs.get(0));
+      outArgType = typeMapper.map(outArgs.get(0));
 
       outArgComment = "The result type, containing " + outArgType.name + " value.";
     }

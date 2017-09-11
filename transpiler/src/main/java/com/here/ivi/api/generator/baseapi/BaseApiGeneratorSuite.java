@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.baseapi;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -18,18 +19,15 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.cpp.CppGenerator;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
+import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cppmodel.CppElementWithIncludes;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -41,25 +39,27 @@ import java.util.stream.Stream;
  * implementation through the C++ interfaces.
  */
 public final class BaseApiGeneratorSuite extends GeneratorSuite {
+
   public static final String GENERATOR_NAME = "cpp";
 
-  @SuppressWarnings("unused")
+  private CppIncludeResolver includeResolver;
+
   public BaseApiGeneratorSuite() {
     this(new FrancaModelLoader());
   }
 
-  public BaseApiGeneratorSuite(final FrancaModelLoader francaModelLoader) {
+  @VisibleForTesting
+  BaseApiGeneratorSuite(final FrancaModelLoader francaModelLoader) {
     super(francaModelLoader);
   }
 
   public List<GeneratedFile> generate() {
 
-    CppIncludeResolver includeResolver = new CppIncludeResolver(model);
     CppGenerator generator = new CppGenerator();
 
     List<GeneratedFile> generatedFiles =
         Stream.concat(model.getInterfaces().stream(), model.getTypeCollections().stream())
-            .map(iface -> generateFromFrancaElement(iface, includeResolver, generator))
+            .map(iface -> generateFromFrancaElement(iface, generator))
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
@@ -74,16 +74,20 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   }
 
   private GeneratedFile generateFromFrancaElement(
-      final FrancaElement francaElement,
-      final CppIncludeResolver includeResolver,
-      final CppGenerator generator) {
+      final FrancaElement francaElement, final CppGenerator generator) {
 
-    CppNamespace cppModel = mapFrancaElementToCppModel(francaElement, includeResolver);
+    CppNamespace cppModel = mapFrancaElementToCppModel(francaElement);
 
     String fileName = CppNameRules.getHeaderPath(francaElement);
     CharSequence copyRightNotice = generateGeneratorNotice(francaElement, fileName);
 
     return generator.generateCode(cppModel, fileName, copyRightNotice);
+  }
+
+  @Override
+  public void buildModel(String inputPath) {
+    super.buildModel(inputPath);
+    includeResolver = new CppIncludeResolver(model);
   }
 
   private CharSequence generateGeneratorNotice(FrancaElement element, String outputTarget) {
@@ -98,8 +102,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     return TemplateEngine.render("common/GeneratorNotice", generatorNoticeData);
   }
 
-  private static CppNamespace mapFrancaElementToCppModel(
-      final FrancaElement francaElement, final CppIncludeResolver includeResolver) {
+  private CppNamespace mapFrancaElementToCppModel(final FrancaElement francaElement) {
 
     List<String> outermostQualifier;
     if (francaElement instanceof Interface) {
@@ -112,15 +115,25 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
           CppNameRules.getTypeCollectionName(francaElement.getFrancaTypeCollection().getName()));
     }
 
-    CppModelBuilder builder = new CppModelBuilder(francaElement);
+    CppModelBuilder builder = new CppModelBuilder(francaElement, includeResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(francaElement);
 
     CppNamespace namespace = new CppNamespace(outermostQualifier);
     namespace.members.addAll(builder.getResults());
-    includeResolver.resolveLazyIncludes(namespace);
+    namespace.includes.addAll(collectIncludes(namespace));
 
     return namespace;
+  }
+
+  private static List<Include> collectIncludes(final CppNamespace namespace) {
+    return namespace
+        .streamRecursive()
+        .filter(element -> element instanceof CppElementWithIncludes)
+        .map(CppElementWithIncludes.class::cast)
+        .map(elementWithIncludes -> elementWithIncludes.includes)
+        .flatMap(Set::stream)
+        .collect(Collectors.toList());
   }
 }

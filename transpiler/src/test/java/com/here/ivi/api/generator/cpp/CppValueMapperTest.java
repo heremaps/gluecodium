@@ -12,11 +12,15 @@
 package com.here.ivi.api.generator.cpp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.FConstantDef;
@@ -28,16 +32,30 @@ import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CppNameRules.class})
+@PrepareForTest(CppNameRules.class)
 public final class CppValueMapperTest {
+
+  @Mock private CppIncludeResolver includeResolver;
+
+  private final Include internalInclude = Include.createInternalInclude("nonsense");
+
+  private CppValueMapper valueMapper;
+
   @Before
   public void setUp() {
+    MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(CppNameRules.class);
+
+    valueMapper = new CppValueMapper(includeResolver);
+
+    when(includeResolver.resolveInclude(any())).thenReturn(internalInclude);
   }
 
   @Test
@@ -61,8 +79,11 @@ public final class CppValueMapperTest {
     when(CppNameRules.getConstantName(anyString())).thenReturn(outputConstantName);
 
     //actual test
-    CppValue mappedValue = CppValueMapper.map(mock(CppTypeRef.class), qualifiedElementRef);
+    CppValue mappedValue = valueMapper.map(mock(CppTypeRef.class), qualifiedElementRef);
+
     assertEquals(mappedValue.name, outputConstantName);
+    assertTrue(mappedValue.includes.contains(internalInclude));
+
     PowerMockito.verifyStatic(); // 1
     CppNameRules.getConstantName(inputConstantName);
   }
@@ -90,8 +111,11 @@ public final class CppValueMapperTest {
     when(CppNameRules.getEnumEntryName(anyString())).thenReturn(outputEnumeratorName);
 
     //actual test
-    CppValue mappedValue = CppValueMapper.map(cppType, qualifiedElementRef);
+    CppValue mappedValue = valueMapper.map(cppType, qualifiedElementRef);
+
     assertEquals(mappedValue.name, outputTypeName);
+    assertTrue(mappedValue.includes.contains(internalInclude));
+
     PowerMockito.verifyStatic(); // 1
     CppNameRules.getEnumEntryName(inputEnumeratorName);
   }

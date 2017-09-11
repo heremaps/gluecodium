@@ -15,14 +15,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-import com.here.ivi.api.model.common.LazyInternalInclude;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Arrays;
 import org.franca.core.franca.FBasicTypeId;
@@ -36,21 +36,26 @@ import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({DefinedBy.class, CppNameRules.class})
+@PrepareForTest(CppNameRules.class)
 public class CppTypeMapperArrayTest {
 
   @Mock private FTypeCollection fTypeCollection;
 
+  @Mock private CppIncludeResolver includeResolver;
+
+  private CppTypeMapper typeMapper;
+
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    mockStatic(CppNameRules.class, DefinedBy.class);
+    PowerMockito.mockStatic(CppNameRules.class);
 
-    when(DefinedBy.findDefiningTypeCollection(any())).thenReturn(fTypeCollection);
+    typeMapper = new CppTypeMapper(includeResolver);
   }
 
   @Test
@@ -66,7 +71,7 @@ public class CppTypeMapperArrayTest {
     when(typedElement.getType()).thenReturn(actualTypeRef);
 
     //act
-    CppTypeRef result = CppTypeMapper.map(typedElement);
+    CppTypeRef result = typeMapper.map(typedElement);
 
     //assert
     assertTrue(result instanceof CppComplexTypeRef);
@@ -95,20 +100,25 @@ public class CppTypeMapperArrayTest {
     when(typedElement.isArray()).thenReturn(true);
     when(typedElement.getType()).thenReturn(typeRef);
 
-    LazyInternalInclude lazyInclude = new LazyInternalInclude(typedElement);
+    Include internalInclude = Include.createInternalInclude("nonsense");
+    when(includeResolver.resolveInclude(any())).thenReturn(internalInclude);
 
     //mock CppNameRules
     when(CppNameRules.getStructName(structType.getName())).thenReturn("MyStruct");
     when(CppNameRules.getNestedNameSpecifier(structType)).thenReturn(Arrays.asList("a", "b", "c"));
 
     //act
-    CppTypeRef result = CppTypeMapper.map(typedElement);
+    CppTypeRef result = typeMapper.map(typedElement);
 
     //assert
     assertTrue(result instanceof CppComplexTypeRef);
     CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
     assertEquals("::std::vector< ::a::b::c::MyStruct >", complexResult.name);
+
+    verify(includeResolver).resolveInclude(structType);
+
     assertTrue(
-        complexResult.includes.containsAll(Arrays.asList(CppLibraryIncludes.VECTOR, lazyInclude)));
+        complexResult.includes.containsAll(
+            Arrays.asList(CppLibraryIncludes.VECTOR, internalInclude)));
   }
 }

@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.baseapi;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
@@ -42,16 +43,27 @@ import org.franca.core.franca.FUnionType;
 public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
   private final FrancaElement rootModel;
+  private final CppTypeMapper typeMapper;
+  private final CppValueMapper valueMapper;
 
-  public CppModelBuilder(
-      final ModelBuilderContextStack<CppElement> contextStack, final FrancaElement rootModel) {
+  @VisibleForTesting
+  CppModelBuilder(
+      final ModelBuilderContextStack<CppElement> contextStack,
+      final FrancaElement rootModel,
+      final CppTypeMapper typeMapper,
+      final CppValueMapper valueMapper) {
     super(contextStack);
     this.rootModel = rootModel;
+    this.typeMapper = typeMapper;
+    this.valueMapper = valueMapper;
   }
 
-  public CppModelBuilder(final FrancaElement rootModel) {
-    super(new ModelBuilderContextStack<>());
-    this.rootModel = rootModel;
+  public CppModelBuilder(final FrancaElement rootModel, final CppIncludeResolver includeResolver) {
+    this(
+        new ModelBuilderContextStack<>(),
+        rootModel,
+        new CppTypeMapper(includeResolver),
+        new CppValueMapper(includeResolver));
   }
 
   @Override
@@ -79,7 +91,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FMethod francaMethod) {
 
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(francaMethod);
+        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod);
     CppMethod cppMethod = buildCppMethod(francaMethod, returnTypeData.type, returnTypeData.comment);
 
     storeResult(cppMethod);
@@ -89,7 +101,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    CppTypeRef cppType = CppTypeMapper.map(francaArgument);
+    CppTypeRef cppType = typeMapper.map(francaArgument);
     CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppType);
 
     storeResult(cppParameter);
@@ -118,8 +130,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FConstantDef francaConstant) {
 
     String name = CppNameRules.getConstantName(francaConstant.getName());
-    CppTypeRef type = CppTypeMapper.map(francaConstant);
-    CppValue value = CppValueMapper.map(type, francaConstant.getRhs());
+    CppTypeRef type = typeMapper.map(francaConstant);
+    CppValue value = valueMapper.map(type, francaConstant.getRhs());
 
     CppConstant cppConstant = new CppConstant(name, type, value);
     cppConstant.comment = CppCommentParser.parse(francaConstant).getMainBodyText();
@@ -148,7 +160,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppStruct cppStruct = buildCompoundType(francaStructType, false);
     if (francaStructType.getBase() != null) {
-      CppTypeRef parentTypeRef = CppTypeMapper.mapStruct(francaStructType);
+      CppTypeRef parentTypeRef = typeMapper.mapStruct(francaStructType);
       cppStruct.inheritances.add(new CppInheritance(parentTypeRef, CppInheritance.Type.Public));
     }
 
@@ -161,7 +173,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
       String typedefName = CppNameRules.getTypedefName(francaTypeDef.getName());
-      CppTypeRef typedefType = CppTypeMapper.map(francaTypeDef.getActualType());
+      CppTypeRef typedefType = typeMapper.map(francaTypeDef.getActualType());
 
       CppUsing cppUsing = new CppUsing(typedefName, typedefType);
       cppUsing.comment = CppCommentParser.parse(francaTypeDef).getMainBodyText();
@@ -176,7 +188,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FArrayType francaArrayType) {
 
     String name = CppNameRules.getTypedefName(francaArrayType.getName());
-    CppTypeRef targetType = CppTypeMapper.mapArray(francaArrayType);
+    CppTypeRef targetType = typeMapper.mapArray(francaArrayType);
     CppUsing cppUsing = new CppUsing(name, targetType);
     cppUsing.comment = CppCommentParser.parse(francaArrayType).getMainBodyText();
 
@@ -188,7 +200,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FMapType francaMapType) {
 
     String name = CppNameRules.getTypedefName(francaMapType.getName());
-    CppTypeRef targetType = CppTypeMapper.mapMapType(francaMapType);
+    CppTypeRef targetType = typeMapper.mapMapType(francaMapType);
     CppUsing cppUsing = new CppUsing(name, targetType);
     cppUsing.comment = CppCommentParser.parse(francaMapType).getMainBodyText();
 
@@ -231,7 +243,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
 
-    storeResult(CppTypeMapper.map(francaTypeRef));
+    storeResult(typeMapper.map(francaTypeRef));
     closeContext();
   }
 

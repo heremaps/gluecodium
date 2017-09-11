@@ -21,6 +21,7 @@ import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.generator.jni.JniModelBuilder;
 import com.here.ivi.api.generator.jni.JniNameRules;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.*;
@@ -43,7 +44,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
 
     JavaModelBuilder javaBuilder = new JavaModelBuilder(basePackage, francaElement);
 
-    CppModelBuilder cppBuilder = new CppModelBuilder(francaElement);
+    CppModelBuilder cppBuilder = new CppModelBuilder(francaElement, new CppIncludeResolver(null));
     JniModelBuilder jniBuilder = new JniModelBuilder(francaElement, javaBuilder, cppBuilder);
 
     FrancaTreeWalker treeWalker =
