@@ -20,6 +20,7 @@ import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.validator.common.ResourceValidator;
+import com.here.ivi.api.validator.common.TypeNameValidator;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,8 +62,9 @@ public abstract class GeneratorSuite {
     if (model == null) {
       return false;
     }
+
     ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
-    return ResourceValidator.validate(resources, currentFiles);
+    return TypeNameValidator.validate(model) && ResourceValidator.validate(resources, currentFiles);
   }
 
   /**

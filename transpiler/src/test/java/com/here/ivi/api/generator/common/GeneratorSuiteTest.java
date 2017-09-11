@@ -19,6 +19,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Injector;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaModel;
@@ -114,6 +115,7 @@ public class GeneratorSuiteTest {
     generatorSuite = new TestableGeneratorSuite(francaModelLoader);
     generatorSuite.buildModel(MOCK_INPUT_PATH);
     when(ResourceValidator.validate(any(), any())).thenReturn(true);
+    when(francaModel.getTypeCollections()).thenReturn(ImmutableList.of());
 
     assertTrue(generatorSuite.validate());
 
@@ -127,6 +129,7 @@ public class GeneratorSuiteTest {
     generatorSuite = new TestableGeneratorSuite(francaModelLoader);
     generatorSuite.buildModel(MOCK_INPUT_PATH);
     when(ResourceValidator.validate(any(), any())).thenReturn(false);
+    when(francaModel.getTypeCollections()).thenReturn(ImmutableList.of());
 
     assertFalse(generatorSuite.validate());
 
