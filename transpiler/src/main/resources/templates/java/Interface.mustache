@@ -4,12 +4,20 @@
 {{>java/Package}}
 {{/javaPackage}}
 
+{{#if imports}}
 {{#imports}}
 {{>java/Import}}
-
 {{/imports}}
+
+{{/if}}
 {{>common/DocComment}}
-interface {{name}} {{#if parentInterfaces}}extends {{join parentInterfaces delimiter=", " }} {{/if}}{
+{{#if visibility.toString}}{{visibility}} {{/if}}interface {{name}} {{#if parentInterfaces}}extends {{join parentInterfaces delimiter=", " }} {{/if}}{
+{{#constants}}{{prefixPartial "java/Constant" "    "}}
+{{/constants}}
+{{#enums}}{{prefixPartial "java/Enum" "    "}}
+{{/enums}}
+{{#innerClasses}}{{prefixPartial "java/Class" "    "}}
+{{/innerClasses}}
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}
 }

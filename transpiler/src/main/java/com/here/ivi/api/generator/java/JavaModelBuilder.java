@@ -11,24 +11,16 @@
 
 package com.here.ivi.api.generator.java;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaConstant;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaElement;
-import com.here.ivi.api.model.javamodel.JavaField;
-import com.here.ivi.api.model.javamodel.JavaMethod;
+import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
-import com.here.ivi.api.model.javamodel.JavaPackage;
-import com.here.ivi.api.model.javamodel.JavaParameter;
-import com.here.ivi.api.model.javamodel.JavaType;
-import com.here.ivi.api.model.javamodel.JavaValue;
-import com.here.ivi.api.model.javamodel.JavaVisibility;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
 
@@ -55,32 +47,37 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
-    JavaClass javaClass = createJavaClass(francaInterface);
-
     List<JavaElement> previousResults = getCurrentContext().previousResults;
-    javaClass.constants.addAll(CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
-    javaClass.fields.addAll(CollectionsHelper.getAllOfType(previousResults, JavaField.class));
     List<JavaMethod> methods = CollectionsHelper.getAllOfType(previousResults, JavaMethod.class);
 
-    //check whether class is neither of POD nor of factory type
     if (containsInstanceMethod(methods)) {
-      javaClass.extendedClass = JavaClass.NATIVE_BASE;
+
+      JavaInterface javaInterface = createJavaInterface(francaInterface);
+      storeResult(javaInterface);
+
+      JavaClass javaClass = createJavaImplementationClass(francaInterface);
+      javaClass.parentInterfaces.add(javaInterface);
+      storeResult(javaClass);
+    } else {
+
+      JavaClass javaClass = createJavaClass(francaInterface);
+      javaClass.constants.addAll(
+          CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
+
+      javaClass.methods.addAll(methods);
+      javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
+
+      addInnerClasses(javaClass);
+
+      storeResult(javaClass);
     }
 
-    javaClass.methods.addAll(methods);
-    CollectionsHelper.getStreamOfType(previousResults, JavaClass.class)
-        .forEach(
-            innerClass -> {
-              innerClass.qualifiers.add(JavaClass.Qualifier.STATIC);
-              javaClass.innerClasses.add(innerClass);
-            });
-
-    storeResult(javaClass);
     closeContext();
   }
 
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
+
     JavaPackage javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaClass.class)
         .forEach(
@@ -117,8 +114,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     if (rootModel.isStatic(francaMethod)) {
       javaMethod.qualifiers.add(MethodQualifier.STATIC);
     }
-    // For now we assume all interface methods are native and public
-    javaMethod.qualifiers.add(MethodQualifier.NATIVE);
     javaMethod.visibility = JavaVisibility.PUBLIC;
     javaMethod.parameters.addAll(
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaParameter.class));
@@ -154,6 +149,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FTypedElement francaTypedElement) {
+
     // currently franca attributes are ignored for android generator
     if (francaTypedElement instanceof FAttribute) {
       closeContext();
@@ -181,9 +177,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaClass javaClass = createJavaClass(francaStructType);
 
-    javaClass.fields.addAll(
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaField.class));
-
     storeResult(javaClass);
     closeContext();
   }
@@ -195,12 +188,15 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     closeContext();
   }
 
-  private JavaClass createJavaClass(FModelElement francaTypeCollection) {
+  private JavaClass createJavaClass(final FModelElement francaModelElement) {
 
-    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaTypeCollection.getName()));
+    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaModelElement.getName()));
     javaClass.visibility = JavaVisibility.PUBLIC;
     javaClass.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
-    javaClass.comment = getCommentString(francaTypeCollection);
+    javaClass.comment = getCommentString(francaModelElement);
+
+    javaClass.fields.addAll(
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaField.class));
 
     return javaClass;
   }
@@ -216,7 +212,56 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     return comment;
   }
 
-  private static boolean containsInstanceMethod(final List<JavaMethod> methods) {
+  private JavaInterface createJavaInterface(final FInterface francaInterface) {
+
+    List<JavaElement> previousResults = getCurrentContext().previousResults;
+
+    JavaInterface javaInterface =
+        new JavaInterface(JavaNameRules.getClassName(francaInterface.getName()));
+    javaInterface.visibility = JavaVisibility.PUBLIC;
+    javaInterface.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
+    javaInterface.comment = getCommentString(francaInterface);
+    javaInterface.constants.addAll(
+        CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
+
+    List<JavaMethod> interfaceMethods =
+        CollectionsHelper.getStreamOfType(previousResults, JavaMethod.class)
+            .filter(method -> !method.qualifiers.contains(MethodQualifier.STATIC))
+            .map(JavaMethod::new)
+            .collect(Collectors.toList());
+    javaInterface.methods.addAll(interfaceMethods);
+
+    addInnerClasses(javaInterface);
+
+    return javaInterface;
+  }
+
+  private JavaClass createJavaImplementationClass(final FInterface francaInterface) {
+
+    List<JavaElement> previousResults = getCurrentContext().previousResults;
+
+    JavaClass javaClass =
+        new JavaClass(JavaNameRules.getImplementationClassName(francaInterface.getName()));
+    javaClass.visibility = JavaVisibility.PACKAGE;
+    javaClass.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
+    javaClass.extendedClass = JavaClass.NATIVE_BASE;
+    javaClass.fields.addAll(CollectionsHelper.getAllOfType(previousResults, JavaField.class));
+
+    javaClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, JavaMethod.class));
+    javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
+
+    return javaClass;
+  }
+
+  private void addInnerClasses(final JavaTopLevelElement javaTopLevelElement) {
+    javaTopLevelElement.innerClasses.addAll(
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaClass.class));
+    javaTopLevelElement.innerClasses.forEach(
+        innerClass -> innerClass.qualifiers.add(JavaClass.Qualifier.STATIC));
+  }
+
+  @VisibleForTesting
+  static boolean containsInstanceMethod(final List<JavaMethod> methods) {
     for (JavaMethod method : methods) {
       if (!method.qualifiers.contains(MethodQualifier.STATIC)) {
         return true;

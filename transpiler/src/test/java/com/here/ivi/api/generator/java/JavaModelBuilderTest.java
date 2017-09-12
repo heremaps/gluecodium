@@ -17,29 +17,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaConstant;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaElement;
-import com.here.ivi.api.model.javamodel.JavaField;
-import com.here.ivi.api.model.javamodel.JavaMethod;
-import com.here.ivi.api.model.javamodel.JavaPackage;
-import com.here.ivi.api.model.javamodel.JavaParameter;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaType;
-import com.here.ivi.api.model.javamodel.JavaValue;
-import com.here.ivi.api.model.javamodel.JavaVisibility;
+import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
@@ -56,7 +43,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@SuppressWarnings("PMD.TooManyFields")
 @PrepareForTest(JavaTypeMapper.class)
 public class JavaModelBuilderTest {
 
@@ -76,7 +62,6 @@ public class JavaModelBuilderTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FrancaElement rootModel;
 
-  @Mock private FInterface francaInterface;
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
@@ -88,8 +73,6 @@ public class JavaModelBuilderTest {
   private final EList<FArgument> arguments = new ArrayEList<>();
 
   private final JavaType javaCustomType = new JavaCustomType("typical");
-  private final JavaConstant javaConstant =
-      new JavaConstant(javaCustomType, CONSTANT_NAME, new JavaValue("valuable"));
   private final JavaField javaField = new JavaField(javaCustomType, FIELD_NAME);
 
   private JavaModelBuilder modelBuilder;
@@ -104,7 +87,6 @@ public class JavaModelBuilderTest {
     when(rootModel.getFrancaModel().getName()).thenReturn("");
     when(rootModel.getPackageNames()).thenReturn(Collections.emptyList());
 
-    when(francaInterface.getName()).thenReturn(CLASS_NAME);
     when(francaConstant.getName()).thenReturn(CONSTANT_NAME);
     when(francaTypedElement.getName()).thenReturn(FIELD_NAME);
     when(francaStructType.getName()).thenReturn(STRUCT_NAME);
@@ -117,104 +99,12 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaInterfaceReadsClassName() {
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertEquals(CLASS_NAME, javaClass.name.toLowerCase());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsPackage() {
-    String packageName = "packed";
-    when(rootModel.getPackageNames()).thenReturn(Collections.singletonList(packageName));
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
-    assertNotNull(javaClass);
-
-    List<String> expectedPackageNames = new LinkedList<>(BASE_PACKAGE.packageNames);
-    expectedPackageNames.add(packageName);
-    assertEquals(expectedPackageNames, javaClass.javaPackage.packageNames);
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsConstants() {
-    contextStack.injectResult(javaConstant);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.constants.isEmpty());
-    assertEquals(javaConstant, javaClass.constants.iterator().next());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsFields() {
-    contextStack.injectResult(javaField);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.fields.isEmpty());
-    assertEquals(javaField, javaClass.fields.iterator().next());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsStaticMethods() {
-    final JavaMethod javaMethod = new JavaMethod(METHOD_NAME);
-    javaMethod.qualifiers.add(JavaMethod.MethodQualifier.STATIC);
-    contextStack.injectResult(javaMethod);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.methods.isEmpty());
-    assertEquals(javaMethod, javaClass.methods.iterator().next());
-    assertNull(javaClass.extendedClass);
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsNonStaticMethods() {
-    final JavaMethod javaMethod = new JavaMethod(METHOD_NAME);
-    contextStack.injectResult(javaMethod);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.methods.isEmpty());
-    assertEquals(javaMethod, javaClass.methods.iterator().next());
-    assertNotNull(javaClass.extendedClass);
-    assertEquals(JavaClass.NATIVE_BASE, javaClass.extendedClass);
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsInnerClasses() {
-    JavaClass innerClass = new JavaClass("struct");
-    contextStack.injectResult(innerClass);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.innerClasses.isEmpty());
-    assertEquals(innerClass, javaClass.innerClasses.iterator().next());
-  }
-
-  @Test
   public void finishBuildingFrancaMethod() {
     modelBuilder.finishBuilding(francaMethod);
 
     JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals(METHOD_NAME, javaMethod.name);
-    assertTrue(javaMethod.qualifiers.contains(JavaMethod.MethodQualifier.NATIVE));
     assertFalse(javaMethod.qualifiers.contains(JavaMethod.MethodQualifier.STATIC));
     assertEquals(JavaVisibility.PUBLIC, javaMethod.visibility);
   }

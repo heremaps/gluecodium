@@ -26,6 +26,7 @@ public final class JavaClass extends JavaTopLevelElement {
     super(name);
   }
 
+  @SuppressWarnings("unused")
   public boolean extendsNativeBase() {
     return NATIVE_BASE.equals(extendedClass);
   }

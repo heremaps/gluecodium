@@ -11,13 +11,11 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 public final class JavaMethod extends JavaElement {
+
   public enum MethodQualifier {
     STATIC("static"),
     NATIVE("native");
@@ -34,10 +32,9 @@ public final class JavaMethod extends JavaElement {
     }
   }
 
-  public String deprecatedComment;
   public final JavaType returnType;
-  public Set<MethodQualifier> qualifiers = EnumSet.noneOf(MethodQualifier.class);
-  public List<JavaParameter> parameters = new ArrayList<>();
+  public final Set<MethodQualifier> qualifiers = EnumSet.noneOf(MethodQualifier.class);
+  public final List<JavaParameter> parameters = new LinkedList<>();
 
   public JavaMethod(final String name) {
     this(name, new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
@@ -48,8 +45,10 @@ public final class JavaMethod extends JavaElement {
     this.returnType = returnType;
   }
 
-  public boolean isNative() {
-    return qualifiers != null && qualifiers.contains(MethodQualifier.NATIVE);
+  public JavaMethod(final JavaMethod other) {
+    this(other.name, other.returnType);
+    this.qualifiers.addAll(other.qualifiers);
+    this.parameters.addAll(other.parameters);
   }
 
   @Override

@@ -1,11 +1,13 @@
 {{>common/DocComment}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}class {{name}} {{#extendedClass}}extends {{name}} {{/extendedClass}}{
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}class {{name}} {{#extendedClass}}extends {{name}} {{/extendedClass}}{{#if parentInterfaces}}implements {{join parentInterfaces delimiter=", " }} {{/if}}{
 {{#constants}}{{prefixPartial "java/Constant" "    "}}
 {{/constants}}
 {{#fields}}{{prefixPartial "java/Field" "    "}}
 {{/fields}}
 {{#enums}}{{prefixPartial "java/Enum" "    "}}
 {{/enums}}
+{{#innerClasses}}{{prefixPartial "java/Class" "    "}}
+{{/innerClasses}}
 {{#if extendsNativeBase}}
     protected {{name}}(final long nativeHandle) {
         super(nativeHandle);
@@ -13,6 +15,4 @@
 {{/if}}
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}
-{{#innerClasses}}{{prefixPartial "java/Class" "    "}}
-{{/innerClasses}}
 }

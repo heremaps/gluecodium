@@ -32,6 +32,9 @@ public final class JavaClassTemplateTest {
   private static final String TEST_COPYRIGHT_HEADER =
       TemplateEngine.render("java/CopyrightHeader", null) + "\n";
 
+  private final JavaClass javaClass = new JavaClass("ExampleClass");
+  private final JavaInterface javaInterface = new JavaInterface("Face");
+
   @Test
   public void generate_minimal() {
     // Arrange
@@ -63,7 +66,6 @@ public final class JavaClassTemplateTest {
     classMethod.visibility = JavaVisibility.PRIVATE;
     classMethod.parameters.add(parameter);
     classMethod.comment = "Method comment";
-    JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.javaPackage = new JavaPackage(Arrays.asList("com", "here", "generator", "example"));
     javaClass.comment = "Example class comment";
     javaClass.methods.add(classMethod);
@@ -96,7 +98,6 @@ public final class JavaClassTemplateTest {
     JavaEnum classEnum = new JavaEnum("ExampleEnum");
     classEnum.items.add(enumItem);
     classEnum.comment = "Enum comment";
-    JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.javaPackage = new JavaPackage(Arrays.asList("com", "here", "enums"));
     javaClass.comment = "Example class comment";
     javaClass.enums.add(classEnum);
@@ -133,7 +134,6 @@ public final class JavaClassTemplateTest {
     JavaEnum classEnum = new JavaEnum("ExampleEnum");
     classEnum.items.add(enumItem);
     classEnum.comment = "Enum comment";
-    JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
     javaClass.methods.add(classMethod);
     javaClass.enums.add(classEnum);
@@ -167,7 +167,7 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_withInheritance() {
     // Arrange
-    JavaClass javaClass = new JavaClass("ChildClass");
+    JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Child class comment";
     javaClass.extendedClass = new JavaClass("ParentClass");
     String expected =
@@ -177,7 +177,7 @@ public final class JavaClassTemplateTest {
             + "/**\n"
             + " * Child class comment\n"
             + " */\n"
-            + "class ChildClass extends ParentClass {\n"
+            + "class ExampleClass extends ParentClass {\n"
             + "}";
 
     // Act
@@ -197,7 +197,6 @@ public final class JavaClassTemplateTest {
     innerClass.comment = "Inner class comment";
     innerClass.fields.add(intField);
     innerClass.visibility = JavaVisibility.PROTECTED;
-    JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
     javaClass.visibility = JavaVisibility.PUBLIC;
     javaClass.innerClasses.add(innerClass);
@@ -234,7 +233,6 @@ public final class JavaClassTemplateTest {
     innerClass.fields.add(intField);
     innerClass.visibility = JavaVisibility.PUBLIC;
     innerClass.qualifiers.add(Qualifier.STATIC);
-    JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
     javaClass.visibility = JavaVisibility.PACKAGE;
     javaClass.innerClasses.add(innerClass);
@@ -263,7 +261,6 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_finalClassWithConstant() {
     // Arrange
-    JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
     javaClass.qualifiers.add(Qualifier.FINAL);
     javaClass.constants.add(
@@ -291,7 +288,6 @@ public final class JavaClassTemplateTest {
     JavaField fieldWithImports = new JavaField(new JavaCustomType("Foo"), "someField");
     fieldWithImports.type.imports.add(
         new JavaImport("Foo", new JavaPackage(Arrays.asList("com", "example"))));
-    JavaClass javaClass = new JavaClass("ClassWithImports");
     javaClass.qualifiers.add(Qualifier.FINAL);
     javaClass.fields.add(fieldWithImports);
     String expected =
@@ -299,7 +295,7 @@ public final class JavaClassTemplateTest {
             + "\n"
             + "import com.example.Foo;\n"
             + "\n"
-            + "final class ClassWithImports {\n"
+            + "final class ExampleClass {\n"
             + "    Foo someField = new Foo();\n"
             + "}";
 
@@ -313,7 +309,6 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_extendsNativeBase() {
     // Arrange
-    JavaClass javaClass = new JavaClass("ExampleClass");
     javaClass.comment = "Example class comment";
     javaClass.extendedClass = JavaClass.NATIVE_BASE;
 
@@ -334,6 +329,64 @@ public final class JavaClassTemplateTest {
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Assert
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
+  }
+
+  @Test
+  public void generateClassWithOneParentInterface() {
+    // Arrange
+    javaClass.parentInterfaces.add(javaInterface);
+
+    // Act
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
+
+    // Assert
+    String expected =
+        "package com.here.android;\n"
+            + "\n"
+            + "import com.here.android.Face;\n\n"
+            + "class ExampleClass implements Face {\n"
+            + "}";
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
+  }
+
+  @Test
+  public void generateClassWithTwoParentInterfaces() {
+    // Arrange
+    javaClass.parentInterfaces.add(javaInterface);
+    javaClass.parentInterfaces.add(new JavaInterface("Legs"));
+
+    // Act
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
+
+    // Assert
+    String expected =
+        "package com.here.android;\n"
+            + "\n"
+            + "import com.here.android.Face;\n"
+            + "import com.here.android.Legs;\n\n"
+            + "class ExampleClass implements Face, Legs {\n"
+            + "}";
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
+  }
+
+  @Test
+  public void generateClassWithParentClassAndParentInterface() {
+    // Arrange
+    javaClass.extendedClass = new JavaClass("Parent");
+    javaClass.parentInterfaces.add(javaInterface);
+
+    // Act
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
+
+    // Assert
+    String expected =
+        "package com.here.android;\n"
+            + "\n"
+            + "import com.here.android.Face;\n"
+            + "import com.here.android.Parent;\n\n"
+            + "class ExampleClass extends Parent implements Face {\n"
+            + "}";
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 }
