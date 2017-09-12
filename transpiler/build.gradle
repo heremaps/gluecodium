@@ -70,7 +70,7 @@ jacocoTestCoverageVerification {
             enabled = true
             limit {
                 counter = 'LINE'
-                minimum = 0.63
+                minimum = 0.67
             }
         }
     }
@@ -91,14 +91,13 @@ apply plugin: 'checkstyle'
 checkstyle {
     configFile = rootProject.file('config/checkstyle/checkstyle-hard.xml')
     toolVersion = '7.8.2'
+    ignoreFailures false
 }
 checkstyleMain {
-    ignoreFailures false
-    maxErrors=65
+    maxErrors=2
 }
 checkstyleTest {
-    ignoreFailures false
-    maxErrors=95
+    maxErrors=0
 }
 
 apply plugin: 'pmd'
