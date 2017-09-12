@@ -130,7 +130,7 @@ public final class JavaInterfaceTemplateTest {
     JavaInterface javaInterface = new JavaInterface("ExampleInterface");
     javaInterface.javaPackage =
         new JavaPackage(Arrays.asList("com", "here", "example", "interfaces"));
-    javaInterface.extendedInterface = new JavaInterface("AnotherInterface");
+    javaInterface.parentInterfaces.add(new JavaInterface("AnotherInterface"));
 
     String expected =
         TEST_COPYRIGHT_HEADER

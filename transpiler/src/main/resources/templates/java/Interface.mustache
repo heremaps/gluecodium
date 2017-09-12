@@ -9,7 +9,7 @@
 
 {{/imports}}
 {{>common/DocComment}}
-interface {{name}} {{#extendedInterface}}extends {{name}} {{/extendedInterface}}{
+interface {{name}} {{#if parentInterfaces}}extends {{join parentInterfaces delimiter=", " }} {{/if}}{
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}
 }

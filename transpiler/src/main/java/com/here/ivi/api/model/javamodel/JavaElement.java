@@ -15,7 +15,8 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class JavaElement implements JavaNamedEntity {
-  public String name;
+
+  public final String name;
   public String comment = "";
   public JavaVisibility visibility = JavaVisibility.PACKAGE;
 
@@ -30,7 +31,7 @@ public class JavaElement implements JavaNamedEntity {
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + "." + name;
+    return getName();
   }
 
   public Stream<JavaNamedEntity> stream() {

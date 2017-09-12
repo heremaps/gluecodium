@@ -15,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.*;
-import com.here.ivi.api.model.javamodel.JavaClass.Qualifier;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
+import com.here.ivi.api.model.javamodel.JavaTopLevelElement.Qualifier;
 import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;

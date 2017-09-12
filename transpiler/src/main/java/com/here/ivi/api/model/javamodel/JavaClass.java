@@ -15,38 +15,12 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public final class JavaClass extends JavaElement {
+public final class JavaClass extends JavaTopLevelElement {
 
   public static final JavaClass NATIVE_BASE = new JavaClass("NativeBase");
 
-  public enum Qualifier {
-    STATIC("static"),
-    FINAL("final");
-
-    private final String value;
-
-    Qualifier(final String value) {
-      this.value = value;
-    }
-
-    @Override
-    public String toString() {
-      return value;
-    }
-  }
-
-  public JavaPackage javaPackage = JavaPackage.DEFAULT;
-  public Set<JavaMethod> methods = new LinkedHashSet<>();
   public Set<JavaField> fields = new LinkedHashSet<>();
-
   public JavaClass extendedClass;
-  // TODO(APIGEN-122, APIGEN-589): Implement interface inheritance later:
-  public Set<JavaInterface> implementedInterfaces = new LinkedHashSet<>();
-
-  public Set<JavaConstant> constants = new LinkedHashSet<>();
-  public Set<JavaEnum> enums = new LinkedHashSet<>();
-  public Set<JavaClass> innerClasses = new LinkedHashSet<>();
-  public Set<Qualifier> qualifiers = new LinkedHashSet<>();
 
   public JavaClass(final String name) {
     super(name);
@@ -59,19 +33,16 @@ public final class JavaClass extends JavaElement {
   @Override
   public Stream<JavaNamedEntity> stream() {
     return Stream.concat(
-            methods.stream(),
-            Stream.concat(
-                fields.stream(),
-                Stream.concat(
-                    constants.stream(),
-                    extendedClass == null
-                        ? enums.stream()
-                        : Stream.concat(enums.stream(), extendedClass.stream()))))
+            super.stream(),
+            extendedClass != null
+                ? Stream.concat(fields.stream(), extendedClass.stream())
+                : fields.stream())
         .map(JavaElement.class::cast);
   }
 
+  @Override
   public Set<JavaImport> getImports() {
-    Set<JavaImport> imports = JavaElements.collectImports(this);
+    Set<JavaImport> imports = super.getImports();
     if (extendedClass != null) {
       imports.add(new JavaImport(extendedClass.name, extendedClass.javaPackage));
     }
