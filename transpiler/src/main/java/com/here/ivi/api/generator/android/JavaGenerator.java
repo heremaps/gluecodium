@@ -20,7 +20,10 @@ import com.here.ivi.api.generator.java.JavaNameRules;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaInterface;
+import com.here.ivi.api.model.javamodel.JavaTopLevelElement;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,10 +40,20 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
     treeWalker.walk(anInterface);
 
-    return generateFilesForClass(modelBuilder.getFirstResult(JavaClass.class));
+    List<GeneratedFile> results = new LinkedList<>();
+
+    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    results.add(generateFileForElement("java/ClassHeader", javaClass));
+
+    JavaInterface javaInterface = modelBuilder.getFirstResult(JavaInterface.class);
+    if (javaInterface != null) {
+      results.add(generateFileForElement("java/Interface", javaInterface));
+    }
+
+    return results;
   }
 
-  public List<GeneratedFile> generateFiles(TypeCollection typeCollection) {
+  public List<GeneratedFile> generateFiles(final TypeCollection typeCollection) {
 
     JavaModelBuilder modelBuilder = new JavaModelBuilder(basePackage, typeCollection);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
@@ -48,15 +61,16 @@ public class JavaGenerator extends AbstractAndroidGenerator {
     treeWalker.walk(typeCollection);
 
     return CollectionsHelper.getStreamOfType(modelBuilder.getResults(), JavaClass.class)
-        .flatMap(javaClass -> generateFilesForClass(javaClass).stream())
+        .map(javaClass -> generateFileForElement("java/ClassHeader", javaClass))
         .collect(Collectors.toList());
   }
 
-  private static List<GeneratedFile> generateFilesForClass(JavaClass javaClass) {
+  private static GeneratedFile generateFileForElement(
+      final String templateName, final JavaTopLevelElement javaElement) {
 
-    String fileContent = TemplateEngine.render("java/ClassHeader", javaClass);
-    String fileName = JavaNameRules.getFileName(javaClass);
+    String fileContent = TemplateEngine.render(templateName, javaElement);
+    String fileName = JavaNameRules.getFileName(javaElement);
 
-    return Collections.singletonList(new GeneratedFile(fileContent, fileName));
+    return new GeneratedFile(fileContent, fileName);
   }
 }

@@ -13,13 +13,13 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class JavaTopLevelElement extends JavaElement {
 
   public JavaPackage javaPackage = JavaPackage.DEFAULT;
   public Set<JavaMethod> methods = new LinkedHashSet<>();
-  // TODO(APIGEN-122, APIGEN-589): Implement interface inheritance later:
   public final Set<JavaInterface> parentInterfaces = new LinkedHashSet<>();
 
   public Set<JavaConstant> constants = new LinkedHashSet<>();
@@ -49,11 +49,20 @@ public abstract class JavaTopLevelElement extends JavaElement {
 
   @Override
   public Stream<JavaNamedEntity> stream() {
-    return Stream.concat(methods.stream(), Stream.concat(constants.stream(), enums.stream()))
+    return Stream.concat(
+            methods.stream(),
+            Stream.concat(
+                constants.stream(), Stream.concat(parentInterfaces.stream(), enums.stream())))
         .map(JavaElement.class::cast);
   }
 
   public Set<JavaImport> getImports() {
-    return JavaElements.collectImports(this);
+    Set<JavaImport> imports = new LinkedHashSet<>(JavaElements.collectImports(this));
+    imports.addAll(
+        parentInterfaces
+            .stream()
+            .map(anInterface -> new JavaImport(anInterface.name, anInterface.javaPackage))
+            .collect(Collectors.toList()));
+    return imports;
   }
 }

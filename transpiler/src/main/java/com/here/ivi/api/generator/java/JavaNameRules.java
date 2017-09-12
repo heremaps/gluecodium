@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaTopLevelElement;
 import java.io.File;
 import java.util.List;
 
@@ -26,16 +26,20 @@ public final class JavaNameRules {
     return packageNames.isEmpty() ? "" : String.join(File.separator, packageNames) + File.separator;
   }
 
-  public static String getFileName(final JavaClass javaClass) {
+  public static String getFileName(final JavaTopLevelElement javaElement) {
     return AndroidGeneratorSuite.GENERATOR_NAME
         + File.separator
-        + formatPackageName(javaClass.javaPackage.packageNames)
-        + javaClass.name
+        + formatPackageName(javaElement.javaPackage.packageNames)
+        + javaElement.name
         + JAVA_FILE_ENDING;
   }
 
   public static String getClassName(String base) {
     return NameHelper.toUpperCamelCase(base);
+  }
+
+  public static String getImplementationClassName(String base) {
+    return getClassName(base) + "Impl";
   }
 
   public static String getMethodName(final String base) {
