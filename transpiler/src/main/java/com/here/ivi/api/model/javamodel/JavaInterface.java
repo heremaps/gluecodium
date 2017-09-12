@@ -11,21 +11,9 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-public final class JavaInterface extends JavaElement {
-  public JavaPackage javaPackage = JavaPackage.DEFAULT;
-  public Set<JavaMethod> methods = new LinkedHashSet<>();
-  public JavaInterface extendedInterface;
-  //TODO(APIGEN-589): Properly implement base interfaces
-  public Set<JavaInterface> implementedInterfaces = new LinkedHashSet<>();
+public final class JavaInterface extends JavaTopLevelElement {
 
   public JavaInterface(final String name) {
     super(name);
-  }
-
-  public Set<JavaImport> getImports() {
-    return JavaElements.collectImports(this);
   }
 }
