@@ -18,6 +18,7 @@ import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.ModelHelper;
+import com.here.ivi.api.model.franca.TypeCollection;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -42,5 +43,11 @@ public final class LoadModelHelper {
     List<? extends Interface> interfaces = model.getInterfaces();
     assertTrue(index < interfaces.size());
     return interfaces.get(index);
+  }
+
+  public static TypeCollection extractNthTypeCollectionFromModel(FrancaModel model, int index) {
+    List<? extends TypeCollection> typeCollections = model.getTypeCollections();
+    assertTrue(index < typeCollections.size());
+    return typeCollections.get(index);
   }
 }

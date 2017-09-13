@@ -25,6 +25,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import com.here.ivi.api.generator.utils.LoadModelHelper;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
 import com.here.ivi.api.model.swift.SwiftStruct;
@@ -63,9 +64,11 @@ public class SwiftGeneratorIntegrationTest {
 
   @Test
   public void modelForIfaceWithStruct() {
-    final SwiftClass clazz =
+    final SwiftFile file =
         this.generator.buildSwiftModel(
             LoadModelHelper.extractNthInterfaceFromModel(this.francaModel, 7));
+    assertEquals("There should be one class defined in file", 1, file.classes.size());
+    SwiftClass clazz = file.classes.get(0);
     assertNotNull("The property should not be empty", clazz.structs);
     assertEquals("It should parse both structs", 2, clazz.structs.size());
     SwiftStruct struct = clazz.structs.get(0);
@@ -87,9 +90,11 @@ public class SwiftGeneratorIntegrationTest {
 
   @Test
   public void modelForIfaceWithStaticMethod() {
-    final SwiftClass clazz =
+    final SwiftFile file =
         this.generator.buildSwiftModel(
             LoadModelHelper.extractNthInterfaceFromModel(this.francaModel, 6));
+    assertEquals("There should be one class defined in file", 1, file.classes.size());
+    SwiftClass clazz = file.classes.get(0);
     assertNotNull(clazz.methods);
     assertEquals(1, clazz.methods.size());
     final SwiftMethod method = clazz.methods.get(0);
@@ -98,9 +103,11 @@ public class SwiftGeneratorIntegrationTest {
 
   @Test
   public void modelForIfaceWithTwoMethodsWithInAndOutParams() {
-    final SwiftClass clazz =
+    final SwiftFile file =
         this.generator.buildSwiftModel(
             LoadModelHelper.extractNthInterfaceFromModel(this.francaModel, 5));
+    assertEquals("There should be one class defined in file", 1, file.classes.size());
+    SwiftClass clazz = file.classes.get(0);
     assertNotNull(clazz.methods);
     assertEquals(2, clazz.methods.size());
     for (final SwiftMethod method : clazz.methods) {
@@ -117,9 +124,11 @@ public class SwiftGeneratorIntegrationTest {
 
   @Test
   public void modelForIfaceWithOneMethodWithOutParam() {
-    final SwiftClass clazz =
+    final SwiftFile file =
         this.generator.buildSwiftModel(
             LoadModelHelper.extractNthInterfaceFromModel(this.francaModel, 4));
+    assertEquals("There should be one class defined in file", 1, file.classes.size());
+    SwiftClass clazz = file.classes.get(0);
     assertNotNull(clazz.methods);
     assertEquals(1, clazz.methods.size());
     final SwiftMethod method = clazz.methods.get(0);
@@ -129,9 +138,11 @@ public class SwiftGeneratorIntegrationTest {
 
   @Test
   public void modelForIfaceWithOneMethodWithMultipleInParams() {
-    final SwiftClass clazz =
+    final SwiftFile file =
         this.generator.buildSwiftModel(
             LoadModelHelper.extractNthInterfaceFromModel(this.francaModel, 3));
+    assertEquals("There should be one class defined in file", 1, file.classes.size());
+    SwiftClass clazz = file.classes.get(0);
     assertNotNull(clazz.methods);
     assertEquals(1, clazz.methods.size());
     final SwiftMethod method = clazz.methods.get(0);
@@ -145,9 +156,11 @@ public class SwiftGeneratorIntegrationTest {
 
   @Test
   public void modelForIfaceWithOneMethodWithOneInParam() {
-    final SwiftClass clazz =
+    final SwiftFile file =
         this.generator.buildSwiftModel(
             LoadModelHelper.extractNthInterfaceFromModel(this.francaModel, 2));
+    assertEquals("There should be one class defined in file", 1, file.classes.size());
+    SwiftClass clazz = file.classes.get(0);
     assertNotNull(clazz.methods);
     assertEquals(1, clazz.methods.size());
     final SwiftMethod method = clazz.methods.get(0);
@@ -163,9 +176,11 @@ public class SwiftGeneratorIntegrationTest {
 
   @Test
   public void modelForIfaceWithOneSimpleMethod() {
-    final SwiftClass clazz =
+    final SwiftFile file =
         this.generator.buildSwiftModel(
             LoadModelHelper.extractNthInterfaceFromModel(this.francaModel, 1));
+    assertEquals("There should be one class defined in file", 1, file.classes.size());
+    SwiftClass clazz = file.classes.get(0);
     assertNull(clazz.parentClass);
     assertNotNull(clazz.comment);
     assertTrue(clazz.comment.isEmpty());
@@ -173,8 +188,6 @@ public class SwiftGeneratorIntegrationTest {
     assertTrue(clazz.implementsProtocols.isEmpty());
     assertNotNull(clazz.properties);
     assertTrue(clazz.properties.isEmpty());
-    assertNotNull(clazz.imports);
-    assertEquals("By default it should include Foundatation only", 1, clazz.imports.size());
     assertEquals(
         "The base namespace should be set to its c_bridge class",
         "swift_fidl_test",
@@ -191,9 +204,11 @@ public class SwiftGeneratorIntegrationTest {
 
   @Test
   public void modelForIfaceWithoutElements() {
-    final SwiftClass clazz =
+    final SwiftFile file =
         this.generator.buildSwiftModel(
             LoadModelHelper.extractNthInterfaceFromModel(this.francaModel, 0));
+    assertEquals("There should be one class defined in file", 1, file.classes.size());
+    SwiftClass clazz = file.classes.get(0);
     assertNull(clazz.parentClass);
     assertNotNull(clazz.methods);
     assertTrue(clazz.methods.isEmpty());
@@ -203,12 +218,25 @@ public class SwiftGeneratorIntegrationTest {
     assertTrue(clazz.implementsProtocols.isEmpty());
     assertNotNull(clazz.properties);
     assertTrue(clazz.properties.isEmpty());
-    assertNotNull(clazz.imports);
-    assertEquals("By default it should include Foundatation only", 1, clazz.imports.size());
     assertEquals(
         "The base namespace should be set to its c_bridge class",
         "swift_fidl_test",
         clazz.nameSpace);
     assertEquals(CLASS_NAME, clazz.name);
+  }
+
+  @Test
+  public void modelForTypeCollectionWithTwoStructs() {
+    final SwiftFile file =
+        this.generator.buildSwiftModel(
+            LoadModelHelper.extractNthTypeCollectionFromModel(this.francaModel, 0));
+    assertEquals("There should be no class defined in file", 0, file.classes.size());
+    assertEquals("There should be two structs defined in file", 2, file.structs.size());
+    SwiftStruct struct = file.structs.get(0);
+    assertEquals("Struct_0", struct.name);
+    assertEquals("First struct should have 2 fields", 2, struct.fields.size());
+    struct = file.structs.get(1);
+    assertEquals("Struct_1", struct.name);
+    assertEquals("Second struct should have 1 field", 1, struct.fields.size());
   }
 }

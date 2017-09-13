@@ -3,8 +3,9 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 
+import Foundation
 
-{{#imports}}import {{.}}{{/imports}}
+{{#classes}}
 {{#comment}}{{>swift/Comment}}{{/comment}}
 public class {{name}}{{#if parentClass}} : {{parentClass}}{{#implementsProtocols}}< {{join . ' '}} >{{/implementsProtocols}}{{/if}} {
 {{#properties}}
@@ -12,10 +13,14 @@ public class {{name}}{{#if parentClass}} : {{parentClass}}{{#implementsProtocols
 {{/properties}}
 
 {{#structs}}
-{{>swift/Struct}}
+{{prefixPartial 'swift/Struct' '    '}}
 {{/structs}}
 
 {{#methods}}
 {{prefixPartial 'swift/Method' '    '}}
 {{/methods}}
 }
+{{/classes}}
+
+{{#structs}}{{>swift/Struct}}
+{{/structs}}

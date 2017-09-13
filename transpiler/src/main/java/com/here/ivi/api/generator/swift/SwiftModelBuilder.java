@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.swift;
 
 import static com.here.ivi.api.common.CollectionsHelper.getAllOfType;
-import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
 import com.here.ivi.api.common.CollectionsHelper;
@@ -20,8 +19,9 @@ import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
-import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftInParameter;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftModelElement;
@@ -29,29 +29,37 @@ import com.here.ivi.api.model.swift.SwiftOutParameter;
 import com.here.ivi.api.model.swift.SwiftParameter;
 import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftStructField;
-import java.util.ArrayList;
 import java.util.List;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypedElement;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
-  private final Interface rootModel;
+  private final FrancaElement rootModel;
   private final SwiftNameRules nameRules;
 
-  public SwiftModelBuilder(final Interface rootModel, final SwiftNameRules nameRules) {
+  public SwiftModelBuilder(final FrancaElement rootModel, final SwiftNameRules nameRules) {
     this(rootModel, nameRules, new ModelBuilderContextStack<>());
   }
 
   public SwiftModelBuilder(
-      Interface rootModel,
+      FrancaElement rootModel,
       SwiftNameRules nameRules,
       ModelBuilderContextStack<SwiftModelElement> contextStack) {
     super(contextStack);
     this.rootModel = rootModel;
     this.nameRules = nameRules;
+  }
+
+  @Override
+  public void finishBuilding(FTypeCollection typeCollection) {
+    SwiftFile file = new SwiftFile();
+    file.structs.addAll(getAllOfType(getCurrentContext().previousResults, SwiftStruct.class));
+    storeResult(file);
+    super.finishBuilding(typeCollection);
   }
 
   @Override
@@ -61,10 +69,10 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     clazz.comment = comment != null ? comment : "";
     clazz.methods = getAllOfType(getCurrentContext().previousResults, SwiftMethod.class);
     clazz.nameSpace = String.join("_", rootModel.getPackageNames());
-    clazz.imports = new ArrayList<>(singletonList("Foundation"));
     clazz.structs = getAllOfType(getCurrentContext().previousResults, SwiftStruct.class);
-
-    storeResult(clazz);
+    SwiftFile file = new SwiftFile();
+    file.classes.add(clazz);
+    storeResult(file);
     super.finishBuilding(francaInterface);
   }
 

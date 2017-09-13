@@ -26,10 +26,12 @@ import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftInParameter;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftModelElement;
 import com.here.ivi.api.model.swift.SwiftParameter;
+import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
@@ -37,6 +39,7 @@ import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
+import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,6 +53,7 @@ public class SwiftModelBuilderTest {
 
   private static final String PARAM_NAME = "someParamName";
   private static final String FUNCTION_NAME = "someFunctionName";
+  private static final String STRUCT_NAME = "someStruct";
   private static final String COMMENT = "some comment on model element";
   private static final List<String> PACKAGES = asList("PKG1", "PKG2");
 
@@ -62,6 +66,7 @@ public class SwiftModelBuilderTest {
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FInterface francaInterface;
+  @Mock private FTypeCollection francaTypeCollection;
   @Mock private SwiftType swiftType;
 
   private SwiftModelBuilder modelBuilder;
@@ -188,13 +193,29 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    List<SwiftClass> classes = getResults(SwiftClass.class);
+    List<SwiftFile> files = getResults(SwiftFile.class);
+    assertEquals(1, files.size());
+    List<SwiftClass> classes = files.get(0).classes;
     assertEquals(1, classes.size());
     SwiftClass clazz = classes.get(0);
     assertEquals(1, clazz.methods.size());
     assertSame(method, clazz.methods.get(0));
-    assertEquals(1, clazz.imports.size());
     assertEquals(String.join("_", PACKAGES), clazz.nameSpace);
+  }
+
+  @Test
+  public void finishBuildingCreatesTypesFromTypeCollection() {
+    SwiftStruct struct = new SwiftStruct(STRUCT_NAME);
+    contextStack.injectResult(struct);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    List<SwiftFile> files = getResults(SwiftFile.class);
+    assertEquals(1, files.size());
+    SwiftFile file = files.get(0);
+    assertEquals("There should be no classes inside file", 0, file.classes.size());
+    assertEquals("There should be one struct inside file", 1, file.structs.size());
+    assertSame(struct, file.structs.get(0));
   }
 
   private <T extends SwiftModelElement> List<T> getResults(Class<T> clazz) {
