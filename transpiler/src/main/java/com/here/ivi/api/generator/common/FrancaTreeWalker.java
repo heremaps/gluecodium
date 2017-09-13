@@ -19,22 +19,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FAttribute;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FField;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypedElement;
-import org.franca.core.franca.FUnionType;
+import org.franca.core.franca.*;
 
 /**
  * Tree walker for the Franca model tree decouples tree traversal from the creation of
@@ -173,7 +158,11 @@ public class FrancaTreeWalker {
           ModelBuilder::finishBuilding,
           this::walkChildNodes);
     } else if (type instanceof FUnionType) {
-      walk((FUnionType) type, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+      walk(
+          (FUnionType) type,
+          ModelBuilder::startBuilding,
+          ModelBuilder::finishBuilding,
+          this::walkChildNodes);
     } else {
       LOGGER.warning(type.getClass().getName() + " is not supported yet");
     }
@@ -202,8 +191,8 @@ public class FrancaTreeWalker {
     }
   }
 
-  private void walkChildNodes(FStructType francaStructType) {
-    EList<FField> fields = francaStructType.getElements();
+  private void walkChildNodes(FCompoundType francaCompoundType) {
+    EList<FField> fields = francaCompoundType.getElements();
     if (fields != null) {
       for (FField field : fields) {
         walk(
