@@ -23,14 +23,7 @@ import com.here.ivi.api.generator.jni.JniNameRules;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.jni.JniContainer;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
@@ -91,7 +84,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     }
 
     //memorize all includes
-    Set<Include> includes = new HashSet<>();
+    Set<Include> includes = new LinkedHashSet<>();
     jniContainers.forEach(model -> includes.addAll(model.includes));
 
     Map<String, Iterable<?>> mustacheData = new HashMap<>();
