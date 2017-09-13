@@ -5,18 +5,18 @@ public:
     virtual ~{{name}}();
 
 {{/if}}
-{{#if structs}}
-public:
-{{#structs}}
-{{>cpp/CppCompoundType}}
-{{/structs}}
-
-{{/if}}
 {{#if enums}}
 public:
 {{#enums}}
 {{>cpp/CppEnum}}
 {{/enums}}
+
+{{/if}}
+{{#if structs}}
+public:
+{{#structs}}
+{{>cpp/CppCompoundType}}
+{{/structs}}
 
 {{/if}}
 {{#if usings}}

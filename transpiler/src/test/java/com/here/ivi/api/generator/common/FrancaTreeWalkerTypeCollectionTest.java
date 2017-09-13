@@ -90,7 +90,6 @@ public class FrancaTreeWalkerTypeCollectionTest {
     when(francaTypeCollection.getConstants()).thenReturn(constants);
     when(francaTypeCollection.getTypes()).thenReturn(types);
 
-    when(francaStructType.getElements()).thenReturn(fields);
     when(francaField.getType()).thenReturn(francaTypeRef);
     when(francaEnumerationType.getEnumerators()).thenReturn(enumerators);
     when(francaEnumerator.getValue()).thenReturn(francaExpression);
@@ -139,7 +138,9 @@ public class FrancaTreeWalkerTypeCollectionTest {
   }
 
   @Test
-  public void walkWithOneField() {
+  public void walkWithOneFieldInStruct() {
+    when(francaStructType.getElements()).thenReturn(fields);
+
     treeWalker.walk(typeCollection);
 
     verify(modelBuilder).startBuilding(francaField);
@@ -147,7 +148,8 @@ public class FrancaTreeWalkerTypeCollectionTest {
   }
 
   @Test
-  public void walkWithTwoFields() {
+  public void walkWithTwoFieldsInStruct() {
+    when(francaStructType.getElements()).thenReturn(fields);
     FField anotherFrancaField = mock(FField.class);
     fields.add(anotherFrancaField);
 
@@ -266,6 +268,8 @@ public class FrancaTreeWalkerTypeCollectionTest {
 
   @Test
   public void walkWithTypeRef() {
+    when(francaStructType.getElements()).thenReturn(fields);
+
     treeWalker.walk(typeCollection);
 
     verify(modelBuilder).startBuilding(francaTypeRef);
@@ -320,5 +324,29 @@ public class FrancaTreeWalkerTypeCollectionTest {
     verify(modelBuilder).finishBuilding(francaUnionType);
     verify(modelBuilder).startBuilding(anotherFrancaUnionType);
     verify(modelBuilder).finishBuilding(anotherFrancaUnionType);
+  }
+
+  @Test
+  public void walkWithOneFieldInUnion() {
+    when(francaUnionType.getElements()).thenReturn(fields);
+
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaField);
+    verify(modelBuilder).finishBuilding(francaField);
+  }
+
+  @Test
+  public void walkWithTwoFieldsInUnion() {
+    when(francaUnionType.getElements()).thenReturn(fields);
+    FField anotherFrancaField = mock(FField.class);
+    fields.add(anotherFrancaField);
+
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaField);
+    verify(modelBuilder).finishBuilding(francaField);
+    verify(modelBuilder).startBuilding(anotherFrancaField);
+    verify(modelBuilder).finishBuilding(anotherFrancaField);
   }
 }

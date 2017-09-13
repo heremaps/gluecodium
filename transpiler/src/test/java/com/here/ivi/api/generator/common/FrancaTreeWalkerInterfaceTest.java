@@ -106,7 +106,6 @@ public class FrancaTreeWalkerInterfaceTest {
 
     when(francaMethod.getInArgs()).thenReturn(arguments);
     when(francaArgument.getType()).thenReturn(francaTypeRef);
-    when(francaStructType.getElements()).thenReturn(fields);
     when(francaField.getType()).thenReturn(francaTypeRef);
     when(francaEnumerationType.getEnumerators()).thenReturn(enumerators);
     when(francaEnumerator.getValue()).thenReturn(francaExpression);
@@ -256,7 +255,9 @@ public class FrancaTreeWalkerInterfaceTest {
   }
 
   @Test
-  public void walkWithOneField() {
+  public void walkWithOneFieldInStruct() {
+    when(francaStructType.getElements()).thenReturn(fields);
+
     treeWalker.walk(anInterface);
 
     verify(modelBuilder).startBuilding(francaField);
@@ -265,6 +266,7 @@ public class FrancaTreeWalkerInterfaceTest {
 
   @Test
   public void walkWithTwoFields() {
+    when(francaStructType.getElements()).thenReturn(fields);
     FField anotherFrancaField = mock(FField.class);
     fields.add(anotherFrancaField);
 
@@ -393,6 +395,7 @@ public class FrancaTreeWalkerInterfaceTest {
 
   @Test
   public void walkWithTypeRefInField() {
+    when(francaStructType.getElements()).thenReturn(fields);
     arguments.clear();
 
     treeWalker.walk(anInterface);
@@ -449,5 +452,29 @@ public class FrancaTreeWalkerInterfaceTest {
     verify(modelBuilder).finishBuilding(francaUnionType);
     verify(modelBuilder).startBuilding(anotherFrancaUnionType);
     verify(modelBuilder).finishBuilding(anotherFrancaUnionType);
+  }
+
+  @Test
+  public void walkWithOneFieldInUnion() {
+    when(francaUnionType.getElements()).thenReturn(fields);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaField);
+    verify(modelBuilder).finishBuilding(francaField);
+  }
+
+  @Test
+  public void walkWithTwoUnion() {
+    when(francaUnionType.getElements()).thenReturn(fields);
+    FField anotherFrancaField = mock(FField.class);
+    fields.add(anotherFrancaField);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaField);
+    verify(modelBuilder).finishBuilding(francaField);
+    verify(modelBuilder).startBuilding(anotherFrancaField);
+    verify(modelBuilder).finishBuilding(anotherFrancaField);
   }
 }

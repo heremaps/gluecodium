@@ -10,12 +10,12 @@
 namespace {{.}} {
 
 {{/name}}
-{{#constants}}
-{{>cpp/CppConstant}}
-{{/constants}}
 {{#enums}}
 {{>cpp/CppEnum}}
 {{/enums}}
+{{#constants}}
+{{>cpp/CppConstant}}
+{{/constants}}
 {{#structs}}
 {{>cpp/CppCompoundType}}
 {{/structs}}

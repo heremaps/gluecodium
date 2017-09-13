@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppField;
+import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTaggedUnion;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -118,6 +119,37 @@ public final class CppTaggedUnionTemplateTest {
             expectedConstructorResult1 + expectedConstructorResult2,
             expectedCopyConstructorResult1 + expectedCopyConstructorResult2,
             expectedDestructorResult1 + expectedDestructorResult2);
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void unionWithFieldWithPrimitiveType() {
+    CppField anotherCppField =
+        new CppField(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT32), "indestructible");
+    cppTaggedUnion.fields.add(anotherCppField);
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppTaggedUnion);
+
+    final String expectedEnumResult = "        INDESTRUCTIBLE\n";
+    final String expectedConstructorResult =
+        "    Soviet(const uint32_t& indestructible)\n"
+            + "        : type(INDESTRUCTIBLE)\n"
+            + "        , indestructible(indestructible) {};\n\n";
+    final String expectedFieldResult = "        uint32_t indestructible;\n";
+    final String expectedCopyConstructorResult =
+        "        case INDESTRUCTIBLE:\n"
+            + "            new (&indestructible) uint32_t(other.indestructible);\n"
+            + "            break;\n";
+    final String expectedDestructorResult =
+        "        case INDESTRUCTIBLE:\n" + "            break;\n";
+    final String expectedResult =
+        String.format(
+            EXPECTED_UNION_RESULT_FORMAT,
+            expectedEnumResult,
+            expectedFieldResult,
+            expectedConstructorResult,
+            expectedCopyConstructorResult,
+            expectedDestructorResult);
     assertEquals(expectedResult, result);
   }
 }
