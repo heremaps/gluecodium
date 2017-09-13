@@ -34,7 +34,7 @@ public final class JniFunctionSignatureTemplateTest {
 
   private final JniContainer jniContainer =
       JniContainer.createTypeCollectionContainer(
-          Arrays.asList("com", "here", "jni", "test"), Collections.emptyList(), "ClassName", "");
+          Arrays.asList("com", "here", "jni", "test"), Collections.emptyList(), "ClassName");
 
   @Test
   public void simpleJniMethodGenerationGeneration() {

@@ -29,10 +29,6 @@ public final class CppNameRules {
 
   private CppNameRules() {}
 
-  public static String getTypeCollectionName(String typeCollectionName) {
-    return typeCollectionName.toLowerCase(); // mytypecollection
-  }
-
   public static String getMethodName(String base) {
     return NameHelper.toLowerCamelCase(base); // doStuff
   }
@@ -49,16 +45,17 @@ public final class CppNameRules {
     return NameHelper.toUpperCamelCase(base); // MyTypedef
   }
 
+  public static List<String> getNamespace(FTypeCollection typeCollection) {
+    return DefinedBy.getPackages(typeCollection);
+  }
+
   public static List<String> getNestedNameSpecifier(EObject type) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(type);
-    List<String> result = DefinedBy.getPackages(typeCollection);
-    // special rule for structs defined in interfaces ...
+    List<String> result = getNamespace(typeCollection);
+    // special type for types defined in interfaces ...
     if (typeCollection instanceof FInterface) {
       result.add(getClassName(typeCollection.getName()));
-    } else {
-      // common rule for all other types
-      result.add(getTypeCollectionName(typeCollection.getName()));
     }
 
     return result;

@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.jni;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -46,6 +47,7 @@ import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
@@ -72,6 +74,7 @@ public class JniModelBuilderTest {
   @Mock private FArgument francaArgument;
   @Mock private FStructType francaStructType;
   @Mock private FField francaField;
+  @Mock private FModel fModel;
 
   @Mock private JavaModelBuilder javaBuilder;
   @Mock private CppModelBuilder cppBuilder;
@@ -349,6 +352,8 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaTypeCollectionReadsStructs() {
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+    when(francaTypeCollection.eContainer()).thenReturn(fModel);
+    when(fModel.getName()).thenReturn(String.join(".", CPP_NAMESPACE_MEMBERS));
     JniStruct jniStruct = new JniStruct(javaClass, new CppStruct(CPP_CLASS_NAME), null);
     contextStack.injectResult(jniStruct);
 
@@ -361,12 +366,14 @@ public class JniModelBuilderTest {
     String expectedNamespace = "my::cpp::stuffs::namespace";
     assertEquals(expectedNamespace, String.join("::", jniContainer.cppNameSpaces));
     assertEquals("testtypecollection", jniContainer.javaName);
-    assertEquals("testtypecollection", jniContainer.cppName);
+    assertNull(jniContainer.cppName);
   }
 
   @Test
   public void finishBuildingFrancaTypeCollectionWithNoStruct() {
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+    when(francaTypeCollection.eContainer()).thenReturn(fModel);
+    when(fModel.getName()).thenReturn(String.join(".", CPP_NAMESPACE_MEMBERS));
 
     modelBuilder.finishBuilding(francaTypeCollection);
     JniContainer jniContainer = modelBuilder.getFirstResult(JniContainer.class);
@@ -376,6 +383,6 @@ public class JniModelBuilderTest {
     assertTrue(jniContainer.javaPackages.isEmpty());
     assertEquals("my.cpp.stuffs.namespace", String.join(".", jniContainer.cppNameSpaces));
     assertEquals("testtypecollection", jniContainer.javaName);
-    assertEquals("testtypecollection", jniContainer.cppName);
+    assertNull(jniContainer.cppName);
   }
 }

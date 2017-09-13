@@ -23,9 +23,7 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppElementWithIncludes;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
-import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.franca.Interface;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -104,21 +102,15 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
   private CppNamespace mapFrancaElementToCppModel(final FrancaElement francaElement) {
 
-    List<String> outermostQualifier;
-    if (francaElement instanceof Interface) {
-      outermostQualifier = francaElement.getPackageNames();
-    } else {
-      outermostQualifier = DefinedBy.getPackages(francaElement.getFrancaTypeCollection());
-      outermostQualifier.add(
-          CppNameRules.getTypeCollectionName(francaElement.getFrancaTypeCollection().getName()));
-    }
+    List<String> namespaceElements =
+        CppNameRules.getNamespace(francaElement.getFrancaTypeCollection());
 
     CppModelBuilder builder = new CppModelBuilder(francaElement, includeResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(francaElement);
 
-    CppNamespace namespace = new CppNamespace(outermostQualifier);
+    CppNamespace namespace = new CppNamespace(namespaceElements);
     namespace.members.addAll(builder.getResults());
     namespace.includes.addAll(collectIncludes(namespace));
 

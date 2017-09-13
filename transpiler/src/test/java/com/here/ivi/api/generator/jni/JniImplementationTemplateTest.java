@@ -43,7 +43,7 @@ public final class JniImplementationTemplateTest {
   private static final String EXTERN_C = "\nextern \"C\" {\n";
   private static final String END_OF_FILE = "\n}\n";
   private static final List<String> NAMESPACES = Arrays.asList("com", "here", "ivi", "test");
-  private static final String CALL_STATIC = "com::here::ivi::test::CppClass::";
+  private static final String CALL_STATIC = "::com::here::ivi::test::CppClass::";
   private static final String CALL_SHARED_POINTER = "(*pInstanceSharedPointer)->";
   private static final String RETRIEVE_LONG_PTR =
       "    auto pointerAsLong = get_long_field(env, env->GetObjectClass(jinstance), jinstance, \"nativeHandle\");\n";

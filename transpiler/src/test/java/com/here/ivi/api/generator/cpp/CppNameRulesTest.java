@@ -67,7 +67,6 @@ public class CppNameRulesTest {
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
 
     //assert
-    assertEquals(4, qualifier.size());
     assertEquals(Arrays.asList("my", "fancy", "package", "Iface"), qualifier);
   }
 
@@ -82,8 +81,7 @@ public class CppNameRulesTest {
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
 
     //assert
-    assertEquals(4, qualifier.size());
-    assertEquals(Arrays.asList("my", "fancy", "package", "tcollection"), qualifier);
+    assertEquals(Arrays.asList("my", "fancy", "package"), qualifier);
   }
 
   @Test
