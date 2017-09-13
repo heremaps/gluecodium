@@ -21,7 +21,7 @@ public final class TemplateComparison {
 
   private static String ignoreWhitespace(String text) {
     return text.replaceAll("\\[ \\t]", " ") // ignore multiple spaces/tabs
-        .replaceAll("\n+", "\n") // ignore empty lines
+        .replaceAll("( *\n)+", "\n") // ignore empty lines
         .replaceAll("^\\s+", ""); // ignore leading empty lines
   }
 

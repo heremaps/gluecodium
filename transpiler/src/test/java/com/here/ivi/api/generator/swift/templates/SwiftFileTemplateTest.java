@@ -17,6 +17,7 @@ import static java.util.stream.Collectors.toList;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.SwiftArrayType;
 import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
 import com.here.ivi.api.model.swift.SwiftStruct;
@@ -35,15 +36,21 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @SuppressWarnings("all")
 public class SwiftFileTemplateTest {
 
-  private static String generate(SwiftClass swiftClass) {
-    return TemplateEngine.render("swift/File", swiftClass);
+  private static String generateFromClass(SwiftClass swiftClass) {
+    SwiftFile file = new SwiftFile();
+    file.classes.add(swiftClass);
+    return generate(file);
+  }
+
+  private static String generate(SwiftFile file) {
+    return TemplateEngine.render("swift/File", file);
   }
 
   @Test
   public void simpleInterfaceGeneration() {
     final SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
-    final String expected = "public class ExampleClass {\n" + "\n" + "}\n";
-    final String generated = generate(swiftClass);
+    final String expected = "import Foundation\n" + "public class ExampleClass {\n" + "\n" + "}\n";
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -52,13 +59,14 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = new SwiftClass("ExampleClassWithComment", null);
     swiftClass.comment = "One really classy example";
     final String expected =
-        "/**\n"
+        "import Foundation\n"
+            + "/**\n"
             + " * One really classy example\n"
             + " */\n"
             + "public class ExampleClassWithComment {\n"
             + "\n"
             + "}\n";
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -74,13 +82,14 @@ public class SwiftFileTemplateTest {
     method.returnType = new SwiftType("Int");
     method.cBaseName = "myPackage_ExampleClass_myMethod";
     final String expected =
-        "public class ExampleClass {\n"
+        "import Foundation\n"
+            + "public class ExampleClass {\n"
             + "\n"
             + "    public func myMethod(parameter: Int) -> Int {\n"
             + "        return myPackage_ExampleClass_myMethod(parameter)\n"
             + "    }\n"
             + "}\n";
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -97,13 +106,14 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = Collections.singletonList(method);
 
     final String expected =
-        "public class ExampleClass {\n"
+        "import Foundation\n"
+            + "public class ExampleClass {\n"
             + "\n"
             + "    public func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void {\n"
             + "        return ExampleClass_myMethod(parameterVariableName)\n"
             + "    }\n"
             + "}\n";
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -116,13 +126,14 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "ExampleClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
-        "public class ExampleClass {\n"
+        "import Foundation\n"
+            + "public class ExampleClass {\n"
             + "\n"
             + "    public func myMethod(parameterOne: Int, parameterTwo: String) -> Void {\n"
             + "        return ExampleClass_myMethod(parameterOne, parameterTwo)\n"
             + "    }\n"
             + "}\n";
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -136,12 +147,13 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "MyClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
-        "public class MyClass {\n"
+        "import Foundation\n"
+            + "public class MyClass {\n"
             + "    public func myMethod(array: [UInt8]) -> Void {\n"
             + "        return MyClass_myMethod(array)\n"
             + "    }\n"
             + "}\n";
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -158,7 +170,8 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "CommentedExampleClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
-        "public class CommentedExampleClass {\n"
+        "import Foundation\n"
+            + "public class CommentedExampleClass {\n"
             + "    /**\n"
             + "     * Do something\n"
             + "     */\n"
@@ -166,7 +179,7 @@ public class SwiftFileTemplateTest {
             + "        return CommentedExampleClass_myMethod(myParameter)\n"
             + "    }\n"
             + "}\n";
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -179,28 +192,27 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = Collections.singletonList(method);
 
     final String expected =
-        "public class MyClass {\n"
+        "import Foundation\n"
+            + "public class MyClass {\n"
             + "    public static func myStaticMethod() -> Void {\n"
             + "        return MyClass_myStaticMethod()\n"
             + "    }\n"
             + "}\n";
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void systemImport() {
     SwiftClass swiftClass = new SwiftClass("SomeClass", null);
-    swiftClass.imports = Collections.singletonList("Foundation");
     final String expected = "import Foundation\n" + "\n" + "public class SomeClass {\n" + "}\n";
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void helloWorldGeneration() {
     SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
-    swiftClass.imports = Collections.singletonList("Foundation");
     SwiftMethod method =
         new SwiftMethod(
             "helloWorldMethod",
@@ -224,7 +236,7 @@ public class SwiftFileTemplateTest {
             + "        return nil\n"
             + "    }\n"
             + "}\n";
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -246,8 +258,7 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
-    swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -269,8 +280,7 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
-    swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -298,8 +308,7 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
-    swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -340,8 +349,7 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
-    swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -370,8 +378,7 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
-    swiftClass.imports = new ArrayList<>(Arrays.asList("Foundation"));
-    final String generated = generate(swiftClass);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -387,7 +394,8 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "HelloWorld_methodTakingStruct";
     swiftClass.methods = singletonList(method);
     final String expected =
-        "public class HelloWorld {\n"
+        "import Foundation\n"
+            + "public class HelloWorld {\n"
             + "    public static func methodTakingStruct(inputParam: SomeStruct) -> Void {\n"
             + "        let inputParamHandle = inputParam.convertToCType()\n"
             + "        defer {\n"
@@ -396,7 +404,7 @@ public class SwiftFileTemplateTest {
             + "        return HelloWorld_methodTakingStruct(inputParamHandle)\n"
             + "    }\n"
             + "}\n";
-    String generated = generate(swiftClass);
+    String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -412,7 +420,8 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "HelloWorld_methodReturningStruct";
     swiftClass.methods = singletonList(method);
     final String expected =
-        "public class HelloWorld {\n"
+        "import Foundation\n"
+            + "public class HelloWorld {\n"
             + "    public static func methodReturningStruct() -> SomeStruct? {\n"
             + "        let cResult = HelloWorld_methodReturningStruct()\n"
             + "        defer {\n"
@@ -421,7 +430,7 @@ public class SwiftFileTemplateTest {
             + "        return SomeStruct(cSomeStruct: cResult)\n"
             + "    }\n"
             + "}\n";
-    String generated = generate(swiftClass);
+    String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -447,7 +456,8 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = singletonList(method);
 
     final String expected =
-        "public class HelloWorld {\n"
+        "import Foundation\n"
+            + "public class HelloWorld {\n"
             + "    public static func fancyMethod(icon: Data, name: String, location: GeoLocation) -> SomeStruct? {\n"
             + "        return icon.withUnsafeBytes { (icon_ptr: UnsafePointer<UInt8>) -> SomeStruct? in\n"
             + "            let locationHandle = location.convertToCType()\n"
@@ -463,7 +473,7 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "}\n";
 
-    String generated = generate(swiftClass);
+    String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -479,7 +489,52 @@ public class SwiftFileTemplateTest {
     swiftClass.structs = Arrays.asList(firstSturct, secondStruct);
     swiftClass.methods = singletonList(new SwiftMethod("SomeMethod"));
     final String expected =
-        "public class SomeClass {\n"
+        "import Foundation\n"
+            + "public class SomeClass {\n"
+            + "    public struct FirstStruct {\n"
+            + "        public init() {\n"
+            + "        }\n"
+            + "        internal init?(cFirstStruct: CType) {\n"
+            + "        }\n"
+            + "        internal func convertToCType() -> CType {\n"
+            + "            let result = CPrefix_create()\n"
+            + "            fillFunction(result)\n"
+            + "            return result\n"
+            + "        }\n"
+            + "        internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
+            + "        }\n"
+            + "    }\n"
+            + "    public struct SecondStruct {\n"
+            + "        public init() {\n"
+            + "        }\n"
+            + "        internal init?(cSecondStruct: CType) {\n"
+            + "        }\n"
+            + "        internal func convertToCType() -> CType {\n"
+            + "            let result = CPrefix_create()\n"
+            + "            fillFunction(result)\n"
+            + "            return result\n"
+            + "        }\n"
+            + "        internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
+            + "        }\n"
+            + "    }\n"
+            + "    public func SomeMethod() -> Void {\n"
+            + "        return ()\n"
+            + "    }\n"
+            + "}\n";
+    final String generated = generateFromClass(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void typeCollectionWithStruct() {
+    SwiftStruct firstSturct = new SwiftStruct("FirstStruct");
+    firstSturct.cPrefix = "CPrefix";
+    firstSturct.cType = "CType";
+    SwiftFile file = new SwiftFile();
+    file.structs.add(firstSturct);
+
+    final String expected =
+        "import Foundation\n"
             + "public struct FirstStruct {\n"
             + "    public init() {\n"
             + "    }\n"
@@ -492,25 +547,8 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "    internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
             + "    }\n"
-            + "}\n"
-            + "public struct SecondStruct {\n"
-            + "    public init() {\n"
-            + "    }\n"
-            + "    internal init?(cSecondStruct: CType) {\n"
-            + "    }\n"
-            + "    internal func convertToCType() -> CType {\n"
-            + "        let result = CPrefix_create()\n"
-            + "        fillFunction(result)\n"
-            + "        return result\n"
-            + "    }\n"
-            + "    internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
-            + "    }\n"
-            + "}\n"
-            + "    public func SomeMethod() -> Void {\n"
-            + "        return ()\n"
-            + "    }\n"
             + "}\n";
-    final String generated = generate(swiftClass);
+    final String generated = generate(file);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 }

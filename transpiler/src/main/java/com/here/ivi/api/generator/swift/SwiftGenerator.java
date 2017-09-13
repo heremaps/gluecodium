@@ -11,13 +11,14 @@
 
 package com.here.ivi.api.generator.swift;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.swift.SwiftFile;
 import java.util.List;
 
 public class SwiftGenerator {
@@ -28,20 +29,24 @@ public class SwiftGenerator {
     nameRules = rules;
   }
 
-  public List<GeneratedFile> generate(Interface iface) {
-    SwiftClass clazz = buildSwiftModel(iface);
-    return singletonList(
-        new GeneratedFile(
-            TemplateEngine.render("swift/File", clazz),
-            nameRules.getImplementationFileName(iface)));
+  public List<GeneratedFile> generate(FrancaElement francaElement) {
+    SwiftFile file = buildSwiftModel(francaElement);
+    if (file.isEmpty()) {
+      return emptyList();
+    } else {
+      return singletonList(
+          new GeneratedFile(
+              TemplateEngine.render("swift/File", file),
+              nameRules.getImplementationFileName(francaElement)));
+    }
   }
 
-  protected SwiftClass buildSwiftModel(Interface iface) {
-    SwiftModelBuilder modelBuilder = new SwiftModelBuilder(iface, nameRules);
+  protected SwiftFile buildSwiftModel(FrancaElement francaElement) {
+    SwiftModelBuilder modelBuilder = new SwiftModelBuilder(francaElement, nameRules);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(singletonList(modelBuilder));
 
-    treeWalker.walk(iface);
+    treeWalker.walk(francaElement);
 
-    return modelBuilder.getFirstResult(SwiftClass.class);
+    return modelBuilder.getFirstResult(SwiftFile.class);
   }
 }

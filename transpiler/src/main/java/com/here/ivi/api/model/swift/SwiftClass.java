@@ -21,7 +21,6 @@ public final class SwiftClass extends SwiftModelElement {
   public final String parentClass;
   public List<String> implementsProtocols;
   public List<SwiftProperty> properties;
-  public List<String> imports;
   public List<SwiftMethod> methods;
   public List<SwiftStruct> structs;
   public String nameSpace;
@@ -31,7 +30,6 @@ public final class SwiftClass extends SwiftModelElement {
     this.parentClass = parentClassName;
     this.implementsProtocols = emptyList();
     this.properties = emptyList();
-    this.imports = emptyList();
     this.methods = emptyList();
     this.structs = emptyList();
     this.comment = "";

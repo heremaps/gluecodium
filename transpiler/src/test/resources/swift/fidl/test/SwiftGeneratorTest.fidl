@@ -133,3 +133,20 @@ interface TestInterface_7 {
         String elem1
     }
 }
+
+typeCollection TestCollection_0 {
+    version {
+        major 0
+        minor 1
+    }
+
+    <** @description : This is a test struct **>
+    struct struct_0 {
+        Int64 elem1
+        Double elem2
+    }
+
+    struct struct_1 {
+        String elem1
+    }
+}

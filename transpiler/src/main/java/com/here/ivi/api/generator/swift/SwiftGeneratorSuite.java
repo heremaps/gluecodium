@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.swift;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Stream.concat;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
@@ -40,12 +39,18 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
         new CBridgeGenerator(
             new IncludeResolver(model, new CBridgeNameRules()), new CBridgeNameRules());
 
-    Stream<GeneratedFile> swiftStream =
+    Stream<GeneratedFile> swiftInterfaceStream =
         model.getInterfaces().stream().map(swiftGenerator::generate).flatMap(Collection::stream);
+
+    Stream<GeneratedFile> swiftTypeCollectionStream =
+        model
+            .getTypeCollections()
+            .stream()
+            .map(swiftGenerator::generate)
+            .flatMap(Collection::stream);
 
     Stream<GeneratedFile> cBridgeInterfaceStream =
         model.getInterfaces().stream().map(cBridgeGenerator::generate).flatMap(Collection::stream);
-    cBridgeInterfaceStream = concat(cBridgeInterfaceStream, CBridgeGenerator.STATIC_FILES.stream());
 
     Stream<GeneratedFile> cBridgeTypeCollectionStream =
         model
@@ -54,7 +59,12 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
             .map(cBridgeGenerator::generate)
             .flatMap(Collection::stream);
 
-    return Stream.of(swiftStream, cBridgeInterfaceStream, cBridgeTypeCollectionStream)
+    return Stream.of(
+            swiftInterfaceStream,
+            swiftTypeCollectionStream,
+            cBridgeInterfaceStream,
+            cBridgeTypeCollectionStream,
+            CBridgeGenerator.STATIC_FILES.stream())
         .reduce(Stream::concat)
         .orElseGet(Stream::empty)
         .filter(Objects::nonNull)
