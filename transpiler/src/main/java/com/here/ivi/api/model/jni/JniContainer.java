@@ -51,8 +51,8 @@ public final class JniContainer implements JniElement {
   }
 
   public static JniContainer createTypeCollectionContainer(
-      List<String> javaPackages, List<String> cppNameSpaces, String javaName, String cppName) {
-    return new JniContainer(javaPackages, cppNameSpaces, javaName, cppName, false, false);
+      List<String> javaPackages, List<String> cppNameSpaces, String javaName) {
+    return new JniContainer(javaPackages, cppNameSpaces, javaName, null, false, false);
   }
 
   public static JniContainer createInterfaceContainer(

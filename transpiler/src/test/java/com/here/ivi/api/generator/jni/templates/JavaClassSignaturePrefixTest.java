@@ -34,7 +34,7 @@ public final class JavaClassSignaturePrefixTest {
     final String typeCollectionName = "mytypecollection";
     List<String> packageNames = Arrays.asList("from", "a");
     return JniContainer.createTypeCollectionContainer(
-        packageNames, packageNames, typeCollectionName, typeCollectionName);
+        packageNames, packageNames, typeCollectionName);
   }
 
   private static JniContainer createInterfaceModel() {

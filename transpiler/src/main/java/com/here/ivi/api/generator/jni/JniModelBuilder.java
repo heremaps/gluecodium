@@ -166,11 +166,11 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             : structsPackage.subList(0, structsPackage.size() - 1);
     String typeCollectionName = francaTypeCollection.getName();
     String javaName = JavaNameRules.getTypeCollectionName(typeCollectionName);
-    String cppName = CppNameRules.getTypeCollectionName(typeCollectionName);
+
+    List<String> cppNameSpace = CppNameRules.getNestedNameSpecifier(francaTypeCollection);
 
     JniContainer jniContainer =
-        JniContainer.createTypeCollectionContainer(
-            packageNames, rootModel.getPackageNames(), javaName, cppName);
+        JniContainer.createTypeCollectionContainer(packageNames, cppNameSpace, javaName);
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
         .forEach(struct -> jniContainer.add(struct));
 
