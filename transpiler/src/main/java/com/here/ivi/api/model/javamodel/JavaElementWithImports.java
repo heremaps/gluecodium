@@ -11,21 +11,17 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class JavaElementWithImports extends JavaElement {
   public Set<JavaImport> imports = Collections.emptySet();
 
   public JavaElementWithImports(final String name) {
-    super(name);
-    imports = new HashSet<>();
+    this(name, null);
   }
 
   public JavaElementWithImports(final String name, final Collection<JavaImport> imports) {
     super(name);
-    this.imports = new HashSet<>(imports);
+    this.imports = imports != null ? new LinkedHashSet<>(imports) : new LinkedHashSet<>();
   }
 }

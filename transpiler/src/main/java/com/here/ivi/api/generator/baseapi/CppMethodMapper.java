@@ -16,7 +16,7 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
@@ -72,7 +72,7 @@ public final class CppMethodMapper {
     }
 
     // wrap multiple out values (error + outArg) in their own type
-    Set<Include> includes = new HashSet<>();
+    Set<Include> includes = new LinkedHashSet<>();
     includes.addAll(errorType.includes);
     includes.addAll(outArgType.includes);
     includes.add(EXPECTED_INCLUDE);
