@@ -17,6 +17,7 @@ function safe {
     return $status
 }
 
+# Parses the version from Java properties file (like version.properties)
 function get_version {
-    echo $(grep "version \=" $1 | cut -d" " -f3)
+    echo $(cat $1 | cut -d"=" -f2 | xargs)
 }
