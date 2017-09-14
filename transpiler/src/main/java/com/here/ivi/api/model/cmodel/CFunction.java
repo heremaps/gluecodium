@@ -50,6 +50,7 @@ public final class CFunction extends CElement {
     }
   }
 
+  @SuppressWarnings({"ParameterNumber"})
   public CFunction(
       String name,
       List<? extends CParameter> parameters,
@@ -92,13 +93,13 @@ public final class CFunction extends CElement {
       return this;
     }
 
-    public CFunction.Builder returnType(CType returnType) {
-      this.returnType = returnType;
+    public CFunction.Builder returnType(CType returnTypeParam) {
+      this.returnType = returnTypeParam;
       return this;
     }
 
-    public CFunction.Builder returnConversion(TypeConverter.TypeConversion returnConversion) {
-      this.returnConversion = returnConversion;
+    public CFunction.Builder returnConversion(TypeConverter.TypeConversion returnConversionParam) {
+      this.returnConversion = returnConversionParam;
       return this;
     }
 

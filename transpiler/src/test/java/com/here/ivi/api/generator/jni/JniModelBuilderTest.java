@@ -286,9 +286,9 @@ public class JniModelBuilderTest {
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    JniParameter jniParameter = modelBuilder.getFirstResult(JniParameter.class);
-    assertNotNull(jniParameter);
-    assertEquals(javaParameter.name, jniParameter.name);
+    JniParameter resultParameter = modelBuilder.getFirstResult(JniParameter.class);
+    assertNotNull(resultParameter);
+    assertEquals(javaParameter.name, resultParameter.name);
 
     verifyStatic();
     JniType.createType(javaParameter.type, cppParameter.type, false);
@@ -308,9 +308,9 @@ public class JniModelBuilderTest {
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    JniParameter jniParameter = modelBuilder.getFirstResult(JniParameter.class);
-    assertNotNull(jniParameter);
-    assertEquals(javaParameter.name, jniParameter.name);
+    JniParameter resultParameter = modelBuilder.getFirstResult(JniParameter.class);
+    assertNotNull(resultParameter);
+    assertEquals(javaParameter.name, resultParameter.name);
 
     verifyStatic();
     JniType.createType(javaParameter.type, cppParameter.type, true);

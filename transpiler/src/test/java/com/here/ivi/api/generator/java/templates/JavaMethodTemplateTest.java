@@ -82,9 +82,9 @@ public final class JavaMethodTemplateTest {
 
   @Test
   public void generateMethodWithReturnType() {
-    JavaMethod javaMethod = new JavaMethod("methodical", new JavaCustomType("ComplexType"));
+    JavaMethod resultMethod = new JavaMethod("methodical", new JavaCustomType("ComplexType"));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, resultMethod);
 
     assertEquals("ComplexType methodical();", result);
   }

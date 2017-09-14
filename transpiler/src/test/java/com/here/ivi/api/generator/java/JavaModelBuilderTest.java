@@ -216,19 +216,18 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaConstant() {
     modelBuilder.finishBuilding(francaConstant);
 
-    JavaConstant javaConstant = modelBuilder.getFirstResult(JavaConstant.class);
-    assertNotNull(javaConstant);
-    assertNotNull(javaConstant);
-    assertEquals("permanent", javaConstant.name.toLowerCase());
+    JavaConstant resultConstant = modelBuilder.getFirstResult(JavaConstant.class);
+    assertNotNull(resultConstant);
+    assertEquals("permanent", resultConstant.name.toLowerCase());
   }
 
   @Test
   public void finishBuildingFrancaFieldReadsName() {
     modelBuilder.finishBuilding(francaField);
 
-    JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
-    assertNotNull(javaField);
-    assertEquals(FIELD_NAME, javaField.name.toLowerCase());
+    JavaField resultField = modelBuilder.getFirstResult(JavaField.class);
+    assertNotNull(resultField);
+    assertEquals(FIELD_NAME, resultField.name.toLowerCase());
   }
 
   @Test
@@ -237,9 +236,9 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
-    assertNotNull(javaField);
-    assertEquals(javaCustomType, javaField.type);
+    JavaField resultField = modelBuilder.getFirstResult(JavaField.class);
+    assertNotNull(resultField);
+    assertEquals(javaCustomType, resultField.type);
   }
 
   @Test
@@ -248,18 +247,18 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
-    assertNotNull(javaField);
-    assertEquals(javaCustomType, javaField.customTypeInitial);
+    JavaField resultField = modelBuilder.getFirstResult(JavaField.class);
+    assertNotNull(resultField);
+    assertEquals(javaCustomType, resultField.customTypeInitial);
   }
 
   @Test
   public void finishBuildingFrancaFieldCreatesPublicField() {
     modelBuilder.finishBuilding(francaField);
 
-    JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
-    assertNotNull(javaField);
-    assertEquals(JavaVisibility.PUBLIC, javaField.visibility);
+    JavaField resultField = modelBuilder.getFirstResult(JavaField.class);
+    assertNotNull(resultField);
+    assertEquals(JavaVisibility.PUBLIC, resultField.visibility);
   }
 
   @Test

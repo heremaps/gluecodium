@@ -73,9 +73,9 @@ public final class CppMethodSignatureTemplateTest {
 
   @Test
   public void generateWithReturnType() {
-    CppMethod cppMethod = new CppMethod.Builder(METHOD_NAME).returnType(cppCustomType).build();
+    CppMethod resultMethod = new CppMethod.Builder(METHOD_NAME).returnType(cppCustomType).build();
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, resultMethod);
 
     assertEquals("Typical methodical(  )", result);
   }

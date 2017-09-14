@@ -54,9 +54,9 @@ public final class CppImplementationTemplateTest {
   public void nestedNamespaces() {
     this.cppFile.members.clear();
 
-    CppFile cppFile = new CppFile(Arrays.asList("outer", "inner"));
+    CppFile resultNamespace = new CppFile(Arrays.asList("outer", "inner"));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
+    String result = TemplateEngine.render(TEMPLATE_NAME, resultNamespace);
 
     final String expectedResult = "\nnamespace outer {\n\nnamespace inner {\n\n}\n}\n";
     assertEquals(expectedResult, result);

@@ -42,7 +42,7 @@ public class CppComplexTypeRef extends CppTypeRef {
     return splitName[splitName.length - 1];
   }
 
-  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+  @SuppressWarnings({"PMD.AvoidFieldNameMatchingMethodName"})
   public static class Builder {
     private final String fullyQualifiedName;
     private Collection<Include> includes;
@@ -52,17 +52,17 @@ public class CppComplexTypeRef extends CppTypeRef {
       this.fullyQualifiedName = fullyQualifiedName;
     }
 
-    public Builder includes(final Collection<Include> includes) {
-      this.includes = includes;
+    public Builder includes(final Collection<Include> includesParam) {
+      this.includes = includesParam;
       return this;
     }
 
-    public Builder includes(final Include... includes) {
-      return includes(Arrays.asList(includes));
+    public Builder includes(final Include... typeInfoParam) {
+      return includes(Arrays.asList(typeInfoParam));
     }
 
-    public Builder typeInfo(final CppTypeInfo typeInfo) {
-      this.typeInfo = typeInfo;
+    public Builder typeInfo(final CppTypeInfo typeInfoParam) {
+      this.typeInfo = typeInfoParam;
       return this;
     }
 
