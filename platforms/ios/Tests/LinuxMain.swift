@@ -9,5 +9,5 @@ XCTMain([
     testCase(StaticByteArrayMethodsTests.allTests),
     testCase(StaticFloatDoubleMethodsTests.allTests),
     testCase(StaticIntMethodsTests.allTests),
-    testCase(StaticStringMethodsTests.allTests),
+    testCase(StaticStringMethodsTests.allTests)
 ])

@@ -22,6 +22,6 @@ class StaticByteArrayMethodsTests: XCTestCase {
 
     static var allTests = [
         ("testPassByteBuffer", testPassByteBuffer),
-        ("testPassTwoByteBuffers", testPassTwoByteBuffers),
+        ("testPassTwoByteBuffers", testPassTwoByteBuffers)
     ]
 }
