@@ -22,17 +22,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory;
 import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.model.cmodel.CElement;
-import com.here.ivi.api.model.cmodel.CField;
-import com.here.ivi.api.model.cmodel.CFunction;
-import com.here.ivi.api.model.cmodel.CInParameter;
-import com.here.ivi.api.model.cmodel.CInterface;
-import com.here.ivi.api.model.cmodel.COutParameter;
-import com.here.ivi.api.model.cmodel.CParameter;
-import com.here.ivi.api.model.cmodel.CStruct;
-import com.here.ivi.api.model.cmodel.CStructTypedef;
-import com.here.ivi.api.model.cmodel.CType;
-import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.MockContextStack;
@@ -97,13 +87,14 @@ public class CModelBuilderTest {
     typeInfo = new CppTypeInfo(fakeType);
     typeInfo.returnValueConstrExpr = "";
 
+    when(cBridgeNameRules.getStructRefType(any())).thenReturn(STRUCT_REF_NAME);
+    when(cBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
+    when(cBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
+
     when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(typeInfo);
     when(anInterface.isStatic(any())).thenReturn(true);
     when(cBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
     when(cBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
-    when(cBridgeNameRules.getStructRefType(any())).thenReturn(STRUCT_REF_NAME);
-    when(cBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
-    when(cBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
 
     when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
@@ -150,12 +141,13 @@ public class CModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingMethodProcessesOnlyStaticMethods() {
+  public void finishBuildingMethodProcessInstanceMethods() {
     when(anInterface.isStatic(any())).thenReturn(false);
 
     modelBuilder.finishBuilding(francaMethod);
 
-    assertEquals(0, getResults(CFunction.class).size());
+    assertEquals(
+        "We should be able to process Instance methods.", 1, getResults(CFunction.class).size());
   }
 
   @Test

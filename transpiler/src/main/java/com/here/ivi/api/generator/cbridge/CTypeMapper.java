@@ -11,12 +11,11 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
+
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.*;
 
 public final class CTypeMapper {
 
@@ -26,12 +25,21 @@ public final class CTypeMapper {
     if (derived != null) {
       if (derived instanceof FStructType) {
         return CppTypeInfo.createStructTypeInfo(resolver, (FStructType) derived);
+      } else if (derived instanceof FTypeDef) {
+        return mapTypeDef(resolver, (FTypeDef) derived);
+      } else {
+        //TODO: APIGEN-145 handle array types
+        return new CppTypeInfo(CType.VOID);
       }
-      //TODO: APIGEN-145 handle array types
-      return new CppTypeInfo(CType.VOID);
     }
-
     return mapPredefined(type);
+  }
+
+  private static CppTypeInfo mapTypeDef(IncludeResolver resolver, FTypeDef derived) {
+    if (isInstanceId(derived)) {
+      return CppTypeInfo.createInstanceTypeInfo(resolver, derived);
+    }
+    return new CppTypeInfo(CType.VOID);
   }
 
   public static CppTypeInfo mapPredefined(final FTypeRef type) {

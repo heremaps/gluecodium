@@ -11,23 +11,14 @@
 
 package com.here.ivi.api.model.cmodel;
 
-import com.here.ivi.api.generator.cbridge.TypeConverter;
+import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 
-public class CParameter extends CElement {
-  public CType type;
-  public TypeConverter.TypeConversion conversion;
+public final class CClassType extends CElement {
 
-  public CParameter(String name, CType type) {
-    super(name);
-    this.type = type;
-  }
+  public final CppTypeInfo classType;
 
-  public static boolean filterInstanceParam(CParameter param) {
-    return !"_instance".equals(param.name);
-  }
-
-  @Override
-  public String toString() {
-    return type.declareBegin() + " " + name + type.declareEnd();
+  public CClassType(final CppTypeInfo typeInfo) {
+    super("");
+    classType = typeInfo;
   }
 }
