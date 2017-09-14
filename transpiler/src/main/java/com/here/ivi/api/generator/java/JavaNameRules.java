@@ -53,8 +53,4 @@ public final class JavaNameRules {
   public static String getFieldName(final String base) {
     return NameHelper.toLowerCamelCase(base);
   }
-
-  public static String getTypeCollectionName(final String base) {
-    return base.toLowerCase();
-  }
 }

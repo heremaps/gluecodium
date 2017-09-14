@@ -365,7 +365,7 @@ public class JniModelBuilderTest {
     assertEquals(jniStruct.javaClass, jniContainer.structs.get(0).javaClass);
     String expectedNamespace = "my::cpp::stuffs::namespace";
     assertEquals(expectedNamespace, String.join("::", jniContainer.cppNameSpaces));
-    assertEquals("testtypecollection", jniContainer.javaName);
+    assertNull(jniContainer.javaName);
     assertNull(jniContainer.cppName);
   }
 
@@ -382,7 +382,7 @@ public class JniModelBuilderTest {
     assertTrue(jniContainer.structs.isEmpty());
     assertTrue(jniContainer.javaPackages.isEmpty());
     assertEquals("my.cpp.stuffs.namespace", String.join(".", jniContainer.cppNameSpaces));
-    assertEquals("testtypecollection", jniContainer.javaName);
+    assertNull(jniContainer.javaName);
     assertNull(jniContainer.cppName);
   }
 }
