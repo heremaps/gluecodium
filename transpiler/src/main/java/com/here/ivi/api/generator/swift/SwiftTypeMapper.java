@@ -27,11 +27,11 @@ public class SwiftTypeMapper {
     FType derived = type.getDerived();
 
     if (derived != null) {
-      if (derived instanceof FStructType) {
+      if (derived instanceof FStructType || derived instanceof FTypeDef) {
         CBridgeNameRules bridgeRules = new CBridgeNameRules();
         SwiftStruct mappedType = new SwiftStruct(derived.getName());
-        mappedType.cPrefix = bridgeRules.getStructBaseName((FStructType) derived);
-        mappedType.cType = bridgeRules.getStructRefType((FStructType) derived);
+        mappedType.cPrefix = bridgeRules.getStructBaseName(derived);
+        mappedType.cType = bridgeRules.getStructRefType(derived);
         return mappedType;
       }
       return SwiftType.VOID;

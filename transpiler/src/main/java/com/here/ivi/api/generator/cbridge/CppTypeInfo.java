@@ -23,6 +23,7 @@ import com.here.ivi.api.model.common.Include;
 import java.util.Arrays;
 import java.util.List;
 import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeDef;
 
 public class CppTypeInfo {
 
@@ -40,7 +41,8 @@ public class CppTypeInfo {
     BUILTIN_SIMPLE,
     BUILTIN_STRING,
     BUILTIN_BYTEBUFFER,
-    STRUCT
+    STRUCT,
+    INSTANCE,
   }
 
   public static final CppTypeInfo STRING =
@@ -96,6 +98,34 @@ public class CppTypeInfo {
         asList(
             resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER),
             resolver.resolveInclude(structType, HeaderType.BASE_API_HEADER)));
+  }
+
+  public static CppTypeInfo createInstanceTypeInfo(
+      final IncludeResolver resolver, final FTypeDef instanceId) {
+    CBridgeNameRules rules = new CBridgeNameRules();
+    String handleName = rules.getStructRefType(instanceId);
+    String baseApiName = rules.getBaseApiInstanceName(instanceId);
+    return new CppTypeInfo(
+        handleName,
+        "*get_pointer(%1$s)",
+        singletonList(
+            new CType(
+                handleName,
+                singletonList(
+                    resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER)))),
+        singletonList(""),
+        handleName + "{ new std::shared_ptr<" + baseApiName + "> (%s)}",
+        new CType(
+            handleName,
+            singletonList(resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER))),
+        TypeCategory.INSTANCE,
+        asList(
+            resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PRIVATE_HEADER),
+            resolver.resolveInclude(instanceId, HeaderType.BASE_API_HEADER)),
+        asList(
+            resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER),
+            resolver.resolveInclude(instanceId, HeaderType.BASE_API_HEADER),
+            Include.createSystemInclude("memory")));
   }
 
   // TODO (APIGEN-625): refactor this

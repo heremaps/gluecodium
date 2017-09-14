@@ -21,7 +21,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
 public class CBridgeNameRules {
@@ -99,18 +99,22 @@ public class CBridgeNameRules {
     return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
   }
 
-  public String getStructRefType(final FStructType francaStruct) {
+  public String getStructRefType(final FModelElement francaStruct) {
     return getStructBaseName(francaStruct) + "Ref";
   }
 
-  public String getStructBaseName(final FStructType francaStruct) {
+  public String getStructBaseName(final FModelElement francaStruct) {
     return fullyQualifiedName(
         getNestedNameSpecifier(francaStruct),
         NameHelper.toUpperCamelCase(francaStruct.getName()),
         UNDERSCORE_DELIMITER);
   }
 
-  public String getBaseApiStructName(FStructType struct) {
+  public String getBaseApiInstanceName(final FModelElement francaModel) {
+    return String.join(CPP_NAMESPACE_DELIMITER, getNestedNameSpecifier(francaModel));
+  }
+
+  public String getBaseApiStructName(FModelElement struct) {
     return fullyQualifiedName(
         CppNameRules.getNestedNameSpecifier(struct),
         CppNameRules.getStructName(struct.getName()),

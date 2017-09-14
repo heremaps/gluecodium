@@ -123,19 +123,27 @@ public class CBridgeGeneratorTest {
   }
 
   @Test
-  public void nonStaticFunctionAreNotGenerated() {
+  public void instantiableClassesAreGenerated() {
     when(anInterface.isStatic(any())).thenReturn(false);
 
     String expectedHeader =
         String.join(
             "\n",
-            "typedef struct {",
-            "    void* swift_pointer;",
-            "    void(* release)(void* swift_pointer);",
-            "} cbridge_test_TestInterface_FunctionTable;",
+            "typedef struct {\n"
+                + "    void* swift_pointer;\n"
+                + "    void(* release)(void* swift_pointer);\n"
+                + "    void(* cbridge_test_TestInterface_functionName)(cbridge_test_TestInterface_TestInterfaceRef _instance);\n"
+                + "} cbridge_test_TestInterface_FunctionTable;\n"
+                + "void cbridge_test_TestInterface_functionName(cbridge_test_TestInterface_TestInterfaceRef _instance);\n",
             "");
-
-    String expectedImplementation = CBRIDGE_HEADER_INCLUDE;
+    String expectedImplementation =
+        String.join(
+            "\n",
+            BASEAPI_HEADER_INCLUDE,
+            CBRIDGE_HEADER_INCLUDE,
+            "void cbridge_test_TestInterface_functionName(cbridge_test_TestInterface_TestInterfaceRef _instance) {\n"
+                + "    get_pointer(_instance)->get()->functionName();\n"
+                + "}\n");
 
     CInterface cModel = generator.buildCBridgeModel(anInterface);
 
@@ -200,6 +208,88 @@ public class CBridgeGeneratorTest {
             "    cbridge::test::TestInterface::functionName(cpp_input);",
             "}",
             "");
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
+  }
+
+  @Test
+  public void createInstanceFunctionTakingMultipleStrings() throws IOException {
+    when(anInterface.isStatic(any())).thenReturn(false);
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    inputArguments.add(francaArgument1);
+    FArgument francaArgument2 = mock(FArgument.class);
+    when(francaArgument2.getName()).thenReturn("input2");
+    when(francaArgument2.getType()).thenReturn(francaTypeRef1);
+    inputArguments.add(francaArgument2);
+
+    String expectedHeader =
+        String.join(
+            "\n",
+            "typedef struct {\n"
+                + "    void* swift_pointer;\n"
+                + "    void(* release)(void* swift_pointer);\n"
+                + "    void(* cbridge_test_TestInterface_functionName)(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2);\n"
+                + "} cbridge_test_TestInterface_FunctionTable;\n"
+                + "void cbridge_test_TestInterface_functionName(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2);",
+            "");
+
+    String expectedImplementation =
+        "#include <string>\n"
+            + "#include \"BASE_API_HEADER of TestInterface\"\n"
+            + "#include \"CBRIDGE_PUBLIC_HEADER of TestInterface\"\n"
+            + "void cbridge_test_TestInterface_functionName(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2) {\n"
+            + "    auto&& cpp_input = std::string(input);\n"
+            + "    auto&& cpp_input2 = std::string(input2);\n"
+            + "    get_pointer(_instance)->get()->functionName(cpp_input, cpp_input2);\n"
+            + "}\n";
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
+  }
+
+  @Test
+  public void createInstanceFunctionTakingMultipleStringsWithReturnValue() throws IOException {
+    when(anInterface.isStatic(any())).thenReturn(false);
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    inputArguments.add(francaArgument1);
+    FArgument francaArgument2 = mock(FArgument.class);
+    when(francaArgument2.getName()).thenReturn("input2");
+    when(francaArgument2.getType()).thenReturn(francaTypeRef1);
+    inputArguments.add(francaArgument2);
+    outputArguments.add(francaArgument1);
+
+    String expectedHeader =
+        String.join(
+            "\n",
+            "#include \"cbridge/StringHandle.h\"\n"
+                + "typedef struct {\n"
+                + "    void* swift_pointer;\n"
+                + "    void(* release)(void* swift_pointer);\n"
+                + "    std_stringRef(* cbridge_test_TestInterface_functionName)(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2);\n"
+                + "} cbridge_test_TestInterface_FunctionTable;\n"
+                + "std_stringRef cbridge_test_TestInterface_functionName(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2);\n",
+            "");
+
+    String expectedImplementation =
+        "#include <string>\n"
+            + "#include <utility>\n"
+            + "#include \"BASE_API_HEADER of TestInterface\"\n"
+            + "#include \"CBRIDGE_PUBLIC_HEADER of TestInterface\"\n"
+            + "std_stringRef cbridge_test_TestInterface_functionName(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2) {\n"
+            + "    auto&& cpp_input = std::string(input);\n"
+            + "    auto&& cpp_input2 = std::string(input2);\n"
+            + "    {\n"
+            + "        auto&& cpp_result = get_pointer(_instance)->get()->functionName(cpp_input, cpp_input2);\n"
+            + "        return std_stringRef{new std::string(std::move(cpp_result))};\n"
+            + "    }\n"
+            + "}\n";
 
     CInterface cModel = generator.buildCBridgeModel(anInterface);
 
