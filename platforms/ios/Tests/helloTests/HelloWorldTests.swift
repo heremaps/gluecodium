@@ -7,6 +7,6 @@ class HelloWorldTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testHelloWorldMethod", testHelloWorldMethod),
+        ("testHelloWorldMethod", testHelloWorldMethod)
     ]
 }

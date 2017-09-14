@@ -33,6 +33,6 @@ class StaticStringMethodsTests: XCTestCase {
         ("testTwoStringParameters", testTwoStringParameters),
         ("testTwoStringParametersOneEmpty", testTwoStringParametersOneEmpty),
         ("testStringReturnString", testStringReturnString),
-        ("testEmptyReturnString", testEmptyReturnString),
+        ("testEmptyReturnString", testEmptyReturnString)
     ]
 }

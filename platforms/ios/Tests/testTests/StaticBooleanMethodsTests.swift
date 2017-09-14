@@ -13,6 +13,6 @@ class StaticBooleanMethodsTests: XCTestCase {
 
     static var allTests = [
         ("testInvertBool", testPassOneBool),
-        ("testPassTwoBool", testPassTwoBool),
+        ("testPassTwoBool", testPassTwoBool)
     ]
 }

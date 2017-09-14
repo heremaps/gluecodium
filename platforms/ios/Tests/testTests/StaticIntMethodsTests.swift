@@ -112,6 +112,6 @@ class StaticIntMethodsTests: XCTestCase {
         ("testReturnInt32", testReturnInt32),
         ("testReturnUInt32", testReturnUInt32),
         ("testReturnInt64", testReturnInt64),
-        ("testReturnUInt64", testReturnUInt64),
+        ("testReturnUInt64", testReturnUInt64)
     ]
 }

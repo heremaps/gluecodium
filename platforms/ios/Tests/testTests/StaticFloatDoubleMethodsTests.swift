@@ -97,6 +97,6 @@ class StaticFloatDoubleMethodsTests: XCTestCase {
         ("testPassMaximumDouble", testPassMaximumDouble),
         ("testPassMinimumDouble", testPassMinimumDouble),
         ("testPassTwoFloat", testPassTwoFloat),
-        ("testPassTwoDouble", testPassTwoDouble),
+        ("testPassTwoDouble", testPassTwoDouble)
     ]
 }

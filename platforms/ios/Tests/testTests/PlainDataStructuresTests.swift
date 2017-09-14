@@ -6,8 +6,7 @@ class PlainDataStructuresTests: XCTestCase {
         if let point = PlainDataStructures.createPoint(x: 1.2, y: 3.4) {
             XCTAssertEqual(point.x, 1.2)
             XCTAssertEqual(point.y, 3.4)
-        }
-        else {
+        } else {
             XCTFail("Returned struct is nil")
         }
     }
@@ -17,8 +16,7 @@ class PlainDataStructuresTests: XCTestCase {
         if let swappedPoint = PlainDataStructures.swapPointCoordinates(input: point) {
             XCTAssertEqual(swappedPoint.x, 7.8)
             XCTAssertEqual(swappedPoint.y, 5.6)
-        }
-        else {
+        } else {
             XCTFail("Returned struct is nil")
         }
     }
@@ -31,8 +29,7 @@ class PlainDataStructuresTests: XCTestCase {
             XCTAssertEqual(line.a.y, begin.y)
             XCTAssertEqual(line.b.x, end.x)
             XCTAssertEqual(line.b.y, end.y)
-        }
-        else {
+        } else {
             XCTFail("Returned struct is nil")
         }
     }
@@ -69,8 +66,7 @@ class PlainDataStructuresTests: XCTestCase {
             XCTAssertEqual(result.bytesField, Data(bytes: [12]))
             XCTAssertEqual(result.pointField.x, 13)
             XCTAssertEqual(result.pointField.y, 14)
-        }
-        else {
+        } else {
             XCTFail("Returned struct is nil")
         }
     }
@@ -79,6 +75,6 @@ class PlainDataStructuresTests: XCTestCase {
         ("returnStruct", returnStruct),
         ("createPassAndReturnStruct", createPassAndReturnStruct),
         ("returnNestedStruct", returnNestedStruct),
-        ("testAllBasicTypesCanBePassedInStruct", testAllBasicTypesCanBePassedInStruct),
+        ("testAllBasicTypesCanBePassedInStruct", testAllBasicTypesCanBePassedInStruct)
     ]
 }
