@@ -41,9 +41,9 @@ interface ProfileManager {
 
     <** @description: Deletes profile instance **>
     method deleteProfile {
-        in {
-            <** @description: the username for the profile **>
-            String username
+        out {
+            <** @description: the username previously associated to this profile **>
+            String oldUsername
         }
     }
 
