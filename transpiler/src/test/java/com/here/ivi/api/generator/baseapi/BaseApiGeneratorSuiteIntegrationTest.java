@@ -28,22 +28,21 @@ public class BaseApiGeneratorSuiteIntegrationTest {
 
   @Test
   public void generate() {
-    // TODO: APIGEN-229 This test should spy CppGenerator::generate and
-    // typeCollectionGenerator::generate to check with verify() that they are called accordingly
     String francaFilesPath = "src/test/resources/baseapi_generator_suite/fidl";
     baseApiGeneratorSuite.buildModel(francaFilesPath);
 
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 
     assertNotNull(generatedFiles);
-    assertEquals("Expected cpp/internal files and test generated file", 2, generatedFiles.size());
+    assertEquals("Expected cpp/internal files and test generated file", 3, generatedFiles.size());
 
-    assertFalse(generatedFiles.get(0).content.toString().isEmpty());
+    assertFalse(generatedFiles.get(0).content.isEmpty());
     assertEquals("cpp/test/TestInterface.h", generatedFiles.get(0).targetFile.toString());
 
-    for (GeneratedFile generatedFile : generatedFiles) {
-      assertFalse(generatedFile.content.toString().isEmpty());
-      assertFalse(generatedFile.targetFile.getName().isEmpty());
-    }
+    assertFalse(generatedFiles.get(1).content.isEmpty());
+    assertEquals("cpp/test/TestInterface.cpp", generatedFiles.get(1).targetFile.toString());
+
+    assertFalse(generatedFiles.get(2).content.isEmpty());
+    assertEquals("/cpp/internal/expected.h", generatedFiles.get(2).targetFile.toString());
   }
 }

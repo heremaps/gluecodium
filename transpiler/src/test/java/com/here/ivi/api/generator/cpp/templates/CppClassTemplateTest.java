@@ -182,7 +182,7 @@ public final class CppClassTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
-    final String expectedDestructor = "\npublic:\n    virtual ~Classy();\n";
+    final String expectedDestructor = "\npublic:\n    virtual ~Classy() = 0;\n";
     final String expectedMethods = PUBLIC_PREFIX + "void methodical(  );\n";
     final String expectedResult =
         String.format(EXPECTED_CLASS_BODY_FORMAT, "", expectedDestructor + expectedMethods);

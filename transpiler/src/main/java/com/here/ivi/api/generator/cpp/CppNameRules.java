@@ -25,7 +25,8 @@ import org.franca.core.franca.FTypeCollection;
 
 public final class CppNameRules {
 
-  private static final String HEADER_FILE_SUFFIX = ".h";
+  public static final String HEADER_FILE_SUFFIX = ".h";
+  public static final String IMPLEMENTATION_FILE_SUFFIX = ".cpp";
 
   private CppNameRules() {}
 
@@ -86,14 +87,17 @@ public final class CppNameRules {
     return NameHelper.toUpperCamelCase(base); // MyConstant
   }
 
-  public static String getHeaderPath(FrancaElement francaElement) {
+  public static String getHeaderPath(final FrancaElement francaElement) {
+    return getOutputFilePath(francaElement) + HEADER_FILE_SUFFIX;
+  }
+
+  public static String getOutputFilePath(final FrancaElement francaElement) {
     return BaseApiGeneratorSuite.GENERATOR_NAME
         + File.separator
         + String.join(File.separator, francaElement.getPackageNames())
         + File.separator
         + (francaElement instanceof Interface
             ? getClassName(((Interface) francaElement).getFrancaInterface().getName())
-            : francaElement.getFrancaTypeCollection().getName())
-        + HEADER_FILE_SUFFIX;
+            : francaElement.getFrancaTypeCollection().getName());
   }
 }
