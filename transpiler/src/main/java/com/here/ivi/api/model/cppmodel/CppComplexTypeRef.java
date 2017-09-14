@@ -35,6 +35,12 @@ public final class CppComplexTypeRef extends CppTypeRef {
     return info == CppTypeInfo.Enumeration;
   }
 
+  @SuppressWarnings("unused")
+  public String getShortName() {
+    String[] splitName = name.split("::");
+    return splitName[splitName.length - 1];
+  }
+
   @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
   public static class Builder {
     private final String fullyQualifiedName;

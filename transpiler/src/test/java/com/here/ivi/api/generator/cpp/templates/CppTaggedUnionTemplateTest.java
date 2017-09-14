@@ -41,7 +41,7 @@ public final class CppTaggedUnionTemplateTest {
 
   private final CppTaggedUnion cppTaggedUnion = new CppTaggedUnion("Soviet");
   private final CppComplexTypeRef cppComplexTypeRef =
-      new CppComplexTypeRef.Builder("Typical").build();
+      new CppComplexTypeRef.Builder("::very::Typical").build();
   private final CppField cppField = new CppField(cppComplexTypeRef, "flowers");
 
   @Test
@@ -61,14 +61,14 @@ public final class CppTaggedUnionTemplateTest {
 
     final String expectedEnumResult = "        FLOWERS\n";
     final String expectedConstructorResult =
-        "    Soviet(const Typical& flowers)\n"
+        "    Soviet(const ::very::Typical& flowers)\n"
             + "        : type(FLOWERS)\n"
             + "        , flowers(flowers) {};\n\n";
     final String expectedFieldResult =
-        "    /**\n     * nonsense\n     */\n        Typical flowers;\n";
+        "    /**\n     * nonsense\n     */\n        ::very::Typical flowers;\n";
     final String expectedCopyConstructorResult =
         "        case FLOWERS:\n"
-            + "            new (&flowers) Typical(other.flowers);\n            break;\n";
+            + "            new (&flowers) ::very::Typical(other.flowers);\n            break;\n";
     final String expectedDestructorResult =
         "        case FLOWERS:\n" + "            flowers.~Typical();\n            break;\n";
     final String expectedResult =
@@ -93,13 +93,13 @@ public final class CppTaggedUnionTemplateTest {
 
     final String expectedEnumResult = "        FLOWERS,\n        CANOLA\n";
     final String expectedConstructorResult1 =
-        "    Soviet(const Typical& flowers)\n"
+        "    Soviet(const ::very::Typical& flowers)\n"
             + "        : type(FLOWERS)\n"
             + "        , flowers(flowers) {};\n\n";
-    final String expectedFieldResult1 = "        Typical flowers;\n";
+    final String expectedFieldResult1 = "        ::very::Typical flowers;\n";
     final String expectedCopyConstructorResult1 =
         "        case FLOWERS:\n"
-            + "            new (&flowers) Typical(other.flowers);\n            break;\n";
+            + "            new (&flowers) ::very::Typical(other.flowers);\n            break;\n";
     final String expectedDestructorResult1 =
         "        case FLOWERS:\n" + "            flowers.~Typical();\n            break;\n";
     final String expectedConstructorResult2 =

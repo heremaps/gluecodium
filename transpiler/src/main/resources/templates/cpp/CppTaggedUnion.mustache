@@ -37,7 +37,7 @@ struct {{name}} {
         switch (type) {
         {{#fields}}
         case {{fmt "%S" name}}:{{#unless type.refersToValueType}}
-            {{name}}.~{{type.name}}();{{/unless}}
+            {{name}}.~{{type.shortName}}();{{/unless}}
             break;
         {{/fields}}
         };
