@@ -77,15 +77,21 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
   }
 
   public List<GeneratedFile> generateConversionFiles(final List<JniContainer> jniContainers) {
-
     List<GeneratedFile> results = new LinkedList<>();
-
     if (jniContainers == null || jniContainers.isEmpty()) {
       return results;
     }
 
-    //memorize all includes
-    Set<Include> includes = new LinkedHashSet<>();
+    addStructConversionFiles(jniContainers, results);
+
+    addInstanceConversionFiles(jniContainers, results);
+
+    return results;
+  }
+
+  private void addStructConversionFiles(
+      List<JniContainer> jniContainers, List<GeneratedFile> results) {
+    final Set<Include> includes = new LinkedHashSet<>();
     jniContainers.forEach(model -> includes.addAll(model.includes));
 
     Map<String, Iterable<?>> mustacheData = new HashMap<>();
@@ -109,8 +115,36 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
         new GeneratedFile(
             TemplateEngine.render("jni/StructConversionImplementation", mustacheData),
             JniNameRules.getConversionImplementationFileName()));
+  }
 
-    return results;
+  private void addInstanceConversionFiles(
+      List<JniContainer> jniContainers, List<GeneratedFile> results) {
+    List<JniContainer> instanceContainersList =
+        jniContainers
+            .stream()
+            .filter(container -> container.isInstantiable)
+            .collect(Collectors.toCollection(ArrayList::new));
+
+    Map<String, Iterable<?>> instanceData = new HashMap<>();
+    final Set<Include> instanceIncludes = new LinkedHashSet<>();
+    instanceIncludes.add(CppLibraryIncludes.MEMORY);
+    instanceContainersList
+        .stream()
+        .forEach(container -> instanceIncludes.addAll(container.includes));
+    instanceData.put(INCLUDES_NAME, instanceIncludes);
+    instanceData.put(MODELS_NAME, instanceContainersList);
+
+    results.add(
+        new GeneratedFile(
+            TemplateEngine.render("jni/InstanceConversionHeader", instanceData),
+            JniNameRules.getInstanceConversionHeaderFileName()));
+
+    instanceIncludes.add(
+        Include.createInternalInclude(JniNameRules.getInstanceConversionHeaderFileName()));
+    results.add(
+        new GeneratedFile(
+            TemplateEngine.render("jni/InstanceConversionImplementation", instanceData),
+            JniNameRules.getInstanceConversionImplementationFileName()));
   }
 
   private List<Include> getIncludes(

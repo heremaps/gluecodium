@@ -309,4 +309,31 @@ public final class JavaClassTemplateTest {
     // Assert
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
+
+  @Test
+  public void generate_extendsNativeBase() {
+    // Arrange
+    JavaClass javaClass = new JavaClass("ExampleClass");
+    javaClass.comment = "Example class comment";
+    javaClass.extendedClass = JavaClass.NATIVE_BASE;
+
+    String expected =
+        "package com.here.android;\n"
+            + "\n"
+            + "import com.here.android.NativeBase;\n\n"
+            + "/**\n"
+            + " * Example class comment\n"
+            + " */\n"
+            + "class ExampleClass extends NativeBase {\n"
+            + "    protected ExampleClass(final long nativeHandle) {\n"
+            + "        super(nativeHandle);\n"
+            + "    }\n"
+            + "}";
+
+    // Act
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
+
+    // Assert
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
+  }
 }

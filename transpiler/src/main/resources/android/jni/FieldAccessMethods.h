@@ -146,6 +146,18 @@ create_object( JNIEnv* env, jclass javaClass )
     return env->NewObject( javaClass, theConstructor );
 }
 
+// -------------------- JNI instance object constructor ----------------------------------------------------
+
+jobject
+create_instance_object( JNIEnv* env, jclass javaClass, jlong instancePointer )
+{
+    const char* name = "<init>";
+    const char* signature = "(J)V";
+    auto theConstructor = env->GetMethodID( javaClass, name, signature );
+
+    return env->NewObject( javaClass, theConstructor, instancePointer );
+}
+
 // -------------------- JNI object field setters --------------------------------------------------
 
 void

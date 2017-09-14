@@ -1,0 +1,5 @@
+{
+    auto javaClass = env->FindClass("{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}");
+    auto pInstanceSharedPointer = new std::shared_ptr<::{{#cppNameSpaces}}{{.}}::{{/cppNameSpaces}}{{cppName}}>(ninput);
+    return create_instance_object(env, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+}

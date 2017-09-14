@@ -29,7 +29,6 @@ public final class CppClass extends CppElement {
     super(name);
   }
 
-  @SuppressWarnings("unused")
   public boolean hasInstanceMethods() {
     return methods
         .stream()

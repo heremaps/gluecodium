@@ -52,6 +52,10 @@ public final class JavaClass extends JavaElement {
     super(name);
   }
 
+  public boolean extendsNativeBase() {
+    return NATIVE_BASE.equals(extendedClass);
+  }
+
   @Override
   public Stream<JavaNamedEntity> stream() {
     return Stream.concat(

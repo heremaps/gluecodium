@@ -29,6 +29,7 @@ public final class JniContainer implements JniElement {
   public final String javaName;
   public final String cppName;
   public boolean isInterface;
+  public boolean isInstantiable;
 
   public final List<JniMethod> methods = new LinkedList<>();
   public final List<JniStruct> structs = new LinkedList<>();
@@ -39,22 +40,33 @@ public final class JniContainer implements JniElement {
       List<String> cppNameSpaces,
       String javaName,
       String cppName,
-      boolean isInterface) {
+      boolean isInterface,
+      boolean isInstantiable) {
     this.javaPackages = javaPackages;
     this.cppNameSpaces = cppNameSpaces;
     this.javaName = javaName;
     this.cppName = cppName;
     this.isInterface = isInterface;
+    this.isInstantiable = isInstantiable;
   }
 
   public static JniContainer createTypeCollectionContainer(
       List<String> javaPackages, List<String> cppNameSpaces, String javaName, String cppName) {
-    return new JniContainer(javaPackages, cppNameSpaces, javaName, cppName, false);
+    return new JniContainer(javaPackages, cppNameSpaces, javaName, cppName, false, false);
   }
 
   public static JniContainer createInterfaceContainer(
       List<String> javaPackages, List<String> cppNameSpaces, String javaName, String cppName) {
-    return new JniContainer(javaPackages, cppNameSpaces, javaName, cppName, true);
+    return new JniContainer(javaPackages, cppNameSpaces, javaName, cppName, true, false);
+  }
+
+  public static JniContainer createInterfaceContainer(
+      List<String> javaPackages,
+      List<String> cppNameSpaces,
+      String javaName,
+      String cppName,
+      boolean isInstantiable) {
+    return new JniContainer(javaPackages, cppNameSpaces, javaName, cppName, true, isInstantiable);
   }
 
   public void add(JniStruct struct) {

@@ -6,6 +6,11 @@
 {{/fields}}
 {{#enums}}{{prefixPartial "java/Enum" "    "}}
 {{/enums}}
+{{#if extendsNativeBase}}
+    protected {{name}}(final long nativeHandle) {
+        super(nativeHandle);
+    }
+{{/if}}
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}
 {{#innerClasses}}{{prefixPartial "java/Class" "    "}}

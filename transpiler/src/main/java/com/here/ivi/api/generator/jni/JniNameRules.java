@@ -20,7 +20,8 @@ public final class JniNameRules {
 
   private static final String JNI_HEADER_FILE_SUFFIX = ".h";
   private static final String JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp";
-  private static final String JNI_CONVERSION_NAME = "StructConversion";
+  private static final String JNI_STRUCT_CONVERSION_NAME = "StructConversion";
+  private static final String JNI_INSTANCE_CONVERSION_NAME = "InstanceConversion";
 
   public static String getHeaderFileName(JniContainer jniContainer) {
     return getJniClassFileName(jniContainer) + JNI_HEADER_FILE_SUFFIX;
@@ -31,11 +32,19 @@ public final class JniNameRules {
   }
 
   public static String getConversionHeaderFileName() {
-    return getJniPathPrefix() + JNI_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
+    return getJniPathPrefix() + JNI_STRUCT_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
   }
 
   public static String getConversionImplementationFileName() {
-    return getJniPathPrefix() + JNI_CONVERSION_NAME + JNI_IMPLEMENTATION_FILE_SUFFIX;
+    return getJniPathPrefix() + JNI_STRUCT_CONVERSION_NAME + JNI_IMPLEMENTATION_FILE_SUFFIX;
+  }
+
+  public static String getInstanceConversionHeaderFileName() {
+    return getJniPathPrefix() + JNI_INSTANCE_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
+  }
+
+  public static String getInstanceConversionImplementationFileName() {
+    return getJniPathPrefix() + JNI_INSTANCE_CONVERSION_NAME + JNI_IMPLEMENTATION_FILE_SUFFIX;
   }
 
   public static String getNativeParameterName(final String javaParameterName) {
