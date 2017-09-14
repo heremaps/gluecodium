@@ -166,6 +166,7 @@ Source: https://github.com/noveogroup/android-check/blob/master/android-check-pl
         <module name="VisibilityModifier" >
             <!-- Allow public member variables in the class -->
             <property name="allowPublicFinalFields" value="true"/>
+            <property name="protectedAllowed" value="true"/>
             <property name="publicMemberPattern" value="^[a-z][a-zA-Z0-9]*$"/>
         </module>
 

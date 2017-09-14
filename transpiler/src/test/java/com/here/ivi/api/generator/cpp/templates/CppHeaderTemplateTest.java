@@ -63,9 +63,9 @@ public final class CppHeaderTemplateTest {
 
   @Test
   public void nestedNamespaces() {
-    CppFile cppFile = new CppFile(Arrays.asList("outer", "inner"));
+    CppFile resultFile = new CppFile(Arrays.asList("outer", "inner"));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
+    String result = TemplateEngine.render(TEMPLATE_NAME, resultFile);
 
     final String expectedResult =
         "#pragma once\n\nnamespace outer {\n\nnamespace inner {\n\n}\n}\n";

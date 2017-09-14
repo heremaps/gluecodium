@@ -95,9 +95,11 @@ checkstyle {
 }
 checkstyleMain {
     maxErrors=2
+    maxWarnings=0
 }
 checkstyleTest {
     maxErrors=0
+    maxWarnings=0
 }
 
 apply plugin: 'pmd'

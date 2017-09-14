@@ -38,8 +38,8 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_minimal() {
     // Arrange
-    JavaClass javaClass = new JavaClass("ExampleClass");
-    javaClass.comment = "Example class comment";
+    JavaClass resultClass = new JavaClass("ExampleClass");
+    resultClass.comment = "Example class comment";
     String expected =
         "package com.here.android;\n"
             + "\n"
@@ -50,7 +50,7 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, resultClass);
 
     // Assert
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
@@ -167,9 +167,9 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_withInheritance() {
     // Arrange
-    JavaClass javaClass = new JavaClass("ExampleClass");
-    javaClass.comment = "Child class comment";
-    javaClass.extendedClass = new JavaClass("ParentClass");
+    JavaClass resultClass = new JavaClass("ExampleClass");
+    resultClass.comment = "Child class comment";
+    resultClass.extendedClass = new JavaClass("ParentClass");
     String expected =
         "package com.here.android;\n"
             + "\n"
@@ -181,7 +181,7 @@ public final class JavaClassTemplateTest {
             + "}";
 
     // Act
-    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, resultClass);
 
     // Arrange
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);

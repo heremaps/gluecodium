@@ -221,7 +221,6 @@ public class CBridgeGeneratorTest {
     when(francaArgument1.getType()).thenReturn(francaTypeRef1);
     when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);
     inputArguments.add(francaArgument1);
-    FArgument francaArgument2 = mock(FArgument.class);
     when(francaArgument2.getName()).thenReturn("input2");
     when(francaArgument2.getType()).thenReturn(francaTypeRef1);
     inputArguments.add(francaArgument2);
@@ -232,16 +231,25 @@ public class CBridgeGeneratorTest {
             "typedef struct {\n"
                 + "    void* swift_pointer;\n"
                 + "    void(* release)(void* swift_pointer);\n"
-                + "    void(* cbridge_test_TestInterface_functionName)(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2);\n"
-                + "} cbridge_test_TestInterface_FunctionTable;\n"
-                + "void cbridge_test_TestInterface_functionName(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2);",
+                + "    void(* cbridge_test_TestInterface_functionName)"
+                + "(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2);\n"
+                + "} "
+                + "cbridge_test_TestInterface_FunctionTable;\n"
+                + "void cbridge_test_TestInterface_functionName("
+                + "cbridge_test_TestInterface_TestInterfaceRef _instance, "
+                + "const char* input, "
+                + "const char* input2);",
             "");
 
     String expectedImplementation =
         "#include <string>\n"
             + "#include \"BASE_API_HEADER of TestInterface\"\n"
             + "#include \"CBRIDGE_PUBLIC_HEADER of TestInterface\"\n"
-            + "void cbridge_test_TestInterface_functionName(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2) {\n"
+            + "void cbridge_test_TestInterface_functionName("
+            + "cbridge_test_TestInterface_TestInterfaceRef _instance, "
+            + "const char* input, "
+            + "const char* input2) "
+            + "{\n"
             + "    auto&& cpp_input = std::string(input);\n"
             + "    auto&& cpp_input2 = std::string(input2);\n"
             + "    get_pointer(_instance)->get()->functionName(cpp_input, cpp_input2);\n"
@@ -259,7 +267,6 @@ public class CBridgeGeneratorTest {
     when(francaArgument1.getType()).thenReturn(francaTypeRef1);
     when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);
     inputArguments.add(francaArgument1);
-    FArgument francaArgument2 = mock(FArgument.class);
     when(francaArgument2.getName()).thenReturn("input2");
     when(francaArgument2.getType()).thenReturn(francaTypeRef1);
     inputArguments.add(francaArgument2);
@@ -272,9 +279,13 @@ public class CBridgeGeneratorTest {
                 + "typedef struct {\n"
                 + "    void* swift_pointer;\n"
                 + "    void(* release)(void* swift_pointer);\n"
-                + "    std_stringRef(* cbridge_test_TestInterface_functionName)(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2);\n"
+                + "    std_stringRef(* cbridge_test_TestInterface_functionName)"
+                + "(cbridge_test_TestInterface_TestInterfaceRef _instance, "
+                + "const char* input, "
+                + "const char* input2);\n"
                 + "} cbridge_test_TestInterface_FunctionTable;\n"
-                + "std_stringRef cbridge_test_TestInterface_functionName(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2);\n",
+                + "std_stringRef cbridge_test_TestInterface_functionName("
+                + "cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2);\n",
             "");
 
     String expectedImplementation =
@@ -282,7 +293,11 @@ public class CBridgeGeneratorTest {
             + "#include <utility>\n"
             + "#include \"BASE_API_HEADER of TestInterface\"\n"
             + "#include \"CBRIDGE_PUBLIC_HEADER of TestInterface\"\n"
-            + "std_stringRef cbridge_test_TestInterface_functionName(cbridge_test_TestInterface_TestInterfaceRef _instance, const char* input, const char* input2) {\n"
+            + "std_stringRef cbridge_test_TestInterface_functionName("
+            + "cbridge_test_TestInterface_TestInterfaceRef _instance, "
+            + "const char* input, "
+            + "const char* input2) "
+            + "{\n"
             + "    auto&& cpp_input = std::string(input);\n"
             + "    auto&& cpp_input2 = std::string(input2);\n"
             + "    {\n"

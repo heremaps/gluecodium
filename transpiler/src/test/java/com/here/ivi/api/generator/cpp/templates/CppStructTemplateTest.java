@@ -71,8 +71,8 @@ public final class CppStructTemplateTest {
 
   @Test
   public void structWithFieldWithInitializer() {
-    CppField cppField = new CppField(cppComplexTypeRef, "flowers", new CppValue("valuable"));
-    cppStruct.fields.add(cppField);
+    CppField resultField = new CppField(cppComplexTypeRef, "flowers", new CppValue("valuable"));
+    cppStruct.fields.add(resultField);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 

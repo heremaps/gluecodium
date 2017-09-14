@@ -221,9 +221,9 @@ public class CppModelBuilderTest {
   public void finishBuildingFrancaMethodReadsName() {
     modelBuilder.finishBuilding(francaMethod);
 
-    CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
-    assertNotNull(cppMethod);
-    assertEquals(METHOD_NAME, cppMethod.name);
+    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    assertNotNull(resultMethod);
+    assertEquals(METHOD_NAME, resultMethod.name);
   }
 
   @Test
@@ -232,19 +232,19 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
-    assertNotNull(cppMethod);
-    assertEquals(METHOD_NAME, cppMethod.name);
+    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    assertNotNull(resultMethod);
+    assertEquals(METHOD_NAME, resultMethod.name);
   }
 
   @Test
   public void finishBuildingFrancaMethodReadsReturnTypeData() {
     modelBuilder.finishBuilding(francaMethod);
 
-    CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
-    assertNotNull(cppMethod);
-    assertEquals(cppComplexTypeRef, cppMethod.returnType);
-    assertTrue(cppMethod.comment.endsWith(RETURN_TYPE_COMMENT));
+    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    assertNotNull(resultMethod);
+    assertEquals(cppComplexTypeRef, resultMethod.returnType);
+    assertTrue(resultMethod.comment.endsWith(RETURN_TYPE_COMMENT));
   }
 
   @Test
@@ -253,9 +253,9 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
-    assertNotNull(cppMethod);
-    assertTrue(cppMethod.specifiers.contains(CppMethod.Specifier.STATIC));
+    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    assertNotNull(resultMethod);
+    assertTrue(resultMethod.specifiers.contains(CppMethod.Specifier.STATIC));
   }
 
   @Test
@@ -265,10 +265,10 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    CppMethod cppMethod = modelBuilder.getFirstResult(CppMethod.class);
-    assertNotNull(cppMethod);
+    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    assertNotNull(resultMethod);
 
-    List<CppParameter> cppParameters = cppMethod.parameters;
+    List<CppParameter> cppParameters = resultMethod.parameters;
     assertFalse(cppParameters.isEmpty());
     assertEquals(cppParameter, cppParameters.get(0));
   }
@@ -387,9 +387,9 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStructType);
 
-    CppStruct cppStruct = modelBuilder.getFirstResult(CppStruct.class);
-    assertNotNull(cppStruct);
-    assertEquals(STRUCT_NAME, cppStruct.name.toLowerCase());
+    CppStruct resultStruct = modelBuilder.getFirstResult(CppStruct.class);
+    assertNotNull(resultStruct);
+    assertEquals(STRUCT_NAME, resultStruct.name.toLowerCase());
 
     PowerMockito.verifyStatic();
     CppNameRules.getStructName(STRUCT_NAME);
@@ -409,10 +409,10 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStructType);
 
-    CppStruct cppStruct = modelBuilder.getFirstResult(CppStruct.class);
-    assertNotNull(cppStruct);
-    assertFalse(cppStruct.fields.isEmpty());
-    assertEquals(cppField, cppStruct.fields.get(0));
+    CppStruct resultStruct = modelBuilder.getFirstResult(CppStruct.class);
+    assertNotNull(resultStruct);
+    assertFalse(resultStruct.fields.isEmpty());
+    assertEquals(cppField, resultStruct.fields.get(0));
 
     PowerMockito.verifyStatic();
     CppNameRules.getStructName(STRUCT_NAME);
@@ -432,11 +432,11 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStructType);
 
-    CppStruct cppStruct = modelBuilder.getFirstResult(CppStruct.class);
-    assertNotNull(cppStruct);
-    assertEquals(1, cppStruct.inheritances.size());
+    CppStruct resultStruct = modelBuilder.getFirstResult(CppStruct.class);
+    assertNotNull(resultStruct);
+    assertEquals(1, resultStruct.inheritances.size());
 
-    CppInheritance cppInheritance = cppStruct.inheritances.iterator().next();
+    CppInheritance cppInheritance = resultStruct.inheritances.iterator().next();
     assertEquals(cppComplexTypeRef, cppInheritance.parent);
     assertEquals(CppInheritance.Type.Public, cppInheritance.visibility);
 
@@ -455,8 +455,8 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    CppUsing cppUsing = modelBuilder.getFirstResult(CppUsing.class);
-    assertNull(cppUsing);
+    CppUsing resultUsing = modelBuilder.getFirstResult(CppUsing.class);
+    assertNull(resultUsing);
 
     PowerMockito.verifyStatic();
     InstanceRules.isInstanceId(francaTypeDef);
@@ -468,10 +468,10 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    CppUsing cppUsing = modelBuilder.getFirstResult(CppUsing.class);
-    assertNotNull(cppUsing);
-    assertEquals(TYPE_DEF_NAME, cppUsing.name.toLowerCase());
-    assertEquals(cppComplexTypeRef, cppUsing.definition);
+    CppUsing resultUsing = modelBuilder.getFirstResult(CppUsing.class);
+    assertNotNull(resultUsing);
+    assertEquals(TYPE_DEF_NAME, resultUsing.name.toLowerCase());
+    assertEquals(cppComplexTypeRef, resultUsing.definition);
 
     verify(typeMapper).map(francaTypeRef);
 
@@ -485,10 +485,10 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaArrayType);
 
-    CppUsing cppUsing = modelBuilder.getFirstResult(CppUsing.class);
-    assertNotNull(cppUsing);
-    assertEquals(ARRAY_NAME, cppUsing.name.toLowerCase());
-    assertEquals(cppComplexTypeRef, cppUsing.definition);
+    CppUsing resultUsing = modelBuilder.getFirstResult(CppUsing.class);
+    assertNotNull(resultUsing);
+    assertEquals(ARRAY_NAME, resultUsing.name.toLowerCase());
+    assertEquals(cppComplexTypeRef, resultUsing.definition);
 
     verify(typeMapper).mapArray(francaArrayType);
   }
@@ -499,10 +499,10 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMapType);
 
-    CppUsing cppUsing = modelBuilder.getFirstResult(CppUsing.class);
-    assertNotNull(cppUsing);
-    assertEquals(MAP_NAME, cppUsing.name.toLowerCase());
-    assertEquals(cppComplexTypeRef, cppUsing.definition);
+    CppUsing resultUsing = modelBuilder.getFirstResult(CppUsing.class);
+    assertNotNull(resultUsing);
+    assertEquals(MAP_NAME, resultUsing.name.toLowerCase());
+    assertEquals(cppComplexTypeRef, resultUsing.definition);
 
     verify(typeMapper).mapMapType(francaMapType);
   }
@@ -523,9 +523,9 @@ public class CppModelBuilderTest {
   public void finishBuildingFrancaEnumerationTypeReadsName() {
     modelBuilder.finishBuilding(francaEnumerationType);
 
-    CppEnum cppEnum = modelBuilder.getFirstResult(CppEnum.class);
-    assertNotNull(cppEnum);
-    assertEquals(ENUM_NAME, cppEnum.name.toLowerCase());
+    CppEnum resultEnum = modelBuilder.getFirstResult(CppEnum.class);
+    assertNotNull(resultEnum);
+    assertEquals(ENUM_NAME, resultEnum.name.toLowerCase());
   }
 
   @Test
@@ -535,10 +535,10 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
-    CppEnum cppEnum = modelBuilder.getFirstResult(CppEnum.class);
-    assertNotNull(cppEnum);
-    assertFalse(cppEnum.items.isEmpty());
-    assertEquals(cppEnumItem, cppEnum.items.get(0));
+    CppEnum resultEnum = modelBuilder.getFirstResult(CppEnum.class);
+    assertNotNull(resultEnum);
+    assertFalse(resultEnum.items.isEmpty());
+    assertEquals(cppEnumItem, resultEnum.items.get(0));
   }
 
   @Test
@@ -593,10 +593,10 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaUnionType);
 
-    CppStruct cppStruct = modelBuilder.getFirstResult(CppStruct.class);
-    assertNotNull(cppStruct);
-    assertFalse(cppStruct.fields.isEmpty());
-    assertEquals(cppField, cppStruct.fields.get(0));
+    CppStruct resultStruct = modelBuilder.getFirstResult(CppStruct.class);
+    assertNotNull(resultStruct);
+    assertFalse(resultStruct.fields.isEmpty());
+    assertEquals(cppField, resultStruct.fields.get(0));
 
     PowerMockito.verifyStatic();
     CppNameRules.getStructName(UNION_NAME);

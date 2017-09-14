@@ -59,7 +59,7 @@ public final class CppPrimitiveTypeRef extends CppTypeRef {
     }
   }
 
-  private CppPrimitiveTypeRef(final Type type) {
+  public CppPrimitiveTypeRef(final Type type) {
     super(type.value);
     this.type = type;
     if (type.isIntegerType) {

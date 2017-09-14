@@ -95,7 +95,7 @@ public class TypeNameValidatorTest {
     assertTrue(TypeNameValidator.validate(francaModel));
   }
 
-  private TypeCollection mockTypeCollectionContainingType(String typeName, FModel fModel) {
+  private TypeCollection mockTypeCollectionContainingType(String typeName, FModel fModelParam) {
 
     FType type = mock(FType.class);
     when(type.getName()).thenReturn(typeName);
@@ -105,8 +105,8 @@ public class TypeNameValidatorTest {
     FTypeCollection fTypeCollection = mock(FTypeCollection.class);
 
     when(typeCollection.getFrancaTypeCollection()).thenReturn(fTypeCollection);
-    when(typeCollection.getFrancaModel()).thenReturn(fModel);
-    when(fTypeCollection.eContainer()).thenReturn(fModel);
+    when(typeCollection.getFrancaModel()).thenReturn(fModelParam);
+    when(fTypeCollection.eContainer()).thenReturn(fModelParam);
 
     ArrayEList<FType> types = new ArrayEList<>();
     types.add(type);
