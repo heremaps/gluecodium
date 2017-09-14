@@ -32,11 +32,13 @@ set(HELLO_SOURCES
     src/test/StaticStringMethods.cpp
 )
 
-#TODO: Remove this workaround once iOS supports Typedefs (APIGEN-282)
+#TODO: Remove this workaround once iOS supports Typedefs (APIGEN-282) and Instances (APIGEN-195)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/test/StaticTypedef.cpp)
+        src/test/StaticTypedef.cpp
+        src/hello/HelloWorldProfileManager.cpp
+        src/hello/HelloWorldProfileManagerFactory.cpp)
 endif()
 
 #TODO: Remove this workaround once Android and iOS supports complex types (APIGEN-280, APIGEN-281)
@@ -75,19 +77,20 @@ else()
                       ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.fdepl)
     set(FRANCA_FILES ${HELLO_WORLD_FIDL_FILES})
 
-    #TODO: These excludes can be removed once iOS supports Typedefs (APIGEN-282)
+    #TODO: These excludes can be removed once iOS support Typedefs (APIGEN-282) and non-nested instances(APIGEN-196)
     if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fidl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fdepl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManager.fidl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManagerFactory.fidl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManagerFactory.fdepl)
     endif()
 
-    #TODO: These excludes can be removed once both platforms support instances (APIGEN-460, APIGEN-462)
+    #TODO: These excludes can be removed once both platforms support nested instances (APIGEN-205, APIGEN-196)
     list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldInstances.fidl)
     list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldFactory.fidl)
     list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldFactory.fdepl)
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManager.fidl)
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManagerFactory.fidl)
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManagerFactory.fdepl)
+
 
     #TODO: These excludes can be removed once both platforms support complex types (APIGEN-280, APIGEN-281)
     list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldComplexTypes.fidl)
