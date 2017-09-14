@@ -51,11 +51,9 @@ public class JavaTypeMapperCustomTypeTest {
   private static final String TYPECOLLECTION_NAME = "typeC0Ll3ction";
 
   private static final String FMODEL_NAME = "this.is.A.fancy.t3sT.package";
-  private static final String PACKAGE_WITH_TYPECOLLECTION =
-      FMODEL_NAME + "." + TYPECOLLECTION_NAME.toLowerCase();
   private static final JavaPackage JAVA_PACKAGE = new JavaPackage(Strings.split(FMODEL_NAME, "."));
   private static final JavaPackage JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME =
-      new JavaPackage(Strings.split(PACKAGE_WITH_TYPECOLLECTION, "."));
+      new JavaPackage(Strings.split(FMODEL_NAME, "."));
 
   private static final String INTERFACE_NAME = "iNt3RfacE";
   private static final String STRUCT_NAME_INTERFACE = "structDefinedIn_Iface";
@@ -97,15 +95,11 @@ public class JavaTypeMapperCustomTypeTest {
     when(structType.eContainer()).thenReturn(fTypeCollection);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeRef.getDerived()).thenReturn(structType);
-    when(JavaNameRules.getTypeCollectionName(TYPECOLLECTION_NAME))
-        .thenReturn(TYPECOLLECTION_NAME.toLowerCase());
     //act
     JavaType result = JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
 
     //assert & verify
-    assertEquals(
-        FMODEL_NAME + "." + TYPECOLLECTION_NAME.toLowerCase() + "." + STRUCT_NAME_TYPECOLLECTION,
-        result.getName());
+    assertEquals(FMODEL_NAME + "." + STRUCT_NAME_TYPECOLLECTION, result.getName());
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());
@@ -117,7 +111,6 @@ public class JavaTypeMapperCustomTypeTest {
 
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(STRUCT_NAME_TYPECOLLECTION);
-    JavaNameRules.getTypeCollectionName(TYPECOLLECTION_NAME);
   }
 
   @Test
@@ -160,7 +153,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getDerived()).thenReturn(null);
     when(francaTypeRef.getInterval()).thenReturn(mock(FIntegerInterval.class));
 
-    //pre-verify expected exceptipon
+    //pre-verify expected exception
     expectedException.expect(TranspilerExecutionException.class);
 
     //act

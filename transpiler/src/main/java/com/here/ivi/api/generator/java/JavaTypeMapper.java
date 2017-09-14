@@ -120,9 +120,6 @@ public final class JavaTypeMapper {
       structName = importClassName + "." + className;
     } else { // struct from a type collection
       importClassName = className;
-      String typeCollectionName = typeCollection.getName();
-      String packageName = JavaNameRules.getTypeCollectionName(typeCollectionName);
-      packageNames.add(packageName);
       structName = String.join(".", packageNames) + "." + className;
     }
 

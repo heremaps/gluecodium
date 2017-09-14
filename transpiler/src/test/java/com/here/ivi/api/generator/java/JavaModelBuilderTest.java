@@ -323,8 +323,7 @@ public class JavaModelBuilderTest {
     modelBuilder.finishBuilding(francaTypeCollection);
 
     JavaClass javaClass = (JavaClass) modelBuilder.getResults().get(0);
-    String expectedPackage =
-        String.join(".", BASE_PACKAGE_NAMES) + "." + TYPE_COLLECTION_NAME.toLowerCase();
+    String expectedPackage = String.join(".", BASE_PACKAGE_NAMES);
     String innerPackage = String.join(".", javaClass.javaPackage.packageNames);
     assertEquals(expectedPackage, innerPackage);
   }

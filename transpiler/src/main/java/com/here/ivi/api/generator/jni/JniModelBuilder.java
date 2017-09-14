@@ -17,7 +17,6 @@ import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
-import com.here.ivi.api.generator.java.JavaNameRules;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
@@ -160,17 +159,10 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JniStruct.class);
     List<String> structsPackage =
         jniStruct != null ? jniStruct.javaClass.javaPackage.packageNames : Collections.emptyList();
-    List<String> packageNames =
-        structsPackage.isEmpty()
-            ? structsPackage
-            : structsPackage.subList(0, structsPackage.size() - 1);
-    String typeCollectionName = francaTypeCollection.getName();
-    String javaName = JavaNameRules.getTypeCollectionName(typeCollectionName);
-
     List<String> cppNameSpace = CppNameRules.getNestedNameSpecifier(francaTypeCollection);
 
     JniContainer jniContainer =
-        JniContainer.createTypeCollectionContainer(packageNames, cppNameSpace, javaName);
+        JniContainer.createTypeCollectionContainer(structsPackage, cppNameSpace);
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
         .forEach(struct -> jniContainer.add(struct));
 

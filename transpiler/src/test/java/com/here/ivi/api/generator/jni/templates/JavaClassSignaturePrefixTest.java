@@ -31,10 +31,8 @@ public final class JavaClassSignaturePrefixTest {
   private static CppStruct innerStruct = new CppStruct("MyInnerStruct");
 
   private static JniContainer createTypeCollectionModel() {
-    final String typeCollectionName = "mytypecollection";
     List<String> packageNames = Arrays.asList("from", "a");
-    return JniContainer.createTypeCollectionContainer(
-        packageNames, packageNames, typeCollectionName);
+    return JniContainer.createTypeCollectionContainer(packageNames, packageNames);
   }
 
   private static JniContainer createInterfaceModel() {
@@ -62,6 +60,6 @@ public final class JavaClassSignaturePrefixTest {
 
     String generated = TemplateEngine.render("jni/JavaClassSignaturePrefix", jniStruct);
 
-    assertEquals("from/a/mytypecollection/", generated);
+    assertEquals("from/a/", generated);
   }
 }

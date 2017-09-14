@@ -28,7 +28,6 @@ import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.model.javamodel.JavaVisibility;
-import java.util.Collections;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
@@ -82,7 +81,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
-    JavaPackage javaPackage = createJavaPackage(francaTypeCollection);
+    JavaPackage javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaClass.class)
         .forEach(
             javaClass -> {
@@ -204,12 +203,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.comment = getCommentString(francaTypeCollection);
 
     return javaClass;
-  }
-
-  private JavaPackage createJavaPackage(FModelElement typeCollection) {
-    JavaPackage parentPackage = basePackage.createChildPackage(rootModel.getPackageNames());
-    String typeCollectionName = JavaNameRules.getTypeCollectionName(typeCollection.getName());
-    return parentPackage.createChildPackage(Collections.singletonList(typeCollectionName));
   }
 
   private static String getCommentString(FModelElement francaModelElement) {
