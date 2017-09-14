@@ -48,8 +48,8 @@ StaticTypedef::returnExampleStructTypedef( const ::test::StaticTypedef::ExampleS
     return result;
 }
 
-::test::typecollection::PointTypedef
-StaticTypedef::returnTypedefPointFromTypeCollection( const ::test::typecollection::PointTypedef& input )
+::test::PointTypedef
+StaticTypedef::returnTypedefPointFromTypeCollection( const ::test::PointTypedef& input )
 {
     return input;
 }

@@ -14,50 +14,50 @@
 
 namespace test
 {
-typecollection::Point
+Point
 PlainDataStructuresFromTypeCollection::createPoint( const double x, const double y )
 {
-    typecollection::Point output;
+    Point output;
     output.x = x;
     output.y = y;
     return output;
 }
 
-typecollection::Point
+Point
 PlainDataStructuresFromTypeCollection::swapPointCoordinates(
-    const typecollection::Point& point )
+    const Point& point )
 {
-    typecollection::Point result;
+    Point result;
     result.x = point.y;
     result.y = point.x;
     return result;
 }
 
-typecollection::Line
-PlainDataStructuresFromTypeCollection::createLine( const typecollection::Point& pointA,
-                                                   const typecollection::Point& pointB )
+Line
+PlainDataStructuresFromTypeCollection::createLine( const Point& pointA,
+                                                   const Point& pointB )
 {
-    typecollection::Line line;
+    Line line;
     line.a = pointA;
     line.b = pointB;
     return line;
 }
 
-typecollection::ColoredLine
+ColoredLine
 PlainDataStructuresFromTypeCollection::createColoredLine(
-    const typecollection::Line& line, const typecollection::Color& color )
+    const Line& line, const Color& color )
 {
-    typecollection::ColoredLine coloredLine;
+    ColoredLine coloredLine;
     coloredLine.line = line;
     coloredLine.color = color;
     return coloredLine;
 }
 
-typecollection::AllTypesStruct
+AllTypesStruct
 PlainDataStructuresFromTypeCollection::modifyAllTypesStruct(
-    const typecollection::AllTypesStruct& input )
+    const AllTypesStruct& input )
 {
-    typecollection::AllTypesStruct output;
+    AllTypesStruct output;
     output.int8Field = input.int8Field + 1;
     output.uint8Field = input.uint8Field + 1;
     output.int16Field = input.int16Field + 1;
