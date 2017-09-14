@@ -2,7 +2,7 @@ import XCTest
 @testable import test
 
 class PlainDataStructuresTests: XCTestCase {
-    func returnStruct() {
+    func testReturnStruct() {
         if let point = PlainDataStructures.createPoint(x: 1.2, y: 3.4) {
             XCTAssertEqual(point.x, 1.2)
             XCTAssertEqual(point.y, 3.4)
@@ -11,7 +11,7 @@ class PlainDataStructuresTests: XCTestCase {
         }
     }
 
-    func createPassAndReturnStruct() {
+    func testCreatePassAndReturnStruct() {
         let point = PlainDataStructures.Point(x: 5.6, y: 7.8)
         if let swappedPoint = PlainDataStructures.swapPointCoordinates(input: point) {
             XCTAssertEqual(swappedPoint.x, 7.8)
@@ -21,7 +21,7 @@ class PlainDataStructuresTests: XCTestCase {
         }
     }
 
-    func returnNestedStruct() {
+    func testReturnNestedStruct() {
         let begin = PlainDataStructures.Point(x: 1, y: 2)
         let end = PlainDataStructures.Point(x: 3, y: 4)
         if let line = PlainDataStructures.createLine(pointA: begin, pointB: end) {
@@ -72,9 +72,9 @@ class PlainDataStructuresTests: XCTestCase {
     }
 
     static var allTests = [
-        ("returnStruct", returnStruct),
-        ("createPassAndReturnStruct", createPassAndReturnStruct),
-        ("returnNestedStruct", returnNestedStruct),
+        ("testReturnStruct", testReturnStruct),
+        ("testCreatePassAndReturnStruct", testCreatePassAndReturnStruct),
+        ("testReturnNestedStruct", testReturnNestedStruct),
         ("testAllBasicTypesCanBePassedInStruct", testAllBasicTypesCanBePassedInStruct)
     ]
 }

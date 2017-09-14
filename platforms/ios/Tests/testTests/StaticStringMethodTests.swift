@@ -2,7 +2,7 @@ import XCTest
 @testable import test
 
 class StaticStringMethodsTests: XCTestCase {
-    func passEmptyString() {
+    func testPassEmptyString() {
         XCTAssertEqual(StaticStringMethods.returnInputString(inputString: ""), "")
     }
 
@@ -29,7 +29,7 @@ class StaticStringMethodsTests: XCTestCase {
     }
 
     static var allTests = [
-        ("passEmptyString", passEmptyString),
+        ("testPassEmptyString", testPassEmptyString),
         ("testTwoStringParameters", testTwoStringParameters),
         ("testTwoStringParametersOneEmpty", testTwoStringParametersOneEmpty),
         ("testStringReturnString", testStringReturnString),

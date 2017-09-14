@@ -23,6 +23,7 @@ set(HELLO_SOURCES
     src/hello/HelloWorld.cpp
     src/hello/HelloWorldBuiltinTypes.cpp
     src/hello/HelloWorldPlainDataStructures.cpp
+    src/test/PlainDataStructuresFromTypeCollection.cpp
     src/test/PlainDataStructures.cpp
     src/test/StaticBooleanMethods.cpp
     src/test/StaticByteArrayMethods.cpp
@@ -31,12 +32,11 @@ set(HELLO_SOURCES
     src/test/StaticStringMethods.cpp
 )
 
-#TODO: Remove this workaround once iOS supports PODs (APIGEN-357)
+#TODO: Remove this workaround once iOS supports Typedefs (APIGEN-282)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/test/StaticTypedef.cpp
-        src/test/PlainDataStructuresFromTypeCollection.cpp)
+        src/test/StaticTypedef.cpp)
 endif()
 
 #TODO: Remove this workaround once Android and iOS supports complex types (APIGEN-280, APIGEN-281)
@@ -75,10 +75,8 @@ else()
                       ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.fdepl)
     set(FRANCA_FILES ${HELLO_WORLD_FIDL_FILES})
 
-    #TODO: These excludes can be removed once iOS support PODs (APIGEN-357) and Typedefs (APIGEN-282)
+    #TODO: These excludes can be removed once iOS supports Typedefs (APIGEN-282)
     if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructuresFromTypeCollection.fidl)
-        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/PlainDataStructuresFromTypeCollection.fdepl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fidl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fdepl)
     endif()
