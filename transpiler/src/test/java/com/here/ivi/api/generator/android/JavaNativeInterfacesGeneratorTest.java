@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.android;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
@@ -37,6 +37,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class JavaNativeInterfacesGeneratorTest {
 
   private static final int MAIN_FILES_COUNT = 2;
+  private static final int MAIN_FILES_WITH_INSTANCES_COUNT = 4;
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
@@ -55,6 +56,8 @@ public class JavaNativeInterfacesGeneratorTest {
     when(JniNameRules.getImplementationFileName(any())).thenReturn("");
     when(JniNameRules.getConversionHeaderFileName()).thenReturn("");
     when(JniNameRules.getConversionImplementationFileName()).thenReturn("");
+    when(JniNameRules.getInstanceConversionHeaderFileName()).thenReturn("");
+    when(JniNameRules.getInstanceConversionImplementationFileName()).thenReturn("");
   }
 
   @Test
@@ -77,12 +80,21 @@ public class JavaNativeInterfacesGeneratorTest {
 
   @Test
   public void generateConversionFiles() {
+    JniContainer instantiableJniContainer =
+        JniContainer.createInterfaceContainer(
+            Collections.emptyList(), Collections.emptyList(), "classy", "classy", true);
+
     List<GeneratedFile> result =
-        generator.generateConversionFiles(Collections.singletonList(jniContainer));
+        generator.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
 
-    assertEquals(MAIN_FILES_COUNT, result.size());
-
-    PowerMockito.verifyStatic(times(2));
-    TemplateEngine.render(any(), any());
+    assertEquals(MAIN_FILES_WITH_INSTANCES_COUNT, result.size());
+    PowerMockito.verifyStatic();
+    TemplateEngine.render(eq("jni/StructConversionHeader"), any());
+    PowerMockito.verifyStatic();
+    TemplateEngine.render(eq("jni/StructConversionImplementation"), any());
+    PowerMockito.verifyStatic();
+    TemplateEngine.render(eq("jni/InstanceConversionHeader"), any());
+    PowerMockito.verifyStatic();
+    TemplateEngine.render(eq("jni/InstanceConversionImplementation"), any());
   }
 }

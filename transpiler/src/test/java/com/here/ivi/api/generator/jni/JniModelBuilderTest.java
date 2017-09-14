@@ -226,6 +226,22 @@ public class JniModelBuilderTest {
     assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
     assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.cppNameSpaces);
     assertEquals(JAVA_PACKAGES, jniContainer.javaPackages);
+    assertFalse(jniContainer.isInstantiable);
+  }
+
+  @Test
+  public void finishBuildingInstantiableFrancaInterface() {
+    //arrange
+    CppMethod nonStaticMethod = new CppMethod.Builder("nonStaticMethod").build();
+    cppClass.methods.add(nonStaticMethod);
+
+    //act
+    modelBuilder.finishBuilding(francaInterface);
+
+    //assert
+    JniContainer jniContainer = modelBuilder.getFirstResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertTrue(jniContainer.isInstantiable);
   }
 
   @Test

@@ -87,7 +87,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             javaClass.javaPackage.packageNames,
             rootModel.getPackageNames(),
             javaClass.name,
-            cppClass.name);
+            cppClass.name,
+            cppClass.hasInstanceMethods());
     List<JniElement> previousResults = getCurrentContext().previousResults;
     CollectionsHelper.getStreamOfType(previousResults, JniStruct.class)
         .forEach(struct -> jniContainer.add(struct));

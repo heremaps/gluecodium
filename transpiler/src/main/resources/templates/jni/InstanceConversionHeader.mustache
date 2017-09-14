@@ -1,0 +1,16 @@
+#pragma once
+
+#include <jni.h>
+{{#includes}}
+#include <{{fileName}}>
+{{/includes}}
+
+namespace here {
+namespace internal {
+
+  {{#models}}
+    {{>jni/CppToJniInstanceConversionSignature}};
+  {{/models}}
+
+}
+}

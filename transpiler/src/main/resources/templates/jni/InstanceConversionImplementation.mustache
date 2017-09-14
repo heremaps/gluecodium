@@ -1,0 +1,14 @@
+{{#includes}}
+#include <{{fileName}}>
+{{/includes}}
+
+namespace here {
+namespace internal {
+
+{{#models}}
+  {{>jni/CppToJniInstanceConversionSignature}}
+  {{>jni/CppToJniInstanceConversionBody}}
+{{/models}}
+
+}
+}

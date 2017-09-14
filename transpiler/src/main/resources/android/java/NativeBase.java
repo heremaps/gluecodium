@@ -31,7 +31,7 @@ public abstract class NativeBase {
   // The set is to keep DisposableReference itself from being garbage-collected.
   // The set is backed by ConcurrentHashMap to make it thread-safe.
   private static final Set<Reference<?>> REFERENCES =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+      Collections.newSetFromMap(new ConcurrentHashMap<Reference<?>, Boolean>());
 
   private static final ReferenceQueue<NativeBase> REFERENCE_QUEUE = new ReferenceQueue<>();
 

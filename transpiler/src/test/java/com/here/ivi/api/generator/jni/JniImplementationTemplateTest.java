@@ -48,7 +48,12 @@ public final class JniImplementationTemplateTest {
   private static final String RETRIEVE_LONG_PTR =
       "    auto pointerAsLong = get_long_field(env, env->GetObjectClass(jinstance), jinstance, \"nativeHandle\");\n";
   private static final String CAST_LONG_TO_SHARED_PTR =
-      "    auto pInstanceSharedPointer = reinterpret_cast < std::shared_ptr< ::com::here::ivi::test::CppClass >* > (pointerAsLong);\n";
+      "    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::com::here::ivi::test::CppClass>*> (pointerAsLong);\n";
+  public static final String CONVERSION_HEADER_INCLUDE =
+      "#include \"" + JniNameRules.getConversionHeaderFileName() + "\"\n";
+  public static final String INSTANCE_CONVERSION_HEADER_INCLUDE =
+      "#include \"" + JniNameRules.getInstanceConversionHeaderFileName() + "\"\n";
+  public static final String JNI_TEST_CLASS_METHOD_PREFIX = "Java_com_here_ivi_test_TestClass_";
 
   private JniContainer jniContainer;
 
@@ -88,7 +93,7 @@ public final class JniImplementationTemplateTest {
       String methodName, boolean isStatic, boolean isVoidMethod) {
     String returnType = isVoidMethod ? "\nvoid\n" : "\njint\n";
     String methodBody =
-        "Java_com_here_ivi_test_TestClass_"
+        JNI_TEST_CLASS_METHOD_PREFIX
             + methodName
             + "(JNIEnv* env, jobject jinstance, jint "
             + JNI_PARAMETER_NAME
@@ -139,9 +144,8 @@ public final class JniImplementationTemplateTest {
         COPYRIGHT_NOTICE
             + JNI_HEADER_INCLUDE
             + "#include \"base_api_header.h\"\n"
-            + "#include \""
-            + JniNameRules.getConversionHeaderFileName()
-            + "\"\n"
+            + INSTANCE_CONVERSION_HEADER_INCLUDE
+            + CONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + END_OF_FILE,
         generatedImplementation);
@@ -161,9 +165,8 @@ public final class JniImplementationTemplateTest {
     assertEquals(
         COPYRIGHT_NOTICE
             + JNI_HEADER_INCLUDE
-            + "#include \""
-            + JniNameRules.getConversionHeaderFileName()
-            + "\"\n"
+            + INSTANCE_CONVERSION_HEADER_INCLUDE
+            + CONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + END_OF_FILE,
         generatedImplementation);
@@ -178,9 +181,8 @@ public final class JniImplementationTemplateTest {
     assertEquals(
         COPYRIGHT_NOTICE
             + JNI_HEADER_INCLUDE
-            + "#include \""
-            + JniNameRules.getConversionHeaderFileName()
-            + "\"\n"
+            + INSTANCE_CONVERSION_HEADER_INCLUDE
+            + CONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("method1")
             + END_OF_FILE,
@@ -198,9 +200,8 @@ public final class JniImplementationTemplateTest {
     assertEquals(
         COPYRIGHT_NOTICE
             + JNI_HEADER_INCLUDE
-            + "#include \""
-            + JniNameRules.getConversionHeaderFileName()
-            + "\"\n"
+            + INSTANCE_CONVERSION_HEADER_INCLUDE
+            + CONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("method1")
             + expectedGeneratedJNIMethod("method2")
@@ -220,9 +221,8 @@ public final class JniImplementationTemplateTest {
     assertEquals(
         COPYRIGHT_NOTICE
             + JNI_HEADER_INCLUDE
-            + "#include \""
-            + JniNameRules.getConversionHeaderFileName()
-            + "\"\n"
+            + INSTANCE_CONVERSION_HEADER_INCLUDE
+            + CONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("testMethod", true, true)
             + END_OF_FILE,
@@ -238,9 +238,8 @@ public final class JniImplementationTemplateTest {
     assertEquals(
         COPYRIGHT_NOTICE
             + JNI_HEADER_INCLUDE
-            + "#include \""
-            + JniNameRules.getConversionHeaderFileName()
-            + "\"\n"
+            + INSTANCE_CONVERSION_HEADER_INCLUDE
+            + CONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("instanceMethod", false, false)
             + END_OF_FILE,
@@ -258,11 +257,36 @@ public final class JniImplementationTemplateTest {
     assertEquals(
         COPYRIGHT_NOTICE
             + JNI_HEADER_INCLUDE
-            + "#include \""
-            + JniNameRules.getConversionHeaderFileName()
-            + "\"\n"
+            + INSTANCE_CONVERSION_HEADER_INCLUDE
+            + CONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("instanceVoidMethod", false, true)
+            + END_OF_FILE,
+        generatedImplementation);
+  }
+
+  @Test
+  public void generateDisposeNativeHandleMethod() {
+    JniMethod instanceVoidMethod = createJniMethod("instanceVoidMethod", false);
+    instanceVoidMethod.returnType = null;
+    jniContainer.add(instanceVoidMethod);
+    jniContainer.isInstantiable = true;
+
+    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+
+    assertEquals(
+        COPYRIGHT_NOTICE
+            + JNI_HEADER_INCLUDE
+            + INSTANCE_CONVERSION_HEADER_INCLUDE
+            + CONVERSION_HEADER_INCLUDE
+            + EXTERN_C
+            + expectedGeneratedJNIMethod("instanceVoidMethod", false, true)
+            + "\nvoid\n"
+            + JNI_TEST_CLASS_METHOD_PREFIX
+            + "disposeNativeHandle(JNIEnv* env, jobject jinstance, jlong pointerRef)\n"
+            + "{\n"
+            + "    delete reinterpret_cast<std::shared_ptr<::com::here::ivi::test::CppClass>*> (pointerRef);\n"
+            + "}"
             + END_OF_FILE,
         generatedImplementation);
   }
