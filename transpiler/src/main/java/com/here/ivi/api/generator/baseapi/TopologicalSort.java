@@ -83,10 +83,24 @@ public final class TopologicalSort {
               field -> {
                 String fieldTypeName = field.type.name;
 
+                // Temporary fix for containers of structs vector< Struct >, set< Struct >, ..
+                // by checking if string " " + type + " " exist or not
+                // TODO APIGEN-636: handle in a proper way
                 // check if the field type is of one the structs.
-                if (nameToStructMap.containsKey(fieldTypeName)) {
+                String typeName =
+                    nameToStructMap
+                        .keySet()
+                        .stream()
+                        .filter(
+                            name ->
+                                fieldTypeName.equals(name)
+                                    || fieldTypeName.contains(" " + name + " "))
+                        .findFirst()
+                        .orElse("");
+
+                if (!typeName.isEmpty()) {
                   // if yes add field struct type as a dependency for the struct
-                  dependencies.get(structName).add(fieldTypeName);
+                  dependencies.get(structName).add(typeName);
                 }
               });
         });
