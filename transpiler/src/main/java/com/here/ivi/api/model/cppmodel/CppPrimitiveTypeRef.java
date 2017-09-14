@@ -14,7 +14,7 @@ package com.here.ivi.api.model.cppmodel;
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class CppPrimitiveTypeRef extends CppTypeRef {
 
   public final Type type;

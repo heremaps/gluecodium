@@ -14,7 +14,7 @@ package com.here.ivi.api.model.cppmodel;
 import java.util.stream.Stream;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class CppParameter extends CppElement {
 
   public final CppTypeRef type;
