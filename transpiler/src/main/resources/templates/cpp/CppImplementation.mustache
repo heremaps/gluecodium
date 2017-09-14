@@ -1,0 +1,12 @@
+
+{{#name}}
+namespace {{.}} {
+
+{{/name}}
+{{#classes}}{{#if hasInstanceMethods}}
+{{name}}::~{{name}}() = default;
+
+{{/if}}{{/classes}}
+{{#name}}
+}
+{{/name}}

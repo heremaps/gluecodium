@@ -15,14 +15,14 @@ import java.io.File;
 
 public class GeneratedFile {
 
-  public final CharSequence content;
+  public final String content;
   public final File targetFile;
 
-  public GeneratedFile(CharSequence content, String targetFile) {
+  public GeneratedFile(String content, String targetFile) {
     this(content, new File(targetFile));
   }
 
-  public GeneratedFile(CharSequence content, File targetFile) {
+  public GeneratedFile(String content, File targetFile) {
     this.content = content;
     this.targetFile = targetFile;
   }

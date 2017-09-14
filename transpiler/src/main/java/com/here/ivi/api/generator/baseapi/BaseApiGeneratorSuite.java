@@ -57,7 +57,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
     List<GeneratedFile> generatedFiles =
         Stream.concat(model.getInterfaces().stream(), model.getTypeCollections().stream())
-            .map(iface -> generateFromFrancaElement(iface, generator))
+            .flatMap(iface -> generateFromFrancaElement(iface, generator))
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
@@ -71,15 +71,14 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     return "com.here.BaseApiGenerator";
   }
 
-  private GeneratedFile generateFromFrancaElement(
+  private Stream<GeneratedFile> generateFromFrancaElement(
       final FrancaElement francaElement, final CppGenerator generator) {
 
     CppNamespace cppModel = mapFrancaElementToCppModel(francaElement);
+    String outputFilePath = CppNameRules.getOutputFilePath(francaElement);
+    String copyRightNotice = generateGeneratorNotice(francaElement);
 
-    String fileName = CppNameRules.getHeaderPath(francaElement);
-    CharSequence copyRightNotice = generateGeneratorNotice(francaElement, fileName);
-
-    return generator.generateCode(cppModel, fileName, copyRightNotice);
+    return generator.generateCode(cppModel, outputFilePath, copyRightNotice).stream();
   }
 
   @Override
@@ -88,11 +87,10 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     includeResolver = new CppIncludeResolver(model);
   }
 
-  private CharSequence generateGeneratorNotice(FrancaElement element, String outputTarget) {
+  private String generateGeneratorNotice(FrancaElement element) {
 
     Map<String, String> generatorNoticeData = new HashMap<>();
     generatorNoticeData.put("generatorName", getName());
-    generatorNoticeData.put("outputFile", outputTarget);
     generatorNoticeData.put("elementName", element.getName());
     generatorNoticeData.put("elementVersion", element.getVersion().toString());
     generatorNoticeData.put("date", new SimpleDateFormat("dd.MM.YYYY").format(new Date()));

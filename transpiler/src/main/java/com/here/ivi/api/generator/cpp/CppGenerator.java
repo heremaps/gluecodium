@@ -11,31 +11,49 @@
 
 package com.here.ivi.api.generator.cpp;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppNamespace;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CppGenerator {
 
-  public GeneratedFile generateCode(
-      CppNamespace cppModel, String outputFileName, CharSequence copyrightNotice) {
+  public List<GeneratedFile> generateCode(
+      CppNamespace cppModel, String outputFilePath, String copyrightNotice) {
 
     if (cppModel == null || cppModel.isEmpty()) {
-      return null;
+      return Collections.emptyList();
     }
 
+    String headerFilePath = outputFilePath + CppNameRules.HEADER_FILE_SUFFIX;
+    String implementationFilePath = outputFilePath + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
+
     // Filter out self-includes
-    cppModel.includes.removeIf(include -> include.fileName.equals(outputFileName));
+    cppModel.includes.removeIf(include -> include.fileName.equals(headerFilePath));
 
     String commentHeader = generateCommentHeader(copyrightNotice);
-    String mainContent = TemplateEngine.render("cpp/CppNamespace", cppModel);
 
-    return new GeneratedFile(commentHeader + mainContent, outputFileName);
+    List<GeneratedFile> result = new LinkedList<>();
+    String headerContent = TemplateEngine.render("cpp/CppNamespace", cppModel);
+    result.add(new GeneratedFile(commentHeader + headerContent, headerFilePath));
+
+    boolean hasInstantiableClasses =
+        CollectionsHelper.getStreamOfType(cppModel.members, CppClass.class)
+            .anyMatch(CppClass::hasInstanceMethods);
+    if (hasInstantiableClasses) {
+      String headerInclude = "\n#include \"" + headerFilePath + "\"";
+      String implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel);
+      result.add(
+          new GeneratedFile(
+              commentHeader + headerInclude + implementationContent, implementationFilePath));
+    }
+
+    return result;
   }
 
-  private static String generateCommentHeader(final CharSequence generatorNotice) {
+  private static String generateCommentHeader(final String generatorNotice) {
 
     Map<String, Object> dataObject = new HashMap<>();
     dataObject.put("generatorNotice", generatorNotice);
