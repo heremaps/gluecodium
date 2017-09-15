@@ -14,7 +14,6 @@ package com.here.ivi.api.model.franca;
 import com.here.ivi.api.TranspilerExecutionException;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.EqualsAndHashCode;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
@@ -24,7 +23,6 @@ import org.franca.deploymodel.dsl.fDeploy.FDInterface;
 import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 
 /** FInterface with accessor */
-@EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("FinalClass") // Mockito can only mock non-private & non-final classes.
 public class Interface extends FrancaElement {
 

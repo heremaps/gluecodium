@@ -11,13 +11,14 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.common.CollectionsHelper;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 public final class CppMethod extends CppElementWithIncludes {
 
   public final CppTypeRef returnType;
@@ -73,41 +74,6 @@ public final class CppMethod extends CppElementWithIncludes {
     this.specifiers = specifiers;
     this.qualifiers = qualifiers;
     this.parameters = parameters;
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (other == null) {
-      return false;
-    }
-    if (other == this) {
-      return true;
-    }
-    if (!(other instanceof CppMethod)) {
-      return false;
-    }
-    CppMethod otherMethod = (CppMethod) other;
-
-    // TODO move to a helper.
-    boolean paramsEquality = CollectionsHelper.areEqualOrdered(parameters, otherMethod.parameters);
-    boolean specifiersEquality = CollectionsHelper.areEqual(specifiers, otherMethod.specifiers);
-    boolean qualifiersEquality = CollectionsHelper.areEqual(qualifiers, otherMethod.qualifiers);
-
-    return super.equals(other)
-        && returnType.equals(otherMethod.returnType)
-        && paramsEquality
-        && specifiersEquality
-        && qualifiersEquality;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = super.hashCode();
-    result = 31 * result + (returnType != null ? returnType.hashCode() : 0);
-    result = 31 * result + (specifiers != null ? specifiers.hashCode() : 0);
-    result = 31 * result + (qualifiers != null ? qualifiers.hashCode() : 0);
-    result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
-    return result;
   }
 
   @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
