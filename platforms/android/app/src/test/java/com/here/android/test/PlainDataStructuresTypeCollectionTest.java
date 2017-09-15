@@ -4,11 +4,11 @@ import android.os.Build;
 import android.support.compat.BuildConfig;
 
 import com.here.android.RobolectricApplication;
-import com.here.android.test.typecollection.AllTypesStruct;
-import com.here.android.test.typecollection.Color;
-import com.here.android.test.typecollection.ColoredLine;
-import com.here.android.test.typecollection.Line;
-import com.here.android.test.typecollection.Point;
+import com.here.android.test.AllTypesStruct;
+import com.here.android.test.Color;
+import com.here.android.test.ColoredLine;
+import com.here.android.test.Line;
+import com.here.android.test.Point;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
