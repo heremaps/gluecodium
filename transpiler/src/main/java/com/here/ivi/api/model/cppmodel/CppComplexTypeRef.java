@@ -17,14 +17,13 @@ import java.util.Collection;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-public final class CppComplexTypeRef extends CppTypeRef {
+public class CppComplexTypeRef extends CppTypeRef {
 
   public static final String STRING_TYPE_NAME = "::std::string";
-  public static final String BYTE_VECTOR_TYPE_NAME = "::std::vector< uint8_t >";
 
   public final CppTypeInfo info;
 
-  private CppComplexTypeRef(
+  protected CppComplexTypeRef(
       final String fullyQualifiedName,
       final Collection<Include> includes,
       final CppTypeInfo typeInfo) {

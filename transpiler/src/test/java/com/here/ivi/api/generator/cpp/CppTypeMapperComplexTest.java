@@ -108,9 +108,9 @@ public class CppTypeMapperComplexTest {
     CppTypeRef cppType = typeMapper.map(typeRef);
 
     //assert
-    assertTrue(cppType instanceof CppComplexTypeRef);
-    CppComplexTypeRef expectedTypeRef = (CppComplexTypeRef) cppType;
-    assertEquals(CppComplexTypeRef.BYTE_VECTOR_TYPE_NAME, expectedTypeRef.name);
+    assertTrue(cppType instanceof CppTemplateTypeRef);
+    CppComplexTypeRef expectedTypeRef = (CppTemplateTypeRef) cppType;
+    assertEquals("::std::vector< uint8_t >", expectedTypeRef.name);
     assertEquals(2, expectedTypeRef.includes.size());
     assertTrue(expectedTypeRef.includes.contains(CppLibraryIncludes.INT_TYPES));
     assertTrue(expectedTypeRef.includes.contains(CppLibraryIncludes.VECTOR));
@@ -192,10 +192,9 @@ public class CppTypeMapperComplexTest {
     when(typeRef.getDerived()).thenReturn(fArrayType);
     when(fArrayType.eContainer()).thenReturn(typeRef);
 
-    CppComplexTypeRef expected =
-        new CppComplexTypeRef.Builder("::std::vector< double >")
-            .includes(CppLibraryIncludes.VECTOR)
-            .build();
+    CppTemplateTypeRef expected =
+        CppTemplateTypeRef.create(
+            CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.DOUBLE);
 
     // Act
     CppTypeRef result = typeMapper.map(typeRef);

@@ -12,12 +12,9 @@
 package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;
@@ -27,9 +24,6 @@ import org.franca.core.franca.FMethod;
  * methods in the class operate with a precondition of Franca model being valid.
  */
 public final class CppMethodMapper {
-
-  private static final Include EXPECTED_INCLUDE =
-      Include.createSystemInclude("cpp/internal/expected.h");
 
   public static class ReturnTypeData {
     public final CppTypeRef type;
@@ -73,16 +67,8 @@ public final class CppMethodMapper {
     }
 
     // wrap multiple out values (error + outArg) in their own type
-    Set<Include> includes = new LinkedHashSet<>();
-    includes.addAll(errorType.includes);
-    includes.addAll(outArgType.includes);
-    includes.add(EXPECTED_INCLUDE);
-
-    CppTypeRef returnType =
-        new CppComplexTypeRef.Builder(
-                "here::internal::Expected< " + errorType.name + ", " + outArgType.name + " >")
-            .includes(includes)
-            .build();
+    CppTemplateTypeRef returnType =
+        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.EXPECTED, errorType, outArgType);
 
     String returnComment =
         "The result type, containing either an error or the " + outArgType.name + " value.";

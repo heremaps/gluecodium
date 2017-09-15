@@ -12,6 +12,9 @@
 package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
+import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -69,6 +72,26 @@ public final class TopologicalSort {
     return sortedStructs;
   }
 
+  private static Set<String> getTypeDependencies(
+      CppTypeRef typeRef, Set<String> fullyQualifiedNames) {
+
+    Set<String> dependencies = new HashSet<>();
+
+    if (typeRef instanceof CppTemplateTypeRef) {
+      CppTemplateTypeRef templateTypeRef = (CppTemplateTypeRef) typeRef;
+      for (CppTypeRef parameter : templateTypeRef.templateParameters) {
+        dependencies.addAll(getTypeDependencies(parameter, fullyQualifiedNames));
+      }
+    } else if (typeRef instanceof CppTypeDefRef) {
+      CppTypeDefRef typeDefRef = (CppTypeDefRef) typeRef;
+      dependencies.addAll(getTypeDependencies(typeDefRef.actualType, fullyQualifiedNames));
+    } else if (fullyQualifiedNames.contains(typeRef.name)) {
+      dependencies.add(typeRef.name);
+    }
+
+    return dependencies;
+  }
+
   private static Map<String, Set<String>> buildDependencies(
       List<CppStruct> structs, Map<String, CppStruct> nameToStructMap) {
 
@@ -78,31 +101,12 @@ public final class TopologicalSort {
 
     structs.forEach(
         struct -> {
-          String structName = struct.fullyQualifiedName;
+          Set<String> structDependencies = dependencies.get(struct.fullyQualifiedName);
+
           struct.fields.forEach(
-              field -> {
-                String fieldTypeName = field.type.name;
-
-                // Temporary fix for containers of structs vector< Struct >, set< Struct >, ..
-                // by checking if string " " + type + " " exist or not
-                // TODO APIGEN-636: handle in a proper way
-                // check if the field type is of one the structs.
-                String typeName =
-                    nameToStructMap
-                        .keySet()
-                        .stream()
-                        .filter(
-                            name ->
-                                fieldTypeName.equals(name)
-                                    || fieldTypeName.contains(" " + name + " "))
-                        .findFirst()
-                        .orElse("");
-
-                if (!typeName.isEmpty()) {
-                  // if yes add field struct type as a dependency for the struct
-                  dependencies.get(structName).add(typeName);
-                }
-              });
+              field ->
+                  structDependencies.addAll(
+                      getTypeDependencies(field.type, nameToStructMap.keySet())));
         });
 
     return dependencies;
