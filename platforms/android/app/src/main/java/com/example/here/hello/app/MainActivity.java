@@ -1,3 +1,13 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
 package com.example.here.hello.app;
 
 import android.content.Context;
@@ -41,7 +51,8 @@ public final class MainActivity extends AppCompatActivity {
             pageTitles = new String[] {
                     context.getString(R.string.fragment_base_title),
                     context.getString(R.string.fragment_builtin_title),
-                    context.getString(R.string.fragment_plain_old_data_title)
+                    context.getString(R.string.fragment_plain_old_data_title),
+                    context.getString(R.string.fragment_instance_methods)
             };
         }
 
@@ -54,6 +65,8 @@ public final class MainActivity extends AppCompatActivity {
                     return new BuiltInFragment();
                 case 2:
                     return new PlainOldDataFragment();
+                case 3:
+                    return new InstanceMethodsFragment();
                 default:
                     return null;
             }
@@ -61,7 +74,7 @@ public final class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return pageTitles.length;
         }
 
         @Override
