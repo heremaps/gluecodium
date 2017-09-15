@@ -4,7 +4,7 @@ import android.os.Build;
 import android.support.compat.BuildConfig;
 
 import com.here.android.RobolectricApplication;
-import com.here.android.test.typecollection.Point;
+import com.here.android.test.Point;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
