@@ -25,9 +25,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class CppNamespaceIncludeTemplateTest {
+public final class CppHeaderIncludeTemplateTest {
 
-  private static final String TEMPLATE_NAME = "cpp/CppNamespace";
+  private static final String TEMPLATE_NAME = "cpp/CppHeader";
 
   private static final String EXPECTED_NAMESPACE_BODY_FORMAT =
       "#pragma once\n\n%s\n\nnamespace  {\n\n}\n";
@@ -39,7 +39,7 @@ public final class CppNamespaceIncludeTemplateTest {
 
   @Before
   public void setUpNamespace() {
-    fakeNamespace.put("name", "");
+    fakeNamespace.put("namespace", "");
     fakeNamespace.put("includes", includes);
   }
 

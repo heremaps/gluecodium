@@ -19,7 +19,7 @@ import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppConstant;
 import com.here.ivi.api.model.cppmodel.CppEnum;
-import com.here.ivi.api.model.cppmodel.CppNamespace;
+import com.here.ivi.api.model.cppmodel.CppFile;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.cppmodel.CppUsing;
@@ -31,9 +31,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class CppNamespaceTemplateTest {
+public final class CppHeaderTemplateTest {
 
-  private static final String TEMPLATE_NAME = "cpp/CppNamespace";
+  private static final String TEMPLATE_NAME = "cpp/CppHeader";
 
   private static final String EXPECTED_NAMESPACE_BODY_FORMAT =
       "#pragma once\n\nnamespace outerSpace {\n%s\n}\n";
@@ -51,12 +51,11 @@ public final class CppNamespaceTemplateTest {
   private final CppClass cppClass = new CppClass("Classy");
   private final Include systemInclude = Include.createSystemInclude("lasertag");
 
-  private final CppNamespace cppNamespace =
-      new CppNamespace(Collections.singletonList("outerSpace"));
+  private final CppFile cppFile = new CppFile(Collections.singletonList("outerSpace"));
 
   @Test
   public void emptyNamespace() {
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult = String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "");
     assertEquals(expectedResult, result);
@@ -64,9 +63,9 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void nestedNamespaces() {
-    CppNamespace cppNamespace = new CppNamespace(Arrays.asList("outer", "inner"));
+    CppFile cppFile = new CppFile(Arrays.asList("outer", "inner"));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         "#pragma once\n\nnamespace outer {\n\nnamespace inner {\n\n}\n}\n";
@@ -75,9 +74,9 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithOneConstant() {
-    cppNamespace.members.add(cppConstant);
+    cppFile.members.add(cppConstant);
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(
@@ -87,10 +86,10 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithTwoConstants() {
-    cppNamespace.members.add(cppConstant);
-    cppNamespace.members.add(new CppConstant("transient", cppPrimitiveTypeRef, new CppValue("42")));
+    cppFile.members.add(cppConstant);
+    cppFile.members.add(new CppConstant("transient", cppPrimitiveTypeRef, new CppValue("42")));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(
@@ -101,9 +100,9 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithOneUsing() {
-    cppNamespace.members.add(cppUsing);
+    cppFile.members.add(cppUsing);
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nusing Definite = Party;\n");
@@ -112,10 +111,10 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithTwoUsings() {
-    cppNamespace.members.add(cppUsing);
-    cppNamespace.members.add(new CppUsing("Indefinite", cppPrimitiveTypeRef));
+    cppFile.members.add(cppUsing);
+    cppFile.members.add(new CppUsing("Indefinite", cppPrimitiveTypeRef));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(
@@ -126,9 +125,9 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithOneEnum() {
-    cppNamespace.members.add(cppEnum);
+    cppFile.members.add(cppEnum);
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nenum Innumerable {\n\n};\n");
@@ -137,10 +136,10 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithTwoEnums() {
-    cppNamespace.members.add(cppEnum);
-    cppNamespace.members.add(new CppEnum("SomeEnum"));
+    cppFile.members.add(cppEnum);
+    cppFile.members.add(new CppEnum("SomeEnum"));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(
@@ -150,9 +149,9 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithOneStruct() {
-    cppNamespace.members.add(cppStruct);
+    cppFile.members.add(cppStruct);
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nstruct Structural {\n};\n");
@@ -161,10 +160,10 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithTwoStructs() {
-    cppNamespace.members.add(cppStruct);
-    cppNamespace.members.add(new CppStruct("SomeStruct"));
+    cppFile.members.add(cppStruct);
+    cppFile.members.add(new CppStruct("SomeStruct"));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(
@@ -174,9 +173,9 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithOneClass() {
-    cppNamespace.members.add(cppClass);
+    cppFile.members.add(cppClass);
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nclass Classy {\n};\n");
@@ -185,10 +184,10 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithTwoClasses() {
-    cppNamespace.members.add(cppClass);
-    cppNamespace.members.add(new CppClass("Classified"));
+    cppFile.members.add(cppClass);
+    cppFile.members.add(new CppClass("Classified"));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(
@@ -198,9 +197,9 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithOneInclude() {
-    cppNamespace.includes.add(systemInclude);
+    cppFile.includes.add(systemInclude);
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(EXPECTED_NAMESPACE_INCLUDE_FORMAT, "\n#include <lasertag>\n");
@@ -209,10 +208,10 @@ public final class CppNamespaceTemplateTest {
 
   @Test
   public void namespaceWithTwoIncludes() {
-    cppNamespace.includes.add(systemInclude);
-    cppNamespace.includes.add(Include.createInternalInclude("foo.bar"));
+    cppFile.includes.add(systemInclude);
+    cppFile.includes.add(Include.createInternalInclude("foo.bar"));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(

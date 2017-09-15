@@ -15,13 +15,13 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppClass;
-import com.here.ivi.api.model.cppmodel.CppNamespace;
+import com.here.ivi.api.model.cppmodel.CppFile;
 import java.util.*;
 
 public class CppGenerator {
 
   public List<GeneratedFile> generateCode(
-      CppNamespace cppModel, String outputFilePath, String copyrightNotice) {
+      CppFile cppModel, String outputFilePath, String copyrightNotice) {
 
     if (cppModel == null || cppModel.isEmpty()) {
       return Collections.emptyList();
@@ -36,7 +36,7 @@ public class CppGenerator {
     String commentHeader = generateCommentHeader(copyrightNotice);
 
     List<GeneratedFile> result = new LinkedList<>();
-    String headerContent = TemplateEngine.render("cpp/CppNamespace", cppModel);
+    String headerContent = TemplateEngine.render("cpp/CppHeader", cppModel);
     result.add(new GeneratedFile(commentHeader + headerContent, headerFilePath));
 
     boolean hasInstantiableClasses =
