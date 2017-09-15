@@ -32,20 +32,19 @@ public final class CppImplementationTemplateTest {
   private final CppMethod cppMethod = new CppMethod.Builder("methodical").build();
   private final CppClass cppClass = new CppClass("Classy");
 
-  private final CppNamespace cppNamespace =
-      new CppNamespace(Collections.singletonList("outerSpace"));
+  private final CppFile cppFile = new CppFile(Collections.singletonList("outerSpace"));
 
   @Before
   public void setUp() {
     cppClass.methods.add(cppMethod);
-    cppNamespace.members.add(cppClass);
+    cppFile.members.add(cppClass);
   }
 
   @Test
   public void emptyNamespace() {
-    cppNamespace.members.clear();
+    cppFile.members.clear();
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult = String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "");
     assertEquals(expectedResult, result);
@@ -53,11 +52,11 @@ public final class CppImplementationTemplateTest {
 
   @Test
   public void nestedNamespaces() {
-    cppNamespace.members.clear();
+    this.cppFile.members.clear();
 
-    CppNamespace cppNamespace = new CppNamespace(Arrays.asList("outer", "inner"));
+    CppFile cppFile = new CppFile(Arrays.asList("outer", "inner"));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult = "\nnamespace outer {\n\nnamespace inner {\n\n}\n}\n";
     assertEquals(expectedResult, result);
@@ -65,7 +64,7 @@ public final class CppImplementationTemplateTest {
 
   @Test
   public void namespaceWithOneClass() {
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nClassy::~Classy() = default;\n");
@@ -76,7 +75,7 @@ public final class CppImplementationTemplateTest {
   public void namespaceWithOneStaticClass() {
     cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult = String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "");
     assertEquals(expectedResult, result);
@@ -86,9 +85,9 @@ public final class CppImplementationTemplateTest {
   public void namespaceWithTwoClasses() {
     CppClass anotherCppClass = new CppClass("Classified");
     anotherCppClass.methods.add(cppMethod);
-    cppNamespace.members.add(anotherCppClass);
+    cppFile.members.add(anotherCppClass);
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppNamespace);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
         String.format(

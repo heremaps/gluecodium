@@ -18,8 +18,8 @@ import com.here.ivi.api.generator.cpp.CppGenerator;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppClass;
+import com.here.ivi.api.model.cppmodel.CppFile;
 import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.cppmodel.CppNamespace;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public class CppGeneratorTest {
 
   private final CppMethod cppMethod = new CppMethod.Builder("methodical").build();
   private final CppClass cppClass = new CppClass("Classy");
-  private final CppNamespace cppModel = new CppNamespace(Collections.emptyList());
+  private final CppFile cppModel = new CppFile(Collections.emptyList());
 
   @Before
   public void setUp() {

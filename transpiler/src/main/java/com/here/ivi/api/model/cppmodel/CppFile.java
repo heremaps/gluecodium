@@ -16,14 +16,14 @@ import com.here.ivi.api.model.common.Include;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class CppNamespace {
+public class CppFile {
 
-  public final List<String> name;
+  public final List<String> namespace;
   public final List<CppElement> members = new LinkedList<>();
   public final Set<Include> includes = new LinkedHashSet<>();
 
-  public CppNamespace(List<String> name) {
-    this.name = name;
+  public CppFile(List<String> namespace) {
+    this.namespace = namespace;
   }
 
   public boolean isEmpty() {

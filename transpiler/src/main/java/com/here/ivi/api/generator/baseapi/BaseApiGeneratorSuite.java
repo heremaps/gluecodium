@@ -21,8 +21,8 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppElementWithIncludes;
+import com.here.ivi.api.model.cppmodel.CppFile;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
-import com.here.ivi.api.model.cppmodel.CppNamespace;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -74,7 +74,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   private Stream<GeneratedFile> generateFromFrancaElement(
       final FrancaElement francaElement, final CppGenerator generator) {
 
-    CppNamespace cppModel = mapFrancaElementToCppModel(francaElement);
+    CppFile cppModel = mapFrancaElementToCppModel(francaElement);
     String outputFilePath = CppNameRules.getOutputFilePath(francaElement);
     String copyRightNotice = generateGeneratorNotice(francaElement);
 
@@ -98,7 +98,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     return TemplateEngine.render("common/GeneratorNotice", generatorNoticeData);
   }
 
-  private CppNamespace mapFrancaElementToCppModel(final FrancaElement francaElement) {
+  private CppFile mapFrancaElementToCppModel(final FrancaElement francaElement) {
 
     List<String> namespaceElements =
         CppNameRules.getNamespace(francaElement.getFrancaTypeCollection());
@@ -108,15 +108,15 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
     treeWalker.walk(francaElement);
 
-    CppNamespace namespace = new CppNamespace(namespaceElements);
-    namespace.members.addAll(builder.getResults());
-    namespace.includes.addAll(collectIncludes(namespace));
+    CppFile cppModel = new CppFile(namespaceElements);
+    cppModel.members.addAll(builder.getResults());
+    cppModel.includes.addAll(collectIncludes(cppModel));
 
-    return namespace;
+    return cppModel;
   }
 
-  private static List<Include> collectIncludes(final CppNamespace namespace) {
-    return namespace
+  private static List<Include> collectIncludes(final CppFile cppModel) {
+    return cppModel
         .streamRecursive()
         .filter(element -> element instanceof CppElementWithIncludes)
         .map(CppElementWithIncludes.class::cast)

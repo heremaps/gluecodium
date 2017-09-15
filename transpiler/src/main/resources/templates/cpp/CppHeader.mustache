@@ -6,10 +6,10 @@
 {{/includes}}
 
 {{/if}}
-{{#name}}
+{{#namespace}}
 namespace {{.}} {
 
-{{/name}}
+{{/namespace}}
 {{#enums}}
 {{>cpp/CppEnum}}
 {{/enums}}
@@ -28,6 +28,6 @@ namespace {{.}} {
 {{#if members}}
 
 {{/if}}
-{{#name}}
+{{#namespace}}
 }
-{{/name}}
+{{/namespace}}
