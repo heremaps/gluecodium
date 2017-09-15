@@ -12,10 +12,8 @@
 package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
-import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FBasicTypeId;
@@ -38,7 +36,9 @@ public class CppTypeMapper {
 
   public CppTypeRef map(FTypedElement typedElement) {
     CppTypeRef type = map(typedElement.getType());
-    return typedElement.isArray() ? wrapVector(type) : type;
+    return typedElement.isArray()
+        ? CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, type)
+        : type;
   }
 
   public CppTypeRef map(FTypeRef type) {
@@ -86,10 +86,14 @@ public class CppTypeMapper {
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(typedef);
 
     if (InstanceRules.isInstanceId(typedef)) {
-      return new CppComplexTypeRef.Builder(
-              "::std::shared_ptr< " + createFullyQualifiedName(nestedNameSpecifier, "") + " >")
-          .includes(includeResolver.resolveInclude(typedef), CppLibraryIncludes.MEMORY)
-          .build();
+      String fullyQualifiedName = createFullyQualifiedName(nestedNameSpecifier, "");
+      CppComplexTypeRef instanceType =
+          new CppComplexTypeRef.Builder(fullyQualifiedName)
+              .includes(includeResolver.resolveInclude(typedef))
+              .build();
+
+      return CppTemplateTypeRef.create(
+          CppTemplateTypeRef.TemplateClass.SHARED_POINTER, instanceType);
     } else {
 
       CppTypeRef actualType = map(typedef.getActualType());
@@ -104,7 +108,7 @@ public class CppTypeMapper {
 
   public CppComplexTypeRef mapArray(final FArrayType array) {
     CppTypeRef elementType = map(array.getElementType());
-    return wrapVector(elementType);
+    return CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
   }
 
   public CppComplexTypeRef mapMapType(FMapType francaMapType) {
@@ -112,15 +116,7 @@ public class CppTypeMapper {
     CppTypeRef key = map(francaMapType.getKeyType());
     CppTypeRef value = map(francaMapType.getValueType());
 
-    List<Include> includes = new LinkedList<>();
-    includes.addAll(key.includes);
-    includes.addAll(value.includes);
-    includes.add(CppLibraryIncludes.MAP);
-
-    return new CppComplexTypeRef.Builder(
-            "::std::unordered_map< " + key.name + ", " + value.name + " >")
-        .includes(includes)
-        .build();
+    return CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.MAP, key, value);
   }
 
   public CppComplexTypeRef mapStruct(FStructType struct) {
@@ -154,14 +150,6 @@ public class CppTypeMapper {
             createFullyQualifiedName(
                 nestedNameSpecifier, CppNameRules.getStructName(union.getName())))
         .includes(includeResolver.resolveInclude(union))
-        .build();
-  }
-
-  private static CppComplexTypeRef wrapVector(final CppTypeRef content) {
-    List<Include> includes = new LinkedList<>(content.includes);
-    includes.add(CppLibraryIncludes.VECTOR);
-    return new CppComplexTypeRef.Builder("::std::vector< " + content.name + " >")
-        .includes(includes)
         .build();
   }
 
@@ -207,9 +195,8 @@ public class CppTypeMapper {
             .build();
 
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return new CppComplexTypeRef.Builder(CppComplexTypeRef.BYTE_VECTOR_TYPE_NAME)
-            .includes(CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)
-            .build();
+        return CppTemplateTypeRef.create(
+            CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8);
 
       default:
         throw new TranspilerExecutionException(

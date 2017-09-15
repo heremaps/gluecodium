@@ -21,4 +21,6 @@ public class CppLibraryIncludes {
   public static final Include MEMORY = Include.createSystemInclude("memory");
   public static final Include STRING = Include.createSystemInclude("string");
   public static final Include VECTOR = Include.createSystemInclude("vector");
+
+  public static final Include EXPECTED = Include.createSystemInclude("cpp/internal/expected.h");
 }
