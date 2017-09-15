@@ -14,7 +14,9 @@ package com.here.ivi.api.model.cppmodel;
 import com.here.ivi.api.model.common.Include;
 import java.util.Arrays;
 import java.util.Collection;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 public final class CppComplexTypeRef extends CppTypeRef {
 
   public static final String STRING_TYPE_NAME = "::std::string";

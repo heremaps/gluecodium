@@ -192,7 +192,10 @@ public class CppTypeMapperComplexTest {
     when(typeRef.getDerived()).thenReturn(fArrayType);
     when(fArrayType.eContainer()).thenReturn(typeRef);
 
-    CppComplexTypeRef expected = new CppComplexTypeRef.Builder("::std::vector< double >").build();
+    CppComplexTypeRef expected =
+        new CppComplexTypeRef.Builder("::std::vector< double >")
+            .includes(CppLibraryIncludes.VECTOR)
+            .build();
 
     // Act
     CppTypeRef result = typeMapper.map(typeRef);

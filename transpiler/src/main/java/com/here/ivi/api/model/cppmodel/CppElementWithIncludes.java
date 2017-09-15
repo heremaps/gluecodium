@@ -13,7 +13,9 @@ package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.model.common.Include;
 import java.util.*;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 public class CppElementWithIncludes extends CppElement {
 
   public final Set<Include> includes;
