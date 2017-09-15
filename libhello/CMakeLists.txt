@@ -53,9 +53,9 @@ endif()
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
+        src/hello/HelloWorldFactory.cpp
         src/hello/HelloWorldInstances.cpp
-        src/hello/HelloWorldFactory.cpp)
-
+        src/hello/HelloWorldListeners.cpp)
 endif()
 
 add_library(hello ${HELLO_SOURCES})
