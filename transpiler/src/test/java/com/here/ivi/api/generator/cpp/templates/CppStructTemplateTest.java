@@ -30,8 +30,7 @@ public final class CppStructTemplateTest {
   private static final String EXPECTED_FIELD_RESULT_FORMAT = "    %sTypical flowers%s;\n";
 
   private final CppStruct cppStruct = new CppStruct("Structural");
-  private final CppPrimitiveTypeRef cppPrimitiveTypeRef =
-      new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT32);
+  private final CppPrimitiveTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.INT32;
   private final CppComplexTypeRef cppComplexTypeRef =
       new CppComplexTypeRef.Builder("Typical").build();
   private final CppField cppField = new CppField(cppComplexTypeRef, "flowers");

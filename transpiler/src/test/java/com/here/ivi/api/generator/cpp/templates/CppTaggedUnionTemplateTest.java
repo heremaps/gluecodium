@@ -124,8 +124,7 @@ public final class CppTaggedUnionTemplateTest {
 
   @Test
   public void unionWithFieldWithPrimitiveType() {
-    CppField anotherCppField =
-        new CppField(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT32), "indestructible");
+    CppField anotherCppField = new CppField(CppPrimitiveTypeRef.UINT32, "indestructible");
     cppTaggedUnion.fields.add(anotherCppField);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppTaggedUnion);

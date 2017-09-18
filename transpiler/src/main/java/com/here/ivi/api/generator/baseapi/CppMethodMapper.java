@@ -65,7 +65,7 @@ public final class CppMethodMapper {
     }
 
     if (errorType == null && outArgType == null) {
-      return new ReturnTypeData(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID), "");
+      return new ReturnTypeData(CppPrimitiveTypeRef.VOID, "");
     } else if (errorType != null && outArgType == null) {
       return new ReturnTypeData(errorType, errorComment);
     } else if (errorType == null) {

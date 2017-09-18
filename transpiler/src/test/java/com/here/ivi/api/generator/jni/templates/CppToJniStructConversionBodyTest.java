@@ -58,8 +58,7 @@ public class CppToJniStructConversionBodyTest {
   private static JniField createIntField() {
     JavaField javaField =
         new JavaField(new JavaPrimitiveType(JavaPrimitiveType.Type.INT), "intfield");
-    CppField cppField =
-        new CppField(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8), "cppInt");
+    CppField cppField = new CppField(CppPrimitiveTypeRef.INT8, "cppInt");
     return new JniField(javaField, cppField);
   }
 

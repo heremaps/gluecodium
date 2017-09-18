@@ -15,7 +15,20 @@ import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-public class CppPrimitiveTypeRef extends CppTypeRef {
+public final class CppPrimitiveTypeRef extends CppTypeRef {
+
+  public static final CppPrimitiveTypeRef VOID = new CppPrimitiveTypeRef(Type.VOID);
+  public static final CppPrimitiveTypeRef BOOL = new CppPrimitiveTypeRef(Type.BOOL);
+  public static final CppPrimitiveTypeRef FLOAT = new CppPrimitiveTypeRef(Type.FLOAT);
+  public static final CppPrimitiveTypeRef DOUBLE = new CppPrimitiveTypeRef(Type.DOUBLE);
+  public static final CppPrimitiveTypeRef INT8 = new CppPrimitiveTypeRef(Type.INT8);
+  public static final CppPrimitiveTypeRef INT16 = new CppPrimitiveTypeRef(Type.INT16);
+  public static final CppPrimitiveTypeRef INT32 = new CppPrimitiveTypeRef(Type.INT32);
+  public static final CppPrimitiveTypeRef INT64 = new CppPrimitiveTypeRef(Type.INT64);
+  public static final CppPrimitiveTypeRef UINT8 = new CppPrimitiveTypeRef(Type.UINT8);
+  public static final CppPrimitiveTypeRef UINT16 = new CppPrimitiveTypeRef(Type.UINT16);
+  public static final CppPrimitiveTypeRef UINT32 = new CppPrimitiveTypeRef(Type.UINT32);
+  public static final CppPrimitiveTypeRef UINT64 = new CppPrimitiveTypeRef(Type.UINT64);
 
   public final Type type;
 
@@ -46,7 +59,7 @@ public class CppPrimitiveTypeRef extends CppTypeRef {
     }
   }
 
-  public CppPrimitiveTypeRef(final Type type) {
+  private CppPrimitiveTypeRef(final Type type) {
     super(type.value);
     this.type = type;
     if (type.isIntegerType) {

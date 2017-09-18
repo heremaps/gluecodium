@@ -110,8 +110,7 @@ public final class CppMethodSignatureTemplateTest {
 
   @Test
   public void generateWithTwoInParameters() {
-    cppMethod.parameters.add(
-        new CppParameter("age", new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8)));
+    cppMethod.parameters.add(new CppParameter("age", CppPrimitiveTypeRef.INT8));
     cppMethod.parameters.add(cppParameter);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);

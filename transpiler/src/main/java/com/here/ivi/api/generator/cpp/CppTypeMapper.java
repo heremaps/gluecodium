@@ -169,35 +169,48 @@ public class CppTypeMapper {
 
     switch (type.getPredefined().getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.BOOL);
+        return CppPrimitiveTypeRef.BOOL;
+
       case FBasicTypeId.FLOAT_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.FLOAT);
+        return CppPrimitiveTypeRef.FLOAT;
+
       case FBasicTypeId.DOUBLE_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.DOUBLE);
+        return CppPrimitiveTypeRef.DOUBLE;
+
       case FBasicTypeId.INT8_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8);
+        return CppPrimitiveTypeRef.INT8;
+
       case FBasicTypeId.INT16_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT16);
+        return CppPrimitiveTypeRef.INT16;
+
       case FBasicTypeId.INT32_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT32);
+        return CppPrimitiveTypeRef.INT32;
+
       case FBasicTypeId.INT64_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64);
+        return CppPrimitiveTypeRef.INT64;
+
       case FBasicTypeId.UINT8_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT8);
+        return CppPrimitiveTypeRef.UINT8;
+
       case FBasicTypeId.UINT16_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT16);
+        return CppPrimitiveTypeRef.UINT16;
+
       case FBasicTypeId.UINT32_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT32);
+        return CppPrimitiveTypeRef.UINT32;
+
       case FBasicTypeId.UINT64_VALUE:
-        return new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.UINT64);
+        return CppPrimitiveTypeRef.UINT64;
+
       case FBasicTypeId.STRING_VALUE:
         return new CppComplexTypeRef.Builder(CppComplexTypeRef.STRING_TYPE_NAME)
             .includes(CppLibraryIncludes.STRING)
             .build();
+
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return new CppComplexTypeRef.Builder(CppComplexTypeRef.BYTE_VECTOR_TYPE_NAME)
             .includes(CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)
             .build();
+
       default:
         throw new TranspilerExecutionException(
             "unmapped predefined [" + type.getPredefined().getName() + "]");

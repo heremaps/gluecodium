@@ -113,7 +113,7 @@ public class CppModelBuilderTest {
   private final CppValue cppValue = new CppValue("valuable");
   private final CppEnum cppEnum = new CppEnum(ENUM_NAME);
   private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
-  private final CppTypeRef cppTypeRef = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64);
+  private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT64;
   private final CppUsing cppUsing =
       new CppUsing(USING_NAME, new CppTypeDefRef(USING_NAME, cppTypeRef));
 
