@@ -112,7 +112,7 @@ public final class JavaClassTemplateTest {
             + "     */\n"
             + "    enum ExampleEnum {\n"
             + "        ITEM = 1,\n"
-            + "    };\n"
+            + "    }\n"
             + "}";
 
     // Act
@@ -150,7 +150,7 @@ public final class JavaClassTemplateTest {
             + "     */\n"
             + "    enum ExampleEnum {\n"
             + "        ITEM = 1,\n"
-            + "    };\n"
+            + "    }\n"
             + "    /**\n"
             + "     * Method comment\n"
             + "     */\n"

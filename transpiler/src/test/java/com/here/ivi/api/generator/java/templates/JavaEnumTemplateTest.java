@@ -34,7 +34,7 @@ public final class JavaEnumTemplateTest {
     // Arrange
     JavaEnum javaEnum = new JavaEnum("MyEnum");
     javaEnum.items = Arrays.asList(new JavaEnumItem("FooName"), new JavaEnumItem("BarName"));
-    String expected = "enum MyEnum {\n" + "    FooName,\n" + "    BarName,\n" + "};";
+    String expected = "enum MyEnum {\n" + "    FooName,\n" + "    BarName,\n" + "}";
 
     // Act
     String generated = TemplateEngine.render("java/Enum", javaEnum);
@@ -59,7 +59,7 @@ public final class JavaEnumTemplateTest {
             + "enum MyEnum {\n"
             + "    FooName = FooValue,\n"
             + "    BarName = BarValue,\n"
-            + "};";
+            + "}";
 
     // Act
     String generated = TemplateEngine.render("java/Enum", javaEnum);
@@ -87,7 +87,7 @@ public final class JavaEnumTemplateTest {
             + "enum MyEnum {\n"
             + "    FooName = FooValue,\n"
             + "    BarName = BarValue,\n"
-            + "};";
+            + "}";
 
     // Act
     String generated = TemplateEngine.render("java/EnumHeader", javaEnum);
