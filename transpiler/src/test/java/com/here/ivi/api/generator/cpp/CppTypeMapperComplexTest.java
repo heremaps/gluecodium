@@ -227,7 +227,7 @@ public class CppTypeMapperComplexTest {
     CppTypeDefRef cppTypeDefRef = (CppTypeDefRef) cppTypeRef;
 
     assertEquals("::" + TYPEDEF_NAME, cppTypeDefRef.name);
-    assertEquals(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT64), cppTypeDefRef.actualType);
+    assertEquals(CppPrimitiveTypeRef.INT64, cppTypeDefRef.actualType);
     assertEquals(1, cppTypeDefRef.includes.size());
     assertTrue(cppTypeDefRef.includes.contains(internalInclude));
 

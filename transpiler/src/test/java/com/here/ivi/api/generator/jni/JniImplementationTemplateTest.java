@@ -76,9 +76,7 @@ public final class JniImplementationTemplateTest {
     result.javaMethodName = methodName;
     result.cppMethodName = methodName;
     result.returnType =
-        JniType.createType(
-            new JavaPrimitiveType(Type.INT),
-            new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8));
+        JniType.createType(new JavaPrimitiveType(Type.INT), CppPrimitiveTypeRef.INT8);
     result.parameters.add(new JniParameter(BASE_PARAMETER_NAME, result.returnType));
     result.isStatic = isStatic;
 

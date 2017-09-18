@@ -31,8 +31,7 @@ public final class CppMethodParameterTemplateTest {
 
   @Test
   public void withPrimitiveType() {
-    CppParameter cppParameter =
-        new CppParameter(PARAMETER_NAME, new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8));
+    CppParameter cppParameter = new CppParameter(PARAMETER_NAME, CppPrimitiveTypeRef.INT8);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppParameter);
 

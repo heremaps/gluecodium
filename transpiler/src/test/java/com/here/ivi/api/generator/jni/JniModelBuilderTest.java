@@ -131,7 +131,7 @@ public class JniModelBuilderTest {
   }
 
   private static CppMethod createCppMethod() {
-    CppPrimitiveTypeRef cppPrimitiveType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8);
+    CppPrimitiveTypeRef cppPrimitiveType = CppPrimitiveTypeRef.INT8;
     CppParameter cppParameter = new CppParameter("", cppPrimitiveType);
 
     return new CppMethod.Builder(CPP_INT_METHOD_NAME)

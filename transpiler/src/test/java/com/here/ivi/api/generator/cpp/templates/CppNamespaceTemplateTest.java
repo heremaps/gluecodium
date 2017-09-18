@@ -40,8 +40,7 @@ public final class CppNamespaceTemplateTest {
   private static final String EXPECTED_NAMESPACE_INCLUDE_FORMAT =
       "#pragma once\n%s\nnamespace outerSpace {\n\n}\n";
 
-  private final CppPrimitiveTypeRef cppPrimitiveTypeRef =
-      new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT32);
+  private final CppPrimitiveTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.INT32;
   private final CppComplexTypeRef cppComplexTypeRef =
       new CppComplexTypeRef.Builder("Party").build();
   private final CppConstant cppConstant =

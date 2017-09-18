@@ -80,7 +80,7 @@ public final class CppMethod extends CppElementWithIncludes {
   public static class Builder {
     private final String name;
     private String methodComment;
-    private CppTypeRef returnType = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID);
+    private CppTypeRef returnType = CppPrimitiveTypeRef.VOID;
 
     private final Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
     private final Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);

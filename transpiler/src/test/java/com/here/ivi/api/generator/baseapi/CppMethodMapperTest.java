@@ -85,7 +85,7 @@ public class CppMethodMapperTest {
     CppMethodMapper.ReturnTypeData returnTypeData =
         CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod);
 
-    assertEquals(new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.VOID), returnTypeData.type);
+    assertEquals(CppPrimitiveTypeRef.VOID, returnTypeData.type);
   }
 
   @Test

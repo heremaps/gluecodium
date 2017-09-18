@@ -38,8 +38,7 @@ public final class CppClassTemplateTest {
   private static final String EXPECTED_STRUCT_BODY_FORMAT = "struct %s {\n};\n";
   private static final String EXPECTED_ENUM_BODY_FORMAT = "enum %s {\n\n};\n";
 
-  private final CppPrimitiveTypeRef cppPrimitiveTypeRef =
-      new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT32);
+  private final CppPrimitiveTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.INT32;
   private final CppComplexTypeRef cppComplexTypeRef =
       new CppComplexTypeRef.Builder("Party").build();
   private final CppInheritance cppInheritance =
