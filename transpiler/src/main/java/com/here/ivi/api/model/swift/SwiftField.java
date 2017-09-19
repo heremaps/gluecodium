@@ -11,11 +11,11 @@
 
 package com.here.ivi.api.model.swift;
 
-public class SwiftStructField extends SwiftModelElement {
+public class SwiftField extends SwiftModelElement {
   public final SwiftType type;
   public String comment;
 
-  public SwiftStructField(String name, SwiftType type) {
+  public SwiftField(String name, SwiftType type) {
     super(name);
     this.type = type;
     comment = "";

@@ -15,8 +15,8 @@ import static java.util.Collections.singletonList;
 import static junit.framework.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.swift.SwiftStruct;
-import com.here.ivi.api.model.swift.SwiftStructField;
+import com.here.ivi.api.model.swift.SwiftContainerType;
+import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftType;
 import java.util.ArrayList;
 import org.junit.Test;
@@ -26,13 +26,13 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 public class SwiftStructTemplateTest {
 
-  private static String generate(SwiftStruct struct) {
+  private static String generate(SwiftContainerType struct) {
     return TemplateEngine.render("swift/Struct", struct);
   }
 
   @Test
   public void generateEmptyStruct() {
-    SwiftStruct struct = new SwiftStruct("SomeStruct");
+    SwiftContainerType struct = new SwiftContainerType("SomeStruct");
     String expected =
         "public struct SomeStruct {\n"
             + "\n"
@@ -59,8 +59,8 @@ public class SwiftStructTemplateTest {
 
   @Test
   public void generateBasicStruct() {
-    SwiftStruct struct = new SwiftStruct("BasicStruct");
-    struct.fields = singletonList(new SwiftStructField("counter", new SwiftType("Integer")));
+    SwiftContainerType struct = new SwiftContainerType("BasicStruct");
+    struct.fields = singletonList(new SwiftField("counter", new SwiftType("Integer")));
     struct.cPrefix = "hello_HelloWorldPlainDataStructures_GeoCoordinate";
     struct.cType = "GeoCoordinateRef";
     String expected =
@@ -91,11 +91,11 @@ public class SwiftStructTemplateTest {
 
   @Test
   public void generateStructWithThreeFields() {
-    SwiftStruct struct = new SwiftStruct("GeoCoordinate");
+    SwiftContainerType struct = new SwiftContainerType("GeoCoordinate");
     struct.fields = new ArrayList<>();
-    struct.fields.add(new SwiftStructField("latitude", new SwiftType("Double")));
-    struct.fields.add(new SwiftStructField("longitude", new SwiftType("Double")));
-    struct.fields.add(new SwiftStructField("altitude", new SwiftType("Double")));
+    struct.fields.add(new SwiftField("latitude", new SwiftType("Double")));
+    struct.fields.add(new SwiftField("longitude", new SwiftType("Double")));
+    struct.fields.add(new SwiftField("altitude", new SwiftType("Double")));
     struct.cPrefix = "hello_HelloWorldPlainDataStructures_GeoCoordinate";
     struct.cType = "GeoCoordinateRef";
     String expected =
@@ -134,11 +134,10 @@ public class SwiftStructTemplateTest {
 
   @Test
   public void generateStructWithStringField() {
-    SwiftStruct struct = new SwiftStruct("SomeStruct");
+    SwiftContainerType struct = new SwiftContainerType("SomeStruct");
     struct.fields =
         singletonList(
-            new SwiftStructField(
-                "name", new SwiftType("String", SwiftType.TypeCategory.BUILTIN_STRING)));
+            new SwiftField("name", new SwiftType("String", SwiftType.TypeCategory.BUILTIN_STRING)));
     struct.cPrefix = "C_PREFIX";
     struct.cType = "SomeStructRef";
     String expected =
@@ -172,10 +171,10 @@ public class SwiftStructTemplateTest {
 
   @Test
   public void generateStructWithDataField() {
-    SwiftStruct struct = new SwiftStruct("SomeStruct");
+    SwiftContainerType struct = new SwiftContainerType("SomeStruct");
     struct.fields =
         singletonList(
-            new SwiftStructField(
+            new SwiftField(
                 "icon", new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER)));
     struct.cPrefix = "C_PREFIX";
     struct.cType = "SomeStructRef";
@@ -217,8 +216,8 @@ public class SwiftStructTemplateTest {
 
   @Test
   public void generateStructWithStructField() {
-    SwiftStruct struct = new SwiftStruct("SomeStruct");
-    struct.fields = singletonList(new SwiftStructField("nested", new SwiftStruct("NestedStruct")));
+    SwiftContainerType struct = new SwiftContainerType("SomeStruct");
+    struct.fields = singletonList(new SwiftField("nested", new SwiftContainerType("NestedStruct")));
     struct.cPrefix = "C_PREFIX";
     struct.cType = "SomeStructRef";
     String expected =

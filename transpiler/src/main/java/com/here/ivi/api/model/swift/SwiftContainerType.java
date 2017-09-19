@@ -15,14 +15,18 @@ import static java.util.Collections.emptyList;
 
 import java.util.List;
 
-public class SwiftStruct extends SwiftType {
+public class SwiftContainerType extends SwiftType {
   public String comment;
-  public List<SwiftStructField> fields;
+  public List<SwiftField> fields;
   public String cPrefix;
   public String cType;
 
-  public SwiftStruct(String name) {
-    super(name, TypeCategory.STRUCT);
+  public SwiftContainerType(String name) {
+    this(name, TypeCategory.STRUCT);
+  }
+
+  public SwiftContainerType(String name, TypeCategory category) {
+    super(name, category);
     comment = "";
     fields = emptyList();
     cPrefix = "";
