@@ -6,8 +6,14 @@
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
-HOST_ARCH=host-$(uname -m)
 
+# Sanity checks
+[ $ANDROID_HOME ] || die "ANDROID_HOME environment variable is mandatory"
+[ $NDK_ROOT ] || die "NDK_ROOT environment variable is mandatory (NDK can be installed from within Android Studio"
+
+
+# Constants
+HOST_ARCH=host-$(uname -m)
 CMAKE_DEFAULT_PARAMETERS=$(cat <<EOF
 -DBUILD_SHARED_LIBS=ON \
 -DCMAKE_SYSTEM_VERSION=21 \
