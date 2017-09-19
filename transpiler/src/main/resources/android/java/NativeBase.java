@@ -37,26 +37,24 @@ public abstract class NativeBase {
 
   private final long nativeHandle;
 
-  private abstract static class DisposableReference extends PhantomReference<NativeBase> {
+  private static class DisposableReference extends PhantomReference<NativeBase> {
+    private final long nativePointer;
 
-    private DisposableReference(final NativeBase disposable) {
+    private DisposableReference(final NativeBase disposable, final long nativePointer) {
       super(disposable, REFERENCE_QUEUE);
+      this.nativePointer = nativePointer;
       cleanUpQueue();
     }
 
-    abstract void dispose();
+    public void dispose() {
+      REFERENCES.remove(this);
+      disposeNativeHandle(nativePointer);
+    }
   }
 
   protected NativeBase(final long nativeHandle) {
     this.nativeHandle = nativeHandle;
-    REFERENCES.add(
-        new DisposableReference(this) {
-          @Override
-          public void dispose() {
-            REFERENCES.remove(this);
-            disposeNativeHandle(nativeHandle);
-          }
-        });
+    REFERENCES.add(new DisposableReference(this, nativeHandle));
   }
 
   private static native void disposeNativeHandle(long nativeHandle);
