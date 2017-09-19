@@ -28,6 +28,7 @@ import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.jni.*;
+import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
@@ -36,6 +37,8 @@ import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 
 /**
@@ -118,9 +121,15 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
+    FTypeRef typeReference = francaArgument.getType();
+
+    boolean isInstanceRef =
+        typeReference.getDerived() instanceof FTypeDef
+            && InstanceRules.isInstanceId((FTypeDef) typeReference.getDerived());
+
     JavaParameter javaParameter = javaBuilder.getFirstResult(JavaParameter.class);
     CppParameter cppParameter = cppBuilder.getFirstResult(CppParameter.class);
-    JniType jniType = JniType.createType(javaParameter.type, cppParameter.type);
+    JniType jniType = JniType.createType(javaParameter.type, cppParameter.type, isInstanceRef);
 
     storeResult(new JniParameter(javaParameter.getName(), jniType));
     closeContext();

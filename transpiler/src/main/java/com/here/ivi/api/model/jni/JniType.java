@@ -21,22 +21,29 @@ public final class JniType implements JniElement {
   public final String name;
   public final String cppName;
   public final String javaName;
+  public final boolean isInstance;
 
   public final boolean isComplex;
 
   public static JniType createType(final JavaType javaType, final CppTypeRef cppType) {
+    return createType(javaType, cppType, false);
+  }
+
+  public static JniType createType(
+      final JavaType javaType, final CppTypeRef cppType, boolean isInstance) {
     if (javaType instanceof JavaPrimitiveType
         && ((JavaPrimitiveType) javaType).type == JavaPrimitiveType.Type.VOID) {
       return null;
     }
-    return new JniType(javaType, cppType);
+    return new JniType(javaType, cppType, isInstance);
   }
 
-  private JniType(final JavaType javaType, final CppTypeRef cppType) {
+  private JniType(final JavaType javaType, final CppTypeRef cppType, boolean isInstance) {
 
     this.name = JniTypeNameMapper.map(javaType);
     this.cppName = cppType.name;
     this.javaName = javaType.name;
     this.isComplex = !(javaType instanceof JavaPrimitiveType);
+    this.isInstance = isInstance;
   }
 }

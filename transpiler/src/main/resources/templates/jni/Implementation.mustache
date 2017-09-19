@@ -14,13 +14,7 @@ extern "C" {
 
 {
 {{#parameters}}
-{{#if type.isComplex}}
-    {{type.cppName}} {{name}};
-    here::internal::convert_from_jni( env, j{{name}}, {{name}} );
-{{/if}}
-{{#unless type.isComplex}}
-    {{type.cppName}} {{name}} = j{{name}};
-{{/unless}}
+  {{>jni/ParameterConversion}}
 {{/parameters}}
 {{#unless isStatic}}
     auto pointerAsLong = get_long_field(env, env->GetObjectClass(jinstance), jinstance, "nativeHandle");
