@@ -14,10 +14,6 @@
 
 namespace hello
 {
-SimpleInstantiable::~SimpleInstantiable()
-{
-}
-
 void
 HelloWorldSimpleInstantiable::setStringValue( const ::std::string& stringValue )
 {
@@ -28,11 +24,6 @@ HelloWorldSimpleInstantiable::setStringValue( const ::std::string& stringValue )
 HelloWorldSimpleInstantiable::getStringValue( )
 {
     return m_string_value;
-}
-
-
-NestedInstantiable::~NestedInstantiable()
-{
 }
 
 HelloWorldNestedInstantiable::HelloWorldNestedInstantiable(
