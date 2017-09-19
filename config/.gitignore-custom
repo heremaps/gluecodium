@@ -25,4 +25,8 @@
 # XText / xtend
 .idea/xtextAutoBuilderState.xml
 
+### Generated AppCode
+transpiler/generated/*
+
+
 
