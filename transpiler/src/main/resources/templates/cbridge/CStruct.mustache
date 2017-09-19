@@ -1,3 +1,6 @@
 typedef struct {
-    void* const private_pointer;
+{{#fields}}
+    {{.}};
+{{/fields}}
 } {{name}};
+

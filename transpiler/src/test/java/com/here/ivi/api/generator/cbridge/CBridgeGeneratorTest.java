@@ -126,7 +126,14 @@ public class CBridgeGeneratorTest {
   public void nonStaticFunctionAreNotGenerated() {
     when(anInterface.isStatic(any())).thenReturn(false);
 
-    String expectedHeader = "";
+    String expectedHeader =
+        String.join(
+            "\n",
+            "typedef struct {",
+            "    void* swift_pointer;",
+            "    void(* release)(void* swift_pointer);",
+            "} cbridge_test_TestInterface_FunctionTable;",
+            "");
 
     String expectedImplementation = CBRIDGE_HEADER_INCLUDE;
 
@@ -138,7 +145,16 @@ public class CBridgeGeneratorTest {
   @Test
   public void createFunctionWithoutArguments() throws IOException {
 
-    String expectedHeader = "void cbridge_test_TestInterface_functionName();\n";
+    String expectedHeader =
+        String.join(
+            "\n",
+            "typedef struct {",
+            "    void* swift_pointer;",
+            "    void(* release)(void* swift_pointer);",
+            "    void(* cbridge_test_TestInterface_functionName)();",
+            "} cbridge_test_TestInterface_FunctionTable;",
+            "void cbridge_test_TestInterface_functionName();",
+            "");
 
     String expectedImplementation =
         String.join(
@@ -163,7 +179,15 @@ public class CBridgeGeneratorTest {
     inputArguments.add(francaArgument1);
 
     String expectedHeader =
-        String.join("\n", "void cbridge_test_TestInterface_functionName(const char* input);", "");
+        String.join(
+            "\n",
+            "typedef struct {",
+            "    void* swift_pointer;",
+            "    void(* release)(void* swift_pointer);",
+            "    void(* cbridge_test_TestInterface_functionName)(const char* input);",
+            "} cbridge_test_TestInterface_FunctionTable;",
+            "void cbridge_test_TestInterface_functionName(const char* input);",
+            "");
 
     String expectedImplementation =
         String.join(
@@ -198,6 +222,11 @@ public class CBridgeGeneratorTest {
         String.join(
             "\n",
             "#include \"cbridge/StringHandle.h\"",
+            "typedef struct {",
+            "    void* swift_pointer;",
+            "    void(* release)(void* swift_pointer);",
+            "    std_stringRef(* cbridge_test_TestInterface_functionName)(const char* input);",
+            "} cbridge_test_TestInterface_FunctionTable;",
             "std_stringRef cbridge_test_TestInterface_functionName(const char* input);",
             "");
 
@@ -233,6 +262,11 @@ public class CBridgeGeneratorTest {
         String.join(
             "\n",
             "#include <stdint.h>",
+            "typedef struct {",
+            "    void* swift_pointer;",
+            "    void(* release)(void* swift_pointer);",
+            "    void(* cbridge_test_TestInterface_functionName)(const uint8_t* input_ptr, int64_t input_size);",
+            "} cbridge_test_TestInterface_FunctionTable;",
             "void cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size);",
             "");
 
@@ -270,6 +304,11 @@ public class CBridgeGeneratorTest {
             "\n",
             "#include <stdint.h>",
             "#include \"cbridge/ByteArrayHandle.h\"",
+            "typedef struct {",
+            "    void* swift_pointer;",
+            "    void(* release)(void* swift_pointer);",
+            "    byteArrayRef(* cbridge_test_TestInterface_functionName)(const uint8_t* input_ptr, int64_t input_size);",
+            "} cbridge_test_TestInterface_FunctionTable;",
             "byteArrayRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size);",
             "");
 
@@ -318,6 +357,11 @@ public class CBridgeGeneratorTest {
         String.join(
             "\n",
             "#include <stdint.h>",
+            "typedef struct {",
+            "    void* swift_pointer;",
+            "    void(* release)(void* swift_pointer);",
+            "    %1$s(* cbridge_test_TestInterface_functionName)(%1$s input);",
+            "} cbridge_test_TestInterface_FunctionTable;",
             "%1$s cbridge_test_TestInterface_functionName(%1$s input);",
             "");
     String expectedImplementationWithTypePlaceholders =
@@ -357,7 +401,15 @@ public class CBridgeGeneratorTest {
     outputArguments.add(francaArgument2);
 
     String expectedHeaderWithTypePlaceholders =
-        String.join("\n", "%1$s cbridge_test_TestInterface_functionName(%1$s input);", "");
+        String.join(
+            "\n",
+            "typedef struct {",
+            "    void* swift_pointer;",
+            "    void(* release)(void* swift_pointer);",
+            "    %1$s(* cbridge_test_TestInterface_functionName)(%1$s input);",
+            "} cbridge_test_TestInterface_FunctionTable;",
+            "%1$s cbridge_test_TestInterface_functionName(%1$s input);",
+            "");
 
     String expectedImplementationWithTypePlaceholders =
         String.join(
@@ -397,6 +449,11 @@ public class CBridgeGeneratorTest {
         String.join(
             "\n",
             "#include <stdbool.h>",
+            "typedef struct {",
+            "    void* swift_pointer;",
+            "    void(* release)(void* swift_pointer);",
+            "    bool(* cbridge_test_TestInterface_functionName)(bool input);",
+            "} cbridge_test_TestInterface_FunctionTable;",
             "bool cbridge_test_TestInterface_functionName(bool input);",
             "");
 
@@ -447,6 +504,10 @@ public class CBridgeGeneratorTest {
         "typedef struct {\n"
             + "    void* const private_pointer;\n"
             + "} cbridge_test_TestInterface_SomeStructRef;\n"
+            + "typedef struct {\n"
+            + "    void* swift_pointer;\n"
+            + "    void(* release)(void* swift_pointer);\n"
+            + "} cbridge_test_TestInterface_FunctionTable;\n"
             + "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create();\n"
             + "void cbridge_test_TestInterface_SomeStruct_release(cbridge_test_TestInterface_SomeStructRef handle);\n";
 

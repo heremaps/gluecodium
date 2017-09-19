@@ -11,22 +11,18 @@
 
 package com.here.ivi.api.model.cmodel;
 
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import java.util.ArrayList;
+import java.util.List;
 
-/** Field of a com.here.ivi.api.model.cmodel.CStruct */
-public class CField extends CElement {
-  public final CppTypeInfo type;
+public class CStructTypedef extends CType {
+  public List<CField> fields = new ArrayList<>();
 
-  public CField(String name, CppTypeInfo cppTypeInfo) {
+  public CStructTypedef(String name) {
     super(name);
-    type = cppTypeInfo;
   }
 
-  @Override
-  public String toString() {
-    return type.functionReturnType.declareBegin()
-        + " "
-        + name
-        + type.functionReturnType.declareEnd();
+  public CStructTypedef(String name, List<CField> fields) {
+    super(name);
+    this.fields = new ArrayList<>(fields);
   }
 }

@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
@@ -78,6 +79,11 @@ public class CBridgeNameRules {
 
   private String getName(final FrancaElement francaElement) {
     return NameHelper.toUpperCamelCase(francaElement.getName());
+  }
+
+  public String getFunctionTableName(FInterface francaInterface) {
+    return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaInterface))
+        + "_FunctionTable";
   }
 
   public String getDelegateMethodName(final FMethod method) {

@@ -6,7 +6,9 @@ extern "C" {
 {{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
 
 {{#structs}}{{>cbridge/CStruct}}{{/structs}}
-{{#functions}}{{^internalOnlyFunction}}{{>cbridge/FunctionSignature}};{{/internalOnlyFunction}}{{/functions}}
+
+{{#functions}}{{^internalOnlyFunction}}{{>cbridge/FunctionSignature}};
+{{/internalOnlyFunction}}{{/functions}}
 
 #ifdef __cplusplus
 }

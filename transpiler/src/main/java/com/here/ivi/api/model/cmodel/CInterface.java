@@ -23,7 +23,7 @@ public class CInterface extends CElement {
   public Set<Include> headerIncludes = emptySet();
   public Set<Include> implementationIncludes = emptySet();
   public Set<Include> privateHeaderIncludes = emptySet();
-  public List<CStruct> structs = new LinkedList<>();
+  public List<CStructTypedef> structs = new LinkedList<>();
   public List<CFunction> functions = new LinkedList<>();
 
   public CInterface() {

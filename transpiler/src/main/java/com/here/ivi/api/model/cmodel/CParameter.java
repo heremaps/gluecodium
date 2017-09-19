@@ -21,4 +21,9 @@ public class CParameter extends CElement {
     super(name);
     this.type = type;
   }
+
+  @Override
+  public String toString() {
+    return type.declareBegin() + " " + name + type.declareEnd();
+  }
 }

@@ -16,9 +16,11 @@ import java.util.ArrayList;
 public class CPointerType extends CType {
   public static final CPointerType CONST_CHAR_PTR = makeConstPointer(CType.CHAR);
 
+  private final CType pointedType;
+
   public CPointerType(CType type) {
-    super(type.name, new ArrayList<>(type.includes));
-    isConst = type.isConst;
+    super("*", new ArrayList<>(type.includes));
+    pointedType = type;
   }
 
   public static CPointerType makeConstPointer(CType type) {
@@ -28,7 +30,11 @@ public class CPointerType extends CType {
   }
 
   @Override
-  public String toString() {
-    return super.toString() + "*";
+  public String declareBegin() {
+    StringBuilder fullType = new StringBuilder().append(pointedType.toString()).append(name);
+    if (isConst) {
+      fullType.append(' ').append(CONST_SPECIFIER);
+    }
+    return fullType.toString();
   }
 }

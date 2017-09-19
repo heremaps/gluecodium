@@ -25,6 +25,7 @@ import lombok.EqualsAndHashCode;
 /** Base class for all C types */
 @EqualsAndHashCode(callSuper = true)
 public class CType extends CElement {
+  protected static final String CONST_SPECIFIER = "const";
   private static final Include FIXED_WIDTH_INTEGERS_INCLUDE =
       Include.createSystemInclude("stdint.h");
   private static final Include BOOL_INCLUDE = Include.createSystemInclude("stdbool.h");
@@ -77,6 +78,18 @@ public class CType extends CElement {
 
   @Override
   public String toString() {
-    return isConst ? "const " + name : name;
+    return declareBegin() + declareEnd();
+  }
+
+  public String declareBegin() {
+    if (isConst) {
+      return CONST_SPECIFIER + " " + name;
+    } else {
+      return name;
+    }
+  }
+
+  public String declareEnd() {
+    return "";
   }
 }
