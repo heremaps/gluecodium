@@ -11,8 +11,6 @@
 
 package com.here.ivi.api.loader;
 
-import static java.util.stream.Collectors.toSet;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.here.ivi.api.TranspilerExecutionException;
@@ -157,7 +155,11 @@ public class FrancaModelLoader {
 
     // load all found fdepl resources
     Set<FDModel> extendedModels =
-        bySuffix.get(FDEPL_SUFFIX).parallelStream().map(this::loadDeploymentModel).collect(toSet());
+        bySuffix
+            .get(FDEPL_SUFFIX)
+            .stream()
+            .map(this::loadDeploymentModel)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
 
     // collect all fidl files that are referenced by the fdepl in addition to the ones found by
     // directory scanning
@@ -166,25 +168,25 @@ public class FrancaModelLoader {
             .stream()
             .map(FrancaModelLoader::extractFidlImports)
             .flatMap(List::stream)
-            .collect(toSet());
+            .collect(Collectors.toCollection(LinkedHashSet::new));
     fidlFiles.addAll(bySuffix.get(FIDL_SUFFIX));
 
-    FrancaDeploymentModel deploymentModel = FrancaDeploymentModel.create(extendedModels);
+    FrancaDeploymentModel deploymentModel = new FrancaDeploymentModel(extendedModels);
 
     // load all found fidl files and fill the FrancaModel from them
     List<FrancaModel> models =
         fidlFiles
-            .parallelStream()
+            .stream()
             .map(
-                f -> {
-                  URI asUri = URI.createFileURI(f.getAbsolutePath());
+                file -> {
+                  URI asUri = URI.createFileURI(file.getAbsolutePath());
                   LOGGER.log(Level.FINE, "Loading fidl " + asUri);
                   return fidlLoader.loadModel(asUri, ROOT_URI);
                 })
             .map(
-                fm -> {
+                francaModel -> {
                   // try to fetch additional data, wrap in FrancaModel
-                  return FrancaModel.create(spec, fm, deploymentModel);
+                  return FrancaModel.create(spec, francaModel, deploymentModel);
                 })
             .collect(Collectors.toList());
 

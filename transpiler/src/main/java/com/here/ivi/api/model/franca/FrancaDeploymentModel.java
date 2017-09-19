@@ -24,8 +24,8 @@ public final class FrancaDeploymentModel {
 
   private final Set<FDModel> models;
 
-  public static FrancaDeploymentModel create(Set<FDModel> models) {
-    return new FrancaDeploymentModel(models);
+  public FrancaDeploymentModel(final Set<FDModel> models) {
+    this.models = models;
   }
 
   public List<FDInterface> getFDInterfaces() {
@@ -40,9 +40,5 @@ public final class FrancaDeploymentModel {
         .stream()
         .flatMap(model -> new FDModelExtender(model).getFDTypesList().stream())
         .collect(Collectors.toList());
-  }
-
-  private FrancaDeploymentModel(Set<FDModel> models) {
-    this.models = models;
   }
 }

@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.franca;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Optional;
@@ -22,28 +23,32 @@ import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 
 public class FrancaModel {
 
-  private final ImmutableList<Interface> interfaces;
-  private final ImmutableList<TypeCollection> typeCollections;
+  private final List<Interface> interfaces;
+  private final List<TypeCollection> typeCollections;
 
   // creates a FrancaModel from the given FModel & FDModel,
   // ensuring that there are PropertyAccessors for each element
   public static FrancaModel create(
-      FDSpecification spec, FModel francaModel, FrancaDeploymentModel deploymentModel) {
+      final FDSpecification spec,
+      final FModel francaModel,
+      final FrancaDeploymentModel deploymentModel) {
 
     // create interface helpers
     ImmutableList<Interface> interfaces =
         francaModel
             .getInterfaces()
-            .parallelStream()
-            .map(fi -> Interface.create(spec, francaModel, fi, deploymentModel))
+            .stream()
+            .map(anInterface -> Interface.create(spec, francaModel, anInterface, deploymentModel))
             .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
 
     // create type collection helpers
     ImmutableList<TypeCollection> typeCollections =
         francaModel
             .getTypeCollections()
-            .parallelStream()
-            .map(fi -> TypeCollection.create(spec, francaModel, fi, deploymentModel))
+            .stream()
+            .map(
+                typeCollection ->
+                    TypeCollection.create(spec, francaModel, typeCollection, deploymentModel))
             .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
 
     return new FrancaModel(interfaces, typeCollections);
@@ -53,28 +58,24 @@ public class FrancaModel {
     ImmutableList.Builder<Interface> interfaces = new ImmutableList.Builder<>();
     ImmutableList.Builder<TypeCollection> typeCollections = new ImmutableList.Builder<>();
     models.forEach(
-        m -> {
-          interfaces.addAll(m.getInterfaces());
-          typeCollections.addAll(m.getTypeCollections());
+        model -> {
+          interfaces.addAll(model.getInterfaces());
+          typeCollections.addAll(model.getTypeCollections());
         });
     return new FrancaModel(interfaces.build(), typeCollections.build());
   }
 
-  public boolean isEmpty() {
-    return getInterfaces().isEmpty() && getTypeCollections().isEmpty();
-  }
-
-  public FrancaModel(
-      ImmutableList<Interface> interfaces, ImmutableList<TypeCollection> typeCollections) {
+  @VisibleForTesting
+  FrancaModel(ImmutableList<Interface> interfaces, ImmutableList<TypeCollection> typeCollections) {
     this.interfaces = interfaces;
     this.typeCollections = typeCollections;
   }
 
-  public ImmutableList<Interface> getInterfaces() {
+  public List<Interface> getInterfaces() {
     return interfaces;
   }
 
-  public ImmutableList<TypeCollection> getTypeCollections() {
+  public List<TypeCollection> getTypeCollections() {
     return typeCollections;
   }
 
@@ -89,9 +90,9 @@ public class FrancaModel {
     return getInterfaces()
         .stream()
         .filter(
-            i ->
-                i.getName().equals(needle.getName())
-                    && i.getFrancaModel().getName().equals(model.getName()))
+            anInterface ->
+                anInterface.getName().equals(needle.getName())
+                    && anInterface.getFrancaModel().getName().equals(model.getName()))
         .findFirst();
   }
 
@@ -99,9 +100,9 @@ public class FrancaModel {
     return getTypeCollections()
         .stream()
         .filter(
-            i ->
-                i.getName().equals(needle.getName())
-                    && i.getFrancaModel().getName().equals(model.getName()))
+            typeCollection ->
+                typeCollection.getName().equals(needle.getName())
+                    && typeCollection.getFrancaModel().getName().equals(model.getName()))
         .findFirst();
   }
 }
