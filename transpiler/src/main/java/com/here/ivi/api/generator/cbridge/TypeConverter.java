@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.cbridge;
 import static java.util.Collections.emptyList;
 
 import com.here.ivi.api.model.cmodel.CParameter;
+import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -60,7 +61,7 @@ public class TypeConverter {
   public static TypeConversion createReturnValueConversionRoutine(
       String conversionName, CppTypeInfo baseApiType) {
 
-    if ("void".equals(baseApiType.baseType)) {
+    if (baseApiType.functionReturnType.equals(CType.VOID)) {
       return null;
     } else {
       return new TypeConversion(

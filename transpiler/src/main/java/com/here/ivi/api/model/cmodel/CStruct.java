@@ -14,16 +14,13 @@ package com.here.ivi.api.model.cmodel;
 import static java.util.stream.Collectors.toSet;
 
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-import java.util.LinkedList;
-import java.util.List;
 
-public class CStruct extends CType {
+public class CStruct extends CStructTypedef {
 
   public final String baseApiName;
   public final String createFunctionName;
   public final String releaseFunctionName;
   public final CppTypeInfo mappedType;
-  public List<CField> fields = new LinkedList<>();
 
   private final String fieldSetterNameTemplate;
   private final String fieldGetterNameTemplate;

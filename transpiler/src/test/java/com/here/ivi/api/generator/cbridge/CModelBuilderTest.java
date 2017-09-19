@@ -30,6 +30,7 @@ import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.cmodel.CStruct;
+import com.here.ivi.api.model.cmodel.CStructTypedef;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
@@ -38,6 +39,7 @@ import com.here.ivi.api.test.MockContextStack;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
@@ -61,6 +63,17 @@ public class CModelBuilderTest {
   private static final String DELEGATE_NAME = "DELEGATE_NAME";
   private static final String PARAM_NAME = "inputParam";
   private static final String FIELD_NAME = "FIELD1";
+  private static final String STRUCT_NAME = "SomeStruct";
+  private static final String STRUCT_REF_NAME = STRUCT_NAME + "Ref";
+  private static final String STRUCT_BASEAPI_NAME = "BaseAPI::" + STRUCT_NAME;
+  private static final String FIELD_GETTER_FUNCTION_NAME =
+      new StringJoiner("_").add(STRUCT_NAME).add(FIELD_NAME).add("get").toString();
+  private static final String FIELD_SETTER_FUNCTION_NAME =
+      new StringJoiner("_").add(STRUCT_NAME).add(FIELD_NAME).add("set").toString();
+  private static final String STRUCT_CREATE_FUNCTION_NAME =
+      new StringJoiner("_").add(STRUCT_NAME).add("create").toString();
+  private static final String STRUCT_RELEASE_FUNCTION_NAME =
+      new StringJoiner("_").add(STRUCT_NAME).add("release").toString();
 
   private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
@@ -94,6 +107,9 @@ public class CModelBuilderTest {
     when(anInterface.isStatic(any())).thenReturn(true);
     when(cBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
     when(cBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
+    when(cBridgeNameRules.getStructRefType(any())).thenReturn(STRUCT_REF_NAME);
+    when(cBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
+    when(cBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
 
     when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
@@ -292,12 +308,11 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    List<CStruct> structs = getResults(CStruct.class);
+    List<CStructTypedef> structs = getResults(CStructTypedef.class);
     assertEquals(1, structs.size());
-    CStruct cStruct = structs.get(0);
-    assertEquals(2, cStruct.fields.size());
-    assertEquals("field1", cStruct.fields.get(0).name);
-    assertEquals("field2", cStruct.fields.get(1).name);
+    CStructTypedef cStruct = structs.get(0);
+    assertEquals("There should be 1 field in struct - private pointer", 1, cStruct.fields.size());
+    assertEquals("private_pointer", cStruct.fields.get(0).name);
   }
 
   @Test
@@ -306,33 +321,28 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    List<CStruct> structs = getResults(CStruct.class);
+    List<CStructTypedef> structs = getResults(CStructTypedef.class);
     assertEquals(1, structs.size());
-    CStruct cStruct = structs.get(0);
-    assertEquals(1, cStruct.fields.size());
-    CField field = cStruct.fields.get(0);
-    assertEquals(FIELD_NAME, field.name);
     List<CFunction> functions = getResults(CFunction.class);
     assertEquals(
         "Should be get_pointer, get, set, create and release functions", 5, functions.size());
-    CFunction func = getFunction(functions, cStruct.getNameOfFieldGetter(FIELD_NAME));
-    CFunction getPointerFunc = getFunction(functions, "get_pointer");
+    CFunction func = getFunction(functions, FIELD_GETTER_FUNCTION_NAME);
     assertNotEquals("Field getter function should be generated", null, func);
     assertEquals("Getter should take in 1 param", 1, func.parameters.size());
-    assertNotEquals("get_oointer function should be generated", null, getPointerFunc);
+
+    CFunction getPointerFunc = getFunction(functions, "get_pointer");
+    assertNotEquals("get_pointer function should be generated", null, getPointerFunc);
     assertTrue("get_pointer should be flagged as private", getPointerFunc.internalOnlyFunction);
-    assertNotEquals(
+
+    assertNotNull(
         "Field setter function should be generated",
-        null,
-        getFunction(functions, cStruct.getNameOfFieldSetter(FIELD_NAME)));
-    assertNotEquals(
+        getFunction(functions, FIELD_SETTER_FUNCTION_NAME));
+    assertNotNull(
         "Struct release function should be generated",
-        null,
-        getFunction(functions, cStruct.releaseFunctionName));
-    assertNotEquals(
+        getFunction(functions, STRUCT_CREATE_FUNCTION_NAME));
+    assertNotNull(
         "Struct create function should be generated",
-        null,
-        getFunction(functions, cStruct.createFunctionName));
+        getFunction(functions, STRUCT_RELEASE_FUNCTION_NAME));
   }
 
   @Test
@@ -342,29 +352,26 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    List<CStruct> structs = getResults(CStruct.class);
+    List<CStructTypedef> structs = getResults(CStructTypedef.class);
     assertEquals(1, structs.size());
-    CStruct cStruct = structs.get(0);
+    CStructTypedef cStruct = structs.get(0);
     assertEquals(1, cStruct.fields.size());
     CField field = cStruct.fields.get(0);
-    assertEquals(FIELD_NAME, field.name);
+    assertEquals("private_pointer", field.name);
     List<CFunction> functions = getResults(CFunction.class);
     assertEquals("Should be get_pointer, get, create and release function", 4, functions.size());
-    CFunction func = getFunction(functions, cStruct.getNameOfFieldGetter(FIELD_NAME));
-    assertNotEquals("Field getter function should be generated", null, func);
+    CFunction func = getFunction(functions, FIELD_GETTER_FUNCTION_NAME);
+    assertNotNull("Field getter function should be generated", func);
     assertEquals("Getter should take in 1 param", 1, func.parameters.size());
-    assertEquals(
+    assertNull(
         "Field setter function should not be generated",
-        null,
-        getFunction(functions, cStruct.getNameOfFieldSetter(FIELD_NAME)));
-    assertNotEquals(
+        getFunction(functions, FIELD_SETTER_FUNCTION_NAME));
+    assertNotNull(
         "Struct release function should be generated",
-        null,
-        getFunction(functions, cStruct.releaseFunctionName));
-    assertNotEquals(
+        getFunction(functions, STRUCT_RELEASE_FUNCTION_NAME));
+    assertNotNull(
         "Struct create function should be generated",
-        null,
-        getFunction(functions, cStruct.createFunctionName));
+        getFunction(functions, STRUCT_CREATE_FUNCTION_NAME));
   }
 
   @Test
@@ -376,12 +383,15 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    CStruct cStruct = getResults(CStruct.class).get(0);
-    CFunction func =
-        getFunction(getResults(CFunction.class), cStruct.getNameOfFieldGetter(FIELD_NAME));
+    CFunction func = getFunction(getResults(CFunction.class), FIELD_GETTER_FUNCTION_NAME);
     assertSame(fakeType, func.returnType);
     assertEquals(1, func.parameters.size());
-    assertEquals(cStruct, func.parameters.get(0).type);
+    assertTrue(
+        "parameter should be of type Struct", func.parameters.get(0).type instanceof CStruct);
+    assertEquals(
+        "parameter name should be as structRef type name",
+        STRUCT_REF_NAME,
+        func.parameters.get(0).type.name);
     assertEquals("get_pointer(cpp_handle)->FIELD1", func.delegateCall);
   }
 
@@ -395,12 +405,15 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    CStruct cStruct = getResults(CStruct.class).get(0);
-    CFunction func =
-        getFunction(getResults(CFunction.class), cStruct.getNameOfFieldGetter(FIELD_NAME));
+    CFunction func = getFunction(getResults(CFunction.class), FIELD_GETTER_FUNCTION_NAME);
     assertSame(fakeType, func.returnType);
     assertEquals(1, func.parameters.size());
-    assertEquals(cStruct, func.parameters.get(0).type);
+    assertTrue(
+        "parameter should be of type Struct", func.parameters.get(0).type instanceof CStruct);
+    assertEquals(
+        "parameter name should be as structRef type name",
+        STRUCT_REF_NAME,
+        func.parameters.get(0).type.name);
     assertEquals("FakeType{&get_pointer(cpp_handle)->FIELD1}", func.delegateCall);
   }
 
@@ -413,40 +426,42 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    CStruct cStruct = getResults(CStruct.class).get(0);
-    CFunction func =
-        getFunction(getResults(CFunction.class), cStruct.getNameOfFieldSetter(FIELD_NAME));
+    CFunction func = getFunction(getResults(CFunction.class), FIELD_SETTER_FUNCTION_NAME);
     assertEquals(CType.VOID, func.returnType);
-    assertEquals(2, func.parameters.size());
-    assertEquals(cStruct, func.parameters.get(0).type);
+    assertEquals("There should be 2 parameters for set function", 2, func.parameters.size());
+    assertTrue(
+        "1. parameter should be of type Struct", func.parameters.get(0).type instanceof CStruct);
+    assertEquals(
+        "1. parameter name should be as structRef type name",
+        STRUCT_REF_NAME,
+        func.parameters.get(0).type.name);
     assertEquals(fakeType, func.parameters.get(1).type);
   }
 
   @Test
   public void finishBuildingStructCreatesStructWithProperName() {
-    when(cBridgeNameRules.getStructRefType(any())).thenReturn("StructNameRef");
-    when(cBridgeNameRules.getStructBaseName(any())).thenReturn("StructName");
-    when(cBridgeNameRules.getBaseApiStructName(any())).thenReturn("BaseAPIStructName");
-
     modelBuilder.finishBuilding(francaStruct);
 
-    List<CStruct> structs = getResults(CStruct.class);
+    List<CStructTypedef> structs = getResults(CStructTypedef.class);
     assertEquals(1, structs.size());
-    CStruct cStruct = structs.get(0);
-    assertEquals("StructNameRef", cStruct.name);
-    assertEquals("BaseAPIStructName", cStruct.baseApiName);
-    assertEquals("StructName_create", cStruct.createFunctionName);
-    assertEquals("StructName_release", cStruct.releaseFunctionName);
+    CStructTypedef cStruct = structs.get(0);
+    assertEquals(STRUCT_REF_NAME, cStruct.name);
   }
 
   @Test
   public void finishBuildingInterfaceContainsStructs() {
-    CStruct struct = mock(CStruct.class);
+    CStructTypedef struct = mock(CStructTypedef.class);
     contextStack.injectResult(struct);
 
     modelBuilder.finishBuilding(francaInterface);
 
-    assertCInterfaceContainsStruct(struct);
+    List<CInterface> interfaces = getResults(CInterface.class);
+    assertEquals(1, interfaces.size());
+    assertEquals(
+        "There should be 2 struct typedefs (structRef and function table)",
+        2,
+        interfaces.get(0).structs.size());
+    assertSame(struct, interfaces.get(0).structs.get(0));
   }
 
   @Test
@@ -456,13 +471,10 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    assertCInterfaceContainsStruct(struct);
-  }
-
-  private void assertCInterfaceContainsStruct(CStruct struct) {
     List<CInterface> interfaces = getResults(CInterface.class);
     assertEquals(1, interfaces.size());
-    assertEquals(1, interfaces.get(0).structs.size());
+    assertEquals(
+        "There should be 1 struct typedefs (structRef)", 1, interfaces.get(0).structs.size());
     assertSame(struct, interfaces.get(0).structs.get(0));
   }
 

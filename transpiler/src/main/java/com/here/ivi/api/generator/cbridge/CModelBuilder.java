@@ -21,18 +21,21 @@ import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CField;
 import com.here.ivi.api.model.cmodel.CFunction;
+import com.here.ivi.api.model.cmodel.CFunctionPointer;
 import com.here.ivi.api.model.cmodel.CInParameter;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.cmodel.CPointerType;
 import com.here.ivi.api.model.cmodel.CStruct;
+import com.here.ivi.api.model.cmodel.CStructTypedef;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -73,7 +76,42 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
-    finishBuilding((FTypeCollection) francaInterface);
+    CInterface cInterface = finishBuildingInterfaceOrTypeCollection(francaInterface);
+
+    CStructTypedef functionTable = createInterfaceFunctionTable(francaInterface);
+    populateFunctionTableWithMethods(cInterface, functionTable);
+    cInterface.structs.add(functionTable);
+
+    storeResult(cInterface);
+    closeContext();
+  }
+
+  private void populateFunctionTableWithMethods(
+      CInterface cInterface, CStructTypedef functionTable) {
+    for (CFunction function : cInterface.functions) {
+      if (function.interfaceMethod) {
+        CFunctionPointer functionPointer =
+            CFunctionPointer.builder()
+                .returnType(function.returnType)
+                .parameters(function.parameters)
+                .build();
+        functionTable.fields.add(new CField(function.name, new CppTypeInfo(functionPointer)));
+      }
+    }
+  }
+
+  private CStructTypedef createInterfaceFunctionTable(FInterface francaInterface) {
+    return new CStructTypedef(
+        cBridgeNameRules.getFunctionTableName(francaInterface),
+        Arrays.asList(
+            new CField("swift_pointer", new CppTypeInfo(new CPointerType(CType.VOID))),
+            new CField(
+                "release",
+                new CppTypeInfo(
+                    CFunctionPointer.builder()
+                        .returnType(CType.VOID)
+                        .parameter(new CParameter("swift_pointer", new CPointerType(CType.VOID)))
+                        .build()))));
   }
 
   @Override
@@ -88,7 +126,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     cInterface.functions =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CFunction.class);
     cInterface.structs =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CStruct.class);
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CStructTypedef.class);
 
     cInterface.headerIncludes = collectHeaderIncludes(cInterface);
     cInterface.implementationIncludes = collectImplementationIncludes(cInterface);
@@ -159,7 +197,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     cStruct.fields =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CField.class);
 
-    storeResult(cStruct);
+    storeResult(createStructRefTypeDefinition(francaStruct));
     storeResult(createGetPointerFunction(cStruct));
     storeResult(createStructCreateFunction(cStruct));
     storeResult(createStructReleaseFunction(cStruct));
@@ -180,6 +218,15 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             CTypeMapper.mapType(resolver, francaTypedElement.getType()));
     storeResult(cField);
     super.finishBuilding(francaTypedElement);
+  }
+
+  private CStructTypedef createStructRefTypeDefinition(FStructType francaStruct) {
+    CType fieldType = new CPointerType(CType.VOID);
+    fieldType.isConst = true;
+
+    return new CStructTypedef(
+        cBridgeNameRules.getStructRefType(francaStruct),
+        singletonList(new CField("private_pointer", new CppTypeInfo(fieldType))));
   }
 
   private CFunction createGetPointerFunction(CStruct cStruct) {
@@ -286,6 +333,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         .returnConversion(returnValue.conversion)
         .delegateCallTemplate(
             functionCallTemplateForNParams(delegateMethodName, numberOfPlaceholders))
+        .markAsInterfaceMethod()
         .build();
   }
 

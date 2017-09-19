@@ -31,6 +31,7 @@ public final class CFunction extends CElement {
   public final Set<Include> delegateCallInclude;
   public String definitionTemplate = "cbridge/FunctionDefinition";
   public boolean internalOnlyFunction;
+  public boolean interfaceMethod;
 
   public CFunction(
       String name,
@@ -40,7 +41,8 @@ public final class CFunction extends CElement {
       TypeConverter.TypeConversion returnConversion,
       String delegateCall,
       Set<Include> delegateCallInclude,
-      boolean internalOnlyFunction) {
+      boolean internalOnlyFunction,
+      boolean interfaceMethod) {
     super(name);
     this.parameters = parameters;
     this.conversions = conversions;
@@ -49,6 +51,7 @@ public final class CFunction extends CElement {
     this.delegateCall = delegateCall;
     this.delegateCallInclude = delegateCallInclude;
     this.internalOnlyFunction = internalOnlyFunction;
+    this.interfaceMethod = interfaceMethod;
   }
 
   @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
@@ -61,6 +64,7 @@ public final class CFunction extends CElement {
     private String delegateCall = "";
     private Set<Include> delegateCallInclude = new LinkedHashSet<>();
     private boolean internalOnlyFunction;
+    private boolean interfaceMethod;
 
     public Builder(String name) {
       this.name = name;
@@ -96,6 +100,11 @@ public final class CFunction extends CElement {
       return this;
     }
 
+    public CFunction.Builder markAsInterfaceMethod() {
+      this.interfaceMethod = true;
+      return this;
+    }
+
     public CFunction build() {
       if (!parameters.isEmpty()) {
         conversions =
@@ -123,7 +132,8 @@ public final class CFunction extends CElement {
           this.returnConversion,
           this.delegateCall,
           this.delegateCallInclude,
-          this.internalOnlyFunction);
+          this.internalOnlyFunction,
+          this.interfaceMethod);
     }
   }
 }

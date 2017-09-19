@@ -11,13 +11,14 @@
 
 package com.here.ivi.api.generator.cbridge.templates;
 
+import static java.util.Collections.emptyList;
+
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.model.cmodel.CFunction;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.cmodel.CPointerType;
-import com.here.ivi.api.model.cmodel.CStruct;
+import com.here.ivi.api.model.cmodel.CStructTypedef;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.test.TemplateComparison;
@@ -132,20 +133,15 @@ public class CBridgeHeaderTemplateTest {
   public void emptyStructsDefinition() {
     final CType fakeType = Mockito.mock(CType.class);
     fakeType.includes = Collections.emptySet();
-    final CppTypeInfo cppTypeInfo = new CppTypeInfo(fakeType);
     CInterface cInterface = new CInterface();
-    CStruct cStruct1 =
-        new CStruct("Struct1NameRef", "Struct1Name", "BaseAPIStruct1Name", cppTypeInfo);
-    CStruct cStruct2 =
-        new CStruct("Struct2NameRef", "Struct2Name", "BaseAPIStruct2Name", cppTypeInfo);
+    CStructTypedef cStruct1 = new CStructTypedef("Struct1NameRef", emptyList());
+    CStructTypedef cStruct2 = new CStructTypedef("Struct2NameRef", emptyList());
     cInterface.structs = Arrays.asList(cStruct1, cStruct2);
     final String expected =
         "typedef struct {\n"
-            + "    void* const private_pointer;\n"
             + "} Struct1NameRef;\n"
             + "\n"
             + "typedef struct {\n"
-            + "    void* const private_pointer;\n"
             + "} Struct2NameRef;\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
