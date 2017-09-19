@@ -39,6 +39,7 @@ import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.jni.*;
+import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +51,8 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,7 +65,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @SuppressWarnings("PMD.TooManyFields")
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(JniType.class)
+@PrepareForTest({JniType.class, InstanceRules.class})
 public class JniModelBuilderTest {
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -112,7 +115,7 @@ public class JniModelBuilderTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    PowerMockito.mockStatic(JniType.class);
+    PowerMockito.mockStatic(JniType.class, InstanceRules.class);
 
     modelBuilder = new JniModelBuilder(contextStack, rootModel, javaBuilder, cppBuilder);
 
@@ -283,6 +286,7 @@ public class JniModelBuilderTest {
         new CppParameter("absolute", new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build());
     when(javaBuilder.getFirstResult(any())).thenReturn(javaParameter);
     when(cppBuilder.getFirstResult(any())).thenReturn(cppParameter);
+    when(francaArgument.getType()).thenReturn(mock(FTypeRef.class));
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
@@ -291,7 +295,29 @@ public class JniModelBuilderTest {
     assertEquals(javaParameter.name, jniParameter.name);
 
     verifyStatic();
-    JniType.createType(javaParameter.type, cppParameter.type);
+    JniType.createType(javaParameter.type, cppParameter.type, false);
+  }
+
+  @Test
+  public void finishBuildingInputArgumentReadsInstance() {
+    JavaParameter javaParameter = new JavaParameter(javaCustomType, "relative");
+    CppParameter cppParameter =
+        new CppParameter("absolute", new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build());
+    when(javaBuilder.getFirstResult(any())).thenReturn(javaParameter);
+    when(cppBuilder.getFirstResult(any())).thenReturn(cppParameter);
+    FTypeRef fTypeRef = mock(FTypeRef.class);
+    when(fTypeRef.getDerived()).thenReturn(mock(FTypeDef.class));
+    when(francaArgument.getType()).thenReturn(fTypeRef);
+    when(InstanceRules.isInstanceId(any())).thenReturn(true);
+
+    modelBuilder.finishBuildingInputArgument(francaArgument);
+
+    JniParameter jniParameter = modelBuilder.getFirstResult(JniParameter.class);
+    assertNotNull(jniParameter);
+    assertEquals(javaParameter.name, jniParameter.name);
+
+    verifyStatic();
+    JniType.createType(javaParameter.type, cppParameter.type, true);
   }
 
   @Test
