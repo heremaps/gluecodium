@@ -14,32 +14,27 @@
 #include <memory>
 #include "HelloWorldProfileManager.h"
 
-namespace hello {
-
-// Virtual destructor implementation is required to avoid UnsatisfiedLink error
-ProfileManager::~ProfileManager( ) {}
-
+namespace hello
+{
 void
 HelloWorldProfileManager::createProfile( const ::std::string& username )
 {
     m_profile_name = username;
 }
 
-
 ::std::string
 HelloWorldProfileManager::changeProfile( const ::std::string& username )
 {
-     std::string old = m_profile_name;
-     m_profile_name = username;
-     return old;
+    std::string old = m_profile_name;
+    m_profile_name = username;
+    return old;
 }
 
 ::std::string
 HelloWorldProfileManager::deleteProfile( )
 {
-     std::string old = m_profile_name;
-     m_profile_name = "";
-     return old;
+    std::string old = m_profile_name;
+    m_profile_name = "";
+    return old;
 }
-
 }
