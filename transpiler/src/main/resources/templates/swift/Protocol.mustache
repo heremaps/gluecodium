@@ -1,0 +1,6 @@
+{{^isStatic}}{{prefixPartial 'swift/GetReference'}}
+
+public protocol {{name}} {
+{{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
+{{/methods}}
+}{{/isStatic}}

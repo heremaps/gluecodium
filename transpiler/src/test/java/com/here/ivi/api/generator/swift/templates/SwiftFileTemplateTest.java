@@ -17,11 +17,11 @@ import static java.util.stream.Collectors.toList;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.SwiftArrayType;
 import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftEnum;
 import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
-import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
 import com.here.ivi.api.test.TemplateComparison;
@@ -50,7 +50,19 @@ public class SwiftFileTemplateTest {
   @Test
   public void simpleInterfaceGeneration() {
     final SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
-    final String expected = "import Foundation\n" + "public class ExampleClass {\n" + "\n" + "}\n";
+    swiftClass.implementsProtocols = singletonList("ExampleClass");
+    final String expected =
+        "import Foundation\n"
+            + "internal func getRef(_ ref: ExampleClass) ->  {\n"
+            + "    guard let instanceReference = ref as? _ExampleClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol ExampleClass {\n"
+            + "}\n"
+            + "internal class _ExampleClass: ExampleClass {\n"
+            + "}\n";
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
@@ -58,14 +70,22 @@ public class SwiftFileTemplateTest {
   @Test
   public void interfaceWithCommentGeneration() {
     SwiftClass swiftClass = new SwiftClass("ExampleClassWithComment", null);
+    swiftClass.implementsProtocols = singletonList("ExampleClassWithComment");
     swiftClass.comment = "One really classy example";
     final String expected =
         "import Foundation\n"
+            + "internal func getRef(_ ref: ExampleClassWithComment) ->  {\n"
+            + "    guard let instanceReference = ref as? _ExampleClassWithComment else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol ExampleClassWithComment {\n"
+            + "}\n"
             + "/**\n"
             + " * One really classy example\n"
             + " */\n"
-            + "public class ExampleClassWithComment {\n"
-            + "\n"
+            + "internal class _ExampleClassWithComment: ExampleClassWithComment {\n"
             + "}\n";
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
@@ -80,14 +100,23 @@ public class SwiftFileTemplateTest {
             "myMethod",
             Collections.singletonList(new SwiftParameter("parameter", new SwiftType("Int"))));
     swiftClass.methods = Collections.singletonList(method);
+    swiftClass.implementsProtocols = singletonList("ExampleClass");
     method.returnType = new SwiftType("Int");
     method.cBaseName = "myPackage_ExampleClass_myMethod";
     final String expected =
         "import Foundation\n"
-            + "public class ExampleClass {\n"
-            + "\n"
+            + "internal func getRef(_ ref: ExampleClass) ->  {\n"
+            + "    guard let instanceReference = ref as? _ExampleClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol ExampleClass {\n"
+            + "        func myMethod(parameter: Int) -> Int;\n"
+            + "}\n"
+            + "internal class _ExampleClass: ExampleClass {\n"
             + "    public func myMethod(parameter: Int) -> Int {\n"
-            + "        return myPackage_ExampleClass_myMethod(parameter)\n"
+            + "        return myPackage_ExampleClass_myMethod(c_instance, parameter)\n"
             + "    }\n"
             + "}\n";
     final String generated = generateFromClass(swiftClass);
@@ -104,14 +133,23 @@ public class SwiftFileTemplateTest {
                 new SwiftParameter(
                     "parameterInterfaceName", new SwiftType("Int"), "parameterVariableName")));
     method.cBaseName = "ExampleClass_myMethod";
+    swiftClass.implementsProtocols = singletonList("ExampleClass");
     swiftClass.methods = Collections.singletonList(method);
 
     final String expected =
         "import Foundation\n"
-            + "public class ExampleClass {\n"
-            + "\n"
+            + "internal func getRef(_ ref: ExampleClass) ->  {\n"
+            + "    guard let instanceReference = ref as? _ExampleClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol ExampleClass {\n"
+            + "        func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void;\n"
+            + "}\n"
+            + "internal class _ExampleClass: ExampleClass {\n"
             + "    public func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void {\n"
-            + "        return ExampleClass_myMethod(parameterVariableName)\n"
+            + "        return ExampleClass_myMethod(c_instance, parameterVariableName)\n"
             + "    }\n"
             + "}\n";
     final String generated = generateFromClass(swiftClass);
@@ -121,6 +159,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodWithMultipleParameters() {
     SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
+    swiftClass.implementsProtocols = singletonList("ExampleClass");
     SwiftParameter parameterOne = new SwiftParameter("parameterOne", new SwiftType("Int"));
     SwiftParameter parameterTwo = new SwiftParameter("parameterTwo", new SwiftType("String"));
     SwiftMethod method = new SwiftMethod("myMethod", Arrays.asList(parameterOne, parameterTwo));
@@ -128,10 +167,18 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "import Foundation\n"
-            + "public class ExampleClass {\n"
-            + "\n"
+            + "internal func getRef(_ ref: ExampleClass) ->  {\n"
+            + "    guard let instanceReference = ref as? _ExampleClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol ExampleClass {\n"
+            + "        func myMethod(parameterOne: Int, parameterTwo: String) -> Void;\n"
+            + "}\n"
+            + "internal class _ExampleClass: ExampleClass {\n"
             + "    public func myMethod(parameterOne: Int, parameterTwo: String) -> Void {\n"
-            + "        return ExampleClass_myMethod(parameterOne, parameterTwo)\n"
+            + "        return ExampleClass_myMethod(c_instance, parameterOne, parameterTwo)\n"
             + "    }\n"
             + "}\n";
     final String generated = generateFromClass(swiftClass);
@@ -145,13 +192,23 @@ public class SwiftFileTemplateTest {
         new SwiftMethod(
             "myMethod",
             Collections.singletonList(new SwiftParameter("array", new SwiftArrayType("UInt8"))));
+    swiftClass.implementsProtocols = singletonList("MyClass");
     method.cBaseName = "MyClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "import Foundation\n"
-            + "public class MyClass {\n"
+            + "internal func getRef(_ ref: MyClass) ->  {\n"
+            + "    guard let instanceReference = ref as? _MyClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol MyClass {\n"
+            + "        func myMethod(array: [UInt8]) -> Void;\n"
+            + "}\n"
+            + "internal class _MyClass: MyClass {\n"
             + "    public func myMethod(array: [UInt8]) -> Void {\n"
-            + "        return MyClass_myMethod(array)\n"
+            + "        return MyClass_myMethod(c_instance, array)\n"
             + "    }\n"
             + "}\n";
     final String generated = generateFromClass(swiftClass);
@@ -161,6 +218,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodWithComment() {
     SwiftClass swiftClass = new SwiftClass("CommentedExampleClass", null);
+    swiftClass.implementsProtocols = singletonList("CommentedExampleClass");
     SwiftMethod method =
         new SwiftMethod(
             "myMethod",
@@ -169,15 +227,28 @@ public class SwiftFileTemplateTest {
     method.returnType = new SwiftType("Int");
     method.comment = "Do something";
     method.cBaseName = "CommentedExampleClass_myMethod";
+
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "import Foundation\n"
-            + "public class CommentedExampleClass {\n"
+            + "internal func getRef(_ ref: CommentedExampleClass) ->  {\n"
+            + "    guard let instanceReference = ref as? _CommentedExampleClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol CommentedExampleClass {\n"
+            + "    /**\n"
+            + "     * Do something\n"
+            + "     */\n"
+            + "        func myMethod(myParameter: String) -> Int;\n"
+            + "}\n"
+            + "internal class _CommentedExampleClass: CommentedExampleClass {\n"
             + "    /**\n"
             + "     * Do something\n"
             + "     */\n"
             + "    public func myMethod(myParameter: String) -> Int {\n"
-            + "        return CommentedExampleClass_myMethod(myParameter)\n"
+            + "        return CommentedExampleClass_myMethod(c_instance, myParameter)\n"
             + "    }\n"
             + "}\n";
     final String generated = generateFromClass(swiftClass);
@@ -206,7 +277,20 @@ public class SwiftFileTemplateTest {
   @Test
   public void systemImport() {
     SwiftClass swiftClass = new SwiftClass("SomeClass", null);
-    final String expected = "import Foundation\n" + "\n" + "public class SomeClass {\n" + "}\n";
+    swiftClass.implementsProtocols = singletonList("SomeClass");
+
+    final String expected =
+        "import Foundation\n"
+            + "internal func getRef(_ ref: SomeClass) ->  {\n"
+            + "    guard let instanceReference = ref as? _SomeClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol SomeClass {\n"
+            + "}\n"
+            + "internal class _SomeClass: SomeClass {\n"
+            + "}\n";
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
@@ -386,7 +470,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void staticMethodTakingStruct() {
     SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
-    SwiftStruct swiftStruct = new SwiftStruct("SomeStruct");
+    SwiftContainerType swiftStruct = new SwiftContainerType("SomeStruct");
     swiftStruct.cPrefix = swiftClass.name + "_" + swiftStruct.name;
     SwiftMethod method =
         new SwiftMethod(
@@ -412,7 +496,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void staticMethodReturningStruct() {
     SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
-    SwiftStruct swiftStruct = new SwiftStruct("SomeStruct");
+    SwiftContainerType swiftStruct = new SwiftContainerType("SomeStruct");
     swiftStruct.optional = true;
     swiftStruct.cPrefix = swiftClass.name + "_" + swiftStruct.name;
     SwiftMethod method = new SwiftMethod("methodReturningStruct");
@@ -438,7 +522,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void staticMethodTakingMultipleParamsAndReturningStruct() {
     SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
-    SwiftStruct inputStruct = new SwiftStruct("GeoLocation");
+    SwiftContainerType inputStruct = new SwiftContainerType("GeoLocation");
     inputStruct.cPrefix = swiftClass.name + "_" + inputStruct.name;
     SwiftMethod method =
         new SwiftMethod(
@@ -449,7 +533,7 @@ public class SwiftFileTemplateTest {
                     new SwiftParameter("location", inputStruct))
                 .collect(toList()));
     method.isStatic = true;
-    SwiftStruct outputStruct = new SwiftStruct("SomeStruct");
+    SwiftContainerType outputStruct = new SwiftContainerType("SomeStruct");
     outputStruct.cPrefix = swiftClass.name + "_" + outputStruct.name;
     outputStruct.optional = true;
     method.returnType = outputStruct;
@@ -481,17 +565,27 @@ public class SwiftFileTemplateTest {
   @Test
   public void interfaceWithTwoStructsAndMethod() {
     SwiftClass swiftClass = new SwiftClass("SomeClass", null);
-    SwiftStruct firstSturct = new SwiftStruct("FirstStruct");
+    SwiftContainerType firstSturct = new SwiftContainerType("FirstStruct");
     firstSturct.cPrefix = "CPrefix";
     firstSturct.cType = "CType";
-    SwiftStruct secondStruct = new SwiftStruct("SecondStruct");
+    SwiftContainerType secondStruct = new SwiftContainerType("SecondStruct");
     secondStruct.cPrefix = "CPrefix";
     secondStruct.cType = "CType";
     swiftClass.structs = Arrays.asList(firstSturct, secondStruct);
     swiftClass.methods = singletonList(new SwiftMethod("SomeMethod"));
+    swiftClass.implementsProtocols = Collections.singletonList(swiftClass.name);
     final String expected =
         "import Foundation\n"
-            + "public class SomeClass {\n"
+            + "internal func getRef(_ ref: SomeClass) ->  {\n"
+            + "    guard let instanceReference = ref as? _SomeClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol SomeClass {\n"
+            + "        func SomeMethod() -> Void;\n"
+            + "}\n"
+            + "internal class _SomeClass: SomeClass {\n"
             + "    public struct FirstStruct {\n"
             + "        public init() {\n"
             + "        }\n"
@@ -519,7 +613,7 @@ public class SwiftFileTemplateTest {
             + "        }\n"
             + "    }\n"
             + "    public func SomeMethod() -> Void {\n"
-            + "        return ()\n"
+            + "        return (c_instance)\n"
             + "    }\n"
             + "}\n";
     final String generated = generateFromClass(swiftClass);
@@ -528,7 +622,7 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void typeCollectionWithStruct() {
-    SwiftStruct firstSturct = new SwiftStruct("FirstStruct");
+    SwiftContainerType firstSturct = new SwiftContainerType("FirstStruct");
     firstSturct.cPrefix = "CPrefix";
     firstSturct.cType = "CType";
     SwiftFile file = new SwiftFile();
@@ -575,19 +669,89 @@ public class SwiftFileTemplateTest {
   public void interfaceWithEnum() {
     SwiftEnum swiftEnum = new SwiftEnum("EnumSwiftName", "EnumCName");
     swiftEnum.comment = "Some comment on enum type";
-    SwiftClass clazz = new SwiftClass("TestInterafce");
+    SwiftClass clazz = new SwiftClass("TestInterface");
     clazz.enums.add(swiftEnum);
     final String expected =
         "import Foundation\n"
-            + "public class TestInterafce {\n"
+            + "internal func getRef(_ ref: TestInterface) ->  {\n"
+            + "    guard let instanceReference = ref as? _TestInterface else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol TestInterface {\n"
+            + "}\n"
+            + "internal class _TestInterface {\n"
             + "    /**\n"
             + "     * Some comment on enum type\n"
             + "     */\n"
-            + "    public typealias EnumSwiftName = EnumCName \n"
+            + "    public typealias EnumSwiftName = EnumCName\n"
             + "}\n";
 
     final String generated = generateFromClass(clazz);
 
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void classWithInternalConstructor() {
+    SwiftClass swiftClass = new SwiftClass("HelloWorld");
+    swiftClass.cInstanceRef = "HelloWorldRef";
+    swiftClass.cInstance = "HellowWorld";
+    swiftClass.implementsProtocols = singletonList("HelloWorld");
+    SwiftMethod method = new SwiftMethod("instanceMethod");
+    method.returnType = new SwiftType("Int");
+    method.cBaseName = "HelloWorld_instanceMethod";
+    final String expected =
+        "import Foundation\n"
+            + "internal func getRef(_ ref: HelloWorld) -> HelloWorldRef {\n"
+            + "    guard let instanceReference = ref as? _HelloWorld else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol HelloWorld {\n"
+            + "        func instanceMethod() -> Int;\n"
+            + "}\n"
+            + "internal class _HelloWorld: HelloWorld {\n"
+            + "    let c_instance : HelloWorldRef\n"
+            + "    required init?(cHelloWorld: HelloWorldRef) {\n"
+            + "        c_instance = cHelloWorld\n"
+            + "    }\n"
+            + "    deinit {\n"
+            + "        HellowWorld_release(c_instance)\n"
+            + "    }\n"
+            + "    public func instanceMethod() -> Int {\n"
+            + "        return HelloWorld_instanceMethod(c_instance)\n"
+            + "    }\n"
+            + "}\n";
+    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    final String generated = generateFromClass(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void factoryClassCallingPrivateConstructor() {
+    SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
+    swiftClass.cInstanceRef = "HellowWorldFactoryRef";
+    swiftClass.cInstance = "HellowWorldFactory";
+
+    SwiftMethod method = new SwiftMethod("createInstanceMethod");
+    SwiftContainerType mappedType = new SwiftContainerType("HelloWorld");
+    mappedType.privateImplementation = "_HelloWorld";
+    method.returnType = mappedType;
+    method.cBaseName = "HelloWorld_createInstanceMethod";
+    method.isStatic = true;
+    final String expected =
+        "import Foundation\n"
+            + "public class HellowWorldFactory {\n"
+            + "    public static func createInstanceMethod() -> HelloWorld {\n"
+            + "        let cResult = HelloWorld_createInstanceMethod()\n"
+            + "        return _HelloWorld(cHelloWorld: cResult)\n"
+            + "    }\n"
+            + "}\n";
+    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 }

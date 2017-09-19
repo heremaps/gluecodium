@@ -23,9 +23,11 @@ public final class SwiftClass extends SwiftModelElement {
   public List<String> implementsProtocols;
   public List<SwiftProperty> properties;
   public List<SwiftMethod> methods;
-  public List<SwiftStruct> structs;
+  public List<SwiftContainerType> structs;
   public List<SwiftEnum> enums;
   public String nameSpace;
+  public String cInstanceRef;
+  public String cInstance;
 
   public SwiftClass(String className, String parentClassName) {
     super(className);
@@ -41,5 +43,19 @@ public final class SwiftClass extends SwiftModelElement {
 
   public SwiftClass(String className) {
     this(className, null);
+  }
+
+  public boolean needClassDefinition() {
+    return (implementsProtocols != null && !implementsProtocols.isEmpty())
+        || (parentClass != null && !parentClass.isEmpty());
+  }
+
+  public boolean isStatic() {
+    return methods
+        .stream()
+        .anyMatch(
+            s -> {
+              return s.isStatic;
+            });
   }
 }

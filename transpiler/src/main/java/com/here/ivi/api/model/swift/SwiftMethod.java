@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.swift;
 
+import static com.here.ivi.api.model.swift.SwiftType.VOID;
 import static java.util.Collections.emptyList;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class SwiftMethod extends SwiftModelElement {
   public boolean isStatic;
   public Visibility visibility;
   public String cBaseName;
+  public SwiftParameter instanceParameter = new SwiftParameter("c_instance", VOID);
 
   public SwiftMethod(String methodName) {
     this(methodName, emptyList());
@@ -30,7 +32,7 @@ public class SwiftMethod extends SwiftModelElement {
 
   public SwiftMethod(String methodName, List<SwiftParameter> parameters) {
     super(methodName);
-    this.returnType = SwiftType.VOID;
+    this.returnType = VOID;
     this.parameters = parameters;
     this.comment = "";
     this.cBaseName = "";

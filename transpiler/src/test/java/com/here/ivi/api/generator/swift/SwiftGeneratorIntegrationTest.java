@@ -25,10 +25,10 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import com.here.ivi.api.generator.utils.LoadModelHelper;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
-import com.here.ivi.api.model.swift.SwiftStruct;
 import java.net.URISyntaxException;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,7 +71,7 @@ public class SwiftGeneratorIntegrationTest {
     SwiftClass clazz = file.classes.get(0);
     assertNotNull("The property should not be empty", clazz.structs);
     assertEquals("It should parse both structs", 2, clazz.structs.size());
-    SwiftStruct struct = clazz.structs.get(0);
+    SwiftContainerType struct = clazz.structs.get(0);
     assertEquals("name should be parsed correctly to Swift", "Struct_0", struct.name);
     assertEquals("comments should be parsed correctly", "This is a test struct", struct.comment);
     assertEquals("all fields should be recognized", 2, struct.fields.size());
@@ -185,7 +185,7 @@ public class SwiftGeneratorIntegrationTest {
     assertNotNull(clazz.comment);
     assertTrue(clazz.comment.isEmpty());
     assertNotNull(clazz.implementsProtocols);
-    assertTrue(clazz.implementsProtocols.isEmpty());
+    assertEquals(clazz.implementsProtocols.size(), 1);
     assertNotNull(clazz.properties);
     assertTrue(clazz.properties.isEmpty());
     assertEquals(
@@ -198,8 +198,6 @@ public class SwiftGeneratorIntegrationTest {
     final SwiftMethod method = clazz.methods.get(0);
     assertEquals(METHOD_NAME, method.name);
     assertTrue(method.parameters.isEmpty());
-    assertTrue(method.comment.isEmpty());
-    assertFalse(method.isStatic);
   }
 
   @Test
@@ -215,7 +213,7 @@ public class SwiftGeneratorIntegrationTest {
     assertNotNull(clazz.comment);
     assertTrue(clazz.comment.isEmpty());
     assertNotNull(clazz.implementsProtocols);
-    assertTrue(clazz.implementsProtocols.isEmpty());
+    assertEquals(clazz.implementsProtocols.size(), 1);
     assertNotNull(clazz.properties);
     assertTrue(clazz.properties.isEmpty());
     assertEquals(
@@ -232,7 +230,7 @@ public class SwiftGeneratorIntegrationTest {
             LoadModelHelper.extractNthTypeCollectionFromModel(this.francaModel, 0));
     assertEquals("There should be no class defined in file", 0, file.classes.size());
     assertEquals("There should be two structs defined in file", 2, file.structs.size());
-    SwiftStruct struct = file.structs.get(0);
+    SwiftContainerType struct = file.structs.get(0);
     assertEquals("Struct_0", struct.name);
     assertEquals("First struct should have 2 fields", 2, struct.fields.size());
     struct = file.structs.get(1);

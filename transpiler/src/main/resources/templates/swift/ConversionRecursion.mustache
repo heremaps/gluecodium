@@ -4,6 +4,7 @@
     }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodReturnData}}{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}{{>swift/MethodReturnString}}{{/case}}{{!!
     }}{{#case "STRUCT"}}{{>MethodReturnStruct}}{{/case}}{{!!
+    }}{{#case "CLASS"}}{{>MethodReturnStruct}}{{/case}}{{!!
     }}{{#default}}{{>swift/MethodReturn}}{{/default}}{{!!
   }}{{/switch}}
 {{/unless}}
@@ -12,6 +13,7 @@
     }}{{#switch type.category.toString}}{{!!
       }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodWrapData}}{{/case}}{{!!
       }}{{#case "STRUCT"}}{{>structConversion}}{{/case}}{{!!
+      }}{{#case "CLASS"}}{{>classConversion}}{{/case}}{{!!
       }}{{#default}}{{>swift/ConversionRecursion}}{{/default}}{{!!
     }}{{/switch}}{{!!
   }}{{/iterator.next}}{{!!
@@ -24,9 +26,15 @@ defer {
 {{>swift/ConversionRecursion}}
 {{/structConversion}}
 
+{{+classConversion}}let {{name}}Handle = getRef({{name}})
+{{>swift/ConversionRecursion}}
+{{/classConversion}}
+
 {{+MethodReturnStruct}}let cResult = {{>swift/DelegateCall}}
+{{^method.returnType.privateImplementation}}
 defer {
     {{method.returnType.cPrefix}}_release(cResult)
 }
-return {{method.returnType}}(c{{method.returnType}}: cResult)
+{{/method.returnType.privateImplementation}}
+return {{#method.returnType.privateImplementation}}{{method.returnType.privateImplementation}}{{/method.returnType.privateImplementation}}{{^method.returnType.privateImplementation}}{{method.returnType}}{{/method.returnType.privateImplementation}}(c{{method.returnType}}: cResult)
 {{/MethodReturnStruct}}

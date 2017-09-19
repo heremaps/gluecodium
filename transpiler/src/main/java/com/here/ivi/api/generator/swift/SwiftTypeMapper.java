@@ -11,14 +11,12 @@
 
 package com.here.ivi.api.generator.swift;
 
-import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.BUILTIN_BYTEBUFFER;
-import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.BUILTIN_STRING;
-import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.STRUCT;
+import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.*;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftEnum;
-import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftType;
 import org.franca.core.franca.*;
 
@@ -29,11 +27,7 @@ public class SwiftTypeMapper {
 
     if (derived != null) {
       if (derived instanceof FStructType || derived instanceof FTypeDef) {
-        CBridgeNameRules bridgeRules = new CBridgeNameRules();
-        SwiftStruct mappedType = new SwiftStruct(derived.getName());
-        mappedType.cPrefix = bridgeRules.getStructBaseName(derived);
-        mappedType.cType = bridgeRules.getStructRefType(derived);
-        return mappedType;
+        return getType(derived);
       } else if (derived instanceof FEnumerationType) {
         return new SwiftEnum(
             SwiftNameRules.getEnumTypeName(derived), CBridgeNameRules.getEnumName(derived));
@@ -42,6 +36,20 @@ public class SwiftTypeMapper {
     }
 
     return mapPredefined(type);
+  }
+
+  private static SwiftType getType(FType derived) {
+    CBridgeNameRules bridgeRules = new CBridgeNameRules();
+    SwiftType.TypeCategory category = (derived instanceof FTypeDef) ? CLASS : STRUCT;
+    SwiftContainerType mappedType = new SwiftContainerType(derived.getName(), category);
+    mappedType.cPrefix = bridgeRules.getStructBaseName(derived);
+    mappedType.cType = bridgeRules.getStructRefType(derived);
+    mappedType.privateImplementation =
+        (derived instanceof FTypeDef) ? "_" + derived.getName() : null;
+    if (mappedType.category == CLASS) {
+      mappedType.optional = true;
+    }
+    return mappedType;
   }
 
   public static SwiftType mapOutputType(FrancaElement rootModel, final FTypeRef type) {

@@ -1,0 +1,1 @@
+{{#isStatic}}public class {{/isStatic}}{{^isStatic}}internal class _{{/isStatic}}{{name}}{{#if needClassDefinition}}: {{#parentClass}}{{parentClass}}{{/parentClass}}{{#implementsProtocols}}{{.}}{{#if iter.hasNext}} {{/if}}{{/implementsProtocols}}{{/if}} {

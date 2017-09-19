@@ -1,0 +1,11 @@
+{{^isStatic}}{{#cInstanceRef}}
+let c_instance : {{cInstanceRef}}
+
+required init?(c{{name}}: {{cInstanceRef}}) {
+    c_instance = c{{name}}
+}
+
+deinit {
+    {{cInstance}}_release(c_instance)
+}
+{{/cInstanceRef}}{{/isStatic}}

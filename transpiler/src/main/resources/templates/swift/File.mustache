@@ -5,9 +5,12 @@
 
 import Foundation
 
-{{#classes}}
+{{#classes}}{{prefixPartial 'swift/Protocol' ''}}
+
 {{#comment}}{{>swift/Comment}}{{/comment}}
-public class {{name}}{{#if parentClass}} : {{parentClass}}{{#implementsProtocols}}< {{join . ' '}} >{{/implementsProtocols}}{{/if}} {
+{{prefixPartial 'swift/ClassHeader' ''}}
+
+{{prefixPartial 'swift/Constructor' '    '}}
 {{#properties}}
 {{>swift/Property}}
 {{/properties}}

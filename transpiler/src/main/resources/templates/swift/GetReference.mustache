@@ -1,0 +1,6 @@
+internal func getRef(_ ref: {{name}}) -> {{cInstanceRef}} {
+    guard let instanceReference = ref as? _{{name}} else {
+        fatalError("Not implemented yet")
+    }
+    return instanceReference.c_instance
+}

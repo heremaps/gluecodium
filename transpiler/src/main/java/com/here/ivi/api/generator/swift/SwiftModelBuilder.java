@@ -21,21 +21,23 @@ import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftEnum;
+import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftInParameter;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftModelElement;
 import com.here.ivi.api.model.swift.SwiftOutParameter;
 import com.here.ivi.api.model.swift.SwiftParameter;
-import com.here.ivi.api.model.swift.SwiftStruct;
-import com.here.ivi.api.model.swift.SwiftStructField;
+import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   private final FrancaElement rootModel;
   private final SwiftNameRules nameRules;
+  private final CBridgeNameRules bridgeRules;
 
   public SwiftModelBuilder(final FrancaElement rootModel, final SwiftNameRules nameRules) {
     this(rootModel, nameRules, new ModelBuilderContextStack<>());
@@ -48,12 +50,14 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     super(contextStack);
     this.rootModel = rootModel;
     this.nameRules = nameRules;
+    this.bridgeRules = new CBridgeNameRules();
   }
 
   @Override
   public void finishBuilding(FTypeCollection typeCollection) {
     SwiftFile file = new SwiftFile();
-    file.structs.addAll(getAllOfType(getCurrentContext().previousResults, SwiftStruct.class));
+    file.structs.addAll(
+        getAllOfType(getCurrentContext().previousResults, SwiftContainerType.class));
     file.enums.addAll(getAllOfType(getCurrentContext().previousResults, SwiftEnum.class));
     storeResult(file);
     super.finishBuilding(typeCollection);
@@ -66,8 +70,13 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     clazz.comment = comment != null ? comment : "";
     clazz.methods = getAllOfType(getCurrentContext().previousResults, SwiftMethod.class);
     clazz.nameSpace = String.join("_", rootModel.getPackageNames());
-    clazz.structs = getAllOfType(getCurrentContext().previousResults, SwiftStruct.class);
+    clazz.structs = getAllOfType(getCurrentContext().previousResults, SwiftContainerType.class);
     clazz.enums = getAllOfType(getCurrentContext().previousResults, SwiftEnum.class);
+    clazz.cInstance = bridgeRules.getInterfaceName(francaInterface);
+    if (!clazz.isStatic()) {
+      clazz.implementsProtocols = Collections.singletonList(clazz.name);
+      clazz.cInstanceRef = bridgeRules.getInstanceRefType(rootModel.getFrancaTypeCollection());
+    }
     SwiftFile file = new SwiftFile();
     file.classes.add(clazz);
     storeResult(file);
@@ -76,11 +85,11 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FStructType francaStruct) {
-    SwiftStruct swiftStruct = new SwiftStruct(SwiftNameRules.getStructName(francaStruct.getName()));
-    CBridgeNameRules bridgeRules = new CBridgeNameRules();
+    SwiftContainerType swiftStruct =
+        new SwiftContainerType(SwiftNameRules.getStructName(francaStruct.getName()));
     String comment = CppCommentParser.parse(francaStruct).getMainBodyText();
     swiftStruct.comment = comment != null ? comment : "";
-    swiftStruct.fields = getAllOfType(getCurrentContext().previousResults, SwiftStructField.class);
+    swiftStruct.fields = getAllOfType(getCurrentContext().previousResults, SwiftField.class);
     swiftStruct.cPrefix = bridgeRules.getStructBaseName(francaStruct);
     swiftStruct.cType = bridgeRules.getStructRefType(francaStruct);
 
@@ -102,8 +111,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FField francaField) {
-    SwiftStructField structField =
-        new SwiftStructField(
+    SwiftField structField =
+        new SwiftField(
             francaField.getName(), SwiftTypeMapper.mapType(rootModel, francaField.getType()));
     storeResult(structField);
     super.finishBuilding(francaField);
@@ -144,8 +153,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String comment = CppCommentParser.parse(francaMethod).getMainBodyText();
     method.comment = comment != null ? comment : "";
     method.isStatic = rootModel.isStatic(francaMethod);
-    CBridgeNameRules cbridgeNameRules = new CBridgeNameRules();
-    method.cBaseName = cbridgeNameRules.getMethodName(francaMethod);
+    method.cBaseName = bridgeRules.getMethodName(francaMethod);
     storeResult(method);
     super.finishBuilding(francaMethod);
   }

@@ -27,15 +27,7 @@ import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.swift.SwiftClass;
-import com.here.ivi.api.model.swift.SwiftEnum;
-import com.here.ivi.api.model.swift.SwiftFile;
-import com.here.ivi.api.model.swift.SwiftInParameter;
-import com.here.ivi.api.model.swift.SwiftMethod;
-import com.here.ivi.api.model.swift.SwiftModelElement;
-import com.here.ivi.api.model.swift.SwiftParameter;
-import com.here.ivi.api.model.swift.SwiftStruct;
-import com.here.ivi.api.model.swift.SwiftType;
+import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
 import org.franca.core.franca.FArgument;
@@ -200,48 +192,8 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingCreatesInterface() {
-    SwiftMethod method = new SwiftMethod(FUNCTION_NAME);
-    contextStack.injectResult(method);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    List<SwiftFile> files = getResults(SwiftFile.class);
-    assertEquals(1, files.size());
-    List<SwiftClass> classes = files.get(0).classes;
-    assertEquals(1, classes.size());
-    SwiftClass clazz = classes.get(0);
-    assertEquals(1, clazz.methods.size());
-    assertSame(method, clazz.methods.get(0));
-    assertEquals(String.join("_", PACKAGES), clazz.nameSpace);
-  }
-
-  @Test
-  public void finishBuildingCreatesTypesFromInterface() {
-    SwiftStruct struct = new SwiftStruct(STRUCT_NAME);
-    SwiftEnum swiftEnum = new SwiftEnum("", "");
-    contextStack.injectResult(struct);
-    contextStack.injectResult(swiftEnum);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    List<SwiftFile> files = getResults(SwiftFile.class);
-    assertEquals(1, files.size());
-    SwiftFile file = files.get(0);
-
-    assertEquals("There should be no struct inside file", 0, file.structs.size());
-    assertEquals("There should be no enum inside file", 0, file.enums.size());
-    assertEquals("There should be one class inside file", 1, file.classes.size());
-    SwiftClass clazz = file.classes.get(0);
-    assertEquals("There should be one struct inside file", 1, clazz.structs.size());
-    assertSame(struct, clazz.structs.get(0));
-    assertEquals("There should be one enum inside file", 1, clazz.enums.size());
-    assertSame(swiftEnum, clazz.enums.get(0));
-  }
-
-  @Test
   public void finishBuildingCreatesTypesFromTypeCollection() {
-    SwiftStruct struct = new SwiftStruct(STRUCT_NAME);
+    SwiftContainerType struct = new SwiftContainerType(STRUCT_NAME);
     SwiftEnum swiftEnum = new SwiftEnum("", "");
     contextStack.injectResult(struct);
     contextStack.injectResult(swiftEnum);

@@ -16,7 +16,7 @@ import java.util.List;
 
 public final class SwiftFile extends SwiftModelElement {
   public List<SwiftClass> classes = new ArrayList<>();
-  public List<SwiftStruct> structs = new ArrayList<>();
+  public List<SwiftContainerType> structs = new ArrayList<>();
   public List<SwiftEnum> enums = new ArrayList<>();
 
   public SwiftFile() {
