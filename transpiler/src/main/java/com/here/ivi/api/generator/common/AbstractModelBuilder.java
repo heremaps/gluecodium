@@ -14,21 +14,7 @@ package com.here.ivi.api.generator.common;
 import com.here.ivi.api.common.CollectionsHelper;
 import java.util.Collections;
 import java.util.List;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FExpression;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
-import org.franca.core.franca.FUnionType;
+import org.franca.core.franca.*;
 
 @SuppressWarnings({"PMD.TooManyMethods"})
 public abstract class AbstractModelBuilder<E> implements ModelBuilder {
@@ -121,6 +107,11 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
+  public void startBuilding(FAttribute francaAttribute) {
+    openContext();
+  }
+
+  @Override
   public void finishBuilding(FInterface francaInterface) {
     closeContext();
   }
@@ -197,6 +188,11 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   @Override
   public void finishBuilding(FUnionType francaUnionType) {
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FAttribute francaAttribute) {
     closeContext();
   }
 

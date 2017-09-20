@@ -37,7 +37,7 @@ public final class JavaMethod extends JavaElement {
   public final List<JavaParameter> parameters = new LinkedList<>();
 
   public JavaMethod(final String name) {
-    this(name, new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
+    this(name, JavaPrimitiveType.VOID);
   }
 
   public JavaMethod(final String name, final JavaType returnType) {

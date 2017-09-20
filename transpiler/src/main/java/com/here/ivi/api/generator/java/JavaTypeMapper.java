@@ -42,7 +42,7 @@ public final class JavaTypeMapper {
               + fTypeRef);
     }
 
-    return new JavaPrimitiveType(Type.VOID);
+    return JavaPrimitiveType.VOID;
   }
 
   private static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
@@ -72,7 +72,7 @@ public final class JavaTypeMapper {
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return new JavaReferenceType(JavaReferenceType.Type.BYTE_ARRAY);
       default:
-        return new JavaPrimitiveType(Type.VOID);
+        return JavaPrimitiveType.VOID;
     }
   }
 

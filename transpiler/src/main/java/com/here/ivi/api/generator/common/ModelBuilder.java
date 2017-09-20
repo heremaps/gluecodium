@@ -11,21 +11,7 @@
 
 package com.here.ivi.api.generator.common;
 
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FExpression;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
-import org.franca.core.franca.FUnionType;
+import org.franca.core.franca.*;
 
 /** An interface for a model builder, used by @see FrancaTreeWalker. */
 @SuppressWarnings({"PMD.TooManyMethods"})
@@ -63,6 +49,8 @@ public interface ModelBuilder {
 
   void startBuilding(FUnionType francaUnionType);
 
+  void startBuilding(FAttribute francaAttribute);
+
   void finishBuilding(FInterface francaInterface);
 
   void finishBuilding(FTypeCollection francaTypeCollection);
@@ -94,4 +82,6 @@ public interface ModelBuilder {
   void finishBuilding(FExpression francaExpression);
 
   void finishBuilding(FUnionType francaUnionType);
+
+  void finishBuilding(FAttribute francaAttribute);
 }

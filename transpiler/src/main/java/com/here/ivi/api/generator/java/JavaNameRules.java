@@ -46,6 +46,14 @@ public final class JavaNameRules {
     return NameHelper.toLowerCamelCase(base);
   }
 
+  public static String getGetterName(final String base) {
+    return "get" + NameHelper.toUpperCamelCase(base);
+  }
+
+  public static String getSetterName(final String base) {
+    return "set" + NameHelper.toUpperCamelCase(base);
+  }
+
   public static String getArgumentName(final String base) {
     return NameHelper.toLowerCamelCase(base);
   }
