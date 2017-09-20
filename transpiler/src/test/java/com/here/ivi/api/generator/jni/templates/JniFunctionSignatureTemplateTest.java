@@ -42,7 +42,7 @@ public final class JniFunctionSignatureTemplateTest {
   @Test
   public void simpleJniMethodGenerationGeneration() {
     // Arrange
-    JniMethod jniMethod = new JniMethod("methodName", null, null, false);
+    JniMethod jniMethod = new JniMethod.Builder("methodName", null).build();
     jniContainer.add(jniMethod);
 
     String expected =
@@ -58,7 +58,7 @@ public final class JniFunctionSignatureTemplateTest {
   @Test
   public void complexJniMethodGenerationGeneration() {
     // Arrange
-    JniMethod jniMethod = new JniMethod("methodName", null, null, false);
+    JniMethod jniMethod = new JniMethod.Builder("methodName", null).build();
     jniMethod.owningContainer = jniContainer;
 
     jniMethod.parameters.add(

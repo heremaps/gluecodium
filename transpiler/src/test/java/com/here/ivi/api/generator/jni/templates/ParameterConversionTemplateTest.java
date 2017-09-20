@@ -82,7 +82,7 @@ public class ParameterConversionTemplateTest {
             + "            myParameter = *reinterpret_cast<MyCppClass*> (long_ptr_myParameter);\n"
             + "        }\n"
             + "    } else {\n"
-            + "        // TODO APIGEN-709: create cpp proxy for java object\n"
+            + "      ::createCppProxy<>( _jenv, jmyParameter, myParameter);\n"
             + "    }\n",
         generated);
   }

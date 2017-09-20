@@ -22,9 +22,18 @@ public final class JniNameRules {
   private static final String JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp";
   private static final String JNI_STRUCT_CONVERSION_NAME = "StructConversion";
   private static final String JNI_INSTANCE_CONVERSION_NAME = "InstanceConversion";
+  private static final String JNI_PROXY_CONVERSION_NAME = "ProxyConversion";
 
   public static String getHeaderFileName(JniContainer jniContainer) {
     return getJniClassFileName(jniContainer) + JNI_HEADER_FILE_SUFFIX;
+  }
+
+  public static String getCppProxyHeaderFileName(JniContainer jniContainer) {
+    return getJniClassFileName(jniContainer) + "CppProxy" + JNI_HEADER_FILE_SUFFIX;
+  }
+
+  public static String getCppProxyImplementationFileName(JniContainer jniContainer) {
+    return getJniClassFileName(jniContainer) + "CppProxy" + JNI_IMPLEMENTATION_FILE_SUFFIX;
   }
 
   public static String getImplementationFileName(JniContainer jniContainer) {
@@ -33,6 +42,10 @@ public final class JniNameRules {
 
   public static String getConversionHeaderFileName() {
     return getJniPathPrefix() + JNI_STRUCT_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
+  }
+
+  public static String getProxyConversionHeaderFileName() {
+    return getJniPathPrefix() + JNI_PROXY_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
   }
 
   public static String getConversionImplementationFileName() {

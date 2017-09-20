@@ -37,7 +37,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class JavaNativeInterfacesGeneratorTest {
 
   private static final int MAIN_FILES_COUNT = 2;
-  private static final int MAIN_FILES_WITH_INSTANCES_COUNT = 4;
+  private static final int MAIN_FILES_WITH_INSTANCES_COUNT = 7;
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
@@ -58,6 +58,9 @@ public class JavaNativeInterfacesGeneratorTest {
     when(JniNameRules.getConversionImplementationFileName()).thenReturn("");
     when(JniNameRules.getInstanceConversionHeaderFileName()).thenReturn("");
     when(JniNameRules.getInstanceConversionImplementationFileName()).thenReturn("");
+    when(JniNameRules.getCppProxyHeaderFileName(any())).thenReturn("");
+    when(JniNameRules.getCppProxyImplementationFileName(any())).thenReturn("");
+    when(JniNameRules.getProxyConversionHeaderFileName()).thenReturn("");
   }
 
   @Test
@@ -96,5 +99,11 @@ public class JavaNativeInterfacesGeneratorTest {
     TemplateEngine.render(eq("jni/InstanceConversionHeader"), any());
     PowerMockito.verifyStatic();
     TemplateEngine.render(eq("jni/InstanceConversionImplementation"), any());
+    PowerMockito.verifyStatic();
+    TemplateEngine.render(eq("jni/CppProxyHeader"), any());
+    PowerMockito.verifyStatic();
+    TemplateEngine.render(eq("jni/CppProxyImplementation"), any());
+    PowerMockito.verifyStatic();
+    TemplateEngine.render(eq("jni/ProxyGeneratorHeader"), any());
   }
 }

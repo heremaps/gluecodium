@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.jni;
 
+import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.jni.JniTypeNameMapper;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
@@ -21,9 +22,11 @@ public final class JniType implements JniElement {
   public final String name;
   public final String cppName;
   public final String javaName;
+  public final String jniTypeSignature;
   public final boolean isInstance;
 
   public final boolean isComplex;
+  public final boolean refersToValueType;
 
   public static JniType createType(final JavaType javaType, final CppTypeRef cppType) {
     return createType(javaType, cppType, false);
@@ -45,5 +48,38 @@ public final class JniType implements JniElement {
     this.javaName = javaType.name;
     this.isComplex = !(javaType instanceof JavaPrimitiveType);
     this.isInstance = isInstance;
+    this.refersToValueType = cppType.refersToValueType();
+    if (javaType instanceof JavaPrimitiveType) {
+      jniTypeSignature = createVMTypeSignature((JavaPrimitiveType) javaType);
+    } else {
+      //TODO APIGEN-759: support creating signatures for complex types
+      jniTypeSignature = "";
+    }
+  }
+
+  private static String createVMTypeSignature(JavaPrimitiveType primitiveType) {
+    switch (primitiveType.type) {
+      case INT:
+        return "I";
+      case BOOL:
+        return "Z";
+      case BYTE:
+        return "B";
+      case CHAR:
+        return "C";
+      case LONG:
+        return "J";
+      case VOID:
+        return "V";
+      case FLOAT:
+        return "F";
+      case SHORT:
+        return "S";
+      case DOUBLE:
+        return "D";
+      default:
+        throw new TranspilerExecutionException(
+            "invalid java primitive type: " + primitiveType.type);
+    }
   }
 }
