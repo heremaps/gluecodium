@@ -84,6 +84,9 @@ else()
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManager.fidl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManagerFactory.fidl)
         list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManagerFactory.fdepl)
+        #TODO: These excludes can be removed once ios platforms support listeners (APIGEN-515,516)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fidl)
+        list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/CalculatorListener.fidl)
     endif()
 
     #TODO: These excludes can be removed once both platforms support nested instances (APIGEN-205, APIGEN-196)
@@ -96,9 +99,7 @@ else()
     list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldComplexTypes.fidl)
     list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldComplexTypes.fdepl)
 
-    #TODO: These excludes can be removed once both platforms support listeners (APIGEN-515,516,517,518)
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fidl)
-    list(REMOVE_ITEM FRANCA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/CalculatorListener.fidl)
+
 
     file(COPY ${FRANCA_FILES} DESTINATION fidl-supported-features-only)
     apigen_transpile(hello
