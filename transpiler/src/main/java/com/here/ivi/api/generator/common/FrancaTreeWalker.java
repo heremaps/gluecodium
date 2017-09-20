@@ -119,7 +119,11 @@ public class FrancaTreeWalker {
     EList<FAttribute> attributes = francaInterface.getAttributes();
     if (attributes != null) {
       for (FAttribute attribute : attributes) {
-        walk(attribute, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+        walk(
+            attribute,
+            ModelBuilder::startBuilding,
+            ModelBuilder::finishBuilding,
+            this::walkChildNodes);
       }
     }
     walkChildNodes((FTypeCollection) francaInterface);
