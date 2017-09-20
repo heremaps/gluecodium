@@ -33,7 +33,8 @@ public final class JavaEnumTemplateTest {
   public void generate_simple() {
     // Arrange
     JavaEnum javaEnum = new JavaEnum("MyEnum");
-    javaEnum.items = Arrays.asList(new JavaEnumItem("FooName"), new JavaEnumItem("BarName"));
+    javaEnum.items.add(new JavaEnumItem("FooName"));
+    javaEnum.items.add(new JavaEnumItem("BarName"));
     String expected = "enum MyEnum {\n" + "    FooName,\n" + "    BarName,\n" + "}";
 
     // Act
@@ -48,10 +49,9 @@ public final class JavaEnumTemplateTest {
     // Arrange
     JavaEnum javaEnum = new JavaEnum("MyEnum");
     javaEnum.comment = "A test enum";
-    javaEnum.items =
-        Arrays.asList(
-            new JavaEnumItem("FooName", new JavaValue("FooValue")),
-            new JavaEnumItem("BarName", new JavaValue("BarValue")));
+    javaEnum.items.add(new JavaEnumItem("FooName", new JavaValue("FooValue")));
+    javaEnum.items.add(new JavaEnumItem("BarName", new JavaValue("BarValue")));
+
     String expected =
         "/**\n"
             + " * A test enum\n"
@@ -74,10 +74,9 @@ public final class JavaEnumTemplateTest {
     JavaEnum javaEnum = new JavaEnum("MyEnum");
     javaEnum.javaPackage = new JavaPackage(Arrays.asList("com", "here", "enums", "example"));
     javaEnum.comment = "A test enum";
-    javaEnum.items =
-        Arrays.asList(
-            new JavaEnumItem("FooName", new JavaValue("FooValue")),
-            new JavaEnumItem("BarName", new JavaValue("BarValue")));
+    javaEnum.items.add(new JavaEnumItem("FooName", new JavaValue("FooValue")));
+    javaEnum.items.add(new JavaEnumItem("BarName", new JavaValue("BarValue")));
+
     String expected =
         "package com.here.enums.example;\n"
             + "\n"

@@ -13,6 +13,7 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,7 +58,13 @@ public abstract class JavaTopLevelElement extends JavaElement {
   }
 
   public Set<JavaImport> getImports() {
-    Set<JavaImport> imports = new LinkedHashSet<>(JavaElements.collectImports(this));
+    Set<JavaImport> imports =
+        streamRecursive()
+            .filter(javaNamedEntity -> javaNamedEntity instanceof JavaElementWithImports)
+            .map(JavaElementWithImports.class::cast)
+            .map(element -> element.imports)
+            .flatMap(Set::stream)
+            .collect(Collectors.toCollection(TreeSet::new));
     imports.addAll(
         parentInterfaces
             .stream()
