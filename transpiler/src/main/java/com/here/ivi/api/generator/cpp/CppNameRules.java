@@ -38,6 +38,14 @@ public final class CppNameRules {
     return NameHelper.toLowerCamelCase(base); // doStuff
   }
 
+  public static String getGetterName(String base) {
+    return "get" + NameHelper.toUpperCamelCase(base);
+  }
+
+  public static String getSetterName(String base) {
+    return "set" + NameHelper.toUpperCamelCase(base);
+  }
+
   public static String getEnumName(String base) {
     return NameHelper.toUpperCamelCase(base); // MyEnum
   }
