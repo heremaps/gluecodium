@@ -86,7 +86,9 @@ public class CppTypeInfo {
                     resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER)))),
         singletonList(""),
         handleName + "{ new " + rules.getBaseApiStructName(structType) + "(%s)}",
-        new CType(handleName),
+        new CType(
+            handleName,
+            singletonList(resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER))),
         TypeCategory.STRUCT,
         asList(
             resolver.resolveInclude(structType, HeaderType.CBRIDGE_PRIVATE_HEADER),
