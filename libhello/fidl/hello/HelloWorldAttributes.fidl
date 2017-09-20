@@ -11,24 +11,18 @@
 
 package hello
 
-<** @description:
-    This interfaces checks that using unsupported features does not break the build.
-    Currently these are Broadcasts and integer ranges.
-**>
-interface UnsupportedFeatures {
+interface HelloWorldAttributes {
 
     version {
         major 0
         minor 1
     }
 
-    <** @description:
-    Example for currently unsupported broadcasts feature
-    **>
-    broadcast buttonClicked {
-        out {
-            Int32 id
-            Boolean isLongPress
-        }
+    struct ExampleStruct {
+        Double value
     }
+
+    attribute UInt32 builtInTypeAttribute
+    attribute Float readonlyAttribute readonly
+    attribute ExampleStruct structAttribute
 }
