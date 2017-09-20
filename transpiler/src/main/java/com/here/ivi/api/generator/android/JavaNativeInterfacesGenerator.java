@@ -86,6 +86,8 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
 
     addInstanceConversionFiles(jniContainers, results);
 
+    addCppProxyFiles(jniContainers, results);
+
     return results;
   }
 
@@ -145,6 +147,57 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
         new GeneratedFile(
             TemplateEngine.render("jni/InstanceConversionImplementation", instanceData),
             JniNameRules.getInstanceConversionImplementationFileName()));
+  }
+
+  private void addCppProxyFiles(
+      final List<JniContainer> jniContainers, final List<GeneratedFile> results) {
+
+    //TODO APIGEN-759: remove this filter when support for non listener classes is added
+    List<JniContainer> listeners =
+        jniContainers
+            .stream()
+            .filter(container -> isListenerTakingPrimitiveTypesOnly(container))
+            .collect(Collectors.toCollection(ArrayList::new));
+
+    List<String> proxyIncludes = new LinkedList<>();
+
+    for (JniContainer jniContainer : listeners) {
+      results.add(
+          new GeneratedFile(
+              TemplateEngine.render("jni/CppProxyHeader", jniContainer),
+              JniNameRules.getCppProxyHeaderFileName(jniContainer)));
+
+      String headerInclude =
+          "\n#include \"" + JniNameRules.getCppProxyHeaderFileName(jniContainer) + "\"\n";
+
+      proxyIncludes.add(headerInclude);
+
+      results.add(
+          new GeneratedFile(
+              headerInclude + TemplateEngine.render("jni/CppProxyImplementation", jniContainer),
+              JniNameRules.getCppProxyImplementationFileName(jniContainer)));
+    }
+
+    Map<String, Iterable<?>> mustacheData = new HashMap<>();
+    mustacheData.put(INCLUDES_NAME, proxyIncludes);
+    mustacheData.put(MODELS_NAME, listeners);
+
+    results.add(
+        new GeneratedFile(
+            TemplateEngine.render("jni/ProxyGeneratorHeader", mustacheData),
+            JniNameRules.getProxyConversionHeaderFileName()));
+  }
+
+  private static boolean isListenerTakingPrimitiveTypesOnly(final JniContainer jniContainer) {
+
+    return jniContainer.isInstantiable
+        && jniContainer
+            .methods
+            .stream()
+            .allMatch(
+                method ->
+                    method.returnType == null
+                        && method.parameters.stream().noneMatch(param -> param.type.isComplex));
   }
 
   private List<Include> getIncludes(

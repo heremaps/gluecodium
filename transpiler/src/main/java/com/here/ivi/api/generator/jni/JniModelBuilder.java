@@ -94,9 +94,12 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JavaMethod javaMethod = javaBuilder.getFirstResult(JavaMethod.class);
     CppMethod cppMethod = cppBuilder.getFirstResult(CppMethod.class);
 
-    JniType returnType = JniType.createType(javaMethod.returnType, cppMethod.returnType);
-    boolean isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC);
-    JniMethod jniMethod = new JniMethod(javaMethod.name, cppMethod.name, returnType, isStatic);
+    JniMethod jniMethod =
+        new JniMethod.Builder(javaMethod.name, cppMethod.name)
+            .returnType(JniType.createType(javaMethod.returnType, cppMethod.returnType))
+            .staticFlag(cppMethod.specifiers.contains(CppMethod.Specifier.STATIC))
+            .constFlag(cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST))
+            .build();
     jniMethod.parameters.addAll(getPreviousResults(JniParameter.class));
 
     storeResult(jniMethod);
@@ -169,12 +172,12 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JavaMethod javaGetter = javaMethods.get(0);
     CppMethod cppGetter = cppMethods.get(0);
     JniType jniType = JniType.createType(javaGetter.returnType, cppGetter.returnType);
-    storeResult(new JniMethod(javaGetter.name, cppGetter.name, jniType, false));
+    storeResult(new JniMethod.Builder(javaGetter.name, cppGetter.name).returnType(jniType).build());
 
     if (!francaAttribute.isReadonly()) {
       JavaMethod javaSetter = javaMethods.get(1);
       CppMethod cppSetter = cppMethods.get(1);
-      JniMethod jniSetter = new JniMethod(javaSetter.name, cppSetter.name, null, false);
+      JniMethod jniSetter = new JniMethod.Builder(javaSetter.name, cppSetter.name).build();
 
       JavaParameter javaParameter = javaSetter.parameters.get(0);
       CppParameter cppParameter = cppSetter.parameters.get(0);

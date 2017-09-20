@@ -1,0 +1,39 @@
+{{>java/CopyrightHeader}}
+/**
+* Cpp proxy header for class {{cppName}}
+*/
+#pragma once
+
+#include <jni.h>
+{{#includes}}
+{{>common/Include}}
+{{/includes}}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+{{#cppNameSpaces}}
+namespace {{.}} {
+
+{{/cppNameSpaces}}
+
+class {{cppName}}CppProxy : private here::internal::CppProxyBase, public {{cppName}} {
+
+public:
+
+    {{cppName}}CppProxy( JNIEnv* _jenv, jobject _jobj );
+
+{{#methods}}
+    {{>jni/ReturnType}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;
+
+{{/methods}}
+};
+
+{{#cppNameSpaces}}
+}
+{{/cppNameSpaces}}
+
+#ifdef __cplusplus
+}
+#endif

@@ -1,0 +1,16 @@
+#pragma once
+
+{{#includes}}
+{{.}}
+{{/includes}}
+
+template<class T>
+inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<T>& result) {
+}
+
+{{#models}}
+template<>
+inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<{{#cppNameSpaces}}::{{.}}{{/cppNameSpaces}}{{#cppName}}::{{.}}{{/cppName}}>& result) {
+    result = std::make_shared<{{#cppNameSpaces}}::{{.}}{{/cppNameSpaces}}{{#cppName}}::{{.}}{{/cppName}}CppProxy>(env, obj);
+}
+{{/models}}

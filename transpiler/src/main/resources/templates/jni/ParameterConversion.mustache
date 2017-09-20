@@ -6,7 +6,7 @@
             {{name}} = *reinterpret_cast<{{type.cppName}}*> (long_ptr_{{name}});
         }
     } else {
-        // TODO APIGEN-709: create cpp proxy for java object
+      ::createCppProxy<>( _jenv, j{{name}}, {{name}});
     }
 {{/if}}
 {{#unless type.isInstance}}

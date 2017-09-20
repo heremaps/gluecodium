@@ -51,6 +51,9 @@ public final class JniImplementationTemplateTest {
       "    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::com::here::ivi::test::CppClass>*> (pointerAsLong);\n";
   private static final String CONVERSION_HEADER_INCLUDE =
       "#include \"" + JniNameRules.getConversionHeaderFileName() + "\"\n";
+
+  private static final String PROXYCONVERSION_HEADER_INCLUDE =
+      "#include " + "\"android/jni/ProxyConversion.h\"\n";
   private static final String INSTANCE_CONVERSION_HEADER_INCLUDE =
       "#include \"" + JniNameRules.getInstanceConversionHeaderFileName() + "\"\n";
   private static final String JNI_TEST_CLASS_METHOD_PREFIX = "Java_com_here_ivi_test_TestClass_";
@@ -69,7 +72,11 @@ public final class JniImplementationTemplateTest {
 
   private JniMethod createJniMethod(String methodName, boolean isStatic) {
 
-    JniMethod result = new JniMethod(methodName, methodName, jniIntType, isStatic);
+    JniMethod result =
+        new JniMethod.Builder(methodName, methodName)
+            .returnType(jniIntType)
+            .staticFlag(isStatic)
+            .build();
     result.parameters.add(new JniParameter(BASE_PARAMETER_NAME, jniIntType));
 
     return result;
@@ -77,7 +84,7 @@ public final class JniImplementationTemplateTest {
 
   private JniMethod createJniVoidMethod(String methodName, boolean isStatic) {
 
-    JniMethod result = new JniMethod(methodName, methodName, null, isStatic);
+    JniMethod result = new JniMethod.Builder(methodName, methodName).staticFlag(isStatic).build();
     result.parameters.add(new JniParameter(BASE_PARAMETER_NAME, jniIntType));
 
     return result;
@@ -144,6 +151,7 @@ public final class JniImplementationTemplateTest {
             + "#include \"base_api_header.h\"\n"
             + INSTANCE_CONVERSION_HEADER_INCLUDE
             + CONVERSION_HEADER_INCLUDE
+            + PROXYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + END_OF_FILE,
         generatedImplementation);
@@ -165,6 +173,7 @@ public final class JniImplementationTemplateTest {
             + JNI_HEADER_INCLUDE
             + INSTANCE_CONVERSION_HEADER_INCLUDE
             + CONVERSION_HEADER_INCLUDE
+            + PROXYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + END_OF_FILE,
         generatedImplementation);
@@ -181,6 +190,7 @@ public final class JniImplementationTemplateTest {
             + JNI_HEADER_INCLUDE
             + INSTANCE_CONVERSION_HEADER_INCLUDE
             + CONVERSION_HEADER_INCLUDE
+            + PROXYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("method1")
             + END_OF_FILE,
@@ -200,6 +210,7 @@ public final class JniImplementationTemplateTest {
             + JNI_HEADER_INCLUDE
             + INSTANCE_CONVERSION_HEADER_INCLUDE
             + CONVERSION_HEADER_INCLUDE
+            + PROXYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("method1")
             + expectedGeneratedJNIMethod("method2")
@@ -220,6 +231,7 @@ public final class JniImplementationTemplateTest {
             + JNI_HEADER_INCLUDE
             + INSTANCE_CONVERSION_HEADER_INCLUDE
             + CONVERSION_HEADER_INCLUDE
+            + PROXYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("testMethod", true, true)
             + END_OF_FILE,
@@ -237,6 +249,7 @@ public final class JniImplementationTemplateTest {
             + JNI_HEADER_INCLUDE
             + INSTANCE_CONVERSION_HEADER_INCLUDE
             + CONVERSION_HEADER_INCLUDE
+            + PROXYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("instanceMethod", false, false)
             + END_OF_FILE,
@@ -255,6 +268,7 @@ public final class JniImplementationTemplateTest {
             + JNI_HEADER_INCLUDE
             + INSTANCE_CONVERSION_HEADER_INCLUDE
             + CONVERSION_HEADER_INCLUDE
+            + PROXYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("instanceVoidMethod", false, true)
             + END_OF_FILE,
@@ -274,6 +288,7 @@ public final class JniImplementationTemplateTest {
             + JNI_HEADER_INCLUDE
             + INSTANCE_CONVERSION_HEADER_INCLUDE
             + CONVERSION_HEADER_INCLUDE
+            + PROXYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("instanceVoidMethod", false, true)
             + "\nvoid\n"

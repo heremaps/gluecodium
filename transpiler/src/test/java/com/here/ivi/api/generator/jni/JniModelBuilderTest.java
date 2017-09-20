@@ -139,7 +139,7 @@ public class JniModelBuilderTest {
 
   private JniMethod createJniMethod(JniContainer jniContainer) {
 
-    JniMethod result = new JniMethod(JAVA_VOID_METHOD_NAME, CPP_VOID_METHOD_NAME, null, false);
+    JniMethod result = new JniMethod.Builder(JAVA_VOID_METHOD_NAME, CPP_VOID_METHOD_NAME).build();
     result.owningContainer = jniContainer;
 
     return result;
@@ -205,6 +205,21 @@ public class JniModelBuilderTest {
     JniMethod jniMethod = modelBuilder.getFirstResult(JniMethod.class);
     assertNotNull(jniMethod);
     assertTrue(jniMethod.isStatic);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsConstMethods() {
+    contextStack.injectResult(jniParameter);
+    when(javaBuilder.getFirstResult(any())).thenReturn(createJavaMethod());
+    CppMethod cppMethod = createCppMethod();
+    cppMethod.qualifiers.add(CppMethod.Qualifier.CONST);
+    when(cppBuilder.getFirstResult(any())).thenReturn(cppMethod);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JniMethod jniMethod = modelBuilder.getFirstResult(JniMethod.class);
+    assertNotNull(jniMethod);
+    assertTrue(jniMethod.isConst);
   }
 
   @Test
