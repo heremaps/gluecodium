@@ -10,8 +10,15 @@
 {{/innerClasses}}
 {{#if extendsNativeBase}}
     protected {{name}}(final long nativeHandle) {
-        super(nativeHandle);
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
     }
+
+    private static native void disposeNativeHandle(long nativeHandle);
 {{/if}}
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}

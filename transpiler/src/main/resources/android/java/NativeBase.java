@@ -34,30 +34,39 @@ public abstract class NativeBase {
       Collections.newSetFromMap(new ConcurrentHashMap<Reference<?>, Boolean>());
 
   private static final ReferenceQueue<NativeBase> REFERENCE_QUEUE = new ReferenceQueue<>();
-
   private final long nativeHandle;
+
+  /**
+   * This interface is used by subclasses to provide dispose functionality without
+   * DisposableReference holding a reference to the instance of the subclass which would prevent
+   * garbage collection.
+   */
+  protected interface Disposer {
+    void disposeNative(long handle);
+  };
 
   private static class DisposableReference extends PhantomReference<NativeBase> {
     private final long nativePointer;
+    private final Disposer disposer;
 
-    private DisposableReference(final NativeBase disposable, final long nativePointer) {
+    private DisposableReference(
+        final NativeBase disposable, final long nativePointer, final Disposer disposer) {
       super(disposable, REFERENCE_QUEUE);
       this.nativePointer = nativePointer;
+      this.disposer = disposer;
       cleanUpQueue();
     }
 
     public void dispose() {
       REFERENCES.remove(this);
-      disposeNativeHandle(nativePointer);
+      disposer.disposeNative(nativePointer);
     }
   }
 
-  protected NativeBase(final long nativeHandle) {
+  protected NativeBase(final long nativeHandle, final Disposer disposer) {
     this.nativeHandle = nativeHandle;
-    REFERENCES.add(new DisposableReference(this, nativeHandle));
+    REFERENCES.add(new DisposableReference(this, nativeHandle, disposer));
   }
-
-  private static native void disposeNativeHandle(long nativeHandle);
 
   private static void cleanUpQueue() {
     Reference<?> reference;
