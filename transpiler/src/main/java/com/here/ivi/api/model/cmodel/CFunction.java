@@ -24,9 +24,9 @@ public final class CFunction extends CElement {
   public final List<? extends CParameter> parameters;
   public final CppTypeInfo returnType;
   public final String delegateCall;
-  public final Set<Include> delegateCallInclude;
-  public String functionName;
-  public CInParameter selfParameter;
+  public final Set<Include> delegateCallIncludes;
+  public final String functionName;
+  public final CInParameter selfParameter;
 
   public List<CParameter.SimpleParameter> getSignatureParameters() {
     Stream<? extends CParameter> stream =
@@ -38,55 +38,26 @@ public final class CFunction extends CElement {
         .collect(Collectors.toList());
   }
 
-  @SuppressWarnings({"ParameterNumber"})
-  public CFunction(
+  public static CFunctionBuilder builder(String name) {
+    return new CFunctionBuilder().name(name);
+  }
+
+  @lombok.Builder
+  protected CFunction(
       String name,
       List<? extends CParameter> parameters,
       CppTypeInfo returnType,
       String delegateCall,
-      Set<Include> delegateCallInclude) {
+      Set<Include> delegateCallIncludes,
+      String functionName,
+      CInParameter selfParameter) {
     super(name);
-    this.parameters = parameters;
-    this.returnType = returnType;
-    this.delegateCall = delegateCall;
-    this.delegateCallInclude = delegateCallInclude;
-  }
-
-  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-  public static class Builder {
-    private final String name;
-    private List<? extends CParameter> parameters = emptyList();
-    private CppTypeInfo returnType = new CppTypeInfo(CType.VOID);
-    private String delegateCall = "";
-    private Set<Include> delegateCallInclude = new LinkedHashSet<>();
-
-    public Builder(String name) {
-      this.name = name;
-    }
-
-    public CFunction.Builder parameters(List<? extends CParameter> params) {
-      this.parameters = params;
-      return this;
-    }
-
-    public CFunction.Builder returnType(CppTypeInfo returnTypeParam) {
-      this.returnType = returnTypeParam;
-      return this;
-    }
-
-    public CFunction.Builder delegate(String template) {
-      this.delegateCall = template;
-      return this;
-    }
-
-    public CFunction.Builder delegateCallIncludes(Set<Include> includes) {
-      this.delegateCallInclude = includes;
-      return this;
-    }
-
-    public CFunction build() {
-      return new CFunction(
-          this.name, this.parameters, this.returnType, this.delegateCall, this.delegateCallInclude);
-    }
+    this.parameters = parameters != null ? parameters : emptyList();
+    this.returnType = returnType != null ? returnType : new CppTypeInfo(CType.VOID);
+    this.delegateCall = delegateCall != null ? delegateCall : "";
+    this.delegateCallIncludes =
+        delegateCallIncludes != null ? delegateCallIncludes : new LinkedHashSet<>();
+    this.functionName = functionName;
+    this.selfParameter = selfParameter;
   }
 }

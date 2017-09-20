@@ -20,11 +20,11 @@ import org.junit.Test;
 
 public class CFunctionTest {
 
-  private CFunction.Builder builder;
+  private CFunction.CFunctionBuilder builder;
 
   @Before
   public void setUp() {
-    builder = new CFunction.Builder("FUNCTION_NAME");
+    builder = CFunction.builder("FUNCTION_NAME");
   }
 
   @Test
@@ -49,7 +49,7 @@ public class CFunctionTest {
 
   @Test
   public void providedDelegateCallTemplateIsPropagated() {
-    CFunction function = builder.delegate("delegateCall()").build();
+    CFunction function = builder.delegateCall("delegateCall()").build();
     assertEquals("delegateCall()", function.delegateCall);
   }
 }

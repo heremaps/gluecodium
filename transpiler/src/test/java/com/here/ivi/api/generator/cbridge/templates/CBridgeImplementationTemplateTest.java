@@ -57,7 +57,7 @@ public class CBridgeImplementationTemplateTest {
     CInterface cInterface = new CInterface("");
     cInterface.functions =
         Collections.singletonList(
-            new CFunction.Builder("functionName").delegate("functionDelegate").build());
+            CFunction.builder("functionName").delegateCall("functionDelegate").build());
     final String expected = "void functionName() {\n" + "    return functionDelegate();\n" + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -68,10 +68,10 @@ public class CBridgeImplementationTemplateTest {
     CInterface cInterface = new CInterface("");
     cInterface.functions =
         Collections.singletonList(
-            new CFunction.Builder("parameterFunctionName")
+            CFunction.builder("parameterFunctionName")
                 .parameters(
                     Collections.singletonList(new CParameter("one", new CppTypeInfo(CType.INT32))))
-                .delegate("delegator")
+                .delegateCall("delegator")
                 .build());
     final String expected =
         "void parameterFunctionName(int32_t one) {\n" + "    return delegator(one);\n" + "}\n";
@@ -85,9 +85,9 @@ public class CBridgeImplementationTemplateTest {
     final CParameter first = new CParameter("first", new CppTypeInfo(CType.INT16));
     final CParameter second = new CParameter("second", new CppTypeInfo(CType.DOUBLE));
     final CFunction doubleFunction =
-        new CFunction.Builder("doubleFunction")
+        CFunction.builder("doubleFunction")
             .parameters(Arrays.asList(first, second))
-            .delegate("namespacy::classy::doubleFunction")
+            .delegateCall("namespacy::classy::doubleFunction")
             .build();
     cInterface.functions = Collections.singletonList(doubleFunction);
     final String expected =
@@ -103,9 +103,9 @@ public class CBridgeImplementationTemplateTest {
     CInterface cInterface = new CInterface("");
     cInterface.functions =
         Collections.singletonList(
-            new CFunction.Builder("returner")
+            CFunction.builder("returner")
                 .returnType(new CppTypeInfo(CType.FLOAT))
-                .delegate("delegate")
+                .delegateCall("delegate")
                 .build());
     final String expected = "float returner() {\n" + "    return delegate();\n" + "}\n";
     final String generated = this.generate(cInterface);
@@ -193,12 +193,12 @@ public class CBridgeImplementationTemplateTest {
     CInterface cInterface = new CInterface("");
     cInterface.functions =
         Collections.singletonList(
-            new CFunction.Builder("parameterFunctionName")
+            CFunction.builder("parameterFunctionName")
                 .parameters(
                     Collections.singletonList(
                         new CParameter(
                             "one", new CppTypeInfo(new CType("ENUM"), TypeCategory.ENUM))))
-                .delegate("delegator")
+                .delegateCall("delegator")
                 .returnType(new CppTypeInfo(new CType("RET_ENUM"), TypeCategory.ENUM))
                 .build());
     final String expected =
