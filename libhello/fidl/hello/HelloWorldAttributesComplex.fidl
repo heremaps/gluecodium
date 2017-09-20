@@ -11,24 +11,18 @@
 
 package hello
 
-<** @description:
-    This interfaces checks that using unsupported features does not break the build.
-    Currently these are Broadcasts and integer ranges.
-**>
-interface UnsupportedFeatures {
+interface HelloWorldAttributesComplex {
 
     version {
         major 0
         minor 1
     }
 
-    <** @description:
-    Example for currently unsupported broadcasts feature
-    **>
-    broadcast buttonClicked {
-        out {
-            Int32 id
-            Boolean isLongPress
-        }
+    enumeration InternalError {
+        ERROR_NONE
+        ERROR_FATAL = 999
     }
+
+    attribute String[] arrayAttribute
+    attribute InternalError complexTypeAttribute
 }
