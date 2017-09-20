@@ -15,7 +15,9 @@ import java.util.EnumSet;
 import java.util.stream.Stream;
 
 public final class JavaPrimitiveType extends JavaType {
+
   public static final EnumSet<Type> TYPES = EnumSet.allOf(Type.class);
+  public static final JavaPrimitiveType VOID = new JavaPrimitiveType(JavaPrimitiveType.Type.VOID);
 
   public enum Type {
     VOID("void"),

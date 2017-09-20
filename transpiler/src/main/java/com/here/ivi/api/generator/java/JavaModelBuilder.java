@@ -150,12 +150,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FTypedElement francaTypedElement) {
 
-    // currently franca attributes are ignored for android generator
-    if (francaTypedElement instanceof FAttribute) {
-      closeContext();
-      return;
-    }
-
     JavaType javaType =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
     String fieldName = JavaNameRules.getFieldName(francaTypedElement.getName());
@@ -185,6 +179,32 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FTypeRef francaTypeRef) {
 
     storeResult(JavaTypeMapper.map(basePackage, francaTypeRef));
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FAttribute francaAttribute) {
+
+    JavaType javaType =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
+
+    String getterName = JavaNameRules.getGetterName(francaAttribute.getName());
+
+    JavaMethod getterMethod = new JavaMethod(getterName, javaType);
+    getterMethod.visibility = JavaVisibility.PUBLIC;
+
+    storeResult(getterMethod);
+
+    if (!francaAttribute.isReadonly()) {
+      String setterName = JavaNameRules.getSetterName(francaAttribute.getName());
+
+      JavaMethod setterMethod = new JavaMethod(setterName);
+      setterMethod.visibility = JavaVisibility.PUBLIC;
+
+      setterMethod.parameters.add(new JavaParameter(javaType, "value"));
+      storeResult(setterMethod);
+    }
+
     closeContext();
   }
 

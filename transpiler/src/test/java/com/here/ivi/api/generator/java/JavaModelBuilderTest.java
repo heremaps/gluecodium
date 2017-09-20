@@ -13,9 +13,9 @@ package com.here.ivi.api.generator.java;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.test.ArrayEList;
@@ -49,13 +49,12 @@ public class JavaModelBuilderTest {
   private static final String CLASS_NAME = "classy";
   private static final String METHOD_NAME = "methodical";
   private static final String PARAMETER_NAME = "curvature";
-  private static final String CONSTANT_NAME = "permanent";
   private static final String FIELD_NAME = "flowers";
-  private static final String STRUCT_NAME = "nonsense";
+  private static final String ATTRIBUTE_NAME = "tribute";
+
   private static final List<String> BASE_PACKAGE_NAMES =
       Arrays.asList("these", "are", "prefix", "packages");
   private static final JavaPackage BASE_PACKAGE = new JavaPackage(BASE_PACKAGE_NAMES);
-  private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
 
   private final MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
@@ -69,6 +68,7 @@ public class JavaModelBuilderTest {
   @Mock private FConstantDef francaConstant;
   @Mock private FTypedElement francaTypedElement;
   @Mock private FStructType francaStructType;
+  @Mock private FAttribute francaAttribute;
 
   private final EList<FArgument> arguments = new ArrayEList<>();
 
@@ -87,9 +87,10 @@ public class JavaModelBuilderTest {
     when(rootModel.getFrancaModel().getName()).thenReturn("");
     when(rootModel.getPackageNames()).thenReturn(Collections.emptyList());
 
-    when(francaConstant.getName()).thenReturn(CONSTANT_NAME);
+    when(francaConstant.getName()).thenReturn("permanent");
     when(francaTypedElement.getName()).thenReturn(FIELD_NAME);
-    when(francaStructType.getName()).thenReturn(STRUCT_NAME);
+    when(francaStructType.getName()).thenReturn("nonsense");
+    when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
     when(francaMethod.getOutArgs()).thenReturn(arguments);
@@ -186,7 +187,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionReadsClasses() {
-    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+    when(francaTypeCollection.getName()).thenReturn("TestTypeCollection");
     final JavaClass firstInnerClass = new JavaClass(CLASS_NAME);
     final JavaClass secondInnerClass = new JavaClass(CLASS_NAME + "Sibling");
     contextStack.injectResult(firstInnerClass);
@@ -207,7 +208,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionPutsClassesInRightPackage() {
-    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+    when(francaTypeCollection.getName()).thenReturn("TestTypeCollection");
     contextStack.injectResult(new JavaClass(CLASS_NAME));
 
     modelBuilder.finishBuilding(francaTypeCollection);
@@ -225,7 +226,7 @@ public class JavaModelBuilderTest {
     JavaConstant javaConstant = modelBuilder.getFirstResult(JavaConstant.class);
     assertNotNull(javaConstant);
     assertNotNull(javaConstant);
-    assertEquals(CONSTANT_NAME, javaConstant.name.toLowerCase());
+    assertEquals("permanent", javaConstant.name.toLowerCase());
   }
 
   @Test
@@ -269,21 +270,12 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaAttributeIsIgnored() {
-    FAttribute francaAttribute = mock(FAttribute.class);
-
-    modelBuilder.finishBuilding(francaAttribute);
-
-    assertTrue(modelBuilder.getResults().isEmpty());
-  }
-
-  @Test
   public void finishBuildingFrancaStructType() {
     modelBuilder.finishBuilding(francaStructType);
 
     JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertEquals(STRUCT_NAME, javaClass.name.toLowerCase());
+    assertEquals("nonsense", javaClass.name.toLowerCase());
   }
 
   @Test
@@ -309,5 +301,64 @@ public class JavaModelBuilderTest {
 
     PowerMockito.verifyStatic();
     JavaTypeMapper.map(BASE_PACKAGE, francaTypeRef);
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeCreatesGetter() {
+    modelBuilder.finishBuilding(francaAttribute);
+
+    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertEquals("get" + ATTRIBUTE_NAME, javaMethod.name.toLowerCase());
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeCreatesSetter() {
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JavaMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getResults(), JavaMethod.class);
+    assertEquals(2, methods.size());
+    assertEquals("set" + ATTRIBUTE_NAME, methods.get(1).name.toLowerCase());
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeReadonly() {
+    when(francaAttribute.isReadonly()).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JavaMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getResults(), JavaMethod.class);
+    assertEquals(1, methods.size());
+    assertEquals("get" + ATTRIBUTE_NAME, methods.get(0).name.toLowerCase());
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeReadsTypeIntoGetter() {
+    contextStack.injectResult(javaCustomType);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertEquals(javaCustomType, javaMethod.returnType);
+    assertTrue(javaMethod.parameters.isEmpty());
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeReadsTypeIntoSetter() {
+    contextStack.injectResult(javaCustomType);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JavaMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getResults(), JavaMethod.class);
+    assertEquals(2, methods.size());
+
+    JavaMethod javaMethod = methods.get(1);
+    assertEquals(JavaPrimitiveType.VOID, javaMethod.returnType);
+    assertFalse(javaMethod.parameters.isEmpty());
+    assertEquals(javaCustomType, javaMethod.parameters.get(0).type);
   }
 }
