@@ -106,7 +106,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     List<CppStruct> structs =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppStruct.class);
-    TopologicalSort.sort(structs).forEach(struct -> storeResult(struct));
+    TopologicalSort.sort(structs).forEach(this::storeResult);
 
     closeContext();
   }
@@ -237,6 +237,38 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     storeResult(buildCompoundType(francaUnionType, true));
     closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FAttribute francaAttribute) {
+
+    CppTypeRef cppTypeRef =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    if (francaAttribute.isArray()) {
+      cppTypeRef = CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, cppTypeRef);
+    }
+
+    String getterName = CppNameRules.getGetterName(francaAttribute.getName());
+    CppMethod getterMethod = buildAccessorMethod(getterName, cppTypeRef);
+    storeResult(getterMethod);
+
+    if (!francaAttribute.isReadonly()) {
+      String setterName = CppNameRules.getSetterName(francaAttribute.getName());
+      CppMethod setterMethod = buildAccessorMethod(setterName, CppPrimitiveTypeRef.VOID);
+      setterMethod.parameters.add(new CppParameter("value", cppTypeRef));
+      storeResult(setterMethod);
+    }
+
+    closeContext();
+  }
+
+  private CppMethod buildAccessorMethod(String getterName, CppTypeRef cppTypeRef) {
+
+    CppMethod getterMethod = new CppMethod.Builder(getterName).returnType(cppTypeRef).build();
+    getterMethod.specifiers.add(CppMethod.Specifier.VIRTUAL);
+    getterMethod.qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
+
+    return getterMethod;
   }
 
   private CppMethod buildCppMethod(
