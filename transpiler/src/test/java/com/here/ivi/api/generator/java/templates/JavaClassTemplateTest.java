@@ -321,10 +321,15 @@ public final class JavaClassTemplateTest {
             + " */\n"
             + "class ExampleClass extends NativeBase {\n"
             + "    protected ExampleClass(final long nativeHandle) {\n"
-            + "        super(nativeHandle);\n"
-            + "    }\n"
+            + "        super(nativeHandle, new Disposer() {\n"
+            + "            @Override\n"
+            + "            public void disposeNative(long handle) {\n"
+            + "                disposeNativeHandle(handle);\n"
+            + "            }\n"
+            + "        });\n"
+            + "    }\n\n"
+            + "    private static native void disposeNativeHandle(long nativeHandle);\n"
             + "}";
-
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
