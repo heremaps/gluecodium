@@ -42,8 +42,7 @@ public final class JniFunctionSignatureTemplateTest {
   @Test
   public void simpleJniMethodGenerationGeneration() {
     // Arrange
-    JniMethod jniMethod = new JniMethod();
-    jniMethod.javaMethodName = "methodName";
+    JniMethod jniMethod = new JniMethod("methodName", null, null, false);
     jniContainer.add(jniMethod);
 
     String expected = "Java_com_here_jni_test_ClassName_methodName(JNIEnv* env, jobject jinstance)";
@@ -58,9 +57,8 @@ public final class JniFunctionSignatureTemplateTest {
   @Test
   public void complexJniMethodGenerationGeneration() {
     // Arrange
-    JniMethod jniMethod = new JniMethod();
+    JniMethod jniMethod = new JniMethod("methodName", null, null, false);
     jniMethod.owningContainer = jniContainer;
-    jniMethod.javaMethodName = "methodName";
 
     jniMethod.parameters.add(
         new JniParameter(

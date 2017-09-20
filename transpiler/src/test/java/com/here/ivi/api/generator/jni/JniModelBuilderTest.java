@@ -145,10 +145,7 @@ public class JniModelBuilderTest {
 
   private JniMethod createJniMethod(JniContainer jniContainer) {
 
-    JniMethod result = new JniMethod();
-    result.returnType = null;
-    result.javaMethodName = JAVA_VOID_METHOD_NAME;
-    result.cppMethodName = CPP_VOID_METHOD_NAME;
+    JniMethod result = new JniMethod(JAVA_VOID_METHOD_NAME, CPP_VOID_METHOD_NAME, null, false);
     result.owningContainer = jniContainer;
 
     return result;

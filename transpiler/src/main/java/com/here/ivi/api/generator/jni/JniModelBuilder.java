@@ -92,10 +92,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             cppClass.name,
             cppClass.hasInstanceMethods());
     List<JniElement> previousResults = getCurrentContext().previousResults;
-    CollectionsHelper.getStreamOfType(previousResults, JniStruct.class)
-        .forEach(struct -> jniContainer.add(struct));
-    CollectionsHelper.getStreamOfType(previousResults, JniMethod.class)
-        .forEach(method -> jniContainer.add(method));
+    CollectionsHelper.getStreamOfType(previousResults, JniStruct.class).forEach(jniContainer::add);
+    CollectionsHelper.getStreamOfType(previousResults, JniMethod.class).forEach(jniContainer::add);
     storeResult(jniContainer);
     closeContext();
   }
@@ -106,11 +104,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JavaMethod javaMethod = javaBuilder.getFirstResult(JavaMethod.class);
     CppMethod cppMethod = cppBuilder.getFirstResult(CppMethod.class);
 
-    JniMethod jniMethod = new JniMethod();
-    jniMethod.returnType = JniType.createType(javaMethod.returnType, cppMethod.returnType);
-    jniMethod.javaMethodName = javaMethod.getName();
-    jniMethod.cppMethodName = cppMethod.name;
-    jniMethod.isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC);
+    JniType returnType = JniType.createType(javaMethod.returnType, cppMethod.returnType);
+    boolean isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC);
+    JniMethod jniMethod = new JniMethod(javaMethod.getName(), cppMethod.name, returnType, isStatic);
     jniMethod.parameters.addAll(
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniParameter.class));
 
@@ -164,6 +160,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
+
     JniStruct jniStruct =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JniStruct.class);
     List<String> structsPackage =
@@ -173,7 +170,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JniContainer jniContainer =
         JniContainer.createTypeCollectionContainer(structsPackage, cppNameSpace);
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
-        .forEach(struct -> jniContainer.add(struct));
+        .forEach(jniContainer::add);
 
     storeResult(jniContainer);
     closeContext();
