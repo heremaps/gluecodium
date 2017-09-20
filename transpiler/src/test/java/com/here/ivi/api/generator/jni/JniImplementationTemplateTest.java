@@ -33,8 +33,9 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JniImplementationTemplateTest {
-  private static final List<Include> INCLUDE_LIST =
-      Collections.singletonList(Include.createInternalInclude("cpp/libhello/TestClass.h"));
+
+  private static final String TEMPLATE_NAME = "jni/Implementation";
+
   private static final String BASE_PARAMETER_NAME = "intParam";
   private static final String JNI_PARAMETER_NAME = "j" + BASE_PARAMETER_NAME;
   private static final String COPYRIGHT_NOTICE =
@@ -49,36 +50,36 @@ public final class JniImplementationTemplateTest {
       "    auto pointerAsLong = get_long_field(env, env->GetObjectClass(jinstance), jinstance, \"nativeHandle\");\n";
   private static final String CAST_LONG_TO_SHARED_PTR =
       "    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::com::here::ivi::test::CppClass>*> (pointerAsLong);\n";
-  public static final String CONVERSION_HEADER_INCLUDE =
+  private static final String CONVERSION_HEADER_INCLUDE =
       "#include \"" + JniNameRules.getConversionHeaderFileName() + "\"\n";
-  public static final String INSTANCE_CONVERSION_HEADER_INCLUDE =
+  private static final String INSTANCE_CONVERSION_HEADER_INCLUDE =
       "#include \"" + JniNameRules.getInstanceConversionHeaderFileName() + "\"\n";
-  public static final String JNI_TEST_CLASS_METHOD_PREFIX = "Java_com_here_ivi_test_TestClass_";
+  private static final String JNI_TEST_CLASS_METHOD_PREFIX = "Java_com_here_ivi_test_TestClass_";
 
-  private JniContainer jniContainer;
+  private final JniType jniIntType =
+      JniType.createType(new JavaPrimitiveType(Type.INT), CppPrimitiveTypeRef.INT8);
+
+  private final JniContainer jniContainer =
+      JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
 
   @Before
   public void setUp() {
-    jniContainer = createJniContainer();
+    jniContainer.includes.addAll(
+        Collections.singletonList(Include.createInternalInclude("cpp/libhello/TestClass.h")));
   }
 
-  private static JniContainer createJniContainer() {
-    JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
-    jniContainer.includes.addAll(INCLUDE_LIST);
+  private JniMethod createJniMethod(String methodName, boolean isStatic) {
 
-    return jniContainer;
+    JniMethod result = new JniMethod(methodName, methodName, jniIntType, isStatic);
+    result.parameters.add(new JniParameter(BASE_PARAMETER_NAME, jniIntType));
+
+    return result;
   }
 
-  private static JniMethod createJniMethod(String methodName, boolean isStatic) {
+  private JniMethod createJniVoidMethod(String methodName, boolean isStatic) {
 
-    JniMethod result = new JniMethod();
-    result.javaMethodName = methodName;
-    result.cppMethodName = methodName;
-    result.returnType =
-        JniType.createType(new JavaPrimitiveType(Type.INT), CppPrimitiveTypeRef.INT8);
-    result.parameters.add(new JniParameter(BASE_PARAMETER_NAME, result.returnType));
-    result.isStatic = isStatic;
+    JniMethod result = new JniMethod(methodName, methodName, null, isStatic);
+    result.parameters.add(new JniParameter(BASE_PARAMETER_NAME, jniIntType));
 
     return result;
   }
@@ -124,7 +125,7 @@ public final class JniImplementationTemplateTest {
   public void generateWithEmptyIncludes() {
     jniContainer.includes.clear();
 
-    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertTrue(
         "At least the JNI header should be included, otherwise the JNI implementation "
@@ -136,7 +137,7 @@ public final class JniImplementationTemplateTest {
   public void generateWithMultipleIncludes() {
     jniContainer.includes.add(Include.createInternalInclude("base_api_header.h"));
 
-    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -151,14 +152,14 @@ public final class JniImplementationTemplateTest {
 
   @Test
   public void generateWithNullJniContainer() {
-    String generatedImplementation = TemplateEngine.render("jni/Implementation", null);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, null);
 
     assertTrue(generatedImplementation.isEmpty());
   }
 
   @Test
   public void generateWithNoMethods() {
-    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -171,10 +172,10 @@ public final class JniImplementationTemplateTest {
   }
 
   @Test
-  public void generateWithOneMethods() {
+  public void generateWithOneMethod() {
 
     jniContainer.add(createJniMethod("method1", true));
-    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -193,7 +194,7 @@ public final class JniImplementationTemplateTest {
     jniContainer.add(createJniMethod("method1", true));
     jniContainer.add(createJniMethod("method2", true));
 
-    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -210,11 +211,10 @@ public final class JniImplementationTemplateTest {
   @Test
   public void generateVoidMethod() {
 
-    JniMethod voidMethod = createJniMethod("testMethod", true);
-    voidMethod.returnType = null;
+    JniMethod voidMethod = createJniVoidMethod("testMethod", true);
     jniContainer.add(voidMethod);
 
-    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -231,7 +231,7 @@ public final class JniImplementationTemplateTest {
   public void generateInstanceMethod() {
     jniContainer.add(createJniMethod("instanceMethod", false));
 
-    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -246,11 +246,10 @@ public final class JniImplementationTemplateTest {
 
   @Test
   public void generateInstanceVoidMethod() {
-    JniMethod instanceVoidMethod = createJniMethod("instanceVoidMethod", false);
-    instanceVoidMethod.returnType = null;
+    JniMethod instanceVoidMethod = createJniVoidMethod("instanceVoidMethod", false);
     jniContainer.add(instanceVoidMethod);
 
-    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE
@@ -265,12 +264,11 @@ public final class JniImplementationTemplateTest {
 
   @Test
   public void generateDisposeNativeHandleMethod() {
-    JniMethod instanceVoidMethod = createJniMethod("instanceVoidMethod", false);
-    instanceVoidMethod.returnType = null;
+    JniMethod instanceVoidMethod = createJniVoidMethod("instanceVoidMethod", false);
     jniContainer.add(instanceVoidMethod);
     jniContainer.isInstantiable = true;
 
-    String generatedImplementation = TemplateEngine.render("jni/Implementation", jniContainer);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
         COPYRIGHT_NOTICE

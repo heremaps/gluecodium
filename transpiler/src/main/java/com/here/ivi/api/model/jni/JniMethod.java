@@ -20,10 +20,21 @@ public final class JniMethod implements JniElement {
 
   public JniContainer owningContainer;
 
-  public String javaMethodName;
-  public String cppMethodName;
-  public boolean isStatic;
+  public final String javaMethodName;
+  public final String cppMethodName;
+  public final JniType returnType;
+  public final boolean isStatic;
 
-  public JniType returnType;
-  public List<JniParameter> parameters = new LinkedList<>();
+  public final List<JniParameter> parameters = new LinkedList<>();
+
+  public JniMethod(
+      final String javaMethodName,
+      final String cppMethodName,
+      final JniType returnType,
+      final boolean isStatic) {
+    this.javaMethodName = javaMethodName;
+    this.cppMethodName = cppMethodName;
+    this.returnType = returnType;
+    this.isStatic = isStatic;
+  }
 }
