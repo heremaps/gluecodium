@@ -180,7 +180,7 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesCInterfaceForFInterface() {
-    CFunction function = new CFunction.Builder("SomeName").build();
+    CFunction function = CFunction.builder("SomeName").build();
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -191,7 +191,7 @@ public class CModelBuilderTest {
   @Test
   public void finishBuildingCreatesCInterfaceForFTypeCollection() {
 
-    CFunction function = new CFunction.Builder("SomeName").build();
+    CFunction function = CFunction.builder("SomeName").build();
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaTypeCollection);
@@ -209,7 +209,7 @@ public class CModelBuilderTest {
 
   @Test
   public void properIncludesForVoidFunctionNotCallingToBaseApi() {
-    CFunction function = new CFunction.Builder("SomeName").build();
+    CFunction function = CFunction.builder("SomeName").build();
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -220,8 +220,8 @@ public class CModelBuilderTest {
   @Test
   public void properIncludesForVoidFunctionCallingToBaseApi() {
     CFunction function =
-        new CFunction.Builder("SomeName")
-            .delegate("someBaseApiFunc()")
+        CFunction.builder("SomeName")
+            .delegateCall("someBaseApiFunc()")
             .delegateCallIncludes(singleton(Include.createInternalInclude("baseApiInclude.h")))
             .build();
     contextStack.injectResult(function);

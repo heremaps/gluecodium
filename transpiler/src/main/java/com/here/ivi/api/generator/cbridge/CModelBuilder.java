@@ -29,6 +29,7 @@ import com.here.ivi.api.model.cmodel.CValue;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.franca.FrancaElement;
+import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FEnumerationType;
@@ -141,24 +142,26 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     COutParameter returnParam =
         CollectionsHelper.getFirstOfType(
             getCurrentContext().previousResults, COutParameter.class, new COutParameter());
-    CFunction method =
-        new CFunction.Builder(baseFunctionName)
-            .delegate(delegateMethodName)
+
+    CFunction.CFunctionBuilder methodBuilder =
+        CFunction.builder(baseFunctionName)
+            .delegateCall(delegateMethodName)
             .parameters(inParams)
             .returnType(returnParam.mappedType)
-            .build();
-    method.delegateCallInclude.add(
-        resolver.resolveInclude(francaMethod, HeaderType.BASE_API_HEADER));
+            .delegateCallIncludes(
+                Collections.singleton(
+                    resolver.resolveInclude(francaMethod, HeaderType.BASE_API_HEADER)));
 
     if (!isStatic) {
       CClassType classInfo =
           CollectionsHelper.getFirstOfType(getParentContext().currentResults, CClassType.class);
       CInParameter parameterSelf = new CInParameter("_instance", classInfo.classType);
-      method.selfParameter = parameterSelf;
-      method.functionName = CppNameRules.getMethodName(francaMethod.getName());
+      methodBuilder
+          .selfParameter(parameterSelf)
+          .functionName(CppNameRules.getMethodName(francaMethod.getName()));
     }
 
-    storeResult(method);
+    storeResult(methodBuilder.build());
     closeContext();
   }
 

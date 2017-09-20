@@ -52,8 +52,10 @@ public class CBridgePrivateHeaderTemplateTest {
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
     cInterface.selfType = CppTypeInfo.createInstanceTypeInfo(resolver, francaInterface);
-    CFunction method = new CFunction.Builder("instanceMethod").build();
-    method.selfParameter = new CInParameter("self", cInterface.selfType);
+    CFunction method =
+        CFunction.builder("instanceMethod")
+            .selfParameter(new CInParameter("self", cInterface.selfType))
+            .build();
     cInterface.functions.add(method);
 
     final String expected =

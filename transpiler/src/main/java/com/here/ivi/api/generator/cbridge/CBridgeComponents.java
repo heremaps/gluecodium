@@ -77,7 +77,7 @@ public class CBridgeComponents {
       includes.addAll(parameter.mappedType.conversionToCppIncludes);
     }
     includes.addAll(function.returnType.conversionFromCppIncludes);
-    includes.addAll(function.delegateCallInclude);
+    includes.addAll(function.delegateCallIncludes);
     if (function.selfParameter != null) {
       includes.addAll(function.selfParameter.mappedType.conversionToCppIncludes);
     }
