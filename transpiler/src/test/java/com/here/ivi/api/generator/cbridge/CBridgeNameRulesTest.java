@@ -23,6 +23,8 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.franca.Interface;
 import java.util.ArrayList;
 import java.util.List;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
@@ -54,6 +56,8 @@ public class CBridgeNameRulesTest {
   @Mock private FInterface francaInterface;
   @Mock private FStructType francaStruct;
   @Mock private FMethod francaMethod;
+  @Mock private FEnumerationType francaEnum;
+  @Mock private FEnumerator francaEnumItem;
   private CBridgeNameRules nameRules;
 
   @Before
@@ -65,6 +69,9 @@ public class CBridgeNameRulesTest {
     when(francaStruct.getName()).thenReturn(STRUCT_NAME);
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
     when(francaMethod.eContainer()).thenReturn(francaInterface);
+
+    when(francaEnum.eContainer()).thenReturn(francaInterface);
+    when(francaEnumItem.eContainer()).thenReturn(francaEnum);
 
     when(francaTypeCollection.eContainer()).thenReturn(francaModel);
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
@@ -177,6 +184,46 @@ public class CBridgeNameRulesTest {
     String expected = prependNameWithPackageAndInterface(STRUCT_NAME, "::");
 
     String actual = nameRules.getBaseApiStructName(francaStruct);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void getBaseApiEnumNameReturnsCorrectValue() {
+    List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
+    packagesWithInterface.add(INTERFACE_NAME);
+    when(CppNameRules.getNestedNameSpecifier(any())).thenReturn(packagesWithInterface);
+    when(CppNameRules.getEnumName(any())).thenReturn("ENUM_NAME");
+
+    String expected = prependNameWithPackageAndInterface("ENUM_NAME", "::");
+
+    String actual = CBridgeNameRules.getBaseApiEnumName(francaEnum);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void getEnumNameReturnsCorrectValue() {
+    List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
+    packagesWithInterface.add(INTERFACE_NAME);
+    when(francaEnum.getName()).thenReturn("enumName");
+
+    String expected = prependNameWithPackageAndInterface("EnumName", "_");
+
+    String actual = nameRules.getEnumName(francaEnum);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void getEnumItemNameReturnsCorrectValue() {
+    List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
+    packagesWithInterface.add(INTERFACE_NAME);
+    when(francaEnumItem.getName()).thenReturn("ENUM_ITEM_NAME");
+
+    String expected = prependNameWithPackageAndInterface("enum_item_name", "_");
+
+    String actual = nameRules.getEnumItemName(francaEnumItem);
 
     assertEquals(expected, actual);
   }

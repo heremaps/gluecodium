@@ -15,12 +15,26 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.model.cmodel.*;
+import com.here.ivi.api.model.cmodel.CClassType;
+import com.here.ivi.api.model.cmodel.CElement;
+import com.here.ivi.api.model.cmodel.CEnum;
+import com.here.ivi.api.model.cmodel.CEnumItem;
+import com.here.ivi.api.model.cmodel.CField;
+import com.here.ivi.api.model.cmodel.CFunction;
+import com.here.ivi.api.model.cmodel.CInParameter;
+import com.here.ivi.api.model.cmodel.CInterface;
+import com.here.ivi.api.model.cmodel.COutParameter;
+import com.here.ivi.api.model.cmodel.CStruct;
+import com.here.ivi.api.model.cmodel.CValue;
+import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.List;
-import org.franca.core.franca.*;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
+import org.franca.core.franca.FExpression;
+import org.franca.core.franca.FField;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FStructType;
@@ -58,6 +72,27 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     storeResult(classInfo);
   }
 
+  public void finishBuilding(FEnumerator francaEnumerator) {
+    CValue value =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CValue.class);
+    storeResult(new CEnumItem(CBridgeNameRules.getEnumItemName(francaEnumerator), value));
+    super.finishBuilding(francaEnumerator);
+  }
+
+  @Override
+  public void finishBuilding(FEnumerationType francaEnumerationType) {
+    List<CEnumItem> enumItems =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CEnumItem.class);
+    storeResult(new CEnum(CBridgeNameRules.getEnumName(francaEnumerationType), enumItems));
+    super.finishBuilding(francaEnumerationType);
+  }
+
+  @Override
+  public void finishBuilding(FExpression francaExpression) {
+    storeResult(CTypeMapper.mapType(francaExpression));
+    super.finishBuilding(francaExpression);
+  }
+
   @Override
   public void finishBuilding(FInterface francaInterface) {
     CClassType classInfo =
@@ -87,6 +122,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CFunction.class));
     cInterface.structs.addAll(
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CStruct.class));
+    cInterface.enumerators =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CEnum.class);
 
     cInterface.headerIncludes = CBridgeComponents.collectHeaderIncludes(cInterface);
     cInterface.implementationIncludes = CBridgeComponents.collectImplementationIncludes(cInterface);

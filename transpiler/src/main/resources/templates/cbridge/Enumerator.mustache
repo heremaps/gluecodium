@@ -1,0 +1,8 @@
+enum __attribute__((enum_extensibility(open)))
+{{name}} {
+{{#items}}
+{{prefixPartial "enumItem" "    "}}
+{{/items}}
+};
+
+{{+enumItem}}{{name}}{{#if value}} = {{value}}{{/if}}{{#if iter.hasNext}},{{/if}}{{/enumItem}}

@@ -11,10 +11,13 @@
 
 package com.here.ivi.api.model.cmodel;
 
-public class CElement {
-  public final String name;
+import java.util.List;
 
-  public CElement(String name) {
-    this.name = name;
+public class CEnum extends CType {
+  public final List<CEnumItem> items;
+
+  public CEnum(String enumName, List<CEnumItem> enumItems) {
+    super(enumName);
+    this.items = enumItems;
   }
 }

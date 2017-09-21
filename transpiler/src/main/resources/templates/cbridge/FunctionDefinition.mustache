@@ -3,12 +3,14 @@
     }}{{#case "BUILTIN_STRING"}}std::string({{name}}){{/case}}{{!!
     }}{{#case "STRUCT"}}*get_pointer({{name}}){{/case}}{{!!
     }}{{#case "INSTANCE"}}{{!!intentionally left blank}}{{/case}}{{!!
+    }}{{#case "ENUM"}}static_cast<{{mappedType.baseType}}>({{name}}){{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{/delegateConversion}}
 {{+callBaseApi}}{{^selfParameter}}{{delegateCall}}{{/selfParameter}}{{#selfParameter}}get_pointer({{name}})->get()->{{functionName}}{{/selfParameter}}({{joinPartial parameters "delegateConversion" ", "}}){{/callBaseApi}}
 {{>cbridge/FunctionSignature}} {
 {{#switch returnType.typeCategory.toString}}
-    {{#case "BUILTIN_SIMPLE"}}return {{>callBaseApi}};{{/case}}
-    {{#default}}return {new {{returnType.baseType}}({{>callBaseApi}})};{{/default}}
+    {{#case "BUILTIN_SIMPLE"}}return {{>callBaseApi}};{{/case}}{{!!
+    }}{{#case "ENUM"}}return static_cast<{{returnType.functionReturnType}}>({{>callBaseApi}})};{{/case}}{{!!
+    }}{{#default}}return {new {{returnType.baseType}}({{>callBaseApi}})};{{/default}}
 {{/switch}}
 }

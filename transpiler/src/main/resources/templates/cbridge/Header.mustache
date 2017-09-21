@@ -5,6 +5,7 @@ extern "C" {
 
 {{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
 
+{{#enumerators}}{{>cbridge/Enumerator}}{{/enumerators}}
 {{#structs}}{{>cbridge/StructDefinition}}{{/structs}}
 
 {{#hasInstanceMethod}}

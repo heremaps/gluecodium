@@ -14,8 +14,16 @@ package com.here.ivi.api.generator.cbridge;
 import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
 
 import com.here.ivi.api.model.cmodel.CType;
+import com.here.ivi.api.model.cmodel.CValue;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FExpression;
+import org.franca.core.franca.FIntegerConstant;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypeRef;
 
 public final class CTypeMapper {
 
@@ -27,6 +35,8 @@ public final class CTypeMapper {
         return CppTypeInfo.createStructTypeInfo(resolver, (FStructType) derived);
       } else if (derived instanceof FTypeDef) {
         return mapTypeDef(resolver, (FTypeDef) derived);
+      } else if (derived instanceof FEnumerationType) {
+        return CppTypeInfo.createEnumTypeInfo(resolver, (FEnumerationType) derived);
       } else {
         //TODO: APIGEN-145 handle array types
         return new CppTypeInfo(CType.VOID);
@@ -75,5 +85,13 @@ public final class CTypeMapper {
         return CppTypeInfo.BYTE_VECTOR;
     }
     return new CppTypeInfo(CType.VOID);
+  }
+
+  public static CValue mapType(FExpression francaExpression) {
+    if (francaExpression instanceof FIntegerConstant) {
+      return new CValue(String.valueOf(((FIntegerConstant) francaExpression).getVal()));
+    } else {
+      return null;
+    }
   }
 }

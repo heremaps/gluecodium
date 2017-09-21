@@ -28,6 +28,7 @@ public class CInterface extends CElement {
   public List<CFunction> functions = new LinkedList<>();
   public String functionTableName;
   public CppTypeInfo selfType;
+  public List<CEnum> enumerators = new LinkedList<>();
 
   public CInterface(String name) {
     super(name);
