@@ -30,8 +30,7 @@ set(HELLO_SOURCES
     src/test/StaticFloatDoubleMethods.cpp
     src/test/StaticIntMethods.cpp
     src/test/StaticStringMethods.cpp
-    src/hello/HelloWorldStaticLogger.cpp
-)
+    src/hello/HelloWorldStaticLogger.cpp)
 
 #TODO: Remove this workaround once iOS supports Typedefs (APIGEN-282) and Instances (APIGEN-195)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
@@ -69,9 +68,10 @@ include(apigen/Apigen)
 
 #TODO: the 'if' and the content of the 'else' block should be removed when all fidl files pass the build (APIGEN-357, APIGEN-460, APIGEN-462)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
-    apigen_transpile(hello
-        ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
-        ${HELLO_APIGEN_TRANSPILER_GENERATOR})
+    apigen_transpile(TARGET hello
+        FRANCA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fidl/
+        GENERATOR ${HELLO_APIGEN_TRANSPILER_GENERATOR}
+        VERSION ${HELLO_APIGEN_TRANSPILER_VERSION})
 else()
     file(GLOB_RECURSE HELLO_WORLD_FIDL_FILES
                       ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.fidl
@@ -106,9 +106,10 @@ else()
 
 
     file(COPY ${FRANCA_FILES} DESTINATION fidl-supported-features-only)
-    apigen_transpile(hello
-        ${CMAKE_CURRENT_BINARY_DIR}/fidl-supported-features-only/
-        ${HELLO_APIGEN_TRANSPILER_GENERATOR})
+    apigen_transpile(TARGET hello
+        FRANCA_DIR ${CMAKE_CURRENT_BINARY_DIR}/fidl-supported-features-only/
+        GENERATOR ${HELLO_APIGEN_TRANSPILER_GENERATOR}
+        VERSION ${HELLO_APIGEN_TRANSPILER_VERSION})
 endif()
 
 apigen_target_include_directories(hello)

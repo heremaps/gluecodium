@@ -36,6 +36,7 @@ function build {
             -DIOS_DEPLOYMENT_TARGET=9.3 \
             -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
             -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
+            -DHELLO_APIGEN_TRANSPILER_VERSION=+ \
             ${CMAKE_EXTRA_PARAMETERS} \
             "${SCRIPT_DIR}/.."
         popd
