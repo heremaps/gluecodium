@@ -162,4 +162,33 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     storeResult(jniContainer);
     closeContext();
   }
+
+  @Override
+  public void finishBuilding(FAttribute francaAttribute) {
+
+    List<JavaMethod> javaMethods =
+        CollectionsHelper.getAllOfType(javaBuilder.getResults(), JavaMethod.class);
+    List<CppMethod> cppMethods =
+        CollectionsHelper.getAllOfType(cppBuilder.getResults(), CppMethod.class);
+
+    JavaMethod javaGetter = javaMethods.get(0);
+    CppMethod cppGetter = cppMethods.get(0);
+    JniType jniType = JniType.createType(javaGetter.returnType, cppGetter.returnType);
+    storeResult(new JniMethod(javaGetter.name, cppGetter.name, jniType, false));
+
+    if (!francaAttribute.isReadonly()) {
+      JavaMethod javaSetter = javaMethods.get(1);
+      CppMethod cppSetter = cppMethods.get(1);
+      JniMethod jniSetter = new JniMethod(javaSetter.name, cppSetter.name, null, false);
+
+      JavaParameter javaParameter = javaSetter.parameters.get(0);
+      CppParameter cppParameter = cppSetter.parameters.get(0);
+      JniType parameterType = JniType.createType(javaParameter.type, cppParameter.type);
+      jniSetter.parameters.add(new JniParameter(javaParameter.name, parameterType));
+
+      storeResult(jniSetter);
+    }
+
+    closeContext();
+  }
 }
