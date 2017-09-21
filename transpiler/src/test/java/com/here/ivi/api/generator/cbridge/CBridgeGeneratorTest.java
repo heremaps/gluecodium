@@ -24,20 +24,29 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.ArrayEList;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
+import org.franca.core.franca.FField;
+import org.franca.core.franca.FIntegerConstant;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
+import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,10 +54,12 @@ import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+@SuppressWarnings("PMD.TooManyFields")
 public class CBridgeGeneratorTest {
 
   private static final List<String> PACKAGES = asList("cbridge", "test");
   private static final String INTERFACE_NAME = "TestInterface";
+  private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
   private static final String FUNCTION_NAME = "functionName";
   private static final String PRIVATE_HEADER_NAME = "CBRIDGE_PRIVATE_HEADER of TestInterface";
   private static final String PRIVATE_HEADER_INCLUDE = "#include \"" + PRIVATE_HEADER_NAME + "\"\n";
@@ -62,6 +73,7 @@ public class CBridgeGeneratorTest {
 
   @Mock private FModel francaModel;
   @Mock private FInterface francaInterface;
+  @Mock private FTypeCollection francaTypeCollction;
 
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument1;
@@ -71,7 +83,7 @@ public class CBridgeGeneratorTest {
 
   @Mock private IncludeResolver resolver;
   @Mock private CBridgeNameRules nameRules;
-  private final ArrayEList<FType> structs = new ArrayEList<>();
+  private final ArrayEList<FType> interfaceTypes = new ArrayEList<>();
   private final ArrayEList<FMethod> methods = new ArrayEList<>();
   private final ArrayEList<FArgument> inputArguments = new ArrayEList<>();
   private final ArrayEList<FArgument> outputArguments = new ArrayEList<>();
@@ -88,10 +100,13 @@ public class CBridgeGeneratorTest {
     when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
     when(anInterface.getFrancaTypeCollection()).thenReturn(francaInterface);
 
+    when(francaTypeCollction.getName()).thenReturn(TYPE_COLLECTION_NAME);
+    when(francaTypeCollction.eContainer()).thenReturn(francaModel);
+
     when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
     when(francaInterface.getMethods()).thenReturn(methods);
     when(francaInterface.eContainer()).thenReturn(francaModel);
-    when(francaInterface.getTypes()).thenReturn(structs);
+    when(francaInterface.getTypes()).thenReturn(interfaceTypes);
     when(francaMethod.getName()).thenReturn(FUNCTION_NAME);
     when(francaMethod.getInArgs()).thenReturn(inputArguments);
     when(francaMethod.getOutArgs()).thenReturn(outputArguments);
@@ -104,7 +119,11 @@ public class CBridgeGeneratorTest {
             invocation -> {
               IncludeResolver.HeaderType type =
                   (IncludeResolver.HeaderType) (invocation.getArguments()[1]);
-              return Include.createInternalInclude(type.toString() + " of " + INTERFACE_NAME);
+              FModelElement modelElement = (FModelElement) (invocation.getArguments()[0]);
+              return Include.createInternalInclude(
+                  type.toString()
+                      + " of "
+                      + DefinedBy.findDefiningTypeCollection(modelElement).getName());
             });
 
     generator = new CBridgeGenerator(resolver, nameRules);
@@ -328,7 +347,7 @@ public class CBridgeGeneratorTest {
     when(francaArgument2.getName()).thenReturn("output");
     when(francaArgument2.getType()).thenReturn(francaTypeRef2);
     when(francaTypeRef2.getPredefined()).thenReturn(FBasicTypeId.STRING);
-    outputArguments.add(francaArgument1);
+    outputArguments.add(francaArgument2);
 
     String expectedHeader =
         String.join(
@@ -587,7 +606,7 @@ public class CBridgeGeneratorTest {
     FStructType struct = mock(FStructType.class);
     when(struct.getName()).thenReturn("SomeStruct");
     when(struct.eContainer()).thenReturn(francaInterface);
-    structs.add(struct);
+    interfaceTypes.add(struct);
 
     String expectedHeader =
         "typedef struct {\n"
@@ -622,6 +641,151 @@ public class CBridgeGeneratorTest {
     CInterface cModel = generator.buildCBridgeModel(anInterface);
 
     assertContentAsExpected(cModel, expectedHeader, expectedImplementation, expectedPrivateHeader);
+  }
+
+  @Test
+  public void createEnumDefinition() {
+    methods.clear();
+    FEnumerationType francaEnum = mockEnumType();
+    interfaceTypes.add(francaEnum);
+
+    String expectedHeader =
+        "enum __attribute__((enum_extensibility(open)))\n"
+            + "cbridge_test_TestInterface_TestEnum {\n"
+            + "    cbridge_test_TestInterface_field_1 = 10,\n"
+            + "    cbridge_test_TestInterface_field_2\n"
+            + "};\n"
+            + "typedef struct {\n"
+            + "    void* swift_pointer;\n"
+            + "    void(*release)(void* swift_pointer);\n"
+            + "} cbridge_test_TestInterface_FunctionTable;\n";
+
+    String expectedPrivateHeader = "";
+
+    String expectedImplementation = CBRIDGE_HEADER_INCLUDE;
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation, expectedPrivateHeader);
+  }
+
+  @Test
+  public void createStructWithExternalEnum() {
+    methods.clear();
+    FEnumerationType francaEnum = mockEnumType();
+    when(francaEnum.eContainer()).thenReturn(francaTypeCollction);
+
+    FStructType struct = mock(FStructType.class);
+    when(struct.getName()).thenReturn("SomeStruct");
+    when(struct.eContainer()).thenReturn(francaInterface);
+    interfaceTypes.add(struct);
+
+    FField field = mock(FField.class);
+    EList<FField> fields = new ArrayEList<>();
+    when(field.getName()).thenReturn("STRUCT_FILED");
+    when(field.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getDerived()).thenReturn(francaEnum);
+    fields.add(field);
+    when(struct.getElements()).thenReturn(fields);
+
+    String expectedHeader =
+        "#include \"CBRIDGE_PUBLIC_HEADER of TestTypeCollection\"\n"
+            + "typedef struct {\n"
+            + "    void* const private_pointer;\n"
+            + "} cbridge_test_TestInterface_SomeStructRef;\n"
+            + "\n"
+            + "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create();\n"
+            + "void cbridge_test_TestInterface_SomeStruct_release(cbridge_test_TestInterface_SomeStructRef handle);\n"
+            + "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_STRUCT_FILED_get(cbridge_test_TestInterface_SomeStructRef handle);\n"
+            + "void cbridge_test_TestInterface_SomeStruct_STRUCT_FILED_set(cbridge_test_TestInterface_SomeStructRef handle, cbridge_test_TestTypeCollection_TestEnum STRUCT_FILED);\n"
+            + "\n"
+            + "typedef struct {\n"
+            + "    void* swift_pointer;\n"
+            + "    void(*release)(void* swift_pointer);\n"
+            + "} cbridge_test_TestInterface_FunctionTable;\n";
+
+    String expectedPrivateHeader =
+        "#pragma once\n"
+            + CBRIDGE_HEADER_INCLUDE
+            + BASEAPI_HEADER_INCLUDE
+            + "inline cbridge::test::TestInterface::SomeStruct* get_pointer(cbridge_test_TestInterface_SomeStructRef handle) {\n"
+            + "    return static_cast<cbridge::test::TestInterface::SomeStruct*>(handle.private_pointer);\n"
+            + "}\n";
+
+    String expectedImplementation =
+        CBRIDGE_HEADER_INCLUDE
+            + BASEAPI_HEADER_INCLUDE
+            + PRIVATE_HEADER_INCLUDE
+            + "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create() {\n"
+            + "    return {new cbridge::test::TestInterface::SomeStruct()};\n"
+            + "}\n"
+            + "void cbridge_test_TestInterface_SomeStruct_release(cbridge_test_TestInterface_SomeStructRef handle) {\n"
+            + "    delete get_pointer(handle);\n"
+            + "}\n"
+            + "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_STRUCT_FILED_get(cbridge_test_TestInterface_SomeStructRef handle) {\n"
+            + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(get_pointer(handle)->STRUCT_FILED);\n"
+            + "}\n"
+            + "void cbridge_test_TestInterface_SomeStruct_STRUCT_FILED_set(cbridge_test_TestInterface_SomeStructRef handle, cbridge_test_TestTypeCollection_TestEnum STRUCT_FILED) {\n"
+            + "    get_pointer(handle)->STRUCT_FILED = static_cast<cbridge::test::TestEnum>(STRUCT_FILED);\n"
+            + "}\n";
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation, expectedPrivateHeader);
+  }
+
+  @Test
+  public void createsMethodWithExternalEnum() {
+    FEnumerationType francaEnum = mockEnumType();
+    when(francaEnum.eContainer()).thenReturn(francaTypeCollction);
+
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getDerived()).thenReturn(francaEnum);
+    inputArguments.add(francaArgument1);
+
+    when(francaArgument2.getName()).thenReturn("output");
+    when(francaArgument2.getType()).thenReturn(francaTypeRef2);
+    when(francaTypeRef2.getDerived()).thenReturn(francaEnum);
+    outputArguments.add(francaArgument2);
+
+    String expectedHeader =
+        "#include \"CBRIDGE_PUBLIC_HEADER of TestTypeCollection\"\n"
+            + "typedef struct {\n"
+            + "    void* swift_pointer;\n"
+            + "    void(*release)(void* swift_pointer);\n"
+            + "    cbridge_test_TestTypeCollection_TestEnum(*cbridge_test_TestInterface_functionName)(cbridge_test_TestTypeCollection_TestEnum input);\n"
+            + "} cbridge_test_TestInterface_FunctionTable;\n"
+            + "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_functionName(cbridge_test_TestTypeCollection_TestEnum input);\n";
+
+    String expectedImplementation =
+        BASEAPI_HEADER_INCLUDE
+            + CBRIDGE_HEADER_INCLUDE
+            + "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_functionName(cbridge_test_TestTypeCollection_TestEnum input) {\n"
+            + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(cbridge::test::TestInterface::functionName(static_cast<cbridge::test::TestEnum>(input)))};\n"
+            + "}\n";
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
+  }
+
+  private FEnumerationType mockEnumType() {
+    ArrayEList<FEnumerator> enumItems = new ArrayEList<>();
+    FEnumerationType francaEnum = mock(FEnumerationType.class);
+    when(francaEnum.getName()).thenReturn("TestEnum");
+    when(francaEnum.eContainer()).thenReturn(francaInterface);
+    when(francaEnum.getEnumerators()).thenReturn(enumItems);
+
+    FIntegerConstant enumVal = mock(FIntegerConstant.class);
+    when(enumVal.getVal()).thenReturn(BigInteger.TEN);
+    FEnumerator enumItem = mock(FEnumerator.class);
+    when(enumItem.getValue()).thenReturn(enumVal).thenReturn(null);
+    when(enumItem.eContainer()).thenReturn(francaEnum);
+    when(enumItem.getName()).thenReturn("field_1").thenReturn("field_2");
+    enumItems.add(enumItem);
+    enumItems.add(enumItem);
+    return francaEnum;
   }
 
   private void assertContentAsExpected(

@@ -9,12 +9,11 @@ void {{name}}_release({{name}}Ref handle) {
 {{#set structname=name}}
 {{#fields}}
 {{type.functionReturnType}} {{structname}}_{{name}}_get({{structname}}Ref handle) {
-{{^type.isRef}}
-    return get_pointer(handle)->{{name}};
-{{/type.isRef}}
-{{#type.isRef}}
-    return {&get_pointer(handle)->{{name}}};
-{{/type.isRef}}
+{{#switch type.typeCategory.toString}}
+    {{#case "BUILTIN_SIMPLE"}}return get_pointer(handle)->{{name}};{{/case}}{{!!
+    }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(get_pointer(handle)->{{name}});{{/case}}{{!!
+    }}{{#default}}return {&get_pointer(handle)->{{name}}};{{/default}}
+{{/switch}}
 }
 
 {{^type.isStruct}}
@@ -22,6 +21,7 @@ void {{structname}}_{{name}}_set({{structname}}Ref handle, {{join setterParamete
     get_pointer(handle)->{{name}}{{#switch type.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}.assign({{setterParameters.0.name}}, {{setterParameters.0.name}} + {{setterParameters.1.name}});{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}.assign({{setterParameters.0.name}});{{/case}}{{!!
+    }}{{#case "ENUM"}} = static_cast<{{type.baseType}}>({{setterParameters.0.name}});{{/case}}{{!!
     }}{{#default}} = {{setterParameters.0.name}};{{/default}}
 {{/switch}}
 }

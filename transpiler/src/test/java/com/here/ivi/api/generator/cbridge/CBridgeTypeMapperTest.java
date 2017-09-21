@@ -11,13 +11,20 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.model.cmodel.CType;
+import com.here.ivi.api.model.cmodel.CValue;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
+import java.math.BigInteger;
 import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FIntegerConstant;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Assert;
@@ -58,5 +65,27 @@ public class CBridgeTypeMapperTest {
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
     Assert.assertEquals(CType.BOOL.name, mapped.baseType);
+  }
+
+  @Test
+  public void mapIntegerConstant() {
+    FIntegerConstant integerConstant = mock(FIntegerConstant.class);
+    when(integerConstant.getVal()).thenReturn(BigInteger.TEN);
+
+    CValue actual = CTypeMapper.mapType(integerConstant);
+
+    assertEquals("10", actual.toString());
+  }
+
+  @Test
+  public void mapEnumerationType() {
+    FEnumerationType enumerationType = mock(FEnumerationType.class);
+    CppTypeInfo fakeType = mock(CppTypeInfo.class);
+    when(francaTypeRef.getDerived()).thenReturn(enumerationType);
+    when(CppTypeInfo.createEnumTypeInfo(resolver, enumerationType)).thenReturn(fakeType);
+
+    CppTypeInfo actualType = CTypeMapper.mapType(resolver, francaTypeRef);
+
+    assertSame(fakeType, actualType);
   }
 }

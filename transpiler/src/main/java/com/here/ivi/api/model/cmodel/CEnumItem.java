@@ -11,10 +11,11 @@
 
 package com.here.ivi.api.model.cmodel;
 
-public class CElement {
-  public final String name;
+public class CEnumItem extends CElement {
+  public final CValue value;
 
-  public CElement(String name) {
-    this.name = name;
+  public CEnumItem(String name, CValue value) {
+    super(name);
+    this.value = value;
   }
 }

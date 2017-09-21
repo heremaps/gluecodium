@@ -22,6 +22,7 @@ import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
 import java.util.Arrays;
 import java.util.List;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FStructType;
 
@@ -41,6 +42,7 @@ public class CppTypeInfo {
     BUILTIN_BYTEBUFFER,
     STRUCT,
     INSTANCE,
+    ENUM
   }
 
   public static final CppTypeInfo STRING =
@@ -115,6 +117,21 @@ public class CppTypeInfo {
             Include.createSystemInclude("memory")));
   }
 
+  public static CppTypeInfo createEnumTypeInfo(
+      final IncludeResolver resolver, final FEnumerationType francaEnum) {
+    CType enumCType =
+        new CType(
+            CBridgeNameRules.getEnumName(francaEnum),
+            singletonList(resolver.resolveInclude(francaEnum, HeaderType.CBRIDGE_PUBLIC_HEADER)));
+    return new CppTypeInfo(
+        CBridgeNameRules.getBaseApiEnumName(francaEnum),
+        singletonList(enumCType),
+        singletonList(""),
+        enumCType,
+        TypeCategory.ENUM,
+        emptyList(),
+        emptyList());
+  }
   // TODO (APIGEN-625): refactor this
   @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
   private CppTypeInfo(
@@ -146,10 +163,6 @@ public class CppTypeInfo {
 
   public CppTypeInfo(CType type) {
     this(type, TypeCategory.BUILTIN_SIMPLE);
-  }
-
-  public boolean isRef() {
-    return typeCategory != TypeCategory.BUILTIN_SIMPLE;
   }
 
   public boolean isStruct() {

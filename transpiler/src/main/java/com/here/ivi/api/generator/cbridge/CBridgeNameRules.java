@@ -19,6 +19,8 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModelElement;
@@ -128,6 +130,13 @@ public class CBridgeNameRules {
         CPP_NAMESPACE_DELIMITER);
   }
 
+  public static String getBaseApiEnumName(FEnumerationType francaEnum) {
+    return fullyQualifiedName(
+        CppNameRules.getNestedNameSpecifier(francaEnum),
+        CppNameRules.getEnumName(francaEnum.getName()),
+        CPP_NAMESPACE_DELIMITER);
+  }
+
   private static String fullyQualifiedName(
       List<String> nameSpecifier, String name, String delimiter) {
     List<String> names = new LinkedList<>(nameSpecifier);
@@ -135,12 +144,26 @@ public class CBridgeNameRules {
     return String.join(delimiter, names);
   }
 
-  public List<String> getNestedNameSpecifier(EObject type) {
+  public static List<String> getNestedNameSpecifier(EObject type) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(type);
     List<String> result = DefinedBy.getPackages(typeCollection);
     result.add(NameHelper.toUpperCamelCase(typeCollection.getName()));
 
     return result;
+  }
+
+  public static String getEnumItemName(FEnumerator francaEnumItem) {
+    return fullyQualifiedName(
+        getNestedNameSpecifier(francaEnumItem),
+        francaEnumItem.getName().toLowerCase(),
+        UNDERSCORE_DELIMITER);
+  }
+
+  public static String getEnumName(FEnumerationType francaEnumerator) {
+    return fullyQualifiedName(
+        getNestedNameSpecifier(francaEnumerator),
+        NameHelper.toUpperCamelCase(francaEnumerator.getName()),
+        UNDERSCORE_DELIMITER);
   }
 }

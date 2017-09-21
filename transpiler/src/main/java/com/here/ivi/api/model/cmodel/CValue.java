@@ -15,4 +15,9 @@ public class CValue extends CElement {
   public CValue(String value) {
     super(value);
   }
+
+  @Override
+  public String toString() {
+    return name;
+  }
 }
