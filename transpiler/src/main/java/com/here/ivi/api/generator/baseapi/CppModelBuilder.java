@@ -84,8 +84,9 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    CppTypeRef cppType = typeMapper.map(francaArgument);
-    CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppType);
+    CppTypeRef cppTypeRef =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppTypeRef);
 
     storeResult(cppParameter);
     closeContext();
@@ -109,12 +110,13 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
+    CppTypeRef cppTypeRef =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppValue value = valueMapper.map(cppTypeRef, francaConstant.getRhs());
+
     String name = CppNameRules.getConstantName(francaConstant.getName());
     String fullyQualifiedName = CppNameRules.getConstantFullyQualifiedName(francaConstant);
-    CppTypeRef type = typeMapper.map(francaConstant);
-    CppValue value = valueMapper.map(type, francaConstant.getRhs());
-
-    CppConstant cppConstant = new CppConstant(name, fullyQualifiedName, type, value);
+    CppConstant cppConstant = new CppConstant(name, fullyQualifiedName, cppTypeRef, value);
     cppConstant.comment = CppCommentParser.parse(francaConstant).getMainBodyText();
 
     storeResult(cppConstant);
@@ -228,7 +230,13 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
 
-    storeResult(typeMapper.map(francaTypeRef));
+    CppTypeRef cppTypeRef = typeMapper.map(francaTypeRef);
+    if (francaTypeRef.eContainer() instanceof FTypedElement
+        && ((FTypedElement) francaTypeRef.eContainer()).isArray()) {
+      cppTypeRef = CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, cppTypeRef);
+    }
+
+    storeResult(cppTypeRef);
     closeContext();
   }
 
@@ -244,9 +252,6 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppTypeRef cppTypeRef =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
-    if (francaAttribute.isArray()) {
-      cppTypeRef = CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, cppTypeRef);
-    }
 
     String getterName = CppNameRules.getGetterName(francaAttribute.getName());
     CppMethod getterMethod = buildAccessorMethod(getterName, cppTypeRef);
