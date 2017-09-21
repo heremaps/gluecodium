@@ -30,8 +30,7 @@ public final class JavaFieldTemplateTest {
   @Test
   public void generate_simple() {
     // Arrange
-    JavaField javaField =
-        new JavaField(new JavaPrimitiveType(JavaPrimitiveType.Type.INT), "intField");
+    JavaField javaField = new JavaField(JavaPrimitiveType.INT, "intField");
 
     // Act
     String generated = TemplateEngine.render("java/Field", javaField);
@@ -43,9 +42,7 @@ public final class JavaFieldTemplateTest {
   @Test
   public void generate_fieldWithInitialValueAndVisibility() {
     // Arrange
-    JavaField javaField =
-        new JavaField(
-            new JavaPrimitiveType(JavaPrimitiveType.Type.INT), "intField", new JavaValue("1"));
+    JavaField javaField = new JavaField(JavaPrimitiveType.INT, "intField", new JavaValue("1"));
     javaField.visibility = JavaVisibility.PRIVATE;
 
     // Act

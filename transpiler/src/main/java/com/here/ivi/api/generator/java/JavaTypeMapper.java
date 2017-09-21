@@ -17,7 +17,6 @@ import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaImport;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -48,29 +47,39 @@ public final class JavaTypeMapper {
   private static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
     switch (basicTypeId.getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
-        return new JavaPrimitiveType(Type.BOOL);
+        return JavaPrimitiveType.BOOL;
+
       case FBasicTypeId.FLOAT_VALUE:
-        return new JavaPrimitiveType(Type.FLOAT);
+        return JavaPrimitiveType.FLOAT;
+
       case FBasicTypeId.DOUBLE_VALUE:
-        return new JavaPrimitiveType(Type.DOUBLE);
+        return JavaPrimitiveType.DOUBLE;
+
       case FBasicTypeId.INT8_VALUE:
-        return new JavaPrimitiveType(Type.BYTE);
+        return JavaPrimitiveType.BYTE;
+
       case FBasicTypeId.INT16_VALUE:
-        return new JavaPrimitiveType(Type.SHORT);
+        return JavaPrimitiveType.SHORT;
+
       case FBasicTypeId.INT32_VALUE:
-        return new JavaPrimitiveType(Type.INT);
+        return JavaPrimitiveType.INT;
+
       case FBasicTypeId.INT64_VALUE:
-        return new JavaPrimitiveType(Type.LONG);
+        return JavaPrimitiveType.LONG;
+
       case FBasicTypeId.UINT8_VALUE:
       case FBasicTypeId.UINT16_VALUE:
       case FBasicTypeId.UINT32_VALUE:
       case FBasicTypeId.UINT64_VALUE:
         // TODO: APIGEN-217 figure out how to handle unsigned ints
-        return new JavaPrimitiveType(Type.LONG);
+        return JavaPrimitiveType.LONG;
+
       case FBasicTypeId.STRING_VALUE:
         return new JavaReferenceType(JavaReferenceType.Type.STRING);
+
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return new JavaReferenceType(JavaReferenceType.Type.BYTE_ARRAY);
+
       default:
         return JavaPrimitiveType.VOID;
     }
