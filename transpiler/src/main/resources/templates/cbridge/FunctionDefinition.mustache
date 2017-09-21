@@ -1,13 +1,14 @@
+{{+delegateConversion}}{{#switch mappedType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}std::vector<uint8_t>({{name}}_ptr, {{name}}_ptr + {{name}}_size){{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}std::string({{name}}){{/case}}{{!!
+    }}{{#case "STRUCT"}}*get_pointer({{name}}){{/case}}{{!!
+    }}{{#case "INSTANCE"}}{{!!intentionally left blank}}{{/case}}{{!!
+    }}{{#default}}{{name}}{{/default}}{{!!
+}}{{/switch}}{{/delegateConversion}}
+{{+callBaseApi}}{{^selfParameter}}{{delegateCall}}{{/selfParameter}}{{#selfParameter}}get_pointer({{name}})->get()->{{functionName}}{{/selfParameter}}({{joinPartial parameters "delegateConversion" ", "}}){{/callBaseApi}}
 {{>cbridge/FunctionSignature}} {
-{{#conversions}}    auto&& {{name}} = {{expression}};
-{{/conversions}}
-{{#returnConversion}}
-    {
-        auto&& {{returnConversion.name}} = {{delegateCall}};
-        return {{returnConversion.expression}};
-    }
-{{/returnConversion}}
-{{^returnConversion}}
-    {{delegateCall}};
-{{/returnConversion}}
+{{#switch returnType.typeCategory.toString}}
+    {{#case "BUILTIN_SIMPLE"}}return {{>callBaseApi}};{{/case}}
+    {{#default}}return {new {{returnType.baseType}}({{>callBaseApi}})};{{/default}}
+{{/switch}}
 }

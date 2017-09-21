@@ -82,8 +82,11 @@ public class CBridgeNameRules {
   }
 
   public String getFunctionTableName(FInterface francaInterface) {
-    return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaInterface))
-        + "_FunctionTable";
+    return getInterfaceName(francaInterface) + "_FunctionTable";
+  }
+
+  public String getInterfaceName(FInterface francaInterface) {
+    return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaInterface));
   }
 
   public String getDelegateMethodName(final FMethod method) {
@@ -108,6 +111,10 @@ public class CBridgeNameRules {
         getNestedNameSpecifier(francaStruct),
         NameHelper.toUpperCamelCase(francaStruct.getName()),
         UNDERSCORE_DELIMITER);
+  }
+
+  public String getInstanceRefType(final FModelElement francaModel) {
+    return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaModel)) + "Ref";
   }
 
   public String getBaseApiInstanceName(final FModelElement francaModel) {

@@ -11,41 +11,19 @@
 
 package com.here.ivi.api.model.cmodel;
 
-import static java.util.stream.Collectors.toSet;
-
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CStruct extends CStructTypedef {
+public class CStruct extends CType {
 
   public final String baseApiName;
-  public final String createFunctionName;
-  public final String releaseFunctionName;
   public final CppTypeInfo mappedType;
+  public List<CField> fields = new ArrayList<>();
 
-  private final String fieldSetterNameTemplate;
-  private final String fieldGetterNameTemplate;
-
-  public CStruct(String name, String baseName, String baseApiName, CppTypeInfo mappedType) {
+  public CStruct(String name, String baseApiName, CppTypeInfo mappedType) {
     super(name);
     this.baseApiName = baseApiName;
-    createFunctionName = baseName + "_create";
-    releaseFunctionName = baseName + "_release";
-    fieldSetterNameTemplate = baseName + "_" + "%s" + "_set";
-    fieldGetterNameTemplate = baseName + "_" + "%s" + "_get";
     this.mappedType = mappedType;
-    includes =
-        mappedType
-            .cTypesNeededByConstructor
-            .stream()
-            .flatMap(type -> type.includes.stream())
-            .collect(toSet());
-  }
-
-  public String getNameOfFieldSetter(String fieldName) {
-    return String.format(fieldSetterNameTemplate, fieldName);
-  }
-
-  public String getNameOfFieldGetter(String fieldName) {
-    return String.format(fieldGetterNameTemplate, fieldName);
   }
 }

@@ -78,18 +78,10 @@ public class CType extends CElement {
 
   @Override
   public String toString() {
-    return declareBegin() + declareEnd();
-  }
-
-  public String declareBegin() {
     if (isConst) {
       return CONST_SPECIFIER + " " + name;
     } else {
       return name;
     }
-  }
-
-  public String declareEnd() {
-    return "";
   }
 }

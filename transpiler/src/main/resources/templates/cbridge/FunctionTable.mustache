@@ -1,0 +1,9 @@
+typedef struct {
+    void* swift_pointer;
+    void(*release)(void* swift_pointer);
+{{#functions}}
+    {{<cbridge/FunctionSignature}}
+        {{$functionName}}(*{{name}}){{/functionName}}
+    {{/cbridge/FunctionSignature}};
+{{/functions}}
+} {{functionTableName}};

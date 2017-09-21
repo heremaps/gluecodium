@@ -11,9 +11,11 @@
 
 package com.here.ivi.api.model.cmodel;
 
+import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+
 public class CInParameter extends CParameter {
 
-  public CInParameter(String name, CType type) {
+  public CInParameter(String name, CppTypeInfo type) {
     super(name, type);
   }
 }

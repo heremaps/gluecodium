@@ -12,10 +12,22 @@
 package com.here.ivi.api.model.cmodel;
 
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Field of a com.here.ivi.api.model.cmodel.CStruct */
 public class CField extends CElement {
   public final CppTypeInfo type;
+
+  public List<CParameter.SimpleParameter> getSetterParameters() {
+    List<CParameter.SimpleParameter> inParameters = new ArrayList<>();
+    for (int i = 0; i < type.cTypesNeededByConstructor.size(); ++i) {
+      inParameters.add(
+          new CParameter.SimpleParameter(
+              name + type.paramSuffixes.get(i), type.cTypesNeededByConstructor.get(i)));
+    }
+    return inParameters;
+  }
 
   public CField(String name, CppTypeInfo cppTypeInfo) {
     super(name);
@@ -24,9 +36,6 @@ public class CField extends CElement {
 
   @Override
   public String toString() {
-    return type.functionReturnType.declareBegin()
-        + " "
-        + name
-        + type.functionReturnType.declareEnd();
+    return type.functionReturnType + " " + name;
   }
 }

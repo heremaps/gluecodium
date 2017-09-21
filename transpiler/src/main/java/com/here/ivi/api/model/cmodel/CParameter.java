@@ -11,15 +11,49 @@
 
 package com.here.ivi.api.model.cmodel;
 
-import com.here.ivi.api.generator.cbridge.TypeConverter;
+import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import com.here.ivi.api.model.common.Include;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CParameter extends CElement {
-  public CType type;
-  public TypeConverter.TypeConversion conversion;
+  public CppTypeInfo mappedType;
 
-  public CParameter(String name, CType type) {
+  public static class SimpleParameter {
+    public String name;
+    public CType type;
+
+    public SimpleParameter(String name, CType type) {
+      this.name = name;
+      this.type = type;
+    }
+
+    public String toString() {
+      return type + " " + name;
+    }
+  }
+
+  public List<Include> getSignatureIncludes() {
+    List<Include> includes = new ArrayList<>();
+    for (CType signatureType : mappedType.cTypesNeededByConstructor) {
+      includes.addAll(signatureType.includes);
+    }
+    return includes;
+  }
+
+  public List<SimpleParameter> getSignatureParameters() {
+    List<SimpleParameter> parameters = new ArrayList<>();
+    for (int i = 0; i < mappedType.cTypesNeededByConstructor.size(); ++i) {
+      parameters.add(
+          new SimpleParameter(
+              name + mappedType.paramSuffixes.get(i), mappedType.cTypesNeededByConstructor.get(i)));
+    }
+    return parameters;
+  }
+
+  public CParameter(String name, CppTypeInfo mappedType) {
     super(name);
-    this.type = type;
+    this.mappedType = mappedType;
   }
 
   public static boolean filterInstanceParam(CParameter param) {
@@ -28,6 +62,6 @@ public class CParameter extends CElement {
 
   @Override
   public String toString() {
-    return type.declareBegin() + " " + name + type.declareEnd();
+    return mappedType.functionReturnType + " " + name;
   }
 }

@@ -11,29 +11,57 @@
 
 package com.here.ivi.api.generator.cbridge.templates;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
-import com.here.ivi.api.model.cmodel.CFunction;
-import com.here.ivi.api.model.cmodel.CInterface;
+import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.test.TemplateComparison;
-import java.util.ArrayList;
-import java.util.List;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FModel;
+import org.franca.core.franca.FModelElement;
 import org.junit.Test;
 
 public class CBridgePrivateHeaderTemplateTest {
 
   @Test
-  public void privateFunctionNotPresentInImplementation() {
-    CInterface cInterface = new CInterface();
-    CFunction normalFunction = new CFunction.Builder("publicFunction").build();
-    CFunction privateFunction =
-        new CFunction.Builder("privateFunction").markAsInternalOnly().build();
-    List<CFunction> functions = new ArrayList<>();
-    functions.add(normalFunction);
-    functions.add(privateFunction);
-    cInterface.functions = functions;
+  public void getPointerFunctionForStruct() {
+    CInterface cInterface = new CInterface("");
+    CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(CType.VOID));
+    CField field = new CField("floatField", new CppTypeInfo(CType.FLOAT));
+    struct.fields.add(field);
+    cInterface.structs.add(struct);
 
-    final String expected = "#pragma once\nvoid privateFunction() {\n    ;\n}\n";
-    final String generated = this.generate(cInterface);
+    final String expected =
+        "#pragma once\n"
+            + "inline baseName* get_pointer(nameRef handle) {\n"
+            + "    return static_cast<baseName*>(handle.private_pointer);\n"
+            + "}\n";
+    final String generated = generate(cInterface);
+    TemplateComparison.assertEqualPrivateHeaderContent(expected, generated);
+  }
+
+  @Test
+  public void getPointerFunctionForInstance() {
+    CInterface cInterface = new CInterface("");
+    IncludeResolver resolver = mock(IncludeResolver.class);
+    FModelElement francaInterface = mock(FInterface.class);
+    FModel francaParent = mock(FModel.class);
+    when(francaInterface.getName()).thenReturn("SomeClass");
+    when(francaInterface.eContainer()).thenReturn(francaParent);
+    when(francaParent.getName()).thenReturn("some.package");
+    cInterface.selfType = CppTypeInfo.createInstanceTypeInfo(resolver, francaInterface);
+    CFunction method = new CFunction.Builder("instanceMethod").build();
+    method.selfParameter = new CInParameter("self", cInterface.selfType);
+    cInterface.functions.add(method);
+
+    final String expected =
+        "#pragma once\n"
+            + "inline std::shared_ptr<some::package::SomeClass>* get_pointer(some_package_SomeClassRef handle) {\n"
+            + "    return static_cast<std::shared_ptr<some::package::SomeClass>*>(handle.private_pointer);\n"
+            + "}\n";
+    final String generated = generate(cInterface);
     TemplateComparison.assertEqualPrivateHeaderContent(expected, generated);
   }
 

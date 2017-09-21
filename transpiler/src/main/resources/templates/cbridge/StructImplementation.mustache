@@ -1,0 +1,30 @@
+{{name}}Ref {{name}}_create() {
+    return {new {{baseApiName}}()};
+}
+
+void {{name}}_release({{name}}Ref handle) {
+    delete get_pointer(handle);
+}
+
+{{#set structname=name}}
+{{#fields}}
+{{type.functionReturnType}} {{structname}}_{{name}}_get({{structname}}Ref handle) {
+{{^type.isRef}}
+    return get_pointer(handle)->{{name}};
+{{/type.isRef}}
+{{#type.isRef}}
+    return {&get_pointer(handle)->{{name}}};
+{{/type.isRef}}
+}
+
+{{^type.isStruct}}
+void {{structname}}_{{name}}_set({{structname}}Ref handle, {{join setterParameters delimiter=", "}}) {
+    get_pointer(handle)->{{name}}{{#switch type.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}.assign({{setterParameters.0.name}}, {{setterParameters.0.name}} + {{setterParameters.1.name}});{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}.assign({{setterParameters.0.name}});{{/case}}{{!!
+    }}{{#default}} = {{setterParameters.0.name}};{{/default}}
+{{/switch}}
+}
+{{/type.isStruct}}
+{{/fields}}
+{{/set}}

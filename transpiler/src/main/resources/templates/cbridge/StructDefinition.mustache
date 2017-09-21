@@ -1,0 +1,14 @@
+typedef struct {
+    void* const private_pointer;
+} {{name}}Ref;
+
+{{name}}Ref {{name}}_create();
+void {{name}}_release({{name}}Ref handle);
+
+{{#set structname=name}}
+{{#fields}}
+{{type.functionReturnType}} {{structname}}_{{name}}_get({{structname}}Ref handle);
+{{^type.isStruct}}void {{structname}}_{{name}}_set({{structname}}Ref handle, {{join setterParameters delimiter=", "}});{{/type.isStruct}}
+{{/fields}}
+{{/set}}
+
