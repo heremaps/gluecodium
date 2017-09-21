@@ -16,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Arrays;
@@ -76,7 +75,7 @@ public final class JniNameRulesTest {
   @Test
   public void getParameterNameFromJavaNativeParameter() {
     // Arrange
-    JavaType javaType = new JavaPrimitiveType(Type.INT);
+    JavaType javaType = JavaPrimitiveType.INT;
     JavaParameter javaParameter = new JavaParameter(javaType, "parameterName");
 
     // Act, assert
@@ -92,7 +91,7 @@ public final class JniNameRulesTest {
   @Test
   public void getParameterNameFromEmptyJavaNativeParameter() {
     // Arrange
-    JavaType javaType = new JavaPrimitiveType(Type.INT);
+    JavaType javaType = JavaPrimitiveType.INT;
     JavaParameter javaParameter = new JavaParameter(javaType, "");
 
     // Act, assert

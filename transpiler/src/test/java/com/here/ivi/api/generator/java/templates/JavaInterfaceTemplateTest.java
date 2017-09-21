@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.*;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
@@ -110,7 +109,7 @@ public final class JavaInterfaceTemplateTest {
   @Test
   public void generate_interfaceWithTwoMethods() {
     // Arrange
-    JavaMethod interfaceMethodTwo = new JavaMethod("otherMethod", new JavaPrimitiveType(Type.VOID));
+    JavaMethod interfaceMethodTwo = new JavaMethod("otherMethod", JavaPrimitiveType.VOID);
     javaInterface.methods.add(interfaceMethod);
     javaInterface.methods.add(interfaceMethodTwo);
 

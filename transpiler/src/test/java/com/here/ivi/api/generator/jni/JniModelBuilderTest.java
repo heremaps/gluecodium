@@ -125,10 +125,8 @@ public class JniModelBuilderTest {
   }
 
   private static JavaMethod createJavaMethod() {
-    JavaMethod javaMethod =
-        new JavaMethod(JAVA_INT_METHOD_NAME, new JavaPrimitiveType(JavaPrimitiveType.Type.INT));
-    javaMethod.parameters.add(
-        new JavaParameter(new JavaPrimitiveType(JavaPrimitiveType.Type.INT), BASE_NAME_PARAMETER));
+    JavaMethod javaMethod = new JavaMethod(JAVA_INT_METHOD_NAME, JavaPrimitiveType.INT);
+    javaMethod.parameters.add(new JavaParameter(JavaPrimitiveType.INT, BASE_NAME_PARAMETER));
     return javaMethod;
   }
 

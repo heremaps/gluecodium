@@ -16,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaTopLevelElement.Qualifier;
 import java.util.Arrays;
 import org.junit.Test;
@@ -126,8 +125,7 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_withEnumAndMethods() {
     // Arrange
-    JavaMethod classMethod =
-        new JavaMethod("someMethod", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
+    JavaMethod classMethod = new JavaMethod("someMethod", JavaPrimitiveType.VOID);
     classMethod.qualifiers.add(JavaMethod.MethodQualifier.NATIVE);
     classMethod.comment = "Method comment";
     JavaEnumItem enumItem = new JavaEnumItem("ITEM", new JavaValue("1"));
@@ -190,9 +188,7 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_withInnerClass() {
     // Arrange
-    JavaField intField =
-        new JavaField(
-            new JavaPrimitiveType(JavaPrimitiveType.Type.INT), "intField", new JavaValue("1"));
+    JavaField intField = new JavaField(JavaPrimitiveType.INT, "intField", new JavaValue("1"));
     JavaClass innerClass = new JavaClass("InnerClass");
     innerClass.comment = "Inner class comment";
     innerClass.fields.add(intField);
@@ -225,9 +221,7 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_staticInnerClass() {
     // Arrange
-    JavaField intField =
-        new JavaField(
-            new JavaPrimitiveType(JavaPrimitiveType.Type.INT), "intField", new JavaValue("1"));
+    JavaField intField = new JavaField(JavaPrimitiveType.INT, "intField", new JavaValue("1"));
     JavaClass innerClass = new JavaClass("StaticInnerClass");
     innerClass.comment = "Inner class comment";
     innerClass.fields.add(intField);
@@ -264,7 +258,7 @@ public final class JavaClassTemplateTest {
     javaClass.comment = "Example class comment";
     javaClass.qualifiers.add(Qualifier.FINAL);
     javaClass.constants.add(
-        new JavaConstant(new JavaPrimitiveType(Type.FLOAT), "myConst", new JavaValue("42")));
+        new JavaConstant(JavaPrimitiveType.FLOAT, "myConst", new JavaValue("42")));
     String expected =
         "package com.here.android;\n"
             + "\n"

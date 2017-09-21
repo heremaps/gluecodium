@@ -34,8 +34,7 @@ public final class JavaMethodTemplateTest {
 
   private final JavaParameter javaParameter =
       new JavaParameter(new JavaReferenceType(JavaReferenceType.Type.STRING), "firstParam");
-  private final JavaMethod javaMethod =
-      new JavaMethod("methodical", new JavaPrimitiveType(JavaPrimitiveType.Type.VOID));
+  private final JavaMethod javaMethod = new JavaMethod("methodical", JavaPrimitiveType.VOID);
 
   @Test
   public void generate_instanceMethod() {

@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -25,7 +24,7 @@ public final class JavaMethodTest {
   private static final String TEST_METHOD_NAME = "fancyMethod";
   private static final JavaType TEST_STRING_RETURN_TYPE =
       new JavaReferenceType(JavaReferenceType.Type.STRING);
-  private static final JavaType TEST_VOID_RETURN_TYPE = new JavaPrimitiveType(Type.VOID);
+  private static final JavaType TEST_VOID_RETURN_TYPE = JavaPrimitiveType.VOID;
 
   @Test
   public void newMethodWithVoidReturnType() {

@@ -16,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 import com.here.ivi.api.generator.jni.JniTypeNameMapper;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
 import org.junit.Test;
@@ -29,7 +28,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertVoidType() {
     // Arrange
-    JavaType javaPrimitiveType = new JavaPrimitiveType(Type.VOID);
+    JavaType javaPrimitiveType = JavaPrimitiveType.VOID;
 
     // Act
     String result = JniTypeNameMapper.map(javaPrimitiveType);
@@ -41,7 +40,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertBooleanType() {
     // Arrange
-    JavaType javaBool = new JavaPrimitiveType(Type.BOOL);
+    JavaType javaBool = JavaPrimitiveType.BOOL;
 
     // Act
     String result = JniTypeNameMapper.map(javaBool);
@@ -53,7 +52,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertByteType() {
     // Arrange
-    JavaType javaByte = new JavaPrimitiveType(Type.BYTE);
+    JavaType javaByte = JavaPrimitiveType.BYTE;
 
     // Act
     String result = JniTypeNameMapper.map(javaByte);
@@ -65,7 +64,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertCharType() {
     // Arrange
-    JavaType javaChar = new JavaPrimitiveType(Type.CHAR);
+    JavaType javaChar = JavaPrimitiveType.CHAR;
 
     // Act
     String result = JniTypeNameMapper.map(javaChar);
@@ -77,7 +76,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertDoubleType() {
     // Arrange
-    JavaType javaDouble = new JavaPrimitiveType(Type.DOUBLE);
+    JavaType javaDouble = JavaPrimitiveType.DOUBLE;
 
     // Act
     String result = JniTypeNameMapper.map(javaDouble);
@@ -89,7 +88,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertFloatType() {
     // Arrange
-    JavaType javaFloat = new JavaPrimitiveType(Type.FLOAT);
+    JavaType javaFloat = JavaPrimitiveType.FLOAT;
 
     // Act
     String result = JniTypeNameMapper.map(javaFloat);
@@ -101,7 +100,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertIntType() {
     // Arrange
-    JavaType javaInt = new JavaPrimitiveType(Type.INT);
+    JavaType javaInt = JavaPrimitiveType.INT;
 
     // Act
     String result = JniTypeNameMapper.map(javaInt);
@@ -113,7 +112,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertLongType() {
     // Arrange
-    JavaType javaLong = new JavaPrimitiveType(Type.LONG);
+    JavaType javaLong = JavaPrimitiveType.LONG;
 
     // Act
     String result = JniTypeNameMapper.map(javaLong);
@@ -125,7 +124,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertShortType() {
     // Arrange
-    JavaType javaShort = new JavaPrimitiveType(Type.SHORT);
+    JavaType javaShort = JavaPrimitiveType.SHORT;
 
     // Act
     String result = JniTypeNameMapper.map(javaShort);

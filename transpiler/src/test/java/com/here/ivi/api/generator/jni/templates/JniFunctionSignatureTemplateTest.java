@@ -68,9 +68,7 @@ public final class JniFunctionSignatureTemplateTest {
                 new CppComplexTypeRef.Builder(CppComplexTypeRef.STRING_TYPE_NAME).build())));
     jniMethod.parameters.add(
         new JniParameter(
-            "intParam",
-            JniType.createType(
-                new JavaPrimitiveType(JavaPrimitiveType.Type.INT), CppPrimitiveTypeRef.INT8)));
+            "intParam", JniType.createType(JavaPrimitiveType.INT, CppPrimitiveTypeRef.INT8)));
     jniMethod.parameters.add(
         new JniParameter(
             "customParam",

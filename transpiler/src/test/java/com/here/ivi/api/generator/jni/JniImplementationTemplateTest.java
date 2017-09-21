@@ -18,7 +18,6 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniMethod;
 import com.here.ivi.api.model.jni.JniParameter;
@@ -57,7 +56,7 @@ public final class JniImplementationTemplateTest {
   private static final String JNI_TEST_CLASS_METHOD_PREFIX = "Java_com_here_ivi_test_TestClass_";
 
   private final JniType jniIntType =
-      JniType.createType(new JavaPrimitiveType(Type.INT), CppPrimitiveTypeRef.INT8);
+      JniType.createType(JavaPrimitiveType.INT, CppPrimitiveTypeRef.INT8);
 
   private final JniContainer jniContainer =
       JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");

@@ -17,7 +17,16 @@ import java.util.stream.Stream;
 public final class JavaPrimitiveType extends JavaType {
 
   public static final EnumSet<Type> TYPES = EnumSet.allOf(Type.class);
-  public static final JavaPrimitiveType VOID = new JavaPrimitiveType(JavaPrimitiveType.Type.VOID);
+
+  public static final JavaPrimitiveType VOID = new JavaPrimitiveType(Type.VOID);
+  public static final JavaPrimitiveType BYTE = new JavaPrimitiveType(Type.BYTE);
+  public static final JavaPrimitiveType SHORT = new JavaPrimitiveType(Type.SHORT);
+  public static final JavaPrimitiveType INT = new JavaPrimitiveType(Type.INT);
+  public static final JavaPrimitiveType LONG = new JavaPrimitiveType(Type.LONG);
+  public static final JavaPrimitiveType FLOAT = new JavaPrimitiveType(Type.FLOAT);
+  public static final JavaPrimitiveType DOUBLE = new JavaPrimitiveType(Type.DOUBLE);
+  public static final JavaPrimitiveType BOOL = new JavaPrimitiveType(Type.BOOL);
+  public static final JavaPrimitiveType CHAR = new JavaPrimitiveType(Type.CHAR);
 
   public enum Type {
     VOID("void"),
@@ -43,7 +52,7 @@ public final class JavaPrimitiveType extends JavaType {
 
   public final Type type;
 
-  public JavaPrimitiveType(final Type type) {
+  private JavaPrimitiveType(final Type type) {
     super(type.getValue());
     this.type = type;
   }
