@@ -48,11 +48,18 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GEN
         src/hello/HelloWorldProfileManager.cpp
         src/hello/HelloWorldProfileManagerFactory.cpp)
 endif()
+#TODO: Remove this workaround once iOS supports attributes (APIGEN-504)
+if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
+    set(HELLO_SOURCES
+        ${HELLO_SOURCES}
+        src/hello/HelloWorldAttributesImpl.cpp)
+endif()
 #TODO: Remove this workaround once Android and iOS supports complex types (APIGEN-280, APIGEN-281)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/hello/HelloWorldComplexTypes.cpp)
+        src/hello/HelloWorldComplexTypes.cpp
+        src/hello/HelloWorldAttributesComplexImpl.cpp)
 endif()
 #TODO: Remove this workaround once Android and iOS supports instances (APIGEN-195, APIGEN-593)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
@@ -77,7 +84,7 @@ else()
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fidl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fdepl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/CalculatorListener.fidl)
-        #TODO: These excludes can be removed once iOs supports attributes (APIGEN-504, APIGEN-505)
+        #TODO: These excludes can be removed once iOS supports attributes (APIGEN-504, APIGEN-505)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldAttributes.fidl)
     endif()
 
