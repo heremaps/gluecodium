@@ -22,6 +22,8 @@ set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_
 set(HELLO_SOURCES
     src/hello/HelloWorld.cpp
     src/hello/HelloWorldBuiltinTypes.cpp
+    src/hello/HelloWorldFactory.cpp
+    src/hello/HelloWorldInstances.cpp
     src/hello/HelloWorldPlainDataStructures.cpp
     src/test/PlainDataStructuresFromTypeCollection.cpp
     src/test/PlainDataStructures.cpp
@@ -35,7 +37,6 @@ set(HELLO_SOURCES
 file(GLOB_RECURSE HELLO_FRANCA_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.fidl
     ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.fdepl)
-
 
 
 # --- BEGIN TODO SECTION ---
@@ -62,13 +63,7 @@ if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
         src/hello/HelloWorldComplexTypes.cpp
         src/hello/HelloWorldAttributesComplexImpl.cpp)
 endif()
-#TODO: Remove this workaround once Android and iOS supports instances (APIGEN-195, APIGEN-593)
-if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
-    set(HELLO_SOURCES
-        ${HELLO_SOURCES}
-        src/hello/HelloWorldFactory.cpp
-        src/hello/HelloWorldInstances.cpp)
-endif()
+
 #TODO: the 'if' and the content of the 'else' block should be removed when all fidl files pass the build (APIGEN-357, APIGEN-460, APIGEN-462)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_FRANCA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fidl/)
@@ -87,12 +82,6 @@ else()
         #TODO: These excludes can be removed once iOS supports attributes (APIGEN-504, APIGEN-505)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldAttributes.fidl)
     endif()
-
-    #TODO: These excludes can be removed once both platforms support nested instances (APIGEN-205, APIGEN-196)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldInstances.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldFactory.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldFactory.fdepl)
-
 
     #TODO: These excludes can be removed once both platforms support complex types (APIGEN-280, APIGEN-281)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldComplexTypes.fidl)
