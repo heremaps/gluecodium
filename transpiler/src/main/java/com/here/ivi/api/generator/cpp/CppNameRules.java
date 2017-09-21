@@ -16,12 +16,16 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.rules.InstanceRules;
 import java.io.File;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.FCompoundType;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeDef;
 
 public final class CppNameRules {
 
@@ -62,13 +66,28 @@ public final class CppNameRules {
     return result;
   }
 
-  public static String getFullyQualifiedName(FCompoundType francaCompoundType) {
-    List<String> nestedNameSpecifier = getNestedNameSpecifier(francaCompoundType);
-    String compoundName = getStructName(francaCompoundType.getName());
+  public static String getFullyQualifiedName(FType type) {
+    List<String> nestedNameSpecifier = getNestedNameSpecifier(type);
+    String typeName = "";
+
+    if (type instanceof FCompoundType) {
+      FCompoundType compoundType = (FCompoundType) type;
+      typeName = getStructName(compoundType.getName());
+    } else if (type instanceof FEnumerationType) {
+      FEnumerationType enumeration = (FEnumerationType) type;
+      typeName = getEnumName(enumeration.getName());
+    } else if (type instanceof FTypeDef) {
+      FTypeDef typedef = (FTypeDef) type;
+      if (!InstanceRules.isInstanceId(typedef)) {
+        typeName = getTypedefName(typedef.getName());
+      }
+    }
 
     return nestedNameSpecifier.isEmpty()
-        ? "::" + compoundName
-        : "::" + String.join("::", nestedNameSpecifier) + "::" + compoundName;
+        ? "::" + typeName
+        : "::"
+            + String.join("::", nestedNameSpecifier)
+            + (typeName.isEmpty() ? "" : "::" + typeName);
   }
 
   public static String getClassName(String typeCollectionName) {

@@ -104,8 +104,7 @@ public class CppTypeMapperArrayTest {
     when(includeResolver.resolveInclude(any())).thenReturn(internalInclude);
 
     //mock CppNameRules
-    when(CppNameRules.getStructName(structType.getName())).thenReturn("MyStruct");
-    when(CppNameRules.getNestedNameSpecifier(structType)).thenReturn(Arrays.asList("a", "b", "c"));
+    when(CppNameRules.getFullyQualifiedName(structType)).thenReturn("::a::b::c::MyStruct");
 
     //act
     CppTypeRef result = typeMapper.map(typedElement);
