@@ -33,7 +33,7 @@ public class ParameterConversionTemplateTest {
   public void primitiveType() {
 
     JavaType javaType = new JavaPrimitiveType(JavaPrimitiveType.Type.INT);
-    CppTypeRef cppTypeRef = new CppPrimitiveTypeRef(CppPrimitiveTypeRef.Type.INT8);
+    CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT8;
 
     JniType jniType = JniType.createType(javaType, cppTypeRef, false);
 
