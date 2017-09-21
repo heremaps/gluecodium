@@ -22,7 +22,6 @@ import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
 import org.franca.core.franca.FUnionType;
 
 public class CppTypeMapper {
@@ -31,13 +30,6 @@ public class CppTypeMapper {
 
   public CppTypeMapper(final CppIncludeResolver includeResolver) {
     this.includeResolver = includeResolver;
-  }
-
-  public CppTypeRef map(FTypedElement typedElement) {
-    CppTypeRef type = map(typedElement.getType());
-    return typedElement.isArray()
-        ? CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, type)
-        : type;
   }
 
   public CppTypeRef map(FTypeRef type) {

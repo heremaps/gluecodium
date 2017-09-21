@@ -127,7 +127,6 @@ public class CppModelBuilderTest {
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
     when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
     when(francaMapType.getValueType()).thenReturn(francaAnotherTypeRef);
-    when(francaField.getType()).thenReturn(francaTypeRef);
     when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
 
     when(CppMethodMapper.mapMethodReturnType(any(), any()))
@@ -269,16 +268,14 @@ public class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingInputArgumentMapsType() {
-    when(typeMapper.map(any(FTypedElement.class))).thenReturn(cppComplexTypeRef);
+  public void finishBuildingInputArgumentReadsTypeRef() {
+    contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
     CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
     assertNotNull(cppParameter);
     assertEquals(cppComplexTypeRef, cppParameter.type);
-
-    verify(typeMapper).map(francaArgument);
   }
 
   @Test
@@ -323,21 +320,29 @@ public class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaConstant() {
-    when(typeMapper.map(any(FConstantDef.class))).thenReturn(cppComplexTypeRef);
+  public void finishBuildingFrancaConstantMapsValue() {
     when(valueMapper.map(any(), any(FInitializerExpression.class))).thenReturn(cppValue);
+    contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaConstant);
 
     CppConstant cppConstant = modelBuilder.getFirstResult(CppConstant.class);
     assertNotNull(cppConstant);
-    assertEquals(CONSTANT_NAME, cppConstant.name.toLowerCase());
     assertEquals(CONSTANT_FULLY_QUALIFIED_NAME, cppConstant.fullyQualifiedName);
-    assertEquals(cppComplexTypeRef, cppConstant.type);
     assertEquals(cppValue, cppConstant.value);
 
-    verify(typeMapper).map(francaConstant);
     verify(valueMapper).map(cppComplexTypeRef, francaInitializerExpression);
+  }
+
+  @Test
+  public void finishBuildingFrancaConstantReadsTypeRef() {
+    contextStack.injectResult(cppComplexTypeRef);
+
+    modelBuilder.finishBuilding(francaConstant);
+
+    CppConstant cppConstant = modelBuilder.getFirstResult(CppConstant.class);
+    assertNotNull(cppConstant);
+    assertEquals(cppComplexTypeRef, cppConstant.type);
   }
 
   @Test
@@ -356,7 +361,7 @@ public class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaFieldReadsType() {
+  public void finishBuildingFrancaFieldReadsTypeRef() {
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaField);
@@ -428,7 +433,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeDefNotInstanceId() {
-    when(typeMapper.map(any(FTypeRef.class))).thenReturn(cppComplexTypeRef);
+    when(typeMapper.map(any())).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaTypeDef);
 
@@ -473,12 +478,31 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeRef() {
-    when(typeMapper.map(any(FTypeRef.class))).thenReturn(cppComplexTypeRef);
+    when(typeMapper.map(any())).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaTypeRef);
 
     CppComplexTypeRef result = modelBuilder.getFirstResult(CppComplexTypeRef.class);
     assertEquals(cppComplexTypeRef, result);
+
+    verify(typeMapper).map(francaTypeRef);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeRefWrapsArray() {
+    when(francaField.isArray()).thenReturn(true);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+    when(typeMapper.map(any())).thenReturn(cppComplexTypeRef);
+
+    modelBuilder.finishBuilding(francaTypeRef);
+
+    CppComplexTypeRef result = modelBuilder.getFirstResult(CppComplexTypeRef.class);
+    assertTrue(result instanceof CppTemplateTypeRef);
+
+    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
+    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.templateClass);
+    assertEquals(1, cppTemplateTypeRef.templateParameters.size());
+    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.templateParameters.get(0));
 
     verify(typeMapper).map(francaTypeRef);
   }
@@ -612,22 +636,5 @@ public class CppModelBuilderTest {
     assertEquals(CppPrimitiveTypeRef.VOID, resultMethod.returnType);
     assertFalse(resultMethod.parameters.isEmpty());
     assertEquals(cppComplexTypeRef, resultMethod.parameters.get(0).type);
-  }
-
-  @Test
-  public void finishBuildingFrancaAttributeWrapsArrayTypeIntoVector() {
-    when(francaAttribute.isArray()).thenReturn(true);
-    contextStack.injectResult(cppComplexTypeRef);
-
-    modelBuilder.finishBuilding(francaAttribute);
-
-    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
-    assertNotNull(resultMethod);
-    assertTrue(resultMethod.returnType instanceof CppTemplateTypeRef);
-
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultMethod.returnType;
-    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.templateClass);
-    assertEquals(1, cppTemplateTypeRef.templateParameters.size());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.templateParameters.get(0));
   }
 }

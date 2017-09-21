@@ -26,7 +26,6 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,8 +46,10 @@ public class CppMethodMapperTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMethod francaMethod;
 
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private FArgument francaArgument;
+
   @Mock private FEnumerationType francaEnum;
-  @Mock private FArgument francaArgument;
 
   private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef.Builder(TYPE_NAME).build();
 
@@ -56,7 +57,7 @@ public class CppMethodMapperTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    when(typeMapper.map(any(FTypedElement.class))).thenReturn(cppCustomType);
+    when(typeMapper.map(any())).thenReturn(cppCustomType);
 
     when(francaMethod.getErrorEnum()).thenReturn(null);
     when(francaMethod.getOutArgs()).thenReturn(new ArrayEList<>());
@@ -111,7 +112,7 @@ public class CppMethodMapperTest {
 
     assertEquals(TYPE_NAME, returnTypeData.type.name);
 
-    verify(typeMapper).map(francaArgument);
+    verify(typeMapper).map(francaArgument.getType());
   }
 
   @Test
@@ -134,7 +135,7 @@ public class CppMethodMapperTest {
         "cpp/internal/expected.h",
         returnTypeData.type.includes.iterator().next().fileName);
 
-    verify(typeMapper).map(francaArgument);
+    verify(typeMapper).map(francaArgument.getType());
     verify(typeMapper).mapEnum(francaEnum);
   }
 }

@@ -133,7 +133,11 @@ public class FrancaTreeWalker {
     EList<FConstantDef> constants = francaTypeCollection.getConstants();
     if (constants != null) {
       for (FConstantDef constant : constants) {
-        walk(constant, ModelBuilder::startBuilding, ModelBuilder::finishBuilding);
+        walk(
+            constant,
+            ModelBuilder::startBuilding,
+            ModelBuilder::finishBuilding,
+            this::walkChildNodes);
       }
     }
     EList<FType> types = francaTypeCollection.getTypes();

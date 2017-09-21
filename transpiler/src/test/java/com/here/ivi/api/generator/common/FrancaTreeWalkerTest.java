@@ -411,6 +411,16 @@ public class FrancaTreeWalkerTest {
   }
 
   @Test
+  public void walkWithTypeRefInConstant() {
+    when(francaConstant.getType()).thenReturn(francaTypeRef);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaTypeRef);
+    verify(modelBuilder).finishBuilding(francaTypeRef);
+  }
+
+  @Test
   public void walkWithOneEnumerator() {
     treeWalker.walk(anInterface);
 

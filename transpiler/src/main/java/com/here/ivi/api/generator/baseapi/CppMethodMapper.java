@@ -18,6 +18,7 @@ import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FTypedElement;
 
 /**
  * Helper class for mapping FMethod and related Franca model elements into the C++ model. All
@@ -53,7 +54,11 @@ public final class CppMethodMapper {
     if (!outArgs.isEmpty()) {
       // If outArgs size is 2 or more, the output has to be wrapped in a struct,
       // which is not supported yet.
-      outArgType = typeMapper.map(outArgs.get(0));
+      FTypedElement typedElement = outArgs.get(0);
+      outArgType = typeMapper.map(typedElement.getType());
+      if (typedElement.isArray()) {
+        outArgType = CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, outArgType);
+      }
 
       outArgComment = "The result type, containing " + outArgType.name + " value.";
     }
