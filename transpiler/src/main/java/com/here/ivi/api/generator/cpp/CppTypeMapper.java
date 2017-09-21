@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.cpp;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
-import java.util.List;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
@@ -82,11 +81,9 @@ public class CppTypeMapper {
   }
 
   private CppTypeRef mapTypeDef(FTypeDef typedef) {
-
-    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(typedef);
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(typedef);
 
     if (InstanceRules.isInstanceId(typedef)) {
-      String fullyQualifiedName = createFullyQualifiedName(nestedNameSpecifier, "");
       CppComplexTypeRef instanceType =
           new CppComplexTypeRef.Builder(fullyQualifiedName)
               .includes(includeResolver.resolveInclude(typedef))
@@ -97,12 +94,9 @@ public class CppTypeMapper {
     } else {
 
       CppTypeRef actualType = map(typedef.getActualType());
-      String typeDefName = CppNameRules.getTypedefName(typedef.getName());
 
       return new CppTypeDefRef(
-          createFullyQualifiedName(nestedNameSpecifier, typeDefName),
-          actualType,
-          includeResolver.resolveInclude(typedef));
+          fullyQualifiedName, actualType, includeResolver.resolveInclude(typedef));
     }
   }
 
@@ -121,34 +115,27 @@ public class CppTypeMapper {
 
   public CppComplexTypeRef mapStruct(FStructType struct) {
 
-    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(struct);
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(struct);
 
-    return new CppComplexTypeRef.Builder(
-            createFullyQualifiedName(
-                nestedNameSpecifier, CppNameRules.getStructName(struct.getName())))
+    return new CppComplexTypeRef.Builder(fullyQualifiedName)
         .includes(includeResolver.resolveInclude(struct))
         .build();
   }
 
   public CppComplexTypeRef mapEnum(FEnumerationType enumeration) {
 
-    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(enumeration);
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(enumeration);
 
-    return new CppComplexTypeRef.Builder(
-            createFullyQualifiedName(
-                nestedNameSpecifier, CppNameRules.getEnumName(enumeration.getName())))
+    return new CppComplexTypeRef.Builder(fullyQualifiedName)
         .typeInfo(CppTypeInfo.Enumeration)
         .includes(includeResolver.resolveInclude(enumeration))
         .build();
   }
 
   private CppComplexTypeRef mapUnion(FUnionType union) {
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(union);
 
-    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(union);
-
-    return new CppComplexTypeRef.Builder(
-            createFullyQualifiedName(
-                nestedNameSpecifier, CppNameRules.getStructName(union.getName())))
+    return new CppComplexTypeRef.Builder(fullyQualifiedName)
         .includes(includeResolver.resolveInclude(union))
         .build();
   }
@@ -202,11 +189,5 @@ public class CppTypeMapper {
         throw new TranspilerExecutionException(
             "unmapped predefined [" + type.getPredefined().getName() + "]");
     }
-  }
-
-  private static String createFullyQualifiedName(
-      List<String> nestedNameSpecifier, String unqualifiedId) {
-    return (!nestedNameSpecifier.isEmpty() ? "::" + String.join("::", nestedNameSpecifier) : "")
-        + (unqualifiedId.isEmpty() ? "" : "::" + unqualifiedId);
   }
 }

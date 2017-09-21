@@ -23,9 +23,6 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
@@ -128,8 +125,7 @@ public class CppTypeMapperComplexTest {
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
 
     //mock CppNameRules
-    when(CppNameRules.getStructName(structType.getName())).thenReturn(STRUCT_NAME);
-    when(CppNameRules.getNestedNameSpecifier(structType)).thenReturn(Arrays.asList("a", "b", "c"));
+    when(CppNameRules.getFullyQualifiedName(structType)).thenReturn("::a::b::c::" + STRUCT_NAME);
 
     //act
     CppTypeRef result = typeMapper.map(typeRef);
@@ -154,8 +150,7 @@ public class CppTypeMapperComplexTest {
     when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
 
     //mock CppNameRules
-    when(CppNameRules.getEnumName(enumType.getName())).thenReturn(ENUM_NAME);
-    when(CppNameRules.getNestedNameSpecifier(enumType)).thenReturn(new LinkedList<>());
+    when(CppNameRules.getFullyQualifiedName(enumType)).thenReturn("::" + ENUM_NAME);
 
     CppTypeRef result = typeMapper.map(typeRef);
 
@@ -216,7 +211,7 @@ public class CppTypeMapperComplexTest {
     FTypeRef typeRef = mock(FTypeRef.class);
     when(typeRef.getDerived()).thenReturn(fTypeDef);
     when(fTypeDef.eContainer()).thenReturn(typeRef);
-    when(CppNameRules.getTypedefName(fTypeDef.getName())).thenReturn(TYPEDEF_NAME);
+    when(CppNameRules.getFullyQualifiedName(fTypeDef)).thenReturn("::" + TYPEDEF_NAME);
 
     // Act
     CppTypeRef cppTypeRef = typeMapper.map(typeRef);
@@ -232,9 +227,7 @@ public class CppTypeMapperComplexTest {
 
     //verify
     verifyStatic();
-    CppNameRules.getTypedefName(fTypeDef.getName());
-    verifyStatic();
-    InstanceRules.isInstanceId(fTypeDef);
+    CppNameRules.getFullyQualifiedName(fTypeDef);
   }
 
   @Test
@@ -247,8 +240,7 @@ public class CppTypeMapperComplexTest {
     when(typeRef.getDerived()).thenReturn(fTypeDef);
     when(fTypeDef.eContainer()).thenReturn(typeRef);
     when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
-    when(CppNameRules.getNestedNameSpecifier(fTypeDef))
-        .thenReturn(Collections.singletonList("MyClazz"));
+    when(CppNameRules.getFullyQualifiedName(fTypeDef)).thenReturn("::MyClazz");
 
     // Act
     CppTypeRef cppTypeRef = typeMapper.map(typeRef);
@@ -265,7 +257,7 @@ public class CppTypeMapperComplexTest {
 
     //verify
     verifyStatic();
-    CppNameRules.getNestedNameSpecifier(fTypeDef);
+    CppNameRules.getFullyQualifiedName(fTypeDef);
     verifyStatic();
     InstanceRules.isInstanceId(fTypeDef);
   }
@@ -279,9 +271,7 @@ public class CppTypeMapperComplexTest {
     FTypeRef typeRef = mock(FTypeRef.class);
     when(typeRef.getDerived()).thenReturn(fTypeDef);
     when(fTypeDef.eContainer()).thenReturn(typeRef);
-    when(CppNameRules.getClassName(fTypeDef.getName())).thenReturn(className);
-    when(CppNameRules.getNestedNameSpecifier(fTypeDef))
-        .thenReturn(Arrays.asList("a", "b", "MyClazz"));
+    when(CppNameRules.getFullyQualifiedName(fTypeDef)).thenReturn("::a::b::" + className);
     when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
 
     // Act
@@ -299,7 +289,8 @@ public class CppTypeMapperComplexTest {
 
     //verify
     verifyStatic();
-    CppNameRules.getNestedNameSpecifier(fTypeDef);
+    CppNameRules.getFullyQualifiedName(fTypeDef);
+
     verifyStatic();
     InstanceRules.isInstanceId(fTypeDef);
   }
