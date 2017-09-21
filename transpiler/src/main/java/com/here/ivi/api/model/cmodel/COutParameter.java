@@ -14,15 +14,11 @@ package com.here.ivi.api.model.cmodel;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 
 public class COutParameter extends CParameter {
-  public CppTypeInfo mappedType;
-
   public COutParameter(String name, CppTypeInfo cppType) {
-    super(name, cppType.functionReturnType);
-    mappedType = cppType;
+    super(name, cppType);
   }
 
   public COutParameter() {
-    super("", CType.VOID);
-    mappedType = new CppTypeInfo(CType.VOID);
+    super("", new CppTypeInfo(CType.VOID));
   }
 }

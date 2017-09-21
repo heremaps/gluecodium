@@ -59,12 +59,9 @@ public class CBridgeGenerator {
   }
 
   public static String generatePrivateHeaderContent(CInterface model) {
-
-    if (model.functions.stream().anyMatch(function -> function.internalOnlyFunction)) {
-      return generateFileHeader() + TemplateEngine.render("cbridge/PrivateHeader", model);
-    } else {
-      return "";
-    }
+    return model.hasPrivateHeaderContent()
+        ? generateFileHeader() + TemplateEngine.render("cbridge/PrivateHeader", model)
+        : "";
   }
 
   public static String generateHeaderContent(CInterface model) {

@@ -22,16 +22,14 @@ import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
 import java.util.Arrays;
 import java.util.List;
+import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeDef;
 
 public class CppTypeInfo {
 
   public final String baseType;
-  public final String constructFromCExpr;
   public final List<CType> cTypesNeededByConstructor;
   public final List<String> paramSuffixes;
-  public String returnValueConstrExpr;
   public final CType functionReturnType;
   public TypeCategory typeCategory;
   public final List<Include> conversionToCppIncludes;
@@ -48,51 +46,43 @@ public class CppTypeInfo {
   public static final CppTypeInfo STRING =
       new CppTypeInfo(
           "std::string",
-          "std::string(%1$s)",
           singletonList(CPointerType.CONST_CHAR_PTR),
           singletonList(""),
-          CType.STRING_REF + "{new std::string(std::move(%1$s))}",
           CType.STRING_REF,
           TypeCategory.BUILTIN_STRING,
           singletonList(Include.createSystemInclude("string")),
-          Arrays.asList(
-              Include.createSystemInclude("utility"), Include.createSystemInclude("string")));
+          Arrays.asList(Include.createSystemInclude("string")));
 
   public static final CppTypeInfo BYTE_VECTOR =
       new CppTypeInfo(
           "std::vector<uint8_t>",
-          "std::vector<uint8_t>(%1$s, %1$s + %2$s)",
           asList(CPointerType.makeConstPointer(CType.UINT8), CType.INT64),
           asList("_ptr", "_size"),
-          CType.BYTE_ARRAY_REF + "{new std::vector<uint8_t>(std::move(%1$s))}",
           CType.BYTE_ARRAY_REF,
           TypeCategory.BUILTIN_BYTEBUFFER,
           Arrays.asList(
               Include.createSystemInclude("vector"), Include.createSystemInclude("stdint.h")),
           Arrays.asList(
-              Include.createSystemInclude("vector"),
-              Include.createSystemInclude("utility"),
-              Include.createSystemInclude("stdint.h")));
+              Include.createSystemInclude("vector"), Include.createSystemInclude("stdint.h")));
 
   public static CppTypeInfo createStructTypeInfo(
       final IncludeResolver resolver, final FStructType structType) {
     CBridgeNameRules rules = new CBridgeNameRules();
     String handleName = rules.getStructRefType(structType);
     return new CppTypeInfo(
-        structType.getName(),
-        "*get_pointer(%1$s)",
+        rules.getBaseApiStructName(structType),
         singletonList(
             new CType(
                 handleName,
                 singletonList(
                     resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER)))),
         singletonList(""),
-        handleName + "{ new " + rules.getBaseApiStructName(structType) + "(%s)}",
         new CType(
             handleName,
             singletonList(resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER))),
         TypeCategory.STRUCT,
         asList(
+            resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER),
             resolver.resolveInclude(structType, HeaderType.CBRIDGE_PRIVATE_HEADER),
             resolver.resolveInclude(structType, HeaderType.BASE_API_HEADER)),
         asList(
@@ -101,20 +91,17 @@ public class CppTypeInfo {
   }
 
   public static CppTypeInfo createInstanceTypeInfo(
-      final IncludeResolver resolver, final FTypeDef instanceId) {
+      final IncludeResolver resolver, final FModelElement instanceId) {
     CBridgeNameRules rules = new CBridgeNameRules();
-    String handleName = rules.getStructRefType(instanceId);
-    String baseApiName = rules.getBaseApiInstanceName(instanceId);
+    String handleName = rules.getInstanceRefType(instanceId);
     return new CppTypeInfo(
-        handleName,
-        "*get_pointer(%1$s)",
+        "std::shared_ptr<" + rules.getBaseApiInstanceName(instanceId) + ">",
         singletonList(
             new CType(
                 handleName,
                 singletonList(
                     resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER)))),
         singletonList(""),
-        handleName + "{ new std::shared_ptr<" + baseApiName + "> (%s)}",
         new CType(
             handleName,
             singletonList(resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER))),
@@ -132,19 +119,15 @@ public class CppTypeInfo {
   @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
   private CppTypeInfo(
       String baseType,
-      String constructFromCExpr,
       List<CType> constructFromCTypes,
       List<String> paramSuffixes,
-      String returnValueConstrExpr,
       CType functionReturntype,
       TypeCategory category,
       List<Include> conversionToCppIncludes,
       List<Include> conversionFromCppIncludes) {
     this.baseType = baseType;
-    this.constructFromCExpr = constructFromCExpr;
     this.paramSuffixes = paramSuffixes;
     this.cTypesNeededByConstructor = constructFromCTypes;
-    this.returnValueConstrExpr = returnValueConstrExpr;
     this.functionReturnType = functionReturntype;
     this.typeCategory = category;
     this.conversionToCppIncludes = conversionToCppIncludes;
@@ -153,10 +136,8 @@ public class CppTypeInfo {
 
   public CppTypeInfo(CType type, TypeCategory category) {
     this.baseType = type.name;
-    this.constructFromCExpr = "%1$s";
     this.cTypesNeededByConstructor = singletonList(type);
     this.paramSuffixes = singletonList("");
-    this.returnValueConstrExpr = "%1$s";
     this.functionReturnType = type;
     this.typeCategory = category;
     this.conversionToCppIncludes = emptyList();
@@ -165,5 +146,13 @@ public class CppTypeInfo {
 
   public CppTypeInfo(CType type) {
     this(type, TypeCategory.BUILTIN_SIMPLE);
+  }
+
+  public boolean isRef() {
+    return typeCategory != TypeCategory.BUILTIN_SIMPLE;
+  }
+
+  public boolean isStruct() {
+    return typeCategory == TypeCategory.STRUCT;
   }
 }

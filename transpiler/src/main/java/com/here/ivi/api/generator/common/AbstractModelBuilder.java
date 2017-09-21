@@ -226,6 +226,10 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
     return contextStack.getCurrentContext();
   }
 
+  protected final ModelBuilderContext<E> getParentContext() {
+    return contextStack.getParentContext();
+  }
+
   protected final void storeResult(final E element) {
     ModelBuilderContext<E> currentContext = contextStack.getCurrentContext();
     if (currentContext != null) {

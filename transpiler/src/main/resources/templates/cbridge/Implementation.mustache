@@ -2,8 +2,12 @@
 {{>common/Include}}
 {{/implementationIncludes}}
 
+{{#structs}}
+{{>cbridge/StructImplementation}}
+{{/structs}}
+
 {{#functions}}
-{{^internalOnlyFunction}}{{#definitionTemplate}}{{include . }}{{/definitionTemplate}}{{/internalOnlyFunction}}
+{{>cbridge/FunctionDefinition}}
 {{/functions}}
 
 

@@ -30,7 +30,7 @@ public class CPointerType extends CType {
   }
 
   @Override
-  public String declareBegin() {
+  public String toString() {
     StringBuilder fullType = new StringBuilder().append(pointedType.toString()).append(name);
     if (isConst) {
       fullType.append(' ').append(CONST_SPECIFIER);

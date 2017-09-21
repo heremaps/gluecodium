@@ -2,7 +2,13 @@
 
 {{#privateHeaderIncludes}}{{>common/Include}}{{/privateHeaderIncludes}}
 
-{{#functions}}{{#internalOnlyFunction}}
-{{#definitionTemplate}}{{include . }}{{/definitionTemplate}}
-{{/internalOnlyFunction}}{{/functions}}
-
+{{#structs}}
+inline {{baseApiName}}* get_pointer({{name}}Ref handle) {
+    return static_cast<{{baseApiName}}*>(handle.private_pointer);
+}
+{{/structs}}
+{{#hasInstanceMethod}}
+inline {{selfType.baseType}}* get_pointer({{selfType.functionReturnType}} handle) {
+    return static_cast<{{selfType.baseType}}*>(handle.private_pointer);
+}
+{{/hasInstanceMethod}}

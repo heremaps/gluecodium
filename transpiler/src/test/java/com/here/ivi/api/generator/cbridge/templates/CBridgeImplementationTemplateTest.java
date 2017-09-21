@@ -12,10 +12,8 @@
 package com.here.ivi.api.generator.cbridge.templates;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
-import com.here.ivi.api.model.cmodel.CFunction;
-import com.here.ivi.api.model.cmodel.CInterface;
-import com.here.ivi.api.model.cmodel.CParameter;
-import com.here.ivi.api.model.cmodel.CType;
+import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.*;
@@ -35,7 +33,7 @@ public class CBridgeImplementationTemplateTest {
 
   @Test
   public void systemInclude() {
-    CInterface cInterface = new CInterface();
+    CInterface cInterface = new CInterface("");
     cInterface.implementationIncludes =
         Collections.singleton(Include.createSystemInclude("header.h"));
     final String expected = "#include <header.h>\n";
@@ -45,7 +43,7 @@ public class CBridgeImplementationTemplateTest {
 
   @Test
   public void projectInclude() {
-    CInterface cInterface = new CInterface();
+    CInterface cInterface = new CInterface("");
     cInterface.implementationIncludes =
         Collections.singleton(Include.createInternalInclude("header.h"));
     final String expected = "#include \"header.h\"\n";
@@ -55,51 +53,45 @@ public class CBridgeImplementationTemplateTest {
 
   @Test
   public void function() {
-    CInterface cInterface = new CInterface();
+    CInterface cInterface = new CInterface("");
     cInterface.functions =
         Collections.singletonList(
-            new CFunction.Builder("functionName")
-                .delegateCallTemplate("functionDelegate()")
-                .build());
-    final String expected = "void functionName() {\n" + "    functionDelegate();\n" + "}\n";
+            new CFunction.Builder("functionName").delegate("functionDelegate").build());
+    final String expected = "void functionName() {\n" + "    return functionDelegate();\n" + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
   }
 
   @Test
   public void functionWithOneParameter() {
-    CInterface cInterface = new CInterface();
+    CInterface cInterface = new CInterface("");
     cInterface.functions =
         Collections.singletonList(
             new CFunction.Builder("parameterFunctionName")
-                .parameters(Collections.singletonList(new CParameter("one", CType.INT32)))
-                .delegateCallTemplate("delegator(%1$s)")
+                .parameters(
+                    Collections.singletonList(new CParameter("one", new CppTypeInfo(CType.INT32))))
+                .delegate("delegator")
                 .build());
     final String expected =
-        "void parameterFunctionName(int32_t one) {\n"
-            + "    auto&& cpp_one = one;\n"
-            + "    delegator(cpp_one);\n"
-            + "}\n";
+        "void parameterFunctionName(int32_t one) {\n" + "    return delegator(one);\n" + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
   }
 
   @Test
   public void functionWithTwoParameters() {
-    CInterface cInterface = new CInterface();
-    final CParameter first = new CParameter("first", CType.INT16);
-    final CParameter second = new CParameter("second", CType.DOUBLE);
+    CInterface cInterface = new CInterface("");
+    final CParameter first = new CParameter("first", new CppTypeInfo(CType.INT16));
+    final CParameter second = new CParameter("second", new CppTypeInfo(CType.DOUBLE));
     final CFunction doubleFunction =
         new CFunction.Builder("doubleFunction")
             .parameters(Arrays.asList(first, second))
-            .delegateCallTemplate("namespacy::classy::doubleFunction(%1$s, %2$s)")
+            .delegate("namespacy::classy::doubleFunction")
             .build();
     cInterface.functions = Collections.singletonList(doubleFunction);
     final String expected =
         "void doubleFunction(int16_t first, double second) {\n"
-            + "    auto&& cpp_first = first;\n"
-            + "    auto&& cpp_second = second;\n"
-            + "    namespacy::classy::doubleFunction(cpp_first, cpp_second);\n"
+            + "    return namespacy::classy::doubleFunction(first, second);\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -107,36 +99,89 @@ public class CBridgeImplementationTemplateTest {
 
   @Test
   public void functionWithReturnValue() {
-    CInterface cInterface = new CInterface();
+    CInterface cInterface = new CInterface("");
     cInterface.functions =
         Collections.singletonList(
             new CFunction.Builder("returner")
-                .returnType(CType.FLOAT)
-                .delegateCallTemplate("delegate()")
+                .returnType(new CppTypeInfo(CType.FLOAT))
+                .delegate("delegate")
                 .build());
+    final String expected = "float returner() {\n" + "    return delegate();\n" + "}\n";
+    final String generated = this.generate(cInterface);
+    TemplateComparison.assertEqualImplementationContent(expected, generated);
+  }
+
+  @Test
+  public void nestedStructFieldCreatesGetterOnly() {
+    CInterface cInterface = new CInterface("");
+    CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(CType.VOID));
+    CField field =
+        new CField(
+            "structField",
+            new CppTypeInfo(new CType("NestedRef"), CppTypeInfo.TypeCategory.STRUCT));
+    struct.fields.add(field);
+    cInterface.structs.add(struct);
+
     final String expected =
-        "float returner() {\n"
-            + "    {\n"
-            + "        auto&& cpp_result = delegate();\n"
-            + "        return cpp_result;\n"
-            + "    }\n"
+        "nameRef name_create() {\n"
+            + "    return {new baseName()};\n"
+            + "}\n"
+            + "void name_release(nameRef handle) {\n"
+            + "    delete get_pointer(handle);\n"
+            + "}\n"
+            + "NestedRef name_structField_get(nameRef handle) {\n"
+            + "    return {&get_pointer(handle)->structField};\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
   }
 
   @Test
-  public void privateFunctionNotPresentInImplementation() {
-    CInterface cInterface = new CInterface();
-    CFunction normalFunction = new CFunction.Builder("publicFunction").build();
-    CFunction privateFunction =
-        new CFunction.Builder("privateFunction").markAsInternalOnly().build();
-    List<CFunction> functions = new ArrayList<>();
-    functions.add(normalFunction);
-    functions.add(privateFunction);
-    cInterface.functions = functions;
+  public void stringFieldCreatesGetterAndSetter() {
+    CInterface cInterface = new CInterface("");
+    CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(CType.VOID));
+    CField field = new CField("stringField", CppTypeInfo.STRING);
+    struct.fields.add(field);
+    cInterface.structs.add(struct);
 
-    final String expected = "void publicFunction() {\n    ;\n}\n";
+    final String expected =
+        "nameRef name_create() {\n"
+            + "    return {new baseName()};\n"
+            + "}\n"
+            + "void name_release(nameRef handle) {\n"
+            + "    delete get_pointer(handle);\n"
+            + "}\n"
+            + "std_stringRef name_stringField_get(nameRef handle) {\n"
+            + "    return {&get_pointer(handle)->stringField};\n"
+            + "}\n"
+            + "void name_stringField_set(nameRef handle, const char* stringField) {\n"
+            + "    get_pointer(handle)->stringField.assign(stringField);\n"
+            + "}\n";
+    final String generated = this.generate(cInterface);
+    TemplateComparison.assertEqualImplementationContent(expected, generated);
+  }
+
+  @Test
+  public void primitiveFieldCreatesGetterAndSetter() {
+    CInterface cInterface = new CInterface("");
+    CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(CType.VOID));
+    CField field = new CField("floatField", new CppTypeInfo(CType.FLOAT));
+    struct.fields.add(field);
+    cInterface.structs.add(struct);
+
+    final String expected =
+        "nameRef name_create() {\n"
+            + "    return {new baseName()};\n"
+            + "}\n"
+            + "void name_release(nameRef handle) {\n"
+            + "    delete get_pointer(handle);\n"
+            + "}\n"
+            + "float name_floatField_get(nameRef handle) {\n"
+            + "    return get_pointer(handle)->floatField;\n"
+            + "}\n"
+            + "void name_floatField_set(nameRef handle, float floatField) {\n"
+            + "    get_pointer(handle)->floatField = floatField;\n"
+            + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
   }

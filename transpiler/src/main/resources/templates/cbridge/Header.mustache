@@ -5,10 +5,23 @@ extern "C" {
 
 {{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
 
-{{#structs}}{{>cbridge/CStruct}}{{/structs}}
+{{#structs}}{{>cbridge/StructDefinition}}{{/structs}}
 
-{{#functions}}{{^internalOnlyFunction}}{{>cbridge/FunctionSignature}};
-{{/internalOnlyFunction}}{{/functions}}
+{{#hasInstanceMethod}}
+typedef struct {
+    void* const private_pointer;
+} {{selfType.functionReturnType}}
+
+void {{name}}_release({{selfType.functionReturnType}} handle);
+
+{{/hasInstanceMethod}}
+{{#if functionTableName}}
+{{>cbridge/FunctionTable}}
+
+{{/if}}
+{{#functions}}
+{{>cbridge/FunctionSignature}};
+{{/functions}}
 
 #ifdef __cplusplus
 }
