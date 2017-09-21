@@ -19,8 +19,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.model.cppmodel.CppClass;
@@ -42,14 +42,9 @@ import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FField;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModel;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.*;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
@@ -64,33 +59,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @SuppressWarnings("PMD.TooManyFields")
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({JniType.class, InstanceRules.class})
+@PrepareForTest(InstanceRules.class)
 public class JniModelBuilderTest {
-
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement rootModel;
-
-  @Mock private FInterface francaInterface;
-  @Mock private FTypeCollection francaTypeCollection;
-  @Mock private FMethod francaMethod;
-  @Mock private FArgument francaArgument;
-  @Mock private FStructType francaStructType;
-  @Mock private FField francaField;
-  @Mock private FModel fModel;
-
-  @Mock private JavaModelBuilder javaBuilder;
-  @Mock private CppModelBuilder cppBuilder;
-
-  private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
-  private final CppClass cppClass = new CppClass(CPP_CLASS_NAME);
-  private final JavaCustomType javaCustomType = new JavaCustomType(JAVA_CLASS_NAME);
-  private final CppComplexTypeRef cppCustomType =
-      new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build();
-
-  private static final List<String> JAVA_PACKAGES = Arrays.asList("my", "java", "test");
-
-  private static final List<String> CPP_NAMESPACE_MEMBERS =
-      Arrays.asList("my", "cpp", "stuffs", "namespace");
 
   private static final String JAVA_CLASS_NAME = "jAvaClazz";
   private static final String CPP_CLASS_NAME = "cPpClass";
@@ -104,19 +74,51 @@ public class JniModelBuilderTest {
   private static final String BASE_NAME_PARAMETER = "theParam";
   private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
 
+  private static final List<String> JAVA_PACKAGES = Arrays.asList("my", "java", "test");
+  private static final List<String> CPP_NAMESPACE_MEMBERS =
+      Arrays.asList("my", "cpp", "stuffs", "namespace");
+
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private FrancaElement rootModel;
+
+  @Mock private FInterface francaInterface;
+  @Mock private FTypeCollection francaTypeCollection;
+  @Mock private FMethod francaMethod;
+  @Mock private FArgument francaArgument;
+  @Mock private FStructType francaStructType;
+  @Mock private FField francaField;
+  @Mock private FModel fModel;
+  @Mock private FAttribute francaAttribute;
+
+  @Mock private JavaModelBuilder javaBuilder;
+  @Mock private CppModelBuilder cppBuilder;
+
+  private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
+  private final CppClass cppClass = new CppClass(CPP_CLASS_NAME);
+  private final JavaCustomType javaCustomType = new JavaCustomType(JAVA_CLASS_NAME);
+  private final CppComplexTypeRef cppCustomType =
+      new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build();
+
   private final MockContextStack<JniElement> contextStack = new MockContextStack<>();
 
   private final JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null);
+  private final JavaMethod javaGetter = new JavaMethod("getFoo", new JavaCustomType("FooType"));
+  private final CppMethod cppGetter =
+      new CppMethod.Builder("shootFoot").returnType(CppPrimitiveTypeRef.INT32).build();
+  private final JavaMethod javaSetter = new JavaMethod("setFoo", JavaPrimitiveType.VOID);
+  private final CppMethod cppSetter = new CppMethod.Builder("shootBothFeet").build();
 
   private JniModelBuilder modelBuilder;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-
-    PowerMockito.mockStatic(JniType.class, InstanceRules.class);
+    PowerMockito.mockStatic(InstanceRules.class);
 
     modelBuilder = new JniModelBuilder(contextStack, rootModel, javaBuilder, cppBuilder);
+
+    javaSetter.parameters.add(new JavaParameter(JavaPrimitiveType.INT, "value"));
+    cppSetter.parameters.add(new CppParameter("value", CppPrimitiveTypeRef.INT8));
 
     when(javaBuilder.getFirstResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFirstResult(any())).thenReturn(cppClass);
@@ -176,9 +178,8 @@ public class JniModelBuilderTest {
     assertNotNull(jniMethod);
     assertEquals(javaMethod.name, jniMethod.javaMethodName);
     assertEquals(cppMethod.name, jniMethod.cppMethodName);
-
-    verifyStatic();
-    JniType.createType(javaMethod.returnType, cppMethod.returnType);
+    assertEquals(javaMethod.returnType.name, jniMethod.returnType.javaName);
+    assertEquals(cppMethod.returnType.name, jniMethod.returnType.cppName);
   }
 
   @Test
@@ -287,9 +288,8 @@ public class JniModelBuilderTest {
     JniParameter resultParameter = modelBuilder.getFirstResult(JniParameter.class);
     assertNotNull(resultParameter);
     assertEquals(javaParameter.name, resultParameter.name);
-
-    verifyStatic();
-    JniType.createType(javaParameter.type, cppParameter.type, false);
+    assertEquals(javaParameter.type.name, resultParameter.type.javaName);
+    assertEquals(cppParameter.type.name, resultParameter.type.cppName);
   }
 
   @Test
@@ -299,6 +299,7 @@ public class JniModelBuilderTest {
         new CppParameter("absolute", new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build());
     when(javaBuilder.getFirstResult(any())).thenReturn(javaParameter);
     when(cppBuilder.getFirstResult(any())).thenReturn(cppParameter);
+
     FTypeRef fTypeRef = mock(FTypeRef.class);
     when(fTypeRef.getDerived()).thenReturn(mock(FTypeDef.class));
     when(francaArgument.getType()).thenReturn(fTypeRef);
@@ -308,10 +309,7 @@ public class JniModelBuilderTest {
 
     JniParameter resultParameter = modelBuilder.getFirstResult(JniParameter.class);
     assertNotNull(resultParameter);
-    assertEquals(javaParameter.name, resultParameter.name);
-
-    verifyStatic();
-    JniType.createType(javaParameter.type, cppParameter.type, true);
+    assertTrue(resultParameter.type.isInstance);
   }
 
   @Test
@@ -395,5 +393,78 @@ public class JniModelBuilderTest {
     assertEquals("my.cpp.stuffs.namespace", String.join(".", jniContainer.cppNameSpaces));
     assertNull(jniContainer.javaName);
     assertNull(jniContainer.cppName);
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeCreatesGetter() {
+    when(javaBuilder.getResults()).thenReturn(Arrays.asList(javaGetter, javaSetter));
+    when(cppBuilder.getResults()).thenReturn(Arrays.asList(cppGetter, cppSetter));
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    JniMethod jniMethod = modelBuilder.getFirstResult(JniMethod.class);
+    assertNotNull(jniMethod);
+    assertEquals(javaGetter.name, jniMethod.javaMethodName);
+    assertEquals(cppGetter.name, jniMethod.cppMethodName);
+    assertEquals(javaGetter.returnType.name, jniMethod.returnType.javaName);
+    assertEquals(cppGetter.returnType.name, jniMethod.returnType.cppName);
+    assertFalse(jniMethod.isStatic);
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeCreatesSetter() {
+    when(javaBuilder.getResults()).thenReturn(Arrays.asList(javaGetter, javaSetter));
+    when(cppBuilder.getResults()).thenReturn(Arrays.asList(cppGetter, cppSetter));
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JniMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getResults(), JniMethod.class);
+    assertEquals("Both a getter and a setter should be created", 2, methods.size());
+
+    JniMethod jniMethod = methods.get(1);
+    assertEquals(javaSetter.name, jniMethod.javaMethodName);
+    assertEquals(cppSetter.name, jniMethod.cppMethodName);
+    assertNull(jniMethod.returnType);
+    assertFalse(jniMethod.isStatic);
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeReadsParametersIntoSetter() {
+    when(javaBuilder.getResults()).thenReturn(Arrays.asList(javaGetter, javaSetter));
+    when(cppBuilder.getResults()).thenReturn(Arrays.asList(cppGetter, cppSetter));
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JniMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getResults(), JniMethod.class);
+    assertEquals("Both a getter and a setter should be created", 2, methods.size());
+
+    JniMethod jniMethod = methods.get(1);
+    assertEquals(1, jniMethod.parameters.size());
+
+    JniParameter setterParameter = jniMethod.parameters.get(0);
+    assertEquals(javaSetter.parameters.get(0).name, setterParameter.name);
+    assertEquals(javaSetter.parameters.get(0).type.name, setterParameter.type.javaName);
+    assertEquals(cppSetter.parameters.get(0).type.name, setterParameter.type.cppName);
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeReadonly() {
+    when(francaAttribute.isReadonly()).thenReturn(true);
+    when(javaBuilder.getResults()).thenReturn(Collections.singletonList(javaGetter));
+    when(cppBuilder.getResults()).thenReturn(Collections.singletonList(cppGetter));
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JniMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getResults(), JniMethod.class);
+    assertEquals("Only a getter should be created", 1, methods.size());
+
+    JniMethod jniMethod = methods.get(0);
+    assertEquals(javaGetter.name, jniMethod.javaMethodName);
+    assertEquals(cppGetter.name, jniMethod.cppMethodName);
+    assertEquals(javaGetter.returnType.name, jniMethod.returnType.javaName);
+    assertEquals(cppGetter.returnType.name, jniMethod.returnType.cppName);
   }
 }
