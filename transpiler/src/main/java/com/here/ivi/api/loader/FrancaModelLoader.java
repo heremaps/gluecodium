@@ -90,7 +90,8 @@ public class FrancaModelLoader {
 
   // groups the files by extension
   private static Map<String, List<File>> separateFiles(Collection<File> files) {
-    Function<File, String> fileSuffix = f -> FilenameUtils.getExtension(f.getName());
+
+    Function<File, String> fileSuffix = file -> FilenameUtils.getExtension(file.getName());
 
     // create a map of absolute files, mapped by suffix to file
     Map<String, List<File>> map =
@@ -106,11 +107,12 @@ public class FrancaModelLoader {
                         "getCanonicalFile() failed for file " + f.toString(), e);
                   }
                 })
+            .sorted()
             .collect(Collectors.groupingBy(fileSuffix));
 
     // ensure null lists are replaced by empty lists
-    map.computeIfAbsent(FIDL_SUFFIX, k -> Collections.emptyList());
-    map.computeIfAbsent(FDEPL_SUFFIX, k -> Collections.emptyList());
+    map.computeIfAbsent(FIDL_SUFFIX, key -> Collections.emptyList());
+    map.computeIfAbsent(FDEPL_SUFFIX, key -> Collections.emptyList());
 
     return map;
   }
