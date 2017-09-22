@@ -26,4 +26,8 @@ public class CStruct extends CType {
     this.baseApiName = baseApiName;
     this.mappedType = mappedType;
   }
+
+  public String getType() {
+    return mappedType.functionReturnType.toString();
+  }
 }

@@ -1,14 +1,14 @@
-{{name}}Ref {{name}}_create() {
+{{type}} {{name}}_create() {
     return {new {{baseApiName}}()};
 }
 
-void {{name}}_release({{name}}Ref handle) {
+void {{name}}_release({{type}} handle) {
     delete get_pointer(handle);
 }
 
-{{#set structname=name}}
+{{#set structname=name structtype=type}}
 {{#fields}}
-{{type.functionReturnType}} {{structname}}_{{name}}_get({{structname}}Ref handle) {
+{{type.functionReturnType}} {{structname}}_{{name}}_get({{structtype}} handle) {
 {{#switch type.typeCategory.toString}}
     {{#case "BUILTIN_SIMPLE"}}return get_pointer(handle)->{{name}};{{/case}}{{!!
     }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(get_pointer(handle)->{{name}});{{/case}}{{!!
@@ -17,7 +17,7 @@ void {{name}}_release({{name}}Ref handle) {
 }
 
 {{^type.isStruct}}
-void {{structname}}_{{name}}_set({{structname}}Ref handle, {{join setterParameters delimiter=", "}}) {
+void {{structname}}_{{name}}_set({{structtype}} handle, {{join setterParameters delimiter=", "}}) {
     get_pointer(handle)->{{name}}{{#switch type.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}.assign({{setterParameters.0.name}}, {{setterParameters.0.name}} + {{setterParameters.1.name}});{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}.assign({{setterParameters.0.name}});{{/case}}{{!!

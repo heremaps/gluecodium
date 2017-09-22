@@ -142,4 +142,33 @@ public class CBridgeHeaderTemplateTest {
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
   }
+
+  @Test
+  public void emptyStructsDefinition() {
+
+    final CType type1 = new CType("Struct1TypeRef");
+    final CStruct cStruct1 =
+        new CStruct("Struct1Name", "BaseAPIStruct1Name", new CppTypeInfo(type1));
+
+    final CType type2 = new CType("Struct2TypeRef");
+    final CStruct cStruct2 =
+        new CStruct("Struct2Name", "BaseAPIStruct2Name", new CppTypeInfo(type2));
+
+    CInterface cInterface = new CInterface("");
+    cInterface.structs = Arrays.asList(cStruct1, cStruct2);
+    final String expected =
+        "typedef struct {\n"
+            + "    void* const private_pointer;\n"
+            + "} Struct1TypeRef;\n"
+            + "Struct1TypeRef Struct1Name_create();\n"
+            + "void Struct1Name_release(Struct1TypeRef handle);\n"
+            + "\n"
+            + "typedef struct {\n"
+            + "    void* const private_pointer;\n"
+            + "} Struct2TypeRef;\n"
+            + "Struct2TypeRef Struct2Name_create();\n"
+            + "void Struct2Name_release(Struct2TypeRef handle);\n";
+    final String generated = this.generate(cInterface);
+    TemplateComparison.assertEqualHeaderContent(expected, generated);
+  }
 }
