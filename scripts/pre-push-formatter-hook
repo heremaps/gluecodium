@@ -1,0 +1,49 @@
+#!/bin/bash -e
+
+# --------------------------------------------------------------------------------------------------
+#
+# Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+#
+# This software, including documentation, is protected by copyright controlled by
+# HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+# adapting or translating, any or all of this material requires the prior written
+# consent of HERE Global B.V. This material also contains confidential information,
+# which may not be disclosed to others without prior written consent of HERE Global B.V.
+#
+# --------------------------------------------------------------------------------------------------
+
+# Git pre-push hook that checks if the commit complies with Google Java Format
+#
+# This is necessary to check if any unformatted changes have been introduced with git operations
+# that don't trigger pre-commit hook (for example 'git rebase --continue')
+
+RESULT=0
+
+# Stash all files that are not included in the commit (staged, unstaged changes and untracked files)
+STASH_NAME="pre-push-$(date +%s)"
+git stash save --quiet --include-untracked $STASH_NAME
+
+# Run the check only if any of the following file extensions are in the commit
+# These file extensions are the same that are formatted with Spotless
+if git diff --name-only HEAD~1 HEAD | egrep --quiet ".*\.(java|h|cpp|gradle|md|gitignore)$"; then
+
+    # Go to project root directory
+    cd $(git rev-parse --show-toplevel)
+
+    # Check if commit complies with Google Java Format
+    ./gradlew spotlessCheck --daemon >/dev/null 2>&1
+    RESULT=$?
+fi
+
+# Unstash (if it has been done)
+STASH_INDEX=$(git stash list | grep $STASH_NAME | awk '{printf $1}' | sed 's/://')
+if [ ! -z "$STASH_INDEX" ]; then
+    # Redirect to dev/null since "Already up-to-date!" could be printed on untracked files restore
+    git stash pop --quiet ${STASH_INDEX} >/dev/null 2>&1
+fi
+
+if [ $RESULT -eq 1 ]; then
+    echo "Commit rejected: please run ./gradlew spotlessApply to format your patch."
+fi
+
+exit $RESULT
