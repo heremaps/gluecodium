@@ -75,11 +75,11 @@ public class ParameterConversionTemplateTest {
 
     assertEquals(
         "  MyCppClass myParameter;\n"
-            + "    if (env->IsInstanceOf(jmyParameter, env->FindClass"
-            + "(\"com/here/android/NativeBase\"))) {\n"
-            + "      // TODO APIGEN-205: pull out c++ pointer and assign myParameter to it\n"
+            + "    if (env->IsInstanceOf(jmyParameter, env->FindClass(\"com/here/android/NativeBase\"))) {\n"
+            + "        auto long_ptr_myParameter = get_long_field(env, env->GetObjectClass(jmyParameter), jmyParameter, \"nativeHandle\");\n"
+            + "        myParameter = *reinterpret_cast<MyCppClass*> (long_ptr_myParameter);\n"
             + "    } else {\n"
-            + "      // TODO APIGEN-709: create cpp proxy for java object\n"
+            + "        // TODO APIGEN-709: create cpp proxy for java object\n"
             + "    }\n",
         generated);
   }

@@ -1,9 +1,10 @@
 {{#if type.isInstance}}
   {{type.cppName}} {{name}};
     if (env->IsInstanceOf(j{{name}}, env->FindClass("com/here/android/NativeBase"))) {
-      // TODO APIGEN-205: pull out c++ pointer and assign {{name}} to it
+        auto long_ptr_{{name}} = get_long_field(env, env->GetObjectClass(j{{name}}), j{{name}}, "nativeHandle");
+        {{name}} = *reinterpret_cast<{{type.cppName}}*> (long_ptr_{{name}});
     } else {
-      // TODO APIGEN-709: create cpp proxy for java object
+        // TODO APIGEN-709: create cpp proxy for java object
     }
 {{/if}}
 {{#unless type.isInstance}}
