@@ -42,12 +42,6 @@ public class CppTypeMapper {
   }
 
   public CppTypeRef map(FTypeRef type) {
-    if (type.getDerived() != null) {
-      return mapDerived(type.getDerived());
-    }
-    if (type.getPredefined() != FBasicTypeId.UNDEFINED) {
-      return mapPredefined(type);
-    }
 
     if (type.getInterval() != null) {
       throw new TranspilerExecutionException(
@@ -56,7 +50,7 @@ public class CppTypeMapper {
               + type);
     }
 
-    throw new TranspilerExecutionException("Unmapped ftype ref" + type);
+    return type.getDerived() != null ? mapDerived(type.getDerived()) : mapPredefined(type);
   }
 
   private CppTypeRef mapDerived(FType derived) {
@@ -101,15 +95,16 @@ public class CppTypeMapper {
     }
   }
 
-  public CppComplexTypeRef mapArray(final FArrayType array) {
+  private CppComplexTypeRef mapArray(final FArrayType array) {
     CppTypeRef elementType = map(array.getElementType());
     return CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
   }
 
-  public CppComplexTypeRef mapMapType(FMapType francaMapType) {
+  private CppComplexTypeRef mapMapType(FMapType francaMapType) {
+    return wrapMap(map(francaMapType.getKeyType()), map(francaMapType.getValueType()));
+  }
 
-    CppTypeRef key = map(francaMapType.getKeyType());
-    CppTypeRef value = map(francaMapType.getValueType());
+  public static CppComplexTypeRef wrapMap(CppTypeRef key, CppTypeRef value) {
 
     return CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.MAP, key, value);
   }
@@ -183,6 +178,9 @@ public class CppTypeMapper {
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return CppTemplateTypeRef.create(
             CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8);
+
+      case FBasicTypeId.UNDEFINED_VALUE:
+        return CppPrimitiveTypeRef.VOID;
 
       default:
         throw new TranspilerExecutionException(

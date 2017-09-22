@@ -65,6 +65,9 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
     initTreeNode(FEnumerator.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(FField.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(FUnionType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(FTypeDef.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(FArrayType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+    initTreeNode(FMapType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(
         IN_ARG_KEY,
         FArgument.class,
@@ -79,9 +82,6 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
         FrancaTreeWalker::walkChildNodes);
 
     // Leaf nodes
-    initTreeNode(FTypeDef.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
-    initTreeNode(FArrayType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
-    initTreeNode(FMapType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
     initTreeNode(FExpression.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
     initTreeNode(FTypeRef.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
   }
@@ -166,5 +166,18 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
 
   private void walkChildNodes(FEnumerator francaEnumerator) {
     walk(francaEnumerator.getValue());
+  }
+
+  private void walkChildNodes(FTypeDef francaTypeDef) {
+    walk(francaTypeDef.getActualType());
+  }
+
+  private void walkChildNodes(FArrayType francaArrayType) {
+    walk(francaArrayType.getElementType());
+  }
+
+  private void walkChildNodes(FMapType francaMapType) {
+    walk(francaMapType.getKeyType());
+    walk(francaMapType.getValueType());
   }
 }

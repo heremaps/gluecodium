@@ -155,11 +155,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FTypeDef francaTypeDef) {
 
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
-      String typedefName = CppNameRules.getTypedefName(francaTypeDef.getName());
+      String typeDefName = CppNameRules.getTypedefName(francaTypeDef.getName());
       String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaTypeDef);
-      CppTypeRef typedefType = typeMapper.map(francaTypeDef.getActualType());
+      CppTypeRef cppTypeRef =
+          CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
 
-      CppUsing cppUsing = new CppUsing(typedefName, fullyQualifiedName, typedefType);
+      CppUsing cppUsing = new CppUsing(typeDefName, fullyQualifiedName, cppTypeRef);
       cppUsing.comment = CppCommentParser.parse(francaTypeDef).getMainBodyText();
 
       storeResult(cppUsing);
@@ -172,7 +173,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FArrayType francaArrayType) {
 
     String name = CppNameRules.getTypedefName(francaArrayType.getName());
-    CppTypeRef targetType = typeMapper.mapArray(francaArrayType);
+    CppTypeRef elementType =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppTypeRef targetType =
+        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
     CppUsing cppUsing = new CppUsing(name, targetType);
     cppUsing.comment = CppCommentParser.parse(francaArrayType).getMainBodyText();
 
@@ -184,7 +188,9 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FMapType francaMapType) {
 
     String name = CppNameRules.getTypedefName(francaMapType.getName());
-    CppTypeRef targetType = typeMapper.mapMapType(francaMapType);
+    List<CppTypeRef> typeRefs =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppTypeRef targetType = CppTypeMapper.wrapMap(typeRefs.get(0), typeRefs.get(1));
     CppUsing cppUsing = new CppUsing(name, targetType);
     cppUsing.comment = CppCommentParser.parse(francaMapType).getMainBodyText();
 

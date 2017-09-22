@@ -433,7 +433,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeDefNotInstanceId() {
-    when(typeMapper.map(any())).thenReturn(cppComplexTypeRef);
+    contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaTypeDef);
 
@@ -442,38 +442,45 @@ public class CppModelBuilderTest {
     assertEquals("definitely", resultUsing.name.toLowerCase());
     assertEquals(cppComplexTypeRef, resultUsing.definition);
 
-    verify(typeMapper).map(francaTypeRef);
-
     PowerMockito.verifyStatic();
     InstanceRules.isInstanceId(francaTypeDef);
   }
 
   @Test
   public void finishBuildingFrancaArrayType() {
-    when(typeMapper.mapArray(any())).thenReturn(cppComplexTypeRef);
+    contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaArrayType);
 
     CppUsing resultUsing = modelBuilder.getFirstResult(CppUsing.class);
     assertNotNull(resultUsing);
     assertEquals("relay", resultUsing.name.toLowerCase());
-    assertEquals(cppComplexTypeRef, resultUsing.definition);
+    assertTrue(resultUsing.definition instanceof CppTemplateTypeRef);
 
-    verify(typeMapper).mapArray(francaArrayType);
+    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultUsing.definition;
+    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.templateClass);
+    assertEquals(1, cppTemplateTypeRef.templateParameters.size());
+    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.templateParameters.get(0));
   }
 
   @Test
   public void finishBuildingFrancaMapType() {
-    when(typeMapper.mapMapType(any())).thenReturn(cppComplexTypeRef);
+    CppTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.INT8;
+    contextStack.injectResult(cppPrimitiveTypeRef);
+    contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaMapType);
 
     CppUsing resultUsing = modelBuilder.getFirstResult(CppUsing.class);
     assertNotNull(resultUsing);
     assertEquals("tigers", resultUsing.name.toLowerCase());
-    assertEquals(cppComplexTypeRef, resultUsing.definition);
+    assertTrue(resultUsing.definition instanceof CppTemplateTypeRef);
 
-    verify(typeMapper).mapMapType(francaMapType);
+    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultUsing.definition;
+    assertEquals(CppTemplateTypeRef.TemplateClass.MAP, cppTemplateTypeRef.templateClass);
+    assertEquals(2, cppTemplateTypeRef.templateParameters.size());
+    assertEquals(cppPrimitiveTypeRef, cppTemplateTypeRef.templateParameters.get(0));
+    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.templateParameters.get(1));
   }
 
   @Test
