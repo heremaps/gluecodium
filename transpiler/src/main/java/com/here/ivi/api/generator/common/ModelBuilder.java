@@ -31,7 +31,7 @@ public interface ModelBuilder {
 
   void startBuilding(FConstantDef francaConstant);
 
-  void startBuilding(FTypedElement francaTypedElement);
+  void startBuilding(FField francaField);
 
   void startBuilding(FStructType francaStructType);
 
@@ -65,7 +65,7 @@ public interface ModelBuilder {
 
   void finishBuilding(FConstantDef francaConstant);
 
-  void finishBuilding(FTypedElement francaTypedElement);
+  void finishBuilding(FField francaField);
 
   void finishBuilding(FStructType francaStructType);
 

@@ -30,12 +30,7 @@ import com.here.ivi.api.model.swift.SwiftParameter;
 import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftStructField;
 import java.util.List;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.*;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   private final FrancaElement rootModel;
@@ -91,13 +86,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   }
 
   @Override
-  public void finishBuilding(FTypedElement francaTypedElement) {
+  public void finishBuilding(FField francaField) {
     SwiftStructField structField =
         new SwiftStructField(
-            francaTypedElement.getName(),
-            SwiftTypeMapper.mapType(rootModel, francaTypedElement.getType()));
+            francaField.getName(), SwiftTypeMapper.mapType(rootModel, francaField.getType()));
     storeResult(structField);
-    super.finishBuilding(francaTypedElement);
+    super.finishBuilding(francaField);
   }
 
   @Override

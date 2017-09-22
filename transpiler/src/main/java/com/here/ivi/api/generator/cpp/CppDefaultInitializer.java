@@ -13,19 +13,19 @@ package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.model.cppmodel.CppValue;
 import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FField;
 import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
 
 public class CppDefaultInitializer {
 
-  public static CppValue map(FTypedElement typedElement) {
+  public static CppValue map(FField francaField) {
     // arrays are initialized empty
-    if (typedElement.isArray()) {
+    if (francaField.isArray()) {
       return null;
     }
 
     // use default value for type
-    return map(typedElement.getType());
+    return map(francaField.getType());
   }
 
   public static CppValue map(FTypeRef it) {
