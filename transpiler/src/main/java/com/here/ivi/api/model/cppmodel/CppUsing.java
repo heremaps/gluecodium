@@ -18,7 +18,11 @@ public class CppUsing extends CppElement {
   public final CppTypeRef definition;
 
   public CppUsing(final String name, final CppTypeRef definition) {
-    super(name);
+    this(name, name, definition);
+  }
+
+  public CppUsing(final String name, final String fullyQualifiedName, final CppTypeRef definition) {
+    super(name, fullyQualifiedName);
     this.definition = definition;
   }
 

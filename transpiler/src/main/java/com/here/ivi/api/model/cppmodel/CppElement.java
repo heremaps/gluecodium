@@ -19,10 +19,16 @@ import lombok.EqualsAndHashCode;
 public class CppElement {
 
   public final String name;
+  public final String fullyQualifiedName;
   public String comment;
 
   public CppElement(final String name) {
+    this(name, name);
+  }
+
+  public CppElement(final String name, final String fullyQualifiedName) {
     this.name = name;
+    this.fullyQualifiedName = fullyQualifiedName;
   }
 
   @Override

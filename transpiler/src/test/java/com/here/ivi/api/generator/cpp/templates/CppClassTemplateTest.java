@@ -44,7 +44,7 @@ public final class CppClassTemplateTest {
   private final CppInheritance cppInheritance =
       new CppInheritance(cppPrimitiveTypeRef, CppInheritance.Type.Protected);
   private final CppStruct cppStruct = new CppStruct("Structural");
-  private final CppEnum cppEnum = new CppEnum("Innumerable");
+  private final CppEnum cppEnum = CppEnum.create("Innumerable");
   private final CppUsing cppUsing = new CppUsing("Useful", cppPrimitiveTypeRef);
   private final CppMethod cppMethod =
       new CppMethod.Builder("methodical").specifier(CppMethod.Specifier.STATIC).build();
@@ -138,7 +138,7 @@ public final class CppClassTemplateTest {
   @Test
   public void classWithTwoEnums() {
     cppClass.enums.add(cppEnum);
-    cppClass.enums.add(new CppEnum("SomeEnum", true));
+    cppClass.enums.add(CppEnum.createScoped("SomeEnum"));
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 

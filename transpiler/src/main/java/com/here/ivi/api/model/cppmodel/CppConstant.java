@@ -19,7 +19,15 @@ public class CppConstant extends CppElement {
   public final CppValue value;
 
   public CppConstant(final String name, final CppTypeRef type, final CppValue value) {
-    super(name);
+    this(name, name, type, value);
+  }
+
+  public CppConstant(
+      final String name,
+      final String fullyQualifiedName,
+      final CppTypeRef type,
+      final CppValue value) {
+    super(name, fullyQualifiedName);
     this.type = type;
     this.value = value;
   }

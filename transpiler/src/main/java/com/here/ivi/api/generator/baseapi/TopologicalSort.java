@@ -11,17 +11,21 @@
 
 package com.here.ivi.api.generator.baseapi;
 
+import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.model.cppmodel.CppConstant;
+import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import java.util.HashMap;
+import com.here.ivi.api.model.cppmodel.CppUsing;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public final class TopologicalSort {
   /**
@@ -29,62 +33,66 @@ public final class TopologicalSort {
    * https://en.wikipedia.org/wiki/Topological_sorting on the given structs and assign priorities to
    * structs so the most-basic structs are defined first to avoid compilation errors on C++.
    *
-   * @param structs List of CppStruct
+   * @param elements List of CppElements
    */
-  public static List<CppStruct> sort(List<CppStruct> structs) {
+  private final List<CppElement> elements;
 
-    List<CppStruct> sortedStructs = new LinkedList<>();
+  // fully qualified names of elements
+  private final Set<String> fullyQualifiedNames;
 
-    // for fast look up of a struct by name
-    Map<String, CppStruct> nameToStructMap = new HashMap<>();
-    structs.forEach(struct -> nameToStructMap.put(struct.fullyQualifiedName, struct));
+  public TopologicalSort(List<CppElement> elements) {
+
+    this.elements = elements;
+    this.fullyQualifiedNames =
+        elements.stream().map(e -> e.fullyQualifiedName).collect(Collectors.toSet());
+  }
+
+  public List<CppElement> sort() {
+
+    List<CppElement> sortedElements = new LinkedList<>();
 
     // structs dependencies map
-    Map<String, Set<String>> dependencies = buildDependencies(structs, nameToStructMap);
+    Map<String, Set<String>> dependencies = buildDependencies();
 
-    // start structs are those who have dependencies fulfilled
-    Set<String> startStructs = new LinkedHashSet<>();
-    structs.forEach(
-        struct -> {
-          String structName = struct.fullyQualifiedName;
-          if (dependencies.get(structName).isEmpty()) {
-            startStructs.add(structName);
-          }
-        });
+    while (sortedElements.size() < elements.size()) {
 
-    while (!startStructs.isEmpty()) {
-      String structName = startStructs.iterator().next();
-      startStructs.remove(structName);
+      // find the first element with no dependency needed which is not in the sorted elements
+      CppElement nextElement =
+          elements
+              .stream()
+              .filter(
+                  cppElement ->
+                      dependencies.get(cppElement.fullyQualifiedName).isEmpty()
+                          && !sortedElements.contains(cppElement))
+              .findFirst()
+              .orElse(null);
 
-      sortedStructs.add(nameToStructMap.get(structName));
+      if (nextElement == null) {
+        throw new TranspilerExecutionException("Cycle detected in CPP elements dependencies.");
+      }
 
-      // as dependency to struct name is now fulfilled we must remove it from structs dependencies
-      for (String name : nameToStructMap.keySet()) {
-        Set<String> structDependencies = dependencies.get(name);
+      sortedElements.add(nextElement);
 
-        // if the struct has only struct name as a dependency it must be added to the start structs
-        if (structDependencies.remove(structName) && structDependencies.isEmpty()) {
-          startStructs.add(name);
-        }
+      // as dependency to "nextElement" is now fulfilled we must remove it from elements dependencies
+      for (String name : fullyQualifiedNames) {
+        dependencies.get(name).remove(nextElement.fullyQualifiedName);
       }
     }
 
-    return sortedStructs;
+    return sortedElements;
   }
 
-  private static Set<String> getTypeDependencies(
-      CppTypeRef typeRef, Set<String> fullyQualifiedNames) {
+  private Set<String> getTypeDependencies(CppTypeRef typeRef) {
 
     Set<String> dependencies = new HashSet<>();
 
     if (typeRef instanceof CppTemplateTypeRef) {
       CppTemplateTypeRef templateTypeRef = (CppTemplateTypeRef) typeRef;
-      for (CppTypeRef parameter : templateTypeRef.templateParameters) {
-        dependencies.addAll(getTypeDependencies(parameter, fullyQualifiedNames));
-      }
+      templateTypeRef.templateParameters.forEach(
+          parameter -> dependencies.addAll(getTypeDependencies(parameter)));
     } else if (typeRef instanceof CppTypeDefRef) {
       CppTypeDefRef typeDefRef = (CppTypeDefRef) typeRef;
-      dependencies.addAll(getTypeDependencies(typeDefRef.actualType, fullyQualifiedNames));
+      dependencies.addAll(getTypeDependencies(typeDefRef.actualType));
     } else if (fullyQualifiedNames.contains(typeRef.name)) {
       dependencies.add(typeRef.name);
     }
@@ -92,23 +100,41 @@ public final class TopologicalSort {
     return dependencies;
   }
 
-  private static Map<String, Set<String>> buildDependencies(
-      List<CppStruct> structs, Map<String, CppStruct> nameToStructMap) {
+  private Set<String> getElementDependencies(CppElement cppElement) {
 
-    Map<String, Set<String>> dependencies = new HashMap<>();
+    if (cppElement instanceof CppConstant) {
+      CppConstant cppConstant = (CppConstant) cppElement;
+      return getTypeDependencies(cppConstant.type);
+    }
 
-    structs.forEach(struct -> dependencies.put(struct.fullyQualifiedName, new HashSet<>()));
+    if (cppElement instanceof CppStruct) {
+      CppStruct cppStruct = (CppStruct) cppElement;
+      return getStructDependencies(cppStruct);
+    }
 
-    structs.forEach(
-        struct -> {
-          Set<String> structDependencies = dependencies.get(struct.fullyQualifiedName);
+    if (cppElement instanceof CppUsing) {
+      CppUsing cppUsing = (CppUsing) cppElement;
+      return getTypeDependencies(cppUsing.definition);
+    }
 
-          struct.fields.forEach(
-              field ->
-                  structDependencies.addAll(
-                      getTypeDependencies(field.type, nameToStructMap.keySet())));
-        });
+    return Collections.emptySet();
+  }
 
-    return dependencies;
+  private Set<String> getStructDependencies(CppStruct cppStruct) {
+
+    return cppStruct
+        .fields
+        .stream()
+        .flatMap(cppField -> getTypeDependencies(cppField.type).stream())
+        .collect(Collectors.toSet());
+  }
+
+  private Map<String, Set<String>> buildDependencies() {
+
+    return elements
+        .stream()
+        .collect(
+            Collectors.toMap(
+                element -> element.fullyQualifiedName, element -> getElementDependencies(element)));
   }
 }

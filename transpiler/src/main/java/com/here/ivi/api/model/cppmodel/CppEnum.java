@@ -15,18 +15,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class CppEnum extends CppElement {
+public final class CppEnum extends CppElement {
 
   public final boolean isScoped;
   public List<CppEnumItem> items = new ArrayList<>();
 
-  public CppEnum(final String name) {
-    super(name);
-    this.isScoped = false;
+  public static CppEnum create(final String name) {
+    return create(name, name);
   }
 
-  public CppEnum(final String name, final boolean isScoped) {
-    super(name);
+  public static CppEnum create(final String name, final String fullyQualifiedName) {
+    return new CppEnum(name, fullyQualifiedName, false);
+  }
+
+  public static CppEnum createScoped(final String name) {
+    return createScoped(name, name);
+  }
+
+  public static CppEnum createScoped(final String name, final String fullyQualifiedName) {
+    return new CppEnum(name, fullyQualifiedName, true);
+  }
+
+  private CppEnum(final String name, final String fullyQualifiedName, final boolean isScoped) {
+    super(name, fullyQualifiedName);
     this.isScoped = isScoped;
   }
 

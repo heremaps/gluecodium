@@ -12,8 +12,10 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.generator.baseapi.TopologicalSort;
 import com.here.ivi.api.model.common.Include;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CppFile {
@@ -28,6 +30,32 @@ public class CppFile {
 
   public boolean isEmpty() {
     return members.isEmpty();
+  }
+
+  public boolean hasSortedMembers() {
+    return members
+        .stream()
+        .anyMatch(
+            member ->
+                member instanceof CppEnum
+                    || member instanceof CppConstant
+                    || member instanceof CppStruct
+                    || member instanceof CppUsing);
+  }
+
+  public List<CppElement> getSortedMembers() {
+    List<CppElement> unsortedMembers =
+        members
+            .stream()
+            .filter(
+                member ->
+                    member instanceof CppEnum
+                        || member instanceof CppConstant
+                        || member instanceof CppStruct
+                        || member instanceof CppUsing)
+            .collect(Collectors.toList());
+
+    return new TopologicalSort(unsortedMembers).sort();
   }
 
   public final Stream<? extends CppElement> streamRecursive() {
