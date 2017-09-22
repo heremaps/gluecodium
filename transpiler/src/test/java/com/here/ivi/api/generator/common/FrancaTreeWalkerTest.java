@@ -19,24 +19,10 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FAttribute;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FExpression;
-import org.franca.core.franca.FField;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FUnionType;
+import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,10 +32,13 @@ import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods"})
-public class FrancaTreeWalkerInterfaceTest {
+public class FrancaTreeWalkerTest {
 
   @Mock private ModelBuilder modelBuilder;
+  @Mock private TypeCollection typeCollection;
   @Mock private Interface anInterface;
+
+  @Mock private FTypeCollection francaTypeCollection;
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
@@ -98,6 +87,7 @@ public class FrancaTreeWalkerInterfaceTest {
     types.add(francaTypeDef);
     types.add(francaUnionType);
 
+    when(typeCollection.getFrancaTypeCollection()).thenReturn(francaTypeCollection);
     when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
     when(francaInterface.getMethods()).thenReturn(methods);
     when(francaInterface.getConstants()).thenReturn(constants);
@@ -121,6 +111,14 @@ public class FrancaTreeWalkerInterfaceTest {
     treeWalker.walk(mock(FrancaElement.class));
 
     verify(modelBuilder, never()).startBuilding(any(FInterface.class));
+  }
+
+  @Test
+  public void walkFrancaTypeCollection() {
+    treeWalker.walk(typeCollection);
+
+    verify(modelBuilder).startBuilding(francaTypeCollection);
+    verify(modelBuilder).finishBuilding(francaTypeCollection);
   }
 
   @Test
