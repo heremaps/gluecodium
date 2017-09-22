@@ -1,0 +1,32 @@
+#!/bin/bash -e
+
+# --------------------------------------------------------------------------------------------------
+#
+# Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+#
+# This software, including documentation, is protected by copyright controlled by
+# HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+# adapting or translating, any or all of this material requires the prior written
+# consent of HERE Global B.V. This material also contains confidential information,
+# which may not be disclosed to others without prior written consent of HERE Global B.V.
+#
+# --------------------------------------------------------------------------------------------------
+
+# Git pre-commit hook that runs Google Java Format
+
+# Run formatter only if any of the following file extensions have been staged to commit
+# These file extensions are the same that are formatted with Spotless
+if git diff --name-only --cached | egrep --quiet ".*\.(java|h|cpp|gradle|md|gitignore)$"; then
+    echo "Formatting your repository..."
+
+    # Go to project root directory
+    cd $(git rev-parse --show-toplevel)
+
+    # Run Google Java Format using Spotless
+    ./gradlew spotlessApply --daemon >/dev/null 2>&1
+
+    # Add formatted files again to commit (only those that were staged)
+    git update-index --again
+
+    echo "Formatting done."
+fi
