@@ -1,5 +1,10 @@
 # API Transpiler Release Notes
 
+## 0.0.6
+- Features:
+  + Add support for Plain Data Structures to iOS generators
+  + Add support for Instances to base Api generators
+
 ## 0.0.5
 - Behavior changes:
   + Change BaseApiGeneratorSuite name to "cpp"
