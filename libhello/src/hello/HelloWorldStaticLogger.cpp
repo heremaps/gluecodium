@@ -10,21 +10,28 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "hello/ProfileManager.h"
+#include "hello/HelloWorldStaticLogger.h"
 
+namespace hello {
 
-namespace hello
+static std::string s_logger_string = "";
+
+::std::string
+HelloWorldStaticLogger::getLog(  )
 {
+     return s_logger_string;
+}
 
-class HelloWorldProfileManager : public ProfileManager
+void
+HelloWorldStaticLogger::append( const ::std::string& log )
 {
-public:
-    virtual ~HelloWorldProfileManager() override;
-    virtual void createProfile( const ::std::string& username ) override;
-    virtual ::std::string changeProfile( const ::std::string& username ) override;
-    virtual ::std::string deleteProfile( ) override;
-private:
-    ::std::string m_profile_name = "";
-};
+    s_logger_string += log;
+}
+
+void
+HelloWorldStaticLogger::clearLog(  )
+{
+    s_logger_string = "";
+}
 
 }

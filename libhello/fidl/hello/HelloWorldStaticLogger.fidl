@@ -11,19 +11,28 @@
 
 package hello
 
-import hello.ProfileManager.ProfileManager from "./HelloWorldProfileManager.fidl"
-
 <** @description:
-    Interface which creates instances used for the hello world demo
+    Interface which provides access to a static logger to debug instances, especially destructor execution
 **>
-interface HelloWorldProfileManagerFactory {
+interface HelloWorldStaticLogger {
 
-    <** @description: Creates an instance of ProfileManager interface **>
-    method createProfileManagerInstance {
+    <** @description: Returns log as string **>
+    method getLog {
         out {
-            <** @description: Reference to created instance **>
-            ProfileManager instanceRef
+            <** @description: Log from ProfileManager instances **>
+            String log
         }
     }
 
+    <** @description: Appends a string to the log **>
+    method append {
+        in {
+            <** @description: The string to append to the log **>
+            String log
+        }
+    }
+
+    <** @description: Clears the log **>
+    method clearLog {
+    }
 }

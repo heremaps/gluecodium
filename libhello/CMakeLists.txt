@@ -30,6 +30,7 @@ set(HELLO_SOURCES
     src/test/StaticFloatDoubleMethods.cpp
     src/test/StaticIntMethods.cpp
     src/test/StaticStringMethods.cpp
+    src/hello/HelloWorldStaticLogger.cpp
 )
 
 #TODO: Remove this workaround once iOS supports Typedefs (APIGEN-282) and Instances (APIGEN-195)

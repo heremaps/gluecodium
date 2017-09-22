@@ -9,21 +9,18 @@
  *
  */
 
-package hello
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "./HelloWorldStaticLogger.fidl"
 
-import hello.ProfileManager.ProfileManager from "./HelloWorldProfileManager.fidl"
-
-<** @description:
-    Interface which creates instances used for the hello world demo
-**>
-interface HelloWorldProfileManagerFactory {
-
-    <** @description: Creates an instance of ProfileManager interface **>
-    method createProfileManagerInstance {
-        out {
-            <** @description: Reference to created instance **>
-            ProfileManager instanceRef
-        }
+define navigation.BaseApiSpec for interface hello.HelloWorldStaticLogger
+{
+    method getLog {
+        Static = true
     }
-
+    method append {
+        Static = true
+    }
+    method clearLog {
+        Static = true
+    }
 }
