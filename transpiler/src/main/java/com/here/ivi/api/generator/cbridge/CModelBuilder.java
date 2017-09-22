@@ -43,12 +43,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.*;
 
 public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
@@ -211,13 +206,11 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   }
 
   @Override
-  public void finishBuilding(FTypedElement francaTypedElement) {
+  public void finishBuilding(FField francaField) {
     CField cField =
-        new CField(
-            francaTypedElement.getName(),
-            CTypeMapper.mapType(resolver, francaTypedElement.getType()));
+        new CField(francaField.getName(), CTypeMapper.mapType(resolver, francaField.getType()));
     storeResult(cField);
-    super.finishBuilding(francaTypedElement);
+    super.finishBuilding(francaField);
   }
 
   private CStructTypedef createStructRefTypeDefinition(FStructType francaStruct) {

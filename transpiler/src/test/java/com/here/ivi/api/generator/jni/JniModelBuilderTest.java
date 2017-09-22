@@ -44,7 +44,6 @@ import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
 import java.util.List;
 import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FField;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -361,15 +360,6 @@ public class JniModelBuilderTest {
     assertNotNull(jniField);
     assertEquals(javaField, jniField.javaField);
     assertEquals(cppField, jniField.cppField);
-  }
-
-  @Test
-  public void finishBuildingFrancaAttributeIsIgnored() {
-    FAttribute francaAttribute = mock(FAttribute.class);
-
-    modelBuilder.finishBuilding(francaAttribute);
-
-    assertTrue(modelBuilder.getResults().isEmpty());
   }
 
   @Test

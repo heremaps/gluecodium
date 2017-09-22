@@ -355,7 +355,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsName() {
-    when(CppDefaultInitializer.map(any(FTypedElement.class))).thenReturn(cppValue);
+    when(CppDefaultInitializer.map(any(FField.class))).thenReturn(cppValue);
 
     modelBuilder.finishBuilding(francaField);
 

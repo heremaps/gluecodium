@@ -148,11 +148,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   }
 
   @Override
-  public void finishBuilding(FTypedElement francaTypedElement) {
+  public void finishBuilding(FField francaField) {
 
     JavaType javaType =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
-    String fieldName = JavaNameRules.getFieldName(francaTypedElement.getName());
+    String fieldName = JavaNameRules.getFieldName(francaField.getName());
     JavaField javaField;
     if (javaType instanceof JavaCustomType) {
       javaField = new JavaField((JavaCustomType) javaType, fieldName);
@@ -160,7 +160,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       javaField = new JavaField(javaType, fieldName);
     }
     javaField.visibility = JavaVisibility.PUBLIC;
-    javaField.comment = getCommentString(francaTypedElement);
+    javaField.comment = getCommentString(francaField);
 
     storeResult(javaField);
     closeContext();

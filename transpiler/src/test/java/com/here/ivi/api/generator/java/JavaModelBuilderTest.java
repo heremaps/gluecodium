@@ -24,14 +24,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,7 +59,7 @@ public class JavaModelBuilderTest {
   @Mock private FArgument francaArgument;
   @Mock private FTypeRef francaTypeRef;
   @Mock private FConstantDef francaConstant;
-  @Mock private FTypedElement francaTypedElement;
+  @Mock private FField francaField;
   @Mock private FStructType francaStructType;
   @Mock private FAttribute francaAttribute;
 
@@ -88,7 +81,7 @@ public class JavaModelBuilderTest {
     when(rootModel.getPackageNames()).thenReturn(Collections.emptyList());
 
     when(francaConstant.getName()).thenReturn("permanent");
-    when(francaTypedElement.getName()).thenReturn(FIELD_NAME);
+    when(francaField.getName()).thenReturn(FIELD_NAME);
     when(francaStructType.getName()).thenReturn("nonsense");
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
@@ -230,8 +223,8 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaTypedElementReadsName() {
-    modelBuilder.finishBuilding(francaTypedElement);
+  public void finishBuildingFrancaFieldReadsName() {
+    modelBuilder.finishBuilding(francaField);
 
     JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
     assertNotNull(javaField);
@@ -239,10 +232,10 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaTypedElementReadsType() {
+  public void finishBuildingFrancaFieldReadsType() {
     contextStack.injectResult(javaCustomType);
 
-    modelBuilder.finishBuilding(francaTypedElement);
+    modelBuilder.finishBuilding(francaField);
 
     JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
     assertNotNull(javaField);
@@ -253,7 +246,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaCustomTypedElementHasInitializer() {
     contextStack.injectResult(javaCustomType);
 
-    modelBuilder.finishBuilding(francaTypedElement);
+    modelBuilder.finishBuilding(francaField);
 
     JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
     assertNotNull(javaField);
@@ -261,8 +254,8 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaTypedElementCreatesPublicField() {
-    modelBuilder.finishBuilding(francaTypedElement);
+  public void finishBuildingFrancaFieldCreatesPublicField() {
+    modelBuilder.finishBuilding(francaField);
 
     JavaField javaField = modelBuilder.getFirstResult(JavaField.class);
     assertNotNull(javaField);

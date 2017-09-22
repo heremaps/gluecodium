@@ -31,15 +31,7 @@ import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Collections;
 import java.util.List;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.*;
 
 /**
  * This class builds a correspondence-tree containing correspondences between java and cpp model
@@ -144,12 +136,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   }
 
   @Override
-  public void finishBuilding(FTypedElement francaTypedElement) {
-    // currently franca attributes are ignored for android generator
-    if (francaTypedElement instanceof FAttribute) {
-      closeContext();
-      return;
-    }
+  public void finishBuilding(FField francaField) {
 
     JavaField javaField = javaBuilder.getFirstResult(JavaField.class);
     CppField cppField = cppBuilder.getFirstResult(CppField.class);

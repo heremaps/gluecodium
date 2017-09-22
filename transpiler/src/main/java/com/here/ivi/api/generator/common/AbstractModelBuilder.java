@@ -62,7 +62,7 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
-  public void startBuilding(FTypedElement francaTypedElement) {
+  public void startBuilding(FField francaField) {
     openContext();
   }
 
@@ -147,7 +147,7 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
-  public void finishBuilding(FTypedElement francaTypedElement) {
+  public void finishBuilding(FField francaField) {
     closeContext();
   }
 

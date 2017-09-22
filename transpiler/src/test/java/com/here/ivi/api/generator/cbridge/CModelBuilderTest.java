@@ -41,13 +41,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModel;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -84,7 +78,7 @@ public class CModelBuilderTest {
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FStructType francaStruct;
-  @Mock private FTypedElement francaTypedElement;
+  @Mock private FField francaField;
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FModel francaModel;
 
@@ -480,9 +474,9 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingTypedElementAddsFields() {
+    when(francaField.getName()).thenReturn("field");
 
-    when(francaTypedElement.getName()).thenReturn("field");
-    modelBuilder.finishBuilding(francaTypedElement);
+    modelBuilder.finishBuilding(francaField);
 
     List<CField> fields = getResults(CField.class);
     assertEquals(1, fields.size());

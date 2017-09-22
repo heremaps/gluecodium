@@ -23,22 +23,7 @@ import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.*;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FCompoundType;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FExpression;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
-import org.franca.core.franca.FUnionType;
+import org.franca.core.franca.*;
 
 public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
@@ -141,15 +126,15 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   }
 
   @Override
-  public void finishBuilding(FTypedElement francaTypedElement) {
+  public void finishBuilding(FField francaField) {
 
     CppTypeRef cppTypeRef =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
-    String fieldName = CppNameRules.getFieldName(francaTypedElement.getName());
-    CppValue cppValue = CppDefaultInitializer.map(francaTypedElement);
+    String fieldName = CppNameRules.getFieldName(francaField.getName());
+    CppValue cppValue = CppDefaultInitializer.map(francaField);
 
     CppField cppField = new CppField(cppTypeRef, fieldName, cppValue);
-    cppField.comment = CppCommentParser.parse(francaTypedElement).getMainBodyText();
+    cppField.comment = CppCommentParser.parse(francaField).getMainBodyText();
 
     storeResult(cppField);
     closeContext();
