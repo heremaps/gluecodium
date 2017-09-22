@@ -421,6 +421,46 @@ public class FrancaTreeWalkerTest {
   }
 
   @Test
+  public void walkWithTypeRefInTypeDef() {
+    when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaTypeRef);
+    verify(modelBuilder).finishBuilding(francaTypeRef);
+  }
+
+  @Test
+  public void walkWithTypeRefInArrayType() {
+    when(francaArrayType.getElementType()).thenReturn(francaTypeRef);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaTypeRef);
+    verify(modelBuilder).finishBuilding(francaTypeRef);
+  }
+
+  @Test
+  public void walkWithTypeRefInMapTypeAsKeyType() {
+    when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaTypeRef);
+    verify(modelBuilder).finishBuilding(francaTypeRef);
+  }
+
+  @Test
+  public void walkWithTypeRefInMapTypeAsValueType() {
+    when(francaMapType.getValueType()).thenReturn(francaTypeRef);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaTypeRef);
+    verify(modelBuilder).finishBuilding(francaTypeRef);
+  }
+
+  @Test
   public void walkWithOneEnumerator() {
     treeWalker.walk(anInterface);
 

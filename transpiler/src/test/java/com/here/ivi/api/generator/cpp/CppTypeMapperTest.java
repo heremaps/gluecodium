@@ -13,18 +13,17 @@ package com.here.ivi.api.generator.cpp;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,7 +31,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -174,19 +172,32 @@ public class CppTypeMapperTest {
   }
 
   @Test
-  public void mapMapType() {
-    FMapType francaMapType = mock(FMapType.class, Answers.RETURNS_DEEP_STUBS);
-    when(francaMapType.getKeyType().getDerived()).thenReturn(null);
-    when(francaMapType.getValueType().getDerived()).thenReturn(null);
-    when(francaMapType.getKeyType().getPredefined()).thenReturn(FBasicTypeId.UINT32);
-    when(francaMapType.getValueType().getPredefined()).thenReturn(FBasicTypeId.STRING);
+  public void mapUndefinedType() {
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
 
-    CppComplexTypeRef result = typeMapper.mapMapType(francaMapType);
+    CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    assertEquals("::std::unordered_map< uint32_t, ::std::string >", result.name);
+    verifyPrimitiveType(cppType, CppPrimitiveTypeRef.Type.VOID, Collections.emptyList());
+  }
+
+  @Test
+  public void wrapMapType() {
+    CppTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.UINT32;
+    Include fooInclude = Include.createInternalInclude("bar/Foo.h");
+    CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").includes(fooInclude).build();
+
+    CppComplexTypeRef result = CppTypeMapper.wrapMap(cppPrimitiveTypeRef, cppTypeRef);
+
     assertTrue(result.includes.contains(CppLibraryIncludes.INT_TYPES));
-    assertTrue(result.includes.contains(CppLibraryIncludes.STRING));
+    assertTrue(result.includes.contains(fooInclude));
     assertTrue(result.includes.contains(CppLibraryIncludes.MAP));
+    assertTrue(result instanceof CppTemplateTypeRef);
+
+    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
+    assertEquals(CppTemplateTypeRef.TemplateClass.MAP, cppTemplateTypeRef.templateClass);
+    assertEquals(2, cppTemplateTypeRef.templateParameters.size());
+    assertEquals(cppPrimitiveTypeRef, cppTemplateTypeRef.templateParameters.get(0));
+    assertEquals(cppTypeRef, cppTemplateTypeRef.templateParameters.get(1));
   }
 
   private void verifyPrimitiveType(
