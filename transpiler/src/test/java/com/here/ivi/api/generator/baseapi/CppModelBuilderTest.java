@@ -57,6 +57,7 @@ public class CppModelBuilderTest {
   private static final String METHOD_NAME = "methodical";
   private static final String ATTRIBUTE_NAME = "tribute";
   private static final String FULLY_QUALIFIED_NAME = "FullyQualifiedNonsense";
+  private static final String CONSTANT_FULLY_QUALIFIED_NAME = "ConstantFullyQualifiedNonsense";
 
   private final MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
@@ -90,7 +91,7 @@ public class CppModelBuilderTest {
 
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
   private final CppValue cppValue = new CppValue("valuable");
-  private final CppEnum cppEnum = new CppEnum(ENUM_NAME);
+  private final CppEnum cppEnum = CppEnum.create(ENUM_NAME);
   private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
   private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT64;
   private final CppUsing cppUsing = new CppUsing("useful", new CppTypeDefRef("useful", cppTypeRef));
@@ -136,8 +137,11 @@ public class CppModelBuilderTest {
     when(CppCommentParser.parse(any(FMethod.class)))
         .thenReturn(new AbstractFrancaCommentParser.Comments());
 
-    PowerMockito.stub(PowerMockito.method(CppNameRules.class, "getFullyQualifiedName"))
+    PowerMockito.stub(PowerMockito.method(CppNameRules.class, "getFullyQualifiedName", FType.class))
         .toReturn(FULLY_QUALIFIED_NAME);
+
+    PowerMockito.stub(PowerMockito.method(CppNameRules.class, "getConstantFullyQualifiedName"))
+        .toReturn(CONSTANT_FULLY_QUALIFIED_NAME);
   }
 
   @Test
@@ -328,6 +332,7 @@ public class CppModelBuilderTest {
     CppConstant cppConstant = modelBuilder.getFirstResult(CppConstant.class);
     assertNotNull(cppConstant);
     assertEquals(CONSTANT_NAME, cppConstant.name.toLowerCase());
+    assertEquals(CONSTANT_FULLY_QUALIFIED_NAME, cppConstant.fullyQualifiedName);
     assertEquals(cppComplexTypeRef, cppConstant.type);
     assertEquals(cppValue, cppConstant.value);
 

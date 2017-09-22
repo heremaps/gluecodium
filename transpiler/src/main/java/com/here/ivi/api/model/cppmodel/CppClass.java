@@ -11,8 +11,11 @@
 
 package com.here.ivi.api.model.cppmodel;
 
+import com.here.ivi.api.generator.baseapi.TopologicalSort;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class CppClass extends CppElement {
@@ -33,6 +36,24 @@ public final class CppClass extends CppElement {
     return methods
         .stream()
         .anyMatch(method -> !method.specifiers.contains(CppMethod.Specifier.STATIC));
+  }
+
+  public boolean hasSortedMembers() {
+    return !enums.isEmpty() || !usings.isEmpty() || !structs.isEmpty();
+  }
+
+  /**
+   * Returns topologically sorted list of enums, usings and structs
+   *
+   * @return sorted class members
+   */
+  public List<CppElement> getSortedMembers() {
+
+    List<CppElement> unsortedMembers =
+        Stream.concat(enums.stream(), Stream.concat(usings.stream(), structs.stream()))
+            .collect(Collectors.toList());
+
+    return new TopologicalSort(unsortedMembers).sort();
   }
 
   @Override

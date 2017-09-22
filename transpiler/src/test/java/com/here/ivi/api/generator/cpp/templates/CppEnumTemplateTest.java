@@ -34,7 +34,7 @@ public final class CppEnumTemplateTest {
   private static final String EXPECTED_ITEM_COMMENT_RESULT = "/**\n     * nonsense\n     */\n";
   private static final String EXPECTED_ITEM_RESULT_FORMAT = "    %s" + ENUM_ITEM_NAME + "%s\n";
 
-  private final CppEnum cppEnum = new CppEnum(ENUM_NAME);
+  private final CppEnum cppEnum = CppEnum.create(ENUM_NAME);
   private final CppEnumItem cppEnumItem = new CppEnumItem(ENUM_ITEM_NAME);
 
   @Test
@@ -58,7 +58,7 @@ public final class CppEnumTemplateTest {
 
   @Test
   public void enumWithClass() {
-    String result = TemplateEngine.render(TEMPLATE_NAME, new CppEnum(ENUM_NAME, true));
+    String result = TemplateEngine.render(TEMPLATE_NAME, CppEnum.createScoped(ENUM_NAME));
 
     final String expectedResult = "enum class " + ENUM_NAME + " {\n\n};\n";
     assertEquals(expectedResult, result);

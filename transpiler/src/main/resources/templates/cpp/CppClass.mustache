@@ -5,25 +5,20 @@ public:
     virtual ~{{name}}() = 0;
 
 {{/if}}
-{{#if enums}}
+{{#if hasSortedMembers}}
 public:
-{{#enums}}
-{{>cpp/CppEnum}}
-{{/enums}}
-
-{{/if}}
-{{#if structs}}
-public:
-{{#structs}}
-{{>cpp/CppCompoundType}}
-{{/structs}}
-
-{{/if}}
-{{#if usings}}
-public:
-{{#usings}}
-{{>cpp/CppUsing}}
-{{/usings}}
+{{#sortedMembers}}
+{{#instanceOf this "CppEnum"}}{{>cpp/CppEnum}}{{/instanceOf}}
+{{#instanceOf this "CppUsing"}}{{>cpp/CppUsing}}{{/instanceOf}}
+{{#instanceOf this "CppStruct"}}
+{{>common/DocComment}}
+{{>cpp/CppStruct}}
+{{/instanceOf}}
+{{#instanceOf this "CppTaggedUnion"}}
+{{>common/DocComment}}
+{{>cpp/CppTaggedUnion}}
+{{/instanceOf}}
+{{/sortedMembers}}
 
 {{/if}}
 {{#if methods}}

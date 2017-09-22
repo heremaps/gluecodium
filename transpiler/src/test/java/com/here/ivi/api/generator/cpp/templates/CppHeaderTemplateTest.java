@@ -46,7 +46,7 @@ public final class CppHeaderTemplateTest {
   private final CppConstant cppConstant =
       new CppConstant("permanent", cppComplexTypeRef, new CppValue("Over9000"));
   private final CppUsing cppUsing = new CppUsing("Definite", cppComplexTypeRef);
-  private final CppEnum cppEnum = new CppEnum("Innumerable");
+  private final CppEnum cppEnum = CppEnum.create("Innumerable");
   private final CppStruct cppStruct = new CppStruct("Structural");
   private final CppClass cppClass = new CppClass("Classy");
   private final Include systemInclude = Include.createSystemInclude("lasertag");
@@ -137,7 +137,7 @@ public final class CppHeaderTemplateTest {
   @Test
   public void namespaceWithTwoEnums() {
     cppFile.members.add(cppEnum);
-    cppFile.members.add(new CppEnum("SomeEnum"));
+    cppFile.members.add(CppEnum.create("SomeEnum"));
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 

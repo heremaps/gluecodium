@@ -22,6 +22,7 @@ import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Arrays;
 import java.util.List;
 import org.franca.core.franca.FCompoundType;
+import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
@@ -54,6 +55,7 @@ public class CppNameRulesTest {
   @Mock private FCompoundType compound;
   @Mock private FEnumerationType enumeration;
   @Mock private FTypeDef typeDef;
+  @Mock private FConstantDef fConstantDef;
 
   @Before
   public void setUp() {
@@ -190,5 +192,15 @@ public class CppNameRulesTest {
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(typeDef);
 
     assertEquals("::a::b::c::AnInterface", fullyQualifiedName);
+  }
+
+  @Test
+  public void getConstantFullyQualifiedName() {
+    when(fConstantDef.eContainer()).thenReturn(fInterface);
+    when(fConstantDef.getName()).thenReturn("fixed");
+
+    String fullyQualifiedName = CppNameRules.getConstantFullyQualifiedName(fConstantDef);
+
+    assertEquals("::a::b::c::AnInterface::Fixed", fullyQualifiedName);
   }
 }

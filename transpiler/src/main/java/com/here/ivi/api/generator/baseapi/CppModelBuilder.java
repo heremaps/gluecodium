@@ -64,9 +64,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     cppClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, CppMethod.class));
     cppClass.enums.addAll(CollectionsHelper.getAllOfType(previousResults, CppEnum.class));
     cppClass.usings.addAll(CollectionsHelper.getAllOfType(previousResults, CppUsing.class));
-
-    List<CppStruct> structs = CollectionsHelper.getAllOfType(previousResults, CppStruct.class);
-    cppClass.structs.addAll(TopologicalSort.sort(structs));
+    cppClass.structs.addAll(CollectionsHelper.getAllOfType(previousResults, CppStruct.class));
 
     storeResult(cppClass);
     closeContext();
@@ -99,14 +97,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     for (CppElement cppElement : getCurrentContext().previousResults) {
       if (cppElement instanceof CppEnum
           || cppElement instanceof CppConstant
-          || cppElement instanceof CppUsing) {
+          || cppElement instanceof CppUsing
+          || cppElement instanceof CppStruct) {
         storeResult(cppElement);
       }
     }
-
-    List<CppStruct> structs =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppStruct.class);
-    TopologicalSort.sort(structs).forEach(this::storeResult);
 
     closeContext();
   }
@@ -115,10 +110,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FConstantDef francaConstant) {
 
     String name = CppNameRules.getConstantName(francaConstant.getName());
+    String fullyQualifiedName = CppNameRules.getConstantFullyQualifiedName(francaConstant);
     CppTypeRef type = typeMapper.map(francaConstant);
     CppValue value = valueMapper.map(type, francaConstant.getRhs());
 
-    CppConstant cppConstant = new CppConstant(name, type, value);
+    CppConstant cppConstant = new CppConstant(name, fullyQualifiedName, type, value);
     cppConstant.comment = CppCommentParser.parse(francaConstant).getMainBodyText();
 
     storeResult(cppConstant);
@@ -158,9 +154,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
       String typedefName = CppNameRules.getTypedefName(francaTypeDef.getName());
+      String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaTypeDef);
       CppTypeRef typedefType = typeMapper.map(francaTypeDef.getActualType());
 
-      CppUsing cppUsing = new CppUsing(typedefName, typedefType);
+      CppUsing cppUsing = new CppUsing(typedefName, fullyQualifiedName, typedefType);
       cppUsing.comment = CppCommentParser.parse(francaTypeDef).getMainBodyText();
 
       storeResult(cppUsing);
@@ -196,7 +193,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FEnumerationType francaEnumerationType) {
 
-    CppEnum cppEnum = new CppEnum(CppNameRules.getEnumName(francaEnumerationType.getName()), true);
+    String enumName = CppNameRules.getEnumName(francaEnumerationType.getName());
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaEnumerationType);
+
+    CppEnum cppEnum = CppEnum.createScoped(enumName, fullyQualifiedName);
     cppEnum.comment = CppCommentParser.parse(francaEnumerationType).getMainBodyText();
     cppEnum.items =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppEnumItem.class);

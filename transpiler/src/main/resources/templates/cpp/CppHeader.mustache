@@ -10,18 +10,21 @@
 namespace {{.}} {
 
 {{/namespace}}
-{{#enums}}
-{{>cpp/CppEnum}}
-{{/enums}}
-{{#constants}}
-{{>cpp/CppConstant}}
-{{/constants}}
-{{#structs}}
-{{>cpp/CppCompoundType}}
-{{/structs}}
-{{#usings}}
-{{>cpp/CppUsing}}
-{{/usings}}
+{{#if hasSortedMembers}}
+{{#sortedMembers}}
+{{#instanceOf this "CppEnum"}}{{>cpp/CppEnum}}{{/instanceOf}}
+{{#instanceOf this "CppConstant"}}{{>cpp/CppConstant}}{{/instanceOf}}
+{{#instanceOf this "CppUsing"}}{{>cpp/CppUsing}}{{/instanceOf}}
+{{#instanceOf this "CppStruct"}}
+{{>common/DocComment}}
+{{>cpp/CppStruct}}
+{{/instanceOf}}
+{{#instanceOf this "CppTaggedUnion"}}
+{{>common/DocComment}}
+{{>cpp/CppTaggedUnion}}
+{{/instanceOf}}
+{{/sortedMembers}}
+{{/if}}
 {{#classes}}
 {{>cpp/CppClass}}
 {{/classes}}

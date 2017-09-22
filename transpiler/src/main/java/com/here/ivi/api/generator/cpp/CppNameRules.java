@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.FCompoundType;
+import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FType;
@@ -74,6 +75,19 @@ public final class CppNameRules {
     return result;
   }
 
+  private static String getFullyQualifiedName(List<String> nestedNameSpecifier, String name) {
+    return nestedNameSpecifier.isEmpty()
+        ? "::" + name
+        : "::" + String.join("::", nestedNameSpecifier) + (name.isEmpty() ? "" : "::" + name);
+  }
+
+  public static String getConstantFullyQualifiedName(FConstantDef francaConstant) {
+    List<String> nestedNameSpecifier = getNestedNameSpecifier(francaConstant);
+    String constantName = getConstantName(francaConstant.getName());
+
+    return getFullyQualifiedName(nestedNameSpecifier, constantName);
+  }
+
   public static String getFullyQualifiedName(FType type) {
     List<String> nestedNameSpecifier = getNestedNameSpecifier(type);
     String typeName = "";
@@ -89,13 +103,12 @@ public final class CppNameRules {
       if (!InstanceRules.isInstanceId(typedef)) {
         typeName = getTypedefName(typedef.getName());
       }
+    } else if (type instanceof FConstantDef) {
+      FConstantDef constantDef = (FConstantDef) type;
+      typeName = getConstantName(constantDef.getName());
     }
 
-    return nestedNameSpecifier.isEmpty()
-        ? "::" + typeName
-        : "::"
-            + String.join("::", nestedNameSpecifier)
-            + (typeName.isEmpty() ? "" : "::" + typeName);
+    return getFullyQualifiedName(nestedNameSpecifier, typeName);
   }
 
   public static String getClassName(String typeCollectionName) {
