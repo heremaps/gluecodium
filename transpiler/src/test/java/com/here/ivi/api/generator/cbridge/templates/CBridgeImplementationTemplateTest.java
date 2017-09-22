@@ -114,7 +114,8 @@ public class CBridgeImplementationTemplateTest {
   @Test
   public void nestedStructFieldCreatesGetterOnly() {
     CInterface cInterface = new CInterface("");
-    CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(CType.VOID));
+    final CType type = new CType("nameRef");
+    CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
     CField field =
         new CField(
             "structField",
@@ -139,7 +140,8 @@ public class CBridgeImplementationTemplateTest {
   @Test
   public void stringFieldCreatesGetterAndSetter() {
     CInterface cInterface = new CInterface("");
-    CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(CType.VOID));
+    CType type = new CType("nameRef");
+    CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
     CField field = new CField("stringField", CppTypeInfo.STRING);
     struct.fields.add(field);
     cInterface.structs.add(struct);
@@ -164,7 +166,8 @@ public class CBridgeImplementationTemplateTest {
   @Test
   public void primitiveFieldCreatesGetterAndSetter() {
     CInterface cInterface = new CInterface("");
-    CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(CType.VOID));
+    CType type = new CType("nameRef");
+    CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
     CField field = new CField("floatField", new CppTypeInfo(CType.FLOAT));
     struct.fields.add(field);
     cInterface.structs.add(struct);

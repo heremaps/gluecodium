@@ -1,14 +1,14 @@
 typedef struct {
     void* const private_pointer;
-} {{name}}Ref;
+} {{type}};
 
-{{name}}Ref {{name}}_create();
-void {{name}}_release({{name}}Ref handle);
+{{type}} {{name}}_create();
+void {{name}}_release({{type}} handle);
 
-{{#set structname=name}}
+{{#set structname=name structtype=type}}
 {{#fields}}
-{{type.functionReturnType}} {{structname}}_{{name}}_get({{structname}}Ref handle);
-{{^type.isStruct}}void {{structname}}_{{name}}_set({{structname}}Ref handle, {{join setterParameters delimiter=", "}});{{/type.isStruct}}
+{{type.functionReturnType}} {{structname}}_{{name}}_get({{structtype}} handle);
+{{^type.isStruct}}void {{structname}}_{{name}}_set({{structtype}} handle, {{join setterParameters delimiter=", "}});{{/type.isStruct}}
 {{/fields}}
 {{/set}}
 
