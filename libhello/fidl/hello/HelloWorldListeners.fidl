@@ -20,6 +20,8 @@ interface Calculator {
         minor 1
     }
 
+    public typedef Calculator is undefined
+
     <**@description: a 3D position defined by its x, y and z **>
     struct Position {
         Float x
@@ -60,3 +62,13 @@ interface Calculator {
         }
     }
 }
+
+interface CalculatorFactory {
+
+    method createCalculator {
+        out {
+            Calculator.Calculator calculator
+        }
+    }
+}
+

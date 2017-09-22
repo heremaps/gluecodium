@@ -11,6 +11,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "HelloWorldListeners.h"
+#include "hello/CalculatorFactory.h"
 
 #include <cmath>
 
@@ -44,6 +45,12 @@ void
 HelloCalculatorListener::onCalculationInBackgroundResult( const double calculationResult )
 {
     std::cout << __PRETTY_FUNCTION__ << " called with result = " << calculationResult << std::endl;
+}
+
+::std::shared_ptr< ::hello::Calculator >
+CalculatorFactory::createCalculator( )
+{
+    return ::std::make_shared< ::hello::HelloCalculator >( );
 }
 
 void
