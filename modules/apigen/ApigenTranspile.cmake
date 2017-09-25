@@ -1,0 +1,101 @@
+# Copyright (c) 2017 HERE Europe B.V.
+#
+# All rights reserved.  This software, including documentation, is protected
+# by copyright controlled by HERE.  All rights are reserved.  Copying,
+# including reproducing, storing, adapting or translating, any or all of
+# this material requires the prior written consent of HERE.  This
+# material also contains confidential information which may not be
+# disclosed to others without the prior written consent of HERE.
+
+if(DEFINED includeguard_ApigenTranspile)
+  return()
+endif()
+set(includeguard_ApigenTranspile ON)
+
+cmake_minimum_required(VERSION 3.5)
+
+#.rst:
+# ApigenTranspile
+# ---------------
+#
+# This module provides functions to transpile API interfaces specified
+# in the Franca language into target source code as provided by the
+# specified generator(s). Valid generators are:
+#
+#  * android
+#  * cbridge
+#  * cpp
+#  * swift
+#
+# .. command:: apigen_transpile
+#
+# The general form of the command is::
+#
+#     apigen_transpile(target inputDir generator)
+#
+# This function invokes the API transpiler based on a set of of input *.fidl
+# files with a specific target language generator.
+
+find_package(Java REQUIRED)
+set(APIGEN_TRANSPILER_DIR ${CMAKE_CURRENT_LIST_DIR}/transpiler)
+if (WIN32)
+    set(APIGEN_TRANSPILER_GRADLE_WRAPPER ./gradlew.bat)
+else()
+    set(APIGEN_TRANSPILER_GRADLE_WRAPPER ./gradlew)
+endif()
+
+function(apigen_transpile)
+    set(options VALIDATE_ONLY)
+    set(oneValueArgs TARGET FRANCA_DIR GENERATOR VERSION)
+    set(multiValueArgs)
+    cmake_parse_arguments(apigen_transpile "${options}" "${oneValueArgs}"
+                                           "${multiValueArgs}" ${ARGN})
+
+    set(operationVerb "Transpile")
+    set(validateParam "")
+    if(${apigen_transpile_VALIDATE_ONLY})
+        set(operationVerb "Validate")
+        set(validateParam "-validateOnly")
+    endif()
+
+    # If version is not specified explicitly, use latest-greatest
+    if(NOT apigen_transpile_VERSION)
+        set(apigen_transpile_VERSION +)
+    endif()
+
+    message(STATUS "${operationVerb} '${apigen_transpile_TARGET}' with '${apigen_transpile_GENERATOR}' generator using transpiler version '${apigen_transpile_VERSION}'
+    Input: '${apigen_transpile_FRANCA_DIR}'")
+
+    # Transpiler invocations for different generators need different output directories
+    # as the transpiler currently wipes the directory upon start.
+    set(TRANSPILER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_transpile_GENERATOR}-transpile)
+
+    # Attach properties to target for re-use in other modules
+    set_target_properties(${apigen_transpile_TARGET} PROPERTIES
+        APIGEN_TRANSPILER_GENERATOR ${apigen_transpile_GENERATOR}
+        APIGEN_TRANSPILER_GENERATOR_INPUT_DIR ${apigen_transpile_FRANCA_DIR}
+        APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR ${TRANSPILER_OUTPUT_DIR})
+
+    if(NOT apigen_transpile_GENERATOR MATCHES cpp)
+        # This can be optimized. If a previous invocation of this function already
+        # transpiled 'cpp', it should be re-used. At the moment this is not possible
+        # because the transpiler cleans it's output directory in the beginning
+        set(apigen_transpile_GENERATOR "cpp,${apigen_transpile_GENERATOR}")
+    endif()
+
+    set(APIGEN_TRANSPILER_ARGS " \
+        -input ${apigen_transpile_FRANCA_DIR} \
+        -output ${TRANSPILER_OUTPUT_DIR} \
+        -generators ${apigen_transpile_GENERATOR} \
+        ${validateParam} \
+        -nostdout")
+    execute_process(
+        COMMAND mkdir -p ${TRANSPILER_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
+        COMMAND ${APIGEN_TRANSPILER_GRADLE_WRAPPER} -Pversion=${apigen_transpile_VERSION} run -Dexec.args=${APIGEN_TRANSPILER_ARGS}
+        WORKING_DIRECTORY ${APIGEN_TRANSPILER_DIR}
+        RESULT_VARIABLE TRANSPILE_RESULT)
+    if(NOT "${TRANSPILE_RESULT}" STREQUAL "0")
+        message(FATAL_ERROR "Failed to transpile given FIDL files.")
+    endif()
+
+endfunction(apigen_transpile)

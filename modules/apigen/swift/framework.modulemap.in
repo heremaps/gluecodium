@@ -1,0 +1,3 @@
+framework module ${target} {
+    header "${target}.h"
+}
