@@ -17,6 +17,7 @@ import static java.util.stream.Collectors.toList;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.SwiftArrayType;
 import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftEnum;
 import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
@@ -549,6 +550,44 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "}\n";
     final String generated = generate(file);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void typeCollectionWithEnum() {
+    SwiftEnum swiftEnum = new SwiftEnum("EnumSwiftName", "EnumCName");
+    swiftEnum.comment = "Some comment on enum type";
+    SwiftFile file = new SwiftFile();
+    file.enums.add(swiftEnum);
+    final String expected =
+        "import Foundation\n"
+            + "/**\n"
+            + " * Some comment on enum type\n"
+            + " */\n"
+            + "public typealias EnumSwiftName = EnumCName \n";
+
+    final String generated = generate(file);
+
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void interfaceWithEnum() {
+    SwiftEnum swiftEnum = new SwiftEnum("EnumSwiftName", "EnumCName");
+    swiftEnum.comment = "Some comment on enum type";
+    SwiftClass clazz = new SwiftClass("TestInterafce");
+    clazz.enums.add(swiftEnum);
+    final String expected =
+        "import Foundation\n"
+            + "public class TestInterafce {\n"
+            + "    /**\n"
+            + "     * Some comment on enum type\n"
+            + "     */\n"
+            + "    public typealias EnumSwiftName = EnumCName \n"
+            + "}\n";
+
+    final String generated = generateFromClass(clazz);
+
     TemplateComparison.assertEqualContent(expected, generated);
   }
 }

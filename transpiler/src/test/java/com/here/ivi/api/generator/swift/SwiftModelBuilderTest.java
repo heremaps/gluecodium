@@ -17,15 +17,18 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
+import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftEnum;
 import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftInParameter;
 import com.here.ivi.api.model.swift.SwiftMethod;
@@ -36,6 +39,7 @@ import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
@@ -48,7 +52,12 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SwiftTypeMapper.class, CppCommentParser.class})
+@PrepareForTest({
+  SwiftTypeMapper.class,
+  CppCommentParser.class,
+  CBridgeNameRules.class,
+  SwiftNameRules.class
+})
 public class SwiftModelBuilderTest {
 
   private static final String PARAM_NAME = "someParamName";
@@ -73,7 +82,11 @@ public class SwiftModelBuilderTest {
 
   @Before
   public void setUp() {
-    mockStatic(SwiftTypeMapper.class, CppCommentParser.class);
+    mockStatic(
+        SwiftTypeMapper.class,
+        CppCommentParser.class,
+        CBridgeNameRules.class,
+        SwiftNameRules.class);
     when(SwiftTypeMapper.mapType(any(), any())).thenReturn(swiftType);
     when(SwiftTypeMapper.mapOutputType(any(), any())).thenReturn(swiftType);
     when(CppCommentParser.parse(any(FMethod.class))).thenReturn(comments);
@@ -204,9 +217,34 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingCreatesTypesFromInterface() {
+    SwiftStruct struct = new SwiftStruct(STRUCT_NAME);
+    SwiftEnum swiftEnum = new SwiftEnum("", "");
+    contextStack.injectResult(struct);
+    contextStack.injectResult(swiftEnum);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    List<SwiftFile> files = getResults(SwiftFile.class);
+    assertEquals(1, files.size());
+    SwiftFile file = files.get(0);
+
+    assertEquals("There should be no struct inside file", 0, file.structs.size());
+    assertEquals("There should be no enum inside file", 0, file.enums.size());
+    assertEquals("There should be one class inside file", 1, file.classes.size());
+    SwiftClass clazz = file.classes.get(0);
+    assertEquals("There should be one struct inside file", 1, clazz.structs.size());
+    assertSame(struct, clazz.structs.get(0));
+    assertEquals("There should be one enum inside file", 1, clazz.enums.size());
+    assertSame(swiftEnum, clazz.enums.get(0));
+  }
+
+  @Test
   public void finishBuildingCreatesTypesFromTypeCollection() {
     SwiftStruct struct = new SwiftStruct(STRUCT_NAME);
+    SwiftEnum swiftEnum = new SwiftEnum("", "");
     contextStack.injectResult(struct);
+    contextStack.injectResult(swiftEnum);
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
@@ -216,6 +254,26 @@ public class SwiftModelBuilderTest {
     assertEquals("There should be no classes inside file", 0, file.classes.size());
     assertEquals("There should be one struct inside file", 1, file.structs.size());
     assertSame(struct, file.structs.get(0));
+    assertEquals("There should be one enum inside file", 1, file.enums.size());
+    assertSame(swiftEnum, file.enums.get(0));
+  }
+
+  @Test
+  public void finishBuildingCreatesEnumerationType() {
+    FEnumerationType francaEnumType = mock(FEnumerationType.class);
+    when(francaEnumType.eContainer()).thenReturn(francaInterface);
+    when(CppCommentParser.parse(any(FEnumerationType.class))).thenReturn(comments);
+    when(SwiftNameRules.getEnumTypeName(any())).thenReturn("SWIFT_NAME");
+    when(CBridgeNameRules.getEnumName(any())).thenReturn("C_NAME");
+
+    modelBuilder.finishBuilding(francaEnumType);
+
+    List<SwiftEnum> enums = getResults(SwiftEnum.class);
+    assertEquals("Should be 1 enum created.", 1, enums.size());
+    SwiftEnum swiftEnum = enums.get(0);
+    assertEquals("SWIFT_NAME", swiftEnum.name);
+    assertEquals("C_NAME", swiftEnum.cName);
+    assertEquals(COMMENT, swiftEnum.comment);
   }
 
   private <T extends SwiftModelElement> List<T> getResults(Class<T> clazz) {

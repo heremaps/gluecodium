@@ -12,6 +12,10 @@ public class {{name}}{{#if parentClass}} : {{parentClass}}{{#implementsProtocols
 {{>swift/Property}}
 {{/properties}}
 
+{{#enums}}
+{{prefixPartial 'swift/Enum' '    '}}
+{{/enums}}
+
 {{#structs}}
 {{prefixPartial 'swift/Struct' '    '}}
 {{/structs}}
@@ -21,6 +25,9 @@ public class {{name}}{{#if parentClass}} : {{parentClass}}{{#implementsProtocols
 {{/methods}}
 }
 {{/classes}}
+
+{{#enums}}{{>swift/Enum}}
+{{/enums}}
 
 {{#structs}}{{>swift/Struct}}
 {{/structs}}

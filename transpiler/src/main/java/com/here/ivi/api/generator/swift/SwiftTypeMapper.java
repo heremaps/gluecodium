@@ -17,6 +17,7 @@ import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.STRUCT;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.swift.SwiftEnum;
 import com.here.ivi.api.model.swift.SwiftStruct;
 import com.here.ivi.api.model.swift.SwiftType;
 import org.franca.core.franca.*;
@@ -33,6 +34,9 @@ public class SwiftTypeMapper {
         mappedType.cPrefix = bridgeRules.getStructBaseName(derived);
         mappedType.cType = bridgeRules.getStructRefType(derived);
         return mappedType;
+      } else if (derived instanceof FEnumerationType) {
+        return new SwiftEnum(
+            SwiftNameRules.getEnumTypeName(derived), CBridgeNameRules.getEnumName(derived));
       }
       return SwiftType.VOID;
     }

@@ -17,7 +17,8 @@ public class SwiftType extends SwiftModelElement {
     BUILTIN_SIMPLE,
     BUILTIN_STRING,
     BUILTIN_BYTEBUFFER,
-    STRUCT
+    STRUCT,
+    ENUM
   };
 
   public static final SwiftType VOID = new SwiftType("Void");

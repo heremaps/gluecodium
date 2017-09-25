@@ -21,6 +21,7 @@ import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.SwiftClass;
+import com.here.ivi.api.model.swift.SwiftEnum;
 import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftInParameter;
 import com.here.ivi.api.model.swift.SwiftMethod;
@@ -53,6 +54,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuilding(FTypeCollection typeCollection) {
     SwiftFile file = new SwiftFile();
     file.structs.addAll(getAllOfType(getCurrentContext().previousResults, SwiftStruct.class));
+    file.enums.addAll(getAllOfType(getCurrentContext().previousResults, SwiftEnum.class));
     storeResult(file);
     super.finishBuilding(typeCollection);
   }
@@ -65,6 +67,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     clazz.methods = getAllOfType(getCurrentContext().previousResults, SwiftMethod.class);
     clazz.nameSpace = String.join("_", rootModel.getPackageNames());
     clazz.structs = getAllOfType(getCurrentContext().previousResults, SwiftStruct.class);
+    clazz.enums = getAllOfType(getCurrentContext().previousResults, SwiftEnum.class);
     SwiftFile file = new SwiftFile();
     file.classes.add(clazz);
     storeResult(file);
@@ -83,6 +86,18 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     storeResult(swiftStruct);
     super.finishBuilding(francaStruct);
+  }
+
+  @Override
+  public void finishBuilding(FEnumerationType francaEnumerationType) {
+    String comment = CppCommentParser.parse(francaEnumerationType).getMainBodyText();
+    SwiftEnum swiftEnum =
+        new SwiftEnum(
+            SwiftNameRules.getEnumTypeName(francaEnumerationType),
+            CBridgeNameRules.getEnumName(francaEnumerationType));
+    swiftEnum.comment = comment != null ? comment : "";
+    storeResult(swiftEnum);
+    super.finishBuilding(francaEnumerationType);
   }
 
   @Override
