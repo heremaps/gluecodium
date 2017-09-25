@@ -11,19 +11,13 @@
 
 package com.here.ivi.api.model.swift;
 
-import java.util.ArrayList;
-import java.util.List;
+public class SwiftEnum extends SwiftType {
+  public String comment;
+  public final String cName;
 
-public final class SwiftFile extends SwiftModelElement {
-  public List<SwiftClass> classes = new ArrayList<>();
-  public List<SwiftStruct> structs = new ArrayList<>();
-  public List<SwiftEnum> enums = new ArrayList<>();
-
-  public SwiftFile() {
-    super("");
-  }
-
-  public boolean isEmpty() {
-    return classes.isEmpty() && structs.isEmpty();
+  public SwiftEnum(String name, String cBridgeName) {
+    super(name, TypeCategory.ENUM);
+    comment = "";
+    cName = cBridgeName;
   }
 }

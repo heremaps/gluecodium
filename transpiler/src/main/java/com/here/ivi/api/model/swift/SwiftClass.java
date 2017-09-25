@@ -13,6 +13,7 @@ package com.here.ivi.api.model.swift;
 
 import static java.util.Collections.emptyList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class SwiftClass extends SwiftModelElement {
@@ -23,6 +24,7 @@ public final class SwiftClass extends SwiftModelElement {
   public List<SwiftProperty> properties;
   public List<SwiftMethod> methods;
   public List<SwiftStruct> structs;
+  public List<SwiftEnum> enums;
   public String nameSpace;
 
   public SwiftClass(String className, String parentClassName) {
@@ -32,6 +34,7 @@ public final class SwiftClass extends SwiftModelElement {
     this.properties = emptyList();
     this.methods = emptyList();
     this.structs = emptyList();
+    this.enums = new ArrayList<>();
     this.comment = "";
     this.nameSpace = "";
   }

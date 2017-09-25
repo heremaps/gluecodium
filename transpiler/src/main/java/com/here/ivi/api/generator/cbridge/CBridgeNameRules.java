@@ -160,7 +160,7 @@ public class CBridgeNameRules {
         UNDERSCORE_DELIMITER);
   }
 
-  public static String getEnumName(FEnumerationType francaEnumerator) {
+  public static String getEnumName(FModelElement francaEnumerator) {
     return fullyQualifiedName(
         getNestedNameSpecifier(francaEnumerator),
         NameHelper.toUpperCamelCase(francaEnumerator.getName()),
