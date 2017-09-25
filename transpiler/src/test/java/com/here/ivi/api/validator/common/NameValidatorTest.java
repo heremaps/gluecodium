@@ -1,0 +1,160 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package com.here.ivi.api.validator.common;
+
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import com.here.ivi.api.model.franca.FrancaModel;
+import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.TypeCollection;
+import com.here.ivi.api.test.ArrayEList;
+import java.util.LinkedList;
+import java.util.List;
+import org.franca.core.franca.FModel;
+import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeCollection;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import org.mockito.Answers;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+@RunWith(JUnit4.class)
+public class NameValidatorTest {
+
+  private static final String MODEL_NAME = "my.package.name";
+  private static final String TYPE_NAME = "myFancyType";
+  private static final String INTERFACE_NAME = "Face";
+
+  @Mock private FModel fModel;
+
+  @Mock private FrancaModel francaModel;
+
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private Interface francaInterface;
+
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private Interface anotherFrancaInterface;
+
+  private final List<TypeCollection> typeCollections = new LinkedList<>();
+  private final List<Interface> interfaces = new LinkedList<>();
+
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+
+    when(fModel.getName()).thenReturn(MODEL_NAME);
+    when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
+
+    when(francaInterface.getFrancaModel()).thenReturn(fModel);
+    when(anotherFrancaInterface.getFrancaModel()).thenReturn(fModel);
+
+    when(francaModel.getTypeCollections()).thenReturn(typeCollections);
+    when(francaModel.getInterfaces()).thenReturn(interfaces);
+  }
+
+  @Test
+  public void validateFModelWithSingleTypeCollection() {
+    typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
+
+    assertTrue(NameValidator.validate(francaModel));
+  }
+
+  @Test
+  public void validateFModelWithMultipleTypeCollectionsUniqueTypeNames() {
+    typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
+    typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME + "2", fModel));
+
+    assertTrue(NameValidator.validate(francaModel));
+  }
+
+  @Test
+  public void validateFModelWithMultipleTypeCollectionsNonUniqueTypeNames() {
+    typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
+    typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
+
+    assertFalse(NameValidator.validate(francaModel));
+  }
+
+  @Test
+  public void validateFModelWithMultipleTypeCollectionsNonUniqueTypeNamesDifferentPackages() {
+    FModel fModel2 = mock(FModel.class);
+    when(fModel2.getName()).thenReturn(MODEL_NAME + ".xtra");
+
+    typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
+    typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel2));
+
+    assertTrue(NameValidator.validate(francaModel));
+  }
+
+  @Test
+  public void validateFModelWithSingleInterface() {
+    interfaces.add(francaInterface);
+
+    assertTrue(NameValidator.validate(francaModel));
+  }
+
+  @Test
+  public void validateFModelWithTwoInterfacesUniqueNames() {
+    when(anotherFrancaInterface.getName()).thenReturn(INTERFACE_NAME + "Off");
+    interfaces.add(francaInterface);
+    interfaces.add(anotherFrancaInterface);
+
+    assertTrue(NameValidator.validate(francaModel));
+  }
+
+  @Test
+  public void validateFModelWithTwoInterfacesNonUniqueNames() {
+    when(anotherFrancaInterface.getName()).thenReturn(INTERFACE_NAME);
+    interfaces.add(francaInterface);
+    interfaces.add(anotherFrancaInterface);
+
+    assertFalse(NameValidator.validate(francaModel));
+  }
+
+  @Test
+  public void validateFModelWithTwoInterfacesNonUniqueNamesDifferentPackages() {
+    FModel anotherFModel = mock(FModel.class);
+    when(anotherFModel.getName()).thenReturn(MODEL_NAME + ".xtra");
+    when(anotherFrancaInterface.getFrancaModel()).thenReturn(anotherFModel);
+
+    when(anotherFrancaInterface.getName()).thenReturn(INTERFACE_NAME);
+    interfaces.add(francaInterface);
+    interfaces.add(anotherFrancaInterface);
+
+    assertTrue(NameValidator.validate(francaModel));
+  }
+
+  private TypeCollection mockTypeCollectionContainingType(String typeName, FModel fModelParam) {
+
+    FType type = mock(FType.class);
+    when(type.getName()).thenReturn(typeName);
+
+    TypeCollection typeCollection = mock(TypeCollection.class, Answers.RETURNS_DEEP_STUBS);
+
+    FTypeCollection fTypeCollection = mock(FTypeCollection.class);
+
+    when(typeCollection.getFrancaTypeCollection()).thenReturn(fTypeCollection);
+    when(typeCollection.getFrancaModel()).thenReturn(fModelParam);
+    when(fTypeCollection.eContainer()).thenReturn(fModelParam);
+
+    ArrayEList<FType> types = new ArrayEList<>();
+    types.add(type);
+    when(typeCollection.getFrancaTypeCollection().getTypes()).thenReturn(types);
+    return typeCollection;
+  }
+}
