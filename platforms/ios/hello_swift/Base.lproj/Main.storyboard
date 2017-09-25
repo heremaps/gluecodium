@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13189.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wKn-iE-2KM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wKn-iE-2KM">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Baseline standard spacing" minToolsVersion="9.0"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Builtin Types-->
         <scene sceneID="bRq-bw-Z00">
             <objects>
-                <viewController id="sW2-90-ccD" customClass="BuiltinTypesViewController" customModule="hello_swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="sW2-90-ccD" customClass="BuiltinTypesViewController" customModule="helloApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vuO-pX-k6C"/>
                         <viewControllerLayoutGuide type="bottom" id="cKk-M4-SGV"/>
@@ -92,7 +93,7 @@
         <!--Structs-->
         <scene sceneID="l00-jy-rBH">
             <objects>
-                <viewController id="l2e-Hw-P39" userLabel="Structs" customClass="StructsViewController" customModule="hello_swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="l2e-Hw-P39" userLabel="Structs" customClass="StructsViewController" customModule="helloApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LCZ-zF-Mfy"/>
                         <viewControllerLayoutGuide type="bottom" id="qtM-Xg-lsh"/>
@@ -254,12 +255,86 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YyE-Hz-wOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-941.60000000000002" y="686.80659670164926"/>
+            <point key="canvasLocation" x="-1763" y="869"/>
+        </scene>
+        <!--Instances-->
+        <scene sceneID="JVu-Zu-oJN">
+            <objects>
+                <viewController id="Lnj-A2-Qd0" customClass="InstancesViewController" customModule="helloApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uJC-xR-PaO"/>
+                        <viewControllerLayoutGuide type="bottom" id="ejN-qd-qAs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JCX-rZ-Wzm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New profile name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="x3g-76-pul">
+                                <rect key="frame" x="16" y="86" width="288" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rri-c9-beK">
+                                <rect key="frame" x="97" y="221" width="126" height="30"/>
+                                <state key="normal" title="Create new profile"/>
+                                <connections>
+                                    <action selector="createNewProfile:" destination="Lnj-A2-Qd0" eventType="touchUpInside" id="JCi-BW-SKY"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instances:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yUJ-6B-lgi">
+                                <rect key="frame" x="16" y="50" width="83" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="752" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K8R-bI-Fpp">
+                                <rect key="frame" x="16" y="131" width="288" height="70"/>
+                                <string key="text">Expected behaviour: Pressing "Create" will create a new Profile name. The old one will be displayed under the button, using the same instance.</string>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="752" text="Old profile:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZX-6S-dt1">
+                                <rect key="frame" x="16" y="271" width="288" height="16"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="K8R-bI-Fpp" firstAttribute="trailing" secondItem="x3g-76-pul" secondAttribute="trailing" id="4Fq-XT-HOZ"/>
+                            <constraint firstItem="Rri-c9-beK" firstAttribute="top" secondItem="K8R-bI-Fpp" secondAttribute="bottom" constant="20" id="7MQ-GI-x9p"/>
+                            <constraint firstItem="K8R-bI-Fpp" firstAttribute="top" secondItem="x3g-76-pul" secondAttribute="bottom" constant="15" id="FGK-TI-aae"/>
+                            <constraint firstItem="KZX-6S-dt1" firstAttribute="trailing" secondItem="K8R-bI-Fpp" secondAttribute="trailing" id="JPh-Ug-Gda"/>
+                            <constraint firstItem="KZX-6S-dt1" firstAttribute="leading" secondItem="K8R-bI-Fpp" secondAttribute="leading" id="OX6-Bs-7Qv"/>
+                            <constraint firstItem="yUJ-6B-lgi" firstAttribute="top" secondItem="uJC-xR-PaO" secondAttribute="bottom" constant="30" id="V75-Fb-XgO"/>
+                            <constraint firstItem="x3g-76-pul" firstAttribute="top" secondItem="yUJ-6B-lgi" secondAttribute="bottom" constant="15" id="Yus-Gz-nZ4"/>
+                            <constraint firstItem="x3g-76-pul" firstAttribute="centerX" secondItem="JCX-rZ-Wzm" secondAttribute="centerX" id="ZfN-K2-Tlw"/>
+                            <constraint firstItem="x3g-76-pul" firstAttribute="leading" secondItem="yUJ-6B-lgi" secondAttribute="leading" id="aRT-ch-sN4"/>
+                            <constraint firstItem="KZX-6S-dt1" firstAttribute="top" secondItem="Rri-c9-beK" secondAttribute="bottom" constant="20" id="gTt-ft-vYG"/>
+                            <constraint firstItem="Rri-c9-beK" firstAttribute="centerX" secondItem="K8R-bI-Fpp" secondAttribute="centerX" id="gna-3A-TDa"/>
+                            <constraint firstItem="yUJ-6B-lgi" firstAttribute="leading" secondItem="JCX-rZ-Wzm" secondAttribute="leadingMargin" id="yoz-Mh-Ljh"/>
+                            <constraint firstItem="K8R-bI-Fpp" firstAttribute="leading" secondItem="x3g-76-pul" secondAttribute="leading" id="zj1-a6-duw"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Instances" id="Ilj-SA-56k">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-15"/>
+                    </tabBarItem>
+                    <connections>
+                        <outlet property="profileLabel" destination="KZX-6S-dt1" id="2bq-WO-oeg"/>
+                        <outlet property="profileTextView" destination="x3g-76-pul" id="HOI-yr-pQd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vLL-6h-vQX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-941.25" y="870"/>
         </scene>
         <!--Base-->
         <scene sceneID="tKY-nB-P8k">
             <objects>
-                <viewController id="4I8-zh-Qes" customClass="BaseViewController" customModule="hello_swift" sceneMemberID="viewController">
+                <viewController id="4I8-zh-Qes" customClass="BaseViewController" customModule="helloApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="M31-7b-HRK"/>
                         <viewControllerLayoutGuide type="bottom" id="FfB-B6-edO"/>
@@ -318,6 +393,7 @@
                         <segue destination="4I8-zh-Qes" kind="relationship" relationship="viewControllers" id="ftI-lq-fqO"/>
                         <segue destination="sW2-90-ccD" kind="relationship" relationship="viewControllers" id="wvH-Mf-ZpG"/>
                         <segue destination="l2e-Hw-P39" kind="relationship" relationship="viewControllers" id="Y7p-d6-XCc"/>
+                        <segue destination="Lnj-A2-Qd0" kind="relationship" relationship="viewControllers" id="w0o-xB-S5b"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ulb-BT-cKw" userLabel="First Responder" sceneMemberID="firstResponder"/>
