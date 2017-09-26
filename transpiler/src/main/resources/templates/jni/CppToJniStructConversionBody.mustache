@@ -1,22 +1,22 @@
 {
-  auto javaClass = env->FindClass("{{>jni/JavaClassSignaturePrefix}}{{javaClass.name}}");
-  auto result = create_object(env, javaClass);
+  auto javaClass = _jenv->FindClass("{{>jni/JavaClassSignaturePrefix}}{{javaClass.name}}");
+  auto _jresult = create_object(_jenv, javaClass);
 {{#fields}}
   {{#hasCustomType}}
-  auto j{{cppField.name}} = convert_to_jni(env, ninput.{{cppField.name}});
+  auto j{{cppField.name}} = convert_to_jni(_jenv, _ninput.{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
-  auto j{{cppField.name}} = ninput.{{cppField.name}};
+  auto j{{cppField.name}} = _ninput.{{cppField.name}};
   {{/hasCustomType}}
 {{/fields}}
 {{#fields}}
   {{#hasCustomType}}
-  set_object_field(env, javaClass, result, "{{javaField.name}}",
+  set_object_field(_jenv, javaClass, _jresult, "{{javaField.name}}",
   "L{{>jni/JavaClassSignaturePrefix}}{{javaField.type.simpleName}};", j{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
-  set_{{javaField.type.literalName}}_field(env, javaClass, result, "{{javaField.name}}", j{{cppField.name}});
+  set_{{javaField.type.literalName}}_field(_jenv, javaClass, _jresult, "{{javaField.name}}", j{{cppField.name}});
   {{/hasCustomType}}
 {{/fields}}
-  return result;
+  return _jresult;
 }

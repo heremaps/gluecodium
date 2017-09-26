@@ -45,7 +45,8 @@ public final class JniFunctionSignatureTemplateTest {
     JniMethod jniMethod = new JniMethod("methodName", null, null, false);
     jniContainer.add(jniMethod);
 
-    String expected = "Java_com_here_jni_test_ClassName_methodName(JNIEnv* env, jobject jinstance)";
+    String expected =
+        "Java_com_here_jni_test_ClassName_methodName(JNIEnv* _jenv, jobject _jinstance)";
 
     // Act
     String generated = TemplateEngine.render("jni/FunctionSignature", jniMethod);
@@ -78,7 +79,7 @@ public final class JniFunctionSignatureTemplateTest {
     jniContainer.add(jniMethod);
 
     String expectedParams =
-        "JNIEnv* env, jobject jinstance, jstring jstringParam, jint jintParam, jobject jcustomParam";
+        "JNIEnv* _jenv, jobject _jinstance, jstring jstringParam, jint jintParam, jobject jcustomParam";
     String expected = "Java_com_here_jni_test_ClassName_methodName(" + expectedParams + ")";
 
     // Act

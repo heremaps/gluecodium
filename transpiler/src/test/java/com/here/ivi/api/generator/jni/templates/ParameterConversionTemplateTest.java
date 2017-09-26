@@ -59,7 +59,7 @@ public class ParameterConversionTemplateTest {
 
     assertEquals(
         "  CppType myParameter;\n"
-            + "    here::internal::convert_from_jni( env, jmyParameter, myParameter );\n",
+            + "    here::internal::convert_from_jni( _jenv, jmyParameter, myParameter );\n",
         generated);
   }
 
@@ -76,8 +76,8 @@ public class ParameterConversionTemplateTest {
 
     assertEquals(
         "  MyCppClass myParameter;\n"
-            + "    if (env->IsInstanceOf(jmyParameter, env->FindClass(\"com/here/android/NativeBase\"))) {\n"
-            + "        auto long_ptr_myParameter = get_long_field(env, env->GetObjectClass(jmyParameter), jmyParameter, \"nativeHandle\");\n"
+            + "    if (_jenv->IsInstanceOf(jmyParameter, _jenv->FindClass(\"com/here/android/NativeBase\"))) {\n"
+            + "        auto long_ptr_myParameter = get_long_field(_jenv, _jenv->GetObjectClass(jmyParameter), jmyParameter, \"nativeHandle\");\n"
             + "        myParameter = *reinterpret_cast<MyCppClass*> (long_ptr_myParameter);\n"
             + "    } else {\n"
             + "        // TODO APIGEN-709: create cpp proxy for java object\n"
