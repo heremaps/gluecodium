@@ -94,7 +94,7 @@ checkstyle {
     ignoreFailures false
 }
 checkstyleMain {
-    maxErrors=2
+    maxErrors=0
     maxWarnings=0
 }
 checkstyleTest {
