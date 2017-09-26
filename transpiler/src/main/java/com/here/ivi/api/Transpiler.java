@@ -28,7 +28,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class Transpiler {
+public class Transpiler {
 
   private static final Logger LOGGER = Logger.getLogger(Transpiler.class.getName());
 
@@ -84,7 +84,8 @@ public final class Transpiler {
         .allMatch(generatorName -> executeGenerator(generatorName, inputPath, fileNamesCache));
   }
 
-  private boolean executeGenerator(
+  @VisibleForTesting
+  boolean executeGenerator(
       final String generatorName, final File inputPath, final Map<String, String> fileNamesCache) {
 
     LOGGER.info("Using generator " + generatorName);
@@ -143,7 +144,8 @@ public final class Transpiler {
     return saveToDirectory(options.getOutputDir(), files);
   }
 
-  private static boolean saveToDirectory(final String outputDir, final List<GeneratedFile> files) {
+  @VisibleForTesting
+  static boolean saveToDirectory(final String outputDir, final List<GeneratedFile> files) {
 
     if (outputDir != null) {
       try {
