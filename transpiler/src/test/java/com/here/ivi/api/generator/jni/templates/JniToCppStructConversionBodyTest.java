@@ -77,11 +77,11 @@ public final class JniToCppStructConversionBodyTest {
     //assert
     String expected =
         "{\n\n"
-            + "  jclass javaClass = env->GetObjectClass(jinput);\n\n"
-            + "  out."
+            + "  jclass javaClass = _jenv->GetObjectClass(_jinput);\n\n"
+            + "  _nout."
             + field.cppField.name
-            + " = get_int_field(env, javaClass, "
-            + "jinput, \""
+            + " = get_int_field(_jenv, javaClass, "
+            + "_jinput, \""
             + field.javaField.name
             + "\");\n}\n";
     assertEquals(expected, generated);
@@ -103,11 +103,11 @@ public final class JniToCppStructConversionBodyTest {
     //assert
     String expected =
         "{\n\n"
-            + "  jclass javaClass = env->GetObjectClass(jinput);\n\n"
-            + "  out."
+            + "  jclass javaClass = _jenv->GetObjectClass(_jinput);\n\n"
+            + "  _nout."
             + jniField.cppField.name
-            + " = get_string_field(env, javaClass, "
-            + "jinput, \""
+            + " = get_string_field(_jenv, javaClass, "
+            + "_jinput, \""
             + jniField.javaField.name
             + "\");\n}\n";
     assertEquals(expected, generated);
@@ -125,14 +125,14 @@ public final class JniToCppStructConversionBodyTest {
     //assert
     String expected =
         "{\n\n"
-            + "  jclass javaClass = env->GetObjectClass(jinput);\n\n"
+            + "  jclass javaClass = _jenv->GetObjectClass(_jinput);\n\n"
             + "  convert_from_jni"
             + "(\n"
-            + "    env,\n"
+            + "    _jenv,\n"
             + "    get_object_field(\n"
-            + "    env,\n"
+            + "    _jenv,\n"
             + "    javaClass,\n"
-            + "    jinput,\n"
+            + "    _jinput,\n"
             + "    \""
             + field.javaField.name
             + "\",\n"
@@ -143,7 +143,7 @@ public final class JniToCppStructConversionBodyTest {
             + "$"
             + field.javaField.type.name
             + ";\"),\n"
-            + "    out."
+            + "    _nout."
             + field.cppField.name
             + " );\n}\n";
 
@@ -164,19 +164,19 @@ public final class JniToCppStructConversionBodyTest {
     //assert
     String expected =
         "{\n\n"
-            + "  jclass javaClass = env->GetObjectClass(jinput);\n\n"
-            + "  out."
+            + "  jclass javaClass = _jenv->GetObjectClass(_jinput);\n\n"
+            + "  _nout."
             + intField.cppField.name
-            + " = get_int_field(env, javaClass, "
-            + "jinput, \""
+            + " = get_int_field(_jenv, javaClass, "
+            + "_jinput, \""
             + intField.javaField.name
             + "\");\n\n"
             + "  convert_from_jni(\n"
-            + "    env,\n"
+            + "    _jenv,\n"
             + "    get_object_field(\n"
-            + "    env,\n"
+            + "    _jenv,\n"
             + "    javaClass,\n"
-            + "    jinput,\n"
+            + "    _jinput,\n"
             + "    \""
             + customField.javaField.name
             + "\",\n"
@@ -187,7 +187,7 @@ public final class JniToCppStructConversionBodyTest {
             + "$"
             + customField.javaField.type.name
             + ";\"),\n"
-            + "    out."
+            + "    _nout."
             + customField.cppField.name
             + " );\n}\n";
 

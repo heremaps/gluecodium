@@ -73,7 +73,7 @@ public class CppToJniStructConversionBodyTest {
     jniStruct.fields.add(createIntField());
     String expected =
         "{\n"
-            + "  auto javaClass = env->FindClass("
+            + "  auto javaClass = _jenv->FindClass("
             + "\""
             + String.join("/", PACKAGES)
             + "/"
@@ -81,10 +81,10 @@ public class CppToJniStructConversionBodyTest {
             + "$"
             + INNER_CLASS_NAME
             + "\");\n"
-            + "  auto result = create_object(env, javaClass);\n"
-            + "  auto jcppInt = ninput.cppInt;\n"
-            + "  set_int_field(env, javaClass, result, \"intfield\", jcppInt);\n"
-            + "  return result;\n"
+            + "  auto _jresult = create_object(_jenv, javaClass);\n"
+            + "  auto jcppInt = _ninput.cppInt;\n"
+            + "  set_int_field(_jenv, javaClass, _jresult, \"intfield\", jcppInt);\n"
+            + "  return _jresult;\n"
             + "}";
 
     String generated = TemplateEngine.render("jni/CppToJniStructConversionBody", jniStruct);
@@ -102,18 +102,18 @@ public class CppToJniStructConversionBodyTest {
         String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + jniField.javaField.type.name;
     String expected =
         "{\n"
-            + "  auto javaClass = env->FindClass("
+            + "  auto javaClass = _jenv->FindClass("
             + "\""
             + innerSignature
             + "\");\n"
-            + "  auto result = create_object(env, javaClass);\n"
-            + "  auto jnestedCplusCplus = convert_to_jni(env, ninput.nestedCplusCplus);\n"
-            + "  set_object_field(env, javaClass, result, \"nestedStruct\",\n"
+            + "  auto _jresult = create_object(_jenv, javaClass);\n"
+            + "  auto jnestedCplusCplus = convert_to_jni(_jenv, _ninput.nestedCplusCplus);\n"
+            + "  set_object_field(_jenv, javaClass, _jresult, \"nestedStruct\",\n"
             + "  \""
             + "L"
             + fieldSignature
             + ";\", jnestedCplusCplus);\n"
-            + "  return result;\n"
+            + "  return _jresult;\n"
             + "}";
 
     String generated = TemplateEngine.render("jni/CppToJniStructConversionBody", jniStruct);
@@ -132,20 +132,20 @@ public class CppToJniStructConversionBodyTest {
         String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + customField.javaField.type.name;
     String expected =
         "{\n"
-            + "  auto javaClass = env->FindClass("
+            + "  auto javaClass = _jenv->FindClass("
             + "\""
             + innerSignature
             + "\");\n"
-            + "  auto result = create_object(env, javaClass);\n"
-            + "  auto jcppInt = ninput.cppInt;\n"
-            + "  auto jnestedCplusCplus = convert_to_jni(env, ninput.nestedCplusCplus);\n"
-            + "  set_int_field(env, javaClass, result, \"intfield\", jcppInt);\n"
-            + "  set_object_field(env, javaClass, result, \"nestedStruct\",\n"
+            + "  auto _jresult = create_object(_jenv, javaClass);\n"
+            + "  auto jcppInt = _ninput.cppInt;\n"
+            + "  auto jnestedCplusCplus = convert_to_jni(_jenv, _ninput.nestedCplusCplus);\n"
+            + "  set_int_field(_jenv, javaClass, _jresult, \"intfield\", jcppInt);\n"
+            + "  set_object_field(_jenv, javaClass, _jresult, \"nestedStruct\",\n"
             + "  \""
             + "L"
             + fieldSignature
             + ";\", jnestedCplusCplus);\n"
-            + "  return result;\n"
+            + "  return _jresult;\n"
             + "}";
     String generated = TemplateEngine.render("jni/CppToJniStructConversionBody", jniStruct);
 

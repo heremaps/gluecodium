@@ -51,13 +51,13 @@ public final class CppToJniStructConversionSignatureTest {
     String generated = TemplateEngine.render("jni/CppToJniStructConversionSignature", jniStruct);
 
     String expected =
-        "jobject convert_to_jni(JNIEnv* env, const ::"
+        "jobject convert_to_jni(JNIEnv* _jenv, const ::"
             + String.join("::", PACKAGES)
             + "::"
             + OUTER_CLASS_NAME
             + "::"
             + INNER_CLASS_NAME
-            + "& ninput)";
+            + "& _ninput)";
 
     // Assert
     assertEquals(expected, generated);

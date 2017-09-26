@@ -40,11 +40,11 @@ public class CppToJniInstanceConversionSignatureTest {
   @Test
   public void generate() {
     String expected =
-        "jobject convert_to_jni(JNIEnv* env, const ::std::shared_ptr<::"
+        "jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::"
             + String.join("::", CPP_PACKAGES)
             + "::"
             + CPP_NAME
-            + "> & ninput)";
+            + "> & _ninput)";
 
     String generated =
         TemplateEngine.render("jni/CppToJniInstanceConversionSignature", jniContainer);

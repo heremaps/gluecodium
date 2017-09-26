@@ -1,7 +1,7 @@
 {{#if type.isInstance}}
   {{type.cppName}} {{name}};
-    if (env->IsInstanceOf(j{{name}}, env->FindClass("com/here/android/NativeBase"))) {
-        auto long_ptr_{{name}} = get_long_field(env, env->GetObjectClass(j{{name}}), j{{name}}, "nativeHandle");
+    if (_jenv->IsInstanceOf(j{{name}}, _jenv->FindClass("com/here/android/NativeBase"))) {
+        auto long_ptr_{{name}} = get_long_field(_jenv, _jenv->GetObjectClass(j{{name}}), j{{name}}, "nativeHandle");
         {{name}} = *reinterpret_cast<{{type.cppName}}*> (long_ptr_{{name}});
     } else {
         // TODO APIGEN-709: create cpp proxy for java object
@@ -10,7 +10,7 @@
 {{#unless type.isInstance}}
 {{#if type.isComplex}}
   {{type.cppName}} {{name}};
-    here::internal::convert_from_jni( env, j{{name}}, {{name}} );
+    here::internal::convert_from_jni( _jenv, j{{name}}, {{name}} );
 {{/if}}
 {{#unless type.isComplex}}
   {{type.cppName}} {{name}} = j{{name}};

@@ -1,22 +1,22 @@
 {
 
-  jclass javaClass = env->GetObjectClass(jinput);
+  jclass javaClass = _jenv->GetObjectClass(_jinput);
 {{#fields}}
   {{#hasCustomType}}
 
   convert_from_jni(
-    env,
+    _jenv,
     get_object_field(
-    env,
+    _jenv,
     javaClass,
-    jinput,
+    _jinput,
     "{{javaField.name}}",
     "L{{>jni/JavaClassSignaturePrefix}}{{javaField.type.simpleName}};"),
-    out.{{cppField.name}} );
+    _nout.{{cppField.name}} );
   {{/hasCustomType}}
   {{^hasCustomType}}
 
-  out.{{cppField.name}} = get_{{javaField.type.literalName}}_field(env, javaClass, jinput, "{{javaField.name}}");
+  _nout.{{cppField.name}} = get_{{javaField.type.literalName}}_field(_jenv, javaClass, _jinput, "{{javaField.name}}");
   {{/hasCustomType}}
 {{/fields}}
 }

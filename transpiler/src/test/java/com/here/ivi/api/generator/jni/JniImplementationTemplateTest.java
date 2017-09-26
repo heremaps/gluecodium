@@ -46,7 +46,7 @@ public final class JniImplementationTemplateTest {
   private static final String CALL_STATIC = "::com::here::ivi::test::CppClass::";
   private static final String CALL_SHARED_POINTER = "(*pInstanceSharedPointer)->";
   private static final String RETRIEVE_LONG_PTR =
-      "    auto pointerAsLong = get_long_field(env, env->GetObjectClass(jinstance), jinstance, \"nativeHandle\");\n";
+      "    auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, \"nativeHandle\");\n";
   private static final String CAST_LONG_TO_SHARED_PTR =
       "    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::com::here::ivi::test::CppClass>*> (pointerAsLong);\n";
   private static final String CONVERSION_HEADER_INCLUDE =
@@ -93,7 +93,7 @@ public final class JniImplementationTemplateTest {
     String methodBody =
         JNI_TEST_CLASS_METHOD_PREFIX
             + methodName
-            + "(JNIEnv* env, jobject jinstance, jint "
+            + "(JNIEnv* _jenv, jobject _jinstance, jint "
             + JNI_PARAMETER_NAME
             + ")\n"
             + "{\n"
@@ -278,9 +278,9 @@ public final class JniImplementationTemplateTest {
             + expectedGeneratedJNIMethod("instanceVoidMethod", false, true)
             + "\nvoid\n"
             + JNI_TEST_CLASS_METHOD_PREFIX
-            + "disposeNativeHandle(JNIEnv* env, jobject jinstance, jlong pointerRef)\n"
+            + "disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)\n"
             + "{\n"
-            + "    delete reinterpret_cast<std::shared_ptr<::com::here::ivi::test::CppClass>*> (pointerRef);\n"
+            + "    delete reinterpret_cast<std::shared_ptr<::com::here::ivi::test::CppClass>*> (_jpointerRef);\n"
             + "}"
             + END_OF_FILE,
         generatedImplementation);
