@@ -31,7 +31,7 @@ function build {
         pushd "${build_dir}"
         safe cmake \
             -DBUILD_SHARED_LIBS=OFF \
-            -DCMAKE_TOOLCHAIN_FILE="${SCRIPT_DIR}/../../../apigen-cmake/cmake/toolchains/iOS.cmake" \
+            -DCMAKE_TOOLCHAIN_FILE="${SCRIPT_DIR}/../../../cmake/toolchains/iOS.cmake" \
             -DIOS_PLATFORM="${target}" \
             -DIOS_DEPLOYMENT_TARGET=9.3 \
             -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
