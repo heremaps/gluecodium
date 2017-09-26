@@ -145,7 +145,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppStruct cppStruct = buildCompoundType(francaStructType, false);
     if (francaStructType.getBase() != null) {
-      CppTypeRef parentTypeRef = typeMapper.mapStruct(francaStructType);
+      CppTypeRef parentTypeRef = typeMapper.mapStruct(francaStructType.getBase());
       cppStruct.inheritances.add(new CppInheritance(parentTypeRef, CppInheritance.Type.Public));
     }
 
