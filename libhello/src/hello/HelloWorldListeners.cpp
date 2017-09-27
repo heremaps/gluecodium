@@ -12,11 +12,13 @@
 
 #include "HelloWorldListeners.h"
 #include "hello/CalculatorFactory.h"
+#include "hello/HelloWorldStaticLogger.h"
 
 #include <cmath>
 
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 
 namespace
 {
@@ -38,13 +40,17 @@ namespace hello
 void
 HelloCalculatorListener::onCalculationResult( const double calculationResult )
 {
-    std::cout << __PRETTY_FUNCTION__ << " called with result = " << calculationResult << std::endl;
+    std::stringstream logStream;
+    logStream << __PRETTY_FUNCTION__ << " called with result = " << calculationResult << std::endl;
+    HelloWorldStaticLogger::append(logStream.str());
 }
 
 void
 HelloCalculatorListener::onCalculationInBackgroundResult( const double calculationResult )
 {
-    std::cout << __PRETTY_FUNCTION__ << " called with result = " << calculationResult << std::endl;
+    std::stringstream logStream;
+    logStream << __PRETTY_FUNCTION__ << " called with result = " << calculationResult << std::endl;
+    HelloWorldStaticLogger::append(logStream.str());
 }
 
 ::std::shared_ptr< ::hello::Calculator >
@@ -58,7 +64,7 @@ HelloCalculator::registerListener(
     const ::std::shared_ptr< ::hello::CalculatorListener >& listener )
 {
     bool registered
-        = std::find( m_listeners.begin( ), m_listeners.end( ), listener ) == m_listeners.end( );
+        = std::find( m_listeners.begin( ), m_listeners.end( ), listener ) != m_listeners.end( );
     if ( !registered )
     {
         m_listeners.push_back( listener );
