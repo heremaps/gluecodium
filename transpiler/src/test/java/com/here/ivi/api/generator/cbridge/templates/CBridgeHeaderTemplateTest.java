@@ -135,7 +135,7 @@ public class CBridgeHeaderTemplateTest {
     final String expected =
         "typedef struct {\n"
             + "    void* const private_pointer;\n"
-            + "} some_package_SomeClassRef\n"
+            + "} some_package_SomeClassRef;\n"
             + "void InstantiableInterface_release(some_package_SomeClassRef handle);\n"
             + "\n"
             + "void instanceMethod(some_package_SomeClassRef _instance);\n";

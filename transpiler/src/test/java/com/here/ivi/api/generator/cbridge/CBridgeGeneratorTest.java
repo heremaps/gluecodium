@@ -129,7 +129,7 @@ public class CBridgeGeneratorTest {
     String expectedHeader =
         "typedef struct {\n"
             + "    void* const private_pointer;\n"
-            + "} cbridge_test_TestInterfaceRef\n"
+            + "} cbridge_test_TestInterfaceRef;\n"
             + "void cbridge_test_TestInterface_release(cbridge_test_TestInterfaceRef handle);\n"
             + "\n"
             + "typedef struct {\n"
@@ -234,7 +234,7 @@ public class CBridgeGeneratorTest {
     String expectedHeader =
         "typedef struct {\n"
             + "    void* const private_pointer;\n"
-            + "} cbridge_test_TestInterfaceRef\n"
+            + "} cbridge_test_TestInterfaceRef;\n"
             + "void cbridge_test_TestInterface_release(cbridge_test_TestInterfaceRef handle);\n"
             + "typedef struct {\n"
             + "    void* swift_pointer;\n"
@@ -283,7 +283,7 @@ public class CBridgeGeneratorTest {
             "#include \"cbridge/StringHandle.h\"\n"
                 + "typedef struct {\n"
                 + "    void* const private_pointer;\n"
-                + "} cbridge_test_TestInterfaceRef\n"
+                + "} cbridge_test_TestInterfaceRef;\n"
                 + "void cbridge_test_TestInterface_release(cbridge_test_TestInterfaceRef handle);"
                 + "\n"
                 + "typedef struct {\n"
