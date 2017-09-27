@@ -11,11 +11,6 @@ Source: https://github.com/noveogroup/android-check/blob/master/android-check-pl
 -->
 <module name="Checker">
 
-    <module name="SuppressionFilter">
-        <property name="file" value="config/checkstyle/suppressions.xml"/>
-        <property name="optional" value="false"/>
-    </module>
-
     <!-- Checks whether files end with a new line.                        -->
     <!-- See http://checkstyle.sourceforge.net/config_misc.html#NewlineAtEndOfFile -->
     <module name="NewlineAtEndOfFile" />
