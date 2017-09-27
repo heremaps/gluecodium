@@ -2,6 +2,12 @@
 {{>common/Include}}
 {{/implementationIncludes}}
 
+{{#if selfType}}
+void {{name}}_release({{selfType.functionReturnType}} handle) {
+    delete get_pointer(handle);
+}
+{{/if}}
+
 {{#structs}}
 {{>cbridge/StructImplementation}}
 {{/structs}}

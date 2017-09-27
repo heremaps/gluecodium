@@ -29,13 +29,19 @@ public class CBridgeComponents {
         includes.addAll(field.type.conversionToCppIncludes);
       }
     }
+    if (cInterface.selfType != null) {
+      includes.addAll(cInterface.selfType.conversionToCppIncludes);
+    }
     return includes;
   }
 
   public static Set<Include> collectPrivateHeaderIncludes(CInterface cInterface) {
     Set<Include> includes = new LinkedHashSet<>();
     for (CStruct struct : cInterface.structs) {
-      includes.addAll(struct.mappedType.conversionFromCppIncludes);
+      includes.addAll(struct.mappedType.conversionToCppIncludes);
+    }
+    if (cInterface.selfType != null) {
+      includes.addAll(cInterface.selfType.conversionToCppIncludes);
     }
     return includes;
   }
@@ -72,6 +78,9 @@ public class CBridgeComponents {
     }
     includes.addAll(function.returnType.conversionFromCppIncludes);
     includes.addAll(function.delegateCallInclude);
+    if (function.selfParameter != null) {
+      includes.addAll(function.selfParameter.mappedType.conversionToCppIncludes);
+    }
     return includes;
   }
 }
