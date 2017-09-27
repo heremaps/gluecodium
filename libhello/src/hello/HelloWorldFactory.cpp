@@ -18,13 +18,13 @@ namespace hello
 {
 
 ::std::shared_ptr< ::hello::SimpleInstantiable >
-createSimple( )
+    HelloWorldFactory::createSimple( )
 {
     return ::std::make_shared< ::hello::HelloWorldSimpleInstantiable >( );
 }
 
 ::std::shared_ptr< ::hello::NestedInstantiable >
-createNested( const ::std::shared_ptr< ::hello::SimpleInstantiable >& simpleInstanceRef )
+    HelloWorldFactory::createNested( const ::std::shared_ptr< ::hello::SimpleInstantiable >& simpleInstanceRef )
 {
     return ::std::make_shared< ::hello::HelloWorldNestedInstantiable >( simpleInstanceRef );
 }
