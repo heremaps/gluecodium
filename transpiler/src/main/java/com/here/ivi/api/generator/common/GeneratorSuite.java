@@ -24,7 +24,6 @@ import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
@@ -84,9 +83,8 @@ public abstract class GeneratorSuite {
 
   /** Creates a new instance of a generator suite by its short identifier */
   public static GeneratorSuite instantiateByShortName(
-      String shortName, OptionReader.TranspilerOptions options)
-      throws InvocationTargetException, NoSuchMethodException, InstantiationException,
-          IllegalAccessException {
+      String shortName, OptionReader.TranspilerOptions options) {
+
     switch (shortName) {
       case AndroidGeneratorSuite.GENERATOR_NAME:
         return new AndroidGeneratorSuite(options);
@@ -96,7 +94,7 @@ public abstract class GeneratorSuite {
         return new SwiftGeneratorSuite();
     }
 
-    throw new InstantiationException();
+    return null;
   }
 
   /** @return all available generators */

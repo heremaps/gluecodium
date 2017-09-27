@@ -21,7 +21,6 @@ import com.here.ivi.api.output.FileOutput;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,39 +83,37 @@ public final class Transpiler {
     Map<String, String> fileNamesCache = new HashMap<>();
 
     LOGGER.info("Version: " + version);
-    for (String sn : generators) {
-      LOGGER.info("Using generator " + sn);
+    for (String generatorName : generators) {
+      LOGGER.info("Using generator " + generatorName);
 
-      try {
-        GeneratorSuite generator = GeneratorSuite.instantiateByShortName(sn, options);
-        LOGGER.info("Instantiated generator " + generator.getName());
-
-        generator.buildModel(options.getInputDir());
-        LOGGER.info("Built franca model");
-
-        boolean valid = generator.validate();
-        LOGGER.info(valid ? "Validation Succeeded" : "Validation Failed");
-
-        if (options.isValidatingOnly()) {
-          succeeded = succeeded && valid;
-          continue;
-        }
-
-        if (valid) {
-          List<GeneratedFile> outputFiles = generator.generate();
-          boolean processedWithoutCollisions =
-              checkForFileNameCollisions(fileNamesCache, outputFiles, sn);
-          succeeded = succeeded && processedWithoutCollisions && output(outputFiles);
-        }
-
-        succeeded = succeeded && valid;
-      } catch (IllegalAccessException
-          | InstantiationException
-          | NoSuchMethodException
-          | InvocationTargetException e) {
-        LOGGER.severe("Failed instantiation of generator '" + sn + "'");
+      GeneratorSuite generator = GeneratorSuite.instantiateByShortName(generatorName, options);
+      if (generator == null) {
+        LOGGER.severe("Failed instantiation of generator '" + generatorName + "'");
         succeeded = false;
+        continue;
       }
+
+      LOGGER.info("Instantiated generator " + generator.getName());
+
+      generator.buildModel(options.getInputDir());
+      LOGGER.info("Built franca model");
+
+      boolean valid = generator.validate();
+      LOGGER.info(valid ? "Validation Succeeded" : "Validation Failed");
+
+      if (options.isValidatingOnly()) {
+        succeeded = succeeded && valid;
+        continue;
+      }
+
+      if (valid) {
+        List<GeneratedFile> outputFiles = generator.generate();
+        boolean processedWithoutCollisions =
+            checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName);
+        succeeded = succeeded && processedWithoutCollisions && output(outputFiles);
+      }
+
+      succeeded = succeeded && valid;
     }
 
     return succeeded;

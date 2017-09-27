@@ -11,11 +11,9 @@
 
 package com.here.ivi.api;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -124,19 +122,17 @@ public final class OptionReader {
     return transpilerOptions;
   }
 
-  @VisibleForTesting
-  void printGenerators() {
+  private void printGenerators() {
     System.out.println("Available generators: \n");
-    for (String sn : GeneratorSuite.generatorShortNames()) {
-      System.out.println("  Found generator " + sn);
-      try {
-        GeneratorSuite gen = GeneratorSuite.instantiateByShortName(sn, DEFAULT_OPTIONS);
-        System.out.println("   DefinedIn:  " + gen.getClass().getName());
-        System.out.println("   Name:       " + gen.getName());
-      } catch (NoSuchMethodException
-          | IllegalAccessException
-          | InvocationTargetException
-          | InstantiationException e) {
+    for (String generatorName : GeneratorSuite.generatorShortNames()) {
+      System.out.println("  Found generator " + generatorName);
+
+      GeneratorSuite generator =
+          GeneratorSuite.instantiateByShortName(generatorName, DEFAULT_OPTIONS);
+      if (generator != null) {
+        System.out.println("   DefinedIn:  " + generator.getClass().getName());
+        System.out.println("   Name:       " + generator.getName());
+      } else {
         System.err.println("   Instantiation failed!");
       }
       System.out.println("");
