@@ -52,7 +52,8 @@ endif()
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/hello/HelloWorldAttributesImpl.cpp)
+        src/hello/HelloWorldAttributesImpl.cpp
+        src/hello/HelloWorldListeners.cpp)
 endif()
 #TODO: Remove this workaround once Android and iOS supports complex types (APIGEN-280, APIGEN-281)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
@@ -66,8 +67,7 @@ if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
         src/hello/HelloWorldFactory.cpp
-        src/hello/HelloWorldInstances.cpp
-        src/hello/HelloWorldListeners.cpp)
+        src/hello/HelloWorldInstances.cpp)
 endif()
 #TODO: the 'if' and the content of the 'else' block should be removed when all fidl files pass the build (APIGEN-357, APIGEN-460, APIGEN-462)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
