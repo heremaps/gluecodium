@@ -38,7 +38,7 @@ public class CppToJniInstanceConversionBodyTest {
   }
 
   @Test
-  public void generateMethodBody() {
+  public void generate() {
     String expected =
         "{\n"
             + "    if (!_ninput)\n"
