@@ -60,17 +60,19 @@ endif()
 
 #TODO: Remove this workaround once Android and iOS support complex types:
 #      arrays: (APIGEN-767, APIGEN-766)
-#      enums: (APIGEN-756, APIGEN-755)
 #      maps: (APIGEN-739, APIGEN-730)
 #      unions: (APIGEN-776, APIGEN-775)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
         src/hello/HelloWorldArrays.cpp
-        src/hello/HelloWorldEnums.cpp
         src/hello/HelloWorldMaps.cpp
         src/hello/HelloWorldUnions.cpp)
+endif()
 
+#TODO: Remove this workaround once Android supports enum type (APIGEN-756)
+if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
+    set(HELLO_SOURCES ${HELLO_SOURCES} src/hello/HelloWorldEnums.cpp)
 endif()
 
 #TODO: the 'if' and the content of the 'else' block should be removed when all fidl files pass the build (APIGEN-357, APIGEN-460, APIGEN-462)
@@ -91,21 +93,35 @@ else()
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldAttributes.fidl)
     endif()
 
+    #TODO: This exclude can be removed once Android supports enums (APIGEN-756):
+    if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
+      list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldEnums.fidl)
+      list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldEnums.fdepl)
+    endif()
+
     #TODO: These excludes can be removed once Android and iOS support complex types:
     #      arrays: (APIGEN-767, APIGEN-766)
     #      attributes: (APIGEN-509, APIGEN-508)
-    #      enums: (APIGEN-756, APIGEN-755)
     #      maps: (APIGEN-739, APIGEN-730)
     #      unions: (APIGEN-776, APIGEN-775)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldArrays.fidl)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldArrays.fdepl)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldAttributesComplex.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldEnums.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldEnums.fdepl)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldMaps.fidl)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldMaps.fdepl)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldUnions.fidl)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldUnions.fdepl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Arrays.fidl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Arrays.fdepl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Maps.fidl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Maps.fdepl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Unions.fidl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Unions.fdepl)
+
+    #TODO Move these two excludes to android section above when impl for functional test is added (APIGEN-802)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Enums.fidl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Enums.fdepl)
+
 
     file(COPY ${HELLO_FRANCA_SOURCES} DESTINATION fidl-supported-features-only)
 
