@@ -41,7 +41,7 @@ file(GLOB_RECURSE HELLO_FRANCA_SOURCES
 
 # --- BEGIN TODO SECTION ---
 
-#TODO: Remove this workaround once iOS supports Typedefs (APIGEN-282) and Instances (APIGEN-195)
+#TODO: Remove this workaround once iOS supports Typedefs (APIGEN-783) and Instances (APIGEN-195)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
@@ -49,6 +49,7 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GEN
         src/hello/HelloWorldProfileManager.cpp
         src/hello/HelloWorldProfileManagerFactory.cpp)
 endif()
+
 #TODO: Remove this workaround once iOS supports attributes (APIGEN-504)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
@@ -56,22 +57,32 @@ if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GE
         src/hello/HelloWorldAttributesImpl.cpp
         src/hello/HelloWorldListeners.cpp)
 endif()
-#TODO: Remove this workaround once Android and iOS supports complex types (APIGEN-280, APIGEN-281)
+
+#TODO: Remove this workaround once Android and iOS support complex types:
+#      arrays: (APIGEN-767, APIGEN-766)
+#      enums: (APIGEN-756, APIGEN-755)
+#      maps: (APIGEN-739, APIGEN-730)
+#      unions: (APIGEN-776, APIGEN-775)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/hello/HelloWorldComplexTypes.cpp
-        src/hello/HelloWorldAttributesComplexImpl.cpp)
+        src/hello/HelloWorldArrays.cpp
+        src/hello/HelloWorldEnums.cpp
+        src/hello/HelloWorldMaps.cpp
+        src/hello/HelloWorldUnions.cpp)
+
 endif()
 
 #TODO: the 'if' and the content of the 'else' block should be removed when all fidl files pass the build (APIGEN-357, APIGEN-460, APIGEN-462)
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_FRANCA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fidl/)
 else()
-    #TODO: These excludes can be removed once iOS support Typedefs (APIGEN-282) and non-nested instances(APIGEN-196)
+    #TODO: These excludes can be removed once iOS support Typedefs (APIGEN-783) and non-nested instances(APIGEN-196)
     if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fidl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fdepl)
+        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldTypedefs.fidl)
+        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldTypedefs.fdepl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManager.fidl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManagerFactory.fidl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldProfileManagerFactory.fdepl)
@@ -83,10 +94,21 @@ else()
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldAttributes.fidl)
     endif()
 
-    #TODO: These excludes can be removed once both platforms support complex types (APIGEN-280, APIGEN-281)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldComplexTypes.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldComplexTypes.fdepl)
+    #TODO: These excludes can be removed once Android and iOS support complex types:
+    #      arrays: (APIGEN-767, APIGEN-766)
+    #      attributes: (APIGEN-509, APIGEN-508)
+    #      enums: (APIGEN-756, APIGEN-755)
+    #      maps: (APIGEN-739, APIGEN-730)
+    #      unions: (APIGEN-776, APIGEN-775)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldArrays.fidl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldArrays.fdepl)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldAttributesComplex.fidl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldEnums.fidl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldEnums.fdepl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldMaps.fidl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldMaps.fdepl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldUnions.fidl)
+    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldUnions.fdepl)
 
     file(COPY ${HELLO_FRANCA_SOURCES} DESTINATION fidl-supported-features-only)
 

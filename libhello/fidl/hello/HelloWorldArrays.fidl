@@ -1,0 +1,71 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package hello
+
+interface HelloWorldArrays {
+    version {
+        major 0
+        minor 1
+    }
+
+    <** @description: Basic struct type **>
+    struct ExampleStruct {
+        Double value
+    }
+
+    array StringArray of String
+
+    array StructArray of ExampleStruct
+
+
+    <** @description:
+    Static method which takes an array and returns an array of same type in reversed order.
+    **>
+    method methodWithArray {
+        in {
+            <** @description: Input array **>
+            StringArray input
+        }
+        out {
+            <** @description: Output array **>
+            StringArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns it in reversed order using inline declarations
+    **>
+    method methodWithArrayInline {
+        in {
+            <** @description: Input array **>
+            UInt8[] input
+        }
+        out {
+            <** @description: Output array **>
+            UInt8[] output
+        }
+    }
+
+    <** @description:
+    Static method which takes an inline array of structs and returns it in reversed order
+    **>
+    method methodWithStructArray {
+        in {
+            <** @description: Input array **>
+            ExampleStruct[] input
+        }
+        out {
+            <** @description: Output array **>
+            StructArray output
+        }
+    }
+}

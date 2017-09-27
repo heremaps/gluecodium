@@ -1,0 +1,36 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package hello
+
+interface HelloWorldMaps {
+    version {
+        major 0
+        minor 1
+    }
+
+    map ErrorCodeToMessageMap { Int32 to String }
+
+    <** @description:
+    Example static method which takes a map and returns a map of same type and
+    having the same keys but values converted to uppercase.
+    **>
+    method methodWithMap {
+        in {
+            <** @description: Input map **>
+            ErrorCodeToMessageMap input
+        }
+        out {
+            <** @description: Output map **>
+            ErrorCodeToMessageMap output
+        }
+    }
+}
