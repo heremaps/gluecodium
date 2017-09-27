@@ -32,7 +32,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -47,7 +46,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({GeneratorSuite.class})
+@PrepareForTest(GeneratorSuite.class)
 public class TranspilerTest {
 
   private static final String SHORT_NAME = "android";
@@ -58,11 +57,10 @@ public class TranspilerTest {
   @Mock private GeneratorSuite generator;
 
   @Before
-  public void setUp()
-      throws NoSuchMethodException, InstantiationException, IllegalAccessException,
-          InvocationTargetException {
+  public void setUp() {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(GeneratorSuite.class);
+
     when(generator.validate()).thenReturn(true);
     when(generator.getName()).thenReturn("");
     when(GeneratorSuite.instantiateByShortName(anyString(), any(TranspilerOptions.class)))
@@ -80,13 +78,11 @@ public class TranspilerTest {
   }
 
   @Test
-  public void failedInstantiationOfGenerator()
-      throws NoSuchMethodException, InstantiationException, IllegalAccessException,
-          InvocationTargetException {
+  public void failedInstantiationOfGenerator() {
     // Arrange
     when(GeneratorSuite.instantiateByShortName(
             anyString(), any(OptionReader.TranspilerOptions.class)))
-        .thenThrow(new InstantiationException());
+        .thenReturn(null);
     OptionReader.TranspilerOptions options =
         TranspilerOptions.builder()
             .generators(Collections.singletonList("invalidGenerator"))
@@ -97,14 +93,12 @@ public class TranspilerTest {
   }
 
   @Test
-  public void fileNameCollisionsresolved()
-      throws NoSuchMethodException, InstantiationException, IllegalAccessException,
-          InvocationTargetException {
+  public void fileNameCollisionsResolved() {
     // Arrange
     when(generator.generate()).thenReturn(Arrays.asList(FILE, FILE, FILE));
     OptionReader.TranspilerOptions options =
         TranspilerOptions.builder()
-            .generators(Arrays.asList(SHORT_NAME))
+            .generators(Collections.singletonList(SHORT_NAME))
             .validatingOnly(false)
             .build();
 
@@ -112,9 +106,7 @@ public class TranspilerTest {
   }
 
   @Test
-  public void executeValidateOnly()
-      throws NoSuchMethodException, InstantiationException, IllegalAccessException,
-          InvocationTargetException {
+  public void executeValidateOnly() {
     // Arrange
     OptionReader.TranspilerOptions options =
         TranspilerOptions.builder()
