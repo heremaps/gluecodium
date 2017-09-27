@@ -1,0 +1,105 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+interface Arrays {
+    version {
+        major 0
+        minor 1
+    }
+
+    struct BasicStruct {
+        Double value
+    }
+
+    struct FancyStruct {
+        StringArray messages
+        UInt8[] numbers
+    }
+
+    array StructArray of BasicStruct
+
+    array UIntArray of UInt8
+    array StringArray of String
+    array FancyArray of FancyStruct
+
+    <** @description:
+    Static method which takes an array and returns an array of same type in reversed order.
+    **>
+    method methodWithArray {
+        in {
+            <** @description: Input array **>
+            StringArray input
+        }
+        out {
+            <** @description: Output array **>
+            StringArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns it in reversed order using inline declarations
+    **>
+    method methodWithArrayInline {
+        in {
+            <** @description: Input array **>
+            UInt8[] input
+        }
+        out {
+            <** @description: Output array **>
+            UInt8[] output
+        }
+    }
+
+    <** @description:
+    Static method which takes an inline array of structs and returns it in reversed order
+    **>
+    method methodWithStructArray {
+        in {
+            <** @description: Input array **>
+            BasicStruct[] input
+        }
+        out {
+            <** @description: Output array **>
+            StructArray output
+        }
+    }
+
+    <** @description:
+    Function takes array of int arrays and reverse elements in each dimension
+    **>
+    method methodWithArrayOfArrys {
+        in {
+            <** @description: Input array **>
+            UIntArray[] input
+        }
+        out {
+            <** @description: Output array **>
+            UIntArray[] output
+        }
+    }
+
+    <** @description:
+    Function takes arrays in two forms merge them and then reverse order of elements
+    First element of inlineFancyArray will be last in result
+    Last element of fancyArray will be first in result
+    **>
+    method mergeArraysOfStructsWithArrays {
+        in {
+            FancyStruct[] inlineFancyArray
+            FancyArray fancyArray
+        }
+        out {
+            FancyArray result
+        }
+    }
+}
