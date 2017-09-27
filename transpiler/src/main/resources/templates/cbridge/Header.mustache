@@ -10,7 +10,7 @@ extern "C" {
 {{#hasInstanceMethod}}
 typedef struct {
     void* const private_pointer;
-} {{selfType.functionReturnType}}
+} {{selfType.functionReturnType}};
 
 void {{name}}_release({{selfType.functionReturnType}} handle);
 
