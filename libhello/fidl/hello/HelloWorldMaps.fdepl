@@ -10,37 +10,10 @@
  */
 
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
-import "./HelloWorldComplexTypes.fidl"
+import "./HelloWorldMaps.fidl"
 
-define navigation.BaseApiSpec for interface hello.HelloWorldComplexTypes
+define navigation.BaseApiSpec for interface hello.HelloWorldMaps
 {
-    /*
-    TODO APIGEN-145: Uncomment this when union is supported.
-    method methodWithUnion {
-        Static = true
-    }
-    */
-
-    method methodWithEnumeration {
-        Static = true
-    }
-
-    method methodWithArray {
-        Static = true
-    }
-
-    method methodWithStructArray {
-        Static = true
-    }
-
-    method methodWithArrayInline {
-        Static = true
-    }
-
-    method methodWithTypeDef {
-        Static = true
-    }
-
     method methodWithMap {
         Static = true
     }
