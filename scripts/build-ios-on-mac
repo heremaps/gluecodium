@@ -8,6 +8,7 @@
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
+TRANSPILER_VERSION="${TRANSPILER_VERSION:-+}"
 BUILD_DIR=build-ios
 INSTALL_DIR=dist
 if [ -n "${1}" ]; then
@@ -36,7 +37,7 @@ function build {
             -DIOS_DEPLOYMENT_TARGET=9.3 \
             -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
             -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
-            -DHELLO_APIGEN_TRANSPILER_VERSION=+ \
+            -DHELLO_APIGEN_TRANSPILER_VERSION=${TRANSPILER_VERSION} \
             ${CMAKE_EXTRA_PARAMETERS} \
             "${SCRIPT_DIR}/.."
         popd
