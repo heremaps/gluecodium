@@ -2,7 +2,7 @@
     }}{{#case "BUILTIN_BYTEBUFFER"}}std::vector<uint8_t>({{name}}_ptr, {{name}}_ptr + {{name}}_size){{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}std::string({{name}}){{/case}}{{!!
     }}{{#case "STRUCT"}}*get_pointer({{name}}){{/case}}{{!!
-    }}{{#case "INSTANCE"}}{{!!intentionally left blank}}{{/case}}{{!!
+    }}{{#case "INSTANCE"}}*get_pointer({{name}}){{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{mappedType.baseType}}>({{name}}){{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{/delegateConversion}}

@@ -42,10 +42,6 @@ public class CInterface extends CElement {
   }
 
   public boolean hasPrivateHeaderContent() {
-    return !structs.isEmpty() || hasInstanceMethod();
-  }
-
-  public boolean hasInstanceMethod() {
-    return functions.stream().anyMatch(method -> method.selfParameter != null);
+    return !structs.isEmpty() || selfType != null;
   }
 }

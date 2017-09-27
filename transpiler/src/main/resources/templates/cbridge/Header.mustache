@@ -8,14 +8,14 @@ extern "C" {
 {{#enumerators}}{{>cbridge/Enumerator}}{{/enumerators}}
 {{#structs}}{{>cbridge/StructDefinition}}{{/structs}}
 
-{{#hasInstanceMethod}}
+{{#selfType}}
 typedef struct {
     void* const private_pointer;
 } {{selfType.functionReturnType}};
 
 void {{name}}_release({{selfType.functionReturnType}} handle);
 
-{{/hasInstanceMethod}}
+{{/selfType}}
 {{#if functionTableName}}
 {{>cbridge/FunctionTable}}
 

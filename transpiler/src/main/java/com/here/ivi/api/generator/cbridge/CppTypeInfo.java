@@ -109,12 +109,13 @@ public class CppTypeInfo {
             singletonList(resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER))),
         TypeCategory.INSTANCE,
         asList(
+            resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER),
             resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PRIVATE_HEADER),
-            resolver.resolveInclude(instanceId, HeaderType.BASE_API_HEADER)),
+            resolver.resolveInclude(instanceId, HeaderType.BASE_API_HEADER),
+            Include.createSystemInclude("memory")),
         asList(
             resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER),
-            resolver.resolveInclude(instanceId, HeaderType.BASE_API_HEADER),
-            Include.createSystemInclude("memory")));
+            resolver.resolveInclude(instanceId, HeaderType.BASE_API_HEADER)));
   }
 
   public static CppTypeInfo createEnumTypeInfo(
