@@ -21,6 +21,7 @@ import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.validator.common.ResourceValidator;
+import java.io.File;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,7 +66,7 @@ public final class BaseApiGeneratorSuiteTest {
     GeneratedFile generatedFile = new GeneratedFile("a", "b");
     when(GeneratorSuite.copyTarget(any(), any())).thenReturn(generatedFile);
     when(francaModelLoader.load(any(), any())).thenReturn(mockFrancaModel);
-    baseApiGeneratorSuite.buildModel(MOCK_INPUT_PATH);
+    baseApiGeneratorSuite.buildModel(new File(MOCK_INPUT_PATH));
 
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 

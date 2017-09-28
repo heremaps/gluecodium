@@ -24,6 +24,7 @@ import com.here.ivi.api.model.cppmodel.CppElementWithIncludes;
 import com.here.ivi.api.model.cppmodel.CppFile;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaElement;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -82,7 +83,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   }
 
   @Override
-  public void buildModel(String inputPath) {
+  public void buildModel(File inputPath) {
     super.buildModel(inputPath);
     includeResolver = new CppIncludeResolver(model);
   }
