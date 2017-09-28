@@ -36,9 +36,9 @@ public final class CppHeaderTemplateTest {
   private static final String TEMPLATE_NAME = "cpp/CppHeader";
 
   private static final String EXPECTED_NAMESPACE_BODY_FORMAT =
-      "#pragma once\n\nnamespace outerSpace {\n%s\n}\n";
+      "\n#pragma once\n\nnamespace outerSpace {\n%s\n}\n";
   private static final String EXPECTED_NAMESPACE_INCLUDE_FORMAT =
-      "#pragma once\n%s\nnamespace outerSpace {\n\n}\n";
+      "\n#pragma once\n%s\nnamespace outerSpace {\n\n}\n";
 
   private final CppPrimitiveTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.INT32;
   private final CppComplexTypeRef cppComplexTypeRef =
@@ -68,7 +68,7 @@ public final class CppHeaderTemplateTest {
     String result = TemplateEngine.render(TEMPLATE_NAME, resultFile);
 
     final String expectedResult =
-        "#pragma once\n\nnamespace outer {\n\nnamespace inner {\n\n}\n}\n";
+        "\n#pragma once\n\nnamespace outer {\n\nnamespace inner {\n\n}\n}\n";
     assertEquals(expectedResult, result);
   }
 

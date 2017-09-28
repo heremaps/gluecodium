@@ -28,7 +28,6 @@ import org.junit.Test;
 public class CppGeneratorTest {
 
   private static final String OUTPUT_FILE_NAME = "some_fancy.output";
-  private static final String COPYRIGHT_NOTICE = "a noticeable copy right";
 
   private final CppGenerator cppGenerator = new CppGenerator();
 
@@ -44,8 +43,7 @@ public class CppGeneratorTest {
 
   @Test
   public void generateCodeWithNullModel() {
-    List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(null, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(null, OUTPUT_FILE_NAME);
 
     assertTrue(generatedFiles.isEmpty());
   }
@@ -54,30 +52,16 @@ public class CppGeneratorTest {
   public void generateCodeWithEmptyModel() {
     cppModel.members.clear();
 
-    List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME);
 
     assertTrue(generatedFiles.isEmpty());
   }
 
   @Test
   public void generateCodeWithNonEmptyModel() {
-    List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME);
 
     assertFalse(generatedFiles.isEmpty());
-  }
-
-  @Test
-  public void generateCodePreservesCopyrightNotice() {
-    List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
-
-    assertFalse(generatedFiles.isEmpty());
-
-    GeneratedFile generatedFile = generatedFiles.get(0);
-    assertNotNull(generatedFile.content);
-    assertTrue(generatedFile.content.contains(COPYRIGHT_NOTICE));
   }
 
   @Test
@@ -88,7 +72,7 @@ public class CppGeneratorTest {
     cppModel.includes.add(nonsenseInclude);
     cppModel.includes.add(selfInclude);
 
-    cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
+    cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME);
 
     assertTrue(cppModel.includes.contains(nonsenseInclude));
     assertFalse(cppModel.includes.contains(selfInclude));
@@ -96,8 +80,7 @@ public class CppGeneratorTest {
 
   @Test
   public void generateCodeGeneratesImplementation() {
-    List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME);
 
     assertEquals(2, generatedFiles.size());
     assertTrue(generatedFiles.get(1).content.contains("#include \"" + OUTPUT_FILE_NAME + ".h\""));
@@ -107,8 +90,7 @@ public class CppGeneratorTest {
   public void generateCodeGeneratesHeaderOnlyForStaticClass() {
     cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
 
-    List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, COPYRIGHT_NOTICE);
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME);
 
     assertEquals(1, generatedFiles.size());
   }

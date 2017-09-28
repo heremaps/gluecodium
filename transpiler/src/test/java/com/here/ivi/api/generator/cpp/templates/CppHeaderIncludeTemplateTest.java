@@ -30,7 +30,7 @@ public final class CppHeaderIncludeTemplateTest {
   private static final String TEMPLATE_NAME = "cpp/CppHeader";
 
   private static final String EXPECTED_NAMESPACE_BODY_FORMAT =
-      "#pragma once\n\n%s\n\nnamespace  {\n\n}\n";
+      "\n#pragma once\n\n%s\n\nnamespace  {\n\n}\n";
   private static final Include SYSTEM_INCLUDE = Include.createSystemInclude("systematic");
   private static final Include INTERNAL_INCLUDE = Include.createInternalInclude("internally");
 

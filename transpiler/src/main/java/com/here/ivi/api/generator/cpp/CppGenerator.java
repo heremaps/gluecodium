@@ -20,8 +20,7 @@ import java.util.*;
 
 public class CppGenerator {
 
-  public List<GeneratedFile> generateCode(
-      CppFile cppModel, String outputFilePath, String copyrightNotice) {
+  public List<GeneratedFile> generateCode(CppFile cppModel, String outputFilePath) {
 
     if (cppModel == null || cppModel.isEmpty()) {
       return Collections.emptyList();
@@ -33,7 +32,7 @@ public class CppGenerator {
     // Filter out self-includes
     cppModel.includes.removeIf(include -> include.fileName.equals(headerFilePath));
 
-    String commentHeader = generateCommentHeader(copyrightNotice);
+    String commentHeader = TemplateEngine.render("cpp/CppCommentHeader", null);
 
     List<GeneratedFile> result = new LinkedList<>();
     String headerContent = TemplateEngine.render("cpp/CppHeader", cppModel);
@@ -51,12 +50,5 @@ public class CppGenerator {
     }
 
     return result;
-  }
-
-  private static String generateCommentHeader(final String generatorNotice) {
-
-    Map<String, Object> dataObject = new HashMap<>();
-    dataObject.put("generatorNotice", generatorNotice);
-    return TemplateEngine.render("cpp/CppCommentHeader", dataObject);
   }
 }
