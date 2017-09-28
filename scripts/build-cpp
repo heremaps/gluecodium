@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# Script to build the "hello" library for a C++ consumer.
+# Script to build the "hello" library for a C++ consumer. This is demonstrated
+# by the base_api application.
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
@@ -27,7 +28,7 @@ safe cmake \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
     -DHELLO_APIGEN_TRANSPILER_GENERATOR=cpp \
     -DHELLO_APIGEN_TRANSPILER_VERSION=${TRANSPILER_VERSION} \
-    -DHELLO_BUILD_IOS_APP=OFF \
+    -DHELLO_BUILD_CPP_APP=ON \
     ${CMAKE_EXTRA_PARAMETERS} \
     ..
 popd

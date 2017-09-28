@@ -136,8 +136,9 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     install(TARGETS hello EXPORT helloTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
-        INCLUDES DESTINATION include)
+        INCLUDES DESTINATION hello)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
+
     # Android customers want an Android Archive and it's pre-requirements...
     apigen_java_compile(hello)
     apigen_java_jar(hello)
