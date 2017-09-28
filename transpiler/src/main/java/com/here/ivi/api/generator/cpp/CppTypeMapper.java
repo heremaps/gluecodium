@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cpp;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -25,6 +26,14 @@ import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FUnionType;
 
 public class CppTypeMapper {
+
+  private static final CppTypeRef BASIC_STRING_CHAR_TYPE =
+      CppTemplateTypeRef.create(
+          CppTemplateTypeRef.TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.CHAR);
+
+  @VisibleForTesting
+  static final CppTypeRef STRING_TYPE =
+      new CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE, BASIC_STRING_CHAR_TYPE.includes);
 
   private final CppIncludeResolver includeResolver;
 
@@ -169,9 +178,7 @@ public class CppTypeMapper {
         return CppPrimitiveTypeRef.UINT64;
 
       case FBasicTypeId.STRING_VALUE:
-        return new CppComplexTypeRef.Builder(CppComplexTypeRef.STRING_TYPE_NAME)
-            .includes(CppLibraryIncludes.STRING)
-            .build();
+        return STRING_TYPE;
 
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return CppTemplateTypeRef.create(

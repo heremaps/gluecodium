@@ -65,7 +65,7 @@ public final class JniFunctionSignatureTemplateTest {
             "stringParam",
             JniType.createType(
                 new JavaReferenceType(JavaReferenceType.Type.STRING),
-                new CppComplexTypeRef.Builder(CppComplexTypeRef.STRING_TYPE_NAME).build())));
+                new CppComplexTypeRef.Builder("::std::string").build())));
     jniMethod.parameters.add(
         new JniParameter(
             "intParam", JniType.createType(JavaPrimitiveType.INT, CppPrimitiveTypeRef.INT8)));

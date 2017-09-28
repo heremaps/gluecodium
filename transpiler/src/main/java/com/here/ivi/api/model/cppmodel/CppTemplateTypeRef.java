@@ -28,6 +28,7 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
     SHARED_POINTER("::std::shared_ptr", CppLibraryIncludes.MEMORY),
     MAP("::std::unordered_map", CppLibraryIncludes.MAP),
     VECTOR("::std::vector", CppLibraryIncludes.VECTOR),
+    BASIC_STRING("::std::basic_string", CppLibraryIncludes.STRING),
     EXPECTED("here::internal::Expected", CppLibraryIncludes.EXPECTED);
 
     public final String name;

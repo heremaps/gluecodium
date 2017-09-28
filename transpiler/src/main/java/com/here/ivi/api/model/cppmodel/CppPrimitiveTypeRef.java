@@ -29,6 +29,7 @@ public final class CppPrimitiveTypeRef extends CppTypeRef {
   public static final CppPrimitiveTypeRef UINT16 = new CppPrimitiveTypeRef(Type.UINT16);
   public static final CppPrimitiveTypeRef UINT32 = new CppPrimitiveTypeRef(Type.UINT32);
   public static final CppPrimitiveTypeRef UINT64 = new CppPrimitiveTypeRef(Type.UINT64);
+  public static final CppPrimitiveTypeRef CHAR = new CppPrimitiveTypeRef(Type.CHAR);
 
   public final Type type;
 
@@ -44,7 +45,8 @@ public final class CppPrimitiveTypeRef extends CppTypeRef {
     UINT8("uint8_t", true),
     UINT16("uint16_t", true),
     UINT32("uint32_t", true),
-    UINT64("uint64_t", true);
+    UINT64("uint64_t", true),
+    CHAR("char", false);
 
     public final String value;
     public final boolean isIntegerType;

@@ -89,11 +89,7 @@ public class CppTypeMapperComplexTest {
     CppTypeRef cppType = typeMapper.map(typeRef);
 
     //assert
-    assertTrue(cppType instanceof CppComplexTypeRef);
-    CppComplexTypeRef expectedTypeRef = (CppComplexTypeRef) cppType;
-    assertEquals(CppComplexTypeRef.STRING_TYPE_NAME, expectedTypeRef.name);
-    assertEquals(1, expectedTypeRef.includes.size());
-    assertTrue(expectedTypeRef.includes.contains(CppLibraryIncludes.STRING));
+    assertEquals(CppTypeMapper.STRING_TYPE, cppType);
   }
 
   @Test

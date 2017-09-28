@@ -14,10 +14,7 @@ package com.here.ivi.api.generator.cpp.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.cppmodel.CppTaggedUnion;
+import com.here.ivi.api.model.cppmodel.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -42,7 +39,6 @@ public final class CppTaggedUnionTemplateTest {
   private final CppTaggedUnion cppTaggedUnion = new CppTaggedUnion("Soviet");
   private final CppComplexTypeRef cppComplexTypeRef =
       new CppComplexTypeRef.Builder("::very::Typical").build();
-  private final CppField cppField = new CppField(cppComplexTypeRef, "flowers");
 
   @Test
   public void unionEmpty() {
@@ -54,6 +50,7 @@ public final class CppTaggedUnionTemplateTest {
 
   @Test
   public void unionWithField() {
+    CppField cppField = new CppField(cppComplexTypeRef, "flowers");
     cppField.comment = "nonsense";
     cppTaggedUnion.fields.add(cppField);
 
@@ -84,6 +81,7 @@ public final class CppTaggedUnionTemplateTest {
 
   @Test
   public void unionWithTwoFields() {
+    CppField cppField = new CppField(cppComplexTypeRef, "flowers");
     CppField anotherCppField =
         new CppField(new CppComplexTypeRef.Builder("Also").build(), "canola");
     cppTaggedUnion.fields.add(cppField);
@@ -124,8 +122,8 @@ public final class CppTaggedUnionTemplateTest {
 
   @Test
   public void unionWithFieldWithPrimitiveType() {
-    CppField anotherCppField = new CppField(CppPrimitiveTypeRef.UINT32, "indestructible");
-    cppTaggedUnion.fields.add(anotherCppField);
+    CppField cppField = new CppField(CppPrimitiveTypeRef.UINT32, "indestructible");
+    cppTaggedUnion.fields.add(cppField);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppTaggedUnion);
 
@@ -141,6 +139,71 @@ public final class CppTaggedUnionTemplateTest {
             + "            break;\n";
     final String expectedDestructorResult =
         "        case INDESTRUCTIBLE:\n" + "            break;\n";
+    final String expectedResult =
+        String.format(
+            EXPECTED_UNION_RESULT_FORMAT,
+            expectedEnumResult,
+            expectedFieldResult,
+            expectedConstructorResult,
+            expectedCopyConstructorResult,
+            expectedDestructorResult);
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void unionWithFieldWithTypeDefType() {
+    CppTypeRef cppTypeRef = new CppTypeDefRef("ErrorCode", cppComplexTypeRef);
+    CppField cppField = new CppField(cppTypeRef, "definite");
+    cppTaggedUnion.fields.add(cppField);
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppTaggedUnion);
+
+    final String expectedEnumResult = "        DEFINITE\n";
+    final String expectedConstructorResult =
+        "    Soviet(const ErrorCode& definite)\n"
+            + "        : type(DEFINITE)\n"
+            + "        , definite(definite) {};\n\n";
+    final String expectedFieldResult = "        ErrorCode definite;\n";
+    final String expectedCopyConstructorResult =
+        "        case DEFINITE:\n"
+            + "            new (&definite) ErrorCode(other.definite);\n"
+            + "            break;\n";
+    final String expectedDestructorResult =
+        "        case DEFINITE:\n" + "            definite.~Typical();\n            break;\n";
+    final String expectedResult =
+        String.format(
+            EXPECTED_UNION_RESULT_FORMAT,
+            expectedEnumResult,
+            expectedFieldResult,
+            expectedConstructorResult,
+            expectedCopyConstructorResult,
+            expectedDestructorResult);
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void unionWithFieldWithTemplateType() {
+    CppTypeRef cppTypeRef =
+        CppTemplateTypeRef.create(
+            CppTemplateTypeRef.TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.FLOAT);
+    CppField cppField = new CppField(cppTypeRef, "nonsense");
+    cppTaggedUnion.fields.add(cppField);
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppTaggedUnion);
+
+    final String expectedEnumResult = "        NONSENSE\n";
+    final String expectedConstructorResult =
+        "    Soviet(const ::std::basic_string< float >& nonsense)\n"
+            + "        : type(NONSENSE)\n"
+            + "        , nonsense(nonsense) {};\n\n";
+    final String expectedFieldResult = "        ::std::basic_string< float > nonsense;\n";
+    final String expectedCopyConstructorResult =
+        "        case NONSENSE:\n"
+            + "            new (&nonsense) ::std::basic_string< float >(other.nonsense);\n"
+            + "            break;\n";
+    final String expectedDestructorResult =
+        "        case NONSENSE:\n"
+            + "            nonsense.~basic_string< float >();\n            break;\n";
     final String expectedResult =
         String.format(
             EXPECTED_UNION_RESULT_FORMAT,
