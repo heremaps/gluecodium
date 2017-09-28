@@ -16,6 +16,22 @@
         <item>double methodWithFloatAndInteger(float, byte)</item>
     </string-array>
 
+    <string-array name="attributes_methods">
+        <item>long getBuiltInTypeAttribute()</item>
+        <item>void setBuiltInTypeAttribute(long)</item>
+        <item>float getReadonlyAttribute()</item>
+        <item>HelloWorldAttributes.ExampleStruct getStructAttribute()</item>
+        <item>void setStructAttribute(HelloWorldAttributes.ExampleStruct)</item>
+    </string-array>
+
+    <string-array name="attributes_methods_description">
+        <item>Get long attribute value. Default is 0.</item>
+        <item>Please enter a long value</item>
+        <item>This is a read only value. Will always return 3.14</item>
+        <item>Get HelloWorldAttributes.ExampleStruct attribute value. \nDefault is null</item>
+        <item>Please enter a float value for HelloWorldAttributes.ExampleStruct attribute</item>
+    </string-array>
+
     <string-array name="builtin_methods_description">
         <item>Returns the input 8 bit int increased by 1</item>
         <item>Returns the input unsigned 8 bit int increased by 1</item>
