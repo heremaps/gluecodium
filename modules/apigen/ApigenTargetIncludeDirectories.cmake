@@ -37,24 +37,24 @@ function(apigen_target_include_directories target)
 
     if(${GENERATOR} STREQUAL cpp)
 
-        # If generator exactly matches 'cpp' the user intended cpp
+        # If generator exactly matches 'cpp' the user intended C++ only
         target_include_directories(${target}
-            PUBLIC ${OUTPUT_DIR}
-            PUBLIC ${OUTPUT_DIR}/cpp
-            INTERFACE $<INSTALL_INTERFACE:${STUB_INCLUDE_DIR}>)
+            PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp>
+            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)
 
     elseif(${GENERATOR} MATCHES android)
 
         # Android library targets need the cpp and JNI headers to compile
         # but should not expose those to the public.
         target_include_directories(${target}
-            PRIVATE ${OUTPUT_DIR}
-            PRIVATE ${OUTPUT_DIR}/cpp)
+            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp>
+            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)
 
         # Check if we are doing a host build (no cross compilation)
         if(NOT(${CMAKE_SYSTEM_NAME} STREQUAL "Android"))
             find_package(JNI REQUIRED)
-            target_include_directories(${target} PRIVATE ${JNI_INCLUDE_DIRS})
+            target_include_directories(${target}
+                PRIVATE $<BUILD_INTERFACE:${JNI_INCLUDE_DIRS}>)
         endif()
 
     elseif(${GENERATOR} MATCHES swift)
@@ -62,8 +62,8 @@ function(apigen_target_include_directories target)
         # Swift targets need the cpp and c_bridge headers to compile
         # but should not expose those to the public.
         target_include_directories(${target}
-            PRIVATE ${OUTPUT_DIR}
-            PRIVATE ${OUTPUT_DIR}/cpp)
+            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp>
+            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)
 
     endif()
 
