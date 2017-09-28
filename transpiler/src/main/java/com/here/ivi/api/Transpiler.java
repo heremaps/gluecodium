@@ -46,8 +46,7 @@ public final class Transpiler {
 
     Properties prop = new Properties();
     try {
-      InputStream stream =
-          this.getClass().getClassLoader().getResourceAsStream("version.properties");
+      InputStream stream = getClass().getClassLoader().getResourceAsStream("version.properties");
       prop.load(stream);
     } catch (IOException ex) {
       ex.printStackTrace();
@@ -77,46 +76,42 @@ public final class Transpiler {
 
   @VisibleForTesting
   boolean execute() {
-    //Generation
-    List<String> generators = discoverGenerators();
-    boolean succeeded = true;
-    Map<String, String> fileNamesCache = new HashMap<>();
-
     LOGGER.info("Version: " + version);
-    for (String generatorName : generators) {
-      LOGGER.info("Using generator " + generatorName);
+    File inputPath = new File(options.getInputDir());
+    Map<String, String> fileNamesCache = new HashMap<>();
+    return discoverGenerators()
+        .stream()
+        .allMatch(generatorName -> executeGenerator(generatorName, inputPath, fileNamesCache));
+  }
 
-      GeneratorSuite generator = GeneratorSuite.instantiateByShortName(generatorName, options);
-      if (generator == null) {
-        LOGGER.severe("Failed instantiation of generator '" + generatorName + "'");
-        succeeded = false;
-        continue;
-      }
+  private boolean executeGenerator(
+      final String generatorName, final File inputPath, final Map<String, String> fileNamesCache) {
 
-      LOGGER.info("Instantiated generator " + generator.getName());
+    LOGGER.info("Using generator " + generatorName);
+    GeneratorSuite generator = GeneratorSuite.instantiateByShortName(generatorName, options);
+    if (generator == null) {
+      LOGGER.severe("Failed instantiation of generator '" + generatorName + "'");
+      return false;
+    }
+    LOGGER.info("Instantiated generator " + generator.getName());
 
-      generator.buildModel(options.getInputDir());
-      LOGGER.info("Built franca model");
+    generator.buildModel(inputPath);
+    LOGGER.info("Built franca model");
 
-      boolean valid = generator.validate();
-      LOGGER.info(valid ? "Validation Succeeded" : "Validation Failed");
-
-      if (options.isValidatingOnly()) {
-        succeeded = succeeded && valid;
-        continue;
-      }
-
-      if (valid) {
-        List<GeneratedFile> outputFiles = generator.generate();
-        boolean processedWithoutCollisions =
-            checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName);
-        succeeded = succeeded && processedWithoutCollisions && output(outputFiles);
-      }
-
-      succeeded = succeeded && valid;
+    if (!generator.validate()) {
+      LOGGER.info("Validation Failed");
+      return false;
+    }
+    if (options.isValidatingOnly()) {
+      return true;
     }
 
-    return succeeded;
+    List<GeneratedFile> outputFiles = generator.generate();
+    boolean processedWithoutCollisions =
+        checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName);
+    boolean outputSuccessful = output(outputFiles);
+
+    return processedWithoutCollisions && outputSuccessful;
   }
 
   @VisibleForTesting
@@ -131,7 +126,9 @@ public final class Transpiler {
     return generators;
   }
 
-  public boolean output(List<GeneratedFile> files) {
+  @VisibleForTesting
+  boolean output(List<GeneratedFile> files) {
+
     // handle output options
     if (options.isDumpingToStdout()) {
       try {
@@ -143,21 +140,22 @@ public final class Transpiler {
       }
     }
 
-    String outdir = options.getOutputDir();
-    if (outdir != null) {
+    return saveToDirectory(options.getOutputDir(), files);
+  }
+
+  private static boolean saveToDirectory(final String outputDir, final List<GeneratedFile> files) {
+
+    if (outputDir != null) {
       try {
-        FileOutput fo = new FileOutput(new File(outdir));
-        fo.output(files);
+        FileOutput fileOutput = new FileOutput(new File(outputDir));
+        fileOutput.output(files);
       } catch (IOException ignored) {
-        LOGGER.severe("Cannot open output directory " + outdir + " for writing");
+        LOGGER.severe("Cannot open output directory '" + outputDir + "' for writing");
         return false;
       }
     }
-    return true;
-  }
 
-  public String getName() {
-    return "com.here.Transpiler";
+    return true;
   }
 
   public static void main(final String[] args) {
