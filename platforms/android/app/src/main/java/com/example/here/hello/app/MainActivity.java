@@ -52,7 +52,8 @@ public final class MainActivity extends AppCompatActivity {
                     context.getString(R.string.fragment_base_title),
                     context.getString(R.string.fragment_builtin_title),
                     context.getString(R.string.fragment_plain_old_data_title),
-                    context.getString(R.string.fragment_instance_methods)
+                    context.getString(R.string.fragment_instance_methods),
+                    context.getString(R.string.fragment_attributes)
             };
         }
 
@@ -67,6 +68,8 @@ public final class MainActivity extends AppCompatActivity {
                     return new PlainOldDataFragment();
                 case 3:
                     return new InstanceMethodsFragment();
+                case 4:
+                    return new AttributesFragment();
                 default:
                     return null;
             }

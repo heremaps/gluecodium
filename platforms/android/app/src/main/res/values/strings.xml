@@ -2,6 +2,7 @@
     <string name="app_name">Hello Transpiler</string>
     <string name="fragment_base_title">Base</string>
     <string name="fragment_builtin_title">BuiltIn Types</string>
+    <string name="fragment_attributes">Attributes</string>
     <string name="fragment_plain_old_data_title">Plain Old Data</string>
     <string name="fragment_instance_methods">Instance methods</string>
     <string name="number_of_usages_input">Insert numberOfUsages</string>
@@ -11,4 +12,5 @@
     <string name="text_input">Insert any text</string>
     <string name="text_result">Result</string>
     <string name="instance_methods_description">Invokes an instance method with the given value and returns the return value of this method.</string>
+    <string name="attributes_setter_success">Value is set successfully. You can see the result using according get method.</string>
 </resources>
