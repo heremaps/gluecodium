@@ -13,29 +13,61 @@
 #include "CppProxyBase.h"
 
 static inline void
-callJavaMethodVaList( JNIEnv* _jEnv, jobject _jObj, jmethodID _jmid, va_list iParams )
+callJavaMethodVaList( JNIEnv* jniEnv, jobject jObj, jmethodID jmid, va_list iParams )
 {
-    _jEnv->CallVoidMethodV( _jObj, _jmid, iParams );
+    jniEnv->CallVoidMethodV( jObj, jmid, iParams );
 }
 
-void::here::internal::CppProxyBase::callJavaMethod( jmethodID _jmid, ... )
+static inline bool
+getJniEnvironment( JavaVM* jVM, JNIEnv** jniEnv )
 {
+    int envState = jVM->GetEnv( reinterpret_cast< void** >( jniEnv ), JNI_VERSION_1_6 );
+    if ( envState == JNI_EDETACHED )
+    {
+#ifdef __ANDROID__
+        jVM->AttachCurrentThread( jniEnv, nullptr );
+#else  // ifdef __ANDROID__
+        jVM->AttachCurrentThread( reinterpret_cast< void** >( jniEnv ), nullptr );
+#endif // ifdef __ANDROID__
+        return true;
+    }
+
+    return false;
+}
+
+void::here::internal::CppProxyBase::callJavaMethod( ::std::string methodName,
+                                                        ::std::string jniSignature,
+                                                    ... ) const
+{
+    JNIEnv* jniEnv;
+    bool attachedToThread = getJniEnvironment(jVM, &jniEnv );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
     va_list vaList;
-    va_start( vaList, _jmid );
-    ::callJavaMethodVaList( _jEnvironment, _jObject, _jmid, vaList );
+    va_start( vaList, jniSignature );
+    ::callJavaMethodVaList( jniEnv, jObject, jmethodId, vaList );
     va_end( vaList );
+    if ( attachedToThread )
+    {
+        jVM->DetachCurrentThread( );
+    }
 }
 
-::here::internal::CppProxyBase::CppProxyBase( JNIEnv* _jenv, jobject _jobj )
-    : _jEnvironment( _jenv )
+::here::internal::CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jobj )
 {
-    _jObject = _jEnvironment->NewGlobalRef( _jobj );
-    jclass tmp = _jEnvironment->GetObjectClass( _jObject );
-    _jClass = static_cast< jclass >( _jEnvironment->NewGlobalRef( tmp ) );
+    jObject = jenv->NewGlobalRef( jobj );
+    jclass tmp = jenv->GetObjectClass( jObject );
+    jClass = static_cast< jclass >( jenv->NewGlobalRef( tmp ) );
+    jint rs = jenv->GetJavaVM( &jVM );
 }
 
 ::here::internal::CppProxyBase::~CppProxyBase( )
 {
-    _jEnvironment->DeleteGlobalRef( _jObject );
-    _jEnvironment->DeleteGlobalRef( _jClass );
+    JNIEnv* jniEnv;
+    bool attachedToThread = getJniEnvironment( jVM, &jniEnv );
+    jniEnv->DeleteGlobalRef( jObject );
+    jniEnv->DeleteGlobalRef( jClass );
+    if ( attachedToThread )
+    {
+        jVM->DetachCurrentThread( );
+    }
 }

@@ -13,6 +13,7 @@
 #pragma once
 
 #include <jni.h>
+#include <string>
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,17 +29,20 @@ class CppProxyBase
 
 protected:
 
-    CppProxyBase( JNIEnv* _jenv, jobject _jobj );
+    CppProxyBase( JNIEnv* jenv, jobject jobj );
 
     virtual ~CppProxyBase( );
 
-    void callJavaMethod( jmethodID _jmid, ... );
+    void callJavaMethod( ::std::string methodName, ::std::string jniSignature, ... ) const;
 
-protected:
+private:
 
-    JNIEnv* _jEnvironment;
-    jclass _jClass;
-    jobject _jObject;
+    jobject jObject;
+    jclass jClass;
+
+private:
+
+    JavaVM* jVM;
 };
 
 } // namespace internal

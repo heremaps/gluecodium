@@ -11,8 +11,7 @@ using namespace ::here::internal;
 
 {{#methods}}
 {{>jni/ReturnType}} {{cppName}}CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
-    jmethodID _jmethodId = _jEnvironment->GetMethodID(_jClass, "{{javaMethodName}}", "({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{#if returnType}}{{returnType.jniTypeSignature}}{{/if}}{{#unless returnType}}V{{/unless}}");
-    {{+parameterName}}{{name}}{{/parameterName}}callJavaMethod( _jmethodId {{#if parameters}},{{/if}} {{joinPartial parameters "parameterName" ", "}});
+    {{+parameterName}}{{name}}{{/parameterName}}callJavaMethod( "{{javaMethodName}}", "({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{#if returnType}}{{returnType.jniTypeSignature}}{{/if}}{{#unless returnType}}V{{/unless}}" {{#if parameters}},{{/if}} {{joinPartial parameters "parameterName" ", "}});
 }
 {{/methods}}
 
