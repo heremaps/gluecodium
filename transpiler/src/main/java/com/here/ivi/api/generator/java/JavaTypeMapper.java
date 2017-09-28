@@ -12,13 +12,9 @@
 package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaImport;
-import com.here.ivi.api.model.javamodel.JavaPackage;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaReferenceType;
-import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Collections;
 import java.util.List;
@@ -97,7 +93,7 @@ public final class JavaTypeMapper {
       return mapTypeDef(basePackage, (FTypeDef) derived);
     }
     if (derived instanceof FArrayType) {
-      //TODO: return mapArray(api, (FArrayType) derived);
+      return mapArray(basePackage, (FArrayType) derived);
     }
     if (derived instanceof FMapType) {
       //TODO: return mapMap(api, (FMapType) derived);
@@ -110,6 +106,43 @@ public final class JavaTypeMapper {
     }
 
     return new JavaCustomType("TODO");
+  }
+
+  /**
+   * Wrap primitive types since generic templates don't apply to them
+   *
+   * @param primitiveType a primitive type
+   * @return custom type wrapper of the primitive type
+   */
+  private static JavaCustomType boxPrimitiveType(JavaPrimitiveType primitiveType) {
+    if (primitiveType == JavaPrimitiveType.BOOL) {
+      return new JavaCustomType("Boolean");
+    } else if (primitiveType == JavaPrimitiveType.CHAR) {
+      return new JavaCustomType("Character");
+    } else if (primitiveType == JavaPrimitiveType.INT) {
+      return new JavaCustomType("Integer");
+    } else if (primitiveType == JavaPrimitiveType.FLOAT
+        || primitiveType == JavaPrimitiveType.DOUBLE
+        || primitiveType == JavaPrimitiveType.BYTE
+        || primitiveType == JavaPrimitiveType.SHORT
+        || primitiveType == JavaPrimitiveType.LONG) {
+      // float -> Float, double -> Double, ..etc
+      String value = primitiveType.type.getValue();
+      return new JavaCustomType(NameHelper.toUpperCamelCase(value));
+    } else {
+      // No array for void type
+      throw new TranspilerExecutionException("Can not wrap primitive type " + primitiveType.name);
+    }
+  }
+
+  private static JavaCustomType mapArray(final JavaPackage basePackage, FArrayType arrayType) {
+    JavaType elementType = map(basePackage, arrayType.getElementType());
+
+    if (elementType instanceof JavaPrimitiveType) {
+      elementType = boxPrimitiveType((JavaPrimitiveType) elementType);
+    }
+
+    return JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, elementType);
   }
 
   private static JavaCustomType mapStruct(
