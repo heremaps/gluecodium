@@ -93,8 +93,7 @@ public final class JniToCppStructConversionBodyTest {
     JavaField javaField =
         new JavaField(new JavaReferenceType(JavaReferenceType.Type.STRING), "StrStructMember");
     CppField cppField =
-        new CppField(
-            new CppComplexTypeRef.Builder(CppComplexTypeRef.STRING_TYPE_NAME).build(), "cppString");
+        new CppField(new CppComplexTypeRef.Builder("::std::string").build(), "cppString");
     JniField jniField = new JniField(javaField, cppField);
     jniStruct.fields.add(jniField);
 

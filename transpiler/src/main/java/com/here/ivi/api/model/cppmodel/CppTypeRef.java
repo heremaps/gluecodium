@@ -32,4 +32,9 @@ public abstract class CppTypeRef extends CppElementWithIncludes {
   public boolean refersToValueType() {
     return false;
   }
+
+  public String getShortName() {
+    String[] splitName = name.split("::");
+    return splitName[splitName.length - 1];
+  }
 }

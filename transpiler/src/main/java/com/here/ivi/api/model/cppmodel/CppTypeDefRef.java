@@ -12,6 +12,7 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.model.common.Include;
+import java.util.Collection;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
@@ -24,8 +25,18 @@ public class CppTypeDefRef extends CppTypeRef {
     actualType = type;
   }
 
+  public CppTypeDefRef(String name, CppTypeRef type, final Collection<Include> includes) {
+    super(name, includes);
+    actualType = type;
+  }
+
   @Override
   public boolean refersToValueType() {
     return actualType.refersToValueType();
+  }
+
+  @Override
+  public String getShortName() {
+    return actualType.getShortName();
   }
 }

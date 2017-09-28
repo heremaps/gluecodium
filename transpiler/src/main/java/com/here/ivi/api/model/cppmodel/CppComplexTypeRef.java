@@ -19,8 +19,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CppComplexTypeRef extends CppTypeRef {
 
-  public static final String STRING_TYPE_NAME = "::std::string";
-
   public final CppTypeInfo info;
 
   protected CppComplexTypeRef(
@@ -34,12 +32,6 @@ public class CppComplexTypeRef extends CppTypeRef {
   @Override
   public boolean refersToValueType() {
     return info == CppTypeInfo.Enumeration;
-  }
-
-  @SuppressWarnings("unused")
-  public String getShortName() {
-    String[] splitName = name.split("::");
-    return splitName[splitName.length - 1];
   }
 
   @SuppressWarnings({"PMD.AvoidFieldNameMatchingMethodName"})
