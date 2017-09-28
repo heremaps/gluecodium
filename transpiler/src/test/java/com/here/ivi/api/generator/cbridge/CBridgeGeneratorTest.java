@@ -714,11 +714,11 @@ public class CBridgeGeneratorTest {
     interfaceTypes.add(francaEnum);
 
     String expectedHeader =
-        "enum __attribute__((enum_extensibility(open)))\n"
+        "typedef enum __attribute__((enum_extensibility(open)))\n"
             + "cbridge_test_TestInterface_TestEnum {\n"
             + "    cbridge_test_TestInterface_field_1 = 10,\n"
             + "    cbridge_test_TestInterface_field_2\n"
-            + "};\n"
+            + "} cbridge_test_TestInterface_TestEnum;\n"
             + INSTANCE_REF
             + "typedef struct {\n"
             + "    void* swift_pointer;\n"
@@ -829,7 +829,7 @@ public class CBridgeGeneratorTest {
             + "#include <memory>\n"
             + INSTANCE_RELEASE
             + "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_functionName(cbridge_test_TestTypeCollection_TestEnum input) {\n"
-            + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(cbridge::test::TestInterface::functionName(static_cast<cbridge::test::TestEnum>(input)))};\n"
+            + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(cbridge::test::TestInterface::functionName(static_cast<cbridge::test::TestEnum>(input)));\n"
             + "}\n";
 
     CInterface cModel = generator.buildCBridgeModel(anInterface);
