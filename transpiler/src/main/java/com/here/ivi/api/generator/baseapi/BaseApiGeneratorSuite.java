@@ -15,7 +15,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.cpp.CppGenerator;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -25,7 +24,6 @@ import com.here.ivi.api.model.cppmodel.CppFile;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -77,26 +75,14 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
     CppFile cppModel = mapFrancaElementToCppModel(francaElement);
     String outputFilePath = CppNameRules.getOutputFilePath(francaElement);
-    String copyRightNotice = generateGeneratorNotice(francaElement);
 
-    return generator.generateCode(cppModel, outputFilePath, copyRightNotice).stream();
+    return generator.generateCode(cppModel, outputFilePath).stream();
   }
 
   @Override
   public void buildModel(File inputPath) {
     super.buildModel(inputPath);
     includeResolver = new CppIncludeResolver(model);
-  }
-
-  private String generateGeneratorNotice(FrancaElement element) {
-
-    Map<String, String> generatorNoticeData = new HashMap<>();
-    generatorNoticeData.put("generatorName", getName());
-    generatorNoticeData.put("elementName", element.getName());
-    generatorNoticeData.put("elementVersion", element.getVersion().toString());
-    generatorNoticeData.put("date", new SimpleDateFormat("dd.MM.YYYY").format(new Date()));
-
-    return TemplateEngine.render("common/GeneratorNotice", generatorNoticeData);
   }
 
   private CppFile mapFrancaElementToCppModel(final FrancaElement francaElement) {
