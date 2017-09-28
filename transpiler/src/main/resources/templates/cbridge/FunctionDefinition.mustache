@@ -10,7 +10,7 @@
 {{>cbridge/FunctionSignature}} {
 {{#switch returnType.typeCategory.toString}}
     {{#case "BUILTIN_SIMPLE"}}return {{>callBaseApi}};{{/case}}{{!!
-    }}{{#case "ENUM"}}return static_cast<{{returnType.functionReturnType}}>({{>callBaseApi}})};{{/case}}{{!!
+    }}{{#case "ENUM"}}return static_cast<{{returnType.functionReturnType}}>({{>callBaseApi}});{{/case}}{{!!
     }}{{#default}}return {new {{returnType.baseType}}({{>callBaseApi}})};{{/default}}
 {{/switch}}
 }

@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.cbridge.templates;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.test.TemplateComparison;
@@ -117,9 +118,7 @@ public class CBridgeImplementationTemplateTest {
     final CType type = new CType("nameRef");
     CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
     CField field =
-        new CField(
-            "structField",
-            new CppTypeInfo(new CType("NestedRef"), CppTypeInfo.TypeCategory.STRUCT));
+        new CField("structField", new CppTypeInfo(new CType("NestedRef"), TypeCategory.STRUCT));
     struct.fields.add(field);
     cInterface.structs.add(struct);
 
@@ -184,6 +183,27 @@ public class CBridgeImplementationTemplateTest {
             + "}\n"
             + "void name_floatField_set(nameRef handle, float floatField) {\n"
             + "    get_pointer(handle)->floatField = floatField;\n"
+            + "}\n";
+    final String generated = this.generate(cInterface);
+    TemplateComparison.assertEqualImplementationContent(expected, generated);
+  }
+
+  @Test
+  public void functionWithEnumParameterInAndOut() {
+    CInterface cInterface = new CInterface("");
+    cInterface.functions =
+        Collections.singletonList(
+            new CFunction.Builder("parameterFunctionName")
+                .parameters(
+                    Collections.singletonList(
+                        new CParameter(
+                            "one", new CppTypeInfo(new CType("ENUM"), TypeCategory.ENUM))))
+                .delegate("delegator")
+                .returnType(new CppTypeInfo(new CType("RET_ENUM"), TypeCategory.ENUM))
+                .build());
+    final String expected =
+        "RET_ENUM parameterFunctionName(ENUM one) {\n"
+            + "    return static_cast<RET_ENUM>(delegator(static_cast<ENUM>(one)));\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
