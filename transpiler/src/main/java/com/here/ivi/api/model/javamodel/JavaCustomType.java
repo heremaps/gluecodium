@@ -14,7 +14,7 @@ package com.here.ivi.api.model.javamodel;
 import java.util.Collection;
 
 /** A custom Java type. */
-public final class JavaCustomType extends JavaType {
+public class JavaCustomType extends JavaType {
 
   /** The class name without outer class if there is one */
   public final String simpleName;
