@@ -98,7 +98,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     if (outArgs.isEmpty()) { // Void return type
       javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()));
     } else if (outArgs.size() == 1) {
-      JavaType returnType = JavaTypeMapper.map(basePackage, outArgs.get(0).getType());
+      FTypeRef typeRef = outArgs.get(0).getType();
+      JavaType returnType = JavaTypeMapper.map(basePackage, typeRef);
       javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()), returnType);
     } else {
       // TODO: Wrap complex return type in an immutable container class
@@ -125,7 +126,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    JavaType javaArgumentType = JavaTypeMapper.map(basePackage, francaArgument.getType());
+    JavaType javaArgumentType =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
+
     JavaParameter javaParameter =
         new JavaParameter(
             javaArgumentType, JavaNameRules.getArgumentName(francaArgument.getName()));
@@ -179,6 +182,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FTypeRef francaTypeRef) {
 
     storeResult(JavaTypeMapper.map(basePackage, francaTypeRef));
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FArrayType francaArrayType) {
+
+    storeResult(JavaTypeMapper.mapArray(basePackage, francaArrayType));
     closeContext();
   }
 
