@@ -69,4 +69,11 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
 
     return templateTypeRef;
   }
+
+  @Override
+  public String getShortName() {
+    String[] templateParts = name.split("<");
+    String[] splitName = templateParts[0].split("::");
+    return splitName[splitName.length - 1] + "<" + templateParts[1];
+  }
 }
