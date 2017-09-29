@@ -31,7 +31,7 @@ public final class TemplateComparison {
             + "// Copyright (C) "
             + Year.now().getValue()
             + " HERE Global B.V. and/or its affiliated companies. All rights reserved.\n"
-            + "// \n"
+            + "//\n"
             + "// This software, including documentation, is protected by copyright controlled by\n"
             + "// HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,\n"
             + "// adapting or translating, any or all of this material requires the prior written\n"
