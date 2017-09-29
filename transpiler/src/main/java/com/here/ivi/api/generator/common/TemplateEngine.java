@@ -33,7 +33,8 @@ public final class TemplateEngine {
   private static final MustacheEngine ENGINE;
 
   /**
-   * Prefix each line of a multi-line value with a prefix.<br>
+   * Prefix each line of a multi-line value with a prefix. Trim each line at the end to avoid
+   * trailing whitespace.<br>
    * Usage: {{prefix value "prefix"}}<br>
    * Example: {{prefix comment "// "}}
    */
@@ -50,7 +51,9 @@ public final class TemplateEngine {
       final String prefix = (parameters.size() > 1) ? parameters.get(1).toString() : "";
       final String value = getValue(options, parameters.get(0));
       options.append(
-          Arrays.stream(value.split("\n")).map(s -> prefix + s).collect(Collectors.joining("\n")));
+          Arrays.stream(value.split("\n"))
+              .map(s -> (prefix + s).replaceAll("\\s+$", ""))
+              .collect(Collectors.joining("\n")));
     }
 
     protected String getValue(final Options options, final Object dataObject) {
@@ -59,9 +62,10 @@ public final class TemplateEngine {
   }
 
   /**
-   * Prefix each line of a multi-line partial with a prefix.<br>
+   * Prefix each line of a multi-line partial with a prefix. Trim each line at the end to avoid
+   * trailing whitespace.<br>
    * Usage: {{prefixPartial "partial-name" "prefix"}}<br>
-   * Example: {{prefixPartial "common/CopyrightNotice" " // "}}
+   * Example: {{prefixPartial "common/CopyrightNotice" "// "}}
    */
   @VisibleForTesting
   static class PrefixPartialHelper extends PrefixHelper {

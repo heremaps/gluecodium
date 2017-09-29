@@ -29,7 +29,7 @@ import org.trimou.handlebars.Options;
 @RunWith(JUnit4.class)
 public class TemplateEnginePrefixHelperTest {
 
-  private static final String PREFIX = "<!-- ";
+  private static final String PREFIX = " <!-- ";
   private static final String FIRST_LINE = "complete";
   private static final String SECOND_LINE = "nonsense";
   private static final String MULTI_LINE = FIRST_LINE + "\n" + SECOND_LINE;
@@ -90,5 +90,17 @@ public class TemplateEnginePrefixHelperTest {
     helper.execute(options);
 
     verify(options).append(PREFIX + FIRST_LINE + "\n" + PREFIX + SECOND_LINE);
+  }
+
+  @Test
+  public void executeMultiLineWithTrim() {
+    parameters.add(FIRST_LINE + "\n\n" + SECOND_LINE);
+    parameters.add(PREFIX);
+
+    helper.execute(options);
+
+    final String trimmedPrefix = " <!--";
+    verify(options)
+        .append(PREFIX + FIRST_LINE + "\n" + trimmedPrefix + "\n" + PREFIX + SECOND_LINE);
   }
 }
