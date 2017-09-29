@@ -15,7 +15,7 @@
         <!--Builtin Types-->
         <scene sceneID="bRq-bw-Z00">
             <objects>
-                <viewController id="sW2-90-ccD" customClass="BuiltinTypesViewController" customModule="helloApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="sW2-90-ccD" customClass="BuiltinTypesViewController" customModule="hello_swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vuO-pX-k6C"/>
                         <viewControllerLayoutGuide type="bottom" id="cKk-M4-SGV"/>
@@ -93,7 +93,7 @@
         <!--Structs-->
         <scene sceneID="l00-jy-rBH">
             <objects>
-                <viewController id="l2e-Hw-P39" userLabel="Structs" customClass="StructsViewController" customModule="helloApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="l2e-Hw-P39" userLabel="Structs" customClass="StructsViewController" customModule="hello_swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LCZ-zF-Mfy"/>
                         <viewControllerLayoutGuide type="bottom" id="qtM-Xg-lsh"/>
@@ -260,7 +260,7 @@
         <!--Instances-->
         <scene sceneID="JVu-Zu-oJN">
             <objects>
-                <viewController id="Lnj-A2-Qd0" customClass="InstancesViewController" customModule="helloApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Lnj-A2-Qd0" customClass="InstancesViewController" customModule="hello_swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uJC-xR-PaO"/>
                         <viewControllerLayoutGuide type="bottom" id="ejN-qd-qAs"/>
@@ -334,7 +334,7 @@
         <!--Base-->
         <scene sceneID="tKY-nB-P8k">
             <objects>
-                <viewController id="4I8-zh-Qes" customClass="BaseViewController" customModule="helloApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4I8-zh-Qes" customClass="BaseViewController" customModule="hello_swift" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="M31-7b-HRK"/>
                         <viewControllerLayoutGuide type="bottom" id="FfB-B6-edO"/>
