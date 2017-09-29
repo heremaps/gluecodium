@@ -1,6 +1,8 @@
 {{^isStatic}}{{prefixPartial 'swift/GetReference'}}
 
 public protocol {{name}} {
+{{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
+{{/typedefs}}
 {{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
 {{/methods}}
 }{{/isStatic}}

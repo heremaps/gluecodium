@@ -15,14 +15,7 @@ import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.swift.SwiftArrayType;
-import com.here.ivi.api.model.swift.SwiftClass;
-import com.here.ivi.api.model.swift.SwiftContainerType;
-import com.here.ivi.api.model.swift.SwiftEnum;
-import com.here.ivi.api.model.swift.SwiftFile;
-import com.here.ivi.api.model.swift.SwiftMethod;
-import com.here.ivi.api.model.swift.SwiftParameter;
-import com.here.ivi.api.model.swift.SwiftType;
+import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.ArrayList;
@@ -751,6 +744,86 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    final String generated = generateFromClass(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void typedefGenerationInProtocol() {
+    SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
+    SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
+    swiftClass.typedefs = Collections.singletonList(typedef);
+    final String expected =
+        "import Foundation\n"
+            + "internal func getRef(_ ref: HellowWorldFactory) ->  {\n"
+            + "    guard let instanceReference = ref as? _HellowWorldFactory else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return instanceReference.c_instance\n"
+            + "}\n"
+            + "public protocol HellowWorldFactory {\n"
+            + "    typealias MyTypeDef = Int\n"
+            + "}\n"
+            + "internal class _HellowWorldFactory {\n"
+            + "}\n";
+
+    final String generated = generateFromClass(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void typedeGenerationInClass() {
+    SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
+    SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
+    swiftClass.typedefs = Collections.singletonList(typedef);
+    SwiftMethod method = new SwiftMethod("createInstanceMethod");
+    SwiftContainerType mappedType = new SwiftContainerType("HelloWorld");
+    mappedType.privateImplementation = "_HelloWorld";
+    method.returnType = mappedType;
+    method.cBaseName = "HelloWorld_createInstanceMethod";
+    method.isStatic = true;
+    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+
+    final String expected =
+        "import Foundation\n"
+            + "public class HellowWorldFactory {\n"
+            + "    public typealias MyTypeDef = Int\n"
+            + "    public static func createInstanceMethod() -> HelloWorld {\n"
+            + "        let cResult = HelloWorld_createInstanceMethod()\n"
+            + "        return _HelloWorld(cHelloWorld: cResult)\n"
+            + "    }\n"
+            + "}\n";
+
+    final String generated = generateFromClass(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void nestedTypedeGenerationInClass() {
+
+    SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
+    SwiftTypeDef typedef = new SwiftTypeDef("MyNestedTypeDef", new SwiftType("MyTypeDef"));
+    SwiftTypeDef typedef2 = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
+    swiftClass.typedefs = Arrays.asList(typedef, typedef2);
+
+    SwiftMethod method = new SwiftMethod("createInstanceMethod");
+    SwiftContainerType mappedType = new SwiftContainerType("HelloWorld");
+    mappedType.privateImplementation = "_HelloWorld";
+    method.returnType = typedef.type;
+    method.cBaseName = "HelloWorld_createInstanceMethod";
+    method.isStatic = true;
+    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+
+    final String expected =
+        "import Foundation\n"
+            + "public class HellowWorldFactory {\n"
+            + "    public typealias MyNestedTypeDef = MyTypeDef\n"
+            + "    public typealias MyTypeDef = Int\n"
+            + "    public static func createInstanceMethod() -> MyTypeDef {\n"
+            + "        return HelloWorld_createInstanceMethod()\n"
+            + "    }\n"
+            + "}\n";
+
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }

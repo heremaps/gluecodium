@@ -10,6 +10,10 @@ import Foundation
 {{#comment}}{{>swift/Comment}}{{/comment}}
 {{prefixPartial 'swift/ClassHeader' ''}}
 
+{{#isStatic}}{{#typedefs}}
+{{prefixPartial 'swift/Typedefs' '    '}}
+{{/typedefs}}{{/isStatic}}
+
 {{prefixPartial 'swift/Constructor' '    '}}
 {{#properties}}
 {{>swift/Property}}
@@ -28,6 +32,9 @@ import Foundation
 {{/methods}}
 }
 {{/classes}}
+
+{{#typeDefs}}{{>swift/Typedefs}}
+{{/typeDefs}}
 
 {{#enums}}{{>swift/Enum}}
 {{/enums}}

@@ -93,7 +93,7 @@ public class CModelBuilderTest {
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
     when(CBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
 
-    when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(typeInfo);
+    when(CppTypeInfo.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
 
     when(anInterface.isStatic(any())).thenReturn(true);
     when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
