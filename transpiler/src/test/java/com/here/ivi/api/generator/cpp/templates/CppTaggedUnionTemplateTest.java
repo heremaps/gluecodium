@@ -214,4 +214,37 @@ public final class CppTaggedUnionTemplateTest {
             expectedDestructorResult);
     assertEquals(expectedResult, result);
   }
+
+  @Test
+  public void unionWithFieldWithTemplateTypeWithComplexType() {
+    CppTypeRef cppTypeRef =
+        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.BASIC_STRING, cppComplexTypeRef);
+    CppField cppField = new CppField(cppTypeRef, "weird");
+    cppTaggedUnion.fields.add(cppField);
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppTaggedUnion);
+
+    final String expectedEnumResult = "        WEIRD\n";
+    final String expectedConstructorResult =
+        "    Soviet(const ::std::basic_string< ::very::Typical >& weird)\n"
+            + "        : type(WEIRD)\n"
+            + "        , weird(weird) {};\n\n";
+    final String expectedFieldResult = "        ::std::basic_string< ::very::Typical > weird;\n";
+    final String expectedCopyConstructorResult =
+        "        case WEIRD:\n"
+            + "            new (&weird) ::std::basic_string< ::very::Typical >(other.weird);\n"
+            + "            break;\n";
+    final String expectedDestructorResult =
+        "        case WEIRD:\n"
+            + "            weird.~basic_string< ::very::Typical >();\n            break;\n";
+    final String expectedResult =
+        String.format(
+            EXPECTED_UNION_RESULT_FORMAT,
+            expectedEnumResult,
+            expectedFieldResult,
+            expectedConstructorResult,
+            expectedCopyConstructorResult,
+            expectedDestructorResult);
+    assertEquals(expectedResult, result);
+  }
 }
