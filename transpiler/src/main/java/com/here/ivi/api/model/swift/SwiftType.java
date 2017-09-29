@@ -29,6 +29,7 @@ public class SwiftType extends SwiftModelElement {
   public boolean optional;
   public final TypeCategory category;
   public String privateImplementation;
+  public String typealiasName;
 
   public SwiftType(String name) {
     this(name, TypeCategory.BUILTIN_SIMPLE, false);
@@ -42,5 +43,9 @@ public class SwiftType extends SwiftModelElement {
     super(name);
     this.optional = optional;
     this.category = category;
+  }
+
+  public String getPublicName() {
+    return (typealiasName != null) ? typealiasName : this.name;
   }
 }

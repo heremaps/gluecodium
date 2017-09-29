@@ -22,11 +22,7 @@ import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.CValue;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import java.math.BigInteger;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FIntegerConstant;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +36,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class CBridgeTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
+  @Mock private FTypeRef francaTypeRef2;
+  @Mock private FTypeDef francaTypeDef;
   @Mock private FStructType francaStructType;
   @Mock private IncludeResolver resolver;
   @Mock private CppTypeInfo typeInfo;
@@ -50,9 +48,31 @@ public class CBridgeTypeMapperTest {
   }
 
   @Test
+  public void mapTypeDefStruct() {
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
+    when(francaTypeDef.getActualType()).thenReturn(francaTypeRef2);
+    when(francaTypeRef2.getDerived()).thenReturn(francaStructType);
+    when(CppTypeInfo.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
+
+    CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
+
+    Assert.assertSame(typeInfo, mapped);
+  }
+
+  @Test
+  public void mapTypeDefPredefine() {
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
+    when(francaTypeDef.getActualType()).thenReturn(francaTypeRef2);
+    when(francaTypeRef2.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
+
+    CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
+
+    Assert.assertSame(CType.BOOL.name, mapped.baseType);
+  }
+
   public void mapStructType() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
-    when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(typeInfo);
+    when(CppTypeInfo.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
 

@@ -28,6 +28,7 @@ public final class SwiftClass extends SwiftModelElement {
   public String nameSpace;
   public String cInstanceRef;
   public String cInstance;
+  public List<SwiftTypeDef> typedefs;
 
   public SwiftClass(String className, String parentClassName) {
     super(className);
@@ -39,6 +40,7 @@ public final class SwiftClass extends SwiftModelElement {
     this.enums = new ArrayList<>();
     this.comment = "";
     this.nameSpace = "";
+    this.typedefs = new ArrayList<>();
   }
 
   public SwiftClass(String className) {

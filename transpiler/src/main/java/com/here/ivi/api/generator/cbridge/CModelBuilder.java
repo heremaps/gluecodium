@@ -31,15 +31,7 @@ import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Collections;
 import java.util.List;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FExpression;
-import org.franca.core.franca.FField;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.*;
 
 public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
@@ -181,7 +173,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         new CStruct(
             CBridgeNameRules.getStructBaseName(francaStruct),
             CBridgeNameRules.getBaseApiStructName(francaStruct),
-            CppTypeInfo.createStructTypeInfo(resolver, francaStruct));
+            CppTypeInfo.createCustomTypeInfo(resolver, francaStruct));
 
     cStruct.fields = getPreviousResults(CField.class);
 

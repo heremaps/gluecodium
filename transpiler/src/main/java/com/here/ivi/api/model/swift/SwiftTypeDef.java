@@ -11,20 +11,12 @@
 
 package com.here.ivi.api.model.swift;
 
-import java.util.ArrayList;
-import java.util.List;
+public final class SwiftTypeDef extends SwiftModelElement {
 
-public final class SwiftFile extends SwiftModelElement {
-  public List<SwiftClass> classes = new ArrayList<>();
-  public List<SwiftContainerType> structs = new ArrayList<>();
-  public List<SwiftEnum> enums = new ArrayList<>();
-  public List<SwiftTypeDef> typeDefs = new ArrayList<>();
+  public final SwiftType type;
 
-  public SwiftFile() {
-    super("");
-  }
-
-  public boolean isEmpty() {
-    return classes.isEmpty() && structs.isEmpty() && enums.isEmpty();
+  public SwiftTypeDef(final String name, final SwiftType type) {
+    super(name);
+    this.type = type;
   }
 }

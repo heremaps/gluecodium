@@ -56,7 +56,7 @@ public class CppTypeInfoTest {
 
   @Test
   public void createStructTypeInfoSetsProperIncludes() {
-    CppTypeInfo typeInfo = CppTypeInfo.createStructTypeInfo(resolver, francaStruct);
+    CppTypeInfo typeInfo = CppTypeInfo.createCustomTypeInfo(resolver, francaStruct);
 
     assertTrue(
         "function return type should have proper include",

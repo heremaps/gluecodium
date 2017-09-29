@@ -22,9 +22,7 @@ import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
 import java.util.Arrays;
 import java.util.List;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FModelElement;
-import org.franca.core.franca.FStructType;
+import org.franca.core.franca.*;
 
 public class CppTypeInfo {
 
@@ -67,8 +65,8 @@ public class CppTypeInfo {
           Arrays.asList(
               Include.createSystemInclude("vector"), Include.createSystemInclude("stdint.h")));
 
-  public static CppTypeInfo createStructTypeInfo(
-      final IncludeResolver resolver, final FStructType structType) {
+  public static CppTypeInfo createCustomTypeInfo(
+      final IncludeResolver resolver, final FType structType) {
     String handleName = CBridgeNameRules.getStructRefType(structType);
     return new CppTypeInfo(
         CBridgeNameRules.getBaseApiStructName(structType),

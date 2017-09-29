@@ -19,16 +19,7 @@ import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.swift.SwiftClass;
-import com.here.ivi.api.model.swift.SwiftContainerType;
-import com.here.ivi.api.model.swift.SwiftEnum;
-import com.here.ivi.api.model.swift.SwiftField;
-import com.here.ivi.api.model.swift.SwiftFile;
-import com.here.ivi.api.model.swift.SwiftInParameter;
-import com.here.ivi.api.model.swift.SwiftMethod;
-import com.here.ivi.api.model.swift.SwiftModelElement;
-import com.here.ivi.api.model.swift.SwiftOutParameter;
-import com.here.ivi.api.model.swift.SwiftParameter;
+import com.here.ivi.api.model.swift.*;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -51,6 +42,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftFile file = new SwiftFile();
     file.structs.addAll(getPreviousResults(SwiftContainerType.class));
     file.enums.addAll(getPreviousResults(SwiftEnum.class));
+    file.typeDefs = getPreviousResults(SwiftTypeDef.class);
     storeResult(file);
     super.finishBuilding(typeCollection);
   }
@@ -62,6 +54,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     clazz.comment = comment != null ? comment : "";
     clazz.methods = getPreviousResults(SwiftMethod.class);
     clazz.nameSpace = String.join("_", rootModel.getPackageNames());
+    clazz.typedefs =
+        getPreviousResults(SwiftTypeDef.class)
+            .stream()
+            .filter(s -> !s.name.equals(clazz.name))
+            .collect(toList());
+
     clazz.structs = getPreviousResults(SwiftContainerType.class);
     clazz.enums = getPreviousResults(SwiftEnum.class);
     clazz.cInstance = CBridgeNameRules.getInterfaceName(francaInterface);
@@ -125,6 +123,15 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             SwiftNameRules.getParameterName(francaArgument),
             SwiftTypeMapper.mapOutputType(francaArgument.getType())));
     super.finishBuildingOutputArgument(francaArgument);
+  }
+
+  @Override
+  public void finishBuilding(FTypeDef francaTypeDef) {
+    SwiftTypeDef typedefValue =
+        new SwiftTypeDef(
+            francaTypeDef.getName(), SwiftTypeMapper.mapType(francaTypeDef.getActualType()));
+    storeResult(typedefValue);
+    super.finishBuilding(francaTypeDef);
   }
 
   @Override

@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.model.cmodel.CType.VOID;
 import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
 
 import com.here.ivi.api.model.cmodel.CType;
@@ -32,14 +33,14 @@ public final class CTypeMapper {
 
     if (derived != null) {
       if (derived instanceof FStructType) {
-        return CppTypeInfo.createStructTypeInfo(resolver, (FStructType) derived);
+        return CppTypeInfo.createCustomTypeInfo(resolver, (FStructType) derived);
       } else if (derived instanceof FTypeDef) {
         return mapTypeDef(resolver, (FTypeDef) derived);
       } else if (derived instanceof FEnumerationType) {
         return CppTypeInfo.createEnumTypeInfo(resolver, (FEnumerationType) derived);
       } else {
         //TODO: APIGEN-145 handle array types
-        return new CppTypeInfo(CType.VOID);
+        return new CppTypeInfo(VOID);
       }
     }
     return mapPredefined(type);
@@ -49,7 +50,7 @@ public final class CTypeMapper {
     if (isInstanceId(derived)) {
       return CppTypeInfo.createInstanceTypeInfo(resolver, derived);
     }
-    return new CppTypeInfo(CType.VOID);
+    return mapType(resolver, derived.getActualType());
   }
 
   public static CppTypeInfo mapPredefined(final FTypeRef type) {
@@ -84,7 +85,7 @@ public final class CTypeMapper {
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return CppTypeInfo.BYTE_VECTOR;
     }
-    return new CppTypeInfo(CType.VOID);
+    return new CppTypeInfo(VOID);
   }
 
   public static CValue mapType(FExpression francaExpression) {

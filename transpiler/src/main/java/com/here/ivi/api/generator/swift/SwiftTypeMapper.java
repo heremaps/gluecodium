@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.swift;
 
+import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
 import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.*;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
@@ -25,11 +26,13 @@ public class SwiftTypeMapper {
     FType derived = type.getDerived();
 
     if (derived != null) {
-      if (derived instanceof FStructType || derived instanceof FTypeDef) {
-        return getType(derived);
+      if (derived instanceof FStructType) {
+        return getStructType(derived);
       } else if (derived instanceof FEnumerationType) {
         return new SwiftEnum(
             SwiftNameRules.getEnumTypeName(derived), CBridgeNameRules.getEnumName(derived));
+      } else if (derived instanceof FTypeDef) {
+        return getTypedef((FTypeDef) derived);
       }
       return SwiftType.VOID;
     }
@@ -37,7 +40,16 @@ public class SwiftTypeMapper {
     return mapPredefined(type);
   }
 
-  private static SwiftType getType(FType derived) {
+  private static SwiftType getTypedef(FTypeDef derived) {
+    SwiftType typedefType = mapTypeDef(derived);
+    String publicName = hasDerivedName(derived);
+    if (publicName != null) {
+      typedefType.typealiasName = publicName;
+    }
+    return typedefType;
+  }
+
+  private static SwiftType getStructType(FType derived) {
     SwiftType.TypeCategory category = (derived instanceof FTypeDef) ? CLASS : STRUCT;
     SwiftContainerType mappedType = new SwiftContainerType(derived.getName(), category);
     mappedType.cPrefix = CBridgeNameRules.getStructBaseName(derived);
@@ -48,6 +60,13 @@ public class SwiftTypeMapper {
       mappedType.optional = true;
     }
     return mappedType;
+  }
+
+  private static SwiftType mapTypeDef(final FTypeDef derived) {
+    if (isInstanceId(derived)) {
+      return getStructType(derived);
+    }
+    return mapType(derived.getActualType());
   }
 
   public static SwiftType mapOutputType(final FTypeRef type) {
@@ -93,5 +112,12 @@ public class SwiftTypeMapper {
         return SwiftType.DATA;
     }
     return SwiftType.VOID;
+  }
+
+  private static String hasDerivedName(FTypeDef derived) {
+    if (derived.getActualType().getDerived() != null) {
+      return derived.getName();
+    }
+    return null;
   }
 }
