@@ -1,5 +1,13 @@
 {{>common/DocComment}}
 enum {{name}} {
-{{#items}}    {{name}}{{#value}} = {{name}}{{/value}},
-{{/items}}
+{{joinPartial items "java/EnumItem" ",
+"}}{{#if items}};{{/if}}
+{{#if hasEnumeratorsWithValues}}
+
+    public final int value;
+
+    {{name}}(final int value) {
+        this.value = value;
+    }
+{{/if}}
 }

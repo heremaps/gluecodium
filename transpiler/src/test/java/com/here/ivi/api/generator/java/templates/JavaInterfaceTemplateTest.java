@@ -305,6 +305,7 @@ public final class JavaInterfaceTemplateTest {
             + "\n"
             + "interface ExampleInterface {\n"
             + "    enum Innumerable {\n"
+            + "\n"
             + "    }\n"
             + "}\n";
     assertEquals(expected, generated);
@@ -326,8 +327,10 @@ public final class JavaInterfaceTemplateTest {
             + "\n"
             + "interface ExampleInterface {\n"
             + "    enum Innumerable {\n"
+            + "\n"
             + "    }\n"
             + "    enum Numerous {\n"
+            + "\n"
             + "    }\n"
             + "}\n";
     assertEquals(expected, generated);
