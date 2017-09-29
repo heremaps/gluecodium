@@ -62,6 +62,7 @@ public class JavaModelBuilderTest {
   @Mock private FField francaField;
   @Mock private FStructType francaStructType;
   @Mock private FAttribute francaAttribute;
+  @Mock private FArrayType francaArrayType;
 
   private final EList<FArgument> arguments = new ArrayEList<>();
 
@@ -165,17 +166,13 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInputArgument() {
-    when(JavaTypeMapper.map(any(), any())).thenReturn(javaCustomType);
+    contextStack.injectResult(javaCustomType);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
     JavaParameter javaParameter = modelBuilder.getFirstResult(JavaParameter.class);
     assertNotNull(javaParameter);
-    assertEquals(PARAMETER_NAME, javaParameter.name);
     assertEquals(javaCustomType, javaParameter.type);
-
-    PowerMockito.verifyStatic();
-    JavaTypeMapper.map(BASE_PACKAGE, francaTypeRef);
   }
 
   @Test
@@ -352,5 +349,19 @@ public class JavaModelBuilderTest {
     assertEquals(JavaPrimitiveType.VOID, javaMethod.returnType);
     assertFalse(javaMethod.parameters.isEmpty());
     assertEquals(javaCustomType, javaMethod.parameters.get(0).type);
+  }
+
+  @Test
+  public void finishBuildingFrancaArrayReadArrays() {
+    JavaCustomType javaTemplateType =
+        JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
+    when(JavaTypeMapper.mapArray(any(), any())).thenReturn(javaTemplateType);
+
+    modelBuilder.finishBuilding(francaArrayType);
+
+    JavaTemplateType javaType = modelBuilder.getFirstResult(JavaTemplateType.class);
+    assertEquals(javaTemplateType, javaType);
+    assertFalse(javaType.templateParameters.isEmpty());
+    assertEquals(javaCustomType, javaType.templateParameters.get(0));
   }
 }

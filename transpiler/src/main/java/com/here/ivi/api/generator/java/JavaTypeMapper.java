@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.javamodel.*;
@@ -21,23 +22,26 @@ import java.util.List;
 import org.franca.core.franca.*;
 
 public final class JavaTypeMapper {
+
   public static JavaType map(final JavaPackage basePackage, final FTypeRef fTypeRef) {
+
+    JavaType javaType = JavaPrimitiveType.VOID;
     if (fTypeRef.getDerived() != null) {
-      return mapDerived(basePackage, fTypeRef);
-    }
-
-    if (fTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
-      return mapPredefined(fTypeRef.getPredefined());
-    }
-
-    if (fTypeRef.getInterval() != null) {
+      javaType = mapDerived(basePackage, fTypeRef);
+    } else if (fTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
+      javaType = mapPredefined(fTypeRef.getPredefined());
+    } else if (fTypeRef.getInterval() != null) {
       throw new TranspilerExecutionException(
           "The transpiler does not support integer ranges. "
               + "Please use regular Integer types like Int64 instead. Type: "
               + fTypeRef);
     }
 
-    return JavaPrimitiveType.VOID;
+    if (FrancaTypeHelper.isImplicitArray(fTypeRef)) {
+      javaType = JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaType);
+    }
+
+    return javaType;
   }
 
   private static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
@@ -83,6 +87,7 @@ public final class JavaTypeMapper {
 
   @SuppressWarnings("PMD.EmptyIfStmt")
   private static JavaType mapDerived(final JavaPackage basePackage, final FTypeRef type) {
+
     FType derived = type.getDerived();
 
     // types without a parent are not valid
@@ -135,7 +140,7 @@ public final class JavaTypeMapper {
     }
   }
 
-  private static JavaCustomType mapArray(final JavaPackage basePackage, FArrayType arrayType) {
+  public static JavaCustomType mapArray(final JavaPackage basePackage, FArrayType arrayType) {
     JavaType elementType = map(basePackage, arrayType.getElementType());
 
     if (elementType instanceof JavaPrimitiveType) {

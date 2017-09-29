@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.baseapi;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppDefaultInitializer;
@@ -261,8 +262,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FTypeRef francaTypeRef) {
 
     CppTypeRef cppTypeRef = typeMapper.map(francaTypeRef);
-    if (francaTypeRef.eContainer() instanceof FTypedElement
-        && ((FTypedElement) francaTypeRef.eContainer()).isArray()) {
+
+    if (FrancaTypeHelper.isImplicitArray(francaTypeRef)) {
       cppTypeRef = CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, cppTypeRef);
     }
 
