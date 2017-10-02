@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CBridgeGenerator {
-  private final CBridgeNameRules nameRules;
   private final IncludeResolver resolver;
 
   public static final List<GeneratedFile> STATIC_FILES =
@@ -37,9 +36,8 @@ public class CBridgeGenerator {
           GeneratorSuite.copyTarget("cbridge/ByteArrayHandle.cpp", ""),
           GeneratorSuite.copyTarget("cbridge_internal/ByteArrayHandleImpl.h", ""));
 
-  public CBridgeGenerator(IncludeResolver includeResolver, CBridgeNameRules nameRules) {
+  public CBridgeGenerator(IncludeResolver includeResolver) {
     this.resolver = includeResolver;
-    this.nameRules = nameRules;
   }
 
   public List<GeneratedFile> generate(FrancaElement francaElement) {
@@ -47,12 +45,13 @@ public class CBridgeGenerator {
     return Arrays.asList(
             new GeneratedFile(
                 generatePrivateHeaderContent(cModel),
-                nameRules.getPrivateHeaderFileNameWithPath(francaElement)),
+                CBridgeNameRules.getPrivateHeaderFileNameWithPath(francaElement)),
             new GeneratedFile(
-                generateHeaderContent(cModel), nameRules.getHeaderFileNameWithPath(francaElement)),
+                generateHeaderContent(cModel),
+                CBridgeNameRules.getHeaderFileNameWithPath(francaElement)),
             new GeneratedFile(
                 generateImplementationContent(cModel),
-                nameRules.getImplementationFileNameWithPath(francaElement)))
+                CBridgeNameRules.getImplementationFileNameWithPath(francaElement)))
         .stream()
         .filter(file -> file.content.length() > 0)
         .collect(Collectors.toList());
@@ -89,9 +88,10 @@ public class CBridgeGenerator {
 
   private void removeRedundantIncludes(FrancaElement francaElement, CInterface cModel) {
     cModel.privateHeaderIncludes.remove(
-        Include.createInternalInclude(nameRules.getPrivateHeaderFileNameWithPath(francaElement)));
+        Include.createInternalInclude(
+            CBridgeNameRules.getPrivateHeaderFileNameWithPath(francaElement)));
     cModel.headerIncludes.remove(
-        Include.createInternalInclude(nameRules.getHeaderFileNameWithPath(francaElement)));
+        Include.createInternalInclude(CBridgeNameRules.getHeaderFileNameWithPath(francaElement)));
     cModel.implementationIncludes.removeAll(cModel.headerIncludes);
     cModel.privateHeaderIncludes.removeAll(cModel.headerIncludes);
   }

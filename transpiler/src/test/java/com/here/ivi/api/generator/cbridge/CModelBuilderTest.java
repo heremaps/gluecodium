@@ -67,7 +67,6 @@ public class CModelBuilderTest {
 
   private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
-  @Mock private CBridgeNameRules cBridgeNameRules;
   @Mock private IncludeResolver resolver;
   @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
@@ -90,15 +89,15 @@ public class CModelBuilderTest {
     fakeType.includes = new HashSet<>();
     CppTypeInfo typeInfo = new CppTypeInfo(fakeType);
 
-    when(cBridgeNameRules.getStructRefType(any())).thenReturn(STRUCT_REF_NAME);
-    when(cBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
-    when(cBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
+    when(CBridgeNameRules.getStructRefType(any())).thenReturn(STRUCT_REF_NAME);
+    when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
+    when(CBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
 
     when(CppTypeInfo.createStructTypeInfo(any(), any())).thenReturn(typeInfo);
 
     when(anInterface.isStatic(any())).thenReturn(true);
-    when(cBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
-    when(cBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
+    when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
+    when(CBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
 
     when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
@@ -106,7 +105,7 @@ public class CModelBuilderTest {
     when(francaTypeCollection.eContainer()).thenReturn(francaModel);
     when(francaInterface.eContainer()).thenReturn(francaModel);
 
-    modelBuilder = new CModelBuilder(anInterface, cBridgeNameRules, resolver, contextStack);
+    modelBuilder = new CModelBuilder(anInterface, resolver, contextStack);
   }
 
   @Test

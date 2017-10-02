@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.utils.LoadModelHelper;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.swift.SwiftClass;
@@ -49,7 +48,7 @@ public class SwiftGeneratorIntegrationTest {
     } catch (URISyntaxException e) {
       fail("Franca model should be readable");
     }
-    generator = new SwiftGenerator(new CBridgeNameRules());
+    generator = new SwiftGenerator();
   }
 
   @Test

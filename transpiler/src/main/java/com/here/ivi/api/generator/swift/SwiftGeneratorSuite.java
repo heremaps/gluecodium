@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.swift;
 import static java.util.stream.Collectors.toList;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -34,10 +33,8 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
   @Override
   public List<GeneratedFile> generate() {
 
-    SwiftGenerator swiftGenerator = new SwiftGenerator(new CBridgeNameRules());
-    CBridgeGenerator cBridgeGenerator =
-        new CBridgeGenerator(
-            new IncludeResolver(model, new CBridgeNameRules()), new CBridgeNameRules());
+    SwiftGenerator swiftGenerator = new SwiftGenerator();
+    CBridgeGenerator cBridgeGenerator = new CBridgeGenerator(new IncludeResolver(model));
 
     Stream<GeneratedFile> swiftInterfaceStream =
         model.getInterfaces().stream().map(swiftGenerator::generate).flatMap(Collection::stream);

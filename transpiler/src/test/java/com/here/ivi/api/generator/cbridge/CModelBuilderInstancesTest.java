@@ -16,6 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
@@ -26,16 +27,17 @@ import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(JUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(CBridgeNameRules.class)
 public class CModelBuilderInstancesTest {
   private static final String FULL_FUNCTION_NAME = "FULL_FUNCTION_NAME";
   private static final String DELEGATE_NAME = "DELEGATE_NAME";
   private static final String PARAM_NAME = "inputParam";
 
-  @Mock private CBridgeNameRules cBridgeNameRules;
   @Mock private IncludeResolver resolver;
   @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
@@ -49,11 +51,12 @@ public class CModelBuilderInstancesTest {
 
   @Before
   public void setUp() {
+    mockStatic(CBridgeNameRules.class);
     initMocks(this);
 
     when(anInterface.isStatic(any())).thenReturn(false);
-    when(cBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
-    when(cBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
+    when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
+    when(CBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
 
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaMethod.eContainer()).thenReturn(francaTypeCollection);
@@ -65,7 +68,7 @@ public class CModelBuilderInstancesTest {
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
 
-    modelBuilder = new CModelBuilder(anInterface, cBridgeNameRules, resolver, contextStack);
+    modelBuilder = new CModelBuilder(anInterface, resolver, contextStack);
   }
 
   @Test

@@ -27,7 +27,6 @@ import org.franca.core.franca.FTypeCollection;
 
 public class IncludeResolver {
   private final FrancaModel rootModel;
-  private final CBridgeNameRules nameRules;
   private final Map<CacheKey, Include> resolvedIncludes = new HashMap<>();
 
   public enum HeaderType {
@@ -66,9 +65,8 @@ public class IncludeResolver {
     return resolvedInclude;
   }
 
-  public IncludeResolver(FrancaModel rootModel, CBridgeNameRules nameRules) {
+  public IncludeResolver(FrancaModel rootModel) {
     this.rootModel = rootModel;
-    this.nameRules = nameRules;
   }
 
   private String resolveIncludeName(FrancaElement definer, HeaderType headerType) {
@@ -76,9 +74,9 @@ public class IncludeResolver {
       case BASE_API_HEADER:
         return CppNameRules.getHeaderPath(definer);
       case CBRIDGE_PUBLIC_HEADER:
-        return nameRules.getHeaderFileNameWithPath(definer);
+        return CBridgeNameRules.getHeaderFileNameWithPath(definer);
       default:
-        return nameRules.getPrivateHeaderFileNameWithPath(definer);
+        return CBridgeNameRules.getPrivateHeaderFileNameWithPath(definer);
     }
   }
 
