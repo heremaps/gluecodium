@@ -18,7 +18,7 @@
 namespace hello
 {
 
-// HelloWorldProfileManager destruction is logged to static logger to allow verification of correct instance disposal
+// ProfileManager destruction is logged to static logger to allow verification of correct instance disposal
 HelloWorldProfileManager::~HelloWorldProfileManager( )
 {
     HelloWorldStaticLogger::append( "ProfileManager::destructor" );
