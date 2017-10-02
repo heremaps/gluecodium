@@ -1,10 +1,9 @@
-// API Transpiler spotless configuration
 apply plugin: 'com.diffplug.gradle.spotless'
 spotless {
     java {
         target project.fileTree(project.projectDir) {
             include '**/*.java'
-            exclude '**/build', '**/resources'
+            exclude '**/build', 'src/test/resources'
         }
         googleJavaFormat()
         licenseHeaderFile rootProject.file('config/spotless/here_java.license')
@@ -15,10 +14,21 @@ spotless {
     format 'cpp', {
         target project.fileTree(project.projectDir) {
             include '**/*.h', '**/*.cpp'
-            exclude '**/build', '**/resources'
+            exclude '**/build', 'src/test/resources'
         }
         licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
                 '(#pragma|#include)'
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    format 'swift', {
+        target project.fileTree(project.projectDir) {
+            include '**/*.swift'
+            exclude '**/build', 'src/test/resources'
+        }
+        licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
+                '(import|class|public class)'
         trimTrailingWhitespace()
         endWithNewline()
     }
