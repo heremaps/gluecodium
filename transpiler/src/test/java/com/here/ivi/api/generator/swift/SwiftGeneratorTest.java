@@ -17,11 +17,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,12 +32,13 @@ import org.franca.core.franca.FModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(JUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(SwiftNameRules.class)
 public class SwiftGeneratorTest {
-  @Mock private SwiftNameRules nameRules;
   @Mock private CBridgeNameRules bridgeNameRules;
   @Mock private Interface francaElement;
   @Mock private FModel francaModel;
@@ -46,6 +47,7 @@ public class SwiftGeneratorTest {
 
   @Before
   public void setUp() {
+    mockStatic(SwiftNameRules.class);
     initMocks(this);
     when(francaElement.getFrancaInterface()).thenReturn(francaInterface);
     when(francaElement.getFrancaModel()).thenReturn(francaModel);
@@ -54,8 +56,8 @@ public class SwiftGeneratorTest {
     when(francaModel.getInterfaces()).thenReturn(interfaces);
     EList<FMethod> methods = new ArrayEList<>();
     when(francaInterface.getMethods()).thenReturn(methods);
-    when(nameRules.getImplementationFileName(any())).thenReturn("file");
-    swiftGenerator = new SwiftGenerator(nameRules, bridgeNameRules);
+    when(SwiftNameRules.getImplementationFileName(any())).thenReturn("file");
+    swiftGenerator = new SwiftGenerator(bridgeNameRules);
   }
 
   @Test

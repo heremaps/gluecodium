@@ -30,12 +30,10 @@ public class SwiftGenerator {
   @VisibleForTesting
   static final List<String> STATIC_FILES = Arrays.asList("swift/RefHolder.swift");
 
-  private final SwiftNameRules nameRules;
   private final CBridgeNameRules cBridgeNameRules;
   private final Set<String> modules = new HashSet<>();
 
-  public SwiftGenerator(SwiftNameRules rules, CBridgeNameRules bridgeNameRules) {
-    nameRules = rules;
+  public SwiftGenerator(CBridgeNameRules bridgeNameRules) {
     cBridgeNameRules = bridgeNameRules;
   }
 
@@ -63,14 +61,13 @@ public class SwiftGenerator {
       generated.add(
           new GeneratedFile(
               TemplateEngine.render("swift/File", file),
-              nameRules.getImplementationFileName(francaElement)));
+              SwiftNameRules.getImplementationFileName(francaElement)));
       return generated;
     }
   }
 
   protected SwiftFile buildSwiftModel(FrancaElement francaElement) {
-    SwiftModelBuilder modelBuilder =
-        new SwiftModelBuilder(francaElement, nameRules, cBridgeNameRules);
+    SwiftModelBuilder modelBuilder = new SwiftModelBuilder(francaElement, cBridgeNameRules);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(singletonList(modelBuilder));
 
     treeWalker.walk(francaElement);

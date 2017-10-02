@@ -20,11 +20,13 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
-public class SwiftNameRules {
+public final class SwiftNameRules {
 
   public static final String TARGET_DIRECTORY = "swift" + File.separator;
 
-  public String getImplementationFileName(final FrancaElement francaElement) {
+  private SwiftNameRules() {}
+
+  public static String getImplementationFileName(final FrancaElement francaElement) {
     return TARGET_DIRECTORY
         + String.join(File.separator, francaElement.getPackageNames())
         + File.separator
@@ -32,26 +34,26 @@ public class SwiftNameRules {
         + ".swift";
   }
 
-  private String getFileName(final FrancaElement francaElement) {
+  private static String getFileName(final FrancaElement francaElement) {
     String switchResult = null;
     if (francaElement instanceof Interface) {
       switchResult =
           SwiftNameRules.computeClassName(((Interface) francaElement).getFrancaInterface());
     } else {
-      switchResult = this.getTypeCollectionName(francaElement.getFrancaTypeCollection());
+      switchResult = getTypeCollectionName(francaElement.getFrancaTypeCollection());
     }
     return switchResult;
   }
 
-  public String getMethodName(final FMethod method) {
+  public static String getMethodName(final FMethod method) {
     return method.getName();
   }
 
-  public String getParameterName(final FArgument argument) {
+  public static String getParameterName(final FArgument argument) {
     return argument.getName();
   }
 
-  public String getClassName(final FTypeCollection base) {
+  public static String getClassName(final FTypeCollection base) {
     return SwiftNameRules.computeClassName(base);
   }
 
@@ -59,7 +61,7 @@ public class SwiftNameRules {
     return NameHelper.toUpperCamelCase(structName);
   }
 
-  public String getTypeCollectionName(final FTypeCollection base) {
+  public static String getTypeCollectionName(final FTypeCollection base) {
     return NameHelper.toUpperCamelCase(base.getName());
   }
 

@@ -36,24 +36,18 @@ import org.franca.core.franca.*;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   private final FrancaElement rootModel;
-  private final SwiftNameRules nameRules;
   private final CBridgeNameRules bridgeRules;
 
-  public SwiftModelBuilder(
-      final FrancaElement rootModel,
-      final SwiftNameRules nameRules,
-      final CBridgeNameRules cBridgeNameRules) {
-    this(rootModel, nameRules, cBridgeNameRules, new ModelBuilderContextStack<>());
+  public SwiftModelBuilder(final FrancaElement rootModel, final CBridgeNameRules cBridgeNameRules) {
+    this(rootModel, cBridgeNameRules, new ModelBuilderContextStack<>());
   }
 
   public SwiftModelBuilder(
       FrancaElement rootModel,
-      SwiftNameRules nameRules,
       CBridgeNameRules cBridgeNameRules,
       ModelBuilderContextStack<SwiftModelElement> contextStack) {
     super(contextStack);
     this.rootModel = rootModel;
-    this.nameRules = nameRules;
     this.bridgeRules = cBridgeNameRules;
   }
 
@@ -69,7 +63,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
-    SwiftClass clazz = new SwiftClass(nameRules.getClassName(francaInterface));
+    SwiftClass clazz = new SwiftClass(SwiftNameRules.getClassName(francaInterface));
     String comment = CppCommentParser.parse(francaInterface).getMainBodyText();
     clazz.comment = comment != null ? comment : "";
     clazz.methods = getAllOfType(getCurrentContext().previousResults, SwiftMethod.class);
@@ -126,7 +120,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuildingInputArgument(FArgument francaArgument) {
     storeResult(
         new SwiftInParameter(
-            nameRules.getParameterName(francaArgument),
+            SwiftNameRules.getParameterName(francaArgument),
             SwiftTypeMapper.mapType(rootModel, francaArgument.getType())));
     super.finishBuildingInputArgument(francaArgument);
   }
@@ -135,7 +129,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuildingOutputArgument(FArgument francaArgument) {
     storeResult(
         new SwiftOutParameter(
-            nameRules.getParameterName(francaArgument),
+            SwiftNameRules.getParameterName(francaArgument),
             SwiftTypeMapper.mapOutputType(rootModel, francaArgument.getType())));
     super.finishBuildingOutputArgument(francaArgument);
   }
@@ -147,7 +141,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .stream()
             .map(SwiftParameter.class::cast)
             .collect(toList());
-    SwiftMethod method = new SwiftMethod(nameRules.getMethodName(francaMethod), inParams);
+    SwiftMethod method = new SwiftMethod(SwiftNameRules.getMethodName(francaMethod), inParams);
 
     // TODO: APIGEN-471 - handle multiple return values
     SwiftParameter returnParam =
