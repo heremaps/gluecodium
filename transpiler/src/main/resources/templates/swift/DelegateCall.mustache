@@ -1,7 +1,7 @@
 {{method.cBaseName}}({{^method.isStatic}}{{method.instanceParameter.variableName}}{{#method.parameters.0}}, {{/method.parameters.0}}{{/method.isStatic}}{{#each parameters}}{{#switch type.category.toString}}{{!!
   }}{{#case "BUILTIN_BYTEBUFFER"}}{{variableName}}_ptr, Int64({{variableName}}.count){{/case}}{{!!
   }}{{#case "STRUCT"}}{{variableName}}Handle{{/case}}{{!!
-  }}{{#case "CLASS"}}{{variableName}}Handle{{/case}}{{!!
+  }}{{#case "CLASS"}}{{variableName}}Handle.ref{{/case}}{{!!
   }}{{#case "ENUM"}}{{variableName}}.rawValue{{/case}}{{!!
   }}{{#default}}{{variableName}}{{/default}}{{!!
 }}{{/switch}}{{#if iter.hasNext}}, {{/if}}{{/each}})

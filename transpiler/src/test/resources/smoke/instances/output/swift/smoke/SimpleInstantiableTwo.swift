@@ -11,11 +11,11 @@
 
 import Foundation
 
-internal func getRef(_ ref: SimpleInstantiableTwo) -> smoke_SimpleInstantiableTwoRef {
+internal func getRef(_ ref: SimpleInstantiableTwo) -> RefHolder<smoke_SimpleInstantiableTwoRef> {
     guard let instanceReference = ref as? _SimpleInstantiableTwo else {
         fatalError("Not implemented yet")
     }
-    return instanceReference.c_instance
+    return RefHolder<smoke_SimpleInstantiableTwoRef>(instanceReference.c_instance)
 }
 
 public protocol SimpleInstantiableTwo {

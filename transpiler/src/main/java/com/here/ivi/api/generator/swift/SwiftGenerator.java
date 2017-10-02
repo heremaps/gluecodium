@@ -25,7 +25,7 @@ import java.util.*;
 public class SwiftGenerator {
 
   public static final List<GeneratedFile> STATIC_FILES =
-      Arrays.asList(GeneratorSuite.copyTarget("swift/RefHolder.swift", "../"));
+      Arrays.asList(GeneratorSuite.copyTarget("swift/RefHolder.swift", ""));
 
   public List<GeneratedFile> generate(FrancaElement francaElement) {
     SwiftFile file = buildSwiftModel(francaElement);
