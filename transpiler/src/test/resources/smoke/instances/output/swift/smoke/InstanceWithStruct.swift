@@ -10,12 +10,11 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 
 import Foundation
-
-internal func getRef(_ ref: InstanceWithStruct) -> smoke_InstanceWithStructRef {
+internal func getRef(_ ref: InstanceWithStruct) -> RefHolder<smoke_InstanceWithStructRef> {
     guard let instanceReference = ref as? _InstanceWithStruct else {
         fatalError("Not implemented yet")
     }
-    return instanceReference.c_instance
+    return RefHolder<smoke_InstanceWithStructRef>(instanceReference.c_instance)
 }
 
 public protocol InstanceWithStruct {

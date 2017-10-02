@@ -47,11 +47,11 @@ public class SwiftFileTemplateTest {
     swiftClass.implementsProtocols = singletonList("ExampleClass");
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: ExampleClass) ->  {\n"
+            + "internal func getRef(_ ref: ExampleClass) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _ExampleClass else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol ExampleClass {\n"
             + "}\n"
@@ -68,11 +68,11 @@ public class SwiftFileTemplateTest {
     swiftClass.comment = "One really classy example";
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: ExampleClassWithComment) ->  {\n"
+            + "internal func getRef(_ ref: ExampleClassWithComment) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _ExampleClassWithComment else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol ExampleClassWithComment {\n"
             + "}\n"
@@ -99,11 +99,11 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "myPackage_ExampleClass_myMethod";
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: ExampleClass) ->  {\n"
+            + "internal func getRef(_ ref: ExampleClass) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _ExampleClass else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol ExampleClass {\n"
             + "        func myMethod(parameter: Int) -> Int;\n"
@@ -132,11 +132,11 @@ public class SwiftFileTemplateTest {
 
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: ExampleClass) ->  {\n"
+            + "internal func getRef(_ ref: ExampleClass) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _ExampleClass else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol ExampleClass {\n"
             + "        func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void;\n"
@@ -161,11 +161,11 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: ExampleClass) ->  {\n"
+            + "internal func getRef(_ ref: ExampleClass) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _ExampleClass else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol ExampleClass {\n"
             + "        func myMethod(parameterOne: Int, parameterTwo: String) -> Void;\n"
@@ -191,11 +191,11 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: MyClass) ->  {\n"
+            + "internal func getRef(_ ref: MyClass) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _MyClass else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol MyClass {\n"
             + "        func myMethod(array: [UInt8]) -> Void;\n"
@@ -225,11 +225,11 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: CommentedExampleClass) ->  {\n"
+            + "internal func getRef(_ ref: CommentedExampleClass) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _CommentedExampleClass else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol CommentedExampleClass {\n"
             + "    /**\n"
@@ -275,11 +275,11 @@ public class SwiftFileTemplateTest {
 
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: SomeClass) ->  {\n"
+            + "internal func getRef(_ ref: SomeClass) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _SomeClass else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol SomeClass {\n"
             + "}\n"
@@ -570,11 +570,11 @@ public class SwiftFileTemplateTest {
     swiftClass.implementsProtocols = Collections.singletonList(swiftClass.name);
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: SomeClass) ->  {\n"
+            + "internal func getRef(_ ref: SomeClass) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _SomeClass else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol SomeClass {\n"
             + "        func SomeMethod() -> Void;\n"
@@ -699,11 +699,11 @@ public class SwiftFileTemplateTest {
     clazz.enums.add(swiftEnum);
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: TestInterface) ->  {\n"
+            + "internal func getRef(_ ref: TestInterface) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _TestInterface else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol TestInterface {\n"
             + "}\n"
@@ -731,11 +731,11 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "HelloWorld_instanceMethod";
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: HelloWorld) -> HelloWorldRef {\n"
+            + "internal func getRef(_ ref: HelloWorld) -> RefHolder<HelloWorldRef> {\n"
             + "    guard let instanceReference = ref as? _HelloWorld else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<HelloWorldRef>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol HelloWorld {\n"
             + "        func instanceMethod() -> Int;\n"
@@ -789,11 +789,11 @@ public class SwiftFileTemplateTest {
     swiftClass.typedefs = Collections.singletonList(typedef);
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: HellowWorldFactory) ->  {\n"
+            + "internal func getRef(_ ref: HellowWorldFactory) -> RefHolder<> {\n"
             + "    guard let instanceReference = ref as? _HellowWorldFactory else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return instanceReference.c_instance\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol HellowWorldFactory {\n"
             + "    typealias MyTypeDef = Int\n"
