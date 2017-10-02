@@ -18,10 +18,10 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
@@ -62,7 +62,6 @@ public class SwiftModelBuilderTest {
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
 
   @Mock private AbstractFrancaCommentParser.Comments comments;
-  @Mock private SwiftNameRules nameRules;
   @Mock private CBridgeNameRules cBridgeNameRules;
   @Mock private Interface anInterface;
   @Mock private FModel francaModel;
@@ -91,14 +90,14 @@ public class SwiftModelBuilderTest {
     when(anInterface.getPackageNames()).thenReturn(PACKAGES);
     when(anInterface.isStatic(any())).thenReturn(true);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
-    when(nameRules.getParameterName(any())).thenReturn(PARAM_NAME);
-    when(nameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
+    when(SwiftNameRules.getParameterName(any())).thenReturn(PARAM_NAME);
+    when(SwiftNameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
 
     when(francaMethod.eContainer()).thenReturn(francaInterface);
     when(francaInterface.eContainer()).thenReturn(francaModel);
     when(francaModel.getName()).thenReturn("");
 
-    modelBuilder = new SwiftModelBuilder(anInterface, nameRules, cBridgeNameRules, contextStack);
+    modelBuilder = new SwiftModelBuilder(anInterface, cBridgeNameRules, contextStack);
   }
 
   @Test
@@ -132,7 +131,8 @@ public class SwiftModelBuilderTest {
     SwiftMethod function = methods.get(0);
     assertEquals(FUNCTION_NAME, function.name);
 
-    verify(nameRules).getMethodName(francaMethod);
+    verifyStatic();
+    SwiftNameRules.getMethodName(francaMethod);
   }
 
   @Test

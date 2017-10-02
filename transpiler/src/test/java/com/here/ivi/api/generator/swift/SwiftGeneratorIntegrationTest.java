@@ -18,8 +18,6 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
@@ -34,18 +32,12 @@ import java.net.URISyntaxException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.junit.runners.JUnit4;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(JUnit4.class)
 public class SwiftGeneratorIntegrationTest {
-  @Mock private SwiftNameRules nameRules;
-
   private static final String TEST_FIDL_FILE = "swift/fidl/test/SwiftGeneratorTest.fdepl";
 
-  private static final String CLASS_NAME = "MockedClassName";
-  private static final String METHOD_NAME = "MockedMethodName";
-  private static final String PARAM_NAME = "MockedParameterName";
   private FrancaModel francaModel;
   private SwiftGenerator generator;
 
@@ -57,10 +49,7 @@ public class SwiftGeneratorIntegrationTest {
     } catch (URISyntaxException e) {
       fail("Franca model should be readable");
     }
-    generator = new SwiftGenerator(nameRules, new CBridgeNameRules());
-    when(nameRules.getClassName(any())).thenReturn(CLASS_NAME);
-    when(nameRules.getMethodName(any())).thenReturn(METHOD_NAME);
-    when(nameRules.getParameterName(any())).thenReturn(PARAM_NAME);
+    generator = new SwiftGenerator(new CBridgeNameRules());
   }
 
   @Test
@@ -114,10 +103,10 @@ public class SwiftGeneratorIntegrationTest {
     for (final SwiftMethod method : clazz.methods) {
       assertNotNull(method.parameters);
       assertEquals(2, method.parameters.size());
-      for (final SwiftParameter param : method.parameters) {
-        assertNotNull(param);
-        assertEquals(PARAM_NAME, param.name);
-      }
+      assertNotNull(method.parameters.get(0));
+      assertEquals("param_1", method.parameters.get(0).name);
+      assertNotNull(method.parameters.get(1));
+      assertEquals("param_2", method.parameters.get(1).name);
       assertNotNull(method.returnType);
       assertEquals("String", method.returnType.name);
     }
@@ -149,10 +138,12 @@ public class SwiftGeneratorIntegrationTest {
     final SwiftMethod method = clazz.methods.get(0);
     assertNotNull(method.parameters);
     assertEquals(3, method.parameters.size());
-    for (final SwiftParameter param : method.parameters) {
-      assertNotNull(param);
-      assertEquals(PARAM_NAME, param.name);
-    }
+    assertNotNull(method.parameters.get(0));
+    assertEquals("param_1", method.parameters.get(0).name);
+    assertNotNull(method.parameters.get(1));
+    assertEquals("param_2", method.parameters.get(1).name);
+    assertNotNull(method.parameters.get(2));
+    assertEquals("param_3", method.parameters.get(2).name);
   }
 
   @Test
@@ -165,14 +156,14 @@ public class SwiftGeneratorIntegrationTest {
     assertNotNull(clazz.methods);
     assertEquals(1, clazz.methods.size());
     final SwiftMethod method = clazz.methods.get(0);
-    assertEquals(METHOD_NAME, method.name);
+    assertEquals("method_0", method.name);
     assertTrue(method.comment.isEmpty());
     assertFalse(method.isStatic);
     assertNotNull(method.parameters);
     assertEquals(1, method.parameters.size());
     final SwiftParameter param = method.parameters.get(0);
     assertNotNull(param);
-    assertEquals(PARAM_NAME, param.name);
+    assertEquals("param_1", param.name);
   }
 
   @Test
@@ -193,11 +184,11 @@ public class SwiftGeneratorIntegrationTest {
         "The base namespace should be set to its c_bridge class",
         "swift_fidl_test",
         clazz.nameSpace);
-    assertEquals(CLASS_NAME, clazz.name);
+    assertEquals("TestInterface_1", clazz.name);
     assertNotNull(clazz.methods);
     assertEquals(1, clazz.methods.size());
     final SwiftMethod method = clazz.methods.get(0);
-    assertEquals(METHOD_NAME, method.name);
+    assertEquals("method_0", method.name);
     assertTrue(method.parameters.isEmpty());
   }
 
@@ -221,7 +212,7 @@ public class SwiftGeneratorIntegrationTest {
         "The base namespace should be set to its c_bridge class",
         "swift_fidl_test",
         clazz.nameSpace);
-    assertEquals(CLASS_NAME, clazz.name);
+    assertEquals("TestInterface_0", clazz.name);
   }
 
   @Test
