@@ -17,15 +17,15 @@
 namespace hello
 {
 
-::std::shared_ptr< ::hello::SimpleInstantiable >
-    HelloWorldFactory::createSimple( )
+::std::shared_ptr< SimpleInstantiable >
+HelloWorldFactory::createSimple( )
 {
-    return ::std::make_shared< ::hello::HelloWorldSimpleInstantiable >( );
+    return ::std::make_shared< HelloWorldSimpleInstantiable >( );
 }
 
-::std::shared_ptr< ::hello::NestedInstantiable >
-    HelloWorldFactory::createNested( const ::std::shared_ptr< ::hello::SimpleInstantiable >& simpleInstanceRef )
+::std::shared_ptr< NestedInstantiable >
+HelloWorldFactory::createNested( const ::std::shared_ptr< SimpleInstantiable >& simpleInstanceRef )
 {
-    return ::std::make_shared< ::hello::HelloWorldNestedInstantiable >( simpleInstanceRef );
+    return ::std::make_shared< HelloWorldNestedInstantiable >( simpleInstanceRef );
 }
 }
