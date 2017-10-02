@@ -62,7 +62,6 @@ public class SwiftModelBuilderTest {
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
 
   @Mock private AbstractFrancaCommentParser.Comments comments;
-  @Mock private CBridgeNameRules cBridgeNameRules;
   @Mock private Interface anInterface;
   @Mock private FModel francaModel;
   @Mock private FMethod francaMethod;
@@ -97,7 +96,7 @@ public class SwiftModelBuilderTest {
     when(francaInterface.eContainer()).thenReturn(francaModel);
     when(francaModel.getName()).thenReturn("");
 
-    modelBuilder = new SwiftModelBuilder(anInterface, cBridgeNameRules, contextStack);
+    modelBuilder = new SwiftModelBuilder(anInterface, contextStack);
   }
 
   @Test

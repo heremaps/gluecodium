@@ -37,9 +37,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(SwiftNameRules.class)
+@PrepareForTest({SwiftNameRules.class, CBridgeNameRules.class})
 public class SwiftGeneratorTest {
-  @Mock private CBridgeNameRules bridgeNameRules;
   @Mock private Interface francaElement;
   @Mock private FModel francaModel;
   @Mock private FInterface francaInterface;
@@ -47,7 +46,7 @@ public class SwiftGeneratorTest {
 
   @Before
   public void setUp() {
-    mockStatic(SwiftNameRules.class);
+    mockStatic(SwiftNameRules.class, CBridgeNameRules.class);
     initMocks(this);
     when(francaElement.getFrancaInterface()).thenReturn(francaInterface);
     when(francaElement.getFrancaModel()).thenReturn(francaModel);
@@ -57,7 +56,7 @@ public class SwiftGeneratorTest {
     EList<FMethod> methods = new ArrayEList<>();
     when(francaInterface.getMethods()).thenReturn(methods);
     when(SwiftNameRules.getImplementationFileName(any())).thenReturn("file");
-    swiftGenerator = new SwiftGenerator(bridgeNameRules);
+    swiftGenerator = new SwiftGenerator();
   }
 
   @Test

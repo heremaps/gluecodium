@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.cmodel.CInterface;
@@ -50,11 +51,16 @@ import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 @SuppressWarnings("PMD.TooManyFields")
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(CBridgeNameRules.class)
 public class CBridgeGeneratorTest {
 
   private static final List<String> PACKAGES = asList("cbridge", "test");
@@ -91,7 +97,6 @@ public class CBridgeGeneratorTest {
   @Mock private FTypeRef francaTypeRef2;
 
   @Mock private IncludeResolver resolver;
-  @Mock private CBridgeNameRules nameRules;
   private final ArrayEList<FType> interfaceTypes = new ArrayEList<>();
   private final ArrayEList<FMethod> methods = new ArrayEList<>();
   private final ArrayEList<FArgument> inputArguments = new ArrayEList<>();
@@ -100,8 +105,8 @@ public class CBridgeGeneratorTest {
   private CBridgeGenerator generator;
 
   @Before
-  public void setUp() {
-    MockitoAnnotations.initMocks(this);
+  public void setUp() throws Exception {
+    initMocks(this);
 
     when(anInterface.isStatic(any())).thenReturn(true);
     when(anInterface.getPackageNames()).thenReturn(PACKAGES);
@@ -135,12 +140,15 @@ public class CBridgeGeneratorTest {
                       + DefinedBy.findDefiningTypeCollection(modelElement).getName());
             });
 
-    generator = new CBridgeGenerator(resolver, nameRules);
+    generator = new CBridgeGenerator(resolver);
 
-    when(nameRules.getPrivateHeaderFileNameWithPath(any())).thenReturn(PRIVATE_HEADER_NAME);
-    when(nameRules.getHeaderFileNameWithPath(any(FrancaElement.class)))
-        .thenReturn(PUBLIC_HEADER_NAME);
-    when(nameRules.getImplementationFileNameWithPath(any())).thenReturn("");
+    PowerMockito.spy(CBridgeNameRules.class);
+    PowerMockito.doReturn(PRIVATE_HEADER_NAME)
+        .when(CBridgeNameRules.class, "getPrivateHeaderFileNameWithPath", any());
+    PowerMockito.doReturn(PUBLIC_HEADER_NAME)
+        .when(CBridgeNameRules.class, "getHeaderFileNameWithPath", any(FrancaElement.class));
+    PowerMockito.doReturn("")
+        .when(CBridgeNameRules.class, "getImplementationFileNameWithPath", any());
   }
 
   @Test

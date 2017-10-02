@@ -58,7 +58,6 @@ public class CBridgeNameRulesTest {
   @Mock private FMethod francaMethod;
   @Mock private FEnumerationType francaEnum;
   @Mock private FEnumerator francaEnumItem;
-  private CBridgeNameRules nameRules;
 
   @Before
   public void setUp() {
@@ -80,8 +79,6 @@ public class CBridgeNameRulesTest {
     when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
 
     when(francaModel.getName()).thenReturn(String.join(".", PACKAGES));
-
-    nameRules = new CBridgeNameRules();
   }
 
   @Test
@@ -91,7 +88,7 @@ public class CBridgeNameRulesTest {
         prependNameWithPackageAndContainer(
             toUpperCamelCase(STRUCT_NAME) + "Ref", "_", TYPE_COLLECTION_NAME);
 
-    String actualName = nameRules.getStructRefType(francaStruct);
+    String actualName = CBridgeNameRules.getStructRefType(francaStruct);
 
     assertEquals(expectedName, actualName);
   }
@@ -101,7 +98,7 @@ public class CBridgeNameRulesTest {
     when(francaStruct.eContainer()).thenReturn(francaInterface);
     String expectedName = prependNameWithPackageAndInterface(toUpperCamelCase(STRUCT_NAME) + "Ref");
 
-    String actualName = nameRules.getStructRefType(francaStruct);
+    String actualName = CBridgeNameRules.getStructRefType(francaStruct);
 
     assertEquals(expectedName, actualName);
   }
@@ -111,7 +108,7 @@ public class CBridgeNameRulesTest {
     when(francaStruct.eContainer()).thenReturn(francaInterface);
     String expectedName = prependNameWithPackageAndInterface(toUpperCamelCase(STRUCT_NAME));
 
-    String actualName = nameRules.getStructBaseName(francaStruct);
+    String actualName = CBridgeNameRules.getStructBaseName(francaStruct);
     assertEquals(expectedName, actualName);
   }
 
@@ -122,7 +119,7 @@ public class CBridgeNameRulesTest {
         prependNameWithPackageAndContainer(
             toUpperCamelCase(STRUCT_NAME), "_", TYPE_COLLECTION_NAME);
 
-    String actualName = nameRules.getStructBaseName(francaStruct);
+    String actualName = CBridgeNameRules.getStructBaseName(francaStruct);
     assertEquals(expectedName, actualName);
   }
 
@@ -130,7 +127,7 @@ public class CBridgeNameRulesTest {
   public void getMethodNameCreatesProperName() {
     String expectedName = prependNameWithPackageAndInterface(METHOD_NAME);
 
-    String actualName = nameRules.getMethodName(francaMethod);
+    String actualName = CBridgeNameRules.getMethodName(francaMethod);
     assertEquals(expectedName, actualName);
   }
 
@@ -139,14 +136,14 @@ public class CBridgeNameRulesTest {
     when(anInterface.getPackageNames()).thenReturn(singletonList("PKG"));
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
 
-    nameRules.getMethodName(francaMethod);
+    CBridgeNameRules.getMethodName(francaMethod);
   }
 
   @Test
   public void getHeaderFileNameWithPathReturnsCorrectPath() {
     String expected = "cbridge/PKG1/PKG2/TestInterface.h";
 
-    String actual = nameRules.getHeaderFileNameWithPath(anInterface);
+    String actual = CBridgeNameRules.getHeaderFileNameWithPath(anInterface);
 
     assertEquals(expected, actual);
   }
@@ -155,7 +152,7 @@ public class CBridgeNameRulesTest {
   public void getImplementationFileNameWithPathReturnsCorrectPath() {
     String expected = "cbridge/PKG1/PKG2/TestInterface.cpp";
 
-    String actual = nameRules.getImplementationFileNameWithPath(anInterface);
+    String actual = CBridgeNameRules.getImplementationFileNameWithPath(anInterface);
 
     assertEquals(expected, actual);
   }
@@ -169,7 +166,7 @@ public class CBridgeNameRulesTest {
 
     String expected = prependNameWithPackageAndInterface(METHOD_NAME, "::");
 
-    String actual = nameRules.getDelegateMethodName(francaMethod);
+    String actual = CBridgeNameRules.getDelegateMethodName(francaMethod);
 
     assertEquals(expected, actual);
   }
@@ -183,7 +180,7 @@ public class CBridgeNameRulesTest {
 
     String expected = prependNameWithPackageAndInterface(STRUCT_NAME, "::");
 
-    String actual = nameRules.getBaseApiStructName(francaStruct);
+    String actual = CBridgeNameRules.getBaseApiStructName(francaStruct);
 
     assertEquals(expected, actual);
   }
@@ -210,7 +207,7 @@ public class CBridgeNameRulesTest {
 
     String expected = prependNameWithPackageAndInterface("EnumName", "_");
 
-    String actual = nameRules.getEnumName(francaEnum);
+    String actual = CBridgeNameRules.getEnumName(francaEnum);
 
     assertEquals(expected, actual);
   }
@@ -223,7 +220,7 @@ public class CBridgeNameRulesTest {
 
     String expected = prependNameWithPackageAndInterface("enum_item_name", "_");
 
-    String actual = nameRules.getEnumItemName(francaEnumItem);
+    String actual = CBridgeNameRules.getEnumItemName(francaEnumItem);
 
     assertEquals(expected, actual);
   }

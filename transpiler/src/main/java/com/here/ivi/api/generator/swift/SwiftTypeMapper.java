@@ -39,11 +39,10 @@ public class SwiftTypeMapper {
   }
 
   private static SwiftType getType(FType derived) {
-    CBridgeNameRules bridgeRules = new CBridgeNameRules();
     SwiftType.TypeCategory category = (derived instanceof FTypeDef) ? CLASS : STRUCT;
     SwiftContainerType mappedType = new SwiftContainerType(derived.getName(), category);
-    mappedType.cPrefix = bridgeRules.getStructBaseName(derived);
-    mappedType.cType = bridgeRules.getStructRefType(derived);
+    mappedType.cPrefix = CBridgeNameRules.getStructBaseName(derived);
+    mappedType.cType = CBridgeNameRules.getStructRefType(derived);
     mappedType.privateImplementation =
         (derived instanceof FTypeDef) ? "_" + derived.getName() : null;
     if (mappedType.category == CLASS) {

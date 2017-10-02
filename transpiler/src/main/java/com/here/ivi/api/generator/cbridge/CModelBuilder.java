@@ -42,24 +42,20 @@ import org.franca.core.franca.FTypeCollection;
 
 public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
-  private final CBridgeNameRules cBridgeNameRules;
   private final FrancaElement rootModel;
   private final IncludeResolver resolver;
 
   public CModelBuilder(final FrancaElement rootModel, IncludeResolver includeResolver) {
     super(new ModelBuilderContextStack<>());
-    cBridgeNameRules = new CBridgeNameRules();
     this.rootModel = rootModel;
     this.resolver = includeResolver;
   }
 
   CModelBuilder(
       FrancaElement rootModel,
-      CBridgeNameRules nameRules,
       IncludeResolver includeResolver,
       ModelBuilderContextStack<CElement> contextStack) {
     super(contextStack);
-    cBridgeNameRules = nameRules;
     this.rootModel = rootModel;
     this.resolver = includeResolver;
   }
@@ -99,9 +95,9 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         CollectionsHelper.getFirstOfType(getCurrentContext().currentResults, CClassType.class);
     CInterface cInterface =
         finishBuildingInterfaceOrTypeCollection(
-            new CInterface(cBridgeNameRules.getInterfaceName(francaInterface), classInfo),
+            new CInterface(CBridgeNameRules.getInterfaceName(francaInterface), classInfo),
             francaInterface);
-    cInterface.functionTableName = cBridgeNameRules.getFunctionTableName(francaInterface);
+    cInterface.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
 
     storeResult(cInterface);
     super.finishBuilding(francaInterface);
@@ -138,8 +134,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   public void finishBuilding(FMethod francaMethod) {
     final boolean isStatic = rootModel.isStatic(francaMethod);
 
-    String baseFunctionName = cBridgeNameRules.getMethodName(francaMethod);
-    String delegateMethodName = cBridgeNameRules.getDelegateMethodName(francaMethod);
+    String baseFunctionName = CBridgeNameRules.getMethodName(francaMethod);
+    String delegateMethodName = CBridgeNameRules.getDelegateMethodName(francaMethod);
     List<CInParameter> inParams =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CInParameter.class);
     COutParameter returnParam =
@@ -186,8 +182,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   public void finishBuilding(FStructType francaStruct) {
     CStruct cStruct =
         new CStruct(
-            cBridgeNameRules.getStructBaseName(francaStruct),
-            cBridgeNameRules.getBaseApiStructName(francaStruct),
+            CBridgeNameRules.getStructBaseName(francaStruct),
+            CBridgeNameRules.getBaseApiStructName(francaStruct),
             CppTypeInfo.createStructTypeInfo(resolver, francaStruct));
 
     cStruct.fields =

@@ -26,7 +26,7 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
-public class CBridgeNameRules {
+public final class CBridgeNameRules {
 
   public static final String SOURCE_FOLDER = "cbridge";
   private static final String INTERNAL_SOURCE_FOLDER = "cbridge_internal";
@@ -34,96 +34,98 @@ public class CBridgeNameRules {
   private static final String CPP_NAMESPACE_DELIMITER = "::";
   private static final String UNDERSCORE_DELIMITER = "_";
 
-  public String getHeaderFileNameWithPath(final FrancaElement francaElement) {
+  private CBridgeNameRules() {}
+
+  public static String getHeaderFileNameWithPath(final FrancaElement francaElement) {
     return Paths.get(
             getPublicDirectoryName(francaElement.getPackageNames()),
             getHeaderFileName(getName(francaElement)))
         .toString();
   }
 
-  public String getPrivateHeaderFileNameWithPath(final FrancaElement francaElement) {
+  public static String getPrivateHeaderFileNameWithPath(final FrancaElement francaElement) {
     return Paths.get(
             getPrivateDirectoryName(francaElement.getPackageNames()),
             getPrivateHeaderFileName(getName(francaElement)))
         .toString();
   }
 
-  public String getImplementationFileNameWithPath(final FrancaElement francaElement) {
+  public static String getImplementationFileNameWithPath(final FrancaElement francaElement) {
     return Paths.get(
             getPublicDirectoryName(francaElement.getPackageNames()),
             getImplementationFileName(getName(francaElement)))
         .toString();
   }
 
-  private String getHeaderFileName(final String elementName) {
+  private static String getHeaderFileName(final String elementName) {
     return elementName + ".h";
   }
 
-  private String getPrivateHeaderFileName(final String elementName) {
+  private static String getPrivateHeaderFileName(final String elementName) {
     return elementName + "Impl.h";
   }
 
-  private String getImplementationFileName(final String elementName) {
+  private static String getImplementationFileName(final String elementName) {
     return elementName + ".cpp";
   }
 
-  private String getDirectoryName(final List<String> packages, final String rootFolder) {
+  private static String getDirectoryName(final List<String> packages, final String rootFolder) {
     return Paths.get(rootFolder, packages.toArray(new String[packages.size()])).toString();
   }
 
-  private String getPublicDirectoryName(final List<String> packages) {
+  private static String getPublicDirectoryName(final List<String> packages) {
     return getDirectoryName(packages, SOURCE_FOLDER);
   }
 
-  private String getPrivateDirectoryName(final List<String> packages) {
+  private static String getPrivateDirectoryName(final List<String> packages) {
     return getDirectoryName(packages, INTERNAL_SOURCE_FOLDER);
   }
 
-  private String getName(final FrancaElement francaElement) {
+  private static String getName(final FrancaElement francaElement) {
     return NameHelper.toUpperCamelCase(francaElement.getName());
   }
 
-  public String getFunctionTableName(FInterface francaInterface) {
+  public static String getFunctionTableName(FInterface francaInterface) {
     return getInterfaceName(francaInterface) + "_FunctionTable";
   }
 
-  public String getInterfaceName(FInterface francaInterface) {
+  public static String getInterfaceName(FInterface francaInterface) {
     return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaInterface));
   }
 
-  public String getDelegateMethodName(final FMethod method) {
+  public static String getDelegateMethodName(final FMethod method) {
     return fullyQualifiedName(
         CppNameRules.getNestedNameSpecifier(method),
         CppNameRules.getMethodName(method.getName()),
         CPP_NAMESPACE_DELIMITER);
   }
 
-  public String getMethodName(final FMethod method) {
+  public static String getMethodName(final FMethod method) {
     List<String> nestedNameSpecifier = getNestedNameSpecifier(method);
     nestedNameSpecifier.add(NameHelper.toLowerCamelCase(method.getName()));
     return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
   }
 
-  public String getStructRefType(final FModelElement francaStruct) {
+  public static String getStructRefType(final FModelElement francaStruct) {
     return getStructBaseName(francaStruct) + "Ref";
   }
 
-  public String getStructBaseName(final FModelElement francaStruct) {
+  public static String getStructBaseName(final FModelElement francaStruct) {
     return fullyQualifiedName(
         getNestedNameSpecifier(francaStruct),
         NameHelper.toUpperCamelCase(francaStruct.getName()),
         UNDERSCORE_DELIMITER);
   }
 
-  public String getInstanceRefType(final FModelElement francaModel) {
+  public static String getInstanceRefType(final FModelElement francaModel) {
     return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaModel)) + "Ref";
   }
 
-  public String getBaseApiInstanceName(final FModelElement francaModel) {
+  public static String getBaseApiInstanceName(final FModelElement francaModel) {
     return String.join(CPP_NAMESPACE_DELIMITER, getNestedNameSpecifier(francaModel));
   }
 
-  public String getBaseApiStructName(FModelElement struct) {
+  public static String getBaseApiStructName(FModelElement struct) {
     return fullyQualifiedName(
         CppNameRules.getNestedNameSpecifier(struct),
         CppNameRules.getStructName(struct.getName()),

@@ -69,10 +69,9 @@ public class CppTypeInfo {
 
   public static CppTypeInfo createStructTypeInfo(
       final IncludeResolver resolver, final FStructType structType) {
-    CBridgeNameRules rules = new CBridgeNameRules();
-    String handleName = rules.getStructRefType(structType);
+    String handleName = CBridgeNameRules.getStructRefType(structType);
     return new CppTypeInfo(
-        rules.getBaseApiStructName(structType),
+        CBridgeNameRules.getBaseApiStructName(structType),
         singletonList(
             new CType(
                 handleName,
@@ -94,10 +93,9 @@ public class CppTypeInfo {
 
   public static CppTypeInfo createInstanceTypeInfo(
       final IncludeResolver resolver, final FModelElement instanceId) {
-    CBridgeNameRules rules = new CBridgeNameRules();
-    String handleName = rules.getInstanceRefType(instanceId);
+    String handleName = CBridgeNameRules.getInstanceRefType(instanceId);
     return new CppTypeInfo(
-        "std::shared_ptr<" + rules.getBaseApiInstanceName(instanceId) + ">",
+        "std::shared_ptr<" + CBridgeNameRules.getBaseApiInstanceName(instanceId) + ">",
         singletonList(
             new CType(
                 handleName,

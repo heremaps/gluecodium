@@ -15,7 +15,6 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -30,12 +29,7 @@ public class SwiftGenerator {
   @VisibleForTesting
   static final List<String> STATIC_FILES = Arrays.asList("swift/RefHolder.swift");
 
-  private final CBridgeNameRules cBridgeNameRules;
   private final Set<String> modules = new HashSet<>();
-
-  public SwiftGenerator(CBridgeNameRules bridgeNameRules) {
-    cBridgeNameRules = bridgeNameRules;
-  }
 
   public List<GeneratedFile> generate(FrancaElement francaElement) {
     SwiftFile file = buildSwiftModel(francaElement);
@@ -67,7 +61,7 @@ public class SwiftGenerator {
   }
 
   protected SwiftFile buildSwiftModel(FrancaElement francaElement) {
-    SwiftModelBuilder modelBuilder = new SwiftModelBuilder(francaElement, cBridgeNameRules);
+    SwiftModelBuilder modelBuilder = new SwiftModelBuilder(francaElement);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(singletonList(modelBuilder));
 
     treeWalker.walk(francaElement);
