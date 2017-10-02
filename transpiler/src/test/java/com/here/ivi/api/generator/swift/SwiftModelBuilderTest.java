@@ -20,6 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
@@ -47,8 +48,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({
   SwiftTypeMapper.class,
   CppCommentParser.class,
-  CBridgeNameRules.class,
-  SwiftNameRules.class
+  SwiftNameRules.class,
+  CBridgeNameRules.class
 })
 public class SwiftModelBuilderTest {
 
@@ -62,6 +63,7 @@ public class SwiftModelBuilderTest {
 
   @Mock private AbstractFrancaCommentParser.Comments comments;
   @Mock private SwiftNameRules nameRules;
+  @Mock private CBridgeNameRules cBridgeNameRules;
   @Mock private Interface anInterface;
   @Mock private FModel francaModel;
   @Mock private FMethod francaMethod;
@@ -77,8 +79,9 @@ public class SwiftModelBuilderTest {
     mockStatic(
         SwiftTypeMapper.class,
         CppCommentParser.class,
-        CBridgeNameRules.class,
-        SwiftNameRules.class);
+        SwiftNameRules.class,
+        CBridgeNameRules.class);
+    initMocks(this);
     when(SwiftTypeMapper.mapType(any(), any())).thenReturn(swiftType);
     when(SwiftTypeMapper.mapOutputType(any(), any())).thenReturn(swiftType);
     when(CppCommentParser.parse(any(FMethod.class))).thenReturn(comments);
@@ -95,7 +98,7 @@ public class SwiftModelBuilderTest {
     when(francaInterface.eContainer()).thenReturn(francaModel);
     when(francaModel.getName()).thenReturn("");
 
-    modelBuilder = new SwiftModelBuilder(anInterface, nameRules, contextStack);
+    modelBuilder = new SwiftModelBuilder(anInterface, nameRules, cBridgeNameRules, contextStack);
   }
 
   @Test

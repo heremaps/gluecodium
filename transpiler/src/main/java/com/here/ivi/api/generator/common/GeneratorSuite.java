@@ -111,7 +111,8 @@ public abstract class GeneratorSuite {
     if (stream != null) {
       try {
         String content = IOUtils.toString(stream, Charset.defaultCharset());
-        return new GeneratedFile(content, targetDir + File.separator + fileName);
+        return new GeneratedFile(
+            content, targetDir.isEmpty() ? fileName : targetDir + File.separator + fileName);
       } catch (IOException e) {
         throw new TranspilerExecutionException("Copying resource file failed with error:", e);
       }

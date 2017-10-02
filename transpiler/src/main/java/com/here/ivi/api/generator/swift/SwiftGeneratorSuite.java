@@ -34,7 +34,8 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
   @Override
   public List<GeneratedFile> generate() {
 
-    SwiftGenerator swiftGenerator = new SwiftGenerator(new SwiftNameRules());
+    SwiftGenerator swiftGenerator =
+        new SwiftGenerator(new SwiftNameRules(), new CBridgeNameRules());
     CBridgeGenerator cBridgeGenerator =
         new CBridgeGenerator(
             new IncludeResolver(model, new CBridgeNameRules()), new CBridgeNameRules());

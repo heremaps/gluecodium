@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.utils.LoadModelHelper;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.swift.SwiftClass;
@@ -56,7 +57,7 @@ public class SwiftGeneratorIntegrationTest {
     } catch (URISyntaxException e) {
       fail("Franca model should be readable");
     }
-    generator = new SwiftGenerator(nameRules);
+    generator = new SwiftGenerator(nameRules, new CBridgeNameRules());
     when(nameRules.getClassName(any())).thenReturn(CLASS_NAME);
     when(nameRules.getMethodName(any())).thenReturn(METHOD_NAME);
     when(nameRules.getParameterName(any())).thenReturn(PARAM_NAME);
