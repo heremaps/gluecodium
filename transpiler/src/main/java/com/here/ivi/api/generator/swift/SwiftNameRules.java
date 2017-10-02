@@ -21,9 +21,11 @@ import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
 public class SwiftNameRules {
+
+  public static final String TARGET_DIRECTORY = "swift" + File.separator;
+
   public String getImplementationFileName(final FrancaElement francaElement) {
-    return "swift"
-        + File.separator
+    return TARGET_DIRECTORY
         + String.join(File.separator, francaElement.getPackageNames())
         + File.separator
         + getFileName(francaElement)

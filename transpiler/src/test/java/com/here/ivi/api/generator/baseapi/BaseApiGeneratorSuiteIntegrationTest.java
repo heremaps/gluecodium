@@ -44,6 +44,6 @@ public class BaseApiGeneratorSuiteIntegrationTest {
     assertEquals("cpp/test/TestInterface.cpp", generatedFiles.get(1).targetFile.toString());
 
     assertFalse(generatedFiles.get(2).content.isEmpty());
-    assertEquals("/cpp/internal/expected.h", generatedFiles.get(2).targetFile.toString());
+    assertEquals("cpp/internal/expected.h", generatedFiles.get(2).targetFile.toString());
   }
 }

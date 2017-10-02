@@ -39,18 +39,22 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   private final SwiftNameRules nameRules;
   private final CBridgeNameRules bridgeRules;
 
-  public SwiftModelBuilder(final FrancaElement rootModel, final SwiftNameRules nameRules) {
-    this(rootModel, nameRules, new ModelBuilderContextStack<>());
+  public SwiftModelBuilder(
+      final FrancaElement rootModel,
+      final SwiftNameRules nameRules,
+      final CBridgeNameRules cBridgeNameRules) {
+    this(rootModel, nameRules, cBridgeNameRules, new ModelBuilderContextStack<>());
   }
 
   public SwiftModelBuilder(
       FrancaElement rootModel,
       SwiftNameRules nameRules,
+      CBridgeNameRules cBridgeNameRules,
       ModelBuilderContextStack<SwiftModelElement> contextStack) {
     super(contextStack);
     this.rootModel = rootModel;
     this.nameRules = nameRules;
-    this.bridgeRules = new CBridgeNameRules();
+    this.bridgeRules = cBridgeNameRules;
   }
 
   @Override
