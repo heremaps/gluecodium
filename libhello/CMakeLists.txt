@@ -148,7 +148,7 @@ set_target_properties(hello PROPERTIES
 
 include(apigen/Apigen)
 apigen_transpile(TARGET hello
-        FRANCA_DIR ${HELLO_FRANCA_DIR}
+        FRANCA_SOURCES ${HELLO_FRANCA_DIR}
         GENERATOR ${HELLO_APIGEN_TRANSPILER_GENERATOR}
         VERSION ${HELLO_APIGEN_TRANSPILER_VERSION})
 apigen_target_include_directories(hello)
