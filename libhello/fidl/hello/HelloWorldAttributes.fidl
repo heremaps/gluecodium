@@ -18,6 +18,8 @@ interface HelloWorldAttributes {
         minor 1
     }
 
+    public typedef HelloWorldAttributes is undefined
+
     struct ExampleStruct {
         Double value
     }

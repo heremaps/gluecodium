@@ -36,7 +36,8 @@ set(HELLO_SOURCES
     src/test/StaticStringMethods.cpp
     src/hello/HelloWorldStaticLogger.cpp
     src/hello/HelloWorldProfileManager.cpp
-    src/hello/HelloWorldProfileManagerFactory.cpp)
+    src/hello/HelloWorldProfileManagerFactory.cpp
+    src/hello/HelloWorldAttributesImpl.cpp)
 
 set(HELLO_HEADERS
     src/hello/HelloWorldAttributesComplexImpl.h
@@ -60,11 +61,10 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GEN
         src/hello/HelloWorldTypedefs.cpp)
 endif()
 
-#TODO: Remove this workaround once iOS supports attributes (APIGEN-504)
+#TODO: Remove this workaround once iOS supports listeners (APIGEN-515, APIGEN-516)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/hello/HelloWorldAttributesImpl.cpp
         src/hello/HelloWorldListeners.cpp)
 endif()
 
@@ -77,7 +77,8 @@ if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
         ${HELLO_SOURCES}
         src/hello/HelloWorldArrays.cpp
         src/hello/HelloWorldMaps.cpp
-        src/hello/HelloWorldUnions.cpp)
+        src/hello/HelloWorldUnions.cpp
+        src/hello/HelloWorldAttributesComplexImpl.cpp)
 endif()
 
 #TODO: Remove this workaround once Android supports enum type (APIGEN-756)
@@ -102,8 +103,6 @@ else()
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fidl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fdepl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/CalculatorListener.fidl)
-        #TODO: These excludes can be removed once iOS supports attributes (APIGEN-504, APIGEN-505)
-        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldAttributes.fidl)
     endif()
 
     #TODO: This exclude can be removed once Android supports enums (APIGEN-756):

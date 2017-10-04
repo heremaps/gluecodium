@@ -13,6 +13,7 @@ package hello
 
 import hello.SimpleInstantiable.SimpleInstantiable from "./HelloWorldInstances.fidl"
 import hello.NestedInstantiable.NestedInstantiable from "./HelloWorldInstances.fidl"
+import hello.HelloWorldAttributes.HelloWorldAttributes from "./HelloWorldAttributes.fidl"
 
 
 <** @description:
@@ -36,6 +37,14 @@ interface HelloWorldFactory {
         out {
             <** @description: Reference to created instance **>
             NestedInstantiable nestedInstanceRef
+        }
+    }
+
+    <** @description: Creates an instance of HelloWorldAttributes interface **>
+    method createAttributes {
+        out {
+            <** @description: Reference to created instance **>
+            HelloWorldAttributes instance
         }
     }
 }

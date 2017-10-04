@@ -1,12 +1,9 @@
-package com.here.android.test;
+package com.here.android.hello;
 
 import android.os.Build;
 import android.support.compat.BuildConfig;
 
 import com.here.android.RobolectricApplication;
-import com.here.android.hello.HelloWorldFactory;
-import com.here.android.hello.NestedInstantiable;
-import com.here.android.hello.SimpleInstantiable;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
