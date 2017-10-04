@@ -47,7 +47,8 @@ file(GLOB_RECURSE HELLO_FRANCA_SOURCES
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/test/StaticTypedef.cpp)
+        src/test/StaticTypedef.cpp
+        src/hello/HelloWorldTypedefs.cpp)
 endif()
 
 #TODO: Remove this workaround once iOS supports attributes (APIGEN-504)
