@@ -46,8 +46,8 @@ endif()
 
 function(apigen_transpile)
     set(options VALIDATE_ONLY)
-    set(oneValueArgs TARGET FRANCA_DIR GENERATOR VERSION)
-    set(multiValueArgs)
+    set(oneValueArgs TARGET GENERATOR VERSION)
+    set(multiValueArgs FRANCA_SOURCES)
     cmake_parse_arguments(apigen_transpile "${options}" "${oneValueArgs}"
                                            "${multiValueArgs}" ${ARGN})
 
@@ -64,7 +64,7 @@ function(apigen_transpile)
     endif()
 
     message(STATUS "${operationVerb} '${apigen_transpile_TARGET}' with '${apigen_transpile_GENERATOR}' generator using transpiler version '${apigen_transpile_VERSION}'
-    Input: '${apigen_transpile_FRANCA_DIR}'")
+    Input: '${apigen_transpile_FRANCA_SOURCES}'")
 
     # Transpiler invocations for different generators need different output directories
     # as the transpiler currently wipes the directory upon start.
@@ -73,7 +73,6 @@ function(apigen_transpile)
     # Attach properties to target for re-use in other modules
     set_target_properties(${apigen_transpile_TARGET} PROPERTIES
         APIGEN_TRANSPILER_GENERATOR ${apigen_transpile_GENERATOR}
-        APIGEN_TRANSPILER_GENERATOR_INPUT_DIR ${apigen_transpile_FRANCA_DIR}
         APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR ${TRANSPILER_OUTPUT_DIR})
 
     if(NOT apigen_transpile_GENERATOR MATCHES cpp)
@@ -83,12 +82,16 @@ function(apigen_transpile)
         set(apigen_transpile_GENERATOR "cpp,${apigen_transpile_GENERATOR}")
     endif()
 
-    set(APIGEN_TRANSPILER_ARGS " \
-        -input ${apigen_transpile_FRANCA_DIR} \
-        -output ${TRANSPILER_OUTPUT_DIR} \
-        -generators ${apigen_transpile_GENERATOR} \
-        ${validateParam} \
-        -nostdout")
+    # Build transpiler command-line
+    set(APIGEN_TRANSPILER_ARGS "\
+ -output ${TRANSPILER_OUTPUT_DIR}\
+ -generators ${apigen_transpile_GENERATOR}\
+ ${validateParam}\
+ -nostdout")
+    foreach(francaDir ${apigen_transpile_FRANCA_SOURCES})
+        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -input ${francaDir}" )
+    endforeach()
+
     execute_process(
         COMMAND mkdir -p ${TRANSPILER_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
         COMMAND ${APIGEN_TRANSPILER_GRADLE_WRAPPER} -Pversion=${apigen_transpile_VERSION} run -Dexec.args=${APIGEN_TRANSPILER_ARGS}
