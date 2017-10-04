@@ -25,9 +25,10 @@ CMAKE_DEFAULT_PARAMETERS=$(cat <<EOF
 EOF
 )
 CMAKE_CROSS_BUILD_PARAMETERS=$(cat <<EOF
--DCMAKE_ANDROID_NDK=$NDK_ROOT \
--DCMAKE_ANDROID_STL_TYPE=gnustl_static \
--DCMAKE_SYSTEM_NAME=Android
+-DANDROID_NDK=${NDK_ROOT} \
+-DANDROID_NATIVE_API_LEVEL=26 \
+-DANDROID_TOOLCHAIN=clang \
+-DCMAKE_TOOLCHAIN_FILE=${NDK_ROOT}/build/cmake/android.toolchain.cmake
 EOF
 )
 
@@ -45,7 +46,7 @@ for arch in x86 armeabi-v7a ${HOST_ARCH} ; do
     # Do host-native build for testing on the JVM with Robolectric
     if [ "${arch}" != "host-$(uname -m)" ] ; then
         CMAKE_EXTRA_PARAMETERS="${CMAKE_CROSS_BUILD_PARAMETERS} \
-        -DCMAKE_ANDROID_ARCH_ABI=${arch}"
+        -DANDROID_ABI=${arch}"
     fi
 
     safe cmake \
