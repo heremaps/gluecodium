@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
@@ -36,15 +35,13 @@ public final class CppMethodMapper {
   }
 
   public static ReturnTypeData mapMethodReturnType(
-      final CppTypeMapper typeMapper,
       final FMethod francaMethod,
-      final List<CppParameter> outputParameters) {
+      final List<CppParameter> outputParameters,
+      final CppTypeRef errorType) {
 
-    CppTypeRef errorType = null;
     String errorComment = "";
 
-    if (francaMethod.getErrorEnum() != null) {
-      errorType = typeMapper.mapEnum(francaMethod.getErrorEnum());
+    if (errorType != null) {
       errorComment = CppCommentParser.FORMATTER.readCleanedErrorComment(francaMethod);
     }
 

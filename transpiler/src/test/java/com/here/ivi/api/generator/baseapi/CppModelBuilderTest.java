@@ -47,7 +47,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
   CppValueMapper.class,
   CppNameRules.class
 })
-@SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods", "PMD.CouplingBetweenObjects"})
+@SuppressWarnings({
+  "PMD.TooManyFields",
+  "PMD.TooManyMethods",
+  "PMD.CouplingBetweenObjects",
+  "PMD.ExcessivePublicCount"
+})
 public class CppModelBuilderTest {
 
   private static final String STRUCT_NAME = "structural";
@@ -268,7 +273,17 @@ public class CppModelBuilderTest {
 
     PowerMockito.verifyStatic();
     CppMethodMapper.mapMethodReturnType(
-        typeMapper, francaMethod, Collections.singletonList(cppParameter));
+        francaMethod, Collections.singletonList(cppParameter), null);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsErrorType() {
+    contextStack.injectResult(cppComplexTypeRef);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    PowerMockito.verifyStatic();
+    CppMethodMapper.mapMethodReturnType(francaMethod, Collections.emptyList(), cppComplexTypeRef);
   }
 
   @Test
@@ -568,6 +583,22 @@ public class CppModelBuilderTest {
     assertNotNull(resultEnum);
     assertFalse(resultEnum.items.isEmpty());
     assertEquals(cppEnumItem, resultEnum.items.get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeCreatesTypeRef() {
+    when(francaEnumerationType.eContainer()).thenReturn(francaMethod);
+    when(typeMapper.mapEnum(any())).thenReturn(cppComplexTypeRef);
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    CppEnum resultEnum = modelBuilder.getFirstResult(CppEnum.class);
+    assertNull(resultEnum);
+
+    CppTypeRef resultTypeRef = modelBuilder.getFirstResult(CppTypeRef.class);
+    assertEquals(cppComplexTypeRef, resultTypeRef);
+
+    verify(typeMapper).mapEnum(francaEnumerationType);
   }
 
   @Test
