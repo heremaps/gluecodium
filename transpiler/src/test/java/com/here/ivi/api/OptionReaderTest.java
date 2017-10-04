@@ -13,6 +13,7 @@ package com.here.ivi.api;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 
 import com.here.ivi.api.OptionReader.TranspilerOptions;
@@ -27,12 +28,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class OptionReaderTest {
+public final class OptionReaderTest {
+  private static final String[] TEST_INPUT_SINGLE_FOLDER = {"dirA"};
+  private static final String[] TEST_INPUT_TWO_FOLDERS = {"dirA", "dirB"};
+  private static final String TEST_OUTPUT = "./outputFile";
+  private static final String TEST_GENERATORS = "java";
+  private static final String TEST_JAVA_PACKAGE_LIST = "some_package";
 
-  private static final String INPUT = "./inputFile";
-  private static final String OUTPUT = "./outputFile";
-  private static final String GENERATORS = "java";
-  private static final String JAVA_PACKAGE_LIST = "some_package";
   private final OptionReader optionReader = new OptionReader();
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
@@ -86,57 +88,68 @@ public class OptionReaderTest {
   }
 
   @Test
-  public void inputOptionIsRecognisedNoOptionName() throws OptionReaderException {
+  public void inputOptionSingleFolder() throws OptionReaderException {
     // Arrange, Act
-    TranspilerOptions transpilerOptions = optionReader.read(new String[] {INPUT});
+    TranspilerOptions options =
+        optionReader.read(new String[] {"-input", TEST_INPUT_SINGLE_FOLDER[0]});
 
     // Assert
-    assertEquals(INPUT, transpilerOptions.getInputDir());
+    assertNotNull(options.getInputDirs());
+    assertEquals(1, options.getInputDirs().length);
+    assertEquals(TEST_INPUT_SINGLE_FOLDER[0], options.getInputDirs()[0]);
   }
 
   @Test
-  public void inputOptionIsRecognisedWithOptionName() throws OptionReaderException {
+  public void inputOptionTwoFolders() throws OptionReaderException {
     // Arrange, Act
-    TranspilerOptions transpilerOptions = optionReader.read(new String[] {"-input", INPUT});
+    TranspilerOptions options =
+        optionReader.read(
+            new String[] {
+              "-input", TEST_INPUT_TWO_FOLDERS[0],
+              "-input", TEST_INPUT_TWO_FOLDERS[1]
+            });
 
     // Assert
-    assertEquals(INPUT, transpilerOptions.getInputDir());
+    assertNotNull(options.getInputDirs());
+    assertEquals(2, options.getInputDirs().length);
+    assertEquals(TEST_INPUT_TWO_FOLDERS[0], options.getInputDirs()[0]);
+    assertEquals(TEST_INPUT_TWO_FOLDERS[1], options.getInputDirs()[1]);
   }
 
   @Test
   public void outputOptionIsRecognised() throws OptionReaderException {
     // Arrange
-    String[] toRead = prepareToRead("-output", OUTPUT);
+    String[] toRead = prepareToRead("-output", TEST_OUTPUT);
 
     // Act
     TranspilerOptions transpilerOptions = optionReader.read(toRead);
 
     // Assert
-    assertEquals(OUTPUT, transpilerOptions.getOutputDir());
+    assertEquals(TEST_OUTPUT, transpilerOptions.getOutputDir());
   }
 
   @Test
   public void generatorsOptionIsRecognised() throws OptionReaderException {
     // Arrange
-    String[] toRead = prepareToRead("-generators", GENERATORS);
+    String[] toRead = prepareToRead("-generators", TEST_GENERATORS);
 
     // Act
     TranspilerOptions transpilerOptions = optionReader.read(toRead);
 
     // Assert
-    assertEquals(Arrays.asList(GENERATORS), transpilerOptions.getGenerators());
+    assertEquals(Arrays.asList(TEST_GENERATORS), transpilerOptions.getGenerators());
   }
 
   @Test
   public void javapackageOptionIsRecognised() throws OptionReaderException {
     // Arrange
-    String[] toRead = prepareToRead("-javapackage", JAVA_PACKAGE_LIST);
+    String[] toRead = prepareToRead("-javapackage", TEST_JAVA_PACKAGE_LIST);
 
     // Act
     TranspilerOptions transpilerOptions = optionReader.read(toRead);
 
     // Assert
-    assertEquals(Arrays.asList(JAVA_PACKAGE_LIST), transpilerOptions.getJavaPackageList());
+    assertEquals(Arrays.asList(TEST_JAVA_PACKAGE_LIST), transpilerOptions.getJavaPackageList());
   }
 
   @Test
@@ -150,6 +163,6 @@ public class OptionReaderTest {
   }
 
   private String[] prepareToRead(String optionName, String optionValue) {
-    return new String[] {"-input", INPUT, optionName, optionValue};
+    return new String[] {"-input", TEST_INPUT_SINGLE_FOLDER[0], optionName, optionValue};
   }
 }

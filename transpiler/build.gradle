@@ -32,8 +32,6 @@ run {
      :transpiler:run. This way args will map to the args in main. */
     if (System.getProperty('exec.args') != null) {
         args System.getProperty('exec.args').split()
-    } else {
-        args '../fidl'
     }
 }
 

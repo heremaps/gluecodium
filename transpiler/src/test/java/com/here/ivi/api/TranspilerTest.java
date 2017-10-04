@@ -85,7 +85,7 @@ public class TranspilerTest {
         .thenReturn(null);
     OptionReader.TranspilerOptions options =
         TranspilerOptions.builder()
-            .inputDir("")
+            .inputDirs(new String[] {""})
             .generators(Collections.singletonList("invalidGenerator"))
             .build();
 
@@ -99,7 +99,7 @@ public class TranspilerTest {
     when(generator.generate()).thenReturn(Arrays.asList(FILE, FILE, FILE));
     OptionReader.TranspilerOptions options =
         TranspilerOptions.builder()
-            .inputDir("")
+            .inputDirs(new String[] {""})
             .generators(Collections.singletonList(SHORT_NAME))
             .validatingOnly(false)
             .build();
@@ -112,7 +112,7 @@ public class TranspilerTest {
     // Arrange
     OptionReader.TranspilerOptions options =
         TranspilerOptions.builder()
-            .inputDir("")
+            .inputDirs(new String[] {""})
             .generators(Collections.singletonList(SHORT_NAME))
             .validatingOnly(true)
             .build();
