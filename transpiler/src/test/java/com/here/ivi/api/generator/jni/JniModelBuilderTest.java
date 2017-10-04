@@ -31,13 +31,7 @@ import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaField;
-import com.here.ivi.api.model.javamodel.JavaMethod;
-import com.here.ivi.api.model.javamodel.JavaPackage;
-import com.here.ivi.api.model.javamodel.JavaParameter;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
+import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.MockContextStack;
@@ -63,6 +57,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class JniModelBuilderTest {
 
   private static final String JAVA_CLASS_NAME = "jAvaClazz";
+  private static final String JAVA_INTERFACE_NAME = "javaFAce";
   private static final String CPP_CLASS_NAME = "cPpClass";
 
   private static final String CPP_VOID_METHOD_NAME = "cPpWork3R_vOid";
@@ -228,6 +223,22 @@ public class JniModelBuilderTest {
     assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.cppNameSpaces);
     assertEquals(JAVA_PACKAGES, jniContainer.javaPackages);
     assertFalse(jniContainer.isInstantiable);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsJavaInterface() {
+    JavaInterface javaInterface = new JavaInterface(JAVA_INTERFACE_NAME);
+    javaInterface.javaPackage = new JavaPackage(JAVA_PACKAGES);
+    when(javaBuilder.getFirstResult(JavaTopLevelElement.class)).thenReturn(javaInterface);
+    when(javaBuilder.getFirstResult(JavaClass.class)).thenReturn(javaClass);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JniContainer jniContainer = modelBuilder.getFirstResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
+    assertEquals(JAVA_INTERFACE_NAME, jniContainer.javaInterfaceName);
+    assertEquals(JAVA_PACKAGES, jniContainer.javaPackages);
   }
 
   @Test
