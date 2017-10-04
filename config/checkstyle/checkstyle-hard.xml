@@ -86,13 +86,6 @@ Source: https://github.com/noveogroup/android-check/blob/master/android-check-pl
 
         <!-- Checks for Size Violations.                    -->
         <!-- See http://checkstyle.sourceforge.net/config_sizes.html -->
-        <module name="LineLength">
-            <!-- what is a good max value? -->
-            <property name="max" value="150" />
-            <!-- ignore lines like "$File: //depot/... $" -->
-            <property name="ignorePattern" value="\$File.*\$" />
-            <property name="severity" value="info" />
-        </module>
         <module name="MethodLength" />
         <module name="ParameterNumber" />
 
