@@ -338,6 +338,17 @@ public class FrancaTreeWalkerTest {
   }
 
   @Test
+  public void walkWithErrorsEnum() {
+    types.clear();
+    when(francaMethod.getErrors()).thenReturn(francaEnumerationType);
+
+    treeWalker.walk(anInterface);
+
+    verify(modelBuilder).startBuilding(francaEnumerationType);
+    verify(modelBuilder).finishBuilding(francaEnumerationType);
+  }
+
+  @Test
   public void walkWithOneMapType() {
     treeWalker.walk(anInterface);
 

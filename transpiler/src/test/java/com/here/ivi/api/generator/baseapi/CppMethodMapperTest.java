@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.baseapi;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
@@ -36,8 +35,6 @@ public class CppMethodMapperTest {
   private static final String METHOD_NAME = "shoot foot";
   private static final String TYPE_NAME = "typical";
 
-  @Mock private CppTypeMapper typeMapper;
-
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMethod francaMethod;
 
@@ -50,8 +47,6 @@ public class CppMethodMapperTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    when(typeMapper.map(any())).thenReturn(cppCustomType);
-
     when(francaMethod.getErrorEnum()).thenReturn(null);
     when(francaMethod.getOutArgs()).thenReturn(new ArrayEList<>());
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
@@ -60,41 +55,37 @@ public class CppMethodMapperTest {
   @Test
   public void mapMethodReturnTypeNoArguments() {
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod, Collections.emptyList());
+        CppMethodMapper.mapMethodReturnType(francaMethod, Collections.emptyList(), null);
 
     assertEquals(CppPrimitiveTypeRef.VOID, returnTypeData.type);
   }
 
   @Test
   public void mapMethodReturnTypeWithErrorType() {
-    when(typeMapper.mapEnum(any())).thenReturn(cppCustomType);
     when(francaMethod.getErrorEnum()).thenReturn(francaEnum);
 
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod, Collections.emptyList());
+        CppMethodMapper.mapMethodReturnType(francaMethod, Collections.emptyList(), cppCustomType);
 
-    assertEquals(TYPE_NAME, returnTypeData.type.name);
-
-    verify(typeMapper).mapEnum(francaEnum);
+    assertEquals(cppCustomType, returnTypeData.type);
   }
 
   @Test
   public void mapMethodReturnTypeOneOutputArgument() {
     CppMethodMapper.ReturnTypeData returnTypeData =
         CppMethodMapper.mapMethodReturnType(
-            typeMapper, francaMethod, Collections.singletonList(cppParameter));
+            francaMethod, Collections.singletonList(cppParameter), null);
 
-    assertEquals(TYPE_NAME, returnTypeData.type.name);
+    assertEquals(cppCustomType, returnTypeData.type);
   }
 
   @Test
   public void mapMethodReturnTypeOneOutputArgumentWithErrorType() {
-    when(typeMapper.mapEnum(any())).thenReturn(cppCustomType);
     when(francaMethod.getErrorEnum()).thenReturn(francaEnum);
 
     CppMethodMapper.ReturnTypeData returnTypeData =
         CppMethodMapper.mapMethodReturnType(
-            typeMapper, francaMethod, Collections.singletonList(cppParameter));
+            francaMethod, Collections.singletonList(cppParameter), cppCustomType);
 
     assertEquals(
         "here::internal::expected< " + TYPE_NAME + ", " + TYPE_NAME + " >",
@@ -104,7 +95,5 @@ public class CppMethodMapperTest {
         "correct include path",
         "cpp/internal/expected.h",
         returnTypeData.type.includes.iterator().next().fileName);
-
-    verify(typeMapper).mapEnum(francaEnum);
   }
 }
