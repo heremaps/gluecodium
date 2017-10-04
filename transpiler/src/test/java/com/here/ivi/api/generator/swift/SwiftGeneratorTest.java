@@ -22,13 +22,19 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.test.ArrayEList;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.emf.common.util.EList;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
+import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -112,5 +118,23 @@ public class SwiftGeneratorTest {
     assertEquals("Expect static file and generated file", 2, otherGeneratedFiles.size());
     assertContains(generatedPaths, expectedPath);
     assertContains(otherGeneratedPaths, otherExpectedPath);
+  }
+
+  @Test
+  public void typeCollectionWithEnum() {
+    TypeCollection typeCollection = mock(TypeCollection.class);
+    FTypeCollection francaTypeCollection = mock(FTypeCollection.class);
+    FEnumerationType francaEnum = mock(FEnumerationType.class);
+    EList<FType> types = new ArrayEList<>();
+    types.add(francaEnum);
+    when(francaTypeCollection.getTypes()).thenReturn(types);
+    when(typeCollection.getFrancaModel()).thenReturn(francaModel);
+    when(typeCollection.getFrancaTypeCollection()).thenReturn(francaTypeCollection);
+
+    List<GeneratedFile> generatedFiles = swiftGenerator.generate(typeCollection);
+    assertEquals(
+        "There should be 2 files generated (static one and one for enum declaration",
+        2,
+        generatedFiles.size());
   }
 }

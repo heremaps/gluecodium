@@ -24,6 +24,6 @@ public final class SwiftFile extends SwiftModelElement {
   }
 
   public boolean isEmpty() {
-    return classes.isEmpty() && structs.isEmpty();
+    return classes.isEmpty() && structs.isEmpty() && enums.isEmpty();
   }
 }
