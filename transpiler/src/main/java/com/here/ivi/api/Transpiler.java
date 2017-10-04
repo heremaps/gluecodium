@@ -21,6 +21,8 @@ import com.here.ivi.api.output.FileOutput;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,16 +79,23 @@ public class Transpiler {
   @VisibleForTesting
   boolean execute() {
     LOGGER.info("Version: " + version);
-    File inputPath = new File(options.getInputDir());
     Map<String, String> fileNamesCache = new HashMap<>();
+
+    Collection<File> inputDirs = new ArrayList<>();
+    for (String inputDir : options.getInputDirs()) {
+      inputDirs.add(new File(inputDir));
+    }
+
     return discoverGenerators()
         .stream()
-        .allMatch(generatorName -> executeGenerator(generatorName, inputPath, fileNamesCache));
+        .allMatch(generatorName -> executeGenerator(generatorName, inputDirs, fileNamesCache));
   }
 
   @VisibleForTesting
   boolean executeGenerator(
-      final String generatorName, final File inputPath, final Map<String, String> fileNamesCache) {
+      final String generatorName,
+      final Collection<File> inputPaths,
+      final Map<String, String> fileNamesCache) {
 
     LOGGER.info("Using generator " + generatorName);
     GeneratorSuite generator = GeneratorSuite.instantiateByShortName(generatorName, options);
@@ -96,7 +105,7 @@ public class Transpiler {
     }
     LOGGER.info("Instantiated generator " + generator.getName());
 
-    generator.buildModel(inputPath);
+    generator.buildModels(inputPaths);
     LOGGER.info("Built franca model");
 
     if (!generator.validate()) {

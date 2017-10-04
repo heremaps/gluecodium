@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,7 @@ public class BaseApiGeneratorSuiteIntegrationTest {
   @Test
   public void generate() {
     String francaFilesPath = "src/test/resources/baseapi_generator_suite/fidl";
-    baseApiGeneratorSuite.buildModel(new File(francaFilesPath));
+    baseApiGeneratorSuite.buildModels(Collections.singletonList(new File(francaFilesPath)));
 
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 

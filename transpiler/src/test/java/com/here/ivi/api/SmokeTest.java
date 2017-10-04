@@ -103,7 +103,9 @@ public class SmokeTest {
     assertFalse(
         "Reference files are not found in " + referenceFilesDirectory, referenceFiles.isEmpty());
 
-    boolean result = transpiler.executeGenerator(generatorName, featureDirectory, new HashMap<>());
+    boolean result =
+        transpiler.executeGenerator(
+            generatorName, Collections.singletonList(featureDirectory), new HashMap<>());
     assertTrue(result);
 
     Map<String, String> generatedContents =

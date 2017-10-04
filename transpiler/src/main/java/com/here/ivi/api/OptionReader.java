@@ -30,7 +30,7 @@ public final class OptionReader {
   @Value
   @Builder(builderClassName = "Builder")
   public static class TranspilerOptions {
-    private String inputDir;
+    private String[] inputDirs;
     private String outputDir;
     private List<String> javaPackageList;
     private boolean dumpingToStdout;
@@ -84,15 +84,8 @@ public final class OptionReader {
         return null;
       }
 
-      String[] remainingArgs = cmd.getArgs();
-      if (remainingArgs.length > 1) {
-        throw new OptionReaderException("too many arguments");
-      }
-
       if (cmd.hasOption("input")) {
-        builder.inputDir(cmd.getOptionValue("input"));
-      } else if (remainingArgs.length == 1) {
-        builder.inputDir(remainingArgs[0]);
+        builder.inputDirs(cmd.getOptionValues("input"));
       }
 
       builder.outputDir(cmd.hasOption("output") ? cmd.getOptionValue("output") : null);
@@ -114,8 +107,9 @@ public final class OptionReader {
       throw new OptionReaderException(e);
     }
 
+    // Validation
     TranspilerOptions transpilerOptions = builder.build();
-    if (transpilerOptions.getInputDir() == null) {
+    if (transpilerOptions.getInputDirs() == null || transpilerOptions.getInputDirs().length == 0) {
       throw new OptionReaderException("input option required");
     }
 

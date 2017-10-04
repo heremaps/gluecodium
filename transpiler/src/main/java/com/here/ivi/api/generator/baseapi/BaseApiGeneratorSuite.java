@@ -80,8 +80,8 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   }
 
   @Override
-  public void buildModel(File inputPath) {
-    super.buildModel(inputPath);
+  public void buildModels(final Collection<File> inputPaths) {
+    super.buildModels(inputPaths);
     includeResolver = new CppIncludeResolver(model);
   }
 

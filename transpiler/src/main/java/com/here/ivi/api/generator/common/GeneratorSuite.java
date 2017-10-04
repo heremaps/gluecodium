@@ -69,11 +69,17 @@ public abstract class GeneratorSuite {
   /**
    * Uses the FrancaModelLoader to build the model.
    *
-   * @param inputPath The root directory of the fidl/fdepl files.
+   * @param inputPaths The root directories of the fidl/fdepl files.
    */
-  public void buildModel(final File inputPath) {
+  public void buildModels(final Collection<File> inputPaths) {
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
-    currentFiles = FrancaModelLoader.listFilesRecursively(inputPath);
+    for (File inputPath : inputPaths) {
+      if (currentFiles == null) {
+        currentFiles = FrancaModelLoader.listFilesRecursively(inputPath);
+      } else {
+        currentFiles.addAll(FrancaModelLoader.listFilesRecursively(inputPath));
+      }
+    }
     model = francaModelLoader.load(getSpecPath(), currentFiles);
   }
 

@@ -88,7 +88,7 @@ public class GeneratorSuiteTest {
   public void buildModel() {
 
     generatorSuite = new TestableGeneratorSuite(francaModelLoader);
-    generatorSuite.buildModel(new File(MOCK_INPUT_PATH));
+    generatorSuite.buildModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
 
     verify(francaModelLoader).load(eq(GeneratorSuite.getSpecPath()), any());
     PowerMockito.verifyStatic();
@@ -113,7 +113,7 @@ public class GeneratorSuiteTest {
   public void validateWithNotNullAndValidModel() {
 
     generatorSuite = new TestableGeneratorSuite(francaModelLoader);
-    generatorSuite.buildModel(new File(MOCK_INPUT_PATH));
+    generatorSuite.buildModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
     when(ResourceValidator.validate(any(), any())).thenReturn(true);
     when(francaModel.getTypeCollections()).thenReturn(ImmutableList.of());
 
@@ -127,7 +127,7 @@ public class GeneratorSuiteTest {
   public void validateWithNotNullAndInValidModel() {
 
     generatorSuite = new TestableGeneratorSuite(francaModelLoader);
-    generatorSuite.buildModel(new File(MOCK_INPUT_PATH));
+    generatorSuite.buildModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
     when(ResourceValidator.validate(any(), any())).thenReturn(false);
     when(francaModel.getTypeCollections()).thenReturn(ImmutableList.of());
 
