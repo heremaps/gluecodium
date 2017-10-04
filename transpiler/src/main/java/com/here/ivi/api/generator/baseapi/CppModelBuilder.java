@@ -23,6 +23,7 @@ import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
 public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
@@ -73,8 +74,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
+    List<CppParameter> outputParameters =
+        CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
+            .filter(parameter -> parameter.isOutput)
+            .collect(Collectors.toList());
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod);
+        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod, outputParameters);
     CppMethod cppMethod = buildCppMethod(francaMethod, returnTypeData.type, returnTypeData.comment);
 
     storeResult(cppMethod);
@@ -87,6 +92,17 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef cppTypeRef =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
     CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppTypeRef);
+
+    storeResult(cppParameter);
+    closeContext();
+  }
+
+  @Override
+  public void finishBuildingOutputArgument(FArgument francaArgument) {
+
+    CppTypeRef cppTypeRef =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppTypeRef, true);
 
     storeResult(cppParameter);
     closeContext();
@@ -308,6 +324,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     builder.comment(methodCommentBuilder.toString());
 
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
+        .filter(parameter -> !parameter.isOutput)
         .forEach(builder::parameter);
 
     return builder.build();

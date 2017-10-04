@@ -12,13 +12,12 @@
 package com.here.ivi.api.generator.baseapi;
 
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
+import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.FArgument;
+import java.util.List;
 import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FTypedElement;
 
 /**
  * Helper class for mapping FMethod and related Franca model elements into the C++ model. All
@@ -37,7 +36,9 @@ public final class CppMethodMapper {
   }
 
   public static ReturnTypeData mapMethodReturnType(
-      final CppTypeMapper typeMapper, final FMethod francaMethod) {
+      final CppTypeMapper typeMapper,
+      final FMethod francaMethod,
+      final List<CppParameter> outputParameters) {
 
     CppTypeRef errorType = null;
     String errorComment = "";
@@ -50,16 +51,10 @@ public final class CppMethodMapper {
     CppTypeRef outArgType = null;
     String outArgComment = "";
 
-    EList<FArgument> outArgs = francaMethod.getOutArgs();
-    if (!outArgs.isEmpty()) {
+    if (!outputParameters.isEmpty()) {
       // If outArgs size is 2 or more, the output has to be wrapped in a struct,
       // which is not supported yet.
-      FTypedElement typedElement = outArgs.get(0);
-      outArgType = typeMapper.map(typedElement.getType());
-      if (typedElement.isArray()) {
-        outArgType = CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, outArgType);
-      }
-
+      outArgType = outputParameters.get(0).type;
       outArgComment = "The result type, containing " + outArgType.name + " value.";
     }
 
