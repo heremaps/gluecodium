@@ -18,10 +18,16 @@ import lombok.EqualsAndHashCode;
 public class CppParameter extends CppElement {
 
   public final CppTypeRef type;
+  public final boolean isOutput;
 
   public CppParameter(final String name, final CppTypeRef type) {
+    this(name, type, false);
+  }
+
+  public CppParameter(final String name, final CppTypeRef type, final boolean isOutput) {
     super(name);
     this.type = type;
+    this.isOutput = isOutput;
   }
 
   @Override

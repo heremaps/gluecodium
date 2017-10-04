@@ -26,6 +26,7 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
+import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -129,7 +130,7 @@ public class CppModelBuilderTest {
     when(francaMapType.getValueType()).thenReturn(francaAnotherTypeRef);
     when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
 
-    when(CppMethodMapper.mapMethodReturnType(any(), any()))
+    when(CppMethodMapper.mapMethodReturnType(any(), any(), any()))
         .thenReturn(new CppMethodMapper.ReturnTypeData(cppComplexTypeRef, "no comments"));
     when(CppCommentParser.parse(any(FModelElement.class)))
         .thenReturn(new AbstractFrancaCommentParser.Comments());
@@ -259,6 +260,18 @@ public class CppModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaMethodReadsOutputParameters() {
+    CppParameter cppParameter = new CppParameter("flowers", null, true);
+    contextStack.injectResult(cppParameter);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    PowerMockito.verifyStatic();
+    CppMethodMapper.mapMethodReturnType(
+        typeMapper, francaMethod, Collections.singletonList(cppParameter));
+  }
+
+  @Test
   public void finishBuildingInputArgumentReadsName() {
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
@@ -272,6 +285,27 @@ public class CppModelBuilderTest {
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
+
+    CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
+    assertNotNull(cppParameter);
+    assertEquals(cppComplexTypeRef, cppParameter.type);
+  }
+
+  @Test
+  public void finishBuildingOutputArgument() {
+    modelBuilder.finishBuildingOutputArgument(francaArgument);
+
+    CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
+    assertNotNull(cppParameter);
+    assertEquals("flowers", cppParameter.name);
+    assertTrue(cppParameter.isOutput);
+  }
+
+  @Test
+  public void finishBuildingOutputArgumentReadsTypeRef() {
+    contextStack.injectResult(cppComplexTypeRef);
+
+    modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
     assertNotNull(cppParameter);

@@ -16,16 +16,12 @@ import static org.mockito.Mockito.*;
 
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.test.ArrayEList;
-import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FBasicTypeId;
+import java.util.Collections;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModel;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +34,6 @@ import org.mockito.MockitoAnnotations;
 public class CppMethodMapperTest {
 
   private static final String METHOD_NAME = "shoot foot";
-  private static final String ARGUMENT_NAME = "which foot";
   private static final String TYPE_NAME = "typical";
 
   @Mock private CppTypeMapper typeMapper;
@@ -46,12 +41,10 @@ public class CppMethodMapperTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMethod francaMethod;
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FArgument francaArgument;
-
   @Mock private FEnumerationType francaEnum;
 
   private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef.Builder(TYPE_NAME).build();
+  private final CppParameter cppParameter = new CppParameter("nonsense", cppCustomType);
 
   @Before
   public void setUp() {
@@ -64,27 +57,10 @@ public class CppMethodMapperTest {
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
   }
 
-  private EList<FArgument> createFrancaArgumentsArray() {
-    FTypeCollection parentTypeCollection = mock(FTypeCollection.class);
-    when(parentTypeCollection.eContainer()).thenReturn(mock(FModel.class));
-
-    FTypeRef typeRef = mock(FTypeRef.class);
-    when(typeRef.getPredefined()).thenReturn(FBasicTypeId.STRING);
-    when(typeRef.eContainer()).thenReturn(parentTypeCollection);
-
-    when(francaArgument.getName()).thenReturn(ARGUMENT_NAME);
-    when(francaArgument.getType()).thenReturn(typeRef);
-
-    ArrayEList<FArgument> arguments = new ArrayEList<>();
-    arguments.add(francaArgument);
-
-    return arguments;
-  }
-
   @Test
   public void mapMethodReturnTypeNoArguments() {
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod);
+        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod, Collections.emptyList());
 
     assertEquals(CppPrimitiveTypeRef.VOID, returnTypeData.type);
   }
@@ -95,7 +71,7 @@ public class CppMethodMapperTest {
     when(francaMethod.getErrorEnum()).thenReturn(francaEnum);
 
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod);
+        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod, Collections.emptyList());
 
     assertEquals(TYPE_NAME, returnTypeData.type.name);
 
@@ -104,27 +80,21 @@ public class CppMethodMapperTest {
 
   @Test
   public void mapMethodReturnTypeOneOutputArgument() {
-    EList<FArgument> francaArguments = createFrancaArgumentsArray();
-    when(francaMethod.getOutArgs()).thenReturn(francaArguments);
-
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod);
+        CppMethodMapper.mapMethodReturnType(
+            typeMapper, francaMethod, Collections.singletonList(cppParameter));
 
     assertEquals(TYPE_NAME, returnTypeData.type.name);
-
-    verify(typeMapper).map(francaArgument.getType());
   }
 
   @Test
   public void mapMethodReturnTypeOneOutputArgumentWithErrorType() {
     when(typeMapper.mapEnum(any())).thenReturn(cppCustomType);
-
-    EList<FArgument> francaArguments = createFrancaArgumentsArray();
-    when(francaMethod.getOutArgs()).thenReturn(francaArguments);
     when(francaMethod.getErrorEnum()).thenReturn(francaEnum);
 
     CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(typeMapper, francaMethod);
+        CppMethodMapper.mapMethodReturnType(
+            typeMapper, francaMethod, Collections.singletonList(cppParameter));
 
     assertEquals(
         "here::internal::expected< " + TYPE_NAME + ", " + TYPE_NAME + " >",
@@ -135,7 +105,6 @@ public class CppMethodMapperTest {
         "cpp/internal/expected.h",
         returnTypeData.type.includes.iterator().next().fileName);
 
-    verify(typeMapper).map(francaArgument.getType());
     verify(typeMapper).mapEnum(francaEnum);
   }
 }
