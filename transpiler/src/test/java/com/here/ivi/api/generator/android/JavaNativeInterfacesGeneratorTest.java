@@ -82,7 +82,7 @@ public class JavaNativeInterfacesGeneratorTest {
   public void generateConversionFiles() {
     JniContainer instantiableJniContainer =
         JniContainer.createInterfaceContainer(
-            Collections.emptyList(), Collections.emptyList(), "classy", "classy", true);
+            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy", true);
 
     List<GeneratedFile> result =
         generator.generateConversionFiles(Collections.singletonList(instantiableJniContainer));

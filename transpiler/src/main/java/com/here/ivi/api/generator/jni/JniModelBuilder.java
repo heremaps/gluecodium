@@ -23,10 +23,7 @@ import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.cppmodel.CppParameter;
 import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaField;
-import com.here.ivi.api.model.javamodel.JavaMethod;
-import com.here.ivi.api.model.javamodel.JavaParameter;
+import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Collections;
@@ -75,12 +72,14 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   public void finishBuilding(FInterface francaInterface) {
 
     CppClass cppClass = cppBuilder.getFirstResult(CppClass.class);
+    JavaTopLevelElement javaTopLevelElement = javaBuilder.getFirstResult(JavaTopLevelElement.class);
     JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
     JniContainer jniContainer =
         JniContainer.createInterfaceContainer(
-            javaClass.javaPackage.packageNames,
+            javaTopLevelElement.javaPackage.packageNames,
             rootModel.getPackageNames(),
             javaClass.name,
+            javaTopLevelElement.name,
             cppClass.name,
             cppClass.hasInstanceMethods());
     List<JniElement> previousResults = getCurrentContext().previousResults;

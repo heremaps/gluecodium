@@ -14,12 +14,9 @@ package com.here.ivi.api.generator.jni.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniStruct;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,39 +24,40 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class JavaClassSignaturePrefixTest {
-  private static JavaClass innerClass = new JavaClass("MyInnerClass");
-  private static CppStruct innerStruct = new CppStruct("MyInnerStruct");
 
-  private static JniContainer createTypeCollectionModel() {
-    List<String> packageNames = Arrays.asList("from", "a");
-    return JniContainer.createTypeCollectionContainer(packageNames, packageNames);
-  }
+  private static final String TEMPLATE_NAME = "jni/JavaClassSignaturePrefix";
 
-  private static JniContainer createInterfaceModel() {
-    final String className = "MyClass";
-    List<String> packageNames = Arrays.asList("from", "a", "fancypackage");
-    return JniContainer.createInterfaceContainer(packageNames, packageNames, className, className);
-  }
-
-  private static JniStruct createJniStruct(JniContainer jniContainer) {
-    return new JniStruct(jniContainer, innerClass, innerStruct, Collections.emptyList());
-  }
+  private static final List<String> PACKAGE_NAMES = Arrays.asList("from", "a", "fancypackage");
 
   @Test
   public void generateFromInterface() {
-    JniStruct jniStruct = createJniStruct(createInterfaceModel());
+    JniContainer container =
+        JniContainer.createInterfaceContainer(PACKAGE_NAMES, null, "MyClass", null);
+    JniStruct jniStruct = new JniStruct(container, null, null, null);
 
-    String generated = TemplateEngine.render("jni/JavaClassSignaturePrefix", jniStruct);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, jniStruct);
 
     assertEquals("from/a/fancypackage/MyClass$", generated);
   }
 
   @Test
+  public void generateFromInstantiableInterface() {
+    JniContainer container =
+        JniContainer.createInterfaceContainer(PACKAGE_NAMES, null, null, "FooImpl", null, true);
+    JniStruct jniStruct = new JniStruct(container, null, null, null);
+
+    String generated = TemplateEngine.render(TEMPLATE_NAME, jniStruct);
+
+    assertEquals("from/a/fancypackage/FooImpl$", generated);
+  }
+
+  @Test
   public void generateFromTypeCollection() {
-    JniStruct jniStruct = createJniStruct(createTypeCollectionModel());
+    JniContainer container = JniContainer.createTypeCollectionContainer(PACKAGE_NAMES, null);
+    JniStruct jniStruct = new JniStruct(container, null, null, null);
 
-    String generated = TemplateEngine.render("jni/JavaClassSignaturePrefix", jniStruct);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, jniStruct);
 
-    assertEquals("from/a/", generated);
+    assertEquals("from/a/fancypackage/", generated);
   }
 }
