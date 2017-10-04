@@ -21,4 +21,8 @@ define navigation.BaseApiSpec for interface hello.HelloWorldFactory
     method createNested {
         Static = true
     }
+
+    method createAttributes {
+        Static = true
+    }
 }
