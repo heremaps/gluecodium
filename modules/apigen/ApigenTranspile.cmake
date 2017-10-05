@@ -82,14 +82,17 @@ function(apigen_transpile)
         set(apigen_transpile_GENERATOR "cpp,${apigen_transpile_GENERATOR}")
     endif()
 
+    # Trigger a re-configure if there are any changes to the franca sources. This will run the Transpiler. Only works if files were specified individually.
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${apigen_transpile_FRANCA_SOURCES})
+
     # Build transpiler command-line
     set(APIGEN_TRANSPILER_ARGS "\
  -output ${TRANSPILER_OUTPUT_DIR}\
  -generators ${apigen_transpile_GENERATOR}\
  ${validateParam}\
  -nostdout")
-    foreach(francaDir ${apigen_transpile_FRANCA_SOURCES})
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -input ${francaDir}" )
+    foreach(input ${apigen_transpile_FRANCA_SOURCES})
+        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -input ${input}" )
     endforeach()
 
     execute_process(
