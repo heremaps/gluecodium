@@ -4,6 +4,7 @@ import XCTest
 
 XCTMain([
     testCase(HelloWorldTests.allTests),
+    testCase(HelloWorldInstancesTests.allTests),
     testCase(PlainDataStructuresTests.allTests),
     testCase(PlainDataStructuresFromTypeCollectionTests.allTests),
     testCase(StaticBooleanMethodsTests.allTests),
