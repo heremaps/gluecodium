@@ -41,6 +41,10 @@ public class CppToJniInstanceConversionBodyTest {
   public void generateMethodBody() {
     String expected =
         "{\n"
+            + "    if (!_ninput)\n"
+            + "    {\n"
+            + "        return nullptr;\n"
+            + "    }\n"
             + "    auto javaClass = _jenv->FindClass(\""
             + String.join("/", JAVA_PACKAGES)
             + "/"
@@ -52,7 +56,7 @@ public class CppToJniInstanceConversionBodyTest {
             + CPP_NAME
             + ">(_ninput);\n"
             + "    return create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));\n"
-            + "}";
+            + "}\n";
 
     String generated = TemplateEngine.render("jni/CppToJniInstanceConversionBody", jniContainer);
 

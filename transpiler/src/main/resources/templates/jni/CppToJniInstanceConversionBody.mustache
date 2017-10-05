@@ -1,4 +1,8 @@
 {
+    if (!_ninput)
+    {
+        return nullptr;
+    }
     auto javaClass = _jenv->FindClass("{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}");
     auto pInstanceSharedPointer = new std::shared_ptr<::{{#cppNameSpaces}}{{.}}::{{/cppNameSpaces}}{{cppName}}>(_ninput);
     return create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
