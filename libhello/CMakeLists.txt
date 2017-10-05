@@ -36,6 +36,13 @@ set(HELLO_SOURCES
     src/hello/HelloWorldProfileManager.cpp
     src/hello/HelloWorldProfileManagerFactory.cpp)
 
+set(HELLO_HEADERS
+    src/hello/HelloWorldAttributesComplexImpl.h
+    src/hello/HelloWorldAttributesImpl.h
+    src/hello/HelloWorldInstances.h
+    src/hello/HelloWorldListeners.h
+    src/hello/HelloWorldProfileManager.h)
+
 file(GLOB_RECURSE HELLO_FRANCA_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.fidl
     ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.fdepl)
@@ -132,7 +139,8 @@ endif()
 # --- END TODO SECTION ---
 
 
-add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
+add_library(hello ${HELLO_SOURCES} ${HELLO_HEADERS} ${HELLO_FRANCA_SOURCES})
+source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES
         POSITION_INDEPENDENT_CODE ON
         SOVERSION ${HELLO_VERSION_MAJOR}
