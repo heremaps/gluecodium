@@ -25,6 +25,8 @@ set(HELLO_SOURCES
     src/hello/HelloWorldFactory.cpp
     src/hello/HelloWorldInstances.cpp
     src/hello/HelloWorldPlainDataStructures.cpp
+    src/test/Instances.cpp
+    src/test/InstancesFactory.cpp
     src/test/PlainDataStructuresFromTypeCollection.cpp
     src/test/PlainDataStructures.cpp
     src/test/StaticBooleanMethods.cpp
