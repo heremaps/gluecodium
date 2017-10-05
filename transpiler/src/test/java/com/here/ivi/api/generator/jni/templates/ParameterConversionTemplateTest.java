@@ -77,8 +77,10 @@ public class ParameterConversionTemplateTest {
     assertEquals(
         "  MyCppClass myParameter;\n"
             + "    if (_jenv->IsInstanceOf(jmyParameter, _jenv->FindClass(\"com/here/android/NativeBase\"))) {\n"
-            + "        auto long_ptr_myParameter = get_long_field(_jenv, _jenv->GetObjectClass(jmyParameter), jmyParameter, \"nativeHandle\");\n"
-            + "        myParameter = *reinterpret_cast<MyCppClass*> (long_ptr_myParameter);\n"
+            + "        if (jmyParameter != nullptr) {\n"
+            + "            auto long_ptr_myParameter = get_long_field(_jenv, _jenv->GetObjectClass(jmyParameter), jmyParameter, \"nativeHandle\");\n"
+            + "            myParameter = *reinterpret_cast<MyCppClass*> (long_ptr_myParameter);\n"
+            + "        }\n"
             + "    } else {\n"
             + "        // TODO APIGEN-709: create cpp proxy for java object\n"
             + "    }\n",
