@@ -6,6 +6,7 @@
     <string name="fragment_plain_old_data_title">Plain Old Data</string>
     <string name="fragment_instance_methods">Instance methods</string>
     <string name="fragment_typedef">TypeDef</string>
+    <string name="fragment_listeners_title">Listeners</string>
     <string name="number_of_usages_input">Insert numberOfUsages</string>
     <string name="profile_name_input">Insert new profile name</string>
     <string name="parameter_value">Value</string>
@@ -18,4 +19,8 @@
     <string name="typedef_method_description">Example static method which takes a typedef of a struct and returns same struct with UPPER_CASE text.</string>
     <string name="typedef_parameter_value">Input struct text</string>
     <string name="typedef_result_value">Output struct text</string>
+    <string name="register_java_listener">Register Java listener</string>
+    <string name="unregister_java_listener">Unregister Java listener</string>
+    <string name="register_native_listener">Register Native listener</string>
+    <string name="unregister_native_listener">Unregister Native listener</string>
 </resources>

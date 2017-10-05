@@ -22,12 +22,12 @@
         <item name="android:layout_marginLeft">@dimen/description_text_margin</item>
         <item name="android:paddingLeft">@dimen/description_text_padding</item>
         <item name="android:paddingRight">@dimen/description_text_padding</item>
+        <item name="android:textSize">@dimen/description_text_size</item>
     </style>
 
     <style name="AppTheme.ShowCaseText" parent="AppTheme.ShowCaseElement">
         <item name="android:layout_marginTop">@dimen/fab_margin</item>
         <item name="android:layout_marginBottom">@dimen/fab_margin</item>
-        <item name="android:textSize">@dimen/description_text_size</item>
     </style>
 
     <style name="AppTheme.ShowCaseInput" parent="AppTheme.ShowCaseElement">

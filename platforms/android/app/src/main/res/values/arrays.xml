@@ -48,6 +48,18 @@
         <item>Returns a double equal to: inputFloat * (0.01 * inputInteger)\n\nParameters must be passed as "inputFloat,inputInteger" in the text field below.\n\nExample: 3.0,1</item>
     </string-array>
 
+    <string-array name="listeners_methods">
+        <item>Java listener with native method</item>
+        <item>Native listener with native method</item>
+        <item>Listeners in the background</item>
+    </string-array>
+
+    <string-array name="listeners_methods_button">
+        <item>Calculate with Java listener</item>
+        <item>Calculate with native listener</item>
+        <item>Calculate in background</item>
+    </string-array>
+
     <string-array name="plain_old_data_methods">
         <item>SyncResult methodWithNonNestedType(SyncResult)</item>
         <item>IdSyncResult methodWithNestedType(IdSyncResult)</item>

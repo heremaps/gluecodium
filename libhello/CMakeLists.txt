@@ -185,7 +185,10 @@ feature(Listeners cpp android SOURCES
     src/hello/HelloWorldListeners.cpp
     src/test/ComplexListener.cpp
     src/test/ComplexListener.h
+    src/hello/HelloWorldCalculatorListenerFactory.cpp
 
+    fidl/hello/HelloWorldCalculatorListenerFactory.fdepl
+    fidl/hello/HelloWorldCalculatorListenerFactory.fidl
     fidl/hello/CalculatorListener.fidl
     fidl/hello/HelloWorldListeners.fdepl
     fidl/hello/HelloWorldListeners.fidl
