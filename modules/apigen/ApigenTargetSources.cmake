@@ -8,7 +8,7 @@
 # disclosed to others without the prior written consent of HERE.
 
 if(DEFINED includeguard_ApigenTargetSources)
-  return()
+    return()
 endif()
 set(includeguard_ApigenTargetSources ON)
 
@@ -35,20 +35,40 @@ function(apigen_target_sources target)
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
     file(GLOB_RECURSE GENERATED_CPP_SOURCES ${OUTPUT_DIR}/cpp/*.cpp)
+    file(GLOB_RECURSE GENERATED_CPP_HEADERS ${OUTPUT_DIR}/cpp/*.h)
+    source_group("Generated BaseApi\\Header Files" FILES ${GENERATED_CPP_HEADERS})
+    source_group("Generated BaseApi\\Source Files" FILES ${GENERATED_CPP_SOURCES})
 
     if(${GENERATOR} STREQUAL cpp)
 
-        target_sources(${target} PRIVATE ${GENERATED_CPP_SOURCES})
+        target_sources(${target}
+            PRIVATE
+                ${GENERATED_CPP_SOURCES}
+                ${GENERATED_CPP_HEADERS})
+
 
     elseif(${GENERATOR} MATCHES android)
 
         file(GLOB JNI_SOURCES ${OUTPUT_DIR}/android/jni/*.cpp)
-        target_sources(${target} PRIVATE ${JNI_SOURCES} ${GENERATED_CPP_SOURCES})
+
+        target_sources(${target}
+            PRIVATE
+                ${GENERATED_CPP_SOURCES}
+                ${GENERATED_CPP_HEADERS}
+                ${JNI_SOURCES})
 
     elseif(${GENERATOR} MATCHES swift)
 
         file(GLOB_RECURSE CBRIDGE_SOURCES ${OUTPUT_DIR}/cbridge/*.cpp)
-        target_sources(${target} PRIVATE ${CBRIDGE_SOURCES} ${GENERATED_CPP_SOURCES})
+        file(GLOB_RECURSE CBRIDGE_HEADERS ${OUTPUT_DIR}/cbridge/*.h)
+        target_sources(${target}
+            PRIVATE
+                ${CBRIDGE_SOURCES}
+                ${CBRIDGE_HEADERS}
+                ${GENERATED_CPP_SOURCES}
+                ${GENERATED_CPP_HEADERS})
+        source_group("Generated cBridge\\Header Files" FILES ${CBRIDGE_HEADERS})
+        source_group("Generated cBridge\\Source Files" FILES ${CBRIDGE_SOURCES})
         target_include_directories(${target} PRIVATE ${OUTPUT_DIR}/cbridge)
 
     endif()
