@@ -25,6 +25,7 @@ set(HELLO_SOURCES
     src/hello/HelloWorldFactory.cpp
     src/hello/HelloWorldInstances.cpp
     src/hello/HelloWorldPlainDataStructures.cpp
+    src/hello/HelloWorldTypedefs.cpp
     src/test/Instances.cpp
     src/test/InstancesFactory.cpp
     src/test/PlainDataStructuresFromTypeCollection.cpp
@@ -34,6 +35,7 @@ set(HELLO_SOURCES
     src/test/StaticFloatDoubleMethods.cpp
     src/test/StaticIntMethods.cpp
     src/test/StaticStringMethods.cpp
+    src/test/StaticTypedef.cpp
     src/hello/HelloWorldStaticLogger.cpp
     src/hello/HelloWorldProfileManager.cpp
     src/hello/HelloWorldProfileManagerFactory.cpp
@@ -52,14 +54,6 @@ file(GLOB_RECURSE HELLO_FRANCA_SOURCES
 
 
 # --- BEGIN TODO SECTION ---
-
-#TODO: Remove this workaround once iOS supports Typedefs (APIGEN-783)
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-    set(HELLO_SOURCES
-        ${HELLO_SOURCES}
-        src/test/StaticTypedef.cpp
-        src/hello/HelloWorldTypedefs.cpp)
-endif()
 
 #TODO: Remove this workaround once iOS supports listeners (APIGEN-515, APIGEN-516)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
@@ -93,13 +87,8 @@ endif()
 if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_FRANCA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fidl/)
 else()
-    #TODO: These excludes can be removed once iOS support Typedefs (APIGEN-783)
+    #TODO: These excludes can be removed once ios platforms support listeners (APIGEN-515,516)
     if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fidl)
-        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/StaticTypedef.fdepl)
-        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldTypedefs.fidl)
-        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldTypedefs.fdepl)
-        #TODO: These excludes can be removed once ios platforms support listeners (APIGEN-515,516)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fidl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fdepl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/CalculatorListener.fidl)
