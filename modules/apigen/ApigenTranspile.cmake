@@ -8,7 +8,7 @@
 # disclosed to others without the prior written consent of HERE.
 
 if(DEFINED includeguard_ApigenTranspile)
-  return()
+    return()
 endif()
 set(includeguard_ApigenTranspile ON)
 
@@ -93,7 +93,7 @@ function(apigen_transpile)
     endforeach()
 
     execute_process(
-        COMMAND mkdir -p ${TRANSPILER_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${TRANSPILER_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
         COMMAND ${APIGEN_TRANSPILER_GRADLE_WRAPPER} -Pversion=${apigen_transpile_VERSION} run -Dexec.args=${APIGEN_TRANSPILER_ARGS}
         WORKING_DIRECTORY ${APIGEN_TRANSPILER_DIR}
         RESULT_VARIABLE TRANSPILE_RESULT)
