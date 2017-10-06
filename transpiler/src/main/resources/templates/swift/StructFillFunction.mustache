@@ -8,6 +8,9 @@ internal func fillFunction(_ c{{name}}: {{cType}}) -> Void {
 {{#case "STRUCT"}}
     {{>fillStruct}}
 {{/case}}
+{{#case "ENUM"}}
+    {{>fillEnum}}
+{{/case}}
 {{#case "BUILTIN_STRING" break="false"}}{{/case}}
 {{#default}}
     {{>fillBasicType}}
@@ -28,3 +31,6 @@ internal func fillFunction(_ c{{name}}: {{cType}}) -> Void {
 {{+fillStruct}}let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
 {{name}}.fillFunction({{name}}Handle)
 {{/fillStruct}}
+
+{{+fillEnum}}{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}.rawValue)
+{{/fillEnum}}

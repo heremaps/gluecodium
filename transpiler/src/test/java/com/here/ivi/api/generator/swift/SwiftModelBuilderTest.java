@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.swift;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,15 +29,27 @@ import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.swift.*;
+import com.here.ivi.api.model.swift.SwiftContainerType;
+import com.here.ivi.api.model.swift.SwiftEnum;
+import com.here.ivi.api.model.swift.SwiftEnumItem;
+import com.here.ivi.api.model.swift.SwiftFile;
+import com.here.ivi.api.model.swift.SwiftInParameter;
+import com.here.ivi.api.model.swift.SwiftMethod;
+import com.here.ivi.api.model.swift.SwiftModelElement;
+import com.here.ivi.api.model.swift.SwiftParameter;
+import com.here.ivi.api.model.swift.SwiftType;
+import com.here.ivi.api.model.swift.SwiftValue;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
+import org.franca.core.franca.FExpression;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,6 +82,7 @@ public class SwiftModelBuilderTest {
   @Mock private FInterface francaInterface;
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private SwiftType swiftType;
+  @Mock private FTypeRef typeRef;
 
   private SwiftModelBuilder modelBuilder;
 
@@ -80,10 +94,14 @@ public class SwiftModelBuilderTest {
         SwiftNameRules.class,
         CBridgeNameRules.class);
     initMocks(this);
-    when(SwiftTypeMapper.mapType(any())).thenReturn(swiftType);
+    when(SwiftTypeMapper.mapType(any(FTypeRef.class))).thenReturn(swiftType);
+    when(francaArgument.getType()).thenReturn(typeRef);
+    when(SwiftTypeMapper.mapType(any(FTypeRef.class))).thenReturn(swiftType);
     when(SwiftTypeMapper.mapOutputType(any())).thenReturn(swiftType);
     when(CppCommentParser.parse(any(FMethod.class))).thenReturn(comments);
     when(CppCommentParser.parse(any(FInterface.class))).thenReturn(comments);
+    when(CppCommentParser.parse(any(FEnumerator.class))).thenReturn(comments);
+    when(CppCommentParser.parse(any(FEnumerationType.class))).thenReturn(comments);
     when(comments.getMainBodyText()).thenReturn(COMMENT);
 
     when(anInterface.getPackageNames()).thenReturn(PACKAGES);
@@ -196,7 +214,7 @@ public class SwiftModelBuilderTest {
   @Test
   public void finishBuildingCreatesTypesFromTypeCollection() {
     SwiftContainerType struct = new SwiftContainerType(STRUCT_NAME);
-    SwiftEnum swiftEnum = new SwiftEnum("", "");
+    SwiftEnum swiftEnum = SwiftEnum.builder("").build();
     contextStack.injectResult(struct);
     contextStack.injectResult(swiftEnum);
 
@@ -213,21 +231,62 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingCreatesEnumerationType() {
-    FEnumerationType francaEnumType = mock(FEnumerationType.class);
-    when(francaEnumType.eContainer()).thenReturn(francaInterface);
-    when(CppCommentParser.parse(any(FEnumerationType.class))).thenReturn(comments);
-    when(SwiftNameRules.getEnumTypeName(any())).thenReturn("SWIFT_NAME");
-    when(CBridgeNameRules.getEnumName(any())).thenReturn("C_NAME");
+  public void finishBuildingCreatesCValuesOutOfExpressions() {
+    FExpression francaExpression = mock(FExpression.class);
+    SwiftValue fakeValue = mock(SwiftValue.class);
+    when(SwiftTypeMapper.mapType(any(FExpression.class))).thenReturn(fakeValue);
 
-    modelBuilder.finishBuilding(francaEnumType);
+    modelBuilder.finishBuilding(francaExpression);
+
+    List<SwiftValue> values = getResults(SwiftValue.class);
+    assertEquals("Should be on value stored", 1, values.size());
+    assertSame(fakeValue, values.get(0));
+  }
+
+  @Test
+  public void finishBuildingCreatesEnumItemWithoutValue() {
+    FEnumerator francaEnumerator = mock(FEnumerator.class);
+
+    modelBuilder.finishBuilding(francaEnumerator);
+
+    List<SwiftEnumItem> enumItems = getResults(SwiftEnumItem.class);
+    assertEquals("Should be 1 enum item created", 1, enumItems.size());
+    SwiftEnumItem enumItem = enumItems.get(0);
+    assertNull("Enum item should have not value set", enumItem.value);
+  }
+
+  @Test
+  public void finishBuildingCreatesEnumItemWithValue() {
+    SwiftValue fakeValue = mock(SwiftValue.class);
+    contextStack.injectResult(fakeValue);
+    FEnumerator enumerator = mock(FEnumerator.class);
+
+    modelBuilder.finishBuilding(enumerator);
+
+    List<SwiftEnumItem> enumItems = getResults(SwiftEnumItem.class);
+    assertEquals("Should be 1 enum item created", 1, enumItems.size());
+    SwiftEnumItem enumItem = enumItems.get(0);
+    assertSame(fakeValue, enumItem.value);
+  }
+
+  @Test
+  public void finishBuildingCreatesSwiftEnum() {
+    SwiftEnumItem fakeEnumItem = mock(SwiftEnumItem.class);
+    contextStack.injectResult(fakeEnumItem);
+    FEnumerationType enumerationType = mock(FEnumerationType.class);
+    when(SwiftNameRules.getEnumTypeName(any())).thenReturn("SWIFT_NAME");
+
+    modelBuilder.finishBuilding(enumerationType);
 
     List<SwiftEnum> enums = getResults(SwiftEnum.class);
-    assertEquals("Should be 1 enum created.", 1, enums.size());
-    SwiftEnum swiftEnum = enums.get(0);
-    assertEquals("SWIFT_NAME", swiftEnum.name);
-    assertEquals("C_NAME", swiftEnum.cName);
-    assertEquals(COMMENT, swiftEnum.comment);
+    assertEquals("Should be 1 enum created", 1, enums.size());
+    SwiftEnum enumType = enums.get(0);
+    assertEquals("SWIFT_NAME", enumType.name);
+    assertEquals("should be 1 enum item created", 1, enumType.items.size());
+    assertSame(
+        "Enum item inside enum type should be on injected into model",
+        fakeEnumItem,
+        enumType.items.get(0));
   }
 
   private <T extends SwiftModelElement> List<T> getResults(Class<T> clazz) {

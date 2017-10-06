@@ -5,6 +5,7 @@
     }}{{#case "BUILTIN_STRING"}}{{>swift/MethodReturnString}}{{/case}}{{!!
     }}{{#case "STRUCT"}}{{>MethodReturnStruct}}{{/case}}{{!!
     }}{{#case "CLASS"}}{{>MethodReturnStruct}}{{/case}}{{!!
+    }}{{#case "ENUM"}}{{>MethodReturnEnum}}{{/case}}{{!!
     }}{{#default}}{{>swift/MethodReturn}}{{/default}}{{!!
   }}{{/switch}}
 {{/unless}}
@@ -38,3 +39,7 @@ defer {
 {{/method.returnType.privateImplementation}}
 return {{#method.returnType.privateImplementation}}{{method.returnType.privateImplementation}}{{/method.returnType.privateImplementation}}{{^method.returnType.privateImplementation}}{{method.returnType}}{{/method.returnType.privateImplementation}}(c{{method.returnType}}: cResult)
 {{/MethodReturnStruct}}
+
+{{+MethodReturnEnum}}let cResult = {{>swift/DelegateCall}}
+return {{method.returnType}}.init(rawValue: cResult)!
+{{/MethodReturnEnum}}

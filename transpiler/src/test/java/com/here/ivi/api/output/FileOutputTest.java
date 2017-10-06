@@ -30,7 +30,7 @@ import org.junit.rules.TemporaryFolder;
 public class FileOutputTest {
   @Rule public TemporaryFolder testFolder = new TemporaryFolder();
 
-  @Rule public final ExpectedException exception = ExpectedException.none();;
+  @Rule public final ExpectedException exception = ExpectedException.none();
 
   @Test
   public void testFileOutput() throws IOException {

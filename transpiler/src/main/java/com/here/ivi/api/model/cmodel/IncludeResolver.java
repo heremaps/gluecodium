@@ -32,7 +32,7 @@ public class IncludeResolver {
   public enum HeaderType {
     BASE_API_HEADER,
     CBRIDGE_PUBLIC_HEADER,
-    CBRIDGE_PRIVATE_HEADER;
+    CBRIDGE_PRIVATE_HEADER
   }
 
   @EqualsAndHashCode

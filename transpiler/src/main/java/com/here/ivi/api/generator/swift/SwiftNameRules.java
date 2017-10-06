@@ -16,6 +16,7 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import java.io.File;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FEnumerator;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
@@ -71,5 +72,9 @@ public final class SwiftNameRules {
 
   public static String getEnumTypeName(FModelElement francaEnumerator) {
     return NameHelper.toUpperCamelCase(francaEnumerator.getName());
+  }
+
+  public static String getEnumItemName(FEnumerator francaEnumerator) {
+    return francaEnumerator.getName().toLowerCase();
   }
 }

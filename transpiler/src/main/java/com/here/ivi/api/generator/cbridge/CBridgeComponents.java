@@ -59,6 +59,9 @@ public class CBridgeComponents {
         }
       }
     }
+    for (CEnum enumType : cInterface.enumerators) {
+      includes.addAll(enumType.includes);
+    }
     return includes;
   }
 

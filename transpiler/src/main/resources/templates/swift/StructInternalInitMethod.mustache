@@ -5,6 +5,7 @@ internal init?(c{{name}}: {{cType}}) {
     {{#case "BUILTIN_STRING"}}{{>assignStringType}}{{/case}}
     {{#case "BUILTIN_BYTEBUFFER"}}{{>assignDataType}}{{/case}}
     {{#case "STRUCT"}}{{>assignStruct}}{{/case}}
+    {{#case "ENUM"}}{{>assignEnum}}{{/case}}
     {{#default}}{{>assignBasicType}}{{/default}}
     {{/switch}}
 {{/fields}}
@@ -13,6 +14,9 @@ internal init?(c{{name}}: {{cType}}) {
 
 {{+assignBasicType}}{{name}} = {{cPrefix}}_{{name}}_get(c{{structName}})
 {{/assignBasicType}}
+
+{{+assignEnum}}{{name}} = {{type}}.init(rawValue: {{cPrefix}}_{{name}}_get(c{{structName}}))!
+{{/assignEnum}}
 
 {{+assignStringType}}do {
     let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})

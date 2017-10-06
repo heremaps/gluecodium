@@ -24,7 +24,6 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CEnum;
-import com.here.ivi.api.model.cmodel.CEnumItem;
 import com.here.ivi.api.model.cmodel.CField;
 import com.here.ivi.api.model.cmodel.CFunction;
 import com.here.ivi.api.model.cmodel.CInParameter;
@@ -33,7 +32,6 @@ import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CParameter;
 import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.CType;
-import com.here.ivi.api.model.cmodel.CValue;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.Interface;
@@ -307,61 +305,13 @@ public class CModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingCreatesCValuesOutOfExpressions() {
-    FExpression francaExpression = mock(FExpression.class);
-    CValue fakeValue = mock(CValue.class);
-    when(CTypeMapper.mapType(any(FExpression.class))).thenReturn(fakeValue);
-
-    modelBuilder.finishBuilding(francaExpression);
-
-    List<CValue> values = getResults(CValue.class);
-    assertEquals("Should be on value stored", 1, values.size());
-    assertSame(fakeValue, values.get(0));
-  }
-
-  @Test
-  public void finishBuildingCreatesEnumItemWithoutValue() {
-    FEnumerator francaEnumerator = mock(FEnumerator.class);
-
-    modelBuilder.finishBuilding(francaEnumerator);
-
-    List<CEnumItem> enumItems = getResults(CEnumItem.class);
-    assertEquals("Should be 1 enum item created", 1, enumItems.size());
-    CEnumItem enumItem = enumItems.get(0);
-    assertNull("Enum item should have not value set", enumItem.value);
-  }
-
-  @Test
-  public void finishBuildingCreatesEnumItemWithValue() {
-    CValue fakeValue = mock(CValue.class);
-    contextStack.injectResult(fakeValue);
-    FEnumerator francaEnumerator = mock(FEnumerator.class);
-
-    modelBuilder.finishBuilding(francaEnumerator);
-
-    List<CEnumItem> enumItems = getResults(CEnumItem.class);
-    assertEquals("Should be 1 enum item created", 1, enumItems.size());
-    CEnumItem enumItem = enumItems.get(0);
-    assertSame(fakeValue, enumItem.value);
-  }
-
-  @Test
-  public void finishBuildingCreatesEnumType() {
-    CEnumItem fakeEnumItem = mock(CEnumItem.class);
-    contextStack.injectResult(fakeEnumItem);
+  public void finishBuildingCreatesCEnum() {
     FEnumerationType francaEnumerationType = mock(FEnumerationType.class);
-    when(CBridgeNameRules.getEnumName(any())).thenReturn("");
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
     List<CEnum> enums = getResults(CEnum.class);
     assertEquals("Should be 1 enum created", 1, enums.size());
-    CEnum enumType = enums.get(0);
-    assertEquals("should be 1 enum item created", 1, enumType.items.size());
-    assertSame(
-        "Enum item inside enum type should be on injected into model",
-        fakeEnumItem,
-        enumType.items.get(0));
   }
 
   private <T extends CElement> List<T> getResults(Class<T> clazz) {

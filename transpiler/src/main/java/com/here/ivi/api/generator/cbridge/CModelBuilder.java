@@ -18,14 +18,12 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.CClassType;
 import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CEnum;
-import com.here.ivi.api.model.cmodel.CEnumItem;
 import com.here.ivi.api.model.cmodel.CField;
 import com.here.ivi.api.model.cmodel.CFunction;
 import com.here.ivi.api.model.cmodel.CInParameter;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CStruct;
-import com.here.ivi.api.model.cmodel.CValue;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -61,23 +59,10 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     storeResult(classInfo);
   }
 
-  public void finishBuilding(FEnumerator francaEnumerator) {
-    CValue value = getPreviousResult(CValue.class);
-    storeResult(new CEnumItem(CBridgeNameRules.getEnumItemName(francaEnumerator), value));
-    super.finishBuilding(francaEnumerator);
-  }
-
   @Override
-  public void finishBuilding(FEnumerationType francaEnumerationType) {
-    List<CEnumItem> enumItems = getPreviousResults(CEnumItem.class);
-    storeResult(new CEnum(CBridgeNameRules.getEnumName(francaEnumerationType), enumItems));
-    super.finishBuilding(francaEnumerationType);
-  }
-
-  @Override
-  public void finishBuilding(FExpression francaExpression) {
-    storeResult(CTypeMapper.mapType(francaExpression));
-    super.finishBuilding(francaExpression);
+  public void finishBuilding(FEnumerationType enumerationType) {
+    storeResult(new CEnum(CBridgeNameRules.getEnumName(enumerationType)));
+    super.finishBuilding(enumerationType);
   }
 
   @Override

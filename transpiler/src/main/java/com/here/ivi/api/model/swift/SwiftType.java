@@ -20,7 +20,7 @@ public class SwiftType extends SwiftModelElement {
     STRUCT,
     ENUM,
     CLASS,
-  };
+  }
 
   public static final SwiftType VOID = new SwiftType("Void");
   public static final SwiftType STRING = new SwiftType("String", TypeCategory.BUILTIN_STRING);
