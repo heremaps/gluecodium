@@ -197,19 +197,6 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaTypeCollectionPutsClassesInRightPackage() {
-    when(francaTypeCollection.getName()).thenReturn("TestTypeCollection");
-    contextStack.injectResult(new JavaClass(CLASS_NAME));
-
-    modelBuilder.finishBuilding(francaTypeCollection);
-
-    JavaClass javaClass = (JavaClass) modelBuilder.getResults().get(0);
-    String expectedPackage = String.join(".", BASE_PACKAGE_NAMES);
-    String innerPackage = String.join(".", javaClass.javaPackage.packageNames);
-    assertEquals(expectedPackage, innerPackage);
-  }
-
-  @Test
   public void finishBuildingFrancaConstant() {
     modelBuilder.finishBuilding(francaConstant);
 
@@ -265,6 +252,7 @@ public class JavaModelBuilderTest {
     JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
     assertNotNull(javaClass);
     assertEquals("nonsense", javaClass.name.toLowerCase());
+    assertEquals(BASE_PACKAGE_NAMES, javaClass.javaPackage.packageNames);
   }
 
   @Test
