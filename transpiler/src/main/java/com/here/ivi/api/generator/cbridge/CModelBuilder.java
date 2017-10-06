@@ -70,16 +70,14 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   }
 
   public void finishBuilding(FEnumerator francaEnumerator) {
-    CValue value =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CValue.class);
+    CValue value = getPreviousResult(CValue.class);
     storeResult(new CEnumItem(CBridgeNameRules.getEnumItemName(francaEnumerator), value));
     super.finishBuilding(francaEnumerator);
   }
 
   @Override
   public void finishBuilding(FEnumerationType francaEnumerationType) {
-    List<CEnumItem> enumItems =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CEnumItem.class);
+    List<CEnumItem> enumItems = getPreviousResults(CEnumItem.class);
     storeResult(new CEnum(CBridgeNameRules.getEnumName(francaEnumerationType), enumItems));
     super.finishBuilding(francaEnumerationType);
   }
@@ -115,12 +113,9 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   private CInterface finishBuildingInterfaceOrTypeCollection(
       CInterface cInterface, FTypeCollection francaTypeCollection) {
-    cInterface.functions.addAll(
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CFunction.class));
-    cInterface.structs.addAll(
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CStruct.class));
-    cInterface.enumerators =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CEnum.class);
+    cInterface.functions.addAll(getPreviousResults(CFunction.class));
+    cInterface.structs.addAll(getPreviousResults(CStruct.class));
+    cInterface.enumerators = getPreviousResults(CEnum.class);
 
     cInterface.headerIncludes = CBridgeComponents.collectHeaderIncludes(cInterface);
     cInterface.implementationIncludes = CBridgeComponents.collectImplementationIncludes(cInterface);
@@ -137,8 +132,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
     String baseFunctionName = CBridgeNameRules.getMethodName(francaMethod);
     String delegateMethodName = CBridgeNameRules.getDelegateMethodName(francaMethod);
-    List<CInParameter> inParams =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CInParameter.class);
+    List<CInParameter> inParams = getPreviousResults(CInParameter.class);
     COutParameter returnParam =
         CollectionsHelper.getFirstOfType(
             getCurrentContext().previousResults, COutParameter.class, new COutParameter());
@@ -189,8 +183,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             CBridgeNameRules.getBaseApiStructName(francaStruct),
             CppTypeInfo.createStructTypeInfo(resolver, francaStruct));
 
-    cStruct.fields =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CField.class);
+    cStruct.fields = getPreviousResults(CField.class);
 
     storeResult(cStruct);
     super.finishBuilding(francaStruct);

@@ -58,15 +58,13 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     String className = CppNameRules.getClassName(francaInterface.getName());
 
-    List<CppElement> previousResults = getCurrentContext().previousResults;
-
     CppClass cppClass = new CppClass(className);
     cppClass.comment = CppCommentParser.parse(francaInterface).getMainBodyText();
 
-    cppClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, CppMethod.class));
-    cppClass.enums.addAll(CollectionsHelper.getAllOfType(previousResults, CppEnum.class));
-    cppClass.usings.addAll(CollectionsHelper.getAllOfType(previousResults, CppUsing.class));
-    cppClass.structs.addAll(CollectionsHelper.getAllOfType(previousResults, CppStruct.class));
+    cppClass.methods.addAll(getPreviousResults(CppMethod.class));
+    cppClass.enums.addAll(getPreviousResults(CppEnum.class));
+    cppClass.usings.addAll(getPreviousResults(CppUsing.class));
+    cppClass.structs.addAll(getPreviousResults(CppStruct.class));
 
     storeResult(cppClass);
     closeContext();
@@ -79,8 +77,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
             .filter(parameter -> parameter.isOutput)
             .collect(Collectors.toList());
-    CppTypeRef errorType =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppTypeRef errorType = getPreviousResult(CppTypeRef.class);
     CppMethodMapper.ReturnTypeData returnTypeData =
         CppMethodMapper.mapMethodReturnType(francaMethod, outputParameters, errorType);
     CppMethod cppMethod = buildCppMethod(francaMethod, returnTypeData.type, returnTypeData.comment);
@@ -92,8 +89,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    CppTypeRef cppTypeRef =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppTypeRef);
 
     storeResult(cppParameter);
@@ -103,8 +99,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
 
-    CppTypeRef cppTypeRef =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppTypeRef, true);
 
     storeResult(cppParameter);
@@ -129,8 +124,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
-    CppTypeRef cppTypeRef =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppValue value = valueMapper.map(cppTypeRef, francaConstant.getRhs());
 
     String name = CppNameRules.getConstantName(francaConstant.getName());
@@ -145,8 +139,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FField francaField) {
 
-    CppTypeRef cppTypeRef =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     String fieldName = CppNameRules.getFieldName(francaField.getName());
     CppValue cppValue = CppDefaultInitializer.map(francaField);
 
@@ -176,8 +169,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
       String typeDefName = CppNameRules.getTypedefName(francaTypeDef.getName());
       String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaTypeDef);
-      CppTypeRef cppTypeRef =
-          CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+      CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
 
       CppUsing cppUsing = new CppUsing(typeDefName, fullyQualifiedName, cppTypeRef);
       cppUsing.comment = CppCommentParser.parse(francaTypeDef).getMainBodyText();
@@ -192,8 +184,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FArrayType francaArrayType) {
 
     String name = CppNameRules.getTypedefName(francaArrayType.getName());
-    CppTypeRef elementType =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppTypeRef elementType = getPreviousResult(CppTypeRef.class);
     CppTypeRef targetType =
         CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
     CppUsing cppUsing = new CppUsing(name, targetType);
@@ -207,8 +198,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FMapType francaMapType) {
 
     String name = CppNameRules.getTypedefName(francaMapType.getName());
-    List<CppTypeRef> typeRefs =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    List<CppTypeRef> typeRefs = getPreviousResults(CppTypeRef.class);
     CppTypeRef targetType = CppTypeMapper.wrapMap(typeRefs.get(0), typeRefs.get(1));
     CppUsing cppUsing = new CppUsing(name, targetType);
     cppUsing.comment = CppCommentParser.parse(francaMapType).getMainBodyText();
@@ -231,8 +221,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppEnum cppEnum = CppEnum.createScoped(enumName, fullyQualifiedName);
     cppEnum.comment = CppCommentParser.parse(francaEnumerationType).getMainBodyText();
-    cppEnum.items =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppEnumItem.class);
+    cppEnum.items = getPreviousResults(CppEnumItem.class);
 
     storeResult(cppEnum);
     closeContext();
@@ -242,8 +231,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FEnumerator francaEnumerator) {
 
     String enumItemName = CppNameRules.getEnumEntryName(francaEnumerator.getName());
-    CppValue cppValue =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppValue.class);
+    CppValue cppValue = getPreviousResult(CppValue.class);
     CppEnumItem cppEnumItem = new CppEnumItem(enumItemName, cppValue);
     cppEnumItem.comment = CppCommentParser.parse(francaEnumerator).getMainBodyText();
 
@@ -281,8 +269,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FAttribute francaAttribute) {
 
-    CppTypeRef cppTypeRef =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, CppTypeRef.class);
+    CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
 
     String getterName = CppNameRules.getGetterName(francaAttribute.getName());
     CppMethod getterMethod = buildAccessorMethod(getterName, cppTypeRef);
@@ -350,8 +337,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             : new CppStruct(name, fullyQualifiedName);
     cppStruct.comment = CppCommentParser.parse(francaCompoundType).getMainBodyText();
 
-    List<CppField> elements =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, CppField.class);
+    List<CppField> elements = getPreviousResults(CppField.class);
 
     cppStruct.fields.addAll(elements);
     return cppStruct;
