@@ -29,7 +29,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   private final JavaPackage basePackage;
   private final FrancaElement rootModel;
 
-  public JavaModelBuilder(
+  @VisibleForTesting
+  JavaModelBuilder(
       final ModelBuilderContextStack<JavaElement> contextStack,
       final JavaPackage basePackage,
       final FrancaElement rootModel) {
@@ -39,9 +40,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   }
 
   public JavaModelBuilder(final JavaPackage basePackage, final FrancaElement rootModel) {
-    super(new ModelBuilderContextStack<>());
-    this.basePackage = basePackage;
-    this.rootModel = rootModel;
+    this(new ModelBuilderContextStack<>(), basePackage, rootModel);
   }
 
   @Override
@@ -78,13 +77,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
 
-    JavaPackage javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaClass.class)
-        .forEach(
-            javaClass -> {
-              javaClass.javaPackage = javaPackage;
-              storeResult(javaClass);
-            });
+        .forEach(this::storeResult);
     closeContext();
   }
 
