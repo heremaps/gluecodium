@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.swift;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -22,41 +21,21 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.SwiftFile;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SwiftGenerator {
 
-  @VisibleForTesting
-  static final List<String> STATIC_FILES = Arrays.asList("swift/RefHolder.swift");
-
-  private final Set<String> modules = new HashSet<>();
+  public static final List<GeneratedFile> STATIC_FILES =
+      Arrays.asList(GeneratorSuite.copyTarget("swift/RefHolder.swift", "../"));
 
   public List<GeneratedFile> generate(FrancaElement francaElement) {
     SwiftFile file = buildSwiftModel(francaElement);
     if (file.isEmpty()) {
       return emptyList();
     } else {
-      List<GeneratedFile> generated = new ArrayList<>();
-      String moduleName =
-          francaElement.getPackageNames().isEmpty()
-              ? ""
-              : francaElement.getPackageNames().get(0) + "/";
-      if (!modules.contains(moduleName)) {
-        modules.add(moduleName);
-        generated.addAll(
-            STATIC_FILES
-                .stream()
-                .map(
-                    staticFile ->
-                        GeneratorSuite.copyTarget(
-                            staticFile, SwiftNameRules.TARGET_DIRECTORY + moduleName))
-                .collect(Collectors.toList()));
-      }
-      generated.add(
+      return Collections.singletonList(
           new GeneratedFile(
               TemplateEngine.render("swift/File", file),
               SwiftNameRules.getImplementationFileName(francaElement)));
-      return generated;
     }
   }
 
