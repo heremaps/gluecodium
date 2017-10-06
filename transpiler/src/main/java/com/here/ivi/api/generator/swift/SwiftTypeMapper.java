@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.swift;
 import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.*;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftEnum;
 import com.here.ivi.api.model.swift.SwiftType;
@@ -22,7 +21,7 @@ import org.franca.core.franca.*;
 
 public class SwiftTypeMapper {
 
-  public static SwiftType mapType(FrancaElement rootModel, final FTypeRef type) {
+  public static SwiftType mapType(final FTypeRef type) {
     FType derived = type.getDerived();
 
     if (derived != null) {
@@ -51,8 +50,8 @@ public class SwiftTypeMapper {
     return mappedType;
   }
 
-  public static SwiftType mapOutputType(FrancaElement rootModel, final FTypeRef type) {
-    SwiftType mapped = mapType(rootModel, type);
+  public static SwiftType mapOutputType(final FTypeRef type) {
+    SwiftType mapped = mapType(type);
     if (mapped.category == BUILTIN_BYTEBUFFER
         || mapped.category == STRUCT
         || mapped.category == BUILTIN_STRING) {

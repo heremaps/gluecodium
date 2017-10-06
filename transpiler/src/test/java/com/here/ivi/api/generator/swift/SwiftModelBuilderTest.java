@@ -80,8 +80,8 @@ public class SwiftModelBuilderTest {
         SwiftNameRules.class,
         CBridgeNameRules.class);
     initMocks(this);
-    when(SwiftTypeMapper.mapType(any(), any())).thenReturn(swiftType);
-    when(SwiftTypeMapper.mapOutputType(any(), any())).thenReturn(swiftType);
+    when(SwiftTypeMapper.mapType(any())).thenReturn(swiftType);
+    when(SwiftTypeMapper.mapOutputType(any())).thenReturn(swiftType);
     when(CppCommentParser.parse(any(FMethod.class))).thenReturn(comments);
     when(CppCommentParser.parse(any(FInterface.class))).thenReturn(comments);
     when(comments.getMainBodyText()).thenReturn(COMMENT);
@@ -112,7 +112,7 @@ public class SwiftModelBuilderTest {
   @Test
   public void finishBuildingOutputArgumentReturnsCreatedParam() {
     SwiftType realType = new SwiftType("SomeType");
-    when(SwiftTypeMapper.mapOutputType(any(), any())).thenReturn(realType);
+    when(SwiftTypeMapper.mapOutputType(any())).thenReturn(realType);
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     List<SwiftParameter> params = getResults(SwiftParameter.class);
