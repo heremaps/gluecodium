@@ -106,8 +106,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FField francaField) {
     SwiftField structField =
-        new SwiftField(
-            francaField.getName(), SwiftTypeMapper.mapType(rootModel, francaField.getType()));
+        new SwiftField(francaField.getName(), SwiftTypeMapper.mapType(francaField.getType()));
     storeResult(structField);
     super.finishBuilding(francaField);
   }
@@ -117,7 +116,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     storeResult(
         new SwiftInParameter(
             SwiftNameRules.getParameterName(francaArgument),
-            SwiftTypeMapper.mapType(rootModel, francaArgument.getType())));
+            SwiftTypeMapper.mapType(francaArgument.getType())));
     super.finishBuildingInputArgument(francaArgument);
   }
 
@@ -126,7 +125,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     storeResult(
         new SwiftOutParameter(
             SwiftNameRules.getParameterName(francaArgument),
-            SwiftTypeMapper.mapOutputType(rootModel, francaArgument.getType())));
+            SwiftTypeMapper.mapOutputType(francaArgument.getType())));
     super.finishBuildingOutputArgument(francaArgument);
   }
 

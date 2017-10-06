@@ -15,7 +15,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.SwiftType;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FInterface;
@@ -25,24 +24,22 @@ import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Mock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.MockitoAnnotations;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(FBasicTypeId.class)
+@RunWith(JUnit4.class)
 public class SwiftTypeMapperTest {
 
-  @Mock private FrancaElement francaElement;
   @Mock private FTypeRef typeRef;
   @Mock private FStructType francaStructType;
   @Mock private FInterface francaInterface;
   @Mock private FModel francaModel;
-  @Mock private FBasicTypeId francaBasicTypeId;
 
   @Before
   public void setUp() {
-    when(typeRef.getPredefined()).thenReturn(francaBasicTypeId);
+    MockitoAnnotations.initMocks(this);
+
     when(francaStructType.eContainer()).thenReturn(francaInterface);
     when(francaInterface.eContainer()).thenReturn(francaModel);
     when(francaModel.getName()).thenReturn("");
@@ -50,28 +47,27 @@ public class SwiftTypeMapperTest {
 
   @Test
   public void stringAsReturnValueIsMappedToOptionalType() {
-    when(francaBasicTypeId.getValue()).thenReturn(FBasicTypeId.STRING_VALUE);
+    when(typeRef.getPredefined()).thenReturn(FBasicTypeId.STRING);
 
-    SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
+    SwiftType mappedType = SwiftTypeMapper.mapOutputType(typeRef);
 
     assertTrue("Return value of String type should be mapped as optional", mappedType.optional);
   }
 
   @Test
   public void byteBufferAsReturnValueIsMappedToOptionalType() {
-    when(francaBasicTypeId.getValue()).thenReturn(FBasicTypeId.BYTE_BUFFER_VALUE);
+    when(typeRef.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
 
-    SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
+    SwiftType mappedType = SwiftTypeMapper.mapOutputType(typeRef);
 
     assertTrue("Return value of Data type should be mapped as optional", mappedType.optional);
   }
 
   @Test
   public void doubleAsReturnValueIsNotMappedToOptionalType() {
+    when(typeRef.getPredefined()).thenReturn(FBasicTypeId.DOUBLE);
 
-    when(francaBasicTypeId.getValue()).thenReturn(FBasicTypeId.DOUBLE_VALUE);
-
-    SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
+    SwiftType mappedType = SwiftTypeMapper.mapOutputType(typeRef);
 
     assertFalse(
         "Return value of Double type should not be mapped as optional", mappedType.optional);
@@ -81,7 +77,7 @@ public class SwiftTypeMapperTest {
   public void structAsReturnValueIsMappedToOptionalType() {
     when(typeRef.getDerived()).thenReturn(francaStructType);
 
-    SwiftType mappedType = SwiftTypeMapper.mapOutputType(francaElement, typeRef);
+    SwiftType mappedType = SwiftTypeMapper.mapOutputType(typeRef);
 
     assertTrue("Return value of Struct type should be mapped as optional", mappedType.optional);
   }
