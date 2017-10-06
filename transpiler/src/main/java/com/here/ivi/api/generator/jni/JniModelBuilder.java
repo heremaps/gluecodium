@@ -82,9 +82,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             javaTopLevelElement.name,
             cppClass.name,
             cppClass.hasInstanceMethods());
-    List<JniElement> previousResults = getCurrentContext().previousResults;
-    CollectionsHelper.getStreamOfType(previousResults, JniStruct.class).forEach(jniContainer::add);
-    CollectionsHelper.getStreamOfType(previousResults, JniMethod.class).forEach(jniContainer::add);
+    getPreviousResults(JniStruct.class).forEach(jniContainer::add);
+    getPreviousResults(JniMethod.class).forEach(jniContainer::add);
     storeResult(jniContainer);
     closeContext();
   }
@@ -98,8 +97,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JniType returnType = JniType.createType(javaMethod.returnType, cppMethod.returnType);
     boolean isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC);
     JniMethod jniMethod = new JniMethod(javaMethod.getName(), cppMethod.name, returnType, isStatic);
-    jniMethod.parameters.addAll(
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniParameter.class));
+    jniMethod.parameters.addAll(getPreviousResults(JniParameter.class));
 
     storeResult(jniMethod);
     closeContext();
@@ -127,8 +125,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
     CppStruct cppStruct = cppBuilder.getFirstResult(CppStruct.class);
-    List<JniField> jniFields =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JniField.class);
+    List<JniField> jniFields = getPreviousResults(JniField.class);
 
     storeResult(new JniStruct(javaClass, cppStruct, jniFields));
     closeContext();
@@ -147,8 +144,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
 
-    JniStruct jniStruct =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JniStruct.class);
+    JniStruct jniStruct = getPreviousResult(JniStruct.class);
     List<String> structsPackage =
         jniStruct != null ? jniStruct.javaClass.javaPackage.packageNames : Collections.emptyList();
     List<String> cppNameSpace = CppNameRules.getNestedNameSpecifier(francaTypeCollection);

@@ -46,8 +46,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
-    List<JavaElement> previousResults = getCurrentContext().previousResults;
-    List<JavaMethod> methods = CollectionsHelper.getAllOfType(previousResults, JavaMethod.class);
+    List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
 
     if (containsInstanceMethod(methods)) {
 
@@ -60,8 +59,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     } else {
 
       JavaClass javaClass = createJavaClass(francaInterface);
-      javaClass.constants.addAll(
-          CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
+      javaClass.constants.addAll(getPreviousResults(JavaConstant.class));
 
       javaClass.methods.addAll(methods);
       javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
@@ -110,8 +108,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       javaMethod.qualifiers.add(MethodQualifier.STATIC);
     }
     javaMethod.visibility = JavaVisibility.PUBLIC;
-    javaMethod.parameters.addAll(
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaParameter.class));
+    javaMethod.parameters.addAll(getPreviousResults(JavaParameter.class));
 
     storeResult(javaMethod);
     closeContext();
@@ -120,8 +117,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    JavaType javaArgumentType =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
+    JavaType javaArgumentType = getPreviousResult(JavaType.class);
 
     JavaParameter javaParameter =
         new JavaParameter(
@@ -148,8 +144,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FField francaField) {
 
-    JavaType javaType =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
+    JavaType javaType = getPreviousResult(JavaType.class);
     String fieldName = JavaNameRules.getFieldName(francaField.getName());
     JavaField javaField;
     if (javaType instanceof JavaCustomType) {
@@ -190,8 +185,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FAttribute francaAttribute) {
 
-    JavaType javaType =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
+    JavaType javaType = getPreviousResult(JavaType.class);
 
     String getterName = JavaNameRules.getGetterName(francaAttribute.getName());
 
@@ -220,8 +214,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
     javaClass.comment = getCommentString(francaModelElement);
 
-    javaClass.fields.addAll(
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaField.class));
+    javaClass.fields.addAll(getPreviousResults(JavaField.class));
 
     return javaClass;
   }
@@ -246,8 +239,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaInterface.visibility = JavaVisibility.PUBLIC;
     javaInterface.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
     javaInterface.comment = getCommentString(francaInterface);
-    javaInterface.constants.addAll(
-        CollectionsHelper.getAllOfType(previousResults, JavaConstant.class));
+    javaInterface.constants.addAll(getPreviousResults(JavaConstant.class));
 
     List<JavaMethod> interfaceMethods =
         CollectionsHelper.getStreamOfType(previousResults, JavaMethod.class)
@@ -263,24 +255,21 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   private JavaClass createJavaImplementationClass(final FInterface francaInterface) {
 
-    List<JavaElement> previousResults = getCurrentContext().previousResults;
-
     JavaClass javaClass =
         new JavaClass(JavaNameRules.getImplementationClassName(francaInterface.getName()));
     javaClass.visibility = JavaVisibility.PACKAGE;
     javaClass.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
     javaClass.extendedClass = JavaClass.NATIVE_BASE;
-    javaClass.fields.addAll(CollectionsHelper.getAllOfType(previousResults, JavaField.class));
+    javaClass.fields.addAll(getPreviousResults(JavaField.class));
 
-    javaClass.methods.addAll(CollectionsHelper.getAllOfType(previousResults, JavaMethod.class));
+    javaClass.methods.addAll(getPreviousResults(JavaMethod.class));
     javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
 
     return javaClass;
   }
 
   private void addInnerClasses(final JavaTopLevelElement javaTopLevelElement) {
-    javaTopLevelElement.innerClasses.addAll(
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, JavaClass.class));
+    javaTopLevelElement.innerClasses.addAll(getPreviousResults(JavaClass.class));
     javaTopLevelElement.innerClasses.forEach(
         innerClass -> innerClass.qualifiers.add(JavaClass.Qualifier.STATIC));
   }

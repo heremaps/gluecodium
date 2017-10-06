@@ -142,6 +142,14 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
         : null;
   }
 
+  protected <T extends E> T getPreviousResult(final Class<T> clazz) {
+    return CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, clazz);
+  }
+
+  protected <T extends E> List<T> getPreviousResults(final Class<T> clazz) {
+    return CollectionsHelper.getAllOfType(getCurrentContext().previousResults, clazz);
+  }
+
   protected final void openContext() {
     contextStack.openContext();
   }
