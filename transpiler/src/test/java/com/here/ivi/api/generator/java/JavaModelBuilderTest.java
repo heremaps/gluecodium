@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.java;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.common.CollectionsHelper;
@@ -28,15 +29,13 @@ import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(JavaTypeMapper.class)
+@RunWith(JUnit4.class)
+@SuppressWarnings("PMD.TooManyFields")
 public class JavaModelBuilderTest {
 
   private static final String CLASS_NAME = "classy";
@@ -47,12 +46,13 @@ public class JavaModelBuilderTest {
 
   private static final List<String> BASE_PACKAGE_NAMES =
       Arrays.asList("these", "are", "prefix", "packages");
-  private static final JavaPackage BASE_PACKAGE = new JavaPackage(BASE_PACKAGE_NAMES);
 
   private final MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FrancaElement rootModel;
+
+  @Mock private JavaTypeMapper typeMapper;
 
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FMethod francaMethod;
@@ -73,13 +73,16 @@ public class JavaModelBuilderTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(JavaTypeMapper.class);
     MockitoAnnotations.initMocks(this);
 
-    modelBuilder = new JavaModelBuilder(contextStack, BASE_PACKAGE, rootModel);
+    modelBuilder =
+        new JavaModelBuilder(
+            contextStack, new JavaPackage(BASE_PACKAGE_NAMES), rootModel, typeMapper);
 
     when(rootModel.getFrancaModel().getName()).thenReturn("");
     when(rootModel.getPackageNames()).thenReturn(Collections.emptyList());
+
+    when(typeMapper.map(any())).thenReturn(javaCustomType);
 
     when(francaConstant.getName()).thenReturn("permanent");
     when(francaField.getName()).thenReturn(FIELD_NAME);
@@ -138,7 +141,6 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodWithOneOutArg() {
-    when(JavaTypeMapper.map(any(), any())).thenReturn(javaCustomType);
     arguments.add(francaArgument);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -147,8 +149,7 @@ public class JavaModelBuilderTest {
     assertNotNull(javaMethod);
     assertEquals(javaCustomType, javaMethod.returnType);
 
-    PowerMockito.verifyStatic();
-    JavaTypeMapper.map(BASE_PACKAGE, francaTypeRef);
+    verify(typeMapper).map(francaTypeRef);
   }
 
   @Test
@@ -272,15 +273,12 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeRef() {
-    when(JavaTypeMapper.map(any(), any())).thenReturn(javaCustomType);
-
     modelBuilder.finishBuilding(francaTypeRef);
 
     JavaType javaType = modelBuilder.getFirstResult(JavaType.class);
     assertEquals(javaCustomType, javaType);
 
-    PowerMockito.verifyStatic();
-    JavaTypeMapper.map(BASE_PACKAGE, francaTypeRef);
+    verify(typeMapper).map(francaTypeRef);
   }
 
   @Test
@@ -344,15 +342,13 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaArrayReadArrays() {
-    JavaCustomType javaTemplateType =
-        JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
-    when(JavaTypeMapper.mapArray(any(), any())).thenReturn(javaTemplateType);
+    when(typeMapper.mapArray(any())).thenReturn(javaCustomType);
 
     modelBuilder.finishBuilding(francaArrayType);
 
-    JavaTemplateType javaType = modelBuilder.getFirstResult(JavaTemplateType.class);
-    assertEquals(javaTemplateType, javaType);
-    assertFalse(javaType.templateParameters.isEmpty());
-    assertEquals(javaCustomType, javaType.templateParameters.get(0));
+    JavaType javaType = modelBuilder.getFirstResult(JavaType.class);
+    assertEquals(javaCustomType, javaType);
+
+    verify(typeMapper).mapArray(francaArrayType);
   }
 }

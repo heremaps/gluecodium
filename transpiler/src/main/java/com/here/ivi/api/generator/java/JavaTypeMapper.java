@@ -21,13 +21,19 @@ import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 
-public final class JavaTypeMapper {
+public class JavaTypeMapper {
 
-  public static JavaType map(final JavaPackage basePackage, final FTypeRef fTypeRef) {
+  private final JavaPackage basePackage;
+
+  public JavaTypeMapper(final JavaPackage basePackage) {
+    this.basePackage = basePackage;
+  }
+
+  public JavaType map(final FTypeRef fTypeRef) {
 
     JavaType javaType = JavaPrimitiveType.VOID;
     if (fTypeRef.getDerived() != null) {
-      javaType = mapDerived(basePackage, fTypeRef);
+      javaType = mapDerived(fTypeRef);
     } else if (fTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
       javaType = mapPredefined(fTypeRef.getPredefined());
     } else if (fTypeRef.getInterval() != null) {
@@ -86,7 +92,7 @@ public final class JavaTypeMapper {
   }
 
   @SuppressWarnings("PMD.EmptyIfStmt")
-  private static JavaType mapDerived(final JavaPackage basePackage, final FTypeRef type) {
+  private JavaType mapDerived(final FTypeRef type) {
 
     FType derived = type.getDerived();
 
@@ -95,16 +101,16 @@ public final class JavaTypeMapper {
       //TODO: return reportInvalidType(api, type);
     }
     if (derived instanceof FTypeDef) {
-      return mapTypeDef(basePackage, (FTypeDef) derived);
+      return mapTypeDef((FTypeDef) derived);
     }
     if (derived instanceof FArrayType) {
-      return mapArray(basePackage, (FArrayType) derived);
+      return mapArray((FArrayType) derived);
     }
     if (derived instanceof FMapType) {
       //TODO: return mapMap(api, (FMapType) derived);
     }
     if (derived instanceof FStructType) {
-      return mapStruct(basePackage, (FStructType) derived);
+      return mapStruct((FStructType) derived);
     }
     if (derived instanceof FEnumerationType) {
       //TODO: return mapEnum(api, (FEnumerationType) derived);
@@ -140,8 +146,8 @@ public final class JavaTypeMapper {
     }
   }
 
-  public static JavaCustomType mapArray(final JavaPackage basePackage, FArrayType arrayType) {
-    JavaType elementType = map(basePackage, arrayType.getElementType());
+  public JavaType mapArray(FArrayType arrayType) {
+    JavaType elementType = map(arrayType.getElementType());
 
     if (elementType instanceof JavaPrimitiveType) {
       elementType = boxPrimitiveType((JavaPrimitiveType) elementType);
@@ -150,8 +156,7 @@ public final class JavaTypeMapper {
     return JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, elementType);
   }
 
-  private static JavaCustomType mapStruct(
-      final JavaPackage basePackage, final FStructType structType) {
+  private JavaCustomType mapStruct(final FStructType structType) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(structType);
     List<String> packageNames =
@@ -175,7 +180,7 @@ public final class JavaTypeMapper {
     return new JavaCustomType(structName, className, Collections.singletonList(javaImport));
   }
 
-  private static JavaType mapTypeDef(final JavaPackage basePackage, final FTypeDef typeDef) {
+  private JavaType mapTypeDef(final FTypeDef typeDef) {
 
     if (InstanceRules.isInstanceId(typeDef)) {
       FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(typeDef);
@@ -188,7 +193,7 @@ public final class JavaTypeMapper {
 
     } else {
       // TODO APIGEN-441 Replace this when typedef support is implemented
-      return map(basePackage, typeDef.getActualType());
+      return map(typeDef.getActualType());
     }
   }
 }

@@ -65,6 +65,9 @@ public class JavaTypeMapperCustomTypeTest {
   @Mock private FArrayType francaArrayType;
   @Mock private FTypeRef elementType;
 
+  private final JavaTypeMapper typeMapper =
+      new JavaTypeMapper(new JavaPackage(Collections.emptyList()));
+
   @Before
   public void setUp() {
     PowerMockito.mockStatic(JavaNameRules.class, InstanceRules.class);
@@ -92,7 +95,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeRef.getDerived()).thenReturn(structType);
     //act
-    JavaType result = JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     //assert & verify
     assertEquals(FMODEL_NAME + "." + STRUCT_NAME_TYPECOLLECTION, result.getName());
@@ -124,7 +127,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getDerived()).thenReturn(structType);
 
     //act
-    JavaType result = JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     //assert & verify
     assertEquals(INTERFACE_NAME + "." + STRUCT_NAME_INTERFACE, result.getName());
@@ -153,7 +156,7 @@ public class JavaTypeMapperCustomTypeTest {
     expectedException.expect(TranspilerExecutionException.class);
 
     //act
-    JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
+    typeMapper.map(francaTypeRef);
   }
 
   @Test
@@ -175,7 +178,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(JavaNameRules.getClassName(INTERFACE_NAME)).thenReturn(INTERFACE_NAME);
 
     //act
-    JavaType result = JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customResult = (JavaCustomType) result;
@@ -197,7 +200,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaArrayType.getElementType()).thenReturn(elementType);
     when(elementType.getPredefined()).thenReturn(FBasicTypeId.STRING);
 
-    JavaType arrayType = JavaTypeMapper.map(JavaPackage.DEFAULT, francaTypeRef);
+    JavaType arrayType = typeMapper.map(francaTypeRef);
 
     assertTrue(arrayType instanceof JavaTemplateType);
     JavaTemplateType templateType = (JavaTemplateType) arrayType;
@@ -212,7 +215,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaArrayType.getElementType()).thenReturn(elementType);
     when(elementType.getPredefined()).thenReturn(FBasicTypeId.FLOAT);
 
-    JavaType arrayType = JavaTypeMapper.map(JavaPackage.DEFAULT, francaTypeRef);
+    JavaType arrayType = typeMapper.map(francaTypeRef);
 
     assertTrue(arrayType instanceof JavaTemplateType);
     JavaTemplateType templateType = (JavaTemplateType) arrayType;
