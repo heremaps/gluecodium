@@ -14,11 +14,9 @@ package com.here.ivi.api.generator.java;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaType;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
@@ -35,6 +33,8 @@ public class JavaTypeMapperTest {
   private final String expectedJavaTypeName;
 
   @Mock private FTypeRef francaTypeRef;
+
+  private final JavaTypeMapper typeMapper = new JavaTypeMapper(null);
 
   public JavaTypeMapperTest(final FBasicTypeId francaBasicType, final String expectedJavaTypeName) {
     this.francaBasicType = francaBasicType;
@@ -71,8 +71,7 @@ public class JavaTypeMapperTest {
   public void mapFrancaBasicTypeToJavaType() {
     when(francaTypeRef.getPredefined()).thenReturn(francaBasicType);
 
-    JavaType returnedJavaType =
-        JavaTypeMapper.map(new JavaPackage(Collections.emptyList()), francaTypeRef);
+    JavaType returnedJavaType = typeMapper.map(francaTypeRef);
 
     assertEquals(expectedJavaTypeName, returnedJavaType.getName());
   }

@@ -28,19 +28,22 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   private final JavaPackage basePackage;
   private final FrancaElement rootModel;
+  private final JavaTypeMapper typeMapper;
 
   @VisibleForTesting
   JavaModelBuilder(
       final ModelBuilderContextStack<JavaElement> contextStack,
       final JavaPackage basePackage,
-      final FrancaElement rootModel) {
+      final FrancaElement rootModel,
+      final JavaTypeMapper typeMapper) {
     super(contextStack);
     this.basePackage = basePackage;
     this.rootModel = rootModel;
+    this.typeMapper = typeMapper;
   }
 
   public JavaModelBuilder(final JavaPackage basePackage, final FrancaElement rootModel) {
-    this(new ModelBuilderContextStack<>(), basePackage, rootModel);
+    this(new ModelBuilderContextStack<>(), basePackage, rootModel, new JavaTypeMapper(basePackage));
   }
 
   @Override
@@ -91,7 +94,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()));
     } else if (outArgs.size() == 1) {
       FTypeRef typeRef = outArgs.get(0).getType();
-      JavaType returnType = JavaTypeMapper.map(basePackage, typeRef);
+      JavaType returnType = typeMapper.map(typeRef);
       javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()), returnType);
     } else {
       // TODO: Wrap complex return type in an immutable container class
@@ -171,14 +174,14 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
 
-    storeResult(JavaTypeMapper.map(basePackage, francaTypeRef));
+    storeResult(typeMapper.map(francaTypeRef));
     closeContext();
   }
 
   @Override
   public void finishBuilding(FArrayType francaArrayType) {
 
-    storeResult(JavaTypeMapper.mapArray(basePackage, francaArrayType));
+    storeResult(typeMapper.mapArray(francaArrayType));
     closeContext();
   }
 

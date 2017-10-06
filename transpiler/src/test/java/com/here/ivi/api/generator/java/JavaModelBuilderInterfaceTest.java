@@ -60,7 +60,7 @@ public class JavaModelBuilderInterfaceTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(JavaModelBuilder.class);
 
-    modelBuilder = new JavaModelBuilder(contextStack, BASE_PACKAGE, rootModel);
+    modelBuilder = new JavaModelBuilder(contextStack, BASE_PACKAGE, rootModel, null);
 
     when(rootModel.getFrancaModel().getName()).thenReturn("");
     when(rootModel.getPackageNames()).thenReturn(Collections.emptyList());
