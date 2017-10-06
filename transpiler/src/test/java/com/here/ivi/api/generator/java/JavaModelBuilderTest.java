@@ -198,11 +198,14 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaConstant() {
+    contextStack.injectResult(javaCustomType);
+
     modelBuilder.finishBuilding(francaConstant);
 
     JavaConstant resultConstant = modelBuilder.getFirstResult(JavaConstant.class);
     assertNotNull(resultConstant);
     assertEquals("permanent", resultConstant.name.toLowerCase());
+    assertEquals(javaCustomType, resultConstant.type);
   }
 
   @Test
