@@ -190,9 +190,7 @@ public class JavaTypeMapper {
       JavaImport classImport = new JavaImport(className, new JavaPackage(packageNames));
 
       return new JavaCustomType(className, Collections.singletonList(classImport));
-
     } else {
-      // TODO APIGEN-441 Replace this when typedef support is implemented
       return map(typeDef.getActualType());
     }
   }
