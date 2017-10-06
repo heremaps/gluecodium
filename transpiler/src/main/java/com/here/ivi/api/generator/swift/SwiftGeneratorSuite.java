@@ -61,7 +61,8 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
             swiftTypeCollectionStream,
             cBridgeInterfaceStream,
             cBridgeTypeCollectionStream,
-            CBridgeGenerator.STATIC_FILES.stream())
+            CBridgeGenerator.STATIC_FILES.stream(),
+            SwiftGenerator.STATIC_FILES.stream())
         .reduce(Stream::concat)
         .orElseGet(Stream::empty)
         .filter(Objects::nonNull)

@@ -13,11 +13,15 @@ package com.here.ivi.api.test;
 
 import static junit.framework.TestCase.assertTrue;
 
-import java.util.Set;
+import java.util.Collection;
 
 public class Assert {
 
-  public static <E> void assertContains(Set<E> container, E element) {
+  public static <E> void assertContains(Collection<E> container, E element) {
     assertTrue(container + " must contain " + element, container.contains(element));
+  }
+
+  public static <E> void assertContainsAll(Collection<E> container, Collection<E> elements) {
+    assertTrue(container + " must contain all " + elements, container.containsAll(elements));
   }
 }
