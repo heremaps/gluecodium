@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CType extends CElement {
   protected static final String CONST_SPECIFIER = "const";
-  private static final Include FIXED_WIDTH_INTEGERS_INCLUDE =
+  public static final Include FIXED_WIDTH_INTEGERS_INCLUDE =
       Include.createSystemInclude("stdint.h");
   private static final Include BOOL_INCLUDE = Include.createSystemInclude("stdbool.h");
 

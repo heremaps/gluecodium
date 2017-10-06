@@ -15,12 +15,9 @@ import static com.here.ivi.api.model.cmodel.CType.VOID;
 import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
 
 import com.here.ivi.api.model.cmodel.CType;
-import com.here.ivi.api.model.cmodel.CValue;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FExpression;
-import org.franca.core.franca.FIntegerConstant;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
@@ -86,13 +83,5 @@ public final class CTypeMapper {
         return CppTypeInfo.BYTE_VECTOR;
     }
     return new CppTypeInfo(VOID);
-  }
-
-  public static CValue mapType(FExpression francaExpression) {
-    if (francaExpression instanceof FIntegerConstant) {
-      return new CValue(String.valueOf(((FIntegerConstant) francaExpression).getVal()));
-    } else {
-      return null;
-    }
   }
 }

@@ -9,13 +9,10 @@
  *
  */
 
-package com.here.ivi.api.model.cmodel;
+package com.here.ivi.api.model.swift;
 
-public class CEnumItem extends CElement {
-  public final CValue value;
-
-  public CEnumItem(String name, CValue value) {
-    super(name);
-    this.value = value;
+public class SwiftValue extends SwiftModelElement {
+  public SwiftValue(String value) {
+    super(value);
   }
 }

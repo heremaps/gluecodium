@@ -90,13 +90,32 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FEnumerationType francaEnumerationType) {
     String comment = CppCommentParser.parse(francaEnumerationType).getMainBodyText();
-    SwiftEnum swiftEnum =
-        new SwiftEnum(
-            SwiftNameRules.getEnumTypeName(francaEnumerationType),
-            CBridgeNameRules.getEnumName(francaEnumerationType));
-    swiftEnum.comment = comment != null ? comment : "";
-    storeResult(swiftEnum);
+    List<SwiftEnumItem> enumItems =
+        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, SwiftEnumItem.class);
+    storeResult(
+        SwiftEnum.builder(SwiftNameRules.getEnumTypeName(francaEnumerationType))
+            .comment(comment)
+            .items(enumItems)
+            .build());
     super.finishBuilding(francaEnumerationType);
+  }
+
+  public void finishBuilding(FEnumerator enumerator) {
+    String comment = CppCommentParser.parse(enumerator).getMainBodyText();
+    SwiftValue value =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, SwiftValue.class);
+    storeResult(
+        SwiftEnumItem.builder(SwiftNameRules.getEnumItemName(enumerator))
+            .comment(comment)
+            .value(value)
+            .build());
+    super.finishBuilding(enumerator);
+  }
+
+  @Override
+  public void finishBuilding(FExpression expression) {
+    storeResult(SwiftTypeMapper.mapType(expression));
+    super.finishBuilding(expression);
   }
 
   @Override

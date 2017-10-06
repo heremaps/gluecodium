@@ -17,6 +17,7 @@ import static java.util.stream.Collectors.toList;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
+import com.here.ivi.api.model.swift.SwiftValue;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -642,8 +643,8 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void typeCollectionWithEnum() {
-    SwiftEnum swiftEnum = new SwiftEnum("EnumSwiftName", "EnumCName");
-    swiftEnum.comment = "Some comment on enum type";
+    SwiftEnum swiftEnum =
+        SwiftEnum.builder("EnumSwiftName").comment("Some comment on enum type").build();
     SwiftFile file = new SwiftFile();
     file.enums.add(swiftEnum);
     final String expected =
@@ -651,7 +652,39 @@ public class SwiftFileTemplateTest {
             + "/**\n"
             + " * Some comment on enum type\n"
             + " */\n"
-            + "public typealias EnumSwiftName = EnumCName \n";
+            + "public enum EnumSwiftName : UInt32 {\n"
+            + "}\n";
+
+    final String generated = generate(file);
+
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void renderEnumWithItemWithCommentAndValue() {
+    SwiftEnumItem enumItem =
+        SwiftEnumItem.builder("ItemName")
+            .comment("Some comment on enumerator")
+            .value(new SwiftValue("VALUE"))
+            .build();
+    SwiftEnum swiftEnum =
+        SwiftEnum.builder("EnumSwiftName")
+            .comment("Some comment on enum type")
+            .items(singletonList(enumItem))
+            .build();
+    SwiftFile file = new SwiftFile();
+    file.enums.add(swiftEnum);
+    final String expected =
+        "import Foundation\n"
+            + "/**\n"
+            + " * Some comment on enum type\n"
+            + " */\n"
+            + "public enum EnumSwiftName : UInt32 {\n"
+            + "    /**\n"
+            + "     * Some comment on enumerator\n"
+            + "     */\n"
+            + "    case ItemName = VALUE\n"
+            + "}\n";
 
     final String generated = generate(file);
 
@@ -660,8 +693,8 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void interfaceWithEnum() {
-    SwiftEnum swiftEnum = new SwiftEnum("EnumSwiftName", "EnumCName");
-    swiftEnum.comment = "Some comment on enum type";
+    SwiftEnum swiftEnum =
+        SwiftEnum.builder("EnumSwiftName").comment("Some comment on enum type").build();
     SwiftClass clazz = new SwiftClass("TestInterface");
     clazz.enums.add(swiftEnum);
     final String expected =
@@ -678,7 +711,8 @@ public class SwiftFileTemplateTest {
             + "    /**\n"
             + "     * Some comment on enum type\n"
             + "     */\n"
-            + "    public typealias EnumSwiftName = EnumCName\n"
+            + "    public enum EnumSwiftName : UInt32 {\n"
+            + "    }\n"
             + "}\n";
 
     final String generated = generateFromClass(clazz);

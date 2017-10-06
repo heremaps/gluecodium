@@ -19,6 +19,7 @@ import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftEnum;
 import com.here.ivi.api.model.swift.SwiftType;
+import com.here.ivi.api.model.swift.SwiftValue;
 import org.franca.core.franca.*;
 
 public class SwiftTypeMapper {
@@ -30,8 +31,7 @@ public class SwiftTypeMapper {
       if (derived instanceof FStructType) {
         return getStructType(derived);
       } else if (derived instanceof FEnumerationType) {
-        return new SwiftEnum(
-            SwiftNameRules.getEnumTypeName(derived), CBridgeNameRules.getEnumName(derived));
+        return SwiftEnum.builder(SwiftNameRules.getEnumTypeName(derived)).build();
       } else if (derived instanceof FTypeDef) {
         return getTypedef((FTypeDef) derived);
       }
@@ -49,6 +49,15 @@ public class SwiftTypeMapper {
       typedefType.typealiasName = publicName;
     }
     return typedefType;
+  }
+
+  public static SwiftValue mapType(FExpression expression) {
+    if (expression instanceof FIntegerConstant) {
+      return new SwiftValue(String.valueOf(((FIntegerConstant) expression).getVal()));
+    } else {
+      //TODO: APIGEN-494: Update Swift layer iOS generator for HelloWorld-ComplexConstants
+      return null;
+    }
   }
 
   private static SwiftType getStructType(FType derived) {

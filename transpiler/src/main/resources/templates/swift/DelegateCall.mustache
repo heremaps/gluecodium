@@ -2,5 +2,6 @@
   }}{{#case "BUILTIN_BYTEBUFFER"}}{{variableName}}_ptr, Int64({{variableName}}.count){{/case}}{{!!
   }}{{#case "STRUCT"}}{{variableName}}Handle{{/case}}{{!!
   }}{{#case "CLASS"}}{{variableName}}Handle{{/case}}{{!!
+  }}{{#case "ENUM"}}{{variableName}}.rawValue{{/case}}{{!!
   }}{{#default}}{{variableName}}{{/default}}{{!!
 }}{{/switch}}{{#if iter.hasNext}}, {{/if}}{{/each}})

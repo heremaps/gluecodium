@@ -9,15 +9,22 @@
  *
  */
 
-package com.here.ivi.api.model.cmodel;
+package com.here.ivi.api.model.swift;
 
-public class CValue extends CElement {
-  public CValue(String value) {
-    super(value);
+import lombok.Builder;
+
+public class SwiftEnumItem extends SwiftModelElement {
+  public final String comment;
+  public final SwiftValue value;
+
+  @Builder
+  protected SwiftEnumItem(String name, String comment, SwiftValue value) {
+    super(name);
+    this.comment = comment;
+    this.value = value;
   }
 
-  @Override
-  public String toString() {
-    return name;
+  public static SwiftEnumItem.SwiftEnumItemBuilder builder(String name) {
+    return new SwiftEnumItem.SwiftEnumItemBuilder().name(name);
   }
 }

@@ -11,13 +11,21 @@
 
 package com.here.ivi.api.model.swift;
 
-public class SwiftEnum extends SwiftType {
-  public String comment;
-  public final String cName;
+import java.util.List;
+import lombok.Builder;
 
-  public SwiftEnum(String name, String cBridgeName) {
+public final class SwiftEnum extends SwiftType {
+  public final String comment;
+  public final List<SwiftEnumItem> items;
+
+  @Builder
+  private SwiftEnum(String name, String comment, List<SwiftEnumItem> items) {
     super(name, TypeCategory.ENUM);
-    comment = "";
-    cName = cBridgeName;
+    this.comment = comment;
+    this.items = items;
+  }
+
+  public static SwiftEnum.SwiftEnumBuilder builder(String name) {
+    return new SwiftEnum.SwiftEnumBuilder().name(name);
   }
 }

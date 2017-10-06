@@ -11,13 +11,10 @@
 
 package com.here.ivi.api.model.cmodel;
 
-import java.util.List;
+import static java.util.Collections.singletonList;
 
 public class CEnum extends CType {
-  public final List<CEnumItem> items;
-
-  public CEnum(String enumName, List<CEnumItem> enumItems) {
-    super(enumName);
-    this.items = enumItems;
+  public CEnum(String enumName) {
+    super(enumName, singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
   }
 }

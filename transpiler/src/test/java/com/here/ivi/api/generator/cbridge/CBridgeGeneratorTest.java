@@ -714,11 +714,8 @@ public class CBridgeGeneratorTest {
     interfaceTypes.add(francaEnum);
 
     String expectedHeader =
-        "typedef enum __attribute__((enum_extensibility(open)))\n"
-            + "cbridge_test_TestInterface_TestEnum {\n"
-            + "    cbridge_test_TestInterface_field_1 = 10,\n"
-            + "    cbridge_test_TestInterface_field_2\n"
-            + "} cbridge_test_TestInterface_TestEnum;\n"
+        "#include <stdint.h>\n"
+            + "typedef uint32_t cbridge_test_TestInterface_TestEnum;\n"
             + INSTANCE_REF
             + "typedef struct {\n"
             + "    void* swift_pointer;\n"
