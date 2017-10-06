@@ -12,5 +12,6 @@ XCTMain([
     testCase(StaticFloatDoubleMethodsTests.allTests),
     testCase(StaticIntMethodsTests.allTests),
     testCase(StaticStringMethodsTests.allTests),
-    testCase(EnumsTests.allTests)
+    testCase(EnumsTests.allTests),
+    testCase(TypeDefTests.allTests)
 ])
