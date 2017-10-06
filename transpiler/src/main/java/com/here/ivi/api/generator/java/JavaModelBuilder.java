@@ -21,7 +21,6 @@ import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
 
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
@@ -89,13 +88,16 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaMethod javaMethod;
 
     // Map return type
-    EList<FArgument> outArgs = francaMethod.getOutArgs();
-    if (outArgs.isEmpty()) { // Void return type
+    List<JavaParameter> outputParameters =
+        CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
+            .filter(parameter -> parameter.isOutput)
+            .collect(Collectors.toList());
+    if (outputParameters.isEmpty()) { // Void return type
       javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()));
-    } else if (outArgs.size() == 1) {
-      FTypeRef typeRef = outArgs.get(0).getType();
-      JavaType returnType = typeMapper.map(typeRef);
-      javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()), returnType);
+    } else if (outputParameters.size() == 1) {
+      javaMethod =
+          new JavaMethod(
+              JavaNameRules.getMethodName(francaMethod.getName()), outputParameters.get(0).type);
     } else {
       // TODO: Wrap complex return type in an immutable container class
       javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()));
@@ -111,7 +113,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       javaMethod.qualifiers.add(MethodQualifier.STATIC);
     }
     javaMethod.visibility = JavaVisibility.PUBLIC;
-    javaMethod.parameters.addAll(getPreviousResults(JavaParameter.class));
+
+    List<JavaParameter> inputParameters =
+        CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
+            .filter(parameter -> !parameter.isOutput)
+            .collect(Collectors.toList());
+    javaMethod.parameters.addAll(inputParameters);
 
     storeResult(javaMethod);
     closeContext();
@@ -125,6 +132,20 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaParameter javaParameter =
         new JavaParameter(
             javaArgumentType, JavaNameRules.getArgumentName(francaArgument.getName()));
+
+    storeResult(javaParameter);
+    closeContext();
+  }
+
+  @Override
+  public void finishBuildingOutputArgument(FArgument francaArgument) {
+
+    JavaType javaArgumentType =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
+
+    JavaParameter javaParameter =
+        new JavaParameter(
+            javaArgumentType, JavaNameRules.getArgumentName(francaArgument.getName()), true);
 
     storeResult(javaParameter);
     closeContext();

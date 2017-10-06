@@ -140,20 +140,19 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaMethodWithOneOutArg() {
-    arguments.add(francaArgument);
+  public void finishBuildingFrancaMethodReadsOutputParameters() {
+    JavaParameter outParameter = new JavaParameter(javaCustomType, "foo", true);
+    contextStack.injectResult(outParameter);
 
     modelBuilder.finishBuilding(francaMethod);
 
     JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals(javaCustomType, javaMethod.returnType);
-
-    verify(typeMapper).map(francaTypeRef);
   }
 
   @Test
-  public void finishBuildingFrancaMethodReadsParameters() {
+  public void finishBuildingFrancaMethodReadsInputParameters() {
     final JavaParameter javaParameter = new JavaParameter(javaCustomType, PARAMETER_NAME);
     contextStack.injectResult(javaParameter);
 
@@ -174,6 +173,19 @@ public class JavaModelBuilderTest {
     JavaParameter javaParameter = modelBuilder.getFirstResult(JavaParameter.class);
     assertNotNull(javaParameter);
     assertEquals(javaCustomType, javaParameter.type);
+    assertFalse(javaParameter.isOutput);
+  }
+
+  @Test
+  public void finishBuildingFrancaOutputArgument() {
+    contextStack.injectResult(javaCustomType);
+
+    modelBuilder.finishBuildingOutputArgument(francaArgument);
+
+    JavaParameter javaParameter = modelBuilder.getFirstResult(JavaParameter.class);
+    assertNotNull(javaParameter);
+    assertEquals(javaCustomType, javaParameter.type);
+    assertTrue(javaParameter.isOutput);
   }
 
   @Test

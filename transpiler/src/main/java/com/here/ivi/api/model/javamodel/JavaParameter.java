@@ -14,17 +14,32 @@ package com.here.ivi.api.model.javamodel;
 import java.util.stream.Stream;
 
 public final class JavaParameter extends JavaElement {
+
   public final JavaType type;
-  public JavaValue defaultValue;
+  public final JavaValue defaultValue;
+  public final boolean isOutput;
 
   public JavaParameter(final JavaType type, final String name) {
-    this(type, name, null);
+    this(type, name, null, false);
   }
 
   public JavaParameter(final JavaType type, final String name, final JavaValue defaultValue) {
+    this(type, name, defaultValue, false);
+  }
+
+  public JavaParameter(final JavaType type, final String name, final boolean isOutput) {
+    this(type, name, null, isOutput);
+  }
+
+  private JavaParameter(
+      final JavaType type,
+      final String name,
+      final JavaValue defaultValue,
+      final boolean isOutput) {
     super(name);
     this.type = type;
     this.defaultValue = defaultValue;
+    this.isOutput = isOutput;
   }
 
   @Override
