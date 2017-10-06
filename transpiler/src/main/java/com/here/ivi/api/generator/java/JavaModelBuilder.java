@@ -134,10 +134,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
-    JavaType type = JavaTypeMapper.map(basePackage, francaConstant.getType());
-    JavaValue value = JavaValueMapper.map(type, francaConstant.getRhs());
+    JavaType javaType =
+        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
+    JavaValue value = JavaValueMapper.map(javaType, francaConstant.getRhs());
     JavaConstant javaConstant =
-        new JavaConstant(type, JavaNameRules.getConstantName(francaConstant.getName()), value);
+        new JavaConstant(javaType, JavaNameRules.getConstantName(francaConstant.getName()), value);
     javaConstant.comment = getCommentString(francaConstant);
 
     storeResult(javaConstant);
