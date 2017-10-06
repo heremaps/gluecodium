@@ -82,51 +82,37 @@ public class JavaTypeMapperCustomTypeTest {
 
   @Test
   public void mapFStructTypeToJavaTypeInTypeCollection() {
-
-    //static mocks
     when(JavaNameRules.getClassName(STRUCT_NAME_TYPECOLLECTION))
         .thenReturn(STRUCT_NAME_TYPECOLLECTION);
-    //non static mocks
     when(structType.getName()).thenReturn(STRUCT_NAME_TYPECOLLECTION);
     when(structType.eContainer()).thenReturn(fTypeCollection);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeRef.getDerived()).thenReturn(structType);
-    //act
+
     JavaType result = typeMapper.map(francaTypeRef);
 
-    //assert & verify
     assertEquals(FMODEL_NAME + "." + STRUCT_NAME_TYPECOLLECTION, result.name);
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());
-
     assertEquals(
         JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME, customReturn.imports.iterator().next().javaPackage);
-
     assertEquals(STRUCT_NAME_TYPECOLLECTION, customReturn.imports.iterator().next().className);
-
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(STRUCT_NAME_TYPECOLLECTION);
   }
 
   @Test
   public void mapFStructTypeToJavaTypeInInterface() {
-
-    //static mocks
     when(JavaNameRules.getClassName(STRUCT_NAME_INTERFACE)).thenReturn(STRUCT_NAME_INTERFACE);
-
     when(JavaNameRules.getClassName(INTERFACE_NAME)).thenReturn(INTERFACE_NAME);
-
-    //non static mocks
     when(structType.getName()).thenReturn(STRUCT_NAME_INTERFACE);
     when(structType.eContainer()).thenReturn(fInterface);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeRef.getDerived()).thenReturn(structType);
 
-    //act
     JavaType result = typeMapper.map(francaTypeRef);
 
-    //assert & verify
     assertEquals(INTERFACE_NAME + "." + STRUCT_NAME_INTERFACE, result.name);
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
@@ -134,17 +120,14 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(STRUCT_NAME_INTERFACE, customReturn.simpleName);
     assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().javaPackage);
     assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().className);
-
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(STRUCT_NAME_INTERFACE);
-
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(INTERFACE_NAME);
   }
 
   @Test
   public void mapFIntegerIntervalThrowsTranspilerException() {
-    //mock integer interval type
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeRef.getDerived()).thenReturn(null);
     when(francaTypeRef.getInterval()).thenReturn(mock(FIntegerInterval.class));
@@ -157,36 +140,45 @@ public class JavaTypeMapperCustomTypeTest {
   }
 
   @Test
-  public void mapInstance() {
+  public void mapTypeDef() {
+    FTypeRef mockFloatType = mock(FTypeRef.class);
+    when(mockFloatType.getPredefined()).thenReturn(FBasicTypeId.FLOAT);
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
+    when(francaTypeDef.getName()).thenReturn("MyUsingAlias");
+    when(francaTypeDef.getActualType()).thenReturn(mockFloatType);
+    when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(false);
 
+    JavaType result = typeMapper.map(francaTypeRef);
+
+    assertTrue(result instanceof JavaPrimitiveType);
+    JavaPrimitiveType javaPrimitiveTypeResult = (JavaPrimitiveType) result;
+    assertEquals("float", javaPrimitiveTypeResult.name);
+    assertEquals(JavaPrimitiveType.FLOAT.getName(), javaPrimitiveTypeResult.type.getValue());
+    PowerMockito.verifyStatic();
+    InstanceRules.isInstanceId(francaTypeDef);
+  }
+
+  @Test
+  public void mapInstanceTypeDef() {
     List<String> packageNames = Arrays.asList("the", "franca", "package", "names");
-
-    //mock typedef and reference
     String className = "MyClazz";
     when(francaTypeDef.getName()).thenReturn(className);
-
     when(francaTypeDef.eContainer()).thenReturn(fInterface);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
-
     when(theModel.getName()).thenReturn(String.join(".", packageNames));
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
-
     when(JavaNameRules.getClassName(INTERFACE_NAME)).thenReturn(INTERFACE_NAME);
 
-    //act
     JavaType result = typeMapper.map(francaTypeRef);
 
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customResult = (JavaCustomType) result;
-
     assertEquals(INTERFACE_NAME, customResult.name);
     assertEquals(1, customResult.imports.size());
     assertEquals(packageNames, customResult.imports.iterator().next().javaPackage.packageNames);
-
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(INTERFACE_NAME);
-
     PowerMockito.verifyStatic();
     InstanceRules.isInstanceId(francaTypeDef);
   }
