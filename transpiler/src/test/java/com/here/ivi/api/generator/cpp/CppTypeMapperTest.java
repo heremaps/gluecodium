@@ -16,10 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
-import com.here.ivi.api.model.cppmodel.CppTypeRef;
+import com.here.ivi.api.model.cppmodel.*;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -182,11 +179,10 @@ public class CppTypeMapperTest {
 
   @Test
   public void wrapMapType() {
-    CppTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.UINT32;
     Include fooInclude = Include.createInternalInclude("bar/Foo.h");
     CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").includes(fooInclude).build();
 
-    CppComplexTypeRef result = CppTypeMapper.wrapMap(cppPrimitiveTypeRef, cppTypeRef);
+    CppComplexTypeRef result = CppTypeMapper.wrapMap(CppPrimitiveTypeRef.UINT32, cppTypeRef);
 
     assertTrue(result.includes.contains(CppLibraryIncludes.INT_TYPES));
     assertTrue(result.includes.contains(fooInclude));
@@ -196,8 +192,23 @@ public class CppTypeMapperTest {
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
     assertEquals(CppTemplateTypeRef.TemplateClass.MAP, cppTemplateTypeRef.templateClass);
     assertEquals(2, cppTemplateTypeRef.templateParameters.size());
-    assertEquals(cppPrimitiveTypeRef, cppTemplateTypeRef.templateParameters.get(0));
+    assertEquals(CppPrimitiveTypeRef.UINT32, cppTemplateTypeRef.templateParameters.get(0));
     assertEquals(cppTypeRef, cppTemplateTypeRef.templateParameters.get(1));
+  }
+
+  @Test
+  public void wrapMapTypeWithEnumKeyType() {
+    CppTypeRef cppTypeRef =
+        new CppComplexTypeRef.Builder("Foo").typeInfo(CppTypeInfo.Enumeration).build();
+
+    CppComplexTypeRef result = CppTypeMapper.wrapMap(cppTypeRef, CppPrimitiveTypeRef.VOID);
+
+    assertTrue(result.includes.contains(CppLibraryIncludes.ENUM_HASH));
+    assertTrue(result instanceof CppTemplateTypeRef);
+
+    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
+    assertEquals(3, cppTemplateTypeRef.templateParameters.size());
+    assertEquals(CppTypeMapper.ENUM_HASH_TYPE, cppTemplateTypeRef.templateParameters.get(2));
   }
 
   private void verifyPrimitiveType(

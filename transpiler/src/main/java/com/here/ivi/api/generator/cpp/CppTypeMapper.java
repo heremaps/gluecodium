@@ -32,6 +32,10 @@ public class CppTypeMapper {
           CppTemplateTypeRef.TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.CHAR);
 
   @VisibleForTesting
+  static final CppTypeRef ENUM_HASH_TYPE =
+      new CppComplexTypeRef.Builder("EnumHash").includes(CppLibraryIncludes.ENUM_HASH).build();
+
+  @VisibleForTesting
   static final CppTypeRef STRING_TYPE =
       new CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE, BASIC_STRING_CHAR_TYPE.includes);
 
@@ -105,8 +109,12 @@ public class CppTypeMapper {
   }
 
   public static CppComplexTypeRef wrapMap(CppTypeRef key, CppTypeRef value) {
-
-    return CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.MAP, key, value);
+    if (key.refersToEnumType()) {
+      return CppTemplateTypeRef.create(
+          CppTemplateTypeRef.TemplateClass.MAP, key, value, ENUM_HASH_TYPE);
+    } else {
+      return CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.MAP, key, value);
+    }
   }
 
   public CppComplexTypeRef mapStruct(FStructType struct) {

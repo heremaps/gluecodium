@@ -17,6 +17,24 @@ interface Enums {
         minor 1
     }
 
+    enumeration SimpleEnum {
+        FIRST
+        SECOND
+    }
+
+    map ExampleMap {
+        SimpleEnum to UInt64
+    }
+
+    method methodWithEnumeration {
+        in {
+            SimpleEnum input
+        }
+        out {
+            SimpleEnum output
+        }
+    }
+
     enumeration InternalError {
         ERROR_NONE
         ERROR_FATAL = 999

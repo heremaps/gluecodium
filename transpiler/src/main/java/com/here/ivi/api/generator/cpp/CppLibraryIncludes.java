@@ -23,4 +23,5 @@ public class CppLibraryIncludes {
   public static final Include VECTOR = Include.createSystemInclude("vector");
 
   public static final Include EXPECTED = Include.createSystemInclude("cpp/internal/expected.h");
+  public static final Include ENUM_HASH = Include.createSystemInclude("cpp/enum_hash.h");
 }

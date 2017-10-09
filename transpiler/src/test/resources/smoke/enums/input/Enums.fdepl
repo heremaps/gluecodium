@@ -14,6 +14,10 @@ import "./Enums.fidl"
 
 define navigation.BaseApiSpec for interface smoke.Enums
 {
+    method methodWithEnumeration {
+        Static = true
+    }
+
     method flipEnumValue {
         Static = true
     }
