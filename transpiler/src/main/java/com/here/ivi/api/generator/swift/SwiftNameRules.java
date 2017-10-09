@@ -75,6 +75,6 @@ public final class SwiftNameRules {
   }
 
   public static String getEnumItemName(FEnumerator francaEnumerator) {
-    return francaEnumerator.getName().toLowerCase();
+    return NameHelper.toLowerCamelCase(francaEnumerator.getName());
   }
 }
