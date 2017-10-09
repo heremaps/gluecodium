@@ -4,6 +4,7 @@ buildscript {
             name 'Local proxy of external Maven repositories'
             url 'example.com'
         }
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -16,6 +17,7 @@ allprojects {
             name 'Local proxy of external Maven repositories'
             url 'example.com'
         }
+        google()
     }
 }
 
