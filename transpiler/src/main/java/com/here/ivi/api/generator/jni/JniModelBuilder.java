@@ -96,7 +96,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     JniType returnType = JniType.createType(javaMethod.returnType, cppMethod.returnType);
     boolean isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC);
-    JniMethod jniMethod = new JniMethod(javaMethod.getName(), cppMethod.name, returnType, isStatic);
+    JniMethod jniMethod = new JniMethod(javaMethod.name, cppMethod.name, returnType, isStatic);
     jniMethod.parameters.addAll(getPreviousResults(JniParameter.class));
 
     storeResult(jniMethod);
@@ -116,7 +116,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     CppParameter cppParameter = cppBuilder.getFirstResult(CppParameter.class);
     JniType jniType = JniType.createType(javaParameter.type, cppParameter.type, isInstanceRef);
 
-    storeResult(new JniParameter(javaParameter.getName(), jniType));
+    storeResult(new JniParameter(javaParameter.name, jniType));
     closeContext();
   }
 

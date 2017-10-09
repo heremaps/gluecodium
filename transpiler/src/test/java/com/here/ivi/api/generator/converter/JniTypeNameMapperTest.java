@@ -14,10 +14,7 @@ package com.here.ivi.api.generator.converter;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.jni.JniTypeNameMapper;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaReferenceType;
-import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.javamodel.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -46,7 +43,7 @@ public final class JniTypeNameMapperTest {
     String result = JniTypeNameMapper.map(javaBool);
 
     // Assert
-    assertEquals(("j" + javaBool.getName()), result);
+    assertEquals(("j" + javaBool.name), result);
   }
 
   @Test
@@ -58,7 +55,7 @@ public final class JniTypeNameMapperTest {
     String result = JniTypeNameMapper.map(javaByte);
 
     // Assert
-    assertEquals(("j" + javaByte.getName()), result);
+    assertEquals(("j" + javaByte.name), result);
   }
 
   @Test
@@ -70,7 +67,7 @@ public final class JniTypeNameMapperTest {
     String result = JniTypeNameMapper.map(javaChar);
 
     // Assert
-    assertEquals(("j" + javaChar.getName()), result);
+    assertEquals(("j" + javaChar.name), result);
   }
 
   @Test
@@ -82,7 +79,7 @@ public final class JniTypeNameMapperTest {
     String result = JniTypeNameMapper.map(javaDouble);
 
     // Assert
-    assertEquals(("j" + javaDouble.getName()), result);
+    assertEquals(("j" + javaDouble.name), result);
   }
 
   @Test
@@ -94,7 +91,7 @@ public final class JniTypeNameMapperTest {
     String result = JniTypeNameMapper.map(javaFloat);
 
     // Assert
-    assertEquals(("j" + javaFloat.getName()), result);
+    assertEquals(("j" + javaFloat.name), result);
   }
 
   @Test
@@ -106,7 +103,7 @@ public final class JniTypeNameMapperTest {
     String result = JniTypeNameMapper.map(javaInt);
 
     // Assert
-    assertEquals(("j" + javaInt.getName()), result);
+    assertEquals(("j" + javaInt.name), result);
   }
 
   @Test
@@ -118,7 +115,7 @@ public final class JniTypeNameMapperTest {
     String result = JniTypeNameMapper.map(javaLong);
 
     // Assert
-    assertEquals(("j" + javaLong.getName()), result);
+    assertEquals(("j" + javaLong.name), result);
   }
 
   @Test
@@ -130,7 +127,7 @@ public final class JniTypeNameMapperTest {
     String result = JniTypeNameMapper.map(javaShort);
 
     // Assert
-    assertEquals(("j" + javaShort.getName()), result);
+    assertEquals(("j" + javaShort.name), result);
   }
 
   @Test

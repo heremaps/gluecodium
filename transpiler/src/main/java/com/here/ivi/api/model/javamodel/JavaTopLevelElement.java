@@ -49,7 +49,7 @@ public abstract class JavaTopLevelElement extends JavaElement {
   }
 
   @Override
-  public Stream<JavaNamedEntity> stream() {
+  public Stream<JavaElement> stream() {
     return Stream.concat(
             methods.stream(),
             Stream.concat(

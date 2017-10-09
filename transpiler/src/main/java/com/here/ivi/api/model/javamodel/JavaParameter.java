@@ -28,7 +28,7 @@ public final class JavaParameter extends JavaElement {
   }
 
   @Override
-  public Stream<JavaNamedEntity> stream() {
+  public Stream<JavaElement> stream() {
     return Stream.of(type, defaultValue);
   }
 }

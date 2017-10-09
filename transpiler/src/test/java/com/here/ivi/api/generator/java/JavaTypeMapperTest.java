@@ -73,6 +73,6 @@ public class JavaTypeMapperTest {
 
     JavaType returnedJavaType = typeMapper.map(francaTypeRef);
 
-    assertEquals(expectedJavaTypeName, returnedJavaType.getName());
+    assertEquals(expectedJavaTypeName, returnedJavaType.name);
   }
 }

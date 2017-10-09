@@ -32,7 +32,7 @@ public final class JavaClass extends JavaTopLevelElement {
   }
 
   @Override
-  public Stream<JavaNamedEntity> stream() {
+  public Stream<JavaElement> stream() {
     return Stream.concat(
             super.stream(),
             extendedClass != null
