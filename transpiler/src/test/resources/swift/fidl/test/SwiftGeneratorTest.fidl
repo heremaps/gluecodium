@@ -11,142 +11,142 @@
 
 package swift.fidl.test
 
-interface TestInterface_0 {
+interface TestInterface0 {
     version {
         major 0
         minor 1
     }
 }
 
-interface TestInterface_1 {
+interface TestInterface1 {
     version {
         major 0
         minor 1
     }
 
-    method method_0 {
+    method method0 {
         in {}
         out {}
     }
 }
 
-interface TestInterface_2 {
+interface TestInterface2 {
     version {
         major 0
         minor 1
     }
 
-    method method_0 {
+    method method0 {
         in {
-            String param_1
+            String param1
         }
         out {}
     }
 }
 
-interface TestInterface_3 {
+interface TestInterface3 {
     version {
         major 0
         minor 1
     }
 
-    method method_0 {
+    method method0 {
         in {
-            String param_1
-            String param_2
-            String param_3
+            String param1
+            String param2
+            String param3
         }
         out {}
     }
 }
 
-interface TestInterface_4 {
+interface TestInterface4 {
     version {
         major 0
         minor 1
     }
 
-    method method_0 {
+    method method0 {
         in {
-            String param_1
-            String param_2
-            String param_3
+            String param1
+            String param2
+            String param3
         }
         out {
-            String returnVal_1
+            String returnVal1
         }
     }
 }
 
-interface TestInterface_5 {
+interface TestInterface5 {
     version {
         major 0
         minor 1
     }
 
-    method method_0 {
+    method method0 {
         in {
-            String param_1
-            String param_2
+            String param1
+            String param2
         }
         out {
-            String returnVal_1
+            String returnVal1
         }
     }
 
-    method method_1 {
+    method method1 {
         in {
-            String param_1
-            String param_2
+            String param1
+            String param2
         }
         out {
-            String returnVal_1
+            String returnVal1
         }
     }
 }
 
-interface TestInterface_6 {
+interface TestInterface6 {
     version {
         major 0
         minor 1
     }
 
-    method method_0 {
+    method method0 {
         in {}
         out {}
     }
 }
 
-interface TestInterface_7 {
+interface TestInterface7 {
     version {
         major 0
         minor 1
     }
 
     <** @description : This is a test struct **>
-    struct struct_0 {
+    struct struct0 {
         Int64 elem1
         Double elem2
     }
 
-    struct struct_1 {
+    struct struct1 {
         String elem1
     }
 }
 
-typeCollection TestCollection_0 {
+typeCollection TestCollection0 {
     version {
         major 0
         minor 1
     }
 
     <** @description : This is a test struct **>
-    struct struct_0 {
+    struct struct0 {
         Int64 elem1
         Double elem2
     }
 
-    struct struct_1 {
+    struct struct1 {
         String elem1
     }
 }

@@ -12,9 +12,9 @@
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./SwiftGeneratorTest.fidl"
 
-define navigation.BaseApiSpec for interface swift.fidl.test.TestInterface_6
+define navigation.BaseApiSpec for interface swift.fidl.test.TestInterface6
 {
-  method method_0 {
+  method method0 {
     Static = true
   }
 }

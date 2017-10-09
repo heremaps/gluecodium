@@ -14,32 +14,38 @@ package com.here.ivi.api.generator.common;
 import com.google.common.base.CaseFormat;
 
 public class NameHelper {
-
-  public static String toSnakeCase(String input) {
-    if (input == null) {
-      return "";
-    }
-    return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input);
-  }
+  private static final String UNDERSCORE = "_";
 
   public static String toUpperSnakeCase(String input) {
     if (input == null) {
       return "";
     }
-    return CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, input);
+    if (input.contains(UNDERSCORE)) {
+      return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, input);
+    } else {
+      return CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, input);
+    }
   }
 
   public static String toUpperCamelCase(String input) {
     if (input == null) {
       return "";
     }
-    return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input);
+    if (input.contains(UNDERSCORE)) {
+      return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, input);
+    } else {
+      return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input);
+    }
   }
 
   public static String toLowerCamelCase(String input) {
     if (input == null) {
       return "";
     }
-    return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input);
+    if (input.contains(UNDERSCORE)) {
+      return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, input);
+    } else {
+      return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input);
+    }
   }
 }

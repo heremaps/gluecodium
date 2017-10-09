@@ -12,9 +12,12 @@
 package com.here.ivi.api.generator.cpp;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
@@ -40,7 +43,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(InstanceRules.class)
+@PrepareForTest({InstanceRules.class, NameHelper.class})
 public class CppNameRulesTest {
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -61,6 +64,7 @@ public class CppNameRulesTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(InstanceRules.class);
+    PowerMockito.spy(NameHelper.class);
 
     when(mockFrancaModel.getFrancaModel()).thenReturn(fModel);
     when(fModel.getName()).thenReturn("");
@@ -202,5 +206,13 @@ public class CppNameRulesTest {
     String fullyQualifiedName = CppNameRules.getConstantFullyQualifiedName(fConstantDef);
 
     assertEquals("::a::b::c::AnInterface::Fixed", fullyQualifiedName);
+  }
+
+  @Test
+  public void getEnumEntryName() {
+    CppNameRules.getEnumEntryName("Any name will do");
+
+    PowerMockito.verifyStatic(times(1));
+    NameHelper.toUpperSnakeCase(any());
   }
 }
