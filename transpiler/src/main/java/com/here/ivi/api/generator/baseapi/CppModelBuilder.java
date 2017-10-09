@@ -77,7 +77,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
             .filter(parameter -> parameter.isOutput)
             .collect(Collectors.toList());
-    CppTypeRef errorType = getPreviousResult(CppTypeRef.class);
+
+    // TODO: temporary implementation until APIGEN-697
+    FEnumerationType errorEnum = francaMethod.getErrorEnum();
+    CppTypeRef errorType = errorEnum != null ? typeMapper.mapEnum(errorEnum) : null;
+
     CppMethodMapper.ReturnTypeData returnTypeData =
         CppMethodMapper.mapMethodReturnType(francaMethod, outputParameters, errorType);
     CppMethod cppMethod = buildCppMethod(francaMethod, returnTypeData.type, returnTypeData.comment);
@@ -209,12 +213,6 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
   @Override
   public void finishBuilding(FEnumerationType francaEnumerationType) {
-
-    if (francaEnumerationType.eContainer() instanceof FMethod) {
-      storeResult(typeMapper.mapEnum(francaEnumerationType));
-      closeContext();
-      return;
-    }
 
     String enumName = CppNameRules.getEnumName(francaEnumerationType.getName());
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaEnumerationType);

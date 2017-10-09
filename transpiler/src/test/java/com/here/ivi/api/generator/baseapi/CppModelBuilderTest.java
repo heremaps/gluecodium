@@ -277,10 +277,13 @@ public class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaMethodReadsErrorType() {
-    contextStack.injectResult(cppComplexTypeRef);
+  public void finishBuildingFrancaMethodMapsErrorEnum() {
+    when(francaMethod.getErrorEnum()).thenReturn(francaEnumerationType);
+    when(typeMapper.mapEnum(any())).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaMethod);
+
+    verify(typeMapper).mapEnum(francaEnumerationType);
 
     PowerMockito.verifyStatic();
     CppMethodMapper.mapMethodReturnType(francaMethod, Collections.emptyList(), cppComplexTypeRef);
@@ -583,22 +586,6 @@ public class CppModelBuilderTest {
     assertNotNull(resultEnum);
     assertFalse(resultEnum.items.isEmpty());
     assertEquals(cppEnumItem, resultEnum.items.get(0));
-  }
-
-  @Test
-  public void finishBuildingFrancaEnumerationTypeCreatesTypeRef() {
-    when(francaEnumerationType.eContainer()).thenReturn(francaMethod);
-    when(typeMapper.mapEnum(any())).thenReturn(cppComplexTypeRef);
-
-    modelBuilder.finishBuilding(francaEnumerationType);
-
-    CppEnum resultEnum = modelBuilder.getFirstResult(CppEnum.class);
-    assertNull(resultEnum);
-
-    CppTypeRef resultTypeRef = modelBuilder.getFirstResult(CppTypeRef.class);
-    assertEquals(cppComplexTypeRef, resultTypeRef);
-
-    verify(typeMapper).mapEnum(francaEnumerationType);
   }
 
   @Test

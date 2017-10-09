@@ -150,7 +150,6 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
   private void walkChildNodes(FMethod francaMethod) {
     walkCollection(IN_ARG_KEY, francaMethod.getInArgs());
     walkCollection(OUT_ARG_KEY, francaMethod.getOutArgs());
-    walk(francaMethod.getErrors());
   }
 
   private void walkChildNodes(FCompoundType francaCompoundType) {
