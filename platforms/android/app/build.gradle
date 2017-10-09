@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '26.0.1'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId 'com.here.helloapplication'
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 150001
         versionName '0.0.1'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
@@ -25,11 +25,11 @@ dependencies {
     compile 'com.here.ivi.example:hello@aar'
 
     // Runtime dependencies from Maven repositories
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:design:26.0.2'
 
     // Test dependencies
     testCompile 'junit:junit:4.12'
-    testCompile 'org.robolectric:robolectric:3.3.2'
+    testCompile 'org.robolectric:robolectric:3.4.2'
 }
