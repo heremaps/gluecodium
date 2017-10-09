@@ -48,7 +48,7 @@ public class NameValidatorTest {
   private Interface francaInterface;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private Interface anotherFrancaInterface;
+  private TypeCollection francaTypeCollection;
 
   private final List<TypeCollection> typeCollections = new LinkedList<>();
   private final List<Interface> interfaces = new LinkedList<>();
@@ -61,82 +61,89 @@ public class NameValidatorTest {
     when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
 
     when(francaInterface.getFrancaModel()).thenReturn(fModel);
-    when(anotherFrancaInterface.getFrancaModel()).thenReturn(fModel);
+    when(francaTypeCollection.getFrancaModel()).thenReturn(fModel);
 
     when(francaModel.getTypeCollections()).thenReturn(typeCollections);
     when(francaModel.getInterfaces()).thenReturn(interfaces);
   }
 
   @Test
-  public void validateFModelWithSingleTypeCollection() {
+  public void checkTypeNamesWithSingleTypeCollection() {
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
 
-    assertTrue(NameValidator.validate(francaModel));
+    assertTrue(NameValidator.checkTypeNamesInTypeCollection(francaModel));
   }
 
   @Test
-  public void validateFModelWithMultipleTypeCollectionsUniqueTypeNames() {
+  public void checkTypeNamesWithMultipleTypeCollectionsUniqueTypeNames() {
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME + "2", fModel));
 
-    assertTrue(NameValidator.validate(francaModel));
+    assertTrue(NameValidator.checkTypeNamesInTypeCollection(francaModel));
   }
 
   @Test
-  public void validateFModelWithMultipleTypeCollectionsNonUniqueTypeNames() {
+  public void checkTypeNamesWithMultipleTypeCollectionsNonUniqueTypeNames() {
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
 
-    assertFalse(NameValidator.validate(francaModel));
+    assertFalse(NameValidator.checkTypeNamesInTypeCollection(francaModel));
   }
 
   @Test
-  public void validateFModelWithMultipleTypeCollectionsNonUniqueTypeNamesDifferentPackages() {
+  public void checkTypeNamesWithMultipleTypeCollectionsNonUniqueTypeNamesDifferentPackages() {
     FModel fModel2 = mock(FModel.class);
     when(fModel2.getName()).thenReturn(MODEL_NAME + ".xtra");
 
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel2));
 
-    assertTrue(NameValidator.validate(francaModel));
+    assertTrue(NameValidator.checkTypeNamesInTypeCollection(francaModel));
   }
 
   @Test
-  public void validateFModelWithSingleInterface() {
+  public void checkTypeCollectionNamesWithSingleInterface() {
     interfaces.add(francaInterface);
 
-    assertTrue(NameValidator.validate(francaModel));
+    assertTrue(NameValidator.checkTypeCollectionNames(francaModel));
   }
 
   @Test
-  public void validateFModelWithTwoInterfacesUniqueNames() {
-    when(anotherFrancaInterface.getName()).thenReturn(INTERFACE_NAME + "Off");
+  public void checkTypeCollectionNamesWithSingleTypeCollection() {
+    typeCollections.add(francaTypeCollection);
+
+    assertTrue(NameValidator.checkTypeCollectionNames(francaModel));
+  }
+
+  @Test
+  public void checkTypeCollectionNamesWithTwoUniqueNames() {
+    when(francaTypeCollection.getName()).thenReturn(INTERFACE_NAME + "Off");
     interfaces.add(francaInterface);
-    interfaces.add(anotherFrancaInterface);
+    typeCollections.add(francaTypeCollection);
 
-    assertTrue(NameValidator.validate(francaModel));
+    assertTrue(NameValidator.checkTypeCollectionNames(francaModel));
   }
 
   @Test
-  public void validateFModelWithTwoInterfacesNonUniqueNames() {
-    when(anotherFrancaInterface.getName()).thenReturn(INTERFACE_NAME);
+  public void checkTypeCollectionNamesWithTwoNonUniqueNames() {
+    when(francaTypeCollection.getName()).thenReturn(INTERFACE_NAME);
     interfaces.add(francaInterface);
-    interfaces.add(anotherFrancaInterface);
+    typeCollections.add(francaTypeCollection);
 
-    assertFalse(NameValidator.validate(francaModel));
+    assertFalse(NameValidator.checkTypeCollectionNames(francaModel));
   }
 
   @Test
-  public void validateFModelWithTwoInterfacesNonUniqueNamesDifferentPackages() {
+  public void checkTypeCollectionNamesWithTwoNonUniqueNamesDifferentPackages() {
     FModel anotherFModel = mock(FModel.class);
     when(anotherFModel.getName()).thenReturn(MODEL_NAME + ".xtra");
-    when(anotherFrancaInterface.getFrancaModel()).thenReturn(anotherFModel);
+    when(francaTypeCollection.getFrancaModel()).thenReturn(anotherFModel);
 
-    when(anotherFrancaInterface.getName()).thenReturn(INTERFACE_NAME);
+    when(francaTypeCollection.getName()).thenReturn(INTERFACE_NAME);
     interfaces.add(francaInterface);
-    interfaces.add(anotherFrancaInterface);
+    typeCollections.add(francaTypeCollection);
 
-    assertTrue(NameValidator.validate(francaModel));
+    assertTrue(NameValidator.checkTypeCollectionNames(francaModel));
   }
 
   private TypeCollection mockTypeCollectionContainingType(String typeName, FModel fModelParam) {

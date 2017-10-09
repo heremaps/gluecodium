@@ -11,8 +11,9 @@
 
 package com.here.ivi.api.validator.common;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
-import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,10 +29,11 @@ public class NameValidator {
   private static final Logger LOGGER = Logger.getLogger(NameValidator.class.getName());
 
   public static boolean validate(final FrancaModel model) {
-    return checkInterfaceNames(model) && checkTypeNamesInTypeCollection(model);
+    return checkTypeCollectionNames(model) && checkTypeNamesInTypeCollection(model);
   }
 
-  private static boolean checkTypeNamesInTypeCollection(final FrancaModel model) {
+  @VisibleForTesting
+  static boolean checkTypeNamesInTypeCollection(final FrancaModel model) {
     Map<String, List<String>> packageNameMapping = new HashMap<>();
     for (TypeCollection typeCollection : model.getTypeCollections()) {
 
@@ -50,18 +52,23 @@ public class NameValidator {
     return checkForDuplicateNames(packageNameMapping, "type");
   }
 
-  private static boolean checkInterfaceNames(final FrancaModel model) {
+  @VisibleForTesting
+  static boolean checkTypeCollectionNames(final FrancaModel model) {
 
     Map<String, List<String>> packageNameMapping = new HashMap<>();
-    for (Interface anInterface : model.getInterfaces()) {
+    model
+        .getTypeCollections()
+        .forEach(typeCollection -> collectName(typeCollection, packageNameMapping));
+    model.getInterfaces().forEach(anInterface -> collectName(anInterface, packageNameMapping));
 
-      String packageName = anInterface.getFrancaModel().getName();
-      List<String> value =
-          packageNameMapping.computeIfAbsent(packageName, key -> new LinkedList<>());
-      value.add(anInterface.getName());
-    }
+    return checkForDuplicateNames(packageNameMapping, "type collection");
+  }
 
-    return checkForDuplicateNames(packageNameMapping, "interface");
+  private static void collectName(
+      final FrancaElement francaElement, final Map<String, List<String>> packageNameMapping) {
+    String packageName = francaElement.getFrancaModel().getName();
+    List<String> value = packageNameMapping.computeIfAbsent(packageName, key -> new LinkedList<>());
+    value.add(francaElement.getName());
   }
 
   private static boolean checkForDuplicateNames(
