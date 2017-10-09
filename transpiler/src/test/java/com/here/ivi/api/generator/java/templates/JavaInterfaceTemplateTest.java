@@ -62,7 +62,7 @@ public final class JavaInterfaceTemplateTest {
             + "package com.here.android;\n"
             + "\n"
             + "interface ExampleInterface {\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -83,7 +83,7 @@ public final class JavaInterfaceTemplateTest {
             + " * Example interface comment\n"
             + " */\n"
             + "interface ExampleInterface {\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -102,7 +102,7 @@ public final class JavaInterfaceTemplateTest {
             + "\n"
             + "interface ExampleInterface {\n"
             + "    ExampleType someMethod(final InParamType param);\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -124,7 +124,7 @@ public final class JavaInterfaceTemplateTest {
             + "interface ExampleInterface {\n"
             + "    ExampleType someMethod(final InParamType param);\n"
             + "    void otherMethod();\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -143,7 +143,7 @@ public final class JavaInterfaceTemplateTest {
             + "\n"
             + "import com.here.android.AnotherInterface;\n\n"
             + "interface ExampleInterface extends AnotherInterface {\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -164,7 +164,7 @@ public final class JavaInterfaceTemplateTest {
             + "import com.here.android.AnotherInterface;\n"
             + "import com.here.android.Face;\n\n"
             + "interface ExampleInterface extends AnotherInterface, Face {\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -182,7 +182,7 @@ public final class JavaInterfaceTemplateTest {
             + "package com.here.example.interfaces;\n"
             + "\n"
             + "protected interface ExampleInterface {\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -201,7 +201,7 @@ public final class JavaInterfaceTemplateTest {
             + "\n"
             + "interface ExampleInterface {\n"
             + "    static final ExampleType Permanent = valuable;\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -223,7 +223,7 @@ public final class JavaInterfaceTemplateTest {
             + "interface ExampleInterface {\n"
             + "    static final ExampleType Permanent = valuable;\n"
             + "    static final ExampleType Something = something;\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -245,7 +245,7 @@ public final class JavaInterfaceTemplateTest {
             + "\n"
             + "interface ExampleInterface {\n"
             + "    static final ExampleType Permanent = valuable;\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -269,7 +269,7 @@ public final class JavaInterfaceTemplateTest {
             + "\n"
             + "interface ExampleInterface {\n"
             + "    static final ExampleType Permanent = valuable;\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -289,7 +289,7 @@ public final class JavaInterfaceTemplateTest {
             + "interface ExampleInterface {\n"
             + "    enum Innumerable {\n"
             + "    }\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -312,7 +312,7 @@ public final class JavaInterfaceTemplateTest {
             + "    }\n"
             + "    enum Numerous {\n"
             + "    }\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -332,7 +332,7 @@ public final class JavaInterfaceTemplateTest {
             + "interface ExampleInterface {\n"
             + "    class Classy {\n"
             + "    }\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 
@@ -355,7 +355,7 @@ public final class JavaInterfaceTemplateTest {
             + "    }\n"
             + "    class Classic {\n"
             + "    }\n"
-            + "}";
+            + "}\n";
     assertEquals(expected, generated);
   }
 }
