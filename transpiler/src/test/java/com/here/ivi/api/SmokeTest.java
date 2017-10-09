@@ -31,17 +31,17 @@ import org.junit.runners.Parameterized;
 import org.mockito.*;
 
 @RunWith(Parameterized.class)
-public class SmokeTest {
-
+public final class SmokeTest {
+  private static final String FEATURE_INPUT_FOLDER = "input";
+  private static final String FEATURE_OUTPUT_FOLDER = "output";
+  private static final List<String> GENERATOR_NAMES = GeneratorSuite.generatorShortNames();
   private static final String RESOURCE_PREFIX = "smoke";
-
-  private final File featureDirectory;
-  private final String generatorName;
-
-  private final List<GeneratedFile> results = new LinkedList<>();
 
   private final Transpiler transpiler =
       spy(new Transpiler(OptionReader.TranspilerOptions.builder().build()));
+  private final File featureDirectory;
+  private final String generatorName;
+  private final List<GeneratedFile> results = new LinkedList<>();
 
   @Before
   public void setUp() {
@@ -59,7 +59,6 @@ public class SmokeTest {
 
   @Parameterized.Parameters
   public static Collection<Object[]> data() {
-
     URL smokeResourcesUrl = ClassLoader.getSystemClassLoader().getResource(RESOURCE_PREFIX);
     if (smokeResourcesUrl == null) {
       fail("Smoke test resources not found.");
@@ -74,18 +73,16 @@ public class SmokeTest {
       return Collections.emptyList();
     }
 
-    File[] resources = smokeResourcesDirectory.listFiles();
-    if (resources == null) {
+    File[] featureDirectoryResources = smokeResourcesDirectory.listFiles();
+    if (featureDirectoryResources == null) {
       fail("No smoke test resources were found.");
       return Collections.emptyList();
     }
-
-    List<String> generatorNames = GeneratorSuite.generatorShortNames();
-    return Arrays.stream(resources)
+    return Arrays.stream(featureDirectoryResources)
         .filter(File::isDirectory)
         .flatMap(
             directory ->
-                generatorNames
+                GENERATOR_NAMES
                     .stream()
                     .map(generatorName -> new Object[] {directory, generatorName}))
         .collect(Collectors.toList());
@@ -98,15 +95,18 @@ public class SmokeTest {
 
   @Test
   public void smokeTest() {
-    File referenceFilesDirectory = new File(featureDirectory, generatorName);
-    Collection<File> referenceFiles = listFilesRecursively(referenceFilesDirectory);
-    assertFalse(
-        "Reference files are not found in " + referenceFilesDirectory, referenceFiles.isEmpty());
+    File inputDirectory = new File(featureDirectory, FEATURE_INPUT_FOLDER);
+    File outputDirectory = new File(featureDirectory, FEATURE_OUTPUT_FOLDER);
+    File outputForGeneratorDirectory = new File(outputDirectory, generatorName);
 
-    boolean result =
+    Collection<File> referenceFiles = listFilesRecursively(outputForGeneratorDirectory);
+    assertFalse(
+        "Reference files are not found in " + outputForGeneratorDirectory,
+        referenceFiles.isEmpty());
+
+    assertTrue(
         transpiler.executeGenerator(
-            generatorName, Collections.singletonList(featureDirectory), new HashMap<>());
-    assertTrue(result);
+            generatorName, Collections.singletonList(inputDirectory), new HashMap<>()));
 
     Map<String, String> generatedContents =
         results
@@ -117,7 +117,7 @@ public class SmokeTest {
                     generatedFile -> generatedFile.content));
 
     for (final File referenceFile : referenceFiles) {
-      String relativePath = getRelativePath(featureDirectory, referenceFile);
+      String relativePath = getRelativePath(outputDirectory, referenceFile);
       String generatedContent = generatedContents.get(relativePath);
       assertNotNull("File was not generated: " + relativePath, generatedContent);
 
