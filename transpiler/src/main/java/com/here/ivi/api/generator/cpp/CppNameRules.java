@@ -116,7 +116,7 @@ public final class CppNameRules {
   }
 
   public static String getEnumEntryName(String base) {
-    return NameHelper.toUpperCamelCase(base); // MyEnumEntry
+    return NameHelper.toUpperSnakeCase(base); // MY_ENUM_ENTRY
   }
 
   public static String getFieldName(String base) {

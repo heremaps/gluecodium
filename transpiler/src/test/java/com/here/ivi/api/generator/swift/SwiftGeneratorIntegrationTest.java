@@ -61,7 +61,7 @@ public class SwiftGeneratorIntegrationTest {
     assertNotNull("The property should not be empty", clazz.structs);
     assertEquals("It should parse both structs", 2, clazz.structs.size());
     SwiftContainerType struct = clazz.structs.get(0);
-    assertEquals("name should be parsed correctly to Swift", "Struct_0", struct.name);
+    assertEquals("name should be parsed correctly to Swift", "Struct0", struct.name);
     assertEquals("comments should be parsed correctly", "This is a test struct", struct.comment);
     assertEquals("all fields should be recognized", 2, struct.fields.size());
     assertEquals("the name of the fields are correct", "elem1", struct.fields.get(0).name);
@@ -69,11 +69,11 @@ public class SwiftGeneratorIntegrationTest {
         "the type of the fields are correct", "Int64", struct.fields.get(0).type.toString());
     assertEquals(
         "CBridge prefix is set correctly",
-        "swift_fidl_test_TestInterface_7_Struct_0",
+        "swift_fidl_test_TestInterface7_Struct0",
         struct.cPrefix);
     assertEquals(
         "the CBridge type of the struct is correct",
-        "swift_fidl_test_TestInterface_7_Struct_0Ref",
+        "swift_fidl_test_TestInterface7_Struct0Ref",
         struct.cType);
   }
 
@@ -103,9 +103,9 @@ public class SwiftGeneratorIntegrationTest {
       assertNotNull(method.parameters);
       assertEquals(2, method.parameters.size());
       assertNotNull(method.parameters.get(0));
-      assertEquals("param_1", method.parameters.get(0).name);
+      assertEquals("param1", method.parameters.get(0).name);
       assertNotNull(method.parameters.get(1));
-      assertEquals("param_2", method.parameters.get(1).name);
+      assertEquals("param2", method.parameters.get(1).name);
       assertNotNull(method.returnType);
       assertEquals("String", method.returnType.name);
     }
@@ -138,11 +138,11 @@ public class SwiftGeneratorIntegrationTest {
     assertNotNull(method.parameters);
     assertEquals(3, method.parameters.size());
     assertNotNull(method.parameters.get(0));
-    assertEquals("param_1", method.parameters.get(0).name);
+    assertEquals("param1", method.parameters.get(0).name);
     assertNotNull(method.parameters.get(1));
-    assertEquals("param_2", method.parameters.get(1).name);
+    assertEquals("param2", method.parameters.get(1).name);
     assertNotNull(method.parameters.get(2));
-    assertEquals("param_3", method.parameters.get(2).name);
+    assertEquals("param3", method.parameters.get(2).name);
   }
 
   @Test
@@ -155,14 +155,14 @@ public class SwiftGeneratorIntegrationTest {
     assertNotNull(clazz.methods);
     assertEquals(1, clazz.methods.size());
     final SwiftMethod method = clazz.methods.get(0);
-    assertEquals("method_0", method.name);
+    assertEquals("method0", method.name);
     assertTrue(method.comment.isEmpty());
     assertFalse(method.isStatic);
     assertNotNull(method.parameters);
     assertEquals(1, method.parameters.size());
     final SwiftParameter param = method.parameters.get(0);
     assertNotNull(param);
-    assertEquals("param_1", param.name);
+    assertEquals("param1", param.name);
   }
 
   @Test
@@ -183,11 +183,11 @@ public class SwiftGeneratorIntegrationTest {
         "The base namespace should be set to its c_bridge class",
         "swift_fidl_test",
         clazz.nameSpace);
-    assertEquals("TestInterface_1", clazz.name);
+    assertEquals("TestInterface1", clazz.name);
     assertNotNull(clazz.methods);
     assertEquals(1, clazz.methods.size());
     final SwiftMethod method = clazz.methods.get(0);
-    assertEquals("method_0", method.name);
+    assertEquals("method0", method.name);
     assertTrue(method.parameters.isEmpty());
   }
 
@@ -211,7 +211,7 @@ public class SwiftGeneratorIntegrationTest {
         "The base namespace should be set to its c_bridge class",
         "swift_fidl_test",
         clazz.nameSpace);
-    assertEquals("TestInterface_0", clazz.name);
+    assertEquals("TestInterface0", clazz.name);
   }
 
   @Test
@@ -222,10 +222,10 @@ public class SwiftGeneratorIntegrationTest {
     assertEquals("There should be no class defined in file", 0, file.classes.size());
     assertEquals("There should be two structs defined in file", 2, file.structs.size());
     SwiftContainerType struct = file.structs.get(0);
-    assertEquals("Struct_0", struct.name);
+    assertEquals("Struct0", struct.name);
     assertEquals("First struct should have 2 fields", 2, struct.fields.size());
     struct = file.structs.get(1);
-    assertEquals("Struct_1", struct.name);
+    assertEquals("Struct1", struct.name);
     assertEquals("Second struct should have 1 field", 1, struct.fields.size());
   }
 }
