@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import java.util.Collection;
 import java.util.EnumSet;
 
 public class JavaReferenceType extends JavaType {
@@ -48,20 +47,6 @@ public class JavaReferenceType extends JavaType {
   public JavaReferenceType(final Type type) {
     super(type.getValue());
     this.type = type;
-  }
-
-  /**
-   * Package local constructor for sub-classes with imports. Pre-defined reference types have no
-   * explicit imports (as java.lang.* is implicit).
-   */
-  JavaReferenceType(final Type type, final Collection<JavaImport> imports) {
-    super(type.getValue(), imports);
-    this.type = type;
-  }
-
-  @Override
-  public String getName() {
-    return type.getValue();
   }
 
   @Override

@@ -52,7 +52,7 @@ public final class JavaMethod extends JavaElement {
   }
 
   @Override
-  public Stream<JavaNamedEntity> stream() {
+  public Stream<JavaElement> stream() {
     return Stream.concat(Stream.of(returnType), parameters.stream());
   }
 }

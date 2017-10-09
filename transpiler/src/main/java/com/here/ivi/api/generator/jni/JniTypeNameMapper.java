@@ -11,11 +11,8 @@
 
 package com.here.ivi.api.generator.jni;
 
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
+import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
-import com.here.ivi.api.model.javamodel.JavaReferenceType;
-import com.here.ivi.api.model.javamodel.JavaType;
 
 public final class JniTypeNameMapper {
 
@@ -44,7 +41,7 @@ public final class JniTypeNameMapper {
       }
     }
     throw new IllegalArgumentException(
-        "mapping from Java type to jni type name is not possible: " + javaType.getName());
+        "mapping from Java type to jni type name is not possible: " + javaType.name);
   }
 
   private static String map(final JavaReferenceType refType) {
@@ -79,6 +76,6 @@ public final class JniTypeNameMapper {
       }
     }
     throw new IllegalArgumentException(
-        "mapping from Java type to jni type name is not possible: " + refType.getName());
+        "mapping from Java type to jni type name is not possible: " + refType.name);
   }
 }

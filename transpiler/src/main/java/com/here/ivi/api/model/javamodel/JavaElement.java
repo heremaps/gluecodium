@@ -14,7 +14,7 @@ package com.here.ivi.api.model.javamodel;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class JavaElement implements JavaNamedEntity {
+public class JavaElement {
 
   public final String name;
   public String comment = "";
@@ -25,22 +25,16 @@ public class JavaElement implements JavaNamedEntity {
   }
 
   @Override
-  public String getName() {
+  public String toString() {
     return name;
   }
 
-  @Override
-  public String toString() {
-    return getName();
-  }
-
-  public Stream<JavaNamedEntity> stream() {
+  protected Stream<JavaElement> stream() {
     return Stream.empty();
   }
 
-  public final Stream<JavaNamedEntity> streamRecursive() {
+  protected final Stream<JavaElement> streamRecursive() {
     return Stream.concat(
-        Stream.of(this),
-        stream().filter(Objects::nonNull).flatMap(JavaNamedEntity::streamRecursive));
+        Stream.of(this), stream().filter(Objects::nonNull).flatMap(JavaElement::streamRecursive));
   }
 }

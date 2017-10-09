@@ -17,10 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaPackage;
-import com.here.ivi.api.model.javamodel.JavaTemplateType;
-import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Arrays;
 import java.util.Collections;
@@ -98,7 +95,7 @@ public class JavaTypeMapperCustomTypeTest {
     JavaType result = typeMapper.map(francaTypeRef);
 
     //assert & verify
-    assertEquals(FMODEL_NAME + "." + STRUCT_NAME_TYPECOLLECTION, result.getName());
+    assertEquals(FMODEL_NAME + "." + STRUCT_NAME_TYPECOLLECTION, result.name);
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());
@@ -130,7 +127,7 @@ public class JavaTypeMapperCustomTypeTest {
     JavaType result = typeMapper.map(francaTypeRef);
 
     //assert & verify
-    assertEquals(INTERFACE_NAME + "." + STRUCT_NAME_INTERFACE, result.getName());
+    assertEquals(INTERFACE_NAME + "." + STRUCT_NAME_INTERFACE, result.name);
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());

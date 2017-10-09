@@ -57,13 +57,12 @@ public final class JavaPrimitiveType extends JavaType {
     this.type = type;
   }
 
-  @Override
   public String getName() {
     return type.getValue();
   }
 
   @Override
-  public Stream<JavaNamedEntity> stream() {
+  public Stream<JavaElement> stream() {
     return Stream.empty();
   }
 }
