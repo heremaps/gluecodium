@@ -73,8 +73,8 @@ public final class BaseApiGeneratorSuiteTest {
 
     assertNotNull(generatedFiles);
     assertEquals(
-        "The cpp/internal file should always be generated, even with empty model",
-        1,
+        "The cpp/internal/expected.h and cpp/enum_hash.h files should always be generated",
+        2,
         generatedFiles.size());
     assertEquals(generatedFile, generatedFiles.get(0));
   }

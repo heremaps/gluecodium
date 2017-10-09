@@ -30,6 +30,10 @@ public abstract class CppTypeRef extends CppElementWithIncludes {
   }
 
   public boolean refersToValueType() {
+    return refersToEnumType();
+  }
+
+  public boolean refersToEnumType() {
     return false;
   }
 

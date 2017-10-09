@@ -19,6 +19,7 @@ public class Enums {
         public TODO type = new TODO();
         public String message;
     }
+    public static native TODO methodWithEnumeration(final TODO input);
     public static native TODO flipEnumValue(final TODO input);
     public static native TODO extractEnumFromStruct(final Enums.ErrorStruct input);
     public static native Enums.ErrorStruct createStructWithEnumInside(final TODO type, final String message);

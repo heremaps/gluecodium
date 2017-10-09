@@ -15,8 +15,10 @@ import Foundation
 
 public class Enums {
 
-
-
+    public enum SimpleEnum : UInt32 {
+        case fIRST
+        case sECOND
+    }
 
     public enum InternalError : UInt32 {
         case errorNone
@@ -50,6 +52,11 @@ public class Enums {
             smoke_Enums_ErrorStruct_type_set(cErrorStruct, type.rawValue)
             smoke_Enums_ErrorStruct_message_set(cErrorStruct, message)
         }
+    }
+
+    public static func methodWithEnumeration(input: SimpleEnum) -> SimpleEnum {
+        let cResult = smoke_Enums_methodWithEnumeration(input.rawValue)
+        return SimpleEnum.init(rawValue: cResult)!
     }
 
     public static func flipEnumValue(input: InternalError) -> InternalError {

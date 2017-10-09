@@ -61,6 +61,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
             .collect(Collectors.toList());
 
     generatedFiles.add(GeneratorSuite.copyTarget("cpp/internal/expected.h", ""));
+    generatedFiles.add(GeneratorSuite.copyTarget("cpp/enum_hash.h", ""));
 
     return generatedFiles;
   }

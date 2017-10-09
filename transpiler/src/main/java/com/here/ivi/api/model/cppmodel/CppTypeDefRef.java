@@ -36,6 +36,11 @@ public class CppTypeDefRef extends CppTypeRef {
   }
 
   @Override
+  public boolean refersToEnumType() {
+    return actualType.refersToEnumType();
+  }
+
+  @Override
   public String getShortName() {
     return actualType.getShortName();
   }

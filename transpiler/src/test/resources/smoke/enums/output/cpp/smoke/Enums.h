@@ -17,21 +17,34 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
+#include <cpp/enum_hash.h>
+#include <unordered_map>
 
 namespace smoke {
 
 class Enums {
 public:
+enum class SimpleEnum {
+    FIRST,
+    SECOND
+};
 enum class InternalError {
     ERROR_NONE,
     ERROR_FATAL = 999
 };
+using ExampleMap = ::std::unordered_map< ::smoke::Enums::SimpleEnum, uint64_t, EnumHash >;
 struct ErrorStruct {
     ::smoke::Enums::InternalError type;
     ::std::string message;
 };
 
 public:
+/**
+ *
+ * * @return The result type, containing ::smoke::Enums::SimpleEnum value.
+ */
+static ::smoke::Enums::SimpleEnum methodWithEnumeration( const ::smoke::Enums::SimpleEnum input );
 /**
  *
  * * @return The result type, containing ::smoke::Enums::InternalError value.
@@ -47,7 +60,5 @@ static ::smoke::Enums::InternalError extractEnumFromStruct( const ::smoke::Enums
  * * @return The result type, containing ::smoke::Enums::ErrorStruct value.
  */
 static ::smoke::Enums::ErrorStruct createStructWithEnumInside( const ::smoke::Enums::InternalError type, const ::std::string& message );
-
 };
-
 }

@@ -30,7 +30,7 @@ public class CppComplexTypeRef extends CppTypeRef {
   }
 
   @Override
-  public boolean refersToValueType() {
+  public boolean refersToEnumType() {
     return info == CppTypeInfo.Enumeration;
   }
 
