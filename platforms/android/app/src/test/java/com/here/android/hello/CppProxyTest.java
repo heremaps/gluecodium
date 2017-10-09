@@ -74,4 +74,25 @@ public final class CppProxyTest {
                 HelloWorldStaticLogger.getLog()
                                       .contains("calculation in bg finished with result=17320.508"));
     }
+
+    @Test
+    public void callbackToRegisteredJavaListenerMultiThreading() throws InterruptedException {
+
+        notifier.registerListener(JAVA_LISTENER);
+
+        Thread callbackToNativeJavaScope = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                notifier.calculateInBackground(START_POSITION,END_POSITION);
+            }
+        });
+        callbackToNativeJavaScope.start();
+        callbackToNativeJavaScope.join();
+
+        notifier.unregisterListener(JAVA_LISTENER);
+
+        assertTrue("Registered native Java listener was called on C++ side (multi-threading)",
+                HelloWorldStaticLogger.getLog()
+                        .contains("calculation in bg finished with result=17320.508"));
+    }
 }
