@@ -1,5 +1,11 @@
 # API Transpiler Release Notes
 
+## 0.0.7
+- Features:
+  + Add support for Instances to iOS generators
+  + Add support for Instances to Android generators
+  + Add support for Attributes to base Api generators
+
 ## 0.0.6
 - Features:
   + Add support for Plain Data Structures to iOS generators
