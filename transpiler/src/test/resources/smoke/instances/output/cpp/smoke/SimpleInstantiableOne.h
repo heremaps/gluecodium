@@ -16,25 +16,21 @@
 
 #pragma once
 
-#include <cstdint>
+#include <string>
 
 namespace smoke {
 
-class Instances {
+class SimpleInstantiableOne {
 public:
-    virtual ~Instances() = 0;
+    virtual ~SimpleInstantiableOne() = 0;
 
 public:
-struct InnerStruct {
-    int8_t value = 0;
-};
-
-public:
+virtual void setStringValue( const ::std::string& stringValue ) = 0;
 /**
  *
- * * @return The result type, containing ::smoke::Instances::InnerStruct value.
+ * * @return The result type, containing ::std::string value.
  */
-virtual ::smoke::Instances::InnerStruct innerStructMethod( const ::smoke::Instances::InnerStruct& inputStruct ) = 0;
+virtual ::std::string getStringValue(  ) = 0;
 
 };
 

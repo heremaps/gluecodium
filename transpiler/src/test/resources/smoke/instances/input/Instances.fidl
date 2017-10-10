@@ -11,14 +11,115 @@
 
 package smoke
 
-interface Instances {
+interface SimpleInstantiableOne {
+
+    public typedef SimpleInstantiableOne is undefined
+
+    method setStringValue {
+        in {
+            String stringValue
+        }
+    }
+
+    method getStringValue {
+        out {
+           String stringValue
+        }
+    }
+}
+
+interface SimpleInstantiableTwo {
+
+    public typedef SimpleInstantiableTwo is undefined
+
+    method setStringValue {
+        in {
+            String stringValue
+        }
+    }
+
+    method getStringValue {
+        out {
+           String stringValue
+        }
+    }
+}
+
+interface NestedInstantiableOne {
+
+    public typedef NestedInstantiableOne is undefined
+
+    method setSameTypeInstances {
+        in {
+            SimpleInstantiableOne.SimpleInstantiableOne instanceOne
+            SimpleInstantiableOne.SimpleInstantiableOne instanceTwo
+        }
+    }
+
+    method getInstanceOne {
+        out {
+            SimpleInstantiableOne.SimpleInstantiableOne instanceOne
+        }
+    }
+
+    method getInstanceTwo {
+        out {
+            SimpleInstantiableOne.SimpleInstantiableOne instanceTwo
+        }
+    }
+}
+
+interface NestedInstantiableTwo {
+
+    public typedef NestedInstantiableTwo is undefined
+
+    method setMultipleTypeInstances {
+        in {
+            SimpleInstantiableOne.SimpleInstantiableOne instanceOne
+            SimpleInstantiableTwo.SimpleInstantiableTwo instanceTwo
+            NestedInstantiableOne.NestedInstantiableOne nestedInstantiable
+        }
+    }
+
+    method getInstantiableOne {
+        out {
+            SimpleInstantiableOne.SimpleInstantiableOne instance
+        }
+    }
+
+    method getInstantiableTwo {
+        out {
+            SimpleInstantiableTwo.SimpleInstantiableTwo instance
+        }
+    }
+
+    method getNestedInstantiable {
+        out {
+            NestedInstantiableOne.NestedInstantiableOne instance
+        }
+    }
+
+    method setSelfInstantiable {
+        in {
+            NestedInstantiableTwo selfInstance
+        }
+    }
+
+    method getSelfInstantiable {
+        out {
+            NestedInstantiableTwo selfInstance
+        }
+    }
+}
+
+interface InstanceWithStruct {
 
     version {
         major 0
         minor 1
     }
 
-    public typedef Instances is undefined
+    public typedef InstanceWithStruct is undefined
 
     struct InnerStruct {
         Int8 value
