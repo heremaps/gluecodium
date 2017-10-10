@@ -341,11 +341,7 @@ public final class JavaClassTemplateTest {
 
     // Assert
     String expected =
-        "package com.here.android;\n"
-            + "\n"
-            + "import com.here.android.Face;\n\n"
-            + "class ExampleClass implements Face {\n"
-            + "}";
+        "package com.here.android;\n\n" + "class ExampleClass implements Face {\n" + "}";
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
@@ -360,12 +356,7 @@ public final class JavaClassTemplateTest {
 
     // Assert
     String expected =
-        "package com.here.android;\n"
-            + "\n"
-            + "import com.here.android.Face;\n"
-            + "import com.here.android.Legs;\n\n"
-            + "class ExampleClass implements Face, Legs {\n"
-            + "}";
+        "package com.here.android;\n\n" + "class ExampleClass implements Face, Legs {\n" + "}";
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
@@ -380,9 +371,7 @@ public final class JavaClassTemplateTest {
 
     // Assert
     String expected =
-        "package com.here.android;\n"
-            + "\n"
-            + "import com.here.android.Face;\n"
+        "package com.here.android;\n\n"
             + "import com.here.android.Parent;\n\n"
             + "class ExampleClass extends Parent implements Face {\n"
             + "}";

@@ -12,8 +12,6 @@
 
 package com.here.android.smoke;
 
-import com.here.android.smoke.InstanceWithStruct;
-
 public interface InstanceWithStruct {
     public static class InnerStruct {
         public byte value;

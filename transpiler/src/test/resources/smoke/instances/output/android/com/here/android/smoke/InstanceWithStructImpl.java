@@ -13,7 +13,6 @@
 package com.here.android.smoke;
 
 import com.here.android.NativeBase;
-import com.here.android.smoke.InstanceWithStruct;
 
 class InstanceWithStructImpl extends NativeBase implements InstanceWithStruct {
     protected InstanceWithStructImpl(final long nativeHandle) {
