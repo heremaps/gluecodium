@@ -16,7 +16,7 @@ import Foundation
 public class TypeDefs {
 
     public typealias PrimitiveTypeDef = Double
-    public typealias ComplexTypeDef = ComplexTypeDef
+    public typealias ComplexTypeDef = Void
 
 
 
@@ -49,7 +49,7 @@ public class TypeDefs {
     public static func methodWithPrimitiveTypeDef(input: Double) -> Double {
         return smoke_TypeDefs_methodWithPrimitiveTypeDef(input)
     }
-    public static func methodWithComplexTypeDef(input: ComplexTypeDef) -> ComplexTypeDef {
+    public static func methodWithComplexTypeDef(input: Void) -> Void {
         return smoke_TypeDefs_methodWithComplexTypeDef(input)
     }
 }
