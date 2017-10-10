@@ -117,10 +117,10 @@ public class JavaTypeMapper {
       //TODO: return mapMap(api, (FMapType) derived);
     }
     if (derived instanceof FStructType) {
-      return mapStruct((FStructType) derived);
+      return mapStruct(derived);
     }
     if (derived instanceof FEnumerationType) {
-      //TODO: return mapEnum(api, (FEnumerationType) derived);
+      return mapStruct(derived);
     }
 
     return new JavaCustomType("TODO");
@@ -165,7 +165,7 @@ public class JavaTypeMapper {
     return JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, elementType);
   }
 
-  private JavaCustomType mapStruct(final FStructType structType) {
+  private JavaCustomType mapStruct(final FType structType) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(structType);
     List<String> packageNames =
