@@ -12,8 +12,6 @@
 
 package com.here.android.smoke;
 
-import com.here.android.smoke.SimpleInstantiableOne;
-
 public interface NestedInstantiableOne {
     void setSameTypeInstances(final SimpleInstantiableOne instanceOne, final SimpleInstantiableOne instanceTwo);
     SimpleInstantiableOne getInstanceOne();

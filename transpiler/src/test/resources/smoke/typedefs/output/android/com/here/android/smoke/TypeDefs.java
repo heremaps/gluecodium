@@ -12,7 +12,6 @@
 
 package com.here.android.smoke;
 
-import com.here.android.smoke.TypeDefs;
 import java.util.List;
 
 public class TypeDefs {

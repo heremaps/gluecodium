@@ -13,7 +13,6 @@
 package com.here.android.smoke;
 
 import com.here.android.NativeBase;
-import com.here.android.smoke.SimpleInstantiableTwo;
 
 class SimpleInstantiableTwoImpl extends NativeBase implements SimpleInstantiableTwo {
     protected SimpleInstantiableTwoImpl(final long nativeHandle) {

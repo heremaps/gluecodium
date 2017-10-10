@@ -253,7 +253,7 @@ public final class JavaInterfaceTemplateTest {
   public void generateInterfaceWithTwoImports() {
     // Arrange
     javaConstant.value.imports.add(javaImport);
-    javaConstant.value.imports.add(new JavaImport("Unimportant", javaPackage));
+    javaConstant.value.imports.add(new JavaImport("Unimportant", JavaPackage.DEFAULT));
     javaInterface.constants.add(javaConstant);
 
     // Act
@@ -265,7 +265,24 @@ public final class JavaInterfaceTemplateTest {
             + "package com.here.example.interfaces;\n"
             + "\n"
             + "import com.here.android.ExampleType;\n"
-            + "import com.here.example.interfaces.Unimportant;\n"
+            + "import com.here.android.Unimportant;\n"
+            + "\n"
+            + "interface ExampleInterface {\n"
+            + "    static final ExampleType Permanent = valuable;\n"
+            + "}\n";
+    assertEquals(expected, generated);
+  }
+
+  @Test
+  public void generateInterfaceWithSamePackageImport() {
+    javaConstant.value.imports.add(new JavaImport("Unimportant", javaPackage));
+    javaInterface.constants.add(javaConstant);
+
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaInterface);
+
+    String expected =
+        TEST_COPYRIGHT_HEADER
+            + "package com.here.example.interfaces;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    static final ExampleType Permanent = valuable;\n"

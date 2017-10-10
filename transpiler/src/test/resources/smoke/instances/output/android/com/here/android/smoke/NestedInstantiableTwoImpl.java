@@ -13,10 +13,6 @@
 package com.here.android.smoke;
 
 import com.here.android.NativeBase;
-import com.here.android.smoke.NestedInstantiableOne;
-import com.here.android.smoke.NestedInstantiableTwo;
-import com.here.android.smoke.SimpleInstantiableOne;
-import com.here.android.smoke.SimpleInstantiableTwo;
 
 class NestedInstantiableTwoImpl extends NativeBase implements NestedInstantiableTwo {
     protected NestedInstantiableTwoImpl(final long nativeHandle) {

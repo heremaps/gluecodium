@@ -12,7 +12,6 @@
 
 package com.here.android.smoke;
 
-import com.here.android.smoke.Arrays;
 import java.util.List;
 
 public class Arrays {

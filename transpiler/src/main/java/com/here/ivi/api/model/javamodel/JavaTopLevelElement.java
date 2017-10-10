@@ -13,6 +13,7 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -57,7 +58,7 @@ public abstract class JavaTopLevelElement extends JavaElement {
   public Set<JavaImport> getImports() {
     Set<JavaImport> imports =
         streamRecursive()
-            .filter(javaNamedEntity -> javaNamedEntity instanceof JavaElementWithImports)
+            .filter(javaElement -> javaElement instanceof JavaElementWithImports)
             .map(JavaElementWithImports.class::cast)
             .map(element -> element.imports)
             .flatMap(Set::stream)
@@ -67,6 +68,10 @@ public abstract class JavaTopLevelElement extends JavaElement {
             .stream()
             .map(anInterface -> new JavaImport(anInterface.name, anInterface.javaPackage))
             .collect(Collectors.toList()));
+
+    // No need to import things from the same package. This also filters out a self-import.
+    imports.removeIf(anImport -> Objects.equals(anImport.javaPackage, this.javaPackage));
+
     return imports;
   }
 }
