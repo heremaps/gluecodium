@@ -10,7 +10,7 @@ import hello
 
 extension HelloWorldEnums.InternalError {
     public var description: String {
-        if (self == HelloWorldEnums.InternalError.error_none) {
+        if (self == HelloWorldEnums.InternalError.errorNone) {
             return "errorNone"
         } else {
             return "errorFatal"
@@ -24,11 +24,7 @@ class EnumsViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
 
     func getEnum(val: Int) -> HelloWorldEnums.InternalError
     {
-        if (val == 0) {
-            return HelloWorldEnums.InternalError.error_none
-        } else {
-            return HelloWorldEnums.InternalError.error_fatal
-        }
+        return HelloWorldEnums.InternalError.init(rawValue: UInt32(val))!
     }
 
     override func viewDidLoad() {
