@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.mockito.*;
 
 @RunWith(Parameterized.class)
@@ -57,7 +58,7 @@ public final class SmokeTest {
         .output(any());
   }
 
-  @Parameterized.Parameters
+  @Parameters(name = "{2}, {1}")
   public static Collection<Object[]> data() {
     URL smokeResourcesUrl = ClassLoader.getSystemClassLoader().getResource(RESOURCE_PREFIX);
     if (smokeResourcesUrl == null) {
@@ -84,11 +85,20 @@ public final class SmokeTest {
             directory ->
                 GENERATOR_NAMES
                     .stream()
-                    .map(generatorName -> new Object[] {directory, generatorName}))
+                    .map(
+                        generatorName ->
+                            new Object[] {
+                              directory,
+                              generatorName,
+                              getFeatureName(smokeResourcesDirectory, directory)
+                            }))
         .collect(Collectors.toList());
   }
 
-  public SmokeTest(final File featureDirectory, final String generatorName) {
+  public SmokeTest(
+      final File featureDirectory,
+      final String generatorName,
+      @SuppressWarnings("unused") final String featureName) {
     this.featureDirectory = featureDirectory;
     this.generatorName = generatorName;
   }
@@ -155,5 +165,9 @@ public final class SmokeTest {
   private static String ignoreWhitespace(String text) {
     return text.replaceAll("( *\n)+", "\n") // ignore repeating empty lines
         .trim(); // ignore leading and trailing whitespace
+  }
+
+  private static String getFeatureName(final File parentDirectory, final File featureDirectory) {
+    return getRelativePath(parentDirectory, featureDirectory).replace("/", "");
   }
 }
