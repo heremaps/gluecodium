@@ -12,11 +12,19 @@
 
 package com.here.android.smoke;
 
-import com.here.android.smoke.Instances;
+import com.here.android.NativeBase;
+import com.here.android.smoke.InstanceWithStruct;
 
-public interface Instances {
-    public static class InnerStruct {
-        public byte value;
+class InstanceWithStructImpl extends NativeBase implements InstanceWithStruct {
+    protected InstanceWithStructImpl(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
     }
-    Instances.InnerStruct innerStructMethod(final Instances.InnerStruct inputStruct);
+
+    private static native void disposeNativeHandle(long nativeHandle);
+    public native InstanceWithStruct.InnerStruct innerStructMethod(final InstanceWithStruct.InnerStruct inputStruct);
 }

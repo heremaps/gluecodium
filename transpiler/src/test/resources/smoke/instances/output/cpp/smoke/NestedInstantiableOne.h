@@ -14,9 +14,30 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "cpp/smoke/Instances.h"
+#pragma once
+
+#include "cpp/smoke/SimpleInstantiableOne.h"
+#include <memory>
+
 namespace smoke {
 
-Instances::~Instances() = default;
+class NestedInstantiableOne {
+public:
+    virtual ~NestedInstantiableOne() = 0;
+
+public:
+virtual void setSameTypeInstances( const ::std::shared_ptr< ::smoke::SimpleInstantiableOne >& instanceOne, const ::std::shared_ptr< ::smoke::SimpleInstantiableOne >& instanceTwo ) = 0;
+/**
+ *
+ * * @return The result type, containing ::std::shared_ptr< ::smoke::SimpleInstantiableOne > value.
+ */
+virtual ::std::shared_ptr< ::smoke::SimpleInstantiableOne > getInstanceOne(  ) = 0;
+/**
+ *
+ * * @return The result type, containing ::std::shared_ptr< ::smoke::SimpleInstantiableOne > value.
+ */
+virtual ::std::shared_ptr< ::smoke::SimpleInstantiableOne > getInstanceTwo(  ) = 0;
+
+};
 
 }

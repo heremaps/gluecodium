@@ -11,27 +11,27 @@
 
 import Foundation
 
-internal func getRef(_ ref: Instances) -> smoke_InstancesRef {
-    guard let instanceReference = ref as? _Instances else {
+internal func getRef(_ ref: InstanceWithStruct) -> smoke_InstanceWithStructRef {
+    guard let instanceReference = ref as? _InstanceWithStruct else {
         fatalError("Not implemented yet")
     }
     return instanceReference.c_instance
 }
 
-public protocol Instances {
+public protocol InstanceWithStruct {
         func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct?;
 }
 
-internal class _Instances: Instances {
+internal class _InstanceWithStruct: InstanceWithStruct {
 
-    let c_instance : smoke_InstancesRef
+    let c_instance : smoke_InstanceWithStructRef
 
-    required init?(cInstances: smoke_InstancesRef) {
-        c_instance = cInstances
+    required init?(cInstanceWithStruct: smoke_InstanceWithStructRef) {
+        c_instance = cInstanceWithStruct
     }
 
     deinit {
-        smoke_Instances_release(c_instance)
+        smoke_InstanceWithStruct_release(c_instance)
     }
 
 
@@ -42,31 +42,31 @@ internal class _Instances: Instances {
             self.value = value
         }
 
-        internal init?(cInnerStruct: smoke_Instances_InnerStructRef) {
-            value = smoke_Instances_InnerStruct_value_get(cInnerStruct)
+        internal init?(cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) {
+            value = smoke_InstanceWithStruct_InnerStruct_value_get(cInnerStruct)
         }
 
-        internal func convertToCType() -> smoke_Instances_InnerStructRef {
-            let result = smoke_Instances_InnerStruct_create()
+        internal func convertToCType() -> smoke_InstanceWithStruct_InnerStructRef {
+            let result = smoke_InstanceWithStruct_InnerStruct_create()
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cInnerStruct: smoke_Instances_InnerStructRef) -> Void {
-            smoke_Instances_InnerStruct_value_set(cInnerStruct, value)
+        internal func fillFunction(_ cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) -> Void {
+            smoke_InstanceWithStruct_InnerStruct_value_set(cInnerStruct, value)
         }
     }
 
     public func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct? {
         let inputStructHandle = inputStruct.convertToCType()
         defer {
-            smoke_Instances_InnerStruct_release(inputStructHandle)
+            smoke_InstanceWithStruct_InnerStruct_release(inputStructHandle)
         }
-        let cResult = smoke_Instances_innerStructMethod(c_instance, inputStructHandle)
+        let cResult = smoke_InstanceWithStruct_innerStructMethod(c_instance, inputStructHandle)
 
 
         defer {
-            smoke_Instances_InnerStruct_release(cResult)
+            smoke_InstanceWithStruct_InnerStruct_release(cResult)
         }
 
         return InnerStruct(cInnerStruct: cResult)
