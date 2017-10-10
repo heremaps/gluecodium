@@ -35,6 +35,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.trimou.util.Strings;
 
+@SuppressWarnings({"PMD.TooManyFields"})
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({JavaNameRules.class, InstanceRules.class})
 public class JavaTypeMapperCustomTypeTest {
@@ -49,6 +50,9 @@ public class JavaTypeMapperCustomTypeTest {
   private static final String INTERFACE_NAME = "iNt3RfacE";
   private static final String STRUCT_NAME_INTERFACE = "structDefinedIn_Iface";
   private static final String STRUCT_NAME_TYPECOLLECTION = "structDefinedIn_tC";
+  private static final String ENUMERATION_NAME = "MyEnumName";
+  private static final String ENUMERATION_NAME_INTERFACE = "MyEnumDefinedInInterface";
+  private static final String ENUMERATION_NAME_TYPECOLLECTION = "MyEnumDefinedInTypeCollection";
 
   @Rule private final ExpectedException expectedException = ExpectedException.none();
 
@@ -61,7 +65,7 @@ public class JavaTypeMapperCustomTypeTest {
   @Mock private FTypeDef francaTypeDef;
   @Mock private FArrayType francaArrayType;
   @Mock private FTypeRef elementType;
-
+  @Mock private FEnumerationType francaEnumerationType;
   private final JavaTypeMapper typeMapper =
       new JavaTypeMapper(new JavaPackage(Collections.emptyList()));
 
@@ -78,6 +82,8 @@ public class JavaTypeMapperCustomTypeTest {
 
     when(fInterface.getName()).thenReturn(INTERFACE_NAME);
     when(fInterface.eContainer()).thenReturn(theModel);
+
+    when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME);
   }
 
   @Test
@@ -214,5 +220,62 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(1, templateType.classNames.size());
     assertEquals("List", templateType.classNames.get(0));
     assertEquals(JavaTemplateType.TemplateClass.LIST, templateType.templateClass);
+  }
+
+  @Test
+  public void mapFrancaEnumerationTypeInTypeCollection() {
+    // arrange
+    when(JavaNameRules.getClassName(ENUMERATION_NAME_TYPECOLLECTION))
+        .thenReturn(ENUMERATION_NAME_TYPECOLLECTION);
+    when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME_TYPECOLLECTION);
+    when(francaEnumerationType.eContainer()).thenReturn(fTypeCollection);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
+    when(francaTypeRef.getDerived()).thenReturn(francaEnumerationType);
+
+    // act
+    JavaType result = typeMapper.map(francaTypeRef);
+
+    // assert
+    assertEquals(ENUMERATION_NAME_TYPECOLLECTION, result.name);
+    assertTrue(result instanceof JavaCustomType);
+    JavaCustomType customReturn = (JavaCustomType) result;
+    assertEquals(1, customReturn.imports.size());
+
+    assertEquals(
+        JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME, customReturn.imports.iterator().next().javaPackage);
+
+    assertEquals(ENUMERATION_NAME_TYPECOLLECTION, customReturn.imports.iterator().next().className);
+
+    PowerMockito.verifyStatic();
+    JavaNameRules.getClassName(ENUMERATION_NAME_TYPECOLLECTION);
+  }
+
+  @Test
+  public void mapFrancaEnumerationTypeToJavaTypeInInterface() {
+    // arrange
+    when(JavaNameRules.getClassName(ENUMERATION_NAME_INTERFACE))
+        .thenReturn(ENUMERATION_NAME_INTERFACE);
+    when(JavaNameRules.getClassName(INTERFACE_NAME)).thenReturn(INTERFACE_NAME);
+    when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME_INTERFACE);
+    when(francaEnumerationType.eContainer()).thenReturn(fInterface);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
+    when(francaTypeRef.getDerived()).thenReturn(francaEnumerationType);
+
+    // act
+    JavaType result = typeMapper.map(francaTypeRef);
+
+    // assert
+    assertEquals(INTERFACE_NAME + "." + ENUMERATION_NAME_INTERFACE, result.name);
+    assertTrue(result instanceof JavaCustomType);
+    JavaCustomType customReturn = (JavaCustomType) result;
+    assertEquals(1, customReturn.imports.size());
+    assertEquals(INTERFACE_NAME + "." + ENUMERATION_NAME_INTERFACE, customReturn.name);
+    assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().javaPackage);
+    assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().className);
+
+    PowerMockito.verifyStatic();
+    JavaNameRules.getClassName(ENUMERATION_NAME_INTERFACE);
+    PowerMockito.verifyStatic();
+    JavaNameRules.getClassName(INTERFACE_NAME);
   }
 }
