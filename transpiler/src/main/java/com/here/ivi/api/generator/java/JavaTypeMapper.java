@@ -21,6 +21,10 @@ import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 
+/**
+ * Maps Franca type references to their Java counterparts. These references are used as parameters,
+ * in typedefs, array members etc.
+ */
 public class JavaTypeMapper {
 
   private final JavaPackage basePackage;

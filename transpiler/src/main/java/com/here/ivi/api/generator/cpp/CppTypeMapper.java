@@ -25,6 +25,10 @@ import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FUnionType;
 
+/**
+ * Maps Franca type references to their C++ counterparts. These references are used as parameters,
+ * in typedefs, array members etc.
+ */
 public class CppTypeMapper {
 
   private static final CppTypeRef BASIC_STRING_CHAR_TYPE =
