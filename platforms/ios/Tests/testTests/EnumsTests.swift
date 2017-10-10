@@ -4,38 +4,38 @@ import XCTest
 class EnumsTests: XCTestCase {
     func testFlipEnumValue() {
       XCTAssertEqual(
-        Enums.flipEnumValue(input: Enums.InternalError.error_none),
-        Enums.InternalError.error_fatal)
+        Enums.flipEnumValue(input: Enums.InternalError.errorNone),
+        Enums.InternalError.errorFatal)
       XCTAssertEqual(
-        Enums.flipEnumValue(input: Enums.InternalError.error_fatal),
-        Enums.InternalError.error_none)
+        Enums.flipEnumValue(input: Enums.InternalError.errorFatal),
+        Enums.InternalError.errorNone)
     }
 
     func testExtractEnumFromStruct() {
       XCTAssertEqual(
         Enums.extractEnumFromStruct(input: Enums.ErrorStruct(
-          type: Enums.InternalError.error_none,
+          type: Enums.InternalError.errorNone,
           message: "MESSAGE")),
-        Enums.InternalError.error_fatal)
+        Enums.InternalError.errorFatal)
       XCTAssertEqual(
         Enums.extractEnumFromStruct(input: Enums.ErrorStruct(
-          type: Enums.InternalError.error_fatal,
+          type: Enums.InternalError.errorFatal,
           message: "MESSAGE")),
-        Enums.InternalError.error_none)
+        Enums.InternalError.errorNone)
     }
 
     func testCreateStructWithEnumInside() {
         if let result = Enums.createStructWithEnumInside(
-          type: Enums.InternalError.error_none,
+          type: Enums.InternalError.errorNone,
           message: "MESSAGE") {
-            XCTAssertEqual(result.type, Enums.InternalError.error_fatal)
+            XCTAssertEqual(result.type, Enums.InternalError.errorFatal)
         } else {
             XCTFail("Returned struct is nil")
         }
         if let result = Enums.createStructWithEnumInside(
-          type: Enums.InternalError.error_fatal,
+          type: Enums.InternalError.errorFatal,
           message: "MESSAGE") {
-            XCTAssertEqual(result.type, Enums.InternalError.error_none)
+            XCTAssertEqual(result.type, Enums.InternalError.errorNone)
         } else {
             XCTFail("Returned struct is nil")
         }
