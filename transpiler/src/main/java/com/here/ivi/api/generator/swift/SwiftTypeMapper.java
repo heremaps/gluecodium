@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.swift;
 
 import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
 import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.*;
+import static com.here.ivi.api.model.swift.SwiftType.VOID;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.model.swift.SwiftContainerType;
@@ -34,7 +35,7 @@ public class SwiftTypeMapper {
       } else if (derived instanceof FTypeDef) {
         return getTypedef((FTypeDef) derived);
       }
-      return SwiftType.VOID;
+      return VOID;
     }
 
     return mapPredefined(type);
@@ -43,7 +44,8 @@ public class SwiftTypeMapper {
   private static SwiftType getTypedef(FTypeDef derived) {
     SwiftType typedefType = mapTypeDef(derived);
     String publicName = hasDerivedName(derived);
-    if (publicName != null) {
+    // Last condition prevents to add a public names to unsupported features such as Arrays.
+    if (publicName != null && typedefType != VOID) {
       typedefType.typealiasName = publicName;
     }
     return typedefType;
@@ -83,7 +85,7 @@ public class SwiftTypeMapper {
     FBasicTypeId typeId = type.getPredefined();
     switch (typeId.getValue()) {
       case FBasicTypeId.UNDEFINED_VALUE:
-        return SwiftType.VOID;
+        return VOID;
       case FBasicTypeId.INT8_VALUE:
         return new SwiftType("Int8");
       case FBasicTypeId.UINT8_VALUE:
@@ -111,7 +113,7 @@ public class SwiftTypeMapper {
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return SwiftType.DATA;
     }
-    return SwiftType.VOID;
+    return VOID;
   }
 
   private static String hasDerivedName(FTypeDef derived) {
