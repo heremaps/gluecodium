@@ -22,6 +22,10 @@ import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.model.swift.SwiftValue;
 import org.franca.core.franca.*;
 
+/**
+ * Maps Franca type references to their Swift counterparts. These references are used as parameters,
+ * in typedefs, array members etc.
+ */
 public class SwiftTypeMapper {
 
   public static SwiftType mapType(final FTypeRef type) {
