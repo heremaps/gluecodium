@@ -41,14 +41,13 @@ public class SwiftTypeMapper {
     return mapPredefined(type);
   }
 
-  private static SwiftType getTypedef(FTypeDef derived) {
-    SwiftType typedefType = mapTypeDef(derived);
-    String publicName = hasDerivedName(derived);
-    // Last condition prevents to add a public names to unsupported features such as Arrays.
-    if (publicName != null && typedefType != VOID) {
-      typedefType.typealiasName = publicName;
+  private static SwiftType getTypedef(FTypeDef francaTypeDef) {
+    SwiftType typedefType = mapTypeDef(francaTypeDef);
+    if (francaTypeDef.getActualType() != null) {
+      return typedefType.createAlias(francaTypeDef.getName());
+    } else {
+      return typedefType;
     }
-    return typedefType;
   }
 
   public static SwiftValue mapType(FExpression expression) {
@@ -123,12 +122,5 @@ public class SwiftTypeMapper {
         return SwiftType.DATA;
     }
     return VOID;
-  }
-
-  private static String hasDerivedName(FTypeDef derived) {
-    if (derived.getActualType().getDerived() != null) {
-      return derived.getName();
-    }
-    return null;
   }
 }

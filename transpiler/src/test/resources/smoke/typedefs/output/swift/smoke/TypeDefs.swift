@@ -46,10 +46,10 @@ public class TypeDefs {
         }
     }
 
-    public static func methodWithPrimitiveTypeDef(input: Double) -> Double {
+    public static func methodWithPrimitiveTypeDef(input: PrimitiveTypeDef) -> PrimitiveTypeDef {
         return smoke_TypeDefs_methodWithPrimitiveTypeDef(input)
     }
-    public static func methodWithComplexTypeDef(input: Void) -> Void {
+    public static func methodWithComplexTypeDef(input: ComplexTypeDef) -> ComplexTypeDef {
         return smoke_TypeDefs_methodWithComplexTypeDef(input)
     }
 }
