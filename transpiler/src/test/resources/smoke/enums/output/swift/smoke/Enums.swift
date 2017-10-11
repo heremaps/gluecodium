@@ -18,7 +18,10 @@ public class Enums {
 
 
 
-    public typealias InternalError = smoke_Enums_InternalError
+    public enum InternalError : UInt32 {
+        case errorNone
+        case errorFatal = 999
+    }
 
     public struct ErrorStruct {
         public var type: InternalError
@@ -30,7 +33,7 @@ public class Enums {
         }
 
         internal init?(cErrorStruct: smoke_Enums_ErrorStructRef) {
-            type = smoke_Enums_ErrorStruct_type_get(cErrorStruct)
+            type = InternalError.init(rawValue: smoke_Enums_ErrorStruct_type_get(cErrorStruct))!
             do {
                 let messageHandle = smoke_Enums_ErrorStruct_message_get(cErrorStruct)
                 message = String(cString:std_string_data_get(messageHandle))
@@ -44,24 +47,25 @@ public class Enums {
         }
 
         internal func fillFunction(_ cErrorStruct: smoke_Enums_ErrorStructRef) -> Void {
-            smoke_Enums_ErrorStruct_type_set(cErrorStruct, type)
+            smoke_Enums_ErrorStruct_type_set(cErrorStruct, type.rawValue)
             smoke_Enums_ErrorStruct_message_set(cErrorStruct, message)
         }
     }
 
     public static func flipEnumValue(input: InternalError) -> InternalError {
-        return smoke_Enums_flipEnumValue(input)
+        let cResult = smoke_Enums_flipEnumValue(input.rawValue)
+        return InternalError.init(rawValue: cResult)!
     }
     public static func extractEnumFromStruct(input: ErrorStruct) -> InternalError {
         let inputHandle = input.convertToCType()
         defer {
             smoke_Enums_ErrorStruct_release(inputHandle)
         }
-        return smoke_Enums_extractEnumFromStruct(inputHandle)
+        let cResult = smoke_Enums_extractEnumFromStruct(inputHandle)
+        return InternalError.init(rawValue: cResult)!
     }
     public static func createStructWithEnumInside(type: InternalError, message: String) -> ErrorStruct? {
-        let cResult = smoke_Enums_createStructWithEnumInside(type, message)
-
+        let cResult = smoke_Enums_createStructWithEnumInside(type.rawValue, message)
 
         defer {
             smoke_Enums_ErrorStruct_release(cResult)
