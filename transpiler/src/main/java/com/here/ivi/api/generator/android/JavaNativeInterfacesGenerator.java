@@ -184,7 +184,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     List<JniContainer> listeners =
         jniContainers
             .stream()
-            .filter(container -> isListenerTakingPrimitiveTypesOnly(container))
+            .filter(container -> isListener(container))
             .collect(Collectors.toCollection(ArrayList::new));
 
     List<String> proxyIncludes = new LinkedList<>();
@@ -216,16 +216,10 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
             JniNameRules.getProxyConversionHeaderFileName()));
   }
 
-  private static boolean isListenerTakingPrimitiveTypesOnly(final JniContainer jniContainer) {
+  private static boolean isListener(final JniContainer jniContainer) {
 
     return jniContainer.isInstantiable
-        && jniContainer
-            .methods
-            .stream()
-            .allMatch(
-                method ->
-                    method.returnType == null
-                        && method.parameters.stream().noneMatch(param -> param.type.isComplex));
+        && jniContainer.methods.stream().allMatch(method -> method.returnType == null);
   }
 
   private List<Include> getIncludes(

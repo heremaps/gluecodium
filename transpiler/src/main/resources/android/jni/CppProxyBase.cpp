@@ -20,9 +20,32 @@ callJavaMethodVaList( JNIEnv* jniEnv, jobject jObj, jmethodID jmid, va_list iPar
 {
     jniEnv->CallVoidMethodV( jObj, jmid, iParams );
 }
+} // namespace
 
-inline bool
-getJniEnvironment( JavaVM* jVM, JNIEnv** jniEnv )
+namespace here
+{
+namespace internal
+{
+
+CppProxyBase::ProxyCache CppProxyBase::sProxyCache{ };
+::std::mutex CppProxyBase::sCacheMutex{ };
+
+void
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    ::callJavaMethodVaList( jniEnv, jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+}
+
+bool
+CppProxyBase::getJniEnvironment( JNIEnv** jniEnv ) const
 {
     int envState = jVM->GetEnv( reinterpret_cast< void** >( jniEnv ), JNI_VERSION_1_6 );
     if ( envState == JNI_EDETACHED )
@@ -38,34 +61,6 @@ getJniEnvironment( JavaVM* jVM, JNIEnv** jniEnv )
     return false;
 }
 
-}
-
-namespace here
-{
-namespace internal
-{
-
-CppProxyBase::ProxyCache CppProxyBase::sProxyCache{ };
-::std::mutex CppProxyBase::sCacheMutex{ };
-
-void
-CppProxyBase::callJavaMethod(
-    const ::std::string& methodName, const ::std::string& jniSignature, ... ) const
-{
-    JNIEnv* jniEnv;
-    bool attachedToThread = getJniEnvironment( jVM, &jniEnv );
-    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
-    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
-    va_list vaList;
-    va_start( vaList, jniSignature );
-    ::callJavaMethodVaList( jniEnv, jGlobalRef, jmethodId, vaList );
-    va_end( vaList );
-    if ( attachedToThread )
-    {
-        jVM->DetachCurrentThread( );
-    }
-}
-
 CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode )
     : jGlobalRef( jGlobalRef )
     , jHashCode( jHashCode )
@@ -76,7 +71,7 @@ CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode )
 CppProxyBase::~CppProxyBase( )
 {
     JNIEnv* jniEnv;
-    bool attachedToThread = getJniEnvironment( jVM, &jniEnv );
+    bool attachedToThread = getJniEnvironment( &jniEnv );
 
     {
         ::std::lock_guard< std::mutex > lock( sCacheMutex );

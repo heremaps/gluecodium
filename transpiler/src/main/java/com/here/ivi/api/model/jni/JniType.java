@@ -14,8 +14,11 @@ package com.here.ivi.api.model.jni;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.jni.JniTypeNameMapper;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
+import com.here.ivi.api.model.javamodel.JavaArrayType;
+import com.here.ivi.api.model.javamodel.JavaComplexType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaType;
+import java.util.List;
 
 public final class JniType implements JniElement {
 
@@ -49,15 +52,24 @@ public final class JniType implements JniElement {
     this.isComplex = !(javaType instanceof JavaPrimitiveType);
     this.isInstance = isInstance;
     this.refersToValueType = cppType.refersToValueType();
-    if (javaType instanceof JavaPrimitiveType) {
-      jniTypeSignature = createVMTypeSignature((JavaPrimitiveType) javaType);
-    } else {
-      //TODO APIGEN-759: support creating signatures for complex types
-      jniTypeSignature = "";
-    }
+    jniTypeSignature = createJniSignature(javaType);
   }
 
-  private static String createVMTypeSignature(JavaPrimitiveType primitiveType) {
+  private static String createJniSignature(JavaType type) {
+
+    if (type instanceof JavaPrimitiveType) {
+      return createJniSignature((JavaPrimitiveType) type);
+    }
+    if (type instanceof JavaArrayType) {
+      return createJniSignature((JavaArrayType) type);
+    }
+    if (type instanceof JavaComplexType) {
+      return createJniSignature((JavaComplexType) type);
+    }
+    throw new TranspilerExecutionException("invalid java type: " + type);
+  }
+
+  private static String createJniSignature(JavaPrimitiveType primitiveType) {
     switch (primitiveType.type) {
       case INT:
         return "I";
@@ -81,5 +93,39 @@ public final class JniType implements JniElement {
         throw new TranspilerExecutionException(
             "invalid java primitive type: " + primitiveType.type);
     }
+  }
+
+  private static String createJniSignature(JavaArrayType arrayType) {
+    switch (arrayType.type) {
+      case INT_ARRAY:
+        return "[I";
+      case BOOL_ARRAY:
+        return "[Z";
+      case BYTE_ARRAY:
+        return "[B";
+      case CHAR_ARRAY:
+        return "[C";
+      case LONG_ARRAY:
+        return "[J";
+      case FLOAT_ARRAY:
+        return "[F";
+      case SHORT_ARRAY:
+        return "[S";
+      case DOUBLE_ARRAY:
+        return "[D";
+      default:
+        throw new TranspilerExecutionException("invalid java primitive type: " + arrayType.type);
+    }
+  }
+
+  private static String createJniSignature(JavaComplexType complexType) {
+
+    List<String> packageNames = complexType.packageNames;
+    List<String> classNames = complexType.classNames;
+
+    if (classNames == null || packageNames == null) {
+      return "";
+    }
+    return "L" + String.join("/", packageNames) + "/" + String.join("$", classNames) + ";";
   }
 }
