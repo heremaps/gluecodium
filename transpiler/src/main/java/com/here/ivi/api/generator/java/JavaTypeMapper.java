@@ -37,9 +37,9 @@ public class JavaTypeMapper {
 
     JavaType javaType = JavaPrimitiveType.VOID;
     if (fTypeRef.getDerived() != null) {
-      javaType = mapDerived(fTypeRef);
+      javaType = mapFrancaType(fTypeRef.getDerived());
     } else if (fTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
-      javaType = mapPredefined(fTypeRef.getPredefined());
+      javaType = mapFrancaBasicType(fTypeRef.getPredefined());
     } else if (fTypeRef.getInterval() != null) {
       throw new TranspilerExecutionException(
           "The transpiler does not support integer ranges. "
@@ -57,7 +57,7 @@ public class JavaTypeMapper {
     return javaType;
   }
 
-  private static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
+  private static JavaType mapFrancaBasicType(final FBasicTypeId basicTypeId) {
     switch (basicTypeId.getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
         return JavaPrimitiveType.BOOL;
@@ -99,28 +99,22 @@ public class JavaTypeMapper {
   }
 
   @SuppressWarnings("PMD.EmptyIfStmt")
-  private JavaType mapDerived(final FTypeRef type) {
+  private JavaType mapFrancaType(final FType francaType) {
 
-    FType derived = type.getDerived();
-
-    // types without a parent are not valid
-    if (derived.eContainer() == null) {
-      //TODO: return reportInvalidType(api, type);
+    if (francaType instanceof FTypeDef) {
+      return mapTypeDef((FTypeDef) francaType);
     }
-    if (derived instanceof FTypeDef) {
-      return mapTypeDef((FTypeDef) derived);
+    if (francaType instanceof FArrayType) {
+      return mapArray((FArrayType) francaType);
     }
-    if (derived instanceof FArrayType) {
-      return mapArray((FArrayType) derived);
+    if (francaType instanceof FMapType) {
+      return mapMap((FMapType) francaType);
     }
-    if (derived instanceof FMapType) {
-      //TODO: return mapMap(api, (FMapType) derived);
+    if (francaType instanceof FStructType) {
+      return mapStruct(francaType);
     }
-    if (derived instanceof FStructType) {
-      return mapStruct(derived);
-    }
-    if (derived instanceof FEnumerationType) {
-      return mapStruct(derived);
+    if (francaType instanceof FEnumerationType) {
+      return mapStruct(francaType);
     }
 
     return new JavaCustomType("TODO");
@@ -163,6 +157,20 @@ public class JavaTypeMapper {
     }
 
     return JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, elementType);
+  }
+
+  public JavaType mapMap(final FMapType francaMapType) {
+    JavaType keyType = map(francaMapType.getKeyType());
+    JavaType valueType = map(francaMapType.getValueType());
+
+    if (keyType instanceof JavaPrimitiveType) {
+      keyType = boxPrimitiveType((JavaPrimitiveType) keyType);
+    }
+    if (valueType instanceof JavaPrimitiveType) {
+      valueType = boxPrimitiveType((JavaPrimitiveType) valueType);
+    }
+
+    return JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, keyType, valueType);
   }
 
   private JavaCustomType mapStruct(final FType structType) {

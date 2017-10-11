@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.java;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -60,12 +61,12 @@ public class JavaTypeMapperCustomTypeTest {
   @Mock private FInterface fInterface;
   @Mock private FModel theModel;
   @Mock private FStructType structType;
-
   @Mock private FTypeRef francaTypeRef;
   @Mock private FTypeDef francaTypeDef;
   @Mock private FArrayType francaArrayType;
-  @Mock private FTypeRef elementType;
   @Mock private FEnumerationType francaEnumerationType;
+  @Mock private FMapType francaMapType;
+
   private final JavaTypeMapper typeMapper =
       new JavaTypeMapper(new JavaPackage(Collections.emptyList()));
 
@@ -192,34 +193,34 @@ public class JavaTypeMapperCustomTypeTest {
 
   @Test
   public void mapArray() {
-    when(francaTypeRef.getDerived()).thenReturn(francaArrayType);
-    when(francaArrayType.getElementType()).thenReturn(elementType);
-    when(elementType.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    when(francaArrayType.getElementType()).thenReturn(francaTypeRef);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.STRING);
 
-    JavaType arrayType = typeMapper.map(francaTypeRef);
+    JavaType arrayType = typeMapper.mapArray(francaArrayType);
 
     assertTrue(arrayType instanceof JavaTemplateType);
     JavaTemplateType templateType = (JavaTemplateType) arrayType;
     assertEquals("List<String>", templateType.name);
     assertEquals(1, templateType.classNames.size());
     assertEquals("List", templateType.classNames.get(0));
-    assertEquals(JavaTemplateType.TemplateClass.LIST, templateType.templateClass);
+
+    assertFalse(templateType.imports.isEmpty());
+    JavaImport javaImport = templateType.imports.iterator().next();
+    assertEquals(JavaTemplateType.JAVA_UTIL, javaImport.javaPackage);
+    assertEquals("List", javaImport.className);
   }
 
   @Test
   public void mapArrayOfPrimitiveType() {
-    when(francaTypeRef.getDerived()).thenReturn(francaArrayType);
-    when(francaArrayType.getElementType()).thenReturn(elementType);
-    when(elementType.getPredefined()).thenReturn(FBasicTypeId.FLOAT);
+    when(francaArrayType.getElementType()).thenReturn(francaTypeRef);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.FLOAT);
 
-    JavaType arrayType = typeMapper.map(francaTypeRef);
+    JavaType arrayType = typeMapper.mapArray(francaArrayType);
 
     assertTrue(arrayType instanceof JavaTemplateType);
     JavaTemplateType templateType = (JavaTemplateType) arrayType;
     assertEquals("List<Float>", templateType.name);
     assertEquals(1, templateType.classNames.size());
-    assertEquals("List", templateType.classNames.get(0));
-    assertEquals(JavaTemplateType.TemplateClass.LIST, templateType.templateClass);
   }
 
   @Test
@@ -277,5 +278,41 @@ public class JavaTypeMapperCustomTypeTest {
     JavaNameRules.getClassName(ENUMERATION_NAME_INTERFACE);
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(INTERFACE_NAME);
+  }
+
+  @Test
+  public void mapMap() {
+    FTypeRef anotherTypeRef = mock(FTypeRef.class);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    when(anotherTypeRef.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
+    when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
+    when(francaMapType.getValueType()).thenReturn(anotherTypeRef);
+
+    JavaType arrayType = typeMapper.mapMap(francaMapType);
+
+    assertTrue(arrayType instanceof JavaTemplateType);
+    JavaTemplateType templateType = (JavaTemplateType) arrayType;
+    assertEquals("Map<String, byte[]>", templateType.name);
+    assertEquals("Map", templateType.classNames.get(0));
+
+    assertFalse(templateType.imports.isEmpty());
+    JavaImport javaImport = templateType.imports.iterator().next();
+    assertEquals(JavaTemplateType.JAVA_UTIL, javaImport.javaPackage);
+    assertEquals("Map", javaImport.className);
+  }
+
+  @Test
+  public void mapMapWithPrimitiveTypes() {
+    FTypeRef anotherTypeRef = mock(FTypeRef.class);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.FLOAT);
+    when(anotherTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT64);
+    when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
+    when(francaMapType.getValueType()).thenReturn(anotherTypeRef);
+
+    JavaType arrayType = typeMapper.mapMap(francaMapType);
+
+    assertTrue(arrayType instanceof JavaTemplateType);
+    JavaTemplateType templateType = (JavaTemplateType) arrayType;
+    assertEquals("Map<Float, Long>", templateType.name);
   }
 }
