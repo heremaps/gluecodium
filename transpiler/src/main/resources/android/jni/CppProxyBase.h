@@ -59,8 +59,12 @@ protected:
 
     virtual ~CppProxyBase( );
 
-    void callJavaMethod(
-        const ::std::string& methodName, const ::std::string& jniSignature, ... ) const;
+    void callJavaMethod( const ::std::string& methodName,
+                         const ::std::string& jniSignature,
+                         JNIEnv* jniEnv,
+                         ... ) const;
+
+    bool getJniEnvironment( JNIEnv** jniEnv ) const;
 
 private:
 
@@ -89,7 +93,7 @@ private:
     jobject jGlobalRef;
     jint jHashCode;
 
-private:
+protected:
 
     JavaVM* jVM;
 
