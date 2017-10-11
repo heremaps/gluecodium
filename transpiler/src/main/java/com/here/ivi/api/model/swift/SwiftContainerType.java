@@ -26,10 +26,25 @@ public class SwiftContainerType extends SwiftType {
   }
 
   public SwiftContainerType(String name, TypeCategory category) {
-    super(name, category);
+    this(name, null, false, category);
+  }
+
+  public SwiftContainerType(
+      String name, String typealias, Boolean optional, TypeCategory category) {
+    super(name, category, optional, null, typealias);
     comment = "";
     fields = emptyList();
     cPrefix = "";
     cType = "";
+  }
+
+  public SwiftType createAlias(final String aliasName) {
+    SwiftContainerType container = new SwiftContainerType(name, aliasName, optional, category);
+    container.comment = this.comment;
+    container.fields = this.fields;
+    container.cPrefix = this.cPrefix;
+    container.cType = this.cType;
+    container.privateImplementation = this.privateImplementation;
+    return container;
   }
 }
