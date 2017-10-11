@@ -1,9 +1,0 @@
-module ${MODULE_NAME} {
-${MODULE_HEADERS}
-}
-// for mac tests
-module ${MODULE_NAME}Tests {
-}
-// for linux tests
-module ${MODULE_NAME}PackageTests {
-}

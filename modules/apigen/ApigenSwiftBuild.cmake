@@ -32,15 +32,6 @@ cmake_minimum_required(VERSION 3.5)
 
 set(APIGEN_SWIFT_DIR ${CMAKE_CURRENT_LIST_DIR}/swift)
 
-function(prefix_arguments output prefix)
-    list(REMOVE_AT ARGV 0 1)
-    set(prefixed)
-    foreach(arg IN LISTS ARGV)
-        list(APPEND prefixed ${prefix} ${arg})
-    endforeach()
-    set(${output} ${prefixed} PARENT_SCOPE)
-endfunction()
-
 function(apigen_swift_build target)
     set(options)
     set(oneValueArgs)
@@ -52,43 +43,42 @@ function(apigen_swift_build target)
     get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
 
     if(NOT ${GENERATOR} MATCHES swift)
-            return()
+        return()
     endif()
 
     # Transpiler invocations for different generators need different output directories
     # as the transpiler currently wipes the directory upon start.
     set(APIGEN_SWIFT_BUILD_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-swift-build)
     set(APIGEN_TRANSPILER_C_BRIDGE_SOURCE_DIR ${OUTPUT_DIR}/cbridge/${target})
-    set(APIGEN_SWIFT_FRAMEWORK_ZIP ${CMAKE_CURRENT_BINARY_DIR}/${target}.framework.zip)
     set(FRAMEWORK_VERSION A)
 
     # Attach properties to target for re-use in other modules
     set_target_properties(${target} PROPERTIES
         APIGEN_SWIFT_BUILD_OUTPUT_DIR ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
 
-    # Arrange transpiler-generated files acordingly..
-    file(COPY ${OUTPUT_DIR}/swift/
-        DESTINATION ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/Source/)
-
     # For each submodule there needs to be a modulemap created
     file(GLOB swift_modules LIST_DIRECTORIES true ${OUTPUT_DIR}/swift/*)
-    set(swift_module_includes)
+    set(CBRIDGE_MODULE_MAP "module ${target} { }\n")
     foreach(module_path IN LISTS swift_modules)
-        get_filename_component(MODULE_NAME "${module_path}" NAME)
-        set(MODULE_DIR ${OUTPUT_DIR}/cbridge/${MODULE_NAME})
+        if(NOT IS_DIRECTORY ${module_path})
+            continue()
+        endif()
+        get_filename_component(SUB_MODULE_NAME "${module_path}" NAME)
+        set(MODULE_NAME "${target}.${SUB_MODULE_NAME}")
+        set(MODULE_DIR ${OUTPUT_DIR}/cbridge/${SUB_MODULE_NAME})
         file(GLOB cbridge_headers ${MODULE_DIR}/*.h)
 
-        set(MODULE_HEADERS)
+        set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\nmodule ${MODULE_NAME} {")
         foreach(header IN LISTS cbridge_headers)
-            set(MODULE_HEADERS "${MODULE_HEADERS}\n    header \"${header}\"")
+            set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n    header \"${header}\"")
         endforeach()
-        configure_file(${APIGEN_SWIFT_DIR}/cbridge.modulemap.in
-            ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/Modules/${MODULE_NAME}/module.modulemap)
-        list(APPEND swift_module_includes -IModules/${MODULE_NAME})
+        set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n}\n")
     endforeach()
+    file(WRITE "${OUTPUT_DIR}/module.modulemap" "${CBRIDGE_MODULE_MAP}")
 
-    configure_file(${APIGEN_SWIFT_DIR}/framework.modulemap.in
-        ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/${target}.framework/Versions/A/Modules/module.modulemap)
+    file(WRITE
+        ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/${target}.framework/Versions/${FRAMEWORK_VERSION}/Modules/module.modulemap
+        "module ${target} {\n}\n")
 
     set(MACOSX_FRAMEWORK_NAME ${target})
     set(MACOSX_FRAMEWORK_ICON_FILE)
@@ -99,6 +89,7 @@ function(apigen_swift_build target)
     configure_file(${APIGEN_SWIFT_DIR}/MacOSXFrameworkInfo.plist.in
         ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/${target}.framework/Versions/${FRAMEWORK_VERSION}/Info.plist)
 
+    # TODO APIGEN-849 Rather build first and assemble the framework separately
     function(create_framework_structure)
         add_custom_command(TARGET ${target} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory
@@ -118,6 +109,7 @@ function(apigen_swift_build target)
     endfunction()
 
 
+    # TODO APIGEN-849 remove the framework references from this function
     function(build_swift TARGET_ARCHITECTURE)
         if(IOS_DEPLOYMENT_TARGET)
             set(full_target ${TARGET_ARCHITECTURE}-apple-ios${IOS_DEPLOYMENT_TARGET})
@@ -129,54 +121,91 @@ function(apigen_swift_build target)
         endif()
 
         set(BUILD_ARGUMENTS
-            ${swift_module_includes}
             -I${OUTPUT_DIR}
             -import-underlying-module
             -L\$<TARGET_FILE_DIR:${target}>
             -l${target}
-            ${swift_target_flag})
-        # OSX needs additional -lc++
+            ${swift_target_flag}
+            -emit-module
+            -emit-library
+            -embed-bitcode
+            -module-name ${target})
+        # OSX needs additional -lc++ and additional paths to assemble the framework
         if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-            list(APPEND BUILD_ARGUMENTS -lc++)
+            set(module_file_path "${target}.framework/Modules/${target}.swiftmodule/${TARGET_ARCHITECTURE}.swiftmodule")
+            list(APPEND BUILD_ARGUMENTS
+                -lc++
+                -o "lib${target}.${TARGET_ARCHITECTURE}"
+                -emit-module-path "${module_file_path}"
+                )
         endif()
 
-        set(module_file_path ${target}.framework/Modules/${target}.swiftmodule/${TARGET_ARCHITECTURE})
-        set(EMIT_ARGUMENTS
-            -emit-module
-            -emit-module-path ${module_file_path}
-            -emit-objc-header
-            -emit-objc-header-path ${target}.framework/Headers/${target}.h
-            -emit-library
-            -o lib${target}.${TARGET_ARCHITECTURE}
-            -embed-bitcode)
+        file(WRITE
+            ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/module.modulemap
+            "module ${target} {\n}")
 
-        file(GLOB_RECURSE SOURCES ${OUTPUT_DIR}/swift/${target}/*.swift)
+        file(GLOB_RECURSE SOURCES ${OUTPUT_DIR}/swift/*.swift)
         add_custom_command(TARGET ${target} POST_BUILD
-            COMMAND swiftc ${BUILD_ARGUMENTS} ${EMIT_ARGUMENTS} ${SOURCES}
-            COMMAND ${CMAKE_COMMAND} -E rename ${module_file_path} ${module_file_path}.swiftmodule
+            COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES}
             WORKING_DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
+
+        # TODO APIGEN-849: make this independent from transpiling, like add_swift_executable or similar
         # Optionally build test if they where supplied as parameters
         if(NOT ${apigen_swift_build_TESTS} STREQUAL "")
-            # Prepare and copy module-specific files
-            configure_file(${APIGEN_SWIFT_DIR}/Package.swift.in
-                ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/Package.swift)
+            set(BUILD_ARGUMENTS
+                ${swift_target_flag}
+                -emit-executable
+                -o "test${target}"
+                -embed-bitcode)
 
-            foreach(test_dir ${apigen_swift_build_TESTS})
-                file(COPY ${test_dir} DESTINATION ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
-            endforeach(test_dir)
+            if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+                execute_process(COMMAND xcrun --show-sdk-platform-path
+                    OUTPUT_VARIABLE XCODE_PLATFORM_PATH OUTPUT_STRIP_TRAILING_WHITESPACE)
+                list(APPEND BUILD_ARGUMENTS
+                    -F${APIGEN_SWIFT_BUILD_OUTPUT_DIR}
+                    -Fsystem "${XCODE_PLATFORM_PATH}/Developer/Library/Frameworks/"
+                    -Xlinker -rpath -Xlinker "${XCODE_PLATFORM_PATH}/Developer/Library/Frameworks/"
+                    -Xlinker -rpath -Xlinker "@executable_path"
+                )
+            else()
+                list(APPEND BUILD_ARGUMENTS
+                    -L${APIGEN_SWIFT_BUILD_OUTPUT_DIR}
+                    -I${APIGEN_SWIFT_BUILD_OUTPUT_DIR}
+                    -l${target}
+                    -Xlinker -rpath -Xlinker "'$$ORIGIN'"
+                )
+            endif()
 
-            prefix_arguments(BUILD_ARGUMENTS "-Xswiftc" ${BUILD_ARGUMENTS})
-            add_custom_command(TARGET ${target} POST_BUILD
-                COMMAND swift test ${BUILD_ARGUMENTS}
+            file(GLOB_RECURSE SOURCES ${apigen_swift_build_TESTS}/*.swift)
+
+            add_custom_target(test${target} ALL DEPENDS ${target}
+                COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES}
                 WORKING_DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}
                 COMMENT "Running Swift test for target '${target}'...")
+            add_test(NAME SwiftFunctional COMMAND "${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/test${target}"
+                WORKING_DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
+            install(PROGRAMS "${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/test${target}" DESTINATION .)
         endif()
 
-        install(DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/${target}.framework
+        if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+            install(DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/${target}.framework
+                    DESTINATION .)
+        else()
+            install(
+                FILES
+                    "${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/lib${target}.so"
+                    "${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/${target}.swiftmodule"
+                    "${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/${target}.swiftdoc"
+                    "${APIGEN_SWIFT_BUILD_OUTPUT_DIR}/module.modulemap"
                 DESTINATION .)
+        endif()
     endfunction(build_swift)
 
+    # On Mac create a proper fat binary, on linux do nothing
     function(create_fat_lib)
+        if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+            return()
+        endif()
         set(framework_lib_dir "${target}.framework/Versions/${FRAMEWORK_VERSION}")
         set(framework_lib "${framework_lib_dir}/${target}")
         set(libs)
@@ -184,18 +213,10 @@ function(apigen_swift_build target)
             list(APPEND libs lib${target}.${arch})
         endforeach()
 
-        # On Mac create a proper fat binary
-        if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-            add_custom_command(TARGET ${target} POST_BUILD
-                COMMAND lipo ${libs} -create -output "${framework_lib}"
-                COMMAND install_name_tool -id "@rpath/${framework_lib}" "${framework_lib}"
-                WORKING_DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
-        # On linux just copy the library to the target
-        else()
-            add_custom_command(TARGET ${target} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different ${libs} "${framework_lib_dir}"
-                WORKING_DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
-        endif()
+        add_custom_command(TARGET ${target} POST_BUILD
+            COMMAND lipo ${libs} -create -output "${framework_lib}"
+            COMMAND install_name_tool -id "@rpath/${framework_lib}" "${framework_lib}"
+            WORKING_DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
     endfunction()
 
     create_framework_structure()
