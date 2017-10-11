@@ -1,6 +1,6 @@
 import XCTest
 import Foundation
-@testable import test
+import hello
 
 class StaticByteArrayMethodsTests: XCTestCase {
     func testPassByteBuffer() {

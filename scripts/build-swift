@@ -10,8 +10,8 @@ TRANSPILER_VERSION="${TRANSPILER_VERSION:-+}"
 BUILD_DIR=${PWD}/build-swift
 INSTALL_DIR=${PWD}/dist/swift
 
-[ -d ${BUILD_DIR} ] || mkdir -p ${BUILD_DIR}
-[ -d ${INSTALL_DIR} ] || mkdir -p ${INSTALL_DIR}
+[ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
+[ -d "${INSTALL_DIR}" ] || mkdir -p "${INSTALL_DIR}"
 
 CMAKE_EXTRA_PARAMETERS=
 # Chose platform-native CMake generator
@@ -21,17 +21,19 @@ CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
 fi
 
 CWD=${PWD}
-pushd ${BUILD_DIR}
+pushd "${BUILD_DIR}"
 safe cmake \
-    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+    -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
     -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
-    -DHELLO_APIGEN_TRANSPILER_VERSION=${TRANSPILER_VERSION} \
-    -DHELLO_SWIFT_TESTS=${CWD}/platforms/ios/Tests \
-    ${CMAKE_EXTRA_PARAMETERS} \
+    -DHELLO_APIGEN_TRANSPILER_VERSION="${TRANSPILER_VERSION}" \
+    -DHELLO_SWIFT_TESTS="${CWD}/platforms/ios/Tests" \
+    "${CMAKE_EXTRA_PARAMETERS}" \
     ..
 popd
 
 safe cmake \
-    --build ${BUILD_DIR} \
+    --build "${BUILD_DIR}" \
     --target install
+
+exec "${INSTALL_DIR}/testhello"

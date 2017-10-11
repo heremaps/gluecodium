@@ -1,5 +1,5 @@
 import XCTest
-@testable import test
+import hello
 
 class EnumsTests: XCTestCase {
     func testFlipEnumValue() {

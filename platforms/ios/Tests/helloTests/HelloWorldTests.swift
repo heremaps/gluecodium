@@ -1,5 +1,5 @@
 import XCTest
-@testable import hello
+import hello
 
 class HelloWorldTests: XCTestCase {
     func testHelloWorldMethod() {
