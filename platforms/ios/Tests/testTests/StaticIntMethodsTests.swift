@@ -1,5 +1,5 @@
 import XCTest
-@testable import test
+import hello
 
 class StaticIntMethodsTests: XCTestCase {
     func testPassMinimumInt8() {

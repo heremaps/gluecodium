@@ -1,5 +1,5 @@
 import XCTest
-@testable import test
+import hello
 
 class StaticBooleanMethodsTests: XCTestCase {
     func testPassOneBool() {
@@ -12,7 +12,7 @@ class StaticBooleanMethodsTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testInvertBool", testPassOneBool),
+        ("testPassOneBool", testPassOneBool),
         ("testPassTwoBool", testPassTwoBool)
     ]
 }

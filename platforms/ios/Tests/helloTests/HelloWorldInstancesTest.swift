@@ -1,5 +1,5 @@
 import XCTest
-@testable import hello
+import hello
 
 class HelloWorldInstancesTests: XCTestCase {
 
