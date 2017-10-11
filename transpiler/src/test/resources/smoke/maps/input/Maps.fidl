@@ -1,0 +1,80 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package smoke
+
+interface Maps {
+    version {
+        major 0
+        minor 1
+    }
+
+    map ErrorCodeToMessageMap { Int32 to String }
+
+    struct SomeStruct {
+        String value
+    }
+
+    map NumberToStruct {UInt8 to SomeStruct}
+
+    map StructToNumber {SomeStruct to UInt8}
+
+    map NestedMap {UInt8 to NumberToStruct}
+
+    struct StructWithMap{
+        ErrorCodeToMessageMap errorMapping
+    }
+
+    method methodWithMap {
+        in {
+            ErrorCodeToMessageMap input
+        }
+        out {
+            ErrorCodeToMessageMap output
+        }
+    }
+
+    method methodWithMapToStruct {
+        in {
+            NumberToStruct input
+        }
+        out {
+            NumberToStruct output
+        }
+    }
+
+    method methodWithStructAsMapKeys {
+        in {
+            StructToNumber input
+        }
+        out {
+            StructToNumber output
+        }
+    }
+
+    method methodWithNestedMap {
+        in {
+            NestedMap input
+        }
+        out {
+            NestedMap output
+        }
+    }
+
+    method methodWithStructWithMap {
+        in {
+            StructWithMap input
+        }
+        out {
+            StructWithMap output
+        }
+    }
+}
