@@ -74,6 +74,7 @@ public class JavaModelBuilderTest {
   @Mock private FEnumerationType francaEnumerationType;
   @Mock private FEnumerator francaEnumerator1;
   @Mock private FEnumerator francaEnumerator2;
+  @Mock private FMapType francaMapType;
 
   private final EList<FArgument> arguments = new ArrayEList<>();
 
@@ -374,7 +375,7 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaArrayReadArrays() {
+  public void finishBuildingFrancaArrayMapsArrayType() {
     when(typeMapper.mapArray(any())).thenReturn(javaCustomType);
 
     modelBuilder.finishBuilding(francaArrayType);
@@ -479,5 +480,17 @@ public class JavaModelBuilderTest {
 
     JavaValue result = modelBuilder.getFinalResult(JavaValue.class);
     assertSame(value, result);
+  }
+
+  @Test
+  public void finishBuildingFrancaMapMapsMapType() {
+    when(typeMapper.mapMap(any())).thenReturn(javaCustomType);
+
+    modelBuilder.finishBuilding(francaMapType);
+
+    JavaType javaType = modelBuilder.getFinalResult(JavaType.class);
+    assertEquals(javaCustomType, javaType);
+
+    verify(typeMapper).mapMap(francaMapType);
   }
 }

@@ -15,50 +15,41 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public final class JavaTemplateType extends JavaCustomType {
-  public final TemplateClass templateClass;
-  public final List<JavaType> templateParameters;
+
+  public static final JavaPackage JAVA_UTIL = new JavaPackage(Arrays.asList("java", "util"));
 
   public enum TemplateClass {
-    LIST(
-        "List",
-        new JavaImport("List", new JavaPackage(Arrays.asList("java", "util"))),
-        Arrays.asList("java", "util"));
+    LIST("List", JAVA_UTIL),
+    MAP("Map", JAVA_UTIL);
 
     public final String name;
     public final JavaImport javaImport;
     public final List<String> packageNames;
 
-    TemplateClass(String name, JavaImport javaImport, List<String> packageNames) {
+    TemplateClass(final String name, final JavaPackage javaPackage) {
       this.name = name;
-      this.javaImport = javaImport;
-      this.packageNames = packageNames;
+      this.javaImport = new JavaImport(name, javaPackage);
+      this.packageNames = javaPackage.packageNames;
     }
   }
 
-  private JavaTemplateType(
-      String name, TemplateClass templateClass, List<JavaType> templateParameters) {
+  private JavaTemplateType(final String name, final TemplateClass templateClass) {
     super(
         name,
-        Arrays.asList(templateClass.name),
+        Collections.singletonList(templateClass.name),
         templateClass.packageNames,
         Collections.emptySet());
-
-    this.templateClass = templateClass;
-    this.templateParameters = templateParameters;
   }
 
-  public static JavaTemplateType create(TemplateClass templateClass, JavaType... parameters) {
+  public static JavaTemplateType create(final TemplateClass templateClass, JavaType... parameters) {
     List<JavaType> templateParameters = Arrays.asList(parameters);
     String name =
         templateClass.name
             + "<"
-            + templateParameters
-                .stream()
-                .map(parameter -> parameter.name)
-                .collect(Collectors.joining(", "))
+            + templateParameters.stream().map(type -> type.name).collect(Collectors.joining(", "))
             + ">";
 
-    JavaTemplateType templateType = new JavaTemplateType(name, templateClass, templateParameters);
+    JavaTemplateType templateType = new JavaTemplateType(name, templateClass);
 
     templateType.imports.add(templateClass.javaImport);
     templateParameters.forEach(parameter -> templateType.imports.addAll(parameter.imports));

@@ -244,6 +244,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   }
 
   @Override
+  public void finishBuilding(FMapType francaMapType) {
+
+    storeResult(typeMapper.mapMap(francaMapType));
+    closeContext();
+  }
+
+  @Override
   public void finishBuilding(FAttribute francaAttribute) {
 
     JavaType javaType = getPreviousResult(JavaType.class);
