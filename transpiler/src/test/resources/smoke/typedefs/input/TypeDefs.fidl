@@ -44,4 +44,59 @@ interface TypeDefs {
             ComplexTypeDef output
         }
     }
+
+    typedef NestedIntTypeDef is PrimitiveTypeDef
+    typedef TestStructTypeDef is TestStruct
+    typedef NestedStructTypeDef is TestStructTypeDef
+
+    method returnNestedIntTypeDef {
+        in {
+            NestedIntTypeDef input
+        }
+        out {
+            NestedIntTypeDef output
+        }
+    }
+
+    method returnTestStructTypeDef {
+        in {
+            TestStructTypeDef input
+        }
+        out {
+            TestStructTypeDef output
+        }
+    }
+
+    method returnNestedStructTypeDef {
+        in {
+            NestedStructTypeDef input
+        }
+        out {
+            NestedStructTypeDef output
+        }
+    }
+
+    method returnTypeDefPointFromTypeCollection {
+        in {
+            TypeCollection.PointTypeDef input
+        }
+        out {
+            TypeCollection.PointTypeDef output
+        }
+    }
+}
+
+typeCollection TypeCollection {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    typedef PointTypeDef is Point
+
+    struct Point {
+        Double x
+        Double y
+    }
 }
