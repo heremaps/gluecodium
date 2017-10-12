@@ -16,10 +16,10 @@
 
 #pragma once
 
-#include "cpp/smoke/SimpleInstantiableOne.h"
-#include <memory>
-#include "cpp/smoke/SimpleInstantiableTwo.h"
 #include "cpp/smoke/NestedInstantiableOne.h"
+#include "cpp/smoke/SimpleInstantiableOne.h"
+#include "cpp/smoke/SimpleInstantiableTwo.h"
+#include <memory>
 
 namespace smoke {
 

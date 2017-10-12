@@ -16,9 +16,9 @@
 
 #pragma once
 
-#include <string>
-#include <cstdint>
 #include <cpp/enum_hash.h>
+#include <cstdint>
+#include <string>
 #include <unordered_map>
 
 namespace smoke {
