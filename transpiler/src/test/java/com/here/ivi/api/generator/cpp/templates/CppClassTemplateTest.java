@@ -98,7 +98,7 @@ public final class CppClassTemplateTest {
 
   @Test
   public void classWithOneStruct() {
-    cppClass.structs.add(cppStruct);
+    cppClass.members.add(cppStruct);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
@@ -110,8 +110,8 @@ public final class CppClassTemplateTest {
 
   @Test
   public void classWithTwoStructs() {
-    cppClass.structs.add(cppStruct);
-    cppClass.structs.add(new CppStruct("SomeStruct"));
+    cppClass.members.add(cppStruct);
+    cppClass.members.add(new CppStruct("SomeStruct"));
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
@@ -125,7 +125,7 @@ public final class CppClassTemplateTest {
 
   @Test
   public void classWithOneEnum() {
-    cppClass.enums.add(cppEnum);
+    cppClass.members.add(cppEnum);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
@@ -137,8 +137,8 @@ public final class CppClassTemplateTest {
 
   @Test
   public void classWithTwoEnums() {
-    cppClass.enums.add(cppEnum);
-    cppClass.enums.add(CppEnum.createScoped("SomeEnum"));
+    cppClass.members.add(cppEnum);
+    cppClass.members.add(CppEnum.createScoped("SomeEnum"));
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
@@ -152,7 +152,7 @@ public final class CppClassTemplateTest {
 
   @Test
   public void classWithOneUsing() {
-    cppClass.usings.add(cppUsing);
+    cppClass.members.add(cppUsing);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
@@ -163,8 +163,8 @@ public final class CppClassTemplateTest {
 
   @Test
   public void classWithTwoUsings() {
-    cppClass.usings.add(cppUsing);
-    cppClass.usings.add(new CppUsing("Useless", cppComplexTypeRef));
+    cppClass.members.add(cppUsing);
+    cppClass.members.add(new CppUsing("Useless", cppComplexTypeRef));
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 

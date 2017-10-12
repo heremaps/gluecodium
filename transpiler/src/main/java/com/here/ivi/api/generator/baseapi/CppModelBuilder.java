@@ -62,9 +62,9 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     cppClass.comment = CppCommentParser.parse(francaInterface).getMainBodyText();
 
     cppClass.methods.addAll(getPreviousResults(CppMethod.class));
-    cppClass.enums.addAll(getPreviousResults(CppEnum.class));
-    cppClass.usings.addAll(getPreviousResults(CppUsing.class));
-    cppClass.structs.addAll(getPreviousResults(CppStruct.class));
+    cppClass.members.addAll(getPreviousResults(CppEnum.class));
+    cppClass.members.addAll(getPreviousResults(CppUsing.class));
+    cppClass.members.addAll(getPreviousResults(CppStruct.class));
 
     storeResult(cppClass);
     closeContext();
