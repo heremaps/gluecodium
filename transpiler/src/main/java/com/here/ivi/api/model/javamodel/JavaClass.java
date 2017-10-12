@@ -13,6 +13,7 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public final class JavaClass extends JavaTopLevelElement {
@@ -33,12 +34,10 @@ public final class JavaClass extends JavaTopLevelElement {
 
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.concat(
-            super.stream(),
-            extendedClass != null
-                ? Stream.concat(fields.stream(), extendedClass.stream())
-                : fields.stream())
-        .map(JavaElement.class::cast);
+    Stream<JavaElement> extendedClassStream =
+        extendedClass != null ? extendedClass.stream() : Stream.empty();
+    return Stream.of(super.stream(), fields.stream(), extendedClassStream)
+        .flatMap(Function.identity());
   }
 
   @Override

@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.javamodel;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -50,11 +51,7 @@ public abstract class JavaTopLevelElement extends JavaElement {
 
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.concat(
-            methods.stream(),
-            Stream.concat(
-                constants.stream(), Stream.concat(parentInterfaces.stream(), enums.stream())))
-        .map(JavaElement.class::cast);
+    return Stream.of(methods, constants, parentInterfaces, enums).flatMap(Collection::stream);
   }
 
   public Set<JavaImport> getImports() {

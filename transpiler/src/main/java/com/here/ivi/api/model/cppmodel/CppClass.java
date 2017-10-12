@@ -12,6 +12,7 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.generator.baseapi.TopologicalSort;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,25 +51,14 @@ public final class CppClass extends CppElement {
   public List<CppElement> getSortedMembers() {
 
     List<CppElement> unsortedMembers =
-        Stream.concat(enums.stream(), Stream.concat(usings.stream(), structs.stream()))
-            .collect(Collectors.toList());
+        Stream.of(enums, usings, structs).flatMap(Collection::stream).collect(Collectors.toList());
 
     return new TopologicalSort(unsortedMembers).sort();
   }
 
   @Override
   public Stream<? extends CppElement> stream() {
-    return Stream.concat(
-            methods.stream(),
-            Stream.concat(
-                structs.stream(),
-                Stream.concat(
-                    usings.stream(),
-                    Stream.concat(
-                        fields.stream(),
-                        Stream.concat(
-                            constants.stream(),
-                            Stream.concat(enums.stream(), inheritances.stream()))))))
-        .map(CppElement.class::cast);
+    return Stream.of(methods, structs, usings, fields, constants, enums, inheritances)
+        .flatMap(Collection::stream);
   }
 }
