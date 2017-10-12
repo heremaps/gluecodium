@@ -14,7 +14,7 @@ package com.here.ivi.api.model.javamodel;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class JavaElement {
+public abstract class JavaElement {
 
   public final String name;
   public String comment = "";
