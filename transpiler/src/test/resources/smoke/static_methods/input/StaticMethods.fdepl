@@ -1,0 +1,172 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "./StaticMethods.fidl"
+
+define navigation.BaseApiSpec for interface smoke.StaticMethods
+{
+    method returnInvertedBoolean {
+        Static = true
+    }
+
+    method returnAndBoolean {
+        Static = true
+    }
+
+    method returnInputByteBuffer {
+        Static = true
+    }
+
+    method returnReverseByteBuffer {
+        Static = true
+    }
+
+    method concatenateByteBuffers {
+        Static = true
+    }
+
+    method returnFloat {
+        Static = true
+    }
+
+    method returnIncrementedFloat {
+        Static = true
+    }
+
+    method sumTwoFloats {
+        Static = true
+    }
+
+    method returnDouble {
+        Static = true
+    }
+
+    method returnIncrementedDouble {
+        Static = true
+    }
+
+    method sumTwoDoubles {
+        Static = true
+    }
+
+    method returnNextNumberINT8 {
+        Static = true
+    }
+
+    method sumTwoNumbersINT8 {
+        Static = true
+    }
+
+    method returnPrimeINT8 {
+        Static = true
+    }
+
+    method returnNextNumberUINT8 {
+        Static = true
+    }
+
+    method sumTwoNumbersUINT8 {
+        Static = true
+    }
+
+    method returnPrimeUINT8 {
+        Static = true
+    }
+
+    method returnNextNumberINT16 {
+        Static = true
+    }
+
+    method sumTwoNumbersINT16 {
+        Static = true
+    }
+
+    method returnPrimeINT16 {
+        Static = true
+    }
+
+    method returnNextNumberUINT16 {
+        Static = true
+    }
+
+    method sumTwoNumbersUINT16 {
+        Static = true
+    }
+
+    method returnPrimeUINT16 {
+        Static = true
+    }
+
+    method returnNextNumberINT32 {
+        Static = true
+    }
+
+    method sumTwoNumbersINT32 {
+        Static = true
+    }
+
+    method returnPrimeINT32 {
+        Static = true
+    }
+
+    method returnNextNumberUINT32 {
+        Static = true
+    }
+
+    method sumTwoNumbersUINT32 {
+        Static = true
+    }
+
+    method returnPrimeUINT32 {
+        Static = true
+    }
+
+    method returnNextNumberINT64 {
+        Static = true
+    }
+
+    method sumTwoNumbersINT64 {
+        Static = true
+    }
+
+    method returnPrimeINT64 {
+        Static = true
+    }
+
+    method returnNextNumberUINT64 {
+        Static = true
+    }
+
+    method sumTwoNumbersUINT64 {
+        Static = true
+    }
+
+    method returnPrimeUINT64 {
+        Static = true
+    }
+
+    method returnInputString {
+        Static = true
+    }
+
+    method concatenateStrings {
+        Static = true
+    }
+
+    method returnHelloString {
+        Static = true
+    }
+
+    method returnEmpty {
+        Static = true
+    }
+}
