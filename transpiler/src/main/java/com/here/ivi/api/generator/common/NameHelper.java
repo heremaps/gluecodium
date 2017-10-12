@@ -11,6 +11,8 @@
 
 package com.here.ivi.api.generator.common;
 
+import static org.apache.commons.text.WordUtils.capitalizeFully;
+
 import com.google.common.base.CaseFormat;
 import com.google.common.base.CharMatcher;
 
@@ -37,8 +39,12 @@ public class NameHelper {
     }
     if (input.contains(UNDERSCORE)) {
       return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, input);
-    } else {
+    } else if (CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input)
+        && CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input)) {
       return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input);
+    } else {
+      // Capitalize first character and lower rest
+      return capitalizeFully(input);
     }
   }
 
@@ -48,8 +54,11 @@ public class NameHelper {
     }
     if (input.contains(UNDERSCORE)) {
       return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, input);
-    } else {
+    } else if (CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input)
+        && CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input)) {
       return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input);
+    } else {
+      return input.toLowerCase();
     }
   }
 }

@@ -12,6 +12,7 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'org.slf4j:slf4j-jdk14:1.7.25'
     compile 'org.trimou:trimou-core:2.2.0.Final'
+    compile 'org.apache.commons:commons-text:1.1'
 
     compileOnly 'org.projectlombok:lombok:1.16.18'
 
