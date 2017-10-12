@@ -82,6 +82,7 @@ public final class SmokeTest {
     }
     return Arrays.stream(featureDirectoryResources)
         .filter(File::isDirectory)
+        .sorted()
         .flatMap(
             directory ->
                 GENERATOR_NAMES
