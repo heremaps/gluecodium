@@ -215,7 +215,7 @@ public final class CppHeaderTemplateTest {
 
     final String expectedResult =
         String.format(
-            EXPECTED_NAMESPACE_INCLUDE_FORMAT, "\n#include <lasertag>\n#include \"foo.bar\"\n");
+            EXPECTED_NAMESPACE_INCLUDE_FORMAT, "\n#include \"foo.bar\"\n#include <lasertag>\n");
     assertEquals(expectedResult, result);
   }
 }

@@ -14,7 +14,7 @@ package com.here.ivi.api.model.common;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
-public final class Include {
+public final class Include implements Comparable<Include> {
 
   public final String fileName;
   public final boolean isSystem;
@@ -30,5 +30,16 @@ public final class Include {
 
   public static Include createSystemInclude(final String fileName) {
     return new Include(fileName, true);
+  }
+
+  @Override
+  public int compareTo(final Include include) {
+    if (this.isSystem && !include.isSystem) {
+      return 1;
+    }
+    if (!this.isSystem && include.isSystem) {
+      return -1;
+    }
+    return fileName.compareTo(include.fileName);
   }
 }
