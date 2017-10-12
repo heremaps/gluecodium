@@ -16,7 +16,7 @@ import static java.util.Arrays.asList;
 import com.here.ivi.api.model.common.Include;
 import java.util.Collection;
 
-public class CppValue extends CppElementWithIncludes {
+public final class CppValue extends CppElementWithIncludes {
 
   public CppValue() {
     super(null);

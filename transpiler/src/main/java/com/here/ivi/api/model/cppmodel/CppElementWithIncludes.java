@@ -16,7 +16,7 @@ import java.util.*;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-public class CppElementWithIncludes extends CppElement {
+public abstract class CppElementWithIncludes extends CppElement {
 
   public final Set<Include> includes;
 

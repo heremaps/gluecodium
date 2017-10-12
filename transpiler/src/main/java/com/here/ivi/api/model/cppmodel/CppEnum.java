@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public final class CppEnum extends CppElement {
 
   public final boolean isScoped;
-  public List<CppEnumItem> items = new ArrayList<>();
+  public final List<CppEnumItem> items = new ArrayList<>();
 
   public static CppEnum create(final String name) {
     return create(name, name);

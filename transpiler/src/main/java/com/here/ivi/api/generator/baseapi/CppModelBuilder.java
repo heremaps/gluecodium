@@ -218,7 +218,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppEnum cppEnum = CppEnum.createScoped(enumName, fullyQualifiedName);
     cppEnum.comment = CppCommentParser.parse(francaEnumerationType).getMainBodyText();
-    cppEnum.items = getPreviousResults(CppEnumItem.class);
+    cppEnum.items.addAll(getPreviousResults(CppEnumItem.class));
 
     storeResult(cppEnum);
     closeContext();

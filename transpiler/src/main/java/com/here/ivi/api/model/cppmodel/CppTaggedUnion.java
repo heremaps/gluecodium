@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-public class CppTaggedUnion extends CppStruct {
+public final class CppTaggedUnion extends CppStruct {
 
   public CppTaggedUnion(final String name) {
     this(name, name);
