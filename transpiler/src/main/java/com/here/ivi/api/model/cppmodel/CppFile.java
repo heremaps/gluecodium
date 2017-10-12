@@ -65,26 +65,6 @@ public final class CppFile {
   }
 
   @SuppressWarnings("unused")
-  public List<CppConstant> getConstants() {
-    return CollectionsHelper.getAllOfType(members, CppConstant.class);
-  }
-
-  @SuppressWarnings("unused")
-  public List<CppUsing> getUsings() {
-    return CollectionsHelper.getAllOfType(members, CppUsing.class);
-  }
-
-  @SuppressWarnings("unused")
-  public List<CppEnum> getEnums() {
-    return CollectionsHelper.getAllOfType(members, CppEnum.class);
-  }
-
-  @SuppressWarnings("unused")
-  public List<CppStruct> getStructs() {
-    return CollectionsHelper.getAllOfType(members, CppStruct.class);
-  }
-
-  @SuppressWarnings("unused")
   public List<CppClass> getClasses() {
     return CollectionsHelper.getAllOfType(members, CppClass.class);
   }

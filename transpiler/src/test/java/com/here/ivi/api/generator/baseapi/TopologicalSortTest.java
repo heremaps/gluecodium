@@ -13,15 +13,7 @@ package com.here.ivi.api.generator.baseapi;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppConstant;
-import com.here.ivi.api.model.cppmodel.CppElement;
-import com.here.ivi.api.model.cppmodel.CppEnum;
-import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
-import com.here.ivi.api.model.cppmodel.CppUsing;
-import com.here.ivi.api.model.cppmodel.CppValue;
+import com.here.ivi.api.model.cppmodel.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -188,7 +180,7 @@ public class TopologicalSortTest {
     assertEquals(elements.size(), sortedElements.size());
 
     for (int i = 0; i < elements.size(); ++i) {
-      int index = expectedOrder.get(i).intValue();
+      int index = expectedOrder.get(i);
       assertEquals(elements.get(index), sortedElements.get(i));
     }
   }

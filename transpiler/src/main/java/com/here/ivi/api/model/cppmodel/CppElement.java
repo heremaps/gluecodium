@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 public abstract class CppElement {
 
   public final String name;
-  public final String fullyQualifiedName;
+  public final String fullyQualifiedName; // Currently used for dependency analysis only
   public String comment;
 
   public CppElement(final String name) {

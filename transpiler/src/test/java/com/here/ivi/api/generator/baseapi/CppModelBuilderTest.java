@@ -175,8 +175,8 @@ public class CppModelBuilderTest {
 
     CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
-    assertFalse(cppClass.structs.isEmpty());
-    assertEquals(cppStruct, cppClass.structs.iterator().next());
+    assertFalse(cppClass.members.isEmpty());
+    assertEquals(cppStruct, cppClass.members.iterator().next());
   }
 
   @Test
@@ -187,8 +187,8 @@ public class CppModelBuilderTest {
 
     CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
-    assertFalse(cppClass.enums.isEmpty());
-    assertEquals(cppEnum, cppClass.enums.iterator().next());
+    assertFalse(cppClass.members.isEmpty());
+    assertEquals(cppEnum, cppClass.members.iterator().next());
   }
 
   @Test
@@ -199,8 +199,8 @@ public class CppModelBuilderTest {
 
     CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
-    assertEquals(1, cppClass.usings.size());
-    assertEquals(cppUsing, cppClass.usings.iterator().next());
+    assertEquals(1, cppClass.members.size());
+    assertEquals(cppUsing, cppClass.members.iterator().next());
   }
 
   @Test
