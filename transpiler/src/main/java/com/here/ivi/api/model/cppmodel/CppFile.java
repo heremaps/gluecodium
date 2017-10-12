@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CppFile {
+public final class CppFile {
 
   public final List<String> namespace;
   public final List<CppElement> members = new LinkedList<>();
@@ -32,6 +32,7 @@ public class CppFile {
     return members.isEmpty();
   }
 
+  @SuppressWarnings("unused")
   public boolean hasSortedMembers() {
     return members
         .stream()
@@ -43,6 +44,7 @@ public class CppFile {
                     || member instanceof CppUsing);
   }
 
+  @SuppressWarnings("unused")
   public List<CppElement> getSortedMembers() {
     List<CppElement> unsortedMembers =
         members
@@ -58,7 +60,7 @@ public class CppFile {
     return new TopologicalSort(unsortedMembers).sort();
   }
 
-  public final Stream<? extends CppElement> streamRecursive() {
+  public Stream<? extends CppElement> streamRecursive() {
     return members.stream().filter(Objects::nonNull).flatMap(CppElement::streamRecursive);
   }
 

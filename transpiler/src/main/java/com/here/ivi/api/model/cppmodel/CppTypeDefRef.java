@@ -16,7 +16,7 @@ import java.util.Collection;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-public class CppTypeDefRef extends CppTypeRef {
+public final class CppTypeDefRef extends CppTypeRef {
 
   public final CppTypeRef actualType;
 

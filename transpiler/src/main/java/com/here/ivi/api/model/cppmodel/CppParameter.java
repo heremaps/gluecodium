@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-public class CppParameter extends CppElement {
+public final class CppParameter extends CppElement {
 
   public final CppTypeRef type;
   public final boolean isOutput;

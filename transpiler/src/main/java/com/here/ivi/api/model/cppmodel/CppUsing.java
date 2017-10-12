@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import java.util.stream.Stream;
 
-public class CppUsing extends CppElement {
+public final class CppUsing extends CppElement {
 
   public final CppTypeRef definition;
 

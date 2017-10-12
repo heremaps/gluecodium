@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
-public class CppElement {
+public abstract class CppElement {
 
   public final String name;
   public final String fullyQualifiedName;

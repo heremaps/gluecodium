@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import java.util.stream.Stream;
 
-public class CppEnumItem extends CppElement {
+public final class CppEnumItem extends CppElement {
 
   public final CppValue value;
 

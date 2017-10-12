@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cppmodel;
 
 import java.util.stream.Stream;
 
-public class CppField extends CppElement {
+public final class CppField extends CppElement {
 
   public final CppTypeRef type;
   public final CppValue initializer;
