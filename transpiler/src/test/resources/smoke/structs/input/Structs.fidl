@@ -1,0 +1,180 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package smoke
+
+import smoke.TypeCollection.* from "./TypeCollection.fidl"
+
+interface Structs {
+    version {
+        major 0
+        minor 1
+    }
+
+    struct Point {
+        Double x
+        Double y
+    }
+
+    struct Color {
+        UInt8 red
+        UInt8 green
+        UInt8 blue
+    }
+
+    struct Line {
+        Point a
+        Point b
+    }
+
+    struct ColoredLine {
+        Line line
+        Color color
+    }
+
+    struct AllTypesStruct {
+        Int8 int8Field
+        UInt8 uint8Field
+        Int16 int16Field
+        UInt16 uint16Field
+        Int32 int32Field
+        UInt32 uint32Field
+        Int64 int64Field
+        UInt64 uint64Field
+        Float floatField
+        Double doubleField
+        String stringField
+        Boolean booleanField
+        ByteBuffer bytesField
+        Point pointField
+    }
+
+    method createPoint {
+        in {
+            Double x
+            Double y
+        }
+        out {
+            Point point
+        }
+    }
+
+    method swapPointCoordinates {
+        in {
+            Point input
+        }
+        out {
+            Point output
+        }
+    }
+
+    method createLine {
+        in {
+            Point pointA
+            Point pointB
+        }
+        out {
+            Line output
+        }
+    }
+
+    method createColoredLine {
+        in {
+            Line line
+            Color color
+        }
+        out {
+            ColoredLine output
+        }
+    }
+
+    method returnColoredLine {
+        in {
+            ColoredLine input
+        }
+        out {
+            ColoredLine output
+        }
+    }
+
+    method returnAllTypesStruct {
+        in {
+            AllTypesStruct input
+        }
+        out {
+            AllTypesStruct output
+        }
+    }
+
+    method modifyAllTypesStruct {
+        in {
+            AllTypesStruct input
+        }
+        out {
+            AllTypesStruct output
+        }
+    }
+}
+
+interface StructsFromTypeCollection {
+    version {
+        major 0
+        minor 1
+    }
+
+    method createPoint {
+        in {
+            Double x
+            Double y
+        }
+        out {
+            Point point
+        }
+    }
+
+    method swapPointCoordinates {
+        in {
+            Point input
+        }
+        out {
+            Point output
+        }
+    }
+
+    method createLine {
+        in {
+            Point pointA
+            Point pointB
+        }
+        out {
+            Line output
+        }
+    }
+
+    method createColoredLine {
+        in {
+            Line line
+            Color color
+        }
+        out {
+            ColoredLine output
+        }
+    }
+
+    method modifyAllTypesStruct {
+        in {
+            AllTypesStruct input
+        }
+        out {
+            AllTypesStruct output
+        }
+    }
+}
