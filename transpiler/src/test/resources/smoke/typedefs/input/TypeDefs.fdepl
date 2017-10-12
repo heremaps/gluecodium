@@ -21,4 +21,20 @@ define navigation.BaseApiSpec for interface smoke.TypeDefs
     method methodWithComplexTypeDef {
         Static = true
     }
+
+    method returnNestedIntTypeDef {
+        Static = true
+    }
+
+    method returnTestStructTypeDef {
+        Static = true
+    }
+
+    method returnNestedStructTypeDef {
+        Static = true
+    }
+
+    method returnTypeDefPointFromTypeCollection {
+        Static = true
+    }
 }
