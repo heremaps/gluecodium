@@ -17,7 +17,7 @@ class TypeDefTests: XCTestCase {
     }
 
     func testNestedTypedefInMethod() {
-        let nestedArgument : StaticTypedef.NestedIntTypedef = 4
+        let nestedArgument: StaticTypedef.NestedIntTypedef = 4
         let returnValue = StaticTypedef.returnNestedIntTypedef(input: nestedArgument)
         let returnMirror = Mirror(reflecting: returnValue)
         XCTAssertEqual(returnValue, 5)
@@ -25,7 +25,7 @@ class TypeDefTests: XCTestCase {
     }
 
     func testNestedStructInMethod() {
-        let nestedArgument : StaticTypedef.NestedStructTypedef = StaticTypedef.ExampleStruct(exampleString:"Test4")
+        let nestedArgument: StaticTypedef.NestedStructTypedef = StaticTypedef.ExampleStruct(exampleString:"Test4")
         let returnValue = StaticTypedef.returnNestedStructTypedef(input: nestedArgument)
         let returnMirror = Mirror(reflecting: returnValue!)
         XCTAssertEqual(returnValue?.exampleString, Optional("Hello Test4"))
@@ -33,7 +33,7 @@ class TypeDefTests: XCTestCase {
     }
 
     func testTypeDefDefinedOutsideClass() {
-        let typeCollectionTypeDef : PointTypedef = Point(x: 1.0, y: 1.0)
+        let typeCollectionTypeDef: PointTypedef = Point(x: 1.0, y: 1.0)
         let returnValue = StaticTypedef.returnTypedefPointFromTypeCollection(input: typeCollectionTypeDef)
         let returnMirror = Mirror(reflecting: returnValue!)
         XCTAssertEqual(returnValue?.x, Optional(1.0))
@@ -42,7 +42,7 @@ class TypeDefTests: XCTestCase {
     }
 
     func testStringTypedef() {
-        let typedef : StaticTypedef.StringTypedef = "Test"
+        let typedef: StaticTypedef.StringTypedef = "Test"
         let stringTypeDef =  StaticTypedef.returnStringTypedef(input:typedef)!
         let stringMirror = Mirror(reflecting: stringTypeDef)
         XCTAssertEqual(stringTypeDef, "Hello Test")
@@ -50,13 +50,12 @@ class TypeDefTests: XCTestCase {
     }
 
     func testBufferTypedef() {
-        let typedef : StaticTypedef.ByteArrayTypedef = "Test".data(using: .utf8)!
+        let typedef: StaticTypedef.ByteArrayTypedef = "Test".data(using: .utf8)!
         let dataTypeDef =  StaticTypedef.returnByteBufferTypedef(input:typedef)!
         let dataMirror = Mirror(reflecting: dataTypeDef)
         XCTAssertEqual(String(data: dataTypeDef, encoding: String.Encoding.utf8), "tseT")
         XCTAssertTrue(dataMirror.subjectType == Data.self)
     }
-
 
     static var allTests = [
         ("testTypedefReferences", testTypedefReferences),
@@ -65,6 +64,6 @@ class TypeDefTests: XCTestCase {
         ("testNestedStructInMethod", testNestedStructInMethod),
         ("testTypeDefDefinedOutsideClass", testTypeDefDefinedOutsideClass),
         ("testStringTypedef", testStringTypedef),
-        ("testBufferTypedef", testBufferTypedef),
+        ("testBufferTypedef", testBufferTypedef)
     ]
 }
