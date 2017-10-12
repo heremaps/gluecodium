@@ -12,6 +12,7 @@
 package com.here.ivi.api;
 
 import static org.junit.Assert.*;
+import static org.junit.Assume.assumeFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
 
@@ -62,7 +63,7 @@ public final class SmokeTest {
   public static Collection<Object[]> data() {
     URL smokeResourcesUrl = ClassLoader.getSystemClassLoader().getResource(RESOURCE_PREFIX);
     if (smokeResourcesUrl == null) {
-      fail("Smoke test resources not found.");
+      fail("Smoke test resources directory not found");
       return Collections.emptyList();
     }
 
@@ -70,13 +71,13 @@ public final class SmokeTest {
     try {
       smokeResourcesDirectory = new File(smokeResourcesUrl.toURI());
     } catch (URISyntaxException e) {
-      fail("Unable to load smoke test resources.");
+      fail("Unable to load smoke test resources");
       return Collections.emptyList();
     }
 
     File[] featureDirectoryResources = smokeResourcesDirectory.listFiles();
     if (featureDirectoryResources == null) {
-      fail("No smoke test resources were found.");
+      fail("No smoke test features were found");
       return Collections.emptyList();
     }
     return Arrays.stream(featureDirectoryResources)
@@ -110,9 +111,7 @@ public final class SmokeTest {
     File outputForGeneratorDirectory = new File(outputDirectory, generatorName);
 
     Collection<File> referenceFiles = listFilesRecursively(outputForGeneratorDirectory);
-    assertFalse(
-        "Reference files are not found in " + outputForGeneratorDirectory,
-        referenceFiles.isEmpty());
+    assumeFalse("No reference files were found", referenceFiles.isEmpty());
 
     assertTrue(
         transpiler.executeGenerator(
