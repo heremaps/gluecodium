@@ -25,6 +25,7 @@ public final class NameHelperTest {
   private static final String UPPER_SNAKE_CASE = "SOME_TEST_STRING";
   private static final String UPPER_CASE = "SOMETESTSTRING";
   private static final String LOWER_CASE = "someteststring";
+  private static final String SIMPLE_UPPER_CAMEL_CASE = "Someteststring";
 
   @Test
   public void fromLowerCamelToLowerCamel() {
@@ -55,6 +56,20 @@ public final class NameHelperTest {
   }
 
   @Test
+  public void fromLowerCaseToLowerCamel() {
+    String actual = NameHelper.toLowerCamelCase(LOWER_CASE);
+
+    assertEquals(LOWER_CASE, actual);
+  }
+
+  @Test
+  public void fromUpperCaseToLowerCamel() {
+    String actual = NameHelper.toLowerCamelCase(UPPER_CASE);
+
+    assertEquals(LOWER_CASE, actual);
+  }
+
+  @Test
   public void fromLowerCamelToUpperCamel() {
     String actual = NameHelper.toUpperCamelCase(LOWER_CAMEL_CASE);
 
@@ -80,6 +95,20 @@ public final class NameHelperTest {
     String actual = NameHelper.toUpperCamelCase(UPPER_SNAKE_CASE);
 
     assertEquals(UPPER_CAMEL_CASE, actual);
+  }
+
+  @Test
+  public void fromLowerCaseToUpperCamel() {
+    String actual = NameHelper.toUpperCamelCase(LOWER_CASE);
+
+    assertEquals(SIMPLE_UPPER_CAMEL_CASE, actual);
+  }
+
+  @Test
+  public void fromUpperCaseToUpperCamel() {
+    String actual = NameHelper.toUpperCamelCase(UPPER_CASE);
+
+    assertEquals(SIMPLE_UPPER_CAMEL_CASE, actual);
   }
 
   @Test

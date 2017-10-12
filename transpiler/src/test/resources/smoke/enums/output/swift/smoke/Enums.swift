@@ -16,8 +16,8 @@ import Foundation
 public class Enums {
 
     public enum SimpleEnum : UInt32 {
-        case fIRST
-        case sECOND
+        case first
+        case second
     }
 
     public enum InternalError : UInt32 {
