@@ -19,23 +19,21 @@ extension HelloWorldEnums.InternalError {
 }
 
 class EnumsViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+
+    lazy var dataSource = [(HelloWorldEnums.InternalError.errorFatal, 0), (HelloWorldEnums.InternalError.errorNone, 1)]
+    var indexSelected = 0
+
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var resultField: UITextField!
 
-    func getEnum(val: Int) -> HelloWorldEnums.InternalError
-    {
-        return HelloWorldEnums.InternalError.init(rawValue: UInt32(val))!
-    }
-
     override func viewDidLoad() {
-        super.viewDidLoad()
         picker.dataSource = self
         picker.delegate = self
+        super.viewDidLoad()
     }
     @IBAction func didPress(_ sender: Any) {
-        let val = picker.selectedRow(inComponent: 0)
-        let enumVal = getEnum(val: val)
-        resultField.text = HelloWorldEnums.methodWithEnumeration(input: enumVal).description
+        let enumVal = dataSource[indexSelected]
+        resultField.text = HelloWorldEnums.methodWithEnumeration(input: enumVal.0).description
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -43,21 +41,17 @@ class EnumsViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 2
+        return dataSource.count
     }
 
-    public func pickerView(
-        _ pickerView: UIPickerView,
-        titleForRow row: Int,
-        forComponent component: Int) -> String? {
-
-        return getEnum(val: row).description
+    public func pickerView(_ pickerView: UIPickerView,
+                           titleForRow row: Int,
+                           forComponent component: Int) -> String? {
+        indexSelected = row
+        return dataSource[row].0.description
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         resultField.text = ""
     }
-
-
 }
-

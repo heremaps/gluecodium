@@ -12,7 +12,7 @@ class HelloWorldInstancesTests: XCTestCase {
         let simple = HelloWorldFactory.createSimple()
         simple!.setStringValue(stringValue:"HelloSimple")
         let stringReturned = simple!.getStringValue()!
-        XCTAssertEqual(stringReturned,"HelloSimple")
+        XCTAssertEqual(stringReturned, "HelloSimple")
     }
 
     func testNestedInstances() {
@@ -27,6 +27,6 @@ class HelloWorldInstancesTests: XCTestCase {
     static var allTests = [
         ("testInstanceCreation", testInstanceCreation),
         ("testInstanceMethod", testInstanceMethod),
-        ("testNestedInstances", testNestedInstances),
+        ("testNestedInstances", testNestedInstances)
     ]
 }
