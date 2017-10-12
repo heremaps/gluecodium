@@ -23,6 +23,7 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.franca.Interface;
 import java.util.ArrayList;
 import java.util.List;
+import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FEnumerator;
 import org.franca.core.franca.FInterface;
@@ -46,7 +47,8 @@ public class CBridgeNameRulesTest {
   private static final String INTERFACE_NAME = "TestInterface";
   private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
   private static final String STRUCT_NAME = "structName";
-  public static final String METHOD_NAME = "testMethod";
+  private static final String METHOD_NAME = "testMethod";
+  private static final String ATTRIBUTE_NAME = "TestAttributeName";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface anInterface;
@@ -58,6 +60,7 @@ public class CBridgeNameRulesTest {
   @Mock private FMethod francaMethod;
   @Mock private FEnumerationType francaEnum;
   @Mock private FEnumerator francaEnumItem;
+  @Mock private FAttribute francaAttribute;
 
   @Before
   public void setUp() {
@@ -68,6 +71,9 @@ public class CBridgeNameRulesTest {
     when(francaStruct.getName()).thenReturn(STRUCT_NAME);
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
     when(francaMethod.eContainer()).thenReturn(francaInterface);
+
+    when(francaAttribute.eContainer()).thenReturn(francaInterface);
+    when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
     when(francaEnum.eContainer()).thenReturn(francaInterface);
     when(francaEnumItem.eContainer()).thenReturn(francaEnum);
@@ -223,6 +229,20 @@ public class CBridgeNameRulesTest {
     String actual = CBridgeNameRules.getEnumItemName(francaEnumItem);
 
     assertEquals(expected, actual);
+  }
+
+  @Test
+  public void getAtrributeGetterName() {
+    String expected = prependNameWithPackageAndInterface("testAttributeName_get", "_");
+
+    assertEquals(expected, CBridgeNameRules.getAtrributeGetterName(francaAttribute));
+  }
+
+  @Test
+  public void getAtrributeSetterName() {
+    String expected = prependNameWithPackageAndInterface("testAttributeName_set", "_");
+
+    assertEquals(expected, CBridgeNameRules.getAtrributeSetterName(francaAttribute));
   }
 
   private String prependNameWithPackageAndInterface(String name) {

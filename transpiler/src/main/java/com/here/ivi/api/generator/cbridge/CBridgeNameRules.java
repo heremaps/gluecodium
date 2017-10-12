@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
+import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FEnumerator;
 import org.franca.core.franca.FInterface;
@@ -100,7 +101,7 @@ public final class CBridgeNameRules {
         CPP_NAMESPACE_DELIMITER);
   }
 
-  public static String getMethodName(final FMethod method) {
+  public static String getMethodName(final FModelElement method) {
     List<String> nestedNameSpecifier = getNestedNameSpecifier(method);
     nestedNameSpecifier.add(NameHelper.toLowerCamelCase(method.getName()));
     return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
@@ -167,5 +168,13 @@ public final class CBridgeNameRules {
         getNestedNameSpecifier(francaEnumerator),
         NameHelper.toUpperCamelCase(francaEnumerator.getName()),
         UNDERSCORE_DELIMITER);
+  }
+
+  public static String getAtrributeGetterName(FAttribute attribute) {
+    return getMethodName(attribute) + "_get";
+  }
+
+  public static String getAtrributeSetterName(FAttribute attribute) {
+    return getMethodName(attribute) + "_set";
   }
 }

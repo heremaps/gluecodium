@@ -19,6 +19,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.franca.Interface;
@@ -38,6 +39,7 @@ public class CModelBuilderInstancesTest {
   private static final String DELEGATE_NAME = "DELEGATE_NAME";
   private static final String PARAM_NAME = "inputParam";
 
+  @Mock private CppModelBuilder cppModelbuilder;
   @Mock private IncludeResolver resolver;
   @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
@@ -68,7 +70,7 @@ public class CModelBuilderInstancesTest {
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
 
-    modelBuilder = new CModelBuilder(anInterface, resolver, contextStack);
+    modelBuilder = new CModelBuilder(anInterface, resolver, contextStack, cppModelbuilder);
   }
 
   @Test

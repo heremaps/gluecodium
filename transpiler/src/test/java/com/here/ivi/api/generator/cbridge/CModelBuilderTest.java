@@ -11,7 +11,9 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -20,6 +22,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.cmodel.CElement;
@@ -34,6 +37,8 @@ import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cppmodel.CppElement;
+import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.HashSet;
@@ -62,9 +67,15 @@ public class CModelBuilderTest {
   private static final String STRUCT_NAME = "SomeStruct";
   private static final String STRUCT_REF_NAME = STRUCT_NAME + "Ref";
   private static final String STRUCT_BASEAPI_NAME = "BaseAPI::" + STRUCT_NAME;
+  private static final String ATTRIBUTE_NAME = "someAttributeName";
+  private static final String CBRIDGE_ATTR_GETTER_NAME = "C_ATTR_GETTER";
+  private static final String CBRIDGE_ATTR_SETTER_NAME = "C_ATTR_SETTER";
+  private static final String CPP_ATTR_GETTER_NAME = "CPP_ATTR_GETTER";
+  private static final String CPP_ATTR_SETTER_NAME = "CPP_ATTR_SETTER";
 
   private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
+  @Mock private CppModelBuilder cppModelbuilder;
   @Mock private IncludeResolver resolver;
   @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
@@ -74,6 +85,7 @@ public class CModelBuilderTest {
   @Mock private FField francaField;
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FModel francaModel;
+  @Mock private FAttribute francaAttribute;
 
   private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
   private CModelBuilder modelBuilder;
@@ -103,7 +115,10 @@ public class CModelBuilderTest {
     when(francaTypeCollection.eContainer()).thenReturn(francaModel);
     when(francaInterface.eContainer()).thenReturn(francaModel);
 
-    modelBuilder = new CModelBuilder(anInterface, resolver, contextStack);
+    when(francaAttribute.eContainer()).thenReturn(francaInterface);
+    when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
+
+    modelBuilder = new CModelBuilder(anInterface, resolver, contextStack, cppModelbuilder);
   }
 
   @Test
@@ -312,6 +327,82 @@ public class CModelBuilderTest {
 
     List<CEnum> enums = getResults(CEnum.class);
     assertEquals("Should be 1 enum created", 1, enums.size());
+  }
+
+  @Test
+  public void finishBuildingCreatesCppTypeInfo() {
+    FTypeRef typeRef = mock(FTypeRef.class);
+    CppTypeInfo typeInfo = mock(CppTypeInfo.class);
+    when(CTypeMapper.mapType(any(), any(FTypeRef.class))).thenReturn(typeInfo);
+
+    modelBuilder.finishBuilding(typeRef);
+
+    List<CppTypeInfo> typeInfos = getResults(CppTypeInfo.class);
+    assertEquals("Should be 1 CppTypeInfo created", 1, typeInfos.size());
+    assertSame(typeInfo, typeInfos.get(0));
+  }
+
+  @Test
+  public void finishBuildingCreatesFunctionsForAttribute() {
+    CppTypeInfo classTypeInfo = mock(CppTypeInfo.class);
+    List<CppElement> cppMethods =
+        asList(new CppMethod.Builder("").build(), new CppMethod.Builder("").build());
+    prepareTestForAttributes(classTypeInfo, cppMethods);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<CFunction> functions = getResults(CFunction.class);
+    assertEquals("There should be getter and setter", 2, functions.size());
+    verifyAttributeGetter(classTypeInfo, functions.get(0));
+    verifyAttributeSetter(classTypeInfo, functions.get(1));
+  }
+
+  @Test
+  public void finishBuildingCreatesFunctionForReadonlyAttribute() {
+    CppTypeInfo classTypeInfo = mock(CppTypeInfo.class);
+    List<CppElement> cppMethods = singletonList(new CppMethod.Builder("").build());
+    prepareTestForAttributes(classTypeInfo, cppMethods);
+    when(francaAttribute.isReadonly()).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<CFunction> functions = getResults(CFunction.class);
+    assertEquals("There should be only getter", 1, functions.size());
+    verifyAttributeGetter(classTypeInfo, functions.get(0));
+  }
+
+  private void prepareTestForAttributes(CppTypeInfo classTypeInfo, List<CppElement> cppMethods) {
+    when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
+    when(francaAttribute.isReadonly()).thenReturn(false);
+    when(CBridgeNameRules.getAtrributeGetterName(any())).thenReturn(CBRIDGE_ATTR_GETTER_NAME);
+    when(CBridgeNameRules.getAtrributeSetterName(any())).thenReturn(CBRIDGE_ATTR_SETTER_NAME);
+    when(CppNameRules.getMethodName(any()))
+        .thenReturn(CPP_ATTR_GETTER_NAME)
+        .thenReturn(CPP_ATTR_SETTER_NAME);
+    contextStack.injectResult(cppTypeInfo);
+    contextStack.getParentContext().currentResults.add(new CClassType(classTypeInfo));
+  }
+
+  private void verifyAttributeSetter(CppTypeInfo classTypeInfo, CFunction cSetter) {
+    assertEquals(CBRIDGE_ATTR_SETTER_NAME, cSetter.name);
+    assertEquals(CPP_ATTR_SETTER_NAME, cSetter.functionName);
+    assertSame(classTypeInfo, cSetter.selfParameter.mappedType);
+    assertSame(CType.VOID, cSetter.returnType.functionReturnType);
+    assertEquals(
+        "Setter should have two parameters, new value and instance(not included here)",
+        1,
+        cSetter.parameters.size());
+  }
+
+  private void verifyAttributeGetter(CppTypeInfo classTypeInfo, CFunction cGetter) {
+    assertEquals(CBRIDGE_ATTR_GETTER_NAME, cGetter.name);
+    assertEquals(CPP_ATTR_GETTER_NAME, cGetter.functionName);
+    assertSame(classTypeInfo, cGetter.selfParameter.mappedType);
+    assertSame(cppTypeInfo, cGetter.returnType);
+    assertEquals(
+        "Getter should have only one parameter, instance but not included here",
+        0,
+        cGetter.parameters.size());
   }
 
   private <T extends CElement> List<T> getResults(Class<T> clazz) {

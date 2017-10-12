@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FEnumerator;
@@ -82,6 +83,12 @@ public class CBridgeGeneratorTest {
       "void cbridge_test_TestInterface_release(cbridge_test_TestInterfaceRef handle) {\n"
           + "    delete get_pointer(handle);\n"
           + "}\n";
+  private static final String STD_INT_INCLUDE = "#include <stdint.h>\n";
+  private static final String STD_STRING_INCLUDE = "#include <string>\n";
+  private static final String STD_VECTOR_INCLUDE = "#include <vector>\n";
+  private static final String MEMORY_INCLUDE = "#include <memory>\n";
+  private static final String BYTE_ARRAY_INCLUDE = "#include \"cbridge/ByteArrayHandle.h\"\n";
+  public static final String STRING_INCLUDE = "#include \"cbridge/StringHandle.h\"\n";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface anInterface;
@@ -176,7 +183,7 @@ public class CBridgeGeneratorTest {
             BASEAPI_HEADER_INCLUDE,
             CBRIDGE_HEADER_INCLUDE,
             PRIVATE_HEADER_INCLUDE,
-            "#include <memory>",
+            MEMORY_INCLUDE,
             INSTANCE_RELEASE,
             "void cbridge_test_TestInterface_functionName(cbridge_test_TestInterfaceRef _instance) {\n"
                 + "    return get_pointer(_instance)->get()->functionName();\n"
@@ -185,7 +192,7 @@ public class CBridgeGeneratorTest {
         "#pragma once\n"
             + CBRIDGE_HEADER_INCLUDE
             + BASEAPI_HEADER_INCLUDE
-            + "#include <memory>\n"
+            + MEMORY_INCLUDE
             + "inline std::shared_ptr<cbridge::test::TestInterface>* get_pointer(cbridge_test_TestInterfaceRef handle) {\n"
             + "    return static_cast<std::shared_ptr<cbridge::test::TestInterface>*>(handle.private_pointer);\n"
             + "}\n";
@@ -216,7 +223,7 @@ public class CBridgeGeneratorTest {
             BASEAPI_HEADER_INCLUDE,
             CBRIDGE_HEADER_INCLUDE,
             PRIVATE_HEADER_INCLUDE,
-            "#include <memory>",
+            MEMORY_INCLUDE,
             INSTANCE_RELEASE,
             "void cbridge_test_TestInterface_functionName() {",
             "    return cbridge::test::TestInterface::functionName();",
@@ -250,11 +257,11 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <string>",
+            STD_STRING_INCLUDE,
             BASEAPI_HEADER_INCLUDE,
             CBRIDGE_HEADER_INCLUDE,
             PRIVATE_HEADER_INCLUDE,
-            "#include <memory>",
+            MEMORY_INCLUDE,
             INSTANCE_RELEASE,
             "void cbridge_test_TestInterface_functionName(const char* input) {",
             "    return cbridge::test::TestInterface::functionName(std::string(input));",
@@ -289,11 +296,11 @@ public class CBridgeGeneratorTest {
             + "(cbridge_test_TestInterfaceRef _instance, const char* input, const char* input2);\n";
 
     String expectedImplementation =
-        "#include <string>\n"
+        STD_STRING_INCLUDE
             + BASEAPI_HEADER_INCLUDE
             + CBRIDGE_HEADER_INCLUDE
             + PRIVATE_HEADER_INCLUDE
-            + "#include <memory>\n"
+            + MEMORY_INCLUDE
             + INSTANCE_RELEASE
             + "void cbridge_test_TestInterface_functionName"
             + "(cbridge_test_TestInterfaceRef _instance, const char* input, const char* input2) {\n"
@@ -304,7 +311,7 @@ public class CBridgeGeneratorTest {
         "#pragma once\n"
             + CBRIDGE_HEADER_INCLUDE
             + BASEAPI_HEADER_INCLUDE
-            + "#include <memory>\n"
+            + MEMORY_INCLUDE
             + "inline std::shared_ptr<cbridge::test::TestInterface>* get_pointer(cbridge_test_TestInterfaceRef handle) {\n"
             + "    return static_cast<std::shared_ptr<cbridge::test::TestInterface>*>(handle.private_pointer);\n"
             + "}\n";
@@ -329,7 +336,7 @@ public class CBridgeGeneratorTest {
     String expectedHeader =
         String.join(
             "\n",
-            "#include \"cbridge/StringHandle.h\"\n"
+            STRING_INCLUDE
                 + INSTANCE_REF
                 + "\n"
                 + "typedef struct {\n"
@@ -344,11 +351,11 @@ public class CBridgeGeneratorTest {
             "");
 
     String expectedImplementation =
-        "#include <string>\n"
+        STD_STRING_INCLUDE
             + BASEAPI_HEADER_INCLUDE
             + CBRIDGE_HEADER_INCLUDE
             + PRIVATE_HEADER_INCLUDE
-            + "#include <memory>\n"
+            + MEMORY_INCLUDE
             + INSTANCE_RELEASE
             + "std_stringRef cbridge_test_TestInterface_functionName"
             + "(cbridge_test_TestInterfaceRef _instance, const char* input, const char* input2) {\n"
@@ -360,7 +367,7 @@ public class CBridgeGeneratorTest {
         "#pragma once\n"
             + CBRIDGE_HEADER_INCLUDE
             + BASEAPI_HEADER_INCLUDE
-            + "#include <memory>\n"
+            + MEMORY_INCLUDE
             + "inline std::shared_ptr<cbridge::test::TestInterface>* get_pointer(cbridge_test_TestInterfaceRef handle) {\n"
             + "    return static_cast<std::shared_ptr<cbridge::test::TestInterface>*>(handle.private_pointer);\n"
             + "}\n";
@@ -385,7 +392,7 @@ public class CBridgeGeneratorTest {
     String expectedHeader =
         String.join(
             "\n",
-            "#include \"cbridge/StringHandle.h\"",
+            STRING_INCLUDE,
             INSTANCE_REF,
             "typedef struct {",
             "    void* swift_pointer;",
@@ -398,11 +405,11 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <string>",
+            STD_STRING_INCLUDE,
             BASEAPI_HEADER_INCLUDE,
             CBRIDGE_HEADER_INCLUDE,
             PRIVATE_HEADER_INCLUDE,
-            "#include <memory>",
+            MEMORY_INCLUDE,
             INSTANCE_RELEASE,
             "std_stringRef cbridge_test_TestInterface_functionName(const char* input) {",
             "    return {new std::string(cbridge::test::TestInterface::functionName(std::string(input)))};",
@@ -424,7 +431,7 @@ public class CBridgeGeneratorTest {
     String expectedHeader =
         String.join(
             "\n",
-            "#include <stdint.h>",
+            STD_INT_INCLUDE,
             INSTANCE_REF,
             "typedef struct {",
             "    void* swift_pointer;",
@@ -437,11 +444,11 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <vector>",
+            STD_VECTOR_INCLUDE,
             BASEAPI_HEADER_INCLUDE,
             CBRIDGE_HEADER_INCLUDE,
             PRIVATE_HEADER_INCLUDE,
-            "#include <memory>",
+            MEMORY_INCLUDE,
             INSTANCE_RELEASE,
             "void cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {",
             "    return cbridge::test::TestInterface::functionName(std::vector<uint8_t>(input_ptr, input_ptr + input_size));",
@@ -468,8 +475,8 @@ public class CBridgeGeneratorTest {
     String expectedHeader =
         String.join(
             "\n",
-            "#include <stdint.h>",
-            "#include \"cbridge/ByteArrayHandle.h\"",
+            STD_INT_INCLUDE,
+            BYTE_ARRAY_INCLUDE,
             INSTANCE_REF,
             "typedef struct {",
             "    void* swift_pointer;",
@@ -482,11 +489,11 @@ public class CBridgeGeneratorTest {
     String expectedImplementation =
         String.join(
             "\n",
-            "#include <vector>",
+            STD_VECTOR_INCLUDE,
             BASEAPI_HEADER_INCLUDE,
             CBRIDGE_HEADER_INCLUDE,
             PRIVATE_HEADER_INCLUDE,
-            "#include <memory>",
+            MEMORY_INCLUDE,
             INSTANCE_RELEASE,
             "byteArrayRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {",
             "    return {new std::vector<uint8_t>(cbridge::test::TestInterface::functionName(std::vector<uint8_t>(input_ptr, input_ptr + input_size)))};",
@@ -521,7 +528,7 @@ public class CBridgeGeneratorTest {
     String expectedHeaderWithTypePlaceholders =
         String.join(
             "\n",
-            "#include <stdint.h>",
+            STD_INT_INCLUDE,
             INSTANCE_REF,
             "typedef struct {",
             "    void* swift_pointer;",
@@ -536,7 +543,7 @@ public class CBridgeGeneratorTest {
             BASEAPI_HEADER_INCLUDE,
             CBRIDGE_HEADER_INCLUDE,
             PRIVATE_HEADER_INCLUDE,
-            "#include <memory>",
+            MEMORY_INCLUDE,
             INSTANCE_RELEASE,
             "%1$s cbridge_test_TestInterface_functionName(%1$s input) {",
             "    return cbridge::test::TestInterface::functionName(input);",
@@ -583,7 +590,7 @@ public class CBridgeGeneratorTest {
             BASEAPI_HEADER_INCLUDE,
             CBRIDGE_HEADER_INCLUDE,
             PRIVATE_HEADER_INCLUDE,
-            "#include <memory>",
+            MEMORY_INCLUDE,
             INSTANCE_RELEASE,
             "%1$s cbridge_test_TestInterface_functionName(%1$s input) {",
             "    return cbridge::test::TestInterface::functionName(input);",
@@ -629,7 +636,7 @@ public class CBridgeGeneratorTest {
             BASEAPI_HEADER_INCLUDE,
             CBRIDGE_HEADER_INCLUDE,
             PRIVATE_HEADER_INCLUDE,
-            "#include <memory>",
+            MEMORY_INCLUDE,
             INSTANCE_RELEASE,
             "bool cbridge_test_TestInterface_functionName(bool input) {",
             "    return cbridge::test::TestInterface::functionName(input);",
@@ -681,7 +688,7 @@ public class CBridgeGeneratorTest {
         "#pragma once\n"
             + CBRIDGE_HEADER_INCLUDE
             + BASEAPI_HEADER_INCLUDE
-            + "#include <memory>\n"
+            + MEMORY_INCLUDE
             + "inline cbridge::test::TestInterface::SomeStruct* get_pointer(cbridge_test_TestInterface_SomeStructRef handle) {\n"
             + "    return static_cast<cbridge::test::TestInterface::SomeStruct*>(handle.private_pointer);\n"
             + "}\n"
@@ -693,7 +700,7 @@ public class CBridgeGeneratorTest {
         CBRIDGE_HEADER_INCLUDE
             + BASEAPI_HEADER_INCLUDE
             + PRIVATE_HEADER_INCLUDE
-            + "#include <memory>\n"
+            + MEMORY_INCLUDE
             + INSTANCE_RELEASE
             + "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create() {\n"
             + "    return {new cbridge::test::TestInterface::SomeStruct()};\n"
@@ -714,7 +721,7 @@ public class CBridgeGeneratorTest {
     interfaceTypes.add(francaEnum);
 
     String expectedHeader =
-        "#include <stdint.h>\n"
+        STD_INT_INCLUDE
             + "typedef uint32_t cbridge_test_TestInterface_TestEnum;\n"
             + INSTANCE_REF
             + "typedef struct {\n"
@@ -726,7 +733,7 @@ public class CBridgeGeneratorTest {
         CBRIDGE_HEADER_INCLUDE
             + PRIVATE_HEADER_INCLUDE
             + BASEAPI_HEADER_INCLUDE
-            + "#include <memory>\n"
+            + MEMORY_INCLUDE
             + INSTANCE_RELEASE;
 
     CInterface cModel = generator.buildCBridgeModel(anInterface);
@@ -774,7 +781,7 @@ public class CBridgeGeneratorTest {
         CBRIDGE_HEADER_INCLUDE
             + BASEAPI_HEADER_INCLUDE
             + PRIVATE_HEADER_INCLUDE
-            + "#include <memory>\n"
+            + MEMORY_INCLUDE
             + INSTANCE_RELEASE
             + "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create() {\n"
             + "    return {new cbridge::test::TestInterface::SomeStruct()};\n"
@@ -823,7 +830,7 @@ public class CBridgeGeneratorTest {
         BASEAPI_HEADER_INCLUDE
             + CBRIDGE_HEADER_INCLUDE
             + PRIVATE_HEADER_INCLUDE
-            + "#include <memory>\n"
+            + MEMORY_INCLUDE
             + INSTANCE_RELEASE
             + "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_functionName(cbridge_test_TestTypeCollection_TestEnum input) {\n"
             + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(cbridge::test::TestInterface::functionName(static_cast<cbridge::test::TestEnum>(input)));\n"
@@ -850,6 +857,59 @@ public class CBridgeGeneratorTest {
     enumItems.add(enumItem);
     enumItems.add(enumItem);
     return francaEnum;
+  }
+
+  @Test
+  public void createAttributeAccessors() {
+    methods.clear();
+    FAttribute francaAttribute = mock(FAttribute.class);
+    ArrayEList<FAttribute> attributes = new ArrayEList<>();
+    attributes.add(francaAttribute);
+    when(francaInterface.getAttributes()).thenReturn(attributes);
+    when(francaAttribute.eContainer()).thenReturn(francaInterface);
+    when(francaAttribute.getName()).thenReturn("ATTRIBUTE_NAME");
+    when(francaAttribute.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
+
+    String expectedHeader =
+        BYTE_ARRAY_INCLUDE
+            + STD_INT_INCLUDE
+            + INSTANCE_REF
+            + "typedef struct {\n"
+            + "    void* swift_pointer;\n"
+            + "    void(*release)(void* swift_pointer);\n"
+            + "    byteArrayRef(*cbridge_test_TestInterface_attributeName_get)(cbridge_test_TestInterfaceRef _instance);\n"
+            + "    void(*cbridge_test_TestInterface_attributeName_set)(cbridge_test_TestInterfaceRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size);\n"
+            + "} cbridge_test_TestInterface_FunctionTable;\n"
+            + "byteArrayRef cbridge_test_TestInterface_attributeName_get(cbridge_test_TestInterfaceRef _instance);\n"
+            + "void cbridge_test_TestInterface_attributeName_set(cbridge_test_TestInterfaceRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size);\n";
+
+    String expectedImplementation =
+        STD_VECTOR_INCLUDE
+            + CBRIDGE_HEADER_INCLUDE
+            + PRIVATE_HEADER_INCLUDE
+            + BASEAPI_HEADER_INCLUDE
+            + MEMORY_INCLUDE
+            + INSTANCE_RELEASE
+            + "byteArrayRef cbridge_test_TestInterface_attributeName_get(cbridge_test_TestInterfaceRef _instance) {\n"
+            + "    return {new std::vector<uint8_t>(get_pointer(_instance)->get()->getAttributeName())};\n"
+            + "}\n"
+            + "void cbridge_test_TestInterface_attributeName_set(cbridge_test_TestInterfaceRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size) {\n"
+            + "    return get_pointer(_instance)->get()->setAttributeName(std::vector<uint8_t>(newValue_ptr, newValue_ptr + newValue_size));\n"
+            + "}\n";
+
+    String expectedPrivateHeader =
+        "#pragma once\n"
+            + CBRIDGE_HEADER_INCLUDE
+            + BASEAPI_HEADER_INCLUDE
+            + MEMORY_INCLUDE
+            + "inline std::shared_ptr<cbridge::test::TestInterface>* get_pointer(cbridge_test_TestInterfaceRef handle) {\n"
+            + "    return static_cast<std::shared_ptr<cbridge::test::TestInterface>*>(handle.private_pointer);\n"
+            + "}\n";
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation, expectedPrivateHeader);
   }
 
   private void assertContentAsExpected(

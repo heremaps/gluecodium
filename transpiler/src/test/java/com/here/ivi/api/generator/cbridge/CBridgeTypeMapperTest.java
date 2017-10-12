@@ -64,7 +64,7 @@ public class CBridgeTypeMapperTest {
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
 
-    Assert.assertSame(CType.BOOL.name, mapped.baseType);
+    Assert.assertSame(CType.BOOL.name, mapped.name);
   }
 
   public void mapStructType() {
@@ -81,7 +81,7 @@ public class CBridgeTypeMapperTest {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
-    Assert.assertEquals(CType.BOOL.name, mapped.baseType);
+    Assert.assertEquals(CType.BOOL.name, mapped.name);
   }
 
   @Test
