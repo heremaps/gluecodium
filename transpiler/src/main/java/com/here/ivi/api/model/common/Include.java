@@ -14,7 +14,7 @@ package com.here.ivi.api.model.common;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
-public class Include {
+public final class Include {
 
   public final String fileName;
   public final boolean isSystem;

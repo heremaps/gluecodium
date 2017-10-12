@@ -29,7 +29,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CppTypeInfoTest {
+public final class CppTypeInfoTest {
 
   private static final String PACKAGE = "TEST.PACKAGE";
 
@@ -37,9 +37,10 @@ public class CppTypeInfoTest {
   @Mock private FTypeCollection typeCollection;
   @Mock private FModel francaModel;
   @Mock private FStructType francaStruct;
-  @Mock private Include cbridgePublicHeaderInclude;
-  @Mock private Include cbridgePrivateHeaderInclude;
-  @Mock private Include baseApiPublicHeaderInclude;
+
+  private final Include cbridgePublicHeaderInclude = Include.createInternalInclude("foo");
+  private final Include cbridgePrivateHeaderInclude = Include.createInternalInclude("bar");
+  private final Include baseApiPublicHeaderInclude = Include.createInternalInclude("baz");
 
   @Before
   public void setUp() {
