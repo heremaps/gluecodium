@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -18,9 +19,9 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,8 +77,9 @@ public class CBridgeGenerator {
   }
 
   public CInterface buildCBridgeModel(FrancaElement francaElement) {
-    CModelBuilder modelBuilder = new CModelBuilder(francaElement, resolver);
-    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
+    CppModelBuilder cppBuilder = new CppModelBuilder(francaElement, new CppIncludeResolver(null));
+    CModelBuilder modelBuilder = new CModelBuilder(francaElement, resolver, cppBuilder);
+    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Arrays.asList(cppBuilder, modelBuilder));
 
     treeWalker.walk(francaElement);
     CInterface cModel = modelBuilder.getFinalResult(CInterface.class);

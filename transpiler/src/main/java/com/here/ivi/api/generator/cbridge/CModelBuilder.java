@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.cbridge;
 
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppNameRules;
@@ -26,6 +27,7 @@ import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
+import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Collections;
 import java.util.List;
@@ -35,20 +37,25 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   private final FrancaElement rootModel;
   private final IncludeResolver resolver;
+  private final CppModelBuilder cppBuilder;
 
-  public CModelBuilder(final FrancaElement rootModel, IncludeResolver includeResolver) {
+  public CModelBuilder(
+      final FrancaElement rootModel, IncludeResolver includeResolver, CppModelBuilder cppBuilder) {
     super(new ModelBuilderContextStack<>());
     this.rootModel = rootModel;
     this.resolver = includeResolver;
+    this.cppBuilder = cppBuilder;
   }
 
   CModelBuilder(
       FrancaElement rootModel,
       IncludeResolver includeResolver,
-      ModelBuilderContextStack<CElement> contextStack) {
+      ModelBuilderContextStack<CElement> contextStack,
+      CppModelBuilder cppBuilder) {
     super(contextStack);
     this.rootModel = rootModel;
     this.resolver = includeResolver;
+    this.cppBuilder = cppBuilder;
   }
 
   @Override
@@ -172,5 +179,40 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         new CField(francaField.getName(), CTypeMapper.mapType(resolver, francaField.getType()));
     storeResult(cField);
     super.finishBuilding(francaField);
+  }
+
+  @Override
+  public void finishBuilding(FTypeRef typeRef) {
+    storeResult(CTypeMapper.mapType(resolver, typeRef));
+    super.finishBuilding(typeRef);
+  }
+
+  @Override
+  public void finishBuilding(FAttribute attribute) {
+    List<CppMethod> cppMethods =
+        CollectionsHelper.getAllOfType(cppBuilder.getFinalResults(), CppMethod.class);
+    CClassType classInfo =
+        CollectionsHelper.getFirstOfType(getParentContext().currentResults, CClassType.class);
+    CInParameter selfParameter = new CInParameter("_instance", classInfo.classType);
+    CppTypeInfo attributeTypeInfo = getPreviousResult(CppTypeInfo.class);
+
+    CFunction.CFunctionBuilder getterBuilder =
+        CFunction.builder(CBridgeNameRules.getAtrributeGetterName(attribute))
+            .returnType(attributeTypeInfo)
+            .selfParameter(selfParameter)
+            .functionName(CppNameRules.getMethodName(cppMethods.get(0).name));
+    storeResult(getterBuilder.build());
+
+    if (!attribute.isReadonly()) {
+      CFunction.CFunctionBuilder setterBuilder =
+          CFunction.builder(CBridgeNameRules.getAtrributeSetterName(attribute))
+              .parameters(
+                  Collections.singletonList(new CInParameter("newValue", attributeTypeInfo)))
+              .selfParameter(selfParameter)
+              .functionName(CppNameRules.getMethodName(cppMethods.get(1).name));
+      storeResult(setterBuilder.build());
+    }
+
+    super.finishBuilding(attribute);
   }
 }

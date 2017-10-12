@@ -15,6 +15,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
+import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CPointerType;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
@@ -24,9 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.franca.core.franca.*;
 
-public class CppTypeInfo {
+public class CppTypeInfo extends CElement {
 
-  public final String baseType;
   public final List<CType> cTypesNeededByConstructor;
   public final List<String> paramSuffixes;
   public final CType functionReturnType;
@@ -139,7 +139,7 @@ public class CppTypeInfo {
       TypeCategory category,
       List<Include> conversionToCppIncludes,
       List<Include> conversionFromCppIncludes) {
-    this.baseType = baseType;
+    super(baseType);
     this.paramSuffixes = paramSuffixes;
     this.cTypesNeededByConstructor = constructFromCTypes;
     this.functionReturnType = functionReturntype;
@@ -149,7 +149,7 @@ public class CppTypeInfo {
   }
 
   public CppTypeInfo(CType type, TypeCategory category) {
-    this.baseType = type.name;
+    super(type.name);
     this.cTypesNeededByConstructor = singletonList(type);
     this.paramSuffixes = singletonList("");
     this.functionReturnType = type;
