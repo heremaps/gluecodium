@@ -13,8 +13,9 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.*;
 
-public class JavaElementWithImports extends JavaElement {
-  public Set<JavaImport> imports = Collections.emptySet();
+public abstract class JavaElementWithImports extends JavaElement {
+
+  public final Set<JavaImport> imports;
 
   public JavaElementWithImports(final String name) {
     this(name, null);

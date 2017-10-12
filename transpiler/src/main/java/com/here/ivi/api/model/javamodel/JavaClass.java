@@ -19,7 +19,7 @@ public final class JavaClass extends JavaTopLevelElement {
 
   public static final JavaClass NATIVE_BASE = new JavaClass("NativeBase");
 
-  public Set<JavaField> fields = new LinkedHashSet<>();
+  public final Set<JavaField> fields = new LinkedHashSet<>();
   public JavaClass extendedClass;
 
   public JavaClass(final String name) {

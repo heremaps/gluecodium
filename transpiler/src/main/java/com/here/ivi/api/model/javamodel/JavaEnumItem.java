@@ -13,7 +13,7 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.stream.Stream;
 
-public class JavaEnumItem extends JavaElement {
+public final class JavaEnumItem extends JavaElement {
   public final JavaValue value;
 
   public JavaEnumItem(final String name) {

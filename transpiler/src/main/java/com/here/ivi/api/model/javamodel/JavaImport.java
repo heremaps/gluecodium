@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /** This class represents an import in java. It is based on a java package. */
 @EqualsAndHashCode
-public class JavaImport implements Comparable<JavaImport> {
+public final class JavaImport implements Comparable<JavaImport> {
   public final JavaPackage javaPackage;
   public final String className;
 

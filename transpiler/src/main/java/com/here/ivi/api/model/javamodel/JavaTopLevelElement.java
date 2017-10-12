@@ -20,13 +20,13 @@ import java.util.stream.Stream;
 public abstract class JavaTopLevelElement extends JavaElement {
 
   public JavaPackage javaPackage = JavaPackage.DEFAULT;
-  public Set<JavaMethod> methods = new LinkedHashSet<>();
+  public final Set<JavaMethod> methods = new LinkedHashSet<>();
   public final Set<JavaInterface> parentInterfaces = new LinkedHashSet<>();
 
-  public Set<JavaConstant> constants = new LinkedHashSet<>();
-  public Set<JavaEnum> enums = new LinkedHashSet<>();
-  public Set<JavaClass> innerClasses = new LinkedHashSet<>();
-  public Set<Qualifier> qualifiers = new LinkedHashSet<>();
+  public final Set<JavaConstant> constants = new LinkedHashSet<>();
+  public final Set<JavaEnum> enums = new LinkedHashSet<>();
+  public final Set<JavaClass> innerClasses = new LinkedHashSet<>();
+  public final Set<Qualifier> qualifiers = new LinkedHashSet<>();
 
   public enum Qualifier {
     STATIC("static"),
