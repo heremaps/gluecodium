@@ -23,6 +23,13 @@ dependencies {
     testCompile 'org.powermock:powermock-classloading-xstream:1.7.0'
     testCompile 'org.powermock:powermock-module-junit4:1.7.0'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.7.0'
+
+    // Work around IntelliJ bug not finding (test) resources.
+    // https://youtrack.jetbrains.com/issue/IDEA-91952
+    // https://youtrack.jetbrains.com/issue/IDEA-119280
+    // https://issuetracker.google.com/issues/36988115
+    runtime files('build/resources/main')
+    testRuntime files('build/resources/test')
 }
 
 apply plugin: 'application'
