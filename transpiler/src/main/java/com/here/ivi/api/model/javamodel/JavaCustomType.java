@@ -12,6 +12,7 @@
 package com.here.ivi.api.model.javamodel;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class JavaCustomType extends JavaComplexType {
@@ -26,5 +27,13 @@ public class JavaCustomType extends JavaComplexType {
       final List<String> packageNames,
       final Collection<JavaImport> imports) {
     super(fullName, classNames, packageNames, imports);
+  }
+
+  public JavaCustomType(final String fullName, final JavaPackage javaPackage) {
+    super(
+        fullName,
+        Collections.singletonList(fullName),
+        javaPackage.packageNames,
+        Collections.singletonList(new JavaImport(fullName, javaPackage)));
   }
 }

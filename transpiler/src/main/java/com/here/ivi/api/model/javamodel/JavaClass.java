@@ -18,10 +18,10 @@ import java.util.stream.Stream;
 
 public final class JavaClass extends JavaTopLevelElement {
 
-  public static final JavaClass NATIVE_BASE = new JavaClass("NativeBase");
+  public static final JavaType NATIVE_BASE = new JavaCustomType("NativeBase", JavaPackage.DEFAULT);
 
   public final Set<JavaField> fields = new LinkedHashSet<>();
-  public JavaClass extendedClass;
+  public JavaType extendedClass;
 
   public JavaClass(final String name) {
     super(name);
@@ -44,7 +44,7 @@ public final class JavaClass extends JavaTopLevelElement {
   public Set<JavaImport> getImports() {
     Set<JavaImport> imports = super.getImports();
     if (extendedClass != null) {
-      imports.add(new JavaImport(extendedClass.name, extendedClass.javaPackage));
+      imports.addAll(extendedClass.imports);
     }
     return imports;
   }
