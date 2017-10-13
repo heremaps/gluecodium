@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.java;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,13 +30,16 @@ import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(JUnit4.class)
-@SuppressWarnings("PMD.TooManyFields")
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(JavaValueMapper.class)
+@SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods"})
 public class JavaModelBuilderTest {
 
   private static final String CLASS_NAME = "classy";
@@ -43,6 +47,9 @@ public class JavaModelBuilderTest {
   private static final String PARAMETER_NAME = "curvature";
   private static final String FIELD_NAME = "flowers";
   private static final String ATTRIBUTE_NAME = "tribute";
+  private static final String ENUMERATION_NAME = "MyEnumName";
+  private static final String ENUMERATOR_1_NAME = "MY_ENUMERATOR_1";
+  private static final String ENUMERATOR_2_NAME = "MY_ENUMERATOR_2";
 
   private static final List<String> BASE_PACKAGE_NAMES =
       Arrays.asList("these", "are", "prefix", "packages");
@@ -55,6 +62,7 @@ public class JavaModelBuilderTest {
   @Mock private JavaTypeMapper typeMapper;
 
   @Mock private FTypeCollection francaTypeCollection;
+  @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FTypeRef francaTypeRef;
@@ -63,17 +71,23 @@ public class JavaModelBuilderTest {
   @Mock private FStructType francaStructType;
   @Mock private FAttribute francaAttribute;
   @Mock private FArrayType francaArrayType;
+  @Mock private FEnumerationType francaEnumerationType;
+  @Mock private FEnumerator francaEnumerator1;
+  @Mock private FEnumerator francaEnumerator2;
 
   private final EList<FArgument> arguments = new ArrayEList<>();
 
   private final JavaType javaCustomType = new JavaCustomType("typical");
   private final JavaField javaField = new JavaField(javaCustomType, FIELD_NAME);
+  private final JavaEnum javaEnum = new JavaEnum(ENUMERATION_NAME);
 
   private JavaModelBuilder modelBuilder;
+  private final EList<FEnumerator> francaEnumerators = new ArrayEList<>();
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
+    PowerMockito.mockStatic(JavaValueMapper.class);
 
     modelBuilder =
         new JavaModelBuilder(
@@ -94,6 +108,13 @@ public class JavaModelBuilderTest {
 
     when(francaArgument.getName()).thenReturn(PARAMETER_NAME);
     when(francaArgument.getType()).thenReturn(francaTypeRef);
+
+    when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME);
+    francaEnumerators.add(francaEnumerator1);
+    francaEnumerators.add(francaEnumerator2);
+    when(francaEnumerationType.getEnumerators()).thenReturn(francaEnumerators);
+    when(francaEnumerator1.getName()).thenReturn(ENUMERATOR_1_NAME);
+    when(francaEnumerator2.getName()).thenReturn(ENUMERATOR_2_NAME);
   }
 
   @Test
@@ -362,5 +383,101 @@ public class JavaModelBuilderTest {
     assertEquals(javaCustomType, javaType);
 
     verify(typeMapper).mapArray(francaArrayType);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionReadsEnum() {
+    contextStack.injectResult(javaEnum);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    JavaEnum result = modelBuilder.getFinalResult(JavaEnum.class);
+    assertEquals(javaEnum, result);
+  }
+
+  @Test
+  public void finishBuildingInterfaceReadsEnum() {
+    contextStack.injectResult(javaEnum);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass result = modelBuilder.getFinalResult(JavaClass.class);
+    assertEquals(1, result.enums.size());
+    assertEquals(javaEnum, result.enums.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingInterfaceAndImplementingClassReadsEnum() {
+    contextStack.injectResult(new JavaMethod("myMethod"));
+    contextStack.injectResult(javaEnum);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaInterface result = modelBuilder.getFinalResult(JavaInterface.class);
+    assertEquals(1, result.enums.size());
+    assertEquals(javaEnum, result.enums.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumReadEnum() {
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    JavaEnum result = modelBuilder.getFinalResult(JavaEnum.class);
+    assertNotNull(result);
+    assertEquals(ENUMERATION_NAME, result.name);
+    assertNotNull(result.items);
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeReadsEnumItems() {
+    JavaEnumItem javaEnumItem = new JavaEnumItem("enumerated");
+    contextStack.injectResult(javaEnumItem);
+    contextStack.injectResult(javaEnumItem);
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    JavaEnum resultEnum = modelBuilder.getFinalResult(JavaEnum.class);
+    assertNotNull(resultEnum);
+    assertEquals(2, resultEnum.items.size());
+    assertEquals(javaEnumItem, resultEnum.items.get(0));
+  }
+
+  @Test
+  public void finishBuildingFEnumeratorWithoutValueReadsEnumItem() {
+    when(francaEnumerator1.getValue()).thenReturn(null);
+
+    modelBuilder.finishBuilding(francaEnumerator1);
+
+    JavaEnumItem result = modelBuilder.getFinalResult(JavaEnumItem.class);
+    assertNotNull(result);
+    assertEquals(ENUMERATOR_1_NAME, result.name);
+    assertNull(result.value);
+  }
+
+  @Test
+  public void finishBuildingFEnumeratorWithValueReadsEnumItem() {
+
+    JavaValue value = new JavaValue("foo");
+    contextStack.injectResult(value);
+
+    modelBuilder.finishBuilding(francaEnumerator1);
+
+    JavaEnumItem result = modelBuilder.getFinalResult(JavaEnumItem.class);
+    assertNotNull(result);
+    assertEquals(ENUMERATOR_1_NAME, result.name);
+    assertEquals(value, result.value);
+  }
+
+  @Test
+  public void finishBuildingFExpressionReadsJavaValue() {
+    FExpression francaExpression = mock(FExpression.class);
+    JavaValue value = new JavaValue("foo");
+    when(JavaValueMapper.map(francaExpression)).thenReturn(value);
+
+    modelBuilder.finishBuilding(francaExpression);
+
+    JavaValue result = modelBuilder.getFinalResult(JavaValue.class);
+    assertSame(value, result);
   }
 }
