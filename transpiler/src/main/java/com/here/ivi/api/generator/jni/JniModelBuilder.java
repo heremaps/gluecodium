@@ -17,11 +17,7 @@ import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
-import com.here.ivi.api.model.cppmodel.CppClass;
-import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.*;
@@ -83,6 +79,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             cppClass.name,
             cppClass.hasInstanceMethods());
     getPreviousResults(JniStruct.class).forEach(jniContainer::add);
+    getPreviousResults(JniEnum.class).forEach(jniContainer::add);
     getPreviousResults(JniMethod.class).forEach(jniContainer::add);
     storeResult(jniContainer);
     closeContext();
@@ -135,6 +132,16 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   }
 
   @Override
+  public void finishBuilding(FEnumerationType francaEnumType) {
+
+    JavaEnum javaEnum = javaBuilder.getFinalResult(JavaEnum.class);
+    CppEnum cppEnum = cppBuilder.getFinalResult(CppEnum.class);
+
+    storeResult(new JniEnum(javaEnum.name, cppEnum.name));
+    closeContext();
+  }
+
+  @Override
   public void finishBuilding(FField francaField) {
 
     JavaField javaField = javaBuilder.getFinalResult(JavaField.class);
@@ -155,6 +162,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JniContainer jniContainer =
         JniContainer.createTypeCollectionContainer(structsPackage, cppNameSpace);
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
+        .forEach(jniContainer::add);
+    CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniEnum.class)
         .forEach(jniContainer::add);
 
     storeResult(jniContainer);

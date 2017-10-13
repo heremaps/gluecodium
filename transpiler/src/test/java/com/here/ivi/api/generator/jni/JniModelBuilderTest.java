@@ -23,13 +23,7 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
-import com.here.ivi.api.model.cppmodel.CppClass;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.cppmodel.CppParameter;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.*;
@@ -51,7 +45,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-@SuppressWarnings("PMD.TooManyFields")
+@SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods"})
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(InstanceRules.class)
 public class JniModelBuilderTest {
@@ -81,6 +75,7 @@ public class JniModelBuilderTest {
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FStructType francaStructType;
+  @Mock private FEnumerationType francaEnumType;
   @Mock private FField francaField;
   @Mock private FModel fModel;
   @Mock private FAttribute francaAttribute;
@@ -90,6 +85,8 @@ public class JniModelBuilderTest {
 
   private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
   private final CppClass cppClass = new CppClass(CPP_CLASS_NAME);
+  private final JavaEnum javaEnum = new JavaEnum(JAVA_CLASS_NAME);
+  private final CppEnum cppEnum = CppEnum.create(CPP_CLASS_NAME);
   private final JavaCustomType javaCustomType = new JavaCustomType(JAVA_CLASS_NAME);
   private final CppComplexTypeRef cppCustomType =
       new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build();
@@ -492,5 +489,76 @@ public class JniModelBuilderTest {
     assertEquals(cppGetter.name, jniMethod.cppMethodName);
     assertEquals(javaGetter.returnType.name, jniMethod.returnType.javaName);
     assertEquals(cppGetter.returnType.name, jniMethod.returnType.cppName);
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationsReadsJavaEnums() {
+
+    // arrange
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum);
+    when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum);
+
+    // act
+    modelBuilder.finishBuilding(francaEnumType);
+
+    // assert
+    JniEnum jniEnum = modelBuilder.getFinalResult(JniEnum.class);
+    assertNotNull(jniEnum);
+    assertEquals(javaEnum.name, jniEnum.javaEnumName);
+    assertEquals(cppEnum.name, jniEnum.cppEnumName);
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationsReadsCppEnums() {
+
+    // arrange
+    when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum);
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum);
+
+    // act
+    modelBuilder.finishBuilding(francaEnumType);
+
+    // assert
+    JniEnum jniEnum = modelBuilder.getFinalResult(JniEnum.class);
+    assertNotNull(jniEnum);
+    assertEquals(javaEnum.name, jniEnum.javaEnumName);
+    assertEquals(cppEnum.name, jniEnum.cppEnumName);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionReadsEnums() {
+
+    // arrange
+    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+    when(francaTypeCollection.eContainer()).thenReturn(fModel);
+    when(fModel.getName()).thenReturn(String.join(".", CPP_NAMESPACE_MEMBERS));
+    JniEnum jniEnum = new JniEnum("MyJavaEnumName", "MyCppEnumName");
+    contextStack.injectResult(jniEnum);
+
+    // act
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    // assert
+    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertFalse(jniContainer.enums.isEmpty());
+    assertEquals(jniEnum, jniContainer.enums.get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsEnums() {
+
+    // arrange
+    JniEnum jniEnum = new JniEnum("MyJavaEnumName", "MyCppEnumName");
+    contextStack.injectResult(jniEnum);
+
+    // act
+    modelBuilder.finishBuilding(francaInterface);
+
+    // assert
+    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertFalse(jniContainer.enums.isEmpty());
+    assertEquals(jniEnum, jniContainer.enums.get(0));
   }
 }
