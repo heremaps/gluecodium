@@ -34,6 +34,7 @@ public final class JniContainer implements JniElement {
 
   public final List<JniMethod> methods = new LinkedList<>();
   public final List<JniStruct> structs = new LinkedList<>();
+  public final List<JniEnum> enums = new LinkedList<>();
   public final List<Include> includes = new LinkedList<>();
 
   private JniContainer(
@@ -77,6 +78,11 @@ public final class JniContainer implements JniElement {
   public void add(JniStruct struct) {
     struct.owningContainer = this;
     structs.add(struct);
+  }
+
+  public void add(JniEnum enumeration) {
+    enumeration.owningContainer = this;
+    enums.add(enumeration);
   }
 
   public void add(JniMethod method) {
