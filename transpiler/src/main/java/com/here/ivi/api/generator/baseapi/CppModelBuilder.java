@@ -82,9 +82,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     FEnumerationType errorEnum = francaMethod.getErrorEnum();
     CppTypeRef errorType = errorEnum != null ? typeMapper.mapEnum(errorEnum) : null;
 
-    CppMethodMapper.ReturnTypeData returnTypeData =
-        CppMethodMapper.mapMethodReturnType(francaMethod, outputParameters, errorType);
-    CppMethod cppMethod = buildCppMethod(francaMethod, returnTypeData.type, returnTypeData.comment);
+    CppTypeRef returnType = mapMethodReturnType(outputParameters, errorType);
+    CppMethod cppMethod = buildCppMethod(francaMethod, returnType);
 
     storeResult(cppMethod);
     closeContext();
@@ -292,8 +291,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     return getterMethod;
   }
 
-  private CppMethod buildCppMethod(
-      FMethod francaMethod, CppTypeRef returnType, String returnTypeComment) {
+  private CppMethod buildCppMethod(FMethod francaMethod, CppTypeRef returnType) {
 
     String methodName = CppNameRules.getMethodName(francaMethod.getName());
     CppMethod.Builder builder = new CppMethod.Builder(methodName).returnType(returnType);
@@ -309,13 +307,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
       builder.qualifier(CppMethod.Qualifier.PURE_VIRTUAL);
     }
 
-    StringBuilder methodCommentBuilder =
-        new StringBuilder(CppCommentParser.parse(francaMethod).getMainBodyText());
-    if (!returnTypeComment.isEmpty()) {
-      methodCommentBuilder.append(
-          CppCommentParser.FORMATTER.formatTag("@return", returnTypeComment));
-    }
-    builder.comment(methodCommentBuilder.toString());
+    builder.comment(CppCommentParser.parse(francaMethod).getMainBodyText());
 
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
         .filter(parameter -> !parameter.isOutput)
@@ -339,5 +331,29 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     cppStruct.fields.addAll(elements);
     return cppStruct;
+  }
+
+  private static CppTypeRef mapMethodReturnType(
+      final List<CppParameter> outputParameters, final CppTypeRef errorType) {
+
+    CppTypeRef outArgType = null;
+
+    if (!outputParameters.isEmpty()) {
+      // If outArgs size is 2 or more, the output has to be wrapped in a struct,
+      // which is not supported yet.
+      outArgType = outputParameters.get(0).type;
+    }
+
+    if (errorType == null && outArgType == null) {
+      return CppPrimitiveTypeRef.VOID;
+    } else if (errorType != null && outArgType == null) {
+      return errorType;
+    } else if (errorType == null) {
+      return outArgType;
+    }
+
+    // wrap multiple out values (error + outArg) in their own type
+    return CppTemplateTypeRef.create(
+        CppTemplateTypeRef.TemplateClass.EXPECTED, errorType, outArgType);
   }
 }

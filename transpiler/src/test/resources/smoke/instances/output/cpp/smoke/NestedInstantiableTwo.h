@@ -29,26 +29,10 @@ public:
 
 public:
 virtual void setMultipleTypeInstances( const ::std::shared_ptr< ::smoke::SimpleInstantiableOne >& instanceOne, const ::std::shared_ptr< ::smoke::SimpleInstantiableTwo >& instanceTwo, const ::std::shared_ptr< ::smoke::NestedInstantiableOne >& nestedInstantiable ) = 0;
-/**
- *
- * * @return The result type, containing ::std::shared_ptr< ::smoke::SimpleInstantiableOne > value.
- */
 virtual ::std::shared_ptr< ::smoke::SimpleInstantiableOne > getInstantiableOne(  ) = 0;
-/**
- *
- * * @return The result type, containing ::std::shared_ptr< ::smoke::SimpleInstantiableTwo > value.
- */
 virtual ::std::shared_ptr< ::smoke::SimpleInstantiableTwo > getInstantiableTwo(  ) = 0;
-/**
- *
- * * @return The result type, containing ::std::shared_ptr< ::smoke::NestedInstantiableOne > value.
- */
 virtual ::std::shared_ptr< ::smoke::NestedInstantiableOne > getNestedInstantiable(  ) = 0;
 virtual void setSelfInstantiable( const ::std::shared_ptr< ::smoke::NestedInstantiableTwo >& selfInstance ) = 0;
-/**
- *
- * * @return The result type, containing ::std::shared_ptr< ::smoke::NestedInstantiableTwo > value.
- */
 virtual ::std::shared_ptr< ::smoke::NestedInstantiableTwo > getSelfInstantiable(  ) = 0;
 
 };

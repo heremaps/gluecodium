@@ -35,35 +35,11 @@ using TestStructTypeDef = ::smoke::TypeDefs::TestStruct;
 using NestedStructTypeDef = ::smoke::TypeDefs::TestStructTypeDef;
 
 public:
-/**
- *
- * * @return The result type, containing ::smoke::TypeDefs::PrimitiveTypeDef value.
- */
 static ::smoke::TypeDefs::PrimitiveTypeDef methodWithPrimitiveTypeDef( const ::smoke::TypeDefs::PrimitiveTypeDef input );
-/**
- *
- * * @return The result type, containing ::smoke::TypeDefs::ComplexTypeDef value.
- */
 static ::smoke::TypeDefs::ComplexTypeDef methodWithComplexTypeDef( const ::smoke::TypeDefs::ComplexTypeDef& input );
-/**
- *
- * * @return The result type, containing ::smoke::TypeDefs::NestedIntTypeDef value.
- */
 static ::smoke::TypeDefs::NestedIntTypeDef returnNestedIntTypeDef( const ::smoke::TypeDefs::NestedIntTypeDef input );
-/**
- *
- * * @return The result type, containing ::smoke::TypeDefs::TestStructTypeDef value.
- */
 static ::smoke::TypeDefs::TestStructTypeDef returnTestStructTypeDef( const ::smoke::TypeDefs::TestStructTypeDef& input );
-/**
- *
- * * @return The result type, containing ::smoke::TypeDefs::NestedStructTypeDef value.
- */
 static ::smoke::TypeDefs::NestedStructTypeDef returnNestedStructTypeDef( const ::smoke::TypeDefs::NestedStructTypeDef& input );
-/**
- *
- * * @return The result type, containing ::smoke::PointTypeDef value.
- */
 static ::smoke::PointTypeDef returnTypeDefPointFromTypeCollection( const ::smoke::PointTypeDef& input );
 
 };
