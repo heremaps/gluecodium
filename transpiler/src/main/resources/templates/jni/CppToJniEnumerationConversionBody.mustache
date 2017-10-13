@@ -1,0 +1,5 @@
+{
+    auto javaClass = env->FindClass( "{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}" );
+    auto theConstructor = env->GetMethodID( javaClass, "<init>", "(J)L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}" );
+    return env->NewObject( javaClass, theConstructor, static_cast<jint>( _ninput ) );
+}
