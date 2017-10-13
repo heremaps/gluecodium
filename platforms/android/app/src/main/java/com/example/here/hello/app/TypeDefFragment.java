@@ -35,11 +35,11 @@ public final class TypeDefFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_typedef, container, false);
-    description = (TextView) rootView.findViewById(R.id.typedef_description);
-    input = (EditText) rootView.findViewById(R.id.typedef_edit);
-    result = (EditText) rootView.findViewById(R.id.typedef_result);
-    submitButton = (Button) rootView.findViewById(R.id.typedef_submit_button);
-    methodDetails = (TextView) rootView.findViewById(R.id.typedef_method_details);
+    description = rootView.findViewById(R.id.typedef_description);
+    input = rootView.findViewById(R.id.typedef_edit);
+    result = rootView.findViewById(R.id.typedef_result);
+    submitButton = rootView.findViewById(R.id.typedef_submit_button);
+    methodDetails = rootView.findViewById(R.id.typedef_method_details);
     return rootView;
   }
 

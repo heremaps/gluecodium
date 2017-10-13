@@ -41,9 +41,9 @@ public final class InstanceMethodsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_instance_methods, container, false);
-        input = (EditText) rootView.findViewById(R.id.instance_methods_edit);
-        result = (EditText) rootView.findViewById(R.id.instance_methods_result);
-        submitButton = (Button) rootView.findViewById(R.id.instance_methods_submit_button);
+        input = rootView.findViewById(R.id.instance_methods_edit);
+        result = rootView.findViewById(R.id.instance_methods_result);
+        submitButton = rootView.findViewById(R.id.instance_methods_submit_button);
 
         profileManager = HelloWorldProfileManagerFactory.createProfileManagerInstance();
 
