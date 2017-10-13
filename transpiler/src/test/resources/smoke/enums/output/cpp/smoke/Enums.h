@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <cpp/enum_hash.h>
+#include "cpp/enum_hash.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>
