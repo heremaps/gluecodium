@@ -40,25 +40,9 @@ struct ErrorStruct {
 };
 
 public:
-/**
- *
- * * @return The result type, containing ::smoke::Enums::SimpleEnum value.
- */
 static ::smoke::Enums::SimpleEnum methodWithEnumeration( const ::smoke::Enums::SimpleEnum input );
-/**
- *
- * * @return The result type, containing ::smoke::Enums::InternalError value.
- */
 static ::smoke::Enums::InternalError flipEnumValue( const ::smoke::Enums::InternalError input );
-/**
- *
- * * @return The result type, containing ::smoke::Enums::InternalError value.
- */
 static ::smoke::Enums::InternalError extractEnumFromStruct( const ::smoke::Enums::ErrorStruct& input );
-/**
- *
- * * @return The result type, containing ::smoke::Enums::ErrorStruct value.
- */
 static ::smoke::Enums::ErrorStruct createStructWithEnumInside( const ::smoke::Enums::InternalError type, const ::std::string& message );
 };
 }

@@ -26,7 +26,6 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
-import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -40,7 +39,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
-  CppMethodMapper.class,
   CppCommentParser.class,
   InstanceRules.class,
   CppDefaultInitializer.class,
@@ -105,7 +103,6 @@ public class CppModelBuilderTest {
   @Before
   public void setUp() {
     PowerMockito.mockStatic(
-        CppMethodMapper.class,
         CppCommentParser.class,
         InstanceRules.class,
         CppDefaultInitializer.class,
@@ -135,8 +132,6 @@ public class CppModelBuilderTest {
     when(francaMapType.getValueType()).thenReturn(francaAnotherTypeRef);
     when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
 
-    when(CppMethodMapper.mapMethodReturnType(any(), any(), any()))
-        .thenReturn(new CppMethodMapper.ReturnTypeData(cppComplexTypeRef, "no comments"));
     when(CppCommentParser.parse(any(FModelElement.class)))
         .thenReturn(new AbstractFrancaCommentParser.Comments());
     when(CppCommentParser.parse(any(FMethod.class)))
@@ -229,16 +224,6 @@ public class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaMethodReadsReturnTypeData() {
-    modelBuilder.finishBuilding(francaMethod);
-
-    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
-    assertNotNull(resultMethod);
-    assertEquals(cppComplexTypeRef, resultMethod.returnType);
-    assertTrue(resultMethod.comment.endsWith("no comments"));
-  }
-
-  @Test
   public void finishBuildingFrancaMethodReadsStaticFlag() {
     when(rootModel.isStatic(francaMethod)).thenReturn(true);
 
@@ -266,14 +251,13 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsOutputParameters() {
-    CppParameter cppParameter = new CppParameter("flowers", null, true);
-    contextStack.injectResult(cppParameter);
+    contextStack.injectResult(new CppParameter("flowers", cppComplexTypeRef, true));
 
     modelBuilder.finishBuilding(francaMethod);
 
-    PowerMockito.verifyStatic();
-    CppMethodMapper.mapMethodReturnType(
-        francaMethod, Collections.singletonList(cppParameter), null);
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
+    assertNotNull(resultMethod);
+    assertEquals(cppComplexTypeRef, resultMethod.returnType);
   }
 
   @Test
@@ -283,10 +267,11 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    verify(typeMapper).mapEnum(francaEnumerationType);
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
+    assertNotNull(resultMethod);
+    assertEquals(cppComplexTypeRef, resultMethod.returnType);
 
-    PowerMockito.verifyStatic();
-    CppMethodMapper.mapMethodReturnType(francaMethod, Collections.emptyList(), cppComplexTypeRef);
+    verify(typeMapper).mapEnum(francaEnumerationType);
   }
 
   @Test

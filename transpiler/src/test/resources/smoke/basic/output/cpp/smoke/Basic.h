@@ -25,7 +25,6 @@ public:
 /**
  * Example static method for Basic feature which takes a String and returns a String
  * * @param[in] inputString Input string
- * * @return The result type, containing ::std::string value.
  */
 static ::std::string basicMethod( const ::std::string& inputString );
 

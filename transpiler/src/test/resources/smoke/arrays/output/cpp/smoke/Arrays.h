@@ -38,30 +38,10 @@ struct FancyStruct {
 using FancyArray = ::std::vector< ::smoke::Arrays::FancyStruct >;
 
 public:
-/**
- *
- * * @return The result type, containing ::std::vector< ::std::string > value.
- */
 static ::std::vector< ::std::string > methodWithArray( const ::std::vector< ::std::string >& input );
-/**
- *
- * * @return The result type, containing ::std::vector< uint8_t > value.
- */
 static ::std::vector< uint8_t > methodWithArrayInline( const ::std::vector< uint8_t >& input );
-/**
- *
- * * @return The result type, containing ::std::vector< ::smoke::Arrays::BasicStruct > value.
- */
 static ::std::vector< ::smoke::Arrays::BasicStruct > methodWithStructArray( const ::std::vector< ::smoke::Arrays::BasicStruct >& input );
-/**
- *
- * * @return The result type, containing ::std::vector< ::std::vector< uint8_t > > value.
- */
 static ::std::vector< ::std::vector< uint8_t > > methodWithArrayOfArrys( const ::std::vector< ::std::vector< uint8_t > >& input );
-/**
- *
- * * @return The result type, containing ::std::vector< ::smoke::Arrays::FancyStruct > value.
- */
 static ::std::vector< ::smoke::Arrays::FancyStruct > mergeArraysOfStructsWithArrays( const ::std::vector< ::smoke::Arrays::FancyStruct >& inlineFancyArray, const ::std::vector< ::smoke::Arrays::FancyStruct >& fancyArray );
 
 };

@@ -30,10 +30,7 @@ struct InnerStruct {
 };
 
 public:
-/**
- *
- * * @return The result type, containing ::smoke::InstanceWithStruct::InnerStruct value.
- */
+
 virtual ::smoke::InstanceWithStruct::InnerStruct innerStructMethod( const ::smoke::InstanceWithStruct::InnerStruct& inputStruct ) = 0;
 
 };

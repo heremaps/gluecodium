@@ -36,30 +36,10 @@ struct StructWithMap {
 };
 
 public:
-/**
- *
- * * @return The result type, containing ::std::unordered_map< int32_t, ::std::string > value.
- */
 static ::std::unordered_map< int32_t, ::std::string > methodWithMap( const ::std::unordered_map< int32_t, ::std::string >& input );
-/**
- *
- * * @return The result type, containing ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct > value.
- */
 static ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct > methodWithMapToStruct( const ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct >& input );
-/**
- *
- * * @return The result type, containing ::std::unordered_map< ::smoke::Maps::SomeStruct, uint8_t > value.
- */
 static ::std::unordered_map< ::smoke::Maps::SomeStruct, uint8_t > methodWithStructAsMapKeys( const ::std::unordered_map< ::smoke::Maps::SomeStruct, uint8_t >& input );
-/**
- *
- * * @return The result type, containing ::std::unordered_map< uint8_t, ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct > > value.
- */
 static ::std::unordered_map< uint8_t, ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct > > methodWithNestedMap( const ::std::unordered_map< uint8_t, ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct > >& input );
-/**
- *
- * * @return The result type, containing ::smoke::Maps::StructWithMap value.
- */
 static ::smoke::Maps::StructWithMap methodWithStructWithMap( const ::smoke::Maps::StructWithMap& input );
 
 };

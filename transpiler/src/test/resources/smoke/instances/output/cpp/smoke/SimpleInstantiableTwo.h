@@ -26,10 +26,6 @@ public:
 
 public:
 virtual void setStringValue( const ::std::string& stringValue ) = 0;
-/**
- *
- * * @return The result type, containing ::std::string value.
- */
 virtual ::std::string getStringValue(  ) = 0;
 
 };

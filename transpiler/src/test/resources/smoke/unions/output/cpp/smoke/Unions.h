@@ -206,25 +206,9 @@ struct UnionWithStruct {
 };
 
 public:
-/**
- *
- * * @return The result type, containing ::smoke::Unions::NavigationError value.
- */
 static ::smoke::Unions::NavigationError methodWithUnion( const ::smoke::Unions::NavigationError& input );
-/**
- *
- * * @return The result type, containing ::smoke::Unions::NestedUnion value.
- */
 static ::smoke::Unions::NestedUnion methodWithNestedUnion( const ::smoke::Unions::NestedUnion& input );
-/**
- *
- * * @return The result type, containing ::smoke::Unions::StructWithUnion value.
- */
 static ::smoke::Unions::StructWithUnion methodWithStructWithUnion( const ::smoke::Unions::StructWithUnion& input );
-/**
- *
- * * @return The result type, containing ::smoke::Unions::StructWithUnion value.
- */
 static ::smoke::Unions::StructWithUnion methodWithUnionWithStruct( const ::smoke::Unions::StructWithUnion& input );
 
 };
