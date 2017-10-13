@@ -97,7 +97,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     treeWalker.walk(francaElement);
 
     CppFile cppModel = new CppFile(namespaceElements);
-    cppModel.members.addAll(builder.getResults());
+    cppModel.members.addAll(builder.getFinalResults());
     cppModel.includes.addAll(collectIncludes(cppModel));
 
     return cppModel;

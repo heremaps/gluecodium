@@ -132,20 +132,48 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
     closeContext();
   }
 
-  public List<E> getResults() {
+  /**
+   * Get final results of the model builder execution. Intended to be called by clients of the model
+   * builder but not within the model builder itself.
+   *
+   * @return A list of results
+   */
+  public List<E> getFinalResults() {
     return resultContext != null ? resultContext.currentResults : Collections.emptyList();
   }
 
-  public <T extends E> T getFirstResult(final Class<T> clazz) {
+  /**
+   * Get the first item of the given type from the list of final results of the model builder
+   * execution. Intended to be called by clients of the model builder but not within the model
+   * builder itself.
+   *
+   * @param clazz Class object representing the type of the result to get
+   * @param <T> Type of the result to get
+   * @return A result item
+   */
+  public <T extends E> T getFinalResult(final Class<T> clazz) {
     return resultContext != null
         ? CollectionsHelper.getFirstOfType(resultContext.currentResults, clazz)
         : null;
   }
 
+  /**
+   * Get the results of the previous ("child") step of model builder execution.
+   *
+   * @return A list of results
+   */
   protected <T extends E> T getPreviousResult(final Class<T> clazz) {
     return CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, clazz);
   }
 
+  /**
+   * Get the first item of the given type from the list of results of the previous ("child") step of
+   * model builder execution.
+   *
+   * @param clazz Class object representing the type of the result to get
+   * @param <T> Type of the result to get
+   * @return A result item
+   */
   protected <T extends E> List<T> getPreviousResults(final Class<T> clazz) {
     return CollectionsHelper.getAllOfType(getCurrentContext().previousResults, clazz);
   }

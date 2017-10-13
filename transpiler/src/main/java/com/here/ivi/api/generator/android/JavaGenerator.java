@@ -42,10 +42,10 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
     List<GeneratedFile> results = new LinkedList<>();
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     results.add(generateFileForElement("java/ClassHeader", javaClass));
 
-    JavaInterface javaInterface = modelBuilder.getFirstResult(JavaInterface.class);
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
     if (javaInterface != null) {
       results.add(generateFileForElement("java/Interface", javaInterface));
     }
@@ -60,7 +60,7 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
     treeWalker.walk(typeCollection);
 
-    return CollectionsHelper.getStreamOfType(modelBuilder.getResults(), JavaClass.class)
+    return CollectionsHelper.getStreamOfType(modelBuilder.getFinalResults(), JavaClass.class)
         .map(javaClass -> generateFileForElement("java/ClassHeader", javaClass))
         .collect(Collectors.toList());
   }

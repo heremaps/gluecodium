@@ -100,7 +100,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaMethod() {
     modelBuilder.finishBuilding(francaMethod);
 
-    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals(METHOD_NAME, javaMethod.name);
     assertFalse(javaMethod.qualifiers.contains(JavaMethod.MethodQualifier.STATIC));
@@ -113,7 +113,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals(METHOD_NAME, javaMethod.name);
   }
@@ -124,7 +124,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertTrue(javaMethod.qualifiers.contains(JavaMethod.MethodQualifier.STATIC));
   }
@@ -133,7 +133,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaMethodWithZeroOutArgs() {
     modelBuilder.finishBuilding(francaMethod);
 
-    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertTrue(javaMethod.returnType instanceof JavaPrimitiveType);
     assertEquals(JavaPrimitiveType.Type.VOID, ((JavaPrimitiveType) javaMethod.returnType).type);
@@ -146,7 +146,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals(javaCustomType, javaMethod.returnType);
   }
@@ -158,7 +158,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertFalse(javaMethod.parameters.isEmpty());
     assertEquals(javaParameter, javaMethod.parameters.get(0));
@@ -170,7 +170,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    JavaParameter javaParameter = modelBuilder.getFirstResult(JavaParameter.class);
+    JavaParameter javaParameter = modelBuilder.getFinalResult(JavaParameter.class);
     assertNotNull(javaParameter);
     assertEquals(javaCustomType, javaParameter.type);
     assertFalse(javaParameter.isOutput);
@@ -182,7 +182,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
-    JavaParameter javaParameter = modelBuilder.getFirstResult(JavaParameter.class);
+    JavaParameter javaParameter = modelBuilder.getFinalResult(JavaParameter.class);
     assertNotNull(javaParameter);
     assertEquals(javaCustomType, javaParameter.type);
     assertTrue(javaParameter.isOutput);
@@ -197,7 +197,7 @@ public class JavaModelBuilderTest {
     contextStack.injectResult(secondInnerClass);
 
     modelBuilder.finishBuilding(francaTypeCollection);
-    List<JavaElement> javaElements = modelBuilder.getResults();
+    List<JavaElement> javaElements = modelBuilder.getFinalResults();
 
     assertNotNull(javaElements);
     assertEquals(2, javaElements.size());
@@ -215,7 +215,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaConstant);
 
-    JavaConstant resultConstant = modelBuilder.getFirstResult(JavaConstant.class);
+    JavaConstant resultConstant = modelBuilder.getFinalResult(JavaConstant.class);
     assertNotNull(resultConstant);
     assertEquals("permanent", resultConstant.name.toLowerCase());
     assertEquals(javaCustomType, resultConstant.type);
@@ -225,7 +225,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaFieldReadsName() {
     modelBuilder.finishBuilding(francaField);
 
-    JavaField resultField = modelBuilder.getFirstResult(JavaField.class);
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
     assertEquals(FIELD_NAME, resultField.name.toLowerCase());
   }
@@ -236,7 +236,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    JavaField resultField = modelBuilder.getFirstResult(JavaField.class);
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
     assertEquals(javaCustomType, resultField.type);
   }
@@ -247,7 +247,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    JavaField resultField = modelBuilder.getFirstResult(JavaField.class);
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
     assertEquals(javaCustomType, resultField.customTypeInitial);
   }
@@ -256,7 +256,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaFieldCreatesPublicField() {
     modelBuilder.finishBuilding(francaField);
 
-    JavaField resultField = modelBuilder.getFirstResult(JavaField.class);
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
     assertEquals(JavaVisibility.PUBLIC, resultField.visibility);
   }
@@ -265,7 +265,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaStructType() {
     modelBuilder.finishBuilding(francaStructType);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertEquals("nonsense", javaClass.name.toLowerCase());
     assertEquals(BASE_PACKAGE_NAMES, javaClass.javaPackage.packageNames);
@@ -277,7 +277,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStructType);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertFalse(javaClass.fields.isEmpty());
     assertEquals(javaField, javaClass.fields.iterator().next());
@@ -287,7 +287,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaTypeRef() {
     modelBuilder.finishBuilding(francaTypeRef);
 
-    JavaType javaType = modelBuilder.getFirstResult(JavaType.class);
+    JavaType javaType = modelBuilder.getFinalResult(JavaType.class);
     assertEquals(javaCustomType, javaType);
 
     verify(typeMapper).map(francaTypeRef);
@@ -297,7 +297,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaAttributeCreatesGetter() {
     modelBuilder.finishBuilding(francaAttribute);
 
-    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals("get" + ATTRIBUTE_NAME, javaMethod.name.toLowerCase());
   }
@@ -307,7 +307,7 @@ public class JavaModelBuilderTest {
     modelBuilder.finishBuilding(francaAttribute);
 
     List<JavaMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getResults(), JavaMethod.class);
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
     assertEquals(2, methods.size());
     assertEquals("set" + ATTRIBUTE_NAME, methods.get(1).name.toLowerCase());
   }
@@ -319,7 +319,7 @@ public class JavaModelBuilderTest {
     modelBuilder.finishBuilding(francaAttribute);
 
     List<JavaMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getResults(), JavaMethod.class);
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
     assertEquals(1, methods.size());
     assertEquals("get" + ATTRIBUTE_NAME, methods.get(0).name.toLowerCase());
   }
@@ -330,7 +330,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaAttribute);
 
-    JavaMethod javaMethod = modelBuilder.getFirstResult(JavaMethod.class);
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals(javaCustomType, javaMethod.returnType);
     assertTrue(javaMethod.parameters.isEmpty());
@@ -343,7 +343,7 @@ public class JavaModelBuilderTest {
     modelBuilder.finishBuilding(francaAttribute);
 
     List<JavaMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getResults(), JavaMethod.class);
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
     assertEquals(2, methods.size());
 
     JavaMethod javaMethod = methods.get(1);
@@ -358,7 +358,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder.finishBuilding(francaArrayType);
 
-    JavaType javaType = modelBuilder.getFirstResult(JavaType.class);
+    JavaType javaType = modelBuilder.getFinalResult(JavaType.class);
     assertEquals(javaCustomType, javaType);
 
     verify(typeMapper).mapArray(francaArrayType);

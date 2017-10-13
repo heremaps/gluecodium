@@ -71,9 +71,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
-    CppClass cppClass = cppBuilder.getFirstResult(CppClass.class);
-    JavaTopLevelElement javaTopLevelElement = javaBuilder.getFirstResult(JavaTopLevelElement.class);
-    JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
+    CppClass cppClass = cppBuilder.getFinalResult(CppClass.class);
+    JavaTopLevelElement javaTopLevelElement = javaBuilder.getFinalResult(JavaTopLevelElement.class);
+    JavaClass javaClass = javaBuilder.getFinalResult(JavaClass.class);
     JniContainer jniContainer =
         JniContainer.createInterfaceContainer(
             javaTopLevelElement.javaPackage.packageNames,
@@ -91,8 +91,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    JavaMethod javaMethod = javaBuilder.getFirstResult(JavaMethod.class);
-    CppMethod cppMethod = cppBuilder.getFirstResult(CppMethod.class);
+    JavaMethod javaMethod = javaBuilder.getFinalResult(JavaMethod.class);
+    CppMethod cppMethod = cppBuilder.getFinalResult(CppMethod.class);
 
     JniMethod jniMethod =
         new JniMethod.Builder(javaMethod.name, cppMethod.name)
@@ -115,8 +115,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
         typeReference.getDerived() instanceof FTypeDef
             && InstanceRules.isInstanceId((FTypeDef) typeReference.getDerived());
 
-    JavaParameter javaParameter = javaBuilder.getFirstResult(JavaParameter.class);
-    CppParameter cppParameter = cppBuilder.getFirstResult(CppParameter.class);
+    JavaParameter javaParameter = javaBuilder.getFinalResult(JavaParameter.class);
+    CppParameter cppParameter = cppBuilder.getFinalResult(CppParameter.class);
     JniType jniType = JniType.createType(javaParameter.type, cppParameter.type, isInstanceRef);
 
     storeResult(new JniParameter(javaParameter.name, jniType));
@@ -126,8 +126,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FStructType francaStructType) {
 
-    JavaClass javaClass = javaBuilder.getFirstResult(JavaClass.class);
-    CppStruct cppStruct = cppBuilder.getFirstResult(CppStruct.class);
+    JavaClass javaClass = javaBuilder.getFinalResult(JavaClass.class);
+    CppStruct cppStruct = cppBuilder.getFinalResult(CppStruct.class);
     List<JniField> jniFields = getPreviousResults(JniField.class);
 
     storeResult(new JniStruct(javaClass, cppStruct, jniFields));
@@ -137,8 +137,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FField francaField) {
 
-    JavaField javaField = javaBuilder.getFirstResult(JavaField.class);
-    CppField cppField = cppBuilder.getFirstResult(CppField.class);
+    JavaField javaField = javaBuilder.getFinalResult(JavaField.class);
+    CppField cppField = cppBuilder.getFinalResult(CppField.class);
 
     storeResult(new JniField(javaField, cppField));
     closeContext();
@@ -165,9 +165,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   public void finishBuilding(FAttribute francaAttribute) {
 
     List<JavaMethod> javaMethods =
-        CollectionsHelper.getAllOfType(javaBuilder.getResults(), JavaMethod.class);
+        CollectionsHelper.getAllOfType(javaBuilder.getFinalResults(), JavaMethod.class);
     List<CppMethod> cppMethods =
-        CollectionsHelper.getAllOfType(cppBuilder.getResults(), CppMethod.class);
+        CollectionsHelper.getAllOfType(cppBuilder.getFinalResults(), CppMethod.class);
 
     JavaMethod javaGetter = javaMethods.get(0);
     CppMethod cppGetter = cppMethods.get(0);
