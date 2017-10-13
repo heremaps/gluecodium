@@ -49,15 +49,18 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FInterface francaInterface) {
 
     List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
+    List<JavaEnum> enums = getPreviousResults(JavaEnum.class);
 
     if (containsInstanceMethod(methods)) {
 
       JavaInterface javaInterface = createJavaInterface(francaInterface);
+      javaInterface.enums.addAll(enums);
       storeResult(javaInterface);
 
       JavaClass javaClass = createJavaImplementationClass(francaInterface);
       javaClass.parentInterfaces.add(javaInterface);
       storeResult(javaClass);
+
     } else {
 
       JavaClass javaClass = createJavaClass(francaInterface);
@@ -65,9 +68,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
       javaClass.methods.addAll(methods);
       javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
+      javaClass.enums.addAll(enums);
 
       addInnerClasses(javaClass);
-
       storeResult(javaClass);
     }
 
@@ -78,6 +81,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FTypeCollection francaTypeCollection) {
 
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaClass.class)
+        .forEach(this::storeResult);
+    CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaEnum.class)
         .forEach(this::storeResult);
     closeContext();
   }
@@ -196,6 +201,36 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FTypeRef francaTypeRef) {
 
     storeResult(typeMapper.map(francaTypeRef));
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FEnumerationType francaEnumType) {
+    String enumName = JavaNameRules.getClassName(francaEnumType.getName());
+
+    JavaEnum javaEnum = new JavaEnum(enumName);
+    javaEnum.comment = getCommentString(francaEnumType);
+    javaEnum.items.addAll(getPreviousResults(JavaEnumItem.class));
+
+    storeResult(javaEnum);
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FExpression francaExpression) {
+    storeResult(JavaValueMapper.map(francaExpression));
+    closeContext();
+  }
+
+  @Override
+  public void finishBuilding(FEnumerator francaEnumerator) {
+
+    String enumItemName = JavaNameRules.getConstantName(francaEnumerator.getName());
+    JavaValue javaValue = getPreviousResult(JavaValue.class);
+    JavaEnumItem javaEnumItem = new JavaEnumItem(enumItemName, javaValue);
+    javaEnumItem.comment = getCommentString(francaEnumerator);
+
+    storeResult(javaEnumItem);
     closeContext();
   }
 
