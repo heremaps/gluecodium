@@ -24,9 +24,9 @@ public final class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_base, container, false);
-        input = (EditText) rootView.findViewById(R.id.input);
-        resultText = (EditText) rootView.findViewById(R.id.result_text);
-        submitButton = (Button) rootView.findViewById(R.id.greet);
+        input = rootView.findViewById(R.id.input);
+        resultText = rootView.findViewById(R.id.result_text);
+        submitButton = rootView.findViewById(R.id.greet);
         return rootView;
     }
 

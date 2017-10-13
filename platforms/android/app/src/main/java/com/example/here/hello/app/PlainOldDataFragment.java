@@ -49,11 +49,11 @@ public final class PlainOldDataFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_plain_old_data, container, false);
         descriptionsText = getResources().getStringArray(R.array.plain_old_data_methods_description);
-        description = (TextView) rootView.findViewById(R.id.plain_old_data_description);
-        input = (EditText) rootView.findViewById(R.id.plain_old_data_edit);
-        result = (EditText) rootView.findViewById(R.id.plain_old_data_result);
-        spinner = (Spinner) rootView.findViewById(R.id.plain_old_data_spinner);
-        submitButton = (Button) rootView.findViewById(R.id.plain_old_data_submit_button);
+        description = rootView.findViewById(R.id.plain_old_data_description);
+        input = rootView.findViewById(R.id.plain_old_data_edit);
+        result = rootView.findViewById(R.id.plain_old_data_result);
+        spinner = rootView.findViewById(R.id.plain_old_data_spinner);
+        submitButton = rootView.findViewById(R.id.plain_old_data_submit_button);
         return rootView;
     }
 

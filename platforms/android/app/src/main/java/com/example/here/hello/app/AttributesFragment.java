@@ -22,18 +22,19 @@ import com.here.android.hello.HelloWorldFactory;
 import java.util.Locale;
 
 public final class AttributesFragment extends Fragment {
+    private static final int GET_BUILTIN_TYPE_ATTRIBUTE = 0;
+    private static final int SET_BUILTIN_TYPE_ATTRIBUTE = 1;
+    private static final int GET_READ_ONLY_ATTRIBUTE = 2;
+    private static final int GET_STRUCT_ATTRIBUTE = 3;
+    private static final int SET_STRUCT_ATTRIBUTE = 4;
+
     private Button submitButton;
     private EditText result;
     private EditText input;
     private Spinner spinner;
     private TextView description;
     private String[] descriptionsText;
-    HelloWorldAttributes helloWorldAttributes = HelloWorldFactory.createAttributes();
-    private final int GET_BUILTIN_TYPE_ATTRIBUTE = 0;
-    private final int SET_BUILTIN_TYPE_ATTRIBUTE = 1;
-    private final int GET_READ_ONLY_ATTRIBUTE = 2;
-    private final int GET_STRUCT_ATTRIBUTE = 3;
-    private final int SET_STRUCT_ATTRIBUTE = 4;
+    private final HelloWorldAttributes helloWorldAttributes = HelloWorldFactory.createAttributes();
 
     private static final String EXAMPLE_STRUCT = "ExampleStruct {%n"
             + "    public double value = %f%n"
@@ -44,11 +45,11 @@ public final class AttributesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_attributes, container, false);
         descriptionsText = getResources().getStringArray(R.array.attributes_methods_description);
-        description = (TextView) rootView.findViewById(R.id.attributes_description);
-        input = (EditText) rootView.findViewById(R.id.attributes_edit);
-        result = (EditText) rootView.findViewById(R.id.attributes_result);
-        spinner = (Spinner) rootView.findViewById(R.id.attributes_spinner);
-        submitButton = (Button) rootView.findViewById(R.id.attributes_submit_button);
+        description = rootView.findViewById(R.id.attributes_description);
+        input = rootView.findViewById(R.id.attributes_edit);
+        result = rootView.findViewById(R.id.attributes_result);
+        spinner = rootView.findViewById(R.id.attributes_spinner);
+        submitButton = rootView.findViewById(R.id.attributes_submit_button);
         return rootView;
     }
 

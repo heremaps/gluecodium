@@ -25,7 +25,7 @@ public final class ProfileManagerTest {
     private static final String PROFILE_NAME = "ProfileName";
     private static final String CHANGED_PROFILE_NAME = "ChangedProfileName";
     private static final int MAX_GC_ATTEMPTS = 15;
-    public static final String PROFILE_MANAGER_DESTRUCTOR_LOG = "ProfileManager::destructor";
+    private static final String PROFILE_MANAGER_DESTRUCTOR_LOG = "ProfileManager::destructor";
 
     private WeakReference<ProfileManager> profileManagerWeakReference = null;
 

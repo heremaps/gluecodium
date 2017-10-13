@@ -33,11 +33,11 @@ public final class BuiltInFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_builtin, container, false);
         descriptionsText = getResources().getStringArray(R.array.builtin_methods_description);
-        description = (TextView) rootView.findViewById(R.id.builtin_description);
-        input = (EditText) rootView.findViewById(R.id.builtin_edit);
-        result = (EditText) rootView.findViewById(R.id.builtin_result);
-        spinner = (Spinner) rootView.findViewById(R.id.builtin_spinner);
-        submitButton = (Button) rootView.findViewById(R.id.builtin_submit_button);
+        description = rootView.findViewById(R.id.builtin_description);
+        input = rootView.findViewById(R.id.builtin_edit);
+        result = rootView.findViewById(R.id.builtin_result);
+        spinner = rootView.findViewById(R.id.builtin_spinner);
+        submitButton = rootView.findViewById(R.id.builtin_submit_button);
         return rootView;
     }
 
