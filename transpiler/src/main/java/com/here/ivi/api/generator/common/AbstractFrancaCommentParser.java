@@ -11,8 +11,6 @@
 
 package com.here.ivi.api.generator.common;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,34 +40,6 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
   @Getter(AccessLevel.PROTECTED)
   @Setter(AccessLevel.PROTECTED)
   private CommentFormatter commentFormatter;
-
-  /* Try to match comment encapsulated between {tag} and {/tag} blocks in the fidl @description
-   * annotation blocks.
-   *
-   * Input strings for pattern matching include '\n' characters, ignored by default when '.' is
-   * used in a regex. In order to be able to replace multi-line fidl tag blocks with
-   * their equivalent doxygen tag (for example {see}Multi-line comment{/see} with @see Multi-line
-   * comment) we need to add Pattern.DOTALL in the pattern.
-   */
-  protected static final Pattern FIDL_COMMENTS_TO_REMOVE =
-      Pattern.compile("\\$\\{generator:\\w*}(.*)\\$\\{/generator}", Pattern.DOTALL);
-
-  /* fidlCommentsToKeep should be a pattern similar to:
-   * "\\$\\{generator:<concrete_generator>\\}(.*)\\$\\{/generator}"
-   * where concrete_generator is the name of in the fidl file of comments that target a specific
-   * target.
-   *
-   * For example in the fidl file there can be:
-   * ${generator:legacy}Legacy specific comment${/generator}
-   * ${generator:android}Android specific comment${/generator}
-   * In this case if concrete_generator was "legacy" the generator file would keep the
-   * "Legacy specific comment" and remove the "Android specific comment"
-   *
-   * As a result the actual pattern for this needs to be defined in the implementing class.
-   */
-  @Getter
-  @Setter(AccessLevel.PROTECTED)
-  private static Pattern fidlCommentsToKeep;
 
   public static class Comments {
 
@@ -127,26 +97,8 @@ public abstract class AbstractFrancaCommentParser<T extends AbstractFrancaCommen
     for (FAnnotation annotation : annotationBlock.getElements()) {
       switch (annotation.getType().getValue()) {
         case FAnnotationType.DESCRIPTION_VALUE:
-          String francaComment = annotation.getComment();
-
-          if (fidlCommentsToKeep != null) {
-            // Keep generator-specific comments
-            Matcher matcher = fidlCommentsToKeep.matcher(francaComment);
-            if (matcher.find()) {
-              francaComment = matcher.replaceAll("$1");
-            }
-          }
-
-          /* Remove comments specific to non-matching generators (anything between
-           * ${generator:word} and ${/generator} where word is different than the actual
-           * generator running.
-           */
-          Matcher matcher = FIDL_COMMENTS_TO_REMOVE.matcher(francaComment);
-          francaComment = matcher.replaceAll("");
-
-          descriptionBuilder.append(francaComment);
+          descriptionBuilder.append(annotation.getComment());
           break;
-          //noinspection deprecation
         case FAnnotationType.DEPRECATED_VALUE:
           deprecatedBuilder.append(annotation.getComment());
           break;
