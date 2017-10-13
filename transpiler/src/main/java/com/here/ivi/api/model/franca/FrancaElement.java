@@ -47,6 +47,10 @@ public abstract class FrancaElement {
     }
   }
 
+  public boolean isInterface(final FInterface francaInterface) {
+    return getBoolean(francaInterface, "IsInterface");
+  }
+
   public boolean isStatic(final FMethod francaMethod) {
     return getBoolean(francaMethod, "Static");
   }

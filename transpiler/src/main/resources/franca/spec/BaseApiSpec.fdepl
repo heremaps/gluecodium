@@ -11,9 +11,13 @@
 
 specification navigation.BaseApiSpec
 {
+    for interfaces {
+        IsInterface: Boolean (optional, default: false);
+    }
+
     for methods {
-        Const:   Boolean (optional, default: false);
-        Static:        Boolean (optional, default: false);
+        Const: Boolean (optional, default: false);
+        Static: Boolean (optional, default: false);
     }
 
     for arrays {
