@@ -58,7 +58,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       storeResult(javaInterface);
 
       JavaClass javaClass = createJavaImplementationClass(francaInterface);
-      javaClass.parentInterfaces.add(javaInterface);
+      JavaCustomType interfaceTypeReference =
+          new JavaCustomType(javaInterface.name, javaInterface.javaPackage);
+      javaClass.parentInterfaces.add(interfaceTypeReference);
       storeResult(javaClass);
 
     } else {

@@ -32,7 +32,7 @@ public final class JavaClassTemplateTest {
       TemplateEngine.render("java/CopyrightHeader", null) + "\n";
 
   private final JavaClass javaClass = new JavaClass("ExampleClass");
-  private final JavaInterface javaInterface = new JavaInterface("Face");
+  private final JavaCustomType javaInterface = new JavaCustomType("Face", JavaPackage.DEFAULT);
 
   @Test
   public void generate_minimal() {
@@ -167,7 +167,7 @@ public final class JavaClassTemplateTest {
     // Arrange
     JavaClass resultClass = new JavaClass("ExampleClass");
     resultClass.comment = "Child class comment";
-    resultClass.extendedClass = new JavaClass("ParentClass");
+    resultClass.extendedClass = new JavaCustomType("ParentClass", JavaPackage.DEFAULT);
     String expected =
         "package com.here.android;\n"
             + "\n"
@@ -349,7 +349,7 @@ public final class JavaClassTemplateTest {
   public void generateClassWithTwoParentInterfaces() {
     // Arrange
     javaClass.parentInterfaces.add(javaInterface);
-    javaClass.parentInterfaces.add(new JavaInterface("Legs"));
+    javaClass.parentInterfaces.add(new JavaCustomType("Legs", JavaPackage.DEFAULT));
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
@@ -363,7 +363,7 @@ public final class JavaClassTemplateTest {
   @Test
   public void generateClassWithParentClassAndParentInterface() {
     // Arrange
-    javaClass.extendedClass = new JavaClass("Parent");
+    javaClass.extendedClass = new JavaCustomType("Parent", JavaPackage.DEFAULT);
     javaClass.parentInterfaces.add(javaInterface);
 
     // Act

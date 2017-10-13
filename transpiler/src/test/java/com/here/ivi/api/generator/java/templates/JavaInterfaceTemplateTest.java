@@ -40,7 +40,8 @@ public final class JavaInterfaceTemplateTest {
   private final JavaImport javaImport = new JavaImport("ExampleType", JavaPackage.DEFAULT);
   private final JavaEnum javaEnum = new JavaEnum("Innumerable");
   private final JavaClass javaClass = new JavaClass("Classy");
-  private final JavaInterface anotherJavaInterface = new JavaInterface("AnotherInterface");
+  private final JavaType anotherJavaInterface =
+      new JavaCustomType("AnotherInterface", JavaPackage.DEFAULT);
 
   @Before
   public void setUp() {
@@ -151,7 +152,7 @@ public final class JavaInterfaceTemplateTest {
   public void generateInterfaceWithTwoParentInterfaces() {
     // Arrange
     javaInterface.parentInterfaces.add(anotherJavaInterface);
-    javaInterface.parentInterfaces.add(new JavaInterface("Face"));
+    javaInterface.parentInterfaces.add(new JavaCustomType("Face", JavaPackage.DEFAULT));
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaInterface);

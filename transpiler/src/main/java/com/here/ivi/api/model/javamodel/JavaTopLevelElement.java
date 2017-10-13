@@ -23,7 +23,7 @@ public abstract class JavaTopLevelElement extends JavaElement {
 
   public JavaPackage javaPackage = JavaPackage.DEFAULT;
   public final Set<JavaMethod> methods = new LinkedHashSet<>();
-  public final Set<JavaInterface> parentInterfaces = new LinkedHashSet<>();
+  public final Set<JavaType> parentInterfaces = new LinkedHashSet<>();
 
   public final Set<JavaConstant> constants = new LinkedHashSet<>();
   public final Set<JavaEnum> enums = new LinkedHashSet<>();
@@ -66,7 +66,7 @@ public abstract class JavaTopLevelElement extends JavaElement {
     imports.addAll(
         parentInterfaces
             .stream()
-            .map(anInterface -> new JavaImport(anInterface.name, anInterface.javaPackage))
+            .flatMap(javaType -> javaType.imports.stream())
             .collect(Collectors.toList()));
 
     // No need to import things from the same package. This also filters out a self-import.
