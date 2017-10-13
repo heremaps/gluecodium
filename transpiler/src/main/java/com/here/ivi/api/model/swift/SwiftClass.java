@@ -34,7 +34,7 @@ public final class SwiftClass extends SwiftModelElement {
     super(className);
     this.parentClass = parentClassName;
     this.implementsProtocols = emptyList();
-    this.properties = emptyList();
+    this.properties = new ArrayList<>();
     this.methods = emptyList();
     this.structs = emptyList();
     this.enums = new ArrayList<>();
@@ -53,11 +53,6 @@ public final class SwiftClass extends SwiftModelElement {
   }
 
   public boolean isStatic() {
-    return methods
-        .stream()
-        .anyMatch(
-            s -> {
-              return s.isStatic;
-            });
+    return methods.stream().anyMatch(s -> s.isStatic);
   }
 }

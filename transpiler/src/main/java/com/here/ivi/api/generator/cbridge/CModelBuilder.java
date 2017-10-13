@@ -17,6 +17,7 @@ import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
+import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cmodel.CClassType;
 import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CEnum;
@@ -30,6 +31,7 @@ import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.swift.SwiftProperty;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -39,12 +41,14 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   private final FrancaElement rootModel;
   private final IncludeResolver resolver;
   private final CppModelBuilder cppBuilder;
+  private final SwiftModelBuilder swiftBuilder;
 
   public CModelBuilder(
       final FrancaElement rootModel,
-      final IncludeResolver includeResolver,
-      final CppModelBuilder cppBuilder) {
-    this(new ModelBuilderContextStack<>(), rootModel, includeResolver, cppBuilder);
+      IncludeResolver includeResolver,
+      CppModelBuilder cppBuilder,
+      SwiftModelBuilder swiftBuilder) {
+    this(new ModelBuilderContextStack<>(), rootModel, includeResolver, cppBuilder, swiftBuilder);
   }
 
   @VisibleForTesting
@@ -52,11 +56,13 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
       final ModelBuilderContextStack<CElement> contextStack,
       final FrancaElement rootModel,
       final IncludeResolver includeResolver,
-      final CppModelBuilder cppBuilder) {
+      final CppModelBuilder cppBuilder,
+      final SwiftModelBuilder swiftBuilder) {
     super(contextStack);
     this.rootModel = rootModel;
     this.resolver = includeResolver;
     this.cppBuilder = cppBuilder;
+    this.swiftBuilder = swiftBuilder;
   }
 
   @Override
@@ -186,25 +192,28 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   public void finishBuilding(FAttribute attribute) {
     List<CppMethod> cppMethods =
         CollectionsHelper.getAllOfType(cppBuilder.getFinalResults(), CppMethod.class);
+
+    SwiftProperty property = swiftBuilder.getFinalResult(SwiftProperty.class);
+
     CClassType classInfo =
         CollectionsHelper.getFirstOfType(getParentContext().currentResults, CClassType.class);
     CInParameter selfParameter = new CInParameter("_instance", classInfo.classType);
     CppTypeInfo attributeTypeInfo = getPreviousResult(CppTypeInfo.class);
 
     CFunction.CFunctionBuilder getterBuilder =
-        CFunction.builder(CBridgeNameRules.getAtrributeGetterName(attribute))
+        CFunction.builder(property.propertyAccessors.get(0).cBaseName)
             .returnType(attributeTypeInfo)
             .selfParameter(selfParameter)
-            .functionName(CppNameRules.getMethodName(cppMethods.get(0).name));
+            .functionName(cppMethods.get(0).name);
     storeResult(getterBuilder.build());
 
     if (!attribute.isReadonly()) {
       CFunction.CFunctionBuilder setterBuilder =
-          CFunction.builder(CBridgeNameRules.getAtrributeSetterName(attribute))
+          CFunction.builder(property.propertyAccessors.get(1).cBaseName)
               .parameters(
                   Collections.singletonList(new CInParameter("newValue", attributeTypeInfo)))
               .selfParameter(selfParameter)
-              .functionName(CppNameRules.getMethodName(cppMethods.get(1).name));
+              .functionName(cppMethods.get(1).name);
       storeResult(setterBuilder.build());
     }
 

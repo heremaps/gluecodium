@@ -11,11 +11,15 @@
 
 package com.here.ivi.api.generator.swift;
 
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.UNDERSCORE_DELIMITER;
+
+import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import java.io.File;
 import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FEnumerator;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModelElement;
@@ -76,5 +80,24 @@ public final class SwiftNameRules {
 
   public static String getEnumItemName(FEnumerator francaEnumerator) {
     return NameHelper.toLowerCamelCase(francaEnumerator.getName());
+  }
+
+  public static String getPropertyName(FAttribute name) {
+    return NameHelper.toLowerCamelCase(name.getName());
+  }
+
+  public static String getAccessorBaseName(FAttribute attribute) {
+    return CBridgeNameRules.fullyQualifiedName(
+        CBridgeNameRules.getNestedNameSpecifier(attribute),
+        NameHelper.toLowerCamelCase(attribute.getName()),
+        UNDERSCORE_DELIMITER);
+  }
+
+  public static String getPropertySetterName(String accessorBaseName) {
+    return accessorBaseName + "_set";
+  }
+
+  public static String getPropertyGetterName(String accessorBaseName) {
+    return accessorBaseName + "_get";
   }
 }

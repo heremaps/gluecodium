@@ -21,6 +21,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
+import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.franca.Interface;
 import java.util.List;
@@ -40,6 +41,7 @@ public class CModelBuilderInstancesTest {
   private static final String PARAM_NAME = "inputParam";
 
   @Mock private CppModelBuilder cppModelbuilder;
+  @Mock private SwiftModelBuilder swiftModelbuilder;
   @Mock private IncludeResolver resolver;
   @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
@@ -70,7 +72,8 @@ public class CModelBuilderInstancesTest {
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
 
-    modelBuilder = new CModelBuilder(contextStack, anInterface, resolver, cppModelbuilder);
+    modelBuilder =
+        new CModelBuilder(contextStack, anInterface, resolver, cppModelbuilder, swiftModelbuilder);
   }
 
   @Test

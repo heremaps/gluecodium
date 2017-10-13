@@ -11,10 +11,9 @@
 {{prefixPartial 'swift/Typedefs' '    '}}
 {{/typedefs}}{{!!
 
-}}{{>CommonClassParts}}{{!!
-}}}
+}}{{>CommonClassParts}}
+}
 {{/ClassWithoutProtocol}}{{!!
-
 
 
 
@@ -25,24 +24,27 @@
 }}public protocol {{name}} {
 {{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
 {{/typedefs}}
+{{#properties}}
+    var {{name}}: {{type}} { get {{^readonly}}set {{/readonly}}}
+{{/properties}}
 {{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
 {{/methods}}
 }
 
 {{>swift/ClassHeader}}
 
-{{>CommonClassParts}}{{!!
-}}}
+{{>CommonClassParts}}
+}
 {{/ClassWithProtocol}}{{!!
 
 
 
 }}{{+CommonClassParts}}{{!!
-}}{{prefixPartial 'swift/Constructor' '    '}}{{!!
-
 }}{{#properties}}
-{{>swift/Property}}
+{{prefixPartial 'swift/Property' '    '}}
 {{/properties}}{{!!
+
+}}{{prefixPartial 'swift/Constructor' '    '}}{{!!
 
 }}{{#enums}}
 {{prefixPartial 'swift/Enum' '    '}}

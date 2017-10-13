@@ -231,20 +231,6 @@ public class CBridgeNameRulesTest {
     assertEquals(expected, actual);
   }
 
-  @Test
-  public void getAtrributeGetterName() {
-    String expected = prependNameWithPackageAndInterface("testAttributeName_get", "_");
-
-    assertEquals(expected, CBridgeNameRules.getAtrributeGetterName(francaAttribute));
-  }
-
-  @Test
-  public void getAtrributeSetterName() {
-    String expected = prependNameWithPackageAndInterface("testAttributeName_set", "_");
-
-    assertEquals(expected, CBridgeNameRules.getAtrributeSetterName(francaAttribute));
-  }
-
   private String prependNameWithPackageAndInterface(String name) {
     return prependNameWithPackageAndInterface(name, "_");
   }

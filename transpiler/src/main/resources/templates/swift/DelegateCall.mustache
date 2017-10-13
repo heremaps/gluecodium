@@ -1,4 +1,4 @@
-{{method.cBaseName}}({{^method.isStatic}}{{method.instanceParameter.variableName}}{{#method.parameters.0}}, {{/method.parameters.0}}{{/method.isStatic}}{{#each parameters}}{{#switch type.category.toString}}{{!!
+{{method.cBaseName}}({{^method.isStatic}}{{method.instanceParameter.variableName}}{{#if method.parameters}}, {{/if}}{{/method.isStatic}}{{#each method.parameters}}{{#switch type.category.toString}}{{!!
   }}{{#case "BUILTIN_BYTEBUFFER"}}{{variableName}}_ptr, Int64({{variableName}}.count){{/case}}{{!!
   }}{{#case "STRUCT"}}{{variableName}}Handle{{/case}}{{!!
   }}{{#case "CLASS"}}{{variableName}}Handle.ref{{/case}}{{!!

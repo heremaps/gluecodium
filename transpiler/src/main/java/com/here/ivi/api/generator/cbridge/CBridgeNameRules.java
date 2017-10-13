@@ -19,7 +19,6 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FEnumerator;
 import org.franca.core.franca.FInterface;
@@ -33,7 +32,7 @@ public final class CBridgeNameRules {
   private static final String INTERNAL_SOURCE_FOLDER = "cbridge_internal";
 
   private static final String CPP_NAMESPACE_DELIMITER = "::";
-  private static final String UNDERSCORE_DELIMITER = "_";
+  public static final String UNDERSCORE_DELIMITER = "_";
 
   private CBridgeNameRules() {}
 
@@ -143,7 +142,7 @@ public final class CBridgeNameRules {
         CPP_NAMESPACE_DELIMITER);
   }
 
-  private static String fullyQualifiedName(
+  public static String fullyQualifiedName(
       List<String> nameSpecifier, String name, String delimiter) {
     List<String> names = new LinkedList<>(nameSpecifier);
     names.add(name);
@@ -171,19 +170,5 @@ public final class CBridgeNameRules {
         getNestedNameSpecifier(francaEnumerator),
         NameHelper.toUpperCamelCase(francaEnumerator.getName()),
         UNDERSCORE_DELIMITER);
-  }
-
-  public static String getAtrributeGetterName(FAttribute attribute) {
-    List<String> nestedNameSpecifier = getNestedNameSpecifier(attribute);
-    nestedNameSpecifier.add(NameHelper.toLowerCamelCase(attribute.getName()));
-    nestedNameSpecifier.add("get");
-    return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
-  }
-
-  public static String getAtrributeSetterName(FAttribute attribute) {
-    List<String> nestedNameSpecifier = getNestedNameSpecifier(attribute);
-    nestedNameSpecifier.add(NameHelper.toLowerCamelCase(attribute.getName()));
-    nestedNameSpecifier.add("set");
-    return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
   }
 }

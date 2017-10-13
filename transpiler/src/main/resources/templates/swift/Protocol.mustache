@@ -1,0 +1,11 @@
+{{^isStatic}}{{prefixPartial 'swift/GetReference'}}
+
+public protocol {{name}} {
+{{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
+{{/typedefs}}
+{{#properties}}
+    var {{name}}: {{type}} { get {{^readonly}}set {{/readonly}}}
+{{/properties}}
+{{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
+{{/methods}}
+}{{/isStatic}}

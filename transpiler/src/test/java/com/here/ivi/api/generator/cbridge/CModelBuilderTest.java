@@ -24,6 +24,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
+import com.here.ivi.api.generator.swift.SwiftModelBuilder;
+import com.here.ivi.api.generator.swift.SwiftNameRules;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CEnum;
@@ -40,6 +42,8 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.swift.SwiftProperty;
+import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.HashSet;
 import java.util.List;
@@ -58,7 +62,14 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CTypeMapper.class, CppNameRules.class, CppTypeInfo.class, CBridgeNameRules.class})
+@PrepareForTest({
+  CTypeMapper.class,
+  CppNameRules.class,
+  CppTypeInfo.class,
+  CBridgeNameRules.class,
+  SwiftNameRules.class
+})
+@SuppressWarnings("PMD.TooManyFields")
 public class CModelBuilderTest {
 
   private static final String FULL_FUNCTION_NAME = "FULL_FUNCTION_NAME";
@@ -76,6 +87,7 @@ public class CModelBuilderTest {
   private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
   @Mock private CppModelBuilder cppModelbuilder;
+  @Mock private SwiftModelBuilder swiftModelbuilder;
   @Mock private IncludeResolver resolver;
   @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
@@ -93,7 +105,12 @@ public class CModelBuilderTest {
 
   @Before
   public void setUp() {
-    mockStatic(CTypeMapper.class, CppNameRules.class, CppTypeInfo.class, CBridgeNameRules.class);
+    mockStatic(
+        CTypeMapper.class,
+        CppNameRules.class,
+        CppTypeInfo.class,
+        CBridgeNameRules.class,
+        SwiftNameRules.class);
     initMocks(this);
 
     CType fakeType = mock(CType.class);
@@ -118,7 +135,8 @@ public class CModelBuilderTest {
     when(francaAttribute.eContainer()).thenReturn(francaInterface);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
-    modelBuilder = new CModelBuilder(contextStack, anInterface, resolver, cppModelbuilder);
+    modelBuilder =
+        new CModelBuilder(contextStack, anInterface, resolver, cppModelbuilder, swiftModelbuilder);
   }
 
   @Test
@@ -359,7 +377,9 @@ public class CModelBuilderTest {
   public void finishBuildingCreatesFunctionsForAttribute() {
     CppTypeInfo classTypeInfo = mock(CppTypeInfo.class);
     List<CppElement> cppMethods =
-        asList(new CppMethod.Builder("").build(), new CppMethod.Builder("").build());
+        asList(
+            new CppMethod.Builder(CPP_ATTR_GETTER_NAME).build(),
+            new CppMethod.Builder(CPP_ATTR_SETTER_NAME).build());
     prepareTestForAttributes(classTypeInfo, cppMethods);
 
     modelBuilder.finishBuilding(francaAttribute);
@@ -373,7 +393,8 @@ public class CModelBuilderTest {
   @Test
   public void finishBuildingCreatesFunctionForReadonlyAttribute() {
     CppTypeInfo classTypeInfo = mock(CppTypeInfo.class);
-    List<CppElement> cppMethods = singletonList(new CppMethod.Builder("").build());
+    List<CppElement> cppMethods =
+        singletonList(new CppMethod.Builder(CPP_ATTR_GETTER_NAME).build());
     prepareTestForAttributes(classTypeInfo, cppMethods);
     when(francaAttribute.isReadonly()).thenReturn(true);
 
@@ -387,11 +408,11 @@ public class CModelBuilderTest {
   private void prepareTestForAttributes(CppTypeInfo classTypeInfo, List<CppElement> cppMethods) {
     when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
     when(francaAttribute.isReadonly()).thenReturn(false);
-    when(CBridgeNameRules.getAtrributeGetterName(any())).thenReturn(CBRIDGE_ATTR_GETTER_NAME);
-    when(CBridgeNameRules.getAtrributeSetterName(any())).thenReturn(CBRIDGE_ATTR_SETTER_NAME);
-    when(CppNameRules.getMethodName(any()))
-        .thenReturn(CPP_ATTR_GETTER_NAME)
-        .thenReturn(CPP_ATTR_SETTER_NAME);
+    when(SwiftNameRules.getPropertyGetterName(any())).thenReturn(CBRIDGE_ATTR_GETTER_NAME);
+    when(SwiftNameRules.getPropertySetterName(any())).thenReturn(CBRIDGE_ATTR_SETTER_NAME);
+    SwiftProperty swiftProperty = new SwiftProperty("", mock(SwiftType.class), false, "");
+    when(swiftModelbuilder.getFinalResult(any())).thenReturn(swiftProperty);
+
     contextStack.injectResult(cppTypeInfo);
     contextStack.getParentContext().currentResults.add(new CClassType(classTypeInfo));
   }

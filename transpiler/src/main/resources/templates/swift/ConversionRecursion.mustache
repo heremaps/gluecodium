@@ -37,9 +37,16 @@ defer {
     {{method.returnType.cPrefix}}_release(cResult)
 }
 {{/method.returnType.privateImplementation}}
-return {{#method.returnType.privateImplementation}}{{method.returnType.privateImplementation}}{{/method.returnType.privateImplementation}}{{^method.returnType.privateImplementation}}{{method.returnType}}{{/method.returnType.privateImplementation}}(c{{method.returnType}}: cResult)
+return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnValueUnwrapping}}!{{/if}}
 {{/MethodReturnStruct}}
 
 {{+MethodReturnEnum}}let cResult = {{>swift/DelegateCall}}
 return {{method.returnType}}.init(rawValue: cResult)!
 {{/MethodReturnEnum}}
+
+{{+returnType}}{{!!
+}}{{method.returnType.privateImplementation}}{{!!
+}}{{^method.returnType.privateImplementation}}{{!!
+    }}{{method.returnType}}{{!!
+}}{{/method.returnType.privateImplementation}}{{!!
+}}{{/returnType}}
