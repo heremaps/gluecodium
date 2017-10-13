@@ -153,7 +153,7 @@ public class CppModelBuilderTest {
   public void finishBuildingFrancaInterfaceReadsName() {
     modelBuilder.finishBuilding(francaInterface);
 
-    CppClass cppClass = modelBuilder.getFirstResult(CppClass.class);
+    CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
     assertTrue(cppClass.name.toLowerCase().startsWith("classy"));
 
@@ -166,7 +166,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    CppClass cppClass = modelBuilder.getFirstResult(CppClass.class);
+    CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
     assertFalse(cppClass.methods.isEmpty());
     assertEquals(cppMethod, cppClass.methods.iterator().next());
@@ -178,7 +178,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    CppClass cppClass = modelBuilder.getFirstResult(CppClass.class);
+    CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
     assertFalse(cppClass.structs.isEmpty());
     assertEquals(cppStruct, cppClass.structs.iterator().next());
@@ -190,7 +190,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    CppClass cppClass = modelBuilder.getFirstResult(CppClass.class);
+    CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
     assertFalse(cppClass.enums.isEmpty());
     assertEquals(cppEnum, cppClass.enums.iterator().next());
@@ -202,7 +202,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    CppClass cppClass = modelBuilder.getFirstResult(CppClass.class);
+    CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
     assertEquals(1, cppClass.usings.size());
     assertEquals(cppUsing, cppClass.usings.iterator().next());
@@ -212,7 +212,7 @@ public class CppModelBuilderTest {
   public void finishBuildingFrancaMethodReadsName() {
     modelBuilder.finishBuilding(francaMethod);
 
-    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertEquals(METHOD_NAME, resultMethod.name);
   }
@@ -223,7 +223,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertEquals(METHOD_NAME, resultMethod.name);
   }
@@ -232,7 +232,7 @@ public class CppModelBuilderTest {
   public void finishBuildingFrancaMethodReadsReturnTypeData() {
     modelBuilder.finishBuilding(francaMethod);
 
-    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertEquals(cppComplexTypeRef, resultMethod.returnType);
     assertTrue(resultMethod.comment.endsWith("no comments"));
@@ -244,7 +244,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertTrue(resultMethod.specifiers.contains(CppMethod.Specifier.STATIC));
   }
@@ -256,7 +256,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
 
     List<CppParameter> cppParameters = resultMethod.parameters;
@@ -293,7 +293,7 @@ public class CppModelBuilderTest {
   public void finishBuildingInputArgumentReadsName() {
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
+    CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
     assertNotNull(cppParameter);
     assertEquals("flowers", cppParameter.name);
   }
@@ -304,7 +304,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
+    CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
     assertNotNull(cppParameter);
     assertEquals(cppComplexTypeRef, cppParameter.type);
   }
@@ -313,7 +313,7 @@ public class CppModelBuilderTest {
   public void finishBuildingOutputArgument() {
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
-    CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
+    CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
     assertNotNull(cppParameter);
     assertEquals("flowers", cppParameter.name);
     assertTrue(cppParameter.isOutput);
@@ -325,7 +325,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
-    CppParameter cppParameter = modelBuilder.getFirstResult(CppParameter.class);
+    CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
     assertNotNull(cppParameter);
     assertEquals(cppComplexTypeRef, cppParameter.type);
   }
@@ -336,7 +336,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    CppStruct result = modelBuilder.getFirstResult(CppStruct.class);
+    CppStruct result = modelBuilder.getFinalResult(CppStruct.class);
     assertEquals(cppStruct, result);
   }
 
@@ -346,7 +346,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    CppUsing result = modelBuilder.getFirstResult(CppUsing.class);
+    CppUsing result = modelBuilder.getFinalResult(CppUsing.class);
     assertEquals(cppUsing, result);
   }
 
@@ -356,7 +356,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    CppEnum result = modelBuilder.getFirstResult(CppEnum.class);
+    CppEnum result = modelBuilder.getFinalResult(CppEnum.class);
     assertEquals(cppEnum, result);
   }
 
@@ -367,7 +367,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    CppConstant result = modelBuilder.getFirstResult(CppConstant.class);
+    CppConstant result = modelBuilder.getFinalResult(CppConstant.class);
     assertEquals(cppConstant, result);
   }
 
@@ -378,7 +378,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaConstant);
 
-    CppConstant cppConstant = modelBuilder.getFirstResult(CppConstant.class);
+    CppConstant cppConstant = modelBuilder.getFinalResult(CppConstant.class);
     assertNotNull(cppConstant);
     assertEquals(CONSTANT_FULLY_QUALIFIED_NAME, cppConstant.fullyQualifiedName);
     assertEquals(cppValue, cppConstant.value);
@@ -392,7 +392,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaConstant);
 
-    CppConstant cppConstant = modelBuilder.getFirstResult(CppConstant.class);
+    CppConstant cppConstant = modelBuilder.getFinalResult(CppConstant.class);
     assertNotNull(cppConstant);
     assertEquals(cppComplexTypeRef, cppConstant.type);
   }
@@ -403,7 +403,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    CppField cppField = modelBuilder.getFirstResult(CppField.class);
+    CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
     assertEquals(FIELD_NAME, cppField.name);
     assertEquals(cppValue, cppField.initializer);
@@ -418,7 +418,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    CppField cppField = modelBuilder.getFirstResult(CppField.class);
+    CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
     assertEquals(cppComplexTypeRef, cppField.type);
   }
@@ -427,7 +427,7 @@ public class CppModelBuilderTest {
   public void finishBuildingFrancaStructTypeReadsName() {
     modelBuilder.finishBuilding(francaStructType);
 
-    CppStruct resultStruct = modelBuilder.getFirstResult(CppStruct.class);
+    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertNotNull(resultStruct);
     assertEquals(STRUCT_NAME, resultStruct.name.toLowerCase());
     assertEquals(FULLY_QUALIFIED_NAME, resultStruct.fullyQualifiedName);
@@ -445,7 +445,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStructType);
 
-    CppStruct resultStruct = modelBuilder.getFirstResult(CppStruct.class);
+    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertNotNull(resultStruct);
     assertFalse(resultStruct.fields.isEmpty());
     assertEquals(cppField, resultStruct.fields.get(0));
@@ -459,7 +459,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStructType);
 
-    CppStruct resultStruct = modelBuilder.getFirstResult(CppStruct.class);
+    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertNotNull(resultStruct);
     assertEquals(1, resultStruct.inheritances.size());
 
@@ -476,7 +476,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    CppUsing resultUsing = modelBuilder.getFirstResult(CppUsing.class);
+    CppUsing resultUsing = modelBuilder.getFinalResult(CppUsing.class);
     assertNull(resultUsing);
 
     PowerMockito.verifyStatic();
@@ -489,7 +489,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    CppUsing resultUsing = modelBuilder.getFirstResult(CppUsing.class);
+    CppUsing resultUsing = modelBuilder.getFinalResult(CppUsing.class);
     assertNotNull(resultUsing);
     assertEquals("definitely", resultUsing.name.toLowerCase());
     assertEquals(cppComplexTypeRef, resultUsing.definition);
@@ -504,7 +504,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaArrayType);
 
-    CppUsing resultUsing = modelBuilder.getFirstResult(CppUsing.class);
+    CppUsing resultUsing = modelBuilder.getFinalResult(CppUsing.class);
     assertNotNull(resultUsing);
     assertEquals("relay", resultUsing.name.toLowerCase());
     assertTrue(resultUsing.definition instanceof CppTemplateTypeRef);
@@ -523,7 +523,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMapType);
 
-    CppUsing resultUsing = modelBuilder.getFirstResult(CppUsing.class);
+    CppUsing resultUsing = modelBuilder.getFinalResult(CppUsing.class);
     assertNotNull(resultUsing);
     assertEquals("tigers", resultUsing.name.toLowerCase());
     assertTrue(resultUsing.definition instanceof CppTemplateTypeRef);
@@ -541,7 +541,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeRef);
 
-    CppComplexTypeRef result = modelBuilder.getFirstResult(CppComplexTypeRef.class);
+    CppComplexTypeRef result = modelBuilder.getFinalResult(CppComplexTypeRef.class);
     assertEquals(cppComplexTypeRef, result);
 
     verify(typeMapper).map(francaTypeRef);
@@ -555,7 +555,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeRef);
 
-    CppComplexTypeRef result = modelBuilder.getFirstResult(CppComplexTypeRef.class);
+    CppComplexTypeRef result = modelBuilder.getFinalResult(CppComplexTypeRef.class);
     assertTrue(result instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
@@ -570,7 +570,7 @@ public class CppModelBuilderTest {
   public void finishBuildingFrancaEnumerationTypeReadsName() {
     modelBuilder.finishBuilding(francaEnumerationType);
 
-    CppEnum resultEnum = modelBuilder.getFirstResult(CppEnum.class);
+    CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
     assertNotNull(resultEnum);
     assertEquals(ENUM_NAME, resultEnum.name.toLowerCase());
   }
@@ -582,7 +582,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
-    CppEnum resultEnum = modelBuilder.getFirstResult(CppEnum.class);
+    CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
     assertNotNull(resultEnum);
     assertFalse(resultEnum.items.isEmpty());
     assertEquals(cppEnumItem, resultEnum.items.get(0));
@@ -592,7 +592,7 @@ public class CppModelBuilderTest {
   public void finishBuildingFrancaEnumerator() {
     modelBuilder.finishBuilding(francaEnumerator);
 
-    CppEnumItem cppEnumItem = modelBuilder.getFirstResult(CppEnumItem.class);
+    CppEnumItem cppEnumItem = modelBuilder.getFinalResult(CppEnumItem.class);
     assertNotNull(cppEnumItem);
     assertEquals("enumerated", cppEnumItem.name.toLowerCase());
   }
@@ -603,7 +603,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaExpression);
 
-    CppValue result = modelBuilder.getFirstResult(CppValue.class);
+    CppValue result = modelBuilder.getFinalResult(CppValue.class);
     assertEquals(cppValue, result);
 
     PowerMockito.verifyStatic();
@@ -614,7 +614,7 @@ public class CppModelBuilderTest {
   public void finishBuildingFrancaUnionTypeReadsName() {
     modelBuilder.finishBuilding(francaUnionType);
 
-    CppTaggedUnion cppTaggedUnion = modelBuilder.getFirstResult(CppTaggedUnion.class);
+    CppTaggedUnion cppTaggedUnion = modelBuilder.getFinalResult(CppTaggedUnion.class);
     assertNotNull(cppTaggedUnion);
     assertEquals(UNION_NAME, cppTaggedUnion.name.toLowerCase());
     assertEquals(FULLY_QUALIFIED_NAME, cppTaggedUnion.fullyQualifiedName);
@@ -632,7 +632,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaUnionType);
 
-    CppStruct resultStruct = modelBuilder.getFirstResult(CppStruct.class);
+    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertNotNull(resultStruct);
     assertFalse(resultStruct.fields.isEmpty());
     assertEquals(cppField, resultStruct.fields.get(0));
@@ -642,7 +642,7 @@ public class CppModelBuilderTest {
   public void finishBuildingFrancaAttributeCreatesGetter() {
     modelBuilder.finishBuilding(francaAttribute);
 
-    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertEquals("get" + ATTRIBUTE_NAME, resultMethod.name.toLowerCase());
   }
@@ -652,7 +652,7 @@ public class CppModelBuilderTest {
     modelBuilder.finishBuilding(francaAttribute);
 
     List<CppMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getResults(), CppMethod.class);
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(2, methods.size());
     assertEquals("set" + ATTRIBUTE_NAME, methods.get(1).name.toLowerCase());
   }
@@ -664,7 +664,7 @@ public class CppModelBuilderTest {
     modelBuilder.finishBuilding(francaAttribute);
 
     List<CppMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getResults(), CppMethod.class);
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(1, methods.size());
     assertEquals("get" + ATTRIBUTE_NAME, methods.get(0).name.toLowerCase());
   }
@@ -675,7 +675,7 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaAttribute);
 
-    CppMethod resultMethod = modelBuilder.getFirstResult(CppMethod.class);
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertEquals(cppComplexTypeRef, resultMethod.returnType);
     assertTrue(resultMethod.parameters.isEmpty());
@@ -688,7 +688,7 @@ public class CppModelBuilderTest {
     modelBuilder.finishBuilding(francaAttribute);
 
     List<CppMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getResults(), CppMethod.class);
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(2, methods.size());
 
     CppMethod resultMethod = methods.get(1);

@@ -45,6 +45,6 @@ public class SwiftGenerator {
 
     treeWalker.walk(francaElement);
 
-    return modelBuilder.getFirstResult(SwiftFile.class);
+    return modelBuilder.getFinalResult(SwiftFile.class);
   }
 }

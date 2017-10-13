@@ -80,7 +80,7 @@ public class CBridgeGenerator {
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(francaElement);
-    CInterface cModel = modelBuilder.getFirstResult(CInterface.class);
+    CInterface cModel = modelBuilder.getFinalResult(CInterface.class);
 
     removeRedundantIncludes(francaElement, cModel);
     return cModel;

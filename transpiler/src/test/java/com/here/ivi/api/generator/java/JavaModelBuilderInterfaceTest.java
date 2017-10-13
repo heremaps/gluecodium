@@ -76,7 +76,7 @@ public class JavaModelBuilderInterfaceTest {
   public void finishBuildingFrancaInterfaceCreatesInterface() {
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaInterface javaInterface = modelBuilder.getFirstResult(JavaInterface.class);
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
     assertNotNull(javaInterface);
     assertEquals("classy", javaInterface.name.toLowerCase());
     assertEquals(JavaVisibility.PUBLIC, javaInterface.visibility);
@@ -89,7 +89,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaInterface javaInterface = modelBuilder.getFirstResult(JavaInterface.class);
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
     assertNotNull(javaInterface);
 
     List<String> expectedPackageNames = new LinkedList<>(BASE_PACKAGE.packageNames);
@@ -103,7 +103,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaInterface javaInterface = modelBuilder.getFirstResult(JavaInterface.class);
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
     assertNotNull(javaInterface);
     assertFalse(javaInterface.constants.isEmpty());
     assertEquals(javaConstant, javaInterface.constants.iterator().next());
@@ -115,7 +115,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaInterface javaInterface = modelBuilder.getFirstResult(JavaInterface.class);
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
     assertNotNull(javaInterface);
     assertFalse(javaInterface.methods.isEmpty());
 
@@ -131,7 +131,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaInterface javaInterface = modelBuilder.getFirstResult(JavaInterface.class);
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
     assertNotNull(javaInterface);
     assertFalse(javaInterface.innerClasses.isEmpty());
     assertEquals(innerClass, javaInterface.innerClasses.iterator().next());
@@ -143,7 +143,7 @@ public class JavaModelBuilderInterfaceTest {
   public void finishBuildingFrancaInterfaceCreatesImplClass() {
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertEquals("classyimpl", javaClass.name.toLowerCase());
     assertEquals(JavaVisibility.PACKAGE, javaClass.visibility);
@@ -160,7 +160,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
 
     List<String> expectedPackageNames = new LinkedList<>(BASE_PACKAGE.packageNames);
@@ -174,7 +174,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertFalse(javaClass.fields.isEmpty());
     assertEquals(javaField, javaClass.fields.iterator().next());
@@ -187,7 +187,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertFalse(javaClass.methods.isEmpty());
     assertEquals(javaMethod, javaClass.methods.iterator().next());
@@ -199,7 +199,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertFalse(javaClass.methods.isEmpty());
 
@@ -216,7 +216,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertEquals("classy", javaClass.name.toLowerCase());
     assertEquals(JavaVisibility.PUBLIC, javaClass.visibility);
@@ -232,7 +232,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
 
     List<String> expectedPackageNames = new LinkedList<>(BASE_PACKAGE.packageNames);
@@ -247,7 +247,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertFalse(javaClass.constants.isEmpty());
     assertEquals(javaConstant, javaClass.constants.iterator().next());
@@ -260,7 +260,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertFalse(javaClass.fields.isEmpty());
     assertEquals(javaField, javaClass.fields.iterator().next());
@@ -273,7 +273,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertFalse(javaClass.methods.isEmpty());
 
@@ -290,7 +290,7 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    JavaClass javaClass = modelBuilder.getFirstResult(JavaClass.class);
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertFalse(javaClass.innerClasses.isEmpty());
     assertEquals(innerClass, javaClass.innerClasses.iterator().next());

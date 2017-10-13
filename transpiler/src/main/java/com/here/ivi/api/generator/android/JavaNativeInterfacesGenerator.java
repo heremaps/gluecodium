@@ -51,7 +51,7 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
         new FrancaTreeWalker(Arrays.asList(javaBuilder, cppBuilder, jniBuilder));
     treeWalker.walk(francaElement);
 
-    JniContainer jniContainer = jniBuilder.getFirstResult(JniContainer.class);
+    JniContainer jniContainer = jniBuilder.getFinalResult(JniContainer.class);
     jniContainer.includes.addAll(getIncludes(francaElement, jniContainer));
 
     return jniContainer;
