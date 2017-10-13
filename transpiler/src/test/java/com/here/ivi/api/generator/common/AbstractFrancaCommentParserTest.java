@@ -21,7 +21,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.test.ArrayEList;
-import java.util.regex.Pattern;
 import org.franca.core.franca.FAnnotation;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FAnnotationType;
@@ -42,7 +41,6 @@ public class AbstractFrancaCommentParserTest {
   private static final String SECOND_ANNOTATION_COMMENT = "jumps over the lazy bog";
   private static final String CONCATENATED_ANNOTATION_COMMENT =
       ANNOTATION_COMMENT + SECOND_ANNOTATION_COMMENT;
-  private static final Pattern MATCH_ALL = Pattern.compile("(.*)");
 
   @Mock(answer = Answers.CALLS_REAL_METHODS)
   private TestableFrancaCommentParser commentParser;
@@ -68,7 +66,6 @@ public class AbstractFrancaCommentParserTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    TestableFrancaCommentParser.setFidlCommentsToKeep(MATCH_ALL);
     commentParser.setCommentFormatter(formatter);
     commentParser.setFrancaElement(element);
     commentParser.setComments(new AbstractFrancaCommentParser.Comments());
@@ -157,7 +154,7 @@ public class AbstractFrancaCommentParserTest {
   }
 
   @Test
-  public void parseCommentBlockWithTwoDeprecateds() {
+  public void parseCommentBlockWithTwoDeprecated() {
     annotationList.add(annotation);
     annotationList.add(secondAnnotation);
     when(annotation.getType()).thenReturn(FAnnotationType.DEPRECATED);
