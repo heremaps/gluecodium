@@ -28,10 +28,9 @@ public final class JniTypeNameMapper {
     if (javaType instanceof JavaCustomType) {
       return "jobject";
     } else if (javaType instanceof JavaReferenceType) {
-      JavaReferenceType javaReferenceType = (JavaReferenceType) javaType;
-      if (JavaReferenceType.TYPES.contains(javaReferenceType.type)) {
-        return map((JavaReferenceType) javaType);
-      }
+      return map((JavaReferenceType) javaType);
+    } else if (javaType instanceof JavaArrayType) {
+      return map((JavaArrayType) javaType);
     } else if (javaType instanceof JavaPrimitiveType) {
       JavaPrimitiveType javaPrimitiveType = (JavaPrimitiveType) javaType;
       if (JavaPrimitiveType.TYPES.contains(javaPrimitiveType.type)) {
@@ -45,37 +44,42 @@ public final class JniTypeNameMapper {
   }
 
   private static String map(final JavaReferenceType refType) {
-    if (JavaReferenceType.TYPES.contains(refType.type)) {
-      switch (refType.type) {
-        case OBJECT:
-          return "jobject";
-        case CLASS:
-          return "jclass";
-        case STRING:
-          return "jstring";
-        case OBJECT_ARRAY:
-          return "jobjectArray";
-        case BOOLEAN_ARRAY:
-          return "jbooleanArray";
-        case BYTE_ARRAY:
-          return "jbyteArray";
-        case CHAR_ARRAY:
-          return "jcharArray";
-        case SHORT_ARRAY:
-          return "jshortArray";
-        case INT_ARRAY:
-          return "jintArray";
-        case LONG_ARRAY:
-          return "jlongArray";
-        case FLOAT_ARRAY:
-          return "jfloatArray";
-        case DOUBLE_ARRAY:
-          return "jdoubleArray";
-        case THROWABLE:
-          return "jthrowable";
-      }
+    switch (refType.type) {
+      case OBJECT:
+        return "jobject";
+      case CLASS:
+        return "jclass";
+      case STRING:
+        return "jstring";
+      case THROWABLE:
+        return "jthrowable";
+      default:
+        throw new IllegalArgumentException(
+            "mapping from Java type to jni type name is not possible: " + refType.name);
     }
-    throw new IllegalArgumentException(
-        "mapping from Java type to jni type name is not possible: " + refType.name);
+  }
+
+  private static String map(final JavaArrayType refType) {
+    switch (refType.type) {
+      case BOOL_ARRAY:
+        return "jbooleanArray";
+      case BYTE_ARRAY:
+        return "jbyteArray";
+      case CHAR_ARRAY:
+        return "jcharArray";
+      case SHORT_ARRAY:
+        return "jshortArray";
+      case INT_ARRAY:
+        return "jintArray";
+      case LONG_ARRAY:
+        return "jlongArray";
+      case FLOAT_ARRAY:
+        return "jfloatArray";
+      case DOUBLE_ARRAY:
+        return "jdoubleArray";
+      default:
+        throw new IllegalArgumentException(
+            "mapping from Java type to jni type name is not possible: " + refType.name);
+    }
   }
 }

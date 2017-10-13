@@ -31,19 +31,7 @@ public class JavaReferenceTypeTest {
   @Parameterized.Parameters
   public static Collection<?> getValues() {
     return java.util.Arrays.asList(
-        new Object[][] {
-          {Type.STRING, "string"},
-          {Type.OBJECT_ARRAY, "object_array"},
-          {Type.BOOLEAN_ARRAY, "boolean_array"},
-          {Type.BYTE_ARRAY, "byte_array"},
-          {Type.CHAR_ARRAY, "char_array"},
-          {Type.SHORT_ARRAY, "short_array"},
-          {Type.INT_ARRAY, "int_array"},
-          {Type.LONG_ARRAY, "long_array"},
-          {Type.FLOAT_ARRAY, "float_array"},
-          {Type.DOUBLE_ARRAY, "double_array"},
-          {Type.THROWABLE, "Throwable"}
-        });
+        new Object[][] {{Type.STRING, "string"}, {Type.THROWABLE, "Throwable"}});
   }
 
   @Test

@@ -19,20 +19,29 @@ public final class JavaTemplateType extends JavaCustomType {
   public final List<JavaType> templateParameters;
 
   public enum TemplateClass {
-    LIST("List", new JavaImport("List", new JavaPackage(Arrays.asList("java", "util"))));
+    LIST(
+        "List",
+        new JavaImport("List", new JavaPackage(Arrays.asList("java", "util"))),
+        Arrays.asList("java", "util"));
 
     public final String name;
     public final JavaImport javaImport;
+    public final List<String> packageNames;
 
-    TemplateClass(String name, JavaImport javaImport) {
+    TemplateClass(String name, JavaImport javaImport, List<String> packageNames) {
       this.name = name;
       this.javaImport = javaImport;
+      this.packageNames = packageNames;
     }
   }
 
   private JavaTemplateType(
       String name, TemplateClass templateClass, List<JavaType> templateParameters) {
-    super(name, Collections.emptySet());
+    super(
+        name,
+        Arrays.asList(templateClass.name),
+        templateClass.packageNames,
+        Collections.emptySet());
 
     this.templateClass = templateClass;
     this.templateParameters = templateParameters;

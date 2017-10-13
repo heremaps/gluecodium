@@ -91,7 +91,7 @@ public class JavaTypeMapperCustomTypeTest {
 
     JavaType result = typeMapper.map(francaTypeRef);
 
-    assertEquals(FMODEL_NAME + "." + STRUCT_NAME_TYPECOLLECTION, result.name);
+    assertEquals(STRUCT_NAME_TYPECOLLECTION, result.name);
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());
@@ -117,7 +117,8 @@ public class JavaTypeMapperCustomTypeTest {
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());
-    assertEquals(STRUCT_NAME_INTERFACE, customReturn.simpleName);
+    assertEquals(2, customReturn.classNames.size());
+    assertEquals(STRUCT_NAME_INTERFACE, customReturn.classNames.get(1));
     assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().javaPackage);
     assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().className);
     PowerMockito.verifyStatic();
@@ -194,7 +195,8 @@ public class JavaTypeMapperCustomTypeTest {
     assertTrue(arrayType instanceof JavaTemplateType);
     JavaTemplateType templateType = (JavaTemplateType) arrayType;
     assertEquals("List<String>", templateType.name);
-    assertEquals("List<String>", templateType.simpleName);
+    assertEquals(1, templateType.classNames.size());
+    assertEquals("List", templateType.classNames.get(0));
     assertEquals(JavaTemplateType.TemplateClass.LIST, templateType.templateClass);
   }
 
@@ -209,7 +211,8 @@ public class JavaTypeMapperCustomTypeTest {
     assertTrue(arrayType instanceof JavaTemplateType);
     JavaTemplateType templateType = (JavaTemplateType) arrayType;
     assertEquals("List<Float>", templateType.name);
-    assertEquals("List<Float>", templateType.simpleName);
+    assertEquals(1, templateType.classNames.size());
+    assertEquals("List", templateType.classNames.get(0));
     assertEquals(JavaTemplateType.TemplateClass.LIST, templateType.templateClass);
   }
 }

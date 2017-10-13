@@ -155,21 +155,9 @@ public final class JniTypeNameMapperTest {
   }
 
   @Test
-  public void convertObjectArrayType() {
-    // Arrange
-    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.OBJECT_ARRAY);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaString);
-
-    // Assert
-    assertEquals("jobjectArray", result);
-  }
-
-  @Test
   public void convertByteArrayType() {
     // Arrange
-    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.BYTE_ARRAY);
+    JavaType javaString = new JavaArrayType(JavaArrayType.Type.BYTE_ARRAY);
 
     // Act
     String result = JniTypeNameMapper.map(javaString);
@@ -181,7 +169,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertCharArrayType() {
     // Arrange
-    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.CHAR_ARRAY);
+    JavaType javaString = new JavaArrayType(JavaArrayType.Type.CHAR_ARRAY);
 
     // Act
     String result = JniTypeNameMapper.map(javaString);
@@ -193,7 +181,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertShortArrayType() {
     // Arrange
-    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.SHORT_ARRAY);
+    JavaType javaString = new JavaArrayType(JavaArrayType.Type.SHORT_ARRAY);
 
     // Act
     String result = JniTypeNameMapper.map(javaString);
@@ -205,7 +193,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertIntArrayType() {
     // Arrange
-    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.INT_ARRAY);
+    JavaType javaString = new JavaArrayType(JavaArrayType.Type.INT_ARRAY);
 
     // Act
     String result = JniTypeNameMapper.map(javaString);
@@ -217,7 +205,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertLongArrayType() {
     // Arrange
-    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.LONG_ARRAY);
+    JavaType javaString = new JavaArrayType(JavaArrayType.Type.LONG_ARRAY);
 
     // Act
     String result = JniTypeNameMapper.map(javaString);
@@ -229,7 +217,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertFloatArrayType() {
     // Arrange
-    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.FLOAT_ARRAY);
+    JavaType javaString = new JavaArrayType(JavaArrayType.Type.FLOAT_ARRAY);
 
     // Act
     String result = JniTypeNameMapper.map(javaString);
@@ -241,7 +229,7 @@ public final class JniTypeNameMapperTest {
   @Test
   public void convertDoubleArrayType() {
     // Arrange
-    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.DOUBLE_ARRAY);
+    JavaType javaString = new JavaArrayType(JavaArrayType.Type.DOUBLE_ARRAY);
 
     // Act
     String result = JniTypeNameMapper.map(javaString);

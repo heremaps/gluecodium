@@ -13,9 +13,9 @@
 package com.here.android.smoke;
 
 public class StructsFromTypeCollection {
-    public static native com.here.android.smoke.Point createPoint(final double x, final double y);
-    public static native com.here.android.smoke.Point swapPointCoordinates(final com.here.android.smoke.Point input);
-    public static native com.here.android.smoke.Line createLine(final com.here.android.smoke.Point pointA, final com.here.android.smoke.Point pointB);
-    public static native com.here.android.smoke.ColoredLine createColoredLine(final com.here.android.smoke.Line line, final com.here.android.smoke.Color color);
-    public static native com.here.android.smoke.AllTypesStruct modifyAllTypesStruct(final com.here.android.smoke.AllTypesStruct input);
+    public static native Point createPoint(final double x, final double y);
+    public static native Point swapPointCoordinates(final Point input);
+    public static native Line createLine(final Point pointA, final Point pointB);
+    public static native ColoredLine createColoredLine(final Line line, final Color color);
+    public static native AllTypesStruct modifyAllTypesStruct(final AllTypesStruct input);
 }

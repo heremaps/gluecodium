@@ -13,6 +13,6 @@
 package com.here.android.smoke;
 
 public class Line {
-    public com.here.android.smoke.Point a = new com.here.android.smoke.Point();
-    public com.here.android.smoke.Point b = new com.here.android.smoke.Point();
+    public Point a = new Point();
+    public Point b = new Point();
 }
