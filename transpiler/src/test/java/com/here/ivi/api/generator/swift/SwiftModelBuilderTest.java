@@ -56,6 +56,7 @@ public class SwiftModelBuilderTest {
   private static final String STRUCT_NAME = "someStruct";
   private static final String COMMENT = "some comment on model element";
   private static final List<String> PACKAGES = asList("PKG1", "PKG2");
+  private static final String ATTRIBUTE_NAME = "someAttributeName";
 
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
 
@@ -69,6 +70,7 @@ public class SwiftModelBuilderTest {
   @Mock private FTypeRef francaTypeRef;
   @Mock private FField francaField;
   @Mock private FTypeDef francaTypeDef;
+  @Mock private FAttribute francaAttribute;
 
   private final SwiftType swiftType = new SwiftType("VerySwiftType");
 
@@ -83,6 +85,7 @@ public class SwiftModelBuilderTest {
         CBridgeNameRules.class);
     initMocks(this);
 
+    when(francaArgument.getType()).thenReturn(francaTypeRef);
     when(CppCommentParser.parse(any(FMethod.class))).thenReturn(comments);
     when(CppCommentParser.parse(any(FInterface.class))).thenReturn(comments);
     when(CppCommentParser.parse(any(FEnumerator.class))).thenReturn(comments);
@@ -101,6 +104,9 @@ public class SwiftModelBuilderTest {
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaField.getName()).thenReturn("flowers");
     when(francaTypeDef.getName()).thenReturn("definite");
+
+    when(francaAttribute.eContainer()).thenReturn(francaInterface);
+    when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
     modelBuilder = new SwiftModelBuilder(contextStack, anInterface);
   }
@@ -351,6 +357,40 @@ public class SwiftModelBuilderTest {
 
     PowerMockito.verifyStatic();
     SwiftTypeMapper.mapType(francaTypeRef);
+  }
+
+  @Test
+  public void finishBuildingCreatesWritiableAttribute() {
+    prepareAttributeForTest();
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    SwiftProperty property = verifyAndGetProperty();
+    assertSame(swiftType, property.type);
+    assertEquals(ATTRIBUTE_NAME, property.name);
+    assertFalse(property.readonly);
+  }
+
+  @Test
+  public void finishBuildingCreatesReadonlyAttribute() {
+    prepareAttributeForTest();
+    when(francaAttribute.isReadonly()).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    SwiftProperty property = verifyAndGetProperty();
+    assertTrue(property.readonly);
+  }
+
+  private void prepareAttributeForTest() {
+    contextStack.injectResult(swiftType);
+    when(SwiftNameRules.getPropertyName(any())).thenReturn(ATTRIBUTE_NAME);
+  }
+
+  private SwiftProperty verifyAndGetProperty() {
+    List<SwiftProperty> properties = getResults(SwiftProperty.class);
+    assertEquals("Should be one property created", 1, properties.size());
+    return properties.get(0);
   }
 
   private <T extends SwiftModelElement> List<T> getResults(Class<T> clazz) {

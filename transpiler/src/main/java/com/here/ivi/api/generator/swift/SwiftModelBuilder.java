@@ -56,6 +56,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftClass clazz = new SwiftClass(SwiftNameRules.getClassName(francaInterface));
     String comment = CppCommentParser.parse(francaInterface).getMainBodyText();
     clazz.comment = comment != null ? comment : "";
+    clazz.properties = getPreviousResults(SwiftProperty.class);
     clazz.methods = getPreviousResults(SwiftMethod.class);
     clazz.nameSpace = String.join("_", rootModel.getPackageNames());
     clazz.typedefs =
@@ -106,6 +107,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     super.finishBuilding(francaEnumerationType);
   }
 
+  @Override
   public void finishBuilding(FEnumerator enumerator) {
     String comment = CppCommentParser.parse(enumerator).getMainBodyText();
     SwiftValue value =
@@ -185,5 +187,18 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuilding(FTypeRef francaTypeRef) {
     storeResult(SwiftTypeMapper.mapType(francaTypeRef));
     super.finishBuilding(francaTypeRef);
+  }
+
+  @Override
+  public void finishBuilding(FAttribute attribute) {
+    SwiftProperty property =
+        new SwiftProperty(
+            SwiftNameRules.getPropertyName(attribute),
+            getPreviousResult(SwiftType.class),
+            attribute.isReadonly(),
+            SwiftNameRules.getAccessorBaseName(attribute));
+
+    storeResult(property);
+    super.finishBuilding(attribute);
   }
 }

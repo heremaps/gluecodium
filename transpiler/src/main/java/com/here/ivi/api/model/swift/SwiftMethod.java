@@ -22,11 +22,12 @@ public class SwiftMethod extends SwiftModelElement {
   public SwiftType returnType;
   public final List<SwiftParameter> parameters;
   public boolean isStatic;
-  public Visibility visibility;
   public String cBaseName;
 
   @SuppressWarnings("unused")
   public SwiftParameter instanceParameter = new SwiftParameter("c_instance", VOID);
+
+  public boolean forceReturnValueUnwrapping;
 
   public SwiftMethod(String methodName) {
     this(methodName, emptyList());
@@ -38,11 +39,6 @@ public class SwiftMethod extends SwiftModelElement {
     this.parameters = parameters;
     this.comment = "";
     this.cBaseName = "";
-    this.visibility = Visibility.Public;
-  }
-
-  enum Visibility {
-    Public,
-    Private
+    this.forceReturnValueUnwrapping = false;
   }
 }

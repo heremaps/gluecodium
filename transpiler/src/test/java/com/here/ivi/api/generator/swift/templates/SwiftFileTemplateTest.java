@@ -853,4 +853,121 @@ public class SwiftFileTemplateTest {
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
+
+  @Test
+  public void classWithPropertyOfDataType() {
+    SwiftClass swiftClass = new SwiftClass("SomeClassWithProperty");
+    swiftClass.cInstanceRef = "SomeClassWithPropertyRef";
+    SwiftProperty someProperty =
+        new SwiftProperty("someAttributeName", SwiftType.DATA, false, "CBRIDGE_DELEGATE");
+    swiftClass.properties.add(someProperty);
+    final String expected =
+        "import Foundation\n"
+            + "internal func getRef(_ ref: SomeClassWithProperty) -> RefHolder<SomeClassWithPropertyRef> {\n"
+            + "    guard let instanceReference = ref as? _SomeClassWithProperty else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return RefHolder<SomeClassWithPropertyRef>(instanceReference.c_instance)\n"
+            + "}\n"
+            + "public protocol SomeClassWithProperty {\n"
+            + "    var someAttributeName: Data { get set }\n"
+            + "}\n"
+            + "internal class _SomeClassWithProperty {\n"
+            + "    var someAttributeName: Data {\n"
+            + "        get {\n"
+            + "            let result_data_handle = CBRIDGE_DELEGATE_get(c_instance)\n"
+            + "\n"
+            + "            defer {\n"
+            + "                byteArray_release(result_data_handle)\n"
+            + "            }\n"
+            + "            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))\n"
+            + "        }\n"
+            + "        set {\n"
+            + "            return newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) -> Void in\n"
+            + "                return CBRIDGE_DELEGATE_set(c_instance, newValue_ptr, Int64(newValue.count))\n"
+            + "            }\n"
+            + "        }\n"
+            + "    }\n"
+            + "    let c_instance : SomeClassWithPropertyRef\n"
+            + "    required init?(cSomeClassWithProperty: SomeClassWithPropertyRef) {\n"
+            + "        c_instance = cSomeClassWithProperty\n"
+            + "    }\n"
+            + "    deinit {\n"
+            + "        _release(c_instance)\n"
+            + "    }\n"
+            + "}\n";
+
+    final String generated = generateFromClass(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void classWithReadonlyProperties() {
+    SwiftClass swiftClass = new SwiftClass("SomeClassWithProperty");
+    swiftClass.cInstanceRef = "SomeClassWithPropertyRef";
+    swiftClass.properties.add(
+        new SwiftProperty(
+            "someStringAttribute", SwiftType.STRING, true, "CBRIDGE_DELEGATE_FOR_STRING"));
+    SwiftContainerType swiftStruct = new SwiftContainerType("SomeStructType");
+    swiftStruct.cPrefix = "SomeStructType";
+    swiftClass.properties.add(
+        new SwiftProperty("someStructAttribute", swiftStruct, true, "CBRIDGE_DELEGATE_FOR_STRUCT"));
+    swiftClass.properties.add(
+        new SwiftProperty(
+            "someEnumAttribute",
+            new SwiftType("SomeEnumType", TypeCategory.ENUM),
+            true,
+            "CBRIDGE_DELEGATE_FOR_ENUM"));
+    final String expected =
+        "import Foundation\n"
+            + "internal func getRef(_ ref: SomeClassWithProperty) -> RefHolder<SomeClassWithPropertyRef> {\n"
+            + "    guard let instanceReference = ref as? _SomeClassWithProperty else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return RefHolder<SomeClassWithPropertyRef>(instanceReference.c_instance)\n"
+            + "}\n"
+            + "public protocol SomeClassWithProperty {\n"
+            + "    var someStringAttribute: String { get }\n"
+            + "    var someStructAttribute: SomeStructType { get }\n"
+            + "    var someEnumAttribute: SomeEnumType { get }\n"
+            + "}\n"
+            + "internal class _SomeClassWithProperty {\n"
+            + "    var someStringAttribute: String {\n"
+            + "        get {\n"
+            + "            let result_string_handle = CBRIDGE_DELEGATE_FOR_STRING_get(c_instance)\n"
+            + "\n"
+            + "            defer {\n"
+            + "                std_string_release(result_string_handle)\n"
+            + "            }\n"
+            + "            return String(data: Data(bytes: std_string_data_get(result_string_handle),\n"
+            + "                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!\n"
+            + "        }\n"
+            + "    }\n"
+            + "    var someStructAttribute: SomeStructType {\n"
+            + "        get {\n"
+            + "            let cResult = CBRIDGE_DELEGATE_FOR_STRUCT_get(c_instance)\n"
+            + "            defer {\n"
+            + "                SomeStructType_release(cResult)\n"
+            + "            }\n"
+            + "            return SomeStructType(cSomeStructType: cResult)!\n"
+            + "        }\n"
+            + "    }\n"
+            + "    var someEnumAttribute: SomeEnumType {\n"
+            + "        get {\n"
+            + "            let cResult = CBRIDGE_DELEGATE_FOR_ENUM_get(c_instance)\n"
+            + "            return SomeEnumType.init(rawValue: cResult)!\n"
+            + "        }\n"
+            + "    }\n"
+            + "    let c_instance : SomeClassWithPropertyRef\n"
+            + "    required init?(cSomeClassWithProperty: SomeClassWithPropertyRef) {\n"
+            + "        c_instance = cSomeClassWithProperty\n"
+            + "    }\n"
+            + "    deinit {\n"
+            + "        _release(c_instance)\n"
+            + "    }\n"
+            + "}\n";
+
+    final String generated = generateFromClass(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
 }

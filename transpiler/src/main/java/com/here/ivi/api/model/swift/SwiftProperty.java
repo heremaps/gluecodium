@@ -11,69 +11,43 @@
 
 package com.here.ivi.api.model.swift;
 
+import static java.util.Arrays.asList;
+
+import com.here.ivi.api.generator.swift.SwiftNameRules;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SwiftProperty extends SwiftModelElement {
+  public final SwiftType type;
+  public final boolean readonly;
+  public final List<SwiftMethod> propertyAccessors;
 
-  public Visibility visibility;
-  public Atomicity atomicity;
-  public Accessibility accessibility;
-  public MemoryBehaviour memoryBehaviour;
-  public Nullability nullability;
-  public SwiftType type;
-
-  public SwiftProperty(String propertyName) {
+  public SwiftProperty(String propertyName, SwiftType type, boolean readonly, String delegateName) {
     super(propertyName);
-  }
+    this.type = type;
+    this.readonly = readonly;
 
-  public enum Visibility {
-    PUBLIC,
-    PRIVATE
-  }
+    propertyAccessors = new ArrayList<>();
 
-  public enum Atomicity {
-    ATOMIC,
-    NONATOMIC
-  }
-
-  public enum Accessibility {
-    READWRITE,
-    READONLY
-  }
-
-  public enum MemoryBehaviour {
-    ASSIGN,
-    STRONG,
-    WEAK
-  }
-
-  public enum Nullability {
-    NULLABLE,
-    NONNULL
-  }
-
-  public List<String> getAttributes() {
-    List<String> attributes = new ArrayList<>();
-    if (atomicity == SwiftProperty.Atomicity.NONATOMIC) {
-      attributes.add("nonatomic");
+    propertyAccessors.add(createGetterBody(delegateName));
+    if (!this.readonly) {
+      propertyAccessors.add(createSetterBody(delegateName));
     }
-    if (accessibility == SwiftProperty.Accessibility.READONLY) {
-      attributes.add("readonly");
-    }
-    switch (memoryBehaviour) {
-      case STRONG:
-        attributes.add("strong");
-        break;
-      case WEAK:
-        attributes.add("weak");
-        break;
-      default:
-        break;
-    }
-    if (nullability == SwiftProperty.Nullability.NONNULL) {
-      attributes.add("nonnull");
-    }
-    return attributes;
+  }
+
+  private SwiftMethod createGetterBody(String delegateName) {
+    SwiftMethod getter = new SwiftMethod("", Collections.emptyList());
+    getter.cBaseName = SwiftNameRules.getPropertyGetterName(delegateName);
+    getter.returnType = type;
+    getter.forceReturnValueUnwrapping = true;
+    return getter;
+  }
+
+  private SwiftMethod createSetterBody(String delegateName) {
+    SwiftMethod setter = new SwiftMethod("", asList(new SwiftParameter("newValue", this.type)));
+    setter.cBaseName = SwiftNameRules.getPropertySetterName(delegateName);
+    setter.returnType = SwiftType.VOID;
+    return setter;
   }
 }
