@@ -26,5 +26,5 @@ public class AllTypesStruct {
     public String stringField;
     public boolean booleanField;
     public byte[] bytesField;
-    public com.here.android.smoke.Point pointField = new com.here.android.smoke.Point();
+    public Point pointField = new Point();
 }

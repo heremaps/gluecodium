@@ -13,11 +13,11 @@ package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.*;
 
@@ -91,7 +91,7 @@ public class JavaTypeMapper {
         return new JavaReferenceType(JavaReferenceType.Type.STRING);
 
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return new JavaReferenceType(JavaReferenceType.Type.BYTE_ARRAY);
+        return new JavaArrayType(JavaArrayType.Type.BYTE_ARRAY);
 
       default:
         return JavaPrimitiveType.VOID;
@@ -132,21 +132,23 @@ public class JavaTypeMapper {
    * @param primitiveType a primitive type
    * @return custom type wrapper of the primitive type
    */
-  private static JavaCustomType boxPrimitiveType(JavaPrimitiveType primitiveType) {
+  private static JavaReferenceType boxPrimitiveType(JavaPrimitiveType primitiveType) {
     if (primitiveType == JavaPrimitiveType.BOOL) {
-      return new JavaCustomType("Boolean");
+      return new JavaReferenceType(JavaReferenceType.Type.BOOL);
     } else if (primitiveType == JavaPrimitiveType.CHAR) {
-      return new JavaCustomType("Character");
+      return new JavaReferenceType(JavaReferenceType.Type.CHAR);
     } else if (primitiveType == JavaPrimitiveType.INT) {
-      return new JavaCustomType("Integer");
-    } else if (primitiveType == JavaPrimitiveType.FLOAT
-        || primitiveType == JavaPrimitiveType.DOUBLE
-        || primitiveType == JavaPrimitiveType.BYTE
-        || primitiveType == JavaPrimitiveType.SHORT
-        || primitiveType == JavaPrimitiveType.LONG) {
-      // float -> Float, double -> Double, ..etc
-      String value = primitiveType.type.getValue();
-      return new JavaCustomType(NameHelper.toUpperCamelCase(value));
+      return new JavaReferenceType(JavaReferenceType.Type.INT);
+    } else if (primitiveType == JavaPrimitiveType.FLOAT) {
+      return new JavaReferenceType(JavaReferenceType.Type.FLOAT);
+    } else if (primitiveType == JavaPrimitiveType.DOUBLE) {
+      return new JavaReferenceType(JavaReferenceType.Type.DOUBLE);
+    } else if (primitiveType == JavaPrimitiveType.BYTE) {
+      return new JavaReferenceType(JavaReferenceType.Type.BYTE);
+    } else if (primitiveType == JavaPrimitiveType.SHORT) {
+      return new JavaReferenceType(JavaReferenceType.Type.SHORT);
+    } else if (primitiveType == JavaPrimitiveType.LONG) {
+      return new JavaReferenceType(JavaReferenceType.Type.LONG);
     } else {
       // No array for void type
       throw new TranspilerExecutionException("Can not wrap primitive type " + primitiveType.name);
@@ -173,18 +175,22 @@ public class JavaTypeMapper {
     String importClassName;
     String className = JavaNameRules.getClassName(structType.getName());
 
+    List<String> classNames = new LinkedList<>();
+    classNames.add(className);
     //struct is nested class inside defining class
     if (typeCollection instanceof FInterface) {
       importClassName = JavaNameRules.getClassName(typeCollection.getName());
+      classNames.add(0, importClassName);
       structName = importClassName + "." + className;
     } else { // struct from a type collection
       importClassName = className;
-      structName = String.join(".", packageNames) + "." + className;
+      structName = className;
     }
 
     JavaImport javaImport = new JavaImport(importClassName, new JavaPackage(packageNames));
 
-    return new JavaCustomType(structName, className, Collections.singletonList(javaImport));
+    return new JavaCustomType(
+        structName, classNames, packageNames, Collections.singletonList(javaImport));
   }
 
   private JavaType mapTypeDef(final FTypeDef typeDef) {
@@ -196,7 +202,11 @@ public class JavaTypeMapper {
       String className = JavaNameRules.getClassName(typeCollection.getName());
       JavaImport classImport = new JavaImport(className, new JavaPackage(packageNames));
 
-      return new JavaCustomType(className, Collections.singletonList(classImport));
+      return new JavaCustomType(
+          className,
+          Collections.singletonList(className),
+          packageNames,
+          Collections.singletonList(classImport));
     } else {
       return map(typeDef.getActualType());
     }

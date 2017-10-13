@@ -11,7 +11,7 @@
     javaClass,
     _jinput,
     "{{javaField.name}}",
-    "L{{>jni/JavaClassSignaturePrefix}}{{javaField.type.simpleName}};"),
+    "L{{>jni/JavaClassSignaturePrefix}}{{#javaField.type.classNames}}{{#iter.isLast}}{{.}}{{/iter.isLast}}{{/javaField.type.classNames}};"),
     _nout.{{cppField.name}} );
   {{/hasCustomType}}
   {{^hasCustomType}}

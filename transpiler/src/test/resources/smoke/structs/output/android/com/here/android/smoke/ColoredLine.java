@@ -13,6 +13,6 @@
 package com.here.android.smoke;
 
 public class ColoredLine {
-    public com.here.android.smoke.Line line = new com.here.android.smoke.Line();
-    public com.here.android.smoke.Color color = new com.here.android.smoke.Color();
+    public Line line = new Line();
+    public Color color = new Color();
 }

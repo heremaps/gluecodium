@@ -23,5 +23,5 @@ public class TypeDefs {
     public static native double returnNestedIntTypeDef(final double input);
     public static native TypeDefs.TestStruct returnTestStructTypeDef(final TypeDefs.TestStruct input);
     public static native TypeDefs.TestStruct returnNestedStructTypeDef(final TypeDefs.TestStruct input);
-    public static native com.here.android.smoke.Point returnTypeDefPointFromTypeCollection(final com.here.android.smoke.Point input);
+    public static native Point returnTypeDefPointFromTypeCollection(final Point input);
 }
