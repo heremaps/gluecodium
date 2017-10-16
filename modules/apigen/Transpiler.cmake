@@ -7,10 +7,10 @@
 # material also contains confidential information which may not be
 # disclosed to others without the prior written consent of HERE.
 
-if(DEFINED includeguard_apigen_Apigen)
+if(DEFINED includeguard_apigen_Transpiler)
   return()
 endif()
-set(includeguard_apigen_Apigen ON)
+set(includeguard_apigen_Transpiler ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -18,13 +18,8 @@ cmake_minimum_required(VERSION 3.5)
 # The main Apigen module
 # ----------------------
 #
-# Includes all other Apigen modules for convenience.
+# Includes transpiler modules.
 
-# Generic modules
-include(${CMAKE_CURRENT_LIST_DIR}/Transpiler.cmake)
-
-# Android modules
-include(${CMAKE_CURRENT_LIST_DIR}/Android.cmake)
-
-# iOS modules
-include(${CMAKE_CURRENT_LIST_DIR}/iOS.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenTargetIncludeDirectories.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenTargetSources.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenTranspile.cmake)

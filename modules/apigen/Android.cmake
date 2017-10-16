@@ -7,24 +7,22 @@
 # material also contains confidential information which may not be
 # disclosed to others without the prior written consent of HERE.
 
-if(DEFINED includeguard_apigen_Apigen)
+if(DEFINED includeguard_apigen_Android)
   return()
 endif()
-set(includeguard_apigen_Apigen ON)
+set(includeguard_apigen_Android ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# The main Apigen module
-# ----------------------
+# The Android Apigen module
+# -------------------------
 #
-# Includes all other Apigen modules for convenience.
+# Includes modules needed for Android builds.
 
-# Generic modules
-include(${CMAKE_CURRENT_LIST_DIR}/Transpiler.cmake)
+# Java modules
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenJavaCompile.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenJavaJar.cmake)
 
 # Android modules
-include(${CMAKE_CURRENT_LIST_DIR}/Android.cmake)
-
-# iOS modules
-include(${CMAKE_CURRENT_LIST_DIR}/iOS.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenAndroidArchive.cmake)

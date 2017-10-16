@@ -7,24 +7,18 @@
 # material also contains confidential information which may not be
 # disclosed to others without the prior written consent of HERE.
 
-if(DEFINED includeguard_apigen_Apigen)
+if(DEFINED includeguard_apigen_iOS)
   return()
 endif()
-set(includeguard_apigen_Apigen ON)
+set(includeguard_apigen_iOS ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# The main Apigen module
-# ----------------------
+# The iOS Apigen module
+# ---------------------
 #
-# Includes all other Apigen modules for convenience.
+# Includes modules needed for iOS builds.
 
-# Generic modules
-include(${CMAKE_CURRENT_LIST_DIR}/Transpiler.cmake)
-
-# Android modules
-include(${CMAKE_CURRENT_LIST_DIR}/Android.cmake)
-
-# iOS modules
-include(${CMAKE_CURRENT_LIST_DIR}/iOS.cmake)
+# Swift modules
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftBuild.cmake)
