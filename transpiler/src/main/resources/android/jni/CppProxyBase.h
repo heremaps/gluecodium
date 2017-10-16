@@ -13,11 +13,11 @@
 #pragma once
 
 #include <jni.h>
-#include <string>
 
-#ifdef __cplusplus
-extern "C" {
-#endif // ifdef __cplusplus
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <utility>
 
 namespace here
 {
@@ -26,10 +26,35 @@ namespace internal
 
 class CppProxyBase
 {
+public:
+
+    template< typename ResultType, typename ImplType >
+    static void createProxy( JNIEnv* jenv, jobject jobj, ::std::shared_ptr< ResultType >& result )
+    {
+        jobject jGlobalRef = jenv->NewGlobalRef( jobj );
+        jint jHashCode = getHashCode( jenv, jobj );
+        ProxyCacheKey key{ jenv, jGlobalRef, jHashCode };
+
+        auto iterator = sProxyCache.find( key );
+        if ( iterator != sProxyCache.end( ) )
+        {
+            jenv->DeleteGlobalRef( jGlobalRef );
+            auto cachedProxy = iterator->second.lock( );
+            if ( cachedProxy )
+            {
+                result = ::std::static_pointer_cast< ImplType >( cachedProxy );
+                return;
+            }
+        }
+
+        auto newProxy = ::std::make_shared< ImplType >( jenv, jGlobalRef, jHashCode );
+        result = newProxy;
+        sProxyCache[key] = ::std::weak_ptr< ImplType >( newProxy );
+    }
 
 protected:
 
-    CppProxyBase( JNIEnv* jenv, jobject jobj );
+    CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode );
 
     virtual ~CppProxyBase( );
 
@@ -38,17 +63,38 @@ protected:
 
 private:
 
-    jobject jObject;
+    struct ProxyCacheKey
+    {
+        JNIEnv* jniEnv;
+        jobject jObject;
+        jint jHashCode;
+
+        bool operator==( const ProxyCacheKey& other ) const;
+    };
+
+    struct ProxyCacheKeyHash
+    {
+        inline size_t operator( )( const ProxyCacheKey& key ) const
+        {
+            return key.jHashCode;
+        }
+    };
+
+    using ProxyCache
+        = ::std::unordered_map< ProxyCacheKey, ::std::weak_ptr< CppProxyBase >, ProxyCacheKeyHash >;
+
+    static jint getHashCode( JNIEnv* jniEnv, jobject jObj );
+
+    jobject jGlobalRef;
     jclass jClass;
+    jint jHashCode;
 
 private:
 
     JavaVM* jVM;
+
+    static ProxyCache sProxyCache;
 };
 
 } // namespace internal
 } // namespace here
-
-#ifdef __cplusplus
-}
-#endif // ifdef __cplusplus

@@ -45,16 +45,18 @@ namespace here
 namespace internal
 {
 
+CppProxyBase::ProxyCache CppProxyBase::sProxyCache = CppProxyBase::ProxyCache( );
+
 void
 CppProxyBase::callJavaMethod(
     const ::std::string& methodName, const ::std::string& jniSignature, ... ) const
 {
     JNIEnv* jniEnv;
-    bool attachedToThread = getJniEnvironment(jVM, &jniEnv );
+    bool attachedToThread = getJniEnvironment( jVM, &jniEnv );
     jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
     va_list vaList;
     va_start( vaList, jniSignature );
-    ::callJavaMethodVaList( jniEnv, jObject, jmethodId, vaList );
+    ::callJavaMethodVaList( jniEnv, jGlobalRef, jmethodId, vaList );
     va_end( vaList );
     if ( attachedToThread )
     {
@@ -62,24 +64,41 @@ CppProxyBase::callJavaMethod(
     }
 }
 
-CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jobj )
+CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode )
+    : jGlobalRef( jGlobalRef )
+    , jHashCode( jHashCode )
 {
-    jObject = jenv->NewGlobalRef( jobj );
-    jclass tmp = jenv->GetObjectClass( jObject );
+    jclass tmp = jenv->GetObjectClass( jGlobalRef );
     jClass = static_cast< jclass >( jenv->NewGlobalRef( tmp ) );
-    jint rs = jenv->GetJavaVM( &jVM );
+    jenv->GetJavaVM( &jVM );
 }
 
 CppProxyBase::~CppProxyBase( )
 {
     JNIEnv* jniEnv;
     bool attachedToThread = getJniEnvironment( jVM, &jniEnv );
-    jniEnv->DeleteGlobalRef( jObject );
+    sProxyCache.erase( ProxyCacheKey{ jniEnv, jGlobalRef, jHashCode } );
+    jniEnv->DeleteGlobalRef( jGlobalRef );
     jniEnv->DeleteGlobalRef( jClass );
     if ( attachedToThread )
     {
         jVM->DetachCurrentThread( );
     }
+}
+
+bool
+CppProxyBase::ProxyCacheKey::operator==( const CppProxyBase::ProxyCacheKey& other ) const
+{
+    return jHashCode == other.jHashCode && jniEnv->IsSameObject( jObject, other.jObject );
+}
+
+jint
+CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
+{
+    static jclass jClass = jniEnv->FindClass( "java/lang/System" );
+    static jmethodID jMethodId = jniEnv->GetStaticMethodID(
+        jClass, "identityHashCode", "(Ljava/lang/Object;)I" );
+    return jniEnv->CallStaticIntMethod( jClass, jMethodId, jObj );
 }
 
 }
