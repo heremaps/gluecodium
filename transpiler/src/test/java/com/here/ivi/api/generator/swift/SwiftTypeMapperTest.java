@@ -60,7 +60,7 @@ public class SwiftTypeMapperTest {
 
     SwiftType mappedType = SwiftTypeMapper.mapOutputType(typeRef);
 
-    assertTrue("Return value of Data type should be mapped as optional", mappedType.optional);
+    assertFalse("Return value of Data type should be mapped as non optional", mappedType.optional);
   }
 
   @Test
