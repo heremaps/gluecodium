@@ -18,11 +18,11 @@ namespace {{.}} {
 
 {{/cppNameSpaces}}
 
-class {{cppName}}CppProxy : private here::internal::CppProxyBase, public {{cppName}} {
+class {{cppName}}CppProxy : public here::internal::CppProxyBase, public {{cppName}} {
 
 public:
 
-    {{cppName}}CppProxy( JNIEnv* _jenv, jobject _jobj );
+    {{cppName}}CppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode );
 
 {{#methods}}
     {{>jni/ReturnType}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;

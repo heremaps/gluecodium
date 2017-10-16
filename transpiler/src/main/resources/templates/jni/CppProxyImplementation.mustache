@@ -6,7 +6,8 @@ namespace {{.}} {
 
 using namespace ::here::internal;
 
-{{cppName}}CppProxy::{{cppName}}CppProxy( JNIEnv* _jenv, jobject _jobj ) : CppProxyBase(_jenv, _jobj) {
+{{cppName}}CppProxy::{{cppName}}CppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode )
+    : CppProxyBase( _jenv, _jobj, _jHashCode ) {
 }
 
 {{#methods}}
