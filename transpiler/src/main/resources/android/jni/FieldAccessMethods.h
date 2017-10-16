@@ -158,6 +158,16 @@ create_instance_object( JNIEnv* env, jclass javaClass, jlong instancePointer )
     return env->NewObject( javaClass, theConstructor, instancePointer );
 }
 
+template<typename T> jobject
+box_value_in_object( JNIEnv* env, const char* className, const char* signature, T param )
+{
+    auto javaClass = env->FindClass( className );
+    const char* name = "<init>";
+    auto theConstructor = env->GetMethodID( javaClass, name, signature );
+    return env->NewObject( javaClass, theConstructor, param );
+}
+
+
 // -------------------- JNI object field setters --------------------------------------------------
 
 void

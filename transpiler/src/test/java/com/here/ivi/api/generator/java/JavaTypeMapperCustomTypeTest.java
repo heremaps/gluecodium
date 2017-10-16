@@ -193,7 +193,7 @@ public class JavaTypeMapperCustomTypeTest {
 
     assertTrue(arrayType instanceof JavaTemplateType);
     JavaTemplateType templateType = (JavaTemplateType) arrayType;
-    assertEquals("java.util.List<String>", templateType.name);
+    assertEquals("List<String>", templateType.name);
     assertEquals("List<String>", templateType.simpleName);
     assertEquals(JavaTemplateType.TemplateClass.LIST, templateType.templateClass);
   }
@@ -208,7 +208,7 @@ public class JavaTypeMapperCustomTypeTest {
 
     assertTrue(arrayType instanceof JavaTemplateType);
     JavaTemplateType templateType = (JavaTemplateType) arrayType;
-    assertEquals("java.util.List<Float>", templateType.name);
+    assertEquals("List<Float>", templateType.name);
     assertEquals("List<Float>", templateType.simpleName);
     assertEquals(JavaTemplateType.TemplateClass.LIST, templateType.templateClass);
   }

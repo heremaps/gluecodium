@@ -19,12 +19,12 @@ public class Arrays {
         public double value;
     }
     public static class FancyStruct {
-        public java.util.List<String> messages = new java.util.List<String>();
-        public java.util.List<long> numbers = new java.util.List<long>();
+        public List<String> messages = new List<String>();
+        public List<Long> numbers = new List<Long>();
     }
-    public static native java.util.List<String> methodWithArray(final java.util.List<String> input);
-    public static native java.util.List<long> methodWithArrayInline(final java.util.List<long> input);
-    public static native java.util.List<Arrays.BasicStruct> methodWithStructArray(final java.util.List<Arrays.BasicStruct> input);
-    public static native java.util.List<java.util.List<Long>> methodWithArrayOfArrys(final java.util.List<java.util.List<Long>> input);
-    public static native java.util.List<Arrays.FancyStruct> mergeArraysOfStructsWithArrays(final java.util.List<Arrays.FancyStruct> inlineFancyArray, final java.util.List<Arrays.FancyStruct> fancyArray);
+    public static native List<String> methodWithArray(final List<String> input);
+    public static native List<Long> methodWithArrayInline(final List<Long> input);
+    public static native List<Arrays.BasicStruct> methodWithStructArray(final List<Arrays.BasicStruct> input);
+    public static native List<List<Long>> methodWithArrayOfArrys(final List<List<Long>> input);
+    public static native List<Arrays.FancyStruct> mergeArraysOfStructsWithArrays(final List<Arrays.FancyStruct> inlineFancyArray, final List<Arrays.FancyStruct> fancyArray);
 }

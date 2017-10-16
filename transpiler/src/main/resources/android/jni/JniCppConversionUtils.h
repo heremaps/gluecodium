@@ -26,7 +26,7 @@ namespace internal
 /**
  * Converts a JNI jstring to a std string.
  */
-void convert_from_jni( JNIEnv* env, const jstring jvalue, std::string& nresult );
+void convert_from_jni( JNIEnv* env, const jobject jvalue, std::string& nresult );
 
 /**
  * Converts a jbyteArray to a vector of bytes
@@ -44,7 +44,6 @@ jstring convert_to_jni( JNIEnv* env, const std::string& nvalue );
  * Converts a vector of bytes to a jbyteArray
  */
 jbyteArray convert_to_jni( JNIEnv* env, const std::vector< uint8_t >& nvalue );
-
 
 }  // internal
 

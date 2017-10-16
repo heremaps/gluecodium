@@ -33,6 +33,9 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
   private static final String NATIVE_BASE_JAVA = "android/java/NativeBase.java";
   public static final String FIELD_ACCESS_UTILS_HEADER = "android/jni/FieldAccessMethods.h";
 
+  private static final String ARRAY_UTILS_HEADER = "android/jni/ArrayConversionUtils.h";
+  private static final String ARRAY_UTILS_IMPLEMENTATION = "android/jni/ArrayConversionUtils.cpp";
+
   private static final String CONVERSION_UTILS_TARGET_DIR = "";
   private static final String NATIVE_BASE_JAVA_TARGET_DIR = "android/com/here/android";
 
@@ -63,7 +66,10 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
         new JavaNativeInterfacesGenerator(
             transpilerOptions.getJavaPackageList(),
             Arrays.asList(
-                CONVERSION_UTILS_HEADER, FIELD_ACCESS_UTILS_HEADER, CPP_PROXY_BASE_HEADER));
+                CONVERSION_UTILS_HEADER,
+                FIELD_ACCESS_UTILS_HEADER,
+                CPP_PROXY_BASE_HEADER,
+                ARRAY_UTILS_HEADER));
 
     //jni models need to be built first as they are required to generate conversion util file
     List<JniContainer> jniContainers =
@@ -100,6 +106,8 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
     results.add(
         GeneratorSuite.copyTarget(CPP_PROXY_BASE_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
     results.add(GeneratorSuite.copyTarget(FIELD_ACCESS_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    results.add(GeneratorSuite.copyTarget(ARRAY_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    results.add(GeneratorSuite.copyTarget(ARRAY_UTILS_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
     results.add(GeneratorSuite.copyTarget(NATIVE_BASE_JAVA, NATIVE_BASE_JAVA_TARGET_DIR));
     results.addAll(
         Stream.concat(javaFilesStream, jniFilesStream)

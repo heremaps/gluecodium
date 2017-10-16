@@ -48,6 +48,9 @@ public class JavaTypeMapper {
     }
 
     if (FrancaTypeHelper.isImplicitArray(fTypeRef)) {
+      if (javaType instanceof JavaPrimitiveType) {
+        javaType = boxPrimitiveType((JavaPrimitiveType) javaType);
+      }
       javaType = JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaType);
     }
 

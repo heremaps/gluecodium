@@ -12,23 +12,29 @@
 
 #include "JniCppConversionUtils.h"
 
+namespace here
+{
+namespace internal
+{
+
 // ------------------- JNI to C++ conversion functions ---------------------------------------------
 
 void
-here::internal::convert_from_jni( JNIEnv* env, const jstring jvalue, std::string& nresult )
+convert_from_jni( JNIEnv* env, const jobject jvalue, std::string& nresult )
 {
     if ( env->IsSameObject( jvalue, nullptr ) )
     {
         nresult.clear( );
         return;
     }
-    const char* jbuffer = env->GetStringUTFChars( jvalue, nullptr );
+    jstring stringValue = static_cast<jstring> (jvalue);
+    const char* jbuffer = env->GetStringUTFChars( stringValue, nullptr );
     nresult = std::string( jbuffer );
-    env->ReleaseStringUTFChars( jvalue, jbuffer );
+    env->ReleaseStringUTFChars( stringValue, jbuffer );
 }
 
 void
-here::internal::convert_from_jni( JNIEnv* env, const jbyteArray& jvalue, std::vector< uint8_t >& nresult )
+convert_from_jni( JNIEnv* env, const jbyteArray& jvalue, std::vector< uint8_t >& nresult )
 {
     if ( env->IsSameObject( jvalue, nullptr ) )
     {
@@ -44,13 +50,13 @@ here::internal::convert_from_jni( JNIEnv* env, const jbyteArray& jvalue, std::ve
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
 jstring
-here::internal::convert_to_jni( JNIEnv* env, const std::string& nvalue )
+convert_to_jni( JNIEnv* env, const std::string& nvalue )
 {
     return env->NewStringUTF( nvalue.c_str( ) );
 }
 
 jbyteArray
-here::internal::convert_to_jni( JNIEnv* env, const std::vector< uint8_t >& nvalue )
+convert_to_jni( JNIEnv* env, const std::vector< uint8_t >& nvalue )
 {
     jsize size = static_cast< jsize >( nvalue.size( ) );
     jbyteArray jresult = env->NewByteArray( size );
@@ -59,3 +65,7 @@ here::internal::convert_to_jni( JNIEnv* env, const std::vector< uint8_t >& nvalu
 
     return jresult;
 }
+
+} // internal
+
+} // here
