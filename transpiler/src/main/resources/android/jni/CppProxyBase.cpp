@@ -12,13 +12,16 @@
 
 #include "CppProxyBase.h"
 
-static inline void
+namespace
+{
+
+inline void
 callJavaMethodVaList( JNIEnv* jniEnv, jobject jObj, jmethodID jmid, va_list iParams )
 {
     jniEnv->CallVoidMethodV( jObj, jmid, iParams );
 }
 
-static inline bool
+inline bool
 getJniEnvironment( JavaVM* jVM, JNIEnv** jniEnv )
 {
     int envState = jVM->GetEnv( reinterpret_cast< void** >( jniEnv ), JNI_VERSION_1_6 );
@@ -35,9 +38,16 @@ getJniEnvironment( JavaVM* jVM, JNIEnv** jniEnv )
     return false;
 }
 
-void::here::internal::CppProxyBase::callJavaMethod( ::std::string methodName,
-                                                        ::std::string jniSignature,
-                                                    ... ) const
+}
+
+namespace here
+{
+namespace internal
+{
+
+void
+CppProxyBase::callJavaMethod(
+    const ::std::string& methodName, const ::std::string& jniSignature, ... ) const
 {
     JNIEnv* jniEnv;
     bool attachedToThread = getJniEnvironment(jVM, &jniEnv );
@@ -52,7 +62,7 @@ void::here::internal::CppProxyBase::callJavaMethod( ::std::string methodName,
     }
 }
 
-::here::internal::CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jobj )
+CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jobj )
 {
     jObject = jenv->NewGlobalRef( jobj );
     jclass tmp = jenv->GetObjectClass( jObject );
@@ -60,7 +70,7 @@ void::here::internal::CppProxyBase::callJavaMethod( ::std::string methodName,
     jint rs = jenv->GetJavaVM( &jVM );
 }
 
-::here::internal::CppProxyBase::~CppProxyBase( )
+CppProxyBase::~CppProxyBase( )
 {
     JNIEnv* jniEnv;
     bool attachedToThread = getJniEnvironment( jVM, &jniEnv );
@@ -70,4 +80,7 @@ void::here::internal::CppProxyBase::callJavaMethod( ::std::string methodName,
     {
         jVM->DetachCurrentThread( );
     }
+}
+
+}
 }

@@ -33,7 +33,8 @@ protected:
 
     virtual ~CppProxyBase( );
 
-    void callJavaMethod( ::std::string methodName, ::std::string jniSignature, ... ) const;
+    void callJavaMethod(
+        const ::std::string& methodName, const ::std::string& jniSignature, ... ) const;
 
 private:
 
