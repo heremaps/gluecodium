@@ -36,7 +36,7 @@ cmake_minimum_required(VERSION 3.5)
 # This function invokes the API transpiler based on a set of of input *.fidl
 # files with a specific target language generator.
 
-find_package(Java REQUIRED)
+find_package(Java COMPONENTS Runtime REQUIRED)
 set(APIGEN_TRANSPILER_DIR ${CMAKE_CURRENT_LIST_DIR}/transpiler)
 if (WIN32)
     set(APIGEN_TRANSPILER_GRADLE_WRAPPER ./gradlew.bat)

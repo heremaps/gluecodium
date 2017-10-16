@@ -28,7 +28,7 @@ cmake_minimum_required(VERSION 3.5)
 #     apigen_java_jar(target)
 #
 
-find_package(Java REQUIRED)
+find_package(Java COMPONENTS Development REQUIRED)
 
 function(apigen_java_jar target)
 
