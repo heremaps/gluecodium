@@ -26,59 +26,35 @@ public class StaticMethods {
     public static func returnAndBoolean(input1: Bool, input2: Bool) -> Bool {
         return smoke_StaticMethods_returnAndBoolean(input1, input2)
     }
-    public static func returnInputByteBuffer(inputBuffer: Data) -> Data? {
-        return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data? in
+    public static func returnInputByteBuffer(inputBuffer: Data) -> Data {
+        return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data in
             let result_data_handle = smoke_StaticMethods_returnInputByteBuffer(inputBuffer_ptr, Int64(inputBuffer.count))
 
             defer {
                 byteArray_release(result_data_handle)
             }
-            let size = byteArray_size_get(result_data_handle)
-            if size > 0 {
-                let data_handle = byteArray_data_get(result_data_handle)
-                if let data_handle = data_handle {
-                    let return_data = Data(bytes: data_handle, count: Int(size))
-                    return return_data
-                }
-            }
-            return nil
+            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
         }
     }
-    public static func returnReverseByteBuffer(inputBuffer: Data) -> Data? {
-        return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data? in
+    public static func returnReverseByteBuffer(inputBuffer: Data) -> Data {
+        return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data in
             let result_data_handle = smoke_StaticMethods_returnReverseByteBuffer(inputBuffer_ptr, Int64(inputBuffer.count))
 
             defer {
                 byteArray_release(result_data_handle)
             }
-            let size = byteArray_size_get(result_data_handle)
-            if size > 0 {
-                let data_handle = byteArray_data_get(result_data_handle)
-                if let data_handle = data_handle {
-                    let return_data = Data(bytes: data_handle, count: Int(size))
-                    return return_data
-                }
-            }
-            return nil
+            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
         }
     }
-    public static func concatenateByteBuffers(input1: Data, input2: Data) -> Data? {
-        return input1.withUnsafeBytes { (input1_ptr: UnsafePointer<UInt8>) -> Data? in
-            return input2.withUnsafeBytes { (input2_ptr: UnsafePointer<UInt8>) -> Data? in
+    public static func concatenateByteBuffers(input1: Data, input2: Data) -> Data {
+        return input1.withUnsafeBytes { (input1_ptr: UnsafePointer<UInt8>) -> Data in
+            return input2.withUnsafeBytes { (input2_ptr: UnsafePointer<UInt8>) -> Data in
                 let result_data_handle = smoke_StaticMethods_concatenateByteBuffers(input1_ptr, Int64(input1.count), input2_ptr, Int64(input2.count))
 
                 defer {
                     byteArray_release(result_data_handle)
                 }
-                let size = byteArray_size_get(result_data_handle)
-                if size > 0 {
-                    let data_handle = byteArray_data_get(result_data_handle)
-                    if let data_handle = data_handle {
-                        let return_data = Data(bytes: data_handle, count: Int(size))
-                        return return_data
-                    }
-                }
-                return nil
+                return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
             }
         }
     }
@@ -178,11 +154,8 @@ public class StaticMethods {
         defer {
             std_string_release(result_string_handle)
         }
-        if let ret_value = String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                             count: Int(std_string_size_get(result_string_handle))), encoding: .utf8) {
-            return ret_value
-        }
-        return nil
+        return String(data: Data(bytes: std_string_data_get(result_string_handle),
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
     }
     public static func concatenateStrings(inputString1: String, inputString2: String) -> String? {
         let result_string_handle = smoke_StaticMethods_concatenateStrings(inputString1, inputString2)
@@ -190,11 +163,8 @@ public class StaticMethods {
         defer {
             std_string_release(result_string_handle)
         }
-        if let ret_value = String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                             count: Int(std_string_size_get(result_string_handle))), encoding: .utf8) {
-            return ret_value
-        }
-        return nil
+        return String(data: Data(bytes: std_string_data_get(result_string_handle),
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
     }
     public static func returnHelloString() -> String? {
         let result_string_handle = smoke_StaticMethods_returnHelloString()
@@ -202,11 +172,8 @@ public class StaticMethods {
         defer {
             std_string_release(result_string_handle)
         }
-        if let ret_value = String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                             count: Int(std_string_size_get(result_string_handle))), encoding: .utf8) {
-            return ret_value
-        }
-        return nil
+        return String(data: Data(bytes: std_string_data_get(result_string_handle),
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
     }
     public static func returnEmpty() -> String? {
         let result_string_handle = smoke_StaticMethods_returnEmpty()
@@ -214,11 +181,8 @@ public class StaticMethods {
         defer {
             std_string_release(result_string_handle)
         }
-        if let ret_value = String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                             count: Int(std_string_size_get(result_string_handle))), encoding: .utf8) {
-            return ret_value
-        }
-        return nil
+        return String(data: Data(bytes: std_string_data_get(result_string_handle),
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
     }
 }
 

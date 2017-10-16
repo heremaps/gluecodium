@@ -85,9 +85,7 @@ public class SwiftTypeMapper {
 
   public static SwiftType mapOutputType(final FTypeRef type) {
     SwiftType mapped = mapType(type);
-    if (mapped.category == BUILTIN_BYTEBUFFER
-        || mapped.category == STRUCT
-        || mapped.category == BUILTIN_STRING) {
+    if (mapped.category == STRUCT || mapped.category == BUILTIN_STRING) {
       mapped.optional = true;
     }
     return mapped;

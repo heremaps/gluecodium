@@ -22,11 +22,8 @@ public class Basic {
         defer {
             std_string_release(result_string_handle)
         }
-        if let ret_value = String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                             count: Int(std_string_size_get(result_string_handle))), encoding: .utf8) {
-            return ret_value
-        }
-        return nil
+        return String(data: Data(bytes: std_string_data_get(result_string_handle),
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
     }
 }
 
