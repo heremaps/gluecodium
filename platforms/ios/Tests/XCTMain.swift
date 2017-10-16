@@ -37,9 +37,15 @@ import XCTest
 
         var dynamicTestCases: [String: Set<String>] = [:]
         defaultSuite.tests.forEach { bundle in
-            let bundleSuite = bundle as! XCTestSuite
+            guard let bundleSuite = bundle as? XCTestSuite else {
+                print("Unexpected test structure of discovered tests")
+                exit(-2)
+            }
             bundleSuite.tests.forEach { testCase in
-                let testSuite = testCase as! XCTestSuite
+                guard let testSuite = testCase as? XCTestSuite else {
+                    print("Unexpected test structure of discovered tests")
+                    exit(-2)
+                }
                 var tests: [String] = []
                 testSuite.tests.forEach { test in
                     var name = test.name
