@@ -136,7 +136,7 @@ set_target_properties(hello PROPERTIES
         SOVERSION ${HELLO_VERSION_MAJOR}
         VERSION ${HELLO_VERSION})
 
-include(apigen/Apigen)
+include(apigen/Transpiler)
 apigen_transpile(TARGET hello
         FRANCA_SOURCES ${HELLO_FRANCA_DIR}
         GENERATOR ${HELLO_APIGEN_TRANSPILER_GENERATOR}
@@ -153,13 +153,14 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
         ARCHIVE DESTINATION lib
         INCLUDES DESTINATION hello)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-
     # Android customers want an Android Archive and it's pre-requirements...
+    include(apigen/Android)
     apigen_java_compile(hello)
     apigen_java_jar(hello)
     apigen_android_archive(hello)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
     # Swift customers want a module...
+    include(apigen/iOS)
     apigen_swift_build(hello TESTS ${HELLO_SWIFT_TESTS})
 
     #TODO: Investigate ways to separate debug host-builds (no cross toolchain)
