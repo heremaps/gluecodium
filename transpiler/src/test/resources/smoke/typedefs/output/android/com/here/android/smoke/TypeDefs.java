@@ -19,7 +19,7 @@ public class TypeDefs {
         public String something;
     }
     public static native double methodWithPrimitiveTypeDef(final double input);
-    public static native java.util.List<TypeDefs.TestStruct> methodWithComplexTypeDef(final java.util.List<TypeDefs.TestStruct> input);
+    public static native List<TypeDefs.TestStruct> methodWithComplexTypeDef(final List<TypeDefs.TestStruct> input);
     public static native double returnNestedIntTypeDef(final double input);
     public static native TypeDefs.TestStruct returnTestStructTypeDef(final TypeDefs.TestStruct input);
     public static native TypeDefs.TestStruct returnNestedStructTypeDef(final TypeDefs.TestStruct input);

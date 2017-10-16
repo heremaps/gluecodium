@@ -31,11 +31,8 @@ public final class JavaTemplateType extends JavaCustomType {
   }
 
   private JavaTemplateType(
-      String fullName,
-      String name,
-      TemplateClass templateClass,
-      List<JavaType> templateParameters) {
-    super(fullName, name, Collections.emptySet());
+      String name, TemplateClass templateClass, List<JavaType> templateParameters) {
+    super(name, Collections.emptySet());
 
     this.templateClass = templateClass;
     this.templateParameters = templateParameters;
@@ -52,11 +49,7 @@ public final class JavaTemplateType extends JavaCustomType {
                 .collect(Collectors.joining(", "))
             + ">";
 
-    String fullName =
-        String.join(".", templateClass.javaImport.javaPackage.packageNames) + "." + name;
-
-    JavaTemplateType templateType =
-        new JavaTemplateType(fullName, name, templateClass, templateParameters);
+    JavaTemplateType templateType = new JavaTemplateType(name, templateClass, templateParameters);
 
     templateType.imports.add(templateClass.javaImport);
     templateParameters.forEach(parameter -> templateType.imports.addAll(parameter.imports));
