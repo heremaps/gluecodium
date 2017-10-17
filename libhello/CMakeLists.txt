@@ -179,10 +179,14 @@ feature(ComplexAttributes cpp SOURCES
 feature(Listeners cpp android SOURCES
     src/hello/HelloWorldListeners.h
     src/hello/HelloWorldListeners.cpp
+    src/test/ComplexListener.cpp
+    src/test/ComplexListener.h
 
     fidl/hello/CalculatorListener.fidl
     fidl/hello/HelloWorldListeners.fdepl
     fidl/hello/HelloWorldListeners.fidl
+    fidl/test/ComplexListeners.fdepl
+    fidl/test/ComplexListeners.fidl
     )
 
 #TODO enable for swift APIGEN-766
