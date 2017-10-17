@@ -51,7 +51,7 @@ class TypeDefTests: XCTestCase {
 
     func testBufferTypedef() {
         let typedef: StaticTypedef.ByteArrayTypedef = "Test".data(using: .utf8)!
-        let dataTypeDef =  StaticTypedef.returnByteBufferTypedef(input:typedef)!
+        let dataTypeDef =  StaticTypedef.returnByteBufferTypedef(input:typedef)
         let dataMirror = Mirror(reflecting: dataTypeDef)
         XCTAssertEqual(String(data: dataTypeDef, encoding: String.Encoding.utf8), "tseT")
         XCTAssertTrue(dataMirror.subjectType == Data.self)
