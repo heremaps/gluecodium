@@ -19,117 +19,195 @@ set(HELLO_VERSION_MINOR 0)
 set(HELLO_VERSION_PATCH 1)
 set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_PATCH})
 
-set(HELLO_SOURCES
+set(HELLO_SOURCES)
+set(HELLO_FRANCA_SOURCES)
+
+function(feature feature_name)
+    set(options)
+    set(oneValueArgs)
+    set(multiValueArgs GENERATORS SOURCES)
+    cmake_parse_arguments(feature
+        "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    set(sources)
+    set(franca_sources)
+
+    foreach(generator ${feature_GENERATORS} ${feature_UNPARSED_ARGUMENTS})
+        if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL ${generator})
+            message("Enabling feature ${feature_name} for ${generator}")
+            foreach(source ${feature_SOURCES})
+                get_filename_component(extension "${source}" EXT)
+                if (extension MATCHES "cpp|h")
+                    list(APPEND sources "${source}")
+                elseif (extension MATCHES "fidl|fdepl")
+                    list(APPEND franca_sources "${source}")
+                else ()
+                    message(SEND_ERROR "Unrecognized file format \"${extension}\" in \"${source}\"")
+                endif ()
+            endforeach()
+        endif()
+    endforeach()
+
+    set(HELLO_SOURCES "${HELLO_SOURCES};${sources}" PARENT_SCOPE)
+    set(HELLO_FRANCA_SOURCES "${HELLO_FRANCA_SOURCES};${franca_sources}" PARENT_SCOPE)
+endfunction()
+
+feature(Strings cpp android swift SOURCES
     src/hello/HelloWorld.cpp
+    src/test/StaticStringMethods.cpp
+
+    fidl/hello/HelloWorld.fdepl
+    fidl/hello/HelloWorld.fidl
+    )
+
+feature(BuiltinTypes cpp android swift SOURCES
     src/hello/HelloWorldBuiltinTypes.cpp
-    src/hello/HelloWorldFactory.cpp
-    src/hello/HelloWorldInstances.cpp
-    src/hello/HelloWorldPlainDataStructures.cpp
-    src/hello/HelloWorldTypedefs.cpp
-    src/test/Instances.cpp
-    src/test/InstancesFactory.cpp
-    src/test/PlainDataStructuresFromTypeCollection.cpp
-    src/test/PlainDataStructures.cpp
     src/test/StaticBooleanMethods.cpp
     src/test/StaticByteArrayMethods.cpp
     src/test/StaticFloatDoubleMethods.cpp
     src/test/StaticIntMethods.cpp
-    src/test/StaticStringMethods.cpp
     src/test/StaticTypedef.cpp
+
+    fidl/hello/HelloWorldBuiltinTypes.fdepl
+    fidl/hello/HelloWorldBuiltinTypes.fidl
+    fidl/test/StaticBooleanMethods.fdepl
+    fidl/test/StaticBooleanMethods.fidl
+    fidl/test/StaticByteArrayMethods.fdepl
+    fidl/test/StaticByteArrayMethods.fidl
+    fidl/test/StaticFloatDoubleMethods.fdepl
+    fidl/test/StaticFloatDoubleMethods.fidl
+    fidl/test/StaticIntMethods.fdepl
+    fidl/test/StaticIntMethods.fidl
+    fidl/test/StaticStringMethods.fdepl
+    fidl/test/StaticStringMethods.fidl
+    )
+
+feature(Instances cpp android swift SOURCES
+    src/hello/HelloWorldInstances.h
+    src/hello/HelloWorldProfileManager.h
+    src/hello/HelloWorldFactory.cpp
+    src/hello/HelloWorldInstances.cpp
     src/hello/HelloWorldStaticLogger.cpp
     src/hello/HelloWorldProfileManager.cpp
     src/hello/HelloWorldProfileManagerFactory.cpp
-    src/hello/HelloWorldAttributesImpl.cpp)
+    src/test/Instances.cpp
+    src/test/InstancesFactory.cpp
 
-set(HELLO_HEADERS
-    src/hello/HelloWorldAttributesComplexImpl.h
+    fidl/hello/HelloWorldInstances.fidl
+    fidl/hello/HelloWorldProfileManager.fidl
+    fidl/hello/HelloWorldProfileManagerFactory.fdepl
+    fidl/hello/HelloWorldFactory.fdepl
+    fidl/hello/HelloWorldFactory.fidl
+    fidl/hello/HelloWorldProfileManagerFactory.fidl
+    fidl/hello/HelloWorldStaticLogger.fdepl
+    fidl/hello/HelloWorldStaticLogger.fidl
+    fidl/test/Instances.fidl
+    fidl/test/InstancesFactory.fdepl
+    fidl/test/InstancesFactory.fidl
+    )
+
+feature(Structs cpp android swift SOURCES
+    src/hello/HelloWorldPlainDataStructures.cpp
+    src/test/PlainDataStructuresFromTypeCollection.cpp
+    src/test/PlainDataStructures.cpp
+
+    fidl/hello/HelloWorldPlainDataStructures.fdepl
+    fidl/hello/HelloWorldPlainDataStructures.fidl
+    fidl/test/PlainDataStructures.fdepl
+    fidl/test/PlainDataStructures.fidl
+    fidl/test/PlainDataStructuresFromTypeCollection.fdepl
+    fidl/test/PlainDataStructuresFromTypeCollection.fidl
+    fidl/test/TypeCollection.fidl
+    )
+
+feature(TypeDefs cpp android swift SOURCES
+    src/hello/HelloWorldTypedefs.cpp
+
+    fidl/hello/HelloWorldTypedefs.fdepl
+    fidl/hello/HelloWorldTypedefs.fidl
+    fidl/test/StaticTypedef.fdepl
+    fidl/test/StaticTypedef.fidl
+    )
+
+#TODO: enable for android (APIGEN-756)
+feature(Enums cpp swift SOURCES
+    src/hello/HelloWorldEnums.cpp
+    src/test/Enums.cpp
+
+    fidl/hello/HelloWorldEnums.fdepl
+    fidl/hello/HelloWorldEnums.fidl
+    fidl/test/Enums.fdepl
+    fidl/test/Enums.fidl
+    )
+
+#TODO: enable for android and swift (APIGEN-739, APIGEN-730)
+feature(Maps cpp SOURCES
+    src/hello/HelloWorldMaps.cpp
+
+    fidl/hello/HelloWorldMaps.fdepl
+    fidl/hello/HelloWorldMaps.fidl
+    fidl/test/Maps.fdepl
+    fidl/test/Maps.fidl
+    )
+
+#TODO: enable for android and swift (APIGEN-776, APIGEN-775)
+feature(Unions cpp SOURCES
+    src/hello/HelloWorldUnions.cpp
+
+    fidl/hello/HelloWorldUnions.fdepl
+    fidl/hello/HelloWorldUnions.fidl
+    fidl/test/Unions.fdepl
+    fidl/test/Unions.fidl
+    )
+
+feature(Attributes cpp android swift SOURCES
     src/hello/HelloWorldAttributesImpl.h
-    src/hello/HelloWorldInstances.h
+    src/hello/HelloWorldAttributesImpl.cpp
+
+    fidl/hello/HelloWorldAttributes.fidl
+    )
+
+#TODO: enable for android and swift (APIGEN-509, APIGEN-508)
+feature(ComplexAttributes cpp SOURCES
+    src/hello/HelloWorldAttributesComplexImpl.h
+    src/hello/HelloWorldAttributesComplexImpl.cpp
+
+    fidl/hello/HelloWorldAttributesComplex.fidl
+    )
+
+#TODO: enable for swift (APIGEN-515, APIGEN-516)
+feature(Listeners cpp android SOURCES
     src/hello/HelloWorldListeners.h
-    src/hello/HelloWorldProfileManager.h)
+    src/hello/HelloWorldListeners.cpp
 
-file(GLOB_RECURSE HELLO_FRANCA_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.fidl
-    ${CMAKE_CURRENT_SOURCE_DIR}/fidl/*.fdepl)
+    fidl/hello/CalculatorListener.fidl
+    fidl/hello/HelloWorldListeners.fdepl
+    fidl/hello/HelloWorldListeners.fidl
+    )
 
+#TODO enable for swift APIGEN-766
+feature(Arrays cpp android SOURCES
+    src/hello/HelloWorldArrays.cpp
 
-# --- BEGIN TODO SECTION ---
+    fidl/hello/HelloWorldArrays.fdepl
+    fidl/hello/HelloWorldArrays.fidl
+    )
 
-#TODO: Remove this workaround once iOS supports listeners (APIGEN-515, APIGEN-516) and Arrays (APIGEN-766)
-if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-    set(HELLO_SOURCES
-        ${HELLO_SOURCES}
-        src/hello/HelloWorldArrays.cpp
-        src/hello/HelloWorldListeners.cpp)
-endif()
+#TODO enable for android and merge with Arrays (APIGEN-822)
+feature(ArrayTests cpp SOURCES
+    fidl/test/Arrays.fdepl
+    fidl/test/Arrays.fidl
+    )
 
-#TODO: Remove this workaround once Android and iOS support complex types:
-#      maps: (APIGEN-739, APIGEN-730)
-#      unions: (APIGEN-776, APIGEN-775)
-if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
-    set(HELLO_SOURCES
-        ${HELLO_SOURCES}
-        src/hello/HelloWorldMaps.cpp
-        src/hello/HelloWorldUnions.cpp
-        src/hello/HelloWorldAttributesComplexImpl.cpp)
-endif()
+feature(Unsupported cpp android swift SOURCES
+    fidl/hello/UnsupportedFeatures.fidl
+    )
 
-#TODO: Remove this workaround once Android supports enum type (APIGEN-756)
-if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-    set(HELLO_SOURCES
-        ${HELLO_SOURCES}
-        src/hello/HelloWorldEnums.cpp
-        src/test/Enums.cpp)
-endif()
+#TODO apigen_transpile should be able to take single file arguments (APIGEN-855)
+file(COPY ${HELLO_FRANCA_SOURCES} DESTINATION fidl-supported-features-only)
+set(HELLO_FRANCA_DIR ${CMAKE_CURRENT_BINARY_DIR}/fidl-supported-features-only/)
 
-#TODO: the 'if' and the content of the 'else' block should be removed when all fidl files pass the build (APIGEN-357, APIGEN-460, APIGEN-462)
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
-    set(HELLO_FRANCA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fidl/)
-else()
-    #TODO: These excludes can be removed once ios platforms support listeners (APIGEN-515,516)
-    if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
-        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fidl)
-        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fdepl)
-        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/CalculatorListener.fidl)
-    #TODO: These excludes can be removed once ios platforms supports arrays (APIGEN-766)
-        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldArrays.fidl)
-        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldArrays.fdepl)
-    endif()
-
-    #TODO: This exclude can be removed once Android supports enums (APIGEN-756):
-    if (NOT HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
-      list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldEnums.fidl)
-      list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldEnums.fdepl)
-      list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Enums.fidl)
-      list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Enums.fdepl)
-    endif()
-
-    #TODO: These excludes can be removed once Android and iOS support complex types:
-    #      attributes: (APIGEN-509, APIGEN-508)
-    #      maps: (APIGEN-739, APIGEN-730)
-    #      unions: (APIGEN-776, APIGEN-775)
-
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldAttributesComplex.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldMaps.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldMaps.fdepl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldUnions.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldUnions.fdepl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Arrays.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Arrays.fdepl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Maps.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Maps.fdepl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Unions.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/test/Unions.fdepl)
-
-    file(COPY ${HELLO_FRANCA_SOURCES} DESTINATION fidl-supported-features-only)
-
-    set(HELLO_FRANCA_DIR ${CMAKE_CURRENT_BINARY_DIR}/fidl-supported-features-only/)
-endif()
-
-# --- END TODO SECTION ---
-
-
-add_library(hello ${HELLO_SOURCES} ${HELLO_HEADERS} ${HELLO_FRANCA_SOURCES})
+add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES
         POSITION_INDEPENDENT_CODE ON
