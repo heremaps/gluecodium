@@ -56,7 +56,7 @@ public final class CppProxyTest {
 
         notifier.calculate(START_POSITION,END_POSITION, JAVA_LISTENER);
 
-        assertTrue("Native Java listener was called on C++ side",
+        assertTrue("Native Java listener was not called on C++ side",
                 HelloWorldStaticLogger.getLog()
                                       .contains("calculation finished with result=17320.508"));
     }
@@ -70,9 +70,17 @@ public final class CppProxyTest {
 
         notifier.unregisterListener(JAVA_LISTENER);
 
-        assertTrue("Registered native Java listener was called on C++ side",
+        assertTrue("Listener registration was unsuccessful on C++ side",
+                HelloWorldStaticLogger.getLog()
+                                      .contains("new registration for the listener"));
+
+        assertTrue("Registered native Java listener was not called on C++ side",
                 HelloWorldStaticLogger.getLog()
                                       .contains("calculation in bg finished with result=17320.508"));
+
+        assertTrue("Listener de-registration was unsuccessful on C++ side",
+                HelloWorldStaticLogger.getLog()
+                                      .contains("removed registration for the listener"));
     }
 
     @Test
@@ -91,7 +99,7 @@ public final class CppProxyTest {
 
         notifier.unregisterListener(JAVA_LISTENER);
 
-        assertTrue("Registered native Java listener was called on C++ side (multi-threading)",
+        assertTrue("Registered native Java listener was not called on C++ side (multi-threading)",
                 HelloWorldStaticLogger.getLog()
                         .contains("calculation in bg finished with result=17320.508"));
     }

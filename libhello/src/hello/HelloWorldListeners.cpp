@@ -65,10 +65,20 @@ HelloCalculator::registerListener(
 {
     bool registered
         = std::find( m_listeners.begin( ), m_listeners.end( ), listener ) != m_listeners.end( );
-    if ( !registered )
+    std::string logMessage;
+    if ( registered )
+    {
+        logMessage = " listener had been already registered before";
+    }
+    else
     {
         m_listeners.push_back( listener );
+        logMessage = " new registration for the listener";
     }
+
+    std::stringstream logStream;
+    logStream << __PRETTY_FUNCTION__ << logMessage << std::endl;
+    HelloWorldStaticLogger::append(logStream.str());
 }
 
 void
@@ -76,10 +86,20 @@ HelloCalculator::unregisterListener(
     const ::std::shared_ptr< ::hello::CalculatorListener >& listener )
 {
     const auto iterator = std::find( m_listeners.begin( ), m_listeners.end( ), listener );
-    if ( iterator != m_listeners.end( ) )
+    std::string logMessage;
+    if ( iterator == m_listeners.end( ) )
+    {
+        logMessage = " listener had not been registered before";
+    }
+    else
     {
         m_listeners.erase( iterator );
+        logMessage = " removed registration for the listener";
     }
+
+    std::stringstream logStream;
+    logStream << __PRETTY_FUNCTION__ << logMessage << std::endl;
+    HelloWorldStaticLogger::append(logStream.str());
 }
 
 void
