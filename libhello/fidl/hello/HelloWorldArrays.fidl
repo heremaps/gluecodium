@@ -47,11 +47,11 @@ interface HelloWorldArrays {
     method methodWithArrayInline {
         in {
             <** @description: Input array **>
-            UInt8[] input
+            UInt32[] input
         }
         out {
             <** @description: Output array **>
-            UInt8[] output
+            UInt32[] output
         }
     }
 
