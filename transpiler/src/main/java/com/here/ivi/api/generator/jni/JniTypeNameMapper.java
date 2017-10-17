@@ -45,14 +45,22 @@ public final class JniTypeNameMapper {
 
   private static String map(final JavaReferenceType refType) {
     switch (refType.type) {
-      case OBJECT:
-        return "jobject";
       case CLASS:
         return "jclass";
       case STRING:
         return "jstring";
       case THROWABLE:
         return "jthrowable";
+      case OBJECT:
+      case BOOL:
+      case BYTE:
+      case CHAR:
+      case SHORT:
+      case INT:
+      case LONG:
+      case FLOAT:
+      case DOUBLE:
+        return "jobject";
       default:
         throw new IllegalArgumentException(
             "mapping from Java type to jni type name is not possible: " + refType.name);
