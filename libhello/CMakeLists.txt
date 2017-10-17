@@ -55,21 +55,20 @@ file(GLOB_RECURSE HELLO_FRANCA_SOURCES
 
 # --- BEGIN TODO SECTION ---
 
-#TODO: Remove this workaround once iOS supports listeners (APIGEN-515, APIGEN-516)
+#TODO: Remove this workaround once iOS supports listeners (APIGEN-515, APIGEN-516) and Arrays (APIGEN-766)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp OR HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
+        src/hello/HelloWorldArrays.cpp
         src/hello/HelloWorldListeners.cpp)
 endif()
 
 #TODO: Remove this workaround once Android and iOS support complex types:
-#      arrays: (APIGEN-767, APIGEN-766)
 #      maps: (APIGEN-739, APIGEN-730)
 #      unions: (APIGEN-776, APIGEN-775)
 if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
     set(HELLO_SOURCES
         ${HELLO_SOURCES}
-        src/hello/HelloWorldArrays.cpp
         src/hello/HelloWorldMaps.cpp
         src/hello/HelloWorldUnions.cpp
         src/hello/HelloWorldAttributesComplexImpl.cpp)
@@ -92,6 +91,9 @@ else()
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fidl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldListeners.fdepl)
         list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/CalculatorListener.fidl)
+    #TODO: These excludes can be removed once ios platforms supports arrays (APIGEN-766)
+        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldArrays.fidl)
+        list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldArrays.fdepl)
     endif()
 
     #TODO: This exclude can be removed once Android supports enums (APIGEN-756):
@@ -103,12 +105,10 @@ else()
     endif()
 
     #TODO: These excludes can be removed once Android and iOS support complex types:
-    #      arrays: (APIGEN-767, APIGEN-766)
     #      attributes: (APIGEN-509, APIGEN-508)
     #      maps: (APIGEN-739, APIGEN-730)
     #      unions: (APIGEN-776, APIGEN-775)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldArrays.fidl)
-    list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldArrays.fdepl)
+
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldAttributesComplex.fidl)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldMaps.fidl)
     list(REMOVE_ITEM HELLO_FRANCA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/fidl/hello/HelloWorldMaps.fdepl)

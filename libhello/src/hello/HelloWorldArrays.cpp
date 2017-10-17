@@ -14,16 +14,17 @@
 
 namespace hello
 {
+
 ::std::vector< ::std::string >
 HelloWorldArrays::methodWithArray( const ::std::vector< ::std::string >& input )
 {
-    return {input.rbegin( ), input.rend( )};
+    return { input.rbegin( ), input.rend( ) };
 }
 
-::std::vector< uint8_t >
-HelloWorldArrays::methodWithArrayInline( const ::std::vector< uint8_t >& input )
+::std::vector<  uint32_t >
+HelloWorldArrays::methodWithArrayInline( const ::std::vector<  uint32_t >& input )
 {
-    return {input.rbegin( ), input.rend( )};
+    return { input.rbegin( ), input.rend( ) };
 }
 
 ::std::vector< ::hello::HelloWorldArrays::ExampleStruct >
@@ -32,4 +33,5 @@ HelloWorldArrays::methodWithStructArray(
 {
     return {input.rbegin( ), input.rend( )};
 }
+
 }
