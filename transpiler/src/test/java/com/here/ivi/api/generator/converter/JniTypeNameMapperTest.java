@@ -15,250 +15,67 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.jni.JniTypeNameMapper;
 import com.here.ivi.api.model.javamodel.*;
+import java.util.Arrays;
+import java.util.Collection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.runners.Parameterized;
 
-@RunWith(JUnit4.class)
+@RunWith(Parameterized.class)
 public final class JniTypeNameMapperTest {
 
-  @Test
-  public void convertVoidType() {
-    // Arrange
-    JavaType javaPrimitiveType = JavaPrimitiveType.VOID;
+  private final JavaType javaType;
+  private final String expectedJniTypeName;
 
-    // Act
-    String result = JniTypeNameMapper.map(javaPrimitiveType);
+  public JniTypeNameMapperTest(final JavaType javaType, final String expectedJniTypeName) {
+    this.javaType = javaType;
+    this.expectedJniTypeName = expectedJniTypeName;
+  }
 
-    // Assert
-    assertEquals("void", result);
+  @Parameterized.Parameters
+  public static Collection<Object[]> testData() {
+    return Arrays.asList(
+        new Object[][] {
+          {JavaPrimitiveType.VOID, "void"},
+          {JavaPrimitiveType.INT, "jint"},
+          {JavaPrimitiveType.DOUBLE, "jdouble"},
+          {JavaPrimitiveType.FLOAT, "jfloat"},
+          {JavaPrimitiveType.LONG, "jlong"},
+          {JavaPrimitiveType.BOOL, "jboolean"},
+          {JavaPrimitiveType.BYTE, "jbyte"},
+          {JavaPrimitiveType.SHORT, "jshort"},
+          {JavaPrimitiveType.CHAR, "jchar"},
+          {JavaArrayType.BOOL_ARRAY, "jbooleanArray"},
+          {JavaArrayType.BYTE_ARRAY, "jbyteArray"},
+          {JavaArrayType.CHAR_ARRAY, "jcharArray"},
+          {JavaArrayType.DOUBLE_ARRAY, "jdoubleArray"},
+          {JavaArrayType.FLOAT_ARRAY, "jfloatArray"},
+          {JavaArrayType.INT_ARRAY, "jintArray"},
+          {JavaArrayType.LONG_ARRAY, "jlongArray"},
+          {JavaArrayType.SHORT_ARRAY, "jshortArray"},
+          {new JavaReferenceType(JavaReferenceType.Type.BOOL), "jobject"},
+          {new JavaReferenceType(JavaReferenceType.Type.BYTE), "jobject"},
+          {new JavaReferenceType(JavaReferenceType.Type.CHAR), "jobject"},
+          {new JavaReferenceType(JavaReferenceType.Type.CLASS), "jclass"},
+          {new JavaReferenceType(JavaReferenceType.Type.DOUBLE), "jobject"},
+          {new JavaReferenceType(JavaReferenceType.Type.FLOAT), "jobject"},
+          {new JavaReferenceType(JavaReferenceType.Type.INT), "jobject"},
+          {new JavaReferenceType(JavaReferenceType.Type.LONG), "jobject"},
+          {new JavaReferenceType(JavaReferenceType.Type.OBJECT), "jobject"},
+          {new JavaReferenceType(JavaReferenceType.Type.SHORT), "jobject"},
+          {new JavaReferenceType(JavaReferenceType.Type.STRING), "jstring"},
+          {new JavaReferenceType(JavaReferenceType.Type.THROWABLE), "jthrowable"},
+          {new JavaCustomType("MyFancyType"), "jobject"}
+        });
   }
 
   @Test
-  public void convertBooleanType() {
-    // Arrange
-    JavaType javaBool = JavaPrimitiveType.BOOL;
+  public void mapTypeName() {
 
     // Act
-    String result = JniTypeNameMapper.map(javaBool);
+    String result = JniTypeNameMapper.map(javaType);
 
     // Assert
-    assertEquals(("j" + javaBool.name), result);
-  }
-
-  @Test
-  public void convertByteType() {
-    // Arrange
-    JavaType javaByte = JavaPrimitiveType.BYTE;
-
-    // Act
-    String result = JniTypeNameMapper.map(javaByte);
-
-    // Assert
-    assertEquals(("j" + javaByte.name), result);
-  }
-
-  @Test
-  public void convertCharType() {
-    // Arrange
-    JavaType javaChar = JavaPrimitiveType.CHAR;
-
-    // Act
-    String result = JniTypeNameMapper.map(javaChar);
-
-    // Assert
-    assertEquals(("j" + javaChar.name), result);
-  }
-
-  @Test
-  public void convertDoubleType() {
-    // Arrange
-    JavaType javaDouble = JavaPrimitiveType.DOUBLE;
-
-    // Act
-    String result = JniTypeNameMapper.map(javaDouble);
-
-    // Assert
-    assertEquals(("j" + javaDouble.name), result);
-  }
-
-  @Test
-  public void convertFloatType() {
-    // Arrange
-    JavaType javaFloat = JavaPrimitiveType.FLOAT;
-
-    // Act
-    String result = JniTypeNameMapper.map(javaFloat);
-
-    // Assert
-    assertEquals(("j" + javaFloat.name), result);
-  }
-
-  @Test
-  public void convertIntType() {
-    // Arrange
-    JavaType javaInt = JavaPrimitiveType.INT;
-
-    // Act
-    String result = JniTypeNameMapper.map(javaInt);
-
-    // Assert
-    assertEquals(("j" + javaInt.name), result);
-  }
-
-  @Test
-  public void convertLongType() {
-    // Arrange
-    JavaType javaLong = JavaPrimitiveType.LONG;
-
-    // Act
-    String result = JniTypeNameMapper.map(javaLong);
-
-    // Assert
-    assertEquals(("j" + javaLong.name), result);
-  }
-
-  @Test
-  public void convertShortType() {
-    // Arrange
-    JavaType javaShort = JavaPrimitiveType.SHORT;
-
-    // Act
-    String result = JniTypeNameMapper.map(javaShort);
-
-    // Assert
-    assertEquals(("j" + javaShort.name), result);
-  }
-
-  @Test
-  public void convertClassType() {
-    // Arrange
-    JavaType javaClass = new JavaReferenceType(JavaReferenceType.Type.CLASS);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaClass);
-
-    // Assert
-    assertEquals("jclass", result);
-  }
-
-  @Test
-  public void convertStringType() {
-    // Arrange
-    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.STRING);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaString);
-
-    // Assert
-    assertEquals("jstring", result);
-  }
-
-  @Test
-  public void convertByteArrayType() {
-    // Arrange
-    JavaType javaString = new JavaArrayType(JavaArrayType.Type.BYTE_ARRAY);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaString);
-
-    // Assert
-    assertEquals("jbyteArray", result);
-  }
-
-  @Test
-  public void convertCharArrayType() {
-    // Arrange
-    JavaType javaString = new JavaArrayType(JavaArrayType.Type.CHAR_ARRAY);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaString);
-
-    // Assert
-    assertEquals("jcharArray", result);
-  }
-
-  @Test
-  public void convertShortArrayType() {
-    // Arrange
-    JavaType javaString = new JavaArrayType(JavaArrayType.Type.SHORT_ARRAY);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaString);
-
-    // Assert
-    assertEquals("jshortArray", result);
-  }
-
-  @Test
-  public void convertIntArrayType() {
-    // Arrange
-    JavaType javaString = new JavaArrayType(JavaArrayType.Type.INT_ARRAY);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaString);
-
-    // Assert
-    assertEquals("jintArray", result);
-  }
-
-  @Test
-  public void convertLongArrayType() {
-    // Arrange
-    JavaType javaString = new JavaArrayType(JavaArrayType.Type.LONG_ARRAY);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaString);
-
-    // Assert
-    assertEquals("jlongArray", result);
-  }
-
-  @Test
-  public void convertFloatArrayType() {
-    // Arrange
-    JavaType javaString = new JavaArrayType(JavaArrayType.Type.FLOAT_ARRAY);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaString);
-
-    // Assert
-    assertEquals("jfloatArray", result);
-  }
-
-  @Test
-  public void convertDoubleArrayType() {
-    // Arrange
-    JavaType javaString = new JavaArrayType(JavaArrayType.Type.DOUBLE_ARRAY);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaString);
-
-    // Assert
-    assertEquals("jdoubleArray", result);
-  }
-
-  @Test
-  public void convertThrowableType() {
-    // Arrange
-    JavaType javaString = new JavaReferenceType(JavaReferenceType.Type.THROWABLE);
-
-    // Act
-    String result = JniTypeNameMapper.map(javaString);
-
-    // Assert
-    assertEquals("jthrowable", result);
-  }
-
-  @Test
-  public void convertCustomType() {
-    // Arrange
-    JavaType javaCustom = new JavaCustomType("MyFancyType");
-
-    // Act
-    String result = JniTypeNameMapper.map(javaCustom);
-
-    // Assert
-    assertEquals("jobject", result);
+    assertEquals(expectedJniTypeName, result);
   }
 }
