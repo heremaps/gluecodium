@@ -33,29 +33,6 @@ internal class _InstanceWithStruct: InstanceWithStruct {
         smoke_InstanceWithStruct_release(c_instance)
     }
 
-
-    public struct InnerStruct {
-        public var value: Int8
-
-        public init(value: Int8) {
-            self.value = value
-        }
-
-        internal init?(cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) {
-            value = smoke_InstanceWithStruct_InnerStruct_value_get(cInnerStruct)
-        }
-
-        internal func convertToCType() -> smoke_InstanceWithStruct_InnerStructRef {
-            let result = smoke_InstanceWithStruct_InnerStruct_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) -> Void {
-            smoke_InstanceWithStruct_InnerStruct_value_set(cInnerStruct, value)
-        }
-    }
-
     public func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct? {
         let inputStructHandle = inputStruct.convertToCType()
         defer {
@@ -72,4 +49,24 @@ internal class _InstanceWithStruct: InstanceWithStruct {
     }
 }
 
+public struct InnerStruct {
+    public var value: Int8
 
+    public init(value: Int8) {
+        self.value = value
+    }
+
+    internal init?(cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) {
+        value = smoke_InstanceWithStruct_InnerStruct_value_get(cInnerStruct)
+    }
+
+    internal func convertToCType() -> smoke_InstanceWithStruct_InnerStructRef {
+        let result = smoke_InstanceWithStruct_InnerStruct_create()
+        fillFunction(result)
+        return result
+    }
+
+    internal func fillFunction(_ cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) -> Void {
+        smoke_InstanceWithStruct_InnerStruct_value_set(cInnerStruct, value)
+    }
+}

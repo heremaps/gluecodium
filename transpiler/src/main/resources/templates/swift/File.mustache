@@ -19,6 +19,7 @@ import Foundation
 {{>swift/Property}}
 {{/properties}}
 
+{{#isStatic}}
 {{#enums}}
 {{prefixPartial 'swift/Enum' '    '}}
 {{/enums}}
@@ -26,11 +27,23 @@ import Foundation
 {{#structs}}
 {{prefixPartial 'swift/Struct' '    '}}
 {{/structs}}
+{{/isStatic}}
 
 {{#methods}}
 {{prefixPartial 'swift/Method' '    '}}
 {{/methods}}
 }
+
+{{^isStatic}}
+{{#enums}}
+{{>swift/Enum}}
+{{/enums}}
+
+{{#structs}}
+{{>swift/Struct}}
+{{/structs}}
+{{/isStatic}}
+
 {{/classes}}
 
 {{#typeDefs}}{{>swift/Typedefs}}
