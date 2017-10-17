@@ -1,0 +1,96 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+typeCollection ComplexListenerTypes {
+    version {
+        major 0
+        minor 1
+    }
+
+    struct Point3D {
+        Double x
+        Double y
+        Double z
+    }
+
+    struct NamedPoint3D {
+      String name
+      Point3D pt
+    }
+
+    array Trajectory of NamedPoint3D
+}
+
+interface DistanceMetric {
+
+  method getLength {
+      in {
+              ComplexListenerTypes.Trajectory input
+      }
+      out {
+              Double lengthOfTrajectory
+      }
+  }
+
+  public typedef DistanceMetric is undefined
+}
+
+interface ComplexListener {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    public typedef ComplexListener is undefined
+
+    method onTrajectoryCompleted {
+        in {
+            DistanceMetric.DistanceMetric distanceMetric
+            ComplexListenerTypes.Trajectory trajectory
+        }
+    }
+}
+
+interface ComplexNotifier {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    public typedef ComplexNotifier is undefined
+
+    method trajectoryCompleted {
+        in {
+            ComplexListenerTypes.Trajectory trajectory
+            ComplexListener.ComplexListener listener
+        }
+    }
+}
+
+interface ComplexListenerFactory {
+
+    method createComplexNotifier {
+        out {
+            ComplexNotifier.ComplexNotifier complexNotifier
+        }
+    }
+
+    method createDistanceMetric {
+            out {
+                DistanceMetric.DistanceMetric theMetric
+            }
+        }
+}
+
