@@ -14,6 +14,7 @@
 
 #include "hello/Calculator.h"
 
+#include <mutex>
 #include <vector>
 
 namespace hello
@@ -72,5 +73,6 @@ public:
 
 private:
     ::std::vector< ::std::shared_ptr< ::hello::CalculatorListener > > m_listeners;
+    ::std::mutex m_listeners_mutex;
 };
 }

@@ -12,6 +12,9 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
@@ -20,7 +23,6 @@ public final class CppProxyTest {
 
     private static final Calculator.Position START_POSITION = new Calculator.Position();
     private static final Calculator.Position END_POSITION = new Calculator.Position();
-    private Calculator notifier;
 
     private static final CalculatorListener JAVA_LISTENER = new CalculatorListener() {
         @Override
@@ -33,6 +35,8 @@ public final class CppProxyTest {
             HelloWorldStaticLogger.append("calculation in bg finished with result=" + v);
         }
     };
+
+    private Calculator notifier;
 
     @BeforeClass
     public static void setUpClass(){
@@ -91,7 +95,7 @@ public final class CppProxyTest {
         Thread callbackToNativeJavaScope = new Thread(new Runnable() {
             @Override
             public void run() {
-                notifier.calculateInBackground(START_POSITION,END_POSITION);
+                notifier.calculateInBackground(START_POSITION, END_POSITION);
             }
         });
         callbackToNativeJavaScope.start();
@@ -102,5 +106,28 @@ public final class CppProxyTest {
         assertTrue("Registered native Java listener was not called on C++ side (multi-threading)",
                 HelloWorldStaticLogger.getLog()
                         .contains("calculation in bg finished with result=17320.508"));
+    }
+
+    @Test
+    public void registeredUnregisterDifferentThreads() throws InterruptedException {
+
+        notifier.registerListener(JAVA_LISTENER);
+
+        Thread unregisterThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                notifier.unregisterListener(JAVA_LISTENER);
+            }
+        });
+        unregisterThread.start();
+        unregisterThread.join();
+
+        assertTrue("Listener registration was unsuccessful on C++ side",
+                HelloWorldStaticLogger.getLog()
+                        .contains("new registration for the listener"));
+
+        assertTrue("Listener de-registration was unsuccessful on C++ side",
+                HelloWorldStaticLogger.getLog()
+                        .contains("removed registration for the listener"));
     }
 }

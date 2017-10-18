@@ -63,6 +63,8 @@ void
 HelloCalculator::registerListener(
     const ::std::shared_ptr< ::hello::CalculatorListener >& listener )
 {
+    ::std::lock_guard< ::std::mutex > lock( m_listeners_mutex );
+
     bool registered
         = std::find( m_listeners.begin( ), m_listeners.end( ), listener ) != m_listeners.end( );
     std::string logMessage;
@@ -85,6 +87,8 @@ void
 HelloCalculator::unregisterListener(
     const ::std::shared_ptr< ::hello::CalculatorListener >& listener )
 {
+    ::std::lock_guard< ::std::mutex > lock( m_listeners_mutex );
+
     const auto iterator = std::find( m_listeners.begin( ), m_listeners.end( ), listener );
     std::string logMessage;
     if ( iterator == m_listeners.end( ) )
@@ -117,7 +121,13 @@ HelloCalculator::calculateInBackground( const ::hello::Calculator::Position& fro
 {
     double result = do_calculate( fromPosition, toPosition );
 
-    for ( const auto& listener : m_listeners )
+    ::std::vector< ::std::shared_ptr< ::hello::CalculatorListener > > listeners;
+    {
+        ::std::lock_guard< ::std::mutex > lock( m_listeners_mutex );
+        listeners = m_listeners;
+    }
+
+    for ( const auto& listener : listeners )
     {
         listener->onCalculationInBackgroundResult( result );
     }
