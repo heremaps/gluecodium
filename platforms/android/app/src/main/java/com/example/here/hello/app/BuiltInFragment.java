@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -18,11 +19,13 @@ import android.widget.TextView;
 import com.example.here.hello.R;
 import com.here.android.hello.HelloWorldBuiltinTypes;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 public final class BuiltInFragment extends Fragment {
     private static final byte BYTE_TEST_VALUE = 10;
 
     private Button submitButton;
-    private EditText result;
+    private TextView result;
     private EditText input;
     private Spinner spinner;
     private TextView description;
@@ -65,6 +68,10 @@ public final class BuiltInFragment extends Fragment {
                 } catch (NumberFormatException e) {
                     result.setText(e.getMessage());
                 }
+
+                // hide virtual keyboard
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
             }
         });
         input.setOnEditorActionListener(new EditText.OnEditorActionListener() {

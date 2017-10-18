@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 import com.example.here.hello.R;
 import com.here.android.hello.HelloWorld;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 public final class BaseFragment extends Fragment {
-    private EditText resultText;
+    private TextView result;
     private Button submitButton;
     private EditText input;
 
@@ -25,7 +28,7 @@ public final class BaseFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_base, container, false);
         input = rootView.findViewById(R.id.input);
-        resultText = rootView.findViewById(R.id.result_text);
+        result = rootView.findViewById(R.id.result_text);
         submitButton = rootView.findViewById(R.id.greet);
         return rootView;
     }
@@ -40,7 +43,11 @@ public final class BaseFragment extends Fragment {
                 String username = input.getText().toString();
                 String userGreeting = HelloWorld.helloWorldMethod(username);
 
-                resultText.setText(userGreeting);
+                result.setText(userGreeting);
+
+                // hide virtual keyboard
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
             }
         });
         input.setOnEditorActionListener(new EditText.OnEditorActionListener() {

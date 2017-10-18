@@ -12,36 +12,30 @@
 
     <TextView
         android:id="@+id/builtin_description"
+        style="@style/AppTheme.ShowCaseText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_marginTop="@dimen/fab_margin"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <EditText
         android:id="@+id/builtin_edit"
+        style="@style/AppTheme.ShowCaseInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/parameter_value"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        android:maxLines="1" />
+        android:hint="@string/parameter_value" />
 
     <Button
         android:id="@+id/builtin_submit_button"
+        style="@style/AppTheme.ShowCaseButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/submit" />
 
-    <EditText
+    <TextView
         android:id="@+id/builtin_result"
+        style="@style/AppTheme.ShowCaseResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="@string/text_result"
-        android:inputType="none" />
+        android:hint="@string/text_result" />
 
 </LinearLayout>

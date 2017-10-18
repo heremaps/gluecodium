@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -21,6 +22,8 @@ import com.here.android.hello.HelloWorldFactory;
 
 import java.util.Locale;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 public final class AttributesFragment extends Fragment {
     private static final int GET_BUILTIN_TYPE_ATTRIBUTE = 0;
     private static final int SET_BUILTIN_TYPE_ATTRIBUTE = 1;
@@ -29,7 +32,7 @@ public final class AttributesFragment extends Fragment {
     private static final int SET_STRUCT_ATTRIBUTE = 4;
 
     private Button submitButton;
-    private EditText result;
+    private TextView result;
     private EditText input;
     private Spinner spinner;
     private TextView description;
@@ -83,6 +86,10 @@ public final class AttributesFragment extends Fragment {
                 } catch (NumberFormatException e) {
                     result.setText(e.getMessage());
                 }
+
+                // hide virtual keyboard
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
             }
         });
         input.setOnEditorActionListener(new EditText.OnEditorActionListener() {
@@ -111,11 +118,7 @@ public final class AttributesFragment extends Fragment {
                 break;
             case GET_STRUCT_ATTRIBUTE:
                 HelloWorldAttributes.ExampleStruct structAttribute = helloWorldAttributes.getStructAttribute();
-                if (structAttribute == null) {
-                    result.setText(String.valueOf(structAttribute));
-                } else {
-                    result.setText(String.format(Locale.getDefault(), EXAMPLE_STRUCT, structAttribute.value));
-                }
+                result.setText(String.format(Locale.getDefault(), EXAMPLE_STRUCT, structAttribute.value));
                 break;
             case SET_STRUCT_ATTRIBUTE:
                 HelloWorldAttributes.ExampleStruct exampleStruct = new HelloWorldAttributes.ExampleStruct();
