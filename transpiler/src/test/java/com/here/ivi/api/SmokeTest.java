@@ -18,6 +18,7 @@ import static org.mockito.Mockito.spy;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.test.NiceErrorCollector;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.eclipse.xtext.util.Files;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -34,15 +36,20 @@ import org.mockito.*;
 
 @RunWith(Parameterized.class)
 public final class SmokeTest {
+
   private static final String FEATURE_INPUT_FOLDER = "input";
   private static final String FEATURE_OUTPUT_FOLDER = "output";
   private static final List<String> GENERATOR_NAMES = GeneratorSuite.generatorShortNames();
   private static final String RESOURCE_PREFIX = "smoke";
 
+  @Rule public final NiceErrorCollector errorCollector = new NiceErrorCollector();
+
   private final Transpiler transpiler =
       spy(new Transpiler(OptionReader.TranspilerOptions.builder().build()));
+
   private final File featureDirectory;
   private final String generatorName;
+
   private final List<GeneratedFile> results = new LinkedList<>();
 
   @Before
@@ -129,10 +136,10 @@ public final class SmokeTest {
     for (final File referenceFile : referenceFiles) {
       String relativePath = getRelativePath(outputDirectory, referenceFile);
       String generatedContent = generatedContents.get(relativePath);
-      assertNotNull("File was not generated: " + relativePath, generatedContent);
+      errorCollector.checkNotNull("File was not generated: " + relativePath, generatedContent);
 
       String expected = Files.readFileIntoString(referenceFile.getPath());
-      assertEquals(
+      errorCollector.checkEquals(
           "File content differs for file: " + relativePath,
           ignoreWhitespace(expected),
           ignoreWhitespace(generatedContent));
