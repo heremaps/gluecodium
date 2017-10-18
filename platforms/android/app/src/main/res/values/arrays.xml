@@ -25,11 +25,11 @@
     </string-array>
 
     <string-array name="attributes_methods_description">
-        <item>Get long attribute value. Default is 0.</item>
-        <item>Please enter a long value</item>
-        <item>This is a read only value. Will always return 3.14</item>
-        <item>Get HelloWorldAttributes.ExampleStruct attribute value. \nDefault is null</item>
-        <item>Please enter a float value for HelloWorldAttributes.ExampleStruct attribute</item>
+        <item>Get <b>long</b> attribute value. Default is 0.</item>
+        <item>Please enter a <b>long</b> value</item>
+        <item>This is a <b>read only</b> value. Will always return 3.14</item>
+        <item>Get <b>HelloWorldAttributes.ExampleStruct</b> attribute value. \nDefault is NaN</item>
+        <item>Please enter a <b>double</b> value for HelloWorldAttributes.ExampleStruct attribute</item>
     </string-array>
 
     <string-array name="builtin_methods_description">

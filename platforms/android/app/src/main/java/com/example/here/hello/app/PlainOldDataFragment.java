@@ -24,6 +24,8 @@ import com.here.android.hello.HelloWorldPlainDataStructures.SyncResult;
 
 import java.util.Locale;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 public final class PlainOldDataFragment extends Fragment {
     private static final String syncResultText = "SyncResult {%n"
             + "    long timeStamp = %d%n"
@@ -38,7 +40,7 @@ public final class PlainOldDataFragment extends Fragment {
             + "}";
 
     private Button submitButton;
-    private EditText result;
+    private TextView result;
     private EditText input;
     private Spinner spinner;
     private TextView description;
@@ -81,6 +83,10 @@ public final class PlainOldDataFragment extends Fragment {
                 } catch (NumberFormatException e) {
                     result.setText(e.getMessage());
                 }
+
+                // hide virtual keyboard
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
             }
         });
         input.setOnEditorActionListener(new EditText.OnEditorActionListener() {

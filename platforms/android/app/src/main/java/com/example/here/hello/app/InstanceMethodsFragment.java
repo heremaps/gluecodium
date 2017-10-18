@@ -30,10 +30,12 @@ import com.here.android.hello.ProfileManager;
 
 import java.util.Locale;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 public final class InstanceMethodsFragment extends Fragment {
 
     private Button submitButton;
-    private EditText result;
+    private TextView result;
     private EditText input;
     private ProfileManager profileManager;
 
@@ -57,6 +59,10 @@ public final class InstanceMethodsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 executeMethodOnObject(input.getText().toString());
+
+                // hide virtual keyboard
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
             }
         });
         input.setOnEditorActionListener(new EditText.OnEditorActionListener() {
