@@ -45,7 +45,8 @@ namespace here
 namespace internal
 {
 
-CppProxyBase::ProxyCache CppProxyBase::sProxyCache = CppProxyBase::ProxyCache( );
+CppProxyBase::ProxyCache CppProxyBase::sProxyCache{ };
+::std::mutex CppProxyBase::sCacheMutex{ };
 
 void
 CppProxyBase::callJavaMethod(
@@ -77,7 +78,12 @@ CppProxyBase::~CppProxyBase( )
 {
     JNIEnv* jniEnv;
     bool attachedToThread = getJniEnvironment( jVM, &jniEnv );
-    sProxyCache.erase( ProxyCacheKey{ jniEnv, jGlobalRef, jHashCode } );
+
+    {
+        ::std::lock_guard< std::mutex > lock( sCacheMutex );
+        sProxyCache.erase( ProxyCacheKey{ jniEnv, jGlobalRef, jHashCode } );
+    }
+
     jniEnv->DeleteGlobalRef( jGlobalRef );
     jniEnv->DeleteGlobalRef( jClass );
     if ( attachedToThread )

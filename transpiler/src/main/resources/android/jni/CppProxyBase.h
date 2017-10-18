@@ -15,9 +15,9 @@
 #include <jni.h>
 
 #include <memory>
+#include <mutex>
 #include <string>
 #include <unordered_map>
-#include <utility>
 
 namespace here
 {
@@ -35,6 +35,7 @@ public:
         jint jHashCode = getHashCode( jenv, jobj );
         ProxyCacheKey key{ jenv, jGlobalRef, jHashCode };
 
+        ::std::lock_guard< ::std::mutex > lock( sCacheMutex );
         auto iterator = sProxyCache.find( key );
         if ( iterator != sProxyCache.end( ) )
         {
@@ -94,6 +95,7 @@ private:
     JavaVM* jVM;
 
     static ProxyCache sProxyCache;
+    static ::std::mutex sCacheMutex;
 };
 
 } // namespace internal
