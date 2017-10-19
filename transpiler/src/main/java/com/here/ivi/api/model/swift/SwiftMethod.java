@@ -18,7 +18,6 @@ import java.util.List;
 
 public class SwiftMethod extends SwiftModelElement {
 
-  public String comment;
   public SwiftType returnType;
   public final List<SwiftParameter> parameters;
   public boolean isStatic;
@@ -37,7 +36,6 @@ public class SwiftMethod extends SwiftModelElement {
     super(methodName);
     this.returnType = VOID;
     this.parameters = parameters;
-    this.comment = "";
     this.cBaseName = "";
     this.forceReturnValueUnwrapping = false;
   }

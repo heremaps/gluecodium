@@ -19,7 +19,6 @@ import java.util.List;
 
 public final class SwiftClass extends SwiftModelElement {
 
-  public String comment;
   public final String parentClass;
   public List<String> implementsProtocols;
   public List<SwiftProperty> properties;
@@ -39,7 +38,6 @@ public final class SwiftClass extends SwiftModelElement {
     this.methods = emptyList();
     this.structs = emptyList();
     this.enums = new ArrayList<>();
-    this.comment = "";
     this.nameSpace = "";
     this.typedefs = new ArrayList<>();
   }

@@ -11,8 +11,9 @@
 
 package com.here.ivi.api.model.swift;
 
-public class SwiftModelElement {
+public abstract class SwiftModelElement {
   public final String name;
+  public String comment = "";
 
   public SwiftModelElement(String name) {
     this.name = name;
