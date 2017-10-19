@@ -1,5 +1,13 @@
 # API Transpiler Release Notes
 
+## 0.0.8
+- Features:
+  + Add support for Attributes to Android generators
+  + Add support for Enums to iOS generators
+  + Add support for TypeDefs to Android generators
+  + Add support for TypeDefs to iOS generators
+  + Add support for Listeners to base Api generators
+
 ## 0.0.7
 - Features:
   + Add support for Instances to iOS generators
