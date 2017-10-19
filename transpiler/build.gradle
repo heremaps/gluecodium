@@ -24,6 +24,8 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:1.7.0'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.7.0'
 
+    testCompileOnly 'org.projectlombok:lombok:1.16.18'
+
     // Work around IntelliJ bug not finding (test) resources.
     // https://youtrack.jetbrains.com/issue/IDEA-91952
     // https://youtrack.jetbrains.com/issue/IDEA-119280
