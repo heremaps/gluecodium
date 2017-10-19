@@ -52,7 +52,8 @@ public abstract class JavaTopLevelElement extends JavaElement {
 
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.of(methods, constants, parentInterfaces, enums).flatMap(Collection::stream);
+    return Stream.of(methods, constants, parentInterfaces, enums, innerClasses)
+        .flatMap(Collection::stream);
   }
 
   public Set<JavaImport> getImports() {

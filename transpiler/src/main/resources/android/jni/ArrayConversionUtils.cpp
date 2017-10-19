@@ -44,7 +44,7 @@ convert_to_jni( JNIEnv* env, const int8_t nvalue )
 jobject
 convert_to_jni( JNIEnv* env, const int16_t nvalue )
 {
-    return box_value_in_object( env, "java/lang/Integer", "(I)V", nvalue );
+    return box_value_in_object( env, "java/lang/Short", "(S)V", nvalue );
 }
 
 jobject
@@ -118,7 +118,9 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, int8_t& nvalue )
 void
 convert_from_jni( JNIEnv* env, const jobject& jvalue, int16_t& nvalue )
 {
-    nvalue = unbox_int_value( env, jvalue );
+    auto javaShortClass = env->FindClass( "java/lang/Short" );
+    auto shortValueMethodId = env->GetMethodID( javaShortClass, "shortValue", "()S" );
+    nvalue = env->CallShortMethod( jvalue, shortValueMethodId );
 }
 
 void

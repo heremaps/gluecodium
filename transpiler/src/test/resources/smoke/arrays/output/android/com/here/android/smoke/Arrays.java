@@ -12,6 +12,7 @@
 
 package com.here.android.smoke;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Arrays {
@@ -19,8 +20,8 @@ public class Arrays {
         public double value;
     }
     public static class FancyStruct {
-        public List<String> messages = new List<String>();
-        public List<Long> numbers = new List<Long>();
+        public List<String> messages = new ArrayList<>();
+        public List<Long> numbers = new ArrayList<>();
     }
     public static native List<String> methodWithArray(final List<String> input);
     public static native List<Long> methodWithArrayInline(final List<Long> input);

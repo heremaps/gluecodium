@@ -17,17 +17,25 @@ import java.util.stream.Collectors;
 public final class JavaTemplateType extends JavaCustomType {
 
   public static final JavaPackage JAVA_UTIL = new JavaPackage(Arrays.asList("java", "util"));
+  public static final String IMPLICIT_TEMPLATE_DECLARATION = "<>";
+
+  public final JavaCustomType implementationType;
 
   public enum TemplateClass {
-    LIST("List", JAVA_UTIL),
-    MAP("Map", JAVA_UTIL);
+    LIST("List", JAVA_UTIL, "ArrayList"),
+    MAP("Map", JAVA_UTIL, "HashMap");
 
     public final String name;
+    public final JavaCustomType implementationType;
     public final JavaImport javaImport;
     public final List<String> packageNames;
 
-    TemplateClass(final String name, final JavaPackage javaPackage) {
+    TemplateClass(final String name, final JavaPackage javaPackage, String implementationTypeName) {
       this.name = name;
+      this.implementationType =
+          new JavaCustomType(
+              implementationTypeName + IMPLICIT_TEMPLATE_DECLARATION,
+              new JavaImport(implementationTypeName, javaPackage));
       this.javaImport = new JavaImport(name, javaPackage);
       this.packageNames = javaPackage.packageNames;
     }
@@ -39,6 +47,7 @@ public final class JavaTemplateType extends JavaCustomType {
         Collections.singletonList(templateClass.name),
         templateClass.packageNames,
         Collections.emptySet());
+    implementationType = templateClass.implementationType;
   }
 
   public static JavaTemplateType create(final TemplateClass templateClass, JavaType... parameters) {

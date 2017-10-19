@@ -10,13 +10,14 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.here.android.smoke;
+import java.util.HashMap;
 import java.util.Map;
 public class Maps {
     public static class SomeStruct {
         public String value;
     }
     public static class StructWithMap {
-        public Map<Integer, String> errorMapping = new Map<Integer, String>();
+        public Map<Integer, String> errorMapping = new HashMap<>();
     }
     public static native Map<Integer, String> methodWithMap(final Map<Integer, String> input);
     public static native Map<Long, Maps.SomeStruct> methodWithMapToStruct(final Map<Long, Maps.SomeStruct> input);
