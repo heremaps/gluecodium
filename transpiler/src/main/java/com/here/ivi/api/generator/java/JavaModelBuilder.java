@@ -178,7 +178,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaType javaType = getPreviousResult(JavaType.class);
     String fieldName = JavaNameRules.getFieldName(francaField.getName());
     JavaField javaField;
-    if (javaType instanceof JavaCustomType) {
+    if (javaType instanceof JavaTemplateType) {
+      JavaTemplateType javaTemplateType = (JavaTemplateType) javaType;
+      javaField = new JavaField(javaTemplateType, fieldName, javaTemplateType.implementationType);
+    } else if (javaType instanceof JavaCustomType) {
       javaField = new JavaField((JavaCustomType) javaType, fieldName);
     } else {
       javaField = new JavaField(javaType, fieldName);

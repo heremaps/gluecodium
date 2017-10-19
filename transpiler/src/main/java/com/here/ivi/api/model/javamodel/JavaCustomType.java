@@ -36,4 +36,12 @@ public class JavaCustomType extends JavaComplexType {
         javaPackage.packageNames,
         Collections.singletonList(new JavaImport(fullName, javaPackage)));
   }
+
+  public JavaCustomType(final String fullName, final JavaImport javaImport) {
+    super(
+        fullName,
+        Collections.singletonList(fullName),
+        javaImport.javaPackage.packageNames,
+        Collections.singletonList(javaImport));
+  }
 }

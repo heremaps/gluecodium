@@ -45,8 +45,15 @@ public final class JavaField extends JavaElement {
     customTypeInitial = type;
   }
 
+  public JavaField(final JavaCustomType type, final String name, final JavaCustomType initialType) {
+    super(name);
+    this.type = type;
+    this.initial = null;
+    customTypeInitial = initialType;
+  }
+
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.of(type, initial);
+    return Stream.of(type, initial, customTypeInitial);
   }
 }

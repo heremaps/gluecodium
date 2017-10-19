@@ -50,6 +50,7 @@ public class JavaModelBuilderTest {
   private static final String ENUMERATION_NAME = "MyEnumName";
   private static final String ENUMERATOR_1_NAME = "MY_ENUMERATOR_1";
   private static final String ENUMERATOR_2_NAME = "MY_ENUMERATOR_2";
+  private static final String ARRAY_LIST_TYPE_NAME = "ArrayList<>";
 
   private static final List<String> BASE_PACKAGE_NAMES =
       Arrays.asList("these", "are", "prefix", "packages");
@@ -79,6 +80,8 @@ public class JavaModelBuilderTest {
   private final EList<FArgument> arguments = new ArrayEList<>();
 
   private final JavaType javaCustomType = new JavaCustomType("typical");
+  private final JavaTemplateType javaTemplateType =
+      JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
   private final JavaField javaField = new JavaField(javaCustomType, FIELD_NAME);
   private final JavaEnum javaEnum = new JavaEnum(ENUMERATION_NAME);
 
@@ -281,6 +284,19 @@ public class JavaModelBuilderTest {
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
     assertEquals(JavaVisibility.PUBLIC, resultField.visibility);
+  }
+
+  @Test
+  public void finishBuildingFrancaTemplateField() {
+    contextStack.injectResult(javaTemplateType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
+    assertNotNull(resultField);
+    assertEquals(FIELD_NAME, resultField.name.toLowerCase());
+    assertEquals("List<typical>", resultField.type.name);
+    assertEquals(ARRAY_LIST_TYPE_NAME, resultField.customTypeInitial.name);
   }
 
   @Test
