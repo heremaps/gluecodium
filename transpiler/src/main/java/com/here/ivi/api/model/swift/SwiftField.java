@@ -13,11 +13,9 @@ package com.here.ivi.api.model.swift;
 
 public class SwiftField extends SwiftModelElement {
   public final SwiftType type;
-  public String comment;
 
   public SwiftField(String name, SwiftType type) {
     super(name);
     this.type = type;
-    comment = "";
   }
 }

@@ -15,7 +15,6 @@ import java.util.List;
 import lombok.Builder;
 
 public final class SwiftEnum extends SwiftType {
-  public final String comment;
   public final List<SwiftEnumItem> items;
 
   @Builder

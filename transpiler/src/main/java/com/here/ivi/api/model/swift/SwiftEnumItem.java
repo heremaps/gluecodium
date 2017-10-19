@@ -14,7 +14,6 @@ package com.here.ivi.api.model.swift;
 import lombok.Builder;
 
 public class SwiftEnumItem extends SwiftModelElement {
-  public final String comment;
   public final SwiftValue value;
 
   @Builder

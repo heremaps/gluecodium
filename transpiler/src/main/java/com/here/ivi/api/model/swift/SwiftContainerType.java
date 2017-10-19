@@ -16,7 +16,6 @@ import static java.util.Collections.emptyList;
 import java.util.List;
 
 public class SwiftContainerType extends SwiftType {
-  public String comment;
   public List<SwiftField> fields;
   public String cPrefix;
   public String cType;
@@ -32,7 +31,6 @@ public class SwiftContainerType extends SwiftType {
   public SwiftContainerType(
       String name, String typealias, Boolean optional, TypeCategory category) {
     super(name, category, optional, null, typealias);
-    comment = "";
     fields = emptyList();
     cPrefix = "";
     cType = "";
