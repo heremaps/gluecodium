@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# Release management script.
+#
+# Ensures we are on the correct branch and only runs on "Release version"
+# commits. Such a commit is git tag'ed and uploaded to artifactory. Finally,
+# an e-mail is sent containing the release information (Changelogs, etc.).
+#
+# For more informations about releasing process:
+# example.com+process
+
+SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+TRANSPILER_ROOT=$( cd "${SCRIPT_DIR}/.." && pwd )
+
+. "${SCRIPT_DIR}/inc.constants"
+. "${SCRIPT_DIR}/inc.functions"
+
+cd "$TRANSPILER_ROOT"
+
+# This script only makes sense for commits on 'master' branch
+safe git checkout --quiet master
+
+# Consistency check
+if ! git show --oneline -s | grep --quiet "Release version" ; then
+    die "This script only runs on top of the 'release version' commit"
+    # The idea is that this will get invoked every time as a post-build action
+    # but run only once.
+fi
+
+# Constants
+VERSION=$(get_version "${TRANSPILER_VERSION_FILE}")
+TAG="release/${VERSION}"
+
+echo "Found bump version commit for ${VERSION}"
+echo "Tag ${TAG}..."
+git tag -f ${TAG}
+echo "Pushing changes back upstream..."
+safe git push origin ${TAG}
+
+safe ./scripts/artifactory-publish
+safe ./scripts/prepare-release-mail --send
