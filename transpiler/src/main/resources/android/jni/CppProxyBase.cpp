@@ -101,8 +101,8 @@ CppProxyBase::ProxyCacheKey::operator==( const CppProxyBase::ProxyCacheKey& othe
 jint
 CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
 {
-    static jclass jClass = jniEnv->FindClass( "java/lang/System" );
-    static jmethodID jMethodId = jniEnv->GetStaticMethodID(
+    jclass jClass = jniEnv->FindClass( "java/lang/System" );
+    jmethodID jMethodId = jniEnv->GetStaticMethodID(
         jClass, "identityHashCode", "(Ljava/lang/Object;)I" );
     return jniEnv->CallStaticIntMethod( jClass, jMethodId, jObj );
 }
