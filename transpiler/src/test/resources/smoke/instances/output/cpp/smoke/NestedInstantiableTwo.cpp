@@ -14,7 +14,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "cpp/smoke/NestedInstantiableTwo.h"
+#include "smoke/NestedInstantiableTwo.h"
 namespace smoke {
 
 NestedInstantiableTwo::~NestedInstantiableTwo() = default;

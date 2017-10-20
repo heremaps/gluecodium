@@ -16,37 +16,41 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppFile;
+import java.io.File;
 import java.util.*;
 
 public class CppGenerator {
 
-  public List<GeneratedFile> generateCode(CppFile cppModel, String outputFilePath) {
+  public List<GeneratedFile> generateCode(
+      final CppFile cppModel, final String outputFilePath, final String pathPrefix) {
 
     if (cppModel == null || cppModel.isEmpty()) {
       return Collections.emptyList();
     }
 
-    String headerFilePath = outputFilePath + CppNameRules.HEADER_FILE_SUFFIX;
-    String implementationFilePath = outputFilePath + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
+    String headerIncludePath = outputFilePath + CppNameRules.HEADER_FILE_SUFFIX;
+    String headerOutputFilePath = pathPrefix + File.separator + headerIncludePath;
+    String implementationOutputFilePath =
+        pathPrefix + File.separator + outputFilePath + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
 
     // Filter out self-includes
-    cppModel.includes.removeIf(include -> include.fileName.equals(headerFilePath));
+    cppModel.includes.removeIf(include -> include.fileName.equals(headerIncludePath));
 
     String commentHeader = TemplateEngine.render("cpp/CppCommentHeader", null);
 
     List<GeneratedFile> result = new LinkedList<>();
     String headerContent = TemplateEngine.render("cpp/CppHeader", cppModel);
-    result.add(new GeneratedFile(commentHeader + headerContent, headerFilePath));
+    result.add(new GeneratedFile(commentHeader + headerContent, headerOutputFilePath));
 
     boolean hasInstantiableClasses =
         CollectionsHelper.getStreamOfType(cppModel.members, CppClass.class)
             .anyMatch(CppClass::hasInstanceMethods);
     if (hasInstantiableClasses) {
-      String headerInclude = "\n#include \"" + headerFilePath + "\"";
+      String headerInclude = "\n#include \"" + headerIncludePath + "\"";
       String implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel);
       result.add(
           new GeneratedFile(
-              commentHeader + headerInclude + implementationContent, implementationFilePath));
+              commentHeader + headerInclude + implementationContent, implementationOutputFilePath));
     }
 
     return result;

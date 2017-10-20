@@ -113,7 +113,7 @@ public class CppNameRulesTest {
 
     String headerPath = CppNameRules.getHeaderPath(anInterface);
 
-    assertEquals("cpp/my/fancy/package/FancyName.h", headerPath);
+    assertEquals("my/fancy/package/FancyName.h", headerPath);
 
     verify(anInterface).getPackageNames();
     verify(anInterface).getFrancaInterface();
@@ -129,7 +129,7 @@ public class CppNameRulesTest {
 
     String headerPath = CppNameRules.getHeaderPath(typeCollection);
 
-    assertEquals("cpp/my/fancy/package/FancyTypeCollectionName.h", headerPath);
+    assertEquals("my/fancy/package/FancyTypeCollectionName.h", headerPath);
 
     verify(typeCollection).getPackageNames();
     verify(typeCollection).getFrancaTypeCollection();

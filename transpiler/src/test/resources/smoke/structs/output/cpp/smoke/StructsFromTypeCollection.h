@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "cpp/smoke/TypeCollection.h"
+#include "smoke/TypeCollection.h"
 
 namespace smoke {
 

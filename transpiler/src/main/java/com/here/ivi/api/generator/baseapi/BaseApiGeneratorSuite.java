@@ -78,7 +78,9 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     CppFile cppModel = mapFrancaElementToCppModel(francaElement);
     String outputFilePath = CppNameRules.getOutputFilePath(francaElement);
 
-    return generator.generateCode(cppModel, outputFilePath).stream();
+    return generator
+        .generateCode(cppModel, outputFilePath, BaseApiGeneratorSuite.GENERATOR_NAME)
+        .stream();
   }
 
   @Override
