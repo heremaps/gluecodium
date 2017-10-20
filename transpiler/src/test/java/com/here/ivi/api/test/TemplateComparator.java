@@ -64,12 +64,12 @@ public final class TemplateComparator {
     return builder().expect(expected);
   }
 
-  public void assertContainsExpected(String actual) {
+  public void assertMatches(String actual) {
     ignoredBlocks.add(Pattern.compile(".*"));
-    assertContainsExpectedOnly(actual);
+    assertMatchesExactly(actual);
   }
 
-  public void assertContainsExpectedOnly(String actual) {
+  public void assertMatchesExactly(String actual) {
     actualSplits.add(actual);
     List<String> unmatchedExpectedBlocks = new ArrayList<>(expectedBlocks);
 
