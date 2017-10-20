@@ -20,6 +20,7 @@ public final class JniNameRules {
 
   private static final String JNI_HEADER_FILE_SUFFIX = ".h";
   private static final String JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp";
+  private static final String JNI_ENUM_CONVERSION_NAME = "EnumConversion";
   private static final String JNI_STRUCT_CONVERSION_NAME = "StructConversion";
   private static final String JNI_INSTANCE_CONVERSION_NAME = "InstanceConversion";
   private static final String JNI_PROXY_CONVERSION_NAME = "ProxyConversion";
@@ -40,7 +41,7 @@ public final class JniNameRules {
     return getJniClassFileName(jniContainer) + JNI_IMPLEMENTATION_FILE_SUFFIX;
   }
 
-  public static String getConversionHeaderFileName() {
+  public static String getStructConversionHeaderFileName() {
     return getJniPathPrefix() + JNI_STRUCT_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
   }
 
@@ -48,7 +49,15 @@ public final class JniNameRules {
     return getJniPathPrefix() + JNI_PROXY_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
   }
 
-  public static String getConversionImplementationFileName() {
+  public static String getEnumConversionHeaderFileName() {
+    return getJniPathPrefix() + JNI_ENUM_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
+  }
+
+  public static String getEnumConversionImplementationFileName() {
+    return getJniPathPrefix() + JNI_ENUM_CONVERSION_NAME + JNI_IMPLEMENTATION_FILE_SUFFIX;
+  }
+
+  public static String getStructConversionImplementationFileName() {
     return getJniPathPrefix() + JNI_STRUCT_CONVERSION_NAME + JNI_IMPLEMENTATION_FILE_SUFFIX;
   }
 

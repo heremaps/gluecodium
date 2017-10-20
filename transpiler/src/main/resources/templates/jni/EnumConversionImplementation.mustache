@@ -1,0 +1,20 @@
+{{#includes}}
+  #include <{{fileName}}>
+{{/includes}}
+
+namespace here {
+namespace internal {
+
+{{#models}}
+  {{#enums}}
+    {{>jni/JniToCppEnumerationConversionSignature}}
+    {{>jni/JniToCppEnumerationConversionBody}}
+
+    {{>jni/CppToJniEnumerationConversionSignature}}
+    {{>jni/CppToJniEnumerationConversionBody}}
+
+  {{/enums}}
+{{/models}}
+
+}
+}

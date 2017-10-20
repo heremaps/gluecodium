@@ -86,6 +86,8 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
 
     addInstanceConversionFiles(jniContainers, results);
 
+    addEnumConversionFiles(jniContainers, results);
+
     addCppProxyFiles(jniContainers, results);
 
     return results;
@@ -103,20 +105,46 @@ public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
     results.add(
         new GeneratedFile(
             TemplateEngine.render("jni/StructConversionHeader", mustacheData),
-            JniNameRules.getConversionHeaderFileName()));
+            JniNameRules.getStructConversionHeaderFileName()));
 
     mustacheData.put(
         INCLUDES_NAME,
         Arrays.asList(
-            Include.createInternalInclude(JniNameRules.getConversionHeaderFileName()),
+            Include.createInternalInclude(JniNameRules.getStructConversionHeaderFileName()),
             CppLibraryIncludes.INT_TYPES,
             CppLibraryIncludes.VECTOR,
-            Include.createInternalInclude(AndroidGeneratorSuite.FIELD_ACCESS_UTILS_HEADER)));
+            Include.createInternalInclude(AndroidGeneratorSuite.FIELD_ACCESS_UTILS_HEADER),
+            Include.createInternalInclude(JniNameRules.getEnumConversionHeaderFileName())));
 
     results.add(
         new GeneratedFile(
             TemplateEngine.render("jni/StructConversionImplementation", mustacheData),
-            JniNameRules.getConversionImplementationFileName()));
+            JniNameRules.getStructConversionImplementationFileName()));
+  }
+
+  private void addEnumConversionFiles(
+      List<JniContainer> jniContainers, List<GeneratedFile> results) {
+    final Set<Include> includes = new LinkedHashSet<>();
+    jniContainers.forEach(model -> includes.addAll(model.includes));
+
+    Map<String, Iterable<?>> mustacheData = new HashMap<>();
+    mustacheData.put(INCLUDES_NAME, includes);
+    mustacheData.put(MODELS_NAME, jniContainers);
+
+    results.add(
+        new GeneratedFile(
+            TemplateEngine.render("jni/EnumConversionHeader", mustacheData),
+            JniNameRules.getEnumConversionHeaderFileName()));
+
+    mustacheData.put(
+        INCLUDES_NAME,
+        Collections.singletonList(
+            Include.createInternalInclude(JniNameRules.getEnumConversionHeaderFileName())));
+
+    results.add(
+        new GeneratedFile(
+            TemplateEngine.render("jni/EnumConversionImplementation", mustacheData),
+            JniNameRules.getEnumConversionImplementationFileName()));
   }
 
   private void addInstanceConversionFiles(
