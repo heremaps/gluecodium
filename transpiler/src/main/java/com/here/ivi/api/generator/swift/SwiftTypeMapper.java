@@ -83,14 +83,6 @@ public class SwiftTypeMapper {
     return mapType(derived.getActualType());
   }
 
-  public static SwiftType mapOutputType(final FTypeRef type) {
-    SwiftType mapped = mapType(type);
-    if (mapped.category == STRUCT || mapped.category == BUILTIN_STRING) {
-      mapped.optional = true;
-    }
-    return mapped;
-  }
-
   private static SwiftType mapPredefined(FTypeRef type) {
     FBasicTypeId typeId = type.getPredefined();
     switch (typeId.getValue()) {

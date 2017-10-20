@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.swift;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
@@ -20,6 +21,7 @@ import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.*;
+import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
 import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -28,11 +30,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   private final FrancaElement rootModel;
 
   public SwiftModelBuilder(final FrancaElement rootModel) {
-    this(rootModel, new ModelBuilderContextStack<>());
+    this(new ModelBuilderContextStack<>(), rootModel);
   }
 
-  public SwiftModelBuilder(
-      FrancaElement rootModel, ModelBuilderContextStack<SwiftModelElement> contextStack) {
+  @VisibleForTesting
+  SwiftModelBuilder(
+      ModelBuilderContextStack<SwiftModelElement> contextStack, FrancaElement rootModel) {
     super(contextStack);
     this.rootModel = rootModel;
   }
@@ -121,7 +124,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FField francaField) {
     SwiftField structField =
-        new SwiftField(francaField.getName(), SwiftTypeMapper.mapType(francaField.getType()));
+        new SwiftField(francaField.getName(), getPreviousResult(SwiftType.class));
     storeResult(structField);
     super.finishBuilding(francaField);
   }
@@ -130,25 +133,25 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuildingInputArgument(FArgument francaArgument) {
     storeResult(
         new SwiftInParameter(
-            SwiftNameRules.getParameterName(francaArgument),
-            SwiftTypeMapper.mapType(francaArgument.getType())));
+            SwiftNameRules.getParameterName(francaArgument), getPreviousResult(SwiftType.class)));
     super.finishBuildingInputArgument(francaArgument);
   }
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    storeResult(
-        new SwiftOutParameter(
-            SwiftNameRules.getParameterName(francaArgument),
-            SwiftTypeMapper.mapOutputType(francaArgument.getType())));
+    SwiftType swiftType = getPreviousResult(SwiftType.class);
+    if (swiftType.category == TypeCategory.STRUCT
+        || swiftType.category == TypeCategory.BUILTIN_STRING) {
+      swiftType.optional = true;
+    }
+    storeResult(new SwiftOutParameter(SwiftNameRules.getParameterName(francaArgument), swiftType));
     super.finishBuildingOutputArgument(francaArgument);
   }
 
   @Override
   public void finishBuilding(FTypeDef francaTypeDef) {
     SwiftTypeDef typedefValue =
-        new SwiftTypeDef(
-            francaTypeDef.getName(), SwiftTypeMapper.mapType(francaTypeDef.getActualType()));
+        new SwiftTypeDef(francaTypeDef.getName(), getPreviousResult(SwiftType.class));
     storeResult(typedefValue);
     super.finishBuilding(francaTypeDef);
   }
@@ -173,5 +176,11 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     method.cBaseName = CBridgeNameRules.getMethodName(francaMethod);
     storeResult(method);
     super.finishBuilding(francaMethod);
+  }
+
+  @Override
+  public void finishBuilding(FTypeRef francaTypeRef) {
+    storeResult(SwiftTypeMapper.mapType(francaTypeRef));
+    super.finishBuilding(francaTypeRef);
   }
 }
