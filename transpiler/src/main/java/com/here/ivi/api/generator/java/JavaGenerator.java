@@ -9,14 +9,13 @@
  *
  */
 
-package com.here.ivi.api.generator.android;
+package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.generator.android.AbstractAndroidGenerator;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.java.JavaModelBuilder;
-import com.here.ivi.api.generator.java.JavaNameRules;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;

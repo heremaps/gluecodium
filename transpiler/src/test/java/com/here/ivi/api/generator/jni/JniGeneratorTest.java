@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.android;
+package com.here.ivi.api.generator.jni;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,7 +19,6 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.jni.JniNameRules;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +33,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({JniNameRules.class, TemplateEngine.class})
-public class JavaNativeInterfacesGeneratorTest {
+public class JniGeneratorTest {
 
   private static final int MAIN_FILES_COUNT = 2;
   private static final int MAIN_FILES_WITH_INSTANCES_COUNT = 9;
@@ -45,8 +44,7 @@ public class JavaNativeInterfacesGeneratorTest {
       JniContainer.createInterfaceContainer(
           Collections.emptyList(), Collections.emptyList(), "classy", "classy");
 
-  private final JavaNativeInterfacesGenerator generator =
-      new JavaNativeInterfacesGenerator(null, null);
+  private final JniGenerator generator = new JniGenerator(null, null);
 
   @Before
   public void setUp() {

@@ -14,6 +14,8 @@ package com.here.ivi.api.generator.android;
 import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.generator.java.JavaGenerator;
+import com.here.ivi.api.generator.jni.JniGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Arrays;
@@ -62,8 +64,8 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
             model.getTypeCollections().stream().map(javaGenerator::generateFiles));
 
     // Generate JNI files
-    JavaNativeInterfacesGenerator jniGenerator =
-        new JavaNativeInterfacesGenerator(
+    JniGenerator jniGenerator =
+        new JniGenerator(
             transpilerOptions.getJavaPackageList(),
             Arrays.asList(
                 CONVERSION_UTILS_HEADER,

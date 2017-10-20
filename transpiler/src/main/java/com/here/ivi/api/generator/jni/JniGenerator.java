@@ -9,8 +9,10 @@
  *
  */
 
-package com.here.ivi.api.generator.android;
+package com.here.ivi.api.generator.jni;
 
+import com.here.ivi.api.generator.android.AbstractAndroidGenerator;
+import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
@@ -18,8 +20,6 @@ import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
-import com.here.ivi.api.generator.jni.JniModelBuilder;
-import com.here.ivi.api.generator.jni.JniNameRules;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -27,15 +27,14 @@ import com.here.ivi.api.model.jni.JniContainer;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class JavaNativeInterfacesGenerator extends AbstractAndroidGenerator {
+public class JniGenerator extends AbstractAndroidGenerator {
 
   public static final String INCLUDES_NAME = "includes";
   public static final String MODELS_NAME = "models";
 
   private final List<String> additionalIncludes;
 
-  public JavaNativeInterfacesGenerator(
-      final List<String> packageList, final List<String> additionalIncludes) {
+  public JniGenerator(final List<String> packageList, final List<String> additionalIncludes) {
     super(packageList);
     this.additionalIncludes = additionalIncludes;
   }
