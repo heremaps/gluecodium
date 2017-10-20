@@ -24,13 +24,13 @@ public final class TemplateComparatorTest {
 
   @Test
   public void simplePassing() {
-    TemplateComparator.expect("block 1").build().assertContainsExpectedOnly("block 1");
+    TemplateComparator.expect("block 1").build().assertMatchesExactly("block 1");
   }
 
   @Test
   public void simpleFailing() {
     thrown.expect(AssertionError.class);
-    TemplateComparator.expect("block 1").build().assertContainsExpectedOnly("block 2");
+    TemplateComparator.expect("block 1").build().assertMatchesExactly("block 2");
   }
 
   @Test
@@ -39,13 +39,13 @@ public final class TemplateComparatorTest {
         .expect("block 2")
         .expect("block 3")
         .build()
-        .assertContainsExpectedOnly("block 1\nblock 3\nblock 2");
+        .assertMatchesExactly("block 1\nblock 3\nblock 2");
   }
 
   @Test
   public void duplicateBlocksFail() {
     thrown.expect(AssertionError.class);
-    TemplateComparator.expect("block 1").build().assertContainsExpectedOnly("block 1\nblock 1");
+    TemplateComparator.expect("block 1").build().assertMatchesExactly("block 1\nblock 1");
   }
 
   @Test
@@ -53,24 +53,24 @@ public final class TemplateComparatorTest {
     TemplateComparator.expect("block 1")
         .expect("block 1")
         .build()
-        .assertContainsExpectedOnly("block 1\nblock 1");
+        .assertMatchesExactly("block 1\nblock 1");
   }
 
   @Test
   public void unexpectedBlockFails() {
     thrown.expect(AssertionError.class);
-    TemplateComparator.expect("").build().assertContainsExpectedOnly("block 1");
+    TemplateComparator.expect("").build().assertMatchesExactly("block 1");
   }
 
   @Test
   public void ignoreUnexpectedBlocksPasses() {
-    TemplateComparator.expect("").build().assertContainsExpected("block 1");
+    TemplateComparator.expect("").build().assertMatches("block 1");
   }
 
   @Test
   public void missingExpectedBlockFails() {
     thrown.expect(AssertionError.class);
-    TemplateComparator.expect("block 1").build().assertContainsExpectedOnly("");
+    TemplateComparator.expect("block 1").build().assertMatchesExactly("");
   }
 
   @Test
@@ -79,23 +79,17 @@ public final class TemplateComparatorTest {
     TemplateComparator.expect("block 1")
         .expect("block 2")
         .build()
-        .assertContainsExpectedOnly("block block 2 1");
+        .assertMatchesExactly("block block 2 1");
   }
 
   @Test
   public void onlyIgnoredBlocksRemainingPasses() {
-    TemplateComparator.expect("block 1")
-        .ignore("block 2")
-        .build()
-        .assertContainsExpectedOnly("block 1");
+    TemplateComparator.expect("block 1").ignore("block 2").build().assertMatchesExactly("block 1");
   }
 
   @Test
   public void expectedBlockIgnoredPasses() {
-    TemplateComparator.expect("block 1")
-        .ignore("block 1")
-        .build()
-        .assertContainsExpectedOnly("block 1");
+    TemplateComparator.expect("block 1").ignore("block 1").build().assertMatchesExactly("block 1");
   }
 
   @Test
@@ -103,7 +97,7 @@ public final class TemplateComparatorTest {
     TemplateComparator.expect("block 1")
         .ignore(".*")
         .build()
-        .assertContainsExpectedOnly("block 1block 2");
+        .assertMatchesExactly("block 1block 2");
   }
 
   @Test
@@ -112,7 +106,7 @@ public final class TemplateComparatorTest {
     TemplateComparator.expect("block 1")
         .ignore("block 2")
         .build()
-        .assertContainsExpectedOnly("block 1\nblock 3");
+        .assertMatchesExactly("block 1\nblock 3");
   }
 
   @Test
@@ -120,13 +114,11 @@ public final class TemplateComparatorTest {
     TemplateComparator.expect("block 1\n")
         .expect("block 2\n")
         .build()
-        .assertContainsExpectedOnly("block 1\nblock 2\n");
+        .assertMatchesExactly("block 1\nblock 2\n");
   }
 
   @Test
   public void multipleIgnoredLinesAreIgnored() {
-    TemplateComparator.expect("block 1")
-        .build()
-        .assertContainsExpected("\nignored 1\n\nignored 2\nblock 1");
+    TemplateComparator.expect("block 1").build().assertMatches("\nignored 1\n\nignored 2\nblock 1");
   }
 }
