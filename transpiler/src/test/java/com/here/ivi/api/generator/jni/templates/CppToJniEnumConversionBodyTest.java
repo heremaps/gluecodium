@@ -37,9 +37,9 @@ public class CppToJniEnumConversionBodyTest {
 
     String expected =
         "{\n"
-            + "    auto javaClass = env->FindClass( \"java/b/c/MyJavaEnumName\" );\n"
-            + "    auto theConstructor = env->GetMethodID( javaClass, \"<init>\", \"(J)Ljava/b/c/MyJavaEnumName\" );\n"
-            + "    return env->NewObject( javaClass, theConstructor, static_cast<jint>( _ninput ) );\n"
+            + "    auto javaClass = _jenv->FindClass( \"java/b/c/MyJavaEnumName\" );\n"
+            + "    auto theConstructor = _jenv->GetMethodID( javaClass, \"<init>\", \"(J)Ljava/b/c/MyJavaEnumName\" );\n"
+            + "    return _jenv->NewObject( javaClass, theConstructor, static_cast<jint>( _ninput ) );\n"
             + "}";
 
     String generated = TemplateEngine.render("jni/CppToJniEnumerationConversionBody", jniEnum);
@@ -55,9 +55,9 @@ public class CppToJniEnumConversionBodyTest {
 
     String expected =
         "{\n"
-            + "    auto javaClass = env->FindClass( \"java/b/c/JavaName$MyJavaEnumName\" );\n"
-            + "    auto theConstructor = env->GetMethodID( javaClass, \"<init>\", \"(J)Ljava/b/c/JavaName$MyJavaEnumName\" );\n"
-            + "    return env->NewObject( javaClass, theConstructor, static_cast<jint>( _ninput ) );\n"
+            + "    auto javaClass = _jenv->FindClass( \"java/b/c/JavaName$MyJavaEnumName\" );\n"
+            + "    auto theConstructor = _jenv->GetMethodID( javaClass, \"<init>\", \"(J)Ljava/b/c/JavaName$MyJavaEnumName\" );\n"
+            + "    return _jenv->NewObject( javaClass, theConstructor, static_cast<jint>( _ninput ) );\n"
             + "}";
 
     String generated = TemplateEngine.render("jni/CppToJniEnumerationConversionBody", jniEnum);

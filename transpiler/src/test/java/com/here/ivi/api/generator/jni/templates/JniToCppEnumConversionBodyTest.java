@@ -54,7 +54,7 @@ public final class JniToCppEnumConversionBodyTest {
             + "    valueMethodID = valueMethodID ? valueMethodID : _jenv->GetMethodID( javaClass, \"ordinal\", \"()I\" );\n"
             + "\n"
             + "    jint enumValue = _jenv->CallIntMethod( _jinput, valueMethodID );\n"
-            + "    _nout = ::::a::superfancy::namespace::CppOuter::MyCppEnum( enumValue );\n"
+            + "    _nout = ::a::superfancy::namespace::CppOuter::MyCppEnum( enumValue );\n"
             + "}";
     assertEquals(expected, generated);
   }
@@ -79,7 +79,7 @@ public final class JniToCppEnumConversionBodyTest {
             + "    valueMethodID = valueMethodID ? valueMethodID : _jenv->GetMethodID( javaClass, \"ordinal\", \"()I\" );\n"
             + "\n"
             + "    jint enumValue = _jenv->CallIntMethod( _jinput, valueMethodID );\n"
-            + "    _nout = ::::a::superfancy::namespace::MyCppEnum( enumValue );\n"
+            + "    _nout = ::a::superfancy::namespace::MyCppEnum( enumValue );\n"
             + "}";
     assertEquals(expected, generated);
   }

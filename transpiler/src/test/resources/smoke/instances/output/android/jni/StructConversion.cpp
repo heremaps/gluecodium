@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <vector>
 #include <android/jni/FieldAccessMethods.h>
+#include <android/jni/EnumConversion.h>
 
 namespace here {
 namespace internal {

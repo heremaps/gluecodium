@@ -37,7 +37,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class JavaNativeInterfacesGeneratorTest {
 
   private static final int MAIN_FILES_COUNT = 2;
-  private static final int MAIN_FILES_WITH_INSTANCES_COUNT = 7;
+  private static final int MAIN_FILES_WITH_INSTANCES_COUNT = 9;
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
@@ -54,13 +54,15 @@ public class JavaNativeInterfacesGeneratorTest {
 
     when(JniNameRules.getHeaderFileName(any())).thenReturn("");
     when(JniNameRules.getImplementationFileName(any())).thenReturn("");
-    when(JniNameRules.getConversionHeaderFileName()).thenReturn("");
-    when(JniNameRules.getConversionImplementationFileName()).thenReturn("");
+    when(JniNameRules.getStructConversionHeaderFileName()).thenReturn("");
+    when(JniNameRules.getStructConversionImplementationFileName()).thenReturn("");
     when(JniNameRules.getInstanceConversionHeaderFileName()).thenReturn("");
     when(JniNameRules.getInstanceConversionImplementationFileName()).thenReturn("");
     when(JniNameRules.getCppProxyHeaderFileName(any())).thenReturn("");
     when(JniNameRules.getCppProxyImplementationFileName(any())).thenReturn("");
     when(JniNameRules.getProxyConversionHeaderFileName()).thenReturn("");
+    when(JniNameRules.getEnumConversionHeaderFileName()).thenReturn("");
+    when(JniNameRules.getEnumConversionImplementationFileName()).thenReturn("");
   }
 
   @Test
@@ -105,5 +107,9 @@ public class JavaNativeInterfacesGeneratorTest {
     TemplateEngine.render(eq("jni/CppProxyImplementation"), any());
     PowerMockito.verifyStatic();
     TemplateEngine.render(eq("jni/ProxyGeneratorHeader"), any());
+    PowerMockito.verifyStatic();
+    TemplateEngine.render(eq("jni/EnumConversionHeader"), any());
+    PowerMockito.verifyStatic();
+    TemplateEngine.render(eq("jni/EnumConversionImplementation"), any());
   }
 }
