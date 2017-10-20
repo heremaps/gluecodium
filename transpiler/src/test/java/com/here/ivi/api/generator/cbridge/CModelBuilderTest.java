@@ -86,6 +86,7 @@ public class CModelBuilderTest {
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FModel francaModel;
   @Mock private FAttribute francaAttribute;
+  @Mock private FTypeRef francaTypeRef;
 
   private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
   private CModelBuilder modelBuilder;
@@ -109,7 +110,6 @@ public class CModelBuilderTest {
     when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
     when(CBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
 
-    when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaMethod.eContainer()).thenReturn(francaTypeCollection);
     when(francaTypeCollection.eContainer()).thenReturn(francaModel);
@@ -118,11 +118,13 @@ public class CModelBuilderTest {
     when(francaAttribute.eContainer()).thenReturn(francaInterface);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
-    modelBuilder = new CModelBuilder(anInterface, resolver, contextStack, cppModelbuilder);
+    modelBuilder = new CModelBuilder(contextStack, anInterface, resolver, cppModelbuilder);
   }
 
   @Test
   public void finishBuildingInputArgumentReturnsCreatedParams() {
+    contextStack.injectResult(cppTypeInfo);
+
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
     List<CParameter> params = getResults(CParameter.class);
@@ -139,6 +141,8 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingOutputArgumentReturnsCreatedParam() {
+    contextStack.injectResult(cppTypeInfo);
+
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     List<COutParameter> params = getResults(COutParameter.class);
@@ -309,7 +313,7 @@ public class CModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingTypedElementAddsFields() {
+  public void finishBuildingFrancaFieldReadsName() {
     when(francaField.getName()).thenReturn("field");
 
     modelBuilder.finishBuilding(francaField);
@@ -317,6 +321,17 @@ public class CModelBuilderTest {
     List<CField> fields = getResults(CField.class);
     assertEquals(1, fields.size());
     assertEquals("field", fields.get(0).name);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsTypeInfo() {
+    contextStack.injectResult(cppTypeInfo);
+
+    modelBuilder.finishBuilding(francaField);
+
+    List<CField> fields = getResults(CField.class);
+    assertEquals(1, fields.size());
+    assertEquals(cppTypeInfo, fields.get(0).type);
   }
 
   @Test
@@ -331,15 +346,13 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesCppTypeInfo() {
-    FTypeRef typeRef = mock(FTypeRef.class);
-    CppTypeInfo typeInfo = mock(CppTypeInfo.class);
-    when(CTypeMapper.mapType(any(), any(FTypeRef.class))).thenReturn(typeInfo);
+    when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
 
-    modelBuilder.finishBuilding(typeRef);
+    modelBuilder.finishBuilding(francaTypeRef);
 
     List<CppTypeInfo> typeInfos = getResults(CppTypeInfo.class);
     assertEquals("Should be 1 CppTypeInfo created", 1, typeInfos.size());
-    assertSame(typeInfo, typeInfos.get(0));
+    assertSame(cppTypeInfo, typeInfos.get(0));
   }
 
   @Test

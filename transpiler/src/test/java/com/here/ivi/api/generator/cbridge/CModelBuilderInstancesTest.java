@@ -70,7 +70,7 @@ public class CModelBuilderInstancesTest {
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
 
-    modelBuilder = new CModelBuilder(anInterface, resolver, contextStack, cppModelbuilder);
+    modelBuilder = new CModelBuilder(contextStack, anInterface, resolver, cppModelbuilder);
   }
 
   @Test

@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
@@ -40,18 +41,18 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   private final CppModelBuilder cppBuilder;
 
   public CModelBuilder(
-      final FrancaElement rootModel, IncludeResolver includeResolver, CppModelBuilder cppBuilder) {
-    super(new ModelBuilderContextStack<>());
-    this.rootModel = rootModel;
-    this.resolver = includeResolver;
-    this.cppBuilder = cppBuilder;
+      final FrancaElement rootModel,
+      final IncludeResolver includeResolver,
+      final CppModelBuilder cppBuilder) {
+    this(new ModelBuilderContextStack<>(), rootModel, includeResolver, cppBuilder);
   }
 
+  @VisibleForTesting
   CModelBuilder(
-      FrancaElement rootModel,
-      IncludeResolver includeResolver,
-      ModelBuilderContextStack<CElement> contextStack,
-      CppModelBuilder cppBuilder) {
+      final ModelBuilderContextStack<CElement> contextStack,
+      final FrancaElement rootModel,
+      final IncludeResolver includeResolver,
+      final CppModelBuilder cppBuilder) {
     super(contextStack);
     this.rootModel = rootModel;
     this.resolver = includeResolver;
@@ -145,17 +146,13 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
-    CppTypeInfo typeInfo = CTypeMapper.mapType(resolver, francaArgument.getType());
-    String francaArgumentName = francaArgument.getName();
-    storeResult(new CInParameter(francaArgumentName, typeInfo));
+    storeResult(new CInParameter(francaArgument.getName(), getPreviousResult(CppTypeInfo.class)));
     closeContext();
   }
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    CppTypeInfo typeInfo = CTypeMapper.mapType(resolver, francaArgument.getType());
-    COutParameter param = new COutParameter("result", typeInfo);
-    storeResult(param);
+    storeResult(new COutParameter("result", getPreviousResult(CppTypeInfo.class)));
     closeContext();
   }
 
@@ -175,9 +172,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FField francaField) {
-    CField cField =
-        new CField(francaField.getName(), CTypeMapper.mapType(resolver, francaField.getType()));
-    storeResult(cField);
+    storeResult(new CField(francaField.getName(), getPreviousResult(CppTypeInfo.class)));
     super.finishBuilding(francaField);
   }
 
