@@ -93,7 +93,7 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_withEnum() {
     // Arrange
-    JavaEnumItem enumItem = new JavaEnumItem("ITEM");
+    JavaEnumItem enumItem = new JavaEnumItem("ITEM", new JavaValue("0"));
     JavaEnum classEnum = new JavaEnum("ExampleEnum");
     classEnum.items.add(enumItem);
     classEnum.comment = "Enum comment";
@@ -111,7 +111,13 @@ public final class JavaClassTemplateTest {
             + "     * Enum comment\n"
             + "     */\n"
             + "    enum ExampleEnum {\n"
-            + "        ITEM;\n"
+            + "        ITEM(0);\n"
+            + "\n"
+            + "        public final int value;\n"
+            + "\n"
+            + "        ExampleEnum(final int value) {\n"
+            + "            this.value = value;\n"
+            + "        }\n"
             + "    }\n"
             + "}";
 
@@ -128,7 +134,7 @@ public final class JavaClassTemplateTest {
     JavaMethod classMethod = new JavaMethod("someMethod", JavaPrimitiveType.VOID);
     classMethod.qualifiers.add(JavaMethod.MethodQualifier.NATIVE);
     classMethod.comment = "Method comment";
-    JavaEnumItem enumItem = new JavaEnumItem("ITEM");
+    JavaEnumItem enumItem = new JavaEnumItem("ITEM", new JavaValue("0"));
     JavaEnum classEnum = new JavaEnum("ExampleEnum");
     classEnum.items.add(enumItem);
     classEnum.comment = "Enum comment";
@@ -147,7 +153,13 @@ public final class JavaClassTemplateTest {
             + "     * Enum comment\n"
             + "     */\n"
             + "    enum ExampleEnum {\n"
-            + "        ITEM;\n"
+            + "        ITEM(0);\n"
+            + "\n"
+            + "        public final int value;\n"
+            + "\n"
+            + "        ExampleEnum(final int value) {\n"
+            + "            this.value = value;\n"
+            + "        }\n"
             + "    }\n"
             + "    /**\n"
             + "     * Method comment\n"
