@@ -53,7 +53,7 @@ public class FileOutput implements GeneratorOutput {
     }
 
     BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetFile));
-    bufferedWriter.write(file.content.toString());
+    bufferedWriter.write(file.content);
     bufferedWriter.close();
   }
 }

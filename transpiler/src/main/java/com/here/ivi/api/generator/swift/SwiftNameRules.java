@@ -36,7 +36,7 @@ public final class SwiftNameRules {
   }
 
   private static String getFileName(final FrancaElement francaElement) {
-    String switchResult = null;
+    String switchResult;
     if (francaElement instanceof Interface) {
       switchResult =
           SwiftNameRules.computeClassName(((Interface) francaElement).getFrancaInterface());

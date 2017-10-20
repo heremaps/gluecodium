@@ -28,16 +28,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class TopologicalSort {
-  /**
-   * Do a topological sort based on Kahn's algorithm
-   * https://en.wikipedia.org/wiki/Topological_sorting on the given structs and assign priorities to
-   * structs so the most-basic structs are defined first to avoid compilation errors on C++.
-   *
-   * @param elements List of CppElements
-   */
+
   private final List<CppElement> elements;
 
-  // fully qualified names of elements
   private final Set<String> fullyQualifiedNames;
 
   public TopologicalSort(List<CppElement> elements) {
@@ -47,6 +40,11 @@ public final class TopologicalSort {
         elements.stream().map(e -> e.fullyQualifiedName).collect(Collectors.toSet());
   }
 
+  /**
+   * Do a topological sort based on Kahn's algorithm
+   * https://en.wikipedia.org/wiki/Topological_sorting on the given structs and assign priorities to
+   * structs so the most-basic structs are defined first to avoid compilation errors on C++.
+   */
   public List<CppElement> sort() {
 
     List<CppElement> sortedElements = new LinkedList<>();

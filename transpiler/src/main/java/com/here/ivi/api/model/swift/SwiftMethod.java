@@ -24,6 +24,8 @@ public class SwiftMethod extends SwiftModelElement {
   public boolean isStatic;
   public Visibility visibility;
   public String cBaseName;
+
+  @SuppressWarnings("unused")
   public SwiftParameter instanceParameter = new SwiftParameter("c_instance", VOID);
 
   public SwiftMethod(String methodName) {

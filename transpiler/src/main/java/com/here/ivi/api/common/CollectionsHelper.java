@@ -18,28 +18,6 @@ import java.util.stream.Stream;
 
 public final class CollectionsHelper {
 
-  public static <T> boolean areEqual(Collection<T> a, Collection<T> b) {
-    if (a == null && b == null) {
-      return true;
-    }
-    if (a == null || b == null || a.size() != b.size()) {
-      return false;
-    }
-
-    return a.containsAll(b); // same length so if a is in b, b is also in a
-  }
-
-  public static <T> boolean areEqualOrdered(List<T> a, List<T> b) {
-    if (a == null && b == null) {
-      return true;
-    }
-    if (a == null || b == null) {
-      return false;
-    }
-
-    return a.equals(b);
-  }
-
   public static <T> List<T> getAllOfType(
       final Collection<? super T> collection, final Class<T> clazz) {
     return getStreamOfType(collection, clazz).collect(Collectors.toList());

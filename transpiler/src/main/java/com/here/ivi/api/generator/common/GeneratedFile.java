@@ -13,17 +13,13 @@ package com.here.ivi.api.generator.common;
 
 import java.io.File;
 
-public class GeneratedFile {
+public final class GeneratedFile {
 
   public final String content;
   public final File targetFile;
 
-  public GeneratedFile(String content, String targetFile) {
-    this(content, new File(targetFile));
-  }
-
-  public GeneratedFile(String content, File targetFile) {
+  public GeneratedFile(final String content, final String targetFile) {
     this.content = content;
-    this.targetFile = targetFile;
+    this.targetFile = new File(targetFile);
   }
 }
