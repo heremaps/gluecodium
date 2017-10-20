@@ -16,6 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -458,6 +459,19 @@ public class JavaModelBuilderTest {
     assertNotNull(resultEnum);
     assertEquals(2, resultEnum.items.size());
     assertEquals(javaEnumItem, resultEnum.items.get(0));
+    assertEquals(javaEnumItem, resultEnum.items.get(1));
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeCallsCompletePartialEnumeratorValues() {
+
+    PowerMockito.doNothing().when(JavaValueMapper.class);
+    JavaValueMapper.completePartialEnumeratorValues(any());
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    verifyStatic();
+    JavaValueMapper.completePartialEnumeratorValues(any());
   }
 
   @Test

@@ -2,12 +2,10 @@
 enum {{name}} {
 {{joinPartial items "java/EnumItem" ",
 "}}{{#if items}};{{/if}}
-{{#if hasEnumeratorsWithValues}}
 
     public final int value;
 
     {{name}}(final int value) {
         this.value = value;
     }
-{{/if}}
 }

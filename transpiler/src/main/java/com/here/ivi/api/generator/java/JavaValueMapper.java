@@ -11,9 +11,11 @@
 
 package com.here.ivi.api.generator.java;
 
+import com.here.ivi.api.model.javamodel.JavaEnumItem;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import java.math.BigInteger;
+import java.util.List;
 import org.franca.core.franca.*;
 
 public class JavaValueMapper {
@@ -26,6 +28,19 @@ public class JavaValueMapper {
     }
 
     return map(rhs);
+  }
+
+  public static void completePartialEnumeratorValues(List<JavaEnumItem> javaEnumItems) {
+
+    int lastValue = 0;
+    for (JavaEnumItem e : javaEnumItems) {
+      if (e.value == null) {
+        e.value = new JavaValue(String.valueOf(lastValue));
+      } else {
+        lastValue = Integer.parseInt(e.value.name);
+      }
+      lastValue++;
+    }
   }
 
   public static JavaValue map(FInitializerExpression rhs) {

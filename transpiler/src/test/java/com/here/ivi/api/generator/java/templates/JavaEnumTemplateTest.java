@@ -34,30 +34,15 @@ public final class JavaEnumTemplateTest {
     // Arrange
     JavaEnum javaEnum = new JavaEnum("MyEnum");
 
-    String expected = "enum MyEnum {\n" + "\n" + "}";
-
-    // Act
-    String generated = TemplateEngine.render("java/Enum", javaEnum);
-
-    // Assert
-    assertEquals(expected, generated);
-  }
-
-  @Test
-  public void generate_withoutValues() {
-    // Arrange
-    JavaEnum javaEnum = new JavaEnum("MyEnum");
-    javaEnum.comment = "A test enum";
-    javaEnum.items.add(new JavaEnumItem("FooName"));
-    javaEnum.items.add(new JavaEnumItem("BarName"));
-
     String expected =
-        "/**\n"
-            + " * A test enum\n"
-            + " */\n"
-            + "enum MyEnum {\n"
-            + "    FooName,\n"
-            + "    BarName;\n"
+        "enum MyEnum {\n"
+            + "\n"
+            + "\n"
+            + "    public final int value;\n"
+            + "\n"
+            + "    MyEnum(final int value) {\n"
+            + "        this.value = value;\n"
+            + "    }\n"
             + "}";
 
     // Act

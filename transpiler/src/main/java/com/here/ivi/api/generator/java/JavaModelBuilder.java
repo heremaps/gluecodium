@@ -216,6 +216,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaEnum javaEnum = new JavaEnum(enumName);
     javaEnum.comment = getCommentString(francaEnumType);
     javaEnum.items.addAll(getPreviousResults(JavaEnumItem.class));
+    JavaValueMapper.completePartialEnumeratorValues(javaEnum.items);
 
     storeResult(javaEnum);
     closeContext();

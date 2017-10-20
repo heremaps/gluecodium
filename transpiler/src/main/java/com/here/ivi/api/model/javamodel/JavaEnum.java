@@ -13,7 +13,6 @@ package com.here.ivi.api.model.javamodel;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 public final class JavaEnum extends JavaTopLevelElement {
@@ -22,11 +21,6 @@ public final class JavaEnum extends JavaTopLevelElement {
 
   public JavaEnum(final String name) {
     super(name);
-  }
-
-  @SuppressWarnings("unused")
-  public boolean hasEnumeratorsWithValues() {
-    return items.stream().anyMatch(item -> Objects.nonNull(item.value));
   }
 
   @Override

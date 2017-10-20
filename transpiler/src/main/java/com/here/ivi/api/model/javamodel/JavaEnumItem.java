@@ -14,7 +14,7 @@ package com.here.ivi.api.model.javamodel;
 import java.util.stream.Stream;
 
 public final class JavaEnumItem extends JavaElement {
-  public final JavaValue value;
+  public JavaValue value;
 
   public JavaEnumItem(final String name) {
     this(name, null);
