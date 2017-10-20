@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.generator.baseapi.TopologicalSort;
+import com.here.ivi.api.generator.cpp.TopologicalSort;
 import java.util.*;
 import java.util.stream.Stream;
 

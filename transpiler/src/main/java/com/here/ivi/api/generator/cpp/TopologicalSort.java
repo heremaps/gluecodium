@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.baseapi;
+package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.cppmodel.CppConstant;

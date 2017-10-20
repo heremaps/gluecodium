@@ -12,7 +12,7 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.baseapi.TopologicalSort;
+import com.here.ivi.api.generator.cpp.TopologicalSort;
 import com.here.ivi.api.model.common.Include;
 import java.util.*;
 import java.util.stream.Collectors;

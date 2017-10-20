@@ -13,9 +13,9 @@ package com.here.ivi.api.generator.cbridge;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.baseapi.CppModelBuilder;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
+import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.cmodel.CClassType;
 import com.here.ivi.api.model.cmodel.CElement;
