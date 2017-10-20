@@ -6,7 +6,7 @@ class AttributesTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        attributes = HelloWorldFactory.createAttributes()!
+        attributes = HelloWorldFactory.createAttributes()
     }
 
     func testBuiltInTypeAttribute() {

@@ -17,7 +17,8 @@ class MenuTableViewController: UITableViewController {
                       ("Instances", "Instances"),
                       ("Structs", "Structs"),
                       ("Enums", "Enums"),
-                      ("Typedefs", "Typedefs")]
+                      ("Typedefs", "Typedefs"),
+                      ("Attributes", "Attributes")]
 
     @IBOutlet weak var versionLabel: UILabel! {
         willSet { newValue.text = versionMessage }

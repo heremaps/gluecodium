@@ -13,7 +13,7 @@
         <!--Hello World!-->
         <scene sceneID="B7E-et-gHd">
             <objects>
-                <tableViewController id="Ylw-om-I49" customClass="MenuTableViewController" customModule="hello_swift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Ylw-om-I49" customClass="MenuTableViewController" customModule="helloApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="80" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Dtx-5D-cRQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -36,7 +36,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="80" id="ZkE-pw-NBo" customClass="Cell" customModule="hello_swift" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="80" id="ZkE-pw-NBo" customClass="Cell" customModule="helloApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.333333333333336" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZkE-pw-NBo" id="9KQ-JX-WcN">
