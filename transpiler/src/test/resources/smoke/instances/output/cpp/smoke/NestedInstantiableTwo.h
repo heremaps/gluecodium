@@ -16,9 +16,9 @@
 
 #pragma once
 
-#include "cpp/smoke/NestedInstantiableOne.h"
-#include "cpp/smoke/SimpleInstantiableOne.h"
-#include "cpp/smoke/SimpleInstantiableTwo.h"
+#include "smoke/NestedInstantiableOne.h"
+#include "smoke/SimpleInstantiableOne.h"
+#include "smoke/SimpleInstantiableTwo.h"
 #include <memory>
 
 namespace smoke {

@@ -14,7 +14,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "cpp/smoke/SimpleInstantiableTwo.h"
+#include "smoke/SimpleInstantiableTwo.h"
 namespace smoke {
 
 SimpleInstantiableTwo::~SimpleInstantiableTwo() = default;

@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.cpp;
 
-import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
@@ -132,9 +131,7 @@ public final class CppNameRules {
   }
 
   public static String getOutputFilePath(final FrancaElement francaElement) {
-    return BaseApiGeneratorSuite.GENERATOR_NAME
-        + File.separator
-        + String.join(File.separator, francaElement.getPackageNames())
+    return String.join(File.separator, francaElement.getPackageNames())
         + File.separator
         + (francaElement instanceof Interface
             ? getClassName(((Interface) francaElement).getFrancaInterface().getName())

@@ -43,7 +43,7 @@ public class CppGeneratorTest {
 
   @Test
   public void generateCodeWithNullModel() {
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(null, OUTPUT_FILE_NAME);
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(null, OUTPUT_FILE_NAME, "");
 
     assertTrue(generatedFiles.isEmpty());
   }
@@ -52,14 +52,14 @@ public class CppGeneratorTest {
   public void generateCodeWithEmptyModel() {
     cppModel.members.clear();
 
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME);
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
 
     assertTrue(generatedFiles.isEmpty());
   }
 
   @Test
   public void generateCodeWithNonEmptyModel() {
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME);
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
 
     assertFalse(generatedFiles.isEmpty());
   }
@@ -72,7 +72,7 @@ public class CppGeneratorTest {
     cppModel.includes.add(nonsenseInclude);
     cppModel.includes.add(selfInclude);
 
-    cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME);
+    cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
 
     assertTrue(cppModel.includes.contains(nonsenseInclude));
     assertFalse(cppModel.includes.contains(selfInclude));
@@ -80,7 +80,7 @@ public class CppGeneratorTest {
 
   @Test
   public void generateCodeGeneratesImplementation() {
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME);
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
 
     assertEquals(2, generatedFiles.size());
     assertTrue(generatedFiles.get(1).content.contains("#include \"" + OUTPUT_FILE_NAME + ".h\""));
@@ -90,7 +90,7 @@ public class CppGeneratorTest {
   public void generateCodeGeneratesHeaderOnlyForStaticClass() {
     cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
 
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME);
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
 
     assertEquals(1, generatedFiles.size());
   }

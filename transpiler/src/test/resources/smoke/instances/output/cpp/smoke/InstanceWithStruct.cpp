@@ -14,7 +14,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "cpp/smoke/InstanceWithStruct.h"
+#include "smoke/InstanceWithStruct.h"
 namespace smoke {
 
 InstanceWithStruct::~InstanceWithStruct() = default;
