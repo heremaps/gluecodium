@@ -21,6 +21,16 @@ import static junit.framework.Assert.assertTrue;
         BuildConfig.class)
 public final class CppProxyWithComplexListenersTest {
 
+    private static byte[] image = (
+            "      _.-'''''-._      \n" +
+            "    .'  _     _  '.    \n" +
+            "   /   (o)   (o)   \\  \n" +
+            "  |                 |  \n" +
+            "  |  \\          /  |  \n" +
+            "  \\  '.       .'  /   \n" +
+            "    '.  `'---'`  .'    \n" +
+            "      '-._____.-'").getBytes();
+
     @Test
     public void JavaNativeListenerHavingComplexInputParameters() {
 
@@ -45,13 +55,18 @@ public final class CppProxyWithComplexListenersTest {
         final AtomicReference<String> listenerLog = new AtomicReference<>();
 
         ComplexListener javaComplexListener = new ComplexListener() {
+
             @Override
-            public void onTrajectoryCompleted(DistanceMetric distanceMetric, List<NamedPoint3D> list) {
+            public void onTrajectoryCompleted(DistanceMetric distanceMetric, List<NamedPoint3D> list,
+                                              TrajectoryQuality quality,
+                                              byte[] bytes) {
 
                 double val = distanceMetric.getLength(list);
                 listenerLog.set("Java-native listener called back to given cpp instance:\n" +
                         "\tfrom: " + list.get(0).name + " to: " + list.get(list.size() - 1).name + "\n" +
-                        "\tlength of trajectory (using manhattan distance metric): " + val);
+                        "\tquality: " + quality +
+                        "\tlength of trajectory (using manhattan distance metric): " + val +
+                        "\timage:\n" + new String(bytes));
             }
         };
 
@@ -61,14 +76,18 @@ public final class CppProxyWithComplexListenersTest {
         trajectory.add(ptTwo);
         trajectory.add(ptThree);
 
+        TrajectoryQuality trajectoryQuality = TrajectoryQuality.TRAJECTORY_AVERAGE;
+
         ComplexNotifier complexNotifier = ComplexListenerFactory.createComplexNotifier();
 
-        complexNotifier.trajectoryCompleted(trajectory, javaComplexListener);
+        complexNotifier.trajectoryCompleted(trajectory, trajectoryQuality, image, javaComplexListener);
 
         assertTrue(
                 listenerLog.get()
                         .contains("Java-native listener called back to given cpp instance:\n" +
                                 "\tfrom: zero point to: final destination\n" +
-                                "\tlength of trajectory (using manhattan distance metric): 60.0"));
+                                "\tquality: TRAJECTORY_AVERAGE\tlength of trajectory (using manhattan distance "
+                                + "metric): 60.0\timage:\n"
+                                + new String(image)));
     }
 }

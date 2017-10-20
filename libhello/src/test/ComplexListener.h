@@ -35,8 +35,9 @@ public:
 
     void trajectoryCompleted(
         const ::std::vector< ::test::NamedPoint3D >& trajectory,
+        const ::test::TrajectoryQuality quality,
+        const ::std::vector< uint8_t >& image,
         const ::std::shared_ptr< ::test::ComplexListener >& listener ) override;
-
 };
 
 } // namespace test
