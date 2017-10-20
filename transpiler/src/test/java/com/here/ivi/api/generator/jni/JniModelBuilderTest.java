@@ -21,7 +21,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.baseapi.CppModelBuilder;
+import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.FrancaElement;
