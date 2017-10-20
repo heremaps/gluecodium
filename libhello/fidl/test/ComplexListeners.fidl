@@ -28,6 +28,12 @@ typeCollection ComplexListenerTypes {
       Point3D pt
     }
 
+    enumeration TrajectoryQuality {
+        TRAJECTORY_POOR
+        TRAJECTORY_AVERAGE
+        TRAJECTORY_GOOD = 999
+    }
+
     array Trajectory of NamedPoint3D
 }
 
@@ -54,12 +60,14 @@ interface ComplexListener {
 
     public typedef ComplexListener is undefined
 
-    method onTrajectoryCompleted {
-        in {
-            DistanceMetric.DistanceMetric distanceMetric
-            ComplexListenerTypes.Trajectory trajectory
+        method onTrajectoryCompleted {
+            in {
+                DistanceMetric.DistanceMetric distanceMetric
+                ComplexListenerTypes.Trajectory trajectory
+                ComplexListenerTypes.TrajectoryQuality quality
+                ByteBuffer image
+            }
         }
-    }
 }
 
 interface ComplexNotifier {
@@ -74,6 +82,8 @@ interface ComplexNotifier {
     method trajectoryCompleted {
         in {
             ComplexListenerTypes.Trajectory trajectory
+            ComplexListenerTypes.TrajectoryQuality quality
+            ByteBuffer image
             ComplexListener.ComplexListener listener
         }
     }

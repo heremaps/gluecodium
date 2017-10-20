@@ -33,10 +33,16 @@ ManhattanMetric::getLength( const ::std::vector< ::test::NamedPoint3D >& input )
 
 void
 ComplexNotifierImpl::trajectoryCompleted(
+
     const ::std::vector< ::test::NamedPoint3D >& trajectory,
+    const ::test::TrajectoryQuality quality,
+    const ::std::vector< uint8_t >& image,
     const ::std::shared_ptr< ::test::ComplexListener >& listener )
 {
-    listener->onTrajectoryCompleted( ComplexListenerFactory::createDistanceMetric( ), trajectory );
+    listener->onTrajectoryCompleted( ComplexListenerFactory::createDistanceMetric( ),
+                                     trajectory,
+                                     quality,
+                                     image );
 }
 
 ::std::shared_ptr< ::test::ComplexNotifier >
