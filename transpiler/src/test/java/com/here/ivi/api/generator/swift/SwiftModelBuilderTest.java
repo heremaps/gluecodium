@@ -29,31 +29,15 @@ import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.swift.SwiftContainerType;
-import com.here.ivi.api.model.swift.SwiftEnum;
-import com.here.ivi.api.model.swift.SwiftEnumItem;
-import com.here.ivi.api.model.swift.SwiftFile;
-import com.here.ivi.api.model.swift.SwiftInParameter;
-import com.here.ivi.api.model.swift.SwiftMethod;
-import com.here.ivi.api.model.swift.SwiftModelElement;
-import com.here.ivi.api.model.swift.SwiftParameter;
-import com.here.ivi.api.model.swift.SwiftType;
-import com.here.ivi.api.model.swift.SwiftValue;
+import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FExpression;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModel;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -64,6 +48,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
   SwiftNameRules.class,
   CBridgeNameRules.class
 })
+@SuppressWarnings("PMD.CouplingBetweenObjects")
 public class SwiftModelBuilderTest {
 
   private static final String PARAM_NAME = "someParamName";
@@ -81,8 +66,11 @@ public class SwiftModelBuilderTest {
   @Mock private FArgument francaArgument;
   @Mock private FInterface francaInterface;
   @Mock private FTypeCollection francaTypeCollection;
-  @Mock private SwiftType swiftType;
-  @Mock private FTypeRef typeRef;
+  @Mock private FTypeRef francaTypeRef;
+  @Mock private FField francaField;
+  @Mock private FTypeDef francaTypeDef;
+
+  private final SwiftType swiftType = new SwiftType("VerySwiftType");
 
   private SwiftModelBuilder modelBuilder;
 
@@ -94,10 +82,7 @@ public class SwiftModelBuilderTest {
         SwiftNameRules.class,
         CBridgeNameRules.class);
     initMocks(this);
-    when(SwiftTypeMapper.mapType(any(FTypeRef.class))).thenReturn(swiftType);
-    when(francaArgument.getType()).thenReturn(typeRef);
-    when(SwiftTypeMapper.mapType(any(FTypeRef.class))).thenReturn(swiftType);
-    when(SwiftTypeMapper.mapOutputType(any())).thenReturn(swiftType);
+
     when(CppCommentParser.parse(any(FMethod.class))).thenReturn(comments);
     when(CppCommentParser.parse(any(FInterface.class))).thenReturn(comments);
     when(CppCommentParser.parse(any(FEnumerator.class))).thenReturn(comments);
@@ -106,7 +91,6 @@ public class SwiftModelBuilderTest {
 
     when(anInterface.getPackageNames()).thenReturn(PACKAGES);
     when(anInterface.isStatic(any())).thenReturn(true);
-    when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(SwiftNameRules.getParameterName(any())).thenReturn(PARAM_NAME);
     when(SwiftNameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
 
@@ -114,11 +98,17 @@ public class SwiftModelBuilderTest {
     when(francaInterface.eContainer()).thenReturn(francaModel);
     when(francaModel.getName()).thenReturn("");
 
-    modelBuilder = new SwiftModelBuilder(anInterface, contextStack);
+    when(francaArgument.getName()).thenReturn(PARAM_NAME);
+    when(francaField.getName()).thenReturn("flowers");
+    when(francaTypeDef.getName()).thenReturn("definite");
+
+    modelBuilder = new SwiftModelBuilder(contextStack, anInterface);
   }
 
   @Test
   public void finishBuildingInputArgumentReturnsCreatedParams() {
+    contextStack.injectResult(swiftType);
+
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
     List<SwiftParameter> params = getResults(SwiftParameter.class);
@@ -129,14 +119,34 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingOutputArgumentReturnsCreatedParam() {
-    SwiftType realType = new SwiftType("SomeType");
-    when(SwiftTypeMapper.mapOutputType(any())).thenReturn(realType);
+    contextStack.injectResult(swiftType);
+
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     List<SwiftParameter> params = getResults(SwiftParameter.class);
     assertEquals(1, params.size());
     assertEquals(PARAM_NAME, params.get(0).variableName);
-    assertSame(realType, params.get(0).type);
+    assertSame(swiftType, params.get(0).type);
+  }
+
+  @Test
+  public void finishBuildingOutputArgumentMarksStructAsOptional() {
+    contextStack.injectResult(new SwiftType("Foo", SwiftType.TypeCategory.STRUCT));
+
+    modelBuilder.finishBuildingOutputArgument(francaArgument);
+
+    List<SwiftParameter> params = getResults(SwiftParameter.class);
+    assertTrue(params.get(0).type.optional);
+  }
+
+  @Test
+  public void finishBuildingOutputArgumentMarksStringAsOptional() {
+    contextStack.injectResult(new SwiftType("Foo", SwiftType.TypeCategory.BUILTIN_STRING));
+
+    modelBuilder.finishBuildingOutputArgument(francaArgument);
+
+    List<SwiftParameter> params = getResults(SwiftParameter.class);
+    assertTrue(params.get(0).type.optional);
   }
 
   @Test
@@ -287,6 +297,60 @@ public class SwiftModelBuilderTest {
         "Enum item inside enum type should be on injected into model",
         fakeEnumItem,
         enumType.items.get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsName() {
+    modelBuilder.finishBuilding(francaField);
+
+    List<SwiftField> swiftFields = getResults(SwiftField.class);
+    assertEquals("Should be 1 field item created", 1, swiftFields.size());
+    assertEquals("flowers", swiftFields.get(0).name);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsType() {
+    contextStack.injectResult(swiftType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    List<SwiftField> swiftFields = getResults(SwiftField.class);
+    assertEquals("Should be 1 field item created", 1, swiftFields.size());
+    assertSame(swiftType, swiftFields.get(0).type);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeDefReadsName() {
+    modelBuilder.finishBuilding(francaTypeDef);
+
+    List<SwiftTypeDef> swiftTypeDefs = getResults(SwiftTypeDef.class);
+    assertEquals("Should be 1 field item created", 1, swiftTypeDefs.size());
+    assertEquals("definite", swiftTypeDefs.get(0).name);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeDefReadsType() {
+    contextStack.injectResult(swiftType);
+
+    modelBuilder.finishBuilding(francaTypeDef);
+
+    List<SwiftTypeDef> swiftTypeDefs = getResults(SwiftTypeDef.class);
+    assertEquals("Should be 1 field item created", 1, swiftTypeDefs.size());
+    assertSame(swiftType, swiftTypeDefs.get(0).type);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeRef() {
+    when(SwiftTypeMapper.mapType(any(FTypeRef.class))).thenReturn(swiftType);
+
+    modelBuilder.finishBuilding(francaTypeRef);
+
+    List<SwiftType> swiftTypes = getResults(SwiftType.class);
+    assertEquals("Should be 1 type item created", 1, swiftTypes.size());
+    assertSame(swiftType, swiftTypes.get(0));
+
+    PowerMockito.verifyStatic();
+    SwiftTypeMapper.mapType(francaTypeRef);
   }
 
   private <T extends SwiftModelElement> List<T> getResults(Class<T> clazz) {
