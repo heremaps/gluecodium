@@ -1,1 +1,1 @@
-{{#unless fileName}}// Unknown or unresolved include{{/unless}}{{#if fileName}}#include {{#if isSystem}}<{{fileName}}>{{/if}}{{#unless isSystem}}"{{fileName}}"{{/unless}}{{/if}}
+#include {{#if isSystem}}<{{fileName}}>{{/if}}{{#unless isSystem}}"{{fileName}}"{{/unless}}

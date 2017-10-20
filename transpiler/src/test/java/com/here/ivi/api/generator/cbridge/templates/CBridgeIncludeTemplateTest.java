@@ -45,14 +45,4 @@ public final class CBridgeIncludeTemplateTest {
 
     assertEquals(expected, generated);
   }
-
-  @Test
-  public void unknownTypeInclude() {
-    Include include = Include.createInternalInclude("");
-
-    String generated = generate(include);
-
-    final String expected = "// Unknown or unresolved include\n";
-    assertEquals(expected, generated);
-  }
 }
