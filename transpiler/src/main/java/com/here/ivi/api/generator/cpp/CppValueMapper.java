@@ -17,19 +17,9 @@ import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.cppmodel.CppValue;
 import com.here.ivi.api.model.rules.BuiltInValueRules;
-import com.here.ivi.api.model.rules.DefaultValuesRules;
 import java.math.BigInteger;
 import java.util.Optional;
-import org.franca.core.franca.FBooleanConstant;
-import org.franca.core.franca.FCompoundInitializer;
-import org.franca.core.franca.FDoubleConstant;
-import org.franca.core.franca.FFieldInitializer;
-import org.franca.core.franca.FFloatConstant;
-import org.franca.core.franca.FInitializerExpression;
-import org.franca.core.franca.FIntegerConstant;
-import org.franca.core.franca.FQualifiedElementRef;
-import org.franca.core.franca.FStringConstant;
-import org.franca.core.franca.FUnaryOperation;
+import org.franca.core.franca.*;
 
 public class CppValueMapper {
 
@@ -152,12 +142,12 @@ public class CppValueMapper {
 
     String name = francaQualifiedElementRef.getElement().getName();
 
-    if (DefaultValuesRules.isEnumerator(francaQualifiedElementRef)) {
+    if (francaQualifiedElementRef.getElement() instanceof FEnumerator) {
       //as we don't generate plain enums but enum class, we need to add the enumeration name as well
       name = cppTypeRef.name + "::" + CppNameRules.getEnumEntryName(name);
     }
 
-    if (DefaultValuesRules.isConstant(francaQualifiedElementRef)) {
+    if (francaQualifiedElementRef.getElement() instanceof FConstantDef) {
       name = CppNameRules.getConstantName(name);
     }
 

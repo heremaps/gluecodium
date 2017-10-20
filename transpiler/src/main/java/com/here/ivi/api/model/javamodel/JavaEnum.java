@@ -24,6 +24,7 @@ public final class JavaEnum extends JavaTopLevelElement {
     super(name);
   }
 
+  @SuppressWarnings("unused")
   public boolean hasEnumeratorsWithValues() {
     return items.stream().anyMatch(item -> Objects.nonNull(item.value));
   }

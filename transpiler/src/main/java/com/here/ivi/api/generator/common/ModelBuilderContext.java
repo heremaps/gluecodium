@@ -18,7 +18,7 @@ import java.util.List;
  * Context of each building step. Used to propagate data between parent- and child-steps. Additional
  * fields should be added if more data is needed in the future.
  */
-public class ModelBuilderContext<E> {
-  public List<E> previousResults = new ArrayList<>();
-  public List<E> currentResults = new ArrayList<>();
+public final class ModelBuilderContext<E> {
+  public final List<E> previousResults = new ArrayList<>();
+  public final List<E> currentResults = new ArrayList<>();
 }

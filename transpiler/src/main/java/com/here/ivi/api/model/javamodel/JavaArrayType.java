@@ -11,12 +11,9 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import java.util.EnumSet;
 import java.util.stream.Stream;
 
 public final class JavaArrayType extends JavaType {
-
-  public static final EnumSet<JavaArrayType.Type> TYPES = EnumSet.allOf(JavaArrayType.Type.class);
 
   public static final JavaArrayType BYTE_ARRAY = new JavaArrayType(Type.BYTE_ARRAY);
   public static final JavaArrayType SHORT_ARRAY = new JavaArrayType(JavaArrayType.Type.SHORT_ARRAY);
