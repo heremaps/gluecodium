@@ -54,6 +54,7 @@ CppProxyBase::callJavaMethod(
 {
     JNIEnv* jniEnv;
     bool attachedToThread = getJniEnvironment( jVM, &jniEnv );
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
     jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
     va_list vaList;
     va_start( vaList, jniSignature );
@@ -69,8 +70,6 @@ CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode )
     : jGlobalRef( jGlobalRef )
     , jHashCode( jHashCode )
 {
-    jclass tmp = jenv->GetObjectClass( jGlobalRef );
-    jClass = static_cast< jclass >( jenv->NewGlobalRef( tmp ) );
     jenv->GetJavaVM( &jVM );
 }
 
@@ -85,7 +84,6 @@ CppProxyBase::~CppProxyBase( )
     }
 
     jniEnv->DeleteGlobalRef( jGlobalRef );
-    jniEnv->DeleteGlobalRef( jClass );
     if ( attachedToThread )
     {
         jVM->DetachCurrentThread( );

@@ -87,7 +87,6 @@ private:
     static jint getHashCode( JNIEnv* jniEnv, jobject jObj );
 
     jobject jGlobalRef;
-    jclass jClass;
     jint jHashCode;
 
 private:
