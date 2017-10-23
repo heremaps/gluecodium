@@ -1,0 +1,133 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package examples
+
+interface BuiltinTypes {
+
+    method methodWithInt8 {
+        in {
+            Int8 inputNumber
+        }
+        out {
+            Int8 outputNumber
+        }
+    }
+
+    method methodWithUInt8 {
+        in {
+            UInt8 inputNumber
+        }
+        out {
+            UInt8 outputNumber
+        }
+    }
+
+    method methodWithInt16 {
+        in {
+            Int16 inputNumber
+        }
+        out {
+            Int16 outputNumber
+        }
+    }
+
+    method methodWithUInt16 {
+        in {
+            UInt16 inputNumber
+        }
+        out {
+            UInt16 outputNumber
+        }
+    }
+
+    method methodWithInt32 {
+        in {
+            Int32 inputNumber
+        }
+        out {
+            Int32 outputNumber
+        }
+    }
+
+    method methodWithUInt32 {
+        in {
+            UInt32 inputNumber
+        }
+        out {
+            UInt32 outputNumber
+        }
+    }
+
+    method methodWithInt64 {
+        in {
+            Int64 inputNumber
+        }
+        out {
+            Int64 outputNumber
+        }
+    }
+
+    method methodWithUInt64 {
+        in {
+            UInt64 inputNumber
+        }
+        out {
+            UInt64 outputNumber
+        }
+    }
+
+    method methodWithBoolean {
+        in {
+            Boolean inputCondition
+        }
+        out {
+            Boolean outputCondition
+        }
+    }
+
+    method methodWithFloat {
+        in {
+            Float inputNumber
+        }
+        out {
+            Float outputNumber
+        }
+    }
+
+    method methodWithDouble {
+        in {
+            Double inputNumber
+        }
+        out {
+            Double outputNumber
+        }
+    }
+
+    method methodWithByteBuffer {
+        in {
+            ByteBuffer inputBuffer
+        }
+        out {
+            ByteBuffer outputBuffer
+        }
+    }
+
+    method methodWithFloatAndInteger {
+        in {
+            Float inputFloat
+            Int32 inputInteger
+        }
+        out {
+            Double outputNumber
+        }
+    }
+}
