@@ -511,6 +511,63 @@ public class CBridgeGeneratorTest {
   }
 
   @Test
+  public void functionOverloadsHaveDifferentName() {
+    ArrayEList<FArgument> inputArguments1 = new ArrayEList<>();
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    inputArguments1.add(francaArgument1);
+
+    when(francaMethod.getInArgs()).thenReturn(inputArguments1);
+    when(francaMethod.getSelector()).thenReturn("one");
+
+    FMethod otherMethod = mock(FMethod.class);
+    ArrayEList<FArgument> inputArguments2 = new ArrayEList<>();
+    when(francaArgument2.getName()).thenReturn("input");
+    when(francaArgument2.getType()).thenReturn(francaTypeRef2);
+    when(francaTypeRef2.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
+    inputArguments2.add(francaArgument2);
+
+    when(otherMethod.getName()).thenReturn(FUNCTION_NAME);
+    when(otherMethod.eContainer()).thenReturn(francaInterface);
+    when(otherMethod.getInArgs()).thenReturn(inputArguments2);
+    when(otherMethod.getOutArgs()).thenReturn(outputArguments);
+    when(otherMethod.getSelector()).thenReturn("other");
+
+    methods.add(otherMethod);
+
+    String expectedHeader =
+        "#include <stdbool.h>\n"
+            + INSTANCE_REF
+            + "typedef struct {\n"
+            + "    void* swift_pointer;\n"
+            + "    void(*release)(void* swift_pointer);\n"
+            + "    void(*cbridge_test_TestInterface_functionName_one)(const char* input);\n"
+            + "    void(*cbridge_test_TestInterface_functionName_other)(bool input);\n"
+            + "} cbridge_test_TestInterface_FunctionTable;\n"
+            + "void cbridge_test_TestInterface_functionName_one(const char* input);\n"
+            + "void cbridge_test_TestInterface_functionName_other(bool input);\n";
+
+    String expectedImplementation =
+        STD_STRING_INCLUDE
+            + BASEAPI_HEADER_INCLUDE
+            + CBRIDGE_HEADER_INCLUDE
+            + PRIVATE_HEADER_INCLUDE
+            + MEMORY_INCLUDE
+            + INSTANCE_RELEASE
+            + "void cbridge_test_TestInterface_functionName_one(const char* input) {\n"
+            + "    return cbridge::test::TestInterface::functionName(std::string(input));\n"
+            + "}\n"
+            + "void cbridge_test_TestInterface_functionName_other(bool input) {\n"
+            + "    return cbridge::test::TestInterface::functionName(input);\n"
+            + "}\n";
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    assertContentAsExpected(cModel, expectedHeader, expectedImplementation);
+  }
+
+  @Test
   public void createFunctionTakingAndReturningBasicIntegralTypes() throws IOException {
     Map<FBasicTypeId, String> expectedCTypes = new HashMap<>();
     expectedCTypes.put(FBasicTypeId.INT8, "int8_t");
