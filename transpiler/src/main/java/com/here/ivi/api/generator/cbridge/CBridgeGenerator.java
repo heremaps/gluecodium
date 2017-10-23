@@ -23,7 +23,6 @@ import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CBridgeGenerator {
@@ -42,7 +41,7 @@ public class CBridgeGenerator {
     this.resolver = includeResolver;
   }
 
-  public List<GeneratedFile> generate(FrancaElement francaElement) {
+  public Stream<GeneratedFile> generate(FrancaElement francaElement) {
     CInterface cModel = buildCBridgeModel(francaElement);
     return Stream.of(
             new GeneratedFile(
@@ -54,8 +53,7 @@ public class CBridgeGenerator {
             new GeneratedFile(
                 generateImplementationContent(cModel),
                 CBridgeNameRules.getImplementationFileNameWithPath(francaElement)))
-        .filter(file -> file.content.length() > 0)
-        .collect(Collectors.toList());
+        .filter(file -> file.content.length() > 0);
   }
 
   public static String generatePrivateHeaderContent(CInterface model) {

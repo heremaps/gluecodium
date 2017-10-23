@@ -11,9 +11,7 @@
 
 package com.here.ivi.api.generator.swift;
 
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
-
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -25,23 +23,23 @@ import java.util.*;
 public class SwiftGenerator {
 
   public static final List<GeneratedFile> STATIC_FILES =
-      Arrays.asList(GeneratorSuite.copyTarget("swift/RefHolder.swift", ""));
+      Collections.singletonList(GeneratorSuite.copyTarget("swift/RefHolder.swift", ""));
 
-  public List<GeneratedFile> generate(FrancaElement francaElement) {
+  public GeneratedFile generate(FrancaElement francaElement) {
     SwiftFile file = buildSwiftModel(francaElement);
     if (file.isEmpty()) {
-      return emptyList();
+      return null;
     } else {
-      return Collections.singletonList(
-          new GeneratedFile(
-              TemplateEngine.render("swift/File", file),
-              SwiftNameRules.getImplementationFileName(francaElement)));
+      return new GeneratedFile(
+          TemplateEngine.render("swift/File", file),
+          SwiftNameRules.getImplementationFileName(francaElement));
     }
   }
 
-  protected SwiftFile buildSwiftModel(FrancaElement francaElement) {
+  @VisibleForTesting
+  SwiftFile buildSwiftModel(FrancaElement francaElement) {
     SwiftModelBuilder modelBuilder = new SwiftModelBuilder(francaElement);
-    FrancaTreeWalker treeWalker = new FrancaTreeWalker(singletonList(modelBuilder));
+    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(francaElement);
 

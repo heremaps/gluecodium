@@ -56,9 +56,9 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     CppGenerator generator = new CppGenerator();
 
     List<GeneratedFile> generatedFiles =
-        Stream.concat(model.getInterfaces().stream(), model.getTypeCollections().stream())
-            .flatMap(iface -> generateFromFrancaElement(iface, generator))
-            .filter(Objects::nonNull)
+        model
+            .stream()
+            .flatMap(francaElement -> generateFromFrancaElement(francaElement, generator))
             .collect(Collectors.toList());
 
     generatedFiles.add(GeneratorSuite.copyTarget(GENERATOR_NAME + "/internal/expected.h", ""));

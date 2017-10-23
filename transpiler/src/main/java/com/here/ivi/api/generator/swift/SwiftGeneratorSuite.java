@@ -18,9 +18,9 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public final class SwiftGeneratorSuite extends GeneratorSuite {
@@ -36,37 +36,16 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
     SwiftGenerator swiftGenerator = new SwiftGenerator();
     CBridgeGenerator cBridgeGenerator = new CBridgeGenerator(new IncludeResolver(model));
 
-    Stream<GeneratedFile> swiftInterfaceStream =
-        model.getInterfaces().stream().map(swiftGenerator::generate).flatMap(Collection::stream);
+    Stream<GeneratedFile> swiftStream = model.stream().map(swiftGenerator::generate);
+    Stream<GeneratedFile> cBridgeStream =
+        model.stream().map(cBridgeGenerator::generate).flatMap(Function.identity());
 
-    Stream<GeneratedFile> swiftTypeCollectionStream =
-        model
-            .getTypeCollections()
-            .stream()
-            .map(swiftGenerator::generate)
-            .flatMap(Collection::stream);
+    List<GeneratedFile> result =
+        Stream.concat(swiftStream, cBridgeStream).filter(Objects::nonNull).collect(toList());
+    result.addAll(CBridgeGenerator.STATIC_FILES);
+    result.addAll(SwiftGenerator.STATIC_FILES);
 
-    Stream<GeneratedFile> cBridgeInterfaceStream =
-        model.getInterfaces().stream().map(cBridgeGenerator::generate).flatMap(Collection::stream);
-
-    Stream<GeneratedFile> cBridgeTypeCollectionStream =
-        model
-            .getTypeCollections()
-            .stream()
-            .map(cBridgeGenerator::generate)
-            .flatMap(Collection::stream);
-
-    return Stream.of(
-            swiftInterfaceStream,
-            swiftTypeCollectionStream,
-            cBridgeInterfaceStream,
-            cBridgeTypeCollectionStream,
-            CBridgeGenerator.STATIC_FILES.stream(),
-            SwiftGenerator.STATIC_FILES.stream())
-        .reduce(Stream::concat)
-        .orElseGet(Stream::empty)
-        .filter(Objects::nonNull)
-        .collect(toList());
+    return result;
   }
 
   @Override
