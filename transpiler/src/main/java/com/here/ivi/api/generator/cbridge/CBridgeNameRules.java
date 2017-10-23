@@ -101,9 +101,12 @@ public final class CBridgeNameRules {
         CPP_NAMESPACE_DELIMITER);
   }
 
-  public static String getMethodName(final FModelElement method) {
+  public static String getMethodName(final FMethod method) {
     List<String> nestedNameSpecifier = getNestedNameSpecifier(method);
     nestedNameSpecifier.add(NameHelper.toLowerCamelCase(method.getName()));
+    if (method.getSelector() != null && !method.getSelector().isEmpty()) {
+      nestedNameSpecifier.add(method.getSelector());
+    }
     return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
   }
 
@@ -171,10 +174,16 @@ public final class CBridgeNameRules {
   }
 
   public static String getAtrributeGetterName(FAttribute attribute) {
-    return getMethodName(attribute) + "_get";
+    List<String> nestedNameSpecifier = getNestedNameSpecifier(attribute);
+    nestedNameSpecifier.add(NameHelper.toLowerCamelCase(attribute.getName()));
+    nestedNameSpecifier.add("get");
+    return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
   }
 
   public static String getAtrributeSetterName(FAttribute attribute) {
-    return getMethodName(attribute) + "_set";
+    List<String> nestedNameSpecifier = getNestedNameSpecifier(attribute);
+    nestedNameSpecifier.add(NameHelper.toLowerCamelCase(attribute.getName()));
+    nestedNameSpecifier.add("set");
+    return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
   }
 }
