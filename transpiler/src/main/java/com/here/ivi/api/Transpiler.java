@@ -78,7 +78,7 @@ public class Transpiler {
 
   @VisibleForTesting
   boolean execute() {
-    LOGGER.info("Version: " + version);
+    LOGGER.fine("Version: " + version);
     Map<String, String> fileNamesCache = new HashMap<>();
 
     Collection<File> inputDirs = new ArrayList<>();
@@ -97,19 +97,19 @@ public class Transpiler {
       final Collection<File> inputPaths,
       final Map<String, String> fileNamesCache) {
 
-    LOGGER.info("Using generator " + generatorName);
+    LOGGER.fine("Using generator " + generatorName);
     GeneratorSuite generator = GeneratorSuite.instantiateByShortName(generatorName, options);
     if (generator == null) {
       LOGGER.severe("Failed instantiation of generator '" + generatorName + "'");
       return false;
     }
-    LOGGER.info("Instantiated generator " + generator.getName());
+    LOGGER.fine("Instantiated generator " + generator.getName());
 
     generator.buildModels(inputPaths);
-    LOGGER.info("Built franca model");
+    LOGGER.fine("Built franca model");
 
     if (!generator.validate()) {
-      LOGGER.info("Validation Failed");
+      LOGGER.severe("Validation Failed");
       return false;
     }
     if (options.isValidatingOnly()) {
@@ -128,10 +128,10 @@ public class Transpiler {
   List<String> discoverGenerators() {
     List<String> generators = options.getGenerators();
     if (generators != null) {
-      LOGGER.info("Following generators were specified on command line: " + generators);
+      LOGGER.fine("Following generators were specified on command line: " + generators);
     } else {
       generators = GeneratorSuite.generatorShortNames();
-      LOGGER.info("No generators specified, using all available generators: " + generators);
+      LOGGER.fine("No generators specified, using all available generators: " + generators);
     }
     return generators;
   }

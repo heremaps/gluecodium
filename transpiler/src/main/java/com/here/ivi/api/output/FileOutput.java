@@ -17,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FileOutput implements GeneratorOutput {
@@ -44,7 +43,7 @@ public class FileOutput implements GeneratorOutput {
 
     // write file
     File targetFile = new File(rootPath, file.targetFile.getPath());
-    LOGGER.log(Level.INFO, "Writing " + targetFile);
+    LOGGER.fine("Writing " + targetFile);
 
     // create missing path(s)
     Path path = Paths.get(targetFile.getParent());
