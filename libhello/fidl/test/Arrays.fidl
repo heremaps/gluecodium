@@ -26,16 +26,31 @@ interface Arrays {
         UInt8[] numbers
     }
 
+    array Int8Array of Int8
+    array Int16Array of Int16
+    array Int32Array of Int32
+    array Int64Array of Int64
+
+    array UInt8Array of UInt8
+    array UInt16Array of UInt16
+    array UInt32Array of UInt32
+    array UInt64Array of UInt64
+
+    array StringArray of String
+    array BoolArray of Boolean
+    array FloatArray of Float
+    array DoubleArray of Double
+
+    array FancyArray of FancyStruct
     array StructArray of BasicStruct
 
-    array UIntArray of UInt8
-    array StringArray of String
-    array FancyArray of FancyStruct
+    array NestedPrimitiveArray of DoubleArray
+    array NestedStructArray of StructArray
 
     <** @description:
-    Static method which takes an array and returns an array of same type in reversed order.
+    Static method which takes a string array and returns an array of same type in reversed order.
     **>
-    method methodWithArray {
+    method methodWithStringArray {
         in {
             <** @description: Input array **>
             StringArray input
@@ -52,11 +67,165 @@ interface Arrays {
     method methodWithArrayInline {
         in {
             <** @description: Input array **>
-            UInt8[] input
+            Int16[] input
         }
         out {
             <** @description: Output array **>
-            UInt8[] output
+            Int16[] output
+        }
+    }
+
+    <** @description:
+    Static method which takes an int8 array and returns an array of same type in reversed order.
+    **>
+    method methodWithInt8Array {
+        in {
+            <** @description: Input array **>
+            Int8Array input
+        }
+        out {
+            <** @description: Output array **>
+            Int8Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an int16 array and returns an array of same type in reversed order.
+    **>
+    method methodWithInt16Array {
+        in {
+            <** @description: Input array **>
+            Int16Array input
+        }
+        out {
+            <** @description: Output array **>
+            Int16Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an int32 array and returns an array of same type in reversed order.
+    **>
+    method methodWithInt32Array {
+        in {
+            <** @description: Input array **>
+            Int32Array input
+        }
+        out {
+            <** @description: Output array **>
+            Int32Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an int64 array and returns an array of same type in reversed order.
+    **>
+    method methodWithInt64Array {
+        in {
+            <** @description: Input array **>
+            Int64Array input
+        }
+        out {
+            <** @description: Output array **>
+            Int64Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an uint8 array and returns an array of same type in reversed order.
+    **>
+    method methodWithUInt8Array {
+        in {
+            <** @description: Input array **>
+            UInt8Array input
+        }
+        out {
+            <** @description: Output array **>
+            UInt8Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an uint16 array and returns an array of same type in reversed order.
+    **>
+    method methodWithUInt16Array {
+        in {
+            <** @description: Input array **>
+            UInt16Array input
+        }
+        out {
+            <** @description: Output array **>
+            UInt16Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an uint32 array and returns an array of same type in reversed order.
+    **>
+    method methodWithUInt32Array {
+        in {
+            <** @description: Input array **>
+            UInt32Array input
+        }
+        out {
+            <** @description: Output array **>
+            UInt32Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an uint64 array and returns an array of same type in reversed order.
+    **>
+    method methodWithUInt64Array {
+        in {
+            <** @description: Input array **>
+            UInt64Array input
+        }
+        out {
+            <** @description: Output array **>
+            UInt64Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes a float array and returns an array of same type in reversed order.
+    **>
+    method methodWithFloatArray {
+        in {
+            <** @description: Input array **>
+            FloatArray input
+        }
+        out {
+            <** @description: Output array **>
+            FloatArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes a double array and returns an array of same type in reversed order.
+    **>
+    method methodWithDoubleArray {
+        in {
+            <** @description: Input array **>
+            DoubleArray input
+        }
+        out {
+            <** @description: Output array **>
+            DoubleArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes a bool array and returns an array of same type in reversed order.
+    **>
+    method methodWithBoolArray {
+        in {
+            <** @description: Input array **>
+            BoolArray input
+        }
+        out {
+            <** @description: Output array **>
+            BoolArray output
         }
     }
 
@@ -75,16 +244,44 @@ interface Arrays {
     }
 
     <** @description:
-    Function takes array of int arrays and reverse elements in each dimension
+    Function takes NestedPrimitiveArray and reverses elements in each dimension
     **>
-    method methodWithArrayOfArrys {
+    method methodWithNestedPrimitiveArray {
         in {
             <** @description: Input array **>
-            UIntArray[] input
+            NestedPrimitiveArray input
         }
         out {
             <** @description: Output array **>
-            UIntArray[] output
+            NestedPrimitiveArray output
+        }
+    }
+
+    <** @description:
+    Function takes NestedStructArray and reverses elements in each dimension
+    **>
+    method methodWithNestedStructArray {
+        in {
+            <** @description: Input array **>
+            NestedStructArray input
+        }
+        out {
+            <** @description: Output array **>
+            NestedStructArray output
+        }
+    }
+
+    <** @description:
+    Function takes inline array of int64 arrays and reverses elements in each dimension
+    **>
+    method methodWithNestedArraysInline {
+        in {
+            <** @description: Input array **>
+            Int64Array[] input
+        }
+        out {
+            <** @description: Output array **>
+            Int64Array[] output
         }
     }
 

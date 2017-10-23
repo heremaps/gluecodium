@@ -201,8 +201,10 @@ feature(Arrays cpp android SOURCES
     fidl/hello/HelloWorldArrays.fidl
     )
 
-#TODO enable for android and merge with Arrays (APIGEN-822)
-feature(ArrayTests cpp SOURCES
+#TODO enable for swift APIGEN-766
+feature(ArrayTests cpp android SOURCES
+    src/test/Arrays.cpp
+
     fidl/test/Arrays.fdepl
     fidl/test/Arrays.fidl
     )
