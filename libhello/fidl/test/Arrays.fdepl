@@ -14,7 +14,7 @@ import "./Arrays.fidl"
 
 define navigation.BaseApiSpec for interface test.Arrays
 {
-    method methodWithArray {
+    method methodWithStringArray {
         Static = true
     }
 
@@ -22,11 +22,63 @@ define navigation.BaseApiSpec for interface test.Arrays
         Static = true
     }
 
+    method methodWithInt8Array {
+        Static = true
+    }
+
+    method methodWithInt16Array {
+        Static = true
+    }
+
+    method methodWithInt32Array {
+        Static = true
+    }
+
+    method methodWithInt64Array {
+        Static = true
+    }
+
+    method methodWithUInt8Array {
+        Static = true
+    }
+
+    method methodWithUInt16Array {
+        Static = true
+    }
+
+    method methodWithUInt32Array {
+        Static = true
+    }
+
+    method methodWithUInt64Array {
+        Static = true
+    }
+
+    method methodWithFloatArray {
+        Static = true
+    }
+
+    method methodWithDoubleArray {
+        Static = true
+    }
+
+    method methodWithBoolArray {
+        Static = true
+    }
+
     method methodWithStructArray {
         Static = true
     }
 
-    method methodWithArrayOfArrys {
+    method methodWithNestedPrimitiveArray {
+        Static = true
+    }
+
+    method methodWithNestedStructArray {
+        Static = true
+    }
+
+    method methodWithNestedArraysInline {
         Static = true
     }
 
