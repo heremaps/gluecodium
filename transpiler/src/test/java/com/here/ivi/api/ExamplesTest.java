@@ -19,11 +19,11 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public final class SmokeTest extends AcceptanceTestBase {
+public final class ExamplesTest extends AcceptanceTestBase {
 
-  private static final String RESOURCE_PREFIX = "smoke";
+  private static final String RESOURCE_PREFIX = "examples";
 
-  public SmokeTest(
+  public ExamplesTest(
       final File featureDirectory,
       final String generatorName,
       @SuppressWarnings("unused") final String featureName) {
@@ -36,7 +36,7 @@ public final class SmokeTest extends AcceptanceTestBase {
   }
 
   @Test
-  public void smokeTest() {
+  public void examplesTest() {
     runTest();
   }
 }
