@@ -14,6 +14,7 @@ package com.here.ivi.api.model.jni;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaField;
+import com.here.ivi.api.model.javamodel.JavaTemplateType;
 
 public class JniField implements JniElement {
 
@@ -21,10 +22,12 @@ public class JniField implements JniElement {
   public final CppField cppField;
 
   public final boolean hasCustomType;
+  public final boolean hasTemplateType;
 
   public JniField(final JavaField javaField, final CppField cppField) {
     this.javaField = javaField;
     this.cppField = cppField;
     this.hasCustomType = javaField.type instanceof JavaCustomType;
+    this.hasTemplateType = javaField.type instanceof JavaTemplateType;
   }
 }

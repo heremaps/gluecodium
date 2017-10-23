@@ -22,6 +22,7 @@ import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
+import com.here.ivi.api.model.javamodel.JavaTemplateType;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniField;
 import com.here.ivi.api.model.jni.JniStruct;
@@ -63,6 +64,15 @@ public class CppToJniStructConversionBodyTest {
 
   private static JniField createCustom() {
     JavaField javaField = new JavaField(new JavaCustomType("JavaStructType"), "nestedStruct");
+    CppField cppField =
+        new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
+    return new JniField(javaField, cppField);
+  }
+
+  private static JniField createTemplateType() {
+    JavaField javaField =
+        new JavaField(
+            JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST), "javaTemplateType");
     CppField cppField =
         new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
     return new JniField(javaField, cppField);
@@ -113,6 +123,32 @@ public class CppToJniStructConversionBodyTest {
             + "L"
             + fieldSignature
             + ";\", jnestedCplusCplus);\n"
+            + "  return _jresult;\n"
+            + "}";
+
+    String generated = TemplateEngine.render("jni/CppToJniStructConversionBody", jniStruct);
+
+    assertEquals(expected, generated);
+  }
+
+  @Test
+  public void generateTemplateType() {
+    JniField jniField = createTemplateType();
+    jniStruct.fields.add(jniField);
+    String innerSignature =
+        String.join("/", PACKAGES) + "/" + OUTER_CLASS_NAME + "$" + INNER_CLASS_NAME;
+
+    String expected =
+        "{\n"
+            + "  auto javaClass = _jenv->FindClass("
+            + "\""
+            + innerSignature
+            + "\");\n"
+            + "  auto _jresult = create_object(_jenv, javaClass);\n"
+            + "  auto jnestedCplusCplus = convert_to_jni(_jenv, _ninput.nestedCplusCplus);\n"
+            + "  set_object_field(_jenv, javaClass, _jresult, \"javaTemplateType\",\n"
+            + "  \"Ljava/util/List;\""
+            + ", jnestedCplusCplus);\n"
             + "  return _jresult;\n"
             + "}";
 
