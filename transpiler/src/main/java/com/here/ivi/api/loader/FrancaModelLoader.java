@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
@@ -151,7 +150,7 @@ public class FrancaModelLoader {
   // builds a lists of FrancaModels for all the fidl & fdepl provided
   public FrancaModel load(String specPath, Collection<File> targetFiles) {
     final FDSpecification spec = loadSpecification(specPath);
-    LOGGER.log(Level.INFO, "Loaded specification " + spec.getName());
+    LOGGER.fine("Loaded specification " + spec.getName());
 
     Map<String, List<File>> bySuffix = separateFiles(targetFiles);
 
@@ -182,7 +181,7 @@ public class FrancaModelLoader {
             .map(
                 file -> {
                   URI asUri = URI.createFileURI(file.getAbsolutePath());
-                  LOGGER.log(Level.FINE, "Loading fidl " + asUri);
+                  LOGGER.fine("Loading fidl " + asUri);
                   return fidlLoader.loadModel(asUri, ROOT_URI);
                 })
             .map(
@@ -198,7 +197,7 @@ public class FrancaModelLoader {
   private FDModel loadDeploymentModel(File file) {
 
     URI fileURI = URI.createFileURI(file.getAbsolutePath());
-    LOGGER.log(Level.FINE, "Loading fdepl " + fileURI);
+    LOGGER.fine("Loading fdepl " + fileURI);
 
     FDModel deploymentModel;
     try {
