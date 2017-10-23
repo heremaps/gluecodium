@@ -1,0 +1,68 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "./BuiltinTypes.fidl"
+
+define navigation.BaseApiSpec for interface examples.BuiltinTypes
+{
+    method methodWithInt8 {
+        Static = true
+    }
+
+    method methodWithUInt8 {
+        Static = true
+    }
+
+    method methodWithInt16 {
+        Static = true
+    }
+
+    method methodWithUInt16 {
+        Static = true
+    }
+
+    method methodWithInt32 {
+        Static = true
+    }
+
+    method methodWithUInt32 {
+        Static = true
+    }
+
+    method methodWithInt64 {
+        Static = true
+    }
+
+    method methodWithUInt64 {
+        Static = true
+    }
+
+    method methodWithBoolean {
+        Static = true
+    }
+
+    method methodWithFloat {
+        Static = true
+    }
+
+    method methodWithDouble {
+        Static = true
+    }
+
+    method methodWithByteBuffer {
+        Static = true
+    }
+
+    method methodWithFloatAndInteger {
+        Static = true
+    }
+}
