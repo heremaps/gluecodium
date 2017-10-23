@@ -11,7 +11,12 @@
     javaClass,
     _jinput,
     "{{javaField.name}}",
+    {{#hasTemplateType}}
+    "L{{#javaField.type.packageNames}}{{.}}/{{/javaField.type.packageNames}}{{#javaField.type.classNames}}{{.}}{{/javaField.type.classNames}};"),
+    {{/hasTemplateType}}
+    {{^hasTemplateType}}
     "L{{>jni/JavaClassSignaturePrefix}}{{#javaField.type.classNames}}{{#iter.isLast}}{{.}}{{/iter.isLast}}{{/javaField.type.classNames}};"),
+    {{/hasTemplateType}}
     _nout.{{cppField.name}} );
   {{/hasCustomType}}
   {{^hasCustomType}}

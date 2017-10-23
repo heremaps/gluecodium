@@ -12,7 +12,12 @@
 {{#fields}}
   {{#hasCustomType}}
   set_object_field(_jenv, javaClass, _jresult, "{{javaField.name}}",
+  {{#hasTemplateType}}
+  "L{{#javaField.type.packageNames}}{{.}}/{{/javaField.type.packageNames}}{{#javaField.type.classNames}}{{.}}{{/javaField.type.classNames}};", j{{cppField.name}});
+  {{/hasTemplateType}}
+  {{^hasTemplateType}}
   "L{{>jni/JavaClassSignaturePrefix}}{{#javaField.type.classNames}}{{#iter.isLast}}{{.}}{{/iter.isLast}}{{/javaField.type.classNames}};", j{{cppField.name}});
+  {{/hasTemplateType}}
   {{/hasCustomType}}
   {{^hasCustomType}}
   set_{{javaField.type.literalName}}_field(_jenv, javaClass, _jresult, "{{javaField.name}}", j{{cppField.name}});

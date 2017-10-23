@@ -23,6 +23,7 @@ import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaField;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
+import com.here.ivi.api.model.javamodel.JavaTemplateType;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniField;
 import com.here.ivi.api.model.jni.JniStruct;
@@ -60,6 +61,15 @@ public final class JniToCppStructConversionBodyTest {
 
   private static JniField createCustom() {
     JavaField javaField = new JavaField(new JavaCustomType("JavaStructType"), "nestedStruct");
+    CppField cppField =
+        new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
+    return new JniField(javaField, cppField);
+  }
+
+  private static JniField createTemplateType() {
+    JavaField javaField =
+        new JavaField(
+            JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST), "javaTemplateType");
     CppField cppField =
         new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
     return new JniField(javaField, cppField);
@@ -143,6 +153,37 @@ public final class JniToCppStructConversionBodyTest {
             + "$"
             + field.javaField.type.name
             + ";\"),\n"
+            + "    _nout."
+            + field.cppField.name
+            + " );\n}\n";
+
+    assertEquals(expected, generated);
+  }
+
+  @Test
+  public void generateTemplateType() {
+
+    JniField field = createTemplateType();
+    jniStruct.fields.add(field);
+
+    //act
+    String generated = TemplateEngine.render("jni/JniToCppStructConversionBody", jniStruct);
+
+    //assert
+    String expected =
+        "{\n\n"
+            + "  jclass javaClass = _jenv->GetObjectClass(_jinput);\n\n"
+            + "  convert_from_jni"
+            + "(\n"
+            + "    _jenv,\n"
+            + "    get_object_field(\n"
+            + "    _jenv,\n"
+            + "    javaClass,\n"
+            + "    _jinput,\n"
+            + "    \""
+            + field.javaField.name
+            + "\",\n"
+            + "    \"Ljava/util/List;\"),\n"
             + "    _nout."
             + field.cppField.name
             + " );\n}\n";

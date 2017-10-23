@@ -105,7 +105,7 @@ convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >& _nr
         return;
     }
 
-    auto javaArrayListClass = _env->FindClass( "java/util/ArrayList" );
+    auto javaArrayListClass = _env->FindClass( "java/util/List" );
     auto sizeMethodId = _env->GetMethodID( javaArrayListClass, "size", "()I" );
     auto getMethodId  = _env->GetMethodID( javaArrayListClass, "get", "(I)Ljava/lang/Object;" );
     jint length = _env->CallIntMethod( _arrayList, sizeMethodId );
