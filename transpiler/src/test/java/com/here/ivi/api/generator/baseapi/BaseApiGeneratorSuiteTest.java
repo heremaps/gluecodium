@@ -24,10 +24,10 @@ import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
@@ -43,13 +43,8 @@ public final class BaseApiGeneratorSuiteTest {
 
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
 
-  @Mock private FrancaModel francaModel;
-
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaModel mockFrancaModel;
-
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaModelLoader francaModelLoader;
+  @Mock private FrancaModel mockFrancaModel;
+  @Mock private FrancaModelLoader francaModelLoader;
 
   @Before
   public void setUp() {
@@ -57,7 +52,8 @@ public final class BaseApiGeneratorSuiteTest {
     MockitoAnnotations.initMocks(this);
 
     when(GeneratorSuite.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
-    when(francaModelLoader.load(any(), any())).thenReturn(francaModel);
+    when(francaModelLoader.load(any(), any())).thenReturn(mockFrancaModel);
+    when(mockFrancaModel.stream()).thenReturn(Stream.empty());
 
     baseApiGeneratorSuite = new BaseApiGeneratorSuite(francaModelLoader);
   }
@@ -66,7 +62,6 @@ public final class BaseApiGeneratorSuiteTest {
   public void generateFilesEmptyModel() {
     GeneratedFile generatedFile = new GeneratedFile("a", "b");
     when(GeneratorSuite.copyTarget(any(), any())).thenReturn(generatedFile);
-    when(francaModelLoader.load(any(), any())).thenReturn(mockFrancaModel);
     baseApiGeneratorSuite.buildModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
 
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();

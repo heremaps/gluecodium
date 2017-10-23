@@ -75,18 +75,7 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
 
     //jni models need to be built first as they are required to generate conversion util file
     List<JniContainer> jniContainers =
-        model
-            .getInterfaces()
-            .stream()
-            .map(jniGenerator::generateModel)
-            .collect(Collectors.toList());
-
-    jniContainers.addAll(
-        model
-            .getTypeCollections()
-            .stream()
-            .map(jniGenerator::generateModel)
-            .collect(Collectors.toList()));
+        model.stream().map(jniGenerator::generateModel).collect(Collectors.toList());
 
     Stream<List<GeneratedFile>> jniFilesStream =
         Stream.concat(

@@ -13,12 +13,10 @@ package com.here.ivi.api.generator.swift;
 
 import static com.here.ivi.api.test.Assert.assertContainsAll;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.franca.FrancaModel;
-import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,9 +38,6 @@ public class SwiftGeneratorSuiteTest {
 
   @Test
   public void generatedFilesContainStaticFiles() {
-    when(model.getTypeCollections()).thenReturn(Collections.emptyList());
-    when(model.getInterfaces()).thenReturn(Collections.emptyList());
-
     List<GeneratedFile> generatedFiles = suite.generate();
 
     assertContainsAll(generatedFiles, SwiftGenerator.STATIC_FILES);

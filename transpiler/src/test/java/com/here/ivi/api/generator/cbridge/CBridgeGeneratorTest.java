@@ -15,6 +15,7 @@ import static com.here.ivi.api.test.TemplateComparison.assertEqualHeaderContent;
 import static com.here.ivi.api.test.TemplateComparison.assertEqualImplementationContent;
 import static com.here.ivi.api.test.TemplateComparison.assertEqualPrivateHeaderContent;
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -34,6 +35,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
@@ -160,9 +162,12 @@ public class CBridgeGeneratorTest {
 
   @Test
   public void generatesHeaderImplementationAndPrivateHeader() {
-    List<GeneratedFile> files = generator.generate(anInterface);
+    Stream<GeneratedFile> files = generator.generate(anInterface);
 
-    assertEquals("Should generate header, implementation and private header file", 3, files.size());
+    assertEquals(
+        "Should generate header, implementation and private header file",
+        3,
+        files.collect(toList()).size());
   }
 
   @Test

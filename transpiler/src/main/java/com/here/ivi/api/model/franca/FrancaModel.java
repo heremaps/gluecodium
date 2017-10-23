@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
@@ -77,6 +78,10 @@ public class FrancaModel {
 
   public List<TypeCollection> getTypeCollections() {
     return typeCollections;
+  }
+
+  public Stream<FrancaElement> stream() {
+    return Stream.concat(interfaces.stream(), typeCollections.stream());
   }
 
   public Optional<? extends FrancaElement> find(FTypeCollection typeCollection) {
