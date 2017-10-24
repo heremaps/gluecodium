@@ -77,7 +77,7 @@ public final class JniImplementationTemplateTest {
     JniMethod result =
         new JniMethod.Builder(methodName, methodName)
             .returnType(jniIntType)
-            .staticFlag(isStatic)
+            .isStatic(isStatic)
             .build();
     result.parameters.add(new JniParameter(BASE_PARAMETER_NAME, jniIntType));
 
@@ -86,7 +86,7 @@ public final class JniImplementationTemplateTest {
 
   private JniMethod createJniVoidMethod(String methodName, boolean isStatic) {
 
-    JniMethod result = new JniMethod.Builder(methodName, methodName).staticFlag(isStatic).build();
+    JniMethod result = new JniMethod.Builder(methodName, methodName).isStatic(isStatic).build();
     result.parameters.add(new JniParameter(BASE_PARAMETER_NAME, jniIntType));
 
     return result;
