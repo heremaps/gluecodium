@@ -19,7 +19,6 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
@@ -44,13 +43,12 @@ public class CppIncludeResolver {
       return include;
     }
 
-    Optional<? extends FrancaElement> externalDefinitionOpt = francaModel.find(typeCollection);
-    if (!externalDefinitionOpt.isPresent()) {
+    FrancaElement externalDefinition = francaModel.find(typeCollection);
+    if (externalDefinition == null) {
       throw new TranspilerExecutionException(
           String.format("Could not resolve type collection include %s.", typeCollection));
     }
 
-    FrancaElement externalDefinition = externalDefinitionOpt.get();
     String includeName = CppNameRules.getHeaderPath(externalDefinition);
 
     // TODO think about relative include path resolution and stuff
