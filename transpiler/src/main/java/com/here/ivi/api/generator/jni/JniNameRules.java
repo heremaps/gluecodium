@@ -77,6 +77,18 @@ public final class JniNameRules {
     return "n" + javaParameterName;
   }
 
+  /**
+   * JNI name mangling. See
+   * https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/design.html#wp641
+   */
+  public static String getMangledName(final String name) {
+    return name.replace("_", "_1")
+        .replace(";", "_2")
+        .replace("[", "_3")
+        .replace("$", "_00024")
+        .replace("/", "_");
+  }
+
   private static String formatPackageName(List<String> packageNames) {
     return packageNames.isEmpty() ? "" : String.join("_", packageNames) + "_";
   }

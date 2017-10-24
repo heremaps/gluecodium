@@ -1,0 +1,68 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package smoke
+
+interface MethodOverloads {
+
+    method isBoolean:boolOverload {
+        in {
+            Boolean input
+        }
+        out {
+            Boolean output
+        }
+    }
+
+    method isBoolean:intOverload {
+        in {
+            Int8 input
+        }
+        out {
+            Boolean output
+        }
+    }
+
+    method isBoolean:stringOverload {
+        in {
+            String input
+        }
+        out {
+            Boolean output
+        }
+    }
+
+    struct Point {
+        Double x
+        Double y
+    }
+
+    method isBoolean:structOverload {
+        in {
+            Point input
+        }
+        out {
+            Boolean output
+        }
+    }
+
+    method isBoolean:everythingOverload {
+        in {
+            Boolean input1
+            Int8 input2
+            String input3
+            Point input4
+        }
+        out {
+            Boolean output
+        }
+    }
+}

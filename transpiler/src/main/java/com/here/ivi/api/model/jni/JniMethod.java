@@ -27,6 +27,7 @@ public final class JniMethod implements JniElement {
   public final JniType returnType;
   public final boolean isStatic;
   public final boolean isConst;
+  public final boolean isOverloaded;
 
   public final List<JniParameter> parameters = new LinkedList<>();
 
