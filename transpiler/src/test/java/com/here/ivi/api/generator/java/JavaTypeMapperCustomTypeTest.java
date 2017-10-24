@@ -38,7 +38,7 @@ import org.trimou.util.Strings;
 
 @SuppressWarnings({"PMD.TooManyFields"})
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({JavaNameRules.class, InstanceRules.class})
+@PrepareForTest({JavaNameRules.class, InstanceRules.class, JavaValueMapper.class})
 public class JavaTypeMapperCustomTypeTest {
 
   private static final String TYPECOLLECTION_NAME = "typeC0Ll3ction";
@@ -72,7 +72,7 @@ public class JavaTypeMapperCustomTypeTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(JavaNameRules.class, InstanceRules.class);
+    PowerMockito.mockStatic(JavaNameRules.class, InstanceRules.class, JavaValueMapper.class);
 
     MockitoAnnotations.initMocks(this);
 
@@ -228,6 +228,12 @@ public class JavaTypeMapperCustomTypeTest {
     // arrange
     when(JavaNameRules.getClassName(ENUMERATION_NAME_TYPECOLLECTION))
         .thenReturn(ENUMERATION_NAME_TYPECOLLECTION);
+
+    JavaValue initializer = new JavaValue("foo");
+    when(JavaValueMapper.createEnumInitializerValue(
+            ENUMERATION_NAME_TYPECOLLECTION, francaEnumerationType))
+        .thenReturn(initializer);
+
     when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME_TYPECOLLECTION);
     when(francaEnumerationType.eContainer()).thenReturn(fTypeCollection);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
@@ -238,17 +244,21 @@ public class JavaTypeMapperCustomTypeTest {
 
     // assert
     assertEquals(ENUMERATION_NAME_TYPECOLLECTION, result.name);
-    assertTrue(result instanceof JavaCustomType);
-    JavaCustomType customReturn = (JavaCustomType) result;
-    assertEquals(1, customReturn.imports.size());
+    assertTrue(result instanceof JavaEnumType);
+    JavaEnumType enumReturn = (JavaEnumType) result;
+    assertEquals(1, enumReturn.imports.size());
 
     assertEquals(
-        JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME, customReturn.imports.iterator().next().javaPackage);
-
-    assertEquals(ENUMERATION_NAME_TYPECOLLECTION, customReturn.imports.iterator().next().className);
+        JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME, enumReturn.imports.iterator().next().javaPackage);
+    assertEquals(ENUMERATION_NAME_TYPECOLLECTION, enumReturn.imports.iterator().next().className);
+    assertEquals(initializer, enumReturn.initializer);
 
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(ENUMERATION_NAME_TYPECOLLECTION);
+
+    PowerMockito.verifyStatic();
+    JavaValueMapper.createEnumInitializerValue(
+        ENUMERATION_NAME_TYPECOLLECTION, francaEnumerationType);
   }
 
   @Test
@@ -257,6 +267,12 @@ public class JavaTypeMapperCustomTypeTest {
     when(JavaNameRules.getClassName(ENUMERATION_NAME_INTERFACE))
         .thenReturn(ENUMERATION_NAME_INTERFACE);
     when(JavaNameRules.getClassName(INTERFACE_NAME)).thenReturn(INTERFACE_NAME);
+
+    JavaValue initializer = new JavaValue("foo");
+    when(JavaValueMapper.createEnumInitializerValue(
+            INTERFACE_NAME + "." + ENUMERATION_NAME_INTERFACE, francaEnumerationType))
+        .thenReturn(initializer);
+
     when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME_INTERFACE);
     when(francaEnumerationType.eContainer()).thenReturn(fInterface);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
@@ -267,17 +283,21 @@ public class JavaTypeMapperCustomTypeTest {
 
     // assert
     assertEquals(INTERFACE_NAME + "." + ENUMERATION_NAME_INTERFACE, result.name);
-    assertTrue(result instanceof JavaCustomType);
-    JavaCustomType customReturn = (JavaCustomType) result;
-    assertEquals(1, customReturn.imports.size());
-    assertEquals(INTERFACE_NAME + "." + ENUMERATION_NAME_INTERFACE, customReturn.name);
-    assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().javaPackage);
-    assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().className);
+    assertTrue(result instanceof JavaEnumType);
+    JavaEnumType enumReturn = (JavaEnumType) result;
+    assertEquals(1, enumReturn.imports.size());
+    assertEquals(INTERFACE_NAME + "." + ENUMERATION_NAME_INTERFACE, enumReturn.name);
+    assertEquals(JAVA_PACKAGE, enumReturn.imports.iterator().next().javaPackage);
+    assertEquals(INTERFACE_NAME, enumReturn.imports.iterator().next().className);
+    assertEquals(initializer, enumReturn.initializer);
 
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(ENUMERATION_NAME_INTERFACE);
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(INTERFACE_NAME);
+    PowerMockito.verifyStatic();
+    JavaValueMapper.createEnumInitializerValue(
+        INTERFACE_NAME + "." + ENUMERATION_NAME_INTERFACE, francaEnumerationType);
   }
 
   @Test

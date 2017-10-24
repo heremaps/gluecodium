@@ -12,12 +12,18 @@
 package com.here.ivi.api.generator.java;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.javamodel.JavaEnumItem;
 import com.here.ivi.api.model.javamodel.JavaValue;
+import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import org.eclipse.emf.common.util.EList;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FEnumerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -90,5 +96,31 @@ public class JavaValueMapperTest {
     assertEquals("-1", javaEnumerators.get(2).value.name);
     assertEquals("-1000", javaEnumerators.get(3).value.name);
     assertEquals("-999", javaEnumerators.get(4).value.name);
+  }
+
+  @Test
+  public void createEnumInitializerValueEmptyList() {
+
+    FEnumerationType fEnumType = mock(FEnumerationType.class);
+    when(fEnumType.getEnumerators()).thenReturn(new ArrayEList<>());
+
+    JavaValue result = JavaValueMapper.createEnumInitializerValue("myEnumType", fEnumType);
+
+    assertEquals("null", result.name);
+  }
+
+  @Test
+  public void createEnumInitializerValueNonEmptyList() {
+
+    FEnumerationType fEnumType = mock(FEnumerationType.class);
+    FEnumerator enumOne = mock(FEnumerator.class);
+    when(enumOne.getName()).thenReturn("enumItem");
+    EList<FEnumerator> enumerators = new ArrayEList<>();
+    enumerators.add(enumOne);
+    when(fEnumType.getEnumerators()).thenReturn(enumerators);
+
+    JavaValue result = JavaValueMapper.createEnumInitializerValue("myEnumType", fEnumType);
+
+    assertEquals("myEnumType.enumItem", result.name);
   }
 }

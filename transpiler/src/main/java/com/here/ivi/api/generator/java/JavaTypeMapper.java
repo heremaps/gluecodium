@@ -25,6 +25,9 @@ import org.franca.core.franca.*;
  * Maps Franca type references to their Java counterparts. These references are used as parameters,
  * in typedefs, array members etc.
  */
+
+//TODO APIGEN-863: remove this
+@SuppressWarnings("PMD.GodClass")
 public class JavaTypeMapper {
 
   private final JavaPackage basePackage;
@@ -111,10 +114,10 @@ public class JavaTypeMapper {
       return mapMap((FMapType) francaType);
     }
     if (francaType instanceof FStructType) {
-      return mapStruct(francaType);
+      return mapCustomType(francaType);
     }
     if (francaType instanceof FEnumerationType) {
-      return mapStruct(francaType);
+      return mapCustomType(francaType);
     }
 
     return new JavaCustomType("TODO");
@@ -173,32 +176,43 @@ public class JavaTypeMapper {
     return JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, keyType, valueType);
   }
 
-  private JavaCustomType mapStruct(final FType structType) {
+  private JavaCustomType mapCustomType(final FType fType) {
 
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(structType);
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(fType);
     List<String> packageNames =
         basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames;
 
-    String structName;
+    String typeName;
     String importClassName;
-    String className = JavaNameRules.getClassName(structType.getName());
+    String className = JavaNameRules.getClassName(fType.getName());
 
     List<String> classNames = new LinkedList<>();
     classNames.add(className);
-    //struct is nested class inside defining class
+    //type is nested class inside defining class
     if (typeCollection instanceof FInterface) {
       importClassName = JavaNameRules.getClassName(typeCollection.getName());
       classNames.add(0, importClassName);
-      structName = importClassName + "." + className;
-    } else { // struct from a type collection
+      typeName = importClassName + "." + className;
+    } else { // type from a type collection
       importClassName = className;
-      structName = className;
+      typeName = className;
     }
 
     JavaImport javaImport = new JavaImport(importClassName, new JavaPackage(packageNames));
 
-    return new JavaCustomType(
-        structName, classNames, packageNames, Collections.singletonList(javaImport));
+    if (fType instanceof FStructType) {
+      return new JavaCustomType(
+          typeName, classNames, packageNames, Collections.singletonList(javaImport));
+    }
+    if (fType instanceof FEnumerationType) {
+      return new JavaEnumType(
+          typeName,
+          classNames,
+          packageNames,
+          javaImport,
+          JavaValueMapper.createEnumInitializerValue(typeName, (FEnumerationType) fType));
+    }
+    throw new TranspilerExecutionException("invalid Ftype: " + fType.getName());
   }
 
   private JavaType mapTypeDef(final FTypeDef typeDef) {
