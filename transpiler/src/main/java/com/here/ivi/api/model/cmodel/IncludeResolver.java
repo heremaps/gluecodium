@@ -20,7 +20,6 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
@@ -81,11 +80,11 @@ public class IncludeResolver {
   }
 
   private FrancaElement getDefiningElement(FTypeCollection typeCollection) {
-    Optional<? extends FrancaElement> externalDefinitionOpt = rootModel.find(typeCollection);
-    if (!externalDefinitionOpt.isPresent()) {
+    FrancaElement externalDefinition = rootModel.find(typeCollection);
+    if (externalDefinition == null) {
       throw new TranspilerExecutionException(
           String.format("Could not resolve type collection include %s.", typeCollection));
     }
-    return externalDefinitionOpt.get();
+    return externalDefinition;
   }
 }

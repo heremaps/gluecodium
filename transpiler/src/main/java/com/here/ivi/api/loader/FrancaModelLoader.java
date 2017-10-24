@@ -16,6 +16,8 @@ import com.google.inject.Provider;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.FrancaModel;
+import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.TypeCollection;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -174,24 +176,24 @@ public class FrancaModelLoader {
 
     FrancaDeploymentModel deploymentModel = new FrancaDeploymentModel(extendedModels);
 
-    // load all found fidl files and fill the FrancaModel from them
-    List<FrancaModel> models =
-        fidlFiles
-            .stream()
-            .map(
-                file -> {
-                  URI asUri = URI.createFileURI(file.getAbsolutePath());
-                  LOGGER.fine("Loading fidl " + asUri);
-                  return fidlLoader.loadModel(asUri, ROOT_URI);
-                })
-            .map(
-                francaModel -> {
-                  // try to fetch additional data, wrap in FrancaModel
-                  return FrancaModel.create(spec, francaModel, deploymentModel);
-                })
-            .collect(Collectors.toList());
+    List<Interface> interfaces = new LinkedList<>();
+    List<TypeCollection> typeCollections = new LinkedList<>();
 
-    return FrancaModel.joinModels(models);
+    // load all found fidl files and fill the Interfaces and TypeCollections lists from them
+    fidlFiles
+        .stream()
+        .map(
+            file -> {
+              URI asUri = URI.createFileURI(file.getAbsolutePath());
+              LOGGER.fine("Loading fidl " + asUri);
+              return fidlLoader.loadModel(asUri, ROOT_URI);
+            })
+        .forEach(
+            fModel ->
+                FrancaModel.createElements(
+                    spec, fModel, deploymentModel, interfaces, typeCollections));
+
+    return new FrancaModel(interfaces, typeCollections);
   }
 
   private FDModel loadDeploymentModel(File file) {
