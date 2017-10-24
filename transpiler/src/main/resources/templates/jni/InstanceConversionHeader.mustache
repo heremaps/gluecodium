@@ -8,9 +8,12 @@
 namespace here {
 namespace internal {
 
-  {{#models}}
-    {{>jni/CppToJniInstanceConversionSignature}};
-  {{/models}}
+{{#models}}
+{{>jni/CppToJniInstanceConversionSignature}};
+
+{{>jni/JniToCppInstanceConversionSignature}};
+
+{{/models}}
 
 }
 }

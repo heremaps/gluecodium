@@ -6,9 +6,15 @@ namespace here {
 namespace internal {
 
 {{#models}}
-  {{>jni/CppToJniInstanceConversionSignature}}
-  {{>jni/CppToJniInstanceConversionBody}}
-{{/models}}
+{{>jni/CppToJniInstanceConversionSignature}}
 
+{{>jni/CppToJniInstanceConversionBody}}
+
+{{>jni/JniToCppInstanceConversionSignature}}
+
+{{>jni/JniToCppInstanceConversionBody}}
+
+
+{{/models}}
 }
 }
