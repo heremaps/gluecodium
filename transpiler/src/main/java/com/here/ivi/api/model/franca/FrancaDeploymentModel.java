@@ -11,34 +11,44 @@
 
 package com.here.ivi.api.model.franca;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.core.FDModelExtender;
-import org.franca.deploymodel.dsl.fDeploy.FDInterface;
+import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 import org.franca.deploymodel.dsl.fDeploy.FDModel;
-import org.franca.deploymodel.dsl.fDeploy.FDTypes;
 
 /** Model combining multiple FDModel instances into one. */
 public final class FrancaDeploymentModel {
 
-  private final Set<FDModel> models;
+  private final Map<String, MappingGenericPropertyAccessor> propertyAccessors = new HashMap<>();
 
-  public FrancaDeploymentModel(final Set<FDModel> models) {
-    this.models = models;
+  public FrancaDeploymentModel(final Collection<FDModel> models) {
+
+    List<FDModelExtender> fdModelExtenders =
+        models.stream().map(FDModelExtender::new).collect(Collectors.toList());
+    propertyAccessors.putAll(
+        fdModelExtenders
+            .stream()
+            .flatMap(extender -> extender.getFDInterfaces().stream())
+            .collect(
+                Collectors.toMap(
+                    fdInterface -> fdInterface.getTarget().getName(),
+                    NameBasedPropertyAccessor::new)));
+    propertyAccessors.putAll(
+        fdModelExtenders
+            .stream()
+            .flatMap(extender -> extender.getFDTypesList().stream())
+            .collect(
+                Collectors.toMap(
+                    fdTypeCollection -> fdTypeCollection.getTarget().getName(),
+                    NameBasedPropertyAccessor::new)));
   }
 
-  public List<FDInterface> getFDInterfaces() {
-    return models
-        .stream()
-        .flatMap(model -> new FDModelExtender(model).getFDInterfaces().stream())
-        .collect(Collectors.toList());
-  }
+  public MappingGenericPropertyAccessor getPropertyAccessor(
+      final FTypeCollection francaTypeCollection) {
 
-  public List<FDTypes> getFDTypesList() {
-    return models
-        .stream()
-        .flatMap(model -> new FDModelExtender(model).getFDTypesList().stream())
-        .collect(Collectors.toList());
+    return propertyAccessors.computeIfAbsent(
+        francaTypeCollection.getName(), key -> new DummyPropertyAccessor());
   }
 }

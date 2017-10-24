@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
-import org.franca.deploymodel.dsl.fDeploy.FDSpecification;
 
 public class FrancaModel {
 
@@ -42,7 +41,6 @@ public class FrancaModel {
   // creates a FrancaModel from the given FModel & FDModel,
   // ensuring that there are PropertyAccessors for each element
   public static void createElements(
-      final FDSpecification spec,
       final FModel francaModel,
       final FrancaDeploymentModel deploymentModel,
       final List<Interface> interfaces,
@@ -52,7 +50,10 @@ public class FrancaModel {
         francaModel
             .getInterfaces()
             .stream()
-            .map(anInterface -> Interface.create(spec, francaModel, anInterface, deploymentModel))
+            .map(
+                anInterface ->
+                    new Interface(
+                        anInterface, deploymentModel.getPropertyAccessor(anInterface), francaModel))
             .collect(Collectors.toList()));
 
     typeCollections.addAll(
@@ -61,7 +62,10 @@ public class FrancaModel {
             .stream()
             .map(
                 typeCollection ->
-                    TypeCollection.create(spec, francaModel, typeCollection, deploymentModel))
+                    new TypeCollection(
+                        typeCollection,
+                        deploymentModel.getPropertyAccessor(typeCollection),
+                        francaModel))
             .collect(Collectors.toList()));
   }
 
