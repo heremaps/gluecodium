@@ -148,13 +148,15 @@ function(apigen_swift_build target)
             -embed-bitcode
             -module-name ${target})
         # OSX needs additional -lc++ and additional paths to assemble the framework
-        if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+        if(APPLE)
             set(module_file_path "${target}.framework/Modules/${target}.swiftmodule/${TARGET_ARCHITECTURE}.swiftmodule")
             list(APPEND BUILD_ARGUMENTS
                 -lc++
                 -o "lib${target}.${TARGET_ARCHITECTURE}"
                 -emit-module-path "${module_file_path}"
                 )
+        endif()
+        if(IOS)
             #Todo: This should be properly injected into the function and not hardcoded
             set(build_swift_native_frameworks -lz -framework GLKit -framework OpenGLES)
         endif()
