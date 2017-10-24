@@ -14,6 +14,8 @@ set(includeguard_ApigenSwiftBuild ON)
 
 cmake_minimum_required(VERSION 3.5)
 
+include(${CMAKE_CURRENT_LIST_DIR}/GetLinkLibraries.cmake)
+
 #.rst:
 # ApigenSwiftBuild
 # -------------------
@@ -51,6 +53,11 @@ function(apigen_swift_build target)
     set(APIGEN_SWIFT_BUILD_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-swift-build)
     set(APIGEN_TRANSPILER_C_BRIDGE_SOURCE_DIR ${OUTPUT_DIR}/cbridge/${target})
     set(FRAMEWORK_VERSION A)
+
+    # Determine libraries to pass to swiftc
+    get_link_libraries(${target} swift_libraries)
+    set(APIGEN_SWIFT_LINK_LIBRARIES ${swift_libraries})
+    message(INFO "Swift enabled ${target} has the following link dependencies: ${swift_libraries}")
 
     # Attach properties to target for re-use in other modules
     set_target_properties(${target} PROPERTIES
@@ -120,6 +127,16 @@ function(apigen_swift_build target)
             set(swift_target_flag -target-cpu ${TARGET_ARCHITECTURE})
         endif()
 
+        set(build_swift_LINK_DEPENDENCIES "")
+        foreach(library IN LISTS APIGEN_SWIFT_LINK_LIBRARIES)
+            set(_outputname $<TARGET_PROPERTY:${library},OUTPUT_NAME>)
+            set(_fallbackname $<TARGET_PROPERTY:${library},NAME>)
+            set(_has_outputname $<BOOL:${_outputname}>)
+            set(_library_name "$<${_has_outputname}:${_outputname}>$<$<NOT:${_has_outputname}>:${_fallbackname}>")
+            string(CONCAT build_swift_LINK_DEPENDENCIES ${build_swift_LINK_DEPENDENCIES}
+                "-L$<TARGET_LINKER_FILE_DIR:${library}>\t-l${_library_name}$<TARGET_PROPERTY:${library},DEBUG_POSTFIX>\t")
+        endforeach()
+
         set(BUILD_ARGUMENTS
             -I${OUTPUT_DIR}
             -import-underlying-module
@@ -138,6 +155,8 @@ function(apigen_swift_build target)
                 -o "lib${target}.${TARGET_ARCHITECTURE}"
                 -emit-module-path "${module_file_path}"
                 )
+            #Todo: This should be properly injected into the function and not hardcoded
+            set(build_swift_native_frameworks -lz -framework GLKit -framework OpenGLES)
         endif()
 
         file(WRITE
@@ -146,7 +165,7 @@ function(apigen_swift_build target)
 
         file(GLOB_RECURSE SOURCES ${OUTPUT_DIR}/swift/*.swift)
         add_custom_command(TARGET ${target} POST_BUILD
-            COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES}
+            COMMAND swiftc ${BUILD_ARGUMENTS} ${build_swift_native_frameworks} ${build_swift_LINK_DEPENDENCIES} ${SOURCES}
             WORKING_DIRECTORY ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
 
         # TODO APIGEN-849: make this independent from transpiling, like add_swift_executable or similar
