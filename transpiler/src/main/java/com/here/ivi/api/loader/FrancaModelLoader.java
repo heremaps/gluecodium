@@ -190,8 +190,7 @@ public class FrancaModelLoader {
             })
         .forEach(
             fModel ->
-                FrancaModel.createElements(
-                    spec, fModel, deploymentModel, interfaces, typeCollections));
+                FrancaModel.createElements(fModel, deploymentModel, interfaces, typeCollections));
 
     return new FrancaModel(interfaces, typeCollections);
   }

@@ -11,24 +11,21 @@
 
 package com.here.ivi.api.model.franca;
 
-import org.franca.core.franca.FModel;
-import org.franca.core.franca.FTypeCollection;
+import org.eclipse.emf.ecore.EObject;
 import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 
-public class TypeCollection extends FrancaElement {
+/**
+ * Property accessor that returns "false" for all boolean properties. Used as a stub for FIDL
+ * definitions that don't have an associated FDEPL.
+ */
+public final class DummyPropertyAccessor extends MappingGenericPropertyAccessor {
 
-  private final FTypeCollection francaTypeCollection;
-
-  public TypeCollection(
-      final FTypeCollection francaTypeCollection,
-      final MappingGenericPropertyAccessor accessor,
-      final FModel francaModel) {
-    super(accessor, francaModel);
-    this.francaTypeCollection = francaTypeCollection;
+  DummyPropertyAccessor() {
+    super(null, null);
   }
 
   @Override
-  public FTypeCollection getFrancaTypeCollection() {
-    return francaTypeCollection;
+  public Boolean getBoolean(final EObject obj, final String property) {
+    return false;
   }
 }
