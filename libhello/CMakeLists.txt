@@ -138,15 +138,10 @@ feature(TypeDefs cpp android swift SOURCES
 
 feature(Enums cpp android swift SOURCES
     src/hello/HelloWorldEnums.cpp
+    src/test/Enums.cpp
 
     fidl/hello/HelloWorldEnums.fdepl
     fidl/hello/HelloWorldEnums.fidl
-    )
-
-#TODO: enable for android (APIGEN-856)
-feature(EnumsExtended cpp swift SOURCES
-    src/test/Enums.cpp
-
     fidl/test/Enums.fdepl
     fidl/test/Enums.fidl
     )
