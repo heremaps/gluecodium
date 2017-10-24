@@ -102,6 +102,12 @@ Arrays::methodWithStructArray( const std::vector< test::Arrays::BasicStruct >& i
     return { input.rbegin(), input.rend() };
 }
 
+::std::vector< ::std::shared_ptr< ::test::SimpleInstantiableOne > >
+Arrays::methodWithInstancesArray( const ::std::vector< ::std::shared_ptr< ::test::SimpleInstantiableOne > >& input )
+{
+    return { input.rbegin(), input.rend() };
+}
+
 std::vector< std::vector< double > >
 Arrays::methodWithNestedPrimitiveArray( const std::vector< std::vector< double > >& input )
 {

@@ -11,6 +11,8 @@
 
 package test
 
+import test.SimpleInstantiableOne.SimpleInstantiableOne from "./Instances.fidl"
+
 interface Arrays {
     version {
         major 0
@@ -24,6 +26,7 @@ interface Arrays {
     struct FancyStruct {
         StringArray messages
         UInt8[] numbers
+        InstancesArray instances
     }
 
     array Int8Array of Int8
@@ -46,6 +49,7 @@ interface Arrays {
 
     array NestedPrimitiveArray of DoubleArray
     array NestedStructArray of StructArray
+    array InstancesArray of SimpleInstantiableOne
 
     <** @description:
     Static method which takes a string array and returns an array of same type in reversed order.
@@ -240,6 +244,20 @@ interface Arrays {
         out {
             <** @description: Output array **>
             StructArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array of instances and returns it in reversed order
+    **>
+    method methodWithInstancesArray {
+        in {
+            <** @description: Input array **>
+            InstancesArray input
+        }
+        out {
+            <** @description: Output array **>
+            SimpleInstantiableOne[] output
         }
     }
 
