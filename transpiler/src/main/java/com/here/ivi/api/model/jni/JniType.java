@@ -12,6 +12,7 @@
 package com.here.ivi.api.model.jni;
 
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.generator.jni.JniNameRules;
 import com.here.ivi.api.generator.jni.JniTypeNameMapper;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.javamodel.JavaArrayType;
@@ -42,6 +43,11 @@ public final class JniType implements JniElement {
       return null;
     }
     return new JniType(javaType, cppType, isInstance);
+  }
+
+  @SuppressWarnings("unused")
+  public String getMangledSignature() {
+    return JniNameRules.getMangledName(jniTypeSignature);
   }
 
   private JniType(final JavaType javaType, final CppTypeRef cppType, boolean isInstance) {

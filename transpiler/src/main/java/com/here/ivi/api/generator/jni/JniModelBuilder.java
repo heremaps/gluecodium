@@ -96,6 +96,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             .returnType(JniType.createType(javaMethod.returnType, cppMethod.returnType))
             .isStatic(cppMethod.specifiers.contains(CppMethod.Specifier.STATIC))
             .isConst(cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST))
+            .isOverloaded(francaMethod.getSelector() != null)
             .build();
     jniMethod.parameters.addAll(getPreviousResults(JniParameter.class));
 

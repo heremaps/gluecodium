@@ -18,6 +18,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.common.CollectionsHelper;
@@ -143,7 +144,7 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFMethodVoid() {
+  public void finishBuildingFrancaMethodVoid() {
     //arrange
     when(javaBuilder.getFinalResult(any())).thenReturn(new JavaMethod(JAVA_VOID_METHOD_NAME));
     when(cppBuilder.getFinalResult(any()))
@@ -217,6 +218,21 @@ public class JniModelBuilderTest {
     JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
     assertNotNull(jniMethod);
     assertTrue(jniMethod.isConst);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsSelector() {
+    when(francaMethod.getSelector()).thenReturn("Foo");
+    when(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod());
+    when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
+    assertNotNull(jniMethod);
+    assertTrue(jniMethod.isOverloaded);
+
+    verify(francaMethod).getSelector();
   }
 
   @Test

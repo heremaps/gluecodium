@@ -1,1 +1,1 @@
-Java_{{join owningContainer.javaPackages delimiter="_"}}_{{owningContainer.javaName}}_{{javaMethodName}}(JNIEnv* _jenv, jobject _jinstance{{#parameters}}, {{>jni/Parameter}}{{/parameters}})
+Java_{{join owningContainer.javaPackages delimiter="_"}}_{{owningContainer.javaName}}_{{javaMethodName}}{{#if isOverloaded}}__{{#parameters}}{{type.mangledSignature}}{{/parameters}}{{/if}}(JNIEnv* _jenv, jobject _jinstance{{#parameters}}, {{>jni/Parameter}}{{/parameters}})
