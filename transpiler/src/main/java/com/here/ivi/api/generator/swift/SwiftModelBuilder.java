@@ -52,6 +52,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
+    SwiftFile file = new SwiftFile();
     SwiftClass clazz = new SwiftClass(SwiftNameRules.getClassName(francaInterface));
     String comment = CppCommentParser.parse(francaInterface).getMainBodyText();
     clazz.comment = comment != null ? comment : "";
@@ -63,14 +64,16 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .filter(s -> !s.name.equals(clazz.name))
             .collect(toList());
 
-    clazz.structs = getPreviousResults(SwiftContainerType.class);
-    clazz.enums = getPreviousResults(SwiftEnum.class);
     clazz.cInstance = CBridgeNameRules.getInterfaceName(francaInterface);
-    if (!clazz.isStatic()) {
+    if (clazz.isStatic()) {
+      clazz.structs = getPreviousResults(SwiftContainerType.class);
+      clazz.enums = getPreviousResults(SwiftEnum.class);
+    } else {
       clazz.implementsProtocols = Collections.singletonList(clazz.name);
       clazz.cInstanceRef = CBridgeNameRules.getInstanceRefType(rootModel.getFrancaTypeCollection());
+      file.structs = getPreviousResults(SwiftContainerType.class);
+      file.enums = getPreviousResults(SwiftEnum.class);
     }
-    SwiftFile file = new SwiftFile();
     file.classes.add(clazz);
     storeResult(file);
     super.finishBuilding(francaInterface);
