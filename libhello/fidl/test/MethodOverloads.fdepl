@@ -21,4 +21,16 @@ define navigation.BaseApiSpec for interface test.MethodOverloads
     method isBoolean:intOverload {
         Static = true
     }
+
+    method isBoolean:stringOverload {
+        Static = true
+    }
+
+    method isBoolean:structOverload {
+        Static = true
+    }
+
+    method isBoolean:everythingOverload {
+        Static = true
+    }
 }

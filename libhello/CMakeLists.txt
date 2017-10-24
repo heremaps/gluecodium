@@ -60,8 +60,7 @@ feature(Strings cpp android swift SOURCES
     fidl/hello/HelloWorld.fidl
     )
 
-# TODO enable for Android (APIGEN-860)
-feature(Overloads cpp swift SOURCES
+feature(MethodOverloading cpp android swift SOURCES
     src/test/MethodOverloads.cpp
 
     fidl/test/MethodOverloads.fdepl

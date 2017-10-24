@@ -12,8 +12,8 @@
 
 #include "test/MethodOverloads.h"
 
-namespace test {
-
+namespace test
+{
 bool
 MethodOverloads::isBoolean( const bool input )
 {
@@ -26,5 +26,23 @@ MethodOverloads::isBoolean( const int8_t input )
     return false;
 }
 
+bool
+MethodOverloads::isBoolean( const ::std::string& input )
+{
+    return false;
 }
 
+bool
+MethodOverloads::isBoolean( const MethodOverloads::Point& input )
+{
+    return false;
+}
+
+bool
+MethodOverloads::isBoolean( const bool input1, const int8_t input2, const ::std::string& input3,
+                            const MethodOverloads::Point& input4 )
+{
+    return false;
+}
+
+}

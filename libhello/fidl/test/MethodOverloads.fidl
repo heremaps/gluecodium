@@ -12,9 +12,7 @@
 package test
 
 interface MethodOverloads {
-    <**
-        @description: Method taking boolean always returns true
-    **>
+
     method isBoolean:boolOverload {
         in {
             Boolean input
@@ -24,12 +22,44 @@ interface MethodOverloads {
         }
     }
 
-    <**
-        @description: Method taking int always returns false
-    **>
     method isBoolean:intOverload {
         in {
             Int8 input
+        }
+        out {
+            Boolean output
+        }
+    }
+
+    method isBoolean:stringOverload {
+        in {
+            String input
+        }
+        out {
+            Boolean output
+        }
+    }
+
+    struct Point {
+        Double x
+        Double y
+    }
+
+    method isBoolean:structOverload {
+        in {
+            Point input
+        }
+        out {
+            Boolean output
+        }
+    }
+
+    method isBoolean:everythingOverload {
+        in {
+            Boolean input1
+            Int8 input2
+            String input3
+            Point input4
         }
         out {
             Boolean output
