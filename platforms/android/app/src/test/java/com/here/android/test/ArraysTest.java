@@ -5,7 +5,6 @@ import android.os.Build;
 import android.support.compat.BuildConfig;
 
 import com.here.android.RobolectricApplication;
-import com.here.android.hello.HelloWorldStaticLogger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,10 +12,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -27,6 +24,7 @@ import static junit.framework.Assert.assertTrue;
 public class ArraysTest {
     private static final String STRING_LIST_ITEM_1 = "Item1";
     private static final String STRING_LIST_ITEM_2 = "Item2";
+    private static final String STRING_LIST_ITEM_3 = "Item3";
     private static final float FLOAT_VALUE_1 = 42.0f;
     private static final float FLOAT_VALUE_2 = 43.0f;
     private static final double DOUBLE_VALUE_1 = 42.0;
@@ -220,6 +218,22 @@ public class ArraysTest {
     }
 
     @Test
+    public void methodWithInstanceArray() {
+        SimpleInstantiableOne instance1 = InstancesFactory.createSimpleInstantiableOne();
+        SimpleInstantiableOne instance2 = InstancesFactory.createSimpleInstantiableOne();
+        instance1.setStringValue(STRING_LIST_ITEM_1);
+        instance2.setStringValue(STRING_LIST_ITEM_2);
+        List<SimpleInstantiableOne> instancesArray = java.util.Arrays.asList(instance1, instance2);
+
+        List<SimpleInstantiableOne> resultsList = Arrays.methodWithInstancesArray(instancesArray);
+
+        assertNotNull(resultsList);
+        assertEquals(2, resultsList.size());
+        assertEquals(STRING_LIST_ITEM_2, resultsList.get(0).getStringValue());
+        assertEquals(STRING_LIST_ITEM_1, resultsList.get(1).getStringValue());
+    }
+
+    @Test
     public void methodWithNestedPrimitiveArray() {
         List<List<Double>> nestedDoubleList = java.util.Arrays.asList(
                 java.util.Arrays.asList(DOUBLE_VALUE_1, DOUBLE_VALUE_2),
@@ -290,13 +304,24 @@ public class ArraysTest {
 
     @Test
     public void mergeArraysOfStructsWithArrays() {
+        SimpleInstantiableOne instance = InstancesFactory.createSimpleInstantiableOne();
+        SimpleInstantiableOne otherInstance = InstancesFactory.createSimpleInstantiableOne();
+        instance.setStringValue(STRING_LIST_ITEM_1);
+        otherInstance.setStringValue(STRING_LIST_ITEM_2);
+        List<SimpleInstantiableOne> instancesArray1 =
+                java.util.Arrays.asList(instance, otherInstance);
+        SimpleInstantiableOne instance2 = InstancesFactory.createSimpleInstantiableOne();
+        instance2.setStringValue(STRING_LIST_ITEM_3);
+        List<SimpleInstantiableOne> instancesArray2 = Collections.singletonList(instance2);
         Arrays.FancyStruct struct1 = new Arrays.FancyStruct();
         Arrays.FancyStruct struct2 = new Arrays.FancyStruct();
         Arrays.FancyStruct struct3 = new Arrays.FancyStruct();
         struct1.messages = java.util.Arrays.asList("struct", "1");
         struct1.numbers = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
+        struct1.instances = instancesArray1;
         struct2.messages = java.util.Arrays.asList("struct", "2");
         struct2.numbers = java.util.Arrays.asList(LONG_VALUE_3, LONG_VALUE_3);
+        struct2.instances = instancesArray2;
         struct3.messages = java.util.Arrays.asList("struct", "3");
         struct3.numbers = java.util.Arrays.asList(LONG_VALUE_4, LONG_VALUE_4);
         List<Arrays.FancyStruct> fancyStructList1 = java.util.Arrays.asList(struct1, struct2);
@@ -308,7 +333,13 @@ public class ArraysTest {
         assertEquals(3, resultsList.size());
         assertEquals("struct", resultsList.get(0).messages.get(0));
         assertEquals("3", resultsList.get(0).messages.get(1));
+        assertTrue(resultsList.get(0).instances.isEmpty());
         assertTrue(resultsList.get(1).messages.get(1).contains("2"));
+        assertEquals(1, resultsList.get(1).instances.size());
+        assertEquals(STRING_LIST_ITEM_3, resultsList.get(1).instances.get(0).getStringValue());
         assertTrue(resultsList.get(2).messages.get(1).contains("1"));
+        assertEquals(2, resultsList.get(2).instances.size());
+        assertEquals(STRING_LIST_ITEM_1, resultsList.get(2).instances.get(0).getStringValue());
+        assertEquals(STRING_LIST_ITEM_2, resultsList.get(2).instances.get(1).getStringValue());
     }
 }

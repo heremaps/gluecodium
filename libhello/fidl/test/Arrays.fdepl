@@ -70,6 +70,10 @@ define navigation.BaseApiSpec for interface test.Arrays
         Static = true
     }
 
+    method methodWithInstancesArray {
+        Static = true
+    }
+
     method methodWithNestedPrimitiveArray {
         Static = true
     }
