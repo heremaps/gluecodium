@@ -181,6 +181,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     if (javaType instanceof JavaTemplateType) {
       JavaTemplateType javaTemplateType = (JavaTemplateType) javaType;
       javaField = new JavaField(javaTemplateType, fieldName, javaTemplateType.implementationType);
+    } else if (javaType instanceof JavaEnumType) {
+      JavaEnumType enumType = (JavaEnumType) javaType;
+      javaField = new JavaField(javaType, fieldName, enumType.initializer);
     } else if (javaType instanceof JavaCustomType) {
       javaField = new JavaField((JavaCustomType) javaType, fieldName);
     } else {
@@ -206,6 +209,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FTypeRef francaTypeRef) {
 
     storeResult(typeMapper.map(francaTypeRef));
+
     closeContext();
   }
 

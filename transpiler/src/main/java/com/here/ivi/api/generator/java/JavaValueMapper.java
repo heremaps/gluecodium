@@ -30,6 +30,15 @@ public class JavaValueMapper {
     return map(rhs);
   }
 
+  public static JavaValue createEnumInitializerValue(
+      String enumTypeName, FEnumerationType enumType) {
+    List<FEnumerator> enumerators = enumType.getEnumerators();
+    String initializer =
+        !enumerators.isEmpty() ? enumTypeName + "." + enumerators.get(0).getName() : "null";
+
+    return new JavaValue(initializer);
+  }
+
   public static void completePartialEnumeratorValues(List<JavaEnumItem> javaEnumItems) {
 
     int lastValue = 0;

@@ -37,7 +37,7 @@ public class Enums {
     }
 
     public static class ErrorStruct {
-        public Enums.InternalError type = new Enums.InternalError();
+        public Enums.InternalError type = Enums.InternalError.ERROR_NONE;
         public String message;
     }
 
