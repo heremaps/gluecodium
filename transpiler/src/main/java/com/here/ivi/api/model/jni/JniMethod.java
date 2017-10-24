@@ -13,8 +13,10 @@ package com.here.ivi.api.model.jni;
 
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 
+@Builder(builderClassName = "Builder")
 @EqualsAndHashCode
 public final class JniMethod implements JniElement {
 
@@ -28,52 +30,18 @@ public final class JniMethod implements JniElement {
 
   public final List<JniParameter> parameters = new LinkedList<>();
 
-  private JniMethod(
-      final String javaMethodName,
-      final String cppMethodName,
-      final JniType returnType,
-      final boolean isStatic,
-      final boolean isConst) {
-    this.javaMethodName = javaMethodName;
-    this.cppMethodName = cppMethodName;
-    this.returnType = returnType;
-    this.isStatic = isStatic;
-    this.isConst = isConst;
-  }
-
-  @SuppressWarnings({"PMD.AvoidFieldNameMatchingMethodName"})
+  @SuppressWarnings("unused")
   public static class Builder {
-    public final String javaMethodName;
-    public final String cppMethodName;
-    public JniType returnType;
-    public boolean isStatic;
-    public boolean isConst;
+    private String javaMethodName;
+    private String cppMethodName;
+
+    Builder() {
+      this(null, null);
+    }
 
     public Builder(final String javaMethodName, final String cppMethodName) {
       this.javaMethodName = javaMethodName;
       this.cppMethodName = cppMethodName;
-      returnType = null;
-      isStatic = false;
-      isConst = false;
-    }
-
-    public Builder returnType(final JniType returnTypeParam) {
-      returnType = returnTypeParam;
-      return this;
-    }
-
-    public Builder staticFlag(final boolean isStaticParam) {
-      isStatic = isStaticParam;
-      return this;
-    }
-
-    public Builder constFlag(final boolean isConstParam) {
-      isConst = isConstParam;
-      return this;
-    }
-
-    public JniMethod build() {
-      return new JniMethod(javaMethodName, cppMethodName, returnType, isStatic, isConst);
     }
   }
 }

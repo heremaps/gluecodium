@@ -94,8 +94,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JniMethod jniMethod =
         new JniMethod.Builder(javaMethod.name, cppMethod.name)
             .returnType(JniType.createType(javaMethod.returnType, cppMethod.returnType))
-            .staticFlag(cppMethod.specifiers.contains(CppMethod.Specifier.STATIC))
-            .constFlag(cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST))
+            .isStatic(cppMethod.specifiers.contains(CppMethod.Specifier.STATIC))
+            .isConst(cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST))
             .build();
     jniMethod.parameters.addAll(getPreviousResults(JniParameter.class));
 

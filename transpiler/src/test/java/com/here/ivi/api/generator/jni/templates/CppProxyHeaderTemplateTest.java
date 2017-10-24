@@ -40,7 +40,7 @@ public class CppProxyHeaderTemplateTest {
 
     JavaPrimitiveType javaType = null;
     CppPrimitiveTypeRef cppType = null;
-    StringBuffer paramName = new StringBuffer("param");
+    StringBuilder paramName = new StringBuilder("param");
 
     switch (inputParam) {
       case DOUBLE:
@@ -61,7 +61,8 @@ public class CppProxyHeaderTemplateTest {
 
     JniParameter jniParam2 = new JniParameter(paramName + "_2", jniType);
 
-    JniMethod jniMethod = new JniMethod.Builder("", cppMethodName).constFlag(constFlag).build();
+    JniMethod jniMethod =
+        JniMethod.builder().cppMethodName(cppMethodName).isConst(constFlag).build();
 
     jniMethod.parameters.add(jniParam1);
     jniMethod.parameters.add(jniParam2);
