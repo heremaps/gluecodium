@@ -1,0 +1,58 @@
+{{#isStatic}}{{>ClassWithoutProtocol}}{{/isStatic}}
+{{^isStatic}}{{>ClassWithProtocol}}{{/isStatic}}{{!!
+
+
+
+}}{{+ClassWithoutProtocol}}
+{{#comment}}{{>swift/Comment}}{{/comment}}{{!!
+}}{{>swift/ClassHeader}}{{!!
+
+}}{{#typedefs}}
+{{prefixPartial 'swift/Typedefs' '    '}}
+{{/typedefs}}{{!!
+
+}}{{>CommonClassParts}}{{!!
+}}}
+{{/ClassWithoutProtocol}}{{!!
+
+
+
+
+}}{{+ClassWithProtocol}}
+{{>swift/GetReference}}
+
+{{#comment}}{{>swift/Comment}}{{/comment}}{{!!
+}}public protocol {{name}} {
+{{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
+{{/typedefs}}
+{{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
+{{/methods}}
+}
+
+{{>swift/ClassHeader}}
+
+{{>CommonClassParts}}{{!!
+}}}
+{{/ClassWithProtocol}}{{!!
+
+
+
+}}{{+CommonClassParts}}{{!!
+}}{{prefixPartial 'swift/Constructor' '    '}}{{!!
+
+}}{{#properties}}
+{{>swift/Property}}
+{{/properties}}{{!!
+
+}}{{#enums}}
+{{prefixPartial 'swift/Enum' '    '}}
+{{/enums}}{{!!
+
+}}{{#structs}}
+{{prefixPartial 'swift/Struct' '    '}}
+{{/structs}}{{!!
+
+}}{{#methods}}
+{{prefixPartial 'swift/Method' '    '}}
+{{/methods}}{{!!
+}}{{/CommonClassParts}}

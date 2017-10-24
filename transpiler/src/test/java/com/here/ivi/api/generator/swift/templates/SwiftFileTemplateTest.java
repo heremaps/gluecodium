@@ -74,11 +74,11 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "    return RefHolder<>(instanceReference.c_instance)\n"
             + "}\n"
-            + "public protocol ExampleClassWithComment {\n"
-            + "}\n"
             + "/**\n"
             + " * One really classy example\n"
             + " */\n"
+            + "public protocol ExampleClassWithComment {\n"
+            + "}\n"
             + "internal class _ExampleClassWithComment: ExampleClassWithComment {\n"
             + "}\n";
     final String generated = generateFromClass(swiftClass);
@@ -547,6 +547,7 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void interfaceWithTwoStructsAndMethod() {
+    SwiftFile file = new SwiftFile();
     SwiftClass swiftClass = new SwiftClass("SomeClass", null);
     SwiftContainerType firstSturct = new SwiftContainerType("FirstStruct");
     firstSturct.cPrefix = "CPrefix";
@@ -554,9 +555,10 @@ public class SwiftFileTemplateTest {
     SwiftContainerType secondStruct = new SwiftContainerType("SecondStruct");
     secondStruct.cPrefix = "CPrefix";
     secondStruct.cType = "CType";
-    swiftClass.structs = Arrays.asList(firstSturct, secondStruct);
     swiftClass.methods = singletonList(new SwiftMethod("SomeMethod"));
     swiftClass.implementsProtocols = Collections.singletonList(swiftClass.name);
+    file.structs = Arrays.asList(firstSturct, secondStruct);
+    file.classes = singletonList(swiftClass);
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: SomeClass) -> RefHolder<> {\n"
@@ -599,7 +601,7 @@ public class SwiftFileTemplateTest {
             + "    internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
             + "    }\n"
             + "}\n";
-    final String generated = generateFromClass(swiftClass);
+    final String generated = generate(file);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
@@ -682,10 +684,11 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void interfaceWithEnum() {
-    SwiftEnum swiftEnum =
-        SwiftEnum.builder("EnumSwiftName").comment("Some comment on enum type").build();
+    SwiftFile swiftFile = new SwiftFile();
+    swiftFile.enums.add(
+        SwiftEnum.builder("EnumSwiftName").comment("Some comment on enum type").build());
     SwiftClass clazz = new SwiftClass("TestInterface");
-    clazz.enums.add(swiftEnum);
+    swiftFile.classes.add(clazz);
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: TestInterface) -> RefHolder<> {\n"
@@ -704,7 +707,7 @@ public class SwiftFileTemplateTest {
             + "public enum EnumSwiftName : UInt32 {\n"
             + "}\n";
 
-    final String generated = generateFromClass(clazz);
+    final String generated = generate(swiftFile);
 
     TemplateComparison.assertEqualContent(expected, generated);
   }

@@ -56,11 +56,13 @@ public class SwiftGeneratorIntegrationTest {
     final SwiftFile file =
         this.generator.buildSwiftModel(
             LoadModelHelper.extractNthInterfaceFromModel(this.francaModel, 7));
+
     assertEquals("There should be one class defined in file", 1, file.classes.size());
     SwiftClass clazz = file.classes.get(0);
     assertNotNull("The property should not be empty", clazz.structs);
-    assertEquals("It should parse both structs", 2, clazz.structs.size());
-    SwiftContainerType struct = clazz.structs.get(0);
+    assertEquals("Structs should not be part of class", 0, clazz.structs.size());
+    assertEquals("Structs should be part of file", 2, file.structs.size());
+    SwiftContainerType struct = file.structs.get(0);
     assertEquals("name should be parsed correctly to Swift", "Struct0", struct.name);
     assertEquals("comments should be parsed correctly", "This is a test struct", struct.comment);
     assertEquals("all fields should be recognized", 2, struct.fields.size());

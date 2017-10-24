@@ -5,52 +5,18 @@
 
 import Foundation
 
-{{#classes}}{{prefixPartial 'swift/Protocol' ''}}
+{{#classes}}
+{{>swift/Class}}
+{{/classes}}{{!!
 
-{{#comment}}{{>swift/Comment}}{{/comment}}
-{{prefixPartial 'swift/ClassHeader' ''}}
+}}{{#typeDefs}}
+{{>swift/Typedefs}}
+{{/typeDefs}}{{!!
 
-{{#isStatic}}{{#typedefs}}
-{{prefixPartial 'swift/Typedefs' '    '}}
-{{/typedefs}}{{/isStatic}}
-
-{{prefixPartial 'swift/Constructor' '    '}}
-{{#properties}}
-{{>swift/Property}}
-{{/properties}}
-
-{{#isStatic}}
-{{#enums}}
-{{prefixPartial 'swift/Enum' '    '}}
-{{/enums}}
-
-{{#structs}}
-{{prefixPartial 'swift/Struct' '    '}}
-{{/structs}}
-{{/isStatic}}
-
-{{#methods}}
-{{prefixPartial 'swift/Method' '    '}}
-{{/methods}}
-}
-
-{{^isStatic}}
-{{#enums}}
+}}{{#enums}}
 {{>swift/Enum}}
-{{/enums}}
+{{/enums}}{{!!
 
-{{#structs}}
+}}{{#structs}}
 {{>swift/Struct}}
-{{/structs}}
-{{/isStatic}}
-
-{{/classes}}
-
-{{#typeDefs}}{{>swift/Typedefs}}
-{{/typeDefs}}
-
-{{#enums}}{{>swift/Enum}}
-{{/enums}}
-
-{{#structs}}{{>swift/Struct}}
 {{/structs}}
