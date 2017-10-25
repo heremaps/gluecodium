@@ -98,7 +98,6 @@ public class JavaModelBuilderTest {
         new JavaModelBuilder(
             contextStack, new JavaPackage(BASE_PACKAGE_NAMES), rootModel, typeMapper);
 
-    when(rootModel.getFrancaModel().getName()).thenReturn("");
     when(rootModel.getPackageNames()).thenReturn(Collections.emptyList());
 
     when(typeMapper.map(any())).thenReturn(javaCustomType);

@@ -12,8 +12,6 @@
 package com.here.ivi.api.model.franca;
 
 import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FModel;
-import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 
 public class Interface extends FrancaElement {
@@ -21,16 +19,9 @@ public class Interface extends FrancaElement {
   private final FInterface francaInterface;
 
   public Interface(
-      final FInterface francaInterface,
-      final MappingGenericPropertyAccessor accessor,
-      final FModel francaModel) {
-    super(accessor, francaModel);
+      final FInterface francaInterface, final MappingGenericPropertyAccessor accessor) {
+    super(francaInterface, accessor);
     this.francaInterface = francaInterface;
-  }
-
-  @Override
-  public FTypeCollection getFrancaTypeCollection() {
-    return getFrancaInterface(); // an interface is type collection as well
   }
 
   public FInterface getFrancaInterface() {
