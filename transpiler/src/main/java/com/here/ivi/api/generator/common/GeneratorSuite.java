@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -73,12 +74,11 @@ public abstract class GeneratorSuite {
    */
   public void buildModels(final Collection<File> inputPaths) {
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
+    if (currentFiles == null) {
+      currentFiles = new ArrayList<>();
+    }
     for (File inputPath : inputPaths) {
-      if (currentFiles == null) {
-        currentFiles = FrancaModelLoader.listFilesRecursively(inputPath);
-      } else {
-        currentFiles.addAll(FrancaModelLoader.listFilesRecursively(inputPath));
-      }
+      currentFiles.addAll(FrancaModelLoader.listFilesRecursively(inputPath));
     }
     model = francaModelLoader.load(getSpecPath(), currentFiles);
   }
