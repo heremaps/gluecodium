@@ -125,13 +125,20 @@ public abstract class AcceptanceTestBase {
     for (final File referenceFile : referenceFiles) {
       String relativePath = getRelativePath(outputDirectory, referenceFile);
       String generatedContent = generatedContents.get(relativePath);
-      errorCollector.checkNotNull("File was not generated: " + relativePath, generatedContent);
+      errorCollector.checkNotNull(
+          "File was not generated: "
+              + relativePath
+              + ", generated files: "
+              + generatedContents.keySet(),
+          generatedContent);
 
-      String expected = Files.readFileIntoString(referenceFile.getPath());
-      errorCollector.checkEquals(
-          "File content differs for file: " + relativePath,
-          ignoreWhitespace(expected),
-          ignoreWhitespace(generatedContent));
+      if (generatedContent != null) {
+        String expected = Files.readFileIntoString(referenceFile.getPath());
+        errorCollector.checkEquals(
+            "File content differs for file: " + relativePath,
+            ignoreWhitespace(expected),
+            ignoreWhitespace(generatedContent));
+      }
     }
   }
 
