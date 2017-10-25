@@ -66,9 +66,6 @@ public class CppNameRulesTest {
     PowerMockito.mockStatic(InstanceRules.class);
     PowerMockito.spy(NameHelper.class);
 
-    when(mockFrancaModel.getFrancaModel()).thenReturn(fModel);
-    when(fModel.getName()).thenReturn("");
-
     when(fInterface.eContainer()).thenReturn(fModel);
     when(fTypeCollection.eContainer()).thenReturn(fModel);
 

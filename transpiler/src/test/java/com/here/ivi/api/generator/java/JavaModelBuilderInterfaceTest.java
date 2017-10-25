@@ -62,7 +62,6 @@ public class JavaModelBuilderInterfaceTest {
 
     modelBuilder = new JavaModelBuilder(contextStack, BASE_PACKAGE, rootModel, null);
 
-    when(rootModel.getFrancaModel().getName()).thenReturn("");
     when(rootModel.getPackageNames()).thenReturn(Collections.emptyList());
 
     when(francaInterface.getName()).thenReturn("classy");

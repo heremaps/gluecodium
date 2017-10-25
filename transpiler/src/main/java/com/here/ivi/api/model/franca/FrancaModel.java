@@ -52,8 +52,7 @@ public final class FrancaModel {
             .stream()
             .map(
                 anInterface ->
-                    new Interface(
-                        anInterface, deploymentModel.getPropertyAccessor(anInterface), francaModel))
+                    new Interface(anInterface, deploymentModel.getPropertyAccessor(anInterface)))
             .collect(Collectors.toList()));
 
     typeCollections.addAll(
@@ -63,9 +62,7 @@ public final class FrancaModel {
             .map(
                 typeCollection ->
                     new TypeCollection(
-                        typeCollection,
-                        deploymentModel.getPropertyAccessor(typeCollection),
-                        francaModel))
+                        typeCollection, deploymentModel.getPropertyAccessor(typeCollection)))
             .collect(Collectors.toList()));
   }
 

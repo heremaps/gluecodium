@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.model.franca;
 
-import com.here.ivi.api.generator.common.Version;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import org.franca.core.franca.*;
@@ -20,32 +19,28 @@ import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 @EqualsAndHashCode
 public abstract class FrancaElement {
 
+  private final FTypeCollection francaTypeCollection;
   private final MappingGenericPropertyAccessor propertyAccessor;
-  private final FModel francaModel;
   private final List<String> packageNames;
 
   protected FrancaElement(
-      final MappingGenericPropertyAccessor propertyAccessor, final FModel francaModel) {
+      final FTypeCollection francaTypeCollection,
+      final MappingGenericPropertyAccessor propertyAccessor) {
+    this.francaTypeCollection = francaTypeCollection;
     this.propertyAccessor = propertyAccessor;
-    this.francaModel = francaModel;
-    packageNames = DefinedBy.getPackages(francaModel);
+
+    packageNames = DefinedBy.getPackages((FModel) francaTypeCollection.eContainer());
   }
 
-  public abstract FTypeCollection getFrancaTypeCollection();
+  public FTypeCollection getFrancaTypeCollection() {
+    return francaTypeCollection;
+  }
 
   public String getName() {
-    return getFrancaTypeCollection().getName();
+    return francaTypeCollection.getName();
   }
 
-  public Version getVersion() {
-    FVersion francaVersion = getFrancaTypeCollection().getVersion();
-    if (francaVersion != null) {
-      return Version.createFromFrancaVersion(francaVersion);
-    } else {
-      return new Version(0, 0, 0, "");
-    }
-  }
-
+  @SuppressWarnings("unused")
   public boolean isInterface(final FInterface francaInterface) {
     return getBoolean(francaInterface, "IsInterface");
   }
@@ -68,7 +63,7 @@ public abstract class FrancaElement {
   }
 
   public FModel getFrancaModel() {
-    return francaModel;
+    return (FModel) francaTypeCollection.eContainer();
   }
 
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
