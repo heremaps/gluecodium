@@ -73,3 +73,32 @@ interface Enums {
         }
     }
 }
+
+typeCollection EnumsInTypeCollection {
+    version {
+        major 0
+        minor 1
+    }
+
+    enumeration TCEnum {
+        FIRST
+        SECOND
+    }
+
+}
+
+interface EnumsInTypeCollectionInterface {
+    version {
+        major 0
+        minor 1
+    }
+
+    method flipEnumValue {
+        in {
+            EnumsInTypeCollection.TCEnum input
+        }
+        out {
+            EnumsInTypeCollection.TCEnum output
+        }
+    }
+}

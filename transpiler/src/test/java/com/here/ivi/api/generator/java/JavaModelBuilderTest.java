@@ -437,13 +437,15 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaEnumReadEnum() {
+  public void finishBuildingFrancaEnumerationType() {
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
     JavaEnum result = modelBuilder.getFinalResult(JavaEnum.class);
     assertNotNull(result);
     assertEquals(ENUMERATION_NAME, result.name);
+    assertEquals(JavaVisibility.PUBLIC, result.visibility);
+    assertEquals(BASE_PACKAGE_NAMES, result.javaPackage.packageNames);
     assertNotNull(result.items);
   }
 
