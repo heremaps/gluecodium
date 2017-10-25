@@ -19,12 +19,14 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaEnum;
 import com.here.ivi.api.model.javamodel.JavaInterface;
 import com.here.ivi.api.model.javamodel.JavaTopLevelElement;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class JavaGenerator extends AbstractAndroidGenerator {
 
@@ -59,8 +61,11 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
     treeWalker.walk(typeCollection);
 
-    return CollectionsHelper.getStreamOfType(modelBuilder.getFinalResults(), JavaClass.class)
-        .map(javaClass -> generateFileForElement("java/ClassHeader", javaClass))
+    return Stream.concat(
+            CollectionsHelper.getStreamOfType(modelBuilder.getFinalResults(), JavaClass.class)
+                .map(javaClass -> generateFileForElement("java/ClassHeader", javaClass)),
+            CollectionsHelper.getStreamOfType(modelBuilder.getFinalResults(), JavaEnum.class)
+                .map(javaEnum -> generateFileForElement("java/EnumHeader", javaEnum)))
         .collect(Collectors.toList());
   }
 

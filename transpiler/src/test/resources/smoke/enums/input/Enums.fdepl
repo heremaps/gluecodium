@@ -30,3 +30,11 @@ define navigation.BaseApiSpec for interface smoke.Enums
         Static = true
     }
 }
+
+define navigation.BaseApiSpec for interface smoke.EnumsInTypeCollectionInterface
+{
+    method flipEnumValue {
+        Static = true
+    }
+}
+
