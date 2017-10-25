@@ -78,7 +78,7 @@ public class Transpiler {
 
   @VisibleForTesting
   boolean execute() {
-    LOGGER.fine("Version: " + version);
+    LOGGER.info("Version: " + version);
     Map<String, String> fileNamesCache = new HashMap<>();
 
     Collection<File> inputDirs = new ArrayList<>();
