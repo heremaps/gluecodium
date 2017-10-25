@@ -26,6 +26,7 @@ import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +45,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class GeneratorSuiteTest {
 
   private static final String MOCK_INPUT_PATH = "../fidl/files/are/here";
+  private static final String MOCK_INPUT_PATH_2 = "../fidl/files/are/here/two";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FrancaModelLoader francaModelLoader;
@@ -135,5 +137,24 @@ public class GeneratorSuiteTest {
 
     PowerMockito.verifyStatic();
     ResourceValidator.validate(any(), any());
+  }
+
+  @Test
+  public void buildModelWithTwoInputPaths() {
+
+    generatorSuite = new TestableGeneratorSuite(francaModelLoader);
+
+    ArrayList<File> inputPaths = new ArrayList<>();
+    inputPaths.add(new File(MOCK_INPUT_PATH));
+    inputPaths.add(new File(MOCK_INPUT_PATH_2));
+
+    generatorSuite.buildModels(inputPaths);
+
+    verify(francaModelLoader).load(eq(GeneratorSuite.getSpecPath()), any());
+    PowerMockito.verifyStatic();
+    ModelHelper.getFdeplInjector();
+    PowerMockito.verifyStatic();
+    FrancaModelLoader.listFilesRecursively(new File(MOCK_INPUT_PATH_2));
+    FrancaModelLoader.listFilesRecursively(new File(MOCK_INPUT_PATH));
   }
 }
