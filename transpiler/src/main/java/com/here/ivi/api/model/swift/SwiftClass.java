@@ -14,6 +14,7 @@ package com.here.ivi.api.model.swift;
 import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public final class SwiftClass extends SwiftModelElement {
@@ -47,9 +48,12 @@ public final class SwiftClass extends SwiftModelElement {
     this(className, null);
   }
 
-  public boolean needClassDefinition() {
-    return (implementsProtocols != null && !implementsProtocols.isEmpty())
-        || (parentClass != null && !parentClass.isEmpty());
+  public List<String> baseAndProtocols() {
+    LinkedList<String> baseAndProtocols = new LinkedList<>(implementsProtocols);
+    if (parentClass != null) {
+      baseAndProtocols.addFirst(parentClass);
+    }
+    return baseAndProtocols;
   }
 
   public boolean isStatic() {
