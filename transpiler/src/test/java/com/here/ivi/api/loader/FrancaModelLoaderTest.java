@@ -81,7 +81,7 @@ public class FrancaModelLoaderTest {
     assertEquals(1, methods.size());
     FMethod constMethod = methods.get(0);
 
-    assertTrue(iface.isConst(constMethod));
+    assertTrue(model.deploymentModel.isConst(constMethod));
   }
 
   @Test

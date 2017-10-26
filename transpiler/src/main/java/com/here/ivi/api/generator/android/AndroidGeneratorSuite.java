@@ -57,7 +57,8 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
   public List<GeneratedFile> generate() {
 
     // Generate Java files
-    JavaGenerator javaGenerator = new JavaGenerator(transpilerOptions.getJavaPackageList());
+    JavaGenerator javaGenerator =
+        new JavaGenerator(model.deploymentModel, transpilerOptions.getJavaPackageList());
     Stream<List<GeneratedFile>> javaFilesStream =
         Stream.concat(
             model.interfaces.stream().map(javaGenerator::generateFiles),
@@ -66,6 +67,7 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
     // Generate JNI files
     JniGenerator jniGenerator =
         new JniGenerator(
+            model.deploymentModel,
             transpilerOptions.getJavaPackageList(),
             Arrays.asList(
                 CONVERSION_UTILS_HEADER, FIELD_ACCESS_UTILS_HEADER, CPP_PROXY_BASE_HEADER));

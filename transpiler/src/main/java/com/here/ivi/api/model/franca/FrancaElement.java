@@ -14,20 +14,15 @@ package com.here.ivi.api.model.franca;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import org.franca.core.franca.*;
-import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 
 @EqualsAndHashCode
 public abstract class FrancaElement {
 
   private final FTypeCollection francaTypeCollection;
-  private final MappingGenericPropertyAccessor propertyAccessor;
   private final List<String> packageNames;
 
-  protected FrancaElement(
-      final FTypeCollection francaTypeCollection,
-      final MappingGenericPropertyAccessor propertyAccessor) {
+  protected FrancaElement(final FTypeCollection francaTypeCollection) {
     this.francaTypeCollection = francaTypeCollection;
-    this.propertyAccessor = propertyAccessor;
 
     packageNames = DefinedBy.getPackages((FModel) francaTypeCollection.eContainer());
   }
@@ -41,33 +36,11 @@ public abstract class FrancaElement {
   }
 
   @SuppressWarnings("unused")
-  public boolean isInterface(final FInterface francaInterface) {
-    return getBoolean(francaInterface, "IsInterface");
-  }
-
-  public boolean isStatic(final FMethod francaMethod) {
-    return getBoolean(francaMethod, "Static");
-  }
-
-  public boolean isConst(final FMethod francaMethod) {
-    return getBoolean(francaMethod, "Const");
-  }
-
-  @SuppressWarnings("unused")
-  public boolean isSet(final FArrayType francaArray) {
-    return getBoolean(francaArray, "Set");
-  }
-
   public List<String> getPackageNames() {
     return packageNames;
   }
 
   public FModel getFrancaModel() {
     return (FModel) francaTypeCollection.eContainer();
-  }
-
-  private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
-    Boolean result = propertyAccessor.getBoolean(francaModelElement, valueName);
-    return result != null && result;
   }
 }

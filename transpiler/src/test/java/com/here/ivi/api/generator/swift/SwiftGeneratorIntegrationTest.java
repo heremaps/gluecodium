@@ -48,7 +48,7 @@ public class SwiftGeneratorIntegrationTest {
     } catch (URISyntaxException e) {
       fail("Franca model should be readable");
     }
-    generator = new SwiftGenerator();
+    generator = new SwiftGenerator(francaModel.deploymentModel);
   }
 
   @Test

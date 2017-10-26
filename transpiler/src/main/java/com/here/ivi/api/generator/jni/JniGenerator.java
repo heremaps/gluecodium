@@ -20,8 +20,10 @@ import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
+import com.here.ivi.api.generator.java.JavaTypeMapper;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.*;
@@ -32,18 +34,27 @@ public class JniGenerator extends AbstractAndroidGenerator {
   public static final String INCLUDES_NAME = "includes";
   public static final String MODELS_NAME = "models";
 
+  private final FrancaDeploymentModel deploymentModel;
   private final List<String> additionalIncludes;
 
-  public JniGenerator(final List<String> packageList, final List<String> additionalIncludes) {
+  public JniGenerator(
+      final FrancaDeploymentModel deploymentModel,
+      final List<String> packageList,
+      final List<String> additionalIncludes) {
     super(packageList);
+    this.deploymentModel = deploymentModel;
     this.additionalIncludes = additionalIncludes;
   }
 
   public JniContainer generateModel(final FrancaElement francaElement) {
 
-    JavaModelBuilder javaBuilder = new JavaModelBuilder(basePackage, francaElement);
+    JavaModelBuilder javaBuilder =
+        new JavaModelBuilder(
+            deploymentModel,
+            basePackage.createChildPackage(francaElement.getPackageNames()),
+            new JavaTypeMapper(basePackage));
 
-    CppModelBuilder cppBuilder = new CppModelBuilder(francaElement, new CppIncludeResolver(null));
+    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, new CppIncludeResolver(null));
     JniModelBuilder jniBuilder = new JniModelBuilder(francaElement, javaBuilder, cppBuilder);
 
     FrancaTreeWalker treeWalker =

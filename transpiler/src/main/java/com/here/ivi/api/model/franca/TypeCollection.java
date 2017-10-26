@@ -12,12 +12,10 @@
 package com.here.ivi.api.model.franca;
 
 import org.franca.core.franca.FTypeCollection;
-import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 
 public class TypeCollection extends FrancaElement {
 
-  public TypeCollection(
-      final FTypeCollection francaTypeCollection, final MappingGenericPropertyAccessor accessor) {
-    super(francaTypeCollection, accessor);
+  public TypeCollection(final FTypeCollection francaTypeCollection) {
+    super(francaTypeCollection);
   }
 }

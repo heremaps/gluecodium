@@ -16,6 +16,7 @@ import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.SwiftFile;
 import java.util.*;
@@ -24,6 +25,12 @@ public class SwiftGenerator {
 
   public static final List<GeneratedFile> STATIC_FILES =
       Collections.singletonList(GeneratorSuite.copyTarget("swift/RefHolder.swift", ""));
+
+  private final FrancaDeploymentModel deploymentModel;
+
+  public SwiftGenerator(final FrancaDeploymentModel deploymentModel) {
+    this.deploymentModel = deploymentModel;
+  }
 
   public GeneratedFile generate(FrancaElement francaElement) {
     SwiftFile file = buildSwiftModel(francaElement);
@@ -38,7 +45,7 @@ public class SwiftGenerator {
 
   @VisibleForTesting
   SwiftFile buildSwiftModel(FrancaElement francaElement) {
-    SwiftModelBuilder modelBuilder = new SwiftModelBuilder(francaElement);
+    SwiftModelBuilder modelBuilder = new SwiftModelBuilder(deploymentModel);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(francaElement);

@@ -18,7 +18,7 @@ import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.cppmodel.*;
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,26 +26,27 @@ import org.franca.core.franca.*;
 
 public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
-  private final FrancaElement rootModel;
+  private final FrancaDeploymentModel deploymentModel;
   private final CppTypeMapper typeMapper;
   private final CppValueMapper valueMapper;
 
   @VisibleForTesting
   CppModelBuilder(
       final ModelBuilderContextStack<CppElement> contextStack,
-      final FrancaElement rootModel,
+      final FrancaDeploymentModel deploymentModel,
       final CppTypeMapper typeMapper,
       final CppValueMapper valueMapper) {
     super(contextStack);
-    this.rootModel = rootModel;
+    this.deploymentModel = deploymentModel;
     this.typeMapper = typeMapper;
     this.valueMapper = valueMapper;
   }
 
-  public CppModelBuilder(final FrancaElement rootModel, final CppIncludeResolver includeResolver) {
+  public CppModelBuilder(
+      final FrancaDeploymentModel deploymentModel, final CppIncludeResolver includeResolver) {
     this(
         new ModelBuilderContextStack<>(),
-        rootModel,
+        deploymentModel,
         new CppTypeMapper(includeResolver),
         new CppValueMapper(includeResolver));
   }
@@ -293,10 +294,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String methodName = CppNameRules.getMethodName(francaMethod.getName());
     CppMethod.Builder builder = new CppMethod.Builder(methodName).returnType(returnType);
 
-    if (rootModel.isStatic(francaMethod)) {
+    if (deploymentModel.isStatic(francaMethod)) {
       builder.specifier(CppMethod.Specifier.STATIC);
     } else {
-      if (rootModel.isConst(francaMethod)) {
+      if (deploymentModel.isConst(francaMethod)) {
         // const needs to be before "= 0" pure virtual specifier
         builder.qualifier(CppMethod.Qualifier.CONST);
       }

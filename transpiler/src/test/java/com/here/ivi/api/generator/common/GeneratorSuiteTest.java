@@ -75,7 +75,8 @@ public class GeneratorSuiteTest {
     PowerMockito.mockStatic(ResourceValidator.class, FrancaModelLoader.class, ModelHelper.class);
     MockitoAnnotations.initMocks(this);
 
-    FrancaModel francaModel = new FrancaModel(Collections.emptyList(), Collections.emptyList());
+    FrancaModel francaModel =
+        new FrancaModel(null, Collections.emptyList(), Collections.emptyList());
     when(francaModelLoader.load(any(), any())).thenReturn(francaModel);
 
     Collection<File> files = Collections.singletonList(new File("nonsense.fidl"));

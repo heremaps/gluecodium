@@ -16,6 +16,7 @@ import com.here.ivi.api.generator.android.AbstractAndroidGenerator;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.javamodel.JavaClass;
@@ -30,13 +31,21 @@ import java.util.stream.Stream;
 
 public class JavaGenerator extends AbstractAndroidGenerator {
 
-  public JavaGenerator(final List<String> packageList) {
+  private final FrancaDeploymentModel deploymentModel;
+
+  public JavaGenerator(
+      final FrancaDeploymentModel deploymentModel, final List<String> packageList) {
     super(packageList);
+    this.deploymentModel = deploymentModel;
   }
 
   public List<GeneratedFile> generateFiles(final Interface anInterface) {
 
-    JavaModelBuilder modelBuilder = new JavaModelBuilder(basePackage, anInterface);
+    JavaModelBuilder modelBuilder =
+        new JavaModelBuilder(
+            deploymentModel,
+            basePackage.createChildPackage(anInterface.getPackageNames()),
+            new JavaTypeMapper(basePackage));
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(anInterface);
@@ -56,7 +65,11 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
   public List<GeneratedFile> generateFiles(final TypeCollection typeCollection) {
 
-    JavaModelBuilder modelBuilder = new JavaModelBuilder(basePackage, typeCollection);
+    JavaModelBuilder modelBuilder =
+        new JavaModelBuilder(
+            deploymentModel,
+            basePackage.createChildPackage(typeCollection.getPackageNames()),
+            new JavaTypeMapper(basePackage));
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(typeCollection);

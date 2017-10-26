@@ -33,8 +33,9 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
   @Override
   public List<GeneratedFile> generate() {
 
-    SwiftGenerator swiftGenerator = new SwiftGenerator();
-    CBridgeGenerator cBridgeGenerator = new CBridgeGenerator(new IncludeResolver(model));
+    SwiftGenerator swiftGenerator = new SwiftGenerator(model.deploymentModel);
+    CBridgeGenerator cBridgeGenerator =
+        new CBridgeGenerator(model.deploymentModel, new IncludeResolver(model));
 
     Stream<GeneratedFile> swiftStream = model.stream().map(swiftGenerator::generate);
     Stream<GeneratedFile> cBridgeStream =

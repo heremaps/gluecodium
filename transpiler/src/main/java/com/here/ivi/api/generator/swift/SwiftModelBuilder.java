@@ -19,7 +19,8 @@ import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
 import java.util.Collections;
@@ -27,17 +28,19 @@ import java.util.List;
 import org.franca.core.franca.*;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
-  private final FrancaElement rootModel;
 
-  public SwiftModelBuilder(final FrancaElement rootModel) {
-    this(new ModelBuilderContextStack<>(), rootModel);
+  private final FrancaDeploymentModel deploymentModel;
+
+  public SwiftModelBuilder(final FrancaDeploymentModel deploymentModel) {
+    this(new ModelBuilderContextStack<>(), deploymentModel);
   }
 
   @VisibleForTesting
   SwiftModelBuilder(
-      ModelBuilderContextStack<SwiftModelElement> contextStack, FrancaElement rootModel) {
+      final ModelBuilderContextStack<SwiftModelElement> contextStack,
+      final FrancaDeploymentModel deploymentModel) {
     super(contextStack);
-    this.rootModel = rootModel;
+    this.deploymentModel = deploymentModel;
   }
 
   @Override
@@ -58,7 +61,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     clazz.comment = comment != null ? comment : "";
     clazz.properties = getPreviousResults(SwiftProperty.class);
     clazz.methods = getPreviousResults(SwiftMethod.class);
-    clazz.nameSpace = String.join("_", rootModel.getPackageNames());
+    clazz.nameSpace = String.join("_", DefinedBy.getPackages(francaInterface));
     clazz.typedefs =
         getPreviousResults(SwiftTypeDef.class)
             .stream()
@@ -71,7 +74,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
       clazz.enums = getPreviousResults(SwiftEnum.class);
     } else {
       clazz.implementsProtocols = Collections.singletonList(clazz.name);
-      clazz.cInstanceRef = CBridgeNameRules.getInstanceRefType(rootModel.getFrancaTypeCollection());
+      clazz.cInstanceRef = CBridgeNameRules.getInstanceRefType(francaInterface);
       file.structs = getPreviousResults(SwiftContainerType.class);
       file.enums = getPreviousResults(SwiftEnum.class);
     }
@@ -178,7 +181,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     method.returnType = returnParam.type;
     String comment = CppCommentParser.parse(francaMethod).getMainBodyText();
     method.comment = comment != null ? comment : "";
-    method.isStatic = rootModel.isStatic(francaMethod);
+    method.isStatic = deploymentModel.isStatic(francaMethod);
     method.cBaseName = CBridgeNameRules.getMethodName(francaMethod);
     storeResult(method);
     super.finishBuilding(francaMethod);

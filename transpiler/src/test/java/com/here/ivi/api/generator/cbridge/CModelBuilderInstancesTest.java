@@ -23,7 +23,7 @@ import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cmodel.*;
-import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -40,10 +40,11 @@ public class CModelBuilderInstancesTest {
   private static final String DELEGATE_NAME = "DELEGATE_NAME";
   private static final String PARAM_NAME = "inputParam";
 
+  @Mock private FrancaDeploymentModel deploymentModel;
+
   @Mock private CppModelBuilder cppModelbuilder;
   @Mock private SwiftModelBuilder swiftModelbuilder;
   @Mock private IncludeResolver resolver;
-  @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
@@ -58,7 +59,6 @@ public class CModelBuilderInstancesTest {
     mockStatic(CBridgeNameRules.class);
     initMocks(this);
 
-    when(anInterface.isStatic(any())).thenReturn(false);
     when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
     when(CBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
 
@@ -73,7 +73,8 @@ public class CModelBuilderInstancesTest {
     when(francaParent.getName()).thenReturn("some.package");
 
     modelBuilder =
-        new CModelBuilder(contextStack, anInterface, resolver, cppModelbuilder, swiftModelbuilder);
+        new CModelBuilder(
+            contextStack, deploymentModel, resolver, cppModelbuilder, swiftModelbuilder);
   }
 
   @Test

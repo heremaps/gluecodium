@@ -63,7 +63,7 @@ public class NameValidatorTest {
     when(francaInterface.getFrancaModel()).thenReturn(fModel);
     when(francaTypeCollection.getFrancaModel()).thenReturn(fModel);
 
-    francaModel = new FrancaModel(interfaces, typeCollections);
+    francaModel = new FrancaModel(null, interfaces, typeCollections);
   }
 
   @Test

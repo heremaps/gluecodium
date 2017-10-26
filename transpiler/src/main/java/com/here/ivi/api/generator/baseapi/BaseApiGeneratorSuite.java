@@ -91,7 +91,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
   private CppFile mapFrancaElementToCppModel(final FrancaElement francaElement) {
 
-    CppModelBuilder builder = new CppModelBuilder(francaElement, includeResolver);
+    CppModelBuilder builder = new CppModelBuilder(model.deploymentModel, includeResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(francaElement);

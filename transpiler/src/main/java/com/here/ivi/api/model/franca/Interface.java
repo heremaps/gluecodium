@@ -12,15 +12,13 @@
 package com.here.ivi.api.model.franca;
 
 import org.franca.core.franca.FInterface;
-import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 
 public class Interface extends FrancaElement {
 
   private final FInterface francaInterface;
 
-  public Interface(
-      final FInterface francaInterface, final MappingGenericPropertyAccessor accessor) {
-    super(francaInterface, accessor);
+  public Interface(final FInterface francaInterface) {
+    super(francaInterface);
     this.francaInterface = francaInterface;
   }
 

@@ -13,13 +13,13 @@ package com.here.ivi.api.model.franca;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.*;
 import org.franca.deploymodel.core.FDModelExtender;
 import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 import org.franca.deploymodel.dsl.fDeploy.FDModel;
 
 /** Model combining multiple FDModel instances into one. */
-public final class FrancaDeploymentModel {
+public class FrancaDeploymentModel {
 
   private final Map<String, MappingGenericPropertyAccessor> propertyAccessors = new HashMap<>();
 
@@ -45,10 +45,30 @@ public final class FrancaDeploymentModel {
                     NameBasedPropertyAccessor::new)));
   }
 
-  public MappingGenericPropertyAccessor getPropertyAccessor(
-      final FTypeCollection francaTypeCollection) {
+  @SuppressWarnings("unused")
+  public boolean isInterface(final FInterface francaInterface) {
+    return getBoolean(francaInterface, "IsInterface");
+  }
 
-    return propertyAccessors.computeIfAbsent(
-        francaTypeCollection.getName(), key -> new DummyPropertyAccessor());
+  public boolean isStatic(final FMethod francaMethod) {
+    return getBoolean(francaMethod, "Static");
+  }
+
+  public boolean isConst(final FMethod francaMethod) {
+    return getBoolean(francaMethod, "Const");
+  }
+
+  @SuppressWarnings("unused")
+  public boolean isSet(final FArrayType francaArray) {
+    return getBoolean(francaArray, "Set");
+  }
+
+  private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
+
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaModelElement);
+    MappingGenericPropertyAccessor propertyAccessor =
+        propertyAccessors.get(typeCollection.getName());
+
+    return propertyAccessor != null && propertyAccessor.getBoolean(francaModelElement, valueName);
   }
 }

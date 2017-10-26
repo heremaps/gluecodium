@@ -28,7 +28,7 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
-import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
@@ -60,8 +60,9 @@ public class SwiftModelBuilderTest {
 
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
 
+  @Mock private FrancaDeploymentModel deploymentModel;
+
   @Mock private AbstractFrancaCommentParser.Comments comments;
-  @Mock private Interface anInterface;
   @Mock private FModel francaModel;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
@@ -92,7 +93,7 @@ public class SwiftModelBuilderTest {
     when(CppCommentParser.parse(any(FEnumerationType.class))).thenReturn(comments);
     when(comments.getMainBodyText()).thenReturn(COMMENT);
 
-    when(anInterface.isStatic(any())).thenReturn(true);
+    when(deploymentModel.isStatic(any())).thenReturn(true);
     when(SwiftNameRules.getParameterName(any())).thenReturn(PARAM_NAME);
     when(SwiftNameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
 
@@ -107,7 +108,7 @@ public class SwiftModelBuilderTest {
     when(francaAttribute.eContainer()).thenReturn(francaInterface);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
-    modelBuilder = new SwiftModelBuilder(contextStack, anInterface);
+    modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel);
   }
 
   @Test
@@ -181,7 +182,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingMethodCreatesStaticMethod() {
-    when(anInterface.isStatic(any())).thenReturn(true);
+    when(deploymentModel.isStatic(any())).thenReturn(true);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -192,7 +193,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingMethodCreatesNonStaticMethod() {
-    when(anInterface.isStatic(any())).thenReturn(false);
+    when(deploymentModel.isStatic(any())).thenReturn(false);
 
     modelBuilder.finishBuilding(francaMethod);
 

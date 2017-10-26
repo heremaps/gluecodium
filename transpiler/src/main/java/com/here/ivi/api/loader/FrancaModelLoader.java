@@ -174,8 +174,6 @@ public class FrancaModelLoader {
             .collect(Collectors.toCollection(LinkedHashSet::new));
     fidlFiles.addAll(bySuffix.get(FIDL_SUFFIX));
 
-    FrancaDeploymentModel deploymentModel = new FrancaDeploymentModel(extendedModels);
-
     List<Interface> interfaces = new LinkedList<>();
     List<TypeCollection> typeCollections = new LinkedList<>();
 
@@ -188,11 +186,9 @@ public class FrancaModelLoader {
               LOGGER.fine("Loading fidl " + asUri);
               return fidlLoader.loadModel(asUri, ROOT_URI);
             })
-        .forEach(
-            fModel ->
-                FrancaModel.createElements(fModel, deploymentModel, interfaces, typeCollections));
+        .forEach(fModel -> FrancaModel.createElements(fModel, interfaces, typeCollections));
 
-    return new FrancaModel(interfaces, typeCollections);
+    return new FrancaModel(new FrancaDeploymentModel(extendedModels), interfaces, typeCollections);
   }
 
   private FDModel loadDeploymentModel(File file) {
