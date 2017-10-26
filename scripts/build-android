@@ -32,6 +32,12 @@ CMAKE_CROSS_BUILD_PARAMETERS=$(cat <<EOF
 EOF
 )
 
+# The CMake toolchain shipped with the NDK doesn't work with CMake-3.72
+# or 3.9.1. To ensure compatibility, use the shipped cmake binary. See
+# https://github.com/android-ndk/ndk/issues/254 or
+# https://gitlab.kitware.com/cmake/cmake/issues/16708
+NDK_CMAKE_BINARY=$(find $ANDROID_HOME/cmake -executable -type f  -name cmake)
+
 # Do cross-compilation build for generating a proper Android Archive
 for arch in x86 armeabi-v7a ${HOST_ARCH} ; do
     build_dir=${PWD}/build-android-${arch}
@@ -43,13 +49,17 @@ for arch in x86 armeabi-v7a ${HOST_ARCH} ; do
     pushd ${build_dir}
 
     CMAKE_EXTRA_PARAMETERS=
-    # Do host-native build for testing on the JVM with Robolectric
+    # Do host-native build for testing on the JVM with Robolectric using the
+    # CMake binary supplied (and supported) by the NDK
     if [ "${arch}" != "host-$(uname -m)" ] ; then
         CMAKE_EXTRA_PARAMETERS="${CMAKE_CROSS_BUILD_PARAMETERS} \
         -DANDROID_ABI=${arch}"
+        CMAKE_BINARY=${NDK_CMAKE_BINARY}
+    else
+        CMAKE_BINARY=cmake
     fi
 
-    safe cmake \
+    safe ${CMAKE_BINARY} \
         ${CMAKE_DEFAULT_PARAMETERS} \
         ${CMAKE_EXTRA_PARAMETERS} \
         -DCMAKE_INSTALL_PREFIX=${install_dir} \
@@ -57,7 +67,7 @@ for arch in x86 armeabi-v7a ${HOST_ARCH} ; do
 
     popd
 
-    safe cmake \
+    safe ${CMAKE_BINARY} \
         --build ${build_dir} \
         --target install
 done

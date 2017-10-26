@@ -7,7 +7,7 @@
 # material also contains confidential information which may not be
 # disclosed to others without the prior written consent of HERE.
 
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.6)
 
 # Here we create a new library 'hello' for which to generate target platform bindings.
 # It aims to serve as a blueprint for real-world libraries such as libguidance or librouting.
