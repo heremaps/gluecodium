@@ -135,6 +135,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             .delegateCall(delegateMethodName)
             .parameters(inParams)
             .returnType(returnParam.mappedType)
+            .hasError(francaMethod.getErrorEnum() != null) //Temporary until APIGEN-701
             .delegateCallIncludes(
                 Collections.singleton(
                     resolver.resolveInclude(francaMethod, HeaderType.BASE_API_HEADER)));

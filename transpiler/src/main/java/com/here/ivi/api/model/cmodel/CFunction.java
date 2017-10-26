@@ -27,6 +27,7 @@ public final class CFunction extends CElement {
   public final Set<Include> delegateCallIncludes;
   public final String functionName;
   public final CInParameter selfParameter;
+  public final boolean hasError;
 
   public List<CParameter.SimpleParameter> getSignatureParameters() {
     Stream<? extends CParameter> stream =
@@ -42,15 +43,17 @@ public final class CFunction extends CElement {
     return new CFunctionBuilder().name(name);
   }
 
+  @SuppressWarnings("ParameterNumber")
   @lombok.Builder
-  protected CFunction(
+  private CFunction(
       String name,
       List<? extends CParameter> parameters,
       CppTypeInfo returnType,
       String delegateCall,
       Set<Include> delegateCallIncludes,
       String functionName,
-      CInParameter selfParameter) {
+      CInParameter selfParameter,
+      boolean hasError) {
     super(name);
     this.parameters = parameters != null ? parameters : emptyList();
     this.returnType = returnType != null ? returnType : new CppTypeInfo(CType.VOID);
@@ -59,5 +62,6 @@ public final class CFunction extends CElement {
         delegateCallIncludes != null ? delegateCallIncludes : new LinkedHashSet<>();
     this.functionName = functionName;
     this.selfParameter = selfParameter;
+    this.hasError = hasError;
   }
 }
