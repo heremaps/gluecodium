@@ -1,0 +1,16 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "./Simple.fidl"
+
+// This simulates a deployment rule for a different Interface than Simple which needs to include it because it has some
+// dependency, but doesn't define anything for Simple at all

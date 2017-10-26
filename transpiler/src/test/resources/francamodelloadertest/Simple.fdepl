@@ -10,7 +10,11 @@
  */
 
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
-import "../Simple.fidl"
+import "./Simple.fidl"
 
-// This simulates a deployment rule for a different Interface than Simple which needs to include it because it has some
-// dependency, but doesn't define anything for Simple at all
+define navigation.BaseApiSpec for interface navigation.Simple
+{
+  method sing {
+    Const = true
+  }
+}
