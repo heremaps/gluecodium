@@ -23,6 +23,8 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.cpp.CppNameRules;
+import com.here.ivi.api.generator.swift.SwiftNameRules;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
@@ -63,7 +65,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @SuppressWarnings("PMD.TooManyFields")
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(CBridgeNameRules.class)
+@PrepareForTest({CBridgeNameRules.class, CppNameRules.class, SwiftNameRules.class})
 public class CBridgeGeneratorTest {
 
   private static final List<String> PACKAGES = asList("cbridge", "test");
@@ -152,6 +154,8 @@ public class CBridgeGeneratorTest {
     generator = new CBridgeGenerator(resolver);
 
     PowerMockito.spy(CBridgeNameRules.class);
+    PowerMockito.spy(CppNameRules.class);
+    PowerMockito.spy(SwiftNameRules.class);
     PowerMockito.doReturn(PRIVATE_HEADER_NAME)
         .when(CBridgeNameRules.class, "getPrivateHeaderFileNameWithPath", any());
     PowerMockito.doReturn(PUBLIC_HEADER_NAME)
@@ -807,6 +811,8 @@ public class CBridgeGeneratorTest {
   public void createStructWithExternalEnum() {
     methods.clear();
     FEnumerationType francaEnum = mockEnumType();
+    when(CppNameRules.getFieldName(any())).thenReturn("cppFieldName");
+    when(SwiftNameRules.getFieldName(any())).thenReturn("swiftFieldName");
     when(francaEnum.eContainer()).thenReturn(francaTypeCollction);
 
     FStructType struct = mock(FStructType.class);
@@ -816,7 +822,6 @@ public class CBridgeGeneratorTest {
 
     FField field = mock(FField.class);
     EList<FField> fields = new ArrayEList<>();
-    when(field.getName()).thenReturn("STRUCT_FILED");
     when(field.getType()).thenReturn(francaTypeRef1);
     when(francaTypeRef1.getDerived()).thenReturn(francaEnum);
     fields.add(field);
@@ -830,8 +835,8 @@ public class CBridgeGeneratorTest {
             + "\n"
             + "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create();\n"
             + "void cbridge_test_TestInterface_SomeStruct_release(cbridge_test_TestInterface_SomeStructRef handle);\n"
-            + "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_STRUCT_FILED_get(cbridge_test_TestInterface_SomeStructRef handle);\n"
-            + "void cbridge_test_TestInterface_SomeStruct_STRUCT_FILED_set(cbridge_test_TestInterface_SomeStructRef handle, cbridge_test_TestTypeCollection_TestEnum STRUCT_FILED);\n"
+            + "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_swiftFieldName_get(cbridge_test_TestInterface_SomeStructRef handle);\n"
+            + "void cbridge_test_TestInterface_SomeStruct_swiftFieldName_set(cbridge_test_TestInterface_SomeStructRef handle, cbridge_test_TestTypeCollection_TestEnum swiftFieldName);\n"
             + "\n"
             + INSTANCE_REF
             + "typedef struct {\n"
@@ -851,11 +856,11 @@ public class CBridgeGeneratorTest {
             + "void cbridge_test_TestInterface_SomeStruct_release(cbridge_test_TestInterface_SomeStructRef handle) {\n"
             + "    delete get_pointer(handle);\n"
             + "}\n"
-            + "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_STRUCT_FILED_get(cbridge_test_TestInterface_SomeStructRef handle) {\n"
-            + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(get_pointer(handle)->STRUCT_FILED);\n"
+            + "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_swiftFieldName_get(cbridge_test_TestInterface_SomeStructRef handle) {\n"
+            + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(get_pointer(handle)->cppFieldName);\n"
             + "}\n"
-            + "void cbridge_test_TestInterface_SomeStruct_STRUCT_FILED_set(cbridge_test_TestInterface_SomeStructRef handle, cbridge_test_TestTypeCollection_TestEnum STRUCT_FILED) {\n"
-            + "    get_pointer(handle)->STRUCT_FILED = static_cast<cbridge::test::TestEnum>(STRUCT_FILED);\n"
+            + "void cbridge_test_TestInterface_SomeStruct_swiftFieldName_set(cbridge_test_TestInterface_SomeStructRef handle, cbridge_test_TestTypeCollection_TestEnum swiftFieldName) {\n"
+            + "    get_pointer(handle)->cppFieldName = static_cast<cbridge::test::TestEnum>(swiftFieldName);\n"
             + "}\n";
 
     CInterface cModel = generator.buildCBridgeModel(anInterface);

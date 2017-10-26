@@ -66,6 +66,10 @@ public final class SwiftNameRules {
     return NameHelper.toUpperCamelCase(structName);
   }
 
+  public static String getFieldName(final String fieldName) {
+    return NameHelper.toLowerCamelCase(fieldName);
+  }
+
   public static String getTypeCollectionName(final FTypeCollection base) {
     return NameHelper.toUpperCamelCase(base.getName());
   }

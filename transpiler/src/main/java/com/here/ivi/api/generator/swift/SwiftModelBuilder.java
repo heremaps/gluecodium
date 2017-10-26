@@ -129,7 +129,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FField francaField) {
     SwiftField structField =
-        new SwiftField(francaField.getName(), getPreviousResult(SwiftType.class));
+        new SwiftField(
+            SwiftNameRules.getFieldName(francaField.getName()), getPreviousResult(SwiftType.class));
     storeResult(structField);
     super.finishBuilding(francaField);
   }

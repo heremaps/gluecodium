@@ -17,6 +17,7 @@ import java.util.List;
 
 /** Field of a com.here.ivi.api.model.cmodel.CStruct */
 public class CField extends CElement {
+  public final String baseLayerName;
   public final CppTypeInfo type;
 
   public List<CParameter.SimpleParameter> getSetterParameters() {
@@ -29,8 +30,9 @@ public class CField extends CElement {
     return inParameters;
   }
 
-  public CField(String name, CppTypeInfo cppTypeInfo) {
-    super(name);
+  public CField(String swiftLayerName, String baseLayerName, CppTypeInfo cppTypeInfo) {
+    super(swiftLayerName);
+    this.baseLayerName = baseLayerName;
     type = cppTypeInfo;
   }
 

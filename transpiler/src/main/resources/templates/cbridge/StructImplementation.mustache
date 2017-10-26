@@ -10,15 +10,15 @@ void {{name}}_release({{type}} handle) {
 {{#fields}}
 {{type.functionReturnType}} {{structname}}_{{name}}_get({{structtype}} handle) {
 {{#switch type.typeCategory.toString}}
-    {{#case "BUILTIN_SIMPLE"}}return get_pointer(handle)->{{name}};{{/case}}{{!!
-    }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(get_pointer(handle)->{{name}});{{/case}}{{!!
-    }}{{#default}}return {&get_pointer(handle)->{{name}}};{{/default}}
+    {{#case "BUILTIN_SIMPLE"}}return get_pointer(handle)->{{baseLayerName}};{{/case}}{{!!
+    }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(get_pointer(handle)->{{baseLayerName}});{{/case}}{{!!
+    }}{{#default}}return {&get_pointer(handle)->{{baseLayerName}}};{{/default}}
 {{/switch}}
 }
 
 {{^type.isStruct}}
 void {{structname}}_{{name}}_set({{structtype}} handle, {{join setterParameters delimiter=", "}}) {
-    get_pointer(handle)->{{name}}{{#switch type.typeCategory.toString}}{{!!
+    get_pointer(handle)->{{baseLayerName}}{{#switch type.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}.assign({{setterParameters.0.name}}, {{setterParameters.0.name}} + {{setterParameters.1.name}});{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}.assign({{setterParameters.0.name}});{{/case}}{{!!
     }}{{#case "ENUM"}} = static_cast<{{type.name}}>({{setterParameters.0.name}});{{/case}}{{!!

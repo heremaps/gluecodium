@@ -118,7 +118,10 @@ public class CBridgeImplementationTemplateTest {
     final CType type = new CType("nameRef");
     CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
     CField field =
-        new CField("structField", new CppTypeInfo(new CType("NestedRef"), TypeCategory.STRUCT));
+        new CField(
+            "structField",
+            "baseApiFieldName",
+            new CppTypeInfo(new CType("NestedRef"), TypeCategory.STRUCT));
     struct.fields.add(field);
     cInterface.structs.add(struct);
 
@@ -130,7 +133,7 @@ public class CBridgeImplementationTemplateTest {
             + "    delete get_pointer(handle);\n"
             + "}\n"
             + "NestedRef name_structField_get(nameRef handle) {\n"
-            + "    return {&get_pointer(handle)->structField};\n"
+            + "    return {&get_pointer(handle)->baseApiFieldName};\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -141,7 +144,7 @@ public class CBridgeImplementationTemplateTest {
     CInterface cInterface = new CInterface("");
     CType type = new CType("nameRef");
     CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
-    CField field = new CField("stringField", CppTypeInfo.STRING);
+    CField field = new CField("stringField", "baseApiFieldName", CppTypeInfo.STRING);
     struct.fields.add(field);
     cInterface.structs.add(struct);
 
@@ -153,10 +156,10 @@ public class CBridgeImplementationTemplateTest {
             + "    delete get_pointer(handle);\n"
             + "}\n"
             + "std_stringRef name_stringField_get(nameRef handle) {\n"
-            + "    return {&get_pointer(handle)->stringField};\n"
+            + "    return {&get_pointer(handle)->baseApiFieldName};\n"
             + "}\n"
             + "void name_stringField_set(nameRef handle, const char* stringField) {\n"
-            + "    get_pointer(handle)->stringField.assign(stringField);\n"
+            + "    get_pointer(handle)->baseApiFieldName.assign(stringField);\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -167,7 +170,7 @@ public class CBridgeImplementationTemplateTest {
     CInterface cInterface = new CInterface("");
     CType type = new CType("nameRef");
     CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
-    CField field = new CField("floatField", new CppTypeInfo(CType.FLOAT));
+    CField field = new CField("floatField", "baseApiFieldName", new CppTypeInfo(CType.FLOAT));
     struct.fields.add(field);
     cInterface.structs.add(struct);
 
@@ -179,10 +182,10 @@ public class CBridgeImplementationTemplateTest {
             + "    delete get_pointer(handle);\n"
             + "}\n"
             + "float name_floatField_get(nameRef handle) {\n"
-            + "    return get_pointer(handle)->floatField;\n"
+            + "    return get_pointer(handle)->baseApiFieldName;\n"
             + "}\n"
             + "void name_floatField_set(nameRef handle, float floatField) {\n"
-            + "    get_pointer(handle)->floatField = floatField;\n"
+            + "    get_pointer(handle)->baseApiFieldName = floatField;\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
