@@ -7,7 +7,7 @@
 # material also contains confidential information which may not be
 # disclosed to others without the prior written consent of HERE.
 
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.6)
 project(cpp_app)
 
 if(NOT HELLO_BUILD_CPP_APP)
