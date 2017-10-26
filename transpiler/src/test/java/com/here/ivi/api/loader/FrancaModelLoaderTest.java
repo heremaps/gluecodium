@@ -134,4 +134,37 @@ public class FrancaModelLoaderTest {
     // its cousin's wrapper.
     assertTrue(model.deploymentModel.isInterface(barInterfaceThroughReferrer));
   }
+
+  @Test
+  public void getDeploymentPropertiesForSameNameInterfaces() throws URISyntaxException {
+    URL instanceFidl =
+        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fidl");
+    URL instanceFdepl =
+        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fdepl");
+    URL otherInstanceFidl =
+        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/OtherInstance.fidl");
+    URL otherInstanceFdepl =
+        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/OtherInstance.fdepl");
+
+    Collection<File> currentFiles =
+        Arrays.asList(
+            new File(instanceFidl.toURI()),
+            new File(instanceFdepl.toURI()),
+            new File(otherInstanceFidl.toURI()),
+            new File(otherInstanceFdepl.toURI()));
+    FrancaModel model = loader.load(GeneratorSuite.getSpecPath(), currentFiles);
+
+    assertEquals(2, model.interfaces.size());
+
+    Interface fooBarInterfaceWrapper = model.interfaces.get(0);
+    assertEquals("Bar", fooBarInterfaceWrapper.getName());
+    assertEquals("foo", fooBarInterfaceWrapper.getFrancaModel().getName());
+
+    Interface weeBarInterfaceWrapper = model.interfaces.get(1);
+    assertEquals("Bar", fooBarInterfaceWrapper.getName());
+    assertEquals("wee", weeBarInterfaceWrapper.getFrancaModel().getName());
+
+    assertTrue(model.deploymentModel.isInterface(fooBarInterfaceWrapper.getFrancaInterface()));
+    assertFalse(model.deploymentModel.isInterface(weeBarInterfaceWrapper.getFrancaInterface()));
+  }
 }
