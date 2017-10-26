@@ -218,6 +218,11 @@ feature(Unsupported cpp android swift SOURCES
     fidl/hello/UnsupportedFeatures.fidl
     )
 
+#TODO enable for Android and merge with Unsupported (APIGEN-876)
+feature(UnsupportedErrors cpp swift SOURCES
+    fidl/hello/UnsupportedErrors.fidl
+    )
+
 #TODO apigen_transpile should be able to take single file arguments (APIGEN-855)
 file(COPY ${HELLO_FRANCA_SOURCES} DESTINATION fidl-supported-features-only)
 set(HELLO_FRANCA_DIR ${CMAKE_CURRENT_BINARY_DIR}/fidl-supported-features-only/)
