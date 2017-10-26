@@ -44,7 +44,7 @@ public class JniGeneratorTest {
       JniContainer.createInterfaceContainer(
           Collections.emptyList(), Collections.emptyList(), "classy", "classy");
 
-  private final JniGenerator generator = new JniGenerator(null, null);
+  private final JniGenerator generator = new JniGenerator(null, null, null);
 
   @Before
   public void setUp() {

@@ -21,12 +21,17 @@ import org.franca.core.franca.FTypeCollection;
 
 public final class FrancaModel {
 
+  public final FrancaDeploymentModel deploymentModel;
   public final List<Interface> interfaces;
   public final List<TypeCollection> typeCollections;
 
   private final Map<String, Map<String, FrancaElement>> lookupTable;
 
-  public FrancaModel(final List<Interface> interfaces, final List<TypeCollection> typeCollections) {
+  public FrancaModel(
+      final FrancaDeploymentModel deploymentModel,
+      final List<Interface> interfaces,
+      final List<TypeCollection> typeCollections) {
+    this.deploymentModel = deploymentModel;
     this.interfaces = interfaces;
     this.typeCollections = typeCollections;
 
@@ -42,27 +47,17 @@ public final class FrancaModel {
   // ensuring that there are PropertyAccessors for each element
   public static void createElements(
       final FModel francaModel,
-      final FrancaDeploymentModel deploymentModel,
       final List<Interface> interfaces,
       final List<TypeCollection> typeCollections) {
 
     interfaces.addAll(
-        francaModel
-            .getInterfaces()
-            .stream()
-            .map(
-                anInterface ->
-                    new Interface(anInterface, deploymentModel.getPropertyAccessor(anInterface)))
-            .collect(Collectors.toList()));
+        francaModel.getInterfaces().stream().map(Interface::new).collect(Collectors.toList()));
 
     typeCollections.addAll(
         francaModel
             .getTypeCollections()
             .stream()
-            .map(
-                typeCollection ->
-                    new TypeCollection(
-                        typeCollection, deploymentModel.getPropertyAccessor(typeCollection)))
+            .map(TypeCollection::new)
             .collect(Collectors.toList()));
   }
 

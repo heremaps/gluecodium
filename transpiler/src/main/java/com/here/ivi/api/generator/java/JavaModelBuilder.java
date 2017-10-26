@@ -16,7 +16,7 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
 import java.util.List;
@@ -25,24 +25,27 @@ import org.franca.core.franca.*;
 
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
-  private final JavaPackage basePackage;
-  private final FrancaElement rootModel;
+  private final FrancaDeploymentModel deploymentModel;
+  private final JavaPackage rootPackage;
   private final JavaTypeMapper typeMapper;
 
   @VisibleForTesting
   JavaModelBuilder(
       final ModelBuilderContextStack<JavaElement> contextStack,
-      final JavaPackage basePackage,
-      final FrancaElement rootModel,
+      final FrancaDeploymentModel deploymentModel,
+      final JavaPackage rootPackage,
       final JavaTypeMapper typeMapper) {
     super(contextStack);
-    this.basePackage = basePackage;
-    this.rootModel = rootModel;
+    this.deploymentModel = deploymentModel;
+    this.rootPackage = rootPackage;
     this.typeMapper = typeMapper;
   }
 
-  public JavaModelBuilder(final JavaPackage basePackage, final FrancaElement rootModel) {
-    this(new ModelBuilderContextStack<>(), basePackage, rootModel, new JavaTypeMapper(basePackage));
+  public JavaModelBuilder(
+      final FrancaDeploymentModel deploymentModel,
+      final JavaPackage rootPackage,
+      final JavaTypeMapper typeMapper) {
+    this(new ModelBuilderContextStack<>(), deploymentModel, rootPackage, typeMapper);
   }
 
   @Override
@@ -116,7 +119,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     javaMethod.comment = CppCommentParser.FORMATTER.readDescription(francaMethod.getComment());
 
-    if (rootModel.isStatic(francaMethod)) {
+    if (deploymentModel.isStatic(francaMethod)) {
       javaMethod.qualifiers.add(MethodQualifier.STATIC);
     }
     javaMethod.visibility = JavaVisibility.PUBLIC;
@@ -219,7 +222,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaEnum javaEnum = new JavaEnum(enumName);
     javaEnum.visibility = JavaVisibility.PUBLIC;
-    javaEnum.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
+    javaEnum.javaPackage = rootPackage;
     javaEnum.comment = getCommentString(francaEnumType);
     javaEnum.items.addAll(getPreviousResults(JavaEnumItem.class));
     JavaValueMapper.completePartialEnumeratorValues(javaEnum.items);
@@ -289,7 +292,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaModelElement.getName()));
     javaClass.visibility = JavaVisibility.PUBLIC;
-    javaClass.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
+    javaClass.javaPackage = rootPackage;
     javaClass.comment = getCommentString(francaModelElement);
 
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
@@ -315,7 +318,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaInterface javaInterface =
         new JavaInterface(JavaNameRules.getClassName(francaInterface.getName()));
     javaInterface.visibility = JavaVisibility.PUBLIC;
-    javaInterface.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
+    javaInterface.javaPackage = rootPackage;
     javaInterface.comment = getCommentString(francaInterface);
     javaInterface.constants.addAll(getPreviousResults(JavaConstant.class));
 
@@ -336,7 +339,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaClass javaClass =
         new JavaClass(JavaNameRules.getImplementationClassName(francaInterface.getName()));
     javaClass.visibility = JavaVisibility.PACKAGE;
-    javaClass.javaPackage = basePackage.createChildPackage(rootModel.getPackageNames());
+    javaClass.javaPackage = rootPackage;
     javaClass.extendedClass = JavaClass.NATIVE_BASE;
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
 

@@ -21,12 +21,15 @@ import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class CBridgeGenerator {
+
+  private final FrancaDeploymentModel deploymentModel;
   private final IncludeResolver resolver;
 
   public static final List<GeneratedFile> STATIC_FILES =
@@ -38,7 +41,9 @@ public class CBridgeGenerator {
           GeneratorSuite.copyTarget("cbridge/ByteArrayHandle.cpp", ""),
           GeneratorSuite.copyTarget("cbridge_internal/ByteArrayHandleImpl.h", ""));
 
-  public CBridgeGenerator(IncludeResolver includeResolver) {
+  public CBridgeGenerator(
+      final FrancaDeploymentModel deploymentModel, final IncludeResolver includeResolver) {
+    this.deploymentModel = deploymentModel;
     this.resolver = includeResolver;
   }
 
@@ -76,10 +81,10 @@ public class CBridgeGenerator {
   }
 
   public CInterface buildCBridgeModel(FrancaElement francaElement) {
-    CppModelBuilder cppBuilder = new CppModelBuilder(francaElement, new CppIncludeResolver(null));
-    SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(francaElement);
+    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, new CppIncludeResolver(null));
+    SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
     CModelBuilder modelBuilder =
-        new CModelBuilder(francaElement, resolver, cppBuilder, swiftBuilder);
+        new CModelBuilder(deploymentModel, resolver, cppBuilder, swiftBuilder);
     FrancaTreeWalker treeWalker =
         new FrancaTreeWalker(Arrays.asList(cppBuilder, swiftBuilder, modelBuilder));
 

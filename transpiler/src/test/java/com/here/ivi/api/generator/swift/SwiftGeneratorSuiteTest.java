@@ -31,7 +31,7 @@ public class SwiftGeneratorSuiteTest {
 
   @Before
   public void setUp() throws Exception {
-    FrancaModel model = new FrancaModel(Collections.emptyList(), Collections.emptyList());
+    FrancaModel model = new FrancaModel(null, Collections.emptyList(), Collections.emptyList());
     Whitebox.setInternalState(suite, "model", model);
   }
 

@@ -19,19 +19,17 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
@@ -58,8 +56,7 @@ public class JavaModelBuilderTest {
 
   private final MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement rootModel;
+  @Mock private FrancaDeploymentModel deploymentModel;
 
   @Mock private JavaTypeMapper typeMapper;
 
@@ -96,9 +93,7 @@ public class JavaModelBuilderTest {
 
     modelBuilder =
         new JavaModelBuilder(
-            contextStack, new JavaPackage(BASE_PACKAGE_NAMES), rootModel, typeMapper);
-
-    when(rootModel.getPackageNames()).thenReturn(Collections.emptyList());
+            contextStack, deploymentModel, new JavaPackage(BASE_PACKAGE_NAMES), typeMapper);
 
     when(typeMapper.map(any())).thenReturn(javaCustomType);
 
@@ -145,7 +140,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodWithStatic() {
-    when(rootModel.isStatic(any())).thenReturn(true);
+    when(deploymentModel.isStatic(any())).thenReturn(true);
 
     modelBuilder.finishBuilding(francaMethod);
 

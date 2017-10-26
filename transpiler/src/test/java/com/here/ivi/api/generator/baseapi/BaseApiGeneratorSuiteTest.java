@@ -50,7 +50,8 @@ public final class BaseApiGeneratorSuiteTest {
     MockitoAnnotations.initMocks(this);
 
     when(GeneratorSuite.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
-    FrancaModel mockFrancaModel = new FrancaModel(Collections.emptyList(), Collections.emptyList());
+    FrancaModel mockFrancaModel =
+        new FrancaModel(null, Collections.emptyList(), Collections.emptyList());
     when(francaModelLoader.load(any(), any())).thenReturn(mockFrancaModel);
 
     baseApiGeneratorSuite = new BaseApiGeneratorSuite(francaModelLoader);

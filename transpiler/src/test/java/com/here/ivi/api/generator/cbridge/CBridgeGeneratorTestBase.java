@@ -21,6 +21,7 @@ import com.here.ivi.api.generator.swift.SwiftNameRules;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.ArrayEList;
@@ -32,6 +33,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 /** Common setup for the test cases */
+@SuppressWarnings("PMD.TooManyFields")
 @PrepareForTest({CppNameRules.class, CBridgeNameRules.class, SwiftNameRules.class})
 abstract class CBridgeGeneratorTestBase {
 
@@ -52,6 +54,8 @@ abstract class CBridgeGeneratorTestBase {
   protected static final String STD_VECTOR_INCLUDE = "#include <vector>\n";
   protected static final String BYTE_ARRAY_INCLUDE = "#include \"cbridge/ByteArrayHandle.h\"\n";
   protected static final String STRING_INCLUDE = "#include \"cbridge/StringHandle.h\"\n";
+
+  @Mock protected FrancaDeploymentModel deploymentModel;
 
   @Mock protected FModel francaModel;
   @Mock protected FInterface francaInterface;
@@ -79,7 +83,7 @@ abstract class CBridgeGeneratorTestBase {
     PowerMockito.mockStatic(CBridgeNameRules.class);
     initMocks(this);
 
-    when(anInterface.isStatic(any())).thenReturn(true);
+    when(deploymentModel.isStatic(any())).thenReturn(true);
     when(anInterface.getName()).thenReturn(INTERFACE_NAME);
     when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
     when(anInterface.getFrancaTypeCollection()).thenReturn(francaInterface);
@@ -120,6 +124,6 @@ abstract class CBridgeGeneratorTestBase {
     PowerMockito.doReturn("")
         .when(CBridgeNameRules.class, "getImplementationFileNameWithPath", any());
 
-    generator = new CBridgeGenerator(resolver);
+    generator = new CBridgeGenerator(deploymentModel, resolver);
   }
 }

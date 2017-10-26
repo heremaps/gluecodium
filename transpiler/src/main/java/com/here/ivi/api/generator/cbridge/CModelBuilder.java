@@ -31,7 +31,7 @@ import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftProperty;
 import java.util.Collections;
@@ -40,28 +40,33 @@ import org.franca.core.franca.*;
 
 public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
-  private final FrancaElement rootModel;
+  private final FrancaDeploymentModel deploymentModel;
   private final IncludeResolver resolver;
   private final CppModelBuilder cppBuilder;
   private final SwiftModelBuilder swiftBuilder;
 
   public CModelBuilder(
-      final FrancaElement rootModel,
+      final FrancaDeploymentModel deploymentModel,
       IncludeResolver includeResolver,
       CppModelBuilder cppBuilder,
       SwiftModelBuilder swiftBuilder) {
-    this(new ModelBuilderContextStack<>(), rootModel, includeResolver, cppBuilder, swiftBuilder);
+    this(
+        new ModelBuilderContextStack<>(),
+        deploymentModel,
+        includeResolver,
+        cppBuilder,
+        swiftBuilder);
   }
 
   @VisibleForTesting
   CModelBuilder(
       final ModelBuilderContextStack<CElement> contextStack,
-      final FrancaElement rootModel,
+      final FrancaDeploymentModel deploymentModel,
       final IncludeResolver includeResolver,
       final CppModelBuilder cppBuilder,
       final SwiftModelBuilder swiftBuilder) {
     super(contextStack);
-    this.rootModel = rootModel;
+    this.deploymentModel = deploymentModel;
     this.resolver = includeResolver;
     this.cppBuilder = cppBuilder;
     this.swiftBuilder = swiftBuilder;
@@ -121,7 +126,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
-    final boolean isStatic = rootModel.isStatic(francaMethod);
+    final boolean isStatic = deploymentModel.isStatic(francaMethod);
 
     String baseFunctionName = CBridgeNameRules.getMethodName(francaMethod);
     String delegateMethodName = CBridgeNameRules.getDelegateMethodName(francaMethod);

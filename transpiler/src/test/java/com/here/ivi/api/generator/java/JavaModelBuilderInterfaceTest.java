@@ -15,18 +15,14 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
@@ -42,8 +38,7 @@ public class JavaModelBuilderInterfaceTest {
 
   private final MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement rootModel;
+  @Mock private FrancaDeploymentModel deploymentModel;
 
   @Mock private FInterface francaInterface;
 
@@ -60,9 +55,7 @@ public class JavaModelBuilderInterfaceTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(JavaModelBuilder.class);
 
-    modelBuilder = new JavaModelBuilder(contextStack, BASE_PACKAGE, rootModel, null);
-
-    when(rootModel.getPackageNames()).thenReturn(Collections.emptyList());
+    modelBuilder = new JavaModelBuilder(contextStack, deploymentModel, BASE_PACKAGE, null);
 
     when(francaInterface.getName()).thenReturn("classy");
 
@@ -83,17 +76,12 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsPackageIntoInterface() {
-    String packageName = "packed";
-    when(rootModel.getPackageNames()).thenReturn(Collections.singletonList(packageName));
-
     modelBuilder.finishBuilding(francaInterface);
 
     JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
     assertNotNull(javaInterface);
 
-    List<String> expectedPackageNames = new LinkedList<>(BASE_PACKAGE.packageNames);
-    expectedPackageNames.add(packageName);
-    assertEquals(expectedPackageNames, javaInterface.javaPackage.packageNames);
+    assertEquals(BASE_PACKAGE, javaInterface.javaPackage);
   }
 
   @Test
@@ -154,17 +142,12 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsPackageIntoImplClass() {
-    String packageName = "packed";
-    when(rootModel.getPackageNames()).thenReturn(Collections.singletonList(packageName));
-
     modelBuilder.finishBuilding(francaInterface);
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
 
-    List<String> expectedPackageNames = new LinkedList<>(BASE_PACKAGE.packageNames);
-    expectedPackageNames.add(packageName);
-    assertEquals(expectedPackageNames, javaClass.javaPackage.packageNames);
+    assertEquals(BASE_PACKAGE, javaClass.javaPackage);
   }
 
   @Test
@@ -226,17 +209,13 @@ public class JavaModelBuilderInterfaceTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsPackageIntoStaticClass() {
     when(JavaModelBuilder.containsInstanceMethod(any())).thenReturn(false);
-    String packageName = "packed";
-    when(rootModel.getPackageNames()).thenReturn(Collections.singletonList(packageName));
 
     modelBuilder.finishBuilding(francaInterface);
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
 
-    List<String> expectedPackageNames = new LinkedList<>(BASE_PACKAGE.packageNames);
-    expectedPackageNames.add(packageName);
-    assertEquals(expectedPackageNames, javaClass.javaPackage.packageNames);
+    assertEquals(BASE_PACKAGE, javaClass.javaPackage);
   }
 
   @Test

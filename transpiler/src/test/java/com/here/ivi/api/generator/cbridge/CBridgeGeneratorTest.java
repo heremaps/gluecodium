@@ -51,7 +51,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
   @Test
   public void instantiableClassesAreGenerated() {
-    when(anInterface.isStatic(any())).thenReturn(false);
+    when(deploymentModel.isStatic(any())).thenReturn(false);
 
     TemplateComparator expectedHeader =
         TemplateComparator.expect(
@@ -85,7 +85,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
   @Test
   public void instanceIncludes() {
-    when(anInterface.isStatic(any())).thenReturn(false);
+    when(deploymentModel.isStatic(any())).thenReturn(false);
 
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(PRIVATE_HEADER_INCLUDE).build();
@@ -101,7 +101,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
   @Test
   public void instanceMethodsAreGenerated() {
-    when(anInterface.isStatic(any())).thenReturn(false);
+    when(deploymentModel.isStatic(any())).thenReturn(false);
 
     TemplateComparator expectedHeader =
         TemplateComparator.expect(
@@ -166,7 +166,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
   @Test
   public void createInstanceFunctionTakingMultipleStrings() {
-    when(anInterface.isStatic(any())).thenReturn(false);
+    when(deploymentModel.isStatic(any())).thenReturn(false);
     when(francaArgument1.getName()).thenReturn("input");
     when(francaArgument1.getType()).thenReturn(francaTypeRef1);
     when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);
@@ -197,7 +197,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
   @Test
   public void createInstanceFunctionTakingMultipleStringsWithReturnValue() {
-    when(anInterface.isStatic(any())).thenReturn(false);
+    when(deploymentModel.isStatic(any())).thenReturn(false);
     when(francaArgument1.getName()).thenReturn("input");
     when(francaArgument1.getType()).thenReturn(francaTypeRef1);
     when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);

@@ -19,7 +19,7 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.cppmodel.*;
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
@@ -62,7 +62,7 @@ public class CppModelBuilderTest {
 
   private final MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
-  @Mock private FrancaElement rootModel;
+  @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private CppTypeMapper typeMapper;
   @Mock private CppValueMapper valueMapper;
 
@@ -107,7 +107,7 @@ public class CppModelBuilderTest {
 
     MockitoAnnotations.initMocks(this);
 
-    modelBuilder = new CppModelBuilder(contextStack, rootModel, typeMapper, valueMapper);
+    modelBuilder = new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper);
 
     when(francaInterface.getName()).thenReturn("classy");
     when(francaArgument.getName()).thenReturn("flowers");
@@ -222,7 +222,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsStaticFlag() {
-    when(rootModel.isStatic(francaMethod)).thenReturn(true);
+    when(deploymentModel.isStatic(francaMethod)).thenReturn(true);
 
     modelBuilder.finishBuilding(francaMethod);
 

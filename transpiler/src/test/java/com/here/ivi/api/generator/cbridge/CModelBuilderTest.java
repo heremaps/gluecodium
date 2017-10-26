@@ -42,7 +42,7 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
-import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftProperty;
 import com.here.ivi.api.model.swift.SwiftType;
@@ -90,10 +90,11 @@ public class CModelBuilderTest {
 
   private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
+  @Mock private FrancaDeploymentModel deploymentModel;
+
   @Mock private CppModelBuilder cppModelbuilder;
   @Mock private SwiftModelBuilder swiftModelbuilder;
   @Mock private IncludeResolver resolver;
-  @Mock private Interface anInterface;
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
@@ -127,7 +128,7 @@ public class CModelBuilderTest {
 
     when(CppTypeInfo.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
 
-    when(anInterface.isStatic(any())).thenReturn(true);
+    when(deploymentModel.isStatic(any())).thenReturn(true);
     when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
     when(CBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
 
@@ -140,7 +141,8 @@ public class CModelBuilderTest {
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
     modelBuilder =
-        new CModelBuilder(contextStack, anInterface, resolver, cppModelbuilder, swiftModelbuilder);
+        new CModelBuilder(
+            contextStack, deploymentModel, resolver, cppModelbuilder, swiftModelbuilder);
   }
 
   @Test
@@ -177,7 +179,7 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingMethodProcessInstanceMethods() {
-    when(anInterface.isStatic(any())).thenReturn(false);
+    when(deploymentModel.isStatic(any())).thenReturn(false);
 
     // Insert instance type from startBuilding(FInterface);
     contextStack.getParentContext().currentResults.add(new CClassType(new CppTypeInfo(CType.VOID)));
