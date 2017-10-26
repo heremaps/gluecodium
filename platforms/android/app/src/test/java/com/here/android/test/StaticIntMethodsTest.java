@@ -254,7 +254,7 @@ public final class StaticIntMethodsTest {
     @Test
     public void returnNextNumberUint64() {
         // Arrange
-        // TODO APIGEN-217: update this test whith values above 2^63
+        // TODO APIGEN-217: update this test with values above 2^63
         long number = 5000000000L;
 
         // Act
@@ -267,7 +267,7 @@ public final class StaticIntMethodsTest {
     @Test
     public void sumTwoNumbersUint64() {
         // Arrange
-        // TODO APIGEN-217: update this test whith values above 2^63
+        // TODO APIGEN-217: update this test with values above 2^63
         long firstNumber = 5000000000L;
         long secondNumber = 7000000000L;
 
@@ -281,7 +281,7 @@ public final class StaticIntMethodsTest {
     @Test
     public void returnPrimeUint64() {
         // Arrange, act, assert
-        // TODO APIGEN-217: update this test whith value above 2^63
+        // TODO APIGEN-217: update this test with value above 2^63
         assertEquals(4294967311L, StaticIntMethods.returnPrimeUint64());
     }
 }

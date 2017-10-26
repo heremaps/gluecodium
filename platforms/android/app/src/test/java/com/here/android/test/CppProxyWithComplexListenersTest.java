@@ -20,8 +20,7 @@ import static junit.framework.Assert.assertTrue;
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants =
         BuildConfig.class)
 public final class CppProxyWithComplexListenersTest {
-
-    private static byte[] image = (
+    private static final byte[] image = (
             "      _.-'''''-._      \n" +
             "    .'  _     _  '.    \n" +
             "   /   (o)   (o)   \\  \n" +
@@ -33,7 +32,6 @@ public final class CppProxyWithComplexListenersTest {
 
     @Test
     public void JavaNativeListenerHavingComplexInputParameters() {
-
         NamedPoint3D ptOne = new NamedPoint3D();
         ptOne.name = "zero point";
         ptOne.pt.x = 0;
@@ -54,20 +52,13 @@ public final class CppProxyWithComplexListenersTest {
 
         final AtomicReference<String> listenerLog = new AtomicReference<>();
 
-        ComplexListener javaComplexListener = new ComplexListener() {
-
-            @Override
-            public void onTrajectoryCompleted(DistanceMetric distanceMetric, List<NamedPoint3D> list,
-                                              TrajectoryQuality quality,
-                                              byte[] bytes) {
-
-                double val = distanceMetric.getLength(list);
-                listenerLog.set("Java-native listener called back to given cpp instance:\n" +
-                        "\tfrom: " + list.get(0).name + " to: " + list.get(list.size() - 1).name + "\n" +
-                        "\tquality: " + quality +
-                        "\tlength of trajectory (using manhattan distance metric): " + val +
-                        "\timage:\n" + new String(bytes));
-            }
+        ComplexListener javaComplexListener = (distanceMetric, list, quality, bytes) -> {
+            double val = distanceMetric.getLength(list);
+            listenerLog.set("Java-native listener called back to given cpp instance:\n" +
+                    "\tfrom: " + list.get(0).name + " to: " + list.get(list.size() - 1).name + "\n" +
+                    "\tquality: " + quality +
+                    "\tlength of trajectory (using manhattan distance metric): " + val +
+                    "\timage:\n" + new String(bytes));
         };
 
         List<NamedPoint3D> trajectory = new ArrayList<>();

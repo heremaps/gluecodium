@@ -140,7 +140,7 @@ public final class PlainDataStructuresTest {
     }
 
     @Test
-    public void useUninitalizedAllTypesStructure() {
+    public void useUninitializedAllTypesStructure() {
         PlainDataStructures.AllTypesStruct allTypesStruct = new
                 PlainDataStructures.AllTypesStruct();
 
@@ -153,7 +153,7 @@ public final class PlainDataStructuresTest {
 
 
     @Test
-    public void useUninitalizedNestedStructure() {
+    public void useUninitializedNestedStructure() {
         PlainDataStructures.ColoredLine coloredLine = new PlainDataStructures.ColoredLine();
 
         PlainDataStructures.ColoredLine result =

@@ -66,13 +66,10 @@ public final class ProfileManagerTest {
 
         // This thread is created to have a local scoped ProfileManager variable
         // which is available for garbage collection after run() finishes
-        Thread profileManagerScope = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ProfileManager profileManager =
-                        HelloWorldProfileManagerFactory.createProfileManagerInstance();
-                profileManagerWeakReference = new WeakReference<>(profileManager);
-            }
+        Thread profileManagerScope = new Thread(() -> {
+            ProfileManager profileManager =
+                    HelloWorldProfileManagerFactory.createProfileManagerInstance();
+            profileManagerWeakReference = new WeakReference<>(profileManager);
         });
         profileManagerScope.start();
         profileManagerScope.join();
@@ -89,7 +86,6 @@ public final class ProfileManagerTest {
      * garbage collected and thus get() returns null.
      *
      * @param weakReference the weak reference to the test object
-     * @throws InterruptedException
      */
     private void waitForWeakReferenceGarbageCollection(WeakReference<?> weakReference)
             throws InterruptedException {

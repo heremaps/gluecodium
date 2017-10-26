@@ -3,12 +3,10 @@ package com.example.here.hello.app;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -17,9 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.here.hello.R;
+import com.example.here.hello.utils.InputMethodHelper;
 import com.here.android.hello.HelloWorldBuiltinTypes;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public final class BuiltInFragment extends Fragment {
     private static final byte BYTE_TEST_VALUE = 10;
@@ -59,30 +56,23 @@ public final class BuiltInFragment extends Fragment {
                 description.setText("");
             }
         });
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String parameterText = input.getText().toString();
-                try {
-                    executeBuiltinVariablesMethod(spinner.getSelectedItemPosition(), parameterText);
-                } catch (NumberFormatException e) {
-                    result.setText(e.getMessage());
-                }
+        submitButton.setOnClickListener(v -> {
+            String parameterText = input.getText().toString();
+            try {
+                executeBuiltinVariablesMethod(spinner.getSelectedItemPosition(), parameterText);
+            } catch (NumberFormatException e) {
+                result.setText(e.getMessage());
+            }
 
-                // hide virtual keyboard
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
-            }
+            // hide virtual keyboard
+            InputMethodHelper.hideSoftKeyboard(getContext(), result.getWindowToken());
         });
-        input.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    submitButton.performClick();
-                    return true;
-                }
-                return false;
+        input.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                submitButton.performClick();
+                return true;
             }
+            return false;
         });
     }
 

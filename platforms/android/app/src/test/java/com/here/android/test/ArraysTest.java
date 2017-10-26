@@ -1,6 +1,5 @@
 package com.here.android.test;
 
-
 import android.os.Build;
 import android.support.compat.BuildConfig;
 
@@ -35,10 +34,10 @@ public class ArraysTest {
     private static final long LONG_VALUE_2 = 45L;
     private static final long LONG_VALUE_3 = 46L;
     private static final long LONG_VALUE_4 = 47L;
-    private static final Byte BYTE_ITEM_1 = new Byte((byte) 4);
-    private static final Byte BYTE_ITEM_2 = new Byte((byte) 5);
-    private static final Short SHORT_ITEM_1 = new Short((short) 4);
-    private static final Short SHORT_ITEM_2 = new Short((short) 5);
+    private static final Byte BYTE_ITEM_1 = (byte) 4;
+    private static final Byte BYTE_ITEM_2 = (byte) 5;
+    private static final Short SHORT_ITEM_1 = (short) 4;
+    private static final Short SHORT_ITEM_2 = (short) 5;
 
     @Test
     public void methodWithStringArray() {

@@ -13,10 +13,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <style name="AppTheme.ShowCaseElement" parent="Theme.AppCompat.Light">
         <item name="android:layout_marginRight">@dimen/description_text_margin</item>
         <item name="android:layout_marginLeft">@dimen/description_text_margin</item>

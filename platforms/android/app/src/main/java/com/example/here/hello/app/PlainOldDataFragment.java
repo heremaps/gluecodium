@@ -1,15 +1,12 @@
 package com.example.here.hello.app;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -18,13 +15,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.here.hello.R;
+import com.example.here.hello.utils.InputMethodHelper;
 import com.here.android.hello.HelloWorldPlainDataStructures;
 import com.here.android.hello.HelloWorldPlainDataStructures.IdentifiableSyncResult;
 import com.here.android.hello.HelloWorldPlainDataStructures.SyncResult;
 
 import java.util.Locale;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public final class PlainOldDataFragment extends Fragment {
     private static final String syncResultText = "SyncResult {%n"
@@ -74,35 +70,26 @@ public final class PlainOldDataFragment extends Fragment {
                 description.setText("");
             }
         });
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Long parameterValue = Long.valueOf(input.getText().toString());
-                    executeBuiltinVariablesMethod(spinner.getSelectedItemPosition(), parameterValue);
-                } catch (NumberFormatException e) {
-                    result.setText(e.getMessage());
-                }
-
-                // hide virtual keyboard
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
+        submitButton.setOnClickListener(v -> {
+            try {
+                Long parameterValue = Long.valueOf(input.getText().toString());
+                executeBuiltinVariablesMethod(spinner.getSelectedItemPosition(), parameterValue);
+            } catch (NumberFormatException e) {
+                result.setText(e.getMessage());
             }
+
+            // hide virtual keyboard
+            InputMethodHelper.hideSoftKeyboard(getContext(), result.getWindowToken());
         });
-        input.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    submitButton.performClick();
+        input.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                submitButton.performClick();
 
-                    // Since description and result text are too big, hide keyboard on click to show results
-                    InputMethodManager inputMethodManager = (InputMethodManager) textView.getContext()
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(textView.getWindowToken(), 0);
-                    return true;
-                }
-                return false;
+                // Since description and result text are too big, hide keyboard on click to show results
+                InputMethodHelper.hideSoftKeyboard(getContext(), textView.getWindowToken());
+                return true;
             }
+            return false;
         });
     }
 
