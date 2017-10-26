@@ -9,33 +9,9 @@
  *
  */
 
-package navigation
+package foo
 
-/**
- * Another Simple test fidl
- *
- */
-interface Simple {
-  version {
-    major 1
-    minor 0
-  }
+interface Bar {
 
-  /**
-   * Drink a drink
-   */
-  method drink {
-    in {
-      /** Name. **/
-      String name
-    }
-
-    out {
-      /** Alc percentage of the drink **/
-      Integer alcoholPercentage
-    }
-
-    /** None on success, or another error code otherwise. **/
-    error NavigationTypes.ErrorCode
-  }
+  public typedef Bar is undefined
 }

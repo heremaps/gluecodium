@@ -9,12 +9,15 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
-import "../Simple.fidl"
+package foo
 
-define navigation.BaseApiSpec for interface navigation.Simple
-{
-  method sing {
-    Const = true
+import foo.Bar.Bar from "./Instance.fidl"
+
+interface BarFactory {
+
+  method createBar {
+    out {
+        Bar output
+    }
   }
 }

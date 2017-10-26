@@ -11,8 +11,7 @@
 
 package com.here.ivi.api.loader;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -24,8 +23,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import org.eclipse.emf.common.util.EList;
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FType;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -51,21 +53,18 @@ public class FrancaModelLoaderTest {
    * replace the first one in the mapping. The test reads two fdepls, the first defines a method
    * const, the second one just includes the fidl. If the mapping would get overridden the method
    * would lose the constness information.
-   *
-   * @throws URISyntaxException
    */
   @Test
   public void multipleDeploymentsIncludingSameFidl() throws URISyntaxException {
     URL simpleFidl =
         ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Simple.fidl");
     URL simpleFdepl =
-        ClassLoader.getSystemClassLoader()
-            .getResource("francamodelloadertest/baseapi/Simple.fdepl");
+        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Simple.fdepl");
     // Additional deployment rule also includes Simple.fidl
     // and would replace the information from Simple.fdepl
     URL additionalFdepl =
         ClassLoader.getSystemClassLoader()
-            .getResource("francamodelloadertest/baseapi/DependentOnSimple.fdepl");
+            .getResource("francamodelloadertest/DependentOnSimple.fdepl");
 
     Collection<File> currentFiles =
         Arrays.asList(
@@ -88,14 +87,51 @@ public class FrancaModelLoaderTest {
   public void loadMalformedDeploymentModelWithPackage() throws URISyntaxException {
     exception.expect(TranspilerExecutionException.class);
 
-    URL simpleFidl =
-        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Simple.fidl");
     URL malformedFdepl =
         ClassLoader.getSystemClassLoader()
-            .getResource("francamodelloadertest/baseapi/MalformedWithPackage.fdepl");
+            .getResource("francamodelloadertest/MalformedWithPackage.fdepl");
+
+    Collection<File> currentFiles = Collections.singletonList(new File(malformedFdepl.toURI()));
+    loader.load(GeneratorSuite.getSpecPath(), currentFiles);
+  }
+
+  @Test
+  public void getDeploymentPropertiesForAlternativeRepresentation() throws URISyntaxException {
+    URL instanceFidl =
+        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fidl");
+    URL instanceFdepl =
+        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fdepl");
+    URL refersToInstanceFidl =
+        ClassLoader.getSystemClassLoader()
+            .getResource("francamodelloadertest/RefersToInstance.fidl");
 
     Collection<File> currentFiles =
-        Arrays.asList(new File(malformedFdepl.toURI()), new File(simpleFidl.toURI()));
-    loader.load(GeneratorSuite.getSpecPath(), currentFiles);
+        Arrays.asList(
+            new File(instanceFidl.toURI()),
+            new File(instanceFdepl.toURI()),
+            new File(refersToInstanceFidl.toURI()));
+    FrancaModel model = loader.load(GeneratorSuite.getSpecPath(), currentFiles);
+
+    assertEquals(2, model.interfaces.size());
+
+    Interface barInterfaceWrapper = model.interfaces.get(0);
+    assertEquals("Bar", barInterfaceWrapper.getName());
+
+    Interface factoryInterfaceWrapper = model.interfaces.get(1);
+    assertEquals("BarFactory", factoryInterfaceWrapper.getName());
+
+    FMethod factoryMethod = factoryInterfaceWrapper.getFrancaInterface().getMethods().get(0);
+    FType parameterType = factoryMethod.getOutArgs().get(0).getType().getDerived();
+    assertEquals("Bar", parameterType.getName());
+
+    // barInterface and barInterfaceThroughReferrer are two *different* in-memory representations
+    // of the same Franca interface.
+    FInterface barInterface = barInterfaceWrapper.getFrancaInterface();
+    FInterface barInterfaceThroughReferrer = (FInterface) parameterType.eContainer();
+    assertNotSame(barInterfaceThroughReferrer, barInterface);
+
+    // barInterfaceThroughReferrer deployment properties should be, nevertheless, accessible through
+    // its cousin's wrapper.
+    assertTrue(model.deploymentModel.isInterface(barInterfaceThroughReferrer));
   }
 }

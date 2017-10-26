@@ -12,7 +12,7 @@
 package foo
 
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
-import "../Simple.fidl"
+import "./Simple.fidl"
 
 define navigation.BaseApiSpec for interface navigation.Simple
 {
