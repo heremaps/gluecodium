@@ -33,7 +33,7 @@ public class FrancaDeploymentModel {
             .flatMap(extender -> extender.getFDInterfaces().stream())
             .collect(
                 Collectors.toMap(
-                    fdInterface -> fdInterface.getTarget().getName(),
+                    fdInterface -> buildKey(fdInterface.getTarget()),
                     NameBasedPropertyAccessor::new)));
     propertyAccessors.putAll(
         fdModelExtenders
@@ -41,7 +41,7 @@ public class FrancaDeploymentModel {
             .flatMap(extender -> extender.getFDTypesList().stream())
             .collect(
                 Collectors.toMap(
-                    fdTypeCollection -> fdTypeCollection.getTarget().getName(),
+                    fdTypeCollection -> buildKey(fdTypeCollection.getTarget()),
                     NameBasedPropertyAccessor::new)));
   }
 
@@ -67,8 +67,13 @@ public class FrancaDeploymentModel {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaModelElement);
     MappingGenericPropertyAccessor propertyAccessor =
-        propertyAccessors.get(typeCollection.getName());
+        propertyAccessors.get(buildKey(typeCollection));
 
     return propertyAccessor != null && propertyAccessor.getBoolean(francaModelElement, valueName);
+  }
+
+  private static String buildKey(final FTypeCollection francaTypeCollection) {
+    FModel francaModel = (FModel) francaTypeCollection.eContainer();
+    return francaModel.getName() + "." + francaTypeCollection.getName();
   }
 }
