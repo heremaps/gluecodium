@@ -24,7 +24,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public final class LoadModelHelper {
 
@@ -40,14 +39,12 @@ public final class LoadModelHelper {
   }
 
   public static Interface extractNthInterfaceFromModel(FrancaModel model, int index) {
-    List<? extends Interface> interfaces = model.getInterfaces();
-    assertTrue(index < interfaces.size());
-    return interfaces.get(index);
+    assertTrue(index < model.interfaces.size());
+    return model.interfaces.get(index);
   }
 
   public static TypeCollection extractNthTypeCollectionFromModel(FrancaModel model, int index) {
-    List<? extends TypeCollection> typeCollections = model.getTypeCollections();
-    assertTrue(index < typeCollections.size());
-    return typeCollections.get(index);
+    assertTrue(index < model.typeCollections.size());
+    return model.typeCollections.get(index);
   }
 }

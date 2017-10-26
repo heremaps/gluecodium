@@ -19,7 +19,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.Injector;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaModel;
@@ -50,8 +49,6 @@ public class GeneratorSuiteTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FrancaModelLoader francaModelLoader;
 
-  @Mock private FrancaModel francaModel;
-
   private TestableGeneratorSuite generatorSuite;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -78,6 +75,7 @@ public class GeneratorSuiteTest {
     PowerMockito.mockStatic(ResourceValidator.class, FrancaModelLoader.class, ModelHelper.class);
     MockitoAnnotations.initMocks(this);
 
+    FrancaModel francaModel = new FrancaModel(Collections.emptyList(), Collections.emptyList());
     when(francaModelLoader.load(any(), any())).thenReturn(francaModel);
 
     Collection<File> files = Collections.singletonList(new File("nonsense.fidl"));
@@ -117,7 +115,6 @@ public class GeneratorSuiteTest {
     generatorSuite = new TestableGeneratorSuite(francaModelLoader);
     generatorSuite.buildModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
     when(ResourceValidator.validate(any(), any())).thenReturn(true);
-    when(francaModel.getTypeCollections()).thenReturn(ImmutableList.of());
 
     assertTrue(generatorSuite.validate());
 
@@ -131,7 +128,6 @@ public class GeneratorSuiteTest {
     generatorSuite = new TestableGeneratorSuite(francaModelLoader);
     generatorSuite.buildModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
     when(ResourceValidator.validate(any(), any())).thenReturn(false);
-    when(francaModel.getTypeCollections()).thenReturn(ImmutableList.of());
 
     assertFalse(generatorSuite.validate());
 

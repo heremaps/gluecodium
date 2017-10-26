@@ -35,7 +35,7 @@ public class NameValidator {
   @VisibleForTesting
   static boolean checkTypeNamesInTypeCollection(final FrancaModel model) {
     Map<String, List<String>> packageNameMapping = new HashMap<>();
-    for (TypeCollection typeCollection : model.getTypeCollections()) {
+    for (TypeCollection typeCollection : model.typeCollections) {
 
       String packageName = typeCollection.getFrancaModel().getName();
       List<String> value =
@@ -56,10 +56,9 @@ public class NameValidator {
   static boolean checkTypeCollectionNames(final FrancaModel model) {
 
     Map<String, List<String>> packageNameMapping = new HashMap<>();
-    model
-        .getTypeCollections()
-        .forEach(typeCollection -> collectName(typeCollection, packageNameMapping));
-    model.getInterfaces().forEach(anInterface -> collectName(anInterface, packageNameMapping));
+    model.typeCollections.forEach(
+        typeCollection -> collectName(typeCollection, packageNameMapping));
+    model.interfaces.forEach(anInterface -> collectName(anInterface, packageNameMapping));
 
     return checkForDuplicateNames(packageNameMapping, "type collection");
   }

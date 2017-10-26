@@ -19,10 +19,10 @@ import java.util.stream.Stream;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FTypeCollection;
 
-public class FrancaModel {
+public final class FrancaModel {
 
-  private final List<Interface> interfaces;
-  private final List<TypeCollection> typeCollections;
+  public final List<Interface> interfaces;
+  public final List<TypeCollection> typeCollections;
 
   private final Map<String, Map<String, FrancaElement>> lookupTable;
 
@@ -67,14 +67,6 @@ public class FrancaModel {
                         deploymentModel.getPropertyAccessor(typeCollection),
                         francaModel))
             .collect(Collectors.toList()));
-  }
-
-  public List<Interface> getInterfaces() {
-    return interfaces;
-  }
-
-  public List<TypeCollection> getTypeCollections() {
-    return typeCollections;
   }
 
   public Stream<FrancaElement> stream() {
