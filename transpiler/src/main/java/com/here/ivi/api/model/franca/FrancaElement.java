@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 import org.franca.core.franca.*;
 
 @EqualsAndHashCode
-public abstract class FrancaElement {
+public class FrancaElement {
 
   private final FTypeCollection francaTypeCollection;
   private final List<String> packageNames;

@@ -16,14 +16,8 @@ import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.UNDERSCORE_DEL
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.franca.Interface;
 import java.io.File;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FAttribute;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModelElement;
-import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.*;
 
 public final class SwiftNameRules {
 
@@ -41,11 +35,11 @@ public final class SwiftNameRules {
 
   private static String getFileName(final FrancaElement francaElement) {
     String switchResult;
-    if (francaElement instanceof Interface) {
-      switchResult =
-          SwiftNameRules.computeClassName(((Interface) francaElement).getFrancaInterface());
+    FTypeCollection francaTypeCollection = francaElement.getFrancaTypeCollection();
+    if (francaTypeCollection instanceof FInterface) {
+      switchResult = SwiftNameRules.computeClassName(francaTypeCollection);
     } else {
-      switchResult = getTypeCollectionName(francaElement.getFrancaTypeCollection());
+      switchResult = getTypeCollectionName(francaTypeCollection);
     }
     return switchResult;
   }

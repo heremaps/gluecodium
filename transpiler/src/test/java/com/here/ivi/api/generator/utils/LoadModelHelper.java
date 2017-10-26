@@ -15,10 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.model.franca.FrancaModel;
-import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.ModelHelper;
-import com.here.ivi.api.model.franca.TypeCollection;
+import com.here.ivi.api.model.franca.*;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -38,12 +35,12 @@ public final class LoadModelHelper {
     return francaModelLoader.load(GeneratorSuite.getSpecPath(), testFidlFile);
   }
 
-  public static Interface extractNthInterfaceFromModel(FrancaModel model, int index) {
+  public static FrancaElement extractNthInterfaceFromModel(FrancaModel model, int index) {
     assertTrue(index < model.interfaces.size());
     return model.interfaces.get(index);
   }
 
-  public static TypeCollection extractNthTypeCollectionFromModel(FrancaModel model, int index) {
+  public static FrancaElement extractNthTypeCollectionFromModel(FrancaModel model, int index) {
     assertTrue(index < model.typeCollections.size());
     return model.typeCollections.get(index);
   }

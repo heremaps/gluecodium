@@ -19,8 +19,6 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Arrays;
 import java.util.List;
@@ -53,8 +51,8 @@ public class CppNameRulesTest {
   @Mock private FTypeCollection fTypeCollection;
   @Mock private FInterface fInterface;
   @Mock private FType fType;
-  @Mock private Interface anInterface;
-  @Mock private TypeCollection typeCollection;
+  @Mock private FrancaElement anInterface;
+  @Mock private FrancaElement typeCollection;
   @Mock private FCompoundType compound;
   @Mock private FEnumerationType enumeration;
   @Mock private FTypeDef typeDef;

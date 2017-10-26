@@ -14,7 +14,6 @@ package com.here.ivi.api.validator.common;
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
-import com.here.ivi.api.model.franca.TypeCollection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -35,7 +34,7 @@ public class NameValidator {
   @VisibleForTesting
   static boolean checkTypeNamesInTypeCollection(final FrancaModel model) {
     Map<String, List<String>> packageNameMapping = new HashMap<>();
-    for (TypeCollection typeCollection : model.typeCollections) {
+    for (FrancaElement typeCollection : model.typeCollections) {
 
       String packageName = typeCollection.getFrancaModel().getName();
       List<String> value =
