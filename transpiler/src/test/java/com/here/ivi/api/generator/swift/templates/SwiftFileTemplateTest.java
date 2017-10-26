@@ -970,4 +970,61 @@ public class SwiftFileTemplateTest {
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
+
+  public void classWithBase() {
+    SwiftClass clazz = new SwiftClass("TestClass", "SuperClass");
+    final String expected =
+        "import Foundation\n"
+            + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
+            + "    guard let instanceReference = ref as? _TestClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
+            + "}\n"
+            + "public protocol TestClass {\n"
+            + "}\n"
+            + "internal class _TestClass: SuperClass {\n"
+            + "}\n";
+    final String generated = generateFromClass(clazz);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void classWithProtocol() {
+    SwiftClass clazz = new SwiftClass("TestClass");
+    clazz.implementsProtocols = singletonList("FirstProtocol");
+    final String expected =
+        "import Foundation\n"
+            + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
+            + "    guard let instanceReference = ref as? _TestClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
+            + "}\n"
+            + "public protocol TestClass {\n"
+            + "}\n"
+            + "internal class _TestClass: FirstProtocol {\n"
+            + "}\n";
+    final String generated = generateFromClass(clazz);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  public void classWithBaseAndProtocols() {
+    SwiftClass clazz = new SwiftClass("TestClass", "SuperClass");
+    clazz.implementsProtocols = Arrays.asList("FirstProtocol", "SecondProtocol");
+    final String expected =
+        "import Foundation\n"
+            + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
+            + "    guard let instanceReference = ref as? _TestClass else {\n"
+            + "        fatalError(\"Not implemented yet\")\n"
+            + "    }\n"
+            + "    return RefHolder<>(instanceReference.c_instance)\n"
+            + "}\n"
+            + "public protocol TestClass {\n"
+            + "}\n"
+            + "internal class _TestClass: SuperClass, FirstProtocol, SecondProtocol {\n"
+            + "}\n";
+    final String generated = generateFromClass(clazz);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
 }
