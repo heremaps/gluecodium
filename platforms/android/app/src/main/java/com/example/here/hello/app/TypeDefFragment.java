@@ -3,25 +3,21 @@ package com.example.here.hello.app;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.here.hello.R;
+import com.example.here.hello.utils.InputMethodHelper;
 import com.here.android.hello.HelloWorldTypedefs;
 
 import java.util.Locale;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
-
 public final class TypeDefFragment extends Fragment {
-
     private static final String METHOD_DETAILS_TEXT = "%1$s:\n\n"
             + "struct SomeStruct { String text }\n"
             + "typedef RenamedStruct is SomeStruct\n"
@@ -30,6 +26,7 @@ public final class TypeDefFragment extends Fragment {
             + "\t\tin { RenamedTwiceStruct input }\n"
             + "\t\tout { RenamedTwiceStruct output }\n"
             + "}";
+
     private Button submitButton;
     private TextView result;
     private EditText input;
@@ -56,31 +53,24 @@ public final class TypeDefFragment extends Fragment {
                         METHOD_DETAILS_TEXT,
                         getResources().getString(R.string.typedef_method_details)));
         description.setText(R.string.typedef_method_description);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct();
-                inputStruct.text = input.getText().toString();
+        submitButton.setOnClickListener(v -> {
+            HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct();
+            inputStruct.text = input.getText().toString();
 
-                HelloWorldTypedefs.SomeStruct outputStruct
-                        = HelloWorldTypedefs.methodWithTypeDef(inputStruct);
+            HelloWorldTypedefs.SomeStruct outputStruct
+                    = HelloWorldTypedefs.methodWithTypeDef(inputStruct);
 
-                result.setText(outputStruct.text);
+            result.setText(outputStruct.text);
 
-                // hide virtual keyboard
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
-            }
+            // hide virtual keyboard
+            InputMethodHelper.hideSoftKeyboard(getContext(), result.getWindowToken());
         });
-        input.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    submitButton.performClick();
-                    return true;
-                }
-                return false;
+        input.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                submitButton.performClick();
+                return true;
             }
+            return false;
         });
     }
 }

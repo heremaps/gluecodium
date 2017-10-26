@@ -18,6 +18,7 @@
 
         <Button
             android:id="@+id/register_java_listener"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -26,6 +27,7 @@
 
         <Button
             android:id="@+id/unregister_java_listener"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -42,6 +44,7 @@
 
         <Button
             android:id="@+id/register_native_listener"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -50,6 +53,7 @@
 
         <Button
             android:id="@+id/unregister_native_listener"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -69,7 +73,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Position start"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/listeners_start_x"
@@ -113,7 +117,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Position end"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/listeners_end_x"

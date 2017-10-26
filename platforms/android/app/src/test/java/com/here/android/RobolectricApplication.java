@@ -16,19 +16,9 @@ import java.io.FilenameFilter;
  */
 public final class RobolectricApplication extends Application {
     private static final String TAG = RobolectricApplication.class.getSimpleName();
-    private static final FilenameFilter SHARED_LIBRARY_FILENAME_FILTER = new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-            return name.contains(".so") || name.endsWith(".dylib");
-        }
-    };
+    private static final FilenameFilter SHARED_LIBRARY_FILENAME_FILTER = (dir, name) -> name.contains(".so") || name.endsWith(".dylib");
     private static final String LOCAL_PROPERTIES_FILE = "local.properties";
-    private static final FilenameFilter LOCAL_PROPERTIES_FILENAME_FILTER = new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-            return name.equals(LOCAL_PROPERTIES_FILE);
-        }
-    };
+    private static final FilenameFilter LOCAL_PROPERTIES_FILENAME_FILTER = (dir, name) -> name.equals(LOCAL_PROPERTIES_FILE);
     private static boolean isFirstTime = true;
 
     static {
@@ -40,7 +30,7 @@ public final class RobolectricApplication extends Application {
         super.onCreate();
 
         if (isFirstTime) {
-            isFirstTime = false;  // Only load libraries onces
+            isFirstTime = false;  // Only load libraries once
             loadNativeLibraries();
         }
     }

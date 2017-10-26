@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -14,16 +13,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.here.hello.R;
+import com.example.here.hello.utils.InputMethodHelper;
 import com.here.android.hello.Calculator;
 import com.here.android.hello.CalculatorFactory;
 import com.here.android.hello.CalculatorListener;
 import com.here.android.hello.HelloWorldCalculatorListenerFactory;
 import com.here.android.hello.HelloWorldStaticLogger;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
-
 public final class ListenersFragment extends Fragment {
     private static final String CALLED_WITH_RESULT = "called with result =";
+    private static final int JAVA_LISTENER_NATIVE_METHOD = 0;
+    private static final int NATIVE_LISTENER_NATIVE_METHOD = 1;
+    private static final int LISTENERS_IN_BACKGROUND = 2;
+    private static final Calculator.Position START_POSITION = new Calculator.Position();
+    private static final Calculator.Position END_POSITION = new Calculator.Position();
+
     private Button submitButton;
     private TextView result;
     private TextView inputX1;
@@ -38,15 +42,8 @@ public final class ListenersFragment extends Fragment {
     private Button registerNativeButton;
     private Button unregisterNativeButton;
     private String[] buttonText;
-    private final int JAVA_LISTENER_NATIVE_METHOD = 0;
-    private final int NATIVE_LISTENER_NATIVE_METHOD = 1;
-    private final int LISTENERS_IN_BACKGROUND = 2;
-
-    private static final Calculator.Position START_POSITION = new Calculator.Position();
-    private static final Calculator.Position END_POSITION = new Calculator.Position();
-    private Calculator notifier = CalculatorFactory.createCalculator();
-
-    private CalculatorListener javaListener = new CalculatorListener() {
+    private final Calculator notifier = CalculatorFactory.createCalculator();
+    private final CalculatorListener javaListener = new CalculatorListener() {
         @Override
         public void onCalculationResult(double v) {
             result.setText(String.valueOf(v));
@@ -57,7 +54,7 @@ public final class ListenersFragment extends Fragment {
             result.setText(String.valueOf(v));
         }
     };
-    private CalculatorListener nativeListener = HelloWorldCalculatorListenerFactory.createCalculatorListener();
+    private final CalculatorListener nativeListener = HelloWorldCalculatorListenerFactory.createCalculatorListener();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,55 +108,31 @@ public final class ListenersFragment extends Fragment {
                 unregisterNativeButton.setVisibility(View.GONE);
             }
         });
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String x1 = inputX1.getText().toString();
-                String y1 = inputY1.getText().toString();
-                String z1 = inputZ1.getText().toString();
-                String x2 = inputX2.getText().toString();
-                String y2 = inputY2.getText().toString();
-                String z2 = inputZ2.getText().toString();
-                try {
-                    executeBuiltinVariablesMethod(spinner.getSelectedItemPosition(),
-                            x1, y1, z1, x2, y2, z2);
-                } catch (NumberFormatException e) {
-                    result.setText(e.getMessage());
-                }
-
-                // hide virtual keyboard
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
+        submitButton.setOnClickListener(v -> {
+            String x1 = inputX1.getText().toString();
+            String y1 = inputY1.getText().toString();
+            String z1 = inputZ1.getText().toString();
+            String x2 = inputX2.getText().toString();
+            String y2 = inputY2.getText().toString();
+            String z2 = inputZ2.getText().toString();
+            try {
+                executeBuiltinVariablesMethod(spinner.getSelectedItemPosition(),
+                        x1, y1, z1, x2, y2, z2);
+            } catch (NumberFormatException e) {
+                result.setText(e.getMessage());
             }
+
+            // hide virtual keyboard
+            InputMethodHelper.hideSoftKeyboard(getContext(), result.getWindowToken());
         });
 
-        registerJavaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notifier.registerListener(javaListener);
-            }
-        });
+        registerJavaButton.setOnClickListener(v -> notifier.registerListener(javaListener));
 
-        registerNativeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notifier.registerListener(nativeListener);
-            }
-        });
+        registerNativeButton.setOnClickListener(v -> notifier.registerListener(nativeListener));
 
-        unregisterJavaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notifier.unregisterListener(javaListener);
-            }
-        });
+        unregisterJavaButton.setOnClickListener(v -> notifier.unregisterListener(javaListener));
 
-        unregisterNativeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notifier.unregisterListener(nativeListener);
-            }
-        });
+        unregisterNativeButton.setOnClickListener(v -> notifier.unregisterListener(nativeListener));
     }
 
     private void executeBuiltinVariablesMethod(final int selectedItemPosition,

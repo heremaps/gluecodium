@@ -15,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
-public final class HelloWorldPlainDataStucturesTest {
+public final class HelloWorldPlainDataStructuresTest {
     @Test
-    public void methodWithNonNestedType_nonNestedPlainDataStruture() {
+    public void methodWithNonNestedType_nonNestedPlainDataStructure() {
         HelloWorldPlainDataStructures.SyncResult input = createSyncResult();
 
         HelloWorldPlainDataStructures.SyncResult result =
@@ -28,7 +28,7 @@ public final class HelloWorldPlainDataStucturesTest {
     }
 
     @Test
-    public void methodWithNonNestedType_nestedPlainDataStruture() {
+    public void methodWithNonNestedType_nestedPlainDataStructure() {
         HelloWorldPlainDataStructures.IdentifiableSyncResult input =
                 new HelloWorldPlainDataStructures.IdentifiableSyncResult();
         input.syncResult = createSyncResult();

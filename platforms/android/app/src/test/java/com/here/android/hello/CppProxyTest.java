@@ -12,15 +12,11 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
 public final class CppProxyTest {
-
     private static final Calculator.Position START_POSITION = new Calculator.Position();
     private static final Calculator.Position END_POSITION = new Calculator.Position();
 
@@ -57,7 +53,6 @@ public final class CppProxyTest {
 
     @Test
     public void callbackToJavaListener() {
-
         notifier.calculate(START_POSITION,END_POSITION, JAVA_LISTENER);
 
         assertTrue("Native Java listener was not called on C++ side",
@@ -89,20 +84,13 @@ public final class CppProxyTest {
 
     @Test
     public void callbackToRegisteredJavaListenerMultiThreading() throws InterruptedException {
-
         notifier.registerListener(JAVA_LISTENER);
 
-        Thread callbackToNativeJavaScope = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                notifier.calculateInBackground(START_POSITION, END_POSITION);
-            }
-        });
+        Thread callbackToNativeJavaScope = new Thread(() -> notifier.calculateInBackground(START_POSITION, END_POSITION));
         callbackToNativeJavaScope.start();
         callbackToNativeJavaScope.join();
 
         notifier.unregisterListener(JAVA_LISTENER);
-
         assertTrue("Registered native Java listener was not called on C++ side (multi-threading)",
                 HelloWorldStaticLogger.getLog()
                         .contains("calculation in bg finished with result=17320.508"));
@@ -110,15 +98,9 @@ public final class CppProxyTest {
 
     @Test
     public void registeredUnregisterDifferentThreads() throws InterruptedException {
-
         notifier.registerListener(JAVA_LISTENER);
 
-        Thread unregisterThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                notifier.unregisterListener(JAVA_LISTENER);
-            }
-        });
+        Thread unregisterThread = new Thread(() -> notifier.unregisterListener(JAVA_LISTENER));
         unregisterThread.start();
         unregisterThread.join();
 

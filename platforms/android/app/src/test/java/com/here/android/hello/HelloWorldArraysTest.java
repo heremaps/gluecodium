@@ -13,6 +13,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -49,7 +50,7 @@ public class HelloWorldArraysTest {
 
     @Test
     public void methodWithArray_singleItem() {
-        List<String> stringList = Arrays.asList(STRING_LIST_ITEM_1);
+        List<String> stringList = Collections.singletonList(STRING_LIST_ITEM_1);
 
         List<String> resultsList = HelloWorldArrays.methodWithArray(stringList);
 
@@ -60,7 +61,7 @@ public class HelloWorldArraysTest {
 
     @Test
     public void methodWithArray_emptyList() {
-        List<String> resultsList = HelloWorldArrays.methodWithArray(new ArrayList<String>());
+        List<String> resultsList = HelloWorldArrays.methodWithArray(new ArrayList<>());
 
         assertNotNull(resultsList);
         assertEquals(0, resultsList.size());

@@ -4,7 +4,6 @@ import android.os.Build;
 import android.support.compat.BuildConfig;
 
 import com.here.android.RobolectricApplication;
-import com.here.android.test.Point;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +17,7 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
-public class StaticTypedefTest {
+public final class StaticTypedefTest {
     private static final String EXAMPLE_STRING = "exampleString";
     private static final String HELLO_PREFIX = "Hello ";
     private static final double VALUE_X = 10.0;
