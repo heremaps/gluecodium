@@ -14,10 +14,7 @@ package com.here.ivi.api.loader;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.franca.FrancaModel;
-import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.TypeCollection;
+import com.here.ivi.api.model.franca.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -174,8 +171,8 @@ public class FrancaModelLoader {
             .collect(Collectors.toCollection(LinkedHashSet::new));
     fidlFiles.addAll(bySuffix.get(FIDL_SUFFIX));
 
-    List<Interface> interfaces = new LinkedList<>();
-    List<TypeCollection> typeCollections = new LinkedList<>();
+    List<FrancaElement> interfaces = new LinkedList<>();
+    List<FrancaElement> typeCollections = new LinkedList<>();
 
     // load all found fidl files and fill the Interfaces and TypeCollections lists from them
     fidlFiles

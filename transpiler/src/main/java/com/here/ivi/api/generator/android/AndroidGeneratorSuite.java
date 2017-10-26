@@ -61,7 +61,7 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
         new JavaGenerator(model.deploymentModel, transpilerOptions.getJavaPackageList());
     Stream<List<GeneratedFile>> javaFilesStream =
         Stream.concat(
-            model.interfaces.stream().map(javaGenerator::generateFiles),
+            model.interfaces.stream().map(javaGenerator::generateFilesForInterface),
             model.typeCollections.stream().map(javaGenerator::generateFiles));
 
     // Generate JNI files

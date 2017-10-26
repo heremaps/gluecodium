@@ -23,7 +23,6 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -68,7 +67,7 @@ abstract class CBridgeGeneratorTestBase {
   @Mock protected FTypeRef francaTypeRef2;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  protected Interface anInterface;
+  protected FrancaElement anInterface;
 
   @Mock protected IncludeResolver resolver;
   protected final ArrayEList<FType> interfaceTypes = new ArrayEList<>();
@@ -85,7 +84,6 @@ abstract class CBridgeGeneratorTestBase {
 
     when(deploymentModel.isStatic(any())).thenReturn(true);
     when(anInterface.getName()).thenReturn(INTERFACE_NAME);
-    when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
     when(anInterface.getFrancaTypeCollection()).thenReturn(francaInterface);
 
     when(francaTypeCollction.getName()).thenReturn(TYPE_COLLECTION_NAME);

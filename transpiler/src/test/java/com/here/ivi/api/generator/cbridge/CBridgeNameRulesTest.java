@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.ArrayList;
 import java.util.List;
 import org.franca.core.franca.FAttribute;
@@ -51,7 +51,7 @@ public class CBridgeNameRulesTest {
   private static final String ATTRIBUTE_NAME = "TestAttributeName";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private Interface anInterface;
+  private FrancaElement anInterface;
 
   @Mock private FModel francaModel;
   @Mock private FTypeCollection francaTypeCollection;

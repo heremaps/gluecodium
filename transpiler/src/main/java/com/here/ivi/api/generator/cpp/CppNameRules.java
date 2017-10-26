@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.cpp;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.franca.Interface;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.io.File;
 import java.util.List;
@@ -125,10 +124,11 @@ public final class CppNameRules {
   }
 
   public static String getOutputFilePath(final FrancaElement francaElement) {
+    FTypeCollection francaTypeCollection = francaElement.getFrancaTypeCollection();
     return String.join(File.separator, francaElement.getPackageNames())
         + File.separator
-        + (francaElement instanceof Interface
-            ? getClassName(francaElement.getFrancaTypeCollection().getName())
-            : francaElement.getFrancaTypeCollection().getName());
+        + (francaTypeCollection instanceof FInterface
+            ? getClassName(francaTypeCollection.getName())
+            : francaTypeCollection.getName());
   }
 }

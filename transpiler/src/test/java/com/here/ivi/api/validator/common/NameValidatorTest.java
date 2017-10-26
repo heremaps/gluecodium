@@ -16,9 +16,8 @@ import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
-import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,13 +44,13 @@ public class NameValidatorTest {
   private FrancaModel francaModel;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private Interface francaInterface;
+  private FrancaElement francaInterface;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private TypeCollection francaTypeCollection;
+  private FrancaElement francaTypeCollection;
 
-  private final List<TypeCollection> typeCollections = new LinkedList<>();
-  private final List<Interface> interfaces = new LinkedList<>();
+  private final List<FrancaElement> typeCollections = new LinkedList<>();
+  private final List<FrancaElement> interfaces = new LinkedList<>();
 
   @Before
   public void setUp() {
@@ -145,12 +144,12 @@ public class NameValidatorTest {
     assertTrue(NameValidator.checkTypeCollectionNames(francaModel));
   }
 
-  private TypeCollection mockTypeCollectionContainingType(String typeName, FModel fModelParam) {
+  private FrancaElement mockTypeCollectionContainingType(String typeName, FModel fModelParam) {
 
     FType type = mock(FType.class);
     when(type.getName()).thenReturn(typeName);
 
-    TypeCollection typeCollection = mock(TypeCollection.class, Answers.RETURNS_DEEP_STUBS);
+    FrancaElement typeCollection = mock(FrancaElement.class, Answers.RETURNS_DEEP_STUBS);
 
     FTypeCollection fTypeCollection = mock(FTypeCollection.class);
 

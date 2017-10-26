@@ -18,8 +18,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.franca.Interface;
-import com.here.ivi.api.model.franca.TypeCollection;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
 import org.franca.core.franca.*;
@@ -35,8 +33,8 @@ import org.mockito.MockitoAnnotations;
 public class FrancaTreeWalkerTest {
 
   @Mock private ModelBuilder modelBuilder;
-  @Mock private TypeCollection typeCollection;
-  @Mock private Interface anInterface;
+  @Mock private FrancaElement typeCollection;
+  @Mock private FrancaElement anInterface;
 
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FInterface francaInterface;
@@ -88,7 +86,7 @@ public class FrancaTreeWalkerTest {
     types.add(francaUnionType);
 
     when(typeCollection.getFrancaTypeCollection()).thenReturn(francaTypeCollection);
-    when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
+    when(anInterface.getFrancaTypeCollection()).thenReturn(francaInterface);
     when(francaInterface.getMethods()).thenReturn(methods);
     when(francaInterface.getConstants()).thenReturn(constants);
     when(francaInterface.getAttributes()).thenReturn(attributes);
