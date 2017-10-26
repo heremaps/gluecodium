@@ -115,8 +115,6 @@ public class JniModelBuilderTest {
 
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppClass);
-
-    when(rootModel.getPackageNames()).thenReturn(CPP_NAMESPACE_MEMBERS);
   }
 
   private static JavaMethod createJavaMethod() {
@@ -238,6 +236,7 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsJavaCppClasses() {
     //arrange
+    when(rootModel.getPackageNames()).thenReturn(CPP_NAMESPACE_MEMBERS);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
 
     //act

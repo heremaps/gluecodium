@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.swift;
 
-import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -56,7 +55,6 @@ public class SwiftModelBuilderTest {
   private static final String FUNCTION_NAME = "someFunctionName";
   private static final String STRUCT_NAME = "someStruct";
   private static final String COMMENT = "some comment on model element";
-  private static final List<String> PACKAGES = asList("PKG1", "PKG2");
   private static final String ATTRIBUTE_NAME = "someAttributeName";
   public static final String FIELD_NAME = "flowers";
 
@@ -94,7 +92,6 @@ public class SwiftModelBuilderTest {
     when(CppCommentParser.parse(any(FEnumerationType.class))).thenReturn(comments);
     when(comments.getMainBodyText()).thenReturn(COMMENT);
 
-    when(anInterface.getPackageNames()).thenReturn(PACKAGES);
     when(anInterface.isStatic(any())).thenReturn(true);
     when(SwiftNameRules.getParameterName(any())).thenReturn(PARAM_NAME);
     when(SwiftNameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);

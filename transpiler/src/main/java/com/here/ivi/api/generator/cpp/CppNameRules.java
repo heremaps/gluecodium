@@ -58,14 +58,10 @@ public final class CppNameRules {
     return NameHelper.toUpperCamelCase(base); // MyTypedef
   }
 
-  public static List<String> getNamespace(FTypeCollection typeCollection) {
-    return DefinedBy.getPackages(typeCollection);
-  }
-
   public static List<String> getNestedNameSpecifier(EObject type) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(type);
-    List<String> result = getNamespace(typeCollection);
+    List<String> result = DefinedBy.getPackages(typeCollection);
     // special type for types defined in interfaces ...
     if (typeCollection instanceof FInterface) {
       result.add(getClassName(typeCollection.getName()));
@@ -134,7 +130,7 @@ public final class CppNameRules {
     return String.join(File.separator, francaElement.getPackageNames())
         + File.separator
         + (francaElement instanceof Interface
-            ? getClassName(((Interface) francaElement).getFrancaInterface().getName())
+            ? getClassName(francaElement.getFrancaTypeCollection().getName())
             : francaElement.getFrancaTypeCollection().getName());
   }
 }

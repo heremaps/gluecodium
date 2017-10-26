@@ -40,7 +40,11 @@ public final class DefinedBy {
     return findDefiningTypeCollection(parent);
   }
 
-  public static List<String> getPackages(final FTypeCollection typeCollection) {
-    return Strings.split(((FModel) typeCollection.eContainer()).getName(), ".");
+  public static List<String> getPackages(final FTypeCollection francaTypeCollection) {
+    return getPackages((FModel) francaTypeCollection.eContainer());
+  }
+
+  public static List<String> getPackages(final FModel francaModel) {
+    return Strings.split(francaModel.getName(), ".");
   }
 }

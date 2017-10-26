@@ -120,7 +120,6 @@ public class CBridgeGeneratorTest {
     initMocks(this);
 
     when(anInterface.isStatic(any())).thenReturn(true);
-    when(anInterface.getPackageNames()).thenReturn(PACKAGES);
     when(anInterface.getName()).thenReturn(INTERFACE_NAME);
     when(anInterface.getFrancaInterface()).thenReturn(francaInterface);
     when(anInterface.getFrancaTypeCollection()).thenReturn(francaInterface);
