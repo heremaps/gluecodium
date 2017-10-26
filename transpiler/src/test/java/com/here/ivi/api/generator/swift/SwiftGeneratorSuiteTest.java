@@ -12,27 +12,26 @@
 package com.here.ivi.api.generator.swift;
 
 import static com.here.ivi.api.test.Assert.assertContainsAll;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.franca.FrancaModel;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Mock;
 import org.powermock.reflect.Whitebox;
 
 @RunWith(JUnit4.class)
 public class SwiftGeneratorSuiteTest {
-  @Mock private FrancaModel model;
+
   private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite();
 
   @Before
   public void setUp() throws Exception {
-    initMocks(this);
+    FrancaModel model = new FrancaModel(Collections.emptyList(), Collections.emptyList());
     Whitebox.setInternalState(suite, "model", model);
   }
 

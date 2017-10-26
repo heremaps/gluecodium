@@ -24,7 +24,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FMethod;
 import org.junit.Before;
@@ -75,9 +74,8 @@ public class FrancaModelLoaderTest {
             new File(additionalFdepl.toURI()));
     FrancaModel model = loader.load(GeneratorSuite.getSpecPath(), currentFiles);
 
-    List<Interface> interfaces = model.getInterfaces();
-    assertEquals(1, interfaces.size());
-    Interface iface = interfaces.get(0);
+    assertEquals(1, model.interfaces.size());
+    Interface iface = model.interfaces.get(0);
 
     EList<FMethod> methods = iface.getFrancaInterface().getMethods();
     assertEquals(1, methods.size());

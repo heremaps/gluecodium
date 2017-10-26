@@ -24,7 +24,6 @@ import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,7 +42,6 @@ public final class BaseApiGeneratorSuiteTest {
 
   private BaseApiGeneratorSuite baseApiGeneratorSuite;
 
-  @Mock private FrancaModel mockFrancaModel;
   @Mock private FrancaModelLoader francaModelLoader;
 
   @Before
@@ -52,8 +50,8 @@ public final class BaseApiGeneratorSuiteTest {
     MockitoAnnotations.initMocks(this);
 
     when(GeneratorSuite.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
+    FrancaModel mockFrancaModel = new FrancaModel(Collections.emptyList(), Collections.emptyList());
     when(francaModelLoader.load(any(), any())).thenReturn(mockFrancaModel);
-    when(mockFrancaModel.stream()).thenReturn(Stream.empty());
 
     baseApiGeneratorSuite = new BaseApiGeneratorSuite(francaModelLoader);
   }

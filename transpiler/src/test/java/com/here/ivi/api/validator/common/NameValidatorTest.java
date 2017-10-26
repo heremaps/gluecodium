@@ -42,7 +42,7 @@ public class NameValidatorTest {
 
   @Mock private FModel fModel;
 
-  @Mock private FrancaModel francaModel;
+  private FrancaModel francaModel;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private Interface francaInterface;
@@ -63,8 +63,7 @@ public class NameValidatorTest {
     when(francaInterface.getFrancaModel()).thenReturn(fModel);
     when(francaTypeCollection.getFrancaModel()).thenReturn(fModel);
 
-    when(francaModel.getTypeCollections()).thenReturn(typeCollections);
-    when(francaModel.getInterfaces()).thenReturn(interfaces);
+    francaModel = new FrancaModel(interfaces, typeCollections);
   }
 
   @Test
