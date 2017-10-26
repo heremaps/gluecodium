@@ -12,7 +12,6 @@
 package com.here.ivi.api.model.franca;
 
 import com.here.ivi.api.generator.common.Version;
-import java.util.Arrays;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import org.franca.core.franca.*;
@@ -29,7 +28,7 @@ public abstract class FrancaElement {
       final MappingGenericPropertyAccessor propertyAccessor, final FModel francaModel) {
     this.propertyAccessor = propertyAccessor;
     this.francaModel = francaModel;
-    packageNames = Arrays.asList(francaModel.getName().split("\\."));
+    packageNames = DefinedBy.getPackages(francaModel);
   }
 
   public abstract FTypeCollection getFrancaTypeCollection();

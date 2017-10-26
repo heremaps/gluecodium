@@ -108,7 +108,7 @@ public class CppNameRulesTest {
   public void getHeaderNameForInterface() {
     List<String> packageNames = Arrays.asList("my", "fancy", "package");
     when(anInterface.getPackageNames()).thenReturn(packageNames);
-    when(anInterface.getFrancaInterface()).thenReturn(fInterface);
+    when(anInterface.getFrancaTypeCollection()).thenReturn(fInterface);
     when(fInterface.getName()).thenReturn("FancyName");
 
     String headerPath = CppNameRules.getHeaderPath(anInterface);
@@ -116,7 +116,7 @@ public class CppNameRulesTest {
     assertEquals("my/fancy/package/FancyName.h", headerPath);
 
     verify(anInterface).getPackageNames();
-    verify(anInterface).getFrancaInterface();
+    verify(anInterface).getFrancaTypeCollection();
     verify(fInterface).getName();
   }
 

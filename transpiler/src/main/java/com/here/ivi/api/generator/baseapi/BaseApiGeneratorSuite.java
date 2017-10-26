@@ -91,15 +91,12 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
   private CppFile mapFrancaElementToCppModel(final FrancaElement francaElement) {
 
-    List<String> namespaceElements =
-        CppNameRules.getNamespace(francaElement.getFrancaTypeCollection());
-
     CppModelBuilder builder = new CppModelBuilder(francaElement, includeResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walk(francaElement);
 
-    CppFile cppModel = new CppFile(namespaceElements);
+    CppFile cppModel = new CppFile(francaElement.getPackageNames());
     cppModel.members.addAll(builder.getFinalResults());
     cppModel.includes.addAll(collectIncludes(cppModel));
 
