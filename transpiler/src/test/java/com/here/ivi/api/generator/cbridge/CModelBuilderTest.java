@@ -40,8 +40,10 @@ import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppElement;
+import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.franca.Interface;
+import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftProperty;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.test.MockContextStack;
@@ -83,6 +85,8 @@ public class CModelBuilderTest {
   private static final String CBRIDGE_ATTR_SETTER_NAME = "C_ATTR_SETTER";
   private static final String CPP_ATTR_GETTER_NAME = "CPP_ATTR_GETTER";
   private static final String CPP_ATTR_SETTER_NAME = "CPP_ATTR_SETTER";
+  public static final String CPP_FIELD_NAME = "CppFieldName";
+  public static final String SWIFT_FIELD_NAME = "SwiftFieldName";
 
   private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
@@ -278,8 +282,8 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingStructContainsFields() {
-    contextStack.injectResult(new CField("field1", cppTypeInfo));
-    contextStack.injectResult(new CField("field2", cppTypeInfo));
+    contextStack.injectResult(new CField("SwiftName1", "CppName1", cppTypeInfo));
+    contextStack.injectResult(new CField("SwiftName2", "CppName2", cppTypeInfo));
 
     modelBuilder.finishBuilding(francaStruct);
 
@@ -287,8 +291,10 @@ public class CModelBuilderTest {
     assertEquals(1, structs.size());
     CStruct cStruct = structs.get(0);
     assertEquals("There should be 2 fields in struct", 2, cStruct.fields.size());
-    assertEquals("field1", cStruct.fields.get(0).name);
-    assertEquals("field2", cStruct.fields.get(1).name);
+    assertEquals("SwiftName1", cStruct.fields.get(0).name);
+    assertEquals("CppName1", cStruct.fields.get(0).baseLayerName);
+    assertEquals("SwiftName2", cStruct.fields.get(1).name);
+    assertEquals("CppName2", cStruct.fields.get(1).baseLayerName);
   }
 
   public void finishBuildingStructCreatesStructWithProperName() {
@@ -332,17 +338,23 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsName() {
-    when(francaField.getName()).thenReturn("field");
+    when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(null, CPP_FIELD_NAME));
+    when(swiftModelbuilder.getFinalResult(any()))
+        .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null));
 
     modelBuilder.finishBuilding(francaField);
 
     List<CField> fields = getResults(CField.class);
     assertEquals(1, fields.size());
-    assertEquals("field", fields.get(0).name);
+    assertEquals(SWIFT_FIELD_NAME, fields.get(0).name);
+    assertEquals(CPP_FIELD_NAME, fields.get(0).baseLayerName);
   }
 
   @Test
   public void finishBuildingFrancaFieldReadsTypeInfo() {
+    when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(null, CPP_FIELD_NAME));
+    when(swiftModelbuilder.getFinalResult(any()))
+        .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null));
     contextStack.injectResult(cppTypeInfo);
 
     modelBuilder.finishBuilding(francaField);

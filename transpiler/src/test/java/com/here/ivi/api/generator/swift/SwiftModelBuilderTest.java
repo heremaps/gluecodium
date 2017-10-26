@@ -18,6 +18,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -57,6 +58,7 @@ public class SwiftModelBuilderTest {
   private static final String COMMENT = "some comment on model element";
   private static final List<String> PACKAGES = asList("PKG1", "PKG2");
   private static final String ATTRIBUTE_NAME = "someAttributeName";
+  public static final String FIELD_NAME = "flowers";
 
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
 
@@ -102,7 +104,7 @@ public class SwiftModelBuilderTest {
     when(francaModel.getName()).thenReturn("");
 
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
-    when(francaField.getName()).thenReturn("flowers");
+    when(francaField.getName()).thenReturn(FIELD_NAME);
     when(francaTypeDef.getName()).thenReturn("definite");
 
     when(francaAttribute.eContainer()).thenReturn(francaInterface);
@@ -307,11 +309,12 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsName() {
+    when(SwiftNameRules.getFieldName(eq(FIELD_NAME))).thenReturn("SwiftFieldName");
     modelBuilder.finishBuilding(francaField);
 
     List<SwiftField> swiftFields = getResults(SwiftField.class);
     assertEquals("Should be 1 field item created", 1, swiftFields.size());
-    assertEquals("flowers", swiftFields.get(0).name);
+    assertEquals("SwiftFieldName", swiftFields.get(0).name);
   }
 
   @Test

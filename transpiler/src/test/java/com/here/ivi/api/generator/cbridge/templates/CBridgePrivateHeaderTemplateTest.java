@@ -29,7 +29,7 @@ public class CBridgePrivateHeaderTemplateTest {
   public void getPointerFunctionForStruct() {
     CInterface cInterface = new CInterface("");
     CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(CType.VOID));
-    CField field = new CField("floatField", new CppTypeInfo(CType.FLOAT));
+    CField field = new CField("floatField", "baseApiFieldName", new CppTypeInfo(CType.FLOAT));
     struct.fields.add(field);
     cInterface.structs.add(struct);
 

@@ -29,8 +29,10 @@ import com.here.ivi.api.model.cmodel.COutParameter;
 import com.here.ivi.api.model.cmodel.CStruct;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
+import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftProperty;
 import java.util.Collections;
 import java.util.List;
@@ -178,7 +180,9 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FField francaField) {
-    storeResult(new CField(francaField.getName(), getPreviousResult(CppTypeInfo.class)));
+    CppField cppField = cppBuilder.getFinalResult(CppField.class);
+    SwiftField swiftField = swiftBuilder.getFinalResult(SwiftField.class);
+    storeResult(new CField(swiftField.name, cppField.name, getPreviousResult(CppTypeInfo.class)));
     super.finishBuilding(francaField);
   }
 
