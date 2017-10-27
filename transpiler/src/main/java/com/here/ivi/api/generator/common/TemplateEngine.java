@@ -23,10 +23,7 @@ import org.trimou.engine.locator.ClassPathTemplateLocator;
 import org.trimou.engine.resolver.AbstractResolver;
 import org.trimou.engine.resolver.ResolutionContext;
 import org.trimou.engine.resolver.Resolver;
-import org.trimou.handlebars.BasicHelper;
-import org.trimou.handlebars.BasicSectionHelper;
-import org.trimou.handlebars.HelpersBuilder;
-import org.trimou.handlebars.Options;
+import org.trimou.handlebars.*;
 
 public final class TemplateEngine {
 
@@ -172,6 +169,9 @@ public final class TemplateEngine {
             .registerHelper("prefixPartial", new PrefixPartialHelper())
             .registerHelper("joinPartial", new JoinPartialHelper())
             .registerHelper("instanceOf", new InstanceOfHelper())
+            .registerHelper("switch", new NiceSwitchHelper())
+            .registerHelper("case", new SwitchHelper.CaseHelper(true))
+            .registerHelper("default", new SwitchHelper.DefaultHelper())
             .registerHelpers(
                 HelpersBuilder.empty()
                     .addIsEqual()
@@ -180,7 +180,6 @@ public final class TemplateEngine {
                     .addIsNotEqual()
                     .addJoin()
                     .addSet()
-                    .addSwitch(true)
                     .build())
             .addResolver(new NowResolver())
             .build();
