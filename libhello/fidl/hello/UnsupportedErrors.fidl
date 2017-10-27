@@ -28,4 +28,15 @@ interface UnsupportedErrors {
         }
         error ErrorEnum
     }
+
+    method errorOnly {
+        error ErrorEnum
+    }
+
+    method errorCodeAndInt {
+        out {
+            Int8 number
+        }
+        error ErrorEnum
+    }
 }
