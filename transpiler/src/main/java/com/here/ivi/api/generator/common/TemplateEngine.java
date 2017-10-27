@@ -174,9 +174,11 @@ public final class TemplateEngine {
             .registerHelper("instanceOf", new InstanceOfHelper())
             .registerHelpers(
                 HelpersBuilder.empty()
-                    .addJoin()
-                    .addInclude()
+                    .addIsEqual()
                     .addFmt()
+                    .addInclude()
+                    .addIsNotEqual()
+                    .addJoin()
                     .addSet()
                     .addSwitch(true)
                     .build())
