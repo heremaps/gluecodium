@@ -25,13 +25,13 @@ internal init?(c{{name}}: {{cType}}) {
 {{/assignStringType}}
 
 {{+assignDataType}}do {
-    let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}FieldHandle = {{cPrefix}}_{{name}}_get(c{{structName}})
     guard
-        let dataHandle = byteArray_data_get({{name}}Handle)
+        let dataHandle = byteArray_data_get({{name}}FieldHandle)
     else {
         return nil
     }
-    {{name}} = Data(bytes: dataHandle, count: Int(byteArray_size_get({{name}}Handle)))
+    {{name}} = Data(bytes: dataHandle, count: Int(byteArray_size_get({{name}}FieldHandle)))
 }
 {{/assignDataType}}
 

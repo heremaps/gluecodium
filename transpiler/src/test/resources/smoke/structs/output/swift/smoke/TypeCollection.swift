@@ -201,13 +201,13 @@ public struct AllTypesStruct {
         }
         booleanField = smoke_TypeCollection_AllTypesStruct_booleanField_get(cAllTypesStruct)
         do {
-            let bytesFieldHandle = smoke_TypeCollection_AllTypesStruct_bytesField_get(cAllTypesStruct)
+            let bytesFieldFieldHandle = smoke_TypeCollection_AllTypesStruct_bytesField_get(cAllTypesStruct)
             guard
-                let dataHandle = byteArray_data_get(bytesFieldHandle)
+                let dataHandle = byteArray_data_get(bytesFieldFieldHandle)
             else {
                 return nil
             }
-            bytesField = Data(bytes: dataHandle, count: Int(byteArray_size_get(bytesFieldHandle)))
+            bytesField = Data(bytes: dataHandle, count: Int(byteArray_size_get(bytesFieldFieldHandle)))
         }
         do {
             guard
