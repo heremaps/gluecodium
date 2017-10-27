@@ -56,12 +56,12 @@ public class Enums {
 
     public static func methodWithEnumeration(input: SimpleEnum) -> SimpleEnum {
         let cResult = smoke_Enums_methodWithEnumeration(input.rawValue)
-        return SimpleEnum.init(rawValue: cResult)!
+        return SimpleEnum(rawValue: cResult)!
     }
 
     public static func flipEnumValue(input: InternalError) -> InternalError {
         let cResult = smoke_Enums_flipEnumValue(input.rawValue)
-        return InternalError.init(rawValue: cResult)!
+        return InternalError(rawValue: cResult)!
     }
     public static func extractEnumFromStruct(input: ErrorStruct) -> InternalError {
         let inputHandle = input.convertToCType()
@@ -69,7 +69,7 @@ public class Enums {
             smoke_Enums_ErrorStruct_release(inputHandle)
         }
         let cResult = smoke_Enums_extractEnumFromStruct(inputHandle)
-        return InternalError.init(rawValue: cResult)!
+        return InternalError(rawValue: cResult)!
     }
     public static func createStructWithEnumInside(type: InternalError, message: String) -> ErrorStruct? {
         let cResult = smoke_Enums_createStructWithEnumInside(type.rawValue, message)

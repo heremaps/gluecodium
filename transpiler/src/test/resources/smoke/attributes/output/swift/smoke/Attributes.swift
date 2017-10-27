@@ -78,7 +78,7 @@ internal class _Attributes: Attributes {
     var complexTypeAttribute: InternalError {
         get {
             let cResult = smoke_Attributes_complexTypeAttribute_get(c_instance)
-            return InternalError.init(rawValue: cResult)!
+            return InternalError(rawValue: cResult)!
         }
         set {
             return smoke_Attributes_complexTypeAttribute_set(c_instance, newValue.rawValue)
