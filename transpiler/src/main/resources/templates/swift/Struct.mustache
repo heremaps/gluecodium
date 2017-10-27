@@ -1,5 +1,6 @@
 public struct {{name}} {
-{{#fields}}{{prefixPartial "swift/StructFieldDeclaration" "    "}}
+{{#fields}}
+    public var {{name}}: {{type}}
 {{/fields}}
 
 {{prefixPartial "swift/StructPublicInitMethod" "    "}}

@@ -254,6 +254,48 @@ public class SwiftStructTemplateTest {
     assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
   }
 
+  @Test
+  public void generateStructWithInstanceField() {
+    SwiftContainerType struct = new SwiftContainerType("SomeStruct");
+    struct.fields =
+        singletonList(
+            new SwiftField(
+                "instanceField", new SwiftType("SomeClass", SwiftType.TypeCategory.CLASS)));
+    struct.cPrefix = "C_PREFIX";
+    struct.cType = "SomeStructRef";
+    String expected =
+        "public struct SomeStruct {\n"
+            + "    public var instanceField: SomeClass\n"
+            + "\n"
+            + "    public init(instanceField: SomeClass) {\n"
+            + "        self.instanceField = instanceField\n"
+            + "    }\n"
+            + "\n"
+            + "    internal init?(cSomeStruct: SomeStructRef) {\n"
+            + "        do {\n"
+            + "            guard\n"
+            + "                let instanceFieldUnwrapped = _SomeClass(cSomeClass: C_PREFIX_instanceField_get(cSomeStruct))\n"
+            + "            else {\n"
+            + "                return nil\n"
+            + "            }\n"
+            + "            instanceField = instanceFieldUnwrapped\n"
+            + "        }\n"
+            + "    }\n"
+            + "\n"
+            + "    internal func convertToCType() -> SomeStructRef {\n"
+            + "        let result = C_PREFIX_create()\n"
+            + "        fillFunction(result)\n"
+            + "        return result\n"
+            + "    }\n"
+            + "\n"
+            + "    internal func fillFunction(_ cSomeStruct: SomeStructRef) -> Void {\n"
+            + "        C_PREFIX_instanceField_set(cSomeStruct, getRef(instanceField).ref)\n"
+            + "    }\n"
+            + "}";
+    String actual = generate(struct);
+    assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
+  }
+
   private void assertEqualsTrimmed(String message, String expected, String actual) {
     assertEquals(message, expected.trim(), actual.trim());
   }
