@@ -15,7 +15,6 @@ import static org.junit.Assert.*;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import java.io.File;
@@ -27,6 +26,7 @@ import java.util.Collections;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FModel;
 import org.franca.core.franca.FType;
 import org.junit.Before;
 import org.junit.Rule;
@@ -74,9 +74,9 @@ public class FrancaModelLoaderTest {
     FrancaModel model = loader.load(GeneratorSuite.getSpecPath(), currentFiles);
 
     assertEquals(1, model.interfaces.size());
-    FrancaElement iface = model.interfaces.get(0);
+    FInterface iface = model.interfaces.get(0);
 
-    EList<FMethod> methods = ((FInterface) iface.getFrancaTypeCollection()).getMethods();
+    EList<FMethod> methods = iface.getMethods();
     assertEquals(1, methods.size());
     FMethod constMethod = methods.get(0);
 
@@ -114,20 +114,18 @@ public class FrancaModelLoaderTest {
 
     assertEquals(2, model.interfaces.size());
 
-    FrancaElement barInterfaceWrapper = model.interfaces.get(0);
-    assertEquals("Bar", barInterfaceWrapper.getName());
+    FInterface barInterface = model.interfaces.get(0);
+    assertEquals("Bar", barInterface.getName());
 
-    FrancaElement factoryInterfaceWrapper = model.interfaces.get(1);
-    assertEquals("BarFactory", factoryInterfaceWrapper.getName());
+    FInterface factoryInterface = model.interfaces.get(1);
+    assertEquals("BarFactory", factoryInterface.getName());
 
-    FMethod factoryMethod =
-        ((FInterface) factoryInterfaceWrapper.getFrancaTypeCollection()).getMethods().get(0);
+    FMethod factoryMethod = factoryInterface.getMethods().get(0);
     FType parameterType = factoryMethod.getOutArgs().get(0).getType().getDerived();
     assertEquals("Bar", parameterType.getName());
 
     // barInterface and barInterfaceThroughReferrer are two *different* in-memory representations
     // of the same Franca interface.
-    FInterface barInterface = (FInterface) barInterfaceWrapper.getFrancaTypeCollection();
     FInterface barInterfaceThroughReferrer = (FInterface) parameterType.eContainer();
     assertNotSame(barInterfaceThroughReferrer, barInterface);
 
@@ -157,19 +155,15 @@ public class FrancaModelLoaderTest {
 
     assertEquals(2, model.interfaces.size());
 
-    FrancaElement fooBarInterfaceWrapper = model.interfaces.get(0);
-    assertEquals("Bar", fooBarInterfaceWrapper.getName());
-    assertEquals("foo", fooBarInterfaceWrapper.getFrancaModel().getName());
+    FInterface fooBarInterface = model.interfaces.get(0);
+    assertEquals("Bar", fooBarInterface.getName());
+    assertEquals("foo", ((FModel) fooBarInterface.eContainer()).getName());
 
-    FrancaElement weeBarInterfaceWrapper = model.interfaces.get(1);
-    assertEquals("Bar", fooBarInterfaceWrapper.getName());
-    assertEquals("wee", weeBarInterfaceWrapper.getFrancaModel().getName());
+    FInterface weeBarInterface = model.interfaces.get(1);
+    assertEquals("Bar", weeBarInterface.getName());
+    assertEquals("wee", ((FModel) weeBarInterface.eContainer()).getName());
 
-    assertTrue(
-        model.deploymentModel.isInterface(
-            (FInterface) fooBarInterfaceWrapper.getFrancaTypeCollection()));
-    assertFalse(
-        model.deploymentModel.isInterface(
-            (FInterface) weeBarInterfaceWrapper.getFrancaTypeCollection()));
+    assertTrue(model.deploymentModel.isInterface(fooBarInterface));
+    assertFalse(model.deploymentModel.isInterface(weeBarInterface));
   }
 }

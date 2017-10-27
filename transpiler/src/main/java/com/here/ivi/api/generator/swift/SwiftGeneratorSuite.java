@@ -35,7 +35,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
 
     SwiftGenerator swiftGenerator = new SwiftGenerator(model.deploymentModel);
     CBridgeGenerator cBridgeGenerator =
-        new CBridgeGenerator(model.deploymentModel, new IncludeResolver(model));
+        new CBridgeGenerator(model.deploymentModel, new IncludeResolver());
 
     Stream<GeneratedFile> swiftStream = model.stream().map(swiftGenerator::generate);
     Stream<GeneratedFile> cBridgeStream =

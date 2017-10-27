@@ -41,10 +41,10 @@ public final class DefinedBy {
   }
 
   public static List<String> getPackages(final FTypeCollection francaTypeCollection) {
-    return getPackages((FModel) francaTypeCollection.eContainer());
+    return Strings.split(((FModel) francaTypeCollection.eContainer()).getName(), ".");
   }
 
-  public static List<String> getPackages(final FModel francaModel) {
-    return Strings.split(francaModel.getName(), ".");
+  public static String getModelName(final FTypeCollection typeCollection) {
+    return ((FModel) typeCollection.eContainer()).getName();
   }
 }

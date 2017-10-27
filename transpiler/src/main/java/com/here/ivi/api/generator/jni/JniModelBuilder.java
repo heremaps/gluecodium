@@ -19,7 +19,7 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.generator.java.JavaUnsupportedFeatures;
 import com.here.ivi.api.model.cppmodel.*;
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -43,27 +43,21 @@ import org.franca.core.franca.*;
 @SuppressWarnings("PMD.CouplingBetweenObjects")
 public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
-  private final FrancaElement rootModel;
   private final JavaModelBuilder javaBuilder;
   private final CppModelBuilder cppBuilder;
 
   public JniModelBuilder(
       final ModelBuilderContextStack<JniElement> contextStack,
-      final FrancaElement rootModel,
       final JavaModelBuilder javaBuilder,
       final CppModelBuilder cppBuilder) {
 
     super(contextStack);
-    this.rootModel = rootModel;
     this.javaBuilder = javaBuilder;
     this.cppBuilder = cppBuilder;
   }
 
-  public JniModelBuilder(
-      final FrancaElement rootModel,
-      final JavaModelBuilder javaBuilder,
-      final CppModelBuilder cppBuilder) {
-    this(new ModelBuilderContextStack<>(), rootModel, javaBuilder, cppBuilder);
+  public JniModelBuilder(final JavaModelBuilder javaBuilder, final CppModelBuilder cppBuilder) {
+    this(new ModelBuilderContextStack<>(), javaBuilder, cppBuilder);
   }
 
   @Override
@@ -75,7 +69,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JniContainer jniContainer =
         JniContainer.createInterfaceContainer(
             javaTopLevelElement.javaPackage.packageNames,
-            rootModel.getPackageNames(),
+            DefinedBy.getPackages(francaInterface),
             javaClass.name,
             javaTopLevelElement.name,
             cppClass.name,

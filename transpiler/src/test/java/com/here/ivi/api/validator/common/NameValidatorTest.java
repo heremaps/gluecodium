@@ -16,11 +16,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.LinkedList;
 import java.util.List;
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
@@ -28,7 +28,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -43,14 +42,11 @@ public class NameValidatorTest {
 
   private FrancaModel francaModel;
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement francaInterface;
+  @Mock private FInterface francaInterface;
+  @Mock private FTypeCollection francaTypeCollection;
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement francaTypeCollection;
-
-  private final List<FrancaElement> typeCollections = new LinkedList<>();
-  private final List<FrancaElement> interfaces = new LinkedList<>();
+  private final List<FTypeCollection> typeCollections = new LinkedList<>();
+  private final List<FInterface> interfaces = new LinkedList<>();
 
   @Before
   public void setUp() {
@@ -59,8 +55,8 @@ public class NameValidatorTest {
     when(fModel.getName()).thenReturn(MODEL_NAME);
     when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
 
-    when(francaInterface.getFrancaModel()).thenReturn(fModel);
-    when(francaTypeCollection.getFrancaModel()).thenReturn(fModel);
+    when(francaInterface.eContainer()).thenReturn(fModel);
+    when(francaTypeCollection.eContainer()).thenReturn(fModel);
 
     francaModel = new FrancaModel(null, interfaces, typeCollections);
   }
@@ -135,7 +131,7 @@ public class NameValidatorTest {
   public void checkTypeCollectionNamesWithTwoNonUniqueNamesDifferentPackages() {
     FModel anotherFModel = mock(FModel.class);
     when(anotherFModel.getName()).thenReturn(MODEL_NAME + ".xtra");
-    when(francaTypeCollection.getFrancaModel()).thenReturn(anotherFModel);
+    when(francaTypeCollection.eContainer()).thenReturn(anotherFModel);
 
     when(francaTypeCollection.getName()).thenReturn(INTERFACE_NAME);
     interfaces.add(francaInterface);
@@ -144,22 +140,19 @@ public class NameValidatorTest {
     assertTrue(NameValidator.checkTypeCollectionNames(francaModel));
   }
 
-  private FrancaElement mockTypeCollectionContainingType(String typeName, FModel fModelParam) {
+  private FTypeCollection mockTypeCollectionContainingType(String typeName, FModel fModelParam) {
 
     FType type = mock(FType.class);
     when(type.getName()).thenReturn(typeName);
 
-    FrancaElement typeCollection = mock(FrancaElement.class, Answers.RETURNS_DEEP_STUBS);
-
     FTypeCollection fTypeCollection = mock(FTypeCollection.class);
 
-    when(typeCollection.getFrancaTypeCollection()).thenReturn(fTypeCollection);
-    when(typeCollection.getFrancaModel()).thenReturn(fModelParam);
+    when(fTypeCollection.eContainer()).thenReturn(fModelParam);
     when(fTypeCollection.eContainer()).thenReturn(fModelParam);
 
     ArrayEList<FType> types = new ArrayEList<>();
     types.add(type);
-    when(typeCollection.getFrancaTypeCollection().getTypes()).thenReturn(types);
-    return typeCollection;
+    when(fTypeCollection.getTypes()).thenReturn(types);
+    return fTypeCollection;
   }
 }

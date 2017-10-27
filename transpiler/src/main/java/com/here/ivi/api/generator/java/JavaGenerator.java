@@ -16,8 +16,8 @@ import com.here.ivi.api.generator.android.AbstractAndroidGenerator;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaEnum;
 import com.here.ivi.api.model.javamodel.JavaInterface;
@@ -27,6 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FTypeCollection;
 
 public class JavaGenerator extends AbstractAndroidGenerator {
 
@@ -38,16 +40,16 @@ public class JavaGenerator extends AbstractAndroidGenerator {
     this.deploymentModel = deploymentModel;
   }
 
-  public List<GeneratedFile> generateFilesForInterface(final FrancaElement anInterface) {
+  public List<GeneratedFile> generateFilesForInterface(final FInterface francaInterface) {
 
     JavaModelBuilder modelBuilder =
         new JavaModelBuilder(
             deploymentModel,
-            basePackage.createChildPackage(anInterface.getPackageNames()),
+            basePackage.createChildPackage(DefinedBy.getPackages(francaInterface)),
             new JavaTypeMapper(basePackage));
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
-    treeWalker.walk(anInterface);
+    treeWalker.walkTree(francaInterface);
 
     List<GeneratedFile> results = new LinkedList<>();
 
@@ -62,16 +64,16 @@ public class JavaGenerator extends AbstractAndroidGenerator {
     return results;
   }
 
-  public List<GeneratedFile> generateFiles(final FrancaElement typeCollection) {
+  public List<GeneratedFile> generateFiles(final FTypeCollection francaTypeCollection) {
 
     JavaModelBuilder modelBuilder =
         new JavaModelBuilder(
             deploymentModel,
-            basePackage.createChildPackage(typeCollection.getPackageNames()),
+            basePackage.createChildPackage(DefinedBy.getPackages(francaTypeCollection)),
             new JavaTypeMapper(basePackage));
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
-    treeWalker.walk(typeCollection);
+    treeWalker.walkTree(francaTypeCollection);
 
     return Stream.concat(
             CollectionsHelper.getStreamOfType(modelBuilder.getFinalResults(), JavaClass.class)

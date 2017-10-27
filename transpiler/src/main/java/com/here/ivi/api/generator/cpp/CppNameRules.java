@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.io.File;
 import java.util.List;
@@ -119,13 +118,12 @@ public final class CppNameRules {
     return NameHelper.toLowerSnakeCase(base); // my_parameter
   }
 
-  public static String getHeaderPath(final FrancaElement francaElement) {
-    return getOutputFilePath(francaElement) + HEADER_FILE_SUFFIX;
+  public static String getHeaderPath(final FTypeCollection francaTypeCollection) {
+    return getOutputFilePath(francaTypeCollection) + HEADER_FILE_SUFFIX;
   }
 
-  public static String getOutputFilePath(final FrancaElement francaElement) {
-    FTypeCollection francaTypeCollection = francaElement.getFrancaTypeCollection();
-    return String.join(File.separator, francaElement.getPackageNames())
+  public static String getOutputFilePath(final FTypeCollection francaTypeCollection) {
+    return String.join(File.separator, DefinedBy.getPackages(francaTypeCollection))
         + File.separator
         + (francaTypeCollection instanceof FInterface
             ? getClassName(francaTypeCollection.getName())

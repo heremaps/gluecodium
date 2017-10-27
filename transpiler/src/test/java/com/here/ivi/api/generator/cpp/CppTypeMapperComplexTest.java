@@ -21,7 +21,6 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.*;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -48,9 +47,6 @@ public class CppTypeMapperComplexTest {
   @Rule public ExpectedException exception = ExpectedException.none();
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement mockFrancaModel;
-
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FStructType structType;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -63,8 +59,6 @@ public class CppTypeMapperComplexTest {
   private FMapType francaMapType;
 
   @Mock private FTypeRef francaTypeRef;
-
-  @Mock private FTypeCollection fTypeCollection;
 
   @Mock private CppIncludeResolver includeResolver;
 
@@ -118,8 +112,6 @@ public class CppTypeMapperComplexTest {
     when(structType.getName()).thenReturn(STRUCT_NAME);
     when(structType.getElements().isEmpty()).thenReturn(false);
 
-    when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
-
     //mock CppNameRules
     when(CppNameRules.getFullyQualifiedName(structType)).thenReturn("::a::b::c::" + STRUCT_NAME);
 
@@ -140,8 +132,6 @@ public class CppTypeMapperComplexTest {
     when(francaTypeRef.getDerived()).thenReturn(enumType);
     when(enumType.getName()).thenReturn(ENUM_NAME);
     when(enumType.getEnumerators().isEmpty()).thenReturn(false);
-
-    when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
 
     //mock CppNameRules
     when(CppNameRules.getFullyQualifiedName(enumType)).thenReturn("::" + ENUM_NAME);

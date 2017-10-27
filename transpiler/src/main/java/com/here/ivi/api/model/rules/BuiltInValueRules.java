@@ -14,8 +14,6 @@ package com.here.ivi.api.model.rules;
 import com.here.ivi.api.model.franca.DefinedBy;
 import java.util.Optional;
 import java.util.logging.Logger;
-import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.FModel;
 import org.franca.core.franca.FQualifiedElementRef;
 import org.franca.core.franca.FTypeCollection;
 
@@ -60,12 +58,8 @@ public class BuiltInValueRules {
       final FQualifiedElementRef qualifiedElementRef) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(qualifiedElementRef);
-    EObject container = typeCollection.eContainer();
-    if (!(container instanceof FModel)) {
-      return Optional.empty();
-    }
 
-    String modelName = ((FModel) container).getName();
+    String modelName = DefinedBy.getModelName(typeCollection);
     String qualifiedName = modelName + "." + typeCollection.getName();
 
     if (BUILTIN_MODEL.equals(qualifiedName)) {

@@ -55,7 +55,7 @@ public class CBridgeGeneratorTestPrimitiveTypes extends CBridgeGeneratorTestBase
 
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
 
-    cModel = generator.buildCBridgeModel(anInterface);
+    cModel = generator.buildCBridgeModel(francaInterface);
   }
 
   @Parameterized.Parameters(name = "{1}")

@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.common;
 
-import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -89,13 +88,9 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
     super(builders, FRANCA_TREE_STRUCTURE);
   }
 
-  public void walk(final FrancaElement francaElement) {
+  public void walkTree(final FTypeCollection francaTypeCollection) {
 
-    if (francaElement == null) {
-      return;
-    }
-
-    walk(francaElement.getFrancaTypeCollection());
+    walk(francaTypeCollection);
   }
 
   private static <T extends EObject> void initTreeNode(

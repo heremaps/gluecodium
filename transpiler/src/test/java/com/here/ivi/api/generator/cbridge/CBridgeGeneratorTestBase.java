@@ -22,11 +22,9 @@ import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.List;
 import org.franca.core.franca.*;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -66,9 +64,6 @@ abstract class CBridgeGeneratorTestBase {
   @Mock protected FArgument francaArgument2;
   @Mock protected FTypeRef francaTypeRef2;
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  protected FrancaElement anInterface;
-
   @Mock protected IncludeResolver resolver;
   protected final ArrayEList<FType> interfaceTypes = new ArrayEList<>();
   protected final ArrayEList<FMethod> methods = new ArrayEList<>();
@@ -83,8 +78,6 @@ abstract class CBridgeGeneratorTestBase {
     initMocks(this);
 
     when(deploymentModel.isStatic(any())).thenReturn(true);
-    when(anInterface.getName()).thenReturn(INTERFACE_NAME);
-    when(anInterface.getFrancaTypeCollection()).thenReturn(francaInterface);
 
     when(francaTypeCollction.getName()).thenReturn(TYPE_COLLECTION_NAME);
     when(francaTypeCollction.eContainer()).thenReturn(francaModel);
@@ -118,7 +111,7 @@ abstract class CBridgeGeneratorTestBase {
     PowerMockito.doReturn(PRIVATE_HEADER_NAME)
         .when(CBridgeNameRules.class, "getPrivateHeaderFileNameWithPath", any());
     PowerMockito.doReturn(PUBLIC_HEADER_NAME)
-        .when(CBridgeNameRules.class, "getHeaderFileNameWithPath", any(FrancaElement.class));
+        .when(CBridgeNameRules.class, "getHeaderFileNameWithPath", any());
     PowerMockito.doReturn("")
         .when(CBridgeNameRules.class, "getImplementationFileNameWithPath", any());
 

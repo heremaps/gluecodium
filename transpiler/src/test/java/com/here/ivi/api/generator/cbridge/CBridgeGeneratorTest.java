@@ -41,7 +41,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
   @Test
   public void generatesHeaderImplementationAndPrivateHeader() {
-    Stream<GeneratedFile> files = generator.generate(anInterface);
+    Stream<GeneratedFile> files = generator.generate(francaInterface);
 
     assertEquals(
         "Should generate header, implementation and private header file",
@@ -76,7 +76,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -93,7 +93,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedPrivateHeader =
         TemplateComparator.expect(CBRIDGE_HEADER_INCLUDE).expect(BASEAPI_HEADER_INCLUDE).build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
     expectedPrivateHeader.assertMatches(CBridgeGenerator.generatePrivateHeaderContent(cModel));
@@ -115,7 +115,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -124,7 +124,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
   @Test
   public void functionTableIsGenerated() {
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     TemplateComparator.expect(
             "typedef struct {\n"
@@ -148,7 +148,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -157,7 +157,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
   @Test
   public void functionWithoutArgumentsInFunctionTable() {
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     TemplateComparator.expect(
             "typedef struct {\n"
@@ -188,7 +188,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -202,7 +202,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);
     inputArguments.add(francaArgument1);
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     TemplateComparator.expect(
             "typedef struct {\n"
@@ -239,7 +239,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -274,7 +274,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -305,7 +305,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -332,7 +332,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -381,7 +381,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -413,7 +413,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -443,7 +443,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -486,7 +486,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -504,7 +504,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
             .expect("typedef uint32_t cbridge_test_TestInterface_TestEnum;\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
   }
@@ -548,7 +548,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -582,7 +582,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
@@ -638,7 +638,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
                     + "}\n")
             .build();
 
-    CInterface cModel = generator.buildCBridgeModel(anInterface);
+    CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));

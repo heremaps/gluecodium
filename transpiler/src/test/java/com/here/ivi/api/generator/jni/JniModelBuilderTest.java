@@ -25,7 +25,6 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.model.cppmodel.*;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -41,7 +40,6 @@ import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
@@ -69,9 +67,6 @@ public class JniModelBuilderTest {
   private static final List<String> JAVA_PACKAGES = Arrays.asList("my", "java", "test");
   private static final List<String> CPP_NAMESPACE_MEMBERS =
       Arrays.asList("my", "cpp", "stuffs", "namespace");
-
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement rootModel;
 
   @Mock private FInterface francaInterface;
   @Mock private FTypeCollection francaTypeCollection;
@@ -113,7 +108,7 @@ public class JniModelBuilderTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(InstanceRules.class);
 
-    modelBuilder = new JniModelBuilder(contextStack, rootModel, javaBuilder, cppBuilder);
+    modelBuilder = new JniModelBuilder(contextStack, javaBuilder, cppBuilder);
 
     javaSetter.parameters.add(new JavaParameter(JavaPrimitiveType.INT, "value"));
     cppSetter.parameters.add(new CppParameter("value", CppPrimitiveTypeRef.INT8));
@@ -121,6 +116,10 @@ public class JniModelBuilderTest {
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppClass);
     when(francaMethod.getOutArgs()).thenReturn(arguments);
+
+    when(francaInterface.eContainer()).thenReturn(fModel);
+    when(francaTypeCollection.eContainer()).thenReturn(fModel);
+    when(fModel.getName()).thenReturn(String.join(".", CPP_NAMESPACE_MEMBERS));
   }
 
   private static JavaMethod createJavaMethod() {
@@ -242,7 +241,6 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsJavaCppClasses() {
     //arrange
-    when(rootModel.getPackageNames()).thenReturn(CPP_NAMESPACE_MEMBERS);
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
 
     //act
@@ -406,8 +404,6 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaTypeCollectionReadsStructs() {
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
-    when(francaTypeCollection.eContainer()).thenReturn(fModel);
-    when(fModel.getName()).thenReturn(String.join(".", CPP_NAMESPACE_MEMBERS));
     JniStruct jniStruct = new JniStruct(javaClass, new CppStruct(CPP_CLASS_NAME), null);
     contextStack.injectResult(jniStruct);
 
@@ -426,8 +422,6 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaTypeCollectionWithNoStruct() {
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
-    when(francaTypeCollection.eContainer()).thenReturn(fModel);
-    when(fModel.getName()).thenReturn(String.join(".", CPP_NAMESPACE_MEMBERS));
 
     modelBuilder.finishBuilding(francaTypeCollection);
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
@@ -563,8 +557,6 @@ public class JniModelBuilderTest {
 
     // arrange
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
-    when(francaTypeCollection.eContainer()).thenReturn(fModel);
-    when(fModel.getName()).thenReturn(String.join(".", CPP_NAMESPACE_MEMBERS));
     JniEnum jniEnum = new JniEnum.Builder("MyJavaEnumName", "MyCppEnumName").build();
     contextStack.injectResult(jniEnum);
 

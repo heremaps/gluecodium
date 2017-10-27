@@ -12,7 +12,7 @@
 package com.here.ivi.api.validator.common;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaModel;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.franca.core.franca.FModelElement;
+import org.franca.core.franca.FTypeCollection;
 
 public class NameValidator {
 
@@ -34,14 +35,13 @@ public class NameValidator {
   @VisibleForTesting
   static boolean checkTypeNamesInTypeCollection(final FrancaModel model) {
     Map<String, List<String>> packageNameMapping = new HashMap<>();
-    for (FrancaElement typeCollection : model.typeCollections) {
+    for (FTypeCollection typeCollection : model.typeCollections) {
 
-      String packageName = typeCollection.getFrancaModel().getName();
+      String packageName = DefinedBy.getModelName(typeCollection);
       List<String> value =
           packageNameMapping.computeIfAbsent(packageName, key -> new LinkedList<>());
       value.addAll(
           typeCollection
-              .getFrancaTypeCollection()
               .getTypes()
               .stream()
               .map(FModelElement::getName)
@@ -63,10 +63,11 @@ public class NameValidator {
   }
 
   private static void collectName(
-      final FrancaElement francaElement, final Map<String, List<String>> packageNameMapping) {
-    String packageName = francaElement.getFrancaModel().getName();
+      final FTypeCollection francaTypeCollection,
+      final Map<String, List<String>> packageNameMapping) {
+    String packageName = DefinedBy.getModelName(francaTypeCollection);
     List<String> value = packageNameMapping.computeIfAbsent(packageName, key -> new LinkedList<>());
-    value.add(francaElement.getName());
+    value.add(francaTypeCollection.getName());
   }
 
   private static boolean checkForDuplicateNames(
