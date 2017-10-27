@@ -1,0 +1,83 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+typeCollection EnumsTypeCollection {
+    version {
+        major 0
+        minor 1
+    }
+
+    enumeration InternalErrorTypeCollection {
+        ERROR_NONE
+        ERROR_FATAL = 999
+    }
+
+    struct ErrorStructTypeCollection {
+        EnumsTypeCollection.InternalErrorTypeCollection type
+        String message
+    }
+}
+
+interface EnumsTypeCollectionMethods {
+    version {
+        major 0
+        minor 1
+    }
+
+    <** @description:
+    Example static method which takes any InternalError and returns the opposite one
+    (e.g. if ERROR_NONE is given, ERROR_FATAL is returned)
+    **>
+    method flipEnumValue {
+        in {
+            <** @description: Input enum **>
+            EnumsTypeCollection.InternalErrorTypeCollection input
+        }
+        out {
+            <** @description: Output enum **>
+            EnumsTypeCollection.InternalErrorTypeCollection output
+        }
+    }
+
+    <** @description:
+    Example static method which takes struct with enum and returns just enum with reversed value
+    (e.g. if ERROR_NONE is given, ERROR_FATAL is returned)
+    **>
+    method extractEnumFromStruct {
+        in {
+            <** @description: Input struct with **>
+            EnumsTypeCollection.ErrorStructTypeCollection input
+        }
+        out {
+            <** @description: Output enum **>
+            EnumsTypeCollection.InternalErrorTypeCollection output
+        }
+    }
+
+    <** @description:
+    Example static method which takes enum and String and returns struct made of them. Value of enum is inverted.
+    (e.g. if ERROR_NONE is given, ERROR_FATAL is returned)
+    **>
+    method createStructWithEnumInside {
+        in {
+            <** @description: input error **>
+            EnumsTypeCollection.InternalErrorTypeCollection type
+            <** @description: input message **>
+            String message
+        }
+        out {
+            <** @description: Output struct with enum and string **>
+            EnumsTypeCollection.ErrorStructTypeCollection output
+        }
+    }
+}
