@@ -146,6 +146,14 @@ feature(Enums cpp android swift SOURCES
     fidl/test/Enums.fidl
     )
 
+#TODO: enable for swift (APIGEN-878)
+feature(EnumsTC cpp android SOURCES
+    src/test/EnumsTypeCollection.cpp
+
+    fidl/test/EnumsTypeCollection.fdepl
+    fidl/test/EnumsTypeCollection.fidl
+    )
+
 #TODO: enable for android and swift (APIGEN-739, APIGEN-730)
 feature(Maps cpp SOURCES
     src/hello/HelloWorldMaps.cpp
