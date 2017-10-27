@@ -6,11 +6,13 @@
     }}{{#case "ENUM"}}static_cast<{{mappedType.name}}>({{name}}){{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{/delegateConversion}}
-{{+callBaseApi}}{{^selfParameter}}{{delegateCall}}{{/selfParameter}}{{#selfParameter}}get_pointer({{name}})->get()->{{functionName}}{{/selfParameter}}({{joinPartial parameters "delegateConversion" ", "}}){{#if hasError}}.get_result(){{/if}}{{/callBaseApi}}
+{{+callBaseApi}}{{^selfParameter}}{{delegateCall}}{{/selfParameter}}{{#selfParameter}}get_pointer({{name}})->get()->{{functionName}}{{/selfParameter}}({{joinPartial parameters "delegateConversion" ", "}}){{/callBaseApi}}
+{{!Remove once APIGEN-701 is done and replace with direct callBaseApi}}
+{{+callBaseApiErrorHack}}{{#if hasError}}{{#isEq returnType.name "void"}}(void){{/isEq}}{{/if}}{{>callBaseApi}}{{#if hasError}}{{#isNotEq returnType.name "void"}}.get_result(){{/isNotEq}}{{/if}}{{/callBaseApiErrorHack}}
 {{>cbridge/FunctionSignature}} {
 {{#switch returnType.typeCategory.toString}}
-    {{#case "BUILTIN_SIMPLE"}}return {{>callBaseApi}};{{/case}}{{!!
-    }}{{#case "ENUM"}}return static_cast<{{returnType.functionReturnType}}>({{>callBaseApi}});{{/case}}{{!!
-    }}{{#default}}return {new {{returnType.name}}({{>callBaseApi}})};{{/default}}
+    {{#case "BUILTIN_SIMPLE"}}return {{>callBaseApiErrorHack}};{{/case}}{{!!
+    }}{{#case "ENUM"}}return static_cast<{{returnType.functionReturnType}}>({{>callBaseApiErrorHack}});{{/case}}{{!!
+    }}{{#default}}return {new {{returnType.name}}({{>callBaseApiErrorHack}})};{{/default}}
 {{/switch}}
 }
