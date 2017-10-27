@@ -57,7 +57,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     CppGenerator generator = new CppGenerator();
 
     List<GeneratedFile> generatedFiles =
-        model
+        typeCollections
             .stream()
             .flatMap(
                 francaTypeCollection ->
@@ -94,7 +94,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
   private CppFile mapFrancaTypeCollectionToCppModel(final FTypeCollection francaTypeCollection) {
 
-    CppModelBuilder builder = new CppModelBuilder(model.deploymentModel, includeResolver);
+    CppModelBuilder builder = new CppModelBuilder(deploymentModel, includeResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walkTree(francaTypeCollection);

@@ -17,7 +17,7 @@ import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.model.franca.FrancaModel;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.validator.common.NameValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
@@ -25,17 +25,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.franca.core.franca.FTypeCollection;
 
 /** The base class for all the generators. */
 public abstract class GeneratorSuite {
 
-  protected FrancaModel model;
+  protected FrancaDeploymentModel deploymentModel;
+  protected final List<FTypeCollection> typeCollections = new LinkedList<>();
   private final FrancaModelLoader francaModelLoader;
   private Collection<File> currentFiles;
 
@@ -59,12 +58,10 @@ public abstract class GeneratorSuite {
    * @return boolean True if the model is valid, false otherwise.
    */
   public boolean validate() {
-    if (model == null) {
-      return false;
-    }
 
     ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
-    return NameValidator.validate(model) && ResourceValidator.validate(resources, currentFiles);
+    return NameValidator.validate(typeCollections)
+        && ResourceValidator.validate(resources, currentFiles);
   }
 
   /**
@@ -80,7 +77,8 @@ public abstract class GeneratorSuite {
     for (File inputPath : inputPaths) {
       currentFiles.addAll(FrancaModelLoader.listFilesRecursively(inputPath));
     }
-    model = francaModelLoader.load(getSpecPath(), currentFiles);
+
+    deploymentModel = francaModelLoader.load(getSpecPath(), currentFiles, typeCollections);
   }
 
   public static String getSpecPath() {

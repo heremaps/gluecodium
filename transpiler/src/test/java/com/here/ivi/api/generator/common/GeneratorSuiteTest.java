@@ -15,13 +15,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.inject.Injector;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
@@ -75,13 +73,8 @@ public class GeneratorSuiteTest {
     PowerMockito.mockStatic(ResourceValidator.class, FrancaModelLoader.class, ModelHelper.class);
     MockitoAnnotations.initMocks(this);
 
-    FrancaModel francaModel =
-        new FrancaModel(null, Collections.emptyList(), Collections.emptyList());
-    when(francaModelLoader.load(any(), any())).thenReturn(francaModel);
-
     Collection<File> files = Collections.singletonList(new File("nonsense.fidl"));
     when(FrancaModelLoader.listFilesRecursively(any())).thenReturn(files);
-    when(francaModelLoader.load(any(), any())).thenReturn(francaModel);
     when(ModelHelper.getFdeplInjector()).thenReturn(injector);
   }
 
@@ -91,23 +84,11 @@ public class GeneratorSuiteTest {
     generatorSuite = new TestableGeneratorSuite(francaModelLoader);
     generatorSuite.buildModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
 
-    verify(francaModelLoader).load(eq(GeneratorSuite.getSpecPath()), any());
+    verify(francaModelLoader).load(eq(GeneratorSuite.getSpecPath()), any(), any());
     PowerMockito.verifyStatic();
     ModelHelper.getFdeplInjector();
     PowerMockito.verifyStatic();
     FrancaModelLoader.listFilesRecursively(new File(MOCK_INPUT_PATH));
-  }
-
-  @Test
-  public void validateWithNullModel() {
-
-    when(francaModelLoader.load(any(), any())).thenReturn(null);
-    generatorSuite = new TestableGeneratorSuite(francaModelLoader);
-
-    assertFalse(generatorSuite.validate());
-
-    PowerMockito.verifyStatic(never());
-    ResourceValidator.validate(any(), any());
   }
 
   @Test
@@ -147,7 +128,7 @@ public class GeneratorSuiteTest {
 
     generatorSuite.buildModels(inputPaths);
 
-    verify(francaModelLoader).load(eq(GeneratorSuite.getSpecPath()), any());
+    verify(francaModelLoader).load(eq(GeneratorSuite.getSpecPath()), any(), any());
     PowerMockito.verifyStatic();
     ModelHelper.getFdeplInjector();
     PowerMockito.verifyStatic();

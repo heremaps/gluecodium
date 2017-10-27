@@ -29,7 +29,6 @@ import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.franca.core.dsl.FrancaPersistenceManager;
-import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.dsl.FDeployPersistenceManager;
 import org.franca.deploymodel.dsl.fDeploy.*;
@@ -129,7 +128,10 @@ public class FrancaModelLoader {
   }
 
   // builds a lists of FrancaModels for all the fidl & fdepl provided
-  public FrancaModel load(String specPath, Collection<File> targetFiles) {
+  public FrancaDeploymentModel load(
+      final String specPath,
+      final Collection<File> targetFiles,
+      final List<FTypeCollection> typeCollectionResults) {
     final FDSpecification spec = loadSpecification(specPath);
     LOGGER.fine("Loaded specification " + spec.getName());
 
@@ -143,9 +145,6 @@ public class FrancaModelLoader {
             .map(this::loadDeploymentModel)
             .collect(Collectors.toList());
 
-    List<FInterface> interfaces = new LinkedList<>();
-    List<FTypeCollection> typeCollections = new LinkedList<>();
-
     // load all found fidl files and fill the Interfaces and TypeCollections lists from them
     bySuffix
         .get(FIDL_SUFFIX)
@@ -158,11 +157,11 @@ public class FrancaModelLoader {
             })
         .forEach(
             fModel -> {
-              interfaces.addAll(fModel.getInterfaces());
-              typeCollections.addAll(fModel.getTypeCollections());
+              typeCollectionResults.addAll(fModel.getInterfaces());
+              typeCollectionResults.addAll(fModel.getTypeCollections());
             });
 
-    return new FrancaModel(new FrancaDeploymentModel(extendedModels), interfaces, typeCollections);
+    return new FrancaDeploymentModel(extendedModels);
   }
 
   private FDModel loadDeploymentModel(File file) {

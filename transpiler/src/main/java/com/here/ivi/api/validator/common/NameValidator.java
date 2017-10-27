@@ -12,8 +12,8 @@
 package com.here.ivi.api.validator.common;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaModel;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
@@ -28,14 +29,17 @@ public class NameValidator {
 
   private static final Logger LOGGER = Logger.getLogger(NameValidator.class.getName());
 
-  public static boolean validate(final FrancaModel model) {
-    return checkTypeCollectionNames(model) && checkTypeNamesInTypeCollection(model);
+  public static boolean validate(final List<FTypeCollection> typeCollections) {
+    return checkTypeCollectionNames(typeCollections)
+        && checkTypeNamesInTypeCollection(typeCollections);
   }
 
   @VisibleForTesting
-  static boolean checkTypeNamesInTypeCollection(final FrancaModel model) {
+  static boolean checkTypeNamesInTypeCollection(final List<FTypeCollection> typeCollections) {
     Map<String, List<String>> packageNameMapping = new HashMap<>();
-    for (FTypeCollection typeCollection : model.typeCollections) {
+    List<FTypeCollection> filteredTypeCollections =
+        CollectionsHelper.getAllNotOfType(typeCollections, FInterface.class);
+    for (FTypeCollection typeCollection : filteredTypeCollections) {
 
       String packageName = DefinedBy.getModelName(typeCollection);
       List<String> value =
@@ -52,12 +56,10 @@ public class NameValidator {
   }
 
   @VisibleForTesting
-  static boolean checkTypeCollectionNames(final FrancaModel model) {
+  static boolean checkTypeCollectionNames(final List<FTypeCollection> typeCollections) {
 
     Map<String, List<String>> packageNameMapping = new HashMap<>();
-    model.typeCollections.forEach(
-        typeCollection -> collectName(typeCollection, packageNameMapping));
-    model.interfaces.forEach(anInterface -> collectName(anInterface, packageNameMapping));
+    typeCollections.forEach(typeCollection -> collectName(typeCollection, packageNameMapping));
 
     return checkForDuplicateNames(packageNameMapping, "type collection");
   }

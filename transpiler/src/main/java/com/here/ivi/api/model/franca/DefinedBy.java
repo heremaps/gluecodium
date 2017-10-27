@@ -41,7 +41,7 @@ public final class DefinedBy {
   }
 
   public static List<String> getPackages(final FTypeCollection francaTypeCollection) {
-    return Strings.split(((FModel) francaTypeCollection.eContainer()).getName(), ".");
+    return Strings.split(getModelName(francaTypeCollection), ".");
   }
 
   public static String getModelName(final FTypeCollection typeCollection) {
