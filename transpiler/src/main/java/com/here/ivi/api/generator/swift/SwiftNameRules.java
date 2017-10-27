@@ -15,7 +15,7 @@ import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.UNDERSCORE_DEL
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.swift.SwiftType;
 import java.io.File;
 import org.franca.core.franca.*;
@@ -26,17 +26,16 @@ public final class SwiftNameRules {
 
   private SwiftNameRules() {}
 
-  public static String getImplementationFileName(final FrancaElement francaElement) {
+  public static String getImplementationFileName(final FTypeCollection francaTypeCollection) {
     return TARGET_DIRECTORY
-        + String.join(File.separator, francaElement.getPackageNames())
+        + String.join(File.separator, DefinedBy.getPackages(francaTypeCollection))
         + File.separator
-        + getFileName(francaElement)
+        + getFileName(francaTypeCollection)
         + ".swift";
   }
 
-  private static String getFileName(final FrancaElement francaElement) {
+  private static String getFileName(final FTypeCollection francaTypeCollection) {
     String switchResult;
-    FTypeCollection francaTypeCollection = francaElement.getFrancaTypeCollection();
     if (francaTypeCollection instanceof FInterface) {
       switchResult = SwiftNameRules.computeClassName(francaTypeCollection);
     } else {

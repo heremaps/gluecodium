@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +32,6 @@ import org.franca.core.franca.FTypeDef;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
@@ -44,15 +42,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({InstanceRules.class, NameHelper.class})
 public class CppNameRulesTest {
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement mockFrancaModel;
-
   @Mock private FModel fModel;
-  @Mock private FTypeCollection fTypeCollection;
-  @Mock private FInterface fInterface;
+  @Mock private FTypeCollection francaTypeCollection;
+  @Mock private FInterface francaInterface;
   @Mock private FType fType;
-  @Mock private FrancaElement anInterface;
-  @Mock private FrancaElement typeCollection;
   @Mock private FCompoundType compound;
   @Mock private FEnumerationType enumeration;
   @Mock private FTypeDef typeDef;
@@ -64,19 +57,18 @@ public class CppNameRulesTest {
     PowerMockito.mockStatic(InstanceRules.class);
     PowerMockito.spy(NameHelper.class);
 
-    when(fInterface.eContainer()).thenReturn(fModel);
-    when(fTypeCollection.eContainer()).thenReturn(fModel);
+    when(francaInterface.eContainer()).thenReturn(fModel);
+    when(francaTypeCollection.eContainer()).thenReturn(fModel);
 
-    when(fInterface.getName()).thenReturn("AnInterface");
+    when(francaInterface.getName()).thenReturn("AnInterface");
     when(fModel.getName()).thenReturn("a.b.c");
   }
 
   @Test
   public void getNestedNameSpecifierForTypeFromInterface() {
-    when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fInterface);
-    when(fInterface.getName()).thenReturn("Iface");
+    when(francaInterface.getName()).thenReturn("Iface");
     when(fModel.getName()).thenReturn("my.fancy.package");
-    when(fType.eContainer()).thenReturn(fInterface);
+    when(fType.eContainer()).thenReturn(francaInterface);
 
     //act
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
@@ -87,10 +79,9 @@ public class CppNameRulesTest {
 
   @Test
   public void getNestedNameSpecifierForTypeFromTypeCollection() {
-    when(mockFrancaModel.getFrancaTypeCollection()).thenReturn(fTypeCollection);
-    when(fTypeCollection.getName()).thenReturn("TCollection");
+    when(francaTypeCollection.getName()).thenReturn("TCollection");
     when(fModel.getName()).thenReturn("my.fancy.package");
-    when(fType.eContainer()).thenReturn(fTypeCollection);
+    when(fType.eContainer()).thenReturn(francaTypeCollection);
 
     //act
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
@@ -101,39 +92,33 @@ public class CppNameRulesTest {
 
   @Test
   public void getHeaderNameForInterface() {
-    List<String> packageNames = Arrays.asList("my", "fancy", "package");
-    when(anInterface.getPackageNames()).thenReturn(packageNames);
-    when(anInterface.getFrancaTypeCollection()).thenReturn(fInterface);
-    when(fInterface.getName()).thenReturn("FancyName");
+    when(fModel.getName()).thenReturn("my.fancy.package");
+    when(francaInterface.getName()).thenReturn("FancyName");
 
-    String headerPath = CppNameRules.getHeaderPath(anInterface);
+    String headerPath = CppNameRules.getHeaderPath(francaInterface);
 
     assertEquals("my/fancy/package/FancyName.h", headerPath);
 
-    verify(anInterface).getPackageNames();
-    verify(anInterface).getFrancaTypeCollection();
-    verify(fInterface).getName();
+    verify(francaInterface).getName();
+    verify(fModel).getName();
   }
 
   @Test
   public void getHeaderNameForTypeCollection() {
-    List<String> packageNames = Arrays.asList("my", "fancy", "package");
-    when(typeCollection.getPackageNames()).thenReturn(packageNames);
-    when(typeCollection.getFrancaTypeCollection()).thenReturn(fTypeCollection);
-    when(fTypeCollection.getName()).thenReturn("FancyTypeCollectionName");
+    when(fModel.getName()).thenReturn("my.fancy.package");
+    when(francaTypeCollection.getName()).thenReturn("FancyTypeCollectionName");
 
-    String headerPath = CppNameRules.getHeaderPath(typeCollection);
+    String headerPath = CppNameRules.getHeaderPath(francaTypeCollection);
 
     assertEquals("my/fancy/package/FancyTypeCollectionName.h", headerPath);
 
-    verify(typeCollection).getPackageNames();
-    verify(typeCollection).getFrancaTypeCollection();
-    verify(fTypeCollection).getName();
+    verify(francaTypeCollection).getName();
+    verify(fModel).getName();
   }
 
   @Test
   public void getFullyQualifiedNameOfCompoundType() {
-    when(compound.eContainer()).thenReturn(fInterface);
+    when(compound.eContainer()).thenReturn(francaInterface);
     when(compound.getName()).thenReturn("TestCompound");
 
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(compound);
@@ -143,7 +128,7 @@ public class CppNameRulesTest {
 
   @Test
   public void getFullyQualifiedNameOfTypeCollectionCompoundType() {
-    when(compound.eContainer()).thenReturn(fTypeCollection);
+    when(compound.eContainer()).thenReturn(francaTypeCollection);
     when(compound.getName()).thenReturn("TestCompound");
 
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(compound);
@@ -153,7 +138,7 @@ public class CppNameRulesTest {
 
   @Test
   public void getFullyQualifiedNameOfEnumeration() {
-    when(enumeration.eContainer()).thenReturn(fInterface);
+    when(enumeration.eContainer()).thenReturn(francaInterface);
     when(enumeration.getName()).thenReturn("TestEnumeration");
 
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(enumeration);
@@ -163,7 +148,7 @@ public class CppNameRulesTest {
 
   @Test
   public void getFullyQualifiedNameOfTypeCollectionEnumeration() {
-    when(enumeration.eContainer()).thenReturn(fTypeCollection);
+    when(enumeration.eContainer()).thenReturn(francaTypeCollection);
     when(enumeration.getName()).thenReturn("TestEnumeration");
 
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(enumeration);
@@ -173,7 +158,7 @@ public class CppNameRulesTest {
 
   @Test
   public void getFullyQualifiedNameOfSimpleTypeDefinition() {
-    when(typeDef.eContainer()).thenReturn(fInterface);
+    when(typeDef.eContainer()).thenReturn(francaInterface);
     when(typeDef.getName()).thenReturn("TestTypeDefinition");
     when(InstanceRules.isInstanceId(typeDef)).thenReturn(false);
 
@@ -184,7 +169,7 @@ public class CppNameRulesTest {
 
   @Test
   public void getFullyQualifiedNameOfInstanceIdTypeDefinition() {
-    when(typeDef.eContainer()).thenReturn(fInterface);
+    when(typeDef.eContainer()).thenReturn(francaInterface);
     when(typeDef.getName()).thenReturn("TestTypeDefinition");
     when(InstanceRules.isInstanceId(typeDef)).thenReturn(true);
 
@@ -195,7 +180,7 @@ public class CppNameRulesTest {
 
   @Test
   public void getConstantFullyQualifiedName() {
-    when(fConstantDef.eContainer()).thenReturn(fInterface);
+    when(fConstantDef.eContainer()).thenReturn(francaInterface);
     when(fConstantDef.getName()).thenReturn("fixed");
 
     String fullyQualifiedName = CppNameRules.getConstantFullyQualifiedName(fConstantDef);

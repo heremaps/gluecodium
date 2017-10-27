@@ -23,11 +23,12 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppElementWithIncludes;
 import com.here.ivi.api.model.cppmodel.CppFile;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
-import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.franca.DefinedBy;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.franca.core.franca.FTypeCollection;
 
 /**
  * This generator will build all the BaseApis that will have to be implemented on the client
@@ -58,7 +59,9 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     List<GeneratedFile> generatedFiles =
         model
             .stream()
-            .flatMap(francaElement -> generateFromFrancaElement(francaElement, generator))
+            .flatMap(
+                francaTypeCollection ->
+                    generateFromFrancaTypeCollection(francaTypeCollection, generator))
             .collect(Collectors.toList());
 
     generatedFiles.add(GeneratorSuite.copyTarget(GENERATOR_NAME + "/internal/expected.h", ""));
@@ -72,11 +75,11 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     return "com.here.BaseApiGenerator";
   }
 
-  private Stream<GeneratedFile> generateFromFrancaElement(
-      final FrancaElement francaElement, final CppGenerator generator) {
+  private Stream<GeneratedFile> generateFromFrancaTypeCollection(
+      final FTypeCollection francaTypeCollection, final CppGenerator generator) {
 
-    CppFile cppModel = mapFrancaElementToCppModel(francaElement);
-    String outputFilePath = CppNameRules.getOutputFilePath(francaElement);
+    CppFile cppModel = mapFrancaTypeCollectionToCppModel(francaTypeCollection);
+    String outputFilePath = CppNameRules.getOutputFilePath(francaTypeCollection);
 
     return generator
         .generateCode(cppModel, outputFilePath, BaseApiGeneratorSuite.GENERATOR_NAME)
@@ -86,17 +89,17 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   @Override
   public void buildModels(final Collection<File> inputPaths) {
     super.buildModels(inputPaths);
-    includeResolver = new CppIncludeResolver(model);
+    includeResolver = new CppIncludeResolver();
   }
 
-  private CppFile mapFrancaElementToCppModel(final FrancaElement francaElement) {
+  private CppFile mapFrancaTypeCollectionToCppModel(final FTypeCollection francaTypeCollection) {
 
     CppModelBuilder builder = new CppModelBuilder(model.deploymentModel, includeResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
-    treeWalker.walk(francaElement);
+    treeWalker.walkTree(francaTypeCollection);
 
-    CppFile cppModel = new CppFile(francaElement.getPackageNames());
+    CppFile cppModel = new CppFile(DefinedBy.getPackages(francaTypeCollection));
     cppModel.members.addAll(builder.getFinalResults());
     cppModel.includes.addAll(collectIncludes(cppModel));
 

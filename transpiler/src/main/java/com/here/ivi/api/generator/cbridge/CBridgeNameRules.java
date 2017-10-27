@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.cbridge;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaElement;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,24 +30,26 @@ public final class CBridgeNameRules {
 
   private CBridgeNameRules() {}
 
-  public static String getHeaderFileNameWithPath(final FrancaElement francaElement) {
+  public static String getHeaderFileNameWithPath(final FTypeCollection francaTypeCollection) {
     return Paths.get(
-            getPublicDirectoryName(francaElement.getPackageNames()),
-            getHeaderFileName(getName(francaElement)))
+            getPublicDirectoryName(DefinedBy.getPackages(francaTypeCollection)),
+            getHeaderFileName(getName(francaTypeCollection)))
         .toString();
   }
 
-  public static String getPrivateHeaderFileNameWithPath(final FrancaElement francaElement) {
+  public static String getPrivateHeaderFileNameWithPath(
+      final FTypeCollection francaTypeCollection) {
     return Paths.get(
-            getPrivateDirectoryName(francaElement.getPackageNames()),
-            getPrivateHeaderFileName(getName(francaElement)))
+            getPrivateDirectoryName(DefinedBy.getPackages(francaTypeCollection)),
+            getPrivateHeaderFileName(getName(francaTypeCollection)))
         .toString();
   }
 
-  public static String getImplementationFileNameWithPath(final FrancaElement francaElement) {
+  public static String getImplementationFileNameWithPath(
+      final FTypeCollection francaTypeCollection) {
     return Paths.get(
-            getPublicDirectoryName(francaElement.getPackageNames()),
-            getImplementationFileName(getName(francaElement)))
+            getPublicDirectoryName(DefinedBy.getPackages(francaTypeCollection)),
+            getImplementationFileName(getName(francaTypeCollection)))
         .toString();
   }
 
@@ -76,8 +77,8 @@ public final class CBridgeNameRules {
     return getDirectoryName(packages, INTERNAL_SOURCE_FOLDER);
   }
 
-  private static String getName(final FrancaElement francaElement) {
-    return NameHelper.toUpperCamelCase(francaElement.getName());
+  private static String getName(final FTypeCollection francaTypeCollection) {
+    return NameHelper.toUpperCamelCase(francaTypeCollection.getName());
   }
 
   public static String getFunctionTableName(FInterface francaInterface) {

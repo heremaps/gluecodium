@@ -13,14 +13,12 @@ package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.common.NameHelper.toUpperCamelCase;
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.ArrayList;
 import java.util.List;
 import org.franca.core.franca.FAttribute;
@@ -34,7 +32,6 @@ import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -50,9 +47,6 @@ public class CBridgeNameRulesTest {
   private static final String METHOD_NAME = "testMethod";
   private static final String ATTRIBUTE_NAME = "TestAttributeName";
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private FrancaElement anInterface;
-
   @Mock private FModel francaModel;
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FInterface francaInterface;
@@ -65,8 +59,8 @@ public class CBridgeNameRulesTest {
   @Before
   public void setUp() {
     mockStatic(CppNameRules.class);
-    when(anInterface.getPackageNames()).thenReturn(PACKAGES);
-    when(anInterface.getName()).thenReturn(INTERFACE_NAME);
+    when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
+    when(francaInterface.eContainer()).thenReturn(francaModel);
 
     when(francaStruct.getName()).thenReturn(STRUCT_NAME);
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
@@ -138,18 +132,10 @@ public class CBridgeNameRulesTest {
   }
 
   @Test
-  public void getMethodNameDoesNotThrowExceptionWhenPackageListIsSingletonList() {
-    when(anInterface.getPackageNames()).thenReturn(singletonList("PKG"));
-    when(francaMethod.getName()).thenReturn(METHOD_NAME);
-
-    CBridgeNameRules.getMethodName(francaMethod);
-  }
-
-  @Test
   public void getHeaderFileNameWithPathReturnsCorrectPath() {
     String expected = "cbridge/PKG1/PKG2/TestInterface.h";
 
-    String actual = CBridgeNameRules.getHeaderFileNameWithPath(anInterface);
+    String actual = CBridgeNameRules.getHeaderFileNameWithPath(francaInterface);
 
     assertEquals(expected, actual);
   }
@@ -158,7 +144,7 @@ public class CBridgeNameRulesTest {
   public void getImplementationFileNameWithPathReturnsCorrectPath() {
     String expected = "cbridge/PKG1/PKG2/TestInterface.cpp";
 
-    String actual = CBridgeNameRules.getImplementationFileNameWithPath(anInterface);
+    String actual = CBridgeNameRules.getImplementationFileNameWithPath(francaInterface);
 
     assertEquals(expected, actual);
   }

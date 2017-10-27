@@ -21,6 +21,8 @@ import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FTypeCollection;
 
 public final class LoadModelHelper {
 
@@ -43,12 +45,12 @@ public final class LoadModelHelper {
     }
   }
 
-  public static FrancaElement extractNthInterfaceFromModel(FrancaModel model, int index) {
+  public static FInterface extractNthInterfaceFromModel(FrancaModel model, int index) {
     assertTrue(index < model.interfaces.size());
     return model.interfaces.get(index);
   }
 
-  public static FrancaElement extractNthTypeCollectionFromModel(FrancaModel model, int index) {
+  public static FTypeCollection extractNthTypeCollectionFromModel(FrancaModel model, int index) {
     assertTrue(index < model.typeCollections.size());
     return model.typeCollections.get(index);
   }

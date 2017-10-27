@@ -29,6 +29,8 @@ import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.franca.core.dsl.FrancaPersistenceManager;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FTypeCollection;
 import org.franca.deploymodel.dsl.FDeployPersistenceManager;
 import org.franca.deploymodel.dsl.fDeploy.*;
 
@@ -141,8 +143,8 @@ public class FrancaModelLoader {
             .map(this::loadDeploymentModel)
             .collect(Collectors.toList());
 
-    List<FrancaElement> interfaces = new LinkedList<>();
-    List<FrancaElement> typeCollections = new LinkedList<>();
+    List<FInterface> interfaces = new LinkedList<>();
+    List<FTypeCollection> typeCollections = new LinkedList<>();
 
     // load all found fidl files and fill the Interfaces and TypeCollections lists from them
     bySuffix
@@ -154,7 +156,11 @@ public class FrancaModelLoader {
               LOGGER.fine("Loading fidl " + asUri);
               return fidlLoader.loadModel(asUri, ROOT_URI);
             })
-        .forEach(fModel -> FrancaModel.createElements(fModel, interfaces, typeCollections));
+        .forEach(
+            fModel -> {
+              interfaces.addAll(fModel.getInterfaces());
+              typeCollections.addAll(fModel.getTypeCollections());
+            });
 
     return new FrancaModel(new FrancaDeploymentModel(extendedModels), interfaces, typeCollections);
   }

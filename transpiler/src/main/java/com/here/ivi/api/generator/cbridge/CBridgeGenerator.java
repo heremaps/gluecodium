@@ -22,9 +22,9 @@ import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.franca.FrancaElement;
 import java.util.*;
 import java.util.stream.Stream;
+import org.franca.core.franca.FTypeCollection;
 
 public class CBridgeGenerator {
 
@@ -48,18 +48,18 @@ public class CBridgeGenerator {
     this.resolver = includeResolver;
   }
 
-  public Stream<GeneratedFile> generate(FrancaElement francaElement) {
-    CInterface cModel = buildCBridgeModel(francaElement);
+  public Stream<GeneratedFile> generate(final FTypeCollection francaTypeCollection) {
+    CInterface cModel = buildCBridgeModel(francaTypeCollection);
     return Stream.of(
             new GeneratedFile(
                 generatePrivateHeaderContent(cModel),
-                CBridgeNameRules.getPrivateHeaderFileNameWithPath(francaElement)),
+                CBridgeNameRules.getPrivateHeaderFileNameWithPath(francaTypeCollection)),
             new GeneratedFile(
                 generateHeaderContent(cModel),
-                CBridgeNameRules.getHeaderFileNameWithPath(francaElement)),
+                CBridgeNameRules.getHeaderFileNameWithPath(francaTypeCollection)),
             new GeneratedFile(
                 generateImplementationContent(cModel),
-                CBridgeNameRules.getImplementationFileNameWithPath(francaElement)))
+                CBridgeNameRules.getImplementationFileNameWithPath(francaTypeCollection)))
         .filter(file -> file.content.length() > 0);
   }
 
@@ -81,28 +81,30 @@ public class CBridgeGenerator {
     return TemplateEngine.render("cbridge/FileHeader", null);
   }
 
-  public CInterface buildCBridgeModel(FrancaElement francaElement) {
-    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, new CppIncludeResolver(null));
+  public CInterface buildCBridgeModel(final FTypeCollection francaTypeCollection) {
+    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, new CppIncludeResolver());
     SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
     CModelBuilder modelBuilder =
         new CModelBuilder(deploymentModel, resolver, cppBuilder, swiftBuilder);
     FrancaTreeWalker treeWalker =
         new FrancaTreeWalker(Arrays.asList(cppBuilder, swiftBuilder, modelBuilder));
 
-    treeWalker.walk(francaElement);
+    treeWalker.walkTree(francaTypeCollection);
     CInterface cModel = modelBuilder.getFinalResult(CInterface.class);
 
-    removeRedundantIncludes(francaElement, cModel);
+    removeRedundantIncludes(francaTypeCollection, cModel);
     this.arrayGenerator.collect(modelBuilder.arraysCollector);
     return cModel;
   }
 
-  private void removeRedundantIncludes(FrancaElement francaElement, CInterface cModel) {
+  private void removeRedundantIncludes(
+      final FTypeCollection francaTypeCollection, CInterface cModel) {
     cModel.privateHeaderIncludes.remove(
         Include.createInternalInclude(
-            CBridgeNameRules.getPrivateHeaderFileNameWithPath(francaElement)));
+            CBridgeNameRules.getPrivateHeaderFileNameWithPath(francaTypeCollection)));
     cModel.headerIncludes.remove(
-        Include.createInternalInclude(CBridgeNameRules.getHeaderFileNameWithPath(francaElement)));
+        Include.createInternalInclude(
+            CBridgeNameRules.getHeaderFileNameWithPath(francaTypeCollection)));
     cModel.implementationIncludes.removeAll(cModel.headerIncludes);
     cModel.privateHeaderIncludes.removeAll(cModel.headerIncludes);
   }

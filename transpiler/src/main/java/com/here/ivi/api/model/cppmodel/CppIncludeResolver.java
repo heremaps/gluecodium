@@ -11,12 +11,9 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaElement;
-import com.here.ivi.api.model.franca.FrancaModel;
 import java.util.HashMap;
 import java.util.Map;
 import org.franca.core.franca.FModelElement;
@@ -24,36 +21,18 @@ import org.franca.core.franca.FTypeCollection;
 
 public class CppIncludeResolver {
 
-  private final FrancaModel francaModel;
   private final Map<FTypeCollection, Include> resolvedIncludes = new HashMap<>();
-
-  public CppIncludeResolver(final FrancaModel francaModel) {
-    this.francaModel = francaModel;
-  }
 
   public Include resolveInclude(final FModelElement modelElement) {
 
-    if (francaModel == null) {
-      return null;
-    }
-
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
     Include include = resolvedIncludes.get(typeCollection);
-    if (include != null) {
-      return include;
+
+    if (include == null) {
+      String includeName = CppNameRules.getHeaderPath(typeCollection);
+      include = Include.createInternalInclude(includeName);
+      resolvedIncludes.put(typeCollection, include);
     }
-
-    FrancaElement externalDefinition = francaModel.find(typeCollection);
-    if (externalDefinition == null) {
-      throw new TranspilerExecutionException(
-          String.format("Could not resolve type collection include %s.", typeCollection));
-    }
-
-    String includeName = CppNameRules.getHeaderPath(externalDefinition);
-
-    // TODO think about relative include path resolution and stuff
-    include = Include.createInternalInclude(includeName);
-    resolvedIncludes.put(typeCollection, include);
 
     return include;
   }

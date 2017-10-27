@@ -17,9 +17,9 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.swift.SwiftFile;
 import java.util.*;
+import org.franca.core.franca.FTypeCollection;
 
 public class SwiftGenerator {
 
@@ -35,23 +35,23 @@ public class SwiftGenerator {
     this.deploymentModel = deploymentModel;
   }
 
-  public GeneratedFile generate(FrancaElement francaElement) {
-    SwiftFile file = buildSwiftModel(francaElement);
+  public GeneratedFile generate(final FTypeCollection francaTypeCollection) {
+    SwiftFile file = buildSwiftModel(francaTypeCollection);
     if (file.isEmpty()) {
       return null;
     } else {
       return new GeneratedFile(
           TemplateEngine.render("swift/File", file),
-          SwiftNameRules.getImplementationFileName(francaElement));
+          SwiftNameRules.getImplementationFileName(francaTypeCollection));
     }
   }
 
   @VisibleForTesting
-  SwiftFile buildSwiftModel(FrancaElement francaElement) {
+  SwiftFile buildSwiftModel(final FTypeCollection francaTypeCollection) {
     SwiftModelBuilder modelBuilder = new SwiftModelBuilder(deploymentModel);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
-    treeWalker.walk(francaElement);
+    treeWalker.walkTree(francaTypeCollection);
     arrayGenerator.collect(modelBuilder.arraysCollector);
     return modelBuilder.getFinalResult(SwiftFile.class);
   }
