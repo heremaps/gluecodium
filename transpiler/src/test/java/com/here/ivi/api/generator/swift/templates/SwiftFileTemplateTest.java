@@ -955,7 +955,7 @@ public class SwiftFileTemplateTest {
             + "    var someEnumAttribute: SomeEnumType {\n"
             + "        get {\n"
             + "            let cResult = CBRIDGE_DELEGATE_FOR_ENUM_get(c_instance)\n"
-            + "            return SomeEnumType.init(rawValue: cResult)!\n"
+            + "            return SomeEnumType(rawValue: cResult)!\n"
             + "        }\n"
             + "    }\n"
             + "    let c_instance : SomeClassWithPropertyRef\n"

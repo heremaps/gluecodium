@@ -23,6 +23,6 @@ public class EnumsInTypeCollectionInterface {
     public static func flipEnumValue(input: TCEnum) -> TCEnum {
         let cResult = smoke_EnumsInTypeCollectionInterface_flipEnumValue(input.rawValue)
 
-        return TCEnum.init(rawValue: cResult)!
+        return TCEnum(rawValue: cResult)!
     }
 }

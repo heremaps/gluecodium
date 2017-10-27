@@ -41,7 +41,7 @@ return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnV
 {{/MethodReturnStruct}}
 
 {{+MethodReturnEnum}}let cResult = {{>swift/DelegateCall}}
-return {{method.returnType}}.init(rawValue: cResult)!
+return {{method.returnType}}(rawValue: cResult)!
 {{/MethodReturnEnum}}
 
 {{+returnType}}{{!!
