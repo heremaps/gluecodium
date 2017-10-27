@@ -11,14 +11,16 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 import lombok.EqualsAndHashCode;
+import lombok.Singular;
 
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class CppMethod extends CppElementWithIncludes {
 
   public final CppTypeRef returnType;
@@ -61,68 +63,34 @@ public final class CppMethod extends CppElementWithIncludes {
     }
   }
 
+  @lombok.Builder(builderClassName = "Builder")
   private CppMethod(
       final String name,
-      final String methodComment,
+      final String comment,
       final CppTypeRef returnType,
-      final Set<Specifier> specifiers,
-      final Set<Qualifier> qualifiers,
-      final List<CppParameter> parameters) {
+      @Singular final Set<Specifier> specifiers,
+      @Singular final Set<Qualifier> qualifiers,
+      @Singular final List<CppParameter> parameters) {
     super(name);
-    this.comment = methodComment;
-    this.returnType = returnType;
-    this.specifiers = specifiers;
-    this.qualifiers = qualifiers;
-    this.parameters = parameters;
+    this.comment = comment;
+    this.returnType = returnType != null ? returnType : CppPrimitiveTypeRef.VOID;
+    this.specifiers =
+        !specifiers.isEmpty() ? EnumSet.copyOf(specifiers) : EnumSet.noneOf(Specifier.class);
+    this.qualifiers =
+        !qualifiers.isEmpty() ? EnumSet.copyOf(qualifiers) : EnumSet.noneOf(Qualifier.class);
+    this.parameters = new LinkedList<>(parameters);
   }
 
-  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+  @SuppressWarnings("unused")
   public static class Builder {
-    private final String name;
-    private String methodComment;
-    private CppTypeRef returnType = CppPrimitiveTypeRef.VOID;
+    private String name;
 
-    private final Set<Specifier> specifiers = EnumSet.noneOf(Specifier.class);
-    private final Set<Qualifier> qualifiers = EnumSet.noneOf(Qualifier.class);
-    private final List<CppParameter> parameters = new ArrayList<>();
+    Builder() {
+      this(null);
+    }
 
-    public Builder(String name) {
+    public Builder(final String name) {
       this.name = name;
-    }
-
-    public Builder comment(String comment) {
-      this.methodComment = comment;
-      return this;
-    }
-
-    public Builder returnType(CppTypeRef type) {
-      this.returnType = type;
-      return this;
-    }
-
-    public Builder specifier(Specifier theSpecifier) {
-      this.specifiers.add(theSpecifier);
-      return this;
-    }
-
-    public Builder qualifier(Qualifier theQualifier) {
-      this.qualifiers.add(theQualifier);
-      return this;
-    }
-
-    public Builder parameter(CppParameter parameter) {
-      this.parameters.add(parameter);
-      return this;
-    }
-
-    public CppMethod build() {
-      return new CppMethod(
-          this.name,
-          this.methodComment,
-          this.returnType,
-          this.specifiers,
-          this.qualifiers,
-          this.parameters);
     }
   }
 
