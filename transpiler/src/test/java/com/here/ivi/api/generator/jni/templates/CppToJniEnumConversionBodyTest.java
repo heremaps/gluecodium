@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniEnum;
+import com.here.ivi.api.model.jni.JniEnumerator;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
@@ -27,40 +28,82 @@ public class CppToJniEnumConversionBodyTest {
   private static final String CPP_NAME = "CppName";
   private static final String JAVA_NAME = "JavaName";
   private static final List<String> JAVA_PACKAGES = Arrays.asList("java", "b", "c");
-  private static final List<String> CPP_PACKAGES = Arrays.asList("cpp", "b", "c");
+  private static final List<String> CPP_NAMESPACES = Arrays.asList("cpp", "b", "c");
+
+  private static JniEnum createJniContainer(boolean definedInInterface) {
+
+    JniContainer jniContainer =
+        definedInInterface
+            ? JniContainer.createInterfaceContainer(
+                JAVA_PACKAGES, CPP_NAMESPACES, JAVA_NAME, CPP_NAME)
+            : JniContainer.createTypeCollectionContainer(JAVA_PACKAGES, CPP_NAMESPACES);
+
+    List<JniEnumerator> enumerators =
+        Arrays.asList(
+            new JniEnumerator("oneJ", "oneC"),
+            new JniEnumerator("twoJ", "twoC"),
+            new JniEnumerator("threeJ", "threeC"));
+
+    return new JniEnum.Builder("MyJavaEnum", "MyCppEnum")
+        .owningContainer(jniContainer)
+        .enumerators(enumerators)
+        .build();
+  }
 
   @Test
   public void generateFromTypeCollection() {
-    JniContainer jniContainer =
-        JniContainer.createTypeCollectionContainer(JAVA_PACKAGES, CPP_PACKAGES);
-    JniEnum jniEnum = new JniEnum(jniContainer, "MyJavaEnumName", "MyCppEnumName");
 
     String expected =
         "{\n"
-            + "    auto javaClass = _jenv->FindClass( \"java/b/c/MyJavaEnumName\" );\n"
-            + "    auto theConstructor = _jenv->GetMethodID( javaClass, \"<init>\", \"(J)Ljava/b/c/MyJavaEnumName\" );\n"
-            + "    return _jenv->NewObject( javaClass, theConstructor, static_cast<jint>( _ninput ) );\n"
+            + "    auto javaClass = _jenv->FindClass( \"java/b/c/MyJavaEnum\" );\n"
+            + "    ::std::string enumeratorName;\n"
+            + "    switch(_ninput) {\n"
+            + "        case(::cpp::b::c::MyCppEnum::oneC):\n"
+            + "            enumeratorName = \"oneJ\";\n"
+            + "            break;\n"
+            + "        case(::cpp::b::c::MyCppEnum::twoC):\n"
+            + "            enumeratorName = \"twoJ\";\n"
+            + "            break;\n"
+            + "        case(::cpp::b::c::MyCppEnum::threeC):\n"
+            + "            enumeratorName = \"threeJ\";\n"
+            + "            break;\n"
+            + "    }\n"
+            + "    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(),"
+            + " \"Ljava/b/c/MyJavaEnum;\");\n"
+            + "    return _jenv->GetStaticObjectField(javaClass, fieldID);\n"
             + "}";
 
-    String generated = TemplateEngine.render("jni/CppToJniEnumerationConversionBody", jniEnum);
+    String generated =
+        TemplateEngine.render("jni/CppToJniEnumerationConversionBody", createJniContainer(false));
 
     assertEquals(expected, generated);
   }
 
   @Test
   public void generateFromInterface() {
-    JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(JAVA_PACKAGES, CPP_PACKAGES, JAVA_NAME, CPP_NAME);
-    JniEnum jniEnum = new JniEnum(jniContainer, "MyJavaEnumName", "MyCppEnumName");
 
     String expected =
         "{\n"
-            + "    auto javaClass = _jenv->FindClass( \"java/b/c/JavaName$MyJavaEnumName\" );\n"
-            + "    auto theConstructor = _jenv->GetMethodID( javaClass, \"<init>\", \"(J)Ljava/b/c/JavaName$MyJavaEnumName\" );\n"
-            + "    return _jenv->NewObject( javaClass, theConstructor, static_cast<jint>( _ninput ) );\n"
+            + "    auto javaClass = _jenv->FindClass( \"java/b/c/JavaName$MyJavaEnum\" );\n"
+            + "    ::std::string enumeratorName;\n"
+            + "    switch(_ninput) {\n"
+            + "        case(::cpp::b::c::CppName::MyCppEnum::oneC):\n"
+            + "            enumeratorName = \"oneJ\";\n"
+            + "            break;\n"
+            + "        case(::cpp::b::c::CppName::MyCppEnum::twoC):\n"
+            + "            enumeratorName = \"twoJ\";\n"
+            + "            break;\n"
+            + "        case(::cpp::b::c::CppName::MyCppEnum::threeC):\n"
+            + "            enumeratorName = \"threeJ\";\n"
+            + "            break;\n"
+            + "    }\n"
+            + "    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(),"
+            + " \"Ljava/b/c/JavaName$MyJavaEnum;\");\n"
+            + "    return _jenv->GetStaticObjectField(javaClass, fieldID);\n"
             + "}";
 
-    String generated = TemplateEngine.render("jni/CppToJniEnumerationConversionBody", jniEnum);
+    String generated =
+        TemplateEngine.render("jni/CppToJniEnumerationConversionBody", createJniContainer(true));
 
     assertEquals(expected, generated);
   }

@@ -1,5 +1,13 @@
 {
     auto javaClass = _jenv->FindClass( "{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}" );
-    auto theConstructor = _jenv->GetMethodID( javaClass, "<init>", "(J)L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}" );
-    return _jenv->NewObject( javaClass, theConstructor, static_cast<jint>( _ninput ) );
+    ::std::string enumeratorName;
+    switch(_ninput) {
+{{#enumerators}}
+        case({{>jni/FullyQualifiedCppName}}::{{cppEnumName}}::{{cppName}}):
+            enumeratorName = "{{javaName}}";
+            break;
+{{/enumerators}}
+    }
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}};");
+    return _jenv->GetStaticObjectField(javaClass, fieldID);
 }

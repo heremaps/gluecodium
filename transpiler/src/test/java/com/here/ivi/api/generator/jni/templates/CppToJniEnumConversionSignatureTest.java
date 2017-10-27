@@ -27,32 +27,41 @@ public class CppToJniEnumConversionSignatureTest {
   private static final String CPP_NAME = "CppName";
   private static final String JAVA_NAME = "JavaName";
   private static final List<String> JAVA_PACKAGES = Arrays.asList("java", "b", "c");
-  private static final List<String> CPP_PACKAGES = Arrays.asList("cpp", "b", "c");
+  private static final List<String> CPP_NAMESPACES = Arrays.asList("cpp", "b", "c");
+
+  private static JniEnum createJniContainer(boolean definedInInterface) {
+
+    JniContainer jniContainer =
+        definedInInterface
+            ? JniContainer.createInterfaceContainer(
+                JAVA_PACKAGES, CPP_NAMESPACES, JAVA_NAME, CPP_NAME)
+            : JniContainer.createTypeCollectionContainer(JAVA_PACKAGES, CPP_NAMESPACES);
+
+    return new JniEnum.Builder("MyJavaEnum", "MyCppEnumName").owningContainer(jniContainer).build();
+  }
 
   @Test
   public void generateFromTypeCollection() {
-    JniContainer jniContainer =
-        JniContainer.createTypeCollectionContainer(JAVA_PACKAGES, CPP_PACKAGES);
-    JniEnum jniEnum = new JniEnum(jniContainer, "MyJavaEnumName", "MyCppEnumName");
 
     String expected =
         "jobject convert_to_jni( JNIEnv* _jenv, const ::cpp::b::c::MyCppEnumName _ninput )";
 
-    String generated = TemplateEngine.render("jni/CppToJniEnumerationConversionSignature", jniEnum);
+    String generated =
+        TemplateEngine.render(
+            "jni/CppToJniEnumerationConversionSignature", createJniContainer(false));
 
     assertEquals(expected, generated);
   }
 
   @Test
   public void generateFromInterface() {
-    JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(JAVA_PACKAGES, CPP_PACKAGES, JAVA_NAME, CPP_NAME);
-    JniEnum jniEnum = new JniEnum(jniContainer, "MyJavaEnumName", "MyCppEnumName");
 
     String expected =
         "jobject convert_to_jni( JNIEnv* _jenv, const ::cpp::b::c::CppName::MyCppEnumName _ninput )";
 
-    String generated = TemplateEngine.render("jni/CppToJniEnumerationConversionSignature", jniEnum);
+    String generated =
+        TemplateEngine.render(
+            "jni/CppToJniEnumerationConversionSignature", createJniContainer(true));
 
     assertEquals(expected, generated);
   }

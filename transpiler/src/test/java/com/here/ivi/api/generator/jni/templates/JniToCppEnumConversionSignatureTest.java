@@ -30,18 +30,23 @@ public final class JniToCppEnumConversionSignatureTest {
   private static final List<String> JAVA_PACKAGE = Arrays.asList("java", "package");
   private static final List<String> CPP_NAMESPACES = Arrays.asList("a", "superfancy", "namespace");
 
+  private static JniEnum createJniContainer(boolean definedInInterface) {
+
+    JniContainer jniContainer =
+        definedInInterface
+            ? JniContainer.createInterfaceContainer(
+                JAVA_PACKAGE, CPP_NAMESPACES, "", CPP_OUTER_CLASS_NAME)
+            : JniContainer.createTypeCollectionContainer(JAVA_PACKAGE, CPP_NAMESPACES);
+
+    return new JniEnum.Builder("MyJavaEnum", "MyCppEnum").owningContainer(jniContainer).build();
+  }
+
   @Test
   public void generateFromInterface() {
 
-    // Arrange
-    JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(
-            JAVA_PACKAGE, CPP_NAMESPACES, null, CPP_OUTER_CLASS_NAME);
-
-    JniEnum jniEnum = new JniEnum(jniContainer, "MyJavaEnum", "MyCppEnum");
-
-    // Act
-    String generated = TemplateEngine.render("jni/JniToCppEnumerationConversionSignature", jniEnum);
+    String generated =
+        TemplateEngine.render(
+            "jni/JniToCppEnumerationConversionSignature", createJniContainer(true));
 
     // Assert
     String expected =
@@ -53,14 +58,9 @@ public final class JniToCppEnumConversionSignatureTest {
   @Test
   public void generateFromTypeCollection() {
 
-    // Arrange
-    JniContainer jniContainer =
-        JniContainer.createTypeCollectionContainer(JAVA_PACKAGE, CPP_NAMESPACES);
-
-    JniEnum jniEnum = new JniEnum(jniContainer, "MyJavaEnum", "MyCppEnum");
-
-    // Act
-    String generated = TemplateEngine.render("jni/JniToCppEnumerationConversionSignature", jniEnum);
+    String generated =
+        TemplateEngine.render(
+            "jni/JniToCppEnumerationConversionSignature", createJniContainer(false));
 
     // Assert
     String expected =

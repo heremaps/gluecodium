@@ -11,20 +11,49 @@
 
 package com.here.ivi.api.model.jni;
 
-public class JniEnum implements JniElement {
+import java.util.List;
+
+public final class JniEnum implements JniElement {
 
   public JniContainer owningContainer;
   public final String javaEnumName;
   public final String cppEnumName;
+  public final List<JniEnumerator> enumerators;
 
-  public JniEnum(
-      final JniContainer owningContainer, final String javaEnumName, final String cppEnumName) {
+  private JniEnum(
+      final JniContainer owningContainer,
+      final String javaEnumName,
+      final String cppEnumName,
+      final List<JniEnumerator> enumerators) {
     this.owningContainer = owningContainer;
     this.javaEnumName = javaEnumName;
     this.cppEnumName = cppEnumName;
+    this.enumerators = enumerators;
   }
 
-  public JniEnum(final String javaEnumName, final String cppEnumName) {
-    this(null, javaEnumName, cppEnumName);
+  public static class Builder {
+    private final String javaEnumName;
+    private final String cppEnumName;
+    private JniContainer jniContainer;
+    private List<JniEnumerator> enumItems;
+
+    public Builder(final String javaEnumName, final String cppEnumName) {
+      this.javaEnumName = javaEnumName;
+      this.cppEnumName = cppEnumName;
+    }
+
+    public Builder owningContainer(JniContainer owningContainer) {
+      this.jniContainer = owningContainer;
+      return this;
+    }
+
+    public Builder enumerators(List<JniEnumerator> enumerators) {
+      this.enumItems = enumerators;
+      return this;
+    }
+
+    public JniEnum build() {
+      return new JniEnum(jniContainer, javaEnumName, cppEnumName, enumItems);
+    }
   }
 }

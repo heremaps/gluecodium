@@ -77,6 +77,7 @@ public class JniModelBuilderTest {
   @Mock private FArgument francaArgument;
   @Mock private FStructType francaStructType;
   @Mock private FEnumerationType francaEnumType;
+  @Mock private FEnumerator francaEnumerator;
   @Mock private FField francaField;
   @Mock private FModel fModel;
   @Mock private FAttribute francaAttribute;
@@ -507,11 +508,14 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaEnumerationsReadsJavaEnums() {
+  public void finishBuildingFrancaEnumerationsReadsEnumerators() {
 
     // arrange
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum);
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum);
+    contextStack.injectResult(new JniEnumerator("oneJ", "oneC"));
+    contextStack.injectResult(new JniEnumerator("twoJ", "twoC"));
+    contextStack.injectResult(new JniEnumerator("threeJ", "threeC"));
 
     // act
     modelBuilder.finishBuilding(francaEnumType);
@@ -521,23 +525,31 @@ public class JniModelBuilderTest {
     assertNotNull(jniEnum);
     assertEquals(javaEnum.name, jniEnum.javaEnumName);
     assertEquals(cppEnum.name, jniEnum.cppEnumName);
+    assertNotNull(jniEnum.enumerators);
+    assertEquals(3, jniEnum.enumerators.size());
+    assertEquals("oneC", jniEnum.enumerators.get(0).cppName);
+    assertEquals("oneJ", jniEnum.enumerators.get(0).javaName);
+    assertEquals("twoC", jniEnum.enumerators.get(1).cppName);
+    assertEquals("twoJ", jniEnum.enumerators.get(1).javaName);
+    assertEquals("threeC", jniEnum.enumerators.get(2).cppName);
+    assertEquals("threeJ", jniEnum.enumerators.get(2).javaName);
   }
 
   @Test
-  public void finishBuildingFrancaEnumerationsReadsCppEnums() {
+  public void finishBuildingFEnumerator() {
 
     // arrange
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum);
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum);
+    when(cppBuilder.getFinalResult(any())).thenReturn(new CppEnumItem("cppEnumerator"));
+    when(javaBuilder.getFinalResult(any())).thenReturn(new JavaEnumItem("javaEnumerator"));
 
     // act
-    modelBuilder.finishBuilding(francaEnumType);
+    modelBuilder.finishBuilding(francaEnumerator);
 
     // assert
-    JniEnum jniEnum = modelBuilder.getFinalResult(JniEnum.class);
-    assertNotNull(jniEnum);
-    assertEquals(javaEnum.name, jniEnum.javaEnumName);
-    assertEquals(cppEnum.name, jniEnum.cppEnumName);
+    JniEnumerator jniEnumItem = modelBuilder.getFinalResult(JniEnumerator.class);
+    assertNotNull(jniEnumItem);
+    assertEquals(jniEnumItem.cppName, "cppEnumerator");
+    assertEquals(jniEnumItem.javaName, "javaEnumerator");
   }
 
   @Test
@@ -547,7 +559,7 @@ public class JniModelBuilderTest {
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
     when(francaTypeCollection.eContainer()).thenReturn(fModel);
     when(fModel.getName()).thenReturn(String.join(".", CPP_NAMESPACE_MEMBERS));
-    JniEnum jniEnum = new JniEnum("MyJavaEnumName", "MyCppEnumName");
+    JniEnum jniEnum = new JniEnum.Builder("MyJavaEnumName", "MyCppEnumName").build();
     contextStack.injectResult(jniEnum);
 
     // act
@@ -564,7 +576,7 @@ public class JniModelBuilderTest {
   public void finishBuildingFrancaInterfaceReadsEnums() {
 
     // arrange
-    JniEnum jniEnum = new JniEnum("MyJavaEnumName", "MyCppEnumName");
+    JniEnum jniEnum = new JniEnum.Builder("MyJavaEnumName", "MyCppEnumName").build();
     contextStack.injectResult(jniEnum);
 
     // act
