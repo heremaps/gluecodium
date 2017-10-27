@@ -37,7 +37,7 @@ public class CppTypeMapper {
 
   @VisibleForTesting
   static final CppTypeRef ENUM_HASH_TYPE =
-      new CppComplexTypeRef.Builder("EnumHash").includes(CppLibraryIncludes.ENUM_HASH).build();
+      new CppComplexTypeRef.Builder("EnumHash").include(CppLibraryIncludes.ENUM_HASH).build();
 
   @VisibleForTesting
   static final CppTypeRef STRING_TYPE =
@@ -89,7 +89,7 @@ public class CppTypeMapper {
     if (InstanceRules.isInstanceId(typedef)) {
       CppComplexTypeRef instanceType =
           new CppComplexTypeRef.Builder(fullyQualifiedName)
-              .includes(includeResolver.resolveInclude(typedef))
+              .include(includeResolver.resolveInclude(typedef))
               .build();
 
       return CppTemplateTypeRef.create(
@@ -126,7 +126,7 @@ public class CppTypeMapper {
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(struct);
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
-        .includes(includeResolver.resolveInclude(struct))
+        .include(includeResolver.resolveInclude(struct))
         .build();
   }
 
@@ -136,7 +136,7 @@ public class CppTypeMapper {
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
         .typeInfo(CppTypeInfo.Enumeration)
-        .includes(includeResolver.resolveInclude(enumeration))
+        .include(includeResolver.resolveInclude(enumeration))
         .build();
   }
 
@@ -144,7 +144,7 @@ public class CppTypeMapper {
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(union);
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
-        .includes(includeResolver.resolveInclude(union))
+        .include(includeResolver.resolveInclude(union))
         .build();
   }
 

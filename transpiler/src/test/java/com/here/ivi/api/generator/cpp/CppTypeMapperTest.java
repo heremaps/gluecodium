@@ -180,7 +180,7 @@ public class CppTypeMapperTest {
   @Test
   public void wrapMapType() {
     Include fooInclude = Include.createInternalInclude("bar/Foo.h");
-    CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").includes(fooInclude).build();
+    CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").include(fooInclude).build();
 
     CppComplexTypeRef result = CppTypeMapper.wrapMap(CppPrimitiveTypeRef.UINT32, cppTypeRef);
 

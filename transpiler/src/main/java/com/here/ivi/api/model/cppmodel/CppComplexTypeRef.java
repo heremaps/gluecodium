@@ -12,18 +12,19 @@
 package com.here.ivi.api.model.cppmodel;
 
 import com.here.ivi.api.model.common.Include;
-import java.util.Arrays;
 import java.util.Collection;
 import lombok.EqualsAndHashCode;
+import lombok.Singular;
 
 @EqualsAndHashCode(callSuper = true)
 public class CppComplexTypeRef extends CppTypeRef {
 
   public final CppTypeInfo info;
 
+  @lombok.Builder(builderClassName = "Builder")
   protected CppComplexTypeRef(
       final String fullyQualifiedName,
-      final Collection<Include> includes,
+      @Singular final Collection<Include> includes,
       final CppTypeInfo typeInfo) {
     super(fullyQualifiedName, includes);
     info = typeInfo != null ? typeInfo : CppTypeInfo.Complex;
@@ -34,32 +35,16 @@ public class CppComplexTypeRef extends CppTypeRef {
     return info == CppTypeInfo.Enumeration;
   }
 
-  @SuppressWarnings({"PMD.AvoidFieldNameMatchingMethodName"})
+  @SuppressWarnings("unused")
   public static class Builder {
-    private final String fullyQualifiedName;
-    private Collection<Include> includes;
-    private CppTypeInfo typeInfo;
+    private String fullyQualifiedName;
+
+    Builder() {
+      this(null);
+    }
 
     public Builder(final String fullyQualifiedName) {
       this.fullyQualifiedName = fullyQualifiedName;
-    }
-
-    public Builder includes(final Collection<Include> includesParam) {
-      this.includes = includesParam;
-      return this;
-    }
-
-    public Builder includes(final Include... typeInfoParam) {
-      return includes(Arrays.asList(typeInfoParam));
-    }
-
-    public Builder typeInfo(final CppTypeInfo typeInfoParam) {
-      this.typeInfo = typeInfoParam;
-      return this;
-    }
-
-    public CppComplexTypeRef build() {
-      return new CppComplexTypeRef(this.fullyQualifiedName, this.includes, this.typeInfo);
     }
   }
 }
