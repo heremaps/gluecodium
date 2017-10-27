@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratorSuite;
-import com.here.ivi.api.model.franca.FrancaModel;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import java.io.File;
 import java.net.URISyntaxException;
@@ -23,11 +23,14 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -71,16 +74,19 @@ public class FrancaModelLoaderTest {
             new File(simpleFdepl.toURI()),
             new File(simpleFidl.toURI()),
             new File(additionalFdepl.toURI()));
-    FrancaModel model = loader.load(GeneratorSuite.getSpecPath(), currentFiles);
+    List<FTypeCollection> typeCollections = new LinkedList<>();
+    FrancaDeploymentModel deploymentModel =
+        loader.load(GeneratorSuite.getSpecPath(), currentFiles, typeCollections);
 
-    assertEquals(1, model.interfaces.size());
-    FInterface iface = model.interfaces.get(0);
+    assertEquals(1, typeCollections.size());
+    assertTrue(typeCollections.get(0) instanceof FInterface);
+    FInterface iface = (FInterface) typeCollections.get(0);
 
     EList<FMethod> methods = iface.getMethods();
     assertEquals(1, methods.size());
     FMethod constMethod = methods.get(0);
 
-    assertTrue(model.deploymentModel.isConst(constMethod));
+    assertTrue(deploymentModel.isConst(constMethod));
   }
 
   @Test
@@ -92,7 +98,7 @@ public class FrancaModelLoaderTest {
             .getResource("francamodelloadertest/MalformedWithPackage.fdepl");
 
     Collection<File> currentFiles = Collections.singletonList(new File(malformedFdepl.toURI()));
-    loader.load(GeneratorSuite.getSpecPath(), currentFiles);
+    loader.load(GeneratorSuite.getSpecPath(), currentFiles, new LinkedList<>());
   }
 
   @Test
@@ -110,14 +116,16 @@ public class FrancaModelLoaderTest {
             new File(instanceFidl.toURI()),
             new File(instanceFdepl.toURI()),
             new File(refersToInstanceFidl.toURI()));
-    FrancaModel model = loader.load(GeneratorSuite.getSpecPath(), currentFiles);
+    List<FTypeCollection> typeCollections = new LinkedList<>();
+    FrancaDeploymentModel deploymentModel =
+        loader.load(GeneratorSuite.getSpecPath(), currentFiles, typeCollections);
 
-    assertEquals(2, model.interfaces.size());
+    assertEquals(2, typeCollections.size());
 
-    FInterface barInterface = model.interfaces.get(0);
+    FInterface barInterface = (FInterface) typeCollections.get(0);
     assertEquals("Bar", barInterface.getName());
 
-    FInterface factoryInterface = model.interfaces.get(1);
+    FInterface factoryInterface = (FInterface) typeCollections.get(1);
     assertEquals("BarFactory", factoryInterface.getName());
 
     FMethod factoryMethod = factoryInterface.getMethods().get(0);
@@ -131,7 +139,7 @@ public class FrancaModelLoaderTest {
 
     // barInterfaceThroughReferrer deployment properties should be, nevertheless, accessible through
     // its cousin's wrapper.
-    assertTrue(model.deploymentModel.isInterface(barInterfaceThroughReferrer));
+    assertTrue(deploymentModel.isInterface(barInterfaceThroughReferrer));
   }
 
   @Test
@@ -151,19 +159,21 @@ public class FrancaModelLoaderTest {
             new File(instanceFdepl.toURI()),
             new File(otherInstanceFidl.toURI()),
             new File(otherInstanceFdepl.toURI()));
-    FrancaModel model = loader.load(GeneratorSuite.getSpecPath(), currentFiles);
+    List<FTypeCollection> typeCollections = new LinkedList<>();
+    FrancaDeploymentModel deploymentModel =
+        loader.load(GeneratorSuite.getSpecPath(), currentFiles, typeCollections);
 
-    assertEquals(2, model.interfaces.size());
+    assertEquals(2, typeCollections.size());
 
-    FInterface fooBarInterface = model.interfaces.get(0);
+    FInterface fooBarInterface = (FInterface) typeCollections.get(0);
     assertEquals("Bar", fooBarInterface.getName());
     assertEquals("foo", ((FModel) fooBarInterface.eContainer()).getName());
 
-    FInterface weeBarInterface = model.interfaces.get(1);
+    FInterface weeBarInterface = (FInterface) typeCollections.get(1);
     assertEquals("Bar", weeBarInterface.getName());
     assertEquals("wee", ((FModel) weeBarInterface.eContainer()).getName());
 
-    assertTrue(model.deploymentModel.isInterface(fooBarInterface));
-    assertFalse(model.deploymentModel.isInterface(weeBarInterface));
+    assertTrue(deploymentModel.isInterface(fooBarInterface));
+    assertFalse(deploymentModel.isInterface(weeBarInterface));
   }
 }

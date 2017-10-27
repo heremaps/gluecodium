@@ -15,7 +15,6 @@ import static com.here.ivi.api.test.Assert.assertContainsAll;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.model.franca.FrancaModel;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
@@ -31,8 +30,7 @@ public class SwiftGeneratorSuiteTest {
 
   @Before
   public void setUp() throws Exception {
-    FrancaModel model = new FrancaModel(null, Collections.emptyList(), Collections.emptyList());
-    Whitebox.setInternalState(suite, "model", model);
+    Whitebox.setInternalState(suite, "typeCollections", Collections.emptyList());
   }
 
   @Test

@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.franca.core.franca.FInterface;
 
 public final class AndroidGeneratorSuite extends GeneratorSuite {
   public static final String GENERATOR_NAME = "android";
@@ -58,23 +59,27 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
 
     // Generate Java files
     JavaGenerator javaGenerator =
-        new JavaGenerator(model.deploymentModel, transpilerOptions.getJavaPackageList());
+        new JavaGenerator(deploymentModel, transpilerOptions.getJavaPackageList());
     Stream<List<GeneratedFile>> javaFilesStream =
-        Stream.concat(
-            model.interfaces.stream().map(javaGenerator::generateFilesForInterface),
-            model.typeCollections.stream().map(javaGenerator::generateFiles));
+        typeCollections
+            .stream()
+            .map(
+                francaTypeCollection ->
+                    (francaTypeCollection instanceof FInterface)
+                        ? javaGenerator.generateFilesForInterface((FInterface) francaTypeCollection)
+                        : javaGenerator.generateFiles(francaTypeCollection));
 
     // Generate JNI files
     JniGenerator jniGenerator =
         new JniGenerator(
-            model.deploymentModel,
+            deploymentModel,
             transpilerOptions.getJavaPackageList(),
             Arrays.asList(
                 CONVERSION_UTILS_HEADER, FIELD_ACCESS_UTILS_HEADER, CPP_PROXY_BASE_HEADER));
 
     //jni models need to be built first as they are required to generate conversion util file
     List<JniContainer> jniContainers =
-        model.stream().map(jniGenerator::generateModel).collect(Collectors.toList());
+        typeCollections.stream().map(jniGenerator::generateModel).collect(Collectors.toList());
 
     Stream<List<GeneratedFile>> jniFilesStream =
         Stream.concat(

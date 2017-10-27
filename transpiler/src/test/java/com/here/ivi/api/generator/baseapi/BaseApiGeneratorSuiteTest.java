@@ -19,7 +19,6 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
 import java.util.Collections;
@@ -50,9 +49,6 @@ public final class BaseApiGeneratorSuiteTest {
     MockitoAnnotations.initMocks(this);
 
     when(GeneratorSuite.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
-    FrancaModel mockFrancaModel =
-        new FrancaModel(null, Collections.emptyList(), Collections.emptyList());
-    when(francaModelLoader.load(any(), any())).thenReturn(mockFrancaModel);
 
     baseApiGeneratorSuite = new BaseApiGeneratorSuite(francaModelLoader);
   }

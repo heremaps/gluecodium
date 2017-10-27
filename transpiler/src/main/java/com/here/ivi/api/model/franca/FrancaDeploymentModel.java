@@ -45,7 +45,6 @@ public class FrancaDeploymentModel {
                     NameBasedPropertyAccessor::new)));
   }
 
-  @SuppressWarnings("unused")
   public boolean isInterface(final FInterface francaInterface) {
     return getBoolean(francaInterface, "IsInterface");
   }
@@ -76,7 +75,6 @@ public class FrancaDeploymentModel {
   }
 
   private static String buildKey(final FTypeCollection francaTypeCollection) {
-    FModel francaModel = (FModel) francaTypeCollection.eContainer();
-    return francaModel.getName() + "." + francaTypeCollection.getName();
+    return DefinedBy.getModelName(francaTypeCollection) + "." + francaTypeCollection.getName();
   }
 }

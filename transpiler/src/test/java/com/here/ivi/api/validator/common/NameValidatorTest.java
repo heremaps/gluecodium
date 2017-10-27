@@ -16,7 +16,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.franca.FrancaModel;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,13 +39,10 @@ public class NameValidatorTest {
 
   @Mock private FModel fModel;
 
-  private FrancaModel francaModel;
-
   @Mock private FInterface francaInterface;
   @Mock private FTypeCollection francaTypeCollection;
 
   private final List<FTypeCollection> typeCollections = new LinkedList<>();
-  private final List<FInterface> interfaces = new LinkedList<>();
 
   @Before
   public void setUp() {
@@ -57,15 +53,13 @@ public class NameValidatorTest {
 
     when(francaInterface.eContainer()).thenReturn(fModel);
     when(francaTypeCollection.eContainer()).thenReturn(fModel);
-
-    francaModel = new FrancaModel(null, interfaces, typeCollections);
   }
 
   @Test
   public void checkTypeNamesWithSingleTypeCollection() {
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
 
-    assertTrue(NameValidator.checkTypeNamesInTypeCollection(francaModel));
+    assertTrue(NameValidator.checkTypeNamesInTypeCollection(typeCollections));
   }
 
   @Test
@@ -73,7 +67,7 @@ public class NameValidatorTest {
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME + "2", fModel));
 
-    assertTrue(NameValidator.checkTypeNamesInTypeCollection(francaModel));
+    assertTrue(NameValidator.checkTypeNamesInTypeCollection(typeCollections));
   }
 
   @Test
@@ -81,7 +75,7 @@ public class NameValidatorTest {
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
 
-    assertFalse(NameValidator.checkTypeNamesInTypeCollection(francaModel));
+    assertFalse(NameValidator.checkTypeNamesInTypeCollection(typeCollections));
   }
 
   @Test
@@ -92,39 +86,39 @@ public class NameValidatorTest {
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel));
     typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel2));
 
-    assertTrue(NameValidator.checkTypeNamesInTypeCollection(francaModel));
+    assertTrue(NameValidator.checkTypeNamesInTypeCollection(typeCollections));
   }
 
   @Test
   public void checkTypeCollectionNamesWithSingleInterface() {
-    interfaces.add(francaInterface);
+    typeCollections.add(francaInterface);
 
-    assertTrue(NameValidator.checkTypeCollectionNames(francaModel));
+    assertTrue(NameValidator.checkTypeCollectionNames(typeCollections));
   }
 
   @Test
   public void checkTypeCollectionNamesWithSingleTypeCollection() {
     typeCollections.add(francaTypeCollection);
 
-    assertTrue(NameValidator.checkTypeCollectionNames(francaModel));
+    assertTrue(NameValidator.checkTypeCollectionNames(typeCollections));
   }
 
   @Test
   public void checkTypeCollectionNamesWithTwoUniqueNames() {
     when(francaTypeCollection.getName()).thenReturn(INTERFACE_NAME + "Off");
-    interfaces.add(francaInterface);
+    typeCollections.add(francaInterface);
     typeCollections.add(francaTypeCollection);
 
-    assertTrue(NameValidator.checkTypeCollectionNames(francaModel));
+    assertTrue(NameValidator.checkTypeCollectionNames(typeCollections));
   }
 
   @Test
   public void checkTypeCollectionNamesWithTwoNonUniqueNames() {
     when(francaTypeCollection.getName()).thenReturn(INTERFACE_NAME);
-    interfaces.add(francaInterface);
+    typeCollections.add(francaInterface);
     typeCollections.add(francaTypeCollection);
 
-    assertFalse(NameValidator.checkTypeCollectionNames(francaModel));
+    assertFalse(NameValidator.checkTypeCollectionNames(typeCollections));
   }
 
   @Test
@@ -134,10 +128,10 @@ public class NameValidatorTest {
     when(francaTypeCollection.eContainer()).thenReturn(anotherFModel);
 
     when(francaTypeCollection.getName()).thenReturn(INTERFACE_NAME);
-    interfaces.add(francaInterface);
+    typeCollections.add(francaInterface);
     typeCollections.add(francaTypeCollection);
 
-    assertTrue(NameValidator.checkTypeCollectionNames(francaModel));
+    assertTrue(NameValidator.checkTypeCollectionNames(typeCollections));
   }
 
   private FTypeCollection mockTypeCollectionContainingType(String typeName, FModel fModelParam) {

@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.utils;
 
 import static org.junit.Assert.assertTrue;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.*;
@@ -26,7 +27,8 @@ import org.franca.core.franca.FTypeCollection;
 
 public final class LoadModelHelper {
 
-  public static FrancaModel readInFrancaModel(final List<String> fileNames) {
+  public static FrancaDeploymentModel readInFrancaModel(
+      final List<String> fileNames, final List<FTypeCollection> typeCollections) {
 
     FrancaModelLoader francaModelLoader = new FrancaModelLoader();
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
@@ -34,7 +36,7 @@ public final class LoadModelHelper {
     Collection<File> testFiles =
         fileNames.stream().map(LoadModelHelper::getTestFile).collect(Collectors.toList());
 
-    return francaModelLoader.load(GeneratorSuite.getSpecPath(), testFiles);
+    return francaModelLoader.load(GeneratorSuite.getSpecPath(), testFiles, typeCollections);
   }
 
   private static File getTestFile(final String fileName) {
@@ -45,13 +47,18 @@ public final class LoadModelHelper {
     }
   }
 
-  public static FInterface extractNthInterfaceFromModel(FrancaModel model, int index) {
-    assertTrue(index < model.interfaces.size());
-    return model.interfaces.get(index);
+  public static FInterface extractNthInterfaceFromModel(
+      List<FTypeCollection> typeCollections, int index) {
+    List<FInterface> interfaces = CollectionsHelper.getAllOfType(typeCollections, FInterface.class);
+    assertTrue(index < interfaces.size());
+    return interfaces.get(index);
   }
 
-  public static FTypeCollection extractNthTypeCollectionFromModel(FrancaModel model, int index) {
-    assertTrue(index < model.typeCollections.size());
-    return model.typeCollections.get(index);
+  public static FTypeCollection extractNthTypeCollectionFromModel(
+      List<FTypeCollection> typeCollections, int index) {
+    List<FTypeCollection> filteredTypeCollections =
+        CollectionsHelper.getAllNotOfType(typeCollections, FInterface.class);
+    assertTrue(index < filteredTypeCollections.size());
+    return filteredTypeCollections.get(index);
   }
 }

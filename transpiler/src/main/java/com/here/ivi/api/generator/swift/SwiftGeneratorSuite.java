@@ -33,13 +33,13 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
   @Override
   public List<GeneratedFile> generate() {
 
-    SwiftGenerator swiftGenerator = new SwiftGenerator(model.deploymentModel);
+    SwiftGenerator swiftGenerator = new SwiftGenerator(deploymentModel);
     CBridgeGenerator cBridgeGenerator =
-        new CBridgeGenerator(model.deploymentModel, new IncludeResolver());
+        new CBridgeGenerator(deploymentModel, new IncludeResolver());
 
-    Stream<GeneratedFile> swiftStream = model.stream().map(swiftGenerator::generate);
+    Stream<GeneratedFile> swiftStream = typeCollections.stream().map(swiftGenerator::generate);
     Stream<GeneratedFile> cBridgeStream =
-        model.stream().map(cBridgeGenerator::generate).flatMap(Function.identity());
+        typeCollections.stream().map(cBridgeGenerator::generate).flatMap(Function.identity());
 
     List<GeneratedFile> result =
         Stream.concat(swiftStream, cBridgeStream).filter(Objects::nonNull).collect(toList());
