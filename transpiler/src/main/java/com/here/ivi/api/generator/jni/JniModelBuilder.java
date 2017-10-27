@@ -39,6 +39,7 @@ import org.franca.core.franca.*;
  * calling finishBuilding on JniModelBuilder (constructed java and cpp elements need to be
  * accessible via getResults(..) ).
  */
+@SuppressWarnings("PMD.CouplingBetweenObjects")
 public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
   private final FrancaElement rootModel;
@@ -137,8 +138,19 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     JavaEnum javaEnum = javaBuilder.getFinalResult(JavaEnum.class);
     CppEnum cppEnum = cppBuilder.getFinalResult(CppEnum.class);
+    storeResult(
+        new JniEnum.Builder(javaEnum.name, cppEnum.name)
+            .enumerators(getPreviousResults(JniEnumerator.class))
+            .build());
+    closeContext();
+  }
 
-    storeResult(new JniEnum(javaEnum.name, cppEnum.name));
+  @Override
+  public void finishBuilding(FEnumerator francaEnumerator) {
+
+    JavaEnumItem javaEnumItem = javaBuilder.getFinalResult(JavaEnumItem.class);
+    CppEnumItem cppEnumItem = cppBuilder.getFinalResult(CppEnumItem.class);
+    storeResult(new JniEnumerator(javaEnumItem.name, cppEnumItem.name));
     closeContext();
   }
 

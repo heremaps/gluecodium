@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.jni.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniEnum;
 import java.util.Arrays;
@@ -33,27 +32,28 @@ public final class JniToCppEnumConversionBodyTest {
   private static final List<String> JAVA_PACKAGE = Arrays.asList("java", "package");
   private static final List<String> CPP_NAMESPACES = Arrays.asList("a", "superfancy", "namespace");
 
+  private static JniEnum createJniContainer(boolean definedInInterface) {
+
+    JniContainer jniContainer =
+        definedInInterface
+            ? JniContainer.createInterfaceContainer(
+                JAVA_PACKAGE, CPP_NAMESPACES, JAVA_OUTER_CLASS_NAME, CPP_OUTER_CLASS_NAME)
+            : JniContainer.createTypeCollectionContainer(JAVA_PACKAGE, CPP_NAMESPACES);
+
+    return new JniEnum.Builder("MyJavaEnum", "MyCppEnum").owningContainer(jniContainer).build();
+  }
+
   @Test
   public void generateFromInterface() {
 
-    // Arrange
-    JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(
-            JAVA_PACKAGE, CPP_NAMESPACES, JAVA_OUTER_CLASS_NAME, CPP_OUTER_CLASS_NAME);
-
-    JniEnum jniEnum = new JniEnum(jniContainer, "MyJavaEnum", "MyCppEnum");
-
-    // Act
-    String generated = TemplateEngine.render("jni/JniToCppEnumerationConversionBody", jniEnum);
+    String generated =
+        TemplateEngine.render("jni/JniToCppEnumerationConversionBody", createJniContainer(true));
 
     // Assert
     String expected =
         "{\n"
             + "    jclass javaClass = _jenv->GetObjectClass(_jinput);\n"
-            + "    jmethodID valueMethodID = _jenv->GetMethodID( javaClass, \"value\", \"()I\" );\n"
-            + "    valueMethodID = valueMethodID ? valueMethodID : _jenv->GetMethodID( javaClass, \"ordinal\", \"()I\" );\n"
-            + "\n"
-            + "    jint enumValue = _jenv->CallIntMethod( _jinput, valueMethodID );\n"
+            + "    jint enumValue = get_int_field(_jenv,javaClass, _jinput, \"value\" );\n"
             + "    _nout = ::a::superfancy::namespace::CppOuter::MyCppEnum( enumValue );\n"
             + "}";
     assertEquals(expected, generated);
@@ -62,23 +62,14 @@ public final class JniToCppEnumConversionBodyTest {
   @Test
   public void generateFromTypeCollection() {
 
-    // Arrange
-    JniContainer jniContainer =
-        JniContainer.createTypeCollectionContainer(JAVA_PACKAGE, CPP_NAMESPACES);
-
-    JniEnum jniEnum = new JniEnum(jniContainer, "MyJavaEnum", "MyCppEnum");
-
-    // Act
-    String generated = TemplateEngine.render("jni/JniToCppEnumerationConversionBody", jniEnum);
+    String generated =
+        TemplateEngine.render("jni/JniToCppEnumerationConversionBody", createJniContainer(false));
 
     // Assert
     String expected =
         "{\n"
             + "    jclass javaClass = _jenv->GetObjectClass(_jinput);\n"
-            + "    jmethodID valueMethodID = _jenv->GetMethodID( javaClass, \"value\", \"()I\" );\n"
-            + "    valueMethodID = valueMethodID ? valueMethodID : _jenv->GetMethodID( javaClass, \"ordinal\", \"()I\" );\n"
-            + "\n"
-            + "    jint enumValue = _jenv->CallIntMethod( _jinput, valueMethodID );\n"
+            + "    jint enumValue = get_int_field(_jenv,javaClass, _jinput, \"value\" );\n"
             + "    _nout = ::a::superfancy::namespace::MyCppEnum( enumValue );\n"
             + "}";
     assertEquals(expected, generated);

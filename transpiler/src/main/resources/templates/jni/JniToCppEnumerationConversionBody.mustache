@@ -1,8 +1,5 @@
 {
     jclass javaClass = _jenv->GetObjectClass(_jinput);
-    jmethodID valueMethodID = _jenv->GetMethodID( javaClass, "value", "()I" );
-    valueMethodID = valueMethodID ? valueMethodID : _jenv->GetMethodID( javaClass, "ordinal", "()I" );
-
-    jint enumValue = _jenv->CallIntMethod( _jinput, valueMethodID );
+    jint enumValue = get_int_field(_jenv,javaClass, _jinput, "value" );
     _nout = {{>jni/FullyQualifiedCppName}}::{{cppEnumName}}( enumValue );
 }
