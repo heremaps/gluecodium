@@ -22,6 +22,7 @@ void {{structname}}_{{name}}_set({{structtype}} handle, {{join setterParameters 
     }}{{#case "BUILTIN_BYTEBUFFER"}}.assign({{setterParameters.0.name}}, {{setterParameters.0.name}} + {{setterParameters.1.name}});{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}.assign({{setterParameters.0.name}});{{/case}}{{!!
     }}{{#case "ENUM"}} = static_cast<{{type.name}}>({{setterParameters.0.name}});{{/case}}{{!!
+    }}{{#case "INSTANCE"}} = *get_pointer({{setterParameters.0.name}});{{/case}}{{!!
     }}{{#default}} = {{setterParameters.0.name}};{{/default}}
 {{/switch}}
 }

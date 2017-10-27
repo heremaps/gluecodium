@@ -211,4 +211,34 @@ public class CBridgeImplementationTemplateTest {
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
   }
+
+  @Test
+  public void generateInstanceWithinStruct() {
+    CInterface cInterface = new CInterface("");
+    CType type = new CType("SomeStructRef");
+    CStruct struct = new CStruct("memberStruct", "baseName", new CppTypeInfo(type));
+    CField field =
+        new CField(
+            "instanceField",
+            "baseApiFieldName",
+            new CppTypeInfo(new CType("SomeClassRef"), TypeCategory.INSTANCE));
+    struct.fields.add(field);
+    cInterface.structs.add(struct);
+
+    final String expected =
+        "SomeStructRef memberStruct_create() {\n"
+            + "    return {new baseName()};\n"
+            + "}\n"
+            + "void memberStruct_release(SomeStructRef handle) {\n"
+            + "    delete get_pointer(handle);\n"
+            + "}\n"
+            + "SomeClassRef memberStruct_instanceField_get(SomeStructRef handle) {\n"
+            + "    return {&get_pointer(handle)->baseApiFieldName};\n"
+            + "}\n"
+            + "void memberStruct_instanceField_set(SomeStructRef handle, SomeClassRef instanceField) {\n"
+            + "    get_pointer(handle)->baseApiFieldName = *get_pointer(instanceField);\n"
+            + "}\n";
+    final String generated = this.generate(cInterface);
+    TemplateComparison.assertEqualImplementationContent(expected, generated);
+  }
 }

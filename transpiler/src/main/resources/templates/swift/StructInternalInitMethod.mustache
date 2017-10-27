@@ -5,6 +5,7 @@ internal init?(c{{name}}: {{cType}}) {
     {{#case "BUILTIN_STRING"}}{{>assignStringType}}{{/case}}
     {{#case "BUILTIN_BYTEBUFFER"}}{{>assignDataType}}{{/case}}
     {{#case "STRUCT"}}{{>assignStruct}}{{/case}}
+    {{#case "CLASS"}}{{>assignClass}}{{/case}}
     {{#case "ENUM"}}{{>assignEnum}}{{/case}}
     {{#default}}{{>assignBasicType}}{{/default}}
     {{/switch}}
@@ -44,3 +45,13 @@ internal init?(c{{name}}: {{cType}}) {
     {{name}} = {{name}}Unwrapped
 }
 {{/assignStruct}}
+
+{{+assignClass}}do {
+    guard
+        let {{name}}Unwrapped = _{{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
+    else {
+        return nil
+    }
+    {{name}} = {{name}}Unwrapped
+}
+{{/assignClass}}
