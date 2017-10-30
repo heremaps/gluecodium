@@ -12,13 +12,15 @@
 import Foundation
 
 
+
+
 public class ProfileManagerFactory {
 
     public static func createProfileManager() -> ProfileManager? {
         let cResult = examples_ProfileManagerFactory_createProfileManager()
 
 
-        return _ProfileManager(cProfileManager: cResult)
+        return ProfileManager(cProfileManager: cResult)
     }
 
 }

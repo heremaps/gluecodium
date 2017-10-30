@@ -32,11 +32,11 @@ defer {
 {{/classConversion}}
 
 {{+MethodReturnStruct}}let cResult = {{>swift/DelegateCall}}
-{{^method.returnType.privateImplementation}}
+{{^method.returnType.implementingClass}}
 defer {
     {{method.returnType.cPrefix}}_release(cResult)
 }
-{{/method.returnType.privateImplementation}}
+{{/method.returnType.implementingClass}}
 return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnValueUnwrapping}}!{{/if}}
 {{/MethodReturnStruct}}
 
@@ -45,8 +45,8 @@ return {{method.returnType}}(rawValue: cResult)!
 {{/MethodReturnEnum}}
 
 {{+returnType}}{{!!
-}}{{method.returnType.privateImplementation}}{{!!
-}}{{^method.returnType.privateImplementation}}{{!!
+}}{{method.returnType.implementingClass}}{{!!
+}}{{^method.returnType.implementingClass}}{{!!
     }}{{method.returnType}}{{!!
-}}{{/method.returnType.privateImplementation}}{{!!
+}}{{/method.returnType.implementingClass}}{{!!
 }}{{/returnType}}

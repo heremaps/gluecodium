@@ -13,16 +13,18 @@ import Foundation
 
 
 
+
 public class TypeDefs {
 
     public typealias PrimitiveTypeDef = Double
+
     public typealias ComplexTypeDef = Void
+
     public typealias NestedIntTypeDef = PrimitiveTypeDef
+
     public typealias TestStructTypeDef = TestStruct
+
     public typealias NestedStructTypeDef = TestStructTypeDef
-
-
-
 
     public struct TestStruct {
         public var something: String
@@ -52,12 +54,15 @@ public class TypeDefs {
     public static func methodWithPrimitiveTypeDef(input: PrimitiveTypeDef) -> PrimitiveTypeDef {
         return smoke_TypeDefs_methodWithPrimitiveTypeDef(input)
     }
+
     public static func methodWithComplexTypeDef(input: ComplexTypeDef) -> ComplexTypeDef {
         return smoke_TypeDefs_methodWithComplexTypeDef(input)
     }
+
     public static func returnNestedIntTypeDef(input: NestedIntTypeDef) -> NestedIntTypeDef {
         return smoke_TypeDefs_returnNestedIntTypeDef(input)
     }
+
     public static func returnTestStructTypeDef(input: TestStructTypeDef) -> TestStructTypeDef? {
         let inputHandle = input.convertToCType()
         defer {
@@ -72,6 +77,7 @@ public class TypeDefs {
 
         return TestStruct(cTestStruct: cResult)
     }
+
     public static func returnNestedStructTypeDef(input: NestedStructTypeDef) -> NestedStructTypeDef? {
         let inputHandle = input.convertToCType()
         defer {
@@ -86,6 +92,7 @@ public class TypeDefs {
 
         return TestStruct(cTestStruct: cResult)
     }
+
     public static func returnTypeDefPointFromTypeCollection(input: PointTypeDef) -> PointTypeDef? {
         let inputHandle = input.convertToCType()
         defer {
@@ -100,7 +107,5 @@ public class TypeDefs {
 
         return Point(cPoint: cResult)
     }
+
 }
-
-
-

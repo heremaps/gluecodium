@@ -45,6 +45,7 @@ public class SwiftFileTemplateTest {
   public void simpleInterfaceGeneration() {
     final SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
     swiftClass.implementsProtocols = singletonList("ExampleClass");
+    swiftClass.isInterface = true;
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: ExampleClass) -> RefHolder<> {\n"
@@ -66,6 +67,7 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = new SwiftClass("ExampleClassWithComment", null);
     swiftClass.implementsProtocols = singletonList("ExampleClassWithComment");
     swiftClass.comment = "One really classy example";
+    swiftClass.isInterface = true;
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: ExampleClassWithComment) -> RefHolder<> {\n"
@@ -95,6 +97,7 @@ public class SwiftFileTemplateTest {
             Collections.singletonList(new SwiftParameter("parameter", new SwiftType("Int"))));
     swiftClass.methods = Collections.singletonList(method);
     swiftClass.implementsProtocols = singletonList("ExampleClass");
+    swiftClass.isInterface = true;
     method.returnType = new SwiftType("Int");
     method.cBaseName = "myPackage_ExampleClass_myMethod";
     final String expected =
@@ -129,6 +132,7 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "ExampleClass_myMethod";
     swiftClass.implementsProtocols = singletonList("ExampleClass");
     swiftClass.methods = Collections.singletonList(method);
+    swiftClass.isInterface = true;
 
     final String expected =
         "import Foundation\n"
@@ -159,6 +163,7 @@ public class SwiftFileTemplateTest {
     SwiftMethod method = new SwiftMethod("myMethod", Arrays.asList(parameterOne, parameterTwo));
     method.cBaseName = "ExampleClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
+    swiftClass.isInterface = true;
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: ExampleClass) -> RefHolder<> {\n"
@@ -187,6 +192,7 @@ public class SwiftFileTemplateTest {
             "myMethod",
             Collections.singletonList(new SwiftParameter("array", new SwiftArrayType("UInt8"))));
     swiftClass.implementsProtocols = singletonList("MyClass");
+    swiftClass.isInterface = true;
     method.cBaseName = "MyClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
     final String expected =
@@ -213,6 +219,7 @@ public class SwiftFileTemplateTest {
   public void methodWithComment() {
     SwiftClass swiftClass = new SwiftClass("CommentedExampleClass", null);
     swiftClass.implementsProtocols = singletonList("CommentedExampleClass");
+    swiftClass.isInterface = true;
     SwiftMethod method =
         new SwiftMethod(
             "myMethod",
@@ -272,6 +279,7 @@ public class SwiftFileTemplateTest {
   public void systemImport() {
     SwiftClass swiftClass = new SwiftClass("SomeClass", null);
     swiftClass.implementsProtocols = singletonList("SomeClass");
+    swiftClass.isInterface = true;
 
     final String expected =
         "import Foundation\n"
@@ -557,6 +565,7 @@ public class SwiftFileTemplateTest {
     secondStruct.cType = "CType";
     swiftClass.methods = singletonList(new SwiftMethod("SomeMethod"));
     swiftClass.implementsProtocols = Collections.singletonList(swiftClass.name);
+    swiftClass.isInterface = true;
     file.structs = Arrays.asList(firstSturct, secondStruct);
     file.classes = singletonList(swiftClass);
     final String expected =
@@ -689,6 +698,7 @@ public class SwiftFileTemplateTest {
         SwiftEnum.builder("EnumSwiftName").comment("Some comment on enum type").build());
     SwiftClass clazz = new SwiftClass("TestInterface");
     swiftFile.classes.add(clazz);
+    clazz.isInterface = true;
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: TestInterface) -> RefHolder<> {\n"
@@ -718,6 +728,7 @@ public class SwiftFileTemplateTest {
     swiftClass.cInstanceRef = "HelloWorldRef";
     swiftClass.cInstance = "HellowWorld";
     swiftClass.implementsProtocols = singletonList("HelloWorld");
+    swiftClass.isInterface = true;
     SwiftMethod method = new SwiftMethod("instanceMethod");
     method.returnType = new SwiftType("Int");
     method.cBaseName = "HelloWorld_instanceMethod";
@@ -757,13 +768,24 @@ public class SwiftFileTemplateTest {
 
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType = new SwiftContainerType("HelloWorld");
-    mappedType.privateImplementation = "_HelloWorld";
+    mappedType.implementingClass = "_HelloWorld";
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
     final String expected =
         "import Foundation\n"
+            + "internal func getRef(_ ref: HellowWorldFactory) -> RefHolder<HellowWorldFactoryRef> "
+            + "{\n"
+            + "    return RefHolder<HellowWorldFactoryRef>(ref.c_instance)\n"
+            + "}\n"
             + "public class HellowWorldFactory {\n"
+            + "    let c_instance : HellowWorldFactoryRef\n"
+            + "    public required init?(cHellowWorldFactory: HellowWorldFactoryRef) {\n"
+            + "        c_instance = cHellowWorldFactory\n"
+            + "    }\n"
+            + "    deinit {\n"
+            + "        HellowWorldFactory_release(c_instance)\n"
+            + "    }\n"
             + "    public static func createInstanceMethod() -> HelloWorld {\n"
             + "        let cResult = HelloWorld_createInstanceMethod()\n"
             + "        return _HelloWorld(cHelloWorld: cResult)\n"
@@ -777,6 +799,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void typedefGenerationInProtocol() {
     SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
+    swiftClass.isInterface = true;
     SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
     swiftClass.typedefs = Collections.singletonList(typedef);
     final String expected =
@@ -804,7 +827,7 @@ public class SwiftFileTemplateTest {
     swiftClass.typedefs = Collections.singletonList(typedef);
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType = new SwiftContainerType("HelloWorld");
-    mappedType.privateImplementation = "_HelloWorld";
+    mappedType.implementingClass = "_HelloWorld";
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
@@ -834,7 +857,7 @@ public class SwiftFileTemplateTest {
 
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType = new SwiftContainerType("HelloWorld");
-    mappedType.privateImplementation = "_HelloWorld";
+    mappedType.implementingClass = "_HelloWorld";
     method.returnType = typedef.type;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
@@ -855,12 +878,13 @@ public class SwiftFileTemplateTest {
   }
 
   @Test
-  public void classWithPropertyOfDataType() {
+  public void protocolWithPropertyOfDataType() {
     SwiftClass swiftClass = new SwiftClass("SomeClassWithProperty");
     swiftClass.cInstanceRef = "SomeClassWithPropertyRef";
     SwiftProperty someProperty =
         new SwiftProperty("someAttributeName", SwiftType.DATA, false, "CBRIDGE_DELEGATE");
     swiftClass.properties.add(someProperty);
+    swiftClass.isInterface = true;
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: SomeClassWithProperty) -> RefHolder<SomeClassWithPropertyRef> {\n"
@@ -902,8 +926,53 @@ public class SwiftFileTemplateTest {
   }
 
   @Test
+  public void classWithPropertyOfDataType() {
+    SwiftClass swiftClass = new SwiftClass("SomeClassWithProperty");
+    swiftClass.cInstanceRef = "SomeClassWithPropertyRef";
+    SwiftProperty someProperty =
+        new SwiftProperty("someAttributeName", SwiftType.DATA, false, "CBRIDGE_DELEGATE");
+    swiftClass.properties.add(someProperty);
+    final String expected =
+        "import Foundation\n"
+            + "internal func getRef(_ ref: SomeClassWithProperty) -> "
+            + "RefHolder<SomeClassWithPropertyRef> {\n"
+            + "    return RefHolder<SomeClassWithPropertyRef>(ref.c_instance)\n"
+            + "}\n"
+            + "public class SomeClassWithProperty {\n"
+            + "    public var someAttributeName: Data {\n"
+            + "        get {\n"
+            + "            let result_data_handle = CBRIDGE_DELEGATE_get(c_instance)\n"
+            + "            defer {\n"
+            + "                byteArray_release(result_data_handle)\n"
+            + "            }\n"
+            + "            return Data(bytes: byteArray_data_get(result_data_handle), count: Int"
+            + "(byteArray_size_get(result_data_handle)))\n"
+            + "        }\n"
+            + "        set {\n"
+            + "            return newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) -> "
+            + "Void in\n"
+            + "                return CBRIDGE_DELEGATE_set(c_instance, newValue_ptr, Int64(newValue"
+            + ".count))\n"
+            + "            }\n"
+            + "        }\n"
+            + "    }\n"
+            + "    let c_instance : SomeClassWithPropertyRef\n"
+            + "    public required init?(cSomeClassWithProperty: SomeClassWithPropertyRef) {\n"
+            + "        c_instance = cSomeClassWithProperty\n"
+            + "    }\n"
+            + "    deinit {\n"
+            + "        _release(c_instance)\n"
+            + "    }\n"
+            + "}\n";
+
+    final String generated = generateFromClass(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
   public void classWithReadonlyProperties() {
     SwiftClass swiftClass = new SwiftClass("SomeClassWithProperty");
+    swiftClass.isInterface = true;
     swiftClass.cInstanceRef = "SomeClassWithPropertyRef";
     swiftClass.properties.add(
         new SwiftProperty(
@@ -993,6 +1062,7 @@ public class SwiftFileTemplateTest {
   public void classWithProtocol() {
     SwiftClass clazz = new SwiftClass("TestClass");
     clazz.implementsProtocols = singletonList("FirstProtocol");
+    clazz.isInterface = true;
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
@@ -1012,6 +1082,7 @@ public class SwiftFileTemplateTest {
   public void classWithBaseAndProtocols() {
     SwiftClass clazz = new SwiftClass("TestClass", "SuperClass");
     clazz.implementsProtocols = Arrays.asList("FirstProtocol", "SecondProtocol");
+    clazz.isInterface = true;
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"

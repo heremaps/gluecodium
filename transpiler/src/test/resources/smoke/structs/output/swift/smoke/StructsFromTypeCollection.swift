@@ -13,12 +13,8 @@ import Foundation
 
 
 
+
 public class StructsFromTypeCollection {
-
-
-
-
-
 
     public static func createPoint(x: Double, y: Double) -> Point? {
         let cResult = smoke_StructsFromTypeCollection_createPoint(x, y)
@@ -30,6 +26,7 @@ public class StructsFromTypeCollection {
 
         return Point(cPoint: cResult)
     }
+
     public static func swapPointCoordinates(input: Point) -> Point? {
         let inputHandle = input.convertToCType()
         defer {
@@ -44,6 +41,7 @@ public class StructsFromTypeCollection {
 
         return Point(cPoint: cResult)
     }
+
     public static func createLine(pointA: Point, pointB: Point) -> Line? {
         let pointAHandle = pointA.convertToCType()
         defer {
@@ -62,6 +60,7 @@ public class StructsFromTypeCollection {
 
         return Line(cLine: cResult)
     }
+
     public static func createColoredLine(line: Line, color: Color) -> ColoredLine? {
         let lineHandle = line.convertToCType()
         defer {
@@ -80,6 +79,7 @@ public class StructsFromTypeCollection {
 
         return ColoredLine(cColoredLine: cResult)
     }
+
     public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct? {
         let inputHandle = input.convertToCType()
         defer {
@@ -94,7 +94,5 @@ public class StructsFromTypeCollection {
 
         return AllTypesStruct(cAllTypesStruct: cResult)
     }
+
 }
-
-
-

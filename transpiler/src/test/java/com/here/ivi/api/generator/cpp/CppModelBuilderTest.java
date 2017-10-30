@@ -454,7 +454,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeDefInstanceId() {
-    when(InstanceRules.isInstanceId(any())).thenReturn(true);
+    when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
 
     modelBuilder.finishBuilding(francaTypeDef);
 

@@ -10,16 +10,9 @@
  */
 
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
-import "./SwiftGeneratorTest.fidl"
+import "./Attributes.fidl"
 
-define navigation.BaseApiSpec for interface swift.fidl.test.TestInterface6
-{
-  method method0 {
-    Static = true
-  }
-}
-
-define navigation.BaseApiSpec for interface swift.fidl.test.TestInterface8
+define navigation.BaseApiSpec for interface smoke.AttributesInterface
 {
     IsInterface = true
 }

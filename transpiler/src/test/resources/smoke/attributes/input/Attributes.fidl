@@ -29,3 +29,11 @@ interface Attributes {
     attribute String[] arrayAttribute
     attribute InternalError complexTypeAttribute
 }
+
+interface AttributesInterface {
+    struct ExampleStruct {
+        Double value
+    }
+
+    attribute ExampleStruct structAttribute
+}

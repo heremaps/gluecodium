@@ -42,7 +42,7 @@ public class SwiftContainerType extends SwiftType {
     container.fields = this.fields;
     container.cPrefix = this.cPrefix;
     container.cType = this.cType;
-    container.privateImplementation = this.privateImplementation;
+    container.implementingClass = this.implementingClass;
     return container;
   }
 }

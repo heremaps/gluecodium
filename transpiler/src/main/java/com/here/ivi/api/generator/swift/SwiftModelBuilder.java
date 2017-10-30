@@ -21,6 +21,7 @@ import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
 import java.util.Collections;
@@ -60,24 +61,35 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String comment = CppCommentParser.parse(francaInterface).getMainBodyText();
     clazz.comment = comment != null ? comment : "";
     clazz.properties = getPreviousResults(SwiftProperty.class);
-    clazz.methods = getPreviousResults(SwiftMethod.class);
     clazz.nameSpace = String.join("_", DefinedBy.getPackages(francaInterface));
-    clazz.typedefs =
-        getPreviousResults(SwiftTypeDef.class)
-            .stream()
-            .filter(s -> !s.name.equals(clazz.name))
-            .collect(toList());
-
+    clazz.typedefs = getPreviousResults(SwiftTypeDef.class);
     clazz.cInstance = CBridgeNameRules.getInterfaceName(francaInterface);
-    if (clazz.isStatic()) {
-      clazz.structs = getPreviousResults(SwiftContainerType.class);
-      clazz.enums = getPreviousResults(SwiftEnum.class);
-    } else {
-      clazz.implementsProtocols = Collections.singletonList(clazz.name);
+
+    if (deploymentModel.isInterface(francaInterface)) {
+      // Instantiable Franca interface implemented as Swift protocol
+      clazz.isInterface = true;
       clazz.cInstanceRef = CBridgeNameRules.getInstanceRefType(francaInterface);
+      clazz.implementsProtocols = Collections.singletonList(clazz.name);
       file.structs = getPreviousResults(SwiftContainerType.class);
       file.enums = getPreviousResults(SwiftEnum.class);
+
+      // TODO: APIGEN-868 validator should fail when static methods are defined in a interface
+      clazz.methods =
+          getPreviousResults(SwiftMethod.class)
+              .stream()
+              .filter(swiftMethod -> !swiftMethod.isStatic)
+              .collect(toList());
+    } else {
+      addStructsEnumsMethods(clazz);
+      clazz.cInstanceRef =
+          clazz.properties.isEmpty() && hasOnlyStaticMethods(getPreviousResults(SwiftMethod.class))
+              // Non instantiable Franca interface (static methods only)
+              // TODO APIGEN-893: it should always be instantiable
+              ? null
+              // Instantiable Franca interface implemented as Swift class
+              : CBridgeNameRules.getInstanceRefType(francaInterface);
     }
+
     file.classes.add(clazz);
     storeResult(file);
     super.finishBuilding(francaInterface);
@@ -159,9 +171,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FTypeDef francaTypeDef) {
-    SwiftTypeDef typedefValue =
-        new SwiftTypeDef(francaTypeDef.getName(), getPreviousResult(SwiftType.class));
-    storeResult(typedefValue);
+    if (!InstanceRules.isInstanceId(francaTypeDef)) {
+      SwiftTypeDef typedefValue =
+          new SwiftTypeDef(francaTypeDef.getName(), getPreviousResult(SwiftType.class));
+      storeResult(typedefValue);
+    }
+
     super.finishBuilding(francaTypeDef);
   }
 
@@ -189,7 +204,20 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
-    storeResult(SwiftTypeMapper.mapType(francaTypeRef));
+    SwiftType swiftType;
+
+    if (InstanceRules.isInstanceId(francaTypeRef)) {
+      FType derived = francaTypeRef.getDerived();
+      swiftType = SwiftTypeMapper.getClassOrStructType(derived);
+      swiftType.implementingClass =
+          deploymentModel.isInterface((FInterface) derived.eContainer())
+              ? "_" + derived.getName()
+              : derived.getName();
+    } else {
+      swiftType = SwiftTypeMapper.mapType(francaTypeRef);
+    }
+
+    storeResult(swiftType);
     super.finishBuilding(francaTypeRef);
   }
 
@@ -204,5 +232,16 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     storeResult(property);
     super.finishBuilding(attribute);
+  }
+
+  @VisibleForTesting
+  static boolean hasOnlyStaticMethods(final List<SwiftMethod> methods) {
+    return !methods.isEmpty() && methods.stream().allMatch(swiftMethod -> swiftMethod.isStatic);
+  }
+
+  private void addStructsEnumsMethods(SwiftClass clazz) {
+    clazz.structs = getPreviousResults(SwiftContainerType.class);
+    clazz.enums = getPreviousResults(SwiftEnum.class);
+    clazz.methods = getPreviousResults(SwiftMethod.class);
   }
 }

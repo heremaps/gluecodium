@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.swift;
 
-import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
 import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.*;
 import static com.here.ivi.api.model.swift.SwiftType.VOID;
 
@@ -33,7 +32,7 @@ public class SwiftTypeMapper {
 
     if (derived != null) {
       if (derived instanceof FStructType) {
-        return getStructType(derived);
+        return getClassOrStructType(derived);
       } else if (derived instanceof FEnumerationType) {
         return SwiftEnum.builder(SwiftNameRules.getEnumTypeName(derived)).build();
       } else if (derived instanceof FTypeDef) {
@@ -46,7 +45,9 @@ public class SwiftTypeMapper {
   }
 
   private static SwiftType getTypedef(FTypeDef francaTypeDef) {
-    SwiftType typedefType = mapTypeDef(francaTypeDef);
+
+    SwiftType typedefType = mapType(francaTypeDef.getActualType());
+
     if (francaTypeDef.getActualType() != null) {
       return typedefType.createAlias(francaTypeDef.getName());
     } else {
@@ -63,24 +64,15 @@ public class SwiftTypeMapper {
     }
   }
 
-  private static SwiftType getStructType(FType derived) {
+  public static SwiftType getClassOrStructType(FType derived) {
     SwiftType.TypeCategory category = (derived instanceof FTypeDef) ? CLASS : STRUCT;
     SwiftContainerType mappedType = new SwiftContainerType(derived.getName(), category);
     mappedType.cPrefix = CBridgeNameRules.getStructBaseName(derived);
     mappedType.cType = CBridgeNameRules.getStructRefType(derived);
-    mappedType.privateImplementation =
-        (derived instanceof FTypeDef) ? "_" + derived.getName() : null;
     if (mappedType.category == CLASS) {
       mappedType.optional = true;
     }
     return mappedType;
-  }
-
-  private static SwiftType mapTypeDef(final FTypeDef derived) {
-    if (isInstanceId(derived)) {
-      return getStructType(derived);
-    }
-    return mapType(derived.getActualType());
   }
 
   private static SwiftType mapPredefined(FTypeRef type) {

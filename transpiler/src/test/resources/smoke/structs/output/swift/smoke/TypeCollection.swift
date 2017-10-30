@@ -11,10 +11,7 @@
 
 import Foundation
 
-
 public typealias PointTypedef = Point
-
-
 public struct Point {
     public var x: Double
     public var y: Double

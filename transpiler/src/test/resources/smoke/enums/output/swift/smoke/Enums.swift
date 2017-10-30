@@ -13,15 +13,20 @@ import Foundation
 
 
 
+
 public class Enums {
 
     public enum SimpleEnum : UInt32 {
+
         case first
+
         case second
     }
 
     public enum InternalError : UInt32 {
+
         case errorNone
+
         case errorFatal = 999
     }
 
@@ -56,23 +61,29 @@ public class Enums {
 
     public static func methodWithEnumeration(input: SimpleEnum) -> SimpleEnum {
         let cResult = smoke_Enums_methodWithEnumeration(input.rawValue)
+
         return SimpleEnum(rawValue: cResult)!
     }
 
     public static func flipEnumValue(input: InternalError) -> InternalError {
         let cResult = smoke_Enums_flipEnumValue(input.rawValue)
+
         return InternalError(rawValue: cResult)!
     }
+
     public static func extractEnumFromStruct(input: ErrorStruct) -> InternalError {
         let inputHandle = input.convertToCType()
         defer {
             smoke_Enums_ErrorStruct_release(inputHandle)
         }
         let cResult = smoke_Enums_extractEnumFromStruct(inputHandle)
+
         return InternalError(rawValue: cResult)!
     }
+
     public static func createStructWithEnumInside(type: InternalError, message: String) -> ErrorStruct? {
         let cResult = smoke_Enums_createStructWithEnumInside(type.rawValue, message)
+
 
         defer {
             smoke_Enums_ErrorStruct_release(cResult)
@@ -80,7 +91,5 @@ public class Enums {
 
         return ErrorStruct(cErrorStruct: cResult)
     }
+
 }
-
-
-

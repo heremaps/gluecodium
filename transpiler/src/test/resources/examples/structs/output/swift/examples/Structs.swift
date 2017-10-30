@@ -13,11 +13,8 @@ import Foundation
 
 
 
+
 public class Structs {
-
-
-
-
 
     public struct SyncResult {
         public var lastUpdatedTimeStamp: UInt64
@@ -44,6 +41,7 @@ public class Structs {
             examples_Structs_SyncResult_numberOfChanges_set(cSyncResult, numberOfChanges)
         }
     }
+
     public struct IdentifiableSyncResult {
         public var id: Int32
         public var syncResult: SyncResult
@@ -92,6 +90,7 @@ public class Structs {
 
         return SyncResult(cSyncResult: cResult)
     }
+
     public static func methodWithNestedType(input: IdentifiableSyncResult) -> IdentifiableSyncResult? {
         let inputHandle = input.convertToCType()
         defer {
@@ -106,9 +105,5 @@ public class Structs {
 
         return IdentifiableSyncResult(cIdentifiableSyncResult: cResult)
     }
+
 }
-
-
-
-
-

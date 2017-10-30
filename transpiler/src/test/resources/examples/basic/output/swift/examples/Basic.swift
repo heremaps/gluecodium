@@ -13,12 +13,8 @@ import Foundation
 
 
 
+
 public class Basic {
-
-
-
-
-
 
     public static func basicMethod(inputString: String) -> String? {
         let result_string_handle = examples_Basic_basicMethod(inputString)
@@ -29,9 +25,5 @@ public class Basic {
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
     }
+
 }
-
-
-
-
-

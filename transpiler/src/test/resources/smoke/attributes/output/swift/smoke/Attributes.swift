@@ -11,25 +11,16 @@
 
 import Foundation
 
+
+
+
 internal func getRef(_ ref: Attributes) -> RefHolder<smoke_AttributesRef> {
-    guard let instanceReference = ref as? _Attributes else {
-        fatalError("Not implemented yet")
-    }
-    return RefHolder<smoke_AttributesRef>(instanceReference.c_instance)
+    return RefHolder<smoke_AttributesRef>(ref.c_instance)
 }
 
-public protocol Attributes {
-    var builtInTypeAttribute: UInt32 { get set }
-    var readonlyAttribute: Float { get }
-    var structAttribute: ExampleStruct { get set }
-    var arrayAttribute: String { get set }
-    var complexTypeAttribute: InternalError { get set }
-}
+public class Attributes {
 
-internal class _Attributes: Attributes {
-
-
-    var builtInTypeAttribute: UInt32 {
+    public var builtInTypeAttribute: UInt32 {
         get {
             return smoke_Attributes_builtInTypeAttribute_get(c_instance)
         }
@@ -37,13 +28,15 @@ internal class _Attributes: Attributes {
             return smoke_Attributes_builtInTypeAttribute_set(c_instance, newValue)
         }
     }
-    var readonlyAttribute: Float {
+
+    public var readonlyAttribute: Float {
         get {
             return smoke_Attributes_readonlyAttribute_get(c_instance)
         }
 
     }
-    var structAttribute: ExampleStruct {
+
+    public var structAttribute: ExampleStruct {
         get {
             let cResult = smoke_Attributes_structAttribute_get(c_instance)
 
@@ -62,9 +55,11 @@ internal class _Attributes: Attributes {
             return smoke_Attributes_structAttribute_set(c_instance, newValueHandle)
         }
     }
-    var arrayAttribute: String {
+
+    public var arrayAttribute: String {
         get {
             let result_string_handle = smoke_Attributes_arrayAttribute_get(c_instance)
+
             defer {
                 std_string_release(result_string_handle)
             }
@@ -75,56 +70,53 @@ internal class _Attributes: Attributes {
             return smoke_Attributes_arrayAttribute_set(c_instance, newValue)
         }
     }
-    var complexTypeAttribute: InternalError {
+
+    public var complexTypeAttribute: InternalError {
         get {
             let cResult = smoke_Attributes_complexTypeAttribute_get(c_instance)
+
             return InternalError(rawValue: cResult)!
         }
         set {
             return smoke_Attributes_complexTypeAttribute_set(c_instance, newValue.rawValue)
         }
     }
-
     let c_instance : smoke_AttributesRef
 
-    required init?(cAttributes: smoke_AttributesRef) {
+    public required init?(cAttributes: smoke_AttributesRef) {
         c_instance = cAttributes
     }
 
     deinit {
         smoke_Attributes_release(c_instance)
     }
+    public enum InternalError : UInt32 {
 
+        case errorNone
+
+        case errorFatal = 999
+    }
+
+    public struct ExampleStruct {
+        public var value: Double
+
+        public init(value: Double) {
+            self.value = value
+        }
+
+        internal init?(cExampleStruct: smoke_Attributes_ExampleStructRef) {
+            value = smoke_Attributes_ExampleStruct_value_get(cExampleStruct)
+        }
+
+        internal func convertToCType() -> smoke_Attributes_ExampleStructRef {
+            let result = smoke_Attributes_ExampleStruct_create()
+            fillFunction(result)
+            return result
+        }
+
+        internal func fillFunction(_ cExampleStruct: smoke_Attributes_ExampleStructRef) -> Void {
+            smoke_Attributes_ExampleStruct_value_set(cExampleStruct, value)
+        }
+    }
 
 }
-
-public enum InternalError : UInt32 {
-    case errorNone
-    case errorFatal = 999
-}
-
-public struct ExampleStruct {
-    public var value: Double
-
-    public init(value: Double) {
-        self.value = value
-    }
-
-    internal init?(cExampleStruct: smoke_Attributes_ExampleStructRef) {
-        value = smoke_Attributes_ExampleStruct_value_get(cExampleStruct)
-    }
-
-    internal func convertToCType() -> smoke_Attributes_ExampleStructRef {
-        let result = smoke_Attributes_ExampleStruct_create()
-        fillFunction(result)
-        return result
-    }
-
-    internal func fillFunction(_ cExampleStruct: smoke_Attributes_ExampleStructRef) -> Void {
-        smoke_Attributes_ExampleStruct_value_set(cExampleStruct, value)
-    }
-}
-
-
-
-

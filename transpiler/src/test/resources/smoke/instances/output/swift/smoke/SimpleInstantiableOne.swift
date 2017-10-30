@@ -12,38 +12,31 @@
 import Foundation
 
 
-
-
-internal func getRef(_ ref: ProfileManager) -> RefHolder<examples_ProfileManagerRef> {
-    return RefHolder<examples_ProfileManagerRef>(ref.c_instance)
+internal func getRef(_ ref: SimpleInstantiableOne) -> RefHolder<smoke_SimpleInstantiableOneRef> {
+    return RefHolder<smoke_SimpleInstantiableOneRef>(ref.c_instance)
 }
+public class SimpleInstantiableOne {
+    let c_instance : smoke_SimpleInstantiableOneRef
 
-public class ProfileManager {
-    let c_instance : examples_ProfileManagerRef
-
-    public required init?(cProfileManager: examples_ProfileManagerRef) {
-        c_instance = cProfileManager
+    public required init?(cSimpleInstantiableOne: smoke_SimpleInstantiableOneRef) {
+        c_instance = cSimpleInstantiableOne
     }
 
     deinit {
-        examples_ProfileManager_release(c_instance)
+        smoke_SimpleInstantiableOne_release(c_instance)
     }
-    public func createProfile(username: String) -> Void {
-        return examples_ProfileManager_createProfile(c_instance, username)
+    public func setStringValue(stringValue: String) -> Void {
+        return smoke_SimpleInstantiableOne_setStringValue(c_instance, stringValue)
     }
 
-    public func changeProfile(username: String) -> String? {
-        let result_string_handle = examples_ProfileManager_changeProfile(c_instance, username)
+    public func getStringValue() -> String? {
+        let result_string_handle = smoke_SimpleInstantiableOne_getStringValue(c_instance)
 
         defer {
             std_string_release(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
-    }
-
-    public func deleteProfile(username: String) -> Void {
-        return examples_ProfileManager_deleteProfile(c_instance, username)
     }
 
 }
