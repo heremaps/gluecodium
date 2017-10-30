@@ -78,7 +78,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             javaClass.name,
             javaTopLevelElement.name,
             cppClass.name,
-            cppClass.hasInstanceMethods());
+            !cppClass.hasOnlyStaticMethods());
     getPreviousResults(JniStruct.class).forEach(jniContainer::add);
     getPreviousResults(JniEnum.class).forEach(jniContainer::add);
     getPreviousResults(JniMethod.class).forEach(jniContainer::add);
