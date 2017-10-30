@@ -36,6 +36,7 @@ function(feature feature_name)
         if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL ${generator})
             message("Enabling feature ${feature_name} for ${generator}")
             foreach(source ${feature_SOURCES})
+                get_filename_component(source ${source} ABSOLUTE)
                 get_filename_component(extension "${source}" EXT)
                 if (extension MATCHES "cpp|h")
                     list(APPEND sources "${source}")
@@ -226,10 +227,6 @@ feature(UnsupportedErrors cpp swift SOURCES
     fidl/hello/UnsupportedErrors.fidl
     )
 
-#TODO apigen_transpile should be able to take single file arguments (APIGEN-855)
-file(COPY ${HELLO_FRANCA_SOURCES} DESTINATION fidl-supported-features-only)
-set(HELLO_FRANCA_DIR ${CMAKE_CURRENT_BINARY_DIR}/fidl-supported-features-only/)
-
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES
@@ -239,7 +236,7 @@ set_target_properties(hello PROPERTIES
 
 include(apigen/Transpiler)
 apigen_transpile(TARGET hello
-        FRANCA_SOURCES ${HELLO_FRANCA_DIR}
+        FRANCA_SOURCES ${HELLO_FRANCA_SOURCES}
         GENERATOR ${HELLO_APIGEN_TRANSPILER_GENERATOR}
         VERSION ${HELLO_APIGEN_TRANSPILER_VERSION})
 apigen_target_include_directories(hello)
