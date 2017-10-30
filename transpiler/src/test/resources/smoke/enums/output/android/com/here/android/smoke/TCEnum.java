@@ -10,7 +10,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.here.android.smoke;
-enum TCEnum {
+public enum TCEnum {
     FIRST(0),
     SECOND(1);
     public final int value;

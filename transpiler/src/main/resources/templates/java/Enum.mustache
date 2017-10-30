@@ -1,5 +1,5 @@
 {{>common/DocComment}}
-enum {{name}} {
+{{#if visibility.toString}}{{visibility}} {{/if}}enum {{name}} {
 {{joinPartial items "java/EnumItem" ",
 "}}{{#if items}};{{/if}}
 

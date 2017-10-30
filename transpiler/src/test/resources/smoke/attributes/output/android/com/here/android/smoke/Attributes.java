@@ -14,7 +14,7 @@ package com.here.android.smoke;
 import java.util.List;
 
 public interface Attributes {
-    enum InternalError {
+    public enum InternalError {
         ERROR_NONE(0),
         ERROR_FATAL(999);
         public final int value;

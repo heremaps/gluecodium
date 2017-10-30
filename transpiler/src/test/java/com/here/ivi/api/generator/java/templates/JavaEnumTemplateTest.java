@@ -18,6 +18,7 @@ import com.here.ivi.api.model.javamodel.JavaEnum;
 import com.here.ivi.api.model.javamodel.JavaEnumItem;
 import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaValue;
+import com.here.ivi.api.model.javamodel.JavaVisibility;
 import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,6 +57,7 @@ public final class JavaEnumTemplateTest {
   public void generate_withValues() {
     // Arrange
     JavaEnum javaEnum = new JavaEnum("MyEnum");
+    javaEnum.visibility = JavaVisibility.PUBLIC;
     javaEnum.comment = "A test enum";
     javaEnum.items.add(new JavaEnumItem("FooName", new JavaValue("42")));
     javaEnum.items.add(new JavaEnumItem("BarName", new JavaValue("314")));
@@ -64,7 +66,7 @@ public final class JavaEnumTemplateTest {
         "/**\n"
             + " * A test enum\n"
             + " */\n"
-            + "enum MyEnum {\n"
+            + "public enum MyEnum {\n"
             + "    FooName(42),\n"
             + "    BarName(314);\n"
             + "\n"
