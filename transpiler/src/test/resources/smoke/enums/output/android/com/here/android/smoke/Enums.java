@@ -14,7 +14,7 @@ package com.here.android.smoke;
 
 public class Enums {
 
-    enum SimpleEnum {
+    public enum SimpleEnum {
         FIRST(0),
         SECOND(1);
 
@@ -25,7 +25,7 @@ public class Enums {
         }
     }
 
-    enum InternalError {
+    public enum InternalError {
         ERROR_NONE(0),
         ERROR_FATAL(999);
 
