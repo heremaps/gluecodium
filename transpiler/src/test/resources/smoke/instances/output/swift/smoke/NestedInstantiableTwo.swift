@@ -11,72 +11,58 @@
 
 import Foundation
 
+
 internal func getRef(_ ref: NestedInstantiableTwo) -> RefHolder<smoke_NestedInstantiableTwoRef> {
-    guard let instanceReference = ref as? _NestedInstantiableTwo else {
-        fatalError("Not implemented yet")
-    }
-    return RefHolder<smoke_NestedInstantiableTwoRef>(instanceReference.c_instance)
+    return RefHolder<smoke_NestedInstantiableTwoRef>(ref.c_instance)
 }
-
-public protocol NestedInstantiableTwo {
-        func setMultipleTypeInstances(instanceOne: SimpleInstantiableOne, instanceTwo: SimpleInstantiableTwo, nestedInstantiable: NestedInstantiableOne) -> Void;
-        func getInstantiableOne() -> SimpleInstantiableOne?;
-        func getInstantiableTwo() -> SimpleInstantiableTwo?;
-        func getNestedInstantiable() -> NestedInstantiableOne?;
-        func setSelfInstantiable(selfInstance: NestedInstantiableTwo) -> Void;
-        func getSelfInstantiable() -> NestedInstantiableTwo?;
-}
-
-internal class _NestedInstantiableTwo: NestedInstantiableTwo {
-
-
+public class NestedInstantiableTwo {
     let c_instance : smoke_NestedInstantiableTwoRef
 
-    required init?(cNestedInstantiableTwo: smoke_NestedInstantiableTwoRef) {
+    public required init?(cNestedInstantiableTwo: smoke_NestedInstantiableTwoRef) {
         c_instance = cNestedInstantiableTwo
     }
 
     deinit {
         smoke_NestedInstantiableTwo_release(c_instance)
     }
-
-
-
     public func setMultipleTypeInstances(instanceOne: SimpleInstantiableOne, instanceTwo: SimpleInstantiableTwo, nestedInstantiable: NestedInstantiableOne) -> Void {
         let instanceOneHandle = getRef(instanceOne)
         let instanceTwoHandle = getRef(instanceTwo)
         let nestedInstantiableHandle = getRef(nestedInstantiable)
         return smoke_NestedInstantiableTwo_setMultipleTypeInstances(c_instance, instanceOneHandle.ref, instanceTwoHandle.ref, nestedInstantiableHandle.ref)
     }
+
     public func getInstantiableOne() -> SimpleInstantiableOne? {
         let cResult = smoke_NestedInstantiableTwo_getInstantiableOne(c_instance)
 
 
-        return _SimpleInstantiableOne(cSimpleInstantiableOne: cResult)
+        return SimpleInstantiableOne(cSimpleInstantiableOne: cResult)
     }
+
     public func getInstantiableTwo() -> SimpleInstantiableTwo? {
         let cResult = smoke_NestedInstantiableTwo_getInstantiableTwo(c_instance)
 
 
-        return _SimpleInstantiableTwo(cSimpleInstantiableTwo: cResult)
+        return SimpleInstantiableTwo(cSimpleInstantiableTwo: cResult)
     }
+
     public func getNestedInstantiable() -> NestedInstantiableOne? {
         let cResult = smoke_NestedInstantiableTwo_getNestedInstantiable(c_instance)
 
 
-        return _NestedInstantiableOne(cNestedInstantiableOne: cResult)
+        return NestedInstantiableOne(cNestedInstantiableOne: cResult)
     }
+
     public func setSelfInstantiable(selfInstance: NestedInstantiableTwo) -> Void {
         let selfInstanceHandle = getRef(selfInstance)
         return smoke_NestedInstantiableTwo_setSelfInstantiable(c_instance, selfInstanceHandle.ref)
     }
+
     public func getSelfInstantiable() -> NestedInstantiableTwo? {
         let cResult = smoke_NestedInstantiableTwo_getSelfInstantiable(c_instance)
 
 
-        return _NestedInstantiableTwo(cNestedInstantiableTwo: cResult)
+        return NestedInstantiableTwo(cNestedInstantiableTwo: cResult)
     }
+
 }
-
-
-

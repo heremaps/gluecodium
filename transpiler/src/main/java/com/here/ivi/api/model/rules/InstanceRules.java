@@ -13,6 +13,7 @@ package com.here.ivi.api.model.rules;
 
 import com.here.ivi.api.model.franca.DefinedBy;
 import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 
@@ -35,5 +36,13 @@ public final class InstanceRules {
     String className = DefinedBy.findDefiningTypeCollection(typedef).getName();
 
     return typedef.getName().equals(className);
+  }
+
+  public static boolean isInstanceId(FTypeRef typeRef) {
+    FType derived = typeRef.getDerived();
+
+    return derived != null
+        && derived instanceof FTypeDef
+        && InstanceRules.isInstanceId((FTypeDef) derived);
   }
 }

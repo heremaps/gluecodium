@@ -1,9 +1,15 @@
-{{#isStatic}}{{>ClassWithoutProtocol}}{{/isStatic}}
-{{^isStatic}}{{>ClassWithProtocol}}{{/isStatic}}{{!!
+{{#isInterface}}{{>ClassWithProtocol}}{{/isInterface}}
+{{^isInterface}}{{>ClassWithoutProtocol}}{{/isInterface}}{{!!
 
 
 
 }}{{+ClassWithoutProtocol}}
+
+{{#if cInstanceRef}}
+internal func getRef(_ ref: {{name}}) -> RefHolder<{{cInstanceRef}}> {
+    return RefHolder<{{cInstanceRef}}>(ref.c_instance)
+}
+{{/if}}
 {{#comment}}{{>swift/Comment}}{{/comment}}{{!!
 }}{{>swift/ClassHeader}}{{!!
 

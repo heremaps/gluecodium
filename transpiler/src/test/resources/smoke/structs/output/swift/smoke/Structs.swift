@@ -13,11 +13,8 @@ import Foundation
 
 
 
+
 public class Structs {
-
-
-
-
 
     public struct Point {
         public var x: Double
@@ -44,6 +41,7 @@ public class Structs {
             smoke_Structs_Point_y_set(cPoint, y)
         }
     }
+
     public struct Color {
         public var red: UInt8
         public var green: UInt8
@@ -73,6 +71,7 @@ public class Structs {
             smoke_Structs_Color_blue_set(cColor, blue)
         }
     }
+
     public struct Line {
         public var a: Point
         public var b: Point
@@ -114,6 +113,7 @@ public class Structs {
             b.fillFunction(bHandle)
         }
     }
+
     public struct ColoredLine {
         public var line: Line
         public var color: Color
@@ -155,6 +155,7 @@ public class Structs {
             color.fillFunction(colorHandle)
         }
     }
+
     public struct AllTypesStruct {
         public var int8Field: Int8
         public var uint8Field: UInt8
@@ -260,6 +261,7 @@ public class Structs {
 
         return Point(cPoint: cResult)
     }
+
     public static func swapPointCoordinates(input: Point) -> Point? {
         let inputHandle = input.convertToCType()
         defer {
@@ -274,6 +276,7 @@ public class Structs {
 
         return Point(cPoint: cResult)
     }
+
     public static func createLine(pointA: Point, pointB: Point) -> Line? {
         let pointAHandle = pointA.convertToCType()
         defer {
@@ -292,6 +295,7 @@ public class Structs {
 
         return Line(cLine: cResult)
     }
+
     public static func createColoredLine(line: Line, color: Color) -> ColoredLine? {
         let lineHandle = line.convertToCType()
         defer {
@@ -310,6 +314,7 @@ public class Structs {
 
         return ColoredLine(cColoredLine: cResult)
     }
+
     public static func returnColoredLine(input: ColoredLine) -> ColoredLine? {
         let inputHandle = input.convertToCType()
         defer {
@@ -324,6 +329,7 @@ public class Structs {
 
         return ColoredLine(cColoredLine: cResult)
     }
+
     public static func returnAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct? {
         let inputHandle = input.convertToCType()
         defer {
@@ -338,6 +344,7 @@ public class Structs {
 
         return AllTypesStruct(cAllTypesStruct: cResult)
     }
+
     public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct? {
         let inputHandle = input.convertToCType()
         defer {
@@ -352,7 +359,5 @@ public class Structs {
 
         return AllTypesStruct(cAllTypesStruct: cResult)
     }
+
 }
-
-
-

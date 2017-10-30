@@ -134,6 +134,29 @@ interface TestInterface7 {
     }
 }
 
+<** @description: Example instantiable class, implemented as protocol **>
+interface TestInterface8 {
+    version {
+        major 0
+        minor 1
+    }
+
+    <** @description : This is a test struct **>
+    struct struct0 {
+        Int64 elem1
+        Double elem2
+    }
+
+    struct struct1 {
+        String elem1
+    }
+
+    method method0 {
+        in {}
+        out {}
+    }
+}
+
 typeCollection TestCollection0 {
     version {
         major 0

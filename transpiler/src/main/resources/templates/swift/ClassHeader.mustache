@@ -1,2 +1,2 @@
-{{#isStatic}}public class {{/isStatic}}{{^isStatic}}internal class _{{/isStatic}}{{!!
+{{^isInterface}}public class {{/isInterface}}{{#isInterface}}internal class _{{/isInterface}}{{!!
 }}{{name}}{{#if baseAndProtocols}}: {{join baseAndProtocols delimiter=', '}}{{/if}} {

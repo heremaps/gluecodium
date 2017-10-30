@@ -340,9 +340,10 @@ public class JniModelBuilderTest {
     when(cppBuilder.getFinalResult(any())).thenReturn(cppParameter);
 
     FTypeRef fTypeRef = mock(FTypeRef.class);
-    when(fTypeRef.getDerived()).thenReturn(mock(FTypeDef.class));
+    FTypeDef fTypeDef = mock(FTypeDef.class);
+    when(fTypeRef.getDerived()).thenReturn(fTypeDef);
     when(francaArgument.getType()).thenReturn(fTypeRef);
-    when(InstanceRules.isInstanceId(any())).thenReturn(true);
+    when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 

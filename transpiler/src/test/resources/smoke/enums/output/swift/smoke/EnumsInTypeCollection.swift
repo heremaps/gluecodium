@@ -11,11 +11,12 @@
 
 import Foundation
 
-
-
 public enum TCEnum : UInt32 {
 
     case first
 
     case second
 }
+
+
+

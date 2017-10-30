@@ -11,7 +11,6 @@
 
 import Foundation
 
-
 public typealias PointTypeDef = Point
 public typealias StorageId = UInt64
 

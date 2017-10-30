@@ -28,8 +28,22 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.swift.*;
+import com.here.ivi.api.model.rules.InstanceRules;
+import com.here.ivi.api.model.swift.SwiftContainerType;
+import com.here.ivi.api.model.swift.SwiftEnum;
+import com.here.ivi.api.model.swift.SwiftEnumItem;
+import com.here.ivi.api.model.swift.SwiftField;
+import com.here.ivi.api.model.swift.SwiftFile;
+import com.here.ivi.api.model.swift.SwiftInParameter;
+import com.here.ivi.api.model.swift.SwiftMethod;
+import com.here.ivi.api.model.swift.SwiftModelElement;
+import com.here.ivi.api.model.swift.SwiftParameter;
+import com.here.ivi.api.model.swift.SwiftProperty;
+import com.here.ivi.api.model.swift.SwiftType;
+import com.here.ivi.api.model.swift.SwiftTypeDef;
+import com.here.ivi.api.model.swift.SwiftValue;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -46,9 +60,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
   SwiftTypeMapper.class,
   CppCommentParser.class,
   SwiftNameRules.class,
-  CBridgeNameRules.class
+  CBridgeNameRules.class,
+  InstanceRules.class,
+  DefinedBy.class
 })
-@SuppressWarnings("PMD.CouplingBetweenObjects")
+@SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.TooManyMethods"})
 public class SwiftModelBuilderTest {
 
   private static final String PARAM_NAME = "someParamName";
@@ -56,7 +72,7 @@ public class SwiftModelBuilderTest {
   private static final String STRUCT_NAME = "someStruct";
   private static final String COMMENT = "some comment on model element";
   private static final String ATTRIBUTE_NAME = "someAttributeName";
-  public static final String FIELD_NAME = "flowers";
+  private static final String FIELD_NAME = "flowers";
 
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
 
@@ -83,7 +99,9 @@ public class SwiftModelBuilderTest {
         SwiftTypeMapper.class,
         CppCommentParser.class,
         SwiftNameRules.class,
-        CBridgeNameRules.class);
+        CBridgeNameRules.class,
+        InstanceRules.class,
+        DefinedBy.class);
     initMocks(this);
 
     when(francaArgument.getType()).thenReturn(francaTypeRef);
@@ -182,7 +200,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingMethodCreatesStaticMethod() {
-    when(deploymentModel.isStatic(any())).thenReturn(true);
+    when(deploymentModel.isStatic(francaMethod)).thenReturn(true);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -193,7 +211,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingMethodCreatesNonStaticMethod() {
-    when(deploymentModel.isStatic(any())).thenReturn(false);
+    when(deploymentModel.isStatic(francaMethod)).thenReturn(false);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -327,6 +345,17 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaTypeDefDoesNotReadInstance() {
+    when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaTypeDef);
+
+    assertTrue(
+        "Instance typedef should not be added to results",
+        getResults(SwiftTypeDef.class).isEmpty());
+  }
+
+  @Test
   public void finishBuildingFrancaTypeDefReadsName() {
     modelBuilder.finishBuilding(francaTypeDef);
 
@@ -348,20 +377,59 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeRef() {
-    when(SwiftTypeMapper.mapType(any(FTypeRef.class))).thenReturn(swiftType);
+    when(SwiftTypeMapper.mapType(francaTypeRef)).thenReturn(swiftType);
+    when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(false);
 
     modelBuilder.finishBuilding(francaTypeRef);
 
     List<SwiftType> swiftTypes = getResults(SwiftType.class);
     assertEquals("Should be 1 type item created", 1, swiftTypes.size());
     assertSame(swiftType, swiftTypes.get(0));
-
     PowerMockito.verifyStatic();
     SwiftTypeMapper.mapType(francaTypeRef);
+    PowerMockito.verifyStatic();
+    InstanceRules.isInstanceId(francaTypeRef);
   }
 
   @Test
-  public void finishBuildingCreatesWritiableAttribute() {
+  public void finishBuildingFrancaInstanceTypeRef() {
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
+    when(SwiftTypeMapper.getClassOrStructType(francaTypeDef)).thenReturn(swiftType);
+    when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
+    when(deploymentModel.isInterface(any())).thenReturn(false);
+
+    modelBuilder.finishBuilding(francaTypeRef);
+
+    List<SwiftType> swiftTypes = getResults(SwiftType.class);
+    assertEquals("Should be 1 type item created", 1, swiftTypes.size());
+    assertSame(swiftType, swiftTypes.get(0));
+    PowerMockito.verifyStatic();
+    SwiftTypeMapper.getClassOrStructType(francaTypeDef);
+    PowerMockito.verifyStatic();
+    InstanceRules.isInstanceId(francaTypeRef);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceInstanceTypeRef() {
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
+    when(SwiftTypeMapper.getClassOrStructType(francaTypeDef)).thenReturn(swiftType);
+    when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
+    when(deploymentModel.isInterface(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaTypeRef);
+
+    List<SwiftType> swiftTypes = getResults(SwiftType.class);
+    assertEquals("Should be 1 type item created", 1, swiftTypes.size());
+    assertEquals(swiftType.name, swiftTypes.get(0).name);
+    assertEquals(swiftType.implementingClass, swiftTypes.get(0).implementingClass);
+    PowerMockito.verifyStatic();
+    SwiftTypeMapper.getClassOrStructType(francaTypeDef);
+    PowerMockito.verifyStatic();
+    InstanceRules.isInstanceId(francaTypeRef);
+  }
+
+  @Test
+  public void finishBuildingCreatesWritableAttribute() {
     prepareAttributeForTest();
 
     modelBuilder.finishBuilding(francaAttribute);

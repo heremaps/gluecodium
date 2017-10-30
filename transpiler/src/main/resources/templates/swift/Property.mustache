@@ -1,4 +1,4 @@
-var {{name}}: {{type}} {
+{{^isInterface}}public {{/isInterface}}var {{name}}: {{type}} {
     get {
 {{#set method=propertyAccessors.0}}
 {{prefixPartial 'swift/ConversionRecursion' '        '}}

@@ -10,27 +10,41 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 
 import Foundation
+
+
 internal func getRef(_ ref: InstanceWithStruct) -> RefHolder<smoke_InstanceWithStructRef> {
-    guard let instanceReference = ref as? _InstanceWithStruct else {
-        fatalError("Not implemented yet")
-    }
-    return RefHolder<smoke_InstanceWithStructRef>(instanceReference.c_instance)
+    return RefHolder<smoke_InstanceWithStructRef>(ref.c_instance)
 }
-
-public protocol InstanceWithStruct {
-        func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct?;
-}
-
-internal class _InstanceWithStruct: InstanceWithStruct {
-
+public class InstanceWithStruct {
     let c_instance : smoke_InstanceWithStructRef
 
-    required init?(cInstanceWithStruct: smoke_InstanceWithStructRef) {
+    public required init?(cInstanceWithStruct: smoke_InstanceWithStructRef) {
         c_instance = cInstanceWithStruct
     }
 
     deinit {
         smoke_InstanceWithStruct_release(c_instance)
+    }
+    public struct InnerStruct {
+        public var value: Int8
+
+        public init(value: Int8) {
+            self.value = value
+        }
+
+        internal init?(cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) {
+            value = smoke_InstanceWithStruct_InnerStruct_value_get(cInnerStruct)
+        }
+
+        internal func convertToCType() -> smoke_InstanceWithStruct_InnerStructRef {
+            let result = smoke_InstanceWithStruct_InnerStruct_create()
+            fillFunction(result)
+            return result
+        }
+
+        internal func fillFunction(_ cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) -> Void {
+            smoke_InstanceWithStruct_InnerStruct_value_set(cInnerStruct, value)
+        }
     }
 
     public func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct? {
@@ -47,26 +61,5 @@ internal class _InstanceWithStruct: InstanceWithStruct {
 
         return InnerStruct(cInnerStruct: cResult)
     }
-}
 
-public struct InnerStruct {
-    public var value: Int8
-
-    public init(value: Int8) {
-        self.value = value
-    }
-
-    internal init?(cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) {
-        value = smoke_InstanceWithStruct_InnerStruct_value_get(cInnerStruct)
-    }
-
-    internal func convertToCType() -> smoke_InstanceWithStruct_InnerStructRef {
-        let result = smoke_InstanceWithStruct_InnerStruct_create()
-        fillFunction(result)
-        return result
-    }
-
-    internal func fillFunction(_ cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) -> Void {
-        smoke_InstanceWithStruct_InnerStruct_value_set(cInnerStruct, value)
-    }
 }

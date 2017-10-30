@@ -19,6 +19,7 @@ import java.util.List;
 
 public final class SwiftClass extends SwiftModelElement {
 
+  public boolean isInterface;
   public final String parentClass;
   public List<String> implementsProtocols;
   public List<SwiftProperty> properties;
@@ -40,6 +41,7 @@ public final class SwiftClass extends SwiftModelElement {
     this.enums = new ArrayList<>();
     this.nameSpace = "";
     this.typedefs = new ArrayList<>();
+    this.isInterface = false;
   }
 
   public SwiftClass(String className) {
@@ -52,9 +54,5 @@ public final class SwiftClass extends SwiftModelElement {
       baseAndProtocols.addFirst(parentClass);
     }
     return baseAndProtocols;
-  }
-
-  public boolean isStatic() {
-    return methods.stream().anyMatch(s -> s.isStatic);
   }
 }

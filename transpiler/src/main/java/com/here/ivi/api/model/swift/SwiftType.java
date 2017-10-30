@@ -28,7 +28,7 @@ public class SwiftType extends SwiftModelElement {
 
   public boolean optional;
   public final TypeCategory category;
-  public String privateImplementation;
+  public String implementingClass;
   private final String typealiasName;
 
   public SwiftType(String name) {
@@ -47,17 +47,17 @@ public class SwiftType extends SwiftModelElement {
       final String name,
       final TypeCategory category,
       final boolean optional,
-      final String privateImplementation,
+      final String implementingClass,
       final String typealiasName) {
     super(name);
     this.optional = optional;
     this.category = category;
-    this.privateImplementation = privateImplementation;
+    this.implementingClass = implementingClass;
     this.typealiasName = typealiasName;
   }
 
   public SwiftType createAlias(final String aliasName) {
-    return new SwiftType(name, category, optional, privateImplementation, aliasName);
+    return new SwiftType(name, category, optional, implementingClass, aliasName);
   }
 
   @SuppressWarnings("unused")
