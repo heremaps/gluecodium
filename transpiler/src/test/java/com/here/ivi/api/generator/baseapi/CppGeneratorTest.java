@@ -79,7 +79,18 @@ public class CppGeneratorTest {
   }
 
   @Test
-  public void generateCodeGeneratesImplementation() {
+  public void generateCodeGeneratesHeaderAndImplementationForInstantiableClass() {
+    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
+
+    assertEquals(2, generatedFiles.size());
+    assertTrue(generatedFiles.get(1).content.contains("#include \"" + OUTPUT_FILE_NAME + ".h\""));
+  }
+
+  @Test
+  public void generateCodeGeneratesHeaderAndImplementationForInstantiableClassWithStaticMethods() {
+    cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
+    cppClass.methods.add(new CppMethod.Builder("non_static_methodical").build());
+
     List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
 
     assertEquals(2, generatedFiles.size());

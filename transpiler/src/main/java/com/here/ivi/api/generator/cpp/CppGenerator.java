@@ -30,8 +30,6 @@ public class CppGenerator {
 
     String headerIncludePath = outputFilePath + CppNameRules.HEADER_FILE_SUFFIX;
     String headerOutputFilePath = pathPrefix + File.separator + headerIncludePath;
-    String implementationOutputFilePath =
-        pathPrefix + File.separator + outputFilePath + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
 
     // Filter out self-includes
     cppModel.includes.removeIf(include -> include.fileName.equals(headerIncludePath));
@@ -44,10 +42,12 @@ public class CppGenerator {
 
     boolean hasInstantiableClasses =
         CollectionsHelper.getStreamOfType(cppModel.members, CppClass.class)
-            .anyMatch(CppClass::hasInstanceMethods);
+            .noneMatch(CppClass::hasOnlyStaticMethods);
     if (hasInstantiableClasses) {
       String headerInclude = "\n#include \"" + headerIncludePath + "\"";
       String implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel);
+      String implementationOutputFilePath =
+          pathPrefix + File.separator + outputFilePath + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
       result.add(
           new GeneratedFile(
               commentHeader + headerInclude + implementationContent, implementationOutputFilePath));

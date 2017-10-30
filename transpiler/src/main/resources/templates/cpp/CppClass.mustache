@@ -1,10 +1,10 @@
 {{>common/DocComment}}
 class {{name}}{{>cpp/CppInheritance}} {
-{{#if hasInstanceMethods}}
+{{#unless hasOnlyStaticMethods}}
 public:
     virtual ~{{name}}() = 0;
 
-{{/if}}
+{{/unless}}
 {{#if hasSortedMembers}}
 public:
 {{#sortedMembers}}

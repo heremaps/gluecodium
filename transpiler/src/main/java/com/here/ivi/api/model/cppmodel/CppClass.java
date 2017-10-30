@@ -26,10 +26,10 @@ public final class CppClass extends CppElement {
     super(name);
   }
 
-  public boolean hasInstanceMethods() {
+  public boolean hasOnlyStaticMethods() {
     return methods
         .stream()
-        .anyMatch(method -> !method.specifiers.contains(CppMethod.Specifier.STATIC));
+        .allMatch(method -> method.specifiers.contains(CppMethod.Specifier.STATIC));
   }
 
   @SuppressWarnings("unused")
