@@ -52,30 +52,24 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FInterface francaInterface) {
 
     List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
-    List<JavaEnum> enums = getPreviousResults(JavaEnum.class);
-
-    if (containsInstanceMethod(methods)) {
-
+    if (deploymentModel.isInterface(francaInterface)) {
+      // Instantiable Franca interface implemented as Java interface
       JavaInterface javaInterface = createJavaInterface(francaInterface);
-      javaInterface.enums.addAll(enums);
+      JavaClass javaImplementationClass =
+          createJavaImplementationClass(francaInterface, javaInterface);
+
       storeResult(javaInterface);
-
-      JavaClass javaClass = createJavaImplementationClass(francaInterface);
-      JavaCustomType interfaceTypeReference =
-          new JavaCustomType(javaInterface.name, javaInterface.javaPackage);
-      javaClass.parentInterfaces.add(interfaceTypeReference);
-      storeResult(javaClass);
-
+      storeResult(javaImplementationClass);
     } else {
+      JavaClass javaClass = createJavaClass(francaInterface, methods);
+      javaClass.extendedClass =
+          hasOnlyStaticMethods(methods)
+              // Non instantiable Franca interface implemented as static class
+              // TODO APIGEN-893: it should always be instantiable
+              ? null
+              // Instantiable Franca interface implemented as Java class
+              : JavaClass.NATIVE_BASE;
 
-      JavaClass javaClass = createJavaClass(francaInterface);
-      javaClass.constants.addAll(getPreviousResults(JavaConstant.class));
-
-      javaClass.methods.addAll(methods);
-      javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
-      javaClass.enums.addAll(enums);
-
-      addInnerClasses(javaClass);
       storeResult(javaClass);
     }
 
@@ -294,8 +288,21 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.visibility = JavaVisibility.PUBLIC;
     javaClass.javaPackage = rootPackage;
     javaClass.comment = getCommentString(francaModelElement);
-
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
+
+    return javaClass;
+  }
+
+  private JavaClass createJavaClass(
+      final FInterface francaInterface, final List<JavaMethod> methods) {
+
+    JavaClass javaClass = createJavaClass(francaInterface);
+    javaClass.constants.addAll(getPreviousResults(JavaConstant.class));
+    javaClass.methods.addAll(methods);
+    javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
+    javaClass.enums.addAll(getPreviousResults(JavaEnum.class));
+
+    addInnerClasses(javaClass);
 
     return javaClass;
   }
@@ -321,7 +328,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaInterface.javaPackage = rootPackage;
     javaInterface.comment = getCommentString(francaInterface);
     javaInterface.constants.addAll(getPreviousResults(JavaConstant.class));
-
+    javaInterface.enums.addAll(getPreviousResults(JavaEnum.class));
+    // TODO: APIGEN-868 validator should fail when static methods are defined in a interface
     List<JavaMethod> interfaceMethods =
         CollectionsHelper.getStreamOfType(previousResults, JavaMethod.class)
             .filter(method -> !method.qualifiers.contains(MethodQualifier.STATIC))
@@ -334,7 +342,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     return javaInterface;
   }
 
-  private JavaClass createJavaImplementationClass(final FInterface francaInterface) {
+  private JavaClass createJavaImplementationClass(
+      final FInterface francaInterface, final JavaInterface javaInterface) {
 
     JavaClass javaClass =
         new JavaClass(JavaNameRules.getImplementationClassName(francaInterface.getName()));
@@ -346,6 +355,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.methods.addAll(getPreviousResults(JavaMethod.class));
     javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
 
+    JavaCustomType interfaceTypeReference =
+        new JavaCustomType(javaInterface.name, javaInterface.javaPackage);
+    javaClass.parentInterfaces.add(interfaceTypeReference);
+
     return javaClass;
   }
 
@@ -356,12 +369,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   }
 
   @VisibleForTesting
-  static boolean containsInstanceMethod(final List<JavaMethod> methods) {
-    for (JavaMethod method : methods) {
-      if (!method.qualifiers.contains(MethodQualifier.STATIC)) {
-        return true;
-      }
-    }
-    return false;
+  static boolean hasOnlyStaticMethods(final List<JavaMethod> methods) {
+    return !methods.isEmpty()
+        && methods
+            .stream()
+            .allMatch(javaMethod -> javaMethod.qualifiers.contains(MethodQualifier.STATIC));
   }
 }

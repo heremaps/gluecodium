@@ -46,7 +46,7 @@ public final class JavaClassTemplateTest {
             + " * Example class comment\n"
             + " */\n"
             + "class ExampleClass {\n"
-            + "}";
+            + "}\n";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, resultClass);
@@ -81,7 +81,7 @@ public final class JavaClassTemplateTest {
             + "     * Method comment\n"
             + "     */\n"
             + "    private native ExampleType someMethod(final InParamType param);\n"
-            + "}";
+            + "}\n";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
@@ -119,7 +119,7 @@ public final class JavaClassTemplateTest {
             + "            this.value = value;\n"
             + "        }\n"
             + "    }\n"
-            + "}";
+            + "}\n";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
@@ -165,7 +165,7 @@ public final class JavaClassTemplateTest {
             + "     * Method comment\n"
             + "     */\n"
             + "    native void someMethod();\n"
-            + "}";
+            + "}\n";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
@@ -188,7 +188,7 @@ public final class JavaClassTemplateTest {
             + " * Child class comment\n"
             + " */\n"
             + "class ExampleClass extends ParentClass {\n"
-            + "}";
+            + "}\n";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, resultClass);
@@ -221,7 +221,7 @@ public final class JavaClassTemplateTest {
             + "    protected class InnerClass {\n"
             + "        int intField = 1;\n"
             + "    }\n"
-            + "}";
+            + "}\n";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
@@ -255,7 +255,7 @@ public final class JavaClassTemplateTest {
             + "    public static class StaticInnerClass {\n"
             + "        int intField = 1;\n"
             + "    }\n"
-            + "}";
+            + "}\n";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
@@ -279,7 +279,7 @@ public final class JavaClassTemplateTest {
             + " */\n"
             + "final class ExampleClass {\n"
             + "    static final float myConst = 42;\n"
-            + "}";
+            + "}\n";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
@@ -303,7 +303,7 @@ public final class JavaClassTemplateTest {
             + "\n"
             + "final class ExampleClass {\n"
             + "    Foo someField = new Foo();\n"
-            + "}";
+            + "}\n";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
@@ -335,7 +335,7 @@ public final class JavaClassTemplateTest {
             + "        });\n"
             + "    }\n\n"
             + "    private static native void disposeNativeHandle(long nativeHandle);\n"
-            + "}";
+            + "}\n";
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
@@ -353,7 +353,7 @@ public final class JavaClassTemplateTest {
 
     // Assert
     String expected =
-        "package com.here.android;\n\n" + "class ExampleClass implements Face {\n" + "}";
+        "package com.here.android;\n\n" + "class ExampleClass implements Face {\n" + "}\n";
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
@@ -368,7 +368,7 @@ public final class JavaClassTemplateTest {
 
     // Assert
     String expected =
-        "package com.here.android;\n\n" + "class ExampleClass implements Face, Legs {\n" + "}";
+        "package com.here.android;\n\n" + "class ExampleClass implements Face, Legs {\n" + "}\n";
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
@@ -386,7 +386,7 @@ public final class JavaClassTemplateTest {
         "package com.here.android;\n\n"
             + "import com.here.android.Parent;\n\n"
             + "class ExampleClass extends Parent implements Face {\n"
-            + "}";
+            + "}\n";
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 }

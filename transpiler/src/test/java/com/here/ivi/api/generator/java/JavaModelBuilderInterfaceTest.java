@@ -47,6 +47,7 @@ public class JavaModelBuilderInterfaceTest {
       new JavaConstant(javaCustomType, "permanent", new JavaValue("valuable"));
   private final JavaField javaField = new JavaField(javaCustomType, "flowers");
   private final JavaMethod javaMethod = new JavaMethod("methodical");
+  private final JavaEnum javaEnum = new JavaEnum("enumerable");
 
   private JavaModelBuilder modelBuilder;
 
@@ -58,24 +59,110 @@ public class JavaModelBuilderInterfaceTest {
     modelBuilder = new JavaModelBuilder(contextStack, deploymentModel, BASE_PACKAGE, null);
 
     when(francaInterface.getName()).thenReturn("classy");
-
-    when(JavaModelBuilder.containsInstanceMethod(any())).thenReturn(true);
   }
 
-  // Creates: Interface
+  // Creates: Interface implemented as Java class
+  @Test
+  public void finishBuildingFrancaInterfaceCreatesJavaClassWithExtendedNativeBase() {
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals("Classy", javaClass.name);
+    assertEquals(JavaVisibility.PUBLIC, javaClass.visibility);
+    assertEquals(JavaClass.NATIVE_BASE, javaClass.extendedClass);
+    assertTrue(javaClass.parentInterfaces.isEmpty());
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsPackageIntoJavaClassInterface() {
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(BASE_PACKAGE, javaClass.javaPackage);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsConstantsJavaClassInterface() {
+    contextStack.injectResult(javaConstant);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertFalse(javaClass.constants.isEmpty());
+    assertEquals(javaConstant, javaClass.constants.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsFieldsIntoJavaClassInterface() {
+    contextStack.injectResult(javaField);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertFalse(javaClass.fields.isEmpty());
+    assertEquals(javaField, javaClass.fields.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsMethodsJavaClassInterface() {
+    contextStack.injectResult(javaMethod);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertFalse(javaClass.methods.isEmpty());
+
+    JavaMethod resultMethod = javaClass.methods.iterator().next();
+    assertEquals(javaMethod, resultMethod);
+    assertTrue(resultMethod.qualifiers.contains(JavaMethod.MethodQualifier.NATIVE));
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsInnerClassesIntoJavaClassInterface() {
+    JavaClass innerClass = new JavaClass("struct");
+    contextStack.injectResult(innerClass);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertFalse(javaClass.innerClasses.isEmpty());
+    assertEquals(innerClass, javaClass.innerClasses.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsEnumIntoJavaClassInterface() {
+    contextStack.injectResult(javaEnum);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(1, javaClass.enums.size());
+    assertEquals(javaEnum, javaClass.enums.iterator().next());
+  }
+
+  // Creates: Interface implemented as Java interface
 
   @Test
   public void finishBuildingFrancaInterfaceCreatesInterface() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
     modelBuilder.finishBuilding(francaInterface);
 
     JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
     assertNotNull(javaInterface);
-    assertEquals("classy", javaInterface.name.toLowerCase());
+    assertEquals("Classy", javaInterface.name);
     assertEquals(JavaVisibility.PUBLIC, javaInterface.visibility);
   }
 
   @Test
   public void finishBuildingFrancaInterfaceReadsPackageIntoInterface() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
     modelBuilder.finishBuilding(francaInterface);
 
     JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
@@ -86,6 +173,7 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsConstantsIntoInterface() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
     contextStack.injectResult(javaConstant);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -98,6 +186,7 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsNonStaticMethodsIntoInterface() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
     contextStack.injectResult(javaMethod);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -105,14 +194,27 @@ public class JavaModelBuilderInterfaceTest {
     JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
     assertNotNull(javaInterface);
     assertFalse(javaInterface.methods.isEmpty());
-
     JavaMethod resultMethod = javaInterface.methods.iterator().next();
     assertEquals(javaMethod.name, resultMethod.name);
     assertFalse(resultMethod.qualifiers.contains(JavaMethod.MethodQualifier.NATIVE));
   }
 
   @Test
+  public void finishBuildingFrancaInterfaceReadsEnumIntoInterface() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    contextStack.injectResult(javaEnum);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
+    assertNotNull(javaInterface);
+    assertEquals(1, javaInterface.enums.size());
+    assertEquals(javaEnum, javaInterface.enums.iterator().next());
+  }
+
+  @Test
   public void finishBuildingFrancaInterfaceReadsInnerClassesIntoInterface() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
     JavaClass innerClass = new JavaClass("struct");
     contextStack.injectResult(innerClass);
 
@@ -124,34 +226,36 @@ public class JavaModelBuilderInterfaceTest {
     assertEquals(innerClass, javaInterface.innerClasses.iterator().next());
   }
 
-  // Creates: Implementation class
+  // Creates: Implementation class for Java interface
 
   @Test
   public void finishBuildingFrancaInterfaceCreatesImplClass() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
     modelBuilder.finishBuilding(francaInterface);
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertEquals("classyimpl", javaClass.name.toLowerCase());
+    assertEquals("ClassyImpl", javaClass.name);
     assertEquals(JavaVisibility.PACKAGE, javaClass.visibility);
     assertEquals(JavaClass.NATIVE_BASE, javaClass.extendedClass);
 
     assertFalse(javaClass.parentInterfaces.isEmpty());
-    assertEquals("classy", javaClass.parentInterfaces.iterator().next().name.toLowerCase());
+    assertEquals("Classy", javaClass.parentInterfaces.iterator().next().name);
   }
 
   @Test
   public void finishBuildingFrancaInterfaceReadsPackageIntoImplClass() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
     modelBuilder.finishBuilding(francaInterface);
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-
     assertEquals(BASE_PACKAGE, javaClass.javaPackage);
   }
 
   @Test
   public void finishBuildingFrancaInterfaceReadsFieldsIntoImplClass() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
     contextStack.injectResult(javaField);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -164,6 +268,7 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsStaticMethods() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
     javaMethod.qualifiers.add(JavaMethod.MethodQualifier.STATIC);
     contextStack.injectResult(javaMethod);
 
@@ -177,6 +282,7 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsNonStaticMethodsIntoImplClass() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
     contextStack.injectResult(javaMethod);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -184,23 +290,35 @@ public class JavaModelBuilderInterfaceTest {
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertFalse(javaClass.methods.isEmpty());
-
     JavaMethod resultMethod = javaClass.methods.iterator().next();
     assertEquals(javaMethod.name, resultMethod.name);
     assertTrue(resultMethod.qualifiers.contains(JavaMethod.MethodQualifier.NATIVE));
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsEnumIntoImplClass() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    contextStack.injectResult(new JavaMethod("myMethod"));
+    contextStack.injectResult(javaEnum);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaInterface result = modelBuilder.getFinalResult(JavaInterface.class);
+    assertEquals(1, result.enums.size());
+    assertEquals(javaEnum, result.enums.iterator().next());
   }
 
   // Creates: Static class
 
   @Test
   public void finishBuildingFrancaInterfaceCreatesStaticClass() {
-    when(JavaModelBuilder.containsInstanceMethod(any())).thenReturn(false);
+    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
 
     modelBuilder.finishBuilding(francaInterface);
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertEquals("classy", javaClass.name.toLowerCase());
+    assertEquals("Classy", javaClass.name);
     assertEquals(JavaVisibility.PUBLIC, javaClass.visibility);
     assertNull(javaClass.extendedClass);
     assertTrue(javaClass.parentInterfaces.isEmpty());
@@ -208,7 +326,7 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsPackageIntoStaticClass() {
-    when(JavaModelBuilder.containsInstanceMethod(any())).thenReturn(false);
+    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
 
     modelBuilder.finishBuilding(francaInterface);
 
@@ -220,7 +338,7 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsConstantsStaticClass() {
-    when(JavaModelBuilder.containsInstanceMethod(any())).thenReturn(false);
+    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
     contextStack.injectResult(javaConstant);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -233,7 +351,7 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsFieldsIntoStaticClass() {
-    when(JavaModelBuilder.containsInstanceMethod(any())).thenReturn(false);
+    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
     contextStack.injectResult(javaField);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -246,7 +364,7 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsMethodsIntoStaticClass() {
-    when(JavaModelBuilder.containsInstanceMethod(any())).thenReturn(false);
+    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
     contextStack.injectResult(javaMethod);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -262,7 +380,7 @@ public class JavaModelBuilderInterfaceTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsInnerClassesIntoStaticClass() {
-    when(JavaModelBuilder.containsInstanceMethod(any())).thenReturn(false);
+    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
     JavaClass innerClass = new JavaClass("struct");
     contextStack.injectResult(innerClass);
 

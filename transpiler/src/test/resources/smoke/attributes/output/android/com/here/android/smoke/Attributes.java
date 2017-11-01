@@ -11,29 +11,41 @@
  */
 
 package com.here.android.smoke;
+
+import com.here.android.NativeBase;
 import java.util.List;
 
-public interface Attributes {
+public class Attributes extends NativeBase {
     public enum InternalError {
         ERROR_NONE(0),
         ERROR_FATAL(999);
+
         public final int value;
+
         InternalError(final int value) {
             this.value = value;
         }
     }
-
     public static class ExampleStruct {
         public double value;
     }
+    protected Attributes(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
 
-    long getBuiltInTypeAttribute();
-    void setBuiltInTypeAttribute(final long value);
-    float getReadonlyAttribute();
-    Attributes.ExampleStruct getStructAttribute();
-    void setStructAttribute(final Attributes.ExampleStruct value);
-    List<String> getArrayAttribute();
-    void setArrayAttribute(final List<String> value);
-    Attributes.InternalError getComplexTypeAttribute();
-    void setComplexTypeAttribute(final Attributes.InternalError value);
+    private static native void disposeNativeHandle(long nativeHandle);
+    public native long getBuiltInTypeAttribute();
+    public native void setBuiltInTypeAttribute(final long value);
+    public native float getReadonlyAttribute();
+    public native Attributes.ExampleStruct getStructAttribute();
+    public native void setStructAttribute(final Attributes.ExampleStruct value);
+    public native List<String> getArrayAttribute();
+    public native void setArrayAttribute(final List<String> value);
+    public native Attributes.InternalError getComplexTypeAttribute();
+    public native void setComplexTypeAttribute(final Attributes.InternalError value);
 }

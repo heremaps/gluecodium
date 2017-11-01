@@ -12,8 +12,20 @@
 
 package com.here.android.examples;
 
-public interface ProfileManager {
-    void createProfile(final String username);
-    String changeProfile(final String username);
-    void deleteProfile(final String username);
+import com.here.android.NativeBase;
+
+public class ProfileManager extends NativeBase {
+    protected ProfileManager(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+
+    private static native void disposeNativeHandle(long nativeHandle);
+    public native void createProfile(final String username);
+    public native String changeProfile(final String username);
+    public native void deleteProfile(final String username);
 }

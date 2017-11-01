@@ -12,11 +12,23 @@
 
 package com.here.android.smoke;
 
-public interface NestedInstantiableTwo {
-    void setMultipleTypeInstances(final SimpleInstantiableOne instanceOne, final SimpleInstantiableTwo instanceTwo, final NestedInstantiableOne nestedInstantiable);
-    SimpleInstantiableOne getInstantiableOne();
-    SimpleInstantiableTwo getInstantiableTwo();
-    NestedInstantiableOne getNestedInstantiable();
-    void setSelfInstantiable(final NestedInstantiableTwo selfInstance);
-    NestedInstantiableTwo getSelfInstantiable();
+import com.here.android.NativeBase;
+
+public class NestedInstantiableTwo extends NativeBase {
+    protected NestedInstantiableTwo(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+
+    private static native void disposeNativeHandle(long nativeHandle);
+    public native void setMultipleTypeInstances(final SimpleInstantiableOne instanceOne, final SimpleInstantiableTwo instanceTwo, final NestedInstantiableOne nestedInstantiable);
+    public native SimpleInstantiableOne getInstantiableOne();
+    public native SimpleInstantiableTwo getInstantiableTwo();
+    public native NestedInstantiableOne getNestedInstantiable();
+    public native void setSelfInstantiable(final NestedInstantiableTwo selfInstance);
+    public native NestedInstantiableTwo getSelfInstantiable();
 }

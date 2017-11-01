@@ -13,10 +13,9 @@
 package com.here.android.smoke;
 
 import com.here.android.NativeBase;
-import java.util.List;
 
-class AttributesImpl extends NativeBase implements Attributes {
-    protected AttributesImpl(final long nativeHandle) {
+public class NestedInstantiableOne extends NativeBase {
+    protected NestedInstantiableOne(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {
@@ -26,13 +25,7 @@ class AttributesImpl extends NativeBase implements Attributes {
     }
 
     private static native void disposeNativeHandle(long nativeHandle);
-    public native long getBuiltInTypeAttribute();
-    public native void setBuiltInTypeAttribute(final long value);
-    public native float getReadonlyAttribute();
-    public native Attributes.ExampleStruct getStructAttribute();
-    public native void setStructAttribute(final Attributes.ExampleStruct value);
-    public native List<String> getArrayAttribute();
-    public native void setArrayAttribute(final List<String> value);
-    public native Attributes.InternalError getComplexTypeAttribute();
-    public native void setComplexTypeAttribute(final Attributes.InternalError value);
+    public native void setSameTypeInstances(final SimpleInstantiableOne instanceOne, final SimpleInstantiableOne instanceTwo);
+    public native SimpleInstantiableOne getInstanceOne();
+    public native SimpleInstantiableOne getInstanceTwo();
 }
