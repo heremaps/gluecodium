@@ -56,6 +56,8 @@ public final class JniImplementationTemplateTest {
       "#include " + "\"android/jni/ProxyConversion.h\"\n";
   private static final String ENUMCONVERSION_HEADER_INCLUDE =
       "#include " + "\"android/jni/EnumConversion.h\"\n";
+  private static final String ARRAYCONVERSION_HEADER_INCLUDE =
+      "#include " + "\"android/jni/ArrayConversionUtils.h\"\n";
   private static final String INSTANCE_CONVERSION_HEADER_INCLUDE =
       "#include \"" + JniNameRules.getInstanceConversionHeaderFileName() + "\"\n";
   private static final String JNI_TEST_CLASS_METHOD_PREFIX = "Java_com_here_ivi_test_TestClass_";
@@ -155,6 +157,7 @@ public final class JniImplementationTemplateTest {
             + CONVERSION_HEADER_INCLUDE
             + PROXYCONVERSION_HEADER_INCLUDE
             + ENUMCONVERSION_HEADER_INCLUDE
+            + ARRAYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + END_OF_FILE,
         generatedImplementation);
@@ -178,6 +181,7 @@ public final class JniImplementationTemplateTest {
             + CONVERSION_HEADER_INCLUDE
             + PROXYCONVERSION_HEADER_INCLUDE
             + ENUMCONVERSION_HEADER_INCLUDE
+            + ARRAYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + END_OF_FILE,
         generatedImplementation);
@@ -196,6 +200,7 @@ public final class JniImplementationTemplateTest {
             + CONVERSION_HEADER_INCLUDE
             + PROXYCONVERSION_HEADER_INCLUDE
             + ENUMCONVERSION_HEADER_INCLUDE
+            + ARRAYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("method1")
             + END_OF_FILE,
@@ -217,6 +222,7 @@ public final class JniImplementationTemplateTest {
             + CONVERSION_HEADER_INCLUDE
             + PROXYCONVERSION_HEADER_INCLUDE
             + ENUMCONVERSION_HEADER_INCLUDE
+            + ARRAYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("method1")
             + expectedGeneratedJNIMethod("method2")
@@ -239,6 +245,7 @@ public final class JniImplementationTemplateTest {
             + CONVERSION_HEADER_INCLUDE
             + PROXYCONVERSION_HEADER_INCLUDE
             + ENUMCONVERSION_HEADER_INCLUDE
+            + ARRAYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("testMethod", true, true)
             + END_OF_FILE,
@@ -258,6 +265,7 @@ public final class JniImplementationTemplateTest {
             + CONVERSION_HEADER_INCLUDE
             + PROXYCONVERSION_HEADER_INCLUDE
             + ENUMCONVERSION_HEADER_INCLUDE
+            + ARRAYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("instanceMethod", false, false)
             + END_OF_FILE,
@@ -278,6 +286,7 @@ public final class JniImplementationTemplateTest {
             + CONVERSION_HEADER_INCLUDE
             + PROXYCONVERSION_HEADER_INCLUDE
             + ENUMCONVERSION_HEADER_INCLUDE
+            + ARRAYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("instanceVoidMethod", false, true)
             + END_OF_FILE,
@@ -299,6 +308,7 @@ public final class JniImplementationTemplateTest {
             + CONVERSION_HEADER_INCLUDE
             + PROXYCONVERSION_HEADER_INCLUDE
             + ENUMCONVERSION_HEADER_INCLUDE
+            + ARRAYCONVERSION_HEADER_INCLUDE
             + EXTERN_C
             + expectedGeneratedJNIMethod("instanceVoidMethod", false, true)
             + "\nvoid\n"

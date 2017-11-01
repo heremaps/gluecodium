@@ -3,6 +3,7 @@
 #include <vector>
 #include <android/jni/FieldAccessMethods.h>
 #include <android/jni/EnumConversion.h>
+#include "android/jni/ArrayConversionUtils.h"
 
 namespace here {
 namespace internal {
