@@ -33,8 +33,13 @@ public class JavaValueMapper {
   public static JavaValue createEnumInitializerValue(
       String enumTypeName, FEnumerationType enumType) {
     List<FEnumerator> enumerators = enumType.getEnumerators();
-    String initializer =
-        !enumerators.isEmpty() ? enumTypeName + "." + enumerators.get(0).getName() : "null";
+    String initializer;
+    if (enumerators.isEmpty()) {
+      initializer = "null";
+    } else {
+      initializer =
+          enumTypeName + "." + JavaNameRules.getConstantName(enumerators.get(0).getName());
+    }
 
     return new JavaValue(initializer);
   }

@@ -121,6 +121,6 @@ public class JavaValueMapperTest {
 
     JavaValue result = JavaValueMapper.createEnumInitializerValue("myEnumType", fEnumType);
 
-    assertEquals("myEnumType.enumItem", result.name);
+    assertEquals("myEnumType." + JavaNameRules.getConstantName("enumItem"), result.name);
   }
 }

@@ -18,7 +18,8 @@ interface Enums {
     }
 
     enumeration SimpleEnum {
-        FIRST
+        // Check that lower case chars are handled correctly
+        First
         SECOND
     }
 
