@@ -68,10 +68,7 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
         new JniGenerator(
             transpilerOptions.getJavaPackageList(),
             Arrays.asList(
-                CONVERSION_UTILS_HEADER,
-                FIELD_ACCESS_UTILS_HEADER,
-                CPP_PROXY_BASE_HEADER,
-                ARRAY_UTILS_HEADER));
+                CONVERSION_UTILS_HEADER, FIELD_ACCESS_UTILS_HEADER, CPP_PROXY_BASE_HEADER));
 
     //jni models need to be built first as they are required to generate conversion util file
     List<JniContainer> jniContainers =

@@ -83,6 +83,7 @@ public class CppProxyImplementationTemplateTest {
         "\n"
             + "#include \"android/jni/InstanceConversion.h\"\n"
             + "#include \"android/jni/StructConversion.h\"\n"
+            + "#include \"android/jni/ArrayConversionUtils.h\"\n"
             + "\n"
             + "namespace testing {\n"
             + "\n"

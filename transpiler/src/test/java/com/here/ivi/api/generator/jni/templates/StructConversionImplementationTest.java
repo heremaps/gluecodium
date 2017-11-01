@@ -79,7 +79,13 @@ public final class StructConversionImplementationTest {
     String result = TemplateEngine.render("jni/StructConversionImplementation", mustacheData);
 
     //assert
-    String expected = "\n" + "namespace here {\n" + "namespace internal {\n" + "\n\n" + "}\n" + "}";
+    String expected =
+        "#include \"android/jni/ArrayConversionUtils.h\"\n\n"
+            + "namespace here {\n"
+            + "namespace internal {\n"
+            + "\n\n"
+            + "}\n"
+            + "}";
 
     assertEquals(expected, result);
   }
@@ -108,6 +114,7 @@ public final class StructConversionImplementationTest {
             + "#include <"
             + includes.get(1).fileName
             + ">\n"
+            + "#include \"android/jni/ArrayConversionUtils.h\"\n"
             + "\n"
             + "namespace here {\n"
             + "namespace internal {\n"
@@ -151,6 +158,7 @@ public final class StructConversionImplementationTest {
             + "#include <"
             + includes.get(1).fileName
             + ">\n"
+            + "#include \"android/jni/ArrayConversionUtils.h\"\n"
             + "\n"
             + "namespace here {\n"
             + "namespace internal {\n"
