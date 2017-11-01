@@ -61,7 +61,6 @@ public class JavaModelBuilderTest {
   @Mock private JavaTypeMapper typeMapper;
 
   @Mock private FTypeCollection francaTypeCollection;
-  @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FTypeRef francaTypeRef;
@@ -405,29 +404,6 @@ public class JavaModelBuilderTest {
 
     JavaEnum result = modelBuilder.getFinalResult(JavaEnum.class);
     assertEquals(javaEnum, result);
-  }
-
-  @Test
-  public void finishBuildingInterfaceReadsEnum() {
-    contextStack.injectResult(javaEnum);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass result = modelBuilder.getFinalResult(JavaClass.class);
-    assertEquals(1, result.enums.size());
-    assertEquals(javaEnum, result.enums.iterator().next());
-  }
-
-  @Test
-  public void finishBuildingInterfaceAndImplementingClassReadsEnum() {
-    contextStack.injectResult(new JavaMethod("myMethod"));
-    contextStack.injectResult(javaEnum);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaInterface result = modelBuilder.getFinalResult(JavaInterface.class);
-    assertEquals(1, result.enums.size());
-    assertEquals(javaEnum, result.enums.iterator().next());
   }
 
   @Test

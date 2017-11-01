@@ -12,7 +12,19 @@
 
 package com.here.android.smoke;
 
-public interface SimpleInstantiableTwo {
-    void setStringValue(final String stringValue);
-    String getStringValue();
+import com.here.android.NativeBase;
+
+public class SimpleInstantiableTwo extends NativeBase {
+    protected SimpleInstantiableTwo(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+
+    private static native void disposeNativeHandle(long nativeHandle);
+    public native void setStringValue(final String stringValue);
+    public native String getStringValue();
 }

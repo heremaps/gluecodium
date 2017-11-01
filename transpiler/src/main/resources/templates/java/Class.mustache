@@ -1,5 +1,5 @@
 {{>common/DocComment}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}class {{name}} {{#extendedClass}}extends {{name}} {{/extendedClass}}{{#if parentInterfaces}}implements {{join parentInterfaces delimiter=", " }} {{/if}}{
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}class {{name}} {{#if this.extendedClass}}extends {{extendedClass.name}} {{/if}}{{#if parentInterfaces}}implements {{join parentInterfaces delimiter=", " }} {{/if}}{
 {{#constants}}{{prefixPartial "java/Constant" "    "}}
 {{/constants}}
 {{#fields}}{{prefixPartial "java/Field" "    "}}
