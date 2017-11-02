@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Spinner
+        android:id="@+id/arrays_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/arrays_methods" />
+
+    <TextView
+        android:id="@+id/arrays_description"
+        style="@style/AppTheme.ShowCaseText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        style="@style/AppTheme.ShowCaseElement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/arrays_edit_1"
+            style="@style/AppTheme.ShowCaseInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:hint="@string/element_value_1" />
+
+        <EditText
+            android:id="@+id/arrays_edit_2"
+            style="@style/AppTheme.ShowCaseInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:hint="@string/element_value_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/AppTheme.ShowCaseElement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/arrays_edit_3"
+            style="@style/AppTheme.ShowCaseInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+          android:hint="@string/element_value_3" />
+
+        <EditText
+            android:id="@+id/arrays_edit_4"
+            style="@style/AppTheme.ShowCaseInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+          android:hint="@string/element_value_4" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/arrays_submit_button"
+        style="@style/AppTheme.ShowCaseButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/submit" />
+
+    <TextView
+        android:id="@+id/arrays_result"
+        style="@style/AppTheme.ShowCaseResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/text_result" />
+
+</LinearLayout>

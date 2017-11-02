@@ -56,6 +56,7 @@ public final class MainActivity extends AppCompatActivity {
                     context.getString(R.string.fragment_typedef),
                     context.getString(R.string.fragment_listeners_title),
                     context.getString(R.string.fragment_enumerations_title),
+                    context.getString(R.string.fragment_arrays_title)
             };
         }
 
@@ -78,6 +79,8 @@ public final class MainActivity extends AppCompatActivity {
                     return new ListenersFragment();
                 case 7:
                     return new EnumerationFragment();
+                case 8:
+                    return new ArraysFragment();
                 default:
                     return null;
             }
