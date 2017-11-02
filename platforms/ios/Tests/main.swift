@@ -15,5 +15,6 @@ XCTMain([
     testCase(StaticStringMethodsTests.allTests),
     testCase(TypeDefTests.allTests),
     testCase(AttributesTests.allTests),
+    testCase(ArraysTests.allTests),
     testCase(AttributesInterfaceTests.allTests)
 ])
