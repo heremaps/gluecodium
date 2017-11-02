@@ -210,16 +210,14 @@ feature(Listeners cpp android SOURCES
     fidl/test/ComplexListeners.fidl
     )
 
-#TODO enable for swift APIGEN-766
-feature(Arrays cpp android SOURCES
+feature(Arrays cpp android swift SOURCES
     src/hello/HelloWorldArrays.cpp
 
     fidl/hello/HelloWorldArrays.fdepl
     fidl/hello/HelloWorldArrays.fidl
     )
 
-#TODO enable for swift APIGEN-766
-feature(ArrayTests cpp android SOURCES
+feature(ArrayTests cpp android swift SOURCES
     src/test/Arrays.cpp
 
     fidl/test/Arrays.fdepl
