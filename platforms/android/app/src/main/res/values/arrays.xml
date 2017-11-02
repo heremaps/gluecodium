@@ -75,4 +75,19 @@
         <item>ERROR_FATAL</item>
     </string-array>
 
+    <string-array name="arrays_methods">
+        <item>List&lt;String&gt; methodWithArray(List&lt;String&gt;)</item>
+        <item>List&lt;Long&gt; methodWithSimpleArray(List&lt;Long&gt;)</item>
+        <item>List&lt;Long&gt; methodWithArrayInline(List&lt;Long&gt;)</item>
+        <item>List&lt;ExampleStruct&gt; methodWithStructArray(List&lt;ExampleStruct&gt;)</item>
+        <item>List&lt;List&lt;Long&gt;&gt; methodWithNestedArraysInline(List&lt;List&lt;Long&gt;&gt;)</item>
+    </string-array>
+
+    <string-array name="array_methods_description">
+        <item>Returns given String array in reversed order.</item>
+        <item>Returns given Int64 array in reversed order.</item>
+        <item>Returns given UInt32 array in reversed order.\nArrays are defined inline in FIDL file.</item>
+        <item>Returns given ExampleStruct array in reversed order.\n\nExampleStruct {\n\tdouble value\n}</item>
+        <item>Returns given array of Int64 arrays in reversed order.\nEvery array will be constructed by adding 10 to every input element.</item>
+    </string-array>
 </resources>
