@@ -19,17 +19,12 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModelElement;
-import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.*;
 
 public final class CBridgeNameRules {
 
   public static final String SOURCE_FOLDER = "cbridge";
-  private static final String INTERNAL_SOURCE_FOLDER = "cbridge_internal";
+  public static final String INTERNAL_SOURCE_FOLDER = "cbridge_internal";
 
   private static final String CPP_NAMESPACE_DELIMITER = "::";
   public static final String UNDERSCORE_DELIMITER = "_";
@@ -170,5 +165,38 @@ public final class CBridgeNameRules {
         getNestedNameSpecifier(francaEnumerator),
         NameHelper.toUpperCamelCase(francaEnumerator.getName()),
         UNDERSCORE_DELIMITER);
+  }
+
+  public static String getBaseApiCall(
+      final CppTypeInfo.TypeCategory category, final String baseAPIName) {
+    switch (category) {
+      case CLASS:
+        return "std::shared_ptr<" + baseAPIName + ">";
+      case STRUCT:
+        return baseAPIName;
+    }
+    return null;
+  }
+
+  public static String getBaseApiName(
+      final FModelElement elementType, final CppTypeInfo.TypeCategory category) {
+    switch (category) {
+      case CLASS:
+        return CBridgeNameRules.getBaseApiInstanceName(elementType);
+      case STRUCT:
+        return CBridgeNameRules.getBaseApiStructName(elementType);
+    }
+    return null;
+  }
+
+  public static String getHandleName(
+      final FModelElement elementType, final CppTypeInfo.TypeCategory category) {
+    switch (category) {
+      case CLASS:
+        return CBridgeNameRules.getInstanceRefType(elementType);
+      case STRUCT:
+        return CBridgeNameRules.getStructRefType(elementType);
+    }
+    return null;
   }
 }

@@ -11,41 +11,50 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.*;
 import static com.here.ivi.api.model.cmodel.CType.VOID;
 import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
 
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.*;
 
 public final class CTypeMapper {
 
-  public static CppTypeInfo mapType(final IncludeResolver resolver, final FTypeRef type) {
-    FType derived = type.getDerived();
-
+  public static CppTypeInfo mapType(final IncludeResolver resolver, final FTypeRef typeRef) {
+    FType derived = typeRef.getDerived();
+    CppTypeInfo typeResult = new CppTypeInfo(VOID);
     if (derived != null) {
-      if (derived instanceof FStructType) {
-        return CppTypeInfo.createCustomTypeInfo(resolver, (FStructType) derived);
-      } else if (derived instanceof FTypeDef) {
-        return mapTypeDef(resolver, (FTypeDef) derived);
-      } else if (derived instanceof FEnumerationType) {
-        return CppTypeInfo.createEnumTypeInfo(resolver, (FEnumerationType) derived);
-      } else {
-        //TODO: APIGEN-145 handle array types
-        return new CppTypeInfo(VOID);
-      }
+      typeResult = mapType(resolver, derived);
+    } else {
+      typeResult = mapPredefined(typeRef);
     }
-    return mapPredefined(type);
+
+    if (FrancaTypeHelper.isImplicitArray(typeRef)) {
+      typeResult = CArrayMapper.create(typeResult, typeRef);
+    }
+    return typeResult;
+  }
+
+  private static CppTypeInfo mapType(IncludeResolver resolver, FType derived) {
+    if (derived instanceof FStructType) {
+      return CppTypeInfo.createCustomTypeInfo(resolver, derived, STRUCT);
+    } else if (derived instanceof FTypeDef) {
+      return mapTypeDef(resolver, (FTypeDef) derived);
+    } else if (derived instanceof FEnumerationType) {
+      return CppTypeInfo.createEnumTypeInfo(resolver, (FEnumerationType) derived);
+    } else if (derived instanceof FArrayType) {
+      CppTypeInfo innerType = mapType(resolver, ((FArrayType) derived).getElementType());
+      return CArrayMapper.create(innerType, derived);
+    } else {
+      return new CppTypeInfo(VOID);
+    }
   }
 
   private static CppTypeInfo mapTypeDef(IncludeResolver resolver, FTypeDef derived) {
     if (isInstanceId(derived)) {
-      return CppTypeInfo.createInstanceTypeInfo(resolver, derived);
+      return CppTypeInfo.createCustomTypeInfo(resolver, derived, CLASS);
     }
     return mapType(resolver, derived.getActualType());
   }

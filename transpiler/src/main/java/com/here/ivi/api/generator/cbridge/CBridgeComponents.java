@@ -16,6 +16,7 @@ import com.here.ivi.api.model.common.Include;
 import java.util.*;
 
 public class CBridgeComponents {
+
   public static Set<Include> collectImplementationIncludes(CInterface cInterface) {
     Set<Include> includes = new LinkedHashSet<>();
     for (CFunction function : cInterface.functions) {
@@ -32,6 +33,11 @@ public class CBridgeComponents {
     if (cInterface.selfType != null) {
       includes.addAll(cInterface.selfType.conversionToCppIncludes);
     }
+
+    for (CArray array : cInterface.arrays) {
+      includes.addAll(array.includesFromCpp());
+      includes.addAll(array.includesToCpp());
+    }
     return includes;
   }
 
@@ -39,6 +45,9 @@ public class CBridgeComponents {
     Set<Include> includes = new LinkedHashSet<>();
     for (CStruct struct : cInterface.structs) {
       includes.addAll(struct.mappedType.conversionToCppIncludes);
+    }
+    for (CArray array : cInterface.arrays) {
+      includes.addAll(array.includesToCpp());
     }
     if (cInterface.selfType != null) {
       includes.addAll(cInterface.selfType.conversionToCppIncludes);
@@ -61,6 +70,10 @@ public class CBridgeComponents {
     }
     for (CEnum enumType : cInterface.enumerators) {
       includes.addAll(enumType.includes);
+    }
+
+    for (CArray array : cInterface.arrays) {
+      includes.addAll(array.returnTypeIncludes());
     }
     return includes;
   }

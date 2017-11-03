@@ -17,6 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import org.franca.core.franca.*;
@@ -29,7 +30,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(CppTypeInfo.class)
+@PrepareForTest({CppTypeInfo.class, FrancaTypeHelper.class})
 public class CBridgeTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
@@ -41,7 +42,7 @@ public class CBridgeTypeMapperTest {
 
   @Before
   public void setUp() {
-    mockStatic(CppTypeInfo.class);
+    mockStatic(CppTypeInfo.class, FrancaTypeHelper.class);
   }
 
   @Test
@@ -49,7 +50,7 @@ public class CBridgeTypeMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef2);
     when(francaTypeRef2.getDerived()).thenReturn(francaStructType);
-    when(CppTypeInfo.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
+    when(CppTypeInfo.createCustomTypeInfo(any(), any(), any())).thenReturn(typeInfo);
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
 
@@ -69,7 +70,7 @@ public class CBridgeTypeMapperTest {
 
   public void mapStructType() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
-    when(CppTypeInfo.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
+    when(CppTypeInfo.createCustomTypeInfo(any(), any(), any())).thenReturn(typeInfo);
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
 
@@ -94,5 +95,17 @@ public class CBridgeTypeMapperTest {
     CppTypeInfo actualType = CTypeMapper.mapType(resolver, francaTypeRef);
 
     assertSame(fakeType, actualType);
+  }
+
+  @Test
+  public void mapArrayInlineType() {
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT64);
+    when(FrancaTypeHelper.isImplicitArray(any())).thenReturn(true);
+
+    CppTypeInfo actualType = CTypeMapper.mapType(resolver, francaTypeRef);
+
+    Assert.assertEquals(actualType.typeCategory, CppTypeInfo.TypeCategory.ARRAY);
+    Assert.assertNotNull(actualType.innerType);
+    Assert.assertEquals(actualType.innerType.functionReturnType.name, "uint64_t");
   }
 }

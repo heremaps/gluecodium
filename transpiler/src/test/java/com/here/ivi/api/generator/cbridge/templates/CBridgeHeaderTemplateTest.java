@@ -124,7 +124,9 @@ public class CBridgeHeaderTemplateTest {
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
     CClassType classType =
-        new CClassType(CppTypeInfo.createInstanceTypeInfo(resolver, francaInterface));
+        new CClassType(
+            CppTypeInfo.createCustomTypeInfo(
+                resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS));
     CInterface cInterface = new CInterface("InstantiableInterface", classType);
     CFunction instanceFunction =
         CFunction.builder("instanceMethod")
