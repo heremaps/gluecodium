@@ -112,7 +112,7 @@ public class CBridgeArrayMapperTest {
     CppTypeInfo nestedArrayType = CArrayMapper.create(arrayType, francaTypeRef);
 
     Assert.assertNotNull("Array type should not be null", nestedArrayType);
-    Assert.assertNotNull("Inner typ should not be null", nestedArrayType.innerType);
+    Assert.assertNotNull("Inner type should not be null", nestedArrayType.innerType);
     Assert.assertEquals("Should return array type", ARRAY, nestedArrayType.typeCategory);
     Assert.assertEquals("Should return array type", ARRAY, nestedArrayType.innerType.typeCategory);
     Assert.assertEquals(

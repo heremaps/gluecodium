@@ -3,5 +3,6 @@
   }}{{#case "STRUCT"}}{{variableName}}Handle{{/case}}{{!!
   }}{{#case "CLASS"}}{{variableName}}Handle.ref{{/case}}{{!!
   }}{{#case "ENUM"}}{{variableName}}.rawValue{{/case}}{{!!
+  }}{{#case "ARRAY"}}{{variableName}}Handle.c_type{{/case}}{{!!
   }}{{#default}}{{variableName}}{{/default}}{{!!
 }}{{/switch}}{{#if iter.hasNext}}, {{/if}}{{/each}})

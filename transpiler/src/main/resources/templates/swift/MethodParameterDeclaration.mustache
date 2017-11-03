@@ -1,1 +1,12 @@
-{{#each parameters}}{{name}}{{#if differentInterfaceAndVariableName}} {{variableName}}{{/if}}: {{type.publicName}}{{#if iter.hasNext}}, {{/if}}{{/each}}
+{{! Assing method parameters.
+}}{{#each parameters}}{{name}}{{!!
+}}{{#if differentInterfaceAndVariableName}} {{!!
+    }}{{variableName}}{{!!
+    }}{{/if}}: {{>argumentName}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/each}}{{!!
+
+}}{{+argumentName}}{{!!
+}}{{#switch type.category.toString}}{{!!
+}}{{#case "ARRAY"}}T{{/case}}{{!!
+}}{{#default}}{{type.publicName}}{{/default}}{{!!
+}}{{/switch}}{{/argumentName}}

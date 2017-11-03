@@ -19,7 +19,7 @@ import java.util.List;
 public class SwiftMethod extends SwiftModelElement {
 
   public SwiftType returnType;
-  public final List<SwiftParameter> parameters;
+  public List<SwiftParameter> parameters = emptyList();
   public boolean isStatic;
   public String cBaseName;
 
@@ -38,5 +38,9 @@ public class SwiftMethod extends SwiftModelElement {
     this.parameters = parameters;
     this.cBaseName = "";
     this.forceReturnValueUnwrapping = false;
+  }
+
+  public boolean containsArrays() {
+    return parameters.stream().anyMatch(s -> s.type instanceof SwiftArray);
   }
 }

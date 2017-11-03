@@ -11,13 +11,16 @@
 
 package com.here.ivi.api.common;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.eclipse.emf.ecore.EObject;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeRef;
 import org.franca.core.franca.FTypedElement;
 import org.junit.Before;
@@ -32,6 +35,8 @@ public class FrancaTypeHelperTest {
 
   @Mock private FTypeRef typeRef;
   @Mock private FTypedElement typedElement;
+  @Mock private FType type;
+  @Mock private FInterface francaInterface;
 
   @Before
   public void setUp() {
@@ -67,5 +72,16 @@ public class FrancaTypeHelperTest {
 
     verify(typeRef).eContainer();
     verify(typedElement).isArray();
+  }
+
+  @Test
+  public void namespaceContainer() {
+    when(type.eContainer()).thenReturn(francaInterface);
+    when(francaInterface.getName()).thenReturn("testBase");
+
+    String namespace = FrancaTypeHelper.getNamespace(type);
+    assertEquals("testBase", namespace);
+
+    verify(type).eContainer();
   }
 }

@@ -1,4 +1,5 @@
 {{#comment}}{{>swift/Comment}}{{/comment}}
-public {{#isStatic}}static {{/isStatic}}func {{name}}({{>swift/MethodParameterDeclaration}}) -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}} {
+public {{#isStatic}}static {{/isStatic}}func {{name}}{{>swift/MethodArrayGeneric}}({{>swift/MethodParameterDeclaration}}) -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}} {
 {{#set iterator=parameters.iterator method=.}}{{prefixPartial 'swift/ConversionRecursion' '    '}}{{/set}}
 }
+

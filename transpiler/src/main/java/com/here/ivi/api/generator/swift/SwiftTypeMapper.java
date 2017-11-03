@@ -11,14 +11,14 @@
 
 package com.here.ivi.api.generator.swift;
 
+import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
 import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.*;
 import static com.here.ivi.api.model.swift.SwiftType.VOID;
 
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.model.swift.SwiftContainerType;
-import com.here.ivi.api.model.swift.SwiftEnum;
-import com.here.ivi.api.model.swift.SwiftType;
-import com.here.ivi.api.model.swift.SwiftValue;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.ivi.api.model.swift.*;
 import org.franca.core.franca.*;
 
 /**
@@ -28,31 +28,52 @@ import org.franca.core.franca.*;
 public class SwiftTypeMapper {
 
   public static SwiftType mapType(final FTypeRef type) {
-    FType derived = type.getDerived();
-
-    if (derived != null) {
-      if (derived instanceof FStructType) {
-        return getClassOrStructType(derived);
-      } else if (derived instanceof FEnumerationType) {
-        return SwiftEnum.builder(SwiftNameRules.getEnumTypeName(derived)).build();
-      } else if (derived instanceof FTypeDef) {
-        return getTypedef((FTypeDef) derived);
-      }
-      return VOID;
-    }
-
-    return mapPredefined(type);
+    return mapTypeWithDeploymentModel(type, null);
   }
 
-  private static SwiftType getTypedef(FTypeDef francaTypeDef) {
-
-    SwiftType typedefType = mapType(francaTypeDef.getActualType());
-
-    if (francaTypeDef.getActualType() != null) {
-      return typedefType.createAlias(francaTypeDef.getName());
+  public static SwiftType mapTypeWithDeploymentModel(
+      final FTypeRef type, final FrancaDeploymentModel deploymentModel) {
+    FType derived = type.getDerived();
+    SwiftType swiftType = VOID;
+    if (derived != null) {
+      swiftType = mapDerived(derived, deploymentModel);
     } else {
-      return typedefType;
+      swiftType = mapPredefined(type);
     }
+    if (FrancaTypeHelper.isImplicitArray(type)) {
+      swiftType = SwiftArrayMapper.create(swiftType, type);
+    }
+
+    return swiftType;
+  }
+
+  private static SwiftType mapDerived(FType derived, final FrancaDeploymentModel deploymentModel) {
+    if (derived instanceof FStructType) {
+      return getClassOrStructType(derived, deploymentModel);
+    } else if (derived instanceof FEnumerationType) {
+      return SwiftEnum.builder(SwiftNameRules.getEnumTypeName(derived)).build();
+    } else if (derived instanceof FTypeDef) {
+      return getTypedef((FTypeDef) derived, deploymentModel);
+    } else if (derived instanceof FArrayType) {
+      SwiftType innerType = mapType(((FArrayType) derived).getElementType());
+      return SwiftArrayMapper.create(innerType, derived);
+    }
+    return VOID;
+  }
+
+  private static SwiftType getTypedef(
+      FTypeDef francaTypeDef, final FrancaDeploymentModel deploymentModel) {
+
+    SwiftType typedefType = mapTypeDef(francaTypeDef, deploymentModel);
+    return typedefType.createAlias(francaTypeDef.getName());
+  }
+
+  private static SwiftType mapTypeDef(
+      final FTypeDef derived, final FrancaDeploymentModel deploymentModel) {
+    if (isInstanceId(derived)) {
+      return getClassOrStructType(derived, deploymentModel);
+    }
+    return mapTypeWithDeploymentModel(derived.getActualType(), deploymentModel);
   }
 
   public static SwiftValue mapType(FExpression expression) {
@@ -64,14 +85,24 @@ public class SwiftTypeMapper {
     }
   }
 
-  public static SwiftType getClassOrStructType(FType derived) {
+  public static SwiftType getClassOrStructType(
+      FType derived, final FrancaDeploymentModel deploymentModel) {
     SwiftType.TypeCategory category = (derived instanceof FTypeDef) ? CLASS : STRUCT;
-    SwiftContainerType mappedType = new SwiftContainerType(derived.getName(), category);
+    String swiftName = SwiftNameRules.getClassName(derived.getName());
+    SwiftContainerType mappedType = new SwiftContainerType(swiftName, category);
     mappedType.cPrefix = CBridgeNameRules.getStructBaseName(derived);
     mappedType.cType = CBridgeNameRules.getStructRefType(derived);
     if (mappedType.category == CLASS) {
       mappedType.optional = true;
+      mappedType.implementingClass = swiftName;
+      if (deploymentModel != null
+          && deploymentModel.isInterface((FInterface) derived.eContainer())) {
+        mappedType.implementingClass = "_" + swiftName;
+      }
     }
+
+    //TODO: APIGEN-891 Hack for reference structs inside classes. It need to be fixed properly.
+    mappedType.setNamespaceIfNeeded(FrancaTypeHelper.getNamespace(derived));
     return mappedType;
   }
 

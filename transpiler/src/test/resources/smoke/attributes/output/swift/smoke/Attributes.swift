@@ -8,18 +8,11 @@
 // which may not be disclosed to others without prior written consent of HERE Global B.V.
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
-
-
-
 internal func getRef(_ ref: Attributes) -> RefHolder<smoke_AttributesRef> {
     return RefHolder<smoke_AttributesRef>(ref.c_instance)
 }
-
 public class Attributes {
-
     public var builtInTypeAttribute: UInt32 {
         get {
             return smoke_Attributes_builtInTypeAttribute_get(c_instance)
@@ -28,23 +21,17 @@ public class Attributes {
             return smoke_Attributes_builtInTypeAttribute_set(c_instance, newValue)
         }
     }
-
     public var readonlyAttribute: Float {
         get {
             return smoke_Attributes_readonlyAttribute_get(c_instance)
         }
-
     }
-
     public var structAttribute: ExampleStruct {
         get {
             let cResult = smoke_Attributes_structAttribute_get(c_instance)
-
-
             defer {
                 smoke_Attributes_ExampleStruct_release(cResult)
             }
-
             return ExampleStruct(cExampleStruct: cResult)!
         }
         set {
@@ -55,26 +42,23 @@ public class Attributes {
             return smoke_Attributes_structAttribute_set(c_instance, newValueHandle)
         }
     }
-
-    public var arrayAttribute: String {
+    public var arrayAttribute: CollectionOf<String> {
         get {
-            let result_string_handle = smoke_Attributes_arrayAttribute_get(c_instance)
-
-            defer {
-                std_string_release(result_string_handle)
-            }
-            return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+            let handle =  smoke_Attributes_arrayAttribute_get(c_instance)
+            return StringList(handle)
         }
         set {
-            return smoke_Attributes_arrayAttribute_set(c_instance, newValue)
+            let newValueArray = newValue.flatMap{ $0 as? String }
+            let newValueHandle = newValueArray.c_conversion()
+            defer {
+                newValueHandle.cleanup()
+            }
+            return smoke_Attributes_arrayAttribute_set(c_instance, newValueHandle.c_type)
         }
     }
-
     public var complexTypeAttribute: InternalError {
         get {
             let cResult = smoke_Attributes_complexTypeAttribute_get(c_instance)
-
             return InternalError(rawValue: cResult)!
         }
         set {
@@ -82,41 +66,31 @@ public class Attributes {
         }
     }
     let c_instance : smoke_AttributesRef
-
     public required init?(cAttributes: smoke_AttributesRef) {
         c_instance = cAttributes
     }
-
     deinit {
         smoke_Attributes_release(c_instance)
     }
     public enum InternalError : UInt32 {
-
         case errorNone
-
         case errorFatal = 999
     }
-
     public struct ExampleStruct {
         public var value: Double
-
         public init(value: Double) {
             self.value = value
         }
-
         internal init?(cExampleStruct: smoke_Attributes_ExampleStructRef) {
             value = smoke_Attributes_ExampleStruct_value_get(cExampleStruct)
         }
-
         internal func convertToCType() -> smoke_Attributes_ExampleStructRef {
             let result = smoke_Attributes_ExampleStruct_create()
             fillFunction(result)
             return result
         }
-
         internal func fillFunction(_ cExampleStruct: smoke_Attributes_ExampleStructRef) -> Void {
             smoke_Attributes_ExampleStruct_value_set(cExampleStruct, value)
         }
     }
-
 }

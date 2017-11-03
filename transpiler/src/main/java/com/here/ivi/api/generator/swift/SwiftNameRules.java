@@ -16,6 +16,7 @@ import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.UNDERSCORE_DEL
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.FrancaElement;
+import com.here.ivi.api.model.swift.SwiftType;
 import java.io.File;
 import org.franca.core.franca.*;
 
@@ -54,6 +55,10 @@ public final class SwiftNameRules {
 
   public static String getClassName(final FTypeCollection base) {
     return SwiftNameRules.computeClassName(base);
+  }
+
+  public static String getClassName(final String string) {
+    return NameHelper.toUpperCamelCase(string);
   }
 
   public static String getStructName(final String structName) {
@@ -97,5 +102,22 @@ public final class SwiftNameRules {
 
   public static String getPropertyGetterName(String accessorBaseName) {
     return accessorBaseName + "_get";
+  }
+
+  public static String getArrayName(SwiftType innerType) {
+    String name =
+        (innerType.implementingClass != null) ? innerType.implementingClass : innerType.name;
+    name = name.replace("_", "");
+    switch (innerType.category) {
+      case CLASS:
+        name = NameHelper.toUpperCamelCase(name);
+        break;
+      case STRUCT:
+        name = SwiftNameRules.getStructName(name);
+        break;
+      default:
+        break;
+    }
+    return name + "List";
   }
 }

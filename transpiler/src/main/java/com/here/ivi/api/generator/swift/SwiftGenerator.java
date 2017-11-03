@@ -23,8 +23,11 @@ import java.util.*;
 
 public class SwiftGenerator {
 
+  public SwiftArrayGenerator arrayGenerator = new SwiftArrayGenerator();
   public static final List<GeneratedFile> STATIC_FILES =
-      Collections.singletonList(GeneratorSuite.copyTarget("swift/RefHolder.swift", ""));
+      Arrays.asList(
+          GeneratorSuite.copyTarget("swift/RefHolder.swift", ""),
+          GeneratorSuite.copyTarget("swift/CollectionOf.swift", ""));
 
   private final FrancaDeploymentModel deploymentModel;
 
@@ -49,7 +52,7 @@ public class SwiftGenerator {
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walk(francaElement);
-
+    arrayGenerator.collect(modelBuilder.arraysCollector);
     return modelBuilder.getFinalResult(SwiftFile.class);
   }
 }
