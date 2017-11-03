@@ -8,6 +8,10 @@ void {{name}}_release({{selfType.functionReturnType}} handle) {
 }
 {{/if}}
 
+{{#arrays}}
+{{>cbridge/ArraysImplementation}}
+{{/arrays}}
+
 {{#structs}}
 {{>cbridge/StructImplementation}}
 {{/structs}}
@@ -15,5 +19,3 @@ void {{name}}_release({{selfType.functionReturnType}} handle) {
 {{#functions}}
 {{>cbridge/FunctionDefinition}}
 {{/functions}}
-
-

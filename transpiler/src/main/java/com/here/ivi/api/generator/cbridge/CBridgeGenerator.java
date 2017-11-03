@@ -23,14 +23,15 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.FrancaElement;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class CBridgeGenerator {
 
   private final FrancaDeploymentModel deploymentModel;
   private final IncludeResolver resolver;
+
+  public CArrayGenerator arrayGenerator = new CArrayGenerator();
 
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
@@ -92,6 +93,7 @@ public class CBridgeGenerator {
     CInterface cModel = modelBuilder.getFinalResult(CInterface.class);
 
     removeRedundantIncludes(francaElement, cModel);
+    this.arrayGenerator.collect(modelBuilder.arraysCollector);
     return cModel;
   }
 

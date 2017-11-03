@@ -2,6 +2,12 @@
 
 {{#privateHeaderIncludes}}{{>common/Include}}{{/privateHeaderIncludes}}
 
+{{#arrays}}
+inline {{arrayType.arrayBaseApi}}* get_pointer({{name}} handle) {
+  return static_cast<{{arrayType.arrayBaseApi}}*>(handle.private_pointer);
+}
+{{/arrays}}
+
 {{#structs}}
 inline {{baseApiName}}* get_pointer({{name}}Ref handle) {
     return static_cast<{{baseApiName}}*>(handle.private_pointer);

@@ -45,6 +45,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
         Stream.concat(swiftStream, cBridgeStream).filter(Objects::nonNull).collect(toList());
     result.addAll(CBridgeGenerator.STATIC_FILES);
     result.addAll(SwiftGenerator.STATIC_FILES);
+    result.addAll(cBridgeGenerator.arrayGenerator.generate());
 
     return result;
   }

@@ -11,6 +11,9 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
+import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.CLASS;
+import static com.here.ivi.api.model.cmodel.CType.VECTOR_INCLUDE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -21,6 +24,8 @@ import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -29,18 +34,20 @@ public class CppTypeInfo extends CElement {
 
   public final List<CType> cTypesNeededByConstructor;
   public final List<String> paramSuffixes;
-  public final CType functionReturnType;
+  public CType functionReturnType;
   public TypeCategory typeCategory;
   public final List<Include> conversionToCppIncludes;
   public final List<Include> conversionFromCppIncludes;
+  public CppTypeInfo innerType;
 
   public enum TypeCategory {
     BUILTIN_SIMPLE,
     BUILTIN_STRING,
     BUILTIN_BYTEBUFFER,
     STRUCT,
-    INSTANCE,
-    ENUM
+    CLASS,
+    ENUM,
+    ARRAY,
   }
 
   public static final CppTypeInfo STRING =
@@ -50,7 +57,11 @@ public class CppTypeInfo extends CElement {
           singletonList(""),
           CType.STRING_REF,
           TypeCategory.BUILTIN_STRING,
-          singletonList(Include.createSystemInclude("string")),
+          Arrays.asList(
+              Include.createSystemInclude("string"),
+              Include.createInternalInclude(
+                  Paths.get(CBridgeNameRules.INTERNAL_SOURCE_FOLDER, "StringHandleImpl.h")
+                      .toString())),
           Arrays.asList(Include.createSystemInclude("string")));
 
   public static final CppTypeInfo BYTE_VECTOR =
@@ -60,58 +71,59 @@ public class CppTypeInfo extends CElement {
           asList("_ptr", "_size"),
           CType.BYTE_ARRAY_REF,
           TypeCategory.BUILTIN_BYTEBUFFER,
-          Arrays.asList(
-              Include.createSystemInclude("vector"), Include.createSystemInclude("stdint.h")),
-          Arrays.asList(
-              Include.createSystemInclude("vector"), Include.createSystemInclude("stdint.h")));
+          Arrays.asList(VECTOR_INCLUDE, Include.createSystemInclude("stdint.h")),
+          Arrays.asList(VECTOR_INCLUDE, Include.createSystemInclude("stdint.h")));
 
   public static CppTypeInfo createCustomTypeInfo(
-      final IncludeResolver resolver, final FType structType) {
-    String handleName = CBridgeNameRules.getStructRefType(structType);
+      final IncludeResolver resolver,
+      final FModelElement elementType,
+      final TypeCategory category) {
+
+    String handleName = CBridgeNameRules.getHandleName(elementType, category);
+    String baseAPIName = CBridgeNameRules.getBaseApiName(elementType, category);
+    String baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseAPIName);
+
     return new CppTypeInfo(
-        CBridgeNameRules.getBaseApiStructName(structType),
+        baseApiCall,
         singletonList(
             new CType(
                 handleName,
                 singletonList(
-                    resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER)))),
+                    resolver.resolveInclude(elementType, HeaderType.CBRIDGE_PUBLIC_HEADER)))),
         singletonList(""),
         new CType(
             handleName,
-            singletonList(resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER))),
-        TypeCategory.STRUCT,
-        asList(
-            resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER),
-            resolver.resolveInclude(structType, HeaderType.CBRIDGE_PRIVATE_HEADER),
-            resolver.resolveInclude(structType, HeaderType.BASE_API_HEADER)),
-        asList(
-            resolver.resolveInclude(structType, HeaderType.CBRIDGE_PUBLIC_HEADER),
-            resolver.resolveInclude(structType, HeaderType.BASE_API_HEADER)));
+            singletonList(resolver.resolveInclude(elementType, HeaderType.CBRIDGE_PUBLIC_HEADER))),
+        category,
+        getConversionToCppIndcludes(category, resolver, elementType),
+        getConversionFromCppIndcludes(resolver, elementType));
   }
 
-  public static CppTypeInfo createInstanceTypeInfo(
-      final IncludeResolver resolver, final FModelElement instanceId) {
-    String handleName = CBridgeNameRules.getInstanceRefType(instanceId);
-    return new CppTypeInfo(
-        "std::shared_ptr<" + CBridgeNameRules.getBaseApiInstanceName(instanceId) + ">",
-        singletonList(
-            new CType(
-                handleName,
-                singletonList(
-                    resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER)))),
-        singletonList(""),
-        new CType(
-            handleName,
-            singletonList(resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER))),
-        TypeCategory.INSTANCE,
-        asList(
-            resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER),
-            resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PRIVATE_HEADER),
-            resolver.resolveInclude(instanceId, HeaderType.BASE_API_HEADER),
-            Include.createSystemInclude("memory")),
-        asList(
-            resolver.resolveInclude(instanceId, HeaderType.CBRIDGE_PUBLIC_HEADER),
-            resolver.resolveInclude(instanceId, HeaderType.BASE_API_HEADER)));
+  private static List<Include> getConversionToCppIndcludes(
+      final TypeCategory category, final IncludeResolver resolver, FModelElement element) {
+    List<Include> list =
+        new ArrayList<Include>(
+            Arrays.asList(
+                resolver.resolveInclude(element, HeaderType.CBRIDGE_PUBLIC_HEADER),
+                resolver.resolveInclude(element, HeaderType.CBRIDGE_PRIVATE_HEADER),
+                resolver.resolveInclude(element, HeaderType.BASE_API_HEADER)));
+    if (category == CLASS) {
+      list.add(Include.createSystemInclude("memory"));
+    }
+    if (category == ARRAY) {
+      list.add(VECTOR_INCLUDE);
+      list.add(
+          Include.createInternalInclude(
+              Paths.get(CBridgeNameRules.SOURCE_FOLDER, "ArrayCollection.h").toString()));
+    }
+    return list;
+  }
+
+  private static List<Include> getConversionFromCppIndcludes(
+      final IncludeResolver resolver, FModelElement element) {
+    return asList(
+        resolver.resolveInclude(element, HeaderType.CBRIDGE_PUBLIC_HEADER),
+        resolver.resolveInclude(element, HeaderType.BASE_API_HEADER));
   }
 
   public static CppTypeInfo createEnumTypeInfo(
@@ -131,7 +143,7 @@ public class CppTypeInfo extends CElement {
   }
   // TODO (APIGEN-625): refactor this
   @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
-  private CppTypeInfo(
+  public CppTypeInfo(
       String baseType,
       List<CType> constructFromCTypes,
       List<String> paramSuffixes,
@@ -164,5 +176,16 @@ public class CppTypeInfo extends CElement {
 
   public boolean isStruct() {
     return typeCategory == TypeCategory.STRUCT;
+  }
+
+  public String getArrayBaseApi() {
+    return arrayFindNested(this.innerType);
+  }
+
+  private String arrayFindNested(CppTypeInfo array) {
+    if (array.innerType != null) {
+      return "std::vector<" + arrayFindNested(array.innerType) + ">";
+    }
+    return "std::vector<" + array.name + ">";
   }
 }

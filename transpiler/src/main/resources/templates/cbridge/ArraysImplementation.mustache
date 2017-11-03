@@ -1,0 +1,57 @@
+{{name}} {{name}}_create() {
+    return { new {{arrayType.arrayBaseApi}}()};;
+}
+
+void {{name}}_release({{name}} handle) {
+    delete get_pointer((handle));
+}
+
+uint64_t {{name}}_count({{name}} handle) {
+    return get_pointer(handle)->size();
+}
+
+{{innerType}} {{name}}_get({{name}} handle, uint64_t index) { {{!!
+    }}{{#switch underlyingType.typeCategory.toString}}{{!!
+    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
+    }}{{#case "CLASS"  break=false}}{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}{{prefixPartial 'classGetConversion' '    '}}{{/case}}{{!!
+    }}{{#case "ARRAY"}}{{prefixPartial 'arrayGetConversion' '    '}}{{/case}}{{!!
+    }}{{#default}}{{prefixPartial 'defaultGetConversion' '    '}}{{/default}}{{!!
+    }}{{/switch}}
+}
+
+void {{name}}_append({{name}} handle, {{argument}} item) { {{!!
+}}{{#switch underlyingType.typeCategory.toString}}{{!!
+    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
+    }}{{#case "CLASS"  break=false}}{{/case}}{{!!
+    }}{{#case "ARRAY"}}{{prefixPartial 'classAppendConversion' '    '}}{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}{{prefixPartial 'stringAppendConversion' '    '}}{{/case}}{{!!
+    }}{{#default}}{{prefixPartial 'defaultAppendConversion' '    '}}{{/default}}{{!!
+    }}{{/switch}}
+}
+
+{{+classGetConversion}}
+return {{innerType}} {
+    new {{underlyingType.name}} {
+        (*get_pointer(handle))[index]
+    }
+};{{/classGetConversion}}
+
+{{+arrayGetConversion}}
+return {{innerType}} {
+    new {{underlyingType.arrayBaseApi}} {
+        (*get_pointer(handle))[index]
+    }
+};{{/arrayGetConversion}}
+
+{{+defaultGetConversion}}
+return (*get_pointer(handle))[index];{{/defaultGetConversion}}
+
+{{+classAppendConversion}}
+get_pointer(handle)->push_back(*get_pointer(item));{{/classAppendConversion}}
+
+{{+defaultAppendConversion}}
+get_pointer(handle)->push_back(item);{{/defaultAppendConversion}}
+
+{{+stringAppendConversion}}
+get_pointer(handle)->push_back(std::string(item));{{/stringAppendConversion}}

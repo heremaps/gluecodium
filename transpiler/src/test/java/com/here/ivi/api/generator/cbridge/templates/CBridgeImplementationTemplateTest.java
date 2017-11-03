@@ -221,7 +221,7 @@ public class CBridgeImplementationTemplateTest {
         new CField(
             "instanceField",
             "baseApiFieldName",
-            new CppTypeInfo(new CType("SomeClassRef"), TypeCategory.INSTANCE));
+            new CppTypeInfo(new CType("SomeClassRef"), TypeCategory.CLASS));
     struct.fields.add(field);
     cInterface.structs.add(struct);
 

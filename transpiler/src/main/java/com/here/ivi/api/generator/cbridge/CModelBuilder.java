@@ -11,6 +11,8 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.*;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
@@ -18,16 +20,7 @@ import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
-import com.here.ivi.api.model.cmodel.CClassType;
-import com.here.ivi.api.model.cmodel.CElement;
-import com.here.ivi.api.model.cmodel.CEnum;
-import com.here.ivi.api.model.cmodel.CField;
-import com.here.ivi.api.model.cmodel.CFunction;
-import com.here.ivi.api.model.cmodel.CInParameter;
-import com.here.ivi.api.model.cmodel.CInterface;
-import com.here.ivi.api.model.cmodel.COutParameter;
-import com.here.ivi.api.model.cmodel.CStruct;
-import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
@@ -35,7 +28,9 @@ import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftProperty;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.franca.core.franca.*;
 
 public class CModelBuilder extends AbstractModelBuilder<CElement> {
@@ -44,6 +39,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   private final IncludeResolver resolver;
   private final CppModelBuilder cppBuilder;
   private final SwiftModelBuilder swiftBuilder;
+  public Map<String, CArray> arraysCollector = new HashMap<>();
 
   public CModelBuilder(
       final FrancaDeploymentModel deploymentModel,
@@ -75,7 +71,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   @Override
   public void startBuilding(FInterface francaInterface) {
     super.startBuilding(francaInterface);
-    CppTypeInfo typeInfo = CppTypeInfo.createInstanceTypeInfo(resolver, francaInterface);
+    CppTypeInfo typeInfo = CppTypeInfo.createCustomTypeInfo(resolver, francaInterface, CLASS);
     CClassType classInfo = new CClassType(typeInfo);
     storeResult(classInfo);
   }
@@ -176,12 +172,20 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         new CStruct(
             CBridgeNameRules.getStructBaseName(francaStruct),
             CBridgeNameRules.getBaseApiStructName(francaStruct),
-            CppTypeInfo.createCustomTypeInfo(resolver, francaStruct));
+            CppTypeInfo.createCustomTypeInfo(resolver, francaStruct, STRUCT));
 
     cStruct.fields = getPreviousResults(CField.class);
 
     storeResult(cStruct);
     super.finishBuilding(francaStruct);
+  }
+
+  @Override
+  public void finishBuilding(FArrayType francaArray) {
+    CppTypeInfo innerType = CTypeMapper.mapType(resolver, francaArray.getElementType());
+    CppTypeInfo arrayType = CArrayMapper.create(innerType, francaArray);
+    arraysCollector.put(arrayType.functionReturnType.name, new CArray(arrayType));
+    closeContext();
   }
 
   @Override
@@ -194,7 +198,11 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FTypeRef typeRef) {
-    storeResult(CTypeMapper.mapType(resolver, typeRef));
+    CppTypeInfo type = CTypeMapper.mapType(resolver, typeRef);
+    if (type.typeCategory == ARRAY) {
+      arraysCollector.put(type.functionReturnType.name, new CArray(type));
+    }
+    storeResult(type);
     super.finishBuilding(typeRef);
   }
 

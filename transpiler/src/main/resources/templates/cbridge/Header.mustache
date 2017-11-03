@@ -7,6 +7,8 @@ extern "C" {
 
 {{#enumerators}}{{>cbridge/Enumeration}}{{/enumerators}}
 {{#structs}}{{>cbridge/StructTypedef}}{{/structs}}
+{{#arrays}}{{>cbridge/ArraysDefinition}}{{/arrays}}
+
 
 {{#if selfType}}
 typedef struct {

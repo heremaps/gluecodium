@@ -47,6 +47,7 @@ import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftProperty;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.test.MockContextStack;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -68,10 +69,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
   CTypeMapper.class,
   CppNameRules.class,
   CppTypeInfo.class,
+  CArrayMapper.class,
   CBridgeNameRules.class,
   SwiftNameRules.class
 })
-@SuppressWarnings("PMD.TooManyFields")
+@SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods"})
 public class CModelBuilderTest {
 
   private static final String FULL_FUNCTION_NAME = "FULL_FUNCTION_NAME";
@@ -104,6 +106,7 @@ public class CModelBuilderTest {
   @Mock private FModel francaModel;
   @Mock private FAttribute francaAttribute;
   @Mock private FTypeRef francaTypeRef;
+  @Mock private FArrayType francaArray;
 
   private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
   private CModelBuilder modelBuilder;
@@ -115,6 +118,7 @@ public class CModelBuilderTest {
         CppNameRules.class,
         CppTypeInfo.class,
         CBridgeNameRules.class,
+        CArrayMapper.class,
         SwiftNameRules.class);
     initMocks(this);
 
@@ -126,7 +130,7 @@ public class CModelBuilderTest {
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
     when(CBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
 
-    when(CppTypeInfo.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
+    when(CppTypeInfo.createCustomTypeInfo(any(), any(), any())).thenReturn(typeInfo);
 
     when(deploymentModel.isStatic(any())).thenReturn(true);
     when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
@@ -417,6 +421,34 @@ public class CModelBuilderTest {
     List<CFunction> functions = getResults(CFunction.class);
     assertEquals("There should be only getter", 1, functions.size());
     verifyAttributeGetter(classTypeInfo, functions.get(0));
+  }
+
+  @Test
+  public void finishBuildingCreatesArray() {
+    CppTypeInfo arrayType = new CppTypeInfo(new CType("ArrayTest"));
+    arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY;
+    when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
+    when(CArrayMapper.create(any(), any())).thenReturn(arrayType);
+
+    modelBuilder.finishBuilding(francaArray);
+    List<CArray> arrays = new ArrayList(modelBuilder.arraysCollector.values());
+    assertEquals("There should one array", 1, arrays.size());
+    CArray array = arrays.get(0);
+    assertEquals("ArrayTest", array.name);
+  }
+
+  @Test
+  public void finishBuildingCreatesInlineArray() {
+    CppTypeInfo arrayType = new CppTypeInfo(new CType("ArrayTest"));
+    arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY;
+    arrayType.innerType = cppTypeInfo;
+    when(CTypeMapper.mapType(any(), any())).thenReturn(arrayType);
+
+    modelBuilder.finishBuilding(francaTypeRef);
+    List<CArray> arrays = new ArrayList(modelBuilder.arraysCollector.values());
+    assertEquals("There should one array", 1, arrays.size());
+    CArray array = arrays.get(0);
+    assertEquals("ArrayTest", array.name);
   }
 
   private void prepareTestForAttributes(CppTypeInfo classTypeInfo, List<CppElement> cppMethods) {
