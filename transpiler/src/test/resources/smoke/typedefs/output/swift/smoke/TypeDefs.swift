@@ -18,13 +18,17 @@ public class TypeDefs {
 
     public typealias PrimitiveTypeDef = Double
 
-    public typealias ComplexTypeDef = Void
+    public typealias ComplexTypeDef = CollectionOf<TypeDefs.TestStruct>
 
     public typealias NestedIntTypeDef = PrimitiveTypeDef
 
     public typealias TestStructTypeDef = TestStruct
 
     public typealias NestedStructTypeDef = TestStructTypeDef
+
+
+
+
 
     public struct TestStruct {
         public var something: String
@@ -55,8 +59,14 @@ public class TypeDefs {
         return smoke_TypeDefs_methodWithPrimitiveTypeDef(input)
     }
 
-    public static func methodWithComplexTypeDef(input: ComplexTypeDef) -> ComplexTypeDef {
-        return smoke_TypeDefs_methodWithComplexTypeDef(input)
+    public static func methodWithComplexTypeDef(input: T) -> ComplexTypeDef {
+        let inputArray = input.flatMap{ $0 as?  }
+        let inputHandle = inputArray.c_conversion()
+        defer {
+            inputHandle.cleanup()
+        }
+        let handle =  smoke_TypeDefs_methodWithComplexTypeDef(inputHandle.c_type)
+        return TestStructList(handle)
     }
 
     public static func returnNestedIntTypeDef(input: NestedIntTypeDef) -> NestedIntTypeDef {

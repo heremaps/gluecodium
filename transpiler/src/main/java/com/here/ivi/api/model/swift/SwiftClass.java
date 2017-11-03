@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class SwiftClass extends SwiftModelElement {
+public final class SwiftClass extends SwiftType {
 
   public boolean isInterface;
   public final String parentClass;
@@ -32,7 +32,7 @@ public final class SwiftClass extends SwiftModelElement {
   public List<SwiftTypeDef> typedefs;
 
   public SwiftClass(String className, String parentClassName) {
-    super(className);
+    super(className, TypeCategory.CLASS);
     this.parentClass = parentClassName;
     this.implementsProtocols = emptyList();
     this.properties = new ArrayList<>();

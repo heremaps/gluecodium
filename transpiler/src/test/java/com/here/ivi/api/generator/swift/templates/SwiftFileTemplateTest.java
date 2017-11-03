@@ -767,7 +767,7 @@ public class SwiftFileTemplateTest {
     swiftClass.cInstance = "HellowWorldFactory";
 
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
-    SwiftContainerType mappedType = new SwiftContainerType("HelloWorld");
+    SwiftContainerType mappedType = new SwiftContainerType("HelloWorld", TypeCategory.CLASS);
     mappedType.implementingClass = "_HelloWorld";
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";
@@ -826,7 +826,7 @@ public class SwiftFileTemplateTest {
     SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
     swiftClass.typedefs = Collections.singletonList(typedef);
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
-    SwiftContainerType mappedType = new SwiftContainerType("HelloWorld");
+    SwiftContainerType mappedType = new SwiftContainerType("HelloWorld", TypeCategory.CLASS);
     mappedType.implementingClass = "_HelloWorld";
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";

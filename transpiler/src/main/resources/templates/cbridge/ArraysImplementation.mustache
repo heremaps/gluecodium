@@ -3,7 +3,7 @@
 }
 
 void {{name}}_release({{name}} handle) {
-    delete get_pointer((handle));
+    delete get_pointer({{name}}(handle));
 }
 
 uint64_t {{name}}_count({{name}} handle) {

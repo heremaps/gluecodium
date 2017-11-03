@@ -14,6 +14,9 @@ internal func fillFunction(_ c{{name}}: {{cType}}) -> Void {
 {{#case "ENUM"}}
     {{>fillEnum}}
 {{/case}}
+{{#case "ARRAY"}}
+    {{>fillArray}}
+{{/case}}
 {{#case "BUILTIN_STRING" break="false"}}{{/case}}
 {{#default}}
     {{>fillBasicType}}
@@ -40,3 +43,8 @@ internal func fillFunction(_ c{{name}}: {{cType}}) -> Void {
 
 {{+fillEnum}}{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}.rawValue)
 {{/fillEnum}}
+
+{{+fillArray}}let {{name}}Conversion = {{name}}.c_conversion()
+{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}Conversion.c_type)
+{{name}}Conversion.cleanup()
+{{/fillArray}}

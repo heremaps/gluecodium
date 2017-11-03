@@ -377,7 +377,8 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeRef() {
-    when(SwiftTypeMapper.mapType(francaTypeRef)).thenReturn(swiftType);
+    when(SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel))
+        .thenReturn(swiftType);
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(false);
 
     modelBuilder.finishBuilding(francaTypeRef);
@@ -386,15 +387,14 @@ public class SwiftModelBuilderTest {
     assertEquals("Should be 1 type item created", 1, swiftTypes.size());
     assertSame(swiftType, swiftTypes.get(0));
     PowerMockito.verifyStatic();
-    SwiftTypeMapper.mapType(francaTypeRef);
-    PowerMockito.verifyStatic();
-    InstanceRules.isInstanceId(francaTypeRef);
+    SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel);
   }
 
   @Test
   public void finishBuildingFrancaInstanceTypeRef() {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
-    when(SwiftTypeMapper.getClassOrStructType(francaTypeDef)).thenReturn(swiftType);
+    when(SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel))
+        .thenReturn(swiftType);
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
     when(deploymentModel.isInterface(any())).thenReturn(false);
 
@@ -404,15 +404,14 @@ public class SwiftModelBuilderTest {
     assertEquals("Should be 1 type item created", 1, swiftTypes.size());
     assertSame(swiftType, swiftTypes.get(0));
     PowerMockito.verifyStatic();
-    SwiftTypeMapper.getClassOrStructType(francaTypeDef);
-    PowerMockito.verifyStatic();
-    InstanceRules.isInstanceId(francaTypeRef);
+    SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel);
   }
 
   @Test
   public void finishBuildingFrancaInterfaceInstanceTypeRef() {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
-    when(SwiftTypeMapper.getClassOrStructType(francaTypeDef)).thenReturn(swiftType);
+    when(SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel))
+        .thenReturn(swiftType);
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
     when(deploymentModel.isInterface(any())).thenReturn(true);
 
@@ -423,9 +422,7 @@ public class SwiftModelBuilderTest {
     assertEquals(swiftType.name, swiftTypes.get(0).name);
     assertEquals(swiftType.implementingClass, swiftTypes.get(0).implementingClass);
     PowerMockito.verifyStatic();
-    SwiftTypeMapper.getClassOrStructType(francaTypeDef);
-    PowerMockito.verifyStatic();
-    InstanceRules.isInstanceId(francaTypeRef);
+    SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel);
   }
 
   @Test

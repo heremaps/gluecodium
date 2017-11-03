@@ -14,7 +14,7 @@ public class CollectionOf<T> : Collection {
 
     private var elements: Array<T>
 
-    init(_ elements: Array<T>) {
+    public init(_ elements: Array<T>) {
         self.elements = elements
         self.startIndex = 0
         self.endIndex = elements.count
@@ -29,7 +29,6 @@ public class CollectionOf<T> : Collection {
     }
 
     public var startIndex: Int
-
     public var endIndex: Int
 
     public typealias Element = T

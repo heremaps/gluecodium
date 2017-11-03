@@ -46,6 +46,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
     result.addAll(CBridgeGenerator.STATIC_FILES);
     result.addAll(SwiftGenerator.STATIC_FILES);
     result.addAll(cBridgeGenerator.arrayGenerator.generate());
+    result.addAll(swiftGenerator.arrayGenerator.generate());
 
     return result;
   }

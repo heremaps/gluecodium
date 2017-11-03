@@ -25,10 +25,13 @@ import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.franca.core.franca.*;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
+  public Map<String, SwiftArray> arraysCollector = new HashMap<>();
 
   private final FrancaDeploymentModel deploymentModel;
 
@@ -104,7 +107,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     swiftStruct.fields = getPreviousResults(SwiftField.class);
     swiftStruct.cPrefix = CBridgeNameRules.getStructBaseName(francaStruct);
     swiftStruct.cType = CBridgeNameRules.getStructRefType(francaStruct);
-
     storeResult(swiftStruct);
     super.finishBuilding(francaStruct);
   }
@@ -204,17 +206,11 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
-    SwiftType swiftType;
-
-    if (InstanceRules.isInstanceId(francaTypeRef)) {
-      FType derived = francaTypeRef.getDerived();
-      swiftType = SwiftTypeMapper.getClassOrStructType(derived);
-      swiftType.implementingClass =
-          deploymentModel.isInterface((FInterface) derived.eContainer())
-              ? "_" + derived.getName()
-              : derived.getName();
-    } else {
-      swiftType = SwiftTypeMapper.mapType(francaTypeRef);
+    SwiftType swiftType =
+        SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel);
+    if (swiftType instanceof SwiftArray) {
+      SwiftArray array = (SwiftArray) swiftType;
+      arraysCollector.put(array.underlyingType.name, array);
     }
 
     storeResult(swiftType);
@@ -232,6 +228,16 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     storeResult(property);
     super.finishBuilding(attribute);
+  }
+
+  @Override
+  public void finishBuilding(FArrayType francaArray) {
+    SwiftType innerType =
+        SwiftTypeMapper.mapTypeWithDeploymentModel(
+            (FTypeRef) francaArray.getElementType(), deploymentModel);
+    SwiftArray arrayType = SwiftArrayMapper.create(innerType, francaArray);
+    arraysCollector.put(innerType.name, arrayType);
+    super.finishBuilding(francaArray);
   }
 
   @VisibleForTesting

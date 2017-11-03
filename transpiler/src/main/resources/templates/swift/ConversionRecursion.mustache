@@ -4,8 +4,9 @@
     }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodReturnData}}{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}{{>swift/MethodReturnString}}{{/case}}{{!!
     }}{{#case "STRUCT"}}{{>MethodReturnStruct}}{{/case}}{{!!
-    }}{{#case "CLASS"}}{{>MethodReturnStruct}}{{/case}}{{!!
+    }}{{#case "CLASS"}}{{>MethodReturnClass}}{{/case}}{{!!
     }}{{#case "ENUM"}}{{>MethodReturnEnum}}{{/case}}{{!!
+    }}{{#case "ARRAY"}}{{>MethodReturnArray}}{{/case}}{{!!
     }}{{#default}}{{>swift/MethodReturn}}{{/default}}{{!!
   }}{{/switch}}
 {{/unless}}
@@ -15,34 +16,56 @@
       }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodWrapData}}{{/case}}{{!!
       }}{{#case "STRUCT"}}{{>structConversion}}{{/case}}{{!!
       }}{{#case "CLASS"}}{{>classConversion}}{{/case}}{{!!
+      }}{{#case "ARRAY"}}{{>arrayConversion}}{{/case}}{{!!
       }}{{#default}}{{>swift/ConversionRecursion}}{{/default}}{{!!
     }}{{/switch}}{{!!
   }}{{/iterator.next}}{{!!
 }}{{/iterator.hasNext}}
 
-{{+structConversion}}let {{name}}Handle = {{name}}.convertToCType()
+{{+structConversion}}{{!!
+}}let {{name}}Handle = {{name}}.convertToCType()
 defer {
     {{type.cPrefix}}_release({{name}}Handle)
 }
 {{>swift/ConversionRecursion}}
 {{/structConversion}}
 
-{{+classConversion}}let {{name}}Handle = getRef({{name}})
+{{+classConversion}}{{!!
+}}let {{name}}Handle = getRef({{name}})
 {{>swift/ConversionRecursion}}
 {{/classConversion}}
 
-{{+MethodReturnStruct}}let cResult = {{>swift/DelegateCall}}
-{{^method.returnType.implementingClass}}
+{{+MethodReturnStruct}}{{!!
+}}let cResult = {{>swift/DelegateCall}}
 defer {
     {{method.returnType.cPrefix}}_release(cResult)
 }
-{{/method.returnType.implementingClass}}
 return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnValueUnwrapping}}!{{/if}}
 {{/MethodReturnStruct}}
 
-{{+MethodReturnEnum}}let cResult = {{>swift/DelegateCall}}
+{{+MethodReturnClass}}{{!!
+}}let cResult = {{>swift/DelegateCall}}
+return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnValueUnwrapping}}!{{/if}}
+{{/MethodReturnClass}}
+
+{{+MethodReturnEnum}}{{!!
+}}let cResult = {{>swift/DelegateCall}}
 return {{method.returnType}}(rawValue: cResult)!
 {{/MethodReturnEnum}}
+
+{{+arrayConversion}}
+let {{name}}Array = {{name}}.flatMap{ $0 as? {{type.swiftArrayConversion}} }{{#if type.isNested}}.map{ {{type.underlyingType.name}}($0) } {{/if}}
+let {{name}}Handle = {{name}}Array.c_conversion()
+defer {
+    {{name}}Handle.cleanup()
+}
+{{>swift/ConversionRecursion}}
+{{/arrayConversion}}
+
+{{+MethodReturnArray}}
+let handle =  {{>swift/DelegateCall}}
+return {{method.returnType.implementingClass}}(handle)
+{{/MethodReturnArray}}
 
 {{+returnType}}{{!!
 }}{{method.returnType.implementingClass}}{{!!

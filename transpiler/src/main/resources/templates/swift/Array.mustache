@@ -1,0 +1,90 @@
+//
+{{prefixPartial 'common/CopyrightNotice' '// '}}
+//
+// Automatically generated. Do not modify. Your changes will be lost.
+import Foundation
+
+{{#arrays}}
+internal class {{implementingClass}}: CollectionOf<{{publicInnerType}}> {
+    let c_element: {{refName}}
+
+    init(_ c_element: {{refName}}) {
+        self.c_element = c_element
+        super.init([])
+        self.startIndex = 0
+        self.endIndex = Int({{refName}}_count(c_element))
+    }
+
+    public override subscript(index: Int) -> {{publicInnerType}} {
+        let handle = {{refName}}_get(c_element, UInt64(index)){{!!
+        }}{{#switch underlyingType.category.toString}}{{!!
+        }}{{#case "STRUCT"}}{{prefixPartial 'structSubscript'   '        '}}{{/case}}{{!!
+        }}{{#case "CLASS"}}{{prefixPartial 'classSubscript'   '        '}}{{/case}}{{!!
+        }}{{#case "ARRAY"}}{{prefixPartial 'arraySubscript'   '        '}}{{/case}}{{!!
+        }}{{#case "BUILTIN_STRING"}}{{prefixPartial 'stringSubscript'  '        '}}{{/case}}{{!!
+        }}{{#default}}{{prefixPartial 'defaultSubscript'  '        '}}{{/default}}{{!!
+        }}{{/switch}}
+    }
+}
+extension Collection where Element == {{publicInnerType}}  {
+    public func c_conversion()-> (c_type: {{refName}}, cleanup: () ->Void) {
+        let handle = {{refName}}_create()
+        for item in self { {{!!
+            }}{{#switch underlyingType.category.toString}}{{!!
+                }}{{#case "STRUCT"}}{{prefixPartial 'structConversion' '           '}}{{/case}}{{!!
+                }}{{#case "CLASS"}}{{prefixPartial 'classConversion' '           '}}{{/case}}{{!!
+                }}{{#case "ARRAY"}}{{prefixPartial 'arrayConversion'   '        '}}{{/case}}{{!!
+                }}{{#default}}{{prefixPartial 'defaultConversion' '             '}}{{/default}}{{!!
+            }}{{/switch}}
+        }
+        let cleanup_function = { () -> Void in
+            {{refName}}_release(handle)
+        }
+        return (handle, cleanup_function)
+    }
+}
+
+{{/arrays}}
+
+{{+defaultSubscript}}
+return handle{{/defaultSubscript}}
+
+{{+structSubscript}}
+guard let result = {{publicInnerType}}(c{{innerType}}: handle) else {
+    fatalError("Not implemented")
+}
+return result{{/structSubscript}}
+
+{{+classSubscript}}
+guard let result = {{privateInnerType}}(c{{innerType}}: handle) else {
+    fatalError("Not implemented")
+}
+return result{{/classSubscript}}
+
+{{+arraySubscript}}
+return {{underlyingType.implementingClass}}(handle){{/arraySubscript}}
+
+{{+stringSubscript}}
+defer {
+std_string_release(handle)
+}
+return String(data: Data(bytes: std_string_data_get(handle),
+count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}
+
+{{+structConversion}}
+{{refName}}_append(handle, item.convertToCType()){{/structConversion}}
+
+{{+classConversion}}
+guard let instance = item as? {{privateInnerType}} else {
+  fatalError("Conversion error")
+}
+{{refName}}_append(handle, instance.c_instance){{/classConversion}}
+
+{{+arrayConversion}}
+let conversion = item.c_conversion()
+{{refName}}_append(handle, conversion.c_type)
+conversion.cleanup(){{/arrayConversion}}
+
+
+{{+defaultConversion}}
+{{refName}}_append(handle, item){{/defaultConversion}}

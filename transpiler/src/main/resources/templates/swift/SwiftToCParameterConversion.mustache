@@ -1,0 +1,25 @@
+{{#switch type.category.toString}}{{!!
+      }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodWrapData}}{{/case}}{{!!
+      }}{{#case "STRUCT"}}{{>structConversion}}{{/case}}{{!!
+      }}{{#case "CLASS"}}{{>classConversion}}{{/case}}{{!!
+      }}{{#case "ARRAY"}}{{>arrayConversion}}{{/case}}{{!!
+      }}{{#default}}{{type.name}}{{/default}}{{!!
+    }}{{/switch}}
+
+{{+structConversion}}let {{name}}Handle = {{name}}.convertToCType()
+defer {
+{{type.cPrefix}}_release({{name}}Handle)
+}
+{{>swift/ConversionRecursion}}
+{{/structConversion}}
+
+{{+classConversion}}let {{name}}Handle = getRef({{name}})
+{{>swift/ConversionRecursion}}
+{{/classConversion}}
+
+{{+arrayConversion}}let {{name}}Handle = input.c_conversion()
+defer {
+{{name}}Handle.cleanup()
+}
+{{>swift/ConversionRecursion}}
+{{/arrayConversion}}
