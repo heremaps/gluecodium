@@ -92,6 +92,9 @@ function(apigen_transpile)
  ${validateParam}\
  -nostdout")
     foreach(input ${apigen_transpile_FRANCA_SOURCES})
+        if (NOT IS_ABSOLUTE ${input})
+            set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
+        endif()
         string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -input ${input}" )
     endforeach()
 
