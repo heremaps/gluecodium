@@ -32,17 +32,17 @@ struct BasicStruct {
 };
 using StructArray = ::std::vector< ::smoke::Arrays::BasicStruct >;
 struct FancyStruct {
-    ::std::vector< ::std::string > messages;
+    ::smoke::Arrays::StringArray messages;
     ::std::vector< uint8_t > numbers;
 };
 using FancyArray = ::std::vector< ::smoke::Arrays::FancyStruct >;
 
 public:
-static ::std::vector< ::std::string > methodWithArray( const ::std::vector< ::std::string >& input );
+static ::smoke::Arrays::StringArray methodWithArray( const ::smoke::Arrays::StringArray& input );
 static ::std::vector< uint8_t > methodWithArrayInline( const ::std::vector< uint8_t >& input );
-static ::std::vector< ::smoke::Arrays::BasicStruct > methodWithStructArray( const ::std::vector< ::smoke::Arrays::BasicStruct >& input );
-static ::std::vector< ::std::vector< uint8_t > > methodWithArrayOfArrys( const ::std::vector< ::std::vector< uint8_t > >& input );
-static ::std::vector< ::smoke::Arrays::FancyStruct > mergeArraysOfStructsWithArrays( const ::std::vector< ::smoke::Arrays::FancyStruct >& inlineFancyArray, const ::std::vector< ::smoke::Arrays::FancyStruct >& fancyArray );
+static ::smoke::Arrays::StructArray methodWithStructArray( const ::std::vector< ::smoke::Arrays::BasicStruct >& input );
+static ::std::vector< ::smoke::Arrays::UIntArray > methodWithArrayOfArrys( const ::std::vector< ::smoke::Arrays::UIntArray >& input );
+static ::smoke::Arrays::FancyArray mergeArraysOfStructsWithArrays( const ::std::vector< ::smoke::Arrays::FancyStruct >& inlineFancyArray, const ::smoke::Arrays::FancyArray& fancyArray );
 
 };
 

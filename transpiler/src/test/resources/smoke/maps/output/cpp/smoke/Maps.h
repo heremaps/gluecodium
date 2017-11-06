@@ -30,16 +30,16 @@ struct SomeStruct {
 };
 using NumberToStruct = ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct >;
 using StructToNumber = ::std::unordered_map< ::smoke::Maps::SomeStruct, uint8_t >;
-using NestedMap = ::std::unordered_map< uint8_t, ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct > >;
+using NestedMap = ::std::unordered_map< uint8_t, ::smoke::Maps::NumberToStruct >;
 struct StructWithMap {
-    ::std::unordered_map< int32_t, ::std::string > errorMapping;
+    ::smoke::Maps::ErrorCodeToMessageMap errorMapping;
 };
 
 public:
-static ::std::unordered_map< int32_t, ::std::string > methodWithMap( const ::std::unordered_map< int32_t, ::std::string >& input );
-static ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct > methodWithMapToStruct( const ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct >& input );
-static ::std::unordered_map< ::smoke::Maps::SomeStruct, uint8_t > methodWithStructAsMapKeys( const ::std::unordered_map< ::smoke::Maps::SomeStruct, uint8_t >& input );
-static ::std::unordered_map< uint8_t, ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct > > methodWithNestedMap( const ::std::unordered_map< uint8_t, ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct > >& input );
+static ::smoke::Maps::ErrorCodeToMessageMap methodWithMap( const ::smoke::Maps::ErrorCodeToMessageMap& input );
+static ::smoke::Maps::NumberToStruct methodWithMapToStruct( const ::smoke::Maps::NumberToStruct& input );
+static ::smoke::Maps::StructToNumber methodWithStructAsMapKeys( const ::smoke::Maps::StructToNumber& input );
+static ::smoke::Maps::NestedMap methodWithNestedMap( const ::smoke::Maps::NestedMap& input );
 static ::smoke::Maps::StructWithMap methodWithStructWithMap( const ::smoke::Maps::StructWithMap& input );
 
 };

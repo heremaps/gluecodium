@@ -103,13 +103,25 @@ public class CppTypeMapper {
     }
   }
 
-  private CppComplexTypeRef mapArray(final FArrayType array) {
-    CppTypeRef elementType = map(array.getElementType());
-    return CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
+  private CppTypeRef mapArray(final FArrayType francaArrayType) {
+
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaArrayType);
+    CppTypeRef elementType = map(francaArrayType.getElementType());
+    CppTypeRef arrayType =
+        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
+
+    return new CppTypeDefRef(
+        fullyQualifiedName, arrayType, includeResolver.resolveInclude(francaArrayType));
   }
 
-  private CppComplexTypeRef mapMapType(FMapType francaMapType) {
-    return wrapMap(map(francaMapType.getKeyType()), map(francaMapType.getValueType()));
+  private CppTypeRef mapMapType(final FMapType francaMapType) {
+
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaMapType);
+    CppTypeRef mapType =
+        wrapMap(map(francaMapType.getKeyType()), map(francaMapType.getValueType()));
+
+    return new CppTypeDefRef(
+        fullyQualifiedName, mapType, includeResolver.resolveInclude(francaMapType));
   }
 
   public static CppComplexTypeRef wrapMap(CppTypeRef key, CppTypeRef value) {
