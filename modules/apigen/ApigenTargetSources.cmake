@@ -61,14 +61,17 @@ function(apigen_target_sources target)
 
         file(GLOB_RECURSE CBRIDGE_SOURCES ${OUTPUT_DIR}/cbridge/*.cpp)
         file(GLOB_RECURSE CBRIDGE_HEADERS ${OUTPUT_DIR}/cbridge/*.h)
+        file(GLOB_RECURSE SWIFT_SOURCES ${OUTPUT_DIR}/swift/*.swift)
         target_sources(${target}
             PRIVATE
                 ${CBRIDGE_SOURCES}
                 ${CBRIDGE_HEADERS}
                 ${GENERATED_CPP_SOURCES}
-                ${GENERATED_CPP_HEADERS})
+                ${GENERATED_CPP_HEADERS}
+                ${SWIFT_SOURCES})
         source_group("Generated cBridge\\Header Files" FILES ${CBRIDGE_HEADERS})
         source_group("Generated cBridge\\Source Files" FILES ${CBRIDGE_SOURCES})
+        source_group("Generated Swift Source Files" FILES ${SWIFT_SOURCES})
         target_include_directories(${target} PRIVATE ${OUTPUT_DIR}/cbridge)
 
     endif()
