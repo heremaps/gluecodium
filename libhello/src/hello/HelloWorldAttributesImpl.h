@@ -20,11 +20,11 @@ public:
     ~HelloWorldAttributesImpl( ) override;
 
 public:
-    uint32_t getBuiltInTypeAttribute( ) override;
-    void setBuiltInTypeAttribute( const uint32_t value ) override;
-    float getReadonlyAttribute( ) override;
-    ::hello::HelloWorldAttributes::ExampleStruct getStructAttribute( ) override;
-    void setStructAttribute(
+    uint32_t get_built_in_type_attribute( ) override;
+    void set_built_in_type_attribute( const uint32_t value ) override;
+    float get_readonly_attribute( ) override;
+    ::hello::HelloWorldAttributes::ExampleStruct get_struct_attribute( ) override;
+    void set_struct_attribute(
         const ::hello::HelloWorldAttributes::ExampleStruct& value ) override;
 
 private:

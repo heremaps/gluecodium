@@ -17,12 +17,12 @@
 namespace hello
 {
 HelloWorldTypedefs::RenamedTwiceStruct
-HelloWorldTypedefs::methodWithTypeDef(
+HelloWorldTypedefs::method_with_type_def(
     const ::hello::HelloWorldTypedefs::RenamedTwiceStruct& input )
 {
-    std::string uppercaseString = input.text;
-    std::transform( uppercaseString.begin( ), uppercaseString.end( ), uppercaseString.begin( ),
+    std::string uppercase_string = input.text;
+    std::transform( uppercase_string.begin( ), uppercase_string.end( ), uppercase_string.begin( ),
                     ::toupper );
-    return {uppercaseString};
+    return {uppercase_string};
 }
 }

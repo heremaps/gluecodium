@@ -17,87 +17,89 @@ namespace test
 {
 
 void
-SimpleInstanceOne::setStringValue( const std::string& stringValue )
+SimpleInstanceOne::set_string_value( const std::string& string_value )
 {
-    m_value = stringValue;
+    m_value = string_value;
 }
 
 std::string
-SimpleInstanceOne::getStringValue(  )
+SimpleInstanceOne::get_string_value(  )
 {
     return m_value;
 }
 
 void
-SimpleInstanceTwo::setStringValue( const std::string& stringValue )
+SimpleInstanceTwo::set_string_value( const std::string& string_value )
 {
-    m_value = stringValue;
+    m_value = string_value;
 }
 
 std::string
-SimpleInstanceTwo::getStringValue(  )
+SimpleInstanceTwo::get_string_value(  )
 {
     return m_value;
 }
 
 void
-NestedInstanceOne::setSameTypeInstances( const std::shared_ptr< SimpleInstantiableOne >& instanceOne,
-    const std::shared_ptr< SimpleInstantiableOne >& instanceTwo )
+NestedInstanceOne::set_same_type_instances( 
+    const std::shared_ptr< SimpleInstantiableOne >& instance_one,
+    const std::shared_ptr< SimpleInstantiableOne >& instance_two )
 {
-    m_instanceOne = instanceOne;
-    m_instanceTwo = instanceTwo;
+    m_instance_one = instance_one;
+    m_instance_two = instance_two;
 }
 
 std::shared_ptr< SimpleInstantiableOne >
-NestedInstanceOne::getInstanceOne(  )
+NestedInstanceOne::get_instance_one(  )
 {
-    return m_instanceOne;
+    return m_instance_one;
 }
 
 std::shared_ptr< SimpleInstantiableOne >
-NestedInstanceOne::getInstanceTwo(  )
+NestedInstanceOne::get_instance_two(  )
 {
-    return m_instanceTwo;
+    return m_instance_two;
 }
 
 void
-NestedInstanceTwo::setMultipleTypeInstances( const std::shared_ptr< SimpleInstantiableOne >& instanceOne,
-    const std::shared_ptr< SimpleInstantiableTwo >& instanceTwo,
-    const std::shared_ptr< NestedInstantiableOne >& nestedInstantiable )
+NestedInstanceTwo::set_multiple_type_instances( 
+    const std::shared_ptr< SimpleInstantiableOne >& instance_one,
+    const std::shared_ptr< SimpleInstantiableTwo >& instance_two,
+    const std::shared_ptr< NestedInstantiableOne >& nested_instantiable )
 {
-    m_instanceOne = instanceOne;
-    m_instanceTwo = instanceTwo;
-    m_nestedInstance = nestedInstantiable;
+    m_instance_one = instance_one;
+    m_instance_two = instance_two;
+    m_nested_instance = nested_instantiable;
 }
 
 void
-NestedInstanceTwo::setSelfInstantiable( const std::shared_ptr< NestedInstantiableTwo >& instance )
+NestedInstanceTwo::set_self_instantiable( const std::shared_ptr< NestedInstantiableTwo >& instance )
 {
-    m_instanceSelf = instance;
+    m_instance_self = instance;
 }
 
 std::shared_ptr< NestedInstantiableTwo >
-NestedInstanceTwo::getSelfInstantiable(  )
+NestedInstanceTwo::get_self_instantiable(  )
 {
-    return m_instanceSelf;
+    return m_instance_self;
 }
 
 std::shared_ptr< SimpleInstantiableOne >
-NestedInstanceTwo::getInstantiableOne(  )
+NestedInstanceTwo::get_instantiable_one(  )
 {
-    return m_instanceOne;
+    return m_instance_one;
 }
 
 std::shared_ptr< SimpleInstantiableTwo >
-NestedInstanceTwo::getInstantiableTwo(  )
+NestedInstanceTwo::get_instantiable_two(  )
 {
-    return m_instanceTwo;
+    return m_instance_two;
 }
 
 std::shared_ptr< NestedInstantiableOne >
-NestedInstanceTwo::getNestedInstantiable(  )
+NestedInstanceTwo::get_nested_instantiable(  )
 {
-    return m_nestedInstance;
+    return m_nested_instance;
 }
 
 }

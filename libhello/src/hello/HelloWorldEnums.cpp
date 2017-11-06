@@ -15,7 +15,7 @@
 namespace hello
 {
 HelloWorldEnums::InternalError
-HelloWorldEnums::methodWithEnumeration( const HelloWorldEnums::InternalError input )
+HelloWorldEnums::method_with_enumeration( const HelloWorldEnums::InternalError input )
 {
     if ( input == HelloWorldEnums::InternalError::ERROR_NONE )
     {

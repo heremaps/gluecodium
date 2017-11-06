@@ -17,7 +17,7 @@
 namespace hello {
 
 ::std::shared_ptr< CalculatorListener >
-HelloWorldCalculatorListenerFactory::createCalculatorListener(  )
+HelloWorldCalculatorListenerFactory::create_calculator_listener(  )
 {
         return ::std::make_shared< ::hello::HelloCalculatorListener >( );
 }

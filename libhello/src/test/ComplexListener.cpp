@@ -18,41 +18,41 @@ namespace test
 {
 
 double
-ManhattanMetric::getLength( const ::std::vector< ::test::NamedPoint3D >& input )
+ManhattanMetric::get_length( const ::std::vector< ::test::NamedPoint3D >& input )
 {
-    double lengthTotal = 0;
+    double length_total = 0;
     for ( int i = 1; i < input.size( ); ++i )
     {
-        lengthTotal += fabs( input[ i - 1 ].pt.x - input[ i ].pt.x ) +
-                       fabs( input[ i - 1 ].pt.y - input[ i ].pt.y ) +
-                       fabs( input[ i - 1 ].pt.z - input[ i ].pt.z );
+        length_total += fabs( input[ i - 1 ].pt.x - input[ i ].pt.x ) +
+                        fabs( input[ i - 1 ].pt.y - input[ i ].pt.y ) +
+                        fabs( input[ i - 1 ].pt.z - input[ i ].pt.z );
     }
 
-    return lengthTotal;
+    return length_total;
 }
 
 void
-ComplexNotifierImpl::trajectoryCompleted(
+ComplexNotifierImpl::trajectory_completed(
 
     const ::std::vector< ::test::NamedPoint3D >& trajectory,
     const ::test::TrajectoryQuality quality,
     const ::std::vector< uint8_t >& image,
     const ::std::shared_ptr< ::test::ComplexListener >& listener )
 {
-    listener->onTrajectoryCompleted( ComplexListenerFactory::createDistanceMetric( ),
+    listener->on_trajectory_completed( ComplexListenerFactory::create_distance_metric( ),
                                      trajectory,
                                      quality,
                                      image );
 }
 
 ::std::shared_ptr< ::test::ComplexNotifier >
-ComplexListenerFactory::createComplexNotifier( )
+ComplexListenerFactory::create_complex_notifier( )
 {
     return ::std::make_shared< ::test::ComplexNotifierImpl >( );
 }
 
 ::std::shared_ptr< ::test::DistanceMetric >
-ComplexListenerFactory::createDistanceMetric( )
+ComplexListenerFactory::create_distance_metric( )
 {
     return ::std::make_shared< ::test::ManhattanMetric >( );
 }

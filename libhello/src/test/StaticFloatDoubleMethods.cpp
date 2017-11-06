@@ -15,39 +15,39 @@
 namespace test {
 
 float
-StaticFloatDoubleMethods::returnFloat( const float inputNumber )
+StaticFloatDoubleMethods::return_float( const float input_number )
 {
-    return inputNumber;
+    return input_number;
 }
 
 float
-StaticFloatDoubleMethods::returnIncrementedFloat( const float inputNumber )
+StaticFloatDoubleMethods::return_incremented_float( const float input_number )
 {
-    return inputNumber + 1.0f;
+    return input_number + 1.0f;
 }
 
 float
-StaticFloatDoubleMethods::sumTwoFloats( const float inputNumber1, const float inputNumber2 )
+StaticFloatDoubleMethods::sum_two_floats( const float input_number1, const float input_number2 )
 {
-    return inputNumber1 + inputNumber2;
+    return input_number1 + input_number2;
 }
 
 double
-StaticFloatDoubleMethods::returnDouble( const double inputNumber )
+StaticFloatDoubleMethods::return_double( const double input_number )
 {
-    return inputNumber;
+    return input_number;
 }
 
 double
-StaticFloatDoubleMethods::returnIncrementedDouble( const double inputNumber )
+StaticFloatDoubleMethods::return_incremented_double( const double input_number )
 {
-    return inputNumber + 1.0;
+    return input_number + 1.0;
 }
 
 double
-StaticFloatDoubleMethods::sumTwoDoubles( const double inputNumber1, const double inputNumber2 )
+StaticFloatDoubleMethods::sum_two_doubles( const double input_number1, const double input_number2 )
 {
-    return inputNumber1 + inputNumber2;
+    return input_number1 + input_number2;
 }
 
 }

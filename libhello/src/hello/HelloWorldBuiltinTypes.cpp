@@ -17,96 +17,96 @@
 namespace hello
 {
 
-static int32_t lastVoidMethodParameter;
+static int32_t s_last_void_method_parameter;
 
 int8_t
-HelloWorldBuiltinTypes::methodWithInt8( const int8_t inputNumber )
+HelloWorldBuiltinTypes::method_with_int8( const int8_t input_number )
 {
-   return inputNumber + 1;
+   return input_number + 1;
 }
 
 uint8_t
-HelloWorldBuiltinTypes::methodWithUint8( const uint8_t inputNumber )
+HelloWorldBuiltinTypes::method_with_uint8( const uint8_t input_number )
 {
-   return inputNumber + 1;
+   return input_number + 1;
 }
 
 int16_t
-HelloWorldBuiltinTypes::methodWithInt16( const int16_t inputNumber )
+HelloWorldBuiltinTypes::method_with_int16( const int16_t input_number )
 {
-   return inputNumber + 1;
+   return input_number + 1;
 }
 
 uint16_t
-HelloWorldBuiltinTypes::methodWithUint16( const uint16_t inputNumber )
+HelloWorldBuiltinTypes::method_with_uint16( const uint16_t input_number )
 {
-   return inputNumber + 1;
+   return input_number + 1;
 }
 
 int32_t
-HelloWorldBuiltinTypes::methodWithInt32( const int32_t inputNumber )
+HelloWorldBuiltinTypes::method_with_int32( const int32_t input_number )
 {
-   return inputNumber + 1;
+   return input_number + 1;
 }
 
 uint32_t
-HelloWorldBuiltinTypes::methodWithUint32( const uint32_t inputNumber )
+HelloWorldBuiltinTypes::method_with_uint32( const uint32_t input_number )
 {
-   return inputNumber + 1;
+   return input_number + 1;
 }
 
 int64_t
-HelloWorldBuiltinTypes::methodWithInt64( const int64_t inputNumber )
+HelloWorldBuiltinTypes::method_with_int64( const int64_t input_number )
 {
-   return inputNumber + 1;
+   return input_number + 1;
 }
 
 uint64_t
-HelloWorldBuiltinTypes::methodWithUint64( const uint64_t inputNumber )
+HelloWorldBuiltinTypes::method_with_uint64( const uint64_t input_number )
 {
-   return inputNumber + 1;
+   return input_number + 1;
 }
 
 bool
-HelloWorldBuiltinTypes::methodWithBoolean( const bool inputCondition )
+HelloWorldBuiltinTypes::method_with_boolean( const bool inputCondition )
 {
     return !inputCondition;
 }
 
 float
-HelloWorldBuiltinTypes::methodWithFloat( const float inputNumber )
+HelloWorldBuiltinTypes::method_with_float( const float input_number )
 {
-    return 0.5f * inputNumber;
+    return 0.5f * input_number;
 }
 
 double
-HelloWorldBuiltinTypes::methodWithDouble( const double inputNumber )
+HelloWorldBuiltinTypes::method_with_double( const double input_number )
 {
-    return 2.0 * inputNumber;
+    return 2.0 * input_number;
 }
 
 std::vector< uint8_t >
-HelloWorldBuiltinTypes::methodWithByteBuffer( const std::vector< uint8_t >& inputBuffer )
+HelloWorldBuiltinTypes::method_with_byte_buffer( const std::vector< uint8_t >& input_buffer )
 {
-    return {inputBuffer.rbegin(), inputBuffer.rend()};
+    return {input_buffer.rbegin(), input_buffer.rend()};
 }
 
 double
-HelloWorldBuiltinTypes::methodWithFloatAndInteger( const float inputFloat,
-                                                       const int8_t inputInteger )
+HelloWorldBuiltinTypes::method_with_float_and_integer( const float input_float,
+                                                       const int8_t input_integer )
 {
-    return inputFloat * (0.01 * inputInteger);
+    return input_float * (0.01 * input_integer);
 }
 
 void
-HelloWorldBuiltinTypes::voidMethod( const int32_t inputNumber )
+HelloWorldBuiltinTypes::void_method( const int32_t input_number )
 {
-    lastVoidMethodParameter = inputNumber;
+    s_last_void_method_parameter = input_number;
 }
 
-int32_t HelloWorldBuiltinTypes::getVoidMethodParameter ( )
+int32_t HelloWorldBuiltinTypes::get_void_method_parameter( )
 {
-    return lastVoidMethodParameter;
+    return s_last_void_method_parameter;
 }
 
 }

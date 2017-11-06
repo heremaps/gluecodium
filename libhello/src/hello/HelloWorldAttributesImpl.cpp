@@ -18,31 +18,31 @@ namespace hello
 HelloWorldAttributesImpl::~HelloWorldAttributesImpl( ) = default;
 
 uint32_t
-HelloWorldAttributesImpl::getBuiltInTypeAttribute( )
+HelloWorldAttributesImpl::get_built_in_type_attribute( )
 {
     return m_build_in_type_attribute;
 }
 
 void
-HelloWorldAttributesImpl::setBuiltInTypeAttribute( const uint32_t value )
+HelloWorldAttributesImpl::set_built_in_type_attribute( const uint32_t value )
 {
     m_build_in_type_attribute = value;
 }
 
 float
-HelloWorldAttributesImpl::getReadonlyAttribute( )
+HelloWorldAttributesImpl::get_readonly_attribute( )
 {
     return m_read_only_attribute;
 }
 
 ::hello::HelloWorldAttributes::ExampleStruct
-HelloWorldAttributesImpl::getStructAttribute( )
+HelloWorldAttributesImpl::get_struct_attribute( )
 {
     return m_struct_attribute;
 }
 
 void
-HelloWorldAttributesImpl::setStructAttribute(
+HelloWorldAttributesImpl::set_struct_attribute(
     const ::hello::HelloWorldAttributes::ExampleStruct& value )
 {
     m_struct_attribute = value;

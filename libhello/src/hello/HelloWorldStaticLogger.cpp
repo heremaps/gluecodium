@@ -17,7 +17,7 @@ namespace hello {
 static std::string s_logger_string = "";
 
 ::std::string
-HelloWorldStaticLogger::getLog(  )
+HelloWorldStaticLogger::get_log(  )
 {
      return s_logger_string;
 }
@@ -29,7 +29,7 @@ HelloWorldStaticLogger::append( const ::std::string& log )
 }
 
 void
-HelloWorldStaticLogger::clearLog(  )
+HelloWorldStaticLogger::clear_log(  )
 {
     s_logger_string = "";
 }

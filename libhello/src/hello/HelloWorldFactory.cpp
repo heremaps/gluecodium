@@ -19,19 +19,19 @@ namespace hello
 {
 
 ::std::shared_ptr< SimpleInstantiable >
-HelloWorldFactory::createSimple( )
+HelloWorldFactory::create_simple( )
 {
     return ::std::make_shared< HelloWorldSimpleInstantiable >( );
 }
 
 ::std::shared_ptr< NestedInstantiable >
-HelloWorldFactory::createNested( const ::std::shared_ptr< SimpleInstantiable >& simpleInstanceRef )
+HelloWorldFactory::create_nested( const ::std::shared_ptr< SimpleInstantiable >& simple_instance_ref )
 {
-    return ::std::make_shared< HelloWorldNestedInstantiable >( simpleInstanceRef );
+    return ::std::make_shared< HelloWorldNestedInstantiable >( simple_instance_ref );
 }
 
 ::std::shared_ptr< HelloWorldAttributes >
-HelloWorldFactory::createAttributes( )
+HelloWorldFactory::create_attributes( )
 {
     return ::std::make_shared< HelloWorldAttributesImpl >( );
 }

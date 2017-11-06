@@ -15,7 +15,7 @@
 namespace
 {
 ::test::InternalErrorTypeCollection
-flipEnum(::test::InternalErrorTypeCollection val )
+flip_enum( const ::test::InternalErrorTypeCollection val )
 {
     return val == ::test::InternalErrorTypeCollection::ERROR_NONE
                ? ::test::InternalErrorTypeCollection::ERROR_FATAL
@@ -26,19 +26,22 @@ flipEnum(::test::InternalErrorTypeCollection val )
 namespace test
 {
 ::test::InternalErrorTypeCollection
-EnumsTypeCollectionMethods::flipEnumValue( const ::test::InternalErrorTypeCollection input ){
-    return flipEnum( input );
+EnumsTypeCollectionMethods::flip_enum_value( const ::test::InternalErrorTypeCollection input )
+{
+    return flip_enum( input );
 }
 
 ::test::InternalErrorTypeCollection
-EnumsTypeCollectionMethods::extractEnumFromStruct( const ::test::ErrorStructTypeCollection& input ){
-    return flipEnum( input.type );
+EnumsTypeCollectionMethods::extract_enum_from_struct( const ::test::ErrorStructTypeCollection& input )
+{
+    return flip_enum( input.type );
 }
 
 ::test::ErrorStructTypeCollection
-EnumsTypeCollectionMethods::createStructWithEnumInside( const ::test::InternalErrorTypeCollection type,
-                                                         const ::std::string& message ){
-   return {flipEnum( type ), message};
+EnumsTypeCollectionMethods::create_struct_with_enum_inside(
+    const ::test::InternalErrorTypeCollection type, const ::std::string& message )
+{
+   return {flip_enum( type ), message};
 }
 
 }

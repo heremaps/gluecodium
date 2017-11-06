@@ -16,25 +16,25 @@
 namespace test {
 
 ::std::shared_ptr< SimpleInstantiableOne >
-InstancesFactory::createSimpleInstantiableOne( )
+InstancesFactory::create_simple_instantiable_one( )
 {
     return ::std::make_shared< SimpleInstanceOne >( );
 }
 
 ::std::shared_ptr< SimpleInstantiableTwo >
-InstancesFactory::createSimpleInstantiableTwo( )
+InstancesFactory::create_simple_instantiable_two( )
 {
     return ::std::make_shared< SimpleInstanceTwo >( );
 }
 
 ::std::shared_ptr< NestedInstantiableOne >
-InstancesFactory::createNestedInstantiableOne( )
+InstancesFactory::create_nested_instantiable_one( )
 {
     return ::std::make_shared< NestedInstanceOne >( );
 }
 
 ::std::shared_ptr< NestedInstantiableTwo >
-InstancesFactory::createNestedInstantiableTwo( )
+InstancesFactory::create_nested_instantiable_two( )
 {
     return ::std::make_shared< NestedInstanceTwo >( );
 }

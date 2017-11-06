@@ -26,7 +26,7 @@ int main()
     std::cout << "Write your name: ";
     std::getline(std::cin, string_buffer);
 
-    std::cout << HelloWorld::helloWorldMethod(string_buffer) << std::endl;
+    std::cout << HelloWorld::hello_world_method(string_buffer) << std::endl;
 
     std::cout << "Write the loan amount (NNNN.NN): ";
     std::getline(std::cin, string_buffer);
@@ -37,6 +37,6 @@ int main()
     int8_t percentage = (int8_t)std::stoi(string_buffer);
 
     std::cout << "Repayment due in 1 year: "
-              << amount + HelloWorldBuiltinTypes::methodWithFloatAndInteger(amount, percentage)
+              << amount + HelloWorldBuiltinTypes::method_with_float_and_integer(amount, percentage)
               << std::endl;
 }

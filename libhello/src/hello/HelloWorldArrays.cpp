@@ -16,19 +16,19 @@ namespace hello
 {
 
 ::std::vector< ::std::string >
-HelloWorldArrays::methodWithArray( const ::std::vector< ::std::string >& input )
+HelloWorldArrays::method_with_array( const ::std::vector< ::std::string >& input )
 {
     return { input.rbegin( ), input.rend( ) };
 }
 
 ::std::vector<  uint32_t >
-HelloWorldArrays::methodWithArrayInline( const ::std::vector<  uint32_t >& input )
+HelloWorldArrays::method_with_array_inline( const ::std::vector<  uint32_t >& input )
 {
     return { input.rbegin( ), input.rend( ) };
 }
 
 ::std::vector< ::hello::HelloWorldArrays::ExampleStruct >
-HelloWorldArrays::methodWithStructArray(
+HelloWorldArrays::method_with_struct_array(
     const ::std::vector< ::hello::HelloWorldArrays::ExampleStruct >& input )
 {
     return {input.rbegin( ), input.rend( )};
