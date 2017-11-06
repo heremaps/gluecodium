@@ -6,6 +6,10 @@
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
+if [ "$1" == "--publish" ]; then
+    publish_local
+fi
+
 TRANSPILER_VERSION="${TRANSPILER_VERSION:-+}"
 BUILD_DIR=${PWD}/build-cpp
 INSTALL_DIR=${PWD}/dist/cpp

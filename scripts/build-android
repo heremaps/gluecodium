@@ -6,6 +6,9 @@
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
+if [ "$1" == "--publish" ]; then
+    publish_local
+fi
 
 # Sanity checks
 [ $ANDROID_HOME ] || die "ANDROID_HOME environment variable is mandatory"
