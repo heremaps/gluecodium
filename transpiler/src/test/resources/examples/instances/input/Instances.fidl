@@ -38,11 +38,28 @@ interface ProfileManager {
     }
 }
 
+interface ProfileManagerInterface {
+
+    public typedef ProfileManagerInterface is undefined
+
+    method createProfile {
+        in {
+            String username
+        }
+    }
+}
+
 interface ProfileManagerFactory {
 
     method createProfileManager {
         out {
             ProfileManager.ProfileManager profileManager
+        }
+    }
+
+    method createProfileManagerInterface {
+        out {
+            ProfileManagerInterface.ProfileManagerInterface profileManagerInterface
         }
     }
 }

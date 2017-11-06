@@ -12,9 +12,19 @@
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./Instances.fidl"
 
+define navigation.BaseApiSpec for interface examples.ProfileManagerInterface
+{
+    IsInterface = true
+}
+
 define navigation.BaseApiSpec for interface examples.ProfileManagerFactory
 {
     method createProfileManager {
         Static = true
     }
+
+    method createProfileManagerInterface {
+        Static = true
+    }
 }
+

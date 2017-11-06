@@ -12,7 +12,6 @@
 
 package com.here.android.examples;
 
-public class ProfileManagerFactory {
-    public static native ProfileManager createProfileManager();
-    public static native ProfileManagerInterface createProfileManagerInterface();
+public interface ProfileManagerInterface {
+    void createProfile(final String username);
 }
