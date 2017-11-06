@@ -160,15 +160,49 @@ public class CBridgeHeaderTemplateTest {
         "typedef struct {\n"
             + "    void* const private_pointer;\n"
             + "} Struct1TypeRef;\n"
-            + "Struct1TypeRef Struct1Name_create();\n"
-            + "void Struct1Name_release(Struct1TypeRef handle);\n"
-            + "\n"
             + "typedef struct {\n"
             + "    void* const private_pointer;\n"
             + "} Struct2TypeRef;\n"
+            + "Struct1TypeRef Struct1Name_create();\n"
+            + "void Struct1Name_release(Struct1TypeRef handle);\n"
             + "Struct2TypeRef Struct2Name_create();\n"
             + "void Struct2Name_release(Struct2TypeRef handle);\n";
     final String generated = this.generate(cInterface);
+    TemplateComparison.assertEqualHeaderContent(expected, generated);
+  }
+
+  @Test
+  public void nestedStructsInInstance() {
+
+    final CType innerCType = new CType("InnerStructCTypeName");
+    final CStruct cInnerStruct =
+        new CStruct("InnerStructName", "BaseAPIInnerStructName", new CppTypeInfo(innerCType));
+
+    final CType cType = new CType("OuterInterfaceCTypeName");
+    final CppTypeInfo cppTypeInfo = new CppTypeInfo(cType);
+    final CClassType cClassType = new CClassType(cppTypeInfo);
+    final CInterface cOuterInterface = new CInterface("OuterCInterfaceName", cClassType);
+
+    final CField innerStructField =
+        new CField("swiftLayerFieldName", "BaseLayerFieldName", cppTypeInfo);
+    cInnerStruct.fields.add(innerStructField);
+
+    cOuterInterface.structs.add(cInnerStruct);
+
+    final String expected =
+        "typedef struct {\n"
+            + "    void* const private_pointer;\n"
+            + "} InnerStructCTypeName;\n"
+            + "typedef struct {\n"
+            + "    void* const private_pointer;\n"
+            + "} OuterInterfaceCTypeName;\n"
+            + "InnerStructCTypeName InnerStructName_create();\n"
+            + "void InnerStructName_release(InnerStructCTypeName handle);\n"
+            + "OuterInterfaceCTypeName InnerStructName_swiftLayerFieldName_get(InnerStructCTypeName handle);\n"
+            + "void InnerStructName_swiftLayerFieldName_set(InnerStructCTypeName handle, OuterInterfaceCTypeName swiftLayerFieldName);\n"
+            + "void OuterCInterfaceName_release(OuterInterfaceCTypeName handle);\n";
+
+    final String generated = this.generate(cOuterInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
   }
 }
