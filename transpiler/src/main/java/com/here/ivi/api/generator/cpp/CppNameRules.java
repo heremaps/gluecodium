@@ -19,13 +19,7 @@ import com.here.ivi.api.model.rules.InstanceRules;
 import java.io.File;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.FCompoundType;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.*;
 
 public final class CppNameRules {
 
@@ -88,19 +82,19 @@ public final class CppNameRules {
     String typeName = "";
 
     if (type instanceof FCompoundType) {
-      FCompoundType compoundType = (FCompoundType) type;
-      typeName = getStructName(compoundType.getName());
+      typeName = getStructName(type.getName());
     } else if (type instanceof FEnumerationType) {
-      FEnumerationType enumeration = (FEnumerationType) type;
-      typeName = getEnumName(enumeration.getName());
+      typeName = getEnumName(type.getName());
     } else if (type instanceof FTypeDef) {
       FTypeDef typedef = (FTypeDef) type;
       if (!InstanceRules.isInstanceId(typedef)) {
-        typeName = getTypedefName(typedef.getName());
+        typeName = getTypedefName(type.getName());
       }
     } else if (type instanceof FConstantDef) {
-      FConstantDef constantDef = (FConstantDef) type;
-      typeName = getConstantName(constantDef.getName());
+      typeName = getConstantName(type.getName());
+    } else if (type instanceof FArrayType || type instanceof FMapType) {
+      // Franca maps and explicit arrays resolve into a "using" directive in C++
+      typeName = getTypedefName(type.getName());
     }
 
     return getFullyQualifiedName(nestedNameSpecifier, typeName);

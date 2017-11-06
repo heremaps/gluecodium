@@ -30,7 +30,7 @@ struct TestStruct {
     ::std::string something;
 };
 using StructArray = ::std::vector< ::smoke::TypeDefs::TestStruct >;
-using ComplexTypeDef = ::std::vector< ::smoke::TypeDefs::TestStruct >;
+using ComplexTypeDef = ::smoke::TypeDefs::StructArray;
 using TestStructTypeDef = ::smoke::TypeDefs::TestStruct;
 using NestedStructTypeDef = ::smoke::TypeDefs::TestStructTypeDef;
 
