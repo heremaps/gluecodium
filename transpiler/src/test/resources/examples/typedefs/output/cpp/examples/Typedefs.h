@@ -26,7 +26,7 @@ public:
 using ExampleAlias = uint32_t;
 
 public:
-static ::examples::Typedefs::ExampleAlias typedefMethod( const ::examples::Typedefs::ExampleAlias input );
+static ::examples::Typedefs::ExampleAlias typedef_method( const ::examples::Typedefs::ExampleAlias input );
 
 };
 

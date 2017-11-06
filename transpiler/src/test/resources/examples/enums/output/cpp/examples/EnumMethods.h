@@ -22,7 +22,7 @@ namespace examples {
 
 class EnumMethods {
 public:
-static ::examples::ShoeSizes methodWithEnumeration( const ::examples::ShoeSizes input );
+static ::examples::ShoeSizes method_with_enumeration( const ::examples::ShoeSizes input );
 
 };
 

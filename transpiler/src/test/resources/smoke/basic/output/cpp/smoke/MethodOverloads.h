@@ -33,11 +33,11 @@ struct Point {
 };
 
 public:
-virtual bool isBoolean( const bool input ) = 0;
-virtual bool isBoolean( const int8_t input ) = 0;
-virtual bool isBoolean( const ::std::string& input ) = 0;
-virtual bool isBoolean( const ::smoke::MethodOverloads::Point& input ) = 0;
-virtual bool isBoolean( const bool input1, const int8_t input2, const ::std::string& input3, const ::smoke::MethodOverloads::Point& input4 ) = 0;
+virtual bool is_boolean( const bool input ) = 0;
+virtual bool is_boolean( const int8_t input ) = 0;
+virtual bool is_boolean( const ::std::string& input ) = 0;
+virtual bool is_boolean( const ::smoke::MethodOverloads::Point& input ) = 0;
+virtual bool is_boolean( const bool input1, const int8_t input2, const ::std::string& input3, const ::smoke::MethodOverloads::Point& input4 ) = 0;
 };
 
 }

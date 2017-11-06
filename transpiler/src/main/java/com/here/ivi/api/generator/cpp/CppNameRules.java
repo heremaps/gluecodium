@@ -29,15 +29,15 @@ public final class CppNameRules {
   private CppNameRules() {}
 
   public static String getMethodName(String base) {
-    return NameHelper.toLowerCamelCase(base); // doStuff
+    return NameHelper.toLowerSnakeCase(base); // do_my_stuff
   }
 
   public static String getGetterName(String base) {
-    return "get" + NameHelper.toUpperCamelCase(base);
+    return "get_" + NameHelper.toLowerSnakeCase(base); // get_my_value
   }
 
   public static String getSetterName(String base) {
-    return "set" + NameHelper.toUpperCamelCase(base);
+    return "set_" + NameHelper.toLowerSnakeCase(base); // set_my_value
   }
 
   public static String getEnumName(String base) {
@@ -109,11 +109,15 @@ public final class CppNameRules {
   }
 
   public static String getFieldName(String base) {
-    return NameHelper.toLowerCamelCase(base); // myField
+    return NameHelper.toLowerSnakeCase(base); // my_field
   }
 
   public static String getConstantName(String base) {
-    return NameHelper.toUpperCamelCase(base); // MyConstant
+    return NameHelper.toUpperSnakeCase(base); // MY_CONSTANT
+  }
+
+  public static String getParameterName(final String base) {
+    return NameHelper.toLowerSnakeCase(base); // my_parameter
   }
 
   public static String getHeaderPath(final FrancaElement francaElement) {

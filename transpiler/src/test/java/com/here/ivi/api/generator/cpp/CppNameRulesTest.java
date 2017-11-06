@@ -202,7 +202,7 @@ public class CppNameRulesTest {
 
     String fullyQualifiedName = CppNameRules.getConstantFullyQualifiedName(fConstantDef);
 
-    assertEquals("::a::b::c::AnInterface::Fixed", fullyQualifiedName);
+    assertEquals("::a::b::c::AnInterface::FIXED", fullyQualifiedName);
   }
 
   @Test

@@ -23,7 +23,7 @@ namespace examples {
 
 class ProfileManagerFactory {
 public:
-static ::std::shared_ptr< ::examples::ProfileManager > createProfileManager(  );
+static ::std::shared_ptr< ::examples::ProfileManager > create_profile_manager(  );
 
 };
 

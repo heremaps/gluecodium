@@ -83,7 +83,7 @@ public class CBridgeGeneratorTestPrimitiveTypes extends CBridgeGeneratorTestBase
         TemplateComparator.expect(
                 String.format(
                     "%1$s cbridge_test_TestInterface_functionName(%1$s input) {\n"
-                        + "    return cbridge::test::TestInterface::functionName(input);\n"
+                        + "    return cbridge::test::TestInterface::function_name(input);\n"
                         + "}\n",
                     cType))
             .build();

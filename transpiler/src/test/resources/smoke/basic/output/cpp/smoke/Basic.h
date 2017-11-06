@@ -26,7 +26,7 @@ public:
  * Example static method for Basic feature which takes a String and returns a String
  * * @param[in] inputString Input string
  */
-static ::std::string basicMethod( const ::std::string& inputString );
+static ::std::string basic_method( const ::std::string& input_string );
 
 };
 
