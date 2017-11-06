@@ -23,7 +23,7 @@ public:
 
     ~ManhattanMetric( ) = default;
 
-    double getLength( const ::std::vector< ::test::NamedPoint3D >& input ) override;
+    double get_length( const ::std::vector< ::test::NamedPoint3D >& input ) override;
 };
 
 class ComplexNotifierImpl : public ComplexNotifier
@@ -33,7 +33,7 @@ public:
     ComplexNotifierImpl( )  = default;
     ~ComplexNotifierImpl( ) = default;
 
-    void trajectoryCompleted(
+    void trajectory_completed(
         const ::std::vector< ::test::NamedPoint3D >& trajectory,
         const ::test::TrajectoryQuality quality,
         const ::std::vector< uint8_t >& image,

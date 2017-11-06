@@ -15,13 +15,13 @@
 namespace hello
 {
 void
-HelloWorldSimpleInstantiable::setStringValue( const ::std::string& stringValue )
+HelloWorldSimpleInstantiable::set_string_value( const ::std::string& string_value )
 {
-    m_string_value = stringValue;
+    m_string_value = string_value;
 }
 
 ::std::string
-HelloWorldSimpleInstantiable::getStringValue( )
+HelloWorldSimpleInstantiable::get_string_value( )
 {
     return m_string_value;
 }
@@ -33,14 +33,14 @@ HelloWorldNestedInstantiable::HelloWorldNestedInstantiable(
 }
 
 void
-HelloWorldNestedInstantiable::setInstantiable(
+HelloWorldNestedInstantiable::set_instantiable(
     const ::std::shared_ptr< ::hello::SimpleInstantiable >& instance )
 {
     m_instance = instance;
 }
 
 ::std::shared_ptr< ::hello::SimpleInstantiable >
-HelloWorldNestedInstantiable::getInstantiable( )
+HelloWorldNestedInstantiable::get_instantiable( )
 {
     return m_instance;
 }

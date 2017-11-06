@@ -15,26 +15,26 @@
 namespace test {
 
 std::string
-StaticStringMethods::returnInputString( const std::string& inputString )
+StaticStringMethods::return_input_string( const std::string& input_string )
 {
-    return inputString;
+    return input_string;
 }
 
 std::string
-StaticStringMethods::concatenateStrings( const std::string& inputString1,
-                                             const std::string& inputString2 )
+StaticStringMethods::concatenate_strings( const std::string& input_string1,
+                                             const std::string& input_string2 )
 {
-    return inputString1 + inputString2;
+    return input_string1 + input_string2;
 }
 
 std::string
-StaticStringMethods::returnHelloString(  )
+StaticStringMethods::return_hello_string(  )
 {
     return "hello";
 }
 
 std::string
-StaticStringMethods::returnEmpty(  )
+StaticStringMethods::return_empty(  )
 {
     return "";
 }

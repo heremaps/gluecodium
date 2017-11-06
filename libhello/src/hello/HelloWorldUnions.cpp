@@ -18,17 +18,17 @@
 namespace hello
 {
 HelloWorldUnions::NavigationError
-HelloWorldUnions::methodWithUnion( const ::hello::HelloWorldUnions::NavigationError& input )
+HelloWorldUnions::method_with_union( const ::hello::HelloWorldUnions::NavigationError& input )
 {
-    if ( input.type == NavigationError::ERRORMESSAGE )
+    if ( input.type == NavigationError::ERROR_MESSAGE )
     {
-        std::string message = input.errorMessage;
+        std::string message = input.error_message;
         std::transform( message.begin( ), message.end( ), message.begin( ), ::toupper );
         return HelloWorldUnions::NavigationError( message );
     }
     else
     {
-        return HelloWorldUnions::NavigationError( input.errorNumber + 1 );
+        return HelloWorldUnions::NavigationError( input.error_number + 1 );
     }
 }
 }

@@ -15,21 +15,21 @@
 namespace hello
 {
 HelloWorldPlainDataStructures::SyncResult
-HelloWorldPlainDataStructures::methodWithNonNestedType(
+HelloWorldPlainDataStructures::method_with_non_nested_type(
     const HelloWorldPlainDataStructures::SyncResult& input )
 {
     HelloWorldPlainDataStructures::SyncResult output = input;
-    ++output.numberOfChanges;
+    ++output.number_of_changes;
 
     return output;
 }
 
 HelloWorldPlainDataStructures::IdentifiableSyncResult
-HelloWorldPlainDataStructures::methodWithNestedType(
+HelloWorldPlainDataStructures::method_with_nested_type(
     const HelloWorldPlainDataStructures::IdentifiableSyncResult& input )
 {
     HelloWorldPlainDataStructures::IdentifiableSyncResult output = input;
-    ++output.syncResult.numberOfChanges;
+    ++output.sync_result.number_of_changes;
 
     return output;
 }

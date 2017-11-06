@@ -17,15 +17,15 @@
 namespace hello
 {
 ::std::unordered_map< int32_t, ::std::string >
-HelloWorldMaps::methodWithMap( const ::std::unordered_map< int32_t, ::std::string >& input )
+HelloWorldMaps::method_with_map( const ::std::unordered_map< int32_t, ::std::string >& input )
 {
     HelloWorldMaps::ErrorCodeToMessageMap result;
     for ( const auto& entry : input )
     {
-        std::string uppercaseString = entry.second;
-        std::transform( uppercaseString.begin( ), uppercaseString.end( ), uppercaseString.begin( ),
-                        ::toupper );
-        result.emplace( entry.first, uppercaseString );
+        std::string uppercase_string = entry.second;
+        std::transform( uppercase_string.begin( ), uppercase_string.end( ),
+                        uppercase_string.begin( ), ::toupper );
+        result.emplace( entry.first, uppercase_string );
     }
     return result;
 }

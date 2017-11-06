@@ -23,8 +23,8 @@ namespace test
 class SimpleInstanceOne : public SimpleInstantiableOne {
 
 public:
-    virtual void setStringValue( const std::string& stringValue ) override;
-    virtual std::string getStringValue(  ) override;
+    virtual void set_string_value( const std::string& string_value ) override;
+    virtual std::string get_string_value(  ) override;
 
 private:
     std::string m_value;
@@ -34,8 +34,8 @@ private:
 class SimpleInstanceTwo : public SimpleInstantiableTwo {
 
 public:
-    virtual void setStringValue( const std::string& stringValue ) override;
-    virtual std::string getStringValue(  ) override;
+    virtual void set_string_value( const std::string& string_value ) override;
+    virtual std::string get_string_value(  ) override;
 
 private:
     std::string m_value;
@@ -45,33 +45,37 @@ class NestedInstanceOne : public NestedInstantiableOne
 {
 
 public:
-    virtual void setSameTypeInstances( const std::shared_ptr< SimpleInstantiableOne >& instanceOne,
-       const std::shared_ptr< SimpleInstantiableOne >& instanceTwo ) override;
-    virtual std::shared_ptr< SimpleInstantiableOne > getInstanceOne(  ) override;
-    virtual std::shared_ptr< SimpleInstantiableOne > getInstanceTwo(  ) override;
+    virtual void set_same_type_instances(
+        const std::shared_ptr< SimpleInstantiableOne >& instance_one,
+        const std::shared_ptr< SimpleInstantiableOne >& instance_two ) override;
+    virtual std::shared_ptr< SimpleInstantiableOne > get_instance_one(  ) override;
+    virtual std::shared_ptr< SimpleInstantiableOne > get_instance_two(  ) override;
 
 private:
-    std::shared_ptr< SimpleInstantiableOne > m_instanceOne;
-    std::shared_ptr< SimpleInstantiableOne > m_instanceTwo;
+    std::shared_ptr< SimpleInstantiableOne > m_instance_one;
+    std::shared_ptr< SimpleInstantiableOne > m_instance_two;
 };
 
 class NestedInstanceTwo : public NestedInstantiableTwo
 {
 
 public:
-    virtual void setMultipleTypeInstances( const std::shared_ptr< SimpleInstantiableOne >& instanceOne,
-        const std::shared_ptr< SimpleInstantiableTwo >& instanceTwo,
-        const std::shared_ptr< NestedInstantiableOne >& nestedInstantiable ) override;
-    virtual void setSelfInstantiable( const ::std::shared_ptr< NestedInstantiableTwo >& selfInstance ) override;
-    virtual std::shared_ptr< NestedInstantiableTwo > getSelfInstantiable(  ) override;
-    virtual std::shared_ptr< SimpleInstantiableOne > getInstantiableOne(  ) override;
-    virtual std::shared_ptr< SimpleInstantiableTwo > getInstantiableTwo(  ) override;
-    virtual std::shared_ptr< NestedInstantiableOne > getNestedInstantiable(  ) override;
+    virtual void set_multiple_type_instances(
+        const std::shared_ptr< SimpleInstantiableOne >& instance_one,
+        const std::shared_ptr< SimpleInstantiableTwo >& instance_two,
+        const std::shared_ptr< NestedInstantiableOne >& nested_instantiable ) override;
+    virtual void set_self_instantiable(
+        const ::std::shared_ptr< NestedInstantiableTwo >& self_instance ) override;
+    virtual std::shared_ptr< NestedInstantiableTwo > get_self_instantiable(  ) override;
+    virtual std::shared_ptr< SimpleInstantiableOne > get_instantiable_one(  ) override;
+    virtual std::shared_ptr< SimpleInstantiableTwo > get_instantiable_two(  ) override;
+    virtual std::shared_ptr< NestedInstantiableOne > get_nested_instantiable(  ) override;
+
 private:
-    std::shared_ptr< NestedInstantiableTwo > m_instanceSelf;
-    std::shared_ptr< SimpleInstantiableOne > m_instanceOne;
-    std::shared_ptr< SimpleInstantiableTwo > m_instanceTwo;
-    std::shared_ptr< NestedInstantiableOne > m_nestedInstance;
+    std::shared_ptr< NestedInstantiableTwo > m_instance_self;
+    std::shared_ptr< SimpleInstantiableOne > m_instance_one;
+    std::shared_ptr< SimpleInstantiableTwo > m_instance_two;
+    std::shared_ptr< NestedInstantiableOne > m_nested_instance;
 };
 
 }

@@ -15,32 +15,32 @@
 namespace test
 {
 bool
-MethodOverloads::isBoolean( const bool input )
+MethodOverloads::is_boolean( const bool input )
 {
     return true;
 }
 
 bool
-MethodOverloads::isBoolean( const int8_t input )
+MethodOverloads::is_boolean( const int8_t input )
 {
     return false;
 }
 
 bool
-MethodOverloads::isBoolean( const ::std::string& input )
+MethodOverloads::is_boolean( const ::std::string& input )
 {
     return false;
 }
 
 bool
-MethodOverloads::isBoolean( const MethodOverloads::Point& input )
+MethodOverloads::is_boolean( const MethodOverloads::Point& input )
 {
     return false;
 }
 
 bool
-MethodOverloads::isBoolean( const bool input1, const int8_t input2, const ::std::string& input3,
-                            const MethodOverloads::Point& input4 )
+MethodOverloads::is_boolean( const bool input1, const int8_t input2, const ::std::string& input3,
+                             const MethodOverloads::Point& input4 )
 {
     return false;
 }

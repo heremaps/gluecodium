@@ -15,7 +15,7 @@
 namespace test
 {
 Point
-PlainDataStructuresFromTypeCollection::createPoint( const double x, const double y )
+PlainDataStructuresFromTypeCollection::create_point( const double x, const double y )
 {
     Point output;
     output.x = x;
@@ -24,8 +24,7 @@ PlainDataStructuresFromTypeCollection::createPoint( const double x, const double
 }
 
 Point
-PlainDataStructuresFromTypeCollection::swapPointCoordinates(
-    const Point& point )
+PlainDataStructuresFromTypeCollection::swap_point_coordinates( const Point& point )
 {
     Point result;
     result.x = point.y;
@@ -34,8 +33,7 @@ PlainDataStructuresFromTypeCollection::swapPointCoordinates(
 }
 
 Line
-PlainDataStructuresFromTypeCollection::createLine( const Point& pointA,
-                                                   const Point& pointB )
+PlainDataStructuresFromTypeCollection::create_line( const Point& pointA, const Point& pointB )
 {
     Line line;
     line.a = pointA;
@@ -44,35 +42,33 @@ PlainDataStructuresFromTypeCollection::createLine( const Point& pointA,
 }
 
 ColoredLine
-PlainDataStructuresFromTypeCollection::createColoredLine(
-    const Line& line, const Color& color )
+PlainDataStructuresFromTypeCollection::create_colored_line( const Line& line, const Color& color )
 {
-    ColoredLine coloredLine;
-    coloredLine.line = line;
-    coloredLine.color = color;
-    return coloredLine;
+    ColoredLine colored_line;
+    colored_line.line = line;
+    colored_line.color = color;
+    return colored_line;
 }
 
 AllTypesStruct
-PlainDataStructuresFromTypeCollection::modifyAllTypesStruct(
-    const AllTypesStruct& input )
+PlainDataStructuresFromTypeCollection::modify_all_types_struct( const AllTypesStruct& input )
 {
     AllTypesStruct output;
-    output.int8Field = input.int8Field + 1;
-    output.uint8Field = input.uint8Field + 1;
-    output.int16Field = input.int16Field + 1;
-    output.uint16Field = input.uint16Field + 1;
-    output.int32Field = input.int32Field + 1;
-    output.uint32Field = input.uint32Field + 1;
-    output.int64Field = input.int64Field + 1;
-    output.uint64Field = input.uint64Field + 1;
-    output.floatField = input.floatField + 1.0f;
-    output.doubleField = input.doubleField + 1.0;
-    output.stringField = "Hello " + input.stringField;
-    output.booleanField = !input.booleanField;
-    output.bytesField = {input.bytesField.rbegin( ), input.bytesField.rend( )};
-    output.pointField
-        = PlainDataStructuresFromTypeCollection::swapPointCoordinates( input.pointField );
+    output.int8_field = input.int8_field + 1;
+    output.uint8_field = input.uint8_field + 1;
+    output.int16_field = input.int16_field + 1;
+    output.uint16_field = input.uint16_field + 1;
+    output.int32_field = input.int32_field + 1;
+    output.uint32_field = input.uint32_field + 1;
+    output.int64_field = input.int64_field + 1;
+    output.uint64_field = input.uint64_field + 1;
+    output.float_field = input.float_field + 1.0f;
+    output.double_field = input.double_field + 1.0;
+    output.string_field = "Hello " + input.string_field;
+    output.boolean_field = !input.boolean_field;
+    output.bytes_field = {input.bytes_field.rbegin( ), input.bytes_field.rend( )};
+    output.point_field
+        = PlainDataStructuresFromTypeCollection::swap_point_coordinates( input.point_field );
     return output;
 }
 }

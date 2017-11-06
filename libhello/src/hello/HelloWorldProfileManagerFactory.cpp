@@ -17,7 +17,7 @@
 namespace hello {
 
 ::std::shared_ptr< ::hello::ProfileManager >
-HelloWorldProfileManagerFactory::createProfileManagerInstance(  )
+HelloWorldProfileManagerFactory::create_profile_manager_instance(  )
 {
         return ::std::make_shared< ::hello::HelloWorldProfileManager >( );
 }

@@ -20,10 +20,10 @@ public:
     ~HelloWorldAttributesComplexImpl( ) override;
 
 public:
-    ::std::vector< ::std::string > getArrayAttribute( ) override;
-    void setArrayAttribute( const ::std::vector< ::std::string >& value ) override;
-    ::hello::HelloWorldAttributesComplex::InternalError getComplexTypeAttribute( ) override;
-    void setComplexTypeAttribute(
+    ::std::vector< ::std::string > get_array_attribute( ) override;
+    void set_array_attribute( const ::std::vector< ::std::string >& value ) override;
+    ::hello::HelloWorldAttributesComplex::InternalError get_complex_type_attribute( ) override;
+    void set_complex_type_attribute(
         const ::hello::HelloWorldAttributesComplex::InternalError value ) override;
 
 private:

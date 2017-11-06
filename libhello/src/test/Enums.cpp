@@ -15,7 +15,7 @@
 namespace
 {
 ::test::Enums::InternalError
-flipEnum(::test::Enums::InternalError val )
+flip_enum( const ::test::Enums::InternalError val )
 {
     return val == ::test::Enums::InternalError::ERROR_NONE
                ? ::test::Enums::InternalError::ERROR_FATAL
@@ -26,21 +26,21 @@ flipEnum(::test::Enums::InternalError val )
 namespace test
 {
 ::test::Enums::InternalError
-Enums::flipEnumValue( const ::test::Enums::InternalError input )
+Enums::flip_enum_value( const ::test::Enums::InternalError input )
 {
-    return flipEnum( input );
+    return flip_enum( input );
 }
 
 ::test::Enums::InternalError
-Enums::extractEnumFromStruct( const ::test::Enums::ErrorStruct& input )
+Enums::extract_enum_from_struct( const ::test::Enums::ErrorStruct& input )
 {
-    return flipEnum( input.type );
+    return flip_enum( input.type );
 }
 
 ::test::Enums::ErrorStruct
-Enums::createStructWithEnumInside( const ::test::Enums::InternalError type,
-                                   const ::std::string& message )
+Enums::create_struct_with_enum_inside( const ::test::Enums::InternalError type,
+                                       const ::std::string& message )
 {
-    return {flipEnum( type ), message};
+    return {flip_enum( type ), message};
 }
 }

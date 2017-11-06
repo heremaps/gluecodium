@@ -17,48 +17,48 @@ namespace test
 {
 
 StaticTypedef::IntTypedef
-StaticTypedef::returnIntTypedef( const ::test::StaticTypedef::IntTypedef input )
+StaticTypedef::return_int_typedef( const ::test::StaticTypedef::IntTypedef input )
 {
     return input + 1;
 }
 
 StaticTypedef::NestedIntTypedef
-StaticTypedef::returnNestedIntTypedef( const ::test::StaticTypedef::NestedIntTypedef input )
+StaticTypedef::return_nested_int_typedef( const ::test::StaticTypedef::NestedIntTypedef input )
 {
     return input + 1;
 }
 
 StaticTypedef::StringTypedef
-StaticTypedef::returnStringTypedef( const ::test::StaticTypedef::StringTypedef& input )
+StaticTypedef::return_string_typedef( const ::test::StaticTypedef::StringTypedef& input )
 {
     return "Hello " + input;
 }
 
 StaticTypedef::ByteArrayTypedef
-StaticTypedef::returnByteBufferTypedef( const ::test::StaticTypedef::ByteArrayTypedef& input )
+StaticTypedef::return_byte_buffer_typedef( const ::test::StaticTypedef::ByteArrayTypedef& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 StaticTypedef::ExampleStructTypedef
-StaticTypedef::returnExampleStructTypedef( const ::test::StaticTypedef::ExampleStructTypedef& input )
+StaticTypedef::return_example_struct_typedef( const ::test::StaticTypedef::ExampleStructTypedef& input )
 {
     StaticTypedef::ExampleStructTypedef result;
-    result.exampleString = "Hello " + input.exampleString;
+    result.example_string = "Hello " + input.example_string;
     return result;
 }
 
 ::test::PointTypedef
-StaticTypedef::returnTypedefPointFromTypeCollection( const ::test::PointTypedef& input )
+StaticTypedef::return_typedef_point_from_type_collection( const ::test::PointTypedef& input )
 {
     return input;
 }
 
 StaticTypedef::NestedStructTypedef
-StaticTypedef::returnNestedStructTypedef( const ::test::StaticTypedef::NestedStructTypedef& input )
+StaticTypedef::return_nested_struct_typedef( const ::test::StaticTypedef::NestedStructTypedef& input )
 {
     StaticTypedef::NestedStructTypedef result;
-    result.exampleString = "Hello " + input.exampleString;
+    result.example_string = "Hello " + input.example_string;
     return result;
 }
 

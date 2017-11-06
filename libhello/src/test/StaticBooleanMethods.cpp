@@ -15,13 +15,13 @@
 namespace test {
 
 bool
-StaticBooleanMethods::returnInvertedBoolean( const bool input )
+StaticBooleanMethods::return_inverted_boolean( const bool input )
 {
     return !input;
 }
 
 bool
-StaticBooleanMethods::returnAndBoolean( const bool input1, const bool input2 )
+StaticBooleanMethods::return_and_boolean( const bool input1, const bool input2 )
 {
     return input1 && input2;
 }

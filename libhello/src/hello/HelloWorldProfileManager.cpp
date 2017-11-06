@@ -25,13 +25,13 @@ HelloWorldProfileManager::~HelloWorldProfileManager( )
 }
 
 void
-HelloWorldProfileManager::createProfile( const ::std::string& username )
+HelloWorldProfileManager::create_profile( const ::std::string& username )
 {
     m_profile_name = username;
 }
 
 ::std::string
-HelloWorldProfileManager::changeProfile( const ::std::string& username )
+HelloWorldProfileManager::change_profile( const ::std::string& username )
 {
     std::string old = m_profile_name;
     m_profile_name = username;
@@ -39,7 +39,7 @@ HelloWorldProfileManager::changeProfile( const ::std::string& username )
 }
 
 ::std::string
-HelloWorldProfileManager::deleteProfile( )
+HelloWorldProfileManager::delete_profile( )
 {
     std::string old = m_profile_name;
     m_profile_name = "";

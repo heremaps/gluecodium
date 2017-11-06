@@ -17,20 +17,20 @@
 namespace test {
 
 std::vector< uint8_t >
-StaticByteArrayMethods::returnInputByteBuffer( const std::vector< uint8_t >& inputBuffer )
+StaticByteArrayMethods::return_input_byte_buffer( const std::vector< uint8_t >& input_buffer )
 {
-    return inputBuffer;
+    return input_buffer;
 }
 
 std::vector< uint8_t >
-StaticByteArrayMethods::returnReverseByteBuffer( const std::vector< uint8_t >& inputBuffer )
+StaticByteArrayMethods::return_reverse_byte_buffer( const std::vector< uint8_t >& input_buffer )
 {
-    return {inputBuffer.rbegin(), inputBuffer.rend()};
+    return {input_buffer.rbegin(), input_buffer.rend()};
 }
 
 std::vector< uint8_t >
-StaticByteArrayMethods::concatenateByteBuffers( const std::vector< uint8_t >& input1,
-                                                        const std::vector< uint8_t >& input2 )
+StaticByteArrayMethods::concatenate_byte_buffers( const std::vector< uint8_t >& input1,
+                                                  const std::vector< uint8_t >& input2 )
 {
     std::vector< uint8_t > output( input1 );
     output.insert( output.end(), input2.begin(), input2.end() );

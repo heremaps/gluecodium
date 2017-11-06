@@ -20,9 +20,9 @@ class HelloWorldProfileManager : public ProfileManager
 {
 public:
     virtual ~HelloWorldProfileManager( ) override;
-    virtual void createProfile( const ::std::string& username ) override;
-    virtual ::std::string changeProfile( const ::std::string& username ) override;
-    virtual ::std::string deleteProfile( ) override;
+    virtual void create_profile( const ::std::string& username ) override;
+    virtual ::std::string change_profile( const ::std::string& username ) override;
+    virtual ::std::string delete_profile( ) override;
 private:
     ::std::string m_profile_name = "";
 };
