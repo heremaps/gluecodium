@@ -90,6 +90,7 @@ class AttributesViewController: UIViewController, UIPickerViewDataSource, UIPick
 
     @IBAction func inputHasChanged(_ sender: Any) {
         execute.isEnabled = !isInputNeeded() || (isInputProvided() && isInputCorrect())
+        execute.alpha = execute.isEnabled ? 1.0 : 0.3
     }
 
     @IBAction func startedEditing(_ sender: Any) {
