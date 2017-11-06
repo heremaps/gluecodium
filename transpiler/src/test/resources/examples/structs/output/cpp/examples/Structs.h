@@ -23,17 +23,17 @@ namespace examples {
 class Structs {
 public:
 struct SyncResult {
-    uint64_t lastUpdatedTimeStamp = 0;
-    uint32_t numberOfChanges = 0;
+    uint64_t last_updated_time_stamp = 0;
+    uint32_t number_of_changes = 0;
 };
 struct IdentifiableSyncResult {
     int32_t id = 0;
-    ::examples::Structs::SyncResult syncResult;
+    ::examples::Structs::SyncResult sync_result;
 };
 
 public:
-static ::examples::Structs::SyncResult methodWithNonNestedType( const ::examples::Structs::SyncResult& input );
-static ::examples::Structs::IdentifiableSyncResult methodWithNestedType( const ::examples::Structs::IdentifiableSyncResult& input );
+static ::examples::Structs::SyncResult method_with_non_nested_type( const ::examples::Structs::SyncResult& input );
+static ::examples::Structs::IdentifiableSyncResult method_with_nested_type( const ::examples::Structs::IdentifiableSyncResult& input );
 
 };
 

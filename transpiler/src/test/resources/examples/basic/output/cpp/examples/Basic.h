@@ -22,7 +22,7 @@ namespace examples {
 
 class Basic {
 public:
-static ::std::string basicMethod( const ::std::string& inputString );
+static ::std::string basic_method( const ::std::string& input_string );
 
 };
 

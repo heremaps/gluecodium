@@ -38,11 +38,11 @@ struct FancyStruct {
 using FancyArray = ::std::vector< ::smoke::Arrays::FancyStruct >;
 
 public:
-static ::smoke::Arrays::StringArray methodWithArray( const ::smoke::Arrays::StringArray& input );
-static ::std::vector< uint8_t > methodWithArrayInline( const ::std::vector< uint8_t >& input );
-static ::smoke::Arrays::StructArray methodWithStructArray( const ::std::vector< ::smoke::Arrays::BasicStruct >& input );
-static ::std::vector< ::smoke::Arrays::UIntArray > methodWithArrayOfArrys( const ::std::vector< ::smoke::Arrays::UIntArray >& input );
-static ::smoke::Arrays::FancyArray mergeArraysOfStructsWithArrays( const ::std::vector< ::smoke::Arrays::FancyStruct >& inlineFancyArray, const ::smoke::Arrays::FancyArray& fancyArray );
+static ::smoke::Arrays::StringArray method_with_array( const ::smoke::Arrays::StringArray& input );
+static ::std::vector< uint8_t > method_with_array_inline( const ::std::vector< uint8_t >& input );
+static ::smoke::Arrays::StructArray method_with_struct_array( const ::std::vector< ::smoke::Arrays::BasicStruct >& input );
+static ::std::vector< ::smoke::Arrays::UIntArray > method_with_array_of_arrys( const ::std::vector< ::smoke::Arrays::UIntArray >& input );
+static ::smoke::Arrays::FancyArray merge_arrays_of_structs_with_arrays( const ::std::vector< ::smoke::Arrays::FancyStruct >& inline_fancy_array, const ::smoke::Arrays::FancyArray& fancy_array );
 
 };
 

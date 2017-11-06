@@ -26,7 +26,7 @@ enum class InternalError {
 };
 
 public:
-static ::smoke::Errors::InternalError methodWithErrors(  );
+static ::smoke::Errors::InternalError method_with_errors(  );
 
 };
 

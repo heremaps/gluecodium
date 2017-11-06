@@ -25,8 +25,8 @@ public:
     virtual ~SimpleInstantiableTwo() = 0;
 
 public:
-virtual void setStringValue( const ::std::string& stringValue ) = 0;
-virtual ::std::string getStringValue(  ) = 0;
+virtual void set_string_value( const ::std::string& string_value ) = 0;
+virtual ::std::string get_string_value(  ) = 0;
 
 };
 

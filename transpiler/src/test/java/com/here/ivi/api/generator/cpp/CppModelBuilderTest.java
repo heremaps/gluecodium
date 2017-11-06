@@ -626,7 +626,7 @@ public class CppModelBuilderTest {
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertEquals("get" + ATTRIBUTE_NAME, resultMethod.name.toLowerCase());
+    assertEquals("get_" + ATTRIBUTE_NAME, resultMethod.name.toLowerCase());
   }
 
   @Test
@@ -636,7 +636,7 @@ public class CppModelBuilderTest {
     List<CppMethod> methods =
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(2, methods.size());
-    assertEquals("set" + ATTRIBUTE_NAME, methods.get(1).name.toLowerCase());
+    assertEquals("set_" + ATTRIBUTE_NAME, methods.get(1).name.toLowerCase());
   }
 
   @Test
@@ -648,7 +648,7 @@ public class CppModelBuilderTest {
     List<CppMethod> methods =
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(1, methods.size());
-    assertEquals("get" + ATTRIBUTE_NAME, methods.get(0).name.toLowerCase());
+    assertEquals("get_" + ATTRIBUTE_NAME, methods.get(0).name.toLowerCase());
   }
 
   @Test

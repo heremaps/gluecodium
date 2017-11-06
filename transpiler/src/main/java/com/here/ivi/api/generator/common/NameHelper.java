@@ -33,6 +33,20 @@ public class NameHelper {
     }
   }
 
+  public static String toLowerSnakeCase(String input) {
+    if (input == null) {
+      return "";
+    }
+    if (input.contains(UNDERSCORE)) {
+      return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, input);
+    } else if (CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input)
+        && CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input)) {
+      return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input);
+    } else {
+      return input.toLowerCase();
+    }
+  }
+
   public static String toUpperCamelCase(String input) {
     if (input == null) {
       return "";

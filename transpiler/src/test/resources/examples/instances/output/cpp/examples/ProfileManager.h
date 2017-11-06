@@ -25,9 +25,9 @@ public:
     virtual ~ProfileManager() = 0;
 
 public:
-virtual void createProfile( const ::std::string& username ) = 0;
-virtual ::std::string changeProfile( const ::std::string& username ) = 0;
-virtual void deleteProfile( const ::std::string& username ) = 0;
+virtual void create_profile( const ::std::string& username ) = 0;
+virtual ::std::string change_profile( const ::std::string& username ) = 0;
+virtual void delete_profile( const ::std::string& username ) = 0;
 
 };
 

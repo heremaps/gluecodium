@@ -91,7 +91,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-    CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppTypeRef);
+    CppParameter cppParameter =
+        new CppParameter(CppNameRules.getParameterName(francaArgument.getName()), cppTypeRef);
 
     storeResult(cppParameter);
     closeContext();
@@ -101,7 +102,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuildingOutputArgument(FArgument francaArgument) {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-    CppParameter cppParameter = new CppParameter(francaArgument.getName(), cppTypeRef, true);
+    CppParameter cppParameter =
+        new CppParameter(CppNameRules.getParameterName(francaArgument.getName()), cppTypeRef, true);
 
     storeResult(cppParameter);
     closeContext();

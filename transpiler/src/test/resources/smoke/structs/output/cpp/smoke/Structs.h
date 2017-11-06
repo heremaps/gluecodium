@@ -43,30 +43,30 @@ struct ColoredLine {
     ::smoke::Structs::Color color;
 };
 struct AllTypesStruct {
-    int8_t int8Field = 0;
-    uint8_t uint8Field = 0;
-    int16_t int16Field = 0;
-    uint16_t uint16Field = 0;
-    int32_t int32Field = 0;
-    uint32_t uint32Field = 0;
-    int64_t int64Field = 0;
-    uint64_t uint64Field = 0;
-    float floatField = std::numeric_limits< float >::quiet_NaN( );
-    double doubleField = std::numeric_limits< double >::quiet_NaN( );
-    ::std::string stringField;
-    bool booleanField = false;
-    ::std::vector< uint8_t > bytesField;
-    ::smoke::Structs::Point pointField;
+    int8_t int8_field = 0;
+    uint8_t uint8_field = 0;
+    int16_t int16_field = 0;
+    uint16_t uint16_field = 0;
+    int32_t int32_field = 0;
+    uint32_t uint32_field = 0;
+    int64_t int64_field = 0;
+    uint64_t uint64_field = 0;
+    float float_field = std::numeric_limits< float >::quiet_NaN( );
+    double double_field = std::numeric_limits< double >::quiet_NaN( );
+    ::std::string string_field;
+    bool boolean_field = false;
+    ::std::vector< uint8_t > bytes_field;
+    ::smoke::Structs::Point point_field;
 };
 
 public:
-static ::smoke::Structs::Point createPoint( const double x, const double y );
-static ::smoke::Structs::Point swapPointCoordinates( const ::smoke::Structs::Point& input );
-static ::smoke::Structs::Line createLine( const ::smoke::Structs::Point& pointA, const ::smoke::Structs::Point& pointB );
-static ::smoke::Structs::ColoredLine createColoredLine( const ::smoke::Structs::Line& line, const ::smoke::Structs::Color& color );
-static ::smoke::Structs::ColoredLine returnColoredLine( const ::smoke::Structs::ColoredLine& input );
-static ::smoke::Structs::AllTypesStruct returnAllTypesStruct( const ::smoke::Structs::AllTypesStruct& input );
-static ::smoke::Structs::AllTypesStruct modifyAllTypesStruct( const ::smoke::Structs::AllTypesStruct& input );
+static ::smoke::Structs::Point create_point( const double x, const double y );
+static ::smoke::Structs::Point swap_point_coordinates( const ::smoke::Structs::Point& input );
+static ::smoke::Structs::Line create_line( const ::smoke::Structs::Point& point_a, const ::smoke::Structs::Point& point_b );
+static ::smoke::Structs::ColoredLine create_colored_line( const ::smoke::Structs::Line& line, const ::smoke::Structs::Color& color );
+static ::smoke::Structs::ColoredLine return_colored_line( const ::smoke::Structs::ColoredLine& input );
+static ::smoke::Structs::AllTypesStruct return_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
+static ::smoke::Structs::AllTypesStruct modify_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
 
 };
 

@@ -152,4 +152,46 @@ public final class NameHelperTest {
 
     assertEquals(UPPER_CASE, actual);
   }
+
+  @Test
+  public void fromLowerCamelToLowerSnakeCase() {
+    String actual = NameHelper.toLowerSnakeCase(LOWER_CAMEL_CASE);
+
+    assertEquals(LOWER_SNAKE_CASE, actual);
+  }
+
+  @Test
+  public void fromUpperCamelToLowerSnakeCase() {
+    String actual = NameHelper.toLowerSnakeCase(UPPER_CAMEL_CASE);
+
+    assertEquals(LOWER_SNAKE_CASE, actual);
+  }
+
+  @Test
+  public void fromLowerSnakeCaseToLowerSnakeCase() {
+    String actual = NameHelper.toLowerSnakeCase(LOWER_SNAKE_CASE);
+
+    assertEquals(LOWER_SNAKE_CASE, actual);
+  }
+
+  @Test
+  public void fromUpperSnakeCaseToLowerSnakeCase() {
+    String actual = NameHelper.toLowerSnakeCase(UPPER_SNAKE_CASE);
+
+    assertEquals(LOWER_SNAKE_CASE, actual);
+  }
+
+  @Test
+  public void fromUpperCaseToLowerSnakeCase() {
+    String actual = NameHelper.toLowerSnakeCase(UPPER_CASE);
+
+    assertEquals(LOWER_CASE, actual);
+  }
+
+  @Test
+  public void fromLowerCaseToLowerSnakeCase() {
+    String actual = NameHelper.toLowerSnakeCase(LOWER_CASE);
+
+    assertEquals(LOWER_CASE, actual);
+  }
 }

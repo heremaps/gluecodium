@@ -31,7 +31,7 @@ struct InnerStruct {
 
 public:
 
-virtual ::smoke::InstanceWithStruct::InnerStruct innerStructMethod( const ::smoke::InstanceWithStruct::InnerStruct& inputStruct ) = 0;
+virtual ::smoke::InstanceWithStruct::InnerStruct inner_struct_method( const ::smoke::InstanceWithStruct::InnerStruct& input_struct ) = 0;
 
 };
 
