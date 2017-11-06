@@ -6,13 +6,17 @@ extern "C" {
 {{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
 
 {{#enumerators}}{{>cbridge/Enumeration}}{{/enumerators}}
-{{#structs}}{{>cbridge/StructDefinition}}{{/structs}}
+{{#structs}}{{>cbridge/StructTypedef}}{{/structs}}
 
 {{#if selfType}}
 typedef struct {
     void* const private_pointer;
 } {{selfType.functionReturnType}};
+{{/if}}
 
+{{#structs}}{{>cbridge/StructFunctionDeclarations}}{{/structs}}
+
+{{#if selfType}}
 void {{name}}_release({{selfType.functionReturnType}} handle);
 
 {{/if}}

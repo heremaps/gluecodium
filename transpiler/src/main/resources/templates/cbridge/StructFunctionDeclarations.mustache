@@ -1,7 +1,3 @@
-typedef struct {
-    void* const private_pointer;
-} {{type}};
-
 {{type}} {{name}}_create();
 void {{name}}_release({{type}} handle);
 
@@ -11,4 +7,3 @@ void {{name}}_release({{type}} handle);
 {{^type.isStruct}}void {{structname}}_{{name}}_set({{structtype}} handle, {{join setterParameters delimiter=", "}});{{/type.isStruct}}
 {{/fields}}
 {{/set}}
-
