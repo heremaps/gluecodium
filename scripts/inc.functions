@@ -30,3 +30,14 @@ function cmake_generator {
             ;;
     esac
 }
+
+function publish_local {
+    TRANSPILER_DIRECTORY=${SCRIPT_DIR}/../../../api-transpiler/
+
+    pushd "${TRANSPILER_DIRECTORY}"
+    safe ./gradlew publishToMavenLocal
+    TRANSPILER_VERSION=$(sed 's/version\s*=\s*//' transpiler/src/main/resources/version.properties)
+    popd
+
+    export TRANSPILER_VERSION
+}
