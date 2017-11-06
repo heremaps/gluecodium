@@ -1,3 +1,4 @@
+// -------------------------------------------------------------------------------------------------
 //
 // Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
@@ -7,27 +8,25 @@
 // consent of HERE Global B.V. This material also contains confidential information,
 // which may not be disclosed to others without prior written consent of HERE Global B.V.
 //
+// -------------------------------------------------------------------------------------------------
+//
 // Automatically generated. Do not modify. Your changes will be lost.
+//
+// -------------------------------------------------------------------------------------------------
 
-import Foundation
+#pragma once
 
+#include <string>
 
+namespace examples {
 
+class ProfileManagerInterface {
+public:
+    virtual ~ProfileManagerInterface() = 0;
 
-public class ProfileManagerFactory {
+public:
+virtual void create_profile( const ::std::string& username ) = 0;
 
-    public static func createProfileManager() -> ProfileManager? {
-        let cResult = examples_ProfileManagerFactory_createProfileManager()
-
-
-        return ProfileManager(cProfileManager: cResult)
-    }
-
-    public static func createProfileManagerInterface() -> ProfileManagerInterface? {
-        let cResult = examples_ProfileManagerFactory_createProfileManagerInterface()
-
-
-        return _ProfileManagerInterface(cProfileManagerInterface: cResult)
-    }
+};
 
 }
