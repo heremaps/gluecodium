@@ -10,20 +10,9 @@
  */
 
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
-import "./ComplexListeners.fidl"
+import "./CalculatorListener.fidl"
 
-define navigation.BaseApiSpec for interface test.ComplexListener
+define navigation.BaseApiSpec for interface hello.CalculatorListener
 {
     IsInterface = true
-}
-
-define navigation.BaseApiSpec for interface test.ComplexListenerFactory
-{
-    method createComplexNotifier {
-        Static = true
-    }
-
-    method createDistanceMetric {
-        Static = true
-    }
 }
