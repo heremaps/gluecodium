@@ -99,4 +99,7 @@ typeCollection TypeCollection {
         Double x
         Double y
     }
+
+    typedef StorageId is UInt64
+    const StorageId INVALID_STORAGE_ID = 0
 }

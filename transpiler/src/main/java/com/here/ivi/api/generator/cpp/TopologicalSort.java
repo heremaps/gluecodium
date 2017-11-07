@@ -12,13 +12,7 @@
 package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.model.cppmodel.CppConstant;
-import com.here.ivi.api.model.cppmodel.CppElement;
-import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
-import com.here.ivi.api.model.cppmodel.CppTypeDefRef;
-import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.cppmodel.CppUsing;
+import com.here.ivi.api.model.cppmodel.*;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -100,9 +94,13 @@ public final class TopologicalSort {
 
   private Set<String> getElementDependencies(CppElement cppElement) {
 
-    if (cppElement instanceof CppConstant) {
-      CppConstant cppConstant = (CppConstant) cppElement;
-      return getTypeDependencies(cppConstant.type);
+    if (cppElement instanceof CppTypedElement) {
+      CppTypedElement cppTypedElement = (CppTypedElement) cppElement;
+      Set<String> dependencies = getTypeDependencies(cppTypedElement.type);
+      if (fullyQualifiedNames.contains(cppTypedElement.type.name)) {
+        dependencies.add(cppTypedElement.type.name);
+      }
+      return dependencies;
     }
 
     if (cppElement instanceof CppStruct) {
@@ -123,7 +121,7 @@ public final class TopologicalSort {
     return cppStruct
         .fields
         .stream()
-        .flatMap(cppField -> getTypeDependencies(cppField.type).stream())
+        .flatMap(cppField -> getElementDependencies(cppField).stream())
         .collect(Collectors.toSet());
   }
 
@@ -132,7 +130,6 @@ public final class TopologicalSort {
     return elements
         .stream()
         .collect(
-            Collectors.toMap(
-                element -> element.fullyQualifiedName, element -> getElementDependencies(element)));
+            Collectors.toMap(element -> element.fullyQualifiedName, this::getElementDependencies));
   }
 }

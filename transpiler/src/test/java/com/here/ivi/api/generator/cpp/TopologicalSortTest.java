@@ -108,7 +108,10 @@ public class TopologicalSortTest {
             Arrays.asList(0, 1)
           },
           // constantDependingOnDefinition
-          {Arrays.asList(createConstant(TYPE_DEF_NAME), createUsing(TYPE_A)), Arrays.asList(1, 0)},
+          {
+            Arrays.asList(createConstantWithUsing(TYPE_DEF_NAME), createUsing(TYPE_A)),
+            Arrays.asList(1, 0)
+          },
           // constantNotDependingOnDefinitionKeepsSameOrder
           {Arrays.asList(createConstant(TYPE_B), createUsing(TYPE_A)), Arrays.asList(0, 1)},
           // usingDependingOnUsing
@@ -171,6 +174,12 @@ public class TopologicalSortTest {
   private static CppConstant createConstant(String typeName) {
     String name = "fixed";
     return new CppConstant(name, createComplex(typeName), new CppValue());
+  }
+
+  private static CppConstant createConstantWithUsing(String typeName) {
+    String name = "fixed";
+    return new CppConstant(
+        name, new CppTypeDefRef(typeName, createComplex("nonsense")), new CppValue());
   }
 
   @Test
