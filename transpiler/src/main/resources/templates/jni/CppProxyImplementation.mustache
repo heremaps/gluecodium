@@ -17,8 +17,7 @@ using namespace ::here::internal;
 
 {{#methods}}
 {{>jni/ReturnType}} {{cppName}}CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
-    JNIEnv * jniEnv;
-    bool threadAttached = getJniEnvironment( &jniEnv );
+    JNIEnv * jniEnv = getJniEnvironment( );
 {{#parameters}}
 {{#if type.isComplex}}
     auto j{{name}} = here::internal::convert_to_jni(jniEnv, n{{name}});
@@ -28,9 +27,6 @@ using namespace ::here::internal;
 {{/unless}}
 {{/parameters}}
     {{+parameterName}}j{{name}}{{/parameterName}}callJavaMethod( "{{javaMethodName}}", "({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{#if returnType}}{{returnType.jniTypeSignature}}{{/if}}{{#unless returnType}}V{{/unless}}", jniEnv {{#if parameters}},{{/if}} {{joinPartial parameters "parameterName" ", "}});
-    if( threadAttached ) {
-      jVM->DetachCurrentThread( );
-    }
 }
 {{/methods}}
 
