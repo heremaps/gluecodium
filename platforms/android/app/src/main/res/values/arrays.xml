@@ -69,4 +69,10 @@
         <item>Returns input struct with numberOfUsage increased by 1.\n\nINPUT:\nSyncResult{\n\t\tlong timeStamp = 42\n\t\tlong numberOfUsages = ?\n}</item>
         <item>Returns input struct with numberOfUsage increased by 1.\n\nINPUT:\nIdSyncResult{\n\t\tint id = 99\n\t\tSyncResult {\n\t\t\t\tlong timeStamp = 42\n\t\t\t\tlongnumberOfUsages = ?\n\t\t}\n}</item>
     </string-array>
+
+    <string-array name="enumeration_enumerators">
+        <item>ERROR_NONE</item>
+        <item>ERROR_FATAL</item>
+    </string-array>
+
 </resources>

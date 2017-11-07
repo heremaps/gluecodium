@@ -54,7 +54,8 @@ public final class MainActivity extends AppCompatActivity {
                     context.getString(R.string.fragment_instance_methods),
                     context.getString(R.string.fragment_attributes),
                     context.getString(R.string.fragment_typedef),
-                    context.getString(R.string.fragment_listeners_title)
+                    context.getString(R.string.fragment_listeners_title),
+                    context.getString(R.string.fragment_enumerations_title),
             };
         }
 
@@ -75,6 +76,8 @@ public final class MainActivity extends AppCompatActivity {
                     return new TypeDefFragment();
                 case 6:
                     return new ListenersFragment();
+                case 7:
+                    return new EnumerationFragment();
                 default:
                     return null;
             }
