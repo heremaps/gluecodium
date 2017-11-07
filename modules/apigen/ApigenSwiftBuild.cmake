@@ -63,9 +63,16 @@ function(apigen_swift_build target)
     set_target_properties(${target} PROPERTIES
         APIGEN_SWIFT_BUILD_OUTPUT_DIR ${APIGEN_SWIFT_BUILD_OUTPUT_DIR})
 
+    # Add top level headers to the modulemap
+    set(CBRIDGE_MODULE_MAP "module ${target} {\n")
+    file(GLOB cbridge_headers ${OUTPUT_DIR}/cbridge/*.h)
+    foreach(header IN LISTS cbridge_headers)
+        set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n    header \"${header}\"")
+    endforeach()
+    set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n}\n")
+
     # For each submodule there needs to be a modulemap created
     file(GLOB swift_modules LIST_DIRECTORIES true ${OUTPUT_DIR}/swift/*)
-    set(CBRIDGE_MODULE_MAP "module ${target} { }\n")
     foreach(module_path IN LISTS swift_modules)
         if(NOT IS_DIRECTORY ${module_path})
             continue()
