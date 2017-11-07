@@ -250,7 +250,7 @@ public class JniModelBuilderTest {
     assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
     assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.cppNameSpaces);
     assertEquals(JAVA_PACKAGES, jniContainer.javaPackages);
-    assertFalse(jniContainer.isInstantiable);
+    assertTrue(jniContainer.isInstantiable);
   }
 
   @Test
