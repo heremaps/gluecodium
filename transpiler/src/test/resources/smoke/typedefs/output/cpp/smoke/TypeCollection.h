@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <limits>
 
 namespace smoke {
@@ -25,5 +26,8 @@ struct Point {
     double y = std::numeric_limits< double >::quiet_NaN( );
 };
 using PointTypeDef = ::smoke::Point;
+
+using StorageId = uint64_t;
+static const ::smoke::StorageId INVALID_STORAGE_ID = 0;
 
 }

@@ -13,9 +13,8 @@ package com.here.ivi.api.model.cppmodel;
 
 import java.util.stream.Stream;
 
-public final class CppConstant extends CppElement {
+public final class CppConstant extends CppTypedElement {
 
-  public final CppTypeRef type;
   public final CppValue value;
 
   public CppConstant(final String name, final CppTypeRef type, final CppValue value) {
@@ -27,8 +26,7 @@ public final class CppConstant extends CppElement {
       final String fullyQualifiedName,
       final CppTypeRef type,
       final CppValue value) {
-    super(name, fullyQualifiedName);
-    this.type = type;
+    super(name, fullyQualifiedName, type);
     this.value = value;
   }
 

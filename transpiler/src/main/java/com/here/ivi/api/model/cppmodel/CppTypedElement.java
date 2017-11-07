@@ -11,23 +11,18 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import java.util.stream.Stream;
+public abstract class CppTypedElement extends CppElement {
 
-public final class CppField extends CppTypedElement {
+  public final CppTypeRef type;
 
-  public final CppValue initializer;
-
-  public CppField(final CppTypeRef type, final String name) {
-    this(type, name, null);
+  public CppTypedElement(final String name, final CppTypeRef type) {
+    super(name);
+    this.type = type;
   }
 
-  public CppField(final CppTypeRef type, final String name, final CppValue initializer) {
-    super(name, type);
-    this.initializer = initializer;
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return Stream.of(type, initializer);
+  public CppTypedElement(
+      final String name, final String fullyQualifiedName, final CppTypeRef type) {
+    super(name, fullyQualifiedName);
+    this.type = type;
   }
 }
