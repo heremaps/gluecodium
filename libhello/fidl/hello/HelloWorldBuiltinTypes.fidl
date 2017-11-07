@@ -34,7 +34,7 @@ interface HelloWorldBuiltinTypes {
     <** @description:
     Example static method for HelloWorld which takes an unsigned byte and returns an unsigned byte
     **>
-    method methodWithUInt8 {
+    method methodWithUint8 {
         in {
             <** @description: Input number **>
             UInt8 inputNumber
@@ -64,7 +64,7 @@ interface HelloWorldBuiltinTypes {
     Example static method for HelloWorld which takes an unsigned 16 bits integer and returns an
     unsigned 16 bits integer
     **>
-    method methodWithUInt16 {
+    method methodWithUint16 {
         in {
             <** @description: Input number **>
             UInt16 inputNumber
@@ -94,7 +94,7 @@ interface HelloWorldBuiltinTypes {
     Example static method for HelloWorld which takes an unsigned 32 bits integer and returns an
     unsigned 32 bits integer
     **>
-    method methodWithUInt32 {
+    method methodWithUint32 {
         in {
             <** @description: Input number **>
             UInt32 inputNumber
@@ -124,7 +124,7 @@ interface HelloWorldBuiltinTypes {
     Example static method for HelloWorld which takes an unsigned 64 bits integer and returns an
     unsigned 64 bits integer
     **>
-    method methodWithUInt64 {
+    method methodWithUint64 {
         in {
             <** @description: Input number **>
             UInt64 inputNumber

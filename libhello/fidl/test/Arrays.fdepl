@@ -38,19 +38,19 @@ define navigation.BaseApiSpec for interface test.Arrays
         Static = true
     }
 
-    method methodWithUInt8Array {
+    method methodWithUint8Array {
         Static = true
     }
 
-    method methodWithUInt16Array {
+    method methodWithUint16Array {
         Static = true
     }
 
-    method methodWithUInt32Array {
+    method methodWithUint32Array {
         Static = true
     }
 
-    method methodWithUInt64Array {
+    method methodWithUint64Array {
         Static = true
     }
 

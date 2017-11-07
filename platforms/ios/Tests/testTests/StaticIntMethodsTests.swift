@@ -4,94 +4,94 @@ import hello
 class StaticIntMethodsTests: XCTestCase {
     func testPassMinimumInt8() {
         XCTAssertEqual(
-            StaticIntMethods.returnNextNumberINT8(inputNumber: Int8.min),
+            StaticIntMethods.returnNextNumberInt8(inputNumber: Int8.min),
             Int8.min + 1)
     }
 
     func testPassMinimumInt16() {
         XCTAssertEqual(
-            StaticIntMethods.returnNextNumberINT16(inputNumber: Int16.min),
+            StaticIntMethods.returnNextNumberInt16(inputNumber: Int16.min),
             Int16.min + 1)
     }
 
     func testPassMinimumInt32() {
         XCTAssertEqual(
-            StaticIntMethods.returnNextNumberINT32(inputNumber: Int32.min),
+            StaticIntMethods.returnNextNumberInt32(inputNumber: Int32.min),
             Int32.min + 1)
     }
 
     func testPassMinimumInt64() {
         XCTAssertEqual(
-            StaticIntMethods.returnNextNumberINT64(inputNumber: Int64.min),
+            StaticIntMethods.returnNextNumberInt64(inputNumber: Int64.min),
             Int64.min + 1)
     }
 
     func testPassMaximumInt8() {
         XCTAssertEqual(
-            StaticIntMethods.returnNextNumberINT8(inputNumber: Int8.max - 1),
+            StaticIntMethods.returnNextNumberInt8(inputNumber: Int8.max - 1),
             Int8.max)
     }
 
     func testPassMaximumInt16() {
         XCTAssertEqual(
-            StaticIntMethods.returnNextNumberINT16(inputNumber: Int16.max - 1),
+            StaticIntMethods.returnNextNumberInt16(inputNumber: Int16.max - 1),
             Int16.max)
     }
 
     func testPassMaximumInt32() {
         XCTAssertEqual(
-            StaticIntMethods.returnNextNumberINT32(inputNumber: Int32.max - 1),
+            StaticIntMethods.returnNextNumberInt32(inputNumber: Int32.max - 1),
             Int32.max)
     }
 
     func testPassMaximumInt64() {
         XCTAssertEqual(
-            StaticIntMethods.returnNextNumberINT64(inputNumber: Int64.max - 1),
+            StaticIntMethods.returnNextNumberInt64(inputNumber: Int64.max - 1),
             Int64.max)
     }
 
     func testPassTwoInt8() {
         XCTAssertEqual(
-            StaticIntMethods.sumTwoNumbersINT8(inputNumber1: -1, inputNumber2: 2),
+            StaticIntMethods.sumTwoNumbersInt8(inputNumber1: -1, inputNumber2: 2),
             1)
     }
 
-    func testPassTwoUInt32() {
+    func testPassTwoUint32() {
         XCTAssertEqual(
-            StaticIntMethods.sumTwoNumbersUINT32(inputNumber1: 123, inputNumber2: 456),
+            StaticIntMethods.sumTwoNumbersUint32(inputNumber1: 123, inputNumber2: 456),
             579)
     }
 
     func testReturnInt8() {
-        XCTAssertEqual(StaticIntMethods.returnPrimeINT8(), 2)
+        XCTAssertEqual(StaticIntMethods.returnPrimeInt8(), 2)
     }
 
-    func testReturnUInt8() {
-        XCTAssertEqual(StaticIntMethods.returnPrimeUINT8(), 131)
+    func testReturnUint8() {
+        XCTAssertEqual(StaticIntMethods.returnPrimeUint8(), 131)
     }
 
     func testReturnInt16() {
-        XCTAssertEqual(StaticIntMethods.returnPrimeINT16(), 257)
+        XCTAssertEqual(StaticIntMethods.returnPrimeInt16(), 257)
     }
 
-    func testReturnUInt16() {
-        XCTAssertEqual(StaticIntMethods.returnPrimeUINT16(), 32771)
+    func testReturnUint16() {
+        XCTAssertEqual(StaticIntMethods.returnPrimeUint16(), 32771)
     }
 
     func testReturnInt32() {
-        XCTAssertEqual(StaticIntMethods.returnPrimeINT32(), 65537)
+        XCTAssertEqual(StaticIntMethods.returnPrimeInt32(), 65537)
     }
 
-    func testReturnUInt32() {
-        XCTAssertEqual(StaticIntMethods.returnPrimeUINT32(), 2_147_483_659)
+    func testReturnUint32() {
+        XCTAssertEqual(StaticIntMethods.returnPrimeUint32(), 2_147_483_659)
     }
 
     func testReturnInt64() {
-        XCTAssertEqual(StaticIntMethods.returnPrimeINT64(), 4_294_967_311)
+        XCTAssertEqual(StaticIntMethods.returnPrimeInt64(), 4_294_967_311)
     }
 
-    func testReturnUInt64() {
-        XCTAssertEqual(StaticIntMethods.returnPrimeUINT64(), 4_294_967_311)
+    func testReturnUint64() {
+        XCTAssertEqual(StaticIntMethods.returnPrimeUint64(), 4_294_967_311)
     }
 
     static var allTests = [
@@ -104,14 +104,14 @@ class StaticIntMethodsTests: XCTestCase {
         ("testPassMaximumInt32", testPassMaximumInt32),
         ("testPassMaximumInt64", testPassMaximumInt64),
         ("testPassTwoInt8", testPassTwoInt8),
-        ("testPassTwoUInt32", testPassTwoUInt32),
+        ("testPassTwoUint32", testPassTwoUint32),
         ("testReturnInt8", testReturnInt8),
-        ("testReturnUInt8", testReturnUInt8),
+        ("testReturnUint8", testReturnUint8),
         ("testReturnInt16", testReturnInt16),
-        ("testReturnUInt16", testReturnUInt16),
+        ("testReturnUint16", testReturnUint16),
         ("testReturnInt32", testReturnInt32),
-        ("testReturnUInt32", testReturnUInt32),
+        ("testReturnUint32", testReturnUint32),
         ("testReturnInt64", testReturnInt64),
-        ("testReturnUInt64", testReturnUInt64)
+        ("testReturnUint64", testReturnUint64)
     ]
 }

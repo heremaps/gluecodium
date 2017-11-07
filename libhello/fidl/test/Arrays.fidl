@@ -138,7 +138,7 @@ interface Arrays {
     <** @description:
     Static method which takes an uint8 array and returns an array of same type in reversed order.
     **>
-    method methodWithUInt8Array {
+    method methodWithUint8Array {
         in {
             <** @description: Input array **>
             UInt8Array input
@@ -152,7 +152,7 @@ interface Arrays {
     <** @description:
     Static method which takes an uint16 array and returns an array of same type in reversed order.
     **>
-    method methodWithUInt16Array {
+    method methodWithUint16Array {
         in {
             <** @description: Input array **>
             UInt16Array input
@@ -166,7 +166,7 @@ interface Arrays {
     <** @description:
     Static method which takes an uint32 array and returns an array of same type in reversed order.
     **>
-    method methodWithUInt32Array {
+    method methodWithUint32Array {
         in {
             <** @description: Input array **>
             UInt32Array input
@@ -180,7 +180,7 @@ interface Arrays {
     <** @description:
     Static method which takes an uint64 array and returns an array of same type in reversed order.
     **>
-    method methodWithUInt64Array {
+    method methodWithUint64Array {
         in {
             <** @description: Input array **>
             UInt64Array input

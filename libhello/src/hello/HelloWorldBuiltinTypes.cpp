@@ -26,7 +26,7 @@ HelloWorldBuiltinTypes::methodWithInt8( const int8_t inputNumber )
 }
 
 uint8_t
-HelloWorldBuiltinTypes::methodWithUInt8( const uint8_t inputNumber )
+HelloWorldBuiltinTypes::methodWithUint8( const uint8_t inputNumber )
 {
    return inputNumber + 1;
 }
@@ -38,7 +38,7 @@ HelloWorldBuiltinTypes::methodWithInt16( const int16_t inputNumber )
 }
 
 uint16_t
-HelloWorldBuiltinTypes::methodWithUInt16( const uint16_t inputNumber )
+HelloWorldBuiltinTypes::methodWithUint16( const uint16_t inputNumber )
 {
    return inputNumber + 1;
 }
@@ -50,7 +50,7 @@ HelloWorldBuiltinTypes::methodWithInt32( const int32_t inputNumber )
 }
 
 uint32_t
-HelloWorldBuiltinTypes::methodWithUInt32( const uint32_t inputNumber )
+HelloWorldBuiltinTypes::methodWithUint32( const uint32_t inputNumber )
 {
    return inputNumber + 1;
 }
@@ -62,7 +62,7 @@ HelloWorldBuiltinTypes::methodWithInt64( const int64_t inputNumber )
 }
 
 uint64_t
-HelloWorldBuiltinTypes::methodWithUInt64( const uint64_t inputNumber )
+HelloWorldBuiltinTypes::methodWithUint64( const uint64_t inputNumber )
 {
    return inputNumber + 1;
 }

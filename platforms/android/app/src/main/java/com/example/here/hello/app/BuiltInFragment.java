@@ -93,7 +93,7 @@ public final class BuiltInFragment extends Fragment {
                 result.setText(String.valueOf(byteResult));
                 break;
             case 1:
-                long resultUInt8 = HelloWorldBuiltinTypes.methodWithUInt8(Long.valueOf(parameterText));
+                long resultUInt8 = HelloWorldBuiltinTypes.methodWithUint8(Long.valueOf(parameterText));
                 result.setText(String.valueOf(resultUInt8));
                 break;
             case 2:
@@ -101,7 +101,7 @@ public final class BuiltInFragment extends Fragment {
                 result.setText(String.valueOf(shortResult));
                 break;
             case 3:
-                long resultUInt16 = HelloWorldBuiltinTypes.methodWithUInt16(Long.valueOf(parameterText));
+                long resultUInt16 = HelloWorldBuiltinTypes.methodWithUint16(Long.valueOf(parameterText));
                 result.setText(String.valueOf(resultUInt16));
                 break;
             case 4:
@@ -109,7 +109,7 @@ public final class BuiltInFragment extends Fragment {
                 result.setText(String.valueOf(intResult));
                 break;
             case 5:
-                long resultUInt32 = HelloWorldBuiltinTypes.methodWithUInt32(Long.valueOf(parameterText));
+                long resultUInt32 = HelloWorldBuiltinTypes.methodWithUint32(Long.valueOf(parameterText));
                 result.setText(String.valueOf(resultUInt32));
                 break;
             case 6:
@@ -117,7 +117,7 @@ public final class BuiltInFragment extends Fragment {
                 result.setText(String.valueOf(resultInt64));
                 break;
             case 7:
-                long resultUInt64 = HelloWorldBuiltinTypes.methodWithUInt64(Long.valueOf(parameterText));
+                long resultUInt64 = HelloWorldBuiltinTypes.methodWithUint64(Long.valueOf(parameterText));
                 result.setText(String.valueOf(resultUInt64));
                 break;
             case 8:

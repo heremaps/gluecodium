@@ -22,7 +22,7 @@ interface StaticIntMethods {
     Method that takes a int8 as input and returns next integer to input as output where input
     must be less than 127
     **>
-    method returnNextNumberINT8 {
+    method returnNextNumberInt8 {
         in { Int8 inputNumber }
         out { Int8 outputNumber }
     }
@@ -30,7 +30,7 @@ interface StaticIntMethods {
     <** @description:
     Method that takes 2 Int8 as input and returns their sum as output.
     **>
-    method sumTwoNumbersINT8 {
+    method sumTwoNumbersInt8 {
         in {
             Int8 inputNumber1
             Int8 inputNumber2
@@ -39,7 +39,7 @@ interface StaticIntMethods {
     }
 
     <** @description: Method that always returns 2 **>
-    method returnPrimeINT8 {
+    method returnPrimeInt8 {
         out { Int8 firstPrime }
     }
 
@@ -47,7 +47,7 @@ interface StaticIntMethods {
     Method that takes a UInt8 as input and returns next integer to input as output where input
     must be less than 255
     **>
-    method returnNextNumberUINT8 {
+    method returnNextNumberUint8 {
         in { UInt8 inputNumber }
         out { UInt8 outputNumber }
     }
@@ -55,7 +55,7 @@ interface StaticIntMethods {
     <** @description:
     Method that takes 2 UInt8 as input and returns their sum as output.
     **>
-    method sumTwoNumbersUINT8 {
+    method sumTwoNumbersUint8 {
         in {
             UInt8 inputNumber1
             UInt8 inputNumber2
@@ -64,7 +64,7 @@ interface StaticIntMethods {
     }
 
     <** @description: Method that always returns 131 **>
-    method returnPrimeUINT8 {
+    method returnPrimeUint8 {
         out { UInt8 prime }
     }
 
@@ -72,7 +72,7 @@ interface StaticIntMethods {
     Method that takes a UInt16 as input and returns next integer to input as output where input
     must be less than 32767
     **>
-    method returnNextNumberINT16 {
+    method returnNextNumberInt16 {
         in { Int16 inputNumber }
         out { Int16 outputNumber }
     }
@@ -80,7 +80,7 @@ interface StaticIntMethods {
     <** @description:
     Method that takes 2 Int16 as input and returns their sum as output.
     **>
-    method sumTwoNumbersINT16 {
+    method sumTwoNumbersInt16 {
         in {
             Int16 inputNumber1
             Int16 inputNumber2
@@ -89,7 +89,7 @@ interface StaticIntMethods {
     }
 
     <** @description: Method that always returns 257 **>
-    method returnPrimeINT16 {
+    method returnPrimeInt16 {
         out { Int16 prime }
     }
 
@@ -97,7 +97,7 @@ interface StaticIntMethods {
     Method that takes a UInt16 as input and returns next integer to input as output where input
     must be less than 65535
     **>
-    method returnNextNumberUINT16 {
+    method returnNextNumberUint16 {
         in { UInt16 inputNumber }
         out { UInt16 outputNumber }
     }
@@ -105,7 +105,7 @@ interface StaticIntMethods {
     <** @description:
     Method that takes 2 UInt16 as input and returns their sum as output.
     **>
-    method sumTwoNumbersUINT16 {
+    method sumTwoNumbersUint16 {
         in {
             UInt16 inputNumber1
             UInt16 inputNumber2
@@ -114,23 +114,23 @@ interface StaticIntMethods {
     }
 
     <** @description: Method that always returns 32771 **>
-    method returnPrimeUINT16 {
+    method returnPrimeUint16 {
         out { UInt16 prime }
     }
 
     <** @description:
-    Method that takes a INT32 as input and returns next integer to input as output where input
+    Method that takes a Int32 as input and returns next integer to input as output where input
     must be less than 2147483647
     **>
-    method returnNextNumberINT32 {
+    method returnNextNumberInt32 {
         in { Int32 inputNumber }
         out { Int32 outputNumber }
     }
 
     <** @description:
-    Method that takes 2 INT32 as input and returns their sum as output.
+    Method that takes 2 Int32 as input and returns their sum as output.
     **>
-    method sumTwoNumbersINT32 {
+    method sumTwoNumbersInt32 {
         in {
             Int32 inputNumber1
             Int32 inputNumber2
@@ -139,24 +139,24 @@ interface StaticIntMethods {
     }
 
     <** @description: Method that always returns 65537 **>
-    method returnPrimeINT32 {
+    method returnPrimeInt32 {
         out { Int32 prime }
     }
 
     <** @description:
-    Method that takes a UINT32 as input and returns next integer to input as output where input
+    Method that takes a Uint32 as input and returns next integer to input as output where input
     must be less than 4294967295
     **>
-    method returnNextNumberUINT32 {
+    method returnNextNumberUint32 {
         in { UInt32 inputNumber }
         out { UInt32 outputNumber }
     }
 
     <** @description:
-    Method that takes 2 UINT32 as input and returns their sum
+    Method that takes 2 Uint32 as input and returns their sum
     as output.
     **>
-    method sumTwoNumbersUINT32 {
+    method sumTwoNumbersUint32 {
         in {
             UInt32 inputNumber1
             UInt32 inputNumber2
@@ -165,24 +165,24 @@ interface StaticIntMethods {
     }
 
     <** @description: Method that always returns 2147483659 **>
-    method returnPrimeUINT32 {
+    method returnPrimeUint32 {
         out { UInt32 prime }
     }
 
     <** @description:
-    Method that takes a INT64 as input and returns next integer to input as output where input
+    Method that takes a Int64 as input and returns next integer to input as output where input
     must be less than 2^63-1
     **>
-    method returnNextNumberINT64 {
+    method returnNextNumberInt64 {
         in { Int64 inputNumber }
         out { Int64 outputNumber }
     }
 
     <** @description:
-    Method that takes 2 INT64 as input and returns their sum
+    Method that takes 2 Int64 as input and returns their sum
     as output.
     **>
-    method sumTwoNumbersINT64 {
+    method sumTwoNumbersInt64 {
         in {
             Int64 inputNumber1
             Int64 inputNumber2
@@ -191,23 +191,23 @@ interface StaticIntMethods {
     }
 
     <** @description: Method that always returns 4294967311 **>
-    method returnPrimeINT64 {
+    method returnPrimeInt64 {
         out { Int64 prime }
     }
 
     <** @description:
-    Method that takes a UINT64 as input and returns next integer to input as output where input
+    Method that takes a Uint64 as input and returns next integer to input as output where input
     must be less than 2^64-1
     **>
-    method returnNextNumberUINT64 {
+    method returnNextNumberUint64 {
         in { UInt64 inputNumber }
         out { UInt64 outputNumber }
     }
 
     <** @description:
-    Method that takes 2 UINT64 as input and returns their sum as output.
+    Method that takes 2 Uint64 as input and returns their sum as output.
     **>
-    method sumTwoNumbersUINT64 {
+    method sumTwoNumbersUint64 {
         in {
             UInt64 inputNumber1
             UInt64 inputNumber2
@@ -216,7 +216,7 @@ interface StaticIntMethods {
     }
 
     <** @description: Method that always returns 4294967311 **>
-    method returnPrimeUINT64 {
+    method returnPrimeUint64 {
         out { UInt64 prime }
     }
 }
