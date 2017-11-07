@@ -34,7 +34,10 @@ public final class CppClassTemplateTest {
 
   private static final String PUBLIC_PREFIX = "\npublic:\n";
   private static final String PRIVATE_PREFIX = "\nprivate:\n";
-  private static final String EXPECTED_CLASS_BODY_FORMAT = "class Classy%s {%s\n};\n";
+  private static final String EXPECTED_DESTRUCTOR = "\npublic:\n" + "    virtual ~Classy() = 0;\n";
+  private static final String EXPECTED_CLASS_BODY_FORMAT =
+      "class Classy%s {" + EXPECTED_DESTRUCTOR + "%s\n};\n";
+  private static final String EXPECTED_STATIC_CLASS_BODY_FORMAT = "class Classy%s {%s\n};\n";
   private static final String EXPECTED_STRUCT_BODY_FORMAT = "struct %s {\n};\n";
   private static final String EXPECTED_ENUM_BODY_FORMAT = "enum %s {\n\n};\n";
 
@@ -181,10 +184,8 @@ public final class CppClassTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
-    final String expectedDestructor = "\npublic:\n    virtual ~Classy() = 0;\n";
     final String expectedMethods = PUBLIC_PREFIX + "void methodical(  );\n";
-    final String expectedResult =
-        String.format(EXPECTED_CLASS_BODY_FORMAT, "", expectedDestructor + expectedMethods);
+    final String expectedResult = String.format(EXPECTED_CLASS_BODY_FORMAT, "", expectedMethods);
     assertEquals(expectedResult, result);
   }
 
@@ -195,7 +196,8 @@ public final class CppClassTemplateTest {
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
     final String expectedMethods = PUBLIC_PREFIX + "static void methodical(  );\n";
-    final String expectedResult = String.format(EXPECTED_CLASS_BODY_FORMAT, "", expectedMethods);
+    final String expectedResult =
+        String.format(EXPECTED_STATIC_CLASS_BODY_FORMAT, "", expectedMethods);
     assertEquals(expectedResult, result);
   }
 
@@ -209,7 +211,8 @@ public final class CppClassTemplateTest {
 
     final String expectedMethods =
         PUBLIC_PREFIX + "static void methodical(  );\nstatic void haphazard(  );\n";
-    final String expectedResult = String.format(EXPECTED_CLASS_BODY_FORMAT, "", expectedMethods);
+    final String expectedResult =
+        String.format(EXPECTED_STATIC_CLASS_BODY_FORMAT, "", expectedMethods);
     assertEquals(expectedResult, result);
   }
 

@@ -177,8 +177,9 @@ public final class CppHeaderTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
-    final String expectedResult =
-        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nclass Classy {\n};\n");
+    String expectedBodyCode =
+        "\nclass Classy {\n" + "public:\n" + "    virtual ~Classy() = 0;\n" + "\n" + "};\n";
+    final String expectedResult = String.format(EXPECTED_NAMESPACE_BODY_FORMAT, expectedBodyCode);
     assertEquals(expectedResult, result);
   }
 
@@ -189,9 +190,18 @@ public final class CppHeaderTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
-    final String expectedResult =
-        String.format(
-            EXPECTED_NAMESPACE_BODY_FORMAT, "\nclass Classy {\n};\nclass Classified {\n};\n");
+    String expectedBodyCode =
+        "\nclass Classy {\n"
+            + "public:\n"
+            + "    virtual ~Classy() = 0;\n"
+            + "\n"
+            + "};\n"
+            + "class Classified {\n"
+            + "public:\n"
+            + "    virtual ~Classified() = 0;\n"
+            + "\n"
+            + "};\n";
+    final String expectedResult = String.format(EXPECTED_NAMESPACE_BODY_FORMAT, expectedBodyCode);
     assertEquals(expectedResult, result);
   }
 
