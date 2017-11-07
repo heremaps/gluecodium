@@ -39,10 +39,10 @@ public:
         auto iterator = sProxyCache.find( key );
         if ( iterator != sProxyCache.end( ) )
         {
-            jenv->DeleteGlobalRef( jGlobalRef );
             auto cachedProxy = iterator->second.lock( );
             if ( cachedProxy )
             {
+                jenv->DeleteGlobalRef( jGlobalRef );
                 result = ::std::static_pointer_cast< ImplType >( cachedProxy );
                 return;
             }
