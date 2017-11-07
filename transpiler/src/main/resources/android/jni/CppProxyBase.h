@@ -33,7 +33,7 @@ public:
     {
         jobject jGlobalRef = jenv->NewGlobalRef( jobj );
         jint jHashCode = getHashCode( jenv, jobj );
-        ProxyCacheKey key{ jenv, jGlobalRef, jHashCode };
+        ProxyCacheKey key { jenv, jGlobalRef, jHashCode };
 
         ::std::lock_guard< ::std::mutex > lock( sCacheMutex );
         auto iterator = sProxyCache.find( key );
@@ -44,13 +44,14 @@ public:
             {
                 jenv->DeleteGlobalRef( jGlobalRef );
                 result = ::std::static_pointer_cast< ImplType >( cachedProxy );
+
                 return;
             }
         }
 
         auto newProxy = ::std::make_shared< ImplType >( jenv, jGlobalRef, jHashCode );
         result = newProxy;
-        sProxyCache[key] = ::std::weak_ptr< ImplType >( newProxy );
+        sProxyCache[ key ] = ::std::weak_ptr< ImplType >( newProxy );
     }
 
 protected:
@@ -64,7 +65,7 @@ protected:
                          JNIEnv* jniEnv,
                          ... ) const;
 
-    bool getJniEnvironment( JNIEnv** jniEnv ) const;
+    static JNIEnv* getJniEnvironment( );
 
 private:
 
@@ -79,14 +80,15 @@ private:
 
     struct ProxyCacheKeyHash
     {
-        inline size_t operator( )( const ProxyCacheKey& key ) const
+        inline size_t operator()( const ProxyCacheKey& key ) const
         {
             return key.jHashCode;
         }
     };
 
-    using ProxyCache
-        = ::std::unordered_map< ProxyCacheKey, ::std::weak_ptr< CppProxyBase >, ProxyCacheKeyHash >;
+    using ProxyCache =
+                  ::std::unordered_map< ProxyCacheKey, ::std::weak_ptr< CppProxyBase >,
+                                        ProxyCacheKeyHash >;
 
     static jint getHashCode( JNIEnv* jniEnv, jobject jObj );
 
@@ -94,8 +96,6 @@ private:
     jint jHashCode;
 
 protected:
-
-    JavaVM* jVM;
 
     static ProxyCache sProxyCache;
     static ::std::mutex sCacheMutex;

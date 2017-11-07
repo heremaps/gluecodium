@@ -11,24 +11,72 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "CppProxyBase.h"
+#include <pthread.h>
 
 namespace
 {
+
+static pthread_key_t threadKey;
+static JavaVM* javaVm;
+
+JNIEnv*
+attach_current_thread( )
+{
+    JNIEnv* jniEnv;
+    int envState = javaVm->GetEnv( reinterpret_cast< void** >( &jniEnv ), JNI_VERSION_1_6 );
+    if ( envState == JNI_EDETACHED )
+    {
+#ifdef __ANDROID__
+        javaVm->AttachCurrentThread( &jniEnv, nullptr );
+#else  // ifdef __ANDROID__
+        javaVm->AttachCurrentThread( reinterpret_cast< void** >( &jniEnv ), nullptr );
+#endif // ifdef __ANDROID__
+    }
+
+    return jniEnv;
+}
+
+void
+detach_current_thread( void* )
+{
+    javaVm->DetachCurrentThread( );
+}
 
 inline void
 callJavaMethodVaList( JNIEnv* jniEnv, jobject jObj, jmethodID jmid, va_list iParams )
 {
     jniEnv->CallVoidMethodV( jObj, jmid, iParams );
 }
+
 } // namespace
+
+//JNI_OnLoad() gets automatically called by java vm while loading the library.
+//To make this work neither 'static' keyword (causes "static declaration of 'JNI_OnLoad' follows
+//non-static declaration" - error) nor adding to anonymous namespace (prevents method from being
+//called) is allowed.
+jint
+JNI_OnLoad( JavaVM* vm, void* )
+{
+    JNIEnv* env = nullptr;
+
+    if ( vm->GetEnv( ( void** )&env, JNI_VERSION_1_6 ) != JNI_OK )
+    {
+        return 0;
+    }
+
+    javaVm = vm;
+    pthread_key_create( &threadKey, detach_current_thread );
+
+    return JNI_VERSION_1_6;
+}
 
 namespace here
 {
 namespace internal
 {
 
-CppProxyBase::ProxyCache CppProxyBase::sProxyCache{ };
-::std::mutex CppProxyBase::sCacheMutex{ };
+CppProxyBase::ProxyCache CppProxyBase::sProxyCache { };
+::std::mutex CppProxyBase::sCacheMutex { };
 
 void
 CppProxyBase::callJavaMethod( const ::std::string& methodName,
@@ -44,61 +92,52 @@ CppProxyBase::callJavaMethod( const ::std::string& methodName,
     va_end( vaList );
 }
 
-bool
-CppProxyBase::getJniEnvironment( JNIEnv** jniEnv ) const
+JNIEnv*
+CppProxyBase::getJniEnvironment( )
 {
-    int envState = jVM->GetEnv( reinterpret_cast< void** >( jniEnv ), JNI_VERSION_1_6 );
-    if ( envState == JNI_EDETACHED )
+    JNIEnv* env;
+    if ( ( env = static_cast<JNIEnv*>( pthread_getspecific( threadKey ) ) ) == nullptr )
     {
-#ifdef __ANDROID__
-        jVM->AttachCurrentThread( jniEnv, nullptr );
-#else  // ifdef __ANDROID__
-        jVM->AttachCurrentThread( reinterpret_cast< void** >( jniEnv ), nullptr );
-#endif // ifdef __ANDROID__
-        return true;
+        env = attach_current_thread( );
+        pthread_setspecific( threadKey, env );
     }
 
-    return false;
+    return env;
 }
 
 CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode )
     : jGlobalRef( jGlobalRef )
     , jHashCode( jHashCode )
 {
-    jenv->GetJavaVM( &jVM );
 }
 
 CppProxyBase::~CppProxyBase( )
 {
-    JNIEnv* jniEnv;
-    bool attachedToThread = getJniEnvironment( &jniEnv );
+    JNIEnv* jniEnv = getJniEnvironment( );
 
     {
         ::std::lock_guard< std::mutex > lock( sCacheMutex );
-        sProxyCache.erase( ProxyCacheKey{ jniEnv, jGlobalRef, jHashCode } );
+        sProxyCache.erase( ProxyCacheKey { jniEnv, jGlobalRef, jHashCode } );
     }
 
     jniEnv->DeleteGlobalRef( jGlobalRef );
-    if ( attachedToThread )
-    {
-        jVM->DetachCurrentThread( );
-    }
 }
 
 bool
 CppProxyBase::ProxyCacheKey::operator==( const CppProxyBase::ProxyCacheKey& other ) const
 {
-    return jHashCode == other.jHashCode && jniEnv->IsSameObject( jObject, other.jObject );
+    return jHashCode == other.jHashCode &&
+           jniEnv->IsSameObject( jObject, other.jObject );
 }
 
 jint
 CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
 {
     jclass jClass = jniEnv->FindClass( "java/lang/System" );
-    jmethodID jMethodId = jniEnv->GetStaticMethodID(
-        jClass, "identityHashCode", "(Ljava/lang/Object;)I" );
+    jmethodID jMethodId =
+        jniEnv->GetStaticMethodID( jClass, "identityHashCode", "(Ljava/lang/Object;)I" );
+
     return jniEnv->CallStaticIntMethod( jClass, jMethodId, jObj );
 }
-
-}
-}
+} // namespace internal
+} // namespace here
