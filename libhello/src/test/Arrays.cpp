@@ -55,25 +55,25 @@ Arrays::methodWithInt64Array( const std::vector< int64_t >& input )
 }
 
 std::vector< uint8_t >
-Arrays::methodWithUInt8Array( const std::vector< uint8_t >& input )
+Arrays::methodWithUint8Array( const std::vector< uint8_t >& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 std::vector< uint16_t >
-Arrays::methodWithUInt16Array( const std::vector< uint16_t >& input )
+Arrays::methodWithUint16Array( const std::vector< uint16_t >& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 std::vector< uint32_t >
-Arrays::methodWithUInt32Array( const std::vector< uint32_t >& input )
+Arrays::methodWithUint32Array( const std::vector< uint32_t >& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 std::vector< uint64_t >
-Arrays::methodWithUInt64Array( const std::vector< uint64_t >& input )
+Arrays::methodWithUint64Array( const std::vector< uint64_t >& input )
 {
     return { input.rbegin(), input.rend() };
 }

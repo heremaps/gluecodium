@@ -18,7 +18,7 @@ define navigation.BaseApiSpec for interface hello.HelloWorldBuiltinTypes
         Static = true
     }
 
-    method methodWithUInt8 {
+    method methodWithUint8 {
         Static = true
     }
 
@@ -26,7 +26,7 @@ define navigation.BaseApiSpec for interface hello.HelloWorldBuiltinTypes
         Static = true
     }
 
-    method methodWithUInt16 {
+    method methodWithUint16 {
         Static = true
     }
 
@@ -34,7 +34,7 @@ define navigation.BaseApiSpec for interface hello.HelloWorldBuiltinTypes
         Static = true
     }
 
-    method methodWithUInt32 {
+    method methodWithUint32 {
         Static = true
     }
 
@@ -42,7 +42,7 @@ define navigation.BaseApiSpec for interface hello.HelloWorldBuiltinTypes
         Static = true
     }
 
-    method methodWithUInt64 {
+    method methodWithUint64 {
         Static = true
     }
 

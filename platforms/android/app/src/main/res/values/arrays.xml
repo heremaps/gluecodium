@@ -2,13 +2,13 @@
 <resources>
     <string-array name="builtin_methods">
         <item>byte methodWithInt8(byte)</item>
-        <item>long methodWithUInt8(long)</item>
+        <item>long methodWithUint8(long)</item>
         <item>short methodWithInt16(short)</item>
-        <item>long methodWithUInt16(long)</item>
+        <item>long methodWithUint16(long)</item>
         <item>int methodWithInt32(int)</item>
-        <item>long methodWithUInt32(long)</item>
+        <item>long methodWithUint32(long)</item>
         <item>long methodWithInt64(long)</item>
-        <item>long methodWithUInt64(long)</item>
+        <item>long methodWithUint64(long)</item>
         <item>boolean methodWithBoolean(boolean)</item>
         <item>float methodWithFloat(float)</item>
         <item>double methodWithDouble(double)</item>

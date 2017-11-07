@@ -14,99 +14,99 @@ import "./StaticIntMethods.fidl"
 
 define navigation.BaseApiSpec for interface test.StaticIntMethods
 {
-    method returnNextNumberINT8 {
+    method returnNextNumberInt8 {
         Static = true
     }
 
-    method sumTwoNumbersINT8 {
+    method sumTwoNumbersInt8 {
         Static = true
     }
 
-    method returnPrimeINT8 {
+    method returnPrimeInt8 {
         Static = true
     }
 
-    method returnNextNumberUINT8 {
+    method returnNextNumberUint8 {
         Static = true
     }
 
-    method sumTwoNumbersUINT8 {
+    method sumTwoNumbersUint8 {
         Static = true
     }
 
-    method returnPrimeUINT8 {
+    method returnPrimeUint8 {
         Static = true
     }
 
-    method returnNextNumberINT16 {
+    method returnNextNumberInt16 {
         Static = true
     }
 
-    method sumTwoNumbersINT16 {
+    method sumTwoNumbersInt16 {
         Static = true
     }
 
-    method returnPrimeINT16 {
+    method returnPrimeInt16 {
         Static = true
     }
 
-    method returnNextNumberUINT16 {
+    method returnNextNumberUint16 {
         Static = true
     }
 
-    method sumTwoNumbersUINT16 {
+    method sumTwoNumbersUint16 {
         Static = true
     }
 
-    method returnPrimeUINT16 {
+    method returnPrimeUint16 {
         Static = true
     }
 
-    method returnNextNumberINT32 {
+    method returnNextNumberInt32 {
         Static = true
     }
 
-    method sumTwoNumbersINT32 {
+    method sumTwoNumbersInt32 {
         Static = true
     }
 
-    method returnPrimeINT32 {
+    method returnPrimeInt32 {
         Static = true
     }
 
-    method returnNextNumberUINT32 {
+    method returnNextNumberUint32 {
         Static = true
     }
 
-    method sumTwoNumbersUINT32 {
+    method sumTwoNumbersUint32 {
         Static = true
     }
 
-    method returnPrimeUINT32 {
+    method returnPrimeUint32 {
         Static = true
     }
 
-    method returnNextNumberINT64 {
+    method returnNextNumberInt64 {
         Static = true
     }
 
-    method sumTwoNumbersINT64 {
+    method sumTwoNumbersInt64 {
         Static = true
     }
 
-    method returnPrimeINT64 {
+    method returnPrimeInt64 {
         Static = true
     }
 
-    method returnNextNumberUINT64 {
+    method returnNextNumberUint64 {
         Static = true
     }
 
-    method sumTwoNumbersUINT64 {
+    method sumTwoNumbersUint64 {
         Static = true
     }
 
-    method returnPrimeUINT64 {
+    method returnPrimeUint64 {
         Static = true
     }
 }

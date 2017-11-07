@@ -129,10 +129,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithUInt16Array() {
+    public void methodWithUint16Array() {
         List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
 
-        List<Long> resultsList = Arrays.methodWithUInt16Array(longList);
+        List<Long> resultsList = Arrays.methodWithUint16Array(longList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -141,10 +141,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithUInt32Array() {
+    public void methodWithUint32Array() {
         List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
 
-        List<Long> resultsList = Arrays.methodWithUInt32Array(longList);
+        List<Long> resultsList = Arrays.methodWithUint32Array(longList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -153,10 +153,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithUInt64Array() {
+    public void methodWithUint64Array() {
         List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
 
-        List<Long> resultsList = Arrays.methodWithUInt64Array(longList);
+        List<Long> resultsList = Arrays.methodWithUint64Array(longList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
