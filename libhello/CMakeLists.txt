@@ -227,6 +227,11 @@ feature(UnsupportedErrors cpp swift SOURCES
     fidl/hello/UnsupportedErrors.fidl
     )
 
+#TODO: remove when Unions are done for android (APIGEN-776)
+feature(UnsupportedUnions android SOURCES
+    fidl/hello/UnsupportedUnions.fidl
+    )
+
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES
