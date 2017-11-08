@@ -89,6 +89,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
+    if (JavaUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
+      closeContext();
+      return;
+    }
+
     JavaMethod javaMethod;
 
     // Map return type
@@ -158,6 +163,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
+    if (JavaUnsupportedFeatures.isUnsupportedType(francaConstant.getType())) {
+      closeContext();
+      return;
+    }
+
     JavaType javaType =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
     JavaValue value = JavaValueMapper.map(javaType, francaConstant.getRhs());
@@ -196,6 +206,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FStructType francaStructType) {
 
+    if (JavaUnsupportedFeatures.isUnsupportedType(francaStructType)) {
+      closeContext();
+      return;
+    }
+
     JavaClass javaClass = createJavaClass(francaStructType);
 
     storeResult(javaClass);
@@ -204,9 +219,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
-
     storeResult(typeMapper.map(francaTypeRef));
-
     closeContext();
   }
 
@@ -246,6 +259,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FArrayType francaArrayType) {
 
+    if (JavaUnsupportedFeatures.isUnsupportedType(francaArrayType.getElementType())) {
+      closeContext();
+      return;
+    }
+
     storeResult(typeMapper.mapArray(francaArrayType));
     closeContext();
   }
@@ -253,12 +271,23 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FMapType francaMapType) {
 
+    if (JavaUnsupportedFeatures.isUnsupportedType(francaMapType.getKeyType())
+        || JavaUnsupportedFeatures.isUnsupportedType(francaMapType.getValueType())) {
+      closeContext();
+      return;
+    }
+
     storeResult(typeMapper.mapMap(francaMapType));
     closeContext();
   }
 
   @Override
   public void finishBuilding(FAttribute francaAttribute) {
+
+    if (JavaUnsupportedFeatures.isUnsupportedType(francaAttribute.getType())) {
+      closeContext();
+      return;
+    }
 
     JavaType javaType = getPreviousResult(JavaType.class);
 
