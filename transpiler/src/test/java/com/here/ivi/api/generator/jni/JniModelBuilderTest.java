@@ -29,10 +29,12 @@ import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.model.rules.InstanceRules;
+import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
@@ -104,6 +106,8 @@ public class JniModelBuilderTest {
 
   private JniModelBuilder modelBuilder;
 
+  private final EList<FArgument> arguments = new ArrayEList<>();
+
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
@@ -116,6 +120,7 @@ public class JniModelBuilderTest {
 
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppClass);
+    when(francaMethod.getOutArgs()).thenReturn(arguments);
   }
 
   private static JavaMethod createJavaMethod() {
