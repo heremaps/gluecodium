@@ -20,10 +20,11 @@ import org.franca.core.franca.*;
  */
 public class JavaUnsupportedFeatures {
 
-  // TODO: remove when APIGEN-735 is implemented
+  // TODO: remove when APIGEN-735 and APIGEN-704 are implemented
   public static boolean hasUnsupportedParameters(final FMethod francaMethod) {
     return hasUnsupportedElements(francaMethod.getInArgs())
-        || hasUnsupportedElements(francaMethod.getOutArgs());
+        || hasUnsupportedElements(francaMethod.getOutArgs())
+        || francaMethod.getErrorEnum() != null;
   }
 
   // TODO: remove when APIGEN-735 is implemented
