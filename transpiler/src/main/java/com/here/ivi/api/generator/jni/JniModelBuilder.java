@@ -17,6 +17,7 @@ import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
+import com.here.ivi.api.generator.java.JavaUnsupportedFeatures;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.FrancaElement;
 import com.here.ivi.api.model.javamodel.*;
@@ -89,6 +90,11 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
+    if (JavaUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
+      closeContext();
+      return;
+    }
+
     JavaMethod javaMethod = javaBuilder.getFinalResult(JavaMethod.class);
     CppMethod cppMethod = cppBuilder.getFinalResult(CppMethod.class);
 
@@ -124,6 +130,11 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
   @Override
   public void finishBuilding(FStructType francaStructType) {
+
+    if (JavaUnsupportedFeatures.isUnsupportedType(francaStructType)) {
+      closeContext();
+      return;
+    }
 
     JavaClass javaClass = javaBuilder.getFinalResult(JavaClass.class);
     CppStruct cppStruct = cppBuilder.getFinalResult(CppStruct.class);
@@ -185,6 +196,11 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
   @Override
   public void finishBuilding(FAttribute francaAttribute) {
+
+    if (JavaUnsupportedFeatures.isUnsupportedType(francaAttribute.getType())) {
+      closeContext();
+      return;
+    }
 
     List<JavaMethod> javaMethods =
         CollectionsHelper.getAllOfType(javaBuilder.getFinalResults(), JavaMethod.class);
