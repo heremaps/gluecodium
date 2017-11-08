@@ -13,7 +13,7 @@ package hello
 
 <** @description:
     This interfaces checks that using unsupported features does not break the build.
-    Currently these are Broadcasts and integer ranges.
+    Currently these are Broadcasts and Error Enums.
 **>
 interface UnsupportedFeatures {
 
@@ -29,6 +29,40 @@ interface UnsupportedFeatures {
         out {
             Int32 id
             Boolean isLongPress
+        }
+    }
+
+    enumeration ErrorEnum {
+        UNSUPPORTED,
+        NOT_IMPLEMENTED
+    }
+
+
+    method errorOnly {
+        error ErrorEnum
+    }
+
+    method errorCodeAndInt {
+        out {
+            Int8 number
+        }
+        error ErrorEnum
+    }
+
+    method errorCodeInline {
+        error {
+            FOO
+            BAR
+        }
+    }
+
+    <** @description:
+        Magic workaround to avoid UnsupportedUnions being flagged as "instantiable" when the
+        unsupported methodWithUnion is removed.
+    **>
+    method magicStaticMethod {
+        out {
+            String magicString
         }
     }
 }

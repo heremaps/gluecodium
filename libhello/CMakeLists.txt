@@ -222,11 +222,6 @@ feature(Unsupported cpp android swift SOURCES
     fidl/hello/UnsupportedFeatures.fidl
     )
 
-#TODO enable for Android and merge with Unsupported (APIGEN-876)
-feature(UnsupportedErrors cpp swift SOURCES
-    fidl/hello/UnsupportedErrors.fidl
-    )
-
 #TODO: remove when Unions are done for android (APIGEN-776)
 feature(UnsupportedUnions android SOURCES
     fidl/hello/UnsupportedUnions.fidl
