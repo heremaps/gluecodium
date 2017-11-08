@@ -16,6 +16,7 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
+import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
@@ -89,7 +90,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    if (JavaUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
+    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
       closeContext();
       return;
     }
@@ -163,7 +164,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
-    if (JavaUnsupportedFeatures.isUnsupportedType(francaConstant.getType())) {
+    if (PlatformUnsupportedFeatures.isUnsupportedType(francaConstant.getType())) {
       closeContext();
       return;
     }
@@ -206,7 +207,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FStructType francaStructType) {
 
-    if (JavaUnsupportedFeatures.isUnsupportedType(francaStructType)) {
+    if (PlatformUnsupportedFeatures.isUnsupportedType(francaStructType)) {
       closeContext();
       return;
     }
@@ -259,7 +260,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FArrayType francaArrayType) {
 
-    if (JavaUnsupportedFeatures.isUnsupportedType(francaArrayType.getElementType())) {
+    if (PlatformUnsupportedFeatures.isUnsupportedType(francaArrayType.getElementType())) {
       closeContext();
       return;
     }
@@ -271,8 +272,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FMapType francaMapType) {
 
-    if (JavaUnsupportedFeatures.isUnsupportedType(francaMapType.getKeyType())
-        || JavaUnsupportedFeatures.isUnsupportedType(francaMapType.getValueType())) {
+    if (PlatformUnsupportedFeatures.isUnsupportedType(francaMapType.getKeyType())
+        || PlatformUnsupportedFeatures.isUnsupportedType(francaMapType.getValueType())) {
       closeContext();
       return;
     }
@@ -284,7 +285,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FAttribute francaAttribute) {
 
-    if (JavaUnsupportedFeatures.isUnsupportedType(francaAttribute.getType())) {
+    if (PlatformUnsupportedFeatures.isUnsupportedType(francaAttribute.getType())) {
       closeContext();
       return;
     }

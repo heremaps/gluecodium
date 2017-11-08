@@ -19,6 +19,7 @@ import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
+import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -103,6 +104,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FStructType francaStruct) {
+
+    if (PlatformUnsupportedFeatures.isUnsupportedType(francaStruct)) {
+      closeContext();
+      return;
+    }
+
     SwiftContainerType swiftStruct =
         new SwiftContainerType(SwiftNameRules.getStructName(francaStruct.getName()));
     String comment = CppCommentParser.parse(francaStruct).getMainBodyText();
@@ -176,6 +183,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FTypeDef francaTypeDef) {
+
+    if (PlatformUnsupportedFeatures.isUnsupportedType(francaTypeDef)) {
+      closeContext();
+      return;
+    }
+
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
       SwiftTypeDef typedefValue =
           new SwiftTypeDef(francaTypeDef.getName(), getPreviousResult(SwiftType.class));
@@ -187,6 +200,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
+
+    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
+      closeContext();
+      return;
+    }
+
     List<SwiftParameter> inParams =
         getPreviousResults(SwiftInParameter.class)
             .stream()
@@ -222,6 +241,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FAttribute attribute) {
+
+    if (PlatformUnsupportedFeatures.isUnsupportedType(attribute.getType())) {
+      closeContext();
+      return;
+    }
+
     SwiftProperty property =
         new SwiftProperty(
             SwiftNameRules.getPropertyName(attribute),
