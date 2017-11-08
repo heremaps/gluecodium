@@ -18,11 +18,19 @@ define navigation.BaseApiSpec for interface hello.HelloWorldArrays
         Static = true
     }
 
+    method methodWithSimpleArray {
+        Static = true
+    }
+
     method methodWithArrayInline {
         Static = true
     }
 
     method methodWithStructArray {
+        Static = true
+    }
+
+    method methodWithNestedArraysInline {
         Static = true
     }
 }

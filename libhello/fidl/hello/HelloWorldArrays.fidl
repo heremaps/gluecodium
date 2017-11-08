@@ -26,6 +26,8 @@ interface HelloWorldArrays {
 
     array StructArray of ExampleStruct
 
+    array Int64Array of Int64
+
 
     <** @description:
     Static method which takes an array and returns an array of same type in reversed order.
@@ -38,6 +40,20 @@ interface HelloWorldArrays {
         out {
             <** @description: Output array **>
             StringArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns an array of same type in reversed order.
+    **>
+    method methodWithSimpleArray {
+        in {
+            <** @description: Input array **>
+            Int64Array input
+        }
+        out {
+            <** @description: Output array **>
+            Int64[] output
         }
     }
 
@@ -66,6 +82,20 @@ interface HelloWorldArrays {
         out {
             <** @description: Output array **>
             StructArray output
+        }
+    }
+
+    <** @description:
+    Function takes inline array of int64 arrays and reverses elements in each dimension
+    **>
+    method methodWithNestedArraysInline {
+        in {
+            <** @description: Input array **>
+            Int64Array[] input
+        }
+        out {
+            <** @description: Output array **>
+            Int64Array[] output
         }
     }
 }
