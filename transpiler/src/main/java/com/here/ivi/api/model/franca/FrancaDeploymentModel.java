@@ -68,8 +68,11 @@ public class FrancaDeploymentModel {
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaModelElement);
     MappingGenericPropertyAccessor propertyAccessor =
         propertyAccessors.get(buildKey(typeCollection));
-
-    return propertyAccessor != null && propertyAccessor.getBoolean(francaModelElement, valueName);
+    if (propertyAccessor != null) {
+      Boolean boolValue = propertyAccessor.getBoolean(francaModelElement, valueName);
+      return boolValue != null && boolValue;
+    }
+    return false;
   }
 
   private static String buildKey(final FTypeCollection francaTypeCollection) {
