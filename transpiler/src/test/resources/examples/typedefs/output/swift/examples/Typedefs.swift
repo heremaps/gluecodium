@@ -15,7 +15,7 @@ public class Typedefs {
 
     public typealias ExampleAlias = UInt32
 
-    public static func typedefMethod(input: ExampleAlias) -> ExampleAlias {
+    public static func typedefMethod(input: Typedefs.ExampleAlias) -> Typedefs.ExampleAlias {
         return examples_Typedefs_typedefMethod(input)
     }
 

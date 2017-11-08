@@ -62,7 +62,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FInterface francaInterface) {
     SwiftFile file = new SwiftFile();
-    SwiftClass clazz = new SwiftClass(SwiftNameRules.getClassName(francaInterface));
+    SwiftClass clazz = new SwiftClass(SwiftNameRules.getClassName(francaInterface.getName()));
     String comment = CppCommentParser.parse(francaInterface).getMainBodyText();
     clazz.comment = comment != null ? comment : "";
     clazz.properties = getPreviousResults(SwiftProperty.class);
@@ -112,7 +112,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     }
 
     SwiftContainerType swiftStruct =
-        new SwiftContainerType(SwiftNameRules.getStructName(francaStruct.getName()));
+        new SwiftContainerType(SwiftNameRules.getStructName(francaStruct, deploymentModel));
     String comment = CppCommentParser.parse(francaStruct).getMainBodyText();
     swiftStruct.comment = comment != null ? comment : "";
     swiftStruct.fields = getPreviousResults(SwiftField.class);
@@ -128,7 +128,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     List<SwiftEnumItem> enumItems =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, SwiftEnumItem.class);
     storeResult(
-        SwiftEnum.builder(SwiftNameRules.getEnumTypeName(francaEnumerationType))
+        SwiftEnum.builder(SwiftNameRules.getEnumTypeName(francaEnumerationType, deploymentModel))
             .comment(comment)
             .items(enumItems)
             .build());
@@ -198,10 +198,11 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
       SwiftTypeDef typedefValue =
-          new SwiftTypeDef(francaTypeDef.getName(), getPreviousResult(SwiftType.class));
+          new SwiftTypeDef(
+              SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel),
+              getPreviousResult(SwiftType.class));
       storeResult(typedefValue);
     }
-
     super.finishBuilding(francaTypeDef);
   }
 
@@ -237,8 +238,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
-    SwiftType swiftType =
-        SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel);
+    SwiftType swiftType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
     if (swiftType instanceof SwiftArray) {
       SwiftArray array = (SwiftArray) swiftType;
       arraysCollector.put(array.underlyingType.name, array);
@@ -270,7 +270,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FArrayType francaArray) {
     SwiftType innerType =
-        SwiftTypeMapper.mapTypeWithDeploymentModel(francaArray.getElementType(), deploymentModel);
+        SwiftTypeMapper.mapType((FTypeRef) francaArray.getElementType(), deploymentModel);
     SwiftArray arrayType = SwiftArrayMapper.create(innerType, francaArray);
     arraysCollector.put(innerType.name, arrayType);
     super.finishBuilding(francaArray);

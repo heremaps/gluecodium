@@ -44,9 +44,9 @@ public class Structs {
 
     public struct IdentifiableSyncResult {
         public var id: Int32
-        public var syncResult: SyncResult
+        public var syncResult: Structs.SyncResult
 
-        public init(id: Int32, syncResult: SyncResult) {
+        public init(id: Int32, syncResult: Structs.SyncResult) {
             self.id = id
             self.syncResult = syncResult
         }
@@ -55,7 +55,7 @@ public class Structs {
             id = examples_Structs_IdentifiableSyncResult_id_get(cIdentifiableSyncResult)
             do {
                 guard
-                    let syncResultUnwrapped = SyncResult(cSyncResult: examples_Structs_IdentifiableSyncResult_syncResult_get(cIdentifiableSyncResult))
+                    let syncResultUnwrapped = Structs.SyncResult(cSyncResult: examples_Structs_IdentifiableSyncResult_syncResult_get(cIdentifiableSyncResult))
                 else {
                     return nil
                 }
@@ -76,7 +76,7 @@ public class Structs {
         }
     }
 
-    public static func methodWithNonNestedType(input: SyncResult) -> SyncResult? {
+    public static func methodWithNonNestedType(input: Structs.SyncResult) -> Structs.SyncResult? {
         let inputHandle = input.convertToCType()
         defer {
             examples_Structs_SyncResult_release(inputHandle)
@@ -88,10 +88,9 @@ public class Structs {
             examples_Structs_SyncResult_release(cResult)
         }
 
-        return SyncResult(cSyncResult: cResult)
+        return Structs.SyncResult(cSyncResult: cResult)
     }
-
-    public static func methodWithNestedType(input: IdentifiableSyncResult) -> IdentifiableSyncResult? {
+    public static func methodWithNestedType(input: Structs.IdentifiableSyncResult) -> Structs.IdentifiableSyncResult? {
         let inputHandle = input.convertToCType()
         defer {
             examples_Structs_IdentifiableSyncResult_release(inputHandle)
@@ -103,7 +102,7 @@ public class Structs {
             examples_Structs_IdentifiableSyncResult_release(cResult)
         }
 
-        return IdentifiableSyncResult(cIdentifiableSyncResult: cResult)
+        return Structs.IdentifiableSyncResult(cIdentifiableSyncResult: cResult)
     }
 
 }

@@ -90,8 +90,8 @@ public class Arrays {
         return UInt8List(handle)
     }
 
-    public static func methodWithStructArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.BasicStruct> where Tinput.Element == BasicStruct {
-        let inputArray = input.flatMap{ $0 as? BasicStruct }
+    public static func methodWithStructArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.BasicStruct> where Tinput.Element == Arrays.BasicStruct {
+        let inputArray = input.flatMap{ $0 as? Arrays.BasicStruct }
         let inputHandle = inputArray.c_conversion()
         defer {
             inputHandle.cleanup()
@@ -110,13 +110,13 @@ public class Arrays {
         return UInt8ListList(handle)
     }
 
-    public static func mergeArraysOfStructsWithArrays<TinlineFancyArray: Collection, TfancyArray: Collection>(inlineFancyArray: TinlineFancyArray, fancyArray: TfancyArray) -> CollectionOf<Arrays.FancyStruct> where TinlineFancyArray.Element == FancyStruct, TfancyArray.Element == FancyStruct {
-        let inlineFancyArrayArray = inlineFancyArray.flatMap{ $0 as? FancyStruct }
+    public static func mergeArraysOfStructsWithArrays<TinlineFancyArray: Collection, TfancyArray: Collection>(inlineFancyArray: TinlineFancyArray, fancyArray: TfancyArray) -> CollectionOf<Arrays.FancyStruct> where TinlineFancyArray.Element == Arrays.FancyStruct, TfancyArray.Element == Arrays.FancyStruct {
+        let inlineFancyArrayArray = inlineFancyArray.flatMap{ $0 as? Arrays.FancyStruct }
         let inlineFancyArrayHandle = inlineFancyArrayArray.c_conversion()
         defer {
             inlineFancyArrayHandle.cleanup()
         }
-        let fancyArrayArray = fancyArray.flatMap{ $0 as? FancyStruct }
+        let fancyArrayArray = fancyArray.flatMap{ $0 as? Arrays.FancyStruct }
         let fancyArrayHandle = fancyArrayArray.c_conversion()
         defer {
             fancyArrayHandle.cleanup()

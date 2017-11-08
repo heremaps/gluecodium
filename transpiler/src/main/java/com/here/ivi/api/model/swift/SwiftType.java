@@ -31,7 +31,6 @@ public class SwiftType extends SwiftModelElement {
   public final TypeCategory category;
   public String implementingClass;
   protected final String typeAliasName;
-  private String namespace;
 
   public SwiftType(String name) {
     this(name, TypeCategory.BUILTIN_SIMPLE, null, null, false);
@@ -61,17 +60,6 @@ public class SwiftType extends SwiftModelElement {
   @SuppressWarnings("unused")
   public String getPublicName() {
     return typeAliasName != null ? typeAliasName : name;
-  }
-
-  public void setNamespaceIfNeeded(String domain) {
-    if (domain != null && !name.equals(domain)) {
-      this.namespace = domain;
-    }
-  }
-
-  //TODO: APIGEN-891 Hack for reference structs inside classes. It need to be fixed properly.
-  public String nameSpaceName() {
-    return (namespace != null) ? namespace + "." + name : name;
   }
 
   public SwiftType createOptionalType() {

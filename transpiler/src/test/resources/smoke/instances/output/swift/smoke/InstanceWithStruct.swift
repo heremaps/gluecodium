@@ -47,7 +47,7 @@ public class InstanceWithStruct {
         }
     }
 
-    public func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct? {
+    public func innerStructMethod(inputStruct: InstanceWithStruct.InnerStruct) -> InstanceWithStruct.InnerStruct? {
         let inputStructHandle = inputStruct.convertToCType()
         defer {
             smoke_InstanceWithStruct_InnerStruct_release(inputStructHandle)
@@ -59,7 +59,7 @@ public class InstanceWithStruct {
             smoke_InstanceWithStruct_InnerStruct_release(cResult)
         }
 
-        return InnerStruct(cInnerStruct: cResult)
+        return InstanceWithStruct.InnerStruct(cInnerStruct: cResult)
     }
 
 }

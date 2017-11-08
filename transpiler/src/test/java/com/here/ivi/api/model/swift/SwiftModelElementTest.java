@@ -11,25 +11,20 @@
 
 package com.here.ivi.api.model.swift;
 
-import java.util.List;
-import org.trimou.util.Strings;
+import static org.junit.Assert.assertEquals;
 
-public abstract class SwiftModelElement {
-  public final String name;
-  public String comment = "";
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-  public SwiftModelElement(String name) {
-    this.name = name;
-  }
+@RunWith(JUnit4.class)
+public class SwiftModelElementTest {
+  @Test
+  public void constructSimpleNameFromName() {
+    SwiftModelElement modelElement = new SwiftModelElement("Namespace.SimpleName") {};
 
-  @Override
-  public String toString() {
-    return name;
-  }
-
-  @SuppressWarnings("unused")
-  public String getSimpleName() {
-    List<String> parts = Strings.split(name, ".");
-    return parts.get(parts.size() - 1);
+    assertEquals("Name should contain namespace", "Namespace.SimpleName", modelElement.name);
+    assertEquals(
+        "Simple name should not contain namespace", "SimpleName", modelElement.getSimpleName());
   }
 }

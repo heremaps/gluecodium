@@ -797,8 +797,10 @@ public class SwiftFileTemplateTest {
   public void nestedTypedeGenerationInClass() {
 
     SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
-    SwiftTypeDef typedef = new SwiftTypeDef("MyNestedTypeDef", new SwiftType("MyTypeDef"));
-    SwiftTypeDef typedef2 = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
+    SwiftTypeDef typedef =
+        new SwiftTypeDef(
+            "HellowWorldFactory.MyNestedTypeDef", new SwiftType("HellowWorldFactory.MyTypeDef"));
+    SwiftTypeDef typedef2 = new SwiftTypeDef("HellowWorldFactory.MyTypeDef", new SwiftType("Int"));
     swiftClass.typedefs = Arrays.asList(typedef, typedef2);
 
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
@@ -812,9 +814,9 @@ public class SwiftFileTemplateTest {
     final String expected =
         "import Foundation\n"
             + "public class HellowWorldFactory {\n"
-            + "    public typealias MyNestedTypeDef = MyTypeDef\n"
+            + "    public typealias MyNestedTypeDef = HellowWorldFactory.MyTypeDef\n"
             + "    public typealias MyTypeDef = Int\n"
-            + "    public static func createInstanceMethod() -> MyTypeDef {\n"
+            + "    public static func createInstanceMethod() -> HellowWorldFactory.MyTypeDef {\n"
             + "        return HelloWorld_createInstanceMethod()\n"
             + "    }\n"
             + "}\n";
@@ -1049,6 +1051,70 @@ public class SwiftFileTemplateTest {
             + "public protocol TestClass {\n"
             + "}\n"
             + "internal class _TestClass: SuperClass, FirstProtocol, SecondProtocol {\n"
+            + "}\n";
+    final String generated = generateFromClass(swiftClass);
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void classWithoutProtocolWithStructTypedefAndMethod() {
+    SwiftClass swiftClass = new SwiftClass("SomeClass", null);
+    SwiftContainerType firstSturct = new SwiftContainerType("SomeClass.FirstStruct");
+    firstSturct.cPrefix = "CPrefix";
+    firstSturct.cType = "CType";
+    SwiftContainerType secondStruct = new SwiftContainerType("SomeClass.SecondStruct");
+    secondStruct.cPrefix = "CPrefix";
+    secondStruct.cType = "CType";
+    swiftClass.typedefs =
+        Collections.singletonList(new SwiftTypeDef("SomeClass.RenamedStruct", secondStruct));
+    SwiftMethod method =
+        new SwiftMethod("SomeMethod", singletonList(new SwiftParameter("input", firstSturct)));
+    method.returnType = secondStruct.createAlias("SomeClass.RenamedStruct");
+    method.cBaseName = "HelloWorld_someMethod";
+    method.isStatic = true;
+    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    swiftClass.structs = Arrays.asList(firstSturct, secondStruct);
+    final String expected =
+        "import Foundation\n"
+            + "public class SomeClass {\n"
+            + "    public typealias RenamedStruct = SomeClass.SecondStruct\n"
+            + "    public struct FirstStruct {\n"
+            + "        public init() {\n"
+            + "        }\n"
+            + "        internal init?(cFirstStruct: CType) {\n"
+            + "        }\n"
+            + "        internal func convertToCType() -> CType {\n"
+            + "            let result = CPrefix_create()\n"
+            + "            fillFunction(result)\n"
+            + "            return result\n"
+            + "        }\n"
+            + "        internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
+            + "        }\n"
+            + "    }\n"
+            + "    public struct SecondStruct {\n"
+            + "        public init() {\n"
+            + "        }\n"
+            + "        internal init?(cSecondStruct: CType) {\n"
+            + "        }\n"
+            + "        internal func convertToCType() -> CType {\n"
+            + "            let result = CPrefix_create()\n"
+            + "            fillFunction(result)\n"
+            + "            return result\n"
+            + "        }\n"
+            + "        internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
+            + "        }\n"
+            + "    }\n"
+            + "    public static func SomeMethod(input: SomeClass.FirstStruct) -> SomeClass.RenamedStruct {\n"
+            + "        let inputHandle = input.convertToCType()\n"
+            + "        defer {\n"
+            + "            CPrefix_release(inputHandle)\n"
+            + "        }\n"
+            + "        let cResult = HelloWorld_someMethod(inputHandle)\n"
+            + "        defer {\n"
+            + "            CPrefix_release(cResult)\n"
+            + "        }\n"
+            + "        return SomeClass.SecondStruct(cSecondStruct: cResult)\n"
+            + "    }\n"
             + "}\n";
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);

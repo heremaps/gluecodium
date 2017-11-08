@@ -40,6 +40,37 @@ extension Collection where Element == CollectionOf<UInt8>  {
     }
 }
 
+internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
+    let c_element: arrayCollection_FancyStruct
+
+    init(_ c_element: arrayCollection_FancyStruct) {
+        self.c_element = c_element
+        super.init([])
+        self.startIndex = 0
+        self.endIndex = Int(arrayCollection_FancyStruct_count(c_element))
+    }
+
+    public override subscript(index: Int) -> Arrays.FancyStruct {
+        let handle = arrayCollection_FancyStruct_get(c_element, UInt64(index))
+        guard let result = Arrays.FancyStruct(cFancyStruct: handle) else {
+            fatalError("Not implemented")
+        }
+        return result
+    }
+}
+extension Collection where Element == Arrays.FancyStruct  {
+    public func c_conversion()-> (c_type: arrayCollection_FancyStruct, cleanup: () ->Void) {
+        let handle = arrayCollection_FancyStruct_create()
+        for item in self {
+           arrayCollection_FancyStruct_append(handle, item.convertToCType())
+        }
+        let cleanup_function = { () -> Void in
+            arrayCollection_FancyStruct_release(handle)
+        }
+        return (handle, cleanup_function)
+    }
+}
+
 internal class StringList: CollectionOf<String> {
     let c_element: arrayCollection_String
     init(_ c_element: arrayCollection_String) {
@@ -65,37 +96,6 @@ extension Collection where Element == String  {
         }
         let cleanup_function = { () -> Void in
             arrayCollection_String_release(handle)
-        }
-        return (handle, cleanup_function)
-    }
-}
-
-internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
-    let c_element: arrayCollection_FancyStruct
-
-    init(_ c_element: arrayCollection_FancyStruct) {
-        self.c_element = c_element
-        super.init([])
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_FancyStruct_count(c_element))
-    }
-
-    public override subscript(index: Int) -> Arrays.FancyStruct {
-        let handle = arrayCollection_FancyStruct_get(c_element, UInt64(index))
-        guard let result = Arrays.FancyStruct(cFancyStruct: handle) else {
-            fatalError("Not implemented")
-        }
-        return result
-    }
-}
-extension Collection where Element == Arrays.FancyStruct  {
-    public func c_conversion()-> (c_type: arrayCollection_FancyStruct, cleanup: () ->Void) {
-        let handle = arrayCollection_FancyStruct_create()
-        for item in self { 
-           arrayCollection_FancyStruct_append(handle, item.convertToCType())
-        }
-        let cleanup_function = { () -> Void in
-            arrayCollection_FancyStruct_release(handle)
         }
         return (handle, cleanup_function)
     }

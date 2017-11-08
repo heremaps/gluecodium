@@ -89,7 +89,7 @@ public class SwiftModelBuilderInterfaceTest {
         CppCommentParser.class,
         CBridgeNameRules.class);
 
-    when(SwiftNameRules.getClassName(francaInterface)).thenReturn("classy");
+    when(SwiftNameRules.getClassName(any())).thenReturn("classy");
     when(CppCommentParser.parse(francaInterface)).thenReturn(comments);
     when(CBridgeNameRules.getInterfaceName(francaInterface)).thenReturn("package_classy");
     when(CBridgeNameRules.getInstanceRefType(francaInterface)).thenReturn("instance_ref");
@@ -251,7 +251,7 @@ public class SwiftModelBuilderInterfaceTest {
     contextStack.injectResult(swiftMethod);
     contextStack.injectResult(swiftStaticMethod);
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    when(SwiftNameRules.getClassName(francaInterface)).thenReturn("classy");
+    when(SwiftNameRules.getClassName(any())).thenReturn("classy");
 
     modelBuilder.finishBuilding(francaInterface);
 

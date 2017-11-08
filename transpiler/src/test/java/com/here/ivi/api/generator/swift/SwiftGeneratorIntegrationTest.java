@@ -64,7 +64,7 @@ public class SwiftGeneratorIntegrationTest {
     assertEquals("Structs should be part of class", 2, clazz.structs.size());
     assertEquals("Structs should not be part of file", 0, file.structs.size());
     SwiftContainerType struct = clazz.structs.get(0);
-    assertEquals("name should be parsed correctly to Swift", "Struct0", struct.name);
+    assertEquals("name should be parsed correctly to Swift", "TestInterface7.Struct0", struct.name);
     assertEquals("comments should be parsed correctly", "This is a test struct", struct.comment);
     assertEquals("all fields should be recognized", 2, struct.fields.size());
     assertEquals("the name of the fields are correct", "elem1", struct.fields.get(0).name);

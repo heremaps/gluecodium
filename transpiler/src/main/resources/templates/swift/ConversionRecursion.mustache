@@ -40,7 +40,7 @@ defer {
 defer {
     {{method.returnType.cPrefix}}_release(cResult)
 }
-return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnValueUnwrapping}}!{{/if}}
+return {{>returnType}}(c{{method.returnType.simpleName}}: cResult){{#if method.forceReturnValueUnwrapping}}!{{/if}}
 {{/MethodReturnStruct}}
 
 {{+MethodReturnClass}}{{!!

@@ -26,13 +26,13 @@ public class Attributes {
             return smoke_Attributes_readonlyAttribute_get(c_instance)
         }
     }
-    public var structAttribute: ExampleStruct {
+    public var structAttribute: Attributes.ExampleStruct {
         get {
             let cResult = smoke_Attributes_structAttribute_get(c_instance)
             defer {
                 smoke_Attributes_ExampleStruct_release(cResult)
             }
-            return ExampleStruct(cExampleStruct: cResult)!
+            return Attributes.ExampleStruct(cExampleStruct: cResult)!
         }
         set {
             let newValueHandle = newValue.convertToCType()
@@ -56,10 +56,10 @@ public class Attributes {
             return smoke_Attributes_arrayAttribute_set(c_instance, newValueHandle.c_type)
         }
     }
-    public var complexTypeAttribute: InternalError {
+    public var complexTypeAttribute: Attributes.InternalError {
         get {
             let cResult = smoke_Attributes_complexTypeAttribute_get(c_instance)
-            return InternalError(rawValue: cResult)!
+            return Attributes.InternalError(rawValue: cResult)!
         }
         set {
             return smoke_Attributes_complexTypeAttribute_set(c_instance, newValue.rawValue)
