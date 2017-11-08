@@ -16,6 +16,7 @@ import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.UNDERSCORE_DEL
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftType;
 import java.io.File;
 import org.franca.core.franca.*;
@@ -36,7 +37,7 @@ public final class SwiftNameRules {
 
   private static String getFileName(final FTypeCollection francaTypeCollection) {
     if (francaTypeCollection instanceof FInterface) {
-      return SwiftNameRules.computeClassName(francaTypeCollection);
+      return SwiftNameRules.getClassName(francaTypeCollection.getName());
     } else {
       return getTypeCollectionName(francaTypeCollection);
     }
@@ -50,16 +51,31 @@ public final class SwiftNameRules {
     return argument.getName();
   }
 
-  public static String getClassName(final FTypeCollection base) {
-    return SwiftNameRules.computeClassName(base);
+  public static String getClassName(final String name) {
+    return NameHelper.toUpperCamelCase(name);
   }
 
-  public static String getClassName(final String string) {
-    return NameHelper.toUpperCamelCase(string);
+  public static String getStructName(
+      final FStructType structName, final FrancaDeploymentModel deploymentModel) {
+    return getTypeName(structName, deploymentModel);
   }
 
-  public static String getStructName(final String structName) {
-    return NameHelper.toUpperCamelCase(structName);
+  private static String getTypeName(
+      final FModelElement element, final FrancaDeploymentModel deploymentModel) {
+    return getNamespacePrefix(element, deploymentModel)
+        + NameHelper.toUpperCamelCase(element.getName());
+  }
+
+  private static String getNamespacePrefix(
+      FModelElement elem, FrancaDeploymentModel deploymentModel) {
+    FTypeCollection definingTypeCollection = DefinedBy.findDefiningTypeCollection(elem);
+    if (definingTypeCollection instanceof FInterface) {
+      FInterface iface = (FInterface) definingTypeCollection;
+      if (elem instanceof FTypeDef || !deploymentModel.isInterface(iface)) {
+        return getClassName(definingTypeCollection.getName()) + ".";
+      }
+    }
+    return "";
   }
 
   public static String getFieldName(final String fieldName) {
@@ -70,12 +86,9 @@ public final class SwiftNameRules {
     return NameHelper.toUpperCamelCase(base.getName());
   }
 
-  public static String computeClassName(final FTypeCollection base) {
-    return NameHelper.toUpperCamelCase(base.getName());
-  }
-
-  public static String getEnumTypeName(FModelElement francaEnumerator) {
-    return NameHelper.toUpperCamelCase(francaEnumerator.getName());
+  public static String getEnumTypeName(
+      FModelElement francaEnumerator, FrancaDeploymentModel deploymentModel) {
+    return getTypeName(francaEnumerator, deploymentModel);
   }
 
   public static String getEnumItemName(FEnumerator francaEnumerator) {
@@ -103,8 +116,15 @@ public final class SwiftNameRules {
 
   public static String getArrayName(SwiftType innerType) {
     String name =
-        (innerType.implementingClass != null) ? innerType.implementingClass : innerType.name;
+        (innerType.implementingClass != null)
+            ? innerType.implementingClass
+            : innerType.getSimpleName();
     name = SwiftNameRules.getClassName(name.replace("_", ""));
     return name + "List";
+  }
+
+  public static String getTypeDefName(
+      FTypeDef francaTypeDef, FrancaDeploymentModel deploymentModel) {
+    return getTypeName(francaTypeDef, deploymentModel);
   }
 }

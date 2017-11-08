@@ -5,7 +5,7 @@
 import Foundation
 
 {{#arrays}}
-internal class {{implementingClass}}: CollectionOf<{{publicInnerType}}> {
+internal class {{implementingClass}}: CollectionOf<{{underlyingType}}> {
     let c_element: {{refName}}
 
     init(_ c_element: {{refName}}) {
@@ -15,7 +15,7 @@ internal class {{implementingClass}}: CollectionOf<{{publicInnerType}}> {
         self.endIndex = Int({{refName}}_count(c_element))
     }
 
-    public override subscript(index: Int) -> {{publicInnerType}} {
+    public override subscript(index: Int) -> {{underlyingType}} {
         let handle = {{refName}}_get(c_element, UInt64(index)){{!!
         }}{{#switch underlyingType.category.toString}}{{!!
         }}{{#case "STRUCT"}}{{prefixPartial 'structSubscript'   '        '}}{{/case}}{{!!
@@ -27,7 +27,7 @@ internal class {{implementingClass}}: CollectionOf<{{publicInnerType}}> {
         }}{{/switch}}
     }
 }
-extension Collection where Element == {{publicInnerType}}  {
+extension Collection where Element == {{underlyingType}}  {
     public func c_conversion()-> (c_type: {{refName}}, cleanup: () ->Void) {
         let handle = {{refName}}_create()
         for item in self { {{!!
@@ -49,19 +49,19 @@ extension Collection where Element == {{publicInnerType}}  {
 {{/arrays}}
 
 {{+enumSubscript}}
-return {{publicInnerType}}(rawValue: handle)!{{/enumSubscript}}
+return {{underlyingType}}(rawValue: handle)!{{/enumSubscript}}
 
 {{+defaultSubscript}}
 return handle{{/defaultSubscript}}
 
 {{+structSubscript}}
-guard let result = {{publicInnerType}}(c{{innerType}}: handle) else {
+guard let result = {{underlyingType}}(c{{underlyingType.simpleName}}: handle) else {
     fatalError("Not implemented")
 }
 return result{{/structSubscript}}
 
 {{+classSubscript}}
-guard let result = {{privateInnerType}}(c{{innerType}}: handle) else {
+guard let result = {{underlyingType}}(c{{underlyingType.simpleName}}: handle) else {
     fatalError("Not implemented")
 }
 return result{{/classSubscript}}

@@ -31,16 +31,16 @@ public class Enums {
     }
 
     public struct ErrorStruct {
-        public var type: InternalError
+        public var type: Enums.InternalError
         public var message: String
 
-        public init(type: InternalError, message: String) {
+        public init(type: Enums.InternalError, message: String) {
             self.type = type
             self.message = message
         }
 
         internal init?(cErrorStruct: smoke_Enums_ErrorStructRef) {
-            type = InternalError.init(rawValue: smoke_Enums_ErrorStruct_type_get(cErrorStruct))!
+            type = Enums.InternalError.init(rawValue: smoke_Enums_ErrorStruct_type_get(cErrorStruct))!
             do {
                 let messageHandle = smoke_Enums_ErrorStruct_message_get(cErrorStruct)
                 message = String(cString:std_string_data_get(messageHandle))
@@ -59,29 +59,24 @@ public class Enums {
         }
     }
 
-    public static func methodWithEnumeration(input: SimpleEnum) -> SimpleEnum {
+    public static func methodWithEnumeration(input: Enums.SimpleEnum) -> Enums.SimpleEnum {
         let cResult = smoke_Enums_methodWithEnumeration(input.rawValue)
-
-        return SimpleEnum(rawValue: cResult)!
+        return Enums.SimpleEnum(rawValue: cResult)!
     }
 
-    public static func flipEnumValue(input: InternalError) -> InternalError {
+    public static func flipEnumValue(input: Enums.InternalError) -> Enums.InternalError {
         let cResult = smoke_Enums_flipEnumValue(input.rawValue)
-
-        return InternalError(rawValue: cResult)!
+        return Enums.InternalError(rawValue: cResult)!
     }
-
-    public static func extractEnumFromStruct(input: ErrorStruct) -> InternalError {
+    public static func extractEnumFromStruct(input: Enums.ErrorStruct) -> Enums.InternalError {
         let inputHandle = input.convertToCType()
         defer {
             smoke_Enums_ErrorStruct_release(inputHandle)
         }
         let cResult = smoke_Enums_extractEnumFromStruct(inputHandle)
-
-        return InternalError(rawValue: cResult)!
+        return Enums.InternalError(rawValue: cResult)!
     }
-
-    public static func createStructWithEnumInside(type: InternalError, message: String) -> ErrorStruct? {
+    public static func createStructWithEnumInside(type: Enums.InternalError, message: String) -> Enums.ErrorStruct? {
         let cResult = smoke_Enums_createStructWithEnumInside(type.rawValue, message)
 
 
@@ -89,7 +84,7 @@ public class Enums {
             smoke_Enums_ErrorStruct_release(cResult)
         }
 
-        return ErrorStruct(cErrorStruct: cResult)
+        return Enums.ErrorStruct(cErrorStruct: cResult)
     }
 
 }

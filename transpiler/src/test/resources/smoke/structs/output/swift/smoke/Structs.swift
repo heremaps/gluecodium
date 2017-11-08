@@ -73,10 +73,10 @@ public class Structs {
     }
 
     public struct Line {
-        public var a: Point
-        public var b: Point
+        public var a: Structs.Point
+        public var b: Structs.Point
 
-        public init(a: Point, b: Point) {
+        public init(a: Structs.Point, b: Structs.Point) {
             self.a = a
             self.b = b
         }
@@ -84,7 +84,7 @@ public class Structs {
         internal init?(cLine: smoke_Structs_LineRef) {
             do {
                 guard
-                    let aUnwrapped = Point(cPoint: smoke_Structs_Line_a_get(cLine))
+                    let aUnwrapped = Structs.Point(cPoint: smoke_Structs_Line_a_get(cLine))
                 else {
                     return nil
                 }
@@ -92,7 +92,7 @@ public class Structs {
             }
             do {
                 guard
-                    let bUnwrapped = Point(cPoint: smoke_Structs_Line_b_get(cLine))
+                    let bUnwrapped = Structs.Point(cPoint: smoke_Structs_Line_b_get(cLine))
                 else {
                     return nil
                 }
@@ -115,10 +115,10 @@ public class Structs {
     }
 
     public struct ColoredLine {
-        public var line: Line
-        public var color: Color
+        public var line: Structs.Line
+        public var color: Structs.Color
 
-        public init(line: Line, color: Color) {
+        public init(line: Structs.Line, color: Structs.Color) {
             self.line = line
             self.color = color
         }
@@ -126,7 +126,7 @@ public class Structs {
         internal init?(cColoredLine: smoke_Structs_ColoredLineRef) {
             do {
                 guard
-                    let lineUnwrapped = Line(cLine: smoke_Structs_ColoredLine_line_get(cColoredLine))
+                    let lineUnwrapped = Structs.Line(cLine: smoke_Structs_ColoredLine_line_get(cColoredLine))
                 else {
                     return nil
                 }
@@ -134,7 +134,7 @@ public class Structs {
             }
             do {
                 guard
-                    let colorUnwrapped = Color(cColor: smoke_Structs_ColoredLine_color_get(cColoredLine))
+                    let colorUnwrapped = Structs.Color(cColor: smoke_Structs_ColoredLine_color_get(cColoredLine))
                 else {
                     return nil
                 }
@@ -170,9 +170,9 @@ public class Structs {
         public var stringField: String
         public var booleanField: Bool
         public var bytesField: Data
-        public var pointField: Point
+        public var pointField: Structs.Point
 
-        public init(int8Field: Int8, uint8Field: UInt8, int16Field: Int16, uint16Field: UInt16, int32Field: Int32, uint32Field: UInt32, int64Field: Int64, uint64Field: UInt64, floatField: Float, doubleField: Double, stringField: String, booleanField: Bool, bytesField: Data, pointField: Point) {
+        public init(int8Field: Int8, uint8Field: UInt8, int16Field: Int16, uint16Field: UInt16, int32Field: Int32, uint32Field: UInt32, int64Field: Int64, uint64Field: UInt64, floatField: Float, doubleField: Double, stringField: String, booleanField: Bool, bytesField: Data, pointField: Structs.Point) {
             self.int8Field = int8Field
             self.uint8Field = uint8Field
             self.int16Field = int16Field
@@ -216,7 +216,7 @@ public class Structs {
             }
             do {
                 guard
-                    let pointFieldUnwrapped = Point(cPoint: smoke_Structs_AllTypesStruct_pointField_get(cAllTypesStruct))
+                    let pointFieldUnwrapped = Structs.Point(cPoint: smoke_Structs_AllTypesStruct_pointField_get(cAllTypesStruct))
                 else {
                     return nil
                 }
@@ -251,7 +251,7 @@ public class Structs {
         }
     }
 
-    public static func createPoint(x: Double, y: Double) -> Point? {
+    public static func createPoint(x: Double, y: Double) -> Structs.Point? {
         let cResult = smoke_Structs_createPoint(x, y)
 
 
@@ -259,10 +259,9 @@ public class Structs {
             smoke_Structs_Point_release(cResult)
         }
 
-        return Point(cPoint: cResult)
+        return Structs.Point(cPoint: cResult)
     }
-
-    public static func swapPointCoordinates(input: Point) -> Point? {
+    public static func swapPointCoordinates(input: Structs.Point) -> Structs.Point? {
         let inputHandle = input.convertToCType()
         defer {
             smoke_Structs_Point_release(inputHandle)
@@ -274,10 +273,9 @@ public class Structs {
             smoke_Structs_Point_release(cResult)
         }
 
-        return Point(cPoint: cResult)
+        return Structs.Point(cPoint: cResult)
     }
-
-    public static func createLine(pointA: Point, pointB: Point) -> Line? {
+    public static func createLine(pointA: Structs.Point, pointB: Structs.Point) -> Structs.Line? {
         let pointAHandle = pointA.convertToCType()
         defer {
             smoke_Structs_Point_release(pointAHandle)
@@ -293,10 +291,9 @@ public class Structs {
             smoke_Structs_Line_release(cResult)
         }
 
-        return Line(cLine: cResult)
+        return Structs.Line(cLine: cResult)
     }
-
-    public static func createColoredLine(line: Line, color: Color) -> ColoredLine? {
+    public static func createColoredLine(line: Structs.Line, color: Structs.Color) -> Structs.ColoredLine? {
         let lineHandle = line.convertToCType()
         defer {
             smoke_Structs_Line_release(lineHandle)
@@ -312,10 +309,9 @@ public class Structs {
             smoke_Structs_ColoredLine_release(cResult)
         }
 
-        return ColoredLine(cColoredLine: cResult)
+        return Structs.ColoredLine(cColoredLine: cResult)
     }
-
-    public static func returnColoredLine(input: ColoredLine) -> ColoredLine? {
+    public static func returnColoredLine(input: Structs.ColoredLine) -> Structs.ColoredLine? {
         let inputHandle = input.convertToCType()
         defer {
             smoke_Structs_ColoredLine_release(inputHandle)
@@ -327,10 +323,9 @@ public class Structs {
             smoke_Structs_ColoredLine_release(cResult)
         }
 
-        return ColoredLine(cColoredLine: cResult)
+        return Structs.ColoredLine(cColoredLine: cResult)
     }
-
-    public static func returnAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct? {
+    public static func returnAllTypesStruct(input: Structs.AllTypesStruct) -> Structs.AllTypesStruct? {
         let inputHandle = input.convertToCType()
         defer {
             smoke_Structs_AllTypesStruct_release(inputHandle)
@@ -342,10 +337,9 @@ public class Structs {
             smoke_Structs_AllTypesStruct_release(cResult)
         }
 
-        return AllTypesStruct(cAllTypesStruct: cResult)
+        return Structs.AllTypesStruct(cAllTypesStruct: cResult)
     }
-
-    public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct? {
+    public static func modifyAllTypesStruct(input: Structs.AllTypesStruct) -> Structs.AllTypesStruct? {
         let inputHandle = input.convertToCType()
         defer {
             smoke_Structs_AllTypesStruct_release(inputHandle)
@@ -357,7 +351,7 @@ public class Structs {
             smoke_Structs_AllTypesStruct_release(cResult)
         }
 
-        return AllTypesStruct(cAllTypesStruct: cResult)
+        return Structs.AllTypesStruct(cAllTypesStruct: cResult)
     }
 
 }

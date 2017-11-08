@@ -50,14 +50,14 @@ public class MethodOverloads {
     public func isBoolean(input: String) -> Bool {
         return smoke_MethodOverloads_isBoolean_stringOverload(c_instance, input)
     }
-    public func isBoolean(input: Point) -> Bool {
+    public func isBoolean(input: MethodOverloads.Point) -> Bool {
         let inputHandle = input.convertToCType()
         defer {
             smoke_MethodOverloads_Point_release(inputHandle)
         }
         return smoke_MethodOverloads_isBoolean_structOverload(c_instance, inputHandle)
     }
-    public func isBoolean(input1: Bool, input2: Int8, input3: String, input4: Point) -> Bool {
+    public func isBoolean(input1: Bool, input2: Int8, input3: String, input4: MethodOverloads.Point) -> Bool {
         let input4Handle = input4.convertToCType()
         defer {
             smoke_MethodOverloads_Point_release(input4Handle)

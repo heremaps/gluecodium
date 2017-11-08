@@ -17,16 +17,12 @@ public final class SwiftArray extends SwiftType {
   public String refName;
 
   public SwiftArray(final SwiftType underlyingType) {
-    super("CollectionOf<" + underlyingType.nameSpaceName() + ">", SwiftType.TypeCategory.ARRAY);
+    this(null, underlyingType);
+  }
+
+  public SwiftArray(String typealias, final SwiftType underlyingType) {
+    super("CollectionOf<" + underlyingType.name + ">", TypeCategory.ARRAY, null, typealias, false);
     this.underlyingType = underlyingType;
-  }
-
-  public String getInnerType() {
-    return underlyingType.name;
-  }
-
-  public SwiftType getType() {
-    return underlyingType;
   }
 
   @SuppressWarnings("unused")
@@ -53,8 +49,11 @@ public final class SwiftArray extends SwiftType {
     return underlyingType.implementingClass;
   }
 
-  @SuppressWarnings("unused")
-  public String getPublicInnerType() {
-    return underlyingType.nameSpaceName();
+  @Override
+  public SwiftType createAlias(String aliasName) {
+    SwiftArray alias = new SwiftArray(aliasName, underlyingType);
+    alias.implementingClass = implementingClass;
+    alias.refName = refName;
+    return alias;
   }
 }

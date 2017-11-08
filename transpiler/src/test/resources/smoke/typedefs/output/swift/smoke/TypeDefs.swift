@@ -19,14 +19,10 @@ internal func getRef(_ ref: TypeDefs) -> RefHolder<smoke_TypeDefsRef> {
 public class TypeDefs {
 
     public typealias PrimitiveTypeDef = Double
-
     public typealias ComplexTypeDef = CollectionOf<TypeDefs.TestStruct>
-
-    public typealias NestedIntTypeDef = PrimitiveTypeDef
-
-    public typealias TestStructTypeDef = TestStruct
-
-    public typealias NestedStructTypeDef = TestStructTypeDef
+    public typealias NestedIntTypeDef = TypeDefs.PrimitiveTypeDef
+    public typealias TestStructTypeDef = TypeDefs.TestStruct
+    public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
 
 
 
@@ -54,8 +50,8 @@ public class TypeDefs {
         smoke_TypeDefs_release(c_instance)
     }
     public struct StructHavingAliasFieldDefinedBelow {
-        public var field: PrimitiveTypeDef
-        public init(field: PrimitiveTypeDef) {
+        public var field: TypeDefs.PrimitiveTypeDef
+        public init(field: TypeDefs.PrimitiveTypeDef) {
             self.field = field
         }
         internal init?(cStructHavingAliasFieldDefinedBelow: smoke_TypeDefs_StructHavingAliasFieldDefinedBelowRef) {
@@ -96,12 +92,12 @@ public class TypeDefs {
         }
     }
 
-    public static func methodWithPrimitiveTypeDef(input: PrimitiveTypeDef) -> PrimitiveTypeDef {
+    public static func methodWithPrimitiveTypeDef(input: TypeDefs.PrimitiveTypeDef) -> TypeDefs.PrimitiveTypeDef {
         return smoke_TypeDefs_methodWithPrimitiveTypeDef(input)
     }
 
-    public static func methodWithComplexTypeDef(input: Tinput) -> ComplexTypeDef {
-        let inputArray = input.flatMap{ $0 as?  }
+    public static func methodWithComplexTypeDef<Tinput: Collection>(input: Tinput) -> TypeDefs.ComplexTypeDef where Tinput.Element == TypeDefs.TestStruct {
+        let inputArray = input.flatMap{ $0 as? TypeDefs.TestStruct }
         let inputHandle = inputArray.c_conversion()
         defer {
             inputHandle.cleanup()
@@ -110,11 +106,11 @@ public class TypeDefs {
         return TestStructList(handle)
     }
 
-    public static func returnNestedIntTypeDef(input: NestedIntTypeDef) -> NestedIntTypeDef {
+    public static func returnNestedIntTypeDef(input: TypeDefs.NestedIntTypeDef) -> TypeDefs.NestedIntTypeDef {
         return smoke_TypeDefs_returnNestedIntTypeDef(input)
     }
 
-    public static func returnTestStructTypeDef(input: TestStructTypeDef) -> TestStructTypeDef? {
+    public static func returnTestStructTypeDef(input: TypeDefs.TestStructTypeDef) -> TypeDefs.TestStructTypeDef? {
         let inputHandle = input.convertToCType()
         defer {
             smoke_TypeDefs_TestStruct_release(inputHandle)
@@ -126,10 +122,9 @@ public class TypeDefs {
             smoke_TypeDefs_TestStruct_release(cResult)
         }
 
-        return TestStruct(cTestStruct: cResult)
+        return TypeDefs.TestStruct(cTestStruct: cResult)
     }
-
-    public static func returnNestedStructTypeDef(input: NestedStructTypeDef) -> NestedStructTypeDef? {
+    public static func returnNestedStructTypeDef(input: TypeDefs.NestedStructTypeDef) -> TypeDefs.NestedStructTypeDef? {
         let inputHandle = input.convertToCType()
         defer {
             smoke_TypeDefs_TestStruct_release(inputHandle)
@@ -141,7 +136,7 @@ public class TypeDefs {
             smoke_TypeDefs_TestStruct_release(cResult)
         }
 
-        return TestStruct(cTestStruct: cResult)
+        return TypeDefs.TestStruct(cTestStruct: cResult)
     }
 
     public static func returnTypeDefPointFromTypeCollection(input: PointTypeDef) -> PointTypeDef? {

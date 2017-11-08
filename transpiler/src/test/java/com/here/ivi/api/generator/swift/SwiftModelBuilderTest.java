@@ -99,6 +99,7 @@ public class SwiftModelBuilderTest {
 
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaField.getName()).thenReturn(FIELD_NAME);
+
     when(francaTypeDef.getName()).thenReturn("definite");
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
@@ -338,7 +339,7 @@ public class SwiftModelBuilderTest {
     SwiftEnumItem swiftEnumItem = SwiftEnumItem.builder("").build();
     contextStack.injectResult(swiftEnumItem);
     FEnumerationType enumerationType = mock(FEnumerationType.class);
-    when(SwiftNameRules.getEnumTypeName(any())).thenReturn("SWIFT_NAME");
+    when(SwiftNameRules.getEnumTypeName(any(), eq(deploymentModel))).thenReturn("SWIFT_NAME");
 
     modelBuilder.finishBuilding(enumerationType);
 
@@ -387,6 +388,8 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeDefReadsName() {
+    when(SwiftNameRules.getTypeDefName(eq(francaTypeDef), any())).thenReturn("definite");
+
     modelBuilder.finishBuilding(francaTypeDef);
 
     List<SwiftTypeDef> swiftTypeDefs = getResults(SwiftTypeDef.class);
@@ -407,9 +410,8 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeRef() {
-    when(SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel))
-        .thenReturn(swiftType);
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(false);
+    when(SwiftTypeMapper.mapType(any(FTypeRef.class), any())).thenReturn(swiftType);
 
     modelBuilder.finishBuilding(francaTypeRef);
 
@@ -417,14 +419,13 @@ public class SwiftModelBuilderTest {
     assertEquals("Should be 1 type item created", 1, swiftTypes.size());
     assertSame(swiftType, swiftTypes.get(0));
     PowerMockito.verifyStatic();
-    SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel);
+    SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
   }
 
   @Test
   public void finishBuildingFrancaInstanceTypeRef() {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
-    when(SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel))
-        .thenReturn(swiftType);
+    when(SwiftTypeMapper.mapType(francaTypeRef, deploymentModel)).thenReturn(swiftType);
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
     when(deploymentModel.isInterface(any())).thenReturn(false);
 
@@ -434,14 +435,13 @@ public class SwiftModelBuilderTest {
     assertEquals("Should be 1 type item created", 1, swiftTypes.size());
     assertSame(swiftType, swiftTypes.get(0));
     PowerMockito.verifyStatic();
-    SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel);
+    SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
   }
 
   @Test
   public void finishBuildingFrancaInterfaceInstanceTypeRef() {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
-    when(SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel))
-        .thenReturn(swiftType);
+    when(SwiftTypeMapper.mapType(francaTypeRef, deploymentModel)).thenReturn(swiftType);
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
     when(deploymentModel.isInterface(any())).thenReturn(true);
 
@@ -452,7 +452,7 @@ public class SwiftModelBuilderTest {
     assertEquals(swiftType.name, swiftTypes.get(0).name);
     assertEquals(swiftType.implementingClass, swiftTypes.get(0).implementingClass);
     PowerMockito.verifyStatic();
-    SwiftTypeMapper.mapTypeWithDeploymentModel(francaTypeRef, deploymentModel);
+    SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
   }
 
   @Test

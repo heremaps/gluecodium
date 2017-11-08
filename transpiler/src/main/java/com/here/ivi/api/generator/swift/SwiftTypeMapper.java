@@ -17,6 +17,7 @@ import static com.here.ivi.api.model.swift.SwiftType.VOID;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
+import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.*;
 import org.franca.core.franca.*;
@@ -27,10 +28,10 @@ import org.franca.core.franca.*;
  */
 public class SwiftTypeMapper {
 
-  public static SwiftType mapTypeWithDeploymentModel(
-      final FTypeRef type, final FrancaDeploymentModel deploymentModel) {
+  public static SwiftType mapType(final FTypeRef type, FrancaDeploymentModel deploymentModel) {
     FType derived = type.getDerived();
-    SwiftType swiftType;
+
+    SwiftType swiftType = VOID;
     if (derived != null) {
       swiftType = mapDerived(derived, deploymentModel);
     } else {
@@ -47,33 +48,23 @@ public class SwiftTypeMapper {
     if (derived instanceof FStructType) {
       return getClassOrStructType(derived, deploymentModel);
     } else if (derived instanceof FEnumerationType) {
-      SwiftEnum swiftEnum = SwiftEnum.builder(SwiftNameRules.getEnumTypeName(derived)).build();
-      swiftEnum.setNamespaceIfNeeded(FrancaTypeHelper.getNamespace(derived));
-      return swiftEnum;
+      return SwiftEnum.builder(SwiftNameRules.getEnumTypeName(derived, deploymentModel)).build();
     } else if (derived instanceof FTypeDef) {
       return getTypedef((FTypeDef) derived, deploymentModel);
     } else if (derived instanceof FArrayType) {
-      SwiftType innerType =
-          mapTypeWithDeploymentModel(((FArrayType) derived).getElementType(), null);
+      SwiftType innerType = mapType(((FArrayType) derived).getElementType(), deploymentModel);
       return SwiftArrayMapper.create(innerType, derived);
     }
     return VOID;
   }
 
   private static SwiftType getTypedef(
-      final FTypeDef francaTypeDef, final FrancaDeploymentModel deploymentModel) {
-
-    SwiftType typedefType = mapTypeDef(francaTypeDef, deploymentModel);
-    return typedefType.createAlias(francaTypeDef.getName());
-  }
-
-  private static SwiftType mapTypeDef(
-      final FTypeDef derived, final FrancaDeploymentModel deploymentModel) {
-    if (isInstanceId(derived)) {
-      return getClassOrStructType(derived, deploymentModel);
-    } else {
-      return mapTypeWithDeploymentModel(derived.getActualType(), deploymentModel);
+      FTypeDef francaTypeDef, final FrancaDeploymentModel deploymentModel) {
+    if (isInstanceId(francaTypeDef)) {
+      return getClassOrStructType(francaTypeDef, deploymentModel);
     }
+    SwiftType typedefType = mapType(francaTypeDef.getActualType(), deploymentModel);
+    return typedefType.createAlias(SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel));
   }
 
   public static SwiftValue mapType(FExpression expression) {
@@ -88,8 +79,13 @@ public class SwiftTypeMapper {
   private static SwiftType getClassOrStructType(
       FType derived, final FrancaDeploymentModel deploymentModel) {
     SwiftType.TypeCategory category = (derived instanceof FTypeDef) ? CLASS : STRUCT;
-    String swiftName = SwiftNameRules.getClassName(derived.getName());
-    SwiftContainerType mappedType = new SwiftContainerType(swiftName, category);
+    String swiftName = NameHelper.toUpperCamelCase(derived.getName());
+    String name = derived.getName();
+    if (derived instanceof FStructType) {
+      name = SwiftNameRules.getStructName((FStructType) derived, deploymentModel);
+    }
+
+    SwiftContainerType mappedType = new SwiftContainerType(name, category);
     mappedType.cPrefix = CBridgeNameRules.getStructBaseName(derived);
     mappedType.cType = CBridgeNameRules.getStructRefType(derived);
 
@@ -102,9 +98,6 @@ public class SwiftTypeMapper {
       }
       resultType = mappedType.createOptionalType();
     }
-
-    //TODO: APIGEN-891 Hack for reference structs inside classes. It need to be fixed properly.
-    resultType.setNamespaceIfNeeded(FrancaTypeHelper.getNamespace(derived));
     return resultType;
   }
 
