@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.java;
+package com.here.ivi.api.generator.common;
 
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
@@ -18,34 +18,35 @@ import org.franca.core.franca.*;
  * Helper class with predicates for filtering out features that are not supported by Java generator
  * yet.
  */
-public class JavaUnsupportedFeatures {
+public final class PlatformUnsupportedFeatures {
 
-  // TODO: remove when APIGEN-735 and APIGEN-704 are implemented
+  // TODO: remove when APIGEN-735, APIGEN-729 and APIGEN-704 are implemented
   public static boolean hasUnsupportedParameters(final FMethod francaMethod) {
+    EList<FArgument> outArgs = francaMethod.getOutArgs();
     return hasUnsupportedElements(francaMethod.getInArgs())
-        || hasUnsupportedElements(francaMethod.getOutArgs())
+        || hasUnsupportedElements(outArgs)
         || francaMethod.getErrorEnum() != null
-        || francaMethod.getOutArgs().size() > 1;
+        || (outArgs != null && outArgs.size() > 1);
   }
 
-  // TODO: remove when APIGEN-735 is implemented
+  // TODO: remove when APIGEN-735 and APIGEN-729 are implemented
   private static boolean hasUnsupportedElements(
       final EList<? extends FTypedElement> francaTypedElements) {
     return francaTypedElements != null
         && francaTypedElements
             .stream()
             .map(FTypedElement::getType)
-            .anyMatch(JavaUnsupportedFeatures::isUnsupportedType);
+            .anyMatch(PlatformUnsupportedFeatures::isUnsupportedType);
   }
 
-  // TODO: remove when APIGEN-735 is implemented
+  // TODO: remove when APIGEN-735 and APIGEN-729 are implemented
   public static boolean isUnsupportedType(final FTypeRef francaTypeRef) {
     return francaTypeRef != null
         && francaTypeRef.getDerived() != null
         && isUnsupportedType(francaTypeRef.getDerived());
   }
 
-  // TODO: remove when APIGEN-735 is implemented
+  // TODO: remove when APIGEN-735 and APIGEN-729 are implemented
   public static boolean isUnsupportedType(final FType francaType) {
 
     if (francaType instanceof FUnionType) {
@@ -55,6 +56,10 @@ public class JavaUnsupportedFeatures {
     if (francaType instanceof FStructType) {
       FStructType francaStructType = (FStructType) francaType;
       return hasUnsupportedElements(francaStructType.getElements());
+    }
+
+    if (francaType instanceof FTypeDef) {
+      return isUnsupportedType(((FTypeDef) francaType).getActualType());
     }
 
     return false;

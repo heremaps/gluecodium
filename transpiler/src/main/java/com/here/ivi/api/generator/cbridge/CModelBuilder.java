@@ -17,6 +17,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
+import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
@@ -127,6 +128,11 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
+    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
+      closeContext();
+      return;
+    }
+
     String baseFunctionName = CBridgeNameRules.getMethodName(francaMethod);
     String delegateMethodName = CBridgeNameRules.getDelegateMethodName(francaMethod);
     List<CInParameter> inParams = getPreviousResults(CInParameter.class);
@@ -172,6 +178,12 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FStructType francaStruct) {
+
+    if (PlatformUnsupportedFeatures.isUnsupportedType(francaStruct)) {
+      closeContext();
+      return;
+    }
+
     CStruct cStruct =
         new CStruct(
             CBridgeNameRules.getStructBaseName(francaStruct),
@@ -212,6 +224,12 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FAttribute attribute) {
+
+    if (PlatformUnsupportedFeatures.isUnsupportedType(attribute.getType())) {
+      closeContext();
+      return;
+    }
+
     List<CppMethod> cppMethods =
         CollectionsHelper.getAllOfType(cppBuilder.getFinalResults(), CppMethod.class);
 
