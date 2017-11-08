@@ -24,7 +24,8 @@ public class JavaUnsupportedFeatures {
   public static boolean hasUnsupportedParameters(final FMethod francaMethod) {
     return hasUnsupportedElements(francaMethod.getInArgs())
         || hasUnsupportedElements(francaMethod.getOutArgs())
-        || francaMethod.getErrorEnum() != null;
+        || francaMethod.getErrorEnum() != null
+        || francaMethod.getOutArgs().size() > 1;
   }
 
   // TODO: remove when APIGEN-735 is implemented
