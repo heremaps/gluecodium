@@ -17,8 +17,10 @@ import static org.junit.Assume.assumeFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
 
+import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
+import com.here.ivi.api.generator.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
 import com.here.ivi.api.test.NiceErrorCollector;
 import java.io.File;
 import java.net.URISyntaxException;
@@ -34,7 +36,24 @@ public abstract class AcceptanceTestBase {
 
   private static final String FEATURE_INPUT_FOLDER = "input";
   private static final String FEATURE_OUTPUT_FOLDER = "output";
-  private static final List<String> GENERATOR_NAMES = GeneratorSuite.generatorShortNames();
+  private static final List<String> GENERATOR_NAMES =
+      Arrays.asList(
+          BaseApiGeneratorSuite.GENERATOR_NAME,
+          AndroidGeneratorSuite.GENERATOR_NAME,
+          SwiftGeneratorSuite.GENERATOR_NAME);
+  private static final Map<String, List<String>> GENERATOR_DIRECTORIES = new HashMap<>();
+
+  static {
+    GENERATOR_DIRECTORIES.put(
+        BaseApiGeneratorSuite.GENERATOR_NAME,
+        Collections.singletonList(BaseApiGeneratorSuite.GENERATOR_NAME));
+    GENERATOR_DIRECTORIES.put(
+        AndroidGeneratorSuite.GENERATOR_NAME,
+        Collections.singletonList(AndroidGeneratorSuite.GENERATOR_NAME));
+    GENERATOR_DIRECTORIES.put(
+        SwiftGeneratorSuite.GENERATOR_NAME,
+        Arrays.asList(SwiftGeneratorSuite.GENERATOR_NAME, "cbridge", "cbridge_internal"));
+  }
 
   @Rule public final NiceErrorCollector errorCollector = new NiceErrorCollector();
 
@@ -105,9 +124,14 @@ public abstract class AcceptanceTestBase {
   protected void runTest() {
     File inputDirectory = new File(featureDirectory, FEATURE_INPUT_FOLDER);
     File outputDirectory = new File(featureDirectory, FEATURE_OUTPUT_FOLDER);
-    File outputForGeneratorDirectory = new File(outputDirectory, generatorName);
 
-    Collection<File> referenceFiles = listFilesRecursively(outputForGeneratorDirectory);
+    Collection<File> referenceFiles =
+        GENERATOR_DIRECTORIES
+            .get(generatorName)
+            .stream()
+            .map(generatorDirectoryName -> new File(outputDirectory, generatorDirectoryName))
+            .flatMap(generatorDirectory -> listFilesRecursively(generatorDirectory).stream())
+            .collect(Collectors.toList());
     assumeFalse("No reference files were found", referenceFiles.isEmpty());
 
     assertTrue(
