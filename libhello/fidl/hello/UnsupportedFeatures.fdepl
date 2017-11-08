@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
  *
@@ -9,34 +10,24 @@
  *
  */
 
-package hello
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "./UnsupportedFeatures.fidl"
 
-<** @description:
-    This interfaces checks that using unsupported features does not break the build.
-**>
-interface UnsupportedErrors {
-    public typedef UnsupportedErrors is undefined
-
-    enumeration ErrorEnum {
-        UNSUPPORTED,
-        NOT_IMPLEMENTED
-    }
-
-    method errorCodeAndInstance {
-        out {
-            UnsupportedErrors someInstance
-        }
-        error ErrorEnum
-    }
-
+define navigation.BaseApiSpec for interface hello.UnsupportedErrors
+{
     method errorOnly {
-        error ErrorEnum
+        Static = true
     }
 
     method errorCodeAndInt {
-        out {
-            Int8 number
-        }
-        error ErrorEnum
+        Static = true
+    }
+
+    method errorCodeInline {
+        Static = true
+    }
+
+    method magicStaticMethod {
+        Static = true
     }
 }
