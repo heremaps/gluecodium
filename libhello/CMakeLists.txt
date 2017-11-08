@@ -172,8 +172,15 @@ feature(Unions cpp SOURCES
 feature(Attributes cpp android swift SOURCES
     src/hello/HelloWorldAttributesImpl.h
     src/hello/HelloWorldAttributesImpl.cpp
+    src/test/AttributesInterfaceImpl.h
+    src/test/AttributesInterfaceImpl.cpp
+    src/test/AttributesInterfaceFactory.cpp
 
     fidl/hello/HelloWorldAttributes.fidl
+    fidl/test/AttributesInterface.fidl
+    fidl/test/AttributesInterface.fdepl
+    fidl/test/AttributesInterfaceFactory.fidl
+    fidl/test/AttributesInterfaceFactory.fdepl
     )
 
 #TODO: enable for android and swift (APIGEN-509, APIGEN-508)
