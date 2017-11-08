@@ -233,8 +233,8 @@ feature(Unsupported cpp android swift SOURCES
     fidl/hello/UnsupportedFeatures.fidl
     )
 
-#TODO: remove when Unions are done for android (APIGEN-776)
-feature(UnsupportedUnions android SOURCES
+#TODO: remove when Unions are done for Android (APIGEN-776) and Swift (APIGEN-775)
+feature(UnsupportedUnions android swift SOURCES
     fidl/hello/UnsupportedUnions.fidl
     )
 
