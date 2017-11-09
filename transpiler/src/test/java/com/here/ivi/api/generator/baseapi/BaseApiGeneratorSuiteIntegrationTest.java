@@ -11,9 +11,9 @@
 
 package com.here.ivi.api.generator.baseapi;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import java.io.File;

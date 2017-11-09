@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.test;
 
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 

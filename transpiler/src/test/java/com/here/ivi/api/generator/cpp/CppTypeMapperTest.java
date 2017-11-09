@@ -11,8 +11,8 @@
 
 package com.here.ivi.api.generator.cpp;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.common.Include;
