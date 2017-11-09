@@ -39,7 +39,11 @@ public:
     }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
     }}{{#case "CLASS" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}return *get_pointer({{>swiftDelegateCall}});{{/case}}{{!!
+    }}{{#case "STRUCT"}}auto _return_value_ptr = get_pointer({{>swiftDelegateCall}});
+auto _return_value(*_return_value_ptr);
+delete _return_value_ptr;
+return _return_value;
+    {{/case}}{{!!
     }}{{#default}}{{>swiftDelegateCall}};{{/default}}{{!!
 }}{{/switch}}
 {{/returnConversion}}
