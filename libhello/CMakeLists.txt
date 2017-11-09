@@ -58,14 +58,14 @@ feature(Strings cpp android swift SOURCES
 
     fidl/hello/HelloWorld.fdepl
     fidl/hello/HelloWorld.fidl
-    )
+)
 
 feature(MethodOverloading cpp android swift SOURCES
     src/test/MethodOverloads.cpp
 
     fidl/test/MethodOverloads.fdepl
     fidl/test/MethodOverloads.fidl
-    )
+)
 
 feature(BuiltinTypes cpp android swift SOURCES
     src/hello/HelloWorldBuiltinTypes.cpp
@@ -87,7 +87,7 @@ feature(BuiltinTypes cpp android swift SOURCES
     fidl/test/StaticIntMethods.fidl
     fidl/test/StaticStringMethods.fdepl
     fidl/test/StaticStringMethods.fidl
-    )
+)
 
 feature(Instances cpp android swift SOURCES
     src/hello/HelloWorldInstances.h
@@ -116,7 +116,7 @@ feature(Instances cpp android swift SOURCES
     fidl/test/Interfaces.fdepl
     fidl/test/InstancesFactory.fdepl
     fidl/test/InstancesFactory.fidl
-    )
+)
 
 feature(Structs cpp android swift SOURCES
     src/hello/HelloWorldPlainDataStructures.cpp
@@ -130,7 +130,7 @@ feature(Structs cpp android swift SOURCES
     fidl/test/PlainDataStructuresFromTypeCollection.fdepl
     fidl/test/PlainDataStructuresFromTypeCollection.fidl
     fidl/test/TypeCollection.fidl
-    )
+)
 
 feature(TypeDefs cpp android swift SOURCES
     src/hello/HelloWorldTypedefs.cpp
@@ -139,7 +139,7 @@ feature(TypeDefs cpp android swift SOURCES
     fidl/hello/HelloWorldTypedefs.fidl
     fidl/test/StaticTypedef.fdepl
     fidl/test/StaticTypedef.fidl
-    )
+)
 
 feature(Enums cpp android swift SOURCES
     src/hello/HelloWorldEnums.cpp
@@ -152,7 +152,7 @@ feature(Enums cpp android swift SOURCES
     fidl/test/Enums.fidl
     fidl/test/EnumsTypeCollection.fdepl
     fidl/test/EnumsTypeCollection.fidl
-    )
+)
 
 #TODO: enable for swift (APIGEN-730)
 feature(Maps cpp android SOURCES
@@ -163,7 +163,7 @@ feature(Maps cpp android SOURCES
     fidl/hello/HelloWorldMaps.fidl
     fidl/test/Maps.fdepl
     fidl/test/Maps.fidl
-    )
+)
 
 #TODO: enable for android and swift (APIGEN-776, APIGEN-775)
 feature(Unions cpp SOURCES
@@ -173,7 +173,7 @@ feature(Unions cpp SOURCES
     fidl/hello/HelloWorldUnions.fidl
     fidl/test/Unions.fdepl
     fidl/test/Unions.fidl
-    )
+)
 
 feature(Attributes cpp android swift SOURCES
     src/hello/HelloWorldAttributesImpl.h
@@ -187,7 +187,7 @@ feature(Attributes cpp android swift SOURCES
     fidl/test/AttributesInterface.fdepl
     fidl/test/AttributesInterfaceFactory.fidl
     fidl/test/AttributesInterfaceFactory.fdepl
-    )
+)
 
 #TODO: enable for android and swift (APIGEN-509, APIGEN-508)
 feature(ComplexAttributes cpp SOURCES
@@ -195,7 +195,7 @@ feature(ComplexAttributes cpp SOURCES
     src/hello/HelloWorldAttributesComplexImpl.cpp
 
     fidl/hello/HelloWorldAttributesComplex.fidl
-    )
+)
 
 #TODO: enable for swift (APIGEN-515, APIGEN-516)
 feature(Listeners cpp android swift SOURCES
@@ -209,7 +209,7 @@ feature(Listeners cpp android swift SOURCES
     fidl/hello/CalculatorListener.fdepl
     fidl/hello/HelloWorldListeners.fdepl
     fidl/hello/HelloWorldListeners.fidl
-    )
+)
 
 #TODO: enable for swift (APIGEN-515, APIGEN-516)
 feature(ComplexListeners cpp android SOURCES
@@ -218,7 +218,16 @@ feature(ComplexListeners cpp android SOURCES
 
     fidl/test/ComplexListeners.fdepl
     fidl/test/ComplexListeners.fidl
-    )
+)
+
+#This feature is not planned for Android
+feature(ListenersWithReturnValues cpp swift SOURCES
+    src/test/ListenersReturnValues.cpp
+    src/test/ListenersReturnValues.h
+
+    fidl/test/ListenersReturnValues.fdepl
+    fidl/test/ListenersReturnValues.fidl
+)
 
 feature(Arrays cpp android swift SOURCES
     src/hello/HelloWorldArrays.cpp
@@ -231,22 +240,22 @@ feature(Arrays cpp android swift SOURCES
     fidl/test/Arrays.fidl
     fidl/test/ArraysByteBuffer.fdepl
     fidl/test/ArraysByteBuffer.fidl
-    )
+)
 
 #TODO: enable for cpp, android and swift (APIGEN-697, APIGEN-698, APIGEN-702, APIGEN-704)
 feature(Errors SOURCES
     fidl/hello/HelloWorldErrors.fidl
     fidl/hello/HelloWorldErrors.fdepl
-    )
+)
 
 feature(Unsupported cpp android swift SOURCES
     fidl/hello/UnsupportedFeatures.fidl
-    )
+)
 
 #TODO: remove when Unions are done for Android (APIGEN-776) and Swift (APIGEN-775)
 feature(UnsupportedUnions android swift SOURCES
     fidl/hello/UnsupportedUnions.fidl
-    )
+)
 
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})

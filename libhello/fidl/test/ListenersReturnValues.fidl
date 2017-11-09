@@ -1,0 +1,41 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+interface ListenerWithReturn {
+    public typedef ListenerWithReturn is undefined
+
+    method getMessage {
+        out {
+            String message
+        }
+    }
+}
+
+interface MessageDelivery {
+    public typedef MessageDelivery is undefined
+
+    method getMessage {
+        in {
+            ListenerWithReturn.ListenerWithReturn envelope
+        }
+        out {
+            String message
+        }
+    }
+
+    method createMe {
+        out {
+            MessageDelivery.MessageDelivery newInstance
+        }
+    }
+}

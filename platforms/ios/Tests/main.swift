@@ -5,6 +5,7 @@ XCTMain([
     testCase(EnumsTests.allTests),
     testCase(HelloWorldInstancesTests.allTests),
     testCase(HelloWorldTests.allTests),
+    testCase(ListenersReturnValuesTests.allTests),
     testCase(ListenersTests.allTests),
     testCase(MethodOverloadsTests.allTests),
     testCase(PlainDataStructuresFromTypeCollectionTests.allTests),
