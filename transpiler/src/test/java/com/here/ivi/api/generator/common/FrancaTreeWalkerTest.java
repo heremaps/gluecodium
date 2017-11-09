@@ -272,6 +272,17 @@ public class FrancaTreeWalkerTest {
   }
 
   @Test
+  public void walkWithInheritedStruct() {
+    FStructType anotherFrancaStructType = mock(FStructType.class);
+    when(francaStructType.getBase()).thenReturn(anotherFrancaStructType);
+
+    treeWalker.walk(francaInterface);
+
+    verify(modelBuilder).startBuilding(anotherFrancaStructType);
+    verify(modelBuilder).finishBuilding(anotherFrancaStructType);
+  }
+
+  @Test
   public void walkWithOneArrayType() {
     treeWalker.walkTree(francaInterface);
 

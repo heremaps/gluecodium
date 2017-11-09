@@ -213,6 +213,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     }
 
     JavaClass javaClass = createJavaClass(francaStructType);
+    if (francaStructType.getBase() != null) {
+      javaClass.extendedClass = typeMapper.mapCustomType(francaStructType.getBase());
+    }
 
     storeResult(javaClass);
     closeContext();

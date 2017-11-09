@@ -176,7 +176,7 @@ public class JavaTypeMapper {
     return JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, keyType, valueType);
   }
 
-  private JavaCustomType mapCustomType(final FType fType) {
+  public JavaType mapCustomType(final FType fType) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(fType);
     List<String> packageNames =
