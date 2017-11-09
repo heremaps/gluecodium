@@ -57,6 +57,10 @@ interface Structs {
         Point pointField
     }
 
+    struct ColoredLineInherited extends Line {
+        Color color
+    }
+
     method createPoint {
         in {
             Double x
@@ -120,6 +124,15 @@ interface Structs {
         }
         out {
             AllTypesStruct output
+        }
+    }
+
+    method methodWithInheritedType {
+        in {
+            ColoredLineInherited input
+        }
+        out {
+            ColoredLineInherited output
         }
     }
 }

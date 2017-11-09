@@ -41,6 +41,10 @@ define navigation.BaseApiSpec for interface smoke.Structs
     method modifyAllTypesStruct {
         Static = true
     }
+
+    method methodWithInheritedType {
+        Static = true
+    }
 }
 
 define navigation.BaseApiSpec for interface smoke.StructsFromTypeCollection

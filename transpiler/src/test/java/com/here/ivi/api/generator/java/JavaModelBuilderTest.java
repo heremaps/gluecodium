@@ -315,6 +315,21 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructTypeReadsParent() {
+    FStructType anotherStructType = mock(FStructType.class);
+    when(francaStructType.getBase()).thenReturn(anotherStructType);
+    when(typeMapper.mapCustomType(any())).thenReturn(javaCustomType);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(javaCustomType, javaClass.extendedClass);
+
+    verify(typeMapper).mapCustomType(anotherStructType);
+  }
+
+  @Test
   public void finishBuildingFrancaTypeRef() {
     modelBuilder.finishBuilding(francaTypeRef);
 

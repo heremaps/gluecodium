@@ -46,6 +46,9 @@ public class Structs {
         public byte[] bytesField;
         public Structs.Point pointField = new Structs.Point();
     }
+    public static class ColoredLineInherited extends Structs.Line {
+        public Structs.Color color = new Structs.Color();
+    }
     public static native Structs.Point createPoint(final double x, final double y);
     public static native Structs.Point swapPointCoordinates(final Structs.Point input);
     public static native Structs.Line createLine(final Structs.Point pointA, final Structs.Point pointB);
@@ -53,4 +56,5 @@ public class Structs {
     public static native Structs.ColoredLine returnColoredLine(final Structs.ColoredLine input);
     public static native Structs.AllTypesStruct returnAllTypesStruct(final Structs.AllTypesStruct input);
     public static native Structs.AllTypesStruct modifyAllTypesStruct(final Structs.AllTypesStruct input);
+    public static native Structs.ColoredLineInherited methodWithInheritedType(final Structs.ColoredLineInherited input);
 }

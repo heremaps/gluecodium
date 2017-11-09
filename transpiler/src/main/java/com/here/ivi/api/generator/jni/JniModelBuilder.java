@@ -25,6 +25,7 @@ import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.*;
 
@@ -176,7 +177,13 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     JavaClass javaClass = javaBuilder.getFinalResult(JavaClass.class);
     CppStruct cppStruct = cppBuilder.getFinalResult(CppStruct.class);
-    List<JniField> jniFields = getPreviousResults(JniField.class);
+
+    List<JniField> jniFields = new LinkedList<>();
+    JniStruct parentStruct = getPreviousResult(JniStruct.class);
+    if (parentStruct != null) {
+      jniFields.addAll(parentStruct.fields);
+    }
+    jniFields.addAll(getPreviousResults(JniField.class));
 
     storeResult(new JniStruct(javaClass, cppStruct, jniFields));
     closeContext();

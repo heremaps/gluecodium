@@ -58,6 +58,9 @@ struct AllTypesStruct {
     ::std::vector< uint8_t > bytes_field;
     ::smoke::Structs::Point point_field;
 };
+struct ColoredLineInherited: public ::smoke::Structs::Line {
+    ::smoke::Structs::Color color;
+};
 
 public:
 static ::smoke::Structs::Point create_point( const double x, const double y );
@@ -67,6 +70,7 @@ static ::smoke::Structs::ColoredLine create_colored_line( const ::smoke::Structs
 static ::smoke::Structs::ColoredLine return_colored_line( const ::smoke::Structs::ColoredLine& input );
 static ::smoke::Structs::AllTypesStruct return_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
 static ::smoke::Structs::AllTypesStruct modify_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
+static ::smoke::Structs::ColoredLineInherited method_with_inherited_type( const ::smoke::Structs::ColoredLineInherited& input );
 
 };
 

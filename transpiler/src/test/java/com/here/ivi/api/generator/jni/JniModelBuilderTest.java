@@ -527,6 +527,34 @@ public class JniModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructReadsParentFields() {
+    JniField jniParentField =
+        new JniField(
+            new JavaField(javaCustomType, "ancient_nonsense"),
+            new CppField(cppCustomType, "ancient_nonsense"),
+            null);
+    JniStruct jniParentStruct =
+        new JniStruct(null, null, Collections.singletonList(jniParentField));
+    contextStack.injectResult(jniParentStruct);
+    JniField jniField =
+        new JniField(
+            new JavaField(javaCustomType, BASE_NAME_PARAMETER),
+            new CppField(cppCustomType, BASE_NAME_PARAMETER),
+            null);
+    contextStack.injectResult(jniField);
+    when(javaBuilder.getFinalResult(any())).thenReturn(null);
+    when(cppBuilder.getFinalResult(any())).thenReturn(null);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    JniStruct jniStruct = modelBuilder.getFinalResult(JniStruct.class);
+    assertNotNull(jniStruct);
+    assertEquals(2, jniStruct.fields.size());
+    assertEquals(jniParentField, jniStruct.fields.get(0));
+    assertEquals(jniField, jniStruct.fields.get(1));
+  }
+
+  @Test
   public void finishBuildingFrancaFieldReadsJavaCppFields() {
     JavaField javaField = new JavaField(javaCustomType, BASE_NAME_PARAMETER);
     CppField cppField = new CppField(cppCustomType, CPP_CLASS_NAME);

@@ -142,6 +142,11 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
     walkCollection(OUT_ARG_KEY, francaMethod.getOutArgs());
   }
 
+  private void walkChildNodes(FStructType francaStructType) {
+    walk(francaStructType.getBase());
+    walkChildNodes((FCompoundType) francaStructType);
+  }
+
   private void walkChildNodes(FCompoundType francaCompoundType) {
     walkCollection(francaCompoundType.getElements());
   }
