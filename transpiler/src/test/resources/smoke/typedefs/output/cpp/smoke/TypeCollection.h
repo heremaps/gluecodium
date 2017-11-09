@@ -30,4 +30,7 @@ using PointTypeDef = ::smoke::Point;
 using StorageId = uint64_t;
 static const ::smoke::StorageId INVALID_STORAGE_ID = 0;
 
+struct StructHavingAliasFieldDefinedBelow {
+    ::smoke::StorageId field;
+};
 }

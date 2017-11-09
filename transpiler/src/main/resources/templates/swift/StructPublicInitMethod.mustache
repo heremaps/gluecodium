@@ -1,4 +1,4 @@
-public init({{#each fields}}{{name}}: {{type}}{{#if iter.hasNext}}, {{/if}}{{/each}}) {
+public init({{#each fields}}{{name}}: {{type.publicName}}{{#if iter.hasNext}}, {{/if}}{{/each}}) {
 {{#fields}}
     self.{{name}} = {{name}}
 {{/fields}}

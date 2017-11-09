@@ -18,6 +18,13 @@ interface TypeDefs {
         minor 1
     }
 
+    attribute PrimitiveTypeDef[] primitiveTypeAttribute
+
+    struct StructHavingAliasFieldDefinedBelow
+    {
+        PrimitiveTypeDef field
+    }
+
     typedef PrimitiveTypeDef is Double
 
     method methodWithPrimitiveTypeDef {
@@ -98,6 +105,11 @@ typeCollection TypeCollection {
     struct Point {
         Double x
         Double y
+    }
+
+    struct StructHavingAliasFieldDefinedBelow
+    {
+        StorageId field
     }
 
     typedef StorageId is UInt64
