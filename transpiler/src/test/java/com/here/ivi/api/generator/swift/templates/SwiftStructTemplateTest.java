@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.swift.templates;
 
 import static java.util.Collections.singletonList;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.SwiftContainerType;

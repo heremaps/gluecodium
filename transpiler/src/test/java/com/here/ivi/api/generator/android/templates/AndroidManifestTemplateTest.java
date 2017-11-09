@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.android.templates;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaPackage;

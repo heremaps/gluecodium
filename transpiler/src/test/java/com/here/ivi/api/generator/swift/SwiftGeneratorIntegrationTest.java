@@ -12,11 +12,11 @@
 package com.here.ivi.api.generator.swift;
 
 import static com.here.ivi.api.generator.utils.LoadModelHelper.readInFrancaModel;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.MockitoAnnotations.initMocks;
 
