@@ -259,7 +259,7 @@ set_byte_array_field( JNIEnv* env,
                       const std::vector< uint8_t >& fieldValue)
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
-    return env->SetObjectField( object, fieldId, here::internal::convert_to_jni ( env, fieldValue ) );
+    return env->SetObjectField( object, fieldId, here::internal::convert_to_jni_array ( env, fieldValue ) );
 }
 
 // -------------------------------------------------------------------------------------------------

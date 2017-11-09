@@ -56,14 +56,14 @@ public final class JniToCppStructConversionBodyTest {
   private static JniField createIntField() {
     JavaField javaField = new JavaField(JavaPrimitiveType.INT, "intfield");
     CppField cppField = new CppField(CppPrimitiveTypeRef.INT8, "cppInt");
-    return new JniField(javaField, cppField);
+    return new JniField(javaField, cppField, null);
   }
 
   private static JniField createCustom() {
     JavaField javaField = new JavaField(new JavaCustomType("JavaStructType"), "nestedStruct");
     CppField cppField =
         new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
-    return new JniField(javaField, cppField);
+    return new JniField(javaField, cppField, null);
   }
 
   private static JniField createTemplateType() {
@@ -72,7 +72,7 @@ public final class JniToCppStructConversionBodyTest {
             JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST), "javaTemplateType");
     CppField cppField =
         new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
-    return new JniField(javaField, cppField);
+    return new JniField(javaField, cppField, null);
   }
 
   @Test
@@ -104,7 +104,7 @@ public final class JniToCppStructConversionBodyTest {
         new JavaField(new JavaReferenceType(JavaReferenceType.Type.STRING), "StrStructMember");
     CppField cppField =
         new CppField(new CppComplexTypeRef.Builder("::std::string").build(), "cppString");
-    JniField jniField = new JniField(javaField, cppField);
+    JniField jniField = new JniField(javaField, cppField, null);
     jniStruct.fields.add(jniField);
 
     //act

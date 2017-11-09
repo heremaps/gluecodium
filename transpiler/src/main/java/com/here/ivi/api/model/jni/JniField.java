@@ -20,13 +20,15 @@ public class JniField implements JniElement {
 
   public final JavaField javaField;
   public final CppField cppField;
+  public final JniType type;
 
   public final boolean hasCustomType;
   public final boolean hasTemplateType;
 
-  public JniField(final JavaField javaField, final CppField cppField) {
+  public JniField(final JavaField javaField, final CppField cppField, final JniType type) {
     this.javaField = javaField;
     this.cppField = cppField;
+    this.type = type;
     this.hasCustomType = javaField.type instanceof JavaCustomType;
     this.hasTemplateType = javaField.type instanceof JavaTemplateType;
   }

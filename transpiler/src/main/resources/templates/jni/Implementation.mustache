@@ -23,8 +23,7 @@ extern "C" {
     auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{>jni/FullyQualifiedCppName}}>*> (pointerAsLong);
 {{/unless}}
-    {{#if returnType}}auto result = {{/if}}{{>jni/CppMethodCall}}
-{{#if returnType}}    return {{#if returnType.isComplex}}here::internal::convert_to_jni(_jenv, result){{/if}}{{#unless returnType.isComplex}}result{{/unless}};{{/if}}
+{{>jni/ReturnTypeConversion}}
 }
 
 {{/methods}}

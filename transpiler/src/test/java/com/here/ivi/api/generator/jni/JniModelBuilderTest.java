@@ -512,7 +512,8 @@ public class JniModelBuilderTest {
     JniField jniField =
         new JniField(
             new JavaField(javaCustomType, BASE_NAME_PARAMETER),
-            new CppField(cppCustomType, BASE_NAME_PARAMETER));
+            new CppField(cppCustomType, BASE_NAME_PARAMETER),
+            null);
     contextStack.injectResult(jniField);
     when(javaBuilder.getFinalResult(any())).thenReturn(null);
     when(cppBuilder.getFinalResult(any())).thenReturn(null);
@@ -538,6 +539,22 @@ public class JniModelBuilderTest {
     assertNotNull(jniField);
     assertEquals(javaField, jniField.javaField);
     assertEquals(cppField, jniField.cppField);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsJniType() {
+    JavaField javaField = new JavaField(javaCustomType, BASE_NAME_PARAMETER);
+    CppField cppField = new CppField(cppCustomType, CPP_CLASS_NAME);
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
+    when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
+    JniType jniType = JniType.createType(javaCustomType, cppCustomType);
+    contextStack.injectResult(jniType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    JniField jniField = modelBuilder.getFinalResult(JniField.class);
+    assertNotNull(jniField);
+    assertEquals(jniType, jniField.type);
   }
 
   @Test
