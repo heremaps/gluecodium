@@ -11,13 +11,14 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "hello/HelloWorldMaps.h"
+
 #include <algorithm>
 #include <cctype>
 
 namespace hello
 {
-::std::unordered_map< int32_t, ::std::string >
-HelloWorldMaps::method_with_map( const ::std::unordered_map< int32_t, ::std::string >& input )
+HelloWorldMaps::ErrorCodeToMessageMap
+HelloWorldMaps::method_with_map( const HelloWorldMaps::ErrorCodeToMessageMap& input )
 {
     HelloWorldMaps::ErrorCodeToMessageMap result;
     for ( const auto& entry : input )
