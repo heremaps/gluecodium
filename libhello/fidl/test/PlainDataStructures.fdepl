@@ -41,4 +41,12 @@ define navigation.BaseApiSpec for interface test.PlainDataStructures
     method modifyAllTypesStruct {
         Static = true
     }
+
+    method createColoredLineInherited {
+        Static = true
+    }
+
+    method returnColoredLineInherited {
+        Static = true
+    }
 }

@@ -44,7 +44,7 @@ PlainDataStructures::create_line( const PlainDataStructures::Point& pointA,
 
 PlainDataStructures::ColoredLine
 PlainDataStructures::create_colored_line( const PlainDataStructures::Line& line,
-                                                const PlainDataStructures::Color& color )
+                                          const PlainDataStructures::Color& color )
 {
     PlainDataStructures::ColoredLine coloredLine;
     coloredLine.line = line;
@@ -83,6 +83,24 @@ PlainDataStructures::modify_all_types_struct( const PlainDataStructures::AllType
     output.bytes_field = {input.bytes_field.rbegin( ), input.bytes_field.rend( )};
     output.point_field = PlainDataStructures::swap_point_coordinates( input.point_field );
     return output;
+}
+
+PlainDataStructures::ColoredLineInherited
+PlainDataStructures::create_colored_line_inherited( const PlainDataStructures::Line& line,
+                                                    const PlainDataStructures::Color& color )
+{
+    PlainDataStructures::ColoredLineInherited coloredLine;
+    coloredLine.a = line.a;
+    coloredLine.b = line.b;
+    coloredLine.color = color;
+    return coloredLine;
+}
+
+PlainDataStructures::ColoredLineInherited
+PlainDataStructures::return_colored_line_inherited(
+    const PlainDataStructures::ColoredLineInherited& input )
+{
+    return input;
 }
 
 }
