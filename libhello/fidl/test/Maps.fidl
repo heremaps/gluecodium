@@ -23,13 +23,13 @@ interface Maps {
         String value
     }
 
-    map NumberToStruct {UInt8 to SomeStruct}
+    map NumberToStruct { UInt8 to SomeStruct }
 
-    map StructToNumber {SomeStruct to UInt8}
+    map StructToNumber { SomeStruct to UInt8 }
 
-    map NestedMap {UInt8 to NumberToStruct}
+    map NestedMap { UInt8 to NumberToStruct }
 
-    struct StructWithMap{
+    struct StructWithMap {
         ErrorCodeToMessageMap errorMapping
     }
 
@@ -60,21 +60,6 @@ interface Maps {
         out {
             <** @description: Output map **>
             NumberToStruct output
-        }
-    }
-
-    <** @description:
-    Example static method which takes a map where keys are struct and returns same type.
-    All numbers in map are increased by 1.
-    **>
-    method methodWithStructAsMapKeys {
-        in {
-            <** @description: Input map **>
-            StructToNumber input
-        }
-        out {
-            <** @description: Output map **>
-            StructToNumber output
         }
     }
 
