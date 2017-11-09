@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <Spinner
         android:id="@+id/listeners_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/listeners_methods" />
+        android:entries="@array/listeners_methods"/>
 
     <LinearLayout
+        android:id="@+id/calculate_in_background_java_buttons"
         style="@style/AppTheme.ShowCaseElement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,25 +19,25 @@
 
         <Button
             android:id="@+id/register_java_listener"
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:text="@string/register_java_listener"
-            android:textSize="@dimen/small_button_text_size" />
+            android:textSize="@dimen/small_button_text_size"/>
 
         <Button
             android:id="@+id/unregister_java_listener"
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:enabled="false"
             android:text="@string/unregister_java_listener"
-            android:textSize="@dimen/small_button_text_size" />
+            android:textSize="@dimen/small_button_text_size"/>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/calculate_in_background_native_buttons"
         style="@style/AppTheme.ShowCaseElement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,23 +45,38 @@
 
         <Button
             android:id="@+id/register_native_listener"
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:text="@string/register_native_listener"
-            android:textSize="@dimen/small_button_text_size" />
+            android:textSize="@dimen/small_button_text_size"/>
 
         <Button
             android:id="@+id/unregister_native_listener"
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:enabled="false"
             android:text="@string/unregister_native_listener"
-            android:textSize="@dimen/small_button_text_size" />
+            android:textSize="@dimen/small_button_text_size"/>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/status_registered_java_listeners"
+        style="@style/AppTheme.ShowCaseElement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/java_listener_not_registered"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/status_native_registered_native_listeners"
+        style="@style/AppTheme.ShowCaseElement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/native_listener_not_registered"
+        android:textColor="@color/colorPrimary"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,7 +89,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Position start"
-            android:textSize="18sp" />
+            android:textSize="18dp"/>
 
         <EditText
             android:id="@+id/listeners_start_x"
@@ -82,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:hint="x"
-            android:text="0" />
+            android:text="0"/>
 
 
         <EditText
@@ -92,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:hint="y"
-            android:text="0" />
+            android:text="0"/>
 
 
         <EditText
@@ -102,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:hint="z"
-            android:text="0" />
+            android:text="0"/>
 
     </LinearLayout>
 
@@ -117,7 +133,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Position end"
-            android:textSize="18sp" />
+            android:textSize="18dp"/>
 
         <EditText
             android:id="@+id/listeners_end_x"
@@ -126,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:hint="x"
-            android:text="1000" />
+            android:text="1000"/>
 
         <EditText
             android:id="@+id/listeners_end_y"
@@ -135,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:hint="y"
-            android:text="1000" />
+            android:text="1000"/>
 
         <EditText
             android:id="@+id/listeners_end_z"
@@ -144,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:hint="z"
-            android:text="1000" />
+            android:text="1000"/>
 
     </LinearLayout>
 
@@ -152,13 +168,60 @@
         android:id="@+id/listeners_submit_button"
         style="@style/AppTheme.ShowCaseButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/listeners_result"
+        android:id="@+id/listener_result"
         style="@style/AppTheme.ShowCaseResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/text_result" />
+        android:hint="@string/text_result"/>
 
+    <LinearLayout
+        android:id="@+id/calculate_in_background_java_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/java_listener_result_label"
+            style="@style/AppTheme.ShowCaseResult"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/java_listener_result_label"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/java_listener_result"
+            style="@style/AppTheme.ShowCaseResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:hint="@string/text_result_not_calculated"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/calculate_in_background_native_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/native_listener_result_label"
+            style="@style/AppTheme.ShowCaseResult"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/native_listener_result_label"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/native_listener_result"
+            style="@style/AppTheme.ShowCaseResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:hint="@string/text_result_not_calculated"/>
+    </LinearLayout>
 </LinearLayout>

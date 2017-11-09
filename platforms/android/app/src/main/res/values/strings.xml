@@ -14,6 +14,13 @@
     <string name="submit">Submit!</string>
     <string name="text_input">Insert any text</string>
     <string name="text_result">Result</string>
+    <string name="java_listener_result_label">Java Listener: </string>
+    <string name="native_listener_result_label">Native Listener: </string>
+    <string name="text_result_not_calculated">Was not calculated</string>
+    <string name="java_listener_registered">Java listener is <b>registered</b></string>
+    <string name="java_listener_not_registered">Java listener is <b>not</b> registered</string>
+    <string name="native_listener_registered">Native listener is <b>registered</b></string>
+    <string name="native_listener_not_registered">Native listener is <b>not</b> registered</string>
     <string name="instance_methods_description">Invokes an instance method with the given value and returns the return value of this method.</string>
     <string name="attributes_setter_success">Value is set successfully. You can see the result using according get method.</string>
     <string name="typedef_method_details">METHOD DETAILS</string>
