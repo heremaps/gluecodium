@@ -17,6 +17,8 @@ import static org.junit.Assert.assertTrue;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
+import com.here.ivi.api.model.javamodel.JavaArrayType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniMethod;
@@ -62,6 +64,16 @@ public final class JniImplementationTemplateTest {
       "#include \"" + JniNameRules.getInstanceConversionHeaderFileName() + "\"\n";
   private static final String JNI_TEST_CLASS_METHOD_PREFIX = "Java_com_here_ivi_test_TestClass_";
 
+  private static final String EXPECTED_PREFIX =
+      COPYRIGHT_NOTICE
+          + JNI_HEADER_INCLUDE
+          + INSTANCE_CONVERSION_HEADER_INCLUDE
+          + CONVERSION_HEADER_INCLUDE
+          + PROXYCONVERSION_HEADER_INCLUDE
+          + ENUMCONVERSION_HEADER_INCLUDE
+          + ARRAYCONVERSION_HEADER_INCLUDE
+          + EXTERN_C;
+
   private final JniType jniIntType =
       JniType.createType(JavaPrimitiveType.INT, CppPrimitiveTypeRef.INT8);
 
@@ -95,12 +107,11 @@ public final class JniImplementationTemplateTest {
   }
 
   private String expectedGeneratedJNIMethod(String methodName) {
-    return expectedGeneratedJNIMethod(methodName, true, false);
+    return expectedGeneratedJNIMethod(methodName, true, false, "jint");
   }
 
   private String expectedGeneratedJNIMethod(
-      String methodName, boolean isStatic, boolean isVoidMethod) {
-    String returnType = isVoidMethod ? "\nvoid\n" : "\njint\n";
+      String methodName, boolean isStatic, boolean isVoidMethod, String returnTypeName) {
     String methodBody =
         JNI_TEST_CLASS_METHOD_PREFIX
             + methodName
@@ -114,7 +125,11 @@ public final class JniImplementationTemplateTest {
             + JNI_PARAMETER_NAME
             + ";\n";
 
-    return returnType + methodBody + expectedMethodResultBlock(methodName, isStatic, isVoidMethod);
+    return "\n"
+        + returnTypeName
+        + "\n"
+        + methodBody
+        + expectedMethodResultBlock(methodName, isStatic, isVoidMethod);
   }
 
   private String expectedMethodResultBlock(
@@ -126,7 +141,7 @@ public final class JniImplementationTemplateTest {
             + (isVoidMethod
                 ? "    " + expectedMethodCaller
                 : "    auto result = " + expectedMethodCaller);
-    String returnLine = isVoidMethod ? "\n" : "    return result;\n";
+    String returnLine = isVoidMethod ? "" : "    return result;\n";
 
     return callPrefix + methodName + "(" + BASE_PARAMETER_NAME + ");\n" + returnLine + "}\n";
   }
@@ -174,17 +189,7 @@ public final class JniImplementationTemplateTest {
   public void generateWithNoMethods() {
     String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
-    assertEquals(
-        COPYRIGHT_NOTICE
-            + JNI_HEADER_INCLUDE
-            + INSTANCE_CONVERSION_HEADER_INCLUDE
-            + CONVERSION_HEADER_INCLUDE
-            + PROXYCONVERSION_HEADER_INCLUDE
-            + ENUMCONVERSION_HEADER_INCLUDE
-            + ARRAYCONVERSION_HEADER_INCLUDE
-            + EXTERN_C
-            + END_OF_FILE,
-        generatedImplementation);
+    assertEquals(EXPECTED_PREFIX + END_OF_FILE, generatedImplementation);
   }
 
   @Test
@@ -194,16 +199,7 @@ public final class JniImplementationTemplateTest {
     String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
-        COPYRIGHT_NOTICE
-            + JNI_HEADER_INCLUDE
-            + INSTANCE_CONVERSION_HEADER_INCLUDE
-            + CONVERSION_HEADER_INCLUDE
-            + PROXYCONVERSION_HEADER_INCLUDE
-            + ENUMCONVERSION_HEADER_INCLUDE
-            + ARRAYCONVERSION_HEADER_INCLUDE
-            + EXTERN_C
-            + expectedGeneratedJNIMethod("method1")
-            + END_OF_FILE,
+        EXPECTED_PREFIX + expectedGeneratedJNIMethod("method1") + END_OF_FILE,
         generatedImplementation);
   }
 
@@ -216,14 +212,7 @@ public final class JniImplementationTemplateTest {
     String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
-        COPYRIGHT_NOTICE
-            + JNI_HEADER_INCLUDE
-            + INSTANCE_CONVERSION_HEADER_INCLUDE
-            + CONVERSION_HEADER_INCLUDE
-            + PROXYCONVERSION_HEADER_INCLUDE
-            + ENUMCONVERSION_HEADER_INCLUDE
-            + ARRAYCONVERSION_HEADER_INCLUDE
-            + EXTERN_C
+        EXPECTED_PREFIX
             + expectedGeneratedJNIMethod("method1")
             + expectedGeneratedJNIMethod("method2")
             + END_OF_FILE,
@@ -239,15 +228,8 @@ public final class JniImplementationTemplateTest {
     String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
-        COPYRIGHT_NOTICE
-            + JNI_HEADER_INCLUDE
-            + INSTANCE_CONVERSION_HEADER_INCLUDE
-            + CONVERSION_HEADER_INCLUDE
-            + PROXYCONVERSION_HEADER_INCLUDE
-            + ENUMCONVERSION_HEADER_INCLUDE
-            + ARRAYCONVERSION_HEADER_INCLUDE
-            + EXTERN_C
-            + expectedGeneratedJNIMethod("testMethod", true, true)
+        EXPECTED_PREFIX
+            + expectedGeneratedJNIMethod("testMethod", true, true, "void")
             + END_OF_FILE,
         generatedImplementation);
   }
@@ -259,15 +241,8 @@ public final class JniImplementationTemplateTest {
     String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
-        COPYRIGHT_NOTICE
-            + JNI_HEADER_INCLUDE
-            + INSTANCE_CONVERSION_HEADER_INCLUDE
-            + CONVERSION_HEADER_INCLUDE
-            + PROXYCONVERSION_HEADER_INCLUDE
-            + ENUMCONVERSION_HEADER_INCLUDE
-            + ARRAYCONVERSION_HEADER_INCLUDE
-            + EXTERN_C
-            + expectedGeneratedJNIMethod("instanceMethod", false, false)
+        EXPECTED_PREFIX
+            + expectedGeneratedJNIMethod("instanceMethod", false, false, "jint")
             + END_OF_FILE,
         generatedImplementation);
   }
@@ -280,15 +255,8 @@ public final class JniImplementationTemplateTest {
     String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
-        COPYRIGHT_NOTICE
-            + JNI_HEADER_INCLUDE
-            + INSTANCE_CONVERSION_HEADER_INCLUDE
-            + CONVERSION_HEADER_INCLUDE
-            + PROXYCONVERSION_HEADER_INCLUDE
-            + ENUMCONVERSION_HEADER_INCLUDE
-            + ARRAYCONVERSION_HEADER_INCLUDE
-            + EXTERN_C
-            + expectedGeneratedJNIMethod("instanceVoidMethod", false, true)
+        EXPECTED_PREFIX
+            + expectedGeneratedJNIMethod("instanceVoidMethod", false, true, "void")
             + END_OF_FILE,
         generatedImplementation);
   }
@@ -302,21 +270,56 @@ public final class JniImplementationTemplateTest {
     String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     assertEquals(
-        COPYRIGHT_NOTICE
-            + JNI_HEADER_INCLUDE
-            + INSTANCE_CONVERSION_HEADER_INCLUDE
-            + CONVERSION_HEADER_INCLUDE
-            + PROXYCONVERSION_HEADER_INCLUDE
-            + ENUMCONVERSION_HEADER_INCLUDE
-            + ARRAYCONVERSION_HEADER_INCLUDE
-            + EXTERN_C
-            + expectedGeneratedJNIMethod("instanceVoidMethod", false, true)
+        EXPECTED_PREFIX
+            + expectedGeneratedJNIMethod("instanceVoidMethod", false, true, "void")
             + "\nvoid\n"
             + JNI_TEST_CLASS_METHOD_PREFIX
             + "disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)\n"
             + "{\n"
             + "    delete reinterpret_cast<std::shared_ptr<::com::here::ivi::test::CppClass>*> (_jpointerRef);\n"
             + "}"
+            + END_OF_FILE,
+        generatedImplementation);
+  }
+
+  @Test
+  public void generateWithOneMethodWithArrayReturnType() {
+    JniType jniType =
+        JniType.createType(
+            JavaArrayType.BYTE_ARRAY,
+            CppTemplateTypeRef.create(
+                CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8),
+            false);
+    JniMethod jniMethod =
+        new JniMethod.Builder("method1", "method1").returnType(jniType).isStatic(true).build();
+    jniMethod.parameters.add(new JniParameter(BASE_PARAMETER_NAME, jniIntType));
+
+    jniContainer.add(jniMethod);
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
+
+    String methodBody =
+        JNI_TEST_CLASS_METHOD_PREFIX
+            + "method1(JNIEnv* _jenv, jobject _jinstance, jint "
+            + JNI_PARAMETER_NAME
+            + ")\n"
+            + "{\n"
+            + "    int8_t "
+            + BASE_PARAMETER_NAME
+            + " = "
+            + JNI_PARAMETER_NAME
+            + ";\n";
+
+    assertEquals(
+        EXPECTED_PREFIX
+            + "\njbyteArray\n"
+            + methodBody
+            + "    auto result = "
+            + CALL_STATIC
+            + "method1("
+            + BASE_PARAMETER_NAME
+            + ");\n"
+            + "    return ::here::internal::convert_to_jni_array(_jenv, result);\n"
+            + "}\n"
             + END_OF_FILE,
         generatedImplementation);
   }

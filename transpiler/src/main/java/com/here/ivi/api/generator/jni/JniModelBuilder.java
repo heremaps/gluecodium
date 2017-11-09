@@ -208,8 +208,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     JavaField javaField = javaBuilder.getFinalResult(JavaField.class);
     CppField cppField = cppBuilder.getFinalResult(CppField.class);
+    JniType jniType = getPreviousResult(JniType.class);
 
-    storeResult(new JniField(javaField, cppField));
+    storeResult(new JniField(javaField, cppField, jniType));
     closeContext();
   }
 

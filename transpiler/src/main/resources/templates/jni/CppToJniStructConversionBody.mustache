@@ -3,10 +3,10 @@
   auto _jresult = create_object(_jenv, javaClass);
 {{#fields}}
   {{#hasCustomType}}
-  auto j{{cppField.name}} = convert_to_jni(_jenv, _ninput.{{cppField.name}});
+  auto j{{cppField.name}} = convert_to_jni{{#if type.isJavaArray}}_array{{/if}}(_jenv, _ninput.{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
-  auto j{{cppField.name}} = _ninput.{{cppField.name}};
+  auto j{{cppField.name}} = {{#if type.isJavaArray}}convert_to_jni_array(_jenv, {{/if}}_ninput.{{cppField.name}}{{#if type.isJavaArray}}){{/if}};
   {{/hasCustomType}}
 {{/fields}}
 {{#fields}}

@@ -41,9 +41,11 @@ void convert_from_jni( JNIEnv* env, const jbyteArray& jvalue, std::vector< uint8
 jstring convert_to_jni( JNIEnv* env, const std::string& nvalue );
 
 /**
- * Converts a vector of bytes to a jbyteArray
+ * Converts a vector of bytes to a jbyteArray, the name of this method differs from
+ * other convert_to_jni functions to avoid collisions on overload resolution
+ * (would conflict with function templates defined in ArrayConversion.h).
  */
-jbyteArray convert_to_jni( JNIEnv* env, const std::vector< uint8_t >& nvalue );
+jbyteArray convert_to_jni_array( JNIEnv* env, const std::vector< uint8_t >& nvalue );
 
 }  // internal
 

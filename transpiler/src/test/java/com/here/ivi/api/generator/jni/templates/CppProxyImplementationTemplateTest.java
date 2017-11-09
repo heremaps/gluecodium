@@ -14,8 +14,12 @@ package com.here.ivi.api.generator.jni.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
+import com.here.ivi.api.model.javamodel.JavaArrayType;
+import com.here.ivi.api.model.javamodel.JavaCustomType;
+import com.here.ivi.api.model.javamodel.JavaPackage;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniMethod;
@@ -30,91 +34,122 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class CppProxyImplementationTemplateTest {
 
+  private static final String EXPECTED_PREFIX =
+      "\n"
+          + "#include \"android/jni/InstanceConversion.h\"\n"
+          + "#include \"android/jni/StructConversion.h\"\n"
+          + "#include \"android/jni/ArrayConversionUtils.h\"\n"
+          + "#include \"android/jni/EnumConversion.h\"\n\n"
+          + "namespace testing {\n\n"
+          + "namespace stuff {\n\n\n"
+          + "using namespace ::here::internal;\n\n"
+          + "CppClassCppProxy::CppClassCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode )\n"
+          + "    : CppProxyBase( _jenv, _jobj, _jHashCode ) {\n"
+          + "}\n\n";
+  private static final String EXPECTED_SUFFIX = "\n}\n}\n";
   private static final List<String> NAMESPACES = Arrays.asList("testing", "stuff");
 
-  private static JniMethod createListenerMethod(
-      JavaPrimitiveType.Type inputParam, String cppMethodName, boolean constFlag) {
-
-    JavaPrimitiveType javaType = null;
-    CppPrimitiveTypeRef cppType = null;
-    StringBuilder paramName = new StringBuilder("param");
-
-    switch (inputParam) {
-      case DOUBLE:
-        javaType = JavaPrimitiveType.DOUBLE;
-        cppType = CppPrimitiveTypeRef.DOUBLE;
-        paramName.append(JavaPrimitiveType.DOUBLE.getName());
-        break;
-      case INT:
-        javaType = JavaPrimitiveType.INT;
-        cppType = CppPrimitiveTypeRef.INT32;
-        paramName.append(JavaPrimitiveType.INT.getName());
-        break;
-    }
-
-    JniType jniType = JniType.createType(javaType, cppType, false);
-
-    JniParameter jniParam1 = new JniParameter(paramName + "_1", jniType);
-
-    JniParameter jniParam2 = new JniParameter(paramName + "_2", jniType);
-
-    JniMethod jniMethod = new JniMethod.Builder("", cppMethodName).isConst(constFlag).build();
-
-    jniMethod.parameters.add(jniParam1);
-    jniMethod.parameters.add(jniParam2);
-    return jniMethod;
-  }
-
   @Test
-  public void generate() {
+  public void generateWithMethod() {
+    JniMethod jniMethod = new JniMethod.Builder("", "cppMethod").build();
+    JniType jniType = JniType.createType(JavaPrimitiveType.INT, CppPrimitiveTypeRef.INT32, false);
+    jniMethod.parameters.add(new JniParameter("param", jniType));
 
     JniContainer jniContainer =
         JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
-    jniContainer.includes.add(Include.createSystemInclude("sys"));
-    jniContainer.includes.add(Include.createInternalInclude("internal"));
-    JniMethod jniMethod = createListenerMethod(JavaPrimitiveType.Type.INT, "cppMethod", false);
-    JniMethod jniMethod2 = createListenerMethod(JavaPrimitiveType.Type.DOUBLE, "cppMethod", true);
     jniContainer.add(jniMethod);
-    jniContainer.add(jniMethod2);
 
     String generated = TemplateEngine.render("jni/CppProxyImplementation", jniContainer);
 
     assertEquals(
-        "\n"
-            + "#include \"android/jni/InstanceConversion.h\"\n"
-            + "#include \"android/jni/StructConversion.h\"\n"
-            + "#include \"android/jni/ArrayConversionUtils.h\"\n"
-            + "#include \"android/jni/EnumConversion.h\"\n"
-            + "\n"
-            + "namespace testing {\n"
-            + "\n"
-            + "namespace stuff {\n"
-            + "\n"
-            + "\n"
-            + "using namespace ::here::internal;\n"
-            + "\n"
-            + "CppClassCppProxy::CppClassCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode "
-            + ")\n"
-            + "    : CppProxyBase( _jenv, _jobj, _jHashCode ) {\n"
+        EXPECTED_PREFIX
+            + "void CppClassCppProxy::cppMethod( const int32_t nparam ) {\n"
+            + "    JNIEnv* jniEnv = getJniEnvironment( );\n"
+            + "    jint jparam = nparam;\n"
+            + "    callJavaMethod( \"\", \"(I)V\", jniEnv , jparam);\n"
             + "}\n"
-            + "\n"
-            + "void CppClassCppProxy::cppMethod( const int32_t nparamint_1, const int32_t "
-            + "nparamint_2 ) {\n"
-            + "    JNIEnv * jniEnv = getJniEnvironment( );\n"
-            + "    jint jparamint_1 = nparamint_1;\n"
-            + "    jint jparamint_2 = nparamint_2;\n"
-            + "    callJavaMethod( \"\", \"(II)V\", jniEnv , jparamint_1, jparamint_2);\n"
-            + "}\n"
-            + "void CppClassCppProxy::cppMethod( const double nparamdouble_1, const double "
-            + "nparamdouble_2 ) const {\n"
-            + "    JNIEnv * jniEnv = getJniEnvironment( );\n"
-            + "    jdouble jparamdouble_1 = nparamdouble_1;\n"
-            + "    jdouble jparamdouble_2 = nparamdouble_2;\n"
-            + "    callJavaMethod( \"\", \"(DD)V\", jniEnv , jparamdouble_1, jparamdouble_2);\n"
+            + EXPECTED_SUFFIX,
+        generated);
+  }
+
+  @Test
+  public void generateWithConstMethod() {
+    JniMethod jniMethod = new JniMethod.Builder("", "cppMethod").isConst(true).build();
+    JniType jniType =
+        JniType.createType(JavaPrimitiveType.DOUBLE, CppPrimitiveTypeRef.DOUBLE, true);
+    jniMethod.parameters.add(new JniParameter("param", jniType));
+
+    JniContainer jniContainer =
+        JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+    jniContainer.add(jniMethod);
+
+    String generated = TemplateEngine.render("jni/CppProxyImplementation", jniContainer);
+
+    assertEquals(
+        EXPECTED_PREFIX
+            + "void CppClassCppProxy::cppMethod( const double nparam ) const {\n"
+            + "    JNIEnv* jniEnv = getJniEnvironment( );\n"
+            + "    jdouble jparam = nparam;\n"
+            + "    callJavaMethod( \"\", \"(D)V\", jniEnv , jparam);\n"
             + "}\n"
             + "\n"
             + "}\n"
             + "}\n",
+        generated);
+  }
+
+  @Test
+  public void generateWithComplexParameter() {
+    JniMethod jniMethod = new JniMethod.Builder("", "cppMethod").build();
+    JniType jniType =
+        JniType.createType(
+            new JavaCustomType("Foo", JavaPackage.DEFAULT),
+            new CppComplexTypeRef.Builder("Foo").build(),
+            false);
+    jniMethod.parameters.add(new JniParameter("param", jniType));
+
+    JniContainer jniContainer =
+        JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+    jniContainer.add(jniMethod);
+
+    String generated = TemplateEngine.render("jni/CppProxyImplementation", jniContainer);
+
+    assertEquals(
+        EXPECTED_PREFIX
+            + "void CppClassCppProxy::cppMethod( const Foo& nparam ) {\n"
+            + "    JNIEnv* jniEnv = getJniEnvironment( );\n"
+            + "    auto jparam = ::here::internal::convert_to_jni( jniEnv, nparam );\n"
+            + "    callJavaMethod( \"\", \"(Lcom/here/android/Foo;)V\", jniEnv , jparam);\n"
+            + "}\n"
+            + EXPECTED_SUFFIX,
+        generated);
+  }
+
+  @Test
+  public void generateWithArrayParameter() {
+    JniMethod jniMethod = new JniMethod.Builder("", "cppMethod").build();
+    JniType jniType =
+        JniType.createType(
+            JavaArrayType.BYTE_ARRAY,
+            CppTemplateTypeRef.create(
+                CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8),
+            false);
+    jniMethod.parameters.add(new JniParameter("param", jniType));
+
+    JniContainer jniContainer =
+        JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+    jniContainer.add(jniMethod);
+
+    String generated = TemplateEngine.render("jni/CppProxyImplementation", jniContainer);
+
+    assertEquals(
+        EXPECTED_PREFIX
+            + "void CppClassCppProxy::cppMethod( const ::std::vector< uint8_t >& nparam ) {\n"
+            + "    JNIEnv* jniEnv = getJniEnvironment( );\n"
+            + "    auto jparam = ::here::internal::convert_to_jni_array( jniEnv, nparam );\n"
+            + "    callJavaMethod( \"\", \"([B)V\", jniEnv , jparam);\n"
+            + "}\n"
+            + EXPECTED_SUFFIX,
         generated);
   }
 }

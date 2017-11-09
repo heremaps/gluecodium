@@ -56,7 +56,7 @@ convert_to_jni( JNIEnv* env, const std::string& nvalue )
 }
 
 jbyteArray
-convert_to_jni( JNIEnv* env, const std::vector< uint8_t >& nvalue )
+convert_to_jni_array( JNIEnv* env, const std::vector< uint8_t >& nvalue )
 {
     jsize size = static_cast< jsize >( nvalue.size( ) );
     jbyteArray jresult = env->NewByteArray( size );

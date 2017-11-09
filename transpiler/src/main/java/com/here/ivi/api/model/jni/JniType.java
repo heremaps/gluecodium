@@ -28,6 +28,7 @@ public final class JniType implements JniElement {
   public final String javaName;
   public final String jniTypeSignature;
   public final boolean isInstance;
+  public final boolean isJavaArray;
 
   public final boolean isComplex;
   public final boolean refersToValueType;
@@ -55,7 +56,8 @@ public final class JniType implements JniElement {
     this.name = JniTypeNameMapper.map(javaType);
     this.cppName = cppType.name;
     this.javaName = javaType.name;
-    this.isComplex = !(javaType instanceof JavaPrimitiveType);
+    isComplex = !(javaType instanceof JavaPrimitiveType);
+    isJavaArray = javaType instanceof JavaArrayType;
     this.isInstance = isInstance;
     this.refersToValueType = cppType.refersToValueType();
     jniTypeSignature = createJniSignature(javaType);
