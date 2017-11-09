@@ -12,7 +12,9 @@
 import Foundation
 
 
-
+internal func getRef(_ ref: TypeDefs) -> RefHolder<smoke_TypeDefsRef> {
+    return RefHolder<smoke_TypeDefsRef>(ref.c_instance)
+}
 
 public class TypeDefs {
 
@@ -29,6 +31,45 @@ public class TypeDefs {
 
 
 
+
+    public var primitiveTypeAttribute: CollectionOf<Double> {
+        get {
+            let handle =  smoke_TypeDefs_primitiveTypeAttribute_get(c_instance)
+            return DoubleList(handle)
+        }
+        set {
+            let newValueArray = newValue.flatMap{ $0 as? Double }
+            let newValueHandle = newValueArray.c_conversion()
+            defer {
+                newValueHandle.cleanup()
+            }
+            return smoke_TypeDefs_primitiveTypeAttribute_set(c_instance, newValueHandle.c_type)
+        }
+    }
+    let c_instance : smoke_TypeDefsRef
+    public required init?(cTypeDefs: smoke_TypeDefsRef) {
+        c_instance = cTypeDefs
+    }
+    deinit {
+        smoke_TypeDefs_release(c_instance)
+    }
+    public struct StructHavingAliasFieldDefinedBelow {
+        public var field: PrimitiveTypeDef
+        public init(field: PrimitiveTypeDef) {
+            self.field = field
+        }
+        internal init?(cStructHavingAliasFieldDefinedBelow: smoke_TypeDefs_StructHavingAliasFieldDefinedBelowRef) {
+            field = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_get(cStructHavingAliasFieldDefinedBelow)
+        }
+        internal func convertToCType() -> smoke_TypeDefs_StructHavingAliasFieldDefinedBelowRef {
+            let result = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create()
+            fillFunction(result)
+            return result
+        }
+        internal func fillFunction(_ cStructHavingAliasFieldDefinedBelow: smoke_TypeDefs_StructHavingAliasFieldDefinedBelowRef) -> Void {
+            smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_set(cStructHavingAliasFieldDefinedBelow, field)
+        }
+    }
 
     public struct TestStruct {
         public var something: String

@@ -1,6 +1,6 @@
 public struct {{name}} {
 {{#fields}}
-    public var {{name}}: {{type}}
+    public var {{name}}: {{type.publicName}}
 {{/fields}}
 
 {{prefixPartial "swift/StructPublicInitMethod" "    "}}

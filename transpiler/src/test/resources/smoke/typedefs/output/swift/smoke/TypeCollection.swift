@@ -39,3 +39,21 @@ public struct Point {
         smoke_TypeCollection_Point_y_set(cPoint, y)
     }
 }
+
+public struct StructHavingAliasFieldDefinedBelow {
+    public var field: StorageId
+    public init(field: StorageId) {
+        self.field = field
+    }
+    internal init?(cStructHavingAliasFieldDefinedBelow: smoke_TypeCollection_StructHavingAliasFieldDefinedBelowRef) {
+        field = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_get(cStructHavingAliasFieldDefinedBelow)
+    }
+    internal func convertToCType() -> smoke_TypeCollection_StructHavingAliasFieldDefinedBelowRef {
+        let result = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_create()
+        fillFunction(result)
+        return result
+    }
+    internal func fillFunction(_ cStructHavingAliasFieldDefinedBelow: smoke_TypeCollection_StructHavingAliasFieldDefinedBelowRef) -> Void {
+        smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_set(cStructHavingAliasFieldDefinedBelow, field)
+    }
+}
