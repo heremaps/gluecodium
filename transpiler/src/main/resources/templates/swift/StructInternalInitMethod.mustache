@@ -52,7 +52,7 @@ internal init?(c{{name}}: {{cType}}) {
 
 {{+assignClass}}do {
     guard
-        let {{name}}Unwrapped = _{{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
+        let {{name}}Unwrapped = {{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
     else {
         return nil
     }

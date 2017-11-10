@@ -274,7 +274,7 @@ public class SwiftStructTemplateTest {
             + "    internal init?(cSomeStruct: SomeStructRef) {\n"
             + "        do {\n"
             + "            guard\n"
-            + "                let instanceFieldUnwrapped = _SomeClass(cSomeClass: C_PREFIX_instanceField_get(cSomeStruct))\n"
+            + "                let instanceFieldUnwrapped = SomeClass(cSomeClass: C_PREFIX_instanceField_get(cSomeStruct))\n"
             + "            else {\n"
             + "                return nil\n"
             + "            }\n"
