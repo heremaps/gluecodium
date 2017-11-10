@@ -58,9 +58,7 @@ public class BuiltInValueRules {
       final FQualifiedElementRef qualifiedElementRef) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(qualifiedElementRef);
-
-    String modelName = DefinedBy.getModelName(typeCollection);
-    String qualifiedName = modelName + "." + typeCollection.getName();
+    String qualifiedName = DefinedBy.getModelName(typeCollection) + "." + typeCollection.getName();
 
     if (BUILTIN_MODEL.equals(qualifiedName)) {
       switch (qualifiedElementRef.getElement().getName()) {

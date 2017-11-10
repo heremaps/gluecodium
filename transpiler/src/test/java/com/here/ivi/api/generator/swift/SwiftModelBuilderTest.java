@@ -79,10 +79,8 @@ public class SwiftModelBuilderTest {
   @Mock private FrancaDeploymentModel deploymentModel;
 
   @Mock private AbstractFrancaCommentParser.Comments comments;
-  @Mock private FModel francaModel;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
-  @Mock private FInterface francaInterface;
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FTypeRef francaTypeRef;
   @Mock private FField francaField;
@@ -115,15 +113,9 @@ public class SwiftModelBuilderTest {
     when(SwiftNameRules.getParameterName(any())).thenReturn(PARAM_NAME);
     when(SwiftNameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
 
-    when(francaMethod.eContainer()).thenReturn(francaInterface);
-    when(francaInterface.eContainer()).thenReturn(francaModel);
-    when(francaModel.getName()).thenReturn("");
-
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaField.getName()).thenReturn(FIELD_NAME);
     when(francaTypeDef.getName()).thenReturn("definite");
-
-    when(francaAttribute.eContainer()).thenReturn(francaInterface);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
     modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel);

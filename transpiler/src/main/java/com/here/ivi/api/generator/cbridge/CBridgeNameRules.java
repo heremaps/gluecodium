@@ -17,7 +17,6 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
-import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 public final class CBridgeNameRules {
@@ -145,9 +144,9 @@ public final class CBridgeNameRules {
     return String.join(delimiter, names);
   }
 
-  public static List<String> getNestedNameSpecifier(EObject type) {
+  public static List<String> getNestedNameSpecifier(final FModelElement modelElement) {
 
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(type);
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
     List<String> result = DefinedBy.getPackages(typeCollection);
     result.add(NameHelper.toUpperCamelCase(typeCollection.getName()));
 

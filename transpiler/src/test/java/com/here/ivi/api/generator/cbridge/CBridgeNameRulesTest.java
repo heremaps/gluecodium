@@ -60,13 +60,11 @@ public class CBridgeNameRulesTest {
   public void setUp() {
     mockStatic(CppNameRules.class);
     when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
-    when(francaInterface.eContainer()).thenReturn(francaModel);
 
     when(francaStruct.getName()).thenReturn(STRUCT_NAME);
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
     when(francaMethod.eContainer()).thenReturn(francaInterface);
 
-    when(francaAttribute.eContainer()).thenReturn(francaInterface);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
     when(francaEnum.eContainer()).thenReturn(francaInterface);

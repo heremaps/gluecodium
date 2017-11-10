@@ -54,7 +54,6 @@ import org.franca.core.franca.*;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
@@ -103,7 +102,6 @@ public class CModelBuilderTest {
   @Mock private FStructType francaStruct;
   @Mock private FField francaField;
   @Mock private FTypeCollection francaTypeCollection;
-  @Mock private FModel francaModel;
   @Mock private FAttribute francaAttribute;
   @Mock private FTypeRef francaTypeRef;
   @Mock private FArrayType francaArray;
@@ -137,11 +135,6 @@ public class CModelBuilderTest {
     when(CBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
 
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
-    when(francaMethod.eContainer()).thenReturn(francaTypeCollection);
-    when(francaTypeCollection.eContainer()).thenReturn(francaModel);
-    when(francaInterface.eContainer()).thenReturn(francaModel);
-
-    when(francaAttribute.eContainer()).thenReturn(francaInterface);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
     when(resolver.resolveInclude(any(), any())).thenReturn(Include.createInternalInclude(""));

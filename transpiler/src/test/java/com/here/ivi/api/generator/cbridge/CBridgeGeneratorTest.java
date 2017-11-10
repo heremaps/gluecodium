@@ -515,7 +515,8 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     FEnumerationType francaEnum = mockEnumType();
     when(CppNameRules.getFieldName(any())).thenReturn("cppFieldName");
     when(SwiftNameRules.getFieldName(any())).thenReturn("swiftFieldName");
-    when(francaEnum.eContainer()).thenReturn(francaTypeCollction);
+    when(francaEnum.eContainer()).thenReturn(francaTypeCollection);
+    when(francaTypeCollection.eContainer()).thenReturn(francaModel);
 
     FStructType struct = mock(FStructType.class);
     when(struct.getName()).thenReturn("SomeStruct");
@@ -557,7 +558,8 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
   @Test
   public void createsMethodWithExternalEnum() {
     FEnumerationType francaEnum = mockEnumType();
-    when(francaEnum.eContainer()).thenReturn(francaTypeCollction);
+    when(francaEnum.eContainer()).thenReturn(francaTypeCollection);
+    when(francaTypeCollection.eContainer()).thenReturn(francaModel);
 
     when(francaArgument1.getName()).thenReturn("input");
     when(francaArgument1.getType()).thenReturn(francaTypeRef1);
@@ -599,7 +601,6 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     when(enumVal.getVal()).thenReturn(BigInteger.TEN);
     FEnumerator enumItem = mock(FEnumerator.class);
     when(enumItem.getValue()).thenReturn(enumVal).thenReturn(null);
-    when(enumItem.eContainer()).thenReturn(francaEnum);
     when(enumItem.getName()).thenReturn("field_1").thenReturn("field_2");
     enumItems.add(enumItem);
     enumItems.add(enumItem);

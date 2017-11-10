@@ -16,7 +16,6 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.io.File;
 import java.util.List;
-import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 public final class CppNameRules {
@@ -50,9 +49,9 @@ public final class CppNameRules {
     return NameHelper.toUpperCamelCase(base); // MyTypedef
   }
 
-  public static List<String> getNestedNameSpecifier(EObject type) {
+  public static List<String> getNestedNameSpecifier(final FModelElement modelElement) {
 
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(type);
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
     List<String> result = DefinedBy.getPackages(typeCollection);
     // special type for types defined in interfaces ...
     if (typeCollection instanceof FInterface) {

@@ -11,11 +11,11 @@
 
 package com.here.ivi.api.model.franca;
 
-import com.here.ivi.api.TranspilerExecutionException;
 import java.util.List;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.util.Strings;
 import org.franca.core.franca.FModel;
+import org.franca.core.franca.FModelElement;
+import org.franca.core.franca.FQualifiedElementRef;
 import org.franca.core.franca.FTypeCollection;
 
 /** This class is used for resolving namespaces and includes. */
@@ -27,17 +27,15 @@ public final class DefinedBy {
    * @param modelElement The franca object
    * @return The type collection that contains this type
    */
-  public static FTypeCollection findDefiningTypeCollection(final EObject modelElement) {
-    if (modelElement instanceof FTypeCollection) {
-      return (FTypeCollection) modelElement; // FInterface is a FTypeCollection as well
-    }
+  public static FTypeCollection findDefiningTypeCollection(final FModelElement modelElement) {
+    return modelElement instanceof FTypeCollection
+        ? (FTypeCollection) modelElement
+        : findDefiningTypeCollection((FModelElement) modelElement.eContainer());
+  }
 
-    EObject parent = modelElement.eContainer();
-    if (parent == null) {
-      throw new TranspilerExecutionException("Invalid model element: " + modelElement);
-    }
-
-    return findDefiningTypeCollection(parent);
+  public static FTypeCollection findDefiningTypeCollection(
+      final FQualifiedElementRef qualifiedElementRef) {
+    return findDefiningTypeCollection((FModelElement) qualifiedElementRef.eContainer());
   }
 
   public static List<String> getPackages(final FTypeCollection francaTypeCollection) {
