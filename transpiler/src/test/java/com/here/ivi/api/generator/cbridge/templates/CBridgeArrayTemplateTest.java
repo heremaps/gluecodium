@@ -38,12 +38,13 @@ public class CBridgeArrayTemplateTest {
   public void generateSimpleArrayHeader() {
     CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getStringArray();
-    Map arrays = Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(0).content;
     final String expected =
-        "#include \"cbridge/StringHandle.h\"\n"
-            + "#include \"cbridge/ArrayCollectionRef.h\"\n"
+        "#include \"cbridge/ArrayCollectionRef.h\"\n"
+            + "#include \"cbridge/StringHandle.h\"\n"
             + "#include <stdint.h>\n"
             + "arrayCollection_String arrayCollection_String_create();\n"
             + "void arrayCollection_String_release(arrayCollection_String handle);\n"
@@ -58,15 +59,16 @@ public class CBridgeArrayTemplateTest {
   public void generateSimpleArrayImplementation() {
     CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getStringArray();
-    Map arrays = Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(1).content;
     final String expected =
-        "#include <string>\n"
-            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
+        "#include \"cbridge/ArrayCollection.h\"\n"
             + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
+            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
+            + "#include <string>\n"
             + "#include <vector>\n"
-            + "#include \"cbridge/ArrayCollection.h\"\n"
             + "arrayCollection_String arrayCollection_String_create() {\n"
             + "    return { new std::vector<std::string>()};;\n"
             + "}\n"
@@ -94,7 +96,8 @@ public class CBridgeArrayTemplateTest {
   public void generateSimpleArrayReferences() {
     CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getStringArray();
-    Map arrays = Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(2).content;
     final String expected =
@@ -116,14 +119,15 @@ public class CBridgeArrayTemplateTest {
   public void generateSimpleArrayPrivateHeader() {
     CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getStringArray();
-    Map arrays = Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(3).content;
     final String expected =
         "#pragma once\n"
-            + "#include <string>\n"
-            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
             + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
+            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
+            + "#include <string>\n"
             + "#include <vector>\n"
             + "inline std::vector<std::string>* get_pointer(arrayCollection_String handle) {\n"
             + "  return static_cast<std::vector<std::string>*>(handle.private_pointer);\n"
@@ -136,12 +140,13 @@ public class CBridgeArrayTemplateTest {
   public void generateNestedArrayHeader() {
     CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getNestedStringArray();
-    Map arrays = Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(0).content;
     final String expected =
-        "#include \"cbridge/StringHandle.h\"\n"
-            + "#include \"cbridge/ArrayCollectionRef.h\"\n"
+        "#include \"cbridge/ArrayCollectionRef.h\"\n"
+            + "#include \"cbridge/StringHandle.h\"\n"
             + "#include <stdint.h>\n"
             + "arrayCollection_NestedStringArray arrayCollection_NestedStringArray_create();\n"
             + "void arrayCollection_NestedStringArray_release(arrayCollection_NestedStringArray handle);\n"
@@ -156,15 +161,16 @@ public class CBridgeArrayTemplateTest {
   public void generateNestedArrayImplementation() {
     CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getNestedStringArray();
-    Map arrays = Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(1).content;
     final String expected =
-        "#include <string>\n"
-            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
+        "#include \"cbridge/ArrayCollection.h\"\n"
             + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
+            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
+            + "#include <string>\n"
             + "#include <vector>\n"
-            + "#include \"cbridge/ArrayCollection.h\"\n"
             + "arrayCollection_NestedStringArray arrayCollection_NestedStringArray_create() {\n"
             + "    return { new std::vector<std::vector<std::string>>()};;\n"
             + "}\n"
@@ -192,7 +198,8 @@ public class CBridgeArrayTemplateTest {
   public void generateNestedArrayReferences() {
     CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getNestedStringArray();
-    Map arrays = Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(2).content;
     final String expected =
@@ -214,14 +221,15 @@ public class CBridgeArrayTemplateTest {
   public void generateNestedArrayPrivateHeader() {
     CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getNestedStringArray();
-    Map arrays = Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(3).content;
     final String expected =
         "#pragma once\n"
-            + "#include <string>\n"
-            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
             + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
+            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
+            + "#include <string>\n"
             + "#include <vector>\n"
             + "inline std::vector<std::vector<std::string>>* get_pointer(arrayCollection_NestedStringArray handle) {\n"
             + "  return static_cast<std::vector<std::vector<std::string>>*>(handle.private_pointer);\n"

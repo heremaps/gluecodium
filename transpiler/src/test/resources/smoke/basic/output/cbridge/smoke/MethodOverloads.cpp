@@ -8,12 +8,12 @@
 // which may not be disclosed to others without prior written consent of HERE Global B.V.
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "smoke/MethodOverloads.h"
 #include "cbridge/smoke/MethodOverloads.h"
+#include "cbridge_internal/StringHandleImpl.h"
 #include "cbridge_internal/smoke/MethodOverloadsImpl.h"
+#include "smoke/MethodOverloads.h"
 #include <memory>
 #include <string>
-#include "cbridge_internal/StringHandleImpl.h"
 void smoke_MethodOverloads_release(smoke_MethodOverloadsRef handle) {
     delete get_pointer(handle);
 }

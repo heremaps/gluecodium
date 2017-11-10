@@ -19,7 +19,7 @@ public final class Include implements Comparable<Include> {
   public final String fileName;
   public final boolean isSystem;
 
-  protected Include(final String fileName, final boolean isSystem) {
+  private Include(final String fileName, final boolean isSystem) {
     this.fileName = fileName;
     this.isSystem = isSystem;
   }

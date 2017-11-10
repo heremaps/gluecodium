@@ -144,6 +144,8 @@ public class CModelBuilderTest {
     when(francaAttribute.eContainer()).thenReturn(francaInterface);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
+    when(resolver.resolveInclude(any(), any())).thenReturn(Include.createInternalInclude(""));
+
     modelBuilder =
         new CModelBuilder(
             contextStack, deploymentModel, resolver, cppModelbuilder, swiftModelbuilder);
