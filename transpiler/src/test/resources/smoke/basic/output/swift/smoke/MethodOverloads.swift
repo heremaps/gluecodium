@@ -8,53 +8,48 @@
 // which may not be disclosed to others without prior written consent of HERE Global B.V.
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
-
 internal func getRef(_ ref: MethodOverloads) -> RefHolder<smoke_MethodOverloadsRef> {
-    guard let instanceReference = ref as? _MethodOverloads else {
-        fatalError("Not implemented yet")
-    }
-    return RefHolder<smoke_MethodOverloadsRef>(instanceReference.c_instance)
+    return RefHolder<smoke_MethodOverloadsRef>(ref.c_instance)
 }
-
-
-public protocol MethodOverloads {
-
-
-        func isBoolean(input: Bool) -> Bool;
-        func isBoolean(input: Int8) -> Bool;
-        func isBoolean(input: String) -> Bool;
-        func isBoolean(input: Point) -> Bool;
-        func isBoolean(input1: Bool, input2: Int8, input3: String, input4: Point) -> Bool;
-
-}
-
-internal class _MethodOverloads: MethodOverloads {
-
-
+public class MethodOverloads {
     let c_instance : smoke_MethodOverloadsRef
-
-    required init?(cMethodOverloads: smoke_MethodOverloadsRef) {
+    public required init?(cMethodOverloads: smoke_MethodOverloadsRef) {
         c_instance = cMethodOverloads
     }
-
     deinit {
         smoke_MethodOverloads_release(c_instance)
+    }
+    public struct Point {
+        public var x: Double
+        public var y: Double
+        public init(x: Double, y: Double) {
+            self.x = x
+            self.y = y
+        }
+        internal init?(cPoint: smoke_MethodOverloads_PointRef) {
+            x = smoke_MethodOverloads_Point_x_get(cPoint)
+            y = smoke_MethodOverloads_Point_y_get(cPoint)
+        }
+        internal func convertToCType() -> smoke_MethodOverloads_PointRef {
+            let result = smoke_MethodOverloads_Point_create()
+            fillFunction(result)
+            return result
+        }
+        internal func fillFunction(_ cPoint: smoke_MethodOverloads_PointRef) -> Void {
+            smoke_MethodOverloads_Point_x_set(cPoint, x)
+            smoke_MethodOverloads_Point_y_set(cPoint, y)
+        }
     }
     public func isBoolean(input: Bool) -> Bool {
         return smoke_MethodOverloads_isBoolean_boolOverload(c_instance, input)
     }
-
     public func isBoolean(input: Int8) -> Bool {
         return smoke_MethodOverloads_isBoolean_intOverload(c_instance, input)
     }
-
     public func isBoolean(input: String) -> Bool {
         return smoke_MethodOverloads_isBoolean_stringOverload(c_instance, input)
     }
-
     public func isBoolean(input: Point) -> Bool {
         let inputHandle = input.convertToCType()
         defer {
@@ -62,38 +57,11 @@ internal class _MethodOverloads: MethodOverloads {
         }
         return smoke_MethodOverloads_isBoolean_structOverload(c_instance, inputHandle)
     }
-
     public func isBoolean(input1: Bool, input2: Int8, input3: String, input4: Point) -> Bool {
         let input4Handle = input4.convertToCType()
         defer {
             smoke_MethodOverloads_Point_release(input4Handle)
         }
         return smoke_MethodOverloads_isBoolean_everythingOverload(c_instance, input1, input2, input3, input4Handle)
-    }
-
-}
-public struct Point {
-    public var x: Double
-    public var y: Double
-
-    public init(x: Double, y: Double) {
-        self.x = x
-        self.y = y
-    }
-
-    internal init?(cPoint: smoke_MethodOverloads_PointRef) {
-        x = smoke_MethodOverloads_Point_x_get(cPoint)
-        y = smoke_MethodOverloads_Point_y_get(cPoint)
-    }
-
-    internal func convertToCType() -> smoke_MethodOverloads_PointRef {
-        let result = smoke_MethodOverloads_Point_create()
-        fillFunction(result)
-        return result
-    }
-
-    internal func fillFunction(_ cPoint: smoke_MethodOverloads_PointRef) -> Void {
-        smoke_MethodOverloads_Point_x_set(cPoint, x)
-        smoke_MethodOverloads_Point_y_set(cPoint, y)
     }
 }
