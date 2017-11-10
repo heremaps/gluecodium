@@ -1,5 +1,12 @@
 # API Transpiler Release Notes
 
+## 0.0.9
+- Features:
+  + Add support for Enums to Android generators
+  + Add support for Listeners to Android generators
+  + Add support for Attributes to iOS generators
+  + Generated cpp APIs are IVI code-style compliant
+
 ## 0.0.8
 - Features:
   + Add support for Attributes to Android generators
