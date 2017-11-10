@@ -70,7 +70,8 @@ public final class TemplateComparator {
   }
 
   public void assertMatchesExactly(String actual) {
-    actualSplits.add(actual);
+    // ignore empty lines
+    actualSplits.add(actual.replaceAll("( *\n)+", "\n"));
     List<String> unmatchedExpectedBlocks = new ArrayList<>(expectedBlocks);
 
     ListIterator<String> block = unmatchedExpectedBlocks.listIterator();

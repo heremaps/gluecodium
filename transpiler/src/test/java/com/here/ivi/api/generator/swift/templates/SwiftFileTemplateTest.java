@@ -18,6 +18,7 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
 import com.here.ivi.api.model.swift.SwiftValue;
+import com.here.ivi.api.test.TemplateComparator;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,20 +47,11 @@ public class SwiftFileTemplateTest {
     final SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
     swiftClass.implementsProtocols = singletonList("ExampleClass");
     swiftClass.isInterface = true;
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: ExampleClass) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _ExampleClass else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol ExampleClass {\n"
-            + "}\n"
-            + "internal class _ExampleClass: ExampleClass {\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect("public protocol ExampleClass {\n" + "}\n")
+        .expect("internal class _ExampleClass: ExampleClass {\n" + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -68,23 +60,16 @@ public class SwiftFileTemplateTest {
     swiftClass.implementsProtocols = singletonList("ExampleClassWithComment");
     swiftClass.comment = "One really classy example";
     swiftClass.isInterface = true;
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: ExampleClassWithComment) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _ExampleClassWithComment else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "/**\n"
-            + " * One really classy example\n"
-            + " */\n"
-            + "public protocol ExampleClassWithComment {\n"
-            + "}\n"
-            + "internal class _ExampleClassWithComment: ExampleClassWithComment {\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "/**\n"
+                + " * One really classy example\n"
+                + " */\n"
+                + "public protocol ExampleClassWithComment {\n"
+                + "}\n")
+        .expect("internal class _ExampleClassWithComment: ExampleClassWithComment {\n" + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -100,24 +85,19 @@ public class SwiftFileTemplateTest {
     swiftClass.isInterface = true;
     method.returnType = new SwiftType("Int");
     method.cBaseName = "myPackage_ExampleClass_myMethod";
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: ExampleClass) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _ExampleClass else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol ExampleClass {\n"
-            + "        func myMethod(parameter: Int) -> Int;\n"
-            + "}\n"
-            + "internal class _ExampleClass: ExampleClass {\n"
-            + "    public func myMethod(parameter: Int) -> Int {\n"
-            + "        return myPackage_ExampleClass_myMethod(c_instance, parameter)\n"
-            + "    }\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public protocol ExampleClass {\n"
+                + "        func myMethod(parameter: Int) -> Int;\n"
+                + "}\n")
+        .expect(
+            "internal class _ExampleClass: ExampleClass {\n"
+                + "    public func myMethod(parameter: Int) -> Int {\n"
+                + "        return myPackage_ExampleClass_myMethod(c_instance, parameter)\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -134,85 +114,69 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = Collections.singletonList(method);
     swiftClass.isInterface = true;
 
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: ExampleClass) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _ExampleClass else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol ExampleClass {\n"
-            + "        func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void;\n"
-            + "}\n"
-            + "internal class _ExampleClass: ExampleClass {\n"
-            + "    public func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void {\n"
-            + "        return ExampleClass_myMethod(c_instance, parameterVariableName)\n"
-            + "    }\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+    TemplateComparator.expect(
+            "public protocol ExampleClass {\n"
+                + "        func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void;\n"
+                + "}\n")
+        .expect(
+            "internal class _ExampleClass: ExampleClass {\n"
+                + "    public func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void {\n"
+                + "        return ExampleClass_myMethod(c_instance, parameterVariableName)\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
   public void methodWithMultipleParameters() {
     SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
     swiftClass.implementsProtocols = singletonList("ExampleClass");
+    swiftClass.isInterface = true;
     SwiftParameter parameterOne = new SwiftParameter("parameterOne", new SwiftType("Int"));
     SwiftParameter parameterTwo = new SwiftParameter("parameterTwo", new SwiftType("String"));
     SwiftMethod method = new SwiftMethod("myMethod", Arrays.asList(parameterOne, parameterTwo));
     method.cBaseName = "ExampleClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
-    swiftClass.isInterface = true;
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: ExampleClass) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _ExampleClass else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol ExampleClass {\n"
-            + "        func myMethod(parameterOne: Int, parameterTwo: String) -> Void;\n"
-            + "}\n"
-            + "internal class _ExampleClass: ExampleClass {\n"
-            + "    public func myMethod(parameterOne: Int, parameterTwo: String) -> Void {\n"
-            + "        return ExampleClass_myMethod(c_instance, parameterOne, parameterTwo)\n"
-            + "    }\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public protocol ExampleClass {\n"
+                + "        func myMethod(parameterOne: Int, parameterTwo: String) -> Void;\n"
+                + "}\n")
+        .expect(
+            "internal class _ExampleClass: ExampleClass {\n"
+                + "    public func myMethod(parameterOne: Int, parameterTwo: String) -> Void {\n"
+                + "        return ExampleClass_myMethod(c_instance, parameterOne, parameterTwo)\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
   public void methodWithArrayParameter() {
     SwiftClass swiftClass = new SwiftClass("MyClass", null);
+    swiftClass.implementsProtocols = singletonList("MyClass");
+    swiftClass.isInterface = true;
     SwiftMethod method =
         new SwiftMethod(
             "myMethod",
             Collections.singletonList(new SwiftParameter("array", new SwiftArrayType("UInt8"))));
-    swiftClass.implementsProtocols = singletonList("MyClass");
-    swiftClass.isInterface = true;
     method.cBaseName = "MyClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: MyClass) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _MyClass else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol MyClass {\n"
-            + "        func myMethod(array: [UInt8]) -> Void;\n"
-            + "}\n"
-            + "internal class _MyClass: MyClass {\n"
-            + "    public func myMethod(array: [UInt8]) -> Void {\n"
-            + "        return MyClass_myMethod(c_instance, array)\n"
-            + "    }\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public protocol MyClass {\n"
+                + "        func myMethod(array: [UInt8]) -> Void;\n"
+                + "}\n")
+        .expect(
+            "internal class _MyClass: MyClass {\n"
+                + "    public func myMethod(array: [UInt8]) -> Void {\n"
+                + "        return MyClass_myMethod(c_instance, array)\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -230,30 +194,25 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "CommentedExampleClass_myMethod";
 
     swiftClass.methods = Collections.singletonList(method);
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: CommentedExampleClass) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _CommentedExampleClass else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol CommentedExampleClass {\n"
-            + "    /**\n"
-            + "     * Do something\n"
-            + "     */\n"
-            + "        func myMethod(myParameter: String) -> Int;\n"
-            + "}\n"
-            + "internal class _CommentedExampleClass: CommentedExampleClass {\n"
-            + "    /**\n"
-            + "     * Do something\n"
-            + "     */\n"
-            + "    public func myMethod(myParameter: String) -> Int {\n"
-            + "        return CommentedExampleClass_myMethod(c_instance, myParameter)\n"
-            + "    }\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public protocol CommentedExampleClass {\n"
+                + "    /**\n"
+                + "     * Do something\n"
+                + "     */\n"
+                + "        func myMethod(myParameter: String) -> Int;\n"
+                + "}\n")
+        .expect(
+            "internal class _CommentedExampleClass: CommentedExampleClass {\n"
+                + "    /**\n"
+                + "     * Do something\n"
+                + "     */\n"
+                + "    public func myMethod(myParameter: String) -> Int {\n"
+                + "        return CommentedExampleClass_myMethod(c_instance, myParameter)\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -270,28 +229,6 @@ public class SwiftFileTemplateTest {
             + "    public static func myStaticMethod() -> Void {\n"
             + "        return MyClass_myStaticMethod()\n"
             + "    }\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
-  }
-
-  @Test
-  public void systemImport() {
-    SwiftClass swiftClass = new SwiftClass("SomeClass", null);
-    swiftClass.implementsProtocols = singletonList("SomeClass");
-    swiftClass.isInterface = true;
-
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: SomeClass) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _SomeClass else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol SomeClass {\n"
-            + "}\n"
-            + "internal class _SomeClass: SomeClass {\n"
             + "}\n";
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
@@ -568,50 +505,49 @@ public class SwiftFileTemplateTest {
     swiftClass.isInterface = true;
     file.structs = Arrays.asList(firstSturct, secondStruct);
     file.classes = singletonList(swiftClass);
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: SomeClass) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _SomeClass else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol SomeClass {\n"
-            + "        func SomeMethod() -> Void;\n"
-            + "}\n"
-            + "internal class _SomeClass: SomeClass {\n"
-            + "    public func SomeMethod() -> Void {\n"
-            + "        return (c_instance)\n"
-            + "    }\n"
-            + "}\n"
-            + "public struct FirstStruct {\n"
-            + "    public init() {\n"
-            + "    }\n"
-            + "    internal init?(cFirstStruct: CType) {\n"
-            + "    }\n"
-            + "    internal func convertToCType() -> CType {\n"
-            + "        let result = CPrefix_create()\n"
-            + "        fillFunction(result)\n"
-            + "        return result\n"
-            + "    }\n"
-            + "    internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
-            + "    }\n"
-            + "}\n"
-            + "public struct SecondStruct {\n"
-            + "    public init() {\n"
-            + "    }\n"
-            + "    internal init?(cSecondStruct: CType) {\n"
-            + "    }\n"
-            + "    internal func convertToCType() -> CType {\n"
-            + "        let result = CPrefix_create()\n"
-            + "        fillFunction(result)\n"
-            + "        return result\n"
-            + "    }\n"
-            + "    internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
-            + "    }\n"
-            + "}\n";
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "public protocol SomeClass {\n" + "        func SomeMethod() -> Void;\n" + "}\n")
+            .expect(
+                "internal class _SomeClass: SomeClass {\n"
+                    + "    public func SomeMethod() -> Void {\n"
+                    + "        return (c_instance)\n"
+                    + "    }\n"
+                    + "}\n")
+            .expect(
+                "public struct FirstStruct {\n"
+                    + "    public init() {\n"
+                    + "    }\n"
+                    + "    internal init?(cFirstStruct: CType) {\n"
+                    + "    }\n"
+                    + "    internal func convertToCType() -> CType {\n"
+                    + "        let result = CPrefix_create()\n"
+                    + "        fillFunction(result)\n"
+                    + "        return result\n"
+                    + "    }\n"
+                    + "    internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
+                    + "    }\n"
+                    + "}\n")
+            .expect(
+                "public struct SecondStruct {\n"
+                    + "    public init() {\n"
+                    + "    }\n"
+                    + "    internal init?(cSecondStruct: CType) {\n"
+                    + "    }\n"
+                    + "    internal func convertToCType() -> CType {\n"
+                    + "        let result = CPrefix_create()\n"
+                    + "        fillFunction(result)\n"
+                    + "        return result\n"
+                    + "    }\n"
+                    + "    internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
+                    + "    }\n"
+                    + "}\n")
+            .build();
+
     final String generated = generate(file);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    expected.assertMatches(generated);
   }
 
   @Test
@@ -696,30 +632,24 @@ public class SwiftFileTemplateTest {
     SwiftFile swiftFile = new SwiftFile();
     swiftFile.enums.add(
         SwiftEnum.builder("EnumSwiftName").comment("Some comment on enum type").build());
-    SwiftClass clazz = new SwiftClass("TestInterface");
-    swiftFile.classes.add(clazz);
-    clazz.isInterface = true;
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: TestInterface) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _TestInterface else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol TestInterface {\n"
-            + "}\n"
-            + "internal class _TestInterface {\n"
-            + "}\n"
-            + "/**\n"
-            + " * Some comment on enum type\n"
-            + " */\n"
-            + "public enum EnumSwiftName : UInt32 {\n"
-            + "}\n";
+    SwiftClass swiftClass = new SwiftClass("TestInterface");
+    swiftClass.isInterface = true;
+    swiftFile.classes.add(swiftClass);
+
+    TemplateComparator expected =
+        TemplateComparator.expect("public protocol TestInterface {\n" + "}\n")
+            .expect("internal class _TestInterface {\n" + "}\n")
+            .expect(
+                "/**\n"
+                    + " * Some comment on enum type\n"
+                    + " */\n"
+                    + "public enum EnumSwiftName : UInt32 {\n"
+                    + "}\n")
+            .build();
 
     final String generated = generate(swiftFile);
 
-    TemplateComparison.assertEqualContent(expected, generated);
+    expected.assertMatches(generated);
   }
 
   @Test
@@ -732,32 +662,31 @@ public class SwiftFileTemplateTest {
     SwiftMethod method = new SwiftMethod("instanceMethod");
     method.returnType = new SwiftType("Int");
     method.cBaseName = "HelloWorld_instanceMethod";
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: HelloWorld) -> RefHolder<HelloWorldRef> {\n"
-            + "    guard let instanceReference = ref as? _HelloWorld else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<HelloWorldRef>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol HelloWorld {\n"
-            + "        func instanceMethod() -> Int;\n"
-            + "}\n"
-            + "internal class _HelloWorld: HelloWorld {\n"
-            + "    let c_instance : HelloWorldRef\n"
-            + "    required init?(cHelloWorld: HelloWorldRef) {\n"
-            + "        c_instance = cHelloWorld\n"
-            + "    }\n"
-            + "    deinit {\n"
-            + "        HellowWorld_release(c_instance)\n"
-            + "    }\n"
-            + "    public func instanceMethod() -> Int {\n"
-            + "        return HelloWorld_instanceMethod(c_instance)\n"
-            + "    }\n"
-            + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "public protocol HelloWorld {\n"
+                    + "        func instanceMethod() -> Int;\n"
+                    + "}\n")
+            .expect(
+                "internal class _HelloWorld: HelloWorld {\n"
+                    + "    let c_instance : HelloWorldRef\n"
+                    + "    required init?(cHelloWorld: HelloWorldRef) {\n"
+                    + "        c_instance = cHelloWorld\n"
+                    + "    }\n"
+                    + "    deinit {\n"
+                    + "        HellowWorld_release(c_instance)\n"
+                    + "    }\n"
+                    + "    public func instanceMethod() -> Int {\n"
+                    + "        return HelloWorld_instanceMethod(c_instance)\n"
+                    + "    }\n"
+                    + "}\n")
+            .build();
+
     final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    expected.assertMatches(generated);
   }
 
   @Test
@@ -772,52 +701,41 @@ public class SwiftFileTemplateTest {
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: HellowWorldFactory) -> RefHolder<HellowWorldFactoryRef> "
-            + "{\n"
-            + "    return RefHolder<HellowWorldFactoryRef>(ref.c_instance)\n"
-            + "}\n"
-            + "public class HellowWorldFactory {\n"
-            + "    let c_instance : HellowWorldFactoryRef\n"
-            + "    public required init?(cHellowWorldFactory: HellowWorldFactoryRef) {\n"
-            + "        c_instance = cHellowWorldFactory\n"
-            + "    }\n"
-            + "    deinit {\n"
-            + "        HellowWorldFactory_release(c_instance)\n"
-            + "    }\n"
-            + "    public static func createInstanceMethod() -> HelloWorld {\n"
-            + "        let cResult = HelloWorld_createInstanceMethod()\n"
-            + "        return _HelloWorld(cHelloWorld: cResult)\n"
-            + "    }\n"
-            + "}\n";
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "public class HellowWorldFactory {\n"
+                    + "    let c_instance : HellowWorldFactoryRef\n"
+                    + "    public required init?(cHellowWorldFactory: HellowWorldFactoryRef) {\n"
+                    + "        c_instance = cHellowWorldFactory\n"
+                    + "    }\n"
+                    + "    deinit {\n"
+                    + "        HellowWorldFactory_release(c_instance)\n"
+                    + "    }\n"
+                    + "    public static func createInstanceMethod() -> HelloWorld {\n"
+                    + "        let cResult = HelloWorld_createInstanceMethod()\n"
+                    + "        return _HelloWorld(cHelloWorld: cResult)\n"
+                    + "    }\n"
+                    + "}")
+            .build();
+
     final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+    expected.assertMatches(generated);
   }
 
   @Test
   public void typedefGenerationInProtocol() {
     SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
-    swiftClass.isInterface = true;
     SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
     swiftClass.typedefs = Collections.singletonList(typedef);
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: HellowWorldFactory) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _HellowWorldFactory else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol HellowWorldFactory {\n"
-            + "    typealias MyTypeDef = Int\n"
-            + "}\n"
-            + "internal class _HellowWorldFactory {\n"
-            + "}\n";
+    swiftClass.isInterface = true;
 
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+    TemplateComparator.expect(
+            "public protocol HellowWorldFactory {\n" + "    typealias MyTypeDef = Int\n" + "}\n")
+        .expect("internal class _HellowWorldFactory {\n" + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -833,18 +751,16 @@ public class SwiftFileTemplateTest {
     method.isStatic = true;
     swiftClass.methods = new ArrayList<>(Arrays.asList(method));
 
-    final String expected =
-        "import Foundation\n"
-            + "public class HellowWorldFactory {\n"
-            + "    public typealias MyTypeDef = Int\n"
-            + "    public static func createInstanceMethod() -> HelloWorld {\n"
-            + "        let cResult = HelloWorld_createInstanceMethod()\n"
-            + "        return _HelloWorld(cHelloWorld: cResult)\n"
-            + "    }\n"
-            + "}\n";
-
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+    TemplateComparator.expect(
+            "public class HellowWorldFactory {\n"
+                + "    public typealias MyTypeDef = Int\n"
+                + "    public static func createInstanceMethod() -> HelloWorld {\n"
+                + "        let cResult = HelloWorld_createInstanceMethod()\n"
+                + "        return _HelloWorld(cHelloWorld: cResult)\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -881,48 +797,43 @@ public class SwiftFileTemplateTest {
   public void protocolWithPropertyOfDataType() {
     SwiftClass swiftClass = new SwiftClass("SomeClassWithProperty");
     swiftClass.cInstanceRef = "SomeClassWithPropertyRef";
+    swiftClass.isInterface = true;
     SwiftProperty someProperty =
         new SwiftProperty("someAttributeName", SwiftType.DATA, false, "CBRIDGE_DELEGATE");
     swiftClass.properties.add(someProperty);
-    swiftClass.isInterface = true;
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: SomeClassWithProperty) -> RefHolder<SomeClassWithPropertyRef> {\n"
-            + "    guard let instanceReference = ref as? _SomeClassWithProperty else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<SomeClassWithPropertyRef>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol SomeClassWithProperty {\n"
-            + "    var someAttributeName: Data { get set }\n"
-            + "}\n"
-            + "internal class _SomeClassWithProperty {\n"
-            + "    var someAttributeName: Data {\n"
-            + "        get {\n"
-            + "            let result_data_handle = CBRIDGE_DELEGATE_get(c_instance)\n"
-            + "\n"
-            + "            defer {\n"
-            + "                byteArray_release(result_data_handle)\n"
-            + "            }\n"
-            + "            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))\n"
-            + "        }\n"
-            + "        set {\n"
-            + "            return newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) -> Void in\n"
-            + "                return CBRIDGE_DELEGATE_set(c_instance, newValue_ptr, Int64(newValue.count))\n"
-            + "            }\n"
-            + "        }\n"
-            + "    }\n"
-            + "    let c_instance : SomeClassWithPropertyRef\n"
-            + "    required init?(cSomeClassWithProperty: SomeClassWithPropertyRef) {\n"
-            + "        c_instance = cSomeClassWithProperty\n"
-            + "    }\n"
-            + "    deinit {\n"
-            + "        _release(c_instance)\n"
-            + "    }\n"
-            + "}\n";
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "public protocol SomeClassWithProperty {\n"
+                    + "    var someAttributeName: Data { get set }\n"
+                    + "}\n")
+            .expect(
+                "internal class _SomeClassWithProperty {\n"
+                    + "    var someAttributeName: Data {\n"
+                    + "        get {\n"
+                    + "            let result_data_handle = CBRIDGE_DELEGATE_get(c_instance)\n"
+                    + "            defer {\n"
+                    + "                byteArray_release(result_data_handle)\n"
+                    + "            }\n"
+                    + "            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))\n"
+                    + "        }\n"
+                    + "        set {\n"
+                    + "            return newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) -> Void in\n"
+                    + "                return CBRIDGE_DELEGATE_set(c_instance, newValue_ptr, Int64(newValue.count))\n"
+                    + "            }\n"
+                    + "        }\n"
+                    + "    }\n"
+                    + "    let c_instance : SomeClassWithPropertyRef\n"
+                    + "    required init?(cSomeClassWithProperty: SomeClassWithPropertyRef) {\n"
+                    + "        c_instance = cSomeClassWithProperty\n"
+                    + "    }\n"
+                    + "    deinit {\n"
+                    + "        _release(c_instance)\n"
+                    + "    }\n"
+                    + "}\n")
+            .build();
 
     final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+    expected.assertMatches(generated);
   }
 
   @Test
@@ -972,8 +883,8 @@ public class SwiftFileTemplateTest {
   @Test
   public void classWithReadonlyProperties() {
     SwiftClass swiftClass = new SwiftClass("SomeClassWithProperty");
-    swiftClass.isInterface = true;
     swiftClass.cInstanceRef = "SomeClassWithPropertyRef";
+    swiftClass.isInterface = true;
     swiftClass.properties.add(
         new SwiftProperty(
             "someStringAttribute", SwiftType.STRING, true, "CBRIDGE_DELEGATE_FOR_STRING"));
@@ -987,61 +898,56 @@ public class SwiftFileTemplateTest {
             new SwiftType("SomeEnumType", TypeCategory.ENUM),
             true,
             "CBRIDGE_DELEGATE_FOR_ENUM"));
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: SomeClassWithProperty) -> RefHolder<SomeClassWithPropertyRef> {\n"
-            + "    guard let instanceReference = ref as? _SomeClassWithProperty else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<SomeClassWithPropertyRef>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol SomeClassWithProperty {\n"
-            + "    var someStringAttribute: String { get }\n"
-            + "    var someStructAttribute: SomeStructType { get }\n"
-            + "    var someEnumAttribute: SomeEnumType { get }\n"
-            + "}\n"
-            + "internal class _SomeClassWithProperty {\n"
-            + "    var someStringAttribute: String {\n"
-            + "        get {\n"
-            + "            let result_string_handle = CBRIDGE_DELEGATE_FOR_STRING_get(c_instance)\n"
-            + "\n"
-            + "            defer {\n"
-            + "                std_string_release(result_string_handle)\n"
-            + "            }\n"
-            + "            return String(data: Data(bytes: std_string_data_get(result_string_handle),\n"
-            + "                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!\n"
-            + "        }\n"
-            + "    }\n"
-            + "    var someStructAttribute: SomeStructType {\n"
-            + "        get {\n"
-            + "            let cResult = CBRIDGE_DELEGATE_FOR_STRUCT_get(c_instance)\n"
-            + "            defer {\n"
-            + "                SomeStructType_release(cResult)\n"
-            + "            }\n"
-            + "            return SomeStructType(cSomeStructType: cResult)!\n"
-            + "        }\n"
-            + "    }\n"
-            + "    var someEnumAttribute: SomeEnumType {\n"
-            + "        get {\n"
-            + "            let cResult = CBRIDGE_DELEGATE_FOR_ENUM_get(c_instance)\n"
-            + "            return SomeEnumType(rawValue: cResult)!\n"
-            + "        }\n"
-            + "    }\n"
-            + "    let c_instance : SomeClassWithPropertyRef\n"
-            + "    required init?(cSomeClassWithProperty: SomeClassWithPropertyRef) {\n"
-            + "        c_instance = cSomeClassWithProperty\n"
-            + "    }\n"
-            + "    deinit {\n"
-            + "        _release(c_instance)\n"
-            + "    }\n"
-            + "}\n";
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "public protocol SomeClassWithProperty {\n"
+                    + "    var someStringAttribute: String { get }\n"
+                    + "    var someStructAttribute: SomeStructType { get }\n"
+                    + "    var someEnumAttribute: SomeEnumType { get }\n"
+                    + "}\n")
+            .expect(
+                "internal class _SomeClassWithProperty {\n"
+                    + "    var someStringAttribute: String {\n"
+                    + "        get {\n"
+                    + "            let result_string_handle = CBRIDGE_DELEGATE_FOR_STRING_get(c_instance)\n"
+                    + "            defer {\n"
+                    + "                std_string_release(result_string_handle)\n"
+                    + "            }\n"
+                    + "            return String(data: Data(bytes: std_string_data_get(result_string_handle),\n"
+                    + "                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!\n"
+                    + "        }\n"
+                    + "    }\n"
+                    + "    var someStructAttribute: SomeStructType {\n"
+                    + "        get {\n"
+                    + "            let cResult = CBRIDGE_DELEGATE_FOR_STRUCT_get(c_instance)\n"
+                    + "            defer {\n"
+                    + "                SomeStructType_release(cResult)\n"
+                    + "            }\n"
+                    + "            return SomeStructType(cSomeStructType: cResult)!\n"
+                    + "        }\n"
+                    + "    }\n"
+                    + "    var someEnumAttribute: SomeEnumType {\n"
+                    + "        get {\n"
+                    + "            let cResult = CBRIDGE_DELEGATE_FOR_ENUM_get(c_instance)\n"
+                    + "            return SomeEnumType(rawValue: cResult)!\n"
+                    + "        }\n"
+                    + "    }\n"
+                    + "    let c_instance : SomeClassWithPropertyRef\n"
+                    + "    required init?(cSomeClassWithProperty: SomeClassWithPropertyRef) {\n"
+                    + "        c_instance = cSomeClassWithProperty\n"
+                    + "    }\n"
+                    + "    deinit {\n"
+                    + "        _release(c_instance)\n"
+                    + "    }\n"
+                    + "}\n")
+            .build();
 
     final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+    expected.assertMatches(generated);
   }
 
   public void classWithBase() {
-    SwiftClass clazz = new SwiftClass("TestClass", "SuperClass");
+    SwiftClass swiftClass = new SwiftClass("TestClass", "SuperClass");
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
@@ -1054,35 +960,36 @@ public class SwiftFileTemplateTest {
             + "}\n"
             + "internal class _TestClass: SuperClass {\n"
             + "}\n";
-    final String generated = generateFromClass(clazz);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void classWithProtocol() {
-    SwiftClass clazz = new SwiftClass("TestClass");
-    clazz.implementsProtocols = singletonList("FirstProtocol");
-    clazz.isInterface = true;
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
-            + "    guard let instanceReference = ref as? _TestClass else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol TestClass {\n"
-            + "}\n"
-            + "internal class _TestClass: FirstProtocol {\n"
-            + "}\n";
-    final String generated = generateFromClass(clazz);
-    TemplateComparison.assertEqualContent(expected, generated);
+    SwiftClass swiftClass = new SwiftClass("TestClass");
+    swiftClass.implementsProtocols = singletonList("FirstProtocol");
+    swiftClass.isInterface = true;
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "import Foundation\n"
+                    + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
+                    + "    guard let instanceReference = ref as? _TestClass else {\n"
+                    + "        fatalError(\"Not implemented yet\")\n"
+                    + "    }\n"
+                    + "    return RefHolder<>(instanceReference.c_instance)\n"
+                    + "}")
+            .expect("public protocol TestClass {\n" + "}\n")
+            .expect("internal class _TestClass: FirstProtocol {\n" + "}\n")
+            .build();
+
+    final String generated = generateFromClass(swiftClass);
+    expected.assertMatches(generated);
   }
 
   public void classWithBaseAndProtocols() {
-    SwiftClass clazz = new SwiftClass("TestClass", "SuperClass");
-    clazz.implementsProtocols = Arrays.asList("FirstProtocol", "SecondProtocol");
-    clazz.isInterface = true;
+    SwiftClass swiftClass = new SwiftClass("TestClass", "SuperClass");
+    swiftClass.implementsProtocols = Arrays.asList("FirstProtocol", "SecondProtocol");
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
@@ -1095,7 +1002,7 @@ public class SwiftFileTemplateTest {
             + "}\n"
             + "internal class _TestClass: SuperClass, FirstProtocol, SecondProtocol {\n"
             + "}\n";
-    final String generated = generateFromClass(clazz);
+    final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 }
