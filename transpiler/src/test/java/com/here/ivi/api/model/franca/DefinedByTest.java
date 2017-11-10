@@ -15,8 +15,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import com.here.ivi.api.TranspilerExecutionException;
-import org.eclipse.emf.ecore.EObject;
+import org.franca.core.franca.FModelElement;
+import org.franca.core.franca.FQualifiedElementRef;
 import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,8 +32,9 @@ public class DefinedByTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
-  @Mock private EObject eObject;
-  @Mock private FTypeCollection fTypeCollection;
+  @Mock private FModelElement francaModelElement;
+  @Mock private FQualifiedElementRef francaQualifiedElementRef;
+  @Mock private FTypeCollection francaTypeCollection;
 
   @Before
   public void setUp() {
@@ -43,10 +44,11 @@ public class DefinedByTest {
   @Test
   public void findDefiningTypeCollectionReturnsTypeCollection() {
     // Arrange
-    when(fTypeCollection.getName()).thenReturn("MyFTypeCollection");
+    when(francaTypeCollection.getName()).thenReturn("MyFTypeCollection");
 
     // Act
-    FTypeCollection definingTypeCollection = DefinedBy.findDefiningTypeCollection(fTypeCollection);
+    FTypeCollection definingTypeCollection =
+        DefinedBy.findDefiningTypeCollection(francaTypeCollection);
 
     // Assert
     assertEquals("MyFTypeCollection", definingTypeCollection.getName());
@@ -56,23 +58,29 @@ public class DefinedByTest {
   public void findDefiningTypeCollection_returnsParentTypeCollection() {
 
     // Arrange
-    when(fTypeCollection.getName()).thenReturn("MyFTypeCollection");
-    when(eObject.eContainer()).thenReturn(fTypeCollection);
+    when(francaTypeCollection.getName()).thenReturn("MyFTypeCollection");
+    when(francaModelElement.eContainer()).thenReturn(francaTypeCollection);
 
     // Act
-    FTypeCollection definingTypeCollection = DefinedBy.findDefiningTypeCollection(eObject);
+    FTypeCollection definingTypeCollection =
+        DefinedBy.findDefiningTypeCollection(francaModelElement);
 
     // Assert
     assertEquals("MyFTypeCollection", definingTypeCollection.getName());
   }
 
   @Test
-  public void findDefiningTypeCollection_throwsException() {
-    // Arrange
-    when(eObject.eContainer()).thenReturn(null);
+  public void findDefiningTypeCollection_forQualifiedRef_returnsParentTypeCollection() {
 
-    // Expect, Act
-    expectedException.expect(TranspilerExecutionException.class);
-    DefinedBy.findDefiningTypeCollection(eObject);
+    // Arrange
+    when(francaTypeCollection.getName()).thenReturn("MyFTypeCollection");
+    when(francaQualifiedElementRef.eContainer()).thenReturn(francaTypeCollection);
+
+    // Act
+    FTypeCollection definingTypeCollection =
+        DefinedBy.findDefiningTypeCollection(francaQualifiedElementRef);
+
+    // Assert
+    assertEquals("MyFTypeCollection", definingTypeCollection.getName());
   }
 }

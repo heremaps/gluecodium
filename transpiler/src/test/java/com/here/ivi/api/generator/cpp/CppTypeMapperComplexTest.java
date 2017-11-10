@@ -219,7 +219,6 @@ public class CppTypeMapperComplexTest {
     when(fTypeDef.getName()).thenReturn(TYPEDEF_NAME);
     when(fTypeDef.getActualType()).thenReturn(fActualType);
     when(francaTypeRef.getDerived()).thenReturn(fTypeDef);
-    when(fTypeDef.eContainer()).thenReturn(francaTypeRef);
     when(CppNameRules.getFullyQualifiedName(fTypeDef)).thenReturn("::" + TYPEDEF_NAME);
 
     // Act
@@ -246,7 +245,6 @@ public class CppTypeMapperComplexTest {
     FTypeDef fTypeDef = mock(FTypeDef.class);
     when(fTypeDef.getName()).thenReturn(className);
     when(francaTypeRef.getDerived()).thenReturn(fTypeDef);
-    when(fTypeDef.eContainer()).thenReturn(francaTypeRef);
     when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
     when(CppNameRules.getFullyQualifiedName(fTypeDef)).thenReturn("::MyClazz");
 
@@ -277,7 +275,6 @@ public class CppTypeMapperComplexTest {
     FTypeDef fTypeDef = mock(FTypeDef.class);
     when(fTypeDef.getName()).thenReturn(className);
     when(francaTypeRef.getDerived()).thenReturn(fTypeDef);
-    when(fTypeDef.eContainer()).thenReturn(francaTypeRef);
     when(CppNameRules.getFullyQualifiedName(fTypeDef)).thenReturn("::a::b::" + className);
     when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
 

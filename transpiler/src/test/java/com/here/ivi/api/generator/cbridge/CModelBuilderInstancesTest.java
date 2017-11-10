@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.cbridge;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -47,9 +46,6 @@ public class CModelBuilderInstancesTest {
   @Mock private IncludeResolver resolver;
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
-  @Mock private FArgument francaArgument;
-  @Mock private FTypeCollection francaTypeCollection;
-  @Mock private FModel francaModel;
 
   private CModelBuilder modelBuilder;
   private final ModelBuilderContextStack<CElement> contextStack = new ModelBuilderContextStack<>();
@@ -61,16 +57,6 @@ public class CModelBuilderInstancesTest {
 
     when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
     when(CBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
-
-    when(francaArgument.getName()).thenReturn(PARAM_NAME);
-    when(francaMethod.eContainer()).thenReturn(francaTypeCollection);
-    when(francaTypeCollection.eContainer()).thenReturn(francaModel);
-    when(francaInterface.eContainer()).thenReturn(francaModel);
-
-    FModel francaParent = mock(FModel.class);
-    when(francaInterface.getName()).thenReturn("SomeClass");
-    when(francaInterface.eContainer()).thenReturn(francaParent);
-    when(francaParent.getName()).thenReturn("some.package");
 
     modelBuilder =
         new CModelBuilder(

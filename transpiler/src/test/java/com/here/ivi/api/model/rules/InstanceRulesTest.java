@@ -47,7 +47,7 @@ public final class InstanceRulesTest {
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
 
-    when(DefinedBy.findDefiningTypeCollection(any())).thenReturn(typeCollection);
+    when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class))).thenReturn(typeCollection);
     when(typeCollection.getName()).thenReturn(CLASS_NAME);
   }
 

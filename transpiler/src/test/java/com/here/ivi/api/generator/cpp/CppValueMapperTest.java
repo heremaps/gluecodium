@@ -27,10 +27,7 @@ import com.here.ivi.api.model.rules.BuiltInValueRules;
 import java.util.Optional;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FModel;
 import org.franca.core.franca.FQualifiedElementRef;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,14 +63,8 @@ public final class CppValueMapperTest {
     final String inputConstantName = "SomeFancyName";
     final String outputConstantName = "desiredOutputName";
 
-    //mock franca types
-    FTypeCollection fTypeCollection = mock(FTypeCollection.class);
-    when(fTypeCollection.eContainer()).thenReturn(mock(FModel.class));
-
     FConstantDef fConstant = mock(FConstantDef.class);
     when(fConstant.getName()).thenReturn(inputConstantName);
-    when(fConstant.eContainer()).thenReturn(fTypeCollection);
-    when(fConstant.getType()).thenReturn(mock(FTypeRef.class));
 
     FQualifiedElementRef qualifiedElementRef = mock(FQualifiedElementRef.class);
     when(qualifiedElementRef.getElement()).thenReturn(fConstant);
@@ -99,13 +90,8 @@ public final class CppValueMapperTest {
     final String outputEnumeratorName = "EnumeratorOut";
     final String outputTypeName = cppType.name + "::" + outputEnumeratorName;
 
-    //mock franca types
-    FTypeCollection fTypeCollection = mock(FTypeCollection.class);
-    when(fTypeCollection.eContainer()).thenReturn(mock(FModel.class));
-
     FEnumerator fEnumerator = mock(FEnumerator.class);
     when(fEnumerator.getName()).thenReturn(inputEnumeratorName);
-    when(fEnumerator.eContainer()).thenReturn(fTypeCollection);
 
     FQualifiedElementRef qualifiedElementRef = mock(FQualifiedElementRef.class);
     when(qualifiedElementRef.getElement()).thenReturn(fEnumerator);

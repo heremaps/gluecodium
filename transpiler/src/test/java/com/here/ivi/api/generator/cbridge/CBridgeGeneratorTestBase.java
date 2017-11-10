@@ -56,7 +56,7 @@ abstract class CBridgeGeneratorTestBase {
 
   @Mock protected FModel francaModel;
   @Mock protected FInterface francaInterface;
-  @Mock protected FTypeCollection francaTypeCollction;
+  @Mock protected FTypeCollection francaTypeCollection;
 
   @Mock protected FMethod francaMethod;
   @Mock protected FArgument francaArgument1;
@@ -79,8 +79,7 @@ abstract class CBridgeGeneratorTestBase {
 
     when(deploymentModel.isStatic(any())).thenReturn(true);
 
-    when(francaTypeCollction.getName()).thenReturn(TYPE_COLLECTION_NAME);
-    when(francaTypeCollction.eContainer()).thenReturn(francaModel);
+    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
 
     when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
     when(francaInterface.getMethods()).thenReturn(methods);
