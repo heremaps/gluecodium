@@ -11,6 +11,7 @@
 
 #include <memory>
 #include "Instances.h"
+#include "Interfaces.h"
 #include "cpp/test/InstancesFactory.h"
 
 namespace test {
@@ -37,6 +38,30 @@ InstancesFactory::create_nested_instantiable_one( )
 InstancesFactory::create_nested_instantiable_two( )
 {
     return ::std::make_shared< NestedInstanceTwo >( );
+}
+
+::std::shared_ptr< SimpleInterfaceOne >
+InstancesFactory::create_simple_interface_one( )
+{
+    return ::std::make_shared< SimpleInterfaceOneImpl >( );
+}
+
+::std::shared_ptr< SimpleInterfaceTwo >
+InstancesFactory::create_simple_interface_two( )
+{
+    return ::std::make_shared< SimpleInterfaceTwoImpl >( );
+}
+
+::std::shared_ptr< NestedInterfaceOne >
+InstancesFactory::create_nested_interface_one( )
+{
+    return ::std::make_shared< NestedInterfaceOneImpl >( );
+}
+
+::std::shared_ptr< NestedInterfaceTwo >
+InstancesFactory::create_nested_interface_two( )
+{
+    return ::std::make_shared< NestedInterfaceTwoImpl >( );
 }
 
 }

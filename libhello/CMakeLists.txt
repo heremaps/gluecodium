@@ -97,7 +97,10 @@ feature(Instances cpp android swift SOURCES
     src/hello/HelloWorldStaticLogger.cpp
     src/hello/HelloWorldProfileManager.cpp
     src/hello/HelloWorldProfileManagerFactory.cpp
+    src/test/Instances.h
     src/test/Instances.cpp
+    src/test/Interfaces.h
+    src/test/Interfaces.cpp
     src/test/InstancesFactory.cpp
 
     fidl/hello/HelloWorldInstances.fidl
@@ -109,6 +112,8 @@ feature(Instances cpp android swift SOURCES
     fidl/hello/HelloWorldStaticLogger.fdepl
     fidl/hello/HelloWorldStaticLogger.fidl
     fidl/test/Instances.fidl
+    fidl/test/Interfaces.fidl
+    fidl/test/Interfaces.fdepl
     fidl/test/InstancesFactory.fdepl
     fidl/test/InstancesFactory.fidl
     )
