@@ -26,4 +26,16 @@ define navigation.BaseApiSpec for interface test.InstancesFactory
     method createNestedInstantiableTwo {
         Static = true
     }
+    method createSimpleInterfaceOne {
+        Static = true
+    }
+    method createSimpleInterfaceTwo {
+        Static = true
+    }
+    method createNestedInterfaceOne {
+        Static = true
+    }
+    method createNestedInterfaceTwo {
+        Static = true
+    }
 }

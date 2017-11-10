@@ -15,6 +15,10 @@ import test.SimpleInstantiableOne.SimpleInstantiableOne from "./Instances.fidl"
 import test.SimpleInstantiableTwo.SimpleInstantiableTwo from "./Instances.fidl"
 import test.NestedInstantiableOne.NestedInstantiableOne from "./Instances.fidl"
 import test.NestedInstantiableTwo.NestedInstantiableTwo from "./Instances.fidl"
+import test.SimpleInterfaceOne.SimpleInterfaceOne from "./Interfaces.fidl"
+import test.SimpleInterfaceTwo.SimpleInterfaceTwo from "./Interfaces.fidl"
+import test.NestedInterfaceOne.NestedInterfaceOne from "./Interfaces.fidl"
+import test.NestedInterfaceTwo.NestedInterfaceTwo from "./Interfaces.fidl"
 
 interface InstancesFactory {
 
@@ -47,6 +51,30 @@ interface InstancesFactory {
         out {
             <** @description: Reference to created instance **>
             NestedInstantiableTwo instanceRef
+        }
+    }
+
+    method createSimpleInterfaceOne {
+        out {
+            SimpleInterfaceOne instanceRef
+        }
+    }
+
+    method createSimpleInterfaceTwo {
+        out {
+            SimpleInterfaceTwo instanceRef
+        }
+    }
+
+    method createNestedInterfaceOne {
+        out {
+            NestedInterfaceOne instanceRef
+        }
+    }
+
+    method createNestedInterfaceTwo {
+        out {
+            NestedInterfaceTwo instanceRef
         }
     }
 }

@@ -1,0 +1,113 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+interface SimpleInterfaceOne {
+
+    public typedef SimpleInterfaceOne is undefined
+
+    method setStringValue {
+        in {
+            String stringValue
+        }
+    }
+
+    method getStringValue {
+        out {
+           String stringValue
+        }
+    }
+}
+
+interface SimpleInterfaceTwo {
+
+    public typedef SimpleInterfaceTwo is undefined
+
+    method setStringValue {
+        in {
+            String stringValue
+        }
+    }
+
+    method getStringValue {
+        out {
+           String stringValue
+        }
+    }
+}
+
+interface NestedInterfaceOne {
+
+    public typedef NestedInterfaceOne is undefined
+
+    method setSameTypeInterfaces {
+        in {
+            SimpleInterfaceOne.SimpleInterfaceOne interfaceOne
+            SimpleInterfaceOne.SimpleInterfaceOne interfaceTwo
+        }
+    }
+
+    method getInterfaceOne {
+        out {
+            SimpleInterfaceOne.SimpleInterfaceOne interfaceOne
+        }
+    }
+
+    method getInterfaceTwo {
+        out {
+            SimpleInterfaceOne.SimpleInterfaceOne interfaceTwo
+        }
+    }
+}
+
+interface NestedInterfaceTwo {
+
+    public typedef NestedInterfaceTwo is undefined
+
+    method setMultipleTypeInterfaces {
+        in {
+            SimpleInterfaceOne.SimpleInterfaceOne interfaceOne
+            SimpleInterfaceTwo.SimpleInterfaceTwo interfaceTwo
+            NestedInterfaceOne.NestedInterfaceOne nestedInterface
+        }
+    }
+
+    method getInterfaceOne {
+        out {
+            SimpleInterfaceOne.SimpleInterfaceOne interface1
+        }
+    }
+
+    method getInterfaceTwo {
+        out {
+            SimpleInterfaceTwo.SimpleInterfaceTwo interface2
+        }
+    }
+
+    method getNestedInterface {
+        out {
+            NestedInterfaceOne.NestedInterfaceOne interface3
+        }
+    }
+
+    method setSelfInterface {
+        in {
+            NestedInterfaceTwo selfInterface
+        }
+    }
+
+    method getSelfInterface {
+        out {
+            NestedInterfaceTwo selfInterface
+        }
+    }
+}
