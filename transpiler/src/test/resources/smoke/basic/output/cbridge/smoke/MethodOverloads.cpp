@@ -13,7 +13,7 @@
 #include "cbridge_internal/smoke/MethodOverloadsImpl.h"
 #include <memory>
 #include <string>
-
+#include "cbridge_internal/StringHandleImpl.h"
 void smoke_MethodOverloads_release(smoke_MethodOverloadsRef handle) {
     delete get_pointer(handle);
 }
