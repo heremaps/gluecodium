@@ -72,7 +72,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
   CBridgeNameRules.class,
   SwiftNameRules.class
 })
-@SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods"})
 public class CModelBuilderTest {
 
   private static final String FULL_FUNCTION_NAME = "FULL_FUNCTION_NAME";

@@ -30,7 +30,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 /** Common setup for the test cases */
-@SuppressWarnings("PMD.TooManyFields")
 @PrepareForTest({CppNameRules.class, CBridgeNameRules.class, SwiftNameRules.class})
 abstract class CBridgeGeneratorTestBase {
 
@@ -72,7 +71,6 @@ abstract class CBridgeGeneratorTestBase {
 
   protected CBridgeGenerator generator;
 
-  @SuppressWarnings("PMD")
   CBridgeGeneratorTestBase() throws Exception {
     PowerMockito.mockStatic(CBridgeNameRules.class);
     initMocks(this);

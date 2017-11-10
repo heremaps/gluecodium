@@ -46,7 +46,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-@SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods"})
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(InstanceRules.class)
 public class JniModelBuilderTest {

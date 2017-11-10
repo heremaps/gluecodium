@@ -122,8 +122,12 @@ tasks.withType(Checkstyle).each { checkstyleTask ->
 }
 
 apply plugin: 'pmd'
-pmd {
+pmdMain {
     ruleSetFiles = files(rootProject.file('config/pmd/pmd-hard.xml'))
+    rulePriority = 3
+}
+pmdTest {
+    ruleSetFiles = files(rootProject.file('config/pmd/pmd-tests.xml'))
     rulePriority = 3
 }
 

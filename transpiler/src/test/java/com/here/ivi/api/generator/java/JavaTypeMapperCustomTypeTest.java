@@ -36,7 +36,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.trimou.util.Strings;
 
-@SuppressWarnings({"PMD.TooManyFields"})
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({JavaNameRules.class, InstanceRules.class, JavaValueMapper.class})
 public class JavaTypeMapperCustomTypeTest {

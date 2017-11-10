@@ -53,7 +53,6 @@ public class AbstractFrancaCommentParserTest {
 
   @Spy private final ArrayEList<FAnnotation> annotationList = new ArrayEList<>();
 
-  @SuppressWarnings("PMD.CallSuperInConstructor")
   private abstract static class TestableFrancaCommentParser
       extends AbstractFrancaCommentParser<AbstractFrancaCommentParser.Comments> {
 

@@ -32,7 +32,6 @@ public class CBridgeGeneratorTestPrimitiveTypes extends CBridgeGeneratorTestBase
   private final String cType;
   private CInterface cModel;
 
-  @SuppressWarnings("PMD")
   public CBridgeGeneratorTestPrimitiveTypes(FBasicTypeId francaType, String cType)
       throws Exception {
     super();

@@ -64,7 +64,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
   InstanceRules.class,
   DefinedBy.class
 })
-@SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.TooManyMethods"})
 public class SwiftModelBuilderTest {
 
   private static final String PARAM_NAME = "someParamName";
