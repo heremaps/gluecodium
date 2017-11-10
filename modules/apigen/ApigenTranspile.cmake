@@ -92,6 +92,12 @@ function(apigen_transpile)
  ${validateParam}\
  -nostdout")
     foreach(input ${apigen_transpile_FRANCA_SOURCES})
+        # Attach sources to target for IDEs to display them properly in their projects
+        file(GLOB_RECURSE inputFrancaSources ${input}/*.fidl ${input}/*.fdepl)
+        if(inputFrancaSources)
+            target_sources(${apigen_transpile_TARGET} PRIVATE ${inputFrancaSources})
+        endif()
+
         if (NOT IS_ABSOLUTE ${input})
             set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
         endif()
