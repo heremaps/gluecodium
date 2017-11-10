@@ -27,13 +27,13 @@ repositories {
 
 dependencies {
     // Runtime dependencies from local libs/ folder
-    compile 'com.here.ivi.example:hello@aar'
+    implementation 'com.here.ivi.example:hello@aar'
 
     // Runtime dependencies from Maven repositories
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:design:26.1.0'
 
     // Test dependencies
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.robolectric:robolectric:3.4.2'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.robolectric:robolectric:3.4.2'
 }
