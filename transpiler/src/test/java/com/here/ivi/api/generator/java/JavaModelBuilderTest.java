@@ -38,7 +38,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(JavaValueMapper.class)
-@SuppressWarnings({"PMD.TooManyFields", "PMD.TooManyMethods"})
 public class JavaModelBuilderTest {
 
   private static final String CLASS_NAME = "classy";

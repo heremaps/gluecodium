@@ -144,7 +144,6 @@ public class TranspilerTest {
   }
 
   @Test
-  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   @PrepareForTest({Transpiler.class, FileOutput.class, GeneratorSuite.class})
   public void ableToOutputFile() throws Exception {
     // Arrange
@@ -161,7 +160,6 @@ public class TranspilerTest {
   }
 
   @Test
-  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   @PrepareForTest({Transpiler.class, GeneratorSuite.class})
   public void failWhenUnableToOpenConsoleForOutput() throws Exception {
     // Arrange
@@ -176,7 +174,6 @@ public class TranspilerTest {
   }
 
   @Test
-  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   public void failWhenUnableToOpenOutputDirectory() throws Exception {
     // Arrange
     FileOutput mockFileOutput = mock(FileOutput.class);

@@ -42,12 +42,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
   CppValueMapper.class,
   CppNameRules.class
 })
-@SuppressWarnings({
-  "PMD.TooManyFields",
-  "PMD.TooManyMethods",
-  "PMD.CouplingBetweenObjects",
-  "PMD.ExcessivePublicCount"
-})
 public class CppModelBuilderTest {
 
   private static final String STRUCT_NAME = "structural";

@@ -34,7 +34,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
-  @SuppressWarnings("PMD")
   public CBridgeGeneratorTest() throws Exception {
     super();
   }

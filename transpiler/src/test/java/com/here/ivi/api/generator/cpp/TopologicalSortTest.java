@@ -43,7 +43,6 @@ public class TopologicalSortTest {
   }
 
   @Parameterized.Parameters
-  @SuppressWarnings({"PMD.ExcessiveMethodLength"})
   public static Collection<Object[]> testData() {
     return Arrays.asList(
         new Object[][] {
