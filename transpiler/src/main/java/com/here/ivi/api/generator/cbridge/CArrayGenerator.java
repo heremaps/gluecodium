@@ -41,7 +41,7 @@ public class CArrayGenerator {
 
   public List<GeneratedFile> generate() {
     CInterface arraysInterface = new CInterface(ARRAY_FILE);
-    arraysInterface.arrays = new ArrayList(this.arrayCollector.values());
+    arraysInterface.arrays = new ArrayList<>(arrayCollector.values());
     arraysInterface.headerIncludes = CBridgeComponents.collectHeaderIncludes(arraysInterface);
     arraysInterface.headerIncludes.add(FIXED_WIDTH_INTEGERS_INCLUDE);
     arraysInterface.implementationIncludes =

@@ -18,7 +18,7 @@ import java.util.*;
 public class CBridgeComponents {
 
   public static Set<Include> collectImplementationIncludes(CInterface cInterface) {
-    Set<Include> includes = new LinkedHashSet<>();
+    Collection<Include> includes = new LinkedList<>();
     for (CFunction function : cInterface.functions) {
       includes.addAll(collectFunctionBodyIncludes(function));
     }
@@ -38,11 +38,11 @@ public class CBridgeComponents {
       includes.addAll(array.includesFromCpp());
       includes.addAll(array.includesToCpp());
     }
-    return includes;
+    return new TreeSet<>(includes);
   }
 
   public static Set<Include> collectPrivateHeaderIncludes(CInterface cInterface) {
-    Set<Include> includes = new LinkedHashSet<>();
+    Collection<Include> includes = new LinkedList<>();
     for (CStruct struct : cInterface.structs) {
       includes.addAll(struct.mappedType.conversionToCppIncludes);
     }
@@ -52,11 +52,11 @@ public class CBridgeComponents {
     if (cInterface.selfType != null) {
       includes.addAll(cInterface.selfType.conversionToCppIncludes);
     }
-    return includes;
+    return new TreeSet<>(includes);
   }
 
   public static Set<Include> collectHeaderIncludes(CInterface cInterface) {
-    Set<Include> includes = new LinkedHashSet<>();
+    Collection<Include> includes = new LinkedList<>();
     for (CFunction function : cInterface.functions) {
       includes.addAll(collectFunctionSignatureIncludes(function));
     }
@@ -75,20 +75,20 @@ public class CBridgeComponents {
     for (CArray array : cInterface.arrays) {
       includes.addAll(array.returnTypeIncludes());
     }
-    return includes;
+    return new TreeSet<>(includes);
   }
 
   public static Set<Include> collectFunctionSignatureIncludes(CFunction function) {
-    Set<Include> includes = new LinkedHashSet<>();
+    Collection<Include> includes = new LinkedList<>();
     for (CParameter parameter : function.parameters) {
       includes.addAll(parameter.getSignatureIncludes());
     }
     includes.addAll(function.returnType.functionReturnType.includes);
-    return includes;
+    return new TreeSet<>(includes);
   }
 
   public static Set<Include> collectFunctionBodyIncludes(CFunction function) {
-    Set<Include> includes = new LinkedHashSet<>();
+    Collection<Include> includes = new LinkedList<>();
     for (CParameter parameter : function.parameters) {
       includes.addAll(parameter.mappedType.conversionToCppIncludes);
     }
@@ -97,6 +97,6 @@ public class CBridgeComponents {
     if (function.selfParameter != null) {
       includes.addAll(function.selfParameter.mappedType.conversionToCppIncludes);
     }
-    return includes;
+    return new TreeSet<>(includes);
   }
 }
