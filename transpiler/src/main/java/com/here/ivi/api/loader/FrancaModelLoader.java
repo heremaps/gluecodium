@@ -115,26 +115,6 @@ public class FrancaModelLoader {
     return map;
   }
 
-  // gets all the imported fidl from a fdepl file
-  private static List<File> extractFidlImports(FDModel model) {
-    File baseResource = new File(model.eResource().getURI().toFileString()).getParentFile();
-
-    ArrayList<File> imports = new ArrayList<>();
-    for (Import imp : model.getImports()) {
-      URI u = URI.createURI(imp.getImportURI());
-      if (u.isFile() && u.fileExtension().equals(FIDL_SUFFIX)) {
-        try {
-          File resolved = new File(baseResource, u.toFileString()).getCanonicalFile();
-          imports.add(resolved);
-        } catch (IOException ignored) {
-          throw new TranspilerExecutionException(
-              String.format("Could not resolve import %s in %s.", u, baseResource), ignored);
-        }
-      }
-    }
-    return imports;
-  }
-
   // loads a specification file and returns the first specification found
   private FDSpecification loadSpecification(String uri) {
     FDModel model = fdeplLoader.loadModel(URI.createURI(uri), ROOT_URI);
@@ -154,28 +134,19 @@ public class FrancaModelLoader {
     Map<String, List<File>> bySuffix = separateFiles(targetFiles);
 
     // load all found fdepl resources
-    Set<FDModel> extendedModels =
+    Collection<FDModel> extendedModels =
         bySuffix
             .get(FDEPL_SUFFIX)
             .stream()
             .map(this::loadDeploymentModel)
-            .collect(Collectors.toCollection(LinkedHashSet::new));
-
-    // collect all fidl files that are referenced by the fdepl in addition to the ones found by
-    // directory scanning
-    Set<File> fidlFiles =
-        extendedModels
-            .stream()
-            .map(FrancaModelLoader::extractFidlImports)
-            .flatMap(List::stream)
-            .collect(Collectors.toCollection(LinkedHashSet::new));
-    fidlFiles.addAll(bySuffix.get(FIDL_SUFFIX));
+            .collect(Collectors.toList());
 
     List<FrancaElement> interfaces = new LinkedList<>();
     List<FrancaElement> typeCollections = new LinkedList<>();
 
     // load all found fidl files and fill the Interfaces and TypeCollections lists from them
-    fidlFiles
+    bySuffix
+        .get(FIDL_SUFFIX)
         .stream()
         .map(
             file -> {
