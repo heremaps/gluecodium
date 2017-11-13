@@ -75,6 +75,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
       clazz.isInterface = true;
       clazz.cInstanceRef = CBridgeNameRules.getInstanceRefType(francaInterface);
       clazz.implementsProtocols = Collections.singletonList(clazz.name);
+      clazz.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
       file.structs = getPreviousResults(SwiftContainerType.class);
       file.enums = getPreviousResults(SwiftEnum.class);
 

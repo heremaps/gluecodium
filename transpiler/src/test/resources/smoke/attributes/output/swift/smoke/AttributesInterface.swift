@@ -13,10 +13,17 @@ import Foundation
 
 
 internal func getRef(_ ref: AttributesInterface) -> RefHolder<smoke_AttributesInterfaceRef> {
-    guard let instanceReference = ref as? _AttributesInterface else {
-        fatalError("Not implemented yet")
+    if let instanceReference = ref as? _AttributesInterface {
+        return RefHolder<smoke_AttributesInterfaceRef>(instanceReference.c_instance)
     }
-    return RefHolder<smoke_AttributesInterfaceRef>(instanceReference.c_instance)
+    var functions = smoke_AttributesInterface_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.release = {swiftClass_pointer in
+        if let swiftClass = swiftClass_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+        }
+    }
+    return RefHolder(ref: smoke_AttributesInterface_createProxy(functions), release: smoke_AttributesInterface_release)
 }
 
 

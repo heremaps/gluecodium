@@ -13,10 +13,21 @@ import Foundation
 
 
 internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder<smoke_InterfaceWithStructRef> {
-    guard let instanceReference = ref as? _InterfaceWithStruct else {
-        fatalError("Not implemented yet")
+    if let instanceReference = ref as? _InterfaceWithStruct {
+        return RefHolder<smoke_InterfaceWithStructRef>(instanceReference.c_instance)
     }
-    return RefHolder<smoke_InterfaceWithStructRef>(instanceReference.c_instance)
+    var functions = smoke_InterfaceWithStruct_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.release = {swiftClass_pointer in
+        if let swiftClass = swiftClass_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+        }
+    }
+    functions.smoke_InterfaceWithStruct_innerStructMethod = {(swiftClass_pointer, inputStruct) in
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InterfaceWithStruct
+        return get_pointer((swiftClass.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct)!)!)
+    }
+    return RefHolder(ref: smoke_InterfaceWithStruct_createProxy(functions), release: smoke_InterfaceWithStruct_release)
 }
 
 

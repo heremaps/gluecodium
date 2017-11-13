@@ -13,10 +13,23 @@ import Foundation
 
 
 internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder<examples_ProfileManagerInterfaceRef> {
-    guard let instanceReference = ref as? _ProfileManagerInterface else {
-        fatalError("Not implemented yet")
+    if let instanceReference = ref as? _ProfileManagerInterface {
+        return RefHolder<examples_ProfileManagerInterfaceRef>(instanceReference.c_instance)
     }
-    return RefHolder<examples_ProfileManagerInterfaceRef>(instanceReference.c_instance)
+
+    var functions = examples_ProfileManagerInterface_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.release = {swiftClass_pointer in
+        if let swiftClass = swiftClass_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+        }
+    }
+    functions.examples_ProfileManagerInterface_createProfile = {(swiftClass_pointer, username) in
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! ProfileManagerInterface
+        return swiftClass.createProfile(username: String(data: Data(bytes: std_string_data_get(username),
+                                                count: Int(std_string_size_get(username))), encoding: .utf8)!)
+    }
+    return RefHolder(ref: examples_ProfileManagerInterface_createProxy(functions), release: examples_ProfileManagerInterface_release)
 }
 
 public protocol ProfileManagerInterface : AnyObject {

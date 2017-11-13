@@ -12,10 +12,21 @@
 import Foundation
 
 internal func getRef(_ ref: CalculatorListener) -> RefHolder<examples_CalculatorListenerRef> {
-    guard let instanceReference = ref as? _CalculatorListener else {
-        fatalError("Not implemented yet")
+    if let instanceReference = ref as? _CalculatorListener {
+        return RefHolder<examples_CalculatorListenerRef>(instanceReference.c_instance)
     }
-    return RefHolder<examples_CalculatorListenerRef>(instanceReference.c_instance)
+    var functions = examples_CalculatorListener_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.release = {swiftClass_pointer in
+        if let swiftClass = swiftClass_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+        }
+    }
+    functions.examples_CalculatorListener_onCalculationResult = {(swiftClass_pointer, calculationResult) in
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! CalculatorListener
+        return swiftClass.onCalculationResult(calculationResult: calculationResult)
+    }
+    return RefHolder(ref: examples_CalculatorListener_createProxy(functions), release: examples_CalculatorListener_release)
 }
 
 public protocol CalculatorListener : AnyObject {

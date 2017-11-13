@@ -30,6 +30,7 @@ public final class SwiftClass extends SwiftType {
   public String cInstanceRef;
   public String cInstance;
   public List<SwiftTypeDef> typedefs;
+  public String functionTableName;
 
   public SwiftClass(String className, String parentClassName) {
     super(className, TypeCategory.CLASS);
