@@ -20,6 +20,8 @@
 		C421390F1F8FA80E0019AF14 /* UIView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C421390E1F8FA80E0019AF14 /* UIView+UI.swift */; };
 		C42139111F8FA81C0019AF14 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42139101F8FA81C0019AF14 /* Cell.swift */; };
 		C42139131F8FA8220019AF14 /* TypedefsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42139121F8FA8220019AF14 /* TypedefsViewController.swift */; };
+		C448B98E1FBAF1C700AFD6CE /* Arrays.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C448B98D1FBAF1C600AFD6CE /* Arrays.storyboard */; };
+		C448B9901FBAF1D300AFD6CE /* ArraysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C448B98F1FBAF1D300AFD6CE /* ArraysViewController.swift */; };
 		C477F4941F8FBE200073F27A /* Base.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C49F95891F8E58270069AB1C /* Base.storyboard */; };
 		C477F4951F8FBE200073F27A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C49F95881F8E58270069AB1C /* LaunchScreen.storyboard */; };
 		C477F4961F8FBE200073F27A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C49F95871F8E58270069AB1C /* Main.storyboard */; };
@@ -66,6 +68,8 @@
 		C42139101F8FA81C0019AF14 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		C42139121F8FA8220019AF14 /* TypedefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypedefsViewController.swift; sourceTree = "<group>"; };
 		C42139141F8FA8320019AF14 /* Typedefs.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Typedefs.storyboard; sourceTree = "<group>"; };
+		C448B98D1FBAF1C600AFD6CE /* Arrays.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Arrays.storyboard; sourceTree = "<group>"; };
+		C448B98F1FBAF1D300AFD6CE /* ArraysViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArraysViewController.swift; sourceTree = "<group>"; };
 		C477F49C1F8FBF8D0073F27A /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		C477F49E1F90A0D40073F27A /* UIApplication+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Version.swift"; sourceTree = "<group>"; };
 		C49F95871F8E58270069AB1C /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 		C49F95841F8E57A30069AB1C /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C448B98D1FBAF1C600AFD6CE /* Arrays.storyboard */,
 				839B32071F9E3189002E04A6 /* Attributes.storyboard */,
 				C49F95891F8E58270069AB1C /* Base.storyboard */,
 				C49F95881F8E58270069AB1C /* LaunchScreen.storyboard */,
@@ -140,6 +145,7 @@
 		C49F95921F8E58FA0069AB1C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C448B98F1FBAF1D300AFD6CE /* ArraysViewController.swift */,
 				839B320B1F9E31A5002E04A6 /* AttributesViewController.swift */,
 				C42139121F8FA8220019AF14 /* TypedefsViewController.swift */,
 				C42139101F8FA81C0019AF14 /* Cell.swift */,
@@ -244,6 +250,7 @@
 				C477F4991F8FBE200073F27A /* Enums.storyboard in Resources */,
 				C477F49A1F8FBE200073F27A /* BuiltinTypes.storyboard in Resources */,
 				C477F49B1F8FBE200073F27A /* Typedefs.storyboard in Resources */,
+				C448B98E1FBAF1C700AFD6CE /* Arrays.storyboard in Resources */,
 				839B32081F9E3189002E04A6 /* Attributes.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -290,6 +297,7 @@
 				839203E61F7E931D00799587 /* EnumsViewController.swift in Sources */,
 				839B320A1F9E3193002E04A6 /* AttributesViewController+HTML.swift in Sources */,
 				839B320C1F9E31A5002E04A6 /* AttributesViewController.swift in Sources */,
+				C448B9901FBAF1D300AFD6CE /* ArraysViewController.swift in Sources */,
 				C477F49F1F90A0D40073F27A /* UIApplication+Version.swift in Sources */,
 				83C6C2331F7E851300376FD6 /* InstancesViewController.swift in Sources */,
 				C851A6881F59A8AB00FB2D3B /* StructsViewController.swift in Sources */,
