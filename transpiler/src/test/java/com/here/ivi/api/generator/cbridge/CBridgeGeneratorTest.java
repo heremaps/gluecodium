@@ -122,6 +122,21 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
   }
 
   @Test
+  public void functionTableIsGenerated() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    TemplateComparator.expect(
+            "typedef struct {\n"
+                + "    void* swift_pointer;\n"
+                + "    void(*release)(void* swift_pointer);\n"
+                + "    void(*cbridge_test_TestInterface_functionName)(void* swift_pointer);\n"
+                + "} cbridge_test_TestInterface_FunctionTable;\n")
+        .build()
+        .assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
+  }
+
+  @Test
   public void createFunctionWithoutArguments() {
     TemplateComparator expectedHeader =
         TemplateComparator.expect("void cbridge_test_TestInterface_functionName();").build();
@@ -137,6 +152,21 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
+  }
+
+  @Test
+  public void functionWithoutArgumentsInFunctionTable() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    TemplateComparator.expect(
+            "typedef struct {\n"
+                + "    void* swift_pointer;\n"
+                + "    void(*release)(void* swift_pointer);\n"
+                + "    void(*cbridge_test_TestInterface_functionName)(void* swift_pointer);\n"
+                + "} cbridge_test_TestInterface_FunctionTable;\n")
+        .build()
+        .assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
   }
 
   @Test
@@ -162,6 +192,26 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
+  }
+
+  @Test
+  public void createFunctionTakingStringInFunctionTable() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    when(francaArgument1.getName()).thenReturn("input");
+    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
+    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    inputArguments.add(francaArgument1);
+
+    CInterface cModel = generator.buildCBridgeModel(anInterface);
+
+    TemplateComparator.expect(
+            "typedef struct {\n"
+                + "    void* swift_pointer;\n"
+                + "    void(*release)(void* swift_pointer);\n"
+                + "    void(*cbridge_test_TestInterface_functionName)(void* swift_pointer, std_stringRef input);\n"
+                + "} cbridge_test_TestInterface_FunctionTable;\n")
+        .build()
+        .assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
   }
 
   @Test

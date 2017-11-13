@@ -45,4 +45,9 @@ public class CInterface extends CElement {
   public boolean hasPrivateHeaderContent() {
     return !structs.isEmpty() || selfType != null;
   }
+
+  public boolean isInterface() {
+    // only interfaces have a functionTableName
+    return functionTableName != null && !functionTableName.isEmpty() && selfType != null;
+  }
 }

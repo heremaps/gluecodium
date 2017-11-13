@@ -17,4 +17,9 @@ public class CElement {
   public CElement(String name) {
     this.name = name;
   }
+
+  @Override
+  public String toString() {
+    return name;
+  }
 }

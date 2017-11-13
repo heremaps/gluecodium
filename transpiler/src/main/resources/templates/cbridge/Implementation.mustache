@@ -19,3 +19,7 @@ void {{name}}_release({{selfType.functionReturnType}} handle) {
 {{#functions}}
 {{>cbridge/FunctionDefinition}}
 {{/functions}}
+
+{{#isInterface}}
+{{>cbridge/CppProxy}}
+{{/isInterface}}

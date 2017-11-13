@@ -53,6 +53,8 @@ public class CBridgeGeneratorTestPrimitiveTypes extends CBridgeGeneratorTestBase
     when(francaArgument2.getType()).thenReturn(francaTypeRef2);
     outputArguments.add(francaArgument2);
 
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+
     cModel = generator.buildCBridgeModel(anInterface);
   }
 
@@ -90,5 +92,19 @@ public class CBridgeGeneratorTestPrimitiveTypes extends CBridgeGeneratorTestBase
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
+  }
+
+  @Test
+  public void functionTable() {
+    TemplateComparator.expect(
+            String.format(
+                "typedef struct {\n"
+                    + "    void* swift_pointer;\n"
+                    + "    void(*release)(void* swift_pointer);\n"
+                    + "    %1$s(*cbridge_test_TestInterface_functionName)(void* swift_pointer, %1$s input);\n"
+                    + "} cbridge_test_TestInterface_FunctionTable;\n",
+                cType))
+        .build()
+        .assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
   }
 }

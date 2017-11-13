@@ -22,10 +22,11 @@ typedef struct {
 void {{name}}_release({{selfType.functionReturnType}} handle);
 
 {{/if}}
-{{#if functionTableName}}
+{{#isInterface}}
 {{>cbridge/FunctionTable}}
 
-{{/if}}
+{{name}}Ref {{name}}_createProxy({{functionTableName}} functionTable);
+{{/isInterface}}
 {{#functions}}
 {{>cbridge/FunctionSignature}};
 {{/functions}}

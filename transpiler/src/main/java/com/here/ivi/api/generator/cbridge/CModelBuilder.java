@@ -90,7 +90,10 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         finishBuildingInterfaceOrTypeCollection(
             new CInterface(CBridgeNameRules.getInterfaceName(francaInterface), classInfo),
             francaInterface);
-    cInterface.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
+
+    if (deploymentModel.isInterface(francaInterface)) {
+      cInterface.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
+    }
 
     storeResult(cInterface);
     super.finishBuilding(francaInterface);
@@ -139,7 +142,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             .hasError(francaMethod.getErrorEnum() != null) //Temporary until APIGEN-701
             .delegateCallIncludes(
                 Collections.singleton(
-                    resolver.resolveInclude(francaMethod, HeaderType.BASE_API_HEADER)));
+                    resolver.resolveInclude(francaMethod, HeaderType.BASE_API_HEADER)))
+            .functionName(CppNameRules.getMethodName(francaMethod.getName()));
 
     if (!isStatic) {
       CClassType classInfo =

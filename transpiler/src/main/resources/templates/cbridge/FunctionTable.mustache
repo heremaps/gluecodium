@@ -2,8 +2,7 @@ typedef struct {
     void* swift_pointer;
     void(*release)(void* swift_pointer);
 {{#functions}}
-    {{<cbridge/FunctionSignature}}
-        {{$functionName}}(*{{name}}){{/functionName}}
-    {{/cbridge/FunctionSignature}};
+    {{returnType.functionReturnType}}(*{{name}})(void* swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "pars" ", "}});
 {{/functions}}
 } {{functionTableName}};
+{{+pars}}{{mappedType.functionReturnType}} {{name}}{{/pars}}

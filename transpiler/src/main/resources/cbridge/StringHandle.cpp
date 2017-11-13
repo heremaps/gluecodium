@@ -13,6 +13,10 @@
 #include "cbridge/StringHandle.h"
 #include "cbridge_internal/StringHandleImpl.h"
 
+std_stringRef std_string_create(const char* c_str) {
+    return { new std::string(c_str) };
+}
+
 void std_string_release(std_stringRef handle) {
     delete get_pointer(handle);
 }
