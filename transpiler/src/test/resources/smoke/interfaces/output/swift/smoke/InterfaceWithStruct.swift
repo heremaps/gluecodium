@@ -20,7 +20,7 @@ internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder<smoke_InterfaceWit
 }
 
 
-public protocol InterfaceWithStruct {
+public protocol InterfaceWithStruct : AnyObject {
 
 
         func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct?;
@@ -46,11 +46,9 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
         }
         let cResult = smoke_InterfaceWithStruct_innerStructMethod(c_instance, inputStructHandle)
 
-
         defer {
             smoke_InterfaceWithStruct_InnerStruct_release(cResult)
         }
-
         return InnerStruct(cInnerStruct: cResult)
     }
 
