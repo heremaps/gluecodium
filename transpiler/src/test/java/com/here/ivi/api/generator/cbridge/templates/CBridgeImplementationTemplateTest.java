@@ -11,13 +11,20 @@
 
 package com.here.ivi.api.generator.cbridge.templates;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.test.TemplateComparator;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.*;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FModel;
+import org.franca.core.franca.FModelElement;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -240,5 +247,51 @@ public class CBridgeImplementationTemplateTest {
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
+  }
+
+  @Test
+  public void cppProxyForInterface() {
+    CInterface cInterface = new CInterface("Classy");
+    final CParameter first = new CParameter("first", new CppTypeInfo(CType.INT16));
+    final CParameter second = new CParameter("second", new CppTypeInfo(CType.DOUBLE));
+    final CFunction doubleFunction =
+        CFunction.builder("doubleFunction")
+            .parameters(Arrays.asList(first, second))
+            .delegateCall("namespacy::classy::doubleFunction")
+            .build();
+    cInterface.functions = Collections.singletonList(doubleFunction);
+    cInterface.functionTableName = "ClassTable";
+
+    // Mock selfType
+    IncludeResolver resolver = mock(IncludeResolver.class);
+    FModelElement francaInterface = mock(FInterface.class);
+    FModel francaParent = mock(FModel.class);
+    when(francaInterface.getName()).thenReturn("SomeClass");
+    when(francaInterface.eContainer()).thenReturn(francaParent);
+    when(francaParent.getName()).thenReturn("some.package");
+    cInterface.selfType =
+        CppTypeInfo.createCustomTypeInfo(resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS);
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "class ClassyProxy : public std::shared_ptr<some::package::SomeClass>::element_type {\n"
+                    + "    ClassTable functions;\n"
+                    + "public:\n"
+                    + "    ClassyProxy(ClassTable&& functions)\n"
+                    + "     : functions(std::move(functions))\n"
+                    + "    {\n"
+                    + "    }\n"
+                    + "    ~ClassyProxy() {\n"
+                    + "        functions.release(functions.swift_pointer);\n"
+                    + "    }\n"
+                    + "};\n")
+            .expect(
+                "ClassyRef Classy_createProxy(ClassTable functionTable) {\n"
+                    + "    return { new std::shared_ptr<some::package::SomeClass>(std::make_shared<ClassyProxy>(std::move(functionTable))) };\n"
+                    + "}")
+            .build();
+
+    final String generated = this.generate(cInterface);
+    expected.assertMatches(generated);
   }
 }
