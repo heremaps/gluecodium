@@ -217,16 +217,15 @@ feature(Listeners cpp android SOURCES
 
 feature(Arrays cpp android swift SOURCES
     src/hello/HelloWorldArrays.cpp
+    src/test/Arrays.cpp
+    src/test/ArraysByteBuffer.cpp
 
     fidl/hello/HelloWorldArrays.fdepl
     fidl/hello/HelloWorldArrays.fidl
-    )
-
-feature(ArrayTests cpp android swift SOURCES
-    src/test/Arrays.cpp
-
     fidl/test/Arrays.fdepl
     fidl/test/Arrays.fidl
+    fidl/test/ArraysByteBuffer.fdepl
+    fidl/test/ArraysByteBuffer.fidl
     )
 
 feature(Unsupported cpp android swift SOURCES
