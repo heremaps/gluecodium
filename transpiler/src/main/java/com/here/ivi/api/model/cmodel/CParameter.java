@@ -35,6 +35,7 @@ public class CParameter extends CElement {
 
   public List<Include> getSignatureIncludes() {
     List<Include> includes = new ArrayList<>();
+    includes.addAll(mappedType.functionReturnType.includes);
     for (CType signatureType : mappedType.cTypesNeededByConstructor) {
       includes.addAll(signatureType.includes);
     }

@@ -14,6 +14,8 @@ extern "C" {
 #endif
 
 #include "cbridge/include/ArrayCollectionRef.h"
+#include "cbridge/include/StringHandle.h"
+
 #include <stdbool.h>
 #include <stdint.h>
 

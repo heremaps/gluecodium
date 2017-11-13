@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_IMPL_FILE;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.CLASS;
 import static com.here.ivi.api.model.cmodel.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
@@ -27,7 +28,6 @@ import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 
@@ -60,7 +60,8 @@ public final class CppTypeInfo extends CElement {
           TypeCategory.BUILTIN_STRING,
           Arrays.asList(
               CppLibraryIncludes.STRING, Include.createInternalInclude(STRING_HANDLE_IMPL_FILE)),
-          Collections.singletonList(CppLibraryIncludes.STRING));
+          Arrays.asList(
+              CppLibraryIncludes.STRING, Include.createInternalInclude(STRING_HANDLE_FILE)));
 
   public static final CppTypeInfo BYTE_VECTOR =
       new CppTypeInfo(
