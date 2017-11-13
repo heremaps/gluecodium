@@ -30,7 +30,7 @@ public:
     }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}std_string_create({{name}}.c_str()){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}{{name}}.data(), {{name}}.size(){{/case}}{{!!
-    }}{{#case "INSTANCE" break=false}}{{/case}}{{!!
+    }}{{#case "CLASS" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT"}}{ new {{mappedType}}({{name}}) }{{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{/swiftParameter}}
@@ -38,9 +38,9 @@ public:
     }}{{#case "BUILTIN_SIMPLE"}}return {{>swiftDelegateCall}};{{/case}}{{!!
     }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
-    }}{{#case "INSTANCE" break=false}}{{/case}}{{!!
+    }}{{#case "CLASS" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT"}}return *get_pointer({{>swiftDelegateCall}});{{/case}}{{!!
-    }}{{#default}}{{name}}{{/default}}{{!!
+    }}{{#default}}{{>swiftDelegateCall}};{{/default}}{{!!
 }}{{/switch}}
 {{/returnConversion}}
 {{+swiftDelegateCall}}functions.{{name}}(functions.swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}){{/swiftDelegateCall}}
