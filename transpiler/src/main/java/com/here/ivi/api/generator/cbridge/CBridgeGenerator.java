@@ -40,7 +40,8 @@ public class CBridgeGenerator {
           GeneratorSuite.copyTarget("cbridge_internal/include/StringHandleImpl.h", ""),
           GeneratorSuite.copyTarget("cbridge/include/ByteArrayHandle.h", ""),
           GeneratorSuite.copyTarget("cbridge/src/ByteArrayHandle.cpp", ""),
-          GeneratorSuite.copyTarget("cbridge_internal/include/ByteArrayHandleImpl.h", ""));
+          GeneratorSuite.copyTarget("cbridge_internal/include/ByteArrayHandleImpl.h", ""),
+          GeneratorSuite.copyTarget(CBridgeComponents.PROXY_CACHE_FILENAME, ""));
 
   public CBridgeGenerator(
       final FrancaDeploymentModel deploymentModel, final IncludeResolver includeResolver) {
