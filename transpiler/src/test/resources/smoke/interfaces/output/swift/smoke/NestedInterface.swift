@@ -13,10 +13,29 @@ import Foundation
 
 
 internal func getRef(_ ref: NestedInterface) -> RefHolder<smoke_NestedInterfaceRef> {
-    guard let instanceReference = ref as? _NestedInterface else {
-        fatalError("Not implemented yet")
+    if let instanceReference = ref as? _NestedInterface {
+        return RefHolder<smoke_NestedInterfaceRef>(instanceReference.c_instance)
     }
-    return RefHolder<smoke_NestedInterfaceRef>(instanceReference.c_instance)
+    var functions = smoke_NestedInterface_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.release = {swiftClass_pointer in
+        if let swiftClass = swiftClass_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+        }
+    }
+    functions.smoke_NestedInterface_setSameTypeInstances = {(swiftClass_pointer, interfaceOne, interfaceTwo) in
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! NestedInterface
+        return swiftClass.setSameTypeInstances(interfaceOne: _SimpleInterface(cSimpleInterface: interfaceOne)!, interfaceTwo: _SimpleInterface(cSimpleInterface: interfaceTwo)!)
+    }
+    functions.smoke_NestedInterface_getInstanceOne = {(swiftClass_pointer) in
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! NestedInterface
+        return getRef(swiftClass.getInstanceOne()!).ref
+    }
+    functions.smoke_NestedInterface_getInstanceTwo = {(swiftClass_pointer) in
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! NestedInterface
+        return getRef(swiftClass.getInstanceTwo()!).ref
+    }
+    return RefHolder(ref: smoke_NestedInterface_createProxy(functions), release: smoke_NestedInterface_release)
 }
 
 

@@ -13,10 +13,26 @@ import Foundation
 
 
 internal func getRef(_ ref: SimpleInterface) -> RefHolder<smoke_SimpleInterfaceRef> {
-    guard let instanceReference = ref as? _SimpleInterface else {
-        fatalError("Not implemented yet")
+    if let instanceReference = ref as? _SimpleInterface {
+        return RefHolder<smoke_SimpleInterfaceRef>(instanceReference.c_instance)
     }
-    return RefHolder<smoke_SimpleInterfaceRef>(instanceReference.c_instance)
+    var functions = smoke_SimpleInterface_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.release = {swiftClass_pointer in
+        if let swiftClass = swiftClass_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+        }
+    }
+    functions.smoke_SimpleInterface_setStringValue = {(swiftClass_pointer, stringValue) in
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! SimpleInterface
+        return swiftClass.setStringValue(stringValue: String(data: Data(bytes: std_string_data_get(stringValue),
+                                                count: Int(std_string_size_get(stringValue))), encoding: .utf8)!)
+    }
+    functions.smoke_SimpleInterface_getStringValue = {(swiftClass_pointer) in
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! SimpleInterface
+        return std_string_create(swiftClass.getStringValue()!)
+    }
+    return RefHolder(ref: smoke_SimpleInterface_createProxy(functions), release: smoke_SimpleInterface_release)
 }
 
 

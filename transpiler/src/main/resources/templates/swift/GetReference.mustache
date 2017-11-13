@@ -1,6 +1,39 @@
 internal func getRef(_ ref: {{name}}) -> RefHolder<{{cInstanceRef}}> {
-    guard let instanceReference = ref as? _{{name}} else {
-        fatalError("Not implemented yet")
+    if let instanceReference = ref as? _{{name}} {
+        return RefHolder<{{cInstanceRef}}>(instanceReference.c_instance)
     }
-    return RefHolder<{{cInstanceRef}}>(instanceReference.c_instance)
+
+    var functions = {{functionTableName}}()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.release = {swiftClass_pointer in
+        if let swiftClass = swiftClass_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+        }
+    }
+
+{{#set className=name}}
+    {{#methods}}
+    functions.{{cBaseName}} = {(swiftClass_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! {{className}}
+        return {{>swiftReturn}}
+    }
+    {{/methods}}
+
+    return RefHolder(ref: {{cInstance}}_createProxy(functions), release: {{cInstance}}_release)
 }
+{{/set}}
+{{+swiftParameter}}{{name}}{{/swiftParameter}}
+{{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
+    }}{{#case "BUILTIN_STRING"}}std_string_create({{>delegateCall2}}!){{/case}}{{!!
+    }}{{#case "STRUCT"}}get_pointer(({{>delegateCall2}}!){{/case}}{{!!
+    }}{{#case "CLASS"}}getRef({{>delegateCall2}}!).ref{{/case}}{{!!
+    }}{{#default}}{{>delegateCall2}}{{/default}}{{!!
+}}{{/switch}}{{/swiftReturn}}
+{{+delegateCall2}}swiftClass.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}
+{{+swiftParameter2}}{{name}}: {{#switch type.category.toString}}{{!!
+    }}{{#case "CLASS"}}{{#type.implementingClass}}{{.}}{{/type.implementingClass}}{{^type.implementingClass}}{{type}}{{/type.implementingClass}}(c{{type}}: {{name}})!{{/case}}{{!!
+    }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}})!{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}String(data: Data(bytes: std_string_data_get({{name}}),
+                                                count: Int(std_string_size_get({{name}}))), encoding: .utf8)!{{/case}}{{!!
+    }}{{#default}}{{name}}{{/default}}{{!!
+}}{{/switch}}{{/swiftParameter2}}

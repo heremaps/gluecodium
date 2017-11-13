@@ -55,6 +55,33 @@ public class SwiftFileTemplateTest {
   }
 
   @Test
+  public void getRefFunctionIsGenerated() {
+    final SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
+    swiftClass.implementsProtocols = singletonList("ExampleClass");
+    swiftClass.isInterface = true;
+    swiftClass.cInstance = "CInstance";
+    swiftClass.cInstanceRef = "CInstanceReference";
+    swiftClass.functionTableName = "ExampleFunctionTable";
+
+    TemplateComparator.expect(
+            "internal func getRef(_ ref: ExampleClass) -> RefHolder<CInstanceReference> {\n"
+                + "    if let instanceReference = ref as? _ExampleClass {\n"
+                + "        return RefHolder<CInstanceReference>(instanceReference.c_instance)\n"
+                + "    }\n"
+                + "    var functions = ExampleFunctionTable()\n"
+                + "    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()\n"
+                + "    functions.release = {swiftClass_pointer in\n"
+                + "        if let swiftClass = swiftClass_pointer {\n"
+                + "            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()\n"
+                + "        }\n"
+                + "    }\n"
+                + "    return RefHolder(ref: CInstance_createProxy(functions), release: CInstance_release)\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
+  }
+
+  @Test
   public void interfaceWithCommentGeneration() {
     SwiftClass swiftClass = new SwiftClass("ExampleClassWithComment", null);
     swiftClass.implementsProtocols = singletonList("ExampleClassWithComment");
@@ -973,18 +1000,36 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = new SwiftClass("TestClass");
     swiftClass.implementsProtocols = singletonList("FirstProtocol");
     swiftClass.isInterface = true;
+    swiftClass.cInstance = "CTest";
+    swiftClass.cInstanceRef = "CTestPointerWrapper";
+    swiftClass.functionTableName = "TestClassFunctionTable";
 
     TemplateComparator expected =
         TemplateComparator.expect(
-                "import Foundation\n"
-                    + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
-                    + "    guard let instanceReference = ref as? _TestClass else {\n"
-                    + "        fatalError(\"Not implemented yet\")\n"
+                "internal func getRef(_ ref: TestClass) -> RefHolder<CTestPointerWrapper> {\n"
+                    + "    if let instanceReference = ref as? _TestClass {\n"
+                    + "        return RefHolder<CTestPointerWrapper>(instanceReference.c_instance)\n"
                     + "    }\n"
-                    + "    return RefHolder<>(instanceReference.c_instance)\n"
+                    + "    var functions = TestClassFunctionTable()\n"
+                    + "    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()\n"
+                    + "    functions.release = {swiftClass_pointer in\n"
+                    + "        if let swiftClass = swiftClass_pointer {\n"
+                    + "            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()\n"
+                    + "        }\n"
+                    + "    }\n"
+                    + "    return RefHolder(ref: CTest_createProxy(functions), release: CTest_release)\n"
                     + "}")
             .expect("public protocol TestClass : AnyObject {\n" + "}\n")
-            .expect("internal class _TestClass: FirstProtocol {\n" + "}\n")
+            .expect(
+                "internal class _TestClass: FirstProtocol {\n"
+                    + "    let c_instance : CTestPointerWrapper\n"
+                    + "    required init?(cTestClass: CTestPointerWrapper) {\n"
+                    + "        c_instance = cTestClass\n"
+                    + "    }\n"
+                    + "    deinit {\n"
+                    + "        CTest_release(c_instance)\n"
+                    + "    }\n"
+                    + "}")
             .build();
 
     final String generated = generateFromClass(swiftClass);

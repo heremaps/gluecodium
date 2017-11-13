@@ -93,6 +93,7 @@ public class SwiftModelBuilderInterfaceTest {
     when(CppCommentParser.parse(francaInterface)).thenReturn(comments);
     when(CBridgeNameRules.getInterfaceName(francaInterface)).thenReturn("package_classy");
     when(CBridgeNameRules.getInstanceRefType(francaInterface)).thenReturn("instance_ref");
+    when(CBridgeNameRules.getFunctionTableName(francaInterface)).thenReturn("fun_table");
 
     modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel);
   }
@@ -168,7 +169,7 @@ public class SwiftModelBuilderInterfaceTest {
   // Creates instantiable Swift interface
 
   @Test
-  public void finishBuildingFrancaInterface() {
+  public void finishBuildingFrancaInterfaceCreatesProtocol() {
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -183,6 +184,7 @@ public class SwiftModelBuilderInterfaceTest {
     assertEquals("instance_ref", swiftClass.cInstanceRef);
     assertNotNull(swiftClass.implementsProtocols);
     assertEquals(1, swiftClass.implementsProtocols.size());
+    assertEquals("fun_table", swiftClass.functionTableName);
   }
 
   @Test

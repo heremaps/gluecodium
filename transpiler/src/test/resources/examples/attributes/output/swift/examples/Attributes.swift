@@ -12,10 +12,17 @@
 import Foundation
 
 internal func getRef(_ ref: Attributes) -> RefHolder<examples_AttributesRef> {
-    guard let instanceReference = ref as? _Attributes else {
-        fatalError("Not implemented yet")
+    if let instanceReference = ref as? _Attributes {
+        return RefHolder<examples_AttributesRef>(instanceReference.c_instance)
     }
-    return RefHolder<examples_AttributesRef>(instanceReference.c_instance)
+    var functions = examples_Attributes_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.release = {swiftClass_pointer in
+        if let swiftClass = swiftClass_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+        }
+    }
+    return RefHolder(ref: examples_Attributes_createProxy(functions), release: examples_Attributes_release)
 }
 
 public protocol Attributes : AnyObject {
