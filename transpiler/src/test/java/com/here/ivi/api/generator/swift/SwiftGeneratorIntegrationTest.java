@@ -17,7 +17,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.here.ivi.api.generator.utils.LoadModelHelper;
@@ -27,7 +26,8 @@ import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
-import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,9 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class SwiftGeneratorIntegrationTest {
-  private static final String TEST_FIDL_FILE = "swift/fidl/test/SwiftGeneratorTest.fdepl";
+  private static final List<String> TEST_FIDL_FILE =
+      Arrays.asList(
+          "swift/fidl/test/SwiftGeneratorTest.fidl", "swift/fidl/test/SwiftGeneratorTest.fdepl");
 
   private FrancaModel francaModel;
   private SwiftGenerator generator;
@@ -43,11 +45,7 @@ public class SwiftGeneratorIntegrationTest {
   @Before
   public void setUp() {
     initMocks(this);
-    try {
-      francaModel = readInFrancaModel(TEST_FIDL_FILE);
-    } catch (URISyntaxException e) {
-      fail("Franca model should be readable");
-    }
+    francaModel = readInFrancaModel(TEST_FIDL_FILE);
     generator = new SwiftGenerator(francaModel.deploymentModel);
   }
 

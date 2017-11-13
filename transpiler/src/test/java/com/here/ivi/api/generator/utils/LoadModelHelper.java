@@ -18,21 +18,29 @@ import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.*;
 import java.io.File;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class LoadModelHelper {
 
-  public static FrancaModel readInFrancaModel(String fileName) throws URISyntaxException {
-
-    URL testFidlResource = ClassLoader.getSystemClassLoader().getResource(fileName);
-    Collection<File> testFidlFile = Collections.singletonList(new File(testFidlResource.toURI()));
+  public static FrancaModel readInFrancaModel(final List<String> fileNames) {
 
     FrancaModelLoader francaModelLoader = new FrancaModelLoader();
     ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
 
-    return francaModelLoader.load(GeneratorSuite.getSpecPath(), testFidlFile);
+    Collection<File> testFiles =
+        fileNames.stream().map(LoadModelHelper::getTestFile).collect(Collectors.toList());
+
+    return francaModelLoader.load(GeneratorSuite.getSpecPath(), testFiles);
+  }
+
+  private static File getTestFile(final String fileName) {
+    try {
+      return new File(ClassLoader.getSystemClassLoader().getResource(fileName).toURI());
+    } catch (URISyntaxException e) {
+      return null;
+    }
   }
 
   public static FrancaElement extractNthInterfaceFromModel(FrancaModel model, int index) {
