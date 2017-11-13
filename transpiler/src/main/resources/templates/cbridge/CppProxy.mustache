@@ -1,0 +1,46 @@
+class {{name}}Proxy : public {{selfType.name}}::element_type {
+    {{functionTableName}} functions;
+public:
+    {{name}}Proxy({{functionTableName}}&& functions)
+     : functions(std::move(functions))
+    {
+    }
+
+    ~{{name}}Proxy() {
+        functions.release(functions.swift_pointer);
+    }
+
+    {{#functions}}
+    {{#if selfParameter}}
+    {{returnType}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}) override {
+        {{>returnConversion}}
+    }
+    {{/if}}
+    {{/functions}}
+};
+
+{{name}}Ref {{name}}_createProxy({{functionTableName}} functionTable) {
+    return { new {{selfType}}(std::make_shared<{{name}}Proxy>(std::move(functionTable))) };
+}
+{{+baseApiParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{mappedType}}{{/case}}{{!!
+    }}{{#default}}const {{mappedType}}&{{/default}}{{!!
+}}{{/switch}} {{name}}{{/baseApiParameter}}
+{{+swiftParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}std_string_create({{name}}.c_str()){{/case}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}{{name}}.data(), {{name}}.size(){{/case}}{{!!
+    }}{{#case "INSTANCE" break=false}}{{/case}}{{!!
+    }}{{#case "STRUCT"}}{ new {{mappedType}}({{name}}) }{{/case}}{{!!
+    }}{{#default}}{{name}}{{/default}}{{!!
+}}{{/switch}}{{/swiftParameter}}
+{{+returnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}return {{>swiftDelegateCall}};{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
+    }}{{#case "INSTANCE" break=false}}{{/case}}{{!!
+    }}{{#case "STRUCT"}}return *get_pointer({{>swiftDelegateCall}});{{/case}}{{!!
+    }}{{#default}}{{name}}{{/default}}{{!!
+}}{{/switch}}
+{{/returnConversion}}
+{{+swiftDelegateCall}}functions.{{name}}(functions.swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}){{/swiftDelegateCall}}

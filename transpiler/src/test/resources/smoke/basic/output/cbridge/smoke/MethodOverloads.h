@@ -33,23 +33,11 @@ double smoke_MethodOverloads_Point_y_get(smoke_MethodOverloads_PointRef handle);
 void smoke_MethodOverloads_Point_y_set(smoke_MethodOverloads_PointRef handle, double y);
 
 void smoke_MethodOverloads_release(smoke_MethodOverloadsRef handle);
-
-typedef struct {
-    void* swift_pointer;
-    void(*release)(void* swift_pointer);
-    bool(*smoke_MethodOverloads_isBoolean_boolOverload)(smoke_MethodOverloadsRef _instance, bool input);
-    bool(*smoke_MethodOverloads_isBoolean_intOverload)(smoke_MethodOverloadsRef _instance, int8_t input);
-    bool(*smoke_MethodOverloads_isBoolean_stringOverload)(smoke_MethodOverloadsRef _instance, const char* input);
-    bool(*smoke_MethodOverloads_isBoolean_structOverload)(smoke_MethodOverloadsRef _instance, smoke_MethodOverloads_PointRef input);
-    bool(*smoke_MethodOverloads_isBoolean_everythingOverload)(smoke_MethodOverloadsRef _instance, bool input1, int8_t input2, const char* input3, smoke_MethodOverloads_PointRef input4);
-} smoke_MethodOverloads_FunctionTable;
-
 bool smoke_MethodOverloads_isBoolean_boolOverload(smoke_MethodOverloadsRef _instance, bool input);
 bool smoke_MethodOverloads_isBoolean_intOverload(smoke_MethodOverloadsRef _instance, int8_t input);
 bool smoke_MethodOverloads_isBoolean_stringOverload(smoke_MethodOverloadsRef _instance, const char* input);
 bool smoke_MethodOverloads_isBoolean_structOverload(smoke_MethodOverloadsRef _instance, smoke_MethodOverloads_PointRef input);
 bool smoke_MethodOverloads_isBoolean_everythingOverload(smoke_MethodOverloadsRef _instance, bool input1, int8_t input2, const char* input3, smoke_MethodOverloads_PointRef input4);
-
 #ifdef __cplusplus
 }
 #endif
