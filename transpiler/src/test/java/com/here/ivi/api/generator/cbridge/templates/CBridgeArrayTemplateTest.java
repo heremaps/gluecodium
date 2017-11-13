@@ -64,6 +64,7 @@ public final class CBridgeArrayTemplateTest {
     final String generated = cbridgeArrayGenerator.generate().get(1).content;
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
+            + "#include \"cbridge/include/StringHandle.h\"\n"
             + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
             + "#include <string>\n"
@@ -166,6 +167,7 @@ public final class CBridgeArrayTemplateTest {
     final String generated = cbridgeArrayGenerator.generate().get(1).content;
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
+            + "#include \"cbridge/include/StringHandle.h\"\n"
             + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
             + "#include <string>\n"

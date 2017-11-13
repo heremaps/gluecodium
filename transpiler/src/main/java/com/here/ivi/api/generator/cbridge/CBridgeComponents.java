@@ -97,9 +97,11 @@ public class CBridgeComponents {
   public static Set<Include> collectFunctionBodyIncludes(CFunction function) {
     Collection<Include> includes = new LinkedList<>();
     for (CParameter parameter : function.parameters) {
+      includes.addAll(parameter.mappedType.conversionFromCppIncludes);
       includes.addAll(parameter.mappedType.conversionToCppIncludes);
     }
     includes.addAll(function.returnType.conversionFromCppIncludes);
+    includes.addAll(function.returnType.conversionToCppIncludes);
     includes.addAll(function.delegateCallIncludes);
     if (function.selfParameter != null) {
       includes.addAll(function.selfParameter.mappedType.conversionToCppIncludes);
