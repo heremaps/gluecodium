@@ -79,8 +79,7 @@ class ListenersTests: XCTestCase {
         XCTAssertFalse(deinitCalled, "Proxy must keep Swift object alive")
     }
 
-    //TODO APIGEN-861 enable test
-    func skip_testRegisterUnregisterCleanup() {
+    func testRegisterUnregisterCleanup() {
         var deinitCalled = false
 
         do {
@@ -96,7 +95,6 @@ class ListenersTests: XCTestCase {
         ("testSynchronousListener", testSynchronousListener),
         ("testSynchronousListenerCleanup", testSynchronousListenerCleanup),
         ("testProxyKeepsSwiftObjectAlive", testProxyKeepsSwiftObjectAlive),
-        //TODO APIGEN-861 enable test
-        //("testRegisterUnregisterCleanup", testRegisterUnregisterCleanup),
+        ("testRegisterUnregisterCleanup", testRegisterUnregisterCleanup),
     ]
 }
