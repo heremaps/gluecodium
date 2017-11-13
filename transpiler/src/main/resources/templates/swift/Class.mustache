@@ -21,13 +21,11 @@ internal func getRef(_ ref: {{name}}) -> RefHolder<{{cInstanceRef}}> {
 }
 {{/ClassWithoutProtocol}}{{!!
 
-
-
 }}{{+ClassWithProtocol}}
 {{>swift/GetReference}}
 
 {{#comment}}{{>swift/Comment}}{{/comment}}{{!!
-}}public protocol {{name}} {
+}}public protocol {{name}} : AnyObject {
 {{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
 {{/typedefs}}
 {{#properties}}

@@ -19,8 +19,7 @@ internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder<examples_Profi
     return RefHolder<examples_ProfileManagerInterfaceRef>(instanceReference.c_instance)
 }
 
-
-public protocol ProfileManagerInterface {
+public protocol ProfileManagerInterface : AnyObject {
 
 
         func createProfile(username: String) -> Void;

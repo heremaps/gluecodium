@@ -48,7 +48,7 @@ public class SwiftFileTemplateTest {
     swiftClass.implementsProtocols = singletonList("ExampleClass");
     swiftClass.isInterface = true;
 
-    TemplateComparator.expect("public protocol ExampleClass {\n" + "}\n")
+    TemplateComparator.expect("public protocol ExampleClass : AnyObject {\n" + "}\n")
         .expect("internal class _ExampleClass: ExampleClass {\n" + "}\n")
         .build()
         .assertMatches(generateFromClass(swiftClass));
@@ -65,7 +65,7 @@ public class SwiftFileTemplateTest {
             "/**\n"
                 + " * One really classy example\n"
                 + " */\n"
-                + "public protocol ExampleClassWithComment {\n"
+                + "public protocol ExampleClassWithComment : AnyObject {\n"
                 + "}\n")
         .expect("internal class _ExampleClassWithComment: ExampleClassWithComment {\n" + "}\n")
         .build()
@@ -87,7 +87,7 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "myPackage_ExampleClass_myMethod";
 
     TemplateComparator.expect(
-            "public protocol ExampleClass {\n"
+            "public protocol ExampleClass : AnyObject {\n"
                 + "        func myMethod(parameter: Int) -> Int;\n"
                 + "}\n")
         .expect(
@@ -115,7 +115,7 @@ public class SwiftFileTemplateTest {
     swiftClass.isInterface = true;
 
     TemplateComparator.expect(
-            "public protocol ExampleClass {\n"
+            "public protocol ExampleClass : AnyObject {\n"
                 + "        func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void;\n"
                 + "}\n")
         .expect(
@@ -140,7 +140,7 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = Collections.singletonList(method);
 
     TemplateComparator.expect(
-            "public protocol ExampleClass {\n"
+            "public protocol ExampleClass : AnyObject {\n"
                 + "        func myMethod(parameterOne: Int, parameterTwo: String) -> Void;\n"
                 + "}\n")
         .expect(
@@ -166,7 +166,7 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = Collections.singletonList(method);
 
     TemplateComparator.expect(
-            "public protocol MyClass {\n"
+            "public protocol MyClass : AnyObject {\n"
                 + "        func myMethod(array: [UInt8]) -> Void;\n"
                 + "}\n")
         .expect(
@@ -196,7 +196,7 @@ public class SwiftFileTemplateTest {
     swiftClass.methods = Collections.singletonList(method);
 
     TemplateComparator.expect(
-            "public protocol CommentedExampleClass {\n"
+            "public protocol CommentedExampleClass : AnyObject {\n"
                 + "    /**\n"
                 + "     * Do something\n"
                 + "     */\n"
@@ -508,7 +508,9 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator expected =
         TemplateComparator.expect(
-                "public protocol SomeClass {\n" + "        func SomeMethod() -> Void;\n" + "}\n")
+                "public protocol SomeClass : AnyObject {\n"
+                    + "        func SomeMethod() -> Void;\n"
+                    + "}\n")
             .expect(
                 "internal class _SomeClass: SomeClass {\n"
                     + "    public func SomeMethod() -> Void {\n"
@@ -637,7 +639,7 @@ public class SwiftFileTemplateTest {
     swiftFile.classes.add(swiftClass);
 
     TemplateComparator expected =
-        TemplateComparator.expect("public protocol TestInterface {\n" + "}\n")
+        TemplateComparator.expect("public protocol TestInterface : AnyObject {\n" + "}\n")
             .expect("internal class _TestInterface {\n" + "}\n")
             .expect(
                 "/**\n"
@@ -666,7 +668,7 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator expected =
         TemplateComparator.expect(
-                "public protocol HelloWorld {\n"
+                "public protocol HelloWorld : AnyObject {\n"
                     + "        func instanceMethod() -> Int;\n"
                     + "}\n")
             .expect(
@@ -732,7 +734,9 @@ public class SwiftFileTemplateTest {
     swiftClass.isInterface = true;
 
     TemplateComparator.expect(
-            "public protocol HellowWorldFactory {\n" + "    typealias MyTypeDef = Int\n" + "}\n")
+            "public protocol HellowWorldFactory : AnyObject {\n"
+                + "    typealias MyTypeDef = Int\n"
+                + "}\n")
         .expect("internal class _HellowWorldFactory {\n" + "}\n")
         .build()
         .assertMatches(generateFromClass(swiftClass));
@@ -803,7 +807,7 @@ public class SwiftFileTemplateTest {
     swiftClass.properties.add(someProperty);
     TemplateComparator expected =
         TemplateComparator.expect(
-                "public protocol SomeClassWithProperty {\n"
+                "public protocol SomeClassWithProperty : AnyObject {\n"
                     + "    var someAttributeName: Data { get set }\n"
                     + "}\n")
             .expect(
@@ -900,7 +904,7 @@ public class SwiftFileTemplateTest {
             "CBRIDGE_DELEGATE_FOR_ENUM"));
     TemplateComparator expected =
         TemplateComparator.expect(
-                "public protocol SomeClassWithProperty {\n"
+                "public protocol SomeClassWithProperty : AnyObject {\n"
                     + "    var someStringAttribute: String { get }\n"
                     + "    var someStructAttribute: SomeStructType { get }\n"
                     + "    var someEnumAttribute: SomeEnumType { get }\n"
@@ -979,7 +983,7 @@ public class SwiftFileTemplateTest {
                     + "    }\n"
                     + "    return RefHolder<>(instanceReference.c_instance)\n"
                     + "}")
-            .expect("public protocol TestClass {\n" + "}\n")
+            .expect("public protocol TestClass : AnyObject {\n" + "}\n")
             .expect("internal class _TestClass: FirstProtocol {\n" + "}\n")
             .build();
 
