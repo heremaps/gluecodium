@@ -20,7 +20,7 @@ internal func getRef(_ ref: SimpleInterface) -> RefHolder<smoke_SimpleInterfaceR
 }
 
 
-public protocol SimpleInterface {
+public protocol SimpleInterface : AnyObject {
 
 
         func setStringValue(stringValue: String) -> Void;
