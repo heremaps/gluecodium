@@ -36,6 +36,7 @@ public abstract class AcceptanceTestBase {
 
   private static final String FEATURE_INPUT_FOLDER = "input";
   private static final String FEATURE_OUTPUT_FOLDER = "output";
+  private static final String IGNORE_PREFIX = "ignore";
   private static final List<String> GENERATOR_NAMES =
       Arrays.asList(
           BaseApiGeneratorSuite.GENERATOR_NAME,
@@ -131,6 +132,7 @@ public abstract class AcceptanceTestBase {
             .stream()
             .map(generatorDirectoryName -> new File(outputDirectory, generatorDirectoryName))
             .flatMap(generatorDirectory -> listFilesRecursively(generatorDirectory).stream())
+            .filter(file -> !file.getName().toLowerCase().startsWith(IGNORE_PREFIX))
             .collect(Collectors.toList());
     assumeFalse("No reference files were found", referenceFiles.isEmpty());
 
