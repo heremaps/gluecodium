@@ -20,7 +20,7 @@ internal func getRef(_ ref: AttributesInterface) -> RefHolder<smoke_AttributesIn
 }
 
 
-public protocol AttributesInterface {
+public protocol AttributesInterface : AnyObject {
 
 
     var structAttribute: ExampleStruct { get set }
