@@ -1,13 +1,14 @@
-class {{name}}Proxy : public {{selfType.name}}::element_type {
-    {{functionTableName}} functions;
+class {{name}}Proxy : public {{selfType.name}}::element_type, public CachedProxyBase<{{name}}Proxy> {
 public:
+    using function_table_t = {{functionTableName}};
+
     {{name}}Proxy({{functionTableName}}&& functions)
-     : functions(std::move(functions))
+     : mFunctions(std::move(functions))
     {
     }
 
-    ~{{name}}Proxy() {
-        functions.release(functions.swift_pointer);
+    virtual ~{{name}}Proxy() {
+        mFunctions.release(mFunctions.swift_pointer);
     }
 
     {{#functions}}
@@ -17,10 +18,13 @@ public:
     }
     {{/if}}
     {{/functions}}
+
+private:
+    function_table_t mFunctions;
 };
 
 {{name}}Ref {{name}}_createProxy({{functionTableName}} functionTable) {
-    return { new {{selfType}}(std::make_shared<{{name}}Proxy>(std::move(functionTable))) };
+    return { new {{selfType}}({{name}}Proxy::get_proxy(std::move(functionTable))) };
 }
 {{+baseApiParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{mappedType}}{{/case}}{{!!
@@ -47,4 +51,4 @@ return _return_value;
     }}{{#default}}{{>swiftDelegateCall}};{{/default}}{{!!
 }}{{/switch}}
 {{/returnConversion}}
-{{+swiftDelegateCall}}functions.{{name}}(functions.swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}){{/swiftDelegateCall}}
+{{+swiftDelegateCall}}mFunctions.{{name}}(mFunctions.swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}){{/swiftDelegateCall}}

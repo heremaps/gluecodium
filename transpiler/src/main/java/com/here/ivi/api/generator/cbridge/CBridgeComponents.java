@@ -17,6 +17,8 @@ import java.util.*;
 
 public class CBridgeComponents {
 
+  public static final String PROXY_CACHE_FILENAME = "cbridge_internal/include/CachedProxyBase.h";
+
   public static Set<Include> collectImplementationIncludes(CInterface cInterface) {
     Collection<Include> includes = new LinkedList<>();
     for (CFunction function : cInterface.functions) {

@@ -23,6 +23,7 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -93,6 +94,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
     if (deploymentModel.isInterface(francaInterface)) {
       cInterface.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
+      cInterface.implementationIncludes.add(
+          Include.createInternalInclude(CBridgeComponents.PROXY_CACHE_FILENAME));
     }
 
     storeResult(cInterface);

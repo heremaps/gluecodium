@@ -274,20 +274,22 @@ public class CBridgeImplementationTemplateTest {
 
     TemplateComparator expected =
         TemplateComparator.expect(
-                "class ClassyProxy : public std::shared_ptr<some::package::SomeClass>::element_type {\n"
-                    + "    ClassTable functions;\n"
+                "class ClassyProxy : public std::shared_ptr<some::package::SomeClass>::element_type, public CachedProxyBase<ClassyProxy> {\n"
                     + "public:\n"
+                    + "    using function_table_t = ClassTable;\n"
                     + "    ClassyProxy(ClassTable&& functions)\n"
-                    + "     : functions(std::move(functions))\n"
+                    + "     : mFunctions(std::move(functions))\n"
                     + "    {\n"
                     + "    }\n"
-                    + "    ~ClassyProxy() {\n"
-                    + "        functions.release(functions.swift_pointer);\n"
+                    + "    virtual ~ClassyProxy() {\n"
+                    + "        mFunctions.release(mFunctions.swift_pointer);\n"
                     + "    }\n"
+                    + "private:\n"
+                    + "    function_table_t mFunctions;\n"
                     + "};\n")
             .expect(
                 "ClassyRef Classy_createProxy(ClassTable functionTable) {\n"
-                    + "    return { new std::shared_ptr<some::package::SomeClass>(std::make_shared<ClassyProxy>(std::move(functionTable))) };\n"
+                    + "    return { new std::shared_ptr<some::package::SomeClass>(ClassyProxy::get_proxy(std::move(functionTable))) };\n"
                     + "}")
             .build();
 
