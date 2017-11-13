@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.swift.templates;
 
+import static java.util.Collections.singletonList;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import com.here.ivi.api.generator.swift.SwiftArrayGenerator;
@@ -114,6 +115,43 @@ public class SwiftArrayTemplateTest {
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
+  @Test
+  public void enumsArrayGeneration() {
+    SwiftArrayGenerator swiftArrayGenerator = new SwiftArrayGenerator();
+    SwiftArray arrayType = getEnumArray();
+    Map arrays = Collections.singletonMap(arrayType.underlyingType.name, arrayType);
+    swiftArrayGenerator.collect(arrays);
+    final String expected =
+        "import Foundation\n"
+            + "internal class : CollectionOf<EnumSwift> {\n"
+            + "    let c_element: arrayCollection_Enums\n"
+            + "    init(_ c_element: arrayCollection_Enums) {\n"
+            + "        self.c_element = c_element\n"
+            + "        super.init([])\n"
+            + "        self.startIndex = 0\n"
+            + "        self.endIndex = Int(arrayCollection_Enums_count(c_element))\n"
+            + "    }\n"
+            + "    public override subscript(index: Int) -> EnumSwift {\n"
+            + "        let handle = arrayCollection_Enums_get(c_element, UInt64(index))\n"
+            + "        return EnumSwift(rawValue: handle)!\n"
+            + "    }\n"
+            + "}\n"
+            + "extension Collection where Element == EnumSwift  {\n"
+            + "    public func c_conversion()-> (c_type: arrayCollection_Enums, cleanup: () ->Void) {\n"
+            + "        let handle = arrayCollection_Enums_create()\n"
+            + "        for item in self {\n"
+            + "        arrayCollection_Enums_append(handle, item.rawValue)\n"
+            + "        }\n"
+            + "        let cleanup_function = { () -> Void in\n"
+            + "            arrayCollection_Enums_release(handle)\n"
+            + "        }\n"
+            + "        return (handle, cleanup_function)\n"
+            + "    }\n"
+            + "}\n";
+    final String generated = swiftArrayGenerator.generate().get(0).content;
+    TemplateComparison.assertEqualContent(expected, generated);
+  }
+
   private SwiftArray getStringArray() {
     SwiftType arrayInnerType = SwiftType.STRING;
     when(francaBasic.getName()).thenReturn("String");
@@ -126,5 +164,14 @@ public class SwiftArrayTemplateTest {
     when(francaBasic.getName()).thenReturn("NestedString");
     when(francaTypeRef.getPredefined()).thenReturn(francaBasic);
     return SwiftArrayMapper.create(arrayInnerType, francaTypeRef);
+  }
+
+  private SwiftArray getEnumArray() {
+    SwiftEnumItem enumItem =
+        SwiftEnumItem.builder("ItemName").value(new SwiftValue("VALUE")).build();
+    SwiftEnum swiftEnum = SwiftEnum.builder("EnumSwift").items(singletonList(enumItem)).build();
+    SwiftArray array = new SwiftArray(swiftEnum);
+    array.refName = "arrayCollection_Enums";
+    return array;
   }
 }

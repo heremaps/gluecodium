@@ -21,6 +21,7 @@ internal class {{implementingClass}}: CollectionOf<{{publicInnerType}}> {
         }}{{#case "STRUCT"}}{{prefixPartial 'structSubscript'   '        '}}{{/case}}{{!!
         }}{{#case "CLASS"}}{{prefixPartial 'classSubscript'   '        '}}{{/case}}{{!!
         }}{{#case "ARRAY"}}{{prefixPartial 'arraySubscript'   '        '}}{{/case}}{{!!
+        }}{{#case "ENUM"}}{{prefixPartial 'enumSubscript'   '        '}}{{/case}}{{!!
         }}{{#case "BUILTIN_STRING"}}{{prefixPartial 'stringSubscript'  '        '}}{{/case}}{{!!
         }}{{#default}}{{prefixPartial 'defaultSubscript'  '        '}}{{/default}}{{!!
         }}{{/switch}}
@@ -34,6 +35,7 @@ extension Collection where Element == {{publicInnerType}}  {
                 }}{{#case "STRUCT"}}{{prefixPartial 'structConversion' '           '}}{{/case}}{{!!
                 }}{{#case "CLASS"}}{{prefixPartial 'classConversion' '           '}}{{/case}}{{!!
                 }}{{#case "ARRAY"}}{{prefixPartial 'arrayConversion'   '        '}}{{/case}}{{!!
+                }}{{#case "ENUM"}}{{prefixPartial 'enumConversion'   '        '}}{{/case}}{{!!
                 }}{{#default}}{{prefixPartial 'defaultConversion' '             '}}{{/default}}{{!!
             }}{{/switch}}
         }
@@ -45,6 +47,9 @@ extension Collection where Element == {{publicInnerType}}  {
 }
 
 {{/arrays}}
+
+{{+enumSubscript}}
+return {{publicInnerType}}(rawValue: handle)!{{/enumSubscript}}
 
 {{+defaultSubscript}}
 return handle{{/defaultSubscript}}
@@ -73,6 +78,9 @@ count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}
 
 {{+structConversion}}
 {{refName}}_append(handle, item.convertToCType()){{/structConversion}}
+
+{{+enumConversion}}
+{{refName}}_append(handle, item.rawValue){{/enumConversion}}
 
 {{+classConversion}}
 guard let instance = item as? {{privateInnerType}} else {

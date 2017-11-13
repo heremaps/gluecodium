@@ -104,17 +104,7 @@ public final class SwiftNameRules {
   public static String getArrayName(SwiftType innerType) {
     String name =
         (innerType.implementingClass != null) ? innerType.implementingClass : innerType.name;
-    name = name.replace("_", "");
-    switch (innerType.category) {
-      case CLASS:
-        name = NameHelper.toUpperCamelCase(name);
-        break;
-      case STRUCT:
-        name = SwiftNameRules.getStructName(name);
-        break;
-      default:
-        break;
-    }
+    name = SwiftNameRules.getClassName(name.replace("_", ""));
     return name + "List";
   }
 }

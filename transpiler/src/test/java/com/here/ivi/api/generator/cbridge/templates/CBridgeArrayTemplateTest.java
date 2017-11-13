@@ -73,7 +73,7 @@ public class CBridgeArrayTemplateTest {
             + "    return { new std::vector<std::string>()};;\n"
             + "}\n"
             + "void arrayCollection_String_release(arrayCollection_String handle) {\n"
-            + "    delete get_pointer(arrayCollection_String(handle));\n"
+            + "    delete get_pointer(handle);\n"
             + "}\n"
             + "uint64_t arrayCollection_String_count(arrayCollection_String handle) {\n"
             + "    return get_pointer(handle)->size();\n"
@@ -175,7 +175,7 @@ public class CBridgeArrayTemplateTest {
             + "    return { new std::vector<std::vector<std::string>>()};;\n"
             + "}\n"
             + "void arrayCollection_NestedStringArray_release(arrayCollection_NestedStringArray handle) {\n"
-            + "    delete get_pointer(arrayCollection_NestedStringArray(handle));\n"
+            + "    delete get_pointer(handle);\n"
             + "}\n"
             + "uint64_t arrayCollection_NestedStringArray_count(arrayCollection_NestedStringArray handle) {\n"
             + "    return get_pointer(handle)->size();\n"
@@ -238,6 +238,79 @@ public class CBridgeArrayTemplateTest {
     TemplateComparison.assertEqualImplementationContent(expected, generated);
   }
 
+  @Test
+  public void generateEnumArrayImplementation() {
+    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
+    CppTypeInfo arrayType = getEnumArray();
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    cbridgeArrayGenerator.collect(arrays);
+    final String generated = cbridgeArrayGenerator.generate().get(1).content;
+    final String expected =
+        "#include \"cbridge/ArrayCollection.h\"\n"
+            + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
+            + "#include <vector>\n"
+            + "arrayCollection_Enums arrayCollection_Enums_create() {\n"
+            + "    return { new std::vector<EnumType>()};;\n"
+            + "}\n"
+            + "void arrayCollection_Enums_release(arrayCollection_Enums handle) {\n"
+            + "    delete get_pointer(handle);\n"
+            + "}\n"
+            + "uint64_t arrayCollection_Enums_count(arrayCollection_Enums handle) {\n"
+            + "    return get_pointer(handle)->size();\n"
+            + "}\n"
+            + "EnumType arrayCollection_Enums_get(arrayCollection_Enums handle, uint64_t index) {\n"
+            + "    return static_cast<EnumType>((*get_pointer(handle))[index]);\n"
+            + "}\n"
+            + "void arrayCollection_Enums_append(arrayCollection_Enums handle, EnumType item) {\n"
+            + "    get_pointer(handle)->push_back(static_cast<EnumType>(item));\n"
+            + "}\n";
+
+    TemplateComparison.assertEqualImplementationContent(expected, generated);
+  }
+
+  @Test
+  public void generateEnumArrayReferences() {
+    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
+    CppTypeInfo arrayType = getEnumArray();
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    cbridgeArrayGenerator.collect(arrays);
+    final String generated = cbridgeArrayGenerator.generate().get(2).content;
+    final String expected =
+        "#pragma once\n"
+            + "#ifdef __cplusplus\n"
+            + "extern \"C\" {\n"
+            + "#endif\n"
+            + "typedef struct {\n"
+            + "    void* const private_pointer;\n"
+            + "} arrayCollection_Enums;\n"
+            + "#ifdef __cplusplus\n"
+            + "}\n"
+            + "#endif";
+
+    TemplateComparison.assertEqualPrivateHeaderContent(expected, generated);
+  }
+
+  @Test
+  public void generateEnumArrayPrivateHeader() {
+    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
+    CppTypeInfo arrayType = getEnumArray();
+    Map<String, CArray> arrays =
+        Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
+    cbridgeArrayGenerator.collect(arrays);
+    final String generated = cbridgeArrayGenerator.generate().get(3).content;
+    final String expected =
+        "#pragma once\n"
+            + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
+            + "#include <vector>\n"
+            + "inline std::vector<EnumType>* get_pointer(arrayCollection_Enums handle) {\n"
+            + "  return static_cast<std::vector<EnumType>*>(handle.private_pointer);\n"
+            + "}\n";
+
+    TemplateComparison.assertEqualImplementationContent(expected, generated);
+  }
+
   private CppTypeInfo getStringArray() {
     CppTypeInfo arrayInnerType = CppTypeInfo.STRING;
     when(francaBasic.getName()).thenReturn("String");
@@ -248,6 +321,14 @@ public class CBridgeArrayTemplateTest {
   private CppTypeInfo getNestedStringArray() {
     CppTypeInfo arrayInnerType = getStringArray();
     when(francaBasic.getName()).thenReturn("NestedString");
+    when(francaTypeRef.getPredefined()).thenReturn(francaBasic);
+    return CArrayMapper.create(arrayInnerType, francaTypeRef);
+  }
+
+  private CppTypeInfo getEnumArray() {
+    CppTypeInfo arrayInnerType =
+        new CppTypeInfo(new CType("EnumType"), CppTypeInfo.TypeCategory.ENUM);
+    when(francaBasic.getName()).thenReturn("Enums");
     when(francaTypeRef.getPredefined()).thenReturn(francaBasic);
     return CArrayMapper.create(arrayInnerType, francaTypeRef);
   }

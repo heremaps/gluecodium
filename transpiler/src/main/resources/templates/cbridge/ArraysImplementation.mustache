@@ -3,7 +3,7 @@
 }
 
 void {{name}}_release({{name}} handle) {
-    delete get_pointer({{name}}(handle));
+    delete get_pointer(handle);
 }
 
 uint64_t {{name}}_count({{name}} handle) {
@@ -16,6 +16,7 @@ uint64_t {{name}}_count({{name}} handle) {
     }}{{#case "CLASS"  break=false}}{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}{{prefixPartial 'classGetConversion' '    '}}{{/case}}{{!!
     }}{{#case "ARRAY"}}{{prefixPartial 'arrayGetConversion' '    '}}{{/case}}{{!!
+    }}{{#case "ENUM"}}{{prefixPartial 'enumGetConversion' '    '}}{{/case}}{{!!
     }}{{#default}}{{prefixPartial 'defaultGetConversion' '    '}}{{/default}}{{!!
     }}{{/switch}}
 }
@@ -25,6 +26,7 @@ void {{name}}_append({{name}} handle, {{argument}} item) { {{!!
     }}{{#case "STRUCT" break=false}}{{/case}}{{!!
     }}{{#case "CLASS"  break=false}}{{/case}}{{!!
     }}{{#case "ARRAY"}}{{prefixPartial 'classAppendConversion' '    '}}{{/case}}{{!!
+    }}{{#case "ENUM"}}{{prefixPartial 'enumAppendConversion' '    '}}{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}{{prefixPartial 'stringAppendConversion' '    '}}{{/case}}{{!!
     }}{{#default}}{{prefixPartial 'defaultAppendConversion' '    '}}{{/default}}{{!!
     }}{{/switch}}
@@ -44,6 +46,9 @@ return {{innerType}} {
     }
 };{{/arrayGetConversion}}
 
+{{+enumGetConversion}}
+return static_cast<{{innerType}}>((*get_pointer(handle))[index]);{{/enumGetConversion}}
+
 {{+defaultGetConversion}}
 return (*get_pointer(handle))[index];{{/defaultGetConversion}}
 
@@ -55,3 +60,6 @@ get_pointer(handle)->push_back(item);{{/defaultAppendConversion}}
 
 {{+stringAppendConversion}}
 get_pointer(handle)->push_back(std::string(item));{{/stringAppendConversion}}
+
+{{+enumAppendConversion}}
+get_pointer(handle)->push_back(static_cast<{{arrayType.innerType.name}}>(item));{{/enumAppendConversion}}

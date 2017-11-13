@@ -47,7 +47,9 @@ public class SwiftTypeMapper {
     if (derived instanceof FStructType) {
       return getClassOrStructType(derived, deploymentModel);
     } else if (derived instanceof FEnumerationType) {
-      return SwiftEnum.builder(SwiftNameRules.getEnumTypeName(derived)).build();
+      SwiftEnum swiftEnum = SwiftEnum.builder(SwiftNameRules.getEnumTypeName(derived)).build();
+      swiftEnum.setNamespaceIfNeeded(FrancaTypeHelper.getNamespace(derived));
+      return swiftEnum;
     } else if (derived instanceof FTypeDef) {
       return getTypedef((FTypeDef) derived, deploymentModel);
     } else if (derived instanceof FArrayType) {
