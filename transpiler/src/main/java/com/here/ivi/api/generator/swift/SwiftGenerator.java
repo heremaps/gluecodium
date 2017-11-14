@@ -23,7 +23,7 @@ import org.franca.core.franca.FTypeCollection;
 
 public class SwiftGenerator {
 
-  public SwiftArrayGenerator arrayGenerator = new SwiftArrayGenerator();
+  public final SwiftArrayGenerator arrayGenerator = new SwiftArrayGenerator();
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
           GeneratorSuite.copyTarget("swift/RefHolder.swift", ""),

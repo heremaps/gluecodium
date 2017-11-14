@@ -22,7 +22,7 @@ import org.franca.core.franca.*;
 
 public final class SwiftNameRules {
 
-  public static final String TARGET_DIRECTORY = "swift" + File.separator;
+  private static final String TARGET_DIRECTORY = "swift" + File.separator;
 
   private SwiftNameRules() {}
 
@@ -35,13 +35,11 @@ public final class SwiftNameRules {
   }
 
   private static String getFileName(final FTypeCollection francaTypeCollection) {
-    String switchResult;
     if (francaTypeCollection instanceof FInterface) {
-      switchResult = SwiftNameRules.computeClassName(francaTypeCollection);
+      return SwiftNameRules.computeClassName(francaTypeCollection);
     } else {
-      switchResult = getTypeCollectionName(francaTypeCollection);
+      return getTypeCollectionName(francaTypeCollection);
     }
-    return switchResult;
   }
 
   public static String getMethodName(final FMethod method) {
