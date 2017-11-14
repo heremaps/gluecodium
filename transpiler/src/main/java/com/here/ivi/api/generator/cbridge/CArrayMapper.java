@@ -18,34 +18,28 @@ import static com.here.ivi.api.model.cmodel.CType.VECTOR_INCLUDE;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
-import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.rules.InstanceRules;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.*;
 
-public class CArrayMapper {
+public final class CArrayMapper {
 
-  public static final Include INTERNAL_ARRAY_INCLUDE =
+  private static final Include INTERNAL_ARRAY_INCLUDE =
       Include.createInternalInclude(Paths.get(CBRIDGE_INTERNAL_ARRAY_IMPL).toString());
-  public static final Include INTERNAL_ARRAYREF_INCLUDE =
+  private static final Include INTERNAL_ARRAYREF_INCLUDE =
       Include.createInternalInclude(Paths.get(CBRIDGE_ARRAY_REF).toString());
 
-  public static CppTypeInfo create(CppTypeInfo innerType, EObject francaElement) {
+  public static CppTypeInfo create(final CppTypeInfo innerType, final EObject francaElement) {
 
-    StringBuffer elementName = new StringBuffer(getName(francaElement));
-    elementName.append(addNestedSufixIfNeeded(innerType));
-    String arrayName = addPrefix(elementName.toString());
-    CType arrayType = getArrayType(arrayName);
+    String arrayName = addPrefix(getName(francaElement) + addNestedSuffixIfNeeded(innerType));
+    CType arrayType = new CType(arrayName, singletonList(INTERNAL_ARRAYREF_INCLUDE));
     CppTypeInfo type =
         new CppTypeInfo(
-            getBaseApiCall(arrayName),
+            "std::shared_ptr<" + arrayName + ">",
             singletonList(arrayType),
             singletonList(""),
             arrayType,
@@ -56,15 +50,7 @@ public class CArrayMapper {
     return type;
   }
 
-  private static CType getArrayType(final String name) {
-    return new CType(name, singletonList(INTERNAL_ARRAYREF_INCLUDE));
-  }
-
-  private static String getBaseApiCall(final String baseAPIName) {
-    return "std::shared_ptr<" + baseAPIName + ">";
-  }
-
-  public static String getName(EObject object) {
+  public static String getName(final EObject object) {
     String elementName = "undefined";
 
     if (object instanceof FTypeDef) {
@@ -91,26 +77,23 @@ public class CArrayMapper {
     return elementName;
   }
 
-  private static String addNestedSufixIfNeeded(final CppTypeInfo innerType) {
-    String sufix = "";
-    if (innerType.innerType != null) {
-      sufix = addNestedSufixIfNeeded(innerType.innerType) + "Array";
-    }
-    return sufix;
+  private static String addNestedSuffixIfNeeded(final CppTypeInfo innerType) {
+    return innerType.innerType != null
+        ? addNestedSuffixIfNeeded(innerType.innerType) + "Array"
+        : "";
   }
 
   public static String addPrefix(final String typeString) {
-    return "arrayCollection" + "_" + typeString;
+    return "arrayCollection_" + typeString;
   }
 
   private static String getTypeRefName(FTypeRef ref) {
-    if (!ref.getPredefined().getName().equals("undefined")) {
+    if (ref.getPredefined() != FBasicTypeId.UNDEFINED) {
       return ref.getPredefined().getName();
     } else if (ref.getDerived() != null) {
       return ref.getDerived().getName();
     } else {
-      throw new TranspilerExecutionException(
-          "[Arrays] Error - type not supported: " + ref.toString());
+      return FBasicTypeId.UNDEFINED.getName();
     }
   }
 }

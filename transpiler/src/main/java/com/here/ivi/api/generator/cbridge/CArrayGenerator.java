@@ -20,22 +20,18 @@ import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.common.Include;
 import java.util.*;
 
-public class CArrayGenerator {
+public final class CArrayGenerator {
 
-  public static final String ARRAY_FILE = "ArrayCollection";
-  public static final String CBRIDGE_ARRAY_HEADER = "cbridge/" + ARRAY_FILE + ".h";
-  public static final String CBRIDGE_ARRAY_IMPL = "cbridge/" + ARRAY_FILE + ".cpp";
+  private static final String ARRAY_FILE = "ArrayCollection";
+  private static final String CBRIDGE_ARRAY_HEADER = "cbridge/" + ARRAY_FILE + ".h";
+  private static final String CBRIDGE_ARRAY_IMPL = "cbridge/" + ARRAY_FILE + ".cpp";
   public static final String CBRIDGE_ARRAY_REF = "cbridge/" + ARRAY_FILE + "Ref.h";
   public static final String CBRIDGE_INTERNAL_ARRAY_IMPL =
       "cbridge_internal/" + ARRAY_FILE + "Impl.h";
 
   private final Map<String, CArray> arrayCollector = new HashMap<>();
 
-  private static String generateFileHeader() {
-    return TemplateEngine.render("cbridge/FileHeader", null);
-  }
-
-  public void collect(Map<String, CArray> arrays) {
+  public void collect(final Map<String, CArray> arrays) {
     this.arrayCollector.putAll(arrays);
   }
 
@@ -50,19 +46,19 @@ public class CArrayGenerator {
     arraysInterface.privateHeaderIncludes =
         CBridgeComponents.collectPrivateHeaderIncludes(arraysInterface);
 
+    String fileHeader = TemplateEngine.render("cbridge/FileHeader", null);
     return Arrays.asList(
         new GeneratedFile(
-            generateFileHeader() + TemplateEngine.render("cbridge/Header", arraysInterface),
+            fileHeader + TemplateEngine.render("cbridge/Header", arraysInterface),
             CBRIDGE_ARRAY_HEADER),
         new GeneratedFile(
-            generateFileHeader() + TemplateEngine.render("cbridge/Implementation", arraysInterface),
+            fileHeader + TemplateEngine.render("cbridge/Implementation", arraysInterface),
             CBRIDGE_ARRAY_IMPL),
         new GeneratedFile(
-            generateFileHeader()
-                + TemplateEngine.render("cbridge/ArraysReferences", arraysInterface),
+            fileHeader + TemplateEngine.render("cbridge/ArraysReferences", arraysInterface),
             CBRIDGE_ARRAY_REF),
         new GeneratedFile(
-            generateFileHeader() + TemplateEngine.render("cbridge/PrivateHeader", arraysInterface),
+            fileHeader + TemplateEngine.render("cbridge/PrivateHeader", arraysInterface),
             CBRIDGE_INTERNAL_ARRAY_IMPL));
   }
 }
