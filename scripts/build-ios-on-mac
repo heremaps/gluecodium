@@ -1,12 +1,17 @@
 #!/bin/bash
 #
-# Usage: ./scripts/build-ios-on-mac [framework_output_path]
+# Usage: ./scripts/build-ios-on-mac [--publish] [framework_output_path]
 #
 # Script to build the "hello" library for an iOS consumer. This is demonstrated
 # by the apps/swift application.
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
+
+if [ "$1" == "--publish" ]; then
+    publish_local
+    shift
+fi
 
 TRANSPILER_VERSION="${TRANSPILER_VERSION:-+}"
 BUILD_DIR=build-ios
