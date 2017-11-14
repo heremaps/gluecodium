@@ -32,6 +32,9 @@ interface Arrays {
     array StringArray of String
     array FancyArray of FancyStruct
 
+    typedef ProfileId is String
+    array ProfileIdList of ProfileId
+
     method methodWithArray {
         in {
             StringArray input
@@ -59,7 +62,7 @@ interface Arrays {
         }
     }
 
-    method methodWithArrayOfArrys {
+    method methodWithArrayOfArrays {
         in {
             UIntArray[] input
         }
@@ -75,6 +78,15 @@ interface Arrays {
         }
         out {
             FancyArray result
+        }
+    }
+
+    method methodWithArrayOfAliases {
+        in {
+            ProfileIdList input
+        }
+        out {
+            ProfileIdList output
         }
     }
 }

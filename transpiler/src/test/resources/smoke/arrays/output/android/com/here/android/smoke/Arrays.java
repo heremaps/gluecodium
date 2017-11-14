@@ -26,6 +26,7 @@ public class Arrays {
     public static native List<String> methodWithArray(final List<String> input);
     public static native List<Long> methodWithArrayInline(final List<Long> input);
     public static native List<Arrays.BasicStruct> methodWithStructArray(final List<Arrays.BasicStruct> input);
-    public static native List<List<Long>> methodWithArrayOfArrys(final List<List<Long>> input);
+    public static native List<List<Long>> methodWithArrayOfArrays(final List<List<Long>> input);
     public static native List<Arrays.FancyStruct> mergeArraysOfStructsWithArrays(final List<Arrays.FancyStruct> inlineFancyArray, final List<Arrays.FancyStruct> fancyArray);
+    public static native List<String> methodWithArrayOfAliases(final List<String> input);
 }

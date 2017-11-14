@@ -26,11 +26,15 @@ define navigation.BaseApiSpec for interface smoke.Arrays
         Static = true
     }
 
-    method methodWithArrayOfArrys {
+    method methodWithArrayOfArrays {
         Static = true
     }
 
     method mergeArraysOfStructsWithArrays {
+        Static = true
+    }
+
+    method methodWithArrayOfAliases {
         Static = true
     }
 }
