@@ -13,20 +13,21 @@ package com.here.ivi.api.model.cmodel;
 
 import java.util.ArrayList;
 
-public class CPointerType extends CType {
+public final class CPointerType extends CType {
+
   public static final CPointerType CONST_CHAR_PTR = makeConstPointer(CType.CHAR);
 
   private final CType pointedType;
 
-  public CPointerType(CType type) {
+  private CPointerType(CType type) {
     super("*", new ArrayList<>(type.includes));
     pointedType = type;
   }
 
   public static CPointerType makeConstPointer(CType type) {
-    CType underlineType = new CType(type.name, new ArrayList<>(type.includes));
-    underlineType.isConst = true;
-    return new CPointerType(underlineType);
+    CType underlyingType = new CType(type.name, new ArrayList<>(type.includes));
+    underlyingType.isConst = true;
+    return new CPointerType(underlyingType);
   }
 
   @Override

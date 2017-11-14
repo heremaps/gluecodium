@@ -66,7 +66,7 @@ public final class CArray extends CElement {
     return includes;
   }
 
-  public CppTypeInfo getLastType(CppTypeInfo uType) {
+  private CppTypeInfo getLastType(CppTypeInfo uType) {
     CppTypeInfo lastType = uType;
     if (uType.innerType != null) {
       lastType = getLastType(uType.innerType);

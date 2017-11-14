@@ -56,10 +56,6 @@ public class CParameter extends CElement {
     this.mappedType = mappedType;
   }
 
-  public static boolean filterInstanceParam(CParameter param) {
-    return !"_instance".equals(param.name);
-  }
-
   @Override
   public String toString() {
     return mappedType.functionReturnType + " " + name;

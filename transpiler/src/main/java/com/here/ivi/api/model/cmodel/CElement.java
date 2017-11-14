@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.cmodel;
 
-public class CElement {
+public abstract class CElement {
   public final String name;
 
   public CElement(String name) {

@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cmodel;
 
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 
-public class COutParameter extends CParameter {
+public final class COutParameter extends CParameter {
   public COutParameter(String name, CppTypeInfo cppType) {
     super(name, cppType);
   }
