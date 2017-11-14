@@ -56,7 +56,7 @@ public class JniGenerator extends AbstractAndroidGenerator {
             new JavaTypeMapper(basePackage));
 
     CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, new CppIncludeResolver());
-    JniModelBuilder jniBuilder = new JniModelBuilder(javaBuilder, cppBuilder);
+    JniModelBuilder jniBuilder = new JniModelBuilder(deploymentModel, javaBuilder, cppBuilder);
 
     FrancaTreeWalker treeWalker =
         new FrancaTreeWalker(Arrays.asList(javaBuilder, cppBuilder, jniBuilder));
@@ -239,7 +239,7 @@ public class JniGenerator extends AbstractAndroidGenerator {
     String baseApiHeaderInclude = CppNameRules.getHeaderPath(francaTypeCollection);
 
     List<String> includes = new LinkedList<>(Collections.singletonList(baseApiHeaderInclude));
-    if (jniContainer.isInterface) {
+    if (jniContainer.isFrancaInterface) {
       includes.add(JniNameRules.getHeaderFileName(jniContainer));
     }
 
