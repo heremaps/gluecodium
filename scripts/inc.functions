@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #
 # Collection of shared functions
 #
@@ -36,7 +36,7 @@ function publish_local {
 
     pushd "${TRANSPILER_DIRECTORY}"
     safe ./gradlew publishToMavenLocal
-    TRANSPILER_VERSION=$(sed 's/version\s*=\s*//' transpiler/src/main/resources/version.properties)
+    TRANSPILER_VERSION=$(sed 's/version[ \t]*=[ \t]*//' transpiler/src/main/resources/version.properties)
     popd
 
     export TRANSPILER_VERSION
