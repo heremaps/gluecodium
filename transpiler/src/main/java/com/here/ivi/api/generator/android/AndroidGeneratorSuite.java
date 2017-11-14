@@ -85,7 +85,7 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
         Stream.concat(
             jniContainers
                 .stream()
-                .filter(jniContainer -> jniContainer.isInterface)
+                .filter(jniContainer -> jniContainer.isFrancaInterface)
                 .map(jniGenerator::generateFiles),
             Stream.of(jniGenerator.generateConversionFiles(jniContainers)));
 

@@ -20,6 +20,7 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -43,21 +44,27 @@ import org.franca.core.franca.*;
 @SuppressWarnings("PMD.CouplingBetweenObjects")
 public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
+  private final FrancaDeploymentModel deploymentModel;
   private final JavaModelBuilder javaBuilder;
   private final CppModelBuilder cppBuilder;
 
   public JniModelBuilder(
       final ModelBuilderContextStack<JniElement> contextStack,
+      final FrancaDeploymentModel deploymentModel,
       final JavaModelBuilder javaBuilder,
       final CppModelBuilder cppBuilder) {
 
     super(contextStack);
+    this.deploymentModel = deploymentModel;
     this.javaBuilder = javaBuilder;
     this.cppBuilder = cppBuilder;
   }
 
-  public JniModelBuilder(final JavaModelBuilder javaBuilder, final CppModelBuilder cppBuilder) {
-    this(new ModelBuilderContextStack<>(), javaBuilder, cppBuilder);
+  public JniModelBuilder(
+      final FrancaDeploymentModel deploymentModel,
+      final JavaModelBuilder javaBuilder,
+      final CppModelBuilder cppBuilder) {
+    this(new ModelBuilderContextStack<>(), deploymentModel, javaBuilder, cppBuilder);
   }
 
   @Override
@@ -66,17 +73,54 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     CppClass cppClass = cppBuilder.getFinalResult(CppClass.class);
     JavaTopLevelElement javaTopLevelElement = javaBuilder.getFinalResult(JavaTopLevelElement.class);
     JavaClass javaClass = javaBuilder.getFinalResult(JavaClass.class);
-    JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(
-            javaTopLevelElement.javaPackage.packageNames,
-            DefinedBy.getPackages(francaInterface),
-            javaClass.name,
-            javaTopLevelElement.name,
-            cppClass.name,
-            !cppClass.hasOnlyStaticMethods());
+
+    JniContainer jniContainer;
+    if (deploymentModel.isInterface(francaInterface)) {
+      jniContainer =
+          new JniContainer(
+              javaTopLevelElement.javaPackage.packageNames,
+              DefinedBy.getPackages(francaInterface),
+              javaClass.name,
+              javaTopLevelElement.name,
+              cppClass.name,
+              true,
+              true,
+              true);
+      // TODO: APIGEN-868 validator should fail when static methods are defined in a interface
+      getPreviousResults(JniMethod.class)
+          .stream()
+          .filter(jniMethod -> !jniMethod.isStatic)
+          .forEach(jniContainer::add);
+    } else {
+      if (hasOnlyStaticMethods(getPreviousResults(JniMethod.class))) {
+        // TODO: should always be instantiable, remove this case once APIGEN-893 is solved
+        jniContainer =
+            new JniContainer(
+                javaTopLevelElement.javaPackage.packageNames,
+                DefinedBy.getPackages(francaInterface),
+                javaClass.name,
+                javaTopLevelElement.name,
+                cppClass.name,
+                true,
+                false,
+                false);
+      } else {
+        jniContainer =
+            new JniContainer(
+                javaTopLevelElement.javaPackage.packageNames,
+                DefinedBy.getPackages(francaInterface),
+                javaClass.name,
+                javaTopLevelElement.name,
+                cppClass.name,
+                true,
+                true,
+                false);
+      }
+      getPreviousResults(JniMethod.class).forEach(jniContainer::add);
+    }
+
     getPreviousResults(JniStruct.class).forEach(jniContainer::add);
     getPreviousResults(JniEnum.class).forEach(jniContainer::add);
-    getPreviousResults(JniMethod.class).forEach(jniContainer::add);
     storeResult(jniContainer);
     closeContext();
   }
@@ -220,5 +264,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     }
 
     closeContext();
+  }
+
+  private static boolean hasOnlyStaticMethods(final List<JniMethod> jniMethods) {
+    return !jniMethods.isEmpty() && jniMethods.stream().allMatch(jniMethod -> jniMethod.isStatic);
   }
 }
