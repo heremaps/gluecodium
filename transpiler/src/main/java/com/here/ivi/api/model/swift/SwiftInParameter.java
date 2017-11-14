@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.swift;
 
-public class SwiftInParameter extends SwiftParameter {
+public final class SwiftInParameter extends SwiftParameter {
   public SwiftInParameter(String interfaceName, SwiftType type) {
     super(interfaceName, type);
   }

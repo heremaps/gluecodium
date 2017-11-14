@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.swift;
 
-public class SwiftValue extends SwiftModelElement {
+public final class SwiftValue extends SwiftModelElement {
   public SwiftValue(String value) {
     super(value);
   }

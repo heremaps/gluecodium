@@ -22,7 +22,7 @@ public final class SwiftArray extends SwiftType {
   }
 
   public String getInnerType() {
-    return underlyingType.name.toString();
+    return underlyingType.name;
   }
 
   public SwiftType getType() {
@@ -35,14 +35,12 @@ public final class SwiftArray extends SwiftType {
   }
 
   private String swiftRecursiveTransformation(final SwiftType type) {
-    String conversion = "";
     if (type.category == TypeCategory.ARRAY) {
       SwiftArray arrayType = (SwiftArray) type;
-      conversion = "[" + swiftRecursiveTransformation(arrayType.underlyingType) + "]";
+      return "[" + swiftRecursiveTransformation(arrayType.underlyingType) + "]";
     } else {
-      conversion = type.name.toString();
+      return type.name;
     }
-    return conversion;
   }
 
   @SuppressWarnings("unused")

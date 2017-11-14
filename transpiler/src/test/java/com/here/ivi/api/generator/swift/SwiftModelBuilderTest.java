@@ -87,6 +87,7 @@ public class SwiftModelBuilderTest {
   @Mock private FAttribute francaAttribute;
 
   private final SwiftType swiftType = new SwiftType("VerySwiftType");
+  private final SwiftValue swiftValue = new SwiftValue("");
 
   private SwiftModelBuilder modelBuilder;
 
@@ -258,14 +259,13 @@ public class SwiftModelBuilderTest {
   @Test
   public void finishBuildingCreatesCValuesOutOfExpressions() {
     FExpression francaExpression = mock(FExpression.class);
-    SwiftValue fakeValue = mock(SwiftValue.class);
-    when(SwiftTypeMapper.mapType(any(FExpression.class))).thenReturn(fakeValue);
+    when(SwiftTypeMapper.mapType(any(FExpression.class))).thenReturn(swiftValue);
 
     modelBuilder.finishBuilding(francaExpression);
 
     List<SwiftValue> values = getResults(SwiftValue.class);
     assertEquals("Should be on value stored", 1, values.size());
-    assertSame(fakeValue, values.get(0));
+    assertSame(swiftValue, values.get(0));
   }
 
   @Test
@@ -282,8 +282,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesEnumItemWithValue() {
-    SwiftValue fakeValue = mock(SwiftValue.class);
-    contextStack.injectResult(fakeValue);
+    contextStack.injectResult(swiftValue);
     FEnumerator enumerator = mock(FEnumerator.class);
 
     modelBuilder.finishBuilding(enumerator);
@@ -291,13 +290,13 @@ public class SwiftModelBuilderTest {
     List<SwiftEnumItem> enumItems = getResults(SwiftEnumItem.class);
     assertEquals("Should be 1 enum item created", 1, enumItems.size());
     SwiftEnumItem enumItem = enumItems.get(0);
-    assertSame(fakeValue, enumItem.value);
+    assertSame(swiftValue, enumItem.value);
   }
 
   @Test
   public void finishBuildingCreatesSwiftEnum() {
-    SwiftEnumItem fakeEnumItem = mock(SwiftEnumItem.class);
-    contextStack.injectResult(fakeEnumItem);
+    SwiftEnumItem swiftEnumItem = SwiftEnumItem.builder("").build();
+    contextStack.injectResult(swiftEnumItem);
     FEnumerationType enumerationType = mock(FEnumerationType.class);
     when(SwiftNameRules.getEnumTypeName(any())).thenReturn("SWIFT_NAME");
 
@@ -310,7 +309,7 @@ public class SwiftModelBuilderTest {
     assertEquals("should be 1 enum item created", 1, enumType.items.size());
     assertSame(
         "Enum item inside enum type should be on injected into model",
-        fakeEnumItem,
+        swiftEnumItem,
         enumType.items.get(0));
   }
 
