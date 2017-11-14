@@ -24,7 +24,7 @@ public final class CTypeMapper {
 
   public static CppTypeInfo mapType(final IncludeResolver resolver, final FTypeRef typeRef) {
     FType derived = typeRef.getDerived();
-    CppTypeInfo typeResult = new CppTypeInfo(VOID);
+    CppTypeInfo typeResult;
     if (derived != null) {
       typeResult = mapType(resolver, derived);
     } else {
@@ -55,8 +55,9 @@ public final class CTypeMapper {
   private static CppTypeInfo mapTypeDef(IncludeResolver resolver, FTypeDef derived) {
     if (isInstanceId(derived)) {
       return CppTypeInfo.createCustomTypeInfo(resolver, derived, CLASS);
+    } else {
+      return mapType(resolver, derived.getActualType());
     }
-    return mapType(resolver, derived.getActualType());
   }
 
   public static CppTypeInfo mapPredefined(final FTypeRef type) {
