@@ -31,7 +31,8 @@ import java.util.Map;
 import org.franca.core.franca.*;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
-  public Map<String, SwiftArray> arraysCollector = new HashMap<>();
+
+  public final Map<String, SwiftArray> arraysCollector = new HashMap<>();
 
   private final FrancaDeploymentModel deploymentModel;
 
@@ -83,7 +84,9 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
               .filter(swiftMethod -> !swiftMethod.isStatic)
               .collect(toList());
     } else {
-      addStructsEnumsMethods(clazz);
+      clazz.structs = getPreviousResults(SwiftContainerType.class);
+      clazz.enums = getPreviousResults(SwiftEnum.class);
+      clazz.methods = getPreviousResults(SwiftMethod.class);
       clazz.cInstanceRef =
           clazz.properties.isEmpty() && hasOnlyStaticMethods(getPreviousResults(SwiftMethod.class))
               // Non instantiable Franca interface (static methods only)
@@ -233,8 +236,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FArrayType francaArray) {
     SwiftType innerType =
-        SwiftTypeMapper.mapTypeWithDeploymentModel(
-            (FTypeRef) francaArray.getElementType(), deploymentModel);
+        SwiftTypeMapper.mapTypeWithDeploymentModel(francaArray.getElementType(), deploymentModel);
     SwiftArray arrayType = SwiftArrayMapper.create(innerType, francaArray);
     arraysCollector.put(innerType.name, arrayType);
     super.finishBuilding(francaArray);
@@ -243,11 +245,5 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @VisibleForTesting
   static boolean hasOnlyStaticMethods(final List<SwiftMethod> methods) {
     return !methods.isEmpty() && methods.stream().allMatch(swiftMethod -> swiftMethod.isStatic);
-  }
-
-  private void addStructsEnumsMethods(SwiftClass clazz) {
-    clazz.structs = getPreviousResults(SwiftContainerType.class);
-    clazz.enums = getPreviousResults(SwiftEnum.class);
-    clazz.methods = getPreviousResults(SwiftMethod.class);
   }
 }

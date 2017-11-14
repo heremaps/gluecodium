@@ -27,14 +27,10 @@ import org.franca.core.franca.*;
  */
 public class SwiftTypeMapper {
 
-  public static SwiftType mapType(final FTypeRef type) {
-    return mapTypeWithDeploymentModel(type, null);
-  }
-
   public static SwiftType mapTypeWithDeploymentModel(
       final FTypeRef type, final FrancaDeploymentModel deploymentModel) {
     FType derived = type.getDerived();
-    SwiftType swiftType = VOID;
+    SwiftType swiftType;
     if (derived != null) {
       swiftType = mapDerived(derived, deploymentModel);
     } else {
@@ -55,14 +51,15 @@ public class SwiftTypeMapper {
     } else if (derived instanceof FTypeDef) {
       return getTypedef((FTypeDef) derived, deploymentModel);
     } else if (derived instanceof FArrayType) {
-      SwiftType innerType = mapType(((FArrayType) derived).getElementType());
+      SwiftType innerType =
+          mapTypeWithDeploymentModel(((FArrayType) derived).getElementType(), null);
       return SwiftArrayMapper.create(innerType, derived);
     }
     return VOID;
   }
 
   private static SwiftType getTypedef(
-      FTypeDef francaTypeDef, final FrancaDeploymentModel deploymentModel) {
+      final FTypeDef francaTypeDef, final FrancaDeploymentModel deploymentModel) {
 
     SwiftType typedefType = mapTypeDef(francaTypeDef, deploymentModel);
     return typedefType.createAlias(francaTypeDef.getName());
@@ -72,8 +69,9 @@ public class SwiftTypeMapper {
       final FTypeDef derived, final FrancaDeploymentModel deploymentModel) {
     if (isInstanceId(derived)) {
       return getClassOrStructType(derived, deploymentModel);
+    } else {
+      return mapTypeWithDeploymentModel(derived.getActualType(), deploymentModel);
     }
-    return mapTypeWithDeploymentModel(derived.getActualType(), deploymentModel);
   }
 
   public static SwiftValue mapType(FExpression expression) {
@@ -85,7 +83,7 @@ public class SwiftTypeMapper {
     }
   }
 
-  public static SwiftType getClassOrStructType(
+  private static SwiftType getClassOrStructType(
       FType derived, final FrancaDeploymentModel deploymentModel) {
     SwiftType.TypeCategory category = (derived instanceof FTypeDef) ? CLASS : STRUCT;
     String swiftName = SwiftNameRules.getClassName(derived.getName());
