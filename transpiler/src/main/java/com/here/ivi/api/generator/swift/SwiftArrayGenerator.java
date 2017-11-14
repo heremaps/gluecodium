@@ -19,27 +19,25 @@ import com.here.ivi.api.model.swift.SwiftArray;
 import com.here.ivi.api.model.swift.SwiftFile;
 import java.util.*;
 
-public class SwiftArrayGenerator {
+public final class SwiftArrayGenerator {
 
-  public static final String SWIFT_ARRAY = "swift/Collections.swift";
+  private static final String SWIFT_ARRAY = "swift/Collections.swift";
 
   private final Map<String, SwiftArray> arrayCollector = new HashMap<>();
 
-  public void collect(Map<String, SwiftArray> arrays) {
+  public void collect(final Map<String, SwiftArray> arrays) {
     this.arrayCollector.putAll(arrays);
   }
 
   public List<GeneratedFile> generate() {
     SwiftFile arrayFile = new SwiftFile();
-    arrayFile.arrays = new ArrayList(arrayCollector.values());
-    return getGeneratedFiles(arrayFile, "swift/Array", SWIFT_ARRAY);
-  }
+    arrayFile.arrays = new ArrayList<>(arrayCollector.values());
 
-  private List<GeneratedFile> getGeneratedFiles(SwiftFile file, String template, String filename) {
-    if (file.isEmpty()) {
+    if (arrayFile.isEmpty()) {
       return emptyList();
     } else {
-      return Arrays.asList(new GeneratedFile(TemplateEngine.render(template, file), filename));
+      String content = TemplateEngine.render("swift/Array", arrayFile);
+      return Collections.singletonList(new GeneratedFile(content, SWIFT_ARRAY));
     }
   }
 }

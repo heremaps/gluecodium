@@ -15,24 +15,21 @@ import com.here.ivi.api.generator.cbridge.CArrayMapper;
 import com.here.ivi.api.model.swift.*;
 import org.eclipse.emf.ecore.EObject;
 
-public class SwiftArrayMapper {
+public final class SwiftArrayMapper {
 
   public static SwiftArray create(SwiftType underlyingType, EObject francaElement) {
     SwiftArray array = new SwiftArray(underlyingType);
-    StringBuffer cName = new StringBuffer(CArrayMapper.getName(francaElement));
     //In case of nested arrays (inlinearrays)
-    cName.append(addSuffix(underlyingType));
-    array.refName = CArrayMapper.addPrefix(cName.toString());
+    array.refName =
+        CArrayMapper.addPrefix(CArrayMapper.getName(francaElement) + addSuffix(underlyingType));
     array.implementingClass = SwiftNameRules.getArrayName(underlyingType);
     return array;
   }
 
   private static String addSuffix(final SwiftType innerType) {
-    SwiftArray arrayType = (innerType instanceof SwiftArray) ? (SwiftArray) innerType : null;
-    String suffix = "";
-    if (arrayType instanceof SwiftArray && arrayType.underlyingType != null) {
-      suffix = addSuffix(arrayType.underlyingType) + "Array";
-    }
-    return suffix;
+    SwiftArray arrayType = innerType instanceof SwiftArray ? (SwiftArray) innerType : null;
+    return arrayType != null && arrayType.underlyingType != null
+        ? addSuffix(arrayType.underlyingType) + "Array"
+        : "";
   }
 }
