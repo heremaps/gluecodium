@@ -93,4 +93,8 @@ define navigation.BaseApiSpec for interface test.Arrays
     method methodWithArrayOfAliases {
         Static = true
     }
+
+    method methodWithEnumsArray {
+        Static = true
+    }
 }

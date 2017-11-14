@@ -29,6 +29,12 @@ interface Arrays {
         InstancesArray instances
     }
 
+    enumeration ArrayEnum {
+        ENUM_ONE = 0
+        ENUM_TWO
+        ENUM_THREE
+    }
+
     array Int8Array of Int8
     array Int16Array of Int16
     array Int32Array of Int32
@@ -50,6 +56,7 @@ interface Arrays {
     array NestedPrimitiveArray of DoubleArray
     array NestedStructArray of StructArray
     array InstancesArray of SimpleInstantiableOne
+    array ArrayEnumArray of ArrayEnum
 
     typedef ProfileId is String
     array ProfileIdList of ProfileId
@@ -330,6 +337,20 @@ interface Arrays {
         }
         out {
             ProfileIdList output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns an array of same type in reversed order.
+    **>
+    method methodWithEnumsArray {
+        in {
+            <** @description: Input array **>
+            ArrayEnumArray input
+        }
+        out {
+            <** @description: Output array **>
+            ArrayEnumArray output
         }
     }
 }
