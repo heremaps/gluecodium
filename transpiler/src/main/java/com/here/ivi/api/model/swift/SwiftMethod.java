@@ -16,7 +16,7 @@ import static java.util.Collections.emptyList;
 
 import java.util.List;
 
-public class SwiftMethod extends SwiftModelElement {
+public final class SwiftMethod extends SwiftModelElement {
 
   public SwiftType returnType;
   public List<SwiftParameter> parameters = emptyList();

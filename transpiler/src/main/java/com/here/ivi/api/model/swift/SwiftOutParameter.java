@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.swift;
 
-public class SwiftOutParameter extends SwiftParameter {
+public final class SwiftOutParameter extends SwiftParameter {
   public SwiftOutParameter(String interfaceName, SwiftType type) {
     super(interfaceName, type);
   }

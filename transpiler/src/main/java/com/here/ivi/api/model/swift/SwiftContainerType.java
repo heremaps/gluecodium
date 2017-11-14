@@ -15,7 +15,8 @@ import static java.util.Collections.emptyList;
 
 import java.util.List;
 
-public class SwiftContainerType extends SwiftType {
+public final class SwiftContainerType extends SwiftType {
+
   public List<SwiftField> fields;
   public String cPrefix;
   public String cType;

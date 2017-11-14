@@ -161,7 +161,7 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         new SwiftMethod(
             "myMethod",
-            Collections.singletonList(new SwiftParameter("array", new SwiftArrayType("UInt8"))));
+            Collections.singletonList(new SwiftParameter("array", new SwiftType("[UInt8]"))));
     method.cBaseName = "MyClass_myMethod";
     swiftClass.methods = Collections.singletonList(method);
 

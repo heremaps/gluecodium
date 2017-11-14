@@ -11,14 +11,12 @@
 
 package com.here.ivi.api.model.swift;
 
-import static java.util.Arrays.asList;
-
 import com.here.ivi.api.generator.swift.SwiftNameRules;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SwiftProperty extends SwiftModelElement {
+public final class SwiftProperty extends SwiftModelElement {
   public final SwiftType type;
   public final boolean readonly;
   public final List<SwiftMethod> propertyAccessors;
@@ -45,7 +43,8 @@ public class SwiftProperty extends SwiftModelElement {
   }
 
   private SwiftMethod createSetterBody(String delegateName) {
-    SwiftMethod setter = new SwiftMethod("", asList(new SwiftParameter("newValue", this.type)));
+    SwiftMethod setter =
+        new SwiftMethod("", Collections.singletonList(new SwiftParameter("newValue", this.type)));
     setter.cBaseName = SwiftNameRules.getPropertySetterName(delegateName);
     setter.returnType = SwiftType.VOID;
     return setter;
