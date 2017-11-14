@@ -39,7 +39,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   private final IncludeResolver resolver;
   private final CppModelBuilder cppBuilder;
   private final SwiftModelBuilder swiftBuilder;
-  public Map<String, CArray> arraysCollector = new HashMap<>();
+  public final Map<String, CArray> arraysCollector = new HashMap<>();
 
   public CModelBuilder(
       final FrancaDeploymentModel deploymentModel,
@@ -88,8 +88,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
         CollectionsHelper.getFirstOfType(getCurrentContext().currentResults, CClassType.class);
     CInterface cInterface =
         finishBuildingInterfaceOrTypeCollection(
-            new CInterface(CBridgeNameRules.getInterfaceName(francaInterface), classInfo),
-            francaInterface);
+            CBridgeNameRules.getInterfaceName(francaInterface), classInfo, francaInterface);
 
     if (deploymentModel.isInterface(francaInterface)) {
       cInterface.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
@@ -103,13 +102,15 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   public void finishBuilding(FTypeCollection francaTypeCollection) {
     CInterface cInterface =
         finishBuildingInterfaceOrTypeCollection(
-            new CInterface(francaTypeCollection.getName()), francaTypeCollection);
+            francaTypeCollection.getName(), null, francaTypeCollection);
     storeResult(cInterface);
     closeContext();
   }
 
   private CInterface finishBuildingInterfaceOrTypeCollection(
-      CInterface cInterface, FTypeCollection francaTypeCollection) {
+      final String name, final CClassType classType, final FTypeCollection francaTypeCollection) {
+
+    CInterface cInterface = new CInterface(name, classType);
     cInterface.functions.addAll(getPreviousResults(CFunction.class));
     cInterface.structs.addAll(getPreviousResults(CStruct.class));
     cInterface.enumerators = getPreviousResults(CEnum.class);
@@ -125,7 +126,6 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
-    final boolean isStatic = deploymentModel.isStatic(francaMethod);
 
     String baseFunctionName = CBridgeNameRules.getMethodName(francaMethod);
     String delegateMethodName = CBridgeNameRules.getDelegateMethodName(francaMethod);
@@ -139,13 +139,13 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             .delegateCall(delegateMethodName)
             .parameters(inParams)
             .returnType(returnParam.mappedType)
-            .hasError(francaMethod.getErrorEnum() != null) //Temporary until APIGEN-701
+            .hasError(francaMethod.getErrorEnum() != null) //TODO: Temporary until APIGEN-701
             .delegateCallIncludes(
                 Collections.singleton(
                     resolver.resolveInclude(francaMethod, HeaderType.BASE_API_HEADER)))
             .functionName(CppNameRules.getMethodName(francaMethod.getName()));
 
-    if (!isStatic) {
+    if (!deploymentModel.isStatic(francaMethod)) {
       CClassType classInfo =
           CollectionsHelper.getFirstOfType(getParentContext().currentResults, CClassType.class);
       CInParameter parameterSelf = new CInParameter("_instance", classInfo.classType);

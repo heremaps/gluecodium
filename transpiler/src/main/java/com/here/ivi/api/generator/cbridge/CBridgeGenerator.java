@@ -31,7 +31,7 @@ public class CBridgeGenerator {
   private final FrancaDeploymentModel deploymentModel;
   private final IncludeResolver resolver;
 
-  public CArrayGenerator arrayGenerator = new CArrayGenerator();
+  public final CArrayGenerator arrayGenerator = new CArrayGenerator();
 
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
@@ -60,7 +60,7 @@ public class CBridgeGenerator {
             new GeneratedFile(
                 generateImplementationContent(cModel),
                 CBridgeNameRules.getImplementationFileNameWithPath(francaTypeCollection)))
-        .filter(file -> file.content.length() > 0);
+        .filter(file -> !file.content.isEmpty());
   }
 
   public static String generatePrivateHeaderContent(CInterface model) {

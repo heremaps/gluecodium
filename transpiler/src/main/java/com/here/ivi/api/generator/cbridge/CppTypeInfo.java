@@ -27,10 +27,11 @@ import com.here.ivi.api.model.common.Include;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 
-public class CppTypeInfo extends CElement {
+public final class CppTypeInfo extends CElement {
 
   public final List<CType> cTypesNeededByConstructor;
   public final List<String> paramSuffixes;
@@ -62,7 +63,7 @@ public class CppTypeInfo extends CElement {
               Include.createInternalInclude(
                   Paths.get(CBridgeNameRules.INTERNAL_SOURCE_FOLDER, "StringHandleImpl.h")
                       .toString())),
-          Arrays.asList(Include.createSystemInclude("string")));
+          Collections.singletonList(Include.createSystemInclude("string")));
 
   public static final CppTypeInfo BYTE_VECTOR =
       new CppTypeInfo(
@@ -96,13 +97,13 @@ public class CppTypeInfo extends CElement {
             singletonList(resolver.resolveInclude(elementType, HeaderType.CBRIDGE_PUBLIC_HEADER))),
         category,
         getConversionToCppIndcludes(category, resolver, elementType),
-        getConversionFromCppIndcludes(resolver, elementType));
+        getConversionFromCppIncludes(resolver, elementType));
   }
 
   private static List<Include> getConversionToCppIndcludes(
       final TypeCategory category, final IncludeResolver resolver, FModelElement element) {
     List<Include> list =
-        new ArrayList<Include>(
+        new ArrayList<>(
             Arrays.asList(
                 resolver.resolveInclude(element, HeaderType.CBRIDGE_PUBLIC_HEADER),
                 resolver.resolveInclude(element, HeaderType.CBRIDGE_PRIVATE_HEADER),
@@ -119,7 +120,7 @@ public class CppTypeInfo extends CElement {
     return list;
   }
 
-  private static List<Include> getConversionFromCppIndcludes(
+  private static List<Include> getConversionFromCppIncludes(
       final IncludeResolver resolver, FModelElement element) {
     return asList(
         resolver.resolveInclude(element, HeaderType.CBRIDGE_PUBLIC_HEADER),
@@ -141,20 +142,21 @@ public class CppTypeInfo extends CElement {
         emptyList(),
         emptyList());
   }
+
   // TODO (APIGEN-625): refactor this
   @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
   public CppTypeInfo(
       String baseType,
       List<CType> constructFromCTypes,
       List<String> paramSuffixes,
-      CType functionReturntype,
+      CType functionReturnType,
       TypeCategory category,
       List<Include> conversionToCppIncludes,
       List<Include> conversionFromCppIncludes) {
     super(baseType);
     this.paramSuffixes = paramSuffixes;
     this.cTypesNeededByConstructor = constructFromCTypes;
-    this.functionReturnType = functionReturntype;
+    this.functionReturnType = functionReturnType;
     this.typeCategory = category;
     this.conversionToCppIncludes = conversionToCppIncludes;
     this.conversionFromCppIncludes = conversionFromCppIncludes;
@@ -178,14 +180,13 @@ public class CppTypeInfo extends CElement {
     return typeCategory == TypeCategory.STRUCT;
   }
 
+  @SuppressWarnings("unused")
   public String getArrayBaseApi() {
     return arrayFindNested(this.innerType);
   }
 
   private String arrayFindNested(CppTypeInfo array) {
-    if (array.innerType != null) {
-      return "std::vector<" + arrayFindNested(array.innerType) + ">";
-    }
-    return "std::vector<" + array.name + ">";
+    String arrayName = array.innerType != null ? arrayFindNested(array.innerType) : array.name;
+    return "std::vector<" + arrayName + ">";
   }
 }
