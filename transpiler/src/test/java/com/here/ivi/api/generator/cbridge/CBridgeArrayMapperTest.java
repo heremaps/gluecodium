@@ -12,25 +12,38 @@
 package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.model.rules.InstanceRules;
 import org.franca.core.franca.*;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Answers;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(FBasicTypeId.class)
+@PrepareForTest(InstanceRules.class)
 public class CBridgeArrayMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
-  @Mock private FTypeDef francaTypeDef;
   @Mock private FStructType francaStructType;
   @Mock private FArrayType francaArray;
-  @Mock private FBasicTypeId francaBasic;
+
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private FTypeDef francaTypeDef;
+
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+    PowerMockito.mockStatic(InstanceRules.class);
+  }
 
   @Test
   public void structArrayName() {
@@ -43,11 +56,25 @@ public class CBridgeArrayMapperTest {
 
   @Test
   public void typeDefArrayName() {
+    when(francaTypeDef.getActualType().getDerived()).thenReturn(null);
+    when(francaTypeDef.getActualType().getPredefined()).thenReturn(FBasicTypeId.STRING);
+
+    String arrayName = CArrayMapper.getName(francaTypeDef);
+
+    Assert.assertEquals("Should have the same name", "String", arrayName);
+  }
+
+  @Test
+  public void typeDefInstanceIdArrayName() {
+    when(InstanceRules.isInstanceId(any(FTypeDef.class))).thenReturn(true);
     when(francaTypeDef.getName()).thenReturn("TypeDefTest");
 
     String arrayName = CArrayMapper.getName(francaTypeDef);
 
     Assert.assertEquals("Should have the same name", "TypeDefTest", arrayName);
+
+    PowerMockito.verifyStatic();
+    InstanceRules.isInstanceId(francaTypeDef);
   }
 
   @Test
@@ -62,23 +89,21 @@ public class CBridgeArrayMapperTest {
 
   @Test
   public void typeRefArrayNameWithoutDerived() {
-    when(francaBasic.getName()).thenReturn("IntTest");
-    when(francaTypeRef.getPredefined()).thenReturn(francaBasic);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT32);
 
     String arrayName = CArrayMapper.getName(francaTypeRef);
 
-    Assert.assertEquals("Should have the same name", "IntTest", arrayName);
+    Assert.assertEquals("Should have the same name", "Int32", arrayName);
   }
 
   @Test
   public void arrayName() {
-    when(francaBasic.getName()).thenReturn("IntTest");
-    when(francaTypeRef.getPredefined()).thenReturn(francaBasic);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT32);
     when(francaArray.getElementType()).thenReturn(francaTypeRef);
 
     String arrayName = CArrayMapper.getName(francaArray);
 
-    Assert.assertEquals("Should have the same name", "IntTest", arrayName);
+    Assert.assertEquals("Should have the same name", "Int32", arrayName);
   }
 
   @Test

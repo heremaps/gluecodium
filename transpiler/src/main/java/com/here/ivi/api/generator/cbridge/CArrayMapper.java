@@ -21,6 +21,7 @@ import static java.util.Collections.singletonList;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.rules.InstanceRules;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
@@ -68,7 +69,10 @@ public class CArrayMapper {
 
     if (object instanceof FTypeDef) {
       FTypeDef francaDef = (FTypeDef) object;
-      elementName = francaDef.getName();
+      elementName =
+          InstanceRules.isInstanceId(francaDef)
+              ? francaDef.getName()
+              : getName(francaDef.getActualType());
     } else if (object instanceof FTypeRef) {
       FTypeRef francaRef = (FTypeRef) object;
       if (francaRef.getDerived() != null) {
@@ -81,7 +85,7 @@ public class CArrayMapper {
       elementName = struct.getName();
     } else if (object instanceof FArrayType) {
       FTypeRef francaRef = ((FArrayType) object).getElementType();
-      elementName = getTypeRefName(francaRef);
+      elementName = getName(francaRef);
     }
 
     return elementName;
