@@ -16,10 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Field of a com.here.ivi.api.model.cmodel.CStruct */
-public class CField extends CElement {
+public final class CField extends CElement {
+
   public final String baseLayerName;
   public final CppTypeInfo type;
 
+  public CField(String swiftLayerName, String baseLayerName, CppTypeInfo cppTypeInfo) {
+    super(swiftLayerName);
+    this.baseLayerName = baseLayerName;
+    type = cppTypeInfo;
+  }
+
+  @SuppressWarnings("unused")
   public List<CParameter.SimpleParameter> getSetterParameters() {
     List<CParameter.SimpleParameter> inParameters = new ArrayList<>();
     for (int i = 0; i < type.cTypesNeededByConstructor.size(); ++i) {
@@ -28,12 +36,6 @@ public class CField extends CElement {
               name + type.paramSuffixes.get(i), type.cTypesNeededByConstructor.get(i)));
     }
     return inParameters;
-  }
-
-  public CField(String swiftLayerName, String baseLayerName, CppTypeInfo cppTypeInfo) {
-    super(swiftLayerName);
-    this.baseLayerName = baseLayerName;
-    type = cppTypeInfo;
   }
 
   @Override

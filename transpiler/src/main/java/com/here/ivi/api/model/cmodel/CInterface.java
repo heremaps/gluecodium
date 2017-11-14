@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 /** Collection of related methods and structs forming an interface (like a C header file) */
-public class CInterface extends CElement {
+public final class CInterface extends CElement {
   public Set<Include> headerIncludes = emptySet();
   public Set<Include> implementationIncludes = emptySet();
   public Set<Include> privateHeaderIncludes = emptySet();
@@ -32,7 +32,7 @@ public class CInterface extends CElement {
   public List<CArray> arrays = new LinkedList<>();
 
   public CInterface(String name) {
-    super(name);
+    this(name, null);
   }
 
   public CInterface(String name, final CClassType classType) {

@@ -13,7 +13,7 @@ package com.here.ivi.api.model.cmodel;
 
 import static java.util.Collections.singletonList;
 
-public class CEnum extends CType {
+public final class CEnum extends CType {
   public CEnum(String enumName) {
     super(enumName, singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
   }
