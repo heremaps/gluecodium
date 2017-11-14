@@ -51,6 +51,9 @@ interface Arrays {
     array NestedStructArray of StructArray
     array InstancesArray of SimpleInstantiableOne
 
+    typedef ProfileId is String
+    array ProfileIdList of ProfileId
+
     <** @description:
     Static method which takes a string array and returns an array of same type in reversed order.
     **>
@@ -315,6 +318,18 @@ interface Arrays {
         }
         out {
             FancyArray result
+        }
+    }
+
+    <** @description:
+    Static method which takes an array of aliases and returns it in reversed order.
+    **>
+    method methodWithArrayOfAliases {
+        in {
+            ProfileIdList input
+        }
+        out {
+            ProfileIdList output
         }
     }
 }

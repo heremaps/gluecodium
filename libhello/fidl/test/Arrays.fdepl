@@ -89,4 +89,8 @@ define navigation.BaseApiSpec for interface test.Arrays
     method mergeArraysOfStructsWithArrays {
         Static = true
     }
+
+    method methodWithArrayOfAliases {
+        Static = true
+    }
 }

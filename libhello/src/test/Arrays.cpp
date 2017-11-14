@@ -160,4 +160,10 @@ Arrays::merge_arrays_of_structs_with_arrays(
     return output;
 }
 
+Arrays::ProfileIdList
+Arrays::method_with_array_of_aliases( const Arrays::ProfileIdList& input )
+{
+    return { input.rbegin(), input.rend() };
+}
+
 }
