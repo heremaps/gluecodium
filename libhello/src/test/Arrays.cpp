@@ -164,4 +164,10 @@ Arrays::method_with_array_of_aliases( const Arrays::ProfileIdList& input )
     return { input.rbegin(), input.rend() };
 }
 
+std::vector< ::test::Arrays::ArrayEnum >
+Arrays::method_with_enums_array( const std::vector< ::test::Arrays::ArrayEnum >& input )
+{
+    return { input.rbegin( ), input.rend( ) };
+}
+
 }

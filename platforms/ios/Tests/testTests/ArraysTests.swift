@@ -186,6 +186,14 @@ class ArraysTests: XCTestCase {
         return Arrays.FancyStruct(messages:messages, numbers:numbers, instances:instances)
     }
 
+    func testEnumsArray() {
+        let enumArray : [Arrays.ArrayEnum] = [.enumOne, .enumTwo, .enumThree]
+        let result = Arrays.methodWithEnumsArray(input: enumArray)
+        for (indexArray, enumValue) in result.enumerated() {
+            XCTAssertEqual(enumValue, enumArray[2-indexArray])
+        }
+    }
+
     static var allTests = [
         ("testArrayString", testArrayString),
         ("testArrayInt8", testArrayInt8),
@@ -204,6 +212,7 @@ class ArraysTests: XCTestCase {
         ("testNestedPrimitives", testNestedPrimitives),
         ("testNestedStructArray", testNestedStructArray),
         ("testMergeArraysOfStructsWithArrays", testMergeArraysOfStructsWithArrays),
+        ("testEnumsArray", testEnumsArray),
         ("testArrayOfAliases", testArrayOfAliases)
         ]
 }
