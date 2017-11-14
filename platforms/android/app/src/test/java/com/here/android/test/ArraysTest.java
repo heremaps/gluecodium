@@ -341,4 +341,28 @@ public class ArraysTest {
         assertEquals(STRING_LIST_ITEM_1, resultsList.get(2).instances.get(0).getStringValue());
         assertEquals(STRING_LIST_ITEM_2, resultsList.get(2).instances.get(1).getStringValue());
     }
+
+    @Test
+    public void methodWithArrayOfAliases_emptyList() {
+        List<String> stringList = new LinkedList<>();
+
+        List<String> resultsList = Arrays.methodWithArrayOfAliases(stringList);
+
+        assertNotNull(resultsList);
+        assertEquals(0, resultsList.size());
+    }
+
+    @Test
+    public void methodWithArrayOfAliases_reversesArray() {
+        List<String> stringList = java.util.Arrays.asList(
+            STRING_LIST_ITEM_1,
+            STRING_LIST_ITEM_2);
+
+        List<String> resultsList = Arrays.methodWithArrayOfAliases(stringList);
+
+        assertNotNull(resultsList);
+        assertEquals(2, resultsList.size());
+        assertEquals(STRING_LIST_ITEM_2, resultsList.get(0));
+        assertEquals(STRING_LIST_ITEM_1, resultsList.get(1));
+    }
 }

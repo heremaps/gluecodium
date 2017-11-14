@@ -1,10 +1,3 @@
-//
-//  ArraysTests.swift
-//  helloTests
-//
-//  Created by Palmero, Antonio on 01.11.17.
-//
-
 import XCTest
 import hello
 
@@ -169,6 +162,14 @@ class ArraysTests: XCTestCase {
         }
     }
 
+    func testArrayOfAliases() {
+        let stringArray : [String] = ["Hello", "test", "world"]
+        let result = Arrays.methodWithArrayOfAliases(input: stringArray)
+        for (index, string) in result.enumerated() {
+            XCTAssertEqual(string, stringArray[2-index]);
+        }
+    }
+
     func getFancyStruct(_ values: [UInt8]) -> Arrays.FancyStruct {
         let messagesString: [String]  = ["Hello", "Test"]
         let messages: CollectionOf<String> = CollectionOf<String>(messagesString)
@@ -202,6 +203,7 @@ class ArraysTests: XCTestCase {
         ("testArrayInstances", testArrayInstances),
         ("testNestedPrimitives", testNestedPrimitives),
         ("testNestedStructArray", testNestedStructArray),
-        ("testMergeArraysOfStructsWithArrays", testMergeArraysOfStructsWithArrays)
+        ("testMergeArraysOfStructsWithArrays", testMergeArraysOfStructsWithArrays),
+        ("testArrayOfAliases", testArrayOfAliases)
         ]
 }
