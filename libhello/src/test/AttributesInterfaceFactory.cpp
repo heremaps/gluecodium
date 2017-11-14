@@ -11,8 +11,8 @@
 
 #include <memory>
 #include "AttributesInterfaceImpl.h"
-#include "cpp/test/AttributesInterface.h"
-#include "cpp/test/AttributesInterfaceFactory.h"
+#include "test/AttributesInterface.h"
+#include "test/AttributesInterfaceFactory.h"
 
 namespace test {
 

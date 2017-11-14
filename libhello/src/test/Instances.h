@@ -12,10 +12,10 @@
 
 #pragma once
 
-#include "cpp/test/SimpleInstantiableOne.h"
-#include "cpp/test/SimpleInstantiableTwo.h"
-#include "cpp/test/NestedInstantiableOne.h"
-#include "cpp/test/NestedInstantiableTwo.h"
+#include "test/SimpleInstantiableOne.h"
+#include "test/SimpleInstantiableTwo.h"
+#include "test/NestedInstantiableOne.h"
+#include "test/NestedInstantiableTwo.h"
 
 namespace test
 {
