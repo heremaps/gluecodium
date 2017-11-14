@@ -12,7 +12,7 @@
 #include <memory>
 #include "Instances.h"
 #include "Interfaces.h"
-#include "cpp/test/InstancesFactory.h"
+#include "test/InstancesFactory.h"
 
 namespace test {
 
