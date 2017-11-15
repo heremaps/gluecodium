@@ -64,4 +64,20 @@ public class MethodOverloads {
         }
         return smoke_MethodOverloads_isBoolean_everythingOverload(c_instance, input1, input2, input3, input4Handle)
     }
+    public func isBoolean<Tinput: Collection>(input: Tinput) -> Bool where Tinput.Element == String {
+        let inputArray = input.flatMap{ $0 as? String }
+        let inputHandle = inputArray.c_conversion()
+        defer {
+            inputHandle.cleanup()
+        }
+        return smoke_MethodOverloads_isBoolean_stringArrayOverload(c_instance, inputHandle.c_type)
+    }
+    public func isBoolean<Tinput: Collection>(input: Tinput) -> Bool where Tinput.Element == Int8 {
+        let inputArray = input.flatMap{ $0 as? Int8 }
+        let inputHandle = inputArray.c_conversion()
+        defer {
+            inputHandle.cleanup()
+        }
+        return smoke_MethodOverloads_isBoolean_intArrayOverload(c_instance, inputHandle.c_type)
+    }
 }

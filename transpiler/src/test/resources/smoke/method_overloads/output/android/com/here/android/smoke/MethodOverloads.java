@@ -13,6 +13,7 @@
 package com.here.android.smoke;
 
 import com.here.android.NativeBase;
+import java.util.List;
 
 public class MethodOverloads extends NativeBase {
     public static class Point {
@@ -34,4 +35,6 @@ public class MethodOverloads extends NativeBase {
     public native boolean isBoolean(final String input);
     public native boolean isBoolean(final MethodOverloads.Point input);
     public native boolean isBoolean(final boolean input1, final byte input2, final String input3, final MethodOverloads.Point input4);
+    public native boolean isBoolean(final List<String> input);
+    public native boolean isBoolean(final List<Byte> input);
 }

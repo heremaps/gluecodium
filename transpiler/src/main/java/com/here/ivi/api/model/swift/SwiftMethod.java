@@ -15,6 +15,7 @@ import static com.here.ivi.api.model.swift.SwiftType.VOID;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class SwiftMethod extends SwiftModelElement {
 
@@ -22,6 +23,7 @@ public final class SwiftMethod extends SwiftModelElement {
   public final List<SwiftParameter> parameters;
   public boolean isStatic;
   public String cBaseName;
+  public final List<SwiftGenericParameter> genericParameters = new LinkedList<>();
 
   public boolean forceReturnValueUnwrapping;
 
@@ -38,7 +40,10 @@ public final class SwiftMethod extends SwiftModelElement {
   }
 
   @SuppressWarnings("unused")
-  public boolean containsArrays() {
-    return parameters.stream().anyMatch(s -> s.type instanceof SwiftArray);
+  public List<SwiftGenericParameter.Constraint> getGenericConstraints() {
+    return genericParameters
+        .stream()
+        .flatMap(parameter -> parameter.constraints.stream())
+        .collect(Collectors.toList());
   }
 }

@@ -1,12 +1,12 @@
-{{! Assing method parameters.
-}}{{#each parameters}}{{name}}{{!!
+{{! Adding method parameters.
+}}{{#parameters}}{{name}}{{!!
 }}{{#if differentInterfaceAndVariableName}} {{!!
     }}{{variableName}}{{!!
     }}{{/if}}: {{>argumentName}}{{#if iter.hasNext}}, {{/if}}{{!!
-}}{{/each}}{{!!
+}}{{/parameters}}{{!!
 
 }}{{+argumentName}}{{!!
 }}{{#switch type.category.toString}}{{!!
-}}{{#case "ARRAY"}}T{{/case}}{{!!
+}}{{#case "ARRAY"}}T{{variableName}}{{/case}}{{!!
 }}{{#default}}{{type.publicName}}{{/default}}{{!!
 }}{{/switch}}{{/argumentName}}

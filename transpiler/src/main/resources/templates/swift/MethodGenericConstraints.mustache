@@ -1,0 +1,1 @@
+{{#if genericConstraints}} where {{#genericConstraints}}T{{name}}{{#if isProtocol}}:{{/if}}{{#unless isProtocol}} =={{/unless}} {{typeName}}{{#if iter.hasNext}}, {{/if}}{{/genericConstraints}}{{/if}}

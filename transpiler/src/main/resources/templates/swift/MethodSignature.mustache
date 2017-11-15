@@ -1,2 +1,2 @@
 {{#comment}}{{>swift/Comment}}{{/comment}}
-{{visibilityPrefix}}{{#isStatic}}static {{/isStatic}}func {{name}}{{>swift/MethodArrayGeneric}}({{>swift/MethodParameterDeclaration}}) -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}}
+{{visibilityPrefix}}{{#isStatic}}static {{/isStatic}}func {{name}}{{>swift/MethodGenericParameters}}({{>swift/MethodParameterDeclaration}}) -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}}{{>swift/MethodGenericConstraints}}

@@ -65,4 +65,25 @@ interface MethodOverloads {
             Boolean output
         }
     }
+
+    array StringArray of String
+    array IntArray of Int8
+
+    method isBoolean:stringArrayOverload {
+       in {
+           StringArray input
+       }
+       out {
+           Boolean output
+       }
+    }
+
+    method isBoolean:intArrayOverload {
+      in {
+          IntArray input
+      }
+      out {
+          Boolean output
+      }
+    }
 }
