@@ -31,7 +31,7 @@ public class Arrays {
             examples_Arrays_SyncResult_numberOfChanges_set(cSyncResult, numberOfChanges)
         }
     }
-    public static func explicitArrayMethod<T: Collection>(input: T) -> CollectionOf<Arrays.SyncResult> {
+    public static func explicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == SyncResult {
         let inputArray = input.flatMap{ $0 as? SyncResult }
         let inputHandle = inputArray.c_conversion()
         defer {
@@ -40,7 +40,7 @@ public class Arrays {
         let handle =  examples_Arrays_explicitArrayMethod(inputHandle.c_type)
         return SyncResultList(handle)
     }
-    public static func implicitArrayMethod<T: Collection>(input: T) -> CollectionOf<Arrays.SyncResult> {
+    public static func implicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == SyncResult {
         let inputArray = input.flatMap{ $0 as? SyncResult }
         let inputHandle = inputArray.c_conversion()
         defer {

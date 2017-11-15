@@ -70,87 +70,68 @@ public class Arrays {
         }
     }
 
-    public static func methodWithArray<T: Collection>(input: T) -> CollectionOf<String> {
-
+    public static func methodWithArray<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
         let inputArray = input.flatMap{ $0 as? String }
         let inputHandle = inputArray.c_conversion()
         defer {
             inputHandle.cleanup()
         }
-
         let handle =  smoke_Arrays_methodWithArray(inputHandle.c_type)
-
         return StringList(handle)
     }
 
-    public static func methodWithArrayInline<T: Collection>(input: T) -> CollectionOf<UInt8> {
-
+    public static func methodWithArrayInline<Tinput: Collection>(input: Tinput) -> CollectionOf<UInt8> where Tinput.Element == UInt8 {
         let inputArray = input.flatMap{ $0 as? UInt8 }
         let inputHandle = inputArray.c_conversion()
         defer {
             inputHandle.cleanup()
         }
-
         let handle =  smoke_Arrays_methodWithArrayInline(inputHandle.c_type)
-
         return UInt8List(handle)
     }
 
-    public static func methodWithStructArray<T: Collection>(input: T) -> CollectionOf<Arrays.BasicStruct> {
-
+    public static func methodWithStructArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.BasicStruct> where Tinput.Element == BasicStruct {
         let inputArray = input.flatMap{ $0 as? BasicStruct }
         let inputHandle = inputArray.c_conversion()
         defer {
             inputHandle.cleanup()
         }
-
         let handle =  smoke_Arrays_methodWithStructArray(inputHandle.c_type)
-
         return BasicStructList(handle)
     }
 
-    public static func methodWithArrayOfArrays<T: Collection>(input: T) -> CollectionOf<CollectionOf<UInt8>> {
-
+    public static func methodWithArrayOfArrays<Tinput: Collection>(input: Tinput) -> CollectionOf<CollectionOf<UInt8>> where Tinput.Element: Collection, Tinput.Element.Element == UInt8 {
         let inputArray = input.flatMap{ $0 as? [UInt8] }.map{ CollectionOf<UInt8>($0) }
         let inputHandle = inputArray.c_conversion()
         defer {
             inputHandle.cleanup()
         }
-
         let handle =  smoke_Arrays_methodWithArrayOfArrays(inputHandle.c_type)
-
         return UInt8ListList(handle)
     }
 
-    public static func mergeArraysOfStructsWithArrays<T: Collection>(inlineFancyArray: T, fancyArray: T) -> CollectionOf<Arrays.FancyStruct> {
-
+    public static func mergeArraysOfStructsWithArrays<TinlineFancyArray: Collection, TfancyArray: Collection>(inlineFancyArray: TinlineFancyArray, fancyArray: TfancyArray) -> CollectionOf<Arrays.FancyStruct> where TinlineFancyArray.Element == FancyStruct, TfancyArray.Element == FancyStruct {
         let inlineFancyArrayArray = inlineFancyArray.flatMap{ $0 as? FancyStruct }
         let inlineFancyArrayHandle = inlineFancyArrayArray.c_conversion()
         defer {
             inlineFancyArrayHandle.cleanup()
         }
-
         let fancyArrayArray = fancyArray.flatMap{ $0 as? FancyStruct }
         let fancyArrayHandle = fancyArrayArray.c_conversion()
         defer {
             fancyArrayHandle.cleanup()
         }
-
         let handle =  smoke_Arrays_mergeArraysOfStructsWithArrays(inlineFancyArrayHandle.c_type, fancyArrayHandle.c_type)
-
         return FancyStructList(handle)
     }
 
-    public static func methodWithArrayOfAliases<T: Collection>(input: T) -> CollectionOf<String> {
-
+    public static func methodWithArrayOfAliases<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
         let inputArray = input.flatMap{ $0 as? String }
         let inputHandle = inputArray.c_conversion()
         defer {
             inputHandle.cleanup()
         }
-
         let handle =  smoke_Arrays_methodWithArrayOfAliases(inputHandle.c_type)
-
         return StringList(handle)
     }
 

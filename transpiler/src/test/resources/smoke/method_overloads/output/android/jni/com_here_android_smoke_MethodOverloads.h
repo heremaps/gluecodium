@@ -45,6 +45,16 @@ Java_com_here_android_smoke_MethodOverloads_isBoolean__Lcom_here_android_smoke_M
  */
 JNIEXPORT jboolean JNICALL
 Java_com_here_android_smoke_MethodOverloads_isBoolean__ZBLjava_lang_String_2Lcom_here_android_smoke_MethodOverloads_00024Point_2(JNIEnv* _jenv, jobject _jinstance, jboolean jinput1, jbyte jinput2, jstring jinput3, jobject jinput4);
+/**
+ * Function for MethodOverloads.isBoolean()
+ */
+JNIEXPORT jboolean JNICALL
+Java_com_here_android_smoke_MethodOverloads_isBoolean__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput);
+/**
+ * Function for MethodOverloads.isBoolean()
+ */
+JNIEXPORT jboolean JNICALL
+Java_com_here_android_smoke_MethodOverloads_isBoolean__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput);
 
 #ifdef __cplusplus
 }

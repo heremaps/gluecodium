@@ -100,7 +100,7 @@ public class TypeDefs {
         return smoke_TypeDefs_methodWithPrimitiveTypeDef(input)
     }
 
-    public static func methodWithComplexTypeDef(input: T) -> ComplexTypeDef {
+    public static func methodWithComplexTypeDef(input: Tinput) -> ComplexTypeDef {
         let inputArray = input.flatMap{ $0 as?  }
         let inputHandle = inputArray.c_conversion()
         defer {

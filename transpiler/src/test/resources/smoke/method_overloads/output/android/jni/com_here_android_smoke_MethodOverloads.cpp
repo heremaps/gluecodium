@@ -79,6 +79,28 @@ Java_com_here_android_smoke_MethodOverloads_isBoolean__ZBLjava_lang_String_2Lcom
     return result;
 }
 
+jboolean
+Java_com_here_android_smoke_MethodOverloads_isBoolean__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+{
+    ::smoke::MethodOverloads::StringArray input;
+    here::internal::convert_from_jni( _jenv, jinput, input );
+    auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
+    auto result = (*pInstanceSharedPointer)->is_boolean(input);
+    return result;
+}
+
+jboolean
+Java_com_here_android_smoke_MethodOverloads_isBoolean__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+{
+    ::smoke::MethodOverloads::IntArray input;
+    here::internal::convert_from_jni( _jenv, jinput, input );
+    auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
+    auto result = (*pInstanceSharedPointer)->is_boolean(input);
+    return result;
+}
+
 void
 Java_com_here_android_smoke_MethodOverloads_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {

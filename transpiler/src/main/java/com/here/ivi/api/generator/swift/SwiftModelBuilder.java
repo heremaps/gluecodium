@@ -25,13 +25,13 @@ import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.franca.core.franca.*;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
+
+  @VisibleForTesting static final String COLLECTION_TYPE_NAME = "Collection";
+  @VisibleForTesting static final String ELEMENT_FIELD_NAME = "Element";
 
   public final Map<String, SwiftArray> arraysCollector = new HashMap<>();
 
@@ -165,9 +165,15 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
-    storeResult(
-        new SwiftInParameter(
-            SwiftNameRules.getParameterName(francaArgument), getPreviousResult(SwiftType.class)));
+    SwiftType swiftType = getPreviousResult(SwiftType.class);
+    SwiftInParameter swiftParameter =
+        new SwiftInParameter(SwiftNameRules.getParameterName(francaArgument), swiftType);
+    storeResult(swiftParameter);
+
+    if (swiftType instanceof SwiftArray) {
+      storeResult(createGenericParameter(swiftParameter.name, (SwiftArray) swiftParameter.type));
+    }
+
     super.finishBuildingInputArgument(francaArgument);
   }
 
@@ -223,6 +229,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     method.comment = comment != null ? comment : "";
     method.isStatic = deploymentModel.isStatic(francaMethod);
     method.cBaseName = CBridgeNameRules.getMethodName(francaMethod);
+    method.genericParameters.addAll(getPreviousResults(SwiftGenericParameter.class));
+
     storeResult(method);
     super.finishBuilding(francaMethod);
   }
@@ -271,5 +279,31 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @VisibleForTesting
   static boolean hasOnlyStaticMethods(final List<SwiftMethod> methods) {
     return !methods.isEmpty() && methods.stream().allMatch(swiftMethod -> swiftMethod.isStatic);
+  }
+
+  private static SwiftGenericParameter createGenericParameter(
+      final String parameterName, final SwiftArray swiftArray) {
+
+    SwiftType elementType = swiftArray.underlyingType;
+    SwiftGenericParameter genericParameter =
+        new SwiftGenericParameter(parameterName, COLLECTION_TYPE_NAME);
+    genericParameter.constraints.addAll(createGenericConstraints(parameterName, elementType));
+
+    return genericParameter;
+  }
+
+  private static List<SwiftGenericParameter.Constraint> createGenericConstraints(
+      final String parentName, final SwiftType elementType) {
+
+    String name = parentName + "." + ELEMENT_FIELD_NAME;
+    if (elementType instanceof SwiftArray) {
+      List<SwiftGenericParameter.Constraint> result = new LinkedList<>();
+      result.add(new SwiftGenericParameter.Constraint(name, COLLECTION_TYPE_NAME, true));
+      result.addAll(createGenericConstraints(name, ((SwiftArray) elementType).underlyingType));
+      return result;
+    } else {
+      return Collections.singletonList(
+          new SwiftGenericParameter.Constraint(name, elementType.name, false));
+    }
   }
 }
