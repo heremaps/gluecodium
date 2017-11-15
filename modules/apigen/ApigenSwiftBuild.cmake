@@ -166,6 +166,8 @@ function(apigen_swift_build target)
         if(IOS)
             #Todo: This should be properly injected into the function and not hardcoded
             set(build_swift_native_frameworks -lz -framework GLKit -framework OpenGLES)
+        elseif(APPLE)
+            set(build_swift_native_frameworks -lz -framework AppKit -framework OpenGL)
         endif()
 
         file(WRITE
