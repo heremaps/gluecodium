@@ -23,9 +23,6 @@ public class SwiftMethod extends SwiftModelElement {
   public boolean isStatic;
   public String cBaseName;
 
-  @SuppressWarnings("unused")
-  public SwiftParameter instanceParameter = new SwiftParameter("c_instance", VOID);
-
   public boolean forceReturnValueUnwrapping;
 
   public SwiftMethod(String methodName) {
@@ -40,6 +37,7 @@ public class SwiftMethod extends SwiftModelElement {
     this.forceReturnValueUnwrapping = false;
   }
 
+  @SuppressWarnings("unused")
   public boolean containsArrays() {
     return parameters.stream().anyMatch(s -> s.type instanceof SwiftArray);
   }
