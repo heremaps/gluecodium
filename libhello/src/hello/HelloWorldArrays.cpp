@@ -15,35 +15,36 @@
 namespace hello
 {
 
-::std::vector< ::std::string >
-HelloWorldArrays::method_with_array( const ::std::vector< ::std::string >& input )
+HelloWorldArrays::StringArray
+HelloWorldArrays::method_with_array( const HelloWorldArrays::StringArray& input )
 {
     return { input.rbegin( ), input.rend( ) };
 }
 
-::std::vector< int64_t >
+std::vector< int64_t >
 HelloWorldArrays::method_with_simple_array( const HelloWorldArrays::Int64Array& input )
 {
     return { input.rbegin( ), input.rend( ) };
 }
 
-::std::vector<  uint32_t >
-HelloWorldArrays::method_with_array_inline( const ::std::vector<  uint32_t >& input )
+std::vector<  uint32_t >
+HelloWorldArrays::method_with_array_inline( const std::vector<  uint32_t >& input )
 {
     return { input.rbegin( ), input.rend( ) };
 }
 
-::std::vector< ::hello::HelloWorldArrays::ExampleStruct >
+std::vector< HelloWorldArrays::ExampleStruct >
 HelloWorldArrays::method_with_struct_array(
-    const ::std::vector< ::hello::HelloWorldArrays::ExampleStruct >& input )
+    const std::vector< HelloWorldArrays::ExampleStruct >& input )
 {
     return {input.rbegin( ), input.rend( )};
 }
 
-std::vector< std::vector< int64_t > >
-hello::HelloWorldArrays::method_with_nested_arrays_inline( const std::vector< std::vector< int64_t > >& input )
+std::vector< HelloWorldArrays::Int64Array >
+HelloWorldArrays::method_with_nested_arrays_inline(
+    const std::vector< HelloWorldArrays::Int64Array >& input )
 {
-    std::vector< std::vector< int64_t > > output;
+    std::vector< HelloWorldArrays::Int64Array > output;
     auto reverseIterator = input.rbegin( );
     while ( reverseIterator != input.rend( ) )
     {
