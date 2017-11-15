@@ -199,7 +199,7 @@ function(apigen_swift_build target)
                 list(APPEND BUILD_ARGUMENTS
                     -L${APIGEN_SWIFT_BUILD_OUTPUT_DIR}
                     -I${APIGEN_SWIFT_BUILD_OUTPUT_DIR}
-                    -l${target}
+                    -l${target}$<TARGET_PROPERTY:${library},DEBUG_POSTFIX>
                     -Xlinker -rpath -Xlinker "'$$ORIGIN'"
                 )
             endif()
