@@ -18,8 +18,8 @@ namespace hello
 class HelloWorldSimpleInstantiable : public SimpleInstantiable
 {
 public:
-    virtual void set_string_value( const ::std::string& string_value ) override;
-    virtual ::std::string get_string_value( ) override;
+    void set_string_value( const ::std::string& string_value ) override;
+    ::std::string get_string_value( ) override;
 
 private:
     ::std::string m_string_value = "";
@@ -31,9 +31,9 @@ public:
     HelloWorldNestedInstantiable(
         const ::std::shared_ptr< ::hello::SimpleInstantiable >& instance );
 
-    virtual void set_instantiable(
+    void set_instantiable(
         const ::std::shared_ptr< ::hello::SimpleInstantiable >& instance ) override;
-    virtual ::std::shared_ptr< ::hello::SimpleInstantiable > get_instantiable( ) override;
+    ::std::shared_ptr< ::hello::SimpleInstantiable > get_instantiable( ) override;
 
 private:
     ::std::shared_ptr< ::hello::SimpleInstantiable > m_instance = nullptr;
