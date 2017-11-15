@@ -148,7 +148,7 @@ function(apigen_swift_build target)
             -I${OUTPUT_DIR}
             -import-underlying-module
             -L\$<TARGET_FILE_DIR:${target}>
-            -l${target}
+            -l${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>
             ${swift_target_flag}
             -emit-module
             -emit-library
