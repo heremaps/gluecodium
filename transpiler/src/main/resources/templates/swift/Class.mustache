@@ -31,7 +31,7 @@ internal func getRef(_ ref: {{name}}) -> RefHolder<{{cInstanceRef}}> {
 {{#properties}}
     var {{name}}: {{type}} { get {{^readonly}}set {{/readonly}}}
 {{/properties}}
-{{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}};
+{{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
 {{/methods}}
 }
 

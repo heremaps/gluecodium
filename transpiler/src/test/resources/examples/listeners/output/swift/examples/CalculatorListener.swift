@@ -31,7 +31,7 @@ internal func getRef(_ ref: CalculatorListener) -> RefHolder<examples_Calculator
 
 public protocol CalculatorListener : AnyObject {
 
-    func onCalculationResult(calculationResult: Double) -> Void;
+    func onCalculationResult(calculationResult: Double) -> Void
 
 }
 
