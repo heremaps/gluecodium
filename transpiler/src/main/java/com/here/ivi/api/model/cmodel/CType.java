@@ -56,13 +56,15 @@ public class CType extends CElement {
           "std_stringRef",
           singletonList(
               Include.createInternalInclude(
-                  Paths.get(CBridgeNameRules.SOURCE_FOLDER, "StringHandle.h").toString())));
+                  Paths.get(CBridgeNameRules.SOURCE_FOLDER, "include", "StringHandle.h")
+                      .toString())));
   public static final CType BYTE_ARRAY_REF =
       new CType(
           "byteArrayRef",
           singletonList(
               Include.createInternalInclude(
-                  Paths.get(CBridgeNameRules.SOURCE_FOLDER, "ByteArrayHandle.h").toString())));
+                  Paths.get(CBridgeNameRules.SOURCE_FOLDER, "include", "ByteArrayHandle.h")
+                      .toString())));
 
   public Boolean isConst = false;
   public Set<Include> includes = Collections.emptySet();

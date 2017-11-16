@@ -24,14 +24,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class BaseApiGeneratorSuiteIntegrationTest {
-
+public final class BaseApiGeneratorSuiteIntegrationTest {
+  private static final String FRANCA_FILES_PATH = "src/test/resources/baseapi_generator_suite/fidl";
   private final BaseApiGeneratorSuite baseApiGeneratorSuite = new BaseApiGeneratorSuite();
 
   @Test
   public void generate() {
-    String francaFilesPath = "src/test/resources/baseapi_generator_suite/fidl";
-    baseApiGeneratorSuite.buildModels(Collections.singletonList(new File(francaFilesPath)));
+    baseApiGeneratorSuite.buildModels(Collections.singletonList(new File(FRANCA_FILES_PATH)));
 
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 
@@ -39,15 +38,15 @@ public class BaseApiGeneratorSuiteIntegrationTest {
     assertEquals("Expected cpp/internal files and test generated file", 4, generatedFiles.size());
 
     assertFalse(generatedFiles.get(0).content.isEmpty());
-    assertEquals("cpp/test/TestInterface.h", generatedFiles.get(0).targetFile.toString());
+    assertEquals("cpp/include/test/TestInterface.h", generatedFiles.get(0).targetFile.toString());
 
     assertFalse(generatedFiles.get(1).content.isEmpty());
-    assertEquals("cpp/test/TestInterface.cpp", generatedFiles.get(1).targetFile.toString());
+    assertEquals("cpp/src/test/TestInterface.cpp", generatedFiles.get(1).targetFile.toString());
 
     assertFalse(generatedFiles.get(2).content.isEmpty());
-    assertEquals("cpp/internal/expected.h", generatedFiles.get(2).targetFile.toString());
+    assertEquals("cpp/include/expected.h", generatedFiles.get(2).targetFile.toString());
 
     assertFalse(generatedFiles.get(3).content.isEmpty());
-    assertEquals("cpp/enum_hash.h", generatedFiles.get(3).targetFile.toString());
+    assertEquals("cpp/include/enum_hash.h", generatedFiles.get(3).targetFile.toString());
   }
 }

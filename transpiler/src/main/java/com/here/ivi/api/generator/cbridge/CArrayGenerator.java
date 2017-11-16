@@ -21,13 +21,12 @@ import com.here.ivi.api.model.common.Include;
 import java.util.*;
 
 public final class CArrayGenerator {
-
   private static final String ARRAY_FILE = "ArrayCollection";
-  private static final String CBRIDGE_ARRAY_HEADER = "cbridge/" + ARRAY_FILE + ".h";
-  private static final String CBRIDGE_ARRAY_IMPL = "cbridge/" + ARRAY_FILE + ".cpp";
-  public static final String CBRIDGE_ARRAY_REF = "cbridge/" + ARRAY_FILE + "Ref.h";
+  private static final String CBRIDGE_ARRAY_HEADER = "cbridge/include/" + ARRAY_FILE + ".h";
+  private static final String CBRIDGE_ARRAY_IMPL = "cbridge/src/" + ARRAY_FILE + ".cpp";
+  public static final String CBRIDGE_ARRAY_REF = "cbridge/include/" + ARRAY_FILE + "Ref.h";
   public static final String CBRIDGE_INTERNAL_ARRAY_IMPL =
-      "cbridge_internal/" + ARRAY_FILE + "Impl.h";
+      "cbridge_internal/include/" + ARRAY_FILE + "Impl.h";
 
   private final Map<String, CArray> arrayCollector = new HashMap<>();
 

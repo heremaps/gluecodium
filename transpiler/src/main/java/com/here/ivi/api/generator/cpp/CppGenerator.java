@@ -19,38 +19,52 @@ import com.here.ivi.api.model.cppmodel.CppFile;
 import java.io.File;
 import java.util.*;
 
-public class CppGenerator {
-
+public final class CppGenerator {
   public List<GeneratedFile> generateCode(
-      final CppFile cppModel, final String outputFilePath, final String pathPrefix) {
+      final CppFile cppModel,
+      final String relativeHeaderPath,
+      final String relativeImplPath,
+      final String pathPrefix) {
 
     if (cppModel == null || cppModel.isEmpty()) {
       return Collections.emptyList();
     }
 
-    String headerIncludePath = outputFilePath + CppNameRules.HEADER_FILE_SUFFIX;
-    String headerOutputFilePath = pathPrefix + File.separator + headerIncludePath;
+    String absoluteHeaderPath =
+        pathPrefix
+            + File.separator
+            + CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE
+            + File.separator
+            + relativeHeaderPath
+            + CppNameRules.HEADER_FILE_SUFFIX;
+    String absoluteImplPath =
+        pathPrefix
+            + File.separator
+            + CppNameRules.PACKAGE_NAME_SPECIFIER_SRC
+            + File.separator
+            + relativeImplPath
+            + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
 
     // Filter out self-includes
-    cppModel.includes.removeIf(include -> include.fileName.equals(headerIncludePath));
+    cppModel.includes.removeIf(
+        include -> include.fileName.equals(relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX));
 
     String commentHeader = TemplateEngine.render("cpp/CppCommentHeader", null);
 
     List<GeneratedFile> result = new LinkedList<>();
     String headerContent = TemplateEngine.render("cpp/CppHeader", cppModel);
-    result.add(new GeneratedFile(commentHeader + headerContent, headerOutputFilePath));
+    result.add(new GeneratedFile(commentHeader + headerContent, absoluteHeaderPath));
 
     boolean hasInstantiableClasses =
         CollectionsHelper.getStreamOfType(cppModel.members, CppClass.class)
             .noneMatch(CppClass::hasOnlyStaticMethods);
     if (hasInstantiableClasses) {
-      String headerInclude = "\n#include \"" + headerIncludePath + "\"";
+      String headerInclude =
+          "\n#include \"" + (relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX) + "\"";
       String implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel);
-      String implementationOutputFilePath =
-          pathPrefix + File.separator + outputFilePath + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
       result.add(
           new GeneratedFile(
-              commentHeader + headerInclude + implementationContent, implementationOutputFilePath));
+              commentHeader + headerInclude + implementationContent, absoluteImplPath));
     }
 
     return result;

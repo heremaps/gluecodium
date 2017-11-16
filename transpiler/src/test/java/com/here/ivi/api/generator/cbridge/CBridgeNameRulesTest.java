@@ -38,8 +38,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(CppNameRules.class)
-public class CBridgeNameRulesTest {
-
+public final class CBridgeNameRulesTest {
   private static final List<String> PACKAGES = asList("PKG1", "PKG2");
   private static final String INTERFACE_NAME = "TestInterface";
   private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
@@ -131,7 +130,7 @@ public class CBridgeNameRulesTest {
 
   @Test
   public void getHeaderFileNameWithPathReturnsCorrectPath() {
-    String expected = "cbridge/PKG1/PKG2/TestInterface.h";
+    String expected = "cbridge/include/PKG1/PKG2/TestInterface.h";
 
     String actual = CBridgeNameRules.getHeaderFileNameWithPath(francaInterface);
 
@@ -140,7 +139,7 @@ public class CBridgeNameRulesTest {
 
   @Test
   public void getImplementationFileNameWithPathReturnsCorrectPath() {
-    String expected = "cbridge/PKG1/PKG2/TestInterface.cpp";
+    String expected = "cbridge/src/PKG1/PKG2/TestInterface.cpp";
 
     String actual = CBridgeNameRules.getImplementationFileNameWithPath(francaInterface);
 

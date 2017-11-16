@@ -48,8 +48,9 @@ abstract class CBridgeGeneratorTestBase {
   protected static final String STD_INT_INCLUDE = "#include <stdint.h>\n";
   protected static final String STD_STRING_INCLUDE = "#include <string>\n";
   protected static final String STD_VECTOR_INCLUDE = "#include <vector>\n";
-  protected static final String BYTE_ARRAY_INCLUDE = "#include \"cbridge/ByteArrayHandle.h\"\n";
-  protected static final String STRING_INCLUDE = "#include \"cbridge/StringHandle.h\"\n";
+  protected static final String BYTE_ARRAY_INCLUDE =
+      "#include \"cbridge/include/ByteArrayHandle.h\"\n";
+  protected static final String STRING_INCLUDE = "#include \"cbridge/include/StringHandle.h\"\n";
 
   @Mock protected FrancaDeploymentModel deploymentModel;
 

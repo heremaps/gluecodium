@@ -10,10 +10,17 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#pragma once
-#include "cbridge/ByteArrayHandle.h"
-#include <vector>
+#include "cbridge/include/ByteArrayHandle.h"
+#include "cbridge_internal/include/ByteArrayHandleImpl.h"
 
-inline static std::vector<uint8_t>* get_pointer(byteArrayRef handle) {
-    return static_cast<std::vector<uint8_t>*>(handle.private_pointer);
+void byteArray_release(byteArrayRef handle) {
+    delete get_pointer(handle);
+}
+
+const uint8_t* byteArray_data_get(byteArrayRef handle) {
+    return get_pointer(handle)->data();
+}
+
+int64_t byteArray_size_get(byteArrayRef handle) {
+    return get_pointer(handle)->size();
 }

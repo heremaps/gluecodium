@@ -35,12 +35,12 @@ public class CBridgeGenerator {
 
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
-          GeneratorSuite.copyTarget("cbridge/StringHandle.h", ""),
-          GeneratorSuite.copyTarget("cbridge/StringHandle.cpp", ""),
-          GeneratorSuite.copyTarget("cbridge_internal/StringHandleImpl.h", ""),
-          GeneratorSuite.copyTarget("cbridge/ByteArrayHandle.h", ""),
-          GeneratorSuite.copyTarget("cbridge/ByteArrayHandle.cpp", ""),
-          GeneratorSuite.copyTarget("cbridge_internal/ByteArrayHandleImpl.h", ""));
+          GeneratorSuite.copyTarget("cbridge/include/StringHandle.h", ""),
+          GeneratorSuite.copyTarget("cbridge/src/StringHandle.cpp", ""),
+          GeneratorSuite.copyTarget("cbridge_internal/include/StringHandleImpl.h", ""),
+          GeneratorSuite.copyTarget("cbridge/include/ByteArrayHandle.h", ""),
+          GeneratorSuite.copyTarget("cbridge/src/ByteArrayHandle.cpp", ""),
+          GeneratorSuite.copyTarget("cbridge_internal/include/ByteArrayHandleImpl.h", ""));
 
   public CBridgeGenerator(
       final FrancaDeploymentModel deploymentModel, final IncludeResolver includeResolver) {

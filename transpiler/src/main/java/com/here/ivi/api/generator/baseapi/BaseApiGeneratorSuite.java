@@ -38,8 +38,9 @@ import org.franca.core.franca.FTypeCollection;
  * implementation through the C++ interfaces.
  */
 public final class BaseApiGeneratorSuite extends GeneratorSuite {
-
   public static final String GENERATOR_NAME = "cpp";
+
+  private static final String[] ADDITIONAL_HEADERS = {"expected.h", "enum_hash.h"};
 
   private CppIncludeResolver includeResolver;
 
@@ -53,7 +54,6 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   }
 
   public List<GeneratedFile> generate() {
-
     CppGenerator generator = new CppGenerator();
 
     List<GeneratedFile> generatedFiles =
@@ -64,8 +64,16 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
                     generateFromFrancaTypeCollection(francaTypeCollection, generator))
             .collect(Collectors.toList());
 
-    generatedFiles.add(GeneratorSuite.copyTarget(GENERATOR_NAME + "/internal/expected.h", ""));
-    generatedFiles.add(GeneratorSuite.copyTarget(GENERATOR_NAME + "/enum_hash.h", ""));
+    for (String header : ADDITIONAL_HEADERS) {
+      generatedFiles.add(
+          GeneratorSuite.copyTarget(
+              GENERATOR_NAME
+                  + File.separator
+                  + CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE
+                  + File.separator
+                  + header,
+              ""));
+    }
 
     return generatedFiles;
   }
@@ -79,10 +87,15 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
       final FTypeCollection francaTypeCollection, final CppGenerator generator) {
 
     CppFile cppModel = mapFrancaTypeCollectionToCppModel(francaTypeCollection);
-    String outputFilePath = CppNameRules.getOutputFilePath(francaTypeCollection);
+    String outputFilePathHeader = CppNameRules.getOutputFilePath(francaTypeCollection);
+    String outputFilePathImpl = CppNameRules.getOutputFilePath(francaTypeCollection);
 
     return generator
-        .generateCode(cppModel, outputFilePath, BaseApiGeneratorSuite.GENERATOR_NAME)
+        .generateCode(
+            cppModel,
+            outputFilePathHeader,
+            outputFilePathImpl,
+            BaseApiGeneratorSuite.GENERATOR_NAME)
         .stream();
   }
 
@@ -93,7 +106,6 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   }
 
   private CppFile mapFrancaTypeCollectionToCppModel(final FTypeCollection francaTypeCollection) {
-
     CppModelBuilder builder = new CppModelBuilder(deploymentModel, includeResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
