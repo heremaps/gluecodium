@@ -38,7 +38,9 @@ function(apigen_target_include_directories target)
     if(${GENERATOR} STREQUAL cpp)
 
         # If generator exactly matches 'cpp' the user intended C++ only
+        #TODO(ATEAM-44): Remove compat locations
         target_include_directories(${target}
+            PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
             PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp>
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)
 
@@ -46,9 +48,11 @@ function(apigen_target_include_directories target)
 
         # Android library targets need the cpp and JNI headers to compile
         # but should not expose those to the public.
+        #TODO(ATEAM-44): Remove compat locations
         target_include_directories(${target}
+            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp>
-            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)
+            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>) # JNI headers and sources
 
         # Check if we are doing a host build (no cross compilation)
         if(NOT(${CMAKE_SYSTEM_NAME} STREQUAL "Android"))
@@ -63,8 +67,10 @@ function(apigen_target_include_directories target)
         # but should not expose those to the public.
         target_include_directories(${target}
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp>
+            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
+            # There are file name conflicts between cbridge and cbridge_internal so the top folder
+            # needs to be added to have cbridge/cbridge_internal as part of the include path
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)
-
     endif()
 
 endfunction(apigen_target_include_directories)

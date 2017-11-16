@@ -65,7 +65,8 @@ function(apigen_swift_build target)
 
     # Add top level headers to the modulemap
     set(CBRIDGE_MODULE_MAP "module ${target} {\n")
-    file(GLOB cbridge_headers ${OUTPUT_DIR}/cbridge/*.h)
+    #TODO(ATEAM-44): Remove compat locations
+    file(GLOB_RECURSE cbridge_headers ${OUTPUT_DIR}/cbridge/*.h)
     foreach(header IN LISTS cbridge_headers)
         set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n    header \"${header}\"")
     endforeach()
@@ -79,8 +80,9 @@ function(apigen_swift_build target)
         endif()
         get_filename_component(SUB_MODULE_NAME "${module_path}" NAME)
         set(MODULE_NAME "${target}.${SUB_MODULE_NAME}")
+        #TODO(ATEAM-44): Remove compat locations
         set(MODULE_DIR ${OUTPUT_DIR}/cbridge/${SUB_MODULE_NAME})
-        file(GLOB cbridge_headers ${MODULE_DIR}/*.h)
+        file(GLOB_RECURSE cbridge_headers ${MODULE_DIR}/*.h)
 
         set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\nmodule ${MODULE_NAME} {")
         foreach(header IN LISTS cbridge_headers)
