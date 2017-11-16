@@ -21,13 +21,13 @@ import java.util.List;
 import org.franca.core.franca.*;
 
 public final class CBridgeNameRules {
-  public static final String SOURCE_FOLDER = "cbridge";
-  public static final String INTERNAL_SOURCE_FOLDER = "cbridge_internal";
-  public static final String UNDERSCORE_DELIMITER = "_";
+  public static final String CBRIDGE_PUBLIC = "cbridge";
+  public static final String CBRIDGE_INTERNAL = "cbridge_internal";
+  public static final String INCLUDE_DIR = "include";
+  public static final String SRC_DIR = "src";
 
+  public static final String UNDERSCORE_DELIMITER = "_";
   private static final String CPP_NAMESPACE_DELIMITER = "::";
-  private static final String INCLUDE_DIR = "include";
-  private static final String IMPL_DIR = "src";
   private static final String PUBLIC_HEADER_SUFFIX = ".h";
   private static final String PRIVATE_HEADER_SUFFIX = "Impl.h";
   private static final String IMPL_SUFFIX = ".cpp";
@@ -36,18 +36,18 @@ public final class CBridgeNameRules {
 
   public static String getHeaderFileNameWithPath(final FTypeCollection francaTypeCollection) {
     return getPathComponents(
-        francaTypeCollection, SOURCE_FOLDER, INCLUDE_DIR, PUBLIC_HEADER_SUFFIX);
+        francaTypeCollection, CBRIDGE_PUBLIC, INCLUDE_DIR, PUBLIC_HEADER_SUFFIX);
   }
 
   public static String getPrivateHeaderFileNameWithPath(
       final FTypeCollection francaTypeCollection) {
     return getPathComponents(
-        francaTypeCollection, INTERNAL_SOURCE_FOLDER, INCLUDE_DIR, PRIVATE_HEADER_SUFFIX);
+        francaTypeCollection, CBRIDGE_INTERNAL, INCLUDE_DIR, PRIVATE_HEADER_SUFFIX);
   }
 
   public static String getImplementationFileNameWithPath(
       final FTypeCollection francaTypeCollection) {
-    return getPathComponents(francaTypeCollection, SOURCE_FOLDER, IMPL_DIR, IMPL_SUFFIX);
+    return getPathComponents(francaTypeCollection, CBRIDGE_PUBLIC, SRC_DIR, IMPL_SUFFIX);
   }
 
   private static String getPathComponents(

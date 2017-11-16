@@ -11,6 +11,11 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.SRC_DIR;
+
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -22,6 +27,7 @@ import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 import org.franca.core.franca.FTypeCollection;
@@ -33,14 +39,21 @@ public class CBridgeGenerator {
 
   public final CArrayGenerator arrayGenerator = new CArrayGenerator();
 
+  public static final String STRING_HANDLE_IMPL_FILE =
+      Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "StringHandleImpl.h").toString();
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
-          GeneratorSuite.copyTarget("cbridge/include/StringHandle.h", ""),
-          GeneratorSuite.copyTarget("cbridge/src/StringHandle.cpp", ""),
-          GeneratorSuite.copyTarget("cbridge_internal/include/StringHandleImpl.h", ""),
-          GeneratorSuite.copyTarget("cbridge/include/ByteArrayHandle.h", ""),
-          GeneratorSuite.copyTarget("cbridge/src/ByteArrayHandle.cpp", ""),
-          GeneratorSuite.copyTarget("cbridge_internal/include/ByteArrayHandleImpl.h", ""),
+          GeneratorSuite.copyTarget(
+              Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "StringHandle.h").toString(), ""),
+          GeneratorSuite.copyTarget(
+              Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString(), ""),
+          GeneratorSuite.copyTarget(STRING_HANDLE_IMPL_FILE, ""),
+          GeneratorSuite.copyTarget(
+              Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
+          GeneratorSuite.copyTarget(
+              Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "ByteArrayHandle.cpp").toString(), ""),
+          GeneratorSuite.copyTarget(
+              Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "ByteArrayHandleImpl.h").toString(), ""),
           GeneratorSuite.copyTarget(CBridgeComponents.PROXY_CACHE_FILENAME, ""));
 
   public CBridgeGenerator(

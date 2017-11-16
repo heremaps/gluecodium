@@ -11,20 +11,22 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CArrayGenerator.CBRIDGE_ARRAY_HEADER;
+import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_IMPL_FILE;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.CLASS;
-import static com.here.ivi.api.model.cmodel.CType.VECTOR_INCLUDE;
+import static com.here.ivi.api.model.cmodel.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
+import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.model.cmodel.CElement;
 import com.here.ivi.api.model.cmodel.CPointerType;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.cmodel.IncludeResolver;
 import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,12 +61,8 @@ public final class CppTypeInfo extends CElement {
           CType.STRING_REF,
           TypeCategory.BUILTIN_STRING,
           Arrays.asList(
-              Include.createSystemInclude("string"),
-              Include.createInternalInclude(
-                  Paths.get(
-                          CBridgeNameRules.INTERNAL_SOURCE_FOLDER, "include", "StringHandleImpl.h")
-                      .toString())),
-          Collections.singletonList(Include.createSystemInclude("string")));
+              CppLibraryIncludes.STRING, Include.createInternalInclude(STRING_HANDLE_IMPL_FILE)),
+          Collections.singletonList(CppLibraryIncludes.STRING));
 
   public static final CppTypeInfo BYTE_VECTOR =
       new CppTypeInfo(
@@ -73,8 +71,8 @@ public final class CppTypeInfo extends CElement {
           asList("_ptr", "_size"),
           CType.BYTE_ARRAY_REF,
           TypeCategory.BUILTIN_BYTEBUFFER,
-          Arrays.asList(VECTOR_INCLUDE, Include.createSystemInclude("stdint.h")),
-          Arrays.asList(VECTOR_INCLUDE, Include.createSystemInclude("stdint.h")));
+          Arrays.asList(CppLibraryIncludes.VECTOR, FIXED_WIDTH_INTEGERS_INCLUDE),
+          Arrays.asList(CppLibraryIncludes.VECTOR, FIXED_WIDTH_INTEGERS_INCLUDE));
 
   public static CppTypeInfo createCustomTypeInfo(
       final IncludeResolver resolver,
@@ -110,13 +108,11 @@ public final class CppTypeInfo extends CElement {
                 resolver.resolveInclude(element, HeaderType.CBRIDGE_PRIVATE_HEADER),
                 resolver.resolveInclude(element, HeaderType.BASE_API_HEADER)));
     if (category == CLASS) {
-      list.add(Include.createSystemInclude("memory"));
+      list.add(CppLibraryIncludes.MEMORY);
     }
     if (category == ARRAY) {
-      list.add(VECTOR_INCLUDE);
-      list.add(
-          Include.createInternalInclude(
-              Paths.get(CBridgeNameRules.SOURCE_FOLDER, "ArrayCollection.h").toString()));
+      list.add(CppLibraryIncludes.VECTOR);
+      list.add(Include.createInternalInclude(CBRIDGE_ARRAY_HEADER));
     }
     return list;
   }

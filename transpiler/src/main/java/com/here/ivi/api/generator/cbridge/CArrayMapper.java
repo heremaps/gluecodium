@@ -14,29 +14,24 @@ package com.here.ivi.api.generator.cbridge;
 import static com.here.ivi.api.generator.cbridge.CArrayGenerator.CBRIDGE_ARRAY_REF;
 import static com.here.ivi.api.generator.cbridge.CArrayGenerator.CBRIDGE_INTERNAL_ARRAY_IMPL;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
-import static com.here.ivi.api.model.cmodel.CType.VECTOR_INCLUDE;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
+import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.model.cmodel.CType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.rules.InstanceRules;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 public final class CArrayMapper {
 
-  private static final Include INTERNAL_ARRAY_INCLUDE =
-      Include.createInternalInclude(Paths.get(CBRIDGE_INTERNAL_ARRAY_IMPL).toString());
-  private static final Include INTERNAL_ARRAYREF_INCLUDE =
-      Include.createInternalInclude(Paths.get(CBRIDGE_ARRAY_REF).toString());
-
   public static CppTypeInfo create(final CppTypeInfo innerType, final EObject francaElement) {
-    String typeString = getName(francaElement) + addNestedSuffixIfNeeded(innerType);
-    String arrayName = addPrefix(typeString);
-    CType arrayType = new CType(arrayName, singletonList(INTERNAL_ARRAYREF_INCLUDE));
+
+    String arrayName = addPrefix(getName(francaElement) + addNestedSuffixIfNeeded(innerType));
+    CType arrayType =
+        new CType(arrayName, singletonList(Include.createInternalInclude(CBRIDGE_ARRAY_REF)));
     CppTypeInfo type =
         new CppTypeInfo(
             "std::shared_ptr<" + arrayName + ">",
@@ -44,7 +39,9 @@ public final class CArrayMapper {
             singletonList(""),
             arrayType,
             ARRAY,
-            Arrays.asList(INTERNAL_ARRAY_INCLUDE, VECTOR_INCLUDE),
+            Arrays.asList(
+                Include.createInternalInclude(CBRIDGE_INTERNAL_ARRAY_IMPL),
+                CppLibraryIncludes.VECTOR),
             emptyList());
     type.innerType = innerType;
     return type;
