@@ -11,13 +11,18 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
+
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.common.Include;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class CBridgeComponents {
 
-  public static final String PROXY_CACHE_FILENAME = "cbridge_internal/include/CachedProxyBase.h";
+  public static final String PROXY_CACHE_FILENAME =
+      Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "CachedProxyBase.h").toString();
 
   public static Set<Include> collectImplementationIncludes(CInterface cInterface) {
     Collection<Include> includes = new LinkedList<>();

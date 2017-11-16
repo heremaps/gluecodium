@@ -28,7 +28,6 @@ public class CType extends CElement {
   protected static final String CONST_SPECIFIER = "const";
   public static final Include FIXED_WIDTH_INTEGERS_INCLUDE =
       Include.createSystemInclude("stdint.h");
-  public static final Include VECTOR_INCLUDE = Include.createSystemInclude("vector");
   private static final Include BOOL_INCLUDE = Include.createSystemInclude("stdbool.h");
 
   public static final CType VOID = new CType("void");
@@ -56,14 +55,14 @@ public class CType extends CElement {
           "std_stringRef",
           singletonList(
               Include.createInternalInclude(
-                  Paths.get(CBridgeNameRules.SOURCE_FOLDER, "include", "StringHandle.h")
+                  Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "StringHandle.h")
                       .toString())));
   public static final CType BYTE_ARRAY_REF =
       new CType(
           "byteArrayRef",
           singletonList(
               Include.createInternalInclude(
-                  Paths.get(CBridgeNameRules.SOURCE_FOLDER, "include", "ByteArrayHandle.h")
+                  Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "ByteArrayHandle.h")
                       .toString())));
 
   public Boolean isConst = false;

@@ -11,6 +11,10 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.SRC_DIR;
 import static com.here.ivi.api.model.cmodel.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
@@ -18,15 +22,19 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cmodel.CArray;
 import com.here.ivi.api.model.cmodel.CInterface;
 import com.here.ivi.api.model.common.Include;
+import java.nio.file.Paths;
 import java.util.*;
 
 public final class CArrayGenerator {
   private static final String ARRAY_FILE = "ArrayCollection";
-  private static final String CBRIDGE_ARRAY_HEADER = "cbridge/include/" + ARRAY_FILE + ".h";
-  private static final String CBRIDGE_ARRAY_IMPL = "cbridge/src/" + ARRAY_FILE + ".cpp";
-  public static final String CBRIDGE_ARRAY_REF = "cbridge/include/" + ARRAY_FILE + "Ref.h";
+  public static final String CBRIDGE_ARRAY_HEADER =
+      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, ARRAY_FILE + ".h").toString();
+  private static final String CBRIDGE_ARRAY_IMPL =
+      Paths.get(CBRIDGE_PUBLIC, SRC_DIR, ARRAY_FILE + ".cpp").toString();
+  public static final String CBRIDGE_ARRAY_REF =
+      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, ARRAY_FILE + "Ref.h").toString();
   public static final String CBRIDGE_INTERNAL_ARRAY_IMPL =
-      "cbridge_internal/include/" + ARRAY_FILE + "Impl.h";
+      Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, ARRAY_FILE + "Impl.h").toString();
 
   private final Map<String, CArray> arrayCollector = new HashMap<>();
 
