@@ -115,7 +115,7 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator.expect(
             "public protocol ExampleClass : AnyObject {\n"
-                + "        func myMethod(parameter: Int) -> Int;\n"
+                + "    func myMethod(parameter: Int) -> Int;\n"
                 + "}\n")
         .expect(
             "internal class _ExampleClass: ExampleClass {\n"
@@ -143,7 +143,7 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator.expect(
             "public protocol ExampleClass : AnyObject {\n"
-                + "        func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void;\n"
+                + "    func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void;\n"
                 + "}\n")
         .expect(
             "internal class _ExampleClass: ExampleClass {\n"
@@ -168,7 +168,7 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator.expect(
             "public protocol ExampleClass : AnyObject {\n"
-                + "        func myMethod(parameterOne: Int, parameterTwo: String) -> Void;\n"
+                + "    func myMethod(parameterOne: Int, parameterTwo: String) -> Void;\n"
                 + "}\n")
         .expect(
             "internal class _ExampleClass: ExampleClass {\n"
@@ -194,7 +194,7 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator.expect(
             "public protocol MyClass : AnyObject {\n"
-                + "        func myMethod(array: [UInt8]) -> Void;\n"
+                + "    func myMethod(array: [UInt8]) -> Void;\n"
                 + "}\n")
         .expect(
             "internal class _MyClass: MyClass {\n"
@@ -227,7 +227,7 @@ public class SwiftFileTemplateTest {
                 + "    /**\n"
                 + "     * Do something\n"
                 + "     */\n"
-                + "        func myMethod(myParameter: String) -> Int;\n"
+                + "    func myMethod(myParameter: String) -> Int;\n"
                 + "}\n")
         .expect(
             "internal class _CommentedExampleClass: CommentedExampleClass {\n"
@@ -536,7 +536,7 @@ public class SwiftFileTemplateTest {
     TemplateComparator expected =
         TemplateComparator.expect(
                 "public protocol SomeClass : AnyObject {\n"
-                    + "        func SomeMethod() -> Void;\n"
+                    + "    func SomeMethod() -> Void;\n"
                     + "}\n")
             .expect(
                 "internal class _SomeClass: SomeClass {\n"
@@ -696,7 +696,7 @@ public class SwiftFileTemplateTest {
     TemplateComparator expected =
         TemplateComparator.expect(
                 "public protocol HelloWorld : AnyObject {\n"
-                    + "        func instanceMethod() -> Int;\n"
+                    + "    func instanceMethod() -> Int;\n"
                     + "}\n")
             .expect(
                 "internal class _HelloWorld: HelloWorld {\n"

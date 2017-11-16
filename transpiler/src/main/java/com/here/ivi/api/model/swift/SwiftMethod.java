@@ -12,21 +12,21 @@
 package com.here.ivi.api.model.swift;
 
 import static com.here.ivi.api.model.swift.SwiftType.VOID;
-import static java.util.Collections.emptyList;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public final class SwiftMethod extends SwiftModelElement {
 
   public SwiftType returnType;
-  public List<SwiftParameter> parameters = emptyList();
+  public final List<SwiftParameter> parameters;
   public boolean isStatic;
   public String cBaseName;
 
   public boolean forceReturnValueUnwrapping;
 
   public SwiftMethod(String methodName) {
-    this(methodName, emptyList());
+    this(methodName, new LinkedList<>());
   }
 
   public SwiftMethod(String methodName, List<SwiftParameter> parameters) {
