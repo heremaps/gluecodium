@@ -42,8 +42,8 @@ public final class JavaNameRules {
     return getClassName(base) + "Impl";
   }
 
-  public static String getMethodName(final String base) {
-    return NameHelper.toLowerCamelCase(base);
+  public static String getMethodName(final String base, final String selector) {
+    return NameHelper.toLowerCamelCase(base) + NameHelper.toUpperCamelCase(selector);
   }
 
   public static String getGetterName(final String base) {

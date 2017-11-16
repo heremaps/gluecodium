@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.java;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
@@ -95,22 +96,24 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       return;
     }
 
-    JavaMethod javaMethod;
+    boolean needSelectorSuffix =
+        francaMethod.getSelector() != null && FrancaTypeHelper.hasArrayParameters(francaMethod);
+    String selector = needSelectorSuffix ? francaMethod.getSelector() : "";
+    String javaMethodName = JavaNameRules.getMethodName(francaMethod.getName(), selector);
 
     // Map return type
     List<JavaParameter> outputParameters =
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
             .filter(parameter -> parameter.isOutput)
             .collect(Collectors.toList());
+    JavaMethod javaMethod;
     if (outputParameters.isEmpty()) { // Void return type
-      javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()));
+      javaMethod = new JavaMethod(javaMethodName);
     } else if (outputParameters.size() == 1) {
-      javaMethod =
-          new JavaMethod(
-              JavaNameRules.getMethodName(francaMethod.getName()), outputParameters.get(0).type);
+      javaMethod = new JavaMethod(javaMethodName, outputParameters.get(0).type);
     } else {
       // TODO: Wrap complex return type in an immutable container class
-      javaMethod = new JavaMethod(JavaNameRules.getMethodName(francaMethod.getName()));
+      javaMethod = new JavaMethod(javaMethodName);
     }
 
     // TODO: Map errors to exception(s)
