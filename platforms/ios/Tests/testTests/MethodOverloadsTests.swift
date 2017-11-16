@@ -11,11 +11,11 @@ class MethodOverloadsTests: XCTestCase {
     }
 
     func testPassArrayOfStrings() {
-        XCTAssertFalse(ArrayMethodOverloads.isBoolean(input: ["a", "b"]))
+        XCTAssertFalse(MethodOverloads.isBoolean(input: ["a", "b"]))
     }
 
     func testPassArrayOfInts() {
-        XCTAssertFalse(ArrayMethodOverloads.isBoolean(input: [11, 42]))
+        XCTAssertFalse(MethodOverloads.isBoolean(input: [11, 42]))
     }
 
     static var allTests = [

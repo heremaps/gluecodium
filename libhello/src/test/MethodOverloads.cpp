@@ -45,4 +45,16 @@ MethodOverloads::is_boolean( const bool input1, const int8_t input2, const ::std
     return false;
 }
 
+bool
+MethodOverloads::is_boolean( const MethodOverloads::StringArray& input )
+{
+    return false;
+}
+
+bool
+MethodOverloads::is_boolean( const MethodOverloads::IntArray& input )
+{
+    return false;
+}
+
 }
