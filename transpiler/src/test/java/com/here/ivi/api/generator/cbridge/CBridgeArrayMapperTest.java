@@ -12,7 +12,9 @@
 package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.rules.InstanceRules;
@@ -104,6 +106,11 @@ public class CBridgeArrayMapperTest {
     String arrayName = CArrayMapper.getName(francaArray);
 
     Assert.assertEquals("Should have the same name", "Int32", arrayName);
+  }
+
+  @Test
+  public void getNameForEnums() {
+    assertEquals("Enums", CArrayMapper.getName(mock(FEnumerationType.class)));
   }
 
   @Test

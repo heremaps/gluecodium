@@ -34,8 +34,8 @@ public final class CArrayMapper {
       Include.createInternalInclude(Paths.get(CBRIDGE_ARRAY_REF).toString());
 
   public static CppTypeInfo create(final CppTypeInfo innerType, final EObject francaElement) {
-
-    String arrayName = addPrefix(getName(francaElement) + addNestedSuffixIfNeeded(innerType));
+    String typeString = getName(francaElement) + addNestedSuffixIfNeeded(innerType);
+    String arrayName = addPrefix(typeString);
     CType arrayType = new CType(arrayName, singletonList(INTERNAL_ARRAYREF_INCLUDE));
     CppTypeInfo type =
         new CppTypeInfo(
@@ -72,6 +72,8 @@ public final class CArrayMapper {
     } else if (object instanceof FArrayType) {
       FTypeRef francaRef = ((FArrayType) object).getElementType();
       elementName = getName(francaRef);
+    } else if (object instanceof FEnumerationType) {
+      elementName = "Enums";
     }
 
     return elementName;
