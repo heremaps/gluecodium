@@ -35,7 +35,7 @@ internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder<examples_Profi
 public protocol ProfileManagerInterface : AnyObject {
 
 
-    func createProfile(username: String) -> Void;
+    func createProfile(username: String) -> Void
 
 }
 

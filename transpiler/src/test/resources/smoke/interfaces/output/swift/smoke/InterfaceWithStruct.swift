@@ -34,7 +34,7 @@ internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder<smoke_InterfaceWit
 public protocol InterfaceWithStruct : AnyObject {
 
 
-    func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct?;
+    func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct?
 
 }
 

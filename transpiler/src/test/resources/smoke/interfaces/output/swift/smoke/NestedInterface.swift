@@ -42,9 +42,9 @@ internal func getRef(_ ref: NestedInterface) -> RefHolder<smoke_NestedInterfaceR
 public protocol NestedInterface : AnyObject {
 
 
-    func setSameTypeInstances(interfaceOne: SimpleInterface, interfaceTwo: SimpleInterface) -> Void;
-    func getInstanceOne() -> SimpleInterface?;
-    func getInstanceTwo() -> SimpleInterface?;
+    func setSameTypeInstances(interfaceOne: SimpleInterface, interfaceTwo: SimpleInterface) -> Void
+    func getInstanceOne() -> SimpleInterface?
+    func getInstanceTwo() -> SimpleInterface?
 
 }
 
