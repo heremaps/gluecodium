@@ -27,30 +27,26 @@ public class SwiftType extends SwiftModelElement {
   public static final SwiftType STRING = new SwiftType("String", TypeCategory.BUILTIN_STRING);
   public static final SwiftType DATA = new SwiftType("Data", TypeCategory.BUILTIN_BYTEBUFFER);
 
-  public boolean optional;
+  public final boolean optional;
   public final TypeCategory category;
   public String implementingClass;
-  private final String typeAliasName;
+  protected final String typeAliasName;
   private String namespace;
 
   public SwiftType(String name) {
-    this(name, TypeCategory.BUILTIN_SIMPLE, false);
+    this(name, TypeCategory.BUILTIN_SIMPLE, null, null, false);
   }
 
   public SwiftType(String name, TypeCategory category) {
-    this(name, category, false);
+    this(name, category, null, null, false);
   }
 
-  public SwiftType(String name, TypeCategory category, boolean optional) {
-    this(name, category, optional, null, null);
-  }
-
-  public SwiftType(
+  protected SwiftType(
       final String name,
       final TypeCategory category,
-      final boolean optional,
       final String implementingClass,
-      final String typealiasName) {
+      final String typealiasName,
+      final boolean optional) {
     super(name);
     this.optional = optional;
     this.category = category;
@@ -59,7 +55,7 @@ public class SwiftType extends SwiftModelElement {
   }
 
   public SwiftType createAlias(final String aliasName) {
-    return new SwiftType(name, category, optional, implementingClass, aliasName);
+    return new SwiftType(name, category, implementingClass, aliasName, optional);
   }
 
   @SuppressWarnings("unused")
@@ -76,5 +72,9 @@ public class SwiftType extends SwiftModelElement {
   //TODO: APIGEN-891 Hack for reference structs inside classes. It need to be fixed properly.
   public String nameSpaceName() {
     return (namespace != null) ? namespace + "." + name : name;
+  }
+
+  public SwiftType createOptionalType() {
+    return new SwiftType(name, category, implementingClass, typeAliasName, true);
   }
 }

@@ -176,7 +176,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftType swiftType = getPreviousResult(SwiftType.class);
     if (swiftType.category == TypeCategory.STRUCT
         || swiftType.category == TypeCategory.BUILTIN_STRING) {
-      swiftType.optional = true;
+      swiftType = swiftType.createOptionalType();
     }
     storeResult(new SwiftOutParameter(SwiftNameRules.getParameterName(francaArgument), swiftType));
     super.finishBuildingOutputArgument(francaArgument);

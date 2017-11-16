@@ -26,24 +26,40 @@ public final class SwiftContainerType extends SwiftType {
   }
 
   public SwiftContainerType(String name, TypeCategory category) {
-    this(name, null, false, category);
+    this(name, category, null, null, false);
   }
 
-  public SwiftContainerType(
-      String name, String typealias, Boolean optional, TypeCategory category) {
-    super(name, category, optional, null, typealias);
+  private SwiftContainerType(
+      final String name,
+      final TypeCategory category,
+      final String implementingClass,
+      final String typealias,
+      final boolean optional) {
+    super(name, category, implementingClass, typealias, optional);
     fields = emptyList();
     cPrefix = "";
     cType = "";
   }
 
+  @Override
   public SwiftType createAlias(final String aliasName) {
-    SwiftContainerType container = new SwiftContainerType(name, aliasName, optional, category);
+    SwiftContainerType container =
+        new SwiftContainerType(name, category, implementingClass, aliasName, optional);
     container.comment = this.comment;
     container.fields = this.fields;
     container.cPrefix = this.cPrefix;
     container.cType = this.cType;
-    container.implementingClass = this.implementingClass;
+    return container;
+  }
+
+  @Override
+  public SwiftType createOptionalType() {
+    SwiftContainerType container =
+        new SwiftContainerType(name, category, implementingClass, typeAliasName, true);
+    container.comment = this.comment;
+    container.fields = this.fields;
+    container.cPrefix = this.cPrefix;
+    container.cType = this.cType;
     return container;
   }
 }
