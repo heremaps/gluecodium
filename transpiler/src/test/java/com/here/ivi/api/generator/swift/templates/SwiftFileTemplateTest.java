@@ -268,7 +268,7 @@ public class SwiftFileTemplateTest {
         new SwiftMethod(
             "helloWorldMethod",
             Collections.singletonList(new SwiftParameter("inputString", SwiftType.STRING)));
-    method.returnType = new SwiftType("String", TypeCategory.BUILTIN_STRING, true);
+    method.returnType = new SwiftType("String", TypeCategory.BUILTIN_STRING).createOptionalType();
     method.isStatic = true;
     method.cBaseName = "HelloWorld_helloWorldMethod";
     swiftClass.methods = Collections.singletonList(method);
@@ -371,7 +371,8 @@ public class SwiftFileTemplateTest {
         new SwiftMethod(
             "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
     method.isStatic = true;
-    method.returnType = new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER, true);
+    method.returnType =
+        new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER).createOptionalType();
     method.cBaseName = "HelloWorld_testBuffer";
     final String expected =
         "import Foundation\n"
@@ -452,11 +453,10 @@ public class SwiftFileTemplateTest {
   public void staticMethodReturningStruct() {
     SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
     SwiftContainerType swiftStruct = new SwiftContainerType("SomeStruct");
-    swiftStruct.optional = true;
     swiftStruct.cPrefix = swiftClass.name + "_" + swiftStruct.name;
     SwiftMethod method = new SwiftMethod("methodReturningStruct");
     method.isStatic = true;
-    method.returnType = swiftStruct;
+    method.returnType = swiftStruct.createOptionalType();
     method.cBaseName = "HelloWorld_methodReturningStruct";
     swiftClass.methods = singletonList(method);
     final String expected =
@@ -490,8 +490,7 @@ public class SwiftFileTemplateTest {
     method.isStatic = true;
     SwiftContainerType outputStruct = new SwiftContainerType("SomeStruct");
     outputStruct.cPrefix = swiftClass.name + "_" + outputStruct.name;
-    outputStruct.optional = true;
-    method.returnType = outputStruct;
+    method.returnType = outputStruct.createOptionalType();
     method.cBaseName = "HelloWorld_fancyMethod";
     swiftClass.methods = singletonList(method);
 

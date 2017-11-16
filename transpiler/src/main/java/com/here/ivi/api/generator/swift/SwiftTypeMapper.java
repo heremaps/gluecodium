@@ -92,18 +92,20 @@ public class SwiftTypeMapper {
     SwiftContainerType mappedType = new SwiftContainerType(swiftName, category);
     mappedType.cPrefix = CBridgeNameRules.getStructBaseName(derived);
     mappedType.cType = CBridgeNameRules.getStructRefType(derived);
+
+    SwiftType resultType = mappedType;
     if (mappedType.category == CLASS) {
-      mappedType.optional = true;
       mappedType.implementingClass = swiftName;
       if (deploymentModel != null
           && deploymentModel.isInterface((FInterface) derived.eContainer())) {
         mappedType.implementingClass = "_" + swiftName;
       }
+      resultType = mappedType.createOptionalType();
     }
 
     //TODO: APIGEN-891 Hack for reference structs inside classes. It need to be fixed properly.
-    mappedType.setNamespaceIfNeeded(FrancaTypeHelper.getNamespace(derived));
-    return mappedType;
+    resultType.setNamespaceIfNeeded(FrancaTypeHelper.getNamespace(derived));
+    return resultType;
   }
 
   private static SwiftType mapPredefined(FTypeRef type) {

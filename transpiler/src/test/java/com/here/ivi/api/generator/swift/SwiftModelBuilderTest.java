@@ -438,6 +438,15 @@ public class SwiftModelBuilderTest {
     assertTrue(property.readonly);
   }
 
+  @Test
+  public void finishBuildingOutputArgumentDoesNotChangeStringType() {
+    contextStack.injectResult(SwiftType.STRING);
+
+    modelBuilder.finishBuildingOutputArgument(francaArgument);
+
+    assertFalse(SwiftType.STRING.optional);
+  }
+
   private void prepareAttributeForTest() {
     contextStack.injectResult(swiftType);
     when(SwiftNameRules.getPropertyName(any())).thenReturn(ATTRIBUTE_NAME);

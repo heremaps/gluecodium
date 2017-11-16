@@ -79,7 +79,7 @@ public final class SwiftMethodSignatureTemplateTest {
 
   @Test
   public void generateMethodWithReturnType() {
-    swiftMethod.returnType = new SwiftType("Bar", SwiftType.TypeCategory.CLASS, false);
+    swiftMethod.returnType = new SwiftType("Bar", SwiftType.TypeCategory.CLASS);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, swiftMethod);
 
@@ -89,7 +89,8 @@ public final class SwiftMethodSignatureTemplateTest {
 
   @Test
   public void generateMethodWithOptionalReturnType() {
-    swiftMethod.returnType = new SwiftType("Bar", SwiftType.TypeCategory.CLASS, true);
+    swiftMethod.returnType =
+        new SwiftType("Bar", SwiftType.TypeCategory.CLASS).createOptionalType();
 
     String result = TemplateEngine.render(TEMPLATE_NAME, swiftMethod);
 
