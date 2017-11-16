@@ -80,7 +80,7 @@ Java_com_here_android_smoke_MethodOverloads_isBoolean__ZBLjava_lang_String_2Lcom
 }
 
 jboolean
-Java_com_here_android_smoke_MethodOverloads_isBoolean__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+Java_com_here_android_smoke_MethodOverloads_isBooleanStringArrayOverload__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
     ::smoke::MethodOverloads::StringArray input;
     here::internal::convert_from_jni( _jenv, jinput, input );
@@ -91,7 +91,7 @@ Java_com_here_android_smoke_MethodOverloads_isBoolean__Ljava_util_List_2(JNIEnv*
 }
 
 jboolean
-Java_com_here_android_smoke_MethodOverloads_isBoolean__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+Java_com_here_android_smoke_MethodOverloads_isBooleanIntArrayOverload__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
     ::smoke::MethodOverloads::IntArray input;
     here::internal::convert_from_jni( _jenv, jinput, input );

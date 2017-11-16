@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.test.ArrayEList;
@@ -37,7 +38,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(JavaValueMapper.class)
+@PrepareForTest({JavaValueMapper.class, FrancaTypeHelper.class})
 public class JavaModelBuilderTest {
 
   private static final String CLASS_NAME = "classy";
@@ -87,7 +88,7 @@ public class JavaModelBuilderTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(JavaValueMapper.class);
+    PowerMockito.mockStatic(JavaValueMapper.class, FrancaTypeHelper.class);
 
     modelBuilder =
         new JavaModelBuilder(
@@ -134,6 +135,21 @@ public class JavaModelBuilderTest {
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals(METHOD_NAME, javaMethod.name);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodAddsSelector() {
+    when(FrancaTypeHelper.hasArrayParameters(any())).thenReturn(true);
+    when(francaMethod.getSelector()).thenReturn("selective");
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertEquals(METHOD_NAME + "Selective", javaMethod.name);
+
+    PowerMockito.verifyStatic();
+    FrancaTypeHelper.hasArrayParameters(francaMethod);
   }
 
   @Test

@@ -11,11 +11,9 @@
 
 package com.here.ivi.api.common;
 
+import java.util.Collection;
 import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
+import org.franca.core.franca.*;
 
 public final class FrancaTypeHelper {
   public static boolean isImplicitArray(final FTypeRef typeRef) {
@@ -26,5 +24,22 @@ public final class FrancaTypeHelper {
   public static String getNamespace(final FType type) {
     EObject container = type.eContainer();
     return (container instanceof FInterface) ? ((FInterface) container).getName() : null;
+  }
+
+  public static boolean hasArrayParameters(final FMethod francaMethod) {
+    Collection<FArgument> francaArguments = francaMethod.getInArgs();
+    return francaArguments != null
+        && !francaArguments.isEmpty()
+        && francaArguments.stream().anyMatch(FrancaTypeHelper::isArray);
+  }
+
+  private static boolean isArray(final FTypedElement francaTypedElement) {
+    return francaTypedElement.isArray() || isArray(francaTypedElement.getType().getDerived());
+  }
+
+  private static boolean isArray(final FType francaType) {
+    return francaType instanceof FArrayType
+        || (francaType instanceof FTypeDef
+            && isArray(((FTypeDef) francaType).getActualType().getDerived()));
   }
 }
