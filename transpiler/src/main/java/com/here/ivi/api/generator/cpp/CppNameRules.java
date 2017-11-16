@@ -19,9 +19,10 @@ import java.util.List;
 import org.franca.core.franca.*;
 
 public final class CppNameRules {
-
   public static final String HEADER_FILE_SUFFIX = ".h";
   public static final String IMPLEMENTATION_FILE_SUFFIX = ".cpp";
+  public static final String PACKAGE_NAME_SPECIFIER_INCLUDE = "include";
+  public static final String PACKAGE_NAME_SPECIFIER_SRC = "src";
 
   private CppNameRules() {}
 

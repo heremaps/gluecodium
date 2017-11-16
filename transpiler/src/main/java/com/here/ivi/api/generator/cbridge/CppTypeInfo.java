@@ -61,7 +61,8 @@ public final class CppTypeInfo extends CElement {
           Arrays.asList(
               Include.createSystemInclude("string"),
               Include.createInternalInclude(
-                  Paths.get(CBridgeNameRules.INTERNAL_SOURCE_FOLDER, "StringHandleImpl.h")
+                  Paths.get(
+                          CBridgeNameRules.INTERNAL_SOURCE_FOLDER, "include", "StringHandleImpl.h")
                       .toString())),
           Collections.singletonList(Include.createSystemInclude("string")));
 

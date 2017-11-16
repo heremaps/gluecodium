@@ -29,8 +29,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(FBasicTypeId.class)
-public class CBridgeArrayTemplateTest {
-
+public final class CBridgeArrayTemplateTest {
   @Mock private FBasicTypeId francaBasic;
   @Mock private FTypeRef francaTypeRef;
 
@@ -43,8 +42,8 @@ public class CBridgeArrayTemplateTest {
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(0).content;
     final String expected =
-        "#include \"cbridge/ArrayCollectionRef.h\"\n"
-            + "#include \"cbridge/StringHandle.h\"\n"
+        "#include \"cbridge/include/ArrayCollectionRef.h\"\n"
+            + "#include \"cbridge/include/StringHandle.h\"\n"
             + "#include <stdint.h>\n"
             + "arrayCollection_String arrayCollection_String_create();\n"
             + "void arrayCollection_String_release(arrayCollection_String handle);\n"
@@ -64,9 +63,9 @@ public class CBridgeArrayTemplateTest {
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(1).content;
     final String expected =
-        "#include \"cbridge/ArrayCollection.h\"\n"
-            + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
-            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
+        "#include \"cbridge/include/ArrayCollection.h\"\n"
+            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
+            + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
             + "#include <string>\n"
             + "#include <vector>\n"
             + "arrayCollection_String arrayCollection_String_create() {\n"
@@ -125,8 +124,8 @@ public class CBridgeArrayTemplateTest {
     final String generated = cbridgeArrayGenerator.generate().get(3).content;
     final String expected =
         "#pragma once\n"
-            + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
-            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
+            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
+            + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
             + "#include <string>\n"
             + "#include <vector>\n"
             + "inline std::vector<std::string>* get_pointer(arrayCollection_String handle) {\n"
@@ -145,8 +144,8 @@ public class CBridgeArrayTemplateTest {
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(0).content;
     final String expected =
-        "#include \"cbridge/ArrayCollectionRef.h\"\n"
-            + "#include \"cbridge/StringHandle.h\"\n"
+        "#include \"cbridge/include/ArrayCollectionRef.h\"\n"
+            + "#include \"cbridge/include/StringHandle.h\"\n"
             + "#include <stdint.h>\n"
             + "arrayCollection_NestedStringArray arrayCollection_NestedStringArray_create();\n"
             + "void arrayCollection_NestedStringArray_release(arrayCollection_NestedStringArray handle);\n"
@@ -166,9 +165,9 @@ public class CBridgeArrayTemplateTest {
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(1).content;
     final String expected =
-        "#include \"cbridge/ArrayCollection.h\"\n"
-            + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
-            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
+        "#include \"cbridge/include/ArrayCollection.h\"\n"
+            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
+            + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
             + "#include <string>\n"
             + "#include <vector>\n"
             + "arrayCollection_NestedStringArray arrayCollection_NestedStringArray_create() {\n"
@@ -227,8 +226,8 @@ public class CBridgeArrayTemplateTest {
     final String generated = cbridgeArrayGenerator.generate().get(3).content;
     final String expected =
         "#pragma once\n"
-            + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
-            + "#include \"cbridge_internal/StringHandleImpl.h\"\n"
+            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
+            + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
             + "#include <string>\n"
             + "#include <vector>\n"
             + "inline std::vector<std::vector<std::string>>* get_pointer(arrayCollection_NestedStringArray handle) {\n"
@@ -247,8 +246,8 @@ public class CBridgeArrayTemplateTest {
     cbridgeArrayGenerator.collect(arrays);
     final String generated = cbridgeArrayGenerator.generate().get(1).content;
     final String expected =
-        "#include \"cbridge/ArrayCollection.h\"\n"
-            + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
+        "#include \"cbridge/include/ArrayCollection.h\"\n"
+            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include <vector>\n"
             + "arrayCollection_Enums arrayCollection_Enums_create() {\n"
             + "    return { new std::vector<EnumType>()};;\n"
@@ -302,7 +301,7 @@ public class CBridgeArrayTemplateTest {
     final String generated = cbridgeArrayGenerator.generate().get(3).content;
     final String expected =
         "#pragma once\n"
-            + "#include \"cbridge_internal/ArrayCollectionImpl.h\"\n"
+            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include <vector>\n"
             + "inline std::vector<EnumType>* get_pointer(arrayCollection_Enums handle) {\n"
             + "  return static_cast<std::vector<EnumType>*>(handle.private_pointer);\n"

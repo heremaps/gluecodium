@@ -27,7 +27,8 @@ import org.junit.Test;
 
 public class CppGeneratorTest {
 
-  private static final String OUTPUT_FILE_NAME = "some_fancy.output";
+  private static final String OUTPUT_FILE_NAME_HEADER = "some_fancy_header.output";
+  private static final String OUTPUT_FILE_NAME_IMPL = "some_fancy_impl.output";
 
   private final CppGenerator cppGenerator = new CppGenerator();
 
@@ -43,7 +44,8 @@ public class CppGeneratorTest {
 
   @Test
   public void generateCodeWithNullModel() {
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(null, OUTPUT_FILE_NAME, "");
+    List<GeneratedFile> generatedFiles =
+        cppGenerator.generateCode(null, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
 
     assertTrue(generatedFiles.isEmpty());
   }
@@ -52,14 +54,16 @@ public class CppGeneratorTest {
   public void generateCodeWithEmptyModel() {
     cppModel.members.clear();
 
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
+    List<GeneratedFile> generatedFiles =
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
 
     assertTrue(generatedFiles.isEmpty());
   }
 
   @Test
   public void generateCodeWithNonEmptyModel() {
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
+    List<GeneratedFile> generatedFiles =
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
 
     assertFalse(generatedFiles.isEmpty());
   }
@@ -68,11 +72,11 @@ public class CppGeneratorTest {
   public void generateCodeFiltersOutSelfIncludes() {
     Include nonsenseInclude = Include.createInternalInclude("nonsense");
     Include selfInclude =
-        Include.createInternalInclude(OUTPUT_FILE_NAME + CppNameRules.HEADER_FILE_SUFFIX);
+        Include.createInternalInclude(OUTPUT_FILE_NAME_HEADER + CppNameRules.HEADER_FILE_SUFFIX);
     cppModel.includes.add(nonsenseInclude);
     cppModel.includes.add(selfInclude);
 
-    cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
+    cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
 
     assertTrue(cppModel.includes.contains(nonsenseInclude));
     assertFalse(cppModel.includes.contains(selfInclude));
@@ -80,10 +84,12 @@ public class CppGeneratorTest {
 
   @Test
   public void generateCodeGeneratesHeaderAndImplementationForInstantiableClass() {
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
+    List<GeneratedFile> generatedFiles =
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
 
     assertEquals(2, generatedFiles.size());
-    assertTrue(generatedFiles.get(1).content.contains("#include \"" + OUTPUT_FILE_NAME + ".h\""));
+    assertTrue(
+        generatedFiles.get(1).content.contains("#include \"" + OUTPUT_FILE_NAME_HEADER + ".h\""));
   }
 
   @Test
@@ -91,17 +97,20 @@ public class CppGeneratorTest {
     cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
     cppClass.methods.add(new CppMethod.Builder("non_static_methodical").build());
 
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
+    List<GeneratedFile> generatedFiles =
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
 
     assertEquals(2, generatedFiles.size());
-    assertTrue(generatedFiles.get(1).content.contains("#include \"" + OUTPUT_FILE_NAME + ".h\""));
+    assertTrue(
+        generatedFiles.get(1).content.contains("#include \"" + OUTPUT_FILE_NAME_HEADER + ".h\""));
   }
 
   @Test
   public void generateCodeGeneratesHeaderOnlyForStaticClass() {
     cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
 
-    List<GeneratedFile> generatedFiles = cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME, "");
+    List<GeneratedFile> generatedFiles =
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
 
     assertEquals(1, generatedFiles.size());
   }

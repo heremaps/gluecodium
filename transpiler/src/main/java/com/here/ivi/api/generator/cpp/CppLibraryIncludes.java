@@ -13,8 +13,8 @@ package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.model.common.Include;
 
-public class CppLibraryIncludes {
-
+public final class CppLibraryIncludes {
+  // Standard
   public static final Include INT_TYPES = Include.createSystemInclude("cstdint");
   public static final Include LIMITS = Include.createSystemInclude("limits");
   public static final Include MAP = Include.createSystemInclude("unordered_map");
@@ -22,6 +22,7 @@ public class CppLibraryIncludes {
   public static final Include STRING = Include.createSystemInclude("string");
   public static final Include VECTOR = Include.createSystemInclude("vector");
 
-  public static final Include EXPECTED = Include.createInternalInclude("internal/expected.h");
+  // Custom
+  public static final Include EXPECTED = Include.createInternalInclude("expected.h");
   public static final Include ENUM_HASH = Include.createInternalInclude("enum_hash.h");
 }

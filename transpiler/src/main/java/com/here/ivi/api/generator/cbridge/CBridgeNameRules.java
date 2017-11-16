@@ -14,66 +14,53 @@ package com.here.ivi.api.generator.cbridge;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.franca.DefinedBy;
-import java.nio.file.Paths;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.*;
 
 public final class CBridgeNameRules {
-
   public static final String SOURCE_FOLDER = "cbridge";
   public static final String INTERNAL_SOURCE_FOLDER = "cbridge_internal";
+  public static final String UNDERSCORE_DELIMITER = "_";
 
   private static final String CPP_NAMESPACE_DELIMITER = "::";
-  public static final String UNDERSCORE_DELIMITER = "_";
+  private static final String INCLUDE_DIR = "include";
+  private static final String IMPL_DIR = "src";
+  private static final String PUBLIC_HEADER_SUFFIX = ".h";
+  private static final String PRIVATE_HEADER_SUFFIX = "Impl.h";
+  private static final String IMPL_SUFFIX = ".cpp";
 
   private CBridgeNameRules() {}
 
   public static String getHeaderFileNameWithPath(final FTypeCollection francaTypeCollection) {
-    return Paths.get(
-            getPublicDirectoryName(DefinedBy.getPackages(francaTypeCollection)),
-            getHeaderFileName(getName(francaTypeCollection)))
-        .toString();
+    return getPathComponents(
+        francaTypeCollection, SOURCE_FOLDER, INCLUDE_DIR, PUBLIC_HEADER_SUFFIX);
   }
 
   public static String getPrivateHeaderFileNameWithPath(
       final FTypeCollection francaTypeCollection) {
-    return Paths.get(
-            getPrivateDirectoryName(DefinedBy.getPackages(francaTypeCollection)),
-            getPrivateHeaderFileName(getName(francaTypeCollection)))
-        .toString();
+    return getPathComponents(
+        francaTypeCollection, INTERNAL_SOURCE_FOLDER, INCLUDE_DIR, PRIVATE_HEADER_SUFFIX);
   }
 
   public static String getImplementationFileNameWithPath(
       final FTypeCollection francaTypeCollection) {
-    return Paths.get(
-            getPublicDirectoryName(DefinedBy.getPackages(francaTypeCollection)),
-            getImplementationFileName(getName(francaTypeCollection)))
-        .toString();
+    return getPathComponents(francaTypeCollection, SOURCE_FOLDER, IMPL_DIR, IMPL_SUFFIX);
   }
 
-  private static String getHeaderFileName(final String elementName) {
-    return elementName + ".h";
-  }
-
-  private static String getPrivateHeaderFileName(final String elementName) {
-    return elementName + "Impl.h";
-  }
-
-  private static String getImplementationFileName(final String elementName) {
-    return elementName + ".cpp";
-  }
-
-  private static String getDirectoryName(final List<String> packages, final String rootFolder) {
-    return Paths.get(rootFolder, packages.toArray(new String[packages.size()])).toString();
-  }
-
-  private static String getPublicDirectoryName(final List<String> packages) {
-    return getDirectoryName(packages, SOURCE_FOLDER);
-  }
-
-  private static String getPrivateDirectoryName(final List<String> packages) {
-    return getDirectoryName(packages, INTERNAL_SOURCE_FOLDER);
+  private static String getPathComponents(
+      final FTypeCollection francaTypeCollection,
+      final String prefix,
+      final String subfolder,
+      final String suffix) {
+    ArrayList<String> pathComponents = new ArrayList<>();
+    pathComponents.add(prefix);
+    pathComponents.add(subfolder);
+    pathComponents.addAll(DefinedBy.getPackages(francaTypeCollection));
+    pathComponents.add(getName(francaTypeCollection) + suffix);
+    return String.join(File.separator, pathComponents);
   }
 
   private static String getName(final FTypeCollection francaTypeCollection) {

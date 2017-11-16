@@ -9,8 +9,8 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 
-#include "cbridge/examples/CalculatorListener.h"
-#include "cbridge_internal/examples/CalculatorListenerImpl.h"
+#include "cbridge/include/examples/CalculatorListener.h"
+#include "cbridge_internal/include/examples/CalculatorListenerImpl.h"
 #include "examples/CalculatorListener.h"
 
 #include <memory>

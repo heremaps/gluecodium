@@ -10,8 +10,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "cbridge/StringHandle.h"
-#include "cbridge_internal/StringHandleImpl.h"
+#include "cbridge/include/StringHandle.h"
+#include "cbridge_internal/include/StringHandleImpl.h"
 
 std_stringRef std_string_create(const char* c_str) {
     return { new std::string(c_str) };
