@@ -67,14 +67,6 @@ feature(MethodOverloading cpp android swift SOURCES
     fidl/test/MethodOverloads.fidl
     )
 
-#TODO: merge with MethodOverloading when APIGEN-914 is fixed
-feature(ArrayMethodOverloading cpp swift SOURCES
-    src/test/ArrayMethodOverloads.cpp
-
-    fidl/test/ArrayMethodOverloads.fdepl
-    fidl/test/ArrayMethodOverloads.fidl
-    )
-
 feature(BuiltinTypes cpp android swift SOURCES
     src/hello/HelloWorldBuiltinTypes.cpp
     src/test/StaticBooleanMethods.cpp

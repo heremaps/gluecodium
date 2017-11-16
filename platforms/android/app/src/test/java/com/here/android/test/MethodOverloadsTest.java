@@ -5,6 +5,8 @@ import android.support.compat.BuildConfig;
 
 import com.here.android.RobolectricApplication;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -52,6 +54,28 @@ public final class MethodOverloadsTest {
         MethodOverloads.Point value4 = new MethodOverloads.Point();
 
         boolean result = MethodOverloads.isBoolean(false, (byte) 42, "nonsense", value4);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void isBooleanWithStringArray() {
+        List<String> stringList = new ArrayList<>();
+        stringList.add("nonsense");
+        stringList.add("more nonsense");
+
+        boolean result = MethodOverloads.isBooleanStringArrayOverload(stringList);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void isBooleanWithIntArray() {
+        List<Byte> byteList = new ArrayList<>();
+        byteList.add((byte)42);
+        byteList.add((byte)255);
+
+        boolean result = MethodOverloads.isBooleanIntArrayOverload(byteList);
 
         assertFalse(result);
     }
