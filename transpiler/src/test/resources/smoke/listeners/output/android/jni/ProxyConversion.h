@@ -1,0 +1,14 @@
+#pragma once
+
+
+#include "android/jni/com_here_android_smoke_CalculatorListenerImplCppProxy.h"
+
+
+template<class T>
+inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<T>& result) {
+}
+
+template<>
+inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<::smoke::CalculatorListener>& result) {
+    ::here::internal::CppProxyBase::createProxy<::smoke::CalculatorListener, ::smoke::CalculatorListenerCppProxy>(env, obj, result);
+}
