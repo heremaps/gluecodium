@@ -251,32 +251,6 @@ public class Structs {
         }
     }
 
-    public struct ColoredLineInherited {
-        public var color: Color
-        public init(color: Color) {
-            self.color = color
-        }
-        internal init?(cColoredLineInherited: smoke_Structs_ColoredLineInheritedRef) {
-            do {
-                guard
-                    let colorUnwrapped = Color(cColor: smoke_Structs_ColoredLineInherited_color_get(cColoredLineInherited))
-                else {
-                    return nil
-                }
-                color = colorUnwrapped
-            }
-        }
-        internal func convertToCType() -> smoke_Structs_ColoredLineInheritedRef {
-            let result = smoke_Structs_ColoredLineInherited_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cColoredLineInherited: smoke_Structs_ColoredLineInheritedRef) -> Void {
-            let colorHandle = smoke_Structs_ColoredLineInherited_color_get(cColoredLineInherited)
-            color.fillFunction(colorHandle)
-        }
-    }
-
     public static func createPoint(x: Double, y: Double) -> Point? {
         let cResult = smoke_Structs_createPoint(x, y)
 
@@ -384,18 +358,6 @@ public class Structs {
         }
 
         return AllTypesStruct(cAllTypesStruct: cResult)
-    }
-
-    public static func methodWithInheritedType(input: ColoredLineInherited) -> ColoredLineInherited? {
-        let inputHandle = input.convertToCType()
-        defer {
-            smoke_Structs_ColoredLineInherited_release(inputHandle)
-        }
-        let cResult = smoke_Structs_methodWithInheritedType(inputHandle)
-        defer {
-            smoke_Structs_ColoredLineInherited_release(cResult)
-        }
-        return ColoredLineInherited(cColoredLineInherited: cResult)
     }
 
 }
