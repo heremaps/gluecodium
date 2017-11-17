@@ -62,25 +62,25 @@ convert_to_jni( JNIEnv* env, const int64_t nvalue )
 jobject
 convert_to_jni( JNIEnv* env, const uint8_t nvalue )
 {
-    return box_value_in_object( env, "java/lang/Long", "(J)V", nvalue );
+    return box_uint_in_object( env, nvalue );
 }
 
 jobject
 convert_to_jni( JNIEnv* env, const uint16_t nvalue )
 {
-    return box_value_in_object( env, "java/lang/Long", "(J)V", nvalue );
+    return box_uint_in_object( env, nvalue );
 }
 
 jobject
 convert_to_jni( JNIEnv* env, const uint32_t nvalue )
 {
-    return box_value_in_object( env, "java/lang/Long", "(J)V", nvalue );
+    return box_uint_in_object( env, nvalue );
 }
 
 jobject
 convert_to_jni( JNIEnv* env, const uint64_t nvalue )
 {
-    return box_value_in_object( env, "java/lang/Long", "(J)V", nvalue );
+    return box_uint_in_object( env, nvalue );
 }
 
 void
