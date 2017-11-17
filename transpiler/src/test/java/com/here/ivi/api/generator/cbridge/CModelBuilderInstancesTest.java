@@ -17,13 +17,11 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,7 +68,7 @@ public class CModelBuilderInstancesTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    CFunction interfaceFunction = getResults(CFunction.class).get(0);
+    CFunction interfaceFunction = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(interfaceFunction.selfParameter);
     assertEquals(
         "Instance parameter should not be part of normal parameters",
@@ -91,7 +89,7 @@ public class CModelBuilderInstancesTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    CFunction interfaceFunction = getResults(CFunction.class).get(0);
+    CFunction interfaceFunction = modelBuilder.getFinalResult(CFunction.class);
     assertEquals(
         "Instance function should only take normal parameters",
         1,
@@ -100,9 +98,5 @@ public class CModelBuilderInstancesTest {
         "Instance parameter should be part of signature",
         2,
         interfaceFunction.getSignatureParameters().size());
-  }
-
-  private <T extends CElement> List<T> getResults(Class<T> clazz) {
-    return CollectionsHelper.getAllOfType(contextStack.getCurrentContext().previousResults, clazz);
   }
 }
