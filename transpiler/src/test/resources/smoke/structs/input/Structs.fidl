@@ -57,10 +57,6 @@ interface Structs {
         Point pointField
     }
 
-    struct ColoredLineInherited extends Line {
-        Color color
-    }
-
     method createPoint {
         in {
             Double x
@@ -125,6 +121,18 @@ interface Structs {
         out {
             AllTypesStruct output
         }
+    }
+}
+
+// TODO: can be merged with Structs interface after APIGEN-689
+interface StructsInheritance {
+    version {
+        major 0
+        minor 1
+    }
+
+    struct ColoredLineInherited extends Structs.Line {
+        Color color
     }
 
     method methodWithInheritedType {
