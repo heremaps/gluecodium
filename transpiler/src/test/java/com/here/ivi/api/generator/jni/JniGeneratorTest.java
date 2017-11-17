@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.jni;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -37,6 +38,8 @@ public class JniGeneratorTest {
 
   private static final int MAIN_FILES_COUNT = 2;
   private static final int MAIN_FILES_WITH_INSTANCES_COUNT = 9;
+  private static final String PROXY_HEADER_NAME = "ProxyHeader";
+  private static final String PROXY_IMPLEMENTATION_NAME = "ProxyImplementation";
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
@@ -56,11 +59,46 @@ public class JniGeneratorTest {
     when(JniNameRules.getStructConversionImplementationFileName()).thenReturn("");
     when(JniNameRules.getInstanceConversionHeaderFileName()).thenReturn("");
     when(JniNameRules.getInstanceConversionImplementationFileName()).thenReturn("");
-    when(JniNameRules.getCppProxyHeaderFileName(any())).thenReturn("");
-    when(JniNameRules.getCppProxyImplementationFileName(any())).thenReturn("");
+    when(JniNameRules.getCppProxyHeaderFileName(any())).thenReturn(PROXY_HEADER_NAME);
+    when(JniNameRules.getCppProxyImplementationFileName(any()))
+        .thenReturn(PROXY_IMPLEMENTATION_NAME);
     when(JniNameRules.getProxyConversionHeaderFileName()).thenReturn("");
     when(JniNameRules.getEnumConversionHeaderFileName()).thenReturn("");
     when(JniNameRules.getEnumConversionImplementationFileName()).thenReturn("");
+  }
+
+  @Test
+  public void isInterfaceProxyIsGenerated() {
+    JniContainer instantiableJniContainer =
+        JniContainer.createInterfaceContainer(
+            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy", true);
+    instantiableJniContainer.isInterface = true;
+
+    List<GeneratedFile> files =
+        generator.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
+    assertTrue(
+        "Must generate proxy header file",
+        files.stream().anyMatch(file -> file.targetFile.getName() == PROXY_HEADER_NAME));
+    assertTrue(
+        "Must generate proxy implementation file",
+        files.stream().anyMatch(file -> file.targetFile.getName() == PROXY_IMPLEMENTATION_NAME));
+  }
+
+  @Test
+  public void isNoInterfaceProxyIsNotGenerated() {
+    JniContainer instantiableJniContainer =
+        JniContainer.createInterfaceContainer(
+            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy", true);
+    instantiableJniContainer.isInterface = false;
+
+    List<GeneratedFile> files =
+        generator.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
+    assertFalse(
+        "Must not generate proxy header file",
+        files.stream().anyMatch(file -> file.targetFile.getName() == PROXY_HEADER_NAME));
+    assertFalse(
+        "Must not generate proxy implementation file",
+        files.stream().anyMatch(file -> file.targetFile.getName() == PROXY_IMPLEMENTATION_NAME));
   }
 
   @Test
@@ -86,6 +124,7 @@ public class JniGeneratorTest {
     JniContainer instantiableJniContainer =
         JniContainer.createInterfaceContainer(
             Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy", true);
+    instantiableJniContainer.isInterface = true;
 
     List<GeneratedFile> result =
         generator.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
