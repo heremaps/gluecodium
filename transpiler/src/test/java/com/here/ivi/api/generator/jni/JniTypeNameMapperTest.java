@@ -9,11 +9,10 @@
  *
  */
 
-package com.here.ivi.api.generator.converter;
+package com.here.ivi.api.generator.jni;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.generator.jni.JniTypeNameMapper;
 import com.here.ivi.api.model.javamodel.*;
 import java.util.Arrays;
 import java.util.Collection;
