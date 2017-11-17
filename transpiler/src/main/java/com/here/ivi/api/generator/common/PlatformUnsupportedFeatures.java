@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.common;
 
+import com.here.ivi.api.common.FrancaTypeHelper;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
 
@@ -25,7 +26,7 @@ public final class PlatformUnsupportedFeatures {
     EList<FArgument> outArgs = francaMethod.getOutArgs();
     return hasUnsupportedElements(francaMethod.getInArgs())
         || hasUnsupportedElements(outArgs)
-        || francaMethod.getErrorEnum() != null
+        || FrancaTypeHelper.hasErrorType(francaMethod)
         || (outArgs != null && outArgs.size() > 1);
   }
 

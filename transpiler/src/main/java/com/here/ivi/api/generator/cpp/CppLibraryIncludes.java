@@ -26,4 +26,5 @@ public final class CppLibraryIncludes {
   // Custom
   public static final Include EXPECTED = Include.createInternalInclude("expected.h");
   public static final Include ENUM_HASH = Include.createInternalInclude("enum_hash.h");
+  public static final Include HF_ERROR = Include.createInternalInclude("Error.h");
 }

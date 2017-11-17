@@ -63,8 +63,8 @@ public final class BaseApiGeneratorSuiteTest {
 
     assertNotNull(generatedFiles);
     assertEquals(
-        "The cpp/internal/expected.h and cpp/enum_hash.h files should always be generated",
-        2,
+        "The additional header files should always be generated",
+        BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size(),
         generatedFiles.size());
     assertEquals(generatedFile, generatedFiles.get(0));
   }

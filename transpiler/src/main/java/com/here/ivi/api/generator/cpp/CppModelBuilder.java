@@ -76,10 +76,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             .filter(parameter -> parameter.isOutput)
             .collect(Collectors.toList());
 
-    // TODO: temporary implementation until APIGEN-697
-    FEnumerationType errorEnum = francaMethod.getErrorEnum();
-    CppTypeRef errorType = errorEnum != null ? typeMapper.mapEnum(errorEnum) : null;
-
+    CppTypeRef errorType =
+        FrancaTypeHelper.hasErrorType(francaMethod) ? CppTypeMapper.HF_ERROR_TYPE : null;
     CppTypeRef returnType = mapMethodReturnType(outputParameters, errorType);
     CppMethod cppMethod = buildCppMethod(francaMethod, returnType);
 
