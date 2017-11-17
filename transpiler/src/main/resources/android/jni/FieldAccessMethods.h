@@ -162,11 +162,17 @@ template<typename T> jobject
 box_value_in_object( JNIEnv* env, const char* className, const char* signature, T param )
 {
     auto javaClass = env->FindClass( className );
-    const char* name = "<init>";
-    auto theConstructor = env->GetMethodID( javaClass, name, signature );
+    auto theConstructor = env->GetMethodID( javaClass, "<init>", signature );
     return env->NewObject( javaClass, theConstructor, param );
 }
 
+template<typename T> jobject
+box_uint_in_object( JNIEnv* env, T param )
+{
+    auto javaClass = env->FindClass( "java/lang/Long" );
+    auto theConstructor = env->GetMethodID( javaClass, "<init>", "(J)V" );
+    return env->NewObject( javaClass, theConstructor, static_cast<uint64_t>( param ) );
+}
 
 // -------------------- JNI object field setters --------------------------------------------------
 
