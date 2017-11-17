@@ -38,9 +38,12 @@ import org.franca.core.franca.FTypeCollection;
  * implementation through the C++ interfaces.
  */
 public final class BaseApiGeneratorSuite extends GeneratorSuite {
+
   public static final String GENERATOR_NAME = "cpp";
 
-  private static final String[] ADDITIONAL_HEADERS = {"expected.h", "enum_hash.h"};
+  @VisibleForTesting
+  static final List<String> ADDITIONAL_HEADERS =
+      Arrays.asList("expected.h", "enum_hash.h", "Error.h", "ErrorCode.h");
 
   private CppIncludeResolver includeResolver;
 

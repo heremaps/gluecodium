@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include "Error.h"
+
 namespace smoke {
 
 class Errors {
@@ -26,8 +28,7 @@ enum class InternalError {
 };
 
 public:
-static ::smoke::Errors::InternalError method_with_errors(  );
-
+static ::hf::Error method_with_errors(  );
 };
 
 }

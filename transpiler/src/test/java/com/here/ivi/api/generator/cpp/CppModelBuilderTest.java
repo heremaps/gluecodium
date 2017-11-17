@@ -256,15 +256,23 @@ public class CppModelBuilderTest {
   @Test
   public void finishBuildingFrancaMethodMapsErrorEnum() {
     when(francaMethod.getErrorEnum()).thenReturn(francaEnumerationType);
-    when(typeMapper.mapEnum(any())).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaMethod);
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertEquals(cppComplexTypeRef, resultMethod.returnType);
+    assertEquals(CppTypeMapper.HF_ERROR_TYPE, resultMethod.returnType);
+  }
 
-    verify(typeMapper).mapEnum(francaEnumerationType);
+  @Test
+  public void finishBuildingFrancaMethodMapsErrorType() {
+    when(francaMethod.getErrors()).thenReturn(francaEnumerationType);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
+    assertNotNull(resultMethod);
+    assertEquals(CppTypeMapper.HF_ERROR_TYPE, resultMethod.returnType);
   }
 
   @Test

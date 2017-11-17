@@ -35,18 +35,18 @@ public final class BaseApiGeneratorSuiteIntegrationTest {
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 
     assertNotNull(generatedFiles);
-    assertEquals("Expected cpp/internal files and test generated file", 4, generatedFiles.size());
+    final int expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size() + 2;
+    assertEquals(
+        "Expected cpp/internal files and test generated file",
+        expectedGeneratedFiles,
+        generatedFiles.size());
+    assertFalse(generatedFiles.stream().anyMatch(generatedFile -> generatedFile.content.isEmpty()));
 
-    assertFalse(generatedFiles.get(0).content.isEmpty());
     assertEquals("cpp/include/test/TestInterface.h", generatedFiles.get(0).targetFile.toString());
-
-    assertFalse(generatedFiles.get(1).content.isEmpty());
     assertEquals("cpp/src/test/TestInterface.cpp", generatedFiles.get(1).targetFile.toString());
-
-    assertFalse(generatedFiles.get(2).content.isEmpty());
     assertEquals("cpp/include/expected.h", generatedFiles.get(2).targetFile.toString());
-
-    assertFalse(generatedFiles.get(3).content.isEmpty());
     assertEquals("cpp/include/enum_hash.h", generatedFiles.get(3).targetFile.toString());
+    assertEquals("cpp/include/Error.h", generatedFiles.get(4).targetFile.toString());
+    assertEquals("cpp/include/ErrorCode.h", generatedFiles.get(5).targetFile.toString());
   }
 }

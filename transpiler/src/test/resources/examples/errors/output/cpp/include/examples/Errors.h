@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include "expected.h"
 #include "Error.h"
+#include "expected.h"
 #include <string>
 
 namespace examples {
@@ -32,7 +32,7 @@ enum class InternalErrors {
 
 public:
 static ::hf::Error start_something_or_fail(  );
-static ::here::internal::Expected< ::hf::Error, ::std::string > get_something_or_fail(  );
+static here::internal::Expected< ::hf::Error, ::std::string > get_something_or_fail(  );
 };
 
 }
