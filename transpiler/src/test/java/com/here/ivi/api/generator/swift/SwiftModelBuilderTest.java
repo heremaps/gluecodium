@@ -20,7 +20,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
@@ -29,7 +28,6 @@ import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.test.MockContextStack;
-import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -112,10 +110,10 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    List<SwiftParameter> params = getResults(SwiftParameter.class);
-    assertEquals(1, params.size());
-    assertEquals(PARAM_NAME, params.get(0).variableName);
-    assertSame(swiftType, params.get(0).type);
+    SwiftParameter param = modelBuilder.getFinalResult(SwiftParameter.class);
+    assertNotNull(param);
+    assertEquals(PARAM_NAME, param.variableName);
+    assertSame(swiftType, param.type);
   }
 
   @Test
@@ -166,10 +164,10 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
-    List<SwiftParameter> params = getResults(SwiftParameter.class);
-    assertEquals(1, params.size());
-    assertEquals(PARAM_NAME, params.get(0).variableName);
-    assertSame(swiftType, params.get(0).type);
+    SwiftParameter param = modelBuilder.getFinalResult(SwiftParameter.class);
+    assertNotNull(param);
+    assertEquals(PARAM_NAME, param.variableName);
+    assertSame(swiftType, param.type);
   }
 
   @Test
@@ -178,8 +176,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
-    List<SwiftParameter> params = getResults(SwiftParameter.class);
-    assertTrue(params.get(0).type.optional);
+    SwiftParameter param = modelBuilder.getFinalResult(SwiftParameter.class);
+    assertNotNull(param);
+    assertTrue(param.type.optional);
   }
 
   @Test
@@ -188,18 +187,18 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
-    List<SwiftParameter> params = getResults(SwiftParameter.class);
-    assertTrue(params.get(0).type.optional);
+    SwiftParameter param = modelBuilder.getFinalResult(SwiftParameter.class);
+    assertNotNull(param);
+    assertTrue(param.type.optional);
   }
 
   @Test
   public void finishBuildingMethodReadsName() {
     modelBuilder.finishBuilding(francaMethod);
 
-    List<SwiftMethod> methods = getResults(SwiftMethod.class);
-    assertEquals(1, methods.size());
-    SwiftMethod function = methods.get(0);
-    assertEquals(FUNCTION_NAME, function.name);
+    SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
+    assertNotNull(method);
+    assertEquals(FUNCTION_NAME, method.name);
 
     verifyStatic();
     SwiftNameRules.getMethodName(francaMethod);
@@ -211,10 +210,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    List<SwiftMethod> methods = getResults(SwiftMethod.class);
-    assertEquals(1, methods.size());
-    SwiftMethod function = methods.get(0);
-    assertEquals(FUNCTION_NAME, function.name);
+    SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
+    assertNotNull(method);
+    assertEquals(FUNCTION_NAME, method.name);
   }
 
   @Test
@@ -223,9 +221,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    List<SwiftMethod> methods = getResults(SwiftMethod.class);
-    assertEquals(1, methods.size());
-    assertTrue("Method is marked as static", methods.get(0).isStatic);
+    SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
+    assertNotNull(method);
+    assertTrue("Method is marked as static", method.isStatic);
   }
 
   @Test
@@ -234,20 +232,19 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    List<SwiftMethod> methods = getResults(SwiftMethod.class);
-    assertEquals(1, methods.size());
-    assertFalse("Method is marked as non-static", methods.get(0).isStatic);
+    SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
+    assertNotNull(method);
+    assertFalse("Method is marked as non-static", method.isStatic);
   }
 
   @Test
   public void finishBuildingCreatesMethodWithoutParams() {
     modelBuilder.finishBuilding(francaMethod);
 
-    List<SwiftMethod> methods = getResults(SwiftMethod.class);
-    assertEquals(1, methods.size());
-    SwiftMethod function = methods.get(0);
-    assertEquals(SwiftType.VOID, function.returnType);
-    assertEquals(0, function.parameters.size());
+    SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
+    assertNotNull(method);
+    assertEquals(SwiftType.VOID, method.returnType);
+    assertEquals(0, method.parameters.size());
   }
 
   @Test
@@ -257,9 +254,8 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    List<SwiftMethod> methods = getResults(SwiftMethod.class);
-    assertEquals(1, methods.size());
-    SwiftMethod method = methods.get(0);
+    SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
+    assertNotNull(method);
     assertEquals(1, method.parameters.size());
     assertSame(param, method.parameters.get(0));
   }
@@ -271,9 +267,8 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    List<SwiftMethod> methods = getResults(SwiftMethod.class);
-    assertEquals(1, methods.size());
-    SwiftMethod method = methods.get(0);
+    SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
+    assertNotNull(method);
     assertEquals(1, method.genericParameters.size());
     assertSame(genericParameter, method.genericParameters.get(0));
   }
@@ -287,9 +282,8 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    List<SwiftFile> files = getResults(SwiftFile.class);
-    assertEquals(1, files.size());
-    SwiftFile file = files.get(0);
+    SwiftFile file = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(file);
     assertEquals("There should be no classes inside file", 0, file.classes.size());
     assertEquals("There should be one struct inside file", 1, file.structs.size());
     assertSame(struct, file.structs.get(0));
@@ -304,9 +298,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaExpression);
 
-    List<SwiftValue> values = getResults(SwiftValue.class);
-    assertEquals("Should be on value stored", 1, values.size());
-    assertSame(swiftValue, values.get(0));
+    SwiftValue value = modelBuilder.getFinalResult(SwiftValue.class);
+    assertNotNull("Should be on value stored", value);
+    assertSame(swiftValue, value);
   }
 
   @Test
@@ -315,9 +309,8 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaEnumerator);
 
-    List<SwiftEnumItem> enumItems = getResults(SwiftEnumItem.class);
-    assertEquals("Should be 1 enum item created", 1, enumItems.size());
-    SwiftEnumItem enumItem = enumItems.get(0);
+    SwiftEnumItem enumItem = modelBuilder.getFinalResult(SwiftEnumItem.class);
+    assertNotNull("Should be 1 enum item created", enumItem);
     assertNull("Enum item should have not value set", enumItem.value);
   }
 
@@ -328,9 +321,8 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(enumerator);
 
-    List<SwiftEnumItem> enumItems = getResults(SwiftEnumItem.class);
-    assertEquals("Should be 1 enum item created", 1, enumItems.size());
-    SwiftEnumItem enumItem = enumItems.get(0);
+    SwiftEnumItem enumItem = modelBuilder.getFinalResult(SwiftEnumItem.class);
+    assertNotNull("Should be 1 enum item created", enumItem);
     assertSame(swiftValue, enumItem.value);
   }
 
@@ -343,9 +335,8 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(enumerationType);
 
-    List<SwiftEnum> enums = getResults(SwiftEnum.class);
-    assertEquals("Should be 1 enum created", 1, enums.size());
-    SwiftEnum enumType = enums.get(0);
+    SwiftEnum enumType = modelBuilder.getFinalResult(SwiftEnum.class);
+    assertNotNull("Should be 1 enum created", enumType);
     assertEquals("SWIFT_NAME", enumType.name);
     assertEquals("should be 1 enum item created", 1, enumType.items.size());
     assertSame(
@@ -359,9 +350,9 @@ public class SwiftModelBuilderTest {
     when(SwiftNameRules.getFieldName(eq(FIELD_NAME))).thenReturn("SwiftFieldName");
     modelBuilder.finishBuilding(francaField);
 
-    List<SwiftField> swiftFields = getResults(SwiftField.class);
-    assertEquals("Should be 1 field item created", 1, swiftFields.size());
-    assertEquals("SwiftFieldName", swiftFields.get(0).name);
+    SwiftField swiftField = modelBuilder.getFinalResult(SwiftField.class);
+    assertNotNull("Should be 1 field item created", swiftField);
+    assertEquals("SwiftFieldName", swiftField.name);
   }
 
   @Test
@@ -370,9 +361,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    List<SwiftField> swiftFields = getResults(SwiftField.class);
-    assertEquals("Should be 1 field item created", 1, swiftFields.size());
-    assertSame(swiftType, swiftFields.get(0).type);
+    SwiftField swiftField = modelBuilder.getFinalResult(SwiftField.class);
+    assertNotNull("Should be 1 field item created", swiftField);
+    assertSame(swiftType, swiftField.type);
   }
 
   @Test
@@ -381,9 +372,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    assertTrue(
+    assertNull(
         "Instance typedef should not be added to results",
-        getResults(SwiftTypeDef.class).isEmpty());
+        modelBuilder.getFinalResult(SwiftTypeDef.class));
   }
 
   @Test
@@ -392,9 +383,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    List<SwiftTypeDef> swiftTypeDefs = getResults(SwiftTypeDef.class);
-    assertEquals("Should be 1 field item created", 1, swiftTypeDefs.size());
-    assertEquals("definite", swiftTypeDefs.get(0).name);
+    SwiftTypeDef swiftTypeDef = modelBuilder.getFinalResult(SwiftTypeDef.class);
+    assertNotNull("Should be 1 field item created", swiftTypeDef);
+    assertEquals("definite", swiftTypeDef.name);
   }
 
   @Test
@@ -403,9 +394,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeDef);
 
-    List<SwiftTypeDef> swiftTypeDefs = getResults(SwiftTypeDef.class);
-    assertEquals("Should be 1 field item created", 1, swiftTypeDefs.size());
-    assertSame(swiftType, swiftTypeDefs.get(0).type);
+    SwiftTypeDef swiftTypeDef = modelBuilder.getFinalResult(SwiftTypeDef.class);
+    assertNotNull("Should be 1 field item created", swiftTypeDef);
+    assertSame(swiftType, swiftTypeDef.type);
   }
 
   @Test
@@ -415,9 +406,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeRef);
 
-    List<SwiftType> swiftTypes = getResults(SwiftType.class);
-    assertEquals("Should be 1 type item created", 1, swiftTypes.size());
-    assertSame(swiftType, swiftTypes.get(0));
+    SwiftType resultType = modelBuilder.getFinalResult(SwiftType.class);
+    assertNotNull("Should be 1 type item created", resultType);
+    assertSame(swiftType, resultType);
     PowerMockito.verifyStatic();
     SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
   }
@@ -431,9 +422,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeRef);
 
-    List<SwiftType> swiftTypes = getResults(SwiftType.class);
-    assertEquals("Should be 1 type item created", 1, swiftTypes.size());
-    assertSame(swiftType, swiftTypes.get(0));
+    SwiftType resultType = modelBuilder.getFinalResult(SwiftType.class);
+    assertNotNull("Should be 1 type item created", resultType);
+    assertSame(swiftType, resultType);
     PowerMockito.verifyStatic();
     SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
   }
@@ -447,21 +438,23 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeRef);
 
-    List<SwiftType> swiftTypes = getResults(SwiftType.class);
-    assertEquals("Should be 1 type item created", 1, swiftTypes.size());
-    assertEquals(swiftType.name, swiftTypes.get(0).name);
-    assertEquals(swiftType.implementingClass, swiftTypes.get(0).implementingClass);
+    SwiftType resultType = modelBuilder.getFinalResult(SwiftType.class);
+    assertNotNull("Should be 1 type item created", resultType);
+    assertEquals(swiftType.name, resultType.name);
+    assertEquals(swiftType.implementingClass, resultType.implementingClass);
     PowerMockito.verifyStatic();
     SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
   }
 
   @Test
   public void finishBuildingCreatesWritableAttribute() {
-    prepareAttributeForTest();
+    contextStack.injectResult(swiftType);
+    when(SwiftNameRules.getPropertyName(any())).thenReturn(ATTRIBUTE_NAME);
 
     modelBuilder.finishBuilding(francaAttribute);
 
-    SwiftProperty property = verifyAndGetProperty();
+    SwiftProperty property = modelBuilder.getFinalResult(SwiftProperty.class);
+    assertNotNull("Should be one property created", property);
     assertSame(swiftType, property.type);
     assertEquals(ATTRIBUTE_NAME, property.name);
     assertFalse(property.readonly);
@@ -469,12 +462,14 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesReadonlyAttribute() {
-    prepareAttributeForTest();
+    contextStack.injectResult(swiftType);
+    when(SwiftNameRules.getPropertyName(any())).thenReturn(ATTRIBUTE_NAME);
     when(francaAttribute.isReadonly()).thenReturn(true);
 
     modelBuilder.finishBuilding(francaAttribute);
 
-    SwiftProperty property = verifyAndGetProperty();
+    SwiftProperty property = modelBuilder.getFinalResult(SwiftProperty.class);
+    assertNotNull("Should be one property created", property);
     assertTrue(property.readonly);
   }
 
@@ -485,20 +480,5 @@ public class SwiftModelBuilderTest {
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     assertFalse(SwiftType.STRING.optional);
-  }
-
-  private void prepareAttributeForTest() {
-    contextStack.injectResult(swiftType);
-    when(SwiftNameRules.getPropertyName(any())).thenReturn(ATTRIBUTE_NAME);
-  }
-
-  private SwiftProperty verifyAndGetProperty() {
-    List<SwiftProperty> properties = getResults(SwiftProperty.class);
-    assertEquals("Should be one property created", 1, properties.size());
-    return properties.get(0);
-  }
-
-  private <T extends SwiftModelElement> List<T> getResults(Class<T> clazz) {
-    return CollectionsHelper.getAllOfType(contextStack.getParentContext().previousResults, clazz);
   }
 }

@@ -47,7 +47,7 @@ import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftProperty;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.test.MockContextStack;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -149,15 +149,15 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
-    List<CParameter> params = getResults(CParameter.class);
+    CInParameter param = modelBuilder.getFinalResult(CInParameter.class);
 
-    assertEquals(1, params.size());
-    assertEquals(francaArgument.getName(), params.get(0).name);
-    assertEquals(2, params.get(0).getSignatureParameters().size());
+    assertNotNull(param);
+    assertEquals(francaArgument.getName(), param.name);
+    assertEquals(2, param.getSignatureParameters().size());
     for (int i = 0; i < 2; i++) {
-      CParameter.SimpleParameter param = params.get(0).getSignatureParameters().get(i);
-      assertEquals(PARAM_NAME + cppTypeInfo.paramSuffixes.get(i), param.name);
-      assertEquals(cppTypeInfo.cTypesNeededByConstructor.get(i), param.type);
+      CParameter.SimpleParameter simpleParameter = param.getSignatureParameters().get(i);
+      assertEquals(PARAM_NAME + cppTypeInfo.paramSuffixes.get(i), simpleParameter.name);
+      assertEquals(cppTypeInfo.cTypesNeededByConstructor.get(i), simpleParameter.type);
     }
   }
 
@@ -167,9 +167,8 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
-    List<COutParameter> params = getResults(COutParameter.class);
-    assertEquals(1, params.size());
-    COutParameter param = params.get(0);
+    COutParameter param = modelBuilder.getFinalResult(COutParameter.class);
+    assertNotNull(param);
 
     assertEquals("result", param.name);
     assertSame(cppTypeInfo, param.mappedType);
@@ -178,22 +177,22 @@ public class CModelBuilderTest {
   @Test
   public void finishBuildingMethodProcessInstanceMethods() {
     when(deploymentModel.isStatic(any())).thenReturn(false);
-
     // Insert instance type from startBuilding(FInterface);
     contextStack.getParentContext().currentResults.add(new CClassType(new CppTypeInfo(CType.VOID)));
+
     modelBuilder.finishBuilding(francaMethod);
 
-    assertEquals(
-        "We should be able to process Instance methods.", 1, getResults(CFunction.class).size());
+    assertNotNull(
+        "Should be able to process Instance methods.",
+        modelBuilder.getFinalResult(CFunction.class));
   }
 
   @Test
   public void finishBuildingCreatesMethodWithoutParams() {
     modelBuilder.finishBuilding(francaMethod);
 
-    List<CFunction> functions = getResults(CFunction.class);
-    assertEquals(1, functions.size());
-    CFunction function = functions.get(0);
+    CFunction function = modelBuilder.getFinalResult(CFunction.class);
+    assertNotNull(function);
     assertEquals(CType.VOID, function.returnType.functionReturnType);
     assertEquals(0, function.parameters.size());
     assertEquals(FULL_FUNCTION_NAME, function.name);
@@ -207,9 +206,8 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaMethod);
 
-    List<CFunction> functions = getResults(CFunction.class);
-    assertEquals(1, functions.size());
-    CFunction function = functions.get(0);
+    CFunction function = modelBuilder.getFinalResult(CFunction.class);
+    assertNotNull(function);
     assertEquals(CType.VOID, function.returnType.functionReturnType);
     assertEquals(FULL_FUNCTION_NAME, function.name);
     assertEquals(DELEGATE_NAME, function.delegateCall);
@@ -224,24 +222,21 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    assertCorrectCInterfaceCreation(function);
+    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
+    assertNotNull(iface);
+    assertEquals(1, iface.functions.size());
+    assertSame(function, iface.functions.get(0));
   }
 
   @Test
   public void finishBuildingCreatesCInterfaceForFTypeCollection() {
-
     CFunction function = CFunction.builder("SomeName").build();
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    assertCorrectCInterfaceCreation(function);
-  }
-
-  private void assertCorrectCInterfaceCreation(CFunction function) {
-    List<CInterface> interfaces = getResults(CInterface.class);
-    assertEquals(1, interfaces.size());
-    CInterface iface = interfaces.get(0);
+    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
+    assertNotNull(iface);
     assertEquals(1, iface.functions.size());
     assertSame(function, iface.functions.get(0));
   }
@@ -253,7 +248,11 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    assertCorrectIncludes(0, 1, 0);
+    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
+    assertNotNull(iface);
+    assertEquals(0, iface.headerIncludes.size());
+    assertEquals(1, iface.implementationIncludes.size());
+    assertEquals(0, iface.privateHeaderIncludes.size());
   }
 
   @Test
@@ -267,17 +266,11 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    assertCorrectIncludes(0, 2, 0);
-  }
-
-  private void assertCorrectIncludes(
-      int expectedHederIncludes,
-      int expectedImplementationIncludes,
-      int expectedPrivateHeaderIncludes) {
-    CInterface iface = getResults(CInterface.class).get(0);
-    assertEquals(expectedHederIncludes, iface.headerIncludes.size());
-    assertEquals(expectedImplementationIncludes, iface.implementationIncludes.size());
-    assertEquals(expectedPrivateHeaderIncludes, iface.privateHeaderIncludes.size());
+    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
+    assertNotNull(iface);
+    assertEquals(0, iface.headerIncludes.size());
+    assertEquals(2, iface.implementationIncludes.size());
+    assertEquals(0, iface.privateHeaderIncludes.size());
   }
 
   @Test
@@ -287,9 +280,8 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    List<CStruct> structs = getResults(CStruct.class);
-    assertEquals(1, structs.size());
-    CStruct cStruct = structs.get(0);
+    CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
+    assertNotNull(cStruct);
     assertEquals("There should be 2 fields in struct", 2, cStruct.fields.size());
     assertEquals("SwiftName1", cStruct.fields.get(0).name);
     assertEquals("CppName1", cStruct.fields.get(0).baseLayerName);
@@ -300,9 +292,8 @@ public class CModelBuilderTest {
   public void finishBuildingStructCreatesStructWithProperName() {
     modelBuilder.finishBuilding(francaStruct);
 
-    List<CStruct> structs = getResults(CStruct.class);
-    assertEquals(1, structs.size());
-    CStruct cStruct = structs.get(0);
+    CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
+    assertNotNull(cStruct);
     assertEquals(STRUCT_REF_NAME, cStruct.name);
   }
 
@@ -313,13 +304,13 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaInterface);
 
-    List<CInterface> interfaces = getResults(CInterface.class);
-    assertEquals(1, interfaces.size());
+    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
+    assertNotNull(iface);
     assertEquals(
         "There should be 1 struct typedefs (structRef and function table)",
         1,
-        interfaces.get(0).structs.size());
-    assertSame(struct, interfaces.get(0).structs.get(0));
+        iface.structs.size());
+    assertSame(struct, iface.structs.get(0));
   }
 
   @Test
@@ -329,11 +320,10 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeCollection);
 
-    List<CInterface> interfaces = getResults(CInterface.class);
-    assertEquals(1, interfaces.size());
-    assertEquals(
-        "There should be 1 struct typedefs (structRef)", 1, interfaces.get(0).structs.size());
-    assertSame(struct, interfaces.get(0).structs.get(0));
+    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
+    assertNotNull(iface);
+    assertEquals("There should be 1 struct typedefs (structRef)", 1, iface.structs.size());
+    assertSame(struct, iface.structs.get(0));
   }
 
   @Test
@@ -344,10 +334,10 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    List<CField> fields = getResults(CField.class);
-    assertEquals(1, fields.size());
-    assertEquals(SWIFT_FIELD_NAME, fields.get(0).name);
-    assertEquals(CPP_FIELD_NAME, fields.get(0).baseLayerName);
+    CField field = modelBuilder.getFinalResult(CField.class);
+    assertNotNull(field);
+    assertEquals(SWIFT_FIELD_NAME, field.name);
+    assertEquals(CPP_FIELD_NAME, field.baseLayerName);
   }
 
   @Test
@@ -359,9 +349,9 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    List<CField> fields = getResults(CField.class);
-    assertEquals(1, fields.size());
-    assertEquals(cppTypeInfo, fields.get(0).type);
+    CField field = modelBuilder.getFinalResult(CField.class);
+    assertNotNull(field);
+    assertEquals(cppTypeInfo, field.type);
   }
 
   @Test
@@ -370,8 +360,8 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
-    List<CEnum> enums = getResults(CEnum.class);
-    assertEquals("Should be 1 enum created", 1, enums.size());
+    CEnum anEnum = modelBuilder.getFinalResult(CEnum.class);
+    assertNotNull("Should be 1 enum created", anEnum);
   }
 
   @Test
@@ -380,9 +370,9 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaTypeRef);
 
-    List<CppTypeInfo> typeInfos = getResults(CppTypeInfo.class);
-    assertEquals("Should be 1 CppTypeInfo created", 1, typeInfos.size());
-    assertSame(cppTypeInfo, typeInfos.get(0));
+    CppTypeInfo typeInfo = modelBuilder.getFinalResult(CppTypeInfo.class);
+    assertNotNull("Should be 1 CppTypeInfo created", typeInfo);
+    assertSame(cppTypeInfo, typeInfo);
   }
 
   @Test
@@ -396,7 +386,8 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaAttribute);
 
-    List<CFunction> functions = getResults(CFunction.class);
+    List<CFunction> functions =
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CFunction.class);
     assertEquals("There should be getter and setter", 2, functions.size());
     verifyAttributeGetter(classTypeInfo, functions.get(0));
     verifyAttributeSetter(classTypeInfo, functions.get(1));
@@ -412,7 +403,8 @@ public class CModelBuilderTest {
 
     modelBuilder.finishBuilding(francaAttribute);
 
-    List<CFunction> functions = getResults(CFunction.class);
+    List<CFunction> functions =
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CFunction.class);
     assertEquals("There should be only getter", 1, functions.size());
     verifyAttributeGetter(classTypeInfo, functions.get(0));
   }
@@ -425,10 +417,10 @@ public class CModelBuilderTest {
     when(CArrayMapper.create(any(), any())).thenReturn(arrayType);
 
     modelBuilder.finishBuilding(francaArray);
-    List<CArray> arrays = new ArrayList(modelBuilder.arraysCollector.values());
+
+    Collection<CArray> arrays = modelBuilder.arraysCollector.values();
     assertEquals("There should one array", 1, arrays.size());
-    CArray array = arrays.get(0);
-    assertEquals("ArrayTest", array.name);
+    assertEquals("ArrayTest", arrays.iterator().next().name);
   }
 
   @Test
@@ -439,10 +431,10 @@ public class CModelBuilderTest {
     when(CTypeMapper.mapType(any(), any())).thenReturn(arrayType);
 
     modelBuilder.finishBuilding(francaTypeRef);
-    List<CArray> arrays = new ArrayList(modelBuilder.arraysCollector.values());
+
+    Collection<CArray> arrays = modelBuilder.arraysCollector.values();
     assertEquals("There should one array", 1, arrays.size());
-    CArray array = arrays.get(0);
-    assertEquals("ArrayTest", array.name);
+    assertEquals("ArrayTest", arrays.iterator().next().name);
   }
 
   private void prepareTestForAttributes(CppTypeInfo classTypeInfo, List<CppElement> cppMethods) {
@@ -477,9 +469,5 @@ public class CModelBuilderTest {
         "Getter should have only one parameter, instance but not included here",
         0,
         cGetter.parameters.size());
-  }
-
-  private <T extends CElement> List<T> getResults(Class<T> clazz) {
-    return CollectionsHelper.getAllOfType(contextStack.getParentContext().previousResults, clazz);
   }
 }
