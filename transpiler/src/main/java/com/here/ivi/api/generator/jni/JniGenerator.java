@@ -229,7 +229,7 @@ public class JniGenerator extends AbstractAndroidGenerator {
 
   private static boolean isListener(final JniContainer jniContainer) {
 
-    return jniContainer.isInstantiable
+    return jniContainer.isInterface
         && jniContainer.methods.stream().allMatch(method -> method.returnType == null);
   }
 
