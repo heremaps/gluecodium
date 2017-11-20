@@ -233,6 +233,12 @@ feature(Arrays cpp android swift SOURCES
     fidl/test/ArraysByteBuffer.fidl
     )
 
+#TODO: enable for cpp, android and swift (APIGEN-697, APIGEN-698, APIGEN-702, APIGEN-704)
+feature(Errors SOURCES
+    fidl/hello/HelloWorldErrors.fidl
+    fidl/hello/HelloWorldErrors.fdepl
+    )
+
 feature(Unsupported cpp android swift SOURCES
     fidl/hello/UnsupportedFeatures.fidl
     )
