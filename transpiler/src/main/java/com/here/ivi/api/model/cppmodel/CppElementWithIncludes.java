@@ -21,11 +21,20 @@ public abstract class CppElementWithIncludes extends CppElement {
   public final Set<Include> includes;
 
   public CppElementWithIncludes(final String name) {
-    this(name, null);
+    this(name, name, null);
+  }
+
+  protected CppElementWithIncludes(final String name, final String fullyQualifiedName) {
+    this(name, fullyQualifiedName, null);
   }
 
   public CppElementWithIncludes(final String name, final Collection<Include> includes) {
-    super(name);
+    this(name, name, includes);
+  }
+
+  private CppElementWithIncludes(
+      final String name, final String fullyQualifiedName, final Collection<Include> includes) {
+    super(name, fullyQualifiedName);
     this.includes = includes != null ? new LinkedHashSet<>(includes) : new LinkedHashSet<>();
   }
 }

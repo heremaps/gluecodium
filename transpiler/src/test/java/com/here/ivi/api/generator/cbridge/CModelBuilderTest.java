@@ -126,12 +126,12 @@ public class CModelBuilderTest {
     when(CBridgeNameRules.getStructRefType(any())).thenReturn(STRUCT_REF_NAME);
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
     when(CBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
+    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(CppMethod.builder().build());
 
     when(CppTypeInfo.createCustomTypeInfo(any(), any(), any())).thenReturn(typeInfo);
 
     when(deploymentModel.isStatic(any())).thenReturn(true);
     when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
-    when(CBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
 
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
@@ -189,6 +189,8 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesMethodWithoutParams() {
+    CppMethod cppMethod = CppMethod.builder().fullyQualifiedName(DELEGATE_NAME).build();
+    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(cppMethod);
     modelBuilder.finishBuilding(francaMethod);
 
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
@@ -201,6 +203,8 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesMethodWithParam() {
+    CppMethod cppMethod = CppMethod.builder().fullyQualifiedName(DELEGATE_NAME).build();
+    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(cppMethod);
     CInParameter param = new CInParameter(PARAM_NAME, new CppTypeInfo(CType.DOUBLE));
     contextStack.injectResult(param);
 

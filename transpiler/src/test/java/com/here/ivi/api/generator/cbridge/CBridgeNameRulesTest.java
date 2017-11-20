@@ -147,20 +147,6 @@ public final class CBridgeNameRulesTest {
   }
 
   @Test
-  public void getDelegateNameReturnsCorrectValue() {
-    List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
-    packagesWithInterface.add(INTERFACE_NAME);
-    when(CppNameRules.getNestedNameSpecifier(any())).thenReturn(packagesWithInterface);
-    when(CppNameRules.getMethodName(any())).thenReturn(METHOD_NAME);
-
-    String expected = prependNameWithPackageAndInterface(METHOD_NAME, "::");
-
-    String actual = CBridgeNameRules.getDelegateMethodName(francaMethod);
-
-    assertEquals(expected, actual);
-  }
-
-  @Test
   public void getBaseApiStructNameReturnsCorrectValue() {
     List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
     packagesWithInterface.add(INTERFACE_NAME);

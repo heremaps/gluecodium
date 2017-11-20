@@ -21,6 +21,7 @@ import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cmodel.*;
+import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -34,7 +35,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest(CBridgeNameRules.class)
 public class CModelBuilderInstancesTest {
   private static final String FULL_FUNCTION_NAME = "FULL_FUNCTION_NAME";
-  private static final String DELEGATE_NAME = "DELEGATE_NAME";
   private static final String PARAM_NAME = "inputParam";
 
   @Mock private FrancaDeploymentModel deploymentModel;
@@ -54,7 +54,7 @@ public class CModelBuilderInstancesTest {
     initMocks(this);
 
     when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
-    when(CBridgeNameRules.getDelegateMethodName(any())).thenReturn(DELEGATE_NAME);
+    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(CppMethod.builder().build());
 
     modelBuilder =
         new CModelBuilder(

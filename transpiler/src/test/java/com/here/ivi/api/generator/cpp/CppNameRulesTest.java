@@ -11,6 +11,8 @@
 
 package com.here.ivi.api.generator.cpp;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -19,7 +21,6 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.rules.InstanceRules;
-import java.util.Arrays;
 import java.util.List;
 import org.franca.core.franca.FCompoundType;
 import org.franca.core.franca.FConstantDef;
@@ -74,7 +75,7 @@ public class CppNameRulesTest {
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
 
     //assert
-    assertEquals(Arrays.asList("my", "fancy", "package", "Iface"), qualifier);
+    assertEquals(asList("my", "fancy", "package", "Iface"), qualifier);
   }
 
   @Test
@@ -87,7 +88,7 @@ public class CppNameRulesTest {
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
 
     //assert
-    assertEquals(Arrays.asList("my", "fancy", "package"), qualifier);
+    assertEquals(asList("my", "fancy", "package"), qualifier);
   }
 
   @Test
@@ -194,5 +195,11 @@ public class CppNameRulesTest {
 
     PowerMockito.verifyStatic(times(1));
     NameHelper.toUpperSnakeCase(any());
+  }
+
+  @Test
+  public void getFullyQualifiedNameFromNamespaceParts() {
+    assertEquals("::NAME", CppNameRules.getFullyQualifiedName(emptyList(), "NAME"));
+    assertEquals("::A::B::NAME", CppNameRules.getFullyQualifiedName(asList("A", "B"), "NAME"));
   }
 }

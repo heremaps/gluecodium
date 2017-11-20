@@ -143,7 +143,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
                 "void cbridge_test_TestInterface_functionName() {\n"
-                    + "    return cbridge::test::TestInterface::function_name();\n"
+                    + "    return ::cbridge::test::TestInterface::function_name();\n"
                     + "}\n")
             .build();
 
@@ -183,7 +183,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
                 "void cbridge_test_TestInterface_functionName(const char* input) {\n"
-                    + "    return cbridge::test::TestInterface::function_name(std::string(input));\n"
+                    + "    return ::cbridge::test::TestInterface::function_name(std::string(input));\n"
                     + "}\n")
             .build();
 
@@ -300,7 +300,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
         TemplateComparator.expect(STD_STRING_INCLUDE)
             .expect(
                 "std_stringRef cbridge_test_TestInterface_functionName(const char* input) {\n"
-                    + "    return {new std::string(cbridge::test::TestInterface::function_name(std::string(input)))};\n"
+                    + "    return {new std::string(::cbridge::test::TestInterface::function_name(std::string(input)))};\n"
                     + "}\n")
             .build();
 
@@ -327,7 +327,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
         TemplateComparator.expect(STD_VECTOR_INCLUDE)
             .expect(
                 "void cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {\n"
-                    + "    return cbridge::test::TestInterface::function_name(std::vector<uint8_t>(input_ptr, input_ptr + input_size));\n"
+                    + "    return ::cbridge::test::TestInterface::function_name(std::vector<uint8_t>(input_ptr, input_ptr + input_size));\n"
                     + "}\n")
             .build();
 
@@ -372,11 +372,11 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
                 "void cbridge_test_TestInterface_functionName_one(const char* input) {\n"
-                    + "    return cbridge::test::TestInterface::function_name(std::string(input));\n"
+                    + "    return ::cbridge::test::TestInterface::function_name(std::string(input));\n"
                     + "}\n")
             .expect(
                 "void cbridge_test_TestInterface_functionName_other(bool input) {\n"
-                    + "    return cbridge::test::TestInterface::function_name(input);\n"
+                    + "    return ::cbridge::test::TestInterface::function_name(input);\n"
                     + "}\n")
             .build();
 
@@ -408,7 +408,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
         TemplateComparator.expect(STD_VECTOR_INCLUDE)
             .expect(
                 "byteArrayRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {\n"
-                    + "    return {new std::vector<uint8_t>(cbridge::test::TestInterface::function_name(std::vector<uint8_t>(input_ptr, input_ptr + input_size)))};\n"
+                    + "    return {new std::vector<uint8_t>(::cbridge::test::TestInterface::function_name(std::vector<uint8_t>(input_ptr, input_ptr + input_size)))};\n"
                     + "}\n")
             .build();
 
@@ -438,7 +438,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
                 "bool cbridge_test_TestInterface_functionName(bool input) {\n"
-                    + "    return cbridge::test::TestInterface::function_name(input);\n"
+                    + "    return ::cbridge::test::TestInterface::function_name(input);\n"
                     + "}\n")
             .build();
 
@@ -579,7 +579,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
                 "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_functionName(cbridge_test_TestTypeCollection_TestEnum input) {\n"
-                    + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(cbridge::test::TestInterface::function_name(static_cast<cbridge::test::TestEnum>(input)));\n"
+                    + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(::cbridge::test::TestInterface::function_name(static_cast<cbridge::test::TestEnum>(input)));\n"
                     + "}\n")
             .build();
 
