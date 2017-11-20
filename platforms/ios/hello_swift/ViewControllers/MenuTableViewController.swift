@@ -19,7 +19,8 @@ class MenuTableViewController: UITableViewController {
                       ("Enums", "Enums"),
                       ("Typedefs", "Typedefs"),
                       ("Attributes", "Attributes"),
-                      ("Arrays", "Arrays")]
+                      ("Arrays", "Arrays"),
+                      ("Listeners", "Listeners")]
 
     @IBOutlet weak var versionLabel: UILabel! {
         willSet { newValue.text = versionMessage }
@@ -38,7 +39,7 @@ class MenuTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? Cell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? MainMenuCell else {
             fatalError("Cell can not be created. Review your cells identifier")
         }
         cell.configure(title: dataSource[indexPath.row].0)
