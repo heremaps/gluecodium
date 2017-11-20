@@ -83,7 +83,7 @@ public final class TemplateComparator {
 
     if (!unmatchedExpectedBlocks.isEmpty()) {
       Assert.assertEquals(
-          UNMATCHED_HEADER + String.join(UNMATCHED_BLOCK_SEPARATOR, expectedBlocks),
+          UNMATCHED_HEADER + String.join(UNMATCHED_BLOCK_SEPARATOR, unmatchedExpectedBlocks),
           UNMATCHED_HEADER + String.join(UNMATCHED_BLOCK_SEPARATOR, actualSplits));
     }
 
