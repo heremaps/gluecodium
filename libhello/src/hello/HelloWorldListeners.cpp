@@ -33,15 +33,26 @@ do_calculate( const ::hello::Calculator::Position& fromPosition,
 
     return euclideanDistance;
 }
+
+static int get_instance_id() {
+    static int id = 0;
+    return ++id;
+}
 }
 
 namespace hello
 {
+
+HelloCalculatorListener::HelloCalculatorListener()
+    : m_instance_id(get_instance_id())
+{
+}
+
 void
 HelloCalculatorListener::on_calculation_result( const double calculation_result )
 {
     std::stringstream log_stream;
-    log_stream << __PRETTY_FUNCTION__ << " called with result = " << calculation_result << std::endl;
+    log_stream << "C++ listener " << m_instance_id << " synchronous: " << calculation_result << std::endl;
     HelloWorldStaticLogger::append(log_stream.str());
 }
 
@@ -49,7 +60,7 @@ void
 HelloCalculatorListener::on_calculation_in_background_result( const double calculation_result )
 {
     std::stringstream log_stream;
-    log_stream << __PRETTY_FUNCTION__ << " called with result = " << calculation_result << std::endl;
+    log_stream << "C++ listener " << m_instance_id << " background: " << calculation_result << std::endl;
     HelloWorldStaticLogger::append(log_stream.str());
 }
 

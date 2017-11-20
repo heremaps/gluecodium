@@ -22,7 +22,7 @@ namespace hello
 class HelloCalculatorListener : public CalculatorListener
 {
 public:
-    HelloCalculatorListener( ) = default;
+    HelloCalculatorListener( );
     ~HelloCalculatorListener( ) = default;
 
 public:
@@ -36,6 +36,9 @@ public:
      * is done
      */
     void on_calculation_in_background_result( const double calculation_result ) override;
+
+private:
+    int m_instance_id;
 };
 
 class HelloCalculator : public Calculator
