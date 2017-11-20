@@ -11,6 +11,8 @@
 
 package com.here.ivi.api.test;
 
+import org.hamcrest.core.IsNot;
+import org.hamcrest.core.StringContains;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -120,5 +122,26 @@ public final class TemplateComparatorTest {
   @Test
   public void multipleIgnoredLinesAreIgnored() {
     TemplateComparator.expect("block 1").build().assertMatches("\nignored 1\n\nignored 2\nblock 1");
+  }
+
+  @Test
+  public void unmatchedBlocksAreContainedInErrorMessage() {
+    thrown.expect(AssertionError.class);
+    thrown.expectMessage("block 2");
+    thrown.expectMessage("block 3");
+    TemplateComparator.expect("block 1\n")
+        .expect("block 2\n")
+        .build()
+        .assertMatches("block 1\nblock 3\n");
+  }
+
+  @Test
+  public void matchedBlocksAreNotContainedInErrorMessage() {
+    thrown.expect(AssertionError.class);
+    thrown.expectMessage(IsNot.not(new StringContains("block 1")));
+    TemplateComparator.expect("block 1\n")
+        .expect("block 2\n")
+        .build()
+        .assertMatches("block 1\nblock 3\n");
   }
 }
