@@ -1,0 +1,83 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package hello
+
+interface HelloWorldErrors {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    enumeration InternalErrors {
+        NONE
+        CRASHED
+        EXPLODED
+    }
+
+    <** @description:
+    Example static method with an error enum that raises "CRASHED" error if errorFlag is true
+    **>
+    method helloWorldMethodWithError {
+        in {
+            Boolean errorFlag
+        }
+        error InternalErrors
+    }
+
+    <** @description:
+    Example static method with an error enum which returns a String and raises "CRASHED" error if
+    errorFlag is true
+    **>
+    method helloWorldMethodWithErrorAndString {
+        in {
+            Boolean errorFlag
+        }
+        out {
+            <** @description: Output string **>
+            String outputString
+        }
+        error InternalErrors
+    }
+
+    <** @description:
+    Example static method with an inline error enum that raises "UNKNOWN_ERROR" error if errorFlag
+    is true
+    **>
+    method helloWorldMethodWithInlineError {
+        in {
+            Boolean errorFlag
+        }
+        error {
+            NONE
+            UNKNOWN_ERROR
+        }
+    }
+
+    <** @description:
+    Example static method with an inline error enum which returns a String that raises
+    "UNKNOWN_ERROR" error if errorFlag is true
+    **>
+    method helloWorldMethodWithInlineErrorAndString {
+        in {
+            Boolean errorFlag
+        }
+        out {
+            <** @description: Output string **>
+            String outputString
+        }
+        error {
+            NONE
+            UNKNOWN_ERROR
+        }
+    }
+}
