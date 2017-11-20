@@ -62,7 +62,7 @@ public final class CppNameRules {
     return result;
   }
 
-  private static String getFullyQualifiedName(List<String> nestedNameSpecifier, String name) {
+  public static String getFullyQualifiedName(List<String> nestedNameSpecifier, String name) {
     return nestedNameSpecifier.isEmpty()
         ? "::" + name
         : "::" + String.join("::", nestedNameSpecifier) + (name.isEmpty() ? "" : "::" + name);

@@ -75,13 +75,6 @@ public final class CBridgeNameRules {
     return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaInterface));
   }
 
-  public static String getDelegateMethodName(final FMethod method) {
-    return fullyQualifiedName(
-        CppNameRules.getNestedNameSpecifier(method),
-        CppNameRules.getMethodName(method.getName()),
-        CPP_NAMESPACE_DELIMITER);
-  }
-
   public static String getMethodName(final FMethod method) {
     List<String> nestedNameSpecifier = getNestedNameSpecifier(method);
     nestedNameSpecifier.add(NameHelper.toLowerCamelCase(method.getName()));

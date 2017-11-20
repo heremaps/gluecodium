@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cpp;
 
+import static java.util.Collections.emptyList;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -128,6 +129,10 @@ public class CppModelBuilderTest {
     when(CppCommentParser.parse(any(FMethod.class)))
         .thenReturn(new AbstractFrancaCommentParser.Comments());
 
+    PowerMockito.stub(
+            PowerMockito.method(CppNameRules.class, "getNestedNameSpecifier", FModelElement.class))
+        .toReturn(emptyList());
+
     PowerMockito.stub(PowerMockito.method(CppNameRules.class, "getFullyQualifiedName", FType.class))
         .toReturn(FULLY_QUALIFIED_NAME);
 
@@ -195,12 +200,18 @@ public class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaMethodReadsName() {
+  public void finishBuildingFrancaMethodReadsNames() {
+    PowerMockito.stub(
+            PowerMockito.method(
+                CppNameRules.class, "getFullyQualifiedName", List.class, String.class))
+        .toReturn(FULLY_QUALIFIED_NAME);
+
     modelBuilder.finishBuilding(francaMethod);
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertEquals(METHOD_NAME, resultMethod.name);
+    assertEquals(FULLY_QUALIFIED_NAME, resultMethod.fullyQualifiedName);
   }
 
   @Test

@@ -135,9 +135,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
       closeContext();
       return;
     }
-
+    CppMethod cppMethod = cppBuilder.getFinalResult(CppMethod.class);
     String baseFunctionName = CBridgeNameRules.getMethodName(francaMethod);
-    String delegateMethodName = CBridgeNameRules.getDelegateMethodName(francaMethod);
     List<CInParameter> inParams = getPreviousResults(CInParameter.class);
     COutParameter returnParam =
         CollectionsHelper.getFirstOfType(
@@ -145,14 +144,14 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
     CFunction.CFunctionBuilder methodBuilder =
         CFunction.builder(baseFunctionName)
-            .delegateCall(delegateMethodName)
+            .delegateCall(cppMethod.fullyQualifiedName)
             .parameters(inParams)
             .returnType(returnParam.mappedType)
             .hasError(francaMethod.getErrorEnum() != null) //TODO: Temporary until APIGEN-701
             .delegateCallIncludes(
                 Collections.singleton(
                     resolver.resolveInclude(francaMethod, HeaderType.BASE_API_HEADER)))
-            .functionName(CppNameRules.getMethodName(francaMethod.getName()));
+            .functionName(cppMethod.name);
 
     if (!deploymentModel.isStatic(francaMethod)) {
       CClassType classInfo =

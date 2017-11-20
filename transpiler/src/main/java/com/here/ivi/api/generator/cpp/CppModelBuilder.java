@@ -294,7 +294,13 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   private CppMethod buildCppMethod(FMethod francaMethod, CppTypeRef returnType) {
 
     String methodName = CppNameRules.getMethodName(francaMethod.getName());
-    CppMethod.Builder builder = new CppMethod.Builder(methodName).returnType(returnType);
+    String fullyQualifiedMethodName =
+        CppNameRules.getFullyQualifiedName(
+            CppNameRules.getNestedNameSpecifier(francaMethod), methodName);
+    CppMethod.Builder builder =
+        new CppMethod.Builder(methodName)
+            .fullyQualifiedName(fullyQualifiedMethodName)
+            .returnType(returnType);
 
     if (deploymentModel.isStatic(francaMethod)) {
       builder.specifier(CppMethod.Specifier.STATIC);

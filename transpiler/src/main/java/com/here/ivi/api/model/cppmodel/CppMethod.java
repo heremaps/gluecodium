@@ -68,10 +68,11 @@ public final class CppMethod extends CppElementWithIncludes {
       final String name,
       final String comment,
       final CppTypeRef returnType,
+      final String fullyQualifiedName,
       @Singular final Set<Specifier> specifiers,
       @Singular final Set<Qualifier> qualifiers,
       @Singular final List<CppParameter> parameters) {
-    super(name);
+    super(name, fullyQualifiedName == null ? name : fullyQualifiedName);
     this.comment = comment;
     this.returnType = returnType != null ? returnType : CppPrimitiveTypeRef.VOID;
     this.specifiers =
