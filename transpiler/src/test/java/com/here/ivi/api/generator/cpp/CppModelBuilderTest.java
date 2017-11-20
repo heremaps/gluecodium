@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.cpp;
 
-import static java.util.Collections.emptyList;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -20,10 +19,12 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
+import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -41,7 +42,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
   InstanceRules.class,
   CppDefaultInitializer.class,
   CppValueMapper.class,
-  CppNameRules.class
+  DefinedBy.class
 })
 public class CppModelBuilderTest {
 
@@ -52,8 +53,6 @@ public class CppModelBuilderTest {
   private static final String UNION_NAME = "soviet";
   private static final String METHOD_NAME = "methodical";
   private static final String ATTRIBUTE_NAME = "tribute";
-  private static final String FULLY_QUALIFIED_NAME = "FullyQualifiedNonsense";
-  private static final String CONSTANT_FULLY_QUALIFIED_NAME = "ConstantFullyQualifiedNonsense";
 
   private final MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
@@ -98,7 +97,8 @@ public class CppModelBuilderTest {
         CppCommentParser.class,
         InstanceRules.class,
         CppDefaultInitializer.class,
-        CppValueMapper.class);
+        CppValueMapper.class,
+        DefinedBy.class);
 
     MockitoAnnotations.initMocks(this);
 
@@ -129,15 +129,9 @@ public class CppModelBuilderTest {
     when(CppCommentParser.parse(any(FMethod.class)))
         .thenReturn(new AbstractFrancaCommentParser.Comments());
 
-    PowerMockito.stub(
-            PowerMockito.method(CppNameRules.class, "getNestedNameSpecifier", FModelElement.class))
-        .toReturn(emptyList());
-
-    PowerMockito.stub(PowerMockito.method(CppNameRules.class, "getFullyQualifiedName", FType.class))
-        .toReturn(FULLY_QUALIFIED_NAME);
-
-    PowerMockito.stub(PowerMockito.method(CppNameRules.class, "getConstantFullyQualifiedName"))
-        .toReturn(CONSTANT_FULLY_QUALIFIED_NAME);
+    when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
+        .thenReturn(francaTypeCollection);
+    when(DefinedBy.getPackages(any())).thenReturn(Collections.singletonList("nonsense"));
   }
 
   @Test
@@ -201,17 +195,14 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsNames() {
-    PowerMockito.stub(
-            PowerMockito.method(
-                CppNameRules.class, "getFullyQualifiedName", List.class, String.class))
-        .toReturn(FULLY_QUALIFIED_NAME);
+    when(DefinedBy.getPackages(any())).thenReturn(Collections.singletonList("nonsense"));
 
     modelBuilder.finishBuilding(francaMethod);
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertEquals(METHOD_NAME, resultMethod.name);
-    assertEquals(FULLY_QUALIFIED_NAME, resultMethod.fullyQualifiedName);
+    assertEquals("::nonsense::" + METHOD_NAME, resultMethod.fullyQualifiedName);
   }
 
   @Test
@@ -367,7 +358,7 @@ public class CppModelBuilderTest {
 
     CppConstant cppConstant = modelBuilder.getFinalResult(CppConstant.class);
     assertNotNull(cppConstant);
-    assertEquals(CONSTANT_FULLY_QUALIFIED_NAME, cppConstant.fullyQualifiedName);
+    assertEquals("::nonsense::" + CONSTANT_NAME, cppConstant.fullyQualifiedName.toLowerCase());
     assertEquals(cppValue, cppConstant.value);
 
     verify(valueMapper).map(cppComplexTypeRef, francaInitializerExpression);
@@ -417,12 +408,9 @@ public class CppModelBuilderTest {
     CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertNotNull(resultStruct);
     assertEquals(STRUCT_NAME, resultStruct.name.toLowerCase());
-    assertEquals(FULLY_QUALIFIED_NAME, resultStruct.fullyQualifiedName);
+    assertEquals("::nonsense::" + STRUCT_NAME, resultStruct.fullyQualifiedName.toLowerCase());
 
-    verify(francaStructType).getName();
-
-    PowerMockito.verifyStatic();
-    CppNameRules.getFullyQualifiedName(francaStructType);
+    verify(francaStructType, atLeastOnce()).getName();
   }
 
   @Test
@@ -481,7 +469,7 @@ public class CppModelBuilderTest {
     assertEquals("definitely", resultUsing.name.toLowerCase());
     assertEquals(cppComplexTypeRef, resultUsing.definition);
 
-    PowerMockito.verifyStatic();
+    PowerMockito.verifyStatic(atLeastOnce());
     InstanceRules.isInstanceId(francaTypeDef);
   }
 
@@ -604,12 +592,9 @@ public class CppModelBuilderTest {
     CppTaggedUnion cppTaggedUnion = modelBuilder.getFinalResult(CppTaggedUnion.class);
     assertNotNull(cppTaggedUnion);
     assertEquals(UNION_NAME, cppTaggedUnion.name.toLowerCase());
-    assertEquals(FULLY_QUALIFIED_NAME, cppTaggedUnion.fullyQualifiedName);
+    assertEquals("::nonsense::" + UNION_NAME, cppTaggedUnion.fullyQualifiedName.toLowerCase());
 
-    verify(francaUnionType).getName();
-
-    PowerMockito.verifyStatic();
-    CppNameRules.getFullyQualifiedName(francaUnionType);
+    verify(francaUnionType, atLeastOnce()).getName();
   }
 
   @Test
