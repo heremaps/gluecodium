@@ -67,6 +67,7 @@ public class SwiftModelBuilderTest {
   @Mock private FField francaField;
   @Mock private FTypeDef francaTypeDef;
   @Mock private FAttribute francaAttribute;
+  @Mock private FArrayType francaArray;
 
   private final SwiftType swiftType = new SwiftType("VerySwiftType");
   private final SwiftValue swiftValue = new SwiftValue("");
@@ -127,11 +128,11 @@ public class SwiftModelBuilderTest {
     assertNotNull(genericParameter);
 
     assertEquals(PARAM_NAME, genericParameter.name);
-    assertEquals(SwiftModelBuilder.COLLECTION_TYPE_NAME, genericParameter.typeName);
+    assertEquals(SwiftGenericParameter.COLLECTION_TYPE_NAME, genericParameter.typeName);
     assertEquals(1, genericParameter.constraints.size());
 
     SwiftGenericParameter.Constraint constraint = genericParameter.constraints.get(0);
-    assertEquals(PARAM_NAME + "." + SwiftModelBuilder.ELEMENT_FIELD_NAME, constraint.name);
+    assertEquals(PARAM_NAME + "." + SwiftGenericParameter.ELEMENT_FIELD_NAME, constraint.name);
     assertEquals(swiftType.name, constraint.typeName);
     assertFalse(constraint.isProtocol);
   }
@@ -148,13 +149,54 @@ public class SwiftModelBuilderTest {
     assertEquals(2, genericParameter.constraints.size());
 
     SwiftGenericParameter.Constraint constraint1 = genericParameter.constraints.get(0);
-    assertEquals(PARAM_NAME + "." + SwiftModelBuilder.ELEMENT_FIELD_NAME, constraint1.name);
-    assertEquals(SwiftModelBuilder.COLLECTION_TYPE_NAME, constraint1.typeName);
+    assertEquals(PARAM_NAME + "." + SwiftGenericParameter.ELEMENT_FIELD_NAME, constraint1.name);
+    assertEquals(SwiftGenericParameter.COLLECTION_TYPE_NAME, constraint1.typeName);
     assertTrue(constraint1.isProtocol);
 
     SwiftGenericParameter.Constraint constraint2 = genericParameter.constraints.get(1);
-    assertEquals(constraint1.name + "." + SwiftModelBuilder.ELEMENT_FIELD_NAME, constraint2.name);
+    assertEquals(
+        constraint1.name + "." + SwiftGenericParameter.ELEMENT_FIELD_NAME, constraint2.name);
     assertEquals(swiftType.name, constraint2.typeName);
+    assertFalse(constraint2.isProtocol);
+  }
+
+  @Test
+  public void finishBuildingDeclareArray() {
+    when(SwiftTypeMapper.mapType(any(), any())).thenReturn(swiftType);
+
+    modelBuilder.finishBuilding(francaArray);
+
+    SwiftArray swiftArray = modelBuilder.arraysCollector.values().iterator().next();
+
+    assertNotNull(swiftArray);
+    assertEquals(1, swiftArray.genericParameter.constraints.size());
+
+    SwiftGenericParameter.Constraint constraint1 = swiftArray.genericParameter.constraints.get(0);
+    assertEquals(SwiftGenericParameter.ELEMENT_FIELD_NAME, constraint1.name);
+  }
+
+  @Test
+  public void finishBuildingDeclareNestedArray() {
+    SwiftArray array = new SwiftArray(SwiftType.STRING);
+    when(SwiftTypeMapper.mapType(any(), any())).thenReturn(array);
+
+    modelBuilder.finishBuilding(francaArray);
+
+    SwiftArray swiftArray = modelBuilder.arraysCollector.values().iterator().next();
+
+    assertNotNull(swiftArray);
+    assertEquals(2, swiftArray.genericParameter.constraints.size());
+
+    SwiftGenericParameter.Constraint constraint1 = swiftArray.genericParameter.constraints.get(0);
+    assertEquals(SwiftGenericParameter.ELEMENT_FIELD_NAME, constraint1.name);
+    assertEquals(SwiftGenericParameter.COLLECTION_TYPE_NAME, constraint1.typeName);
+    assertTrue(constraint1.isProtocol);
+
+    SwiftGenericParameter.Constraint constraint2 = swiftArray.genericParameter.constraints.get(1);
+    assertEquals(
+        SwiftGenericParameter.ELEMENT_FIELD_NAME + "." + SwiftGenericParameter.ELEMENT_FIELD_NAME,
+        constraint2.name);
+    assertEquals(array.underlyingType.name, constraint2.typeName);
     assertFalse(constraint2.isProtocol);
   }
 

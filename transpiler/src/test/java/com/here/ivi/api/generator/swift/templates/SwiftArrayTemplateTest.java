@@ -97,7 +97,7 @@ public class SwiftArrayTemplateTest {
             + "        return StringList(handle)\n"
             + "    }\n"
             + "}\n"
-            + "extension Collection where Element == CollectionOf<String>  {\n"
+            + "extension Collection where Element: Collection, Element.Element == String  {\n"
             + "    public func c_conversion()-> (c_type: arrayCollection_NestedStringArray, cleanup: () ->Void) {\n"
             + "        let handle = arrayCollection_NestedStringArray_create()\n"
             + "        for item in self {\n"

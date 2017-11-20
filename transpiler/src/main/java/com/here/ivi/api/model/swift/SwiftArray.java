@@ -14,6 +14,8 @@ package com.here.ivi.api.model.swift;
 public final class SwiftArray extends SwiftType {
 
   public final SwiftType underlyingType;
+  public final SwiftGenericParameter genericParameter;
+
   public String refName;
 
   public SwiftArray(final SwiftType underlyingType) {
@@ -23,6 +25,7 @@ public final class SwiftArray extends SwiftType {
   public SwiftArray(String typealias, final SwiftType underlyingType) {
     super("CollectionOf<" + underlyingType.name + ">", TypeCategory.ARRAY, null, typealias, false);
     this.underlyingType = underlyingType;
+    this.genericParameter = new SwiftGenericParameter(null, this);
   }
 
   @SuppressWarnings("unused")

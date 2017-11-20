@@ -25,7 +25,7 @@ internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
         return UInt8List(handle)
     }
 }
-extension Collection where Element == CollectionOf<UInt8>  {
+extension Collection where Element: Collection, Element.Element == UInt8  {
     public func c_conversion()-> (c_type: arrayCollection_UInt8Array, cleanup: () ->Void) {
         let handle = arrayCollection_UInt8Array_create()
         for item in self { 

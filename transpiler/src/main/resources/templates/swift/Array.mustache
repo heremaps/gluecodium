@@ -27,7 +27,7 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType}}> {
         }}{{/switch}}
     }
 }
-extension Collection where Element == {{underlyingType}}  {
+extension Collection {{>GenericConstraintsRule}}  {
     public func c_conversion()-> (c_type: {{refName}}, cleanup: () ->Void) {
         let handle = {{refName}}_create()
         for item in self { {{!!
@@ -47,6 +47,11 @@ extension Collection where Element == {{underlyingType}}  {
 }
 
 {{/arrays}}
+
+{{+GenericConstraintsRule}}{{!!
+ }}where {{#genericParameter.constraints}}{{name}}{{!!
+ }}{{#if isProtocol}}:{{/if}}{{#unless isProtocol}} =={{/unless}} {{typeName}}{{!!
+ }}{{#if iter.hasNext}}, {{/if}}{{/genericParameter.constraints}}{{/GenericConstraintsRule}}
 
 {{+enumSubscript}}
 return {{underlyingType}}(rawValue: handle)!{{/enumSubscript}}

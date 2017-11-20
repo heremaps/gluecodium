@@ -30,9 +30,6 @@ import org.franca.core.franca.*;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
-  @VisibleForTesting static final String COLLECTION_TYPE_NAME = "Collection";
-  @VisibleForTesting static final String ELEMENT_FIELD_NAME = "Element";
-
   public final Map<String, SwiftArray> arraysCollector = new HashMap<>();
 
   private final FrancaDeploymentModel deploymentModel;
@@ -171,7 +168,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     storeResult(swiftParameter);
 
     if (swiftType instanceof SwiftArray) {
-      storeResult(createGenericParameter(swiftParameter.name, (SwiftArray) swiftParameter.type));
+      storeResult(new SwiftGenericParameter(swiftParameter.name, (SwiftArray) swiftParameter.type));
     }
 
     super.finishBuildingInputArgument(francaArgument);
@@ -279,31 +276,5 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @VisibleForTesting
   static boolean hasOnlyStaticMethods(final List<SwiftMethod> methods) {
     return !methods.isEmpty() && methods.stream().allMatch(swiftMethod -> swiftMethod.isStatic);
-  }
-
-  private static SwiftGenericParameter createGenericParameter(
-      final String parameterName, final SwiftArray swiftArray) {
-
-    SwiftType elementType = swiftArray.underlyingType;
-    SwiftGenericParameter genericParameter =
-        new SwiftGenericParameter(parameterName, COLLECTION_TYPE_NAME);
-    genericParameter.constraints.addAll(createGenericConstraints(parameterName, elementType));
-
-    return genericParameter;
-  }
-
-  private static List<SwiftGenericParameter.Constraint> createGenericConstraints(
-      final String parentName, final SwiftType elementType) {
-
-    String name = parentName + "." + ELEMENT_FIELD_NAME;
-    if (elementType instanceof SwiftArray) {
-      List<SwiftGenericParameter.Constraint> result = new LinkedList<>();
-      result.add(new SwiftGenericParameter.Constraint(name, COLLECTION_TYPE_NAME, true));
-      result.addAll(createGenericConstraints(name, ((SwiftArray) elementType).underlyingType));
-      return result;
-    } else {
-      return Collections.singletonList(
-          new SwiftGenericParameter.Constraint(name, elementType.name, false));
-    }
   }
 }
