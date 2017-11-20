@@ -71,8 +71,7 @@ public class Arrays {
     }
 
     public static func methodWithArray<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
-        let inputArray = input.flatMap{ $0 as? String }
-        let inputHandle = inputArray.c_conversion()
+        let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
@@ -81,8 +80,7 @@ public class Arrays {
     }
 
     public static func methodWithArrayInline<Tinput: Collection>(input: Tinput) -> CollectionOf<UInt8> where Tinput.Element == UInt8 {
-        let inputArray = input.flatMap{ $0 as? UInt8 }
-        let inputHandle = inputArray.c_conversion()
+        let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
@@ -91,8 +89,7 @@ public class Arrays {
     }
 
     public static func methodWithStructArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.BasicStruct> where Tinput.Element == Arrays.BasicStruct {
-        let inputArray = input.flatMap{ $0 as? Arrays.BasicStruct }
-        let inputHandle = inputArray.c_conversion()
+        let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
@@ -101,8 +98,7 @@ public class Arrays {
     }
 
     public static func methodWithArrayOfArrays<Tinput: Collection>(input: Tinput) -> CollectionOf<CollectionOf<UInt8>> where Tinput.Element: Collection, Tinput.Element.Element == UInt8 {
-        let inputArray = input.flatMap{ $0 as? [UInt8] }.map{ CollectionOf<UInt8>($0) }
-        let inputHandle = inputArray.c_conversion()
+        let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
@@ -111,13 +107,11 @@ public class Arrays {
     }
 
     public static func mergeArraysOfStructsWithArrays<TinlineFancyArray: Collection, TfancyArray: Collection>(inlineFancyArray: TinlineFancyArray, fancyArray: TfancyArray) -> CollectionOf<Arrays.FancyStruct> where TinlineFancyArray.Element == Arrays.FancyStruct, TfancyArray.Element == Arrays.FancyStruct {
-        let inlineFancyArrayArray = inlineFancyArray.flatMap{ $0 as? Arrays.FancyStruct }
-        let inlineFancyArrayHandle = inlineFancyArrayArray.c_conversion()
+        let inlineFancyArrayHandle = inlineFancyArray.c_conversion()
         defer {
             inlineFancyArrayHandle.cleanup()
         }
-        let fancyArrayArray = fancyArray.flatMap{ $0 as? Arrays.FancyStruct }
-        let fancyArrayHandle = fancyArrayArray.c_conversion()
+        let fancyArrayHandle = fancyArray.c_conversion()
         defer {
             fancyArrayHandle.cleanup()
         }
@@ -126,8 +120,7 @@ public class Arrays {
     }
 
     public static func methodWithArrayOfAliases<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
-        let inputArray = input.flatMap{ $0 as? String }
-        let inputHandle = inputArray.c_conversion()
+        let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }

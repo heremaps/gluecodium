@@ -48,8 +48,7 @@ public class Attributes {
             return StringList(handle)
         }
         set {
-            let newValueArray = newValue.flatMap{ $0 as? String }
-            let newValueHandle = newValueArray.c_conversion()
+            let newValueHandle = newValue.c_conversion()
             defer {
                 newValueHandle.cleanup()
             }

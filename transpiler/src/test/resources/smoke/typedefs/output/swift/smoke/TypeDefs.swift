@@ -34,8 +34,7 @@ public class TypeDefs {
             return DoubleList(handle)
         }
         set {
-            let newValueArray = newValue.flatMap{ $0 as? Double }
-            let newValueHandle = newValueArray.c_conversion()
+            let newValueHandle = newValue.c_conversion()
             defer {
                 newValueHandle.cleanup()
             }
@@ -97,8 +96,7 @@ public class TypeDefs {
     }
 
     public static func methodWithComplexTypeDef<Tinput: Collection>(input: Tinput) -> TypeDefs.ComplexTypeDef where Tinput.Element == TypeDefs.TestStruct {
-        let inputArray = input.flatMap{ $0 as? TypeDefs.TestStruct }
-        let inputHandle = inputArray.c_conversion()
+        let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }

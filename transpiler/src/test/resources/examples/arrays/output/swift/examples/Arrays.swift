@@ -32,8 +32,7 @@ public class Arrays {
         }
     }
     public static func explicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
-        let inputArray = input.flatMap{ $0 as? Arrays.SyncResult }
-        let inputHandle = inputArray.c_conversion()
+        let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
@@ -41,8 +40,7 @@ public class Arrays {
         return SyncResultList(handle)
     }
     public static func implicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
-        let inputArray = input.flatMap{ $0 as? Arrays.SyncResult }
-        let inputHandle = inputArray.c_conversion()
+        let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
