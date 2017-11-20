@@ -1,3 +1,5 @@
 excluded:
   - .build
   - build-ios
+reporter: "junit"
+

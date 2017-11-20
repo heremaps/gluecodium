@@ -36,6 +36,15 @@ safe cmake \
     ..
 popd
 
+# Run SwiftLint if available
+if which swiftlint; then
+    pushd platforms/ios > /dev/null
+    swiftlint > "${BUILD_DIR}/swiftlint.xml"
+    popd > /dev/null
+else
+    echo "SwiftLint was not found, skip linting"
+fi
+
 safe cmake \
     --build "${BUILD_DIR}" \
     --target install
