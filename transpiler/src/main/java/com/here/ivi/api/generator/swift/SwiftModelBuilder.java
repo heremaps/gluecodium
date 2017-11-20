@@ -66,6 +66,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     clazz.nameSpace = String.join("_", DefinedBy.getPackages(francaInterface));
     clazz.typedefs = getPreviousResults(SwiftTypeDef.class);
     clazz.cInstance = CBridgeNameRules.getInterfaceName(francaInterface);
+    clazz.methods = getPreviousResults(SwiftMethod.class);
 
     if (deploymentModel.isInterface(francaInterface)) {
       // Instantiable Franca interface implemented as Swift protocol
@@ -76,16 +77,9 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
       file.structs = getPreviousResults(SwiftContainerType.class);
       file.enums = getPreviousResults(SwiftEnum.class);
 
-      // TODO: APIGEN-868 validator should fail when static methods are defined in a interface
-      clazz.methods =
-          getPreviousResults(SwiftMethod.class)
-              .stream()
-              .filter(swiftMethod -> !swiftMethod.isStatic)
-              .collect(toList());
     } else {
       clazz.structs = getPreviousResults(SwiftContainerType.class);
       clazz.enums = getPreviousResults(SwiftEnum.class);
-      clazz.methods = getPreviousResults(SwiftMethod.class);
       clazz.cInstanceRef =
           clazz.properties.isEmpty() && hasOnlyStaticMethods(getPreviousResults(SwiftMethod.class))
               // Non instantiable Franca interface (static methods only)

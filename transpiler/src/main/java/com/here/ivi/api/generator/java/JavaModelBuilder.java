@@ -53,7 +53,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
-    List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
     if (deploymentModel.isInterface(francaInterface)) {
       // Instantiable Franca interface implemented as Java interface
       JavaInterface javaInterface = createJavaInterface(francaInterface);
@@ -63,6 +62,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       storeResult(javaInterface);
       storeResult(javaImplementationClass);
     } else {
+      List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
       JavaClass javaClass = createJavaClass(francaInterface, methods);
       javaClass.extendedClass =
           hasOnlyStaticMethods(methods)
@@ -356,8 +356,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   private JavaInterface createJavaInterface(final FInterface francaInterface) {
 
-    List<JavaElement> previousResults = getCurrentContext().previousResults;
-
     JavaInterface javaInterface =
         new JavaInterface(JavaNameRules.getClassName(francaInterface.getName()));
     javaInterface.visibility = JavaVisibility.PUBLIC;
@@ -365,10 +363,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaInterface.comment = getCommentString(francaInterface);
     javaInterface.constants.addAll(getPreviousResults(JavaConstant.class));
     javaInterface.enums.addAll(getPreviousResults(JavaEnum.class));
-    // TODO: APIGEN-868 validator should fail when static methods are defined in a interface
+
     List<JavaMethod> interfaceMethods =
-        CollectionsHelper.getStreamOfType(previousResults, JavaMethod.class)
-            .filter(method -> !method.qualifiers.contains(MethodQualifier.STATIC))
+        getPreviousResults(JavaMethod.class)
+            .stream()
             .map(JavaMethod::new)
             .collect(Collectors.toList());
     javaInterface.methods.addAll(interfaceMethods);

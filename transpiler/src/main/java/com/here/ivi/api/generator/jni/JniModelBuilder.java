@@ -87,11 +87,6 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
               true,
               true,
               true);
-      // TODO: APIGEN-868 validator should fail when static methods are defined in a interface
-      getPreviousResults(JniMethod.class)
-          .stream()
-          .filter(jniMethod -> !jniMethod.isStatic)
-          .forEach(jniContainer::add);
     } else {
       if (hasOnlyStaticMethods(getPreviousResults(JniMethod.class))) {
         // TODO: should always be instantiable, remove this case once APIGEN-893 is solved
@@ -117,9 +112,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
                 true,
                 false);
       }
-      getPreviousResults(JniMethod.class).forEach(jniContainer::add);
     }
 
+    getPreviousResults(JniMethod.class).forEach(jniContainer::add);
     getPreviousResults(JniStruct.class).forEach(jniContainer::add);
     getPreviousResults(JniEnum.class).forEach(jniContainer::add);
     storeResult(jniContainer);

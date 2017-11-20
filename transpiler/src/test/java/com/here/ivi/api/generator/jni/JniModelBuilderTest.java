@@ -435,27 +435,6 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaInterfaceDoesNotReadStaticMethods() {
-    //arrange
-    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    JniMethod nonStaticMethod = new JniMethod.Builder("nonStaticMethod", "").build();
-    JniMethod staticMethod = new JniMethod.Builder("staticMethod", "").isStatic(true).build();
-    contextStack.injectResult(nonStaticMethod);
-    contextStack.injectResult(staticMethod);
-
-    //act
-    modelBuilder.finishBuilding(francaInterface);
-
-    //assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertTrue(jniContainer.isInstantiable);
-    assertTrue(jniContainer.isInterface);
-    assertEquals(1, jniContainer.methods.size());
-    assertEquals("nonStaticMethod", jniContainer.methods.get(0).javaMethodName);
-  }
-
-  @Test
   public void finishBuildingInputArgumentReadsJavaCppParameters() {
     JavaParameter javaParameter = new JavaParameter(javaCustomType, "relative");
     CppParameter cppParameter =

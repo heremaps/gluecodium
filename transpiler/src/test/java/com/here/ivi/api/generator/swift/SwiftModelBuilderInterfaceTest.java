@@ -243,30 +243,6 @@ public class SwiftModelBuilderInterfaceTest {
     assertEquals("SwiftMethod", swiftClass.methods.get(0).name);
   }
 
-  @Test
-  public void finishBuildingFrancaInterfaceContainsNoStaticMethods() {
-    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    SwiftMethod swiftStaticMethod = new SwiftMethod("statically_methodic");
-    swiftStaticMethod.isStatic = true;
-    contextStack.injectResult(swiftMethod);
-    contextStack.injectResult(swiftStaticMethod);
-    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    when(SwiftNameRules.getClassName(any())).thenReturn("classy");
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
-    assertNotNull(swiftFile);
-    assertNotNull(swiftFile.classes);
-    assertEquals(1, swiftFile.classes.size());
-    SwiftClass swiftClass = swiftFile.classes.get(0);
-    assertTrue(swiftClass.isInterface);
-    assertNotNull(swiftClass.methods);
-    assertEquals(1, swiftClass.methods.size());
-    assertEquals("SwiftMethod", swiftClass.methods.get(0).name);
-    assertFalse(swiftClass.methods.get(0).isStatic);
-  }
-
   // Creates: Static class
 
   @Test

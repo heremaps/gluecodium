@@ -19,6 +19,7 @@ import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.ModelHelper;
+import com.here.ivi.api.validator.common.InterfaceValidator;
 import com.here.ivi.api.validator.common.NameValidator;
 import com.here.ivi.api.validator.common.ResourceValidator;
 import java.io.File;
@@ -61,6 +62,7 @@ public abstract class GeneratorSuite {
 
     ResourceSet resources = francaModelLoader.getResourceSetProvider().get();
     return NameValidator.validate(typeCollections)
+        && InterfaceValidator.validate(typeCollections, deploymentModel)
         && ResourceValidator.validate(resources, currentFiles);
   }
 
