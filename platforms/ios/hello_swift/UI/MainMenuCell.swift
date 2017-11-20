@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Cell: UITableViewCell {
+class MainMenuCell: UITableViewCell {
 
     @IBOutlet weak var buttonTitle: UIButton!
     var title: String = ""
