@@ -1,5 +1,10 @@
 # API Transpiler Release Notes
 
+## 0.0.10
+- Features:
+  + Add support for Arrays to iOS generators
+  + Add support for 'isInterface' flag in the fdepl files.
+
 ## 0.0.9
 - Features:
   + Add support for Enums to Android generators
