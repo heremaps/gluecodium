@@ -8,15 +8,31 @@ SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 . "${SCRIPT_DIR}/inc.constants"
 . "${SCRIPT_DIR}/inc.functions"
 
+# Compare given old and new versions
+#
+# Usage: is_newer_than $old_version $new_version
+#
+# Return 0 if new_version is newer than old_version, 1 otherwise
+function is_newer_than() {
+    local old="$1"
+    local new="$2"
+    local newer=$(echo -e "$old\n$new" | sort --version-sort | tail -n1)
+
+    if [ "$new" = "$newer" -a "$old" != "$newer" ]; then
+        return 0
+    fi
+    return 1
+}
+
 if [ $# -ne 1 ] ; then
-    die "Usage: $0 [VERSION_NAME]\n\n\tExample: $0 0.0.1"
+    die "Usage: $0 MAJOR.MINOR.PATCH\n\n\tExample: $0 0.0.1"
 fi
 
 # Increase SDK version (used as versionName in most modules)
 OLD_VERSION=$(get_version "${TRANSPILER_VERSION_FILE}")
 NEW_VERSION=$1
 
-if [ "$NEW_VERSION" \< "$OLD_VERSION" -o "$NEW_VERSION" = "$OLD_VERSION" ] ; then
+if ! is_newer_than "$OLD_VERSION" "$NEW_VERSION"; then
     die "Error: We are already at version $OLD_VERSION"
 fi
 
