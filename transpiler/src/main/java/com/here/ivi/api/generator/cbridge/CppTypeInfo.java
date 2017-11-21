@@ -11,9 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CArrayGenerator.CBRIDGE_ARRAY_HEADER;
 import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_IMPL_FILE;
-import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.CLASS;
 import static com.here.ivi.api.model.cmodel.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 import static java.util.Arrays.asList;
@@ -109,10 +107,6 @@ public final class CppTypeInfo extends CElement {
                 resolver.resolveInclude(element, HeaderType.BASE_API_HEADER)));
     if (category == CLASS) {
       list.add(CppLibraryIncludes.MEMORY);
-    }
-    if (category == ARRAY) {
-      list.add(CppLibraryIncludes.VECTOR);
-      list.add(Include.createInternalInclude(CBRIDGE_ARRAY_HEADER));
     }
     return list;
   }
