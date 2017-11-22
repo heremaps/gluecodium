@@ -65,4 +65,8 @@ public final class JavaNameRules {
   public static String getFieldName(final String base) {
     return NameHelper.toLowerCamelCase(base);
   }
+
+  public static String getExceptionName(final String base) {
+    return base + "Exception";
+  }
 }

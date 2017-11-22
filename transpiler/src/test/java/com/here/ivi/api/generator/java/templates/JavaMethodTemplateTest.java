@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
+import com.here.ivi.api.model.javamodel.JavaException;
 import com.here.ivi.api.model.javamodel.JavaMethod;
 import com.here.ivi.api.model.javamodel.JavaParameter;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
@@ -106,5 +107,14 @@ public final class JavaMethodTemplateTest {
 
     assertEquals(
         "void methodical(final String firstParam, final InParamType2 secondParam);", result);
+  }
+
+  @Test
+  public void generateMethodWithException() {
+    javaMethod.exception = new JavaException("ExceptionalException", null);
+
+    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
+
+    assertEquals("void methodical() throws ExceptionalException;", result);
   }
 }

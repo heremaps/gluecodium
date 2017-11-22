@@ -35,6 +35,7 @@ public final class JavaMethod extends JavaElement {
   public final JavaType returnType;
   public final Set<MethodQualifier> qualifiers = EnumSet.noneOf(MethodQualifier.class);
   public final List<JavaParameter> parameters = new LinkedList<>();
+  public JavaException exception;
 
   public JavaMethod(final String name) {
     this(name, JavaPrimitiveType.VOID);
@@ -49,10 +50,11 @@ public final class JavaMethod extends JavaElement {
     this(other.name, other.returnType);
     this.qualifiers.addAll(other.qualifiers);
     this.parameters.addAll(other.parameters);
+    this.exception = other.exception;
   }
 
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.concat(Stream.of(returnType), parameters.stream());
+    return Stream.concat(Stream.of(returnType, exception), parameters.stream());
   }
 }

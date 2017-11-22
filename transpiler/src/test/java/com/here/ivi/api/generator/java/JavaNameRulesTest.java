@@ -15,6 +15,9 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.javamodel.JavaExceptionClass;
+import com.here.ivi.api.model.javamodel.JavaPackage;
+import java.util.Arrays;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -42,5 +45,22 @@ public final class JavaNameRulesTest {
     // Arrange, act, assert
     expectedException.expect(NullPointerException.class);
     JavaNameRules.getFileName(null);
+  }
+
+  @Test
+  public void getFileNameForExceptionClass() {
+    // Arrange
+    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "generator", "example"));
+    JavaExceptionClass javaExceptionClass =
+        new JavaExceptionClass("ExceptionalException", null, javaPackage);
+
+    // Act
+    String javaFile = JavaNameRules.getFileName(javaExceptionClass);
+
+    // Assert
+    assertEquals(
+        AndroidGeneratorSuite.GENERATOR_NAME
+            + "/com/here/generator/example/ExceptionalException.java",
+        javaFile);
   }
 }
