@@ -52,17 +52,10 @@ public final class CArray extends CElement {
     return includes;
   }
 
-  public List<Include> includesFromCpp() {
+  public List<Include> includes() {
     List<Include> includes = new ArrayList<>();
-    includes.addAll(getLastType(underlyingType).conversionFromCppIncludes);
-    includes.addAll(arrayType.conversionFromCppIncludes);
-    return includes;
-  }
-
-  public List<Include> includesToCpp() {
-    List<Include> includes = new ArrayList<>();
-    includes.addAll(getLastType(underlyingType).conversionToCppIncludes);
-    includes.addAll(arrayType.conversionToCppIncludes);
+    includes.addAll(getLastType(underlyingType).includes);
+    includes.addAll(arrayType.includes);
     return includes;
   }
 

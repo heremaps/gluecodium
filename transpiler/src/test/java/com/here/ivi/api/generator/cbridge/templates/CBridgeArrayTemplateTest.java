@@ -125,6 +125,7 @@ public final class CBridgeArrayTemplateTest {
     final String generated = cbridgeArrayGenerator.generate().get(3).content;
     final String expected =
         "#pragma once\n"
+            + "#include \"cbridge/include/StringHandle.h\"\n"
             + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
             + "#include <string>\n"
@@ -228,6 +229,7 @@ public final class CBridgeArrayTemplateTest {
     final String generated = cbridgeArrayGenerator.generate().get(3).content;
     final String expected =
         "#pragma once\n"
+            + "#include \"cbridge/include/StringHandle.h\"\n"
             + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
             + "#include <string>\n"
