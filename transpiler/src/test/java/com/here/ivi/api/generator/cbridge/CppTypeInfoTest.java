@@ -64,18 +64,8 @@ public final class CppTypeInfoTest {
         "function return type should have proper include",
         typeInfo.functionReturnType.includes.contains(cbridgePublicHeaderInclude));
 
-    assertTrue(
-        "conversion to cpp should include priv header with get_pointer function",
-        typeInfo.conversionToCppIncludes.contains(cbridgePrivateHeaderInclude));
-    assertTrue(
-        "conversion to cpp should include base api header",
-        typeInfo.conversionToCppIncludes.contains(baseApiPublicHeaderInclude));
-
-    assertTrue(
-        "conversion from cpp should include cbridge public header",
-        typeInfo.conversionFromCppIncludes.contains(cbridgePublicHeaderInclude));
-    assertTrue(
-        "conversion from cpp should include base api header",
-        typeInfo.conversionFromCppIncludes.contains(baseApiPublicHeaderInclude));
+    assertTrue(typeInfo.includes.contains(cbridgePrivateHeaderInclude));
+    assertTrue(typeInfo.includes.contains(baseApiPublicHeaderInclude));
+    assertTrue(typeInfo.includes.contains(cbridgePublicHeaderInclude));
   }
 }

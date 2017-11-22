@@ -30,20 +30,17 @@ public class CBridgeComponents {
       includes.addAll(collectFunctionBodyIncludes(function));
     }
     for (CStruct struct : cInterface.structs) {
-      includes.addAll(struct.mappedType.conversionFromCppIncludes);
-      includes.addAll(struct.mappedType.conversionToCppIncludes);
+      includes.addAll(struct.mappedType.includes);
       for (CField field : struct.fields) {
-        includes.addAll(field.type.conversionFromCppIncludes);
-        includes.addAll(field.type.conversionToCppIncludes);
+        includes.addAll(field.type.includes);
       }
     }
     if (cInterface.selfType != null) {
-      includes.addAll(cInterface.selfType.conversionToCppIncludes);
+      includes.addAll(cInterface.selfType.includes);
     }
 
     for (CArray array : cInterface.arrays) {
-      includes.addAll(array.includesFromCpp());
-      includes.addAll(array.includesToCpp());
+      includes.addAll(array.includes());
     }
     return new TreeSet<>(includes);
   }
@@ -51,13 +48,13 @@ public class CBridgeComponents {
   public static Set<Include> collectPrivateHeaderIncludes(CInterface cInterface) {
     Collection<Include> includes = new LinkedList<>();
     for (CStruct struct : cInterface.structs) {
-      includes.addAll(struct.mappedType.conversionToCppIncludes);
+      includes.addAll(struct.mappedType.includes);
     }
     for (CArray array : cInterface.arrays) {
-      includes.addAll(array.includesToCpp());
+      includes.addAll(array.includes());
     }
     if (cInterface.selfType != null) {
-      includes.addAll(cInterface.selfType.conversionToCppIncludes);
+      includes.addAll(cInterface.selfType.includes);
     }
     return new TreeSet<>(includes);
   }
@@ -97,14 +94,12 @@ public class CBridgeComponents {
   public static Set<Include> collectFunctionBodyIncludes(CFunction function) {
     Collection<Include> includes = new LinkedList<>();
     for (CParameter parameter : function.parameters) {
-      includes.addAll(parameter.mappedType.conversionFromCppIncludes);
-      includes.addAll(parameter.mappedType.conversionToCppIncludes);
+      includes.addAll(parameter.mappedType.includes);
     }
-    includes.addAll(function.returnType.conversionFromCppIncludes);
-    includes.addAll(function.returnType.conversionToCppIncludes);
+    includes.addAll(function.returnType.includes);
     includes.addAll(function.delegateCallIncludes);
     if (function.selfParameter != null) {
-      includes.addAll(function.selfParameter.mappedType.conversionToCppIncludes);
+      includes.addAll(function.selfParameter.mappedType.includes);
     }
     return new TreeSet<>(includes);
   }

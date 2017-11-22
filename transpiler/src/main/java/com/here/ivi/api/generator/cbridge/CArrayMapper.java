@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.cbridge;
 import static com.here.ivi.api.generator.cbridge.CArrayGenerator.CBRIDGE_ARRAY_REF;
 import static com.here.ivi.api.generator.cbridge.CArrayGenerator.CBRIDGE_INTERNAL_ARRAY_IMPL;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
@@ -40,8 +39,7 @@ public final class CArrayMapper {
             ARRAY,
             Arrays.asList(
                 Include.createInternalInclude(CBRIDGE_INTERNAL_ARRAY_IMPL),
-                CppLibraryIncludes.VECTOR),
-            emptyList());
+                CppLibraryIncludes.VECTOR));
     type.innerType = innerType;
     return type;
   }

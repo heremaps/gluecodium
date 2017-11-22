@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_IMPL_FILE;
-import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.CLASS;
 import static com.here.ivi.api.model.cmodel.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -37,8 +36,7 @@ public final class CppTypeInfo extends CElement {
   public final List<String> paramSuffixes;
   public CType functionReturnType;
   public TypeCategory typeCategory;
-  public final List<Include> conversionToCppIncludes;
-  public final List<Include> conversionFromCppIncludes;
+  public final List<Include> includes;
   public CppTypeInfo innerType;
 
   public enum TypeCategory {
@@ -59,9 +57,9 @@ public final class CppTypeInfo extends CElement {
           CType.STRING_REF,
           TypeCategory.BUILTIN_STRING,
           Arrays.asList(
-              CppLibraryIncludes.STRING, Include.createInternalInclude(STRING_HANDLE_IMPL_FILE)),
-          Arrays.asList(
-              CppLibraryIncludes.STRING, Include.createInternalInclude(STRING_HANDLE_FILE)));
+              CppLibraryIncludes.STRING,
+              Include.createInternalInclude(STRING_HANDLE_IMPL_FILE),
+              Include.createInternalInclude(STRING_HANDLE_FILE)));
 
   public static final CppTypeInfo BYTE_VECTOR =
       new CppTypeInfo(
@@ -70,7 +68,6 @@ public final class CppTypeInfo extends CElement {
           asList("_ptr", "_size"),
           CType.BYTE_ARRAY_REF,
           TypeCategory.BUILTIN_BYTEBUFFER,
-          Arrays.asList(CppLibraryIncludes.VECTOR, FIXED_WIDTH_INTEGERS_INCLUDE),
           Arrays.asList(CppLibraryIncludes.VECTOR, FIXED_WIDTH_INTEGERS_INCLUDE));
 
   public static CppTypeInfo createCustomTypeInfo(
@@ -92,29 +89,17 @@ public final class CppTypeInfo extends CElement {
         new CType(
             handleName, resolver.resolveInclude(elementType, HeaderType.CBRIDGE_PUBLIC_HEADER)),
         category,
-        getConversionToCppIndcludes(category, resolver, elementType),
-        getConversionFromCppIncludes(resolver, elementType));
+        resolveIncludes(resolver, elementType));
   }
 
-  private static List<Include> getConversionToCppIndcludes(
-      final TypeCategory category, final IncludeResolver resolver, FModelElement element) {
-    List<Include> list =
-        new ArrayList<>(
-            Arrays.asList(
-                resolver.resolveInclude(element, HeaderType.CBRIDGE_PUBLIC_HEADER),
-                resolver.resolveInclude(element, HeaderType.CBRIDGE_PRIVATE_HEADER),
-                resolver.resolveInclude(element, HeaderType.BASE_API_HEADER)));
-    if (category == CLASS) {
-      list.add(CppLibraryIncludes.MEMORY);
-    }
-    return list;
-  }
-
-  private static List<Include> getConversionFromCppIncludes(
+  private static List<Include> resolveIncludes(
       final IncludeResolver resolver, FModelElement element) {
-    return asList(
-        resolver.resolveInclude(element, HeaderType.CBRIDGE_PUBLIC_HEADER),
-        resolver.resolveInclude(element, HeaderType.BASE_API_HEADER));
+    return new ArrayList<>(
+        Arrays.asList(
+            resolver.resolveInclude(element, HeaderType.CBRIDGE_PUBLIC_HEADER),
+            resolver.resolveInclude(element, HeaderType.CBRIDGE_PRIVATE_HEADER),
+            resolver.resolveInclude(element, HeaderType.BASE_API_HEADER),
+            CppLibraryIncludes.MEMORY));
   }
 
   public static CppTypeInfo createEnumTypeInfo(
@@ -129,7 +114,6 @@ public final class CppTypeInfo extends CElement {
         singletonList(""),
         enumCType,
         TypeCategory.ENUM,
-        emptyList(),
         emptyList());
   }
 
@@ -141,25 +125,17 @@ public final class CppTypeInfo extends CElement {
       List<String> paramSuffixes,
       CType functionReturnType,
       TypeCategory category,
-      List<Include> conversionToCppIncludes,
-      List<Include> conversionFromCppIncludes) {
+      List<Include> includes) {
     super(baseType);
     this.paramSuffixes = paramSuffixes;
     this.cTypesNeededByConstructor = constructFromCTypes;
     this.functionReturnType = functionReturnType;
     this.typeCategory = category;
-    this.conversionToCppIncludes = conversionToCppIncludes;
-    this.conversionFromCppIncludes = conversionFromCppIncludes;
+    this.includes = includes;
   }
 
   public CppTypeInfo(CType type, TypeCategory category) {
-    super(type.name);
-    this.cTypesNeededByConstructor = singletonList(type);
-    this.paramSuffixes = singletonList("");
-    this.functionReturnType = type;
-    this.typeCategory = category;
-    this.conversionToCppIncludes = emptyList();
-    this.conversionFromCppIncludes = emptyList();
+    this(type.name, singletonList(type), singletonList(""), type, category, emptyList());
   }
 
   public CppTypeInfo(CType type) {
