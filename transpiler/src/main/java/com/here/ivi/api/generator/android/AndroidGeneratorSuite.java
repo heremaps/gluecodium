@@ -60,14 +60,19 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
     // Generate Java files
     JavaGenerator javaGenerator =
         new JavaGenerator(deploymentModel, transpilerOptions.getJavaPackageList());
-    Stream<List<GeneratedFile>> javaFilesStream =
+
+    // Do not stream, Java models need to be built as they are required to generate Exception files
+    List<GeneratedFile> javaFiles =
         typeCollections
             .stream()
             .map(
                 francaTypeCollection ->
                     (francaTypeCollection instanceof FInterface)
                         ? javaGenerator.generateFilesForInterface((FInterface) francaTypeCollection)
-                        : javaGenerator.generateFiles(francaTypeCollection));
+                        : javaGenerator.generateFiles(francaTypeCollection))
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
+    javaFiles.addAll(javaGenerator.generateFilesForExceptions());
 
     // Generate JNI files
     JniGenerator jniGenerator =
@@ -104,10 +109,8 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
     results.add(GeneratorSuite.copyTarget(ARRAY_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
     results.add(GeneratorSuite.copyTarget(ARRAY_UTILS_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
     results.add(GeneratorSuite.copyTarget(NATIVE_BASE_JAVA, NATIVE_BASE_JAVA_TARGET_DIR));
-    results.addAll(
-        Stream.concat(javaFilesStream, jniFilesStream)
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList()));
+    results.addAll(javaFiles);
+    results.addAll(jniFilesStream.flatMap(Collection::stream).collect(Collectors.toList()));
 
     return results;
   }

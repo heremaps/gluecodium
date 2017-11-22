@@ -20,11 +20,14 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.javamodel.JavaEnum;
+import com.here.ivi.api.model.javamodel.JavaExceptionClass;
 import com.here.ivi.api.model.javamodel.JavaInterface;
 import com.here.ivi.api.model.javamodel.JavaTopLevelElement;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.franca.core.franca.FInterface;
@@ -33,6 +36,7 @@ import org.franca.core.franca.FTypeCollection;
 public class JavaGenerator extends AbstractAndroidGenerator {
 
   private final FrancaDeploymentModel deploymentModel;
+  private final Map<String, JavaExceptionClass> exceptionClasses = new HashMap<>();
 
   public JavaGenerator(
       final FrancaDeploymentModel deploymentModel, final List<String> packageList) {
@@ -61,6 +65,8 @@ public class JavaGenerator extends AbstractAndroidGenerator {
       results.add(generateFileForElement("java/Interface", javaInterface));
     }
 
+    exceptionClasses.putAll(modelBuilder.exceptionClasses);
+
     return results;
   }
 
@@ -80,6 +86,18 @@ public class JavaGenerator extends AbstractAndroidGenerator {
                 .map(javaClass -> generateFileForElement("java/ClassHeader", javaClass)),
             CollectionsHelper.getStreamOfType(modelBuilder.getFinalResults(), JavaEnum.class)
                 .map(javaEnum -> generateFileForElement("java/EnumHeader", javaEnum)))
+        .collect(Collectors.toList());
+  }
+
+  public List<GeneratedFile> generateFilesForExceptions() {
+    return exceptionClasses
+        .entrySet()
+        .stream()
+        .map(
+            exceptionEntry ->
+                new GeneratedFile(
+                    TemplateEngine.render("java/ExceptionDefinition", exceptionEntry.getValue()),
+                    JavaNameRules.getFileName(exceptionEntry.getValue())))
         .collect(Collectors.toList());
   }
 

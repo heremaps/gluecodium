@@ -391,4 +391,25 @@ public final class JavaClassTemplateTest {
             + "}\n";
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
+
+  @Test
+  public void generate_withThrowsMethod() {
+    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "generator", "example"));
+    JavaImport javaImport = new JavaImport("ExampleClass", javaPackage);
+    JavaCustomType exampleType = new JavaCustomType("ExampleType");
+    JavaMethod classMethod = new JavaMethod("someMethod", exampleType);
+    classMethod.exception = new JavaException("ExceptionalException", javaImport);
+    javaClass.javaPackage = javaPackage;
+    javaClass.methods.add(classMethod);
+
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
+
+    String expected =
+        "package com.here.generator.example;\n"
+            + "\n"
+            + "class ExampleClass {\n"
+            + "    ExampleType someMethod() throws ExceptionalException;\n"
+            + "}\n";
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
+  }
 }

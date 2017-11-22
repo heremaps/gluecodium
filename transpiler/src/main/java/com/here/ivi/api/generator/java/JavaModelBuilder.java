@@ -21,11 +21,19 @@ import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.javamodel.JavaMethod.MethodQualifier;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
+
+  /**
+   * Used to store a unique JavaExceptionClass element of every method that throws. They will be
+   * later generated in a dedicated Java file from JavaGenerator
+   */
+  public final Map<String, JavaExceptionClass> exceptionClasses = new HashMap<>();
 
   private final FrancaDeploymentModel deploymentModel;
   private final JavaPackage rootPackage;
@@ -58,14 +66,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       JavaInterface javaInterface = createJavaInterface(francaInterface);
       JavaClass javaImplementationClass =
           createJavaImplementationClass(francaInterface, javaInterface);
-
       storeResult(javaInterface);
       storeResult(javaImplementationClass);
     } else {
       List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
       JavaClass javaClass = createJavaClass(francaInterface, methods);
       javaClass.extendedClass = JavaClass.NATIVE_BASE;
-
       storeResult(javaClass);
     }
 
@@ -84,8 +90,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
-
-    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
+    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(
+        francaMethod, PlatformUnsupportedFeatures.ANDROID_PLATFORM)) {
       closeContext();
       return;
     }
@@ -110,9 +116,14 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       javaMethod = new JavaMethod(javaMethodName);
     }
 
-    // TODO: Map errors to exception(s)
-    // Either create a per-Interface exception and add mapped enum values to it's EnumSet member
-    // Or do something different...
+    FEnumerationType fErrorEnumType = francaMethod.getErrorEnum();
+    if (fErrorEnumType != null) {
+      javaMethod.exception = typeMapper.mapErrorTypeRef(fErrorEnumType);
+
+      JavaExceptionClass javaExceptionClass = typeMapper.mapErrorClass(fErrorEnumType);
+      String mapKey = javaExceptionClass.javaPackage.packageNames + "." + javaExceptionClass.name;
+      exceptionClasses.put(mapKey, javaExceptionClass);
+    }
 
     javaMethod.comment = CppCommentParser.FORMATTER.readDescription(francaMethod.getComment());
 
