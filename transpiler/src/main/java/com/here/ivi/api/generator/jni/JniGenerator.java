@@ -169,9 +169,8 @@ public class JniGenerator extends AbstractAndroidGenerator {
     Map<String, Iterable<?>> instanceData = new HashMap<>();
     final Set<Include> instanceIncludes = new LinkedHashSet<>();
     instanceIncludes.add(CppLibraryIncludes.MEMORY);
-    instanceContainersList
-        .stream()
-        .forEach(container -> instanceIncludes.addAll(container.includes));
+    instanceIncludes.add(CppLibraryIncludes.NEW);
+    instanceContainersList.forEach(container -> instanceIncludes.addAll(container.includes));
     instanceData.put(INCLUDES_NAME, instanceIncludes);
     instanceData.put(MODELS_NAME, instanceContainersList);
 
@@ -195,7 +194,7 @@ public class JniGenerator extends AbstractAndroidGenerator {
     List<JniContainer> listeners =
         jniContainers
             .stream()
-            .filter(container -> isListener(container))
+            .filter(JniGenerator::isListener)
             .collect(Collectors.toCollection(ArrayList::new));
 
     List<String> proxyIncludes = new LinkedList<>();

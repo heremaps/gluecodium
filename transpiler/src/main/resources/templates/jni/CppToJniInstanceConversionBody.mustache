@@ -4,6 +4,11 @@
         return nullptr;
     }
     auto javaClass = _jenv->FindClass("{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}");
-    auto pInstanceSharedPointer = new std::shared_ptr<::{{#cppNameSpaces}}{{.}}::{{/cppNameSpaces}}{{cppName}}>(_ninput);
+    auto pInstanceSharedPointer = new (::std::nothrow) ::std::shared_ptr<::{{#cppNameSpaces}}{{.}}::{{/cppNameSpaces}}{{cppName}}>(_ninput);
+    if (pInstanceSharedPointer == nullptr)
+    {
+        jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException");
+        _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
+    }
     return create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
 }
