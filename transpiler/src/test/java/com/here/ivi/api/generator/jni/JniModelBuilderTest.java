@@ -99,6 +99,8 @@ public class JniModelBuilderTest {
       new CppMethod.Builder("shootFoot").returnType(CppPrimitiveTypeRef.INT32).build();
   private final JavaMethod javaSetter = new JavaMethod("setFoo", JavaPrimitiveType.VOID);
   private final CppMethod cppSetter = new CppMethod.Builder("shootBothFeet").build();
+  private final JniType jniType = JniType.createType(javaCustomType, cppCustomType);
+
   private JniModelBuilder modelBuilder;
 
   private final EList<FArgument> arguments = new ArrayEList<>();
@@ -236,6 +238,43 @@ public class JniModelBuilderTest {
     assertTrue(jniMethod.isOverloaded);
 
     verify(francaMethod).getSelector();
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsExceptionName() {
+    JavaMethod javaMethod =
+        new JavaMethod(
+            JAVA_INT_METHOD_NAME,
+            JavaPrimitiveType.INT,
+            new JavaCustomType("FooException", JavaPackage.DEFAULT));
+    javaMethod.parameters.add(new JavaParameter(JavaPrimitiveType.INT, BASE_NAME_PARAMETER));
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
+    when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
+    assertNotNull(jniMethod);
+    assertEquals("com/here/android/FooException", jniMethod.exception.javaClassName);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsExceptionEnum() {
+    JavaMethod javaMethod =
+        new JavaMethod(
+            JAVA_INT_METHOD_NAME,
+            JavaPrimitiveType.INT,
+            new JavaCustomType("FooException", JavaPackage.DEFAULT));
+    javaMethod.parameters.add(new JavaParameter(JavaPrimitiveType.INT, BASE_NAME_PARAMETER));
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
+    when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
+    contextStack.injectResult(jniType);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
+    assertNotNull(jniMethod);
+    assertEquals(jniType, jniMethod.exception.jniEnum);
   }
 
   @Test
@@ -477,7 +516,6 @@ public class JniModelBuilderTest {
     CppField cppField = new CppField(cppCustomType, CPP_CLASS_NAME);
     when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
-    JniType jniType = JniType.createType(javaCustomType, cppCustomType);
     contextStack.injectResult(jniType);
 
     modelBuilder.finishBuilding(francaField);
@@ -595,8 +633,8 @@ public class JniModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationsReadsEnumerators() {
-
     // arrange
+    contextStack.getParentContext().allowsTypeDefinitions = true;
     when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum);
     when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum);
     contextStack.injectResult(new JniEnumerator("oneJ", "oneC"));
@@ -619,6 +657,20 @@ public class JniModelBuilderTest {
     assertEquals("twoJ", jniEnum.enumerators.get(1).javaName);
     assertEquals("threeC", jniEnum.enumerators.get(2).cppName);
     assertEquals("threeJ", jniEnum.enumerators.get(2).javaName);
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationsReadsTypeReferences() {
+    contextStack.getParentContext().allowsTypeDefinitions = false;
+    when(cppBuilder.getFinalResult(any())).thenReturn(cppCustomType);
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaCustomType);
+
+    modelBuilder.finishBuilding(francaEnumType);
+
+    JniType resultType = modelBuilder.getFinalResult(JniType.class);
+    assertNotNull(resultType);
+    assertEquals(javaCustomType.name, resultType.javaName);
+    assertEquals(cppCustomType.name, resultType.cppName);
   }
 
   @Test

@@ -69,6 +69,18 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   }
 
   @Override
+  public void startBuilding(FInterface francaInterface) {
+    openContext();
+    getCurrentContext().allowsTypeDefinitions = true;
+  }
+
+  @Override
+  public void startBuilding(FTypeCollection francaTypeCollection) {
+    openContext();
+    getCurrentContext().allowsTypeDefinitions = true;
+  }
+
+  @Override
   public void finishBuilding(FInterface francaInterface) {
 
     CppClass cppClass = cppBuilder.getFinalResult(CppClass.class);
@@ -109,8 +121,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(
-        francaMethod, PlatformUnsupportedFeatures.JNI_LAYER)) {
+    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
       closeContext();
       return;
     }
@@ -118,12 +129,21 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JavaMethod javaMethod = javaBuilder.getFinalResult(JavaMethod.class);
     CppMethod cppMethod = cppBuilder.getFinalResult(CppMethod.class);
 
+    JniException jniException = null;
+    if (javaMethod.exception != null) {
+      jniException =
+          new JniException(
+              JniNameRules.getFullClassName(javaMethod.exception),
+              getPreviousResult(JniType.class));
+    }
+
     JniMethod jniMethod =
         new JniMethod.Builder(javaMethod.name, cppMethod.name)
             .returnType(JniType.createType(javaMethod.returnType, cppMethod.returnType))
             .isStatic(cppMethod.specifiers.contains(CppMethod.Specifier.STATIC))
             .isConst(cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST))
             .isOverloaded(francaMethod.getSelector() != null)
+            .exception(jniException)
             .build();
     jniMethod.parameters.addAll(getPreviousResults(JniParameter.class));
 
@@ -173,17 +193,21 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FEnumerationType francaEnumType) {
 
-    JavaEnum javaEnum = javaBuilder.getFinalResult(JavaEnum.class);
-    CppEnum cppEnum = cppBuilder.getFinalResult(CppEnum.class);
+    if (getParentContext().allowsTypeDefinitions) {
+      JavaEnum javaEnum = javaBuilder.getFinalResult(JavaEnum.class);
+      CppEnum cppEnum = cppBuilder.getFinalResult(CppEnum.class);
 
-    // TODO: APIGEN-703 process type references here
-    String javaEnumName = javaEnum != null ? javaEnum.name : null;
-    String cppEnumName = cppEnum != null ? cppEnum.name : null;
+      storeResult(
+          new JniEnum.Builder(javaEnum.name, cppEnum.name)
+              .enumerators(getPreviousResults(JniEnumerator.class))
+              .build());
+    } else {
+      JavaType javaType = javaBuilder.getFinalResult(JavaType.class);
+      CppTypeRef cppTypeRef = cppBuilder.getFinalResult(CppTypeRef.class);
 
-    storeResult(
-        new JniEnum.Builder(javaEnumName, cppEnumName)
-            .enumerators(getPreviousResults(JniEnumerator.class))
-            .build());
+      storeResult(JniType.createType(javaType, cppTypeRef));
+    }
+
     closeContext();
   }
 
