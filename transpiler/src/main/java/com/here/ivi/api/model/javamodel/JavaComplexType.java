@@ -12,29 +12,27 @@
 package com.here.ivi.api.model.javamodel;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class JavaComplexType extends JavaType {
 
   /** List of all class names (outer and inner class names); required for cppProxy generation */
-  public final List<String> classNames;
+  public final List<String> classNames = new LinkedList<>();
   /** List of all package identifiers; required for cppProxy generation */
-  public final List<String> packageNames;
+  public final List<String> packageNames = new LinkedList<>();
 
-  public JavaComplexType(final String name) {
-    super(name);
-    classNames = Collections.singletonList(name);
-    packageNames = null;
-  }
-
-  public JavaComplexType(
+  protected JavaComplexType(
       final String name,
       final List<String> classNames,
       final List<String> packageNames,
       final Collection<JavaImport> importCollection) {
     super(name, importCollection);
-    this.classNames = classNames;
-    this.packageNames = packageNames;
+    if (classNames != null) {
+      this.classNames.addAll(classNames);
+    }
+    if (packageNames != null) {
+      this.packageNames.addAll(packageNames);
+    }
   }
 }

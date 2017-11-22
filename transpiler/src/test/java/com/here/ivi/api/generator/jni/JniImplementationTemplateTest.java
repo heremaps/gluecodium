@@ -16,14 +16,13 @@ import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
 import com.here.ivi.api.model.javamodel.JavaArrayType;
+import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.jni.JniContainer;
-import com.here.ivi.api.model.jni.JniMethod;
-import com.here.ivi.api.model.jni.JniParameter;
-import com.here.ivi.api.model.jni.JniType;
+import com.here.ivi.api.model.jni.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -83,9 +82,18 @@ public final class JniImplementationTemplateTest {
 
   private final JniType jniIntType =
       JniType.createType(JavaPrimitiveType.INT, CppPrimitiveTypeRef.INT8);
-
   private final JniContainer jniContainer =
       JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+  private final JavaCustomType javaCustomType =
+      JavaCustomType.builder("JavaFooEnum")
+          .packageNames(NAMESPACES)
+          .className("TestClass")
+          .className("JavaFooEnum")
+          .build();
+  private final CppComplexTypeRef cppComplexTypeRef =
+      new CppComplexTypeRef.Builder(String.join("::", NAMESPACES) + "::CppClass::CppFooEnum")
+          .build();
+  private final JniType jniEnum = JniType.createType(javaCustomType, cppComplexTypeRef);
 
   @Before
   public void setUp() {
@@ -279,8 +287,8 @@ public final class JniImplementationTemplateTest {
     JniMethod jniMethod =
         new JniMethod.Builder("method1", "method1").returnType(jniType).isStatic(true).build();
     jniMethod.parameters.add(new JniParameter(BASE_PARAMETER_NAME, jniIntType));
-
     jniContainer.add(jniMethod);
+
     String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
 
     String methodBody =
@@ -304,9 +312,81 @@ public final class JniImplementationTemplateTest {
             + "method1("
             + BASE_PARAMETER_NAME
             + ");\n"
-            + "    return ::here::internal::convert_to_jni_array(_jenv, result);\n"
+            + "    return here::internal::convert_to_jni_array(_jenv, result);\n"
             + "}\n"
             + END_OF_FILE,
         generatedImplementation);
+  }
+
+  @Test
+  public void generateWithOneMethodWithExceptionName() {
+    JniMethod jniMethod =
+        new JniMethod.Builder("method1", "method1")
+            .isStatic(true)
+            .exception(new JniException("foo/bar/PanicAttack", jniEnum))
+            .build();
+    jniContainer.add(jniMethod);
+
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
+
+    String expected =
+        EXPECTED_PREFIX
+            + "\nvoid\n"
+            + JNI_TEST_CLASS_METHOD_PREFIX
+            + "method1(JNIEnv* _jenv, jobject _jinstance)\n"
+            + "{\n"
+            + "    auto nativeCallResult = ::com::here::ivi::test::CppClass::method1();\n"
+            + "    auto errorCode = nativeCallResult.code().code();\n"
+            + "    if (errorCode != hf::errors::NONE)\n"
+            + "    {\n"
+            + "        auto nEnumValue = static_cast<com::here::ivi::test::CppClass::CppFooEnum>(errorCode);\n"
+            + "        auto jEnumValue = here::internal::convert_to_jni(_jenv, nEnumValue);\n"
+            + "        auto exceptionClass = _jenv->FindClass(\"foo/bar/PanicAttack\");\n"
+            + "        auto theConstructor = _jenv->GetMethodID(exceptionClass, \"<init>\","
+            + " \"(Lcom/here/ivi/test/TestClass$JavaFooEnum;)V\");\n"
+            + "        auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);\n"
+            + "        _jenv->Throw(static_cast<jthrowable>(exception));\n"
+            + "    }\n\n"
+            + "}\n"
+            + END_OF_FILE;
+    assertEquals(expected, generatedImplementation);
+  }
+
+  @Test
+  public void generateWithOneMethodWithReturnTypeAndExceptionName() {
+    JniMethod jniMethod =
+        new JniMethod.Builder("method1", "method1")
+            .returnType(jniIntType)
+            .isStatic(true)
+            .exception(new JniException("foo/bar/PanicAttack", jniEnum))
+            .build();
+    jniContainer.add(jniMethod);
+
+    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
+
+    String expected =
+        EXPECTED_PREFIX
+            + "\njint\n"
+            + JNI_TEST_CLASS_METHOD_PREFIX
+            + "method1(JNIEnv* _jenv, jobject _jinstance)\n"
+            + "{\n"
+            + "    auto nativeCallResult = ::com::here::ivi::test::CppClass::method1();\n"
+            + "    auto result = nativeCallResult.safe_value();\n"
+            + "    auto errorCode = nativeCallResult.error().code().code();\n"
+            + "    if (errorCode != hf::errors::NONE)\n"
+            + "    {\n"
+            + "        auto nEnumValue = static_cast<com::here::ivi::test::CppClass::CppFooEnum>(errorCode);\n"
+            + "        auto jEnumValue = here::internal::convert_to_jni(_jenv, nEnumValue);\n"
+            + "        auto exceptionClass = _jenv->FindClass(\"foo/bar/PanicAttack\");\n"
+            + "        auto theConstructor = _jenv->GetMethodID(exceptionClass, \"<init>\","
+            + " \"(Lcom/here/ivi/test/TestClass$JavaFooEnum;)V\");\n"
+            + "        auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);\n"
+            + "        _jenv->Throw(static_cast<jthrowable>(exception));\n"
+            + "        return result;\n"
+            + "    }\n\n"
+            + "    return result;\n"
+            + "}\n"
+            + END_OF_FILE;
+    assertEquals(expected, generatedImplementation);
   }
 }

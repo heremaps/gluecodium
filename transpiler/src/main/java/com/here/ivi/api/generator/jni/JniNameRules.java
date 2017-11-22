@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.jni;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
+import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.io.File;
 import java.util.List;
@@ -87,6 +88,10 @@ public final class JniNameRules {
         .replace("[", "_3")
         .replace("$", "_00024")
         .replace("/", "_");
+  }
+
+  public static String getFullClassName(final JavaCustomType javaType) {
+    return String.join("/", javaType.packageNames) + "/" + javaType.name;
   }
 
   private static String formatPackageName(List<String> packageNames) {

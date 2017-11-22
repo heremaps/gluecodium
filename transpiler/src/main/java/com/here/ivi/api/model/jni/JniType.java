@@ -14,6 +14,7 @@ package com.here.ivi.api.model.jni;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.generator.jni.JniNameRules;
 import com.here.ivi.api.generator.jni.JniTypeNameMapper;
+import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
 import com.here.ivi.api.model.javamodel.JavaArrayType;
 import com.here.ivi.api.model.javamodel.JavaComplexType;
@@ -27,6 +28,7 @@ public final class JniType implements JniElement {
   public final String cppName;
   public final String javaName;
   public final String jniTypeSignature;
+  public final String cppFullyQualifiedName;
   public final boolean isInstance;
   public final boolean isJavaArray;
 
@@ -61,6 +63,7 @@ public final class JniType implements JniElement {
     this.isInstance = isInstance;
     this.refersToValueType = cppType.refersToValueType();
     jniTypeSignature = createJniSignature(javaType);
+    cppFullyQualifiedName = getCppFullyQualifiedName(cppType);
   }
 
   private static String createJniSignature(JavaType type) {
@@ -126,7 +129,7 @@ public final class JniType implements JniElement {
     }
   }
 
-  private static String createJniSignature(JavaComplexType complexType) {
+  private static String createJniSignature(final JavaComplexType complexType) {
 
     List<String> packageNames = complexType.packageNames;
     List<String> classNames = complexType.classNames;
@@ -135,5 +138,11 @@ public final class JniType implements JniElement {
       return "";
     }
     return "L" + String.join("/", packageNames) + "/" + String.join("$", classNames) + ";";
+  }
+
+  private static String getCppFullyQualifiedName(final CppTypeRef cppTypeRef) {
+    return cppTypeRef instanceof CppComplexTypeRef
+        ? ((CppComplexTypeRef) cppTypeRef).fullyQualifiedName
+        : null;
   }
 }

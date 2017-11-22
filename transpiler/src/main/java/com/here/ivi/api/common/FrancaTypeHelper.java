@@ -42,8 +42,4 @@ public final class FrancaTypeHelper {
         || (francaType instanceof FTypeDef
             && isArray(((FTypeDef) francaType).getActualType().getDerived()));
   }
-
-  public static boolean hasErrorType(final FMethod francaMethod) {
-    return francaMethod.getErrorEnum() != null || francaMethod.getErrors() != null;
-  }
 }
