@@ -19,7 +19,6 @@ import com.here.ivi.api.generator.swift.SwiftArrayMapper;
 import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.Collections;
-import java.util.Map;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Test;
@@ -39,8 +38,7 @@ public class SwiftArrayTemplateTest {
   public void simpleArrayGeneration() {
     SwiftArrayGenerator swiftArrayGenerator = new SwiftArrayGenerator();
     SwiftArray arrayType = getStringArray();
-    Map arrays = Collections.singletonMap(arrayType.underlyingType.name, arrayType);
-    swiftArrayGenerator.collect(arrays);
+    swiftArrayGenerator.collect(Collections.singletonMap(arrayType.underlyingType.name, arrayType));
     final String expected =
         "import Foundation\n"
             + "internal class StringList: CollectionOf<String> {\n"
@@ -80,8 +78,7 @@ public class SwiftArrayTemplateTest {
   public void nestedArrayGeneration() {
     SwiftArrayGenerator swiftArrayGenerator = new SwiftArrayGenerator();
     SwiftArray arrayType = getNestedStringArray();
-    Map arrays = Collections.singletonMap(arrayType.underlyingType.name, arrayType);
-    swiftArrayGenerator.collect(arrays);
+    swiftArrayGenerator.collect(Collections.singletonMap(arrayType.underlyingType.name, arrayType));
     final String expected =
         "import Foundation\n"
             + "internal class StringListList: CollectionOf<CollectionOf<String>> {\n"
@@ -119,8 +116,7 @@ public class SwiftArrayTemplateTest {
   public void enumsArrayGeneration() {
     SwiftArrayGenerator swiftArrayGenerator = new SwiftArrayGenerator();
     SwiftArray arrayType = getEnumArray();
-    Map arrays = Collections.singletonMap(arrayType.underlyingType.name, arrayType);
-    swiftArrayGenerator.collect(arrays);
+    swiftArrayGenerator.collect(Collections.singletonMap(arrayType.underlyingType.name, arrayType));
     final String expected =
         "import Foundation\n"
             + "internal class : CollectionOf<EnumSwift> {\n"
