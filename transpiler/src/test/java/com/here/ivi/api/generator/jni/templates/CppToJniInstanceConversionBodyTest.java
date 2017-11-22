@@ -50,11 +50,16 @@ public class CppToJniInstanceConversionBodyTest {
             + "/"
             + JAVA_NAME
             + "\");\n"
-            + "    auto pInstanceSharedPointer = new std::shared_ptr<::"
+            + "    auto pInstanceSharedPointer = new (::std::nothrow) ::std::shared_ptr<::"
             + String.join("::", CPP_PACKAGES)
             + "::"
             + CPP_NAME
             + ">(_ninput);\n"
+            + "    if (pInstanceSharedPointer == nullptr)\n"
+            + "    {\n"
+            + "        jclass exceptionClass = _jenv->FindClass(\"java/lang/RuntimeException\");\n"
+            + "        _jenv->ThrowNew(exceptionClass, \"Cannot allocate native memory.\");\n"
+            + "    }\n"
             + "    return create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));\n"
             + "}\n";
 

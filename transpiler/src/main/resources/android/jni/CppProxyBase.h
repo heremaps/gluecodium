@@ -16,6 +16,7 @@
 
 #include <memory>
 #include <mutex>
+#include <new>
 #include <string>
 #include <unordered_map>
 
@@ -49,7 +50,13 @@ public:
             }
         }
 
-        auto newProxy = ::std::make_shared< ImplType >( jenv, jGlobalRef, jHashCode );
+        auto newProxyInstance = new ( ::std::nothrow ) ImplType( jenv, jGlobalRef, jHashCode );
+        if ( newProxyInstance == nullptr )
+        {
+            jclass exceptionClass = jenv->FindClass( "java/lang/RuntimeException" );
+            jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
+        }
+        auto newProxy = ::std::shared_ptr< ImplType >( newProxyInstance );
         result = newProxy;
         sProxyCache[ key ] = ::std::weak_ptr< ImplType >( newProxy );
     }
