@@ -9,13 +9,11 @@
     <string name="fragment_listeners_title">Listeners</string>
     <string name="fragment_enumerations_title">Enumerations</string>
     <string name="fragment_arrays_title">Arrays</string>
+    <string name="fragment_arrays_usage">Provide array elements separated by a comma.\nExample: 1,2,3,4</string>
     <string name="number_of_usages_input">Insert numberOfUsages</string>
     <string name="profile_name_input">Insert new profile name</string>
     <string name="parameter_value">Value</string>
-    <string name="element_value_1">Element 1</string>
-    <string name="element_value_2">Element 2</string>
-    <string name="element_value_3">Element 3</string>
-    <string name="element_value_4">Element 4</string>
+    <string name="array_elements_hint">Arrays elements</string>
     <string name="submit">Submit!</string>
     <string name="text_input">Insert any text</string>
     <string name="text_result">Result</string>

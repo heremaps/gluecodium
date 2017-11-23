@@ -88,6 +88,6 @@
         <item>Returns given Int64 array in reversed order.</item>
         <item>Returns given UInt32 array in reversed order.\nArrays are defined inline in FIDL file.</item>
         <item>Returns given ExampleStruct array in reversed order.\n\nExampleStruct {\n\tdouble value\n}</item>
-        <item>Returns given array of Int64 arrays in reversed order.\nEvery array will be constructed by adding 10 to every input element.</item>
+        <item>Returns given array of Int64 arrays in reversed order.\nArrays are created by adding 10¹, 10² and 10³ to input element.</item>
     </string-array>
 </resources>
