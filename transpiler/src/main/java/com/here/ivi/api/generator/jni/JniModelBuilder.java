@@ -85,33 +85,18 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
               javaTopLevelElement.name,
               cppClass.name,
               true,
-              true,
               true);
     } else {
-      if (hasOnlyStaticMethods(getPreviousResults(JniMethod.class))) {
-        // TODO: should always be instantiable, remove this case once APIGEN-893 is solved
-        jniContainer =
-            new JniContainer(
-                javaTopLevelElement.javaPackage.packageNames,
-                DefinedBy.getPackages(francaInterface),
-                javaClass.name,
-                javaTopLevelElement.name,
-                cppClass.name,
-                true,
-                false,
-                false);
-      } else {
-        jniContainer =
-            new JniContainer(
-                javaTopLevelElement.javaPackage.packageNames,
-                DefinedBy.getPackages(francaInterface),
-                javaClass.name,
-                javaTopLevelElement.name,
-                cppClass.name,
-                true,
-                true,
-                false);
-      }
+
+      jniContainer =
+          new JniContainer(
+              javaTopLevelElement.javaPackage.packageNames,
+              DefinedBy.getPackages(francaInterface),
+              javaClass.name,
+              javaTopLevelElement.name,
+              cppClass.name,
+              true,
+              false);
     }
 
     getPreviousResults(JniMethod.class).forEach(jniContainer::add);
@@ -267,9 +252,5 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     }
 
     closeContext();
-  }
-
-  private static boolean hasOnlyStaticMethods(final List<JniMethod> jniMethods) {
-    return !jniMethods.isEmpty() && jniMethods.stream().allMatch(jniMethod -> jniMethod.isStatic);
   }
 }

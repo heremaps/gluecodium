@@ -99,8 +99,6 @@ public class JniModelBuilderTest {
       new CppMethod.Builder("shootFoot").returnType(CppPrimitiveTypeRef.INT32).build();
   private final JavaMethod javaSetter = new JavaMethod("setFoo", JavaPrimitiveType.VOID);
   private final CppMethod cppSetter = new CppMethod.Builder("shootBothFeet").build();
-  private final JniMethod jniStaticMethod =
-      JniMethod.builder().cppMethodName("jniStaticMethod").isStatic(true).build();
   private JniModelBuilder modelBuilder;
 
   private final EList<FArgument> arguments = new ArrayEList<>();
@@ -241,76 +239,6 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingStaticFrancaInterface() {
-    //arrange
-    contextStack.injectResult(jniStaticMethod);
-
-    //act
-    modelBuilder.finishBuilding(francaInterface);
-
-    //assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertFalse(jniContainer.isInstantiable);
-    assertFalse(jniContainer.isInterface);
-  }
-
-  @Test
-  public void finishBuildingStaticFrancaInterfaceReadsJavaCppClasses() {
-    //arrange
-    contextStack.injectResult(jniStaticMethod);
-    javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-
-    //act
-    modelBuilder.finishBuilding(francaInterface);
-
-    //assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(CPP_CLASS_NAME, jniContainer.cppName);
-    assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
-    assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.cppNameSpaces);
-    assertEquals(JAVA_PACKAGES, jniContainer.javaPackages);
-    assertFalse(jniContainer.isInstantiable);
-    assertFalse(jniContainer.isInterface);
-  }
-
-  @Test
-  public void finishBuildingStaticFrancaInterfaceReadsJavaInterface() {
-    contextStack.injectResult(jniStaticMethod);
-    JavaInterface javaInterface = new JavaInterface(JAVA_INTERFACE_NAME);
-    javaInterface.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getFinalResult(JavaTopLevelElement.class)).thenReturn(javaInterface);
-    when(javaBuilder.getFinalResult(JavaClass.class)).thenReturn(javaClass);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertFalse(jniContainer.isInstantiable);
-    assertFalse(jniContainer.isInterface);
-    assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
-    assertEquals(JAVA_INTERFACE_NAME, jniContainer.javaInterfaceName);
-    assertEquals(JAVA_PACKAGES, jniContainer.javaPackages);
-  }
-
-  @Test
-  public void finishBuildingStaticFrancaInterfaceReadsMethods() {
-    contextStack.injectResult(jniStaticMethod);
-
-    //act
-    modelBuilder.finishBuilding(francaInterface);
-
-    //assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertFalse(jniContainer.methods.isEmpty());
-    assertFalse(jniContainer.isInstantiable);
-    assertFalse(jniContainer.isInterface);
-    assertEquals(jniStaticMethod.cppMethodName, jniContainer.methods.get(0).cppMethodName);
-  }
-
-  @Test
   public void finishBuildingInstantiableFrancaInterface() {
     //arrange
     CppMethod nonStaticMethod = new CppMethod.Builder("nonStaticMethod").build();
@@ -322,7 +250,6 @@ public class JniModelBuilderTest {
     //assert
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertTrue(jniContainer.isInstantiable);
     assertFalse(jniContainer.isInterface);
   }
 
@@ -341,7 +268,6 @@ public class JniModelBuilderTest {
     assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
     assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.cppNameSpaces);
     assertEquals(JAVA_PACKAGES, jniContainer.javaPackages);
-    assertTrue(jniContainer.isInstantiable);
     assertFalse(jniContainer.isInterface);
   }
 
@@ -356,7 +282,6 @@ public class JniModelBuilderTest {
 
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertTrue(jniContainer.isInstantiable);
     assertFalse(jniContainer.isInterface);
     assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
     assertEquals(JAVA_INTERFACE_NAME, jniContainer.javaInterfaceName);
@@ -375,7 +300,6 @@ public class JniModelBuilderTest {
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
     assertFalse(jniContainer.methods.isEmpty());
-    assertTrue(jniContainer.isInstantiable);
     assertFalse(jniContainer.isInterface);
     assertEquals(createJniMethod(jniContainer), jniContainer.methods.get(0));
   }
@@ -391,7 +315,6 @@ public class JniModelBuilderTest {
     //assert
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertTrue(jniContainer.isInstantiable);
     assertTrue(jniContainer.isInterface);
   }
 
@@ -407,7 +330,6 @@ public class JniModelBuilderTest {
     //assert
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertTrue(jniContainer.isInstantiable);
     assertTrue(jniContainer.isInterface);
     assertEquals(CPP_CLASS_NAME, jniContainer.cppName);
     assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
@@ -427,7 +349,6 @@ public class JniModelBuilderTest {
 
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertTrue(jniContainer.isInstantiable);
     assertTrue(jniContainer.isInterface);
     assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
     assertEquals(JAVA_INTERFACE_NAME, jniContainer.javaInterfaceName);

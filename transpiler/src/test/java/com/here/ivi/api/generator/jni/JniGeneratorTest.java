@@ -71,7 +71,7 @@ public class JniGeneratorTest {
   public void isInterfaceProxyIsGenerated() {
     JniContainer instantiableJniContainer =
         JniContainer.createInterfaceContainer(
-            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy", true);
+            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy");
     instantiableJniContainer.isInterface = true;
 
     List<GeneratedFile> files =
@@ -88,7 +88,7 @@ public class JniGeneratorTest {
   public void isNoInterfaceProxyIsNotGenerated() {
     JniContainer instantiableJniContainer =
         JniContainer.createInterfaceContainer(
-            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy", true);
+            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy");
     instantiableJniContainer.isInterface = false;
 
     List<GeneratedFile> files =
@@ -123,7 +123,7 @@ public class JniGeneratorTest {
   public void generateConversionFiles() {
     JniContainer instantiableJniContainer =
         JniContainer.createInterfaceContainer(
-            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy", true);
+            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy");
     instantiableJniContainer.isInterface = true;
 
     List<GeneratedFile> result =

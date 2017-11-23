@@ -27,12 +27,10 @@ extern "C" {
 }
 
 {{/methods}}
-{{#if isInstantiable}}
 void
 Java_{{#javaPackages}}{{.}}_{{/javaPackages}}{{javaName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<::{{#cppNameSpaces}}{{.}}::{{/cppNameSpaces}}{{cppName}}>*> (_jpointerRef);
 }
-{{/if}}
 }
 {{/if}}

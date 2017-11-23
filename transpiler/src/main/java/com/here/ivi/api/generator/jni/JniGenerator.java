@@ -94,11 +94,8 @@ public class JniGenerator extends AbstractAndroidGenerator {
     }
 
     addStructConversionFiles(jniContainers, results);
-
     addInstanceConversionFiles(jniContainers, results);
-
     addEnumConversionFiles(jniContainers, results);
-
     addCppProxyFiles(jniContainers, results);
 
     return results;
@@ -160,19 +157,20 @@ public class JniGenerator extends AbstractAndroidGenerator {
 
   private void addInstanceConversionFiles(
       List<JniContainer> jniContainers, List<GeneratedFile> results) {
-    List<JniContainer> instanceContainersList =
+
+    List<JniContainer> instanceContainers =
         jniContainers
             .stream()
-            .filter(container -> container.isInstantiable)
-            .collect(Collectors.toCollection(ArrayList::new));
+            .filter(container -> container.isFrancaInterface)
+            .collect(Collectors.toList());
 
     Map<String, Iterable<?>> instanceData = new HashMap<>();
     final Set<Include> instanceIncludes = new LinkedHashSet<>();
     instanceIncludes.add(CppLibraryIncludes.MEMORY);
     instanceIncludes.add(CppLibraryIncludes.NEW);
-    instanceContainersList.forEach(container -> instanceIncludes.addAll(container.includes));
+    instanceContainers.forEach(container -> instanceIncludes.addAll(container.includes));
     instanceData.put(INCLUDES_NAME, instanceIncludes);
-    instanceData.put(MODELS_NAME, instanceContainersList);
+    instanceData.put(MODELS_NAME, instanceContainers);
 
     results.add(
         new GeneratedFile(

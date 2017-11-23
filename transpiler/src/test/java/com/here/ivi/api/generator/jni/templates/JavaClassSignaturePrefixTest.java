@@ -43,7 +43,7 @@ public final class JavaClassSignaturePrefixTest {
   @Test
   public void generateFromInstantiableInterface() {
     JniContainer container =
-        JniContainer.createInterfaceContainer(PACKAGE_NAMES, null, null, "FooImpl", null, true);
+        JniContainer.createInterfaceContainer(PACKAGE_NAMES, null, null, "FooImpl", null);
     JniStruct jniStruct = new JniStruct(container, null, null, null);
 
     String generated = TemplateEngine.render(TEMPLATE_NAME, jniStruct);
