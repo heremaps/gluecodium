@@ -38,10 +38,8 @@ function(apigen_target_include_directories target)
     if(${GENERATOR} STREQUAL cpp)
 
         # If generator exactly matches 'cpp' the user intended C++ only
-        #TODO(ATEAM-44): Remove compat locations
         target_include_directories(${target}
             PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
-            PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp>
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)
 
     elseif(${GENERATOR} MATCHES android)
@@ -51,7 +49,6 @@ function(apigen_target_include_directories target)
         #TODO(ATEAM-44): Remove compat locations
         target_include_directories(${target}
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
-            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp>
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>) # JNI headers and sources
 
         # Check if we are doing a host build (no cross compilation)
@@ -66,7 +63,6 @@ function(apigen_target_include_directories target)
         # Swift targets need the cpp and c_bridge headers to compile
         # but should not expose those to the public.
         target_include_directories(${target}
-            PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp>
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
             # There are file name conflicts between cbridge and cbridge_internal so the top folder
             # needs to be added to have cbridge/cbridge_internal as part of the include path
