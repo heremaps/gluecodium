@@ -44,11 +44,11 @@ public final class SwiftNameRules {
   }
 
   public static String getMethodName(final FMethod method) {
-    return method.getName();
+    return NameHelper.toLowerCamelCase(method.getName());
   }
 
   public static String getParameterName(final FArgument argument) {
-    return argument.getName();
+    return NameHelper.toLowerCamelCase(argument.getName());
   }
 
   public static String getClassName(final String name) {

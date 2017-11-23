@@ -17,7 +17,6 @@ import static com.here.ivi.api.model.swift.SwiftType.VOID;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.*;
 import org.franca.core.franca.*;
@@ -31,7 +30,7 @@ public class SwiftTypeMapper {
   public static SwiftType mapType(final FTypeRef type, FrancaDeploymentModel deploymentModel) {
     FType derived = type.getDerived();
 
-    SwiftType swiftType = VOID;
+    SwiftType swiftType;
     if (derived != null) {
       swiftType = mapDerived(derived, deploymentModel);
     } else {
@@ -79,8 +78,8 @@ public class SwiftTypeMapper {
   private static SwiftType getClassOrStructType(
       FType derived, final FrancaDeploymentModel deploymentModel) {
     SwiftType.TypeCategory category = (derived instanceof FTypeDef) ? CLASS : STRUCT;
-    String swiftName = NameHelper.toUpperCamelCase(derived.getName());
-    String name = derived.getName();
+    String swiftName = SwiftNameRules.getClassName(derived.getName());
+    String name = swiftName;
     if (derived instanceof FStructType) {
       name = SwiftNameRules.getStructName((FStructType) derived, deploymentModel);
     }
