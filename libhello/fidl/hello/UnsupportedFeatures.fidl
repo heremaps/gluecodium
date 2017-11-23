@@ -49,13 +49,6 @@ interface UnsupportedFeatures {
         error ErrorEnum
     }
 
-    method errorCodeInline {
-        error {
-            FOO
-            BAR
-        }
-    }
-
     <** @description:
         Magic workaround to avoid UnsupportedUnions being flagged as "instantiable" when the
         unsupported methodWithUnion is removed.
