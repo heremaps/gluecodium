@@ -113,7 +113,7 @@ public class MapsTest {
 
         Map<Long, Map<Long, Maps.SomeStruct>> byteMapMap = new HashMap<>();
         byteMapMap.put(7L, byteStructMap);
-        byteMapMap.put(93L, new HashMap<Long, Maps.SomeStruct>());
+        byteMapMap.put(93L, new HashMap<>());
 
         Map<Long, Map<Long, Maps.SomeStruct>> resultsMap = Maps.methodWithNestedMap(byteMapMap);
 

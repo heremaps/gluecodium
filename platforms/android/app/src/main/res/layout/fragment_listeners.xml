@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:text="@string/register_java_listener"
+            style="?android:buttonBarButtonStyle"
             android:textSize="@dimen/small_button_text_size"/>
 
         <Button
@@ -30,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            style="?android:buttonBarButtonStyle"
             android:enabled="false"
             android:text="@string/unregister_java_listener"
             android:textSize="@dimen/small_button_text_size"/>
@@ -47,6 +49,7 @@
             android:id="@+id/register_native_listener"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="?android:buttonBarButtonStyle"
             android:layout_weight="0.5"
             android:text="@string/register_native_listener"
             android:textSize="@dimen/small_button_text_size"/>
@@ -56,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            style="?android:buttonBarButtonStyle"
             android:enabled="false"
             android:text="@string/unregister_native_listener"
             android:textSize="@dimen/small_button_text_size"/>
@@ -89,7 +93,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Position start"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
         <EditText
             android:id="@+id/listeners_start_x"
@@ -133,7 +137,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Position end"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
         <EditText
             android:id="@+id/listeners_end_x"
@@ -190,12 +194,12 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/java_listener_result_label"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/java_listener_result"
             style="@style/AppTheme.ShowCaseResult"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:hint="@string/text_result_not_calculated"/>
@@ -214,12 +218,12 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/native_listener_result_label"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/native_listener_result"
             style="@style/AppTheme.ShowCaseResult"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:hint="@string/text_result_not_calculated"/>
