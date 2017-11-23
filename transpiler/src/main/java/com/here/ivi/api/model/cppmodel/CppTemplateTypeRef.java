@@ -29,7 +29,8 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
     MAP("::std::unordered_map", CppLibraryIncludes.MAP),
     VECTOR("::std::vector", CppLibraryIncludes.VECTOR),
     BASIC_STRING("::std::basic_string", CppLibraryIncludes.STRING),
-    EXPECTED("here::internal::Expected", CppLibraryIncludes.EXPECTED);
+    //TODO: use customizable C++ namespace when APIGEN-663 is done
+    RETURN("::hf::Return", CppLibraryIncludes.RETURN);
 
     public final String name;
     public final Set<Include> includes;

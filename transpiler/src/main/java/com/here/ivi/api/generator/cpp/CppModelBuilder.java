@@ -358,6 +358,6 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     // wrap multiple out values (error + outArg) in their own type
     return CppTemplateTypeRef.create(
-        CppTemplateTypeRef.TemplateClass.EXPECTED, errorType, outArgType);
+        CppTemplateTypeRef.TemplateClass.RETURN, outArgType, errorType);
   }
 }
