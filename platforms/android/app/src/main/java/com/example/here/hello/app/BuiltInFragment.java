@@ -1,6 +1,7 @@
 package com.example.here.hello.app;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ public final class BuiltInFragment extends Fragment {
     private String[] descriptionsText;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_builtin, container, false);
         descriptionsText = getResources().getStringArray(R.array.builtin_methods_description);
@@ -42,7 +43,7 @@ public final class BuiltInFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override

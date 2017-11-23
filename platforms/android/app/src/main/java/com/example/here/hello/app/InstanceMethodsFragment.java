@@ -11,6 +11,7 @@
 package com.example.here.hello.app;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -35,7 +36,7 @@ public final class InstanceMethodsFragment extends Fragment {
     private ProfileManager profileManager;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_instance_methods, container, false);
         input = rootView.findViewById(R.id.instance_methods_edit);
@@ -48,7 +49,7 @@ public final class InstanceMethodsFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         submitButton.setOnClickListener(v -> {
             executeMethodOnObject(input.getText().toString());

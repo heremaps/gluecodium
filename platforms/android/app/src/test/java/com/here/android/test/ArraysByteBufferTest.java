@@ -15,7 +15,6 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
@@ -43,7 +42,7 @@ public class ArraysByteBufferTest {
 
     @Test
     public void methodWithImplicitArray_emptyArray() {
-        List<Long> uintList = new ArrayList();
+        List<Long> uintList = new ArrayList<>();
 
         List<Long> resultList = ArraysByteBuffer.methodWithImplicitArray(uintList);
 
@@ -63,7 +62,7 @@ public class ArraysByteBufferTest {
 
     @Test
     public void methodWithExplicitArray_emptyArray() {
-        List<Long> uintList = new ArrayList();
+        List<Long> uintList = new ArrayList<>();
 
         List<Long> resultList = ArraysByteBuffer.methodWithExplicitArray(uintList);
 
@@ -108,7 +107,7 @@ public class ArraysByteBufferTest {
     @Test
     public void methodWithImplicitArrayInStruct_emptyArray() {
         ArraysByteBuffer.StructWithImplicitArray struct = new ArraysByteBuffer.StructWithImplicitArray();
-        struct.image = new ArrayList();
+        struct.image = new ArrayList<>();
 
         ArraysByteBuffer.StructWithImplicitArray resultStruct
             = ArraysByteBuffer.methodWithImplicitArrayInStruct(struct);
@@ -132,7 +131,7 @@ public class ArraysByteBufferTest {
     @Test
     public void methodWithExplicitArrayInStruct_emptyArray() {
         ArraysByteBuffer.StructWithExplicitArray struct = new ArraysByteBuffer.StructWithExplicitArray();
-        struct.image = new ArrayList();
+        struct.image = new ArrayList<>();
 
         ArraysByteBuffer.StructWithExplicitArray resultStruct
             = ArraysByteBuffer.methodWithExplicitArrayInStruct(struct);

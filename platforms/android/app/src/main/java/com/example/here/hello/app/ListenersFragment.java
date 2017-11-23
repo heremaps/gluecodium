@@ -1,6 +1,7 @@
 package com.example.here.hello.app;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,9 +26,12 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public final class ListenersFragment extends Fragment {
     private static final String CALLED_WITH_RESULT = "called with result =";
-    private final int JAVA_LISTENER_NATIVE_METHOD = 0;
-    private final int NATIVE_LISTENER_NATIVE_METHOD = 1;
-    private final int LISTENERS_IN_BACKGROUND = 2;
+    private static final int JAVA_LISTENER_NATIVE_METHOD = 0;
+    private static final int NATIVE_LISTENER_NATIVE_METHOD = 1;
+    private static final int LISTENERS_IN_BACKGROUND = 2;
+    private static final Calculator.Position START_POSITION = new Calculator.Position();
+    private static final Calculator.Position END_POSITION = new Calculator.Position();
+
     private TextView result;
     private TextView java_listener_result;
     private TextView native_listener_result;
@@ -50,11 +54,9 @@ public final class ListenersFragment extends Fragment {
     private LinearLayout calculateInBackgroundJavaButtonsLayout;
     private LinearLayout calculateInBackgroundNativeButtonsLayout;
     private String[] buttonText;
-    private static final Calculator.Position START_POSITION = new Calculator.Position();
-    private static final Calculator.Position END_POSITION = new Calculator.Position();
-    private Calculator notifier = CalculatorFactory.createCalculator();
+    private final Calculator notifier = CalculatorFactory.createCalculator();
 
-    private CalculatorListener javaListener = new CalculatorListener() {
+    private final CalculatorListener javaListener = new CalculatorListener() {
         @Override
         public void onCalculationResult(double v) {
             result.setText(String.valueOf(v));
@@ -65,10 +67,10 @@ public final class ListenersFragment extends Fragment {
             java_listener_result.setText(String.valueOf(v));
         }
     };
-    private CalculatorListener nativeListener = HelloWorldCalculatorListenerFactory.createCalculatorListener();
+    private final CalculatorListener nativeListener = HelloWorldCalculatorListenerFactory.createCalculatorListener();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_listeners, container, false);
         buttonText = getResources().getStringArray(R.array.listeners_methods_button);
@@ -98,7 +100,7 @@ public final class ListenersFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
@@ -125,7 +127,6 @@ public final class ListenersFragment extends Fragment {
                     statusRegisteredJavaListeners.setVisibility(View.GONE);
                     statusRegisteredNativeListeners.setVisibility(View.GONE);
                     result.setVisibility(View.VISIBLE);
-
                 }
             }
 
@@ -137,66 +138,51 @@ public final class ListenersFragment extends Fragment {
                 unregisterNativeButton.setVisibility(View.GONE);
             }
         });
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String x1 = inputX1.getText().toString();
-                String y1 = inputY1.getText().toString();
-                String z1 = inputZ1.getText().toString();
-                String x2 = inputX2.getText().toString();
-                String y2 = inputY2.getText().toString();
-                String z2 = inputZ2.getText().toString();
-                try {
-                    executeBuiltinVariablesMethod(spinner.getSelectedItemPosition(),
-                            x1, y1, z1, x2, y2, z2);
-                } catch (NumberFormatException e) {
-                    result.setText(e.getMessage());
-                }
-
-                // hide virtual keyboard
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
+        submitButton.setOnClickListener(v -> {
+            String x1 = inputX1.getText().toString();
+            String y1 = inputY1.getText().toString();
+            String z1 = inputZ1.getText().toString();
+            String x2 = inputX2.getText().toString();
+            String y2 = inputY2.getText().toString();
+            String z2 = inputZ2.getText().toString();
+            try {
+                executeBuiltinVariablesMethod(spinner.getSelectedItemPosition(),
+                        x1, y1, z1, x2, y2, z2);
+            } catch (NumberFormatException e) {
+                result.setText(e.getMessage());
             }
+
+            // hide virtual keyboard
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(result.getWindowToken(), 0);
         });
 
-        registerJavaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notifier.registerListener(javaListener);
-                statusRegisteredJavaListeners.setText(R.string.java_listener_registered);
-                registerJavaButton.setEnabled(false);
-                unregisterJavaButton.setEnabled(true);
-            }
+        registerJavaButton.setOnClickListener(v -> {
+            notifier.registerListener(javaListener);
+            statusRegisteredJavaListeners.setText(R.string.java_listener_registered);
+            registerJavaButton.setEnabled(false);
+            unregisterJavaButton.setEnabled(true);
         });
 
-        registerNativeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notifier.registerListener(nativeListener);
-                statusRegisteredNativeListeners.setText(R.string.native_listener_registered);
-                registerNativeButton.setEnabled(false);
-                unregisterNativeButton.setEnabled(true);
-            }
+        registerNativeButton.setOnClickListener(v -> {
+            notifier.registerListener(nativeListener);
+            statusRegisteredNativeListeners.setText(R.string.native_listener_registered);
+            registerNativeButton.setEnabled(false);
+            unregisterNativeButton.setEnabled(true);
         });
 
-        unregisterJavaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notifier.unregisterListener(javaListener);
-                statusRegisteredJavaListeners.setText(R.string.java_listener_not_registered);
-                registerJavaButton.setEnabled(true);
-                unregisterJavaButton.setEnabled(false);
-            }
+        unregisterJavaButton.setOnClickListener(v -> {
+            notifier.unregisterListener(javaListener);
+            statusRegisteredJavaListeners.setText(R.string.java_listener_not_registered);
+            registerJavaButton.setEnabled(true);
+            unregisterJavaButton.setEnabled(false);
         });
 
-        unregisterNativeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notifier.unregisterListener(nativeListener);
-                statusRegisteredNativeListeners.setText(R.string.native_listener_not_registered);
-                registerNativeButton.setEnabled(true);
-                unregisterNativeButton.setEnabled(false);
-            }
+        unregisterNativeButton.setOnClickListener(v -> {
+            notifier.unregisterListener(nativeListener);
+            statusRegisteredNativeListeners.setText(R.string.native_listener_not_registered);
+            registerNativeButton.setEnabled(true);
+            unregisterNativeButton.setEnabled(false);
         });
     }
 
