@@ -22,18 +22,18 @@ namespace hello
         return hf::Error( static_cast< hf::ErrorCode::Code >( error_code ) );
     }
 
-    here::internal::Expected< hf::Error, std::string >
+    hf::Return< std::string, hf::Error >
     HelloWorldErrors::hello_world_method_with_error_and_string( const bool errorFlag )
     {
         if ( errorFlag )
         {
-            return here::internal::Expected< hf::Error, std::string >::fail(
+            return hf::Return< std::string, hf::Error >(
                 hf::Error( static_cast< hf::ErrorCode::Code >(
                     HelloWorldErrors::InternalErrors::CRASHED ) ) );
         }
         else
         {
-            return here::internal::Expected< hf::Error, std::string >::result( "Hello!" );
+            return hf::Return< std::string, hf::Error >( "Hello!" );
         }
     }
 }
