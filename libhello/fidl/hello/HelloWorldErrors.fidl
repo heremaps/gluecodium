@@ -48,36 +48,4 @@ interface HelloWorldErrors {
         }
         error InternalErrors
     }
-
-    <** @description:
-    Example static method with an inline error enum that raises "UNKNOWN_ERROR" error if errorFlag
-    is true
-    **>
-    method helloWorldMethodWithInlineError {
-        in {
-            Boolean errorFlag
-        }
-        error {
-            NONE
-            UNKNOWN_ERROR
-        }
-    }
-
-    <** @description:
-    Example static method with an inline error enum which returns a String that raises
-    "UNKNOWN_ERROR" error if errorFlag is true
-    **>
-    method helloWorldMethodWithInlineErrorAndString {
-        in {
-            Boolean errorFlag
-        }
-        out {
-            <** @description: Output string **>
-            String outputString
-        }
-        error {
-            NONE
-            UNKNOWN_ERROR
-        }
-    }
 }
