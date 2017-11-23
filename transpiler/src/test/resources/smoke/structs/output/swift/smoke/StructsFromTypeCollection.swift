@@ -11,10 +11,18 @@
 
 import Foundation
 
-
-
+internal func getRef(_ ref: StructsFromTypeCollection) -> RefHolder<smoke_StructsFromTypeCollectionRef> {
+    return RefHolder<smoke_StructsFromTypeCollectionRef>(ref.c_instance)
+}
 
 public class StructsFromTypeCollection {
+    let c_instance : smoke_StructsFromTypeCollectionRef
+    public required init?(cStructsFromTypeCollection: smoke_StructsFromTypeCollectionRef) {
+        c_instance = cStructsFromTypeCollection
+    }
+    deinit {
+        smoke_StructsFromTypeCollection_release(c_instance)
+    }
 
     public static func createPoint(x: Double, y: Double) -> Point? {
         let cResult = smoke_StructsFromTypeCollection_createPoint(x, y)

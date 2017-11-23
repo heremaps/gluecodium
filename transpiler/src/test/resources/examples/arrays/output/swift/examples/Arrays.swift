@@ -9,7 +9,17 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+internal func getRef(_ ref: Arrays) -> RefHolder<examples_ArraysRef> {
+    return RefHolder<examples_ArraysRef>(ref.c_instance)
+}
 public class Arrays {
+    let c_instance : examples_ArraysRef
+    public required init?(cArrays: examples_ArraysRef) {
+        c_instance = cArrays
+    }
+    deinit {
+        examples_Arrays_release(c_instance)
+    }
     public struct SyncResult {
         public var lastUpdatedTimeStamp: UInt64
         public var numberOfChanges: UInt32

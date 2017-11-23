@@ -11,8 +11,17 @@
 
 import Foundation
 
-
+internal func getRef(_ ref: EnumMethods) -> RefHolder<examples_EnumMethodsRef> {
+    return RefHolder<examples_EnumMethodsRef>(ref.c_instance)
+}
 public class EnumMethods {
+    let c_instance : examples_EnumMethodsRef
+    public required init?(cEnumMethods: examples_EnumMethodsRef) {
+        c_instance = cEnumMethods
+    }
+    deinit {
+        examples_EnumMethods_release(c_instance)
+    }
 
     public static func methodWithEnumeration(input: ShoeSizes) -> ShoeSizes {
         let cResult = examples_EnumMethods_methodWithEnumeration(input.rawValue)

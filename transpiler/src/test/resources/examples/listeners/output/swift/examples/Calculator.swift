@@ -11,7 +11,17 @@
 
 import Foundation
 
+internal func getRef(_ ref: Calculator) -> RefHolder<examples_CalculatorRef> {
+    return RefHolder<examples_CalculatorRef>(ref.c_instance)
+}
 public class Calculator {
+    let c_instance : examples_CalculatorRef
+    public required init?(cCalculator: examples_CalculatorRef) {
+        c_instance = cCalculator
+    }
+    deinit {
+        examples_Calculator_release(c_instance)
+    }
 
     public static func registerListener(listener: CalculatorListener) -> Void {
         let listenerHandle = getRef(listener)

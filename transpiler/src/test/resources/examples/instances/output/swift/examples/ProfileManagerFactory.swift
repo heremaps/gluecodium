@@ -11,10 +11,17 @@
 
 import Foundation
 
-
-
-
+internal func getRef(_ ref: ProfileManagerFactory) -> RefHolder<examples_ProfileManagerFactoryRef> {
+    return RefHolder<examples_ProfileManagerFactoryRef>(ref.c_instance)
+}
 public class ProfileManagerFactory {
+    let c_instance : examples_ProfileManagerFactoryRef
+    public required init?(cProfileManagerFactory: examples_ProfileManagerFactoryRef) {
+        c_instance = cProfileManagerFactory
+    }
+    deinit {
+        examples_ProfileManagerFactory_release(c_instance)
+    }
 
     public static func createProfileManager() -> ProfileManager? {
         let cResult = examples_ProfileManagerFactory_createProfileManager()
