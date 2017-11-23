@@ -19,13 +19,7 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.test.ArrayEList;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +35,11 @@ public class SwiftNameRulesTest {
   private static final String NAMESPACE_DELIMITER = ".";
   private static final String STRUCT_NAME = "SomeStruct";
   private static final String TYPEDEF_NAME = "SomeTypeDef";
+  private static final String INTERFACE_NAME = "SomeInterface";
+  private static final String ENUM_NAME = "SomeEnum";
+  private static final String FRANCA_NAME = "do_nuts";
+  private static final String SWIFT_NAME = "nonsense";
+
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private FEnumerationType fEnumerationType;
   @Mock private FInterface fInterface;
@@ -48,8 +47,7 @@ public class SwiftNameRulesTest {
   @Mock private FMethod fMethod;
   @Mock private FStructType fStruct;
   @Mock private FTypeDef fTypeDef;
-  private static final String INTERFACE_NAME = "SomeInterface";
-  private static final String ENUM_NAME = "SomeEnum";
+  @Mock private FArgument francaArgument;
 
   @Before
   public void setUp() {
@@ -76,7 +74,7 @@ public class SwiftNameRulesTest {
   }
 
   @Test
-  public void fullyQuallifiedNameForEnumInsideClass() {
+  public void fullyQualifiedNameForEnumInsideClass() {
     when(NameHelper.toUpperCamelCase(any())).thenReturn(INTERFACE_NAME).thenReturn(ENUM_NAME);
     String expected = INTERFACE_NAME + NAMESPACE_DELIMITER + ENUM_NAME;
 
@@ -86,7 +84,7 @@ public class SwiftNameRulesTest {
   }
 
   @Test
-  public void fullyQuallifiedNameForEnumOutsideClass() {
+  public void fullyQualifiedNameForEnumOutsideClass() {
     when(deploymentModel.isInterface(any())).thenReturn(true);
     when(NameHelper.toUpperCamelCase(any())).thenReturn(ENUM_NAME);
 
@@ -96,7 +94,7 @@ public class SwiftNameRulesTest {
   }
 
   @Test
-  public void fullyQuallifiedNameForEnumFromTypeCollection() {
+  public void fullyQualifiedNameForEnumFromTypeCollection() {
     when(fEnumerationType.eContainer()).thenReturn(fTypeCollection);
     when(NameHelper.toUpperCamelCase(any())).thenReturn(ENUM_NAME);
 
@@ -106,7 +104,7 @@ public class SwiftNameRulesTest {
   }
 
   @Test
-  public void fullyQuallifiedNameForStructInsideClass() {
+  public void fullyQualifiedNameForStructInsideClass() {
     when(NameHelper.toUpperCamelCase(any())).thenReturn(INTERFACE_NAME).thenReturn(STRUCT_NAME);
     String expected = INTERFACE_NAME + NAMESPACE_DELIMITER + STRUCT_NAME;
 
@@ -116,7 +114,7 @@ public class SwiftNameRulesTest {
   }
 
   @Test
-  public void fullyQuallifiedNameForStructOutsideClass() {
+  public void fullyQualifiedNameForStructOutsideClass() {
     when(deploymentModel.isInterface(any())).thenReturn(true);
     when(NameHelper.toUpperCamelCase(any())).thenReturn(STRUCT_NAME);
 
@@ -126,7 +124,7 @@ public class SwiftNameRulesTest {
   }
 
   @Test
-  public void fullyQuallifiedNameForStructFromTypeCollection() {
+  public void fullyQualifiedNameForStructFromTypeCollection() {
     when(fStruct.eContainer()).thenReturn(fTypeCollection);
     when(NameHelper.toUpperCamelCase(any())).thenReturn(STRUCT_NAME);
 
@@ -136,7 +134,7 @@ public class SwiftNameRulesTest {
   }
 
   @Test
-  public void fullyQuallifiedNameForTypedefInsideClass() {
+  public void fullyQualifiedNameForTypedefInsideClass() {
     when(NameHelper.toUpperCamelCase(any())).thenReturn(INTERFACE_NAME).thenReturn(TYPEDEF_NAME);
     String expected = INTERFACE_NAME + NAMESPACE_DELIMITER + TYPEDEF_NAME;
 
@@ -146,7 +144,7 @@ public class SwiftNameRulesTest {
   }
 
   @Test
-  public void fullyQuallifiedNameForTypedefInsideProtocol() {
+  public void fullyQualifiedNameForTypedefInsideProtocol() {
     when(deploymentModel.isInterface(any())).thenReturn(true);
     when(NameHelper.toUpperCamelCase(any())).thenReturn(INTERFACE_NAME).thenReturn(TYPEDEF_NAME);
     String expected = INTERFACE_NAME + NAMESPACE_DELIMITER + TYPEDEF_NAME;
@@ -157,12 +155,38 @@ public class SwiftNameRulesTest {
   }
 
   @Test
-  public void fullyQuallifiedNameForTypedefFromTypeCollection() {
+  public void fullyQualifiedNameForTypedefFromTypeCollection() {
     when(fTypeDef.eContainer()).thenReturn(fTypeCollection);
     when(NameHelper.toUpperCamelCase(any())).thenReturn(TYPEDEF_NAME);
 
     String actual = SwiftNameRules.getTypeDefName(fTypeDef, deploymentModel);
 
     assertEquals(TYPEDEF_NAME, actual);
+  }
+
+  @Test
+  public void getMethodNameAppliesLowerCamelCase() {
+    when(fMethod.getName()).thenReturn(FRANCA_NAME);
+    when(NameHelper.toLowerCamelCase(any())).thenReturn(SWIFT_NAME);
+
+    String actual = SwiftNameRules.getMethodName(fMethod);
+
+    assertEquals(SWIFT_NAME, actual);
+
+    PowerMockito.verifyStatic();
+    NameHelper.toLowerCamelCase(FRANCA_NAME);
+  }
+
+  @Test
+  public void getParameterNameAppliesLowerCamelCase() {
+    when(francaArgument.getName()).thenReturn(FRANCA_NAME);
+    when(NameHelper.toLowerCamelCase(any())).thenReturn(SWIFT_NAME);
+
+    String actual = SwiftNameRules.getParameterName(francaArgument);
+
+    assertEquals(SWIFT_NAME, actual);
+
+    PowerMockito.verifyStatic();
+    NameHelper.toLowerCamelCase(FRANCA_NAME);
   }
 }
