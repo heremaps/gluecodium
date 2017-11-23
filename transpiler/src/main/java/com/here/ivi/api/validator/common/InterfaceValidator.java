@@ -11,44 +11,85 @@
 
 package com.here.ivi.api.validator.common;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
+import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
-import org.eclipse.emf.common.util.EList;
+import java.util.stream.Collectors;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeCollection;
 
-public class InterfaceValidator {
+public final class InterfaceValidator {
 
   private static final Logger LOGGER = Logger.getLogger(InterfaceValidator.class.getName());
+
+  private static final String STATIC_METHOD_MESSAGE =
+      "Static methods in interfaces are not allowed: method '%s' in interface '%s.%s'.";
+  private static final String ENUMS_METHOD_MESSAGE =
+      "Inline error enums in methods are not allowed: method '%s' in interface '%s.%s'.";
 
   public static boolean validate(
       final List<FTypeCollection> typeCollections, final FrancaDeploymentModel deploymentModel) {
 
-    return CollectionsHelper.getStreamOfType(typeCollections, FInterface.class)
+    Collection<FInterface> interfaces =
+        CollectionsHelper.getStreamOfType(typeCollections, FInterface.class)
+            .collect(Collectors.toList());
+    return checkInlineEnums(interfaces) && checkStaticMethods(interfaces, deploymentModel);
+  }
+
+  @VisibleForTesting
+  static boolean checkInlineEnums(final Collection<FInterface> interfaces) {
+    return interfaces.stream().noneMatch(InterfaceValidator::containsInlineErrorEnums);
+  }
+
+  @VisibleForTesting
+  static boolean checkStaticMethods(
+      final Collection<FInterface> interfaces, final FrancaDeploymentModel deploymentModel) {
+    return interfaces
+        .stream()
         .filter(deploymentModel::isInterface)
-        .noneMatch(fInterface -> containsStaticMethods(fInterface, deploymentModel));
+        .noneMatch(francaInterface -> containsStaticMethods(francaInterface, deploymentModel));
+  }
+
+  private static String formatErrorMessage(
+      final String formatString, final FInterface francaInterface, final FMethod francaMethod) {
+    return String.format(
+        formatString,
+        francaMethod.getName(),
+        DefinedBy.getModelName(francaInterface),
+        francaInterface.getName());
   }
 
   private static boolean containsStaticMethods(
-      final FInterface fInterface, final FrancaDeploymentModel deploymentModel) {
-    boolean result = false;
+      final FInterface francaInterface, final FrancaDeploymentModel deploymentModel) {
 
-    EList<FMethod> methods = fInterface.getMethods();
-    for (FMethod method : methods) {
-      if (deploymentModel.isStatic(method)) {
-        LOGGER.severe(
-            "Static methods in interfaces are not allowed: method '"
-                + method.getName()
-                + "' in '"
-                + fInterface.getName()
-                + "'");
-        result = true;
-      }
-    }
+    Collection<String> errorMessages =
+        francaInterface
+            .getMethods()
+            .stream()
+            .filter(deploymentModel::isStatic)
+            .map(method -> formatErrorMessage(STATIC_METHOD_MESSAGE, francaInterface, method))
+            .collect(Collectors.toList());
+    errorMessages.forEach(LOGGER::severe);
 
-    return result;
+    return !errorMessages.isEmpty();
+  }
+
+  private static boolean containsInlineErrorEnums(final FInterface francaInterface) {
+
+    Collection<String> errorMessages =
+        francaInterface
+            .getMethods()
+            .stream()
+            .filter(method -> method.getErrors() != null)
+            .map(method -> formatErrorMessage(ENUMS_METHOD_MESSAGE, francaInterface, method))
+            .collect(Collectors.toList());
+    errorMessages.forEach(LOGGER::severe);
+
+    return !errorMessages.isEmpty();
   }
 }
