@@ -43,7 +43,14 @@ public final class JniImplementationTemplateTest {
       TemplateEngine.render("java/CopyrightHeader", null);
   private static final String JNI_HEADER_INCLUDE = "#include \"cpp/libhello/TestClass.h\"\n";
   private static final String EXTERN_C = "\nextern \"C\" {\n";
-  private static final String END_OF_FILE = "\n}\n";
+  private static final String END_OF_FILE =
+      "\nvoid\n"
+          + "Java_com_here_ivi_test_TestClass_disposeNativeHandle("
+          + "JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)\n"
+          + "{\n"
+          + "    delete reinterpret_cast<"
+          + "std::shared_ptr<::com::here::ivi::test::CppClass>*> (_jpointerRef);\n"
+          + "}\n}\n";
   private static final List<String> NAMESPACES = Arrays.asList("com", "here", "ivi", "test");
   private static final String CALL_STATIC = "::com::here::ivi::test::CppClass::";
   private static final String CALL_SHARED_POINTER = "(*pInstanceSharedPointer)->";
@@ -257,27 +264,6 @@ public final class JniImplementationTemplateTest {
     assertEquals(
         EXPECTED_PREFIX
             + expectedGeneratedJNIMethod("instanceVoidMethod", false, true, "void")
-            + END_OF_FILE,
-        generatedImplementation);
-  }
-
-  @Test
-  public void generateDisposeNativeHandleMethod() {
-    JniMethod instanceVoidMethod = createJniVoidMethod("instanceVoidMethod", false);
-    jniContainer.add(instanceVoidMethod);
-    jniContainer.isInstantiable = true;
-
-    String generatedImplementation = TemplateEngine.render(TEMPLATE_NAME, jniContainer);
-
-    assertEquals(
-        EXPECTED_PREFIX
-            + expectedGeneratedJNIMethod("instanceVoidMethod", false, true, "void")
-            + "\nvoid\n"
-            + JNI_TEST_CLASS_METHOD_PREFIX
-            + "disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)\n"
-            + "{\n"
-            + "    delete reinterpret_cast<std::shared_ptr<::com::here::ivi::test::CppClass>*> (_jpointerRef);\n"
-            + "}"
             + END_OF_FILE,
         generatedImplementation);
   }

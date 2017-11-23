@@ -30,7 +30,6 @@ public final class JniContainer implements JniElement {
   public final String javaInterfaceName;
   public final String cppName;
   public boolean isFrancaInterface;
-  public boolean isInstantiable;
   public boolean isInterface;
 
   public final List<JniMethod> methods = new LinkedList<>();
@@ -46,7 +45,6 @@ public final class JniContainer implements JniElement {
       String javaInterfaceName,
       String cppName,
       boolean isFrancaInterface,
-      boolean isInstantiable,
       boolean isInterface) {
     this.javaPackages = javaPackages;
     this.cppNameSpaces = cppNameSpaces;
@@ -54,19 +52,17 @@ public final class JniContainer implements JniElement {
     this.javaInterfaceName = javaInterfaceName;
     this.cppName = cppName;
     this.isFrancaInterface = isFrancaInterface;
-    this.isInstantiable = isInstantiable;
     this.isInterface = isInterface;
   }
 
   public static JniContainer createTypeCollectionContainer(
       List<String> javaPackages, List<String> cppNameSpaces) {
-    return new JniContainer(javaPackages, cppNameSpaces, null, null, null, false, false, false);
+    return new JniContainer(javaPackages, cppNameSpaces, null, null, null, false, false);
   }
 
   public static JniContainer createInterfaceContainer(
       List<String> javaPackages, List<String> cppNameSpaces, String javaName, String cppName) {
-    return new JniContainer(
-        javaPackages, cppNameSpaces, javaName, javaName, cppName, true, false, false);
+    return new JniContainer(javaPackages, cppNameSpaces, javaName, javaName, cppName, true, false);
   }
 
   public static JniContainer createInterfaceContainer(
@@ -74,17 +70,9 @@ public final class JniContainer implements JniElement {
       List<String> cppNameSpaces,
       String javaName,
       String javaInterfaceName,
-      String cppName,
-      boolean isInstantiable) {
+      String cppName) {
     return new JniContainer(
-        javaPackages,
-        cppNameSpaces,
-        javaName,
-        javaInterfaceName,
-        cppName,
-        true,
-        isInstantiable,
-        false);
+        javaPackages, cppNameSpaces, javaName, javaInterfaceName, cppName, true, false);
   }
 
   public void add(JniStruct struct) {
