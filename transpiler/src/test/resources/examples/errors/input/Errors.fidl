@@ -32,8 +32,6 @@ interface Errors {
         out {
             String outputString
         }
-        error {
-            UNKNOWN_ERROR
-        }
+        error InternalErrors
     }
 }

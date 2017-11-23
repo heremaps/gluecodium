@@ -13,6 +13,7 @@ package com.here.ivi.api.validator.common;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -20,9 +21,10 @@ import com.here.ivi.api.test.ArrayEList;
 import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,20 +36,24 @@ import org.mockito.MockitoAnnotations;
 @SuppressWarnings({"MethodName"})
 public final class InterfaceValidatorTest {
 
+  @Mock private FModel francaModel;
   @Mock private FInterface francaInterface;
   @Mock private FInterface francaInterface2;
-  @Mock private FTypeCollection francaTypeCollection;
   @Mock private FrancaDeploymentModel francaDeploymentModel;
   @Mock private FMethod staticFMethod;
-  @Mock private FMethod fMethod;
+  @Mock private FMethod francaMethod;
 
   private final EList<FMethod> francaInterfaceMethods = new ArrayEList<>();
   private final EList<FMethod> francaInterface2Methods = new ArrayEList<>();
-  private final List<FTypeCollection> typeCollections = new LinkedList<>();
+  private final List<FInterface> interfaces = new LinkedList<>();
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
+
+    when(francaModel.getName()).thenReturn("nonsense");
+    when(francaInterface.eContainer()).thenReturn(francaModel);
+    when(francaInterface2.eContainer()).thenReturn(francaModel);
 
     when(francaInterface.getName()).thenReturn("francaInterface");
     when(francaInterface.getMethods()).thenReturn(francaInterfaceMethods);
@@ -57,78 +63,78 @@ public final class InterfaceValidatorTest {
 
     when(francaDeploymentModel.isStatic(staticFMethod)).thenReturn(true);
 
-    when(fMethod.getName()).thenReturn("instance_method");
+    when(francaMethod.getName()).thenReturn("instance_method");
     when(staticFMethod.getName()).thenReturn("static_method");
 
-    typeCollections.add(francaInterface);
+    interfaces.add(francaInterface);
   }
 
-  // IsInterface = false
+  // StaticMethods, IsInterface = false
 
   @Test
   public void checkSingleFInterface_withNoMethods() {
-    assertTrue(InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+    assertTrue(InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
   @Test
   public void checkSingleFInterface_withInstanceMethod() {
-    francaInterfaceMethods.add(fMethod);
+    francaInterfaceMethods.add(francaMethod);
 
-    assertTrue(InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+    assertTrue(InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
   @Test
   public void checkSingleFInterface_withStaticMethod() {
     francaInterfaceMethods.add(staticFMethod);
 
-    assertTrue(InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+    assertTrue(InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
   @Test
   public void checkSingleFInterface_withMixedMethods() {
     francaInterfaceMethods.add(staticFMethod);
-    francaInterfaceMethods.add(fMethod);
+    francaInterfaceMethods.add(francaMethod);
 
-    assertTrue(InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+    assertTrue(InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
   @Test
   public void checkMultipleElements_withInstanceMethods() {
-    francaInterface2Methods.add(fMethod);
-    francaInterfaceMethods.add(fMethod);
-    typeCollections.add(francaTypeCollection);
-    typeCollections.add(francaInterface2);
+    francaInterface2Methods.add(francaMethod);
+    francaInterfaceMethods.add(francaMethod);
+    interfaces.add(francaInterface);
+    interfaces.add(francaInterface2);
 
-    assertTrue(InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+    assertTrue(InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
   @Test
   public void checkMultipleElements_withMixedMethods() {
-    francaInterface2Methods.add(fMethod);
+    francaInterface2Methods.add(francaMethod);
     francaInterface2Methods.add(staticFMethod);
-    francaInterfaceMethods.add(fMethod);
+    francaInterfaceMethods.add(francaMethod);
     francaInterfaceMethods.add(staticFMethod);
-    typeCollections.add(francaTypeCollection);
-    typeCollections.add(francaInterface2);
+    interfaces.add(francaInterface);
+    interfaces.add(francaInterface2);
 
-    assertTrue(InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+    assertTrue(InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
-  // IsInterface = true
+  // StaticMethods, IsInterface = true
 
   @Test
   public void checkSingleFInterface_interfaceWithNoMethods() {
     when(francaDeploymentModel.isInterface(francaInterface)).thenReturn(true);
 
-    assertTrue(InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+    assertTrue(InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
   @Test
   public void checkSingleFInterface_interfaceWithInstanceMethod() {
     when(francaDeploymentModel.isInterface(francaInterface)).thenReturn(true);
-    francaInterfaceMethods.add(fMethod);
+    francaInterfaceMethods.add(francaMethod);
 
-    assertTrue(InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+    assertTrue(InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
   @Test
@@ -138,41 +144,66 @@ public final class InterfaceValidatorTest {
 
     assertFalse(
         "No static methods are allowed in interfaces",
-        InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+        InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
   @Test
   public void checkSingleFInterface_interfaceWithMixedMethods() {
     when(francaDeploymentModel.isInterface(francaInterface)).thenReturn(true);
     francaInterfaceMethods.add(staticFMethod);
-    francaInterfaceMethods.add(fMethod);
+    francaInterfaceMethods.add(francaMethod);
 
     assertFalse(
         "No static methods are allowed in interfaces",
-        InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+        InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
   @Test
   public void checkMultipleElements_interfaceWithInstanceMethods() {
     when(francaDeploymentModel.isInterface(francaInterface2)).thenReturn(true);
-    francaInterface2Methods.add(fMethod);
-    francaInterfaceMethods.add(fMethod);
-    typeCollections.add(francaTypeCollection);
-    typeCollections.add(francaInterface2);
+    francaInterface2Methods.add(francaMethod);
+    francaInterfaceMethods.add(francaMethod);
+    interfaces.add(francaInterface);
+    interfaces.add(francaInterface2);
 
-    assertTrue(InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+    assertTrue(InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
   }
 
   @Test
   public void checkMultipleElements_interfaceWithMixedMethods() {
     when(francaDeploymentModel.isInterface(francaInterface2)).thenReturn(true);
-    francaInterface2Methods.add(fMethod);
+    francaInterface2Methods.add(francaMethod);
     francaInterface2Methods.add(staticFMethod);
-    francaInterfaceMethods.add(fMethod);
+    francaInterfaceMethods.add(francaMethod);
     francaInterfaceMethods.add(staticFMethod);
-    typeCollections.add(francaTypeCollection);
-    typeCollections.add(francaInterface2);
+    interfaces.add(francaInterface);
+    interfaces.add(francaInterface2);
 
-    assertFalse(InterfaceValidator.validate(typeCollections, francaDeploymentModel));
+    assertFalse(InterfaceValidator.checkStaticMethods(interfaces, francaDeploymentModel));
+  }
+
+  // InlineEnums
+
+  @Test
+  public void checkInlineEnums_noErrorTypes() {
+    francaInterfaceMethods.add(francaMethod);
+
+    assertTrue(InterfaceValidator.checkInlineEnums(interfaces));
+  }
+
+  @Test
+  public void checkInlineEnums_withErrorEnum() {
+    when(francaMethod.getErrorEnum()).thenReturn(mock(FEnumerationType.class));
+    francaInterfaceMethods.add(francaMethod);
+
+    assertTrue(InterfaceValidator.checkInlineEnums(interfaces));
+  }
+
+  @Test
+  public void checkInlineEnums_withInlineEnum() {
+    when(francaMethod.getErrors()).thenReturn(mock(FEnumerationType.class));
+    francaInterfaceMethods.add(francaMethod);
+
+    assertFalse(InterfaceValidator.checkInlineEnums(interfaces));
   }
 }
