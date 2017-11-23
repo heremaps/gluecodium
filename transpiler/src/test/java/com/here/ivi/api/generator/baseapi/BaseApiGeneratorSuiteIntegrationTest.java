@@ -44,9 +44,9 @@ public final class BaseApiGeneratorSuiteIntegrationTest {
 
     assertEquals("cpp/include/test/TestInterface.h", generatedFiles.get(0).targetFile.toString());
     assertEquals("cpp/src/test/TestInterface.cpp", generatedFiles.get(1).targetFile.toString());
-    assertEquals("cpp/include/expected.h", generatedFiles.get(2).targetFile.toString());
-    assertEquals("cpp/include/enum_hash.h", generatedFiles.get(3).targetFile.toString());
-    assertEquals("cpp/include/Error.h", generatedFiles.get(4).targetFile.toString());
-    assertEquals("cpp/include/ErrorCode.h", generatedFiles.get(5).targetFile.toString());
+    assertEquals("cpp/include/enum_hash.h", generatedFiles.get(2).targetFile.toString());
+    assertEquals("cpp/include/Error.h", generatedFiles.get(3).targetFile.toString());
+    assertEquals("cpp/include/ErrorCode.h", generatedFiles.get(4).targetFile.toString());
+    assertEquals("cpp/include/Return.h", generatedFiles.get(5).targetFile.toString());
   }
 }

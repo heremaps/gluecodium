@@ -115,15 +115,15 @@ public final class CppTemplateTypeRefTest {
   public void expected() {
     CppTemplateTypeRef templateTypeRef =
         CppTemplateTypeRef.create(
-            CppTemplateTypeRef.TemplateClass.EXPECTED, ERROR_TYPE_REF, COMPLEX_TYPE_REF);
+            CppTemplateTypeRef.TemplateClass.RETURN, COMPLEX_TYPE_REF, ERROR_TYPE_REF);
 
-    assertEquals(CppTemplateTypeRef.TemplateClass.EXPECTED, templateTypeRef.templateClass);
+    assertEquals(CppTemplateTypeRef.TemplateClass.RETURN, templateTypeRef.templateClass);
     assertEquals(2, templateTypeRef.templateParameters.size());
-    assertEquals(ERROR_TYPE_REF, templateTypeRef.templateParameters.get(0));
-    assertEquals(COMPLEX_TYPE_REF, templateTypeRef.templateParameters.get(1));
+    assertEquals(COMPLEX_TYPE_REF, templateTypeRef.templateParameters.get(0));
+    assertEquals(ERROR_TYPE_REF, templateTypeRef.templateParameters.get(1));
 
     assertEquals(4, templateTypeRef.includes.size());
-    assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.EXPECTED));
+    assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.RETURN));
     assertTrue(templateTypeRef.includes.containsAll(INCLUDES));
     assertTrue(templateTypeRef.includes.containsAll(ERROR_INCLUDES));
   }
