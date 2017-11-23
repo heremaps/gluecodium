@@ -11,12 +11,21 @@
 
 import Foundation
 
-
-
+internal func getRef(_ ref: Arrays) -> RefHolder<smoke_ArraysRef> {
+    return RefHolder<smoke_ArraysRef>(ref.c_instance)
+}
 
 public class Arrays {
 
     public typealias ProfileId = String
+
+    let c_instance : smoke_ArraysRef
+    public required init?(cArrays: smoke_ArraysRef) {
+        c_instance = cArrays
+    }
+    deinit {
+        smoke_Arrays_release(c_instance)
+    }
 
     public struct BasicStruct {
         public var value: Double

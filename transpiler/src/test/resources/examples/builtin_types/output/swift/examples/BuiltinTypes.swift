@@ -11,10 +11,17 @@
 
 import Foundation
 
-
-
-
+internal func getRef(_ ref: BuiltinTypes) -> RefHolder<examples_BuiltinTypesRef> {
+    return RefHolder<examples_BuiltinTypesRef>(ref.c_instance)
+}
 public class BuiltinTypes {
+    let c_instance : examples_BuiltinTypesRef
+    public required init?(cBuiltinTypes: examples_BuiltinTypesRef) {
+        c_instance = cBuiltinTypes
+    }
+    deinit {
+        examples_BuiltinTypes_release(c_instance)
+    }
 
     public static func methodWithInt8(inputNumber: Int8) -> Int8 {
         return examples_BuiltinTypes_methodWithInt8(inputNumber)

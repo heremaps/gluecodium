@@ -11,10 +11,18 @@
 
 import Foundation
 
-
-
+internal func getRef(_ ref: EnumsInTypeCollectionInterface) -> RefHolder<smoke_EnumsInTypeCollectionInterfaceRef> {
+    return RefHolder<smoke_EnumsInTypeCollectionInterfaceRef>(ref.c_instance)
+}
 
 public class EnumsInTypeCollectionInterface {
+    let c_instance : smoke_EnumsInTypeCollectionInterfaceRef
+    public required init?(cEnumsInTypeCollectionInterface: smoke_EnumsInTypeCollectionInterfaceRef) {
+        c_instance = cEnumsInTypeCollectionInterface
+    }
+    deinit {
+        smoke_EnumsInTypeCollectionInterface_release(c_instance)
+    }
 
     public static func flipEnumValue(input: TCEnum) -> TCEnum {
         let cResult = smoke_EnumsInTypeCollectionInterface_flipEnumValue(input.rawValue)

@@ -11,10 +11,18 @@
 
 import Foundation
 
-
-
+internal func getRef(_ ref: StaticMethods) -> RefHolder<smoke_StaticMethodsRef> {
+    return RefHolder<smoke_StaticMethodsRef>(ref.c_instance)
+}
 
 public class StaticMethods {
+    let c_instance : smoke_StaticMethodsRef
+    public required init?(cStaticMethods: smoke_StaticMethodsRef) {
+        c_instance = cStaticMethods
+    }
+    deinit {
+        smoke_StaticMethods_release(c_instance)
+    }
 
     public static func returnInvertedBoolean(input: Bool) -> Bool {
         return smoke_StaticMethods_returnInvertedBoolean(input)

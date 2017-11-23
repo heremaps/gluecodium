@@ -11,10 +11,18 @@
 
 import Foundation
 
-
-
+internal func getRef(_ ref: Basic) -> RefHolder<smoke_BasicRef> {
+    return RefHolder<smoke_BasicRef>(ref.c_instance)
+}
 
 public class Basic {
+    let c_instance : smoke_BasicRef
+    public required init?(cBasic: smoke_BasicRef) {
+        c_instance = cBasic
+    }
+    deinit {
+        smoke_Basic_release(c_instance)
+    }
 
     /**
      * Example static method for Basic feature which takes a String and returns a String

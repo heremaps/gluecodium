@@ -11,10 +11,18 @@
 
 import Foundation
 
-
-
+internal func getRef(_ ref: Structs) -> RefHolder<smoke_StructsRef> {
+    return RefHolder<smoke_StructsRef>(ref.c_instance)
+}
 
 public class Structs {
+    let c_instance : smoke_StructsRef
+    public required init?(cStructs: smoke_StructsRef) {
+        c_instance = cStructs
+    }
+    deinit {
+        smoke_Structs_release(c_instance)
+    }
 
     public struct Point {
         public var x: Double

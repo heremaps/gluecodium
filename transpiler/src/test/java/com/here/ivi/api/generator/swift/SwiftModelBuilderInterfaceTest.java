@@ -11,12 +11,10 @@
 
 package com.here.ivi.api.generator.swift;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -39,6 +37,7 @@ import com.here.ivi.api.model.swift.SwiftParameter;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.model.swift.SwiftValue;
 import com.here.ivi.api.test.MockContextStack;
+import java.util.Collections;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +48,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
-  SwiftModelBuilder.class,
   DefinedBy.class,
   SwiftNameRules.class,
   CppCommentParser.class,
@@ -71,7 +69,9 @@ public class SwiftModelBuilderInterfaceTest {
           .build();
   private final SwiftContainerType swiftStruct = SwiftContainerType.builder("SomeStruct").build();
   private final SwiftMethod swiftMethod =
-      new SwiftMethod("SwiftMethod", asList(new SwiftParameter("MethodValue", SwiftType.STRING)));
+      new SwiftMethod(
+          "SwiftMethod",
+          Collections.singletonList(new SwiftParameter("MethodValue", SwiftType.STRING)));
 
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private AbstractFrancaCommentParser.Comments comments;
@@ -83,11 +83,7 @@ public class SwiftModelBuilderInterfaceTest {
   public void setUp() {
     initMocks(this);
     mockStatic(
-        SwiftModelBuilder.class,
-        DefinedBy.class,
-        SwiftNameRules.class,
-        CppCommentParser.class,
-        CBridgeNameRules.class);
+        DefinedBy.class, SwiftNameRules.class, CppCommentParser.class, CBridgeNameRules.class);
 
     when(SwiftNameRules.getClassName(any())).thenReturn("classy");
     when(CppCommentParser.parse(francaInterface)).thenReturn(comments);
@@ -228,79 +224,6 @@ public class SwiftModelBuilderInterfaceTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsMethods() {
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    contextStack.injectResult(swiftMethod);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
-    assertNotNull(swiftFile);
-    assertNotNull(swiftFile.classes);
-    assertEquals(1, swiftFile.classes.size());
-    SwiftClass swiftClass = swiftFile.classes.get(0);
-    assertEquals("classy", swiftClass.name.toLowerCase());
-    assertNotNull(swiftClass.methods);
-    assertEquals(1, swiftClass.methods.size());
-    assertEquals("SwiftMethod", swiftClass.methods.get(0).name);
-  }
-
-  // Creates: Static class
-
-  @Test
-  public void finishBuildingFrancaInterfaceStaticClass() {
-    when(SwiftModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
-    assertNotNull(swiftFile);
-    assertNotNull(swiftFile.classes);
-    assertEquals(1, swiftFile.classes.size());
-    SwiftClass swiftClass = swiftFile.classes.get(0);
-    assertEquals("classy", swiftClass.name.toLowerCase());
-    assertFalse(swiftClass.isInterface);
-    assertTrue(swiftClass.implementsProtocols.isEmpty());
-    assertNull(swiftClass.cInstanceRef);
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceStaticClassReadsEnums() {
-    when(SwiftModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
-    contextStack.injectResult(swiftEnum);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
-    assertNotNull(swiftFile);
-    assertNotNull(swiftFile.classes);
-    assertEquals(1, swiftFile.classes.size());
-    SwiftClass swiftClass = swiftFile.classes.get(0);
-    assertEquals("classy", swiftClass.name.toLowerCase());
-    assertNotNull(swiftClass.enums);
-    assertEquals(1, swiftClass.enums.size());
-    assertEquals("EnumSwiftName", swiftClass.enums.get(0).name);
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceStaticClassReadsStructs() {
-    when(SwiftModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
-    contextStack.injectResult(swiftStruct);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
-    assertNotNull(swiftFile);
-    assertNotNull(swiftFile.classes);
-    assertEquals(1, swiftFile.classes.size());
-    SwiftClass swiftClass = swiftFile.classes.get(0);
-    assertEquals("classy", swiftClass.name.toLowerCase());
-    assertNotNull(swiftClass.structs);
-    assertEquals(1, swiftClass.structs.size());
-    assertEquals("SomeStruct", swiftClass.structs.get(0).name);
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceStaticClassReadsMethods() {
-    when(SwiftModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
     contextStack.injectResult(swiftMethod);
 
     modelBuilder.finishBuilding(francaInterface);

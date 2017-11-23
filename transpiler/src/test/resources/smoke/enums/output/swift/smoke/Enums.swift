@@ -11,10 +11,18 @@
 
 import Foundation
 
-
-
+internal func getRef(_ ref: Enums) -> RefHolder<smoke_EnumsRef> {
+    return RefHolder<smoke_EnumsRef>(ref.c_instance)
+}
 
 public class Enums {
+    let c_instance : smoke_EnumsRef
+    public required init?(cEnums: smoke_EnumsRef) {
+        c_instance = cEnums
+    }
+    deinit {
+        smoke_Enums_release(c_instance)
+    }
 
     public enum SimpleEnum : UInt32 {
 

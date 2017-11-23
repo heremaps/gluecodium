@@ -11,10 +11,17 @@
 
 import Foundation
 
-
-
-
+internal func getRef(_ ref: Structs) -> RefHolder<examples_StructsRef> {
+    return RefHolder<examples_StructsRef>(ref.c_instance)
+}
 public class Structs {
+    let c_instance : examples_StructsRef
+    public required init?(cStructs: examples_StructsRef) {
+        c_instance = cStructs
+    }
+    deinit {
+        examples_Structs_release(c_instance)
+    }
 
     public struct SyncResult {
         public var lastUpdatedTimeStamp: UInt64
