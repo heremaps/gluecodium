@@ -74,9 +74,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   @Override
   public void startBuilding(FInterface francaInterface) {
     super.startBuilding(francaInterface);
-    CppTypeInfo typeInfo = CppTypeInfo.createCustomTypeInfo(resolver, francaInterface, CLASS);
-    CClassType classInfo = new CClassType(typeInfo);
-    storeResult(classInfo);
+    storeResult(CppTypeInfo.createCustomTypeInfo(resolver, francaInterface, CLASS));
   }
 
   @Override
@@ -87,8 +85,8 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
-    CClassType classInfo =
-        CollectionsHelper.getFirstOfType(getCurrentContext().currentResults, CClassType.class);
+    CppTypeInfo classInfo =
+        CollectionsHelper.getFirstOfType(getCurrentContext().currentResults, CppTypeInfo.class);
     CInterface cInterface =
         finishBuildingInterfaceOrTypeCollection(
             CBridgeNameRules.getInterfaceName(francaInterface), classInfo, francaInterface);
@@ -113,9 +111,9 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   }
 
   private CInterface finishBuildingInterfaceOrTypeCollection(
-      final String name, final CClassType classType, final FTypeCollection francaTypeCollection) {
+      final String name, final CppTypeInfo selfType, final FTypeCollection francaTypeCollection) {
 
-    CInterface cInterface = new CInterface(name, classType);
+    CInterface cInterface = new CInterface(name, selfType);
     cInterface.functions.addAll(getPreviousResults(CFunction.class));
     cInterface.structs.addAll(getPreviousResults(CStruct.class));
     cInterface.enumerators = getPreviousResults(CEnum.class);
@@ -156,9 +154,9 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             .functionName(cppMethod.name);
 
     if (!deploymentModel.isStatic(francaMethod)) {
-      CClassType classInfo =
-          CollectionsHelper.getFirstOfType(getParentContext().currentResults, CClassType.class);
-      CInParameter parameterSelf = new CInParameter("_instance", classInfo.classType);
+      CppTypeInfo classInfo =
+          CollectionsHelper.getFirstOfType(getParentContext().currentResults, CppTypeInfo.class);
+      CInParameter parameterSelf = new CInParameter("_instance", classInfo);
       methodBuilder
           .selfParameter(parameterSelf)
           .functionName(CppNameRules.getMethodName(francaMethod.getName()));
@@ -239,9 +237,9 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
 
     SwiftProperty property = swiftBuilder.getFinalResult(SwiftProperty.class);
 
-    CClassType classInfo =
-        CollectionsHelper.getFirstOfType(getParentContext().currentResults, CClassType.class);
-    CInParameter selfParameter = new CInParameter("_instance", classInfo.classType);
+    CppTypeInfo classInfo =
+        CollectionsHelper.getFirstOfType(getParentContext().currentResults, CppTypeInfo.class);
+    CInParameter selfParameter = new CInParameter("_instance", classInfo);
     CppTypeInfo attributeTypeInfo = getPreviousResult(CppTypeInfo.class);
 
     CFunction.CFunctionBuilder getterBuilder =

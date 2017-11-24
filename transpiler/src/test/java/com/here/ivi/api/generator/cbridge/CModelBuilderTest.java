@@ -175,7 +175,7 @@ public class CModelBuilderTest {
   public void finishBuildingMethodProcessInstanceMethods() {
     when(deploymentModel.isStatic(any())).thenReturn(false);
     // Insert instance type from startBuilding(FInterface);
-    contextStack.getParentContext().currentResults.add(new CClassType(new CppTypeInfo(CType.VOID)));
+    contextStack.getParentContext().currentResults.add(new CppTypeInfo(CType.VOID));
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -447,7 +447,7 @@ public class CModelBuilderTest {
     when(swiftModelbuilder.getFinalResult(any())).thenReturn(swiftProperty);
 
     contextStack.injectResult(cppTypeInfo);
-    contextStack.getParentContext().currentResults.add(new CClassType(classTypeInfo));
+    contextStack.getParentContext().currentResults.add(classTypeInfo);
   }
 
   private void verifyAttributeSetter(CppTypeInfo classTypeInfo, CFunction cSetter) {

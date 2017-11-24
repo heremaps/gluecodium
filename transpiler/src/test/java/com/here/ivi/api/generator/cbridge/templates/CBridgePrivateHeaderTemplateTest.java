@@ -44,15 +44,16 @@ public class CBridgePrivateHeaderTemplateTest {
 
   @Test
   public void getPointerFunctionForInstance() {
-    CInterface cInterface = new CInterface("");
     IncludeResolver resolver = mock(IncludeResolver.class);
     FModelElement francaInterface = mock(FInterface.class);
     FModel francaParent = mock(FModel.class);
     when(francaInterface.getName()).thenReturn("SomeClass");
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
-    cInterface.selfType =
+    CppTypeInfo selfType =
         CppTypeInfo.createCustomTypeInfo(resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS);
+
+    CInterface cInterface = new CInterface("", selfType);
     CFunction method =
         CFunction.builder("instanceMethod")
             .selfParameter(new CInParameter("self", cInterface.selfType))
