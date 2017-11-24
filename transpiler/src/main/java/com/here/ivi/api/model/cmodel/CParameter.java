@@ -17,20 +17,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CParameter extends CElement {
-  public CppTypeInfo mappedType;
+
+  public final CppTypeInfo mappedType;
 
   public static class SimpleParameter {
-    public String name;
-    public CType type;
+    public final String name;
+    public final CType type;
 
     public SimpleParameter(String name, CType type) {
       this.name = name;
       this.type = type;
     }
 
+    @Override
     public String toString() {
       return type + " " + name;
     }
+  }
+
+  public CParameter(final String name, final CppTypeInfo mappedType) {
+    super(name);
+    this.mappedType = mappedType;
   }
 
   public List<Include> getSignatureIncludes() {
@@ -50,11 +57,6 @@ public class CParameter extends CElement {
               name + mappedType.paramSuffixes.get(i), mappedType.cTypesNeededByConstructor.get(i)));
     }
     return parameters;
-  }
-
-  public CParameter(String name, CppTypeInfo mappedType) {
-    super(name);
-    this.mappedType = mappedType;
   }
 
   @Override
