@@ -48,7 +48,6 @@ import com.here.ivi.api.model.swift.SwiftProperty;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.franca.core.franca.FArgument;
@@ -119,9 +118,7 @@ public class CModelBuilderTest {
         SwiftNameRules.class);
     initMocks(this);
 
-    CType fakeType = mock(CType.class);
-    fakeType.includes = new HashSet<>();
-    CppTypeInfo typeInfo = new CppTypeInfo(fakeType);
+    CppTypeInfo typeInfo = new CppTypeInfo(new CType(""));
 
     when(CBridgeNameRules.getStructRefType(any())).thenReturn(STRUCT_REF_NAME);
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
@@ -381,7 +378,7 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesFunctionsForAttribute() {
-    CppTypeInfo classTypeInfo = mock(CppTypeInfo.class);
+    CppTypeInfo classTypeInfo = new CppTypeInfo(new CType(""));
     List<CppElement> cppMethods =
         asList(
             new CppMethod.Builder(CPP_ATTR_GETTER_NAME).build(),
@@ -399,7 +396,7 @@ public class CModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesFunctionForReadonlyAttribute() {
-    CppTypeInfo classTypeInfo = mock(CppTypeInfo.class);
+    CppTypeInfo classTypeInfo = new CppTypeInfo(new CType(""));
     List<CppElement> cppMethods =
         singletonList(new CppMethod.Builder(CPP_ATTR_GETTER_NAME).build());
     prepareTestForAttributes(classTypeInfo, cppMethods);
@@ -446,7 +443,7 @@ public class CModelBuilderTest {
     when(francaAttribute.isReadonly()).thenReturn(false);
     when(SwiftNameRules.getPropertyGetterName(any())).thenReturn(CBRIDGE_ATTR_GETTER_NAME);
     when(SwiftNameRules.getPropertySetterName(any())).thenReturn(CBRIDGE_ATTR_SETTER_NAME);
-    SwiftProperty swiftProperty = new SwiftProperty("", mock(SwiftType.class), false, "");
+    SwiftProperty swiftProperty = new SwiftProperty("", new SwiftType(""), false, "");
     when(swiftModelbuilder.getFinalResult(any())).thenReturn(swiftProperty);
 
     contextStack.injectResult(cppTypeInfo);
