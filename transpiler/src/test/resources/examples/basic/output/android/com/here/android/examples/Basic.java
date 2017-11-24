@@ -9,9 +9,17 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.here.android.examples;
-
-public class Basic {
+import com.here.android.NativeBase;
+public class Basic extends NativeBase {
+    protected Basic(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native String basicMethod(final String inputString);
 }

@@ -9,10 +9,9 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.here.android.examples;
-
-public class Structs {
+import com.here.android.NativeBase;
+public class Structs extends NativeBase {
     public static class SyncResult {
         public long lastUpdatedTimeStamp;
         public long numberOfChanges;
@@ -21,6 +20,15 @@ public class Structs {
         public int id;
         public Structs.SyncResult syncResult = new Structs.SyncResult();
     }
+    protected Structs(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native Structs.SyncResult methodWithNonNestedType(final Structs.SyncResult input);
     public static native Structs.IdentifiableSyncResult methodWithNestedType(final Structs.IdentifiableSyncResult input);
 }
