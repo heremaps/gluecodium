@@ -1,5 +1,9 @@
 # API Transpiler Release Notes
 
+## 0.11.0
+- Features:
+  + Add support for Arrays to Android generators
+
 ## 0.0.10
 - Features:
   + Add support for Arrays to iOS generators
