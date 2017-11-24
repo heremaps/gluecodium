@@ -11,8 +11,6 @@
 
 package com.here.ivi.api.model.cmodel;
 
-import java.util.ArrayList;
-
 public final class CPointerType extends CType {
 
   public static final CPointerType CONST_CHAR_PTR = makeConstPointer(CType.CHAR);
@@ -20,12 +18,12 @@ public final class CPointerType extends CType {
   private final CType pointedType;
 
   private CPointerType(CType type) {
-    super("*", new ArrayList<>(type.includes));
+    super("*", type.includes);
     pointedType = type;
   }
 
   public static CPointerType makeConstPointer(CType type) {
-    CType underlyingType = new CType(type.name, new ArrayList<>(type.includes));
+    CType underlyingType = new CType(type.name, type.includes);
     underlyingType.isConst = true;
     return new CPointerType(underlyingType);
   }
