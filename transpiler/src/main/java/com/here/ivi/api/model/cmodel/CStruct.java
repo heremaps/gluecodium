@@ -12,14 +12,14 @@
 package com.here.ivi.api.model.cmodel;
 
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class CStruct extends CType {
+public final class CStruct extends CType {
 
   public final String baseApiName;
   public final CppTypeInfo mappedType;
-  public List<CField> fields = new ArrayList<>();
+  public final List<CField> fields = new LinkedList<>();
 
   public CStruct(String name, String baseApiName, CppTypeInfo mappedType) {
     super(name);

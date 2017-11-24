@@ -194,7 +194,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             CBridgeNameRules.getBaseApiStructName(francaStruct),
             CppTypeInfo.createCustomTypeInfo(resolver, francaStruct, STRUCT));
 
-    cStruct.fields = getPreviousResults(CField.class);
+    cStruct.fields.addAll(getPreviousResults(CField.class));
 
     storeResult(cStruct);
     super.finishBuilding(francaStruct);
