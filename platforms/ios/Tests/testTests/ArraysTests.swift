@@ -163,10 +163,10 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayOfAliases() {
-        let stringArray : [String] = ["Hello", "test", "world"]
+        let stringArray: [String] = ["Hello", "test", "world"]
         let result = Arrays.methodWithArrayOfAliases(input: stringArray)
         for (index, string) in result.enumerated() {
-            XCTAssertEqual(string, stringArray[2-index]);
+            XCTAssertEqual(string, stringArray[2-index])
         }
     }
 
@@ -187,7 +187,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testEnumsArray() {
-        let enumArray : [Arrays.ArrayEnum] = [.enumOne, .enumTwo, .enumThree]
+        let enumArray: [Arrays.ArrayEnum] = [.enumOne, .enumTwo, .enumThree]
         let result = Arrays.methodWithEnumsArray(input: enumArray)
         for (indexArray, enumValue) in result.enumerated() {
             XCTAssertEqual(enumValue, enumArray[2-indexArray])
