@@ -87,12 +87,10 @@ public final class CppTypeInfo extends CElement {
         singletonList(
             new CType(
                 handleName,
-                singletonList(
-                    resolver.resolveInclude(elementType, HeaderType.CBRIDGE_PUBLIC_HEADER)))),
+                resolver.resolveInclude(elementType, HeaderType.CBRIDGE_PUBLIC_HEADER))),
         singletonList(""),
         new CType(
-            handleName,
-            singletonList(resolver.resolveInclude(elementType, HeaderType.CBRIDGE_PUBLIC_HEADER))),
+            handleName, resolver.resolveInclude(elementType, HeaderType.CBRIDGE_PUBLIC_HEADER)),
         category,
         getConversionToCppIndcludes(category, resolver, elementType),
         getConversionFromCppIncludes(resolver, elementType));
@@ -124,7 +122,7 @@ public final class CppTypeInfo extends CElement {
     CType enumCType =
         new CType(
             CBridgeNameRules.getEnumName(francaEnum),
-            singletonList(resolver.resolveInclude(francaEnum, HeaderType.CBRIDGE_PUBLIC_HEADER)));
+            resolver.resolveInclude(francaEnum, HeaderType.CBRIDGE_PUBLIC_HEADER));
     return new CppTypeInfo(
         CBridgeNameRules.getBaseApiEnumName(francaEnum),
         singletonList(enumCType),

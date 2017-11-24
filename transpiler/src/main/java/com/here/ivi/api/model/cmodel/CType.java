@@ -11,15 +11,12 @@
 
 package com.here.ivi.api.model.cmodel;
 
-import static java.util.Collections.singletonList;
+import static java.util.Collections.emptyList;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.model.common.Include;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import lombok.EqualsAndHashCode;
 
 /** Base class for all C types */
@@ -32,48 +29,42 @@ public class CType extends CElement {
 
   public static final CType VOID = new CType("void");
   public static final CType CHAR = new CType("char");
-  public static final CType INT8 = new CType("int8_t", singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
-  public static final CType UINT8 =
-      new CType("uint8_t", singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
-  public static final CType INT16 =
-      new CType("int16_t", singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
-  public static final CType UINT16 =
-      new CType("uint16_t", singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
-  public static final CType INT32 =
-      new CType("int32_t", singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
-  public static final CType UINT32 =
-      new CType("uint32_t", singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
-  public static final CType INT64 =
-      new CType("int64_t", singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
-  public static final CType UINT64 =
-      new CType("uint64_t", singletonList(FIXED_WIDTH_INTEGERS_INCLUDE));
-  public static final CType BOOL = new CType("bool", singletonList(BOOL_INCLUDE));
+  public static final CType INT8 = new CType("int8_t", FIXED_WIDTH_INTEGERS_INCLUDE);
+  public static final CType UINT8 = new CType("uint8_t", FIXED_WIDTH_INTEGERS_INCLUDE);
+  public static final CType INT16 = new CType("int16_t", FIXED_WIDTH_INTEGERS_INCLUDE);
+  public static final CType UINT16 = new CType("uint16_t", FIXED_WIDTH_INTEGERS_INCLUDE);
+  public static final CType INT32 = new CType("int32_t", FIXED_WIDTH_INTEGERS_INCLUDE);
+  public static final CType UINT32 = new CType("uint32_t", FIXED_WIDTH_INTEGERS_INCLUDE);
+  public static final CType INT64 = new CType("int64_t", FIXED_WIDTH_INTEGERS_INCLUDE);
+  public static final CType UINT64 = new CType("uint64_t", FIXED_WIDTH_INTEGERS_INCLUDE);
+  public static final CType BOOL = new CType("bool", BOOL_INCLUDE);
   public static final CType FLOAT = new CType("float");
   public static final CType DOUBLE = new CType("double");
   public static final CType STRING_REF =
       new CType(
           "std_stringRef",
-          singletonList(
-              Include.createInternalInclude(
-                  Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "StringHandle.h")
-                      .toString())));
+          Include.createInternalInclude(
+              Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "StringHandle.h").toString()));
   public static final CType BYTE_ARRAY_REF =
       new CType(
           "byteArrayRef",
-          singletonList(
-              Include.createInternalInclude(
-                  Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "ByteArrayHandle.h")
-                      .toString())));
+          Include.createInternalInclude(
+              Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "ByteArrayHandle.h")
+                  .toString()));
 
   public Boolean isConst = false;
-  public Set<Include> includes = Collections.emptySet();
+  public final Set<Include> includes;
 
-  public CType(String name) {
-    super(name);
-    this.includes = new LinkedHashSet<>();
+  public CType(final String name) {
+    this(name, emptyList());
   }
 
-  public CType(String name, List<Include> includes) {
+  public CType(final String name, final Include include) {
+    this(name);
+    includes.add(include);
+  }
+
+  protected CType(final String name, final Collection<Include> includes) {
     super(name);
     this.includes = new LinkedHashSet<>(includes);
   }

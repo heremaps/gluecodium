@@ -30,8 +30,7 @@ public final class CArrayMapper {
   public static CppTypeInfo create(final CppTypeInfo innerType, final EObject francaElement) {
 
     String arrayName = addPrefix(getName(francaElement) + addNestedSuffixIfNeeded(innerType));
-    CType arrayType =
-        new CType(arrayName, singletonList(Include.createInternalInclude(CBRIDGE_ARRAY_REF)));
+    CType arrayType = new CType(arrayName, Include.createInternalInclude(CBRIDGE_ARRAY_REF));
     CppTypeInfo type =
         new CppTypeInfo(
             "std::shared_ptr<" + arrayName + ">",
