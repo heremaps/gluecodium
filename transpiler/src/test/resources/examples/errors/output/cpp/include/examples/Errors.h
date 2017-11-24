@@ -24,6 +24,9 @@ namespace examples {
 
 class Errors {
 public:
+    virtual ~Errors() = 0;
+
+public:
 enum class InternalErrors {
     NONE,
     CRASHED,

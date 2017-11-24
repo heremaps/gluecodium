@@ -26,13 +26,6 @@ public final class CppClass extends CppElement {
     super(name);
   }
 
-  public boolean hasOnlyStaticMethods() {
-    return !methods.isEmpty()
-        && methods
-            .stream()
-            .allMatch(method -> method.specifiers.contains(CppMethod.Specifier.STATIC));
-  }
-
   @SuppressWarnings("unused")
   public boolean hasSortedMembers() {
     return !members.isEmpty();

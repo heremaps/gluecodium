@@ -23,6 +23,8 @@ namespace examples {
 
 class BuiltinTypes {
 public:
+    virtual ~BuiltinTypes() = 0;
+public:
 static int8_t method_with_int8( const int8_t input_number );
 static uint8_t method_with_u_int8( const uint8_t input_number );
 static int16_t method_with_int16( const int16_t input_number );

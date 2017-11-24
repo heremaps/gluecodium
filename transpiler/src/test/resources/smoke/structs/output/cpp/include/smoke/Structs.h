@@ -25,6 +25,8 @@ namespace smoke {
 
 class Structs {
 public:
+    virtual ~Structs() = 0;
+public:
 struct Point {
     double x = std::numeric_limits< double >::quiet_NaN( );
     double y = std::numeric_limits< double >::quiet_NaN( );

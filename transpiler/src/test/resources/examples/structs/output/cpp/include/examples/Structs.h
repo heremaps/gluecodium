@@ -22,6 +22,8 @@ namespace examples {
 
 class Structs {
 public:
+    virtual ~Structs() = 0;
+public:
 struct SyncResult {
     uint64_t last_updated_time_stamp = 0;
     uint32_t number_of_changes = 0;

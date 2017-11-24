@@ -21,7 +21,8 @@
 namespace examples {
 
 class Typedefs {
-
+public:
+    virtual ~Typedefs() = 0;
 public:
 using ExampleAlias = uint32_t;
 

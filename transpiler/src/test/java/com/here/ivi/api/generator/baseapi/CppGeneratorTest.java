@@ -104,14 +104,4 @@ public class CppGeneratorTest {
     assertTrue(
         generatedFiles.get(1).content.contains("#include \"" + OUTPUT_FILE_NAME_HEADER + ".h\""));
   }
-
-  @Test
-  public void generateCodeGeneratesHeaderOnlyForStaticClass() {
-    cppMethod.specifiers.add(CppMethod.Specifier.STATIC);
-
-    List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
-
-    assertEquals(1, generatedFiles.size());
-  }
 }

@@ -22,6 +22,8 @@ namespace smoke {
 
 class StaticMethods {
 public:
+    virtual ~StaticMethods() = 0;
+public:
 static bool return_inverted_boolean( const bool input );
 static bool return_and_boolean( const bool input1, const bool input2 );
 static ::std::vector< uint8_t > return_input_byte_buffer( const ::std::vector< uint8_t >& input_buffer );

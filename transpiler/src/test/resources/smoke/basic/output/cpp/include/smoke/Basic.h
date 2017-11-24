@@ -22,6 +22,8 @@ namespace smoke {
 
 class Basic {
 public:
+    virtual ~Basic() = 0;
+public:
 /**
  * Example static method for Basic feature which takes a String and returns a String
  * * @param[in] inputString Input string
