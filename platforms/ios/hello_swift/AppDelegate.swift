@@ -12,10 +12,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let barButtonFont = UIFont.systemFont(ofSize: 15)
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: barButtonFont], for: UIControlState.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: barButtonFont],
+                                                         for: UIControlState.normal)
         return true
     }
 

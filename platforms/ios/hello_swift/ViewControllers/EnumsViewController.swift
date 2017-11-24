@@ -10,7 +10,7 @@ import hello
 
 extension HelloWorldEnums.InternalError {
     public var description: String {
-        if (self == HelloWorldEnums.InternalError.errorNone) {
+        if self == HelloWorldEnums.InternalError.errorNone {
             return "errorNone"
         } else {
             return "errorFatal"

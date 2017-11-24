@@ -6,12 +6,12 @@ class ListenersTests: XCTestCase {
     let to = Calculator.Position(x: 7, y: 7, z: 5)
     let calculator = CalculatorFactory.createCalculator()!
 
-    class EmptyListener : CalculatorListener {
+    class EmptyListener: CalculatorListener {
         public func onCalculationResult(calculationResult: Double) { }
         public func onCalculationInBackgroundResult(calculationResult: Double) { }
     }
 
-    class DeinitListener : EmptyListener {
+    class DeinitListener: EmptyListener {
         let deinitCallback: () -> Void
         init(callOnDeinit: @escaping () -> Void) {
             self.deinitCallback = callOnDeinit
@@ -23,7 +23,7 @@ class ListenersTests: XCTestCase {
     }
 
     func testBackgroundListener() {
-        class TestListener : EmptyListener {
+        class TestListener: EmptyListener {
             var onCalculationInBackgroundResultCalled = false
             var calculationInBackgroundResult: Double = 0
 
@@ -43,7 +43,7 @@ class ListenersTests: XCTestCase {
     }
 
     func testSynchronousListener() {
-        class TestListener : EmptyListener {
+        class TestListener: EmptyListener {
             var onCalculationResultCalled = false
             var calculationResult: Double = 0
 
@@ -95,6 +95,6 @@ class ListenersTests: XCTestCase {
         ("testSynchronousListener", testSynchronousListener),
         ("testSynchronousListenerCleanup", testSynchronousListenerCleanup),
         ("testProxyKeepsSwiftObjectAlive", testProxyKeepsSwiftObjectAlive),
-        ("testRegisterUnregisterCleanup", testRegisterUnregisterCleanup),
+        ("testRegisterUnregisterCleanup", testRegisterUnregisterCleanup)
     ]
 }
