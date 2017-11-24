@@ -44,7 +44,7 @@
 #
 # IOS_PLATFORM: OS (default) or SIMULATOR
 #    OS = Build for iPhoneOS.
-#    SIMULATOR = Build for x86 i386 and x86_64 iPhone Simulator.
+#    SIMULATOR = Build for x86_64 iPhone Simulator.
 # CMAKE_OSX_SYSROOT: Path to the iOS SDK to use.  By default this is
 #    automatically determined from IOS_PLATFORM and xcodebuild, but
 #    can also be manually specified (although this should not be required).
@@ -87,8 +87,6 @@ if (NOT DEFINED IOS_PLATFORM)
   if (CMAKE_OSX_ARCHITECTURES)
     if (CMAKE_OSX_ARCHITECTURES MATCHES ".*arm.*")
       set(IOS_PLATFORM "OS")
-    elseif (CMAKE_OSX_ARCHITECTURES MATCHES "i386")
-      set(IOS_PLATFORM "SIMULATOR")
     elseif (CMAKE_OSX_ARCHITECTURES MATCHES "x86_64")
       set(IOS_PLATFORM "SIMULATOR")
     endif()
@@ -103,10 +101,10 @@ set(IOS_PLATFORM ${IOS_PLATFORM} CACHE STRING
 # from the specified IOS_PLATFORM name.
 if (IOS_PLATFORM STREQUAL "OS")
   set(XCODE_IOS_PLATFORM iphoneos)
-  set(IOS_ARCH armv7 armv7s arm64)
+  set(IOS_ARCH arm64)
 elseif (IOS_PLATFORM STREQUAL "SIMULATOR")
   set(XCODE_IOS_PLATFORM iphonesimulator)
-  set(IOS_ARCH i386 x86_64)
+  set(IOS_ARCH x86_64)
 else()
   message(FATAL_ERROR "Invalid IOS_PLATFORM: ${IOS_PLATFORM}")
 endif()
