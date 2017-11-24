@@ -12,7 +12,18 @@
 
 package com.here.android.smoke;
 
-public class StaticMethods {
+import com.here.android.NativeBase;
+public class StaticMethods extends NativeBase {
+    protected StaticMethods(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
+
     public static native boolean returnInvertedBoolean(final boolean input);
     public static native boolean returnAndBoolean(final boolean input1, final boolean input2);
     public static native byte[] returnInputByteBuffer(final byte[] inputBuffer);

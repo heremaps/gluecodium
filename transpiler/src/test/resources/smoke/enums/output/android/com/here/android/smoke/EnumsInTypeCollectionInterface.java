@@ -10,6 +10,16 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.here.android.smoke;
-public class EnumsInTypeCollectionInterface {
+import com.here.android.NativeBase;
+public class EnumsInTypeCollectionInterface extends NativeBase {
+    protected EnumsInTypeCollectionInterface(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native TCEnum flipEnumValue(final TCEnum input);
 }

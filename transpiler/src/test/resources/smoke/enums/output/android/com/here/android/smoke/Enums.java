@@ -12,7 +12,9 @@
 
 package com.here.android.smoke;
 
-public class Enums {
+import com.here.android.NativeBase;
+
+public class Enums extends NativeBase {
 
     public enum SimpleEnum {
         FIRST(0),
@@ -40,6 +42,16 @@ public class Enums {
         public Enums.InternalError type = Enums.InternalError.ERROR_NONE;
         public String message;
     }
+
+    protected Enums(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
 
     public static native Enums.SimpleEnum methodWithEnumeration(final Enums.SimpleEnum input);
     public static native Enums.InternalError flipEnumValue(final Enums.InternalError input);

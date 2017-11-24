@@ -11,11 +11,10 @@
  */
 
 package com.here.android.smoke;
-
+import com.here.android.NativeBase;
 import java.util.ArrayList;
 import java.util.List;
-
-public class Arrays {
+public class Arrays extends NativeBase {
     public static class BasicStruct {
         public double value;
     }
@@ -23,6 +22,15 @@ public class Arrays {
         public List<String> messages = new ArrayList<>();
         public List<Long> numbers = new ArrayList<>();
     }
+    protected Arrays(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native List<String> methodWithArray(final List<String> input);
     public static native List<Long> methodWithArrayInline(final List<Long> input);
     public static native List<Arrays.BasicStruct> methodWithStructArray(final List<Arrays.BasicStruct> input);

@@ -12,7 +12,18 @@
 
 package com.here.android.smoke;
 
-public class StructsFromTypeCollection {
+import com.here.android.NativeBase;
+
+public class StructsFromTypeCollection extends NativeBase {
+    protected StructsFromTypeCollection(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native Point createPoint(final double x, final double y);
     public static native Point swapPointCoordinates(final Point input);
     public static native Line createLine(final Point pointA, final Point pointB);

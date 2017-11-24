@@ -9,11 +9,18 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.here.android.examples;
-
+import com.here.android.NativeBase;
 import java.util.Map;
-
-public class Maps {
+public class Maps extends NativeBase {
+    protected Maps(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native Map<Long, String> mapMethod(final Map<Long, String> input);
 }

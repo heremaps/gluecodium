@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.java;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -306,89 +305,5 @@ public class JavaModelBuilderInterfaceTest {
     JavaInterface result = modelBuilder.getFinalResult(JavaInterface.class);
     assertEquals(1, result.enums.size());
     assertEquals(javaEnum, result.enums.iterator().next());
-  }
-
-  // Creates: Static class
-
-  @Test
-  public void finishBuildingFrancaInterfaceCreatesStaticClass() {
-    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertEquals("Classy", javaClass.name);
-    assertEquals(JavaVisibility.PUBLIC, javaClass.visibility);
-    assertNull(javaClass.extendedClass);
-    assertTrue(javaClass.parentInterfaces.isEmpty());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsPackageIntoStaticClass() {
-    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
-    assertNotNull(javaClass);
-
-    assertEquals(BASE_PACKAGE, javaClass.javaPackage);
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsConstantsStaticClass() {
-    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
-    contextStack.injectResult(javaConstant);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.constants.isEmpty());
-    assertEquals(javaConstant, javaClass.constants.iterator().next());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsFieldsIntoStaticClass() {
-    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
-    contextStack.injectResult(javaField);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.fields.isEmpty());
-    assertEquals(javaField, javaClass.fields.iterator().next());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsMethodsIntoStaticClass() {
-    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
-    contextStack.injectResult(javaMethod);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.methods.isEmpty());
-
-    JavaMethod resultMethod = javaClass.methods.iterator().next();
-    assertEquals(javaMethod, resultMethod);
-    assertTrue(resultMethod.qualifiers.contains(JavaMethod.MethodQualifier.NATIVE));
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsInnerClassesIntoStaticClass() {
-    when(JavaModelBuilder.hasOnlyStaticMethods(any())).thenReturn(true);
-    JavaClass innerClass = new JavaClass("struct");
-    contextStack.injectResult(innerClass);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertFalse(javaClass.innerClasses.isEmpty());
-    assertEquals(innerClass, javaClass.innerClasses.iterator().next());
   }
 }

@@ -64,13 +64,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     } else {
       List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
       JavaClass javaClass = createJavaClass(francaInterface, methods);
-      javaClass.extendedClass =
-          hasOnlyStaticMethods(methods)
-              // Non instantiable Franca interface implemented as static class
-              // TODO APIGEN-893: it should always be instantiable
-              ? null
-              // Instantiable Franca interface implemented as Java class
-              : JavaClass.NATIVE_BASE;
+      javaClass.extendedClass = JavaClass.NATIVE_BASE;
 
       storeResult(javaClass);
     }
@@ -400,13 +394,5 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaTopLevelElement.innerClasses.addAll(getPreviousResults(JavaClass.class));
     javaTopLevelElement.innerClasses.forEach(
         innerClass -> innerClass.qualifiers.add(JavaClass.Qualifier.STATIC));
-  }
-
-  @VisibleForTesting
-  static boolean hasOnlyStaticMethods(final List<JavaMethod> methods) {
-    return !methods.isEmpty()
-        && methods
-            .stream()
-            .allMatch(javaMethod -> javaMethod.qualifiers.contains(MethodQualifier.STATIC));
   }
 }

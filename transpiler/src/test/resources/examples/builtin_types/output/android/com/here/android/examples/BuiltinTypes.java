@@ -12,7 +12,17 @@
 
 package com.here.android.examples;
 
-public class BuiltinTypes {
+import com.here.android.NativeBase;
+public class BuiltinTypes extends NativeBase {
+    protected BuiltinTypes(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native byte methodWithInt8(final byte inputNumber);
     public static native long methodWithUInt8(final long inputNumber);
     public static native short methodWithInt16(final short inputNumber);

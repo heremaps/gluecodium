@@ -9,10 +9,18 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.here.android.smoke;
-
-public class Basic {
+import com.here.android.NativeBase;
+public class Basic extends NativeBase {
+    protected Basic(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     /**
      * Example static method for Basic feature which takes a String and returns a String
      */

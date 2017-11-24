@@ -12,7 +12,18 @@
 
 package com.here.android.examples;
 
-public class ProfileManagerFactory {
+import com.here.android.NativeBase;
+
+public class ProfileManagerFactory extends NativeBase {
+    protected ProfileManagerFactory(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native ProfileManager createProfileManager();
     public static native ProfileManagerInterface createProfileManagerInterface();
 }

@@ -10,15 +10,25 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.here.android.smoke;
+import com.here.android.NativeBase;
 import java.util.HashMap;
 import java.util.Map;
-public class Maps {
+public class Maps extends NativeBase {
     public static class SomeStruct {
         public String value;
     }
     public static class StructWithMap {
         public Map<Integer, String> errorMapping = new HashMap<>();
     }
+    protected Maps(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native Map<Integer, String> methodWithMap(final Map<Integer, String> input);
     public static native Map<Long, Maps.SomeStruct> methodWithMapToStruct(final Map<Long, Maps.SomeStruct> input);
     public static native Map<Maps.SomeStruct, Long> methodWithStructAsMapKeys(final Map<Maps.SomeStruct, Long> input);

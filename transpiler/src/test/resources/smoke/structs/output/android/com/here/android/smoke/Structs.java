@@ -12,7 +12,9 @@
 
 package com.here.android.smoke;
 
-public class Structs {
+import com.here.android.NativeBase;
+
+public class Structs extends NativeBase {
     public static class Point {
         public double x;
         public double y;
@@ -46,6 +48,15 @@ public class Structs {
         public byte[] bytesField;
         public Structs.Point pointField = new Structs.Point();
     }
+    protected Structs(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native Structs.Point createPoint(final double x, final double y);
     public static native Structs.Point swapPointCoordinates(final Structs.Point input);
     public static native Structs.Line createLine(final Structs.Point pointA, final Structs.Point pointB);
