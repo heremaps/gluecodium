@@ -22,6 +22,8 @@ namespace smoke {
 
 class EnumsInTypeCollectionInterface {
 public:
+    virtual ~EnumsInTypeCollectionInterface() = 0;
+public:
 static ::smoke::TCEnum flip_enum_value( const ::smoke::TCEnum input );
 
 };

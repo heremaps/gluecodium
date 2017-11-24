@@ -22,6 +22,8 @@ namespace smoke {
 
 class Maps {
 public:
+    virtual ~Maps() = 0;
+public:
 using ErrorCodeToMessageMap = ::std::unordered_map< int32_t, ::std::string >;
 struct SomeStruct {
     ::std::string value;

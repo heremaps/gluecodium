@@ -19,6 +19,8 @@
 namespace smoke {
 class Unions {
 public:
+    virtual ~Unions() = 0;
+public:
 struct NavigationError {
     enum VariantType {
         ERROR_MESSAGE,

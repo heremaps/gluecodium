@@ -25,6 +25,8 @@ namespace smoke {
 
 class Enums {
 public:
+    virtual ~Enums() = 0;
+public:
 enum class SimpleEnum {
     FIRST,
     SECOND

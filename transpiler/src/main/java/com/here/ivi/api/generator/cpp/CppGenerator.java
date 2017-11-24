@@ -11,10 +11,8 @@
 
 package com.here.ivi.api.generator.cpp;
 
-import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppFile;
 import java.io.File;
 import java.util.*;
@@ -55,17 +53,11 @@ public final class CppGenerator {
     String headerContent = TemplateEngine.render("cpp/CppHeader", cppModel);
     result.add(new GeneratedFile(commentHeader + headerContent, absoluteHeaderPath));
 
-    boolean hasInstantiableClasses =
-        CollectionsHelper.getStreamOfType(cppModel.members, CppClass.class)
-            .noneMatch(CppClass::hasOnlyStaticMethods);
-    if (hasInstantiableClasses) {
-      String headerInclude =
-          "\n#include \"" + (relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX) + "\"";
-      String implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel);
-      result.add(
-          new GeneratedFile(
-              commentHeader + headerInclude + implementationContent, absoluteImplPath));
-    }
+    String headerInclude =
+        "\n#include \"" + (relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX) + "\"";
+    String implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel);
+    result.add(
+        new GeneratedFile(commentHeader + headerInclude + implementationContent, absoluteImplPath));
 
     return result;
   }

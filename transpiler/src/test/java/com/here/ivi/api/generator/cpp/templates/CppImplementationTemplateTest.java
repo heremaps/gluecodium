@@ -27,8 +27,6 @@ public final class CppImplementationTemplateTest {
 
   private static final String TEMPLATE_NAME = "cpp/CppImplementation";
 
-  private static final String EXPECTED_NAMESPACE_BODY_FORMAT = "\nnamespace outerSpace {\n%s\n}\n";
-
   private final CppMethod cppMethod = new CppMethod.Builder("methodical").build();
   private final CppClass cppClass = new CppClass("Classy");
 
@@ -46,7 +44,7 @@ public final class CppImplementationTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
-    final String expectedResult = String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "");
+    final String expectedResult = "\nnamespace outerSpace {\n\n}\n";
     assertEquals(expectedResult, result);
   }
 
@@ -66,9 +64,8 @@ public final class CppImplementationTemplateTest {
   public void namespaceWithOneClass() {
     String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
-    final String expectedResult =
-        String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "\nClassy::~Classy() = default;\n");
-    assertEquals(expectedResult, result);
+    assertEquals(
+        "\nnamespace outerSpace {\n\n" + "Classy::~Classy() = default;\n\n" + "}\n", result);
   }
 
   @Test
@@ -77,8 +74,8 @@ public final class CppImplementationTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
-    final String expectedResult = String.format(EXPECTED_NAMESPACE_BODY_FORMAT, "");
-    assertEquals(expectedResult, result);
+    assertEquals(
+        "\nnamespace outerSpace {\n\n" + "Classy::~Classy() = default;\n\n" + "}\n", result);
   }
 
   @Test
@@ -90,9 +87,10 @@ public final class CppImplementationTemplateTest {
     String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 
     final String expectedResult =
-        String.format(
-            EXPECTED_NAMESPACE_BODY_FORMAT,
-            "\nClassy::~Classy() = default;\n\nClassified::~Classified() = default;\n");
+        "\nnamespace outerSpace {\n\n"
+            + "Classy::~Classy() = default;\n\n"
+            + "Classified::~Classified() = default;\n\n"
+            + "}\n";
     assertEquals(expectedResult, result);
   }
 }

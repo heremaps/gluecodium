@@ -25,6 +25,8 @@ namespace smoke {
 
 class Arrays {
 public:
+    virtual ~Arrays() = 0;
+public:
 using UIntArray = ::std::vector< uint8_t >;
 using StringArray = ::std::vector< ::std::string >;
 using ProfileId = ::std::string;

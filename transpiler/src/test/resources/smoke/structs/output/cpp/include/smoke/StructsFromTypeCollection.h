@@ -22,6 +22,8 @@ namespace smoke {
 
 class StructsFromTypeCollection {
 public:
+    virtual ~StructsFromTypeCollection() = 0;
+public:
 static ::smoke::Point create_point( const double x, const double y );
 static ::smoke::Point swap_point_coordinates( const ::smoke::Point& input );
 static ::smoke::Line create_line( const ::smoke::Point& point_a, const ::smoke::Point& point_b );

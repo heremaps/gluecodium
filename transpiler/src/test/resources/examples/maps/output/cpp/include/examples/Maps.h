@@ -24,6 +24,8 @@ namespace examples {
 
 class Maps {
 public:
+    virtual ~Maps() = 0;
+public:
 using NameMap = ::std::unordered_map< uint64_t, ::std::string >;
 
 public:

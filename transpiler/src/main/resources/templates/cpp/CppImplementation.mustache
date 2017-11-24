@@ -3,10 +3,10 @@
 namespace {{.}} {
 
 {{/namespace}}
-{{#classes}}{{#unless hasOnlyStaticMethods}}
+{{#classes}}
 {{name}}::~{{name}}() = default;
 
-{{/unless}}{{/classes}}
+{{/classes}}
 {{#namespace}}
 }
 {{/namespace}}

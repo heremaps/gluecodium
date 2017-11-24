@@ -22,6 +22,8 @@ namespace smoke {
 
 class StructsInheritance {
 public:
+    virtual ~StructsInheritance() = 0;
+public:
 struct ColoredLineInherited: public ::smoke::Structs::Line {
     ::smoke::Color color;
 };
