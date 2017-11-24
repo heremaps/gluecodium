@@ -31,9 +31,9 @@ class InterfacesTests: XCTestCase {
         let simpleTwo = InstancesFactory.createSimpleInterfaceOne()!
         simpleTwo.setStringValue(stringValue: "World")
         let complex = InstancesFactory.createNestedInterfaceOne()!
-        complex.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo);
+        complex.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo)
 
-        let result = complex.getInterfaceOne();
+        let result = complex.getInterfaceOne()
 
         XCTAssertNotNil(result)
         XCTAssertEqual(result!.getStringValue()!, "Hello")
@@ -46,7 +46,7 @@ class InterfacesTests: XCTestCase {
         simpleTwo.setStringValue(stringValue: "World")
         let complex = InstancesFactory.createNestedInterfaceOne()!
 
-        complex.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo);
+        complex.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo)
 
         XCTAssertEqual(complex.getInterfaceOne()!.getStringValue(), "Hello")
         XCTAssertEqual(complex.getInterfaceTwo()!.getStringValue(), "World")
@@ -57,7 +57,7 @@ class InterfacesTests: XCTestCase {
         simple.setStringValue(stringValue: "Hello")
         let complex = InstancesFactory.createNestedInterfaceOne()!
 
-        complex.setSameTypeInterfaces(interfaceOne: simple, interfaceTwo: simple);
+        complex.setSameTypeInterfaces(interfaceOne: simple, interfaceTwo: simple)
 
         XCTAssertEqual(complex.getInterfaceOne()!.getStringValue(), "Hello")
         XCTAssertEqual(complex.getInterfaceTwo()!.getStringValue(), "Hello")
@@ -72,8 +72,8 @@ class InterfacesTests: XCTestCase {
         simpleOne.setStringValue(stringValue: "Hello")
         otherSimpleOne.setStringValue(stringValue: "World")
         simpleTwo.setStringValue(stringValue: "Foo")
-        complexOne.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: otherSimpleOne);
-        complexTwo.setMultipleTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo, nestedInterface: complexOne);
+        complexOne.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: otherSimpleOne)
+        complexTwo.setMultipleTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo, nestedInterface: complexOne)
 
         let complexInterface = complexTwo.getNestedInterface()
 
@@ -89,9 +89,9 @@ class InterfacesTests: XCTestCase {
         simpleOne.setStringValue(stringValue: "Hello")
         otherSimpleOne.setStringValue(stringValue: "World")
         simpleTwo.setStringValue(stringValue: "Foo")
-        complexOne.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: otherSimpleOne);
+        complexOne.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: otherSimpleOne)
 
-        complexTwo.setMultipleTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo, nestedInterface: complexOne);
+        complexTwo.setMultipleTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo, nestedInterface: complexOne)
 
         XCTAssertEqual(complexTwo.getInterfaceOne()!.getStringValue(), "Hello")
         XCTAssertEqual(complexTwo.getInterfaceTwo()!.getStringValue(), "Foo")
@@ -108,6 +108,6 @@ class InterfacesTests: XCTestCase {
         ("testSetSameTypeInterfaces", testSetSameTypeInterfaces),
         ("testSetSameTypeInterfaces_identicalInterface", testSetSameTypeInterfaces_identicalInterface),
         ("testGetNestedInterface", testGetNestedInterface),
-        ("testSetMultipleTypeInterface", testSetMultipleTypeInterface),
+        ("testSetMultipleTypeInterface", testSetMultipleTypeInterface)
     ]
 }
