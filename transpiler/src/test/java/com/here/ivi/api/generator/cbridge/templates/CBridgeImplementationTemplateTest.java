@@ -251,17 +251,6 @@ public class CBridgeImplementationTemplateTest {
 
   @Test
   public void cppProxyForInterface() {
-    CInterface cInterface = new CInterface("Classy");
-    final CParameter first = new CParameter("first", new CppTypeInfo(CType.INT16));
-    final CParameter second = new CParameter("second", new CppTypeInfo(CType.DOUBLE));
-    final CFunction doubleFunction =
-        CFunction.builder("doubleFunction")
-            .parameters(Arrays.asList(first, second))
-            .delegateCall("namespacy::classy::doubleFunction")
-            .build();
-    cInterface.functions = Collections.singletonList(doubleFunction);
-    cInterface.functionTableName = "ClassTable";
-
     // Mock selfType
     IncludeResolver resolver = mock(IncludeResolver.class);
     FModelElement francaInterface = mock(FInterface.class);
@@ -269,9 +258,19 @@ public class CBridgeImplementationTemplateTest {
     when(francaInterface.getName()).thenReturn("SomeClass");
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
-    cInterface.selfType =
+    CppTypeInfo selfType =
         CppTypeInfo.createCustomTypeInfo(resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS);
 
+    CInterface cInterface = new CInterface("Classy", selfType);
+    final CParameter first = new CParameter("first", new CppTypeInfo(CType.INT16));
+    final CParameter second = new CParameter("second", new CppTypeInfo(CType.DOUBLE));
+    final CFunction doubleFunction =
+        CFunction.builder("doubleFunction")
+            .parameters(Arrays.asList(first, second))
+            .delegateCall("namespacy::classy::doubleFunction")
+            .build();
+    cInterface.functions.add(doubleFunction);
+    cInterface.functionTableName = "ClassTable";
     TemplateComparator expected =
         TemplateComparator.expect(
                 "class ClassyProxy : public std::shared_ptr<some::package::SomeClass>::element_type, public CachedProxyBase<ClassyProxy> {\n"

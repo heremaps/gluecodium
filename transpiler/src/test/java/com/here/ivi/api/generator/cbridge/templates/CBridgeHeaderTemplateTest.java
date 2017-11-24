@@ -123,10 +123,8 @@ public class CBridgeHeaderTemplateTest {
     when(francaInterface.getName()).thenReturn("SomeClass");
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
-    CClassType classType =
-        new CClassType(
-            CppTypeInfo.createCustomTypeInfo(
-                resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS));
+    CppTypeInfo classType =
+        CppTypeInfo.createCustomTypeInfo(resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS);
     CInterface cInterface = new CInterface("InstantiableInterface", classType);
     CFunction instanceFunction =
         CFunction.builder("instanceMethod")
@@ -182,8 +180,7 @@ public class CBridgeHeaderTemplateTest {
 
     final CType cType = new CType("OuterInterfaceCTypeName");
     final CppTypeInfo cppTypeInfo = new CppTypeInfo(cType);
-    final CClassType cClassType = new CClassType(cppTypeInfo);
-    final CInterface cOuterInterface = new CInterface("OuterCInterfaceName", cClassType);
+    final CInterface cOuterInterface = new CInterface("OuterCInterfaceName", cppTypeInfo);
 
     final CField innerStructField =
         new CField("swiftLayerFieldName", "BaseLayerFieldName", cppTypeInfo);

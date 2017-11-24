@@ -27,19 +27,17 @@ public final class CInterface extends CElement {
   public List<CStruct> structs = new LinkedList<>();
   public List<CFunction> functions = new LinkedList<>();
   public String functionTableName;
-  public CppTypeInfo selfType;
+  public final CppTypeInfo selfType;
   public List<CEnum> enumerators = new LinkedList<>();
   public List<CArray> arrays = new LinkedList<>();
 
-  public CInterface(String name) {
+  public CInterface(final String name) {
     this(name, null);
   }
 
-  public CInterface(String name, final CClassType classType) {
+  public CInterface(final String name, final CppTypeInfo selfType) {
     super(name);
-    if (classType != null) {
-      selfType = classType.classType;
-    }
+    this.selfType = selfType;
   }
 
   public boolean hasPrivateHeaderContent() {
