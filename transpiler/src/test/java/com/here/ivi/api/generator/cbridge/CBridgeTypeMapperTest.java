@@ -88,7 +88,7 @@ public class CBridgeTypeMapperTest {
   @Test
   public void mapEnumerationType() {
     FEnumerationType enumerationType = mock(FEnumerationType.class);
-    CppTypeInfo fakeType = mock(CppTypeInfo.class);
+    CppTypeInfo fakeType = new CppTypeInfo(new CType(""));
     when(francaTypeRef.getDerived()).thenReturn(enumerationType);
     when(CppTypeInfo.createEnumTypeInfo(resolver, enumerationType)).thenReturn(fakeType);
 

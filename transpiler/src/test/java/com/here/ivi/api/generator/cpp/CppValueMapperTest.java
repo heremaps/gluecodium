@@ -73,7 +73,7 @@ public final class CppValueMapperTest {
     when(CppNameRules.getConstantName(anyString())).thenReturn(outputConstantName);
 
     //actual test
-    CppValue mappedValue = valueMapper.map(mock(CppTypeRef.class), qualifiedElementRef);
+    CppValue mappedValue = valueMapper.map(null, qualifiedElementRef);
 
     assertEquals(mappedValue.name, outputConstantName);
     assertTrue(mappedValue.includes.contains(internalInclude));
