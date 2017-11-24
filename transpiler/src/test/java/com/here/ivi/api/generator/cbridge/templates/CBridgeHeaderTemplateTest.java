@@ -38,7 +38,7 @@ public class CBridgeHeaderTemplateTest {
   @Test
   public void systemInclude() {
     CInterface cInterface = new CInterface("");
-    cInterface.headerIncludes = Collections.singleton(Include.createSystemInclude("header.h"));
+    cInterface.headerIncludes.add(Include.createSystemInclude("header.h"));
     final String expected = "#include <header.h>\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
@@ -47,7 +47,7 @@ public class CBridgeHeaderTemplateTest {
   @Test
   public void projectInclude() {
     CInterface cInterface = new CInterface("");
-    cInterface.headerIncludes = Collections.singleton(Include.createInternalInclude("header.h"));
+    cInterface.headerIncludes.add(Include.createInternalInclude("header.h"));
     final String expected = "#include \"header.h\"\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
@@ -56,7 +56,7 @@ public class CBridgeHeaderTemplateTest {
   @Test
   public void function() {
     CInterface cInterface = new CInterface("");
-    cInterface.functions = Collections.singletonList(CFunction.builder("functionName").build());
+    cInterface.functions.add(CFunction.builder("functionName").build());
     final String expected = "void functionName();\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
@@ -65,12 +65,11 @@ public class CBridgeHeaderTemplateTest {
   @Test
   public void functionWithOneParameter() {
     CInterface cInterface = new CInterface("");
-    cInterface.functions =
-        Collections.singletonList(
-            CFunction.builder("parameterFunctionName")
-                .parameters(
-                    Collections.singletonList(new CParameter("one", new CppTypeInfo(CType.INT32))))
-                .build());
+    cInterface.functions.add(
+        CFunction.builder("parameterFunctionName")
+            .parameters(
+                Collections.singletonList(new CParameter("one", new CppTypeInfo(CType.INT32))))
+            .build());
     final String expected = "void parameterFunctionName(int32_t one);\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
@@ -81,9 +80,8 @@ public class CBridgeHeaderTemplateTest {
     CInterface cInterface = new CInterface("");
     CParameter first = new CParameter("first", new CppTypeInfo(CType.INT16));
     CParameter second = new CParameter("second", new CppTypeInfo(CType.DOUBLE));
-    cInterface.functions =
-        Collections.singletonList(
-            CFunction.builder("doubleFunction").parameters(Arrays.asList(first, second)).build());
+    cInterface.functions.add(
+        CFunction.builder("doubleFunction").parameters(Arrays.asList(first, second)).build());
     final String expected = "void doubleFunction(int16_t first, double second);\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
@@ -92,9 +90,8 @@ public class CBridgeHeaderTemplateTest {
   @Test
   public void functionWithReturnValue() {
     CInterface cInterface = new CInterface("");
-    cInterface.functions =
-        Collections.singletonList(
-            CFunction.builder("returner").returnType(new CppTypeInfo(CType.FLOAT)).build());
+    cInterface.functions.add(
+        CFunction.builder("returner").returnType(new CppTypeInfo(CType.FLOAT)).build());
     final String expected = "float returner();\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
@@ -104,12 +101,11 @@ public class CBridgeHeaderTemplateTest {
   public void helloWorldTest() {
     CInterface cInterface = new CInterface("");
     CParameter cParameter = new CParameter("inputString", CppTypeInfo.STRING);
-    cInterface.functions =
-        Collections.singletonList(
-            CFunction.builder("HelloWorld_HelloWorldMethod")
-                .returnType(CppTypeInfo.STRING)
-                .parameters(Collections.singletonList(cParameter))
-                .build());
+    cInterface.functions.add(
+        CFunction.builder("HelloWorld_HelloWorldMethod")
+            .returnType(CppTypeInfo.STRING)
+            .parameters(Collections.singletonList(cParameter))
+            .build());
     final String expected = "std_stringRef HelloWorld_HelloWorldMethod(const char* inputString);\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
@@ -130,7 +126,7 @@ public class CBridgeHeaderTemplateTest {
         CFunction.builder("instanceMethod")
             .selfParameter(new CInParameter("_instance", cInterface.selfType))
             .build();
-    cInterface.functions = Collections.singletonList(instanceFunction);
+    cInterface.functions.add(instanceFunction);
 
     final String expected =
         "typedef struct {\n"
@@ -155,7 +151,8 @@ public class CBridgeHeaderTemplateTest {
         new CStruct("Struct2Name", "BaseAPIStruct2Name", new CppTypeInfo(type2));
 
     CInterface cInterface = new CInterface("");
-    cInterface.structs = Arrays.asList(cStruct1, cStruct2);
+    cInterface.structs.add(cStruct1);
+    cInterface.structs.add(cStruct2);
     final String expected =
         "typedef struct {\n"
             + "    void* const private_pointer;\n"

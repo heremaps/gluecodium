@@ -116,14 +116,16 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
     CInterface cInterface = new CInterface(name, selfType);
     cInterface.functions.addAll(getPreviousResults(CFunction.class));
     cInterface.structs.addAll(getPreviousResults(CStruct.class));
-    cInterface.enumerators = getPreviousResults(CEnum.class);
+    cInterface.enumerators.addAll(getPreviousResults(CEnum.class));
 
-    cInterface.headerIncludes = CBridgeComponents.collectHeaderIncludes(cInterface);
-    cInterface.implementationIncludes = CBridgeComponents.collectImplementationIncludes(cInterface);
+    cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface));
+    cInterface.implementationIncludes.addAll(
+        CBridgeComponents.collectImplementationIncludes(cInterface));
 
     cInterface.implementationIncludes.add(
         resolver.resolveInclude(francaTypeCollection, HeaderType.CBRIDGE_PUBLIC_HEADER));
-    cInterface.privateHeaderIncludes = CBridgeComponents.collectPrivateHeaderIncludes(cInterface);
+    cInterface.privateHeaderIncludes.addAll(
+        CBridgeComponents.collectPrivateHeaderIncludes(cInterface));
     return cInterface;
   }
 

@@ -42,8 +42,7 @@ public class CBridgeImplementationTemplateTest {
   @Test
   public void systemInclude() {
     CInterface cInterface = new CInterface("");
-    cInterface.implementationIncludes =
-        Collections.singleton(Include.createSystemInclude("header.h"));
+    cInterface.implementationIncludes.add(Include.createSystemInclude("header.h"));
     final String expected = "#include <header.h>\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -52,8 +51,7 @@ public class CBridgeImplementationTemplateTest {
   @Test
   public void projectInclude() {
     CInterface cInterface = new CInterface("");
-    cInterface.implementationIncludes =
-        Collections.singleton(Include.createInternalInclude("header.h"));
+    cInterface.implementationIncludes.add(Include.createInternalInclude("header.h"));
     final String expected = "#include \"header.h\"\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -62,9 +60,8 @@ public class CBridgeImplementationTemplateTest {
   @Test
   public void function() {
     CInterface cInterface = new CInterface("");
-    cInterface.functions =
-        Collections.singletonList(
-            CFunction.builder("functionName").delegateCall("functionDelegate").build());
+    cInterface.functions.add(
+        CFunction.builder("functionName").delegateCall("functionDelegate").build());
     final String expected = "void functionName() {\n" + "    return functionDelegate();\n" + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -73,13 +70,12 @@ public class CBridgeImplementationTemplateTest {
   @Test
   public void functionWithOneParameter() {
     CInterface cInterface = new CInterface("");
-    cInterface.functions =
-        Collections.singletonList(
-            CFunction.builder("parameterFunctionName")
-                .parameters(
-                    Collections.singletonList(new CParameter("one", new CppTypeInfo(CType.INT32))))
-                .delegateCall("delegator")
-                .build());
+    cInterface.functions.add(
+        CFunction.builder("parameterFunctionName")
+            .parameters(
+                Collections.singletonList(new CParameter("one", new CppTypeInfo(CType.INT32))))
+            .delegateCall("delegator")
+            .build());
     final String expected =
         "void parameterFunctionName(int32_t one) {\n" + "    return delegator(one);\n" + "}\n";
     final String generated = this.generate(cInterface);
@@ -96,7 +92,7 @@ public class CBridgeImplementationTemplateTest {
             .parameters(Arrays.asList(first, second))
             .delegateCall("namespacy::classy::doubleFunction")
             .build();
-    cInterface.functions = Collections.singletonList(doubleFunction);
+    cInterface.functions.add(doubleFunction);
     final String expected =
         "void doubleFunction(int16_t first, double second) {\n"
             + "    return namespacy::classy::doubleFunction(first, second);\n"
@@ -108,12 +104,11 @@ public class CBridgeImplementationTemplateTest {
   @Test
   public void functionWithReturnValue() {
     CInterface cInterface = new CInterface("");
-    cInterface.functions =
-        Collections.singletonList(
-            CFunction.builder("returner")
-                .returnType(new CppTypeInfo(CType.FLOAT))
-                .delegateCall("delegate")
-                .build());
+    cInterface.functions.add(
+        CFunction.builder("returner")
+            .returnType(new CppTypeInfo(CType.FLOAT))
+            .delegateCall("delegate")
+            .build());
     final String expected = "float returner() {\n" + "    return delegate();\n" + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -201,16 +196,14 @@ public class CBridgeImplementationTemplateTest {
   @Test
   public void functionWithEnumParameterInAndOut() {
     CInterface cInterface = new CInterface("");
-    cInterface.functions =
-        Collections.singletonList(
-            CFunction.builder("parameterFunctionName")
-                .parameters(
-                    Collections.singletonList(
-                        new CParameter(
-                            "one", new CppTypeInfo(new CType("ENUM"), TypeCategory.ENUM))))
-                .delegateCall("delegator")
-                .returnType(new CppTypeInfo(new CType("RET_ENUM"), TypeCategory.ENUM))
-                .build());
+    cInterface.functions.add(
+        CFunction.builder("parameterFunctionName")
+            .parameters(
+                Collections.singletonList(
+                    new CParameter("one", new CppTypeInfo(new CType("ENUM"), TypeCategory.ENUM))))
+            .delegateCall("delegator")
+            .returnType(new CppTypeInfo(new CType("RET_ENUM"), TypeCategory.ENUM))
+            .build());
     final String expected =
         "RET_ENUM parameterFunctionName(ENUM one) {\n"
             + "    return static_cast<RET_ENUM>(delegator(static_cast<ENUM>(one)));\n"
@@ -271,6 +264,7 @@ public class CBridgeImplementationTemplateTest {
             .build();
     cInterface.functions.add(doubleFunction);
     cInterface.functionTableName = "ClassTable";
+
     TemplateComparator expected =
         TemplateComparator.expect(
                 "class ClassyProxy : public std::shared_ptr<some::package::SomeClass>::element_type, public CachedProxyBase<ClassyProxy> {\n"
