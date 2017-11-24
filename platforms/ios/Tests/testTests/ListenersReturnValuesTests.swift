@@ -3,7 +3,7 @@ import hello
 
 class ListenersReturnValuesTests: XCTestCase {
     func testStringReturn() {
-        class TestListener : ListenerWithReturn {
+        class TestListener: ListenerWithReturn {
             public func getMessage() -> String? {
                 return "Works"
             }
@@ -15,6 +15,6 @@ class ListenersReturnValuesTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testStringReturn", testStringReturn),
+        ("testStringReturn", testStringReturn)
     ]
 }
