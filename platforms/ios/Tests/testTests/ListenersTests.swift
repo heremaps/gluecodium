@@ -2,8 +2,8 @@ import XCTest
 import hello
 
 class ListenersTests: XCTestCase {
-    let from = Calculator.Position(x: 3, y: 7, z: 2)
-    let to = Calculator.Position(x: 7, y: 7, z: 5)
+    let fromPosition = Calculator.Position(x: 3, y: 7, z: 2)
+    let toPosition = Calculator.Position(x: 7, y: 7, z: 5)
     let calculator = CalculatorFactory.createCalculator()!
 
     class EmptyListener: CalculatorListener {
@@ -36,7 +36,7 @@ class ListenersTests: XCTestCase {
         var listener = TestListener()
 
         calculator.registerListener(listener: listener)
-        calculator.calculateInBackground(fromPosition: from, toPosition: to)
+        calculator.calculateInBackground(fromPosition: fromPosition, toPosition: toPosition)
 
         XCTAssertTrue(listener.onCalculationInBackgroundResultCalled)
         XCTAssertEqual(5, listener.calculationInBackgroundResult)
@@ -55,7 +55,7 @@ class ListenersTests: XCTestCase {
 
         var listener = TestListener()
 
-        calculator.calculate(fromPosition: from, toPosition: to, listener: listener)
+        calculator.calculate(fromPosition: fromPosition, toPosition: toPosition, listener: listener)
 
         XCTAssertTrue(listener.onCalculationResultCalled)
         XCTAssertEqual(5, listener.calculationResult)
@@ -65,7 +65,7 @@ class ListenersTests: XCTestCase {
         var deinitCalled = false
         do {
             var listener = DeinitListener(callOnDeinit: { deinitCalled = true })
-            calculator.calculate(fromPosition: from, toPosition: to, listener: listener)
+            calculator.calculate(fromPosition: fromPosition, toPosition: toPosition, listener: listener)
         }
         XCTAssertTrue(deinitCalled)
     }

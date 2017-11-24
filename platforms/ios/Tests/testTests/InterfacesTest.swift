@@ -17,7 +17,7 @@ class InterfacesTests: XCTestCase {
 
     func testInterfaceInstanceMethod() {
         let simple = InstancesFactory.createSimpleInterfaceOne()
-        simple!.setStringValue(stringValue:"HelloSimple")
+        simple!.setStringValue(stringValue: "HelloSimple")
 
         let stringReturned = simple!.getStringValue()
 
@@ -73,7 +73,9 @@ class InterfacesTests: XCTestCase {
         otherSimpleOne.setStringValue(stringValue: "World")
         simpleTwo.setStringValue(stringValue: "Foo")
         complexOne.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: otherSimpleOne)
-        complexTwo.setMultipleTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo, nestedInterface: complexOne)
+        complexTwo.setMultipleTypeInterfaces(interfaceOne: simpleOne,
+                                             interfaceTwo: simpleTwo,
+                                             nestedInterface: complexOne)
 
         let complexInterface = complexTwo.getNestedInterface()
 
@@ -91,7 +93,9 @@ class InterfacesTests: XCTestCase {
         simpleTwo.setStringValue(stringValue: "Foo")
         complexOne.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: otherSimpleOne)
 
-        complexTwo.setMultipleTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo, nestedInterface: complexOne)
+        complexTwo.setMultipleTypeInterfaces(interfaceOne: simpleOne,
+                                             interfaceTwo: simpleTwo,
+                                             nestedInterface: complexOne)
 
         XCTAssertEqual(complexTwo.getInterfaceOne()!.getStringValue(), "Hello")
         XCTAssertEqual(complexTwo.getInterfaceTwo()!.getStringValue(), "Foo")
