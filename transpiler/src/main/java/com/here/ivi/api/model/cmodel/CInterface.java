@@ -11,25 +11,21 @@
 
 package com.here.ivi.api.model.cmodel;
 
-import static java.util.Collections.emptySet;
-
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.model.common.Include;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /** Collection of related methods and structs forming an interface (like a C header file) */
 public final class CInterface extends CElement {
-  public Set<Include> headerIncludes = emptySet();
-  public Set<Include> implementationIncludes = emptySet();
-  public Set<Include> privateHeaderIncludes = emptySet();
-  public List<CStruct> structs = new LinkedList<>();
-  public List<CFunction> functions = new LinkedList<>();
+  public final Set<Include> headerIncludes = new TreeSet<>();
+  public final Set<Include> implementationIncludes = new TreeSet<>();
+  public final Set<Include> privateHeaderIncludes = new TreeSet<>();
+  public final List<CStruct> structs = new LinkedList<>();
+  public final List<CFunction> functions = new LinkedList<>();
   public String functionTableName;
   public final CppTypeInfo selfType;
-  public List<CEnum> enumerators = new LinkedList<>();
-  public List<CArray> arrays = new LinkedList<>();
+  public final List<CEnum> enumerators = new LinkedList<>();
+  public final List<CArray> arrays = new LinkedList<>();
 
   public CInterface(final String name) {
     this(name, null);

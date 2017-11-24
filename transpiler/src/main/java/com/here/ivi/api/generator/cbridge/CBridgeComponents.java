@@ -19,12 +19,12 @@ import com.here.ivi.api.model.common.Include;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class CBridgeComponents {
+public final class CBridgeComponents {
 
   public static final String PROXY_CACHE_FILENAME =
       Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "CachedProxyBase.h").toString();
 
-  public static Set<Include> collectImplementationIncludes(CInterface cInterface) {
+  public static Collection<Include> collectImplementationIncludes(CInterface cInterface) {
     Collection<Include> includes = new LinkedList<>();
     for (CFunction function : cInterface.functions) {
       includes.addAll(collectFunctionBodyIncludes(function));
@@ -42,10 +42,10 @@ public class CBridgeComponents {
     for (CArray array : cInterface.arrays) {
       includes.addAll(array.includes());
     }
-    return new TreeSet<>(includes);
+    return includes;
   }
 
-  public static Set<Include> collectPrivateHeaderIncludes(CInterface cInterface) {
+  public static Collection<Include> collectPrivateHeaderIncludes(CInterface cInterface) {
     Collection<Include> includes = new LinkedList<>();
     for (CStruct struct : cInterface.structs) {
       includes.addAll(struct.mappedType.includes);
@@ -56,10 +56,10 @@ public class CBridgeComponents {
     if (cInterface.selfType != null) {
       includes.addAll(cInterface.selfType.includes);
     }
-    return new TreeSet<>(includes);
+    return includes;
   }
 
-  public static Set<Include> collectHeaderIncludes(CInterface cInterface) {
+  public static Collection<Include> collectHeaderIncludes(CInterface cInterface) {
     Collection<Include> includes = new LinkedList<>();
     for (CFunction function : cInterface.functions) {
       includes.addAll(collectFunctionSignatureIncludes(function));
@@ -79,19 +79,19 @@ public class CBridgeComponents {
     for (CArray array : cInterface.arrays) {
       includes.addAll(array.returnTypeIncludes());
     }
-    return new TreeSet<>(includes);
+    return includes;
   }
 
-  public static Set<Include> collectFunctionSignatureIncludes(CFunction function) {
+  private static Collection<Include> collectFunctionSignatureIncludes(CFunction function) {
     Collection<Include> includes = new LinkedList<>();
     for (CParameter parameter : function.parameters) {
       includes.addAll(parameter.getSignatureIncludes());
     }
     includes.addAll(function.returnType.functionReturnType.includes);
-    return new TreeSet<>(includes);
+    return includes;
   }
 
-  public static Set<Include> collectFunctionBodyIncludes(CFunction function) {
+  private static Collection<Include> collectFunctionBodyIncludes(CFunction function) {
     Collection<Include> includes = new LinkedList<>();
     for (CParameter parameter : function.parameters) {
       includes.addAll(parameter.mappedType.includes);
@@ -101,6 +101,6 @@ public class CBridgeComponents {
     if (function.selfParameter != null) {
       includes.addAll(function.selfParameter.mappedType.includes);
     }
-    return new TreeSet<>(includes);
+    return includes;
   }
 }

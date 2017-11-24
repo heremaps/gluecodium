@@ -44,14 +44,14 @@ public final class CArrayGenerator {
 
   public List<GeneratedFile> generate() {
     CInterface arraysInterface = new CInterface(ARRAY_FILE);
-    arraysInterface.arrays = new ArrayList<>(arrayCollector.values());
-    arraysInterface.headerIncludes = CBridgeComponents.collectHeaderIncludes(arraysInterface);
+    arraysInterface.arrays.addAll(arrayCollector.values());
+    arraysInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(arraysInterface));
     arraysInterface.headerIncludes.add(FIXED_WIDTH_INTEGERS_INCLUDE);
-    arraysInterface.implementationIncludes =
-        CBridgeComponents.collectImplementationIncludes(arraysInterface);
+    arraysInterface.implementationIncludes.addAll(
+        CBridgeComponents.collectImplementationIncludes(arraysInterface));
     arraysInterface.implementationIncludes.add(Include.createInternalInclude(CBRIDGE_ARRAY_HEADER));
-    arraysInterface.privateHeaderIncludes =
-        CBridgeComponents.collectPrivateHeaderIncludes(arraysInterface);
+    arraysInterface.privateHeaderIncludes.addAll(
+        CBridgeComponents.collectPrivateHeaderIncludes(arraysInterface));
 
     String fileHeader = TemplateEngine.render("cbridge/FileHeader", null);
     return Arrays.asList(
