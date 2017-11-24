@@ -26,6 +26,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.eclipse.xtext.util.Files;
 import org.junit.Before;
@@ -43,6 +44,8 @@ public abstract class AcceptanceTestBase {
           AndroidGeneratorSuite.GENERATOR_NAME,
           SwiftGeneratorSuite.GENERATOR_NAME);
   private static final Map<String, List<String>> GENERATOR_DIRECTORIES = new HashMap<>();
+  private static final String COPYRIGHT_YEAR_REGEX = "(?<=\\(C\\)) 20\\d\\d";
+  private static final Pattern COPYRIGHT_YEAR_PATTERN = Pattern.compile(COPYRIGHT_YEAR_REGEX);
 
   static {
     GENERATOR_DIRECTORIES.put(
@@ -161,9 +164,13 @@ public abstract class AcceptanceTestBase {
       if (generatedContent != null) {
         String expected = Files.readFileIntoString(referenceFile.getPath());
         errorCollector.checkEquals(
+            "Copyright header differs for file: " + relativePath,
+            COPYRIGHT_YEAR_PATTERN.matcher(expected).find(),
+            COPYRIGHT_YEAR_PATTERN.matcher(generatedContent).find());
+        errorCollector.checkEquals(
             "File content differs for file: " + relativePath,
-            ignoreWhitespace(expected),
-            ignoreWhitespace(generatedContent));
+            ignoreWhitespaceAndCopyrightYear(expected),
+            ignoreWhitespaceAndCopyrightYear(generatedContent));
       }
     }
   }
@@ -191,8 +198,9 @@ public abstract class AcceptanceTestBase {
     return directory.toURI().relativize(file.toURI()).getPath();
   }
 
-  private static String ignoreWhitespace(String text) {
-    return text.replaceAll("( *\n)+", "\n") // ignore repeating empty lines
+  private static String ignoreWhitespaceAndCopyrightYear(String text) {
+    return text.replaceAll(COPYRIGHT_YEAR_REGEX, "") // ignore copyright year
+        .replaceAll("( *\n)+", "\n") // ignore repeating empty lines
         .trim(); // ignore leading and trailing whitespace
   }
 
