@@ -101,8 +101,8 @@ class ArraysTests: XCTestCase {
 
     func testArrayStruct() {
         let structArray: [Arrays.BasicStruct] = [Arrays.BasicStruct(value: 3.2),
-                                                  Arrays.BasicStruct(value:2.2),
-                                                  Arrays.BasicStruct(value:1.2)]
+                                                  Arrays.BasicStruct(value: 2.2),
+                                                  Arrays.BasicStruct(value: 1.2)]
         let result = Arrays.methodWithStructArray(input: structArray)
         for (index, structValue) in result.enumerated() {
             //TODO: Implement Equatable protocol by default. (APIGEN-870)
@@ -137,11 +137,11 @@ class ArraysTests: XCTestCase {
 
     func testNestedStructArray() {
         let structArray: [Arrays.BasicStruct] = [Arrays.BasicStruct(value: 3.2),
-                                                  Arrays.BasicStruct(value:2.2),
-                                                  Arrays.BasicStruct(value:1.2)]
+                                                  Arrays.BasicStruct(value: 2.2),
+                                                  Arrays.BasicStruct(value: 1.2)]
         let structArray2: [Arrays.BasicStruct] = [Arrays.BasicStruct(value: 4.2),
-                                                   Arrays.BasicStruct(value:5.2),
-                                                   Arrays.BasicStruct(value:6.2)]
+                                                   Arrays.BasicStruct(value: 5.2),
+                                                   Arrays.BasicStruct(value: 6.2)]
         let nested = [structArray, structArray2]
         let result = Arrays.methodWithNestedStructArray(input: nested)
         for (indexArray, subarray) in result.enumerated() {
@@ -183,7 +183,7 @@ class ArraysTests: XCTestCase {
         instance3.setStringValue(stringValue: "Test")
         let instanceArray: [SimpleInstantiableOne] = [instance1, instance2, instance3]
         let instances = CollectionOf(instanceArray)
-        return Arrays.FancyStruct(messages:messages, numbers:numbers, instances:instances)
+        return Arrays.FancyStruct(messages: messages, numbers: numbers, instances: instances)
     }
 
     func testEnumsArray() {

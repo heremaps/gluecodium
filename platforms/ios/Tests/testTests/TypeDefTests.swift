@@ -25,7 +25,7 @@ class TypeDefTests: XCTestCase {
     }
 
     func testNestedStructInMethod() {
-        let nestedArgument: StaticTypedef.NestedStructTypedef = StaticTypedef.ExampleStruct(exampleString:"Test4")
+        let nestedArgument: StaticTypedef.NestedStructTypedef = StaticTypedef.ExampleStruct(exampleString: "Test4")
         let returnValue = StaticTypedef.returnNestedStructTypedef(input: nestedArgument)
         let returnMirror = Mirror(reflecting: returnValue!)
         XCTAssertEqual(returnValue?.exampleString, Optional("Hello Test4"))
@@ -43,7 +43,7 @@ class TypeDefTests: XCTestCase {
 
     func testStringTypedef() {
         let typedef: StaticTypedef.StringTypedef = "Test"
-        let stringTypeDef =  StaticTypedef.returnStringTypedef(input:typedef)!
+        let stringTypeDef =  StaticTypedef.returnStringTypedef(input: typedef)!
         let stringMirror = Mirror(reflecting: stringTypeDef)
         XCTAssertEqual(stringTypeDef, "Hello Test")
         XCTAssertTrue(stringMirror.subjectType == String.self)
@@ -51,7 +51,7 @@ class TypeDefTests: XCTestCase {
 
     func testBufferTypedef() {
         let typedef: StaticTypedef.ByteArrayTypedef = "Test".data(using: .utf8)!
-        let dataTypeDef =  StaticTypedef.returnByteBufferTypedef(input:typedef)
+        let dataTypeDef =  StaticTypedef.returnByteBufferTypedef(input: typedef)
         let dataMirror = Mirror(reflecting: dataTypeDef)
         XCTAssertEqual(String(data: dataTypeDef, encoding: String.Encoding.utf8), "tseT")
         XCTAssertTrue(dataMirror.subjectType == Data.self)
