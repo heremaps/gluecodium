@@ -75,6 +75,9 @@ public class FrancaDeploymentModel {
   }
 
   private static String buildKey(final FTypeCollection francaTypeCollection) {
+    if (francaTypeCollection.getName() == null) {
+      return null;
+    }
     return DefinedBy.getModelName(francaTypeCollection) + "." + francaTypeCollection.getName();
   }
 }
