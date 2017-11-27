@@ -421,8 +421,10 @@ public class SwiftFileTemplateTest {
   @Test
   public void staticMethodTakingStruct() {
     SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
-    SwiftContainerType swiftStruct = new SwiftContainerType("SomeStruct");
-    swiftStruct.cPrefix = swiftClass.name + "_" + swiftStruct.name;
+    SwiftContainerType swiftStruct =
+        SwiftContainerType.builder("SomeStruct")
+            .cPrefix(swiftClass.name + "_" + "SomeStruct")
+            .build();
     SwiftMethod method =
         new SwiftMethod(
             "methodTakingStruct", singletonList(new SwiftParameter("inputParam", swiftStruct)));
@@ -447,8 +449,10 @@ public class SwiftFileTemplateTest {
   @Test
   public void staticMethodReturningStruct() {
     SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
-    SwiftContainerType swiftStruct = new SwiftContainerType("SomeStruct");
-    swiftStruct.cPrefix = swiftClass.name + "_" + swiftStruct.name;
+    SwiftContainerType swiftStruct =
+        SwiftContainerType.builder("SomeStruct")
+            .cPrefix(swiftClass.name + "_" + "SomeStruct")
+            .build();
     SwiftMethod method = new SwiftMethod("methodReturningStruct");
     method.isStatic = true;
     method.returnType = swiftStruct.createOptionalType();
@@ -472,8 +476,10 @@ public class SwiftFileTemplateTest {
   @Test
   public void staticMethodTakingMultipleParamsAndReturningStruct() {
     SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
-    SwiftContainerType inputStruct = new SwiftContainerType("GeoLocation");
-    inputStruct.cPrefix = swiftClass.name + "_" + inputStruct.name;
+    SwiftContainerType inputStruct =
+        SwiftContainerType.builder("GeoLocation")
+            .cPrefix(swiftClass.name + "_" + "GeoLocation")
+            .build();
     SwiftMethod method =
         new SwiftMethod(
             "fancyMethod",
@@ -483,8 +489,10 @@ public class SwiftFileTemplateTest {
                     new SwiftParameter("location", inputStruct))
                 .collect(toList()));
     method.isStatic = true;
-    SwiftContainerType outputStruct = new SwiftContainerType("SomeStruct");
-    outputStruct.cPrefix = swiftClass.name + "_" + outputStruct.name;
+    SwiftContainerType outputStruct =
+        SwiftContainerType.builder("SomeStruct")
+            .cPrefix(swiftClass.name + "_" + "SomeStruct")
+            .build();
     method.returnType = outputStruct.createOptionalType();
     method.cBaseName = "HelloWorld_fancyMethod";
     swiftClass.methods.add(method);
@@ -515,12 +523,10 @@ public class SwiftFileTemplateTest {
   public void interfaceWithTwoStructsAndMethod() {
     SwiftFile file = new SwiftFile();
     SwiftClass swiftClass = SwiftClass.builder("SomeClass").isInterface(true).build();
-    SwiftContainerType firstStruct = new SwiftContainerType("FirstStruct");
-    firstStruct.cPrefix = "CPrefix";
-    firstStruct.cType = "CType";
-    SwiftContainerType secondStruct = new SwiftContainerType("SecondStruct");
-    secondStruct.cPrefix = "CPrefix";
-    secondStruct.cType = "CType";
+    SwiftContainerType firstStruct =
+        SwiftContainerType.builder("FirstStruct").cPrefix("CPrefix").cType("CType").build();
+    SwiftContainerType secondStruct =
+        SwiftContainerType.builder("SecondStruct").cPrefix("CPrefix").cType("CType").build();
     swiftClass.methods.add(new SwiftMethod("SomeMethod"));
     swiftClass.implementsProtocols.add(swiftClass.name);
     file.structs.add(firstStruct);
@@ -575,9 +581,8 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void typeCollectionWithStruct() {
-    SwiftContainerType firstSturct = new SwiftContainerType("FirstStruct");
-    firstSturct.cPrefix = "CPrefix";
-    firstSturct.cType = "CType";
+    SwiftContainerType firstSturct =
+        SwiftContainerType.builder("FirstStruct").cPrefix("CPrefix").cType("CType").build();
     SwiftFile file = new SwiftFile();
     file.structs.add(firstSturct);
 
@@ -723,7 +728,10 @@ public class SwiftFileTemplateTest {
 
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType =
-        new SwiftContainerType("HelloWorld", TypeCategory.CLASS, "_HelloWorld");
+        SwiftContainerType.builder("HelloWorld")
+            .category(TypeCategory.CLASS)
+            .implementingClass("_HelloWorld")
+            .build();
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
@@ -772,7 +780,10 @@ public class SwiftFileTemplateTest {
     swiftClass.typedefs.add(typedef);
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType =
-        new SwiftContainerType("HelloWorld", TypeCategory.CLASS, "_HelloWorld");
+        SwiftContainerType.builder("HelloWorld")
+            .category(TypeCategory.CLASS)
+            .implementingClass("_HelloWorld")
+            .build();
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
@@ -803,7 +814,7 @@ public class SwiftFileTemplateTest {
 
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType =
-        new SwiftContainerType("HelloWorld", TypeCategory.STRUCT, "_HelloWorld");
+        SwiftContainerType.builder("HelloWorld").implementingClass("_HelloWorld").build();
     method.returnType = typedef.type;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
@@ -924,8 +935,8 @@ public class SwiftFileTemplateTest {
     swiftClass.properties.add(
         new SwiftProperty(
             "someStringAttribute", SwiftType.STRING, true, "CBRIDGE_DELEGATE_FOR_STRING"));
-    SwiftContainerType swiftStruct = new SwiftContainerType("SomeStructType");
-    swiftStruct.cPrefix = "SomeStructType";
+    SwiftContainerType swiftStruct =
+        SwiftContainerType.builder("SomeStructType").cPrefix("SomeStructType").build();
     swiftClass.properties.add(
         new SwiftProperty("someStructAttribute", swiftStruct, true, "CBRIDGE_DELEGATE_FOR_STRUCT"));
     swiftClass.properties.add(
@@ -1066,12 +1077,16 @@ public class SwiftFileTemplateTest {
   @Test
   public void classWithoutProtocolWithStructTypedefAndMethod() {
     SwiftClass swiftClass = SwiftClass.builder("SomeClass").build();
-    SwiftContainerType firstStruct = new SwiftContainerType("SomeClass.FirstStruct");
-    firstStruct.cPrefix = "CPrefix";
-    firstStruct.cType = "CType";
-    SwiftContainerType secondStruct = new SwiftContainerType("SomeClass.SecondStruct");
-    secondStruct.cPrefix = "CPrefix";
-    secondStruct.cType = "CType";
+    SwiftContainerType firstStruct =
+        SwiftContainerType.builder("SomeClass.FirstStruct")
+            .cPrefix("CPrefix")
+            .cType("CType")
+            .build();
+    SwiftContainerType secondStruct =
+        SwiftContainerType.builder("SomeClass.SecondStruct")
+            .cPrefix("CPrefix")
+            .cType("CType")
+            .build();
     swiftClass.typedefs.add(new SwiftTypeDef("SomeClass.RenamedStruct", secondStruct));
     SwiftMethod method =
         new SwiftMethod("SomeMethod", singletonList(new SwiftParameter("input", firstStruct)));

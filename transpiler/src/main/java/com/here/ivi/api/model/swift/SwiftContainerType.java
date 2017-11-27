@@ -11,56 +11,54 @@
 
 package com.here.ivi.api.model.swift;
 
-import static java.util.Collections.emptyList;
-
+import java.util.LinkedList;
 import java.util.List;
 
 public final class SwiftContainerType extends SwiftType {
 
-  public List<SwiftField> fields;
-  public String cPrefix;
-  public String cType;
+  public final List<SwiftField> fields = new LinkedList<>();
+  public final String cPrefix;
+  public final String cType;
 
-  public SwiftContainerType(final String name) {
-    this(name, TypeCategory.STRUCT, null);
-  }
-
-  public SwiftContainerType(
-      final String name, final TypeCategory category, final String implementingClass) {
-    this(name, category, implementingClass, name, false);
-  }
-
+  @lombok.Builder(builderClassName = "Builder")
   private SwiftContainerType(
       final String name,
       final TypeCategory category,
       final String implementingClass,
       final String publicName,
-      final boolean optional) {
-    super(name, category, implementingClass, publicName, optional);
-    fields = emptyList();
-    cPrefix = "";
-    cType = "";
+      final boolean optional,
+      final String cPrefix,
+      final String cType) {
+    super(
+        name,
+        category != null ? category : TypeCategory.STRUCT,
+        implementingClass,
+        publicName != null ? publicName : name,
+        optional);
+    this.cPrefix = cPrefix;
+    this.cType = cType;
+  }
+
+  public static Builder builder(final String name) {
+    return new Builder().name(name);
   }
 
   @Override
   public SwiftType createAlias(final String aliasName) {
     SwiftContainerType container =
-        new SwiftContainerType(name, category, implementingClass, aliasName, optional);
+        new SwiftContainerType(
+            name, category, implementingClass, aliasName, optional, cPrefix, cType);
     container.comment = this.comment;
-    container.fields = this.fields;
-    container.cPrefix = this.cPrefix;
-    container.cType = this.cType;
+    container.fields.addAll(fields);
     return container;
   }
 
   @Override
   public SwiftType createOptionalType() {
     SwiftContainerType container =
-        new SwiftContainerType(name, category, implementingClass, publicName, true);
+        new SwiftContainerType(name, category, implementingClass, publicName, true, cPrefix, cType);
     container.comment = this.comment;
-    container.fields = this.fields;
-    container.cPrefix = this.cPrefix;
-    container.cType = this.cType;
+    container.fields.addAll(fields);
     return container;
   }
 }

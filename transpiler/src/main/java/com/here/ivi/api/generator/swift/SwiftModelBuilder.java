@@ -118,12 +118,13 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     }
 
     SwiftContainerType swiftStruct =
-        new SwiftContainerType(SwiftNameRules.getStructName(francaStruct, deploymentModel));
+        SwiftContainerType.builder(SwiftNameRules.getStructName(francaStruct, deploymentModel))
+            .cPrefix(CBridgeNameRules.getStructBaseName(francaStruct))
+            .cType(CBridgeNameRules.getStructRefType(francaStruct))
+            .build();
     String comment = CppCommentParser.parse(francaStruct).getMainBodyText();
     swiftStruct.comment = comment != null ? comment : "";
-    swiftStruct.fields = getPreviousResults(SwiftField.class);
-    swiftStruct.cPrefix = CBridgeNameRules.getStructBaseName(francaStruct);
-    swiftStruct.cType = CBridgeNameRules.getStructRefType(francaStruct);
+    swiftStruct.fields.addAll(getPreviousResults(SwiftField.class));
     storeResult(swiftStruct);
     super.finishBuilding(francaStruct);
   }

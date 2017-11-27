@@ -95,11 +95,13 @@ public class SwiftTypeMapper {
       isOptional = true;
     }
 
-    SwiftContainerType mappedType = new SwiftContainerType(name, category, implementingClass);
-    mappedType.cPrefix = CBridgeNameRules.getStructBaseName(derived);
-    mappedType.cType = CBridgeNameRules.getStructRefType(derived);
-
-    return isOptional ? mappedType.createOptionalType() : mappedType;
+    return SwiftContainerType.builder(name)
+        .category(category)
+        .implementingClass(implementingClass)
+        .optional(isOptional)
+        .cPrefix(CBridgeNameRules.getStructBaseName(derived))
+        .cType(CBridgeNameRules.getStructRefType(derived))
+        .build();
   }
 
   private static SwiftType mapPredefined(FTypeRef type) {
