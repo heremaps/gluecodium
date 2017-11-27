@@ -11,49 +11,52 @@
 
 package com.here.ivi.api.model.swift;
 
-import static java.util.Collections.emptyList;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public final class SwiftClass extends SwiftType {
 
-  public boolean isInterface;
+  public final boolean isInterface;
   public final String parentClass;
-  public List<String> implementsProtocols;
-  public List<SwiftProperty> properties;
-  public List<SwiftMethod> methods;
-  public List<SwiftContainerType> structs;
-  public List<SwiftEnum> enums;
-  public String nameSpace;
-  public String cInstanceRef;
-  public String cInstance;
-  public List<SwiftTypeDef> typedefs;
-  public String functionTableName;
+  public final List<String> implementsProtocols = new LinkedList<>();
+  public final List<SwiftProperty> properties = new LinkedList<>();
+  public final List<SwiftMethod> methods = new LinkedList<>();
+  public final List<SwiftContainerType> structs = new LinkedList<>();
+  public final List<SwiftEnum> enums = new LinkedList<>();
+  public final String nameSpace;
+  public final String cInstanceRef;
+  public final String cInstance;
+  public final List<SwiftTypeDef> typedefs = new LinkedList<>();
+  public final String functionTableName;
 
-  public SwiftClass(String className, String parentClassName) {
-    super(className, TypeCategory.CLASS);
-    this.parentClass = parentClassName;
-    this.implementsProtocols = emptyList();
-    this.properties = new ArrayList<>();
-    this.methods = emptyList();
-    this.structs = emptyList();
-    this.enums = new ArrayList<>();
-    this.nameSpace = "";
-    this.typedefs = new ArrayList<>();
-    this.isInterface = false;
+  @lombok.Builder(builderClassName = "Builder")
+  private SwiftClass(
+      final String name,
+      final boolean isInterface,
+      final String parentClass,
+      final String nameSpace,
+      final String cInstanceRef,
+      final String cInstance,
+      final String functionTableName) {
+    super(name, TypeCategory.CLASS);
+    this.isInterface = isInterface;
+    this.parentClass = parentClass;
+    this.nameSpace = nameSpace;
+    this.cInstanceRef = cInstanceRef;
+    this.cInstance = cInstance;
+    this.functionTableName = functionTableName;
   }
 
-  public SwiftClass(String className) {
-    this(className, null);
-  }
-
+  @SuppressWarnings("unused")
   public List<String> baseAndProtocols() {
     LinkedList<String> baseAndProtocols = new LinkedList<>(implementsProtocols);
     if (parentClass != null) {
       baseAndProtocols.addFirst(parentClass);
     }
     return baseAndProtocols;
+  }
+
+  public static Builder builder(final String name) {
+    return new Builder().name(name);
   }
 }
