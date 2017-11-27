@@ -58,36 +58,51 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FInterface francaInterface) {
-    SwiftFile file = new SwiftFile();
-    SwiftClass clazz = new SwiftClass(SwiftNameRules.getClassName(francaInterface.getName()));
-    String comment = CppCommentParser.parse(francaInterface).getMainBodyText();
-    clazz.comment = comment != null ? comment : "";
-    clazz.properties = getPreviousResults(SwiftProperty.class);
-    clazz.nameSpace = String.join("_", DefinedBy.getPackages(francaInterface));
-    clazz.typedefs = getPreviousResults(SwiftTypeDef.class);
-    clazz.cInstance = CBridgeNameRules.getInterfaceName(francaInterface);
-    clazz.methods = getPreviousResults(SwiftMethod.class);
 
-    if (deploymentModel.isInterface(francaInterface)) {
+    boolean isInterface = deploymentModel.isInterface(francaInterface);
+
+    String cInstanceRef;
+    String functionTableName = null;
+    if (isInterface) {
       // Instantiable Franca interface implemented as Swift protocol
-      clazz.isInterface = true;
-      clazz.cInstanceRef = CBridgeNameRules.getInstanceRefType(francaInterface);
-      clazz.implementsProtocols = Collections.singletonList(clazz.name);
-      clazz.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
-      file.structs.addAll(getPreviousResults(SwiftContainerType.class));
-      file.enums.addAll(getPreviousResults(SwiftEnum.class));
+      cInstanceRef = CBridgeNameRules.getInstanceRefType(francaInterface);
+      functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
 
     } else {
-      clazz.structs = getPreviousResults(SwiftContainerType.class);
-      clazz.enums = getPreviousResults(SwiftEnum.class);
-      clazz.cInstanceRef =
-          clazz.properties.isEmpty() && hasOnlyStaticMethods(getPreviousResults(SwiftMethod.class))
+      cInstanceRef =
+          getPreviousResults(SwiftProperty.class).isEmpty()
+                  && hasOnlyStaticMethods(getPreviousResults(SwiftMethod.class))
               // Non instantiable Franca interface (static methods only)
               // TODO APIGEN-893: it should always be instantiable
               ? null
               // Instantiable Franca interface implemented as Swift class
               : CBridgeNameRules.getInstanceRefType(francaInterface);
     }
+
+    SwiftClass clazz =
+        SwiftClass.builder(SwiftNameRules.getClassName(francaInterface.getName()))
+            .nameSpace(String.join("_", DefinedBy.getPackages(francaInterface)))
+            .cInstance(CBridgeNameRules.getInterfaceName(francaInterface))
+            .isInterface(isInterface)
+            .cInstanceRef(cInstanceRef)
+            .functionTableName(functionTableName)
+            .build();
+    clazz.properties.addAll(getPreviousResults(SwiftProperty.class));
+    clazz.typedefs.addAll(getPreviousResults(SwiftTypeDef.class));
+    clazz.methods.addAll(getPreviousResults(SwiftMethod.class));
+
+    SwiftFile file = new SwiftFile();
+    if (isInterface) {
+      clazz.implementsProtocols.add(clazz.name);
+      file.structs.addAll(getPreviousResults(SwiftContainerType.class));
+      file.enums.addAll(getPreviousResults(SwiftEnum.class));
+    } else {
+      clazz.structs.addAll(getPreviousResults(SwiftContainerType.class));
+      clazz.enums.addAll(getPreviousResults(SwiftEnum.class));
+    }
+
+    String comment = CppCommentParser.parse(francaInterface).getMainBodyText();
+    clazz.comment = comment != null ? comment : "";
 
     file.classes.add(clazz);
     storeResult(file);
@@ -260,8 +275,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FArrayType francaArray) {
-    SwiftType innerType =
-        SwiftTypeMapper.mapType((FTypeRef) francaArray.getElementType(), deploymentModel);
+    SwiftType innerType = SwiftTypeMapper.mapType(francaArray.getElementType(), deploymentModel);
     SwiftArray arrayType = SwiftArrayMapper.create(innerType, francaArray);
     arraysCollector.put(innerType.name, arrayType);
     super.finishBuilding(francaArray);

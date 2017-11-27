@@ -44,9 +44,8 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void simpleInterfaceGeneration() {
-    final SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
-    swiftClass.implementsProtocols = singletonList("ExampleClass");
-    swiftClass.isInterface = true;
+    final SwiftClass swiftClass = SwiftClass.builder("ExampleClass").isInterface(true).build();
+    swiftClass.implementsProtocols.add("ExampleClass");
 
     TemplateComparator.expect("public protocol ExampleClass : AnyObject {\n" + "}\n")
         .expect("internal class _ExampleClass: ExampleClass {\n" + "}\n")
@@ -56,12 +55,14 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void getRefFunctionIsGenerated() {
-    final SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
-    swiftClass.implementsProtocols = singletonList("ExampleClass");
-    swiftClass.isInterface = true;
-    swiftClass.cInstance = "CInstance";
-    swiftClass.cInstanceRef = "CInstanceReference";
-    swiftClass.functionTableName = "ExampleFunctionTable";
+    final SwiftClass swiftClass =
+        SwiftClass.builder("ExampleClass")
+            .isInterface(true)
+            .cInstance("CInstance")
+            .cInstanceRef("CInstanceReference")
+            .functionTableName("ExampleFunctionTable")
+            .build();
+    swiftClass.implementsProtocols.add("ExampleClass");
 
     TemplateComparator.expect(
             "internal func getRef(_ ref: ExampleClass) -> RefHolder<CInstanceReference> {\n"
@@ -83,10 +84,9 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void interfaceWithCommentGeneration() {
-    SwiftClass swiftClass = new SwiftClass("ExampleClassWithComment", null);
-    swiftClass.implementsProtocols = singletonList("ExampleClassWithComment");
+    SwiftClass swiftClass = SwiftClass.builder("ExampleClassWithComment").isInterface(true).build();
+    swiftClass.implementsProtocols.add("ExampleClassWithComment");
     swiftClass.comment = "One really classy example";
-    swiftClass.isInterface = true;
 
     TemplateComparator.expect(
             "/**\n"
@@ -101,15 +101,14 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void simpleMethodGeneration() {
-    SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
-    swiftClass.nameSpace = "myPackage";
+    SwiftClass swiftClass =
+        SwiftClass.builder("ExampleClass").nameSpace("myPackage").isInterface(true).build();
     SwiftMethod method =
         new SwiftMethod(
             "myMethod",
             Collections.singletonList(new SwiftParameter("parameter", new SwiftType("Int"))));
-    swiftClass.methods = Collections.singletonList(method);
-    swiftClass.implementsProtocols = singletonList("ExampleClass");
-    swiftClass.isInterface = true;
+    swiftClass.methods.add(method);
+    swiftClass.implementsProtocols.add("ExampleClass");
     method.returnType = new SwiftType("Int");
     method.cBaseName = "myPackage_ExampleClass_myMethod";
 
@@ -129,7 +128,7 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void methodParameterDifferentInterfaceAndVariableName() {
-    SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
+    SwiftClass swiftClass = SwiftClass.builder("ExampleClass").isInterface(true).build();
     SwiftMethod method =
         new SwiftMethod(
             "myMethod",
@@ -137,9 +136,8 @@ public class SwiftFileTemplateTest {
                 new SwiftParameter(
                     "parameterInterfaceName", new SwiftType("Int"), "parameterVariableName")));
     method.cBaseName = "ExampleClass_myMethod";
-    swiftClass.implementsProtocols = singletonList("ExampleClass");
-    swiftClass.methods = Collections.singletonList(method);
-    swiftClass.isInterface = true;
+    swiftClass.implementsProtocols.add("ExampleClass");
+    swiftClass.methods.add(method);
 
     TemplateComparator.expect(
             "public protocol ExampleClass : AnyObject {\n"
@@ -157,14 +155,13 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void methodWithMultipleParameters() {
-    SwiftClass swiftClass = new SwiftClass("ExampleClass", null);
-    swiftClass.implementsProtocols = singletonList("ExampleClass");
-    swiftClass.isInterface = true;
+    SwiftClass swiftClass = SwiftClass.builder("ExampleClass").isInterface(true).build();
+    swiftClass.implementsProtocols.add("ExampleClass");
     SwiftParameter parameterOne = new SwiftParameter("parameterOne", new SwiftType("Int"));
     SwiftParameter parameterTwo = new SwiftParameter("parameterTwo", new SwiftType("String"));
     SwiftMethod method = new SwiftMethod("myMethod", Arrays.asList(parameterOne, parameterTwo));
     method.cBaseName = "ExampleClass_myMethod";
-    swiftClass.methods = Collections.singletonList(method);
+    swiftClass.methods.add(method);
 
     TemplateComparator.expect(
             "public protocol ExampleClass : AnyObject {\n"
@@ -182,15 +179,14 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void methodWithArrayParameter() {
-    SwiftClass swiftClass = new SwiftClass("MyClass", null);
-    swiftClass.implementsProtocols = singletonList("MyClass");
-    swiftClass.isInterface = true;
+    SwiftClass swiftClass = SwiftClass.builder("MyClass").isInterface(true).build();
+    swiftClass.implementsProtocols.add("MyClass");
     SwiftMethod method =
         new SwiftMethod(
             "myMethod",
             Collections.singletonList(new SwiftParameter("array", new SwiftType("[UInt8]"))));
     method.cBaseName = "MyClass_myMethod";
-    swiftClass.methods = Collections.singletonList(method);
+    swiftClass.methods.add(method);
 
     TemplateComparator.expect(
             "public protocol MyClass : AnyObject {\n"
@@ -208,9 +204,8 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void methodWithComment() {
-    SwiftClass swiftClass = new SwiftClass("CommentedExampleClass", null);
-    swiftClass.implementsProtocols = singletonList("CommentedExampleClass");
-    swiftClass.isInterface = true;
+    SwiftClass swiftClass = SwiftClass.builder("CommentedExampleClass").isInterface(true).build();
+    swiftClass.implementsProtocols.add("CommentedExampleClass");
     SwiftMethod method =
         new SwiftMethod(
             "myMethod",
@@ -220,7 +215,7 @@ public class SwiftFileTemplateTest {
     method.comment = "Do something";
     method.cBaseName = "CommentedExampleClass_myMethod";
 
-    swiftClass.methods = Collections.singletonList(method);
+    swiftClass.methods.add(method);
 
     TemplateComparator.expect(
             "public protocol CommentedExampleClass : AnyObject {\n"
@@ -244,11 +239,11 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void staticMethod() {
-    SwiftClass swiftClass = new SwiftClass("MyClass", null);
+    SwiftClass swiftClass = SwiftClass.builder("MyClass").build();
     SwiftMethod method = new SwiftMethod("myStaticMethod");
     method.isStatic = true;
     method.cBaseName = "MyClass_myStaticMethod";
-    swiftClass.methods = Collections.singletonList(method);
+    swiftClass.methods.add(method);
 
     final String expected =
         "import Foundation\n"
@@ -263,7 +258,7 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void helloWorldGeneration() {
-    SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
+    SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftMethod method =
         new SwiftMethod(
             "helloWorldMethod",
@@ -271,7 +266,7 @@ public class SwiftFileTemplateTest {
     method.returnType = new SwiftType("String", TypeCategory.BUILTIN_STRING).createOptionalType();
     method.isStatic = true;
     method.cBaseName = "HelloWorld_helloWorldMethod";
-    swiftClass.methods = Collections.singletonList(method);
+    swiftClass.methods.add(method);
     final String expected =
         "import Foundation\n"
             + "public class HelloWorld {\n"
@@ -290,7 +285,7 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void methodWithByteBufferInput() {
-    SwiftClass swiftClass = new SwiftClass("HelloWorld");
+    SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftParameter swiftParameter = new SwiftParameter("byteBuffer", SwiftType.DATA);
     SwiftMethod method =
         new SwiftMethod("testBuffer", new ArrayList<>(Arrays.asList(swiftParameter)));
@@ -305,14 +300,14 @@ public class SwiftFileTemplateTest {
             + "        }\n"
             + "    }\n"
             + "}\n";
-    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    swiftClass.methods.add(method);
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void methodWithByteBufferInputAndDifferentVariableName() {
-    SwiftClass swiftClass = new SwiftClass("HelloWorld");
+    SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftParameter swiftParameter = new SwiftParameter("data", SwiftType.DATA, "byteBuffer");
     SwiftMethod method =
         new SwiftMethod("testBuffer", new ArrayList<>(Arrays.asList(swiftParameter)));
@@ -327,14 +322,14 @@ public class SwiftFileTemplateTest {
             + "        }\n"
             + "    }\n"
             + "}\n";
-    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    swiftClass.methods.add(method);
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void methodWithMultipleByteBufferInputStringAndInteger() {
-    SwiftClass swiftClass = new SwiftClass("HelloWorld");
+    SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftParameter param1 = new SwiftParameter("byteBuffer", SwiftType.DATA);
     SwiftParameter param2 = new SwiftParameter("text", SwiftType.STRING);
     SwiftParameter param3 = new SwiftParameter("number", new SwiftType("Int"));
@@ -355,14 +350,14 @@ public class SwiftFileTemplateTest {
             + "        }\n"
             + "    }\n"
             + "}\n";
-    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    swiftClass.methods.add(method);
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void methodWithMultipleByteBufferInputStringAndIntegerReturningData() {
-    SwiftClass swiftClass = new SwiftClass("HelloWorld");
+    SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftParameter param1 = new SwiftParameter("byteBuffer", SwiftType.DATA);
     SwiftParameter param2 = new SwiftParameter("text", SwiftType.STRING);
     SwiftParameter param3 = new SwiftParameter("number", new SwiftType("Int"));
@@ -389,14 +384,14 @@ public class SwiftFileTemplateTest {
             + "        }\n"
             + "    }\n"
             + "}\n";
-    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    swiftClass.methods.add(method);
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void methodWithMultipleByteBufferInputStringAndIntegerReturningInt() {
-    SwiftClass swiftClass = new SwiftClass("HelloWorld");
+    SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftParameter param1 = new SwiftParameter("byteBuffer", SwiftType.DATA);
     SwiftParameter param2 = new SwiftParameter("text", SwiftType.STRING);
     SwiftParameter param3 = new SwiftParameter("number", new SwiftType("Int"));
@@ -418,14 +413,14 @@ public class SwiftFileTemplateTest {
             + "        }\n"
             + "    }\n"
             + "}\n";
-    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    swiftClass.methods.add(method);
     final String generated = generateFromClass(swiftClass);
     TemplateComparison.assertEqualContent(expected, generated);
   }
 
   @Test
   public void staticMethodTakingStruct() {
-    SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
+    SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftContainerType swiftStruct = new SwiftContainerType("SomeStruct");
     swiftStruct.cPrefix = swiftClass.name + "_" + swiftStruct.name;
     SwiftMethod method =
@@ -433,7 +428,7 @@ public class SwiftFileTemplateTest {
             "methodTakingStruct", singletonList(new SwiftParameter("inputParam", swiftStruct)));
     method.isStatic = true;
     method.cBaseName = "HelloWorld_methodTakingStruct";
-    swiftClass.methods = singletonList(method);
+    swiftClass.methods.add(method);
     final String expected =
         "import Foundation\n"
             + "public class HelloWorld {\n"
@@ -451,14 +446,14 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void staticMethodReturningStruct() {
-    SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
+    SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftContainerType swiftStruct = new SwiftContainerType("SomeStruct");
     swiftStruct.cPrefix = swiftClass.name + "_" + swiftStruct.name;
     SwiftMethod method = new SwiftMethod("methodReturningStruct");
     method.isStatic = true;
     method.returnType = swiftStruct.createOptionalType();
     method.cBaseName = "HelloWorld_methodReturningStruct";
-    swiftClass.methods = singletonList(method);
+    swiftClass.methods.add(method);
     final String expected =
         "import Foundation\n"
             + "public class HelloWorld {\n"
@@ -476,7 +471,7 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void staticMethodTakingMultipleParamsAndReturningStruct() {
-    SwiftClass swiftClass = new SwiftClass("HelloWorld", null);
+    SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftContainerType inputStruct = new SwiftContainerType("GeoLocation");
     inputStruct.cPrefix = swiftClass.name + "_" + inputStruct.name;
     SwiftMethod method =
@@ -492,7 +487,7 @@ public class SwiftFileTemplateTest {
     outputStruct.cPrefix = swiftClass.name + "_" + outputStruct.name;
     method.returnType = outputStruct.createOptionalType();
     method.cBaseName = "HelloWorld_fancyMethod";
-    swiftClass.methods = singletonList(method);
+    swiftClass.methods.add(method);
 
     final String expected =
         "import Foundation\n"
@@ -519,16 +514,15 @@ public class SwiftFileTemplateTest {
   @Test
   public void interfaceWithTwoStructsAndMethod() {
     SwiftFile file = new SwiftFile();
-    SwiftClass swiftClass = new SwiftClass("SomeClass", null);
+    SwiftClass swiftClass = SwiftClass.builder("SomeClass").isInterface(true).build();
     SwiftContainerType firstStruct = new SwiftContainerType("FirstStruct");
     firstStruct.cPrefix = "CPrefix";
     firstStruct.cType = "CType";
     SwiftContainerType secondStruct = new SwiftContainerType("SecondStruct");
     secondStruct.cPrefix = "CPrefix";
     secondStruct.cType = "CType";
-    swiftClass.methods = singletonList(new SwiftMethod("SomeMethod"));
-    swiftClass.implementsProtocols = Collections.singletonList(swiftClass.name);
-    swiftClass.isInterface = true;
+    swiftClass.methods.add(new SwiftMethod("SomeMethod"));
+    swiftClass.implementsProtocols.add(swiftClass.name);
     file.structs.add(firstStruct);
     file.structs.add(secondStruct);
     file.classes.add(swiftClass);
@@ -661,8 +655,7 @@ public class SwiftFileTemplateTest {
     SwiftFile swiftFile = new SwiftFile();
     swiftFile.enums.add(
         SwiftEnum.builder("EnumSwiftName").comment("Some comment on enum type").build());
-    SwiftClass swiftClass = new SwiftClass("TestInterface");
-    swiftClass.isInterface = true;
+    SwiftClass swiftClass = SwiftClass.builder("TestInterface").isInterface(true).build();
     swiftFile.classes.add(swiftClass);
 
     TemplateComparator expected =
@@ -683,15 +676,17 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void classWithInternalConstructor() {
-    SwiftClass swiftClass = new SwiftClass("HelloWorld");
-    swiftClass.cInstanceRef = "HelloWorldRef";
-    swiftClass.cInstance = "HellowWorld";
-    swiftClass.implementsProtocols = singletonList("HelloWorld");
-    swiftClass.isInterface = true;
+    SwiftClass swiftClass =
+        SwiftClass.builder("HelloWorld")
+            .cInstanceRef("HelloWorldRef")
+            .cInstance("HellowWorld")
+            .isInterface(true)
+            .build();
+    swiftClass.implementsProtocols.add("HelloWorld");
     SwiftMethod method = new SwiftMethod("instanceMethod");
     method.returnType = new SwiftType("Int");
     method.cBaseName = "HelloWorld_instanceMethod";
-    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    swiftClass.methods.add(method);
 
     TemplateComparator expected =
         TemplateComparator.expect(
@@ -720,9 +715,11 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void factoryClassCallingPrivateConstructor() {
-    SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
-    swiftClass.cInstanceRef = "HellowWorldFactoryRef";
-    swiftClass.cInstance = "HellowWorldFactory";
+    SwiftClass swiftClass =
+        SwiftClass.builder("HellowWorldFactory")
+            .cInstanceRef("HellowWorldFactoryRef")
+            .cInstance("HellowWorldFactory")
+            .build();
 
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType =
@@ -730,7 +727,7 @@ public class SwiftFileTemplateTest {
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
-    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    swiftClass.methods.add(method);
 
     TemplateComparator expected =
         TemplateComparator.expect(
@@ -755,10 +752,9 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void typedefGenerationInProtocol() {
-    SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
+    SwiftClass swiftClass = SwiftClass.builder("HellowWorldFactory").isInterface(true).build();
     SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
-    swiftClass.typedefs = Collections.singletonList(typedef);
-    swiftClass.isInterface = true;
+    swiftClass.typedefs.add(typedef);
 
     TemplateComparator.expect(
             "public protocol HellowWorldFactory : AnyObject {\n"
@@ -771,16 +767,16 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void typedeGenerationInClass() {
-    SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
+    SwiftClass swiftClass = SwiftClass.builder("HellowWorldFactory").build();
     SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
-    swiftClass.typedefs = Collections.singletonList(typedef);
+    swiftClass.typedefs.add(typedef);
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType =
         new SwiftContainerType("HelloWorld", TypeCategory.CLASS, "_HelloWorld");
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
-    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    swiftClass.methods.add(method);
 
     TemplateComparator.expect(
             "public class HellowWorldFactory {\n"
@@ -797,12 +793,13 @@ public class SwiftFileTemplateTest {
   @Test
   public void nestedTypedeGenerationInClass() {
 
-    SwiftClass swiftClass = new SwiftClass("HellowWorldFactory");
+    SwiftClass swiftClass = SwiftClass.builder("HellowWorldFactory").build();
     SwiftTypeDef typedef =
         new SwiftTypeDef(
             "HellowWorldFactory.MyNestedTypeDef", new SwiftType("HellowWorldFactory.MyTypeDef"));
     SwiftTypeDef typedef2 = new SwiftTypeDef("HellowWorldFactory.MyTypeDef", new SwiftType("Int"));
-    swiftClass.typedefs = Arrays.asList(typedef, typedef2);
+    swiftClass.typedefs.add(typedef);
+    swiftClass.typedefs.add(typedef2);
 
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType =
@@ -810,7 +807,7 @@ public class SwiftFileTemplateTest {
     method.returnType = typedef.type;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
-    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
+    swiftClass.methods.add(method);
 
     final String expected =
         "import Foundation\n"
@@ -828,9 +825,11 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void protocolWithPropertyOfDataType() {
-    SwiftClass swiftClass = new SwiftClass("SomeClassWithProperty");
-    swiftClass.cInstanceRef = "SomeClassWithPropertyRef";
-    swiftClass.isInterface = true;
+    SwiftClass swiftClass =
+        SwiftClass.builder("SomeClassWithProperty")
+            .cInstanceRef("SomeClassWithPropertyRef")
+            .isInterface(true)
+            .build();
     SwiftProperty someProperty =
         new SwiftProperty("someAttributeName", SwiftType.DATA, false, "CBRIDGE_DELEGATE");
     swiftClass.properties.add(someProperty);
@@ -871,8 +870,10 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void classWithPropertyOfDataType() {
-    SwiftClass swiftClass = new SwiftClass("SomeClassWithProperty");
-    swiftClass.cInstanceRef = "SomeClassWithPropertyRef";
+    SwiftClass swiftClass =
+        SwiftClass.builder("SomeClassWithProperty")
+            .cInstanceRef("SomeClassWithPropertyRef")
+            .build();
     SwiftProperty someProperty =
         new SwiftProperty("someAttributeName", SwiftType.DATA, false, "CBRIDGE_DELEGATE");
     swiftClass.properties.add(someProperty);
@@ -915,9 +916,11 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void classWithReadonlyProperties() {
-    SwiftClass swiftClass = new SwiftClass("SomeClassWithProperty");
-    swiftClass.cInstanceRef = "SomeClassWithPropertyRef";
-    swiftClass.isInterface = true;
+    SwiftClass swiftClass =
+        SwiftClass.builder("SomeClassWithProperty")
+            .cInstanceRef("SomeClassWithPropertyRef")
+            .isInterface(true)
+            .build();
     swiftClass.properties.add(
         new SwiftProperty(
             "someStringAttribute", SwiftType.STRING, true, "CBRIDGE_DELEGATE_FOR_STRING"));
@@ -980,7 +983,7 @@ public class SwiftFileTemplateTest {
   }
 
   public void classWithBase() {
-    SwiftClass swiftClass = new SwiftClass("TestClass", "SuperClass");
+    SwiftClass swiftClass = SwiftClass.builder("TestClass").parentClass("SuperClass").build();
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
@@ -999,12 +1002,14 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void classWithProtocol() {
-    SwiftClass swiftClass = new SwiftClass("TestClass");
-    swiftClass.implementsProtocols = singletonList("FirstProtocol");
-    swiftClass.isInterface = true;
-    swiftClass.cInstance = "CTest";
-    swiftClass.cInstanceRef = "CTestPointerWrapper";
-    swiftClass.functionTableName = "TestClassFunctionTable";
+    SwiftClass swiftClass =
+        SwiftClass.builder("TestClass")
+            .isInterface(true)
+            .cInstance("CTest")
+            .cInstanceRef("CTestPointerWrapper")
+            .functionTableName("TestClassFunctionTable")
+            .build();
+    swiftClass.implementsProtocols.add("FirstProtocol");
 
     TemplateComparator expected =
         TemplateComparator.expect(
@@ -1039,8 +1044,9 @@ public class SwiftFileTemplateTest {
   }
 
   public void classWithBaseAndProtocols() {
-    SwiftClass swiftClass = new SwiftClass("TestClass", "SuperClass");
-    swiftClass.implementsProtocols = Arrays.asList("FirstProtocol", "SecondProtocol");
+    SwiftClass swiftClass = SwiftClass.builder("TestClass").parentClass("SuperClass").build();
+    swiftClass.implementsProtocols.add("FirstProtocol");
+    swiftClass.implementsProtocols.add("SecondProtocol");
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
@@ -1059,22 +1065,22 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void classWithoutProtocolWithStructTypedefAndMethod() {
-    SwiftClass swiftClass = new SwiftClass("SomeClass", null);
-    SwiftContainerType firstSturct = new SwiftContainerType("SomeClass.FirstStruct");
-    firstSturct.cPrefix = "CPrefix";
-    firstSturct.cType = "CType";
+    SwiftClass swiftClass = SwiftClass.builder("SomeClass").build();
+    SwiftContainerType firstStruct = new SwiftContainerType("SomeClass.FirstStruct");
+    firstStruct.cPrefix = "CPrefix";
+    firstStruct.cType = "CType";
     SwiftContainerType secondStruct = new SwiftContainerType("SomeClass.SecondStruct");
     secondStruct.cPrefix = "CPrefix";
     secondStruct.cType = "CType";
-    swiftClass.typedefs =
-        Collections.singletonList(new SwiftTypeDef("SomeClass.RenamedStruct", secondStruct));
+    swiftClass.typedefs.add(new SwiftTypeDef("SomeClass.RenamedStruct", secondStruct));
     SwiftMethod method =
-        new SwiftMethod("SomeMethod", singletonList(new SwiftParameter("input", firstSturct)));
+        new SwiftMethod("SomeMethod", singletonList(new SwiftParameter("input", firstStruct)));
     method.returnType = secondStruct.createAlias("SomeClass.RenamedStruct");
     method.cBaseName = "HelloWorld_someMethod";
     method.isStatic = true;
-    swiftClass.methods = new ArrayList<>(Arrays.asList(method));
-    swiftClass.structs = Arrays.asList(firstSturct, secondStruct);
+    swiftClass.methods.add(method);
+    swiftClass.structs.add(firstStruct);
+    swiftClass.structs.add(secondStruct);
     final String expected =
         "import Foundation\n"
             + "public class SomeClass {\n"
