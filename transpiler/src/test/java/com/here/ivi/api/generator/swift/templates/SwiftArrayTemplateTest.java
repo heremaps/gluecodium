@@ -166,8 +166,6 @@ public class SwiftArrayTemplateTest {
     SwiftEnumItem enumItem =
         SwiftEnumItem.builder("ItemName").value(new SwiftValue("VALUE")).build();
     SwiftEnum swiftEnum = SwiftEnum.builder("EnumSwift").items(singletonList(enumItem)).build();
-    SwiftArray array = new SwiftArray(swiftEnum);
-    array.refName = "arrayCollection_Enums";
-    return array;
+    return new SwiftArray(swiftEnum, null, "arrayCollection_Enums");
   }
 }

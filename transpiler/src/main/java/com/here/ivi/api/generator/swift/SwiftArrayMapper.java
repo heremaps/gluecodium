@@ -17,11 +17,11 @@ import org.eclipse.emf.ecore.EObject;
 
 public final class SwiftArrayMapper {
 
-  public static SwiftArray create(SwiftType underlyingType, EObject francaElement) {
-    SwiftArray array = new SwiftArray(underlyingType, SwiftNameRules.getArrayName(underlyingType));
-    array.refName =
-        CArrayMapper.addPrefix(CArrayMapper.getName(francaElement) + addSuffix(underlyingType));
-    return array;
+  public static SwiftArray create(final SwiftType underlyingType, final EObject francaElement) {
+    return new SwiftArray(
+        underlyingType,
+        SwiftNameRules.getArrayName(underlyingType),
+        CArrayMapper.addPrefix(CArrayMapper.getName(francaElement) + addSuffix(underlyingType)));
   }
 
   private static String addSuffix(final SwiftType innerType) {
