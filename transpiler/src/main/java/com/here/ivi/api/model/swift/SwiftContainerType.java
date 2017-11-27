@@ -21,21 +21,22 @@ public final class SwiftContainerType extends SwiftType {
   public String cPrefix;
   public String cType;
 
-  public SwiftContainerType(String name) {
-    this(name, TypeCategory.STRUCT);
+  public SwiftContainerType(final String name) {
+    this(name, TypeCategory.STRUCT, null);
   }
 
-  public SwiftContainerType(String name, TypeCategory category) {
-    this(name, category, null, null, false);
+  public SwiftContainerType(
+      final String name, final TypeCategory category, final String implementingClass) {
+    this(name, category, implementingClass, name, false);
   }
 
   private SwiftContainerType(
       final String name,
       final TypeCategory category,
       final String implementingClass,
-      final String typealias,
+      final String publicName,
       final boolean optional) {
-    super(name, category, implementingClass, typealias, optional);
+    super(name, category, implementingClass, publicName, optional);
     fields = emptyList();
     cPrefix = "";
     cType = "";
@@ -55,7 +56,7 @@ public final class SwiftContainerType extends SwiftType {
   @Override
   public SwiftType createOptionalType() {
     SwiftContainerType container =
-        new SwiftContainerType(name, category, implementingClass, typeAliasName, true);
+        new SwiftContainerType(name, category, implementingClass, publicName, true);
     container.comment = this.comment;
     container.fields = this.fields;
     container.cPrefix = this.cPrefix;

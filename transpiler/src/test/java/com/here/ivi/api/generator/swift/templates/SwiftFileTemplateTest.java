@@ -725,8 +725,8 @@ public class SwiftFileTemplateTest {
     swiftClass.cInstance = "HellowWorldFactory";
 
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
-    SwiftContainerType mappedType = new SwiftContainerType("HelloWorld", TypeCategory.CLASS);
-    mappedType.implementingClass = "_HelloWorld";
+    SwiftContainerType mappedType =
+        new SwiftContainerType("HelloWorld", TypeCategory.CLASS, "_HelloWorld");
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
@@ -775,8 +775,8 @@ public class SwiftFileTemplateTest {
     SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
     swiftClass.typedefs = Collections.singletonList(typedef);
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
-    SwiftContainerType mappedType = new SwiftContainerType("HelloWorld", TypeCategory.CLASS);
-    mappedType.implementingClass = "_HelloWorld";
+    SwiftContainerType mappedType =
+        new SwiftContainerType("HelloWorld", TypeCategory.CLASS, "_HelloWorld");
     method.returnType = mappedType;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;
@@ -805,8 +805,8 @@ public class SwiftFileTemplateTest {
     swiftClass.typedefs = Arrays.asList(typedef, typedef2);
 
     SwiftMethod method = new SwiftMethod("createInstanceMethod");
-    SwiftContainerType mappedType = new SwiftContainerType("HelloWorld");
-    mappedType.implementingClass = "_HelloWorld";
+    SwiftContainerType mappedType =
+        new SwiftContainerType("HelloWorld", TypeCategory.STRUCT, "_HelloWorld");
     method.returnType = typedef.type;
     method.cBaseName = "HelloWorld_createInstanceMethod";
     method.isStatic = true;

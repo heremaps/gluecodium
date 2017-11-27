@@ -15,15 +15,22 @@ public final class SwiftArray extends SwiftType {
 
   public final SwiftType underlyingType;
   public final SwiftGenericParameter genericParameter;
-
   public String refName;
 
   public SwiftArray(final SwiftType underlyingType) {
-    this(null, underlyingType);
+    this(null, getImplName(underlyingType), false, underlyingType);
   }
 
-  public SwiftArray(String typealias, final SwiftType underlyingType) {
-    super("CollectionOf<" + underlyingType.name + ">", TypeCategory.ARRAY, null, typealias, false);
+  public SwiftArray(final SwiftType underlyingType, final String implementingClass) {
+    this(implementingClass, getImplName(underlyingType), false, underlyingType);
+  }
+
+  private SwiftArray(
+      final String implementingClass,
+      final String publicName,
+      final boolean optional,
+      final SwiftType underlyingType) {
+    super(getImplName(underlyingType), TypeCategory.ARRAY, implementingClass, publicName, optional);
     this.underlyingType = underlyingType;
     this.genericParameter = new SwiftGenericParameter(null, this);
   }
@@ -31,15 +38,6 @@ public final class SwiftArray extends SwiftType {
   @SuppressWarnings("unused")
   public String getSwiftArrayConversion() {
     return swiftRecursiveTransformation(underlyingType);
-  }
-
-  private String swiftRecursiveTransformation(final SwiftType type) {
-    if (type.category == TypeCategory.ARRAY) {
-      SwiftArray arrayType = (SwiftArray) type;
-      return "[" + swiftRecursiveTransformation(arrayType.underlyingType) + "]";
-    } else {
-      return type.name;
-    }
   }
 
   @SuppressWarnings("unused")
@@ -54,9 +52,21 @@ public final class SwiftArray extends SwiftType {
 
   @Override
   public SwiftType createAlias(String aliasName) {
-    SwiftArray alias = new SwiftArray(aliasName, underlyingType);
-    alias.implementingClass = implementingClass;
+    SwiftArray alias = new SwiftArray(implementingClass, aliasName, optional, underlyingType);
     alias.refName = refName;
     return alias;
+  }
+
+  private static String getImplName(SwiftType underlyingType) {
+    return "CollectionOf<" + underlyingType.name + ">";
+  }
+
+  private String swiftRecursiveTransformation(final SwiftType type) {
+    if (type.category == TypeCategory.ARRAY) {
+      SwiftArray arrayType = (SwiftArray) type;
+      return "[" + swiftRecursiveTransformation(arrayType.underlyingType) + "]";
+    } else {
+      return type.name;
+    }
   }
 }
