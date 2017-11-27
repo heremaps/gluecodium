@@ -63,7 +63,7 @@ class AsynchronousListenersViewController: UIViewController, UITableViewDataSour
             cell.resultLabel.isEnabled = true
         } else {
             cell.typeLabel.text = "C++"
-            cell.resultLabel.text = "Result will be logged"
+            cell.resultLabel.text = "Result will be logged below"
             cell.resultLabel.isEnabled = false
         }
 
