@@ -118,6 +118,14 @@ feature(Instances cpp android swift SOURCES
     fidl/test/InstancesFactory.fidl
 )
 
+#TODO: Enable for Android (APIGEN-964)
+feature(InstanceInStruct cpp swift SOURCES
+    src/test/InstanceInStruct.cpp
+
+    fidl/test/StructWithInstance.fdepl
+    fidl/test/StructWithInstance.fidl
+)
+
 feature(Structs cpp android swift SOURCES
     src/hello/HelloWorldPlainDataStructures.cpp
     src/test/PlainDataStructuresFromTypeCollection.cpp

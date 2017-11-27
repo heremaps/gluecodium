@@ -3,7 +3,7 @@ import hello
 
 class StaticFloatDoubleMethodsTests: XCTestCase {
     func testPassFloat() {
-        XCTAssertEqualWithAccuracy(
+        XCTAssertEqual(
             StaticFloatDoubleMethods.returnIncrementedFloat(inputNumber: 3.14),
             4.14,
             accuracy: 1e-6)
