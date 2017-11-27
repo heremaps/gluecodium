@@ -42,6 +42,24 @@ class ListenersTests: XCTestCase {
         XCTAssertEqual(5, listener.calculationInBackgroundResult)
     }
 
+    func testBackgroundListenerRegisteredTwice() {
+        class TestListener: EmptyListener {
+            var numberCallbackWasCalled = 0
+
+            public override func onCalculationInBackgroundResult(calculationResult: Double) {
+                numberCallbackWasCalled += 1
+            }
+        }
+
+        var listener = TestListener()
+
+        calculator.registerListener(listener: listener)
+        calculator.registerListener(listener: listener)
+        calculator.calculateInBackground(fromPosition: fromPosition, toPosition: toPosition)
+
+        XCTAssertEqual(1, listener.numberCallbackWasCalled)
+    }
+
     func testSynchronousListener() {
         class TestListener: EmptyListener {
             var onCalculationResultCalled = false
@@ -90,11 +108,52 @@ class ListenersTests: XCTestCase {
         XCTAssertTrue(deinitCalled)
     }
 
+    func testRegisterTwiceUnregisterCleanup() {
+        var deinitCalled = 0
+
+        do {
+            var listener = DeinitListener(callOnDeinit: { deinitCalled += 1 })
+            calculator.registerListener(listener: listener)
+            calculator.registerListener(listener: listener)
+            calculator.unregisterListener(listener: listener)
+        }
+        XCTAssertEqual(1, deinitCalled)
+    }
+
+    func testRegisterTwiceUnregisterTwiceCleanup() {
+        var deinitCalled = 0
+
+        do {
+            var listener = DeinitListener(callOnDeinit: { deinitCalled += 1 })
+            calculator.registerListener(listener: listener)
+            calculator.registerListener(listener: listener)
+            calculator.unregisterListener(listener: listener)
+            calculator.unregisterListener(listener: listener)
+        }
+        XCTAssertEqual(1, deinitCalled)
+    }
+
+    func testRegisterUnregisterTwiceCleanup() {
+        var deinitCalled = 0
+
+        do {
+            var listener = DeinitListener(callOnDeinit: { deinitCalled += 1 })
+            calculator.registerListener(listener: listener)
+            calculator.unregisterListener(listener: listener)
+            calculator.unregisterListener(listener: listener)
+        }
+        XCTAssertEqual(1, deinitCalled)
+    }
+
     static var allTests = [
         ("testBackgroundListener", testBackgroundListener),
+        ("testBackgroundListenerRegisteredTwice", testBackgroundListenerRegisteredTwice),
         ("testSynchronousListener", testSynchronousListener),
         ("testSynchronousListenerCleanup", testSynchronousListenerCleanup),
         ("testProxyKeepsSwiftObjectAlive", testProxyKeepsSwiftObjectAlive),
-        ("testRegisterUnregisterCleanup", testRegisterUnregisterCleanup)
+        ("testRegisterUnregisterCleanup", testRegisterUnregisterCleanup),
+        ("testRegisterTwiceUnregisterCleanup", testRegisterTwiceUnregisterCleanup),
+        ("testRegisterTwiceUnregisterTwiceCleanup", testRegisterTwiceUnregisterTwiceCleanup),
+        ("testRegisterUnregisterTwiceCleanup", testRegisterUnregisterTwiceCleanup)
     ]
 }
