@@ -18,11 +18,9 @@ import org.eclipse.emf.ecore.EObject;
 public final class SwiftArrayMapper {
 
   public static SwiftArray create(SwiftType underlyingType, EObject francaElement) {
-    SwiftArray array = new SwiftArray(underlyingType);
-    //In case of nested arrays (inlinearrays)
+    SwiftArray array = new SwiftArray(underlyingType, SwiftNameRules.getArrayName(underlyingType));
     array.refName =
         CArrayMapper.addPrefix(CArrayMapper.getName(francaElement) + addSuffix(underlyingType));
-    array.implementingClass = SwiftNameRules.getArrayName(underlyingType);
     return array;
   }
 

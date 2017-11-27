@@ -84,20 +84,22 @@ public class SwiftTypeMapper {
       name = SwiftNameRules.getStructName((FStructType) derived, deploymentModel);
     }
 
-    SwiftContainerType mappedType = new SwiftContainerType(name, category);
+    String implementingClass = null;
+    boolean isOptional = false;
+    if (category == CLASS) {
+      implementingClass = swiftName;
+      if (deploymentModel != null
+          && deploymentModel.isInterface((FInterface) derived.eContainer())) {
+        implementingClass = "_" + swiftName;
+      }
+      isOptional = true;
+    }
+
+    SwiftContainerType mappedType = new SwiftContainerType(name, category, implementingClass);
     mappedType.cPrefix = CBridgeNameRules.getStructBaseName(derived);
     mappedType.cType = CBridgeNameRules.getStructRefType(derived);
 
-    SwiftType resultType = mappedType;
-    if (mappedType.category == CLASS) {
-      mappedType.implementingClass = swiftName;
-      if (deploymentModel != null
-          && deploymentModel.isInterface((FInterface) derived.eContainer())) {
-        mappedType.implementingClass = "_" + swiftName;
-      }
-      resultType = mappedType.createOptionalType();
-    }
-    return resultType;
+    return isOptional ? mappedType.createOptionalType() : mappedType;
   }
 
   private static SwiftType mapPredefined(FTypeRef type) {

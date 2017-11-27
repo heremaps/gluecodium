@@ -27,42 +27,37 @@ public class SwiftType extends SwiftModelElement {
   public static final SwiftType STRING = new SwiftType("String", TypeCategory.BUILTIN_STRING);
   public static final SwiftType DATA = new SwiftType("Data", TypeCategory.BUILTIN_BYTEBUFFER);
 
-  public final boolean optional;
   public final TypeCategory category;
-  public String implementingClass;
-  protected final String typeAliasName;
+  public final String implementingClass;
+  public final String publicName;
+  public final boolean optional;
 
-  public SwiftType(String name) {
-    this(name, TypeCategory.BUILTIN_SIMPLE, null, null, false);
+  public SwiftType(final String name) {
+    this(name, TypeCategory.BUILTIN_SIMPLE, null, name, false);
   }
 
-  public SwiftType(String name, TypeCategory category) {
-    this(name, category, null, null, false);
+  public SwiftType(final String name, final TypeCategory category) {
+    this(name, category, null, name, false);
   }
 
   protected SwiftType(
       final String name,
       final TypeCategory category,
       final String implementingClass,
-      final String typealiasName,
+      final String publicName,
       final boolean optional) {
     super(name);
     this.optional = optional;
     this.category = category;
     this.implementingClass = implementingClass;
-    this.typeAliasName = typealiasName;
+    this.publicName = publicName;
   }
 
   public SwiftType createAlias(final String aliasName) {
     return new SwiftType(name, category, implementingClass, aliasName, optional);
   }
 
-  @SuppressWarnings("unused")
-  public String getPublicName() {
-    return typeAliasName != null ? typeAliasName : name;
-  }
-
   public SwiftType createOptionalType() {
-    return new SwiftType(name, category, implementingClass, typeAliasName, true);
+    return new SwiftType(name, category, implementingClass, publicName, true);
   }
 }
