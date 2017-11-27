@@ -69,7 +69,7 @@ public class SwiftModelBuilderInterfaceTest {
           .comment("Some comment on enum type")
           .items(singletonList(swiftEnumItem))
           .build();
-  private final SwiftContainerType swiftStruct = new SwiftContainerType("SomeStruct");
+  private final SwiftContainerType swiftStruct = SwiftContainerType.builder("SomeStruct").build();
   private final SwiftMethod swiftMethod =
       new SwiftMethod("SwiftMethod", asList(new SwiftParameter("MethodValue", SwiftType.STRING)));
 

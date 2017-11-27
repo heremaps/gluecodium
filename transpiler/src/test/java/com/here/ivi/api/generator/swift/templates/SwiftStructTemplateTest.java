@@ -11,14 +11,12 @@
 
 package com.here.ivi.api.generator.swift.templates;
 
-import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftType;
-import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -26,13 +24,15 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 public class SwiftStructTemplateTest {
 
+  private final SwiftContainerType swiftStruct =
+      SwiftContainerType.builder("SomeStruct").cPrefix("C_PREFIX").cType("SomeStructRef").build();
+
   private static String generate(SwiftContainerType struct) {
     return TemplateEngine.render("swift/Struct", struct);
   }
 
   @Test
   public void generateEmptyStruct() {
-    SwiftContainerType struct = new SwiftContainerType("SomeStruct");
     String expected =
         "public struct SomeStruct {\n"
             + "\n"
@@ -43,7 +43,7 @@ public class SwiftStructTemplateTest {
             + "    }\n"
             + "\n"
             + "    internal func convertToCType() -> SomeStructRef {\n"
-            + "        let result = hello_test_SomeStruct_create()\n"
+            + "        let result = C_PREFIX_create()\n"
             + "        fillFunction(result)\n"
             + "        return result\n"
             + "    }\n"
@@ -51,55 +51,46 @@ public class SwiftStructTemplateTest {
             + "    internal func fillFunction(_ cSomeStruct: SomeStructRef) -> Void {\n"
             + "    }\n"
             + "}";
-    struct.cPrefix = "hello_test_SomeStruct";
-    struct.cType = "SomeStructRef";
-    String actual = generate(struct);
+    String actual = generate(swiftStruct);
     assertEqualsTrimmed("it should generate empty structs", expected, actual);
   }
 
   @Test
   public void generateBasicStruct() {
-    SwiftContainerType struct = new SwiftContainerType("BasicStruct");
-    struct.fields = singletonList(new SwiftField("counter", new SwiftType("Integer")));
-    struct.cPrefix = "hello_HelloWorldPlainDataStructures_GeoCoordinate";
-    struct.cType = "GeoCoordinateRef";
+    swiftStruct.fields.add(new SwiftField("counter", new SwiftType("Integer")));
     String expected =
-        "public struct BasicStruct {\n"
+        "public struct SomeStruct {\n"
             + "    public var counter: Integer\n"
             + "\n"
             + "    public init(counter: Integer) {\n"
             + "        self.counter = counter\n"
             + "    }\n"
             + "\n"
-            + "    internal init?(cBasicStruct: GeoCoordinateRef) {\n"
-            + "        counter = hello_HelloWorldPlainDataStructures_GeoCoordinate_counter_get(cBasicStruct)\n"
+            + "    internal init?(cSomeStruct: SomeStructRef) {\n"
+            + "        counter = C_PREFIX_counter_get(cSomeStruct)\n"
             + "    }\n"
             + "\n"
-            + "    internal func convertToCType() -> GeoCoordinateRef {\n"
-            + "        let result = hello_HelloWorldPlainDataStructures_GeoCoordinate_create()\n"
+            + "    internal func convertToCType() -> SomeStructRef {\n"
+            + "        let result = C_PREFIX_create()\n"
             + "        fillFunction(result)\n"
             + "        return result\n"
             + "    }\n"
             + "\n"
-            + "    internal func fillFunction(_ cBasicStruct: GeoCoordinateRef) -> Void {\n"
-            + "        hello_HelloWorldPlainDataStructures_GeoCoordinate_counter_set(cBasicStruct, counter)\n"
+            + "    internal func fillFunction(_ cSomeStruct: SomeStructRef) -> Void {\n"
+            + "        C_PREFIX_counter_set(cSomeStruct, counter)\n"
             + "    }\n"
             + "}";
-    String actual = generate(struct);
+    String actual = generate(swiftStruct);
     assertEqualsTrimmed("it should generate a struct for integer", expected, actual);
   }
 
   @Test
   public void generateStructWithThreeFields() {
-    SwiftContainerType struct = new SwiftContainerType("GeoCoordinate");
-    struct.fields = new ArrayList<>();
-    struct.fields.add(new SwiftField("latitude", new SwiftType("Double")));
-    struct.fields.add(new SwiftField("longitude", new SwiftType("Double")));
-    struct.fields.add(new SwiftField("altitude", new SwiftType("Double")));
-    struct.cPrefix = "hello_HelloWorldPlainDataStructures_GeoCoordinate";
-    struct.cType = "GeoCoordinateRef";
+    swiftStruct.fields.add(new SwiftField("latitude", new SwiftType("Double")));
+    swiftStruct.fields.add(new SwiftField("longitude", new SwiftType("Double")));
+    swiftStruct.fields.add(new SwiftField("altitude", new SwiftType("Double")));
     String expected =
-        "public struct GeoCoordinate {\n"
+        "public struct SomeStruct {\n"
             + "    public var latitude: Double\n"
             + "    public var longitude: Double\n"
             + "    public var altitude: Double\n"
@@ -110,36 +101,32 @@ public class SwiftStructTemplateTest {
             + "        self.altitude = altitude\n"
             + "    }\n"
             + "\n"
-            + "    internal init?(cGeoCoordinate: GeoCoordinateRef) {\n"
-            + "        latitude = hello_HelloWorldPlainDataStructures_GeoCoordinate_latitude_get(cGeoCoordinate)\n"
-            + "        longitude = hello_HelloWorldPlainDataStructures_GeoCoordinate_longitude_get(cGeoCoordinate)\n"
-            + "        altitude = hello_HelloWorldPlainDataStructures_GeoCoordinate_altitude_get(cGeoCoordinate)\n"
+            + "    internal init?(cSomeStruct: SomeStructRef) {\n"
+            + "        latitude = C_PREFIX_latitude_get(cSomeStruct)\n"
+            + "        longitude = C_PREFIX_longitude_get(cSomeStruct)\n"
+            + "        altitude = C_PREFIX_altitude_get(cSomeStruct)\n"
             + "    }\n"
             + "\n"
-            + "    internal func convertToCType() -> GeoCoordinateRef {\n"
-            + "        let result = hello_HelloWorldPlainDataStructures_GeoCoordinate_create()\n"
+            + "    internal func convertToCType() -> SomeStructRef {\n"
+            + "        let result = C_PREFIX_create()\n"
             + "        fillFunction(result)\n"
             + "        return result\n"
             + "    }\n"
             + "\n"
-            + "    internal func fillFunction(_ cGeoCoordinate: GeoCoordinateRef) -> Void {\n"
-            + "        hello_HelloWorldPlainDataStructures_GeoCoordinate_latitude_set(cGeoCoordinate, latitude)\n"
-            + "        hello_HelloWorldPlainDataStructures_GeoCoordinate_longitude_set(cGeoCoordinate, longitude)\n"
-            + "        hello_HelloWorldPlainDataStructures_GeoCoordinate_altitude_set(cGeoCoordinate, altitude)\n"
+            + "    internal func fillFunction(_ cSomeStruct: SomeStructRef) -> Void {\n"
+            + "        C_PREFIX_latitude_set(cSomeStruct, latitude)\n"
+            + "        C_PREFIX_longitude_set(cSomeStruct, longitude)\n"
+            + "        C_PREFIX_altitude_set(cSomeStruct, altitude)\n"
             + "    }\n"
             + "}";
-    String actual = generate(struct);
+    String actual = generate(swiftStruct);
     assertEqualsTrimmed("it should generate a struct with two fields", expected, actual);
   }
 
   @Test
   public void generateStructWithStringField() {
-    SwiftContainerType struct = new SwiftContainerType("SomeStruct");
-    struct.fields =
-        singletonList(
-            new SwiftField("name", new SwiftType("String", SwiftType.TypeCategory.BUILTIN_STRING)));
-    struct.cPrefix = "C_PREFIX";
-    struct.cType = "SomeStructRef";
+    swiftStruct.fields.add(
+        new SwiftField("name", new SwiftType("String", SwiftType.TypeCategory.BUILTIN_STRING)));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var name: String\n"
@@ -165,19 +152,14 @@ public class SwiftStructTemplateTest {
             + "        C_PREFIX_name_set(cSomeStruct, name)\n"
             + "    }\n"
             + "}";
-    String actual = generate(struct);
+    String actual = generate(swiftStruct);
     assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
   }
 
   @Test
   public void generateStructWithDataField() {
-    SwiftContainerType struct = new SwiftContainerType("SomeStruct");
-    struct.fields =
-        singletonList(
-            new SwiftField(
-                "icon", new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER)));
-    struct.cPrefix = "C_PREFIX";
-    struct.cType = "SomeStructRef";
+    swiftStruct.fields.add(
+        new SwiftField("icon", new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER)));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var icon: Data\n"
@@ -210,16 +192,14 @@ public class SwiftStructTemplateTest {
             + "        }\n"
             + "    }\n"
             + "}";
-    String actual = generate(struct);
+    String actual = generate(swiftStruct);
     assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
   }
 
   @Test
   public void generateStructWithStructField() {
-    SwiftContainerType struct = new SwiftContainerType("SomeStruct");
-    struct.fields = singletonList(new SwiftField("nested", new SwiftContainerType("NestedStruct")));
-    struct.cPrefix = "C_PREFIX";
-    struct.cType = "SomeStructRef";
+    swiftStruct.fields.add(
+        new SwiftField("nested", SwiftContainerType.builder("NestedStruct").build()));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var nested: NestedStruct\n"
@@ -250,19 +230,14 @@ public class SwiftStructTemplateTest {
             + "        nested.fillFunction(nestedHandle)\n"
             + "    }\n"
             + "}";
-    String actual = generate(struct);
+    String actual = generate(swiftStruct);
     assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
   }
 
   @Test
   public void generateStructWithInstanceField() {
-    SwiftContainerType struct = new SwiftContainerType("SomeStruct");
-    struct.fields =
-        singletonList(
-            new SwiftField(
-                "instanceField", new SwiftType("SomeClass", SwiftType.TypeCategory.CLASS)));
-    struct.cPrefix = "C_PREFIX";
-    struct.cType = "SomeStructRef";
+    swiftStruct.fields.add(
+        new SwiftField("instanceField", new SwiftType("SomeClass", SwiftType.TypeCategory.CLASS)));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var instanceField: SomeClass\n"
@@ -292,7 +267,7 @@ public class SwiftStructTemplateTest {
             + "        C_PREFIX_instanceField_set(cSomeStruct, getRef(instanceField).ref)\n"
             + "    }\n"
             + "}";
-    String actual = generate(struct);
+    String actual = generate(swiftStruct);
     assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
   }
 

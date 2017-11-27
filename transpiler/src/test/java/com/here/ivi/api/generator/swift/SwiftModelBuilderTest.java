@@ -317,7 +317,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesTypesFromTypeCollection() {
-    SwiftContainerType struct = new SwiftContainerType(STRUCT_NAME);
+    SwiftContainerType struct = SwiftContainerType.builder(STRUCT_NAME).build();
     SwiftEnum swiftEnum = SwiftEnum.builder("").build();
     contextStack.injectResult(struct);
     contextStack.injectResult(swiftEnum);
