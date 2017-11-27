@@ -1,5 +1,10 @@
 # API Transpiler Release Notes
 
+## 0.12.0
+- Features:
+  + Add support for Listeners to Swift generators
+  + Add support for Errors to C++ Base API generators
+
 ## 0.11.0
 - Features:
   + Add support for Arrays to Android generators

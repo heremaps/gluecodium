@@ -24,12 +24,13 @@ function is_newer_than() {
     return 1
 }
 
+OLD_VERSION=$(get_version "${TRANSPILER_VERSION_FILE}")
+
 if [ $# -ne 1 ] ; then
-    die "Usage: $0 MAJOR.MINOR.PATCH\n\n\tExample: $0 0.0.1"
+    die "Usage: $0 MAJOR.MINOR.PATCH\n\n\tExample: $0 0.0.1\n\nCurrent version is ${OLD_VERSION}"
 fi
 
 # Increase SDK version (used as versionName in most modules)
-OLD_VERSION=$(get_version "${TRANSPILER_VERSION_FILE}")
 NEW_VERSION=$1
 
 if ! is_newer_than "$OLD_VERSION" "$NEW_VERSION"; then
