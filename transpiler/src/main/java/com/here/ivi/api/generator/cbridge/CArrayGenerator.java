@@ -53,15 +53,26 @@ public final class CArrayGenerator {
     arraysInterface.privateHeaderIncludes.addAll(
         CBridgeComponents.collectPrivateHeaderIncludes(arraysInterface));
 
-    return Arrays.asList(
-        new GeneratedFile(
-            TemplateEngine.render("cbridge/Header", arraysInterface), CBRIDGE_ARRAY_HEADER),
-        new GeneratedFile(
-            TemplateEngine.render("cbridge/Implementation", arraysInterface), CBRIDGE_ARRAY_IMPL),
-        new GeneratedFile(
-            TemplateEngine.render("cbridge/ArraysReferences", arraysInterface), CBRIDGE_ARRAY_REF),
+    List<GeneratedFile> files =
+        new ArrayList<>(
+            Arrays.asList(
+                new GeneratedFile(
+                    TemplateEngine.render("cbridge/Header", arraysInterface), CBRIDGE_ARRAY_HEADER),
+                new GeneratedFile(
+                    TemplateEngine.render("cbridge/Implementation", arraysInterface),
+                    CBRIDGE_ARRAY_IMPL),
+                new GeneratedFile(
+                    TemplateEngine.render("cbridge/ArraysReferences", arraysInterface),
+                    CBRIDGE_ARRAY_REF)));
+    // Remove self include for private header.
+    arraysInterface.privateHeaderIncludes.removeIf(
+        include -> {
+          return include.fileName.equals(CBRIDGE_INTERNAL_ARRAY_IMPL);
+        });
+    files.add(
         new GeneratedFile(
             TemplateEngine.render("cbridge/PrivateHeader", arraysInterface),
             CBRIDGE_INTERNAL_ARRAY_IMPL));
+    return files;
   }
 }

@@ -123,7 +123,6 @@ public final class CBridgeArrayTemplateTest {
     final String expected =
         "#pragma once\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
-            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
             + "#include <string>\n"
             + "#include <vector>\n"
@@ -220,7 +219,6 @@ public final class CBridgeArrayTemplateTest {
     final String expected =
         "#pragma once\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
-            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
             + "#include <string>\n"
             + "#include <vector>\n"
@@ -290,7 +288,6 @@ public final class CBridgeArrayTemplateTest {
         generateFileContent(arrays, CArrayGenerator.CBRIDGE_INTERNAL_ARRAY_IMPL);
     final String expected =
         "#pragma once\n"
-            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include <vector>\n"
             + "inline std::vector<EnumType>* get_pointer(arrayCollection_Enums handle) {\n"
             + "  return static_cast<std::vector<EnumType>*>(handle.private_pointer);\n"
