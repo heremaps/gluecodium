@@ -186,7 +186,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       initialValue = new JavaValue(((JavaTemplateType) javaType).implementationType);
     } else if (javaType instanceof JavaEnumType) {
       initialValue = ((JavaEnumType) javaType).initializer;
-    } else if (javaType instanceof JavaCustomType) {
+    } else if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isNullable) {
       initialValue = new JavaValue(javaType);
     } else {
       initialValue = null;

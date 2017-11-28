@@ -283,6 +283,7 @@ public class JavaModelBuilderTest {
 
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
+    assertNotNull(resultField.initial);
     assertEquals(javaCustomType.name, resultField.initial.name);
     assertTrue(resultField.initial.isNew);
   }
@@ -306,8 +307,21 @@ public class JavaModelBuilderTest {
     assertNotNull(resultField);
     assertEquals(FIELD_NAME, resultField.name.toLowerCase());
     assertEquals("List<typical>", resultField.type.name);
+    assertNotNull(resultField.initial);
     assertEquals(ARRAY_LIST_TYPE_NAME, resultField.initial.name);
     assertTrue(resultField.initial.isNew);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsNullable() {
+    JavaCustomType customType = JavaCustomType.builder("").isNullable(true).build();
+    contextStack.injectResult(customType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
+    assertNotNull(resultField);
+    assertNull(resultField.initial);
   }
 
   @Test

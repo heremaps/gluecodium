@@ -18,6 +18,9 @@ public class InstanceWithStruct extends NativeBase {
     public static class InnerStruct {
         public byte value;
     }
+    public static class StructWithInstance {
+        public SimpleInstantiableOne instance;
+    }
     protected InstanceWithStruct(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override
@@ -29,4 +32,5 @@ public class InstanceWithStruct extends NativeBase {
 
     private static native void disposeNativeHandle(long nativeHandle);
     public native InstanceWithStruct.InnerStruct innerStructMethod(final InstanceWithStruct.InnerStruct inputStruct);
+    public native InstanceWithStruct.StructWithInstance structWithInstanceMethod(final InstanceWithStruct.StructWithInstance input);
 }

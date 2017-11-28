@@ -23,7 +23,7 @@ public final class JavaEnumType extends JavaCustomType {
       final List<String> packageNames,
       final JavaImport anImport,
       final JavaValue initializer) {
-    super(fullName, classNames, packageNames, anImport);
+    super(fullName, classNames, packageNames, anImport, false);
     this.initializer = initializer;
   }
 }

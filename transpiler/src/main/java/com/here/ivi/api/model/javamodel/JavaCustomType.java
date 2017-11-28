@@ -17,12 +17,14 @@ import lombok.Singular;
 
 public class JavaCustomType extends JavaComplexType {
 
+  public final boolean isNullable;
+
   public JavaCustomType(final String name) {
-    this(name, null, null, null);
+    this(name, null, null, null, false);
   }
 
   public JavaCustomType(final String fullName, final JavaPackage javaPackage) {
-    this(fullName, null, javaPackage.packageNames, new JavaImport(fullName, javaPackage));
+    this(fullName, null, javaPackage.packageNames, new JavaImport(fullName, javaPackage), false);
   }
 
   @lombok.Builder(builderClassName = "Builder")
@@ -30,12 +32,14 @@ public class JavaCustomType extends JavaComplexType {
       final String fullName,
       @Singular final List<String> classNames,
       final List<String> packageNames,
-      final JavaImport anImport) {
+      final JavaImport anImport,
+      final boolean isNullable) {
     super(
         fullName,
         classNames != null ? classNames : Collections.singletonList(fullName),
         packageNames,
         anImport != null ? Collections.singletonList(anImport) : null);
+    this.isNullable = isNullable;
   }
 
   public static Builder builder(final String fullName) {
