@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.swift.templates;
 
 import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toList;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.*;
@@ -20,10 +19,7 @@ import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
 import com.here.ivi.api.model.swift.SwiftValue;
 import com.here.ivi.api.test.TemplateComparator;
 import com.here.ivi.api.test.TemplateComparison;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.stream.Stream;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -104,14 +100,13 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass =
         SwiftClass.builder("ExampleClass").nameSpace("myPackage").isInterface(true).build();
     SwiftMethod method =
-        new SwiftMethod(
-            "myMethod",
-            Collections.singletonList(new SwiftParameter("parameter", new SwiftType("Int"))));
+        SwiftMethod.builder("myMethod")
+            .returnType(new SwiftType("Int"))
+            .cBaseName("myPackage_ExampleClass_myMethod")
+            .build();
+    method.parameters.add(new SwiftParameter("parameter", new SwiftType("Int")));
     swiftClass.methods.add(method);
     swiftClass.implementsProtocols.add("ExampleClass");
-
-    method.returnType = new SwiftType("Int");
-    method.cBaseName = "myPackage_ExampleClass_myMethod";
 
     TemplateComparator.expect(
             "public protocol ExampleClass : AnyObject {\n"
@@ -130,13 +125,10 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodParameterDifferentInterfaceAndVariableName() {
     SwiftClass swiftClass = SwiftClass.builder("ExampleClass").isInterface(true).build();
-    SwiftMethod method =
-        new SwiftMethod(
-            "myMethod",
-            Collections.singletonList(
-                new SwiftParameter(
-                    "parameterInterfaceName", new SwiftType("Int"), "parameterVariableName")));
-    method.cBaseName = "ExampleClass_myMethod";
+    SwiftMethod method = SwiftMethod.builder("myMethod").cBaseName("ExampleClass_myMethod").build();
+    method.parameters.add(
+        new SwiftParameter(
+            "parameterInterfaceName", new SwiftType("Int"), "parameterVariableName"));
     swiftClass.implementsProtocols.add("ExampleClass");
     swiftClass.methods.add(method);
 
@@ -160,8 +152,9 @@ public class SwiftFileTemplateTest {
     swiftClass.implementsProtocols.add("ExampleClass");
     SwiftParameter parameterOne = new SwiftParameter("parameterOne", new SwiftType("Int"));
     SwiftParameter parameterTwo = new SwiftParameter("parameterTwo", new SwiftType("String"));
-    SwiftMethod method = new SwiftMethod("myMethod", Arrays.asList(parameterOne, parameterTwo));
-    method.cBaseName = "ExampleClass_myMethod";
+    SwiftMethod method = SwiftMethod.builder("myMethod").cBaseName("ExampleClass_myMethod").build();
+    method.parameters.add(parameterOne);
+    method.parameters.add(parameterTwo);
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -182,11 +175,8 @@ public class SwiftFileTemplateTest {
   public void methodWithArrayParameter() {
     SwiftClass swiftClass = SwiftClass.builder("MyClass").isInterface(true).build();
     swiftClass.implementsProtocols.add("MyClass");
-    SwiftMethod method =
-        new SwiftMethod(
-            "myMethod",
-            Collections.singletonList(new SwiftParameter("array", new SwiftType("[UInt8]"))));
-    method.cBaseName = "MyClass_myMethod";
+    SwiftMethod method = SwiftMethod.builder("myMethod").cBaseName("MyClass_myMethod").build();
+    method.parameters.add(new SwiftParameter("array", new SwiftType("[UInt8]")));
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -208,13 +198,12 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = SwiftClass.builder("CommentedExampleClass").isInterface(true).build();
     swiftClass.implementsProtocols.add("CommentedExampleClass");
     SwiftMethod method =
-        new SwiftMethod(
-            "myMethod",
-            Collections.singletonList(new SwiftParameter("myParameter", new SwiftType("String"))));
-
-    method.returnType = new SwiftType("Int");
+        SwiftMethod.builder("myMethod")
+            .returnType(new SwiftType("Int"))
+            .cBaseName("CommentedExampleClass_myMethod")
+            .build();
+    method.parameters.add(new SwiftParameter("myParameter", new SwiftType("String")));
     method.comment = "Do something";
-    method.cBaseName = "CommentedExampleClass_myMethod";
 
     swiftClass.methods.add(method);
 
@@ -241,9 +230,11 @@ public class SwiftFileTemplateTest {
   @Test
   public void staticMethod() {
     SwiftClass swiftClass = SwiftClass.builder("MyClass").build();
-    SwiftMethod method = new SwiftMethod("myStaticMethod");
-    method.isStatic = true;
-    method.cBaseName = "MyClass_myStaticMethod";
+    SwiftMethod method =
+        SwiftMethod.builder("myStaticMethod")
+            .isStatic(true)
+            .cBaseName("MyClass_myStaticMethod")
+            .build();
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -260,12 +251,12 @@ public class SwiftFileTemplateTest {
   public void helloWorldGeneration() {
     SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftMethod method =
-        new SwiftMethod(
-            "helloWorldMethod",
-            Collections.singletonList(new SwiftParameter("inputString", SwiftType.STRING)));
-    method.returnType = new SwiftType("String", TypeCategory.BUILTIN_STRING).createOptionalType();
-    method.isStatic = true;
-    method.cBaseName = "HelloWorld_helloWorldMethod";
+        SwiftMethod.builder("helloWorldMethod")
+            .returnType(new SwiftType("String", TypeCategory.BUILTIN_STRING).createOptionalType())
+            .isStatic(true)
+            .cBaseName("HelloWorld_helloWorldMethod")
+            .build();
+    method.parameters.add(new SwiftParameter("inputString", SwiftType.STRING));
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -288,9 +279,8 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftParameter swiftParameter = new SwiftParameter("byteBuffer", SwiftType.DATA);
     SwiftMethod method =
-        new SwiftMethod("testBuffer", new ArrayList<>(Arrays.asList(swiftParameter)));
-    method.isStatic = true;
-    method.cBaseName = "HelloWorld_testBuffer";
+        SwiftMethod.builder("testBuffer").isStatic(true).cBaseName("HelloWorld_testBuffer").build();
+    method.parameters.add(swiftParameter);
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -310,9 +300,8 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftParameter swiftParameter = new SwiftParameter("data", SwiftType.DATA, "byteBuffer");
     SwiftMethod method =
-        new SwiftMethod("testBuffer", new ArrayList<>(Arrays.asList(swiftParameter)));
-    method.isStatic = true;
-    method.cBaseName = "HelloWorld_testBuffer";
+        SwiftMethod.builder("testBuffer").isStatic(true).cBaseName("HelloWorld_testBuffer").build();
+    method.parameters.add(swiftParameter);
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -335,10 +324,8 @@ public class SwiftFileTemplateTest {
     SwiftParameter param3 = new SwiftParameter("number", new SwiftType("Int"));
     SwiftParameter param4 = new SwiftParameter("data2", SwiftType.DATA);
     SwiftMethod method =
-        new SwiftMethod(
-            "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
-    method.isStatic = true;
-    method.cBaseName = "HelloWorld_testBuffer";
+        SwiftMethod.builder("testBuffer").isStatic(true).cBaseName("HelloWorld_testBuffer").build();
+    method.parameters.addAll(Arrays.asList(param1, param2, param3, param4));
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -363,12 +350,14 @@ public class SwiftFileTemplateTest {
     SwiftParameter param3 = new SwiftParameter("number", new SwiftType("Int"));
     SwiftParameter param4 = new SwiftParameter("data2", SwiftType.DATA);
     SwiftMethod method =
-        new SwiftMethod(
-            "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
-    method.isStatic = true;
-    method.returnType =
-        new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER).createOptionalType();
-    method.cBaseName = "HelloWorld_testBuffer";
+        SwiftMethod.builder("testBuffer")
+            .isStatic(true)
+            .returnType(
+                new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER)
+                    .createOptionalType())
+            .cBaseName("HelloWorld_testBuffer")
+            .build();
+    method.parameters.addAll(Arrays.asList(param1, param2, param3, param4));
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -397,11 +386,12 @@ public class SwiftFileTemplateTest {
     SwiftParameter param3 = new SwiftParameter("number", new SwiftType("Int"));
     SwiftParameter param4 = new SwiftParameter("data2", SwiftType.DATA);
     SwiftMethod method =
-        new SwiftMethod(
-            "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
-    method.isStatic = true;
-    method.returnType = new SwiftType("Int");
-    method.cBaseName = "HelloWorld_testBuffer";
+        SwiftMethod.builder("testBuffer")
+            .isStatic(true)
+            .returnType(new SwiftType("Int"))
+            .cBaseName("HelloWorld_testBuffer")
+            .build();
+    method.parameters.addAll(Arrays.asList(param1, param2, param3, param4));
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -426,10 +416,11 @@ public class SwiftFileTemplateTest {
             .cPrefix(swiftClass.name + "_" + "SomeStruct")
             .build();
     SwiftMethod method =
-        new SwiftMethod(
-            "methodTakingStruct", singletonList(new SwiftParameter("inputParam", swiftStruct)));
-    method.isStatic = true;
-    method.cBaseName = "HelloWorld_methodTakingStruct";
+        SwiftMethod.builder("methodTakingStruct")
+            .isStatic(true)
+            .cBaseName("HelloWorld_methodTakingStruct")
+            .build();
+    method.parameters.add(new SwiftParameter("inputParam", swiftStruct));
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -453,10 +444,12 @@ public class SwiftFileTemplateTest {
         SwiftContainerType.builder("SomeStruct")
             .cPrefix(swiftClass.name + "_" + "SomeStruct")
             .build();
-    SwiftMethod method = new SwiftMethod("methodReturningStruct");
-    method.isStatic = true;
-    method.returnType = swiftStruct.createOptionalType();
-    method.cBaseName = "HelloWorld_methodReturningStruct";
+    SwiftMethod method =
+        SwiftMethod.builder("methodReturningStruct")
+            .isStatic(true)
+            .returnType(swiftStruct.createOptionalType())
+            .cBaseName("HelloWorld_methodReturningStruct")
+            .build();
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -480,21 +473,19 @@ public class SwiftFileTemplateTest {
         SwiftContainerType.builder("GeoLocation")
             .cPrefix(swiftClass.name + "_" + "GeoLocation")
             .build();
-    SwiftMethod method =
-        new SwiftMethod(
-            "fancyMethod",
-            Stream.of(
-                    new SwiftParameter("icon", SwiftType.DATA),
-                    new SwiftParameter("name", SwiftType.STRING),
-                    new SwiftParameter("location", inputStruct))
-                .collect(toList()));
-    method.isStatic = true;
     SwiftContainerType outputStruct =
         SwiftContainerType.builder("SomeStruct")
             .cPrefix(swiftClass.name + "_" + "SomeStruct")
             .build();
-    method.returnType = outputStruct.createOptionalType();
-    method.cBaseName = "HelloWorld_fancyMethod";
+    SwiftMethod method =
+        SwiftMethod.builder("fancyMethod")
+            .isStatic(true)
+            .returnType(outputStruct.createOptionalType())
+            .cBaseName("HelloWorld_fancyMethod")
+            .build();
+    method.parameters.add(new SwiftParameter("icon", SwiftType.DATA));
+    method.parameters.add(new SwiftParameter("name", SwiftType.STRING));
+    method.parameters.add(new SwiftParameter("location", inputStruct));
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -686,9 +677,11 @@ public class SwiftFileTemplateTest {
             .isInterface(true)
             .build();
     swiftClass.implementsProtocols.add("HelloWorld");
-    SwiftMethod method = new SwiftMethod("instanceMethod");
-    method.returnType = new SwiftType("Int");
-    method.cBaseName = "HelloWorld_instanceMethod";
+    SwiftMethod method =
+        SwiftMethod.builder("instanceMethod")
+            .returnType(new SwiftType("Int"))
+            .cBaseName("HelloWorld_instanceMethod")
+            .build();
     swiftClass.methods.add(method);
 
     TemplateComparator expected =
@@ -724,15 +717,17 @@ public class SwiftFileTemplateTest {
             .cInstance("HellowWorldFactory")
             .build();
 
-    SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType =
         SwiftContainerType.builder("HelloWorld")
             .category(TypeCategory.CLASS)
             .implementingClass("_HelloWorld")
             .build();
-    method.returnType = mappedType;
-    method.cBaseName = "HelloWorld_createInstanceMethod";
-    method.isStatic = true;
+    SwiftMethod method =
+        SwiftMethod.builder("createInstanceMethod")
+            .returnType(mappedType)
+            .cBaseName("HelloWorld_createInstanceMethod")
+            .isStatic(true)
+            .build();
     swiftClass.methods.add(method);
 
     TemplateComparator expected =
@@ -776,15 +771,17 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = SwiftClass.builder("HellowWorldFactory").build();
     SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
     swiftClass.typedefs.add(typedef);
-    SwiftMethod method = new SwiftMethod("createInstanceMethod");
     SwiftContainerType mappedType =
         SwiftContainerType.builder("HelloWorld")
             .category(TypeCategory.CLASS)
             .implementingClass("_HelloWorld")
             .build();
-    method.returnType = mappedType;
-    method.cBaseName = "HelloWorld_createInstanceMethod";
-    method.isStatic = true;
+    SwiftMethod method =
+        SwiftMethod.builder("createInstanceMethod")
+            .returnType(mappedType)
+            .cBaseName("HelloWorld_createInstanceMethod")
+            .isStatic(true)
+            .build();
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -809,12 +806,12 @@ public class SwiftFileTemplateTest {
     swiftClass.typedefs.add(typedef);
     swiftClass.typedefs.add(typedef2);
 
-    SwiftMethod method = new SwiftMethod("createInstanceMethod");
-    SwiftContainerType mappedType =
-        SwiftContainerType.builder("HelloWorld").implementingClass("_HelloWorld").build();
-    method.returnType = typedef.type;
-    method.cBaseName = "HelloWorld_createInstanceMethod";
-    method.isStatic = true;
+    SwiftMethod method =
+        SwiftMethod.builder("createInstanceMethod")
+            .returnType(typedef.type)
+            .cBaseName("HelloWorld_createInstanceMethod")
+            .isStatic(true)
+            .build();
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -1084,10 +1081,12 @@ public class SwiftFileTemplateTest {
             .build();
     swiftClass.typedefs.add(new SwiftTypeDef("SomeClass.RenamedStruct", secondStruct));
     SwiftMethod method =
-        new SwiftMethod("SomeMethod", singletonList(new SwiftParameter("input", firstStruct)));
-    method.returnType = secondStruct.createAlias("SomeClass.RenamedStruct");
-    method.cBaseName = "HelloWorld_someMethod";
-    method.isStatic = true;
+        SwiftMethod.builder("SomeMethod")
+            .returnType(secondStruct.createAlias("SomeClass.RenamedStruct"))
+            .cBaseName("HelloWorld_someMethod")
+            .isStatic(true)
+            .build();
+    method.parameters.add(new SwiftParameter("input", firstStruct));
     swiftClass.methods.add(method);
     swiftClass.structs.add(firstStruct);
     swiftClass.structs.add(secondStruct);

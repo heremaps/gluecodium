@@ -11,32 +11,37 @@
 
 package com.here.ivi.api.model.swift;
 
-import static com.here.ivi.api.model.swift.SwiftType.VOID;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class SwiftMethod extends SwiftModelElement {
 
-  public SwiftType returnType;
-  public final List<SwiftParameter> parameters;
-  public boolean isStatic;
-  public String cBaseName;
+  public final SwiftType returnType;
+  public final List<SwiftParameter> parameters = new LinkedList<>();
+  public final boolean isStatic;
+  public final String cBaseName;
   public final List<SwiftGenericParameter> genericParameters = new LinkedList<>();
+  public final boolean forceReturnValueUnwrapping;
 
-  public boolean forceReturnValueUnwrapping;
-
-  public SwiftMethod(String methodName) {
-    this(methodName, new LinkedList<>());
+  public SwiftMethod(final String name) {
+    this(name, null, null, false, null, false);
   }
 
-  public SwiftMethod(String methodName, List<SwiftParameter> parameters) {
-    super(methodName);
-    this.returnType = VOID;
-    this.parameters = parameters;
-    this.cBaseName = "";
-    this.forceReturnValueUnwrapping = false;
+  @lombok.Builder(builderClassName = "Builder")
+  private SwiftMethod(
+      final String name,
+      final String comment,
+      final SwiftType returnType,
+      final boolean isStatic,
+      final String cBaseName,
+      final boolean forceReturnValueUnwrapping) {
+    super(name);
+    this.comment = comment;
+    this.returnType = returnType != null ? returnType : SwiftType.VOID;
+    this.isStatic = isStatic;
+    this.cBaseName = cBaseName;
+    this.forceReturnValueUnwrapping = forceReturnValueUnwrapping;
   }
 
   @SuppressWarnings("unused")
@@ -45,5 +50,9 @@ public final class SwiftMethod extends SwiftModelElement {
         .stream()
         .flatMap(parameter -> parameter.constraints.stream())
         .collect(Collectors.toList());
+  }
+
+  public static Builder builder(final String name) {
+    return new Builder().name(name);
   }
 }

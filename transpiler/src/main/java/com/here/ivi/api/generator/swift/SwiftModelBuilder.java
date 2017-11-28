@@ -212,17 +212,20 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .stream()
             .map(SwiftParameter.class::cast)
             .collect(toList());
-    SwiftMethod method = new SwiftMethod(SwiftNameRules.getMethodName(francaMethod), inParams);
 
+    String comment = CppCommentParser.parse(francaMethod).getMainBodyText();
     // TODO: APIGEN-471 - handle multiple return values
     SwiftParameter returnParam =
         CollectionsHelper.getFirstOfType(
             getCurrentContext().previousResults, SwiftOutParameter.class, new SwiftOutParameter());
-    method.returnType = returnParam.type;
-    String comment = CppCommentParser.parse(francaMethod).getMainBodyText();
-    method.comment = comment != null ? comment : "";
-    method.isStatic = deploymentModel.isStatic(francaMethod);
-    method.cBaseName = CBridgeNameRules.getMethodName(francaMethod);
+    SwiftMethod method =
+        SwiftMethod.builder(SwiftNameRules.getMethodName(francaMethod))
+            .comment(comment)
+            .returnType(returnParam.type)
+            .isStatic(deploymentModel.isStatic(francaMethod))
+            .cBaseName(CBridgeNameRules.getMethodName(francaMethod))
+            .build();
+    method.parameters.addAll(inParams);
     method.genericParameters.addAll(getPreviousResults(SwiftGenericParameter.class));
 
     storeResult(method);
