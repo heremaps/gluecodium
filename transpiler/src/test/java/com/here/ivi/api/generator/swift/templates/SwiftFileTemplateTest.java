@@ -520,17 +520,18 @@ public class SwiftFileTemplateTest {
   public void interfaceWithTwoStructsAndMethod() {
     SwiftFile file = new SwiftFile();
     SwiftClass swiftClass = new SwiftClass("SomeClass", null);
-    SwiftContainerType firstSturct = new SwiftContainerType("FirstStruct");
-    firstSturct.cPrefix = "CPrefix";
-    firstSturct.cType = "CType";
+    SwiftContainerType firstStruct = new SwiftContainerType("FirstStruct");
+    firstStruct.cPrefix = "CPrefix";
+    firstStruct.cType = "CType";
     SwiftContainerType secondStruct = new SwiftContainerType("SecondStruct");
     secondStruct.cPrefix = "CPrefix";
     secondStruct.cType = "CType";
     swiftClass.methods = singletonList(new SwiftMethod("SomeMethod"));
     swiftClass.implementsProtocols = Collections.singletonList(swiftClass.name);
     swiftClass.isInterface = true;
-    file.structs = Arrays.asList(firstSturct, secondStruct);
-    file.classes = singletonList(swiftClass);
+    file.structs.add(firstStruct);
+    file.structs.add(secondStruct);
+    file.classes.add(swiftClass);
 
     TemplateComparator expected =
         TemplateComparator.expect(
