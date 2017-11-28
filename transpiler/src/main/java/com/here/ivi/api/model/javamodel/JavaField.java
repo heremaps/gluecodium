@@ -14,18 +14,9 @@ package com.here.ivi.api.model.javamodel;
 import java.util.stream.Stream;
 
 public final class JavaField extends JavaElement {
-  public final JavaType type;
-  //TODO: initial and customTypeInitial are mutually exclusive. Either combine or add checks.
-  // Also, the custom type can' have an initial value at the moment...
-  public final JavaValue initial;
-  public final JavaType customTypeInitial;
 
-  // TODO: Fix constructors, we have to be able to express:
-  // int foo;
-  // int foo = 3;
-  // Bar bar;
-  // Bar bar = new Bar();
-  // Bar bar = new Bar(3); // ...
+  public final JavaType type;
+  public final JavaValue initial;
 
   public JavaField(final JavaType type, final String name) {
     this(type, name, null);
@@ -35,25 +26,10 @@ public final class JavaField extends JavaElement {
     super(name);
     this.type = type;
     this.initial = initial;
-    this.customTypeInitial = null;
-  }
-
-  public JavaField(final JavaCustomType type, final String name) {
-    super(name);
-    this.type = type;
-    this.initial = null;
-    customTypeInitial = type;
-  }
-
-  public JavaField(final JavaCustomType type, final String name, final JavaCustomType initialType) {
-    super(name);
-    this.type = type;
-    this.initial = null;
-    customTypeInitial = initialType;
   }
 
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.of(type, initial, customTypeInitial);
+    return Stream.of(type, initial);
   }
 }

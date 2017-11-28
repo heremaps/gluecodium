@@ -291,7 +291,9 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_withImports() {
     // Arrange
-    JavaField fieldWithImports = new JavaField(new JavaCustomType("Foo"), "someField");
+    JavaCustomType javaCustomType = new JavaCustomType("Foo");
+    JavaField fieldWithImports =
+        new JavaField(javaCustomType, "someField", new JavaValue(javaCustomType));
     fieldWithImports.type.imports.add(
         new JavaImport("Foo", new JavaPackage(Arrays.asList("com", "example"))));
     javaClass.qualifiers.add(Qualifier.FINAL);

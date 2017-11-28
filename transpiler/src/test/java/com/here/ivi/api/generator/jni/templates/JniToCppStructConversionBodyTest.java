@@ -18,12 +18,7 @@ import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
 import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaField;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaReferenceType;
-import com.here.ivi.api.model.javamodel.JavaTemplateType;
+import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniField;
 import com.here.ivi.api.model.jni.JniStruct;
@@ -60,16 +55,19 @@ public final class JniToCppStructConversionBodyTest {
   }
 
   private static JniField createCustom() {
-    JavaField javaField = new JavaField(new JavaCustomType("JavaStructType"), "nestedStruct");
+    JavaCustomType javaCustomType = new JavaCustomType("JavaStructType");
+    JavaField javaField =
+        new JavaField(javaCustomType, "nestedStruct", new JavaValue(javaCustomType));
     CppField cppField =
         new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
     return new JniField(javaField, cppField, null);
   }
 
   private static JniField createTemplateType() {
+    JavaTemplateType javaTemplateType =
+        JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST);
     JavaField javaField =
-        new JavaField(
-            JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST), "javaTemplateType");
+        new JavaField(javaTemplateType, "javaTemplateType", new JavaValue(javaTemplateType));
     CppField cppField =
         new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
     return new JniField(javaField, cppField, null);

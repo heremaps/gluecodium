@@ -181,19 +181,19 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FField francaField) {
 
     JavaType javaType = getPreviousResult(JavaType.class);
-    String fieldName = JavaNameRules.getFieldName(francaField.getName());
-    JavaField javaField;
+    JavaValue initialValue;
     if (javaType instanceof JavaTemplateType) {
-      JavaTemplateType javaTemplateType = (JavaTemplateType) javaType;
-      javaField = new JavaField(javaTemplateType, fieldName, javaTemplateType.implementationType);
+      initialValue = new JavaValue(((JavaTemplateType) javaType).implementationType);
     } else if (javaType instanceof JavaEnumType) {
-      JavaEnumType enumType = (JavaEnumType) javaType;
-      javaField = new JavaField(javaType, fieldName, enumType.initializer);
+      initialValue = ((JavaEnumType) javaType).initializer;
     } else if (javaType instanceof JavaCustomType) {
-      javaField = new JavaField((JavaCustomType) javaType, fieldName);
+      initialValue = new JavaValue(javaType);
     } else {
-      javaField = new JavaField(javaType, fieldName);
+      initialValue = null;
     }
+
+    String fieldName = JavaNameRules.getFieldName(francaField.getName());
+    JavaField javaField = new JavaField(javaType, fieldName, initialValue);
     javaField.visibility = JavaVisibility.PUBLIC;
     javaField.comment = getCommentString(francaField);
 

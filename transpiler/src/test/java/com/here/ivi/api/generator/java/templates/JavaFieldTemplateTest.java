@@ -71,7 +71,8 @@ public final class JavaFieldTemplateTest {
   @Test
   public void generate_customTypeWithInitializer() {
     // Arrange
-    JavaField javaField = new JavaField(new JavaCustomType("CustomType"), "customField");
+    JavaCustomType customType = new JavaCustomType("CustomType");
+    JavaField javaField = new JavaField(customType, "customField", new JavaValue(customType));
     String expected = "CustomType customField = new CustomType();";
 
     // Act
