@@ -11,33 +11,20 @@
 
 package examples
 
-interface Structs {
+import examples.* from "./Structs.fidl"
 
-    public struct SyncResult {
-        UInt64 lastUpdatedTimeStamp
-        UInt32 numberOfChanges
-    }
+interface StructsInheritance {
 
-    public struct IdentifiableSyncResult {
+    struct SyncResultInherited extends Structs.SyncResult {
         Int32 id
-        SyncResult syncResult
     }
 
-    method methodWithNonNestedType {
+    method methodWithInheritedType {
         in {
-            SyncResult input
+            SyncResultInherited input
         }
         out {
-            SyncResult output
-        }
-    }
-
-    method methodWithNestedType {
-        in {
-            IdentifiableSyncResult input
-        }
-        out {
-            IdentifiableSyncResult output
+            SyncResultInherited output
         }
     }
 }
