@@ -451,6 +451,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.here.ivi.hello-swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
+				VALID_ARCHS = "arm64 x86_64";
 			};
 			name = Debug;
 		};
@@ -469,6 +470,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.here.ivi.hello-swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
+				VALID_ARCHS = "arm64 x86_64";
 			};
 			name = Release;
 		};
