@@ -31,7 +31,7 @@ public final class SwiftArrayGenerator {
 
   public List<GeneratedFile> generate() {
     SwiftFile arrayFile = new SwiftFile();
-    arrayFile.arrays.addAll(arrayCollector.values());
+    arrayFile.arrays.addAll(new TreeMap<>(arrayCollector).values());
 
     if (arrayFile.isEmpty()) {
       return emptyList();
