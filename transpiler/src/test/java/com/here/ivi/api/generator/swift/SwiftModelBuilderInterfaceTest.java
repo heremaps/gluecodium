@@ -37,7 +37,6 @@ import com.here.ivi.api.model.swift.SwiftParameter;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.model.swift.SwiftValue;
 import com.here.ivi.api.test.MockContextStack;
-import java.util.Collections;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,10 +67,7 @@ public class SwiftModelBuilderInterfaceTest {
           .items(singletonList(swiftEnumItem))
           .build();
   private final SwiftContainerType swiftStruct = SwiftContainerType.builder("SomeStruct").build();
-  private final SwiftMethod swiftMethod =
-      new SwiftMethod(
-          "SwiftMethod",
-          Collections.singletonList(new SwiftParameter("MethodValue", SwiftType.STRING)));
+  private final SwiftMethod swiftMethod = new SwiftMethod("SwiftMethod");
 
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private AbstractFrancaCommentParser.Comments comments;
@@ -84,6 +80,8 @@ public class SwiftModelBuilderInterfaceTest {
     initMocks(this);
     mockStatic(
         DefinedBy.class, SwiftNameRules.class, CppCommentParser.class, CBridgeNameRules.class);
+
+    swiftMethod.parameters.add(new SwiftParameter("MethodValue", SwiftType.STRING));
 
     when(SwiftNameRules.getClassName(any())).thenReturn("classy");
     when(CppCommentParser.parse(francaInterface)).thenReturn(comments);

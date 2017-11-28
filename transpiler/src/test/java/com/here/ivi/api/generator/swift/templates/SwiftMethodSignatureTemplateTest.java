@@ -51,9 +51,9 @@ public final class SwiftMethodSignatureTemplateTest {
 
   @Test
   public void generateStaticMethod() {
-    swiftMethod.isStatic = true;
+    SwiftMethod method = SwiftMethod.builder("methodFoo").isStatic(true).build();
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, swiftMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, method);
 
     String expected = "static func methodFoo() -> Void";
     assertEquals(expected, result);
@@ -103,9 +103,12 @@ public final class SwiftMethodSignatureTemplateTest {
 
   @Test
   public void generateMethodWithReturnType() {
-    swiftMethod.returnType = new SwiftType("Bar", SwiftType.TypeCategory.CLASS);
+    SwiftMethod method =
+        SwiftMethod.builder("methodFoo")
+            .returnType(new SwiftType("Bar", SwiftType.TypeCategory.CLASS))
+            .build();
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, swiftMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, method);
 
     String expected = "func methodFoo() -> Bar";
     assertEquals(expected, result);
@@ -113,10 +116,12 @@ public final class SwiftMethodSignatureTemplateTest {
 
   @Test
   public void generateMethodWithOptionalReturnType() {
-    swiftMethod.returnType =
-        new SwiftType("Bar", SwiftType.TypeCategory.CLASS).createOptionalType();
+    SwiftMethod method =
+        SwiftMethod.builder("methodFoo")
+            .returnType(new SwiftType("Bar", SwiftType.TypeCategory.CLASS).createOptionalType())
+            .build();
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, swiftMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, method);
 
     String expected = "func methodFoo() -> Bar?";
     assertEquals(expected, result);

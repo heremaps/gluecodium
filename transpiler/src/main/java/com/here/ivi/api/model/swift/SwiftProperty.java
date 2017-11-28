@@ -12,41 +12,40 @@
 package com.here.ivi.api.model.swift;
 
 import com.here.ivi.api.generator.swift.SwiftNameRules;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public final class SwiftProperty extends SwiftModelElement {
   public final SwiftType type;
   public final boolean readonly;
-  public final List<SwiftMethod> propertyAccessors;
+  public final List<SwiftMethod> propertyAccessors = new LinkedList<>();
 
   public SwiftProperty(String propertyName, SwiftType type, boolean readonly, String delegateName) {
     super(propertyName);
     this.type = type;
     this.readonly = readonly;
 
-    propertyAccessors = new ArrayList<>();
-
     propertyAccessors.add(createGetterBody(delegateName));
-    if (!this.readonly) {
+    if (!readonly) {
       propertyAccessors.add(createSetterBody(delegateName));
     }
   }
 
   private SwiftMethod createGetterBody(String delegateName) {
-    SwiftMethod getter = new SwiftMethod("", Collections.emptyList());
-    getter.cBaseName = SwiftNameRules.getPropertyGetterName(delegateName);
-    getter.returnType = type;
-    getter.forceReturnValueUnwrapping = true;
-    return getter;
+    return SwiftMethod.builder("")
+        .cBaseName(SwiftNameRules.getPropertyGetterName(delegateName))
+        .returnType(type)
+        .forceReturnValueUnwrapping(true)
+        .build();
   }
 
   private SwiftMethod createSetterBody(String delegateName) {
-    SwiftMethod setter =
-        new SwiftMethod("", Collections.singletonList(new SwiftParameter("newValue", this.type)));
-    setter.cBaseName = SwiftNameRules.getPropertySetterName(delegateName);
-    setter.returnType = SwiftType.VOID;
-    return setter;
+    SwiftMethod swiftMethod =
+        SwiftMethod.builder("")
+            .cBaseName(SwiftNameRules.getPropertySetterName(delegateName))
+            .returnType(SwiftType.VOID)
+            .build();
+    swiftMethod.parameters.add(new SwiftParameter("newValue", type));
+    return swiftMethod;
   }
 }
