@@ -16,7 +16,6 @@ import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.javamodel.*;
 import com.here.ivi.api.model.rules.InstanceRules;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -201,8 +200,11 @@ public class JavaTypeMapper {
     JavaImport javaImport = new JavaImport(importClassName, new JavaPackage(packageNames));
 
     if (fType instanceof FStructType) {
-      return new JavaCustomType(
-          typeName, classNames, packageNames, Collections.singletonList(javaImport));
+      return JavaCustomType.builder(typeName)
+          .classNames(classNames)
+          .packageNames(packageNames)
+          .anImport(javaImport)
+          .build();
     }
     if (fType instanceof FEnumerationType) {
       return new JavaEnumType(
@@ -224,11 +226,11 @@ public class JavaTypeMapper {
       String className = JavaNameRules.getClassName(typeCollection.getName());
       JavaImport classImport = new JavaImport(className, new JavaPackage(packageNames));
 
-      return new JavaCustomType(
-          className,
-          Collections.singletonList(className),
-          packageNames,
-          Collections.singletonList(classImport));
+      return JavaCustomType.builder(className)
+          .className(className)
+          .packageNames(packageNames)
+          .anImport(classImport)
+          .build();
     } else {
       return map(typeDef.getActualType());
     }

@@ -22,7 +22,6 @@ import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaType;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -72,19 +71,17 @@ public class JniTypeTest {
           {new JavaReferenceType(JavaReferenceType.Type.STRING), "Ljava/lang/String;"},
           {new JavaReferenceType(JavaReferenceType.Type.THROWABLE), "Ljava/lang/Throwable;"},
           {
-            new JavaCustomType(
-                "myNonNestedType",
-                Arrays.asList("nonNestedClass"),
-                Arrays.asList("nested", "package"),
-                Collections.emptyList()),
+            JavaCustomType.builder("myNonNestedType")
+                .className("nonNestedClass")
+                .packageNames(Arrays.asList("nested", "package"))
+                .build(),
             "Lnested/package/nonNestedClass;"
           },
           {
-            new JavaCustomType(
-                "myNestedType",
-                Arrays.asList("outerClass", "innerClass"),
-                Arrays.asList("nested", "package"),
-                Collections.emptyList()),
+            JavaCustomType.builder("myNestedType")
+                .classNames(Arrays.asList("outerClass", "innerClass"))
+                .packageNames(Arrays.asList("nested", "package"))
+                .build(),
             "Lnested/package/outerClass$innerClass;"
           }
         });

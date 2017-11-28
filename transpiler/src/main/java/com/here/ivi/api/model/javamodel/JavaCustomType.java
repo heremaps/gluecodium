@@ -11,37 +11,34 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import lombok.Singular;
 
 public class JavaCustomType extends JavaComplexType {
 
   public JavaCustomType(final String name) {
-    super(name);
-  }
-
-  public JavaCustomType(
-      final String fullName,
-      final List<String> classNames,
-      final List<String> packageNames,
-      final Collection<JavaImport> imports) {
-    super(fullName, classNames, packageNames, imports);
+    this(name, null, null, null);
   }
 
   public JavaCustomType(final String fullName, final JavaPackage javaPackage) {
-    super(
-        fullName,
-        Collections.singletonList(fullName),
-        javaPackage.packageNames,
-        Collections.singletonList(new JavaImport(fullName, javaPackage)));
+    this(fullName, null, javaPackage.packageNames, new JavaImport(fullName, javaPackage));
   }
 
-  public JavaCustomType(final String fullName, final JavaImport javaImport) {
+  @lombok.Builder(builderClassName = "Builder")
+  protected JavaCustomType(
+      final String fullName,
+      @Singular final List<String> classNames,
+      final List<String> packageNames,
+      final JavaImport anImport) {
     super(
         fullName,
-        Collections.singletonList(fullName),
-        javaImport.javaPackage.packageNames,
-        Collections.singletonList(javaImport));
+        classNames != null ? classNames : Collections.singletonList(fullName),
+        packageNames,
+        anImport != null ? Collections.singletonList(anImport) : null);
+  }
+
+  public static Builder builder(final String fullName) {
+    return new Builder().fullName(fullName);
   }
 }
