@@ -9,27 +9,17 @@
  *
  */
 
-package smoke
+package example
 
-interface Errors {
-    version {
-        major 0
-        minor 1
-    }
+import smoke.Errors.* from "../Errors.fidl"
+import smoke.SomeTypeCollection.* from "../Errors.fidl"
 
-    public enumeration InternalError {
-        ERROR_NONE
-        ERROR_FATAL
-    }
-
-    method methodWithErrors {
+interface FooBar {
+    method methodWithInternalError {
         error InternalError
     }
-}
 
-typeCollection SomeTypeCollection {
-    enumeration SomeTypeCollectionError {
-        ERROR_A
-        ERROR_B
+    method methodWithTypeCollectionError {
+        error SomeTypeCollectionError
     }
 }
