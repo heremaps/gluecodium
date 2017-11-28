@@ -51,7 +51,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftFile file = new SwiftFile();
     file.structs.addAll(getPreviousResults(SwiftContainerType.class));
     file.enums.addAll(getPreviousResults(SwiftEnum.class));
-    file.typeDefs = getPreviousResults(SwiftTypeDef.class);
+    file.typeDefs.addAll(getPreviousResults(SwiftTypeDef.class));
     storeResult(file);
     super.finishBuilding(typeCollection);
   }
@@ -74,8 +74,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
       clazz.cInstanceRef = CBridgeNameRules.getInstanceRefType(francaInterface);
       clazz.implementsProtocols = Collections.singletonList(clazz.name);
       clazz.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
-      file.structs = getPreviousResults(SwiftContainerType.class);
-      file.enums = getPreviousResults(SwiftEnum.class);
+      file.structs.addAll(getPreviousResults(SwiftContainerType.class));
+      file.enums.addAll(getPreviousResults(SwiftEnum.class));
 
     } else {
       clazz.structs = getPreviousResults(SwiftContainerType.class);

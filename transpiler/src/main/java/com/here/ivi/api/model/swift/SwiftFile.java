@@ -11,15 +11,16 @@
 
 package com.here.ivi.api.model.swift;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public final class SwiftFile extends SwiftModelElement {
-  public List<SwiftClass> classes = new ArrayList<>();
-  public List<SwiftContainerType> structs = new ArrayList<>();
-  public List<SwiftEnum> enums = new ArrayList<>();
-  public List<SwiftTypeDef> typeDefs = new ArrayList<>();
-  public List<SwiftArray> arrays = new ArrayList<>();
+
+  public final List<SwiftClass> classes = new LinkedList<>();
+  public final List<SwiftContainerType> structs = new LinkedList<>();
+  public final List<SwiftEnum> enums = new LinkedList<>();
+  public final List<SwiftTypeDef> typeDefs = new LinkedList<>();
+  public final List<SwiftArray> arrays = new LinkedList<>();
 
   public SwiftFile() {
     super("");
