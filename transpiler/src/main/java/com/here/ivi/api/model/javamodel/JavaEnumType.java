@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.model.javamodel;
 
-import java.util.Collections;
 import java.util.List;
 
 public final class JavaEnumType extends JavaCustomType {
@@ -22,9 +21,9 @@ public final class JavaEnumType extends JavaCustomType {
       final String fullName,
       final List<String> classNames,
       final List<String> packageNames,
-      final JavaImport imports,
+      final JavaImport anImport,
       final JavaValue initializer) {
-    super(fullName, classNames, packageNames, Collections.singletonList(imports));
+    super(fullName, classNames, packageNames, anImport);
     this.initializer = initializer;
   }
 }
