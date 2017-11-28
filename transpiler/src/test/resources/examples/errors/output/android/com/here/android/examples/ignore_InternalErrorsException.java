@@ -12,18 +12,11 @@
 
 package com.here.android.examples;
 
-public class Errors {
-    public enum InternalErrors {
-        NONE(0),
-        CRASHED(1),
-        EXPLODED(2);
 
-        public final int value;
-
-        InternalErrors(final int value) {
-            this.value = value;
-        }
+public class InternalErrorsException extends Exception {
+    public InternalErrorsException(final Errors.InternalErrors error) {
+        super(Integer.toString(error.value));
+        this.error = error;
     }
-    public static native void startSomethingOrFail() throws InternalErrorsException;
-    public static native String getSomethingOrFail() throws InternalErrorsException;
+    public final Errors.InternalErrors error;
 }
