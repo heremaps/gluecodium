@@ -133,4 +133,17 @@ interface InstanceWithStruct {
             InnerStruct outputStruct
         }
     }
+
+    struct StructWithInstance {
+        SimpleInstantiableOne.SimpleInstantiableOne instance
+    }
+
+    method structWithInstanceMethod {
+        in {
+            StructWithInstance input
+        }
+        out {
+            StructWithInstance output
+        }
+    }
 }
