@@ -11,9 +11,18 @@
 
 package com.here.ivi.api.model.javamodel;
 
-// TODO: Currently has a 'name' due to inheritance from JavaElement, should have a 'value' instead.
 public final class JavaValue extends JavaElementWithImports {
+
+  public final boolean isNew;
+
   public JavaValue(final String value) {
     super(value);
+    isNew = false;
+  }
+
+  public JavaValue(final JavaType type) {
+    super(type.name);
+    isNew = true;
+    imports.addAll(type.imports);
   }
 }

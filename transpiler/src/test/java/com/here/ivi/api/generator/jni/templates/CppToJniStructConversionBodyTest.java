@@ -57,16 +57,19 @@ public class CppToJniStructConversionBodyTest {
   }
 
   private static JniField createCustom() {
-    JavaField javaField = new JavaField(new JavaCustomType("JavaStructType"), "nestedStruct");
+    JavaCustomType javaCustomType = new JavaCustomType("JavaStructType");
+    JavaField javaField =
+        new JavaField(javaCustomType, "nestedStruct", new JavaValue(javaCustomType));
     CppField cppField =
         new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
     return new JniField(javaField, cppField, null);
   }
 
   private static JniField createTemplateType() {
+    JavaTemplateType javaTemplateType =
+        JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST);
     JavaField javaField =
-        new JavaField(
-            JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST), "javaTemplateType");
+        new JavaField(javaTemplateType, "javaTemplateType", new JavaValue(javaTemplateType));
     CppField cppField =
         new CppField(new CppComplexTypeRef.Builder("CppStructType").build(), "nestedCplusCplus");
     return new JniField(javaField, cppField, null);

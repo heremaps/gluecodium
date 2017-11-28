@@ -1,2 +1,2 @@
 {{>common/DocComment}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{type.name}} {{name}}{{#initial}} = {{name}}{{/initial}}{{#customTypeInitial}} = new {{name}}(){{/customTypeInitial}};
+{{#if visibility.toString}}{{visibility}} {{/if}}{{type.name}} {{name}}{{#initial}} = {{#isNew}}new {{/isNew}}{{name}}{{#isNew}}(){{/isNew}}{{/initial}};

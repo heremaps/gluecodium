@@ -283,7 +283,8 @@ public class JavaModelBuilderTest {
 
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
-    assertEquals(javaCustomType, resultField.customTypeInitial);
+    assertEquals(javaCustomType.name, resultField.initial.name);
+    assertTrue(resultField.initial.isNew);
   }
 
   @Test
@@ -305,7 +306,8 @@ public class JavaModelBuilderTest {
     assertNotNull(resultField);
     assertEquals(FIELD_NAME, resultField.name.toLowerCase());
     assertEquals("List<typical>", resultField.type.name);
-    assertEquals(ARRAY_LIST_TYPE_NAME, resultField.customTypeInitial.name);
+    assertEquals(ARRAY_LIST_TYPE_NAME, resultField.initial.name);
+    assertTrue(resultField.initial.isNew);
   }
 
   @Test
