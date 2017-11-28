@@ -9,27 +9,16 @@
  *
  */
 
-package smoke
+import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "./FooBar.fidl"
 
-interface Errors {
-    version {
-        major 0
-        minor 1
+define navigation.BaseApiSpec for interface example.FooBar
+{
+    method methodWithInternalError {
+        Static = true
     }
 
-    public enumeration InternalError {
-        ERROR_NONE
-        ERROR_FATAL
-    }
-
-    method methodWithErrors {
-        error InternalError
-    }
-}
-
-typeCollection SomeTypeCollection {
-    enumeration SomeTypeCollectionError {
-        ERROR_A
-        ERROR_B
+    method methodWithTypeCollectionError {
+        Static = true
     }
 }
