@@ -53,19 +53,15 @@ public final class CArrayGenerator {
     arraysInterface.privateHeaderIncludes.addAll(
         CBridgeComponents.collectPrivateHeaderIncludes(arraysInterface));
 
-    String fileHeader = TemplateEngine.render("cbridge/FileHeader", null);
     return Arrays.asList(
         new GeneratedFile(
-            fileHeader + TemplateEngine.render("cbridge/Header", arraysInterface),
-            CBRIDGE_ARRAY_HEADER),
+            TemplateEngine.render("cbridge/Header", arraysInterface), CBRIDGE_ARRAY_HEADER),
         new GeneratedFile(
-            fileHeader + TemplateEngine.render("cbridge/Implementation", arraysInterface),
-            CBRIDGE_ARRAY_IMPL),
+            TemplateEngine.render("cbridge/Implementation", arraysInterface), CBRIDGE_ARRAY_IMPL),
         new GeneratedFile(
-            fileHeader + TemplateEngine.render("cbridge/ArraysReferences", arraysInterface),
-            CBRIDGE_ARRAY_REF),
+            TemplateEngine.render("cbridge/ArraysReferences", arraysInterface), CBRIDGE_ARRAY_REF),
         new GeneratedFile(
-            fileHeader + TemplateEngine.render("cbridge/PrivateHeader", arraysInterface),
+            TemplateEngine.render("cbridge/PrivateHeader", arraysInterface),
             CBRIDGE_INTERNAL_ARRAY_IMPL));
   }
 }
