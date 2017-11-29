@@ -109,6 +109,7 @@ public class SwiftFileTemplateTest {
             Collections.singletonList(new SwiftParameter("parameter", new SwiftType("Int"))));
     swiftClass.methods.add(method);
     swiftClass.implementsProtocols.add("ExampleClass");
+
     method.returnType = new SwiftType("Int");
     method.cBaseName = "myPackage_ExampleClass_myMethod";
 
@@ -245,15 +246,14 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "MyClass_myStaticMethod";
     swiftClass.methods.add(method);
 
-    final String expected =
-        "import Foundation\n"
-            + "public class MyClass {\n"
-            + "    public static func myStaticMethod() -> Void {\n"
-            + "        return MyClass_myStaticMethod()\n"
-            + "    }\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+    TemplateComparator.expect(
+            "public class MyClass {\n"
+                + "    public static func myStaticMethod() -> Void {\n"
+                + "        return MyClass_myStaticMethod()\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -267,20 +267,20 @@ public class SwiftFileTemplateTest {
     method.isStatic = true;
     method.cBaseName = "HelloWorld_helloWorldMethod";
     swiftClass.methods.add(method);
-    final String expected =
-        "import Foundation\n"
-            + "public class HelloWorld {\n"
-            + "    public static func helloWorldMethod(inputString: String) -> String? {\n"
-            + "        let result_string_handle = HelloWorld_helloWorldMethod(inputString)\n"
-            + "        defer {\n"
-            + "            std_string_release(result_string_handle)\n"
-            + "        }\n"
-            + "        return String(data: Data(bytes: std_string_data_get(result_string_handle),\n"
-            + "                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)\n"
-            + "    }\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public class HelloWorld {\n"
+                + "    public static func helloWorldMethod(inputString: String) -> String? {\n"
+                + "        let result_string_handle = HelloWorld_helloWorldMethod(inputString)\n"
+                + "        defer {\n"
+                + "            std_string_release(result_string_handle)\n"
+                + "        }\n"
+                + "        return String(data: Data(bytes: std_string_data_get(result_string_handle),\n"
+                + "                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -291,18 +291,18 @@ public class SwiftFileTemplateTest {
         new SwiftMethod("testBuffer", new ArrayList<>(Arrays.asList(swiftParameter)));
     method.isStatic = true;
     method.cBaseName = "HelloWorld_testBuffer";
-    final String expected =
-        "import Foundation\n"
-            + "public class HelloWorld {\n"
-            + "    public static func testBuffer(byteBuffer: Data) -> Void {\n"
-            + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Void in\n"
-            + "            return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count))\n"
-            + "        }\n"
-            + "    }\n"
-            + "}\n";
     swiftClass.methods.add(method);
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public class HelloWorld {\n"
+                + "    public static func testBuffer(byteBuffer: Data) -> Void {\n"
+                + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Void in\n"
+                + "            return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count))\n"
+                + "        }\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -313,18 +313,18 @@ public class SwiftFileTemplateTest {
         new SwiftMethod("testBuffer", new ArrayList<>(Arrays.asList(swiftParameter)));
     method.isStatic = true;
     method.cBaseName = "HelloWorld_testBuffer";
-    final String expected =
-        "import Foundation\n"
-            + "public class HelloWorld {\n"
-            + "    public static func testBuffer(data byteBuffer: Data) -> Void {\n"
-            + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Void in\n"
-            + "            return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count))\n"
-            + "        }\n"
-            + "    }\n"
-            + "}\n";
     swiftClass.methods.add(method);
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public class HelloWorld {\n"
+                + "    public static func testBuffer(data byteBuffer: Data) -> Void {\n"
+                + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Void in\n"
+                + "            return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count))\n"
+                + "        }\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -339,20 +339,20 @@ public class SwiftFileTemplateTest {
             "testBuffer", new ArrayList<>(Arrays.asList(param1, param2, param3, param4)));
     method.isStatic = true;
     method.cBaseName = "HelloWorld_testBuffer";
-    final String expected =
-        "import Foundation\n"
-            + "public class HelloWorld {\n"
-            + "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Void {\n"
-            + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Void in\n"
-            + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Void in\n"
-            + "                return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
-            + "            }\n"
-            + "        }\n"
-            + "    }\n"
-            + "}\n";
     swiftClass.methods.add(method);
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public class HelloWorld {\n"
+                + "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Void {\n"
+                + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Void in\n"
+                + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Void in\n"
+                + "                return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
+                + "            }\n"
+                + "        }\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -369,24 +369,24 @@ public class SwiftFileTemplateTest {
     method.returnType =
         new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER).createOptionalType();
     method.cBaseName = "HelloWorld_testBuffer";
-    final String expected =
-        "import Foundation\n"
-            + "public class HelloWorld {\n"
-            + "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Data? {\n"
-            + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Data? in\n"
-            + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Data? in\n"
-            + "                let result_data_handle = HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
-            + "                defer {\n"
-            + "                    byteArray_release(result_data_handle)\n"
-            + "                }\n"
-            + "                return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))\n"
-            + "            }\n"
-            + "        }\n"
-            + "    }\n"
-            + "}\n";
     swiftClass.methods.add(method);
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public class HelloWorld {\n"
+                + "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Data? {\n"
+                + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Data? in\n"
+                + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Data? in\n"
+                + "                let result_data_handle = HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
+                + "                defer {\n"
+                + "                    byteArray_release(result_data_handle)\n"
+                + "                }\n"
+                + "                return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))\n"
+                + "            }\n"
+                + "        }\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -402,20 +402,20 @@ public class SwiftFileTemplateTest {
     method.isStatic = true;
     method.returnType = new SwiftType("Int");
     method.cBaseName = "HelloWorld_testBuffer";
-    final String expected =
-        "import Foundation\n"
-            + "public class HelloWorld {\n"
-            + "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Int {\n"
-            + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Int in\n"
-            + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Int in\n"
-            + "                return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
-            + "            }\n"
-            + "        }\n"
-            + "    }\n"
-            + "}\n";
     swiftClass.methods.add(method);
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public class HelloWorld {\n"
+                + "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Int {\n"
+                + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Int in\n"
+                + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Int in\n"
+                + "                return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
+                + "            }\n"
+                + "        }\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -431,19 +431,19 @@ public class SwiftFileTemplateTest {
     method.isStatic = true;
     method.cBaseName = "HelloWorld_methodTakingStruct";
     swiftClass.methods.add(method);
-    final String expected =
-        "import Foundation\n"
-            + "public class HelloWorld {\n"
-            + "    public static func methodTakingStruct(inputParam: SomeStruct) -> Void {\n"
-            + "        let inputParamHandle = inputParam.convertToCType()\n"
-            + "        defer {\n"
-            + "            HelloWorld_SomeStruct_release(inputParamHandle)\n"
-            + "        }\n"
-            + "        return HelloWorld_methodTakingStruct(inputParamHandle)\n"
-            + "    }\n"
-            + "}\n";
-    String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public class HelloWorld {\n"
+                + "    public static func methodTakingStruct(inputParam: SomeStruct) -> Void {\n"
+                + "        let inputParamHandle = inputParam.convertToCType()\n"
+                + "        defer {\n"
+                + "            HelloWorld_SomeStruct_release(inputParamHandle)\n"
+                + "        }\n"
+                + "        return HelloWorld_methodTakingStruct(inputParamHandle)\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -458,19 +458,19 @@ public class SwiftFileTemplateTest {
     method.returnType = swiftStruct.createOptionalType();
     method.cBaseName = "HelloWorld_methodReturningStruct";
     swiftClass.methods.add(method);
-    final String expected =
-        "import Foundation\n"
-            + "public class HelloWorld {\n"
-            + "    public static func methodReturningStruct() -> SomeStruct? {\n"
-            + "        let cResult = HelloWorld_methodReturningStruct()\n"
-            + "        defer {\n"
-            + "            HelloWorld_SomeStruct_release(cResult)\n"
-            + "        }\n"
-            + "        return SomeStruct(cSomeStruct: cResult)\n"
-            + "    }\n"
-            + "}\n";
-    String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public class HelloWorld {\n"
+                + "    public static func methodReturningStruct() -> SomeStruct? {\n"
+                + "        let cResult = HelloWorld_methodReturningStruct()\n"
+                + "        defer {\n"
+                + "            HelloWorld_SomeStruct_release(cResult)\n"
+                + "        }\n"
+                + "        return SomeStruct(cSomeStruct: cResult)\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -497,26 +497,24 @@ public class SwiftFileTemplateTest {
     method.cBaseName = "HelloWorld_fancyMethod";
     swiftClass.methods.add(method);
 
-    final String expected =
-        "import Foundation\n"
-            + "public class HelloWorld {\n"
-            + "    public static func fancyMethod(icon: Data, name: String, location: GeoLocation) -> SomeStruct? {\n"
-            + "        return icon.withUnsafeBytes { (icon_ptr: UnsafePointer<UInt8>) -> SomeStruct? in\n"
-            + "            let locationHandle = location.convertToCType()\n"
-            + "            defer {\n"
-            + "                HelloWorld_GeoLocation_release(locationHandle)\n"
-            + "            }\n"
-            + "            let cResult = HelloWorld_fancyMethod(icon_ptr, Int64(icon.count), name, locationHandle)\n"
-            + "            defer {\n"
-            + "                HelloWorld_SomeStruct_release(cResult)\n"
-            + "            }\n"
-            + "            return SomeStruct(cSomeStruct: cResult)\n"
-            + "        }\n"
-            + "    }\n"
-            + "}\n";
-
-    String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+    TemplateComparator.expect(
+            "public class HelloWorld {\n"
+                + "    public static func fancyMethod(icon: Data, name: String, location: GeoLocation) -> SomeStruct? {\n"
+                + "        return icon.withUnsafeBytes { (icon_ptr: UnsafePointer<UInt8>) -> SomeStruct? in\n"
+                + "            let locationHandle = location.convertToCType()\n"
+                + "            defer {\n"
+                + "                HelloWorld_GeoLocation_release(locationHandle)\n"
+                + "            }\n"
+                + "            let cResult = HelloWorld_fancyMethod(icon_ptr, Int64(icon.count), name, locationHandle)\n"
+                + "            defer {\n"
+                + "                HelloWorld_SomeStruct_release(cResult)\n"
+                + "            }\n"
+                + "            return SomeStruct(cSomeStruct: cResult)\n"
+                + "        }\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -803,7 +801,6 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void nestedTypedeGenerationInClass() {
-
     SwiftClass swiftClass = SwiftClass.builder("HellowWorldFactory").build();
     SwiftTypeDef typedef =
         new SwiftTypeDef(
@@ -820,18 +817,16 @@ public class SwiftFileTemplateTest {
     method.isStatic = true;
     swiftClass.methods.add(method);
 
-    final String expected =
-        "import Foundation\n"
-            + "public class HellowWorldFactory {\n"
-            + "    public typealias MyNestedTypeDef = HellowWorldFactory.MyTypeDef\n"
-            + "    public typealias MyTypeDef = Int\n"
-            + "    public static func createInstanceMethod() -> HellowWorldFactory.MyTypeDef {\n"
-            + "        return HelloWorld_createInstanceMethod()\n"
-            + "    }\n"
-            + "}\n";
-
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+    TemplateComparator.expect(
+            "public class HellowWorldFactory {\n"
+                + "    public typealias MyNestedTypeDef = HellowWorldFactory.MyTypeDef\n"
+                + "    public typealias MyTypeDef = Int\n"
+                + "    public static func createInstanceMethod() -> HellowWorldFactory.MyTypeDef {\n"
+                + "        return HelloWorld_createInstanceMethod()\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 
   @Test
@@ -1096,49 +1091,49 @@ public class SwiftFileTemplateTest {
     swiftClass.methods.add(method);
     swiftClass.structs.add(firstStruct);
     swiftClass.structs.add(secondStruct);
-    final String expected =
-        "import Foundation\n"
-            + "public class SomeClass {\n"
-            + "    public typealias RenamedStruct = SomeClass.SecondStruct\n"
-            + "    public struct FirstStruct {\n"
-            + "        public init() {\n"
-            + "        }\n"
-            + "        internal init?(cFirstStruct: CType) {\n"
-            + "        }\n"
-            + "        internal func convertToCType() -> CType {\n"
-            + "            let result = CPrefix_create()\n"
-            + "            fillFunction(result)\n"
-            + "            return result\n"
-            + "        }\n"
-            + "        internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
-            + "        }\n"
-            + "    }\n"
-            + "    public struct SecondStruct {\n"
-            + "        public init() {\n"
-            + "        }\n"
-            + "        internal init?(cSecondStruct: CType) {\n"
-            + "        }\n"
-            + "        internal func convertToCType() -> CType {\n"
-            + "            let result = CPrefix_create()\n"
-            + "            fillFunction(result)\n"
-            + "            return result\n"
-            + "        }\n"
-            + "        internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
-            + "        }\n"
-            + "    }\n"
-            + "    public static func SomeMethod(input: SomeClass.FirstStruct) -> SomeClass.RenamedStruct {\n"
-            + "        let inputHandle = input.convertToCType()\n"
-            + "        defer {\n"
-            + "            CPrefix_release(inputHandle)\n"
-            + "        }\n"
-            + "        let cResult = HelloWorld_someMethod(inputHandle)\n"
-            + "        defer {\n"
-            + "            CPrefix_release(cResult)\n"
-            + "        }\n"
-            + "        return SomeClass.SecondStruct(cSecondStruct: cResult)\n"
-            + "    }\n"
-            + "}\n";
-    final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+
+    TemplateComparator.expect(
+            "public class SomeClass {\n"
+                + "    public typealias RenamedStruct = SomeClass.SecondStruct\n"
+                + "    public struct FirstStruct {\n"
+                + "        public init() {\n"
+                + "        }\n"
+                + "        internal init?(cFirstStruct: CType) {\n"
+                + "        }\n"
+                + "        internal func convertToCType() -> CType {\n"
+                + "            let result = CPrefix_create()\n"
+                + "            fillFunction(result)\n"
+                + "            return result\n"
+                + "        }\n"
+                + "        internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
+                + "        }\n"
+                + "    }\n"
+                + "    public struct SecondStruct {\n"
+                + "        public init() {\n"
+                + "        }\n"
+                + "        internal init?(cSecondStruct: CType) {\n"
+                + "        }\n"
+                + "        internal func convertToCType() -> CType {\n"
+                + "            let result = CPrefix_create()\n"
+                + "            fillFunction(result)\n"
+                + "            return result\n"
+                + "        }\n"
+                + "        internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
+                + "        }\n"
+                + "    }\n"
+                + "    public static func SomeMethod(input: SomeClass.FirstStruct) -> SomeClass.RenamedStruct {\n"
+                + "        let inputHandle = input.convertToCType()\n"
+                + "        defer {\n"
+                + "            CPrefix_release(inputHandle)\n"
+                + "        }\n"
+                + "        let cResult = HelloWorld_someMethod(inputHandle)\n"
+                + "        defer {\n"
+                + "            CPrefix_release(cResult)\n"
+                + "        }\n"
+                + "        return SomeClass.SecondStruct(cSecondStruct: cResult)\n"
+                + "    }\n"
+                + "}\n")
+        .build()
+        .assertMatches(generateFromClass(swiftClass));
   }
 }
