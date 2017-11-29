@@ -16,6 +16,7 @@ import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.SRC_DIR;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -80,22 +81,21 @@ public class CBridgeGenerator {
         .filter(file -> !file.content.isEmpty());
   }
 
+  @VisibleForTesting
   public static String generatePrivateHeaderContent(CInterface model) {
     return model.hasPrivateHeaderContent()
-        ? generateFileHeader() + TemplateEngine.render("cbridge/PrivateHeader", model)
+        ? TemplateEngine.render("cbridge/PrivateHeader", model)
         : "";
   }
 
+  @VisibleForTesting
   public static String generateHeaderContent(CInterface model) {
-    return generateFileHeader() + TemplateEngine.render("cbridge/Header", model);
+    return TemplateEngine.render("cbridge/Header", model);
   }
 
+  @VisibleForTesting
   public static String generateImplementationContent(CInterface model) {
-    return generateFileHeader() + TemplateEngine.render("cbridge/Implementation", model);
-  }
-
-  private static String generateFileHeader() {
-    return TemplateEngine.render("cbridge/FileHeader", null);
+    return TemplateEngine.render("cbridge/Implementation", model);
   }
 
   public CInterface buildCBridgeModel(final FTypeCollection francaTypeCollection) {
@@ -110,7 +110,8 @@ public class CBridgeGenerator {
     CInterface cModel = modelBuilder.getFinalResult(CInterface.class);
 
     removeRedundantIncludes(francaTypeCollection, cModel);
-    this.arrayGenerator.collect(modelBuilder.arraysCollector);
+    arrayGenerator.collect(modelBuilder.arraysCollector);
+
     return cModel;
   }
 
