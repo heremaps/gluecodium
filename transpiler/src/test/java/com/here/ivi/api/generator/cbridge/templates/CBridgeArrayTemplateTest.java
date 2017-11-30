@@ -11,15 +11,19 @@
 
 package com.here.ivi.api.generator.cbridge.templates;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.cbridge.CArrayGenerator;
 import com.here.ivi.api.generator.cbridge.CArrayMapper;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.franca.core.franca.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,12 +39,10 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateSimpleArrayHeader() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getStringArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(0).content;
+    final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_HEADER);
     final String expected =
         "#include \"cbridge/include/ArrayCollectionRef.h\"\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
@@ -56,12 +58,10 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateSimpleArrayImplementation() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getStringArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(1).content;
+    final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_IMPL);
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
@@ -94,12 +94,10 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateSimpleArrayReferences() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getStringArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(2).content;
+    final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_REF);
     final String expected =
         "#pragma once\n"
             + "#ifdef __cplusplus\n"
@@ -117,12 +115,11 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateSimpleArrayPrivateHeader() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getStringArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(3).content;
+    final String generated =
+        generateFileContent(arrays, CArrayGenerator.CBRIDGE_INTERNAL_ARRAY_IMPL);
     final String expected =
         "#pragma once\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
@@ -139,12 +136,10 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateNestedArrayHeader() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getNestedStringArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(0).content;
+    final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_HEADER);
     final String expected =
         "#include \"cbridge/include/ArrayCollectionRef.h\"\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
@@ -160,12 +155,10 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateNestedArrayImplementation() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getNestedStringArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(1).content;
+    final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_IMPL);
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
@@ -198,12 +191,10 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateNestedArrayReferences() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getNestedStringArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(2).content;
+    final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_REF);
     final String expected =
         "#pragma once\n"
             + "#ifdef __cplusplus\n"
@@ -221,12 +212,11 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateNestedArrayPrivateHeader() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getNestedStringArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(3).content;
+    final String generated =
+        generateFileContent(arrays, CArrayGenerator.CBRIDGE_INTERNAL_ARRAY_IMPL);
     final String expected =
         "#pragma once\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
@@ -243,12 +233,10 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateEnumArrayImplementation() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getEnumArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(1).content;
+    final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_IMPL);
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
             + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
@@ -274,12 +262,10 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateEnumArrayReferences() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getEnumArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(2).content;
+    final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_REF);
     final String expected =
         "#pragma once\n"
             + "#ifdef __cplusplus\n"
@@ -297,12 +283,11 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateEnumArrayPrivateHeader() {
-    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
     CppTypeInfo arrayType = getEnumArray();
     Map<String, CArray> arrays =
         Collections.singletonMap(arrayType.functionReturnType.name, new CArray(arrayType));
-    cbridgeArrayGenerator.collect(arrays);
-    final String generated = cbridgeArrayGenerator.generate().get(3).content;
+    final String generated =
+        generateFileContent(arrays, CArrayGenerator.CBRIDGE_INTERNAL_ARRAY_IMPL);
     final String expected =
         "#pragma once\n"
             + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
@@ -312,6 +297,16 @@ public final class CBridgeArrayTemplateTest {
             + "}\n";
 
     TemplateComparison.assertEqualImplementationContent(expected, generated);
+  }
+
+  private String generateFileContent(Map<String, CArray> arrays, String filename) {
+    CArrayGenerator cbridgeArrayGenerator = new CArrayGenerator();
+    cbridgeArrayGenerator.collect(arrays);
+    List<GeneratedFile> generatedFiles = cbridgeArrayGenerator.generate();
+    Optional<GeneratedFile> file =
+        generatedFiles.stream().filter(f -> f.targetFile.getPath() == filename).findAny();
+    assertTrue(file.isPresent());
+    return file.get().content;
   }
 
   private CppTypeInfo getStringArray() {

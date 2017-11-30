@@ -29,7 +29,7 @@ public final class CArrayGenerator {
   private static final String ARRAY_FILE = "ArrayCollection";
   public static final String CBRIDGE_ARRAY_HEADER =
       Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, ARRAY_FILE + ".h").toString();
-  private static final String CBRIDGE_ARRAY_IMPL =
+  public static final String CBRIDGE_ARRAY_IMPL =
       Paths.get(CBRIDGE_PUBLIC, SRC_DIR, ARRAY_FILE + ".cpp").toString();
   public static final String CBRIDGE_ARRAY_REF =
       Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, ARRAY_FILE + "Ref.h").toString();
