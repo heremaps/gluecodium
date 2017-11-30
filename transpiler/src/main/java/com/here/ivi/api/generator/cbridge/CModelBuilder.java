@@ -12,10 +12,10 @@
 package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.*;
+import static com.here.ivi.api.generator.common.PlatformUnsupportedFeatures.SWIFT_PLATFORM;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
@@ -132,7 +132,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
+    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod, SWIFT_PLATFORM)) {
       closeContext();
       return;
     }
@@ -148,8 +148,10 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             .delegateCall(cppMethod.fullyQualifiedName)
             .parameters(inParams)
             .returnType(returnParam.mappedType)
-            .hasError(
-                FrancaTypeHelper.hasErrorType(francaMethod)) //TODO: Temporary until APIGEN-701
+            .error(
+                francaMethod.getErrorEnum() != null
+                    ? CppTypeInfo.createEnumTypeInfo(resolver, francaMethod.getErrorEnum())
+                    : null)
             .delegateCallIncludes(
                 Collections.singleton(
                     resolver.resolveInclude(francaMethod, HeaderType.BASE_API_HEADER)))

@@ -24,6 +24,7 @@ public final class SwiftMethod extends SwiftModelElement {
   public boolean isStatic;
   public String cBaseName;
   public final List<SwiftGenericParameter> genericParameters = new LinkedList<>();
+  public SwiftEnum error;
 
   public boolean forceReturnValueUnwrapping;
 
@@ -37,6 +38,10 @@ public final class SwiftMethod extends SwiftModelElement {
     this.parameters = parameters;
     this.cBaseName = "";
     this.forceReturnValueUnwrapping = false;
+  }
+
+  public boolean isReturningVoid() {
+    return returnType.equals(SwiftType.VOID);
   }
 
   @SuppressWarnings("unused")

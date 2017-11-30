@@ -21,12 +21,21 @@ import org.franca.core.franca.*;
  */
 public final class PlatformUnsupportedFeatures {
 
+  public static final String SWIFT_PLATFORM = "swift";
+  public static final String ANDROID_PLATFORM = "android";
+
   // TODO: remove when APIGEN-735, APIGEN-729 and APIGEN-704 are implemented
   public static boolean hasUnsupportedParameters(final FMethod francaMethod) {
+    return hasUnsupportedParameters(francaMethod, ANDROID_PLATFORM);
+  }
+
+  public static boolean hasUnsupportedParameters(
+      final FMethod francaMethod, final String platform) {
     EList<FArgument> outArgs = francaMethod.getOutArgs();
     return hasUnsupportedElements(francaMethod.getInArgs())
         || hasUnsupportedElements(outArgs)
-        || FrancaTypeHelper.hasErrorType(francaMethod)
+        // TODO remove line below when APIGEN-704 is done
+        || (!SWIFT_PLATFORM.equals(platform) && FrancaTypeHelper.hasErrorType(francaMethod))
         || (outArgs != null && outArgs.size() > 1);
   }
 
