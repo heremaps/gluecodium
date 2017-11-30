@@ -12,7 +12,9 @@
 
 package com.here.android.examples;
 
-public class Errors {
+import com.here.android.NativeBase;
+
+public class Errors extends NativeBase {
     public enum InternalErrors {
         NONE(0),
         CRASHED(1),
@@ -24,6 +26,16 @@ public class Errors {
             this.value = value;
         }
     }
+    protected Errors(final long nativeHandle) {
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
+    }
+
+    private static native void disposeNativeHandle(long nativeHandle);
     public static native void startSomethingOrFail() throws InternalErrorsException;
     public static native String getSomethingOrFail() throws InternalErrorsException;
 }
