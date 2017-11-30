@@ -34,7 +34,12 @@ public final class CollectionsHelper {
 
   public static <T> Stream<T> getStreamOfType(
       final Collection<? super T> collection, final Class<T> clazz) {
-    return collection.stream().filter(clazz::isInstance).map(clazz::cast);
+    return getStreamOfType(collection.stream(), clazz);
+  }
+
+  public static <T> Stream<T> getStreamOfType(
+      final Stream<? super T> stream, final Class<T> clazz) {
+    return stream.filter(clazz::isInstance).map(clazz::cast);
   }
 
   public static <E, T extends E> List<E> getAllNotOfType(

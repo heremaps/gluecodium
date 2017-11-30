@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.baseapi;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -20,6 +21,8 @@ import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.common.Streamable;
+import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppElementWithIncludes;
 import com.here.ivi.api.model.cppmodel.CppFile;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
@@ -122,10 +125,9 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   }
 
   private static List<Include> collectIncludes(final CppFile cppModel) {
-    return cppModel
-        .streamRecursive()
-        .filter(element -> element instanceof CppElementWithIncludes)
-        .map(CppElementWithIncludes.class::cast)
+    Stream<Streamable> allElementsStream =
+        cppModel.members.stream().flatMap(CppElement::streamRecursive);
+    return CollectionsHelper.getStreamOfType(allElementsStream, CppElementWithIncludes.class)
         .map(elementWithIncludes -> elementWithIncludes.includes)
         .flatMap(Set::stream)
         .collect(Collectors.toList());

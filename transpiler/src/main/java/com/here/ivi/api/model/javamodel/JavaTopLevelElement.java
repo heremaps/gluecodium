@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.javamodel;
 
+import com.here.ivi.api.common.CollectionsHelper;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -58,9 +59,7 @@ public abstract class JavaTopLevelElement extends JavaElement {
 
   public Set<JavaImport> getImports() {
     Set<JavaImport> imports =
-        streamRecursive()
-            .filter(javaElement -> javaElement instanceof JavaElementWithImports)
-            .map(JavaElementWithImports.class::cast)
+        CollectionsHelper.getStreamOfType(streamRecursive(), JavaElementWithImports.class)
             .map(element -> element.imports)
             .flatMap(Set::stream)
             .collect(Collectors.toCollection(TreeSet::new));

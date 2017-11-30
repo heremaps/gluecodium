@@ -34,7 +34,7 @@ public final class JavaClass extends JavaTopLevelElement {
 
   @Override
   public Stream<JavaElement> stream() {
-    Stream<JavaElement> extendedClassStream =
+    Stream<? extends JavaElement> extendedClassStream =
         extendedClass != null ? extendedClass.stream() : Stream.empty();
     return Stream.of(super.stream(), fields.stream(), extendedClassStream)
         .flatMap(Function.identity());

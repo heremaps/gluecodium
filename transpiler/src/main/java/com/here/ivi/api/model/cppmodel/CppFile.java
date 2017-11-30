@@ -16,7 +16,6 @@ import com.here.ivi.api.generator.cpp.TopologicalSort;
 import com.here.ivi.api.model.common.Include;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public final class CppFile {
 
@@ -58,10 +57,6 @@ public final class CppFile {
             .collect(Collectors.toList());
 
     return new TopologicalSort(unsortedMembers).sort();
-  }
-
-  public Stream<? extends CppElement> streamRecursive() {
-    return members.stream().filter(Objects::nonNull).flatMap(CppElement::streamRecursive);
   }
 
   @SuppressWarnings("unused")

@@ -11,12 +11,11 @@
 
 package com.here.ivi.api.model.cppmodel;
 
-import java.util.Objects;
-import java.util.stream.Stream;
+import com.here.ivi.api.model.common.Streamable;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
-public abstract class CppElement {
+@EqualsAndHashCode(callSuper = false)
+public abstract class CppElement extends Streamable<CppElement> {
 
   public final String name;
   public final String fullyQualifiedName; // Currently used for dependency analysis only
@@ -27,6 +26,7 @@ public abstract class CppElement {
   }
 
   public CppElement(final String name, final String fullyQualifiedName) {
+    super();
     this.name = name;
     this.fullyQualifiedName = fullyQualifiedName;
   }
@@ -34,14 +34,5 @@ public abstract class CppElement {
   @Override
   public String toString() {
     return this.getClass().getSimpleName() + "::" + name;
-  }
-
-  public Stream<? extends CppElement> stream() {
-    return Stream.empty();
-  }
-
-  public final Stream<? extends CppElement> streamRecursive() {
-    return Stream.concat(
-        Stream.of(this), stream().filter(Objects::nonNull).flatMap(CppElement::streamRecursive));
   }
 }

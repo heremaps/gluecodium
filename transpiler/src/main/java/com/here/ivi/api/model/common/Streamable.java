@@ -9,23 +9,19 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.common;
 
-import com.here.ivi.api.model.common.Streamable;
+import java.util.Objects;
+import java.util.stream.Stream;
 
-public abstract class JavaElement extends Streamable<JavaElement> {
+public abstract class Streamable<T extends Streamable> {
 
-  public final String name;
-  public String comment = "";
-  public JavaVisibility visibility = JavaVisibility.PACKAGE;
-
-  public JavaElement(final String name) {
-    super();
-    this.name = name;
+  public Stream<? extends T> stream() {
+    return Stream.empty();
   }
 
-  @Override
-  public String toString() {
-    return name;
+  public final Stream<Streamable> streamRecursive() {
+    return Stream.concat(
+        Stream.of(this), stream().filter(Objects::nonNull).flatMap(Streamable::streamRecursive));
   }
 }
