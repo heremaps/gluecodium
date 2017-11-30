@@ -1,0 +1,76 @@
+/*
+ * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+import another.* from "./Errors2.fidl"
+
+interface Errors {
+
+    enumeration InternalErrors {
+        NONE
+        CRASHED
+    }
+
+    <** @description:
+    Example static method with an error enum that raises "CRASHED" error if errorFlag is true
+    **>
+    method methodWithError {
+        in {
+            Boolean errorFlag
+        }
+        error InternalErrors
+    }
+
+    <** @description:
+    Example static method with an error enum which returns a String "SUCCEEDED" or raises "FAILED" error if
+    errorFlag is true
+    **>
+    method methodWithErrorAndString {
+        in {
+            Boolean errorFlag
+        }
+        out {
+            <** @description: Output string **>
+            String outputString
+        }
+        error another.AdditionalErrors.ExternalErrors
+    }
+
+    <** @description:
+    Example static method with an error enum which returns an array with bytes [x00, x01, x02]
+    or raises "EXPLODED" error if errorFlag is true
+    **>
+    method methodThatExplodes {
+        in {
+            Boolean errorFlag
+        }
+        out {
+            <** @description: Output buffer **>
+            ByteBuffer output
+        }
+        error another.TypeCollectionWithEnums.ExplosiveErrors
+    }
+
+    <** @description:
+    Example static method with an error enum which returns enum ANOTHER_RESULT
+    or raises "BAD" error if errorFlag is true
+    **>
+    method methodWithGoodAndBad {
+      in {
+          Boolean errorFlag
+      }
+      out {
+          another.TypeCollectionWithEnums.SomeEnum output
+      }
+      error another.TypeCollectionWithEnums.YetAnotherErrors
+    }
+}
