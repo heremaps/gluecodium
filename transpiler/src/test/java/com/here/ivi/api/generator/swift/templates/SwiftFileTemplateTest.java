@@ -1136,4 +1136,75 @@ public class SwiftFileTemplateTest {
         .build()
         .assertMatches(generateFromClass(swiftClass));
   }
+
+  @Test
+  public void classWithTrowingMethodReturningVoid() {
+
+    SwiftClass swiftClass = SwiftClass.builder("SomeClass").build();
+
+    SwiftMethod method = new SwiftMethod("SomeMethod");
+    method.returnType = SwiftType.VOID;
+    method.cBaseName = "HelloWorld_someMethod";
+    method.isStatic = true;
+    method.error =
+        SwiftEnum.builder("SomeClass.Errors").item(SwiftEnumItem.builder("none").build()).build();
+    swiftClass.methods.add(method);
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "public class SomeClass {\n"
+                    + "    public static func SomeMethod() throws -> Void {\n"
+                    + "        let ERROR = SomeClass.Errors(rawValue: HelloWorld_someMethod())!\n"
+                    + "        if (ERROR != SomeClass.Errors.none) {\n"
+                    + "            throw ERROR\n"
+                    + "        }\n"
+                    + "    }\n"
+                    + "}\n")
+            .build();
+
+    final String generated = generateFromClass(swiftClass);
+
+    expected.assertMatches(generated);
+  }
+
+  @Test
+  public void classWithTrowingMethodWithArgumentAndReturnValue() {
+
+    SwiftClass swiftClass = SwiftClass.builder("SomeClass").build();
+
+    SwiftMethod method =
+        new SwiftMethod(
+            "SomeMethod", singletonList(new SwiftParameter("inputData", SwiftType.DATA)));
+    method.returnType = new SwiftType("String", TypeCategory.BUILTIN_STRING).createOptionalType();
+    method.cBaseName = "HelloWorld_someMethod";
+    method.isStatic = true;
+    method.error =
+        SwiftEnum.builder("SomeClass.Errors").item(SwiftEnumItem.builder("none").build()).build();
+    swiftClass.methods.add(method);
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "public class SomeClass {\n"
+                    + "    public static func SomeMethod(inputData: Data) throws -> String? {\n"
+                    + "        return inputData.withUnsafeBytes { (inputData_ptr: UnsafePointer<UInt8>) -> String? in\n"
+                    + "            let RESULT = HelloWorld_someMethod(inputData_ptr, Int64(inputData.count))\n"
+                    + "            if (RESULT.has_value) {\n"
+                    + "                let result_string_handle = RESULT.returned_value\n"
+                    + "                defer {\n"
+                    + "                    std_string_release(result_string_handle)\n"
+                    + "                }\n"
+                    + "                return String(data: Data(bytes: std_string_data_get(result_string_handle),\n"
+                    + "                                         count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)\n"
+                    + "            } else {\n"
+                    + "                throw SomeClass.Errors(rawValue: RESULT.error_code)!\n"
+                    + "            }\n"
+                    + "        }\n"
+                    + "    }\n"
+                    + "}\n")
+            .build();
+
+    final String generated = generateFromClass(swiftClass);
+
+    expected.assertMatches(generated);
+  }
 }

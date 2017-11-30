@@ -1,0 +1,3 @@
+extension Errors.InternalError : Error {
+}
+
