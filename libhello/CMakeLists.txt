@@ -252,9 +252,13 @@ feature(Arrays cpp android swift SOURCES
 #TODO: enable for android and swift (APIGEN-702, APIGEN-704)
 feature(Errors cpp SOURCES
     src/hello/HelloWorldErrors.cpp
+    src/test/Errors.cpp
 
     fidl/hello/HelloWorldErrors.fidl
     fidl/hello/HelloWorldErrors.fdepl
+    fidl/test/Errors.fidl
+    fidl/test/Errors.fdepl
+    fidl/test/Errors2.fidl
 )
 
 #TODO: enable for android once JNI support for Errors is in (APIGEN-703)
