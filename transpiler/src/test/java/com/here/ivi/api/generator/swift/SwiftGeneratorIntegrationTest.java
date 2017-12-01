@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.swift;
 
-import static com.here.ivi.api.generator.utils.LoadModelHelper.readInFrancaModel;
+import static com.here.ivi.api.test.LoadModelHelper.readInFrancaModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -19,13 +19,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import com.here.ivi.api.generator.utils.LoadModelHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftClass;
 import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
+import com.here.ivi.api.test.LoadModelHelper;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
