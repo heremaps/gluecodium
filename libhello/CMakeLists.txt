@@ -257,7 +257,8 @@ feature(Errors cpp SOURCES
     fidl/hello/HelloWorldErrors.fdepl
 )
 
-feature(Unsupported cpp android swift SOURCES
+#TODO: enable for android once JNI support for Errors is in (APIGEN-703)
+feature(Unsupported cpp swift SOURCES
     fidl/hello/UnsupportedFeatures.fidl
 )
 
