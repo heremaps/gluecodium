@@ -14,13 +14,7 @@ package com.here.ivi.api.generator.java.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaException;
-import com.here.ivi.api.model.javamodel.JavaMethod;
-import com.here.ivi.api.model.javamodel.JavaParameter;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaReferenceType;
-import com.here.ivi.api.model.javamodel.JavaVisibility;
+import com.here.ivi.api.model.javamodel.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -111,7 +105,7 @@ public final class JavaMethodTemplateTest {
 
   @Test
   public void generateMethodWithException() {
-    javaMethod.exception = new JavaException("ExceptionalException", null);
+    javaMethod.exception = new JavaCustomType("ExceptionalException", JavaPackage.DEFAULT);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
 

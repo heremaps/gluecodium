@@ -17,10 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.javamodel.JavaException;
-import com.here.ivi.api.model.javamodel.JavaExceptionClass;
-import com.here.ivi.api.model.javamodel.JavaImport;
-import com.here.ivi.api.model.javamodel.JavaPackage;
+import com.here.ivi.api.model.javamodel.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -102,7 +99,7 @@ public class JavaTypeMapperMapErrorTest {
     when(DefinedBy.findDefiningTypeCollection(fEnumerationType)).thenReturn(fTypeCollection);
     when(JavaNameRules.getClassName(fEnumerationType.getName())).thenReturn("EnumJavaName");
 
-    JavaException result = typeMapper.mapErrorTypeRef(fEnumerationType);
+    JavaType result = typeMapper.mapErrorTypeRef(fEnumerationType);
 
     assertNotNull(result);
     assertEquals("EnumJavaNameException", result.name);
@@ -118,7 +115,7 @@ public class JavaTypeMapperMapErrorTest {
     when(JavaNameRules.getClassName(fEnumerationType.getName())).thenReturn("EnumJavaName");
     when(JavaNameRules.getClassName(fInterface.getName())).thenReturn("fInterfaceJavaName");
 
-    JavaException result = typeMapper.mapErrorTypeRef(fEnumerationType);
+    JavaType result = typeMapper.mapErrorTypeRef(fEnumerationType);
 
     assertNotNull(result);
     assertEquals("EnumJavaNameException", result.name);

@@ -395,18 +395,17 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_withThrowsMethod() {
     JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "generator", "example"));
-    JavaImport javaImport = new JavaImport("ExampleClass", javaPackage);
     JavaCustomType exampleType = new JavaCustomType("ExampleType");
     JavaMethod classMethod = new JavaMethod("someMethod", exampleType);
-    classMethod.exception = new JavaException("ExceptionalException", javaImport);
+    classMethod.exception = new JavaCustomType("ExceptionalException", JavaPackage.DEFAULT);
     javaClass.javaPackage = javaPackage;
     javaClass.methods.add(classMethod);
 
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     String expected =
-        "package com.here.generator.example;\n"
-            + "\n"
+        "package com.here.generator.example;\n\n"
+            + "import com.here.android.ExceptionalException;\n\n"
             + "class ExampleClass {\n"
             + "    ExampleType someMethod() throws ExceptionalException;\n"
             + "}\n";
