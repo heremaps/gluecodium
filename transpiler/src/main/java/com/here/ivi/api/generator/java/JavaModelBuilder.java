@@ -106,25 +106,27 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
             .filter(parameter -> parameter.isOutput)
             .collect(Collectors.toList());
-    JavaMethod javaMethod;
+    JavaType returnType;
     if (outputParameters.isEmpty()) { // Void return type
-      javaMethod = new JavaMethod(javaMethodName);
+      returnType = JavaPrimitiveType.VOID;
     } else if (outputParameters.size() == 1) {
-      javaMethod = new JavaMethod(javaMethodName, outputParameters.get(0).type);
+      returnType = outputParameters.get(0).type;
     } else {
       // TODO: Wrap complex return type in an immutable container class
-      javaMethod = new JavaMethod(javaMethodName);
+      returnType = JavaPrimitiveType.VOID;
     }
 
     FEnumerationType fErrorEnumType = francaMethod.getErrorEnum();
+    JavaCustomType javaException = null;
     if (fErrorEnumType != null) {
-      javaMethod.exception = typeMapper.mapErrorTypeRef(fErrorEnumType);
+      javaException = typeMapper.mapErrorTypeRef(fErrorEnumType);
 
       JavaExceptionClass javaExceptionClass = typeMapper.mapErrorClass(fErrorEnumType);
       String mapKey = javaExceptionClass.javaPackage.packageNames + "." + javaExceptionClass.name;
       exceptionClasses.put(mapKey, javaExceptionClass);
     }
 
+    JavaMethod javaMethod = new JavaMethod(javaMethodName, returnType, javaException);
     javaMethod.comment = CppCommentParser.FORMATTER.readDescription(francaMethod.getComment());
 
     if (deploymentModel.isStatic(francaMethod)) {
