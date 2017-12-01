@@ -17,17 +17,18 @@
 namespace test
 {
 hf::Error
-Errors::method_with_error( const bool errorFlag )
+Errors::method_with_error( const bool error_flag )
 {
     Errors::InternalErrors error_code =
-        errorFlag ? Errors::InternalErrors::CRASHED : Errors::InternalErrors::NONE;
+        error_flag ? Errors::InternalErrors::CRASHED : Errors::InternalErrors::NONE;
     return hf::Error( static_cast< hf::ErrorCode::Code >( error_code ) );
 }
 
 hf::Return< std::string, hf::Error >
-Errors::method_with_error_and_string( const bool errorFlag )
+Errors::method_with_error_and_string( const bool error_flag )
 {
-    if ( errorFlag )    {
+    if ( error_flag )
+    {
         return hf::Return< std::string, hf::Error >( hf::Error( static_cast< hf::ErrorCode::Code >(
             another::AdditionalErrors::ExternalErrors::FAILED ) ) );
     }
@@ -40,7 +41,8 @@ Errors::method_with_error_and_string( const bool errorFlag )
 hf::Return< std::vector< uint8_t >, hf::Error >
 Errors::method_that_explodes( const bool error_flag )
 {
-    if ( error_flag )    {
+    if ( error_flag )
+    {
         return hf::Return< std::vector< uint8_t >, hf::Error >(
             hf::Error( static_cast< hf::ErrorCode::Code >(
                 another::ExplosiveErrors::EXPLODED ) ) );

@@ -33,6 +33,4 @@ typeCollection TypeCollectionWithEnums {
         RESULT
         ANOTHER_RESULT
     }
-
-
 }
