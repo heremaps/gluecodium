@@ -13,13 +13,12 @@ package com.here.ivi.api.model.swift;
 
 import java.util.List;
 import lombok.Builder;
-import lombok.Singular;
 
 public final class SwiftEnum extends SwiftType {
   public final List<SwiftEnumItem> items;
 
   @Builder
-  private SwiftEnum(String name, String comment, @Singular List<SwiftEnumItem> items) {
+  private SwiftEnum(String name, String comment, List<SwiftEnumItem> items) {
     super(name, TypeCategory.ENUM);
     this.comment = comment;
     this.items = items;

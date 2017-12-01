@@ -27,9 +27,7 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.model.swift.*;
-import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
-import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -524,34 +522,5 @@ public class SwiftModelBuilderTest {
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     assertFalse(SwiftType.STRING.optional);
-  }
-
-  @Test
-  public void finishBuildingLeavesErrorNotSet() {
-    modelBuilder.finishBuilding(francaMethod);
-
-    SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
-    assertNull(method.error);
-  }
-
-  @Test
-  public void finishBuildingMethodProcessErrors() {
-    FEnumerationType enumerationType = mock(FEnumerationType.class);
-    FEnumerator enumerator = mock(FEnumerator.class);
-    EList<FEnumerator> enumerators = new ArrayEList<>();
-    enumerators.add(enumerator);
-    when(francaMethod.getErrorEnum()).thenReturn(enumerationType);
-    when(enumerationType.getEnumerators()).thenReturn(enumerators);
-    when(SwiftNameRules.getEnumTypeName(any(), any())).thenReturn("SOME_ERROR");
-    when(SwiftNameRules.getEnumItemName(any())).thenReturn("NONE").thenReturn("ERROR_CASE");
-
-    modelBuilder.finishBuilding(francaMethod);
-
-    SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
-    assertNotNull(method.error);
-    assertEquals("SOME_ERROR", method.error.name);
-    assertFalse(
-        "There is at least one enumerator for non-error case", method.error.items.isEmpty());
-    assertEquals("NONE", method.error.items.get(0).name);
   }
 }

@@ -8,19 +8,24 @@
 // which may not be disclosed to others without prior written consent of HERE Global B.V.
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "cbridge/include/smoke/Errors.h"
-#include "cbridge_internal/include/smoke/ErrorsImpl.h"
-#include "smoke/Errors.h"
-#include <memory>
 
-void smoke_Errors_release(smoke_ErrorsRef handle) {
-    delete get_pointer(handle);
+import Foundation
+
+public class Errors {
+
+    public enum InternalErrors : UInt32 {
+
+        case none
+
+        case crashed
+
+        case exploded
+    }
+
+    public static func startSomethingOrFail() throws
+
+    public static func getSomethingOrFail() throws -> String
 }
 
-
-
-smoke_Errors_InternalError smoke_Errors_methodWithErrors() {
-    return static_cast<smoke_Errors_InternalError>(::smoke::Errors::method_with_errors().code().code());
+extension Errors.InternalErrors : Error {
 }
-
-

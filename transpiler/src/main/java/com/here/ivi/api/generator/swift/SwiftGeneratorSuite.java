@@ -41,14 +41,14 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
     Stream<GeneratedFile> cBridgeStream =
         typeCollections.stream().map(cBridgeGenerator::generate).flatMap(Function.identity());
 
-    List<GeneratedFile> result = Stream.concat(swiftStream, cBridgeStream).collect(toList());
+    List<GeneratedFile> result =
+        Stream.concat(swiftStream, cBridgeStream).filter(Objects::nonNull).collect(toList());
     result.addAll(CBridgeGenerator.STATIC_FILES);
     result.addAll(SwiftGenerator.STATIC_FILES);
     result.addAll(cBridgeGenerator.arrayGenerator.generate());
     result.addAll(swiftGenerator.arrayGenerator.generate());
-    result.add(swiftGenerator.generateErrors());
 
-    return result.stream().filter(Objects::nonNull).collect(toList());
+    return result;
   }
 
   @Override

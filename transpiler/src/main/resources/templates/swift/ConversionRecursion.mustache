@@ -1,6 +1,14 @@
 {{! recurse through all the parameters and at the end call the actual function
 }}{{#unless iterator.hasNext}}{{!!
-  }}{{>wrapErrorIfNeeded}}
+  }}{{#switch method.returnType.category.toString}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodReturnData}}{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}{{>swift/MethodReturnString}}{{/case}}{{!!
+    }}{{#case "STRUCT"}}{{>MethodReturnStruct}}{{/case}}{{!!
+    }}{{#case "CLASS"}}{{>MethodReturnClass}}{{/case}}{{!!
+    }}{{#case "ENUM"}}{{>MethodReturnEnum}}{{/case}}{{!!
+    }}{{#case "ARRAY"}}{{>MethodReturnArray}}{{/case}}{{!!
+    }}{{#default}}{{>swift/MethodReturn}}{{/default}}{{!!
+  }}{{/switch}}
 {{/unless}}
 {{#iterator.hasNext}}{{!!
   }}{{#iterator.next}}{{!!
@@ -12,53 +20,9 @@
       }}{{#default}}{{>swift/ConversionRecursion}}{{/default}}{{!!
     }}{{/switch}}{{!!
   }}{{/iterator.next}}{{!!
-}}{{/iterator.hasNext}}{{!!
+}}{{/iterator.hasNext}}
 
-
-}}{{+wrapErrorIfNeeded}}{{!!
-}}{{#if error}}{{!!
-    }}{{#if isReturningVoid}}{{!!
-        }}{{>WrapError}}{{!!
-    }}{{/if}}{{!!
-    }}{{#unless isReturningVoid}}{{!!
-        }}{{>WrapErrorOrValue}}{{!!
-    }}{{/unless}}{{!!
-}}{{/if}}{{!!
-}}{{#unless error}}{{!!
-    }}{{#set delegateToCall="swift/DelegateCall"}}{{>returnValueConversion}}{{/set}}{{!!
-}}{{/unless}}{{!!
-}}{{/wrapErrorIfNeeded}}{{!!
-
-
-}}{{+WrapError}}let ERROR = {{error}}(rawValue: {{>swift/DelegateCall}})!
-if (ERROR != {{error}}.{{error.items.0}}) {
-    throw ERROR
-}
-{{/WrapError}}{{!!
-
-
-}}{{+WrapErrorOrValue}}let RESULT = {{>swift/DelegateCall}}
-if (RESULT.has_value) {
-{{#set delegateToCall="swift/ReturnedValue"}}{{prefixPartial 'returnValueConversion' '    '}}{{/set}}
-} else {
-    throw {{error}}(rawValue: RESULT.error_code)!
-}
-{{/WrapErrorOrValue}}{{!!
-
-
-}}{{+returnValueConversion}}{{#switch method.returnType.category.toString}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodReturnData}}{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING"}}{{>swift/MethodReturnString}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}{{>MethodReturnStruct}}{{/case}}{{!!
-    }}{{#case "CLASS"}}{{>MethodReturnClass}}{{/case}}{{!!
-    }}{{#case "ENUM"}}{{>MethodReturnEnum}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}{{>MethodReturnArray}}{{/case}}{{!!
-    }}{{#default}}{{>swift/MethodReturn}}{{/default}}{{!!
-  }}{{/switch}}{{!!
-}}{{/returnValueConversion}}{{!!
-
-
-}}{{+structConversion}}{{!!
+{{+structConversion}}{{!!
 }}let {{name}}Handle = {{name}}.convertToCType()
 defer {
     {{type.cPrefix}}_release({{name}}Handle)
@@ -72,7 +36,7 @@ defer {
 {{/classConversion}}
 
 {{+MethodReturnStruct}}{{!!
-}}let cResult = {{include delegateToCall}}
+}}let cResult = {{>swift/DelegateCall}}
 defer {
     {{method.returnType.cPrefix}}_release(cResult)
 }
@@ -80,12 +44,12 @@ return {{>returnType}}(c{{method.returnType.simpleName}}: cResult){{#if method.f
 {{/MethodReturnStruct}}
 
 {{+MethodReturnClass}}{{!!
-}}let cResult = {{include delegateToCall}}
+}}let cResult = {{>swift/DelegateCall}}
 return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnValueUnwrapping}}!{{/if}}
 {{/MethodReturnClass}}
 
 {{+MethodReturnEnum}}{{!!
-}}let cResult = {{include delegateToCall}}
+}}let cResult = {{>swift/DelegateCall}}
 return {{method.returnType}}(rawValue: cResult)!
 {{/MethodReturnEnum}}
 
@@ -98,7 +62,7 @@ defer {
 {{/arrayConversion}}
 
 {{+MethodReturnArray}}
-let handle =  {{include delegateToCall}}
+let handle =  {{>swift/DelegateCall}}
 return {{method.returnType.implementingClass}}(handle)
 {{/MethodReturnArray}}
 

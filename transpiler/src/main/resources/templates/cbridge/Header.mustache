@@ -12,8 +12,6 @@ extern "C" {
 {{#structs}}{{>cbridge/StructTypedef}}{{/structs}}
 {{#arrays}}{{>cbridge/ArraysDefinition}}{{/arrays}}
 
-{{#functions}}{{#if error}}{{#unless isReturningVoid}}{{>cbridge/ThrowingFunctionReturnType}}
-{{/unless}}{{/if}}{{/functions}}
 
 {{#if selfType}}
 typedef struct {
