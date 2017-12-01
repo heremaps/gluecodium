@@ -21,4 +21,8 @@ define navigation.BaseApiSpec for interface hello.HelloWorldPlainDataStructures
     method methodWithNestedType {
         Static = true
     }
+
+    method methodWithInheritedStruct {
+        Static = true
+    }
 }

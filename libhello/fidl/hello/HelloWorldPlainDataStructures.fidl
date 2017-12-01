@@ -35,6 +35,13 @@ interface HelloWorldPlainDataStructures {
     }
 
     <** @description:
+    Example of struct inheritance
+    **>
+    struct NumericSyncResult extends SyncResult {
+        UInt32 result
+    }
+
+    <** @description:
     Example static method for HelloWorld which takes and returns a non nested plain data
     structure.
     **>
@@ -60,6 +67,18 @@ interface HelloWorldPlainDataStructures {
         out {
             <** @description: output nested struct **>
             IdentifiableSyncResult output
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes and returns a struct with inheritance.
+    **>
+    method methodWithInheritedStruct {
+        in {
+            NumericSyncResult input
+        }
+        out {
+            NumericSyncResult output
         }
     }
 }
