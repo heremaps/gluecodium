@@ -249,8 +249,7 @@ feature(Arrays cpp android swift SOURCES
     fidl/test/ArraysByteBuffer.fidl
 )
 
-#TODO: enable for android (APIGEN-704)
-feature(Errors cpp swift SOURCES
+feature(Errors cpp android swift SOURCES
     src/hello/HelloWorldErrors.cpp
     src/test/Errors.cpp
 
@@ -261,8 +260,7 @@ feature(Errors cpp swift SOURCES
     fidl/test/Errors2.fidl
 )
 
-#TODO: enable for android once JNI support for Errors is in (APIGEN-703)
-feature(Unsupported cpp swift SOURCES
+feature(Unsupported cpp android swift SOURCES
     fidl/hello/UnsupportedFeatures.fidl
 )
 
