@@ -15,7 +15,6 @@ import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
 
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,36 +51,5 @@ public class CFunctionTest {
   public void providedDelegateCallTemplateIsPropagated() {
     CFunction function = builder.delegateCall("delegateCall()").build();
     assertEquals("delegateCall()", function.delegateCall);
-  }
-
-  @Test
-  public void errorIsNullIfNotProvided() {
-    CFunction function = builder.build();
-
-    assertNull(function.error);
-  }
-
-  @Test
-  public void providedErrorIsPropagated() {
-    CppTypeInfo error = new CppTypeInfo(new CType("SomeError"), TypeCategory.ENUM);
-
-    CFunction function = builder.error(error).build();
-
-    assertNotNull(function.error);
-    assertSame(error, function.error);
-  }
-
-  @Test
-  public void isReturningVoidForVoidFunction() {
-    CFunction function = builder.build();
-
-    assertTrue(function.isReturningVoid());
-  }
-
-  @Test
-  public void isReturningVoidForNonVoidFunction() {
-    CFunction function = builder.returnType(new CppTypeInfo(CType.FLOAT)).build();
-
-    assertFalse(function.isReturningVoid());
   }
 }

@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.swift.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.swift.SwiftEnum;
 import com.here.ivi.api.model.swift.SwiftGenericParameter;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftParameter;
@@ -160,16 +159,6 @@ public final class SwiftMethodSignatureTemplateTest {
     String expected =
         "func methodFoo<Tvery: generic>() -> Void where "
             + "Tvery: Confusing, Tvery.Iterator == somewhere";
-    assertEquals(expected, result);
-  }
-
-  @Test
-  public void createTrowingFuncReturningVoid() {
-    swiftMethod.error = SwiftEnum.builder("SomeErrorEnum").build();
-
-    String result = TemplateEngine.render(TEMPLATE_NAME, swiftMethod);
-
-    String expected = "func methodFoo() throws -> Void";
     assertEquals(expected, result);
   }
 }

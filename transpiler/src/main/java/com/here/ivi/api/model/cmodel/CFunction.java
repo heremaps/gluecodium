@@ -27,7 +27,7 @@ public final class CFunction extends CElement {
   public final Set<Include> delegateCallIncludes;
   public final String functionName;
   public final CInParameter selfParameter;
-  public final CppTypeInfo error;
+  public final boolean hasError;
 
   public List<CParameter.SimpleParameter> getSignatureParameters() {
     Stream<? extends CParameter> stream =
@@ -37,10 +37,6 @@ public final class CFunction extends CElement {
     return stream
         .flatMap(parameter -> parameter.getSignatureParameters().stream())
         .collect(Collectors.toList());
-  }
-
-  public boolean isReturningVoid() {
-    return returnType.functionReturnType.equals(CType.VOID);
   }
 
   public static CFunctionBuilder builder(String name) {
@@ -57,7 +53,7 @@ public final class CFunction extends CElement {
       Set<Include> delegateCallIncludes,
       String functionName,
       CInParameter selfParameter,
-      CppTypeInfo error) {
+      boolean hasError) {
     super(name);
     this.parameters = parameters != null ? parameters : emptyList();
     this.returnType = returnType != null ? returnType : new CppTypeInfo(CType.VOID);
@@ -66,6 +62,6 @@ public final class CFunction extends CElement {
         delegateCallIncludes != null ? delegateCallIncludes : new LinkedHashSet<>();
     this.functionName = functionName;
     this.selfParameter = selfParameter;
-    this.error = error;
+    this.hasError = hasError;
   }
 }
