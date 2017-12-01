@@ -105,9 +105,13 @@ public final class JavaMethodTemplateTest {
 
   @Test
   public void generateMethodWithException() {
-    javaMethod.exception = new JavaCustomType("ExceptionalException", JavaPackage.DEFAULT);
+    JavaMethod exceptionalJavaMethod =
+        new JavaMethod(
+            "methodical",
+            JavaPrimitiveType.VOID,
+            new JavaCustomType("ExceptionalException", JavaPackage.DEFAULT));
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, javaMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, exceptionalJavaMethod);
 
     assertEquals("void methodical() throws ExceptionalException;", result);
   }

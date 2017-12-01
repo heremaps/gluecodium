@@ -396,8 +396,11 @@ public final class JavaClassTemplateTest {
   public void generate_withThrowsMethod() {
     JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "generator", "example"));
     JavaCustomType exampleType = new JavaCustomType("ExampleType");
-    JavaMethod classMethod = new JavaMethod("someMethod", exampleType);
-    classMethod.exception = new JavaCustomType("ExceptionalException", JavaPackage.DEFAULT);
+    JavaMethod classMethod =
+        new JavaMethod(
+            "someMethod",
+            exampleType,
+            new JavaCustomType("ExceptionalException", JavaPackage.DEFAULT));
     javaClass.javaPackage = javaPackage;
     javaClass.methods.add(classMethod);
 
