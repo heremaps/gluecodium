@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.utils;
+package com.here.ivi.api.test;
 
 import static org.junit.Assert.assertTrue;
 
