@@ -35,7 +35,7 @@ public final class JavaMethod extends JavaElement {
   public final JavaType returnType;
   public final Set<MethodQualifier> qualifiers = EnumSet.noneOf(MethodQualifier.class);
   public final List<JavaParameter> parameters = new LinkedList<>();
-  public JavaException exception;
+  public JavaCustomType exception;
 
   public JavaMethod(final String name) {
     this(name, JavaPrimitiveType.VOID);

@@ -183,12 +183,12 @@ public class JavaTypeMapper {
     return new JavaExceptionClass(exceptionName, (JavaEnumType) enumTypeRef, exceptionPackage);
   }
 
-  public JavaException mapErrorTypeRef(final FEnumerationType errorFType) {
+  public JavaCustomType mapErrorTypeRef(final FEnumerationType errorFType) {
+
     String exceptionName = getExceptionName(errorFType);
     JavaPackage exceptionPackage = getExceptionPackage(errorFType);
-    JavaImport exceptionClassImport = new JavaImport(exceptionName, exceptionPackage);
 
-    return new JavaException(exceptionName, exceptionClassImport);
+    return new JavaCustomType(exceptionName, exceptionPackage);
   }
 
   public JavaType mapCustomType(final FType fType) {
