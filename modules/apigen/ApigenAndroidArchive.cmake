@@ -31,12 +31,18 @@ cmake_minimum_required(VERSION 3.5)
 
 find_package(Java COMPONENTS Development REQUIRED)
 
-function(apigen_android_archive target)
+function(apigen_android_archive)
 
-    get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
-    get_target_property(APIGEN_JAVA_OUTPUT_DIR ${target} APIGEN_JAVA_OUTPUT_DIR)
-    get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
-    get_target_property(APIGEN_JAVA_JAR ${target} APIGEN_JAVA_JAR)
+    set(options)
+    set(oneValueArgs TARGET)
+    set(multiValueArgs)
+    cmake_parse_arguments(apigen_android_archive "${options}" "${oneValueArgs}"
+                                                 "${multiValueArgs}" ${ARGN})
+
+    get_target_property(GENERATOR ${apigen_android_archive_TARGET} APIGEN_TRANSPILER_GENERATOR)
+    get_target_property(APIGEN_JAVA_OUTPUT_DIR ${apigen_android_archive_TARGET} APIGEN_JAVA_OUTPUT_DIR)
+    get_target_property(OUTPUT_DIR ${apigen_android_archive_TARGET} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
+    get_target_property(APIGEN_JAVA_JAR ${apigen_android_archive_TARGET} APIGEN_JAVA_JAR)
 
     if(${GENERATOR} MATCHES android)
 
@@ -44,15 +50,15 @@ function(apigen_android_archive target)
         set(APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/jni/${CMAKE_ANDROID_ARCH_ABI})
         set(APIGEN_ANDROID_ARCHIVE_CLASSES_JAR ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/classes.jar)
         set(APIGEN_ANDROID_ARCHIVE_MANIFEST_XML ${OUTPUT_DIR}/android/AndroidManifest.xml)
-        set(APIGEN_ANDROID_ARCHIVE ${CMAKE_CURRENT_BINARY_DIR}/${target}.aar)
+        set(APIGEN_ANDROID_ARCHIVE ${CMAKE_CURRENT_BINARY_DIR}/${apigen_android_archive_TARGET}.aar)
 
-        add_custom_command(TARGET ${target} POST_BUILD
+        add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
             COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR}
-            COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${target}> ${APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR}
+            COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${apigen_android_archive_TARGET}> ${APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR}
             COMMAND ${CMAKE_COMMAND} ARGS -E copy ${APIGEN_JAVA_JAR} ${APIGEN_ANDROID_ARCHIVE_CLASSES_JAR}
             COMMAND ${CMAKE_COMMAND} ARGS -E copy ${APIGEN_ANDROID_ARCHIVE_MANIFEST_XML} ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/
             COMMENT "Assembling Android Archive contents...")
-        add_custom_command(TARGET ${target} POST_BUILD
+        add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
             COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_ANDROID_ARCHIVE} .
             WORKING_DIRECTORY ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}
             COMMENT "Generating Android Archive...")
