@@ -22,6 +22,9 @@ cmake_minimum_required(VERSION 3.5)
 # The second attribute is an array of paths were the resources must be copy
 # in the bundle.
 #
+# There is no need to create a bundle plist file, because it will be integrated
+# in the framework.
+#
 # .. command:: apigen_swift_framework_bundle
 #
 # The general form of the command is::
@@ -40,42 +43,18 @@ function(apigen_swift_framework_bundle target assets)
         return()
     endif()
 
-    # copy to bundle target
-    foreach(FOLDER ${assets})
-        file(GLOB_RECURSE SWIFT_BUNDLE_SRC FOLLOW_SYMLINKS "${FOLDER}/*")    
-    endforeach(FOLDER)    
+    message(STATUS "Assets ${SWIFT_BUNDLE_SRC}")
+
+    message(STATUS "[Swift] Creating Framework bundle...")
+    add_custom_command(TARGET ${target} POST_BUILD 
+        COMMAND mkdir -p "${SWIFT_OUTPUT_DIR}/${target}.framework/Bundle.bundle/"
+    )
     
-    set_source_files_properties(${SWIFT_BUNDLE_SRC} PROPERTIES
-        MACOSX_PACKAGE_LOCATION Resources
-    )
-
-
-    add_library(Bundle MODULE ${assets})
-
-    set(BUNDLE_FRAMEWORK_NAME ${target})
-    set(BUNDLE_FRAMEWORK_ICON_FILE)
-    set(BUNDLE_FRAMEWORK_IDENTIFIER com.here.ivi.bundle.${target})
-    set(BUNDLE_FRAMEWORK_BUNDLE_VERSION ${SWIFT_FRAMEWORK_VERSION})
-    set(BUNDLE_FRAMEWORK_SHORT_VERSION_STRING ${SWIFT_FRAMEWORK_VERSION})
-
-    configure_file(${SWIFT_RESOURCES_DIR}/BundleFrameworkInfo.plist.in
-        ${SWIFT_RESOURCES_DIR}/Info.plist)
-
-    set_target_properties(Bundle PROPERTIES
-        MACOSX_BUNDLE_INFO_PLIST ${SWIFT_RESOURCES_DIR}/Info.plist
-        XCODE_ATTRIBUTE_PRODUCT_NAME Bundle
-        XCODE_ATTRIBUTE_WRAPPER_EXTENSION bundle
-        XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS NO
-        XCODE_ATTRIBUTE_ENABLE_BITCODE NO
-        BUNDLE YES
-        LINKER_LANGUAGE C
-        LIBRARY_OUTPUT_DIRECTORY ${SWIFT_OUTPUT_DIR}
-    )
-    # clean up the binary file (no needed)
-    add_custom_command(TARGET Bundle POST_BUILD
-        COMMAND rm -f ${SWIFT_OUTPUT_DIR}/Bundle.bundle/MacOS
-    )
-    add_dependencies(${target} Bundle)
-    message(STATUS "[Swift] Creating Framework bundle Bundle...")
+    # Copy the folders that need to be in the bundle.
+    foreach(FOLDER ${assets})
+        add_custom_command(TARGET ${target} POST_BUILD
+            COMMAND cp -fR ${FOLDER} 
+                "${SWIFT_OUTPUT_DIR}/${target}.framework/Bundle.bundle/")
+    endforeach()
 
 endfunction(apigen_swift_framework_bundle)
