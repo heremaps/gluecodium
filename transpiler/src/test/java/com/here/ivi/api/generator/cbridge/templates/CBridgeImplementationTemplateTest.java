@@ -289,4 +289,52 @@ public class CBridgeImplementationTemplateTest {
     final String generated = this.generate(cInterface);
     expected.assertMatches(generated);
   }
+
+  @Test
+  public void functionReturningOnlyError() {
+    CppTypeInfo error = new CppTypeInfo(new CType("ERROR"), CppTypeInfo.TypeCategory.ENUM);
+    CFunction function =
+        CFunction.builder("functionName").delegateCall("delegateToCall").error(error).build();
+    CInterface cInterface = new CInterface("");
+    cInterface.functions.add(function);
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "ERROR functionName() {\n"
+                    + "    return static_cast<ERROR>(delegateToCall().code().code());\n"
+                    + "}\n")
+            .build();
+    final String generated = this.generate(cInterface);
+
+    expected.assertMatches(generated);
+  }
+
+  @Test
+  public void functionReturningValueAndError() {
+    CppTypeInfo error = new CppTypeInfo(new CType("ERROR"), CppTypeInfo.TypeCategory.ENUM);
+    CFunction function =
+        CFunction.builder("functionName")
+            .error(error)
+            .delegateCall("delegateToCall")
+            .returnType(new CppTypeInfo(CType.FLOAT))
+            .build();
+    CInterface cInterface = new CInterface("");
+    cInterface.functions.add(function);
+
+    final String generated = this.generate(cInterface);
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "functionName_result functionName() {\n"
+                    + "    auto&& RESULT = delegateToCall();\n"
+                    + "    if (RESULT.has_value()) {\n"
+                    + "        return {true, .returned_value = RESULT.safe_value()};\n"
+                    + "    } else {\n"
+                    + "        return {false, .error_code = RESULT.error().code().code()};\n"
+                    + "    }\n"
+                    + "}\n")
+            .build();
+
+    expected.assertMatches(generated);
+  }
 }

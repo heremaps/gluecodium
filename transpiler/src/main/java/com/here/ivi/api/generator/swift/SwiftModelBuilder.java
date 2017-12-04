@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.swift;
 
+import static java.util.Collections.*;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -31,6 +32,7 @@ import org.franca.core.franca.*;
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   public final Map<String, SwiftArray> arraysCollector = new HashMap<>();
+  public final Set<String> enumsAsErrors = new HashSet<>();
 
   private final FrancaDeploymentModel deploymentModel;
 
@@ -224,12 +226,27 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .returnType(returnParam.type)
             .isStatic(deploymentModel.isStatic(francaMethod))
             .cBaseName(CBridgeNameRules.getMethodName(francaMethod))
+            .error(createErrorIfNeeded(francaMethod))
             .build();
     method.parameters.addAll(inParams);
     method.genericParameters.addAll(getPreviousResults(SwiftGenericParameter.class));
 
     storeResult(method);
     super.finishBuilding(francaMethod);
+  }
+
+  private SwiftEnum createErrorIfNeeded(FMethod francaMethod) {
+    FEnumerationType errorEnum = francaMethod.getErrorEnum();
+    if (errorEnum != null) {
+      SwiftEnumItem errorNone =
+          SwiftEnumItem.builder(SwiftNameRules.getEnumItemName(errorEnum.getEnumerators().get(0)))
+              .build();
+      String swiftEnumName = SwiftNameRules.getEnumTypeName(errorEnum, deploymentModel);
+      enumsAsErrors.add(swiftEnumName);
+      return SwiftEnum.builder(swiftEnumName).item(errorNone).build();
+    } else {
+      return null;
+    }
   }
 
   @Override

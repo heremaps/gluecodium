@@ -23,7 +23,7 @@ import org.franca.core.franca.*;
 
 public final class SwiftNameRules {
 
-  private static final String TARGET_DIRECTORY = "swift" + File.separator;
+  public static final String TARGET_DIRECTORY = "swift" + File.separator;
 
   private SwiftNameRules() {}
 

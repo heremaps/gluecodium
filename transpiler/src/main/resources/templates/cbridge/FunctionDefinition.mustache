@@ -1,4 +1,39 @@
-{{+delegateConversion}}{{#switch mappedType.typeCategory.toString}}{{!!
+{{>cbridge/FunctionSignature}} {
+{{>FunctionBody}}
+}
+
+{{+FunctionBody}}{{!!
+}}{{#if error}}{{!!
+}}{{#if isReturningVoid}}    return static_cast<{{error.functionReturnType}}>({{>callBaseApi}}.code().code());{{/if}}{{!!
+}}{{#unless isReturningVoid}}    auto&& RESULT = {{>callBaseApi}};
+    if (RESULT.has_value()) {
+        return {true, .returned_value = {{#set delegateToCall="safe_value"}}{{>ReturnConversion}}{{/set}}};
+    } else {
+        return {false, .error_code = RESULT.error().code().code()};
+    }{{!!
+}}{{/unless}}{{!!
+}}{{/if}}{{!!
+}}{{#unless error}}    return {{#set delegateToCall="callBaseApi"}}{{>ReturnConversion}}{{/set}};{{/unless}}
+{{/FunctionBody}}{{!!
+
+
+}}{{+ReturnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{include delegateToCall}}{{/case}}{{!!
+    }}{{#case "ENUM"}}static_cast<{{returnType.functionReturnType}}>({{include delegateToCall}}){{/case}}{{!!
+    }}{{#case "ARRAY"}}{new {{returnType.arrayBaseApi}}({{include delegateToCall}})}{{/case}}{{!!
+    }}{{#default}}{new {{returnType.name}}({{include delegateToCall}})}{{/default}}{{!!
+}}{{/switch}}{{/ReturnConversion}}{{!!
+
+
+}}{{+safe_value}}RESULT.safe_value(){{/safe_value}}{{!!
+
+
+}}{{+callBaseApi}}{{!!
+}}{{^selfParameter}}{{delegateCall}}{{/selfParameter}}{{#selfParameter}}get_pointer({{name}})->get()->{{functionName}}{{/selfParameter}}({{joinPartial parameters "delegateConversion" ", "}}){{!!
+}}{{/callBaseApi}}{{!!
+
+
+}}{{+delegateConversion}}{{#switch mappedType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}std::vector<uint8_t>({{name}}_ptr, {{name}}_ptr + {{name}}_size){{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}std::string({{name}}){{/case}}{{!!
     }}{{#case "STRUCT"}}*get_pointer({{name}}){{/case}}{{!!
@@ -7,14 +42,3 @@
     }}{{#case "ARRAY"}}*get_pointer({{name}}){{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{/delegateConversion}}
-{{+callBaseApi}}{{^selfParameter}}{{delegateCall}}{{/selfParameter}}{{#selfParameter}}get_pointer({{name}})->get()->{{functionName}}{{/selfParameter}}({{joinPartial parameters "delegateConversion" ", "}}){{/callBaseApi}}
-{{!Remove once APIGEN-701 is done and replace with direct callBaseApi}}
-{{+callBaseApiErrorHack}}{{#if hasError}}{{#isEq returnType.name "void"}}(void){{/isEq}}{{/if}}{{>callBaseApi}}{{#if hasError}}{{#isNotEq returnType.name "void"}}.get_result(){{/isNotEq}}{{/if}}{{/callBaseApiErrorHack}}
-{{>cbridge/FunctionSignature}} {
-{{#switch returnType.typeCategory.toString}}
-    {{#case "BUILTIN_SIMPLE"}}return {{>callBaseApiErrorHack}};{{/case}}{{!!
-    }}{{#case "ENUM"}}return static_cast<{{returnType.functionReturnType}}>({{>callBaseApiErrorHack}});{{/case}}{{!!
-    }}{{#case "ARRAY"}}return {new {{returnType.arrayBaseApi}}({{>callBaseApiErrorHack}})};{{/case}}{{!!
-    }}{{#default}}return {new {{returnType.name}}({{>callBaseApiErrorHack}})};{{/default}}
-{{/switch}}
-}

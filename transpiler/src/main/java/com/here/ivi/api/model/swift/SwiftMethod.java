@@ -23,9 +23,10 @@ public final class SwiftMethod extends SwiftModelElement {
   public final String cBaseName;
   public final List<SwiftGenericParameter> genericParameters = new LinkedList<>();
   public final boolean forceReturnValueUnwrapping;
+  public final SwiftEnum error;
 
   public SwiftMethod(final String name) {
-    this(name, null, null, false, null, false);
+    this(name, null, null, false, null, false, null);
   }
 
   @lombok.Builder(builderClassName = "Builder")
@@ -35,13 +36,19 @@ public final class SwiftMethod extends SwiftModelElement {
       final SwiftType returnType,
       final boolean isStatic,
       final String cBaseName,
-      final boolean forceReturnValueUnwrapping) {
+      final boolean forceReturnValueUnwrapping,
+      final SwiftEnum error) {
     super(name);
     this.comment = comment;
     this.returnType = returnType != null ? returnType : SwiftType.VOID;
     this.isStatic = isStatic;
     this.cBaseName = cBaseName;
     this.forceReturnValueUnwrapping = forceReturnValueUnwrapping;
+    this.error = error;
+  }
+
+  public boolean isReturningVoid() {
+    return returnType.equals(SwiftType.VOID);
   }
 
   @SuppressWarnings("unused")

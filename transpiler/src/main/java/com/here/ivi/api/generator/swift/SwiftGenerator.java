@@ -11,6 +11,8 @@
 
 package com.here.ivi.api.generator.swift;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
@@ -24,6 +26,7 @@ import org.franca.core.franca.FTypeCollection;
 public class SwiftGenerator {
 
   public final SwiftArrayGenerator arrayGenerator = new SwiftArrayGenerator();
+  public final Set<String> enumsAsErrors = new HashSet<>();
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
           GeneratorSuite.copyTarget("swift/RefHolder.swift", ""),
@@ -46,6 +49,16 @@ public class SwiftGenerator {
     }
   }
 
+  public GeneratedFile generateErrors() {
+    if (enumsAsErrors.isEmpty()) {
+      return null;
+    } else {
+      return new GeneratedFile(
+          TemplateEngine.render("swift/Errors", enumsAsErrors.stream().sorted().collect(toList())),
+          SwiftNameRules.TARGET_DIRECTORY + "ErrorsExtensions.swift");
+    }
+  }
+
   @VisibleForTesting
   SwiftFile buildSwiftModel(final FTypeCollection francaTypeCollection) {
     SwiftModelBuilder modelBuilder = new SwiftModelBuilder(deploymentModel);
@@ -53,6 +66,7 @@ public class SwiftGenerator {
 
     treeWalker.walkTree(francaTypeCollection);
     arrayGenerator.collect(modelBuilder.arraysCollector);
+    enumsAsErrors.addAll(modelBuilder.enumsAsErrors);
     return modelBuilder.getFinalResult(SwiftFile.class);
   }
 }

@@ -109,7 +109,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
+    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(
+        francaMethod, PlatformUnsupportedFeatures.JNI_LAYER)) {
       closeContext();
       return;
     }

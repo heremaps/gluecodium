@@ -88,6 +88,9 @@ public final class CBridgeComponents {
       includes.addAll(parameter.getSignatureIncludes());
     }
     includes.addAll(function.returnType.functionReturnType.includes);
+    if (function.error != null) {
+      includes.addAll(function.error.functionReturnType.includes);
+    }
     return includes;
   }
 

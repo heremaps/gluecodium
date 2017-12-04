@@ -90,8 +90,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
-    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(
-        francaMethod, PlatformUnsupportedFeatures.ANDROID_PLATFORM)) {
+    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
       closeContext();
       return;
     }
