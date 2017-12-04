@@ -6,6 +6,7 @@ import android.support.compat.BuildConfig;
 
 import com.here.android.RobolectricApplication;
 
+import com.here.android.hello.HelloWorldPlainDataStructures.NumericSyncResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -40,6 +41,20 @@ public final class HelloWorldPlainDataStructuresTest {
         assertEquals(input.syncResult.lastUpdatedTimeStamp, result.syncResult.lastUpdatedTimeStamp);
         assertEquals(input.syncResult.numberOfChanges + 1, result.syncResult.numberOfChanges);
         assertEquals(input.id, result.id);
+    }
+
+    @Test
+    public void methodWithInheritedStruct() {
+        NumericSyncResult input = new NumericSyncResult();
+        input.lastUpdatedTimeStamp = 10;
+        input.numberOfChanges = 100;
+        input.result = 1000;
+
+        NumericSyncResult result = HelloWorldPlainDataStructures.methodWithInheritedStruct(input);
+
+        assertEquals(10, result.lastUpdatedTimeStamp);
+        assertEquals(101, result.numberOfChanges);
+        assertEquals(1000, result.result);
     }
 
     @NonNull
