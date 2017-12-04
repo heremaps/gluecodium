@@ -19,22 +19,28 @@ import com.example.here.hello.R;
 import com.example.here.hello.utils.InputMethodHelper;
 import com.here.android.hello.HelloWorldPlainDataStructures;
 import com.here.android.hello.HelloWorldPlainDataStructures.IdentifiableSyncResult;
+import com.here.android.hello.HelloWorldPlainDataStructures.NumericSyncResult;
 import com.here.android.hello.HelloWorldPlainDataStructures.SyncResult;
 
 import java.util.Locale;
 
 public final class PlainOldDataFragment extends Fragment {
-    private static final String syncResultText = "SyncResult {%n"
+    private static final String SYNC_RESULT_TEXT = "SyncResult {%n"
             + "    long timeStamp = %d%n"
             + "    long numberOfUsages = %d%n"
             + "}";
-    private static final String idSyncResultText = "IdSyncResult {%n"
+    private static final String ID_SYNC_RESULT_TEXT = "IdSyncResult {%n"
             + "    int id = %d%n"
             + "    SyncResult {%n"
             + "        long timeStamp = %d%n"
             + "        long numberOfUsages = %d%n"
             + "    }%n"
             + "}";
+    private static final String NUMERIC_SYNC_RESULT_TEXT = "NumericSyncResult {%n"
+        + "    long timeStamp = %d%n"
+        + "    long numberOfUsages = %d%n"
+        + "    long result = %d%n"
+        + "}";
 
     private Button submitButton;
     private TextView result;
@@ -95,33 +101,46 @@ public final class PlainOldDataFragment extends Fragment {
     }
 
     private void executeBuiltinVariablesMethod(final int selectedItemPosition, final Long parameterValue) {
-        HelloWorldPlainDataStructures.SyncResult syncResult = new SyncResult();
+        SyncResult syncResult = new SyncResult();
         syncResult.lastUpdatedTimeStamp = 42L;
         syncResult.numberOfChanges = parameterValue;
 
         switch (selectedItemPosition) {
             case 0:
-                HelloWorldPlainDataStructures.SyncResult outputSyncResult = HelloWorldPlainDataStructures
-                        .methodWithNonNestedType(syncResult);
+                SyncResult outputSyncResult = HelloWorldPlainDataStructures.methodWithNonNestedType(syncResult);
 
-                result.setText(String.format(Locale.getDefault(), syncResultText,
+                result.setText(String.format(Locale.getDefault(), SYNC_RESULT_TEXT,
                         outputSyncResult.lastUpdatedTimeStamp,
                         outputSyncResult.numberOfChanges));
                 break;
             case 1:
-                HelloWorldPlainDataStructures.IdentifiableSyncResult identifiableSyncResult = new
-                        IdentifiableSyncResult();
+                IdentifiableSyncResult identifiableSyncResult = new IdentifiableSyncResult();
                 identifiableSyncResult.id = 99;
                 identifiableSyncResult.syncResult = syncResult;
 
-                HelloWorldPlainDataStructures.IdentifiableSyncResult outputIdentifiableSyncResult =
+                IdentifiableSyncResult outputIdentifiableSyncResult =
                         HelloWorldPlainDataStructures.methodWithNestedType(identifiableSyncResult);
 
-                String resultText = String.format(Locale.getDefault(), idSyncResultText,
+                String resultText = String.format(Locale.getDefault(), ID_SYNC_RESULT_TEXT,
                         outputIdentifiableSyncResult.id,
                         outputIdentifiableSyncResult.syncResult.lastUpdatedTimeStamp,
                         outputIdentifiableSyncResult.syncResult.numberOfChanges);
                 result.setText(resultText);
+                break;
+            case 2:
+                NumericSyncResult numericSyncResult = new NumericSyncResult();
+                numericSyncResult.lastUpdatedTimeStamp = 42L;
+                numericSyncResult.numberOfChanges = parameterValue;
+                numericSyncResult.result = 99;
+
+                NumericSyncResult outputNumericSyncResult =
+                    HelloWorldPlainDataStructures.methodWithInheritedStruct(numericSyncResult);
+
+                String numericSyncResultText = String.format(Locale.getDefault(), NUMERIC_SYNC_RESULT_TEXT,
+                    outputNumericSyncResult.lastUpdatedTimeStamp,
+                    outputNumericSyncResult.numberOfChanges,
+                    outputNumericSyncResult.result);
+                result.setText(numericSyncResultText);
                 break;
         }
     }
