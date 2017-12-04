@@ -297,7 +297,7 @@ elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     include(apigen/Android)
     apigen_java_compile(hello)
     apigen_java_jar(hello)
-    apigen_android_archive(hello)
+    apigen_android_archive(TARGET hello)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
     # Swift customers want a module...
     include(apigen/iOS)
