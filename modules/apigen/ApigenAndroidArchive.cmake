@@ -48,7 +48,7 @@ function(apigen_android_archive target)
 
         add_custom_command(TARGET ${target} POST_BUILD
             COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR}
-            COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE_NAME:${target}> ${APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR}
+            COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${target}> ${APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR}
             COMMAND ${CMAKE_COMMAND} ARGS -E copy ${APIGEN_JAVA_JAR} ${APIGEN_ANDROID_ARCHIVE_CLASSES_JAR}
             COMMAND ${CMAKE_COMMAND} ARGS -E copy ${APIGEN_ANDROID_ARCHIVE_MANIFEST_XML} ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/
             COMMENT "Assembling Android Archive contents...")
