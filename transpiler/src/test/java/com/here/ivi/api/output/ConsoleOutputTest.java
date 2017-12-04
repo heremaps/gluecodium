@@ -18,13 +18,10 @@ import java.io.IOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
-import org.junit.rules.ExpectedException;
 
-public class ConsoleOutputTest {
+public final class ConsoleOutputTest {
 
   @Rule public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
-
-  @Rule public final ExpectedException exception = ExpectedException.none();
 
   private static final String EXPECTED =
       String.format(

@@ -24,13 +24,11 @@ import java.nio.file.Paths;
 import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
-public class FileOutputTest {
-  @Rule public TemporaryFolder testFolder = new TemporaryFolder();
+public final class FileOutputTest {
 
-  @Rule public final ExpectedException exception = ExpectedException.none();
+  @Rule public TemporaryFolder testFolder = new TemporaryFolder();
 
   @Test
   public void testFileOutput() throws IOException {

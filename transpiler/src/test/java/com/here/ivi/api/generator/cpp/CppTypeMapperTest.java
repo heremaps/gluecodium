@@ -23,18 +23,14 @@ import java.util.List;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
-public class CppTypeMapperTest {
-
-  @Rule public ExpectedException exception = ExpectedException.none();
+public final class CppTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
 

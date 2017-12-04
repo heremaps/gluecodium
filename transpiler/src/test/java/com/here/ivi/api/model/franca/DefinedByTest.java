@@ -19,18 +19,14 @@ import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FQualifiedElementRef;
 import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 
 @SuppressWarnings("MethodName")
 @RunWith(JUnit4.class)
-public class DefinedByTest {
-
-  @Rule public final ExpectedException expectedException = ExpectedException.none();
+public final class DefinedByTest {
 
   @Mock private FModelElement francaModelElement;
   @Mock private FQualifiedElementRef francaQualifiedElementRef;
