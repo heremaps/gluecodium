@@ -24,9 +24,7 @@ import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -34,14 +32,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({JniNameRules.class, TemplateEngine.class})
-public class JniGeneratorTest {
+public final class JniGeneratorTest {
 
   private static final int MAIN_FILES_COUNT = 2;
   private static final int MAIN_FILES_WITH_INSTANCES_COUNT = 9;
   private static final String PROXY_HEADER_NAME = "ProxyHeader";
   private static final String PROXY_IMPLEMENTATION_NAME = "ProxyImplementation";
-
-  @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   private final JniContainer jniContainer =
       JniContainer.createInterfaceContainer(
