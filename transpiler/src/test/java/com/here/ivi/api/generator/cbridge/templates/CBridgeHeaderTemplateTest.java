@@ -18,6 +18,7 @@ import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.model.cmodel.*;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.test.TemplateComparator;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.Arrays;
 import java.util.Collections;
@@ -200,5 +201,46 @@ public class CBridgeHeaderTemplateTest {
 
     final String generated = this.generate(cOuterInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
+  }
+
+  @Test
+  public void functionReturningOnlyError() {
+    CppTypeInfo error = new CppTypeInfo(new CType("ERROR"), CppTypeInfo.TypeCategory.ENUM);
+    CFunction function = CFunction.builder("functionName").error(error).build();
+    CInterface cInterface = new CInterface("");
+    cInterface.functions.add(function);
+
+    TemplateComparator expected = TemplateComparator.expect("ERROR functionName();\n").build();
+    final String generated = this.generate(cInterface);
+
+    expected.assertMatches(generated);
+  }
+
+  @Test
+  public void functionReturningValueAndError() {
+    CppTypeInfo error = new CppTypeInfo(new CType("ERROR"), CppTypeInfo.TypeCategory.ENUM);
+    CFunction function =
+        CFunction.builder("functionName")
+            .error(error)
+            .returnType(new CppTypeInfo(CType.FLOAT))
+            .build();
+    CInterface cInterface = new CInterface("");
+    cInterface.functions.add(function);
+
+    final String generated = this.generate(cInterface);
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "typedef struct {\n"
+                    + "    bool has_value;\n"
+                    + "    union {\n"
+                    + "        ERROR error_code;\n"
+                    + "        float returned_value;\n"
+                    + "    };\n"
+                    + "} functionName_result;\n")
+            .expect("functionName_result functionName();\n")
+            .build();
+
+    expected.assertMatches(generated);
   }
 }

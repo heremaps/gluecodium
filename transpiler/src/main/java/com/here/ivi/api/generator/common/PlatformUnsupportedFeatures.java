@@ -21,21 +21,21 @@ import org.franca.core.franca.*;
  */
 public final class PlatformUnsupportedFeatures {
 
-  public static final String SWIFT_PLATFORM = "swift";
-  public static final String ANDROID_PLATFORM = "android";
+  // TODO remove these constants when APIGEN-703 is done
+  public static final String JNI_LAYER = "JNI_LAYER";
+  public static final String OTHER_LAYER = "OTHER_LAYER";
 
   // TODO: remove when APIGEN-735 and APIGEN-729 are implemented
   public static boolean hasUnsupportedParameters(final FMethod francaMethod) {
-    return hasUnsupportedParameters(francaMethod, SWIFT_PLATFORM);
+    return hasUnsupportedParameters(francaMethod, OTHER_LAYER);
   }
 
-  public static boolean hasUnsupportedParameters(
-      final FMethod francaMethod, final String platform) {
+  public static boolean hasUnsupportedParameters(final FMethod francaMethod, final String layer) {
     EList<FArgument> outArgs = francaMethod.getOutArgs();
     return hasUnsupportedElements(francaMethod.getInArgs())
         || hasUnsupportedElements(outArgs)
-        // TODO: remove line below when APIGEN-702 is done
-        || (!ANDROID_PLATFORM.equals(platform) && FrancaTypeHelper.hasErrorType(francaMethod))
+        // TODO remove line below when APIGEN-703 is done
+        || (!OTHER_LAYER.equals(layer) && FrancaTypeHelper.hasErrorType(francaMethod))
         || (outArgs != null && outArgs.size() > 1);
   }
 
