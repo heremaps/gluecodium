@@ -199,6 +199,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
       storeResult(
           new JniEnum.Builder(javaEnum.name, cppEnum.name)
+              .javaPackage(javaEnum.javaPackage)
               .enumerators(getPreviousResults(JniEnumerator.class))
               .build());
     } else {
@@ -234,13 +235,15 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
 
-    JniStruct jniStruct = getPreviousResult(JniStruct.class);
-    List<String> structsPackage =
-        jniStruct != null ? jniStruct.javaClass.javaPackage.packageNames : Collections.emptyList();
+    JniTopLevelElement jniTopLevelElement = getPreviousResult(JniTopLevelElement.class);
+    List<String> packageNames =
+        jniTopLevelElement != null
+            ? jniTopLevelElement.javaPackage.packageNames
+            : Collections.emptyList();
     List<String> cppNameSpace = CppNameRules.getNestedNameSpecifier(francaTypeCollection);
 
     JniContainer jniContainer =
-        JniContainer.createTypeCollectionContainer(structsPackage, cppNameSpace);
+        JniContainer.createTypeCollectionContainer(packageNames, cppNameSpace);
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
         .forEach(jniContainer::add);
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniEnum.class)

@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.jni.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.javamodel.JavaClass;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniStruct;
 import java.util.Arrays;
@@ -29,11 +30,13 @@ public final class JavaClassSignaturePrefixTest {
 
   private static final List<String> PACKAGE_NAMES = Arrays.asList("from", "a", "fancypackage");
 
+  private final JavaClass javaClass = new JavaClass("Foo");
+
   @Test
   public void generateFromInterface() {
     JniContainer container =
         JniContainer.createInterfaceContainer(PACKAGE_NAMES, null, "MyClass", null);
-    JniStruct jniStruct = new JniStruct(container, null, null, null);
+    JniStruct jniStruct = new JniStruct(container, javaClass, null, null);
 
     String generated = TemplateEngine.render(TEMPLATE_NAME, jniStruct);
 
@@ -44,7 +47,7 @@ public final class JavaClassSignaturePrefixTest {
   public void generateFromInstantiableInterface() {
     JniContainer container =
         JniContainer.createInterfaceContainer(PACKAGE_NAMES, null, null, "FooImpl", null);
-    JniStruct jniStruct = new JniStruct(container, null, null, null);
+    JniStruct jniStruct = new JniStruct(container, javaClass, null, null);
 
     String generated = TemplateEngine.render(TEMPLATE_NAME, jniStruct);
 
@@ -54,7 +57,7 @@ public final class JavaClassSignaturePrefixTest {
   @Test
   public void generateFromTypeCollection() {
     JniContainer container = JniContainer.createTypeCollectionContainer(PACKAGE_NAMES, null);
-    JniStruct jniStruct = new JniStruct(container, null, null, null);
+    JniStruct jniStruct = new JniStruct(container, javaClass, null, null);
 
     String generated = TemplateEngine.render(TEMPLATE_NAME, jniStruct);
 
