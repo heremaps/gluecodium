@@ -52,7 +52,10 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
         ModelBuilder::finishBuilding,
         FrancaTreeWalker::walkChildNodes);
     initTreeNode(
-        FTypeCollection.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+        FTypeCollection.class,
+        ModelBuilder::startBuilding,
+        ModelBuilder::finishBuilding,
+        FrancaTreeWalker::walkChildNodes);
     initTreeNode(FMethod.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(FAttribute.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(
@@ -140,6 +143,7 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
   private void walkChildNodes(FMethod francaMethod) {
     walkCollection(IN_ARG_KEY, francaMethod.getInArgs());
     walkCollection(OUT_ARG_KEY, francaMethod.getOutArgs());
+    walk(francaMethod.getErrorEnum());
   }
 
   private void walkChildNodes(FStructType francaStructType) {

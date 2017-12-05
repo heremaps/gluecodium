@@ -186,6 +186,17 @@ public class FrancaTreeWalkerTest {
   }
 
   @Test
+  public void walkWithErrorEnum() {
+    types.remove(francaEnumerationType);
+    when(francaMethod.getErrorEnum()).thenReturn(francaEnumerationType);
+
+    treeWalker.walkTree(francaInterface);
+
+    verify(modelBuilder).startBuilding(francaEnumerationType);
+    verify(modelBuilder).finishBuilding(francaEnumerationType);
+  }
+
+  @Test
   public void walkWithOneConstant() {
     treeWalker.walkTree(francaInterface);
 

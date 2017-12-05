@@ -22,6 +22,8 @@ public interface ModelBuilder {
 
   void startBuilding(FInterface francaInterface);
 
+  void startBuilding(FTypeCollection francaTypeCollection);
+
   void startBuildingInputArgument(FArgument francaArgument);
 
   void startBuildingOutputArgument(FArgument francaArgument);

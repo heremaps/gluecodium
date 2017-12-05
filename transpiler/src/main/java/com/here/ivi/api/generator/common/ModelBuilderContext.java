@@ -19,6 +19,8 @@ import java.util.List;
  * fields should be added if more data is needed in the future.
  */
 public final class ModelBuilderContext<E> {
+
   public final List<E> previousResults = new ArrayList<>();
   public final List<E> currentResults = new ArrayList<>();
+  public boolean allowsTypeDefinitions;
 }

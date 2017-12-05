@@ -176,19 +176,16 @@ public class JavaTypeMapper {
   }
 
   public JavaExceptionClass mapErrorClass(final FEnumerationType errorFType) {
-    String exceptionName = getExceptionName(errorFType);
-    JavaPackage exceptionPackage = getExceptionPackage(errorFType);
+    String enumName = JavaNameRules.getClassName(errorFType.getName());
+    String exceptionName = JavaNameRules.getExceptionName(enumName);
+
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(errorFType);
+    JavaPackage exceptionPackage =
+        basePackage.createChildPackage(DefinedBy.getPackages(typeCollection));
+
     JavaType enumTypeRef = mapCustomType(errorFType);
 
     return new JavaExceptionClass(exceptionName, (JavaEnumType) enumTypeRef, exceptionPackage);
-  }
-
-  public JavaCustomType mapErrorTypeRef(final FEnumerationType errorFType) {
-
-    String exceptionName = getExceptionName(errorFType);
-    JavaPackage exceptionPackage = getExceptionPackage(errorFType);
-
-    return new JavaCustomType(exceptionName, exceptionPackage);
   }
 
   public JavaType mapCustomType(final FType fType) {
@@ -251,15 +248,5 @@ public class JavaTypeMapper {
     } else {
       return map(typeDef.getActualType());
     }
-  }
-
-  private JavaPackage getExceptionPackage(final FEnumerationType errorFType) {
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(errorFType);
-    return basePackage.createChildPackage(DefinedBy.getPackages(typeCollection));
-  }
-
-  private String getExceptionName(final FEnumerationType errorFType) {
-    String enumName = JavaNameRules.getClassName(errorFType.getName());
-    return JavaNameRules.getExceptionName(enumName);
   }
 }

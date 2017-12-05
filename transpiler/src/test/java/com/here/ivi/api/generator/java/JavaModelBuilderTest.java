@@ -76,14 +76,16 @@ public class JavaModelBuilderTest {
 
   private final EList<FArgument> arguments = new ArrayEList<>();
 
-  private final JavaType javaCustomType = new JavaCustomType("typical");
+  private final JavaCustomType javaCustomType = new JavaCustomType("typical");
   private final JavaTemplateType javaTemplateType =
       JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
   private final JavaField javaField = new JavaField(javaCustomType, FIELD_NAME);
   private final JavaEnum javaEnum = new JavaEnum(ENUMERATION_NAME);
+  private final EList<FEnumerator> francaEnumerators = new ArrayEList<>();
+  private final JavaExceptionClass javaExceptionClass =
+      new JavaExceptionClass("FooException", null, JavaPackage.DEFAULT);
 
   private JavaModelBuilder modelBuilder;
-  private final EList<FEnumerator> francaEnumerators = new ArrayEList<>();
 
   @Before
   public void setUp() {
@@ -196,6 +198,18 @@ public class JavaModelBuilderTest {
     assertNotNull(javaMethod);
     assertFalse(javaMethod.parameters.isEmpty());
     assertEquals(javaParameter, javaMethod.parameters.get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsExceptionTypeRef() {
+    contextStack.injectResult(javaExceptionClass);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertEquals(javaExceptionClass.name, javaMethod.exception.name);
+    assertEquals(javaExceptionClass.javaPackage.packageNames, javaMethod.exception.packageNames);
   }
 
   @Test
@@ -454,6 +468,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationType() {
+    contextStack.getParentContext().allowsTypeDefinitions = true;
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
@@ -467,6 +482,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsEnumItems() {
+    contextStack.getParentContext().allowsTypeDefinitions = true;
     JavaEnumItem javaEnumItem = new JavaEnumItem("enumerated");
     contextStack.injectResult(javaEnumItem);
     contextStack.injectResult(javaEnumItem);
@@ -482,6 +498,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeCallsCompletePartialEnumeratorValues() {
+    contextStack.getParentContext().allowsTypeDefinitions = true;
 
     PowerMockito.doNothing().when(JavaValueMapper.class);
     JavaValueMapper.completePartialEnumeratorValues(any());
@@ -490,6 +507,34 @@ public class JavaModelBuilderTest {
 
     verifyStatic();
     JavaValueMapper.completePartialEnumeratorValues(any());
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeCreatesTypeRef() {
+    contextStack.getParentContext().allowsTypeDefinitions = false;
+    when(typeMapper.mapErrorClass(any())).thenReturn(javaExceptionClass);
+    when(typeMapper.mapCustomType(any())).thenReturn(javaCustomType);
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    JavaCustomType resultTypeRef = modelBuilder.getFinalResult(JavaCustomType.class);
+    assertEquals(javaCustomType, resultTypeRef);
+
+    verify(typeMapper).mapCustomType(francaEnumerationType);
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeCreatesExceptionClass() {
+    contextStack.getParentContext().allowsTypeDefinitions = false;
+    when(typeMapper.mapErrorClass(any())).thenReturn(javaExceptionClass);
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    JavaExceptionClass resultException = modelBuilder.getFinalResult(JavaExceptionClass.class);
+    assertEquals(javaExceptionClass, resultException);
+    assertTrue(modelBuilder.exceptionClasses.containsValue(javaExceptionClass));
+
+    verify(typeMapper).mapErrorClass(francaEnumerationType);
   }
 
   @Test

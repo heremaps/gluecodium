@@ -93,35 +93,4 @@ public class JavaTypeMapperMapErrorTest {
     assertEquals("fInterfaceJavaName", imports.get(0).className);
     assertEquals(TEST_JAVA_PACKAGE, imports.get(0).javaPackage);
   }
-
-  @Test
-  public void mapErrorTypeRefForTypeCollection() {
-    when(DefinedBy.findDefiningTypeCollection(fEnumerationType)).thenReturn(fTypeCollection);
-    when(JavaNameRules.getClassName(fEnumerationType.getName())).thenReturn("EnumJavaName");
-
-    JavaType result = typeMapper.mapErrorTypeRef(fEnumerationType);
-
-    assertNotNull(result);
-    assertEquals("EnumJavaNameException", result.name);
-    assertEquals(1, result.imports.size());
-    List<JavaImport> imports = new ArrayList<>(result.imports);
-    assertEquals("EnumJavaNameException", imports.get(0).className);
-    assertEquals(TEST_JAVA_PACKAGE, imports.get(0).javaPackage);
-  }
-
-  @Test
-  public void mapErrorTypeRefForFInterface() {
-    when(DefinedBy.findDefiningTypeCollection(fEnumerationType)).thenReturn(fInterface);
-    when(JavaNameRules.getClassName(fEnumerationType.getName())).thenReturn("EnumJavaName");
-    when(JavaNameRules.getClassName(fInterface.getName())).thenReturn("fInterfaceJavaName");
-
-    JavaType result = typeMapper.mapErrorTypeRef(fEnumerationType);
-
-    assertNotNull(result);
-    assertEquals("EnumJavaNameException", result.name);
-    assertEquals(1, result.imports.size());
-    List<JavaImport> imports = new ArrayList<>(result.imports);
-    assertEquals("EnumJavaNameException", imports.get(0).className);
-    assertEquals(TEST_JAVA_PACKAGE, imports.get(0).javaPackage);
-  }
 }
