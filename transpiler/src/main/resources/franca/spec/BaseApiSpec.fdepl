@@ -24,3 +24,9 @@ specification navigation.BaseApiSpec
         IsSet: Boolean (optional, default: false);
     }
 }
+
+specification Defaults {
+    for struct_fields {
+        DefaultValue: String (optional);
+    }
+}
