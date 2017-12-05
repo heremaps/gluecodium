@@ -59,6 +59,18 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   }
 
   @Override
+  public void startBuilding(FInterface francaInterface) {
+    openContext();
+    getCurrentContext().allowsTypeDefinitions = true;
+  }
+
+  @Override
+  public void startBuilding(FTypeCollection francaTypeCollection) {
+    openContext();
+    getCurrentContext().allowsTypeDefinitions = true;
+  }
+
+  @Override
   public void finishBuilding(FInterface francaInterface) {
 
     if (deploymentModel.isInterface(francaInterface)) {
@@ -115,17 +127,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       returnType = JavaPrimitiveType.VOID;
     }
 
-    FEnumerationType fErrorEnumType = francaMethod.getErrorEnum();
-    JavaCustomType javaException = null;
-    if (fErrorEnumType != null) {
-      javaException = typeMapper.mapErrorTypeRef(fErrorEnumType);
-
-      JavaExceptionClass javaExceptionClass = typeMapper.mapErrorClass(fErrorEnumType);
-      String mapKey = javaExceptionClass.javaPackage.packageNames + "." + javaExceptionClass.name;
-      exceptionClasses.put(mapKey, javaExceptionClass);
+    JavaCustomType javaExceptionTypeRef = null;
+    JavaExceptionClass javaException = getPreviousResult(JavaExceptionClass.class);
+    if (javaException != null) {
+      javaExceptionTypeRef = new JavaCustomType(javaException.name, javaException.javaPackage);
     }
-
-    JavaMethod javaMethod = new JavaMethod(javaMethodName, returnType, javaException);
+    JavaMethod javaMethod = new JavaMethod(javaMethodName, returnType, javaExceptionTypeRef);
     javaMethod.comment = CppCommentParser.FORMATTER.readDescription(francaMethod.getComment());
 
     if (deploymentModel.isStatic(francaMethod)) {
@@ -238,16 +245,27 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FEnumerationType francaEnumType) {
-    String enumName = JavaNameRules.getClassName(francaEnumType.getName());
 
-    JavaEnum javaEnum = new JavaEnum(enumName);
-    javaEnum.visibility = JavaVisibility.PUBLIC;
-    javaEnum.javaPackage = rootPackage;
-    javaEnum.comment = getCommentString(francaEnumType);
-    javaEnum.items.addAll(getPreviousResults(JavaEnumItem.class));
-    JavaValueMapper.completePartialEnumeratorValues(javaEnum.items);
+    if (getParentContext().allowsTypeDefinitions) {
+      String enumName = JavaNameRules.getClassName(francaEnumType.getName());
 
-    storeResult(javaEnum);
+      JavaEnum javaEnum = new JavaEnum(enumName);
+      javaEnum.visibility = JavaVisibility.PUBLIC;
+      javaEnum.javaPackage = rootPackage;
+      javaEnum.comment = getCommentString(francaEnumType);
+      javaEnum.items.addAll(getPreviousResults(JavaEnumItem.class));
+      JavaValueMapper.completePartialEnumeratorValues(javaEnum.items);
+
+      storeResult(javaEnum);
+    } else {
+      JavaExceptionClass javaExceptionClass = typeMapper.mapErrorClass(francaEnumType);
+      String mapKey = javaExceptionClass.javaPackage.packageNames + "." + javaExceptionClass.name;
+      exceptionClasses.put(mapKey, javaExceptionClass);
+      storeResult(javaExceptionClass);
+
+      storeResult(typeMapper.mapCustomType(francaEnumType));
+    }
+
     closeContext();
   }
 

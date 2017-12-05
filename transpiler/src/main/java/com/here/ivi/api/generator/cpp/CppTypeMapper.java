@@ -145,7 +145,7 @@ public class CppTypeMapper {
         .build();
   }
 
-  public CppComplexTypeRef mapEnum(FEnumerationType enumeration) {
+  public CppTypeRef mapEnum(FEnumerationType enumeration) {
 
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(enumeration);
 

@@ -254,19 +254,8 @@ public class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaMethodMapsErrorEnum() {
-    when(francaMethod.getErrorEnum()).thenReturn(francaEnumerationType);
-
-    modelBuilder.finishBuilding(francaMethod);
-
-    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
-    assertNotNull(resultMethod);
-    assertEquals(CppTypeMapper.HF_ERROR_TYPE, resultMethod.returnType);
-  }
-
-  @Test
   public void finishBuildingFrancaMethodMapsErrorType() {
-    when(francaMethod.getErrors()).thenReturn(francaEnumerationType);
+    contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -551,6 +540,8 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsName() {
+    contextStack.getParentContext().allowsTypeDefinitions = true;
+
     modelBuilder.finishBuilding(francaEnumerationType);
 
     CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
@@ -560,6 +551,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsEnumItems() {
+    contextStack.getParentContext().allowsTypeDefinitions = true;
     CppEnumItem cppEnumItem = new CppEnumItem("enumerated");
     contextStack.injectResult(cppEnumItem);
 
@@ -569,6 +561,19 @@ public class CppModelBuilderTest {
     assertNotNull(resultEnum);
     assertFalse(resultEnum.items.isEmpty());
     assertEquals(cppEnumItem, resultEnum.items.get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeCreatesTypeRef() {
+    contextStack.getParentContext().allowsTypeDefinitions = false;
+    when(typeMapper.mapEnum(any())).thenReturn(cppComplexTypeRef);
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    CppComplexTypeRef resultTypeRef = modelBuilder.getFinalResult(CppComplexTypeRef.class);
+    assertEquals(cppComplexTypeRef, resultTypeRef);
+
+    verify(typeMapper).mapEnum(francaEnumerationType);
   }
 
   @Test

@@ -38,6 +38,11 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
+  public void startBuilding(FTypeCollection francaTypeCollection) {
+    openContext();
+  }
+
+  @Override
   public void startBuildingInputArgument(FArgument francaArgument) {
     openContext();
   }
