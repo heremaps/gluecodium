@@ -260,6 +260,11 @@ feature(Errors cpp android swift SOURCES
     fidl/test/Errors2.fidl
 )
 
+feature(Defaults SOURCES
+    fidl/hello/HelloWorldDefaults.fidl
+    fidl/hello/HelloWorldDefaults.fdepl
+)
+
 feature(Unsupported cpp android swift SOURCES
     fidl/hello/UnsupportedFeatures.fidl
 )
