@@ -62,16 +62,33 @@ public class FrancaDeploymentModel {
     return getBoolean(francaArray, "Set");
   }
 
+  public String getDefaultValue(final FField francaField) {
+    return getString(francaField, "DefaultValue");
+  }
+
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
 
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaModelElement);
-    MappingGenericPropertyAccessor propertyAccessor =
-        propertyAccessors.get(buildKey(typeCollection));
-    if (propertyAccessor != null) {
-      Boolean boolValue = propertyAccessor.getBoolean(francaModelElement, valueName);
-      return boolValue != null && boolValue;
+    MappingGenericPropertyAccessor propertyAccessor = getPropertyAccessor(francaModelElement);
+    if (propertyAccessor == null) {
+      return false;
     }
-    return false;
+
+    Boolean boolValue = propertyAccessor.getBoolean(francaModelElement, valueName);
+    return boolValue != null && boolValue;
+  }
+
+  private String getString(final FModelElement francaModelElement, final String valueName) {
+
+    MappingGenericPropertyAccessor propertyAccessor = getPropertyAccessor(francaModelElement);
+    return propertyAccessor != null
+        ? propertyAccessor.getString(francaModelElement, valueName)
+        : null;
+  }
+
+  private MappingGenericPropertyAccessor getPropertyAccessor(
+      final FModelElement francaModelElement) {
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaModelElement);
+    return propertyAccessors.get(buildKey(typeCollection));
   }
 
   private static String buildKey(final FTypeCollection francaTypeCollection) {
