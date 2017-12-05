@@ -15,9 +15,7 @@ import com.here.ivi.api.model.cppmodel.CppStruct;
 import com.here.ivi.api.model.javamodel.JavaClass;
 import java.util.List;
 
-public class JniStruct implements JniElement {
-
-  public JniContainer owningContainer;
+public class JniStruct extends JniTopLevelElement {
 
   public final JavaClass javaClass;
   public final CppStruct cppStruct;
@@ -28,6 +26,7 @@ public class JniStruct implements JniElement {
       final JavaClass javaClass,
       final CppStruct cppStruct,
       final List<JniField> fields) {
+    super(javaClass.javaPackage);
     this.owningContainer = owningContainer;
     this.javaClass = javaClass;
     this.cppStruct = cppStruct;

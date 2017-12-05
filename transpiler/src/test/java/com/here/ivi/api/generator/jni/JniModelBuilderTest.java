@@ -444,6 +444,7 @@ public class JniModelBuilderTest {
     assertNotNull(jniStruct);
     assertEquals(javaClass, jniStruct.javaClass);
     assertEquals(cppStruct, jniStruct.cppStruct);
+    assertEquals(javaClass.javaPackage, jniStruct.javaPackage);
   }
 
   @Test
@@ -454,7 +455,7 @@ public class JniModelBuilderTest {
             new CppField(cppCustomType, BASE_NAME_PARAMETER),
             null);
     contextStack.injectResult(jniField);
-    when(javaBuilder.getFinalResult(any())).thenReturn(null);
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFinalResult(any())).thenReturn(null);
 
     modelBuilder.finishBuilding(francaStructType);
@@ -473,7 +474,7 @@ public class JniModelBuilderTest {
             new CppField(cppCustomType, "ancient_nonsense"),
             null);
     JniStruct jniParentStruct =
-        new JniStruct(null, null, Collections.singletonList(jniParentField));
+        new JniStruct(javaClass, null, Collections.singletonList(jniParentField));
     contextStack.injectResult(jniParentStruct);
     JniField jniField =
         new JniField(
@@ -481,7 +482,7 @@ public class JniModelBuilderTest {
             new CppField(cppCustomType, BASE_NAME_PARAMETER),
             null);
     contextStack.injectResult(jniField);
-    when(javaBuilder.getFinalResult(any())).thenReturn(null);
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFinalResult(any())).thenReturn(null);
 
     modelBuilder.finishBuilding(francaStructType);
@@ -695,7 +696,10 @@ public class JniModelBuilderTest {
 
     // arrange
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
-    JniEnum jniEnum = new JniEnum.Builder("MyJavaEnumName", "MyCppEnumName").build();
+    JniEnum jniEnum =
+        new JniEnum.Builder("MyJavaEnumName", "MyCppEnumName")
+            .javaPackage(JavaPackage.DEFAULT)
+            .build();
     contextStack.injectResult(jniEnum);
 
     // act
