@@ -446,9 +446,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeReadsInheritance() {
-    FStructType anotherFrancaStruct = mock(FStructType.class);
-    when(francaStructType.getBase()).thenReturn(anotherFrancaStruct);
-    when(typeMapper.mapStruct(any())).thenReturn(cppComplexTypeRef);
+    contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaStructType);
 
@@ -459,8 +457,18 @@ public class CppModelBuilderTest {
     CppInheritance cppInheritance = resultStruct.inheritances.iterator().next();
     assertEquals(cppComplexTypeRef, cppInheritance.parent);
     assertEquals(CppInheritance.Type.Public, cppInheritance.visibility);
+  }
 
-    verify(typeMapper).mapStruct(anotherFrancaStruct);
+  @Test
+  public void finishBuildingFrancaStructTypeCreatesTypeRef() {
+    when(typeMapper.mapStruct(any())).thenReturn(cppComplexTypeRef);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    CppComplexTypeRef resultTypeRef = modelBuilder.getFinalResult(CppComplexTypeRef.class);
+    assertEquals(cppComplexTypeRef, resultTypeRef);
+
+    verify(typeMapper).mapStruct(francaStructType);
   }
 
   @Test
