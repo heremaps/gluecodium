@@ -171,13 +171,17 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FStructType francaStructType) {
 
+    // Type definition
     CppStruct cppStruct = buildCompoundType(francaStructType, false);
-    if (francaStructType.getBase() != null) {
-      CppTypeRef parentTypeRef = typeMapper.mapStruct(francaStructType.getBase());
+    CppTypeRef parentTypeRef = getPreviousResult(CppTypeRef.class);
+    if (parentTypeRef != null) {
       cppStruct.inheritances.add(new CppInheritance(parentTypeRef, CppInheritance.Type.Public));
     }
-
     storeResult(cppStruct);
+
+    // Type reference
+    storeResult(typeMapper.mapStruct(francaStructType));
+
     closeContext();
   }
 

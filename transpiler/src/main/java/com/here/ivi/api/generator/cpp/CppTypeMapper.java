@@ -135,7 +135,7 @@ public class CppTypeMapper {
     }
   }
 
-  public CppComplexTypeRef mapStruct(FStructType struct) {
+  public CppTypeRef mapStruct(FStructType struct) {
 
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(struct);
 

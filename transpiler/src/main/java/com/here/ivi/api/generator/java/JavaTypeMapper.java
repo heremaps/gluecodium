@@ -188,7 +188,7 @@ public class JavaTypeMapper {
     return new JavaExceptionClass(exceptionName, (JavaEnumType) enumTypeRef, exceptionPackage);
   }
 
-  public JavaType mapCustomType(final FType fType) {
+  public JavaCustomType mapCustomType(final FType fType) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(fType);
     List<String> packageNames =
