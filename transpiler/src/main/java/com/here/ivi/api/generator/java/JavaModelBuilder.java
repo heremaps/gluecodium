@@ -200,16 +200,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FField francaField) {
 
     JavaType javaType = getPreviousResult(JavaType.class);
-    JavaValue initialValue;
-    if (javaType instanceof JavaTemplateType) {
-      initialValue = new JavaValue(((JavaTemplateType) javaType).implementationType);
-    } else if (javaType instanceof JavaEnumType) {
-      initialValue = ((JavaEnumType) javaType).initializer;
-    } else if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isNullable) {
-      initialValue = new JavaValue(javaType);
-    } else {
-      initialValue = null;
-    }
+    String defaultValue = deploymentModel.getDefaultValue(francaField);
+    JavaValue initialValue =
+        defaultValue != null
+            ? JavaValueMapper.mapDefaultValue(javaType, defaultValue)
+            : JavaValueMapper.mapDefaultValue(javaType);
 
     String fieldName = JavaNameRules.getFieldName(francaField.getName());
     JavaField javaField = new JavaField(javaType, fieldName, initialValue);

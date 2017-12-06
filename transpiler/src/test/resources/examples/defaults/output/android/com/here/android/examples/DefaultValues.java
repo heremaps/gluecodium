@@ -29,7 +29,7 @@ public class DefaultValues extends NativeBase {
         public float floatField = 3.14;
         public boolean boolField = true;
         public String stringField = "some string";
-        public DefaultValues.SomeEnum enumField = SomeEnum.BAR_VALUE;
+        public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
     }
     protected DefaultValues(final long nativeHandle) {
         super(nativeHandle, new Disposer() {

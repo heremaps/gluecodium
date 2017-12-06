@@ -12,10 +12,17 @@
 package com.here.ivi.api.generator.java;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaEnumItem;
+import com.here.ivi.api.model.javamodel.JavaEnumType;
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
+import com.here.ivi.api.model.javamodel.JavaReferenceType;
+import com.here.ivi.api.model.javamodel.JavaTemplateType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
@@ -122,5 +129,70 @@ public class JavaValueMapperTest {
     JavaValue result = JavaValueMapper.createEnumInitializerValue("myEnumType", fEnumType);
 
     assertEquals("myEnumType." + JavaNameRules.getConstantName("enumItem"), result.name);
+  }
+
+  @Test
+  public void mapDefaultValueNoDeploymentValueTemplateType() {
+    JavaTemplateType templateType =
+        JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, JavaPrimitiveType.INT);
+
+    JavaValue result = JavaValueMapper.mapDefaultValue(templateType);
+
+    assertEquals(templateType.implementationType.imports, result.imports);
+    assertTrue(result.isNew);
+    assertEquals(templateType.implementationType.name, result.name);
+  }
+
+  @Test
+  public void mapDefaultValueNoDeploymentValueEnumType() {
+    JavaValue initializer = new JavaValue("myEnumValue");
+    JavaEnumType enumType =
+        new JavaEnumType(
+            "myEnum", Collections.emptyList(), Collections.emptyList(), null, initializer);
+
+    JavaValue result = JavaValueMapper.mapDefaultValue(enumType);
+
+    assertEquals(initializer, result);
+  }
+
+  @Test
+  public void mapDefaultValueNoDeploymentValueNonNullableCustomType() {
+    JavaCustomType customType = JavaCustomType.builder("myType").isNullable(false).build();
+
+    JavaValue result = JavaValueMapper.mapDefaultValue(customType);
+
+    assertEquals(customType.imports, result.imports);
+    assertEquals(customType.name, result.name);
+    assertTrue(result.isNew);
+  }
+
+  @Test
+  public void mapDefaultValueNoDeploymentValueNullableCustomType() {
+    JavaCustomType customType = JavaCustomType.builder("myType").isNullable(true).build();
+
+    JavaValue result = JavaValueMapper.mapDefaultValue(customType);
+
+    assertNull(result);
+  }
+
+  @Test
+  public void mapDefaultValueDeploymentValueStringType() {
+    JavaReferenceType stringType = new JavaReferenceType(JavaReferenceType.Type.STRING);
+    String defaultValue = "my \"value\"";
+
+    JavaValue result = JavaValueMapper.mapDefaultValue(stringType, defaultValue);
+
+    assertEquals("\"my \\\"value\\\"\"", result.name);
+  }
+
+  @Test
+  public void mapDefaultValueDeploymentValueEnumType() {
+    JavaEnumType enumType =
+        new JavaEnumType("myEnum", Collections.emptyList(), Collections.emptyList(), null, null);
+    String defaultValue = "enumerator";
+
+    JavaValue result = JavaValueMapper.mapDefaultValue(enumType, defaultValue);
+
+    assertEquals("myEnum.ENUMERATOR", result.name);
   }
 }

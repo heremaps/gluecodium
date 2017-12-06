@@ -49,7 +49,6 @@ public class JavaModelBuilderTest {
   private static final String ENUMERATION_NAME = "MyEnumName";
   private static final String ENUMERATOR_1_NAME = "MY_ENUMERATOR_1";
   private static final String ENUMERATOR_2_NAME = "MY_ENUMERATOR_2";
-  private static final String ARRAY_LIST_TYPE_NAME = "ArrayList<>";
 
   private static final List<String> BASE_PACKAGE_NAMES =
       Arrays.asList("these", "are", "prefix", "packages");
@@ -291,15 +290,31 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaCustomTypedElementHasInitializer() {
+
     contextStack.injectResult(javaCustomType);
 
     modelBuilder.finishBuilding(francaField);
 
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
-    assertNotNull(resultField.initial);
-    assertEquals(javaCustomType.name, resultField.initial.name);
-    assertTrue(resultField.initial.isNew);
+    verifyStatic();
+    JavaValueMapper.mapDefaultValue(javaCustomType);
+    verify(deploymentModel).getDefaultValue(francaField);
+  }
+
+  @Test
+  public void finishBuildingFrancaCustomTypedElementHasDefaultValue() {
+
+    when(deploymentModel.getDefaultValue(francaField)).thenReturn("someValue");
+    contextStack.injectResult(javaCustomType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
+    assertNotNull(resultField);
+    verifyStatic();
+    JavaValueMapper.mapDefaultValue(javaCustomType, "someValue");
+    verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
@@ -321,9 +336,9 @@ public class JavaModelBuilderTest {
     assertNotNull(resultField);
     assertEquals(FIELD_NAME, resultField.name.toLowerCase());
     assertEquals("List<typical>", resultField.type.name);
-    assertNotNull(resultField.initial);
-    assertEquals(ARRAY_LIST_TYPE_NAME, resultField.initial.name);
-    assertTrue(resultField.initial.isNew);
+    verifyStatic();
+    JavaValueMapper.mapDefaultValue(javaTemplateType);
+    verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
