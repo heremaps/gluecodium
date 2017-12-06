@@ -12,9 +12,18 @@
 package com.here.ivi.api.test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import org.eclipse.emf.common.util.EList;
 
 public class ArrayEList<E> extends ArrayList<E> implements EList<E> {
+
+  public ArrayEList() {
+    super();
+  }
+
+  public ArrayEList(final Collection<? extends E> collection) {
+    super(collection);
+  }
 
   @Override
   public void move(int newPosition, E object) {
