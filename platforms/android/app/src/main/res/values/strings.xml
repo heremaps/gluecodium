@@ -10,6 +10,7 @@
     <string name="fragment_enumerations_title">Enumerations</string>
     <string name="fragment_arrays_title">Arrays</string>
     <string name="fragment_arrays_usage">Provide array elements separated by a comma.\nExample: 1,2,3,4</string>
+    <string name="fragment_errors_title">Errors</string>
     <string name="number_of_usages_input">Insert numberOfUsages</string>
     <string name="profile_name_input">Insert new profile name</string>
     <string name="parameter_value">Value</string>
@@ -17,6 +18,8 @@
     <string name="submit">Submit!</string>
     <string name="text_input">Insert any text</string>
     <string name="text_result">Result</string>
+    <string name="text_true">True</string>
+    <string name="text_false">False</string>
     <string name="java_listener_result_label">Java Listener: </string>
     <string name="native_listener_result_label">Native Listener: </string>
     <string name="text_result_not_calculated">Was not calculated</string>
@@ -36,4 +39,5 @@
     <string name="unregister_native_listener">Unregister Native listener</string>
     <string name="enumeration_methods_description">Example static method which takes any InternalError and returns the opposite one (e.g. if ERROR_NONE is given, ERROR_FATAL is returned).</string>
     <string name="number_format_exception">Number format exception:</string>
+    <string name="no_exception_thrown">No exception thrown.</string>
 </resources>
