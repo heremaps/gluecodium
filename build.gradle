@@ -19,9 +19,18 @@ allprojects {
         options.encoding = "UTF-8"
     }
 
+    configurations {
+        umljavadoclet
+    }
+    dependencies {
+        // build and deployed from https://github.com/gboersma/uml-java-doclet.git
+        umljavadoclet 'info.leadinglight:uml-java-doclet:1.0-SNAPSHOT'
+    }
     javadoc {
         setFailOnError(false)
 
+        options.docletpath = configurations.umljavadoclet.files.asType(List)
+        options.doclet = "info.leadinglight.umljavadoclet.UmlJavaDoclet"
         options.tags = [
                 "generated:a:Generated",
                 "implNote:a:Implementation note",
