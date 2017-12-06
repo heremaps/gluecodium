@@ -20,7 +20,8 @@ class MenuTableViewController: UITableViewController {
                       ("Typedefs", "Typedefs"),
                       ("Attributes", "Attributes"),
                       ("Arrays", "Arrays"),
-                      ("Listeners", "Listeners")]
+                      ("Listeners", "Listeners"),
+                      ("Errors", "Errors")]
 
     @IBOutlet weak var versionLabel: UILabel! {
         willSet { newValue.text = versionMessage }
