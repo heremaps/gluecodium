@@ -11,7 +11,11 @@
 
 package com.here.ivi.api.generator.java;
 
+import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaEnumItem;
+import com.here.ivi.api.model.javamodel.JavaEnumType;
+import com.here.ivi.api.model.javamodel.JavaReferenceType;
+import com.here.ivi.api.model.javamodel.JavaTemplateType;
 import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import java.math.BigInteger;
@@ -103,6 +107,31 @@ public class JavaValueMapper {
   public static JavaValue map(FDoubleConstant dc) {
     final Double value = dc.getVal();
     return new JavaValue(String.valueOf(value));
+  }
+
+  public static JavaValue mapDefaultValue(
+      final JavaType javaType, final String deploymentDefaultValue) {
+
+    if (javaType instanceof JavaReferenceType
+        && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.STRING) {
+      return new JavaValue("\"" + deploymentDefaultValue.replace("\"", "\\\"") + "\"");
+    }
+    if (javaType instanceof JavaEnumType) {
+      String enumeratorName = JavaNameRules.getConstantName(deploymentDefaultValue);
+      return new JavaValue(javaType.name + "." + enumeratorName);
+    }
+    return new JavaValue(deploymentDefaultValue);
+  }
+
+  public static JavaValue mapDefaultValue(final JavaType javaType) {
+    if (javaType instanceof JavaTemplateType) {
+      return new JavaValue(((JavaTemplateType) javaType).implementationType);
+    } else if (javaType instanceof JavaEnumType) {
+      return ((JavaEnumType) javaType).initializer;
+    } else if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isNullable) {
+      return new JavaValue(javaType);
+    }
+    return null;
   }
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
