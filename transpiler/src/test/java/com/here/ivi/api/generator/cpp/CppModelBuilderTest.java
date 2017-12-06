@@ -40,7 +40,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({
   CppCommentParser.class,
   InstanceRules.class,
-  CppDefaultInitializer.class,
   CppValueMapper.class,
   DefinedBy.class
 })
@@ -94,11 +93,7 @@ public class CppModelBuilderTest {
   @Before
   public void setUp() {
     PowerMockito.mockStatic(
-        CppCommentParser.class,
-        InstanceRules.class,
-        CppDefaultInitializer.class,
-        CppValueMapper.class,
-        DefinedBy.class);
+        CppCommentParser.class, InstanceRules.class, CppValueMapper.class, DefinedBy.class);
 
     MockitoAnnotations.initMocks(this);
 
@@ -374,17 +369,11 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsName() {
-    when(CppDefaultInitializer.map(any(FField.class))).thenReturn(cppValue);
-
     modelBuilder.finishBuilding(francaField);
 
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
     assertEquals(FIELD_NAME, cppField.name);
-    assertEquals(cppValue, cppField.initializer);
-
-    PowerMockito.verifyStatic();
-    CppDefaultInitializer.map(francaField);
   }
 
   @Test
@@ -396,6 +385,38 @@ public class CppModelBuilderTest {
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
     assertEquals(cppComplexTypeRef, cppField.type);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsDefaultValue() {
+    when(deploymentModel.getDefaultValue(any())).thenReturn("SomeDefault");
+    when(CppValueMapper.mapDeploymentDefaultValue(any(), any())).thenReturn(cppValue);
+    contextStack.injectResult(cppComplexTypeRef);
+
+    modelBuilder.finishBuilding(francaField);
+
+    CppField cppField = modelBuilder.getFinalResult(CppField.class);
+    assertNotNull(cppField);
+    assertEquals(cppValue, cppField.initializer);
+
+    verify(deploymentModel).getDefaultValue(francaField);
+    PowerMockito.verifyStatic();
+    CppValueMapper.mapDeploymentDefaultValue(cppComplexTypeRef, "SomeDefault");
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldCreatesDefaultValue() {
+    when(CppValueMapper.mapDefaultValue(any())).thenReturn(cppValue);
+    when(francaField.getType()).thenReturn(francaTypeRef);
+
+    modelBuilder.finishBuilding(francaField);
+
+    CppField cppField = modelBuilder.getFinalResult(CppField.class);
+    assertNotNull(cppField);
+    assertEquals(cppValue, cppField.initializer);
+
+    PowerMockito.verifyStatic();
+    CppValueMapper.mapDefaultValue(francaTypeRef);
   }
 
   @Test

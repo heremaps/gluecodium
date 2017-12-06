@@ -17,32 +17,27 @@
 #pragma once
 
 #include <cstdint>
-
 #include <string>
-#include <vector>
 
 namespace smoke {
 
-class MethodOverloads {
+class DefaultValues {
 public:
-    virtual ~MethodOverloads() = 0;
+    virtual ~DefaultValues() = 0;
 
 public:
-using StringArray = ::std::vector< ::std::string >;
-using IntArray = ::std::vector< int8_t >;
-struct Point {
-    double x = 0;
-    double y = 0;
+enum class SomeEnum {
+    FOO_VALUE,
+    BAR_VALUE
 };
 
-public:
-virtual bool is_boolean( const bool input ) = 0;
-virtual bool is_boolean( const int8_t input ) = 0;
-virtual bool is_boolean( const ::std::string& input ) = 0;
-virtual bool is_boolean( const ::smoke::MethodOverloads::Point& input ) = 0;
-virtual bool is_boolean( const bool input1, const int8_t input2, const ::std::string& input3, const ::smoke::MethodOverloads::Point& input4 ) = 0;
-virtual bool is_boolean( const ::smoke::MethodOverloads::StringArray& input ) = 0;
-virtual bool is_boolean( const ::smoke::MethodOverloads::IntArray& input ) = 0;
+struct StructWithDefaults {
+    int32_t int_field = 42;
+    float float_field = 3.14;
+    bool bool_field = true;
+    ::std::string string_field = "\\Jonny \"Magic\" Smith\n";
+    ::smoke::DefaultValues::SomeEnum enum_field = ::smoke::DefaultValues::SomeEnum::BAR_VALUE;
+};
 };
 
 }

@@ -11,23 +11,17 @@
 
 package com.here.ivi.api.generator.cpp;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
-import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.cppmodel.CppValue;
+import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.BuiltInValueRules;
 import java.util.Optional;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FQualifiedElementRef;
+import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,8 +32,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CppNameRules.class, BuiltInValueRules.class})
+@PrepareForTest({BuiltInValueRules.class, FrancaTypeHelper.class})
 public final class CppValueMapperTest {
+
+  @Mock private FTypeRef francaTypeRef;
 
   @Mock private CppIncludeResolver includeResolver;
 
@@ -50,7 +46,7 @@ public final class CppValueMapperTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(CppNameRules.class, BuiltInValueRules.class);
+    PowerMockito.mockStatic(BuiltInValueRules.class, FrancaTypeHelper.class);
     when(BuiltInValueRules.resolveReference(any())).thenReturn(Optional.empty());
 
     valueMapper = new CppValueMapper(includeResolver);
@@ -60,52 +56,112 @@ public final class CppValueMapperTest {
 
   @Test
   public void mapConstantValue() {
-    final String inputConstantName = "SomeFancyName";
-    final String outputConstantName = "desiredOutputName";
-
     FConstantDef fConstant = mock(FConstantDef.class);
-    when(fConstant.getName()).thenReturn(inputConstantName);
+    when(fConstant.getName()).thenReturn("SomeFancyName");
 
     FQualifiedElementRef qualifiedElementRef = mock(FQualifiedElementRef.class);
     when(qualifiedElementRef.getElement()).thenReturn(fConstant);
 
-    //mock nameRules
-    when(CppNameRules.getConstantName(anyString())).thenReturn(outputConstantName);
-
     //actual test
     CppValue mappedValue = valueMapper.map(null, qualifiedElementRef);
 
-    assertEquals(mappedValue.name, outputConstantName);
+    assertEquals("SOME_FANCY_NAME", mappedValue.name);
     assertTrue(mappedValue.includes.contains(internalInclude));
-
-    PowerMockito.verifyStatic(); // 1
-    CppNameRules.getConstantName(inputConstantName);
   }
 
   @Test
   public void mapEnumerator() {
     //constant
     final CppTypeRef cppType = new CppComplexTypeRef.Builder("MyFancyType").build();
-    final String inputEnumeratorName = "EnumeratorIn";
-    final String outputEnumeratorName = "EnumeratorOut";
-    final String outputTypeName = cppType.name + "::" + outputEnumeratorName;
 
     FEnumerator fEnumerator = mock(FEnumerator.class);
-    when(fEnumerator.getName()).thenReturn(inputEnumeratorName);
+    when(fEnumerator.getName()).thenReturn("EnumeratorIn");
 
     FQualifiedElementRef qualifiedElementRef = mock(FQualifiedElementRef.class);
     when(qualifiedElementRef.getElement()).thenReturn(fEnumerator);
 
-    //mock nameRules
-    when(CppNameRules.getEnumEntryName(anyString())).thenReturn(outputEnumeratorName);
-
     //actual test
     CppValue mappedValue = valueMapper.map(cppType, qualifiedElementRef);
 
-    assertEquals(mappedValue.name, outputTypeName);
+    assertEquals("MyFancyType::ENUMERATOR_IN", mappedValue.name);
     assertTrue(mappedValue.includes.contains(internalInclude));
+  }
 
-    PowerMockito.verifyStatic(); // 1
-    CppNameRules.getEnumEntryName(inputEnumeratorName);
+  @Test
+  public void mapDeploymentDefaultValueForString() {
+    CppTypeRef cppTypeRef = CppTypeMapper.STRING_TYPE;
+
+    CppValue result =
+        CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, "\\Jonny \"Magic\" Smith\n");
+
+    assertEquals("\"\\\\Jonny \\\"Magic\\\" Smith\\n\"", result.name);
+  }
+
+  @Test
+  public void mapDeploymentDefaultValueForEnum() {
+    CppTypeRef cppTypeRef =
+        new CppComplexTypeRef.Builder("SomeType").typeInfo(CppTypeInfo.Enumeration).build();
+
+    CppValue result = CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, "SomeString");
+
+    assertEquals("SomeType::SOME_STRING", result.name);
+  }
+
+  @Test
+  public void mapDeploymentDefaultValueForInteger() {
+    CppTypeRef cppTypeRef = CppPrimitiveTypeRef.UINT64;
+
+    CppValue result = CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, "SomeString");
+
+    assertEquals("SomeString", result.name);
+  }
+
+  @Test
+  public void mapDefaultValueForComplexType() {
+    when(francaTypeRef.getDerived()).thenReturn(mock(FType.class));
+
+    CppValue result = CppValueMapper.mapDefaultValue(francaTypeRef);
+
+    assertNull(result);
+  }
+
+  @Test
+  public void mapDefaultValueForImplicitArray() {
+    when(FrancaTypeHelper.isImplicitArray(any())).thenReturn(true);
+
+    CppValue result = CppValueMapper.mapDefaultValue(francaTypeRef);
+
+    assertNull(result);
+    PowerMockito.verifyStatic();
+    FrancaTypeHelper.isImplicitArray(francaTypeRef);
+  }
+
+  @Test
+  public void mapDefaultValueForBoolean() {
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
+
+    CppValue result = CppValueMapper.mapDefaultValue(francaTypeRef);
+
+    assertNotNull(result);
+    assertEquals("false", result.name);
+  }
+
+  @Test
+  public void mapDefaultValueForString() {
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.STRING);
+
+    CppValue result = CppValueMapper.mapDefaultValue(francaTypeRef);
+
+    assertNull(result);
+  }
+
+  @Test
+  public void mapDefaultValueForInteger() {
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT64);
+
+    CppValue result = CppValueMapper.mapDefaultValue(francaTypeRef);
+
+    assertNotNull(result);
+    assertEquals("0", result.name);
   }
 }

@@ -17,7 +17,7 @@
 #pragma once
 
 #include <cstdint>
-#include <limits>
+
 #include <string>
 #include <vector>
 
@@ -32,7 +32,7 @@ using StringArray = ::std::vector< ::std::string >;
 using ProfileId = ::std::string;
 using ProfileIdList = ::std::vector< ::smoke::Arrays::ProfileId >;
 struct BasicStruct {
-    double value = std::numeric_limits< double >::quiet_NaN( );
+    double value = 0;
 };
 using StructArray = ::std::vector< ::smoke::Arrays::BasicStruct >;
 struct FancyStruct {
