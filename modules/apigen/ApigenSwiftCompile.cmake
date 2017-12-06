@@ -42,7 +42,6 @@ function(apigen_swift_compile target architecture)
     get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
     get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
     get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
-    get_target_property(SWIFT_TEST ${target} APIGEN_SWIFT_TEST_PATH)
 
     if(NOT ${GENERATOR} MATCHES swift)
         return()
@@ -95,10 +94,7 @@ function(apigen_swift_compile target architecture)
     COMMAND swiftc ${BUILD_ARGUMENTS} ${build_swift_native_frameworks} ${SOURCES}
     WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
 
-    ##Create test executable 
-    if(NOT ${SWIFT_TEST} STREQUAL "")
-        apigen_swift_test(${target} ${swift_target_flag})
-    endif()
+    apigen_swift_test(${target} ${swift_target_flag})
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         install(DIRECTORY ${SWIFT_OUTPUT_DIR}/${target}.framework

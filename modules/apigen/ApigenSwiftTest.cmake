@@ -33,7 +33,11 @@ function(apigen_swift_test target swift_target_flag)
     get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
     get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
     get_target_property(SWIFT_RESOURCES_DIR ${target} APIGEN_SWIFT_RESOURCES_DIR)
-    get_target_property(SWIFT_TEST ${target} APIGEN_SWIFT_TEST)
+    get_target_property(SWIFT_TEST ${target} APIGEN_SWIFT_TESTS)
+
+    if(NOT SWIFT_TEST)
+        return()
+    endif()
 
     if(NOT ${GENERATOR} MATCHES swift)
         return()
@@ -67,6 +71,7 @@ function(apigen_swift_test target swift_target_flag)
         COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES}
         WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR}
         COMMENT "Running Swift test for target '${target}'...")
+
     add_test(NAME SwiftFunctional COMMAND "${SWIFT_OUTPUT_DIR}/test${target}"
         WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
 
