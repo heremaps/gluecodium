@@ -301,11 +301,14 @@ elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
     # Swift customers want a module...
     include(apigen/iOS)
-    set_target_properties(hello PROPERTIES APIGEN_SWIFT_TEST ${HELLO_SWIFT_TESTS})
+    if(HELLO_SWIFT_TESTS)
+        set_target_properties(hello PROPERTIES APIGEN_SWIFT_TESTS ${HELLO_SWIFT_TESTS})
+    endif()
+
     apigen_swift_configuration(hello)
     apigen_swift_build(hello)
     apigen_swift_package(hello)
-    
+
     #TODO: Investigate ways to separate debug host-builds (no cross toolchain)
     # for testing from debug/release cross-builds for iOS targets.
     #apigen_swift_test(hello test/folder)
