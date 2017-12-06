@@ -17,13 +17,13 @@
 #pragma once
 
 #include <cstdint>
-#include <limits>
+
 
 namespace smoke {
 
 struct Point {
-    double x = std::numeric_limits< double >::quiet_NaN( );
-    double y = std::numeric_limits< double >::quiet_NaN( );
+    double x = 0;
+    double y = 0;
 };
 using PointTypeDef = ::smoke::Point;
 

@@ -154,7 +154,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     String fieldName = CppNameRules.getFieldName(francaField.getName());
-    CppValue cppValue = CppDefaultInitializer.map(francaField);
+
+    String deploymentDefaultValue = deploymentModel.getDefaultValue(francaField);
+    CppValue cppValue =
+        deploymentDefaultValue != null
+            ? CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, deploymentDefaultValue)
+            : CppValueMapper.mapDefaultValue(francaField.getType());
 
     CppField cppField = new CppField(cppTypeRef, fieldName, cppValue);
     cppField.comment = CppCommentParser.parse(francaField).getMainBodyText();

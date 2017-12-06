@@ -17,15 +17,15 @@
 #pragma once
 
 #include <cstdint>
-#include <limits>
+
 #include <string>
 #include <vector>
 
 namespace smoke {
 
 struct Point {
-    double x = std::numeric_limits< double >::quiet_NaN( );
-    double y = std::numeric_limits< double >::quiet_NaN( );
+    double x = 0;
+    double y = 0;
 };
 using PointTypedef = ::smoke::Point;
 struct Color {
@@ -50,8 +50,8 @@ struct AllTypesStruct {
     uint32_t uint32_field = 0;
     int64_t int64_field = 0;
     uint64_t uint64_field = 0;
-    float float_field = std::numeric_limits< float >::quiet_NaN( );
-    double double_field = std::numeric_limits< double >::quiet_NaN( );
+    float float_field = 0;
+    double double_field = 0;
     ::std::string string_field;
     bool boolean_field = false;
     ::std::vector< uint8_t > bytes_field;

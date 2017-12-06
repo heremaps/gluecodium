@@ -13,12 +13,12 @@ package com.here.ivi.api.generator.cpp;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
-import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.cppmodel.CppValue;
+import com.here.ivi.api.common.FrancaTypeHelper;
+import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.rules.BuiltInValueRules;
 import java.math.BigInteger;
 import java.util.Optional;
+import org.apache.commons.text.StringEscapeUtils;
 import org.franca.core.franca.*;
 
 public class CppValueMapper {
@@ -63,6 +63,36 @@ public class CppValueMapper {
     }
 
     return null;
+  }
+
+  public static CppValue mapDeploymentDefaultValue(
+      final CppTypeRef cppTypeRef, final String deploymentDefaultValue) {
+
+    if (cppTypeRef == CppTypeMapper.STRING_TYPE) {
+      return new CppValue("\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"");
+    } else if (cppTypeRef.refersToEnumType()) {
+      String enumEntryName = CppNameRules.getEnumEntryName(deploymentDefaultValue);
+      return new CppValue(cppTypeRef.name + "::" + enumEntryName);
+    } else {
+      return new CppValue(deploymentDefaultValue);
+    }
+  }
+
+  public static CppValue mapDefaultValue(final FTypeRef francaTypeRef) {
+
+    if (francaTypeRef.getDerived() != null || FrancaTypeHelper.isImplicitArray(francaTypeRef)) {
+      return null;
+    }
+
+    switch (francaTypeRef.getPredefined().getValue()) {
+      case FBasicTypeId.BOOLEAN_VALUE:
+        return new CppValue("false");
+      case FBasicTypeId.STRING_VALUE:
+      case FBasicTypeId.BYTE_BUFFER_VALUE:
+        return null;
+      default:
+        return new CppValue("0");
+    }
   }
 
   private static CppValue map(FUnaryOperation rhs) {

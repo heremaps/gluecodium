@@ -63,16 +63,16 @@ Excluded: android, logging, GenericsNaming
 
     <rule ref="rulesets/java/design.xml">
         <exclude name="AbstractClassWithoutAbstractMethod" />
+        <exclude name="AccessorClassGeneration" />
         <exclude name="AvoidReassigningParameters" />
-        <!-- if (x != y) { short code block } else { long code block } -->
         <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal" />
         <exclude name="ConfusingTernary" />
+        <exclude name="GodClass" />
         <exclude name="SimpleDateFormatNeedsLocale" />
         <exclude name="SwitchStmtsShouldHaveDefault" />
         <exclude name="TooFewBranchesForASwitchStatement" />
         <exclude name="UseLocaleWithCaseConversions" />
         <exclude name="UseUtilityClass" />
-        <exclude name="AccessorClassGeneration" />
     </rule>
 
     <rule ref="rulesets/java/empty.xml" />

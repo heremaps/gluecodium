@@ -17,7 +17,7 @@
 #pragma once
 
 #include <cstdint>
-#include <limits>
+
 #include <string>
 #include <vector>
 
@@ -34,7 +34,7 @@ enum class InternalError {
 };
 
 struct ExampleStruct {
-    double value = std::numeric_limits< double >::quiet_NaN( );
+    double value = 0;
 };
 
 public:

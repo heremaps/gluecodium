@@ -25,7 +25,7 @@ define Defaults for interface smoke.DefaultValues
             DefaultValue = "true"
         }
         stringField {
-            DefaultValue = "Jonny \"Magic\" Smith"
+            DefaultValue = "\\Jonny \"Magic\" Smith\n"
         }
         enumField {
             DefaultValue = "BarValue"
@@ -46,7 +46,7 @@ define Defaults for typeCollection smoke.TypesWithDefaults
             DefaultValue = "true"
         }
         stringField {
-            DefaultValue = "Jonny \"Magic\" Smith"
+            DefaultValue = "\\Jonny \"Magic\" Smith\n"
         }
         enumField {
             DefaultValue = "BarValue"
