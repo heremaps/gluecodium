@@ -7,6 +7,7 @@ import android.support.compat.BuildConfig;
 import com.here.android.RobolectricApplication;
 import com.here.android.another.*;
 
+import com.here.android.matchers.FieldMatcher;
 import java.lang.reflect.Field;
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
@@ -30,7 +31,7 @@ public class ErrorsTest {
     @Test
     public void methodWithError_throws() throws InternalErrorsException {
         expectedException.expect(InternalErrorsException.class);
-        expectedException.expect(hasFieldValue("error", Errors.InternalErrors.CRASHED));
+        expectedException.expect(FieldMatcher.hasFieldWithValue("error", Errors.InternalErrors.CRASHED));
 
         Errors.methodWithError(true);
     }
@@ -43,7 +44,7 @@ public class ErrorsTest {
     @Test
     public void methodWithErrorAndString_throws() throws ExternalErrorsException {
         expectedException.expect(ExternalErrorsException.class);
-        expectedException.expect(hasFieldValue("error", AdditionalErrors.ExternalErrors.FAILED));
+        expectedException.expect(FieldMatcher.hasFieldWithValue("error", AdditionalErrors.ExternalErrors.FAILED));
 
         Errors.methodWithErrorAndString(true);
     }
@@ -58,7 +59,7 @@ public class ErrorsTest {
     @Test
     public void methodThatExplodes_throws() throws ExplosiveErrorsException {
         expectedException.expect(ExplosiveErrorsException.class);
-        expectedException.expect(hasFieldValue("error", ExplosiveErrors.EXPLODED));
+        expectedException.expect(FieldMatcher.hasFieldWithValue("error", ExplosiveErrors.EXPLODED));
 
         Errors.methodThatExplodes(true);
     }
@@ -75,7 +76,7 @@ public class ErrorsTest {
     @Test
     public void methodWithGoodAndBad_throws() throws YetAnotherErrorsException {
         expectedException.expect(YetAnotherErrorsException.class);
-        expectedException.expect(hasFieldValue("error", YetAnotherErrors.BAD));
+        expectedException.expect(FieldMatcher.hasFieldWithValue("error", YetAnotherErrors.BAD));
 
         Errors.methodWithGoodAndBad(true);
     }
@@ -85,25 +86,5 @@ public class ErrorsTest {
         SomeEnum result = Errors.methodWithGoodAndBad(false);
 
         assertEquals(SomeEnum.ANOTHER_RESULT, result);
-    }
-
-    private static <T, V> Matcher<T> hasFieldValue(final String fieldName, final V fieldValue) {
-        return new FeatureMatcher<T, V>(equalTo(fieldValue), fieldName, fieldName) {
-            @Override
-            protected V featureValueOf(final T actual) {
-                Class<?> clazz = actual.getClass();
-                Field field;
-                try {
-                    field = clazz.getField(fieldName);
-                } catch (NoSuchFieldException e) {
-                    return null;
-                }
-                try {
-                    return (V)field.get(actual);
-                } catch (IllegalAccessException e) {
-                    return null;
-                }
-            }
-        };
     }
 }
