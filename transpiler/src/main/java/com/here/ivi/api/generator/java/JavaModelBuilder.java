@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.java;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.Iterables;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
@@ -56,18 +57,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       final JavaPackage rootPackage,
       final JavaTypeMapper typeMapper) {
     this(new ModelBuilderContextStack<>(), deploymentModel, rootPackage, typeMapper);
-  }
-
-  @Override
-  public void startBuilding(FInterface francaInterface) {
-    openContext();
-    getCurrentContext().allowsTypeDefinitions = true;
-  }
-
-  @Override
-  public void startBuilding(FTypeCollection francaTypeCollection) {
-    openContext();
-    getCurrentContext().allowsTypeDefinitions = true;
   }
 
   @Override
@@ -128,10 +117,20 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     }
 
     JavaCustomType javaExceptionTypeRef = null;
-    JavaExceptionClass javaException = getPreviousResult(JavaExceptionClass.class);
-    if (javaException != null) {
-      javaExceptionTypeRef = new JavaCustomType(javaException.name, javaException.javaPackage);
+    JavaEnumType exceptionEnumTypeRef = getPreviousResult(JavaEnumType.class);
+    if (exceptionEnumTypeRef != null) {
+
+      String exceptionName =
+          JavaNameRules.getExceptionName(Iterables.getLast(exceptionEnumTypeRef.classNames));
+      JavaPackage exceptionPackage = new JavaPackage(exceptionEnumTypeRef.packageNames);
+      JavaExceptionClass javaExceptionClass =
+          new JavaExceptionClass(exceptionName, exceptionEnumTypeRef, exceptionPackage);
+      String mapKey = exceptionPackage.packageNames + "." + exceptionName;
+      exceptionClasses.put(mapKey, javaExceptionClass);
+
+      javaExceptionTypeRef = new JavaCustomType(exceptionName, exceptionPackage);
     }
+
     JavaMethod javaMethod = new JavaMethod(javaMethodName, returnType, javaExceptionTypeRef);
     javaMethod.comment = CppCommentParser.FORMATTER.readDescription(francaMethod.getComment());
 
@@ -243,25 +242,17 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FEnumerationType francaEnumType) {
 
-    if (getParentContext().allowsTypeDefinitions) {
-      String enumName = JavaNameRules.getClassName(francaEnumType.getName());
+    // Type definition
+    JavaEnum javaEnum = new JavaEnum(JavaNameRules.getClassName(francaEnumType.getName()));
+    javaEnum.visibility = JavaVisibility.PUBLIC;
+    javaEnum.javaPackage = rootPackage;
+    javaEnum.comment = getCommentString(francaEnumType);
+    javaEnum.items.addAll(getPreviousResults(JavaEnumItem.class));
+    JavaValueMapper.completePartialEnumeratorValues(javaEnum.items);
+    storeResult(javaEnum);
 
-      JavaEnum javaEnum = new JavaEnum(enumName);
-      javaEnum.visibility = JavaVisibility.PUBLIC;
-      javaEnum.javaPackage = rootPackage;
-      javaEnum.comment = getCommentString(francaEnumType);
-      javaEnum.items.addAll(getPreviousResults(JavaEnumItem.class));
-      JavaValueMapper.completePartialEnumeratorValues(javaEnum.items);
-
-      storeResult(javaEnum);
-    } else {
-      JavaExceptionClass javaExceptionClass = typeMapper.mapErrorClass(francaEnumType);
-      String mapKey = javaExceptionClass.javaPackage.packageNames + "." + javaExceptionClass.name;
-      exceptionClasses.put(mapKey, javaExceptionClass);
-      storeResult(javaExceptionClass);
-
-      storeResult(typeMapper.mapCustomType(francaEnumType));
-    }
+    // Type reference
+    storeResult(typeMapper.mapCustomType(francaEnumType));
 
     closeContext();
   }

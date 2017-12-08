@@ -22,5 +22,4 @@ public final class ModelBuilderContext<E> {
 
   public final List<E> previousResults = new ArrayList<>();
   public final List<E> currentResults = new ArrayList<>();
-  public boolean allowsTypeDefinitions;
 }

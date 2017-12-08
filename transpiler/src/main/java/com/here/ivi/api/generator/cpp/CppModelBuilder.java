@@ -51,18 +51,6 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   }
 
   @Override
-  public void startBuilding(FInterface francaInterface) {
-    openContext();
-    getCurrentContext().allowsTypeDefinitions = true;
-  }
-
-  @Override
-  public void startBuilding(FTypeCollection francaTypeCollection) {
-    openContext();
-    getCurrentContext().allowsTypeDefinitions = true;
-  }
-
-  @Override
   public void finishBuilding(FInterface francaInterface) {
 
     String className = CppNameRules.getClassName(francaInterface.getName());
@@ -231,18 +219,16 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FEnumerationType francaEnumerationType) {
 
-    if (getParentContext().allowsTypeDefinitions) {
-      String enumName = CppNameRules.getEnumName(francaEnumerationType.getName());
-      String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaEnumerationType);
+    // Type definition
+    String enumName = CppNameRules.getEnumName(francaEnumerationType.getName());
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaEnumerationType);
+    CppEnum cppEnum = CppEnum.createScoped(enumName, fullyQualifiedName);
+    cppEnum.comment = CppCommentParser.parse(francaEnumerationType).getMainBodyText();
+    cppEnum.items.addAll(getPreviousResults(CppEnumItem.class));
+    storeResult(cppEnum);
 
-      CppEnum cppEnum = CppEnum.createScoped(enumName, fullyQualifiedName);
-      cppEnum.comment = CppCommentParser.parse(francaEnumerationType).getMainBodyText();
-      cppEnum.items.addAll(getPreviousResults(CppEnumItem.class));
-
-      storeResult(cppEnum);
-    } else {
-      storeResult(typeMapper.mapEnum(francaEnumerationType));
-    }
+    // Type reference
+    storeResult(typeMapper.mapEnum(francaEnumerationType));
 
     closeContext();
   }

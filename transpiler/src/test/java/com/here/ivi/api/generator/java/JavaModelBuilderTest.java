@@ -81,8 +81,8 @@ public class JavaModelBuilderTest {
   private final JavaField javaField = new JavaField(javaCustomType, FIELD_NAME);
   private final JavaEnum javaEnum = new JavaEnum(ENUMERATION_NAME);
   private final EList<FEnumerator> francaEnumerators = new ArrayEList<>();
-  private final JavaExceptionClass javaExceptionClass =
-      new JavaExceptionClass("FooException", null, JavaPackage.DEFAULT);
+  private final JavaEnumType javaEnumType =
+      new JavaEnumType("Foo", null, JavaPackage.DEFAULT.packageNames, null);
 
   private JavaModelBuilder modelBuilder;
 
@@ -200,15 +200,28 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaMethodReadsExceptionTypeRef() {
-    contextStack.injectResult(javaExceptionClass);
+  public void finishBuildingFrancaMethodCreatesExceptionTypeRef() {
+    contextStack.injectResult(javaEnumType);
 
     modelBuilder.finishBuilding(francaMethod);
 
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
-    assertEquals(javaExceptionClass.name, javaMethod.exception.name);
-    assertEquals(javaExceptionClass.javaPackage.packageNames, javaMethod.exception.packageNames);
+    assertEquals(javaEnumType.name + "Exception", javaMethod.exception.name);
+    assertEquals(javaEnumType.packageNames, javaMethod.exception.packageNames);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodCreatesExceptionClass() {
+    contextStack.injectResult(javaEnumType);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    assertEquals(1, modelBuilder.exceptionClasses.size());
+    JavaExceptionClass javaExceptionClass =
+        modelBuilder.exceptionClasses.values().iterator().next();
+    assertEquals(javaEnumType.name + "Exception", javaExceptionClass.name);
+    assertEquals(javaEnumType.packageNames, javaExceptionClass.javaPackage.packageNames);
   }
 
   @Test
@@ -491,8 +504,6 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationType() {
-    contextStack.getParentContext().allowsTypeDefinitions = true;
-
     modelBuilder.finishBuilding(francaEnumerationType);
 
     JavaEnum result = modelBuilder.getFinalResult(JavaEnum.class);
@@ -505,7 +516,6 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsEnumItems() {
-    contextStack.getParentContext().allowsTypeDefinitions = true;
     JavaEnumItem javaEnumItem = new JavaEnumItem("enumerated");
     contextStack.injectResult(javaEnumItem);
     contextStack.injectResult(javaEnumItem);
@@ -521,8 +531,6 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeCallsCompletePartialEnumeratorValues() {
-    contextStack.getParentContext().allowsTypeDefinitions = true;
-
     PowerMockito.doNothing().when(JavaValueMapper.class);
     JavaValueMapper.completePartialEnumeratorValues(any());
 
@@ -534,8 +542,6 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeCreatesTypeRef() {
-    contextStack.getParentContext().allowsTypeDefinitions = false;
-    when(typeMapper.mapErrorClass(any())).thenReturn(javaExceptionClass);
     when(typeMapper.mapCustomType(any())).thenReturn(javaCustomType);
 
     modelBuilder.finishBuilding(francaEnumerationType);
@@ -544,20 +550,6 @@ public class JavaModelBuilderTest {
     assertEquals(javaCustomType, resultTypeRef);
 
     verify(typeMapper).mapCustomType(francaEnumerationType);
-  }
-
-  @Test
-  public void finishBuildingFrancaEnumerationTypeCreatesExceptionClass() {
-    contextStack.getParentContext().allowsTypeDefinitions = false;
-    when(typeMapper.mapErrorClass(any())).thenReturn(javaExceptionClass);
-
-    modelBuilder.finishBuilding(francaEnumerationType);
-
-    JavaExceptionClass resultException = modelBuilder.getFinalResult(JavaExceptionClass.class);
-    assertEquals(javaExceptionClass, resultException);
-    assertTrue(modelBuilder.exceptionClasses.containsValue(javaExceptionClass));
-
-    verify(typeMapper).mapErrorClass(francaEnumerationType);
   }
 
   @Test
