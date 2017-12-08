@@ -33,6 +33,13 @@ define Defaults for interface smoke.DefaultValues
     }
 }
 
+define navigation.BaseApiSpec for interface smoke.DefaultValues
+{
+    method processStructWithDefaults {
+        Static = true
+    }
+}
+
 define Defaults for typeCollection smoke.TypesWithDefaults
 {
     struct StructWithDefaults {

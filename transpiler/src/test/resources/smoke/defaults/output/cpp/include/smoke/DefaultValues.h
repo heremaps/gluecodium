@@ -38,6 +38,8 @@ struct StructWithDefaults {
     ::std::string string_field = "\\Jonny \"Magic\" Smith\n";
     ::smoke::DefaultValues::SomeEnum enum_field = ::smoke::DefaultValues::SomeEnum::BAR_VALUE;
 };
+public:
+static ::smoke::DefaultValues::StructWithDefaults process_struct_with_defaults( const ::smoke::DefaultValues::StructWithDefaults& input );
 };
 
 }

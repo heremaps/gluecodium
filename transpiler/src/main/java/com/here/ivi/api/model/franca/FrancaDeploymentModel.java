@@ -21,28 +21,33 @@ import org.franca.deploymodel.dsl.fDeploy.FDModel;
 /** Model combining multiple FDModel instances into one. */
 public class FrancaDeploymentModel {
 
-  private final Map<String, MappingGenericPropertyAccessor> propertyAccessors = new HashMap<>();
+  private final Map<String, List<MappingGenericPropertyAccessor>> propertyAccessors =
+      new HashMap<>();
 
   public FrancaDeploymentModel(final Collection<FDModel> models) {
 
     List<FDModelExtender> fdModelExtenders =
         models.stream().map(FDModelExtender::new).collect(Collectors.toList());
+
     propertyAccessors.putAll(
         fdModelExtenders
             .stream()
             .flatMap(extender -> extender.getFDInterfaces().stream())
             .collect(
-                Collectors.toMap(
+                Collectors.groupingBy(
                     fdInterface -> buildKey(fdInterface.getTarget()),
-                    NameBasedPropertyAccessor::new)));
+                    () -> new LinkedHashMap<>(),
+                    Collectors.mapping(NameBasedPropertyAccessor::new, Collectors.toList()))));
+
     propertyAccessors.putAll(
         fdModelExtenders
             .stream()
             .flatMap(extender -> extender.getFDTypesList().stream())
             .collect(
-                Collectors.toMap(
+                Collectors.groupingBy(
                     fdTypeCollection -> buildKey(fdTypeCollection.getTarget()),
-                    NameBasedPropertyAccessor::new)));
+                    () -> new LinkedHashMap<>(),
+                    Collectors.mapping(NameBasedPropertyAccessor::new, Collectors.toList()))));
   }
 
   public boolean isInterface(final FInterface francaInterface) {
@@ -68,24 +73,33 @@ public class FrancaDeploymentModel {
 
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
 
-    MappingGenericPropertyAccessor propertyAccessor = getPropertyAccessor(francaModelElement);
-    if (propertyAccessor == null) {
-      return false;
-    }
+    List<MappingGenericPropertyAccessor> propertyAccessorsForModelElement =
+        getPropertyAccessors(francaModelElement);
 
-    Boolean boolValue = propertyAccessor.getBoolean(francaModelElement, valueName);
-    return boolValue != null && boolValue;
+    return propertyAccessorsForModelElement != null
+        && propertyAccessorsForModelElement
+            .stream()
+            .anyMatch(
+                accessor ->
+                    Boolean.TRUE.equals(accessor.getBoolean(francaModelElement, valueName)));
   }
 
   private String getString(final FModelElement francaModelElement, final String valueName) {
 
-    MappingGenericPropertyAccessor propertyAccessor = getPropertyAccessor(francaModelElement);
-    return propertyAccessor != null
-        ? propertyAccessor.getString(francaModelElement, valueName)
+    List<MappingGenericPropertyAccessor> propertyAccessorsForModelElement =
+        getPropertyAccessors(francaModelElement);
+
+    return propertyAccessorsForModelElement != null
+        ? propertyAccessorsForModelElement
+            .stream()
+            .map(accessor -> accessor.getString(francaModelElement, valueName))
+            .filter(Objects::nonNull)
+            .findAny()
+            .orElse(null)
         : null;
   }
 
-  private MappingGenericPropertyAccessor getPropertyAccessor(
+  private List<MappingGenericPropertyAccessor> getPropertyAccessors(
       final FModelElement francaModelElement) {
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaModelElement);
     return propertyAccessors.get(buildKey(typeCollection));
