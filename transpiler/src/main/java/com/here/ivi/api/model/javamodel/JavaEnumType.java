@@ -15,15 +15,11 @@ import java.util.List;
 
 public final class JavaEnumType extends JavaCustomType {
 
-  public final JavaValue initializer;
-
   public JavaEnumType(
       final String fullName,
       final List<String> classNames,
       final List<String> packageNames,
-      final JavaImport anImport,
-      final JavaValue initializer) {
+      final JavaImport anImport) {
     super(fullName, classNames, packageNames, anImport, false);
-    this.initializer = initializer;
   }
 }

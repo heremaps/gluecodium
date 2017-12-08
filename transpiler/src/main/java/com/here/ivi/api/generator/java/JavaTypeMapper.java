@@ -220,12 +220,7 @@ public class JavaTypeMapper {
           .build();
     }
     if (fType instanceof FEnumerationType) {
-      return new JavaEnumType(
-          typeName,
-          classNames,
-          packageNames,
-          javaImport,
-          JavaValueMapper.createEnumInitializerValue(typeName, (FEnumerationType) fType));
+      return new JavaEnumType(typeName, classNames, packageNames, javaImport);
     }
     throw new TranspilerExecutionException("invalid Ftype: " + fType.getName());
   }

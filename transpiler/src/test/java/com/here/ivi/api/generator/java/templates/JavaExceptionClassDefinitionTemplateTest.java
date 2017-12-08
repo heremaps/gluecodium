@@ -35,8 +35,7 @@ public final class JavaExceptionClassDefinitionTemplateTest {
             "ErrorEnum",
             Arrays.asList("Errors", "ErrorEnum"),
             javaPackage.packageNames,
-            javaImport,
-            null);
+            javaImport);
     JavaExceptionClass javaExceptionClass =
         new JavaExceptionClass("ExceptionalException", errorEnum, javaPackage);
 

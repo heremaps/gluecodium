@@ -36,20 +36,6 @@ public class JavaValueMapper {
     return map(rhs);
   }
 
-  public static JavaValue createEnumInitializerValue(
-      String enumTypeName, FEnumerationType enumType) {
-    List<FEnumerator> enumerators = enumType.getEnumerators();
-    String initializer;
-    if (enumerators.isEmpty()) {
-      initializer = "null";
-    } else {
-      initializer =
-          enumTypeName + "." + JavaNameRules.getConstantName(enumerators.get(0).getName());
-    }
-
-    return new JavaValue(initializer);
-  }
-
   public static void completePartialEnumeratorValues(List<JavaEnumItem> javaEnumItems) {
 
     int lastValue = 0;
@@ -133,7 +119,7 @@ public class JavaValueMapper {
     if (javaType instanceof JavaTemplateType) {
       return new JavaValue(((JavaTemplateType) javaType).implementationType);
     } else if (javaType instanceof JavaEnumType) {
-      return ((JavaEnumType) javaType).initializer;
+      return new JavaValue(javaType.name + ".values()[0]");
     } else if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isNullable) {
       return new JavaValue(javaType);
     }
