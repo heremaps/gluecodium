@@ -149,7 +149,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
             .returnType(returnParam.mappedType)
             .error(
                 francaMethod.getErrorEnum() != null
-                    ? CppTypeInfo.createEnumTypeInfo(resolver, francaMethod.getErrorEnum())
+                    ? CppTypeInfo.createErrorTypeInfo(resolver, francaMethod.getErrorEnum())
                     : null)
             .delegateCallIncludes(
                 Collections.singleton(

@@ -117,6 +117,13 @@ public final class CppTypeInfo extends CElement {
         emptyList());
   }
 
+  public static CppTypeInfo createErrorTypeInfo(
+      final IncludeResolver resolver, final FEnumerationType francaEnum) {
+    CppTypeInfo errorEnumInfo = createEnumTypeInfo(resolver, francaEnum);
+    errorEnumInfo.functionReturnType.includes.add(CType.BOOL_INCLUDE);
+    return errorEnumInfo;
+  }
+
   // TODO (APIGEN-625): refactor this
   @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
   public CppTypeInfo(

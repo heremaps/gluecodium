@@ -13,6 +13,7 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>
 #include <stdint.h>
 
 typedef uint32_t smoke_Errors_InternalError;

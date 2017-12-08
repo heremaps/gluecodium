@@ -25,7 +25,7 @@ public class CType extends CElement {
   protected static final String CONST_SPECIFIER = "const";
   public static final Include FIXED_WIDTH_INTEGERS_INCLUDE =
       Include.createSystemInclude("stdint.h");
-  private static final Include BOOL_INCLUDE = Include.createSystemInclude("stdbool.h");
+  public static final Include BOOL_INCLUDE = Include.createSystemInclude("stdbool.h");
 
   public static final CType VOID = new CType("void");
   public static final CType CHAR = new CType("char");
