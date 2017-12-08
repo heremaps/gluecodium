@@ -7,15 +7,8 @@
   <Spinner
     android:id="@+id/errors_spinner"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:entries="@array/errors_methods" />
-
-  <TextView
-    android:id="@+id/errors_description"
-    style="@style/AppTheme.ShowCaseText"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textAppearance="@style/TextAppearance.AppCompat" />
+    android:layout_height="50dp"
+    android:entries="@array/errors_methods"/>
 
   <LinearLayout
     android:layout_width="match_parent"
@@ -24,17 +17,21 @@
     android:orientation="horizontal">
 
     <Button
-      android:id="@+id/errors_submit_true"
+      android:id="@+id/errors_submit_success"
       style="@style/AppTheme.ShowCaseButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/text_true"/>
+      android:backgroundTint="@android:color/holo_green_light"
+      android:text="@string/text_success"/>
+
     <Button
-      android:id="@+id/errors_submit_false"
+      android:id="@+id/errors_submit_error"
       style="@style/AppTheme.ShowCaseButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/text_false"/>
+      android:backgroundTint="@android:color/holo_red_light"
+      android:text="@string/text_error"/>
+
   </LinearLayout>
 
   <TextView
@@ -42,6 +39,6 @@
     style="@style/AppTheme.ShowCaseResult"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:hint="@string/text_result" />
+    android:hint="@string/text_result"/>
 
 </LinearLayout>

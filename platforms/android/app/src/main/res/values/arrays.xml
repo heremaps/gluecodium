@@ -97,9 +97,4 @@
         <item>void method(bool) throws InternalErrorsException</item>
         <item>String method(bool) throws InternalErrorsException</item>
     </string-array>
-
-    <string-array name="errors_methods_description">
-        <item>TRUE:  calls method and CRASHED error will be thrown\nFALSE: calls method and no exception will be thrown</item>
-        <item>TRUE:  calls method and CRASHED error will be thrown\nFALSE: calls method which will return 'Hello!'</item>
-    </string-array>
 </resources>

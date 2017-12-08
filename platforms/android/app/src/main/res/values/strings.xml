@@ -18,8 +18,8 @@
     <string name="submit">Submit!</string>
     <string name="text_input">Insert any text</string>
     <string name="text_result">Result</string>
-    <string name="text_true">True</string>
-    <string name="text_false">False</string>
+    <string name="text_success">Success</string>
+    <string name="text_error">Error</string>
     <string name="java_listener_result_label">Java Listener: </string>
     <string name="native_listener_result_label">Native Listener: </string>
     <string name="text_result_not_calculated">Was not calculated</string>
