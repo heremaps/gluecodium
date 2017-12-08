@@ -25,6 +25,15 @@ interface DefaultValues {
         String stringField
         SomeEnum enumField
     }
+
+    method processStructWithDefaults {
+        in {
+            StructWithDefaults input
+        }
+        out {
+            StructWithDefaults output
+        }
+    }
 }
 
 typeCollection TypesWithDefaults {

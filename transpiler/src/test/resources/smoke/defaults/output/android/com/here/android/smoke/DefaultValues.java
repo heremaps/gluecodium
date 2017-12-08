@@ -40,4 +40,5 @@ public class DefaultValues extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
+    public static native DefaultValues.StructWithDefaults processStructWithDefaults(final DefaultValues.StructWithDefaults input);
 }
