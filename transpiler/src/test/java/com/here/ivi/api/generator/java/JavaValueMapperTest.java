@@ -12,8 +12,6 @@
 package com.here.ivi.api.generator.java;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaEnumItem;
@@ -22,13 +20,9 @@ import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaTemplateType;
 import com.here.ivi.api.model.javamodel.JavaValue;
-import com.here.ivi.api.test.ArrayEList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -104,32 +98,6 @@ public class JavaValueMapperTest {
   }
 
   @Test
-  public void createEnumInitializerValueEmptyList() {
-
-    FEnumerationType fEnumType = mock(FEnumerationType.class);
-    when(fEnumType.getEnumerators()).thenReturn(new ArrayEList<>());
-
-    JavaValue result = JavaValueMapper.createEnumInitializerValue("myEnumType", fEnumType);
-
-    assertEquals("null", result.name);
-  }
-
-  @Test
-  public void createEnumInitializerValueNonEmptyList() {
-
-    FEnumerationType fEnumType = mock(FEnumerationType.class);
-    FEnumerator enumOne = mock(FEnumerator.class);
-    when(enumOne.getName()).thenReturn("enumItem");
-    EList<FEnumerator> enumerators = new ArrayEList<>();
-    enumerators.add(enumOne);
-    when(fEnumType.getEnumerators()).thenReturn(enumerators);
-
-    JavaValue result = JavaValueMapper.createEnumInitializerValue("myEnumType", fEnumType);
-
-    assertEquals("myEnumType." + JavaNameRules.getConstantName("enumItem"), result.name);
-  }
-
-  @Test
   public void mapDefaultValueNoDeploymentValueTemplateType() {
     JavaTemplateType templateType =
         JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, JavaPrimitiveType.INT);
@@ -144,14 +112,13 @@ public class JavaValueMapperTest {
 
   @Test
   public void mapDefaultValueNoDeploymentValueEnumType() {
-    JavaValue initializer = new JavaValue("myEnumValue");
     JavaEnumType enumType =
-        new JavaEnumType(
-            "myEnum", Collections.emptyList(), Collections.emptyList(), null, initializer);
+        new JavaEnumType("myEnum", Collections.emptyList(), Collections.emptyList(), null);
 
     JavaValue result = JavaValueMapper.mapDefaultValue(enumType);
 
-    assertEquals(initializer, result);
+    assertNotNull(result);
+    assertEquals("myEnum.values()[0]", result.name);
   }
 
   @Test
@@ -188,7 +155,7 @@ public class JavaValueMapperTest {
   @Test
   public void mapDefaultValueDeploymentValueEnumType() {
     JavaEnumType enumType =
-        new JavaEnumType("myEnum", Collections.emptyList(), Collections.emptyList(), null, null);
+        new JavaEnumType("myEnum", Collections.emptyList(), Collections.emptyList(), null);
     String defaultValue = "enumerator";
 
     JavaValue result = JavaValueMapper.mapDefaultValue(enumType, defaultValue);
