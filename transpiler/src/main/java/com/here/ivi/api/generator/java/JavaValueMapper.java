@@ -20,6 +20,7 @@ import com.here.ivi.api.model.javamodel.JavaType;
 import com.here.ivi.api.model.javamodel.JavaValue;
 import java.math.BigInteger;
 import java.util.List;
+import org.apache.commons.text.StringEscapeUtils;
 import org.franca.core.franca.*;
 
 public class JavaValueMapper {
@@ -114,7 +115,7 @@ public class JavaValueMapper {
 
     if (javaType instanceof JavaReferenceType
         && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.STRING) {
-      return new JavaValue("\"" + deploymentDefaultValue.replace("\"", "\\\"") + "\"");
+      return new JavaValue("\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"");
     }
     if (javaType instanceof JavaEnumType) {
       String enumeratorName = JavaNameRules.getConstantName(deploymentDefaultValue);
