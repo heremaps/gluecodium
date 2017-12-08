@@ -175,19 +175,6 @@ public class JavaTypeMapper {
     return JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, keyType, valueType);
   }
 
-  public JavaExceptionClass mapErrorClass(final FEnumerationType errorFType) {
-    String enumName = JavaNameRules.getClassName(errorFType.getName());
-    String exceptionName = JavaNameRules.getExceptionName(enumName);
-
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(errorFType);
-    JavaPackage exceptionPackage =
-        basePackage.createChildPackage(DefinedBy.getPackages(typeCollection));
-
-    JavaType enumTypeRef = mapCustomType(errorFType);
-
-    return new JavaExceptionClass(exceptionName, (JavaEnumType) enumTypeRef, exceptionPackage);
-  }
-
   public JavaCustomType mapCustomType(final FType fType) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(fType);

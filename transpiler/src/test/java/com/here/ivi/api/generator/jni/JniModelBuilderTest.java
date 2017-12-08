@@ -635,9 +635,8 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaEnumerationsReadsEnumerators() {
     // arrange
-    contextStack.getParentContext().allowsTypeDefinitions = true;
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum);
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum);
+    when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType);
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType);
     contextStack.injectResult(new JniEnumerator("oneJ", "oneC"));
     contextStack.injectResult(new JniEnumerator("twoJ", "twoC"));
     contextStack.injectResult(new JniEnumerator("threeJ", "threeC"));
@@ -662,9 +661,8 @@ public class JniModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationsReadsTypeReferences() {
-    contextStack.getParentContext().allowsTypeDefinitions = false;
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppCustomType);
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaCustomType);
+    when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType);
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType);
 
     modelBuilder.finishBuilding(francaEnumType);
 

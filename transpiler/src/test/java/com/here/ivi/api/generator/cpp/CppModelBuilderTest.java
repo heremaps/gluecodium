@@ -568,8 +568,6 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsName() {
-    contextStack.getParentContext().allowsTypeDefinitions = true;
-
     modelBuilder.finishBuilding(francaEnumerationType);
 
     CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
@@ -579,7 +577,6 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsEnumItems() {
-    contextStack.getParentContext().allowsTypeDefinitions = true;
     CppEnumItem cppEnumItem = new CppEnumItem("enumerated");
     contextStack.injectResult(cppEnumItem);
 
@@ -593,7 +590,6 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeCreatesTypeRef() {
-    contextStack.getParentContext().allowsTypeDefinitions = false;
     when(typeMapper.mapEnum(any())).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaEnumerationType);

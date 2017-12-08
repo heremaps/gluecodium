@@ -69,18 +69,6 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   }
 
   @Override
-  public void startBuilding(FInterface francaInterface) {
-    openContext();
-    getCurrentContext().allowsTypeDefinitions = true;
-  }
-
-  @Override
-  public void startBuilding(FTypeCollection francaTypeCollection) {
-    openContext();
-    getCurrentContext().allowsTypeDefinitions = true;
-  }
-
-  @Override
   public void finishBuilding(FInterface francaInterface) {
 
     CppClass cppClass = cppBuilder.getFinalResult(CppClass.class);
@@ -193,21 +181,19 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuilding(FEnumerationType francaEnumType) {
 
-    if (getParentContext().allowsTypeDefinitions) {
-      JavaEnum javaEnum = javaBuilder.getFinalResult(JavaEnum.class);
-      CppEnum cppEnum = cppBuilder.getFinalResult(CppEnum.class);
+    // Type definition
+    JavaEnum javaEnum = javaBuilder.getFinalResult(JavaEnum.class);
+    CppEnum cppEnum = cppBuilder.getFinalResult(CppEnum.class);
+    storeResult(
+        new JniEnum.Builder(javaEnum.name, cppEnum.name)
+            .javaPackage(javaEnum.javaPackage)
+            .enumerators(getPreviousResults(JniEnumerator.class))
+            .build());
 
-      storeResult(
-          new JniEnum.Builder(javaEnum.name, cppEnum.name)
-              .javaPackage(javaEnum.javaPackage)
-              .enumerators(getPreviousResults(JniEnumerator.class))
-              .build());
-    } else {
-      JavaType javaType = javaBuilder.getFinalResult(JavaType.class);
-      CppTypeRef cppTypeRef = cppBuilder.getFinalResult(CppTypeRef.class);
-
-      storeResult(JniType.createType(javaType, cppTypeRef));
-    }
+    // Type reference
+    JavaType javaType = javaBuilder.getFinalResult(JavaType.class);
+    CppTypeRef cppTypeRef = cppBuilder.getFinalResult(CppTypeRef.class);
+    storeResult(JniType.createType(javaType, cppTypeRef));
 
     closeContext();
   }
