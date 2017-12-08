@@ -31,28 +31,24 @@ import com.here.android.hello.InternalErrorsException;
 
 public final class ErrorsFragment extends Fragment {
 
-  private static final String EXCEPTION_TEXT = "Exception thrown%n"
+  private static final String EXCEPTION_TEXT = "Exception thrown:%n"
       + "    %s%n%n"
       + "Error value:%n"
       + "    %s.%s";
 
-  private Button submitTrue;
-  private Button submitFalse;
+  private Button submitSuccess;
+  private Button submitThrowException;
   private TextView result;
   private Spinner spinner;
-  private TextView description;
-  private String[] descriptionsText;
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_errors, container, false);
     result = rootView.findViewById(R.id.errors_result);
-    submitTrue = rootView.findViewById(R.id.errors_submit_true);
-    submitFalse = rootView.findViewById(R.id.errors_submit_false);
+    submitThrowException = rootView.findViewById(R.id.errors_submit_error);
+    submitSuccess = rootView.findViewById(R.id.errors_submit_success);
     spinner = rootView.findViewById(R.id.errors_spinner);
-    descriptionsText = getResources().getStringArray(R.array.errors_methods_description);
-    description = rootView.findViewById(R.id.errors_description);
     return rootView;
   }
 
@@ -64,19 +60,18 @@ public final class ErrorsFragment extends Fragment {
       @Override
       public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position,
           long id) {
-        description.setText(descriptionsText[position]);
         result.setText("");
       }
 
       @Override
       public void onNothingSelected(AdapterView<?> parentView) {
-        description.setText("");
+        result.setText("");
       }
     });
 
-    submitTrue
+    submitThrowException
         .setOnClickListener(v -> executeErrorsMethod(spinner.getSelectedItemPosition(), true));
-    submitFalse
+    submitSuccess
         .setOnClickListener(v -> executeErrorsMethod(spinner.getSelectedItemPosition(), false));
   }
 
@@ -108,7 +103,7 @@ public final class ErrorsFragment extends Fragment {
         }
 
         String outputString =
-            getResources().getString(R.string.no_exception_thrown) + "\n"
+            getResources().getString(R.string.no_exception_thrown) + "\n\n"
                 + "Result string: " + resultString;
         result.setText(outputString);
         break;
