@@ -11,9 +11,7 @@
 
 package com.here.ivi.api.generator.java;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -138,6 +136,7 @@ public class JavaValueMapperTest {
 
     JavaValue result = JavaValueMapper.mapDefaultValue(templateType);
 
+    assertNotNull(result);
     assertEquals(templateType.implementationType.imports, result.imports);
     assertTrue(result.isNew);
     assertEquals(templateType.implementationType.name, result.name);
@@ -161,6 +160,7 @@ public class JavaValueMapperTest {
 
     JavaValue result = JavaValueMapper.mapDefaultValue(customType);
 
+    assertNotNull(result);
     assertEquals(customType.imports, result.imports);
     assertEquals(customType.name, result.name);
     assertTrue(result.isNew);
@@ -178,11 +178,11 @@ public class JavaValueMapperTest {
   @Test
   public void mapDefaultValueDeploymentValueStringType() {
     JavaReferenceType stringType = new JavaReferenceType(JavaReferenceType.Type.STRING);
-    String defaultValue = "my \"value\"";
+    String defaultValue = "\\ my \"value\" \n";
 
     JavaValue result = JavaValueMapper.mapDefaultValue(stringType, defaultValue);
 
-    assertEquals("\"my \\\"value\\\"\"", result.name);
+    assertEquals("\"\\\\ my \\\"value\\\" \\n\"", result.name);
   }
 
   @Test

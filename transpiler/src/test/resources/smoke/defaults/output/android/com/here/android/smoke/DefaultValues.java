@@ -28,7 +28,7 @@ public class DefaultValues extends NativeBase {
         public int intField = 42;
         public float floatField = 3.14;
         public boolean boolField = true;
-        public String stringField = "Jonny \"Magic\" Smith";
+        public String stringField = "\\Jonny \"Magic\" Smith\n";
         public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
     }
     protected DefaultValues(final long nativeHandle) {
