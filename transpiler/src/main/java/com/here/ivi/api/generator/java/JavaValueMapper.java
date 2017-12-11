@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.java;
 import com.here.ivi.api.model.javamodel.JavaCustomType;
 import com.here.ivi.api.model.javamodel.JavaEnumItem;
 import com.here.ivi.api.model.javamodel.JavaEnumType;
+import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
 import com.here.ivi.api.model.javamodel.JavaReferenceType;
 import com.here.ivi.api.model.javamodel.JavaTemplateType;
 import com.here.ivi.api.model.javamodel.JavaType;
@@ -112,6 +113,10 @@ public class JavaValueMapper {
 
   public static JavaValue mapDefaultValue(
       final JavaType javaType, final String deploymentDefaultValue) {
+
+    if (JavaPrimitiveType.FLOAT.equals(javaType)) {
+      return new JavaValue(deploymentDefaultValue + "f");
+    }
 
     if (javaType instanceof JavaReferenceType
         && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.STRING) {
