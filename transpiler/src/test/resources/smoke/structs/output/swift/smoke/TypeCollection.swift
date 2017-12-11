@@ -28,6 +28,7 @@ public struct Point {
 
     internal func convertToCType() -> smoke_TypeCollection_PointRef {
         let result = smoke_TypeCollection_Point_create()
+        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
@@ -56,6 +57,7 @@ public struct Color {
 
     internal func convertToCType() -> smoke_TypeCollection_ColorRef {
         let result = smoke_TypeCollection_Color_create()
+        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
@@ -96,6 +98,7 @@ public struct Line {
 
     internal func convertToCType() -> smoke_TypeCollection_LineRef {
         let result = smoke_TypeCollection_Line_create()
+        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
@@ -137,6 +140,7 @@ public struct ColoredLine {
 
     internal func convertToCType() -> smoke_TypeCollection_ColoredLineRef {
         let result = smoke_TypeCollection_ColoredLine_create()
+        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
@@ -218,6 +222,7 @@ public struct AllTypesStruct {
 
     internal func convertToCType() -> smoke_TypeCollection_AllTypesStructRef {
         let result = smoke_TypeCollection_AllTypesStruct_create()
+        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }

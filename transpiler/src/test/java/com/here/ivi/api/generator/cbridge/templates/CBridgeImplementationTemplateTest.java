@@ -129,7 +129,7 @@ public class CBridgeImplementationTemplateTest {
 
     final String expected =
         "nameRef name_create() {\n"
-            + "    return {new baseName()};\n"
+            + "    return {new (std::nothrow)baseName()};\n"
             + "}\n"
             + "void name_release(nameRef handle) {\n"
             + "    delete get_pointer(handle);\n"
@@ -152,7 +152,7 @@ public class CBridgeImplementationTemplateTest {
 
     final String expected =
         "nameRef name_create() {\n"
-            + "    return {new baseName()};\n"
+            + "    return {new (std::nothrow)baseName()};\n"
             + "}\n"
             + "void name_release(nameRef handle) {\n"
             + "    delete get_pointer(handle);\n"
@@ -178,7 +178,7 @@ public class CBridgeImplementationTemplateTest {
 
     final String expected =
         "nameRef name_create() {\n"
-            + "    return {new baseName()};\n"
+            + "    return {new (std::nothrow)baseName()};\n"
             + "}\n"
             + "void name_release(nameRef handle) {\n"
             + "    delete get_pointer(handle);\n"
@@ -227,7 +227,7 @@ public class CBridgeImplementationTemplateTest {
 
     final String expected =
         "SomeStructRef memberStruct_create() {\n"
-            + "    return {new baseName()};\n"
+            + "    return {new (std::nothrow)baseName()};\n"
             + "}\n"
             + "void memberStruct_release(SomeStructRef handle) {\n"
             + "    delete get_pointer(handle);\n"
@@ -282,7 +282,12 @@ public class CBridgeImplementationTemplateTest {
                     + "};\n")
             .expect(
                 "ClassyRef Classy_createProxy(ClassTable functionTable) {\n"
-                    + "    return { new std::shared_ptr<some::package::SomeClass>(ClassyProxy::get_proxy(std::move(functionTable))) };\n"
+                    + "    auto proxy = ClassyProxy::get_proxy(std::move(functionTable));\n"
+                    + "    if (proxy) {\n"
+                    + "        return { new (std::nothrow) std::shared_ptr<some::package::SomeClass>(std::move(proxy)) };\n"
+                    + "    } else {\n"
+                    + "        return { nullptr };\n"
+                    + "    }\n"
                     + "}")
             .build();
 

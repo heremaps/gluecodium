@@ -47,6 +47,7 @@ abstract class CBridgeGeneratorTestBase {
       "#include \"BASE_API_HEADER of TestInterface\"\n";
   protected static final String STD_INT_INCLUDE = "#include <stdint.h>\n";
   protected static final String STD_STRING_INCLUDE = "#include <string>\n";
+  protected static final String STD_NEW_INCLUDE = "#include <new>\n";
   protected static final String STD_VECTOR_INCLUDE = "#include <vector>\n";
   protected static final String BYTE_ARRAY_INCLUDE =
       "#include \"cbridge/include/ByteArrayHandle.h\"\n";

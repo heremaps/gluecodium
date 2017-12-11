@@ -35,7 +35,7 @@ public class StaticMethods {
     public static func returnInputByteBuffer(inputBuffer: Data) -> Data {
         return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data in
             let result_data_handle = smoke_StaticMethods_returnInputByteBuffer(inputBuffer_ptr, Int64(inputBuffer.count))
-
+            precondition(result_data_handle.private_pointer != nil, "Out of memory")
             defer {
                 byteArray_release(result_data_handle)
             }
@@ -46,7 +46,7 @@ public class StaticMethods {
     public static func returnReverseByteBuffer(inputBuffer: Data) -> Data {
         return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data in
             let result_data_handle = smoke_StaticMethods_returnReverseByteBuffer(inputBuffer_ptr, Int64(inputBuffer.count))
-
+            precondition(result_data_handle.private_pointer != nil, "Out of memory")
             defer {
                 byteArray_release(result_data_handle)
             }
@@ -58,7 +58,7 @@ public class StaticMethods {
         return input1.withUnsafeBytes { (input1_ptr: UnsafePointer<UInt8>) -> Data in
             return input2.withUnsafeBytes { (input2_ptr: UnsafePointer<UInt8>) -> Data in
                 let result_data_handle = smoke_StaticMethods_concatenateByteBuffers(input1_ptr, Int64(input1.count), input2_ptr, Int64(input2.count))
-
+                precondition(result_data_handle.private_pointer != nil, "Out of memory")
                 defer {
                     byteArray_release(result_data_handle)
                 }
@@ -189,7 +189,7 @@ public class StaticMethods {
 
     public static func returnInputString(inputString: String) -> String? {
         let result_string_handle = smoke_StaticMethods_returnInputString(inputString)
-
+        precondition(result_string_handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(result_string_handle)
         }
@@ -199,7 +199,7 @@ public class StaticMethods {
 
     public static func concatenateStrings(inputString1: String, inputString2: String) -> String? {
         let result_string_handle = smoke_StaticMethods_concatenateStrings(inputString1, inputString2)
-
+        precondition(result_string_handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(result_string_handle)
         }
@@ -209,7 +209,7 @@ public class StaticMethods {
 
     public static func returnHelloString() -> String? {
         let result_string_handle = smoke_StaticMethods_returnHelloString()
-
+        precondition(result_string_handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(result_string_handle)
         }
@@ -219,7 +219,7 @@ public class StaticMethods {
 
     public static func returnEmpty() -> String? {
         let result_string_handle = smoke_StaticMethods_returnEmpty()
-
+        precondition(result_string_handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(result_string_handle)
         }

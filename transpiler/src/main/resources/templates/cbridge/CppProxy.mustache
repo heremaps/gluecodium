@@ -24,7 +24,12 @@ private:
 };
 
 {{name}}Ref {{name}}_createProxy({{functionTableName}} functionTable) {
-    return { new {{selfType}}({{name}}Proxy::get_proxy(std::move(functionTable))) };
+    auto proxy = {{name}}Proxy::get_proxy(std::move(functionTable));
+    if (proxy) {
+        return { new (std::nothrow) {{selfType}}(std::move(proxy)) };
+    } else {
+        return { nullptr };
+    }
 }
 {{+baseApiParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{mappedType}}{{/case}}{{!!
@@ -35,7 +40,7 @@ private:
     }}{{#case "BUILTIN_STRING"}}std_string_create({{name}}.c_str()){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}{{name}}.data(), {{name}}.size(){{/case}}{{!!
     }}{{#case "CLASS" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}{ new {{mappedType}}({{name}}) }{{/case}}{{!!
+    }}{{#case "STRUCT"}}{ new (std::nothrow) {{mappedType}}({{name}}) }{{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{/swiftParameter}}
 {{+returnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
@@ -44,9 +49,9 @@ private:
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
     }}{{#case "CLASS" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT"}}auto _return_value_ptr = get_pointer({{>swiftDelegateCall}});
-auto _return_value(*_return_value_ptr);
-delete _return_value_ptr;
-return _return_value;
+        auto _return_value(*_return_value_ptr);
+        delete _return_value_ptr;
+        return _return_value;
     {{/case}}{{!!
     }}{{#default}}{{>swiftDelegateCall}};{{/default}}{{!!
 }}{{/switch}}

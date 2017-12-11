@@ -34,21 +34,21 @@ public class NestedInstantiableTwo {
 
     public func getInstantiableOne() -> SimpleInstantiableOne? {
         let cResult = smoke_NestedInstantiableTwo_getInstantiableOne(c_instance)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         return SimpleInstantiableOne(cSimpleInstantiableOne: cResult)
     }
 
     public func getInstantiableTwo() -> SimpleInstantiableTwo? {
         let cResult = smoke_NestedInstantiableTwo_getInstantiableTwo(c_instance)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         return SimpleInstantiableTwo(cSimpleInstantiableTwo: cResult)
     }
 
     public func getNestedInstantiable() -> NestedInstantiableOne? {
         let cResult = smoke_NestedInstantiableTwo_getNestedInstantiable(c_instance)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         return NestedInstantiableOne(cNestedInstantiableOne: cResult)
     }
@@ -60,7 +60,7 @@ public class NestedInstantiableTwo {
 
     public func getSelfInstantiable() -> NestedInstantiableTwo? {
         let cResult = smoke_NestedInstantiableTwo_getSelfInstantiable(c_instance)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         return NestedInstantiableTwo(cNestedInstantiableTwo: cResult)
     }

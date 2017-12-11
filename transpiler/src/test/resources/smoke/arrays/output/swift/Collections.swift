@@ -25,6 +25,7 @@ internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
         defer {
             smoke_Arrays_BasicStruct_release(handle)
         }
+        precondition(handle.private_pointer != nil, "Out of memory")
         guard let result = Arrays.BasicStruct(cBasicStruct: handle) else {
             fatalError("Not implemented")
         }
@@ -34,8 +35,9 @@ internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
 extension Collection where Element == Arrays.BasicStruct  {
     public func c_conversion()-> (c_type: arrayCollection_BasicStruct, cleanup: () ->Void) {
         let handle = arrayCollection_BasicStruct_create()
+        precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
-           arrayCollection_BasicStruct_append(handle, item.convertToCType())
+            arrayCollection_BasicStruct_append(handle, item.convertToCType())
         }
         let cleanup_function = { () -> Void in
             arrayCollection_BasicStruct_release(handle)
@@ -59,6 +61,7 @@ internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
         defer {
             smoke_Arrays_FancyStruct_release(handle)
         }
+        precondition(handle.private_pointer != nil, "Out of memory")
         guard let result = Arrays.FancyStruct(cFancyStruct: handle) else {
             fatalError("Not implemented")
         }
@@ -68,8 +71,9 @@ internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
 extension Collection where Element == Arrays.FancyStruct  {
     public func c_conversion()-> (c_type: arrayCollection_FancyStruct, cleanup: () ->Void) {
         let handle = arrayCollection_FancyStruct_create()
+        precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
-           arrayCollection_FancyStruct_append(handle, item.convertToCType())
+            arrayCollection_FancyStruct_append(handle, item.convertToCType())
         }
         let cleanup_function = { () -> Void in
             arrayCollection_FancyStruct_release(handle)
@@ -90,16 +94,18 @@ internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
     }
     public override subscript(index: Int) -> CollectionOf<UInt8> {
         let handle = arrayCollection_UInt8Array_get(c_element, UInt64(index))
+        precondition(handle.private_pointer != nil, "Out of memory")
         return UInt8List(handle)
     }
 }
 extension Collection where Element: Collection, Element.Element == UInt8  {
     public func c_conversion()-> (c_type: arrayCollection_UInt8Array, cleanup: () ->Void) {
         let handle = arrayCollection_UInt8Array_create()
+        precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
-        let conversion = item.c_conversion()
-        arrayCollection_UInt8Array_append(handle, conversion.c_type)
-        conversion.cleanup()
+            let conversion = item.c_conversion()
+            arrayCollection_UInt8Array_append(handle, conversion.c_type)
+            conversion.cleanup()
         }
         let cleanup_function = { () -> Void in
             arrayCollection_UInt8Array_release(handle)
@@ -120,18 +126,20 @@ internal class StringList: CollectionOf<String> {
     }
     public override subscript(index: Int) -> String {
         let handle = arrayCollection_String_get(c_element, UInt64(index))
+        precondition(handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(handle)
         }
         return String(data: Data(bytes: std_string_data_get(handle),
-        count: Int(std_string_size_get(handle))), encoding: .utf8)!
+                      count: Int(std_string_size_get(handle))), encoding: .utf8)!
     }
 }
 extension Collection where Element == String  {
     public func c_conversion()-> (c_type: arrayCollection_String, cleanup: () ->Void) {
         let handle = arrayCollection_String_create()
+        precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
-             arrayCollection_String_append(handle, item)
+            arrayCollection_String_append(handle, item)
         }
         let cleanup_function = { () -> Void in
             arrayCollection_String_release(handle)
@@ -158,8 +166,9 @@ internal class UInt8List: CollectionOf<UInt8> {
 extension Collection where Element == UInt8  {
     public func c_conversion()-> (c_type: arrayCollection_UInt8, cleanup: () ->Void) {
         let handle = arrayCollection_UInt8_create()
+        precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
-             arrayCollection_UInt8_append(handle, item)
+            arrayCollection_UInt8_append(handle, item)
         }
         let cleanup_function = { () -> Void in
             arrayCollection_UInt8_release(handle)

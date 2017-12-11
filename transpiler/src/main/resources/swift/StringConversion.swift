@@ -1,3 +1,4 @@
+// -------------------------------------------------------------------------------------------------
 //
 // Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
@@ -7,21 +8,14 @@
 // consent of HERE Global B.V. This material also contains confidential information,
 // which may not be disclosed to others without prior written consent of HERE Global B.V.
 //
-// Automatically generated. Do not modify. Your changes will be lost.
-#include "cbridge/include/smoke/Errors.h"
-#include "cbridge_internal/include/smoke/ErrorsImpl.h"
-#include "smoke/Errors.h"
-#include <memory>
-#include <new>
+// -------------------------------------------------------------------------------------------------
 
-void smoke_Errors_release(smoke_ErrorsRef handle) {
-    delete get_pointer(handle);
+import Foundation
+
+extension String {
+    func convertToCType() -> std_stringRef {
+        let result = std_string_create(self)
+        precondition(result.private_pointer != nil, "Out of memory")
+        return result
+    }
 }
-
-
-
-smoke_Errors_InternalError smoke_Errors_methodWithErrors() {
-    return ::smoke::Errors::method_with_errors().code().code();
-}
-
-

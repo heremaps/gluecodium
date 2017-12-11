@@ -39,6 +39,7 @@ public class Structs {
 
         internal func convertToCType() -> examples_Structs_SyncResultRef {
             let result = examples_Structs_SyncResult_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -72,6 +73,7 @@ public class Structs {
 
         internal func convertToCType() -> examples_Structs_IdentifiableSyncResultRef {
             let result = examples_Structs_IdentifiableSyncResult_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -89,7 +91,7 @@ public class Structs {
             examples_Structs_SyncResult_release(inputHandle)
         }
         let cResult = examples_Structs_methodWithNonNestedType(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             examples_Structs_SyncResult_release(cResult)
@@ -103,7 +105,7 @@ public class Structs {
             examples_Structs_IdentifiableSyncResult_release(inputHandle)
         }
         let cResult = examples_Structs_methodWithNestedType(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             examples_Structs_IdentifiableSyncResult_release(cResult)

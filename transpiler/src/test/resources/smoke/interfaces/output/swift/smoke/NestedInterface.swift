@@ -24,6 +24,8 @@ internal func getRef(_ ref: NestedInterface) -> RefHolder<smoke_NestedInterfaceR
         }
     }
     functions.smoke_NestedInterface_setSameTypeInstances = {(swiftClass_pointer, interfaceOne, interfaceTwo) in
+        precondition(interfaceOne.private_pointer != nil, "Out of memory")
+        precondition(interfaceTwo.private_pointer != nil, "Out of memory")
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! NestedInterface
         return swiftClass.setSameTypeInstances(interfaceOne: _SimpleInterface(cSimpleInterface: interfaceOne)!, interfaceTwo: _SimpleInterface(cSimpleInterface: interfaceTwo)!)
     }
@@ -35,7 +37,9 @@ internal func getRef(_ ref: NestedInterface) -> RefHolder<smoke_NestedInterfaceR
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! NestedInterface
         return getRef(swiftClass.getInstanceTwo()!).ref
     }
-    return RefHolder(ref: smoke_NestedInterface_createProxy(functions), release: smoke_NestedInterface_release)
+    let proxy = smoke_NestedInterface_createProxy(functions)
+    precondition(proxy.private_pointer != nil, "Out of memory")
+    return RefHolder(ref: proxy, release: smoke_NestedInterface_release)
 }
 
 
@@ -68,13 +72,13 @@ internal class _NestedInterface: NestedInterface {
 
     public func getInstanceOne() -> SimpleInterface? {
         let cResult = smoke_NestedInterface_getInstanceOne(c_instance)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
         return _SimpleInterface(cSimpleInterface: cResult)
     }
 
     public func getInstanceTwo() -> SimpleInterface? {
         let cResult = smoke_NestedInterface_getInstanceTwo(c_instance)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
         return _SimpleInterface(cSimpleInterface: cResult)
     }
 

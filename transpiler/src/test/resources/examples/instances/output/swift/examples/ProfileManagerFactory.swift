@@ -25,14 +25,14 @@ public class ProfileManagerFactory {
 
     public static func createProfileManager() -> ProfileManager? {
         let cResult = examples_ProfileManagerFactory_createProfileManager()
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         return ProfileManager(cProfileManager: cResult)
     }
 
     public static func createProfileManagerInterface() -> ProfileManagerInterface? {
         let cResult = examples_ProfileManagerFactory_createProfileManagerInterface()
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         return _ProfileManagerInterface(cProfileManagerInterface: cResult)
     }

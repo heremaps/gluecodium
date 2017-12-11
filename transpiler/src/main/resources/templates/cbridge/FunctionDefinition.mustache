@@ -20,8 +20,8 @@
 }}{{+ReturnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{include delegateToCall}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{returnType.functionReturnType}}>({{include delegateToCall}}){{/case}}{{!!
-    }}{{#case "ARRAY"}}{new {{returnType.arrayBaseApi}}({{include delegateToCall}})}{{/case}}{{!!
-    }}{{#default}}{new {{returnType.name}}({{include delegateToCall}})}{{/default}}{{!!
+    }}{{#case "ARRAY"}}{new (std::nothrow){{returnType.arrayBaseApi}}({{include delegateToCall}})}{{/case}}{{!!
+    }}{{#default}}{new (std::nothrow){{returnType.name}}({{include delegateToCall}})}{{/default}}{{!!
 }}{{/switch}}{{/ReturnConversion}}{{!!
 
 

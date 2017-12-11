@@ -31,7 +31,7 @@ public class SimpleInstantiableTwo {
 
     public func getStringValue() -> String? {
         let result_string_handle = smoke_SimpleInstantiableTwo_getStringValue(c_instance)
-
+        precondition(result_string_handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(result_string_handle)
         }

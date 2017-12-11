@@ -40,6 +40,7 @@ public class Arrays {
 
         internal func convertToCType() -> smoke_Arrays_BasicStructRef {
             let result = smoke_Arrays_BasicStruct_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -65,6 +66,7 @@ public class Arrays {
 
         internal func convertToCType() -> smoke_Arrays_FancyStructRef {
             let result = smoke_Arrays_FancyStruct_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -85,6 +87,7 @@ public class Arrays {
             inputHandle.cleanup()
         }
         let handle = smoke_Arrays_methodWithArray(inputHandle.c_type)
+        precondition(handle.private_pointer != nil, "Out of memory")
         return StringList(handle)
     }
 
@@ -94,6 +97,7 @@ public class Arrays {
             inputHandle.cleanup()
         }
         let handle = smoke_Arrays_methodWithArrayInline(inputHandle.c_type)
+        precondition(handle.private_pointer != nil, "Out of memory")
         return UInt8List(handle)
     }
 
@@ -103,6 +107,7 @@ public class Arrays {
             inputHandle.cleanup()
         }
         let handle = smoke_Arrays_methodWithStructArray(inputHandle.c_type)
+        precondition(handle.private_pointer != nil, "Out of memory")
         return BasicStructList(handle)
     }
 
@@ -112,6 +117,7 @@ public class Arrays {
             inputHandle.cleanup()
         }
         let handle = smoke_Arrays_methodWithArrayOfArrays(inputHandle.c_type)
+        precondition(handle.private_pointer != nil, "Out of memory")
         return UInt8ListList(handle)
     }
 
@@ -125,6 +131,7 @@ public class Arrays {
             fancyArrayHandle.cleanup()
         }
         let handle = smoke_Arrays_mergeArraysOfStructsWithArrays(inlineFancyArrayHandle.c_type, fancyArrayHandle.c_type)
+        precondition(handle.private_pointer != nil, "Out of memory")
         return FancyStructList(handle)
     }
 
@@ -134,6 +141,7 @@ public class Arrays {
             inputHandle.cleanup()
         }
         let handle = smoke_Arrays_methodWithArrayOfAliases(inputHandle.c_type)
+        precondition(handle.private_pointer != nil, "Out of memory")
         return StringList(handle)
     }
 

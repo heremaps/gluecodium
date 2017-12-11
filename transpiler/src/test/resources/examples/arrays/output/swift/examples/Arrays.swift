@@ -33,6 +33,7 @@ public class Arrays {
         }
         internal func convertToCType() -> examples_Arrays_SyncResultRef {
             let result = examples_Arrays_SyncResult_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -47,6 +48,7 @@ public class Arrays {
             inputHandle.cleanup()
         }
         let handle = examples_Arrays_explicitArrayMethod(inputHandle.c_type)
+        precondition(handle.private_pointer != nil, "Out of memory")
         return SyncResultList(handle)
     }
     public static func implicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
@@ -55,6 +57,7 @@ public class Arrays {
             inputHandle.cleanup()
         }
         let handle = examples_Arrays_implicitArrayMethod(inputHandle.c_type)
+        precondition(handle.private_pointer != nil, "Out of memory")
         return SyncResultList(handle)
     }
 }

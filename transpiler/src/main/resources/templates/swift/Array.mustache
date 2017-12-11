@@ -34,13 +34,15 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType}}> {
 extension Collection {{>GenericConstraintsRule}}  {
     public func c_conversion()-> (c_type: {{refName}}, cleanup: () ->Void) {
         let handle = {{refName}}_create()
+        {{>precondition}}
+
         for item in self { {{!!
             }}{{#switch underlyingType.category.toString}}{{!!
-                }}{{#case "STRUCT"}}{{prefixPartial 'structConversion' '           '}}{{/case}}{{!!
-                }}{{#case "CLASS"}}{{prefixPartial 'classConversion' '           '}}{{/case}}{{!!
-                }}{{#case "ARRAY"}}{{prefixPartial 'arrayConversion'   '        '}}{{/case}}{{!!
-                }}{{#case "ENUM"}}{{prefixPartial 'enumConversion'   '        '}}{{/case}}{{!!
-                }}{{#default}}{{prefixPartial 'defaultConversion' '             '}}{{/default}}{{!!
+                }}{{#case "STRUCT"}}{{prefixPartial 'structConversion' '            '}}{{/case}}{{!!
+                }}{{#case "CLASS"}}{{prefixPartial 'classConversion' '            '}}{{/case}}{{!!
+                }}{{#case "ARRAY"}}{{prefixPartial 'arrayConversion'   '            '}}{{/case}}{{!!
+                }}{{#case "ENUM"}}{{prefixPartial 'enumConversion'   '            '}}{{/case}}{{!!
+                }}{{#default}}{{prefixPartial 'defaultConversion' '            '}}{{/default}}{{!!
             }}{{/switch}}
         }
         let cleanup_function = { () -> Void in
@@ -70,20 +72,23 @@ defer {
 {{>classSubscript}}{{/structSubscript}}
 
 {{+classSubscript}}
+{{>precondition}}
 guard let result = {{underlyingType}}(c{{underlyingType.simpleName}}: handle) else {
     fatalError("Not implemented")
 }
 return result{{/classSubscript}}
 
 {{+arraySubscript}}
+{{>precondition}}
 return {{underlyingType.implementingClass}}(handle){{/arraySubscript}}
 
 {{+stringSubscript}}
+{{>precondition}}
 defer {
     std_string_release(handle)
 }
 return String(data: Data(bytes: std_string_data_get(handle),
-count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}
+              count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}
 
 {{+structConversion}}
 {{refName}}_append(handle, item.convertToCType()){{/structConversion}}
@@ -102,3 +107,5 @@ conversion.cleanup(){{/arrayConversion}}
 
 {{+defaultConversion}}
 {{refName}}_append(handle, item){{/defaultConversion}}
+
+{{+precondition}}precondition(handle.private_pointer != nil, "Out of memory"){{/precondition}}

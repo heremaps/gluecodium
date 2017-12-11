@@ -34,7 +34,7 @@ public class ProfileManager {
 
     public func changeProfile(username: String) -> String? {
         let result_string_handle = examples_ProfileManager_changeProfile(c_instance, username)
-
+        precondition(result_string_handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(result_string_handle)
         }

@@ -47,6 +47,7 @@ public class Errors {
         let RESULT = examples_Errors_getSomethingOrFail()
         if (RESULT.has_value) {
             let result_string_handle = RESULT.returned_value
+            precondition(result_string_handle.private_pointer != nil, "Out of memory")
             defer {
                 std_string_release(result_string_handle)
             }

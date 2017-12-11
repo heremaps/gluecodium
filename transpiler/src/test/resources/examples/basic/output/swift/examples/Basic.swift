@@ -25,7 +25,7 @@ public class Basic {
 
     public static func basicMethod(inputString: String) -> String? {
         let result_string_handle = examples_Basic_basicMethod(inputString)
-
+        precondition(result_string_handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(result_string_handle)
         }

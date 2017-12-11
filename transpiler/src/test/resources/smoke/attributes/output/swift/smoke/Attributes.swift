@@ -29,6 +29,7 @@ public class Attributes {
     public var structAttribute: Attributes.ExampleStruct {
         get {
             let cResult = smoke_Attributes_structAttribute_get(c_instance)
+            precondition(cResult.private_pointer != nil, "Out of memory")
             defer {
                 smoke_Attributes_ExampleStruct_release(cResult)
             }
@@ -45,6 +46,7 @@ public class Attributes {
     public var arrayAttribute: CollectionOf<String> {
         get {
             let handle = smoke_Attributes_arrayAttribute_get(c_instance)
+            precondition(handle.private_pointer != nil, "Out of memory")
             return StringList(handle)
         }
         set {
@@ -85,6 +87,7 @@ public class Attributes {
         }
         internal func convertToCType() -> smoke_Attributes_ExampleStructRef {
             let result = smoke_Attributes_ExampleStruct_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }

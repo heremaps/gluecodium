@@ -1,5 +1,6 @@
 internal func convertToCType() -> {{cType}} {
     let result = {{cPrefix}}_create()
+    precondition(result.private_pointer != nil, "Out of memory")
     fillFunction(result)
     return result
 }

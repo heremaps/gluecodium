@@ -30,6 +30,7 @@ public class InstanceWithStruct {
         }
         internal func convertToCType() -> smoke_InstanceWithStruct_InnerStructRef {
             let result = smoke_InstanceWithStruct_InnerStruct_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -54,6 +55,7 @@ public class InstanceWithStruct {
         }
         internal func convertToCType() -> smoke_InstanceWithStruct_StructWithInstanceRef {
             let result = smoke_InstanceWithStruct_StructWithInstance_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -67,6 +69,7 @@ public class InstanceWithStruct {
             smoke_InstanceWithStruct_InnerStruct_release(inputStructHandle)
         }
         let cResult = smoke_InstanceWithStruct_innerStructMethod(c_instance, inputStructHandle)
+        precondition(cResult.private_pointer != nil, "Out of memory")
         defer {
             smoke_InstanceWithStruct_InnerStruct_release(cResult)
         }
@@ -78,6 +81,7 @@ public class InstanceWithStruct {
             smoke_InstanceWithStruct_StructWithInstance_release(inputHandle)
         }
         let cResult = smoke_InstanceWithStruct_structWithInstanceMethod(c_instance, inputHandle)
+        precondition(cResult.private_pointer != nil, "Out of memory")
         defer {
             smoke_InstanceWithStruct_StructWithInstance_release(cResult)
         }

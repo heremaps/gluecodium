@@ -57,6 +57,7 @@ public class Enums {
 
         internal func convertToCType() -> smoke_Enums_ErrorStructRef {
             let result = smoke_Enums_ErrorStruct_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -86,7 +87,7 @@ public class Enums {
     }
     public static func createStructWithEnumInside(type: Enums.InternalError, message: String) -> Enums.ErrorStruct? {
         let cResult = smoke_Enums_createStructWithEnumInside(type.rawValue, message)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_Enums_ErrorStruct_release(cResult)

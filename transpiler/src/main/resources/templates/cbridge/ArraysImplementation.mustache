@@ -1,5 +1,5 @@
 {{name}} {{name}}_create() {
-    return { new {{arrayType.arrayBaseApi}}()};;
+    return { new (std::nothrow){{arrayType.arrayBaseApi}}()};;
 }
 
 void {{name}}_release({{name}} handle) {
@@ -34,14 +34,14 @@ void {{name}}_append({{name}} handle, {{argument}} item) { {{!!
 
 {{+classGetConversion}}
 return {{innerType}} {
-    new {{underlyingType.name}} {
+    new (std::nothrow){{underlyingType.name}} {
         (*get_pointer(handle))[index]
     }
 };{{/classGetConversion}}
 
 {{+arrayGetConversion}}
 return {{innerType}} {
-    new {{underlyingType.arrayBaseApi}} {
+    new (std::nothrow){{underlyingType.arrayBaseApi}} {
         (*get_pointer(handle))[index]
     }
 };{{/arrayGetConversion}}

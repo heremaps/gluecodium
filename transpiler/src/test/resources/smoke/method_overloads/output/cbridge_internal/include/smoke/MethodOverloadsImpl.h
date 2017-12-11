@@ -13,6 +13,7 @@
 #include "cbridge/include/smoke/MethodOverloads.h"
 #include "smoke/MethodOverloads.h"
 #include <memory>
+#include <new>
 
 inline smoke::MethodOverloads::Point* get_pointer(smoke_MethodOverloads_PointRef handle) {
     return static_cast<smoke::MethodOverloads::Point*>(handle.private_pointer);
