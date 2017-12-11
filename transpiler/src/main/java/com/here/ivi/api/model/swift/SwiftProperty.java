@@ -15,14 +15,13 @@ import com.here.ivi.api.generator.swift.SwiftNameRules;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class SwiftProperty extends SwiftModelElement {
-  public final SwiftType type;
+public final class SwiftProperty extends SwiftTypedModelElement {
+
   public final boolean readonly;
   public final List<SwiftMethod> propertyAccessors = new LinkedList<>();
 
   public SwiftProperty(String propertyName, SwiftType type, boolean readonly, String delegateName) {
-    super(propertyName);
-    this.type = type;
+    super(propertyName, type);
     this.readonly = readonly;
 
     propertyAccessors.add(createGetterBody(delegateName));

@@ -11,9 +11,12 @@
 
 package com.here.ivi.api.model.swift;
 
-public final class SwiftTypeDef extends SwiftTypedModelElement {
+public abstract class SwiftTypedModelElement extends SwiftModelElement {
 
-  public SwiftTypeDef(final String name, final SwiftType type) {
-    super(name, type);
+  public final SwiftType type;
+
+  protected SwiftTypedModelElement(final String name, final SwiftType type) {
+    super(name);
+    this.type = type;
   }
 }

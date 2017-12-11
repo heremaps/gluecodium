@@ -11,11 +11,9 @@
 
 package com.here.ivi.api.model.swift;
 
-public final class SwiftField extends SwiftModelElement {
-  public final SwiftType type;
+public final class SwiftField extends SwiftTypedModelElement {
 
   public SwiftField(String name, SwiftType type) {
-    super(name);
-    this.type = type;
+    super(name, type);
   }
 }
