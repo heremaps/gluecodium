@@ -21,5 +21,6 @@ XCTMain([
     testCase(AttributesTests.allTests),
     testCase(AttributesInterfaceTests.allTests),
     testCase(InterfacesTests.allTests),
-    testCase(ErrorsTests.allTests)
+    testCase(ErrorsTests.allTests),
+    testCase(DefaultsTests.allTests)
 ])
