@@ -13,7 +13,10 @@ package com.here.ivi.api.model.swift;
 
 public final class SwiftField extends SwiftTypedModelElement {
 
-  public SwiftField(String name, SwiftType type) {
+  public final SwiftValue defaultValue;
+
+  public SwiftField(final String name, final SwiftType type, final SwiftValue defaultValue) {
     super(name, type);
+    this.defaultValue = defaultValue;
   }
 }

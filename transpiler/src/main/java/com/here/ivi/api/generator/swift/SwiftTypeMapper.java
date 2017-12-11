@@ -66,15 +66,6 @@ public class SwiftTypeMapper {
     return typedefType.createAlias(SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel));
   }
 
-  public static SwiftValue mapType(FExpression expression) {
-    if (expression instanceof FIntegerConstant) {
-      return new SwiftValue(String.valueOf(((FIntegerConstant) expression).getVal()));
-    } else {
-      //TODO: APIGEN-494: Update Swift layer iOS generator for HelloWorld-ComplexConstants
-      return null;
-    }
-  }
-
   private static SwiftType getClassOrStructType(
       FType derived, final FrancaDeploymentModel deploymentModel) {
     SwiftType.TypeCategory category = (derived instanceof FTypeDef) ? CLASS : STRUCT;

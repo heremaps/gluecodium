@@ -144,15 +144,22 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FExpression expression) {
-    storeResult(SwiftTypeMapper.mapType(expression));
+    storeResult(SwiftValueMapper.mapExpression(expression));
     super.finishBuilding(expression);
   }
 
   @Override
   public void finishBuilding(FField francaField) {
-    SwiftField structField =
-        new SwiftField(
-            SwiftNameRules.getFieldName(francaField.getName()), getPreviousResult(SwiftType.class));
+
+    String fieldName = SwiftNameRules.getFieldName(francaField.getName());
+    SwiftType fieldType = getPreviousResult(SwiftType.class);
+    String deploymentDefaultValue = deploymentModel.getDefaultValue(francaField);
+    SwiftValue defaultValue =
+        deploymentDefaultValue != null
+            ? SwiftValueMapper.mapDefaultValue(fieldType, deploymentDefaultValue)
+            : null;
+    SwiftField structField = new SwiftField(fieldName, fieldType, defaultValue);
+
     storeResult(structField);
     super.finishBuilding(francaField);
   }
