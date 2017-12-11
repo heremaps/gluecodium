@@ -49,7 +49,7 @@ function(apigen_swift_build target)
             set(ARCHITECTURES ${CMAKE_OSX_ARCHITECTURES})
         endif()
 
-        foreach(TARGET_ARCH IN LISTS ${ARCHITECTURES})
+        foreach(TARGET_ARCH IN LISTS ARCHITECTURES)
             message(INFO "[Swift] COMPILING ${target} ${TARGET_ARCH}")
             apigen_swift_compile(${target} "${TARGET_ARCH}")
         endforeach()
