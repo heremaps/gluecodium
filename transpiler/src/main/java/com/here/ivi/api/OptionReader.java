@@ -36,6 +36,7 @@ public final class OptionReader {
     private boolean dumpingToStdout;
     private boolean validatingOnly;
     private List<String> generators;
+    private String androidMergeManifestPath;
   }
 
   public OptionReader() {
@@ -44,6 +45,10 @@ public final class OptionReader {
     options.addOption("input", true, "The path or the file to use for generation");
     options.addOption("output", true, "Generated files output destination");
     options.addOption("javapackage", true, "Java package name");
+    options.addOption(
+        "androidMergeManifest",
+        true,
+        "A second AndroidManifest.xml that will be merged with the generated AndroidManifest.xml");
     options.addOption("nostdout", false, "Don't dump generated files to stdout");
     options.addOption("help", false, "Shows this help and exits.");
     options.addOption("listGenerators", false, "Prints out all available generators and exits.");
@@ -94,6 +99,9 @@ public final class OptionReader {
               ? Lists.newArrayList(Splitter.on(".").split(cmd.getOptionValue("javapackage")))
               : Collections.emptyList());
 
+      if (cmd.hasOption("androidMergeManifest")) {
+        builder.androidMergeManifestPath(cmd.getOptionValue("androidMergeManifest"));
+      }
       if (cmd.hasOption("generators")) {
         String[] arg = cmd.getOptionValues("generators");
         // use all generators if option provided without argument

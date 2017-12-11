@@ -34,6 +34,8 @@ public final class OptionReaderTest {
   private static final String TEST_OUTPUT = "./outputFile";
   private static final String TEST_GENERATORS = "java";
   private static final String TEST_JAVA_PACKAGE_LIST = "some_package";
+  private static final String TEST_ADDITIONAL_ANDROID_MANIFEST =
+      "path/to/additional/AndroidManifest.xml";
 
   private final OptionReader optionReader = new OptionReader();
 
@@ -160,6 +162,13 @@ public final class OptionReaderTest {
     // Act, Assert
     expectedException.expect(OptionReaderException.class);
     optionReader.read(toRead);
+  }
+
+  @Test
+  public void androidMergeManifestPathIsRecognised() throws OptionReaderException {
+    String[] toRead = prepareToRead("-androidMergeManifest", TEST_ADDITIONAL_ANDROID_MANIFEST);
+    TranspilerOptions transpilerOptions = optionReader.read(toRead);
+    assertEquals(TEST_ADDITIONAL_ANDROID_MANIFEST, transpilerOptions.getAndroidMergeManifestPath());
   }
 
   private String[] prepareToRead(String optionName, String optionValue) {

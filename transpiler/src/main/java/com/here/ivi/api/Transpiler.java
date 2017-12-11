@@ -11,6 +11,7 @@
 
 package com.here.ivi.api;
 
+import com.android.manifmerger.Merger;
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
@@ -19,8 +20,10 @@ import com.here.ivi.api.logger.TranspilerLogger;
 import com.here.ivi.api.output.ConsoleOutput;
 import com.here.ivi.api.output.FileOutput;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -117,11 +120,39 @@ public class Transpiler {
     }
 
     List<GeneratedFile> outputFiles = generator.generate();
+    boolean outputSuccessful = output(outputFiles);
     boolean processedWithoutCollisions =
         checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName);
-    boolean outputSuccessful = output(outputFiles);
+
+    if (generatorName.equals("android")
+        && options.getAndroidMergeManifestPath() != null
+        && outputSuccessful
+        && processedWithoutCollisions) {
+
+      String baseManifestPath =
+          Paths.get(options.getOutputDir(), "android", "AndroidManifest.xml").toString();
+      return mergeAndroidManifests(
+          baseManifestPath, options.getAndroidMergeManifestPath(), baseManifestPath);
+    }
 
     return processedWithoutCollisions && outputSuccessful;
+  }
+
+  @VisibleForTesting
+  static boolean mergeAndroidManifests(
+      String baseManifestPath, String appendManifestPath, String outputFilePath) {
+    Merger merger = new Merger();
+    String[] mergerArgs = {
+      "--main", baseManifestPath,
+      "--overlays", appendManifestPath,
+      "--out", outputFilePath
+    };
+    try {
+      return merger.process(mergerArgs) == 0;
+    } catch (FileNotFoundException e) {
+      LOGGER.severe("Could not merge base Android Manifest files: " + e.getMessage());
+    }
+    return false;
   }
 
   @VisibleForTesting

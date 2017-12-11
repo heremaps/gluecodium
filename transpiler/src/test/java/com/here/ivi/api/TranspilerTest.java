@@ -32,11 +32,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -55,6 +60,8 @@ public class TranspilerTest {
   private static final GeneratedFile FILE = new GeneratedFile("", FILE_NAME);
   private static final List<GeneratedFile> GENERATED_FILES = Collections.singletonList(FILE);
   @Mock private GeneratorSuite generator;
+
+  @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Before
   public void setUp() {
@@ -183,5 +190,60 @@ public class TranspilerTest {
 
     // Act, Assert
     assertFalse(new Transpiler(options).output(GENERATED_FILES));
+  }
+
+  @Test
+  public void mergeAndroidManifestsMergesTwoManifests() throws IOException {
+    // Arrange
+    String basePath = Paths.get("src", "test", "resources", "android_manifests").toString();
+    String baseManifestPath = Paths.get(basePath, "BaseAndroidManifest.xml").toString();
+    String appendManifestPath = Paths.get(basePath, "AppendAndroidManifest.xml").toString();
+    Path mergedManifestPath = Paths.get(basePath, "MergedAndroidManifest.xml");
+    Path expectedMergedManifestPath = Paths.get(basePath, "ExpectedMergedAndroidManifest.xml");
+
+    // Act
+    boolean result =
+        Transpiler.mergeAndroidManifests(
+            baseManifestPath, appendManifestPath, mergedManifestPath.toString());
+
+    // Assert
+    assertTrue(result);
+    String expectedMergedManifest = new String(Files.readAllBytes(expectedMergedManifestPath));
+    String actualMergedManifest = new String(Files.readAllBytes(mergedManifestPath));
+    assertEquals(expectedMergedManifest, actualMergedManifest);
+  }
+
+  @Test
+  public void mergeAndroidManifestsreturnsFalseIfFirstFileDoesNotExist() {
+    // Arrange
+    String basePath = Paths.get("src", "test", "resources", "android_manifests").toString();
+    String baseManifestPath = "INVALID_PATH";
+    String appendManifestPath = Paths.get(basePath, "AppendAndroidManifest.xml").toString();
+    Path mergedManifestPath = Paths.get(basePath, "MergedAndroidManifest.xml");
+
+    // Act
+    boolean result =
+        Transpiler.mergeAndroidManifests(
+            baseManifestPath, appendManifestPath, mergedManifestPath.toString());
+
+    // Assert
+    assertFalse(result);
+  }
+
+  @Test
+  public void mergeAndroidManifestsreturnsFalseIfSecondFileDoesNotExist() {
+    // Arrange
+    String basePath = Paths.get("src", "test", "resources", "android_manifests").toString();
+    String baseManifestPath = Paths.get(basePath, "BaseAndroidManifest.xml").toString();
+    String appendManifestPath = "INVALID_PATH";
+    Path mergedManifestPath = Paths.get(basePath, "MergedAndroidManifest.xml");
+
+    // Act
+    boolean result =
+        Transpiler.mergeAndroidManifests(
+            baseManifestPath, appendManifestPath, mergedManifestPath.toString());
+
+    // Assert
+    assertFalse(result);
   }
 }
