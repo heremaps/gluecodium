@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.swift;
 
-import static java.util.Collections.*;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -238,12 +237,9 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   private SwiftEnum createErrorIfNeeded(FMethod francaMethod) {
     FEnumerationType errorEnum = francaMethod.getErrorEnum();
     if (errorEnum != null) {
-      SwiftEnumItem errorNone =
-          SwiftEnumItem.builder(SwiftNameRules.getEnumItemName(errorEnum.getEnumerators().get(0)))
-              .build();
       String swiftEnumName = SwiftNameRules.getEnumTypeName(errorEnum, deploymentModel);
       enumsAsErrors.add(swiftEnumName);
-      return SwiftEnum.builder(swiftEnumName).item(errorNone).build();
+      return SwiftEnum.builder(swiftEnumName).build();
     } else {
       return null;
     }

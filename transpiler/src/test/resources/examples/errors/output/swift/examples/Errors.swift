@@ -37,9 +37,9 @@ public class Errors {
     }
 
     public static func startSomethingOrFail() throws -> Void {
-        let ERROR = Errors.InternalErrors(rawValue: examples_Errors_startSomethingOrFail())!
-        if (ERROR != Errors.InternalErrors.none) {
-            throw ERROR
+        let ERROR_CODE = examples_Errors_startSomethingOrFail()
+        if (ERROR_CODE != 0) {
+            throw Errors.InternalErrors(rawValue: ERROR_CODE)!
         }
     }
 

@@ -1157,9 +1157,9 @@ public class SwiftFileTemplateTest {
         TemplateComparator.expect(
                 "public class SomeClass {\n"
                     + "    public static func SomeMethod() throws -> Void {\n"
-                    + "        let ERROR = SomeClass.Errors(rawValue: HelloWorld_someMethod())!\n"
-                    + "        if (ERROR != SomeClass.Errors.none) {\n"
-                    + "            throw ERROR\n"
+                    + "        let ERROR_CODE = HelloWorld_someMethod()\n"
+                    + "        if (ERROR_CODE != 0) {\n"
+                    + "            throw SomeClass.Errors(rawValue: ERROR_CODE)!\n"
                     + "        }\n"
                     + "    }\n"
                     + "}\n")

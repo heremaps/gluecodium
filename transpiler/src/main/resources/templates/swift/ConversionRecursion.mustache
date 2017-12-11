@@ -30,9 +30,9 @@
 }}{{/wrapErrorIfNeeded}}{{!!
 
 
-}}{{+WrapError}}let ERROR = {{error}}(rawValue: {{>swift/DelegateCall}})!
-if (ERROR != {{error}}.{{error.items.0}}) {
-    throw ERROR
+}}{{+WrapError}}let ERROR_CODE = {{>swift/DelegateCall}}
+if (ERROR_CODE != 0) {
+    throw {{error}}(rawValue: ERROR_CODE)!
 }
 {{/WrapError}}{{!!
 
