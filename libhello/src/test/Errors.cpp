@@ -19,9 +19,9 @@ namespace test
 hf::Error
 Errors::method_with_error( const bool error_flag )
 {
-    Errors::InternalErrors error_code =
-        error_flag ? Errors::InternalErrors::CRASHED : Errors::InternalErrors::NONE;
-    return hf::Error( static_cast< hf::ErrorCode::Code >( error_code ) );
+    return error_flag
+        ? hf::Error( static_cast< hf::ErrorCode::Code >( Errors::InternalErrors::CRASHED ) )
+        : hf::Error( );
 }
 
 hf::Return< std::string, hf::Error >
