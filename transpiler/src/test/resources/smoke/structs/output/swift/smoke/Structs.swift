@@ -40,6 +40,7 @@ public class Structs {
 
         internal func convertToCType() -> smoke_Structs_PointRef {
             let result = smoke_Structs_Point_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -69,6 +70,7 @@ public class Structs {
 
         internal func convertToCType() -> smoke_Structs_ColorRef {
             let result = smoke_Structs_Color_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -110,6 +112,7 @@ public class Structs {
 
         internal func convertToCType() -> smoke_Structs_LineRef {
             let result = smoke_Structs_Line_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -152,6 +155,7 @@ public class Structs {
 
         internal func convertToCType() -> smoke_Structs_ColoredLineRef {
             let result = smoke_Structs_ColoredLine_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -234,6 +238,7 @@ public class Structs {
 
         internal func convertToCType() -> smoke_Structs_AllTypesStructRef {
             let result = smoke_Structs_AllTypesStruct_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -261,7 +266,7 @@ public class Structs {
 
     public static func createPoint(x: Double, y: Double) -> Structs.Point? {
         let cResult = smoke_Structs_createPoint(x, y)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_Structs_Point_release(cResult)
@@ -275,7 +280,7 @@ public class Structs {
             smoke_Structs_Point_release(inputHandle)
         }
         let cResult = smoke_Structs_swapPointCoordinates(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_Structs_Point_release(cResult)
@@ -293,7 +298,7 @@ public class Structs {
             smoke_Structs_Point_release(pointBHandle)
         }
         let cResult = smoke_Structs_createLine(pointAHandle, pointBHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_Structs_Line_release(cResult)
@@ -311,7 +316,7 @@ public class Structs {
             smoke_Structs_Color_release(colorHandle)
         }
         let cResult = smoke_Structs_createColoredLine(lineHandle, colorHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_Structs_ColoredLine_release(cResult)
@@ -325,7 +330,7 @@ public class Structs {
             smoke_Structs_ColoredLine_release(inputHandle)
         }
         let cResult = smoke_Structs_returnColoredLine(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_Structs_ColoredLine_release(cResult)
@@ -339,7 +344,7 @@ public class Structs {
             smoke_Structs_AllTypesStruct_release(inputHandle)
         }
         let cResult = smoke_Structs_returnAllTypesStruct(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_Structs_AllTypesStruct_release(cResult)
@@ -353,7 +358,7 @@ public class Structs {
             smoke_Structs_AllTypesStruct_release(inputHandle)
         }
         let cResult = smoke_Structs_modifyAllTypesStruct(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_Structs_AllTypesStruct_release(cResult)

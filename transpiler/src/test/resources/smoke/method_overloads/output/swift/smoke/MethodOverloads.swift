@@ -33,6 +33,7 @@ public class MethodOverloads {
         }
         internal func convertToCType() -> smoke_MethodOverloads_PointRef {
             let result = smoke_MethodOverloads_Point_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }

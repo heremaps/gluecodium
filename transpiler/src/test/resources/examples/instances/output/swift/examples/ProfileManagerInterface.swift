@@ -25,11 +25,14 @@ internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder<examples_Profi
         }
     }
     functions.examples_ProfileManagerInterface_createProfile = {(swiftClass_pointer, username) in
+        precondition(username.private_pointer != nil, "Out of memory")
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! ProfileManagerInterface
         return swiftClass.createProfile(username: String(data: Data(bytes: std_string_data_get(username),
                                                 count: Int(std_string_size_get(username))), encoding: .utf8)!)
     }
-    return RefHolder(ref: examples_ProfileManagerInterface_createProxy(functions), release: examples_ProfileManagerInterface_release)
+    let proxy = examples_ProfileManagerInterface_createProxy(functions)
+    precondition(proxy.private_pointer != nil, "Out of memory")
+    return RefHolder(ref: proxy, release: examples_ProfileManagerInterface_release)
 }
 
 public protocol ProfileManagerInterface : AnyObject {

@@ -26,7 +26,9 @@ internal func getRef(_ ref: CalculatorListener) -> RefHolder<examples_Calculator
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! CalculatorListener
         return swiftClass.onCalculationResult(calculationResult: calculationResult)
     }
-    return RefHolder(ref: examples_CalculatorListener_createProxy(functions), release: examples_CalculatorListener_release)
+    let proxy = examples_CalculatorListener_createProxy(functions)
+    precondition(proxy.private_pointer != nil, "Out of memory")
+    return RefHolder(ref: proxy, release: examples_CalculatorListener_release)
 }
 
 public protocol CalculatorListener : AnyObject {

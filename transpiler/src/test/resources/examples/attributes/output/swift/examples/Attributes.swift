@@ -22,7 +22,9 @@ internal func getRef(_ ref: Attributes) -> RefHolder<examples_AttributesRef> {
             Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
         }
     }
-    return RefHolder(ref: examples_Attributes_createProxy(functions), release: examples_Attributes_release)
+    let proxy = examples_Attributes_createProxy(functions)
+    precondition(proxy.private_pointer != nil, "Out of memory")
+    return RefHolder(ref: proxy, release: examples_Attributes_release)
 }
 
 public protocol Attributes : AnyObject {

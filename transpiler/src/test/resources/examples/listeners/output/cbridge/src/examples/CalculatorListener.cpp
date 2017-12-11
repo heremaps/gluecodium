@@ -14,6 +14,8 @@
 #include "cbridge_internal/include/examples/CalculatorListenerImpl.h"
 #include "examples/CalculatorListener.h"
 #include <memory>
+#include <new>
+
 void examples_CalculatorListener_release(examples_CalculatorListenerRef handle) {
     delete get_pointer(handle);
 }
@@ -37,5 +39,10 @@ private:
     function_table_t mFunctions;
 };
 examples_CalculatorListenerRef examples_CalculatorListener_createProxy(examples_CalculatorListener_FunctionTable functionTable) {
-    return { new std::shared_ptr<examples::CalculatorListener>(examples_CalculatorListenerProxy::get_proxy(std::move(functionTable))) };
+    auto proxy = examples_CalculatorListenerProxy::get_proxy(std::move(functionTable));
+    if (proxy) {
+        return { new (std::nothrow) std::shared_ptr<examples::CalculatorListener>(std::move(proxy)) };
+    } else {
+        return { nullptr };
+    }
 }

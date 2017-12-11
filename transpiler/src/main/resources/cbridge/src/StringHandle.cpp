@@ -12,9 +12,10 @@
 
 #include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/StringHandleImpl.h"
+#include <new>
 
 std_stringRef std_string_create(const char* c_str) {
-    return { new std::string(c_str) };
+    return { new (std::nothrow) std::string(c_str) };
 }
 
 void std_string_release(std_stringRef handle) {

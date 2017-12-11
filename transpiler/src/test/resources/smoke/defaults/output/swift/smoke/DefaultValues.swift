@@ -58,6 +58,7 @@ public class DefaultValues {
 
         internal func convertToCType() -> smoke_DefaultValues_StructWithDefaultsRef {
             let result = smoke_DefaultValues_StructWithDefaults_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -77,6 +78,7 @@ public class DefaultValues {
             smoke_DefaultValues_StructWithDefaults_release(inputHandle)
         }
         let cResult = smoke_DefaultValues_processStructWithDefaults(inputHandle)
+        precondition(cResult.private_pointer != nil, "Out of memory")
         defer {
             smoke_DefaultValues_StructWithDefaults_release(cResult)
         }

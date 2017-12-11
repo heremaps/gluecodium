@@ -58,6 +58,7 @@ public final class CppTypeInfo extends CElement {
           TypeCategory.BUILTIN_STRING,
           Arrays.asList(
               CppLibraryIncludes.STRING,
+              CppLibraryIncludes.NEW,
               Include.createInternalInclude(STRING_HANDLE_IMPL_FILE),
               Include.createInternalInclude(STRING_HANDLE_FILE)));
 
@@ -68,7 +69,8 @@ public final class CppTypeInfo extends CElement {
           asList("_ptr", "_size"),
           CType.BYTE_ARRAY_REF,
           TypeCategory.BUILTIN_BYTEBUFFER,
-          Arrays.asList(CppLibraryIncludes.VECTOR, FIXED_WIDTH_INTEGERS_INCLUDE));
+          Arrays.asList(
+              CppLibraryIncludes.NEW, CppLibraryIncludes.VECTOR, FIXED_WIDTH_INTEGERS_INCLUDE));
 
   public static CppTypeInfo createCustomTypeInfo(
       final IncludeResolver resolver,
@@ -99,7 +101,8 @@ public final class CppTypeInfo extends CElement {
             resolver.resolveInclude(element, HeaderType.CBRIDGE_PUBLIC_HEADER),
             resolver.resolveInclude(element, HeaderType.CBRIDGE_PRIVATE_HEADER),
             resolver.resolveInclude(element, HeaderType.BASE_API_HEADER),
-            CppLibraryIncludes.MEMORY));
+            CppLibraryIncludes.MEMORY,
+            CppLibraryIncludes.NEW));
   }
 
   public static CppTypeInfo createEnumTypeInfo(

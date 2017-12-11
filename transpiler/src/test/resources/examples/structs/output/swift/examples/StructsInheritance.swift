@@ -45,6 +45,7 @@ public class StructsInheritance {
 
         internal func convertToCType() -> examples_StructsInheritance_SyncResultInheritedRef {
             let result = examples_StructsInheritance_SyncResultInherited_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -62,6 +63,7 @@ public class StructsInheritance {
             examples_StructsInheritance_SyncResultInherited_release(inputHandle)
         }
         let cResult = examples_StructsInheritance_methodWithInheritedType(c_instance, inputHandle)
+        precondition(cResult.private_pointer != nil, "Out of memory")
         defer {
             examples_StructsInheritance_SyncResultInherited_release(cResult)
         }

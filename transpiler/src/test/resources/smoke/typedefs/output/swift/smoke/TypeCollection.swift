@@ -30,6 +30,7 @@ public struct Point {
 
     internal func convertToCType() -> smoke_TypeCollection_PointRef {
         let result = smoke_TypeCollection_Point_create()
+        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
@@ -50,6 +51,7 @@ public struct StructHavingAliasFieldDefinedBelow {
     }
     internal func convertToCType() -> smoke_TypeCollection_StructHavingAliasFieldDefinedBelowRef {
         let result = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_create()
+        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }

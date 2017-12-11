@@ -13,6 +13,7 @@
 #pragma once
 #include <memory>
 #include <mutex>
+#include <new>
 #include <unordered_map>
 
 template<class ProxyType>
@@ -33,10 +34,11 @@ public:
                 return cached;
             }
         }
-
-        auto proxy = std::make_shared<ProxyType>(std::move(function_table));
-        proxy->m_key = key;
-        s_cache[key] = proxy;
+        auto proxy = std::shared_ptr<ProxyType>(new (std::nothrow) ProxyType(std::move(function_table)));
+        if (proxy) {
+            proxy->m_key = key;
+            s_cache[key] = proxy;
+        }
         return proxy;
     }
 

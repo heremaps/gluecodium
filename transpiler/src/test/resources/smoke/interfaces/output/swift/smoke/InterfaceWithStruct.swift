@@ -24,10 +24,13 @@ internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder<smoke_InterfaceWit
         }
     }
     functions.smoke_InterfaceWithStruct_innerStructMethod = {(swiftClass_pointer, inputStruct) in
+        precondition(inputStruct.private_pointer != nil, "Out of memory")
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InterfaceWithStruct
-        return get_pointer((swiftClass.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct)!)!)
+        return get_pointer((swiftClass.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct)!)!).convertToCType())
     }
-    return RefHolder(ref: smoke_InterfaceWithStruct_createProxy(functions), release: smoke_InterfaceWithStruct_release)
+    let proxy = smoke_InterfaceWithStruct_createProxy(functions)
+    precondition(proxy.private_pointer != nil, "Out of memory")
+    return RefHolder(ref: proxy, release: smoke_InterfaceWithStruct_release)
 }
 
 
@@ -56,7 +59,7 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
             smoke_InterfaceWithStruct_InnerStruct_release(inputStructHandle)
         }
         let cResult = smoke_InterfaceWithStruct_innerStructMethod(c_instance, inputStructHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
         defer {
             smoke_InterfaceWithStruct_InnerStruct_release(cResult)
         }
@@ -77,6 +80,7 @@ public struct InnerStruct {
 
     internal func convertToCType() -> smoke_InterfaceWithStruct_InnerStructRef {
         let result = smoke_InterfaceWithStruct_InnerStruct_create()
+        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }

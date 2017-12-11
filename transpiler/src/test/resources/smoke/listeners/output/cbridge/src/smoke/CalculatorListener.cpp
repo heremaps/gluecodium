@@ -13,6 +13,8 @@
 #include "cbridge_internal/include/smoke/CalculatorListenerImpl.h"
 #include "smoke/CalculatorListener.h"
 #include <memory>
+#include <new>
+
 void smoke_CalculatorListener_release(smoke_CalculatorListenerRef handle) {
     delete get_pointer(handle);
 }
@@ -36,5 +38,10 @@ private:
     function_table_t mFunctions;
 };
 smoke_CalculatorListenerRef smoke_CalculatorListener_createProxy(smoke_CalculatorListener_FunctionTable functionTable) {
-    return { new std::shared_ptr<smoke::CalculatorListener>(smoke_CalculatorListenerProxy::get_proxy(std::move(functionTable))) };
+    auto proxy = smoke_CalculatorListenerProxy::get_proxy(std::move(functionTable));
+    if (proxy) {
+        return { new (std::nothrow) std::shared_ptr<smoke::CalculatorListener>(std::move(proxy)) };
+    } else {
+        return { nullptr };
+    }
 }

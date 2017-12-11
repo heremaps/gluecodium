@@ -23,7 +23,9 @@ internal func getRef(_ ref: AttributesInterface) -> RefHolder<smoke_AttributesIn
             Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
         }
     }
-    return RefHolder(ref: smoke_AttributesInterface_createProxy(functions), release: smoke_AttributesInterface_release)
+    let proxy = smoke_AttributesInterface_createProxy(functions)
+    precondition(proxy.private_pointer != nil, "Out of memory")
+    return RefHolder(ref: proxy, release: smoke_AttributesInterface_release)
 }
 
 
@@ -42,7 +44,7 @@ internal class _AttributesInterface: AttributesInterface {
     var structAttribute: ExampleStruct {
         get {
             let cResult = smoke_AttributesInterface_structAttribute_get(c_instance)
-
+            precondition(cResult.private_pointer != nil, "Out of memory")
 
             defer {
                 smoke_AttributesInterface_ExampleStruct_release(cResult)
@@ -81,6 +83,7 @@ public struct ExampleStruct {
 
     internal func convertToCType() -> smoke_AttributesInterface_ExampleStructRef {
         let result = smoke_AttributesInterface_ExampleStruct_create()
+        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }

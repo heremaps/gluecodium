@@ -24,17 +24,19 @@ internal func getRef(_ ref: SimpleInterface) -> RefHolder<smoke_SimpleInterfaceR
         }
     }
     functions.smoke_SimpleInterface_setStringValue = {(swiftClass_pointer, stringValue) in
+        precondition(stringValue.private_pointer != nil, "Out of memory")
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! SimpleInterface
         return swiftClass.setStringValue(stringValue: String(data: Data(bytes: std_string_data_get(stringValue),
                                                 count: Int(std_string_size_get(stringValue))), encoding: .utf8)!)
     }
     functions.smoke_SimpleInterface_getStringValue = {(swiftClass_pointer) in
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! SimpleInterface
-        return std_string_create(swiftClass.getStringValue()!)
+        return (swiftClass.getStringValue()!).convertToCType()
     }
-    return RefHolder(ref: smoke_SimpleInterface_createProxy(functions), release: smoke_SimpleInterface_release)
+    let proxy = smoke_SimpleInterface_createProxy(functions)
+    precondition(proxy.private_pointer != nil, "Out of memory")
+    return RefHolder(ref: proxy, release: smoke_SimpleInterface_release)
 }
-
 
 public protocol SimpleInterface : AnyObject {
 
@@ -62,7 +64,7 @@ internal class _SimpleInterface: SimpleInterface {
 
     public func getStringValue() -> String? {
         let result_string_handle = smoke_SimpleInterface_getStringValue(c_instance)
-
+        precondition(result_string_handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(result_string_handle)
         }

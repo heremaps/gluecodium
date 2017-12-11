@@ -59,6 +59,7 @@ public class DefaultValues {
 
         internal func convertToCType() -> examples_DefaultValues_StructWithDefaultsRef {
             let result = examples_DefaultValues_StructWithDefaults_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }

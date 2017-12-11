@@ -14,18 +14,21 @@ internal func getRef(_ ref: {{name}}) -> RefHolder<{{cInstanceRef}}> {
 {{#set className=name}}
     {{#methods}}
     functions.{{cBaseName}} = {(swiftClass_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
+{{!!  }}{{#parameters}}{{prefixPartial 'precondition' '        '}}
+        {{/parameters}}
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! {{className}}
         return {{>swiftReturn}}
     }
     {{/methods}}
-
-    return RefHolder(ref: {{cInstance}}_createProxy(functions), release: {{cInstance}}_release)
+    let proxy = {{cInstance}}_createProxy(functions)
+    precondition(proxy.private_pointer != nil, "Out of memory")
+    return RefHolder(ref: proxy, release: {{cInstance}}_release)
 }
 {{/set}}
 {{+swiftParameter}}{{name}}{{/swiftParameter}}
 {{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
-    }}{{#case "BUILTIN_STRING"}}std_string_create({{>delegateCall2}}!){{/case}}{{!!
-    }}{{#case "STRUCT"}}get_pointer(({{>delegateCall2}}!){{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}({{>delegateCall2}}!).convertToCType(){{/case}}{{!!
+    }}{{#case "STRUCT"}}get_pointer(({{>delegateCall2}}!).convertToCType()){{/case}}{{!!
     }}{{#case "CLASS"}}getRef({{>delegateCall2}}!).ref{{/case}}{{!!
     }}{{#default}}{{>delegateCall2}}{{/default}}{{!!
 }}{{/switch}}{{/swiftReturn}}
@@ -37,3 +40,12 @@ internal func getRef(_ ref: {{name}}) -> RefHolder<{{cInstanceRef}}> {
                                                 count: Int(std_string_size_get({{name}}))), encoding: .utf8)!{{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{/swiftParameter2}}
+
+
+{{+precondition}}{{#switch type.category.toString}}{{!!
+    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
+    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
+    }}{{#case "CLASS"}}precondition({{name}}.private_pointer != nil, "Out of memory"){{/case}}{{!!
+}}{{/switch}}
+
+{{/precondition}}

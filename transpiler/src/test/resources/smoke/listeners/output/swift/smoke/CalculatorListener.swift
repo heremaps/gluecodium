@@ -27,7 +27,9 @@ internal func getRef(_ ref: CalculatorListener) -> RefHolder<smoke_CalculatorLis
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! CalculatorListener
         return swiftClass.onCalculationResult(calculationResult: calculationResult)
     }
-    return RefHolder(ref: smoke_CalculatorListener_createProxy(functions), release: smoke_CalculatorListener_release)
+    let proxy = smoke_CalculatorListener_createProxy(functions)
+    precondition(proxy.private_pointer != nil, "Out of memory")
+    return RefHolder(ref: proxy, release: smoke_CalculatorListener_release)
 }
 
 

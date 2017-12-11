@@ -1,4 +1,5 @@
 let result_string_handle = {{include delegateToCall}}
+precondition(result_string_handle.private_pointer != nil, "Out of memory")
 defer {
     std_string_release(result_string_handle)
 }

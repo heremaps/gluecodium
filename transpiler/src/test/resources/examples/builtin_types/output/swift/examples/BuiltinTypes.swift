@@ -70,7 +70,7 @@ public class BuiltinTypes {
     public static func methodWithByteBuffer(inputBuffer: Data) -> Data {
         return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data in
             let result_data_handle = examples_BuiltinTypes_methodWithByteBuffer(inputBuffer_ptr, Int64(inputBuffer.count))
-
+            precondition(result_data_handle.private_pointer != nil, "Out of memory")
             defer {
                 byteArray_release(result_data_handle)
             }

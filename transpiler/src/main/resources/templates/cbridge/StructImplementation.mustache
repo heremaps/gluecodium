@@ -1,5 +1,5 @@
 {{type}} {{name}}_create() {
-    return {new {{baseApiName}}()};
+    return {new (std::nothrow){{baseApiName}}()};
 }
 
 void {{name}}_release({{type}} handle) {

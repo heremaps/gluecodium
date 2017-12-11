@@ -26,7 +26,7 @@ public class StructsFromTypeCollection {
 
     public static func createPoint(x: Double, y: Double) -> Point? {
         let cResult = smoke_StructsFromTypeCollection_createPoint(x, y)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_TypeCollection_Point_release(cResult)
@@ -41,7 +41,7 @@ public class StructsFromTypeCollection {
             smoke_TypeCollection_Point_release(inputHandle)
         }
         let cResult = smoke_StructsFromTypeCollection_swapPointCoordinates(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_TypeCollection_Point_release(cResult)
@@ -60,7 +60,7 @@ public class StructsFromTypeCollection {
             smoke_TypeCollection_Point_release(pointBHandle)
         }
         let cResult = smoke_StructsFromTypeCollection_createLine(pointAHandle, pointBHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_TypeCollection_Line_release(cResult)
@@ -79,7 +79,7 @@ public class StructsFromTypeCollection {
             smoke_TypeCollection_Color_release(colorHandle)
         }
         let cResult = smoke_StructsFromTypeCollection_createColoredLine(lineHandle, colorHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_TypeCollection_ColoredLine_release(cResult)
@@ -94,7 +94,7 @@ public class StructsFromTypeCollection {
             smoke_TypeCollection_AllTypesStruct_release(inputHandle)
         }
         let cResult = smoke_StructsFromTypeCollection_modifyAllTypesStruct(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_TypeCollection_AllTypesStruct_release(cResult)

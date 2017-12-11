@@ -31,6 +31,7 @@ public class TypeDefs {
     public var primitiveTypeAttribute: CollectionOf<Double> {
         get {
             let handle = smoke_TypeDefs_primitiveTypeAttribute_get(c_instance)
+            precondition(handle.private_pointer != nil, "Out of memory")
             return DoubleList(handle)
         }
         set {
@@ -58,6 +59,7 @@ public class TypeDefs {
         }
         internal func convertToCType() -> smoke_TypeDefs_StructHavingAliasFieldDefinedBelowRef {
             let result = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -82,6 +84,7 @@ public class TypeDefs {
 
         internal func convertToCType() -> smoke_TypeDefs_TestStructRef {
             let result = smoke_TypeDefs_TestStruct_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -101,6 +104,7 @@ public class TypeDefs {
             inputHandle.cleanup()
         }
         let handle = smoke_TypeDefs_methodWithComplexTypeDef(inputHandle.c_type)
+        precondition(handle.private_pointer != nil, "Out of memory")
         return TestStructList(handle)
     }
 
@@ -114,7 +118,7 @@ public class TypeDefs {
             smoke_TypeDefs_TestStruct_release(inputHandle)
         }
         let cResult = smoke_TypeDefs_returnTestStructTypeDef(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_TypeDefs_TestStruct_release(cResult)
@@ -128,7 +132,7 @@ public class TypeDefs {
             smoke_TypeDefs_TestStruct_release(inputHandle)
         }
         let cResult = smoke_TypeDefs_returnNestedStructTypeDef(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_TypeDefs_TestStruct_release(cResult)
@@ -143,7 +147,7 @@ public class TypeDefs {
             smoke_TypeCollection_Point_release(inputHandle)
         }
         let cResult = smoke_TypeDefs_returnTypeDefPointFromTypeCollection(inputHandle)
-
+        precondition(cResult.private_pointer != nil, "Out of memory")
 
         defer {
             smoke_TypeCollection_Point_release(cResult)

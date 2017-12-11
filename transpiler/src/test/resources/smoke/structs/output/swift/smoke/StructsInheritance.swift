@@ -60,6 +60,7 @@ public class StructsInheritance {
         }
         internal func convertToCType() -> smoke_StructsInheritance_ColoredLineInheritedRef {
             let result = smoke_StructsInheritance_ColoredLineInherited_create()
+            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -78,6 +79,7 @@ public class StructsInheritance {
             smoke_StructsInheritance_ColoredLineInherited_release(inputHandle)
         }
         let cResult = smoke_StructsInheritance_methodWithInheritedType(inputHandle)
+        precondition(cResult.private_pointer != nil, "Out of memory")
         defer {
             smoke_StructsInheritance_ColoredLineInherited_release(cResult)
         }

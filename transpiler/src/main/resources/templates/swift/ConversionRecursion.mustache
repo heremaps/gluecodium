@@ -73,6 +73,7 @@ defer {
 
 {{+MethodReturnStruct}}{{!!
 }}let cResult = {{include delegateToCall}}
+precondition(cResult.private_pointer != nil, "Out of memory")
 defer {
     {{method.returnType.cPrefix}}_release(cResult)
 }
@@ -81,6 +82,7 @@ return {{>returnType}}(c{{method.returnType.simpleName}}: cResult){{#if method.f
 
 {{+MethodReturnClass}}{{!!
 }}let cResult = {{include delegateToCall}}
+precondition(cResult.private_pointer != nil, "Out of memory")
 return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnValueUnwrapping}}!{{/if}}
 {{/MethodReturnClass}}
 
@@ -99,6 +101,7 @@ defer {
 
 {{+MethodReturnArray}}
 let handle = {{include delegateToCall}}
+precondition(handle.private_pointer != nil, "Out of memory")
 return {{method.returnType.implementingClass}}(handle)
 {{/MethodReturnArray}}
 
