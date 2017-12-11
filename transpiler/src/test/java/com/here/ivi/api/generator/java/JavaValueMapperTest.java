@@ -195,4 +195,13 @@ public class JavaValueMapperTest {
 
     assertEquals("myEnum.ENUMERATOR", result.name);
   }
+
+  @Test
+  public void mapDefaultValueDeploymentValueFloatType() {
+    String defaultValue = "23.5";
+
+    JavaValue result = JavaValueMapper.mapDefaultValue(JavaPrimitiveType.FLOAT, defaultValue);
+
+    assertEquals("23.5f", result.name);
+  }
 }

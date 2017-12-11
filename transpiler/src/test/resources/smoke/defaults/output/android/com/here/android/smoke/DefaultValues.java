@@ -26,7 +26,7 @@ public class DefaultValues extends NativeBase {
 
     public static class StructWithDefaults {
         public int intField = 42;
-        public float floatField = 3.14;
+        public float floatField = 3.14f;
         public boolean boolField = true;
         public String stringField = "\\Jonny \"Magic\" Smith\n";
         public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
