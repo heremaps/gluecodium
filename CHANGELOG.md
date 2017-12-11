@@ -1,5 +1,10 @@
 # API Transpiler Release Notes
 
+## 0.13.0
+- Features:
+  + Add support for Struct Inheritance to Java generators
+  + Add support for Errors to Java generators
+
 ## 0.12.0
 - Features:
   + Add support for Listeners to Swift generators
