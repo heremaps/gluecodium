@@ -22,6 +22,9 @@ internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
     }
     public override subscript(index: Int) -> Arrays.BasicStruct {
         let handle = arrayCollection_BasicStruct_get(c_element, UInt64(index))
+        defer {
+            smoke_Arrays_BasicStruct_release(handle)
+        }
         guard let result = Arrays.BasicStruct(cBasicStruct: handle) else {
             fatalError("Not implemented")
         }
@@ -53,6 +56,9 @@ internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
     }
     public override subscript(index: Int) -> Arrays.FancyStruct {
         let handle = arrayCollection_FancyStruct_get(c_element, UInt64(index))
+        defer {
+            smoke_Arrays_FancyStruct_release(handle)
+        }
         guard let result = Arrays.FancyStruct(cFancyStruct: handle) else {
             fatalError("Not implemented")
         }
@@ -115,7 +121,7 @@ internal class StringList: CollectionOf<String> {
     public override subscript(index: Int) -> String {
         let handle = arrayCollection_String_get(c_element, UInt64(index))
         defer {
-        std_string_release(handle)
+            std_string_release(handle)
         }
         return String(data: Data(bytes: std_string_data_get(handle),
         count: Int(std_string_size_get(handle))), encoding: .utf8)!
