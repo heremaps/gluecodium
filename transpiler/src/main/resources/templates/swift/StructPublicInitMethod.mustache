@@ -1,5 +1,6 @@
-public init({{#each fields}}{{name}}: {{type.publicName}}{{#if iter.hasNext}}, {{/if}}{{/each}}) {
+public init({{joinPartial fields "initParameter" ", "}}) {
 {{#fields}}
     self.{{name}} = {{name}}
 {{/fields}}
 }
+{{+initParameter}}{{name}}: {{type.publicName}}{{#if defaultValue}} = {{defaultValue}}{{/if}}{{/initParameter}}

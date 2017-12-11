@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -44,7 +45,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
   SwiftNameRules.class,
   CBridgeNameRules.class,
   InstanceRules.class,
-  DefinedBy.class
+  DefinedBy.class,
+  SwiftValueMapper.class
 })
 public class SwiftModelBuilderTest {
 
@@ -82,7 +84,8 @@ public class SwiftModelBuilderTest {
         SwiftNameRules.class,
         CBridgeNameRules.class,
         InstanceRules.class,
-        DefinedBy.class);
+        DefinedBy.class,
+        SwiftValueMapper.class);
     initMocks(this);
 
     when(francaArgument.getType()).thenReturn(francaTypeRef);
@@ -336,7 +339,7 @@ public class SwiftModelBuilderTest {
   @Test
   public void finishBuildingCreatesCValuesOutOfExpressions() {
     FExpression francaExpression = mock(FExpression.class);
-    when(SwiftTypeMapper.mapType(any(FExpression.class))).thenReturn(swiftValue);
+    when(SwiftValueMapper.mapExpression(any(FExpression.class))).thenReturn(swiftValue);
 
     modelBuilder.finishBuilding(francaExpression);
 
@@ -406,6 +409,22 @@ public class SwiftModelBuilderTest {
     SwiftField swiftField = modelBuilder.getFinalResult(SwiftField.class);
     assertNotNull("Should be 1 field item created", swiftField);
     assertSame(swiftType, swiftField.type);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsDefaultValue() {
+    when(deploymentModel.getDefaultValue(any())).thenReturn("SomeValue");
+    when(SwiftValueMapper.mapDefaultValue(any(), any())).thenReturn(swiftValue);
+    contextStack.injectResult(swiftType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    SwiftField swiftField = modelBuilder.getFinalResult(SwiftField.class);
+    assertNotNull(swiftField);
+    assertEquals(swiftValue, swiftField.defaultValue);
+    verify(deploymentModel).getDefaultValue(francaField);
+    PowerMockito.verifyStatic();
+    SwiftValueMapper.mapDefaultValue(swiftType, "SomeValue");
   }
 
   @Test

@@ -17,6 +17,7 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftType;
+import com.here.ivi.api.model.swift.SwiftValue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -57,7 +58,7 @@ public class SwiftStructTemplateTest {
 
   @Test
   public void generateBasicStruct() {
-    swiftStruct.fields.add(new SwiftField("counter", new SwiftType("Integer")));
+    swiftStruct.fields.add(new SwiftField("counter", new SwiftType("Integer"), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var counter: Integer\n"
@@ -86,9 +87,9 @@ public class SwiftStructTemplateTest {
 
   @Test
   public void generateStructWithThreeFields() {
-    swiftStruct.fields.add(new SwiftField("latitude", new SwiftType("Double")));
-    swiftStruct.fields.add(new SwiftField("longitude", new SwiftType("Double")));
-    swiftStruct.fields.add(new SwiftField("altitude", new SwiftType("Double")));
+    swiftStruct.fields.add(new SwiftField("latitude", new SwiftType("Double"), null));
+    swiftStruct.fields.add(new SwiftField("longitude", new SwiftType("Double"), null));
+    swiftStruct.fields.add(new SwiftField("altitude", new SwiftType("Double"), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var latitude: Double\n"
@@ -126,7 +127,8 @@ public class SwiftStructTemplateTest {
   @Test
   public void generateStructWithStringField() {
     swiftStruct.fields.add(
-        new SwiftField("name", new SwiftType("String", SwiftType.TypeCategory.BUILTIN_STRING)));
+        new SwiftField(
+            "name", new SwiftType("String", SwiftType.TypeCategory.BUILTIN_STRING), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var name: String\n"
@@ -159,7 +161,8 @@ public class SwiftStructTemplateTest {
   @Test
   public void generateStructWithDataField() {
     swiftStruct.fields.add(
-        new SwiftField("icon", new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER)));
+        new SwiftField(
+            "icon", new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var icon: Data\n"
@@ -199,7 +202,7 @@ public class SwiftStructTemplateTest {
   @Test
   public void generateStructWithStructField() {
     swiftStruct.fields.add(
-        new SwiftField("nested", SwiftContainerType.builder("NestedStruct").build()));
+        new SwiftField("nested", SwiftContainerType.builder("NestedStruct").build(), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var nested: NestedStruct\n"
@@ -237,7 +240,8 @@ public class SwiftStructTemplateTest {
   @Test
   public void generateStructWithInstanceField() {
     swiftStruct.fields.add(
-        new SwiftField("instanceField", new SwiftType("SomeClass", SwiftType.TypeCategory.CLASS)));
+        new SwiftField(
+            "instanceField", new SwiftType("SomeClass", SwiftType.TypeCategory.CLASS), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var instanceField: SomeClass\n"
@@ -265,6 +269,38 @@ public class SwiftStructTemplateTest {
             + "\n"
             + "    internal func fillFunction(_ cSomeStruct: SomeStructRef) -> Void {\n"
             + "        C_PREFIX_instanceField_set(cSomeStruct, getRef(instanceField).ref)\n"
+            + "    }\n"
+            + "}";
+    String actual = generate(swiftStruct);
+    assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
+  }
+
+  @Test
+  public void generateStructWithStringFieldWithDefault() {
+    swiftStruct.fields.add(new SwiftField("name", SwiftType.STRING, new SwiftValue("\"foo\"")));
+    String expected =
+        "public struct SomeStruct {\n"
+            + "    public var name: String\n"
+            + "\n"
+            + "    public init(name: String = \"foo\") {\n"
+            + "        self.name = name\n"
+            + "    }\n"
+            + "\n"
+            + "    internal init?(cSomeStruct: SomeStructRef) {\n"
+            + "        do {\n"
+            + "            let nameHandle = C_PREFIX_name_get(cSomeStruct)\n"
+            + "            name = String(cString:std_string_data_get(nameHandle))\n"
+            + "        }\n"
+            + "    }\n"
+            + "\n"
+            + "    internal func convertToCType() -> SomeStructRef {\n"
+            + "        let result = C_PREFIX_create()\n"
+            + "        fillFunction(result)\n"
+            + "        return result\n"
+            + "    }\n"
+            + "\n"
+            + "    internal func fillFunction(_ cSomeStruct: SomeStructRef) -> Void {\n"
+            + "        C_PREFIX_name_set(cSomeStruct, name)\n"
             + "    }\n"
             + "}";
     String actual = generate(swiftStruct);

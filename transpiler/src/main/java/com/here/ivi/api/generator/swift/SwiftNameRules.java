@@ -92,7 +92,11 @@ public final class SwiftNameRules {
   }
 
   public static String getEnumItemName(FEnumerator francaEnumerator) {
-    return NameHelper.toLowerCamelCase(francaEnumerator.getName());
+    return getEnumItemName(francaEnumerator.getName());
+  }
+
+  public static String getEnumItemName(final String enumItemName) {
+    return NameHelper.toLowerCamelCase(enumItemName);
   }
 
   public static String getPropertyName(FAttribute name) {
