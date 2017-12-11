@@ -32,3 +32,10 @@ define Defaults for interface hello.HelloWorldDefaults
         }
     }
 }
+
+define navigation.BaseApiSpec for interface hello.HelloWorldDefaults
+{
+    method getStructWithDefaults {
+        Static = true
+    }
+}

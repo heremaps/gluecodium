@@ -260,7 +260,9 @@ feature(Errors cpp android swift SOURCES
     fidl/test/Errors2.fidl
 )
 
-feature(Defaults SOURCES
+feature(Defaults cpp android SOURCES
+    src/hello/HelloWorldDefaults.cpp
+
     fidl/hello/HelloWorldDefaults.fidl
     fidl/hello/HelloWorldDefaults.fdepl
 )
