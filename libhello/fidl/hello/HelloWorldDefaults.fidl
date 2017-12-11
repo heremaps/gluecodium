@@ -30,4 +30,13 @@ interface HelloWorldDefaults {
         String stringField
         SomeEnum enumField
     }
+
+    <** @description:
+    Example static method which creates a structWithDefault and returns it
+    **>
+    method getStructWithDefaults  {
+        out {
+            StructWithDefaults output
+        }
+    }
 }
