@@ -70,4 +70,11 @@ safe cmake \
     --build "${BUILD_DIR}" \
     --target install
 
-exec "${INSTALL_DIR}/testhello"
+pushd "${INSTALL_DIR}"
+    if [ "$TEST_REPORTS" = true ] ; then
+        ./testhello | ocunit2junit
+        mv test-reports swift_test_reports
+    else
+        ./testhello
+    fi
+popd
