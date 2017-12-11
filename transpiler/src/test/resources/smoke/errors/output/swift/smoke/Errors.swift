@@ -35,9 +35,9 @@ public class Errors {
     }
 
     public static func methodWithErrors() throws -> Void {
-        let ERROR = Errors.InternalError(rawValue: smoke_Errors_methodWithErrors())!
-        if (ERROR != Errors.InternalError.errorNone) {
-            throw ERROR
+        let ERROR_CODE = smoke_Errors_methodWithErrors()
+        if (ERROR_CODE != 0) {
+            throw Errors.InternalError(rawValue: ERROR_CODE)!
         }
     }
 
