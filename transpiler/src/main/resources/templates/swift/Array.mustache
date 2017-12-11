@@ -64,10 +64,10 @@ return {{underlyingType}}(rawValue: handle)!{{/enumSubscript}}
 return handle{{/defaultSubscript}}
 
 {{+structSubscript}}
-guard let result = {{underlyingType}}(c{{underlyingType.simpleName}}: handle) else {
-    fatalError("Not implemented")
+defer {
+    {{underlyingType.cPrefix}}_release(handle)
 }
-return result{{/structSubscript}}
+{{>classSubscript}}{{/structSubscript}}
 
 {{+classSubscript}}
 guard let result = {{underlyingType}}(c{{underlyingType.simpleName}}: handle) else {
@@ -80,7 +80,7 @@ return {{underlyingType.implementingClass}}(handle){{/arraySubscript}}
 
 {{+stringSubscript}}
 defer {
-std_string_release(handle)
+    std_string_release(handle)
 }
 return String(data: Data(bytes: std_string_data_get(handle),
 count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}

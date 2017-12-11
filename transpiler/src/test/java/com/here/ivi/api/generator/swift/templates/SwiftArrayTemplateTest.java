@@ -55,7 +55,7 @@ public class SwiftArrayTemplateTest {
             + "    public override subscript(index: Int) -> String {\n"
             + "        let handle = arrayCollection_String_get(c_element, UInt64(index))\n"
             + "        defer {\n"
-            + "        std_string_release(handle)\n"
+            + "            std_string_release(handle)\n"
             + "        }\n"
             + "        return String(data: Data(bytes: std_string_data_get(handle),\n"
             + "        count: Int(std_string_size_get(handle))), encoding: .utf8)!\n"
