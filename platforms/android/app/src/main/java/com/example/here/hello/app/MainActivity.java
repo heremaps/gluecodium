@@ -58,6 +58,8 @@ public final class MainActivity extends AppCompatActivity {
                     context.getString(R.string.fragment_enumerations_title),
                     context.getString(R.string.fragment_arrays_title),
                     context.getString(R.string.fragment_errors_title),
+                    context.getString(R.string.fragment_defaults_title)
+
             };
         }
 
@@ -84,6 +86,8 @@ public final class MainActivity extends AppCompatActivity {
                     return new ArraysFragment();
                 case 9:
                     return new ErrorsFragment();
+                case 10:
+                    return new DefaultsFragment();
                 default:
                     return null;
             }

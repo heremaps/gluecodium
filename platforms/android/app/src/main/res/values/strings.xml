@@ -11,6 +11,7 @@
     <string name="fragment_arrays_title">Arrays</string>
     <string name="fragment_arrays_usage">Provide array elements separated by a comma.\nExample: 1,2,3,4</string>
     <string name="fragment_errors_title">Errors</string>
+    <string name="fragment_defaults_title">Default values</string>
     <string name="number_of_usages_input">Insert numberOfUsages</string>
     <string name="profile_name_input">Insert new profile name</string>
     <string name="parameter_value">Value</string>
