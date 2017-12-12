@@ -11,13 +11,13 @@
 
 package com.here.ivi.api.generator.swift;
 
-import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
 import static com.here.ivi.api.model.swift.SwiftType.TypeCategory.*;
 import static com.here.ivi.api.model.swift.SwiftType.VOID;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.model.swift.*;
 import org.franca.core.franca.*;
 
@@ -45,7 +45,7 @@ public class SwiftTypeMapper {
 
   private static SwiftType mapDerived(FType derived, final FrancaDeploymentModel deploymentModel) {
     if (derived instanceof FStructType) {
-      return getClassOrStructType(derived, deploymentModel);
+      return getStructType((FStructType) derived, deploymentModel);
     } else if (derived instanceof FEnumerationType) {
       return SwiftEnum.builder(SwiftNameRules.getEnumTypeName(derived, deploymentModel)).build();
     } else if (derived instanceof FTypeDef) {
@@ -58,40 +58,41 @@ public class SwiftTypeMapper {
   }
 
   private static SwiftType getTypedef(
-      FTypeDef francaTypeDef, final FrancaDeploymentModel deploymentModel) {
-    if (isInstanceId(francaTypeDef)) {
-      return getClassOrStructType(francaTypeDef, deploymentModel);
+      final FTypeDef francaTypeDef, final FrancaDeploymentModel deploymentModel) {
+    if (InstanceRules.isInstanceId(francaTypeDef)) {
+      return getClassType(francaTypeDef, deploymentModel);
     }
     SwiftType typedefType = mapType(francaTypeDef.getActualType(), deploymentModel);
     return typedefType.createAlias(SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel));
   }
 
-  private static SwiftType getClassOrStructType(
-      FType derived, final FrancaDeploymentModel deploymentModel) {
-    SwiftType.TypeCategory category = (derived instanceof FTypeDef) ? CLASS : STRUCT;
-    String swiftName = SwiftNameRules.getClassName(derived.getName());
-    String name = swiftName;
-    if (derived instanceof FStructType) {
-      name = SwiftNameRules.getStructName((FStructType) derived, deploymentModel);
-    }
+  private static SwiftType getStructType(
+      final FStructType francaStructType, final FrancaDeploymentModel deploymentModel) {
 
-    String implementingClass = null;
-    boolean isOptional = false;
-    if (category == CLASS) {
-      implementingClass = swiftName;
-      if (deploymentModel != null
-          && deploymentModel.isInterface((FInterface) derived.eContainer())) {
-        implementingClass = "_" + swiftName;
-      }
-      isOptional = true;
-    }
-
+    String name = SwiftNameRules.getStructName(francaStructType, deploymentModel);
     return SwiftContainerType.builder(name)
-        .category(category)
+        .category(STRUCT)
+        .cPrefix(CBridgeNameRules.getStructBaseName(francaStructType))
+        .cType(CBridgeNameRules.getStructRefType(francaStructType))
+        .build();
+  }
+
+  private static SwiftType getClassType(
+      final FTypeDef francaTypeDef, final FrancaDeploymentModel deploymentModel) {
+
+    String swiftName = SwiftNameRules.getClassName(francaTypeDef.getName());
+    String implementingClass = swiftName;
+    if (deploymentModel != null
+        && deploymentModel.isInterface((FInterface) francaTypeDef.eContainer())) {
+      implementingClass = "_" + swiftName;
+    }
+
+    return SwiftContainerType.builder(swiftName)
+        .category(CLASS)
         .implementingClass(implementingClass)
-        .optional(isOptional)
-        .cPrefix(CBridgeNameRules.getStructBaseName(derived))
-        .cType(CBridgeNameRules.getStructRefType(derived))
+        .optional(true)
+        .cPrefix(CBridgeNameRules.getInstanceBaseName(francaTypeDef))
+        .cType(CBridgeNameRules.getInstanceRefType(francaTypeDef))
         .build();
   }
 

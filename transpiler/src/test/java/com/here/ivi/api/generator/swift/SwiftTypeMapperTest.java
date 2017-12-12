@@ -16,9 +16,9 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.model.swift.SwiftContainerType;
 import com.here.ivi.api.model.swift.SwiftType;
 import org.franca.core.franca.*;
@@ -31,42 +31,82 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({NameHelper.class, DefinedBy.class, SwiftNameRules.class})
+@PrepareForTest({DefinedBy.class, InstanceRules.class})
 public class SwiftTypeMapperTest {
 
-  private static final String FRANCA_NAME = "do_nuts";
-  private static final String SWIFT_NAME = "nonsense";
+  private static final String TYPE_COLLECTION_NAME = "SomeTypes";
+  private static final String INTERFACE_NAME = "SomeFace";
+  private static final String STRUCT_NAME = "SomeStruct";
 
   @Mock private FrancaDeploymentModel deploymentModel;
 
   @Mock private FTypeCollection francaTypeCollection;
+  @Mock private FInterface francaInterface;
   @Mock private FTypeRef francaTypeRef;
   @Mock private FStructType francaStructType;
+  @Mock private FTypeDef francaTypeDef;
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(NameHelper.class, DefinedBy.class);
-    PowerMockito.spy(SwiftNameRules.class);
+    PowerMockito.mockStatic(DefinedBy.class, InstanceRules.class);
+
+    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
+    when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
+    when(francaStructType.getName()).thenReturn(STRUCT_NAME);
+    when(francaTypeDef.getName()).thenReturn(INTERFACE_NAME);
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
+    when(DefinedBy.findDefiningTypeCollection(francaTypeDef)).thenReturn(francaInterface);
   }
 
   @Test
-  public void mapTypeWithStructTypeRefAppliesSwiftNameRules() {
+  public void mapTypeWithStructTypeRefCreatesStructTypeRef() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
-    when(francaStructType.getName()).thenReturn(FRANCA_NAME);
-    when(NameHelper.toUpperCamelCase(any())).thenReturn(SWIFT_NAME);
 
     SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
 
     assertTrue(resultType instanceof SwiftContainerType);
-    SwiftContainerType swiftContainerType = (SwiftContainerType) resultType;
-    assertEquals(SWIFT_NAME, swiftContainerType.name);
+    assertEquals(SwiftType.TypeCategory.STRUCT, resultType.category);
+    assertEquals(STRUCT_NAME, resultType.name);
+  }
 
-    PowerMockito.verifyStatic();
-    SwiftNameRules.getClassName(FRANCA_NAME);
-    PowerMockito.verifyStatic();
-    SwiftNameRules.getStructName(francaStructType, deploymentModel);
+  @Test
+  public void mapTypeWithStructTypeRefSetsCNames() {
+    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+
+    SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+
+    assertTrue(resultType instanceof SwiftContainerType);
+    SwiftContainerType containerType = (SwiftContainerType) resultType;
+    final String expectedCName = TYPE_COLLECTION_NAME + "_" + STRUCT_NAME;
+    assertEquals(expectedCName, containerType.cPrefix);
+    assertEquals(expectedCName + "Ref", containerType.cType);
+  }
+
+  @Test
+  public void mapTypeWithInstanceTypeRefCreatesStructTypeRef() {
+    when(InstanceRules.isInstanceId(any(FTypeDef.class))).thenReturn(true);
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
+
+    SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+
+    assertTrue(resultType instanceof SwiftContainerType);
+    assertEquals(SwiftType.TypeCategory.CLASS, resultType.category);
+    assertEquals(INTERFACE_NAME, resultType.name);
+  }
+
+  @Test
+  public void mapTypeWithInstanceTypeRefSetsCNames() {
+    when(InstanceRules.isInstanceId(any(FTypeDef.class))).thenReturn(true);
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
+
+    SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+
+    assertTrue(resultType instanceof SwiftContainerType);
+    SwiftContainerType containerType = (SwiftContainerType) resultType;
+    final String expectedCName = INTERFACE_NAME;
+    assertEquals(expectedCName, containerType.cPrefix);
+    assertEquals(expectedCName + "Ref", containerType.cType);
   }
 }

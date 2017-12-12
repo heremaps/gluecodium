@@ -84,19 +84,23 @@ public final class CBridgeNameRules {
     return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
   }
 
-  public static String getStructRefType(final FModelElement francaStruct) {
-    return getStructBaseName(francaStruct) + "Ref";
+  public static String getStructRefType(final FModelElement francaElement) {
+    return getStructBaseName(francaElement) + "Ref";
   }
 
-  public static String getStructBaseName(final FModelElement francaStruct) {
+  public static String getStructBaseName(final FModelElement francaElement) {
     return fullyQualifiedName(
-        getNestedNameSpecifier(francaStruct),
-        NameHelper.toUpperCamelCase(francaStruct.getName()),
+        getNestedNameSpecifier(francaElement),
+        NameHelper.toUpperCamelCase(francaElement.getName()),
         UNDERSCORE_DELIMITER);
   }
 
-  public static String getInstanceRefType(final FModelElement francaModel) {
-    return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaModel)) + "Ref";
+  public static String getInstanceRefType(final FModelElement francaElement) {
+    return getInstanceBaseName(francaElement) + "Ref";
+  }
+
+  public static String getInstanceBaseName(final FModelElement francaElement) {
+    return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaElement));
   }
 
   public static String getBaseApiInstanceName(final FModelElement francaModel) {
