@@ -47,7 +47,10 @@ function(apigen_swift_fat_library target)
 
     set(framework_lib_dir "${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}")
     set(framework_lib "${framework_lib_dir}/${target}")
-    set(libs lib${target}.${SWIFT_ARCH})
+    set(libs)
+    foreach(TARGET_ARCH IN LISTS SWIFT_ARCH)
+        list(APPEND libs lib${target}.${TARGET_ARCH})
+    endforeach()
 
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND lipo ${libs} -create -output "${framework_lib}"
