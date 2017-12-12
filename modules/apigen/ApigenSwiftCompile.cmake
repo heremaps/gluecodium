@@ -73,6 +73,12 @@ function(apigen_swift_compile target architecture)
         -emit-library
         -embed-bitcode
         -module-name ${target})
+
+    string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
+    if (uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
+        set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
+    endif ()
+
     # OSX needs additional -lc++ and additional paths to assemble the framework
     if(APPLE)
         set(module_file_path "${target}.framework/Modules/${target}.swiftmodule/${TARGET_ARCHITECTURE}.swiftmodule")

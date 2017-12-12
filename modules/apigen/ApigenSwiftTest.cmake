@@ -49,6 +49,11 @@ function(apigen_swift_test target swift_target_flag)
         -o "test${target}"
         -embed-bitcode)
 
+    string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
+    if (uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
+        set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
+    endif ()
+
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         execute_process(COMMAND xcrun --show-sdk-platform-path
             OUTPUT_VARIABLE XCODE_PLATFORM_PATH OUTPUT_STRIP_TRAILING_WHITESPACE)
