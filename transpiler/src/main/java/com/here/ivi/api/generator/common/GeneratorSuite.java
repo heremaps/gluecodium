@@ -19,10 +19,7 @@ import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.ModelHelper;
-import com.here.ivi.api.validator.DefaultsValidator;
-import com.here.ivi.api.validator.FrancaValidator;
-import com.here.ivi.api.validator.InterfaceValidator;
-import com.here.ivi.api.validator.NameValidator;
+import com.here.ivi.api.validator.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +60,8 @@ public abstract class GeneratorSuite {
     return FrancaValidator.validate(francaModelLoader.getResourceSetProvider().get(), currentFiles)
         && NameValidator.validate(typeCollections)
         && InterfaceValidator.validate(typeCollections, deploymentModel)
-        && DefaultsValidator.validate(typeCollections, deploymentModel);
+        && DefaultsValidator.validate(typeCollections, deploymentModel)
+        && ExpressionValidator.validate(typeCollections);
   }
 
   /**
