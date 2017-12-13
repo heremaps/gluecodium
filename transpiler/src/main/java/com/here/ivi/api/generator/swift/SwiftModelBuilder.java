@@ -111,7 +111,13 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .build();
     String comment = CppCommentParser.parse(francaStruct).getMainBodyText();
     swiftStruct.comment = comment != null ? comment : "";
+
+    SwiftContainerType parent = getPreviousResult(SwiftContainerType.class);
+    if (parent != null) {
+      swiftStruct.fields.addAll(parent.fields);
+    }
     swiftStruct.fields.addAll(getPreviousResults(SwiftField.class));
+
     storeResult(swiftStruct);
     super.finishBuilding(francaStruct);
   }
