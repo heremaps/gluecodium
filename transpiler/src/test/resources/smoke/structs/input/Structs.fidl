@@ -124,7 +124,6 @@ interface Structs {
     }
 }
 
-// TODO: can be merged with Structs interface after APIGEN-689
 interface StructsInheritance {
     version {
         major 0

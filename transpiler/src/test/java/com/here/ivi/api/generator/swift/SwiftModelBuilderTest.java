@@ -14,9 +14,7 @@ package com.here.ivi.api.generator.swift;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
@@ -70,9 +68,11 @@ public class SwiftModelBuilderTest {
   @Mock private FTypeDef francaTypeDef;
   @Mock private FAttribute francaAttribute;
   @Mock private FArrayType francaArray;
+  @Mock private FStructType francaStruct;
 
   private final SwiftType swiftType = new SwiftType("VerySwiftType");
   private final SwiftValue swiftValue = new SwiftValue("");
+  private final SwiftField swiftField = new SwiftField("flowers", swiftType, swiftValue);
 
   private SwiftModelBuilder modelBuilder;
 
@@ -89,19 +89,17 @@ public class SwiftModelBuilderTest {
     initMocks(this);
 
     when(francaArgument.getType()).thenReturn(francaTypeRef);
+    when(CppCommentParser.parse(any(FModelElement.class))).thenReturn(comments);
     when(CppCommentParser.parse(any(FMethod.class))).thenReturn(comments);
-    when(CppCommentParser.parse(any(FInterface.class))).thenReturn(comments);
     when(CppCommentParser.parse(any(FEnumerator.class))).thenReturn(comments);
     when(CppCommentParser.parse(any(FEnumerationType.class))).thenReturn(comments);
     when(comments.getMainBodyText()).thenReturn(COMMENT);
 
-    when(deploymentModel.isStatic(any())).thenReturn(true);
     when(SwiftNameRules.getParameterName(any())).thenReturn(PARAM_NAME);
     when(SwiftNameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
 
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaField.getName()).thenReturn(FIELD_NAME);
-
     when(francaTypeDef.getName()).thenReturn("definite");
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
@@ -395,9 +393,9 @@ public class SwiftModelBuilderTest {
     when(SwiftNameRules.getFieldName(eq(FIELD_NAME))).thenReturn("SwiftFieldName");
     modelBuilder.finishBuilding(francaField);
 
-    SwiftField swiftField = modelBuilder.getFinalResult(SwiftField.class);
-    assertNotNull("Should be 1 field item created", swiftField);
-    assertEquals("SwiftFieldName", swiftField.name);
+    SwiftField resultField = modelBuilder.getFinalResult(SwiftField.class);
+    assertNotNull("Should be 1 field item created", resultField);
+    assertEquals("SwiftFieldName", resultField.name);
   }
 
   @Test
@@ -406,9 +404,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    SwiftField swiftField = modelBuilder.getFinalResult(SwiftField.class);
-    assertNotNull("Should be 1 field item created", swiftField);
-    assertSame(swiftType, swiftField.type);
+    SwiftField resultField = modelBuilder.getFinalResult(SwiftField.class);
+    assertNotNull("Should be 1 field item created", resultField);
+    assertSame(swiftType, resultField.type);
   }
 
   @Test
@@ -419,9 +417,9 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaField);
 
-    SwiftField swiftField = modelBuilder.getFinalResult(SwiftField.class);
-    assertNotNull(swiftField);
-    assertEquals(swiftValue, swiftField.defaultValue);
+    SwiftField resultField = modelBuilder.getFinalResult(SwiftField.class);
+    assertNotNull(resultField);
+    assertEquals(swiftValue, resultField.defaultValue);
     verify(deploymentModel).getDefaultValue(francaField);
     PowerMockito.verifyStatic();
     SwiftValueMapper.mapDefaultValue(swiftType, "SomeValue");
@@ -562,5 +560,52 @@ public class SwiftModelBuilderTest {
     SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
     assertNotNull(method.error);
     assertEquals("SOME_ERROR", method.error.name);
+  }
+
+  @Test
+  public void finishBuildingFrancaStructTypeReadsName() {
+    when(SwiftNameRules.getStructName(any(), any())).thenReturn("Structural");
+    when(CBridgeNameRules.getStructBaseName(any())).thenReturn("CBase");
+    when(CBridgeNameRules.getStructRefType(any())).thenReturn("CRef");
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
+    assertNotNull(swiftStruct);
+    assertEquals("Structural", swiftStruct.name);
+    assertEquals("CBase", swiftStruct.cPrefix);
+    assertEquals("CRef", swiftStruct.cType);
+
+    PowerMockito.verifyStatic();
+    SwiftNameRules.getStructName(francaStruct, deploymentModel);
+  }
+
+  @Test
+  public void finishBuildingFrancaStructTypeReadsFields() {
+    contextStack.injectResult(swiftField);
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
+    assertNotNull(swiftStruct);
+    assertEquals(1, swiftStruct.fields.size());
+    assertEquals(swiftField, swiftStruct.fields.get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaStructTypeReadsParentFields() {
+    SwiftContainerType parentStruct = SwiftContainerType.builder("FooStruct").build();
+    SwiftField parentField = new SwiftField("foo", swiftType, null);
+    parentStruct.fields.add(parentField);
+    contextStack.injectResult(parentStruct);
+    contextStack.injectResult(swiftField);
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
+    assertNotNull(swiftStruct);
+    assertEquals(2, swiftStruct.fields.size());
+    assertEquals(parentField, swiftStruct.fields.get(0));
+    assertEquals(swiftField, swiftStruct.fields.get(1));
   }
 }
