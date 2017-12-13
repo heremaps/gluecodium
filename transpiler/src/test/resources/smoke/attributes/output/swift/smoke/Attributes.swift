@@ -44,7 +44,7 @@ public class Attributes {
     }
     public var arrayAttribute: CollectionOf<String> {
         get {
-            let handle =  smoke_Attributes_arrayAttribute_get(c_instance)
+            let handle = smoke_Attributes_arrayAttribute_get(c_instance)
             return StringList(handle)
         }
         set {

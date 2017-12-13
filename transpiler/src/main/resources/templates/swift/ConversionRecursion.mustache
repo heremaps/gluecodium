@@ -98,7 +98,7 @@ defer {
 {{/arrayConversion}}
 
 {{+MethodReturnArray}}
-let handle =  {{include delegateToCall}}
+let handle = {{include delegateToCall}}
 return {{method.returnType.implementingClass}}(handle)
 {{/MethodReturnArray}}
 

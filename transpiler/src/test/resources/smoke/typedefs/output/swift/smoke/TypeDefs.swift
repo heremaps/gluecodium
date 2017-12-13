@@ -30,7 +30,7 @@ public class TypeDefs {
 
     public var primitiveTypeAttribute: CollectionOf<Double> {
         get {
-            let handle =  smoke_TypeDefs_primitiveTypeAttribute_get(c_instance)
+            let handle = smoke_TypeDefs_primitiveTypeAttribute_get(c_instance)
             return DoubleList(handle)
         }
         set {
@@ -100,7 +100,7 @@ public class TypeDefs {
         defer {
             inputHandle.cleanup()
         }
-        let handle =  smoke_TypeDefs_methodWithComplexTypeDef(inputHandle.c_type)
+        let handle = smoke_TypeDefs_methodWithComplexTypeDef(inputHandle.c_type)
         return TestStructList(handle)
     }
 

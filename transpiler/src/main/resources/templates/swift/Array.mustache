@@ -7,12 +7,20 @@ import Foundation
 {{#arrays}}
 internal class {{implementingClass}}: CollectionOf<{{underlyingType}}> {
     let c_element: {{refName}}
+    let c_element_owned: Bool
 
-    init(_ c_element: {{refName}}) {
+    init(_ c_element: {{refName}}, owned: Bool = true) {
         self.c_element = c_element
+        self.c_element_owned = owned
         super.init([])
         self.startIndex = 0
         self.endIndex = Int({{refName}}_count(c_element))
+    }
+
+    deinit {
+        if c_element_owned {
+            {{refName}}_release(c_element)
+        }
     }
 
     public override subscript(index: Int) -> {{underlyingType}} {
