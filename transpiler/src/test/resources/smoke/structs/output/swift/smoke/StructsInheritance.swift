@@ -32,6 +32,9 @@ public class StructsInheritance {
             self.b = b
             self.color = color
         }
+        public func convertToLine() -> Structs.Line {
+            return Structs.Line(a: a, b: b)
+        }
         internal init?(cColoredLineInherited: smoke_StructsInheritance_ColoredLineInheritedRef) {
             do {
                 guard

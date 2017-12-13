@@ -593,7 +593,7 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaStructTypeReadsParentFields() {
+  public void finishBuildingFrancaStructTypeReadsParent() {
     SwiftContainerType parentStruct = SwiftContainerType.builder("FooStruct").build();
     SwiftField parentField = new SwiftField("foo", swiftType, null);
     parentStruct.fields.add(parentField);
@@ -604,6 +604,7 @@ public class SwiftModelBuilderTest {
 
     SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
     assertNotNull(swiftStruct);
+    assertEquals(parentStruct, swiftStruct.parent);
     assertEquals(2, swiftStruct.fields.size());
     assertEquals(parentField, swiftStruct.fields.get(0));
     assertEquals(swiftField, swiftStruct.fields.get(1));
