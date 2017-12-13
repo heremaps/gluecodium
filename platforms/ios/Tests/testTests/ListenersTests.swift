@@ -33,7 +33,7 @@ class ListenersTests: XCTestCase {
             }
         }
 
-        var listener = TestListener()
+        let listener = TestListener()
 
         calculator.registerListener(listener: listener)
         calculator.calculateInBackground(fromPosition: fromPosition, toPosition: toPosition)
@@ -51,7 +51,7 @@ class ListenersTests: XCTestCase {
             }
         }
 
-        var listener = TestListener()
+        let listener = TestListener()
 
         calculator.registerListener(listener: listener)
         calculator.registerListener(listener: listener)
@@ -71,7 +71,7 @@ class ListenersTests: XCTestCase {
             }
         }
 
-        var listener = TestListener()
+        let listener = TestListener()
 
         calculator.calculate(fromPosition: fromPosition, toPosition: toPosition, listener: listener)
 
@@ -82,7 +82,7 @@ class ListenersTests: XCTestCase {
     func testSynchronousListenerCleanup() {
         var deinitCalled = false
         do {
-            var listener = DeinitListener(callOnDeinit: { deinitCalled = true })
+            let listener = DeinitListener(callOnDeinit: { deinitCalled = true })
             calculator.calculate(fromPosition: fromPosition, toPosition: toPosition, listener: listener)
         }
         XCTAssertTrue(deinitCalled)
@@ -91,7 +91,7 @@ class ListenersTests: XCTestCase {
     func testProxyKeepsSwiftObjectAlive() {
         var deinitCalled = false
         do {
-            var listener = DeinitListener(callOnDeinit: { deinitCalled = true })
+            let listener = DeinitListener(callOnDeinit: { deinitCalled = true })
             calculator.registerListener(listener: listener)
         }
         XCTAssertFalse(deinitCalled, "Proxy must keep Swift object alive")
@@ -101,7 +101,7 @@ class ListenersTests: XCTestCase {
         var deinitCalled = false
 
         do {
-            var listener = DeinitListener(callOnDeinit: { deinitCalled = true })
+            let listener = DeinitListener(callOnDeinit: { deinitCalled = true })
             calculator.registerListener(listener: listener)
             calculator.unregisterListener(listener: listener)
         }
@@ -112,7 +112,7 @@ class ListenersTests: XCTestCase {
         var deinitCalled = 0
 
         do {
-            var listener = DeinitListener(callOnDeinit: { deinitCalled += 1 })
+            let listener = DeinitListener(callOnDeinit: { deinitCalled += 1 })
             calculator.registerListener(listener: listener)
             calculator.registerListener(listener: listener)
             calculator.unregisterListener(listener: listener)
@@ -124,7 +124,7 @@ class ListenersTests: XCTestCase {
         var deinitCalled = 0
 
         do {
-            var listener = DeinitListener(callOnDeinit: { deinitCalled += 1 })
+            let listener = DeinitListener(callOnDeinit: { deinitCalled += 1 })
             calculator.registerListener(listener: listener)
             calculator.registerListener(listener: listener)
             calculator.unregisterListener(listener: listener)
@@ -137,7 +137,7 @@ class ListenersTests: XCTestCase {
         var deinitCalled = 0
 
         do {
-            var listener = DeinitListener(callOnDeinit: { deinitCalled += 1 })
+            let listener = DeinitListener(callOnDeinit: { deinitCalled += 1 })
             calculator.registerListener(listener: listener)
             calculator.unregisterListener(listener: listener)
             calculator.unregisterListener(listener: listener)
