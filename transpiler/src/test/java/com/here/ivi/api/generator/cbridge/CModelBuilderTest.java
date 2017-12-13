@@ -299,6 +299,24 @@ public class CModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingStructReadsParentFields() {
+    CStruct parentStruct = new CStruct("Foo", null, null);
+    CField parentField = new CField("ParentField", "CppName2", cppTypeInfo);
+    parentStruct.fields.add(parentField);
+    contextStack.injectResult(parentStruct);
+    CField cField = new CField("SwiftName1", "CppName1", cppTypeInfo);
+    contextStack.injectResult(cField);
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
+    assertNotNull(cStruct);
+    assertEquals("There should be 2 fields in struct", 2, cStruct.fields.size());
+    assertEquals(parentField, cStruct.fields.get(0));
+    assertEquals(cField, cStruct.fields.get(1));
+  }
+
+  @Test
   public void finishBuildingInterfaceDoesNotAddStructs() {
     CStruct struct = new CStruct("name", "baseApiName", new CppTypeInfo(CType.VOID));
     contextStack.injectResult(struct);
