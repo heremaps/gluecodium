@@ -46,7 +46,7 @@ public class Arrays {
         defer {
             inputHandle.cleanup()
         }
-        let handle =  examples_Arrays_explicitArrayMethod(inputHandle.c_type)
+        let handle = examples_Arrays_explicitArrayMethod(inputHandle.c_type)
         return SyncResultList(handle)
     }
     public static func implicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
@@ -54,7 +54,7 @@ public class Arrays {
         defer {
             inputHandle.cleanup()
         }
-        let handle =  examples_Arrays_implicitArrayMethod(inputHandle.c_type)
+        let handle = examples_Arrays_implicitArrayMethod(inputHandle.c_type)
         return SyncResultList(handle)
     }
 }

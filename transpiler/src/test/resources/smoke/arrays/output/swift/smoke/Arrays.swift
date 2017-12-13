@@ -59,8 +59,8 @@ public class Arrays {
         }
 
         internal init?(cFancyStruct: smoke_Arrays_FancyStructRef) {
-            messages = StringList(smoke_Arrays_FancyStruct_messages_get(cFancyStruct))
-            numbers = UInt8List(smoke_Arrays_FancyStruct_numbers_get(cFancyStruct))
+            messages = StringList(smoke_Arrays_FancyStruct_messages_get(cFancyStruct), owned: false)
+            numbers = UInt8List(smoke_Arrays_FancyStruct_numbers_get(cFancyStruct), owned: false)
         }
 
         internal func convertToCType() -> smoke_Arrays_FancyStructRef {
@@ -84,7 +84,7 @@ public class Arrays {
         defer {
             inputHandle.cleanup()
         }
-        let handle =  smoke_Arrays_methodWithArray(inputHandle.c_type)
+        let handle = smoke_Arrays_methodWithArray(inputHandle.c_type)
         return StringList(handle)
     }
 
@@ -93,7 +93,7 @@ public class Arrays {
         defer {
             inputHandle.cleanup()
         }
-        let handle =  smoke_Arrays_methodWithArrayInline(inputHandle.c_type)
+        let handle = smoke_Arrays_methodWithArrayInline(inputHandle.c_type)
         return UInt8List(handle)
     }
 
@@ -102,7 +102,7 @@ public class Arrays {
         defer {
             inputHandle.cleanup()
         }
-        let handle =  smoke_Arrays_methodWithStructArray(inputHandle.c_type)
+        let handle = smoke_Arrays_methodWithStructArray(inputHandle.c_type)
         return BasicStructList(handle)
     }
 
@@ -111,7 +111,7 @@ public class Arrays {
         defer {
             inputHandle.cleanup()
         }
-        let handle =  smoke_Arrays_methodWithArrayOfArrays(inputHandle.c_type)
+        let handle = smoke_Arrays_methodWithArrayOfArrays(inputHandle.c_type)
         return UInt8ListList(handle)
     }
 
@@ -124,7 +124,7 @@ public class Arrays {
         defer {
             fancyArrayHandle.cleanup()
         }
-        let handle =  smoke_Arrays_mergeArraysOfStructsWithArrays(inlineFancyArrayHandle.c_type, fancyArrayHandle.c_type)
+        let handle = smoke_Arrays_mergeArraysOfStructsWithArrays(inlineFancyArrayHandle.c_type, fancyArrayHandle.c_type)
         return FancyStructList(handle)
     }
 
@@ -133,7 +133,7 @@ public class Arrays {
         defer {
             inputHandle.cleanup()
         }
-        let handle =  smoke_Arrays_methodWithArrayOfAliases(inputHandle.c_type)
+        let handle = smoke_Arrays_methodWithArrayOfAliases(inputHandle.c_type)
         return StringList(handle)
     }
 
