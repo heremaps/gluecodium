@@ -9,8 +9,8 @@ class ListenersReturnValuesTests: XCTestCase {
             }
         }
 
-        var envelope = TestListener()
-        var delivery = MessageDelivery.createMe()!
+        let envelope = TestListener()
+        let delivery = MessageDelivery.createMe()!
         XCTAssertEqual("Works", delivery.getMessage(envelope: envelope)!)
     }
 
