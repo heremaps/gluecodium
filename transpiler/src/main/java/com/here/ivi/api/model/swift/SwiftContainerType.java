@@ -17,9 +17,11 @@ import java.util.List;
 public final class SwiftContainerType extends SwiftType {
 
   public final List<SwiftField> fields = new LinkedList<>();
+  public final SwiftContainerType parent;
   public final String cPrefix;
   public final String cType;
 
+  @SuppressWarnings("ParameterNumber")
   @lombok.Builder(builderClassName = "Builder")
   private SwiftContainerType(
       final String name,
@@ -27,6 +29,7 @@ public final class SwiftContainerType extends SwiftType {
       final String implementingClass,
       final String publicName,
       final boolean optional,
+      final SwiftContainerType parent,
       final String cPrefix,
       final String cType) {
     super(
@@ -35,6 +38,7 @@ public final class SwiftContainerType extends SwiftType {
         implementingClass,
         publicName != null ? publicName : name,
         optional);
+    this.parent = parent;
     this.cPrefix = cPrefix;
     this.cType = cType;
   }
@@ -47,7 +51,7 @@ public final class SwiftContainerType extends SwiftType {
   public SwiftType createAlias(final String aliasName) {
     SwiftContainerType container =
         new SwiftContainerType(
-            name, category, implementingClass, aliasName, optional, cPrefix, cType);
+            name, category, implementingClass, aliasName, optional, parent, cPrefix, cType);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;
@@ -56,7 +60,8 @@ public final class SwiftContainerType extends SwiftType {
   @Override
   public SwiftType createOptionalType() {
     SwiftContainerType container =
-        new SwiftContainerType(name, category, implementingClass, publicName, true, cPrefix, cType);
+        new SwiftContainerType(
+            name, category, implementingClass, publicName, true, parent, cPrefix, cType);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;

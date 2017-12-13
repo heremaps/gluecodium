@@ -3,7 +3,9 @@ public struct {{simpleName}} {
     public var {{name}}: {{type.publicName}}
 {{/fields}}
 
-{{prefixPartial "swift/StructPublicInitMethod" "    "}}
+{{prefixPartial "swift/StructPublicInitMethod" "    "}}{{#if parent}}
+
+{{prefixPartial "swift/StructParentConversionFunction" "    "}}{{/if}}
 
 {{prefixPartial "swift/StructInternalInitMethod" "    "}}
 

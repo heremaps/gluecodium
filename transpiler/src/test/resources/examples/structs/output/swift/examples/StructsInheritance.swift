@@ -37,6 +37,10 @@ public class StructsInheritance {
             self.id = id
         }
 
+        public func convertToSyncResult() -> Structs.SyncResult {
+            return Structs.SyncResult(lastUpdatedTimeStamp: lastUpdatedTimeStamp, numberOfChanges: numberOfChanges)
+        }
+
         internal init?(cSyncResultInherited: examples_StructsInheritance_SyncResultInheritedRef) {
             lastUpdatedTimeStamp = examples_StructsInheritance_SyncResultInherited_lastUpdatedTimeStamp_get(cSyncResultInherited)
             numberOfChanges = examples_StructsInheritance_SyncResultInherited_numberOfChanges_get(cSyncResultInherited)
