@@ -1,5 +1,10 @@
 # API Transpiler Release Notes
 
+## 0.14.0
+- Features:
+  + Add support for Default values to C++ Base API generators
+  + Add support for Default values to Java generators
+
 ## 0.13.0
 - Features:
   + Add support for Struct Inheritance to Java generators
