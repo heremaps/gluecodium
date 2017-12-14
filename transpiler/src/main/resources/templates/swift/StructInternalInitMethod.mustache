@@ -17,7 +17,7 @@ internal init?(c{{simpleName}}: {{cType}}) {
 {{+assignBasicType}}{{name}} = {{cPrefix}}_{{name}}_get(c{{structName}})
 {{/assignBasicType}}
 
-{{+assignArray}}{{name}} = {{type.implementingClass}}({{cPrefix}}_{{name}}_get(c{{structName}}), owned: false)
+{{+assignArray}}{{name}} = {{type.implementingClass}}({{cPrefix}}_{{name}}_get(c{{structName}}))
 {{/assignArray}}
 
 {{+assignEnum}}{{name}} = {{type}}.init(rawValue: {{cPrefix}}_{{name}}_get(c{{structName}}))!
