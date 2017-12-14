@@ -194,8 +194,7 @@ class ArraysTests: XCTestCase {
         }
     }
 
-    // TODO Failed in SV, fix and reenable in APIGEN-1005
-    func disabled_testArrayInStructOutlivesStruct() {
+    func testArrayInStructOutlivesStruct() {
         var messages: CollectionOf<String>
         do {
             let fancyStruct = Arrays.createFancyStruct()!
@@ -224,6 +223,7 @@ class ArraysTests: XCTestCase {
         ("testNestedStructArray", testNestedStructArray),
         ("testMergeArraysOfStructsWithArrays", testMergeArraysOfStructsWithArrays),
         ("testEnumsArray", testEnumsArray),
-        ("testArrayOfAliases", testArrayOfAliases)
+        ("testArrayOfAliases", testArrayOfAliases),
+        ("testArrayInStructOutlivesStruct", testArrayInStructOutlivesStruct)
         ]
 }
