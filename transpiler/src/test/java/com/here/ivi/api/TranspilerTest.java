@@ -42,6 +42,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -59,9 +60,11 @@ public class TranspilerTest {
   private static final String CONTENT = "someContent";
   private static final GeneratedFile FILE = new GeneratedFile("", FILE_NAME);
   private static final List<GeneratedFile> GENERATED_FILES = Collections.singletonList(FILE);
+
   @Mock private GeneratorSuite generator;
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
+  @Rule public final TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   @Before
   public void setUp() {
@@ -198,7 +201,8 @@ public class TranspilerTest {
     String basePath = Paths.get("src", "test", "resources", "android_manifests").toString();
     String baseManifestPath = Paths.get(basePath, "BaseAndroidManifest.xml").toString();
     String appendManifestPath = Paths.get(basePath, "AppendAndroidManifest.xml").toString();
-    Path mergedManifestPath = Paths.get(basePath, "MergedAndroidManifest.xml");
+    Path mergedManifestPath =
+        Paths.get(temporaryFolder.getRoot().getPath(), "MergedAndroidManifest.xml");
     Path expectedMergedManifestPath = Paths.get(basePath, "ExpectedMergedAndroidManifest.xml");
 
     // Act
@@ -219,7 +223,8 @@ public class TranspilerTest {
     String basePath = Paths.get("src", "test", "resources", "android_manifests").toString();
     String baseManifestPath = "INVALID_PATH";
     String appendManifestPath = Paths.get(basePath, "AppendAndroidManifest.xml").toString();
-    Path mergedManifestPath = Paths.get(basePath, "MergedAndroidManifest.xml");
+    Path mergedManifestPath =
+        Paths.get(temporaryFolder.getRoot().getPath(), "MergedAndroidManifest.xml");
 
     // Act
     boolean result =
@@ -236,7 +241,8 @@ public class TranspilerTest {
     String basePath = Paths.get("src", "test", "resources", "android_manifests").toString();
     String baseManifestPath = Paths.get(basePath, "BaseAndroidManifest.xml").toString();
     String appendManifestPath = "INVALID_PATH";
-    Path mergedManifestPath = Paths.get(basePath, "MergedAndroidManifest.xml");
+    Path mergedManifestPath =
+        Paths.get(temporaryFolder.getRoot().getPath(), "MergedAndroidManifest.xml");
 
     // Act
     boolean result =
