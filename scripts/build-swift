@@ -1,14 +1,34 @@
 #!/bin/bash
 #
-# Script to build the "hello" library for an iOS consumer. This is demonstrated
-# by the platforms/swift application.
+USAGE=$(cat <<EOF
+$0 [--publish] [--debug]
+    --publish    Build and publish the Transpiler locally and use it for code generation
+    --debug      Build with debug symbols
+    --help       Print this message
+EOF
+)
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
-if [ "$1" == "--publish" ]; then
-    publish_local
-fi
+CMAKE_EXTRA_PARAMETERS=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --publish)
+            publish_local
+            shift
+            ;;
+        --debug)
+            CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            shift
+            ;;
+        --help|*)
+            echo "$USAGE"
+            exit 0
+            ;;
+    esac
+done
 
 TRANSPILER_VERSION="${TRANSPILER_VERSION:-+}"
 BUILD_DIR=${PWD}/build-swift
@@ -17,7 +37,6 @@ INSTALL_DIR=${PWD}/dist/swift
 [ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
 [ -d "${INSTALL_DIR}" ] || mkdir -p "${INSTALL_DIR}"
 
-CMAKE_EXTRA_PARAMETERS=
 # Chose platform-native CMake generator
 if [ "$(cmake_generator)" ] ; then
 CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
