@@ -14,7 +14,7 @@
 
 #include <iostream>
 
-namespace here
+namespace hf
 {
 /**
  * A hash function for enums.

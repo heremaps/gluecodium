@@ -35,7 +35,7 @@ enum class InternalError {
     ERROR_NONE,
     ERROR_FATAL = 999
 };
-using ExampleMap = ::std::unordered_map< ::smoke::Enums::SimpleEnum, uint64_t, EnumHash >;
+using ExampleMap = ::std::unordered_map< ::smoke::Enums::SimpleEnum, uint64_t, ::hf::EnumHash >;
 struct ErrorStruct {
     ::smoke::Enums::InternalError type;
     ::std::string message;
