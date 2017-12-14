@@ -122,8 +122,9 @@ convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >& _nr
 
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa
 
-template<typename K, typename V> jobject
-convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V >& _ninput )
+template< typename K, typename V, typename Hash = ::std::hash< K > >
+jobject
+convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
 {
     auto javaClass = _env->FindClass( "java/util/HashMap" );
     auto result = create_object( _env, javaClass );
@@ -139,8 +140,9 @@ convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V >& _ninput )
     return result;
 }
 
-template<typename K, typename V> void
-convert_from_jni( JNIEnv* _env, const jobject& _jMap, std::unordered_map< K, V >& _nresult )
+template< typename K, typename V, typename Hash = ::std::hash< K > >
+void
+convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V, Hash >& _nresult )
 {
     if ( _env->IsSameObject( _jMap, nullptr ) )
     {
