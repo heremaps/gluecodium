@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.validator.common;
+package com.here.ivi.api.validator;
 
 import java.io.File;
 import java.util.Collection;
@@ -24,11 +24,12 @@ import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 
-public final class ResourceValidator {
+/** Use Francas builtin Xtext validation module to validate all input fidl and fdepl files. */
+public final class FrancaValidator {
 
-  private static final Logger LOGGER = Logger.getLogger(ResourceValidator.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(FrancaValidator.class.getName());
 
-  private ResourceValidator() {}
+  private FrancaValidator() {}
 
   public static boolean validate(final ResourceSet resourceSet, final Collection<File> files) {
     if (files.isEmpty()) {

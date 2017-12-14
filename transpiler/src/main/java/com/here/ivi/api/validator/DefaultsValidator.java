@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.validator.common;
+package com.here.ivi.api.validator;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
@@ -22,6 +22,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.franca.core.franca.*;
 
+/**
+ * Defaults are set as strings in the deployment model, validate that the content can be converted
+ * to the actual type of the field.
+ */
 public final class DefaultsValidator {
 
   private static final Logger LOGGER = Logger.getLogger(DefaultsValidator.class.getName());

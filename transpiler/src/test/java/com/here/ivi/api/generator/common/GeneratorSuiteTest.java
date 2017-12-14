@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 import com.google.inject.Injector;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.ModelHelper;
-import com.here.ivi.api.validator.common.ResourceValidator;
+import com.here.ivi.api.validator.FrancaValidator;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +38,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ResourceValidator.class, FrancaModelLoader.class, ModelHelper.class})
+@PrepareForTest({FrancaValidator.class, FrancaModelLoader.class, ModelHelper.class})
 public class GeneratorSuiteTest {
 
   private static final String MOCK_INPUT_PATH = "../fidl/files/are/here";
@@ -70,7 +70,7 @@ public class GeneratorSuiteTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(ResourceValidator.class, FrancaModelLoader.class, ModelHelper.class);
+    PowerMockito.mockStatic(FrancaValidator.class, FrancaModelLoader.class, ModelHelper.class);
     MockitoAnnotations.initMocks(this);
 
     Collection<File> files = Collections.singletonList(new File("nonsense.fidl"));
@@ -96,12 +96,12 @@ public class GeneratorSuiteTest {
 
     generatorSuite = new TestableGeneratorSuite(francaModelLoader);
     generatorSuite.buildModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
-    when(ResourceValidator.validate(any(), any())).thenReturn(true);
+    when(FrancaValidator.validate(any(), any())).thenReturn(true);
 
     assertTrue(generatorSuite.validate());
 
     PowerMockito.verifyStatic();
-    ResourceValidator.validate(any(), any());
+    FrancaValidator.validate(any(), any());
   }
 
   @Test
@@ -109,12 +109,12 @@ public class GeneratorSuiteTest {
 
     generatorSuite = new TestableGeneratorSuite(francaModelLoader);
     generatorSuite.buildModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
-    when(ResourceValidator.validate(any(), any())).thenReturn(false);
+    when(FrancaValidator.validate(any(), any())).thenReturn(false);
 
     assertFalse(generatorSuite.validate());
 
     PowerMockito.verifyStatic();
-    ResourceValidator.validate(any(), any());
+    FrancaValidator.validate(any(), any());
   }
 
   @Test

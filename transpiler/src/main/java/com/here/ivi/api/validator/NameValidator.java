@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.validator.common;
+package com.here.ivi.api.validator;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
@@ -25,6 +25,13 @@ import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
+/**
+ * Check for name duplications.
+ *
+ * <p>Type collection names are omitted from the generated types to give a more native feel. This
+ * means there could be name collisions between types from TypeCollections and Interfaces. This
+ * validator checks that.
+ */
 public class NameValidator {
 
   private static final Logger LOGGER = Logger.getLogger(NameValidator.class.getName());
