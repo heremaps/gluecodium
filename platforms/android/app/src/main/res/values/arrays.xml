@@ -97,4 +97,9 @@
         <item>void method(bool) throws InternalErrorsException</item>
         <item>String method(bool) throws InternalErrorsException</item>
     </string-array>
+
+    <string-array name="defaults_source">
+        <item>java</item>
+        <item>base API</item>
+    </string-array>
 </resources>
