@@ -23,6 +23,12 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+/**
+ * Combines {@link SwiftGenerator} and {@link CBridgeGenerator} to generate Swift bindings on top of
+ * BaseAPI.
+ *
+ * <p>The bindings are used to build a framework for iOS, Mac and a Swift module for Linux.
+ */
 public final class SwiftGeneratorSuite extends GeneratorSuite {
   public static final String GENERATOR_NAME = "swift";
 
