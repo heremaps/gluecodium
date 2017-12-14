@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
+/** Write generated files to standard console output. */
 public class ConsoleOutput implements GeneratorOutput {
 
   @Override

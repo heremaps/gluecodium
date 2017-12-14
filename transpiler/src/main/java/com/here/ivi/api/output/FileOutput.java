@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Logger;
 
+/** Write the generated files to disk. */
 public class FileOutput implements GeneratorOutput {
 
   private static final Logger LOGGER = Logger.getLogger(FileOutput.class.getName());
