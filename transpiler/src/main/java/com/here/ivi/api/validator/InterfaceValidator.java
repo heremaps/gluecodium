@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.validator.common;
+package com.here.ivi.api.validator;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
@@ -23,6 +23,10 @@ import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeCollection;
 
+/**
+ * Validate each Franca interface that it does not contain static methods when IsInterface is set
+ * for it. Also fail for inline error enums since these are not usable with hf::ErrorCode.
+ */
 public final class InterfaceValidator {
 
   private static final Logger LOGGER = Logger.getLogger(InterfaceValidator.class.getName());

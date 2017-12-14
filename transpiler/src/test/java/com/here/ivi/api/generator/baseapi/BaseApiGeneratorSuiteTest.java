@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.validator.common.ResourceValidator;
+import com.here.ivi.api.validator.FrancaValidator;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +33,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ResourceValidator.class, GeneratorSuite.class, FrancaModelLoader.class})
+@PrepareForTest({FrancaValidator.class, GeneratorSuite.class, FrancaModelLoader.class})
 public final class BaseApiGeneratorSuiteTest {
 
   private static final String MOCK_INPUT_PATH = "../fidl/files/are/here";
@@ -45,7 +45,7 @@ public final class BaseApiGeneratorSuiteTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(ResourceValidator.class, GeneratorSuite.class, FrancaModelLoader.class);
+    PowerMockito.mockStatic(FrancaValidator.class, GeneratorSuite.class, FrancaModelLoader.class);
     MockitoAnnotations.initMocks(this);
 
     when(GeneratorSuite.getSpecPath()).thenReturn(MOCK_SPEC_PATH);

@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.validator.common;
+package com.here.ivi.api.validator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
