@@ -20,7 +20,7 @@ void smoke_Errors_release(smoke_ErrorsRef handle) {
 
 
 smoke_Errors_InternalError smoke_Errors_methodWithErrors() {
-    return static_cast<smoke_Errors_InternalError>(::smoke::Errors::method_with_errors().code().code());
+    return ::smoke::Errors::method_with_errors().code().code();
 }
 
 

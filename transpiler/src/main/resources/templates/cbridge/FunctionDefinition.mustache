@@ -4,7 +4,7 @@
 
 {{+FunctionBody}}{{!!
 }}{{#if error}}{{!!
-}}{{#if isReturningVoid}}    return static_cast<{{error.functionReturnType}}>({{>callBaseApi}}.code().code());{{/if}}{{!!
+}}{{#if isReturningVoid}}    return {{>callBaseApi}}.code().code();{{/if}}{{!!
 }}{{#unless isReturningVoid}}    auto&& RESULT = {{>callBaseApi}};
     if (RESULT.has_value()) {
         return {true, .returned_value = {{#set delegateToCall="safe_value"}}{{>ReturnConversion}}{{/set}}};
