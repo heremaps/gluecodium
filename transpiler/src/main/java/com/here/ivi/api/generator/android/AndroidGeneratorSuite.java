@@ -25,6 +25,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.franca.core.franca.FInterface;
 
+/**
+ * Combines generators {@link AndroidManifestGenerator}, {@link JniGenerator} and {@link
+ * JavaGenerator} to generate Java code and bindings to BaseAPI layer for Android.
+ */
 public final class AndroidGeneratorSuite extends GeneratorSuite {
   public static final String GENERATOR_NAME = "android";
   private static final String CONVERSION_UTILS_HEADER = "android/jni/JniCppConversionUtils.h";
