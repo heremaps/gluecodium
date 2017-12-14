@@ -300,9 +300,7 @@ public class CBridgeImplementationTemplateTest {
 
     TemplateComparator expected =
         TemplateComparator.expect(
-                "ERROR functionName() {\n"
-                    + "    return static_cast<ERROR>(delegateToCall().code().code());\n"
-                    + "}\n")
+                "ERROR functionName() {\n" + "    return delegateToCall().code().code();\n" + "}\n")
             .build();
     final String generated = this.generate(cInterface);
 
