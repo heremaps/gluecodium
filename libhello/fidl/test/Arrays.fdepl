@@ -97,4 +97,8 @@ define navigation.BaseApiSpec for interface test.Arrays
     method methodWithEnumsArray {
         Static = true
     }
+
+    method createFancyStruct {
+        Static = true
+    }
 }
