@@ -170,4 +170,10 @@ Arrays::method_with_enums_array( const std::vector< ::test::Arrays::ArrayEnum >&
     return { input.rbegin( ), input.rend( ) };
 }
 
+Arrays::FancyStruct
+Arrays::create_fancy_struct()
+{
+    return Arrays::FancyStruct{ {"Hello", "World"}, {1, 2, 3}, {} };
+}
+
 }

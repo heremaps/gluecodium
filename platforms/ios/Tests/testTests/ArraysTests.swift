@@ -194,6 +194,16 @@ class ArraysTests: XCTestCase {
         }
     }
 
+    func testArrayInStructOutlivesStruct() {
+        var messages: CollectionOf<String>
+        do {
+            let fancyStruct = Arrays.createFancyStruct()!
+            messages = fancyStruct.messages
+        }
+        XCTAssertEqual(messages[0], "Hello")
+        XCTAssertEqual(messages[1], "World")
+    }
+
     static var allTests = [
         ("testArrayString", testArrayString),
         ("testArrayInt8", testArrayInt8),
@@ -213,6 +223,7 @@ class ArraysTests: XCTestCase {
         ("testNestedStructArray", testNestedStructArray),
         ("testMergeArraysOfStructsWithArrays", testMergeArraysOfStructsWithArrays),
         ("testEnumsArray", testEnumsArray),
-        ("testArrayOfAliases", testArrayOfAliases)
+        ("testArrayOfAliases", testArrayOfAliases),
+        ("testArrayInStructOutlivesStruct", testArrayInStructOutlivesStruct)
         ]
 }

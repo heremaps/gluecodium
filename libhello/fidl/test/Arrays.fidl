@@ -353,4 +353,13 @@ interface Arrays {
             ArrayEnumArray output
         }
     }
+
+    <** @description:
+    Return a struct containing arrays
+    **>
+    method createFancyStruct {
+        out {
+            FancyStruct output
+        }
+    }
 }
