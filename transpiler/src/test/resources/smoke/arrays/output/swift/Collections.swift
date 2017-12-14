@@ -11,18 +11,14 @@
 import Foundation
 internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
     let c_element: arrayCollection_BasicStruct
-    let c_element_owned: Bool
-    init(_ c_element: arrayCollection_BasicStruct, owned: Bool = true) {
+    init(_ c_element: arrayCollection_BasicStruct) {
         self.c_element = c_element
-        self.c_element_owned = owned
         super.init([])
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_BasicStruct_count(c_element))
     }
     deinit {
-        if c_element_owned {
-            arrayCollection_BasicStruct_release(c_element)
-        }
+        arrayCollection_BasicStruct_release(c_element)
     }
     public override subscript(index: Int) -> Arrays.BasicStruct {
         let handle = arrayCollection_BasicStruct_get(c_element, UInt64(index))
@@ -46,18 +42,14 @@ extension Collection where Element == Arrays.BasicStruct  {
 }
 internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
     let c_element: arrayCollection_FancyStruct
-    let c_element_owned: Bool
-    init(_ c_element: arrayCollection_FancyStruct, owned: Bool = true) {
+    init(_ c_element: arrayCollection_FancyStruct) {
         self.c_element = c_element
-        self.c_element_owned = owned
         super.init([])
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_FancyStruct_count(c_element))
     }
     deinit {
-        if c_element_owned {
-            arrayCollection_FancyStruct_release(c_element)
-        }
+        arrayCollection_FancyStruct_release(c_element)
     }
     public override subscript(index: Int) -> Arrays.FancyStruct {
         let handle = arrayCollection_FancyStruct_get(c_element, UInt64(index))
@@ -81,18 +73,14 @@ extension Collection where Element == Arrays.FancyStruct  {
 }
 internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
     let c_element: arrayCollection_UInt8Array
-    let c_element_owned: Bool
-    init(_ c_element: arrayCollection_UInt8Array, owned: Bool = true) {
+    init(_ c_element: arrayCollection_UInt8Array) {
         self.c_element = c_element
-        self.c_element_owned = owned
         super.init([])
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_UInt8Array_count(c_element))
     }
     deinit {
-        if c_element_owned {
-            arrayCollection_UInt8Array_release(c_element)
-        }
+        arrayCollection_UInt8Array_release(c_element)
     }
     public override subscript(index: Int) -> CollectionOf<UInt8> {
         let handle = arrayCollection_UInt8Array_get(c_element, UInt64(index))
@@ -115,18 +103,14 @@ extension Collection where Element: Collection, Element.Element == UInt8  {
 }
 internal class StringList: CollectionOf<String> {
     let c_element: arrayCollection_String
-    let c_element_owned: Bool
-    init(_ c_element: arrayCollection_String, owned: Bool = true) {
+    init(_ c_element: arrayCollection_String) {
         self.c_element = c_element
-        self.c_element_owned = owned
         super.init([])
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_String_count(c_element))
     }
     deinit {
-        if c_element_owned {
-            arrayCollection_String_release(c_element)
-        }
+        arrayCollection_String_release(c_element)
     }
     public override subscript(index: Int) -> String {
         let handle = arrayCollection_String_get(c_element, UInt64(index))
@@ -151,18 +135,14 @@ extension Collection where Element == String  {
 }
 internal class UInt8List: CollectionOf<UInt8> {
     let c_element: arrayCollection_UInt8
-    let c_element_owned: Bool
-    init(_ c_element: arrayCollection_UInt8, owned: Bool = true) {
+    init(_ c_element: arrayCollection_UInt8) {
         self.c_element = c_element
-        self.c_element_owned = owned
         super.init([])
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_UInt8_count(c_element))
     }
     deinit {
-        if c_element_owned {
-            arrayCollection_UInt8_release(c_element)
-        }
+        arrayCollection_UInt8_release(c_element)
     }
     public override subscript(index: Int) -> UInt8 {
         let handle = arrayCollection_UInt8_get(c_element, UInt64(index))

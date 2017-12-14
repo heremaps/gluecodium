@@ -32,7 +32,7 @@ public final class CArrayMapper {
     CType arrayType = new CType(arrayName, Include.createInternalInclude(CBRIDGE_ARRAY_REF));
     CppTypeInfo type =
         new CppTypeInfo(
-            "std::shared_ptr<" + arrayName + ">",
+            "std::vector<" + innerType.name + ">",
             singletonList(arrayType),
             singletonList(""),
             arrayType,

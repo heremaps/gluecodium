@@ -12,6 +12,7 @@ void {{name}}_release({{type}} handle) {
 {{#switch type.typeCategory.toString}}
     {{#case "BUILTIN_SIMPLE"}}return get_pointer(handle)->{{baseLayerName}};{{/case}}{{!!
     }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(get_pointer(handle)->{{baseLayerName}});{{/case}}{{!!
+    }}{{#case "ARRAY"}}return { new {{type}}(get_pointer(handle)->{{baseLayerName}}) };{{/case}}{{!!
     }}{{#default}}return {&get_pointer(handle)->{{baseLayerName}}};{{/default}}
 {{/switch}}
 }

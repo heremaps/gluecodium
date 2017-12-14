@@ -59,8 +59,8 @@ public class Arrays {
         }
 
         internal init?(cFancyStruct: smoke_Arrays_FancyStructRef) {
-            messages = StringList(smoke_Arrays_FancyStruct_messages_get(cFancyStruct), owned: false)
-            numbers = UInt8List(smoke_Arrays_FancyStruct_numbers_get(cFancyStruct), owned: false)
+            messages = StringList(smoke_Arrays_FancyStruct_messages_get(cFancyStruct))
+            numbers = UInt8List(smoke_Arrays_FancyStruct_numbers_get(cFancyStruct))
         }
 
         internal func convertToCType() -> smoke_Arrays_FancyStructRef {
