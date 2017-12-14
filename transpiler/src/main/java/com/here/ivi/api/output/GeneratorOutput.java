@@ -15,6 +15,7 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import java.io.IOException;
 import java.util.List;
 
+/** Output interface for generated files. */
 public interface GeneratorOutput {
   void output(List<GeneratedFile> files) throws IOException;
 }
