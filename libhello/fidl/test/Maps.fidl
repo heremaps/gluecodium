@@ -33,6 +33,13 @@ interface Maps {
         ErrorCodeToMessageMap errorMapping
     }
 
+    enumeration SomeEnum {
+        FooValue
+        BarValue
+    }
+
+    map EnumToString { SomeEnum to String }
+
     <** @description:
     Example static method which takes a map and returns a map of same type & having the same keys
     but values converted to uppercase.
@@ -90,6 +97,21 @@ interface Maps {
         out {
             <** @description: Output map **>
             StructWithMap output
+        }
+    }
+
+    <** @description:
+    Example static method which takes a map and returns a map of same type & having the same keys
+    but values converted to uppercase.
+    **>
+    method methodWithEnumToStringMap {
+        in {
+            <** @description: Input map **>
+            EnumToString input
+        }
+        out {
+            <** @description: Output map **>
+            EnumToString output
         }
     }
 }
