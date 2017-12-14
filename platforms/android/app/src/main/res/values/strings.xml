@@ -17,6 +17,10 @@
     <string name="parameter_value">Value</string>
     <string name="array_elements_hint">Arrays elements</string>
     <string name="submit">Submit!</string>
+    <string name="defaults_retrieve">Retrieve Struct with default values!</string>
+    <string name="defaults_expectedValues">Expected result struct {\n
+        intField=42\n floatField=3.14\n boolField=true\n
+        stringField= \"some string\"\n enumField= BAR_VALUE\n}</string>
     <string name="text_input">Insert any text</string>
     <string name="text_result">Result</string>
     <string name="text_success">Success</string>
@@ -41,4 +45,5 @@
     <string name="enumeration_methods_description">Example static method which takes any InternalError and returns the opposite one (e.g. if ERROR_NONE is given, ERROR_FATAL is returned).</string>
     <string name="number_format_exception">Number format exception:</string>
     <string name="no_exception_thrown">No exception thrown.</string>
+    <string name="defaults_retrieval_message">Result retrieved from:</string>
 </resources>
