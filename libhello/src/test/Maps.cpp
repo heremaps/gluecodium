@@ -73,4 +73,18 @@ Maps::method_with_struct_with_map( const Maps::StructWithMap& input )
     return result;
 }
 
+Maps::EnumToString
+Maps::method_with_enum_to_string_map( const Maps::EnumToString& input )
+{
+    Maps::EnumToString result;
+    for ( const auto& entry : input )
+    {
+        std::string uppercase_string = entry.second;
+        std::transform( uppercase_string.begin( ), uppercase_string.end( ),
+                        uppercase_string.begin( ), ::toupper );
+        result.emplace( entry.first, uppercase_string );
+    }
+    return result;
+}
+
 }

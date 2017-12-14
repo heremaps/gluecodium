@@ -159,4 +159,29 @@ public class MapsTest {
         assertEquals(UPPERCASE_VALUE_2, result.errorMapping.get(42));
         assertEquals(UPPERCASE_VALUE_3, result.errorMapping.get(199));
     }
+
+    @Test
+    public void methodWithEnumToStringMap_emptyMap() {
+        Map<Maps.SomeEnum, String> enumStringMap = new HashMap<>();
+
+        Map<Maps.SomeEnum, String> resultsMap = Maps.methodWithEnumToStringMap(enumStringMap);
+
+        assertNotNull(resultsMap);
+        assertEquals(0, resultsMap.size());
+    }
+
+    @Test
+    public void methodWithEnumToStringMap_multipleItems() {
+        Map<Maps.SomeEnum, String> enumStringMap = new HashMap<>();
+        enumStringMap.put(Maps.SomeEnum.FOO_VALUE, LOWERCASE_VALUE_1);
+        enumStringMap.put(Maps.SomeEnum.BAR_VALUE, LOWERCASE_VALUE_2);
+
+        Map<Maps.SomeEnum, String> resultsMap = Maps.methodWithEnumToStringMap(enumStringMap);
+
+        assertNotNull(resultsMap);
+        assertEquals(2, resultsMap.size());
+        // method returns string values in uppercase
+        assertEquals(UPPERCASE_VALUE_1, resultsMap.get(Maps.SomeEnum.FOO_VALUE));
+        assertEquals(UPPERCASE_VALUE_2, resultsMap.get(Maps.SomeEnum.BAR_VALUE));
+    }
 }

@@ -29,4 +29,8 @@ define navigation.BaseApiSpec for interface test.Maps
     method methodWithStructWithMap {
         Static = true
     }
+
+    method methodWithEnumToStringMap {
+        Static = true
+    }
 }
