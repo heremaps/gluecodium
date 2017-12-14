@@ -18,6 +18,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.xtext.linking.impl.ImportedNamesAdapter;
 
+/** Initialize logging framework with logging.properties file. */
 public class TranspilerLogger {
 
   public static void initialize(String propertiesFile) {
@@ -25,7 +26,7 @@ public class TranspilerLogger {
       InputStream stream =
           TranspilerLogger.class.getClassLoader().getResourceAsStream(propertiesFile);
       LogManager.getLogManager().readConfiguration(stream);
-      // Disable xtext info messages
+      // Disable Xtext info messages
       Logger.getLogger(ImportedNamesAdapter.class).setLevel(Level.WARN);
     } catch (IOException e) {
       e.printStackTrace();
