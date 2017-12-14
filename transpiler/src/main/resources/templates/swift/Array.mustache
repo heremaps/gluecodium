@@ -92,10 +92,7 @@ count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}
 {{refName}}_append(handle, item.rawValue){{/enumConversion}}
 
 {{+classConversion}}
-guard let instance = item as? {{privateInnerType}} else {
-  fatalError("Conversion error")
-}
-{{refName}}_append(handle, instance.c_instance){{/classConversion}}
+{{refName}}_append(handle, item.c_instance){{/classConversion}}
 
 {{+arrayConversion}}
 let conversion = item.c_conversion()
