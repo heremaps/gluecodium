@@ -26,6 +26,9 @@ internal func getRef(_ ref: SimpleInterface) -> RefHolder<smoke_SimpleInterfaceR
     functions.smoke_SimpleInterface_setStringValue = {(swiftClass_pointer, stringValue) in
         precondition(stringValue.private_pointer != nil, "Out of memory")
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! SimpleInterface
+        defer {
+            std_string_release(stringValue)
+        }
         return swiftClass.setStringValue(stringValue: String(data: Data(bytes: std_string_data_get(stringValue),
                                                 count: Int(std_string_size_get(stringValue))), encoding: .utf8)!)
     }

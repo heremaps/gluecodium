@@ -27,6 +27,9 @@ internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder<examples_Profi
     functions.examples_ProfileManagerInterface_createProfile = {(swiftClass_pointer, username) in
         precondition(username.private_pointer != nil, "Out of memory")
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! ProfileManagerInterface
+        defer {
+            std_string_release(username)
+        }
         return swiftClass.createProfile(username: String(data: Data(bytes: std_string_data_get(username),
                                                 count: Int(std_string_size_get(username))), encoding: .utf8)!)
     }
