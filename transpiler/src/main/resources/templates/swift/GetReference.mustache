@@ -17,6 +17,11 @@ internal func getRef(_ ref: {{name}}) -> RefHolder<{{cInstanceRef}}> {
 {{!!  }}{{#parameters}}{{prefixPartial 'precondition' '        '}}
         {{/parameters}}
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! {{className}}
+        {{#parameters}}{{#switch type.category.toString}}{{#case "BUILTIN_STRING"}}
+        defer {
+            std_string_release({{name}})
+        }
+        {{/case}}{{/switch}}{{/parameters}}
         return {{>swiftReturn}}
     }
     {{/methods}}
