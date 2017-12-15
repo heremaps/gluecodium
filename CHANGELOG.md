@@ -1,5 +1,9 @@
 # API Transpiler Release Notes
 
+## [Unreleased]
+- Behavior changes:
+  + Changed namespace of EnumHash class from "here" to "hf"
+
 ## 0.14.0
 - Features:
   + Add support for Default values to C++ Base API generators
