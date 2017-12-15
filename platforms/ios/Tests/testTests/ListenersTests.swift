@@ -22,6 +22,12 @@ class ListenersTests: XCTestCase {
         }
     }
 
+    class MessageListener: StringListener {
+        public func onMessage(message: String) {
+            print(message)
+        }
+    }
+
     func testBackgroundListener() {
         class TestListener: EmptyListener {
             var onCalculationInBackgroundResultCalled = false
@@ -145,6 +151,10 @@ class ListenersTests: XCTestCase {
         XCTAssertEqual(1, deinitCalled)
     }
 
+    func testStringListenerDoesNotCrash() {
+        DummyLogger.relayMessage(listener: MessageListener(), message: "Hi!")
+    }
+
     static var allTests = [
         ("testBackgroundListener", testBackgroundListener),
         ("testBackgroundListenerRegisteredTwice", testBackgroundListenerRegisteredTwice),
@@ -154,6 +164,7 @@ class ListenersTests: XCTestCase {
         ("testRegisterUnregisterCleanup", testRegisterUnregisterCleanup),
         ("testRegisterTwiceUnregisterCleanup", testRegisterTwiceUnregisterCleanup),
         ("testRegisterTwiceUnregisterTwiceCleanup", testRegisterTwiceUnregisterTwiceCleanup),
-        ("testRegisterUnregisterTwiceCleanup", testRegisterUnregisterTwiceCleanup)
+        ("testRegisterUnregisterTwiceCleanup", testRegisterUnregisterTwiceCleanup),
+        ("testStringListenerDoesNotCrash", testStringListenerDoesNotCrash)
     ]
 }

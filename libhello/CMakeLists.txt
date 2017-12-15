@@ -204,11 +204,11 @@ feature(ComplexAttributes cpp SOURCES
     fidl/hello/HelloWorldAttributesComplex.fidl
 )
 
-#TODO: enable for swift (APIGEN-515, APIGEN-516)
 feature(Listeners cpp android swift SOURCES
     src/hello/HelloWorldListeners.h
     src/hello/HelloWorldListeners.cpp
     src/hello/HelloWorldCalculatorListenerFactory.cpp
+    src/test/StringListeners.cpp
 
     fidl/hello/HelloWorldCalculatorListenerFactory.fdepl
     fidl/hello/HelloWorldCalculatorListenerFactory.fidl
@@ -216,6 +216,8 @@ feature(Listeners cpp android swift SOURCES
     fidl/hello/CalculatorListener.fdepl
     fidl/hello/HelloWorldListeners.fdepl
     fidl/hello/HelloWorldListeners.fidl
+    fidl/test/StringListeners.fdepl
+    fidl/test/StringListeners.fidl
 )
 
 #TODO: enable for swift (APIGEN-515, APIGEN-516)
