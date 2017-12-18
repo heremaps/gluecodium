@@ -1,6 +1,10 @@
 # API Transpiler Release Notes
 
 ## [Unreleased]
+
+## 0.15.0
+- Features:
+  + Add support for Errors to iOS generators
 - Behavior changes:
   + Changed namespace of EnumHash class from "here" to "hf"
 
