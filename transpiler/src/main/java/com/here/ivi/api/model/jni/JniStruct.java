@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.jni;
 
-import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.cpp.CppStruct;
 import com.here.ivi.api.model.java.JavaClass;
 import java.util.List;
 

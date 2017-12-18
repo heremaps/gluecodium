@@ -14,7 +14,7 @@ package com.here.ivi.api.model.jni;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
+import com.here.ivi.api.model.cpp.CppComplexTypeRef;
 import com.here.ivi.api.model.java.JavaArrayType;
 import com.here.ivi.api.model.java.JavaCustomType;
 import com.here.ivi.api.model.java.JavaPrimitiveType;

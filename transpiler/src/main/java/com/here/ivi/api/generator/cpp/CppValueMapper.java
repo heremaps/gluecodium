@@ -15,7 +15,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.TranspilerExecutionException;
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.common.BuiltInValueRules;
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cpp.*;
 import java.math.BigInteger;
 import java.util.Optional;
 import org.apache.commons.text.StringEscapeUtils;

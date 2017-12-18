@@ -9,29 +9,42 @@
  *
  */
 
-package com.here.ivi.api.model.cppmodel;
+package com.here.ivi.api.model.cpp;
 
 import java.util.stream.Stream;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-public final class CppParameter extends CppElement {
+public class CppInheritance extends CppElement {
 
-  public final CppTypeRef type;
-  public final boolean isOutput;
+  public enum Type {
+    Public("public"),
+    Protected("protected"),
+    Private("private");
 
-  public CppParameter(final String name, final CppTypeRef type) {
-    this(name, type, false);
+    private final String value;
+
+    Type(final String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
   }
 
-  public CppParameter(final String name, final CppTypeRef type, final boolean isOutput) {
-    super(name);
-    this.type = type;
-    this.isOutput = isOutput;
+  public final CppTypeRef parent;
+  public final Type visibility;
+
+  public CppInheritance(CppTypeRef parent, Type type) {
+    super(null);
+    this.parent = parent;
+    this.visibility = type;
   }
 
   @Override
   public Stream<? extends CppElement> stream() {
-    return Stream.of(type);
+    return Stream.of(parent);
   }
 }

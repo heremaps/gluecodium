@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.cppmodel;
+package com.here.ivi.api.model.cpp;
 
 import java.util.ArrayList;
 import java.util.List;

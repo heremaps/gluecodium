@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.cppmodel;
+package com.here.ivi.api.model.cpp;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

@@ -25,7 +25,7 @@ import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.model.common.InstanceRules;
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cpp.*;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.model.jni.*;
