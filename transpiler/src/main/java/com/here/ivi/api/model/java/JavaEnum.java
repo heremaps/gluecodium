@@ -9,24 +9,22 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-import static org.junit.Assert.assertEquals;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Stream;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+public final class JavaEnum extends JavaTopLevelElement {
 
-@RunWith(JUnit4.class)
-public final class JavaClassTest {
-  private static final String TEST_CLASS_NAME = "MyClass";
+  public final List<JavaEnumItem> items = new LinkedList<>();
 
-  @Test
-  public void newJavaClassWithName() {
-    // Arrange, act
-    JavaClass javaClass = new JavaClass(TEST_CLASS_NAME);
+  public JavaEnum(final String name) {
+    super(name);
+  }
 
-    // Assert
-    assertEquals(TEST_CLASS_NAME, javaClass.name);
+  @Override
+  public Stream<JavaElement> stream() {
+    return Stream.concat(super.stream(), items.stream());
   }
 }

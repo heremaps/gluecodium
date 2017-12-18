@@ -9,17 +9,24 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-import java.util.List;
+import java.util.stream.Stream;
 
-public final class JavaEnumType extends JavaCustomType {
+public final class JavaEnumItem extends JavaElement {
+  public JavaValue value;
 
-  public JavaEnumType(
-      final String fullName,
-      final List<String> classNames,
-      final List<String> packageNames,
-      final JavaImport anImport) {
-    super(fullName, classNames, packageNames, anImport, false);
+  public JavaEnumItem(final String name) {
+    this(name, null);
+  }
+
+  public JavaEnumItem(final String name, final JavaValue value) {
+    super(name);
+    this.value = value;
+  }
+
+  @Override
+  public Stream<JavaElement> stream() {
+    return Stream.of(value);
   }
 }

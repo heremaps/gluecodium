@@ -9,20 +9,17 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-import java.util.*;
+import java.util.List;
 
-public abstract class JavaElementWithImports extends JavaElement {
+public final class JavaEnumType extends JavaCustomType {
 
-  public final Set<JavaImport> imports;
-
-  public JavaElementWithImports(final String name) {
-    this(name, null);
-  }
-
-  public JavaElementWithImports(final String name, final Collection<JavaImport> imports) {
-    super(name);
-    this.imports = imports != null ? new LinkedHashSet<>(imports) : new LinkedHashSet<>();
+  public JavaEnumType(
+      final String fullName,
+      final List<String> classNames,
+      final List<String> packageNames,
+      final JavaImport anImport) {
+    super(fullName, classNames, packageNames, anImport, false);
   }
 }

@@ -9,11 +9,24 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-public final class JavaInterface extends JavaTopLevelElement {
+import static org.junit.Assert.assertEquals;
 
-  public JavaInterface(final String name) {
-    super(name);
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+@RunWith(JUnit4.class)
+public final class JavaClassTest {
+  private static final String TEST_CLASS_NAME = "MyClass";
+
+  @Test
+  public void newJavaClassWithName() {
+    // Arrange, act
+    JavaClass javaClass = new JavaClass(TEST_CLASS_NAME);
+
+    // Assert
+    assertEquals(TEST_CLASS_NAME, javaClass.name);
   }
 }

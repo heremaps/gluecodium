@@ -9,27 +9,23 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-import java.util.stream.Stream;
+import com.here.ivi.api.model.common.Streamable;
 
-public class JavaConstant extends JavaElement {
-  public final JavaType type;
-  public final JavaValue value;
+public abstract class JavaElement extends Streamable<JavaElement> {
 
-  public JavaConstant(final JavaType type, final String name, final JavaValue value) {
-    super(name);
-    this.type = type;
-    if (value == null) {
-      // TODO APIGEN-218 handle this case
-      this.value = new JavaValue("TODO");
-    } else {
-      this.value = value;
-    }
+  public final String name;
+  public String comment = "";
+  public JavaVisibility visibility = JavaVisibility.PACKAGE;
+
+  public JavaElement(final String name) {
+    super();
+    this.name = name;
   }
 
   @Override
-  public Stream<JavaElement> stream() {
-    return Stream.of(type, value);
+  public String toString() {
+    return name;
   }
 }

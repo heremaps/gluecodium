@@ -14,9 +14,9 @@ package com.here.ivi.api.generator.java;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
-import com.here.ivi.api.model.javamodel.JavaClass;
-import com.here.ivi.api.model.javamodel.JavaExceptionClass;
-import com.here.ivi.api.model.javamodel.JavaPackage;
+import com.here.ivi.api.model.java.JavaClass;
+import com.here.ivi.api.model.java.JavaExceptionClass;
+import com.here.ivi.api.model.java.JavaPackage;
 import java.util.Arrays;
 import org.junit.Rule;
 import org.junit.Test;

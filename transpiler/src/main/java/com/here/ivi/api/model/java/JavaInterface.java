@@ -9,22 +9,11 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Stream;
+public final class JavaInterface extends JavaTopLevelElement {
 
-public final class JavaEnum extends JavaTopLevelElement {
-
-  public final List<JavaEnumItem> items = new LinkedList<>();
-
-  public JavaEnum(final String name) {
+  public JavaInterface(final String name) {
     super(name);
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.concat(super.stream(), items.stream());
   }
 }

@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.javamodel.JavaTopLevelElement;
+import com.here.ivi.api.model.java.JavaTopLevelElement;
 import java.io.File;
 import java.util.List;
 

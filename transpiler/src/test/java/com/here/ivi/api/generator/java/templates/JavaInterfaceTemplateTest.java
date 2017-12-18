@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.java.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.javamodel.*;
+import com.here.ivi.api.model.java.*;
 import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;

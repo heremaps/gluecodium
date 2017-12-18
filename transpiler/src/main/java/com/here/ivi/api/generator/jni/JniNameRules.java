@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.jni;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
+import com.here.ivi.api.model.java.JavaCustomType;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.io.File;
 import java.util.List;

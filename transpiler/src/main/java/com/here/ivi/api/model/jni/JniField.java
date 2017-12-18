@@ -12,9 +12,9 @@
 package com.here.ivi.api.model.jni;
 
 import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaField;
-import com.here.ivi.api.model.javamodel.JavaTemplateType;
+import com.here.ivi.api.model.java.JavaCustomType;
+import com.here.ivi.api.model.java.JavaField;
+import com.here.ivi.api.model.java.JavaTemplateType;
 
 public class JniField implements JniElement {
 

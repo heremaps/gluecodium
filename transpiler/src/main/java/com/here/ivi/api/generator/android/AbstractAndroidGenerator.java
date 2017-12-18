@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.generator.android;
 
-import com.here.ivi.api.model.javamodel.JavaPackage;
+import com.here.ivi.api.model.java.JavaPackage;
 import java.util.List;
 
 public abstract class AbstractAndroidGenerator {

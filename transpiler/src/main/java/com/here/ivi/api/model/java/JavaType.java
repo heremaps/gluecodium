@@ -9,20 +9,21 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-public final class JavaValue extends JavaElementWithImports {
+import java.util.Collection;
 
-  public final boolean isNew;
+public abstract class JavaType extends JavaElementWithImports {
 
-  public JavaValue(final String value) {
-    super(value);
-    isNew = false;
+  public JavaType(String name) {
+    super(name);
   }
 
-  public JavaValue(final JavaType type) {
-    super(type.name);
-    isNew = true;
-    imports.addAll(type.imports);
+  public JavaType(final String name, final Collection<JavaImport> imports) {
+    super(name, imports);
+  }
+
+  public String getLiteralName() {
+    return name;
   }
 }

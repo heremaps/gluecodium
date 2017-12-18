@@ -9,11 +9,11 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.javamodel.JavaReferenceType.Type;
+import com.here.ivi.api.model.java.JavaReferenceType.Type;
 import java.util.Collection;
 import org.junit.Test;
 import org.junit.runner.RunWith;

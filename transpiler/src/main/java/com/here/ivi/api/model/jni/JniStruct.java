@@ -12,7 +12,7 @@
 package com.here.ivi.api.model.jni;
 
 import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.java.JavaClass;
 import java.util.List;
 
 public class JniStruct extends JniTopLevelElement {

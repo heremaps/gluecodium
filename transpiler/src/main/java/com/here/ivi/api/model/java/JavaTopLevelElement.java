@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import java.util.Collection;
