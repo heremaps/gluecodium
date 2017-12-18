@@ -14,9 +14,9 @@ package com.here.ivi.api.generator.jni.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.cppmodel.CppTypeRef;
+import com.here.ivi.api.model.cpp.CppComplexTypeRef;
+import com.here.ivi.api.model.cpp.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cpp.CppTypeRef;
 import com.here.ivi.api.model.java.JavaCustomType;
 import com.here.ivi.api.model.java.JavaPrimitiveType;
 import com.here.ivi.api.model.java.JavaType;

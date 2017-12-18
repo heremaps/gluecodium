@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppFile;
+import com.here.ivi.api.model.cpp.CppFile;
 import java.io.File;
 import java.util.*;
 

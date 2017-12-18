@@ -14,10 +14,10 @@ package com.here.ivi.api.generator.jni.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppField;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.cppmodel.CppStruct;
+import com.here.ivi.api.model.cpp.CppComplexTypeRef;
+import com.here.ivi.api.model.cpp.CppField;
+import com.here.ivi.api.model.cpp.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cpp.CppStruct;
 import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniField;

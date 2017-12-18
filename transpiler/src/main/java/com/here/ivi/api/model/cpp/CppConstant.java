@@ -9,25 +9,29 @@
  *
  */
 
-package com.here.ivi.api.model.cppmodel;
+package com.here.ivi.api.model.cpp;
 
 import java.util.stream.Stream;
 
-public final class CppEnumItem extends CppElement {
+public final class CppConstant extends CppTypedElement {
 
   public final CppValue value;
 
-  public CppEnumItem(final String name) {
-    this(name, null);
+  public CppConstant(final String name, final CppTypeRef type, final CppValue value) {
+    this(name, name, type, value);
   }
 
-  public CppEnumItem(final String name, final CppValue value) {
-    super(name);
+  public CppConstant(
+      final String name,
+      final String fullyQualifiedName,
+      final CppTypeRef type,
+      final CppValue value) {
+    super(name, fullyQualifiedName, type);
     this.value = value;
   }
 
   @Override
   public Stream<? extends CppElement> stream() {
-    return Stream.of(value);
+    return Stream.of(type, value);
   }
 }

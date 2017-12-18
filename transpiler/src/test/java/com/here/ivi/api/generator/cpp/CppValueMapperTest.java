@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.common.BuiltInValueRules;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cpp.*;
 import java.util.Optional;
 import org.franca.core.franca.*;
 import org.junit.Before;

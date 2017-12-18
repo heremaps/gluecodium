@@ -9,29 +9,29 @@
  *
  */
 
-package com.here.ivi.api.model.cppmodel;
+package com.here.ivi.api.model.cpp;
 
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
-public final class CppConstant extends CppTypedElement {
+public class CppStruct extends CppElement {
 
-  public final CppValue value;
+  public final List<CppField> fields = new LinkedList<>();
+  public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
 
-  public CppConstant(final String name, final CppTypeRef type, final CppValue value) {
-    this(name, name, type, value);
+  public CppStruct(final String name) {
+    this(name, name);
   }
 
-  public CppConstant(
-      final String name,
-      final String fullyQualifiedName,
-      final CppTypeRef type,
-      final CppValue value) {
-    super(name, fullyQualifiedName, type);
-    this.value = value;
+  public CppStruct(final String name, final String fullyQualifiedName) {
+    super(name, fullyQualifiedName);
   }
 
   @Override
   public Stream<? extends CppElement> stream() {
-    return Stream.of(type, value);
+    return fields.stream();
   }
 }

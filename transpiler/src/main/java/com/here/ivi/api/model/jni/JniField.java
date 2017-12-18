@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.jni;
 
-import com.here.ivi.api.model.cppmodel.CppField;
+import com.here.ivi.api.model.cpp.CppField;
 import com.here.ivi.api.model.java.JavaCustomType;
 import com.here.ivi.api.model.java.JavaField;
 import com.here.ivi.api.model.java.JavaTemplateType;

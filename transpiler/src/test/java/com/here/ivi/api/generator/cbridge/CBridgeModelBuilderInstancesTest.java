@@ -21,7 +21,7 @@ import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cbridge.*;
-import com.here.ivi.api.model.cppmodel.CppMethod;
+import com.here.ivi.api.model.cpp.CppMethod;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
 import org.junit.Before;

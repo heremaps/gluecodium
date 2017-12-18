@@ -9,15 +9,25 @@
  *
  */
 
-package com.here.ivi.api.model.cppmodel;
+package com.here.ivi.api.model.cpp;
 
-public final class CppTaggedUnion extends CppStruct {
+import java.util.stream.Stream;
 
-  public CppTaggedUnion(final String name) {
-    this(name, name);
+public final class CppUsing extends CppElement {
+
+  public final CppTypeRef definition;
+
+  public CppUsing(final String name, final CppTypeRef definition) {
+    this(name, name, definition);
   }
 
-  public CppTaggedUnion(final String name, final String fullyQualifiedName) {
+  public CppUsing(final String name, final String fullyQualifiedName, final CppTypeRef definition) {
     super(name, fullyQualifiedName);
+    this.definition = definition;
+  }
+
+  @Override
+  public Stream<? extends CppElement> stream() {
+    return Stream.of(definition);
   }
 }

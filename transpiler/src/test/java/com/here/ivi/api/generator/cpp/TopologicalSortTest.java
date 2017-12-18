@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.cpp;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cpp.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;

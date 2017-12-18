@@ -22,7 +22,7 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.generator.java.JavaTypeMapper;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
+import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.jni.JniContainer;

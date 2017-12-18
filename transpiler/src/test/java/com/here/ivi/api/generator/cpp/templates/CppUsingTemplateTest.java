@@ -14,8 +14,8 @@ package com.here.ivi.api.generator.cpp.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppUsing;
+import com.here.ivi.api.model.cpp.CppComplexTypeRef;
+import com.here.ivi.api.model.cpp.CppUsing;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

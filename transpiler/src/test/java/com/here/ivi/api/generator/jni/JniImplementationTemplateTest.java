@@ -16,9 +16,9 @@ import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.cppmodel.CppTemplateTypeRef;
+import com.here.ivi.api.model.cpp.CppComplexTypeRef;
+import com.here.ivi.api.model.cpp.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cpp.CppTemplateTypeRef;
 import com.here.ivi.api.model.java.JavaArrayType;
 import com.here.ivi.api.model.java.JavaCustomType;
 import com.here.ivi.api.model.java.JavaPrimitiveType;

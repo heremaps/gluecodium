@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.*;
+import com.here.ivi.api.model.cpp.*;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;

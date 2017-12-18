@@ -25,7 +25,7 @@ import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cbridge.CInterface;
 import com.here.ivi.api.model.cbridge.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
+import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.platform.common.GeneratorSuite;
 import java.nio.file.Paths;

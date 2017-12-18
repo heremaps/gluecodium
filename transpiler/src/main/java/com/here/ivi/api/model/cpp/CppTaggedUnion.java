@@ -9,25 +9,15 @@
  *
  */
 
-package com.here.ivi.api.model.cppmodel;
+package com.here.ivi.api.model.cpp;
 
-import java.util.stream.Stream;
+public final class CppTaggedUnion extends CppStruct {
 
-public final class CppField extends CppTypedElement {
-
-  public final CppValue initializer;
-
-  public CppField(final CppTypeRef type, final String name) {
-    this(type, name, null);
+  public CppTaggedUnion(final String name) {
+    this(name, name);
   }
 
-  public CppField(final CppTypeRef type, final String name, final CppValue initializer) {
-    super(name, type);
-    this.initializer = initializer;
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return Stream.of(type, initializer);
+  public CppTaggedUnion(final String name, final String fullyQualifiedName) {
+    super(name, fullyQualifiedName);
   }
 }

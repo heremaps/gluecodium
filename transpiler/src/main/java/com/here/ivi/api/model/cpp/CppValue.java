@@ -9,20 +9,28 @@
  *
  */
 
-package com.here.ivi.api.model.cppmodel;
+package com.here.ivi.api.model.cpp;
 
-public abstract class CppTypedElement extends CppElement {
+import static java.util.Arrays.asList;
 
-  public final CppTypeRef type;
+import com.here.ivi.api.model.common.Include;
+import java.util.Collection;
 
-  public CppTypedElement(final String name, final CppTypeRef type) {
-    super(name);
-    this.type = type;
+public final class CppValue extends CppElementWithIncludes {
+
+  public CppValue() {
+    super(null);
   }
 
-  public CppTypedElement(
-      final String name, final String fullyQualifiedName, final CppTypeRef type) {
-    super(name, fullyQualifiedName);
-    this.type = type;
+  public CppValue(String value) {
+    super(value);
+  }
+
+  public CppValue(String value, Include... includes) {
+    super(value, asList(includes));
+  }
+
+  public CppValue(String value, Collection<Include> includes) {
+    super(value, includes);
   }
 }
