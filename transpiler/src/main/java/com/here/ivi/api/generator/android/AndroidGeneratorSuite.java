@@ -16,11 +16,10 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.java.JavaGenerator;
 import com.here.ivi.api.generator.jni.JniGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
+import com.here.ivi.api.model.java.JavaPackage;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.platform.common.GeneratorSuite;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.franca.core.franca.FInterface;
@@ -61,9 +60,14 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
   @Override
   public List<GeneratedFile> generate() {
 
+    List<String> optionsPackageList = transpilerOptions.getJavaPackageList();
+    List<String> javaPackageList =
+        optionsPackageList != null && !optionsPackageList.isEmpty()
+            ? optionsPackageList
+            : JavaPackage.DEFAULT.packageNames;
+
     // Generate Java files
-    JavaGenerator javaGenerator =
-        new JavaGenerator(deploymentModel, transpilerOptions.getJavaPackageList());
+    JavaGenerator javaGenerator = new JavaGenerator(deploymentModel, javaPackageList);
 
     // Do not stream, Java models need to be built as they are required to generate Exception files
     List<GeneratedFile> javaFiles =
@@ -82,7 +86,7 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
     JniGenerator jniGenerator =
         new JniGenerator(
             deploymentModel,
-            transpilerOptions.getJavaPackageList(),
+            javaPackageList,
             Arrays.asList(
                 CONVERSION_UTILS_HEADER, FIELD_ACCESS_UTILS_HEADER, CPP_PROXY_BASE_HEADER));
 
@@ -101,9 +105,10 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
     // This generator is special in that it generates only one file
     // At the moment it does not need to iterate over all interfaces
     AndroidManifestGenerator androidManifestGenerator =
-        new AndroidManifestGenerator(transpilerOptions.getJavaPackageList());
+        new AndroidManifestGenerator(javaPackageList);
 
-    List<GeneratedFile> results = androidManifestGenerator.generate();
+    List<GeneratedFile> results = new LinkedList<>();
+    results.add(androidManifestGenerator.generate());
     results.add(GeneratorSuite.copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
     results.add(GeneratorSuite.copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
     results.add(GeneratorSuite.copyTarget(CPP_PROXY_BASE_HEADER, CONVERSION_UTILS_TARGET_DIR));

@@ -11,8 +11,8 @@
 
 package com.here.ivi.api.generator.jni;
 
-import com.here.ivi.api.generator.android.AbstractAndroidGenerator;
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
+import com.here.ivi.api.generator.common.AbstractGenerator;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
@@ -25,12 +25,13 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.ivi.api.model.java.JavaPackage;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.franca.core.franca.FTypeCollection;
 
-public class JniGenerator extends AbstractAndroidGenerator {
+public class JniGenerator extends AbstractGenerator {
 
   public static final String INCLUDES_NAME = "includes";
   public static final String MODELS_NAME = "models";
@@ -49,6 +50,7 @@ public class JniGenerator extends AbstractAndroidGenerator {
 
   public JniContainer generateModel(final FTypeCollection francaTypeCollection) {
 
+    JavaPackage basePackage = new JavaPackage(basePackages);
     JavaModelBuilder javaBuilder =
         new JavaModelBuilder(
             deploymentModel,

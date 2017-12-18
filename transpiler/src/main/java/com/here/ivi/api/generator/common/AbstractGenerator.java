@@ -9,19 +9,15 @@
  *
  */
 
-package com.here.ivi.api.generator.android;
+package com.here.ivi.api.generator.common;
 
-import com.here.ivi.api.model.java.JavaPackage;
 import java.util.List;
 
-public abstract class AbstractAndroidGenerator {
+public abstract class AbstractGenerator {
 
-  protected final JavaPackage basePackage;
+  protected final List<String> basePackages;
 
-  protected AbstractAndroidGenerator(final List<String> packageList) {
-    this.basePackage =
-        packageList == null || packageList.isEmpty()
-            ? JavaPackage.DEFAULT
-            : new JavaPackage(packageList);
+  protected AbstractGenerator(final List<String> packageList) {
+    this.basePackages = packageList;
   }
 }

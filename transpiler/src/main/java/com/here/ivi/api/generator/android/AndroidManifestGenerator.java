@@ -11,23 +11,20 @@
 
 package com.here.ivi.api.generator.android;
 
+import com.here.ivi.api.generator.common.AbstractGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import java.util.ArrayList;
 import java.util.List;
 
-public final class AndroidManifestGenerator extends AbstractAndroidGenerator {
+public final class AndroidManifestGenerator extends AbstractGenerator {
 
   public AndroidManifestGenerator(final List<String> packageList) {
     super(packageList);
   }
 
-  public List<GeneratedFile> generate() {
-
-    String fileContent = TemplateEngine.render("android/AndroidManifest", basePackage.flatten());
-
-    List<GeneratedFile> files = new ArrayList<>();
-    files.add(new GeneratedFile(fileContent, AndroidNameRules.getManifestFilename()));
-    return files;
+  public GeneratedFile generate() {
+    String fileContent =
+        TemplateEngine.render("android/AndroidManifest", String.join(".", basePackages));
+    return new GeneratedFile(fileContent, AndroidNameRules.getManifestFilename());
   }
 }
