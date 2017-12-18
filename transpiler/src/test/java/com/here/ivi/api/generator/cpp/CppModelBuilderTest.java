@@ -16,7 +16,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cppmodel.*;

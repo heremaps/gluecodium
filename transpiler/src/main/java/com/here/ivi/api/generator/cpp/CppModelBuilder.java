@@ -14,7 +14,6 @@ package com.here.ivi.api.generator.cpp;
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.model.common.InstanceRules;

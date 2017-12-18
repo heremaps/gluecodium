@@ -15,11 +15,11 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.baseapi.CppCommentParser;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
+import com.here.ivi.api.generator.cpp.CppCommentParser;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
