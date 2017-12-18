@@ -37,7 +37,7 @@ public final class InterfaceValidator {
       "Inline error enums in methods are not allowed: method '%s' in interface '%s.%s'.";
 
   public static boolean validate(
-      final List<FTypeCollection> typeCollections, final FrancaDeploymentModel deploymentModel) {
+      final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
 
     Collection<FInterface> interfaces =
         CollectionsHelper.getStreamOfType(typeCollections, FInterface.class)

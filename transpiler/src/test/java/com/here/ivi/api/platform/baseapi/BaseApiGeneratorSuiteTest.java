@@ -13,59 +13,33 @@ package com.here.ivi.api.platform.baseapi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.platform.common.GeneratorSuite;
-import com.here.ivi.api.validator.FrancaValidator;
-import java.io.File;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.junit.runners.JUnit4;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({FrancaValidator.class, GeneratorSuite.class, FrancaModelLoader.class})
+@RunWith(JUnit4.class)
 public final class BaseApiGeneratorSuiteTest {
 
-  private static final String MOCK_INPUT_PATH = "../fidl/files/are/here";
-  private static final String MOCK_SPEC_PATH = "/a/random/directory/BaseApiSpec.fdepl";
-
-  private BaseApiGeneratorSuite baseApiGeneratorSuite;
-
-  @Mock private FrancaModelLoader francaModelLoader;
-
-  @Before
-  public void setUp() {
-    PowerMockito.mockStatic(FrancaValidator.class, GeneratorSuite.class, FrancaModelLoader.class);
-    MockitoAnnotations.initMocks(this);
-
-    when(GeneratorSuite.getSpecPath()).thenReturn(MOCK_SPEC_PATH);
-
-    baseApiGeneratorSuite = new BaseApiGeneratorSuite(francaModelLoader);
-  }
+  private final BaseApiGeneratorSuite baseApiGeneratorSuite = new BaseApiGeneratorSuite();
 
   @Test
   public void generateFilesEmptyModel() {
-    GeneratedFile generatedFile = new GeneratedFile("a", "b");
-    when(GeneratorSuite.copyTarget(any(), any())).thenReturn(generatedFile);
-    baseApiGeneratorSuite.loadModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
-
-    List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
+    List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate(null, new LinkedList<>());
 
     assertNotNull(generatedFiles);
+    final int expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size();
     assertEquals(
-        "The additional header files should always be generated",
-        BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size(),
+        "Expected cpp/internal files and test generated file",
+        expectedGeneratedFiles,
         generatedFiles.size());
-    assertEquals(generatedFile, generatedFiles.get(0));
+
+    assertEquals("cpp/include/enum_hash.h", generatedFiles.get(0).targetFile.toString());
+    assertEquals("cpp/include/Error.h", generatedFiles.get(1).targetFile.toString());
+    assertEquals("cpp/include/ErrorCode.h", generatedFiles.get(2).targetFile.toString());
+    assertEquals("cpp/include/Return.h", generatedFiles.get(3).targetFile.toString());
   }
 }

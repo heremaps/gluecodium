@@ -11,6 +11,7 @@
 
 package com.here.ivi.api;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeFalse;
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.spy;
 
 import com.here.ivi.api.cli.OptionReader;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import com.here.ivi.api.platform.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.platform.swift.SwiftGeneratorSuite;
@@ -30,6 +32,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.eclipse.xtext.util.Files;
+import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Rule;
 import org.mockito.Mockito;
@@ -130,7 +133,7 @@ public abstract class AcceptanceTestBase {
     File inputDirectory = new File(featureDirectory, FEATURE_INPUT_FOLDER);
     File outputDirectory = new File(featureDirectory, FEATURE_OUTPUT_FOLDER);
 
-    Collection<File> referenceFiles =
+    List<File> referenceFiles =
         GENERATOR_DIRECTORIES
             .get(generatorName)
             .stream()
@@ -140,9 +143,13 @@ public abstract class AcceptanceTestBase {
             .collect(Collectors.toList());
     assumeFalse("No reference files were found", referenceFiles.isEmpty());
 
+    List<FTypeCollection> typeCollections = new LinkedList<>();
+    FrancaDeploymentModel deploymentModel =
+        transpiler.loadModel(Collections.singletonList(inputDirectory), typeCollections);
+    assertNotNull(deploymentModel);
     assertTrue(
         transpiler.executeGenerator(
-            generatorName, Collections.singletonList(inputDirectory), new HashMap<>()));
+            generatorName, deploymentModel, typeCollections, new HashMap<>()));
 
     Map<String, String> generatedContents =
         results

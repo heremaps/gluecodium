@@ -66,7 +66,7 @@ public class FrancaModelLoader {
     return resourceSetProvider;
   }
 
-  public static Collection<File> listFilesRecursively(final Collection<File> inputPaths) {
+  public static List<File> listFilesRecursively(final Collection<File> inputPaths) {
     return inputPaths
         .stream()
         .map(FrancaModelLoader::listFilesRecursively)

@@ -16,27 +16,20 @@ import static com.here.ivi.api.test.Assert.assertContainsAll;
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.swift.SwiftGenerator;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.powermock.reflect.Whitebox;
 
 @RunWith(JUnit4.class)
 public final class SwiftGeneratorSuiteTest {
 
   private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite();
 
-  @Before
-  public void setUp() throws Exception {
-    Whitebox.setInternalState(suite, "typeCollections", Collections.emptyList());
-  }
-
   @Test
   public void generatedFilesContainStaticFiles() {
-    List<GeneratedFile> generatedFiles = suite.generate();
+    List<GeneratedFile> generatedFiles = suite.generate(null, new LinkedList<>());
 
     assertContainsAll(generatedFiles, SwiftGenerator.STATIC_FILES);
     assertContainsAll(generatedFiles, CBridgeGenerator.STATIC_FILES);

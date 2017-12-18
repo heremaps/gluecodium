@@ -15,19 +15,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.here.ivi.api.cli.OptionReader.TranspilerOptions;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.output.ConsoleOutput;
 import com.here.ivi.api.output.FileOutput;
 import com.here.ivi.api.platform.common.GeneratorSuite;
+import com.here.ivi.api.validator.FrancaValidator;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -38,12 +35,14 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
+import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -52,7 +51,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(GeneratorSuite.class)
+@PrepareForTest({GeneratorSuite.class, FrancaValidator.class})
 public class TranspilerTest {
 
   private static final String SHORT_NAME = "android";
@@ -63,16 +62,18 @@ public class TranspilerTest {
 
   @Mock private GeneratorSuite generator;
 
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private FrancaModelLoader francaModelLoader;
+
   @Rule public final ExpectedException expectedException = ExpectedException.none();
   @Rule public final TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(GeneratorSuite.class);
+    PowerMockito.mockStatic(GeneratorSuite.class, FrancaValidator.class);
 
-    when(generator.validateFrancaFiles(any())).thenReturn(true);
-    when(generator.validateFrancaModel()).thenReturn(true);
+    when(FrancaValidator.validate(any(), any())).thenReturn(true);
     when(generator.getName()).thenReturn("");
     when(GeneratorSuite.instantiateByShortName(anyString(), any(TranspilerOptions.class)))
         .thenReturn(generator);
@@ -85,7 +86,7 @@ public class TranspilerTest {
 
     // Act, Assert
     assertEquals(
-        GeneratorSuite.generatorShortNames(), new Transpiler(options).discoverGenerators());
+        GeneratorSuite.generatorShortNames(), createTranspiler(options).discoverGenerators());
   }
 
   @Test
@@ -100,13 +101,13 @@ public class TranspilerTest {
             .build();
 
     // Act, Assert
-    assertFalse(new Transpiler(options).execute());
+    assertFalse(createTranspiler(options).execute());
   }
 
   @Test
   public void fileNameCollisionsResolved() {
     // Arrange
-    when(generator.generate()).thenReturn(Arrays.asList(FILE, FILE, FILE));
+    when(generator.generate(any(), any())).thenReturn(Arrays.asList(FILE, FILE, FILE));
     TranspilerOptions options =
         TranspilerOptions.builder()
             .inputDirs(new String[] {""})
@@ -114,7 +115,7 @@ public class TranspilerTest {
             .validatingOnly(false)
             .build();
 
-    assertFalse(new Transpiler(options).execute());
+    assertFalse(createTranspiler(options).execute());
   }
 
   @Test
@@ -128,10 +129,10 @@ public class TranspilerTest {
             .build();
 
     // Act
-    new Transpiler(options).execute();
+    createTranspiler(options).execute();
 
     // Assert
-    verify(generator, never()).generate();
+    verify(generator, never()).generate(any(), any());
   }
 
   @Test
@@ -153,7 +154,7 @@ public class TranspilerTest {
   }
 
   @Test
-  @PrepareForTest({Transpiler.class, FileOutput.class, GeneratorSuite.class})
+  @PrepareForTest({Transpiler.class, FileOutput.class, GeneratorSuite.class, FrancaValidator.class})
   public void ableToOutputFile() throws Exception {
     // Arrange
     FileOutput mockFileOutput = mock(FileOutput.class);
@@ -168,7 +169,7 @@ public class TranspilerTest {
   }
 
   @Test
-  @PrepareForTest({Transpiler.class, GeneratorSuite.class})
+  @PrepareForTest({Transpiler.class, GeneratorSuite.class, FrancaValidator.class})
   public void failWhenUnableToOpenConsoleForOutput() throws Exception {
     // Arrange
     ConsoleOutput mockConsoleOutput = mock(ConsoleOutput.class);
@@ -215,7 +216,7 @@ public class TranspilerTest {
   }
 
   @Test
-  public void mergeAndroidManifestsreturnsFalseIfFirstFileDoesNotExist() {
+  public void mergeAndroidManifestsReturnsFalseIfFirstFileDoesNotExist() {
     // Arrange
     String basePath = Paths.get("src", "test", "resources", "android_manifests").toString();
     String baseManifestPath = "INVALID_PATH";
@@ -233,7 +234,7 @@ public class TranspilerTest {
   }
 
   @Test
-  public void mergeAndroidManifestsreturnsFalseIfSecondFileDoesNotExist() {
+  public void mergeAndroidManifestsReturnsFalseIfSecondFileDoesNotExist() {
     // Arrange
     String basePath = Paths.get("src", "test", "resources", "android_manifests").toString();
     String baseManifestPath = Paths.get(basePath, "BaseAndroidManifest.xml").toString();
@@ -248,5 +249,13 @@ public class TranspilerTest {
 
     // Assert
     assertFalse(result);
+  }
+
+  @NotNull
+  private Transpiler createTranspiler(TranspilerOptions options) {
+    Transpiler transpiler = spy(new Transpiler(options));
+    doReturn(francaModelLoader).when(transpiler).getFrancaModelLoader();
+    doReturn(true).when(transpiler).validateFrancaModel(any(), any());
+    return transpiler;
   }
 }

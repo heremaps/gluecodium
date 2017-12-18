@@ -16,7 +16,7 @@ import com.here.ivi.api.generator.androidmanifest.AndroidManifestGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.java.JavaGenerator;
 import com.here.ivi.api.generator.jni.JniGenerator;
-import com.here.ivi.api.loader.FrancaModelLoader;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.java.JavaPackage;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.platform.common.GeneratorSuite;
@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FTypeCollection;
 
 /**
  * Combines generators {@link AndroidManifestGenerator}, {@link JniGenerator} and {@link
@@ -48,8 +49,8 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
 
   private final OptionReader.TranspilerOptions transpilerOptions;
 
-  public AndroidGeneratorSuite(OptionReader.TranspilerOptions transpilerOptions) {
-    super(new FrancaModelLoader());
+  public AndroidGeneratorSuite(final OptionReader.TranspilerOptions transpilerOptions) {
+    super();
     this.transpilerOptions = transpilerOptions;
   }
 
@@ -59,7 +60,8 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
   }
 
   @Override
-  public List<GeneratedFile> generate() {
+  public List<GeneratedFile> generate(
+      final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
 
     List<String> optionsPackageList = transpilerOptions.getJavaPackageList();
     List<String> javaPackageList =
@@ -110,15 +112,14 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
 
     List<GeneratedFile> results = new LinkedList<>();
     results.add(androidManifestGenerator.generate());
-    results.add(GeneratorSuite.copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(GeneratorSuite.copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
-    results.add(GeneratorSuite.copyTarget(CPP_PROXY_BASE_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(
-        GeneratorSuite.copyTarget(CPP_PROXY_BASE_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
-    results.add(GeneratorSuite.copyTarget(FIELD_ACCESS_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(GeneratorSuite.copyTarget(ARRAY_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(GeneratorSuite.copyTarget(ARRAY_UTILS_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
-    results.add(GeneratorSuite.copyTarget(NATIVE_BASE_JAVA, NATIVE_BASE_JAVA_TARGET_DIR));
+    results.add(copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    results.add(copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
+    results.add(copyTarget(CPP_PROXY_BASE_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    results.add(copyTarget(CPP_PROXY_BASE_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
+    results.add(copyTarget(FIELD_ACCESS_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    results.add(copyTarget(ARRAY_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    results.add(copyTarget(ARRAY_UTILS_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
+    results.add(copyTarget(NATIVE_BASE_JAVA, NATIVE_BASE_JAVA_TARGET_DIR));
     results.addAll(javaFiles);
     results.addAll(jniFilesStream.flatMap(Collection::stream).collect(Collectors.toList()));
 

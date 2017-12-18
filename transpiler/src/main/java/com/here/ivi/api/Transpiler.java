@@ -20,9 +20,12 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.logger.TranspilerLogger;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.output.ConsoleOutput;
 import com.here.ivi.api.output.FileOutput;
 import com.here.ivi.api.platform.common.GeneratorSuite;
+import com.here.ivi.api.validator.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,6 +34,9 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import org.franca.core.franca.FTypeCollection;
+import org.jetbrains.annotations.NotNull;
 
 public class Transpiler {
 
@@ -81,22 +87,56 @@ public class Transpiler {
   @VisibleForTesting
   boolean execute() {
     LOGGER.info("Version: " + version);
-    Map<String, String> fileNamesCache = new HashMap<>();
 
-    Collection<File> inputDirs = new ArrayList<>();
-    for (String inputDir : options.getInputDirs()) {
-      inputDirs.add(new File(inputDir));
+    List<File> inputDirs =
+        Arrays.stream(options.getInputDirs()).map(File::new).collect(Collectors.toList());
+    List<FTypeCollection> typeCollections = new LinkedList<>();
+    FrancaDeploymentModel deploymentModel = loadModel(inputDirs, typeCollections);
+
+    if (deploymentModel == null) {
+      return false;
+    }
+    if (options.isValidatingOnly()) {
+      return true;
     }
 
+    Map<String, String> fileNamesCache = new HashMap<>();
     return discoverGenerators()
         .stream()
-        .allMatch(generatorName -> executeGenerator(generatorName, inputDirs, fileNamesCache));
+        .allMatch(
+            generatorName ->
+                executeGenerator(generatorName, deploymentModel, typeCollections, fileNamesCache));
+  }
+
+  @VisibleForTesting
+  FrancaDeploymentModel loadModel(
+      final List<File> inputDirs, final List<FTypeCollection> typeCollections) {
+
+    Collection<File> inputFiles = FrancaModelLoader.listFilesRecursively(inputDirs);
+
+    FrancaModelLoader francaModelLoader = getFrancaModelLoader();
+    if (!FrancaValidator.validate(francaModelLoader.getResourceSetProvider().get(), inputFiles)) {
+      LOGGER.severe("Validation of Franca files Failed");
+      return null;
+    }
+
+    FrancaDeploymentModel deploymentModel =
+        francaModelLoader.load(GeneratorSuite.getSpecPath(), inputFiles, typeCollections);
+    LOGGER.fine("Built franca model");
+
+    if (!validateFrancaModel(deploymentModel, typeCollections)) {
+      LOGGER.severe("Validation of Franca model Failed");
+      return null;
+    }
+
+    return deploymentModel;
   }
 
   @VisibleForTesting
   boolean executeGenerator(
       final String generatorName,
-      final Collection<File> inputPaths,
+      final FrancaDeploymentModel deploymentModel,
+      final List<FTypeCollection> typeCollections,
       final Map<String, String> fileNamesCache) {
 
     LOGGER.fine("Using generator " + generatorName);
@@ -107,24 +147,8 @@ public class Transpiler {
     }
     LOGGER.fine("Instantiated generator " + generator.getName());
 
-    Collection<File> inputFiles = FrancaModelLoader.listFilesRecursively(inputPaths);
-    if (!generator.validateFrancaFiles(inputFiles)) {
-      LOGGER.severe("Validation of Franca files Failed");
-      return false;
-    }
+    List<GeneratedFile> outputFiles = generator.generate(deploymentModel, typeCollections);
 
-    generator.loadModels(inputFiles);
-    LOGGER.fine("Built franca model");
-
-    if (!generator.validateFrancaModel()) {
-      LOGGER.severe("Validation of Franca model Failed");
-      return false;
-    }
-    if (options.isValidatingOnly()) {
-      return true;
-    }
-
-    List<GeneratedFile> outputFiles = generator.generate();
     boolean outputSuccessful = output(outputFiles);
     boolean processedWithoutCollisions =
         checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName);
@@ -141,6 +165,14 @@ public class Transpiler {
     }
 
     return processedWithoutCollisions && outputSuccessful;
+  }
+
+  @NotNull
+  @VisibleForTesting
+  FrancaModelLoader getFrancaModelLoader() {
+    FrancaModelLoader francaModelLoader = new FrancaModelLoader();
+    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
+    return francaModelLoader;
   }
 
   @VisibleForTesting
@@ -203,6 +235,21 @@ public class Transpiler {
     }
 
     return true;
+  }
+
+  /**
+   * Uses the internal validator to validate the model.
+   *
+   * @return boolean True if the model is valid, false otherwise.
+   */
+  @VisibleForTesting
+  boolean validateFrancaModel(
+      final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
+
+    return NameValidator.validate(typeCollections)
+        && InterfaceValidator.validate(deploymentModel, typeCollections)
+        && DefaultsValidator.validate(deploymentModel, typeCollections)
+        && ExpressionValidator.validate(typeCollections);
   }
 
   public static void main(final String[] args) {
