@@ -9,13 +9,11 @@
  *
  */
 
-package com.here.ivi.api.generator.baseapi;
+package com.here.ivi.api.generator.cpp;
 
 import static org.junit.Assert.*;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.cpp.CppGenerator;
-import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppClass;
 import com.here.ivi.api.model.cppmodel.CppFile;

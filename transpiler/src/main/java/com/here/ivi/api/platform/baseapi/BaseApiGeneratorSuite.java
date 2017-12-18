@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.baseapi;
+package com.here.ivi.api.platform.baseapi;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
