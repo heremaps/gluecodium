@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.rules.InstanceRules;
+import com.here.ivi.api.model.common.InstanceRules;
 import java.util.List;
 import org.franca.core.franca.FCompoundType;
 import org.franca.core.franca.FConstantDef;

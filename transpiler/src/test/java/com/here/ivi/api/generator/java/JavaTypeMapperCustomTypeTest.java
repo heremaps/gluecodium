@@ -18,8 +18,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.javamodel.*;
-import com.here.ivi.api.model.rules.InstanceRules;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
