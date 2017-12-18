@@ -22,7 +22,7 @@ import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.javamodel.*;
+import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.model.jni.*;
 import java.util.Collections;
 import java.util.LinkedList;

@@ -9,24 +9,22 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-import java.util.stream.Stream;
+public enum JavaVisibility {
+  PACKAGE(""),
+  PUBLIC("public"),
+  PROTECTED("protected"),
+  PRIVATE("private");
 
-public final class JavaEnumItem extends JavaElement {
-  public JavaValue value;
+  private final String value;
 
-  public JavaEnumItem(final String name) {
-    this(name, null);
-  }
-
-  public JavaEnumItem(final String name, final JavaValue value) {
-    super(name);
+  JavaVisibility(final String value) {
     this.value = value;
   }
 
   @Override
-  public Stream<JavaElement> stream() {
-    return Stream.of(value);
+  public String toString() {
+    return value;
   }
 }

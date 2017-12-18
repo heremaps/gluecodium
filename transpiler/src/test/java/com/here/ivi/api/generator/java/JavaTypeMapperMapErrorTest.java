@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.javamodel.*;
+import com.here.ivi.api.model.java.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

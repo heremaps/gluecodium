@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cppmodel.CppStruct;
-import com.here.ivi.api.model.javamodel.JavaClass;
+import com.here.ivi.api.model.java.JavaClass;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniStruct;
 import java.util.Arrays;

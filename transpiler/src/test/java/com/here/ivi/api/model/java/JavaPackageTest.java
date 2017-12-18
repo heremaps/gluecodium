@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
 import static org.junit.Assert.assertEquals;
 

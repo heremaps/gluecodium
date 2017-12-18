@@ -16,10 +16,10 @@ import com.here.ivi.api.generator.jni.JniNameRules;
 import com.here.ivi.api.generator.jni.JniTypeNameMapper;
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
 import com.here.ivi.api.model.cppmodel.CppTypeRef;
-import com.here.ivi.api.model.javamodel.JavaArrayType;
-import com.here.ivi.api.model.javamodel.JavaComplexType;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.java.JavaArrayType;
+import com.here.ivi.api.model.java.JavaComplexType;
+import com.here.ivi.api.model.java.JavaPrimitiveType;
+import com.here.ivi.api.model.java.JavaType;
 import java.util.List;
 
 public final class JniType implements JniElement {

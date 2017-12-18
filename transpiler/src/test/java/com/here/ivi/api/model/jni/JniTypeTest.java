@@ -15,11 +15,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import com.here.ivi.api.model.cppmodel.CppComplexTypeRef;
-import com.here.ivi.api.model.javamodel.JavaArrayType;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaReferenceType;
-import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.java.JavaArrayType;
+import com.here.ivi.api.model.java.JavaCustomType;
+import com.here.ivi.api.model.java.JavaPrimitiveType;
+import com.here.ivi.api.model.java.JavaReferenceType;
+import com.here.ivi.api.model.java.JavaType;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Test;

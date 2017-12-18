@@ -13,13 +13,13 @@ package com.here.ivi.api.generator.java;
 
 import static org.junit.Assert.*;
 
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaEnumItem;
-import com.here.ivi.api.model.javamodel.JavaEnumType;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaReferenceType;
-import com.here.ivi.api.model.javamodel.JavaTemplateType;
-import com.here.ivi.api.model.javamodel.JavaValue;
+import com.here.ivi.api.model.java.JavaCustomType;
+import com.here.ivi.api.model.java.JavaEnumItem;
+import com.here.ivi.api.model.java.JavaEnumType;
+import com.here.ivi.api.model.java.JavaPrimitiveType;
+import com.here.ivi.api.model.java.JavaReferenceType;
+import com.here.ivi.api.model.java.JavaTemplateType;
+import com.here.ivi.api.model.java.JavaValue;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;

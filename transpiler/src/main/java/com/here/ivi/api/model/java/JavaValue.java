@@ -9,22 +9,20 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-public enum JavaVisibility {
-  PACKAGE(""),
-  PUBLIC("public"),
-  PROTECTED("protected"),
-  PRIVATE("private");
+public final class JavaValue extends JavaElementWithImports {
 
-  private final String value;
+  public final boolean isNew;
 
-  JavaVisibility(final String value) {
-    this.value = value;
+  public JavaValue(final String value) {
+    super(value);
+    isNew = false;
   }
 
-  @Override
-  public String toString() {
-    return value;
+  public JavaValue(final JavaType type) {
+    super(type.name);
+    isNew = true;
+    imports.addAll(type.imports);
   }
 }

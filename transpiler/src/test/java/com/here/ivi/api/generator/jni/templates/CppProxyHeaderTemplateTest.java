@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
+import com.here.ivi.api.model.java.JavaPrimitiveType;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.model.jni.JniMethod;
 import com.here.ivi.api.model.jni.JniParameter;

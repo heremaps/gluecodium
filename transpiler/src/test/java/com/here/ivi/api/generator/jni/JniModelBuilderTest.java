@@ -27,7 +27,7 @@ import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cppmodel.*;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.javamodel.*;
+import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.model.jni.*;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;

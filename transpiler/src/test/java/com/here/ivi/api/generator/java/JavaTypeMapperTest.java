@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.java;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.java.JavaType;
 import java.util.Arrays;
 import java.util.Collection;
 import org.franca.core.franca.FBasicTypeId;

@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.javamodel.*;
+import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
 import org.franca.core.franca.*;

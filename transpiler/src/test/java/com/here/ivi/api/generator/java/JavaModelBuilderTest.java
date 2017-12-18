@@ -21,7 +21,7 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.javamodel.*;
+import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;

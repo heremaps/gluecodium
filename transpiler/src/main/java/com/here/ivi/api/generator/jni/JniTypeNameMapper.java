@@ -11,8 +11,8 @@
 
 package com.here.ivi.api.generator.jni;
 
-import com.here.ivi.api.model.javamodel.*;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType.Type;
+import com.here.ivi.api.model.java.*;
+import com.here.ivi.api.model.java.JavaPrimitiveType.Type;
 
 public final class JniTypeNameMapper {
 

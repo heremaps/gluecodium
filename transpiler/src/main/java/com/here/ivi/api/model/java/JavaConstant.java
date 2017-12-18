@@ -9,21 +9,27 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-import java.util.Collection;
+import java.util.stream.Stream;
 
-public abstract class JavaType extends JavaElementWithImports {
+public class JavaConstant extends JavaElement {
+  public final JavaType type;
+  public final JavaValue value;
 
-  public JavaType(String name) {
+  public JavaConstant(final JavaType type, final String name, final JavaValue value) {
     super(name);
+    this.type = type;
+    if (value == null) {
+      // TODO APIGEN-218 handle this case
+      this.value = new JavaValue("TODO");
+    } else {
+      this.value = value;
+    }
   }
 
-  public JavaType(final String name, final Collection<JavaImport> imports) {
-    super(name, imports);
-  }
-
-  public String getLiteralName() {
-    return name;
+  @Override
+  public Stream<JavaElement> stream() {
+    return Stream.of(type, value);
   }
 }

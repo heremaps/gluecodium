@@ -14,9 +14,9 @@ package com.here.ivi.api.generator.jni;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
-import com.here.ivi.api.model.javamodel.JavaParameter;
-import com.here.ivi.api.model.javamodel.JavaPrimitiveType;
-import com.here.ivi.api.model.javamodel.JavaType;
+import com.here.ivi.api.model.java.JavaParameter;
+import com.here.ivi.api.model.java.JavaPrimitiveType;
+import com.here.ivi.api.model.java.JavaType;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Arrays;
 import java.util.List;

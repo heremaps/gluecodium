@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.jni;
 
-import com.here.ivi.api.model.javamodel.JavaPackage;
+import com.here.ivi.api.model.java.JavaPackage;
 
 public abstract class JniTopLevelElement implements JniElement {
 

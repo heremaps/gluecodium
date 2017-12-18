@@ -14,12 +14,12 @@ package com.here.ivi.api.generator.java.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.javamodel.JavaConstant;
-import com.here.ivi.api.model.javamodel.JavaCustomType;
-import com.here.ivi.api.model.javamodel.JavaReferenceType;
-import com.here.ivi.api.model.javamodel.JavaReferenceType.Type;
-import com.here.ivi.api.model.javamodel.JavaValue;
-import com.here.ivi.api.model.javamodel.JavaVisibility;
+import com.here.ivi.api.model.java.JavaConstant;
+import com.here.ivi.api.model.java.JavaCustomType;
+import com.here.ivi.api.model.java.JavaReferenceType;
+import com.here.ivi.api.model.java.JavaReferenceType.Type;
+import com.here.ivi.api.model.java.JavaValue;
+import com.here.ivi.api.model.java.JavaVisibility;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

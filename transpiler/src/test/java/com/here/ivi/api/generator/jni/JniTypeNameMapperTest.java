@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.jni;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.javamodel.*;
+import com.here.ivi.api.model.java.*;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Test;

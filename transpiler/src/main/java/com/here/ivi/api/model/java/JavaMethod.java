@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
 import java.util.*;
 import java.util.stream.Stream;

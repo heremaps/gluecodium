@@ -9,23 +9,20 @@
  *
  */
 
-package com.here.ivi.api.model.javamodel;
+package com.here.ivi.api.model.java;
 
-import com.here.ivi.api.model.common.Streamable;
+import java.util.*;
 
-public abstract class JavaElement extends Streamable<JavaElement> {
+public abstract class JavaElementWithImports extends JavaElement {
 
-  public final String name;
-  public String comment = "";
-  public JavaVisibility visibility = JavaVisibility.PACKAGE;
+  public final Set<JavaImport> imports;
 
-  public JavaElement(final String name) {
-    super();
-    this.name = name;
+  public JavaElementWithImports(final String name) {
+    this(name, null);
   }
 
-  @Override
-  public String toString() {
-    return name;
+  public JavaElementWithImports(final String name, final Collection<JavaImport> imports) {
+    super(name);
+    this.imports = imports != null ? new LinkedHashSet<>(imports) : new LinkedHashSet<>();
   }
 }

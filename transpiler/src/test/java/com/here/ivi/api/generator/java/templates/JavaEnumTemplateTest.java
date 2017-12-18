@@ -14,11 +14,11 @@ package com.here.ivi.api.generator.java.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.javamodel.JavaEnum;
-import com.here.ivi.api.model.javamodel.JavaEnumItem;
-import com.here.ivi.api.model.javamodel.JavaPackage;
-import com.here.ivi.api.model.javamodel.JavaValue;
-import com.here.ivi.api.model.javamodel.JavaVisibility;
+import com.here.ivi.api.model.java.JavaEnum;
+import com.here.ivi.api.model.java.JavaEnumItem;
+import com.here.ivi.api.model.java.JavaPackage;
+import com.here.ivi.api.model.java.JavaValue;
+import com.here.ivi.api.model.java.JavaVisibility;
 import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;
