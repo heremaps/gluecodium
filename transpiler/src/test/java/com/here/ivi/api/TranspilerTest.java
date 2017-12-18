@@ -71,7 +71,8 @@ public class TranspilerTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(GeneratorSuite.class);
 
-    when(generator.validate()).thenReturn(true);
+    when(generator.validateFrancaFiles(any())).thenReturn(true);
+    when(generator.validateFrancaModel()).thenReturn(true);
     when(generator.getName()).thenReturn("");
     when(GeneratorSuite.instantiateByShortName(anyString(), any(TranspilerOptions.class)))
         .thenReturn(generator);

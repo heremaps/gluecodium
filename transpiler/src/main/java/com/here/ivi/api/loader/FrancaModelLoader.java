@@ -66,8 +66,16 @@ public class FrancaModelLoader {
     return resourceSetProvider;
   }
 
+  public static Collection<File> listFilesRecursively(final Collection<File> inputPaths) {
+    return inputPaths
+        .stream()
+        .map(FrancaModelLoader::listFilesRecursively)
+        .flatMap(Collection::stream)
+        .collect(Collectors.toList());
+  }
+
   // finds all fidl and fdepl files
-  public static Collection<File> listFilesRecursively(File path) {
+  private static Collection<File> listFilesRecursively(File path) {
     String p = path.getPath();
     if (p.startsWith("~" + File.separator)) {
       p = System.getProperty("user.home") + p.substring(1);

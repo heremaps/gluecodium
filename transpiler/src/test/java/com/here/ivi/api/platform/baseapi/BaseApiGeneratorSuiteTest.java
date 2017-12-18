@@ -57,7 +57,7 @@ public final class BaseApiGeneratorSuiteTest {
   public void generateFilesEmptyModel() {
     GeneratedFile generatedFile = new GeneratedFile("a", "b");
     when(GeneratorSuite.copyTarget(any(), any())).thenReturn(generatedFile);
-    baseApiGeneratorSuite.buildModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
+    baseApiGeneratorSuite.loadModels(Collections.singletonList(new File(MOCK_INPUT_PATH)));
 
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 

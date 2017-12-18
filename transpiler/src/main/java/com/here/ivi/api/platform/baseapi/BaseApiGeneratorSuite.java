@@ -48,7 +48,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   static final List<String> ADDITIONAL_HEADERS =
       Arrays.asList("enum_hash.h", "Error.h", "ErrorCode.h", "Return.h");
 
-  private CppIncludeResolver includeResolver;
+  private final CppIncludeResolver includeResolver;
 
   public BaseApiGeneratorSuite() {
     this(new FrancaModelLoader());
@@ -57,6 +57,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   @VisibleForTesting
   BaseApiGeneratorSuite(final FrancaModelLoader francaModelLoader) {
     super(francaModelLoader);
+    includeResolver = new CppIncludeResolver();
   }
 
   public List<GeneratedFile> generate() {
@@ -103,12 +104,6 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
             outputFilePathImpl,
             BaseApiGeneratorSuite.GENERATOR_NAME)
         .stream();
-  }
-
-  @Override
-  public void buildModels(final Collection<File> inputPaths) {
-    super.buildModels(inputPaths);
-    includeResolver = new CppIncludeResolver();
   }
 
   private CppFile mapFrancaTypeCollectionToCppModel(final FTypeCollection francaTypeCollection) {

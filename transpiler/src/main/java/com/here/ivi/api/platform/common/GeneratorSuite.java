@@ -35,10 +35,10 @@ public abstract class GeneratorSuite {
   protected FrancaDeploymentModel deploymentModel;
   protected final List<FTypeCollection> typeCollections = new LinkedList<>();
   private final FrancaModelLoader francaModelLoader;
-  private Collection<File> currentFiles;
 
   protected GeneratorSuite(final FrancaModelLoader francaModelLoader) {
     this.francaModelLoader = francaModelLoader;
+    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
   }
 
   /** @return the human readable name of this generator */
@@ -52,14 +52,24 @@ public abstract class GeneratorSuite {
   public abstract List<GeneratedFile> generate();
 
   /**
+   * Uses Franca validator to validate the Franca files.
+   *
+   * @return boolean True if the model is valid, false otherwise.
+   * @param currentFiles List of files to validate
+   */
+  public boolean validateFrancaFiles(final Collection<File> currentFiles) {
+
+    return FrancaValidator.validate(francaModelLoader.getResourceSetProvider().get(), currentFiles);
+  }
+
+  /**
    * Uses the internal validator to validate the model.
    *
    * @return boolean True if the model is valid, false otherwise.
    */
-  public boolean validate() {
+  public boolean validateFrancaModel() {
 
-    return FrancaValidator.validate(francaModelLoader.getResourceSetProvider().get(), currentFiles)
-        && NameValidator.validate(typeCollections)
+    return NameValidator.validate(typeCollections)
         && InterfaceValidator.validate(typeCollections, deploymentModel)
         && DefaultsValidator.validate(typeCollections, deploymentModel)
         && ExpressionValidator.validate(typeCollections);
@@ -68,18 +78,10 @@ public abstract class GeneratorSuite {
   /**
    * Uses the FrancaModelLoader to build the model.
    *
-   * @param inputPaths The root directories of the fidl/fdepl files.
+   * @param inputFiles The list of input the fidl/fdepl files.
    */
-  public void buildModels(final Collection<File> inputPaths) {
-    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
-    if (currentFiles == null) {
-      currentFiles = new ArrayList<>();
-    }
-    for (File inputPath : inputPaths) {
-      currentFiles.addAll(FrancaModelLoader.listFilesRecursively(inputPath));
-    }
-
-    deploymentModel = francaModelLoader.load(getSpecPath(), currentFiles, typeCollections);
+  public void loadModels(final Collection<File> inputFiles) {
+    deploymentModel = francaModelLoader.load(getSpecPath(), inputFiles, typeCollections);
   }
 
   public static String getSpecPath() {
