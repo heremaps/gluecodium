@@ -35,7 +35,7 @@ public final class DefaultsValidator {
   private static final Set<String> BOOLEAN_VALUES = new HashSet<>(Arrays.asList("true", "false"));
 
   public static boolean validate(
-      final List<FTypeCollection> typeCollections, final FrancaDeploymentModel deploymentModel) {
+      final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
 
     Stream<FType> francaTypes =
         typeCollections.stream().flatMap(typeCollection -> typeCollection.getTypes().stream());

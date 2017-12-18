@@ -14,13 +14,10 @@ package com.here.ivi.api.platform.common;
 import com.here.ivi.api.cli.OptionReader;
 import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import com.here.ivi.api.platform.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.platform.swift.SwiftGeneratorSuite;
-import com.here.ivi.api.validator.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,17 +26,8 @@ import java.util.*;
 import org.apache.commons.io.IOUtils;
 import org.franca.core.franca.FTypeCollection;
 
-/** The base class for all the generators. */
+/** The base interface for all the generators. */
 public abstract class GeneratorSuite {
-
-  protected FrancaDeploymentModel deploymentModel;
-  protected final List<FTypeCollection> typeCollections = new LinkedList<>();
-  private final FrancaModelLoader francaModelLoader;
-
-  protected GeneratorSuite(final FrancaModelLoader francaModelLoader) {
-    this.francaModelLoader = francaModelLoader;
-    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
-  }
 
   /** @return the human readable name of this generator */
   public abstract String getName();
@@ -47,42 +35,12 @@ public abstract class GeneratorSuite {
   /**
    * Triggers the generation. The model is assumed to be valid.
    *
+   * @param deploymentModel model containing deployment specification definitions
+   * @param typeCollections type collections and interfaces (interfaces are type collection as well)
    * @return a list of generated files with their relative destination paths
    */
-  public abstract List<GeneratedFile> generate();
-
-  /**
-   * Uses Franca validator to validate the Franca files.
-   *
-   * @return boolean True if the model is valid, false otherwise.
-   * @param currentFiles List of files to validate
-   */
-  public boolean validateFrancaFiles(final Collection<File> currentFiles) {
-
-    return FrancaValidator.validate(francaModelLoader.getResourceSetProvider().get(), currentFiles);
-  }
-
-  /**
-   * Uses the internal validator to validate the model.
-   *
-   * @return boolean True if the model is valid, false otherwise.
-   */
-  public boolean validateFrancaModel() {
-
-    return NameValidator.validate(typeCollections)
-        && InterfaceValidator.validate(typeCollections, deploymentModel)
-        && DefaultsValidator.validate(typeCollections, deploymentModel)
-        && ExpressionValidator.validate(typeCollections);
-  }
-
-  /**
-   * Uses the FrancaModelLoader to build the model.
-   *
-   * @param inputFiles The list of input the fidl/fdepl files.
-   */
-  public void loadModels(final Collection<File> inputFiles) {
-    deploymentModel = francaModelLoader.load(getSpecPath(), inputFiles, typeCollections);
-  }
+  public abstract List<GeneratedFile> generate(
+      FrancaDeploymentModel deploymentModel, List<FTypeCollection> typeCollections);
 
   public static String getSpecPath() {
     return "classpath:/franca/spec/BaseApiSpec.fdepl";
