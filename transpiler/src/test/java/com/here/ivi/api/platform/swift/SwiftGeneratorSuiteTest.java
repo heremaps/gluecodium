@@ -9,12 +9,13 @@
  *
  */
 
-package com.here.ivi.api.generator.swift;
+package com.here.ivi.api.platform.swift;
 
 import static com.here.ivi.api.test.Assert.assertContainsAll;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.swift.SwiftGenerator;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
@@ -24,7 +25,7 @@ import org.junit.runners.JUnit4;
 import org.powermock.reflect.Whitebox;
 
 @RunWith(JUnit4.class)
-public class SwiftGeneratorSuiteTest {
+public final class SwiftGeneratorSuiteTest {
 
   private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite();
 

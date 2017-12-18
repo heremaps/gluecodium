@@ -19,8 +19,8 @@ import static org.mockito.Mockito.spy;
 
 import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.swift.SwiftGeneratorSuite;
 import com.here.ivi.api.platform.baseapi.BaseApiGeneratorSuite;
+import com.here.ivi.api.platform.swift.SwiftGeneratorSuite;
 import com.here.ivi.api.test.NiceErrorCollector;
 import java.io.File;
 import java.net.URISyntaxException;
