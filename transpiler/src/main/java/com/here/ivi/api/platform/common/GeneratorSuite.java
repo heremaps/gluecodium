@@ -11,8 +11,8 @@
 
 package com.here.ivi.api.platform.common;
 
-import com.here.ivi.api.OptionReader;
-import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.cli.OptionReader;
+import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;

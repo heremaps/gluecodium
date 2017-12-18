@@ -13,7 +13,7 @@ package com.here.ivi.api.loader;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.model.franca.*;
 import java.io.File;
 import java.io.IOException;

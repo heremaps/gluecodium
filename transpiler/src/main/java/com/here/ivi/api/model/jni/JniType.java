@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.model.jni;
 
-import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.generator.jni.JniNameRules;
 import com.here.ivi.api.generator.jni.JniTypeNameMapper;
 import com.here.ivi.api.model.cpp.CppComplexTypeRef;

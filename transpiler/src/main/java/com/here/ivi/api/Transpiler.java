@@ -13,6 +13,9 @@ package com.here.ivi.api;
 
 import com.android.manifmerger.Merger;
 import com.google.common.annotations.VisibleForTesting;
+import com.here.ivi.api.cli.OptionReader;
+import com.here.ivi.api.cli.OptionReaderException;
+import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.logger.TranspilerLogger;

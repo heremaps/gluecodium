@@ -13,7 +13,7 @@ package com.here.ivi.api.loader;
 
 import static org.junit.Assert.*;
 
-import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.platform.common.GeneratorSuite;

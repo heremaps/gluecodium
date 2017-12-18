@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api;
+package com.here.ivi.api.cli;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
