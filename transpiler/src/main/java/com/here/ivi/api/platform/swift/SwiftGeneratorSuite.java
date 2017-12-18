@@ -9,12 +9,13 @@
  *
  */
 
-package com.here.ivi.api.generator.swift;
+package com.here.ivi.api.platform.swift;
 
 import static java.util.stream.Collectors.toList;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.ivi.api.generator.swift.SwiftGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.cbridge.IncludeResolver;
 import com.here.ivi.api.platform.common.GeneratorSuite;
