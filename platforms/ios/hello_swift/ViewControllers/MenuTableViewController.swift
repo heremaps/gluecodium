@@ -12,16 +12,18 @@ class MenuTableViewController: UITableViewController {
     let versionMessage = "Swift Hello World - \(UIApplication.shared.versionBuild())"
 
     //(Display name, Storyboard name)
-    let dataSource = [("Base", "Base"),
-                      ("Builtin Types", "BuiltinTypes"),
-                      ("Instances", "Instances"),
-                      ("Structs", "Structs"),
-                      ("Enums", "Enums"),
-                      ("Typedefs", "Typedefs"),
-                      ("Attributes", "Attributes"),
-                      ("Arrays", "Arrays"),
-                      ("Listeners", "Listeners"),
-                      ("Errors", "Errors")]
+    let dataSource: [(label: String, controlerName: String)] = [
+        ("Base", "Base"),
+        ("Builtin Types", "BuiltinTypes"),
+        ("Instances", "Instances"),
+        ("Structs", "Structs"),
+        ("Structs with defaults", "Defaults"),
+        ("Enums", "Enums"),
+        ("Typedefs", "Typedefs"),
+        ("Attributes", "Attributes"),
+        ("Arrays", "Arrays"),
+        ("Listeners", "Listeners"),
+        ("Errors", "Errors")]
 
     @IBOutlet weak var versionLabel: UILabel! {
         willSet { newValue.text = versionMessage }
@@ -43,13 +45,13 @@ class MenuTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? MainMenuCell else {
             fatalError("Cell can not be created. Review your cells identifier")
         }
-        cell.configure(title: dataSource[indexPath.row].0)
+        cell.configure(title: dataSource[indexPath.row].label)
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let info = dataSource[indexPath.row]
-        let viewController = UIStoryboard.mainInstance(name: info.1)
+        let viewController = UIStoryboard.mainInstance(name: info.controlerName)
         viewController.title = info.0
         self.navigationController?.pushViewController(viewController, animated: true)
     }
