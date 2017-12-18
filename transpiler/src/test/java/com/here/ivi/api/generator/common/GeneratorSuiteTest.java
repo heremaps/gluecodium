@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 import com.google.inject.Injector;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.ModelHelper;
+import com.here.ivi.api.platform.common.GeneratorSuite;
 import com.here.ivi.api.validator.FrancaValidator;
 import java.io.File;
 import java.util.ArrayList;

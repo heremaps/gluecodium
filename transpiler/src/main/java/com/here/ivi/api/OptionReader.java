@@ -13,7 +13,7 @@ package com.here.ivi.api;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import com.here.ivi.api.generator.common.GeneratorSuite;
+import com.here.ivi.api.platform.common.GeneratorSuite;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
