@@ -62,39 +62,17 @@ public class AttributesLabels {
 
     public static let getStructAttrHTML = """
         <center>
-          <span style="font-family: monospace;">
-          <table>
-            <tbody>
-              <tr>
-                <td colspan="3">
-                  <span style="color: #3366ff;">let</span> result =
-                  <span style="color: #0f7001;">testClass</span>.structAttribute
-                  <br><br>
-                </td>
-              </tr>
-              <tr>
-                <td>result &rarr; </td>
-                <td>
-                  <span style="color: #3366ff;">struct</span> ExampleStruct {
-                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>
-                  <span style="color: #3366ff;">&nbsp;&nbsp;var</span> value:
-                  <span style="color: #3495af;">Float</span> &rarr; %f
-                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>}</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </span>
+          <span style="font-family: monospace;"><table><tbody>
+            <tr><td colspan="2">
+              <span style="color: #3366ff;">let</span> result =
+              <span style="color: #0f7001;">testClass</span>.structAttribute
+              <br><br>
+            </td></tr>
+            <tr>
+              <td>result &rarr; </td>
+              <td>%@</td>
+            </tr>
+          </tbody></table></span>
         </center>
     """
 
