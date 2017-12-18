@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.java.*;
 import java.util.Arrays;

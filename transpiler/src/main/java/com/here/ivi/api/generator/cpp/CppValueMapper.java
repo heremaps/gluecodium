@@ -12,7 +12,7 @@
 package com.here.ivi.api.generator.cpp;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.common.BuiltInValueRules;
 import com.here.ivi.api.model.cpp.*;

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.OptionReader.TranspilerOptions;
+import com.here.ivi.api.cli.OptionReader.TranspilerOptions;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.output.ConsoleOutput;
 import com.here.ivi.api.output.FileOutput;
@@ -80,7 +80,7 @@ public class TranspilerTest {
   @Test
   public void defaultGeneratorsAreUsed() {
     // Arrange
-    OptionReader.TranspilerOptions options = TranspilerOptions.builder().build();
+    TranspilerOptions options = TranspilerOptions.builder().build();
 
     // Act, Assert
     assertEquals(
@@ -90,10 +90,9 @@ public class TranspilerTest {
   @Test
   public void failedInstantiationOfGenerator() {
     // Arrange
-    when(GeneratorSuite.instantiateByShortName(
-            anyString(), any(OptionReader.TranspilerOptions.class)))
+    when(GeneratorSuite.instantiateByShortName(anyString(), any(TranspilerOptions.class)))
         .thenReturn(null);
-    OptionReader.TranspilerOptions options =
+    TranspilerOptions options =
         TranspilerOptions.builder()
             .inputDirs(new String[] {""})
             .generators(Collections.singletonList("invalidGenerator"))
@@ -107,7 +106,7 @@ public class TranspilerTest {
   public void fileNameCollisionsResolved() {
     // Arrange
     when(generator.generate()).thenReturn(Arrays.asList(FILE, FILE, FILE));
-    OptionReader.TranspilerOptions options =
+    TranspilerOptions options =
         TranspilerOptions.builder()
             .inputDirs(new String[] {""})
             .generators(Collections.singletonList(SHORT_NAME))
@@ -120,7 +119,7 @@ public class TranspilerTest {
   @Test
   public void executeValidateOnly() {
     // Arrange
-    OptionReader.TranspilerOptions options =
+    TranspilerOptions options =
         TranspilerOptions.builder()
             .inputDirs(new String[] {""})
             .generators(Collections.singletonList(SHORT_NAME))
@@ -141,8 +140,7 @@ public class TranspilerTest {
     GeneratedFile generatedFile = new GeneratedFile(CONTENT, FILE_NAME);
     ByteArrayOutputStream bo = new ByteArrayOutputStream();
     System.setOut(new PrintStream(bo));
-    OptionReader.TranspilerOptions options =
-        TranspilerOptions.builder().dumpingToStdout(true).build();
+    TranspilerOptions options = TranspilerOptions.builder().dumpingToStdout(true).build();
 
     // Act
     new Transpiler(options).output(Collections.singletonList(generatedFile));
@@ -159,8 +157,7 @@ public class TranspilerTest {
     // Arrange
     FileOutput mockFileOutput = mock(FileOutput.class);
     PowerMockito.whenNew(FileOutput.class).withAnyArguments().thenReturn(mockFileOutput);
-    OptionReader.TranspilerOptions options =
-        TranspilerOptions.builder().outputDir("someDir").build();
+    TranspilerOptions options = TranspilerOptions.builder().outputDir("someDir").build();
     File mockFile = mock(File.class);
     PowerMockito.whenNew(File.class).withAnyArguments().thenReturn(mockFile);
 
@@ -176,8 +173,7 @@ public class TranspilerTest {
     ConsoleOutput mockConsoleOutput = mock(ConsoleOutput.class);
     PowerMockito.whenNew(ConsoleOutput.class).withNoArguments().thenReturn(mockConsoleOutput);
     Mockito.doThrow(new IOException()).when(mockConsoleOutput).output(anyList());
-    OptionReader.TranspilerOptions options =
-        TranspilerOptions.builder().dumpingToStdout(true).build();
+    TranspilerOptions options = TranspilerOptions.builder().dumpingToStdout(true).build();
 
     // Act, Assert
     assertFalse(new Transpiler(options).output(GENERATED_FILES));
@@ -189,7 +185,7 @@ public class TranspilerTest {
     FileOutput mockFileOutput = mock(FileOutput.class);
     PowerMockito.whenNew(FileOutput.class).withAnyArguments().thenReturn(mockFileOutput);
     Mockito.doThrow(new IOException()).when(mockFileOutput).output(GENERATED_FILES);
-    OptionReader.TranspilerOptions options = TranspilerOptions.builder().outputDir("").build();
+    TranspilerOptions options = TranspilerOptions.builder().outputDir("").build();
 
     // Act, Assert
     assertFalse(new Transpiler(options).output(GENERATED_FILES));

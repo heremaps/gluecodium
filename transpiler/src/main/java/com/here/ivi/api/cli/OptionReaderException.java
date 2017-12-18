@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api;
+package com.here.ivi.api.cli;
 
 public class OptionReaderException extends Exception {
 
