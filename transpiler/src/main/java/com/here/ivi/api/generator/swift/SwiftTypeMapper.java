@@ -16,8 +16,8 @@ import static com.here.ivi.api.model.swift.SwiftType.VOID;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
+import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.rules.InstanceRules;
 import com.here.ivi.api.model.swift.*;
 import org.franca.core.franca.*;
 

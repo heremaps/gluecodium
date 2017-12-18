@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.rules;
+package com.here.ivi.api.model.common;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

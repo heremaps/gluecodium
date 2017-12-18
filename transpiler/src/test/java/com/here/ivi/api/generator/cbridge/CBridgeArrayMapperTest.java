@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.rules.InstanceRules;
+import com.here.ivi.api.model.common.InstanceRules;
 import org.franca.core.franca.*;
 import org.junit.Assert;
 import org.junit.Before;

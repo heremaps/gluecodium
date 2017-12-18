@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.*;
 import static com.here.ivi.api.model.cmodel.CType.VOID;
-import static com.here.ivi.api.model.rules.InstanceRules.isInstanceId;
+import static com.here.ivi.api.model.common.InstanceRules.isInstanceId;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.cmodel.CType;

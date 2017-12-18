@@ -13,8 +13,8 @@ package com.here.ivi.api.generator.cpp;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.TranspilerExecutionException;
+import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cppmodel.*;
-import com.here.ivi.api.model.rules.InstanceRules;
 import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;

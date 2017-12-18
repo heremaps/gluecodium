@@ -12,8 +12,8 @@
 package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.generator.common.NameHelper;
+import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.rules.InstanceRules;
 import java.io.File;
 import java.util.List;
 import org.franca.core.franca.*;
