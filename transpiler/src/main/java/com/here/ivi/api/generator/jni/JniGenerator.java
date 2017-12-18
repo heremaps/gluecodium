@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.jni;
 
-import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.common.AbstractGenerator;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
@@ -27,6 +26,7 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.java.JavaPackage;
 import com.here.ivi.api.model.jni.JniContainer;
+import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.franca.core.franca.FTypeCollection;

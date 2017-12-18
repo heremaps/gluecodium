@@ -9,9 +9,10 @@
  *
  */
 
-package com.here.ivi.api.generator.android;
+package com.here.ivi.api.platform.android;
 
 import com.here.ivi.api.OptionReader;
+import com.here.ivi.api.generator.androidmanifest.AndroidManifestGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.java.JavaGenerator;
 import com.here.ivi.api.generator.jni.JniGenerator;

@@ -9,12 +9,13 @@
  *
  */
 
-package com.here.ivi.api.generator.android;
+package com.here.ivi.api.generator.androidmanifest;
 
+import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import java.io.File;
 
-public final class AndroidNameRules {
-  private AndroidNameRules() {}
+public final class AndroidManifestNameRules {
+  private AndroidManifestNameRules() {}
 
   public static String getManifestFilename() {
     return AndroidGeneratorSuite.GENERATOR_NAME + File.separator + "AndroidManifest.xml";
