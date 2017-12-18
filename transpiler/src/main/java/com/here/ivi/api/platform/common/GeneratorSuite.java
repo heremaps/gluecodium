@@ -13,11 +13,11 @@ package com.here.ivi.api.platform.common;
 
 import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.android.AndroidGeneratorSuite;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.ModelHelper;
+import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import com.here.ivi.api.platform.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.platform.swift.SwiftGeneratorSuite;
 import com.here.ivi.api.validator.*;

@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.android.templates;
+package com.here.ivi.api.generator.androidmanifest.templates;
 
 import static org.junit.Assert.assertEquals;
 

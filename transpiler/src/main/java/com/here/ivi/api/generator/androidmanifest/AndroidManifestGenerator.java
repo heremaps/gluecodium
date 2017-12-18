@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.android;
+package com.here.ivi.api.generator.androidmanifest;
 
 import com.here.ivi.api.generator.common.AbstractGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
@@ -25,6 +25,6 @@ public final class AndroidManifestGenerator extends AbstractGenerator {
   public GeneratedFile generate() {
     String fileContent =
         TemplateEngine.render("android/AndroidManifest", String.join(".", basePackages));
-    return new GeneratedFile(fileContent, AndroidNameRules.getManifestFilename());
+    return new GeneratedFile(fileContent, AndroidManifestNameRules.getManifestFilename());
   }
 }
