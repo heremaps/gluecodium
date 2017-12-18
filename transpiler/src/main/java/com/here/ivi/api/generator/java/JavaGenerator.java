@@ -12,17 +12,13 @@
 package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.android.AbstractAndroidGenerator;
+import com.here.ivi.api.generator.common.AbstractGenerator;
 import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.java.JavaClass;
-import com.here.ivi.api.model.java.JavaEnum;
-import com.here.ivi.api.model.java.JavaExceptionClass;
-import com.here.ivi.api.model.java.JavaInterface;
-import com.here.ivi.api.model.java.JavaTopLevelElement;
+import com.here.ivi.api.model.java.*;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -33,7 +29,7 @@ import java.util.stream.Stream;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FTypeCollection;
 
-public class JavaGenerator extends AbstractAndroidGenerator {
+public class JavaGenerator extends AbstractGenerator {
 
   private final FrancaDeploymentModel deploymentModel;
   private final Map<String, JavaExceptionClass> exceptionClasses = new HashMap<>();
@@ -46,6 +42,7 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
   public List<GeneratedFile> generateFilesForInterface(final FInterface francaInterface) {
 
+    JavaPackage basePackage = new JavaPackage(basePackages);
     JavaModelBuilder modelBuilder =
         new JavaModelBuilder(
             deploymentModel,
@@ -72,6 +69,7 @@ public class JavaGenerator extends AbstractAndroidGenerator {
 
   public List<GeneratedFile> generateFiles(final FTypeCollection francaTypeCollection) {
 
+    JavaPackage basePackage = new JavaPackage(basePackages);
     JavaModelBuilder modelBuilder =
         new JavaModelBuilder(
             deploymentModel,
