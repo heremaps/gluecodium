@@ -17,8 +17,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.loader.FrancaModelLoader;
+import com.here.ivi.api.platform.common.GeneratorSuite;
 import com.here.ivi.api.validator.FrancaValidator;
 import java.io.File;
 import java.util.Collections;

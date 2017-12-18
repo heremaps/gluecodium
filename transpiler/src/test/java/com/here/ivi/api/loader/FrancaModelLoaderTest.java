@@ -14,9 +14,9 @@ package com.here.ivi.api.loader;
 import static org.junit.Assert.*;
 
 import com.here.ivi.api.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.ModelHelper;
+import com.here.ivi.api.platform.common.GeneratorSuite;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;

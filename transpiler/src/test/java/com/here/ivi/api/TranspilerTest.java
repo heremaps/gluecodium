@@ -25,9 +25,9 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.OptionReader.TranspilerOptions;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.output.ConsoleOutput;
 import com.here.ivi.api.output.FileOutput;
+import com.here.ivi.api.platform.common.GeneratorSuite;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;

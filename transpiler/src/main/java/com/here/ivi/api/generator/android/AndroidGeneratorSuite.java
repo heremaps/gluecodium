@@ -13,11 +13,11 @@ package com.here.ivi.api.generator.android;
 
 import com.here.ivi.api.OptionReader;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.GeneratorSuite;
 import com.here.ivi.api.generator.java.JavaGenerator;
 import com.here.ivi.api.generator.jni.JniGenerator;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.model.jni.JniContainer;
+import com.here.ivi.api.platform.common.GeneratorSuite;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
