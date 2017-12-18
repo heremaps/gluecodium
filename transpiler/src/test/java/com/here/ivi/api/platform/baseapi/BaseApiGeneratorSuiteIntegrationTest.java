@@ -25,12 +25,13 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class BaseApiGeneratorSuiteIntegrationTest {
-  private static final String FRANCA_FILES_PATH = "src/test/resources/baseapi_generator_suite/fidl";
+  private static final String FRANCA_FILE_PATH =
+      "src/test/resources/baseapi_generator_suite/fidl/TestInterface.fidl";
   private final BaseApiGeneratorSuite baseApiGeneratorSuite = new BaseApiGeneratorSuite();
 
   @Test
   public void generate() {
-    baseApiGeneratorSuite.buildModels(Collections.singletonList(new File(FRANCA_FILES_PATH)));
+    baseApiGeneratorSuite.loadModels(Collections.singletonList(new File(FRANCA_FILE_PATH)));
 
     List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate();
 

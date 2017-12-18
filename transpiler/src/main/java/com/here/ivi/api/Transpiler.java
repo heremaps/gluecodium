@@ -18,6 +18,7 @@ import com.here.ivi.api.cli.OptionReaderException;
 import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.Version;
+import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.logger.TranspilerLogger;
 import com.here.ivi.api.output.ConsoleOutput;
 import com.here.ivi.api.output.FileOutput;
@@ -27,12 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -111,11 +107,17 @@ public class Transpiler {
     }
     LOGGER.fine("Instantiated generator " + generator.getName());
 
-    generator.buildModels(inputPaths);
+    Collection<File> inputFiles = FrancaModelLoader.listFilesRecursively(inputPaths);
+    if (!generator.validateFrancaFiles(inputFiles)) {
+      LOGGER.severe("Validation of Franca files Failed");
+      return false;
+    }
+
+    generator.loadModels(inputFiles);
     LOGGER.fine("Built franca model");
 
-    if (!generator.validate()) {
-      LOGGER.severe("Validation Failed");
+    if (!generator.validateFrancaModel()) {
+      LOGGER.severe("Validation of Franca model Failed");
       return false;
     }
     if (options.isValidatingOnly()) {
