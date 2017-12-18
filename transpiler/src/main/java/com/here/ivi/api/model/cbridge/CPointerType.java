@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.cmodel;
+package com.here.ivi.api.model.cbridge;
 
 public final class CPointerType extends CType {
 

@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.cmodel;
+package com.here.ivi.api.model.cbridge;
 
 public abstract class CElement {
   public final String name;

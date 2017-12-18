@@ -18,8 +18,8 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.model.cmodel.CType;
-import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.cbridge.CType;
+import com.here.ivi.api.model.cbridge.IncludeResolver;
 import org.franca.core.franca.*;
 import org.junit.Assert;
 import org.junit.Before;

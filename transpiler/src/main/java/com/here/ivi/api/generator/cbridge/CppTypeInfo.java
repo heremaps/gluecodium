@@ -13,17 +13,17 @@ package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_IMPL_FILE;
-import static com.here.ivi.api.model.cmodel.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
+import static com.here.ivi.api.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
-import com.here.ivi.api.model.cmodel.CElement;
-import com.here.ivi.api.model.cmodel.CPointerType;
-import com.here.ivi.api.model.cmodel.CType;
-import com.here.ivi.api.model.cmodel.IncludeResolver;
-import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
+import com.here.ivi.api.model.cbridge.CElement;
+import com.here.ivi.api.model.cbridge.CPointerType;
+import com.here.ivi.api.model.cbridge.CType;
+import com.here.ivi.api.model.cbridge.IncludeResolver;
+import com.here.ivi.api.model.cbridge.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
 import java.util.ArrayList;
 import java.util.Arrays;

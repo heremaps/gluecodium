@@ -9,16 +9,13 @@
  *
  */
 
-package com.here.ivi.api.model.cmodel;
+package com.here.ivi.api.model.cbridge;
 
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 
-public final class COutParameter extends CParameter {
-  public COutParameter(String name, CppTypeInfo cppType) {
-    super(name, cppType);
-  }
+public final class CInParameter extends CParameter {
 
-  public COutParameter() {
-    super("", new CppTypeInfo(CType.VOID));
+  public CInParameter(String name, CppTypeInfo type) {
+    super(name, type);
   }
 }

@@ -21,8 +21,8 @@ import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
-import com.here.ivi.api.model.cmodel.*;
-import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
+import com.here.ivi.api.model.cbridge.*;
+import com.here.ivi.api.model.cbridge.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppField;
 import com.here.ivi.api.model.cppmodel.CppMethod;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import org.franca.core.franca.*;
 
-public class CModelBuilder extends AbstractModelBuilder<CElement> {
+public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
 
   private final FrancaDeploymentModel deploymentModel;
   private final IncludeResolver resolver;
@@ -43,7 +43,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   private final SwiftModelBuilder swiftBuilder;
   public final Map<String, CArray> arraysCollector = new HashMap<>();
 
-  public CModelBuilder(
+  public CBridgeModelBuilder(
       final FrancaDeploymentModel deploymentModel,
       IncludeResolver includeResolver,
       CppModelBuilder cppBuilder,
@@ -57,7 +57,7 @@ public class CModelBuilder extends AbstractModelBuilder<CElement> {
   }
 
   @VisibleForTesting
-  CModelBuilder(
+  CBridgeModelBuilder(
       final ModelBuilderContextStack<CElement> contextStack,
       final FrancaDeploymentModel deploymentModel,
       final IncludeResolver includeResolver,

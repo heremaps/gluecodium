@@ -26,18 +26,18 @@ import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.generator.swift.SwiftNameRules;
-import com.here.ivi.api.model.cmodel.*;
-import com.here.ivi.api.model.cmodel.CElement;
-import com.here.ivi.api.model.cmodel.CEnum;
-import com.here.ivi.api.model.cmodel.CField;
-import com.here.ivi.api.model.cmodel.CFunction;
-import com.here.ivi.api.model.cmodel.CInParameter;
-import com.here.ivi.api.model.cmodel.CInterface;
-import com.here.ivi.api.model.cmodel.COutParameter;
-import com.here.ivi.api.model.cmodel.CParameter;
-import com.here.ivi.api.model.cmodel.CStruct;
-import com.here.ivi.api.model.cmodel.CType;
-import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.cbridge.*;
+import com.here.ivi.api.model.cbridge.CElement;
+import com.here.ivi.api.model.cbridge.CEnum;
+import com.here.ivi.api.model.cbridge.CField;
+import com.here.ivi.api.model.cbridge.CFunction;
+import com.here.ivi.api.model.cbridge.CInParameter;
+import com.here.ivi.api.model.cbridge.CInterface;
+import com.here.ivi.api.model.cbridge.COutParameter;
+import com.here.ivi.api.model.cbridge.CParameter;
+import com.here.ivi.api.model.cbridge.CStruct;
+import com.here.ivi.api.model.cbridge.CType;
+import com.here.ivi.api.model.cbridge.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppElement;
 import com.here.ivi.api.model.cppmodel.CppField;
@@ -71,7 +71,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
   CBridgeNameRules.class,
   SwiftNameRules.class
 })
-public class CModelBuilderTest {
+public class CBridgeModelBuilderTest {
 
   private static final String FULL_FUNCTION_NAME = "FULL_FUNCTION_NAME";
   private static final String DELEGATE_NAME = "DELEGATE_NAME";
@@ -105,7 +105,7 @@ public class CModelBuilderTest {
   @Mock private FArrayType francaArray;
 
   private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
-  private CModelBuilder modelBuilder;
+  private CBridgeModelBuilder modelBuilder;
 
   @Before
   public void setUp() {
@@ -136,7 +136,7 @@ public class CModelBuilderTest {
     when(resolver.resolveInclude(any(), any())).thenReturn(Include.createInternalInclude(""));
 
     modelBuilder =
-        new CModelBuilder(
+        new CBridgeModelBuilder(
             contextStack, deploymentModel, resolver, cppModelbuilder, swiftModelbuilder);
   }
 

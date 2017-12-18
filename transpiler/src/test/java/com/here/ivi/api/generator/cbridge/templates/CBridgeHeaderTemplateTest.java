@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-import com.here.ivi.api.model.cmodel.*;
+import com.here.ivi.api.model.cbridge.*;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.test.TemplateComparator;
 import com.here.ivi.api.test.TemplateComparison;

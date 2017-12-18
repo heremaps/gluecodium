@@ -9,13 +9,10 @@
  *
  */
 
-package com.here.ivi.api.model.cmodel;
+package com.here.ivi.api.model.cbridge;
 
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-
-public final class CInParameter extends CParameter {
-
-  public CInParameter(String name, CppTypeInfo type) {
-    super(name, type);
+public final class CEnum extends CType {
+  public CEnum(String enumName) {
+    super(enumName, FIXED_WIDTH_INTEGERS_INCLUDE);
   }
 }
