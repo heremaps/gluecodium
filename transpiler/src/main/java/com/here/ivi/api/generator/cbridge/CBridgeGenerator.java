@@ -22,8 +22,8 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
-import com.here.ivi.api.model.cmodel.CInterface;
-import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.cbridge.CInterface;
+import com.here.ivi.api.model.cbridge.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cppmodel.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -101,8 +101,8 @@ public class CBridgeGenerator {
   public CInterface buildCBridgeModel(final FTypeCollection francaTypeCollection) {
     CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, new CppIncludeResolver());
     SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
-    CModelBuilder modelBuilder =
-        new CModelBuilder(deploymentModel, resolver, cppBuilder, swiftBuilder);
+    CBridgeModelBuilder modelBuilder =
+        new CBridgeModelBuilder(deploymentModel, resolver, cppBuilder, swiftBuilder);
     FrancaTreeWalker treeWalker =
         new FrancaTreeWalker(Arrays.asList(cppBuilder, swiftBuilder, modelBuilder));
 

@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.swift.SwiftNameRules;
-import com.here.ivi.api.model.cmodel.CInterface;
+import com.here.ivi.api.model.cbridge.CInterface;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.TemplateComparator;
 import java.math.BigInteger;

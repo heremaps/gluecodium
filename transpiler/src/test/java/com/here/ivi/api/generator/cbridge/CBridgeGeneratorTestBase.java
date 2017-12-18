@@ -18,7 +18,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.swift.SwiftNameRules;
-import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.cbridge.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;

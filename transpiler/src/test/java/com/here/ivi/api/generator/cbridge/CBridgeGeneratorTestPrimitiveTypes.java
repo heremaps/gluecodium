@@ -13,7 +13,7 @@ package com.here.ivi.api.generator.cbridge;
 
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.cmodel.CInterface;
+import com.here.ivi.api.model.cbridge.CInterface;
 import com.here.ivi.api.test.TemplateComparator;
 import org.franca.core.franca.FBasicTypeId;
 import org.junit.Before;

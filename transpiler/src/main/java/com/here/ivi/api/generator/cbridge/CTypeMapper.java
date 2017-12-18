@@ -12,12 +12,12 @@
 package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.*;
-import static com.here.ivi.api.model.cmodel.CType.VOID;
+import static com.here.ivi.api.model.cbridge.CType.VOID;
 import static com.here.ivi.api.model.common.InstanceRules.isInstanceId;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.model.cmodel.CType;
-import com.here.ivi.api.model.cmodel.IncludeResolver;
+import com.here.ivi.api.model.cbridge.CType;
+import com.here.ivi.api.model.cbridge.IncludeResolver;
 import org.franca.core.franca.*;
 
 public final class CTypeMapper {

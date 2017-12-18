@@ -20,7 +20,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import com.here.ivi.api.generator.common.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
-import com.here.ivi.api.model.cmodel.*;
+import com.here.ivi.api.model.cbridge.*;
 import com.here.ivi.api.model.cppmodel.CppMethod;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
@@ -33,7 +33,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(CBridgeNameRules.class)
-public class CModelBuilderInstancesTest {
+public class CBridgeModelBuilderInstancesTest {
   private static final String FULL_FUNCTION_NAME = "FULL_FUNCTION_NAME";
   private static final String PARAM_NAME = "inputParam";
 
@@ -45,7 +45,7 @@ public class CModelBuilderInstancesTest {
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
 
-  private CModelBuilder modelBuilder;
+  private CBridgeModelBuilder modelBuilder;
   private final ModelBuilderContextStack<CElement> contextStack = new ModelBuilderContextStack<>();
 
   @Before
@@ -57,7 +57,7 @@ public class CModelBuilderInstancesTest {
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(CppMethod.builder().build());
 
     modelBuilder =
-        new CModelBuilder(
+        new CBridgeModelBuilder(
             contextStack, deploymentModel, resolver, cppModelbuilder, swiftModelbuilder);
   }
 

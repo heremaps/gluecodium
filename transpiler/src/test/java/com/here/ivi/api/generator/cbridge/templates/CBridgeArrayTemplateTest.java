@@ -18,7 +18,7 @@ import com.here.ivi.api.generator.cbridge.CArrayGenerator;
 import com.here.ivi.api.generator.cbridge.CArrayMapper;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.model.cmodel.*;
+import com.here.ivi.api.model.cbridge.*;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.Collections;
 import java.util.List;

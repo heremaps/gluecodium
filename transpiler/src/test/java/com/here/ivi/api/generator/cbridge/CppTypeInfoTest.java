@@ -19,9 +19,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-import com.here.ivi.api.model.cmodel.CType;
-import com.here.ivi.api.model.cmodel.IncludeResolver;
-import com.here.ivi.api.model.cmodel.IncludeResolver.HeaderType;
+import com.here.ivi.api.model.cbridge.CType;
+import com.here.ivi.api.model.cbridge.IncludeResolver;
+import com.here.ivi.api.model.cbridge.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FModel;

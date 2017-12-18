@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.cmodel;
+package com.here.ivi.api.model.cbridge;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;

@@ -15,12 +15,12 @@ import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERN
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.SRC_DIR;
-import static com.here.ivi.api.model.cmodel.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
+import static com.here.ivi.api.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cmodel.CArray;
-import com.here.ivi.api.model.cmodel.CInterface;
+import com.here.ivi.api.model.cbridge.CArray;
+import com.here.ivi.api.model.cbridge.CInterface;
 import com.here.ivi.api.model.common.Include;
 import java.nio.file.Paths;
 import java.util.*;

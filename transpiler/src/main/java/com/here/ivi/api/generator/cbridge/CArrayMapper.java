@@ -17,7 +17,7 @@ import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
 import static java.util.Collections.singletonList;
 
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
-import com.here.ivi.api.model.cmodel.CType;
+import com.here.ivi.api.model.cbridge.CType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.InstanceRules;
 import java.util.Arrays;

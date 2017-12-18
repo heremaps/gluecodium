@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.model.cmodel;
+package com.here.ivi.api.model.cbridge;
 
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.model.common.Include;
