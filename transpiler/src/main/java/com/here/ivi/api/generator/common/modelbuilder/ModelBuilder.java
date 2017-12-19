@@ -9,12 +9,12 @@
  *
  */
 
-package com.here.ivi.api.generator.common;
+package com.here.ivi.api.generator.common.modelbuilder;
 
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
-/** An interface for a model builder, used by @see FrancaTreeWalker. */
+/** An interface for a model builder, used by {@link FrancaTreeWalker}. */
 @SuppressWarnings({"PMD.TooManyMethods"})
 public interface ModelBuilder {
 

@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common;
+package com.here.ivi.api.generator.common.modelbuilder;
 
 import java.util.LinkedList;
 

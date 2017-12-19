@@ -12,9 +12,9 @@
 package com.here.ivi.api.generator.jni;
 
 import com.here.ivi.api.generator.common.AbstractGenerator;
-import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;

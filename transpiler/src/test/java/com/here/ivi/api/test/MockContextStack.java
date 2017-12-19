@@ -11,8 +11,8 @@
 
 package com.here.ivi.api.test;
 
-import com.here.ivi.api.generator.common.ModelBuilderContext;
-import com.here.ivi.api.generator.common.ModelBuilderContextStack;
+import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContext;
+import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
 
 public class MockContextStack<E> extends ModelBuilderContextStack<E> {
 

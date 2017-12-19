@@ -9,7 +9,7 @@
  *
  */
 
-package com.here.ivi.api.generator.common;
+package com.here.ivi.api.generator.common.modelbuilder;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

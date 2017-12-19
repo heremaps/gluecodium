@@ -14,9 +14,9 @@ package com.here.ivi.api.generator.swift;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftFile;
 import com.here.ivi.api.platform.common.GeneratorSuite;

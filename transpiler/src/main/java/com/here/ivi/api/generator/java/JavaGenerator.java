@@ -13,9 +13,9 @@ package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.AbstractGenerator;
-import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.java.*;
