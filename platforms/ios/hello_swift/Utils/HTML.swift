@@ -20,6 +20,8 @@ private let structFieldHTMLTemplate = """
     </td></tr>
     """
 
+private let nestedStructFieldSeparator = "<br>&nbsp;&nbsp;&nbsp;&nbsp;"
+
 public protocol StructToHTML {
     var html: String {get}
 }
@@ -27,12 +29,27 @@ public protocol StructToHTML {
 public extension StructToHTML {
     var html: String {
         let fields = Mirror(reflecting: self).children
-            .map({field in String(format: structFieldHTMLTemplate,
-                                  field.label!,
-                                  String(describing: type(of: field.value)),
-                                  String(describing: field.value))})
+            .map({field in
+                let fieldType = String(describing: type(of: field.value))
+                let fieldValue = String(describing: field.value)
+                return String(
+                    format: structFieldHTMLTemplate,
+                    field.label!, fieldType,
+                    splitFieldIfStruct(fieldType, fieldValue))})
             .reduce("", {$0 + $1})
         let structName = String(describing: type(of: self))
         return String(format: structHTMLTemplate, structName, fields)
+    }
+
+    private func splitFieldIfStruct(_ fieldType: String, _ fieldValue: String) -> String {
+        if fieldValue.starts(with: fieldType) {
+            return fieldValue
+                .dropFirst(fieldType.count + 1)
+                .split(separator: ",")
+                .map({$0.trimmingCharacters(in: .whitespaces)})
+                .reduce(fieldType + "(", {$0 + nestedStructFieldSeparator + $1})
+        } else {
+            return fieldValue
+        }
     }
 }
