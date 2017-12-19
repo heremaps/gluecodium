@@ -17,9 +17,9 @@ import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.SRC_DIR;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.generator.common.FrancaTreeWalker;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cbridge.CInterface;
