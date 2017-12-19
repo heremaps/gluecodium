@@ -23,8 +23,7 @@ allprojects {
         umljavadoclet
     }
     dependencies {
-        // build and deployed from https://github.com/gboersma/uml-java-doclet.git
-        umljavadoclet 'info.leadinglight:uml-java-doclet:1.0-SNAPSHOT.2'
+        umljavadoclet 'info.leadinglight:uml-java-doclet:1.0-SNAPSHOT.3'
     }
     javadoc {
         setFailOnError(false)
