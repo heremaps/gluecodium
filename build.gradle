@@ -21,15 +21,19 @@ allprojects {
 
     configurations {
         umljavadoclet
+        javadocTaglets
     }
     dependencies {
         umljavadoclet 'info.leadinglight:uml-java-doclet:1.0-SNAPSHOT.3'
+        javadocTaglets "org.jdrupes.taglets:plantuml-taglet:+"
     }
-    javadoc {
-        setFailOnError(false)
 
+    javadoc {
         options.docletpath = configurations.umljavadoclet.files.asType(List)
         options.doclet = "info.leadinglight.umljavadoclet.UmlJavaDoclet"
+        options.tagletPath = configurations.javadocTaglets.files as List
+        options.taglets = ["org.jdrupes.taglets.plantUml.Taglet"]
+        options.overview = "../doc/overview.html"
         options.tags = [
                 "generated:a:Generated",
                 "implNote:a:Implementation note",
