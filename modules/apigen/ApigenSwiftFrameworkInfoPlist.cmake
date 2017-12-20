@@ -45,7 +45,7 @@ function(apigen_swift_framework_info_plist target)
     set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${SWIFT_FRAMEWORK_VERSION})
     set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${SWIFT_FRAMEWORK_VERSION})
     configure_file(${SWIFT_RESOURCES_DIR}/MacOSXFrameworkInfo.plist.in
-        ${SWIFT_OUTPUT_DIR}/${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}/Info.plist)
+        ${SWIFT_OUTPUT_DIR}/${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}/Resources/Info.plist)
     message(STATUS "[Swift] Creating Mac OS configuration...")
 
 endfunction(apigen_swift_framework_info_plist)

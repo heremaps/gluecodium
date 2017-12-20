@@ -42,6 +42,7 @@ function(apigen_swift_framework_structure target)
     add_custom_command(TARGET ${target} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory
         ${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}/Headers
+        ${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}/Resources
         ${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}/Modules/${target}.swiftmodule
         WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
 
@@ -53,7 +54,9 @@ function(apigen_swift_framework_structure target)
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E create_symlink Versions/Current/Headers Headers
         COMMAND ${CMAKE_COMMAND} -E create_symlink Versions/Current/Modules Modules
+        COMMAND ${CMAKE_COMMAND} -E create_symlink Versions/Current/Resources Resources
         COMMAND ${CMAKE_COMMAND} -E create_symlink Versions/Current/${target} ${target}
+        # Purposely create a broken symlink
         COMMAND ${CMAKE_COMMAND} -E create_symlink Versions/Current/Info.plist Info.plist
         WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR}/${target}.framework
         COMMENT "[Swift] Creating Swift framework structure...")

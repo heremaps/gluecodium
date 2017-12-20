@@ -44,17 +44,12 @@ function(apigen_swift_framework_bundle target assets)
     endif()
 
     message(STATUS "Assets ${SWIFT_BUNDLE_SRC}")
-
-    message(STATUS "[Swift] Creating Framework bundle...")
-    add_custom_command(TARGET ${target} POST_BUILD 
-        COMMAND mkdir -p "${SWIFT_OUTPUT_DIR}/${target}.framework/Bundle.bundle/"
-    )
     
     # Copy the folders that need to be in the bundle.
     foreach(FOLDER ${assets})
         add_custom_command(TARGET ${target} POST_BUILD
             COMMAND cp -fR ${FOLDER} 
-                "${SWIFT_OUTPUT_DIR}/${target}.framework/Bundle.bundle/")
+                "${SWIFT_OUTPUT_DIR}/${target}.framework/Versions/Current/Resources/")
     endforeach()
 
 endfunction(apigen_swift_framework_bundle)
