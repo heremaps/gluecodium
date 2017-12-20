@@ -6,10 +6,10 @@
  *
  * <h1>Input</h1>
  *
- * Input paths.
+ * Franca model.
  *
  * <h1>Output</h1>
  *
- * List of generated files.
+ * List of generated C++ .h and .cpp files.
  */
 package com.here.ivi.api.platform.baseapi;
