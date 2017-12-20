@@ -38,6 +38,9 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
   private static final String CPP_PROXY_BASE_HEADER = "android/jni/CppProxyBase.h";
   private static final String CPP_PROXY_BASE_IMPLEMENTATION = "android/jni/CppProxyBase.cpp";
 
+  private static final String JNI_BASE_HEADER = "android/jni/JniBase.h";
+  private static final String JNI_BASE_IMPLEMENTATION = "android/jni/JniBase.cpp";
+
   private static final String NATIVE_BASE_JAVA = "android/java/NativeBase.java";
   public static final String FIELD_ACCESS_UTILS_HEADER = "android/jni/FieldAccessMethods.h";
 
@@ -91,7 +94,10 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
             deploymentModel,
             javaPackageList,
             Arrays.asList(
-                CONVERSION_UTILS_HEADER, FIELD_ACCESS_UTILS_HEADER, CPP_PROXY_BASE_HEADER));
+                CONVERSION_UTILS_HEADER,
+                FIELD_ACCESS_UTILS_HEADER,
+                CPP_PROXY_BASE_HEADER,
+                JNI_BASE_HEADER));
 
     //jni models need to be built first as they are required to generate conversion util file
     List<JniContainer> jniContainers =
@@ -112,13 +118,15 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
 
     List<GeneratedFile> results = new LinkedList<>();
     results.add(androidManifestGenerator.generate());
+    results.add(copyTarget(ARRAY_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    results.add(copyTarget(ARRAY_UTILS_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
     results.add(copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
     results.add(copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
     results.add(copyTarget(CPP_PROXY_BASE_HEADER, CONVERSION_UTILS_TARGET_DIR));
     results.add(copyTarget(CPP_PROXY_BASE_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
     results.add(copyTarget(FIELD_ACCESS_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(ARRAY_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(ARRAY_UTILS_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
+    results.add(copyTarget(JNI_BASE_HEADER, CONVERSION_UTILS_TARGET_DIR));
+    results.add(copyTarget(JNI_BASE_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
     results.add(copyTarget(NATIVE_BASE_JAVA, NATIVE_BASE_JAVA_TARGET_DIR));
     results.addAll(javaFiles);
     results.addAll(jniFilesStream.flatMap(Collection::stream).collect(Collectors.toList()));

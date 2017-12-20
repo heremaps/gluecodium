@@ -20,6 +20,7 @@
 #include "android/jni/JniCppConversionUtils.h"
 #include "android/jni/FieldAccessMethods.h"
 #include "android/jni/CppProxyBase.h"
+#include "android/jni/JniBase.h"
 
 #ifdef __cplusplus
 extern "C" {

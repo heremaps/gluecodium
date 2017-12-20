@@ -11,25 +11,27 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "CppProxyBase.h"
+#include "JniBase.h"
 #include <pthread.h>
 
 namespace
 {
 
-static pthread_key_t threadKey;
-static JavaVM* javaVm;
+static pthread_key_t s_thread_key;
+static pthread_once_t s_key_once = PTHREAD_ONCE_INIT;
 
 JNIEnv*
 attach_current_thread( )
 {
     JNIEnv* jniEnv;
-    int envState = javaVm->GetEnv( reinterpret_cast< void** >( &jniEnv ), JNI_VERSION_1_6 );
+    JavaVM* jvm = here::internal::jni::get_java_vm();
+    int envState = jvm->GetEnv( reinterpret_cast< void** >( &jniEnv ), JNI_VERSION_1_6 );
     if ( envState == JNI_EDETACHED )
     {
 #ifdef __ANDROID__
-        javaVm->AttachCurrentThread( &jniEnv, nullptr );
+        jvm->AttachCurrentThread( &jniEnv, nullptr );
 #else  // ifdef __ANDROID__
-        javaVm->AttachCurrentThread( reinterpret_cast< void** >( &jniEnv ), nullptr );
+        jvm->AttachCurrentThread( reinterpret_cast< void** >( &jniEnv ), nullptr );
 #endif // ifdef __ANDROID__
     }
 
@@ -39,7 +41,7 @@ attach_current_thread( )
 void
 detach_current_thread( void* )
 {
-    javaVm->DetachCurrentThread( );
+    here::internal::jni::get_java_vm()->DetachCurrentThread( );
 }
 
 inline void
@@ -48,27 +50,14 @@ callJavaMethodVaList( JNIEnv* jniEnv, jobject jObj, jmethodID jmid, va_list iPar
     jniEnv->CallVoidMethodV( jObj, jmid, iParams );
 }
 
+void
+make_key_once()
+{
+    pthread_key_create(&s_thread_key, NULL);
+}
+
 } // namespace
 
-//JNI_OnLoad() gets automatically called by java vm while loading the library.
-//To make this work neither 'static' keyword (causes "static declaration of 'JNI_OnLoad' follows
-//non-static declaration" - error) nor adding to anonymous namespace (prevents method from being
-//called) is allowed.
-jint
-JNI_OnLoad( JavaVM* vm, void* )
-{
-    JNIEnv* env = nullptr;
-
-    if ( vm->GetEnv( ( void** )&env, JNI_VERSION_1_6 ) != JNI_OK )
-    {
-        return 0;
-    }
-
-    javaVm = vm;
-    pthread_key_create( &threadKey, detach_current_thread );
-
-    return JNI_VERSION_1_6;
-}
 
 namespace here
 {
@@ -95,11 +84,14 @@ CppProxyBase::callJavaMethod( const ::std::string& methodName,
 JNIEnv*
 CppProxyBase::getJniEnvironment( )
 {
+    // Add cleanup callback to current thread when called the first time
+    pthread_once(&s_key_once, make_key_once);
+
     JNIEnv* env;
-    if ( ( env = static_cast<JNIEnv*>( pthread_getspecific( threadKey ) ) ) == nullptr )
+    if ( ( env = static_cast<JNIEnv*>( pthread_getspecific( s_thread_key ) ) ) == nullptr )
     {
         env = attach_current_thread( );
-        pthread_setspecific( threadKey, env );
+        pthread_setspecific( s_thread_key, env );
     }
 
     return env;
