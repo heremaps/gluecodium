@@ -37,7 +37,11 @@ extension Collection where Element == Arrays.BasicStruct  {
         let handle = arrayCollection_BasicStruct_create()
         precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
-            arrayCollection_BasicStruct_append(handle, item.convertToCType())
+            let itemHandle = item.convertToCType();
+            defer {
+                smoke_Arrays_BasicStruct_release(itemHandle)
+            }
+            arrayCollection_BasicStruct_append(handle, itemHandle)
         }
         let cleanup_function = { () -> Void in
             arrayCollection_BasicStruct_release(handle)
@@ -73,7 +77,11 @@ extension Collection where Element == Arrays.FancyStruct  {
         let handle = arrayCollection_FancyStruct_create()
         precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
-            arrayCollection_FancyStruct_append(handle, item.convertToCType())
+            let itemHandle = item.convertToCType();
+            defer {
+                smoke_Arrays_FancyStruct_release(itemHandle)
+            }
+            arrayCollection_FancyStruct_append(handle, itemHandle)
         }
         let cleanup_function = { () -> Void in
             arrayCollection_FancyStruct_release(handle)
