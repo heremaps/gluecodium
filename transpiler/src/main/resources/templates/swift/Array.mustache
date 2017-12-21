@@ -91,7 +91,11 @@ return String(data: Data(bytes: std_string_data_get(handle),
               count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}
 
 {{+structConversion}}
-{{refName}}_append(handle, item.convertToCType()){{/structConversion}}
+let itemHandle = item.convertToCType();
+defer {
+    {{underlyingType.cPrefix}}_release(itemHandle)
+}
+{{refName}}_append(handle, itemHandle){{/structConversion}}
 
 {{+enumConversion}}
 {{refName}}_append(handle, item.rawValue){{/enumConversion}}
