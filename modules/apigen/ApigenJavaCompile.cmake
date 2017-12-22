@@ -40,8 +40,7 @@ function(apigen_java_compile target)
         # Transpiler invocations for different generators need different output directories
         # as the transpiler currently wipes the directory upon start.
         set(APIGEN_JAVA_COMPILE_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-compile)
-        # TODO: Use real package name!
-        set(APIGEN_TRANSPILER_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android/com/here/android)
+        set(APIGEN_TRANSPILER_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android)
 
         # Attach properties to target for re-use in other modules
         set_target_properties(${target} PROPERTIES
