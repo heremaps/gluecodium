@@ -18,7 +18,6 @@ namespace
 {
 
 static pthread_key_t s_thread_key;
-static pthread_once_t s_key_once = PTHREAD_ONCE_INIT;
 
 JNIEnv*
 attach_current_thread( )
@@ -85,6 +84,7 @@ JNIEnv*
 CppProxyBase::getJniEnvironment( )
 {
     // Add cleanup callback to current thread when called the first time
+    static pthread_once_t s_key_once = PTHREAD_ONCE_INIT;
     pthread_once(&s_key_once, make_key_once);
 
     JNIEnv* env;
