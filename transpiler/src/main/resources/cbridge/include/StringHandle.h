@@ -17,14 +17,15 @@ extern "C" {
 
 #include <stdint.h>
 
-typedef struct {
+typedef struct
+{
     void* const private_pointer;
 } std_stringRef;
 
-std_stringRef std_string_create(const char* c_str);
-const char* std_string_data_get(std_stringRef handle);
-int64_t std_string_size_get(std_stringRef handle);
-void std_string_release(std_stringRef handle);
+std_stringRef std_string_create( const char* c_str );
+const char* std_string_data_get( std_stringRef handle );
+int64_t std_string_size_get( std_stringRef handle );
+void std_string_release( std_stringRef handle );
 
 #ifdef __cplusplus
 }

@@ -11,9 +11,11 @@
 // -------------------------------------------------------------------------------------------------
 
 #pragma once
-#include "cbridge/include/StringHandle.h"
 #include <string>
+#include "cbridge/include/StringHandle.h"
 
-inline static std::string* get_pointer(std_stringRef handle) {
-    return static_cast<std::string*>(handle.private_pointer);
+inline static std::string*
+get_pointer( std_stringRef handle )
+{
+    return static_cast< std::string* >( handle.private_pointer );
 }

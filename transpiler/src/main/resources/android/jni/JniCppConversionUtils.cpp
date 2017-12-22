@@ -16,7 +16,6 @@ namespace here
 {
 namespace internal
 {
-
 // ------------------- JNI to C++ conversion functions ---------------------------------------------
 
 void
@@ -27,7 +26,7 @@ convert_from_jni( JNIEnv* env, const jobject jvalue, std::string& nresult )
         nresult.clear( );
         return;
     }
-    jstring stringValue = static_cast<jstring> (jvalue);
+    jstring stringValue = static_cast< jstring >( jvalue );
     const char* jbuffer = env->GetStringUTFChars( stringValue, nullptr );
     nresult = std::string( jbuffer );
     env->ReleaseStringUTFChars( stringValue, jbuffer );
@@ -66,6 +65,6 @@ convert_to_jni_array( JNIEnv* env, const std::vector< uint8_t >& nvalue )
     return jresult;
 }
 
-} // internal
+}  // internal
 
-} // here
+}  // here

@@ -11,27 +11,26 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "CppProxyBase.h"
-#include "JniBase.h"
 #include <pthread.h>
+#include "JniBase.h"
 
 namespace
 {
-
 static pthread_key_t s_thread_key;
 
 JNIEnv*
 attach_current_thread( )
 {
     JNIEnv* jniEnv;
-    JavaVM* jvm = here::internal::jni::get_java_vm();
+    JavaVM* jvm = here::internal::jni::get_java_vm( );
     int envState = jvm->GetEnv( reinterpret_cast< void** >( &jniEnv ), JNI_VERSION_1_6 );
     if ( envState == JNI_EDETACHED )
     {
 #ifdef __ANDROID__
         jvm->AttachCurrentThread( &jniEnv, nullptr );
-#else  // ifdef __ANDROID__
+#else   // ifdef __ANDROID__
         jvm->AttachCurrentThread( reinterpret_cast< void** >( &jniEnv ), nullptr );
-#endif // ifdef __ANDROID__
+#endif  // ifdef __ANDROID__
     }
 
     return jniEnv;
@@ -40,7 +39,7 @@ attach_current_thread( )
 void
 detach_current_thread( void* )
 {
-    here::internal::jni::get_java_vm()->DetachCurrentThread( );
+    here::internal::jni::get_java_vm( )->DetachCurrentThread( );
 }
 
 inline void
@@ -50,21 +49,19 @@ callJavaMethodVaList( JNIEnv* jniEnv, jobject jObj, jmethodID jmid, va_list iPar
 }
 
 void
-make_key_once()
+make_key_once( )
 {
-    pthread_key_create(&s_thread_key, NULL);
+    pthread_key_create( &s_thread_key, NULL );
 }
 
-} // namespace
-
+}  // namespace
 
 namespace here
 {
 namespace internal
 {
-
-CppProxyBase::ProxyCache CppProxyBase::sProxyCache { };
-::std::mutex CppProxyBase::sCacheMutex { };
+CppProxyBase::ProxyCache CppProxyBase::sProxyCache{};
+::std::mutex CppProxyBase::sCacheMutex{};
 
 void
 CppProxyBase::callJavaMethod( const ::std::string& methodName,
@@ -85,10 +82,10 @@ CppProxyBase::getJniEnvironment( )
 {
     // Add cleanup callback to current thread when called the first time
     static pthread_once_t s_key_once = PTHREAD_ONCE_INIT;
-    pthread_once(&s_key_once, make_key_once);
+    pthread_once( &s_key_once, make_key_once );
 
     JNIEnv* env;
-    if ( ( env = static_cast<JNIEnv*>( pthread_getspecific( s_thread_key ) ) ) == nullptr )
+    if ( ( env = static_cast< JNIEnv* >( pthread_getspecific( s_thread_key ) ) ) == nullptr )
     {
         env = attach_current_thread( );
         pthread_setspecific( s_thread_key, env );
@@ -109,7 +106,7 @@ CppProxyBase::~CppProxyBase( )
 
     {
         ::std::lock_guard< std::mutex > lock( sCacheMutex );
-        sProxyCache.erase( ProxyCacheKey { jniEnv, jGlobalRef, jHashCode } );
+        sProxyCache.erase( ProxyCacheKey{jniEnv, jGlobalRef, jHashCode} );
     }
 
     jniEnv->DeleteGlobalRef( jGlobalRef );
@@ -118,18 +115,17 @@ CppProxyBase::~CppProxyBase( )
 bool
 CppProxyBase::ProxyCacheKey::operator==( const CppProxyBase::ProxyCacheKey& other ) const
 {
-    return jHashCode == other.jHashCode &&
-           jniEnv->IsSameObject( jObject, other.jObject );
+    return jHashCode == other.jHashCode && jniEnv->IsSameObject( jObject, other.jObject );
 }
 
 jint
 CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
 {
     jclass jClass = jniEnv->FindClass( "java/lang/System" );
-    jmethodID jMethodId =
-        jniEnv->GetStaticMethodID( jClass, "identityHashCode", "(Ljava/lang/Object;)I" );
+    jmethodID jMethodId
+        = jniEnv->GetStaticMethodID( jClass, "identityHashCode", "(Ljava/lang/Object;)I" );
 
     return jniEnv->CallStaticIntMethod( jClass, jMethodId, jObj );
 }
-} // namespace internal
-} // namespace here
+}  // namespace internal
+}  // namespace here

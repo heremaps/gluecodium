@@ -11,21 +11,29 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "cbridge/include/StringHandle.h"
-#include "cbridge_internal/include/StringHandleImpl.h"
 #include <new>
+#include "cbridge_internal/include/StringHandleImpl.h"
 
-std_stringRef std_string_create(const char* c_str) {
-    return { new (std::nothrow) std::string(c_str) };
+std_stringRef
+std_string_create( const char* c_str )
+{
+    return {new ( std::nothrow ) std::string( c_str )};
 }
 
-void std_string_release(std_stringRef handle) {
-    delete get_pointer(handle);
+void
+std_string_release( std_stringRef handle )
+{
+    delete get_pointer( handle );
 }
 
-const char* std_string_data_get(std_stringRef handle) {
-    return get_pointer(handle)->data();
+const char*
+std_string_data_get( std_stringRef handle )
+{
+    return get_pointer( handle )->data( );
 }
 
-int64_t std_string_size_get(std_stringRef handle) {
-    return get_pointer(handle)->size();
+int64_t
+std_string_size_get( std_stringRef handle )
+{
+    return get_pointer( handle )->size( );
 }

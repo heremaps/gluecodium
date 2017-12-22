@@ -20,10 +20,8 @@ namespace internal
 {
 namespace jni
 {
+JavaVM* get_java_vm( );
 
-JavaVM*
-get_java_vm();
-
-} // namespace jni
-} // namespace internal
-} // namespace here
+}  // namespace jni
+}  // namespace internal
+}  // namespace here

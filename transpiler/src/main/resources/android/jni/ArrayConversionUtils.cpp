@@ -16,7 +16,6 @@ namespace here
 {
 namespace internal
 {
-
 jobject
 convert_to_jni( JNIEnv* env, const bool nvalue )
 {
@@ -175,6 +174,6 @@ unbox_long_value( JNIEnv* env, const jobject& jvalue )
     return env->CallLongMethod( jvalue, longValueMethodId );
 }
 
-} // internal
+}  // internal
 
-} // here
+}  // here
