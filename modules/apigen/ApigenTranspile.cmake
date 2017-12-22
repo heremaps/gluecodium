@@ -46,7 +46,8 @@ endif()
 
 function(apigen_transpile)
     set(options VALIDATE_ONLY)
-    set(oneValueArgs TARGET GENERATOR VERSION ANDROID_MERGE_MANIFEST)
+    set(oneValueArgs TARGET GENERATOR VERSION
+			ANDROID_MERGE_MANIFEST)
     set(multiValueArgs FRANCA_SOURCES)
     cmake_parse_arguments(apigen_transpile "${options}" "${oneValueArgs}"
                                            "${multiValueArgs}" ${ARGN})
@@ -85,11 +86,6 @@ function(apigen_transpile)
     # Trigger a re-configure if there are any changes to the franca sources. This will run the Transpiler. Only works if files were specified individually.
     set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${apigen_transpile_FRANCA_SOURCES})
 
-    set(mergeManifest "")
-    if(${apigen_transpile_MERGE_ANDROID_MERGE_MANIFEST})
-        set(mergeManifest "-androidMergeManifest ${apigen_transpile_MERGE_ANDROID_MERGE_MANIFEST}")
-    endif()
-
     # Build transpiler command-line
     set(APIGEN_TRANSPILER_ARGS "\
  -output ${TRANSPILER_OUTPUT_DIR}\
@@ -107,8 +103,11 @@ function(apigen_transpile)
         if (NOT IS_ABSOLUTE ${input})
             set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
         endif()
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -input ${input}" )
+        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -input ${input}")
     endforeach()
+    if(apigen_transpile_ANDROID_MERGE_MANIFEST)
+        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -androidMergeManifest ${apigen_transpile_ANDROID_MERGE_MANIFEST}")
+    endif()
 
     execute_process(
         COMMAND ${CMAKE_COMMAND} -E make_directory ${TRANSPILER_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
