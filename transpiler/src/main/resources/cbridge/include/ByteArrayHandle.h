@@ -17,13 +17,14 @@ extern "C" {
 
 #include <stdint.h>
 
-typedef struct {
+typedef struct
+{
     void* const private_pointer;
 } byteArrayRef;
 
-const uint8_t* byteArray_data_get(byteArrayRef handle);
-int64_t byteArray_size_get(byteArrayRef handle);
-void byteArray_release(byteArrayRef handle);
+const uint8_t* byteArray_data_get( byteArrayRef handle );
+int64_t byteArray_size_get( byteArrayRef handle );
+void byteArray_release( byteArrayRef handle );
 
 #ifdef __cplusplus
 }

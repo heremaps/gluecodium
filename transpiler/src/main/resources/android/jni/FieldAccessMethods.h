@@ -10,16 +10,15 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#pragma once // this file will be included in struct conversion utility cpp file
+#pragma once  // this file will be included in struct conversion utility cpp file
 
-#include <cstdint>
 #include <jni.h>
+#include <cstdint>
 
 #include "JniCppConversionUtils.h"
 
 namespace
 {
-
 // -------------------- JNI object field getters --------------------------------------------------
 
 jboolean
@@ -101,22 +100,24 @@ get_string_field( JNIEnv* env, const jclass javaClass, const jobject object, con
     std::string result;
     auto fieldId = env->GetFieldID( javaClass, fieldName, "Ljava/lang/String;" );
 
-    here::internal::convert_from_jni( env, static_cast< jstring >(
-            env->GetObjectField( object, fieldId ) ), result );
+    here::internal::convert_from_jni(
+        env, static_cast< jstring >( env->GetObjectField( object, fieldId ) ), result );
     return result;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 std::vector< uint8_t >
-get_byte_array_field( JNIEnv* env, const jclass javaClass, const jobject object,
+get_byte_array_field( JNIEnv* env,
+                      const jclass javaClass,
+                      const jobject object,
                       const char* fieldName )
 {
     std::vector< uint8_t > result;
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
 
     here::internal::convert_from_jni(
-            env, static_cast< jbyteArray >( env->GetObjectField( object, fieldId ) ), result );
+        env, static_cast< jbyteArray >( env->GetObjectField( object, fieldId ) ), result );
     return result;
 }
 
@@ -146,7 +147,8 @@ create_object( JNIEnv* env, jclass javaClass )
     return env->NewObject( javaClass, theConstructor );
 }
 
-// -------------------- JNI instance object constructor ----------------------------------------------------
+// -------------------- JNI instance object constructor
+// ----------------------------------------------------
 
 jobject
 create_instance_object( JNIEnv* env, jclass javaClass, jlong instancePointer )
@@ -158,7 +160,8 @@ create_instance_object( JNIEnv* env, jclass javaClass, jlong instancePointer )
     return env->NewObject( javaClass, theConstructor, instancePointer );
 }
 
-template<typename T> jobject
+template < typename T >
+jobject
 box_value_in_object( JNIEnv* env, const char* className, const char* signature, T param )
 {
     auto javaClass = env->FindClass( className );
@@ -166,12 +169,13 @@ box_value_in_object( JNIEnv* env, const char* className, const char* signature, 
     return env->NewObject( javaClass, theConstructor, param );
 }
 
-template<typename T> jobject
+template < typename T >
+jobject
 box_uint_in_object( JNIEnv* env, T param )
 {
     auto javaClass = env->FindClass( "java/lang/Long" );
     auto theConstructor = env->GetMethodID( javaClass, "<init>", "(J)V" );
-    return env->NewObject( javaClass, theConstructor, static_cast<uint64_t>( param ) );
+    return env->NewObject( javaClass, theConstructor, static_cast< uint64_t >( param ) );
 }
 
 // -------------------- JNI object field setters --------------------------------------------------
@@ -252,7 +256,8 @@ set_string_field( JNIEnv* env,
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "Ljava/lang/String;" );
 
-    return env->SetObjectField( object, fieldId, here::internal::convert_to_jni( env, fieldValue ) );
+    return env->SetObjectField( object, fieldId,
+                                here::internal::convert_to_jni( env, fieldValue ) );
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -262,10 +267,11 @@ set_byte_array_field( JNIEnv* env,
                       const jclass javaClass,
                       const jobject object,
                       const char* fieldName,
-                      const std::vector< uint8_t >& fieldValue)
+                      const std::vector< uint8_t >& fieldValue )
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
-    return env->SetObjectField( object, fieldId, here::internal::convert_to_jni_array ( env, fieldValue ) );
+    return env->SetObjectField( object, fieldId,
+                                here::internal::convert_to_jni_array( env, fieldValue ) );
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -281,4 +287,4 @@ set_object_field( JNIEnv* env,
     auto fieldID = env->GetFieldID( javaClass, fieldName, fieldSignature );
     env->SetObjectField( object, fieldID, fieldValue );
 }
-} // namespace
+}  // namespace

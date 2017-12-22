@@ -14,21 +14,19 @@
 
 namespace
 {
-
 static JavaVM* jvm;
 
-} // namespace
+}  // namespace
 
-
-//JNI_OnLoad() gets automatically called by java vm while loading the library.
-//To make this work neither 'static' keyword (causes "static declaration of 'JNI_OnLoad' follows
-//non-static declaration" - error) nor adding to anonymous namespace (prevents method from being
-//called) is allowed.
+// JNI_OnLoad() gets automatically called by java vm while loading the library.
+// To make this work neither 'static' keyword (causes "static declaration of 'JNI_OnLoad' follows
+// non-static declaration" - error) nor adding to anonymous namespace (prevents method from being
+// called) is allowed.
 jint
 JNI_OnLoad( JavaVM* vm, void* )
 {
     JNIEnv* env = nullptr;
-    if ( vm->GetEnv( ( void** )&env, JNI_VERSION_1_6 ) != JNI_OK )
+    if ( vm->GetEnv( (void**)&env, JNI_VERSION_1_6 ) != JNI_OK )
     {
         return 0;
     }
@@ -37,19 +35,18 @@ JNI_OnLoad( JavaVM* vm, void* )
     return JNI_VERSION_1_6;
 }
 
-
 namespace here
 {
 namespace internal
 {
 namespace jni
 {
-
-JavaVM* get_java_vm()
+JavaVM*
+get_java_vm( )
 {
     return jvm;
 }
 
-} // namespace jni
-} // namespace internal
-} // namespace here
+}  // namespace jni
+}  // namespace internal
+}  // namespace here

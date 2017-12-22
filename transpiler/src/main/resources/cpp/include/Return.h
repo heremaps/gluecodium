@@ -93,20 +93,20 @@ public:
     Return& operator=( const Error& );
     Return& operator=( Error&& );
 
-    template <
-        class OtherValue,
-        class _ = typename std::enable_if<
-            std::is_same< typename std::remove_reference< OtherValue >::type, value_type >::value
-            && std::is_constructible< value_type, OtherValue >::value
-            && std::is_assignable< value_type&, OtherValue >::value >::type >
+    template < class OtherValue,
+               class _ = typename std::
+                   enable_if< std::is_same< typename std::remove_reference< OtherValue >::type,
+                                            value_type >::value
+                              && std::is_constructible< value_type, OtherValue >::value
+                              && std::is_assignable< value_type&, OtherValue >::value >::type >
     Return( OtherValue&& value );
 
-    template <
-        class OtherValue,
-        class _ = typename std::enable_if<
-            std::is_same< typename std::remove_reference< OtherValue >::type, value_type >::value
-            && std::is_constructible< value_type, OtherValue >::value
-            && std::is_assignable< value_type&, OtherValue >::value >::type >
+    template < class OtherValue,
+               class _ = typename std::
+                   enable_if< std::is_same< typename std::remove_reference< OtherValue >::type,
+                                            value_type >::value
+                              && std::is_constructible< value_type, OtherValue >::value
+                              && std::is_assignable< value_type&, OtherValue >::value >::type >
     Return& operator=( OtherValue&& value );
 
     explicit operator bool( ) const noexcept;
@@ -136,12 +136,12 @@ public:
     template < class... Args >
     Value& emplace( Args&&... args );
 
-    template <
-        class OtherValue,
-        class... Args,
-        class _ = typename std::enable_if<
-            std::is_constructible< value_type, std::initializer_list< OtherValue >&, Args... >::
-                value >::type >
+    template < class OtherValue,
+               class... Args,
+               class _ = typename std::
+                   enable_if< std::is_constructible< value_type,
+                                                     std::initializer_list< OtherValue >&,
+                                                     Args... >::value >::type >
     Value& emplace( std::initializer_list< OtherValue > ilist, Args&&... args );
 };
 

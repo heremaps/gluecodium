@@ -24,17 +24,16 @@ namespace here
 {
 namespace internal
 {
-
 class CppProxyBase
 {
 public:
-
-    template< typename ResultType, typename ImplType >
-    static void createProxy( JNIEnv* jenv, jobject jobj, ::std::shared_ptr< ResultType >& result )
+    template < typename ResultType, typename ImplType >
+    static void
+    createProxy( JNIEnv* jenv, jobject jobj, ::std::shared_ptr< ResultType >& result )
     {
         jobject jGlobalRef = jenv->NewGlobalRef( jobj );
         jint jHashCode = getHashCode( jenv, jobj );
-        ProxyCacheKey key { jenv, jGlobalRef, jHashCode };
+        ProxyCacheKey key{jenv, jGlobalRef, jHashCode};
 
         ::std::lock_guard< ::std::mutex > lock( sCacheMutex );
         auto iterator = sProxyCache.find( key );
@@ -50,7 +49,7 @@ public:
             }
         }
 
-        auto newProxyInstance = new ( ::std::nothrow ) ImplType( jenv, jGlobalRef, jHashCode );
+        auto newProxyInstance = new (::std::nothrow ) ImplType( jenv, jGlobalRef, jHashCode );
         if ( newProxyInstance == nullptr )
         {
             jclass exceptionClass = jenv->FindClass( "java/lang/RuntimeException" );
@@ -62,7 +61,6 @@ public:
     }
 
 protected:
-
     CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode );
 
     virtual ~CppProxyBase( );
@@ -75,7 +73,6 @@ protected:
     static JNIEnv* getJniEnvironment( );
 
 private:
-
     struct ProxyCacheKey
     {
         JNIEnv* jniEnv;
@@ -87,15 +84,15 @@ private:
 
     struct ProxyCacheKeyHash
     {
-        inline size_t operator()( const ProxyCacheKey& key ) const
+        inline size_t
+        operator( )( const ProxyCacheKey& key ) const
         {
             return key.jHashCode;
         }
     };
 
-    using ProxyCache =
-                  ::std::unordered_map< ProxyCacheKey, ::std::weak_ptr< CppProxyBase >,
-                                        ProxyCacheKeyHash >;
+    using ProxyCache
+        = ::std::unordered_map< ProxyCacheKey, ::std::weak_ptr< CppProxyBase >, ProxyCacheKeyHash >;
 
     static jint getHashCode( JNIEnv* jniEnv, jobject jObj );
 
@@ -103,10 +100,9 @@ private:
     jint jHashCode;
 
 protected:
-
     static ProxyCache sProxyCache;
     static ::std::mutex sCacheMutex;
 };
 
-} // namespace internal
-} // namespace here
+}  // namespace internal
+}  // namespace here
