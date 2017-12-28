@@ -52,11 +52,12 @@ public class Transpiler {
     version = parseVersion();
   }
 
-  private Version parseVersion() {
+  private static Version parseVersion() {
 
     Properties prop = new Properties();
     try {
-      InputStream stream = getClass().getClassLoader().getResourceAsStream("version.properties");
+      InputStream stream =
+          Transpiler.class.getClassLoader().getResourceAsStream("version.properties");
       prop.load(stream);
     } catch (IOException ex) {
       ex.printStackTrace();
