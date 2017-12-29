@@ -35,7 +35,7 @@ function(apigen_android_archive)
 
     set(options)
     set(oneValueArgs TARGET)
-    set(multiValueArgs)
+    set(multiValueArgs ASSETS)
     cmake_parse_arguments(apigen_android_archive "${options}" "${oneValueArgs}"
                                                  "${multiValueArgs}" ${ARGN})
 
@@ -57,7 +57,13 @@ function(apigen_android_archive)
             COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${apigen_android_archive_TARGET}> ${APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR}
             COMMAND ${CMAKE_COMMAND} ARGS -E copy ${APIGEN_JAVA_JAR} ${APIGEN_ANDROID_ARCHIVE_CLASSES_JAR}
             COMMAND ${CMAKE_COMMAND} ARGS -E copy ${APIGEN_ANDROID_ARCHIVE_MANIFEST_XML} ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/
+            COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/assets/
             COMMENT "Assembling Android Archive contents...")
+        foreach(asset ${apigen_android_archive_ASSETS})
+            add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
+                COMMAND cp -fR ${asset} ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/assets/)
+        endforeach()
+
         add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
             COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_ANDROID_ARCHIVE} .
             WORKING_DIRECTORY ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}
