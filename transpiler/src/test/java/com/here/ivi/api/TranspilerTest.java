@@ -97,7 +97,7 @@ public class TranspilerTest {
     TranspilerOptions options =
         TranspilerOptions.builder()
             .inputDirs(new String[] {""})
-            .generators(Collections.singletonList("invalidGenerator"))
+            .generators(Collections.singleton("invalidGenerator"))
             .build();
 
     // Act, Assert
@@ -111,7 +111,7 @@ public class TranspilerTest {
     TranspilerOptions options =
         TranspilerOptions.builder()
             .inputDirs(new String[] {""})
-            .generators(Collections.singletonList(SHORT_NAME))
+            .generators(Collections.singleton(SHORT_NAME))
             .validatingOnly(false)
             .build();
 
@@ -124,7 +124,7 @@ public class TranspilerTest {
     TranspilerOptions options =
         TranspilerOptions.builder()
             .inputDirs(new String[] {""})
-            .generators(Collections.singletonList(SHORT_NAME))
+            .generators(Collections.singleton(SHORT_NAME))
             .validatingOnly(true)
             .build();
 
