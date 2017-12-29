@@ -194,8 +194,8 @@ public class Transpiler {
   }
 
   @VisibleForTesting
-  List<String> discoverGenerators() {
-    List<String> generators = options.getGenerators();
+  Set<String> discoverGenerators() {
+    Set<String> generators = options.getGenerators();
     if (generators != null) {
       LOGGER.fine("Following generators were specified on command line: " + generators);
     } else {

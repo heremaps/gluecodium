@@ -16,7 +16,9 @@ import com.google.common.collect.Lists;
 import com.here.ivi.api.platform.common.GeneratorSuite;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.Builder;
 import lombok.Value;
 import org.apache.commons.cli.*;
@@ -35,7 +37,7 @@ public final class OptionReader {
     private List<String> javaPackageList;
     private boolean dumpingToStdout;
     private boolean validatingOnly;
-    private List<String> generators;
+    private Set<String> generators;
     private String androidMergeManifestPath;
   }
 
@@ -105,7 +107,8 @@ public final class OptionReader {
       if (cmd.hasOption("generators")) {
         String[] arg = cmd.getOptionValues("generators");
         // use all generators if option provided without argument
-        builder.generators(arg != null ? Arrays.asList(arg) : GeneratorSuite.generatorShortNames());
+        builder.generators(
+            arg != null ? new HashSet<>(Arrays.asList(arg)) : GeneratorSuite.generatorShortNames());
       }
 
       builder.validatingOnly(cmd.hasOption("validateOnly"));

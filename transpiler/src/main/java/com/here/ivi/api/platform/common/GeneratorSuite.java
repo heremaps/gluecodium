@@ -63,11 +63,12 @@ public abstract class GeneratorSuite {
   }
 
   /** @return all available generators */
-  public static List<String> generatorShortNames() {
-    return Arrays.asList(
-        AndroidGeneratorSuite.GENERATOR_NAME,
-        BaseApiGeneratorSuite.GENERATOR_NAME,
-        SwiftGeneratorSuite.GENERATOR_NAME);
+  public static Set<String> generatorShortNames() {
+    return new HashSet<>(
+        Arrays.asList(
+            AndroidGeneratorSuite.GENERATOR_NAME,
+            BaseApiGeneratorSuite.GENERATOR_NAME,
+            SwiftGeneratorSuite.GENERATOR_NAME));
   }
 
   public static GeneratedFile copyTarget(String fileName, String targetDir) {

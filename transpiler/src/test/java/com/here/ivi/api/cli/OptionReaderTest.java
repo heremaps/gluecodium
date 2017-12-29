@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Set;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,7 +33,7 @@ public final class OptionReaderTest {
   private static final String[] TEST_INPUT_SINGLE_FOLDER = {"dirA"};
   private static final String[] TEST_INPUT_TWO_FOLDERS = {"dirA", "dirB"};
   private static final String TEST_OUTPUT = "./outputFile";
-  private static final String TEST_GENERATORS = "java";
+  private static final String TEST_GENERATORS = "java,cpp";
   private static final String TEST_JAVA_PACKAGE_LIST = "some_package";
   private static final String TEST_ADDITIONAL_ANDROID_MANIFEST =
       "path/to/additional/AndroidManifest.xml";
@@ -139,7 +140,9 @@ public final class OptionReaderTest {
     TranspilerOptions transpilerOptions = optionReader.read(toRead);
 
     // Assert
-    assertEquals(Arrays.asList(TEST_GENERATORS), transpilerOptions.getGenerators());
+    Set<String> generators = transpilerOptions.getGenerators();
+    assertTrue(generators.contains("cpp"));
+    assertTrue(generators.contains("java"));
   }
 
   @Test
