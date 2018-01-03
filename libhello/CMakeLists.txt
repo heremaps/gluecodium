@@ -272,6 +272,11 @@ feature(Defaults cpp android swift SOURCES
     fidl/test/Defaults.fdepl
 )
 
+feature(Inheritance SOURCES
+    fidl/hello/HelloWorldInheritance.fdepl
+    fidl/hello/HelloWorldInheritance.fidl
+)
+
 feature(Unsupported cpp android swift SOURCES
     fidl/hello/UnsupportedFeatures.fidl
 )
