@@ -24,8 +24,15 @@ import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeCollection;
 
 /**
- * Validate each Franca interface that it does not contain static methods when IsInterface is set
- * for it. Also fail for inline error enums since these are not usable with hf::ErrorCode.
+ * Validate each Franca interface against the following conditions:
+ *
+ * <ul>
+ *   <li>The interface should not contain static methods when IsInterface is set to "true".
+ *   <li>The interface with IsInterface set to "true" should not inherit from an interface with
+ *       IsInterface set to "false".
+ *   <li>No interface method should use inline error enums since these are not usable with
+ *       hf::ErrorCode.
+ * </ul>
  */
 public final class InterfaceValidator {
 
@@ -35,6 +42,8 @@ public final class InterfaceValidator {
       "Static methods in interfaces are not allowed: method '%s' in interface '%s.%s'.";
   private static final String ENUMS_METHOD_MESSAGE =
       "Inline error enums in methods are not allowed: method '%s' in interface '%s.%s'.";
+  private static final String INVALID_INHERITANCE_MESSAGE =
+      "Interface '%s.%s' is not allowed to inherit from class '%s.%s'.";
 
   public static boolean validate(
       final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
@@ -42,7 +51,9 @@ public final class InterfaceValidator {
     Collection<FInterface> interfaces =
         CollectionsHelper.getStreamOfType(typeCollections, FInterface.class)
             .collect(Collectors.toList());
-    return checkInlineEnums(interfaces) && checkStaticMethods(interfaces, deploymentModel);
+    return checkInlineEnums(interfaces)
+        && checkStaticMethods(interfaces, deploymentModel)
+        && checkInheritance(interfaces, deploymentModel);
   }
 
   @VisibleForTesting
@@ -57,6 +68,15 @@ public final class InterfaceValidator {
         .stream()
         .filter(deploymentModel::isInterface)
         .noneMatch(francaInterface -> containsStaticMethods(francaInterface, deploymentModel));
+  }
+
+  @VisibleForTesting
+  static boolean checkInheritance(
+      final Collection<FInterface> interfaces, final FrancaDeploymentModel deploymentModel) {
+    return interfaces
+        .stream()
+        .filter(deploymentModel::isInterface)
+        .noneMatch(francaInterface -> inheritsFromClass(francaInterface, deploymentModel));
   }
 
   private static String formatErrorMessage(
@@ -95,5 +115,25 @@ public final class InterfaceValidator {
     errorMessages.forEach(LOGGER::severe);
 
     return !errorMessages.isEmpty();
+  }
+
+  private static boolean inheritsFromClass(
+      final FInterface francaInterface, final FrancaDeploymentModel deploymentModel) {
+
+    FInterface parentInterface = francaInterface.getBase();
+    boolean inheritsFromClass =
+        parentInterface != null && !deploymentModel.isInterface(parentInterface);
+
+    if (inheritsFromClass) {
+      LOGGER.severe(
+          String.format(
+              INVALID_INHERITANCE_MESSAGE,
+              DefinedBy.getModelName(francaInterface),
+              francaInterface.getName(),
+              DefinedBy.getModelName(parentInterface),
+              parentInterface.getName()));
+    }
+
+    return inheritsFromClass;
   }
 }

@@ -75,24 +75,24 @@ public final class CppNameRules {
     return getFullyQualifiedName(nestedNameSpecifier, constantName);
   }
 
-  public static String getFullyQualifiedName(FType type) {
-    List<String> nestedNameSpecifier = getNestedNameSpecifier(type);
+  public static String getFullyQualifiedName(final FModelElement francaElement) {
+    List<String> nestedNameSpecifier = getNestedNameSpecifier(francaElement);
     String typeName = "";
 
-    if (type instanceof FCompoundType) {
-      typeName = getStructName(type.getName());
-    } else if (type instanceof FEnumerationType) {
-      typeName = getEnumName(type.getName());
-    } else if (type instanceof FTypeDef) {
-      FTypeDef typedef = (FTypeDef) type;
+    if (francaElement instanceof FCompoundType) {
+      typeName = getStructName(francaElement.getName());
+    } else if (francaElement instanceof FEnumerationType) {
+      typeName = getEnumName(francaElement.getName());
+    } else if (francaElement instanceof FTypeDef) {
+      FTypeDef typedef = (FTypeDef) francaElement;
       if (!InstanceRules.isInstanceId(typedef)) {
-        typeName = getTypedefName(type.getName());
+        typeName = getTypedefName(francaElement.getName());
       }
-    } else if (type instanceof FConstantDef) {
-      typeName = getConstantName(type.getName());
-    } else if (type instanceof FArrayType || type instanceof FMapType) {
+    } else if (francaElement instanceof FConstantDef) {
+      typeName = getConstantName(francaElement.getName());
+    } else if (francaElement instanceof FArrayType || francaElement instanceof FMapType) {
       // Franca maps and explicit arrays resolve into a "using" directive in C++
-      typeName = getTypedefName(type.getName());
+      typeName = getTypedefName(francaElement.getName());
     }
 
     return getFullyQualifiedName(nestedNameSpecifier, typeName);

@@ -15,15 +15,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cpp.*;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FUnionType;
+import org.franca.core.franca.*;
 
 /**
  * Maps Franca type references to their C++ counterparts. These references are used as parameters,
@@ -73,14 +65,11 @@ public class CppTypeMapper {
     if (derived instanceof FMapType) {
       return mapMapType((FMapType) derived);
     }
-    if (derived instanceof FStructType) {
-      return mapStruct((FStructType) derived);
+    if (derived instanceof FCompoundType) {
+      return mapComplexType(derived);
     }
     if (derived instanceof FEnumerationType) {
       return mapEnum((FEnumerationType) derived);
-    }
-    if (derived instanceof FUnionType) {
-      return mapUnion((FUnionType) derived);
     }
     throw new TranspilerExecutionException("Unmapped derived type: " + derived.getName());
   }
@@ -135,12 +124,12 @@ public class CppTypeMapper {
     }
   }
 
-  public CppTypeRef mapStruct(FStructType struct) {
+  public CppTypeRef mapComplexType(final FModelElement francaElement) {
 
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(struct);
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaElement);
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
-        .include(includeResolver.resolveInclude(struct))
+        .include(includeResolver.resolveInclude(francaElement))
         .build();
   }
 
@@ -151,14 +140,6 @@ public class CppTypeMapper {
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
         .typeInfo(CppTypeInfo.Enumeration)
         .include(includeResolver.resolveInclude(enumeration))
-        .build();
-  }
-
-  private CppComplexTypeRef mapUnion(FUnionType union) {
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(union);
-
-    return new CppComplexTypeRef.Builder(fullyQualifiedName)
-        .include(includeResolver.resolveInclude(union))
         .build();
   }
 

@@ -188,6 +188,25 @@ public class CppModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaInterfaceReadsParent() {
+    FInterface parentInterface = mock(FInterface.class);
+    when(francaInterface.getBase()).thenReturn(parentInterface);
+    when(typeMapper.mapComplexType(any())).thenReturn(cppComplexTypeRef);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
+    assertNotNull(cppClass);
+    assertEquals(1, cppClass.inheritances.size());
+
+    CppInheritance cppInheritance = cppClass.inheritances.iterator().next();
+    assertEquals(cppComplexTypeRef, cppInheritance.parent);
+    assertEquals(CppInheritance.Type.Public, cppInheritance.visibility);
+
+    verify(typeMapper).mapComplexType(parentInterface);
+  }
+
+  @Test
   public void finishBuildingFrancaMethodReadsNames() {
     when(DefinedBy.getPackages(any())).thenReturn(Collections.singletonList("nonsense"));
 
@@ -460,14 +479,14 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeCreatesTypeRef() {
-    when(typeMapper.mapStruct(any())).thenReturn(cppComplexTypeRef);
+    when(typeMapper.mapComplexType(any())).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaStructType);
 
     CppComplexTypeRef resultTypeRef = modelBuilder.getFinalResult(CppComplexTypeRef.class);
     assertEquals(cppComplexTypeRef, resultTypeRef);
 
-    verify(typeMapper).mapStruct(francaStructType);
+    verify(typeMapper).mapComplexType(francaStructType);
   }
 
   @Test

@@ -58,6 +58,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppClass cppClass = new CppClass(className);
     cppClass.comment = CppCommentParser.parse(francaInterface).getMainBodyText();
 
+    FInterface parentInterface = francaInterface.getBase();
+    if (parentInterface != null) {
+      CppTypeRef parentTypeRef = typeMapper.mapComplexType(parentInterface);
+      cppClass.inheritances.add(new CppInheritance(parentTypeRef, CppInheritance.Type.Public));
+    }
+
     cppClass.methods.addAll(getPreviousResults(CppMethod.class));
     cppClass.members.addAll(getPreviousResults(CppEnum.class));
     cppClass.members.addAll(getPreviousResults(CppUsing.class));
@@ -167,7 +173,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     storeResult(cppStruct);
 
     // Type reference
-    storeResult(typeMapper.mapStruct(francaStructType));
+    storeResult(typeMapper.mapComplexType(francaStructType));
 
     closeContext();
   }
