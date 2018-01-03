@@ -16,4 +16,10 @@ public class Color {
     public long red;
     public long green;
     public long blue;
+    public Color() {}
+    public Color(long red, long green, long blue) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+    }
 }

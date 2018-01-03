@@ -20,6 +20,15 @@
 
     private static native void disposeNativeHandle(long nativeHandle);
 {{/if}}
+{{#if fields}}
+    public {{name}}() {}
+
+    public {{name}}({{#fields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+        {{#fields}}
+        this.{{name}} = {{name}};
+        {{/fields}}
+    }
+{{/if}}
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}
 }

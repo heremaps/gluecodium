@@ -17,8 +17,11 @@ import com.here.android.NativeBase;
 public class StructsInheritance extends NativeBase {
     public static class SyncResultInherited extends Structs.SyncResult {
         public int id;
+        public SyncResultInherited() {}
+        public SyncResultInherited(int id) {
+            this.id = id;
+        }
     }
-
     protected StructsInheritance(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

@@ -16,9 +16,17 @@ import java.util.Map;
 public class Maps extends NativeBase {
     public static class SomeStruct {
         public String value;
+        public SomeStruct() {}
+        public SomeStruct(String value) {
+            this.value = value;
+        }
     }
     public static class StructWithMap {
         public Map<Integer, String> errorMapping = new HashMap<>();
+        public StructWithMap() {}
+        public StructWithMap(Map<Integer, String> errorMapping) {
+            this.errorMapping = errorMapping;
+        }
     }
     protected Maps(final long nativeHandle) {
         super(nativeHandle, new Disposer() {

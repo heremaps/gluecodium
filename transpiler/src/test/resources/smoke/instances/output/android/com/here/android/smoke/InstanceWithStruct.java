@@ -17,9 +17,17 @@ import com.here.android.NativeBase;
 public class InstanceWithStruct extends NativeBase {
     public static class InnerStruct {
         public byte value;
+        public InnerStruct() {}
+        public InnerStruct(byte value) {
+            this.value = value;
+        }
     }
     public static class StructWithInstance {
         public SimpleInstantiableOne instance;
+        public StructWithInstance() {}
+        public StructWithInstance(SimpleInstantiableOne instance) {
+            this.instance = instance;
+        }
     }
     protected InstanceWithStruct(final long nativeHandle) {
         super(nativeHandle, new Disposer() {

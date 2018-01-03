@@ -17,10 +17,19 @@ import java.util.List;
 public class Arrays extends NativeBase {
     public static class BasicStruct {
         public double value;
+        public BasicStruct() {}
+        public BasicStruct(double value) {
+            this.value = value;
+        }
     }
     public static class FancyStruct {
         public List<String> messages = new ArrayList<>();
         public List<Long> numbers = new ArrayList<>();
+        public FancyStruct() {}
+        public FancyStruct(List<String> messages, List<Long> numbers) {
+            this.messages = messages;
+            this.numbers = numbers;
+        }
     }
     protected Arrays(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
