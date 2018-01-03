@@ -13,6 +13,7 @@ package com.here.ivi.api.validator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -205,5 +206,38 @@ public final class InterfaceValidatorTest {
     francaInterfaceMethods.add(francaMethod);
 
     assertFalse(InterfaceValidator.checkInlineEnums(interfaces));
+  }
+
+  // Inheritance
+
+  @Test
+  public void checkInheritance_interfaceInheritsFromInterface() {
+    when(francaInterface.getBase()).thenReturn(francaInterface2);
+    when(francaDeploymentModel.isInterface(any())).thenReturn(true);
+
+    assertTrue(InterfaceValidator.checkInheritance(interfaces, francaDeploymentModel));
+  }
+
+  @Test
+  public void checkInheritance_classInheritsFromInterface() {
+    when(francaInterface.getBase()).thenReturn(francaInterface2);
+    when(francaDeploymentModel.isInterface(francaInterface2)).thenReturn(true);
+
+    assertTrue(InterfaceValidator.checkInheritance(interfaces, francaDeploymentModel));
+  }
+
+  @Test
+  public void checkInheritance_interfaceInheritsFromClass() {
+    when(francaInterface.getBase()).thenReturn(francaInterface2);
+    when(francaDeploymentModel.isInterface(francaInterface)).thenReturn(true);
+
+    assertFalse(InterfaceValidator.checkInheritance(interfaces, francaDeploymentModel));
+  }
+
+  @Test
+  public void checkInheritance_classInheritsFromClass() {
+    when(francaInterface.getBase()).thenReturn(francaInterface2);
+
+    assertTrue(InterfaceValidator.checkInheritance(interfaces, francaDeploymentModel));
   }
 }
