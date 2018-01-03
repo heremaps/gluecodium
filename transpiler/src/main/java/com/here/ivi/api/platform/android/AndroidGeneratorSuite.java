@@ -66,11 +66,11 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
   public List<GeneratedFile> generate(
       final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
 
-    List<String> optionsPackageList = transpilerOptions.getJavaPackageList();
+    List<String> rootPackage = transpilerOptions.getJavaPackageList();
     List<String> javaPackageList =
-        optionsPackageList != null && !optionsPackageList.isEmpty()
-            ? optionsPackageList
-            : JavaPackage.DEFAULT.packageNames;
+        rootPackage != null && !rootPackage.isEmpty()
+            ? rootPackage
+            : JavaPackage.DEFAULT_PACKAGE_NAMES;
 
     // Generate Java files
     JavaGenerator javaGenerator = new JavaGenerator(deploymentModel, javaPackageList);
