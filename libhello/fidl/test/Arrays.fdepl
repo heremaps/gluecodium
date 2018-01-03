@@ -14,75 +14,75 @@ import "./Arrays.fidl"
 
 define navigation.BaseApiSpec for interface test.Arrays
 {
-    method methodWithStringArray {
+    method reverseStringArray {
         Static = true
     }
 
-    method methodWithArrayInline {
+    method reverseArrayInline {
         Static = true
     }
 
-    method methodWithInt8Array {
+    method reverseInt8Array {
         Static = true
     }
 
-    method methodWithInt16Array {
+    method reverseInt16Array {
         Static = true
     }
 
-    method methodWithInt32Array {
+    method reverseInt32Array {
         Static = true
     }
 
-    method methodWithInt64Array {
+    method reverseInt64Array {
         Static = true
     }
 
-    method methodWithUint8Array {
+    method reverseUint8Array {
         Static = true
     }
 
-    method methodWithUint16Array {
+    method reverseUint16Array {
         Static = true
     }
 
-    method methodWithUint32Array {
+    method reverseUint32Array {
         Static = true
     }
 
-    method methodWithUint64Array {
+    method reverseUint64Array {
         Static = true
     }
 
-    method methodWithFloatArray {
+    method reverseFloatArray {
         Static = true
     }
 
-    method methodWithDoubleArray {
+    method reverseDoubleArray {
         Static = true
     }
 
-    method methodWithBoolArray {
+    method reverseBoolArray {
         Static = true
     }
 
-    method methodWithStructArray {
+    method reverseStructArray {
         Static = true
     }
 
-    method methodWithInstancesArray {
+    method reverseInstancesArray {
         Static = true
     }
 
-    method methodWithNestedPrimitiveArray {
+    method reverseNestedPrimitiveArray {
         Static = true
     }
 
-    method methodWithNestedStructArray {
+    method reverseNestedStructArray {
         Static = true
     }
 
-    method methodWithNestedArraysInline {
+    method reverseNestedArraysInline {
         Static = true
     }
 
@@ -90,11 +90,11 @@ define navigation.BaseApiSpec for interface test.Arrays
         Static = true
     }
 
-    method methodWithArrayOfAliases {
+    method reverseArrayOfAliases {
         Static = true
     }
 
-    method methodWithEnumsArray {
+    method reverseEnumsArray {
         Static = true
     }
 

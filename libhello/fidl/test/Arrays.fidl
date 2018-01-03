@@ -64,7 +64,7 @@ interface Arrays {
     <** @description:
     Static method which takes a string array and returns an array of same type in reversed order.
     **>
-    method methodWithStringArray {
+    method reverseStringArray {
         in {
             <** @description: Input array **>
             StringArray input
@@ -78,7 +78,7 @@ interface Arrays {
     <** @description:
     Static method which takes an array and returns it in reversed order using inline declarations
     **>
-    method methodWithArrayInline {
+    method reverseArrayInline {
         in {
             <** @description: Input array **>
             Int16[] input
@@ -92,7 +92,7 @@ interface Arrays {
     <** @description:
     Static method which takes an int8 array and returns an array of same type in reversed order.
     **>
-    method methodWithInt8Array {
+    method reverseInt8Array {
         in {
             <** @description: Input array **>
             Int8Array input
@@ -106,7 +106,7 @@ interface Arrays {
     <** @description:
     Static method which takes an int16 array and returns an array of same type in reversed order.
     **>
-    method methodWithInt16Array {
+    method reverseInt16Array {
         in {
             <** @description: Input array **>
             Int16Array input
@@ -120,7 +120,7 @@ interface Arrays {
     <** @description:
     Static method which takes an int32 array and returns an array of same type in reversed order.
     **>
-    method methodWithInt32Array {
+    method reverseInt32Array {
         in {
             <** @description: Input array **>
             Int32Array input
@@ -134,7 +134,7 @@ interface Arrays {
     <** @description:
     Static method which takes an int64 array and returns an array of same type in reversed order.
     **>
-    method methodWithInt64Array {
+    method reverseInt64Array {
         in {
             <** @description: Input array **>
             Int64Array input
@@ -148,7 +148,7 @@ interface Arrays {
     <** @description:
     Static method which takes an uint8 array and returns an array of same type in reversed order.
     **>
-    method methodWithUint8Array {
+    method reverseUint8Array {
         in {
             <** @description: Input array **>
             UInt8Array input
@@ -162,7 +162,7 @@ interface Arrays {
     <** @description:
     Static method which takes an uint16 array and returns an array of same type in reversed order.
     **>
-    method methodWithUint16Array {
+    method reverseUint16Array {
         in {
             <** @description: Input array **>
             UInt16Array input
@@ -176,7 +176,7 @@ interface Arrays {
     <** @description:
     Static method which takes an uint32 array and returns an array of same type in reversed order.
     **>
-    method methodWithUint32Array {
+    method reverseUint32Array {
         in {
             <** @description: Input array **>
             UInt32Array input
@@ -190,7 +190,7 @@ interface Arrays {
     <** @description:
     Static method which takes an uint64 array and returns an array of same type in reversed order.
     **>
-    method methodWithUint64Array {
+    method reverseUint64Array {
         in {
             <** @description: Input array **>
             UInt64Array input
@@ -204,7 +204,7 @@ interface Arrays {
     <** @description:
     Static method which takes a float array and returns an array of same type in reversed order.
     **>
-    method methodWithFloatArray {
+    method reverseFloatArray {
         in {
             <** @description: Input array **>
             FloatArray input
@@ -218,7 +218,7 @@ interface Arrays {
     <** @description:
     Static method which takes a double array and returns an array of same type in reversed order.
     **>
-    method methodWithDoubleArray {
+    method reverseDoubleArray {
         in {
             <** @description: Input array **>
             DoubleArray input
@@ -232,7 +232,7 @@ interface Arrays {
     <** @description:
     Static method which takes a bool array and returns an array of same type in reversed order.
     **>
-    method methodWithBoolArray {
+    method reverseBoolArray {
         in {
             <** @description: Input array **>
             BoolArray input
@@ -246,7 +246,7 @@ interface Arrays {
     <** @description:
     Static method which takes an inline array of structs and returns it in reversed order
     **>
-    method methodWithStructArray {
+    method reverseStructArray {
         in {
             <** @description: Input array **>
             BasicStruct[] input
@@ -260,7 +260,7 @@ interface Arrays {
     <** @description:
     Static method which takes an array of instances and returns it in reversed order
     **>
-    method methodWithInstancesArray {
+    method reverseInstancesArray {
         in {
             <** @description: Input array **>
             InstancesArray input
@@ -274,7 +274,7 @@ interface Arrays {
     <** @description:
     Function takes NestedPrimitiveArray and reverses elements in each dimension
     **>
-    method methodWithNestedPrimitiveArray {
+    method reverseNestedPrimitiveArray {
         in {
             <** @description: Input array **>
             NestedPrimitiveArray input
@@ -288,7 +288,7 @@ interface Arrays {
     <** @description:
     Function takes NestedStructArray and reverses elements in each dimension
     **>
-    method methodWithNestedStructArray {
+    method reverseNestedStructArray {
         in {
             <** @description: Input array **>
             NestedStructArray input
@@ -302,7 +302,7 @@ interface Arrays {
     <** @description:
     Function takes inline array of int64 arrays and reverses elements in each dimension
     **>
-    method methodWithNestedArraysInline {
+    method reverseNestedArraysInline {
         in {
             <** @description: Input array **>
             Int64Array[] input
@@ -331,7 +331,7 @@ interface Arrays {
     <** @description:
     Static method which takes an array of aliases and returns it in reversed order.
     **>
-    method methodWithArrayOfAliases {
+    method reverseArrayOfAliases {
         in {
             ProfileIdList input
         }
@@ -343,7 +343,7 @@ interface Arrays {
     <** @description:
     Static method which takes an array and returns an array of same type in reversed order.
     **>
-    method methodWithEnumsArray {
+    method reverseEnumsArray {
         in {
             <** @description: Input array **>
             ArrayEnumArray input

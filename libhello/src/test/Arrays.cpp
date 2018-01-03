@@ -19,97 +19,97 @@
 namespace test {
 
 Arrays::StringArray
-Arrays::method_with_string_array( const Arrays::StringArray& input )
+Arrays::reverse_string_array( const Arrays::StringArray& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 std::vector< int16_t >
-Arrays::method_with_array_inline( const std::vector< int16_t >& input )
+Arrays::reverse_array_inline( const std::vector< int16_t >& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::Int8Array
-Arrays::method_with_int8_array( const Arrays::Int8Array& input )
+Arrays::reverse_int8_array( const Arrays::Int8Array& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::Int16Array
-Arrays::method_with_int16_array( const Arrays::Int16Array& input )
+Arrays::reverse_int16_array( const Arrays::Int16Array& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::Int32Array
-Arrays::method_with_int32_array( const Arrays::Int32Array& input )
+Arrays::reverse_int32_array( const Arrays::Int32Array& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::Int64Array
-Arrays::method_with_int64_array( const Arrays::Int64Array& input )
+Arrays::reverse_int64_array( const Arrays::Int64Array& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::UInt8Array
-Arrays::method_with_uint8_array( const Arrays::UInt8Array& input )
+Arrays::reverse_uint8_array( const Arrays::UInt8Array& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::UInt16Array
-Arrays::method_with_uint16_array( const Arrays::UInt16Array& input )
+Arrays::reverse_uint16_array( const Arrays::UInt16Array& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::UInt32Array
-Arrays::method_with_uint32_array( const Arrays::UInt32Array& input )
+Arrays::reverse_uint32_array( const Arrays::UInt32Array& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::UInt64Array
-Arrays::method_with_uint64_array( const Arrays::UInt64Array& input )
+Arrays::reverse_uint64_array( const Arrays::UInt64Array& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::FloatArray
-Arrays::method_with_float_array( const Arrays::FloatArray& input )
+Arrays::reverse_float_array( const Arrays::FloatArray& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::DoubleArray
-Arrays::method_with_double_array( const Arrays::DoubleArray& input )
+Arrays::reverse_double_array( const Arrays::DoubleArray& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::BoolArray
-Arrays::method_with_bool_array( const Arrays::BoolArray& input )
+Arrays::reverse_bool_array( const Arrays::BoolArray& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::StructArray
-Arrays::method_with_struct_array( const Arrays::StructArray& input )
+Arrays::reverse_struct_array( const Arrays::StructArray& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 std::vector< std::shared_ptr< SimpleInstantiableOne > >
-Arrays::method_with_instances_array( const Arrays::InstancesArray& input )
+Arrays::reverse_instances_array( const Arrays::InstancesArray& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 Arrays::NestedPrimitiveArray
-Arrays::method_with_nested_primitive_array( const Arrays::NestedPrimitiveArray& input )
+Arrays::reverse_nested_primitive_array( const Arrays::NestedPrimitiveArray& input )
 {
     std::vector< std::vector< double > > output;
     auto reverse_iterator = input.rbegin( );
@@ -122,7 +122,7 @@ Arrays::method_with_nested_primitive_array( const Arrays::NestedPrimitiveArray& 
 }
 
 Arrays::NestedStructArray
-Arrays::method_with_nested_struct_array( const Arrays::NestedStructArray& input )
+Arrays::reverse_nested_struct_array( const Arrays::NestedStructArray& input )
 {
     std::vector< std::vector< Arrays::BasicStruct > > output;
     auto reverse_iterator = input.rbegin( );
@@ -135,7 +135,7 @@ Arrays::method_with_nested_struct_array( const Arrays::NestedStructArray& input 
 }
 
 std::vector< Arrays::Int64Array >
-Arrays::method_with_nested_arrays_inline( const std::vector< Arrays::Int64Array >& input )
+Arrays::reverse_nested_arrays_inline( const std::vector< Arrays::Int64Array >& input )
 {
     std::vector< std::vector< int64_t > > output;
     auto reverse_iterator = input.rbegin( );
@@ -159,13 +159,13 @@ Arrays::merge_arrays_of_structs_with_arrays(
 }
 
 Arrays::ProfileIdList
-Arrays::method_with_array_of_aliases( const Arrays::ProfileIdList& input )
+Arrays::reverse_array_of_aliases( const Arrays::ProfileIdList& input )
 {
     return { input.rbegin(), input.rend() };
 }
 
 std::vector< ::test::Arrays::ArrayEnum >
-Arrays::method_with_enums_array( const std::vector< ::test::Arrays::ArrayEnum >& input )
+Arrays::reverse_enums_array( const std::vector< ::test::Arrays::ArrayEnum >& input )
 {
     return { input.rbegin( ), input.rend( ) };
 }

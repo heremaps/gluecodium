@@ -40,12 +40,12 @@ public class ArraysTest {
     private static final Short SHORT_ITEM_2 = (short) 5;
 
     @Test
-    public void methodWithStringArray() {
+    public void reverseStringArray() {
         List<String> stringList = java.util.Arrays.asList(
                 STRING_LIST_ITEM_1,
                 STRING_LIST_ITEM_2);
 
-        List<String> resultsList = Arrays.methodWithStringArray(stringList);
+        List<String> resultsList = Arrays.reverseStringArray(stringList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -54,12 +54,12 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithStringArray_useLinkedList() {
+    public void reverseStringArray_useLinkedList() {
         List<String> stringList = new LinkedList<>();
         stringList.add(STRING_LIST_ITEM_1);
         stringList.add(STRING_LIST_ITEM_2);
 
-        List<String> resultsList = Arrays.methodWithStringArray(stringList);
+        List<String> resultsList = Arrays.reverseStringArray(stringList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -71,7 +71,7 @@ public class ArraysTest {
     public void methodWithInlineArray() {
         List<Short> shortList = java.util.Arrays.asList(SHORT_ITEM_1, SHORT_ITEM_2);
 
-        List<Short> resultsList = Arrays.methodWithArrayInline(shortList);
+        List<Short> resultsList = Arrays.reverseArrayInline(shortList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -80,10 +80,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithInt8Array() {
+    public void reverseInt8Array() {
         List<Byte> byteList = java.util.Arrays.asList(BYTE_ITEM_1, BYTE_ITEM_2);
 
-        List<Byte> resultsList = Arrays.methodWithInt8Array(byteList);
+        List<Byte> resultsList = Arrays.reverseInt8Array(byteList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -92,10 +92,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithInt16Array() {
+    public void reverseInt16Array() {
         List<Short> shortList = java.util.Arrays.asList(SHORT_ITEM_1, SHORT_ITEM_2);
 
-        List<Short> resultsList = Arrays.methodWithInt16Array(shortList);
+        List<Short> resultsList = Arrays.reverseInt16Array(shortList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -104,10 +104,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithInt32Array() {
+    public void reverseInt32Array() {
         List<Integer> intList = java.util.Arrays.asList(6, 7);
 
-        List<Integer> resultsList = Arrays.methodWithInt32Array(intList);
+        List<Integer> resultsList = Arrays.reverseInt32Array(intList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -116,10 +116,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithInt64Array() {
+    public void reverseInt64Array() {
         List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
 
-        List<Long> resultsList = Arrays.methodWithInt64Array(longList);
+        List<Long> resultsList = Arrays.reverseInt64Array(longList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -128,10 +128,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithUint16Array() {
+    public void reverseUint16Array() {
         List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
 
-        List<Long> resultsList = Arrays.methodWithUint16Array(longList);
+        List<Long> resultsList = Arrays.reverseUint16Array(longList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -140,10 +140,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithUint32Array() {
+    public void reverseUint32Array() {
         List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
 
-        List<Long> resultsList = Arrays.methodWithUint32Array(longList);
+        List<Long> resultsList = Arrays.reverseUint32Array(longList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -152,10 +152,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithUint64Array() {
+    public void reverseUint64Array() {
         List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
 
-        List<Long> resultsList = Arrays.methodWithUint64Array(longList);
+        List<Long> resultsList = Arrays.reverseUint64Array(longList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -164,10 +164,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithFloatArray() {
+    public void reverseFloatArray() {
         List<Float> floatList = java.util.Arrays.asList(FLOAT_VALUE_1, FLOAT_VALUE_2);
 
-        List<Float> resultsList = Arrays.methodWithFloatArray(floatList);
+        List<Float> resultsList = Arrays.reverseFloatArray(floatList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -176,10 +176,10 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithDoubleArray() {
+    public void reverseDoubleArray() {
         List<Double> doubleList = java.util.Arrays.asList(DOUBLE_VALUE_1, DOUBLE_VALUE_2);
 
-        List<Double> resultsList = Arrays.methodWithDoubleArray(doubleList);
+        List<Double> resultsList = Arrays.reverseDoubleArray(doubleList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -191,7 +191,7 @@ public class ArraysTest {
     public void methodWithBooleanArray() {
         List<Boolean> booleanList = java.util.Arrays.asList(true, true, false);
 
-        List<Boolean> resultsList = Arrays.methodWithBoolArray(booleanList);
+        List<Boolean> resultsList = Arrays.reverseBoolArray(booleanList);
 
         assertNotNull(resultsList);
         assertEquals(3, resultsList.size());
@@ -201,14 +201,14 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithStructArray() {
+    public void reverseStructArray() {
         Arrays.BasicStruct struct1 = new Arrays.BasicStruct();
         Arrays.BasicStruct struct2 = new Arrays.BasicStruct();
         struct1.value = DOUBLE_VALUE_1;
         struct2.value = DOUBLE_VALUE_2;
         List<Arrays.BasicStruct> structList = java.util.Arrays.asList(struct1, struct2);
 
-        List<Arrays.BasicStruct> resultsList = Arrays.methodWithStructArray(structList);
+        List<Arrays.BasicStruct> resultsList = Arrays.reverseStructArray(structList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -224,7 +224,7 @@ public class ArraysTest {
         instance2.setStringValue(STRING_LIST_ITEM_2);
         List<SimpleInstantiableOne> instancesArray = java.util.Arrays.asList(instance1, instance2);
 
-        List<SimpleInstantiableOne> resultsList = Arrays.methodWithInstancesArray(instancesArray);
+        List<SimpleInstantiableOne> resultsList = Arrays.reverseInstancesArray(instancesArray);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -233,12 +233,12 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithNestedPrimitiveArray() {
+    public void reverseNestedPrimitiveArray() {
         List<List<Double>> nestedDoubleList = java.util.Arrays.asList(
                 java.util.Arrays.asList(DOUBLE_VALUE_1, DOUBLE_VALUE_2),
                 java.util.Arrays.asList(DOUBLE_VALUE_3, DOUBLE_VALUE_4));
 
-        List<List<Double>> resultsList = Arrays.methodWithNestedPrimitiveArray(nestedDoubleList);
+        List<List<Double>> resultsList = Arrays.reverseNestedPrimitiveArray(nestedDoubleList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -253,7 +253,7 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithNestedStructArray() {
+    public void reverseNestedStructArray() {
         Arrays.BasicStruct struct1 = new Arrays.BasicStruct();
         Arrays.BasicStruct struct2 = new Arrays.BasicStruct();
         Arrays.BasicStruct struct3 = new Arrays.BasicStruct();
@@ -267,7 +267,7 @@ public class ArraysTest {
                 java.util.Arrays.asList(struct3, struct4));
 
         List<List<Arrays.BasicStruct>> resultsList =
-                Arrays.methodWithNestedStructArray(nestedStructList);
+                Arrays.reverseNestedStructArray(nestedStructList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -282,12 +282,12 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithNestedArraysInline() {
+    public void reverseNestedArraysInline() {
         List<List<Long>> nestedLongList = java.util.Arrays.asList(
                 java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2),
                 java.util.Arrays.asList(LONG_VALUE_3, LONG_VALUE_4));
 
-        List<List<Long>> resultsList = Arrays.methodWithNestedArraysInline(nestedLongList);
+        List<List<Long>> resultsList = Arrays.reverseNestedArraysInline(nestedLongList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
@@ -343,22 +343,22 @@ public class ArraysTest {
     }
 
     @Test
-    public void methodWithArrayOfAliases_emptyList() {
+    public void reverseArrayOfAliases_emptyList() {
         List<String> stringList = new LinkedList<>();
 
-        List<String> resultsList = Arrays.methodWithArrayOfAliases(stringList);
+        List<String> resultsList = Arrays.reverseArrayOfAliases(stringList);
 
         assertNotNull(resultsList);
         assertEquals(0, resultsList.size());
     }
 
     @Test
-    public void methodWithArrayOfAliases_reversesArray() {
+    public void reverseArrayOfAliases_reversesArray() {
         List<String> stringList = java.util.Arrays.asList(
             STRING_LIST_ITEM_1,
             STRING_LIST_ITEM_2);
 
-        List<String> resultsList = Arrays.methodWithArrayOfAliases(stringList);
+        List<String> resultsList = Arrays.reverseArrayOfAliases(stringList);
 
         assertNotNull(resultsList);
         assertEquals(2, resultsList.size());
