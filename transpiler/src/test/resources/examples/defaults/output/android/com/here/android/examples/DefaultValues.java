@@ -30,6 +30,14 @@ public class DefaultValues extends NativeBase {
         public boolean boolField = true;
         public String stringField = "some string";
         public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
+        public StructWithDefaults() {}
+        public StructWithDefaults(int intField, float floatField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField) {
+            this.intField = intField;
+            this.floatField = floatField;
+            this.boolField = boolField;
+            this.stringField = stringField;
+            this.enumField = enumField;
+        }
     }
     protected DefaultValues(final long nativeHandle) {
         super(nativeHandle, new Disposer() {

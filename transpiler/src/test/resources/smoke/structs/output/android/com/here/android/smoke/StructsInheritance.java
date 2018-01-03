@@ -14,6 +14,10 @@ import com.here.android.NativeBase;
 public class StructsInheritance extends NativeBase {
     public static class ColoredLineInherited extends Structs.Line {
         public Color color = new Color();
+        public ColoredLineInherited() {}
+        public ColoredLineInherited(Color color) {
+            this.color = color;
+        }
     }
     protected StructsInheritance(final long nativeHandle) {
         super(nativeHandle, new Disposer() {

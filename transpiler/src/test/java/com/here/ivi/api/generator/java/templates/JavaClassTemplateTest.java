@@ -220,6 +220,11 @@ public final class JavaClassTemplateTest {
             + "     */\n"
             + "    protected class InnerClass {\n"
             + "        int intField = 1;\n"
+            + "        public InnerClass() {}\n"
+            + "\n"
+            + "        public InnerClass(int intField) {\n"
+            + "            this.intField = intField;\n"
+            + "        }\n"
             + "    }\n"
             + "}\n";
 
@@ -254,6 +259,11 @@ public final class JavaClassTemplateTest {
             + "     */\n"
             + "    public static class StaticInnerClass {\n"
             + "        int intField = 1;\n"
+            + "        public StaticInnerClass() {}\n"
+            + "\n"
+            + "        public StaticInnerClass(int intField) {\n"
+            + "            this.intField = intField;\n"
+            + "        }\n"
             + "    }\n"
             + "}\n";
 
@@ -305,6 +315,11 @@ public final class JavaClassTemplateTest {
             + "\n"
             + "final class ExampleClass {\n"
             + "    Foo someField = new Foo();\n"
+            + "    public ExampleClass() {}\n"
+            + "\n"
+            + "    public ExampleClass(Foo someField) {\n"
+            + "        this.someField = someField;\n"
+            + "    }\n"
             + "}\n";
 
     // Act

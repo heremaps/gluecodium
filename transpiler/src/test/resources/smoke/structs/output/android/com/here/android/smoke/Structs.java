@@ -18,19 +18,40 @@ public class Structs extends NativeBase {
     public static class Point {
         public double x;
         public double y;
+        public Point() {}
+        public Point(double x, double y) {
+            this.x = x;
+            this.y = y;
+        }
     }
     public static class Color {
         public long red;
         public long green;
         public long blue;
+        public Color() {}
+        public Color(long red, long green, long blue) {
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+        }
     }
     public static class Line {
         public Structs.Point a = new Structs.Point();
         public Structs.Point b = new Structs.Point();
+        public Line() {}
+        public Line(Structs.Point a, Structs.Point b) {
+            this.a = a;
+            this.b = b;
+        }
     }
     public static class ColoredLine {
         public Structs.Line line = new Structs.Line();
         public Structs.Color color = new Structs.Color();
+        public ColoredLine() {}
+        public ColoredLine(Structs.Line line, Structs.Color color) {
+            this.line = line;
+            this.color = color;
+        }
     }
     public static class AllTypesStruct {
         public byte int8Field;
@@ -47,6 +68,23 @@ public class Structs extends NativeBase {
         public boolean booleanField;
         public byte[] bytesField;
         public Structs.Point pointField = new Structs.Point();
+        public AllTypesStruct() {}
+        public AllTypesStruct(byte int8Field, long uint8Field, short int16Field, long uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Structs.Point pointField) {
+            this.int8Field = int8Field;
+            this.uint8Field = uint8Field;
+            this.int16Field = int16Field;
+            this.uint16Field = uint16Field;
+            this.int32Field = int32Field;
+            this.uint32Field = uint32Field;
+            this.int64Field = int64Field;
+            this.uint64Field = uint64Field;
+            this.floatField = floatField;
+            this.doubleField = doubleField;
+            this.stringField = stringField;
+            this.booleanField = booleanField;
+            this.bytesField = bytesField;
+            this.pointField = pointField;
+        }
     }
     protected Structs(final long nativeHandle) {
         super(nativeHandle, new Disposer() {

@@ -28,6 +28,10 @@ public class Attributes extends NativeBase {
     }
     public static class ExampleStruct {
         public double value;
+        public ExampleStruct() {}
+        public ExampleStruct(double value) {
+            this.value = value;
+        }
     }
     protected Attributes(final long nativeHandle) {
         super(nativeHandle, new Disposer() {

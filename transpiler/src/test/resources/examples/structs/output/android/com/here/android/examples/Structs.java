@@ -15,10 +15,20 @@ public class Structs extends NativeBase {
     public static class SyncResult {
         public long lastUpdatedTimeStamp;
         public long numberOfChanges;
+        public SyncResult() {}
+        public SyncResult(long lastUpdatedTimeStamp, long numberOfChanges) {
+            this.lastUpdatedTimeStamp = lastUpdatedTimeStamp;
+            this.numberOfChanges = numberOfChanges;
+        }
     }
     public static class IdentifiableSyncResult {
         public int id;
         public Structs.SyncResult syncResult = new Structs.SyncResult();
+        public IdentifiableSyncResult() {}
+        public IdentifiableSyncResult(int id, Structs.SyncResult syncResult) {
+            this.id = id;
+            this.syncResult = syncResult;
+        }
     }
     protected Structs(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
