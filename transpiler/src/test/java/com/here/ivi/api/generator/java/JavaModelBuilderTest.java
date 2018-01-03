@@ -82,7 +82,7 @@ public class JavaModelBuilderTest {
   private final JavaEnum javaEnum = new JavaEnum(ENUMERATION_NAME);
   private final EList<FEnumerator> francaEnumerators = new ArrayEList<>();
   private final JavaEnumType javaEnumType =
-      new JavaEnumType("Foo", null, JavaPackage.DEFAULT.packageNames, null);
+      new JavaEnumType("Foo", null, JavaPackage.DEFAULT_PACKAGE_NAMES, null);
 
   private JavaModelBuilder modelBuilder;
 

@@ -18,8 +18,9 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
 public final class JavaPackage {
-  public static final JavaPackage DEFAULT =
-      new JavaPackage(Arrays.asList("com", "here", "android"));
+
+  public static final List<String> DEFAULT_PACKAGE_NAMES = Arrays.asList("com", "here", "android");
+  public static final JavaPackage DEFAULT = new JavaPackage(DEFAULT_PACKAGE_NAMES);
 
   public final List<String> packageNames;
 
