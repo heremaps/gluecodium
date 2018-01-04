@@ -26,17 +26,20 @@ class StructsViewController: UIViewController, UIPickerViewDataSource, UIPickerV
 
     lazy var dataSource: [DemoCase] = [
         ("Class defined structure", {return self.syncResult}, {
+            self.syncResult.lastUpdatedTimeStamp = UInt64(Date().timeIntervalSinceReferenceDate)
             self.syncResult =  Structs.methodWithNonNestedType(input: self.syncResult)!}),
         ("Nested class defined structure", {return self.extendedSyncResult}, {
+            self.extendedSyncResult.syncResult.lastUpdatedTimeStamp = UInt64(Date().timeIntervalSinceReferenceDate)
             self.extendedSyncResult = Structs.methodWithNestedType(input: self.extendedSyncResult)!}),
         ("Inherited class defined structure", {return self.numericSync}, {
+            self.numericSync.lastUpdatedTimeStamp = UInt64(Date().timeIntervalSinceReferenceDate)
             self.numericSync = Structs.methodWithInheritedStruct(input: self.numericSync)!})
     ]
 
     required init?(coder aDecoder: NSCoder) {
         syncResult = Structs.SyncResult(lastUpdatedTimeStamp: 0, numberOfChanges: 0)
         extendedSyncResult = Structs.IdentifiableSyncResult(id: 42, syncResult: syncResult)
-        numericSync = Structs.NumericSyncResult(lastUpdatedTimeStamp: 0, numberOfChanges: 0, result: 5)
+        numericSync = Structs.NumericSyncResult(lastUpdatedTimeStamp: 0, numberOfChanges: 0, resultInChildStruct: 5)
         super.init(coder: aDecoder)
     }
 
@@ -50,7 +53,8 @@ class StructsViewController: UIViewController, UIPickerViewDataSource, UIPickerV
     }
 
     func populateField() {
-        resultView.loadHTMLString(dataSource[indexSelected].currentState().html, baseURL: nil)
+        let html = dataSource[indexSelected].currentState().html
+        resultView.loadHTMLString(html, baseURL: nil)
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

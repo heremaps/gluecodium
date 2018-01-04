@@ -39,7 +39,7 @@ public final class PlainOldDataFragment extends Fragment {
     private static final String NUMERIC_SYNC_RESULT_TEXT = "NumericSyncResult {%n"
         + "    long timeStamp = %d%n"
         + "    long numberOfUsages = %d%n"
-        + "    long result = %d%n"
+        + "    long resultInChildStruct = %d%n"
         + "}";
 
     private Button submitButton;
@@ -131,7 +131,7 @@ public final class PlainOldDataFragment extends Fragment {
                 NumericSyncResult numericSyncResult = new NumericSyncResult();
                 numericSyncResult.lastUpdatedTimeStamp = 42L;
                 numericSyncResult.numberOfChanges = parameterValue;
-                numericSyncResult.result = 99;
+                numericSyncResult.resultInChildStruct = 99;
 
                 NumericSyncResult outputNumericSyncResult =
                     HelloWorldPlainDataStructures.methodWithInheritedStruct(numericSyncResult);
@@ -139,7 +139,7 @@ public final class PlainOldDataFragment extends Fragment {
                 String numericSyncResultText = String.format(Locale.getDefault(), NUMERIC_SYNC_RESULT_TEXT,
                     outputNumericSyncResult.lastUpdatedTimeStamp,
                     outputNumericSyncResult.numberOfChanges,
-                    outputNumericSyncResult.result);
+                    outputNumericSyncResult.resultInChildStruct);
                 result.setText(numericSyncResultText);
                 break;
         }

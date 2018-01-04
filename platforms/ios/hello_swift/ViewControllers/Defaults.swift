@@ -14,7 +14,7 @@ class StructsWithDefaultsViewController: UIViewController {
     @IBOutlet weak var baseLayerDefault: UIWebView!
     @IBOutlet weak var retireveDefault: UIButton!
 
-    private let extractedValue = HelloWorldDefaults.StructWithDefaults(
+    private let expectedValue = HelloWorldDefaults.StructWithDefaults(
         intField: 42,
         floatField: 3.14,
         boolField: true,
@@ -29,7 +29,7 @@ class StructsWithDefaultsViewController: UIViewController {
     }
     override func viewDidLoad() {
         expected.loadHTMLString(
-            extractedValue.html,
+            expectedValue.html,
             baseURL: nil)
     }
 }

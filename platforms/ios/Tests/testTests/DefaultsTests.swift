@@ -14,6 +14,17 @@ class DefaultsTests: XCTestCase {
       XCTAssertEqual(result.enumField, expectedStruct.enumField)
     }
 
+    func testWithAllButOneDefaultFields() {
+        let almostDefaultStruct = Defaults.StructWithDefaults(intField: 1)
+        let defaultStruct = Defaults.StructWithDefaults()
+
+        XCTAssertNotEqual(almostDefaultStruct.intField, defaultStruct.intField)
+        XCTAssertEqual(almostDefaultStruct.floatField, defaultStruct.floatField)
+        XCTAssertEqual(almostDefaultStruct.boolField, defaultStruct.boolField)
+        XCTAssertEqual(almostDefaultStruct.stringField, defaultStruct.stringField)
+        XCTAssertEqual(almostDefaultStruct.enumField, defaultStruct.enumField)
+    }
+
     func testCheckDefaultTrue() {
       let defaultStruct = Defaults.StructWithDefaults()
 
@@ -32,6 +43,7 @@ class DefaultsTests: XCTestCase {
 
     static var allTests = [
         ("testGetDefault", testGetDefault),
+        ("testWithAllButOneDefaultFields", testWithAllButOneDefaultFields),
         ("testCheckDefaultTrue", testCheckDefaultTrue),
         ("testCheckDefaultFalse", testCheckDefaultFalse)
     ]
