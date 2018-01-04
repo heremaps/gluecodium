@@ -1,6 +1,7 @@
 # API Transpiler Release Notes
 
-## [Unreleased]
+## 1.0.0
+Bumping version to mark ES4 feature completeness
 
 ## 0.15.0
 - Features:
