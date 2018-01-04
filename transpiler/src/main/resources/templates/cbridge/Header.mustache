@@ -25,6 +25,7 @@ typedef struct {
 
 {{#if selfType}}
 void {{name}}_release({{selfType.functionReturnType}} handle);
+{{selfType.functionReturnType}} {{name}}_copy({{selfType.functionReturnType}} handle);
 
 {{/if}}
 {{#isInterface}}

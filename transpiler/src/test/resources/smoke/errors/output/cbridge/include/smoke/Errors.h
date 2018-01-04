@@ -25,6 +25,7 @@ typedef struct {
 
 
 void smoke_Errors_release(smoke_ErrorsRef handle);
+smoke_ErrorsRef smoke_Errors_copy(smoke_ErrorsRef handle);
 
 smoke_Errors_InternalError smoke_Errors_methodWithErrors();
 

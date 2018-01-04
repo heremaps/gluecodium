@@ -8,6 +8,9 @@
 void {{name}}_release({{selfType.functionReturnType}} handle) {
     delete get_pointer(handle);
 }
+{{selfType.functionReturnType}} {{name}}_copy({{selfType.functionReturnType}} handle) {
+    return { new (std::nothrow){{selfType}}(*get_pointer(handle)) };
+}
 {{/if}}
 
 {{#arrays}}

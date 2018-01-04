@@ -19,6 +19,9 @@
 void examples_CalculatorListener_release(examples_CalculatorListenerRef handle) {
     delete get_pointer(handle);
 }
+examples_CalculatorListenerRef examples_CalculatorListener_copy(examples_CalculatorListenerRef handle) {
+    return { new (std::nothrow)std::shared_ptr<examples::CalculatorListener>(*get_pointer(handle)) };
+}
 void examples_CalculatorListener_onCalculationResult(examples_CalculatorListenerRef _instance, double calculationResult) {
     return get_pointer(_instance)->get()->on_calculation_result(calculationResult);
 }

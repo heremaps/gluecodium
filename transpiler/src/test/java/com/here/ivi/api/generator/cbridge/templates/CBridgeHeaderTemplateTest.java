@@ -134,6 +134,7 @@ public class CBridgeHeaderTemplateTest {
             + "    void* const private_pointer;\n"
             + "} some_package_SomeClassRef;\n"
             + "void InstantiableInterface_release(some_package_SomeClassRef handle);\n"
+            + "some_package_SomeClassRef InstantiableInterface_copy(some_package_SomeClassRef handle);\n"
             + "\n"
             + "void instanceMethod(some_package_SomeClassRef _instance);\n";
     final String generated = this.generate(cInterface);
@@ -197,7 +198,8 @@ public class CBridgeHeaderTemplateTest {
             + "void InnerStructName_release(InnerStructCTypeName handle);\n"
             + "OuterInterfaceCTypeName InnerStructName_swiftLayerFieldName_get(InnerStructCTypeName handle);\n"
             + "void InnerStructName_swiftLayerFieldName_set(InnerStructCTypeName handle, OuterInterfaceCTypeName swiftLayerFieldName);\n"
-            + "void OuterCInterfaceName_release(OuterInterfaceCTypeName handle);\n";
+            + "void OuterCInterfaceName_release(OuterInterfaceCTypeName handle);\n"
+            + "OuterInterfaceCTypeName OuterCInterfaceName_copy(OuterInterfaceCTypeName handle);\n";
 
     final String generated = this.generate(cOuterInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);

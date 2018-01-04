@@ -22,6 +22,7 @@ typedef struct {
 
 
 void smoke_CalculatorListener_release(smoke_CalculatorListenerRef handle);
+smoke_CalculatorListenerRef smoke_CalculatorListener_copy(smoke_CalculatorListenerRef handle);
 
 typedef struct {
     void* swift_pointer;
