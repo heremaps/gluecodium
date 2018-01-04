@@ -48,13 +48,13 @@ public final class HelloWorldPlainDataStructuresTest {
         NumericSyncResult input = new NumericSyncResult();
         input.lastUpdatedTimeStamp = 10;
         input.numberOfChanges = 100;
-        input.result = 1000;
+        input.resultInChildStruct = 1000;
 
         NumericSyncResult result = HelloWorldPlainDataStructures.methodWithInheritedStruct(input);
 
         assertEquals(10, result.lastUpdatedTimeStamp);
         assertEquals(101, result.numberOfChanges);
-        assertEquals(1000, result.result);
+        assertEquals(1000, result.resultInChildStruct);
     }
 
     @NonNull

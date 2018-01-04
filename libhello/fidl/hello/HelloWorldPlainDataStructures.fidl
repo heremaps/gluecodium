@@ -38,7 +38,7 @@ interface HelloWorldPlainDataStructures {
     Example of struct inheritance
     **>
     struct NumericSyncResult extends SyncResult {
-        UInt32 result
+        UInt32 resultInChildStruct
     }
 
     <** @description:

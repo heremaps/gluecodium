@@ -20,4 +20,8 @@ define navigation.BaseApiSpec for interface test.InstanceInStruct
     method createInStruct {
         Static = true
     }
+
+    method createInInheritedStruct {
+        Static = true
+    }
 }

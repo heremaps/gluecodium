@@ -42,4 +42,12 @@ InstanceInStruct::create_in_struct() {
     return {std::make_shared<InstanceInStructImpl>()};
 }
 
+::test::InstanceInStruct::ExtendedSelfHolder
+InstanceInStruct::create_in_inherited_struct(  ) {
+  auto result = ::test::InstanceInStruct::ExtendedSelfHolder();
+  result.my_self = InstanceInStruct::create();
+  result.additional_field = "CREATED";
+  return result;
+}
+
 }

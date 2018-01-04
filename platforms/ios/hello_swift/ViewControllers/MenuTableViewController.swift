@@ -42,10 +42,8 @@ class MenuTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? MainMenuCell else {
-            fatalError("Cell can not be created. Review your cells identifier")
-        }
-        cell.configure(title: dataSource[indexPath.row].label)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = dataSource[indexPath.row].label
         return cell
     }
 
