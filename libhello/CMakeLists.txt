@@ -272,12 +272,18 @@ feature(Defaults cpp android swift SOURCES
     fidl/test/Defaults.fdepl
 )
 
-feature(Inheritance cpp SOURCES
+feature(Inheritance cpp android SOURCES
     src/hello/HelloWorldInheritanceParent.cpp
     src/hello/HelloWorldInheritanceChild.cpp
+    src/test/ChildClassImpl.cpp
+    src/test/ChildClassImpl.h
+    src/test/GrandchildClassImpl.cpp
+    src/test/GrandchildClassImpl.h
 
     fidl/hello/HelloWorldInheritance.fdepl
     fidl/hello/HelloWorldInheritance.fidl
+    fidl/test/Inheritance.fdepl
+    fidl/test/Inheritance.fidl
 )
 
 feature(Unsupported cpp android swift SOURCES
