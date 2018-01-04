@@ -19,6 +19,7 @@ typedef struct {
 } examples_CalculatorListenerRef;
 
 void examples_CalculatorListener_release(examples_CalculatorListenerRef handle);
+examples_CalculatorListenerRef examples_CalculatorListener_copy(examples_CalculatorListenerRef handle);
 
 typedef struct {
     void* swift_pointer;

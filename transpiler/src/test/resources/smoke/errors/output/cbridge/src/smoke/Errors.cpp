@@ -18,7 +18,9 @@ void smoke_Errors_release(smoke_ErrorsRef handle) {
     delete get_pointer(handle);
 }
 
-
+smoke_ErrorsRef smoke_Errors_copy(smoke_ErrorsRef handle) {
+    return { new (std::nothrow)std::shared_ptr<smoke::Errors>(*get_pointer(handle)) };
+}
 
 smoke_Errors_InternalError smoke_Errors_methodWithErrors() {
     return ::smoke::Errors::method_with_errors().code().code();

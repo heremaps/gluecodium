@@ -247,7 +247,12 @@ public class SwiftStructTemplateTest {
   public void generateStructWithInstanceField() {
     swiftStruct.fields.add(
         new SwiftField(
-            "instanceField", new SwiftType("SomeClass", SwiftType.TypeCategory.CLASS), null));
+            "instanceField",
+            SwiftContainerType.builder("SomeClass")
+                .category(SwiftType.TypeCategory.CLASS)
+                .cPrefix("INSTANCE_C_PREFIX")
+                .build(),
+            null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var instanceField: SomeClass\n"
@@ -259,7 +264,7 @@ public class SwiftStructTemplateTest {
             + "    internal init?(cSomeStruct: SomeStructRef) {\n"
             + "        do {\n"
             + "            guard\n"
-            + "                let instanceFieldUnwrapped = SomeClass(cSomeClass: C_PREFIX_instanceField_get(cSomeStruct))\n"
+            + "                let instanceFieldUnwrapped = SomeClass(cSomeClass: INSTANCE_C_PREFIX_copy(C_PREFIX_instanceField_get(cSomeStruct)))\n"
             + "            else {\n"
             + "                return nil\n"
             + "            }\n"
