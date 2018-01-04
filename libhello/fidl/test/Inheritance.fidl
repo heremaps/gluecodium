@@ -1,0 +1,72 @@
+/*
+ * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+interface ParentInterface {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    typedef ParentInterface is undefined
+
+    <** @description:
+    Example method that returns a name. Should be overridden in child implementations.
+    **>
+    method getName {
+        out {
+            String output
+        }
+    }
+
+    <** @description: Returns the current instance that is cast to ParentInterface type. **>
+    method castToParent {
+        out {
+            ParentInterface self
+        }
+    }
+}
+
+interface ChildClass extends ParentInterface {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    typedef ChildClass is undefined
+
+    <** @description: Creates an instance of ChildClass. **>
+    method createChildClass {
+      out {
+          ChildClass output
+      }
+    }
+}
+
+interface GrandchildClass extends ChildClass {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    typedef GrandchildClass is undefined
+
+    <** @description: Creates an instance of GrandchildClass. **>
+    method createGrandchildClass {
+      out {
+          GrandchildClass output
+      }
+    }
+}
