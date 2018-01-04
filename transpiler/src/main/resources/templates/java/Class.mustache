@@ -8,17 +8,17 @@
 {{/enums}}
 {{#innerClasses}}{{prefixPartial "java/Class" "    "}}
 {{/innerClasses}}
-{{#if extendsNativeBase}}
+{{#if isImplClass}}
     protected {{name}}(final long nativeHandle) {
-        super(nativeHandle, new Disposer() {
+        super(nativeHandle{{#if extendsNativeBase}}, new Disposer() {
             @Override
             public void disposeNative(long handle) {
                 disposeNativeHandle(handle);
             }
-        });
-    }
+        }{{/if}});
+    }{{#if extendsNativeBase}}
 
-    private static native void disposeNativeHandle(long nativeHandle);
+    private static native void disposeNativeHandle(long nativeHandle);{{/if}}
 {{/if}}
 {{#if fields}}
     public {{name}}() {}

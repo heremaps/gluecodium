@@ -12,6 +12,7 @@
 package com.here.ivi.api.model.java;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -22,9 +23,15 @@ public final class JavaClass extends JavaTopLevelElement {
 
   public final Set<JavaField> fields = new LinkedHashSet<>();
   public JavaType extendedClass;
+  public final boolean isImplClass;
 
   public JavaClass(final String name) {
+    this(name, false);
+  }
+
+  public JavaClass(final String name, final boolean isImplClass) {
     super(name);
+    this.isImplClass = isImplClass;
   }
 
   @SuppressWarnings("unused")
@@ -42,10 +49,15 @@ public final class JavaClass extends JavaTopLevelElement {
 
   @Override
   public Set<JavaImport> getImports() {
+
     Set<JavaImport> imports = super.getImports();
+
     if (extendedClass != null) {
       imports.addAll(extendedClass.imports);
+      // No need to import things from the same package. This also filters out a self-import.
+      imports.removeIf(anImport -> Objects.equals(anImport.javaPackage, this.javaPackage));
     }
+
     return imports;
   }
 }

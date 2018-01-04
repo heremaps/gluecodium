@@ -18,6 +18,7 @@ import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.model.java.JavaMethod.MethodQualifier;
 import com.here.ivi.api.model.java.JavaTopLevelElement.Qualifier;
 import java.util.Arrays;
+import java.util.Collections;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -179,11 +180,12 @@ public final class JavaClassTemplateTest {
     // Arrange
     JavaClass resultClass = new JavaClass("ExampleClass");
     resultClass.comment = "Child class comment";
-    resultClass.extendedClass = new JavaCustomType("ParentClass", JavaPackage.DEFAULT);
+    resultClass.extendedClass =
+        new JavaCustomType("ParentClass", new JavaPackage(Collections.singletonList("foo")));
     String expected =
         "package com.here.android;\n"
             + "\n"
-            + "import com.here.android.ParentClass;\n\n"
+            + "import foo.ParentClass;\n\n"
             + "/**\n"
             + " * Child class comment\n"
             + " */\n"
@@ -330,18 +332,37 @@ public final class JavaClassTemplateTest {
   }
 
   @Test
-  public void generate_extendsNativeBase() {
+  public void generate_implClass() {
     // Arrange
-    javaClass.comment = "Example class comment";
-    javaClass.extendedClass = JavaClass.NATIVE_BASE;
+    JavaClass javaImplClass = new JavaClass("ExampleClass", true);
+    javaImplClass.extendedClass =
+        new JavaCustomType("ParentClass", new JavaPackage(Collections.singletonList("foo")));
 
     String expected =
-        "package com.here.android;\n"
-            + "\n"
+        "package com.here.android;\n\n"
+            + "import foo.ParentClass;\n\n"
+            + "class ExampleClass extends ParentClass {\n"
+            + "    protected ExampleClass(final long nativeHandle) {\n"
+            + "        super(nativeHandle);\n"
+            + "    }\n"
+            + "}\n";
+    // Act
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaImplClass);
+
+    // Assert
+    assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
+  }
+
+  @Test
+  public void generate_implClassExtendsNativeBase() {
+    // Arrange
+    JavaClass javaImplClass = new JavaClass("ExampleClass", true);
+    javaImplClass.extendedClass = JavaClass.NATIVE_BASE;
+    javaImplClass.javaPackage = new JavaPackage(Collections.singletonList("foo"));
+
+    String expected =
+        "package foo;\n\n"
             + "import com.here.android.NativeBase;\n\n"
-            + "/**\n"
-            + " * Example class comment\n"
-            + " */\n"
             + "class ExampleClass extends NativeBase {\n"
             + "    protected ExampleClass(final long nativeHandle) {\n"
             + "        super(nativeHandle, new Disposer() {\n"
@@ -354,7 +375,7 @@ public final class JavaClassTemplateTest {
             + "    private static native void disposeNativeHandle(long nativeHandle);\n"
             + "}\n";
     // Act
-    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, javaImplClass);
 
     // Assert
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
@@ -392,7 +413,8 @@ public final class JavaClassTemplateTest {
   @Test
   public void generateClassWithParentClassAndParentInterface() {
     // Arrange
-    javaClass.extendedClass = new JavaCustomType("Parent", JavaPackage.DEFAULT);
+    javaClass.extendedClass =
+        new JavaCustomType("Parent", new JavaPackage(Collections.singletonList("foo")));
     javaClass.parentInterfaces.add(javaInterface);
 
     // Act
@@ -401,7 +423,7 @@ public final class JavaClassTemplateTest {
     // Assert
     String expected =
         "package com.here.android;\n\n"
-            + "import com.here.android.Parent;\n\n"
+            + "import foo.Parent;\n\n"
             + "class ExampleClass extends Parent implements Face {\n"
             + "}\n";
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);

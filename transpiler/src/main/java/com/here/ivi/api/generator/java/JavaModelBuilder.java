@@ -63,17 +63,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FInterface francaInterface) {
 
     if (deploymentModel.isInterface(francaInterface)) {
-      // Instantiable Franca interface implemented as Java interface
-      JavaInterface javaInterface = createJavaInterface(francaInterface);
-      JavaClass javaImplementationClass =
-          createJavaImplementationClass(francaInterface, javaInterface);
-      storeResult(javaInterface);
-      storeResult(javaImplementationClass);
+      finishBuildingFrancaInterface(francaInterface);
     } else {
-      List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
-      JavaClass javaClass = createJavaClass(francaInterface, methods);
-      javaClass.extendedClass = JavaClass.NATIVE_BASE;
-      storeResult(javaClass);
+      finishBuildingFrancaClass(francaInterface);
     }
 
     closeContext();
@@ -223,7 +215,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     }
 
     // Type definition
-    JavaClass javaClass = createJavaClass(francaStructType);
+    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaStructType.getName()));
+    javaClass.visibility = JavaVisibility.PUBLIC;
+    javaClass.javaPackage = rootPackage;
+    javaClass.comment = getCommentString(francaStructType);
+    javaClass.fields.addAll(getPreviousResults(JavaField.class));
     javaClass.extendedClass = getPreviousResult(JavaCustomType.class);
     storeResult(javaClass);
 
@@ -330,21 +326,16 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     closeContext();
   }
 
-  private JavaClass createJavaClass(final FModelElement francaModelElement) {
-
-    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaModelElement.getName()));
-    javaClass.visibility = JavaVisibility.PUBLIC;
-    javaClass.javaPackage = rootPackage;
-    javaClass.comment = getCommentString(francaModelElement);
-    javaClass.fields.addAll(getPreviousResults(JavaField.class));
-
-    return javaClass;
-  }
-
   private JavaClass createJavaClass(
       final FInterface francaInterface, final List<JavaMethod> methods) {
 
-    JavaClass javaClass = createJavaClass(francaInterface);
+    JavaClass javaClass =
+        new JavaClass(JavaNameRules.getClassName(francaInterface.getName()), true);
+    javaClass.visibility = JavaVisibility.PUBLIC;
+    javaClass.javaPackage = rootPackage;
+    javaClass.comment = getCommentString(francaInterface);
+    javaClass.fields.addAll(getPreviousResults(JavaField.class));
+
     javaClass.constants.addAll(getPreviousResults(JavaConstant.class));
     javaClass.methods.addAll(methods);
     javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
@@ -392,7 +383,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       final FInterface francaInterface, final JavaInterface javaInterface) {
 
     JavaClass javaClass =
-        new JavaClass(JavaNameRules.getImplementationClassName(francaInterface.getName()));
+        new JavaClass(JavaNameRules.getImplementationClassName(francaInterface.getName()), true);
     javaClass.visibility = JavaVisibility.PACKAGE;
     javaClass.javaPackage = rootPackage;
     javaClass.extendedClass = JavaClass.NATIVE_BASE;
@@ -412,5 +403,45 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaTopLevelElement.innerClasses.addAll(getPreviousResults(JavaClass.class));
     javaTopLevelElement.innerClasses.forEach(
         innerClass -> innerClass.qualifiers.add(JavaClass.Qualifier.STATIC));
+  }
+
+  private void finishBuildingFrancaClass(final FInterface francaInterface) {
+
+    List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
+    JavaClass javaClass = createJavaClass(francaInterface, methods);
+    javaClass.extendedClass = JavaClass.NATIVE_BASE;
+
+    FInterface parentInterface = francaInterface.getBase();
+    if (parentInterface != null) {
+      if (deploymentModel.isInterface(parentInterface)) {
+        String parentImplementationClassName =
+            JavaNameRules.getImplementationClassName(parentInterface.getName());
+        javaClass.extendedClass =
+            typeMapper.mapCustomType(parentInterface, parentImplementationClassName);
+      } else {
+        javaClass.extendedClass = typeMapper.mapCustomType(parentInterface);
+      }
+    }
+
+    storeResult(javaClass);
+  }
+
+  private void finishBuildingFrancaInterface(final FInterface francaInterface) {
+
+    JavaInterface javaInterface = createJavaInterface(francaInterface);
+    JavaClass javaImplementationClass =
+        createJavaImplementationClass(francaInterface, javaInterface);
+
+    FInterface parentInterface = francaInterface.getBase();
+    if (parentInterface != null) {
+      javaInterface.parentInterfaces.add(typeMapper.mapCustomType(parentInterface));
+      String parentImplementationClassName =
+          JavaNameRules.getImplementationClassName(parentInterface.getName());
+      javaImplementationClass.extendedClass =
+          typeMapper.mapCustomType(parentInterface, parentImplementationClassName);
+    }
+
+    storeResult(javaInterface);
+    storeResult(javaImplementationClass);
   }
 }
