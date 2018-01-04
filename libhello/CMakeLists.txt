@@ -272,7 +272,10 @@ feature(Defaults cpp android swift SOURCES
     fidl/test/Defaults.fdepl
 )
 
-feature(Inheritance SOURCES
+feature(Inheritance cpp SOURCES
+    src/hello/HelloWorldInheritanceParent.cpp
+    src/hello/HelloWorldInheritanceChild.cpp
+
     fidl/hello/HelloWorldInheritance.fdepl
     fidl/hello/HelloWorldInheritance.fidl
 )
