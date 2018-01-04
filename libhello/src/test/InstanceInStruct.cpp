@@ -37,4 +37,9 @@ InstanceInStruct::create() {
     return std::make_shared<InstanceInStructImpl>();
 }
 
+InstanceInStruct::SelfHolder
+InstanceInStruct::create_in_struct() {
+    return {std::make_shared<InstanceInStructImpl>()};
+}
+
 }
