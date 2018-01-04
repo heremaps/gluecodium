@@ -39,6 +39,10 @@ public final class JavaClass extends JavaTopLevelElement {
     return NATIVE_BASE.equals(extendedClass);
   }
 
+  public boolean tooManyFields() {
+    return fields.size() > 2;
+  }
+
   @Override
   public Stream<JavaElement> stream() {
     Stream<? extends JavaElement> extendedClassStream =
