@@ -17,4 +17,7 @@ define navigation.BaseApiSpec for interface test.InstanceInStruct
     method create {
         Static = true
     }
+    method createInStruct {
+        Static = true
+    }
 }
