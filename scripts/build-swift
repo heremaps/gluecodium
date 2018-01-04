@@ -70,4 +70,17 @@ safe cmake \
     --build "${BUILD_DIR}" \
     --target install
 
-exec "${INSTALL_DIR}/testhello"
+pushd "${INSTALL_DIR}"
+    if [ "$TEST_REPORTS" = true ] ; then
+        # Pipe functional tests output to 'ocunit2junit' to generate JUnit XML
+        # reports.
+        # Sed is required to fix different output format obtained by running
+        # tests on Linux machine instead of Mac.
+        ./testhello \
+            | sed "s/Test Case '\(.*\)\.\(.*\)'/Test Case '-[\1 \2]'/" \
+            | ocunit2junit
+        mv test-reports swift_test_reports
+    else
+        ./testhello
+    fi
+popd
