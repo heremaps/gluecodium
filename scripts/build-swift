@@ -1,9 +1,11 @@
 #!/bin/bash
 #
 USAGE=$(cat <<EOF
-$0 [--publish] [--debug]
+$0 [options]
     --publish    Build and publish the Transpiler locally and use it for code generation
     --debug      Build with debug symbols
+    --valgrind   Run with valgrind
+    --junit      Generate junit xml test report (requires ocunit2junit)
     --help       Print this message
 EOF
 )
@@ -21,6 +23,14 @@ while [[ $# -gt 0 ]]; do
             ;;
         --debug)
             CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            shift
+            ;;
+        --valgrind)
+            USE_VALGRIND=true
+            shift
+            ;;
+        --junit)
+            TEST_REPORTS=true
             shift
             ;;
         --help|*)
@@ -70,17 +80,32 @@ safe cmake \
     --build "${BUILD_DIR}" \
     --target install
 
+TEST_EXECUTABLE="./testhello"
+
+if [ "$USE_VALGRIND" = true ]; then
+    TEST_EXECUTABLE="valgrind \
+        --leak-check=full \
+        --xml=yes \
+        --xml-file=swift_valgrind_report.xml \
+        --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
+        --gen-suppressions=all \
+        $TEST_EXECUTABLE"
+fi
+
 pushd "${INSTALL_DIR}"
     if [ "$TEST_REPORTS" = true ] ; then
         # Pipe functional tests output to 'ocunit2junit' to generate JUnit XML
         # reports.
         # Sed is required to fix different output format obtained by running
         # tests on Linux machine instead of Mac.
-        ./testhello \
+        set -o pipefail
+        $TEST_EXECUTABLE \
             | sed "s/Test Case '\(.*\)\.\(.*\)'/Test Case '-[\1 \2]'/" \
             | ocunit2junit
+        EXIT_VALUE=$?
         mv test-reports swift_test_reports
+        exit $EXIT_VALUE
     else
-        ./testhello
+        exec $TEST_EXECUTABLE
     fi
 popd
