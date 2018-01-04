@@ -24,10 +24,34 @@
     public {{name}}() {}
 
     public {{name}}({{#fields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
-        {{#fields}}
+    {{#fields}}
         this.{{name}} = {{name}};
-        {{/fields}}
+    {{/fields}}
     }
+    {{#if tooManyFields}}
+
+    public static {{name}}Builder builder() {
+        return new {{name}}Builder();
+    }
+    public static class {{name}}Builder {
+    {{#fields}}
+    {{prefixPartial "java/Field" "    "}}
+    {{/fields}}
+
+        {{name}}Builder() {
+        }
+
+        {{#set className=name}}{{#fields}}
+        public {{className}}Builder {{name}}({{type}} {{name}}) {
+            this.{{name}} = {{name}};
+            return this;
+        }
+        {{/fields}}{{/set}}
+        public {{name}} build() {
+            return new {{name}}({{#fields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+        }
+    }
+    {{/if}}
 {{/if}}
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}

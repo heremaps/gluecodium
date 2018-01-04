@@ -22,4 +22,29 @@ public class Color {
         this.green = green;
         this.blue = blue;
     }
+    public static ColorBuilder builder() {
+        return new ColorBuilder();
+    }
+    public static class ColorBuilder {
+        public long red;
+        public long green;
+        public long blue;
+        ColorBuilder() {
+        }
+        public ColorBuilder red(long red) {
+            this.red = red;
+            return this;
+        }
+        public ColorBuilder green(long green) {
+            this.green = green;
+            return this;
+        }
+        public ColorBuilder blue(long blue) {
+            this.blue = blue;
+            return this;
+        }
+        public Color build() {
+            return new Color(red, green, blue);
+        }
+    }
 }

@@ -30,6 +30,7 @@ public class DefaultValues extends NativeBase {
         public boolean boolField = true;
         public String stringField = "some string";
         public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
+
         public StructWithDefaults() {}
         public StructWithDefaults(int intField, float floatField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField) {
             this.intField = intField;
@@ -37,6 +38,41 @@ public class DefaultValues extends NativeBase {
             this.boolField = boolField;
             this.stringField = stringField;
             this.enumField = enumField;
+        }
+        public static StructWithDefaultsBuilder builder() {
+            return new StructWithDefaultsBuilder();
+        }
+        public static class StructWithDefaultsBuilder {
+            public int intField = 42;
+            public float floatField = 3.14f;
+            public boolean boolField = true;
+            public String stringField = "some string";
+            public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
+            StructWithDefaultsBuilder() {
+            }
+            public StructWithDefaultsBuilder intField(int intField) {
+                this.intField = intField;
+                return this;
+            }
+            public StructWithDefaultsBuilder floatField(float floatField) {
+                this.floatField = floatField;
+                return this;
+            }
+            public StructWithDefaultsBuilder boolField(boolean boolField) {
+                this.boolField = boolField;
+                return this;
+            }
+            public StructWithDefaultsBuilder stringField(String stringField) {
+                this.stringField = stringField;
+                return this;
+            }
+            public StructWithDefaultsBuilder enumField(DefaultValues.SomeEnum enumField) {
+                this.enumField = enumField;
+                return this;
+            }
+            public StructWithDefaults build() {
+                return new StructWithDefaults(intField, floatField, boolField, stringField, enumField);
+            }
         }
     }
     protected DefaultValues(final long nativeHandle) {
