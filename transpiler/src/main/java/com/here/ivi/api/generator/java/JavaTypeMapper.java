@@ -175,41 +175,43 @@ public class JavaTypeMapper {
     return JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, keyType, valueType);
   }
 
-  public JavaCustomType mapCustomType(final FType fType) {
+  public JavaType mapCustomType(final FModelElement francaElement) {
 
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(fType);
+    return mapCustomType(francaElement, JavaNameRules.getClassName(francaElement.getName()));
+  }
+
+  public JavaType mapCustomType(final FModelElement francaElement, final String className) {
+
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaElement);
     List<String> packageNames =
         basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames;
 
     String typeName;
     String importClassName;
-    String className = JavaNameRules.getClassName(fType.getName());
 
     List<String> classNames = new LinkedList<>();
     classNames.add(className);
-    //type is nested class inside defining class
-    if (typeCollection instanceof FInterface) {
+    // type is nested inside defining class
+    if (!(francaElement instanceof FInterface) && typeCollection instanceof FInterface) {
       importClassName = JavaNameRules.getClassName(typeCollection.getName());
       classNames.add(0, importClassName);
       typeName = importClassName + "." + className;
-    } else { // type from a type collection
+    } else { // non-nested type
       importClassName = className;
       typeName = className;
     }
 
     JavaImport javaImport = new JavaImport(importClassName, new JavaPackage(packageNames));
 
-    if (fType instanceof FStructType) {
+    if (francaElement instanceof FEnumerationType) {
+      return new JavaEnumType(typeName, classNames, packageNames, javaImport);
+    } else {
       return JavaCustomType.builder(typeName)
           .classNames(classNames)
           .packageNames(packageNames)
           .anImport(javaImport)
           .build();
     }
-    if (fType instanceof FEnumerationType) {
-      return new JavaEnumType(typeName, classNames, packageNames, javaImport);
-    }
-    throw new TranspilerExecutionException("invalid Ftype: " + fType.getName());
   }
 
   private JavaType mapTypeDef(final FTypeDef typeDef) {

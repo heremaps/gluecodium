@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.java;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -38,8 +39,10 @@ public class JavaModelBuilderInterfaceTest {
   private final MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
   @Mock private FrancaDeploymentModel deploymentModel;
+  @Mock private JavaTypeMapper typeMapper;
 
   @Mock private FInterface francaInterface;
+  @Mock private FInterface parentInterface;
 
   private final JavaType javaCustomType = new JavaCustomType("typical");
   private final JavaConstant javaConstant =
@@ -55,12 +58,13 @@ public class JavaModelBuilderInterfaceTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(JavaModelBuilder.class);
 
-    modelBuilder = new JavaModelBuilder(contextStack, deploymentModel, BASE_PACKAGE, null);
+    modelBuilder = new JavaModelBuilder(contextStack, deploymentModel, BASE_PACKAGE, typeMapper);
 
     when(francaInterface.getName()).thenReturn("classy");
   }
 
   // Creates: Interface implemented as Java class
+
   @Test
   public void finishBuildingFrancaInterfaceCreatesJavaClassWithExtendedNativeBase() {
     modelBuilder.finishBuilding(francaInterface);
@@ -146,6 +150,32 @@ public class JavaModelBuilderInterfaceTest {
     assertEquals(javaEnum, javaClass.enums.iterator().next());
   }
 
+  @Test
+  public void finishBuildingFrancaInterfaceReadsClassParentIntoJavaClass() {
+    when(francaInterface.getBase()).thenReturn(parentInterface);
+    when(typeMapper.mapCustomType(any())).thenReturn(javaCustomType);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(javaCustomType, javaClass.extendedClass);
+    assertTrue(javaClass.parentInterfaces.isEmpty());
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsInterfaceParentIntoJavaClass() {
+    when(deploymentModel.isInterface(parentInterface)).thenReturn(true);
+    when(francaInterface.getBase()).thenReturn(parentInterface);
+    when(typeMapper.mapCustomType(any(), any())).thenReturn(javaCustomType);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(javaCustomType, javaClass.extendedClass);
+  }
+
   // Creates: Interface implemented as Java interface
 
   @Test
@@ -223,6 +253,20 @@ public class JavaModelBuilderInterfaceTest {
     assertNotNull(javaInterface);
     assertFalse(javaInterface.innerClasses.isEmpty());
     assertEquals(innerClass, javaInterface.innerClasses.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsParentIntoInterface() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    when(francaInterface.getBase()).thenReturn(parentInterface);
+    when(typeMapper.mapCustomType(any())).thenReturn(javaCustomType);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
+    assertNotNull(javaInterface);
+    assertFalse(javaInterface.parentInterfaces.isEmpty());
+    assertEquals(javaCustomType, javaInterface.parentInterfaces.iterator().next());
   }
 
   // Creates: Implementation class for Java interface
@@ -305,5 +349,18 @@ public class JavaModelBuilderInterfaceTest {
     JavaInterface result = modelBuilder.getFinalResult(JavaInterface.class);
     assertEquals(1, result.enums.size());
     assertEquals(javaEnum, result.enums.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsParentIntoImplClass() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    when(francaInterface.getBase()).thenReturn(parentInterface);
+    when(typeMapper.mapCustomType(any(), any())).thenReturn(javaCustomType);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(javaCustomType, javaClass.extendedClass);
   }
 }
