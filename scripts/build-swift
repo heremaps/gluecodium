@@ -101,6 +101,7 @@ pushd "${INSTALL_DIR}"
         set -o pipefail
         $TEST_EXECUTABLE \
             | sed "s/Test Case '\(.*\)\.\(.*\)'/Test Case '-[\1 \2]'/" \
+            | sed "s/: error: \(.*\)\.\(.*\) :/: error: -[\1 \2] :/" \
             | ocunit2junit
         EXIT_VALUE=$?
         exit $EXIT_VALUE
