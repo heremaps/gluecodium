@@ -551,7 +551,7 @@ public class SwiftFileTemplateTest {
         SwiftContainerType.builder("FirstStruct").cPrefix("CPrefix").build();
     SwiftContainerType secondStruct =
         SwiftContainerType.builder("SecondStruct").cPrefix("CPrefix").build();
-    swiftClass.methods.add(new SwiftMethod("SomeMethod"));
+    swiftClass.methods.add(SwiftMethod.builder("SomeMethod").build());
     swiftClass.implementsProtocols.add(swiftClass.name);
     file.structs.add(firstStruct);
     file.structs.add(secondStruct);
@@ -972,22 +972,29 @@ public class SwiftFileTemplateTest {
     expected.assertMatches(generated);
   }
 
+  @Test
   public void classWithBase() {
     SwiftClass swiftClass = SwiftClass.builder("TestClass").parentClass("SuperClass").build();
-    final String expected =
-        "import Foundation\n"
-            + "internal func getRef(_ ref: TestClass) -> RefHolder {\n"
-            + "    guard let instanceReference = ref as? _TestClass else {\n"
-            + "        fatalError(\"Not implemented yet\")\n"
-            + "    }\n"
-            + "    return RefHolder(instanceReference.c_instance)\n"
-            + "}\n"
-            + "public protocol TestClass {\n"
-            + "}\n"
-            + "internal class _TestClass: SuperClass {\n"
-            + "}\n";
+
+    TemplateComparator expected =
+        TemplateComparator.expect("public class TestClass: SuperClass {").build();
+
     final String generated = generateFromClass(swiftClass);
-    TemplateComparison.assertEqualContent(expected, generated);
+    expected.assertMatches(generated);
+  }
+
+  @Test
+  public void protocolWithBase() {
+    SwiftClass swiftClass =
+        SwiftClass.builder("TestClass").parentClass("SuperClass").isInterface(true).build();
+
+    TemplateComparator expected =
+        TemplateComparator.expect("public protocol TestClass : SuperClass {")
+            .expect("internal class _TestClass {")
+            .build();
+
+    final String generated = generateFromClass(swiftClass);
+    expected.assertMatches(generated);
   }
 
   @Test

@@ -11,9 +11,9 @@
 
 import Foundation
 
-internal func getRef(_ ref: InheritanceChild) -> RefHolder<examples_InheritanceChildRef> {
+internal func getRef(_ ref: InheritanceChild) -> RefHolder {
     if let instanceReference = ref as? _InheritanceChild {
-        return RefHolder<examples_InheritanceChildRef>(instanceReference.c_instance)
+        return RefHolder(instanceReference.c_instance)
     }
     var functions = examples_InheritanceChild_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
@@ -21,6 +21,15 @@ internal func getRef(_ ref: InheritanceChild) -> RefHolder<examples_InheritanceC
         if let swiftClass = swiftClass_pointer {
             Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
         }
+    }
+    functions.examples_InheritanceParent_parentMethod = {(swiftClass_pointer, input) in
+        precondition(input.private_pointer != nil, "Out of memory")
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InheritanceChild
+        defer {
+            std_string_release(input)
+        }
+        return (swiftClass.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
+                                                count: Int(std_string_size_get(input))), encoding: .utf8)!)!).convertToCType()
     }
     functions.examples_InheritanceChild_childMethod = {(swiftClass_pointer, input) in
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InheritanceChild
@@ -32,16 +41,26 @@ internal func getRef(_ ref: InheritanceChild) -> RefHolder<examples_InheritanceC
 }
 
 public protocol InheritanceChild : InheritanceParent {
+    func parentMethod(input: String) -> String?
     func childMethod(input: UInt8) -> Int16
 }
 
 internal class _InheritanceChild: InheritanceChild {
-    let c_instance : examples_InheritanceChildRef
-    init?(cInheritanceChild: examples_InheritanceChildRef) {
+    let c_instance : _baseRef
+    init?(cInheritanceChild: _baseRef) {
         c_instance = cInheritanceChild
     }
     deinit {
         examples_InheritanceChild_release(c_instance)
+    }
+    public func parentMethod(input: String) -> String? {
+        let result_string_handle = examples_InheritanceParent_parentMethod(c_instance, input)
+        precondition(result_string_handle.private_pointer != nil, "Out of memory")
+        defer {
+            std_string_release(result_string_handle)
+        }
+        return String(data: Data(bytes: std_string_data_get(result_string_handle),
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
     }
     public func childMethod(input: UInt8) -> Int16 {
         return examples_InheritanceChild_childMethod(c_instance, input)

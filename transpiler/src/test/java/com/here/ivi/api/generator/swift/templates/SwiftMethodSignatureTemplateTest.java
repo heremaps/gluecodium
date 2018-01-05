@@ -28,7 +28,7 @@ public final class SwiftMethodSignatureTemplateTest {
 
   private static final String TEMPLATE_NAME = "swift/MethodSignature";
 
-  private final SwiftMethod swiftMethod = new SwiftMethod("methodFoo");
+  private final SwiftMethod swiftMethod = SwiftMethod.builder("methodFoo").build();
   private final SwiftGenericParameter genericParameter =
       new SwiftGenericParameter("very", "generic");
 

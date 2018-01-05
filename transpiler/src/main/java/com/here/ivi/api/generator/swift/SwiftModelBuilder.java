@@ -61,21 +61,37 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuilding(FInterface francaInterface) {
 
     boolean isInterface = deploymentModel.isInterface(francaInterface);
+    SwiftClass parentClass = getPreviousResult(SwiftClass.class);
+    boolean parentIsInterface = parentClass != null && parentClass.isInterface;
 
     SwiftClass clazz =
         SwiftClass.builder(SwiftNameRules.getClassName(francaInterface.getName()))
             .nameSpace(String.join("_", DefinedBy.getPackages(francaInterface)))
             .cInstance(CBridgeNameRules.getInterfaceName(francaInterface))
             .isInterface(isInterface)
+            .parentClass(parentClass != null ? parentClass.name : null)
+            .useParentCInstance(parentClass != null && !isInterface && !parentIsInterface)
             .functionTableName(
                 isInterface ? CBridgeNameRules.getFunctionTableName(francaInterface) : null)
             .build();
 
+    if (parentClass != null && parentIsInterface) {
+      clazz.methods.addAll(parentClass.methods);
+      for (final SwiftProperty parentProperty : parentClass.properties) {
+        SwiftProperty swiftProperty = new SwiftProperty(parentProperty.name, parentProperty.type);
+        swiftProperty.propertyAccessors.addAll(parentProperty.propertyAccessors);
+        clazz.properties.add(swiftProperty);
+      }
+    }
+    clazz.methods.addAll(getPreviousResults(SwiftMethod.class));
     clazz.properties.addAll(getPreviousResults(SwiftProperty.class));
     clazz.typedefs.addAll(getPreviousResults(SwiftTypeDef.class));
-    clazz.methods.addAll(getPreviousResults(SwiftMethod.class));
+
+    String comment = CommentHelper.getDescription(francaInterface);
+    clazz.comment = comment != null ? comment : "";
 
     SwiftFile file = new SwiftFile();
+    file.classes.add(clazz);
     if (isInterface) {
       // Instantiable Franca interface implemented as Swift protocol
       clazz.implementsProtocols.add(clazz.name);
@@ -87,10 +103,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
       clazz.enums.addAll(getPreviousResults(SwiftEnum.class));
     }
 
-    String comment = CommentHelper.getDescription(francaInterface);
-    clazz.comment = comment != null ? comment : "";
-
-    file.classes.add(clazz);
+    storeResult(clazz);
     storeResult(file);
     super.finishBuilding(francaInterface);
   }
