@@ -27,7 +27,9 @@ public final class SwiftClass extends SwiftType {
   public final String cInstance;
   public final List<SwiftTypeDef> typedefs = new LinkedList<>();
   public final String functionTableName;
+  public final boolean useParentCInstance;
 
+  @SuppressWarnings("ParameterNumber")
   @lombok.Builder(builderClassName = "Builder")
   private SwiftClass(
       final String name,
@@ -35,13 +37,15 @@ public final class SwiftClass extends SwiftType {
       final String parentClass,
       final String nameSpace,
       final String cInstance,
-      final String functionTableName) {
+      final String functionTableName,
+      final boolean useParentCInstance) {
     super(name, TypeCategory.CLASS);
     this.isInterface = isInterface;
     this.parentClass = parentClass;
     this.nameSpace = nameSpace;
     this.cInstance = cInstance;
     this.functionTableName = functionTableName;
+    this.useParentCInstance = useParentCInstance;
   }
 
   @SuppressWarnings("unused")

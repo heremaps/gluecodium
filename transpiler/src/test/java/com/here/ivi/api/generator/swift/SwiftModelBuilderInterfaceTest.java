@@ -24,16 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.swift.SwiftClass;
-import com.here.ivi.api.model.swift.SwiftContainerType;
-import com.here.ivi.api.model.swift.SwiftEnum;
-import com.here.ivi.api.model.swift.SwiftEnumItem;
-import com.here.ivi.api.model.swift.SwiftFile;
-import com.here.ivi.api.model.swift.SwiftMethod;
-import com.here.ivi.api.model.swift.SwiftModelElement;
-import com.here.ivi.api.model.swift.SwiftParameter;
-import com.here.ivi.api.model.swift.SwiftType;
-import com.here.ivi.api.model.swift.SwiftValue;
+import com.here.ivi.api.model.swift.*;
 import com.here.ivi.api.test.MockContextStack;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -60,7 +51,7 @@ public class SwiftModelBuilderInterfaceTest {
           .items(singletonList(swiftEnumItem))
           .build();
   private final SwiftContainerType swiftStruct = SwiftContainerType.builder("SomeStruct").build();
-  private final SwiftMethod swiftMethod = new SwiftMethod("SwiftMethod");
+  private final SwiftMethod swiftMethod = SwiftMethod.builder("SwiftMethod").build();
 
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private FInterface francaInterface;
@@ -148,6 +139,85 @@ public class SwiftModelBuilderInterfaceTest {
     assertEquals("SwiftMethod", swiftClass.methods.get(0).name);
   }
 
+  @Test
+  public void finishBuildingFrancaInstantiableInterfaceReadsClassParent() {
+    SwiftClass parentClass = SwiftClass.builder("SomeParent").build();
+    contextStack.injectResult(parentClass);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(swiftFile);
+    assertNotNull(swiftFile.classes);
+    assertEquals(1, swiftFile.classes.size());
+    SwiftClass swiftClass = swiftFile.classes.get(0);
+    assertEquals("SomeParent", swiftClass.parentClass);
+    assertTrue(swiftClass.useParentCInstance);
+  }
+
+  @Test
+  public void finishBuildingFrancaInstantiableInterfaceReadsInterfaceParent() {
+    SwiftClass parentClass = SwiftClass.builder("SomeParent").isInterface(true).build();
+    contextStack.injectResult(parentClass);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(swiftFile);
+    assertNotNull(swiftFile.classes);
+    assertEquals(1, swiftFile.classes.size());
+    SwiftClass swiftClass = swiftFile.classes.get(0);
+    assertEquals("SomeParent", swiftClass.parentClass);
+    assertFalse(swiftClass.useParentCInstance);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsParentMethods() {
+    SwiftClass parentClass = SwiftClass.builder("SomeParent").isInterface(true).build();
+    SwiftMethod parentMethod = SwiftMethod.builder("ParentMethod").cNestedSpecifier("foo").build();
+    parentClass.methods.add(parentMethod);
+    contextStack.injectResult(parentClass);
+    contextStack.injectResult(swiftMethod);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(swiftFile);
+    assertNotNull(swiftFile.classes);
+    assertEquals(1, swiftFile.classes.size());
+    SwiftClass swiftClass = swiftFile.classes.get(0);
+    assertEquals(2, swiftClass.methods.size());
+    SwiftMethod resultMethod = swiftClass.methods.get(0);
+    assertEquals("ParentMethod", resultMethod.name);
+    assertEquals("foo", resultMethod.cNestedSpecifier);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsParentProperties() {
+    SwiftClass parentClass = SwiftClass.builder("SomeParent").isInterface(true).build();
+    SwiftProperty parentProperty = new SwiftProperty("ParentProperty", null);
+    parentClass.properties.add(parentProperty);
+    SwiftMethod parentMethod = SwiftMethod.builder("ParentMethod").cNestedSpecifier("foo").build();
+    SwiftProperty childProperty = new SwiftProperty("", null);
+
+    parentProperty.propertyAccessors.add(parentMethod);
+    contextStack.injectResult(parentClass);
+    contextStack.injectResult(childProperty);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(swiftFile);
+    assertNotNull(swiftFile.classes);
+    assertEquals(1, swiftFile.classes.size());
+    SwiftClass swiftClass = swiftFile.classes.get(0);
+    assertEquals(2, swiftClass.properties.size());
+    SwiftProperty swiftProperty = swiftClass.properties.get(0);
+    assertEquals("ParentProperty", swiftProperty.name);
+    assertEquals(1, swiftProperty.propertyAccessors.size());
+    assertEquals("foo", swiftProperty.propertyAccessors.get(0).cNestedSpecifier);
+  }
+
   // Creates instantiable Swift interface
 
   @Test
@@ -222,5 +292,23 @@ public class SwiftModelBuilderInterfaceTest {
     assertNotNull(swiftClass.methods);
     assertEquals(1, swiftClass.methods.size());
     assertEquals("SwiftMethod", swiftClass.methods.get(0).name);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsParent() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    SwiftClass parentClass = SwiftClass.builder("SomeParent").build();
+    contextStack.injectResult(parentClass);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(swiftFile);
+    assertNotNull(swiftFile.classes);
+    assertEquals(1, swiftFile.classes.size());
+
+    SwiftClass swiftClass = swiftFile.classes.get(0);
+    assertEquals("SomeParent", swiftClass.parentClass);
+    assertFalse(swiftClass.useParentCInstance);
   }
 }

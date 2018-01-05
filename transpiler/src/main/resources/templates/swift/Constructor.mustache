@@ -1,4 +1,4 @@
-let c_instance : _baseRef
+{{^useParentCInstance}}let c_instance : _baseRef
 
 {{^isInterface}}public {{/isInterface}}init?(c{{name}}: _baseRef) {
     c_instance = c{{name}}
@@ -6,4 +6,8 @@ let c_instance : _baseRef
 
 deinit {
     {{cInstance}}_release(c_instance)
-}
+}{{/useParentCInstance}}{{!!
+
+}}{{#useParentCInstance}}{{^isInterface}}public {{/isInterface}}init?(c{{name}}: _baseRef) {
+    super.init(c{{parentClass}}: c{{name}})
+}{{/useParentCInstance}}

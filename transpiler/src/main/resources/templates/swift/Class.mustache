@@ -1,17 +1,15 @@
 {{#isInterface}}{{>ClassWithProtocol}}{{/isInterface}}
 {{^isInterface}}{{>ClassWithoutProtocol}}{{/isInterface}}{{!!
 
-
-
 }}{{+ClassWithoutProtocol}}
 
 internal func getRef(_ ref: {{name}}) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
 {{#comment}}{{>swift/Comment}}{{/comment}}{{!!
-}}{{>swift/ClassHeader}}{{!!
+}}public class {{name}}{{#if baseAndProtocols}}: {{join baseAndProtocols delimiter=', '}}{{/if}} {
 
-}}{{#typedefs}}
+{{#typedefs}}
 {{prefixPartial 'swift/Typedefs' '    '}}
 {{/typedefs}}{{!!
 
@@ -23,7 +21,7 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
 {{>swift/GetReference}}
 
 {{#comment}}{{>swift/Comment}}{{/comment}}{{!!
-}}public protocol {{name}} : AnyObject {
+}}public protocol {{name}} : {{parentClass}}{{#unless parentClass}}AnyObject{{/unless}} {
 {{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
 {{/typedefs}}
 {{#properties}}
@@ -33,7 +31,7 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
 {{/methods}}
 }
 
-{{>swift/ClassHeader}}
+internal class _{{name}}{{#if implementsProtocols}}: {{join implementsProtocols delimiter=', '}}{{/if}} {
 
 {{>CommonClassParts}}
 }

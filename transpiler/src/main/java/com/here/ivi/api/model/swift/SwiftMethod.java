@@ -20,19 +20,15 @@ import java.util.stream.Collectors;
 public final class SwiftMethod extends SwiftModelElement {
 
   public final SwiftType returnType;
-  public final List<SwiftParameter> parameters = new LinkedList<>();
+  public final List<SwiftParameter> parameters;
   public final boolean isStatic;
   public final String cNestedSpecifier;
   public final String cShortName;
-  public final List<SwiftGenericParameter> genericParameters = new LinkedList<>();
+  public final List<SwiftGenericParameter> genericParameters;
   public final boolean forceReturnValueUnwrapping;
   public final SwiftEnum error;
 
-  public SwiftMethod(final String name) {
-    this(name, null, null, false, null, null, false, null);
-  }
-
-  @SuppressWarnings("ParameterNumber")
+  @SuppressWarnings({"ParameterNumber", "PMD.ExcessiveParameterList"})
   @lombok.Builder(builderClassName = "Builder")
   private SwiftMethod(
       final String name,
@@ -42,7 +38,9 @@ public final class SwiftMethod extends SwiftModelElement {
       final String cNestedSpecifier,
       final String cShortName,
       final boolean forceReturnValueUnwrapping,
-      final SwiftEnum error) {
+      final SwiftEnum error,
+      final List<SwiftParameter> parameters,
+      final List<SwiftGenericParameter> genericParameters) {
     super(name);
     this.comment = comment;
     this.returnType = returnType != null ? returnType : SwiftType.VOID;
@@ -51,6 +49,8 @@ public final class SwiftMethod extends SwiftModelElement {
     this.cShortName = cShortName != null ? cShortName : "";
     this.forceReturnValueUnwrapping = forceReturnValueUnwrapping;
     this.error = error;
+    this.parameters = parameters != null ? parameters : new LinkedList<>();
+    this.genericParameters = genericParameters != null ? genericParameters : new LinkedList<>();
   }
 
   @SuppressWarnings("unused")
