@@ -272,7 +272,7 @@ feature(Defaults cpp android swift SOURCES
     fidl/test/Defaults.fdepl
 )
 
-feature(Inheritance cpp android SOURCES
+feature(Inheritance cpp android swift SOURCES
     src/hello/Circle.cpp
     src/hello/CircleImpl.h
     src/hello/CircleImpl.cpp
