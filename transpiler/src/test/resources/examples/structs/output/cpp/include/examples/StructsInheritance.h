@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "examples/Structs.h"
 #include <cstdint>
 
 namespace examples {
