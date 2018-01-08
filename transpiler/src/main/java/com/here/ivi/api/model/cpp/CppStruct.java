@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.cpp;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +33,6 @@ public class CppStruct extends CppElement {
 
   @Override
   public Stream<? extends CppElement> stream() {
-    return fields.stream();
+    return Stream.of(fields, inheritances).flatMap(Collection::stream);
   }
 }
