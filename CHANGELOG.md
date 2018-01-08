@@ -1,5 +1,10 @@
 # API Transpiler Release Notes
 
+## 1.1.0
+- Features:
+  + Add support for Struct Inheritance to iOS generators
+  + Add support for Default values to iOS generators
+
 ## 1.0.0
 Bumping version to mark ES4 feature completeness
 
