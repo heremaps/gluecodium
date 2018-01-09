@@ -1,7 +1,7 @@
 {{#cInstanceRef}}
 let c_instance : {{cInstanceRef}}
 
-{{^isInterface}}public {{/isInterface}}required init?(c{{name}}: {{cInstanceRef}}) {
+{{^isInterface}}public {{/isInterface}}init?(c{{name}}: {{cInstanceRef}}) {
     c_instance = c{{name}}
 }
 

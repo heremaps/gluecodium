@@ -14,7 +14,7 @@ internal func getRef(_ ref: InstanceWithStruct) -> RefHolder<smoke_InstanceWithS
 }
 public class InstanceWithStruct {
     let c_instance : smoke_InstanceWithStructRef
-    public required init?(cInstanceWithStruct: smoke_InstanceWithStructRef) {
+    public init?(cInstanceWithStruct: smoke_InstanceWithStructRef) {
         c_instance = cInstanceWithStruct
     }
     deinit {

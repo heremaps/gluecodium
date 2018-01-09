@@ -45,7 +45,7 @@ internal class _CalculatorListener: CalculatorListener {
 
     let c_instance : smoke_CalculatorListenerRef
 
-    required init?(cCalculatorListener: smoke_CalculatorListenerRef) {
+    init?(cCalculatorListener: smoke_CalculatorListenerRef) {
         c_instance = cCalculatorListener
     }
 

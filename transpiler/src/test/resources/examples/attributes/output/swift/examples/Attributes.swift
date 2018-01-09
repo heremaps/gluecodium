@@ -54,7 +54,7 @@ internal class _Attributes: Attributes {
     }
     let c_instance : examples_AttributesRef
 
-    required init?(cAttributes: examples_AttributesRef) {
+    init?(cAttributes: examples_AttributesRef) {
         c_instance = cAttributes
     }
 

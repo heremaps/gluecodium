@@ -57,7 +57,7 @@ internal class _NestedInterface: NestedInterface {
 
     let c_instance : smoke_NestedInterfaceRef
 
-    required init?(cNestedInterface: smoke_NestedInterfaceRef) {
+    init?(cNestedInterface: smoke_NestedInterfaceRef) {
         c_instance = cNestedInterface
     }
 

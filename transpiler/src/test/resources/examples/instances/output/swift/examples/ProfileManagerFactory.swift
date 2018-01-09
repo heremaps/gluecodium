@@ -16,7 +16,7 @@ internal func getRef(_ ref: ProfileManagerFactory) -> RefHolder<examples_Profile
 }
 public class ProfileManagerFactory {
     let c_instance : examples_ProfileManagerFactoryRef
-    public required init?(cProfileManagerFactory: examples_ProfileManagerFactoryRef) {
+    public init?(cProfileManagerFactory: examples_ProfileManagerFactoryRef) {
         c_instance = cProfileManagerFactory
     }
     deinit {

@@ -18,7 +18,7 @@ internal func getRef(_ ref: DefaultValues) -> RefHolder<smoke_DefaultValuesRef> 
 public class DefaultValues {
     let c_instance : smoke_DefaultValuesRef
 
-    public required init?(cDefaultValues: smoke_DefaultValuesRef) {
+    public init?(cDefaultValues: smoke_DefaultValuesRef) {
         c_instance = cDefaultValues
     }
 

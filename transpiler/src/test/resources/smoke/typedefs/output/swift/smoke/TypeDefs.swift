@@ -43,7 +43,7 @@ public class TypeDefs {
         }
     }
     let c_instance : smoke_TypeDefsRef
-    public required init?(cTypeDefs: smoke_TypeDefsRef) {
+    public init?(cTypeDefs: smoke_TypeDefsRef) {
         c_instance = cTypeDefs
     }
     deinit {

@@ -37,7 +37,7 @@ public protocol InheritanceChild : InheritanceParent {
 
 internal class _InheritanceChild: InheritanceChild {
     let c_instance : examples_InheritanceChildRef
-    required init?(cInheritanceChild: examples_InheritanceChildRef) {
+    init?(cInheritanceChild: examples_InheritanceChildRef) {
         c_instance = cInheritanceChild
     }
     deinit {

@@ -42,7 +42,7 @@ public protocol InheritanceParent : AnyObject {
 
 internal class _InheritanceParent: InheritanceParent {
     let c_instance : examples_InheritanceParentRef
-    required init?(cInheritanceParent: examples_InheritanceParentRef) {
+    init?(cInheritanceParent: examples_InheritanceParentRef) {
         c_instance = cInheritanceParent
     }
     deinit {

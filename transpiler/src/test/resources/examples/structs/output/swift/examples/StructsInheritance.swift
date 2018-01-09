@@ -18,7 +18,7 @@ internal func getRef(_ ref: StructsInheritance) -> RefHolder<examples_StructsInh
 public class StructsInheritance {
     let c_instance : examples_StructsInheritanceRef
 
-    public required init?(cStructsInheritance: examples_StructsInheritanceRef) {
+    public init?(cStructsInheritance: examples_StructsInheritanceRef) {
         c_instance = cStructsInheritance
     }
 

@@ -46,7 +46,7 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
 
     let c_instance : smoke_InterfaceWithStructRef
 
-    required init?(cInterfaceWithStruct: smoke_InterfaceWithStructRef) {
+    init?(cInterfaceWithStruct: smoke_InterfaceWithStructRef) {
         c_instance = cInterfaceWithStruct
     }
 

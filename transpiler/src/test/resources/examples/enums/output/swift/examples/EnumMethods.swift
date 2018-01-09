@@ -16,7 +16,7 @@ internal func getRef(_ ref: EnumMethods) -> RefHolder<examples_EnumMethodsRef> {
 }
 public class EnumMethods {
     let c_instance : examples_EnumMethodsRef
-    public required init?(cEnumMethods: examples_EnumMethodsRef) {
+    public init?(cEnumMethods: examples_EnumMethodsRef) {
         c_instance = cEnumMethods
     }
     deinit {

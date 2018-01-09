@@ -16,7 +16,7 @@ internal func getRef(_ ref: Basic) -> RefHolder<examples_BasicRef> {
 }
 public class Basic {
     let c_instance : examples_BasicRef
-    public required init?(cBasic: examples_BasicRef) {
+    public init?(cBasic: examples_BasicRef) {
         c_instance = cBasic
     }
     deinit {

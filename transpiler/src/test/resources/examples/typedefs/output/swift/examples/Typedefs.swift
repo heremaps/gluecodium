@@ -17,7 +17,7 @@ internal func getRef(_ ref: Typedefs) -> RefHolder<examples_TypedefsRef> {
 public class Typedefs {
     public typealias ExampleAlias = UInt32
     let c_instance : examples_TypedefsRef
-    public required init?(cTypedefs: examples_TypedefsRef) {
+    public init?(cTypedefs: examples_TypedefsRef) {
         c_instance = cTypedefs
     }
     deinit {
