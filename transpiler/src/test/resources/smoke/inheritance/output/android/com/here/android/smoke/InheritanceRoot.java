@@ -14,4 +14,6 @@ package com.here.android.smoke;
 
 public interface InheritanceRoot {
     void rootMethod();
+    String getRootAttribute();
+    void setRootAttribute(final String value);
 }
