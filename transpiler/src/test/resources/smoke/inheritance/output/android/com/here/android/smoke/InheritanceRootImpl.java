@@ -25,4 +25,6 @@ class InheritanceRootImpl extends NativeBase implements InheritanceRoot {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     public native void rootMethod();
+    public native String getRootAttribute();
+    public native void setRootAttribute(final String value);
 }
