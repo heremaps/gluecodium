@@ -409,9 +409,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   }
 
   private void addInnerClasses(final JavaTopLevelElement javaTopLevelElement) {
-    javaTopLevelElement.innerClasses.addAll(getPreviousResults(JavaClass.class));
-    javaTopLevelElement.innerClasses.forEach(
-        innerClass -> innerClass.qualifiers.add(JavaClass.Qualifier.STATIC));
+    List<JavaClass> innerClasses =
+        getPreviousResults(JavaClass.class)
+            .stream()
+            .filter(javaClass -> !javaClass.isImplClass)
+            .collect(Collectors.toList());
+    innerClasses.forEach(innerClass -> innerClass.qualifiers.add(JavaClass.Qualifier.STATIC));
+    javaTopLevelElement.innerClasses.addAll(innerClasses);
   }
 
   private void finishBuildingFrancaClass(final FInterface francaInterface) {

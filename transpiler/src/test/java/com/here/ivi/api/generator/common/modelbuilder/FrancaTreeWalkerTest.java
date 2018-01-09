@@ -106,6 +106,17 @@ public class FrancaTreeWalkerTest {
   }
 
   @Test
+  public void walkFrancaInterfaceWithParent() {
+    FInterface parentInterface = mock(FInterface.class);
+    when(francaInterface.getBase()).thenReturn(parentInterface);
+
+    treeWalker.walkTree(francaInterface);
+
+    verify(modelBuilder).startBuilding(parentInterface);
+    verify(modelBuilder).finishBuilding(parentInterface);
+  }
+
+  @Test
   public void walkWithOneMethod() {
     treeWalker.walkTree(francaInterface);
 
