@@ -103,19 +103,19 @@ public final class SwiftNameRules {
     return NameHelper.toLowerCamelCase(name.getName());
   }
 
-  public static String getAccessorBaseName(FAttribute attribute) {
+  private static String getAccessorBaseName(final FAttribute attribute) {
     return CBridgeNameRules.fullyQualifiedName(
         CBridgeNameRules.getNestedNameSpecifier(attribute),
         NameHelper.toLowerCamelCase(attribute.getName()),
         UNDERSCORE_DELIMITER);
   }
 
-  public static String getPropertySetterName(String accessorBaseName) {
-    return accessorBaseName + "_set";
+  public static String getPropertySetterName(final FAttribute attribute) {
+    return getAccessorBaseName(attribute) + "_set";
   }
 
-  public static String getPropertyGetterName(String accessorBaseName) {
-    return accessorBaseName + "_get";
+  public static String getPropertyGetterName(final FAttribute attribute) {
+    return getAccessorBaseName(attribute) + "_get";
   }
 
   public static String getArrayName(SwiftType innerType) {

@@ -11,40 +11,18 @@
 
 package com.here.ivi.api.model.swift;
 
-import com.here.ivi.api.generator.swift.SwiftNameRules;
 import java.util.LinkedList;
 import java.util.List;
 
 public final class SwiftProperty extends SwiftTypedModelElement {
 
-  public final boolean readonly;
   public final List<SwiftMethod> propertyAccessors = new LinkedList<>();
 
-  public SwiftProperty(String propertyName, SwiftType type, boolean readonly, String delegateName) {
+  public SwiftProperty(String propertyName, SwiftType type) {
     super(propertyName, type);
-    this.readonly = readonly;
-
-    propertyAccessors.add(createGetterBody(delegateName));
-    if (!readonly) {
-      propertyAccessors.add(createSetterBody(delegateName));
-    }
   }
 
-  private SwiftMethod createGetterBody(String delegateName) {
-    return SwiftMethod.builder("")
-        .cBaseName(SwiftNameRules.getPropertyGetterName(delegateName))
-        .returnType(type)
-        .forceReturnValueUnwrapping(true)
-        .build();
-  }
-
-  private SwiftMethod createSetterBody(String delegateName) {
-    SwiftMethod swiftMethod =
-        SwiftMethod.builder("")
-            .cBaseName(SwiftNameRules.getPropertySetterName(delegateName))
-            .returnType(SwiftType.VOID)
-            .build();
-    swiftMethod.parameters.add(new SwiftParameter("newValue", type));
-    return swiftMethod;
+  public boolean isReadonly() {
+    return propertyAccessors.size() <= 1;
   }
 }
