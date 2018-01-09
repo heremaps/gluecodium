@@ -104,7 +104,7 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(
         JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME, customReturn.imports.iterator().next().javaPackage);
     assertEquals(STRUCT_NAME_TYPECOLLECTION, customReturn.imports.iterator().next().className);
-    assertFalse(customReturn.isNullable);
+    assertFalse(customReturn.isInterface);
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(STRUCT_NAME_TYPECOLLECTION);
   }
@@ -128,7 +128,7 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(STRUCT_NAME_INTERFACE, customReturn.classNames.get(1));
     assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().javaPackage);
     assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().className);
-    assertFalse(customReturn.isNullable);
+    assertFalse(customReturn.isInterface);
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(STRUCT_NAME_INTERFACE);
     PowerMockito.verifyStatic();
@@ -186,7 +186,7 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(INTERFACE_NAME, customResult.name);
     assertEquals(1, customResult.imports.size());
     assertEquals(packageNames, customResult.imports.iterator().next().javaPackage.packageNames);
-    assertTrue(customResult.isNullable);
+    assertTrue(customResult.isInterface);
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(INTERFACE_NAME);
     PowerMockito.verifyStatic();

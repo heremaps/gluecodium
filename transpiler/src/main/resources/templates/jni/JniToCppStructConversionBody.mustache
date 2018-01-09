@@ -15,7 +15,12 @@
     "L{{#javaField.type.packageNames}}{{.}}/{{/javaField.type.packageNames}}{{#javaField.type.classNames}}{{.}}{{/javaField.type.classNames}};"),
     {{/hasTemplateType}}
     {{^hasTemplateType}}
+    {{#javaField.type.isInterface}}
+    "L{{#javaField.type.packageNames}}{{.}}/{{/javaField.type.packageNames}}{{javaField.type.name}};"),
+    {{/javaField.type.isInterface}}
+    {{^javaField.type.isInterface}}
     "L{{>jni/JavaClassSignaturePrefix}}{{#javaField.type.classNames}}{{#iter.isLast}}{{.}}{{/iter.isLast}}{{/javaField.type.classNames}};"),
+    {{/javaField.type.isInterface}}
     {{/hasTemplateType}}
     _nout.{{cppField.name}} );
   {{/hasCustomType}}

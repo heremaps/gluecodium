@@ -356,7 +356,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsNullable() {
-    JavaCustomType customType = JavaCustomType.builder("").isNullable(true).build();
+    JavaCustomType customType = JavaCustomType.builder("").isInterface(true).build();
     contextStack.injectResult(customType);
 
     modelBuilder.finishBuilding(francaField);

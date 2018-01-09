@@ -227,7 +227,7 @@ public class JavaTypeMapper {
           .className(className)
           .packageNames(packageNames)
           .anImport(classImport)
-          .isNullable(true)
+          .isInterface(true)
           .build();
     } else {
       return map(typeDef.getActualType());
