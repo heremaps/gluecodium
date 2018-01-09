@@ -174,6 +174,7 @@ public class JavaModelBuilderInterfaceTest {
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertEquals(javaCustomType, javaClass.extendedClass);
+    assertTrue(javaClass.innerClasses.isEmpty());
   }
 
   // Creates: Interface implemented as Java interface
@@ -267,6 +268,7 @@ public class JavaModelBuilderInterfaceTest {
     assertNotNull(javaInterface);
     assertFalse(javaInterface.parentInterfaces.isEmpty());
     assertEquals(javaCustomType, javaInterface.parentInterfaces.iterator().next());
+    assertTrue(javaInterface.innerClasses.isEmpty());
   }
 
   // Creates: Implementation class for Java interface
