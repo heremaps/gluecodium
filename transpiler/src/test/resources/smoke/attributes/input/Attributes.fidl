@@ -28,6 +28,7 @@ interface Attributes {
     attribute ExampleStruct structAttribute
     attribute String[] arrayAttribute
     attribute InternalError complexTypeAttribute
+    attribute ByteBuffer byteBufferAttribute
 }
 
 interface AttributesInterface {
