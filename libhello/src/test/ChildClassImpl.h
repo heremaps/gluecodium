@@ -20,9 +20,15 @@ namespace test
 class ChildClassImpl : public ChildClass, public ::std::enable_shared_from_this< ChildClassImpl >
 {
 public:
+    ChildClassImpl( );
     ~ChildClassImpl( ) = default;
     ::std::shared_ptr< ParentInterface > cast_to_parent( ) override;
     ::std::string get_name( ) override;
+    int32_t get_lucky_number( ) override;
+    void set_lucky_number( const int32_t number ) override;
+
+private:
+    int32_t m_lucky_number;
 };
 
 }

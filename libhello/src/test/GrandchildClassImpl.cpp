@@ -21,6 +21,11 @@ GrandchildClass::create_grandchild_class( )
     return std::make_shared< GrandchildClassImpl >( );
 }
 
+GrandchildClassImpl::GrandchildClassImpl( )
+{
+    set_lucky_number(42);
+}
+
 std::shared_ptr< ParentInterface >
 GrandchildClassImpl::cast_to_parent( )
 {
@@ -31,6 +36,18 @@ std::string
 GrandchildClassImpl::get_name( )
 {
     return "John F. Kimberly";
+}
+
+int32_t
+GrandchildClassImpl::get_lucky_number( )
+{
+    return ChildClassImpl::get_lucky_number( );
+}
+
+void
+GrandchildClassImpl::set_lucky_number( const int32_t number )
+{
+    ChildClassImpl::set_lucky_number( number );
 }
 
 }

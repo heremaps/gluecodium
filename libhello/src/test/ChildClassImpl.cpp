@@ -21,6 +21,11 @@ ChildClass::create_child_class( )
     return std::make_shared< ChildClassImpl >( );
 }
 
+ChildClassImpl::ChildClassImpl( )
+    : m_lucky_number(7)
+{
+}
+
 std::shared_ptr< ParentInterface >
 ChildClassImpl::cast_to_parent( )
 {
@@ -31,6 +36,18 @@ std::string
 ChildClassImpl::get_name( )
 {
     return "Johnny";
+}
+
+int32_t
+ChildClassImpl::get_lucky_number( )
+{
+    return m_lucky_number;
+}
+
+void
+ChildClassImpl::set_lucky_number( const int32_t number )
+{
+    m_lucky_number = number;
 }
 
 }
