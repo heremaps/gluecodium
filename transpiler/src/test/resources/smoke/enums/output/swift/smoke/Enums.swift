@@ -17,7 +17,7 @@ internal func getRef(_ ref: Enums) -> RefHolder<smoke_EnumsRef> {
 
 public class Enums {
     let c_instance : smoke_EnumsRef
-    public required init?(cEnums: smoke_EnumsRef) {
+    public init?(cEnums: smoke_EnumsRef) {
         c_instance = cEnums
     }
     deinit {

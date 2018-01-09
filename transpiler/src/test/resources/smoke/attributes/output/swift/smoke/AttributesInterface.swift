@@ -62,7 +62,7 @@ internal class _AttributesInterface: AttributesInterface {
     }
     let c_instance : smoke_AttributesInterfaceRef
 
-    required init?(cAttributesInterface: smoke_AttributesInterfaceRef) {
+    init?(cAttributesInterface: smoke_AttributesInterfaceRef) {
         c_instance = cAttributesInterface
     }
 

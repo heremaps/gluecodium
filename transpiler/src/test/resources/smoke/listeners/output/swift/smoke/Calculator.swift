@@ -17,7 +17,7 @@ internal func getRef(_ ref: Calculator) -> RefHolder<smoke_CalculatorRef> {
 
 public class Calculator {
     let c_instance : smoke_CalculatorRef
-    public required init?(cCalculator: smoke_CalculatorRef) {
+    public init?(cCalculator: smoke_CalculatorRef) {
         c_instance = cCalculator
     }
     deinit {

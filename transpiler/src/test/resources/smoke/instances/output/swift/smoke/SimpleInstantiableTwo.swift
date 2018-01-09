@@ -18,7 +18,7 @@ internal func getRef(_ ref: SimpleInstantiableTwo) -> RefHolder<smoke_SimpleInst
 public class SimpleInstantiableTwo {
     let c_instance : smoke_SimpleInstantiableTwoRef
 
-    public required init?(cSimpleInstantiableTwo: smoke_SimpleInstantiableTwoRef) {
+    public init?(cSimpleInstantiableTwo: smoke_SimpleInstantiableTwoRef) {
         c_instance = cSimpleInstantiableTwo
     }
 

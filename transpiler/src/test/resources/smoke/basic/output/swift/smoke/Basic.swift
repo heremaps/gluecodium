@@ -17,7 +17,7 @@ internal func getRef(_ ref: Basic) -> RefHolder<smoke_BasicRef> {
 
 public class Basic {
     let c_instance : smoke_BasicRef
-    public required init?(cBasic: smoke_BasicRef) {
+    public init?(cBasic: smoke_BasicRef) {
         c_instance = cBasic
     }
     deinit {

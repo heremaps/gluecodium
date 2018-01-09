@@ -14,7 +14,7 @@ internal func getRef(_ ref: Arrays) -> RefHolder<examples_ArraysRef> {
 }
 public class Arrays {
     let c_instance : examples_ArraysRef
-    public required init?(cArrays: examples_ArraysRef) {
+    public init?(cArrays: examples_ArraysRef) {
         c_instance = cArrays
     }
     deinit {

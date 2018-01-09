@@ -17,7 +17,7 @@ internal func getRef(_ ref: StaticMethods) -> RefHolder<smoke_StaticMethodsRef> 
 
 public class StaticMethods {
     let c_instance : smoke_StaticMethodsRef
-    public required init?(cStaticMethods: smoke_StaticMethodsRef) {
+    public init?(cStaticMethods: smoke_StaticMethodsRef) {
         c_instance = cStaticMethods
     }
     deinit {

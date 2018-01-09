@@ -17,7 +17,7 @@ internal func getRef(_ ref: StructsFromTypeCollection) -> RefHolder<smoke_Struct
 
 public class StructsFromTypeCollection {
     let c_instance : smoke_StructsFromTypeCollectionRef
-    public required init?(cStructsFromTypeCollection: smoke_StructsFromTypeCollectionRef) {
+    public init?(cStructsFromTypeCollection: smoke_StructsFromTypeCollectionRef) {
         c_instance = cStructsFromTypeCollection
     }
     deinit {

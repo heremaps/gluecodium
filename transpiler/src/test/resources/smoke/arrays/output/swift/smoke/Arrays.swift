@@ -20,7 +20,7 @@ public class Arrays {
     public typealias ProfileId = String
 
     let c_instance : smoke_ArraysRef
-    public required init?(cArrays: smoke_ArraysRef) {
+    public init?(cArrays: smoke_ArraysRef) {
         c_instance = cArrays
     }
     deinit {

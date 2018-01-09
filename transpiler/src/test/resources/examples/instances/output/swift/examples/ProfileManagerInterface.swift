@@ -50,7 +50,7 @@ internal class _ProfileManagerInterface: ProfileManagerInterface {
 
     let c_instance : examples_ProfileManagerInterfaceRef
 
-    required init?(cProfileManagerInterface: examples_ProfileManagerInterfaceRef) {
+    init?(cProfileManagerInterface: examples_ProfileManagerInterfaceRef) {
         c_instance = cProfileManagerInterface
     }
 

@@ -14,7 +14,7 @@ internal func getRef(_ ref: MethodOverloads) -> RefHolder<smoke_MethodOverloadsR
 }
 public class MethodOverloads {
     let c_instance : smoke_MethodOverloadsRef
-    public required init?(cMethodOverloads: smoke_MethodOverloadsRef) {
+    public init?(cMethodOverloads: smoke_MethodOverloadsRef) {
         c_instance = cMethodOverloads
     }
     deinit {

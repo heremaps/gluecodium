@@ -54,7 +54,7 @@ internal class _SimpleInterface: SimpleInterface {
 
     let c_instance : smoke_SimpleInterfaceRef
 
-    required init?(cSimpleInterface: smoke_SimpleInterfaceRef) {
+    init?(cSimpleInterface: smoke_SimpleInterfaceRef) {
         c_instance = cSimpleInterface
     }
 

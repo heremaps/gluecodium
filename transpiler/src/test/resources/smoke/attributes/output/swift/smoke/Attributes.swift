@@ -67,7 +67,7 @@ public class Attributes {
         }
     }
     let c_instance : smoke_AttributesRef
-    public required init?(cAttributes: smoke_AttributesRef) {
+    public init?(cAttributes: smoke_AttributesRef) {
         c_instance = cAttributes
     }
     deinit {

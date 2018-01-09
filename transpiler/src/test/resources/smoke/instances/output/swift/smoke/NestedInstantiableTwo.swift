@@ -18,7 +18,7 @@ internal func getRef(_ ref: NestedInstantiableTwo) -> RefHolder<smoke_NestedInst
 public class NestedInstantiableTwo {
     let c_instance : smoke_NestedInstantiableTwoRef
 
-    public required init?(cNestedInstantiableTwo: smoke_NestedInstantiableTwoRef) {
+    public init?(cNestedInstantiableTwo: smoke_NestedInstantiableTwoRef) {
         c_instance = cNestedInstantiableTwo
     }
 

@@ -16,7 +16,7 @@ internal func getRef(_ ref: BuiltinTypes) -> RefHolder<examples_BuiltinTypesRef>
 }
 public class BuiltinTypes {
     let c_instance : examples_BuiltinTypesRef
-    public required init?(cBuiltinTypes: examples_BuiltinTypesRef) {
+    public init?(cBuiltinTypes: examples_BuiltinTypesRef) {
         c_instance = cBuiltinTypes
     }
     deinit {

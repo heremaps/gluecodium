@@ -19,7 +19,7 @@ public class Errors {
 
     let c_instance : examples_ErrorsRef
 
-    public required init?(cErrors: examples_ErrorsRef) {
+    public init?(cErrors: examples_ErrorsRef) {
         c_instance = cErrors
     }
 
