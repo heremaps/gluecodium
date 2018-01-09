@@ -74,7 +74,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 })
 public class CBridgeModelBuilderTest {
 
-  private static final String FULL_FUNCTION_NAME = "FULL_FUNCTION_NAME";
+  private static final String FULL_FUNCTION_NAME = "NOT_SHORT_FUNCTION_NAME";
+  private static final String NESTED_SPECIFIER_NAME = "NOT";
+  private static final String SHORT_FUNCTION_NAME = "SHORT_FUNCTION_NAME";
   private static final String DELEGATE_NAME = "DELEGATE_NAME";
   private static final String PARAM_NAME = "inputParam";
   private static final String STRUCT_NAME = "SomeStruct";
@@ -107,7 +109,10 @@ public class CBridgeModelBuilderTest {
 
   private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
   private final SwiftMethod swiftMethod =
-      SwiftMethod.builder("swiftFoo").cBaseName(FULL_FUNCTION_NAME).build();
+      SwiftMethod.builder("swiftFoo")
+          .cNestedSpecifier(NESTED_SPECIFIER_NAME)
+          .cShortName(SHORT_FUNCTION_NAME)
+          .build();
   private CBridgeModelBuilder modelBuilder;
 
   @Before
@@ -214,16 +219,28 @@ public class CBridgeModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaMethodReadsName() {
+    when(CBridgeNameRules.getNestedSpecifierString(any())).thenReturn("NOT");
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    CFunction function = modelBuilder.getFinalResult(CFunction.class);
+    assertNotNull(function);
+    assertEquals(FULL_FUNCTION_NAME, function.name);
+    assertEquals(SHORT_FUNCTION_NAME, function.shortName);
+  }
+
+  @Test
   public void finishBuildingCreatesMethodWithoutParams() {
     CppMethod cppMethod = CppMethod.builder().fullyQualifiedName(DELEGATE_NAME).build();
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(cppMethod);
+
     modelBuilder.finishBuilding(francaMethod);
 
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
     assertEquals(CType.VOID, function.returnType.functionReturnType);
     assertEquals(0, function.parameters.size());
-    assertEquals(FULL_FUNCTION_NAME, function.name);
     assertEquals(DELEGATE_NAME, function.delegateCall);
   }
 
@@ -239,7 +256,6 @@ public class CBridgeModelBuilderTest {
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
     assertEquals(CType.VOID, function.returnType.functionReturnType);
-    assertEquals(FULL_FUNCTION_NAME, function.name);
     assertEquals(DELEGATE_NAME, function.delegateCall);
     assertEquals(1, function.parameters.size());
     assertSame(param, function.parameters.get(0));
@@ -247,7 +263,7 @@ public class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesCInterfaceForFInterface() {
-    CFunction function = CFunction.builder("SomeName").build();
+    CFunction function = CFunction.builder("SomeName").nestedSpecifier("foo").build();
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -260,7 +276,7 @@ public class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesCInterfaceForFTypeCollection() {
-    CFunction function = CFunction.builder("SomeName").build();
+    CFunction function = CFunction.builder("SomeName").nestedSpecifier("foo").build();
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaTypeCollection);
@@ -273,7 +289,7 @@ public class CBridgeModelBuilderTest {
 
   @Test
   public void properIncludesForVoidFunctionNotCallingToBaseApi() {
-    CFunction function = CFunction.builder("SomeName").build();
+    CFunction function = CFunction.builder("SomeName").nestedSpecifier("foo").build();
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -289,6 +305,7 @@ public class CBridgeModelBuilderTest {
   public void properIncludesForVoidFunctionCallingToBaseApi() {
     CFunction function =
         CFunction.builder("SomeName")
+            .nestedSpecifier("foo")
             .delegateCall("someBaseApiFunc()")
             .delegateCallIncludes(singleton(Include.createInternalInclude("baseApiInclude.h")))
             .build();
@@ -435,9 +452,9 @@ public class CBridgeModelBuilderTest {
     when(francaAttribute.isReadonly()).thenReturn(false);
     SwiftProperty swiftProperty = new SwiftProperty("", new SwiftType(""));
     swiftProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cBaseName(CBRIDGE_ATTR_GETTER_NAME).build());
+        SwiftMethod.builder("").cShortName(CBRIDGE_ATTR_GETTER_NAME).build());
     swiftProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cBaseName(CBRIDGE_ATTR_SETTER_NAME).build());
+        SwiftMethod.builder("").cShortName(CBRIDGE_ATTR_SETTER_NAME).build());
     when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
 
     contextStack.injectResult(cppTypeInfo);
@@ -462,7 +479,7 @@ public class CBridgeModelBuilderTest {
     when(francaAttribute.isReadonly()).thenReturn(true);
     SwiftProperty swiftProperty = new SwiftProperty("", new SwiftType(""));
     swiftProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cBaseName(CBRIDGE_ATTR_GETTER_NAME).build());
+        SwiftMethod.builder("").cShortName(CBRIDGE_ATTR_GETTER_NAME).build());
     when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
 
     contextStack.injectResult(cppTypeInfo);

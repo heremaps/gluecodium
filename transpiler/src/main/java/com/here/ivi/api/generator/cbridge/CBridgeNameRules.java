@@ -75,13 +75,14 @@ public final class CBridgeNameRules {
     return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaInterface));
   }
 
-  public static String getMethodName(final FMethod method) {
-    List<String> nestedNameSpecifier = getNestedNameSpecifier(method);
-    nestedNameSpecifier.add(NameHelper.toLowerCamelCase(method.getName()));
+  public static String getShortMethodName(final FMethod method) {
     if (method.getSelector() != null && !method.getSelector().isEmpty()) {
-      nestedNameSpecifier.add(method.getSelector());
+      return NameHelper.toLowerCamelCase(method.getName())
+          + UNDERSCORE_DELIMITER
+          + method.getSelector();
+    } else {
+      return NameHelper.toLowerCamelCase(method.getName());
     }
-    return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
   }
 
   public static String getStructRefType(final FModelElement francaElement) {
@@ -137,6 +138,11 @@ public final class CBridgeNameRules {
     return result;
   }
 
+  public static String getNestedSpecifierString(final FModelElement modelElement) {
+    List<String> nestedNameSpecifier = getNestedNameSpecifier(modelElement);
+    return String.join(UNDERSCORE_DELIMITER, nestedNameSpecifier);
+  }
+
   public static String getEnumItemName(FEnumerator francaEnumItem) {
     return fullyQualifiedName(
         getNestedNameSpecifier(francaEnumItem),
@@ -185,17 +191,10 @@ public final class CBridgeNameRules {
   }
 
   public static String getPropertySetterName(final FAttribute attribute) {
-    return getAccessorBaseName(attribute) + "_set";
+    return NameHelper.toLowerCamelCase(attribute.getName()) + "_set";
   }
 
   public static String getPropertyGetterName(final FAttribute attribute) {
-    return getAccessorBaseName(attribute) + "_get";
-  }
-
-  private static String getAccessorBaseName(FAttribute attribute) {
-    return fullyQualifiedName(
-        getNestedNameSpecifier(attribute),
-        NameHelper.toLowerCamelCase(attribute.getName()),
-        UNDERSCORE_DELIMITER);
+    return NameHelper.toLowerCamelCase(attribute.getName()) + "_get";
   }
 }

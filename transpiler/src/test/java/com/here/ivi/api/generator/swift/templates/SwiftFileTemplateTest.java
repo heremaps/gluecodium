@@ -104,7 +104,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("myMethod")
             .returnType(new SwiftType("Int"))
-            .cBaseName("myPackage_ExampleClass_myMethod")
+            .cNestedSpecifier("myPackage_ExampleClass")
+            .cShortName("myMethod")
             .build();
     method.parameters.add(new SwiftParameter("parameter", new SwiftType("Int")));
     swiftClass.methods.add(method);
@@ -127,7 +128,11 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodParameterDifferentInterfaceAndVariableName() {
     SwiftClass swiftClass = SwiftClass.builder("ExampleClass").isInterface(true).build();
-    SwiftMethod method = SwiftMethod.builder("myMethod").cBaseName("ExampleClass_myMethod").build();
+    SwiftMethod method =
+        SwiftMethod.builder("myMethod")
+            .cNestedSpecifier("ExampleClass")
+            .cShortName("myMethod")
+            .build();
     method.parameters.add(
         new SwiftParameter(
             "parameterInterfaceName", new SwiftType("Int"), "parameterVariableName"));
@@ -154,7 +159,11 @@ public class SwiftFileTemplateTest {
     swiftClass.implementsProtocols.add("ExampleClass");
     SwiftParameter parameterOne = new SwiftParameter("parameterOne", new SwiftType("Int"));
     SwiftParameter parameterTwo = new SwiftParameter("parameterTwo", new SwiftType("String"));
-    SwiftMethod method = SwiftMethod.builder("myMethod").cBaseName("ExampleClass_myMethod").build();
+    SwiftMethod method =
+        SwiftMethod.builder("myMethod")
+            .cNestedSpecifier("ExampleClass")
+            .cShortName("myMethod")
+            .build();
     method.parameters.add(parameterOne);
     method.parameters.add(parameterTwo);
     swiftClass.methods.add(method);
@@ -177,7 +186,8 @@ public class SwiftFileTemplateTest {
   public void methodWithArrayParameter() {
     SwiftClass swiftClass = SwiftClass.builder("MyClass").isInterface(true).build();
     swiftClass.implementsProtocols.add("MyClass");
-    SwiftMethod method = SwiftMethod.builder("myMethod").cBaseName("MyClass_myMethod").build();
+    SwiftMethod method =
+        SwiftMethod.builder("myMethod").cNestedSpecifier("MyClass").cShortName("myMethod").build();
     method.parameters.add(new SwiftParameter("array", new SwiftType("[UInt8]")));
     swiftClass.methods.add(method);
 
@@ -202,7 +212,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("myMethod")
             .returnType(new SwiftType("Int"))
-            .cBaseName("CommentedExampleClass_myMethod")
+            .cNestedSpecifier("CommentedExampleClass")
+            .cShortName("myMethod")
             .build();
     method.parameters.add(new SwiftParameter("myParameter", new SwiftType("String")));
     method.comment = "Do something";
@@ -235,7 +246,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("myStaticMethod")
             .isStatic(true)
-            .cBaseName("MyClass_myStaticMethod")
+            .cNestedSpecifier("MyClass")
+            .cShortName("myStaticMethod")
             .build();
     swiftClass.methods.add(method);
 
@@ -256,7 +268,8 @@ public class SwiftFileTemplateTest {
         SwiftMethod.builder("helloWorldMethod")
             .returnType(new SwiftType("String", TypeCategory.BUILTIN_STRING).createOptionalType())
             .isStatic(true)
-            .cBaseName("HelloWorld_helloWorldMethod")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("helloWorldMethod")
             .build();
     method.parameters.add(new SwiftParameter("inputString", SwiftType.STRING));
     swiftClass.methods.add(method);
@@ -282,7 +295,11 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftParameter swiftParameter = new SwiftParameter("byteBuffer", SwiftType.DATA);
     SwiftMethod method =
-        SwiftMethod.builder("testBuffer").isStatic(true).cBaseName("HelloWorld_testBuffer").build();
+        SwiftMethod.builder("testBuffer")
+            .isStatic(true)
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("testBuffer")
+            .build();
     method.parameters.add(swiftParameter);
     swiftClass.methods.add(method);
 
@@ -303,7 +320,11 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftParameter swiftParameter = new SwiftParameter("data", SwiftType.DATA, "byteBuffer");
     SwiftMethod method =
-        SwiftMethod.builder("testBuffer").isStatic(true).cBaseName("HelloWorld_testBuffer").build();
+        SwiftMethod.builder("testBuffer")
+            .isStatic(true)
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("testBuffer")
+            .build();
     method.parameters.add(swiftParameter);
     swiftClass.methods.add(method);
 
@@ -327,7 +348,11 @@ public class SwiftFileTemplateTest {
     SwiftParameter param3 = new SwiftParameter("number", new SwiftType("Int"));
     SwiftParameter param4 = new SwiftParameter("data2", SwiftType.DATA);
     SwiftMethod method =
-        SwiftMethod.builder("testBuffer").isStatic(true).cBaseName("HelloWorld_testBuffer").build();
+        SwiftMethod.builder("testBuffer")
+            .isStatic(true)
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("testBuffer")
+            .build();
     method.parameters.addAll(Arrays.asList(param1, param2, param3, param4));
     swiftClass.methods.add(method);
 
@@ -358,7 +383,8 @@ public class SwiftFileTemplateTest {
             .returnType(
                 new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER)
                     .createOptionalType())
-            .cBaseName("HelloWorld_testBuffer")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("testBuffer")
             .build();
     method.parameters.addAll(Arrays.asList(param1, param2, param3, param4));
     swiftClass.methods.add(method);
@@ -393,7 +419,8 @@ public class SwiftFileTemplateTest {
         SwiftMethod.builder("testBuffer")
             .isStatic(true)
             .returnType(new SwiftType("Int"))
-            .cBaseName("HelloWorld_testBuffer")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("testBuffer")
             .build();
     method.parameters.addAll(Arrays.asList(param1, param2, param3, param4));
     swiftClass.methods.add(method);
@@ -422,7 +449,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("methodTakingStruct")
             .isStatic(true)
-            .cBaseName("HelloWorld_methodTakingStruct")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("methodTakingStruct")
             .build();
     method.parameters.add(new SwiftParameter("inputParam", swiftStruct));
     swiftClass.methods.add(method);
@@ -452,7 +480,8 @@ public class SwiftFileTemplateTest {
         SwiftMethod.builder("methodReturningStruct")
             .isStatic(true)
             .returnType(swiftStruct.createOptionalType())
-            .cBaseName("HelloWorld_methodReturningStruct")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("methodReturningStruct")
             .build();
     swiftClass.methods.add(method);
 
@@ -486,7 +515,8 @@ public class SwiftFileTemplateTest {
         SwiftMethod.builder("fancyMethod")
             .isStatic(true)
             .returnType(outputStruct.createOptionalType())
-            .cBaseName("HelloWorld_fancyMethod")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("fancyMethod")
             .build();
     method.parameters.add(new SwiftParameter("icon", SwiftType.DATA));
     method.parameters.add(new SwiftParameter("name", SwiftType.STRING));
@@ -689,7 +719,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("instanceMethod")
             .returnType(new SwiftType("Int"))
-            .cBaseName("HelloWorld_instanceMethod")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("instanceMethod")
             .build();
     swiftClass.methods.add(method);
 
@@ -734,7 +765,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("createInstanceMethod")
             .returnType(mappedType)
-            .cBaseName("HelloWorld_createInstanceMethod")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("createInstanceMethod")
             .isStatic(true)
             .build();
     swiftClass.methods.add(method);
@@ -789,7 +821,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("createInstanceMethod")
             .returnType(mappedType)
-            .cBaseName("HelloWorld_createInstanceMethod")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("createInstanceMethod")
             .isStatic(true)
             .build();
     swiftClass.methods.add(method);
@@ -820,7 +853,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("createInstanceMethod")
             .returnType(typedef.type)
-            .cBaseName("HelloWorld_createInstanceMethod")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("createInstanceMethod")
             .isStatic(true)
             .build();
     swiftClass.methods.add(method);
@@ -838,7 +872,7 @@ public class SwiftFileTemplateTest {
   }
 
   @Test
-  public void protocolWithProperty() {
+  public void protocolWithPropertyOfDataType() {
     SwiftClass swiftClass =
         SwiftClass.builder("SomeClassWithProperty")
             .cInstanceRef("SomeClassWithPropertyRef")
@@ -846,9 +880,9 @@ public class SwiftFileTemplateTest {
             .build();
     SwiftProperty someProperty = new SwiftProperty("someAttributeName", SwiftType.DATA);
     someProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cBaseName("CBRIDGE_DELEGATE").build());
+        SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
     someProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cBaseName("CBRIDGE_DELEGATE").build());
+        SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
     swiftClass.properties.add(someProperty);
     TemplateComparator expected =
         TemplateComparator.expect(
@@ -880,16 +914,16 @@ public class SwiftFileTemplateTest {
   }
 
   @Test
-  public void classWithProperty() {
+  public void classWithPropertyOfDataType() {
     SwiftClass swiftClass =
         SwiftClass.builder("SomeClassWithProperty")
             .cInstanceRef("SomeClassWithPropertyRef")
             .build();
     SwiftProperty someProperty = new SwiftProperty("someAttributeName", SwiftType.DATA);
     someProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cBaseName("CBRIDGE_DELEGATE").build());
+        SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
     someProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cBaseName("CBRIDGE_DELEGATE").build());
+        SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
     swiftClass.properties.add(someProperty);
     final String expected =
         "import Foundation\n"
@@ -928,7 +962,7 @@ public class SwiftFileTemplateTest {
             .build();
     SwiftProperty someProperty = new SwiftProperty("someStringAttribute", SwiftType.STRING);
     someProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cBaseName("CBRIDGE_DELEGATE").build());
+        SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
     swiftClass.properties.add(someProperty);
     TemplateComparator expected =
         TemplateComparator.expect(
@@ -1056,7 +1090,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("SomeMethod")
             .returnType(secondStruct.createAlias("SomeClass.RenamedStruct"))
-            .cBaseName("HelloWorld_someMethod")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("someMethod")
             .isStatic(true)
             .build();
     method.parameters.add(new SwiftParameter("input", firstStruct));
@@ -1120,7 +1155,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("SomeMethod")
             .returnType(SwiftType.VOID)
-            .cBaseName("HelloWorld_someMethod")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("someMethod")
             .isStatic(true)
             .error(
                 SwiftEnum.builder("SomeClass.Errors")
@@ -1154,7 +1190,8 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("SomeMethod")
             .returnType(new SwiftType("String", TypeCategory.BUILTIN_STRING).createOptionalType())
-            .cBaseName("HelloWorld_someMethod")
+            .cNestedSpecifier("HelloWorld")
+            .cShortName("someMethod")
             .isStatic(true)
             .error(
                 SwiftEnum.builder("SomeClass.Errors")

@@ -145,7 +145,8 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             getCurrentContext().previousResults, COutParameter.class, new COutParameter());
 
     CFunction.CFunctionBuilder methodBuilder =
-        CFunction.builder(swiftMethod.cBaseName)
+        CFunction.builder(swiftMethod.cShortName)
+            .nestedSpecifier(swiftMethod.cNestedSpecifier)
             .delegateCall(cppMethod.fullyQualifiedName)
             .parameters(inParams)
             .returnType(returnParam.mappedType)
@@ -251,16 +252,20 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     CInParameter selfParameter = new CInParameter("_instance", classInfo);
     CppTypeInfo attributeTypeInfo = getPreviousResult(CppTypeInfo.class);
 
+    SwiftMethod getterSwiftMethod = property.propertyAccessors.get(0);
     CFunction.CFunctionBuilder getterBuilder =
-        CFunction.builder(property.propertyAccessors.get(0).cBaseName)
+        CFunction.builder(getterSwiftMethod.cShortName)
+            .nestedSpecifier(getterSwiftMethod.cNestedSpecifier)
             .returnType(attributeTypeInfo)
             .selfParameter(selfParameter)
             .functionName(cppMethods.get(0).name);
     storeResult(getterBuilder.build());
 
     if (!attribute.isReadonly()) {
+      SwiftMethod setterSwiftMethod = property.propertyAccessors.get(1);
       CFunction.CFunctionBuilder setterBuilder =
-          CFunction.builder(property.propertyAccessors.get(1).cBaseName)
+          CFunction.builder(setterSwiftMethod.cShortName)
+              .nestedSpecifier(setterSwiftMethod.cNestedSpecifier)
               .parameters(
                   Collections.singletonList(new CInParameter("newValue", attributeTypeInfo)))
               .selfParameter(selfParameter)
