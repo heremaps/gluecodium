@@ -21,9 +21,12 @@ namespace test
 class GrandchildClassImpl : public GrandchildClass, public ChildClassImpl
 {
 public:
+    GrandchildClassImpl( );
     ~GrandchildClassImpl( ) = default;
     ::std::shared_ptr< ParentInterface > cast_to_parent( ) override;
     ::std::string get_name( ) override;
+    int32_t get_lucky_number( ) override;
+    void set_lucky_number( const int32_t number ) override;
 };
 
 }

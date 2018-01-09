@@ -21,35 +21,31 @@ public class InheritanceTest {
     public void createChildClassInstance() {
         ChildClass instance = ChildClass.createChildClass();
 
-        String result = instance.getName();
-
-        assertEquals("Johnny", result);
+        assertEquals("Johnny", instance.getName());
+        assertEquals(7, instance.getLuckyNumber());
     }
 
     @Test
     public void castChildClassInstanceToParent() {
         ParentInterface instance = ChildClass.createChildClass().castToParent();
 
-        String result = instance.getName();
-
-        assertEquals("Johnny", result);
+        assertEquals("Johnny", instance.getName());
+        assertEquals(7, instance.getLuckyNumber());
     }
 
     @Test
     public void createGrandchildClassInstance() {
         GrandchildClass instance = GrandchildClass.createGrandchildClass();
 
-        String result = instance.getName();
-
-        assertEquals("John F. Kimberly", result);
+        assertEquals("John F. Kimberly", instance.getName());
+        assertEquals(42, instance.getLuckyNumber());
     }
 
     @Test
     public void castGrandchildClassInstanceToParent() {
         ParentInterface instance = GrandchildClass.createGrandchildClass().castToParent();
 
-        String result = instance.getName();
-
-        assertEquals("John F. Kimberly", result);
+        assertEquals("John F. Kimberly", instance.getName());
+        assertEquals(42, instance.getLuckyNumber());
     }
 }

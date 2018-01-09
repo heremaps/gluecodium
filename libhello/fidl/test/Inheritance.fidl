@@ -35,6 +35,9 @@ interface ParentInterface {
             ParentInterface self
         }
     }
+
+     <** @description: Example attribute that represents a number. **>
+     attribute Int32 luckyNumber
 }
 
 interface ChildClass extends ParentInterface {
