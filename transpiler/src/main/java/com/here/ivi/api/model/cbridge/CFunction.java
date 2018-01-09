@@ -13,7 +13,9 @@ package com.here.ivi.api.model.cbridge;
 
 import static java.util.Collections.emptyList;
 
+import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.common.Include;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,6 +30,8 @@ public final class CFunction extends CElement {
   public final String functionName;
   public final CInParameter selfParameter;
   public final CppTypeInfo error;
+  public final String nestedSpecifier;
+  public final String shortName;
 
   public List<CParameter.SimpleParameter> getSignatureParameters() {
     Stream<? extends CParameter> stream =
@@ -43,22 +47,23 @@ public final class CFunction extends CElement {
     return returnType.functionReturnType.equals(CType.VOID);
   }
 
-  public static CFunctionBuilder builder(String name) {
-    return new CFunctionBuilder().name(name);
+  public static CFunctionBuilder builder(final String shortName) {
+    return new CFunctionBuilder().shortName(shortName);
   }
 
   @SuppressWarnings("ParameterNumber")
   @lombok.Builder
   private CFunction(
-      String name,
       List<? extends CParameter> parameters,
       CppTypeInfo returnType,
       String delegateCall,
       Set<Include> delegateCallIncludes,
       String functionName,
       CInParameter selfParameter,
-      CppTypeInfo error) {
-    super(name);
+      CppTypeInfo error,
+      String nestedSpecifier,
+      String shortName) {
+    super(NameHelper.joinNames(nestedSpecifier, shortName, CBridgeNameRules.UNDERSCORE_DELIMITER));
     this.parameters = parameters != null ? parameters : emptyList();
     this.returnType = returnType != null ? returnType : new CppTypeInfo(CType.VOID);
     this.delegateCall = delegateCall != null ? delegateCall : "";
@@ -67,5 +72,7 @@ public final class CFunction extends CElement {
     this.functionName = functionName;
     this.selfParameter = selfParameter;
     this.error = error;
+    this.nestedSpecifier = nestedSpecifier;
+    this.shortName = shortName;
   }
 }

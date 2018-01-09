@@ -527,13 +527,13 @@ public class SwiftModelBuilderTest {
     SwiftMethod getter = property.propertyAccessors.get(0);
     assertSame(swiftType, getter.returnType);
     assertEquals("Getter should have no parameters", 0, getter.parameters.size());
-    assertEquals(CBRIDGE_GETTER_NAME, getter.cBaseName);
+    assertEquals(CBRIDGE_GETTER_NAME, getter.cShortName);
 
     SwiftMethod setter = property.propertyAccessors.get(1);
     assertSame(SwiftType.VOID, setter.returnType);
     assertEquals("Setter should have one parameters", 1, setter.parameters.size());
     assertSame(swiftType, setter.parameters.get(0).type);
-    assertEquals(CBRIDGE_SETTER_NAME, setter.cBaseName);
+    assertEquals(CBRIDGE_SETTER_NAME, setter.cShortName);
   }
 
   @Test
@@ -552,7 +552,7 @@ public class SwiftModelBuilderTest {
     SwiftMethod getter = property.propertyAccessors.get(0);
     assertSame(swiftType, getter.returnType);
     assertEquals("Getter should have no parameters", 0, getter.parameters.size());
-    assertEquals(CBRIDGE_GETTER_NAME, getter.cBaseName);
+    assertEquals(CBRIDGE_GETTER_NAME, getter.cShortName);
   }
 
   @Test

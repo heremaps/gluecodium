@@ -239,7 +239,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .comment(comment)
             .returnType(returnParam.type)
             .isStatic(deploymentModel.isStatic(francaMethod))
-            .cBaseName(CBridgeNameRules.getMethodName(francaMethod))
+            .cNestedSpecifier(CBridgeNameRules.getNestedSpecifierString(francaMethod))
+            .cShortName(CBridgeNameRules.getShortMethodName(francaMethod))
             .error(createErrorIfNeeded(francaMethod))
             .build();
     method.parameters.addAll(inParams);
@@ -284,9 +285,11 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
         new SwiftProperty(
             SwiftNameRules.getPropertyName(attribute), getPreviousResult(SwiftType.class));
 
+    String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(attribute);
     SwiftMethod getterMethod =
         SwiftMethod.builder("")
-            .cBaseName(CBridgeNameRules.getPropertyGetterName(attribute))
+            .cNestedSpecifier(nestedSpecifier)
+            .cShortName(CBridgeNameRules.getPropertyGetterName(attribute))
             .returnType(property.type)
             .forceReturnValueUnwrapping(true)
             .build();
@@ -295,7 +298,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     if (!attribute.isReadonly()) {
       SwiftMethod setterMethod =
           SwiftMethod.builder("")
-              .cBaseName(CBridgeNameRules.getPropertySetterName(attribute))
+              .cNestedSpecifier(nestedSpecifier)
+              .cShortName(CBridgeNameRules.getPropertySetterName(attribute))
               .returnType(SwiftType.VOID)
               .build();
       setterMethod.parameters.add(new SwiftParameter("newValue", property.type));

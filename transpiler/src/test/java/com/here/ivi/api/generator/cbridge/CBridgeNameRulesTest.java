@@ -121,14 +121,6 @@ public final class CBridgeNameRulesTest {
   }
 
   @Test
-  public void getMethodNameCreatesProperName() {
-    String expectedName = prependNameWithPackageAndInterface(METHOD_NAME);
-
-    String actualName = CBridgeNameRules.getMethodName(francaMethod);
-    assertEquals(expectedName, actualName);
-  }
-
-  @Test
   public void getHeaderFileNameWithPathReturnsCorrectPath() {
     String expected = "cbridge/include/PKG1/PKG2/TestInterface.h";
 

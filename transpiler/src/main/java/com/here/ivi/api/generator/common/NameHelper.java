@@ -15,8 +15,10 @@ import static org.apache.commons.text.WordUtils.capitalizeFully;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Strings;
 
-public class NameHelper {
+public final class NameHelper {
+
   private static final String UNDERSCORE = "_";
 
   public static String toUpperSnakeCase(String input) {
@@ -73,6 +75,17 @@ public class NameHelper {
       return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input);
     } else {
       return input.toLowerCase();
+    }
+  }
+
+  public static String joinNames(
+      final String firstString, final String secondString, final String delimiter) {
+    if (Strings.isNullOrEmpty(firstString)) {
+      return secondString;
+    } else if (Strings.isNullOrEmpty(secondString)) {
+      return firstString;
+    } else {
+      return firstString + delimiter + secondString;
     }
   }
 }
