@@ -11,9 +11,6 @@
 
 package com.here.ivi.api.generator.swift;
 
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.UNDERSCORE_DELIMITER;
-
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -82,7 +79,7 @@ public final class SwiftNameRules {
     return NameHelper.toLowerCamelCase(fieldName);
   }
 
-  public static String getTypeCollectionName(final FTypeCollection base) {
+  private static String getTypeCollectionName(final FTypeCollection base) {
     return NameHelper.toUpperCamelCase(base.getName());
   }
 
@@ -103,24 +100,9 @@ public final class SwiftNameRules {
     return NameHelper.toLowerCamelCase(name.getName());
   }
 
-  private static String getAccessorBaseName(final FAttribute attribute) {
-    return CBridgeNameRules.fullyQualifiedName(
-        CBridgeNameRules.getNestedNameSpecifier(attribute),
-        NameHelper.toLowerCamelCase(attribute.getName()),
-        UNDERSCORE_DELIMITER);
-  }
-
-  public static String getPropertySetterName(final FAttribute attribute) {
-    return getAccessorBaseName(attribute) + "_set";
-  }
-
-  public static String getPropertyGetterName(final FAttribute attribute) {
-    return getAccessorBaseName(attribute) + "_get";
-  }
-
   public static String getArrayName(SwiftType innerType) {
     String name =
-        (innerType.implementingClass != null)
+        innerType.implementingClass != null
             ? innerType.implementingClass
             : innerType.getSimpleName();
     name = SwiftNameRules.getClassName(name.replace("_", ""));

@@ -28,6 +28,7 @@ import com.here.ivi.api.model.cpp.CppField;
 import com.here.ivi.api.model.cpp.CppMethod;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftField;
+import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftProperty;
 import java.util.Collections;
 import java.util.HashMap;
@@ -135,15 +136,16 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       closeContext();
       return;
     }
+
+    SwiftMethod swiftMethod = swiftBuilder.getFinalResult(SwiftMethod.class);
     CppMethod cppMethod = cppBuilder.getFinalResult(CppMethod.class);
-    String baseFunctionName = CBridgeNameRules.getMethodName(francaMethod);
     List<CInParameter> inParams = getPreviousResults(CInParameter.class);
     COutParameter returnParam =
         CollectionsHelper.getFirstOfType(
             getCurrentContext().previousResults, COutParameter.class, new COutParameter());
 
     CFunction.CFunctionBuilder methodBuilder =
-        CFunction.builder(baseFunctionName)
+        CFunction.builder(swiftMethod.cBaseName)
             .delegateCall(cppMethod.fullyQualifiedName)
             .parameters(inParams)
             .returnType(returnParam.mappedType)
