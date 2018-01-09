@@ -66,6 +66,23 @@ public class Attributes {
             return smoke_Attributes_complexTypeAttribute_set(c_instance, newValue.rawValue)
         }
     }
+
+    public var byteBufferAttribute: Data {
+        get {
+            let result_data_handle = smoke_Attributes_byteBufferAttribute_get(c_instance)
+            precondition(result_data_handle.private_pointer != nil, "Out of memory")
+            defer {
+                byteArray_release(result_data_handle)
+            }
+            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
+        }
+        set {
+            return newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) -> Void in
+                return smoke_Attributes_byteBufferAttribute_set(c_instance, newValue_ptr, Int64(newValue.count))
+            }
+        }
+    }
+
     let c_instance : smoke_AttributesRef
     public init?(cAttributes: smoke_AttributesRef) {
         c_instance = cAttributes

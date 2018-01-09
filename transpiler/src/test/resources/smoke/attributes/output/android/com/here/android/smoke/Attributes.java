@@ -43,6 +43,7 @@ public class Attributes extends NativeBase {
     }
 
     private static native void disposeNativeHandle(long nativeHandle);
+
     public native long getBuiltInTypeAttribute();
     public native void setBuiltInTypeAttribute(final long value);
     public native float getReadonlyAttribute();
@@ -52,4 +53,6 @@ public class Attributes extends NativeBase {
     public native void setArrayAttribute(final List<String> value);
     public native Attributes.InternalError getComplexTypeAttribute();
     public native void setComplexTypeAttribute(final Attributes.InternalError value);
+    public native byte[] getByteBufferAttribute();
+    public native void setByteBufferAttribute(final byte[] value);
 }
