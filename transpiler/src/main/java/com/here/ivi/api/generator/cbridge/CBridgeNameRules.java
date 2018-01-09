@@ -128,7 +128,7 @@ public final class CBridgeNameRules {
     return String.join(delimiter, names);
   }
 
-  public static List<String> getNestedNameSpecifier(final FModelElement modelElement) {
+  private static List<String> getNestedNameSpecifier(final FModelElement modelElement) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
     List<String> result = DefinedBy.getPackages(typeCollection);
@@ -182,5 +182,20 @@ public final class CBridgeNameRules {
         return CBridgeNameRules.getStructRefType(elementType);
     }
     return null;
+  }
+
+  public static String getPropertySetterName(final FAttribute attribute) {
+    return getAccessorBaseName(attribute) + "_set";
+  }
+
+  public static String getPropertyGetterName(final FAttribute attribute) {
+    return getAccessorBaseName(attribute) + "_get";
+  }
+
+  private static String getAccessorBaseName(FAttribute attribute) {
+    return fullyQualifiedName(
+        getNestedNameSpecifier(attribute),
+        NameHelper.toLowerCamelCase(attribute.getName()),
+        UNDERSCORE_DELIMITER);
   }
 }

@@ -286,7 +286,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     SwiftMethod getterMethod =
         SwiftMethod.builder("")
-            .cBaseName(SwiftNameRules.getPropertyGetterName(attribute))
+            .cBaseName(CBridgeNameRules.getPropertyGetterName(attribute))
             .returnType(property.type)
             .forceReturnValueUnwrapping(true)
             .build();
@@ -295,7 +295,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     if (!attribute.isReadonly()) {
       SwiftMethod setterMethod =
           SwiftMethod.builder("")
-              .cBaseName(SwiftNameRules.getPropertySetterName(attribute))
+              .cBaseName(CBridgeNameRules.getPropertySetterName(attribute))
               .returnType(SwiftType.VOID)
               .build();
       setterMethod.parameters.add(new SwiftParameter("newValue", property.type));

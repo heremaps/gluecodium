@@ -93,7 +93,7 @@ public class CBridgeModelBuilderTest {
   @Mock private FrancaDeploymentModel deploymentModel;
 
   @Mock private CppModelBuilder cppModelbuilder;
-  @Mock private SwiftModelBuilder swiftModelbuilder;
+  @Mock private SwiftModelBuilder swiftModelBuilder;
   @Mock private IncludeResolver resolver;
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
@@ -106,6 +106,8 @@ public class CBridgeModelBuilderTest {
   @Mock private FArrayType francaArray;
 
   private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
+  private final SwiftMethod swiftMethod =
+      SwiftMethod.builder("swiftFoo").cBaseName(FULL_FUNCTION_NAME).build();
   private CBridgeModelBuilder modelBuilder;
 
   @Before
@@ -124,12 +126,13 @@ public class CBridgeModelBuilderTest {
     when(CBridgeNameRules.getStructRefType(any())).thenReturn(STRUCT_REF_NAME);
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
     when(CBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
+
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(CppMethod.builder().build());
+    when(swiftModelBuilder.getFinalResult(SwiftMethod.class)).thenReturn(swiftMethod);
 
     when(CppTypeInfo.createCustomTypeInfo(any(), any(), any())).thenReturn(typeInfo);
 
     when(deploymentModel.isStatic(any())).thenReturn(true);
-    when(CBridgeNameRules.getMethodName(any())).thenReturn(FULL_FUNCTION_NAME);
 
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
@@ -138,7 +141,7 @@ public class CBridgeModelBuilderTest {
 
     modelBuilder =
         new CBridgeModelBuilder(
-            contextStack, deploymentModel, resolver, cppModelbuilder, swiftModelbuilder);
+            contextStack, deploymentModel, resolver, cppModelbuilder, swiftModelBuilder);
   }
 
   @Test
@@ -173,16 +176,41 @@ public class CBridgeModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingMethodProcessInstanceMethods() {
+  public void finishBuildingInstanceMethodNoParams() {
     when(deploymentModel.isStatic(any())).thenReturn(false);
-    // Insert instance type from startBuilding(FInterface);
     contextStack.getParentContext().currentResults.add(new CppTypeInfo(CType.VOID));
 
     modelBuilder.finishBuilding(francaMethod);
 
-    assertNotNull(
-        "Should be able to process Instance methods.",
-        modelBuilder.getFinalResult(CFunction.class));
+    CFunction interfaceFunction = modelBuilder.getFinalResult(CFunction.class);
+    assertNotNull(interfaceFunction.selfParameter);
+    assertEquals(
+        "Instance parameter should not be part of normal parameters",
+        0,
+        interfaceFunction.parameters.size());
+    assertEquals(
+        "Instance should be part of C signature parameters",
+        1,
+        interfaceFunction.getSignatureParameters().size());
+  }
+
+  @Test
+  public void finishBuildingInstanceMethodWithParams() {
+    when(deploymentModel.isStatic(any())).thenReturn(false);
+    contextStack.getParentContext().currentResults.add(new CppTypeInfo(CType.VOID));
+    contextStack.injectResult(new CInParameter(PARAM_NAME, new CppTypeInfo(CType.DOUBLE)));
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    CFunction interfaceFunction = modelBuilder.getFinalResult(CFunction.class);
+    assertEquals(
+        "Instance function should only take normal parameters",
+        1,
+        interfaceFunction.parameters.size());
+    assertEquals(
+        "Instance parameter should be part of signature",
+        2,
+        interfaceFunction.getSignatureParameters().size());
   }
 
   @Test
@@ -349,7 +377,7 @@ public class CBridgeModelBuilderTest {
   @Test
   public void finishBuildingFrancaFieldReadsName() {
     when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(null, CPP_FIELD_NAME));
-    when(swiftModelbuilder.getFinalResult(any()))
+    when(swiftModelBuilder.getFinalResult(any()))
         .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null));
 
     modelBuilder.finishBuilding(francaField);
@@ -363,7 +391,7 @@ public class CBridgeModelBuilderTest {
   @Test
   public void finishBuildingFrancaFieldReadsTypeInfo() {
     when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(null, CPP_FIELD_NAME));
-    when(swiftModelbuilder.getFinalResult(any()))
+    when(swiftModelBuilder.getFinalResult(any()))
         .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null));
     contextStack.injectResult(cppTypeInfo);
 
@@ -410,7 +438,7 @@ public class CBridgeModelBuilderTest {
         SwiftMethod.builder("").cBaseName(CBRIDGE_ATTR_GETTER_NAME).build());
     swiftProperty.propertyAccessors.add(
         SwiftMethod.builder("").cBaseName(CBRIDGE_ATTR_SETTER_NAME).build());
-    when(swiftModelbuilder.getFinalResult(any())).thenReturn(swiftProperty);
+    when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
 
     contextStack.injectResult(cppTypeInfo);
     contextStack.getParentContext().currentResults.add(classTypeInfo);
@@ -435,7 +463,7 @@ public class CBridgeModelBuilderTest {
     SwiftProperty swiftProperty = new SwiftProperty("", new SwiftType(""));
     swiftProperty.propertyAccessors.add(
         SwiftMethod.builder("").cBaseName(CBRIDGE_ATTR_GETTER_NAME).build());
-    when(swiftModelbuilder.getFinalResult(any())).thenReturn(swiftProperty);
+    when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
 
     contextStack.injectResult(cppTypeInfo);
     contextStack.getParentContext().currentResults.add(classTypeInfo);
