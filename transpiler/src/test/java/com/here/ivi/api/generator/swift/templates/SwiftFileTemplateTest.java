@@ -838,14 +838,17 @@ public class SwiftFileTemplateTest {
   }
 
   @Test
-  public void protocolWithPropertyOfDataType() {
+  public void protocolWithProperty() {
     SwiftClass swiftClass =
         SwiftClass.builder("SomeClassWithProperty")
             .cInstanceRef("SomeClassWithPropertyRef")
             .isInterface(true)
             .build();
-    SwiftProperty someProperty =
-        new SwiftProperty("someAttributeName", SwiftType.DATA, false, "CBRIDGE_DELEGATE");
+    SwiftProperty someProperty = new SwiftProperty("someAttributeName", SwiftType.DATA);
+    someProperty.propertyAccessors.add(
+        SwiftMethod.builder("").cBaseName("CBRIDGE_DELEGATE").build());
+    someProperty.propertyAccessors.add(
+        SwiftMethod.builder("").cBaseName("CBRIDGE_DELEGATE").build());
     swiftClass.properties.add(someProperty);
     TemplateComparator expected =
         TemplateComparator.expect(
@@ -856,17 +859,10 @@ public class SwiftFileTemplateTest {
                 "internal class _SomeClassWithProperty {\n"
                     + "    var someAttributeName: Data {\n"
                     + "        get {\n"
-                    + "            let result_data_handle = CBRIDGE_DELEGATE_get(c_instance)\n"
-                    + "            precondition(result_data_handle.private_pointer != nil, \"Out of memory\")\n"
-                    + "            defer {\n"
-                    + "                byteArray_release(result_data_handle)\n"
-                    + "            }\n"
-                    + "            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))\n"
+                    + "            return CBRIDGE_DELEGATE(c_instance)\n"
                     + "        }\n"
                     + "        set {\n"
-                    + "            return newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) -> Void in\n"
-                    + "                return CBRIDGE_DELEGATE_set(c_instance, newValue_ptr, Int64(newValue.count))\n"
-                    + "            }\n"
+                    + "            return CBRIDGE_DELEGATE(c_instance)\n"
                     + "        }\n"
                     + "    }\n"
                     + "    let c_instance : SomeClassWithPropertyRef\n"
@@ -884,13 +880,16 @@ public class SwiftFileTemplateTest {
   }
 
   @Test
-  public void classWithPropertyOfDataType() {
+  public void classWithProperty() {
     SwiftClass swiftClass =
         SwiftClass.builder("SomeClassWithProperty")
             .cInstanceRef("SomeClassWithPropertyRef")
             .build();
-    SwiftProperty someProperty =
-        new SwiftProperty("someAttributeName", SwiftType.DATA, false, "CBRIDGE_DELEGATE");
+    SwiftProperty someProperty = new SwiftProperty("someAttributeName", SwiftType.DATA);
+    someProperty.propertyAccessors.add(
+        SwiftMethod.builder("").cBaseName("CBRIDGE_DELEGATE").build());
+    someProperty.propertyAccessors.add(
+        SwiftMethod.builder("").cBaseName("CBRIDGE_DELEGATE").build());
     swiftClass.properties.add(someProperty);
     final String expected =
         "import Foundation\n"
@@ -901,20 +900,10 @@ public class SwiftFileTemplateTest {
             + "public class SomeClassWithProperty {\n"
             + "    public var someAttributeName: Data {\n"
             + "        get {\n"
-            + "            let result_data_handle = CBRIDGE_DELEGATE_get(c_instance)\n"
-            + "            precondition(result_data_handle.private_pointer != nil, \"Out of memory\")\n"
-            + "            defer {\n"
-            + "                byteArray_release(result_data_handle)\n"
-            + "            }\n"
-            + "            return Data(bytes: byteArray_data_get(result_data_handle), count: Int"
-            + "(byteArray_size_get(result_data_handle)))\n"
+            + "            return CBRIDGE_DELEGATE(c_instance)\n"
             + "        }\n"
             + "        set {\n"
-            + "            return newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) -> "
-            + "Void in\n"
-            + "                return CBRIDGE_DELEGATE_set(c_instance, newValue_ptr, Int64(newValue"
-            + ".count))\n"
-            + "            }\n"
+            + "            return CBRIDGE_DELEGATE(c_instance)\n"
             + "        }\n"
             + "    }\n"
             + "    let c_instance : SomeClassWithPropertyRef\n"
@@ -931,59 +920,26 @@ public class SwiftFileTemplateTest {
   }
 
   @Test
-  public void classWithReadonlyProperties() {
+  public void classWithReadonlyProperty() {
     SwiftClass swiftClass =
         SwiftClass.builder("SomeClassWithProperty")
             .cInstanceRef("SomeClassWithPropertyRef")
             .isInterface(true)
             .build();
-    swiftClass.properties.add(
-        new SwiftProperty(
-            "someStringAttribute", SwiftType.STRING, true, "CBRIDGE_DELEGATE_FOR_STRING"));
-    SwiftContainerType swiftStruct =
-        SwiftContainerType.builder("SomeStructType").cPrefix("SomeStructType").build();
-    swiftClass.properties.add(
-        new SwiftProperty("someStructAttribute", swiftStruct, true, "CBRIDGE_DELEGATE_FOR_STRUCT"));
-    swiftClass.properties.add(
-        new SwiftProperty(
-            "someEnumAttribute",
-            new SwiftType("SomeEnumType", TypeCategory.ENUM),
-            true,
-            "CBRIDGE_DELEGATE_FOR_ENUM"));
+    SwiftProperty someProperty = new SwiftProperty("someStringAttribute", SwiftType.STRING);
+    someProperty.propertyAccessors.add(
+        SwiftMethod.builder("").cBaseName("CBRIDGE_DELEGATE").build());
+    swiftClass.properties.add(someProperty);
     TemplateComparator expected =
         TemplateComparator.expect(
                 "public protocol SomeClassWithProperty : AnyObject {\n"
                     + "    var someStringAttribute: String { get }\n"
-                    + "    var someStructAttribute: SomeStructType { get }\n"
-                    + "    var someEnumAttribute: SomeEnumType { get }\n"
                     + "}\n")
             .expect(
                 "internal class _SomeClassWithProperty {\n"
                     + "    var someStringAttribute: String {\n"
                     + "        get {\n"
-                    + "            let result_string_handle = CBRIDGE_DELEGATE_FOR_STRING_get(c_instance)\n"
-                    + "            precondition(result_string_handle.private_pointer != nil, \"Out of memory\")\n"
-                    + "            defer {\n"
-                    + "                std_string_release(result_string_handle)\n"
-                    + "            }\n"
-                    + "            return String(data: Data(bytes: std_string_data_get(result_string_handle),\n"
-                    + "                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!\n"
-                    + "        }\n"
-                    + "    }\n"
-                    + "    var someStructAttribute: SomeStructType {\n"
-                    + "        get {\n"
-                    + "            let cResult = CBRIDGE_DELEGATE_FOR_STRUCT_get(c_instance)\n"
-                    + "            precondition(cResult.private_pointer != nil, \"Out of memory\")\n"
-                    + "            defer {\n"
-                    + "                SomeStructType_release(cResult)\n"
-                    + "            }\n"
-                    + "            return SomeStructType(cSomeStructType: cResult)!\n"
-                    + "        }\n"
-                    + "    }\n"
-                    + "    var someEnumAttribute: SomeEnumType {\n"
-                    + "        get {\n"
-                    + "            let cResult = CBRIDGE_DELEGATE_FOR_ENUM_get(c_instance)\n"
-                    + "            return SomeEnumType(rawValue: cResult)!\n"
+                    + "            return CBRIDGE_DELEGATE(c_instance)\n"
                     + "        }\n"
                     + "    }\n"
                     + "    let c_instance : SomeClassWithPropertyRef\n"

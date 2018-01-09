@@ -54,6 +54,8 @@ public class SwiftModelBuilderTest {
   private static final String COMMENT = "some comment on model element";
   private static final String ATTRIBUTE_NAME = "someAttributeName";
   private static final String FIELD_NAME = "flowers";
+  private static final String CBRIDGE_GETTER_NAME = "CBRIDGE_GETTER_NAME";
+  private static final String CBRIDGE_SETTER_NAME = "CBRIDGE_SETTER_NAME";
 
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
 
@@ -97,6 +99,8 @@ public class SwiftModelBuilderTest {
 
     when(SwiftNameRules.getParameterName(any())).thenReturn(PARAM_NAME);
     when(SwiftNameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
+    when(SwiftNameRules.getPropertyGetterName(any())).thenReturn(CBRIDGE_GETTER_NAME);
+    when(SwiftNameRules.getPropertySetterName(any())).thenReturn(CBRIDGE_SETTER_NAME);
 
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaField.getName()).thenReturn(FIELD_NAME);
@@ -516,7 +520,20 @@ public class SwiftModelBuilderTest {
     assertNotNull("Should be one property created", property);
     assertSame(swiftType, property.type);
     assertEquals(ATTRIBUTE_NAME, property.name);
-    assertFalse(property.readonly);
+
+    assertEquals(
+        "Should be two accessor methods - getter and setter", 2, property.propertyAccessors.size());
+
+    SwiftMethod getter = property.propertyAccessors.get(0);
+    assertSame(swiftType, getter.returnType);
+    assertEquals("Getter should have no parameters", 0, getter.parameters.size());
+    assertEquals(CBRIDGE_GETTER_NAME, getter.cBaseName);
+
+    SwiftMethod setter = property.propertyAccessors.get(1);
+    assertSame(SwiftType.VOID, setter.returnType);
+    assertEquals("Setter should have one parameters", 1, setter.parameters.size());
+    assertSame(swiftType, setter.parameters.get(0).type);
+    assertEquals(CBRIDGE_SETTER_NAME, setter.cBaseName);
   }
 
   @Test
@@ -529,7 +546,13 @@ public class SwiftModelBuilderTest {
 
     SwiftProperty property = modelBuilder.getFinalResult(SwiftProperty.class);
     assertNotNull("Should be one property created", property);
-    assertTrue(property.readonly);
+
+    assertEquals("Should be one accessor method - getter", 1, property.propertyAccessors.size());
+
+    SwiftMethod getter = property.propertyAccessors.get(0);
+    assertSame(swiftType, getter.returnType);
+    assertEquals("Getter should have no parameters", 0, getter.parameters.size());
+    assertEquals(CBRIDGE_GETTER_NAME, getter.cBaseName);
   }
 
   @Test

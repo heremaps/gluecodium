@@ -44,6 +44,7 @@ import com.here.ivi.api.model.cpp.CppField;
 import com.here.ivi.api.model.cpp.CppMethod;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftField;
+import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftProperty;
 import com.here.ivi.api.model.swift.SwiftType;
 import com.here.ivi.api.test.MockContextStack;
@@ -401,7 +402,18 @@ public class CBridgeModelBuilderTest {
         asList(
             new CppMethod.Builder(CPP_ATTR_GETTER_NAME).build(),
             new CppMethod.Builder(CPP_ATTR_SETTER_NAME).build());
-    prepareTestForAttributes(classTypeInfo, cppMethods);
+    when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
+
+    when(francaAttribute.isReadonly()).thenReturn(false);
+    SwiftProperty swiftProperty = new SwiftProperty("", new SwiftType(""));
+    swiftProperty.propertyAccessors.add(
+        SwiftMethod.builder("").cBaseName(CBRIDGE_ATTR_GETTER_NAME).build());
+    swiftProperty.propertyAccessors.add(
+        SwiftMethod.builder("").cBaseName(CBRIDGE_ATTR_SETTER_NAME).build());
+    when(swiftModelbuilder.getFinalResult(any())).thenReturn(swiftProperty);
+
+    contextStack.injectResult(cppTypeInfo);
+    contextStack.getParentContext().currentResults.add(classTypeInfo);
 
     modelBuilder.finishBuilding(francaAttribute);
 
@@ -417,8 +429,16 @@ public class CBridgeModelBuilderTest {
     CppTypeInfo classTypeInfo = new CppTypeInfo(new CType(""));
     List<CppElement> cppMethods =
         singletonList(new CppMethod.Builder(CPP_ATTR_GETTER_NAME).build());
-    prepareTestForAttributes(classTypeInfo, cppMethods);
+    when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
+
     when(francaAttribute.isReadonly()).thenReturn(true);
+    SwiftProperty swiftProperty = new SwiftProperty("", new SwiftType(""));
+    swiftProperty.propertyAccessors.add(
+        SwiftMethod.builder("").cBaseName(CBRIDGE_ATTR_GETTER_NAME).build());
+    when(swiftModelbuilder.getFinalResult(any())).thenReturn(swiftProperty);
+
+    contextStack.injectResult(cppTypeInfo);
+    contextStack.getParentContext().currentResults.add(classTypeInfo);
 
     modelBuilder.finishBuilding(francaAttribute);
 
@@ -454,18 +474,6 @@ public class CBridgeModelBuilderTest {
     Collection<CArray> arrays = modelBuilder.arraysCollector.values();
     assertEquals("There should one array", 1, arrays.size());
     assertEquals("ArrayTest", arrays.iterator().next().name);
-  }
-
-  private void prepareTestForAttributes(CppTypeInfo classTypeInfo, List<CppElement> cppMethods) {
-    when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
-    when(francaAttribute.isReadonly()).thenReturn(false);
-    when(SwiftNameRules.getPropertyGetterName(any())).thenReturn(CBRIDGE_ATTR_GETTER_NAME);
-    when(SwiftNameRules.getPropertySetterName(any())).thenReturn(CBRIDGE_ATTR_SETTER_NAME);
-    SwiftProperty swiftProperty = new SwiftProperty("", new SwiftType(""), false, "");
-    when(swiftModelbuilder.getFinalResult(any())).thenReturn(swiftProperty);
-
-    contextStack.injectResult(cppTypeInfo);
-    contextStack.getParentContext().currentResults.add(classTypeInfo);
   }
 
   private void verifyAttributeSetter(CppTypeInfo classTypeInfo, CFunction cSetter) {

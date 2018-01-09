@@ -282,10 +282,25 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     SwiftProperty property =
         new SwiftProperty(
-            SwiftNameRules.getPropertyName(attribute),
-            getPreviousResult(SwiftType.class),
-            attribute.isReadonly(),
-            SwiftNameRules.getAccessorBaseName(attribute));
+            SwiftNameRules.getPropertyName(attribute), getPreviousResult(SwiftType.class));
+
+    SwiftMethod getterMethod =
+        SwiftMethod.builder("")
+            .cBaseName(SwiftNameRules.getPropertyGetterName(attribute))
+            .returnType(property.type)
+            .forceReturnValueUnwrapping(true)
+            .build();
+    property.propertyAccessors.add(getterMethod);
+
+    if (!attribute.isReadonly()) {
+      SwiftMethod setterMethod =
+          SwiftMethod.builder("")
+              .cBaseName(SwiftNameRules.getPropertySetterName(attribute))
+              .returnType(SwiftType.VOID)
+              .build();
+      setterMethod.parameters.add(new SwiftParameter("newValue", property.type));
+      property.propertyAccessors.add(setterMethod);
+    }
 
     storeResult(property);
     super.finishBuilding(attribute);
