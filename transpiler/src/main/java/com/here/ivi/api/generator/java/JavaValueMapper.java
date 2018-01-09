@@ -120,7 +120,7 @@ public class JavaValueMapper {
       return new JavaValue(((JavaTemplateType) javaType).implementationType);
     } else if (javaType instanceof JavaEnumType) {
       return new JavaValue(javaType.name + ".values()[0]");
-    } else if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isNullable) {
+    } else if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isInterface) {
       return new JavaValue(javaType);
     }
     return null;

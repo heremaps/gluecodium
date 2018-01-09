@@ -32,7 +32,7 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
     javaClass,
     _jinput,
     "instance",
-    "Lcom/here/android/smoke/InstanceWithStruct$SimpleInstantiableOne;"),
+    "Lcom/here/android/smoke/SimpleInstantiableOne;"),
     _nout.instance );
 }
 
@@ -41,7 +41,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructW
   auto _jresult = create_object(_jenv, javaClass);
   auto jinstance = convert_to_jni(_jenv, _ninput.instance);
   set_object_field(_jenv, javaClass, _jresult, "instance",
-  "Lcom/here/android/smoke/InstanceWithStruct$SimpleInstantiableOne;", jinstance);
+  "Lcom/here/android/smoke/SimpleInstantiableOne;", jinstance);
   return _jresult;
 }
 

@@ -17,7 +17,7 @@ import lombok.Singular;
 
 public class JavaCustomType extends JavaComplexType {
 
-  public final boolean isNullable;
+  public final boolean isInterface;
 
   public JavaCustomType(final String name) {
     this(name, null, null, null, false);
@@ -33,13 +33,13 @@ public class JavaCustomType extends JavaComplexType {
       @Singular final List<String> classNames,
       final List<String> packageNames,
       final JavaImport anImport,
-      final boolean isNullable) {
+      final boolean isInterface) {
     super(
         fullName,
         classNames != null ? classNames : Collections.singletonList(fullName),
         packageNames,
         anImport != null ? Collections.singletonList(anImport) : null);
-    this.isNullable = isNullable;
+    this.isInterface = isInterface;
   }
 
   public static Builder builder(final String fullName) {
