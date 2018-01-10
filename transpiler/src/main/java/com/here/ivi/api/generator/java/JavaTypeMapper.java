@@ -36,7 +36,7 @@ public class JavaTypeMapper {
 
   public JavaTypeMapper(final JavaPackage basePackage) {
     this.basePackage = basePackage;
-    this.nativeBase = new JavaCustomType(NATIVE_BASE_NAME, JavaPackage.DEFAULT);
+    this.nativeBase = new JavaCustomType(NATIVE_BASE_NAME, basePackage);
   }
 
   public JavaType map(final FTypeRef fTypeRef) {

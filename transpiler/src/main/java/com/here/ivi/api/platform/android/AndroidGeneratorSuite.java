@@ -41,14 +41,13 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
   private static final String JNI_BASE_HEADER = "android/jni/JniBase.h";
   private static final String JNI_BASE_IMPLEMENTATION = "android/jni/JniBase.cpp";
 
-  private static final String NATIVE_BASE_JAVA = "android/java/NativeBase.java";
+  private static final String NATIVE_BASE_JAVA = "NativeBase.java";
   public static final String FIELD_ACCESS_UTILS_HEADER = "android/jni/FieldAccessMethods.h";
 
   private static final String ARRAY_UTILS_HEADER = "android/jni/ArrayConversionUtils.h";
   private static final String ARRAY_UTILS_IMPLEMENTATION = "android/jni/ArrayConversionUtils.cpp";
 
   private static final String CONVERSION_UTILS_TARGET_DIR = "";
-  private static final String NATIVE_BASE_JAVA_TARGET_DIR = "android/com/here/android";
 
   private final OptionReader.TranspilerOptions transpilerOptions;
 
@@ -87,6 +86,12 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
     javaFiles.addAll(javaGenerator.generateFilesForExceptions());
+
+    List<String> nativeBasePath = new LinkedList<>();
+    nativeBasePath.add(GENERATOR_NAME);
+    nativeBasePath.addAll(javaPackageList);
+    nativeBasePath.add(NATIVE_BASE_JAVA);
+    javaFiles.add(javaGenerator.generateNativeBase(String.join("/", nativeBasePath)));
 
     // Generate JNI files
     JniGenerator jniGenerator =
@@ -127,7 +132,6 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
     results.add(copyTarget(FIELD_ACCESS_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
     results.add(copyTarget(JNI_BASE_HEADER, CONVERSION_UTILS_TARGET_DIR));
     results.add(copyTarget(JNI_BASE_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(NATIVE_BASE_JAVA, NATIVE_BASE_JAVA_TARGET_DIR));
     results.addAll(javaFiles);
     results.addAll(jniFilesStream.flatMap(Collection::stream).collect(Collectors.toList()));
 

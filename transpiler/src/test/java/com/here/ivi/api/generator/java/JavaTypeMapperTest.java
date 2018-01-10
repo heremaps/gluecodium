@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.java;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.model.java.JavaPackage;
 import com.here.ivi.api.model.java.JavaType;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,7 +35,7 @@ public class JavaTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
 
-  private final JavaTypeMapper typeMapper = new JavaTypeMapper(null);
+  private final JavaTypeMapper typeMapper = new JavaTypeMapper(JavaPackage.DEFAULT);
 
   public JavaTypeMapperTest(final FBasicTypeId francaBasicType, final String expectedJavaTypeName) {
     this.francaBasicType = francaBasicType;

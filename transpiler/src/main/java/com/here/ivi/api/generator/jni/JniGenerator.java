@@ -35,6 +35,7 @@ public class JniGenerator extends AbstractGenerator {
 
   public static final String INCLUDES_NAME = "includes";
   public static final String MODELS_NAME = "models";
+  public static final String BASE_PACKAGES_NAME = "basePackages";
 
   private final FrancaDeploymentModel deploymentModel;
   private final List<String> additionalIncludes;
@@ -173,6 +174,7 @@ public class JniGenerator extends AbstractGenerator {
     instanceContainers.forEach(container -> instanceIncludes.addAll(container.includes));
     instanceData.put(INCLUDES_NAME, instanceIncludes);
     instanceData.put(MODELS_NAME, instanceContainers);
+    instanceData.put(BASE_PACKAGES_NAME, basePackages);
 
     results.add(
         new GeneratedFile(
