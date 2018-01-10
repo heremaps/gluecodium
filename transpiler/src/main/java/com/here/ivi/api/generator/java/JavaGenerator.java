@@ -99,6 +99,11 @@ public class JavaGenerator extends AbstractGenerator {
         .collect(Collectors.toList());
   }
 
+  public GeneratedFile generateNativeBase(final String fileName) {
+    String fileContent = TemplateEngine.render("java/NativeBase", basePackages);
+    return new GeneratedFile(fileContent, fileName);
+  }
+
   private static GeneratedFile generateFileForElement(
       final String templateName, final JavaTopLevelElement javaElement) {
 
