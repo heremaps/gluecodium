@@ -89,7 +89,7 @@ function(apigen_transpile)
 
     # Build transpiler command-line
     set(APIGEN_TRANSPILER_ARGS "\
- -output ${TRANSPILER_OUTPUT_DIR}\
+ -output \"${TRANSPILER_OUTPUT_DIR}\"\
  -generators ${apigen_transpile_GENERATOR}\
  ${validateParam}\
  ${mergeManifest}\
@@ -104,7 +104,7 @@ function(apigen_transpile)
         if (NOT IS_ABSOLUTE ${input})
             set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
         endif()
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -input ${input}")
+        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -input \"${input}\"")
     endforeach()
     if(apigen_transpile_ANDROID_MERGE_MANIFEST)
         string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -androidMergeManifest ${apigen_transpile_ANDROID_MERGE_MANIFEST}")
