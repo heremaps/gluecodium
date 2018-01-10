@@ -10,13 +10,13 @@
 {{/innerClasses}}
 {{#if isImplClass}}
     protected {{name}}(final long nativeHandle) {
-        super(nativeHandle{{#if extendsNativeBase}}, new Disposer() {
+        super(nativeHandle{{#if needsDisposer}}, new Disposer() {
             @Override
             public void disposeNative(long handle) {
                 disposeNativeHandle(handle);
             }
         }{{/if}});
-    }{{#if extendsNativeBase}}
+    }{{#if needsDisposer}}
 
     private static native void disposeNativeHandle(long nativeHandle);{{/if}}
 {{/if}}

@@ -39,6 +39,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   private final FrancaDeploymentModel deploymentModel;
   private final JavaPackage rootPackage;
   private final JavaTypeMapper typeMapper;
+  private final JavaType nativeBase;
 
   @VisibleForTesting
   JavaModelBuilder(
@@ -50,6 +51,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     this.deploymentModel = deploymentModel;
     this.rootPackage = rootPackage;
     this.typeMapper = typeMapper;
+    this.nativeBase = typeMapper.getNativeBase();
   }
 
   public JavaModelBuilder(
@@ -216,10 +218,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     // Type definition
     JavaClass javaClass =
-        new JavaClass(
-            JavaNameRules.getClassName(francaStructType.getName()),
-            getPreviousResult(JavaCustomType.class),
-            false);
+        JavaClass.builder(JavaNameRules.getClassName(francaStructType.getName()))
+            .extendedClass(getPreviousResult(JavaCustomType.class))
+            .build();
     javaClass.visibility = JavaVisibility.PUBLIC;
     javaClass.javaPackage = rootPackage;
     javaClass.comment = getCommentString(francaStructType);
@@ -335,7 +336,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       final JavaType extendedClass) {
 
     JavaClass javaClass =
-        new JavaClass(JavaNameRules.getClassName(francaInterface.getName()), extendedClass, true);
+        JavaClass.builder(JavaNameRules.getClassName(francaInterface.getName()))
+            .extendedClass(extendedClass)
+            .isImplClass(true)
+            .needsDisposer(nativeBase.equals(extendedClass))
+            .build();
     javaClass.visibility = JavaVisibility.PUBLIC;
     javaClass.javaPackage = rootPackage;
     javaClass.comment = getCommentString(francaInterface);
@@ -390,10 +395,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       final JavaType extendedClass) {
 
     JavaClass javaClass =
-        new JavaClass(
-            JavaNameRules.getImplementationClassName(francaInterface.getName()),
-            extendedClass,
-            true);
+        JavaClass.builder(JavaNameRules.getImplementationClassName(francaInterface.getName()))
+            .extendedClass(extendedClass)
+            .isImplClass(true)
+            .needsDisposer(nativeBase.equals(extendedClass))
+            .build();
     javaClass.visibility = JavaVisibility.PACKAGE;
     javaClass.javaPackage = rootPackage;
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
@@ -420,7 +426,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   private void finishBuildingFrancaClass(final FInterface francaInterface) {
 
-    JavaType extendedClass = JavaClass.NATIVE_BASE;
+    JavaType extendedClass = nativeBase;
 
     FInterface parentInterface = francaInterface.getBase();
     if (parentInterface != null) {
@@ -443,7 +449,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaInterface javaInterface = createJavaInterface(francaInterface);
 
-    JavaType extendedClass = JavaClass.NATIVE_BASE;
+    JavaType extendedClass = nativeBase;
     FInterface parentInterface = francaInterface.getBase();
     if (parentInterface != null) {
       javaInterface.parentInterfaces.add(typeMapper.mapCustomType(parentInterface));

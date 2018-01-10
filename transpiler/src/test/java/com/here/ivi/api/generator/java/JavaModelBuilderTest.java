@@ -75,6 +75,7 @@ public class JavaModelBuilderTest {
 
   private final EList<FArgument> arguments = new ArrayEList<>();
 
+  private final JavaCustomType nativeBase = new JavaCustomType("FooNativeBar");
   private final JavaCustomType javaCustomType = new JavaCustomType("typical");
   private final JavaTemplateType javaTemplateType =
       JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
@@ -91,6 +92,7 @@ public class JavaModelBuilderTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(JavaValueMapper.class, FrancaTypeHelper.class);
 
+    when(typeMapper.getNativeBase()).thenReturn(nativeBase);
     modelBuilder =
         new JavaModelBuilder(
             contextStack, deploymentModel, new JavaPackage(BASE_PACKAGE_NAMES), typeMapper);
