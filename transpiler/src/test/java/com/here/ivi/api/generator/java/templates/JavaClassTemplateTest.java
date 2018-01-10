@@ -180,7 +180,7 @@ public final class JavaClassTemplateTest {
     // Arrange
     JavaType extendedClass =
         new JavaCustomType("ParentClass", new JavaPackage(Collections.singletonList("foo")));
-    JavaClass resultClass = new JavaClass("ExampleClass", extendedClass, false);
+    JavaClass resultClass = JavaClass.builder("ExampleClass").extendedClass(extendedClass).build();
     resultClass.comment = "Child class comment";
     String expected =
         "package com.here.android;\n"
@@ -336,7 +336,8 @@ public final class JavaClassTemplateTest {
     // Arrange
     JavaType extendedClass =
         new JavaCustomType("ParentClass", new JavaPackage(Collections.singletonList("foo")));
-    JavaClass javaImplClass = new JavaClass("ExampleClass", extendedClass, true);
+    JavaClass javaImplClass =
+        JavaClass.builder("ExampleClass").extendedClass(extendedClass).isImplClass(true).build();
 
     String expected =
         "package com.here.android;\n\n"
@@ -356,12 +357,19 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_implClassExtendsNativeBase() {
     // Arrange
-    JavaClass javaImplClass = new JavaClass("ExampleClass", JavaClass.NATIVE_BASE, true);
+    JavaType nativeBase =
+        new JavaCustomType("NativeBase", new JavaPackage(Collections.singletonList("bar")));
+    JavaClass javaImplClass =
+        JavaClass.builder("ExampleClass")
+            .extendedClass(nativeBase)
+            .isImplClass(true)
+            .needsDisposer(true)
+            .build();
     javaImplClass.javaPackage = new JavaPackage(Collections.singletonList("foo"));
 
     String expected =
         "package foo;\n\n"
-            + "import com.here.android.NativeBase;\n\n"
+            + "import bar.NativeBase;\n\n"
             + "class ExampleClass extends NativeBase {\n"
             + "    protected ExampleClass(final long nativeHandle) {\n"
             + "        super(nativeHandle, new Disposer() {\n"
@@ -414,7 +422,7 @@ public final class JavaClassTemplateTest {
     // Arrange
     JavaType extendedClass =
         new JavaCustomType("Parent", new JavaPackage(Collections.singletonList("foo")));
-    JavaClass resultClass = new JavaClass("ExampleClass", extendedClass, false);
+    JavaClass resultClass = JavaClass.builder("ExampleClass").extendedClass(extendedClass).build();
     resultClass.parentInterfaces.add(javaInterface);
 
     // Act

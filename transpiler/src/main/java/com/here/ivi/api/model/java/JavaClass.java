@@ -19,25 +19,25 @@ import java.util.stream.Stream;
 
 public final class JavaClass extends JavaTopLevelElement {
 
-  public static final JavaType NATIVE_BASE = new JavaCustomType("NativeBase", JavaPackage.DEFAULT);
-
   public final Set<JavaField> fields = new LinkedHashSet<>();
   public final JavaType extendedClass;
   public final boolean isImplClass;
+  public final boolean needsDisposer;
 
   public JavaClass(final String name) {
-    this(name, null, false);
+    this(name, null, false, false);
   }
 
-  public JavaClass(final String name, final JavaType extendedClass, final boolean isImplClass) {
+  @lombok.Builder(builderClassName = "Builder")
+  private JavaClass(
+      final String name,
+      final JavaType extendedClass,
+      final boolean isImplClass,
+      final boolean needsDisposer) {
     super(name);
     this.extendedClass = extendedClass;
     this.isImplClass = isImplClass;
-  }
-
-  @SuppressWarnings("unused")
-  public boolean extendsNativeBase() {
-    return NATIVE_BASE.equals(extendedClass);
+    this.needsDisposer = needsDisposer;
   }
 
   @SuppressWarnings("unused")
@@ -65,5 +65,9 @@ public final class JavaClass extends JavaTopLevelElement {
     }
 
     return imports;
+  }
+
+  public static Builder builder(final String name) {
+    return new Builder().name(name);
   }
 }

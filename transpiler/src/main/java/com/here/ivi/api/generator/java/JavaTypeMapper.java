@@ -29,10 +29,14 @@ import org.franca.core.franca.*;
 @SuppressWarnings("PMD.GodClass")
 public class JavaTypeMapper {
 
+  private static final String NATIVE_BASE_NAME = "NativeBase";
+
   private final JavaPackage basePackage;
+  private final JavaType nativeBase;
 
   public JavaTypeMapper(final JavaPackage basePackage) {
     this.basePackage = basePackage;
+    this.nativeBase = new JavaCustomType(NATIVE_BASE_NAME, JavaPackage.DEFAULT);
   }
 
   public JavaType map(final FTypeRef fTypeRef) {
@@ -212,6 +216,10 @@ public class JavaTypeMapper {
           .anImport(javaImport)
           .build();
     }
+  }
+
+  public JavaType getNativeBase() {
+    return nativeBase;
   }
 
   private JavaType mapTypeDef(final FTypeDef typeDef) {

@@ -44,6 +44,7 @@ public class JavaModelBuilderInterfaceTest {
   @Mock private FInterface francaInterface;
   @Mock private FInterface parentInterface;
 
+  private final JavaCustomType nativeBase = new JavaCustomType("FooNativeBar");
   private final JavaType javaCustomType = new JavaCustomType("typical");
   private final JavaConstant javaConstant =
       new JavaConstant(javaCustomType, "permanent", new JavaValue("valuable"));
@@ -58,6 +59,7 @@ public class JavaModelBuilderInterfaceTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(JavaModelBuilder.class);
 
+    when(typeMapper.getNativeBase()).thenReturn(nativeBase);
     modelBuilder = new JavaModelBuilder(contextStack, deploymentModel, BASE_PACKAGE, typeMapper);
 
     when(francaInterface.getName()).thenReturn("classy");
@@ -73,7 +75,7 @@ public class JavaModelBuilderInterfaceTest {
     assertNotNull(javaClass);
     assertEquals("Classy", javaClass.name);
     assertEquals(JavaVisibility.PUBLIC, javaClass.visibility);
-    assertEquals(JavaClass.NATIVE_BASE, javaClass.extendedClass);
+    assertEquals(nativeBase, javaClass.extendedClass);
     assertTrue(javaClass.parentInterfaces.isEmpty());
   }
 
@@ -282,7 +284,7 @@ public class JavaModelBuilderInterfaceTest {
     assertNotNull(javaClass);
     assertEquals("ClassyImpl", javaClass.name);
     assertEquals(JavaVisibility.PACKAGE, javaClass.visibility);
-    assertEquals(JavaClass.NATIVE_BASE, javaClass.extendedClass);
+    assertEquals(nativeBase, javaClass.extendedClass);
 
     assertFalse(javaClass.parentInterfaces.isEmpty());
     assertEquals("Classy", javaClass.parentInterfaces.iterator().next().name);
