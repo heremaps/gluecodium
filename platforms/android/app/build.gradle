@@ -17,6 +17,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    lintOptions {
+        warningsAsErrors true
+    }
 }
 
 repositories {
@@ -31,7 +35,7 @@ dependencies {
 
     // Runtime dependencies from Maven repositories
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:design:27.0.1'
+    implementation 'com.android.support:design:27.0.2'
 
     // Test dependencies
     testImplementation 'junit:junit:4.12'

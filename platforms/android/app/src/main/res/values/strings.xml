@@ -46,4 +46,12 @@
     <string name="number_format_exception">Number format exception:</string>
     <string name="no_exception_thrown">No exception thrown.</string>
     <string name="defaults_retrieval_message">Result retrieved from:</string>
+    <string name="invalid_input">Invalid input argument</string>
+    <string name="x">x</string>
+    <string name="y">y</string>
+    <string name="z">z</string>
+    <string name="position_start">Position start</string>
+    <string name="position_start_value">0</string>
+    <string name="position_end">Position end</string>
+    <string name="position_end_value">1000</string>
 </resources>

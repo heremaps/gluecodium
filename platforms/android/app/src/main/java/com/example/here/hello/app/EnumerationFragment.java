@@ -52,7 +52,7 @@ public final class EnumerationFragment extends Fragment {
         result.setText(String.valueOf(resultValue2));
         break;
       default:
-        result.setText("Invalid input argument");
+        result.setText(R.string.invalid_input);
         break;
     }
   }

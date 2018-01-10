@@ -42,7 +42,7 @@ public final class DefaultsFragment extends Fragment {
 
       String prefix = getResources().getString(R.string.defaults_retrieval_message) + getResources()
           .getStringArray(R.array.defaults_source)[spinner.getSelectedItemPosition()];
-      result.setText(prefix + "\n\n" + generateStructString(resultStruct));
+      result.setText(String.format("%s\n\n%s", prefix, generateStructString(resultStruct)));
 
       // hide virtual keyboard
       InputMethodHelper.hideSoftKeyboard(getContext(), result.getWindowToken());
