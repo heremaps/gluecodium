@@ -35,23 +35,23 @@ function(apigen_java_compile target)
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
 
-    if(${GENERATOR} MATCHES android)
-
-        # Transpiler invocations for different generators need different output directories
-        # as the transpiler currently wipes the directory upon start.
-        set(APIGEN_JAVA_COMPILE_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-compile)
-        set(APIGEN_TRANSPILER_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android)
-
-        # Attach properties to target for re-use in other modules
-        set_target_properties(${target} PROPERTIES
-            APIGEN_JAVA_COMPILE_OUTPUT_DIR ${APIGEN_JAVA_COMPILE_OUTPUT_DIR})
-
-        set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7")
-        add_custom_command(TARGET ${target} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
-            COMMAND find ${APIGEN_TRANSPILER_JAVA_SOURCE_DIR} -name *.java | xargs "${Java_JAVAC_EXECUTABLE}" ${CMAKE_JAVA_COMPILE_FLAGS} -d ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
-            COMMENT "Compiling generated Java sources into class files...")
-
+    if(NOT ${GENERATOR} MATCHES "android")
+        message(FATAL_ERROR "apigen_java_compile() depends on apigen_transpiler() configured with generator 'android'")
     endif()
+
+    # Transpiler invocations for different generators need different output directories
+    # as the transpiler currently wipes the directory upon start.
+    set(APIGEN_JAVA_COMPILE_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-compile)
+    set(APIGEN_TRANSPILER_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android)
+
+    # Attach properties to target for re-use in other modules
+    set_target_properties(${target} PROPERTIES
+        APIGEN_JAVA_COMPILE_OUTPUT_DIR ${APIGEN_JAVA_COMPILE_OUTPUT_DIR})
+
+    set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7")
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
+        COMMAND find ${APIGEN_TRANSPILER_JAVA_SOURCE_DIR} -name *.java | xargs "${Java_JAVAC_EXECUTABLE}" ${CMAKE_JAVA_COMPILE_FLAGS} -d ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
+        COMMENT "Compiling generated Java sources into class files...")
 
 endfunction(apigen_java_compile)

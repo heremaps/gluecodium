@@ -35,25 +35,25 @@ function(apigen_java_jar target)
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(APIGEN_JAVA_OUTPUT_DIR ${target} APIGEN_JAVA_COMPILE_OUTPUT_DIR)
 
-    if(${GENERATOR} MATCHES android)
-
-        # Transpiler invocations for different generators need different output directories
-        # as the transpiler currently wipes the directory upon start.
-        set(APIGEN_JAVA_JAR_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-jar)
-        set(APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR_OUTPUT_DIR}/${target}.jar)
-
-        # Attach properties to target for re-use in other modules
-        set_target_properties(${target} PROPERTIES
-            APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR})
-
-        add_custom_command(TARGET ${target} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_JAR_OUTPUT_DIR}
-            COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_JAVA_JAR} -C ${APIGEN_JAVA_OUTPUT_DIR} .
-            COMMENT "Creating Java JAR from class files...")
-        # TODO: Installs unconditionally, allow to configure the module:
-        #install(FILES ${APIGEN_JAVA_JAR}
-        #    DESTINATION lib)
-
+    if(NOT ${GENERATOR} MATCHES "android")
+        message(FATAL_ERROR "apigen_java_jar() depends on apigen_transpiler() configured with generator 'android'")
     endif()
+
+    # Transpiler invocations for different generators need different output directories
+    # as the transpiler currently wipes the directory upon start.
+    set(APIGEN_JAVA_JAR_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-jar)
+    set(APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR_OUTPUT_DIR}/${target}.jar)
+
+    # Attach properties to target for re-use in other modules
+    set_target_properties(${target} PROPERTIES
+        APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR})
+
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_JAR_OUTPUT_DIR}
+        COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_JAVA_JAR} -C ${APIGEN_JAVA_OUTPUT_DIR} .
+        COMMENT "Creating Java JAR from class files...")
+    # TODO: Installs unconditionally, allow to configure the module:
+    #install(FILES ${APIGEN_JAVA_JAR}
+    #    DESTINATION lib)
 
 endfunction(apigen_java_jar)
