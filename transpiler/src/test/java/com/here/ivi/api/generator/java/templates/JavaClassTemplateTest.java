@@ -178,10 +178,10 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_withInheritance() {
     // Arrange
-    JavaClass resultClass = new JavaClass("ExampleClass");
-    resultClass.comment = "Child class comment";
-    resultClass.extendedClass =
+    JavaType extendedClass =
         new JavaCustomType("ParentClass", new JavaPackage(Collections.singletonList("foo")));
+    JavaClass resultClass = new JavaClass("ExampleClass", extendedClass, false);
+    resultClass.comment = "Child class comment";
     String expected =
         "package com.here.android;\n"
             + "\n"
@@ -334,9 +334,9 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_implClass() {
     // Arrange
-    JavaClass javaImplClass = new JavaClass("ExampleClass", true);
-    javaImplClass.extendedClass =
+    JavaType extendedClass =
         new JavaCustomType("ParentClass", new JavaPackage(Collections.singletonList("foo")));
+    JavaClass javaImplClass = new JavaClass("ExampleClass", extendedClass, true);
 
     String expected =
         "package com.here.android;\n\n"
@@ -356,8 +356,7 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_implClassExtendsNativeBase() {
     // Arrange
-    JavaClass javaImplClass = new JavaClass("ExampleClass", true);
-    javaImplClass.extendedClass = JavaClass.NATIVE_BASE;
+    JavaClass javaImplClass = new JavaClass("ExampleClass", JavaClass.NATIVE_BASE, true);
     javaImplClass.javaPackage = new JavaPackage(Collections.singletonList("foo"));
 
     String expected =
@@ -413,12 +412,13 @@ public final class JavaClassTemplateTest {
   @Test
   public void generateClassWithParentClassAndParentInterface() {
     // Arrange
-    javaClass.extendedClass =
+    JavaType extendedClass =
         new JavaCustomType("Parent", new JavaPackage(Collections.singletonList("foo")));
-    javaClass.parentInterfaces.add(javaInterface);
+    JavaClass resultClass = new JavaClass("ExampleClass", extendedClass, false);
+    resultClass.parentInterfaces.add(javaInterface);
 
     // Act
-    String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
+    String generated = TemplateEngine.render(TEMPLATE_NAME, resultClass);
 
     // Assert
     String expected =

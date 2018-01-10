@@ -215,12 +215,15 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     }
 
     // Type definition
-    JavaClass javaClass = new JavaClass(JavaNameRules.getClassName(francaStructType.getName()));
+    JavaClass javaClass =
+        new JavaClass(
+            JavaNameRules.getClassName(francaStructType.getName()),
+            getPreviousResult(JavaCustomType.class),
+            false);
     javaClass.visibility = JavaVisibility.PUBLIC;
     javaClass.javaPackage = rootPackage;
     javaClass.comment = getCommentString(francaStructType);
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
-    javaClass.extendedClass = getPreviousResult(JavaCustomType.class);
     storeResult(javaClass);
 
     // Type reference
@@ -327,10 +330,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   }
 
   private JavaClass createJavaClass(
-      final FInterface francaInterface, final List<JavaMethod> methods) {
+      final FInterface francaInterface,
+      final List<JavaMethod> methods,
+      final JavaType extendedClass) {
 
     JavaClass javaClass =
-        new JavaClass(JavaNameRules.getClassName(francaInterface.getName()), true);
+        new JavaClass(JavaNameRules.getClassName(francaInterface.getName()), extendedClass, true);
     javaClass.visibility = JavaVisibility.PUBLIC;
     javaClass.javaPackage = rootPackage;
     javaClass.comment = getCommentString(francaInterface);
@@ -380,13 +385,17 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   }
 
   private JavaClass createJavaImplementationClass(
-      final FInterface francaInterface, final JavaInterface javaInterface) {
+      final FInterface francaInterface,
+      final JavaInterface javaInterface,
+      final JavaType extendedClass) {
 
     JavaClass javaClass =
-        new JavaClass(JavaNameRules.getImplementationClassName(francaInterface.getName()), true);
+        new JavaClass(
+            JavaNameRules.getImplementationClassName(francaInterface.getName()),
+            extendedClass,
+            true);
     javaClass.visibility = JavaVisibility.PACKAGE;
     javaClass.javaPackage = rootPackage;
-    javaClass.extendedClass = JavaClass.NATIVE_BASE;
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
 
     javaClass.methods.addAll(getPreviousResults(JavaMethod.class));
@@ -407,21 +416,21 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   private void finishBuildingFrancaClass(final FInterface francaInterface) {
 
-    List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
-    JavaClass javaClass = createJavaClass(francaInterface, methods);
-    javaClass.extendedClass = JavaClass.NATIVE_BASE;
+    JavaType extendedClass = JavaClass.NATIVE_BASE;
 
     FInterface parentInterface = francaInterface.getBase();
     if (parentInterface != null) {
       if (deploymentModel.isInterface(parentInterface)) {
         String parentImplementationClassName =
             JavaNameRules.getImplementationClassName(parentInterface.getName());
-        javaClass.extendedClass =
-            typeMapper.mapCustomType(parentInterface, parentImplementationClassName);
+        extendedClass = typeMapper.mapCustomType(parentInterface, parentImplementationClassName);
       } else {
-        javaClass.extendedClass = typeMapper.mapCustomType(parentInterface);
+        extendedClass = typeMapper.mapCustomType(parentInterface);
       }
     }
+
+    List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
+    JavaClass javaClass = createJavaClass(francaInterface, methods, extendedClass);
 
     storeResult(javaClass);
   }
@@ -429,17 +438,18 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   private void finishBuildingFrancaInterface(final FInterface francaInterface) {
 
     JavaInterface javaInterface = createJavaInterface(francaInterface);
-    JavaClass javaImplementationClass =
-        createJavaImplementationClass(francaInterface, javaInterface);
 
+    JavaType extendedClass = JavaClass.NATIVE_BASE;
     FInterface parentInterface = francaInterface.getBase();
     if (parentInterface != null) {
       javaInterface.parentInterfaces.add(typeMapper.mapCustomType(parentInterface));
       String parentImplementationClassName =
           JavaNameRules.getImplementationClassName(parentInterface.getName());
-      javaImplementationClass.extendedClass =
-          typeMapper.mapCustomType(parentInterface, parentImplementationClassName);
+      extendedClass = typeMapper.mapCustomType(parentInterface, parentImplementationClassName);
     }
+
+    JavaClass javaImplementationClass =
+        createJavaImplementationClass(francaInterface, javaInterface, extendedClass);
 
     storeResult(javaInterface);
     storeResult(javaImplementationClass);
