@@ -21,7 +21,7 @@
       style="@style/AppTheme.ShowCaseButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:backgroundTint="@android:color/holo_green_light"
+      android:background="#ff99cc00"
       android:text="@string/text_success"/>
 
     <Button
@@ -29,7 +29,7 @@
       style="@style/AppTheme.ShowCaseButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:backgroundTint="@android:color/holo_red_light"
+      android:background="#ffff4444"
       android:text="@string/text_error"/>
 
   </LinearLayout>

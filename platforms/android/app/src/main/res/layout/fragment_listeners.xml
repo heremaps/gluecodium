@@ -92,7 +92,7 @@
             style="@style/AppTheme.ShowCaseElement"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Position start"
+            android:text="@string/position_start"
             android:textSize="18sp"/>
 
         <EditText
@@ -101,8 +101,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:hint="x"
-            android:text="0"/>
+            android:hint="@string/x"
+            android:text="@string/position_start_value"/>
 
 
         <EditText
@@ -111,8 +111,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:hint="y"
-            android:text="0"/>
+            android:hint="@string/y"
+            android:text="@string/position_start_value"/>
 
 
         <EditText
@@ -121,8 +121,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:hint="z"
-            android:text="0"/>
+            android:hint="@string/z"
+            android:text="@string/position_start_value"/>
 
     </LinearLayout>
 
@@ -136,7 +136,7 @@
             style="@style/AppTheme.ShowCaseElement"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Position end"
+            android:text="@string/position_end"
             android:textSize="18sp"/>
 
         <EditText
@@ -145,8 +145,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:hint="x"
-            android:text="1000"/>
+            android:hint="@string/x"
+            android:text="@string/position_end_value"/>
 
         <EditText
             android:id="@+id/listeners_end_y"
@@ -154,8 +154,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:hint="y"
-            android:text="1000"/>
+            android:hint="@string/y"
+            android:text="@string/position_end_value"/>
 
         <EditText
             android:id="@+id/listeners_end_z"
@@ -163,8 +163,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:hint="z"
-            android:text="1000"/>
+            android:hint="@string/z"
+            android:text="@string/position_end_value"/>
 
     </LinearLayout>
 
