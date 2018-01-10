@@ -22,15 +22,16 @@ public final class JavaClass extends JavaTopLevelElement {
   public static final JavaType NATIVE_BASE = new JavaCustomType("NativeBase", JavaPackage.DEFAULT);
 
   public final Set<JavaField> fields = new LinkedHashSet<>();
-  public JavaType extendedClass;
+  public final JavaType extendedClass;
   public final boolean isImplClass;
 
   public JavaClass(final String name) {
-    this(name, false);
+    this(name, null, false);
   }
 
-  public JavaClass(final String name, final boolean isImplClass) {
+  public JavaClass(final String name, final JavaType extendedClass, final boolean isImplClass) {
     super(name);
+    this.extendedClass = extendedClass;
     this.isImplClass = isImplClass;
   }
 
@@ -39,6 +40,7 @@ public final class JavaClass extends JavaTopLevelElement {
     return NATIVE_BASE.equals(extendedClass);
   }
 
+  @SuppressWarnings("unused")
   public boolean tooManyFields() {
     return fields.size() > 2;
   }
