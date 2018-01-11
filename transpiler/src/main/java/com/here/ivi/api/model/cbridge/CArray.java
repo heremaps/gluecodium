@@ -21,8 +21,8 @@ public final class CArray extends CElement {
   public final CppTypeInfo arrayType;
   public final CppTypeInfo underlyingType;
 
-  public CArray(final CppTypeInfo typeInfo) {
-    super(typeInfo.cTypesNeededByConstructor.get(0).name);
+  public CArray(final String name, final CppTypeInfo typeInfo) {
+    super(name);
     this.arrayType = typeInfo;
     this.underlyingType = typeInfo.innerType;
   }

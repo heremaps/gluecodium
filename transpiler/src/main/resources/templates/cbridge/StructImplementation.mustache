@@ -12,7 +12,7 @@ void {{name}}_release({{type}} handle) {
 {{#switch type.typeCategory.toString}}
     {{#case "BUILTIN_SIMPLE"}}return get_pointer(handle)->{{baseLayerName}};{{/case}}{{!!
     }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(get_pointer(handle)->{{baseLayerName}});{{/case}}{{!!
-    }}{{#case "ARRAY"}}return { new {{type}}(get_pointer(handle)->{{baseLayerName}}) };{{/case}}{{!!
+    }}{{#case "ARRAY"}}return { new {{type}}(get_pointer<{{type.arrayBaseApi}}>(handle)->{{baseLayerName}}) };{{/case}}{{!!
     }}{{#default}}return {&get_pointer(handle)->{{baseLayerName}}};{{/default}}
 {{/switch}}
 }
@@ -23,7 +23,7 @@ void {{structname}}_{{name}}_set({{structtype}} handle, {{join setterParameters 
     }}{{#case "BUILTIN_BYTEBUFFER"}}.assign({{setterParameters.0.name}}, {{setterParameters.0.name}} + {{setterParameters.1.name}});{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}.assign({{setterParameters.0.name}});{{/case}}{{!!
     }}{{#case "ENUM"}} = static_cast<{{type.name}}>({{setterParameters.0.name}});{{/case}}{{!!
-    }}{{#case "ARRAY"}} = *get_pointer({{setterParameters.0.name}});{{/case}}{{!!
+    }}{{#case "ARRAY"}} = *get_pointer<{{type.arrayBaseApi}}>({{setterParameters.0.name}});{{/case}}{{!!
     }}{{#case "CLASS"}} = *get_pointer({{setterParameters.0.name}});{{/case}}{{!!
     }}{{#default}} = {{setterParameters.0.name}};{{/default}}
 {{/switch}}

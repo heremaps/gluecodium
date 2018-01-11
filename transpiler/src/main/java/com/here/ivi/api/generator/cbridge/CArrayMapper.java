@@ -11,12 +11,13 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CArrayGenerator.CBRIDGE_ARRAY_REF;
 import static com.here.ivi.api.generator.cbridge.CArrayGenerator.CBRIDGE_INTERNAL_ARRAY_IMPL;
+import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.BASE_HANDLE_FILE;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
 import static java.util.Collections.singletonList;
 
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
+import com.here.ivi.api.model.cbridge.CArray;
 import com.here.ivi.api.model.cbridge.CType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.InstanceRules;
@@ -26,10 +27,9 @@ import org.franca.core.franca.*;
 
 public final class CArrayMapper {
 
-  public static CppTypeInfo create(final CppTypeInfo innerType, final EObject francaElement) {
+  public static CppTypeInfo createArrayReference(final CppTypeInfo innerType) {
 
-    String arrayName = addPrefix(getName(francaElement) + addNestedSuffixIfNeeded(innerType));
-    CType arrayType = new CType(arrayName, Include.createInternalInclude(CBRIDGE_ARRAY_REF));
+    CType arrayType = new CType("_baseRef", Include.createInternalInclude(BASE_HANDLE_FILE));
     CppTypeInfo type =
         new CppTypeInfo(
             "std::vector<" + innerType.name + ">",
@@ -42,6 +42,16 @@ public final class CArrayMapper {
                 CppLibraryIncludes.VECTOR));
     type.innerType = innerType;
     return type;
+  }
+
+  public static CArray createArrayDefinition(final FType francaArray, final CppTypeInfo innerType) {
+    return createArrayDefinition(francaArray, innerType, createArrayReference(innerType));
+  }
+
+  public static CArray createArrayDefinition(
+      final FType francaArray, final CppTypeInfo innerType, final CppTypeInfo cppTypeRef) {
+    String fullName = addPrefix(getName(francaArray) + addNestedSuffixIfNeeded(innerType));
+    return new CArray(fullName, cppTypeRef);
   }
 
   public static String getName(final EObject object) {

@@ -32,7 +32,7 @@ public final class CTypeMapper {
     }
 
     if (FrancaTypeHelper.isImplicitArray(typeRef)) {
-      typeResult = CArrayMapper.create(typeResult, typeRef);
+      typeResult = CArrayMapper.createArrayReference(typeResult);
     }
     return typeResult;
   }
@@ -46,7 +46,7 @@ public final class CTypeMapper {
       return CppTypeInfo.createEnumTypeInfo(resolver, (FEnumerationType) derived);
     } else if (derived instanceof FArrayType) {
       CppTypeInfo innerType = mapType(resolver, ((FArrayType) derived).getElementType());
-      return CArrayMapper.create(innerType, derived);
+      return CArrayMapper.createArrayReference(innerType);
     } else {
       return new CppTypeInfo(VOID);
     }

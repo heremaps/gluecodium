@@ -2,13 +2,11 @@
 
 #pragma once
 
-{{#privateHeaderIncludes}}{{>common/Include}}{{/privateHeaderIncludes}}
+{{#if arrays}}
+#include "cbridge_internal/include/BaseHandleImpl.h"
+{{/if}}
 
-{{#arrays}}
-inline {{arrayType.arrayBaseApi}}* get_pointer({{name}} handle) {
-  return static_cast<{{arrayType.arrayBaseApi}}*>(handle.private_pointer);
-}
-{{/arrays}}
+{{#privateHeaderIncludes}}{{>common/Include}}{{/privateHeaderIncludes}}
 
 {{#structs}}
 inline {{baseApiName}}* get_pointer({{name}}Ref handle) {
