@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.BASE_HANDLE_IMPL_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_IMPL_FILE;
 import static com.here.ivi.api.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
@@ -70,7 +71,10 @@ public final class CppTypeInfo extends CElement {
           CType.BYTE_ARRAY_REF,
           TypeCategory.BUILTIN_BYTEBUFFER,
           Arrays.asList(
-              CppLibraryIncludes.NEW, CppLibraryIncludes.VECTOR, FIXED_WIDTH_INTEGERS_INCLUDE));
+              CppLibraryIncludes.NEW,
+              CppLibraryIncludes.VECTOR,
+              FIXED_WIDTH_INTEGERS_INCLUDE,
+              Include.createInternalInclude(BASE_HANDLE_IMPL_FILE)));
 
   public static CppTypeInfo createCustomTypeInfo(
       final IncludeResolver resolver,

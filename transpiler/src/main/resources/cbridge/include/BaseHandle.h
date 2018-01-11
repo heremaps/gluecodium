@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------------------------------
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,11 +11,16 @@
 // -------------------------------------------------------------------------------------------------
 
 #pragma once
-#include <vector>
-#include "cbridge/include/ByteArrayHandle.h"
 
-inline static std::vector< uint8_t >*
-get_pointer( byteArrayRef handle )
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct
 {
-    return static_cast< std::vector< uint8_t >* >( handle.private_pointer );
+    void* const private_pointer;
+} _baseRef;
+
+#ifdef __cplusplus
 }
+#endif

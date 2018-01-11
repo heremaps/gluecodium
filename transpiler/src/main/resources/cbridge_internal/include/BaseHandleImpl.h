@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------------------------------
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -12,17 +12,11 @@
 
 #pragma once
 
-#include "BaseHandle.h"
-#include <stdint.h>
+#include "cbridge/include/BaseHandle.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-const uint8_t* byteArray_data_get( _baseRef handle );
-int64_t byteArray_size_get( _baseRef handle );
-void byteArray_release( _baseRef handle );
-
-#ifdef __cplusplus
+template< typename T >
+inline static T*
+get_pointer( _baseRef handle )
+{
+    return static_cast< T* >( handle.private_pointer );
 }
-#endif
