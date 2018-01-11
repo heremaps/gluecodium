@@ -43,8 +43,8 @@ function(apigen_swift_compile target architecture)
     get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
     get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
 
-    if(NOT ${GENERATOR} MATCHES swift)
-        return()
+    if(NOT ${GENERATOR} MATCHES "swift")
+        message(FATAL_ERROR "apigen_swift_compile() depends on apigen_transpiler() configured with generator 'swift'")
     endif()
 
     set(TARGET_ARCHITECTURE ${architecture})

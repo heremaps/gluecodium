@@ -32,8 +32,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkInfoPlist.cmake)
 
 function(apigen_swift_package target)
 
-    if(NOT ${GENERATOR} MATCHES swift)
-        return()
+    if(NOT ${GENERATOR} MATCHES "swift")
+        message(FATAL_ERROR "apigen_swift_package() depends on apigen_transpiler() configured with generator 'swift'")
     endif()
 
     apigen_swift_fat_library(${target})

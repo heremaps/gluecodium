@@ -39,10 +39,8 @@ function(apigen_swift_fat_library target)
     get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
     get_target_property(SWIFT_ARCH ${target} APIGEN_SWIFT_BUILD_ARCH)
 
-
-    # On Mac create a proper fat binary, on linux do nothing
-    if(NOT ${GENERATOR} MATCHES swift)
-        return()
+    if(NOT ${GENERATOR} MATCHES "swift")
+        message(FATAL_ERROR "apigen_swift_fat_library() depends on apigen_transpiler() configured with generator 'swift'")
     endif()
 
     set(framework_lib_dir "${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}")

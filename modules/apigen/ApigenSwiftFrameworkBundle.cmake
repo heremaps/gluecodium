@@ -43,16 +43,16 @@ function(apigen_swift_framework_bundle)
     get_target_property(SWIFT_FRAMEWORK_VERSION ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_FRAMEWORK_VERSION)
     get_target_property(SWIFT_RESOURCES_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_RESOURCES_DIR)
 
-    if(NOT ${GENERATOR} MATCHES swift)
-        return()
+    if(NOT ${GENERATOR} MATCHES "swift")
+        message(FATAL_ERROR "apigen_swift_framework_bundle() depends on apigen_transpiler() configured with generator 'swift'")
     endif()
 
     message(STATUS "Assets ${apigen_swift_framework_bundle_ASSETS}")
-    
+
     # Copy the folders that need to be in the bundle.
     foreach(FOLDER ${apigen_swift_framework_bundle_ASSETS})
         add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
-            COMMAND cp -fR ${FOLDER} 
+            COMMAND cp -fR ${FOLDER}
                 "${SWIFT_OUTPUT_DIR}/${apigen_swift_framework_bundle_TARGET}.framework/Versions/Current/Resources/")
     endforeach()
 

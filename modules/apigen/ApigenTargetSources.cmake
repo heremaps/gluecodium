@@ -72,7 +72,8 @@ function(apigen_target_sources target)
         source_group("Generated cBridge\\Source Files" FILES ${CBRIDGE_SOURCES})
         source_group("Generated Swift Source Files" FILES ${SWIFT_SOURCES})
         target_include_directories(${target} PRIVATE ${OUTPUT_DIR}/cbridge)
-
+    else()
+        message(FATAL_ERROR "apigen_target_sources() cannot match the generator '${GENERATOR}'")
     endif()
 
 endfunction(apigen_target_sources)

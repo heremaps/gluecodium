@@ -67,6 +67,8 @@ function(apigen_target_include_directories target)
             # There are file name conflicts between cbridge and cbridge_internal so the top folder
             # needs to be added to have cbridge/cbridge_internal as part of the include path
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)
+    else()
+        message(FATAL_ERROR "apigen_target_include_directories() cannot match the generator '${GENERATOR}'")
     endif()
 
 endfunction(apigen_target_include_directories)

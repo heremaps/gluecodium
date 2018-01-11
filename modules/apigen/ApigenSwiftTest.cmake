@@ -39,8 +39,8 @@ function(apigen_swift_test target swift_target_flag)
         return()
     endif()
 
-    if(NOT ${GENERATOR} MATCHES swift)
-        return()
+    if(NOT ${GENERATOR} MATCHES "swift")
+        message(FATAL_ERROR "apigen_swift_test() depends on apigen_transpiler() configured with generator 'swift'")
     endif()
 
     set(BUILD_ARGUMENTS

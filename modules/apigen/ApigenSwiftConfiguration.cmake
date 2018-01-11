@@ -38,8 +38,8 @@ function(apigen_swift_configuration target)
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
 
-    if(NOT ${GENERATOR} MATCHES swift)
-        return()
+    if(NOT ${GENERATOR} MATCHES "swift")
+        message(FATAL_ERROR "apigen_swift_configuration() depends on apigen_transpiler() configured with generator 'swift'")
     endif()
 
     # Transpiler invocations for different generators need different output directories
