@@ -6,9 +6,9 @@ import Foundation
 
 {{#arrays}}
 internal class {{implementingClass}}: CollectionOf<{{underlyingType}}> {
-    let c_element: {{refName}}
+    let c_element: _baseRef
 
-    init(_ c_element: {{refName}}) {
+    init(_ c_element: _baseRef) {
         self.c_element = c_element
         super.init([])
         self.startIndex = 0
@@ -32,7 +32,7 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType}}> {
     }
 }
 extension Collection {{>GenericConstraintsRule}}  {
-    public func c_conversion()-> (c_type: {{refName}}, cleanup: () ->Void) {
+    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = {{refName}}_create()
         {{>precondition}}
 

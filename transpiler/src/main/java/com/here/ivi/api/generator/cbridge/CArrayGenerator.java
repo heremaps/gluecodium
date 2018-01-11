@@ -31,8 +31,6 @@ public final class CArrayGenerator {
       Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, ARRAY_FILE + ".h").toString();
   public static final String CBRIDGE_ARRAY_IMPL =
       Paths.get(CBRIDGE_PUBLIC, SRC_DIR, ARRAY_FILE + ".cpp").toString();
-  public static final String CBRIDGE_ARRAY_REF =
-      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, ARRAY_FILE + "Ref.h").toString();
   public static final String CBRIDGE_INTERNAL_ARRAY_IMPL =
       Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, ARRAY_FILE + "Impl.h").toString();
 
@@ -60,15 +58,10 @@ public final class CArrayGenerator {
                     TemplateEngine.render("cbridge/Header", arraysInterface), CBRIDGE_ARRAY_HEADER),
                 new GeneratedFile(
                     TemplateEngine.render("cbridge/Implementation", arraysInterface),
-                    CBRIDGE_ARRAY_IMPL),
-                new GeneratedFile(
-                    TemplateEngine.render("cbridge/ArraysReferences", arraysInterface),
-                    CBRIDGE_ARRAY_REF)));
+                    CBRIDGE_ARRAY_IMPL)));
     // Remove self include for private header.
     arraysInterface.privateHeaderIncludes.removeIf(
-        include -> {
-          return include.fileName.equals(CBRIDGE_INTERNAL_ARRAY_IMPL);
-        });
+        include -> include.fileName.equals(CBRIDGE_INTERNAL_ARRAY_IMPL));
     files.add(
         new GeneratedFile(
             TemplateEngine.render("cbridge/PrivateHeader", arraysInterface),

@@ -125,13 +125,13 @@ public class CBridgeArrayMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
     CppTypeInfo innerType = CppTypeInfo.STRING;
-    CppTypeInfo arrayType = CArrayMapper.create(innerType, francaTypeRef);
+    CppTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
 
     Assert.assertNotNull("Array type should not be null", arrayType);
     Assert.assertNotNull("Inner typ should not be null", arrayType.innerType);
     Assert.assertEquals("Should return array type", ARRAY, arrayType.typeCategory);
     Assert.assertEquals(
-        "Array name should match", "arrayCollection_StructTest", arrayType.functionReturnType.name);
+        "Return type name should match", "_baseRef", arrayType.functionReturnType.name);
   }
 
   @Test
@@ -140,27 +140,14 @@ public class CBridgeArrayMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
     CppTypeInfo innerType = CppTypeInfo.STRING;
-    CppTypeInfo arrayType = CArrayMapper.create(innerType, francaTypeRef);
-    CppTypeInfo nestedArrayType = CArrayMapper.create(arrayType, francaTypeRef);
+    CppTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
+    CppTypeInfo nestedArrayType = CArrayMapper.createArrayReference(arrayType);
 
     Assert.assertNotNull("Array type should not be null", nestedArrayType);
     Assert.assertNotNull("Inner type should not be null", nestedArrayType.innerType);
     Assert.assertEquals("Should return array type", ARRAY, nestedArrayType.typeCategory);
     Assert.assertEquals("Should return array type", ARRAY, nestedArrayType.innerType.typeCategory);
     Assert.assertEquals(
-        "Array name should match",
-        "arrayCollection_StructTestArray",
-        nestedArrayType.functionReturnType.name);
-  }
-
-  @Test
-  public void createArrayUndefinedWithNoFrancaType() {
-    CppTypeInfo innerType = CppTypeInfo.STRING;
-    CppTypeInfo arrayType = CArrayMapper.create(innerType, null);
-
-    Assert.assertEquals(
-        "Array name should be undefined",
-        "arrayCollection_undefined",
-        arrayType.functionReturnType.name);
+        "Return type name should match", "_baseRef", nestedArrayType.functionReturnType.name);
   }
 }

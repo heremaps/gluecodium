@@ -80,7 +80,6 @@ public class CBridgeModelBuilderTest {
   private static final String DELEGATE_NAME = "DELEGATE_NAME";
   private static final String PARAM_NAME = "inputParam";
   private static final String STRUCT_NAME = "SomeStruct";
-  private static final String STRUCT_REF_NAME = STRUCT_NAME + "Ref";
   private static final String STRUCT_BASEAPI_NAME = "BaseAPI::" + STRUCT_NAME;
   private static final String ATTRIBUTE_NAME = "someAttributeName";
   private static final String CBRIDGE_ATTR_GETTER_NAME = "C_ATTR_GETTER";
@@ -128,7 +127,6 @@ public class CBridgeModelBuilderTest {
 
     CppTypeInfo typeInfo = new CppTypeInfo(new CType(""));
 
-    when(CBridgeNameRules.getStructRefType(any())).thenReturn(STRUCT_REF_NAME);
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
     when(CBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
 
@@ -336,12 +334,13 @@ public class CBridgeModelBuilderTest {
     assertEquals("CppName2", cStruct.fields.get(1).baseLayerName);
   }
 
+  @Test
   public void finishBuildingStructCreatesStructWithProperName() {
     modelBuilder.finishBuilding(francaStruct);
 
     CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
     assertNotNull(cStruct);
-    assertEquals(STRUCT_REF_NAME, cStruct.name);
+    assertEquals(STRUCT_NAME, cStruct.name);
   }
 
   @Test
@@ -494,31 +493,30 @@ public class CBridgeModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingCreatesArray() {
-    CppTypeInfo arrayType = new CppTypeInfo(new CType("ArrayTest"));
-    arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY;
-    when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
-    when(CArrayMapper.create(any(), any())).thenReturn(arrayType);
+  public void finishBuildingFrancaArrayTypeCreatesArray() {
+    CArray cArray = new CArray("FooArray", cppTypeInfo);
+    when(CArrayMapper.createArrayDefinition(any(), any())).thenReturn(cArray);
 
     modelBuilder.finishBuilding(francaArray);
 
     Collection<CArray> arrays = modelBuilder.arraysCollector.values();
     assertEquals("There should one array", 1, arrays.size());
-    assertEquals("ArrayTest", arrays.iterator().next().name);
+    assertEquals("FooArray", arrays.iterator().next().name);
   }
 
   @Test
-  public void finishBuildingCreatesInlineArray() {
+  public void finishBuildingFrancaTypeRefCreatesInlineArray() {
     CppTypeInfo arrayType = new CppTypeInfo(new CType("ArrayTest"));
     arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY;
-    arrayType.innerType = cppTypeInfo;
     when(CTypeMapper.mapType(any(), any())).thenReturn(arrayType);
+    CArray cArray = new CArray("FooArray", cppTypeInfo);
+    when(CArrayMapper.createArrayDefinition(any(), any(), any())).thenReturn(cArray);
 
     modelBuilder.finishBuilding(francaTypeRef);
 
     Collection<CArray> arrays = modelBuilder.arraysCollector.values();
     assertEquals("There should one array", 1, arrays.size());
-    assertEquals("ArrayTest", arrays.iterator().next().name);
+    assertEquals("FooArray", arrays.iterator().next().name);
   }
 
   private void verifyAttributeSetter(CppTypeInfo classTypeInfo, CFunction cSetter) {

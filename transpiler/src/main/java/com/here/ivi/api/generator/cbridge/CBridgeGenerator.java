@@ -40,6 +40,8 @@ public class CBridgeGenerator {
 
   public final CArrayGenerator arrayGenerator = new CArrayGenerator();
 
+  public static final String BASE_HANDLE_FILE =
+      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString();
   public static final String BASE_HANDLE_IMPL_FILE =
       Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString();
   public static final String STRING_HANDLE_FILE =
@@ -47,8 +49,7 @@ public class CBridgeGenerator {
 
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
-          GeneratorSuite.copyTarget(
-              Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString(), ""),
+          GeneratorSuite.copyTarget(BASE_HANDLE_FILE, ""),
           GeneratorSuite.copyTarget(BASE_HANDLE_IMPL_FILE, ""),
           GeneratorSuite.copyTarget(STRING_HANDLE_FILE, ""),
           GeneratorSuite.copyTarget(

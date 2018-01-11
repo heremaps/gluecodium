@@ -10,8 +10,8 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
 internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
-    let c_element: arrayCollection_BasicStruct
-    init(_ c_element: arrayCollection_BasicStruct) {
+    let c_element: _baseRef
+    init(_ c_element: _baseRef) {
         self.c_element = c_element
         super.init([])
         self.startIndex = 0
@@ -33,7 +33,7 @@ internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
     }
 }
 extension Collection where Element == Arrays.BasicStruct  {
-    public func c_conversion()-> (c_type: arrayCollection_BasicStruct, cleanup: () ->Void) {
+    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_BasicStruct_create()
         precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
@@ -50,8 +50,8 @@ extension Collection where Element == Arrays.BasicStruct  {
     }
 }
 internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
-    let c_element: arrayCollection_FancyStruct
-    init(_ c_element: arrayCollection_FancyStruct) {
+    let c_element: _baseRef
+    init(_ c_element: _baseRef) {
         self.c_element = c_element
         super.init([])
         self.startIndex = 0
@@ -73,7 +73,7 @@ internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
     }
 }
 extension Collection where Element == Arrays.FancyStruct  {
-    public func c_conversion()-> (c_type: arrayCollection_FancyStruct, cleanup: () ->Void) {
+    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_FancyStruct_create()
         precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
@@ -90,8 +90,8 @@ extension Collection where Element == Arrays.FancyStruct  {
     }
 }
 internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
-    let c_element: arrayCollection_UInt8Array
-    init(_ c_element: arrayCollection_UInt8Array) {
+    let c_element: _baseRef
+    init(_ c_element: _baseRef) {
         self.c_element = c_element
         super.init([])
         self.startIndex = 0
@@ -107,7 +107,7 @@ internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
     }
 }
 extension Collection where Element: Collection, Element.Element == UInt8  {
-    public func c_conversion()-> (c_type: arrayCollection_UInt8Array, cleanup: () ->Void) {
+    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_UInt8Array_create()
         precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
@@ -122,8 +122,8 @@ extension Collection where Element: Collection, Element.Element == UInt8  {
     }
 }
 internal class StringList: CollectionOf<String> {
-    let c_element: arrayCollection_String
-    init(_ c_element: arrayCollection_String) {
+    let c_element: _baseRef
+    init(_ c_element: _baseRef) {
         self.c_element = c_element
         super.init([])
         self.startIndex = 0
@@ -143,7 +143,7 @@ internal class StringList: CollectionOf<String> {
     }
 }
 extension Collection where Element == String  {
-    public func c_conversion()-> (c_type: arrayCollection_String, cleanup: () ->Void) {
+    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_String_create()
         precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {
@@ -156,8 +156,8 @@ extension Collection where Element == String  {
     }
 }
 internal class UInt8List: CollectionOf<UInt8> {
-    let c_element: arrayCollection_UInt8
-    init(_ c_element: arrayCollection_UInt8) {
+    let c_element: _baseRef
+    init(_ c_element: _baseRef) {
         self.c_element = c_element
         super.init([])
         self.startIndex = 0
@@ -172,7 +172,7 @@ internal class UInt8List: CollectionOf<UInt8> {
     }
 }
 extension Collection where Element == UInt8  {
-    public func c_conversion()-> (c_type: arrayCollection_UInt8, cleanup: () ->Void) {
+    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_UInt8_create()
         precondition(handle.private_pointer != nil, "Out of memory")
         for item in self {

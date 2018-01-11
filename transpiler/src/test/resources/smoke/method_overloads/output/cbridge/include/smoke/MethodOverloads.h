@@ -13,7 +13,7 @@
 extern "C" {
 #endif
 
-#include "cbridge/include/ArrayCollectionRef.h"
+#include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/StringHandle.h"
 
 #include <stdbool.h>
@@ -42,8 +42,8 @@ bool smoke_MethodOverloads_isBoolean_intOverload(smoke_MethodOverloadsRef _insta
 bool smoke_MethodOverloads_isBoolean_stringOverload(smoke_MethodOverloadsRef _instance, const char* input);
 bool smoke_MethodOverloads_isBoolean_structOverload(smoke_MethodOverloadsRef _instance, smoke_MethodOverloads_PointRef input);
 bool smoke_MethodOverloads_isBoolean_everythingOverload(smoke_MethodOverloadsRef _instance, bool input1, int8_t input2, const char* input3, smoke_MethodOverloads_PointRef input4);
-bool smoke_MethodOverloads_isBoolean_stringArrayOverload(smoke_MethodOverloadsRef _instance, arrayCollection_String input);
-bool smoke_MethodOverloads_isBoolean_intArrayOverload(smoke_MethodOverloadsRef _instance, arrayCollection_Int8 input);
+bool smoke_MethodOverloads_isBoolean_stringArrayOverload(smoke_MethodOverloadsRef _instance, _baseRef input);
+bool smoke_MethodOverloads_isBoolean_intArrayOverload(smoke_MethodOverloadsRef _instance, _baseRef input);
 #ifdef __cplusplus
 }
 #endif
