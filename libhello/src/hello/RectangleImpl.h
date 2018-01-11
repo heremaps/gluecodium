@@ -10,20 +10,24 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "hello/HelloWorldInheritanceParent.h"
+#pragma once
 
-#include <sstream>
+#include "hello/Rectangle.h"
 
-namespace hello
-{
+namespace hello {
+class RectangleImpl : public Rectangle {
+public:
+  RectangleImpl(double width, double height);
+  ~RectangleImpl() = default;
 
-std::string
-HelloWorldInheritanceParent::hello_world_parent_method( const std::string& input )
-{
-    std::stringstream ss;
-    ss << "hello_world_parent_method, input string: " << input;
+public:
+  bool is_rectangle();
+  ::std::string get_type();
+  double get_width();
+  double get_height();
 
-    return ss.str( );
-}
-
+private:
+  double m_width;
+  double m_height;
+};
 }

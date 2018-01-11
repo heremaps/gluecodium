@@ -10,15 +10,16 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "hello/HelloWorldInheritanceChild.h"
+#include "SquareImpl.h"
 
-namespace hello
-{
+namespace hello {
+SquareImpl::SquareImpl(const double side) : RectangleImpl(side, side) {}
 
-int16_t
-HelloWorldInheritanceChild::hello_world_child_method( const uint8_t input )
-{
-    return input;
-}
+bool SquareImpl::is_rectangle() { return RectangleImpl::is_rectangle(); }
 
+::std::string SquareImpl::get_type() { return "Square"; }
+
+double SquareImpl::get_width() { return RectangleImpl::get_width(); }
+
+double SquareImpl::get_height() { return RectangleImpl::get_height(); }
 }
