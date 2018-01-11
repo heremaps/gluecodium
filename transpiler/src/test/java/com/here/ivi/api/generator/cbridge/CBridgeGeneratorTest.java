@@ -207,7 +207,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
             "typedef struct {\n"
                 + "    void* swift_pointer;\n"
                 + "    void(*release)(void* swift_pointer);\n"
-                + "    void(*cbridge_test_TestInterface_functionName)(void* swift_pointer, std_stringRef input);\n"
+                + "    void(*cbridge_test_TestInterface_functionName)(void* swift_pointer, _baseRef input);\n"
                 + "} cbridge_test_TestInterface_FunctionTable;\n")
         .build()
         .assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
@@ -259,7 +259,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedHeader =
         TemplateComparator.expect(STRING_INCLUDE)
             .expect(
-                "std_stringRef cbridge_test_TestInterface_functionName"
+                "_baseRef cbridge_test_TestInterface_functionName"
                     + "(cbridge_test_TestInterfaceRef _instance, const char* input, const char* input2);\n")
             .build();
 
@@ -267,7 +267,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
         TemplateComparator.expect(STD_STRING_INCLUDE)
             .expect(STD_NEW_INCLUDE)
             .expect(
-                "std_stringRef cbridge_test_TestInterface_functionName"
+                "_baseRef cbridge_test_TestInterface_functionName"
                     + "(cbridge_test_TestInterfaceRef _instance, const char* input, const char* input2) {\n"
                     + "    return {new (std::nothrow)std::string(get_pointer(_instance)->get()"
                     + "->function_name(std::string(input), std::string(input2)))};\n"
@@ -294,14 +294,14 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
     TemplateComparator expectedHeader =
         TemplateComparator.expect(STRING_INCLUDE)
-            .expect("std_stringRef cbridge_test_TestInterface_functionName(const char* input);\n")
+            .expect("_baseRef cbridge_test_TestInterface_functionName(const char* input);\n")
             .build();
 
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(STD_STRING_INCLUDE)
             .expect(STD_NEW_INCLUDE)
             .expect(
-                "std_stringRef cbridge_test_TestInterface_functionName(const char* input) {\n"
+                "_baseRef cbridge_test_TestInterface_functionName(const char* input) {\n"
                     + "    return {new (std::nothrow)std::string(::cbridge::test::TestInterface::function_name(std::string(input)))};\n"
                     + "}\n")
             .build();

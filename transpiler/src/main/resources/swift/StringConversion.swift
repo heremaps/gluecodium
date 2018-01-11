@@ -13,7 +13,7 @@
 import Foundation
 
 extension String {
-    func convertToCType() -> std_stringRef {
+    func convertToCType() -> _baseRef {
         let result = std_string_create(self)
         precondition(result.private_pointer != nil, "Out of memory")
         return result

@@ -11,21 +11,18 @@
 // -------------------------------------------------------------------------------------------------
 
 #pragma once
+
+#include "BaseHandle.h"
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <stdint.h>
-
-typedef struct
-{
-    void* const private_pointer;
-} std_stringRef;
-
-std_stringRef std_string_create( const char* c_str );
-const char* std_string_data_get( std_stringRef handle );
-int64_t std_string_size_get( std_stringRef handle );
-void std_string_release( std_stringRef handle );
+_baseRef std_string_create( const char* c_str );
+const char* std_string_data_get( _baseRef handle );
+int64_t std_string_size_get( _baseRef handle );
+void std_string_release( _baseRef handle );
 
 #ifdef __cplusplus
 }
