@@ -102,4 +102,18 @@
         <item>java</item>
         <item>base API</item>
     </string-array>
+
+    <string-array name="inheritance_methods">
+        <item>Check inheritances</item>
+        <item>circle.getType</item>
+        <item>rectangle.getType</item>
+        <item>square.getType</item>
+    </string-array>
+
+    <string-array name="inheritance_methods_description">
+        <item>Check inheritances between geometric forms (Circle, Rectangle and Square)</item>
+        <item>Returns result of circle.getType() call</item>
+        <item>Returns result of rectangle.getType() call</item>
+        <item>Returns result of square.getType() call</item>
+    </string-array>
 </resources>
