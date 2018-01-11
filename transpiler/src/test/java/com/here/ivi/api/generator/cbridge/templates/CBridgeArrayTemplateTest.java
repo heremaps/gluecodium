@@ -50,7 +50,7 @@ public final class CBridgeArrayTemplateTest {
             + "arrayCollection_String arrayCollection_String_create();\n"
             + "void arrayCollection_String_release(arrayCollection_String handle);\n"
             + "uint64_t arrayCollection_String_count(arrayCollection_String handle);\n"
-            + "std_stringRef arrayCollection_String_get(arrayCollection_String handle, uint64_t index);\n"
+            + "_baseRef arrayCollection_String_get(arrayCollection_String handle, uint64_t index);\n"
             + "void arrayCollection_String_append(arrayCollection_String handle, const char* item);\n";
 
     TemplateComparison.assertEqualHeaderContent(expected, generated);
@@ -66,7 +66,7 @@ public final class CBridgeArrayTemplateTest {
         "#include \"cbridge/include/ArrayCollection.h\"\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
             + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
-            + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
+            + "#include \"cbridge_internal/include/BaseHandleImpl.h\"\n"
             + "#include <new>\n"
             + "#include <string>\n"
             + "#include <vector>\n"
@@ -79,8 +79,8 @@ public final class CBridgeArrayTemplateTest {
             + "uint64_t arrayCollection_String_count(arrayCollection_String handle) {\n"
             + "    return get_pointer(handle)->size();\n"
             + "}\n"
-            + "std_stringRef arrayCollection_String_get(arrayCollection_String handle, uint64_t index) {\n"
-            + "    return std_stringRef {\n"
+            + "_baseRef arrayCollection_String_get(arrayCollection_String handle, uint64_t index) {\n"
+            + "    return _baseRef {\n"
             + "        new (std::nothrow)std::string {\n"
             + "            (*get_pointer(handle))[index]\n"
             + "        }\n"
@@ -124,7 +124,7 @@ public final class CBridgeArrayTemplateTest {
     final String expected =
         "#pragma once\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
-            + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
+            + "#include \"cbridge_internal/include/BaseHandleImpl.h\"\n"
             + "#include <new>\n"
             + "#include <string>\n"
             + "#include <vector>\n"
@@ -164,7 +164,7 @@ public final class CBridgeArrayTemplateTest {
         "#include \"cbridge/include/ArrayCollection.h\"\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
             + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
-            + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
+            + "#include \"cbridge_internal/include/BaseHandleImpl.h\"\n"
             + "#include <new>\n"
             + "#include <string>\n"
             + "#include <vector>\n"
@@ -222,7 +222,7 @@ public final class CBridgeArrayTemplateTest {
     final String expected =
         "#pragma once\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
-            + "#include \"cbridge_internal/include/StringHandleImpl.h\"\n"
+            + "#include \"cbridge_internal/include/BaseHandleImpl.h\"\n"
             + "#include <new>\n"
             + "#include <string>\n"
             + "#include <vector>\n"

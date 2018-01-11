@@ -42,7 +42,7 @@ public class CType extends CElement {
   public static final CType DOUBLE = new CType("double");
   public static final CType STRING_REF =
       new CType(
-          "std_stringRef",
+          "_baseRef",
           Include.createInternalInclude(
               Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "StringHandle.h").toString()));
   public static final CType BYTE_ARRAY_REF =

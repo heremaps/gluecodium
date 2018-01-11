@@ -157,7 +157,7 @@ public class CBridgeImplementationTemplateTest {
             + "void name_release(nameRef handle) {\n"
             + "    delete get_pointer(handle);\n"
             + "}\n"
-            + "std_stringRef name_stringField_get(nameRef handle) {\n"
+            + "_baseRef name_stringField_get(nameRef handle) {\n"
             + "    return {&get_pointer(handle)->baseApiFieldName};\n"
             + "}\n"
             + "void name_stringField_set(nameRef handle, const char* stringField) {\n"

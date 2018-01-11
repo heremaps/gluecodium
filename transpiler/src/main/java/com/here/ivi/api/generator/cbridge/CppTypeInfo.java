@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.BASE_HANDLE_IMPL_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_FILE;
-import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.STRING_HANDLE_IMPL_FILE;
 import static com.here.ivi.api.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -60,7 +59,7 @@ public final class CppTypeInfo extends CElement {
           Arrays.asList(
               CppLibraryIncludes.STRING,
               CppLibraryIncludes.NEW,
-              Include.createInternalInclude(STRING_HANDLE_IMPL_FILE),
+              Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
               Include.createInternalInclude(STRING_HANDLE_FILE)));
 
   public static final CppTypeInfo BYTE_VECTOR =

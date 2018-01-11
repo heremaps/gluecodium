@@ -107,7 +107,7 @@ public class CBridgeHeaderTemplateTest {
             .returnType(CppTypeInfo.STRING)
             .parameters(Collections.singletonList(cParameter))
             .build());
-    final String expected = "std_stringRef HelloWorld_HelloWorldMethod(const char* inputString);\n";
+    final String expected = "_baseRef HelloWorld_HelloWorldMethod(const char* inputString);\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
   }
