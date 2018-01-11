@@ -11,43 +11,103 @@
 
 package hello
 
-interface HelloWorldInheritanceParent {
 
-    version {
-        major 0
-        minor 1
+interface Shape {
+
+    <** @description:
+    Example method that checks if the shape is a rectangle or not
+    **>
+    method isRectangle {
+        out {
+            Boolean result
+        }
     }
 
     <** @description:
-    Example static method for HelloWorldInheritance which takes a String and returns a String.
+    Example method that returns shape's name
     **>
-    method helloWorldParentMethod {
-        in {
-            String input
-        }
+    method getType {
         out {
-            String output
+            String result
         }
     }
 }
 
-interface HelloWorldInheritanceChild extends HelloWorldInheritanceParent {
+interface Circle extends Shape {
 
-    version {
-        major 0
-        minor 1
+    public typedef Circle is undefined
+
+    <** @description:
+    Example method that creates a circle with a given radius
+    **>
+    method createCircle {
+        in {
+            Double radius
+        }
+        out {
+            Circle instance
+        }
     }
 
     <** @description:
-    Example static method for HelloWorldInheritance which takes an unsigned int and returns the same
-    value as a signed int of a larger size.
+    Example method that returns Circle radius
     **>
-    method helloWorldChildMethod {
+    method getRadius {
+        out {
+            Double result
+        }
+    }
+}
+
+interface Rectangle extends Shape {
+
+    public typedef Rectangle is undefined
+
+    <** @description:
+    Example method that creates a rectangle with width and height
+    **>
+    method createRectangle {
         in {
-            UInt8 input
+            Double width
+            Double heigth
         }
         out {
-            Int16 output
+            Rectangle instance
+        }
+    }
+
+    <** @description:
+    Example method that returns rectangle width
+    **>
+    method getWidth {
+        out {
+            Double result
+        }
+    }
+
+    <** @description:
+    Example method that returns rectangle height
+    **>
+    method getHeight {
+        out {
+            Double result
+        }
+    }
+}
+
+interface Square extends Rectangle {
+
+    public typedef Square is undefined
+
+    <** @description:
+    Example method that creates a rectangle with given side
+    **>
+    method createSquare {
+        in {
+            Double side
+        }
+        out {
+            Square instance
         }
     }
 }
