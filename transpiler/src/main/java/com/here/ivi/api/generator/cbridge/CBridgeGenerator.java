@@ -40,15 +40,18 @@ public class CBridgeGenerator {
 
   public final CArrayGenerator arrayGenerator = new CArrayGenerator();
 
+  public static final String BASE_HANDLE_IMPL_FILE =
+      Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString();
   public static final String STRING_HANDLE_IMPL_FILE =
       Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "StringHandleImpl.h").toString();
   public static final String STRING_HANDLE_FILE =
       Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "StringHandle.h").toString();
-  public static final String BYTE_ARRAY_HANDLE_IMPL_FILE =
-      Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "ByteArrayHandleImpl.h").toString();
 
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
+          GeneratorSuite.copyTarget(
+              Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString(), ""),
+          GeneratorSuite.copyTarget(BASE_HANDLE_IMPL_FILE, ""),
           GeneratorSuite.copyTarget(STRING_HANDLE_FILE, ""),
           GeneratorSuite.copyTarget(
               Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString(), ""),
@@ -57,7 +60,6 @@ public class CBridgeGenerator {
               Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
           GeneratorSuite.copyTarget(
               Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "ByteArrayHandle.cpp").toString(), ""),
-          GeneratorSuite.copyTarget(BYTE_ARRAY_HANDLE_IMPL_FILE, ""),
           GeneratorSuite.copyTarget(CBridgeComponents.PROXY_CACHE_FILENAME, ""));
 
   public CBridgeGenerator(

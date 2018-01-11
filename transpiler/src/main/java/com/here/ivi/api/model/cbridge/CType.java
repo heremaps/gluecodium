@@ -47,7 +47,7 @@ public class CType extends CElement {
               Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "StringHandle.h").toString()));
   public static final CType BYTE_ARRAY_REF =
       new CType(
-          "byteArrayRef",
+          "_baseRef",
           Include.createInternalInclude(
               Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "ByteArrayHandle.h")
                   .toString()));

@@ -403,14 +403,14 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedHeader =
         TemplateComparator.expect(BYTE_ARRAY_INCLUDE)
             .expect(
-                "byteArrayRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size);\n")
+                "_baseRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size);\n")
             .build();
 
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(STD_VECTOR_INCLUDE)
             .expect(STD_NEW_INCLUDE)
             .expect(
-                "byteArrayRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {\n"
+                "_baseRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {\n"
                     + "    return {new (std::nothrow)std::vector<uint8_t>(::cbridge::test::TestInterface::function_name(std::vector<uint8_t>(input_ptr, input_ptr + input_size)))};\n"
                     + "}\n")
             .build();
@@ -626,7 +626,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
         TemplateComparator.expect(BYTE_ARRAY_INCLUDE)
             .expect(STD_INT_INCLUDE)
             .expect(
-                "byteArrayRef cbridge_test_TestInterface_attributeName_get(cbridge_test_TestInterfaceRef _instance);\n")
+                "_baseRef cbridge_test_TestInterface_attributeName_get(cbridge_test_TestInterfaceRef _instance);\n")
             .expect(
                 "void cbridge_test_TestInterface_attributeName_set(cbridge_test_TestInterfaceRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size);\n")
             .build();
@@ -634,7 +634,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(STD_NEW_INCLUDE)
             .expect(
-                "byteArrayRef cbridge_test_TestInterface_attributeName_get(cbridge_test_TestInterfaceRef _instance) {\n"
+                "_baseRef cbridge_test_TestInterface_attributeName_get(cbridge_test_TestInterfaceRef _instance) {\n"
                     + "    return {new (std::nothrow)std::vector<uint8_t>(get_pointer(_instance)->get()->get_attribute_name())};\n"
                     + "}\n")
             .expect(

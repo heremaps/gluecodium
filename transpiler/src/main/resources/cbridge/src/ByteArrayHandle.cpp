@@ -11,22 +11,23 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "cbridge/include/ByteArrayHandle.h"
-#include "cbridge_internal/include/ByteArrayHandleImpl.h"
+#include "cbridge_internal/include/BaseHandleImpl.h"
+#include <vector>
 
 void
-byteArray_release( byteArrayRef handle )
+byteArray_release( _baseRef handle )
 {
-    delete get_pointer( handle );
+    delete get_pointer< std::vector< uint8_t > >( handle );
 }
 
 const uint8_t*
-byteArray_data_get( byteArrayRef handle )
+byteArray_data_get( _baseRef handle )
 {
-    return get_pointer( handle )->data( );
+    return get_pointer< std::vector< uint8_t > >( handle )->data( );
 }
 
 int64_t
-byteArray_size_get( byteArrayRef handle )
+byteArray_size_get( _baseRef handle )
 {
-    return get_pointer( handle )->size( );
+    return get_pointer< std::vector< uint8_t > >( handle )->size( );
 }
