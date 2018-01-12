@@ -66,7 +66,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
         SwiftClass.builder(SwiftNameRules.getClassName(francaInterface.getName()))
             .nameSpace(String.join("_", DefinedBy.getPackages(francaInterface)))
             .cInstance(CBridgeNameRules.getInterfaceName(francaInterface))
-            .cInstanceRef(CBridgeNameRules.getInstanceRefType(francaInterface))
             .isInterface(isInterface)
             .functionTableName(
                 isInterface ? CBridgeNameRules.getFunctionTableName(francaInterface) : null)
@@ -110,7 +109,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
         SwiftContainerType.builder(SwiftNameRules.getStructName(francaStruct, deploymentModel))
             .parent(parent)
             .cPrefix(CBridgeNameRules.getStructBaseName(francaStruct))
-            .cType(CBridgeNameRules.getStructRefType(francaStruct))
             .build();
     String comment = CppCommentParser.parse(francaStruct).getMainBodyText();
     swiftStruct.comment = comment != null ? comment : "";

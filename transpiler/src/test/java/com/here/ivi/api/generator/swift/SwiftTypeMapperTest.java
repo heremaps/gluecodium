@@ -81,7 +81,6 @@ public class SwiftTypeMapperTest {
     SwiftContainerType containerType = (SwiftContainerType) resultType;
     final String expectedCName = TYPE_COLLECTION_NAME + "_" + STRUCT_NAME;
     assertEquals(expectedCName, containerType.cPrefix);
-    assertEquals(expectedCName + "Ref", containerType.cType);
   }
 
   @Test
@@ -107,6 +106,5 @@ public class SwiftTypeMapperTest {
     SwiftContainerType containerType = (SwiftContainerType) resultType;
     final String expectedCName = INTERFACE_NAME;
     assertEquals(expectedCName, containerType.cPrefix);
-    assertEquals(expectedCName + "Ref", containerType.cType);
   }
 }

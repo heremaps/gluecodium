@@ -44,7 +44,7 @@ public class SwiftFileTemplateTest {
     swiftClass.implementsProtocols.add("ExampleClass");
 
     TemplateComparator.expect("public protocol ExampleClass : AnyObject {\n" + "}\n")
-        .expect("internal class _ExampleClass: ExampleClass {\n" + "}\n")
+        .expect("internal class _ExampleClass: ExampleClass {")
         .build()
         .assertMatches(generateFromClass(swiftClass));
   }
@@ -55,15 +55,14 @@ public class SwiftFileTemplateTest {
         SwiftClass.builder("ExampleClass")
             .isInterface(true)
             .cInstance("CInstance")
-            .cInstanceRef("CInstanceReference")
             .functionTableName("ExampleFunctionTable")
             .build();
     swiftClass.implementsProtocols.add("ExampleClass");
 
     TemplateComparator.expect(
-            "internal func getRef(_ ref: ExampleClass) -> RefHolder<CInstanceReference> {\n"
+            "internal func getRef(_ ref: ExampleClass) -> RefHolder {\n"
                 + "    if let instanceReference = ref as? _ExampleClass {\n"
-                + "        return RefHolder<CInstanceReference>(instanceReference.c_instance)\n"
+                + "        return RefHolder(instanceReference.c_instance)\n"
                 + "    }\n"
                 + "    var functions = ExampleFunctionTable()\n"
                 + "    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()\n"
@@ -92,7 +91,7 @@ public class SwiftFileTemplateTest {
                 + " */\n"
                 + "public protocol ExampleClassWithComment : AnyObject {\n"
                 + "}\n")
-        .expect("internal class _ExampleClassWithComment: ExampleClassWithComment {\n" + "}\n")
+        .expect("internal class _ExampleClassWithComment: ExampleClassWithComment {")
         .build()
         .assertMatches(generateFromClass(swiftClass));
   }
@@ -115,9 +114,9 @@ public class SwiftFileTemplateTest {
             "public protocol ExampleClass : AnyObject {\n"
                 + "    func myMethod(parameter: Int) -> Int\n"
                 + "}\n")
+        .expect("internal class _ExampleClass: ExampleClass {")
         .expect(
-            "internal class _ExampleClass: ExampleClass {\n"
-                + "    public func myMethod(parameter: Int) -> Int {\n"
+            "    public func myMethod(parameter: Int) -> Int {\n"
                 + "        return myPackage_ExampleClass_myMethod(c_instance, parameter)\n"
                 + "    }\n"
                 + "}\n")
@@ -143,9 +142,9 @@ public class SwiftFileTemplateTest {
             "public protocol ExampleClass : AnyObject {\n"
                 + "    func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void\n"
                 + "}\n")
+        .expect("internal class _ExampleClass: ExampleClass {")
         .expect(
-            "internal class _ExampleClass: ExampleClass {\n"
-                + "    public func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void {\n"
+            "    public func myMethod(parameterInterfaceName parameterVariableName: Int) -> Void {\n"
                 + "        return ExampleClass_myMethod(c_instance, parameterVariableName)\n"
                 + "    }\n"
                 + "}\n")
@@ -172,9 +171,9 @@ public class SwiftFileTemplateTest {
             "public protocol ExampleClass : AnyObject {\n"
                 + "    func myMethod(parameterOne: Int, parameterTwo: String) -> Void\n"
                 + "}\n")
+        .expect("internal class _ExampleClass: ExampleClass {")
         .expect(
-            "internal class _ExampleClass: ExampleClass {\n"
-                + "    public func myMethod(parameterOne: Int, parameterTwo: String) -> Void {\n"
+            "    public func myMethod(parameterOne: Int, parameterTwo: String) -> Void {\n"
                 + "        return ExampleClass_myMethod(c_instance, parameterOne, parameterTwo)\n"
                 + "    }\n"
                 + "}\n")
@@ -195,9 +194,9 @@ public class SwiftFileTemplateTest {
             "public protocol MyClass : AnyObject {\n"
                 + "    func myMethod(array: [UInt8]) -> Void\n"
                 + "}\n")
+        .expect("internal class _MyClass: MyClass {")
         .expect(
-            "internal class _MyClass: MyClass {\n"
-                + "    public func myMethod(array: [UInt8]) -> Void {\n"
+            "    public func myMethod(array: [UInt8]) -> Void {\n"
                 + "        return MyClass_myMethod(c_instance, array)\n"
                 + "    }\n"
                 + "}\n")
@@ -227,9 +226,9 @@ public class SwiftFileTemplateTest {
                 + "     */\n"
                 + "    func myMethod(myParameter: String) -> Int\n"
                 + "}\n")
+        .expect("internal class _CommentedExampleClass: CommentedExampleClass {")
         .expect(
-            "internal class _CommentedExampleClass: CommentedExampleClass {\n"
-                + "    /**\n"
+            "    /**\n"
                 + "     * Do something\n"
                 + "     */\n"
                 + "    public func myMethod(myParameter: String) -> Int {\n"
@@ -251,9 +250,9 @@ public class SwiftFileTemplateTest {
             .build();
     swiftClass.methods.add(method);
 
-    TemplateComparator.expect(
-            "public class MyClass {\n"
-                + "    public static func myStaticMethod() -> Void {\n"
+    TemplateComparator.expect("public class MyClass {")
+        .expect(
+            "    public static func myStaticMethod() -> Void {\n"
                 + "        return MyClass_myStaticMethod()\n"
                 + "    }\n"
                 + "}\n")
@@ -274,9 +273,9 @@ public class SwiftFileTemplateTest {
     method.parameters.add(new SwiftParameter("inputString", SwiftType.STRING));
     swiftClass.methods.add(method);
 
-    TemplateComparator.expect(
-            "public class HelloWorld {\n"
-                + "    public static func helloWorldMethod(inputString: String) -> String? {\n"
+    TemplateComparator.expect("public class HelloWorld {")
+        .expect(
+            "    public static func helloWorldMethod(inputString: String) -> String? {\n"
                 + "        let result_string_handle = HelloWorld_helloWorldMethod(inputString)\n"
                 + "        precondition(result_string_handle.private_pointer != nil, \"Out of memory\")\n"
                 + "        defer {\n"
@@ -303,9 +302,9 @@ public class SwiftFileTemplateTest {
     method.parameters.add(swiftParameter);
     swiftClass.methods.add(method);
 
-    TemplateComparator.expect(
-            "public class HelloWorld {\n"
-                + "    public static func testBuffer(byteBuffer: Data) -> Void {\n"
+    TemplateComparator.expect("public class HelloWorld {")
+        .expect(
+            "    public static func testBuffer(byteBuffer: Data) -> Void {\n"
                 + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Void in\n"
                 + "            return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count))\n"
                 + "        }\n"
@@ -328,9 +327,9 @@ public class SwiftFileTemplateTest {
     method.parameters.add(swiftParameter);
     swiftClass.methods.add(method);
 
-    TemplateComparator.expect(
-            "public class HelloWorld {\n"
-                + "    public static func testBuffer(data byteBuffer: Data) -> Void {\n"
+    TemplateComparator.expect("public class HelloWorld {")
+        .expect(
+            "    public static func testBuffer(data byteBuffer: Data) -> Void {\n"
                 + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Void in\n"
                 + "            return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count))\n"
                 + "        }\n"
@@ -356,9 +355,9 @@ public class SwiftFileTemplateTest {
     method.parameters.addAll(Arrays.asList(param1, param2, param3, param4));
     swiftClass.methods.add(method);
 
-    TemplateComparator.expect(
-            "public class HelloWorld {\n"
-                + "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Void {\n"
+    TemplateComparator.expect("public class HelloWorld {")
+        .expect(
+            "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Void {\n"
                 + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Void in\n"
                 + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Void in\n"
                 + "                return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
@@ -389,9 +388,9 @@ public class SwiftFileTemplateTest {
     method.parameters.addAll(Arrays.asList(param1, param2, param3, param4));
     swiftClass.methods.add(method);
 
-    TemplateComparator.expect(
-            "public class HelloWorld {\n"
-                + "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Data? {\n"
+    TemplateComparator.expect("public class HelloWorld {")
+        .expect(
+            "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Data? {\n"
                 + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Data? in\n"
                 + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Data? in\n"
                 + "                let result_data_handle = HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
@@ -425,9 +424,9 @@ public class SwiftFileTemplateTest {
     method.parameters.addAll(Arrays.asList(param1, param2, param3, param4));
     swiftClass.methods.add(method);
 
-    TemplateComparator.expect(
-            "public class HelloWorld {\n"
-                + "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Int {\n"
+    TemplateComparator.expect("public class HelloWorld {")
+        .expect(
+            "    public static func testBuffer(byteBuffer: Data, text: String, number: Int, data2: Data) -> Int {\n"
                 + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Int in\n"
                 + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Int in\n"
                 + "                return HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
@@ -455,9 +454,9 @@ public class SwiftFileTemplateTest {
     method.parameters.add(new SwiftParameter("inputParam", swiftStruct));
     swiftClass.methods.add(method);
 
-    TemplateComparator.expect(
-            "public class HelloWorld {\n"
-                + "    public static func methodTakingStruct(inputParam: SomeStruct) -> Void {\n"
+    TemplateComparator.expect("public class HelloWorld {")
+        .expect(
+            "    public static func methodTakingStruct(inputParam: SomeStruct) -> Void {\n"
                 + "        let inputParamHandle = inputParam.convertToCType()\n"
                 + "        defer {\n"
                 + "            HelloWorld_SomeStruct_release(inputParamHandle)\n"
@@ -485,9 +484,9 @@ public class SwiftFileTemplateTest {
             .build();
     swiftClass.methods.add(method);
 
-    TemplateComparator.expect(
-            "public class HelloWorld {\n"
-                + "    public static func methodReturningStruct() -> SomeStruct? {\n"
+    TemplateComparator.expect("public class HelloWorld {")
+        .expect(
+            "    public static func methodReturningStruct() -> SomeStruct? {\n"
                 + "        let cResult = HelloWorld_methodReturningStruct()\n"
                 + "        precondition(cResult.private_pointer != nil, \"Out of memory\")\n"
                 + "        defer {\n"
@@ -523,9 +522,9 @@ public class SwiftFileTemplateTest {
     method.parameters.add(new SwiftParameter("location", inputStruct));
     swiftClass.methods.add(method);
 
-    TemplateComparator.expect(
-            "public class HelloWorld {\n"
-                + "    public static func fancyMethod(icon: Data, name: String, location: GeoLocation) -> SomeStruct? {\n"
+    TemplateComparator.expect("public class HelloWorld {")
+        .expect(
+            "    public static func fancyMethod(icon: Data, name: String, location: GeoLocation) -> SomeStruct? {\n"
                 + "        return icon.withUnsafeBytes { (icon_ptr: UnsafePointer<UInt8>) -> SomeStruct? in\n"
                 + "            let locationHandle = location.convertToCType()\n"
                 + "            defer {\n"
@@ -549,9 +548,9 @@ public class SwiftFileTemplateTest {
     SwiftFile file = new SwiftFile();
     SwiftClass swiftClass = SwiftClass.builder("SomeClass").isInterface(true).build();
     SwiftContainerType firstStruct =
-        SwiftContainerType.builder("FirstStruct").cPrefix("CPrefix").cType("CType").build();
+        SwiftContainerType.builder("FirstStruct").cPrefix("CPrefix").build();
     SwiftContainerType secondStruct =
-        SwiftContainerType.builder("SecondStruct").cPrefix("CPrefix").cType("CType").build();
+        SwiftContainerType.builder("SecondStruct").cPrefix("CPrefix").build();
     swiftClass.methods.add(new SwiftMethod("SomeMethod"));
     swiftClass.implementsProtocols.add(swiftClass.name);
     file.structs.add(firstStruct);
@@ -563,9 +562,9 @@ public class SwiftFileTemplateTest {
                 "public protocol SomeClass : AnyObject {\n"
                     + "    func SomeMethod() -> Void\n"
                     + "}\n")
+            .expect("internal class _SomeClass: SomeClass {")
             .expect(
-                "internal class _SomeClass: SomeClass {\n"
-                    + "    public func SomeMethod() -> Void {\n"
+                "    public func SomeMethod() -> Void {\n"
                     + "        return (c_instance)\n"
                     + "    }\n"
                     + "}\n")
@@ -573,30 +572,30 @@ public class SwiftFileTemplateTest {
                 "public struct FirstStruct {\n"
                     + "    public init() {\n"
                     + "    }\n"
-                    + "    internal init?(cFirstStruct: CType) {\n"
+                    + "    internal init?(cFirstStruct: _baseRef) {\n"
                     + "    }\n"
-                    + "    internal func convertToCType() -> CType {\n"
+                    + "    internal func convertToCType() -> _baseRef {\n"
                     + "        let result = CPrefix_create()\n"
                     + "        precondition(result.private_pointer != nil, \"Out of memory\")\n"
                     + "        fillFunction(result)\n"
                     + "        return result\n"
                     + "    }\n"
-                    + "    internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
+                    + "    internal func fillFunction(_ cFirstStruct: _baseRef) -> Void {\n"
                     + "    }\n"
                     + "}\n")
             .expect(
                 "public struct SecondStruct {\n"
                     + "    public init() {\n"
                     + "    }\n"
-                    + "    internal init?(cSecondStruct: CType) {\n"
+                    + "    internal init?(cSecondStruct: _baseRef) {\n"
                     + "    }\n"
-                    + "    internal func convertToCType() -> CType {\n"
+                    + "    internal func convertToCType() -> _baseRef {\n"
                     + "        let result = CPrefix_create()\n"
                     + "        precondition(result.private_pointer != nil, \"Out of memory\")\n"
                     + "        fillFunction(result)\n"
                     + "        return result\n"
                     + "    }\n"
-                    + "    internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
+                    + "    internal func fillFunction(_ cSecondStruct: _baseRef) -> Void {\n"
                     + "    }\n"
                     + "}\n")
             .build();
@@ -609,7 +608,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void typeCollectionWithStruct() {
     SwiftContainerType firstSturct =
-        SwiftContainerType.builder("FirstStruct").cPrefix("CPrefix").cType("CType").build();
+        SwiftContainerType.builder("FirstStruct").cPrefix("CPrefix").build();
     SwiftFile file = new SwiftFile();
     file.structs.add(firstSturct);
 
@@ -618,15 +617,15 @@ public class SwiftFileTemplateTest {
             + "public struct FirstStruct {\n"
             + "    public init() {\n"
             + "    }\n"
-            + "    internal init?(cFirstStruct: CType) {\n"
+            + "    internal init?(cFirstStruct: _baseRef) {\n"
             + "    }\n"
-            + "    internal func convertToCType() -> CType {\n"
+            + "    internal func convertToCType() -> _baseRef {\n"
             + "        let result = CPrefix_create()\n"
             + "        precondition(result.private_pointer != nil, \"Out of memory\")\n"
             + "        fillFunction(result)\n"
             + "        return result\n"
             + "    }\n"
-            + "    internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
+            + "    internal func fillFunction(_ cFirstStruct: _baseRef) -> Void {\n"
             + "    }\n"
             + "}\n";
     final String generated = generate(file);
@@ -693,7 +692,7 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator expected =
         TemplateComparator.expect("public protocol TestInterface : AnyObject {\n" + "}\n")
-            .expect("internal class _TestInterface {\n" + "}\n")
+            .expect("internal class _TestInterface {")
             .expect(
                 "/**\n"
                     + " * Some comment on enum type\n"
@@ -710,11 +709,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void classWithInternalConstructor() {
     SwiftClass swiftClass =
-        SwiftClass.builder("HelloWorld")
-            .cInstanceRef("HelloWorldRef")
-            .cInstance("HellowWorld")
-            .isInterface(true)
-            .build();
+        SwiftClass.builder("HelloWorld").cInstance("HellowWorld").isInterface(true).build();
     swiftClass.implementsProtocols.add("HelloWorld");
     SwiftMethod method =
         SwiftMethod.builder("instanceMethod")
@@ -731,8 +726,8 @@ public class SwiftFileTemplateTest {
                     + "}\n")
             .expect(
                 "internal class _HelloWorld: HelloWorld {\n"
-                    + "    let c_instance : HelloWorldRef\n"
-                    + "    init?(cHelloWorld: HelloWorldRef) {\n"
+                    + "    let c_instance : _baseRef\n"
+                    + "    init?(cHelloWorld: _baseRef) {\n"
                     + "        c_instance = cHelloWorld\n"
                     + "    }\n"
                     + "    deinit {\n"
@@ -752,10 +747,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void factoryClassCallingPrivateConstructor() {
     SwiftClass swiftClass =
-        SwiftClass.builder("HellowWorldFactory")
-            .cInstanceRef("HellowWorldFactoryRef")
-            .cInstance("HellowWorldFactory")
-            .build();
+        SwiftClass.builder("HellowWorldFactory").cInstance("HellowWorldFactory").build();
 
     SwiftContainerType mappedType =
         SwiftContainerType.builder("HelloWorld")
@@ -774,8 +766,8 @@ public class SwiftFileTemplateTest {
     TemplateComparator expected =
         TemplateComparator.expect(
                 "public class HellowWorldFactory {\n"
-                    + "    let c_instance : HellowWorldFactoryRef\n"
-                    + "    public init?(cHellowWorldFactory: HellowWorldFactoryRef) {\n"
+                    + "    let c_instance : _baseRef\n"
+                    + "    public init?(cHellowWorldFactory: _baseRef) {\n"
                     + "        c_instance = cHellowWorldFactory\n"
                     + "    }\n"
                     + "    deinit {\n"
@@ -803,7 +795,7 @@ public class SwiftFileTemplateTest {
             "public protocol HellowWorldFactory : AnyObject {\n"
                 + "    typealias MyTypeDef = Int\n"
                 + "}\n")
-        .expect("internal class _HellowWorldFactory {\n" + "}\n")
+        .expect("internal class _HellowWorldFactory {")
         .build()
         .assertMatches(generateFromClass(swiftClass));
   }
@@ -828,9 +820,9 @@ public class SwiftFileTemplateTest {
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
-            "public class HellowWorldFactory {\n"
-                + "    public typealias MyTypeDef = Int\n"
-                + "    public static func createInstanceMethod() -> HelloWorld {\n"
+            "public class HellowWorldFactory {\n" + "    public typealias MyTypeDef = Int")
+        .expect(
+            "    public static func createInstanceMethod() -> HelloWorld {\n"
                 + "        let cResult = HelloWorld_createInstanceMethod()\n"
                 + "        precondition(cResult.private_pointer != nil, \"Out of memory\")\n"
                 + "        return _HelloWorld(cHelloWorld: cResult)\n"
@@ -862,8 +854,9 @@ public class SwiftFileTemplateTest {
     TemplateComparator.expect(
             "public class HellowWorldFactory {\n"
                 + "    public typealias MyNestedTypeDef = HellowWorldFactory.MyTypeDef\n"
-                + "    public typealias MyTypeDef = Int\n"
-                + "    public static func createInstanceMethod() -> HellowWorldFactory.MyTypeDef {\n"
+                + "    public typealias MyTypeDef = Int")
+        .expect(
+            "    public static func createInstanceMethod() -> HellowWorldFactory.MyTypeDef {\n"
                 + "        return HelloWorld_createInstanceMethod()\n"
                 + "    }\n"
                 + "}\n")
@@ -873,11 +866,7 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void protocolWithPropertyOfDataType() {
-    SwiftClass swiftClass =
-        SwiftClass.builder("SomeClassWithProperty")
-            .cInstanceRef("SomeClassWithPropertyRef")
-            .isInterface(true)
-            .build();
+    SwiftClass swiftClass = SwiftClass.builder("SomeClassWithProperty").isInterface(true).build();
     SwiftProperty someProperty = new SwiftProperty("someAttributeName", SwiftType.DATA);
     someProperty.propertyAccessors.add(
         SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
@@ -899,8 +888,8 @@ public class SwiftFileTemplateTest {
                     + "            return CBRIDGE_DELEGATE(c_instance)\n"
                     + "        }\n"
                     + "    }\n"
-                    + "    let c_instance : SomeClassWithPropertyRef\n"
-                    + "    init?(cSomeClassWithProperty: SomeClassWithPropertyRef) {\n"
+                    + "    let c_instance : _baseRef\n"
+                    + "    init?(cSomeClassWithProperty: _baseRef) {\n"
                     + "        c_instance = cSomeClassWithProperty\n"
                     + "    }\n"
                     + "    deinit {\n"
@@ -915,10 +904,7 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void classWithPropertyOfDataType() {
-    SwiftClass swiftClass =
-        SwiftClass.builder("SomeClassWithProperty")
-            .cInstanceRef("SomeClassWithPropertyRef")
-            .build();
+    SwiftClass swiftClass = SwiftClass.builder("SomeClassWithProperty").build();
     SwiftProperty someProperty = new SwiftProperty("someAttributeName", SwiftType.DATA);
     someProperty.propertyAccessors.add(
         SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
@@ -928,8 +914,8 @@ public class SwiftFileTemplateTest {
     final String expected =
         "import Foundation\n"
             + "internal func getRef(_ ref: SomeClassWithProperty) -> "
-            + "RefHolder<SomeClassWithPropertyRef> {\n"
-            + "    return RefHolder<SomeClassWithPropertyRef>(ref.c_instance)\n"
+            + "RefHolder {\n"
+            + "    return RefHolder(ref.c_instance)\n"
             + "}\n"
             + "public class SomeClassWithProperty {\n"
             + "    public var someAttributeName: Data {\n"
@@ -940,8 +926,8 @@ public class SwiftFileTemplateTest {
             + "            return CBRIDGE_DELEGATE(c_instance)\n"
             + "        }\n"
             + "    }\n"
-            + "    let c_instance : SomeClassWithPropertyRef\n"
-            + "    public init?(cSomeClassWithProperty: SomeClassWithPropertyRef) {\n"
+            + "    let c_instance : _baseRef\n"
+            + "    public init?(cSomeClassWithProperty: _baseRef) {\n"
             + "        c_instance = cSomeClassWithProperty\n"
             + "    }\n"
             + "    deinit {\n"
@@ -955,11 +941,7 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void classWithReadonlyProperty() {
-    SwiftClass swiftClass =
-        SwiftClass.builder("SomeClassWithProperty")
-            .cInstanceRef("SomeClassWithPropertyRef")
-            .isInterface(true)
-            .build();
+    SwiftClass swiftClass = SwiftClass.builder("SomeClassWithProperty").isInterface(true).build();
     SwiftProperty someProperty = new SwiftProperty("someStringAttribute", SwiftType.STRING);
     someProperty.propertyAccessors.add(
         SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
@@ -976,8 +958,8 @@ public class SwiftFileTemplateTest {
                     + "            return CBRIDGE_DELEGATE(c_instance)\n"
                     + "        }\n"
                     + "    }\n"
-                    + "    let c_instance : SomeClassWithPropertyRef\n"
-                    + "    init?(cSomeClassWithProperty: SomeClassWithPropertyRef) {\n"
+                    + "    let c_instance : _baseRef\n"
+                    + "    init?(cSomeClassWithProperty: _baseRef) {\n"
                     + "        c_instance = cSomeClassWithProperty\n"
                     + "    }\n"
                     + "    deinit {\n"
@@ -994,11 +976,11 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = SwiftClass.builder("TestClass").parentClass("SuperClass").build();
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
+            + "internal func getRef(_ ref: TestClass) -> RefHolder {\n"
             + "    guard let instanceReference = ref as? _TestClass else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
+            + "    return RefHolder(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol TestClass {\n"
             + "}\n"
@@ -1014,16 +996,15 @@ public class SwiftFileTemplateTest {
         SwiftClass.builder("TestClass")
             .isInterface(true)
             .cInstance("CTest")
-            .cInstanceRef("CTestPointerWrapper")
             .functionTableName("TestClassFunctionTable")
             .build();
     swiftClass.implementsProtocols.add("FirstProtocol");
 
     TemplateComparator expected =
         TemplateComparator.expect(
-                "internal func getRef(_ ref: TestClass) -> RefHolder<CTestPointerWrapper> {\n"
+                "internal func getRef(_ ref: TestClass) -> RefHolder {\n"
                     + "    if let instanceReference = ref as? _TestClass {\n"
-                    + "        return RefHolder<CTestPointerWrapper>(instanceReference.c_instance)\n"
+                    + "        return RefHolder(instanceReference.c_instance)\n"
                     + "    }\n"
                     + "    var functions = TestClassFunctionTable()\n"
                     + "    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()\n"
@@ -1039,8 +1020,8 @@ public class SwiftFileTemplateTest {
             .expect("public protocol TestClass : AnyObject {\n" + "}\n")
             .expect(
                 "internal class _TestClass: FirstProtocol {\n"
-                    + "    let c_instance : CTestPointerWrapper\n"
-                    + "    init?(cTestClass: CTestPointerWrapper) {\n"
+                    + "    let c_instance : _baseRef\n"
+                    + "    init?(cTestClass: _baseRef) {\n"
                     + "        c_instance = cTestClass\n"
                     + "    }\n"
                     + "    deinit {\n"
@@ -1059,11 +1040,11 @@ public class SwiftFileTemplateTest {
     swiftClass.implementsProtocols.add("SecondProtocol");
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: TestClass) -> RefHolder<> {\n"
+            + "internal func getRef(_ ref: TestClass) -> RefHolder {\n"
             + "    guard let instanceReference = ref as? _TestClass else {\n"
             + "        fatalError(\"Not implemented yet\")\n"
             + "    }\n"
-            + "    return RefHolder<>(instanceReference.c_instance)\n"
+            + "    return RefHolder(instanceReference.c_instance)\n"
             + "}\n"
             + "public protocol TestClass {\n"
             + "}\n"
@@ -1077,15 +1058,9 @@ public class SwiftFileTemplateTest {
   public void classWithoutProtocolWithStructTypedefAndMethod() {
     SwiftClass swiftClass = SwiftClass.builder("SomeClass").build();
     SwiftContainerType firstStruct =
-        SwiftContainerType.builder("SomeClass.FirstStruct")
-            .cPrefix("CPrefix")
-            .cType("CType")
-            .build();
+        SwiftContainerType.builder("SomeClass.FirstStruct").cPrefix("CPrefix").build();
     SwiftContainerType secondStruct =
-        SwiftContainerType.builder("SomeClass.SecondStruct")
-            .cPrefix("CPrefix")
-            .cType("CType")
-            .build();
+        SwiftContainerType.builder("SomeClass.SecondStruct").cPrefix("CPrefix").build();
     swiftClass.typedefs.add(new SwiftTypeDef("SomeClass.RenamedStruct", secondStruct));
     SwiftMethod method =
         SwiftMethod.builder("SomeMethod")
@@ -1101,33 +1076,34 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator.expect(
             "public class SomeClass {\n"
-                + "    public typealias RenamedStruct = SomeClass.SecondStruct\n"
-                + "    public struct FirstStruct {\n"
+                + "    public typealias RenamedStruct = SomeClass.SecondStruct")
+        .expect(
+            "    public struct FirstStruct {\n"
                 + "        public init() {\n"
                 + "        }\n"
-                + "        internal init?(cFirstStruct: CType) {\n"
+                + "        internal init?(cFirstStruct: _baseRef) {\n"
                 + "        }\n"
-                + "        internal func convertToCType() -> CType {\n"
+                + "        internal func convertToCType() -> _baseRef {\n"
                 + "            let result = CPrefix_create()\n"
                 + "            precondition(result.private_pointer != nil, \"Out of memory\")\n"
                 + "            fillFunction(result)\n"
                 + "            return result\n"
                 + "        }\n"
-                + "        internal func fillFunction(_ cFirstStruct: CType) -> Void {\n"
+                + "        internal func fillFunction(_ cFirstStruct: _baseRef) -> Void {\n"
                 + "        }\n"
                 + "    }\n"
                 + "    public struct SecondStruct {\n"
                 + "        public init() {\n"
                 + "        }\n"
-                + "        internal init?(cSecondStruct: CType) {\n"
+                + "        internal init?(cSecondStruct: _baseRef) {\n"
                 + "        }\n"
-                + "        internal func convertToCType() -> CType {\n"
+                + "        internal func convertToCType() -> _baseRef {\n"
                 + "            let result = CPrefix_create()\n"
                 + "            precondition(result.private_pointer != nil, \"Out of memory\")\n"
                 + "            fillFunction(result)\n"
                 + "            return result\n"
                 + "        }\n"
-                + "        internal func fillFunction(_ cSecondStruct: CType) -> Void {\n"
+                + "        internal func fillFunction(_ cSecondStruct: _baseRef) -> Void {\n"
                 + "        }\n"
                 + "    }\n"
                 + "    public static func SomeMethod(input: SomeClass.FirstStruct) -> SomeClass.RenamedStruct {\n"
@@ -1166,9 +1142,9 @@ public class SwiftFileTemplateTest {
     swiftClass.methods.add(method);
 
     TemplateComparator expected =
-        TemplateComparator.expect(
-                "public class SomeClass {\n"
-                    + "    public static func SomeMethod() throws -> Void {\n"
+        TemplateComparator.expect("public class SomeClass {")
+            .expect(
+                "    public static func SomeMethod() throws -> Void {\n"
                     + "        let ERROR_CODE = HelloWorld_someMethod()\n"
                     + "        if (ERROR_CODE != 0) {\n"
                     + "            throw SomeClass.Errors(rawValue: ERROR_CODE)!\n"
@@ -1202,9 +1178,9 @@ public class SwiftFileTemplateTest {
     swiftClass.methods.add(method);
 
     TemplateComparator expected =
-        TemplateComparator.expect(
-                "public class SomeClass {\n"
-                    + "    public static func SomeMethod(inputData: Data) throws -> String? {\n"
+        TemplateComparator.expect("public class SomeClass {")
+            .expect(
+                "    public static func SomeMethod(inputData: Data) throws -> String? {\n"
                     + "        return inputData.withUnsafeBytes { (inputData_ptr: UnsafePointer<UInt8>) -> String? in\n"
                     + "            let RESULT = HelloWorld_someMethod(inputData_ptr, Int64(inputData.count))\n"
                     + "            if (RESULT.has_value) {\n"

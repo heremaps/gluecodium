@@ -74,10 +74,6 @@ public class SwiftGeneratorIntegrationTest {
         "CBridge prefix is set correctly",
         "swift_fidl_test_TestInterface7_Struct0",
         struct.cPrefix);
-    assertEquals(
-        "the CBridge type of the struct is correct",
-        "swift_fidl_test_TestInterface7_Struct0Ref",
-        struct.cType);
   }
 
   @Test
@@ -102,10 +98,6 @@ public class SwiftGeneratorIntegrationTest {
         "CBridge prefix is set correctly",
         "swift_fidl_test_TestInterface8_Struct0",
         struct.cPrefix);
-    assertEquals(
-        "the CBridge type of the struct is correct",
-        "swift_fidl_test_TestInterface8_Struct0Ref",
-        struct.cType);
   }
 
   @Test

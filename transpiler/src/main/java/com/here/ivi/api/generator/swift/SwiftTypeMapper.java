@@ -73,7 +73,6 @@ public class SwiftTypeMapper {
     return SwiftContainerType.builder(name)
         .category(STRUCT)
         .cPrefix(CBridgeNameRules.getStructBaseName(francaStructType))
-        .cType(CBridgeNameRules.getStructRefType(francaStructType))
         .build();
   }
 
@@ -92,7 +91,6 @@ public class SwiftTypeMapper {
         .implementingClass(implementingClass)
         .optional(true)
         .cPrefix(CBridgeNameRules.getInstanceBaseName(francaTypeDef))
-        .cType(CBridgeNameRules.getInstanceRefType(francaTypeDef))
         .build();
   }
 

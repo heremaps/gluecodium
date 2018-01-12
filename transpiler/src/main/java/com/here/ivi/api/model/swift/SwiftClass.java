@@ -24,7 +24,6 @@ public final class SwiftClass extends SwiftType {
   public final List<SwiftContainerType> structs = new LinkedList<>();
   public final List<SwiftEnum> enums = new LinkedList<>();
   public final String nameSpace;
-  public final String cInstanceRef;
   public final String cInstance;
   public final List<SwiftTypeDef> typedefs = new LinkedList<>();
   public final String functionTableName;
@@ -35,14 +34,12 @@ public final class SwiftClass extends SwiftType {
       final boolean isInterface,
       final String parentClass,
       final String nameSpace,
-      final String cInstanceRef,
       final String cInstance,
       final String functionTableName) {
     super(name, TypeCategory.CLASS);
     this.isInterface = isInterface;
     this.parentClass = parentClass;
     this.nameSpace = nameSpace;
-    this.cInstanceRef = cInstanceRef;
     this.cInstance = cInstance;
     this.functionTableName = functionTableName;
   }
