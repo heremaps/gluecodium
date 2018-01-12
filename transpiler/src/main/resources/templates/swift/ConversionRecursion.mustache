@@ -82,7 +82,13 @@ return {{>returnType}}(c{{method.returnType.simpleName}}: cResult){{#if method.f
 
 {{+MethodReturnClass}}{{!!
 }}let cResult = {{include delegateToCall}}
-precondition(cResult.private_pointer != nil, "Out of memory")
+precondition(cResult.private_pointer != nil, "Out of memory"){{!
+!}}{{#if method.returnType.isInterface}}
+
+if let swift_pointer = {{method.returnType.cPrefix}}_get_swift_object_from_cache(cResult),
+        let reconstructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{method.returnType.publicName}} {
+    return reconstructed
+}{{/if}}
 return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnValueUnwrapping}}!{{/if}}
 {{/MethodReturnClass}}
 

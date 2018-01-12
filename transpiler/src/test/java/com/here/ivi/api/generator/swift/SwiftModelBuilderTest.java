@@ -88,6 +88,7 @@ public class SwiftModelBuilderTest {
 
     when(SwiftNameRules.getParameterName(any())).thenReturn(PARAM_NAME);
     when(SwiftNameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
+    when(SwiftNameRules.getStructName(any(), any())).thenReturn("");
     when(CBridgeNameRules.getPropertyGetterName(any())).thenReturn(CBRIDGE_GETTER_NAME);
     when(CBridgeNameRules.getPropertySetterName(any())).thenReturn(CBRIDGE_SETTER_NAME);
 

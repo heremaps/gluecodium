@@ -25,6 +25,7 @@ typedef struct {
 } smoke_CalculatorListener_FunctionTable;
 
 _baseRef smoke_CalculatorListener_createProxy(smoke_CalculatorListener_FunctionTable functionTable);
+const void* smoke_CalculatorListener_get_swift_object_from_cache(_baseRef handle);
 void smoke_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult);
 
 #ifdef __cplusplus

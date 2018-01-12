@@ -19,6 +19,7 @@ public final class SwiftContainerType extends SwiftType {
   public final List<SwiftField> fields = new LinkedList<>();
   public final SwiftContainerType parent;
   public final String cPrefix;
+  public final boolean isInterface;
 
   @SuppressWarnings("ParameterNumber")
   @lombok.Builder(builderClassName = "Builder")
@@ -38,6 +39,7 @@ public final class SwiftContainerType extends SwiftType {
         optional);
     this.parent = parent;
     this.cPrefix = cPrefix;
+    this.isInterface = !name.equals(implementingClass);
   }
 
   public static Builder builder(final String name) {

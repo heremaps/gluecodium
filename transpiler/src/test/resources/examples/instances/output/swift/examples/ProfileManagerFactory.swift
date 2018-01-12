@@ -34,6 +34,10 @@ public class ProfileManagerFactory {
         let cResult = examples_ProfileManagerFactory_createProfileManagerInterface()
         precondition(cResult.private_pointer != nil, "Out of memory")
 
+        if let swift_pointer = examples_ProfileManagerInterface_get_swift_object_from_cache(cResult),
+                let reconstructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ProfileManagerInterface {
+            return reconstructed
+        }
         return _ProfileManagerInterface(cProfileManagerInterface: cResult)
     }
 
