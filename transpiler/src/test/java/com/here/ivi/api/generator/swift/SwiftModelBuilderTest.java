@@ -589,7 +589,6 @@ public class SwiftModelBuilderTest {
   public void finishBuildingFrancaStructTypeReadsName() {
     when(SwiftNameRules.getStructName(any(), any())).thenReturn("Structural");
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn("CBase");
-    when(CBridgeNameRules.getStructRefType(any())).thenReturn("CRef");
 
     modelBuilder.finishBuilding(francaStruct);
 
@@ -597,7 +596,6 @@ public class SwiftModelBuilderTest {
     assertNotNull(swiftStruct);
     assertEquals("Structural", swiftStruct.name);
     assertEquals("CBase", swiftStruct.cPrefix);
-    assertEquals("CRef", swiftStruct.cType);
 
     PowerMockito.verifyStatic();
     SwiftNameRules.getStructName(francaStruct, deploymentModel);

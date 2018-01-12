@@ -10,16 +10,16 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-class RefHolder<Ref> {
-    let ref: Ref
-    let release: ((Ref) -> Void)?
+class RefHolder {
+    let ref: _baseRef
+    let release: ((_baseRef) -> Void)?
 
-    init(_ ref: Ref) {
+    init(_ ref: _baseRef) {
         self.ref = ref
         release = nil
     }
 
-    init(ref: Ref, release: @escaping (Ref) -> Void) {
+    init(ref: _baseRef, release: @escaping (_baseRef) -> Void) {
         self.ref = ref
         self.release = release
     }

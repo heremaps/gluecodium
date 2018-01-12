@@ -5,8 +5,8 @@
 
 }}{{+ClassWithoutProtocol}}
 
-internal func getRef(_ ref: {{name}}) -> RefHolder<{{cInstanceRef}}> {
-    return RefHolder<{{cInstanceRef}}>(ref.c_instance)
+internal func getRef(_ ref: {{name}}) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 {{#comment}}{{>swift/Comment}}{{/comment}}{{!!
 }}{{>swift/ClassHeader}}{{!!

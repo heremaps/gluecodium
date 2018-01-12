@@ -19,7 +19,6 @@ public final class SwiftContainerType extends SwiftType {
   public final List<SwiftField> fields = new LinkedList<>();
   public final SwiftContainerType parent;
   public final String cPrefix;
-  public final String cType;
 
   @SuppressWarnings("ParameterNumber")
   @lombok.Builder(builderClassName = "Builder")
@@ -30,8 +29,7 @@ public final class SwiftContainerType extends SwiftType {
       final String publicName,
       final boolean optional,
       final SwiftContainerType parent,
-      final String cPrefix,
-      final String cType) {
+      final String cPrefix) {
     super(
         name,
         category != null ? category : TypeCategory.STRUCT,
@@ -40,7 +38,6 @@ public final class SwiftContainerType extends SwiftType {
         optional);
     this.parent = parent;
     this.cPrefix = cPrefix;
-    this.cType = cType;
   }
 
   public static Builder builder(final String name) {
@@ -51,7 +48,7 @@ public final class SwiftContainerType extends SwiftType {
   public SwiftType createAlias(final String aliasName) {
     SwiftContainerType container =
         new SwiftContainerType(
-            name, category, implementingClass, aliasName, optional, parent, cPrefix, cType);
+            name, category, implementingClass, aliasName, optional, parent, cPrefix);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;
@@ -61,7 +58,7 @@ public final class SwiftContainerType extends SwiftType {
   public SwiftType createOptionalType() {
     SwiftContainerType container =
         new SwiftContainerType(
-            name, category, implementingClass, publicName, true, parent, cPrefix, cType);
+            name, category, implementingClass, publicName, true, parent, cPrefix);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;

@@ -86,7 +86,6 @@ public class SwiftModelBuilderInterfaceTest {
     when(SwiftNameRules.getClassName(any())).thenReturn("classy");
     when(CppCommentParser.parse(francaInterface)).thenReturn(comments);
     when(CBridgeNameRules.getInterfaceName(francaInterface)).thenReturn("package_classy");
-    when(CBridgeNameRules.getInstanceRefType(francaInterface)).thenReturn("instance_ref");
     when(CBridgeNameRules.getFunctionTableName(francaInterface)).thenReturn("fun_table");
 
     modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel);
@@ -106,7 +105,6 @@ public class SwiftModelBuilderInterfaceTest {
     assertEquals("classy", swiftClass.name.toLowerCase());
     assertFalse(swiftClass.isInterface);
     assertTrue(swiftClass.implementsProtocols.isEmpty());
-    assertEquals("instance_ref", swiftClass.cInstanceRef);
   }
 
   @Test
@@ -175,7 +173,6 @@ public class SwiftModelBuilderInterfaceTest {
     SwiftClass swiftClass = swiftFile.classes.get(0);
     assertEquals("classy", swiftClass.name.toLowerCase());
     assertTrue(swiftClass.isInterface);
-    assertEquals("instance_ref", swiftClass.cInstanceRef);
     assertNotNull(swiftClass.implementsProtocols);
     assertEquals(1, swiftClass.implementsProtocols.size());
     assertEquals("fun_table", swiftClass.functionTableName);
