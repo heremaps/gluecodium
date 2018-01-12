@@ -776,6 +776,10 @@ public class SwiftFileTemplateTest {
                     + "    public static func createInstanceMethod() -> HelloWorld {\n"
                     + "        let cResult = HelloWorld_createInstanceMethod()\n"
                     + "        precondition(cResult.private_pointer != nil, \"Out of memory\")\n"
+                    + "        if let swift_pointer = _get_swift_object_from_cache(cResult),\n"
+                    + "                let reconstructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? HelloWorld {\n"
+                    + "            return reconstructed\n"
+                    + "        }\n"
                     + "        return _HelloWorld(cHelloWorld: cResult)\n"
                     + "    }\n"
                     + "}")
@@ -825,6 +829,10 @@ public class SwiftFileTemplateTest {
             "    public static func createInstanceMethod() -> HelloWorld {\n"
                 + "        let cResult = HelloWorld_createInstanceMethod()\n"
                 + "        precondition(cResult.private_pointer != nil, \"Out of memory\")\n"
+                + "        if let swift_pointer = _get_swift_object_from_cache(cResult),\n"
+                + "                let reconstructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? HelloWorld {\n"
+                + "            return reconstructed\n"
+                + "        }\n"
                 + "        return _HelloWorld(cHelloWorld: cResult)\n"
                 + "    }\n"
                 + "}\n")

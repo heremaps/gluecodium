@@ -50,3 +50,7 @@ _baseRef smoke_CalculatorListener_createProxy(smoke_CalculatorListener_FunctionT
         return { nullptr };
     }
 }
+
+const void* smoke_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {
+    return smoke_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<smoke::CalculatorListener>>(handle)->get());
+}

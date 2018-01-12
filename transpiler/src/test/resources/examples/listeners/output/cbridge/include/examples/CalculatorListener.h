@@ -26,6 +26,7 @@ typedef struct {
 } examples_CalculatorListener_FunctionTable;
 
 _baseRef examples_CalculatorListener_createProxy(examples_CalculatorListener_FunctionTable functionTable);
+const void* examples_CalculatorListener_get_swift_object_from_cache(_baseRef handle);
 void examples_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult);
 
 #ifdef __cplusplus

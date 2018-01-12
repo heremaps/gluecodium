@@ -73,12 +73,22 @@ internal class _NestedInterface: NestedInterface {
     public func getInstanceOne() -> SimpleInterface? {
         let cResult = smoke_NestedInterface_getInstanceOne(c_instance)
         precondition(cResult.private_pointer != nil, "Out of memory")
+
+        if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_cache(cResult),
+                let reconstructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
+            return reconstructed
+        }
         return _SimpleInterface(cSimpleInterface: cResult)
     }
 
     public func getInstanceTwo() -> SimpleInterface? {
         let cResult = smoke_NestedInterface_getInstanceTwo(c_instance)
         precondition(cResult.private_pointer != nil, "Out of memory")
+
+        if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_cache(cResult),
+                let reconstructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
+            return reconstructed
+        }
         return _SimpleInterface(cSimpleInterface: cResult)
     }
 

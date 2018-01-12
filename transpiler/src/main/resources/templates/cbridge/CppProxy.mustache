@@ -31,6 +31,11 @@ _baseRef {{name}}_createProxy({{functionTableName}} functionTable) {
         return { nullptr };
     }
 }
+
+const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
+    return {{name}}Proxy::get_swift_object(get_pointer<{{selfType}}>(handle)->get());
+}
+
 {{+baseApiParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{mappedType}}{{/case}}{{!!
     }}{{#default}}const {{mappedType}}&{{/default}}{{!!
