@@ -11,13 +11,13 @@
 
 import Foundation
 
-internal func getRef(_ ref: EnumsInTypeCollectionInterface) -> RefHolder<smoke_EnumsInTypeCollectionInterfaceRef> {
-    return RefHolder<smoke_EnumsInTypeCollectionInterfaceRef>(ref.c_instance)
+internal func getRef(_ ref: EnumsInTypeCollectionInterface) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class EnumsInTypeCollectionInterface {
-    let c_instance : smoke_EnumsInTypeCollectionInterfaceRef
-    public init?(cEnumsInTypeCollectionInterface: smoke_EnumsInTypeCollectionInterfaceRef) {
+    let c_instance : _baseRef
+    public init?(cEnumsInTypeCollectionInterface: _baseRef) {
         c_instance = cEnumsInTypeCollectionInterface
     }
     deinit {

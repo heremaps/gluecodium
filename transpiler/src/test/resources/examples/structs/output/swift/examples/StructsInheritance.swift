@@ -11,14 +11,14 @@
 
 import Foundation
 
-internal func getRef(_ ref: StructsInheritance) -> RefHolder<examples_StructsInheritanceRef> {
-    return RefHolder<examples_StructsInheritanceRef>(ref.c_instance)
+internal func getRef(_ ref: StructsInheritance) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class StructsInheritance {
-    let c_instance : examples_StructsInheritanceRef
+    let c_instance : _baseRef
 
-    public init?(cStructsInheritance: examples_StructsInheritanceRef) {
+    public init?(cStructsInheritance: _baseRef) {
         c_instance = cStructsInheritance
     }
 
@@ -41,20 +41,20 @@ public class StructsInheritance {
             return Structs.SyncResult(lastUpdatedTimeStamp: lastUpdatedTimeStamp, numberOfChanges: numberOfChanges)
         }
 
-        internal init?(cSyncResultInherited: examples_StructsInheritance_SyncResultInheritedRef) {
+        internal init?(cSyncResultInherited: _baseRef) {
             lastUpdatedTimeStamp = examples_StructsInheritance_SyncResultInherited_lastUpdatedTimeStamp_get(cSyncResultInherited)
             numberOfChanges = examples_StructsInheritance_SyncResultInherited_numberOfChanges_get(cSyncResultInherited)
             id = examples_StructsInheritance_SyncResultInherited_id_get(cSyncResultInherited)
         }
 
-        internal func convertToCType() -> examples_StructsInheritance_SyncResultInheritedRef {
+        internal func convertToCType() -> _baseRef {
             let result = examples_StructsInheritance_SyncResultInherited_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cSyncResultInherited: examples_StructsInheritance_SyncResultInheritedRef) -> Void {
+        internal func fillFunction(_ cSyncResultInherited: _baseRef) -> Void {
             examples_StructsInheritance_SyncResultInherited_lastUpdatedTimeStamp_set(cSyncResultInherited, lastUpdatedTimeStamp)
             examples_StructsInheritance_SyncResultInherited_numberOfChanges_set(cSyncResultInherited, numberOfChanges)
             examples_StructsInheritance_SyncResultInherited_id_set(cSyncResultInherited, id)

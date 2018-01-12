@@ -11,12 +11,12 @@
 
 import Foundation
 
-internal func getRef(_ ref: Structs) -> RefHolder<examples_StructsRef> {
-    return RefHolder<examples_StructsRef>(ref.c_instance)
+internal func getRef(_ ref: Structs) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class Structs {
-    let c_instance : examples_StructsRef
-    public init?(cStructs: examples_StructsRef) {
+    let c_instance : _baseRef
+    public init?(cStructs: _baseRef) {
         c_instance = cStructs
     }
     deinit {
@@ -32,19 +32,19 @@ public class Structs {
             self.numberOfChanges = numberOfChanges
         }
 
-        internal init?(cSyncResult: examples_Structs_SyncResultRef) {
+        internal init?(cSyncResult: _baseRef) {
             lastUpdatedTimeStamp = examples_Structs_SyncResult_lastUpdatedTimeStamp_get(cSyncResult)
             numberOfChanges = examples_Structs_SyncResult_numberOfChanges_get(cSyncResult)
         }
 
-        internal func convertToCType() -> examples_Structs_SyncResultRef {
+        internal func convertToCType() -> _baseRef {
             let result = examples_Structs_SyncResult_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cSyncResult: examples_Structs_SyncResultRef) -> Void {
+        internal func fillFunction(_ cSyncResult: _baseRef) -> Void {
             examples_Structs_SyncResult_lastUpdatedTimeStamp_set(cSyncResult, lastUpdatedTimeStamp)
             examples_Structs_SyncResult_numberOfChanges_set(cSyncResult, numberOfChanges)
         }
@@ -59,7 +59,7 @@ public class Structs {
             self.syncResult = syncResult
         }
 
-        internal init?(cIdentifiableSyncResult: examples_Structs_IdentifiableSyncResultRef) {
+        internal init?(cIdentifiableSyncResult: _baseRef) {
             id = examples_Structs_IdentifiableSyncResult_id_get(cIdentifiableSyncResult)
             do {
                 guard
@@ -71,14 +71,14 @@ public class Structs {
             }
         }
 
-        internal func convertToCType() -> examples_Structs_IdentifiableSyncResultRef {
+        internal func convertToCType() -> _baseRef {
             let result = examples_Structs_IdentifiableSyncResult_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cIdentifiableSyncResult: examples_Structs_IdentifiableSyncResultRef) -> Void {
+        internal func fillFunction(_ cIdentifiableSyncResult: _baseRef) -> Void {
             examples_Structs_IdentifiableSyncResult_id_set(cIdentifiableSyncResult, id)
             let syncResultHandle = examples_Structs_IdentifiableSyncResult_syncResult_get(cIdentifiableSyncResult)
             syncResult.fillFunction(syncResultHandle)

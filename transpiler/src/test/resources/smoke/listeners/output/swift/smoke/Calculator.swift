@@ -11,13 +11,13 @@
 
 import Foundation
 
-internal func getRef(_ ref: Calculator) -> RefHolder<smoke_CalculatorRef> {
-    return RefHolder<smoke_CalculatorRef>(ref.c_instance)
+internal func getRef(_ ref: Calculator) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class Calculator {
-    let c_instance : smoke_CalculatorRef
-    public init?(cCalculator: smoke_CalculatorRef) {
+    let c_instance : _baseRef
+    public init?(cCalculator: _baseRef) {
         c_instance = cCalculator
     }
     deinit {

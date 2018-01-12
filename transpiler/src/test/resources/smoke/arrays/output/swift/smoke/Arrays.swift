@@ -11,16 +11,16 @@
 
 import Foundation
 
-internal func getRef(_ ref: Arrays) -> RefHolder<smoke_ArraysRef> {
-    return RefHolder<smoke_ArraysRef>(ref.c_instance)
+internal func getRef(_ ref: Arrays) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class Arrays {
 
     public typealias ProfileId = String
 
-    let c_instance : smoke_ArraysRef
-    public init?(cArrays: smoke_ArraysRef) {
+    let c_instance : _baseRef
+    public init?(cArrays: _baseRef) {
         c_instance = cArrays
     }
     deinit {
@@ -34,18 +34,18 @@ public class Arrays {
             self.value = value
         }
 
-        internal init?(cBasicStruct: smoke_Arrays_BasicStructRef) {
+        internal init?(cBasicStruct: _baseRef) {
             value = smoke_Arrays_BasicStruct_value_get(cBasicStruct)
         }
 
-        internal func convertToCType() -> smoke_Arrays_BasicStructRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_Arrays_BasicStruct_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cBasicStruct: smoke_Arrays_BasicStructRef) -> Void {
+        internal func fillFunction(_ cBasicStruct: _baseRef) -> Void {
             smoke_Arrays_BasicStruct_value_set(cBasicStruct, value)
         }
     }
@@ -59,19 +59,19 @@ public class Arrays {
             self.numbers = numbers
         }
 
-        internal init?(cFancyStruct: smoke_Arrays_FancyStructRef) {
+        internal init?(cFancyStruct: _baseRef) {
             messages = StringList(smoke_Arrays_FancyStruct_messages_get(cFancyStruct))
             numbers = UInt8List(smoke_Arrays_FancyStruct_numbers_get(cFancyStruct))
         }
 
-        internal func convertToCType() -> smoke_Arrays_FancyStructRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_Arrays_FancyStruct_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cFancyStruct: smoke_Arrays_FancyStructRef) -> Void {
+        internal func fillFunction(_ cFancyStruct: _baseRef) -> Void {
             let messagesConversion = messages.c_conversion()
             smoke_Arrays_FancyStruct_messages_set(cFancyStruct, messagesConversion.c_type)
             messagesConversion.cleanup()

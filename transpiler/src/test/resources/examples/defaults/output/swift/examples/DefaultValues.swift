@@ -11,14 +11,14 @@
 
 import Foundation
 
-internal func getRef(_ ref: DefaultValues) -> RefHolder<examples_DefaultValuesRef> {
-    return RefHolder<examples_DefaultValuesRef>(ref.c_instance)
+internal func getRef(_ ref: DefaultValues) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class DefaultValues {
-    let c_instance : examples_DefaultValuesRef
+    let c_instance : _baseRef
 
-    public init?(cDefaultValues: examples_DefaultValuesRef) {
+    public init?(cDefaultValues: _baseRef) {
         c_instance = cDefaultValues
     }
 
@@ -46,7 +46,7 @@ public class DefaultValues {
             self.enumField = enumField
         }
 
-        internal init?(cStructWithDefaults: examples_DefaultValues_StructWithDefaultsRef) {
+        internal init?(cStructWithDefaults: _baseRef) {
             intField = examples_DefaultValues_StructWithDefaults_intField_get(cStructWithDefaults)
             floatField = examples_DefaultValues_StructWithDefaults_floatField_get(cStructWithDefaults)
             boolField = examples_DefaultValues_StructWithDefaults_boolField_get(cStructWithDefaults)
@@ -57,14 +57,14 @@ public class DefaultValues {
             enumField = DefaultValues.SomeEnum.init(rawValue: examples_DefaultValues_StructWithDefaults_enumField_get(cStructWithDefaults))!
         }
 
-        internal func convertToCType() -> examples_DefaultValues_StructWithDefaultsRef {
+        internal func convertToCType() -> _baseRef {
             let result = examples_DefaultValues_StructWithDefaults_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cStructWithDefaults: examples_DefaultValues_StructWithDefaultsRef) -> Void {
+        internal func fillFunction(_ cStructWithDefaults: _baseRef) -> Void {
             examples_DefaultValues_StructWithDefaults_intField_set(cStructWithDefaults, intField)
             examples_DefaultValues_StructWithDefaults_floatField_set(cStructWithDefaults, floatField)
             examples_DefaultValues_StructWithDefaults_boolField_set(cStructWithDefaults, boolField)

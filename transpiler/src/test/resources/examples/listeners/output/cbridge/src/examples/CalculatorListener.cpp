@@ -10,20 +10,20 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 
 #include "cbridge/include/examples/CalculatorListener.h"
+#include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
-#include "cbridge_internal/include/examples/CalculatorListenerImpl.h"
 #include "examples/CalculatorListener.h"
 #include <memory>
 #include <new>
 
-void examples_CalculatorListener_release(examples_CalculatorListenerRef handle) {
-    delete get_pointer(handle);
+void examples_CalculatorListener_release(_baseRef handle) {
+    delete get_pointer<std::shared_ptr<examples::CalculatorListener>>(handle);
 }
-examples_CalculatorListenerRef examples_CalculatorListener_copy(examples_CalculatorListenerRef handle) {
-    return { new (std::nothrow)std::shared_ptr<examples::CalculatorListener>(*get_pointer(handle)) };
+_baseRef examples_CalculatorListener_copy(_baseRef handle) {
+    return { new (std::nothrow)std::shared_ptr<examples::CalculatorListener>(*get_pointer<std::shared_ptr<examples::CalculatorListener>>(handle)) };
 }
-void examples_CalculatorListener_onCalculationResult(examples_CalculatorListenerRef _instance, double calculationResult) {
-    return get_pointer(_instance)->get()->on_calculation_result(calculationResult);
+void examples_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
+    return get_pointer<std::shared_ptr<examples::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult);
 }
 class examples_CalculatorListenerProxy : public std::shared_ptr<examples::CalculatorListener>::element_type, public CachedProxyBase<examples_CalculatorListenerProxy> {
 public:
@@ -41,7 +41,7 @@ public:
 private:
     function_table_t mFunctions;
 };
-examples_CalculatorListenerRef examples_CalculatorListener_createProxy(examples_CalculatorListener_FunctionTable functionTable) {
+_baseRef examples_CalculatorListener_createProxy(examples_CalculatorListener_FunctionTable functionTable) {
     auto proxy = examples_CalculatorListenerProxy::get_proxy(std::move(functionTable));
     if (proxy) {
         return { new (std::nothrow) std::shared_ptr<examples::CalculatorListener>(std::move(proxy)) };

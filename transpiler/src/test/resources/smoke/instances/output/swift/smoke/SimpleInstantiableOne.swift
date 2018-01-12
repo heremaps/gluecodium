@@ -12,13 +12,13 @@
 import Foundation
 
 
-internal func getRef(_ ref: SimpleInstantiableOne) -> RefHolder<smoke_SimpleInstantiableOneRef> {
-    return RefHolder<smoke_SimpleInstantiableOneRef>(ref.c_instance)
+internal func getRef(_ ref: SimpleInstantiableOne) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class SimpleInstantiableOne {
-    let c_instance : smoke_SimpleInstantiableOneRef
+    let c_instance : _baseRef
 
-    public init?(cSimpleInstantiableOne: smoke_SimpleInstantiableOneRef) {
+    public init?(cSimpleInstantiableOne: _baseRef) {
         c_instance = cSimpleInstantiableOne
     }
 

@@ -9,12 +9,12 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: Arrays) -> RefHolder<examples_ArraysRef> {
-    return RefHolder<examples_ArraysRef>(ref.c_instance)
+internal func getRef(_ ref: Arrays) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class Arrays {
-    let c_instance : examples_ArraysRef
-    public init?(cArrays: examples_ArraysRef) {
+    let c_instance : _baseRef
+    public init?(cArrays: _baseRef) {
         c_instance = cArrays
     }
     deinit {
@@ -27,17 +27,17 @@ public class Arrays {
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
             self.numberOfChanges = numberOfChanges
         }
-        internal init?(cSyncResult: examples_Arrays_SyncResultRef) {
+        internal init?(cSyncResult: _baseRef) {
             lastUpdatedTimeStamp = examples_Arrays_SyncResult_lastUpdatedTimeStamp_get(cSyncResult)
             numberOfChanges = examples_Arrays_SyncResult_numberOfChanges_get(cSyncResult)
         }
-        internal func convertToCType() -> examples_Arrays_SyncResultRef {
+        internal func convertToCType() -> _baseRef {
             let result = examples_Arrays_SyncResult_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
-        internal func fillFunction(_ cSyncResult: examples_Arrays_SyncResultRef) -> Void {
+        internal func fillFunction(_ cSyncResult: _baseRef) -> Void {
             examples_Arrays_SyncResult_lastUpdatedTimeStamp_set(cSyncResult, lastUpdatedTimeStamp)
             examples_Arrays_SyncResult_numberOfChanges_set(cSyncResult, numberOfChanges)
         }

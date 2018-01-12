@@ -12,9 +12,9 @@
 import Foundation
 
 
-internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder<smoke_InterfaceWithStructRef> {
+internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder {
     if let instanceReference = ref as? _InterfaceWithStruct {
-        return RefHolder<smoke_InterfaceWithStructRef>(instanceReference.c_instance)
+        return RefHolder(instanceReference.c_instance)
     }
     var functions = smoke_InterfaceWithStruct_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
@@ -44,9 +44,9 @@ public protocol InterfaceWithStruct : AnyObject {
 internal class _InterfaceWithStruct: InterfaceWithStruct {
 
 
-    let c_instance : smoke_InterfaceWithStructRef
+    let c_instance : _baseRef
 
-    init?(cInterfaceWithStruct: smoke_InterfaceWithStructRef) {
+    init?(cInterfaceWithStruct: _baseRef) {
         c_instance = cInterfaceWithStruct
     }
 
@@ -74,18 +74,18 @@ public struct InnerStruct {
         self.value = value
     }
 
-    internal init?(cInnerStruct: smoke_InterfaceWithStruct_InnerStructRef) {
+    internal init?(cInnerStruct: _baseRef) {
         value = smoke_InterfaceWithStruct_InnerStruct_value_get(cInnerStruct)
     }
 
-    internal func convertToCType() -> smoke_InterfaceWithStruct_InnerStructRef {
+    internal func convertToCType() -> _baseRef {
         let result = smoke_InterfaceWithStruct_InnerStruct_create()
         precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
 
-    internal func fillFunction(_ cInnerStruct: smoke_InterfaceWithStruct_InnerStructRef) -> Void {
+    internal func fillFunction(_ cInnerStruct: _baseRef) -> Void {
         smoke_InterfaceWithStruct_InnerStruct_value_set(cInnerStruct, value)
     }
 }

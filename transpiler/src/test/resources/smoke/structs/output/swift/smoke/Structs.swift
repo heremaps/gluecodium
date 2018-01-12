@@ -11,13 +11,13 @@
 
 import Foundation
 
-internal func getRef(_ ref: Structs) -> RefHolder<smoke_StructsRef> {
-    return RefHolder<smoke_StructsRef>(ref.c_instance)
+internal func getRef(_ ref: Structs) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class Structs {
-    let c_instance : smoke_StructsRef
-    public init?(cStructs: smoke_StructsRef) {
+    let c_instance : _baseRef
+    public init?(cStructs: _baseRef) {
         c_instance = cStructs
     }
     deinit {
@@ -33,19 +33,19 @@ public class Structs {
             self.y = y
         }
 
-        internal init?(cPoint: smoke_Structs_PointRef) {
+        internal init?(cPoint: _baseRef) {
             x = smoke_Structs_Point_x_get(cPoint)
             y = smoke_Structs_Point_y_get(cPoint)
         }
 
-        internal func convertToCType() -> smoke_Structs_PointRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_Structs_Point_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cPoint: smoke_Structs_PointRef) -> Void {
+        internal func fillFunction(_ cPoint: _baseRef) -> Void {
             smoke_Structs_Point_x_set(cPoint, x)
             smoke_Structs_Point_y_set(cPoint, y)
         }
@@ -62,20 +62,20 @@ public class Structs {
             self.blue = blue
         }
 
-        internal init?(cColor: smoke_Structs_ColorRef) {
+        internal init?(cColor: _baseRef) {
             red = smoke_Structs_Color_red_get(cColor)
             green = smoke_Structs_Color_green_get(cColor)
             blue = smoke_Structs_Color_blue_get(cColor)
         }
 
-        internal func convertToCType() -> smoke_Structs_ColorRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_Structs_Color_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cColor: smoke_Structs_ColorRef) -> Void {
+        internal func fillFunction(_ cColor: _baseRef) -> Void {
             smoke_Structs_Color_red_set(cColor, red)
             smoke_Structs_Color_green_set(cColor, green)
             smoke_Structs_Color_blue_set(cColor, blue)
@@ -91,7 +91,7 @@ public class Structs {
             self.b = b
         }
 
-        internal init?(cLine: smoke_Structs_LineRef) {
+        internal init?(cLine: _baseRef) {
             do {
                 guard
                     let aUnwrapped = Structs.Point(cPoint: smoke_Structs_Line_a_get(cLine))
@@ -110,14 +110,14 @@ public class Structs {
             }
         }
 
-        internal func convertToCType() -> smoke_Structs_LineRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_Structs_Line_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cLine: smoke_Structs_LineRef) -> Void {
+        internal func fillFunction(_ cLine: _baseRef) -> Void {
             let aHandle = smoke_Structs_Line_a_get(cLine)
             a.fillFunction(aHandle)
             let bHandle = smoke_Structs_Line_b_get(cLine)
@@ -134,7 +134,7 @@ public class Structs {
             self.color = color
         }
 
-        internal init?(cColoredLine: smoke_Structs_ColoredLineRef) {
+        internal init?(cColoredLine: _baseRef) {
             do {
                 guard
                     let lineUnwrapped = Structs.Line(cLine: smoke_Structs_ColoredLine_line_get(cColoredLine))
@@ -153,14 +153,14 @@ public class Structs {
             }
         }
 
-        internal func convertToCType() -> smoke_Structs_ColoredLineRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_Structs_ColoredLine_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cColoredLine: smoke_Structs_ColoredLineRef) -> Void {
+        internal func fillFunction(_ cColoredLine: _baseRef) -> Void {
             let lineHandle = smoke_Structs_ColoredLine_line_get(cColoredLine)
             line.fillFunction(lineHandle)
             let colorHandle = smoke_Structs_ColoredLine_color_get(cColoredLine)
@@ -201,7 +201,7 @@ public class Structs {
             self.pointField = pointField
         }
 
-        internal init?(cAllTypesStruct: smoke_Structs_AllTypesStructRef) {
+        internal init?(cAllTypesStruct: _baseRef) {
             int8Field = smoke_Structs_AllTypesStruct_int8Field_get(cAllTypesStruct)
             uint8Field = smoke_Structs_AllTypesStruct_uint8Field_get(cAllTypesStruct)
             int16Field = smoke_Structs_AllTypesStruct_int16Field_get(cAllTypesStruct)
@@ -236,14 +236,14 @@ public class Structs {
             }
         }
 
-        internal func convertToCType() -> smoke_Structs_AllTypesStructRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_Structs_AllTypesStruct_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cAllTypesStruct: smoke_Structs_AllTypesStructRef) -> Void {
+        internal func fillFunction(_ cAllTypesStruct: _baseRef) -> Void {
             smoke_Structs_AllTypesStruct_int8Field_set(cAllTypesStruct, int8Field)
             smoke_Structs_AllTypesStruct_uint8Field_set(cAllTypesStruct, uint8Field)
             smoke_Structs_AllTypesStruct_int16Field_set(cAllTypesStruct, int16Field)

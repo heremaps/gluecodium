@@ -13,20 +13,14 @@
 extern "C" {
 #endif
 
+#include "cbridge/include/BaseHandle.h"
 #include <stdbool.h>
 #include <stdint.h>
 
 typedef uint32_t smoke_Errors_InternalError;
 
-
-typedef struct {
-    void* const private_pointer;
-} smoke_ErrorsRef;
-
-
-void smoke_Errors_release(smoke_ErrorsRef handle);
-smoke_ErrorsRef smoke_Errors_copy(smoke_ErrorsRef handle);
-
+void smoke_Errors_release(_baseRef handle);
+_baseRef smoke_Errors_copy(_baseRef handle);
 smoke_Errors_InternalError smoke_Errors_methodWithErrors();
 
 #ifdef __cplusplus

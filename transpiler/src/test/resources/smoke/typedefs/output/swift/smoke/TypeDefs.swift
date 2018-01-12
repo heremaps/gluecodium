@@ -12,8 +12,8 @@
 import Foundation
 
 
-internal func getRef(_ ref: TypeDefs) -> RefHolder<smoke_TypeDefsRef> {
-    return RefHolder<smoke_TypeDefsRef>(ref.c_instance)
+internal func getRef(_ ref: TypeDefs) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class TypeDefs {
@@ -42,8 +42,8 @@ public class TypeDefs {
             return smoke_TypeDefs_primitiveTypeAttribute_set(c_instance, newValueHandle.c_type)
         }
     }
-    let c_instance : smoke_TypeDefsRef
-    public init?(cTypeDefs: smoke_TypeDefsRef) {
+    let c_instance : _baseRef
+    public init?(cTypeDefs: _baseRef) {
         c_instance = cTypeDefs
     }
     deinit {
@@ -54,16 +54,16 @@ public class TypeDefs {
         public init(field: TypeDefs.PrimitiveTypeDef) {
             self.field = field
         }
-        internal init?(cStructHavingAliasFieldDefinedBelow: smoke_TypeDefs_StructHavingAliasFieldDefinedBelowRef) {
+        internal init?(cStructHavingAliasFieldDefinedBelow: _baseRef) {
             field = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_get(cStructHavingAliasFieldDefinedBelow)
         }
-        internal func convertToCType() -> smoke_TypeDefs_StructHavingAliasFieldDefinedBelowRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
-        internal func fillFunction(_ cStructHavingAliasFieldDefinedBelow: smoke_TypeDefs_StructHavingAliasFieldDefinedBelowRef) -> Void {
+        internal func fillFunction(_ cStructHavingAliasFieldDefinedBelow: _baseRef) -> Void {
             smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_set(cStructHavingAliasFieldDefinedBelow, field)
         }
     }
@@ -75,21 +75,21 @@ public class TypeDefs {
             self.something = something
         }
 
-        internal init?(cTestStruct: smoke_TypeDefs_TestStructRef) {
+        internal init?(cTestStruct: _baseRef) {
             do {
                 let somethingHandle = smoke_TypeDefs_TestStruct_something_get(cTestStruct)
                 something = String(cString:std_string_data_get(somethingHandle))
             }
         }
 
-        internal func convertToCType() -> smoke_TypeDefs_TestStructRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_TypeDefs_TestStruct_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cTestStruct: smoke_TypeDefs_TestStructRef) -> Void {
+        internal func fillFunction(_ cTestStruct: _baseRef) -> Void {
             smoke_TypeDefs_TestStruct_something_set(cTestStruct, something)
         }
     }

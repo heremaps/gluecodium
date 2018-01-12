@@ -12,9 +12,9 @@
 import Foundation
 
 
-internal func getRef(_ ref: CalculatorListener) -> RefHolder<smoke_CalculatorListenerRef> {
+internal func getRef(_ ref: CalculatorListener) -> RefHolder {
     if let instanceReference = ref as? _CalculatorListener {
-        return RefHolder<smoke_CalculatorListenerRef>(instanceReference.c_instance)
+        return RefHolder(instanceReference.c_instance)
     }
     var functions = smoke_CalculatorListener_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
@@ -43,9 +43,9 @@ public protocol CalculatorListener : AnyObject {
 internal class _CalculatorListener: CalculatorListener {
 
 
-    let c_instance : smoke_CalculatorListenerRef
+    let c_instance : _baseRef
 
-    init?(cCalculatorListener: smoke_CalculatorListenerRef) {
+    init?(cCalculatorListener: _baseRef) {
         c_instance = cCalculatorListener
     }
 

@@ -11,15 +11,15 @@
 
 import Foundation
 
-internal func getRef(_ ref: Errors) -> RefHolder<smoke_ErrorsRef> {
-    return RefHolder<smoke_ErrorsRef>(ref.c_instance)
+internal func getRef(_ ref: Errors) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class Errors {
 
-    let c_instance : smoke_ErrorsRef
+    let c_instance : _baseRef
 
-    public init?(cErrors: smoke_ErrorsRef) {
+    public init?(cErrors: _baseRef) {
         c_instance = cErrors
     }
 

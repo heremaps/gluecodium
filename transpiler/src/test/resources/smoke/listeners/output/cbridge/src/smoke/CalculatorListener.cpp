@@ -9,21 +9,22 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 #include "cbridge/include/smoke/CalculatorListener.h"
+#include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
-#include "cbridge_internal/include/smoke/CalculatorListenerImpl.h"
 #include "smoke/CalculatorListener.h"
 #include <memory>
 #include <new>
 
-void smoke_CalculatorListener_release(smoke_CalculatorListenerRef handle) {
-    delete get_pointer(handle);
+void smoke_CalculatorListener_release(_baseRef handle) {
+    delete get_pointer<std::shared_ptr<smoke::CalculatorListener>>(handle);
 }
-smoke_CalculatorListenerRef smoke_CalculatorListener_copy(smoke_CalculatorListenerRef handle) {
-    return { new (std::nothrow)std::shared_ptr<smoke::CalculatorListener>(*get_pointer(handle)) };
+_baseRef smoke_CalculatorListener_copy(_baseRef handle) {
+    return { new (std::nothrow)std::shared_ptr<smoke::CalculatorListener>(*get_pointer<std::shared_ptr<smoke::CalculatorListener>>(handle)) };
 }
-void smoke_CalculatorListener_onCalculationResult(smoke_CalculatorListenerRef _instance, double calculationResult) {
-    return get_pointer(_instance)->get()->on_calculation_result(calculationResult);
+void smoke_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
+    return get_pointer<std::shared_ptr<smoke::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult);
 }
+
 class smoke_CalculatorListenerProxy : public std::shared_ptr<smoke::CalculatorListener>::element_type, public CachedProxyBase<smoke_CalculatorListenerProxy> {
 public:
     using function_table_t = smoke_CalculatorListener_FunctionTable;
@@ -40,7 +41,8 @@ public:
 private:
     function_table_t mFunctions;
 };
-smoke_CalculatorListenerRef smoke_CalculatorListener_createProxy(smoke_CalculatorListener_FunctionTable functionTable) {
+
+_baseRef smoke_CalculatorListener_createProxy(smoke_CalculatorListener_FunctionTable functionTable) {
     auto proxy = smoke_CalculatorListenerProxy::get_proxy(std::move(functionTable));
     if (proxy) {
         return { new (std::nothrow) std::shared_ptr<smoke::CalculatorListener>(std::move(proxy)) };

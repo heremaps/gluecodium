@@ -11,13 +11,13 @@
 
 import Foundation
 
-internal func getRef(_ ref: StructsFromTypeCollection) -> RefHolder<smoke_StructsFromTypeCollectionRef> {
-    return RefHolder<smoke_StructsFromTypeCollectionRef>(ref.c_instance)
+internal func getRef(_ ref: StructsFromTypeCollection) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class StructsFromTypeCollection {
-    let c_instance : smoke_StructsFromTypeCollectionRef
-    public init?(cStructsFromTypeCollection: smoke_StructsFromTypeCollectionRef) {
+    let c_instance : _baseRef
+    public init?(cStructsFromTypeCollection: _baseRef) {
         c_instance = cStructsFromTypeCollection
     }
     deinit {

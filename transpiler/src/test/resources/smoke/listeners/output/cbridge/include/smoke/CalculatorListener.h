@@ -13,16 +13,10 @@
 extern "C" {
 #endif
 
+#include "cbridge/include/BaseHandle.h"
 
-
-
-typedef struct {
-    void* const private_pointer;
-} smoke_CalculatorListenerRef;
-
-
-void smoke_CalculatorListener_release(smoke_CalculatorListenerRef handle);
-smoke_CalculatorListenerRef smoke_CalculatorListener_copy(smoke_CalculatorListenerRef handle);
+void smoke_CalculatorListener_release(_baseRef handle);
+_baseRef smoke_CalculatorListener_copy(_baseRef handle);
 
 typedef struct {
     void* swift_pointer;
@@ -30,9 +24,8 @@ typedef struct {
     void(*smoke_CalculatorListener_onCalculationResult)(void* swift_pointer, double calculationResult);
 } smoke_CalculatorListener_FunctionTable;
 
-
-smoke_CalculatorListenerRef smoke_CalculatorListener_createProxy(smoke_CalculatorListener_FunctionTable functionTable);
-void smoke_CalculatorListener_onCalculationResult(smoke_CalculatorListenerRef _instance, double calculationResult);
+_baseRef smoke_CalculatorListener_createProxy(smoke_CalculatorListener_FunctionTable functionTable);
+void smoke_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult);
 
 #ifdef __cplusplus
 }

@@ -9,12 +9,12 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: InstanceWithStruct) -> RefHolder<smoke_InstanceWithStructRef> {
-    return RefHolder<smoke_InstanceWithStructRef>(ref.c_instance)
+internal func getRef(_ ref: InstanceWithStruct) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class InstanceWithStruct {
-    let c_instance : smoke_InstanceWithStructRef
-    public init?(cInstanceWithStruct: smoke_InstanceWithStructRef) {
+    let c_instance : _baseRef
+    public init?(cInstanceWithStruct: _baseRef) {
         c_instance = cInstanceWithStruct
     }
     deinit {
@@ -25,16 +25,16 @@ public class InstanceWithStruct {
         public init(value: Int8) {
             self.value = value
         }
-        internal init?(cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) {
+        internal init?(cInnerStruct: _baseRef) {
             value = smoke_InstanceWithStruct_InnerStruct_value_get(cInnerStruct)
         }
-        internal func convertToCType() -> smoke_InstanceWithStruct_InnerStructRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_InstanceWithStruct_InnerStruct_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
-        internal func fillFunction(_ cInnerStruct: smoke_InstanceWithStruct_InnerStructRef) -> Void {
+        internal func fillFunction(_ cInnerStruct: _baseRef) -> Void {
             smoke_InstanceWithStruct_InnerStruct_value_set(cInnerStruct, value)
         }
     }
@@ -43,7 +43,7 @@ public class InstanceWithStruct {
         public init(instance: SimpleInstantiableOne) {
             self.instance = instance
         }
-        internal init?(cStructWithInstance: smoke_InstanceWithStruct_StructWithInstanceRef) {
+        internal init?(cStructWithInstance: _baseRef) {
             do {
                 guard
                     let instanceUnwrapped = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_SimpleInstantiableOne_copy(smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance)))
@@ -53,13 +53,13 @@ public class InstanceWithStruct {
                 instance = instanceUnwrapped
             }
         }
-        internal func convertToCType() -> smoke_InstanceWithStruct_StructWithInstanceRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_InstanceWithStruct_StructWithInstance_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
-        internal func fillFunction(_ cStructWithInstance: smoke_InstanceWithStruct_StructWithInstanceRef) -> Void {
+        internal func fillFunction(_ cStructWithInstance: _baseRef) -> Void {
             smoke_InstanceWithStruct_StructWithInstance_instance_set(cStructWithInstance, getRef(instance).ref)
         }
     }

@@ -23,19 +23,19 @@ public struct Point {
         self.y = y
     }
 
-    internal init?(cPoint: smoke_TypeCollection_PointRef) {
+    internal init?(cPoint: _baseRef) {
         x = smoke_TypeCollection_Point_x_get(cPoint)
         y = smoke_TypeCollection_Point_y_get(cPoint)
     }
 
-    internal func convertToCType() -> smoke_TypeCollection_PointRef {
+    internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_Point_create()
         precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
 
-    internal func fillFunction(_ cPoint: smoke_TypeCollection_PointRef) -> Void {
+    internal func fillFunction(_ cPoint: _baseRef) -> Void {
         smoke_TypeCollection_Point_x_set(cPoint, x)
         smoke_TypeCollection_Point_y_set(cPoint, y)
     }
@@ -46,16 +46,16 @@ public struct StructHavingAliasFieldDefinedBelow {
     public init(field: StorageId) {
         self.field = field
     }
-    internal init?(cStructHavingAliasFieldDefinedBelow: smoke_TypeCollection_StructHavingAliasFieldDefinedBelowRef) {
+    internal init?(cStructHavingAliasFieldDefinedBelow: _baseRef) {
         field = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_get(cStructHavingAliasFieldDefinedBelow)
     }
-    internal func convertToCType() -> smoke_TypeCollection_StructHavingAliasFieldDefinedBelowRef {
+    internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_create()
         precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
-    internal func fillFunction(_ cStructHavingAliasFieldDefinedBelow: smoke_TypeCollection_StructHavingAliasFieldDefinedBelowRef) -> Void {
+    internal func fillFunction(_ cStructHavingAliasFieldDefinedBelow: _baseRef) -> Void {
         smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_set(cStructHavingAliasFieldDefinedBelow, field)
     }
 }
