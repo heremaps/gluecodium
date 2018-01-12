@@ -8,22 +8,19 @@
 // which may not be disclosed to others without prior written consent of HERE Global B.V.
 //
 // Automatically generated. Do not modify. Your changes will be lost.
+
 #include "cbridge/include/smoke/Errors.h"
-#include "cbridge_internal/include/smoke/ErrorsImpl.h"
+#include "cbridge_internal/include/BaseHandleImpl.h"
 #include "smoke/Errors.h"
 #include <memory>
 #include <new>
 
-void smoke_Errors_release(smoke_ErrorsRef handle) {
-    delete get_pointer(handle);
+void smoke_Errors_release(_baseRef handle) {
+    delete get_pointer<std::shared_ptr<smoke::Errors>>(handle);
 }
-
-smoke_ErrorsRef smoke_Errors_copy(smoke_ErrorsRef handle) {
-    return { new (std::nothrow)std::shared_ptr<smoke::Errors>(*get_pointer(handle)) };
+_baseRef smoke_Errors_copy(_baseRef handle) {
+    return { new (std::nothrow)std::shared_ptr<smoke::Errors>(*get_pointer<std::shared_ptr<smoke::Errors>>(handle)) };
 }
-
 smoke_Errors_InternalError smoke_Errors_methodWithErrors() {
     return ::smoke::Errors::method_with_errors().code().code();
 }
-
-

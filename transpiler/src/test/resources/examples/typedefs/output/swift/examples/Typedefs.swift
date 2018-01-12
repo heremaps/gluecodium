@@ -11,13 +11,13 @@
 
 import Foundation
 
-internal func getRef(_ ref: Typedefs) -> RefHolder<examples_TypedefsRef> {
-    return RefHolder<examples_TypedefsRef>(ref.c_instance)
+internal func getRef(_ ref: Typedefs) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class Typedefs {
     public typealias ExampleAlias = UInt32
-    let c_instance : examples_TypedefsRef
-    public init?(cTypedefs: examples_TypedefsRef) {
+    let c_instance : _baseRef
+    public init?(cTypedefs: _baseRef) {
         c_instance = cTypedefs
     }
     deinit {

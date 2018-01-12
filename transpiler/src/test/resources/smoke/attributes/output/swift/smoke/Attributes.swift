@@ -9,8 +9,8 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: Attributes) -> RefHolder<smoke_AttributesRef> {
-    return RefHolder<smoke_AttributesRef>(ref.c_instance)
+internal func getRef(_ ref: Attributes) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class Attributes {
     public var builtInTypeAttribute: UInt32 {
@@ -83,8 +83,8 @@ public class Attributes {
         }
     }
 
-    let c_instance : smoke_AttributesRef
-    public init?(cAttributes: smoke_AttributesRef) {
+    let c_instance : _baseRef
+    public init?(cAttributes: _baseRef) {
         c_instance = cAttributes
     }
     deinit {
@@ -99,16 +99,16 @@ public class Attributes {
         public init(value: Double) {
             self.value = value
         }
-        internal init?(cExampleStruct: smoke_Attributes_ExampleStructRef) {
+        internal init?(cExampleStruct: _baseRef) {
             value = smoke_Attributes_ExampleStruct_value_get(cExampleStruct)
         }
-        internal func convertToCType() -> smoke_Attributes_ExampleStructRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_Attributes_ExampleStruct_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
-        internal func fillFunction(_ cExampleStruct: smoke_Attributes_ExampleStructRef) -> Void {
+        internal func fillFunction(_ cExampleStruct: _baseRef) -> Void {
             smoke_Attributes_ExampleStruct_value_set(cExampleStruct, value)
         }
     }

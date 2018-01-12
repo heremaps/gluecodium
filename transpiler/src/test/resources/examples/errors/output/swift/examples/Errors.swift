@@ -11,15 +11,15 @@
 
 import Foundation
 
-internal func getRef(_ ref: Errors) -> RefHolder<examples_ErrorsRef> {
-    return RefHolder<examples_ErrorsRef>(ref.c_instance)
+internal func getRef(_ ref: Errors) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class Errors {
 
-    let c_instance : examples_ErrorsRef
+    let c_instance : _baseRef
 
-    public init?(cErrors: examples_ErrorsRef) {
+    public init?(cErrors: _baseRef) {
         c_instance = cErrors
     }
 

@@ -14,14 +14,14 @@ import Foundation
 
 
 
-internal func getRef(_ ref: ProfileManager) -> RefHolder<examples_ProfileManagerRef> {
-    return RefHolder<examples_ProfileManagerRef>(ref.c_instance)
+internal func getRef(_ ref: ProfileManager) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class ProfileManager {
-    let c_instance : examples_ProfileManagerRef
+    let c_instance : _baseRef
 
-    public init?(cProfileManager: examples_ProfileManagerRef) {
+    public init?(cProfileManager: _baseRef) {
         c_instance = cProfileManager
     }
 

@@ -12,9 +12,9 @@
 import Foundation
 
 
-internal func getRef(_ ref: SimpleInterface) -> RefHolder<smoke_SimpleInterfaceRef> {
+internal func getRef(_ ref: SimpleInterface) -> RefHolder {
     if let instanceReference = ref as? _SimpleInterface {
-        return RefHolder<smoke_SimpleInterfaceRef>(instanceReference.c_instance)
+        return RefHolder(instanceReference.c_instance)
     }
     var functions = smoke_SimpleInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
@@ -52,9 +52,9 @@ public protocol SimpleInterface : AnyObject {
 internal class _SimpleInterface: SimpleInterface {
 
 
-    let c_instance : smoke_SimpleInterfaceRef
+    let c_instance : _baseRef
 
-    init?(cSimpleInterface: smoke_SimpleInterfaceRef) {
+    init?(cSimpleInterface: _baseRef) {
         c_instance = cSimpleInterface
     }
 

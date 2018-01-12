@@ -12,13 +12,13 @@
 import Foundation
 
 
-internal func getRef(_ ref: NestedInstantiableTwo) -> RefHolder<smoke_NestedInstantiableTwoRef> {
-    return RefHolder<smoke_NestedInstantiableTwoRef>(ref.c_instance)
+internal func getRef(_ ref: NestedInstantiableTwo) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class NestedInstantiableTwo {
-    let c_instance : smoke_NestedInstantiableTwoRef
+    let c_instance : _baseRef
 
-    public init?(cNestedInstantiableTwo: smoke_NestedInstantiableTwoRef) {
+    public init?(cNestedInstantiableTwo: _baseRef) {
         c_instance = cNestedInstantiableTwo
     }
 

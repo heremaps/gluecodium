@@ -12,9 +12,9 @@
 import Foundation
 
 
-internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder<examples_ProfileManagerInterfaceRef> {
+internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder {
     if let instanceReference = ref as? _ProfileManagerInterface {
-        return RefHolder<examples_ProfileManagerInterfaceRef>(instanceReference.c_instance)
+        return RefHolder(instanceReference.c_instance)
     }
 
     var functions = examples_ProfileManagerInterface_FunctionTable()
@@ -48,9 +48,9 @@ public protocol ProfileManagerInterface : AnyObject {
 internal class _ProfileManagerInterface: ProfileManagerInterface {
 
 
-    let c_instance : examples_ProfileManagerInterfaceRef
+    let c_instance : _baseRef
 
-    init?(cProfileManagerInterface: examples_ProfileManagerInterfaceRef) {
+    init?(cProfileManagerInterface: _baseRef) {
         c_instance = cProfileManagerInterface
     }
 

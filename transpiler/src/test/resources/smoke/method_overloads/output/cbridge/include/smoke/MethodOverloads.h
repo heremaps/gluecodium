@@ -14,36 +14,27 @@ extern "C" {
 #endif
 
 #include "cbridge/include/BaseHandle.h"
+#include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/StringHandle.h"
-
 #include <stdbool.h>
 #include <stdint.h>
 
-typedef struct {
-    void* const private_pointer;
-} smoke_MethodOverloads_PointRef;
+_baseRef smoke_MethodOverloads_Point_create();
+void smoke_MethodOverloads_Point_release(_baseRef handle);
+double smoke_MethodOverloads_Point_x_get(_baseRef handle);
+void smoke_MethodOverloads_Point_x_set(_baseRef handle, double x);
+double smoke_MethodOverloads_Point_y_get(_baseRef handle);
+void smoke_MethodOverloads_Point_y_set(_baseRef handle, double y);
+void smoke_MethodOverloads_release(_baseRef handle);
+_baseRef smoke_MethodOverloads_copy(_baseRef handle);
+bool smoke_MethodOverloads_isBoolean_boolOverload(_baseRef _instance, bool input);
+bool smoke_MethodOverloads_isBoolean_intOverload(_baseRef _instance, int8_t input);
+bool smoke_MethodOverloads_isBoolean_stringOverload(_baseRef _instance, const char* input);
+bool smoke_MethodOverloads_isBoolean_structOverload(_baseRef _instance, _baseRef input);
+bool smoke_MethodOverloads_isBoolean_everythingOverload(_baseRef _instance, bool input1, int8_t input2, const char* input3, _baseRef input4);
+bool smoke_MethodOverloads_isBoolean_stringArrayOverload(_baseRef _instance, _baseRef input);
+bool smoke_MethodOverloads_isBoolean_intArrayOverload(_baseRef _instance, _baseRef input);
 
-typedef struct {
-    void* const private_pointer;
-} smoke_MethodOverloadsRef;
-
-smoke_MethodOverloads_PointRef smoke_MethodOverloads_Point_create();
-void smoke_MethodOverloads_Point_release(smoke_MethodOverloads_PointRef handle);
-
-double smoke_MethodOverloads_Point_x_get(smoke_MethodOverloads_PointRef handle);
-void smoke_MethodOverloads_Point_x_set(smoke_MethodOverloads_PointRef handle, double x);
-double smoke_MethodOverloads_Point_y_get(smoke_MethodOverloads_PointRef handle);
-void smoke_MethodOverloads_Point_y_set(smoke_MethodOverloads_PointRef handle, double y);
-
-void smoke_MethodOverloads_release(smoke_MethodOverloadsRef handle);
-smoke_MethodOverloadsRef smoke_MethodOverloads_copy(smoke_MethodOverloadsRef handle);
-bool smoke_MethodOverloads_isBoolean_boolOverload(smoke_MethodOverloadsRef _instance, bool input);
-bool smoke_MethodOverloads_isBoolean_intOverload(smoke_MethodOverloadsRef _instance, int8_t input);
-bool smoke_MethodOverloads_isBoolean_stringOverload(smoke_MethodOverloadsRef _instance, const char* input);
-bool smoke_MethodOverloads_isBoolean_structOverload(smoke_MethodOverloadsRef _instance, smoke_MethodOverloads_PointRef input);
-bool smoke_MethodOverloads_isBoolean_everythingOverload(smoke_MethodOverloadsRef _instance, bool input1, int8_t input2, const char* input3, smoke_MethodOverloads_PointRef input4);
-bool smoke_MethodOverloads_isBoolean_stringArrayOverload(smoke_MethodOverloadsRef _instance, _baseRef input);
-bool smoke_MethodOverloads_isBoolean_intArrayOverload(smoke_MethodOverloadsRef _instance, _baseRef input);
 #ifdef __cplusplus
 }
 #endif

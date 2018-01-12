@@ -11,12 +11,12 @@
 
 import Foundation
 
-internal func getRef(_ ref: BuiltinTypes) -> RefHolder<examples_BuiltinTypesRef> {
-    return RefHolder<examples_BuiltinTypesRef>(ref.c_instance)
+internal func getRef(_ ref: BuiltinTypes) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class BuiltinTypes {
-    let c_instance : examples_BuiltinTypesRef
-    public init?(cBuiltinTypes: examples_BuiltinTypesRef) {
+    let c_instance : _baseRef
+    public init?(cBuiltinTypes: _baseRef) {
         c_instance = cBuiltinTypes
     }
     deinit {

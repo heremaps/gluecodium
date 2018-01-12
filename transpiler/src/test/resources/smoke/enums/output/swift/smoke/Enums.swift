@@ -11,13 +11,13 @@
 
 import Foundation
 
-internal func getRef(_ ref: Enums) -> RefHolder<smoke_EnumsRef> {
-    return RefHolder<smoke_EnumsRef>(ref.c_instance)
+internal func getRef(_ ref: Enums) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class Enums {
-    let c_instance : smoke_EnumsRef
-    public init?(cEnums: smoke_EnumsRef) {
+    let c_instance : _baseRef
+    public init?(cEnums: _baseRef) {
         c_instance = cEnums
     }
     deinit {
@@ -47,7 +47,7 @@ public class Enums {
             self.message = message
         }
 
-        internal init?(cErrorStruct: smoke_Enums_ErrorStructRef) {
+        internal init?(cErrorStruct: _baseRef) {
             type = Enums.InternalError.init(rawValue: smoke_Enums_ErrorStruct_type_get(cErrorStruct))!
             do {
                 let messageHandle = smoke_Enums_ErrorStruct_message_get(cErrorStruct)
@@ -55,14 +55,14 @@ public class Enums {
             }
         }
 
-        internal func convertToCType() -> smoke_Enums_ErrorStructRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_Enums_ErrorStruct_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
 
-        internal func fillFunction(_ cErrorStruct: smoke_Enums_ErrorStructRef) -> Void {
+        internal func fillFunction(_ cErrorStruct: _baseRef) -> Void {
             smoke_Enums_ErrorStruct_type_set(cErrorStruct, type.rawValue)
             smoke_Enums_ErrorStruct_message_set(cErrorStruct, message)
         }

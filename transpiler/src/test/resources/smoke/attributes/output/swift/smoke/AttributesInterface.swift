@@ -12,9 +12,9 @@
 import Foundation
 
 
-internal func getRef(_ ref: AttributesInterface) -> RefHolder<smoke_AttributesInterfaceRef> {
+internal func getRef(_ ref: AttributesInterface) -> RefHolder {
     if let instanceReference = ref as? _AttributesInterface {
-        return RefHolder<smoke_AttributesInterfaceRef>(instanceReference.c_instance)
+        return RefHolder(instanceReference.c_instance)
     }
     var functions = smoke_AttributesInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
@@ -60,9 +60,9 @@ internal class _AttributesInterface: AttributesInterface {
             return smoke_AttributesInterface_structAttribute_set(c_instance, newValueHandle)
         }
     }
-    let c_instance : smoke_AttributesInterfaceRef
+    let c_instance : _baseRef
 
-    init?(cAttributesInterface: smoke_AttributesInterfaceRef) {
+    init?(cAttributesInterface: _baseRef) {
         c_instance = cAttributesInterface
     }
 
@@ -77,18 +77,18 @@ public struct ExampleStruct {
         self.value = value
     }
 
-    internal init?(cExampleStruct: smoke_AttributesInterface_ExampleStructRef) {
+    internal init?(cExampleStruct: _baseRef) {
         value = smoke_AttributesInterface_ExampleStruct_value_get(cExampleStruct)
     }
 
-    internal func convertToCType() -> smoke_AttributesInterface_ExampleStructRef {
+    internal func convertToCType() -> _baseRef {
         let result = smoke_AttributesInterface_ExampleStruct_create()
         precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
 
-    internal func fillFunction(_ cExampleStruct: smoke_AttributesInterface_ExampleStructRef) -> Void {
+    internal func fillFunction(_ cExampleStruct: _baseRef) -> Void {
         smoke_AttributesInterface_ExampleStruct_value_set(cExampleStruct, value)
     }
 }

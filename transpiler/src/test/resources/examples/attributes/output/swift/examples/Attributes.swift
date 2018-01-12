@@ -11,9 +11,9 @@
 
 import Foundation
 
-internal func getRef(_ ref: Attributes) -> RefHolder<examples_AttributesRef> {
+internal func getRef(_ ref: Attributes) -> RefHolder {
     if let instanceReference = ref as? _Attributes {
-        return RefHolder<examples_AttributesRef>(instanceReference.c_instance)
+        return RefHolder(instanceReference.c_instance)
     }
     var functions = examples_Attributes_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
@@ -52,9 +52,9 @@ internal class _Attributes: Attributes {
         }
 
     }
-    let c_instance : examples_AttributesRef
+    let c_instance : _baseRef
 
-    init?(cAttributes: examples_AttributesRef) {
+    init?(cAttributes: _baseRef) {
         c_instance = cAttributes
     }
 

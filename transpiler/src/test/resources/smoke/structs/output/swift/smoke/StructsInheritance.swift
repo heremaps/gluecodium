@@ -11,13 +11,13 @@
 
 import Foundation
 
-internal func getRef(_ ref: StructsInheritance) -> RefHolder<smoke_StructsInheritanceRef> {
-    return RefHolder<smoke_StructsInheritanceRef>(ref.c_instance)
+internal func getRef(_ ref: StructsInheritance) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class StructsInheritance {
-    let c_instance : smoke_StructsInheritanceRef
-    public init?(cStructsInheritance: smoke_StructsInheritanceRef) {
+    let c_instance : _baseRef
+    public init?(cStructsInheritance: _baseRef) {
         c_instance = cStructsInheritance
     }
     deinit {
@@ -35,7 +35,7 @@ public class StructsInheritance {
         public func convertToLine() -> Structs.Line {
             return Structs.Line(a: a, b: b)
         }
-        internal init?(cColoredLineInherited: smoke_StructsInheritance_ColoredLineInheritedRef) {
+        internal init?(cColoredLineInherited: _baseRef) {
             do {
                 guard
                     let aUnwrapped = Structs.Point(cPoint: smoke_StructsInheritance_ColoredLineInherited_a_get(cColoredLineInherited))
@@ -61,13 +61,13 @@ public class StructsInheritance {
                 color = colorUnwrapped
             }
         }
-        internal func convertToCType() -> smoke_StructsInheritance_ColoredLineInheritedRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_StructsInheritance_ColoredLineInherited_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
-        internal func fillFunction(_ cColoredLineInherited: smoke_StructsInheritance_ColoredLineInheritedRef) -> Void {
+        internal func fillFunction(_ cColoredLineInherited: _baseRef) -> Void {
             let aHandle = smoke_StructsInheritance_ColoredLineInherited_a_get(cColoredLineInherited)
             a.fillFunction(aHandle)
             let bHandle = smoke_StructsInheritance_ColoredLineInherited_b_get(cColoredLineInherited)

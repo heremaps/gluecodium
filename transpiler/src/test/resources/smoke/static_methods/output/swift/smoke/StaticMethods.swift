@@ -11,13 +11,13 @@
 
 import Foundation
 
-internal func getRef(_ ref: StaticMethods) -> RefHolder<smoke_StaticMethodsRef> {
-    return RefHolder<smoke_StaticMethodsRef>(ref.c_instance)
+internal func getRef(_ ref: StaticMethods) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 
 public class StaticMethods {
-    let c_instance : smoke_StaticMethodsRef
-    public init?(cStaticMethods: smoke_StaticMethodsRef) {
+    let c_instance : _baseRef
+    public init?(cStaticMethods: _baseRef) {
         c_instance = cStaticMethods
     }
     deinit {

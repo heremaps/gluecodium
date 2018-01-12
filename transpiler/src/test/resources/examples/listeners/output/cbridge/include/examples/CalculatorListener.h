@@ -14,12 +14,10 @@
 extern "C" {
 #endif
 
-typedef struct {
-    void* const private_pointer;
-} examples_CalculatorListenerRef;
+#include "cbridge/include/BaseHandle.h"
 
-void examples_CalculatorListener_release(examples_CalculatorListenerRef handle);
-examples_CalculatorListenerRef examples_CalculatorListener_copy(examples_CalculatorListenerRef handle);
+void examples_CalculatorListener_release(_baseRef handle);
+_baseRef examples_CalculatorListener_copy(_baseRef handle);
 
 typedef struct {
     void* swift_pointer;
@@ -27,8 +25,8 @@ typedef struct {
     void(*examples_CalculatorListener_onCalculationResult)(void* swift_pointer, double calculationResult);
 } examples_CalculatorListener_FunctionTable;
 
-examples_CalculatorListenerRef examples_CalculatorListener_createProxy(examples_CalculatorListener_FunctionTable functionTable);
-void examples_CalculatorListener_onCalculationResult(examples_CalculatorListenerRef _instance, double calculationResult);
+_baseRef examples_CalculatorListener_createProxy(examples_CalculatorListener_FunctionTable functionTable);
+void examples_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult);
 
 #ifdef __cplusplus
 }

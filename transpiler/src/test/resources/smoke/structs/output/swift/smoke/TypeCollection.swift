@@ -21,19 +21,19 @@ public struct Point {
         self.y = y
     }
 
-    internal init?(cPoint: smoke_TypeCollection_PointRef) {
+    internal init?(cPoint: _baseRef) {
         x = smoke_TypeCollection_Point_x_get(cPoint)
         y = smoke_TypeCollection_Point_y_get(cPoint)
     }
 
-    internal func convertToCType() -> smoke_TypeCollection_PointRef {
+    internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_Point_create()
         precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
 
-    internal func fillFunction(_ cPoint: smoke_TypeCollection_PointRef) -> Void {
+    internal func fillFunction(_ cPoint: _baseRef) -> Void {
         smoke_TypeCollection_Point_x_set(cPoint, x)
         smoke_TypeCollection_Point_y_set(cPoint, y)
     }
@@ -49,20 +49,20 @@ public struct Color {
         self.blue = blue
     }
 
-    internal init?(cColor: smoke_TypeCollection_ColorRef) {
+    internal init?(cColor: _baseRef) {
         red = smoke_TypeCollection_Color_red_get(cColor)
         green = smoke_TypeCollection_Color_green_get(cColor)
         blue = smoke_TypeCollection_Color_blue_get(cColor)
     }
 
-    internal func convertToCType() -> smoke_TypeCollection_ColorRef {
+    internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_Color_create()
         precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
 
-    internal func fillFunction(_ cColor: smoke_TypeCollection_ColorRef) -> Void {
+    internal func fillFunction(_ cColor: _baseRef) -> Void {
         smoke_TypeCollection_Color_red_set(cColor, red)
         smoke_TypeCollection_Color_green_set(cColor, green)
         smoke_TypeCollection_Color_blue_set(cColor, blue)
@@ -77,7 +77,7 @@ public struct Line {
         self.b = b
     }
 
-    internal init?(cLine: smoke_TypeCollection_LineRef) {
+    internal init?(cLine: _baseRef) {
         do {
             guard
                 let aUnwrapped = Point(cPoint: smoke_TypeCollection_Line_a_get(cLine))
@@ -96,14 +96,14 @@ public struct Line {
         }
     }
 
-    internal func convertToCType() -> smoke_TypeCollection_LineRef {
+    internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_Line_create()
         precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
 
-    internal func fillFunction(_ cLine: smoke_TypeCollection_LineRef) -> Void {
+    internal func fillFunction(_ cLine: _baseRef) -> Void {
         let aHandle = smoke_TypeCollection_Line_a_get(cLine)
         a.fillFunction(aHandle)
         let bHandle = smoke_TypeCollection_Line_b_get(cLine)
@@ -119,7 +119,7 @@ public struct ColoredLine {
         self.color = color
     }
 
-    internal init?(cColoredLine: smoke_TypeCollection_ColoredLineRef) {
+    internal init?(cColoredLine: _baseRef) {
         do {
             guard
                 let lineUnwrapped = Line(cLine: smoke_TypeCollection_ColoredLine_line_get(cColoredLine))
@@ -138,14 +138,14 @@ public struct ColoredLine {
         }
     }
 
-    internal func convertToCType() -> smoke_TypeCollection_ColoredLineRef {
+    internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_ColoredLine_create()
         precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
 
-    internal func fillFunction(_ cColoredLine: smoke_TypeCollection_ColoredLineRef) -> Void {
+    internal func fillFunction(_ cColoredLine: _baseRef) -> Void {
         let lineHandle = smoke_TypeCollection_ColoredLine_line_get(cColoredLine)
         line.fillFunction(lineHandle)
         let colorHandle = smoke_TypeCollection_ColoredLine_color_get(cColoredLine)
@@ -185,7 +185,7 @@ public struct AllTypesStruct {
         self.pointField = pointField
     }
 
-    internal init?(cAllTypesStruct: smoke_TypeCollection_AllTypesStructRef) {
+    internal init?(cAllTypesStruct: _baseRef) {
         int8Field = smoke_TypeCollection_AllTypesStruct_int8Field_get(cAllTypesStruct)
         uint8Field = smoke_TypeCollection_AllTypesStruct_uint8Field_get(cAllTypesStruct)
         int16Field = smoke_TypeCollection_AllTypesStruct_int16Field_get(cAllTypesStruct)
@@ -220,14 +220,14 @@ public struct AllTypesStruct {
         }
     }
 
-    internal func convertToCType() -> smoke_TypeCollection_AllTypesStructRef {
+    internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_AllTypesStruct_create()
         precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
 
-    internal func fillFunction(_ cAllTypesStruct: smoke_TypeCollection_AllTypesStructRef) -> Void {
+    internal func fillFunction(_ cAllTypesStruct: _baseRef) -> Void {
         smoke_TypeCollection_AllTypesStruct_int8Field_set(cAllTypesStruct, int8Field)
         smoke_TypeCollection_AllTypesStruct_uint8Field_set(cAllTypesStruct, uint8Field)
         smoke_TypeCollection_AllTypesStruct_int16Field_set(cAllTypesStruct, int16Field)

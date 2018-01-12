@@ -12,9 +12,9 @@
 import Foundation
 
 
-internal func getRef(_ ref: NestedInterface) -> RefHolder<smoke_NestedInterfaceRef> {
+internal func getRef(_ ref: NestedInterface) -> RefHolder {
     if let instanceReference = ref as? _NestedInterface {
-        return RefHolder<smoke_NestedInterfaceRef>(instanceReference.c_instance)
+        return RefHolder(instanceReference.c_instance)
     }
     var functions = smoke_NestedInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
@@ -55,9 +55,9 @@ public protocol NestedInterface : AnyObject {
 internal class _NestedInterface: NestedInterface {
 
 
-    let c_instance : smoke_NestedInterfaceRef
+    let c_instance : _baseRef
 
-    init?(cNestedInterface: smoke_NestedInterfaceRef) {
+    init?(cNestedInterface: _baseRef) {
         c_instance = cNestedInterface
     }
 

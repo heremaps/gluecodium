@@ -11,12 +11,12 @@
 
 import Foundation
 
-internal func getRef(_ ref: EnumMethods) -> RefHolder<examples_EnumMethodsRef> {
-    return RefHolder<examples_EnumMethodsRef>(ref.c_instance)
+internal func getRef(_ ref: EnumMethods) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class EnumMethods {
-    let c_instance : examples_EnumMethodsRef
-    public init?(cEnumMethods: examples_EnumMethodsRef) {
+    let c_instance : _baseRef
+    public init?(cEnumMethods: _baseRef) {
         c_instance = cEnumMethods
     }
     deinit {

@@ -9,12 +9,12 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: MethodOverloads) -> RefHolder<smoke_MethodOverloadsRef> {
-    return RefHolder<smoke_MethodOverloadsRef>(ref.c_instance)
+internal func getRef(_ ref: MethodOverloads) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class MethodOverloads {
-    let c_instance : smoke_MethodOverloadsRef
-    public init?(cMethodOverloads: smoke_MethodOverloadsRef) {
+    let c_instance : _baseRef
+    public init?(cMethodOverloads: _baseRef) {
         c_instance = cMethodOverloads
     }
     deinit {
@@ -27,17 +27,17 @@ public class MethodOverloads {
             self.x = x
             self.y = y
         }
-        internal init?(cPoint: smoke_MethodOverloads_PointRef) {
+        internal init?(cPoint: _baseRef) {
             x = smoke_MethodOverloads_Point_x_get(cPoint)
             y = smoke_MethodOverloads_Point_y_get(cPoint)
         }
-        internal func convertToCType() -> smoke_MethodOverloads_PointRef {
+        internal func convertToCType() -> _baseRef {
             let result = smoke_MethodOverloads_Point_create()
             precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
-        internal func fillFunction(_ cPoint: smoke_MethodOverloads_PointRef) -> Void {
+        internal func fillFunction(_ cPoint: _baseRef) -> Void {
             smoke_MethodOverloads_Point_x_set(cPoint, x)
             smoke_MethodOverloads_Point_y_set(cPoint, y)
         }

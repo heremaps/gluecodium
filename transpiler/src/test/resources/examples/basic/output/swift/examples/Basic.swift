@@ -11,12 +11,12 @@
 
 import Foundation
 
-internal func getRef(_ ref: Basic) -> RefHolder<examples_BasicRef> {
-    return RefHolder<examples_BasicRef>(ref.c_instance)
+internal func getRef(_ ref: Basic) -> RefHolder {
+    return RefHolder(ref.c_instance)
 }
 public class Basic {
-    let c_instance : examples_BasicRef
-    public init?(cBasic: examples_BasicRef) {
+    let c_instance : _baseRef
+    public init?(cBasic: _baseRef) {
         c_instance = cBasic
     }
     deinit {

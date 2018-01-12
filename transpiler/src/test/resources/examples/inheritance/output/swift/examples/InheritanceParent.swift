@@ -11,9 +11,9 @@
 
 import Foundation
 
-internal func getRef(_ ref: InheritanceParent) -> RefHolder<examples_InheritanceParentRef> {
+internal func getRef(_ ref: InheritanceParent) -> RefHolder {
     if let instanceReference = ref as? _InheritanceParent {
-        return RefHolder<examples_InheritanceParentRef>(instanceReference.c_instance)
+        return RefHolder(instanceReference.c_instance)
     }
     var functions = examples_InheritanceParent_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
@@ -41,8 +41,8 @@ public protocol InheritanceParent : AnyObject {
 }
 
 internal class _InheritanceParent: InheritanceParent {
-    let c_instance : examples_InheritanceParentRef
-    init?(cInheritanceParent: examples_InheritanceParentRef) {
+    let c_instance : _baseRef
+    init?(cInheritanceParent: _baseRef) {
         c_instance = cInheritanceParent
     }
     deinit {
