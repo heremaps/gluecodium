@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static java.util.Collections.emptyList;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
@@ -42,12 +43,12 @@ public class CType extends CElement {
   public static final CType DOUBLE = new CType("double");
   public static final CType STRING_REF =
       new CType(
-          "_baseRef",
+          BASE_REF_NAME,
           Include.createInternalInclude(
               Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "StringHandle.h").toString()));
   public static final CType BYTE_ARRAY_REF =
       new CType(
-          "_baseRef",
+          BASE_REF_NAME,
           Include.createInternalInclude(
               Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "ByteArrayHandle.h")
                   .toString()));

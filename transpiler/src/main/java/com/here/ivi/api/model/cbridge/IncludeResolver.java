@@ -65,7 +65,7 @@ public class IncludeResolver {
       case CBRIDGE_PUBLIC_HEADER:
         return CBridgeNameRules.getHeaderFileNameWithPath(francaTypeCollection);
       default:
-        return CBridgeNameRules.getPrivateHeaderFileNameWithPath(francaTypeCollection);
+        return CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
     }
   }
 }

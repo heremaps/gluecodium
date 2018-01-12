@@ -43,9 +43,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     Stream<GeneratedFile> files = generator.generate(francaInterface);
 
     assertEquals(
-        "Should generate header, implementation and private header file",
-        3,
-        files.collect(toList()).size());
+        "Should generate header and implementation files", 2, files.collect(toList()).size());
   }
 
   @Test
@@ -53,25 +51,13 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     when(deploymentModel.isStatic(any())).thenReturn(false);
 
     TemplateComparator expectedHeader =
-        TemplateComparator.expect(
-                "typedef struct {\n"
-                    + "    void* const private_pointer;\n"
-                    + "} cbridge_test_TestInterfaceRef;\n")
-            .expect(
-                "void cbridge_test_TestInterface_release(cbridge_test_TestInterfaceRef handle);\n")
+        TemplateComparator.expect("void cbridge_test_TestInterface_release(_baseRef handle);\n")
             .build();
 
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
-                "void cbridge_test_TestInterface_release(cbridge_test_TestInterfaceRef handle) {\n"
-                    + "    delete get_pointer(handle);\n"
-                    + "}\n")
-            .build();
-
-    TemplateComparator expectedPrivateHeader =
-        TemplateComparator.expect(
-                "inline std::shared_ptr<cbridge::test::TestInterface>* get_pointer(cbridge_test_TestInterfaceRef handle) {\n"
-                    + "    return static_cast<std::shared_ptr<cbridge::test::TestInterface>*>(handle.private_pointer);\n"
+                "void cbridge_test_TestInterface_release(_baseRef handle) {\n"
+                    + "    delete get_pointer<std::shared_ptr<cbridge::test::TestInterface>>(handle);\n"
                     + "}\n")
             .build();
 
@@ -79,7 +65,6 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
-    expectedPrivateHeader.assertMatches(CBridgeGenerator.generatePrivateHeaderContent(cModel));
   }
 
   @Test
@@ -89,13 +74,9 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(PRIVATE_HEADER_INCLUDE).build();
 
-    TemplateComparator expectedPrivateHeader =
-        TemplateComparator.expect(CBRIDGE_HEADER_INCLUDE).expect(BASEAPI_HEADER_INCLUDE).build();
-
     CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
-    expectedPrivateHeader.assertMatches(CBridgeGenerator.generatePrivateHeaderContent(cModel));
   }
 
   @Test
@@ -104,13 +85,13 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
     TemplateComparator expectedHeader =
         TemplateComparator.expect(
-                "void cbridge_test_TestInterface_functionName(cbridge_test_TestInterfaceRef _instance);\n")
+                "void cbridge_test_TestInterface_functionName(_baseRef _instance);\n")
             .build();
 
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
-                "void cbridge_test_TestInterface_functionName(cbridge_test_TestInterfaceRef _instance) {\n"
-                    + "    return get_pointer(_instance)->get()->function_name();\n"
+                "void cbridge_test_TestInterface_functionName(_baseRef _instance) {\n"
+                    + "    return get_pointer<std::shared_ptr<cbridge::test::TestInterface>>(_instance)->get()->function_name();\n"
                     + "}\n")
             .build();
 
@@ -227,14 +208,14 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedHeader =
         TemplateComparator.expect(
                 "void cbridge_test_TestInterface_functionName"
-                    + "(cbridge_test_TestInterfaceRef _instance, const char* input, const char* input2);\n")
+                    + "(_baseRef _instance, const char* input, const char* input2);\n")
             .build();
 
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
                 "void cbridge_test_TestInterface_functionName"
-                    + "(cbridge_test_TestInterfaceRef _instance, const char* input, const char* input2) {\n"
-                    + "    return get_pointer(_instance)->get()->function_name(std::string(input), std::string(input2));\n"
+                    + "(_baseRef _instance, const char* input, const char* input2) {\n"
+                    + "    return get_pointer<std::shared_ptr<cbridge::test::TestInterface>>(_instance)->get()->function_name(std::string(input), std::string(input2));\n"
                     + "}\n")
             .build();
 
@@ -260,7 +241,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
         TemplateComparator.expect(STRING_INCLUDE)
             .expect(
                 "_baseRef cbridge_test_TestInterface_functionName"
-                    + "(cbridge_test_TestInterfaceRef _instance, const char* input, const char* input2);\n")
+                    + "(_baseRef _instance, const char* input, const char* input2);\n")
             .build();
 
     TemplateComparator expectedImplementation =
@@ -268,8 +249,8 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
             .expect(STD_NEW_INCLUDE)
             .expect(
                 "_baseRef cbridge_test_TestInterface_functionName"
-                    + "(cbridge_test_TestInterfaceRef _instance, const char* input, const char* input2) {\n"
-                    + "    return {new (std::nothrow)std::string(get_pointer(_instance)->get()"
+                    + "(_baseRef _instance, const char* input, const char* input2) {\n"
+                    + "    return {new (std::nothrow)std::string(get_pointer<std::shared_ptr<cbridge::test::TestInterface>>(_instance)->get()"
                     + "->function_name(std::string(input), std::string(input2)))};\n"
                     + "}\n")
             .build();
@@ -460,32 +441,19 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     interfaceTypes.add(struct);
 
     TemplateComparator expectedHeader =
-        TemplateComparator.expect(
-                "typedef struct {\n"
-                    + "    void* const private_pointer;\n"
-                    + "} cbridge_test_TestInterface_SomeStructRef;\n")
-            .expect(
-                "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create();\n")
-            .expect(
-                "void cbridge_test_TestInterface_SomeStruct_release(cbridge_test_TestInterface_SomeStructRef handle);\n")
+        TemplateComparator.expect("_baseRef cbridge_test_TestInterface_SomeStruct_create();\n")
+            .expect("void cbridge_test_TestInterface_SomeStruct_release(_baseRef handle);\n")
             .build();
 
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(STD_NEW_INCLUDE)
             .expect(
-                "cbridge_test_TestInterface_SomeStructRef cbridge_test_TestInterface_SomeStruct_create() {\n"
+                "_baseRef cbridge_test_TestInterface_SomeStruct_create() {\n"
                     + "    return {new (std::nothrow)cbridge::test::TestInterface::SomeStruct()};\n"
                     + "}\n")
             .expect(
-                "void cbridge_test_TestInterface_SomeStruct_release(cbridge_test_TestInterface_SomeStructRef handle) {\n"
-                    + "    delete get_pointer(handle);\n"
-                    + "}\n")
-            .build();
-
-    TemplateComparator expectedPrivateHeader =
-        TemplateComparator.expect(
-                "inline cbridge::test::TestInterface::SomeStruct* get_pointer(cbridge_test_TestInterface_SomeStructRef handle) {\n"
-                    + "    return static_cast<cbridge::test::TestInterface::SomeStruct*>(handle.private_pointer);\n"
+                "void cbridge_test_TestInterface_SomeStruct_release(_baseRef handle) {\n"
+                    + "    delete get_pointer<cbridge::test::TestInterface::SomeStruct>(handle);\n"
                     + "}\n")
             .build();
 
@@ -493,7 +461,6 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
 
     expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
     expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
-    expectedPrivateHeader.assertMatches(CBridgeGenerator.generatePrivateHeaderContent(cModel));
   }
 
   @Test
@@ -536,19 +503,20 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedHeader =
         TemplateComparator.expect("#include \"CBRIDGE_PUBLIC_HEADER of TestTypeCollection\"\n")
             .expect(
-                "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_swiftFieldName_get(cbridge_test_TestInterface_SomeStructRef handle);\n")
+                "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_swiftFieldName_get(_baseRef handle);\n")
             .expect(
-                "void cbridge_test_TestInterface_SomeStruct_swiftFieldName_set(cbridge_test_TestInterface_SomeStructRef handle, cbridge_test_TestTypeCollection_TestEnum swiftFieldName);\n")
+                "void cbridge_test_TestInterface_SomeStruct_swiftFieldName_set(_baseRef handle, cbridge_test_TestTypeCollection_TestEnum swiftFieldName);\n")
             .build();
 
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
-                "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_swiftFieldName_get(cbridge_test_TestInterface_SomeStructRef handle) {\n"
-                    + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(get_pointer(handle)->cppFieldName);\n"
+                "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_swiftFieldName_get(_baseRef handle) {\n"
+                    + "    auto struct_pointer = get_pointer<cbridge::test::TestInterface::SomeStruct>(handle);\n"
+                    + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(struct_pointer->cppFieldName);\n"
                     + "}\n")
             .expect(
-                "void cbridge_test_TestInterface_SomeStruct_swiftFieldName_set(cbridge_test_TestInterface_SomeStructRef handle, cbridge_test_TestTypeCollection_TestEnum swiftFieldName) {\n"
-                    + "    get_pointer(handle)->cppFieldName = static_cast<cbridge::test::TestEnum>(swiftFieldName);\n"
+                "void cbridge_test_TestInterface_SomeStruct_swiftFieldName_set(_baseRef handle, cbridge_test_TestTypeCollection_TestEnum swiftFieldName) {\n"
+                    + "    get_pointer<cbridge::test::TestInterface::SomeStruct>(handle)->cppFieldName = static_cast<cbridge::test::TestEnum>(swiftFieldName);\n"
                     + "}\n")
             .build();
 
@@ -625,21 +593,20 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedHeader =
         TemplateComparator.expect(BYTE_ARRAY_INCLUDE)
             .expect(STD_INT_INCLUDE)
+            .expect("_baseRef cbridge_test_TestInterface_attributeName_get(_baseRef _instance);\n")
             .expect(
-                "_baseRef cbridge_test_TestInterface_attributeName_get(cbridge_test_TestInterfaceRef _instance);\n")
-            .expect(
-                "void cbridge_test_TestInterface_attributeName_set(cbridge_test_TestInterfaceRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size);\n")
+                "void cbridge_test_TestInterface_attributeName_set(_baseRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size);\n")
             .build();
 
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(STD_NEW_INCLUDE)
             .expect(
-                "_baseRef cbridge_test_TestInterface_attributeName_get(cbridge_test_TestInterfaceRef _instance) {\n"
-                    + "    return {new (std::nothrow)std::vector<uint8_t>(get_pointer(_instance)->get()->get_attribute_name())};\n"
+                "_baseRef cbridge_test_TestInterface_attributeName_get(_baseRef _instance) {\n"
+                    + "    return {new (std::nothrow)std::vector<uint8_t>(get_pointer<std::shared_ptr<cbridge::test::TestInterface>>(_instance)->get()->get_attribute_name())};\n"
                     + "}\n")
             .expect(
-                "void cbridge_test_TestInterface_attributeName_set(cbridge_test_TestInterfaceRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size) {\n"
-                    + "    return get_pointer(_instance)->get()->set_attribute_name(std::vector<uint8_t>(newValue_ptr, newValue_ptr + newValue_size));\n"
+                "void cbridge_test_TestInterface_attributeName_set(_baseRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size) {\n"
+                    + "    return get_pointer<std::shared_ptr<cbridge::test::TestInterface>>(_instance)->get()->set_attribute_name(std::vector<uint8_t>(newValue_ptr, newValue_ptr + newValue_size));\n"
                     + "}\n")
             .build();
 

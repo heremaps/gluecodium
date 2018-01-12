@@ -65,7 +65,6 @@ public final class CBridgeArrayTemplateTest {
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
-            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include \"cbridge_internal/include/BaseHandleImpl.h\"\n"
             + "#include <new>\n"
             + "#include <string>\n"
@@ -123,7 +122,6 @@ public final class CBridgeArrayTemplateTest {
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
             + "#include \"cbridge/include/StringHandle.h\"\n"
-            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
             + "#include \"cbridge_internal/include/BaseHandleImpl.h\"\n"
             + "#include <new>\n"
             + "#include <string>\n"
@@ -145,7 +143,7 @@ public final class CBridgeArrayTemplateTest {
             + "    };\n"
             + "}\n"
             + "void arrayCollection_NestedStringArray_append(_baseRef handle, _baseRef item) {\n"
-            + "    get_pointer<std::vector<std::vector<std::string>>>(handle)->push_back(*get_pointer(item));\n"
+            + "    get_pointer<std::vector<std::vector<std::string>>>(handle)->push_back(*get_pointer<std::vector<std::string>>(item));\n"
             + "}\n";
 
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -160,7 +158,7 @@ public final class CBridgeArrayTemplateTest {
     final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_IMPL);
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
-            + "#include \"cbridge_internal/include/ArrayCollectionImpl.h\"\n"
+            + "#include \"cbridge_internal/include/BaseHandleImpl.h\"\n"
             + "#include <vector>\n"
             + "_baseRef arrayCollection_Enums_create() {\n"
             + "    return { new (std::nothrow)std::vector<EnumType>()};;\n"

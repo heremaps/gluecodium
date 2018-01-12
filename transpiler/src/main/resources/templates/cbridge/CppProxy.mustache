@@ -23,7 +23,7 @@ private:
     function_table_t mFunctions;
 };
 
-{{name}}Ref {{name}}_createProxy({{functionTableName}} functionTable) {
+_baseRef {{name}}_createProxy({{functionTableName}} functionTable) {
     auto proxy = {{name}}Proxy::get_proxy(std::move(functionTable));
     if (proxy) {
         return { new (std::nothrow) {{selfType}}(std::move(proxy)) };
@@ -46,14 +46,9 @@ private:
 {{+returnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}return {{>swiftDelegateCall}};{{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING"}}
-        auto _return_value_ptr = get_pointer<{{returnType}}>({{>swiftDelegateCall}});
-        auto _return_value(*_return_value_ptr);
-        delete _return_value_ptr;
-        return _return_value;
-    {{/case}}{{!!
+    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
     }}{{#case "CLASS" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}auto _return_value_ptr = get_pointer({{>swiftDelegateCall}});
+    }}{{#case "STRUCT"}}auto _return_value_ptr = get_pointer<{{returnType}}>({{>swiftDelegateCall}});
         auto _return_value(*_return_value_ptr);
         delete _return_value_ptr;
         return _return_value;

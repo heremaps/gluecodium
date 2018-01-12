@@ -5,11 +5,11 @@
 {{/implementationIncludes}}
 
 {{#if selfType}}
-void {{name}}_release({{selfType.functionReturnType}} handle) {
-    delete get_pointer(handle);
+void {{name}}_release(_baseRef handle) {
+    delete get_pointer<{{selfType.name}}>(handle);
 }
-{{selfType.functionReturnType}} {{name}}_copy({{selfType.functionReturnType}} handle) {
-    return { new (std::nothrow){{selfType}}(*get_pointer(handle)) };
+_baseRef {{name}}_copy(_baseRef handle) {
+    return { new (std::nothrow){{selfType}}(*get_pointer<{{selfType.name}}>(handle)) };
 }
 {{/if}}
 

@@ -128,14 +128,15 @@ public class CBridgeImplementationTemplateTest {
     cInterface.structs.add(struct);
 
     final String expected =
-        "nameRef name_create() {\n"
+        "_baseRef name_create() {\n"
             + "    return {new (std::nothrow)baseName()};\n"
             + "}\n"
-            + "void name_release(nameRef handle) {\n"
-            + "    delete get_pointer(handle);\n"
+            + "void name_release(_baseRef handle) {\n"
+            + "    delete get_pointer<nameRef>(handle);\n"
             + "}\n"
-            + "NestedRef name_structField_get(nameRef handle) {\n"
-            + "    return {&get_pointer(handle)->baseApiFieldName};\n"
+            + "NestedRef name_structField_get(_baseRef handle) {\n"
+            + "    auto struct_pointer = get_pointer<nameRef>(handle);\n"
+            + "    return {&struct_pointer->baseApiFieldName};\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -151,17 +152,18 @@ public class CBridgeImplementationTemplateTest {
     cInterface.structs.add(struct);
 
     final String expected =
-        "nameRef name_create() {\n"
+        "_baseRef name_create() {\n"
             + "    return {new (std::nothrow)baseName()};\n"
             + "}\n"
-            + "void name_release(nameRef handle) {\n"
-            + "    delete get_pointer(handle);\n"
+            + "void name_release(_baseRef handle) {\n"
+            + "    delete get_pointer<nameRef>(handle);\n"
             + "}\n"
-            + "_baseRef name_stringField_get(nameRef handle) {\n"
-            + "    return {&get_pointer(handle)->baseApiFieldName};\n"
+            + "_baseRef name_stringField_get(_baseRef handle) {\n"
+            + "    auto struct_pointer = get_pointer<nameRef>(handle);\n"
+            + "    return {&struct_pointer->baseApiFieldName};\n"
             + "}\n"
-            + "void name_stringField_set(nameRef handle, const char* stringField) {\n"
-            + "    get_pointer(handle)->baseApiFieldName.assign(stringField);\n"
+            + "void name_stringField_set(_baseRef handle, const char* stringField) {\n"
+            + "    get_pointer<nameRef>(handle)->baseApiFieldName.assign(stringField);\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -177,17 +179,18 @@ public class CBridgeImplementationTemplateTest {
     cInterface.structs.add(struct);
 
     final String expected =
-        "nameRef name_create() {\n"
+        "_baseRef name_create() {\n"
             + "    return {new (std::nothrow)baseName()};\n"
             + "}\n"
-            + "void name_release(nameRef handle) {\n"
-            + "    delete get_pointer(handle);\n"
+            + "void name_release(_baseRef handle) {\n"
+            + "    delete get_pointer<nameRef>(handle);\n"
             + "}\n"
-            + "float name_floatField_get(nameRef handle) {\n"
-            + "    return get_pointer(handle)->baseApiFieldName;\n"
+            + "float name_floatField_get(_baseRef handle) {\n"
+            + "    auto struct_pointer = get_pointer<nameRef>(handle);\n"
+            + "    return struct_pointer->baseApiFieldName;\n"
             + "}\n"
-            + "void name_floatField_set(nameRef handle, float floatField) {\n"
-            + "    get_pointer(handle)->baseApiFieldName = floatField;\n"
+            + "void name_floatField_set(_baseRef handle, float floatField) {\n"
+            + "    get_pointer<nameRef>(handle)->baseApiFieldName = floatField;\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -226,17 +229,18 @@ public class CBridgeImplementationTemplateTest {
     cInterface.structs.add(struct);
 
     final String expected =
-        "SomeStructRef memberStruct_create() {\n"
+        "_baseRef memberStruct_create() {\n"
             + "    return {new (std::nothrow)baseName()};\n"
             + "}\n"
-            + "void memberStruct_release(SomeStructRef handle) {\n"
-            + "    delete get_pointer(handle);\n"
+            + "void memberStruct_release(_baseRef handle) {\n"
+            + "    delete get_pointer<SomeStructRef>(handle);\n"
             + "}\n"
-            + "SomeClassRef memberStruct_instanceField_get(SomeStructRef handle) {\n"
-            + "    return {&get_pointer(handle)->baseApiFieldName};\n"
+            + "SomeClassRef memberStruct_instanceField_get(_baseRef handle) {\n"
+            + "    auto struct_pointer = get_pointer<SomeStructRef>(handle);\n"
+            + "    return {&struct_pointer->baseApiFieldName};\n"
             + "}\n"
-            + "void memberStruct_instanceField_set(SomeStructRef handle, SomeClassRef instanceField) {\n"
-            + "    get_pointer(handle)->baseApiFieldName = *get_pointer(instanceField);\n"
+            + "void memberStruct_instanceField_set(_baseRef handle, SomeClassRef instanceField) {\n"
+            + "    get_pointer<SomeStructRef>(handle)->baseApiFieldName = *get_pointer<SomeClassRef>(instanceField);\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -281,7 +285,7 @@ public class CBridgeImplementationTemplateTest {
                     + "    function_table_t mFunctions;\n"
                     + "};\n")
             .expect(
-                "ClassyRef Classy_createProxy(ClassTable functionTable) {\n"
+                "_baseRef Classy_createProxy(ClassTable functionTable) {\n"
                     + "    auto proxy = ClassyProxy::get_proxy(std::move(functionTable));\n"
                     + "    if (proxy) {\n"
                     + "        return { new (std::nothrow) std::shared_ptr<some::package::SomeClass>(std::move(proxy)) };\n"

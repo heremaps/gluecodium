@@ -53,7 +53,7 @@ return static_cast<{{innerType}}>((*get_pointer<{{arrayType.arrayBaseApi}}>(hand
 return (*get_pointer<{{arrayType.arrayBaseApi}}>(handle))[index];{{/defaultGetConversion}}
 
 {{+classAppendConversion}}
-get_pointer<{{arrayType.arrayBaseApi}}>(handle)->push_back(*get_pointer(item));{{/classAppendConversion}}
+get_pointer<{{arrayType.arrayBaseApi}}>(handle)->push_back(*get_pointer<{{underlyingType.name}}>(item));{{/classAppendConversion}}
 
 {{+defaultAppendConversion}}
 get_pointer<{{arrayType.arrayBaseApi}}>(handle)->push_back(item);{{/defaultAppendConversion}}
