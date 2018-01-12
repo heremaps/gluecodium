@@ -1,30 +1,31 @@
-{{type}} {{name}}_create() {
+_baseRef {{name}}_create() {
     return {new (std::nothrow){{baseApiName}}()};
 }
 
-void {{name}}_release({{type}} handle) {
-    delete get_pointer(handle);
+void {{name}}_release(_baseRef handle) {
+    delete get_pointer<{{mappedType.name}}>(handle);
 }
 
-{{#set structname=name structtype=type}}
+{{#set structname=name}}
 {{#fields}}
-{{type.functionReturnType}} {{structname}}_{{name}}_get({{structtype}} handle) {
+{{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<{{mappedType.name}}>(handle);
 {{#switch type.typeCategory.toString}}
-    {{#case "BUILTIN_SIMPLE"}}return get_pointer(handle)->{{baseLayerName}};{{/case}}{{!!
-    }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(get_pointer(handle)->{{baseLayerName}});{{/case}}{{!!
-    }}{{#case "ARRAY"}}return { new {{type}}(get_pointer<{{type.arrayBaseApi}}>(handle)->{{baseLayerName}}) };{{/case}}{{!!
-    }}{{#default}}return {&get_pointer(handle)->{{baseLayerName}}};{{/default}}
+    {{#case "BUILTIN_SIMPLE"}}return struct_pointer->{{baseLayerName}};{{/case}}{{!!
+    }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(struct_pointer->{{baseLayerName}});{{/case}}{{!!
+    }}{{#case "ARRAY"}}return { new {{type}}(struct_pointer->{{baseLayerName}}) };{{/case}}{{!!
+    }}{{#default}}return {&struct_pointer->{{baseLayerName}}};{{/default}}
 {{/switch}}
 }
 
 {{^type.isStruct}}
-void {{structname}}_{{name}}_set({{structtype}} handle, {{join setterParameters delimiter=", "}}) {
-    get_pointer(handle)->{{baseLayerName}}{{#switch type.typeCategory.toString}}{{!!
+void {{structname}}_{{name}}_set(_baseRef handle, {{join setterParameters delimiter=", "}}) {
+    get_pointer<{{mappedType.name}}>(handle)->{{baseLayerName}}{{#switch type.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}.assign({{setterParameters.0.name}}, {{setterParameters.0.name}} + {{setterParameters.1.name}});{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}.assign({{setterParameters.0.name}});{{/case}}{{!!
     }}{{#case "ENUM"}} = static_cast<{{type.name}}>({{setterParameters.0.name}});{{/case}}{{!!
     }}{{#case "ARRAY"}} = *get_pointer<{{type.arrayBaseApi}}>({{setterParameters.0.name}});{{/case}}{{!!
-    }}{{#case "CLASS"}} = *get_pointer({{setterParameters.0.name}});{{/case}}{{!!
+    }}{{#case "CLASS"}} = *get_pointer<{{type.name}}>({{setterParameters.0.name}});{{/case}}{{!!
     }}{{#default}} = {{setterParameters.0.name}};{{/default}}
 {{/switch}}
 }

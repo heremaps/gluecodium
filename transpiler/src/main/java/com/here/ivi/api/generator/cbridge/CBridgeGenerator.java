@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.SRC_DIR;
@@ -40,18 +39,11 @@ public class CBridgeGenerator {
 
   public final CArrayGenerator arrayGenerator = new CArrayGenerator();
 
-  public static final String BASE_HANDLE_FILE =
-      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString();
-  public static final String BASE_HANDLE_IMPL_FILE =
-      Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString();
-  public static final String STRING_HANDLE_FILE =
-      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "StringHandle.h").toString();
-
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
-          GeneratorSuite.copyTarget(BASE_HANDLE_FILE, ""),
-          GeneratorSuite.copyTarget(BASE_HANDLE_IMPL_FILE, ""),
-          GeneratorSuite.copyTarget(STRING_HANDLE_FILE, ""),
+          GeneratorSuite.copyTarget(CBridgeNameRules.BASE_HANDLE_FILE, ""),
+          GeneratorSuite.copyTarget(CBridgeNameRules.BASE_HANDLE_IMPL_FILE, ""),
+          GeneratorSuite.copyTarget(CBridgeNameRules.STRING_HANDLE_FILE, ""),
           GeneratorSuite.copyTarget(
               Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString(), ""),
           GeneratorSuite.copyTarget(
@@ -70,22 +62,12 @@ public class CBridgeGenerator {
     CInterface cModel = buildCBridgeModel(francaTypeCollection);
     return Stream.of(
             new GeneratedFile(
-                generatePrivateHeaderContent(cModel),
-                CBridgeNameRules.getPrivateHeaderFileNameWithPath(francaTypeCollection)),
-            new GeneratedFile(
                 generateHeaderContent(cModel),
                 CBridgeNameRules.getHeaderFileNameWithPath(francaTypeCollection)),
             new GeneratedFile(
                 generateImplementationContent(cModel),
                 CBridgeNameRules.getImplementationFileNameWithPath(francaTypeCollection)))
         .filter(file -> !file.content.isEmpty());
-  }
-
-  @VisibleForTesting
-  public static String generatePrivateHeaderContent(CInterface model) {
-    return model.hasPrivateHeaderContent()
-        ? TemplateEngine.render("cbridge/PrivateHeader", model)
-        : "";
   }
 
   @VisibleForTesting
@@ -117,9 +99,6 @@ public class CBridgeGenerator {
 
   private void removeRedundantIncludes(
       final FTypeCollection francaTypeCollection, CInterface cModel) {
-    cModel.privateHeaderIncludes.remove(
-        Include.createInternalInclude(
-            CBridgeNameRules.getPrivateHeaderFileNameWithPath(francaTypeCollection)));
     cModel.headerIncludes.remove(
         Include.createInternalInclude(
             CBridgeNameRules.getHeaderFileNameWithPath(francaTypeCollection)));

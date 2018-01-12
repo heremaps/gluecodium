@@ -11,8 +11,9 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CArrayGenerator.CBRIDGE_INTERNAL_ARRAY_IMPL;
-import static com.here.ivi.api.generator.cbridge.CBridgeGenerator.BASE_HANDLE_FILE;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_FILE;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
 import static java.util.Collections.singletonList;
 
@@ -29,7 +30,7 @@ public final class CArrayMapper {
 
   public static CppTypeInfo createArrayReference(final CppTypeInfo innerType) {
 
-    CType arrayType = new CType("_baseRef", Include.createInternalInclude(BASE_HANDLE_FILE));
+    CType arrayType = new CType(BASE_REF_NAME, Include.createInternalInclude(BASE_HANDLE_FILE));
     CppTypeInfo type =
         new CppTypeInfo(
             "std::vector<" + innerType.name + ">",
@@ -38,8 +39,7 @@ public final class CArrayMapper {
             arrayType,
             ARRAY,
             Arrays.asList(
-                Include.createInternalInclude(CBRIDGE_INTERNAL_ARRAY_IMPL),
-                CppLibraryIncludes.VECTOR));
+                Include.createInternalInclude(BASE_HANDLE_IMPL_FILE), CppLibraryIncludes.VECTOR));
     type.innerType = innerType;
     return type;
   }

@@ -1,9 +1,9 @@
 {{type}} {{name}}_create();
-void {{name}}_release({{type}} handle);
+void {{name}}_release(_baseRef handle);
 
-{{#set structname=name structtype=type}}
+{{#set structname=name}}
 {{#fields}}
-{{type.functionReturnType}} {{structname}}_{{name}}_get({{structtype}} handle);
-{{^type.isStruct}}void {{structname}}_{{name}}_set({{structtype}} handle, {{join setterParameters delimiter=", "}});{{/type.isStruct}}
+{{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle);
+{{^type.isStruct}}void {{structname}}_{{name}}_set(_baseRef handle, {{join setterParameters delimiter=", "}});{{/type.isStruct}}
 {{/fields}}
 {{/set}}

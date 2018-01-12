@@ -107,8 +107,6 @@ abstract class CBridgeGeneratorTestBase {
     PowerMockito.spy(CBridgeNameRules.class);
     PowerMockito.spy(CppNameRules.class);
     PowerMockito.spy(SwiftNameRules.class);
-    PowerMockito.doReturn(PRIVATE_HEADER_NAME)
-        .when(CBridgeNameRules.class, "getPrivateHeaderFileNameWithPath", any());
     PowerMockito.doReturn(PUBLIC_HEADER_NAME)
         .when(CBridgeNameRules.class, "getHeaderFileNameWithPath", any());
     PowerMockito.doReturn("")

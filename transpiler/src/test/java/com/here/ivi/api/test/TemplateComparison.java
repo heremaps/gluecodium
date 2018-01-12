@@ -60,14 +60,6 @@ public final class TemplateComparison {
         ignoreWhitespace(content));
   }
 
-  public static void assertEqualPrivateHeaderContent(String expected, String actual) {
-    String content = expected.isEmpty() ? actual : checkAndStripCopyright(actual);
-    assertEquals(
-        "Actual private header file should match expected value",
-        ignoreWhitespace(expected),
-        ignoreWhitespace(content));
-  }
-
   public static void assertEqualContent(String message, String expected, String actual) {
     String content = checkAndStripCopyright(actual);
     assertEquals(message, ignoreWhitespace(expected), ignoreWhitespace(content));

@@ -79,28 +79,6 @@ public final class CBridgeNameRulesTest {
   }
 
   @Test
-  public void getStructNameCreatesProperNameForStructsInTypeCollections() {
-    when(francaStruct.eContainer()).thenReturn(francaTypeCollection);
-    String expectedName =
-        prependNameWithPackageAndContainer(
-            toUpperCamelCase(STRUCT_NAME) + "Ref", "_", TYPE_COLLECTION_NAME);
-
-    String actualName = CBridgeNameRules.getStructRefType(francaStruct);
-
-    assertEquals(expectedName, actualName);
-  }
-
-  @Test
-  public void getStructNameCreatesProperNameForStructsInInterfaces() {
-    when(francaStruct.eContainer()).thenReturn(francaInterface);
-    String expectedName = prependNameWithPackageAndInterface(toUpperCamelCase(STRUCT_NAME) + "Ref");
-
-    String actualName = CBridgeNameRules.getStructRefType(francaStruct);
-
-    assertEquals(expectedName, actualName);
-  }
-
-  @Test
   public void getStructBaseNameCreatesProperNameForStructInInterface() {
     when(francaStruct.eContainer()).thenReturn(francaInterface);
     String expectedName = prependNameWithPackageAndInterface(toUpperCamelCase(STRUCT_NAME));

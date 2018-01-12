@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.SRC_DIR;
@@ -31,8 +30,6 @@ public final class CArrayGenerator {
       Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, ARRAY_FILE + ".h").toString();
   public static final String CBRIDGE_ARRAY_IMPL =
       Paths.get(CBRIDGE_PUBLIC, SRC_DIR, ARRAY_FILE + ".cpp").toString();
-  public static final String CBRIDGE_INTERNAL_ARRAY_IMPL =
-      Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, ARRAY_FILE + "Impl.h").toString();
 
   private final Map<String, CArray> arrayCollector = new HashMap<>();
 
@@ -51,21 +48,10 @@ public final class CArrayGenerator {
     arraysInterface.privateHeaderIncludes.addAll(
         CBridgeComponents.collectPrivateHeaderIncludes(arraysInterface));
 
-    List<GeneratedFile> files =
-        new ArrayList<>(
-            Arrays.asList(
-                new GeneratedFile(
-                    TemplateEngine.render("cbridge/Header", arraysInterface), CBRIDGE_ARRAY_HEADER),
-                new GeneratedFile(
-                    TemplateEngine.render("cbridge/Implementation", arraysInterface),
-                    CBRIDGE_ARRAY_IMPL)));
-    // Remove self include for private header.
-    arraysInterface.privateHeaderIncludes.removeIf(
-        include -> include.fileName.equals(CBRIDGE_INTERNAL_ARRAY_IMPL));
-    files.add(
+    return Arrays.asList(
         new GeneratedFile(
-            TemplateEngine.render("cbridge/PrivateHeader", arraysInterface),
-            CBRIDGE_INTERNAL_ARRAY_IMPL));
-    return files;
+            TemplateEngine.render("cbridge/Header", arraysInterface), CBRIDGE_ARRAY_HEADER),
+        new GeneratedFile(
+            TemplateEngine.render("cbridge/Implementation", arraysInterface), CBRIDGE_ARRAY_IMPL));
   }
 }

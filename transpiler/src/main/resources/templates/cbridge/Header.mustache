@@ -6,32 +6,26 @@
 extern "C" {
 #endif
 
+{{#if selfType}}#include "cbridge/include/BaseHandle.h"{{/if}}
 {{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
 
 {{#enumerators}}{{>cbridge/Enumeration}}{{/enumerators}}
-{{#structs}}{{>cbridge/StructTypedef}}{{/structs}}
 {{#arrays}}{{>cbridge/ArraysDefinition}}{{/arrays}}
 
 {{#functions}}{{#if error}}{{#unless isReturningVoid}}{{>cbridge/ThrowingFunctionReturnType}}
 {{/unless}}{{/if}}{{/functions}}
 
-{{#if selfType}}
-typedef struct {
-    void* const private_pointer;
-} {{selfType.functionReturnType}};
-{{/if}}
-
 {{#structs}}{{>cbridge/StructFunctionDeclarations}}{{/structs}}
 
 {{#if selfType}}
-void {{name}}_release({{selfType.functionReturnType}} handle);
-{{selfType.functionReturnType}} {{name}}_copy({{selfType.functionReturnType}} handle);
+void {{name}}_release(_baseRef handle);
+{{selfType.functionReturnType}} {{name}}_copy(_baseRef handle);
 
 {{/if}}
 {{#isInterface}}
 {{>cbridge/FunctionTable}}
 
-{{name}}Ref {{name}}_createProxy({{functionTableName}} functionTable);
+_baseRef {{name}}_createProxy({{functionTableName}} functionTable);
 {{/isInterface}}
 {{#functions}}
 {{>cbridge/FunctionSignature}};

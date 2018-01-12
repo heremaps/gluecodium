@@ -15,21 +15,31 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.franca.DefinedBy;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.*;
 
 public final class CBridgeNameRules {
+
   public static final String CBRIDGE_PUBLIC = "cbridge";
   public static final String CBRIDGE_INTERNAL = "cbridge_internal";
   public static final String INCLUDE_DIR = "include";
+
+  public static final String STRING_HANDLE_FILE =
+      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "StringHandle.h").toString();
+  public static final String BASE_HANDLE_IMPL_FILE =
+      Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString();
+  public static final String BASE_HANDLE_FILE =
+      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString();
   public static final String SRC_DIR = "src";
+
+  public static final String BASE_REF_NAME = "_baseRef";
 
   public static final String UNDERSCORE_DELIMITER = "_";
   private static final String CPP_NAMESPACE_DELIMITER = "::";
   private static final String PUBLIC_HEADER_SUFFIX = ".h";
-  private static final String PRIVATE_HEADER_SUFFIX = "Impl.h";
   private static final String IMPL_SUFFIX = ".cpp";
 
   private CBridgeNameRules() {}
@@ -37,12 +47,6 @@ public final class CBridgeNameRules {
   public static String getHeaderFileNameWithPath(final FTypeCollection francaTypeCollection) {
     return getPathComponents(
         francaTypeCollection, CBRIDGE_PUBLIC, INCLUDE_DIR, PUBLIC_HEADER_SUFFIX);
-  }
-
-  public static String getPrivateHeaderFileNameWithPath(
-      final FTypeCollection francaTypeCollection) {
-    return getPathComponents(
-        francaTypeCollection, CBRIDGE_INTERNAL, INCLUDE_DIR, PRIVATE_HEADER_SUFFIX);
   }
 
   public static String getImplementationFileNameWithPath(
@@ -85,19 +89,11 @@ public final class CBridgeNameRules {
     }
   }
 
-  public static String getStructRefType(final FModelElement francaElement) {
-    return getStructBaseName(francaElement) + "Ref";
-  }
-
   public static String getStructBaseName(final FModelElement francaElement) {
     return fullyQualifiedName(
         getNestedNameSpecifier(francaElement),
         NameHelper.toUpperCamelCase(francaElement.getName()),
         UNDERSCORE_DELIMITER);
-  }
-
-  public static String getInstanceRefType(final FModelElement francaElement) {
-    return getInstanceBaseName(francaElement) + "Ref";
   }
 
   public static String getInstanceBaseName(final FModelElement francaElement) {
@@ -175,17 +171,6 @@ public final class CBridgeNameRules {
         return CBridgeNameRules.getBaseApiInstanceName(elementType);
       case STRUCT:
         return CBridgeNameRules.getBaseApiStructName(elementType);
-    }
-    return null;
-  }
-
-  public static String getHandleName(
-      final FModelElement elementType, final CppTypeInfo.TypeCategory category) {
-    switch (category) {
-      case CLASS:
-        return CBridgeNameRules.getInstanceRefType(elementType);
-      case STRUCT:
-        return CBridgeNameRules.getStructRefType(elementType);
     }
     return null;
   }

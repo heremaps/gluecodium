@@ -130,13 +130,10 @@ public class CBridgeHeaderTemplateTest {
     cInterface.functions.add(instanceFunction);
 
     final String expected =
-        "typedef struct {\n"
-            + "    void* const private_pointer;\n"
-            + "} some_package_SomeClassRef;\n"
-            + "void InstantiableInterface_release(some_package_SomeClassRef handle);\n"
-            + "some_package_SomeClassRef InstantiableInterface_copy(some_package_SomeClassRef handle);\n"
-            + "\n"
-            + "void instanceMethod(some_package_SomeClassRef _instance);\n";
+        "#include \"cbridge/include/BaseHandle.h\"\n"
+            + "void InstantiableInterface_release(_baseRef handle);\n"
+            + "_baseRef InstantiableInterface_copy(_baseRef handle);\n"
+            + "void instanceMethod(_baseRef _instance);\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
   }
@@ -156,16 +153,10 @@ public class CBridgeHeaderTemplateTest {
     cInterface.structs.add(cStruct1);
     cInterface.structs.add(cStruct2);
     final String expected =
-        "typedef struct {\n"
-            + "    void* const private_pointer;\n"
-            + "} Struct1TypeRef;\n"
-            + "typedef struct {\n"
-            + "    void* const private_pointer;\n"
-            + "} Struct2TypeRef;\n"
-            + "Struct1TypeRef Struct1Name_create();\n"
-            + "void Struct1Name_release(Struct1TypeRef handle);\n"
+        "Struct1TypeRef Struct1Name_create();\n"
+            + "void Struct1Name_release(_baseRef handle);\n"
             + "Struct2TypeRef Struct2Name_create();\n"
-            + "void Struct2Name_release(Struct2TypeRef handle);\n";
+            + "void Struct2Name_release(_baseRef handle);\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
   }
@@ -188,18 +179,13 @@ public class CBridgeHeaderTemplateTest {
     cOuterInterface.structs.add(cInnerStruct);
 
     final String expected =
-        "typedef struct {\n"
-            + "    void* const private_pointer;\n"
-            + "} InnerStructCTypeName;\n"
-            + "typedef struct {\n"
-            + "    void* const private_pointer;\n"
-            + "} OuterInterfaceCTypeName;\n"
+        "#include \"cbridge/include/BaseHandle.h\"\n"
             + "InnerStructCTypeName InnerStructName_create();\n"
-            + "void InnerStructName_release(InnerStructCTypeName handle);\n"
-            + "OuterInterfaceCTypeName InnerStructName_swiftLayerFieldName_get(InnerStructCTypeName handle);\n"
-            + "void InnerStructName_swiftLayerFieldName_set(InnerStructCTypeName handle, OuterInterfaceCTypeName swiftLayerFieldName);\n"
-            + "void OuterCInterfaceName_release(OuterInterfaceCTypeName handle);\n"
-            + "OuterInterfaceCTypeName OuterCInterfaceName_copy(OuterInterfaceCTypeName handle);\n";
+            + "void InnerStructName_release(_baseRef handle);\n"
+            + "OuterInterfaceCTypeName InnerStructName_swiftLayerFieldName_get(_baseRef handle);\n"
+            + "void InnerStructName_swiftLayerFieldName_set(_baseRef handle, OuterInterfaceCTypeName swiftLayerFieldName);\n"
+            + "void OuterCInterfaceName_release(_baseRef handle);\n"
+            + "OuterInterfaceCTypeName OuterCInterfaceName_copy(_baseRef handle);\n";
 
     final String generated = this.generate(cOuterInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
