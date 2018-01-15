@@ -8,7 +8,7 @@ struct {{name}} {
     union {
     {{#fields}}
         {{#if comment}}
-{{prefixPartial "common/DocComment" "    "}}
+{{prefixPartial "common/DocComment" "        "}}
         {{/if}}
         {{type.name}} {{name}};
     {{/fields}}

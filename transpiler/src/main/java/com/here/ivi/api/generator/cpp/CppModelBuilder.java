@@ -81,11 +81,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
             .filter(parameter -> parameter.isOutput)
             .collect(Collectors.toList());
+    String returnTypeComment = !outputParameters.isEmpty() ? outputParameters.get(0).comment : null;
 
     CppTypeRef errorEnumTypeRef = getPreviousResult(CppTypeRef.class);
     CppTypeRef errorType = errorEnumTypeRef != null ? CppTypeMapper.HF_ERROR_TYPE : null;
     CppTypeRef returnType = mapMethodReturnType(outputParameters, errorType);
-    CppMethod cppMethod = buildCppMethod(francaMethod, returnType);
+    CppMethod cppMethod = buildCppMethod(francaMethod, returnType, returnTypeComment);
 
     storeResult(cppMethod);
     closeContext();
@@ -97,6 +98,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppParameter cppParameter =
         new CppParameter(CppNameRules.getParameterName(francaArgument.getName()), cppTypeRef);
+    cppParameter.comment = CommentHelper.getDescription(francaArgument);
 
     storeResult(cppParameter);
     closeContext();
@@ -108,6 +110,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppParameter cppParameter =
         new CppParameter(CppNameRules.getParameterName(francaArgument.getName()), cppTypeRef, true);
+    cppParameter.comment = CommentHelper.getDescription(francaArgument);
 
     storeResult(cppParameter);
     closeContext();
@@ -283,15 +286,18 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FAttribute francaAttribute) {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
+    String francaComment = CommentHelper.getDescription(francaAttribute);
 
     String getterName = CppNameRules.getGetterName(francaAttribute.getName());
     CppMethod getterMethod = buildAccessorMethod(getterName, cppTypeRef);
+    getterMethod.comment = francaComment;
     storeResult(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
       String setterName = CppNameRules.getSetterName(francaAttribute.getName());
       CppMethod setterMethod = buildAccessorMethod(setterName, CppPrimitiveTypeRef.VOID);
       setterMethod.parameters.add(new CppParameter("value", cppTypeRef));
+      setterMethod.comment = francaComment;
       storeResult(setterMethod);
     }
 
@@ -307,7 +313,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     return getterMethod;
   }
 
-  private CppMethod buildCppMethod(FMethod francaMethod, CppTypeRef returnType) {
+  private CppMethod buildCppMethod(
+      final FMethod francaMethod, final CppTypeRef returnType, final String returnTypeComment) {
 
     String methodName = CppNameRules.getMethodName(francaMethod.getName());
     String fullyQualifiedMethodName =
@@ -330,6 +337,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     }
 
     builder.comment(CommentHelper.getDescription(francaMethod));
+    builder.returnTypeComment(returnTypeComment);
 
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
         .filter(parameter -> !parameter.isOutput)
