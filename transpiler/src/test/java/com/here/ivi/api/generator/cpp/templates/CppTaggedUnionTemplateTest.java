@@ -62,7 +62,7 @@ public final class CppTaggedUnionTemplateTest {
             + "        : type(FLOWERS)\n"
             + "        , flowers(flowers) {};\n\n";
     final String expectedFieldResult =
-        "    /**\n     * nonsense\n     */\n        ::very::Typical flowers;\n";
+        "        /**\n         * nonsense\n         */\n        ::very::Typical flowers;\n";
     final String expectedCopyConstructorResult =
         "        case FLOWERS:\n"
             + "            new (&flowers) ::very::Typical(other.flowers);\n            break;\n";

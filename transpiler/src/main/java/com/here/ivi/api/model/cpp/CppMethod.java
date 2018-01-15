@@ -24,6 +24,7 @@ import lombok.Singular;
 public final class CppMethod extends CppElementWithIncludes {
 
   public final CppTypeRef returnType;
+  public final String returnTypeComment;
   public final Set<Specifier> specifiers;
   public final Set<Qualifier> qualifiers;
   public final List<CppParameter> parameters;
@@ -63,11 +64,13 @@ public final class CppMethod extends CppElementWithIncludes {
     }
   }
 
+  @SuppressWarnings("ParameterNumber")
   @lombok.Builder(builderClassName = "Builder")
   private CppMethod(
       final String name,
       final String comment,
       final CppTypeRef returnType,
+      final String returnTypeComment,
       final String fullyQualifiedName,
       @Singular final Set<Specifier> specifiers,
       @Singular final Set<Qualifier> qualifiers,
@@ -75,6 +78,7 @@ public final class CppMethod extends CppElementWithIncludes {
     super(name, fullyQualifiedName == null ? name : fullyQualifiedName);
     this.comment = comment;
     this.returnType = returnType != null ? returnType : CppPrimitiveTypeRef.VOID;
+    this.returnTypeComment = returnTypeComment;
     this.specifiers =
         !specifiers.isEmpty() ? EnumSet.copyOf(specifiers) : EnumSet.noneOf(Specifier.class);
     this.qualifiers =

@@ -1,0 +1,64 @@
+/*
+ * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package examples
+
+<** @description: This is some very useful interface. **>
+interface Comments {
+
+    <** @description: This is some very useful method that measures the usefulness of its input. **>
+    method someMethod {
+        in {
+            <** @description: Very useful input parameter **>
+            String input
+        }
+        out {
+            <** @description: Usefulness of the input **>
+            Usefulness output
+        }
+    }
+
+    <** @description: This is some very useful constant. **>
+    const Usefulness VeryUseful = true
+
+
+    <** @description: This is some very useful struct. **>
+    struct SomeStruct {
+        <** @description: How useful this struct is **>
+        Usefulness someField
+    }
+
+    <** @description: This is some very useful typedef. **>
+    typedef Usefulness is Boolean
+
+    <** @description: This is some very useful array. **>
+    array SomeArray of String
+
+    <** @description: This is some very useful map. **>
+    map SomeMap { String to Usefulness }
+
+    <** @description: This is some very useful enum. **>
+    enumeration SomeEnum {
+        <** @description: Not quite useful **>
+        Useless
+        <** @description: Somewhat useful **>
+        Useful
+    }
+
+    <** @description: This is some totally useless union. **>
+    union SomeUnion {
+        <** @description: How useless this union is **>
+        Usefulness someField
+    }
+
+    <** @description: This is some very useful attribute. **>
+    attribute Usefulness SomeAttribute
+}
