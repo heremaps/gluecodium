@@ -22,8 +22,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
-import com.here.ivi.api.generator.cpp.CppCommentParser;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftClass;
@@ -46,12 +44,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({
-  DefinedBy.class,
-  SwiftNameRules.class,
-  CppCommentParser.class,
-  CBridgeNameRules.class
-})
+@PrepareForTest({DefinedBy.class, SwiftNameRules.class, CBridgeNameRules.class})
 public class SwiftModelBuilderInterfaceTest {
 
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
@@ -70,7 +63,6 @@ public class SwiftModelBuilderInterfaceTest {
   private final SwiftMethod swiftMethod = new SwiftMethod("SwiftMethod");
 
   @Mock private FrancaDeploymentModel deploymentModel;
-  @Mock private AbstractFrancaCommentParser.Comments comments;
   @Mock private FInterface francaInterface;
 
   private SwiftModelBuilder modelBuilder;
@@ -78,13 +70,11 @@ public class SwiftModelBuilderInterfaceTest {
   @Before
   public void setUp() {
     initMocks(this);
-    mockStatic(
-        DefinedBy.class, SwiftNameRules.class, CppCommentParser.class, CBridgeNameRules.class);
+    mockStatic(DefinedBy.class, SwiftNameRules.class, CBridgeNameRules.class);
 
     swiftMethod.parameters.add(new SwiftParameter("MethodValue", SwiftType.STRING));
 
     when(SwiftNameRules.getClassName(any())).thenReturn("classy");
-    when(CppCommentParser.parse(francaInterface)).thenReturn(comments);
     when(CBridgeNameRules.getInterfaceName(francaInterface)).thenReturn("package_classy");
     when(CBridgeNameRules.getFunctionTableName(francaInterface)).thenReturn("fun_table");
 

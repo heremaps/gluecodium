@@ -26,7 +26,6 @@ public class Basic {
 
     /**
      * Example static method for Basic feature which takes a String and returns a String
-     * * @param[in] inputString Input string
      */
     public static func basicMethod(inputString: String) -> String? {
         let result_string_handle = smoke_Basic_basicMethod(inputString)

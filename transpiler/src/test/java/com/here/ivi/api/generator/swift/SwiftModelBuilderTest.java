@@ -20,8 +20,6 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
-import com.here.ivi.api.generator.cpp.CppCommentParser;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -39,7 +37,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
   SwiftTypeMapper.class,
-  CppCommentParser.class,
   SwiftNameRules.class,
   CBridgeNameRules.class,
   InstanceRules.class,
@@ -51,7 +48,6 @@ public class SwiftModelBuilderTest {
   private static final String PARAM_NAME = "someParamName";
   private static final String FUNCTION_NAME = "someFunctionName";
   private static final String STRUCT_NAME = "someStruct";
-  private static final String COMMENT = "some comment on model element";
   private static final String ATTRIBUTE_NAME = "someAttributeName";
   private static final String FIELD_NAME = "flowers";
   private static final String CBRIDGE_GETTER_NAME = "CBRIDGE_GETTER_NAME";
@@ -61,7 +57,6 @@ public class SwiftModelBuilderTest {
 
   @Mock private FrancaDeploymentModel deploymentModel;
 
-  @Mock private AbstractFrancaCommentParser.Comments comments;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
   @Mock private FTypeCollection francaTypeCollection;
@@ -82,7 +77,6 @@ public class SwiftModelBuilderTest {
   public void setUp() {
     mockStatic(
         SwiftTypeMapper.class,
-        CppCommentParser.class,
         SwiftNameRules.class,
         CBridgeNameRules.class,
         InstanceRules.class,
@@ -91,11 +85,6 @@ public class SwiftModelBuilderTest {
     initMocks(this);
 
     when(francaArgument.getType()).thenReturn(francaTypeRef);
-    when(CppCommentParser.parse(any(FModelElement.class))).thenReturn(comments);
-    when(CppCommentParser.parse(any(FMethod.class))).thenReturn(comments);
-    when(CppCommentParser.parse(any(FEnumerator.class))).thenReturn(comments);
-    when(CppCommentParser.parse(any(FEnumerationType.class))).thenReturn(comments);
-    when(comments.getMainBodyText()).thenReturn(COMMENT);
 
     when(SwiftNameRules.getParameterName(any())).thenReturn(PARAM_NAME);
     when(SwiftNameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);

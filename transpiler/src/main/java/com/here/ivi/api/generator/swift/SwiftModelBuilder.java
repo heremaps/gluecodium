@@ -19,8 +19,8 @@ import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
 import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
 import com.here.ivi.api.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
-import com.here.ivi.api.generator.cpp.CppCommentParser;
 import com.here.ivi.api.model.common.InstanceRules;
+import com.here.ivi.api.model.franca.CommentHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.*;
@@ -87,7 +87,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
       clazz.enums.addAll(getPreviousResults(SwiftEnum.class));
     }
 
-    String comment = CppCommentParser.parse(francaInterface).getMainBodyText();
+    String comment = CommentHelper.getDescription(francaInterface);
     clazz.comment = comment != null ? comment : "";
 
     file.classes.add(clazz);
@@ -110,7 +110,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .parent(parent)
             .cPrefix(CBridgeNameRules.getStructBaseName(francaStruct))
             .build();
-    String comment = CppCommentParser.parse(francaStruct).getMainBodyText();
+    String comment = CommentHelper.getDescription(francaStruct);
     swiftStruct.comment = comment != null ? comment : "";
 
     if (parent != null) {
@@ -124,7 +124,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FEnumerationType francaEnumerationType) {
-    String comment = CppCommentParser.parse(francaEnumerationType).getMainBodyText();
+    String comment = CommentHelper.getDescription(francaEnumerationType);
     List<SwiftEnumItem> enumItems =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, SwiftEnumItem.class);
     storeResult(
@@ -137,7 +137,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FEnumerator enumerator) {
-    String comment = CppCommentParser.parse(enumerator).getMainBodyText();
+    String comment = CommentHelper.getDescription(enumerator);
     SwiftValue value =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, SwiftValue.class);
     storeResult(
@@ -227,7 +227,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .map(SwiftParameter.class::cast)
             .collect(toList());
 
-    String comment = CppCommentParser.parse(francaMethod).getMainBodyText();
+    String comment = CommentHelper.getDescription(francaMethod);
     // TODO: APIGEN-471 - handle multiple return values
     SwiftParameter returnParam =
         CollectionsHelper.getFirstOfType(

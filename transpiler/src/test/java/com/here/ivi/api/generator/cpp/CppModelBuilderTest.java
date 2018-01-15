@@ -16,7 +16,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.common.AbstractFrancaCommentParser;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cpp.*;
 import com.here.ivi.api.model.franca.DefinedBy;
@@ -36,12 +35,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({
-  CppCommentParser.class,
-  InstanceRules.class,
-  CppValueMapper.class,
-  DefinedBy.class
-})
+@PrepareForTest({InstanceRules.class, CppValueMapper.class, DefinedBy.class})
 public class CppModelBuilderTest {
 
   private static final String STRUCT_NAME = "structural";
@@ -91,8 +85,7 @@ public class CppModelBuilderTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(
-        CppCommentParser.class, InstanceRules.class, CppValueMapper.class, DefinedBy.class);
+    PowerMockito.mockStatic(InstanceRules.class, CppValueMapper.class, DefinedBy.class);
 
     MockitoAnnotations.initMocks(this);
 
@@ -117,11 +110,6 @@ public class CppModelBuilderTest {
     when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
     when(francaMapType.getValueType()).thenReturn(francaAnotherTypeRef);
     when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
-
-    when(CppCommentParser.parse(any(FModelElement.class)))
-        .thenReturn(new AbstractFrancaCommentParser.Comments());
-    when(CppCommentParser.parse(any(FMethod.class)))
-        .thenReturn(new AbstractFrancaCommentParser.Comments());
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
