@@ -1,5 +1,10 @@
 # API Transpiler Release Notes
 
+## 1.1.1
+- Bugs:
+  + Android fields of structs declared within interfaces cannot be instantiated (APIGEN-1069)
+  + Swift struct that contain interfaces will cause premature memory release (APIGEN-1038)
+
 ## 1.1.0
 - Features:
   + Add support for Struct Inheritance to iOS generators
