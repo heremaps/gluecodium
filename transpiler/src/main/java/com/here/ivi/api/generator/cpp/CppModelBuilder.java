@@ -18,6 +18,7 @@ import com.here.ivi.api.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cpp.*;
+import com.here.ivi.api.model.franca.CommentHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -56,7 +57,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String className = CppNameRules.getClassName(francaInterface.getName());
 
     CppClass cppClass = new CppClass(className);
-    cppClass.comment = CppCommentParser.parse(francaInterface).getMainBodyText();
+    cppClass.comment = CommentHelper.getDescription(francaInterface);
 
     FInterface parentInterface = francaInterface.getBase();
     if (parentInterface != null) {
@@ -136,7 +137,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String name = CppNameRules.getConstantName(francaConstant.getName());
     String fullyQualifiedName = CppNameRules.getConstantFullyQualifiedName(francaConstant);
     CppConstant cppConstant = new CppConstant(name, fullyQualifiedName, cppTypeRef, value);
-    cppConstant.comment = CppCommentParser.parse(francaConstant).getMainBodyText();
+    cppConstant.comment = CommentHelper.getDescription(francaConstant);
 
     storeResult(cppConstant);
     closeContext();
@@ -155,7 +156,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             : CppValueMapper.mapDefaultValue(francaField.getType());
 
     CppField cppField = new CppField(cppTypeRef, fieldName, cppValue);
-    cppField.comment = CppCommentParser.parse(francaField).getMainBodyText();
+    cppField.comment = CommentHelper.getDescription(francaField);
 
     storeResult(cppField);
     closeContext();
@@ -187,7 +188,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
       CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
 
       CppUsing cppUsing = new CppUsing(typeDefName, fullyQualifiedName, cppTypeRef);
-      cppUsing.comment = CppCommentParser.parse(francaTypeDef).getMainBodyText();
+      cppUsing.comment = CommentHelper.getDescription(francaTypeDef);
 
       storeResult(cppUsing);
     }
@@ -203,7 +204,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef targetType =
         CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
     CppUsing cppUsing = new CppUsing(name, targetType);
-    cppUsing.comment = CppCommentParser.parse(francaArrayType).getMainBodyText();
+    cppUsing.comment = CommentHelper.getDescription(francaArrayType);
 
     storeResult(cppUsing);
     closeContext();
@@ -216,7 +217,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     List<CppTypeRef> typeRefs = getPreviousResults(CppTypeRef.class);
     CppTypeRef targetType = CppTypeMapper.wrapMap(typeRefs.get(0), typeRefs.get(1));
     CppUsing cppUsing = new CppUsing(name, targetType);
-    cppUsing.comment = CppCommentParser.parse(francaMapType).getMainBodyText();
+    cppUsing.comment = CommentHelper.getDescription(francaMapType);
 
     storeResult(cppUsing);
     closeContext();
@@ -229,7 +230,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String enumName = CppNameRules.getEnumName(francaEnumerationType.getName());
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaEnumerationType);
     CppEnum cppEnum = CppEnum.createScoped(enumName, fullyQualifiedName);
-    cppEnum.comment = CppCommentParser.parse(francaEnumerationType).getMainBodyText();
+    cppEnum.comment = CommentHelper.getDescription(francaEnumerationType);
     cppEnum.items.addAll(getPreviousResults(CppEnumItem.class));
     storeResult(cppEnum);
 
@@ -245,7 +246,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String enumItemName = CppNameRules.getEnumEntryName(francaEnumerator.getName());
     CppValue cppValue = getPreviousResult(CppValue.class);
     CppEnumItem cppEnumItem = new CppEnumItem(enumItemName, cppValue);
-    cppEnumItem.comment = CppCommentParser.parse(francaEnumerator).getMainBodyText();
+    cppEnumItem.comment = CommentHelper.getDescription(francaEnumerator);
 
     storeResult(cppEnumItem);
     closeContext();
@@ -328,7 +329,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
       builder.qualifier(CppMethod.Qualifier.PURE_VIRTUAL);
     }
 
-    builder.comment(CppCommentParser.parse(francaMethod).getMainBodyText());
+    builder.comment(CommentHelper.getDescription(francaMethod));
 
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
         .filter(parameter -> !parameter.isOutput)
@@ -346,7 +347,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
         isUnion
             ? new CppTaggedUnion(name, fullyQualifiedName)
             : new CppStruct(name, fullyQualifiedName);
-    cppStruct.comment = CppCommentParser.parse(francaCompoundType).getMainBodyText();
+    cppStruct.comment = CommentHelper.getDescription(francaCompoundType);
 
     List<CppField> elements = getPreviousResults(CppField.class);
 

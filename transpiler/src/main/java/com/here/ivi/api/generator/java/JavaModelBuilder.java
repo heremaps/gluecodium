@@ -18,7 +18,7 @@ import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
 import com.here.ivi.api.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
-import com.here.ivi.api.generator.cpp.CppCommentParser;
+import com.here.ivi.api.model.franca.CommentHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.model.java.JavaMethod.MethodQualifier;
@@ -126,7 +126,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     }
 
     JavaMethod javaMethod = new JavaMethod(javaMethodName, returnType, javaExceptionTypeRef);
-    javaMethod.comment = CppCommentParser.FORMATTER.readDescription(francaMethod.getComment());
+    javaMethod.comment = CommentHelper.getDescription(francaMethod);
 
     if (deploymentModel.isStatic(francaMethod)) {
       javaMethod.qualifiers.add(MethodQualifier.STATIC);
@@ -183,7 +183,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaValue value = JavaValueMapper.map(javaType, francaConstant.getRhs());
     JavaConstant javaConstant =
         new JavaConstant(javaType, JavaNameRules.getConstantName(francaConstant.getName()), value);
-    javaConstant.comment = getCommentString(francaConstant);
+
+    javaConstant.comment = CommentHelper.getDescription(francaConstant);
 
     storeResult(javaConstant);
     closeContext();
@@ -202,7 +203,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     String fieldName = JavaNameRules.getFieldName(francaField.getName());
     JavaField javaField = new JavaField(javaType, fieldName, initialValue);
     javaField.visibility = JavaVisibility.PUBLIC;
-    javaField.comment = getCommentString(francaField);
+
+    javaField.comment = CommentHelper.getDescription(francaField);
 
     storeResult(javaField);
     closeContext();
@@ -223,7 +225,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             .build();
     javaClass.visibility = JavaVisibility.PUBLIC;
     javaClass.javaPackage = rootPackage;
-    javaClass.comment = getCommentString(francaStructType);
+
+    javaClass.comment = CommentHelper.getDescription(francaStructType);
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
     storeResult(javaClass);
 
@@ -246,7 +249,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaEnum javaEnum = new JavaEnum(JavaNameRules.getClassName(francaEnumType.getName()));
     javaEnum.visibility = JavaVisibility.PUBLIC;
     javaEnum.javaPackage = rootPackage;
-    javaEnum.comment = getCommentString(francaEnumType);
+
+    javaEnum.comment = CommentHelper.getDescription(francaEnumType);
     javaEnum.items.addAll(getPreviousResults(JavaEnumItem.class));
     JavaValueMapper.completePartialEnumeratorValues(javaEnum.items);
     storeResult(javaEnum);
@@ -269,7 +273,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     String enumItemName = JavaNameRules.getConstantName(francaEnumerator.getName());
     JavaValue javaValue = getPreviousResult(JavaValue.class);
     JavaEnumItem javaEnumItem = new JavaEnumItem(enumItemName, javaValue);
-    javaEnumItem.comment = getCommentString(francaEnumerator);
+
+    javaEnumItem.comment = CommentHelper.getDescription(francaEnumerator);
 
     storeResult(javaEnumItem);
     closeContext();
@@ -343,7 +348,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             .build();
     javaClass.visibility = JavaVisibility.PUBLIC;
     javaClass.javaPackage = rootPackage;
-    javaClass.comment = getCommentString(francaInterface);
+
+    javaClass.comment = CommentHelper.getDescription(francaInterface);
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
 
     javaClass.constants.addAll(getPreviousResults(JavaConstant.class));
@@ -356,24 +362,14 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     return javaClass;
   }
 
-  private static String getCommentString(FModelElement francaModelElement) {
-
-    String comment = "";
-    FAnnotationBlock francaComment = francaModelElement.getComment();
-    if (francaComment != null && francaComment.getElements() != null) {
-      comment = CppCommentParser.FORMATTER.readDescription(francaComment);
-    }
-
-    return comment;
-  }
-
   private JavaInterface createJavaInterface(final FInterface francaInterface) {
 
     JavaInterface javaInterface =
         new JavaInterface(JavaNameRules.getClassName(francaInterface.getName()));
     javaInterface.visibility = JavaVisibility.PUBLIC;
     javaInterface.javaPackage = rootPackage;
-    javaInterface.comment = getCommentString(francaInterface);
+
+    javaInterface.comment = CommentHelper.getDescription(francaInterface);
     javaInterface.constants.addAll(getPreviousResults(JavaConstant.class));
     javaInterface.enums.addAll(getPreviousResults(JavaEnum.class));
 
