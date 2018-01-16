@@ -1,3 +1,13 @@
+/*
+ * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
 package com.example.here.hello.app;
 
 import android.os.Bundle;
@@ -11,67 +21,69 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.example.here.hello.R;
 import com.example.here.hello.utils.InputMethodHelper;
 import com.here.android.hello.HelloWorldTypedefs;
-
 import java.util.Locale;
 
 public final class TypeDefFragment extends Fragment {
-    private static final String METHOD_DETAILS_TEXT = "%1$s:\n\n"
-            + "struct SomeStruct { String text }\n"
-            + "typedef RenamedStruct is SomeStruct\n"
-            + "typedef RenamedTwiceStruct is RenamedStruct\n\n"
-            + "method methodWithTypeDef {\n"
-            + "\t\tin { RenamedTwiceStruct input }\n"
-            + "\t\tout { RenamedTwiceStruct output }\n"
-            + "}";
+  private static final String METHOD_DETAILS_TEXT =
+      "%1$s:\n\n"
+          + "struct SomeStruct { String text }\n"
+          + "typedef RenamedStruct is SomeStruct\n"
+          + "typedef RenamedTwiceStruct is RenamedStruct\n\n"
+          + "method methodWithTypeDef {\n"
+          + "\t\tin { RenamedTwiceStruct input }\n"
+          + "\t\tout { RenamedTwiceStruct output }\n"
+          + "}";
 
-    private Button submitButton;
-    private TextView result;
-    private EditText input;
-    private TextView description;
-    private TextView methodDetails;
+  private Button submitButton;
+  private TextView result;
+  private EditText input;
+  private TextView description;
+  private TextView methodDetails;
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_typedef, container, false);
-        description = rootView.findViewById(R.id.typedef_description);
-        input = rootView.findViewById(R.id.typedef_edit);
-        result = rootView.findViewById(R.id.typedef_result);
-        submitButton = rootView.findViewById(R.id.typedef_submit_button);
-        methodDetails = rootView.findViewById(R.id.typedef_method_details);
-        return rootView;
-    }
+  @Override
+  public View onCreateView(
+      @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    View rootView = inflater.inflate(R.layout.fragment_typedef, container, false);
+    description = rootView.findViewById(R.id.typedef_description);
+    input = rootView.findViewById(R.id.typedef_edit);
+    result = rootView.findViewById(R.id.typedef_result);
+    submitButton = rootView.findViewById(R.id.typedef_submit_button);
+    methodDetails = rootView.findViewById(R.id.typedef_method_details);
+    return rootView;
+  }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        methodDetails.setText(
-                String.format(Locale.getDefault(),
-                        METHOD_DETAILS_TEXT,
-                        getResources().getString(R.string.typedef_method_details)));
-        description.setText(R.string.typedef_method_description);
-        submitButton.setOnClickListener(v -> {
-            HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct();
-            inputStruct.text = input.getText().toString();
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    methodDetails.setText(
+        String.format(
+            Locale.getDefault(),
+            METHOD_DETAILS_TEXT,
+            getResources().getString(R.string.typedef_method_details)));
+    description.setText(R.string.typedef_method_description);
+    submitButton.setOnClickListener(
+        v -> {
+          HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct();
+          inputStruct.text = input.getText().toString();
 
-            HelloWorldTypedefs.SomeStruct outputStruct
-                    = HelloWorldTypedefs.methodWithTypeDef(inputStruct);
+          HelloWorldTypedefs.SomeStruct outputStruct =
+              HelloWorldTypedefs.methodWithTypeDef(inputStruct);
 
-            result.setText(outputStruct.text);
+          result.setText(outputStruct.text);
 
-            // hide virtual keyboard
-            InputMethodHelper.hideSoftKeyboard(getContext(), result.getWindowToken());
+          // hide virtual keyboard
+          InputMethodHelper.hideSoftKeyboard(getContext(), result.getWindowToken());
         });
-        input.setOnEditorActionListener((textView, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                submitButton.performClick();
-                return true;
-            }
-            return false;
+    input.setOnEditorActionListener(
+        (textView, actionId, event) -> {
+          if (actionId == EditorInfo.IME_ACTION_DONE) {
+            submitButton.performClick();
+            return true;
+          }
+          return false;
         });
-    }
+  }
 }

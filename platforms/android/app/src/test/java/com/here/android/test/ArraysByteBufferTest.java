@@ -1,154 +1,169 @@
+/*
+ * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
 package com.here.android.test;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 
 import android.os.Build;
 import android.support.compat.BuildConfig;
-
 import com.here.android.RobolectricApplication;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
+@Config(
+  sdk = Build.VERSION_CODES.M,
+  application = RobolectricApplication.class,
+  constants = BuildConfig.class
+)
 public class ArraysByteBufferTest {
 
-    @Test
-    public void methodWithByteBuffer_emptyArray() {
-        byte[] byteBuffer = new byte[0];
+  @Test
+  public void methodWithByteBuffer_emptyArray() {
+    byte[] byteBuffer = new byte[0];
 
-        byte[] resultBuffer = ArraysByteBuffer.methodWithByteBuffer(byteBuffer);
+    byte[] resultBuffer = ArraysByteBuffer.methodWithByteBuffer(byteBuffer);
 
-        assertNotNull(resultBuffer);
-        assertEquals(0, resultBuffer.length);
-    }
+    assertNotNull(resultBuffer);
+    assertEquals(0, resultBuffer.length);
+  }
 
-    @Test
-    public void methodWithByteBuffer_reversesArray() {
-        byte[] byteBuffer = "Nonsense".getBytes();
+  @Test
+  public void methodWithByteBuffer_reversesArray() {
+    byte[] byteBuffer = "Nonsense".getBytes();
 
-        byte[] resultBuffer = ArraysByteBuffer.methodWithByteBuffer(byteBuffer);
+    byte[] resultBuffer = ArraysByteBuffer.methodWithByteBuffer(byteBuffer);
 
-        assertNotNull(resultBuffer);
-        assertEquals("esnesnoN", new String(resultBuffer));
-    }
+    assertNotNull(resultBuffer);
+    assertEquals("esnesnoN", new String(resultBuffer));
+  }
 
-    @Test
-    public void methodWithImplicitArray_emptyArray() {
-        List<Long> uintList = new ArrayList<>();
+  @Test
+  public void methodWithImplicitArray_emptyArray() {
+    List<Long> uintList = new ArrayList<>();
 
-        List<Long> resultList = ArraysByteBuffer.methodWithImplicitArray(uintList);
+    List<Long> resultList = ArraysByteBuffer.methodWithImplicitArray(uintList);
 
-        assertNotNull(resultList);
-        assertEquals(0, resultList.size());
-    }
+    assertNotNull(resultList);
+    assertEquals(0, resultList.size());
+  }
 
-    @Test
-    public void methodWithImplicitArray_reversesArray() {
-        List<Long> uintList = java.util.Arrays.asList(1L, 2L, 3L);
+  @Test
+  public void methodWithImplicitArray_reversesArray() {
+    List<Long> uintList = java.util.Arrays.asList(1L, 2L, 3L);
 
-        List<Long> resultList = ArraysByteBuffer.methodWithImplicitArray(uintList);
+    List<Long> resultList = ArraysByteBuffer.methodWithImplicitArray(uintList);
 
-        assertNotNull(resultList);
-        assertEquals(java.util.Arrays.asList(3L, 2L, 1L), resultList);
-    }
+    assertNotNull(resultList);
+    assertEquals(java.util.Arrays.asList(3L, 2L, 1L), resultList);
+  }
 
-    @Test
-    public void methodWithExplicitArray_emptyArray() {
-        List<Long> uintList = new ArrayList<>();
+  @Test
+  public void methodWithExplicitArray_emptyArray() {
+    List<Long> uintList = new ArrayList<>();
 
-        List<Long> resultList = ArraysByteBuffer.methodWithExplicitArray(uintList);
+    List<Long> resultList = ArraysByteBuffer.methodWithExplicitArray(uintList);
 
-        assertNotNull(resultList);
-        assertEquals(0, resultList.size());
-    }
+    assertNotNull(resultList);
+    assertEquals(0, resultList.size());
+  }
 
-    @Test
-    public void methodWithExplicitArray_reversesArray() {
-        List<Long> uintList = java.util.Arrays.asList(1L, 2L, 3L);
+  @Test
+  public void methodWithExplicitArray_reversesArray() {
+    List<Long> uintList = java.util.Arrays.asList(1L, 2L, 3L);
 
-        List<Long> resultList = ArraysByteBuffer.methodWithExplicitArray(uintList);
+    List<Long> resultList = ArraysByteBuffer.methodWithExplicitArray(uintList);
 
-        assertNotNull(resultList);
-        assertEquals(java.util.Arrays.asList(3L, 2L, 1L), resultList);
-    }
+    assertNotNull(resultList);
+    assertEquals(java.util.Arrays.asList(3L, 2L, 1L), resultList);
+  }
 
-    @Test
-    public void methodWithByteBufferInStruct_emptyArray() {
-        ArraysByteBuffer.StructWithByteBuffer struct = new ArraysByteBuffer.StructWithByteBuffer();
-        struct.image = new byte[0];
+  @Test
+  public void methodWithByteBufferInStruct_emptyArray() {
+    ArraysByteBuffer.StructWithByteBuffer struct = new ArraysByteBuffer.StructWithByteBuffer();
+    struct.image = new byte[0];
 
-        ArraysByteBuffer.StructWithByteBuffer resultStruct
-            = ArraysByteBuffer.methodWithByteBufferInStruct(struct);
+    ArraysByteBuffer.StructWithByteBuffer resultStruct =
+        ArraysByteBuffer.methodWithByteBufferInStruct(struct);
 
-        assertNotNull(resultStruct);
-        assertEquals(0, resultStruct.image.length);
-    }
+    assertNotNull(resultStruct);
+    assertEquals(0, resultStruct.image.length);
+  }
 
-    @Test
-    public void methodWithByteBufferInStruct_reversesArray() {
-        ArraysByteBuffer.StructWithByteBuffer struct = new ArraysByteBuffer.StructWithByteBuffer();
-        struct.image = "Nonsense".getBytes();
+  @Test
+  public void methodWithByteBufferInStruct_reversesArray() {
+    ArraysByteBuffer.StructWithByteBuffer struct = new ArraysByteBuffer.StructWithByteBuffer();
+    struct.image = "Nonsense".getBytes();
 
-        ArraysByteBuffer.StructWithByteBuffer resultStruct
-            = ArraysByteBuffer.methodWithByteBufferInStruct(struct);
+    ArraysByteBuffer.StructWithByteBuffer resultStruct =
+        ArraysByteBuffer.methodWithByteBufferInStruct(struct);
 
-        assertNotNull(resultStruct);
-        assertEquals("esnesnoN", new String(resultStruct.image));
-    }
+    assertNotNull(resultStruct);
+    assertEquals("esnesnoN", new String(resultStruct.image));
+  }
 
-    @Test
-    public void methodWithImplicitArrayInStruct_emptyArray() {
-        ArraysByteBuffer.StructWithImplicitArray struct = new ArraysByteBuffer.StructWithImplicitArray();
-        struct.image = new ArrayList<>();
+  @Test
+  public void methodWithImplicitArrayInStruct_emptyArray() {
+    ArraysByteBuffer.StructWithImplicitArray struct =
+        new ArraysByteBuffer.StructWithImplicitArray();
+    struct.image = new ArrayList<>();
 
-        ArraysByteBuffer.StructWithImplicitArray resultStruct
-            = ArraysByteBuffer.methodWithImplicitArrayInStruct(struct);
+    ArraysByteBuffer.StructWithImplicitArray resultStruct =
+        ArraysByteBuffer.methodWithImplicitArrayInStruct(struct);
 
-        assertNotNull(resultStruct);
-        assertEquals(0, resultStruct.image.size());
-    }
+    assertNotNull(resultStruct);
+    assertEquals(0, resultStruct.image.size());
+  }
 
-    @Test
-    public void methodWithImplicitArrayInStruct_reversesArray() {
-        ArraysByteBuffer.StructWithImplicitArray struct = new ArraysByteBuffer.StructWithImplicitArray();
-        struct.image = java.util.Arrays.asList(1L, 2L, 3L);
+  @Test
+  public void methodWithImplicitArrayInStruct_reversesArray() {
+    ArraysByteBuffer.StructWithImplicitArray struct =
+        new ArraysByteBuffer.StructWithImplicitArray();
+    struct.image = java.util.Arrays.asList(1L, 2L, 3L);
 
-        ArraysByteBuffer.StructWithImplicitArray resultStruct
-            = ArraysByteBuffer.methodWithImplicitArrayInStruct(struct);
+    ArraysByteBuffer.StructWithImplicitArray resultStruct =
+        ArraysByteBuffer.methodWithImplicitArrayInStruct(struct);
 
-        assertNotNull(resultStruct);
-        assertEquals(java.util.Arrays.asList(3L, 2L, 1L), resultStruct.image);
-    }
+    assertNotNull(resultStruct);
+    assertEquals(java.util.Arrays.asList(3L, 2L, 1L), resultStruct.image);
+  }
 
-    @Test
-    public void methodWithExplicitArrayInStruct_emptyArray() {
-        ArraysByteBuffer.StructWithExplicitArray struct = new ArraysByteBuffer.StructWithExplicitArray();
-        struct.image = new ArrayList<>();
+  @Test
+  public void methodWithExplicitArrayInStruct_emptyArray() {
+    ArraysByteBuffer.StructWithExplicitArray struct =
+        new ArraysByteBuffer.StructWithExplicitArray();
+    struct.image = new ArrayList<>();
 
-        ArraysByteBuffer.StructWithExplicitArray resultStruct
-            = ArraysByteBuffer.methodWithExplicitArrayInStruct(struct);
+    ArraysByteBuffer.StructWithExplicitArray resultStruct =
+        ArraysByteBuffer.methodWithExplicitArrayInStruct(struct);
 
-        assertNotNull(resultStruct);
-        assertEquals(0, resultStruct.image.size());
-    }
+    assertNotNull(resultStruct);
+    assertEquals(0, resultStruct.image.size());
+  }
 
-    @Test
-    public void methodWithExplicitArrayInStruct_reversesArray() {
-        ArraysByteBuffer.StructWithExplicitArray struct = new ArraysByteBuffer.StructWithExplicitArray();
-        struct.image = java.util.Arrays.asList(1L, 2L, 3L);
+  @Test
+  public void methodWithExplicitArrayInStruct_reversesArray() {
+    ArraysByteBuffer.StructWithExplicitArray struct =
+        new ArraysByteBuffer.StructWithExplicitArray();
+    struct.image = java.util.Arrays.asList(1L, 2L, 3L);
 
-        ArraysByteBuffer.StructWithExplicitArray resultStruct
-            = ArraysByteBuffer.methodWithExplicitArrayInStruct(struct);
+    ArraysByteBuffer.StructWithExplicitArray resultStruct =
+        ArraysByteBuffer.methodWithExplicitArrayInStruct(struct);
 
-        assertNotNull(resultStruct);
-        assertEquals(java.util.Arrays.asList(3L, 2L, 1L), resultStruct.image);
-    }
+    assertNotNull(resultStruct);
+    assertEquals(java.util.Arrays.asList(3L, 2L, 1L), resultStruct.image);
+  }
 }

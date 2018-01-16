@@ -10,63 +10,64 @@
  */
 package com.here.android.test;
 
-import android.os.Build;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
+import android.os.Build;
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class, constants = BuildConfig.class)
+@Config(
+  sdk = Build.VERSION_CODES.M,
+  application = RobolectricApplication.class,
+  constants = BuildConfig.class
+)
 public final class StaticStringMethodsTest {
-    @Test
-    public void returnInputString() {
-        // Arrange
-        String inputString = "Foo";
+  @Test
+  public void returnInputString() {
+    // Arrange
+    String inputString = "Foo";
 
-        // Act
-        String returnedString = StaticStringMethods.returnInputString(inputString);
+    // Act
+    String returnedString = StaticStringMethods.returnInputString(inputString);
 
-        // Assert
-        assertEquals(inputString, returnedString);
-    }
+    // Assert
+    assertEquals(inputString, returnedString);
+  }
 
-    @Test
-    public void concatenateStrings() {
-        // Arrange
-        String inputString1 = "Hello";
-        String inputString2 = "World";
+  @Test
+  public void concatenateStrings() {
+    // Arrange
+    String inputString1 = "Hello";
+    String inputString2 = "World";
 
-        // Act
-        String returnedString = StaticStringMethods.concatenateStrings(inputString1, inputString2);
+    // Act
+    String returnedString = StaticStringMethods.concatenateStrings(inputString1, inputString2);
 
-        // Assert
-        assertEquals(inputString1 + inputString2, returnedString);
-    }
+    // Assert
+    assertEquals(inputString1 + inputString2, returnedString);
+  }
 
-    @Test
-    public void returnHelloString() {
-        // Arrange, act
-        String returnedString = StaticStringMethods.returnHelloString();
+  @Test
+  public void returnHelloString() {
+    // Arrange, act
+    String returnedString = StaticStringMethods.returnHelloString();
 
-        // Assert
-        assertEquals("hello", returnedString);
-    }
+    // Assert
+    assertEquals("hello", returnedString);
+  }
 
-    @Test
-    public void returnEmpty() {
-        // Arrange, act
-        String returnedString = StaticStringMethods.returnEmpty();
+  @Test
+  public void returnEmpty() {
+    // Arrange, act
+    String returnedString = StaticStringMethods.returnEmpty();
 
-        // Assert
-        assertTrue(returnedString.isEmpty());
-    }
+    // Assert
+    assertTrue(returnedString.isEmpty());
+  }
 }
-
