@@ -29,7 +29,6 @@ interface Comments {
     <** @description: This is some very useful constant. **>
     const Usefulness VeryUseful = true
 
-
     <** @description: This is some very useful struct. **>
     struct SomeStruct {
         <** @description: How useful this struct is **>
