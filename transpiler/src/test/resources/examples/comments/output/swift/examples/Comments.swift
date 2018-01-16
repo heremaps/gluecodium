@@ -33,6 +33,9 @@ public class Comments {
     }
     let c_instance : _baseRef
     public init?(cComments: _baseRef) {
+        guard cComments.private_pointer != nil else {
+            return nil
+        }
         c_instance = cComments
     }
     deinit {
@@ -67,7 +70,6 @@ public class Comments {
         }
         internal func convertToCType() -> _baseRef {
             let result = examples_Comments_SomeStruct_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -77,8 +79,8 @@ public class Comments {
     }
     /**
      This is some very useful method that measures the usefulness of its input.
-     - parameter input: Very useful input parameter
-     - returns: Usefulness of the input
+     - Parameter input: Very useful input parameter
+     - Returns: Usefulness of the input
      */
     public func someMethod(input: String) -> Comments.Usefulness {
         return examples_Comments_someMethod(c_instance, input)

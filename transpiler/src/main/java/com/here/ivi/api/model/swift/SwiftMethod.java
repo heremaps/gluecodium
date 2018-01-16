@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public final class SwiftMethod extends SwiftModelElement {
 
   public final SwiftType returnType;
+  public final String returnComment;
   public final List<SwiftParameter> parameters;
   public final boolean isStatic;
   public final String cNestedSpecifier;
@@ -34,6 +35,7 @@ public final class SwiftMethod extends SwiftModelElement {
       final String name,
       final String comment,
       final SwiftType returnType,
+      final String returnComment,
       final boolean isStatic,
       final String cNestedSpecifier,
       final String cShortName,
@@ -44,6 +46,7 @@ public final class SwiftMethod extends SwiftModelElement {
     super(name);
     this.comment = comment;
     this.returnType = returnType != null ? returnType : SwiftType.VOID;
+    this.returnComment = returnComment != null ? returnComment : "";
     this.isStatic = isStatic;
     this.cNestedSpecifier = cNestedSpecifier != null ? cNestedSpecifier : "";
     this.cShortName = cShortName != null ? cShortName : "";

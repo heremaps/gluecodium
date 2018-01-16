@@ -86,7 +86,7 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator.expect(
             "/**\n"
-                + " * One really classy example\n"
+                + " One really classy example\n"
                 + " */\n"
                 + "public protocol ExampleClassWithComment : AnyObject {\n"
                 + "}\n")
@@ -221,14 +221,14 @@ public class SwiftFileTemplateTest {
     TemplateComparator.expect(
             "public protocol CommentedExampleClass : AnyObject {\n"
                 + "    /**\n"
-                + "     * Do something\n"
+                + "     Do something\n"
                 + "     */\n"
                 + "    func myMethod(myParameter: String) -> Int\n"
                 + "}\n")
         .expect("internal class _CommentedExampleClass: CommentedExampleClass {")
         .expect(
             "    /**\n"
-                + "     * Do something\n"
+                + "     Do something\n"
                 + "     */\n"
                 + "    public func myMethod(myParameter: String) -> Int {\n"
                 + "        return CommentedExampleClass_myMethod(c_instance, myParameter)\n"
@@ -633,7 +633,7 @@ public class SwiftFileTemplateTest {
     final String expected =
         "import Foundation\n"
             + "/**\n"
-            + " * Some comment on enum type\n"
+            + " Some comment on enum type\n"
             + " */\n"
             + "public enum EnumSwiftName : UInt32 {\n"
             + "}\n";
@@ -660,11 +660,11 @@ public class SwiftFileTemplateTest {
     final String expected =
         "import Foundation\n"
             + "/**\n"
-            + " * Some comment on enum type\n"
+            + " Some comment on enum type\n"
             + " */\n"
             + "public enum EnumSwiftName : UInt32 {\n"
             + "    /**\n"
-            + "     * Some comment on enumerator\n"
+            + "     Some comment on enumerator\n"
             + "     */\n"
             + "    case ItemName = VALUE\n"
             + "}\n";
@@ -687,7 +687,7 @@ public class SwiftFileTemplateTest {
             .expect("internal class _TestInterface {")
             .expect(
                 "/**\n"
-                    + " * Some comment on enum type\n"
+                    + " Some comment on enum type\n"
                     + " */\n"
                     + "public enum EnumSwiftName : UInt32 {\n"
                     + "}\n")

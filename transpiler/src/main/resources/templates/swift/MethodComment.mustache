@@ -1,0 +1,11 @@
+{{#if comment}}
+/**
+{{prefix comment " "}}
+{{#parameters}}
+{{#if this.comment}} - Parameter {{name}}: {{comment}}{{/if}}
+{{/parameters}}
+{{#if returnComment}}
+ - Returns: {{returnComment}}
+{{/if}}
+ */
+{{/if}}

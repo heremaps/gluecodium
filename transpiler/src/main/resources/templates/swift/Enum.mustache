@@ -1,9 +1,9 @@
-{{#comment}}{{>swift/Comment}}{{/comment}}
+{{>swift/Comment}}
 public enum {{simpleName}} : UInt32 {
 {{#items}}{{prefixPartial "enumItem" "    "}}
 {{/items}}
 }
 
-{{+enumItem}}{{#comment}}{{>swift/Comment}}{{/comment}}
+{{+enumItem}}{{>swift/Comment}}
 case {{name}}{{#if value}} = {{value}}{{/if}}{{/enumItem}}
 
