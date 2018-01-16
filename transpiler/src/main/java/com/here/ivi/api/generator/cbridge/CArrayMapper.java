@@ -15,14 +15,12 @@ import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_FI
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
-import static java.util.Collections.singletonList;
 
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.model.cbridge.CArray;
 import com.here.ivi.api.model.cbridge.CType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.InstanceRules;
-import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
@@ -31,17 +29,15 @@ public final class CArrayMapper {
   public static CppTypeInfo createArrayReference(final CppTypeInfo innerType) {
 
     CType arrayType = new CType(BASE_REF_NAME, Include.createInternalInclude(BASE_HANDLE_FILE));
-    CppTypeInfo type =
-        new CppTypeInfo(
-            "std::vector<" + innerType.name + ">",
-            singletonList(arrayType),
-            singletonList(""),
-            arrayType,
-            ARRAY,
-            Arrays.asList(
-                Include.createInternalInclude(BASE_HANDLE_IMPL_FILE), CppLibraryIncludes.VECTOR));
-    type.innerType = innerType;
-    return type;
+
+    return CppTypeInfo.builder("std::vector<" + innerType.name + ">")
+        .constructFromCType(arrayType)
+        .functionReturnType(arrayType)
+        .category(ARRAY)
+        .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
+        .include(CppLibraryIncludes.VECTOR)
+        .innerType(innerType)
+        .build();
   }
 
   public static CArray createArrayDefinition(final FType francaArray, final CppTypeInfo innerType) {

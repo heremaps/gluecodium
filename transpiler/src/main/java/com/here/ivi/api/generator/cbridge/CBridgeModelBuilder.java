@@ -74,7 +74,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   @Override
   public void startBuilding(FInterface francaInterface) {
     super.startBuilding(francaInterface);
-    storeResult(CppTypeInfo.createCustomTypeInfo(resolver, francaInterface, CLASS));
+    storeResult(CTypeMapper.createCustomTypeInfo(resolver, francaInterface, CLASS));
   }
 
   @Override
@@ -152,7 +152,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             .returnType(returnParam.mappedType)
             .error(
                 francaMethod.getErrorEnum() != null
-                    ? CppTypeInfo.createErrorTypeInfo(resolver, francaMethod.getErrorEnum())
+                    ? CTypeMapper.createErrorTypeInfo(resolver, francaMethod.getErrorEnum())
                     : null)
             .delegateCallIncludes(
                 Collections.singleton(
@@ -196,7 +196,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
         new CStruct(
             CBridgeNameRules.getStructBaseName(francaStruct),
             CBridgeNameRules.getBaseApiStructName(francaStruct),
-            CppTypeInfo.createCustomTypeInfo(resolver, francaStruct, STRUCT));
+            CTypeMapper.createCustomTypeInfo(resolver, francaStruct, STRUCT));
 
     CStruct parentStruct = getPreviousResult(CStruct.class);
     if (parentStruct != null) {

@@ -67,7 +67,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({
   CTypeMapper.class,
   CppNameRules.class,
-  CppTypeInfo.class,
   CArrayMapper.class,
   CBridgeNameRules.class,
   SwiftNameRules.class
@@ -119,7 +118,6 @@ public class CBridgeModelBuilderTest {
     mockStatic(
         CTypeMapper.class,
         CppNameRules.class,
-        CppTypeInfo.class,
         CBridgeNameRules.class,
         CArrayMapper.class,
         SwiftNameRules.class);
@@ -133,7 +131,7 @@ public class CBridgeModelBuilderTest {
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(CppMethod.builder().build());
     when(swiftModelBuilder.getFinalResult(SwiftMethod.class)).thenReturn(swiftMethod);
 
-    when(CppTypeInfo.createCustomTypeInfo(any(), any(), any())).thenReturn(typeInfo);
+    when(CTypeMapper.createCustomTypeInfo(any(), any(), any())).thenReturn(typeInfo);
 
     when(deploymentModel.isStatic(any())).thenReturn(true);
 

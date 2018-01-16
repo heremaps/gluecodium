@@ -12,10 +12,8 @@
 package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.STRING_HANDLE_FILE;
 import static com.here.ivi.api.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
-import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -23,13 +21,11 @@ import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.model.cbridge.CElement;
 import com.here.ivi.api.model.cbridge.CPointerType;
 import com.here.ivi.api.model.cbridge.CType;
-import com.here.ivi.api.model.cbridge.IncludeResolver;
-import com.here.ivi.api.model.cbridge.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-import org.franca.core.franca.*;
+import lombok.Singular;
 
 public final class CppTypeInfo extends CElement {
 
@@ -38,7 +34,7 @@ public final class CppTypeInfo extends CElement {
   public CType functionReturnType;
   public TypeCategory typeCategory;
   public final List<Include> includes;
-  public CppTypeInfo innerType;
+  public final CppTypeInfo innerType;
 
   public enum TypeCategory {
     BUILTIN_SIMPLE,
@@ -51,109 +47,62 @@ public final class CppTypeInfo extends CElement {
   }
 
   public static final CppTypeInfo STRING =
-      new CppTypeInfo(
-          "std::string",
-          singletonList(CPointerType.CONST_CHAR_PTR),
-          singletonList(""),
-          CType.STRING_REF,
-          TypeCategory.BUILTIN_STRING,
-          Arrays.asList(
-              CppLibraryIncludes.STRING,
-              CppLibraryIncludes.NEW,
-              Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
-              Include.createInternalInclude(STRING_HANDLE_FILE)));
+      CppTypeInfo.builder("std::string")
+          .constructFromCType(CPointerType.CONST_CHAR_PTR)
+          .functionReturnType(CType.STRING_REF)
+          .category(TypeCategory.BUILTIN_STRING)
+          .include(CppLibraryIncludes.STRING)
+          .include(CppLibraryIncludes.NEW)
+          .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
+          .include(Include.createInternalInclude(STRING_HANDLE_FILE))
+          .build();
 
   public static final CppTypeInfo BYTE_VECTOR =
-      new CppTypeInfo(
-          "std::vector<uint8_t>",
-          asList(CPointerType.makeConstPointer(CType.UINT8), CType.INT64),
-          asList("_ptr", "_size"),
-          CType.BYTE_ARRAY_REF,
-          TypeCategory.BUILTIN_BYTEBUFFER,
-          Arrays.asList(
-              CppLibraryIncludes.NEW,
-              CppLibraryIncludes.VECTOR,
-              FIXED_WIDTH_INTEGERS_INCLUDE,
-              Include.createInternalInclude(BASE_HANDLE_IMPL_FILE)));
+      CppTypeInfo.builder("std::vector<uint8_t>")
+          .constructFromCType(CPointerType.makeConstPointer(CType.UINT8))
+          .constructFromCType(CType.INT64)
+          .paramSuffix("_ptr")
+          .paramSuffix("_size")
+          .functionReturnType(CType.BYTE_ARRAY_REF)
+          .category(TypeCategory.BUILTIN_BYTEBUFFER)
+          .include(CppLibraryIncludes.NEW)
+          .include(CppLibraryIncludes.VECTOR)
+          .include(FIXED_WIDTH_INTEGERS_INCLUDE)
+          .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
+          .build();
 
-  public static CppTypeInfo createCustomTypeInfo(
-      final IncludeResolver resolver,
-      final FModelElement elementType,
-      final TypeCategory category) {
-
-    String handleName = BASE_REF_NAME;
-    String baseAPIName = CBridgeNameRules.getBaseApiName(elementType, category);
-    String baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseAPIName);
-
-    return new CppTypeInfo(
-        baseApiCall,
-        singletonList(
-            new CType(
-                handleName,
-                resolver.resolveInclude(elementType, HeaderType.CBRIDGE_PUBLIC_HEADER))),
-        singletonList(""),
-        new CType(
-            handleName, resolver.resolveInclude(elementType, HeaderType.CBRIDGE_PUBLIC_HEADER)),
-        category,
-        resolveIncludes(resolver, elementType));
-  }
-
-  private static List<Include> resolveIncludes(
-      final IncludeResolver resolver, FModelElement element) {
-    return new ArrayList<>(
-        Arrays.asList(
-            resolver.resolveInclude(element, HeaderType.CBRIDGE_PUBLIC_HEADER),
-            resolver.resolveInclude(element, HeaderType.CBRIDGE_PRIVATE_HEADER),
-            resolver.resolveInclude(element, HeaderType.BASE_API_HEADER),
-            CppLibraryIncludes.MEMORY,
-            CppLibraryIncludes.NEW));
-  }
-
-  public static CppTypeInfo createEnumTypeInfo(
-      final IncludeResolver resolver, final FEnumerationType francaEnum) {
-    CType enumCType =
-        new CType(
-            CBridgeNameRules.getEnumName(francaEnum),
-            resolver.resolveInclude(francaEnum, HeaderType.CBRIDGE_PUBLIC_HEADER));
-    return new CppTypeInfo(
-        CBridgeNameRules.getBaseApiEnumName(francaEnum),
-        singletonList(enumCType),
-        singletonList(""),
-        enumCType,
-        TypeCategory.ENUM,
-        emptyList());
-  }
-
-  public static CppTypeInfo createErrorTypeInfo(
-      final IncludeResolver resolver, final FEnumerationType francaEnum) {
-    CppTypeInfo errorEnumInfo = createEnumTypeInfo(resolver, francaEnum);
-    errorEnumInfo.functionReturnType.includes.add(CType.BOOL_INCLUDE);
-    return errorEnumInfo;
-  }
-
-  // TODO (APIGEN-625): refactor this
   @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
-  public CppTypeInfo(
-      String baseType,
-      List<CType> constructFromCTypes,
-      List<String> paramSuffixes,
-      CType functionReturnType,
-      TypeCategory category,
-      List<Include> includes) {
-    super(baseType);
-    this.paramSuffixes = paramSuffixes;
+  @lombok.Builder(builderClassName = "Builder")
+  private CppTypeInfo(
+      final String name,
+      @Singular final List<CType> constructFromCTypes,
+      @Singular final List<String> paramSuffixes,
+      final CType functionReturnType,
+      final TypeCategory category,
+      @Singular final List<Include> includes,
+      final CppTypeInfo innerType) {
+    super(name);
     this.cTypesNeededByConstructor = constructFromCTypes;
+    this.paramSuffixes =
+        paramSuffixes != null && !paramSuffixes.isEmpty()
+            ? paramSuffixes
+            : new LinkedList<>(Collections.singletonList(""));
     this.functionReturnType = functionReturnType;
     this.typeCategory = category;
     this.includes = includes;
+    this.innerType = innerType;
   }
 
   public CppTypeInfo(CType type, TypeCategory category) {
-    this(type.name, singletonList(type), singletonList(""), type, category, emptyList());
+    this(type.name, singletonList(type), singletonList(""), type, category, emptyList(), null);
   }
 
   public CppTypeInfo(CType type) {
     this(type, TypeCategory.BUILTIN_SIMPLE);
+  }
+
+  public static Builder builder(final String name) {
+    return new Builder().name(name);
   }
 
   public boolean isStruct() {

@@ -11,13 +11,16 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.*;
 import static com.here.ivi.api.model.cbridge.CType.VOID;
 import static com.here.ivi.api.model.common.InstanceRules.isInstanceId;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
+import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.model.cbridge.CType;
 import com.here.ivi.api.model.cbridge.IncludeResolver;
+import com.here.ivi.api.model.common.Include;
 import org.franca.core.franca.*;
 
 public final class CTypeMapper {
@@ -39,11 +42,11 @@ public final class CTypeMapper {
 
   private static CppTypeInfo mapType(IncludeResolver resolver, FType derived) {
     if (derived instanceof FStructType) {
-      return CppTypeInfo.createCustomTypeInfo(resolver, derived, STRUCT);
+      return createCustomTypeInfo(resolver, derived, STRUCT);
     } else if (derived instanceof FTypeDef) {
       return mapTypeDef(resolver, (FTypeDef) derived);
     } else if (derived instanceof FEnumerationType) {
-      return CppTypeInfo.createEnumTypeInfo(resolver, (FEnumerationType) derived);
+      return createEnumTypeInfo(resolver, (FEnumerationType) derived);
     } else if (derived instanceof FArrayType) {
       CppTypeInfo innerType = mapType(resolver, ((FArrayType) derived).getElementType());
       return CArrayMapper.createArrayReference(innerType);
@@ -54,7 +57,7 @@ public final class CTypeMapper {
 
   private static CppTypeInfo mapTypeDef(IncludeResolver resolver, FTypeDef derived) {
     if (isInstanceId(derived)) {
-      return CppTypeInfo.createCustomTypeInfo(resolver, derived, CLASS);
+      return createCustomTypeInfo(resolver, derived, CLASS);
     } else {
       return mapType(resolver, derived.getActualType());
     }
@@ -93,5 +96,56 @@ public final class CTypeMapper {
         return CppTypeInfo.BYTE_VECTOR;
     }
     return new CppTypeInfo(VOID);
+  }
+
+  public static CppTypeInfo createCustomTypeInfo(
+      final IncludeResolver resolver,
+      final FModelElement elementType,
+      final CppTypeInfo.TypeCategory category) {
+
+    String baseAPIName = CBridgeNameRules.getBaseApiName(elementType, category);
+    String baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseAPIName);
+
+    Include publicInclude =
+        resolver.resolveInclude(elementType, IncludeResolver.HeaderType.CBRIDGE_PUBLIC_HEADER);
+    Include privateInclude =
+        resolver.resolveInclude(elementType, IncludeResolver.HeaderType.CBRIDGE_PRIVATE_HEADER);
+    Include baseApiInclude =
+        resolver.resolveInclude(elementType, IncludeResolver.HeaderType.BASE_API_HEADER);
+
+    CType structCType = new CType(BASE_REF_NAME, publicInclude);
+
+    return CppTypeInfo.builder(baseApiCall)
+        .constructFromCType(structCType)
+        .functionReturnType(structCType)
+        .category(category)
+        .include(publicInclude)
+        .include(privateInclude)
+        .include(baseApiInclude)
+        .include(CppLibraryIncludes.MEMORY)
+        .include(CppLibraryIncludes.NEW)
+        .build();
+  }
+
+  public static CppTypeInfo createEnumTypeInfo(
+      final IncludeResolver resolver, final FEnumerationType francaEnum) {
+
+    CType enumCType =
+        new CType(
+            CBridgeNameRules.getEnumName(francaEnum),
+            resolver.resolveInclude(francaEnum, IncludeResolver.HeaderType.CBRIDGE_PUBLIC_HEADER));
+
+    return CppTypeInfo.builder(CBridgeNameRules.getBaseApiEnumName(francaEnum))
+        .constructFromCType(enumCType)
+        .functionReturnType(enumCType)
+        .category(ENUM)
+        .build();
+  }
+
+  public static CppTypeInfo createErrorTypeInfo(
+      final IncludeResolver resolver, final FEnumerationType francaEnum) {
+    CppTypeInfo errorEnumInfo = createEnumTypeInfo(resolver, francaEnum);
+    errorEnumInfo.functionReturnType.includes.add(CType.BOOL_INCLUDE);
+    return errorEnumInfo;
   }
 }

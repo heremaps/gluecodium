@@ -11,7 +11,8 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -20,8 +21,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.cbridge.CType;
 import com.here.ivi.api.model.cbridge.IncludeResolver;
+import com.here.ivi.api.model.franca.DefinedBy;
 import org.franca.core.franca.*;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,19 +31,25 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CppTypeInfo.class, FrancaTypeHelper.class})
+@PrepareForTest({FrancaTypeHelper.class, DefinedBy.class})
 public class CBridgeTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
   @Mock private FTypeRef francaTypeRef2;
   @Mock private FTypeDef francaTypeDef;
   @Mock private FStructType francaStructType;
+  @Mock private FTypeCollection francaTypeCollection;
+
   @Mock private IncludeResolver resolver;
-  @Mock private CppTypeInfo typeInfo;
 
   @Before
   public void setUp() {
-    mockStatic(CppTypeInfo.class, FrancaTypeHelper.class);
+    mockStatic(FrancaTypeHelper.class, DefinedBy.class);
+
+    when(francaStructType.getName()).thenReturn("foo");
+
+    when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
+        .thenReturn(francaTypeCollection);
   }
 
   @Test
@@ -50,11 +57,10 @@ public class CBridgeTypeMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef2);
     when(francaTypeRef2.getDerived()).thenReturn(francaStructType);
-    when(CppTypeInfo.createCustomTypeInfo(any(), any(), any())).thenReturn(typeInfo);
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
 
-    Assert.assertSame(typeInfo, mapped);
+    assertEquals("Foo", mapped.name);
   }
 
   @Test
@@ -65,16 +71,15 @@ public class CBridgeTypeMapperTest {
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
 
-    Assert.assertSame(CType.BOOL.name, mapped.name);
+    assertEquals(CType.BOOL.name, mapped.name);
   }
 
   public void mapStructType() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
-    when(CppTypeInfo.createCustomTypeInfo(any(), any(), any())).thenReturn(typeInfo);
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
 
-    Assert.assertSame(typeInfo, mapped);
+    assertEquals("Foo", mapped.name);
   }
 
   @Test
@@ -82,19 +87,18 @@ public class CBridgeTypeMapperTest {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
-    Assert.assertEquals(CType.BOOL.name, mapped.name);
+    assertEquals(CType.BOOL.name, mapped.name);
   }
 
   @Test
   public void mapEnumerationType() {
     FEnumerationType enumerationType = mock(FEnumerationType.class);
-    CppTypeInfo fakeType = new CppTypeInfo(new CType(""));
+    when(enumerationType.getName()).thenReturn("foo");
     when(francaTypeRef.getDerived()).thenReturn(enumerationType);
-    when(CppTypeInfo.createEnumTypeInfo(resolver, enumerationType)).thenReturn(fakeType);
 
     CppTypeInfo actualType = CTypeMapper.mapType(resolver, francaTypeRef);
 
-    assertSame(fakeType, actualType);
+    assertEquals("Foo", actualType.name);
   }
 
   @Test
@@ -104,8 +108,8 @@ public class CBridgeTypeMapperTest {
 
     CppTypeInfo actualType = CTypeMapper.mapType(resolver, francaTypeRef);
 
-    Assert.assertEquals(actualType.typeCategory, CppTypeInfo.TypeCategory.ARRAY);
-    Assert.assertNotNull(actualType.innerType);
-    Assert.assertEquals(actualType.innerType.functionReturnType.name, "uint64_t");
+    assertEquals(actualType.typeCategory, CppTypeInfo.TypeCategory.ARRAY);
+    assertNotNull(actualType.innerType);
+    assertEquals(actualType.innerType.functionReturnType.name, "uint64_t");
   }
 }
