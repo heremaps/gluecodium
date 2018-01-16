@@ -94,10 +94,11 @@ public class JniModelBuilderTest {
   private final MockContextStack<JniElement> contextStack = new MockContextStack<>();
 
   private final JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null);
-  private final JavaMethod javaGetter = new JavaMethod("getFoo", new JavaCustomType("FooType"));
+  private final JavaMethod javaGetter =
+      JavaMethod.builder("getFoo").returnType(new JavaCustomType("FooType")).build();
   private final CppMethod cppGetter =
       new CppMethod.Builder("shootFoot").returnType(CppPrimitiveTypeRef.INT32).build();
-  private final JavaMethod javaSetter = new JavaMethod("setFoo", JavaPrimitiveType.VOID);
+  private final JavaMethod javaSetter = JavaMethod.builder("setFoo").build();
   private final CppMethod cppSetter = new CppMethod.Builder("shootBothFeet").build();
   private final JniType jniType = JniType.createType(javaCustomType, cppCustomType);
 
@@ -125,7 +126,8 @@ public class JniModelBuilderTest {
   }
 
   private static JavaMethod createJavaMethod() {
-    JavaMethod javaMethod = new JavaMethod(JAVA_INT_METHOD_NAME, JavaPrimitiveType.INT);
+    JavaMethod javaMethod =
+        JavaMethod.builder(JAVA_INT_METHOD_NAME).returnType(JavaPrimitiveType.INT).build();
     javaMethod.parameters.add(new JavaParameter(JavaPrimitiveType.INT, BASE_NAME_PARAMETER));
     return javaMethod;
   }
@@ -151,7 +153,8 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaMethodVoid() {
     //arrange
-    when(javaBuilder.getFinalResult(any())).thenReturn(new JavaMethod(JAVA_VOID_METHOD_NAME));
+    when(javaBuilder.getFinalResult(any()))
+        .thenReturn(JavaMethod.builder(JAVA_VOID_METHOD_NAME).build());
     when(cppBuilder.getFinalResult(any()))
         .thenReturn(new CppMethod.Builder(CPP_VOID_METHOD_NAME).build());
 
@@ -243,10 +246,10 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaMethodReadsExceptionName() {
     JavaMethod javaMethod =
-        new JavaMethod(
-            JAVA_INT_METHOD_NAME,
-            JavaPrimitiveType.INT,
-            new JavaCustomType("FooException", JavaPackage.DEFAULT));
+        JavaMethod.builder(JAVA_INT_METHOD_NAME)
+            .returnType(JavaPrimitiveType.INT)
+            .exception(new JavaCustomType("FooException", JavaPackage.DEFAULT))
+            .build();
     javaMethod.parameters.add(new JavaParameter(JavaPrimitiveType.INT, BASE_NAME_PARAMETER));
     when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
     when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
@@ -261,10 +264,10 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaMethodReadsExceptionEnum() {
     JavaMethod javaMethod =
-        new JavaMethod(
-            JAVA_INT_METHOD_NAME,
-            JavaPrimitiveType.INT,
-            new JavaCustomType("FooException", JavaPackage.DEFAULT));
+        JavaMethod.builder(JAVA_INT_METHOD_NAME)
+            .returnType(JavaPrimitiveType.INT)
+            .exception(new JavaCustomType("FooException", JavaPackage.DEFAULT))
+            .build();
     javaMethod.parameters.add(new JavaParameter(JavaPrimitiveType.INT, BASE_NAME_PARAMETER));
     when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
     when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());

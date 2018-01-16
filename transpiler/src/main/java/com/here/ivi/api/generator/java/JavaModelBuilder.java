@@ -125,7 +125,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       javaExceptionTypeRef = new JavaCustomType(exceptionName, exceptionPackage);
     }
 
-    JavaMethod javaMethod = new JavaMethod(javaMethodName, returnType, javaExceptionTypeRef);
+    JavaMethod javaMethod =
+        JavaMethod.builder(javaMethodName)
+            .returnType(returnType)
+            .exception(javaExceptionTypeRef)
+            .build();
     javaMethod.comment = CommentHelper.getDescription(francaMethod);
 
     if (deploymentModel.isStatic(francaMethod)) {
@@ -317,7 +321,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     String getterName = JavaNameRules.getGetterName(francaAttribute.getName());
 
-    JavaMethod getterMethod = new JavaMethod(getterName, javaType);
+    JavaMethod getterMethod = JavaMethod.builder(getterName).returnType(javaType).build();
     getterMethod.visibility = JavaVisibility.PUBLIC;
 
     storeResult(getterMethod);
@@ -325,7 +329,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     if (!francaAttribute.isReadonly()) {
       String setterName = JavaNameRules.getSetterName(francaAttribute.getName());
 
-      JavaMethod setterMethod = new JavaMethod(setterName);
+      JavaMethod setterMethod = JavaMethod.builder(setterName).build();
       setterMethod.visibility = JavaVisibility.PUBLIC;
 
       setterMethod.parameters.add(new JavaParameter(javaType, "value"));
@@ -376,7 +380,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     List<JavaMethod> interfaceMethods =
         getPreviousResults(JavaMethod.class)
             .stream()
-            .map(JavaMethod::new)
+            .map(javaMethod -> javaMethod.toBuilder().visibility(JavaVisibility.PACKAGE).build())
             .collect(Collectors.toList());
     javaInterface.methods.addAll(interfaceMethods);
 

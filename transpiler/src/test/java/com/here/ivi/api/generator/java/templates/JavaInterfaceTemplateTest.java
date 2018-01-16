@@ -34,7 +34,8 @@ public final class JavaInterfaceTemplateTest {
   private final JavaPackage javaPackage =
       new JavaPackage(Arrays.asList("com", "here", "example", "interfaces"));
   private final JavaCustomType javaCustomType = new JavaCustomType("ExampleType");
-  private final JavaMethod interfaceMethod = new JavaMethod("someMethod", javaCustomType);
+  private final JavaMethod interfaceMethod =
+      JavaMethod.builder("someMethod").returnType(javaCustomType).build();
   private final JavaConstant javaConstant =
       new JavaConstant(javaCustomType, "Permanent", new JavaValue("valuable"));
   private final JavaImport javaImport = new JavaImport("ExampleType", JavaPackage.DEFAULT);
@@ -110,7 +111,7 @@ public final class JavaInterfaceTemplateTest {
   @Test
   public void generate_interfaceWithTwoMethods() {
     // Arrange
-    JavaMethod interfaceMethodTwo = new JavaMethod("otherMethod", JavaPrimitiveType.VOID);
+    JavaMethod interfaceMethodTwo = JavaMethod.builder("otherMethod").build();
     javaInterface.methods.add(interfaceMethod);
     javaInterface.methods.add(interfaceMethodTwo);
 

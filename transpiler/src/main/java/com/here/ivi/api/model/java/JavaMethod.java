@@ -13,6 +13,7 @@ package com.here.ivi.api.model.java;
 
 import java.util.*;
 import java.util.stream.Stream;
+import lombok.Singular;
 
 public final class JavaMethod extends JavaElement {
 
@@ -33,28 +34,31 @@ public final class JavaMethod extends JavaElement {
   }
 
   public final JavaType returnType;
-  public final Set<MethodQualifier> qualifiers = EnumSet.noneOf(MethodQualifier.class);
-  public final List<JavaParameter> parameters = new LinkedList<>();
+  public final Set<MethodQualifier> qualifiers;
+  public final List<JavaParameter> parameters;
   public final JavaCustomType exception;
 
-  public JavaMethod(final String name) {
-    this(name, JavaPrimitiveType.VOID, null);
-  }
-
-  public JavaMethod(final String name, final JavaType returnType) {
-    this(name, returnType, null);
-  }
-
-  public JavaMethod(final String name, final JavaType returnType, final JavaCustomType exception) {
+  @lombok.Builder(builderClassName = "Builder", toBuilder = true)
+  private JavaMethod(
+      final String name,
+      final JavaVisibility visibility,
+      final JavaType returnType,
+      final JavaCustomType exception,
+      @Singular Set<MethodQualifier> qualifiers,
+      @Singular List<JavaParameter> parameters) {
     super(name);
-    this.returnType = returnType;
+    this.visibility = visibility;
+    this.returnType = returnType != null ? returnType : JavaPrimitiveType.VOID;
     this.exception = exception;
+    this.qualifiers =
+        qualifiers != null && !qualifiers.isEmpty()
+            ? qualifiers
+            : EnumSet.noneOf(MethodQualifier.class);
+    this.parameters = parameters != null ? new LinkedList<>(parameters) : new LinkedList<>();
   }
 
-  public JavaMethod(final JavaMethod other) {
-    this(other.name, other.returnType, other.exception);
-    this.qualifiers.addAll(other.qualifiers);
-    this.parameters.addAll(other.parameters);
+  public static Builder builder(final String name) {
+    return new Builder().name(name);
   }
 
   @Override

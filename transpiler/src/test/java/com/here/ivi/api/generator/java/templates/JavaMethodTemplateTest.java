@@ -29,7 +29,7 @@ public final class JavaMethodTemplateTest {
 
   private final JavaParameter javaParameter =
       new JavaParameter(new JavaReferenceType(JavaReferenceType.Type.STRING), "firstParam");
-  private final JavaMethod javaMethod = new JavaMethod("methodical", JavaPrimitiveType.VOID);
+  private final JavaMethod javaMethod = JavaMethod.builder("methodical").build();
 
   @Test
   public void generate_instanceMethod() {
@@ -76,7 +76,8 @@ public final class JavaMethodTemplateTest {
 
   @Test
   public void generateMethodWithReturnType() {
-    JavaMethod resultMethod = new JavaMethod("methodical", new JavaCustomType("ComplexType"));
+    JavaMethod resultMethod =
+        JavaMethod.builder("methodical").returnType(new JavaCustomType("ComplexType")).build();
 
     String result = TemplateEngine.render(TEMPLATE_NAME, resultMethod);
 
@@ -106,10 +107,9 @@ public final class JavaMethodTemplateTest {
   @Test
   public void generateMethodWithException() {
     JavaMethod exceptionalJavaMethod =
-        new JavaMethod(
-            "methodical",
-            JavaPrimitiveType.VOID,
-            new JavaCustomType("ExceptionalException", JavaPackage.DEFAULT));
+        JavaMethod.builder("methodical")
+            .exception(new JavaCustomType("ExceptionalException", JavaPackage.DEFAULT))
+            .build();
 
     String result = TemplateEngine.render(TEMPLATE_NAME, exceptionalJavaMethod);
 
