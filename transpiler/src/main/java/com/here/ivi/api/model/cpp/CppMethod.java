@@ -21,7 +21,7 @@ import lombok.Singular;
 
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
-public final class CppMethod extends CppElementWithIncludes {
+public final class CppMethod extends CppElementWithComment {
 
   public final CppTypeRef returnType;
   public final String returnTypeComment;

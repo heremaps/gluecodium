@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class CppStruct extends CppElement {
+public class CppStruct extends CppElementWithComment {
 
   public final List<CppField> fields = new LinkedList<>();
   public final Set<CppInheritance> inheritances = new LinkedHashSet<>();

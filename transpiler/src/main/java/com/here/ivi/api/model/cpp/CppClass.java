@@ -15,7 +15,7 @@ import com.here.ivi.api.generator.cpp.TopologicalSort;
 import java.util.*;
 import java.util.stream.Stream;
 
-public final class CppClass extends CppElement {
+public final class CppClass extends CppElementWithComment {
 
   public final List<CppElement> members = new LinkedList<>();
   public final Set<CppMethod> methods = new LinkedHashSet<>();

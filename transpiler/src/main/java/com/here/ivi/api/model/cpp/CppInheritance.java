@@ -38,7 +38,7 @@ public class CppInheritance extends CppElement {
   public final Type visibility;
 
   public CppInheritance(CppTypeRef parent, Type type) {
-    super(null);
+    super(null, null);
     this.parent = parent;
     this.visibility = type;
   }

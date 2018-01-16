@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cpp.CppElement;
+import com.here.ivi.api.model.cpp.CppElementWithComment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -23,7 +23,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class DocCommentTemplateTest {
   private static final String TEMPLATE_NAME = "common/DocComment";
-  private final CppElement cppElement = new CppElement("") {};
+  private final CppElementWithComment cppElement = new CppElementWithComment("") {};
 
   @Test
   public void nullComment() {
