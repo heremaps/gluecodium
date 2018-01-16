@@ -1,4 +1,16 @@
+/*
+ * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
 package com.example.here.hello.app;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,16 +26,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.here.hello.R;
 import com.here.android.hello.HelloWorldArrays;
 import com.here.android.hello.HelloWorldArrays.ExampleStruct;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public final class ArraysFragment extends Fragment {
 
@@ -35,8 +43,8 @@ public final class ArraysFragment extends Fragment {
   private String[] descriptionsText;
 
   @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+  public View onCreateView(
+      @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_arrays, container, false);
     input = rootView.findViewById(R.id.arrays_edit);
     result = rootView.findViewById(R.id.arrays_result);
@@ -50,40 +58,44 @@ public final class ArraysFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-      @Override
-      public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position,
-          long id) {
-        String methodDescription = descriptionsText[position] + "\n\n" + getResources()
-            .getString(R.string.fragment_arrays_usage);
-        description.setText(methodDescription);
-        result.setText("");
-        input.setText("");
-      }
+    spinner.setOnItemSelectedListener(
+        new OnItemSelectedListener() {
+          @Override
+          public void onItemSelected(
+              AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            String methodDescription =
+                descriptionsText[position]
+                    + "\n\n"
+                    + getResources().getString(R.string.fragment_arrays_usage);
+            description.setText(methodDescription);
+            result.setText("");
+            input.setText("");
+          }
 
-      @Override
-      public void onNothingSelected(AdapterView<?> parentView) {
-        description.setText("");
-        result.setText("");
-        input.setText("");
-      }
-    });
-    submitButton.setOnClickListener((View v) -> {
-      String inputText = input.getText().toString();
+          @Override
+          public void onNothingSelected(AdapterView<?> parentView) {
+            description.setText("");
+            result.setText("");
+            input.setText("");
+          }
+        });
+    submitButton.setOnClickListener(
+        (View v) -> {
+          String inputText = input.getText().toString();
 
-      try {
-        executeArrayMethod(spinner.getSelectedItemPosition(), inputText.split(","));
-      } catch (NumberFormatException e) {
-        String exceptionMessage =
-            getResources().getString(R.string.number_format_exception) + "\n" + e.getMessage();
-        result.setText(exceptionMessage);
-      }
+          try {
+            executeArrayMethod(spinner.getSelectedItemPosition(), inputText.split(","));
+          } catch (NumberFormatException e) {
+            String exceptionMessage =
+                getResources().getString(R.string.number_format_exception) + "\n" + e.getMessage();
+            result.setText(exceptionMessage);
+          }
 
-      // hide virtual keyboard
-      InputMethodManager inputMethodManager = (InputMethodManager) getContext()
-          .getSystemService(INPUT_METHOD_SERVICE);
-      inputMethodManager.hideSoftInputFromWindow(result.getWindowToken(), 0);
-    });
+          // hide virtual keyboard
+          InputMethodManager inputMethodManager =
+              (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+          inputMethodManager.hideSoftInputFromWindow(result.getWindowToken(), 0);
+        });
   }
 
   private void executeArrayMethod(final int selectedItemPosition, final String[] parameters) {
@@ -131,12 +143,13 @@ public final class ArraysFragment extends Fragment {
           }
         }
 
-        List<List<Long>> resultList2 = HelloWorldArrays
-            .methodWithNestedArraysInline(nestedLongList);
-        String resultText = "INPUT:\n"
-            + formatNestedLongListResult(nestedLongList)
-            + "\n\n\nOUTPUT:\n"
-            + formatNestedLongListResult(resultList2);
+        List<List<Long>> resultList2 =
+            HelloWorldArrays.methodWithNestedArraysInline(nestedLongList);
+        String resultText =
+            "INPUT:\n"
+                + formatNestedLongListResult(nestedLongList)
+                + "\n\n\nOUTPUT:\n"
+                + formatNestedLongListResult(resultList2);
         result.setText(resultText);
         break;
     }

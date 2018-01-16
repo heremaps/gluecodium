@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
+ * Copyright (C) $YEAR HERE Global B.V. and its affiliate(s). All rights reserved.
  *
  * This software, including documentation, is protected by copyright controlled by
  * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -8,13 +8,3 @@
  * which may not be disclosed to others without prior written consent of HERE Global B.V.
  *
  */
-package com.example.here.hello.application;
-
-/** Main entry point */
-public final class Application extends android.app.Application {
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    System.loadLibrary("hello");
-  }
-}

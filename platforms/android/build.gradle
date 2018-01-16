@@ -11,6 +11,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.diffplug.gradle.spotless' version '3.8.0'
+}
+
 allprojects {
     repositories {
         maven {
@@ -21,6 +25,23 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
+clean {
     delete rootProject.buildDir
+}
+
+apply plugin: 'com.diffplug.gradle.spotless'
+
+spotless {
+    freshmark { }
+    java {
+        target project.fileTree(project.projectDir) {
+            include '**/*.java'
+            exclude '**/build'
+        }
+
+        googleJavaFormat()
+        licenseHeaderFile rootProject.file('config/here_java.license')
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }

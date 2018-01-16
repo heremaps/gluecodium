@@ -22,19 +22,15 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.here.hello.R;
 import com.example.here.hello.utils.InputMethodHelper;
-
 import com.here.android.hello.HelloWorldErrors;
 import com.here.android.hello.InternalErrorsException;
 
 public final class ErrorsFragment extends Fragment {
 
-  private static final String EXCEPTION_TEXT = "Exception thrown:%n"
-      + "    %s%n%n"
-      + "Error value:%n"
-      + "    %s.%s";
+  private static final String EXCEPTION_TEXT =
+      "Exception thrown:%n" + "    %s%n%n" + "Error value:%n" + "    %s.%s";
 
   private Button submitSuccess;
   private Button submitThrowException;
@@ -42,8 +38,8 @@ public final class ErrorsFragment extends Fragment {
   private Spinner spinner;
 
   @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+  public View onCreateView(
+      @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_errors, container, false);
     result = rootView.findViewById(R.id.errors_result);
     submitThrowException = rootView.findViewById(R.id.errors_submit_error);
@@ -56,23 +52,24 @@ public final class ErrorsFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-      @Override
-      public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position,
-          long id) {
-        result.setText("");
-      }
+    spinner.setOnItemSelectedListener(
+        new OnItemSelectedListener() {
+          @Override
+          public void onItemSelected(
+              AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            result.setText("");
+          }
 
-      @Override
-      public void onNothingSelected(AdapterView<?> parentView) {
-        result.setText("");
-      }
-    });
+          @Override
+          public void onNothingSelected(AdapterView<?> parentView) {
+            result.setText("");
+          }
+        });
 
-    submitThrowException
-        .setOnClickListener(v -> executeErrorsMethod(spinner.getSelectedItemPosition(), true));
-    submitSuccess
-        .setOnClickListener(v -> executeErrorsMethod(spinner.getSelectedItemPosition(), false));
+    submitThrowException.setOnClickListener(
+        v -> executeErrorsMethod(spinner.getSelectedItemPosition(), true));
+    submitSuccess.setOnClickListener(
+        v -> executeErrorsMethod(spinner.getSelectedItemPosition(), false));
   }
 
   private void executeErrorsMethod(final int selectedItemPosition, final boolean flag) {
@@ -83,9 +80,12 @@ public final class ErrorsFragment extends Fragment {
         try {
           HelloWorldErrors.helloWorldMethodWithError(flag);
         } catch (InternalErrorsException exception) {
-          result.setText(String.format(EXCEPTION_TEXT,
-              exception.getClass().getSimpleName(), exception.error.getClass().getSimpleName(),
-              exception.error.toString()));
+          result.setText(
+              String.format(
+                  EXCEPTION_TEXT,
+                  exception.getClass().getSimpleName(),
+                  exception.error.getClass().getSimpleName(),
+                  exception.error.toString()));
           return;
         }
         result.setText(R.string.no_exception_thrown);
@@ -96,15 +96,20 @@ public final class ErrorsFragment extends Fragment {
         try {
           resultString = HelloWorldErrors.helloWorldMethodWithErrorAndString(flag);
         } catch (InternalErrorsException exception) {
-          result.setText(String.format(EXCEPTION_TEXT,
-              exception.getClass().getSimpleName(), exception.error.getClass().getSimpleName(),
-              exception.error.toString()));
+          result.setText(
+              String.format(
+                  EXCEPTION_TEXT,
+                  exception.getClass().getSimpleName(),
+                  exception.error.getClass().getSimpleName(),
+                  exception.error.toString()));
           return;
         }
 
         String outputString =
-            getResources().getString(R.string.no_exception_thrown) + "\n\n"
-                + "Result string: " + resultString;
+            getResources().getString(R.string.no_exception_thrown)
+                + "\n\n"
+                + "Result string: "
+                + resultString;
         result.setText(outputString);
         break;
     }
