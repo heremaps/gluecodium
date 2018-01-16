@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
  *
  * This software, including documentation, is protected by copyright controlled by
  * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -14,18 +14,21 @@ package com.here.ivi.api.model.cpp;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-public abstract class CppTypedElement extends CppElementWithComment {
+public abstract class CppElementWithComment extends CppElement {
 
-  public final CppTypeRef type;
+  public String comment;
 
-  protected CppTypedElement(final String name, final CppTypeRef type) {
-    super(name);
-    this.type = type;
+  protected CppElementWithComment(final String name) {
+    this(name, name, null);
   }
 
-  protected CppTypedElement(
-      final String name, final String fullyQualifiedName, final CppTypeRef type) {
+  protected CppElementWithComment(final String name, final String fullyQualifiedName) {
+    this(name, fullyQualifiedName, null);
+  }
+
+  protected CppElementWithComment(
+      final String name, final String fullyQualifiedName, final String comment) {
     super(name, fullyQualifiedName);
-    this.type = type;
+    this.comment = comment;
   }
 }

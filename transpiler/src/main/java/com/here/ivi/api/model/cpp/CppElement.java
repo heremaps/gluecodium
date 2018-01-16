@@ -19,13 +19,8 @@ public abstract class CppElement extends Streamable<CppElement> {
 
   public final String name;
   public final String fullyQualifiedName; // Currently used for dependency analysis only
-  public String comment;
 
-  public CppElement(final String name) {
-    this(name, name);
-  }
-
-  public CppElement(final String name, final String fullyQualifiedName) {
+  protected CppElement(final String name, final String fullyQualifiedName) {
     super();
     this.name = name;
     this.fullyQualifiedName = fullyQualifiedName;
