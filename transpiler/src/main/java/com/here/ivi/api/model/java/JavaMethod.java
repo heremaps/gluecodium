@@ -34,6 +34,7 @@ public final class JavaMethod extends JavaElement {
   }
 
   public final JavaType returnType;
+  public final String returnComment;
   public final Set<MethodQualifier> qualifiers;
   public final List<JavaParameter> parameters;
   public final JavaCustomType exception;
@@ -43,12 +44,14 @@ public final class JavaMethod extends JavaElement {
       final String name,
       final JavaVisibility visibility,
       final JavaType returnType,
+      final String returnComment,
       final JavaCustomType exception,
       @Singular Set<MethodQualifier> qualifiers,
       @Singular List<JavaParameter> parameters) {
     super(name);
     this.visibility = visibility;
     this.returnType = returnType != null ? returnType : JavaPrimitiveType.VOID;
+    this.returnComment = returnComment;
     this.exception = exception;
     this.qualifiers =
         qualifiers != null && !qualifiers.isEmpty()

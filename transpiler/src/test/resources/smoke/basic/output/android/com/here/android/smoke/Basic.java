@@ -23,6 +23,8 @@ public class Basic extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     /**
      * Example static method for Basic feature which takes a String and returns a String
+     * @param inputString Input string
+     * @return Output string
      */
     public static native String basicMethod(final String inputString);
 }
