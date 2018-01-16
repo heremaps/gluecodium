@@ -15,6 +15,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
+import com.here.ivi.api.generator.cbridge.CTypeMapper;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory;
 import com.here.ivi.api.model.cbridge.*;
@@ -256,7 +257,7 @@ public class CBridgeImplementationTemplateTest {
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
     CppTypeInfo selfType =
-        CppTypeInfo.createCustomTypeInfo(resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS);
+        CTypeMapper.createCustomTypeInfo(resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS);
 
     CInterface cInterface = new CInterface("Classy", selfType);
     final CParameter first = new CParameter("first", new CppTypeInfo(CType.INT16));
