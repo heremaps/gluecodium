@@ -19,20 +19,20 @@ import lombok.Singular;
 @EqualsAndHashCode(callSuper = true)
 public class CppComplexTypeRef extends CppTypeRef {
 
-  public final CppTypeInfo info;
+  private final boolean refersToEnum;
 
   @lombok.Builder(builderClassName = "Builder")
   protected CppComplexTypeRef(
       final String fullyQualifiedName,
       @Singular final Collection<Include> includes,
-      final CppTypeInfo typeInfo) {
+      final boolean refersToEnum) {
     super(fullyQualifiedName, includes);
-    info = typeInfo != null ? typeInfo : CppTypeInfo.Complex;
+    this.refersToEnum = refersToEnum;
   }
 
   @Override
   public boolean refersToEnumType() {
-    return info == CppTypeInfo.Enumeration;
+    return refersToEnum;
   }
 
   @SuppressWarnings("unused")

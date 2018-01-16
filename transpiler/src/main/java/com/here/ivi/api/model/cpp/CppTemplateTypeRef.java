@@ -45,7 +45,7 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
       final String fullyQualifiedName,
       final TemplateClass templateClass,
       final List<CppTypeRef> templateParameters) {
-    super(fullyQualifiedName, null, null);
+    super(fullyQualifiedName, null, false);
     this.templateClass = templateClass;
     this.templateParameters = templateParameters;
   }

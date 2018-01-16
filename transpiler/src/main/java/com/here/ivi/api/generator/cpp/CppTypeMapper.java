@@ -138,7 +138,7 @@ public class CppTypeMapper {
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(enumeration);
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
-        .typeInfo(CppTypeInfo.Enumeration)
+        .refersToEnum(true)
         .include(includeResolver.resolveInclude(enumeration))
         .build();
   }
