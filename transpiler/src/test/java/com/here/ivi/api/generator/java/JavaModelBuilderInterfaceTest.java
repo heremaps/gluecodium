@@ -49,7 +49,7 @@ public class JavaModelBuilderInterfaceTest {
   private final JavaConstant javaConstant =
       new JavaConstant(javaCustomType, "permanent", new JavaValue("valuable"));
   private final JavaField javaField = new JavaField(javaCustomType, "flowers");
-  private final JavaMethod javaMethod = new JavaMethod("methodical");
+  private final JavaMethod javaMethod = JavaMethod.builder("methodical").build();
   private final JavaEnum javaEnum = new JavaEnum("enumerable");
 
   private JavaModelBuilder modelBuilder;
@@ -345,7 +345,7 @@ public class JavaModelBuilderInterfaceTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsEnumIntoImplClass() {
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    contextStack.injectResult(new JavaMethod("myMethod"));
+    contextStack.injectResult(JavaMethod.builder("myMethod").build());
     contextStack.injectResult(javaEnum);
 
     modelBuilder.finishBuilding(francaInterface);

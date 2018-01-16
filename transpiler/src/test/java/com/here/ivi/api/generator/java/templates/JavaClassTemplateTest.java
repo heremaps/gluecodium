@@ -61,7 +61,7 @@ public final class JavaClassTemplateTest {
     // Arrange
     JavaCustomType exampleType = new JavaCustomType("ExampleType");
     JavaParameter parameter = new JavaParameter(new JavaCustomType("InParamType"), "param");
-    JavaMethod classMethod = new JavaMethod("someMethod", exampleType);
+    JavaMethod classMethod = JavaMethod.builder("someMethod").returnType(exampleType).build();
     classMethod.qualifiers.add(MethodQualifier.NATIVE);
     classMethod.visibility = JavaVisibility.PRIVATE;
     classMethod.parameters.add(parameter);
@@ -132,7 +132,7 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_withEnumAndMethods() {
     // Arrange
-    JavaMethod classMethod = new JavaMethod("someMethod", JavaPrimitiveType.VOID);
+    JavaMethod classMethod = JavaMethod.builder("someMethod").build();
     classMethod.qualifiers.add(JavaMethod.MethodQualifier.NATIVE);
     classMethod.comment = "Method comment";
     JavaEnumItem enumItem = new JavaEnumItem("ITEM", new JavaValue("0"));
@@ -442,10 +442,10 @@ public final class JavaClassTemplateTest {
     JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "generator", "example"));
     JavaCustomType exampleType = new JavaCustomType("ExampleType");
     JavaMethod classMethod =
-        new JavaMethod(
-            "someMethod",
-            exampleType,
-            new JavaCustomType("ExceptionalException", JavaPackage.DEFAULT));
+        JavaMethod.builder("someMethod")
+            .returnType(exampleType)
+            .exception(new JavaCustomType("ExceptionalException", JavaPackage.DEFAULT))
+            .build();
     javaClass.javaPackage = javaPackage;
     javaClass.methods.add(classMethod);
 
