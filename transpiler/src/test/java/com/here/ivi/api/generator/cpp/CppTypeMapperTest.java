@@ -194,8 +194,7 @@ public final class CppTypeMapperTest {
 
   @Test
   public void wrapMapTypeWithEnumKeyType() {
-    CppTypeRef cppTypeRef =
-        new CppComplexTypeRef.Builder("Foo").typeInfo(CppTypeInfo.Enumeration).build();
+    CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").refersToEnum(true).build();
 
     CppComplexTypeRef result = CppTypeMapper.wrapMap(cppTypeRef, CppPrimitiveTypeRef.VOID);
 

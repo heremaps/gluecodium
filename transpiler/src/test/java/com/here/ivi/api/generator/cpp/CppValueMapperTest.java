@@ -99,8 +99,7 @@ public final class CppValueMapperTest {
 
   @Test
   public void mapDeploymentDefaultValueForEnum() {
-    CppTypeRef cppTypeRef =
-        new CppComplexTypeRef.Builder("SomeType").typeInfo(CppTypeInfo.Enumeration).build();
+    CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("SomeType").refersToEnum(true).build();
 
     CppValue result = CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, "SomeString");
 

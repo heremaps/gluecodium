@@ -12,6 +12,7 @@
 package com.here.ivi.api.generator.cpp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -255,7 +256,7 @@ public class CppTypeMapperComplexTest {
     assertTrue(cppTypeRef instanceof CppComplexTypeRef);
     CppComplexTypeRef cppComplexTypeRef = (CppComplexTypeRef) cppTypeRef;
     assertEquals("::std::shared_ptr< ::MyClazz >", cppComplexTypeRef.name);
-    assertEquals(CppTypeInfo.Complex, cppComplexTypeRef.info);
+    assertFalse(cppComplexTypeRef.refersToEnumType());
 
     assertEquals(2, cppComplexTypeRef.includes.size());
     assertTrue(cppComplexTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
@@ -285,7 +286,7 @@ public class CppTypeMapperComplexTest {
     assertTrue(cppTypeRef instanceof CppComplexTypeRef);
     CppComplexTypeRef cppComplexTypeRef = (CppComplexTypeRef) cppTypeRef;
     assertEquals("::std::shared_ptr< ::a::b::MyClazz >", cppComplexTypeRef.name);
-    assertEquals(CppTypeInfo.Complex, cppComplexTypeRef.info);
+    assertFalse(cppComplexTypeRef.refersToEnumType());
 
     assertEquals(2, cppComplexTypeRef.includes.size());
     assertTrue(cppComplexTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
