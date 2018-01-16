@@ -1,5 +1,11 @@
+{{>swift/Comment}}
 public struct {{simpleName}} {
 {{#fields}}
+{{#if this.comment}}
+    /**
+{{prefix this.comment '     '}}
+     */
+{{/if}}
     public var {{name}}: {{type.publicName}}
 {{/fields}}
 

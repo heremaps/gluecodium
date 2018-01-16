@@ -46,7 +46,7 @@ public final class SwiftMethodSignatureTemplateTest {
 
     String result = TemplateEngine.render(TEMPLATE_NAME, swiftMethod);
 
-    String expected = "/**\n" + " * nonsense\n" + " */\n" + "func methodFoo() -> Void";
+    String expected = "/**\n" + " nonsense\n" + " */\n" + "func methodFoo() -> Void";
     assertEquals(expected, result);
   }
 

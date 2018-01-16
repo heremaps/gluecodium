@@ -172,6 +172,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             ? SwiftValueMapper.mapDefaultValue(fieldType, deploymentDefaultValue)
             : null;
     SwiftField structField = new SwiftField(fieldName, fieldType, defaultValue);
+    structField.comment = CommentHelper.getDescription(francaField);
 
     storeResult(structField);
     super.finishBuilding(francaField);
@@ -182,6 +183,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftType swiftType = getPreviousResult(SwiftType.class);
     SwiftInParameter swiftParameter =
         new SwiftInParameter(SwiftNameRules.getParameterName(francaArgument), swiftType);
+    swiftParameter.comment = CommentHelper.getDescription(francaArgument);
     storeResult(swiftParameter);
 
     if (swiftType instanceof SwiftArray) {
@@ -198,7 +200,11 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
         || swiftType.category == TypeCategory.BUILTIN_STRING) {
       swiftType = swiftType.createOptionalType();
     }
-    storeResult(new SwiftOutParameter(SwiftNameRules.getParameterName(francaArgument), swiftType));
+
+    SwiftParameter swiftParameter =
+        new SwiftOutParameter(SwiftNameRules.getParameterName(francaArgument), swiftType);
+    swiftParameter.comment = CommentHelper.getDescription(francaArgument);
+    storeResult(swiftParameter);
     super.finishBuildingOutputArgument(francaArgument);
   }
 
@@ -210,6 +216,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
           new SwiftTypeDef(
               SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel),
               getPreviousResult(SwiftType.class));
+      typedefValue.comment = CommentHelper.getDescription(francaTypeDef);
       storeResult(typedefValue);
     }
     super.finishBuilding(francaTypeDef);
@@ -232,6 +239,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
         SwiftMethod.builder(SwiftNameRules.getMethodName(francaMethod))
             .comment(comment)
             .returnType(returnParam.type)
+            .returnComment(returnParam.comment)
             .isStatic(deploymentModel.isStatic(francaMethod))
             .cNestedSpecifier(CBridgeNameRules.getNestedSpecifierString(francaMethod))
             .cShortName(CBridgeNameRules.getShortMethodName(francaMethod))
@@ -273,6 +281,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftProperty property =
         new SwiftProperty(
             SwiftNameRules.getPropertyName(attribute), getPreviousResult(SwiftType.class));
+    property.comment = CommentHelper.getDescription(attribute);
 
     String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(attribute);
     SwiftMethod getterMethod =

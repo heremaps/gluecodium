@@ -30,7 +30,9 @@ public class Basic {
         smoke_Basic_release(c_instance)
     }
     /**
-     * Example static method for Basic feature which takes a String and returns a String
+     Example static method for Basic feature which takes a String and returns a String
+     - Parameter inputString: Input string
+     - Returns: Output string
      */
     public static func basicMethod(inputString: String) -> String? {
         let result_string_handle = smoke_Basic_basicMethod(inputString)

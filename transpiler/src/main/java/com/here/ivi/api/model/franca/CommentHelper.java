@@ -11,9 +11,9 @@
 
 package com.here.ivi.api.model.franca;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.franca.core.franca.FAnnotation;
 import org.franca.core.franca.FAnnotationBlock;
 import org.franca.core.franca.FAnnotationType;
@@ -22,12 +22,17 @@ import org.franca.core.franca.FModelElement;
 public final class CommentHelper {
 
   public static String getDescription(final FModelElement francaElement) {
-    return String.join(" ", getAnnotations(francaElement, FAnnotationType.DESCRIPTION));
+    return getAnnotations(francaElement, FAnnotationType.DESCRIPTION)
+        .flatMap(CommentHelper::splitLines)
+        .collect(Collectors.joining(" "));
   }
 
-  private static List<String> getAnnotations(
-      final FModelElement francaElement, final FAnnotationType annotationType) {
+  private static Stream<String> splitLines(String comment) {
+    return Arrays.stream(comment.split("\\n")).filter(line -> !line.isEmpty()).map(String::trim);
+  }
 
+  private static Stream<String> getAnnotations(
+      final FModelElement francaElement, final FAnnotationType annotationType) {
     FAnnotationBlock annotationBlock = francaElement.getComment();
     return annotationBlock != null
         ? annotationBlock
@@ -35,7 +40,6 @@ public final class CommentHelper {
             .stream()
             .filter(annotation -> annotation.getType() == annotationType)
             .map(FAnnotation::getComment)
-            .collect(Collectors.toList())
-        : Collections.emptyList();
+        : Stream.empty();
   }
 }
