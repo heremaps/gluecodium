@@ -100,6 +100,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
             .filter(parameter -> parameter.isOutput)
             .collect(Collectors.toList());
+    String returnComment = !outputParameters.isEmpty() ? outputParameters.get(0).comment : null;
+
     JavaType returnType;
     if (outputParameters.isEmpty()) { // Void return type
       returnType = JavaPrimitiveType.VOID;
@@ -128,6 +130,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaMethod javaMethod =
         JavaMethod.builder(javaMethodName)
             .returnType(returnType)
+            .returnComment(returnComment)
             .exception(javaExceptionTypeRef)
             .build();
     javaMethod.comment = CommentHelper.getDescription(francaMethod);
@@ -155,6 +158,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaParameter javaParameter =
         new JavaParameter(
             javaArgumentType, JavaNameRules.getArgumentName(francaArgument.getName()));
+    javaParameter.comment = CommentHelper.getDescription(francaArgument);
 
     storeResult(javaParameter);
     closeContext();
@@ -169,6 +173,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaParameter javaParameter =
         new JavaParameter(
             javaArgumentType, JavaNameRules.getArgumentName(francaArgument.getName()), true);
+    javaParameter.comment = CommentHelper.getDescription(francaArgument);
 
     storeResult(javaParameter);
     closeContext();
@@ -318,11 +323,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     }
 
     JavaType javaType = getPreviousResult(JavaType.class);
+    String comment = CommentHelper.getDescription(francaAttribute);
 
     String getterName = JavaNameRules.getGetterName(francaAttribute.getName());
 
     JavaMethod getterMethod = JavaMethod.builder(getterName).returnType(javaType).build();
     getterMethod.visibility = JavaVisibility.PUBLIC;
+    getterMethod.comment = comment;
 
     storeResult(getterMethod);
 
@@ -331,6 +338,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
       JavaMethod setterMethod = JavaMethod.builder(setterName).build();
       setterMethod.visibility = JavaVisibility.PUBLIC;
+      setterMethod.comment = comment;
 
       setterMethod.parameters.add(new JavaParameter(javaType, "value"));
       storeResult(setterMethod);
