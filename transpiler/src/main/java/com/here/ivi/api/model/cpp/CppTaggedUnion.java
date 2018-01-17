@@ -13,11 +13,7 @@ package com.here.ivi.api.model.cpp;
 
 public final class CppTaggedUnion extends CppStruct {
 
-  public CppTaggedUnion(final String name) {
-    this(name, name);
-  }
-
-  public CppTaggedUnion(final String name, final String fullyQualifiedName) {
-    super(name, fullyQualifiedName);
+  public CppTaggedUnion(final String name, final String fullyQualifiedName, final String comment) {
+    super(name, fullyQualifiedName, comment);
   }
 }
