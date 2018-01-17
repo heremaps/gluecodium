@@ -81,7 +81,8 @@ public class CppModelBuilderTest {
   private final CppEnum cppEnum = CppEnum.create(ENUM_NAME);
   private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
   private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT64;
-  private final CppUsing cppUsing = new CppUsing("useful", new CppTypeDefRef("useful", cppTypeRef));
+  private final CppUsing cppUsing =
+      CppUsing.builder("useful", new CppTypeDefRef("useful", cppTypeRef)).build();
 
   @Before
   public void setUp() {

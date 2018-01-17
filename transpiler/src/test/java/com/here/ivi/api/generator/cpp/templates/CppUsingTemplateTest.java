@@ -30,11 +30,12 @@ public final class CppUsingTemplateTest {
   private static final String EXPECTED_TYPEDEF_RESULT =
       "using " + TYPEDEF_NAME + " = " + TYPE_NAME + ";\n";
 
-  private final CppUsing cppUsing =
-      new CppUsing(TYPEDEF_NAME, new CppComplexTypeRef.Builder(TYPE_NAME).build());
+  private final CppComplexTypeRef cppTypeRef = new CppComplexTypeRef.Builder(TYPE_NAME).build();
 
   @Test
   public void usingWithoutComment() {
+    CppUsing cppUsing = CppUsing.builder(TYPEDEF_NAME, cppTypeRef).build();
+
     String result = TemplateEngine.render(TEMPLATE_NAME, cppUsing);
 
     assertEquals(EXPECTED_TYPEDEF_RESULT, result);
@@ -42,7 +43,7 @@ public final class CppUsingTemplateTest {
 
   @Test
   public void usingWithComment() {
-    cppUsing.comment = "nonsense";
+    CppUsing cppUsing = CppUsing.builder(TYPEDEF_NAME, cppTypeRef).comment("nonsense").build();
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppUsing);
 

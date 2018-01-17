@@ -45,7 +45,7 @@ public final class CppHeaderTemplateTest {
       new CppComplexTypeRef.Builder("Party").build();
   private final CppConstant cppConstant =
       new CppConstant("permanent", cppComplexTypeRef, new CppValue("Over9000"));
-  private final CppUsing cppUsing = new CppUsing("Definite", cppComplexTypeRef);
+  private final CppUsing cppUsing = CppUsing.builder("Definite", cppComplexTypeRef).build();
   private final CppEnum cppEnum = CppEnum.create("Innumerable");
   private final CppStruct cppStruct = new CppStruct("Structural");
   private final CppClass cppClass = new CppClass("Classy");
@@ -112,7 +112,7 @@ public final class CppHeaderTemplateTest {
   @Test
   public void namespaceWithTwoUsings() {
     cppFile.members.add(cppUsing);
-    cppFile.members.add(new CppUsing("Indefinite", cppPrimitiveTypeRef));
+    cppFile.members.add(CppUsing.builder("Indefinite", cppPrimitiveTypeRef).build());
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppFile);
 

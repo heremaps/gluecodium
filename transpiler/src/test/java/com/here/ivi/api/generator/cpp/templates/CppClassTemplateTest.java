@@ -47,7 +47,7 @@ public final class CppClassTemplateTest {
       new CppInheritance(cppPrimitiveTypeRef, CppInheritance.Type.Protected);
   private final CppStruct cppStruct = new CppStruct("Structural");
   private final CppEnum cppEnum = CppEnum.create("Innumerable");
-  private final CppUsing cppUsing = new CppUsing("Useful", cppPrimitiveTypeRef);
+  private final CppUsing cppUsing = CppUsing.builder("Useful", cppPrimitiveTypeRef).build();
   private final CppMethod cppMethod =
       new CppMethod.Builder("methodical").specifier(CppMethod.Specifier.STATIC).build();
   private final CppField cppField = new CppField(cppPrimitiveTypeRef, "flowers");
@@ -166,7 +166,7 @@ public final class CppClassTemplateTest {
   @Test
   public void classWithTwoUsings() {
     cppClass.members.add(cppUsing);
-    cppClass.members.add(new CppUsing("Useless", cppComplexTypeRef));
+    cppClass.members.add(CppUsing.builder("Useless", cppComplexTypeRef).build());
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 
