@@ -17,13 +17,18 @@ public final class CppUsing extends CppElementWithComment {
 
   public final CppTypeRef definition;
 
-  public CppUsing(final String name, final CppTypeRef definition) {
-    this(name, name, definition);
+  @lombok.Builder(builderClassName = "Builder")
+  private CppUsing(
+      final String name,
+      final String fullyQualifiedName,
+      final CppTypeRef definition,
+      final String comment) {
+    super(name, fullyQualifiedName, comment);
+    this.definition = definition;
   }
 
-  public CppUsing(final String name, final String fullyQualifiedName, final CppTypeRef definition) {
-    super(name, fullyQualifiedName);
-    this.definition = definition;
+  public static Builder builder(final String name, final CppTypeRef definition) {
+    return new Builder().name(name).fullyQualifiedName(name).definition(definition);
   }
 
   @Override

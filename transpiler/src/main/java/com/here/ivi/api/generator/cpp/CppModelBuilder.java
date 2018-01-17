@@ -189,9 +189,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
       String typeDefName = CppNameRules.getTypedefName(francaTypeDef.getName());
       String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaTypeDef);
       CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-
-      CppUsing cppUsing = new CppUsing(typeDefName, fullyQualifiedName, cppTypeRef);
-      cppUsing.comment = CommentHelper.getDescription(francaTypeDef);
+      String comment = CommentHelper.getDescription(francaTypeDef);
+      CppUsing cppUsing =
+          CppUsing.builder(typeDefName, cppTypeRef)
+              .fullyQualifiedName(fullyQualifiedName)
+              .comment(comment)
+              .build();
 
       storeResult(cppUsing);
     }
@@ -206,8 +209,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef elementType = getPreviousResult(CppTypeRef.class);
     CppTypeRef targetType =
         CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
-    CppUsing cppUsing = new CppUsing(name, targetType);
-    cppUsing.comment = CommentHelper.getDescription(francaArrayType);
+    String comment = CommentHelper.getDescription(francaArrayType);
+    CppUsing cppUsing = CppUsing.builder(name, targetType).comment(comment).build();
 
     storeResult(cppUsing);
     closeContext();
@@ -219,8 +222,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String name = CppNameRules.getTypedefName(francaMapType.getName());
     List<CppTypeRef> typeRefs = getPreviousResults(CppTypeRef.class);
     CppTypeRef targetType = CppTypeMapper.wrapMap(typeRefs.get(0), typeRefs.get(1));
-    CppUsing cppUsing = new CppUsing(name, targetType);
-    cppUsing.comment = CommentHelper.getDescription(francaMapType);
+    String comment = CommentHelper.getDescription(francaMapType);
+    CppUsing cppUsing = CppUsing.builder(name, targetType).comment(comment).build();
 
     storeResult(cppUsing);
     closeContext();

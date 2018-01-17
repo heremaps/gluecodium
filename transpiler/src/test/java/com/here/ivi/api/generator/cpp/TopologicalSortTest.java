@@ -167,7 +167,7 @@ public class TopologicalSortTest {
 
   private static CppUsing createUsing(String name, String typeName) {
     CppTypeDefRef cppDefinition = new CppTypeDefRef(name, createComplex(typeName));
-    return new CppUsing(name, cppDefinition);
+    return CppUsing.builder(name, cppDefinition).build();
   }
 
   private static CppConstant createConstant(String typeName) {
