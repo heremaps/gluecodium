@@ -22,6 +22,7 @@ public class Arrays extends NativeBase {
             this.numberOfChanges = numberOfChanges;
         }
     }
+    /** For internal use only */
     protected Arrays(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

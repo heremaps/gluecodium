@@ -200,6 +200,7 @@ public class Structs extends NativeBase {
             }
         }
     }
+    /** For internal use only */
     protected Structs(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

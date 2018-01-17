@@ -13,6 +13,7 @@
 package com.here.android.smoke;
 
 public class InheritanceGrandchildClass extends InheritanceChildClass {
+    /** For internal use only */
     protected InheritanceGrandchildClass(final long nativeHandle) {
         super(nativeHandle);
     }

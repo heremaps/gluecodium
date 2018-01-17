@@ -25,6 +25,7 @@ public class Errors extends NativeBase {
             this.value = value;
         }
     }
+    /** For internal use only */
     protected Errors(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

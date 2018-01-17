@@ -12,6 +12,7 @@
 package com.here.android.smoke;
 import com.here.android.NativeBase;
 public class Basic extends NativeBase {
+    /** For internal use only */
     protected Basic(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

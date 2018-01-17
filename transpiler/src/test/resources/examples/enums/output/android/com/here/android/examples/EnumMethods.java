@@ -12,6 +12,7 @@
 package com.here.android.examples;
 import com.here.android.NativeBase;
 public class EnumMethods extends NativeBase {
+    /** For internal use only */
     protected EnumMethods(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

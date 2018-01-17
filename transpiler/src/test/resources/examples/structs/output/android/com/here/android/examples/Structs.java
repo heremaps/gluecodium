@@ -30,6 +30,7 @@ public class Structs extends NativeBase {
             this.syncResult = syncResult;
         }
     }
+    /** For internal use only */
     protected Structs(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

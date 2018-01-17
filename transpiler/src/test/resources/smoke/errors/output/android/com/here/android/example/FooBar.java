@@ -17,6 +17,7 @@ import com.here.android.smoke.InternalErrorException;
 import com.here.android.smoke.SomeTypeCollectionErrorException;
 
 public class FooBar extends NativeBase {
+    /** For internal use only */
     protected FooBar(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override
