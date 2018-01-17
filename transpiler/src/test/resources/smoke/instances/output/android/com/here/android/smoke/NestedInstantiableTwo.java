@@ -15,6 +15,7 @@ package com.here.android.smoke;
 import com.here.android.NativeBase;
 
 public class NestedInstantiableTwo extends NativeBase {
+    /** For internal use only */
     protected NestedInstantiableTwo(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

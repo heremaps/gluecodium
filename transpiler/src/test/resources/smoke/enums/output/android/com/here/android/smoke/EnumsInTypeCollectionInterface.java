@@ -12,6 +12,7 @@
 package com.here.android.smoke;
 import com.here.android.NativeBase;
 public class EnumsInTypeCollectionInterface extends NativeBase {
+    /** For internal use only */
     protected EnumsInTypeCollectionInterface(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

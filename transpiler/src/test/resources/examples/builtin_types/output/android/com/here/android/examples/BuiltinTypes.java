@@ -14,6 +14,7 @@ package com.here.android.examples;
 
 import com.here.android.NativeBase;
 public class BuiltinTypes extends NativeBase {
+    /** For internal use only */
     protected BuiltinTypes(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

@@ -14,6 +14,7 @@ package com.here.android.smoke;
 
 import com.here.android.NativeBase;
 public class StaticMethods extends NativeBase {
+    /** For internal use only */
     protected StaticMethods(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

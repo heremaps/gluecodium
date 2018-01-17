@@ -8,8 +8,9 @@
 {{/enums}}
 {{#innerClasses}}{{prefixPartial "java/Class" "    "}}
 {{/innerClasses}}
-{{#if isImplClass}}
-    protected {{name}}(final long nativeHandle) {
+{{#if isImplClass}}{{#if visibility.toString}}
+    /** For internal use only */
+{{/if}}    protected {{name}}(final long nativeHandle) {
         super(nativeHandle{{#if needsDisposer}}, new Disposer() {
             @Override
             public void disposeNative(long handle) {

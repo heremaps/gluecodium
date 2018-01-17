@@ -15,6 +15,7 @@ package com.here.android.smoke;
 import com.here.android.NativeBase;
 
 public class SimpleInstantiableTwo extends NativeBase {
+    /** For internal use only */
     protected SimpleInstantiableTwo(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

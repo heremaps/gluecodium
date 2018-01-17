@@ -19,6 +19,7 @@ public class StructsInheritance extends NativeBase {
             this.color = color;
         }
     }
+    /** For internal use only */
     protected StructsInheritance(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

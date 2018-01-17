@@ -12,6 +12,7 @@
 package com.here.android.examples;
 import com.here.android.NativeBase;
 public class Calculator extends NativeBase {
+    /** For internal use only */
     protected Calculator(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

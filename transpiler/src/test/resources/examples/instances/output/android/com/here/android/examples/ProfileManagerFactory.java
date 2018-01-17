@@ -15,6 +15,7 @@ package com.here.android.examples;
 import com.here.android.NativeBase;
 
 public class ProfileManagerFactory extends NativeBase {
+    /** For internal use only */
     protected ProfileManagerFactory(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

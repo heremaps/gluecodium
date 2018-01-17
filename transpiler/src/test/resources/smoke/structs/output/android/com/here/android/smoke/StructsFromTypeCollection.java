@@ -15,6 +15,7 @@ package com.here.android.smoke;
 import com.here.android.NativeBase;
 
 public class StructsFromTypeCollection extends NativeBase {
+    /** For internal use only */
     protected StructsFromTypeCollection(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

@@ -75,6 +75,7 @@ public class DefaultValues extends NativeBase {
             }
         }
     }
+    /** For internal use only */
     protected DefaultValues(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

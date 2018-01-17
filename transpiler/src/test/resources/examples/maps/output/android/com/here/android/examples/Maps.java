@@ -13,6 +13,7 @@ package com.here.android.examples;
 import com.here.android.NativeBase;
 import java.util.Map;
 public class Maps extends NativeBase {
+    /** For internal use only */
     protected Maps(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

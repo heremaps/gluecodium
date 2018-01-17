@@ -22,6 +22,7 @@ public class StructsInheritance extends NativeBase {
             this.id = id;
         }
     }
+    /** For internal use only */
     protected StructsInheritance(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

@@ -33,6 +33,7 @@ public class Attributes extends NativeBase {
             this.value = value;
         }
     }
+    /** For internal use only */
     protected Attributes(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override
