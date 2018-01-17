@@ -55,9 +55,9 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FInterface francaInterface) {
 
     String className = CppNameRules.getClassName(francaInterface.getName());
+    String classComment = CommentHelper.getDescription(francaInterface);
 
-    CppClass cppClass = new CppClass(className);
-    cppClass.comment = CommentHelper.getDescription(francaInterface);
+    CppClass cppClass = new CppClass(className, classComment);
 
     FInterface parentInterface = francaInterface.getBase();
     if (parentInterface != null) {

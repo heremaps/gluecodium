@@ -64,9 +64,9 @@ public final class CppClassTemplateTest {
 
   @Test
   public void classWithComment() {
-    cppClass.comment = "nonsense";
+    CppClass cppClassWithComment = new CppClass("Classy", "nonsense");
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppClassWithComment);
 
     final String expectedResult =
         "/**\n * nonsense\n */\n" + String.format(EXPECTED_CLASS_BODY_FORMAT, "", "");
