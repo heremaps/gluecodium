@@ -75,8 +75,7 @@ public final class CppMethod extends CppElementWithComment {
       @Singular final Set<Specifier> specifiers,
       @Singular final Set<Qualifier> qualifiers,
       @Singular final List<CppParameter> parameters) {
-    super(name, fullyQualifiedName == null ? name : fullyQualifiedName);
-    this.comment = comment;
+    super(name, fullyQualifiedName == null ? name : fullyQualifiedName, comment);
     this.returnType = returnType != null ? returnType : CppPrimitiveTypeRef.VOID;
     this.returnComment = returnComment;
     this.specifiers =
