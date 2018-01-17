@@ -3,17 +3,49 @@
 # Script to build the "hello" library for an Android consumer. This is
 # demonstrated by the platforms/android/app application which is build externally.
 
+USAGE=$(cat <<EOF
+$0 [options]
+    --publish    Build and publish the Transpiler locally and use it for code generation
+    --debug      Build with debug symbols
+    --jemalloc   Run tests with jemalloc
+    --help       Print this message
+EOF
+)
+
+
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
-if [ "$1" == "--publish" ]; then
-    publish_local
-fi
+CMAKE_BUILD_TYPE=
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --publish)
+            publish_local
+            shift
+            ;;
+        --jemalloc)
+            USE_JEMALLOC=true
+            shift
+            ;;
+        --debug)
+            CMAKE_BUILD_TYPE="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            shift
+            ;;
+        --help|*)
+            echo "$USAGE"
+            exit 0
+            ;;
+    esac
+done
 
 # Sanity checks
 [ $ANDROID_HOME ] || die "ANDROID_HOME environment variable is mandatory"
 [ $NDK_ROOT ] || die "NDK_ROOT environment variable is mandatory (NDK can be installed from within Android Studio"
 
+if [ "$USE_JEMALLOC" = true ]; then
+    command -v jemalloc-config >/dev/null || die "jemalloc is required for this option"
+    JEMALLOC_LIB=$(jemalloc-config --libdir)/libjemalloc.so.$(jemalloc-config --revision)
+fi
 
 # Constants
 TRANSPILER_VERSION="${TRANSPILER_VERSION:-+}"
@@ -55,7 +87,7 @@ for arch in x86 armeabi-v7a ${HOST_ARCH} ; do
     # Do host-native build for testing on the JVM with Robolectric using the
     # CMake binary supplied (and supported) by the NDK
     if [ "${arch}" != "host-$(uname -m)" ] ; then
-        CMAKE_EXTRA_PARAMETERS="${CMAKE_CROSS_BUILD_PARAMETERS} \
+        CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} ${CMAKE_CROSS_BUILD_PARAMETERS} \
         -DANDROID_ABI=${arch}"
         CMAKE_BINARY=${NDK_CMAKE_BINARY}
     else
@@ -65,6 +97,7 @@ for arch in x86 armeabi-v7a ${HOST_ARCH} ; do
     safe ${CMAKE_BINARY} \
         ${CMAKE_DEFAULT_PARAMETERS} \
         ${CMAKE_EXTRA_PARAMETERS} \
+        ${CMAKE_BUILD_TYPE} \
         -DCMAKE_INSTALL_PREFIX=${install_dir} \
         ..
 
@@ -96,5 +129,12 @@ cp ${TMP_DIR}/jni/* ${INSTALL_AAR_DIR}/${HOST_ARCH}
 
 # Finally build the example app itself and run tests
 pushd ${ANDROID_DIR}
-safe ./gradlew build
+LD_PRELOAD=$JEMALLOC_LIB safe ./gradlew build
+
+if [ "$USE_JEMALLOC" = true ]; then
+    REPORTS_DIR=app/build/reports/
+    mkdir -p $REPORTS_DIR
+    HOST_ARCH=$(uname -m)
+    jeprof --show_bytes ../../build-android-host-$HOST_ARCH/libhello/libhello.so app/jeprof.*.heap --text --lines >$REPORTS_DIR/android_tests_jeprof
+fi
 popd
