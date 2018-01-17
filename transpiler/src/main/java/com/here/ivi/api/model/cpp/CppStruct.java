@@ -24,11 +24,11 @@ public class CppStruct extends CppElementWithComment {
   public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
 
   public CppStruct(final String name) {
-    this(name, name);
+    this(name, name, null);
   }
 
-  public CppStruct(final String name, final String fullyQualifiedName) {
-    super(name, fullyQualifiedName);
+  public CppStruct(final String name, final String fullyQualifiedName, final String comment) {
+    super(name, fullyQualifiedName, comment);
   }
 
   @Override

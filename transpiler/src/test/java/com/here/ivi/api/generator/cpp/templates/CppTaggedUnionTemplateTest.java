@@ -36,7 +36,7 @@ public final class CppTaggedUnionTemplateTest {
           + "        switch (type) {\n%s        };\n"
           + "    };\n};\n";
 
-  private final CppTaggedUnion cppTaggedUnion = new CppTaggedUnion("Soviet");
+  private final CppTaggedUnion cppTaggedUnion = new CppTaggedUnion("Soviet", "Soviet", null);
   private final CppComplexTypeRef cppComplexTypeRef =
       new CppComplexTypeRef.Builder("::very::Typical").build();
 

@@ -354,11 +354,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     String name = CppNameRules.getStructName(francaCompoundType.getName());
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaCompoundType);
+    String comment = CommentHelper.getDescription(francaCompoundType);
     CppStruct cppStruct =
         isUnion
-            ? new CppTaggedUnion(name, fullyQualifiedName)
-            : new CppStruct(name, fullyQualifiedName);
-    cppStruct.comment = CommentHelper.getDescription(francaCompoundType);
+            ? new CppTaggedUnion(name, fullyQualifiedName, comment)
+            : new CppStruct(name, fullyQualifiedName, comment);
 
     List<CppField> elements = getPreviousResults(CppField.class);
 

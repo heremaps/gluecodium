@@ -38,11 +38,10 @@ public final class CppCompoundTypeTemplateTest {
           + "        switch (type) {\n        };\n"
           + "    };\n};\n";
 
-  private final CppStruct cppStruct = new CppStruct("Structural");
-  private final CppTaggedUnion cppTaggedUnion = new CppTaggedUnion("Soviet");
-
   @Test
   public void structWithoutComment() {
+    CppStruct cppStruct = new CppStruct("Structural", "Structural", null);
+
     String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 
     assertEquals(EXPECTED_STRUCT_RESULT, result);
@@ -50,7 +49,7 @@ public final class CppCompoundTypeTemplateTest {
 
   @Test
   public void structWithComment() {
-    cppStruct.comment = "nonsense";
+    CppStruct cppStruct = new CppStruct("Structural", "Structural", "nonsense");
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
 
@@ -60,6 +59,8 @@ public final class CppCompoundTypeTemplateTest {
 
   @Test
   public void unionWithoutComment() {
+    CppTaggedUnion cppTaggedUnion = new CppTaggedUnion("Soviet", "Soviet", null);
+
     String result = TemplateEngine.render(TEMPLATE_NAME, cppTaggedUnion);
 
     assertEquals(EXPECTED_UNION_RESULT, result);
@@ -67,7 +68,7 @@ public final class CppCompoundTypeTemplateTest {
 
   @Test
   public void unionWithComment() {
-    cppTaggedUnion.comment = "nonsense";
+    CppTaggedUnion cppTaggedUnion = new CppTaggedUnion("Soviet", "Soviet", "nonsense");
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppTaggedUnion);
 
