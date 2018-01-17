@@ -45,9 +45,10 @@ public final class CppMethodSignatureTemplateTest {
 
   @Test
   public void generateWithComment() {
-    cppMethod.comment = METHOD_COMMENT;
+    CppMethod cppMethodWithComment =
+        new CppMethod.Builder(METHOD_NAME).comment(METHOD_COMMENT).build();
 
-    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethod);
+    String result = TemplateEngine.render(TEMPLATE_NAME, cppMethodWithComment);
 
     assertEquals("/**\n * nonsense\n */\nvoid methodical(  )", result);
   }
