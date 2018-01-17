@@ -15,6 +15,7 @@ import android.app.Application;
 import android.util.Log;
 import java.io.File;
 import java.io.FilenameFilter;
+import org.powermock.reflect.Whitebox;
 import org.robolectric.shadows.ShadowLog;
 
 /**
@@ -42,6 +43,18 @@ public final class RobolectricApplication extends Application {
     if (isFirstTime) {
       isFirstTime = false; // Only load libraries once
       loadNativeLibraries();
+      Runtime.getRuntime()
+          .addShutdownHook(
+              new Thread() {
+                @Override
+                public void run() {
+                  try {
+                    Whitebox.invokeMethod(NativeBase.class, "cleanUpQueue");
+                  } catch (Exception e) {
+                    e.printStackTrace();
+                  }
+                }
+              });
     }
   }
 

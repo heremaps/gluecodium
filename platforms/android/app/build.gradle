@@ -21,6 +21,12 @@ android {
     lintOptions {
         warningsAsErrors true
     }
+
+    testOptions {
+        unitTests.all {
+            environment 'MALLOC_CONF', 'prof_leak:true,lg_prof_sample:0,prof_final:true'
+        }
+    }
 }
 
 repositories {
@@ -37,7 +43,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:design:27.0.2'
 
-    // Test dependencies
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.powermock:powermock-reflect:1.7.1"
     testImplementation 'org.robolectric:robolectric:3.4.2'
 }
