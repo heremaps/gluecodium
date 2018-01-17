@@ -23,7 +23,11 @@ public final class CppClass extends CppElementWithComment {
   public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
 
   public CppClass(final String name) {
-    super(name);
+    this(name, null);
+  }
+
+  public CppClass(final String name, final String comment) {
+    super(name, name, comment);
   }
 
   @SuppressWarnings("unused")
