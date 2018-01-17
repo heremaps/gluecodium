@@ -39,6 +39,7 @@ public final class OptionReader {
     private boolean validatingOnly;
     private Set<String> generators;
     private String androidMergeManifestPath;
+    private boolean logTimes;
   }
 
   public OptionReader() {
@@ -71,6 +72,10 @@ public final class OptionReader {
     generatorsOpt.setOptionalArg(true);
     generatorsOpt.setArgs(Option.UNLIMITED_VALUES);
     options.addOption(generatorsOpt);
+    options.addOption(
+        "timeLogging",
+        false,
+        "Enables logging of transpilation- and franca model loading-times at INFO level.");
   }
 
   @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
@@ -113,6 +118,8 @@ public final class OptionReader {
 
       builder.validatingOnly(cmd.hasOption("validateOnly"));
       builder.dumpingToStdout(!cmd.hasOption("nostdout"));
+
+      builder.logTimes(cmd.hasOption("timeLogging"));
 
     } catch (ParseException e) {
       throw new OptionReaderException(e);

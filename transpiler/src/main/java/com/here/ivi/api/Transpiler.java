@@ -16,6 +16,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.cli.OptionReader;
 import com.here.ivi.api.cli.OptionReaderException;
 import com.here.ivi.api.cli.TranspilerExecutionException;
+import com.here.ivi.api.common.TimeLogger;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.Version;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -92,7 +94,10 @@ public class Transpiler {
     List<File> inputDirs =
         Arrays.stream(options.getInputDirs()).map(File::new).collect(Collectors.toList());
     List<FTypeCollection> typeCollections = new LinkedList<>();
+    TimeLogger times = new TimeLogger(LOGGER, TimeUnit.MILLISECONDS, Level.INFO);
+    times.start();
     FrancaDeploymentModel deploymentModel = loadModel(inputDirs, typeCollections);
+    times.addLogEntry("model loading");
 
     if (deploymentModel == null) {
       return false;
@@ -102,11 +107,18 @@ public class Transpiler {
     }
 
     Map<String, String> fileNamesCache = new HashMap<>();
-    return discoverGenerators()
-        .stream()
-        .allMatch(
-            generatorName ->
-                executeGenerator(generatorName, deploymentModel, typeCollections, fileNamesCache));
+    boolean result =
+        discoverGenerators()
+            .stream()
+            .allMatch(
+                generatorName ->
+                    executeGenerator(
+                        generatorName, deploymentModel, typeCollections, fileNamesCache));
+    times.addLogEntry("code generation (including file output)");
+    if (options.isLogTimes()) {
+      times.log();
+    }
+    return result;
   }
 
   @VisibleForTesting
