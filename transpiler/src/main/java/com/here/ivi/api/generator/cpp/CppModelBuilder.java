@@ -169,7 +169,14 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FStructType francaStructType) {
 
     // Type definition
-    CppStruct cppStruct = buildCompoundType(francaStructType, false);
+
+    String name = CppNameRules.getStructName(francaStructType.getName());
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaStructType);
+    String comment = CommentHelper.getDescription(francaStructType);
+    CppStruct cppStruct = new CppStruct(name, fullyQualifiedName, comment);
+
+    cppStruct.fields.addAll(getPreviousResults(CppField.class));
+
     CppTypeRef parentTypeRef = getPreviousResult(CppTypeRef.class);
     if (parentTypeRef != null) {
       cppStruct.inheritances.add(new CppInheritance(parentTypeRef, CppInheritance.Type.Public));
@@ -279,13 +286,6 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   }
 
   @Override
-  public void finishBuilding(FUnionType francaUnionType) {
-
-    storeResult(buildCompoundType(francaUnionType, true));
-    closeContext();
-  }
-
-  @Override
   public void finishBuilding(FAttribute francaAttribute) {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
@@ -348,23 +348,6 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
         .forEach(builder::parameter);
 
     return builder.build();
-  }
-
-  private CppStruct buildCompoundType(
-      final FCompoundType francaCompoundType, final boolean isUnion) {
-
-    String name = CppNameRules.getStructName(francaCompoundType.getName());
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaCompoundType);
-    String comment = CommentHelper.getDescription(francaCompoundType);
-    CppStruct cppStruct =
-        isUnion
-            ? new CppTaggedUnion(name, fullyQualifiedName, comment)
-            : new CppStruct(name, fullyQualifiedName, comment);
-
-    List<CppField> elements = getPreviousResults(CppField.class);
-
-    cppStruct.fields.addAll(elements);
-    return cppStruct;
   }
 
   private static CppTypeRef mapMethodReturnType(

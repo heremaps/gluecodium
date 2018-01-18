@@ -16,7 +16,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
 import com.here.ivi.api.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
 import com.here.ivi.api.model.common.InstanceRules;
@@ -110,11 +109,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FStructType francaStruct) {
-
-    if (PlatformUnsupportedFeatures.isUnsupportedType(francaStruct)) {
-      closeContext();
-      return;
-    }
 
     SwiftContainerType parent = getPreviousResult(SwiftContainerType.class);
 
@@ -211,11 +205,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FTypeDef francaTypeDef) {
 
-    if (PlatformUnsupportedFeatures.isUnsupportedType(francaTypeDef)) {
-      closeContext();
-      return;
-    }
-
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
       SwiftTypeDef typedefValue =
           new SwiftTypeDef(
@@ -228,11 +217,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
-
-    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
-      closeContext();
-      return;
-    }
 
     List<SwiftParameter> inParams =
         getPreviousResults(SwiftInParameter.class)
@@ -285,11 +269,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FAttribute attribute) {
-
-    if (PlatformUnsupportedFeatures.isUnsupportedType(attribute.getType())) {
-      closeContext();
-      return;
-    }
 
     SwiftProperty property =
         new SwiftProperty(

@@ -56,7 +56,6 @@ public class CppModelBuilderCommentsTest {
   @Mock private FMapType francaMapType;
   @Mock private FEnumerationType francaEnumerationType;
   @Mock private FEnumerator francaEnumerator;
-  @Mock private FUnionType francaUnionType;
   @Mock private FAttribute francaAttribute;
 
   private CppModelBuilder modelBuilder;
@@ -235,18 +234,6 @@ public class CppModelBuilderCommentsTest {
 
     PowerMockito.verifyStatic();
     CommentHelper.getDescription(francaEnumerator);
-  }
-
-  @Test
-  public void finishBuildingFrancaUnionTypeReadsComment() {
-    modelBuilder.finishBuilding(francaUnionType);
-
-    CppTaggedUnion cppTaggedUnion = modelBuilder.getFinalResult(CppTaggedUnion.class);
-    assertNotNull(cppTaggedUnion);
-    assertEquals(COMMENT, cppTaggedUnion.comment);
-
-    PowerMockito.verifyStatic();
-    CommentHelper.getDescription(francaUnionType);
   }
 
   @Test

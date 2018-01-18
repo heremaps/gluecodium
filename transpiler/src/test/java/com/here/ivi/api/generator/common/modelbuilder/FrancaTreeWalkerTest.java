@@ -47,7 +47,6 @@ public class FrancaTreeWalkerTest {
   @Mock private FTypeDef francaTypeDef;
   @Mock private FEnumerator francaEnumerator;
   @Mock private FExpression francaExpression;
-  @Mock private FUnionType francaUnionType;
 
   private final ArrayEList<FMethod> methods = new ArrayEList<>();
   private final ArrayEList<FArgument> arguments = new ArrayEList<>();
@@ -77,7 +76,6 @@ public class FrancaTreeWalkerTest {
     types.add(francaEnumerationType);
     types.add(francaMapType);
     types.add(francaTypeDef);
-    types.add(francaUnionType);
 
     when(francaInterface.getMethods()).thenReturn(methods);
     when(francaInterface.getConstants()).thenReturn(constants);
@@ -496,50 +494,5 @@ public class FrancaTreeWalkerTest {
 
     verify(modelBuilder).startBuilding(francaExpression);
     verify(modelBuilder).finishBuilding(francaExpression);
-  }
-
-  @Test
-  public void walkWithOneUnion() {
-    treeWalker.walkTree(francaInterface);
-
-    verify(modelBuilder).startBuilding(francaUnionType);
-    verify(modelBuilder).finishBuilding(francaUnionType);
-  }
-
-  @Test
-  public void walkWithTwoUnions() {
-    FUnionType anotherFrancaUnionType = mock(FUnionType.class);
-    types.add(anotherFrancaUnionType);
-
-    treeWalker.walkTree(francaInterface);
-
-    verify(modelBuilder).startBuilding(francaUnionType);
-    verify(modelBuilder).finishBuilding(francaUnionType);
-    verify(modelBuilder).startBuilding(anotherFrancaUnionType);
-    verify(modelBuilder).finishBuilding(anotherFrancaUnionType);
-  }
-
-  @Test
-  public void walkWithOneFieldInUnion() {
-    when(francaUnionType.getElements()).thenReturn(fields);
-
-    treeWalker.walkTree(francaInterface);
-
-    verify(modelBuilder).startBuilding(francaField);
-    verify(modelBuilder).finishBuilding(francaField);
-  }
-
-  @Test
-  public void walkWithTwoUnion() {
-    when(francaUnionType.getElements()).thenReturn(fields);
-    FField anotherFrancaField = mock(FField.class);
-    fields.add(anotherFrancaField);
-
-    treeWalker.walkTree(francaInterface);
-
-    verify(modelBuilder).startBuilding(francaField);
-    verify(modelBuilder).finishBuilding(francaField);
-    verify(modelBuilder).startBuilding(anotherFrancaField);
-    verify(modelBuilder).finishBuilding(anotherFrancaField);
   }
 }

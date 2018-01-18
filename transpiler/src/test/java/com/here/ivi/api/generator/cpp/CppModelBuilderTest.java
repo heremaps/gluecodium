@@ -42,7 +42,6 @@ public class CppModelBuilderTest {
   private static final String FIELD_NAME = "flowers";
   private static final String CONSTANT_NAME = "permanent";
   private static final String ENUM_NAME = "innumerable";
-  private static final String UNION_NAME = "soviet";
   private static final String METHOD_NAME = "methodical";
   private static final String ATTRIBUTE_NAME = "tribute";
 
@@ -68,7 +67,6 @@ public class CppModelBuilderTest {
   @Mock private FInitializerExpression francaInitializerExpression;
   @Mock private FEnumerator francaEnumerator;
   @Mock private FExpression francaExpression;
-  @Mock private FUnionType francaUnionType;
   @Mock private FAttribute francaAttribute;
 
   private CppModelBuilder modelBuilder;
@@ -102,7 +100,6 @@ public class CppModelBuilderTest {
     when(francaConstant.getName()).thenReturn(CONSTANT_NAME);
     when(francaEnumerationType.getName()).thenReturn(ENUM_NAME);
     when(francaEnumerator.getName()).thenReturn("enumerated");
-    when(francaUnionType.getName()).thenReturn(UNION_NAME);
     when(francaMethod.getName()).thenReturn(METHOD_NAME);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
@@ -628,31 +625,6 @@ public class CppModelBuilderTest {
 
     PowerMockito.verifyStatic();
     CppValueMapper.map(francaExpression);
-  }
-
-  @Test
-  public void finishBuildingFrancaUnionTypeReadsName() {
-    modelBuilder.finishBuilding(francaUnionType);
-
-    CppTaggedUnion cppTaggedUnion = modelBuilder.getFinalResult(CppTaggedUnion.class);
-    assertNotNull(cppTaggedUnion);
-    assertEquals(UNION_NAME, cppTaggedUnion.name.toLowerCase());
-    assertEquals("::nonsense::" + UNION_NAME, cppTaggedUnion.fullyQualifiedName.toLowerCase());
-
-    verify(francaUnionType, atLeastOnce()).getName();
-  }
-
-  @Test
-  public void finishBuildingFrancaUnionTypeReadsFields() {
-    final CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME);
-    contextStack.injectResult(cppField);
-
-    modelBuilder.finishBuilding(francaUnionType);
-
-    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
-    assertNotNull(resultStruct);
-    assertFalse(resultStruct.fields.isEmpty());
-    assertEquals(cppField, resultStruct.fields.get(0));
   }
 
   @Test

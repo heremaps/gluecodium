@@ -65,7 +65,6 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
         FEnumerationType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(FEnumerator.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(FField.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
-    initTreeNode(FUnionType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(FTypeDef.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(FArrayType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(FMapType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
@@ -157,11 +156,7 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
     // Walking "base" just provides additional inheritance data to the child.
     walk(francaStructType.getBase());
 
-    walkChildNodes((FCompoundType) francaStructType);
-  }
-
-  private void walkChildNodes(FCompoundType francaCompoundType) {
-    walkCollection(francaCompoundType.getElements());
+    walkCollection(francaStructType.getElements());
   }
 
   private void walkChildNodes(FTypedElement francaTypedElement) {

@@ -15,7 +15,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterables;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.generator.common.PlatformUnsupportedFeatures;
 import com.here.ivi.api.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
 import com.here.ivi.api.model.franca.CommentHelper;
@@ -85,11 +84,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
-
-    if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
-      closeContext();
-      return;
-    }
 
     boolean needSelectorSuffix =
         francaMethod.getSelector() != null && FrancaTypeHelper.hasArrayParameters(francaMethod);
@@ -183,11 +177,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
-    if (PlatformUnsupportedFeatures.isUnsupportedType(francaConstant.getType())) {
-      closeContext();
-      return;
-    }
-
     JavaType javaType =
         CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
     JavaValue value = JavaValueMapper.map(javaType, francaConstant.getRhs());
@@ -222,11 +211,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FStructType francaStructType) {
-
-    if (PlatformUnsupportedFeatures.isUnsupportedType(francaStructType)) {
-      closeContext();
-      return;
-    }
 
     // Type definition
     JavaClass javaClass =
@@ -293,11 +277,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FArrayType francaArrayType) {
 
-    if (PlatformUnsupportedFeatures.isUnsupportedType(francaArrayType.getElementType())) {
-      closeContext();
-      return;
-    }
-
     storeResult(typeMapper.mapArray(francaArrayType));
     closeContext();
   }
@@ -305,23 +284,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FMapType francaMapType) {
 
-    if (PlatformUnsupportedFeatures.isUnsupportedType(francaMapType.getKeyType())
-        || PlatformUnsupportedFeatures.isUnsupportedType(francaMapType.getValueType())) {
-      closeContext();
-      return;
-    }
-
     storeResult(typeMapper.mapMap(francaMapType));
     closeContext();
   }
 
   @Override
   public void finishBuilding(FAttribute francaAttribute) {
-
-    if (PlatformUnsupportedFeatures.isUnsupportedType(francaAttribute.getType())) {
-      closeContext();
-      return;
-    }
 
     JavaType javaType = getPreviousResult(JavaType.class);
     String comment = CommentHelper.getDescription(francaAttribute);

@@ -58,7 +58,5 @@ public interface ModelBuilder {
 
   void finishBuilding(FExpression francaExpression);
 
-  void finishBuilding(FUnionType francaUnionType);
-
   void finishBuilding(FAttribute francaAttribute);
 }
