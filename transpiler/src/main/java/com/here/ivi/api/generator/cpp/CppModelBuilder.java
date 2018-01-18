@@ -21,7 +21,6 @@ import com.here.ivi.api.model.cpp.*;
 import com.here.ivi.api.model.franca.CommentHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import java.util.*;
-import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
 public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
@@ -77,15 +76,16 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    List<CppParameter> outputParameters =
+    CppParameter outputParameter =
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
             .filter(parameter -> parameter.isOutput)
-            .collect(Collectors.toList());
-    String returnTypeComment = !outputParameters.isEmpty() ? outputParameters.get(0).comment : null;
+            .findFirst()
+            .orElse(null);
+    String returnTypeComment = outputParameter != null ? outputParameter.comment : null;
 
     CppTypeRef errorEnumTypeRef = getPreviousResult(CppTypeRef.class);
     CppTypeRef errorType = errorEnumTypeRef != null ? CppTypeMapper.HF_ERROR_TYPE : null;
-    CppTypeRef returnType = mapMethodReturnType(outputParameters, errorType);
+    CppTypeRef returnType = mapMethodReturnType(outputParameter, errorType);
     CppMethod cppMethod = buildCppMethod(francaMethod, returnType, returnTypeComment);
 
     storeResult(cppMethod);
@@ -368,16 +368,9 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   }
 
   private static CppTypeRef mapMethodReturnType(
-      final List<CppParameter> outputParameters, final CppTypeRef errorType) {
+      final CppParameter outputParameter, final CppTypeRef errorType) {
 
-    CppTypeRef outArgType = null;
-
-    if (!outputParameters.isEmpty()) {
-      // If outArgs size is 2 or more, the output has to be wrapped in a struct,
-      // which is not supported yet.
-      outArgType = outputParameters.get(0).type;
-    }
-
+    CppTypeRef outArgType = outputParameter != null ? outputParameter.type : null;
     if (errorType == null && outArgType == null) {
       return CppPrimitiveTypeRef.VOID;
     } else if (errorType != null && outArgType == null) {

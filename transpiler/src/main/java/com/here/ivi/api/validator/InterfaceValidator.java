@@ -32,6 +32,7 @@ import org.franca.core.franca.FTypeCollection;
  *       IsInterface set to "false".
  *   <li>No interface method should use inline error enums since these are not usable with
  *       hf::ErrorCode.
+ *   <li>No interface method should have multiple "out" parameters.
  * </ul>
  */
 public final class InterfaceValidator {
@@ -44,6 +45,8 @@ public final class InterfaceValidator {
       "Inline error enums in methods are not allowed: method '%s' in interface '%s.%s'.";
   private static final String INVALID_INHERITANCE_MESSAGE =
       "Interface '%s.%s' is not allowed to inherit from class '%s.%s'.";
+  private static final String OUTARGS_METHOD_MESSAGE =
+      "Multiple output arguments in methods are not allowed: method '%s' in interface '%s.%s'.";
 
   public static boolean validate(
       final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
@@ -52,6 +55,7 @@ public final class InterfaceValidator {
         CollectionsHelper.getStreamOfType(typeCollections, FInterface.class)
             .collect(Collectors.toList());
     return checkInlineEnums(interfaces)
+        && checkOutputArguments(interfaces)
         && checkStaticMethods(interfaces, deploymentModel)
         && checkInheritance(interfaces, deploymentModel);
   }
@@ -77,6 +81,11 @@ public final class InterfaceValidator {
         .stream()
         .filter(deploymentModel::isInterface)
         .noneMatch(francaInterface -> inheritsFromClass(francaInterface, deploymentModel));
+  }
+
+  @VisibleForTesting
+  static boolean checkOutputArguments(final Collection<FInterface> interfaces) {
+    return interfaces.stream().noneMatch(InterfaceValidator::containsMultipleOutputArguments);
   }
 
   private static String formatErrorMessage(
@@ -135,5 +144,19 @@ public final class InterfaceValidator {
     }
 
     return inheritsFromClass;
+  }
+
+  private static boolean containsMultipleOutputArguments(final FInterface francaInterface) {
+
+    Collection<String> errorMessages =
+        francaInterface
+            .getMethods()
+            .stream()
+            .filter(method -> method.getOutArgs() != null && method.getOutArgs().size() > 1)
+            .map(method -> formatErrorMessage(OUTARGS_METHOD_MESSAGE, francaInterface, method))
+            .collect(Collectors.toList());
+    errorMessages.forEach(LOGGER::severe);
+
+    return !errorMessages.isEmpty();
   }
 }

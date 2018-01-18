@@ -85,6 +85,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FMethod francaMethod) {
+
     if (PlatformUnsupportedFeatures.hasUnsupportedParameters(francaMethod)) {
       closeContext();
       return;
@@ -96,20 +97,20 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     String javaMethodName = JavaNameRules.getMethodName(francaMethod.getName(), selector);
 
     // Map return type
-    List<JavaParameter> outputParameters =
+    JavaParameter outputParameter =
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
             .filter(parameter -> parameter.isOutput)
-            .collect(Collectors.toList());
-    String returnComment = !outputParameters.isEmpty() ? outputParameters.get(0).comment : null;
+            .findFirst()
+            .orElse(null);
 
     JavaType returnType;
-    if (outputParameters.isEmpty()) { // Void return type
+    String returnComment;
+    if (outputParameter == null) { // Void return type
       returnType = JavaPrimitiveType.VOID;
-    } else if (outputParameters.size() == 1) {
-      returnType = outputParameters.get(0).type;
+      returnComment = null;
     } else {
-      // TODO: APIGEN-1101 remove this
-      returnType = JavaPrimitiveType.VOID;
+      returnType = outputParameter.type;
+      returnComment = outputParameter.comment;
     }
 
     JavaCustomType javaExceptionTypeRef = null;

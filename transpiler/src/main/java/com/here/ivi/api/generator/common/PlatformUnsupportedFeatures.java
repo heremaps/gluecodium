@@ -20,12 +20,10 @@ import org.franca.core.franca.*;
  */
 public final class PlatformUnsupportedFeatures {
 
-  // TODO: remove when APIGEN-1101 and APIGEN-1102 are implemented
+  // TODO: remove when APIGEN-1102 is implemented
   public static boolean hasUnsupportedParameters(final FMethod francaMethod) {
-    EList<FArgument> outArgs = francaMethod.getOutArgs();
     return hasUnsupportedElements(francaMethod.getInArgs())
-        || hasUnsupportedElements(outArgs)
-        || (outArgs != null && outArgs.size() > 1); // TODO: remove when APIGEN-1101 is implemented
+        || hasUnsupportedElements(francaMethod.getOutArgs());
   }
 
   private static boolean hasUnsupportedElements(
@@ -37,12 +35,14 @@ public final class PlatformUnsupportedFeatures {
             .anyMatch(PlatformUnsupportedFeatures::isUnsupportedType);
   }
 
+  // TODO: remove when APIGEN-1102 is implemented
   public static boolean isUnsupportedType(final FTypeRef francaTypeRef) {
     return francaTypeRef != null
         && francaTypeRef.getDerived() != null
         && isUnsupportedType(francaTypeRef.getDerived());
   }
 
+  // TODO: remove when APIGEN-1102 is implemented
   public static boolean isUnsupportedType(final FType francaType) {
 
     if (francaType instanceof FUnionType) {
@@ -50,8 +50,7 @@ public final class PlatformUnsupportedFeatures {
     }
 
     if (francaType instanceof FStructType) {
-      FStructType francaStructType = (FStructType) francaType;
-      return hasUnsupportedElements(francaStructType.getElements());
+      return hasUnsupportedElements(((FStructType) francaType).getElements());
     }
 
     if (francaType instanceof FTypeDef) {
