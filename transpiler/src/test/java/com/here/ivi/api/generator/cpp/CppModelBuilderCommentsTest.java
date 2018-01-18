@@ -109,7 +109,7 @@ public class CppModelBuilderCommentsTest {
 
     CppMethod cppMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(cppMethod);
-    assertEquals("foobar", cppMethod.returnTypeComment);
+    assertEquals("foobar", cppMethod.returnComment);
   }
 
   @Test
