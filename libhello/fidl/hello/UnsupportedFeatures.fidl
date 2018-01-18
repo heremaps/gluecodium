@@ -58,14 +58,4 @@ interface UnsupportedFeatures {
             String magicString
         }
     }
-
-    <** @description:
-    Example for currently unsupported and multiple return arguments
-    **>
-    method methodWithMultipleParameters {
-        out {
-            Int32 id
-            Boolean isSuccess
-        }
-    }
 }
