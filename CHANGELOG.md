@@ -1,5 +1,9 @@
 # API Transpiler Release Notes
 
+[Unreleased]
+- Features:
+  + Add validation against multiple output parameters. No support for this feature is planned.
+
 ## 1.1.1
 - Bugs:
   + Android fields of structs declared within interfaces cannot be instantiated (APIGEN-1069)
