@@ -45,10 +45,7 @@ public class AllTypesStruct {
         this.bytesField = bytesField;
         this.pointField = pointField;
     }
-    public static AllTypesStructBuilder builder() {
-        return new AllTypesStructBuilder();
-    }
-    public static class AllTypesStructBuilder {
+    public static class Builder {
         public byte int8Field;
         public long uint8Field;
         public short int16Field;
@@ -63,61 +60,61 @@ public class AllTypesStruct {
         public boolean booleanField;
         public byte[] bytesField;
         public Point pointField = new Point();
-        AllTypesStructBuilder() {
+        public Builder() {
         }
-        public AllTypesStructBuilder int8Field(byte int8Field) {
+        public Builder setInt8Field(byte int8Field) {
             this.int8Field = int8Field;
             return this;
         }
-        public AllTypesStructBuilder uint8Field(long uint8Field) {
+        public Builder setUint8Field(long uint8Field) {
             this.uint8Field = uint8Field;
             return this;
         }
-        public AllTypesStructBuilder int16Field(short int16Field) {
+        public Builder setInt16Field(short int16Field) {
             this.int16Field = int16Field;
             return this;
         }
-        public AllTypesStructBuilder uint16Field(long uint16Field) {
+        public Builder setUint16Field(long uint16Field) {
             this.uint16Field = uint16Field;
             return this;
         }
-        public AllTypesStructBuilder int32Field(int int32Field) {
+        public Builder setInt32Field(int int32Field) {
             this.int32Field = int32Field;
             return this;
         }
-        public AllTypesStructBuilder uint32Field(long uint32Field) {
+        public Builder setUint32Field(long uint32Field) {
             this.uint32Field = uint32Field;
             return this;
         }
-        public AllTypesStructBuilder int64Field(long int64Field) {
+        public Builder setInt64Field(long int64Field) {
             this.int64Field = int64Field;
             return this;
         }
-        public AllTypesStructBuilder uint64Field(long uint64Field) {
+        public Builder setUint64Field(long uint64Field) {
             this.uint64Field = uint64Field;
             return this;
         }
-        public AllTypesStructBuilder floatField(float floatField) {
+        public Builder setFloatField(float floatField) {
             this.floatField = floatField;
             return this;
         }
-        public AllTypesStructBuilder doubleField(double doubleField) {
+        public Builder setDoubleField(double doubleField) {
             this.doubleField = doubleField;
             return this;
         }
-        public AllTypesStructBuilder stringField(String stringField) {
+        public Builder setStringField(String stringField) {
             this.stringField = stringField;
             return this;
         }
-        public AllTypesStructBuilder booleanField(boolean booleanField) {
+        public Builder setBooleanField(boolean booleanField) {
             this.booleanField = booleanField;
             return this;
         }
-        public AllTypesStructBuilder bytesField(byte[] bytesField) {
+        public Builder setBytesField(byte[] bytesField) {
             this.bytesField = bytesField;
             return this;
         }
-        public AllTypesStructBuilder pointField(Point pointField) {
+        public Builder setPointField(Point pointField) {
             this.pointField = pointField;
             return this;
         }

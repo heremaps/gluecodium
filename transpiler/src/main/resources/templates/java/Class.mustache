@@ -31,19 +31,16 @@
     }
     {{#if tooManyFields}}
 
-    public static {{name}}Builder builder() {
-        return new {{name}}Builder();
-    }
-    public static class {{name}}Builder {
+    public static class Builder {
     {{#fields}}
     {{prefixPartial "java/Field" "    "}}
     {{/fields}}
 
-        {{name}}Builder() {
+        public Builder() {
         }
 
         {{#set className=name}}{{#fields}}
-        public {{className}}Builder {{name}}({{type}} {{name}}) {
+        public Builder set{{capitalize name}}({{type}} {{name}}) {
             this.{{name}} = {{name}};
             return this;
         }
