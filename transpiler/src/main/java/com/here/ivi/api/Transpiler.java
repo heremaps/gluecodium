@@ -249,6 +249,7 @@ public class Transpiler {
 
     return NameValidator.validate(typeCollections)
         && InterfaceValidator.validate(deploymentModel, typeCollections)
+        && TypeValidator.validate(typeCollections)
         && DefaultsValidator.validate(deploymentModel, typeCollections)
         && ExpressionValidator.validate(typeCollections);
   }
