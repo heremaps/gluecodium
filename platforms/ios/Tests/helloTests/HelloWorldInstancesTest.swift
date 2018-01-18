@@ -24,9 +24,16 @@ class HelloWorldInstancesTests: XCTestCase {
         XCTAssertEqual(complex?.getInstantiable()?.getStringValue(), "Hello")
     }
 
+    func testInvalidInstance() {
+        let instance = InstancesFactory.createNestedInstantiableOne()
+        let invalid = instance!.getInstanceOne()
+        XCTAssertNil(invalid)
+    }
+
     static var allTests = [
         ("testInstanceCreation", testInstanceCreation),
         ("testInstanceMethod", testInstanceMethod),
-        ("testNestedInstances", testNestedInstances)
+        ("testNestedInstances", testNestedInstances),
+        ("testInvalidInstance", testInvalidInstance)
     ]
 }
