@@ -41,7 +41,6 @@ public class BuiltInValueRules {
 
   private static final Logger LOGGER = Logger.getLogger(BuiltInValueRules.class.getName());
 
-  // TODO move to shared Helper with CppTypeMapper
   private static final String BUILTIN_MODEL = "navigation.BuiltIn";
 
   private static final String FLOAT_MAX_CONSTANT = "MaxFloat";

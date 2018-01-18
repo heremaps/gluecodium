@@ -241,7 +241,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .collect(toList());
 
     String comment = CommentHelper.getDescription(francaMethod);
-    // TODO: APIGEN-471 - handle multiple return values
     SwiftParameter returnParam =
         CollectionsHelper.getFirstOfType(
             getCurrentContext().previousResults, SwiftOutParameter.class, new SwiftOutParameter());
