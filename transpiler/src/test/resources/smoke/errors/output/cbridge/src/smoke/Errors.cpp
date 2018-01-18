@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -19,8 +19,13 @@ void smoke_Errors_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<smoke::Errors>>(handle);
 }
 _baseRef smoke_Errors_copy(_baseRef handle) {
-    return { new (std::nothrow)std::shared_ptr<smoke::Errors>(*get_pointer<std::shared_ptr<smoke::Errors>>(handle)) };
+    return { new std::shared_ptr<smoke::Errors>(*get_pointer<std::shared_ptr<smoke::Errors>>(handle)) };
 }
+
+
+
 smoke_Errors_InternalError smoke_Errors_methodWithErrors() {
     return ::smoke::Errors::method_with_errors().code().code();
 }
+
+

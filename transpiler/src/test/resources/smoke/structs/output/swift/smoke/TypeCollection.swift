@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -28,7 +28,6 @@ public struct Point {
 
     internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_Point_create()
-        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
@@ -57,7 +56,6 @@ public struct Color {
 
     internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_Color_create()
-        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
@@ -98,7 +96,6 @@ public struct Line {
 
     internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_Line_create()
-        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
@@ -140,7 +137,6 @@ public struct ColoredLine {
 
     internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_ColoredLine_create()
-        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
@@ -222,7 +218,6 @@ public struct AllTypesStruct {
 
     internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_AllTypesStruct_create()
-        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }

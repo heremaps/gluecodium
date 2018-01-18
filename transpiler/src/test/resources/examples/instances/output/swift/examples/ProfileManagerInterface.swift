@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -24,8 +24,8 @@ internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder {
             Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
         }
     }
+
     functions.examples_ProfileManagerInterface_createProfile = {(swiftClass_pointer, username) in
-        precondition(username.private_pointer != nil, "Out of memory")
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! ProfileManagerInterface
         defer {
             std_string_release(username)
@@ -34,9 +34,13 @@ internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder {
                                                 count: Int(std_string_size_get(username))), encoding: .utf8)!)
     }
     let proxy = examples_ProfileManagerInterface_createProxy(functions)
-    precondition(proxy.private_pointer != nil, "Out of memory")
     return RefHolder(ref: proxy, release: examples_ProfileManagerInterface_release)
 }
+
+
+
+
+
 
 public protocol ProfileManagerInterface : AnyObject {
 
@@ -51,6 +55,9 @@ internal class _ProfileManagerInterface: ProfileManagerInterface {
     let c_instance : _baseRef
 
     init?(cProfileManagerInterface: _baseRef) {
+        guard cProfileManagerInterface.private_pointer != nil else {
+            return nil
+        }
         c_instance = cProfileManagerInterface
     }
 

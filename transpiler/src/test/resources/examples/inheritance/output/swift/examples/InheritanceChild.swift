@@ -23,7 +23,6 @@ internal func getRef(_ ref: InheritanceChild) -> RefHolder {
         }
     }
     functions.examples_InheritanceParent_parentMethod = {(swiftClass_pointer, input) in
-        precondition(input.private_pointer != nil, "Out of memory")
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InheritanceChild
         defer {
             std_string_release(input)
@@ -36,7 +35,6 @@ internal func getRef(_ ref: InheritanceChild) -> RefHolder {
         return swiftClass.childMethod(input: input)
     }
     let proxy = examples_InheritanceChild_createProxy(functions)
-    precondition(proxy.private_pointer != nil, "Out of memory")
     return RefHolder(ref: proxy, release: examples_InheritanceChild_release)
 }
 
@@ -48,6 +46,9 @@ public protocol InheritanceChild : InheritanceParent {
 internal class _InheritanceChild: InheritanceChild {
     let c_instance : _baseRef
     init?(cInheritanceChild: _baseRef) {
+        guard cInheritanceChild.private_pointer != nil else {
+            return nil
+        }
         c_instance = cInheritanceChild
     }
     deinit {
@@ -55,7 +56,6 @@ internal class _InheritanceChild: InheritanceChild {
     }
     public func parentMethod(input: String) -> String? {
         let result_string_handle = examples_InheritanceParent_parentMethod(c_instance, input)
-        precondition(result_string_handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(result_string_handle)
         }

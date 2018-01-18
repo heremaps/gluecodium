@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,19 +11,24 @@
 
 import Foundation
 
+
+
 internal func getRef(_ ref: Calculator) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
-
 public class Calculator {
     let c_instance : _baseRef
+
     public init?(cCalculator: _baseRef) {
+        guard cCalculator.private_pointer != nil else {
+            return nil
+        }
         c_instance = cCalculator
     }
+
     deinit {
         smoke_Calculator_release(c_instance)
     }
-
     public static func registerListener(listener: CalculatorListener) -> Void {
         let listenerHandle = getRef(listener)
         return smoke_Calculator_registerListener(listenerHandle.ref)

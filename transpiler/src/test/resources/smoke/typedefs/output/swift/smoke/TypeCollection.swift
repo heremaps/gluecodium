@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -13,7 +13,6 @@ import Foundation
 
 public typealias PointTypeDef = Point
 public typealias StorageId = UInt64
-
 public struct Point {
     public var x: Double
     public var y: Double
@@ -30,7 +29,6 @@ public struct Point {
 
     internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_Point_create()
-        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
@@ -40,21 +38,23 @@ public struct Point {
         smoke_TypeCollection_Point_y_set(cPoint, y)
     }
 }
-
 public struct StructHavingAliasFieldDefinedBelow {
     public var field: StorageId
+
     public init(field: StorageId) {
         self.field = field
     }
+
     internal init?(cStructHavingAliasFieldDefinedBelow: _baseRef) {
         field = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_get(cStructHavingAliasFieldDefinedBelow)
     }
+
     internal func convertToCType() -> _baseRef {
         let result = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_create()
-        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }
+
     internal func fillFunction(_ cStructHavingAliasFieldDefinedBelow: _baseRef) -> Void {
         smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_set(cStructHavingAliasFieldDefinedBelow, field)
     }

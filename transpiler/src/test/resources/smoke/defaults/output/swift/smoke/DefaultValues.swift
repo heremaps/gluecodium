@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,23 +11,28 @@
 
 import Foundation
 
+
+
 internal func getRef(_ ref: DefaultValues) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
-
 public class DefaultValues {
     let c_instance : _baseRef
 
     public init?(cDefaultValues: _baseRef) {
+        guard cDefaultValues.private_pointer != nil else {
+            return nil
+        }
         c_instance = cDefaultValues
     }
 
     deinit {
         smoke_DefaultValues_release(c_instance)
     }
-
     public enum SomeEnum : UInt32 {
+
         case fooValue
+
         case barValue
     }
 
@@ -37,6 +42,7 @@ public class DefaultValues {
         public var boolField: Bool
         public var stringField: String
         public var enumField: DefaultValues.SomeEnum
+
         public init(intField: Int32 = 42, floatField: Float = 3.14, boolField: Bool = true, stringField: String = "\\Jonny \"Magic\" Smith\n", enumField: DefaultValues.SomeEnum = DefaultValues.SomeEnum.barValue) {
             self.intField = intField
             self.floatField = floatField
@@ -58,7 +64,6 @@ public class DefaultValues {
 
         internal func convertToCType() -> _baseRef {
             let result = smoke_DefaultValues_StructWithDefaults_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -78,10 +83,10 @@ public class DefaultValues {
             smoke_DefaultValues_StructWithDefaults_release(inputHandle)
         }
         let cResult = smoke_DefaultValues_processStructWithDefaults(inputHandle)
-        precondition(cResult.private_pointer != nil, "Out of memory")
         defer {
             smoke_DefaultValues_StructWithDefaults_release(cResult)
         }
         return DefaultValues.StructWithDefaults(cStructWithDefaults: cResult)
     }
+
 }

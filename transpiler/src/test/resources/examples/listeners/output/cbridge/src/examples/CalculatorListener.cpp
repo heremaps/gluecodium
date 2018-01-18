@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -20,31 +20,41 @@ void examples_CalculatorListener_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<examples::CalculatorListener>>(handle);
 }
 _baseRef examples_CalculatorListener_copy(_baseRef handle) {
-    return { new (std::nothrow)std::shared_ptr<examples::CalculatorListener>(*get_pointer<std::shared_ptr<examples::CalculatorListener>>(handle)) };
+    return { new std::shared_ptr<examples::CalculatorListener>(*get_pointer<std::shared_ptr<examples::CalculatorListener>>(handle)) };
 }
+
+
+
 void examples_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
     return get_pointer<std::shared_ptr<examples::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult);
 }
+
+
 class examples_CalculatorListenerProxy : public std::shared_ptr<examples::CalculatorListener>::element_type, public CachedProxyBase<examples_CalculatorListenerProxy> {
 public:
     using function_table_t = examples_CalculatorListener_FunctionTable;
+
     examples_CalculatorListenerProxy(examples_CalculatorListener_FunctionTable&& functions)
      : mFunctions(std::move(functions))
     {
     }
+
     virtual ~examples_CalculatorListenerProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+
     void on_calculation_result(double calculationResult) override {
         return mFunctions.examples_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
     }
+
 private:
     function_table_t mFunctions;
 };
+
 _baseRef examples_CalculatorListener_createProxy(examples_CalculatorListener_FunctionTable functionTable) {
     auto proxy = examples_CalculatorListenerProxy::get_proxy(std::move(functionTable));
     if (proxy) {
-        return { new (std::nothrow) std::shared_ptr<examples::CalculatorListener>(std::move(proxy)) };
+        return { new std::shared_ptr<examples::CalculatorListener>(std::move(proxy)) };
     } else {
         return { nullptr };
     }
@@ -53,3 +63,4 @@ _baseRef examples_CalculatorListener_createProxy(examples_CalculatorListener_Fun
 const void* examples_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {
     return examples_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<examples::CalculatorListener>>(handle)->get());
 }
+

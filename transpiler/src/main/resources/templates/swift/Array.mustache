@@ -34,7 +34,6 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType}}> {
 extension Collection {{>GenericConstraintsRule}}  {
     public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = {{refName}}_create()
-        {{>precondition}}
 
         for item in self { {{!!
             }}{{#switch underlyingType.category.toString}}{{!!
@@ -72,18 +71,15 @@ defer {
 {{>classSubscript}}{{/structSubscript}}
 
 {{+classSubscript}}
-{{>precondition}}
 guard let result = {{underlyingType}}(c{{underlyingType.simpleName}}: handle) else {
     fatalError("Not implemented")
 }
 return result{{/classSubscript}}
 
 {{+arraySubscript}}
-{{>precondition}}
 return {{underlyingType.implementingClass}}(handle){{/arraySubscript}}
 
 {{+stringSubscript}}
-{{>precondition}}
 defer {
     std_string_release(handle)
 }
@@ -111,5 +107,3 @@ conversion.cleanup(){{/arrayConversion}}
 
 {{+defaultConversion}}
 {{refName}}_append(handle, item){{/defaultConversion}}
-
-{{+precondition}}precondition(handle.private_pointer != nil, "Out of memory"){{/precondition}}

@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,15 +11,21 @@
 
 import Foundation
 
+
+
 internal func getRef(_ ref: StructsInheritance) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
-
 public class StructsInheritance {
     let c_instance : _baseRef
+
     public init?(cStructsInheritance: _baseRef) {
+        guard cStructsInheritance.private_pointer != nil else {
+            return nil
+        }
         c_instance = cStructsInheritance
     }
+
     deinit {
         smoke_StructsInheritance_release(c_instance)
     }
@@ -27,14 +33,17 @@ public class StructsInheritance {
         public var a: Structs.Point
         public var b: Structs.Point
         public var color: Color
+
         public init(a: Structs.Point, b: Structs.Point, color: Color) {
             self.a = a
             self.b = b
             self.color = color
         }
+
         public func convertToLine() -> Structs.Line {
             return Structs.Line(a: a, b: b)
         }
+
         internal init?(cColoredLineInherited: _baseRef) {
             do {
                 guard
@@ -61,12 +70,13 @@ public class StructsInheritance {
                 color = colorUnwrapped
             }
         }
+
         internal func convertToCType() -> _baseRef {
             let result = smoke_StructsInheritance_ColoredLineInherited_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
+
         internal func fillFunction(_ cColoredLineInherited: _baseRef) -> Void {
             let aHandle = smoke_StructsInheritance_ColoredLineInherited_a_get(cColoredLineInherited)
             a.fillFunction(aHandle)
@@ -76,16 +86,17 @@ public class StructsInheritance {
             color.fillFunction(colorHandle)
         }
     }
+
     public static func methodWithInheritedType(input: StructsInheritance.ColoredLineInherited) -> StructsInheritance.ColoredLineInherited? {
         let inputHandle = input.convertToCType()
         defer {
             smoke_StructsInheritance_ColoredLineInherited_release(inputHandle)
         }
         let cResult = smoke_StructsInheritance_methodWithInheritedType(inputHandle)
-        precondition(cResult.private_pointer != nil, "Out of memory")
         defer {
             smoke_StructsInheritance_ColoredLineInherited_release(cResult)
         }
         return StructsInheritance.ColoredLineInherited(cColoredLineInherited: cResult)
     }
+
 }

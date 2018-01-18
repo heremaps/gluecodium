@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,18 +11,24 @@
 
 import Foundation
 
+
+
 internal func getRef(_ ref: Structs) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
 public class Structs {
     let c_instance : _baseRef
+
     public init?(cStructs: _baseRef) {
+        guard cStructs.private_pointer != nil else {
+            return nil
+        }
         c_instance = cStructs
     }
+
     deinit {
         examples_Structs_release(c_instance)
     }
-
     public struct SyncResult {
         public var lastUpdatedTimeStamp: UInt64
         public var numberOfChanges: UInt32
@@ -39,7 +45,6 @@ public class Structs {
 
         internal func convertToCType() -> _baseRef {
             let result = examples_Structs_SyncResult_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -73,7 +78,6 @@ public class Structs {
 
         internal func convertToCType() -> _baseRef {
             let result = examples_Structs_IdentifiableSyncResult_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -91,26 +95,21 @@ public class Structs {
             examples_Structs_SyncResult_release(inputHandle)
         }
         let cResult = examples_Structs_methodWithNonNestedType(inputHandle)
-        precondition(cResult.private_pointer != nil, "Out of memory")
-
         defer {
             examples_Structs_SyncResult_release(cResult)
         }
-
         return Structs.SyncResult(cSyncResult: cResult)
     }
+
     public static func methodWithNestedType(input: Structs.IdentifiableSyncResult) -> Structs.IdentifiableSyncResult? {
         let inputHandle = input.convertToCType()
         defer {
             examples_Structs_IdentifiableSyncResult_release(inputHandle)
         }
         let cResult = examples_Structs_methodWithNestedType(inputHandle)
-        precondition(cResult.private_pointer != nil, "Out of memory")
-
         defer {
             examples_Structs_IdentifiableSyncResult_release(cResult)
         }
-
         return Structs.IdentifiableSyncResult(cIdentifiableSyncResult: cResult)
     }
 

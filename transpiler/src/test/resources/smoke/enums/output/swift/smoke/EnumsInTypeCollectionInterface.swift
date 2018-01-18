@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,22 +11,26 @@
 
 import Foundation
 
+
+
 internal func getRef(_ ref: EnumsInTypeCollectionInterface) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
-
 public class EnumsInTypeCollectionInterface {
     let c_instance : _baseRef
+
     public init?(cEnumsInTypeCollectionInterface: _baseRef) {
+        guard cEnumsInTypeCollectionInterface.private_pointer != nil else {
+            return nil
+        }
         c_instance = cEnumsInTypeCollectionInterface
     }
+
     deinit {
         smoke_EnumsInTypeCollectionInterface_release(c_instance)
     }
-
     public static func flipEnumValue(input: TCEnum) -> TCEnum {
         let cResult = smoke_EnumsInTypeCollectionInterface_flipEnumValue(input.rawValue)
-
         return TCEnum(rawValue: cResult)!
     }
 

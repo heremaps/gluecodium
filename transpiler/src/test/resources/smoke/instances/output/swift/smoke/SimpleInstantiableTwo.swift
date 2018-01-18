@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -12,6 +12,7 @@
 import Foundation
 
 
+
 internal func getRef(_ ref: SimpleInstantiableTwo) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
@@ -19,6 +20,9 @@ public class SimpleInstantiableTwo {
     let c_instance : _baseRef
 
     public init?(cSimpleInstantiableTwo: _baseRef) {
+        guard cSimpleInstantiableTwo.private_pointer != nil else {
+            return nil
+        }
         c_instance = cSimpleInstantiableTwo
     }
 
@@ -31,7 +35,6 @@ public class SimpleInstantiableTwo {
 
     public func getStringValue() -> String? {
         let result_string_handle = smoke_SimpleInstantiableTwo_getStringValue(c_instance)
-        precondition(result_string_handle.private_pointer != nil, "Out of memory")
         defer {
             std_string_release(result_string_handle)
         }
