@@ -128,11 +128,6 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
-  public void finishBuilding(FUnionType francaUnionType) {
-    closeContext();
-  }
-
-  @Override
   public void finishBuilding(FAttribute francaAttribute) {
     closeContext();
   }

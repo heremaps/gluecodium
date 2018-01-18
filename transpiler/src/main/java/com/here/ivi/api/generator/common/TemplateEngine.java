@@ -118,7 +118,7 @@ public final class TemplateEngine {
   /**
    * Execute a block if the class name of the value equals the given string<br>
    * Usage: {{#instanceOf value "className"}}...{{/instanceOf}}<br>
-   * Example: {{#instanceOf this "CppTaggedUnion"}}...{{/instanceOf}}
+   * Example: {{#instanceOf this "CppStruct"}}...{{/instanceOf}}
    */
   @VisibleForTesting
   static class InstanceOfHelper extends BasicSectionHelper {

@@ -62,40 +62,7 @@ struct SomeStruct {
      */
     ::examples::Comments::Usefulness some_field;
 };
-/**
- * This is some totally useless union.
- */
-struct SomeUnion {
-    enum VariantType {
-        SOME_FIELD
-    };
-    const VariantType type;
-    union {
-        /**
-         * How useless this union is
-         */
-        ::examples::Comments::Usefulness some_field;
-    };
-    SomeUnion(const ::examples::Comments::Usefulness& some_field)
-        : type(SOME_FIELD)
-        , some_field(some_field) {};
-    SomeUnion(const SomeUnion& other)
-        : type(other.type)
-    {
-        switch (other.type) {
-        case SOME_FIELD:
-            new (&some_field) ::examples::Comments::Usefulness(other.some_field);
-            break;
-        };
-    };
-    ~SomeUnion()
-    {
-        switch (type) {
-        case SOME_FIELD:
-            break;
-        };
-    };
-};
+
 public:
 /**
  * This is some very useful method that measures the usefulness of its input.
