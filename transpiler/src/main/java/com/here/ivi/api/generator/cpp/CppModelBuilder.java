@@ -314,7 +314,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   }
 
   private CppMethod buildCppMethod(
-      final FMethod francaMethod, final CppTypeRef returnType, final String returnTypeComment) {
+      final FMethod francaMethod, final CppTypeRef returnType, final String returnComment) {
 
     String methodName = CppNameRules.getMethodName(francaMethod.getName());
     String fullyQualifiedMethodName =
@@ -337,7 +337,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     }
 
     builder.comment(CommentHelper.getDescription(francaMethod));
-    builder.returnTypeComment(returnTypeComment);
+    builder.returnComment(returnComment);
 
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
         .filter(parameter -> !parameter.isOutput)
