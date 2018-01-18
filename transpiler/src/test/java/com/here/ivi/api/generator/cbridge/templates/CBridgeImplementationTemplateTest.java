@@ -130,7 +130,7 @@ public class CBridgeImplementationTemplateTest {
 
     final String expected =
         "_baseRef name_create() {\n"
-            + "    return {new (std::nothrow)baseName()};\n"
+            + "    return {new baseName()};\n"
             + "}\n"
             + "void name_release(_baseRef handle) {\n"
             + "    delete get_pointer<nameRef>(handle);\n"
@@ -154,7 +154,7 @@ public class CBridgeImplementationTemplateTest {
 
     final String expected =
         "_baseRef name_create() {\n"
-            + "    return {new (std::nothrow)baseName()};\n"
+            + "    return {new baseName()};\n"
             + "}\n"
             + "void name_release(_baseRef handle) {\n"
             + "    delete get_pointer<nameRef>(handle);\n"
@@ -181,7 +181,7 @@ public class CBridgeImplementationTemplateTest {
 
     final String expected =
         "_baseRef name_create() {\n"
-            + "    return {new (std::nothrow)baseName()};\n"
+            + "    return {new baseName()};\n"
             + "}\n"
             + "void name_release(_baseRef handle) {\n"
             + "    delete get_pointer<nameRef>(handle);\n"
@@ -231,7 +231,7 @@ public class CBridgeImplementationTemplateTest {
 
     final String expected =
         "_baseRef memberStruct_create() {\n"
-            + "    return {new (std::nothrow)baseName()};\n"
+            + "    return {new baseName()};\n"
             + "}\n"
             + "void memberStruct_release(_baseRef handle) {\n"
             + "    delete get_pointer<SomeStructRef>(handle);\n"
@@ -289,7 +289,7 @@ public class CBridgeImplementationTemplateTest {
                 "_baseRef Classy_createProxy(ClassTable functionTable) {\n"
                     + "    auto proxy = ClassyProxy::get_proxy(std::move(functionTable));\n"
                     + "    if (proxy) {\n"
-                    + "        return { new (std::nothrow) std::shared_ptr<some::package::SomeClass>(std::move(proxy)) };\n"
+                    + "        return { new std::shared_ptr<some::package::SomeClass>(std::move(proxy)) };\n"
                     + "    } else {\n"
                     + "        return { nullptr };\n"
                     + "    }\n"

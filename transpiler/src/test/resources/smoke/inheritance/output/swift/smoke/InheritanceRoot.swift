@@ -27,7 +27,6 @@ internal func getRef(_ ref: InheritanceRoot) -> RefHolder {
         return swiftClass.rootMethod()
     }
     let proxy = smoke_InheritanceRoot_createProxy(functions)
-    precondition(proxy.private_pointer != nil, "Out of memory")
     return RefHolder(ref: proxy, release: smoke_InheritanceRoot_release)
 }
 
@@ -40,7 +39,6 @@ internal class _InheritanceRoot: InheritanceRoot {
     var rootAttribute: String {
         get {
             let result_string_handle = smoke_InheritanceRoot_rootAttribute_get(c_instance)
-            precondition(result_string_handle.private_pointer != nil, "Out of memory")
             defer {
                 std_string_release(result_string_handle)
             }
@@ -53,6 +51,9 @@ internal class _InheritanceRoot: InheritanceRoot {
     }
     let c_instance : _baseRef
     init?(cInheritanceRoot: _baseRef) {
+        guard cInheritanceRoot.private_pointer != nil else {
+            return nil
+        }
         c_instance = cInheritanceRoot
     }
     deinit {

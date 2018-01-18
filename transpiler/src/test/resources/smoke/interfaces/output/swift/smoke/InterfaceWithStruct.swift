@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -16,6 +16,7 @@ internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder {
     if let instanceReference = ref as? _InterfaceWithStruct {
         return RefHolder(instanceReference.c_instance)
     }
+
     var functions = smoke_InterfaceWithStruct_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
     functions.release = {swiftClass_pointer in
@@ -23,15 +24,18 @@ internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder {
             Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
         }
     }
+
     functions.smoke_InterfaceWithStruct_innerStructMethod = {(swiftClass_pointer, inputStruct) in
-        precondition(inputStruct.private_pointer != nil, "Out of memory")
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InterfaceWithStruct
         return get_pointer((swiftClass.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct)!)!).convertToCType())
     }
     let proxy = smoke_InterfaceWithStruct_createProxy(functions)
-    precondition(proxy.private_pointer != nil, "Out of memory")
     return RefHolder(ref: proxy, release: smoke_InterfaceWithStruct_release)
 }
+
+
+
+
 
 
 public protocol InterfaceWithStruct : AnyObject {
@@ -47,6 +51,9 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
     let c_instance : _baseRef
 
     init?(cInterfaceWithStruct: _baseRef) {
+        guard cInterfaceWithStruct.private_pointer != nil else {
+            return nil
+        }
         c_instance = cInterfaceWithStruct
     }
 
@@ -59,7 +66,6 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
             smoke_InterfaceWithStruct_InnerStruct_release(inputStructHandle)
         }
         let cResult = smoke_InterfaceWithStruct_innerStructMethod(c_instance, inputStructHandle)
-        precondition(cResult.private_pointer != nil, "Out of memory")
         defer {
             smoke_InterfaceWithStruct_InnerStruct_release(cResult)
         }
@@ -80,7 +86,6 @@ public struct InnerStruct {
 
     internal func convertToCType() -> _baseRef {
         let result = smoke_InterfaceWithStruct_InnerStruct_create()
-        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }

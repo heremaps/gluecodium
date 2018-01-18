@@ -14,8 +14,6 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
 {{#set className=name}}
     {{#methods}}
     functions.{{cBaseName}} = {(swiftClass_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
-{{!!  }}{{#parameters}}{{prefixPartial 'precondition' '        '}}
-        {{/parameters}}
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! {{className}}
         {{#parameters}}{{#switch type.category.toString}}{{#case "BUILTIN_STRING"}}
         defer {
@@ -26,7 +24,6 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
     }
     {{/methods}}
     let proxy = {{cInstance}}_createProxy(functions)
-    precondition(proxy.private_pointer != nil, "Out of memory")
     return RefHolder(ref: proxy, release: {{cInstance}}_release)
 }
 {{/set}}
@@ -45,12 +42,3 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
                                                 count: Int(std_string_size_get({{name}}))), encoding: .utf8)!{{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{/swiftParameter2}}
-
-
-{{+precondition}}{{#switch type.category.toString}}{{!!
-    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS"}}precondition({{name}}.private_pointer != nil, "Out of memory"){{/case}}{{!!
-}}{{/switch}}
-
-{{/precondition}}

@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -12,29 +12,30 @@
 import Foundation
 
 
+
 internal func getRef(_ ref: TypeDefs) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
-
 public class TypeDefs {
 
     public typealias PrimitiveTypeDef = Double
+
     public typealias ComplexTypeDef = CollectionOf<TypeDefs.TestStruct>
+
     public typealias NestedIntTypeDef = TypeDefs.PrimitiveTypeDef
+
     public typealias TestStructTypeDef = TypeDefs.TestStruct
+
     public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
-
-
-
-
 
     public var primitiveTypeAttribute: CollectionOf<Double> {
         get {
+
             let handle = smoke_TypeDefs_primitiveTypeAttribute_get(c_instance)
-            precondition(handle.private_pointer != nil, "Out of memory")
             return DoubleList(handle)
         }
         set {
+
             let newValueHandle = newValue.c_conversion()
             defer {
                 newValueHandle.cleanup()
@@ -43,26 +44,34 @@ public class TypeDefs {
         }
     }
     let c_instance : _baseRef
+
     public init?(cTypeDefs: _baseRef) {
+        guard cTypeDefs.private_pointer != nil else {
+            return nil
+        }
         c_instance = cTypeDefs
     }
+
     deinit {
         smoke_TypeDefs_release(c_instance)
     }
     public struct StructHavingAliasFieldDefinedBelow {
         public var field: TypeDefs.PrimitiveTypeDef
+
         public init(field: TypeDefs.PrimitiveTypeDef) {
             self.field = field
         }
+
         internal init?(cStructHavingAliasFieldDefinedBelow: _baseRef) {
             field = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_get(cStructHavingAliasFieldDefinedBelow)
         }
+
         internal func convertToCType() -> _baseRef {
             let result = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
+
         internal func fillFunction(_ cStructHavingAliasFieldDefinedBelow: _baseRef) -> Void {
             smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_set(cStructHavingAliasFieldDefinedBelow, field)
         }
@@ -84,7 +93,6 @@ public class TypeDefs {
 
         internal func convertToCType() -> _baseRef {
             let result = smoke_TypeDefs_TestStruct_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -99,12 +107,13 @@ public class TypeDefs {
     }
 
     public static func methodWithComplexTypeDef<Tinput: Collection>(input: Tinput) -> TypeDefs.ComplexTypeDef where Tinput.Element == TypeDefs.TestStruct {
+
         let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
+
         let handle = smoke_TypeDefs_methodWithComplexTypeDef(inputHandle.c_type)
-        precondition(handle.private_pointer != nil, "Out of memory")
         return TestStructList(handle)
     }
 
@@ -118,26 +127,21 @@ public class TypeDefs {
             smoke_TypeDefs_TestStruct_release(inputHandle)
         }
         let cResult = smoke_TypeDefs_returnTestStructTypeDef(inputHandle)
-        precondition(cResult.private_pointer != nil, "Out of memory")
-
         defer {
             smoke_TypeDefs_TestStruct_release(cResult)
         }
-
         return TypeDefs.TestStruct(cTestStruct: cResult)
     }
+
     public static func returnNestedStructTypeDef(input: TypeDefs.NestedStructTypeDef) -> TypeDefs.NestedStructTypeDef? {
         let inputHandle = input.convertToCType()
         defer {
             smoke_TypeDefs_TestStruct_release(inputHandle)
         }
         let cResult = smoke_TypeDefs_returnNestedStructTypeDef(inputHandle)
-        precondition(cResult.private_pointer != nil, "Out of memory")
-
         defer {
             smoke_TypeDefs_TestStruct_release(cResult)
         }
-
         return TypeDefs.TestStruct(cTestStruct: cResult)
     }
 
@@ -147,12 +151,9 @@ public class TypeDefs {
             smoke_TypeCollection_Point_release(inputHandle)
         }
         let cResult = smoke_TypeDefs_returnTypeDefPointFromTypeCollection(inputHandle)
-        precondition(cResult.private_pointer != nil, "Out of memory")
-
         defer {
             smoke_TypeCollection_Point_release(cResult)
         }
-
         return Point(cPoint: cResult)
     }
 

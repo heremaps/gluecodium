@@ -72,7 +72,6 @@ public class SwiftFileTemplateTest {
                 + "        }\n"
                 + "    }\n"
                 + "    let proxy = CInstance_createProxy(functions)\n"
-                + "    precondition(proxy.private_pointer != nil, \"Out of memory\")\n"
                 + "    return RefHolder(ref: proxy, release: CInstance_release)\n"
                 + "}\n")
         .build()
@@ -277,7 +276,6 @@ public class SwiftFileTemplateTest {
         .expect(
             "    public static func helloWorldMethod(inputString: String) -> String? {\n"
                 + "        let result_string_handle = HelloWorld_helloWorldMethod(inputString)\n"
-                + "        precondition(result_string_handle.private_pointer != nil, \"Out of memory\")\n"
                 + "        defer {\n"
                 + "            std_string_release(result_string_handle)\n"
                 + "        }\n"
@@ -394,7 +392,6 @@ public class SwiftFileTemplateTest {
                 + "        return byteBuffer.withUnsafeBytes { (byteBuffer_ptr: UnsafePointer<UInt8>) -> Data? in\n"
                 + "            return data2.withUnsafeBytes { (data2_ptr: UnsafePointer<UInt8>) -> Data? in\n"
                 + "                let result_data_handle = HelloWorld_testBuffer(byteBuffer_ptr, Int64(byteBuffer.count), text, number, data2_ptr, Int64(data2.count))\n"
-                + "                precondition(result_data_handle.private_pointer != nil, \"Out of memory\")\n"
                 + "                defer {\n"
                 + "                    byteArray_release(result_data_handle)\n"
                 + "                }\n"
@@ -488,7 +485,6 @@ public class SwiftFileTemplateTest {
         .expect(
             "    public static func methodReturningStruct() -> SomeStruct? {\n"
                 + "        let cResult = HelloWorld_methodReturningStruct()\n"
-                + "        precondition(cResult.private_pointer != nil, \"Out of memory\")\n"
                 + "        defer {\n"
                 + "            HelloWorld_SomeStruct_release(cResult)\n"
                 + "        }\n"
@@ -531,7 +527,6 @@ public class SwiftFileTemplateTest {
                 + "                HelloWorld_GeoLocation_release(locationHandle)\n"
                 + "            }\n"
                 + "            let cResult = HelloWorld_fancyMethod(icon_ptr, Int64(icon.count), name, locationHandle)\n"
-                + "            precondition(cResult.private_pointer != nil, \"Out of memory\")\n"
                 + "            defer {\n"
                 + "                HelloWorld_SomeStruct_release(cResult)\n"
                 + "            }\n"
@@ -576,7 +571,6 @@ public class SwiftFileTemplateTest {
                     + "    }\n"
                     + "    internal func convertToCType() -> _baseRef {\n"
                     + "        let result = CPrefix_create()\n"
-                    + "        precondition(result.private_pointer != nil, \"Out of memory\")\n"
                     + "        fillFunction(result)\n"
                     + "        return result\n"
                     + "    }\n"
@@ -591,7 +585,6 @@ public class SwiftFileTemplateTest {
                     + "    }\n"
                     + "    internal func convertToCType() -> _baseRef {\n"
                     + "        let result = CPrefix_create()\n"
-                    + "        precondition(result.private_pointer != nil, \"Out of memory\")\n"
                     + "        fillFunction(result)\n"
                     + "        return result\n"
                     + "    }\n"
@@ -621,7 +614,6 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "    internal func convertToCType() -> _baseRef {\n"
             + "        let result = CPrefix_create()\n"
-            + "        precondition(result.private_pointer != nil, \"Out of memory\")\n"
             + "        fillFunction(result)\n"
             + "        return result\n"
             + "    }\n"
@@ -728,6 +720,9 @@ public class SwiftFileTemplateTest {
                 "internal class _HelloWorld: HelloWorld {\n"
                     + "    let c_instance : _baseRef\n"
                     + "    init?(cHelloWorld: _baseRef) {\n"
+                    + "        guard cHelloWorld.private_pointer != nil else {\n"
+                    + "            return nil\n"
+                    + "        }\n"
                     + "        c_instance = cHelloWorld\n"
                     + "    }\n"
                     + "    deinit {\n"
@@ -747,7 +742,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void factoryClassCallingPrivateConstructor() {
     SwiftClass swiftClass =
-        SwiftClass.builder("HellowWorldFactory").cInstance("HellowWorldFactory").build();
+        SwiftClass.builder("HelloWorldFactory").cInstance("HelloWorldFactory").build();
 
     SwiftContainerType mappedType =
         SwiftContainerType.builder("HelloWorld")
@@ -765,17 +760,19 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator expected =
         TemplateComparator.expect(
-                "public class HellowWorldFactory {\n"
+                "public class HelloWorldFactory {\n"
                     + "    let c_instance : _baseRef\n"
-                    + "    public init?(cHellowWorldFactory: _baseRef) {\n"
-                    + "        c_instance = cHellowWorldFactory\n"
+                    + "    public init?(cHelloWorldFactory: _baseRef) {\n"
+                    + "        guard cHelloWorldFactory.private_pointer != nil else {\n"
+                    + "            return nil\n"
+                    + "        }\n"
+                    + "        c_instance = cHelloWorldFactory\n"
                     + "    }\n"
                     + "    deinit {\n"
-                    + "        HellowWorldFactory_release(c_instance)\n"
+                    + "        HelloWorldFactory_release(c_instance)\n"
                     + "    }\n"
                     + "    public static func createInstanceMethod() -> HelloWorld {\n"
                     + "        let cResult = HelloWorld_createInstanceMethod()\n"
-                    + "        precondition(cResult.private_pointer != nil, \"Out of memory\")\n"
                     + "        if let swift_pointer = _get_swift_object_from_cache(cResult),\n"
                     + "                let reconstructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? HelloWorld {\n"
                     + "            return reconstructed\n"
@@ -828,7 +825,6 @@ public class SwiftFileTemplateTest {
         .expect(
             "    public static func createInstanceMethod() -> HelloWorld {\n"
                 + "        let cResult = HelloWorld_createInstanceMethod()\n"
-                + "        precondition(cResult.private_pointer != nil, \"Out of memory\")\n"
                 + "        if let swift_pointer = _get_swift_object_from_cache(cResult),\n"
                 + "                let reconstructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? HelloWorld {\n"
                 + "            return reconstructed\n"
@@ -898,6 +894,9 @@ public class SwiftFileTemplateTest {
                     + "    }\n"
                     + "    let c_instance : _baseRef\n"
                     + "    init?(cSomeClassWithProperty: _baseRef) {\n"
+                    + "        guard cSomeClassWithProperty.private_pointer != nil else {\n"
+                    + "            return nil\n"
+                    + "        }\n"
                     + "        c_instance = cSomeClassWithProperty\n"
                     + "    }\n"
                     + "    deinit {\n"
@@ -936,6 +935,9 @@ public class SwiftFileTemplateTest {
             + "    }\n"
             + "    let c_instance : _baseRef\n"
             + "    public init?(cSomeClassWithProperty: _baseRef) {\n"
+            + "        guard cSomeClassWithProperty.private_pointer != nil else {\n"
+            + "            return nil\n"
+            + "        }\n"
             + "        c_instance = cSomeClassWithProperty\n"
             + "    }\n"
             + "    deinit {\n"
@@ -968,6 +970,9 @@ public class SwiftFileTemplateTest {
                     + "    }\n"
                     + "    let c_instance : _baseRef\n"
                     + "    init?(cSomeClassWithProperty: _baseRef) {\n"
+                    + "        guard cSomeClassWithProperty.private_pointer != nil else {\n"
+                    + "            return nil\n"
+                    + "        }\n"
                     + "        c_instance = cSomeClassWithProperty\n"
                     + "    }\n"
                     + "    deinit {\n"
@@ -1029,7 +1034,6 @@ public class SwiftFileTemplateTest {
                     + "        }\n"
                     + "    }\n"
                     + "    let proxy = CTest_createProxy(functions)\n"
-                    + "    precondition(proxy.private_pointer != nil, \"Out of memory\")\n"
                     + "    return RefHolder(ref: proxy, release: CTest_release)\n"
                     + "}")
             .expect("public protocol TestClass : AnyObject {\n" + "}\n")
@@ -1037,6 +1041,9 @@ public class SwiftFileTemplateTest {
                 "internal class _TestClass: FirstProtocol {\n"
                     + "    let c_instance : _baseRef\n"
                     + "    init?(cTestClass: _baseRef) {\n"
+                    + "        guard cTestClass.private_pointer != nil else {\n"
+                    + "            return nil\n"
+                    + "        }\n"
                     + "        c_instance = cTestClass\n"
                     + "    }\n"
                     + "    deinit {\n"
@@ -1100,7 +1107,6 @@ public class SwiftFileTemplateTest {
                 + "        }\n"
                 + "        internal func convertToCType() -> _baseRef {\n"
                 + "            let result = CPrefix_create()\n"
-                + "            precondition(result.private_pointer != nil, \"Out of memory\")\n"
                 + "            fillFunction(result)\n"
                 + "            return result\n"
                 + "        }\n"
@@ -1114,7 +1120,6 @@ public class SwiftFileTemplateTest {
                 + "        }\n"
                 + "        internal func convertToCType() -> _baseRef {\n"
                 + "            let result = CPrefix_create()\n"
-                + "            precondition(result.private_pointer != nil, \"Out of memory\")\n"
                 + "            fillFunction(result)\n"
                 + "            return result\n"
                 + "        }\n"
@@ -1127,7 +1132,6 @@ public class SwiftFileTemplateTest {
                 + "            CPrefix_release(inputHandle)\n"
                 + "        }\n"
                 + "        let cResult = HelloWorld_someMethod(inputHandle)\n"
-                + "        precondition(cResult.private_pointer != nil, \"Out of memory\")\n"
                 + "        defer {\n"
                 + "            CPrefix_release(cResult)\n"
                 + "        }\n"
@@ -1200,7 +1204,6 @@ public class SwiftFileTemplateTest {
                     + "            let RESULT = HelloWorld_someMethod(inputData_ptr, Int64(inputData.count))\n"
                     + "            if (RESULT.has_value) {\n"
                     + "                let result_string_handle = RESULT.returned_value\n"
-                    + "                precondition(result_string_handle.private_pointer != nil, \"Out of memory\")\n"
                     + "                defer {\n"
                     + "                    std_string_release(result_string_handle)\n"
                     + "                }\n"

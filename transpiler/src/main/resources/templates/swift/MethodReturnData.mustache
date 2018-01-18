@@ -1,5 +1,4 @@
 let result_data_handle = {{include delegateToCall}}
-precondition(result_data_handle.private_pointer != nil, "Out of memory")
 defer {
     byteArray_release(result_data_handle)
 }

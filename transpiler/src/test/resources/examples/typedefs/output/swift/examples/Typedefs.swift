@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,19 +11,26 @@
 
 import Foundation
 
+
+
 internal func getRef(_ ref: Typedefs) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
 public class Typedefs {
+
     public typealias ExampleAlias = UInt32
     let c_instance : _baseRef
+
     public init?(cTypedefs: _baseRef) {
+        guard cTypedefs.private_pointer != nil else {
+            return nil
+        }
         c_instance = cTypedefs
     }
+
     deinit {
         examples_Typedefs_release(c_instance)
     }
-
     public static func typedefMethod(input: Typedefs.ExampleAlias) -> Typedefs.ExampleAlias {
         return examples_Typedefs_typedefMethod(input)
     }

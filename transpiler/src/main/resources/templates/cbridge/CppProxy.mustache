@@ -26,7 +26,7 @@ private:
 _baseRef {{name}}_createProxy({{functionTableName}} functionTable) {
     auto proxy = {{name}}Proxy::get_proxy(std::move(functionTable));
     if (proxy) {
-        return { new (std::nothrow) {{selfType}}(std::move(proxy)) };
+        return { new {{selfType}}(std::move(proxy)) };
     } else {
         return { nullptr };
     }
@@ -45,7 +45,7 @@ const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
     }}{{#case "BUILTIN_STRING"}}std_string_create({{name}}.c_str()){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}{{name}}.data(), {{name}}.size(){{/case}}{{!!
     }}{{#case "CLASS" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}{ new (std::nothrow) {{mappedType}}({{name}}) }{{/case}}{{!!
+    }}{{#case "STRUCT"}}{ new {{mappedType}}({{name}}) }{{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{/swiftParameter}}
 {{+returnConversion}}{{#switch returnType.typeCategory.toString}}{{!!

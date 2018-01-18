@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,18 +11,24 @@
 
 import Foundation
 
+
+
 internal func getRef(_ ref: BuiltinTypes) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
 public class BuiltinTypes {
     let c_instance : _baseRef
+
     public init?(cBuiltinTypes: _baseRef) {
+        guard cBuiltinTypes.private_pointer != nil else {
+            return nil
+        }
         c_instance = cBuiltinTypes
     }
+
     deinit {
         examples_BuiltinTypes_release(c_instance)
     }
-
     public static func methodWithInt8(inputNumber: Int8) -> Int8 {
         return examples_BuiltinTypes_methodWithInt8(inputNumber)
     }
@@ -70,7 +76,6 @@ public class BuiltinTypes {
     public static func methodWithByteBuffer(inputBuffer: Data) -> Data {
         return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data in
             let result_data_handle = examples_BuiltinTypes_methodWithByteBuffer(inputBuffer_ptr, Int64(inputBuffer.count))
-            precondition(result_data_handle.private_pointer != nil, "Out of memory")
             defer {
                 byteArray_release(result_data_handle)
             }

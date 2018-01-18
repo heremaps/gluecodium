@@ -12,11 +12,26 @@
 
 #pragma once
 
+#include <memory>
 #include "cbridge/include/BaseHandle.h"
 
-template< typename T >
+template < typename T >
 inline static T*
 get_pointer( _baseRef handle )
 {
     return static_cast< T* >( handle.private_pointer );
+}
+
+template < typename T >
+inline static std::shared_ptr< T >*
+checked_pointer_copy( std::shared_ptr< T >&& pointer )
+{
+    return !pointer ? nullptr : new std::shared_ptr< T >( std::move( pointer ) );
+}
+
+template < typename T >
+inline static std::shared_ptr< T >*
+checked_pointer_copy( const std::shared_ptr< T >& pointer )
+{
+    return !pointer ? nullptr : new std::shared_ptr< T >( pointer );
 }

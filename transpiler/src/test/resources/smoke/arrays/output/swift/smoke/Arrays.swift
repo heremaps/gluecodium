@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,22 +11,26 @@
 
 import Foundation
 
+
+
 internal func getRef(_ ref: Arrays) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
-
 public class Arrays {
 
     public typealias ProfileId = String
-
     let c_instance : _baseRef
+
     public init?(cArrays: _baseRef) {
+        guard cArrays.private_pointer != nil else {
+            return nil
+        }
         c_instance = cArrays
     }
+
     deinit {
         smoke_Arrays_release(c_instance)
     }
-
     public struct BasicStruct {
         public var value: Double
 
@@ -40,7 +44,6 @@ public class Arrays {
 
         internal func convertToCType() -> _baseRef {
             let result = smoke_Arrays_BasicStruct_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -66,7 +69,6 @@ public class Arrays {
 
         internal func convertToCType() -> _baseRef {
             let result = smoke_Arrays_FancyStruct_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -82,66 +84,73 @@ public class Arrays {
     }
 
     public static func methodWithArray<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
+
         let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
+
         let handle = smoke_Arrays_methodWithArray(inputHandle.c_type)
-        precondition(handle.private_pointer != nil, "Out of memory")
         return StringList(handle)
     }
 
     public static func methodWithArrayInline<Tinput: Collection>(input: Tinput) -> CollectionOf<UInt8> where Tinput.Element == UInt8 {
+
         let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
+
         let handle = smoke_Arrays_methodWithArrayInline(inputHandle.c_type)
-        precondition(handle.private_pointer != nil, "Out of memory")
         return UInt8List(handle)
     }
 
     public static func methodWithStructArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.BasicStruct> where Tinput.Element == Arrays.BasicStruct {
+
         let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
+
         let handle = smoke_Arrays_methodWithStructArray(inputHandle.c_type)
-        precondition(handle.private_pointer != nil, "Out of memory")
         return BasicStructList(handle)
     }
 
     public static func methodWithArrayOfArrays<Tinput: Collection>(input: Tinput) -> CollectionOf<CollectionOf<UInt8>> where Tinput.Element: Collection, Tinput.Element.Element == UInt8 {
+
         let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
+
         let handle = smoke_Arrays_methodWithArrayOfArrays(inputHandle.c_type)
-        precondition(handle.private_pointer != nil, "Out of memory")
         return UInt8ListList(handle)
     }
 
     public static func mergeArraysOfStructsWithArrays<TinlineFancyArray: Collection, TfancyArray: Collection>(inlineFancyArray: TinlineFancyArray, fancyArray: TfancyArray) -> CollectionOf<Arrays.FancyStruct> where TinlineFancyArray.Element == Arrays.FancyStruct, TfancyArray.Element == Arrays.FancyStruct {
+
         let inlineFancyArrayHandle = inlineFancyArray.c_conversion()
         defer {
             inlineFancyArrayHandle.cleanup()
         }
+
         let fancyArrayHandle = fancyArray.c_conversion()
         defer {
             fancyArrayHandle.cleanup()
         }
+
         let handle = smoke_Arrays_mergeArraysOfStructsWithArrays(inlineFancyArrayHandle.c_type, fancyArrayHandle.c_type)
-        precondition(handle.private_pointer != nil, "Out of memory")
         return FancyStructList(handle)
     }
 
     public static func methodWithArrayOfAliases<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
+
         let inputHandle = input.c_conversion()
         defer {
             inputHandle.cleanup()
         }
+
         let handle = smoke_Arrays_methodWithArrayOfAliases(inputHandle.c_type)
-        precondition(handle.private_pointer != nil, "Out of memory")
         return StringList(handle)
     }
 

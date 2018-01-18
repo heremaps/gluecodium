@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,19 +11,24 @@
 
 import Foundation
 
+
+
 internal func getRef(_ ref: Enums) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
-
 public class Enums {
     let c_instance : _baseRef
+
     public init?(cEnums: _baseRef) {
+        guard cEnums.private_pointer != nil else {
+            return nil
+        }
         c_instance = cEnums
     }
+
     deinit {
         smoke_Enums_release(c_instance)
     }
-
     public enum SimpleEnum : UInt32 {
 
         case first
@@ -57,7 +62,6 @@ public class Enums {
 
         internal func convertToCType() -> _baseRef {
             let result = smoke_Enums_ErrorStruct_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
@@ -77,6 +81,7 @@ public class Enums {
         let cResult = smoke_Enums_flipEnumValue(input.rawValue)
         return Enums.InternalError(rawValue: cResult)!
     }
+
     public static func extractEnumFromStruct(input: Enums.ErrorStruct) -> Enums.InternalError {
         let inputHandle = input.convertToCType()
         defer {
@@ -85,14 +90,12 @@ public class Enums {
         let cResult = smoke_Enums_extractEnumFromStruct(inputHandle)
         return Enums.InternalError(rawValue: cResult)!
     }
+
     public static func createStructWithEnumInside(type: Enums.InternalError, message: String) -> Enums.ErrorStruct? {
         let cResult = smoke_Enums_createStructWithEnumInside(type.rawValue, message)
-        precondition(cResult.private_pointer != nil, "Out of memory")
-
         defer {
             smoke_Enums_ErrorStruct_release(cResult)
         }
-
         return Enums.ErrorStruct(cErrorStruct: cResult)
     }
 

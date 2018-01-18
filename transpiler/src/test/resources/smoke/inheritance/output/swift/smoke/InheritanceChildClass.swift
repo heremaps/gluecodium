@@ -19,7 +19,6 @@ public class InheritanceChildClass: InheritanceRoot {
     public var rootAttribute: String {
         get {
             let result_string_handle = smoke_InheritanceRoot_rootAttribute_get(c_instance)
-            precondition(result_string_handle.private_pointer != nil, "Out of memory")
             defer {
                 std_string_release(result_string_handle)
             }
@@ -32,6 +31,9 @@ public class InheritanceChildClass: InheritanceRoot {
     }
     let c_instance : _baseRef
     public init?(cInheritanceChildClass: _baseRef) {
+        guard cInheritanceChildClass.private_pointer != nil else {
+            return nil
+        }
         c_instance = cInheritanceChildClass
     }
     deinit {

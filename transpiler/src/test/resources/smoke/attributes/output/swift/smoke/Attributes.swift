@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -8,11 +8,16 @@
 // which may not be disclosed to others without prior written consent of HERE Global B.V.
 //
 // Automatically generated. Do not modify. Your changes will be lost.
+
 import Foundation
+
+
+
 internal func getRef(_ ref: Attributes) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
 public class Attributes {
+
     public var builtInTypeAttribute: UInt32 {
         get {
             return smoke_Attributes_builtInTypeAttribute_get(c_instance)
@@ -21,15 +26,17 @@ public class Attributes {
             return smoke_Attributes_builtInTypeAttribute_set(c_instance, newValue)
         }
     }
+
     public var readonlyAttribute: Float {
         get {
             return smoke_Attributes_readonlyAttribute_get(c_instance)
         }
+
     }
+
     public var structAttribute: Attributes.ExampleStruct {
         get {
             let cResult = smoke_Attributes_structAttribute_get(c_instance)
-            precondition(cResult.private_pointer != nil, "Out of memory")
             defer {
                 smoke_Attributes_ExampleStruct_release(cResult)
             }
@@ -43,13 +50,15 @@ public class Attributes {
             return smoke_Attributes_structAttribute_set(c_instance, newValueHandle)
         }
     }
+
     public var arrayAttribute: CollectionOf<String> {
         get {
+
             let handle = smoke_Attributes_arrayAttribute_get(c_instance)
-            precondition(handle.private_pointer != nil, "Out of memory")
             return StringList(handle)
         }
         set {
+
             let newValueHandle = newValue.c_conversion()
             defer {
                 newValueHandle.cleanup()
@@ -57,6 +66,7 @@ public class Attributes {
             return smoke_Attributes_arrayAttribute_set(c_instance, newValueHandle.c_type)
         }
     }
+
     public var complexTypeAttribute: Attributes.InternalError {
         get {
             let cResult = smoke_Attributes_complexTypeAttribute_get(c_instance)
@@ -70,7 +80,6 @@ public class Attributes {
     public var byteBufferAttribute: Data {
         get {
             let result_data_handle = smoke_Attributes_byteBufferAttribute_get(c_instance)
-            precondition(result_data_handle.private_pointer != nil, "Out of memory")
             defer {
                 byteArray_release(result_data_handle)
             }
@@ -82,34 +91,45 @@ public class Attributes {
             }
         }
     }
-
     let c_instance : _baseRef
+
     public init?(cAttributes: _baseRef) {
+        guard cAttributes.private_pointer != nil else {
+            return nil
+        }
         c_instance = cAttributes
     }
+
     deinit {
         smoke_Attributes_release(c_instance)
     }
     public enum InternalError : UInt32 {
+
         case errorNone
+
         case errorFatal = 999
     }
+
     public struct ExampleStruct {
         public var value: Double
+
         public init(value: Double) {
             self.value = value
         }
+
         internal init?(cExampleStruct: _baseRef) {
             value = smoke_Attributes_ExampleStruct_value_get(cExampleStruct)
         }
+
         internal func convertToCType() -> _baseRef {
             let result = smoke_Attributes_ExampleStruct_create()
-            precondition(result.private_pointer != nil, "Out of memory")
             fillFunction(result)
             return result
         }
+
         internal func fillFunction(_ cExampleStruct: _baseRef) -> Void {
             smoke_Attributes_ExampleStruct_value_set(cExampleStruct, value)
         }
     }
+
 }

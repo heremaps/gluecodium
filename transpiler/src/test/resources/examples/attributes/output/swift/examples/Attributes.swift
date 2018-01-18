@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,10 +11,12 @@
 
 import Foundation
 
+
 internal func getRef(_ ref: Attributes) -> RefHolder {
     if let instanceReference = ref as? _Attributes {
         return RefHolder(instanceReference.c_instance)
     }
+
     var functions = examples_Attributes_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
     functions.release = {swiftClass_pointer in
@@ -22,20 +24,29 @@ internal func getRef(_ ref: Attributes) -> RefHolder {
             Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
         }
     }
+
     let proxy = examples_Attributes_createProxy(functions)
-    precondition(proxy.private_pointer != nil, "Out of memory")
     return RefHolder(ref: proxy, release: examples_Attributes_release)
 }
 
+
+
+
+
+
 public protocol Attributes : AnyObject {
+
 
     var builtInTypeAttribute: UInt32 { get set }
 
     var readonlyAttribute: Float { get }
 
+
 }
 
 internal class _Attributes: Attributes {
+
+
 
     var builtInTypeAttribute: UInt32 {
         get {
@@ -55,6 +66,9 @@ internal class _Attributes: Attributes {
     let c_instance : _baseRef
 
     init?(cAttributes: _baseRef) {
+        guard cAttributes.private_pointer != nil else {
+            return nil
+        }
         c_instance = cAttributes
     }
 

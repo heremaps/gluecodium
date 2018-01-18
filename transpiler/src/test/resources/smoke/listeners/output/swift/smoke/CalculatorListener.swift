@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -16,6 +16,7 @@ internal func getRef(_ ref: CalculatorListener) -> RefHolder {
     if let instanceReference = ref as? _CalculatorListener {
         return RefHolder(instanceReference.c_instance)
     }
+
     var functions = smoke_CalculatorListener_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
     functions.release = {swiftClass_pointer in
@@ -23,14 +24,18 @@ internal func getRef(_ ref: CalculatorListener) -> RefHolder {
             Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
         }
     }
+
     functions.smoke_CalculatorListener_onCalculationResult = {(swiftClass_pointer, calculationResult) in
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! CalculatorListener
         return swiftClass.onCalculationResult(calculationResult: calculationResult)
     }
     let proxy = smoke_CalculatorListener_createProxy(functions)
-    precondition(proxy.private_pointer != nil, "Out of memory")
     return RefHolder(ref: proxy, release: smoke_CalculatorListener_release)
 }
+
+
+
+
 
 
 public protocol CalculatorListener : AnyObject {
@@ -46,6 +51,9 @@ internal class _CalculatorListener: CalculatorListener {
     let c_instance : _baseRef
 
     init?(cCalculatorListener: _baseRef) {
+        guard cCalculatorListener.private_pointer != nil else {
+            return nil
+        }
         c_instance = cCalculatorListener
     }
 

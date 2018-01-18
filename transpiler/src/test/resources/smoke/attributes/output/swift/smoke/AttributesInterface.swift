@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -16,6 +16,7 @@ internal func getRef(_ ref: AttributesInterface) -> RefHolder {
     if let instanceReference = ref as? _AttributesInterface {
         return RefHolder(instanceReference.c_instance)
     }
+
     var functions = smoke_AttributesInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
     functions.release = {swiftClass_pointer in
@@ -23,10 +24,14 @@ internal func getRef(_ ref: AttributesInterface) -> RefHolder {
             Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
         }
     }
+
     let proxy = smoke_AttributesInterface_createProxy(functions)
-    precondition(proxy.private_pointer != nil, "Out of memory")
     return RefHolder(ref: proxy, release: smoke_AttributesInterface_release)
 }
+
+
+
+
 
 
 public protocol AttributesInterface : AnyObject {
@@ -44,12 +49,9 @@ internal class _AttributesInterface: AttributesInterface {
     var structAttribute: ExampleStruct {
         get {
             let cResult = smoke_AttributesInterface_structAttribute_get(c_instance)
-            precondition(cResult.private_pointer != nil, "Out of memory")
-
             defer {
                 smoke_AttributesInterface_ExampleStruct_release(cResult)
             }
-
             return ExampleStruct(cExampleStruct: cResult)!
         }
         set {
@@ -63,6 +65,9 @@ internal class _AttributesInterface: AttributesInterface {
     let c_instance : _baseRef
 
     init?(cAttributesInterface: _baseRef) {
+        guard cAttributesInterface.private_pointer != nil else {
+            return nil
+        }
         c_instance = cAttributesInterface
     }
 
@@ -83,7 +88,6 @@ public struct ExampleStruct {
 
     internal func convertToCType() -> _baseRef {
         let result = smoke_AttributesInterface_ExampleStruct_create()
-        precondition(result.private_pointer != nil, "Out of memory")
         fillFunction(result)
         return result
     }

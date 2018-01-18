@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 HERE Global B.V. and/or its affiliated companies. All rights reserved.
+// Copyright (C) 2018 HERE Global B.V. and/or its affiliated companies. All rights reserved.
 //
 // This software, including documentation, is protected by copyright controlled by
 // HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,22 +11,24 @@
 
 import Foundation
 
+
+
 internal func getRef(_ ref: Errors) -> RefHolder {
     return RefHolder(ref.c_instance)
 }
-
 public class Errors {
-
     let c_instance : _baseRef
 
     public init?(cErrors: _baseRef) {
+        guard cErrors.private_pointer != nil else {
+            return nil
+        }
         c_instance = cErrors
     }
 
     deinit {
         smoke_Errors_release(c_instance)
     }
-
     public enum InternalError : UInt32 {
 
         case errorNone
