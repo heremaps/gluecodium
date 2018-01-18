@@ -3,6 +3,7 @@
 [Unreleased]
 - Features:
   + Add validation against multiple output parameters. No support for this feature is planned.
+  + Add validation against unions. No support for this feature is planned.
 
 ## 1.1.1
 - Bugs:
