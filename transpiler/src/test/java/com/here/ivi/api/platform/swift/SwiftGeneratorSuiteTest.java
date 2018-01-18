@@ -11,7 +11,7 @@
 
 package com.here.ivi.api.platform.swift;
 
-import static com.here.ivi.api.test.Assert.assertContainsAll;
+import static org.junit.Assert.assertTrue;
 
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
@@ -31,7 +31,11 @@ public final class SwiftGeneratorSuiteTest {
   public void generatedFilesContainStaticFiles() {
     List<GeneratedFile> generatedFiles = suite.generate(null, new LinkedList<>());
 
-    assertContainsAll(generatedFiles, SwiftGenerator.STATIC_FILES);
-    assertContainsAll(generatedFiles, CBridgeGenerator.STATIC_FILES);
+    assertTrue(
+        generatedFiles + " must contain all " + SwiftGenerator.STATIC_FILES,
+        generatedFiles.containsAll(SwiftGenerator.STATIC_FILES));
+    assertTrue(
+        generatedFiles + " must contain all " + CBridgeGenerator.STATIC_FILES,
+        generatedFiles.containsAll(CBridgeGenerator.STATIC_FILES));
   }
 }
