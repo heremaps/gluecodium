@@ -23,7 +23,11 @@ import org.trimou.engine.locator.ClassPathTemplateLocator;
 import org.trimou.engine.resolver.AbstractResolver;
 import org.trimou.engine.resolver.ResolutionContext;
 import org.trimou.engine.resolver.Resolver;
-import org.trimou.handlebars.*;
+import org.trimou.handlebars.BasicHelper;
+import org.trimou.handlebars.BasicSectionHelper;
+import org.trimou.handlebars.HelpersBuilder;
+import org.trimou.handlebars.Options;
+import org.trimou.handlebars.SwitchHelper;
 
 public final class TemplateEngine {
 
@@ -72,6 +76,29 @@ public final class TemplateEngine {
       StringBuilder builder = new StringBuilder();
       options.partial(dataObject.toString(), builder);
       return builder.toString();
+    }
+  }
+
+  /**
+   * Capitalize value of a given String.<br>
+   * Usage: {{capitalize "someString"}}<br>
+   * Example: {{capitalize "someString"}}
+   */
+  @VisibleForTesting
+  static class CapitalizeHelper extends BasicHelper {
+    @Override
+    public void execute(Options options) {
+      List<Object> parameters = options.getParameters();
+      if (parameters.isEmpty()) {
+        return;
+      }
+      final String value = getValue(parameters.get(0));
+      options.append(
+          String.valueOf(value.charAt(0)).toUpperCase() + value.substring(1, value.length()));
+    }
+
+    private String getValue(final Object dataObject) {
+      return (dataObject != null) ? dataObject.toString() : "";
     }
   }
 
@@ -169,6 +196,7 @@ public final class TemplateEngine {
             .registerHelper("prefixPartial", new PrefixPartialHelper())
             .registerHelper("joinPartial", new JoinPartialHelper())
             .registerHelper("instanceOf", new InstanceOfHelper())
+            .registerHelper("capitalize", new CapitalizeHelper())
             .registerHelper("switch", new NiceSwitchHelper())
             .registerHelper("case", new SwitchHelper.CaseHelper(true))
             .registerHelper("default", new SwitchHelper.DefaultHelper())
