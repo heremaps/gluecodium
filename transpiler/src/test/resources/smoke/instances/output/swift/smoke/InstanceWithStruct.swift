@@ -61,7 +61,7 @@ public class InstanceWithStruct {
         internal init?(cStructWithInstance: _baseRef) {
             do {
                 guard
-                    let instanceUnwrapped = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_SimpleInstantiableOne_copy(smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance)))
+                    let instanceUnwrapped = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance))
                 else {
                     return nil
                 }

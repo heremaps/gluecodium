@@ -19,10 +19,6 @@
 void examples_CalculatorListener_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<examples::CalculatorListener>>(handle);
 }
-_baseRef examples_CalculatorListener_copy(_baseRef handle) {
-    return { new std::shared_ptr<examples::CalculatorListener>(*get_pointer<std::shared_ptr<examples::CalculatorListener>>(handle)) };
-}
-
 
 
 void examples_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {

@@ -137,7 +137,7 @@ public class CBridgeImplementationTemplateTest {
             + "}\n"
             + "NestedRef name_structField_get(_baseRef handle) {\n"
             + "    auto struct_pointer = get_pointer<nameRef>(handle);\n"
-            + "    return {&struct_pointer->baseApiFieldName};\n"
+            + "    return { &struct_pointer->baseApiFieldName };\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);
@@ -161,7 +161,7 @@ public class CBridgeImplementationTemplateTest {
             + "}\n"
             + "_baseRef name_stringField_get(_baseRef handle) {\n"
             + "    auto struct_pointer = get_pointer<nameRef>(handle);\n"
-            + "    return {&struct_pointer->baseApiFieldName};\n"
+            + "    return { &struct_pointer->baseApiFieldName };\n"
             + "}\n"
             + "void name_stringField_set(_baseRef handle, const char* stringField) {\n"
             + "    get_pointer<nameRef>(handle)->baseApiFieldName.assign(stringField);\n"
@@ -238,7 +238,7 @@ public class CBridgeImplementationTemplateTest {
             + "}\n"
             + "SomeClassRef memberStruct_instanceField_get(_baseRef handle) {\n"
             + "    auto struct_pointer = get_pointer<SomeStructRef>(handle);\n"
-            + "    return {&struct_pointer->baseApiFieldName};\n"
+            + "    return { checked_pointer_copy(struct_pointer->baseApiFieldName) };\n"
             + "}\n"
             + "void memberStruct_instanceField_set(_baseRef handle, SomeClassRef instanceField) {\n"
             + "    get_pointer<SomeStructRef>(handle)->baseApiFieldName = *get_pointer<SomeClassRef>(instanceField);\n"

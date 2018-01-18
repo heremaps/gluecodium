@@ -20,7 +20,6 @@ extern "C" {
 typedef uint32_t smoke_Errors_InternalError;
 
 void smoke_Errors_release(_baseRef handle);
-_baseRef smoke_Errors_copy(_baseRef handle);
 smoke_Errors_InternalError smoke_Errors_methodWithErrors();
 
 #ifdef __cplusplus

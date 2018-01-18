@@ -14,7 +14,8 @@ void {{name}}_release(_baseRef handle) {
     {{#case "BUILTIN_SIMPLE"}}return struct_pointer->{{baseLayerName}};{{/case}}{{!!
     }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(struct_pointer->{{baseLayerName}});{{/case}}{{!!
     }}{{#case "ARRAY"}}return { new {{type}}(struct_pointer->{{baseLayerName}}) };{{/case}}{{!!
-    }}{{#default}}return {&struct_pointer->{{baseLayerName}}};{{/default}}
+    }}{{#case "CLASS"}}return { checked_pointer_copy(struct_pointer->{{baseLayerName}}) };{{/case}}{{!!
+    }}{{#default}}return { &struct_pointer->{{baseLayerName}} };{{/default}}
 {{/switch}}
 }
 

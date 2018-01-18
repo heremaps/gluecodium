@@ -16,7 +16,6 @@ extern "C" {
 #include "cbridge/include/BaseHandle.h"
 
 void smoke_CalculatorListener_release(_baseRef handle);
-_baseRef smoke_CalculatorListener_copy(_baseRef handle);
 
 typedef struct {
     void* swift_pointer;

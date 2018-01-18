@@ -26,7 +26,6 @@ void smoke_MethodOverloads_Point_x_set(_baseRef handle, double x);
 double smoke_MethodOverloads_Point_y_get(_baseRef handle);
 void smoke_MethodOverloads_Point_y_set(_baseRef handle, double y);
 void smoke_MethodOverloads_release(_baseRef handle);
-_baseRef smoke_MethodOverloads_copy(_baseRef handle);
 bool smoke_MethodOverloads_isBoolean_boolOverload(_baseRef _instance, bool input);
 bool smoke_MethodOverloads_isBoolean_intOverload(_baseRef _instance, int8_t input);
 bool smoke_MethodOverloads_isBoolean_stringOverload(_baseRef _instance, const char* input);
