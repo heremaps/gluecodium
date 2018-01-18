@@ -17,7 +17,6 @@ extern "C" {
 #include "cbridge/include/BaseHandle.h"
 
 void examples_CalculatorListener_release(_baseRef handle);
-_baseRef examples_CalculatorListener_copy(_baseRef handle);
 
 typedef struct {
     void* swift_pointer;

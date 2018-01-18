@@ -8,9 +8,6 @@
 void {{name}}_release(_baseRef handle) {
     delete get_pointer<{{selfType.name}}>(handle);
 }
-_baseRef {{name}}_copy(_baseRef handle) {
-    return { new {{selfType}}(*get_pointer<{{selfType.name}}>(handle)) };
-}
 {{/if}}
 
 {{#arrays}}

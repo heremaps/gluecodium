@@ -19,10 +19,6 @@
 void smoke_CalculatorListener_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<smoke::CalculatorListener>>(handle);
 }
-_baseRef smoke_CalculatorListener_copy(_baseRef handle) {
-    return { new std::shared_ptr<smoke::CalculatorListener>(*get_pointer<std::shared_ptr<smoke::CalculatorListener>>(handle)) };
-}
-
 
 
 void smoke_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
