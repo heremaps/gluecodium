@@ -15,20 +15,19 @@ import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
 
 /**
- * Helper class with predicates for filtering out features that are not supported by Java generator
- * yet.
+ * Helper class with predicates for filtering out features that are not supported by Java and Swift
+ * generators yet.
  */
 public final class PlatformUnsupportedFeatures {
 
-  // TODO: remove when APIGEN-735 and APIGEN-729 are implemented
+  // TODO: remove when APIGEN-1101 and APIGEN-1102 are implemented
   public static boolean hasUnsupportedParameters(final FMethod francaMethod) {
     EList<FArgument> outArgs = francaMethod.getOutArgs();
     return hasUnsupportedElements(francaMethod.getInArgs())
         || hasUnsupportedElements(outArgs)
-        || (outArgs != null && outArgs.size() > 1);
+        || (outArgs != null && outArgs.size() > 1); // TODO: remove when APIGEN-1101 is implemented
   }
 
-  // TODO: remove when APIGEN-735 and APIGEN-729 are implemented
   private static boolean hasUnsupportedElements(
       final EList<? extends FTypedElement> francaTypedElements) {
     return francaTypedElements != null
@@ -38,18 +37,16 @@ public final class PlatformUnsupportedFeatures {
             .anyMatch(PlatformUnsupportedFeatures::isUnsupportedType);
   }
 
-  // TODO: remove when APIGEN-735 and APIGEN-729 are implemented
   public static boolean isUnsupportedType(final FTypeRef francaTypeRef) {
     return francaTypeRef != null
         && francaTypeRef.getDerived() != null
         && isUnsupportedType(francaTypeRef.getDerived());
   }
 
-  // TODO: remove when APIGEN-735 and APIGEN-729 are implemented
   public static boolean isUnsupportedType(final FType francaType) {
 
     if (francaType instanceof FUnionType) {
-      return true;
+      return true; // TODO: remove when APIGEN-1102 is implemented
     }
 
     if (francaType instanceof FStructType) {

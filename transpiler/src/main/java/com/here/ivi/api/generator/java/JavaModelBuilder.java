@@ -108,7 +108,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     } else if (outputParameters.size() == 1) {
       returnType = outputParameters.get(0).type;
     } else {
-      // TODO: Wrap complex return type in an immutable container class
+      // TODO: APIGEN-1101 remove this
       returnType = JavaPrimitiveType.VOID;
     }
 

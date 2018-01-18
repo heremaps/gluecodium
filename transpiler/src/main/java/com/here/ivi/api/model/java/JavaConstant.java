@@ -21,7 +21,7 @@ public class JavaConstant extends JavaElement {
     super(name);
     this.type = type;
     if (value == null) {
-      // TODO APIGEN-218 handle this case
+      // TODO APIGEN-484 handle this case
       this.value = new JavaValue("TODO");
     } else {
       this.value = value;

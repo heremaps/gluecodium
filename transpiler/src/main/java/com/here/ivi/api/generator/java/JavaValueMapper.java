@@ -128,13 +128,13 @@ public class JavaValueMapper {
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
   private static JavaValue map(JavaType type, FCompoundInitializer rhs) {
-    // TODO APIGEN-218 handle this case
+    // TODO APIGEN-484 handle this case
     return new JavaValue("TODO");
   }
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
   private static JavaValue map(JavaType type, FQualifiedElementRef rhs) {
-    // TODO APIGEN-218 handle this case
+    // TODO APIGEN-484 handle this case
     return new JavaValue("TODO");
   }
 }

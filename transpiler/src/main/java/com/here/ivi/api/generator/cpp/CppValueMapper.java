@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.cpp;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.common.BuiltInValueRules;
 import com.here.ivi.api.model.cpp.*;
@@ -128,7 +127,7 @@ public class CppValueMapper {
 
   private CppValue map(CppTypeRef type, FCompoundInitializer compoundInitializer) {
 
-    // TODO having a multi-line string in here is not-so-nice, this should be some CppType
+    // TODO: APIGEN-478 revert this to unsupported state when implementing BaseConstants
     StringBuilder builder = new StringBuilder();
     builder.append("[]() {\n  ").append(type.name).append(" tmp;\n");
 
@@ -146,15 +145,9 @@ public class CppValueMapper {
     return new CppValue(builder.toString(), type.includes);
   }
 
-  // TODO handle namespaces here as well
+  // TODO: APIGEN-478 handle namespaces here as well
   @VisibleForTesting
   CppValue map(final CppTypeRef cppTypeRef, final FQualifiedElementRef francaQualifiedElementRef) {
-
-    if (francaQualifiedElementRef.getElement() == null) {
-      // TODO improve error output as seen in TypeMapper
-      throw new TranspilerExecutionException(
-          String.format("Failed resolving value reference %s.", francaQualifiedElementRef));
-    }
 
     // check for built-in types (atm all values are from <limits>)
     Optional<BuiltInValueRules.BuiltInValues> constant =
@@ -181,7 +174,7 @@ public class CppValueMapper {
       name = CppNameRules.getConstantName(name);
     }
 
-    // TODO add ns resolution for referenced name
+    // TODO: APIGEN-478 add ns resolution for referenced name
     // just use the name of the type and include the defining type
     return new CppValue(
         name, includeResolver.resolveInclude(francaQualifiedElementRef.getElement()));
