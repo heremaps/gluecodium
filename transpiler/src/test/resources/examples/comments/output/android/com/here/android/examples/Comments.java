@@ -49,6 +49,7 @@ public class Comments extends NativeBase {
             this.someField = someField;
         }
     }
+    /** For internal use only */
     protected Comments(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override
