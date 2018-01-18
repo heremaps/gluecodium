@@ -172,16 +172,6 @@ feature(Maps cpp android SOURCES
     fidl/test/Maps.fidl
 )
 
-#TODO: enable for android and swift (APIGEN-776, APIGEN-775)
-feature(Unions cpp SOURCES
-    src/hello/HelloWorldUnions.cpp
-
-    fidl/hello/HelloWorldUnions.fdepl
-    fidl/hello/HelloWorldUnions.fidl
-    fidl/test/Unions.fdepl
-    fidl/test/Unions.fidl
-)
-
 feature(Attributes cpp android swift SOURCES
     src/hello/HelloWorldAttributesImpl.h
     src/hello/HelloWorldAttributesImpl.cpp
@@ -292,15 +282,6 @@ feature(Inheritance cpp android swift SOURCES
     fidl/hello/HelloWorldInheritance.fidl
     fidl/test/Inheritance.fdepl
     fidl/test/Inheritance.fidl
-)
-
-feature(Unsupported cpp android swift SOURCES
-    fidl/hello/UnsupportedFeatures.fidl
-)
-
-#TODO: remove when Unions are done for Android (APIGEN-776) and Swift (APIGEN-775)
-feature(UnsupportedUnions android swift SOURCES
-    fidl/hello/UnsupportedUnions.fidl
 )
 
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
