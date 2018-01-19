@@ -538,4 +538,21 @@ public class CBridgeModelBuilderTest {
         0,
         cGetter.parameters.size());
   }
+
+  @Test
+  public void finishBuildingInterfacePropagatesFunctionsFromBase() {
+    CInterface base = new CInterface("Base");
+    base.inheritedFunctions.add(CFunction.builder("GrandParentFunction").build());
+    base.functions.add(CFunction.builder("ParentFunction").build());
+    contextStack.injectResult(base);
+    CFunction function = CFunction.builder("ChildFunction").build();
+    contextStack.injectResult(function);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
+    assertNotNull(iface);
+    assertEquals(2, iface.inheritedFunctions.size());
+    assertEquals(1, iface.functions.size());
+  }
 }
