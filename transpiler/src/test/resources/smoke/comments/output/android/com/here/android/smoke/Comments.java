@@ -97,6 +97,7 @@ public class Comments extends NativeBase {
      * This is some very useful method that measures the usefulness of something.
      */
     public native boolean someMethodWithoutInputParametersWithNoComments();
+    public native void someMethodWithNothing();
     /**
      * This is some very useful method that does nothing.
      */

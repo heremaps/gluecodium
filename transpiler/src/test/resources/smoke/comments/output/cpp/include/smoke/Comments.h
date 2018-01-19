@@ -134,6 +134,7 @@ virtual ::smoke::Comments::Usefulness some_method_without_input_parameters_with_
  * This is some very useful method that measures the usefulness of something.
  */
 virtual ::smoke::Comments::Usefulness some_method_without_input_parameters_with_no_comments(  ) = 0;
+virtual void some_method_with_nothing(  ) = 0;
 /**
  * This is some very useful method that does nothing.
  */

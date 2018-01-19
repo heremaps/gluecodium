@@ -92,6 +92,9 @@ interface Comments {
         }
     }
 
+    method someMethodWithNothing {
+    }
+
     <** @description: This is some very useful method that does nothing. **>
     method someMethodWithoutReturnTypeOrInputParameters {
     }
