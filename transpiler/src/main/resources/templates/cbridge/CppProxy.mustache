@@ -11,13 +11,13 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
 
-    {{#functions}}
+    {{#each inheritedFunctions functions}}
     {{#if selfParameter}}
     {{returnType}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}) override {
         {{>returnConversion}}
     }
     {{/if}}
-    {{/functions}}
+    {{/each}}
 
 private:
     function_table_t mFunctions;

@@ -21,6 +21,7 @@ public final class CInterface extends CElement {
   public final Set<Include> implementationIncludes = new TreeSet<>();
   public final Set<Include> privateHeaderIncludes = new TreeSet<>();
   public final List<CStruct> structs = new LinkedList<>();
+  public final List<CFunction> inheritedFunctions = new LinkedList<>();
   public final List<CFunction> functions = new LinkedList<>();
   public String functionTableName;
   public final CppTypeInfo selfType;

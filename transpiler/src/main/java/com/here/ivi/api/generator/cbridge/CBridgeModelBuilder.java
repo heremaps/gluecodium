@@ -112,7 +112,12 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   private CInterface finishBuildingInterfaceOrTypeCollection(
       final String name, final CppTypeInfo selfType, final FTypeCollection francaTypeCollection) {
 
+    CInterface parentClass = getPreviousResult(CInterface.class);
     CInterface cInterface = new CInterface(name, selfType);
+    if (parentClass != null) {
+      cInterface.inheritedFunctions.addAll(parentClass.inheritedFunctions);
+      cInterface.inheritedFunctions.addAll(parentClass.functions);
+    }
     cInterface.functions.addAll(getPreviousResults(CFunction.class));
     cInterface.structs.addAll(getPreviousResults(CStruct.class));
     cInterface.enumerators.addAll(getPreviousResults(CEnum.class));

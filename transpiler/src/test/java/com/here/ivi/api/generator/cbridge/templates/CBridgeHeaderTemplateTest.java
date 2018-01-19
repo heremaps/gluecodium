@@ -232,4 +232,28 @@ public class CBridgeHeaderTemplateTest {
 
     expected.assertMatches(generated);
   }
+
+  @Test
+  public void functionTableWithInheritance() {
+    CFunction baseFunction = CFunction.builder("functionBase").build();
+    CFunction function = CFunction.builder("functionName").build();
+    CInterface cInterface = new CInterface("", new CppTypeInfo(CType.BOOL));
+    cInterface.functionTableName = "functionTable";
+    cInterface.functions.add(function);
+    cInterface.inheritedFunctions.add(baseFunction);
+
+    final String generated = this.generate(cInterface);
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "typedef struct {\n"
+                    + "    void* swift_pointer;\n"
+                    + "    void(*release)(void* swift_pointer);\n"
+                    + "    void(*functionBase)(void* swift_pointer);\n"
+                    + "    void(*functionName)(void* swift_pointer);\n"
+                    + "} functionTable;\n")
+            .build();
+
+    expected.assertMatches(generated);
+  }
 }
