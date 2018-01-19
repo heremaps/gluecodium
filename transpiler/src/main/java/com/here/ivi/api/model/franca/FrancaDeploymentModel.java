@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 import org.franca.deploymodel.core.FDModelExtender;
 import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
+import org.franca.deploymodel.dsl.fDeploy.FDInterface;
 import org.franca.deploymodel.dsl.fDeploy.FDModel;
+import org.franca.deploymodel.dsl.fDeploy.FDTypes;
 
 /** Model combining multiple FDModel instances into one. */
 public class FrancaDeploymentModel {
@@ -29,25 +31,14 @@ public class FrancaDeploymentModel {
     List<FDModelExtender> fdModelExtenders =
         models.stream().map(FDModelExtender::new).collect(Collectors.toList());
 
-    propertyAccessors.putAll(
-        fdModelExtenders
-            .stream()
-            .flatMap(extender -> extender.getFDInterfaces().stream())
-            .collect(
-                Collectors.groupingBy(
-                    fdInterface -> buildKey(fdInterface.getTarget()),
-                    () -> new LinkedHashMap<>(),
-                    Collectors.mapping(NameBasedPropertyAccessor::new, Collectors.toList()))));
-
-    propertyAccessors.putAll(
-        fdModelExtenders
-            .stream()
-            .flatMap(extender -> extender.getFDTypesList().stream())
-            .collect(
-                Collectors.groupingBy(
-                    fdTypeCollection -> buildKey(fdTypeCollection.getTarget()),
-                    () -> new LinkedHashMap<>(),
-                    Collectors.mapping(NameBasedPropertyAccessor::new, Collectors.toList()))));
+    fdModelExtenders
+        .stream()
+        .flatMap(extender -> extender.getFDInterfaces().stream())
+        .forEach(this::addDeploymentInterface);
+    fdModelExtenders
+        .stream()
+        .flatMap(extender -> extender.getFDTypesList().stream())
+        .forEach(this::addDeploymentTypeCollection);
   }
 
   public boolean isInterface(final FInterface francaInterface) {
@@ -65,6 +56,11 @@ public class FrancaDeploymentModel {
   @SuppressWarnings("unused")
   public boolean isSet(final FArrayType francaArray) {
     return getBoolean(francaArray, "Set");
+  }
+
+  @SuppressWarnings("unused")
+  public boolean isSerializable(final FStructType francaStruct) {
+    return getBoolean(francaStruct, "Serializable");
   }
 
   public String getDefaultValue(final FField francaField) {
@@ -110,5 +106,17 @@ public class FrancaDeploymentModel {
       return null;
     }
     return DefinedBy.getModelName(francaTypeCollection) + "." + francaTypeCollection.getName();
+  }
+
+  private void addDeploymentInterface(final FDInterface fdInterface) {
+    propertyAccessors
+        .computeIfAbsent(buildKey(fdInterface.getTarget()), key -> new LinkedList<>())
+        .add(new NameBasedPropertyAccessor(fdInterface));
+  }
+
+  private void addDeploymentTypeCollection(final FDTypes fdTypeCollection) {
+    propertyAccessors
+        .computeIfAbsent(buildKey(fdTypeCollection.getTarget()), key -> new LinkedList<>())
+        .add(new NameBasedPropertyAccessor(fdTypeCollection));
   }
 }

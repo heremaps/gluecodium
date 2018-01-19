@@ -23,6 +23,10 @@ specification navigation.BaseApiSpec
     for arrays {
         IsSet: Boolean (optional, default: false);
     }
+
+    for structs {
+        Serializable: Boolean (optional, default: false);
+    }
 }
 
 specification Defaults {
