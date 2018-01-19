@@ -99,9 +99,9 @@ pushd "${INSTALL_DIR}"
         # Sed is required to fix different output format obtained by running
         # tests on Linux machine instead of Mac.
         set -o pipefail
-        $TEST_EXECUTABLE \
-            | sed "s/Test Case '\(.*\)\.\(.*\)'/Test Case '-[\1 \2]'/" \
-            | sed "s/: error: \(.*\)\.\(.*\) :/: error: -[\1 \2] :/" \
+        $TEST_EXECUTABLE 2>&1 \
+            | sed "s/Test Case '\([^-].*\)\.\(.*\)'/Test Case '-[\1 \2]'/" \
+            | sed "s/: error: \([^-].*\)\.\(.*\) :/: error: -[\1 \2] :/" \
             | ocunit2junit
         EXIT_VALUE=$?
         exit $EXIT_VALUE
