@@ -11,12 +11,15 @@
 
 package com.here.ivi.api.validator;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 /** Validates that all Franca expressions in the model are constant expression */
@@ -25,38 +28,7 @@ public final class ExpressionValidator {
   private static final Logger LOGGER = Logger.getLogger(ExpressionValidator.class.getName());
 
   public static boolean validate(final List<FTypeCollection> typeCollections) {
-
-    Stream<FType> allTypes =
-        typeCollections.stream().map(FTypeCollection::getTypes).flatMap(Collection::stream);
-    List<FInitializerExpression> enumeratorExpressions =
-        CollectionsHelper.getStreamOfType(allTypes, FEnumerationType.class)
-            .map(FEnumerationType::getEnumerators)
-            .flatMap(Collection::stream)
-            .map(FEnumerator::getValue)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
-    List<FInitializerExpression> constantExpressions =
-        typeCollections
-            .stream()
-            .map(FTypeCollection::getConstants)
-            .flatMap(Collection::stream)
-            .map(FConstantDef::getRhs)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
-
-    List<FInitializerExpression> allExpressions = new LinkedList<>();
-    allExpressions.addAll(enumeratorExpressions);
-    allExpressions.addAll(constantExpressions);
-
-    boolean result = true;
-    for (final FInitializerExpression expression : allExpressions) {
-      if (!(expression instanceof FConstant)) {
-        LOGGER.severe(createErrorMessage(expression));
-        result = false;
-      }
-    }
-
-    return result;
+    return typeCollections.stream().noneMatch(ExpressionValidator::containsNonConstantExpressions);
   }
 
   private static String createErrorMessage(final FInitializerExpression expression) {
@@ -84,5 +56,22 @@ public final class ExpressionValidator {
         .append("' is not a constant expression.");
 
     return builder.toString();
+  }
+
+  @VisibleForTesting
+  static boolean containsNonConstantExpressions(final FTypeCollection francaTypeCollection) {
+
+    //noinspection NullableProblems
+    Iterable<EObject> iterable = francaTypeCollection::eAllContents;
+    Stream<EObject> elementStream = StreamSupport.stream(iterable.spliterator(), false);
+
+    Collection<String> errorMessages =
+        CollectionsHelper.getStreamOfType(elementStream, FInitializerExpression.class)
+            .filter(expression -> !(expression instanceof FConstant))
+            .map(ExpressionValidator::createErrorMessage)
+            .collect(Collectors.toList());
+    errorMessages.forEach(LOGGER::severe);
+
+    return !errorMessages.isEmpty();
   }
 }
