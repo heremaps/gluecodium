@@ -1,6 +1,6 @@
 # API Transpiler Release Notes
 
-[Unreleased]
+## Unreleased
 - Features:
   + Add validation against multiple output parameters. No support for this feature is planned.
   + Add validation against unions. No support for this feature is planned.
