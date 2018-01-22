@@ -1,7 +1,7 @@
 import XCTest
 import hello
 
-XCTMain([
+let allTests = [
     testCase(EnumsTests.allTests),
     testCase(HelloWorldInstancesTests.allTests),
     testCase(HelloWorldTests.allTests),
@@ -24,4 +24,6 @@ XCTMain([
     testCase(ErrorsTests.allTests),
     testCase(DefaultsTests.allTests),
     testCase(InheritanceTests.allTests)
-])
+]
+
+XCTMain(allTests)

@@ -4,8 +4,9 @@ import XCTest
 // On OSX the tests are discovered automatically by the Objective C runtime.
 // On Linux these need to be added manually by passing them to XCTMain.
 // XCTMain does not exist on Mac.
-// These helpers are used to compare manual added test list with automatically
-// discovered tests when run on Mac.
+// Additional test is added to Mac to verify that manually created list of test
+// for Linux is the same as automatically discovered on Mac
+
 #if !os(Linux)
 
     typealias TestCaseEntry = (String, allTests: [String])
@@ -22,64 +23,59 @@ import XCTest
         return (name, tests)
     }
 
-    // Compare list of manually added tests with automatically discovered one.
-    // Then run the default test suite.
-    // TODO: accept command line parameters to run individual tests with .perform
-    func XCTMain(_ testCases: [TestCaseEntry]) -> Never {
+    class TestlistSyncronizationTest: XCTestCase {
+        func testSameListAmongPlatforms() {
+            let defaultSuite = XCTestSuite.default
 
-        // Run all tests, but don't check the test results yet so potential errors in XCTMain can still be found
+            // Check the difference between automatically discovered and statically added tests
+            var staticTestCases: [String: Set<String>] = [:]
+            allTests.forEach { staticTestCases[$0] = Set($1) }
+
+            var dynamicTestCases: [String: Set<String>] = [:]
+            defaultSuite.tests.forEach { bundle in
+                guard let bundleSuite = bundle as? XCTestSuite else {
+                    XCTFail("Unexpected test structure of discovered tests")
+                    return
+                }
+                bundleSuite.tests.forEach { testCase in
+                    guard let testSuite = testCase as? XCTestSuite else {
+                        XCTFail("Unexpected test structure of discovered tests")
+                        return
+                    }
+                    var tests: [String] = []
+                    testSuite.tests.forEach { test in
+                        var name = test.name
+                        if let index = name.index(of: " ") {
+                            name.removeSubrange(..<index)
+                            name.removeFirst()
+                            name.removeLast()
+                        }
+                        tests.append(name)
+                    }
+                    dynamicTestCases[testCase.name] = Set(tests)
+                }
+            }
+
+            dynamicTestCases.forEach { testCase, tests in
+                if let staticTests = staticTestCases[testCase] {
+                    if staticTests != tests {
+                        XCTFail(String(
+                          format: "Test mismatch in %@, discovered: %@, declared: %@",
+                          testCase, tests, staticTests))
+                    }
+                } else {
+                    if testCase != String(describing: TestlistSyncronizationTest.self) {
+                        XCTFail(String(format: "Missing TestCase from XCTMain: %@", testCase))
+                    }
+                }
+            }
+        }
+    }
+
+    // TODO: accept command line parameters to run individual tests with .perform
+    func XCTMain(_: [TestCaseEntry]) -> Never {
         let defaultSuite = XCTestSuite.default
         defaultSuite.run()
-
-        // Check the difference between automatically discovered and statically added tests
-        var staticTestCases: [String: Set<String>] = [:]
-        testCases.forEach { staticTestCases[$0] = Set($1) }
-
-        var dynamicTestCases: [String: Set<String>] = [:]
-        defaultSuite.tests.forEach { bundle in
-            guard let bundleSuite = bundle as? XCTestSuite else {
-                print("Unexpected test structure of discovered tests")
-                exit(-2)
-            }
-            bundleSuite.tests.forEach { testCase in
-                guard let testSuite = testCase as? XCTestSuite else {
-                    print("Unexpected test structure of discovered tests")
-                    exit(-2)
-                }
-                var tests: [String] = []
-                testSuite.tests.forEach { test in
-                    var name = test.name
-                    if let index = name.index(of: " ") {
-                        name.removeSubrange(..<index)
-                        name.removeFirst()
-                        name.removeLast()
-                    }
-                    tests.append(name)
-                }
-                dynamicTestCases[testCase.name] = Set(tests)
-            }
-        }
-
-        var sameTests = true
-        dynamicTestCases.forEach { testCase, tests in
-            if let staticTests = staticTestCases[testCase] {
-                if staticTests != tests {
-                    print("Test mismatch in", testCase)
-                    print("discovered:", tests)
-                    print("declared:  ", staticTests)
-                    sameTests = false
-                }
-            } else {
-                print("Missing TestCase from XCTMain:", testCase)
-                sameTests = false
-            }
-        }
-
-        if !sameTests {
-            print("Failure: Missing tests from XCTMain")
-            exit(-4)
-        }
-
         exit(Int32(defaultSuite.testRun!.failureCount))
     }
 
