@@ -68,10 +68,13 @@ return handle{{/defaultSubscript}}
 defer {
     {{underlyingType.cPrefix}}_release(handle)
 }
-{{>classSubscript}}{{/structSubscript}}
+guard let result = {{underlyingType}}(c{{underlyingType.simpleName}}: handle) else {
+    fatalError("Not implemented")
+}
+return result{{/structSubscript}}
 
 {{+classSubscript}}
-guard let result = {{underlyingType}}(c{{underlyingType.simpleName}}: handle) else {
+guard let result = {{underlyingType.implementingClass}}(c{{underlyingType.simpleName}}: handle) else {
     fatalError("Not implemented")
 }
 return result{{/classSubscript}}
@@ -97,7 +100,7 @@ defer {
 {{refName}}_append(handle, item.rawValue){{/enumConversion}}
 
 {{+classConversion}}
-{{refName}}_append(handle, item.c_instance){{/classConversion}}
+{{refName}}_append(handle, getRef(item).ref){{/classConversion}}
 
 {{+arrayConversion}}
 let conversion = item.c_conversion()
