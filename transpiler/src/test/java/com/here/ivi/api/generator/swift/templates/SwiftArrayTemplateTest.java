@@ -176,7 +176,7 @@ public class SwiftArrayTemplateTest {
             "    public override subscript(index: Int) -> SomeType {\n"
                 + "        let handle = cBridgeFunction_get(c_element, UInt64(index))\n"
                 + "        guard let result = _SomeType(cSomeType: handle) else {\n"
-                + "            fatalError(\"Not implemented\")\n"
+                + "            fatalError(\"Nullptr entries for arrays of SomeType are not supported\")\n"
                 + "        }\n"
                 + "        return result\n"
                 + "    }\n")

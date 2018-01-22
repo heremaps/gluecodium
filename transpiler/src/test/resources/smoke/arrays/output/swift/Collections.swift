@@ -31,7 +31,7 @@ internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
         }
 
         guard let result = Arrays.BasicStruct(cBasicStruct: handle) else {
-            fatalError("Not implemented")
+            fatalError("Unexpected nullptr for Arrays.BasicStruct")
         }
         return result
     }
@@ -40,7 +40,7 @@ extension Collection where Element == Arrays.BasicStruct  {
     public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_BasicStruct_create()
 
-        for item in self { 
+        for item in self {
             let itemHandle = item.convertToCType();
             defer {
                 smoke_Arrays_BasicStruct_release(itemHandle)
@@ -75,7 +75,7 @@ internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
         }
 
         guard let result = Arrays.FancyStruct(cFancyStruct: handle) else {
-            fatalError("Not implemented")
+            fatalError("Unexpected nullptr for Arrays.FancyStruct")
         }
         return result
     }
@@ -84,7 +84,7 @@ extension Collection where Element == Arrays.FancyStruct  {
     public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_FancyStruct_create()
 
-        for item in self { 
+        for item in self {
             let itemHandle = item.convertToCType();
             defer {
                 smoke_Arrays_FancyStruct_release(itemHandle)
