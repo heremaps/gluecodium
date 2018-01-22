@@ -35,8 +35,8 @@ extension Collection {{>GenericConstraintsRule}}  {
     public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = {{refName}}_create()
 
-        for item in self { {{!!
-            }}{{#switch underlyingType.category.toString}}{{!!
+        for item in self {
+{{#switch underlyingType.category.toString}}{{!!
                 }}{{#case "STRUCT"}}{{prefixPartial 'structConversion' '            '}}{{/case}}{{!!
                 }}{{#case "CLASS"}}{{prefixPartial 'classConversion' '            '}}{{/case}}{{!!
                 }}{{#case "ARRAY"}}{{prefixPartial 'arrayConversion'   '            '}}{{/case}}{{!!
@@ -69,13 +69,13 @@ defer {
     {{underlyingType.cPrefix}}_release(handle)
 }
 guard let result = {{underlyingType}}(c{{underlyingType.simpleName}}: handle) else {
-    fatalError("Not implemented")
+    fatalError("Unexpected nullptr for {{underlyingType}}")
 }
 return result{{/structSubscript}}
 
 {{+classSubscript}}
 guard let result = {{underlyingType.implementingClass}}(c{{underlyingType.simpleName}}: handle) else {
-    fatalError("Not implemented")
+    fatalError("Nullptr entries for arrays of {{underlyingType}} are not supported")
 }
 return result{{/classSubscript}}
 
@@ -89,24 +89,19 @@ defer {
 return String(data: Data(bytes: std_string_data_get(handle),
               count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}
 
-{{+structConversion}}
-let itemHandle = item.convertToCType();
+{{+structConversion}}let itemHandle = item.convertToCType();
 defer {
     {{underlyingType.cPrefix}}_release(itemHandle)
 }
 {{refName}}_append(handle, itemHandle){{/structConversion}}
 
-{{+enumConversion}}
-{{refName}}_append(handle, item.rawValue){{/enumConversion}}
+{{+enumConversion}}{{refName}}_append(handle, item.rawValue){{/enumConversion}}
 
-{{+classConversion}}
-{{refName}}_append(handle, getRef(item).ref){{/classConversion}}
+{{+classConversion}}{{refName}}_append(handle, getRef(item).ref){{/classConversion}}
 
-{{+arrayConversion}}
-let conversion = item.c_conversion()
+{{+arrayConversion}}let conversion = item.c_conversion()
 {{refName}}_append(handle, conversion.c_type)
 conversion.cleanup(){{/arrayConversion}}
 
 
-{{+defaultConversion}}
-{{refName}}_append(handle, item){{/defaultConversion}}
+{{+defaultConversion}}{{refName}}_append(handle, item){{/defaultConversion}}
