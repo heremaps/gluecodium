@@ -17,6 +17,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
 import com.here.ivi.api.generator.swift.SwiftArrayGenerator;
 import com.here.ivi.api.generator.swift.SwiftArrayMapper;
 import com.here.ivi.api.model.swift.*;
+import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
+import com.here.ivi.api.test.TemplateComparator;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.Collections;
 import org.franca.core.franca.FBasicTypeId;
@@ -155,6 +157,61 @@ public class SwiftArrayTemplateTest {
             + "}\n";
     final String generated = swiftArrayGenerator.generate().get(0).content;
     TemplateComparison.assertEqualContent(expected, generated);
+  }
+
+  @Test
+  public void protocolArrayGeneration() {
+    SwiftArrayGenerator swiftArrayGenerator = new SwiftArrayGenerator();
+    SwiftArray arrayType =
+        new SwiftArray(
+            SwiftContainerType.builder("SomeType")
+                .implementingClass("_SomeType")
+                .category(TypeCategory.CLASS)
+                .build(),
+            null,
+            "cBridgeFunction");
+    swiftArrayGenerator.collect(Collections.singletonMap(arrayType.underlyingType.name, arrayType));
+
+    TemplateComparator.expect(
+            "    public override subscript(index: Int) -> SomeType {\n"
+                + "        let handle = cBridgeFunction_get(c_element, UInt64(index))\n"
+                + "        guard let result = _SomeType(cSomeType: handle) else {\n"
+                + "            fatalError(\"Not implemented\")\n"
+                + "        }\n"
+                + "        return result\n"
+                + "    }\n")
+        .expect(
+            "    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {\n"
+                + "        let handle = cBridgeFunction_create()\n"
+                + "        for item in self {\n"
+                + "            cBridgeFunction_append(handle, getRef(item).ref)\n"
+                + "        }\n"
+                + "        let cleanup_function = { () -> Void in\n"
+                + "            cBridgeFunction_release(handle)\n"
+                + "        }\n"
+                + "        return (handle, cleanup_function)\n"
+                + "    }\n")
+        .build()
+        .assertMatches(swiftArrayGenerator.generate().get(0).content);
+  }
+
+  @Test
+  public void classArrayGeneration() {
+    SwiftArrayGenerator swiftArrayGenerator = new SwiftArrayGenerator();
+    SwiftArray arrayType =
+        new SwiftArray(
+            SwiftContainerType.builder("SomeType")
+                .implementingClass("SomeType")
+                .category(TypeCategory.CLASS)
+                .build(),
+            null,
+            "cBridgeFunction");
+    swiftArrayGenerator.collect(Collections.singletonMap(arrayType.underlyingType.name, arrayType));
+
+    TemplateComparator.expect("        guard let result = SomeType(cSomeType: handle) else {\n")
+        .expect("            cBridgeFunction_append(handle, getRef(item).ref)\n")
+        .build()
+        .assertMatches(swiftArrayGenerator.generate().get(0).content);
   }
 
   private SwiftArray getStringArray() {
