@@ -15,18 +15,18 @@ typeCollection Serialization {
 
     struct SerializableStruct {
         Boolean boolField
-        UInt8 byteField
+        Int8 byteField
         Int16 shortField
         Int32 intField
         UInt32 longField
         Float floatField
         Double doubleField
         String stringField
-        SomeEnum enumField
-        ByteBuffer byteBufferField
-        NestedSerializableStruct structField
-        String[] arrayField
-        NestedStructArray structArrayField
+//        NestedSerializableStruct structField
+//        ByteBuffer byteBufferField
+//        String[] arrayField
+//        NestedStructArray structArrayField
+//        SomeEnum enumField
     }
 
     enumeration SomeEnum {

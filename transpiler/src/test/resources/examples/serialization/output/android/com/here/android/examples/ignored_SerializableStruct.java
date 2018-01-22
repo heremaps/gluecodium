@@ -11,14 +11,14 @@
  */
 package com.here.android.examples;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SerializableStruct implements Parcelable {
 
-    public static final Parcelable.Creator<SerializableStruct> CREATOR
-        = new Parcelable.Creator<SerializableStruct>() {
+    public static final Parcelable.Creator<SerializableStruct> CREATOR = new Parcelable.Creator<SerializableStruct>() {
 
         public SerializableStruct createFromParcel(final Parcel in_parcel) {
             return new SerializableStruct(in_parcel);
@@ -44,10 +44,10 @@ public class SerializableStruct implements Parcelable {
     }
 
     private SerializableStruct(final Parcel in_parcel) {
-        intField = in_parcel.readInt();
-        stringField = in_parcel.readString();
-        structField = in_parcel.readParcelable(null);
-        arrayField = new ArrayList<>();
+        this.intField = in_parcel.readInt();
+        this.stringField = in_parcel.readString();
+        this.structField = in_parcel.readParcelable(null);
+        this.arrayField = new ArrayList<>();
         in_parcel.readList(arrayField, null);
     }
 

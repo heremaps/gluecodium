@@ -24,7 +24,12 @@ public class JavaCustomType extends JavaComplexType {
   }
 
   public JavaCustomType(final String fullName, final JavaPackage javaPackage) {
-    this(fullName, null, javaPackage.packageNames, new JavaImport(fullName, javaPackage), false);
+    this(
+        fullName,
+        null,
+        javaPackage.packageNames,
+        Collections.singletonList(new JavaImport(fullName, javaPackage)),
+        false);
   }
 
   @lombok.Builder(builderClassName = "Builder")
@@ -32,13 +37,13 @@ public class JavaCustomType extends JavaComplexType {
       final String fullName,
       @Singular final List<String> classNames,
       final List<String> packageNames,
-      final JavaImport anImport,
+      @Singular final List<JavaImport> javaImports,
       final boolean isInterface) {
     super(
         fullName,
         classNames != null ? classNames : Collections.singletonList(fullName),
         packageNames,
-        anImport != null ? Collections.singletonList(anImport) : null);
+        javaImports);
     this.isInterface = isInterface;
   }
 
