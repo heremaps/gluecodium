@@ -213,7 +213,7 @@ public class JavaTypeMapper {
       return JavaCustomType.builder(typeName)
           .classNames(classNames)
           .packageNames(packageNames)
-          .anImport(javaImport)
+          .javaImport(javaImport)
           .build();
     }
   }
@@ -234,7 +234,7 @@ public class JavaTypeMapper {
       return JavaCustomType.builder(className)
           .className(className)
           .packageNames(packageNames)
-          .anImport(classImport)
+          .javaImport(classImport)
           .isInterface(true)
           .build();
     } else {

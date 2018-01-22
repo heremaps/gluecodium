@@ -36,7 +36,7 @@ public final class JavaTemplateType extends JavaCustomType {
           JavaCustomType.builder(implementationTypeName + IMPLICIT_TEMPLATE_DECLARATION)
               .className(implementationTypeName + IMPLICIT_TEMPLATE_DECLARATION)
               .packageNames(javaPackage.packageNames)
-              .anImport(new JavaImport(implementationTypeName, javaPackage))
+              .javaImport(new JavaImport(implementationTypeName, javaPackage))
               .build();
       this.javaImport = new JavaImport(name, javaPackage);
       this.packageNames = javaPackage.packageNames;

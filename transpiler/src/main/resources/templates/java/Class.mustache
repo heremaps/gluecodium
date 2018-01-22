@@ -1,5 +1,17 @@
 {{>common/DocComment}}
 {{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}class {{name}} {{#if this.extendedClass}}extends {{extendedClass.name}} {{/if}}{{#if parentInterfaces}}implements {{join parentInterfaces delimiter=", " }} {{/if}}{
+{{#if isParcelable}}
+    public static final Parcelable.Creator<{{name}}> CREATOR = new Parcelable.Creator<{{name}}>() {
+
+        public {{name}} createFromParcel(final Parcel in_parcel) {
+            return new {{name}}(in_parcel);
+        }
+
+        public {{name}}[] newArray(final int size) {
+            return new {{name}}[size];
+        }
+    };
+{{/if}}
 {{#constants}}{{prefixPartial "java/Constant" "    "}}
 {{/constants}}
 {{#fields}}{{prefixPartial "java/Field" "    "}}
@@ -29,7 +41,34 @@
         this.{{name}} = {{name}};
     {{/fields}}
     }
-    {{#if tooManyFields}}
+{{/if}}
+{{#if isParcelable}}
+
+    private {{name}}(final Parcel in_parcel) {
+    {{#fields}}
+        this.{{name}} = in_parcel.read{{#switch type.name}}{{!!
+        }}{{#case "boolean"}}Byte() != 0{{/case}}{{!!
+        }}{{#default}}{{capitalize type.name}}(){{/default}}{{!!
+        }}{{/switch}};
+    {{/fields}}
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(final Parcel out_parcel, final int flags) {
+    {{#fields}}
+        out_parcel.write{{#switch type.name}}{{!!
+        }}{{#case "boolean"}}Byte((byte) ({{name}} ? 1 : 0)){{/case}}{{!!
+        }}{{#default}}{{capitalize type.name}}({{name}}){{/default}}{{!!
+        }}{{/switch}};
+    {{/fields}}
+    }
+{{/if}}
+{{#if fields}}{{#if tooManyFields}}
 
     public static class Builder {
     {{#fields}}
@@ -49,8 +88,7 @@
             return new {{name}}({{#fields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
         }
     }
-    {{/if}}
-{{/if}}
+{{/if}}{{/if}}
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}
 }
