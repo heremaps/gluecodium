@@ -22,7 +22,7 @@ typeCollection Serialization {
         Float floatField
         Double doubleField
         String stringField
-//        NestedSerializableStruct structField
+        NestedSerializableStruct structField
 //        ByteBuffer byteBufferField
 //        String[] arrayField
 //        NestedStructArray structArrayField
