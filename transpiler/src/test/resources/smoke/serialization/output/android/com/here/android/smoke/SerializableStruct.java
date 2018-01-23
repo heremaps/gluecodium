@@ -34,10 +34,11 @@ public class SerializableStruct implements Parcelable {
     public float floatField;
     public double doubleField;
     public String stringField;
+    public NestedSerializableStruct structField = new NestedSerializableStruct();
 
     public SerializableStruct() {}
 
-    public SerializableStruct(boolean boolField, byte byteField, short shortField, int intField, long longField, float floatField, double doubleField, String stringField) {
+    public SerializableStruct(boolean boolField, byte byteField, short shortField, int intField, long longField, float floatField, double doubleField, String stringField, NestedSerializableStruct structField) {
         this.boolField = boolField;
         this.byteField = byteField;
         this.shortField = shortField;
@@ -46,6 +47,7 @@ public class SerializableStruct implements Parcelable {
         this.floatField = floatField;
         this.doubleField = doubleField;
         this.stringField = stringField;
+        this.structField = structField;
     }
 
     private SerializableStruct(final Parcel in_parcel) {
@@ -57,6 +59,7 @@ public class SerializableStruct implements Parcelable {
         this.floatField = in_parcel.readFloat();
         this.doubleField = in_parcel.readDouble();
         this.stringField = in_parcel.readString();
+        this.structField = in_parcel.readParcelable(null);
     }
 
     @Override
@@ -74,6 +77,7 @@ public class SerializableStruct implements Parcelable {
         out_parcel.writeFloat(floatField);
         out_parcel.writeDouble(doubleField);
         out_parcel.writeString(stringField);
+        out_parcel.writeParcelable(structField);
     }
 
     public static class Builder {
@@ -85,6 +89,7 @@ public class SerializableStruct implements Parcelable {
         private float floatField;
         private double doubleField;
         private String stringField;
+        private NestedSerializableStruct structField = new NestedSerializableStruct();
         public Builder() {
         }
         public Builder setBoolField(boolean boolField) {
@@ -119,8 +124,12 @@ public class SerializableStruct implements Parcelable {
             this.stringField = stringField;
             return this;
         }
+        public Builder setStructField(NestedSerializableStruct structField) {
+            this.structField = structField;
+            return this;
+        }
         public SerializableStruct build() {
-            return new SerializableStruct(boolField, byteField, shortField, intField, longField, floatField, doubleField, stringField);
+            return new SerializableStruct(boolField, byteField, shortField, intField, longField, floatField, doubleField, stringField, structField);
         }
     }
 }
