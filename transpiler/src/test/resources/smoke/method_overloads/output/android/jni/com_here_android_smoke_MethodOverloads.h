@@ -55,6 +55,11 @@ Java_com_here_android_smoke_MethodOverloads_isBooleanStringArrayOverload__Ljava_
  */
 JNIEXPORT jboolean JNICALL
 Java_com_here_android_smoke_MethodOverloads_isBooleanIntArrayOverload__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput);
+/**
+ * Function for MethodOverloads.isBoolean()
+ */
+JNIEXPORT jboolean JNICALL
+Java_com_here_android_smoke_MethodOverloads_isBoolean__(JNIEnv* _jenv, jobject _jinstance);
 
 #ifdef __cplusplus
 }

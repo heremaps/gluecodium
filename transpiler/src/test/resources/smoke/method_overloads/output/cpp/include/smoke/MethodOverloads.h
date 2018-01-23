@@ -43,6 +43,7 @@ virtual bool is_boolean( const ::smoke::MethodOverloads::Point& input ) = 0;
 virtual bool is_boolean( const bool input1, const int8_t input2, const ::std::string& input3, const ::smoke::MethodOverloads::Point& input4 ) = 0;
 virtual bool is_boolean( const ::smoke::MethodOverloads::StringArray& input ) = 0;
 virtual bool is_boolean( const ::smoke::MethodOverloads::IntArray& input ) = 0;
+virtual bool is_boolean(  ) const = 0;
 };
 
 }
