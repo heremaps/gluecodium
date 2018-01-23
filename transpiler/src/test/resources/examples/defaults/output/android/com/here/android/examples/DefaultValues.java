@@ -40,11 +40,11 @@ public class DefaultValues extends NativeBase {
             this.enumField = enumField;
         }
         public static class Builder {
-            public int intField = 42;
-            public float floatField = 3.14f;
-            public boolean boolField = true;
-            public String stringField = "some string";
-            public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
+            private int intField = 42;
+            private float floatField = 3.14f;
+            private boolean boolField = true;
+            private String stringField = "some string";
+            private DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
             public Builder() {
             }
             public Builder setIntField(int intField) {
