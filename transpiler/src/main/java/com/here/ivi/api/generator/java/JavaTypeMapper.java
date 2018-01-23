@@ -97,7 +97,7 @@ public class JavaTypeMapper {
         return new JavaReferenceType(JavaReferenceType.Type.STRING);
 
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return new JavaArrayType(JavaArrayType.Type.BYTE_ARRAY);
+        return new JavaArrayType(JavaPrimitiveType.Type.BYTE);
 
       default:
         return JavaPrimitiveType.VOID;

@@ -81,7 +81,6 @@ public final class TemplateEngine {
 
   /**
    * Capitalize value of a given String.<br>
-   * Usage: {{capitalize "someString"}}<br>
    * Example: {{capitalize "someString"}}
    */
   @VisibleForTesting
@@ -143,12 +142,23 @@ public final class TemplateEngine {
   }
 
   /**
-   * Execute a block if the class name of the value equals the given string<br>
+   * instanceOf: execute a block if the class name of the value equals the given string<br>
    * Usage: {{#instanceOf value "className"}}...{{/instanceOf}}<br>
-   * Example: {{#instanceOf this "CppStruct"}}...{{/instanceOf}}
+   * Example: {{#instanceOf this "CppStruct"}}...{{/instanceOf}}<br>
+   * notInstanceOf: execute a block if the class name of the value is not equal to the given string
+   * <br>
+   * Usage: {{#notInstanceOf value "className"}}...{{/notInstanceOf}}<br>
+   * Example: {{#notInstanceOf this "CppStruct"}}...{{/notInstanceOf}} *
    */
   @VisibleForTesting
   static class InstanceOfHelper extends BasicSectionHelper {
+
+    private final boolean equality;
+
+    InstanceOfHelper(final boolean equality) {
+      super();
+      this.equality = equality;
+    }
 
     @Override
     public void execute(Options options) {
@@ -159,15 +169,15 @@ public final class TemplateEngine {
 
       Object object = parameters.get(0);
       String className = parameters.get(1).toString();
-      if (object.getClass().getName().endsWith(className)) {
+      if (object.getClass().getName().endsWith(className) == equality) {
         options.fn();
       }
     }
   }
 
   /**
-   * Resolves "now" keyword into the LocalDate object for the current date and time. Example:
-   * {{now.year}}
+   * Resolves "now" keyword into the LocalDate object for the current date and time.<br>
+   * Example: {{now.year}}
    */
   @VisibleForTesting
   static class NowResolver extends AbstractResolver {
@@ -195,7 +205,8 @@ public final class TemplateEngine {
             .registerHelper("prefix", new PrefixHelper())
             .registerHelper("prefixPartial", new PrefixPartialHelper())
             .registerHelper("joinPartial", new JoinPartialHelper())
-            .registerHelper("instanceOf", new InstanceOfHelper())
+            .registerHelper("instanceOf", new InstanceOfHelper(true))
+            .registerHelper("notInstanceOf", new InstanceOfHelper(false))
             .registerHelper("capitalize", new CapitalizeHelper())
             .registerHelper("switch", new NiceSwitchHelper())
             .registerHelper("case", new SwitchHelper.CaseHelper(true))
