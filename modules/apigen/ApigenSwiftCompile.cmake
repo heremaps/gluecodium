@@ -14,6 +14,17 @@ set(includeguard_ApigenSwiftCompile ON)
 
 cmake_minimum_required(VERSION 3.5)
 
+set(MINIMAL_CLANG_VERSION 5.0)
+if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
+    message(FATAL_ERROR "Clang compiler version > ${MINIMAL_CLANG_VERSION} is required,"
+    "your compiler is ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}\n"
+    "On Ubuntu 16.04 you can run\n"
+    "apt-get install clang-${MINIMAL_CLANG_VERSION}\n"
+    "update-alternatives --install /usr/bin/clang clang /usr/lib/llvm-${MINIMAL_CLANG_VERSION}/bin/clang 100\n"
+    "update-alternatives --install /usr/bin/clang++ clang++ /usr/lib/llvm-${MINIMAL_CLANG_VERSION}/bin/clang++ 100\n
+    and then do a clean rebuild")
+endif()
+
 include(${CMAKE_CURRENT_LIST_DIR}/GetLinkLibraries.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftTest.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkStructure.cmake)
