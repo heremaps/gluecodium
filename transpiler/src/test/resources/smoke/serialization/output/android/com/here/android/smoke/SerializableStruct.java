@@ -14,6 +14,10 @@ package com.here.android.smoke;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SerializableStruct implements Parcelable {
 
@@ -35,10 +39,14 @@ public class SerializableStruct implements Parcelable {
     public double doubleField;
     public String stringField;
     public NestedSerializableStruct structField = new NestedSerializableStruct();
+    public byte[] byteBufferField;
+    public List<String> arrayField = new ArrayList<>();
+    public List<NestedSerializableStruct> structArrayField = new ArrayList<>();
+    public Map<Integer, String> mapField = new HashMap<>();
 
     public SerializableStruct() {}
 
-    public SerializableStruct(boolean boolField, byte byteField, short shortField, int intField, long longField, float floatField, double doubleField, String stringField, NestedSerializableStruct structField) {
+    public SerializableStruct(boolean boolField, byte byteField, short shortField, int intField, long longField, float floatField, double doubleField, String stringField, NestedSerializableStruct structField, byte[] byteBufferField, List<String> arrayField, List<NestedSerializableStruct> structArrayField, Map<Integer, String> mapField) {
         this.boolField = boolField;
         this.byteField = byteField;
         this.shortField = shortField;
@@ -48,6 +56,10 @@ public class SerializableStruct implements Parcelable {
         this.doubleField = doubleField;
         this.stringField = stringField;
         this.structField = structField;
+        this.byteBufferField = byteBufferField;
+        this.arrayField = arrayField;
+        this.structArrayField = structArrayField;
+        this.mapField = mapField;
     }
 
     private SerializableStruct(final Parcel in_parcel) {
@@ -60,6 +72,14 @@ public class SerializableStruct implements Parcelable {
         this.doubleField = in_parcel.readDouble();
         this.stringField = in_parcel.readString();
         this.structField = in_parcel.readParcelable(null);
+        this.byteBufferField = in_parcel.createByteArray();
+        in_parcel.readByteArray(this.byteBufferField);
+        this.arrayField = new ArrayList<>();
+        in_parcel.readList(this.arrayField, null);
+        this.structArrayField = new ArrayList<>();
+        in_parcel.readList(this.structArrayField, null);
+        this.mapField = new HashMap<>();
+        in_parcel.readMap(this.mapField, null);
     }
 
     @Override
@@ -78,6 +98,10 @@ public class SerializableStruct implements Parcelable {
         out_parcel.writeDouble(doubleField);
         out_parcel.writeString(stringField);
         out_parcel.writeParcelable(structField);
+        out_parcel.writeByteArray(byteBufferField);
+        out_parcel.writeList(arrayField);
+        out_parcel.writeList(structArrayField);
+        out_parcel.writeMap(mapField);
     }
 
     public static class Builder {
@@ -90,6 +114,10 @@ public class SerializableStruct implements Parcelable {
         private double doubleField;
         private String stringField;
         private NestedSerializableStruct structField = new NestedSerializableStruct();
+        private byte[] byteBufferField;
+        private List<String> arrayField = new ArrayList<>();
+        private List<NestedSerializableStruct> structArrayField = new ArrayList<>();
+        private Map<Integer, String> mapField = new HashMap<>();
         public Builder() {
         }
         public Builder setBoolField(boolean boolField) {
@@ -128,8 +156,24 @@ public class SerializableStruct implements Parcelable {
             this.structField = structField;
             return this;
         }
+        public Builder setByteBufferField(byte[] byteBufferField) {
+            this.byteBufferField = byteBufferField;
+            return this;
+        }
+        public Builder setArrayField(List<String> arrayField) {
+            this.arrayField = arrayField;
+            return this;
+        }
+        public Builder setStructArrayField(List<NestedSerializableStruct> structArrayField) {
+            this.structArrayField = structArrayField;
+            return this;
+        }
+        public Builder setMapField(Map<Integer, String> mapField) {
+            this.mapField = mapField;
+            return this;
+        }
         public SerializableStruct build() {
-            return new SerializableStruct(boolField, byteField, shortField, intField, longField, floatField, doubleField, stringField, structField);
+            return new SerializableStruct(boolField, byteField, shortField, intField, longField, floatField, doubleField, stringField, structField, byteBufferField, arrayField, structArrayField, mapField);
         }
     }
 }

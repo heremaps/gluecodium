@@ -108,21 +108,21 @@ public final class JniType implements JniElement {
 
   private static String createJniSignature(JavaArrayType arrayType) {
     switch (arrayType.type) {
-      case INT_ARRAY:
+      case INT:
         return "[I";
-      case BOOL_ARRAY:
+      case BOOL:
         return "[Z";
-      case BYTE_ARRAY:
+      case BYTE:
         return "[B";
-      case CHAR_ARRAY:
+      case CHAR:
         return "[C";
-      case LONG_ARRAY:
+      case LONG:
         return "[J";
-      case FLOAT_ARRAY:
+      case FLOAT:
         return "[F";
-      case SHORT_ARRAY:
+      case SHORT:
         return "[S";
-      case DOUBLE_ARRAY:
+      case DOUBLE:
         return "[D";
       default:
         throw new TranspilerExecutionException("invalid java primitive type: " + arrayType.type);

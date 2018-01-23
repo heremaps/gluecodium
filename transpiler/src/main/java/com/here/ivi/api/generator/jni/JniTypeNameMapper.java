@@ -69,21 +69,21 @@ public final class JniTypeNameMapper {
 
   private static String map(final JavaArrayType refType) {
     switch (refType.type) {
-      case BOOL_ARRAY:
+      case BOOL:
         return "jbooleanArray";
-      case BYTE_ARRAY:
+      case BYTE:
         return "jbyteArray";
-      case CHAR_ARRAY:
+      case CHAR:
         return "jcharArray";
-      case SHORT_ARRAY:
+      case SHORT:
         return "jshortArray";
-      case INT_ARRAY:
+      case INT:
         return "jintArray";
-      case LONG_ARRAY:
+      case LONG:
         return "jlongArray";
-      case FLOAT_ARRAY:
+      case FLOAT:
         return "jfloatArray";
-      case DOUBLE_ARRAY:
+      case DOUBLE:
         return "jdoubleArray";
       default:
         throw new IllegalArgumentException(

@@ -48,7 +48,7 @@ public class SerializableStruct implements Parcelable {
         this.stringField = in_parcel.readString();
         this.structField = in_parcel.readParcelable(null);
         this.arrayField = new ArrayList<>();
-        in_parcel.readList(arrayField, null);
+        in_parcel.readList(this.arrayField, null);
     }
 
     @Override
@@ -64,30 +64,26 @@ public class SerializableStruct implements Parcelable {
         out_parcel.writeList(arrayField);
     }
 
-    public static SerializableStructBuilder builder() {
-        return new SerializableStructBuilder();
-    }
-
-    public static class SerializableStructBuilder {
-        public int intField;
-        public String stringField;
-        public NestedSerializableStruct structField = new NestedSerializableStruct();
-        public List<String> arrayField = new ArrayList<>();
-        SerializableStructBuilder() {
+    public static class Builder {
+        private int intField;
+        private String stringField;
+        private NestedSerializableStruct structField = new NestedSerializableStruct();
+        private List<String> arrayField = new ArrayList<>();
+        public Builder() {
         }
-        public SerializableStructBuilder intField(int intField) {
+        public Builder setIntField(int intField) {
             this.intField = intField;
             return this;
         }
-        public SerializableStructBuilder stringField(String stringField) {
+        public Builder setStringField(String stringField) {
             this.stringField = stringField;
             return this;
         }
-        public SerializableStructBuilder structField(NestedSerializableStruct structField) {
+        public Builder setStructField(NestedSerializableStruct structField) {
             this.structField = structField;
             return this;
         }
-        public SerializableStructBuilder arrayField(List<String> arrayField) {
+        public Builder setArrayField(List<String> arrayField) {
             this.arrayField = arrayField;
             return this;
         }

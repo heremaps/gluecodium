@@ -1,0 +1,47 @@
+private {{name}}(final Parcel in_parcel) {
+{{#fields}}
+{{prefixPartial "parcelRead" "    "}}
+{{/fields}}
+}
+
+@Override
+public int describeContents() {
+    return 0;
+}
+
+@Override
+public void writeToParcel(final Parcel out_parcel, final int flags) {
+{{#fields}}
+    out_parcel.write{{>parcelWriteSuffix}};
+{{/fields}}
+}{{!!
+
+}}{{+parcelRead}}{{!!
+    }}{{#instanceOf type "JavaArrayType"}}this.{{name}} = in_parcel.create{{capitalize type.type.value}}Array();
+{{!!}}in_parcel.read{{capitalize type.type.value}}Array(this.{{name}});{{/instanceOf}}{{!!
+
+    }}{{#instanceOf type "JavaTemplateType"}}this.{{name}} = new {{type.implementationType}}();
+{{!!}}in_parcel.read{{capitalize type.classNames.0}}(this.{{name}}, null);{{/instanceOf}}{{!!
+
+    }}{{#instanceOf type "JavaCustomType"}}this.{{name}} = in_parcel.readParcelable(null);{{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaPrimitiveType"}}{{!!
+        }}{{#switch type.name}}{{!!
+        }}{{#case "boolean"}}this.{{name}} = in_parcel.readByte() != 0;{{/case}}{{!!
+        }}{{#default}}this.{{name}} = in_parcel.read{{capitalize type.name}}();{{/default}}{{!!
+        }}{{/switch}}{{!!
+    }}{{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaReferenceType"}}this.{{name}} = in_parcel.read{{capitalize type.name}}();{{/instanceOf}}{{!!
+}}{{/parcelRead}}{{!!
+
+}}{{+parcelWriteSuffix}}{{!!
+    }}{{#instanceOf type "JavaArrayType"}}{{capitalize type.type.value}}Array({{name}}){{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaTemplateType"}}{{capitalize type.classNames.0}}({{name}}){{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaCustomType"}}Parcelable({{name}}){{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaPrimitiveType"}}{{!!
+        }}{{#switch type.name}}{{!!
+        }}{{#case "boolean"}}Byte((byte) ({{name}} ? 1 : 0)){{/case}}{{!!
+        }}{{#default}}{{capitalize type.name}}({{name}}){{/default}}{{!!
+        }}{{/switch}}{{!!
+    }}{{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaReferenceType"}}{{capitalize type.name}}({{name}}){{/instanceOf}}{{!!
+}}{{/parcelWriteSuffix}}

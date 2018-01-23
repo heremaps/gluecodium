@@ -11,50 +11,26 @@
 
 package com.here.ivi.api.model.java;
 
+import static com.here.ivi.api.model.java.JavaPrimitiveType.Type;
+
 import java.util.stream.Stream;
 
 public final class JavaArrayType extends JavaType {
 
-  public static final JavaArrayType BYTE_ARRAY = new JavaArrayType(Type.BYTE_ARRAY);
-  public static final JavaArrayType SHORT_ARRAY = new JavaArrayType(JavaArrayType.Type.SHORT_ARRAY);
-  public static final JavaArrayType INT_ARRAY = new JavaArrayType(JavaArrayType.Type.INT_ARRAY);
-  public static final JavaArrayType LONG_ARRAY = new JavaArrayType(JavaArrayType.Type.LONG_ARRAY);
-  public static final JavaArrayType FLOAT_ARRAY = new JavaArrayType(JavaArrayType.Type.FLOAT_ARRAY);
-  public static final JavaArrayType DOUBLE_ARRAY =
-      new JavaArrayType(JavaArrayType.Type.DOUBLE_ARRAY);
-  public static final JavaArrayType BOOL_ARRAY = new JavaArrayType(JavaArrayType.Type.BOOL_ARRAY);
-  public static final JavaArrayType CHAR_ARRAY = new JavaArrayType(JavaArrayType.Type.CHAR_ARRAY);
-
-  public enum Type {
-    BOOL_ARRAY("boolean[]"),
-    BYTE_ARRAY("byte[]"),
-    CHAR_ARRAY("char[]"),
-    SHORT_ARRAY("short[]"),
-    INT_ARRAY("int[]"),
-    LONG_ARRAY("long[]"),
-    FLOAT_ARRAY("float[]"),
-    DOUBLE_ARRAY("double[]");
-
-    private final String value;
-
-    Type(final String value) {
-      this.value = value;
-    }
-
-    public String getValue() {
-      return value;
-    }
-  }
+  public static final JavaArrayType BYTE_ARRAY = new JavaArrayType(Type.BYTE);
+  public static final JavaArrayType SHORT_ARRAY = new JavaArrayType(Type.SHORT);
+  public static final JavaArrayType INT_ARRAY = new JavaArrayType(Type.INT);
+  public static final JavaArrayType LONG_ARRAY = new JavaArrayType(Type.LONG);
+  public static final JavaArrayType FLOAT_ARRAY = new JavaArrayType(Type.FLOAT);
+  public static final JavaArrayType DOUBLE_ARRAY = new JavaArrayType(Type.DOUBLE);
+  public static final JavaArrayType BOOL_ARRAY = new JavaArrayType(Type.BOOL);
+  public static final JavaArrayType CHAR_ARRAY = new JavaArrayType(Type.CHAR);
 
   public final Type type;
 
-  public JavaArrayType(final JavaArrayType.Type type) {
-    super(type.getValue());
+  public JavaArrayType(final Type type) {
+    super(type.getValue() + "[]");
     this.type = type;
-  }
-
-  public String getName() {
-    return type.getValue();
   }
 
   @Override
@@ -64,25 +40,6 @@ public final class JavaArrayType extends JavaType {
 
   @Override
   public String getLiteralName() {
-    switch (type) {
-      case BOOL_ARRAY:
-        return "boolean_array";
-      case BYTE_ARRAY:
-        return "byte_array";
-      case CHAR_ARRAY:
-        return "char_array";
-      case SHORT_ARRAY:
-        return "short_array";
-      case INT_ARRAY:
-        return "int_array";
-      case LONG_ARRAY:
-        return "long_array";
-      case FLOAT_ARRAY:
-        return "float_array";
-      case DOUBLE_ARRAY:
-        return "double_array";
-      default:
-        return type.getValue();
-    }
+    return type.getValue() + "_array";
   }
 }
