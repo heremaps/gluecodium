@@ -24,6 +24,7 @@ public void writeToParcel(final Parcel out_parcel, final int flags) {
 {{!!}}in_parcel.read{{capitalize type.classNames.0}}(this.{{name}}, null);{{/instanceOf}}{{!!
 
     }}{{#instanceOf type "JavaCustomType"}}this.{{name}} = in_parcel.readParcelable(null);{{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaEnumType"}}this.{{name}} = {{type.name}}.values()[in_parcel.readInt()];{{/instanceOf}}{{!!
     }}{{#instanceOf type "JavaPrimitiveType"}}{{!!
         }}{{#switch type.name}}{{!!
         }}{{#case "boolean"}}this.{{name}} = in_parcel.readByte() != 0;{{/case}}{{!!
@@ -37,6 +38,7 @@ public void writeToParcel(final Parcel out_parcel, final int flags) {
     }}{{#instanceOf type "JavaArrayType"}}{{capitalize type.type.value}}Array({{name}}){{/instanceOf}}{{!!
     }}{{#instanceOf type "JavaTemplateType"}}{{capitalize type.classNames.0}}({{name}}){{/instanceOf}}{{!!
     }}{{#instanceOf type "JavaCustomType"}}Parcelable({{name}}){{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaEnumType"}}Int({{name}}.ordinal()){{/instanceOf}}{{!!
     }}{{#instanceOf type "JavaPrimitiveType"}}{{!!
         }}{{#switch type.name}}{{!!
         }}{{#case "boolean"}}Byte((byte) ({{name}} ? 1 : 0)){{/case}}{{!!
