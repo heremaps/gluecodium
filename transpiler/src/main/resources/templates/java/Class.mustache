@@ -33,18 +33,18 @@
 
     public static class Builder {
     {{#fields}}
-    {{prefixPartial "java/Field" "    "}}
+        private {{type.name}} {{name}}{{#initial}} = {{#isNew}}new {{/isNew}}{{name}}{{#isNew}}(){{/isNew}}{{/initial}};
     {{/fields}}
 
         public Builder() {
         }
 
-        {{#set className=name}}{{#fields}}
+        {{#fields}}
         public Builder set{{capitalize name}}({{type}} {{name}}) {
             this.{{name}} = {{name}};
             return this;
         }
-        {{/fields}}{{/set}}
+        {{/fields}}
         public {{name}} build() {
             return new {{name}}({{#fields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
         }

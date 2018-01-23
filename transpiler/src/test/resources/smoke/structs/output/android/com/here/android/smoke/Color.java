@@ -23,9 +23,9 @@ public class Color {
         this.blue = blue;
     }
     public static class Builder {
-        public long red;
-        public long green;
-        public long blue;
+        private long red;
+        private long green;
+        private long blue;
         public Builder() {
         }
         public Builder setRed(long red) {

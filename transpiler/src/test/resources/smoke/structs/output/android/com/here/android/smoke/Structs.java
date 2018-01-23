@@ -38,9 +38,9 @@ public class Structs extends NativeBase {
         }
 
         public static class Builder {
-            public long red;
-            public long green;
-            public long blue;
+            private long red;
+            private long green;
+            private long blue;
 
             public Builder() {
             }
@@ -116,20 +116,20 @@ public class Structs extends NativeBase {
             this.pointField = pointField;
         }
         public static class Builder {
-            public byte int8Field;
-            public long uint8Field;
-            public short int16Field;
-            public long uint16Field;
-            public int int32Field;
-            public long uint32Field;
-            public long int64Field;
-            public long uint64Field;
-            public float floatField;
-            public double doubleField;
-            public String stringField;
-            public boolean booleanField;
-            public byte[] bytesField;
-            public Structs.Point pointField = new Structs.Point();
+            private byte int8Field;
+            private long uint8Field;
+            private short int16Field;
+            private long uint16Field;
+            private int int32Field;
+            private long uint32Field;
+            private long int64Field;
+            private long uint64Field;
+            private float floatField;
+            private double doubleField;
+            private String stringField;
+            private boolean booleanField;
+            private byte[] bytesField;
+            private Structs.Point pointField = new Structs.Point();
             public Builder() {
             }
             public Builder setInt8Field(byte int8Field) {
