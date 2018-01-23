@@ -34,6 +34,7 @@ bool smoke_MethodOverloads_isBoolean_structOverload(_baseRef _instance, _baseRef
 bool smoke_MethodOverloads_isBoolean_everythingOverload(_baseRef _instance, bool input1, int8_t input2, const char* input3, _baseRef input4);
 bool smoke_MethodOverloads_isBoolean_stringArrayOverload(_baseRef _instance, _baseRef input);
 bool smoke_MethodOverloads_isBoolean_intArrayOverload(_baseRef _instance, _baseRef input);
+bool smoke_MethodOverloads_isBoolean_constOverload(_baseRef _instance);
 
 #ifdef __cplusplus
 }

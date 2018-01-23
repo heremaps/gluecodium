@@ -102,6 +102,15 @@ Java_com_here_android_smoke_MethodOverloads_isBooleanIntArrayOverload__Ljava_uti
     return result;
 }
 
+jboolean
+Java_com_here_android_smoke_MethodOverloads_isBoolean__(JNIEnv* _jenv, jobject _jinstance)
+{
+    auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
+    auto result = (*pInstanceSharedPointer)->is_boolean();
+    return result;
+}
+
 void
 Java_com_here_android_smoke_MethodOverloads_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {

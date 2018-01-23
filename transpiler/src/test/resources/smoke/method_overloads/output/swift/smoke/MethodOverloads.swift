@@ -101,4 +101,7 @@ public class MethodOverloads {
         return smoke_MethodOverloads_isBoolean_intArrayOverload(c_instance, inputHandle.c_type)
     }
 
+    public func isBoolean() -> Bool {
+        return smoke_MethodOverloads_isBoolean_constOverload(c_instance)
+    }
 }

@@ -86,4 +86,10 @@ interface MethodOverloads {
           Boolean output
       }
     }
+
+    method isBoolean:constOverload {
+       out {
+           Boolean output
+       }
+    }
 }
