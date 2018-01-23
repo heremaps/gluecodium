@@ -27,7 +27,7 @@ typeCollection Serialization {
         String[] arrayField
         NestedStructArray structArrayField
         ErrorCodeToMessageMap mapField
-//        SomeEnum enumField
+        SomeEnum enumField
     }
 
     enumeration SomeEnum {

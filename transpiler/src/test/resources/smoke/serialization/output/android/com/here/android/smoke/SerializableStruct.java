@@ -43,10 +43,11 @@ public class SerializableStruct implements Parcelable {
     public List<String> arrayField = new ArrayList<>();
     public List<NestedSerializableStruct> structArrayField = new ArrayList<>();
     public Map<Integer, String> mapField = new HashMap<>();
+    public SomeEnum enumField = SomeEnum.values()[0];
 
     public SerializableStruct() {}
 
-    public SerializableStruct(boolean boolField, byte byteField, short shortField, int intField, long longField, float floatField, double doubleField, String stringField, NestedSerializableStruct structField, byte[] byteBufferField, List<String> arrayField, List<NestedSerializableStruct> structArrayField, Map<Integer, String> mapField) {
+    public SerializableStruct(boolean boolField, byte byteField, short shortField, int intField, long longField, float floatField, double doubleField, String stringField, NestedSerializableStruct structField, byte[] byteBufferField, List<String> arrayField, List<NestedSerializableStruct> structArrayField, Map<Integer, String> mapField, SomeEnum enumField) {
         this.boolField = boolField;
         this.byteField = byteField;
         this.shortField = shortField;
@@ -60,6 +61,7 @@ public class SerializableStruct implements Parcelable {
         this.arrayField = arrayField;
         this.structArrayField = structArrayField;
         this.mapField = mapField;
+        this.enumField = enumField;
     }
 
     private SerializableStruct(final Parcel in_parcel) {
@@ -80,6 +82,7 @@ public class SerializableStruct implements Parcelable {
         in_parcel.readList(this.structArrayField, null);
         this.mapField = new HashMap<>();
         in_parcel.readMap(this.mapField, null);
+        this.enumField = SomeEnum.values()[in_parcel.readInt()];
     }
 
     @Override
@@ -102,6 +105,7 @@ public class SerializableStruct implements Parcelable {
         out_parcel.writeList(arrayField);
         out_parcel.writeList(structArrayField);
         out_parcel.writeMap(mapField);
+        out_parcel.writeInt(enumField.ordinal());
     }
 
     public static class Builder {
@@ -118,6 +122,7 @@ public class SerializableStruct implements Parcelable {
         private List<String> arrayField = new ArrayList<>();
         private List<NestedSerializableStruct> structArrayField = new ArrayList<>();
         private Map<Integer, String> mapField = new HashMap<>();
+        private SomeEnum enumField = SomeEnum.values()[0];
         public Builder() {
         }
         public Builder setBoolField(boolean boolField) {
@@ -172,8 +177,12 @@ public class SerializableStruct implements Parcelable {
             this.mapField = mapField;
             return this;
         }
+        public Builder setEnumField(SomeEnum enumField) {
+            this.enumField = enumField;
+            return this;
+        }
         public SerializableStruct build() {
-            return new SerializableStruct(boolField, byteField, shortField, intField, longField, floatField, doubleField, stringField, structField, byteBufferField, arrayField, structArrayField, mapField);
+            return new SerializableStruct(boolField, byteField, shortField, intField, longField, floatField, doubleField, stringField, structField, byteBufferField, arrayField, structArrayField, mapField, enumField);
         }
     }
 }
