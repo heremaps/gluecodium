@@ -1,9 +1,11 @@
 # API Transpiler Release Notes
 
-## Unreleased
+## 1.2.0
 - Features:
   + Add validation against multiple output parameters. No support for this feature is planned.
   + Add validation against unions. No support for this feature is planned.
+  + Add support for Interface Inheritance for C++ Base API generator
+  + Add support for comments for all generators (Base API, Android, Swift)
 
 ## 1.1.1
 - Bugs:
