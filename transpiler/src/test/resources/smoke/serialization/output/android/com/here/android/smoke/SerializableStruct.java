@@ -67,7 +67,7 @@ public class SerializableStruct implements Parcelable {
     private SerializableStruct(final Parcel in_parcel) {
         this.boolField = in_parcel.readByte() != 0;
         this.byteField = in_parcel.readByte();
-        this.shortField = in_parcel.readShort();
+        this.shortField = (short)in_parcel.readInt();
         this.intField = in_parcel.readInt();
         this.longField = in_parcel.readLong();
         this.floatField = in_parcel.readFloat();
@@ -92,15 +92,15 @@ public class SerializableStruct implements Parcelable {
 
     @Override
     public void writeToParcel(final Parcel out_parcel, final int flags) {
-        out_parcel.writeByte((byte) (boolField ? 1 : 0));
+        out_parcel.writeByte((byte)(boolField ? 1 : 0));
         out_parcel.writeByte(byteField);
-        out_parcel.writeShort(shortField);
+        out_parcel.writeInt(shortField);
         out_parcel.writeInt(intField);
         out_parcel.writeLong(longField);
         out_parcel.writeFloat(floatField);
         out_parcel.writeDouble(doubleField);
         out_parcel.writeString(stringField);
-        out_parcel.writeParcelable(structField);
+        out_parcel.writeParcelable(structField, 0);
         out_parcel.writeByteArray(byteBufferField);
         out_parcel.writeList(arrayField);
         out_parcel.writeList(structArrayField);

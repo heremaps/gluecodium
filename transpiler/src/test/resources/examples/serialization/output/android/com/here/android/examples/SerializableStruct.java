@@ -60,7 +60,7 @@ public class SerializableStruct implements Parcelable {
     public void writeToParcel(final Parcel out_parcel, final int flags) {
         out_parcel.writeInt(intField);
         out_parcel.writeString(stringField);
-        out_parcel.writeParcelable(structField);
+        out_parcel.writeParcelable(structField, 0);
         out_parcel.writeList(arrayField);
     }
 
