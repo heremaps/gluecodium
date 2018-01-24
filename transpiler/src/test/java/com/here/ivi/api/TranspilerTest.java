@@ -15,9 +15,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+import com.here.ivi.api.cache.CachingStrategy;
+import com.here.ivi.api.cache.CachingStrategyCreator;
 import com.here.ivi.api.cli.OptionReader.TranspilerOptions;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.loader.FrancaModelLoader;
@@ -34,6 +37,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
@@ -43,6 +47,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -51,16 +56,23 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({GeneratorSuite.class, FrancaResourcesValidator.class})
+@PrepareForTest({
+  GeneratorSuite.class,
+  FrancaResourcesValidator.class,
+  CachingStrategyCreator.class
+})
 public class TranspilerTest {
 
   private static final String SHORT_NAME = "android";
   private static final String FILE_NAME = "fileName";
+  private static final String OUTPUT_DIR = "someDir";
+
   private static final String CONTENT = "someContent";
   private static final GeneratedFile FILE = new GeneratedFile("", FILE_NAME);
   private static final List<GeneratedFile> GENERATED_FILES = Collections.singletonList(FILE);
 
   @Mock private GeneratorSuite generator;
+  @Mock private CachingStrategy cache;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FrancaModelLoader francaModelLoader;
@@ -71,7 +83,13 @@ public class TranspilerTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(GeneratorSuite.class, FrancaResourcesValidator.class);
+    PowerMockito.mockStatic(
+        GeneratorSuite.class, FrancaResourcesValidator.class, CachingStrategyCreator.class);
+
+    when(CachingStrategyCreator.initializeCaching(anyBoolean(), any(), any())).thenReturn(cache);
+    Mockito.when(cache.updateCache(any(), any())).thenReturn(new LinkedList<>());
+    Mockito.when(cache.write(true)).thenReturn(true);
+    Mockito.when(cache.write(false)).thenReturn(false);
 
     when(FrancaResourcesValidator.validate(any(), any())).thenReturn(true);
     when(generator.getName()).thenReturn("");
@@ -136,6 +154,27 @@ public class TranspilerTest {
   }
 
   @Test
+  public void useCachingInExecute() {
+
+    // Arrange
+    TranspilerOptions options =
+        TranspilerOptions.builder()
+            .inputDirs(new String[] {""})
+            .outputDir(OUTPUT_DIR)
+            .generators(Collections.singleton(SHORT_NAME))
+            .enableCaching(true)
+            .build();
+
+    // Act
+    createTranspiler(options).execute();
+
+    //Verify
+    InOrder order = Mockito.inOrder(cache);
+    order.verify(cache).updateCache(any(), any());
+    order.verify(cache).write(true);
+  }
+
+  @Test
   public void ableToOutputConsole() throws IOException {
     // Arrange
     TranspilerOptions.builder().dumpingToStdout(true).build();
@@ -145,7 +184,7 @@ public class TranspilerTest {
     TranspilerOptions options = TranspilerOptions.builder().dumpingToStdout(true).build();
 
     // Act
-    new Transpiler(options).output(Collections.singletonList(generatedFile));
+    new Transpiler(options).output(null, Collections.singletonList(generatedFile));
     bo.flush();
     String consoleOutput = new String(bo.toByteArray());
 
@@ -158,23 +197,29 @@ public class TranspilerTest {
     Transpiler.class,
     FileOutput.class,
     GeneratorSuite.class,
-    FrancaResourcesValidator.class
+    FrancaResourcesValidator.class,
+    CachingStrategyCreator.class
   })
   public void ableToOutputFile() throws Exception {
     // Arrange
     FileOutput mockFileOutput = mock(FileOutput.class);
     PowerMockito.whenNew(FileOutput.class).withAnyArguments().thenReturn(mockFileOutput);
-    TranspilerOptions options = TranspilerOptions.builder().outputDir("someDir").build();
+    TranspilerOptions options = TranspilerOptions.builder().outputDir(OUTPUT_DIR).build();
     File mockFile = mock(File.class);
     PowerMockito.whenNew(File.class).withAnyArguments().thenReturn(mockFile);
 
     // Act, Assert
-    assertTrue(new Transpiler(options).output(GENERATED_FILES));
+    assertTrue(new Transpiler(options).output(null, GENERATED_FILES));
     verify(mockFileOutput, times(1)).output(anyList());
+    verify(cache).updateCache(any(), any());
   }
 
-  @Test
-  @PrepareForTest({Transpiler.class, GeneratorSuite.class, FrancaResourcesValidator.class})
+  @PrepareForTest({
+    Transpiler.class,
+    GeneratorSuite.class,
+    FrancaResourcesValidator.class,
+    CachingStrategyCreator.class
+  })
   public void failWhenUnableToOpenConsoleForOutput() throws Exception {
     // Arrange
     ConsoleOutput mockConsoleOutput = mock(ConsoleOutput.class);
@@ -183,7 +228,7 @@ public class TranspilerTest {
     TranspilerOptions options = TranspilerOptions.builder().dumpingToStdout(true).build();
 
     // Act, Assert
-    assertFalse(new Transpiler(options).output(GENERATED_FILES));
+    assertFalse(new Transpiler(options).output(null, GENERATED_FILES));
   }
 
   @Test
@@ -195,7 +240,7 @@ public class TranspilerTest {
     TranspilerOptions options = TranspilerOptions.builder().outputDir("").build();
 
     // Act, Assert
-    assertFalse(new Transpiler(options).output(GENERATED_FILES));
+    assertFalse(new Transpiler(options).output(null, GENERATED_FILES));
   }
 
   @Test
