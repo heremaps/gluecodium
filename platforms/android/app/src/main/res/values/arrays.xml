@@ -105,15 +105,28 @@
 
     <string-array name="inheritance_methods">
         <item>Check inheritances</item>
-        <item>circle.getType</item>
-        <item>rectangle.getType</item>
-        <item>square.getType</item>
+        <item>Apply scale</item>
     </string-array>
 
     <string-array name="inheritance_methods_description">
         <item>Check inheritances between geometric forms (Circle, Rectangle and Square)</item>
-        <item>Returns result of circle.getType() call</item>
-        <item>Returns result of rectangle.getType() call</item>
-        <item>Returns result of square.getType() call</item>
+        <item>Returns a string log content after calling InheritanceHelper.scale method with:\n
+              - Java implementation of Circle interface\n
+              - Native implementation of Circle interface\n
+              - Native implementation of Rectangle interface\n
+              - Java implemetation of Rectangle interface\n
+              - Extended class from the Java implementation of\n
+                Rectangle interface.\n
+              - Native implementation of Square concrete class\n\n
+        </item>
+        <item>Returns a string log content after calling scale method with following shapes:\n
+              - Java implementation of Circle interface\n
+              - Native implementation of Circle interface\n
+              - Native implementation of Rectangle interface\n
+              - Java implemetation of Rectangle interface\n
+              - Extended class from the Java implementation of\n
+                Rectangle interface.\n
+              - Native implementation of Square concrete class\n\n
+        </item>
     </string-array>
 </resources>

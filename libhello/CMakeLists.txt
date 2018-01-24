@@ -263,16 +263,7 @@ feature(Defaults cpp android swift SOURCES
 )
 
 feature(Inheritance cpp android swift SOURCES
-    src/hello/Circle.cpp
-    src/hello/CircleImpl.h
-    src/hello/CircleImpl.cpp
-    src/hello/Rectangle.cpp
-    src/hello/RectangleImpl.h
-    src/hello/RectangleImpl.cpp
-    src/hello/Square.cpp
-    src/hello/SquareImpl.h
-    src/hello/SquareImpl.cpp
-
+    src/hello/HelloWorldInheritance.cpp
     src/test/ChildClassImpl.cpp
     src/test/ChildClassImpl.h
     src/test/GrandchildClassImpl.cpp

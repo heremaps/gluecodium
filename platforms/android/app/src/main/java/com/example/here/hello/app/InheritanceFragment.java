@@ -22,16 +22,20 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.example.here.hello.R;
-import com.here.android.hello.Circle;
-import com.here.android.hello.Rectangle;
+import com.here.android.hello.HelloWorldStaticLogger;
+import com.here.android.hello.InheritanceHelper;
 import com.here.android.hello.Shape;
-import com.here.android.hello.Square;
+import java.util.LinkedList;
+import java.util.List;
 
 public class InheritanceFragment extends Fragment {
 
-  private static final Circle CIRCLE = Circle.createCircle(1.0);
-  private static final Rectangle RECTANGLE = Rectangle.createRectangle(1.0, 2.0);
-  private static final Square SQUARE = Square.createSquare(5.0);
+  private Shape javaImplCircle;
+  private Shape nativeImplCircle;
+  private Shape nativeImplRectangle;
+  private Shape parentJavaImplRectangle;
+  private Shape childJavaImplRectangle;
+  private Shape nativeImplSquare;
 
   private Button submitButton;
   private TextView result;
@@ -51,6 +55,13 @@ public class InheritanceFragment extends Fragment {
     submitButton = rootView.findViewById(R.id.inheritance_submit_button);
     result = rootView.findViewById(R.id.inheritance_result);
     descriptionsText = getResources().getStringArray(R.array.inheritance_methods_description);
+
+    javaImplCircle = new JavaImplCircle();
+    nativeImplCircle = InheritanceHelper.createCircle();
+    nativeImplRectangle = InheritanceHelper.createRectangle();
+    parentJavaImplRectangle = new ParentJavaImplRectangle();
+    childJavaImplRectangle = new ChildJavaImplRectangle();
+    nativeImplSquare = InheritanceHelper.createSquare();
 
     return rootView;
   }
@@ -93,12 +104,18 @@ public class InheritanceFragment extends Fragment {
         {
           StringBuilder builder = new StringBuilder();
 
-          builder.append(inheritanceCheckResult(Shape.class, Circle.class));
-          builder.append(inheritanceCheckResult(Shape.class, Rectangle.class));
-          builder.append(inheritanceCheckResult(Shape.class, Square.class));
-          builder.append(inheritanceCheckResult(Rectangle.class, Circle.class));
-          builder.append(inheritanceCheckResult(Circle.class, Rectangle.class));
-          builder.append(inheritanceCheckResult(Rectangle.class, Square.class));
+          Class<?> classes[] = {
+            com.here.android.hello.Shape.class,
+            com.here.android.hello.Circle.class,
+            com.here.android.hello.Rectangle.class,
+            com.here.android.hello.Square.class
+          };
+
+          for (int i = 0; i < classes.length; ++i) {
+            for (int j = i + 1; j < classes.length; ++j) {
+              builder.append(inheritanceCheckResult(classes[i], classes[j]));
+            }
+          }
 
           result.setText(builder.toString());
         }
@@ -106,19 +123,22 @@ public class InheritanceFragment extends Fragment {
 
       case 1:
         {
-          result.setText(CIRCLE.getType());
-        }
-        break;
+          HelloWorldStaticLogger.clearLog();
 
-      case 2:
-        {
-          result.setText(RECTANGLE.getType());
-        }
-        break;
+          List<Shape> shapes = new LinkedList<>();
 
-      case 3:
-        {
-          result.setText(SQUARE.getType());
+          shapes.add(javaImplCircle);
+          shapes.add(nativeImplCircle);
+          shapes.add(nativeImplRectangle);
+          shapes.add(parentJavaImplRectangle);
+          shapes.add(childJavaImplRectangle);
+          shapes.add(nativeImplSquare);
+
+          InheritanceHelper.applyScaleOn(2.0, shapes);
+
+          String log = HelloWorldStaticLogger.getLog();
+
+          result.setText(log);
         }
         break;
     }
