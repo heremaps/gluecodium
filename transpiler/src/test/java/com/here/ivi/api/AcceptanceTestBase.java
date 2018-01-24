@@ -84,12 +84,12 @@ public abstract class AcceptanceTestBase {
             invocation -> {
               @SuppressWarnings("unchecked")
               List<GeneratedFile> generatedFiles =
-                  (List<GeneratedFile>) invocation.getArguments()[0];
+                  (List<GeneratedFile>) invocation.getArguments()[1];
               results.addAll(generatedFiles);
               return true;
             })
         .when(transpiler)
-        .output(any());
+        .output(any(), any());
   }
 
   protected static Collection<Object[]> getData(final String resourcePrefix) {

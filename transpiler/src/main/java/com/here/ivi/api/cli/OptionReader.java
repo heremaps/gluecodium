@@ -38,6 +38,7 @@ public final class OptionReader {
     private boolean dumpingToStdout;
     private boolean validatingOnly;
     private Set<String> generators;
+    private boolean enableCaching;
     private String androidMergeManifestPath;
     private boolean logTimes;
   }
@@ -59,6 +60,10 @@ public final class OptionReader {
         "validateOnly",
         false,
         "Perform fidl and fdepl files validation without generating any code.");
+    options.addOption(
+        "enableCaching",
+        false,
+        "enable caching of output files, only available if output destination is set");
     Option generatorsOpt =
         new Option(
             "generators",
@@ -118,6 +123,7 @@ public final class OptionReader {
 
       builder.validatingOnly(cmd.hasOption("validateOnly"));
       builder.dumpingToStdout(!cmd.hasOption("nostdout"));
+      builder.enableCaching(cmd.hasOption("output") && cmd.hasOption("enableCaching"));
 
       builder.logTimes(cmd.hasOption("timeLogging"));
 

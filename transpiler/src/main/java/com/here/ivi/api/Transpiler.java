@@ -13,6 +13,8 @@ package com.here.ivi.api;
 
 import com.android.manifmerger.Merger;
 import com.google.common.annotations.VisibleForTesting;
+import com.here.ivi.api.cache.CachingStrategy;
+import com.here.ivi.api.cache.CachingStrategyCreator;
 import com.here.ivi.api.cli.OptionReader;
 import com.here.ivi.api.cli.OptionReaderException;
 import com.here.ivi.api.cli.TranspilerExecutionException;
@@ -46,12 +48,18 @@ public class Transpiler {
 
   private final OptionReader.TranspilerOptions options;
   private final Version version;
+  private final CachingStrategy cacheStrategy;
 
   @VisibleForTesting
   Transpiler(final OptionReader.TranspilerOptions options) {
     this.options = options;
     TranspilerLogger.initialize("logging.properties");
     version = parseVersion();
+    cacheStrategy =
+        CachingStrategyCreator.initializeCaching(
+            options.isEnableCaching(),
+            options.getOutputDir(),
+            GeneratorSuite.generatorShortNames());
   }
 
   private static Version parseVersion() {
@@ -107,18 +115,25 @@ public class Transpiler {
     }
 
     Map<String, String> fileNamesCache = new HashMap<>();
-    boolean result =
-        discoverGenerators()
-            .stream()
-            .allMatch(
-                generatorName ->
-                    executeGenerator(
-                        generatorName, deploymentModel, typeCollections, fileNamesCache));
-    times.addLogEntry("code generation (including file output)");
+    boolean executionSucceeded = false;
+    try {
+      executionSucceeded =
+          discoverGenerators()
+              .stream()
+              .allMatch(
+                  generatorName ->
+                      executeGenerator(
+                          generatorName, deploymentModel, typeCollections, fileNamesCache));
+    } finally {
+      //cache has to be updated in any case
+      executionSucceeded = cacheStrategy.write(executionSucceeded);
+
+      times.addLogEntry("code generation (including file output)");
+    }
     if (options.isLogTimes()) {
       times.log();
     }
-    return result;
+    return executionSucceeded;
   }
 
   @VisibleForTesting
@@ -163,7 +178,7 @@ public class Transpiler {
 
     List<GeneratedFile> outputFiles = generator.generate(deploymentModel, typeCollections);
 
-    boolean outputSuccessful = output(outputFiles);
+    boolean outputSuccessful = output(generatorName, outputFiles);
     boolean processedWithoutCollisions =
         checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName);
 
@@ -219,7 +234,7 @@ public class Transpiler {
   }
 
   @VisibleForTesting
-  boolean output(List<GeneratedFile> files) {
+  boolean output(final String generatorName, List<GeneratedFile> files) {
 
     // handle output options
     if (options.isDumpingToStdout()) {
@@ -231,8 +246,8 @@ public class Transpiler {
         return false;
       }
     }
-
-    return saveToDirectory(options.getOutputDir(), files);
+    List<GeneratedFile> filesToBeWritten = cacheStrategy.updateCache(generatorName, files);
+    return saveToDirectory(options.getOutputDir(), filesToBeWritten);
   }
 
   @VisibleForTesting
@@ -247,7 +262,6 @@ public class Transpiler {
         return false;
       }
     }
-
     return true;
   }
 
