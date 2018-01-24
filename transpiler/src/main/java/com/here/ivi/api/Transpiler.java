@@ -251,7 +251,7 @@ public class Transpiler {
   }
 
   /**
-   * Uses the internal validator to validate the model.
+   * Uses the internal validators to validate the model.
    *
    * @return boolean True if the model is valid, false otherwise.
    */
@@ -263,7 +263,8 @@ public class Transpiler {
         && InterfaceValidator.validate(deploymentModel, typeCollections)
         && TypeValidator.validate(typeCollections)
         && DefaultsValidator.validate(deploymentModel, typeCollections)
-        && ExpressionValidator.validate(typeCollections);
+        && ExpressionValidator.validate(typeCollections)
+        && SerializationValidator.validate(deploymentModel, typeCollections);
   }
 
   public static void main(final String[] args) {
