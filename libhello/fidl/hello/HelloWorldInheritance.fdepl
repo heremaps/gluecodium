@@ -12,23 +12,36 @@
 import "classpath:/franca/spec/BaseApiSpec.fdepl"
 import "./HelloWorldInheritance.fidl"
 
+define navigation.BaseApiSpec for interface hello.Shape
+{
+    IsInterface = true
+}
+
 define navigation.BaseApiSpec for interface hello.Circle
 {
-    method createCircle {
-        Static = true
-    }
+    IsInterface = true
 }
 
 define navigation.BaseApiSpec for interface hello.Rectangle
 {
+    IsInterface = true
+}
+
+define navigation.BaseApiSpec for interface hello.InheritanceHelper
+{
+    method createCircle {
+        Static = true
+    }
+
     method createRectangle {
         Static = true
     }
-}
 
-define navigation.BaseApiSpec for interface hello.Square
-{
     method createSquare {
+        Static = true
+    }
+
+    method applyScaleOn {
         Static = true
     }
 }

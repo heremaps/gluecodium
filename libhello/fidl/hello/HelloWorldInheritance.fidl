@@ -14,21 +14,14 @@ package hello
 
 interface Shape {
 
-    <** @description:
-    Example method that checks if the shape is a rectangle or not
-    **>
-    method isRectangle {
-        out {
-            Boolean result
-        }
-    }
+    public typedef Shape is undefined
 
     <** @description:
-    Example method that returns shape's name
+    Example method that scale shape by a factor
     **>
-    method getType {
-        out {
-            String result
+    method scale {
+        in {
+            Double factor
         }
     }
 }
@@ -36,78 +29,55 @@ interface Shape {
 interface Circle extends Shape {
 
     public typedef Circle is undefined
-
-    <** @description:
-    Example method that creates a circle with a given radius
-    **>
-    method createCircle {
-        in {
-            Double radius
-        }
-        out {
-            Circle instance
-        }
-    }
-
-    <** @description:
-    Example method that returns Circle radius
-    **>
-    method getRadius {
-        out {
-            Double result
-        }
-    }
 }
 
 interface Rectangle extends Shape {
 
     public typedef Rectangle is undefined
-
-    <** @description:
-    Example method that creates a rectangle with width and height
-    **>
-    method createRectangle {
-        in {
-            Double width
-            Double heigth
-        }
-        out {
-            Rectangle instance
-        }
-    }
-
-    <** @description:
-    Example method that returns rectangle width
-    **>
-    method getWidth {
-        out {
-            Double result
-        }
-    }
-
-    <** @description:
-    Example method that returns rectangle height
-    **>
-    method getHeight {
-        out {
-            Double result
-        }
-    }
 }
 
 interface Square extends Rectangle {
 
     public typedef Square is undefined
+}
+
+
+interface InheritanceHelper {
 
     <** @description:
-    Example method that creates a rectangle with given side
+    Example method that creates a circle
+    **>
+    method createCircle {
+        out {
+            Circle.Circle instance
+        }
+    }
+
+    <** @description:
+    Example method that creates a rectangle
+    **>
+    method createRectangle {
+        out {
+            Rectangle.Rectangle instance
+        }
+    }
+
+    <** @description:
+    Example method that creates a square
     **>
     method createSquare {
-        in {
-            Double side
-        }
         out {
-            Square instance
+            Square.Square instance
+        }
+    }
+
+<** @description:
+    This method applies scale on each of shape parameters
+    **>
+    method applyScaleOn {
+        in {
+            Double scaleFactor
+            Shape.Shape[] shapes
         }
     }
 }
