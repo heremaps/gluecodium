@@ -213,11 +213,16 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FArrayType francaArrayType) {
 
     String name = CppNameRules.getTypedefName(francaArrayType.getName());
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaArrayType);
     CppTypeRef elementType = getPreviousResult(CppTypeRef.class);
     CppTypeRef targetType =
         CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
     String comment = CommentHelper.getDescription(francaArrayType);
-    CppUsing cppUsing = CppUsing.builder(name, targetType).comment(comment).build();
+    CppUsing cppUsing =
+        CppUsing.builder(name, targetType)
+            .fullyQualifiedName(fullyQualifiedName)
+            .comment(comment)
+            .build();
 
     storeResult(cppUsing);
     closeContext();
@@ -227,10 +232,15 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FMapType francaMapType) {
 
     String name = CppNameRules.getTypedefName(francaMapType.getName());
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaMapType);
     List<CppTypeRef> typeRefs = getPreviousResults(CppTypeRef.class);
     CppTypeRef targetType = CppTypeMapper.wrapMap(typeRefs.get(0), typeRefs.get(1));
     String comment = CommentHelper.getDescription(francaMapType);
-    CppUsing cppUsing = CppUsing.builder(name, targetType).comment(comment).build();
+    CppUsing cppUsing =
+        CppUsing.builder(name, targetType)
+            .fullyQualifiedName(fullyQualifiedName)
+            .comment(comment)
+            .build();
 
     storeResult(cppUsing);
     closeContext();

@@ -497,6 +497,7 @@ public class CppModelBuilderTest {
     CppUsing resultUsing = modelBuilder.getFinalResult(CppUsing.class);
     assertNotNull(resultUsing);
     assertEquals("definitely", resultUsing.name.toLowerCase());
+    assertEquals("::nonsense::Definitely", resultUsing.fullyQualifiedName);
     assertEquals(cppComplexTypeRef, resultUsing.definition);
 
     PowerMockito.verifyStatic(atLeastOnce());
@@ -512,6 +513,7 @@ public class CppModelBuilderTest {
     CppUsing resultUsing = modelBuilder.getFinalResult(CppUsing.class);
     assertNotNull(resultUsing);
     assertEquals("relay", resultUsing.name.toLowerCase());
+    assertEquals("::nonsense::Relay", resultUsing.fullyQualifiedName);
     assertTrue(resultUsing.definition instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultUsing.definition;
@@ -531,6 +533,7 @@ public class CppModelBuilderTest {
     CppUsing resultUsing = modelBuilder.getFinalResult(CppUsing.class);
     assertNotNull(resultUsing);
     assertEquals("tigers", resultUsing.name.toLowerCase());
+    assertEquals("::nonsense::Tigers", resultUsing.fullyQualifiedName);
     assertTrue(resultUsing.definition instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultUsing.definition;
