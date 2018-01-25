@@ -12,7 +12,9 @@
 package com.here.ivi.api.generator.common;
 
 import java.io.File;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public final class GeneratedFile {
 
   public final String content;

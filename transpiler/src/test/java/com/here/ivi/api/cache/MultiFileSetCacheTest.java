@@ -12,7 +12,6 @@
 package com.here.ivi.api.cache;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -81,17 +80,19 @@ public class MultiFileSetCacheTest {
   }
 
   @Test
-  public void checkForCacheFiles() {
+  public void retrieveExistingCacheFiles() {
     PowerMockito.mockStatic(Files.class);
     when(Files.isRegularFile(cacheFileSetA.toPath())).thenReturn(true);
 
     //act
-    boolean cacheFileFound =
-        MultiFileSetCache.checkIfCacheFileExists(
+    List<Path> cacheFiles =
+        MultiFileSetCache.retrieveExistingCacheFiles(
             rootDir.getAbsolutePath(),
             new HashSet<>(Arrays.asList(FILE_SET_A_NAME, FILE_SET_B_NAME)));
 
-    assertTrue(cacheFileFound);
+    assertEquals(1, cacheFiles.size());
+    assertEquals(cacheFileSetA.toPath(), cacheFiles.get(0));
+    assertEquals(cacheFileSetA.toPath(), cacheFiles.get(0));
     verifyStatic();
     Files.isRegularFile(cacheFileSetB.toPath());
   }
