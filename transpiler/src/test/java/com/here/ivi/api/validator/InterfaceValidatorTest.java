@@ -40,7 +40,6 @@ public final class InterfaceValidatorTest {
   @Mock private FrancaDeploymentModel francaDeploymentModel;
   @Mock private FMethod staticFMethod;
   @Mock private FMethod francaMethod;
-  @Mock private FArgument francaArgument;
 
   private final EList<FMethod> francaInterfaceMethods = new ArrayEList<>();
   private final EList<FMethod> francaInterface2Methods = new ArrayEList<>();
@@ -239,39 +238,5 @@ public final class InterfaceValidatorTest {
     when(francaInterface.getBase()).thenReturn(francaInterface2);
 
     assertTrue(InterfaceValidator.checkInheritance(interfaces, francaDeploymentModel));
-  }
-
-  // Multiple output arguments
-
-  @Test
-  public void checkOutputArguments_nullOutputArguments() {
-    when(francaMethod.getOutArgs()).thenReturn(null);
-    francaInterfaceMethods.add(francaMethod);
-
-    assertTrue(InterfaceValidator.checkOutputArguments(interfaces));
-  }
-
-  @Test
-  public void checkOutputArguments_noOutputArguments() {
-    francaInterfaceMethods.add(francaMethod);
-
-    assertTrue(InterfaceValidator.checkOutputArguments(interfaces));
-  }
-
-  @Test
-  public void checkOutputArguments_oneOutputArgument() {
-    arguments.add(francaArgument);
-    francaInterfaceMethods.add(francaMethod);
-
-    assertTrue(InterfaceValidator.checkOutputArguments(interfaces));
-  }
-
-  @Test
-  public void checkOutputArguments_twoOutputArguments() {
-    arguments.add(francaArgument);
-    arguments.add(mock(FArgument.class));
-    francaInterfaceMethods.add(francaMethod);
-
-    assertFalse(InterfaceValidator.checkOutputArguments(interfaces));
   }
 }
