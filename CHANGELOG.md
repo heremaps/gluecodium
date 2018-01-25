@@ -1,5 +1,8 @@
 # API Transpiler Release Notes
 
+## Unreleased
+  + Removed validation against multiple output parameters. Support for this feature is planned.
+
 ## 1.2.0
 - Features:
   + Add validation against multiple output parameters. No support for this feature is planned.
