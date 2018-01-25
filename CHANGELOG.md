@@ -1,7 +1,8 @@
 # API Transpiler Release Notes
 
-## Unreleased
-  + Removed validation against multiple output parameters. Support for this feature is planned.
+## 1.2.1
+- Bug fixes:
+  + Removed validation against multiple output parameters (APIGEN-1138)
 
 ## 1.2.0
 - Features:
@@ -11,7 +12,7 @@
   + Add support for comments for all generators (Base API, Android, Swift)
 
 ## 1.1.1
-- Bugs:
+- Bug fixes:
   + Android fields of structs declared within interfaces cannot be instantiated (APIGEN-1069)
   + Swift struct that contain interfaces will cause premature memory release (APIGEN-1038)
 
