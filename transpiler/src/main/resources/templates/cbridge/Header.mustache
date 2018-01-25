@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-{{#if selfType}}#include "cbridge/include/BaseHandle.h"{{/if}}
+#include "cbridge/include/BaseHandle.h"
 {{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
 
 {{#enumerators}}{{>cbridge/Enumeration}}{{/enumerators}}

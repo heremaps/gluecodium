@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
@@ -28,7 +27,7 @@ public final class CArrayMapper {
 
   public static CppTypeInfo createArrayReference(final CppTypeInfo innerType) {
 
-    CType arrayType = new CType(BASE_REF_NAME, Include.createInternalInclude(BASE_HANDLE_FILE));
+    CType arrayType = new CType(BASE_REF_NAME);
 
     return CppTypeInfo.builder("std::vector<" + innerType.name + ">")
         .constructFromCType(arrayType)
