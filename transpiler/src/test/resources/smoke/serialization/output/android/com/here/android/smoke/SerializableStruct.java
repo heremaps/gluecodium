@@ -75,7 +75,6 @@ public class SerializableStruct implements Parcelable {
         this.stringField = in_parcel.readString();
         this.structField = in_parcel.readParcelable(null);
         this.byteBufferField = in_parcel.createByteArray();
-        in_parcel.readByteArray(this.byteBufferField);
         this.arrayField = new ArrayList<>();
         in_parcel.readList(this.arrayField, null);
         this.structArrayField = new ArrayList<>();
