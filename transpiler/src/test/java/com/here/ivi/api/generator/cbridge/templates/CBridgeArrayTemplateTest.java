@@ -43,8 +43,7 @@ public final class CBridgeArrayTemplateTest {
         Collections.singletonMap(arrayName, new CArray(arrayName, arrayType));
     final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_HEADER);
     final String expected =
-        "#include \"cbridge/include/BaseHandle.h\"\n"
-            + "#include \"cbridge/include/StringHandle.h\"\n"
+        "#include \"cbridge/include/StringHandle.h\"\n"
             + "#include <stdint.h>\n"
             + "_baseRef arrayCollection_String_create();\n"
             + "void arrayCollection_String_release(_baseRef handle);\n"
@@ -100,8 +99,7 @@ public final class CBridgeArrayTemplateTest {
         Collections.singletonMap(arrayName, new CArray(arrayName, arrayType));
     final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_HEADER);
     final String expected =
-        "#include \"cbridge/include/BaseHandle.h\"\n"
-            + "#include \"cbridge/include/StringHandle.h\"\n"
+        "#include \"cbridge/include/StringHandle.h\"\n"
             + "#include <stdint.h>\n"
             + "_baseRef arrayCollection_NestedStringArray_create();\n"
             + "void arrayCollection_NestedStringArray_release(_baseRef handle);\n"

@@ -1,5 +1,9 @@
 # API Transpiler Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed compilation error for arrays in Swift generated code (APIGEN-XXXX)
+
 ## 1.2.1
 - Bug fixes:
   + Removed validation against multiple output parameters (APIGEN-1138)

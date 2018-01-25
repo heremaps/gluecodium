@@ -14,7 +14,6 @@ extern "C" {
 #endif
 
 #include "cbridge/include/BaseHandle.h"
-#include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/StringHandle.h"
 #include <stdbool.h>
 #include <stdint.h>

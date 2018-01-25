@@ -131,8 +131,7 @@ public class CBridgeHeaderTemplateTest {
     cInterface.functions.add(instanceFunction);
 
     final String expected =
-        "#include \"cbridge/include/BaseHandle.h\"\n"
-            + "void InstantiableInterface_release(_baseRef handle);\n"
+        "void InstantiableInterface_release(_baseRef handle);\n"
             + "void instanceMethod(_baseRef _instance);\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualHeaderContent(expected, generated);
@@ -179,8 +178,7 @@ public class CBridgeHeaderTemplateTest {
     cOuterInterface.structs.add(cInnerStruct);
 
     final String expected =
-        "#include \"cbridge/include/BaseHandle.h\"\n"
-            + "InnerStructCTypeName InnerStructName_create();\n"
+        "InnerStructCTypeName InnerStructName_create();\n"
             + "void InnerStructName_release(_baseRef handle);\n"
             + "OuterInterfaceCTypeName InnerStructName_swiftLayerFieldName_get(_baseRef handle);\n"
             + "void InnerStructName_swiftLayerFieldName_set(_baseRef handle, OuterInterfaceCTypeName swiftLayerFieldName);\n"

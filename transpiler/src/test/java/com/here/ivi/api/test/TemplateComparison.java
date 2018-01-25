@@ -53,7 +53,7 @@ public final class TemplateComparison {
 
   public static void assertEqualHeaderContent(String expected, String actual) {
     String content = checkAndStripCopyright(actual);
-    content = checkAndStripPragmaAndExternC(content);
+    content = checkAndStripOpeningAndClosingDirectives(content);
     assertEquals(
         "Actual header should match expected value",
         ignoreWhitespace(expected),
@@ -69,10 +69,14 @@ public final class TemplateComparison {
     assertEqualContent("", expected, actual);
   }
 
-  private static String checkAndStripPragmaAndExternC(String content) {
+  private static String checkAndStripOpeningAndClosingDirectives(String content) {
     content = ignoreWhitespace(content);
     final String opening =
-        "#pragma once\n" + "#ifdef __cplusplus\n" + "extern \"C\" {\n" + "#endif\n";
+        "#pragma once\n"
+            + "#ifdef __cplusplus\n"
+            + "extern \"C\" {\n"
+            + "#endif\n"
+            + "#include \"cbridge/include/BaseHandle.h\"\n";
     final String closing = "#ifdef __cplusplus\n" + "}\n" + "#endif\n";
 
     int maxLength = Math.min(opening.length(), content.length());
