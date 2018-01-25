@@ -144,17 +144,19 @@ class MultiFileSetCache {
   }
 
   /**
-   * Checks whether a cache index file exists inside a given directory.
+   * Returns a list of existing cache index files contained in given directory, if any.
    *
    * @param rootDirectory directory to search for cache index files
    * @param availableFileSets names of file sets
-   * @return true, if a cache file was found
+   * @return list of paths pointing to existing cache index
    */
-  public static boolean checkIfCacheFileExists(
+  public static List<Path> retrieveExistingCacheFiles(
       final String rootDirectory, final Set<String> availableFileSets) {
     return availableFileSets
         .stream()
-        .anyMatch(name -> Files.isRegularFile(createCacheIndexFile(rootDirectory, name).toPath()));
+        .map(name -> createCacheIndexFile(rootDirectory, name).toPath())
+        .filter(Files::isRegularFile)
+        .collect(Collectors.toList());
   }
 
   private static File createCacheIndexFile(final String rootDirectory, final String fileSetName) {

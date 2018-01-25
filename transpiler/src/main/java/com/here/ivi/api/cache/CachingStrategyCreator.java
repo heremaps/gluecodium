@@ -15,17 +15,13 @@ import java.util.Set;
 
 public final class CachingStrategyCreator {
 
-  public static CachingStrategy createCacheStrategy(
+  public static CachingStrategy initializeCaching(
       boolean cachingEnabled, final String buildFolder, Set<String> availableGenerators) {
 
     if (cachingEnabled) {
       return new FullCachingStrategy(
           new MultiFileSetCache(buildFolder, availableGenerators), buildFolder);
     }
-    if (MultiFileSetCache.checkIfCacheFileExists(buildFolder, availableGenerators)) {
-      return new TransparentCachingStrategy(
-          new MultiFileSetCache(buildFolder, availableGenerators));
-    }
-    return new NoOpCachingStrategy();
+    return new CleanUpCachingStrategy(buildFolder, availableGenerators);
   }
 }
