@@ -11,8 +11,8 @@
 
 package com.here.ivi.api.validator;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -29,7 +29,7 @@ import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("MethodName")
-public class DefaultsValidatorTest {
+public class DefaultsValidatorPredicateTest {
 
   @Mock private FModel francaModel;
   @Mock private FTypeCollection francaTypeCollection;
@@ -39,6 +39,8 @@ public class DefaultsValidatorTest {
   @Mock private FEnumerationType francaEnum;
 
   @Mock private FrancaDeploymentModel deploymentModel;
+
+  private final DefaultsValidatorPredicate validatorPredicate = new DefaultsValidatorPredicate();
 
   @Before
   public void setUp() {
@@ -63,140 +65,139 @@ public class DefaultsValidatorTest {
   }
 
   @Test
-  public void checkFieldDefaultValueForStringNone() {
+  public void validateForStringNone() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.STRING);
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertTrue(result);
-    verify(deploymentModel, never()).getDefaultValue(any());
+    assertNull(result);
   }
 
   @Test
-  public void checkFieldDefaultValueForBooleanNone() {
+  public void validateForBooleanNone() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertTrue(result);
+    assertNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForBooleanValid() {
+  public void validateForBooleanValid() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
     when(deploymentModel.getDefaultValue(any())).thenReturn("false");
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertTrue(result);
+    assertNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForBooleanInvalid() {
+  public void validateForBooleanInvalid() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
     when(deploymentModel.getDefaultValue(any())).thenReturn("nonsense");
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertFalse(result);
+    assertNotNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForFloatNone() {
+  public void validateForFloatNone() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.FLOAT);
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertTrue(result);
+    assertNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForFloatValid() {
+  public void validateForFloatValid() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.FLOAT);
     when(deploymentModel.getDefaultValue(any())).thenReturn("3.14");
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertTrue(result);
+    assertNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForFloatInvalid() {
+  public void validateForFloatInvalid() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.FLOAT);
     when(deploymentModel.getDefaultValue(any())).thenReturn("nonsense");
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertFalse(result);
+    assertNotNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForIntegerNone() {
+  public void validateForIntegerNone() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT8);
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertTrue(result);
+    assertNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForIntegerValid() {
+  public void validateForIntegerValid() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT8);
     when(deploymentModel.getDefaultValue(any())).thenReturn("42");
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertTrue(result);
+    assertNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForIntegerInvalid() {
+  public void validateForIntegerInvalid() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT8);
     when(deploymentModel.getDefaultValue(any())).thenReturn("nonsense");
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertFalse(result);
+    assertNotNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForEnumNone() {
+  public void validateForEnumNone() {
     when(francaTypeRef.getDerived()).thenReturn(francaEnum);
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertTrue(result);
+    assertNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForEnumValid() {
+  public void validateForEnumValid() {
     when(francaTypeRef.getDerived()).thenReturn(francaEnum);
     when(deploymentModel.getDefaultValue(any())).thenReturn("SomeOtherEnumItem");
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertTrue(result);
+    assertNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
-  public void checkFieldDefaultValueForEnumInvalid() {
+  public void validateForEnumInvalid() {
     when(francaTypeRef.getDerived()).thenReturn(francaEnum);
     when(deploymentModel.getDefaultValue(any())).thenReturn("nonsense");
 
-    boolean result = DefaultsValidator.checkFieldDefaultValue(francaField, deploymentModel);
+    String result = validatorPredicate.validate(deploymentModel, francaField);
 
-    assertFalse(result);
+    assertNotNull(result);
     verify(deploymentModel).getDefaultValue(francaField);
   }
 }
