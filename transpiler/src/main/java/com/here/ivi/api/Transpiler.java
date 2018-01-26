@@ -264,7 +264,10 @@ public class Transpiler {
 
     FrancaModelValidator modelValidator =
         new FrancaModelValidator(
-            Arrays.asList(new DefaultsValidatorPredicate(), new ExpressionValidatorPredicate()));
+            Arrays.asList(
+                new DefaultsValidatorPredicate(),
+                new ExpressionValidatorPredicate(),
+                new MapKeyValidator()));
 
     boolean modelValidationResult =
         modelValidator.validate(deploymentModel, typeCollections)
