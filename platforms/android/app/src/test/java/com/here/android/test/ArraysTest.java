@@ -226,14 +226,30 @@ public class ArraysTest {
   }
 
   @Test
-  public void methodWithInstanceArray() {
+  public void methodWithExplicitInstanceArray() {
     SimpleInstantiableOne instance1 = InstancesFactory.createSimpleInstantiableOne();
     SimpleInstantiableOne instance2 = InstancesFactory.createSimpleInstantiableOne();
     instance1.setStringValue(STRING_LIST_ITEM_1);
     instance2.setStringValue(STRING_LIST_ITEM_2);
     List<SimpleInstantiableOne> instancesArray = java.util.Arrays.asList(instance1, instance2);
 
-    List<SimpleInstantiableOne> resultsList = Arrays.reverseInstancesArray(instancesArray);
+    List<SimpleInstantiableOne> resultsList = Arrays.reverseExplicitInstancesArray(instancesArray);
+
+    assertNotNull(resultsList);
+    assertEquals(2, resultsList.size());
+    assertEquals(STRING_LIST_ITEM_2, resultsList.get(0).getStringValue());
+    assertEquals(STRING_LIST_ITEM_1, resultsList.get(1).getStringValue());
+  }
+
+  @Test
+  public void methodWithImplicitInstanceArray() {
+    SimpleInstantiableOne instance1 = InstancesFactory.createSimpleInstantiableOne();
+    SimpleInstantiableOne instance2 = InstancesFactory.createSimpleInstantiableOne();
+    instance1.setStringValue(STRING_LIST_ITEM_1);
+    instance2.setStringValue(STRING_LIST_ITEM_2);
+    List<SimpleInstantiableOne> instancesArray = java.util.Arrays.asList(instance1, instance2);
+
+    List<SimpleInstantiableOne> resultsList = Arrays.reverseImplicitInstancesArray(instancesArray);
 
     assertNotNull(resultsList);
     assertEquals(2, resultsList.size());
