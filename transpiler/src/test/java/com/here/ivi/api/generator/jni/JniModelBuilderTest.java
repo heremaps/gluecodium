@@ -36,7 +36,6 @@ import java.util.Collections;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
-import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
@@ -424,16 +423,34 @@ public class JniModelBuilderTest {
     when(cppBuilder.getFinalResult(any())).thenReturn(cppParameter);
 
     FTypeRef fTypeRef = mock(FTypeRef.class);
-    FTypeDef fTypeDef = mock(FTypeDef.class);
-    when(fTypeRef.getDerived()).thenReturn(fTypeDef);
     when(francaArgument.getType()).thenReturn(fTypeRef);
-    when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
+    when(InstanceRules.isInstanceId(fTypeRef)).thenReturn(true);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
     JniParameter resultParameter = modelBuilder.getFinalResult(JniParameter.class);
     assertNotNull(resultParameter);
     assertTrue(resultParameter.type.isInstance);
+  }
+
+  @Test
+  public void finishBuildingInputArgumentReadsArrayOfInstances() {
+    JavaParameter javaParameter = new JavaParameter(javaCustomType, "relative");
+    CppParameter cppParameter =
+        new CppParameter("absolute", new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build());
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaParameter);
+    when(cppBuilder.getFinalResult(any())).thenReturn(cppParameter);
+
+    FTypeRef fTypeRef = mock(FTypeRef.class);
+    when(francaArgument.getType()).thenReturn(fTypeRef);
+    when(InstanceRules.isInstanceId(fTypeRef)).thenReturn(true);
+    when(francaArgument.isArray()).thenReturn(true);
+
+    modelBuilder.finishBuildingInputArgument(francaArgument);
+
+    JniParameter resultParameter = modelBuilder.getFinalResult(JniParameter.class);
+    assertNotNull(resultParameter);
+    assertFalse(resultParameter.type.isInstance);
   }
 
   @Test
