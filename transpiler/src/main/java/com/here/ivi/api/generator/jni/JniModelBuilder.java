@@ -136,11 +136,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    FTypeRef typeReference = francaArgument.getType();
-
     boolean isInstanceRef =
-        typeReference.getDerived() instanceof FTypeDef
-            && InstanceRules.isInstanceId((FTypeDef) typeReference.getDerived());
+        !francaArgument.isArray() && InstanceRules.isInstanceId(francaArgument.getType());
 
     JavaParameter javaParameter = javaBuilder.getFinalResult(JavaParameter.class);
     CppParameter cppParameter = cppBuilder.getFinalResult(CppParameter.class);
