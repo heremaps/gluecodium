@@ -22,10 +22,6 @@ define navigation.BaseApiSpec for interface smoke.Maps
         Static = true
     }
 
-    method methodWithStructAsMapKeys {
-        Static = true
-    }
-
     method methodWithNestedMap {
         Static = true
     }

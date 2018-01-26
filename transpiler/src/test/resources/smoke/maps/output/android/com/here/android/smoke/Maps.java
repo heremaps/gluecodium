@@ -40,7 +40,6 @@ public class Maps extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     public static native Map<Integer, String> methodWithMap(final Map<Integer, String> input);
     public static native Map<Long, Maps.SomeStruct> methodWithMapToStruct(final Map<Long, Maps.SomeStruct> input);
-    public static native Map<Maps.SomeStruct, Long> methodWithStructAsMapKeys(final Map<Maps.SomeStruct, Long> input);
     public static native Map<Long, Map<Long, Maps.SomeStruct>> methodWithNestedMap(final Map<Long, Map<Long, Maps.SomeStruct>> input);
     public static native Maps.StructWithMap methodWithStructWithMap(final Maps.StructWithMap input);
 }
