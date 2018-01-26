@@ -128,7 +128,8 @@ public class Transpiler {
     Collection<File> inputFiles = FrancaModelLoader.listFilesRecursively(inputDirs);
 
     FrancaModelLoader francaModelLoader = getFrancaModelLoader();
-    if (!FrancaValidator.validate(francaModelLoader.getResourceSetProvider().get(), inputFiles)) {
+    if (!FrancaResourcesValidator.validate(
+        francaModelLoader.getResourceSetProvider().get(), inputFiles)) {
       LOGGER.severe("Validation of Franca files Failed");
       return null;
     }

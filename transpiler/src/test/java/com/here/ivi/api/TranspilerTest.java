@@ -24,7 +24,7 @@ import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.output.ConsoleOutput;
 import com.here.ivi.api.output.FileOutput;
 import com.here.ivi.api.platform.common.GeneratorSuite;
-import com.here.ivi.api.validator.FrancaValidator;
+import com.here.ivi.api.validator.FrancaResourcesValidator;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +51,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({GeneratorSuite.class, FrancaValidator.class})
+@PrepareForTest({GeneratorSuite.class, FrancaResourcesValidator.class})
 public class TranspilerTest {
 
   private static final String SHORT_NAME = "android";
@@ -71,9 +71,9 @@ public class TranspilerTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(GeneratorSuite.class, FrancaValidator.class);
+    PowerMockito.mockStatic(GeneratorSuite.class, FrancaResourcesValidator.class);
 
-    when(FrancaValidator.validate(any(), any())).thenReturn(true);
+    when(FrancaResourcesValidator.validate(any(), any())).thenReturn(true);
     when(generator.getName()).thenReturn("");
     when(GeneratorSuite.instantiateByShortName(anyString(), any(TranspilerOptions.class)))
         .thenReturn(generator);
@@ -154,7 +154,12 @@ public class TranspilerTest {
   }
 
   @Test
-  @PrepareForTest({Transpiler.class, FileOutput.class, GeneratorSuite.class, FrancaValidator.class})
+  @PrepareForTest({
+    Transpiler.class,
+    FileOutput.class,
+    GeneratorSuite.class,
+    FrancaResourcesValidator.class
+  })
   public void ableToOutputFile() throws Exception {
     // Arrange
     FileOutput mockFileOutput = mock(FileOutput.class);
@@ -169,7 +174,7 @@ public class TranspilerTest {
   }
 
   @Test
-  @PrepareForTest({Transpiler.class, GeneratorSuite.class, FrancaValidator.class})
+  @PrepareForTest({Transpiler.class, GeneratorSuite.class, FrancaResourcesValidator.class})
   public void failWhenUnableToOpenConsoleForOutput() throws Exception {
     // Arrange
     ConsoleOutput mockConsoleOutput = mock(ConsoleOutput.class);
