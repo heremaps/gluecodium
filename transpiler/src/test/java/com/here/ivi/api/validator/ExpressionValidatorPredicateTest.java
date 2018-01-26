@@ -11,14 +11,9 @@
 
 package com.here.ivi.api.validator;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.test.ArrayEList;
-import com.here.ivi.api.test.Fakerator;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +24,7 @@ import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("MethodName")
-public final class ExpressionValidatorTest {
+public final class ExpressionValidatorPredicateTest {
 
   @Mock private FModel fModel;
 
@@ -40,8 +35,8 @@ public final class ExpressionValidatorTest {
   @Mock private FConstant francaConstantExpression;
   @Mock private FOperation francaCompoundExpression;
 
-  private final EList<EObject> elements = new ArrayEList<>();
-  private final Fakerator<EObject> fakerator = new Fakerator<>(elements);
+  private final ExpressionValidatorPredicate validatorPredicate =
+      new ExpressionValidatorPredicate();
 
   @Before
   public void setUp() {
@@ -57,33 +52,24 @@ public final class ExpressionValidatorTest {
     when(francaEnumerationType.eContainer()).thenReturn(francaTypeCollection);
     when(francaEnumerator.eContainer()).thenReturn(francaEnumerationType);
     when(francaConstantDef.eContainer()).thenReturn(francaTypeCollection);
-
-    when(francaTypeCollection.eAllContents()).thenReturn(fakerator);
   }
 
   @Test
-  public void containsNonConstantExpressions_withConstantExpression() {
-    elements.add(francaConstantExpression);
-    fakerator.reset();
-
-    assertFalse(ExpressionValidator.containsNonConstantExpressions(francaTypeCollection));
+  public void validateWithConstantExpression() {
+    assertNull(validatorPredicate.validate(null, francaConstantExpression));
   }
 
   @Test
-  public void containsNonConstantExpressions_withNonConstantExpressionInEnumerator() {
+  public void validateWithNonConstantExpressionInEnumerator() {
     when(francaCompoundExpression.eContainer()).thenReturn(francaEnumerator);
-    elements.add(francaCompoundExpression);
-    fakerator.reset();
 
-    assertTrue(ExpressionValidator.containsNonConstantExpressions(francaTypeCollection));
+    assertNotNull(validatorPredicate.validate(null, francaCompoundExpression));
   }
 
   @Test
-  public void containsNonConstantExpressions_withNonConstantExpressionInConstant() {
+  public void validateWithNonConstantExpressionInConstant() {
     when(francaCompoundExpression.eContainer()).thenReturn(francaConstantDef);
-    elements.add(francaCompoundExpression);
-    fakerator.reset();
 
-    assertTrue(ExpressionValidator.containsNonConstantExpressions(francaTypeCollection));
+    assertNotNull(validatorPredicate.validate(null, francaCompoundExpression));
   }
 }

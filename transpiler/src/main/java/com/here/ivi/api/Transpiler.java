@@ -263,13 +263,13 @@ public class Transpiler {
     boolean nameValidationResult = NameValidator.validate(typeCollections);
 
     FrancaModelValidator modelValidator =
-        new FrancaModelValidator(Collections.singletonList(new DefaultsValidatorPredicate()));
+        new FrancaModelValidator(
+            Arrays.asList(new DefaultsValidatorPredicate(), new ExpressionValidatorPredicate()));
 
     boolean modelValidationResult =
         modelValidator.validate(deploymentModel, typeCollections)
             && InterfaceValidator.validate(deploymentModel, typeCollections)
             && TypeValidator.validate(typeCollections)
-            && ExpressionValidator.validate(typeCollections)
             && SerializationValidator.validate(deploymentModel, typeCollections);
 
     return nameValidationResult && modelValidationResult;
