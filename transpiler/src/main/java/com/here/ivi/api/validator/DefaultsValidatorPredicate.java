@@ -11,71 +11,55 @@
 
 package com.here.ivi.api.validator;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.franca.core.franca.*;
 
 /**
  * Defaults are set as strings in the deployment model, validate that the content can be converted
  * to the actual type of the field.
  */
-public final class DefaultsValidator {
-
-  private static final Logger LOGGER = Logger.getLogger(DefaultsValidator.class.getName());
+public final class DefaultsValidatorPredicate implements ValidatorPredicate<FField> {
 
   private static final String ERROR_MESSAGE_FORMAT =
       "Invalid %s default value '%s' for %s.%s.%s.%s field.";
   private static final Set<String> BOOLEAN_VALUES = new HashSet<>(Arrays.asList("true", "false"));
 
-  public static boolean validate(
-      final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
-
-    Stream<FType> francaTypes =
-        typeCollections.stream().flatMap(typeCollection -> typeCollection.getTypes().stream());
-    List<FField> francaFields =
-        CollectionsHelper.getStreamOfType(francaTypes, FStructType.class)
-            .flatMap(struct -> struct.getElements().stream())
-            .collect(Collectors.toList());
-
-    boolean result = true;
-    for (final FField francaField : francaFields) {
-      if (!checkFieldDefaultValue(francaField, deploymentModel)) {
-        result = false;
-      }
-    }
-
-    return result;
+  @Override
+  public Class<FField> getElementClass() {
+    return FField.class;
   }
 
-  @VisibleForTesting
-  static boolean checkFieldDefaultValue(
-      final FField francaField, final FrancaDeploymentModel deploymentModel) {
+  @Override
+  public String validate(final FrancaDeploymentModel deploymentModel, final FField francaField) {
 
-    Predicate<String> predicate = null;
-    String typeName = null;
+    String stringValue = deploymentModel.getDefaultValue(francaField);
+    if (stringValue == null) {
+      return null;
+    }
+
+    Predicate<String> predicate;
+    String typeName;
 
     FTypeRef fieldType = francaField.getType();
     FType francaComplexType = fieldType.getDerived();
     if (francaComplexType instanceof FEnumerationType) {
       predicate =
-          value -> DefaultsValidator.checkEnumValue((FEnumerationType) francaComplexType, value);
+          value ->
+              DefaultsValidatorPredicate.checkEnumValue(
+                  (FEnumerationType) francaComplexType, value);
       typeName = "Enumeration";
     } else {
       switch (fieldType.getPredefined()) {
         case BOOLEAN:
-          predicate = DefaultsValidator::checkBooleanValue;
+          predicate = DefaultsValidatorPredicate::checkBooleanValue;
           typeName = "Boolean";
           break;
         case FLOAT:
         case DOUBLE:
-          predicate = DefaultsValidator::checkFloatValue;
+          predicate = DefaultsValidatorPredicate::checkFloatValue;
           typeName = "Float";
           break;
         case INT8:
@@ -86,21 +70,19 @@ public final class DefaultsValidator {
         case UINT16:
         case UINT32:
         case UINT64:
-          predicate = DefaultsValidator::checkIntegerValue;
+          predicate = DefaultsValidatorPredicate::checkIntegerValue;
           typeName = "Integer";
           break;
+        default:
+          return null;
       }
     }
 
-    if (predicate != null) {
-      String stringValue = deploymentModel.getDefaultValue(francaField);
-      if (stringValue != null && !predicate.test(stringValue)) {
-        LOGGER.severe(formatErrorMessage(francaField, typeName, stringValue));
-        return false;
-      }
+    if (predicate.test(stringValue)) {
+      return null;
+    } else {
+      return formatErrorMessage(francaField, typeName, stringValue);
     }
-
-    return true;
   }
 
   private static String formatErrorMessage(
@@ -118,9 +100,9 @@ public final class DefaultsValidator {
         francaField.getName());
   }
 
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   private static boolean checkIntegerValue(final String stringValue) {
     try {
-      //noinspection ResultOfMethodCallIgnored
       Integer.parseInt(stringValue);
       return true;
     } catch (NumberFormatException e) {
@@ -128,9 +110,9 @@ public final class DefaultsValidator {
     }
   }
 
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   private static boolean checkFloatValue(final String stringValue) {
     try {
-      //noinspection ResultOfMethodCallIgnored
       Float.parseFloat(stringValue);
       return true;
     } catch (NumberFormatException e) {
