@@ -110,7 +110,7 @@ class ArraysTests: XCTestCase {
         }
     }
 
-    func testArrayInstances() {
+    func testArrayExplicitInstances() {
         let instance1 = InstancesFactory.createSimpleInstantiableOne()!
         instance1.setStringValue(stringValue: "Hello")
         let instance2 = InstancesFactory.createSimpleInstantiableOne()!
@@ -119,7 +119,22 @@ class ArraysTests: XCTestCase {
         instance3.setStringValue(stringValue: "Test")
 
         let instanceArray: [SimpleInstantiableOne] = [instance1, instance2, instance3]
-        let result = Arrays.reverseInstancesArray(input: instanceArray)
+        let result = Arrays.reverseExplicitInstancesArray(input: instanceArray)
+        for (index, instanceValue) in result.enumerated() {
+            XCTAssertEqual(instanceValue.getStringValue(), instanceArray[2-index].getStringValue())
+        }
+    }
+
+    func testArrayImplicitInstances() {
+        let instance1 = InstancesFactory.createSimpleInstantiableOne()!
+        instance1.setStringValue(stringValue: "Hello")
+        let instance2 = InstancesFactory.createSimpleInstantiableOne()!
+        instance2.setStringValue(stringValue: "World")
+        let instance3 = InstancesFactory.createSimpleInstantiableOne()!
+        instance3.setStringValue(stringValue: "Test")
+
+        let instanceArray: [SimpleInstantiableOne] = [instance1, instance2, instance3]
+        let result = Arrays.reverseImplicitInstancesArray(input: instanceArray)
         for (index, instanceValue) in result.enumerated() {
             XCTAssertEqual(instanceValue.getStringValue(), instanceArray[2-index].getStringValue())
         }
@@ -218,7 +233,8 @@ class ArraysTests: XCTestCase {
         ("testArrayDouble", testArrayDouble),
         ("testArrayBool", testArrayBool),
         ("testArrayStruct", testArrayStruct),
-        ("testArrayInstances", testArrayInstances),
+        ("testArrayExplicitInstances", testArrayExplicitInstances),
+        ("testArrayImplicitInstances", testArrayImplicitInstances),
         ("testNestedPrimitives", testNestedPrimitives),
         ("testNestedStructArray", testNestedStructArray),
         ("testMergeArraysOfStructsWithArrays", testMergeArraysOfStructsWithArrays),

@@ -102,8 +102,15 @@ Arrays::reverse_struct_array( const Arrays::StructArray& input )
     return { input.rbegin(), input.rend() };
 }
 
+Arrays::InstancesArray
+Arrays::reverse_explicit_instances_array( const Arrays::InstancesArray& input )
+{
+    return { input.rbegin(), input.rend() };
+}
+
 std::vector< std::shared_ptr< SimpleInstantiableOne > >
-Arrays::reverse_instances_array( const Arrays::InstancesArray& input )
+Arrays::reverse_implicit_instances_array(
+    const std::vector< std::shared_ptr< SimpleInstantiableOne > >& input )
 {
     return { input.rbegin(), input.rend() };
 }

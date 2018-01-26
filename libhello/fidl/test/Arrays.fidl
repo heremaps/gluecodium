@@ -258,15 +258,28 @@ interface Arrays {
     }
 
     <** @description:
-    Static method which takes an array of instances and returns it in reversed order
+    Static method which takes an array of instances and returns it in reversed order.
     **>
-    method reverseInstancesArray {
+    method reverseExplicitInstancesArray {
         in {
             <** @description: Input array **>
             InstancesArray input
         }
         out {
             <** @description: Output array **>
+            InstancesArray output
+        }
+    }
+
+
+    <** @description:
+    Static method which takes an array of instances and returns it in reversed order.
+    **>
+    method reverseImplicitInstancesArray {
+        in {
+            SimpleInstantiableOne[] input
+        }
+        out {
             SimpleInstantiableOne[] output
         }
     }
@@ -354,9 +367,7 @@ interface Arrays {
         }
     }
 
-    <** @description:
-    Return a struct containing arrays
-    **>
+    <** @description: Return a struct containing arrays **>
     method createFancyStruct {
         out {
             FancyStruct output

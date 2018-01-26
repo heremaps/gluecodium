@@ -70,7 +70,11 @@ define navigation.BaseApiSpec for interface test.Arrays
         Static = true
     }
 
-    method reverseInstancesArray {
+    method reverseExplicitInstancesArray {
+        Static = true
+    }
+
+    method reverseImplicitInstancesArray {
         Static = true
     }
 
