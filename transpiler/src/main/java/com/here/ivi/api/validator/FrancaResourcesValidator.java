@@ -24,12 +24,12 @@ import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 
-/** Use Francas builtin Xtext validation module to validate all input fidl and fdepl files. */
-public final class FrancaValidator {
+/** Use Franca's built-in Xtext validation module to validate all input fidl and fdepl files. */
+public final class FrancaResourcesValidator {
 
-  private static final Logger LOGGER = Logger.getLogger(FrancaValidator.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(FrancaResourcesValidator.class.getName());
 
-  private FrancaValidator() {}
+  private FrancaResourcesValidator() {}
 
   public static boolean validate(final ResourceSet resourceSet, final Collection<File> files) {
     if (files.isEmpty()) {
