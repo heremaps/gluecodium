@@ -268,11 +268,13 @@ public class Transpiler {
                 new DefaultsValidatorPredicate(),
                 new ExpressionValidatorPredicate(),
                 new MapKeyValidatorPredicate(),
-                new IntegerIntervalValidatorPredicate()));
+                new IntegerIntervalValidatorPredicate(),
+                new StaticMethodsValidatorPredicate(),
+                new ErrorEnumsValidatorPredicate(),
+                new InheritanceValidatorPredicate()));
 
     boolean modelValidationResult =
         modelValidator.validate(deploymentModel, typeCollections)
-            && InterfaceValidator.validate(deploymentModel, typeCollections)
             && TypeValidator.validate(typeCollections)
             && SerializationValidator.validate(deploymentModel, typeCollections);
 
