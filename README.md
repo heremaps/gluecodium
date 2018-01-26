@@ -22,7 +22,7 @@ the entire project:
 ```
 
 To run the transpiler and generate some output based on the current set of
-Hello world project's \*.fidl files:
+HelloWorld project's \*.fidl files:
 
 ```bash
 ./gradlew run \
@@ -30,27 +30,12 @@ Hello world project's \*.fidl files:
     --stacktrace
 ```
 
-
 ## Contributing
 Work on your stuff locally, branch, commit and modify to your heart's content.
 As soon as you're ready either do (assuming you have git-review installed):
 
 ```bash
-git review --reviewers \
-    abdessamad.elkasimi@here.com \
-    alexander.lehmann@here.com \
-    daniel.kamkha@here.com \
-    dario.limongi@here.com \
-    eva.effertz@here.com \
-    francisco.cortes@here.com \
-    georg.bremer@here.com \
-    manuel.klahn@here.com \
-    rafal.parzych@here.com \
-    sascha.ebel@here.com \
-    sascha.peilicke@here.com \
-    sayuri.oshima@here.com \
-    teemu.kahkonen@here.com \
-    master
+git review -R
 ```
 
 Or, just:
@@ -61,14 +46,15 @@ git push origin HEAD:refs/for/master
 
 And add the *TranspilerReviewers* group manually on Gerrit's web interface.
 
+## Command line parameters
+For information on Transpiler command line parameters run it with "-help":
 
-## Continuous integration
-The Jenkins jobs are currently part of IVI CI and found
-[here](example.com).
-
+```bash
+./gradlew run -Dexec.args="-help"
+```
 
 ## License
-    Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+    Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
 
     This software and other materials contain proprietary information of HERE
     and are protected by applicable copyright legislation. Any use and
