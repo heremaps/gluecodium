@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
  *
  * This software, including documentation, is protected by copyright controlled by
  * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -11,24 +11,28 @@
 
 package com.here.ivi.api.validator;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
-/** Validates that all Franca expressions in the model are constant expression */
-public final class ExpressionValidator {
+/** Validates that the Franca expression is a constant expression. */
+public final class ExpressionValidatorPredicate
+    implements ValidatorPredicate<FInitializerExpression> {
 
-  private static final Logger LOGGER = Logger.getLogger(ExpressionValidator.class.getName());
+  @Override
+  public Class<FInitializerExpression> getElementClass() {
+    return FInitializerExpression.class;
+  }
 
-  public static boolean validate(final List<FTypeCollection> typeCollections) {
-    return typeCollections.stream().noneMatch(ExpressionValidator::containsNonConstantExpressions);
+  @Override
+  public String validate(
+      final FrancaDeploymentModel deploymentModel, final FInitializerExpression francaExpression) {
+    if (francaExpression instanceof FConstant) {
+      return null;
+    } else {
+      return createErrorMessage(francaExpression);
+    }
   }
 
   private static String createErrorMessage(final FInitializerExpression expression) {
@@ -56,22 +60,5 @@ public final class ExpressionValidator {
         .append("' is not a constant expression.");
 
     return builder.toString();
-  }
-
-  @VisibleForTesting
-  static boolean containsNonConstantExpressions(final FTypeCollection francaTypeCollection) {
-
-    //noinspection NullableProblems
-    Iterable<EObject> iterable = francaTypeCollection::eAllContents;
-    Stream<EObject> elementStream = StreamSupport.stream(iterable.spliterator(), false);
-
-    Collection<String> errorMessages =
-        CollectionsHelper.getStreamOfType(elementStream, FInitializerExpression.class)
-            .filter(expression -> !(expression instanceof FConstant))
-            .map(ExpressionValidator::createErrorMessage)
-            .collect(Collectors.toList());
-    errorMessages.forEach(LOGGER::severe);
-
-    return !errorMessages.isEmpty();
   }
 }
