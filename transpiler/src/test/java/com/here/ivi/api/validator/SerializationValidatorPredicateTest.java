@@ -11,8 +11,8 @@
 
 package com.here.ivi.api.validator;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -27,7 +27,7 @@ import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("MethodName")
-public class SerializationValidatorTest {
+public class SerializationValidatorPredicateTest {
 
   @Mock private FModel fModel;
   @Mock private FTypeCollection francaTypeCollection;
@@ -36,6 +36,9 @@ public class SerializationValidatorTest {
   @Mock private FTypeRef francaTypeRef;
 
   @Mock private FrancaDeploymentModel deploymentModel;
+
+  private final SerializationValidatorPredicate validatorPredicate =
+      new SerializationValidatorPredicate();
 
   @Before
   public void setUp() {
@@ -52,58 +55,53 @@ public class SerializationValidatorTest {
 
     when(francaField.getType()).thenReturn(francaTypeRef);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
+
+    when(deploymentModel.isSerializable(francaStructType)).thenReturn(true);
   }
 
   @Test
-  public void refersToInstance_withPrimitiveType() {
+  public void validateWithFieldInNonSerializableStruct() {
+    when(deploymentModel.isSerializable(francaStructType)).thenReturn(false);
+
+    assertNull(validatorPredicate.validate(deploymentModel, francaField));
+  }
+
+  @Test
+  public void validateWithPrimitiveType() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
 
-    assertFalse(SerializationValidator.refersToInstance(francaField));
+    assertNull(validatorPredicate.validate(deploymentModel, francaField));
   }
 
   @Test
-  public void refersToInstance_withStructType() {
-    when(francaTypeRef.getDerived()).thenReturn(mock(FStructType.class));
-
-    assertFalse(SerializationValidator.refersToInstance(francaField));
+  public void validateWithUndefined() {
+    assertNotNull(validatorPredicate.validate(deploymentModel, francaField));
   }
 
   @Test
-  public void refersToInstance_withUndefined() {
-    assertTrue(SerializationValidator.refersToInstance(francaField));
-  }
-
-  @Test
-  public void refersToInstance_withTypeDefToUndefined() {
+  public void validateWithTypeDefToUndefined() {
     FTypeRef undefinedTypeRef = mock(FTypeRef.class);
     when(undefinedTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     FTypeDef francaTypeDef = mock(FTypeDef.class);
     when(francaTypeDef.getActualType()).thenReturn(undefinedTypeRef);
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
 
-    assertTrue(SerializationValidator.refersToInstance(francaField));
+    assertNotNull(validatorPredicate.validate(deploymentModel, francaField));
   }
 
   @Test
-  public void refersToNonSerializableStruct_withPrimitiveType() {
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
-
-    assertFalse(SerializationValidator.refersToNonSerializableStruct(deploymentModel, francaField));
-  }
-
-  @Test
-  public void refersToNonSerializableStruct_withStructType() {
+  public void validateWithStructType() {
     when(francaTypeRef.getDerived()).thenReturn(mock(FStructType.class));
 
-    assertTrue(SerializationValidator.refersToNonSerializableStruct(deploymentModel, francaField));
+    assertNotNull(validatorPredicate.validate(deploymentModel, francaField));
   }
 
   @Test
-  public void refersToNonSerializableStruct_withSerializableStructType() {
+  public void validateWithSerializableStructType() {
     FStructType serializableStruct = mock(FStructType.class);
     when(deploymentModel.isSerializable(serializableStruct)).thenReturn(true);
     when(francaTypeRef.getDerived()).thenReturn(serializableStruct);
 
-    assertFalse(SerializationValidator.refersToNonSerializableStruct(deploymentModel, francaField));
+    assertNull(validatorPredicate.validate(deploymentModel, francaField));
   }
 }

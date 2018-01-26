@@ -13,7 +13,6 @@ package com.here.ivi.api.common;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -51,20 +50,5 @@ public final class CollectionsHelper {
   public static <E, T extends E> Stream<E> getStreamNotOfType(
       final Collection<E> collection, final Class<T> clazz) {
     return collection.stream().filter(obj -> !clazz.isInstance(obj));
-  }
-
-  public static <T> boolean anyMatchFullEvaluation(
-      final Stream<T> stream, final Predicate<T> predicate) {
-    return stream.map(predicate::test).reduce(false, (acc, element) -> acc || element);
-  }
-
-  public static <T> boolean allMatchFullEvaluation(
-      final Stream<T> stream, final Predicate<T> predicate) {
-    return stream.map(predicate::test).reduce(true, (acc, element) -> acc && element);
-  }
-
-  public static <T> boolean noneMatchFullEvaluation(
-      final Stream<T> stream, final Predicate<T> predicate) {
-    return !anyMatchFullEvaluation(stream, predicate);
   }
 }

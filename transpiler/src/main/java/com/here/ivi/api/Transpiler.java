@@ -260,8 +260,6 @@ public class Transpiler {
   boolean validateFrancaModel(
       final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
 
-    boolean nameValidationResult = NameValidator.validate(typeCollections);
-
     FrancaModelValidator modelValidator =
         new FrancaModelValidator(
             Arrays.asList(
@@ -272,11 +270,11 @@ public class Transpiler {
                 new StaticMethodsValidatorPredicate(),
                 new ErrorEnumsValidatorPredicate(),
                 new InheritanceValidatorPredicate(),
-                new UnionsValidatorPredicate()));
+                new UnionsValidatorPredicate(),
+                new SerializationValidatorPredicate()));
 
-    boolean modelValidationResult =
-        modelValidator.validate(deploymentModel, typeCollections)
-            && SerializationValidator.validate(deploymentModel, typeCollections);
+    boolean nameValidationResult = NameValidator.validate(typeCollections);
+    boolean modelValidationResult = modelValidator.validate(deploymentModel, typeCollections);
 
     return nameValidationResult && modelValidationResult;
   }
