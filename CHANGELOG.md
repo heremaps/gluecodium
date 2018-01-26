@@ -1,8 +1,8 @@
 # API Transpiler Release Notes
 
-## Unreleased
+## 1.2.2
 - Bug fixes:
-  + Fixed compilation error for arrays in Swift generated code (APIGEN-XXXX)
+  + Fixed compilation error for arrays in Swift generated code (APIGEN-1151)
 
 ## 1.2.1
 - Bug fixes:
