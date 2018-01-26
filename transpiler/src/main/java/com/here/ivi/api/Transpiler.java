@@ -271,11 +271,11 @@ public class Transpiler {
                 new IntegerIntervalValidatorPredicate(),
                 new StaticMethodsValidatorPredicate(),
                 new ErrorEnumsValidatorPredicate(),
-                new InheritanceValidatorPredicate()));
+                new InheritanceValidatorPredicate(),
+                new UnionsValidatorPredicate()));
 
     boolean modelValidationResult =
         modelValidator.validate(deploymentModel, typeCollections)
-            && TypeValidator.validate(typeCollections)
             && SerializationValidator.validate(deploymentModel, typeCollections);
 
     return nameValidationResult && modelValidationResult;
