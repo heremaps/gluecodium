@@ -22,12 +22,13 @@ cmake_minimum_required(VERSION 3.5)
 # It requires that apigen_android_archive(), apigen_java_compile() and
 # apigen_java_jar() have been invoked on it first.
 #
-# .. command:: apigen_java_jar
+# .. command:: apigen_android_archive
 #
 # The general form of the command is::
 #
-#     apigen_java_jar(target)
-#
+#     apigen_android_archive(TARGET target
+#       [ASSETS <asset>]
+#       [ADD_JAR <jar-file>]
 
 find_package(Java COMPONENTS Development REQUIRED)
 
