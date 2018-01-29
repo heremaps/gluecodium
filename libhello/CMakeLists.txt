@@ -310,7 +310,7 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     # Android customers want an Android Archive and it's pre-requirements...
     include(apigen/Android)
-    apigen_java_compile(hello)
+    apigen_java_compile(TARGET hello)
     apigen_java_jar(hello)
     apigen_android_archive(TARGET hello)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
