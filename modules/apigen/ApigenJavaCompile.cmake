@@ -30,7 +30,7 @@ cmake_minimum_required(VERSION 3.5)
 
 find_package(Java COMPONENTS Development REQUIRED)
 
-function(apigen_java_compile target class_path)
+function(apigen_java_compile target)
 
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
@@ -48,7 +48,7 @@ function(apigen_java_compile target class_path)
     set_target_properties(${target} PROPERTIES
         APIGEN_JAVA_COMPILE_OUTPUT_DIR ${APIGEN_JAVA_COMPILE_OUTPUT_DIR})
 
-    set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7" "-cp" "${class_path}")
+    set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7")
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
         COMMAND find ${APIGEN_TRANSPILER_JAVA_SOURCE_DIR} -name *.java | xargs "${Java_JAVAC_EXECUTABLE}" ${CMAKE_JAVA_COMPILE_FLAGS} -d ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
