@@ -15,7 +15,7 @@ internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
 
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init([])
+        super.init(nil)
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_BasicStruct_count(c_element))
     }
@@ -59,7 +59,7 @@ internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
 
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init([])
+        super.init(nil)
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_FancyStruct_count(c_element))
     }
@@ -103,7 +103,7 @@ internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
 
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init([])
+        super.init(nil)
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_UInt8Array_count(c_element))
     }
@@ -138,7 +138,7 @@ internal class StringList: CollectionOf<String> {
 
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init([])
+        super.init(nil)
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_String_count(c_element))
     }
@@ -175,7 +175,7 @@ internal class UInt8List: CollectionOf<UInt8> {
 
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init([])
+        super.init(nil)
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_UInt8_count(c_element))
     }

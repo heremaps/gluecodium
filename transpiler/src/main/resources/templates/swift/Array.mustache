@@ -10,7 +10,7 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType}}> {
 
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init([])
+        super.init(nil)
         self.startIndex = 0
         self.endIndex = Int({{refName}}_count(c_element))
     }
