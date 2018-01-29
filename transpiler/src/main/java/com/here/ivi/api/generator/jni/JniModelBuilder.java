@@ -74,33 +74,21 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JavaTopLevelElement javaTopLevelElement = javaBuilder.getFinalResult(JavaTopLevelElement.class);
     JavaClass javaClass = javaBuilder.getFinalResult(JavaClass.class);
 
-    JniContainer jniContainer;
-    if (deploymentModel.isInterface(francaInterface)) {
-      jniContainer =
-          new JniContainer(
-              javaTopLevelElement.javaPackage.packageNames,
-              DefinedBy.getPackages(francaInterface),
-              javaClass.name,
-              javaTopLevelElement.name,
-              cppClass.name,
-              true,
-              true);
-    } else {
-
-      jniContainer =
-          new JniContainer(
-              javaTopLevelElement.javaPackage.packageNames,
-              DefinedBy.getPackages(francaInterface),
-              javaClass.name,
-              javaTopLevelElement.name,
-              cppClass.name,
-              true,
-              false);
-    }
+    JniContainer jniContainer =
+        JniContainer.builder(
+                javaTopLevelElement.javaPackage.packageNames,
+                DefinedBy.getPackages(francaInterface))
+            .javaName(javaClass.name)
+            .javaInterfaceName(javaTopLevelElement.name)
+            .cppName(cppClass.name)
+            .isFrancaInterface(true)
+            .isInterface(deploymentModel.isInterface(francaInterface))
+            .build();
 
     getPreviousResults(JniMethod.class).forEach(jniContainer::add);
     getPreviousResults(JniStruct.class).forEach(jniContainer::add);
     getPreviousResults(JniEnum.class).forEach(jniContainer::add);
+
     storeResult(jniContainer);
     closeContext();
   }
@@ -214,8 +202,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             : Collections.emptyList();
     List<String> cppNameSpace = CppNameRules.getNestedNameSpecifier(francaTypeCollection);
 
-    JniContainer jniContainer =
-        JniContainer.createTypeCollectionContainer(packageNames, cppNameSpace);
+    JniContainer jniContainer = JniContainer.builder(packageNames, cppNameSpace).build();
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
         .forEach(jniContainer::add);
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniEnum.class)

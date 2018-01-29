@@ -34,9 +34,13 @@ public final class JniToCppEnumConversionSignatureTest {
 
     JniContainer jniContainer =
         definedInInterface
-            ? JniContainer.createInterfaceContainer(
-                JAVA_PACKAGE, CPP_NAMESPACES, "", CPP_OUTER_CLASS_NAME)
-            : JniContainer.createTypeCollectionContainer(JAVA_PACKAGE, CPP_NAMESPACES);
+            ? JniContainer.builder(JAVA_PACKAGE, CPP_NAMESPACES)
+                .javaName("")
+                .javaInterfaceName("")
+                .cppName(CPP_OUTER_CLASS_NAME)
+                .isFrancaInterface(true)
+                .build()
+            : JniContainer.builder(JAVA_PACKAGE, CPP_NAMESPACES).build();
 
     return new JniEnum.Builder("MyJavaEnum", "MyCppEnum").owningContainer(jniContainer).build();
   }

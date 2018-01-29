@@ -34,7 +34,12 @@ public final class JniNameRulesTest {
 
   private JniContainer createJniContainer() {
     String className = "MyClass";
-    return JniContainer.createInterfaceContainer(PACKAGES, PACKAGES, className, className);
+    return JniContainer.builder(PACKAGES, PACKAGES)
+        .javaName(className)
+        .javaInterfaceName(className)
+        .cppName(className)
+        .isFrancaInterface(true)
+        .build();
   }
 
   @Test

@@ -36,8 +36,12 @@ public final class JniToCppStructConversionSignatureTest {
   private final JavaClass javaClassInner = new JavaClass("jInner");
   private final CppStruct cppStruct = new CppStruct("CppStruct");
   private final JniContainer jniContainer =
-      JniContainer.createInterfaceContainer(
-          Collections.emptyList(), CPP_NAMESPACES, JAVA_OUTER_CLASS_NAME, CPP_OUTER_CLASS_NAME);
+      JniContainer.builder(Collections.emptyList(), CPP_NAMESPACES)
+          .javaName(JAVA_OUTER_CLASS_NAME)
+          .javaInterfaceName(JAVA_OUTER_CLASS_NAME)
+          .cppName(CPP_OUTER_CLASS_NAME)
+          .isFrancaInterface(true)
+          .build();
   private final JniStruct jniStruct =
       new JniStruct(jniContainer, javaClassInner, cppStruct, Collections.emptyList());
 

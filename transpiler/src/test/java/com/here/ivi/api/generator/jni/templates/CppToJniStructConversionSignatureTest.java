@@ -37,8 +37,12 @@ public final class CppToJniStructConversionSignatureTest {
   @Before
   public void setUp() {
     JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(
-            PACKAGES, PACKAGES, OUTER_CLASS_NAME, OUTER_CLASS_NAME);
+        JniContainer.builder(PACKAGES, PACKAGES)
+            .javaName(OUTER_CLASS_NAME)
+            .javaInterfaceName(OUTER_CLASS_NAME)
+            .cppName(OUTER_CLASS_NAME)
+            .isFrancaInterface(true)
+            .build();
 
     jniStruct =
         new JniStruct(

@@ -34,9 +34,13 @@ public class CppToJniEnumConversionBodyTest {
 
     JniContainer jniContainer =
         definedInInterface
-            ? JniContainer.createInterfaceContainer(
-                JAVA_PACKAGES, CPP_NAMESPACES, JAVA_NAME, CPP_NAME)
-            : JniContainer.createTypeCollectionContainer(JAVA_PACKAGES, CPP_NAMESPACES);
+            ? JniContainer.builder(JAVA_PACKAGES, CPP_NAMESPACES)
+                .javaName(JAVA_NAME)
+                .javaInterfaceName(JAVA_NAME)
+                .cppName(CPP_NAME)
+                .isFrancaInterface(true)
+                .build()
+            : JniContainer.builder(JAVA_PACKAGES, CPP_NAMESPACES).build();
 
     List<JniEnumerator> enumerators =
         Arrays.asList(

@@ -83,7 +83,12 @@ public final class JniImplementationTemplateTest {
   private final JniType jniIntType =
       JniType.createType(JavaPrimitiveType.INT, CppPrimitiveTypeRef.INT8);
   private final JniContainer jniContainer =
-      JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+      JniContainer.builder(NAMESPACES, NAMESPACES)
+          .javaName("TestClass")
+          .javaInterfaceName("TestClass")
+          .cppName("CppClass")
+          .isFrancaInterface(true)
+          .build();
   private final JavaCustomType javaCustomType =
       JavaCustomType.builder("JavaFooEnum")
           .packageNames(NAMESPACES)

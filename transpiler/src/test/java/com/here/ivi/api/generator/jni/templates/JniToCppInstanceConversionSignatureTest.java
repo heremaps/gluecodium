@@ -34,7 +34,12 @@ public class JniToCppInstanceConversionSignatureTest {
   @Before
   public void setUp() {
     jniContainer =
-        JniContainer.createInterfaceContainer(JAVA_PACKAGES, CPP_PACKAGES, JAVA_NAME, CPP_NAME);
+        JniContainer.builder(JAVA_PACKAGES, CPP_PACKAGES)
+            .javaName(JAVA_NAME)
+            .javaInterfaceName(JAVA_NAME)
+            .cppName(CPP_NAME)
+            .isFrancaInterface(true)
+            .build();
   }
 
   @Test

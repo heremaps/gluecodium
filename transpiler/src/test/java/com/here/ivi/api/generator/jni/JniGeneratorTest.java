@@ -40,8 +40,12 @@ public final class JniGeneratorTest {
   private static final String PROXY_IMPLEMENTATION_NAME = "ProxyImplementation";
 
   private final JniContainer jniContainer =
-      JniContainer.createInterfaceContainer(
-          Collections.emptyList(), Collections.emptyList(), "classy", "classy");
+      JniContainer.builder(Collections.emptyList(), Collections.emptyList())
+          .javaName("classy")
+          .javaInterfaceName("classy")
+          .cppName("classy")
+          .isFrancaInterface(true)
+          .build();
 
   private final JniGenerator generator = new JniGenerator(null, null, null);
 
@@ -66,8 +70,12 @@ public final class JniGeneratorTest {
   @Test
   public void isInterfaceProxyIsGenerated() {
     JniContainer instantiableJniContainer =
-        JniContainer.createInterfaceContainer(
-            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy");
+        JniContainer.builder(Collections.emptyList(), Collections.emptyList())
+            .javaName("classy")
+            .javaInterfaceName("classy")
+            .cppName("classy")
+            .isFrancaInterface(true)
+            .build();
     instantiableJniContainer.isInterface = true;
 
     List<GeneratedFile> files =
@@ -83,8 +91,12 @@ public final class JniGeneratorTest {
   @Test
   public void isNoInterfaceProxyIsNotGenerated() {
     JniContainer instantiableJniContainer =
-        JniContainer.createInterfaceContainer(
-            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy");
+        JniContainer.builder(Collections.emptyList(), Collections.emptyList())
+            .javaName("classy")
+            .javaInterfaceName("classy")
+            .cppName("classy")
+            .isFrancaInterface(true)
+            .build();
     instantiableJniContainer.isInterface = false;
 
     List<GeneratedFile> files =
@@ -118,8 +130,12 @@ public final class JniGeneratorTest {
   @Test
   public void generateConversionFiles() {
     JniContainer instantiableJniContainer =
-        JniContainer.createInterfaceContainer(
-            Collections.emptyList(), Collections.emptyList(), "classy", "classy", "classy");
+        JniContainer.builder(Collections.emptyList(), Collections.emptyList())
+            .javaName("classy")
+            .javaInterfaceName("classy")
+            .cppName("classy")
+            .isFrancaInterface(true)
+            .build();
     instantiableJniContainer.isInterface = true;
 
     List<GeneratedFile> result =

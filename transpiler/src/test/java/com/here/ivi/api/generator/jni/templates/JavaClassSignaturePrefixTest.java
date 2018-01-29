@@ -35,7 +35,12 @@ public final class JavaClassSignaturePrefixTest {
   @Test
   public void generateFromInterface() {
     JniContainer container =
-        JniContainer.createInterfaceContainer(PACKAGE_NAMES, null, "MyClass", null);
+        JniContainer.builder(PACKAGE_NAMES, null)
+            .javaName("MyClass")
+            .javaInterfaceName("MyClass")
+            .cppName(null)
+            .isFrancaInterface(true)
+            .build();
     JniStruct jniStruct = new JniStruct(container, javaClass, null, null);
 
     String generated = TemplateEngine.render(TEMPLATE_NAME, jniStruct);
@@ -46,7 +51,12 @@ public final class JavaClassSignaturePrefixTest {
   @Test
   public void generateFromInstantiableInterface() {
     JniContainer container =
-        JniContainer.createInterfaceContainer(PACKAGE_NAMES, null, null, "FooImpl", null);
+        JniContainer.builder(PACKAGE_NAMES, null)
+            .javaName(null)
+            .javaInterfaceName("FooImpl")
+            .cppName(null)
+            .isFrancaInterface(true)
+            .build();
     JniStruct jniStruct = new JniStruct(container, javaClass, null, null);
 
     String generated = TemplateEngine.render(TEMPLATE_NAME, jniStruct);
@@ -56,7 +66,7 @@ public final class JavaClassSignaturePrefixTest {
 
   @Test
   public void generateFromTypeCollection() {
-    JniContainer container = JniContainer.createTypeCollectionContainer(PACKAGE_NAMES, null);
+    JniContainer container = JniContainer.builder(PACKAGE_NAMES, null).build();
     JniStruct jniStruct = new JniStruct(container, javaClass, null, null);
 
     String generated = TemplateEngine.render(TEMPLATE_NAME, jniStruct);

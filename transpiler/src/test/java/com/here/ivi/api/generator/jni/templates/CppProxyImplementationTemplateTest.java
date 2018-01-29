@@ -56,7 +56,12 @@ public class CppProxyImplementationTemplateTest {
     jniMethod.parameters.add(new JniParameter("param", jniType));
 
     JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+        JniContainer.builder(NAMESPACES, NAMESPACES)
+            .javaName("TestClass")
+            .javaInterfaceName("TestClass")
+            .cppName("CppClass")
+            .isFrancaInterface(true)
+            .build();
     jniContainer.add(jniMethod);
 
     String generated = TemplateEngine.render("jni/CppProxyImplementation", jniContainer);
@@ -80,7 +85,12 @@ public class CppProxyImplementationTemplateTest {
     jniMethod.parameters.add(new JniParameter("param", jniType));
 
     JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+        JniContainer.builder(NAMESPACES, NAMESPACES)
+            .javaName("TestClass")
+            .javaInterfaceName("TestClass")
+            .cppName("CppClass")
+            .isFrancaInterface(true)
+            .build();
     jniContainer.add(jniMethod);
 
     String generated = TemplateEngine.render("jni/CppProxyImplementation", jniContainer);
@@ -109,7 +119,12 @@ public class CppProxyImplementationTemplateTest {
     jniMethod.parameters.add(new JniParameter("param", jniType));
 
     JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+        JniContainer.builder(NAMESPACES, NAMESPACES)
+            .javaName("TestClass")
+            .javaInterfaceName("TestClass")
+            .cppName("CppClass")
+            .isFrancaInterface(true)
+            .build();
     jniContainer.add(jniMethod);
 
     String generated = TemplateEngine.render("jni/CppProxyImplementation", jniContainer);
@@ -137,7 +152,12 @@ public class CppProxyImplementationTemplateTest {
     jniMethod.parameters.add(new JniParameter("param", jniType));
 
     JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+        JniContainer.builder(NAMESPACES, NAMESPACES)
+            .javaName("TestClass")
+            .javaInterfaceName("TestClass")
+            .cppName("CppClass")
+            .isFrancaInterface(true)
+            .build();
     jniContainer.add(jniMethod);
 
     String generated = TemplateEngine.render("jni/CppProxyImplementation", jniContainer);
