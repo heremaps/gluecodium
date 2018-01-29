@@ -38,14 +38,15 @@ public final class JniContainer implements JniElement {
   public final List<Include> includes = new LinkedList<>();
 
   @SuppressWarnings("ParameterNumber")
-  public JniContainer(
-      List<String> javaPackages,
-      List<String> cppNameSpaces,
-      String javaName,
-      String javaInterfaceName,
-      String cppName,
-      boolean isFrancaInterface,
-      boolean isInterface) {
+  @lombok.Builder(builderClassName = "Builder")
+  private JniContainer(
+      final List<String> javaPackages,
+      final List<String> cppNameSpaces,
+      final String javaName,
+      final String javaInterfaceName,
+      final String cppName,
+      final boolean isFrancaInterface,
+      final boolean isInterface) {
     this.javaPackages = javaPackages;
     this.cppNameSpaces = cppNameSpaces;
     this.javaName = javaName;
@@ -55,24 +56,8 @@ public final class JniContainer implements JniElement {
     this.isInterface = isInterface;
   }
 
-  public static JniContainer createTypeCollectionContainer(
-      List<String> javaPackages, List<String> cppNameSpaces) {
-    return new JniContainer(javaPackages, cppNameSpaces, null, null, null, false, false);
-  }
-
-  public static JniContainer createInterfaceContainer(
-      List<String> javaPackages, List<String> cppNameSpaces, String javaName, String cppName) {
-    return new JniContainer(javaPackages, cppNameSpaces, javaName, javaName, cppName, true, false);
-  }
-
-  public static JniContainer createInterfaceContainer(
-      List<String> javaPackages,
-      List<String> cppNameSpaces,
-      String javaName,
-      String javaInterfaceName,
-      String cppName) {
-    return new JniContainer(
-        javaPackages, cppNameSpaces, javaName, javaInterfaceName, cppName, true, false);
+  public static Builder builder(final List<String> javaPackages, final List<String> cppNameSpaces) {
+    return new Builder().javaPackages(javaPackages).cppNameSpaces(cppNameSpaces);
   }
 
   public void add(JniStruct struct) {

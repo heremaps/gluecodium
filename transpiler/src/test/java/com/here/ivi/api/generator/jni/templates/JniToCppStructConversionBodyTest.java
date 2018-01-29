@@ -42,8 +42,12 @@ public final class JniToCppStructConversionBodyTest {
   private static final List<String> CPP_NAMESPACES = Arrays.asList("a", "superfancy", "namespace");
 
   private final JniContainer jniContainer =
-      JniContainer.createInterfaceContainer(
-          JAVA_PACKAGE, CPP_NAMESPACES, JAVA_OUTER_CLASS_NAME, CPP_OUTER_CLASS_NAME);
+      JniContainer.builder(JAVA_PACKAGE, CPP_NAMESPACES)
+          .javaName(JAVA_OUTER_CLASS_NAME)
+          .javaInterfaceName(JAVA_OUTER_CLASS_NAME)
+          .cppName(CPP_OUTER_CLASS_NAME)
+          .isFrancaInterface(true)
+          .build();
 
   private final JniStruct jniStruct =
       new JniStruct(jniContainer, JAVA_CLASS_INNER, CPP_STRUCT, new LinkedList<>());

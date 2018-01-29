@@ -36,11 +36,12 @@ public final class JniFunctionSignatureTemplateTest {
   private static final String TEMPLATE_NAME = "jni/FunctionSignature";
 
   private final JniContainer jniContainer =
-      JniContainer.createInterfaceContainer(
-          Arrays.asList("com", "here", "jni", "test"),
-          Collections.emptyList(),
-          "ClassName",
-          "ClassName");
+      JniContainer.builder(Arrays.asList("com", "here", "jni", "test"), Collections.emptyList())
+          .javaName("ClassName")
+          .javaInterfaceName("ClassName")
+          .cppName("ClassName")
+          .isFrancaInterface(true)
+          .build();
 
   @Test
   public void simpleJniMethod() {

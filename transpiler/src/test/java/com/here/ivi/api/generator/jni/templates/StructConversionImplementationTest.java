@@ -60,7 +60,12 @@ public final class StructConversionImplementationTest {
 
   private static JniContainer createJniContainer(String outerClassName) {
     JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(PACKAGES, PACKAGES, outerClassName, outerClassName);
+        JniContainer.builder(PACKAGES, PACKAGES)
+            .javaName(outerClassName)
+            .javaInterfaceName(outerClassName)
+            .cppName(outerClassName)
+            .isFrancaInterface(true)
+            .build();
     jniContainer.add(createJniStruct());
 
     return jniContainer;

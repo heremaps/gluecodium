@@ -73,7 +73,12 @@ public class CppProxyHeaderTemplateTest {
   public void generate() {
 
     JniContainer jniContainer =
-        JniContainer.createInterfaceContainer(NAMESPACES, NAMESPACES, "TestClass", "CppClass");
+        JniContainer.builder(NAMESPACES, NAMESPACES)
+            .javaName("TestClass")
+            .javaInterfaceName("TestClass")
+            .cppName("CppClass")
+            .isFrancaInterface(true)
+            .build();
     jniContainer.includes.add(Include.createSystemInclude("sys"));
     jniContainer.includes.add(Include.createInternalInclude("internal"));
     JniMethod jniMethod = createListenerMethod(JavaPrimitiveType.Type.INT, "cppMethod", false);
