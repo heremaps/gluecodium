@@ -85,6 +85,12 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             .isInterface(deploymentModel.isInterface(francaInterface))
             .build();
 
+    JniContainer parentContainer = getPreviousResult(JniContainer.class);
+    if (parentContainer != null) {
+      parentContainer.parentMethods.forEach(jniContainer::addParentMethod);
+      parentContainer.methods.forEach(jniContainer::addParentMethod);
+    }
+
     getPreviousResults(JniMethod.class).forEach(jniContainer::add);
     getPreviousResults(JniStruct.class).forEach(jniContainer::add);
     getPreviousResults(JniEnum.class).forEach(jniContainer::add);

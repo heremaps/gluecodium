@@ -14,22 +14,30 @@ using namespace ::here::internal;
 {{cppName}}CppProxy::{{cppName}}CppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode )
     : CppProxyBase( _jenv, _jobj, _jHashCode ) {
 }
+{{#parentMethods}}
+{{>proxyMethod}}
+{{/parentMethods}}{{!!
 
-{{#methods}}
-{{>jni/ReturnType}} {{cppName}}CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
-    JNIEnv* jniEnv = getJniEnvironment( );
-{{#parameters}}
-{{#if type.isComplex}}
-    auto j{{name}} = ::here::internal::convert_to_jni{{#if type.isJavaArray}}_array{{/if}}( jniEnv, n{{name}} );
-{{/if}}
-{{#unless type.isComplex}}
-    j{{type.javaName}} j{{name}} = n{{name}};
-{{/unless}}
-{{/parameters}}
-    {{+parameterName}}j{{name}}{{/parameterName}}callJavaMethod( "{{javaMethodName}}", "({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{#if returnType}}{{returnType.jniTypeSignature}}{{/if}}{{#unless returnType}}V{{/unless}}", jniEnv {{#if parameters}},{{/if}} {{joinPartial parameters "parameterName" ", "}});
-}
+}}{{#methods}}
+{{>proxyMethod}}
 {{/methods}}
 
 {{#cppNameSpaces}}
 }
-{{/cppNameSpaces}}
+{{/cppNameSpaces}}{{!!
+
+}}{{+proxyMethod}}
+{{>jni/ReturnType}} {{cppName}}CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
+    JNIEnv* jniEnv = getJniEnvironment( );{{!!
+}}{{#parameters}}{{!!
+}}{{#if type.isComplex}}
+    auto j{{name}} = ::here::internal::convert_to_jni{{#if type.isJavaArray}}_array{{/if}}( jniEnv, n{{name}} );{{!!
+}}{{/if}}{{!!
+}}{{#unless type.isComplex}}
+    j{{type.javaName}} j{{name}} = n{{name}};{{!!
+}}{{/unless}}{{!!
+}}{{/parameters}}
+    callJavaMethod( "{{javaMethodName}}", "({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{#if returnType}}{{returnType.jniTypeSignature}}{{/if}}{{#unless returnType}}V{{/unless}}", {{!!
+    }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+}
+{{/proxyMethod}}

@@ -22,6 +22,11 @@ define navigation.BaseApiSpec for interface smoke.InheritanceChild
     IsInterface = true
 }
 
+define navigation.BaseApiSpec for interface smoke.InheritanceGrandchild
+{
+    IsInterface = true
+}
+
 define navigation.BaseApiSpec for interface smoke.InheritanceChildClass
 {
     IsInterface = false

@@ -114,6 +114,7 @@ public class JniModelBuilderTest {
 
     javaSetter.parameters.add(new JavaParameter(JavaPrimitiveType.INT, "value"));
     cppSetter.parameters.add(new CppParameter("value", CppPrimitiveTypeRef.INT8));
+    javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
 
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppClass);
@@ -296,9 +297,6 @@ public class JniModelBuilderTest {
 
   @Test
   public void finishBuildingInstantiableFrancaInterfaceReadsJavaCppClasses() {
-    //arrange
-    javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
-
     //act
     modelBuilder.finishBuilding(francaInterface);
 
@@ -332,7 +330,6 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingInstantiableFrancaInterfaceReadsMethods() {
     contextStack.injectResult(createJniMethod(null));
-    javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
 
     //act
     modelBuilder.finishBuilding(francaInterface);
@@ -363,7 +360,6 @@ public class JniModelBuilderTest {
   public void finishBuildingFrancaInterfaceReadsJavaCppClasses() {
     //arrange
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
 
     //act
     modelBuilder.finishBuilding(francaInterface);
@@ -394,6 +390,24 @@ public class JniModelBuilderTest {
     assertEquals(JAVA_CLASS_NAME, jniContainer.javaName);
     assertEquals(JAVA_INTERFACE_NAME, jniContainer.javaInterfaceName);
     assertEquals(JAVA_PACKAGES, jniContainer.javaPackages);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsParentMethods() {
+    JniContainer parentContainer = JniContainer.builder(null, null).build();
+    parentContainer.parentMethods.add(createJniMethod(null));
+    parentContainer.methods.add(createJniMethod(null));
+    contextStack.injectResult(parentContainer);
+
+    //act
+    modelBuilder.finishBuilding(francaInterface);
+
+    //assert
+    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertEquals(2, jniContainer.parentMethods.size());
+    assertEquals(jniContainer, jniContainer.parentMethods.get(0).owningContainer);
+    assertEquals(jniContainer, jniContainer.parentMethods.get(1).owningContainer);
   }
 
   @Test
