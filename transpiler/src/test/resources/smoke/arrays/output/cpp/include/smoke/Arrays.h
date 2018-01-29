@@ -32,7 +32,7 @@ using StringArray = ::std::vector< ::std::string >;
 using ProfileId = ::std::string;
 using ProfileIdList = ::std::vector< ::smoke::Arrays::ProfileId >;
 struct BasicStruct {
-    double value = 0;
+    double value;
 };
 using StructArray = ::std::vector< ::smoke::Arrays::BasicStruct >;
 struct FancyStruct {

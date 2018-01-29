@@ -28,13 +28,13 @@ public:
     virtual ~Structs() = 0;
 public:
 struct Point {
-    double x = 0;
-    double y = 0;
+    double x;
+    double y;
 };
 struct Color {
-    uint8_t red = 0;
-    uint8_t green = 0;
-    uint8_t blue = 0;
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
 };
 struct Line {
     ::smoke::Structs::Point a;
@@ -45,18 +45,18 @@ struct ColoredLine {
     ::smoke::Structs::Color color;
 };
 struct AllTypesStruct {
-    int8_t int8_field = 0;
-    uint8_t uint8_field = 0;
-    int16_t int16_field = 0;
-    uint16_t uint16_field = 0;
-    int32_t int32_field = 0;
-    uint32_t uint32_field = 0;
-    int64_t int64_field = 0;
-    uint64_t uint64_field = 0;
-    float float_field = 0;
-    double double_field = 0;
+    int8_t int8_field;
+    uint8_t uint8_field;
+    int16_t int16_field;
+    uint16_t uint16_field;
+    int32_t int32_field;
+    uint32_t uint32_field;
+    int64_t int64_field;
+    uint64_t uint64_field;
+    float float_field;
+    double double_field;
     ::std::string string_field;
-    bool boolean_field = false;
+    bool boolean_field;
     ::std::vector< uint8_t > bytes_field;
     ::smoke::Structs::Point point_field;
 };

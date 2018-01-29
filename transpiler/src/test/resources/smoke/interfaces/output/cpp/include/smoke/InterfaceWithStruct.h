@@ -26,7 +26,7 @@ public:
 
 public:
 struct InnerStruct {
-    int8_t value = 0;
+    int8_t value;
 };
 
 public:

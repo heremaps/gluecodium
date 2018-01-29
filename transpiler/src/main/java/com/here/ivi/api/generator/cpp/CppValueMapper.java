@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.cpp;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.common.BuiltInValueRules;
 import com.here.ivi.api.model.cpp.*;
 import java.math.BigInteger;
@@ -74,23 +73,6 @@ public class CppValueMapper {
       return new CppValue(cppTypeRef.name + "::" + enumEntryName);
     } else {
       return new CppValue(deploymentDefaultValue);
-    }
-  }
-
-  public static CppValue mapDefaultValue(final FTypeRef francaTypeRef) {
-
-    if (francaTypeRef.getDerived() != null || FrancaTypeHelper.isImplicitArray(francaTypeRef)) {
-      return null;
-    }
-
-    switch (francaTypeRef.getPredefined().getValue()) {
-      case FBasicTypeId.BOOLEAN_VALUE:
-        return new CppValue("false");
-      case FBasicTypeId.STRING_VALUE:
-      case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return null;
-      default:
-        return new CppValue("0");
     }
   }
 

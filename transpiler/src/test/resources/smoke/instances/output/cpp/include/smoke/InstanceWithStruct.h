@@ -23,7 +23,7 @@ public:
     virtual ~InstanceWithStruct() = 0;
 public:
 struct InnerStruct {
-    int8_t value = 0;
+    int8_t value;
 };
 struct StructWithInstance {
     ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance;

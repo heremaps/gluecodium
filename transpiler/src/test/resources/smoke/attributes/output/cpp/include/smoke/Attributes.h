@@ -34,7 +34,7 @@ enum class InternalError {
 };
 
 struct ExampleStruct {
-    double value = 0;
+    double value;
 };
 
 public:

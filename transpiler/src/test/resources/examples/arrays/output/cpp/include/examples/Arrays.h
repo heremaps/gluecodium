@@ -26,8 +26,8 @@ public:
     virtual ~Arrays() = 0;
 public:
 struct SyncResult {
-    uint64_t last_updated_time_stamp = 0;
-    uint32_t number_of_changes = 0;
+    uint64_t last_updated_time_stamp;
+    uint32_t number_of_changes;
 };
 using SyncResults = ::std::vector< ::examples::Arrays::SyncResult >;
 

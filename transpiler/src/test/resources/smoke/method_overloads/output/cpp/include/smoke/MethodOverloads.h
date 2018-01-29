@@ -31,8 +31,8 @@ public:
 using StringArray = ::std::vector< ::std::string >;
 using IntArray = ::std::vector< int8_t >;
 struct Point {
-    double x = 0;
-    double y = 0;
+    double x;
+    double y;
 };
 
 public:
