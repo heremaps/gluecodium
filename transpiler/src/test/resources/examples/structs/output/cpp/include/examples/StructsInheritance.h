@@ -27,7 +27,7 @@ public:
 
 public:
 struct SyncResultInherited: public ::examples::Structs::SyncResult {
-    int32_t id = 0;
+    int32_t id;
 };
 
 public:

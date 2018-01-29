@@ -35,8 +35,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({BuiltInValueRules.class, FrancaTypeHelper.class})
 public final class CppValueMapperTest {
 
-  @Mock private FTypeRef francaTypeRef;
-
   @Mock private CppIncludeResolver includeResolver;
 
   private final Include internalInclude = Include.createInternalInclude("nonsense");
@@ -113,54 +111,5 @@ public final class CppValueMapperTest {
     CppValue result = CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, "SomeString");
 
     assertEquals("SomeString", result.name);
-  }
-
-  @Test
-  public void mapDefaultValueForComplexType() {
-    when(francaTypeRef.getDerived()).thenReturn(mock(FType.class));
-
-    CppValue result = CppValueMapper.mapDefaultValue(francaTypeRef);
-
-    assertNull(result);
-  }
-
-  @Test
-  public void mapDefaultValueForImplicitArray() {
-    when(FrancaTypeHelper.isImplicitArray(any())).thenReturn(true);
-
-    CppValue result = CppValueMapper.mapDefaultValue(francaTypeRef);
-
-    assertNull(result);
-    PowerMockito.verifyStatic();
-    FrancaTypeHelper.isImplicitArray(francaTypeRef);
-  }
-
-  @Test
-  public void mapDefaultValueForBoolean() {
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
-
-    CppValue result = CppValueMapper.mapDefaultValue(francaTypeRef);
-
-    assertNotNull(result);
-    assertEquals("false", result.name);
-  }
-
-  @Test
-  public void mapDefaultValueForString() {
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.STRING);
-
-    CppValue result = CppValueMapper.mapDefaultValue(francaTypeRef);
-
-    assertNull(result);
-  }
-
-  @Test
-  public void mapDefaultValueForInteger() {
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT64);
-
-    CppValue result = CppValueMapper.mapDefaultValue(francaTypeRef);
-
-    assertNotNull(result);
-    assertEquals("0", result.name);
   }
 }

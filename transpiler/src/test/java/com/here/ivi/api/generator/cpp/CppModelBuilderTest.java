@@ -409,21 +409,6 @@ public class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaFieldCreatesDefaultValue() {
-    when(CppValueMapper.mapDefaultValue(any())).thenReturn(cppValue);
-    when(francaField.getType()).thenReturn(francaTypeRef);
-
-    modelBuilder.finishBuilding(francaField);
-
-    CppField cppField = modelBuilder.getFinalResult(CppField.class);
-    assertNotNull(cppField);
-    assertEquals(cppValue, cppField.initializer);
-
-    PowerMockito.verifyStatic();
-    CppValueMapper.mapDefaultValue(francaTypeRef);
-  }
-
-  @Test
   public void finishBuildingFrancaStructTypeReadsName() {
     modelBuilder.finishBuilding(francaStructType);
 

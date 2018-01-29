@@ -25,11 +25,11 @@ public:
     virtual ~Structs() = 0;
 public:
 struct SyncResult {
-    uint64_t last_updated_time_stamp = 0;
-    uint32_t number_of_changes = 0;
+    uint64_t last_updated_time_stamp;
+    uint32_t number_of_changes;
 };
 struct IdentifiableSyncResult {
-    int32_t id = 0;
+    int32_t id;
     ::examples::Structs::SyncResult sync_result;
 };
 
