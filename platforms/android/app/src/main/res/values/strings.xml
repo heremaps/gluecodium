@@ -13,6 +13,7 @@
     <string name="fragment_errors_title">Errors</string>
     <string name="fragment_defaults_title">Default values</string>
     <string name="fragment_inheritance_title">Inheritance</string>
+    <string name="fragment_parcelable_title">Parcelable</string>
     <string name="number_of_usages_input">Insert numberOfUsages</string>
     <string name="profile_name_input">Insert new profile name</string>
     <string name="parameter_value">Value</string>
@@ -55,4 +56,9 @@
     <string name="position_start_value">0</string>
     <string name="position_end">Position end</string>
     <string name="position_end_value">1000</string>
+    <string name="parcelable_description">Showcase for parcelable that displays current and previous state.\n
+        A state consists of device dimension and orientation.\n
+        Rotate screen to display current and previous states.\n
+        At first this displays only the current state.\n
+    </string>
 </resources>

@@ -59,7 +59,8 @@ public final class MainActivity extends AppCompatActivity {
             context.getString(R.string.fragment_arrays_title),
             context.getString(R.string.fragment_errors_title),
             context.getString(R.string.fragment_defaults_title),
-            context.getString(R.string.fragment_inheritance_title)
+            context.getString(R.string.fragment_inheritance_title),
+            context.getString(R.string.fragment_parcelable_title)
           };
     }
 
@@ -90,6 +91,8 @@ public final class MainActivity extends AppCompatActivity {
           return new DefaultsFragment();
         case 11:
           return new InheritanceFragment();
+        case 12:
+          return new ParcelableFragment();
         default:
           return null;
       }

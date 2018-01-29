@@ -288,6 +288,9 @@ feature(Inheritance cpp android swift SOURCES
 )
 
 feature(Serialization android SOURCES
+    fidl/hello/HelloWorldParcelable.fidl
+    fidl/hello/HelloWorldParcelable.fdepl
+
     fidl/test/Serialization.fidl
     fidl/test/Serialization.fdepl
 )
