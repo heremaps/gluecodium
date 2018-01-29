@@ -12,12 +12,12 @@
 
 public class CollectionOf<T> : Collection {
 
-    private var elements: Array<T>
+    private var elements: Array<T>?
 
-    public init(_ elements: Array<T>) {
+    public init(_ elements: Array<T>?) {
         self.elements = elements
         self.startIndex = 0
-        self.endIndex = elements.count
+        self.endIndex = elements?.count ?? 0
     }
 
     public func index(after i: Int) -> Int {
@@ -25,7 +25,7 @@ public class CollectionOf<T> : Collection {
     }
 
     public subscript(position: Int) -> T {
-        return elements[position]
+        return elements![position]
     }
 
     public var startIndex: Int
