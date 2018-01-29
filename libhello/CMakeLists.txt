@@ -284,11 +284,6 @@ feature(Inheritance cpp android swift SOURCES
     fidl/test/Inheritance.fidl
 )
 
-feature(Serialization android SOURCES
-    fidl/test/Serialization.fidl
-    fidl/test/Serialization.fdepl
-)
-
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES
@@ -315,13 +310,7 @@ if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     # Android customers want an Android Archive and it's pre-requirements...
     include(apigen/Android)
-    if(NOT DEFINED ANDROID_NATIVE_API_LEVEL)
-        set(ANDROID_NATIVE_API_LEVEL "27")
-    endif()
-    if(NOT DEFINED ANDROID_PLATFORM)
-        set(ANDROID_PLATFORM "android-${ANDROID_NATIVE_API_LEVEL}")
-    endif()
-    apigen_java_compile(hello "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}/android.jar")
+    apigen_java_compile(hello)
     apigen_java_jar(hello)
     apigen_android_archive(TARGET hello)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
