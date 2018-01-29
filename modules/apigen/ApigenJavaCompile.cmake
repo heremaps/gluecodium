@@ -25,15 +25,20 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#     apigen_java_compile(target)
+#     apigen_java_compile(TARGET target)
 #
 
 find_package(Java COMPONENTS Development REQUIRED)
 
-function(apigen_java_compile target)
+function(apigen_java_compile)
+    set(options)
+    set(oneValueArgs TARGET)
+    set(multiValueArgs)
+    cmake_parse_arguments(apigen_java_compile
+      "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
-    get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
+    get_target_property(GENERATOR ${apigen_java_compile_TARGET} APIGEN_TRANSPILER_GENERATOR)
+    get_target_property(OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
 
     if(NOT ${GENERATOR} MATCHES "android")
         message(FATAL_ERROR "apigen_java_compile() depends on apigen_transpiler() configured with generator 'android'")
@@ -45,13 +50,13 @@ function(apigen_java_compile target)
     set(APIGEN_TRANSPILER_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android)
 
     # Attach properties to target for re-use in other modules
-    set_target_properties(${target} PROPERTIES
+    set_target_properties(${apigen_java_compile_TARGET} PROPERTIES
         APIGEN_JAVA_COMPILE_OUTPUT_DIR ${APIGEN_JAVA_COMPILE_OUTPUT_DIR})
 
     set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7")
-    add_custom_command(TARGET ${target} POST_BUILD
+    add_custom_command(TARGET ${apigen_java_compile_TARGET} POST_BUILD
         COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
         COMMAND find ${APIGEN_TRANSPILER_JAVA_SOURCE_DIR} -name *.java | xargs "${Java_JAVAC_EXECUTABLE}" ${CMAKE_JAVA_COMPILE_FLAGS} -d ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
         COMMENT "Compiling generated Java sources into class files...")
 
-endfunction(apigen_java_compile)
+endfunction()
