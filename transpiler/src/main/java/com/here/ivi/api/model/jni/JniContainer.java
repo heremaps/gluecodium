@@ -33,6 +33,7 @@ public final class JniContainer implements JniElement {
   public boolean isInterface;
 
   public final List<JniMethod> methods = new LinkedList<>();
+  public final List<JniMethod> parentMethods = new LinkedList<>();
   public final List<JniStruct> structs = new LinkedList<>();
   public final List<JniEnum> enums = new LinkedList<>();
   public final List<Include> includes = new LinkedList<>();
@@ -73,5 +74,10 @@ public final class JniContainer implements JniElement {
   public void add(JniMethod method) {
     method.owningContainer = this;
     methods.add(method);
+  }
+
+  public void addParentMethod(final JniMethod method) {
+    method.owningContainer = this;
+    parentMethods.add(method);
   }
 }

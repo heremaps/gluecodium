@@ -25,6 +25,12 @@ interface InheritanceChild extends InheritanceRoot {
     }
 }
 
+interface InheritanceGrandchild extends InheritanceChild {
+
+    method grandchildMethod {
+    }
+}
+
 interface InheritanceChildClass extends InheritanceRoot {
 
     method childClassMethod {
