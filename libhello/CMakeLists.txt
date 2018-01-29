@@ -277,11 +277,14 @@ feature(Inheritance cpp android swift SOURCES
     src/test/ChildClassImpl.h
     src/test/GrandchildClassImpl.cpp
     src/test/GrandchildClassImpl.h
+    src/test/Talker.cpp
 
     fidl/hello/HelloWorldInheritance.fdepl
     fidl/hello/HelloWorldInheritance.fidl
     fidl/test/Inheritance.fdepl
     fidl/test/Inheritance.fidl
+    fidl/test/ListenerInheritance.fdepl
+    fidl/test/ListenerInheritance.fidl
 )
 
 feature(Serialization android SOURCES
