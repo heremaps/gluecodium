@@ -45,6 +45,7 @@ done
 if [ "$USE_JEMALLOC" = true ]; then
     command -v jemalloc-config >/dev/null || die "jemalloc is required for this option"
     JEMALLOC_LIB=$(jemalloc-config --libdir)/libjemalloc.so.$(jemalloc-config --revision)
+    CMAKE_BUILD_TYPE="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
 fi
 
 # Constants
