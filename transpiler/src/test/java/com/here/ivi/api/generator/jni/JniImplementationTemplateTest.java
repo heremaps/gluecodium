@@ -287,8 +287,7 @@ public final class JniImplementationTemplateTest {
         JniType.createType(
             JavaArrayType.BYTE_ARRAY,
             CppTemplateTypeRef.create(
-                CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8),
-            false);
+                CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8));
     JniMethod jniMethod =
         new JniMethod.Builder("method1", "method1").returnType(jniType).isStatic(true).build();
     jniMethod.parameters.add(new JniParameter(BASE_PARAMETER_NAME, jniIntType));

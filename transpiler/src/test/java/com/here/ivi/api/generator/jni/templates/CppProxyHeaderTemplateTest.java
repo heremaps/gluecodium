@@ -55,7 +55,7 @@ public class CppProxyHeaderTemplateTest {
         break;
     }
 
-    JniType jniType = JniType.createType(javaType, cppType, false);
+    JniType jniType = JniType.createType(javaType, cppType);
 
     JniParameter jniParam1 = new JniParameter(paramName + "_1", jniType);
 
