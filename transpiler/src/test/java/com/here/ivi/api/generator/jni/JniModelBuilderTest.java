@@ -429,45 +429,6 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingInputArgumentReadsInstance() {
-    JavaParameter javaParameter = new JavaParameter(javaCustomType, "relative");
-    CppParameter cppParameter =
-        new CppParameter("absolute", new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build());
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaParameter);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppParameter);
-
-    FTypeRef fTypeRef = mock(FTypeRef.class);
-    when(francaArgument.getType()).thenReturn(fTypeRef);
-    when(InstanceRules.isInstanceId(fTypeRef)).thenReturn(true);
-
-    modelBuilder.finishBuildingInputArgument(francaArgument);
-
-    JniParameter resultParameter = modelBuilder.getFinalResult(JniParameter.class);
-    assertNotNull(resultParameter);
-    assertTrue(resultParameter.type.isInstance);
-  }
-
-  @Test
-  public void finishBuildingInputArgumentReadsArrayOfInstances() {
-    JavaParameter javaParameter = new JavaParameter(javaCustomType, "relative");
-    CppParameter cppParameter =
-        new CppParameter("absolute", new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build());
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaParameter);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppParameter);
-
-    FTypeRef fTypeRef = mock(FTypeRef.class);
-    when(francaArgument.getType()).thenReturn(fTypeRef);
-    when(InstanceRules.isInstanceId(fTypeRef)).thenReturn(true);
-    when(francaArgument.isArray()).thenReturn(true);
-
-    modelBuilder.finishBuildingInputArgument(francaArgument);
-
-    JniParameter resultParameter = modelBuilder.getFinalResult(JniParameter.class);
-    assertNotNull(resultParameter);
-    assertFalse(resultParameter.type.isInstance);
-  }
-
-  @Test
   public void finishBuildingFrancaStructReadsJavaCppClasses() {
     CppStruct cppStruct = new CppStruct(CPP_CLASS_NAME);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppStruct);

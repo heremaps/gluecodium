@@ -17,7 +17,14 @@ extern "C" {
 
 {
 {{#parameters}}
-  {{>jni/ParameterConversion}}
+{{#if type.isComplex}}
+    {{type.cppName}} {{name}};
+    here::internal::convert_from_jni( _jenv, j{{name}}, {{name}} );
+    _jenv->DeleteLocalRef(j{{name}});
+{{/if}}
+{{#unless type.isComplex}}
+    {{type.cppName}} {{name}} = j{{name}};
+{{/unless}}
 {{/parameters}}
 {{#unless isStatic}}
     auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");

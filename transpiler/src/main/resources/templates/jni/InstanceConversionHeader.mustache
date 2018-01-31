@@ -5,15 +5,25 @@
 #include <{{fileName}}>
 {{/includes}}
 
-#define NATIVE_BASE "{{join basePackages delimiter="/"}}/NativeBase"
+#include "ProxyConversion.h"
 
 namespace here {
 namespace internal {
+template < typename T >
+void
+convert_from_jni( JNIEnv* _env, jobject _jobj, ::std::shared_ptr< T >& _nresult ) {
+    if (_env->IsInstanceOf(_jobj, _env->FindClass("{{join basePackages delimiter="/"}}/NativeBase"))) {
+        if (_jobj != nullptr) {
+            auto long_ptr = get_long_field(_env, _env->GetObjectClass(_jobj), _jobj, "nativeHandle");
+            _nresult = *reinterpret_cast<::std::shared_ptr< T >*> (long_ptr);
+        }
+    } else {
+        ::createCppProxy<>( _env, _jobj, _nresult);
+    }
+}
 
 {{#models}}
 {{>jni/CppToJniInstanceConversionSignature}};
-
-{{>jni/JniToCppInstanceConversionSignature}};
 
 {{/models}}
 

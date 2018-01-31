@@ -52,7 +52,7 @@ public class CppProxyImplementationTemplateTest {
   @Test
   public void generateWithMethod() {
     JniMethod jniMethod = new JniMethod.Builder("", "cppMethod").build();
-    JniType jniType = JniType.createType(JavaPrimitiveType.INT, CppPrimitiveTypeRef.INT32, false);
+    JniType jniType = JniType.createType(JavaPrimitiveType.INT, CppPrimitiveTypeRef.INT32);
     jniMethod.parameters.add(new JniParameter("param", jniType));
 
     JniContainer jniContainer =
@@ -80,8 +80,7 @@ public class CppProxyImplementationTemplateTest {
   @Test
   public void generateWithConstMethod() {
     JniMethod jniMethod = new JniMethod.Builder("", "cppMethod").isConst(true).build();
-    JniType jniType =
-        JniType.createType(JavaPrimitiveType.DOUBLE, CppPrimitiveTypeRef.DOUBLE, true);
+    JniType jniType = JniType.createType(JavaPrimitiveType.DOUBLE, CppPrimitiveTypeRef.DOUBLE);
     jniMethod.parameters.add(new JniParameter("param", jniType));
 
     JniContainer jniContainer =
@@ -114,8 +113,7 @@ public class CppProxyImplementationTemplateTest {
     JniType jniType =
         JniType.createType(
             new JavaCustomType("Foo", JavaPackage.DEFAULT),
-            new CppComplexTypeRef.Builder("Foo").build(),
-            false);
+            new CppComplexTypeRef.Builder("Foo").build());
     jniMethod.parameters.add(new JniParameter("param", jniType));
 
     JniContainer jniContainer =
@@ -147,8 +145,7 @@ public class CppProxyImplementationTemplateTest {
         JniType.createType(
             JavaArrayType.BYTE_ARRAY,
             CppTemplateTypeRef.create(
-                CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8),
-            false);
+                CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8));
     jniMethod.parameters.add(new JniParameter("param", jniType));
 
     JniContainer jniContainer =

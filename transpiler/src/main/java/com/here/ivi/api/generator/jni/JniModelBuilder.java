@@ -17,7 +17,6 @@ import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
-import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cpp.*;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -130,12 +129,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
 
-    boolean isInstanceRef =
-        !francaArgument.isArray() && InstanceRules.isInstanceId(francaArgument.getType());
-
     JavaParameter javaParameter = javaBuilder.getFinalResult(JavaParameter.class);
     CppParameter cppParameter = cppBuilder.getFinalResult(CppParameter.class);
-    JniType jniType = JniType.createType(javaParameter.type, cppParameter.type, isInstanceRef);
+    JniType jniType = JniType.createType(javaParameter.type, cppParameter.type);
 
     storeResult(new JniParameter(javaParameter.name, jniType));
     closeContext();

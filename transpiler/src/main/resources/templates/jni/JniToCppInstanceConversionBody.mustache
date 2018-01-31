@@ -1,5 +1,0 @@
-{
-    auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jvalue), _jvalue, "nativeHandle");
-    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{#cppNameSpaces}}{{.}}::{{/cppNameSpaces}}{{cppName}}>*> (pointerAsLong);
-    _nout = (*pInstanceSharedPointer);
-}
