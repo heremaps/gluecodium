@@ -14,6 +14,7 @@ package com.here.ivi.api.generator.cbridge;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
 
+import com.google.common.collect.Iterables;
 import com.here.ivi.api.model.cbridge.*;
 import com.here.ivi.api.model.common.Include;
 import java.nio.file.Paths;
@@ -24,9 +25,11 @@ public final class CBridgeComponents {
   public static final String PROXY_CACHE_FILENAME =
       Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "CachedProxyBase.h").toString();
 
+  @SuppressWarnings("OperatorWrap")
   public static Collection<Include> collectImplementationIncludes(CInterface cInterface) {
     Collection<Include> includes = new LinkedList<>();
-    for (CFunction function : cInterface.functions) {
+    for (CFunction function :
+        Iterables.concat(cInterface.functions, cInterface.inheritedFunctions)) {
       includes.addAll(collectFunctionBodyIncludes(function));
     }
     for (CStruct struct : cInterface.structs) {
