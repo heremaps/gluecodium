@@ -25,9 +25,7 @@ To run the transpiler and generate some output based on the current set of
 HelloWorld project's \*.fidl files:
 
 ```bash
-./gradlew run \
-    -Dexec.args="-input ../../projects/hello_world/libhello/fidl -output ../generated -nostdout" \
-    --stacktrace
+./transpile -input ../../projects/hello_world/libhello/fidl -output ../generated -nostdout
 ```
 
 ## Contributing
@@ -50,7 +48,7 @@ And add the *TranspilerReviewers* group manually on Gerrit's web interface.
 For information on Transpiler command line parameters run it with "-help":
 
 ```bash
-./gradlew run -Dexec.args="-help"
+./transpile -help
 ```
 
 ## License
