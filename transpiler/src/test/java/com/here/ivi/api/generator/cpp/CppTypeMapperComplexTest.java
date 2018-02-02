@@ -238,14 +238,15 @@ public class CppTypeMapperComplexTest {
     CppTypeRef cppTypeRef = typeMapper.map(francaTypeRef);
 
     // Assert
-    assertTrue(cppTypeRef instanceof CppComplexTypeRef);
-    CppComplexTypeRef cppComplexTypeRef = (CppComplexTypeRef) cppTypeRef;
-    assertEquals("::std::shared_ptr< ::MyClazz >", cppComplexTypeRef.name);
-    assertFalse(cppComplexTypeRef.refersToEnumType());
+    assertTrue(cppTypeRef instanceof CppTemplateTypeRef);
+    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppTypeRef;
+    assertEquals("::std::shared_ptr< ::MyClazz >", cppTemplateTypeRef.name);
+    assertEquals(1, cppTemplateTypeRef.templateParameters.size());
+    assertTrue(cppTemplateTypeRef.templateParameters.get(0) instanceof CppComplexTypeRef);
 
-    assertEquals(2, cppComplexTypeRef.includes.size());
-    assertTrue(cppComplexTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
-    assertTrue(cppComplexTypeRef.includes.contains(internalInclude));
+    assertEquals(2, cppTemplateTypeRef.includes.size());
+    assertTrue(cppTemplateTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
+    assertTrue(cppTemplateTypeRef.includes.contains(internalInclude));
 
     //verify
     verifyStatic();

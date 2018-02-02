@@ -18,6 +18,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class CppTemplateTypeRef extends CppComplexTypeRef {
 
@@ -76,5 +77,10 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
     String[] templateParts = name.split("<");
     String[] splitName = templateParts[0].split("::");
     return splitName[splitName.length - 1] + "<" + templateParts[1];
+  }
+
+  @Override
+  public Stream<? extends CppElement> stream() {
+    return templateParameters.stream();
   }
 }

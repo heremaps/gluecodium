@@ -22,6 +22,7 @@ public final class CppFile {
   public final List<String> namespace;
   public final List<CppElement> members = new LinkedList<>();
   public final Set<Include> includes = new TreeSet<>();
+  public final Set<CppForwardDeclaration> forwardDeclarations = new TreeSet<>();
 
   public CppFile(List<String> namespace) {
     this.namespace = namespace;

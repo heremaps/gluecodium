@@ -20,6 +20,10 @@
 #include <memory>
 
 namespace examples {
+    class CalculatorListener;
+}
+
+namespace examples {
 
 class Calculator {
 public:

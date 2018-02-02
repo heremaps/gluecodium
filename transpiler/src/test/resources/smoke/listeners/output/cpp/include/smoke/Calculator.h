@@ -20,6 +20,10 @@
 #include <memory>
 
 namespace smoke {
+    class CalculatorListener;
+}
+
+namespace smoke {
 
 class Calculator {
 public:

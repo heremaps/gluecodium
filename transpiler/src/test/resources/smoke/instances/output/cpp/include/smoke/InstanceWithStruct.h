@@ -17,6 +17,11 @@
 #include "smoke/SimpleInstantiableOne.h"
 #include <cstdint>
 #include <memory>
+
+namespace smoke {
+    class SimpleInstantiableOne;
+}
+
 namespace smoke {
 class InstanceWithStruct {
 public:

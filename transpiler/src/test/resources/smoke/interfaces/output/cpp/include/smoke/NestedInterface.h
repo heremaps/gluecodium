@@ -20,6 +20,10 @@
 #include <memory>
 
 namespace smoke {
+    class SimpleInterface;
+}
+
+namespace smoke {
 
 class NestedInterface {
 public:
