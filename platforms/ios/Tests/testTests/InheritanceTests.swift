@@ -88,6 +88,16 @@ class InheritanceTests: XCTestCase {
         instance.doSomething(value: "Foo")
     }
 
+    func testTalkToParents() {
+        let father = MyParentListener()
+        let mother = MyParentListener()
+        let child = MyChildListener()
+        Teacher.talkToParents(parents: CollectionOf([father, mother, child]))
+        XCTAssertTrue(father.called)
+        XCTAssertTrue(mother.called)
+        XCTAssertTrue(child.called)
+    }
+
     static var allTests = [
         ("testCreateChildClassInstance", testCreateChildClassInstance),
         ("testCastChildClassInstanceToParent", testCastChildClassInstanceToParent),
@@ -99,6 +109,7 @@ class InheritanceTests: XCTestCase {
         ("testChildClassDoesNotCrash", testChildClassDoesNotCrash),
         ("testTalkToParent", testTalkToParent),
         ("testTalkToChild", testTalkToChild),
-        ("testTalkToChildAsParent", testTalkToChildAsParent)
+        ("testTalkToChildAsParent", testTalkToChildAsParent),
+        ("testTalkToParents", testTalkToParents)
     ]
 }
