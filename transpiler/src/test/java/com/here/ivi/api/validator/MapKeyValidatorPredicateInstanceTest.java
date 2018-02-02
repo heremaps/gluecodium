@@ -32,7 +32,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({InstanceRules.class, DefinedBy.class})
-public class MapKeyValidatorInstanceTest {
+public class MapKeyValidatorPredicateInstanceTest {
 
   @Mock private FMapType francaMapType;
 
@@ -68,6 +68,6 @@ public class MapKeyValidatorInstanceTest {
     PowerMockito.when(InstanceRules.isInstanceId(innerTypeDef)).thenReturn(true);
 
     //act & assert
-    assertNotNull(new MapKeyValidator().validate(null, francaMapType));
+    assertNotNull(new MapKeyValidatorPredicate().validate(null, francaMapType));
   }
 }

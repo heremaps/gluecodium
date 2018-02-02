@@ -23,7 +23,7 @@ import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 
-public class MapKeyValidator implements ValidatorPredicate<FMapType> {
+public class MapKeyValidatorPredicate implements ValidatorPredicate<FMapType> {
 
   @Override
   public Class<FMapType> getElementClass() {
