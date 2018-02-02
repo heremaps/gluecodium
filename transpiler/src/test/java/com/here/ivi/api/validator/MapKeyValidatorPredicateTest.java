@@ -43,7 +43,7 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(Parameterized.class)
 @PrepareForTest({DefinedBy.class, FrancaTypeHelper.class})
-public final class MapKeyValidatorTest {
+public final class MapKeyValidatorPredicateTest {
 
   private final FBasicTypeId typeId;
   private final FType derivedType;
@@ -52,7 +52,7 @@ public final class MapKeyValidatorTest {
   @Mock private FMapType mapType;
   @Mock private FTypeRef keyTypeRef;
 
-  public MapKeyValidatorTest(FBasicTypeId typeId, FType derivedType, boolean expectNull) {
+  public MapKeyValidatorPredicateTest(FBasicTypeId typeId, FType derivedType, boolean expectNull) {
     this.typeId = typeId;
     this.derivedType = derivedType;
     this.expectNull = expectNull;
@@ -99,9 +99,9 @@ public final class MapKeyValidatorTest {
 
     //act & assert
     if (expectNull) {
-      assertNull(new MapKeyValidator().validate(null, mapType));
+      assertNull(new MapKeyValidatorPredicate().validate(null, mapType));
     } else {
-      assertNotNull(new MapKeyValidator().validate(null, mapType));
+      assertNotNull(new MapKeyValidatorPredicate().validate(null, mapType));
     }
   }
 
@@ -119,9 +119,9 @@ public final class MapKeyValidatorTest {
 
     //act & assert
     if (expectNull) {
-      assertNull(new MapKeyValidator().validate(null, mapType));
+      assertNull(new MapKeyValidatorPredicate().validate(null, mapType));
     } else {
-      assertNotNull(new MapKeyValidator().validate(null, mapType));
+      assertNotNull(new MapKeyValidatorPredicate().validate(null, mapType));
     }
   }
 
@@ -134,6 +134,6 @@ public final class MapKeyValidatorTest {
     PowerMockito.when(FrancaTypeHelper.isImplicitArray(any())).thenReturn(true);
 
     //act & assert
-    assertNotNull(new MapKeyValidator().validate(null, mapType));
+    assertNotNull(new MapKeyValidatorPredicate().validate(null, mapType));
   }
 }
