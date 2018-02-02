@@ -11,8 +11,6 @@
 
 package com.here.ivi.api.validator;
 
-import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.FBasicTypeId;
@@ -23,7 +21,11 @@ import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 
-public class MapKeyValidatorPredicate implements ValidatorPredicate<FMapType> {
+/** Validates that the Map types have either Primitive or Enum keys. */
+public final class MapKeyValidatorPredicate implements ValidatorPredicate<FMapType> {
+
+  private static final String INVALID_KEY_TYPE_MESSAGE =
+      "Complex keys are not allowed: map '%s' in type collection '%s.%s'.";
 
   @Override
   public Class<FMapType> getElementClass() {
@@ -31,55 +33,35 @@ public class MapKeyValidatorPredicate implements ValidatorPredicate<FMapType> {
   }
 
   @Override
-  public String validate(FrancaDeploymentModel deploymentModel, FMapType francaMapType) {
+  public String validate(
+      final FrancaDeploymentModel deploymentModel, final FMapType francaMapType) {
 
-    FTypeRef keyTypeRef = francaMapType.getKeyType();
-
-    if (keyTypeRef.getDerived() instanceof FTypeDef) {
-
-      // remove outer type definitions (if there are any)
-      FTypeDef keyTypeDef = resolveTypeDefChain((FTypeDef) keyTypeRef.getDerived());
-      if (InstanceRules.isInstanceId(keyTypeDef)) {
-        return generateErrorMessage(francaMapType);
-      }
-      keyTypeRef = keyTypeDef.getActualType();
-    }
-
-    if (FrancaTypeHelper.isImplicitArray(keyTypeRef)) {
-      return generateErrorMessage(francaMapType);
-    }
-
-    if (keyTypeRef.getDerived() != null) {
-      return keyTypeRef.getDerived() instanceof FEnumerationType
-          ? null
-          : generateErrorMessage(francaMapType);
-    } else if (keyTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
-      return keyTypeRef.getPredefined() != FBasicTypeId.BYTE_BUFFER
-          ? null
-          : generateErrorMessage(francaMapType);
-    }
-    return generateErrorMessage(francaMapType);
-  }
-
-  /**
-   * if typeDef is part of a type def chain, all outer typedefs will be removed and innermost
-   * typeDef is returned, returns input otherwise
-   */
-  private static FTypeDef resolveTypeDefChain(FTypeDef typeDef) {
-    FType actualType = typeDef.getActualType().getDerived();
-    if (actualType instanceof FTypeDef) {
-      return resolveTypeDefChain((FTypeDef) actualType);
+    if (isComplexType(francaMapType.getKeyType())) {
+      FTypeCollection francaTypeCollection = DefinedBy.findDefiningTypeCollection(francaMapType);
+      return String.format(
+          INVALID_KEY_TYPE_MESSAGE,
+          francaMapType.getName(),
+          DefinedBy.getModelName(francaTypeCollection),
+          francaTypeCollection.getName());
     } else {
-      return typeDef;
+      return null;
     }
   }
 
-  private static String generateErrorMessage(final FMapType francaMap) {
-    FTypeCollection francaTypeCollection = DefinedBy.findDefiningTypeCollection(francaMap);
-    return String.format(
-        "Complex keys are not allowed: map '%s' in type collection '%s.%s'.",
-        francaMap.getName(),
-        DefinedBy.getModelName(francaTypeCollection),
-        francaTypeCollection.getName());
+  private static boolean isComplexType(final FTypeRef francaTypeRef) {
+
+    FType derivedType = francaTypeRef.getDerived();
+    if (derivedType instanceof FTypeDef) {
+      return isComplexType(((FTypeDef) derivedType).getActualType());
+    }
+
+    if (derivedType != null) {
+      return !(derivedType instanceof FEnumerationType);
+    } else {
+      // ByteBuffers are not allowed as keys. "Undefined" means either an Instance or a broken type
+      // reference, neither of those are allowed too.
+      return francaTypeRef.getPredefined() == FBasicTypeId.BYTE_BUFFER
+          || francaTypeRef.getPredefined() == FBasicTypeId.UNDEFINED;
+    }
   }
 }
