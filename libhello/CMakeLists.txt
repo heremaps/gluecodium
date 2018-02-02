@@ -292,6 +292,11 @@ feature(Serialization android SOURCES
     fidl/test/Serialization.fdepl
 )
 
+feature(CircularDependencies cpp android swift SOURCES
+    fidl/test/Circular.fidl
+)
+
+
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES
