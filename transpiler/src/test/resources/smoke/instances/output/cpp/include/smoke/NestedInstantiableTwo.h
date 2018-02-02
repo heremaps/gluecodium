@@ -22,6 +22,19 @@
 #include <memory>
 
 namespace smoke {
+    class NestedInstantiableOne;
+}
+namespace smoke {
+    class NestedInstantiableTwo;
+}
+namespace smoke {
+    class SimpleInstantiableOne;
+}
+namespace smoke {
+    class SimpleInstantiableTwo;
+}
+
+namespace smoke {
 
 class NestedInstantiableTwo {
 public:

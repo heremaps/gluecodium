@@ -71,10 +71,8 @@ public class CppTypeMapper {
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(typedef);
 
     if (InstanceRules.isInstanceId(typedef)) {
-      CppComplexTypeRef instanceType =
-          new CppComplexTypeRef.Builder(fullyQualifiedName)
-              .include(includeResolver.resolveInclude(typedef))
-              .build();
+      CppComplexTypeRef instanceType = new CppInstanceTypeRef(fullyQualifiedName);
+      instanceType.includes.add(includeResolver.resolveInclude(typedef));
 
       return CppTemplateTypeRef.create(
           CppTemplateTypeRef.TemplateClass.SHARED_POINTER, instanceType);

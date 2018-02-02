@@ -21,6 +21,13 @@
 #include <memory>
 
 namespace examples {
+    class ProfileManager;
+}
+namespace examples {
+    class ProfileManagerInterface;
+}
+
+namespace examples {
 
 class ProfileManagerFactory {
 public:

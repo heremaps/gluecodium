@@ -20,10 +20,7 @@ import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.Streamable;
-import com.here.ivi.api.model.cpp.CppElement;
-import com.here.ivi.api.model.cpp.CppElementWithIncludes;
-import com.here.ivi.api.model.cpp.CppFile;
-import com.here.ivi.api.model.cpp.CppIncludeResolver;
+import com.here.ivi.api.model.cpp.*;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.platform.common.GeneratorSuite;
@@ -115,6 +112,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     CppFile cppModel = new CppFile(DefinedBy.getPackages(francaTypeCollection));
     cppModel.members.addAll(builder.getFinalResults());
     cppModel.includes.addAll(collectIncludes(cppModel));
+    cppModel.forwardDeclarations.addAll(collectForwardDeclarations(cppModel));
 
     return cppModel;
   }
@@ -125,6 +123,15 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     return CollectionsHelper.getStreamOfType(allElementsStream, CppElementWithIncludes.class)
         .map(elementWithIncludes -> elementWithIncludes.includes)
         .flatMap(Set::stream)
+        .collect(Collectors.toList());
+  }
+
+  private static List<CppForwardDeclaration> collectForwardDeclarations(final CppFile cppModel) {
+    Stream<Streamable> allElementsStream =
+        cppModel.members.stream().flatMap(CppElement::streamRecursive);
+    return CollectionsHelper.getStreamOfType(allElementsStream, CppInstanceTypeRef.class)
+        .map(instanceTypeRef -> instanceTypeRef.name)
+        .map(CppForwardDeclaration::new)
         .collect(Collectors.toList());
   }
 }
