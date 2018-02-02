@@ -13,11 +13,9 @@ package com.here.ivi.api.validator;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,7 +40,7 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(Parameterized.class)
-@PrepareForTest({DefinedBy.class, FrancaTypeHelper.class})
+@PrepareForTest(DefinedBy.class)
 public final class MapKeyValidatorPredicateTest {
 
   private final FBasicTypeId typeId;
@@ -75,6 +73,7 @@ public final class MapKeyValidatorPredicateTest {
           {FBasicTypeId.UINT64, null, true},
           {FBasicTypeId.STRING, null, true},
           {FBasicTypeId.BYTE_BUFFER, null, false},
+          {FBasicTypeId.UNDEFINED, null, false},
           {null, mock(FEnumerationType.class), true},
           {null, mock(FStructType.class), false}
         });
@@ -123,17 +122,5 @@ public final class MapKeyValidatorPredicateTest {
     } else {
       assertNotNull(new MapKeyValidatorPredicate().validate(null, mapType));
     }
-  }
-
-  @Test
-  public void validateArrayOfKeyType() {
-    PowerMockito.mockStatic(FrancaTypeHelper.class);
-    when(keyTypeRef.getPredefined()).thenReturn(typeId);
-    when(keyTypeRef.getDerived()).thenReturn(derivedType);
-    when(mapType.getKeyType()).thenReturn(keyTypeRef);
-    PowerMockito.when(FrancaTypeHelper.isImplicitArray(any())).thenReturn(true);
-
-    //act & assert
-    assertNotNull(new MapKeyValidatorPredicate().validate(null, mapType));
   }
 }
