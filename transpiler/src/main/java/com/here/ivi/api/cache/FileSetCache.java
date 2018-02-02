@@ -52,51 +52,30 @@ class FileSetCache {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private static Map<String, CacheEntry> loadCache(File cacheFile) {
 
-    InputStream fileInputStream = null;
-
-    try {
-      fileInputStream = new FileInputStream(cacheFile);
-      ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+    try (InputStream fileInputStream = new FileInputStream(cacheFile);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream); ) {
       return (HashMap<String, CacheEntry>) objectInputStream.readObject();
     } catch (IOException e) {
       throw new TranspilerExecutionException("Reading cache index from file system failed", e);
     } catch (ClassNotFoundException e) {
       throw new TranspilerExecutionException("Casting cache index contents failed", e);
-    } finally {
-      try {
-        if (fileInputStream != null) {
-          fileInputStream.close();
-        }
-      } catch (IOException e) {
-        throw new TranspilerExecutionException(
-            "Closing file input stream of cache index file failed", e);
-      }
     }
   }
 
   @VisibleForTesting
   void writeCache() {
-    OutputStream outputStream = null;
+
     cacheIndexFile.getParentFile().mkdirs();
-    try {
-      outputStream = new FileOutputStream(cacheIndexFile);
-      ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+    try (OutputStream outputStream = new FileOutputStream(cacheIndexFile);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream); ) {
       objectOutputStream.writeObject(cacheEntries);
     } catch (FileNotFoundException e) {
       throw new TranspilerExecutionException("Opening the cache index file for writing failed", e);
     } catch (IOException e) {
       throw new TranspilerExecutionException("Writing stream header of cache index file failed", e);
-    } finally {
-      try {
-        if (outputStream != null) {
-          outputStream.close();
-        }
-      } catch (IOException e) {
-        throw new TranspilerExecutionException(
-            "Closing file output stream of cache index file failed", e);
-      }
     }
   }
 
