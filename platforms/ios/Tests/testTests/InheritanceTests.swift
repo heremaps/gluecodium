@@ -2,6 +2,19 @@ import XCTest
 import hello
 
 class InheritanceTests: XCTestCase {
+    class MyParentListener: ParentListener {
+        var called = false
+        func listen() {
+            called = true
+        }
+    }
+
+    class MyChildListener: ChildListener {
+        var called = false
+        func listen() {
+            called = true
+        }
+    }
 
     func testCreateChildClassInstance() {
         let instance = ChildClass.createChildClass()
@@ -52,6 +65,24 @@ class InheritanceTests: XCTestCase {
         XCTAssertEqual(instance.luckyNumber, 42)
     }
 
+    func testTalkToParent() {
+        let parent = MyParentListener()
+        Talker.talkToParent(listener: parent)
+        XCTAssertTrue(parent.called)
+    }
+
+    func testTalkToChild() {
+        let child = MyChildListener()
+        Talker.talkToChild(listener: child)
+        XCTAssertTrue(child.called)
+    }
+
+    func testTalkToChildAsParent() {
+        let child = MyChildListener()
+        Talker.talkToParent(listener: child)
+        XCTAssertTrue(child.called)
+    }
+
     func testChildClassDoesNotCrash() {
         let instance = GrandchildClass.createGrandchildClass()!
         instance.doSomething(value: "Foo")
@@ -65,6 +96,9 @@ class InheritanceTests: XCTestCase {
         ("testNativeCastChildClassInstanceToParent", testNativeCastChildClassInstanceToParent),
         ("testNativeCastGrandchildClassInstanceToChildClass", testNativeCastGrandchildClassInstanceToChildClass),
         ("testNativeCastGrandchildClassInstanceToParent", testNativeCastGrandchildClassInstanceToParent),
-        ("testChildClassDoesNotCrash", testChildClassDoesNotCrash)
+        ("testChildClassDoesNotCrash", testChildClassDoesNotCrash),
+        ("testTalkToParent", testTalkToParent),
+        ("testTalkToChild", testTalkToChild),
+        ("testTalkToChildAsParent", testTalkToChildAsParent)
     ]
 }
