@@ -269,6 +269,7 @@ feature(Inheritance cpp android swift SOURCES
     src/test/GrandchildClassImpl.cpp
     src/test/GrandchildClassImpl.h
     src/test/Talker.cpp
+    src/test/Teacher.cpp
 
     fidl/hello/HelloWorldInheritance.fdepl
     fidl/hello/HelloWorldInheritance.fidl
@@ -276,6 +277,8 @@ feature(Inheritance cpp android swift SOURCES
     fidl/test/Inheritance.fidl
     fidl/test/ListenerInheritance.fdepl
     fidl/test/ListenerInheritance.fidl
+    fidl/test/ListenerInheritanceArrays.fdepl
+    fidl/test/ListenerInheritanceArrays.fidl
 )
 
 feature(Serialization android SOURCES
