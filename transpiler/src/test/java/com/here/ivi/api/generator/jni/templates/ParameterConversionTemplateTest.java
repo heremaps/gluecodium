@@ -59,7 +59,8 @@ public class ParameterConversionTemplateTest {
 
     assertEquals(
         "  CppType myParameter;\n"
-            + "    here::internal::convert_from_jni( _jenv, jmyParameter, myParameter );\n",
+            + "    here::internal::convert_from_jni( _jenv, jmyParameter, myParameter );\n"
+            + "    _jenv->DeleteLocalRef(jmyParameter);\n",
         generated);
   }
 
@@ -80,6 +81,7 @@ public class ParameterConversionTemplateTest {
             + "        if (jmyParameter != nullptr) {\n"
             + "            auto long_ptr_myParameter = get_long_field(_jenv, _jenv->GetObjectClass(jmyParameter), jmyParameter, \"nativeHandle\");\n"
             + "            myParameter = *reinterpret_cast<MyCppClass*> (long_ptr_myParameter);\n"
+            + "            _jenv->DeleteLocalRef(jmyParameter);\n"
             + "        }\n"
             + "    } else {\n"
             + "      ::createCppProxy<>( _jenv, jmyParameter, myParameter);\n"

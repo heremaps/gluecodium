@@ -4,6 +4,7 @@
         if (j{{name}} != nullptr) {
             auto long_ptr_{{name}} = get_long_field(_jenv, _jenv->GetObjectClass(j{{name}}), j{{name}}, "nativeHandle");
             {{name}} = *reinterpret_cast<{{type.cppName}}*> (long_ptr_{{name}});
+            _jenv->DeleteLocalRef(j{{name}});
         }
     } else {
       ::createCppProxy<>( _jenv, j{{name}}, {{name}});
@@ -13,6 +14,7 @@
 {{#if type.isComplex}}
   {{type.cppName}} {{name}};
     here::internal::convert_from_jni( _jenv, j{{name}}, {{name}} );
+    _jenv->DeleteLocalRef(j{{name}});
 {{/if}}
 {{#unless type.isComplex}}
   {{type.cppName}} {{name}} = j{{name}};

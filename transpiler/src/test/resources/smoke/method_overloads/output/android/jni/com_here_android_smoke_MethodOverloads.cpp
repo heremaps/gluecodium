@@ -48,6 +48,7 @@ Java_com_here_android_smoke_MethodOverloads_isBoolean__Ljava_lang_String_2(JNIEn
 {
     ::std::string input;
     here::internal::convert_from_jni( _jenv, jinput, input );
+    _jenv->DeleteLocalRef(jinput);
     auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
     auto result = (*pInstanceSharedPointer)->is_boolean(input);
@@ -59,6 +60,7 @@ Java_com_here_android_smoke_MethodOverloads_isBoolean__Lcom_here_android_smoke_M
 {
     ::smoke::MethodOverloads::Point input;
     here::internal::convert_from_jni( _jenv, jinput, input );
+    _jenv->DeleteLocalRef(jinput);
     auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
     auto result = (*pInstanceSharedPointer)->is_boolean(input);
@@ -72,8 +74,10 @@ Java_com_here_android_smoke_MethodOverloads_isBoolean__ZBLjava_lang_String_2Lcom
     int8_t input2 = jinput2;
     ::std::string input3;
     here::internal::convert_from_jni( _jenv, jinput3, input3 );
+    _jenv->DeleteLocalRef(jinput3);
     ::smoke::MethodOverloads::Point input4;
     here::internal::convert_from_jni( _jenv, jinput4, input4 );
+    _jenv->DeleteLocalRef(jinput4);
     auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
     auto result = (*pInstanceSharedPointer)->is_boolean(input1,input2,input3,input4);
@@ -85,6 +89,7 @@ Java_com_here_android_smoke_MethodOverloads_isBooleanStringArrayOverload__Ljava_
 {
     ::smoke::MethodOverloads::StringArray input;
     here::internal::convert_from_jni( _jenv, jinput, input );
+    _jenv->DeleteLocalRef(jinput);
     auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
     auto result = (*pInstanceSharedPointer)->is_boolean(input);
@@ -96,6 +101,7 @@ Java_com_here_android_smoke_MethodOverloads_isBooleanIntArrayOverload__Ljava_uti
 {
     ::smoke::MethodOverloads::IntArray input;
     here::internal::convert_from_jni( _jenv, jinput, input );
+    _jenv->DeleteLocalRef(jinput);
     auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
     auto result = (*pInstanceSharedPointer)->is_boolean(input);

@@ -124,6 +124,7 @@ public class CppToJniStructConversionBodyTest {
             + "L"
             + fieldSignature
             + ";\", jnestedCplusCplus);\n"
+            + "  _jenv->DeleteLocalRef(jnestedCplusCplus);\n"
             + "  return _jresult;\n"
             + "}";
 
@@ -150,6 +151,7 @@ public class CppToJniStructConversionBodyTest {
             + "  set_object_field(_jenv, javaClass, _jresult, \"javaTemplateType\",\n"
             + "  \"Ljava/util/List;\""
             + ", jnestedCplusCplus);\n"
+            + "  _jenv->DeleteLocalRef(jnestedCplusCplus);\n"
             + "  return _jresult;\n"
             + "}";
 
@@ -175,13 +177,14 @@ public class CppToJniStructConversionBodyTest {
             + "\");\n"
             + "  auto _jresult = create_object(_jenv, javaClass);\n"
             + "  auto jcppInt = _ninput.cppInt;\n"
-            + "  auto jnestedCplusCplus = convert_to_jni(_jenv, _ninput.nestedCplusCplus);\n"
             + "  set_int_field(_jenv, javaClass, _jresult, \"intfield\", jcppInt);\n"
+            + "  auto jnestedCplusCplus = convert_to_jni(_jenv, _ninput.nestedCplusCplus);\n"
             + "  set_object_field(_jenv, javaClass, _jresult, \"nestedStruct\",\n"
             + "  \""
             + "L"
             + fieldSignature
             + ";\", jnestedCplusCplus);\n"
+            + "  _jenv->DeleteLocalRef(jnestedCplusCplus);\n"
             + "  return _jresult;\n"
             + "}";
     String generated = TemplateEngine.render("jni/CppToJniStructConversionBody", jniStruct);
@@ -214,6 +217,7 @@ public class CppToJniStructConversionBodyTest {
             + "  auto _jresult = create_object(_jenv, javaClass);\n"
             + "  auto jimage = convert_to_jni_array(_jenv, _ninput.image);\n"
             + "  set_byte_array_field(_jenv, javaClass, _jresult, \"image\", jimage);\n"
+            + "  _jenv->DeleteLocalRef(jimage);\n"
             + "  return _jresult;\n"
             + "}";
     assertEquals(expected, generated);

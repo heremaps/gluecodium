@@ -93,6 +93,7 @@ convert_to_jni( JNIEnv* _env, const std::vector< T >& _ninput )
     {
         auto jElement = convert_to_jni( _env, element );
         _env->CallBooleanMethod( result, addMethodId, jElement );
+        _env->DeleteLocalRef( jElement );
     }
     return result;
 }
@@ -112,12 +113,14 @@ convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >& _nr
     auto getMethodId = _env->GetMethodID( javaArrayListClass, "get", "(I)Ljava/lang/Object;" );
     jint length = _env->CallIntMethod( _arrayList, sizeMethodId );
     _nresult.reserve( length );
+
     for ( jint i = 0; i < length; i++ )
     {
         jobject javaListItem = _env->CallObjectMethod( _arrayList, getMethodId, i );
         T resultItem;
         convert_from_jni( _env, javaListItem, resultItem );
         _nresult.push_back( resultItem );
+        _env->DeleteLocalRef( javaListItem );
     }
 }
 
@@ -136,7 +139,11 @@ convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
     {
         auto jKey = convert_to_jni( _env, pair.first );
         auto jValue = convert_to_jni( _env, pair.second );
+
         _env->CallObjectMethod( result, putMethodId, jKey, jValue );
+
+        _env->DeleteLocalRef( jKey );
+        _env->DeleteLocalRef( jValue );
     }
     return result;
 }
@@ -153,9 +160,11 @@ convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V
 
     auto javaMapClass = _env->FindClass( "java/util/Map" );
     auto entrySetMethodId = _env->GetMethodID( javaMapClass, "entrySet", "()Ljava/util/Set;" );
+    jobject jEntrySet = _env->CallObjectMethod( _jMap, entrySetMethodId );
 
     auto javaSetClass = _env->FindClass( "java/util/Set" );
     auto iteratorMethodId = _env->GetMethodID( javaSetClass, "iterator", "()Ljava/util/Iterator;" );
+    jobject jIterator = _env->CallObjectMethod( jEntrySet, iteratorMethodId );
 
     auto javaIteratorClass = _env->FindClass( "java/util/Iterator" );
     auto hasNextMethodId = _env->GetMethodID( javaIteratorClass, "hasNext", "()Z" );
@@ -165,9 +174,6 @@ convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V
     auto getKeyMethodId = _env->GetMethodID( javaMapEntryClass, "getKey", "()Ljava/lang/Object;" );
     auto getValueMethodId
         = _env->GetMethodID( javaMapEntryClass, "getValue", "()Ljava/lang/Object;" );
-
-    jobject jEntrySet = _env->CallObjectMethod( _jMap, entrySetMethodId );
-    jobject jIterator = _env->CallObjectMethod( jEntrySet, iteratorMethodId );
 
     while ( _env->CallBooleanMethod( jIterator, hasNextMethodId ) )
     {
@@ -182,6 +188,10 @@ convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V
         convert_from_jni( _env, jValue, nValue );
 
         _nresult[ nKey ] = nValue;
+
+        _env->DeleteLocalRef( jEntry );
+        _env->DeleteLocalRef( jKey );
+        _env->DeleteLocalRef( jValue );
     }
 }
 
