@@ -38,6 +38,7 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
 {{+swiftParameter2}}{{name}}: {{#switch type.category.toString}}{{!!
     }}{{#case "CLASS"}}{{#type.implementingClass}}{{.}}{{/type.implementingClass}}{{^type.implementingClass}}{{type}}{{/type.implementingClass}}(c{{type}}: {{name}})!{{/case}}{{!!
     }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}})!{{/case}}{{!!
+    }}{{#case "ARRAY"}}{{type.implementingClass}}({{name}}){{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}String(data: Data(bytes: std_string_data_get({{name}}),
                                                 count: Int(std_string_size_get({{name}}))), encoding: .utf8)!{{/case}}{{!!
     }}{{#case "ENUM"}}{{type}}(rawValue: {{name}})!{{/case}}{{!!
