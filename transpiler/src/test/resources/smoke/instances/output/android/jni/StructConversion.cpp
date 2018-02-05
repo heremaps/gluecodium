@@ -42,6 +42,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructW
   auto jinstance = convert_to_jni(_jenv, _ninput.instance);
   set_object_field(_jenv, javaClass, _jresult, "instance",
   "Lcom/here/android/smoke/SimpleInstantiableOne;", jinstance);
+  _jenv->DeleteLocalRef(jinstance);
   return _jresult;
 }
 
