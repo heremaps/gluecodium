@@ -1203,6 +1203,44 @@ public class SwiftFileTemplateTest {
   }
 
   @Test
+  public void classWithProtocolAndFunctionTakingArray() {
+    SwiftClass swiftClass = SwiftClass.builder("TestClass").isInterface(true).build();
+
+    SwiftMethod method =
+        SwiftMethod.builder("myMethod")
+            .cNestedSpecifier("myPackage_ExampleClass")
+            .cShortName("myMethod")
+            .build();
+    method.parameters.add(
+        new SwiftParameter(
+            "parameter", new SwiftArray(SwiftType.STRING, "IMPLEMENTING_CLASS", "")));
+    swiftClass.methods.add(method);
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "    functions.myPackage_ExampleClass_myMethod = {(swiftClass_pointer, parameter) in\n"
+                    + "        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! TestClass\n"
+                    + "        return swiftClass.myMethod(parameter: IMPLEMENTING_CLASS(parameter))\n"
+                    + "    }")
+            .expect(
+                "public protocol TestClass : AnyObject {\n"
+                    + "    func myMethod(parameter: Tparameter) -> Void\n"
+                    + "}")
+            .expect(
+                "    public func myMethod(parameter: Tparameter) -> Void {\n"
+                    + "        let parameterHandle = parameter.c_conversion()\n"
+                    + "        defer {\n"
+                    + "            parameterHandle.cleanup()\n"
+                    + "        }\n"
+                    + "        return myPackage_ExampleClass_myMethod(c_instance, parameterHandle.c_type)\n"
+                    + "    }")
+            .build();
+
+    final String generated = generateFromClass(swiftClass);
+    expected.assertMatches(generated);
+  }
+
+  @Test
   public void classWithProtocolAndFunctionTakingEnum() {
     SwiftClass swiftClass = SwiftClass.builder("TestClass").isInterface(true).build();
 
@@ -1213,6 +1251,7 @@ public class SwiftFileTemplateTest {
             .build();
     method.parameters.add(
         new SwiftParameter("parameter", new SwiftType("Enum", TypeCategory.ENUM)));
+
     swiftClass.methods.add(method);
 
     TemplateComparator expected =

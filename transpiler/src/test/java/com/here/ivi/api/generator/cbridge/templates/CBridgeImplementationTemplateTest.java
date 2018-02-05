@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.here.ivi.api.generator.cbridge.CArrayMapper;
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.cbridge.CTypeMapper;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
@@ -250,15 +251,7 @@ public class CBridgeImplementationTemplateTest {
 
   @Test
   public void cppProxyForInterface() {
-    // Mock selfType
-    IncludeResolver resolver = mock(IncludeResolver.class);
-    FModelElement francaInterface = mock(FInterface.class);
-    FModel francaParent = mock(FModel.class);
-    when(francaInterface.getName()).thenReturn("SomeClass");
-    when(francaInterface.eContainer()).thenReturn(francaParent);
-    when(francaParent.getName()).thenReturn("some.package");
-    CppTypeInfo selfType =
-        CTypeMapper.createCustomTypeInfo(resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS);
+    CppTypeInfo selfType = mockSelfType();
 
     CInterface cInterface = new CInterface("Classy", selfType);
     final CParameter first = new CParameter("first", new CppTypeInfo(CType.INT16));
@@ -316,6 +309,49 @@ public class CBridgeImplementationTemplateTest {
 
     final String generated = this.generate(cInterface);
     expected.assertMatches(generated);
+  }
+
+  @Test
+  public void cppProxyForInterfaceWithMethodTakingArray() {
+    CppTypeInfo selfType = mockSelfType();
+
+    CInterface cInterface = new CInterface("Classy", selfType);
+    final CParameter first =
+        new CParameter("someArray", CArrayMapper.createArrayReference(CppTypeInfo.STRING));
+    final CFunction doubleFunction =
+        CFunction.builder("doubleFunction")
+            .functionName("full_function_name")
+            .selfParameter(new CInParameter("_instance", selfType))
+            .parameters(Arrays.asList(first))
+            .delegateCall("namespacy::classy::arrayFunction")
+            .build();
+    cInterface.functions.add(doubleFunction);
+    cInterface.functionTableName = "ClassTable";
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "void doubleFunction(_baseRef _instance, _baseRef someArray) {\n"
+                    + "    return get_pointer<std::shared_ptr<some::package::SomeClass>>(_instance)->get()->full_function_name(*get_pointer<std::vector<std::string>>(someArray));\n"
+                    + "}\n")
+            .expect(
+                "    void full_function_name(const std::vector<std::string>& someArray) override {\n"
+                    + "        return mFunctions.doubleFunction(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new std::vector<std::string>(someArray) ));\n"
+                    + "    }")
+            .build();
+
+    final String generated = this.generate(cInterface);
+    expected.assertMatches(generated);
+  }
+
+  private CppTypeInfo mockSelfType() {
+    IncludeResolver resolver = mock(IncludeResolver.class);
+    FModelElement francaInterface = mock(FInterface.class);
+    FModel francaParent = mock(FModel.class);
+    when(francaInterface.getName()).thenReturn("SomeClass");
+    when(francaInterface.eContainer()).thenReturn(francaParent);
+    when(francaParent.getName()).thenReturn("some.package");
+    return CTypeMapper.createCustomTypeInfo(
+        resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS);
   }
 
   @Test
