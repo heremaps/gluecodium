@@ -45,13 +45,6 @@ public class CppTypeMapper {
 
   public CppTypeRef map(FTypeRef type) {
 
-    if (type.getInterval() != null) {
-      throw new TranspilerExecutionException(
-          "The transpiler does not support integer ranges. "
-              + "Please use regular Integer types like Int64 instead. Type: "
-              + type);
-    }
-
     return type.getDerived() != null ? mapDerived(type.getDerived()) : mapPredefined(type);
   }
 

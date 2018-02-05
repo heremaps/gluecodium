@@ -267,7 +267,8 @@ public class Transpiler {
             Arrays.asList(
                 new DefaultsValidatorPredicate(),
                 new ExpressionValidatorPredicate(),
-                new MapKeyValidatorPredicate()));
+                new MapKeyValidatorPredicate(),
+                new IntegerIntervalValidatorPredicate()));
 
     boolean modelValidationResult =
         modelValidator.validate(deploymentModel, typeCollections)

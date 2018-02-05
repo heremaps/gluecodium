@@ -19,7 +19,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cpp.*;
@@ -145,20 +144,6 @@ public class CppTypeMapperComplexTest {
     assertEquals("::" + ENUM_NAME, complexResult.name);
     assertEquals(1, complexResult.includes.size());
     assertTrue(complexResult.includes.contains(internalInclude));
-  }
-
-  @Test
-  public void mapIntegerRangeTypeThrowsTranspilerException() {
-    //mock type reference
-    FIntegerInterval intervalType = mock(FIntegerInterval.class);
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
-    when(francaTypeRef.getInterval()).thenReturn(intervalType);
-
-    // pre-verify expected exception
-    exception.expect(TranspilerExecutionException.class);
-
-    //act
-    typeMapper.map(francaTypeRef);
   }
 
   @Test
