@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge.templates;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -262,17 +263,30 @@ public class CBridgeImplementationTemplateTest {
     CInterface cInterface = new CInterface("Classy", selfType);
     final CParameter first = new CParameter("first", new CppTypeInfo(CType.INT16));
     final CParameter second = new CParameter("second", new CppTypeInfo(CType.DOUBLE));
+    final CParameter third =
+        new CParameter("myEnum", new CppTypeInfo(new CType("ENUM"), TypeCategory.ENUM));
     final CFunction doubleFunction =
         CFunction.builder("doubleFunction")
             .parameters(Arrays.asList(first, second))
             .delegateCall("namespacy::classy::doubleFunction")
             .build();
+    final CFunction inhertitedEnumFunction =
+        CFunction.builder("enumFunction")
+            .parameters(Arrays.asList(third))
+            .selfParameter(new CInParameter("self", null))
+            .functionName("full_function_name")
+            .build();
     cInterface.functions.add(doubleFunction);
+    cInterface.inheritedFunctions.add(inhertitedEnumFunction);
+
     cInterface.functionTableName = "ClassTable";
+    assertTrue(cInterface.isInterface());
 
     TemplateComparator expected =
         TemplateComparator.expect(
-                "class ClassyProxy : public std::shared_ptr<some::package::SomeClass>::element_type, public CachedProxyBase<ClassyProxy> {\n"
+                "class ClassyProxy : public "
+                    + "std::shared_ptr<some::package::SomeClass>::element_type, public "
+                    + "CachedProxyBase<ClassyProxy> {\n"
                     + "public:\n"
                     + "    using function_table_t = ClassTable;\n"
                     + "    ClassyProxy(ClassTable&& functions)\n"
@@ -281,6 +295,10 @@ public class CBridgeImplementationTemplateTest {
                     + "    }\n"
                     + "    virtual ~ClassyProxy() {\n"
                     + "        mFunctions.release(mFunctions.swift_pointer);\n"
+                    + "    }\n"
+                    + "    void full_function_name(const ENUM myEnum) override {\n"
+                    + "        return mFunctions.enumFunction(mFunctions.swift_pointer, "
+                    + "static_cast<uint32_t>(myEnum));\n"
                     + "    }\n"
                     + "private:\n"
                     + "    function_table_t mFunctions;\n"
