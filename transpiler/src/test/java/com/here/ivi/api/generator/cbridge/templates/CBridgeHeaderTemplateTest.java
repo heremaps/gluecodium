@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge.templates;
 
+import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,7 +23,6 @@ import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.test.TemplateComparator;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.Arrays;
-import java.util.Collections;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FModelElement;
@@ -69,8 +69,7 @@ public class CBridgeHeaderTemplateTest {
     CInterface cInterface = new CInterface("");
     cInterface.functions.add(
         CFunction.builder("parameterFunctionName")
-            .parameters(
-                Collections.singletonList(new CParameter("one", new CppTypeInfo(CType.INT32))))
+            .parameters(singletonList(new CParameter("one", new CppTypeInfo(CType.INT32))))
             .build());
     final String expected = "void parameterFunctionName(int32_t one);\n";
     final String generated = this.generate(cInterface);
@@ -106,7 +105,7 @@ public class CBridgeHeaderTemplateTest {
     cInterface.functions.add(
         CFunction.builder("HelloWorld_HelloWorldMethod")
             .returnType(CppTypeInfo.STRING)
-            .parameters(Collections.singletonList(cParameter))
+            .parameters(singletonList(cParameter))
             .build());
     final String expected = "_baseRef HelloWorld_HelloWorldMethod(const char* inputString);\n";
     final String generated = this.generate(cInterface);
@@ -247,6 +246,30 @@ public class CBridgeHeaderTemplateTest {
                     + "    void(*release)(void* swift_pointer);\n"
                     + "    void(*functionBase)(void* swift_pointer);\n"
                     + "    void(*functionName)(void* swift_pointer);\n"
+                    + "} functionTable;\n")
+            .build();
+
+    expected.assertMatches(generated);
+  }
+
+  @Test
+  public void functionTableForFunctionTakingByteBuffer() {
+    CFunction function =
+        CFunction.builder("functionTakingByteBuffer")
+            .parameters(singletonList(new CParameter("buffer", CppTypeInfo.BYTE_VECTOR)))
+            .build();
+    CInterface cInterface = new CInterface("", new CppTypeInfo(CType.BOOL));
+    cInterface.functionTableName = "functionTable";
+    cInterface.functions.add(function);
+
+    final String generated = this.generate(cInterface);
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "typedef struct {\n"
+                    + "    void* swift_pointer;\n"
+                    + "    void(*release)(void* swift_pointer);\n"
+                    + "    void(*functionTakingByteBuffer)(void* swift_pointer, const uint8_t* buffer_ptr, int64_t buffer_size);\n"
                     + "} functionTable;\n")
             .build();
 

@@ -27,7 +27,10 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
     return RefHolder(ref: proxy, release: {{cInstance}}_release)
 }
 {{/set}}
-{{+swiftParameter}}{{name}}{{/swiftParameter}}
+{{+swiftParameter}}{{#switch type.category.toString}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}{{name}}_ptr, {{name}}_size{{/case}}{{!!
+    }}{{#default}}{{name}}{{/default}}{{!!
+}}{{/switch}}{{/swiftParameter}}
 {{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
     }}{{#case "BUILTIN_STRING"}}({{>delegateCall2}}!).convertToCType(){{/case}}{{!!
     }}{{#case "STRUCT"}}get_pointer(({{>delegateCall2}}!).convertToCType()){{/case}}{{!!
@@ -39,6 +42,7 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
     }}{{#case "CLASS"}}{{#type.implementingClass}}{{.}}{{/type.implementingClass}}{{^type.implementingClass}}{{type}}{{/type.implementingClass}}(c{{type}}: {{name}})!{{/case}}{{!!
     }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}})!{{/case}}{{!!
     }}{{#case "ARRAY"}}{{type.implementingClass}}({{name}}){{/case}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}Data(bytes: {{name}}_ptr!, count: Int({{name}}_size)){{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}String(data: Data(bytes: std_string_data_get({{name}}),
                                                 count: Int(std_string_size_get({{name}}))), encoding: .utf8)!{{/case}}{{!!
     }}{{#case "ENUM"}}{{type}}(rawValue: {{name}})!{{/case}}{{!!
