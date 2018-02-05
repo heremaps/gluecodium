@@ -13,13 +13,14 @@ package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.model.common.InstanceRules;
 import org.franca.core.franca.*;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +54,7 @@ public class CBridgeArrayMapperTest {
 
     String arrayName = CArrayMapper.getName(francaStructType);
 
-    Assert.assertEquals("Should have the same name", "StructTest", arrayName);
+    assertEquals("Should have the same name", "StructTest", arrayName);
   }
 
   @Test
@@ -63,7 +64,7 @@ public class CBridgeArrayMapperTest {
 
     String arrayName = CArrayMapper.getName(francaTypeDef);
 
-    Assert.assertEquals("Should have the same name", "String", arrayName);
+    assertEquals("Should have the same name", "String", arrayName);
   }
 
   @Test
@@ -73,7 +74,7 @@ public class CBridgeArrayMapperTest {
 
     String arrayName = CArrayMapper.getName(francaTypeDef);
 
-    Assert.assertEquals("Should have the same name", "TypeDefTest", arrayName);
+    assertEquals("Should have the same name", "TypeDefTest", arrayName);
 
     PowerMockito.verifyStatic();
     InstanceRules.isInstanceId(francaTypeDef);
@@ -86,7 +87,7 @@ public class CBridgeArrayMapperTest {
 
     String arrayName = CArrayMapper.getName(francaTypeRef);
 
-    Assert.assertEquals("Should have the same name", "StructTest", arrayName);
+    assertEquals("Should have the same name", "StructTest", arrayName);
   }
 
   @Test
@@ -95,7 +96,7 @@ public class CBridgeArrayMapperTest {
 
     String arrayName = CArrayMapper.getName(francaTypeRef);
 
-    Assert.assertEquals("Should have the same name", "Int32", arrayName);
+    assertEquals("Should have the same name", "Int32", arrayName);
   }
 
   @Test
@@ -105,7 +106,7 @@ public class CBridgeArrayMapperTest {
 
     String arrayName = CArrayMapper.getName(francaArray);
 
-    Assert.assertEquals("Should have the same name", "Int32", arrayName);
+    assertEquals("Should have the same name", "Int32", arrayName);
   }
 
   @Test
@@ -114,9 +115,8 @@ public class CBridgeArrayMapperTest {
   }
 
   @Test
-  public void unknowTypeReturnUndefinded() {
-    String arrayName = CArrayMapper.getName(null);
-    Assert.assertEquals("Should return undefined", "undefined", arrayName);
+  public void unknownTypeReturnNull() {
+    assertNull("Should return null", CArrayMapper.getName(null));
   }
 
   @Test
@@ -127,11 +127,10 @@ public class CBridgeArrayMapperTest {
     CppTypeInfo innerType = CppTypeInfo.STRING;
     CppTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
 
-    Assert.assertNotNull("Array type should not be null", arrayType);
-    Assert.assertNotNull("Inner typ should not be null", arrayType.innerType);
-    Assert.assertEquals("Should return array type", ARRAY, arrayType.typeCategory);
-    Assert.assertEquals(
-        "Return type name should match", "_baseRef", arrayType.functionReturnType.name);
+    assertNotNull("Array type should not be null", arrayType);
+    assertNotNull("Inner type should not be null", arrayType.innerType);
+    assertEquals("Should return array type", ARRAY, arrayType.typeCategory);
+    assertEquals("Return type name should match", "_baseRef", arrayType.functionReturnType.name);
   }
 
   @Test
@@ -143,11 +142,11 @@ public class CBridgeArrayMapperTest {
     CppTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
     CppTypeInfo nestedArrayType = CArrayMapper.createArrayReference(arrayType);
 
-    Assert.assertNotNull("Array type should not be null", nestedArrayType);
-    Assert.assertNotNull("Inner type should not be null", nestedArrayType.innerType);
-    Assert.assertEquals("Should return array type", ARRAY, nestedArrayType.typeCategory);
-    Assert.assertEquals("Should return array type", ARRAY, nestedArrayType.innerType.typeCategory);
-    Assert.assertEquals(
+    assertNotNull("Array type should not be null", nestedArrayType);
+    assertNotNull("Inner type should not be null", nestedArrayType.innerType);
+    assertEquals("Should return array type", ARRAY, nestedArrayType.typeCategory);
+    assertEquals("Should return array type", ARRAY, nestedArrayType.innerType.typeCategory);
+    assertEquals(
         "Return type name should match", "_baseRef", nestedArrayType.functionReturnType.name);
   }
 }

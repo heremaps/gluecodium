@@ -224,8 +224,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   public void finishBuilding(FTypeRef typeRef) {
     CppTypeInfo type = CTypeMapper.mapType(resolver, typeRef);
     if (type.typeCategory == ARRAY) {
-      CArray cArray =
-          CArrayMapper.createArrayDefinition(typeRef.getDerived(), type.innerType, type);
+      CArray cArray = CArrayMapper.createArrayDefinition(typeRef, type.innerType, type);
       arraysCollector.put(cArray.name, cArray);
     }
 

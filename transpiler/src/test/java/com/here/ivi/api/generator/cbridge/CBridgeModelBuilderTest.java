@@ -60,6 +60,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -515,6 +516,9 @@ public class CBridgeModelBuilderTest {
     Collection<CArray> arrays = modelBuilder.arraysCollector.values();
     assertEquals("There should one array", 1, arrays.size());
     assertEquals("FooArray", arrays.iterator().next().name);
+
+    PowerMockito.verifyStatic();
+    CArrayMapper.createArrayDefinition(francaTypeRef, arrayType.innerType, arrayType);
   }
 
   private void verifyAttributeSetter(CppTypeInfo classTypeInfo, CFunction cSetter) {

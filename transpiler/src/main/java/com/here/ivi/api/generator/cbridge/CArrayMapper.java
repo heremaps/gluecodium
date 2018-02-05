@@ -44,13 +44,13 @@ public final class CArrayMapper {
   }
 
   public static CArray createArrayDefinition(
-      final FType francaArray, final CppTypeInfo innerType, final CppTypeInfo cppTypeRef) {
+      final EObject francaArray, final CppTypeInfo innerType, final CppTypeInfo cppTypeRef) {
     String fullName = addPrefix(getName(francaArray) + addNestedSuffixIfNeeded(innerType));
     return new CArray(fullName, cppTypeRef);
   }
 
   public static String getName(final EObject object) {
-    String elementName = "undefined";
+    String elementName = null;
 
     if (object instanceof FTypeDef) {
       FTypeDef francaDef = (FTypeDef) object;
