@@ -1275,4 +1275,38 @@ public class SwiftFileTemplateTest {
     final String generated = generateFromClass(swiftClass);
     expected.assertMatches(generated);
   }
+
+  @Test
+  public void classWithProtocolAndFunctionTakingByteBuffer() {
+    SwiftClass swiftClass = SwiftClass.builder("TestClass").isInterface(true).build();
+
+    SwiftMethod method =
+        SwiftMethod.builder("myMethod")
+            .cNestedSpecifier("myPackage_ExampleClass")
+            .cShortName("myMethod")
+            .build();
+    method.parameters.add(new SwiftParameter("parameter", SwiftType.DATA));
+    swiftClass.methods.add(method);
+
+    TemplateComparator expected =
+        TemplateComparator.expect(
+                "    functions.myPackage_ExampleClass_myMethod = {(swiftClass_pointer, parameter_ptr, parameter_size) in\n"
+                    + "        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! TestClass\n"
+                    + "        return swiftClass.myMethod(parameter: Data(bytes: parameter_ptr!, count: Int(parameter_size)))\n"
+                    + "    }")
+            .expect(
+                "public protocol TestClass : AnyObject {\n"
+                    + "    func myMethod(parameter: Data) -> Void\n"
+                    + "}")
+            .expect(
+                "    public func myMethod(parameter: Data) -> Void {\n"
+                    + "        return parameter.withUnsafeBytes { (parameter_ptr: UnsafePointer<UInt8>) -> Void in\n"
+                    + "            return myPackage_ExampleClass_myMethod(c_instance, parameter_ptr, Int64(parameter.count))\n"
+                    + "        }\n"
+                    + "    }")
+            .build();
+
+    final String generated = generateFromClass(swiftClass);
+    expected.assertMatches(generated);
+  }
 }
