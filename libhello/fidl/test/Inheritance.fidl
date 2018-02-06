@@ -79,3 +79,141 @@ interface GrandchildClass extends ChildClass {
         }
     }
 }
+
+interface RootInterface {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    public typedef RootInterface is undefined
+
+    method rootMethod {
+        in {
+            String data
+        }
+    }
+}
+
+interface ChildInterface extends RootInterface {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    method getData {
+        out {
+            String data
+        }
+    }
+
+    public typedef ChildInterface is undefined
+}
+
+interface AnotherChildInterface extends RootInterface {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    method getData {
+        out {
+            String data
+        }
+    }
+
+    public typedef AnotherChildInterface is undefined
+}
+
+interface ConcreteChild extends ChildInterface {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    public typedef ConcreteChild is undefined
+}
+
+interface AnotherConcreteChild extends AnotherChildInterface {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    public typedef AnotherConcreteChild is undefined
+}
+
+interface ConcreteGrandChild extends ConcreteChild {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    public typedef ConcreteGrandChild is undefined
+}
+
+interface AnotherConcreteGrandChild extends AnotherConcreteChild {
+
+    version {
+        major 0
+        minor 1
+    }
+
+    public typedef AnotherConcreteGrandChild is undefined
+}
+
+interface InheritanceTestHelper {
+
+    version {
+        major 0
+        minor 1
+    }
+    method callRootMethod {
+      in {
+          RootInterface.RootInterface object
+          String data
+      }
+    }
+
+    method createChild {
+        out {
+            ChildInterface.ChildInterface instance
+        }
+    }
+
+    method createAnotherChild {
+        out {
+            AnotherChildInterface.AnotherChildInterface instance
+        }
+    }
+
+    method createConcreteChild {
+        out {
+            ConcreteChild.ConcreteChild instance
+        }
+    }
+
+    method createAnotherConcreteChild {
+        out {
+            AnotherConcreteChild.AnotherConcreteChild instance
+        }
+    }
+
+    method createConcreteGrandChild {
+        out {
+            ConcreteGrandChild.ConcreteGrandChild instance
+        }
+    }
+
+    method createAnotherConcreteGrandChild {
+        out {
+            AnotherConcreteGrandChild.AnotherConcreteGrandChild instance
+        }
+    }
+}

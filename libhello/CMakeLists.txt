@@ -271,6 +271,8 @@ feature(Inheritance cpp android swift SOURCES
     src/test/Talker.cpp
     src/test/Teacher.cpp
 
+    src/test/Inheritance.cpp
+
     fidl/hello/HelloWorldInheritance.fdepl
     fidl/hello/HelloWorldInheritance.fidl
     fidl/test/Inheritance.fdepl
