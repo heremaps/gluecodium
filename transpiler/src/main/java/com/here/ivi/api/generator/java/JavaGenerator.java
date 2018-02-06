@@ -19,10 +19,7 @@ import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.java.*;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,7 +28,6 @@ import org.franca.core.franca.FTypeCollection;
 public class JavaGenerator extends AbstractGenerator {
 
   private final FrancaDeploymentModel deploymentModel;
-  private final Map<String, JavaExceptionClass> exceptionClasses = new HashMap<>();
 
   public JavaGenerator(
       final FrancaDeploymentModel deploymentModel, final List<String> packageList) {
@@ -39,7 +35,9 @@ public class JavaGenerator extends AbstractGenerator {
     this.deploymentModel = deploymentModel;
   }
 
-  public List<GeneratedFile> generateFiles(final FTypeCollection francaTypeCollection) {
+  public List<JavaElement> generateModel(
+      final FTypeCollection francaTypeCollection,
+      final Map<String, JavaExceptionClass> exceptionsCollector) {
 
     JavaPackage basePackage = new JavaPackage(basePackages);
     JavaModelBuilder modelBuilder =
@@ -51,16 +49,21 @@ public class JavaGenerator extends AbstractGenerator {
 
     treeWalker.walkTree(francaTypeCollection);
 
-    exceptionClasses.putAll(modelBuilder.exceptionClasses);
+    exceptionsCollector.putAll(modelBuilder.exceptionClasses);
+
+    return modelBuilder.getFinalResults();
+  }
+
+  public List<GeneratedFile> generateFiles(final List<JavaElement> javaModel) {
 
     Stream<GeneratedFile> classFiles =
-        CollectionsHelper.getStreamOfType(modelBuilder.getFinalResults(), JavaClass.class)
+        CollectionsHelper.getStreamOfType(javaModel, JavaClass.class)
             .map(javaClass -> generateFileForElement("java/ClassHeader", javaClass));
     Stream<GeneratedFile> interfaceFiles =
-        CollectionsHelper.getStreamOfType(modelBuilder.getFinalResults(), JavaInterface.class)
+        CollectionsHelper.getStreamOfType(javaModel, JavaInterface.class)
             .map(javaInterface -> generateFileForElement("java/Interface", javaInterface));
     Stream<GeneratedFile> enumFiles =
-        CollectionsHelper.getStreamOfType(modelBuilder.getFinalResults(), JavaEnum.class)
+        CollectionsHelper.getStreamOfType(javaModel, JavaEnum.class)
             .map(javaEnum -> generateFileForElement("java/EnumHeader", javaEnum));
 
     return Stream.of(classFiles, interfaceFiles, enumFiles)
@@ -68,15 +71,15 @@ public class JavaGenerator extends AbstractGenerator {
         .collect(Collectors.toList());
   }
 
-  public List<GeneratedFile> generateFilesForExceptions() {
-    return exceptionClasses
-        .entrySet()
+  public List<GeneratedFile> generateFilesForExceptions(
+      final Collection<JavaExceptionClass> exceptions) {
+    return exceptions
         .stream()
         .map(
-            exceptionEntry ->
+            exceptionClass ->
                 new GeneratedFile(
-                    TemplateEngine.render("java/ExceptionDefinition", exceptionEntry.getValue()),
-                    JavaNameRules.getFileName(exceptionEntry.getValue())))
+                    TemplateEngine.render("java/ExceptionDefinition", exceptionClass),
+                    JavaNameRules.getFileName(exceptionClass)))
         .collect(Collectors.toList());
   }
 
