@@ -23,7 +23,6 @@ import com.here.ivi.api.platform.common.GeneratorSuite;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FTypeCollection;
 
 /**
@@ -78,11 +77,7 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
     List<GeneratedFile> javaFiles =
         typeCollections
             .stream()
-            .map(
-                francaTypeCollection ->
-                    (francaTypeCollection instanceof FInterface)
-                        ? javaGenerator.generateFilesForInterface((FInterface) francaTypeCollection)
-                        : javaGenerator.generateFiles(francaTypeCollection))
+            .map(javaGenerator::generateFiles)
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
     javaFiles.addAll(javaGenerator.generateFilesForExceptions());
