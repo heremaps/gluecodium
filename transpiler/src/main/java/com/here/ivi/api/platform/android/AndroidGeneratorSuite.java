@@ -17,6 +17,7 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.java.JavaGenerator;
 import com.here.ivi.api.generator.jni.JniGenerator;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.ivi.api.model.java.JavaExceptionClass;
 import com.here.ivi.api.model.java.JavaPackage;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.platform.common.GeneratorSuite;
@@ -71,16 +72,18 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
             : JavaPackage.DEFAULT_PACKAGE_NAMES;
 
     // Generate Java files
+    Map<String, JavaExceptionClass> exceptionsCollector = new HashMap<>();
     JavaGenerator javaGenerator = new JavaGenerator(deploymentModel, javaPackageList);
 
     // Do not stream, Java models need to be built as they are required to generate Exception files
     List<GeneratedFile> javaFiles =
         typeCollections
             .stream()
+            .map(typeCollection -> javaGenerator.generateModel(typeCollection, exceptionsCollector))
             .map(javaGenerator::generateFiles)
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
-    javaFiles.addAll(javaGenerator.generateFilesForExceptions());
+    javaFiles.addAll(javaGenerator.generateFilesForExceptions(exceptionsCollector.values()));
 
     List<String> nativeBasePath = new LinkedList<>();
     nativeBasePath.add(GENERATOR_NAME);
