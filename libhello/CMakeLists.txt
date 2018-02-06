@@ -210,8 +210,7 @@ feature(Listeners cpp android swift SOURCES
     fidl/test/StringListeners.fidl
 )
 
-#TODO: enable for swift (APIGEN-515, APIGEN-516)
-feature(ComplexListeners cpp android SOURCES
+feature(ComplexListeners cpp android swift SOURCES
     src/test/ComplexListener.cpp
     src/test/ComplexListener.h
 

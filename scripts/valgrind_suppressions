@@ -39,16 +39,6 @@
    fun:*
 }
 {
-   getGenericMetadata2
-
-   Memcheck:Leak
-   match-leak-kinds: possible
-   fun:_Znam
-   fun:_ZN5swift17MetadataAllocator8AllocateEmm
-   fun:swift_getGenericMetadata
-   fun:*
-}
-{
    getTupleTypeMetadata
 
    Memcheck:Leak
