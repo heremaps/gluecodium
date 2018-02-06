@@ -12,125 +12,30 @@
 package com.here.ivi.api.platform.android;
 
 import com.here.ivi.api.cli.OptionReader;
-import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.androidmanifest.AndroidManifestGenerator;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.java.JavaGenerator;
 import com.here.ivi.api.generator.jni.JniGenerator;
-import com.here.ivi.api.model.common.ModelElement;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.java.JavaElement;
-import com.here.ivi.api.model.java.JavaExceptionClass;
-import com.here.ivi.api.model.java.JavaPackage;
-import com.here.ivi.api.model.jni.JniContainer;
-import com.here.ivi.api.platform.common.GeneratorSuite;
+import com.here.ivi.api.model.java.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.franca.core.franca.FTypeCollection;
 
 /**
  * Combines generators {@link AndroidManifestGenerator}, {@link JniGenerator} and {@link
  * JavaGenerator} to generate Java code and bindings to BaseAPI layer for Android.
  */
-public final class AndroidGeneratorSuite extends GeneratorSuite {
+public final class AndroidGeneratorSuite extends JavaGeneratorSuite {
+
   public static final String GENERATOR_NAME = "android";
-  private static final String CONVERSION_UTILS_HEADER = "android/jni/JniCppConversionUtils.h";
-  private static final String CONVERSION_UTILS_CPP = "android/jni/JniCppConversionUtils.cpp";
-
-  private static final String CPP_PROXY_BASE_HEADER = "android/jni/CppProxyBase.h";
-  private static final String CPP_PROXY_BASE_IMPLEMENTATION = "android/jni/CppProxyBase.cpp";
-
-  private static final String JNI_BASE_HEADER = "android/jni/JniBase.h";
-  private static final String JNI_BASE_IMPLEMENTATION = "android/jni/JniBase.cpp";
-
-  private static final String NATIVE_BASE_JAVA = "NativeBase.java";
-  public static final String FIELD_ACCESS_UTILS_HEADER = "android/jni/FieldAccessMethods.h";
-
-  private static final String ARRAY_UTILS_HEADER = "android/jni/ArrayConversionUtils.h";
-  private static final String ARRAY_UTILS_IMPLEMENTATION = "android/jni/ArrayConversionUtils.cpp";
-
-  private static final String CONVERSION_UTILS_TARGET_DIR = "";
-
-  private final OptionReader.TranspilerOptions transpilerOptions;
 
   public AndroidGeneratorSuite(final OptionReader.TranspilerOptions transpilerOptions) {
-    super();
-    this.transpilerOptions = transpilerOptions;
+    super(transpilerOptions, true);
   }
 
   @Override
   public String getName() {
-    return "com.here.AndroidGenerator";
+    return "com.here.AndroidGeneratorSuite";
   }
 
   @Override
-  public List<GeneratedFile> generate(
-      final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
-
-    List<String> rootPackage = transpilerOptions.getJavaPackageList();
-    List<String> javaPackageList =
-        rootPackage != null && !rootPackage.isEmpty()
-            ? rootPackage
-            : JavaPackage.DEFAULT_PACKAGE_NAMES;
-
-    Map<String, JavaExceptionClass> exceptionsCollector = new HashMap<>();
-    JniGenerator jniGenerator =
-        new JniGenerator(
-            deploymentModel,
-            javaPackageList,
-            Arrays.asList(
-                CONVERSION_UTILS_HEADER,
-                FIELD_ACCESS_UTILS_HEADER,
-                CPP_PROXY_BASE_HEADER,
-                JNI_BASE_HEADER));
-
-    Collection<ModelElement> model =
-        typeCollections
-            .stream()
-            .map(typeCollection -> jniGenerator.generateModel(typeCollection, exceptionsCollector))
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList());
-    List<JavaElement> javaModel = CollectionsHelper.getAllOfType(model, JavaElement.class);
-    List<JniContainer> jniModel = CollectionsHelper.getAllOfType(model, JniContainer.class);
-
-    List<GeneratedFile> javaFiles = JavaGenerator.generateFiles(javaModel);
-    javaFiles.addAll(JavaGenerator.generateFilesForExceptions(exceptionsCollector.values()));
-
-    List<String> nativeBasePath = new LinkedList<>();
-    nativeBasePath.add(GENERATOR_NAME);
-    nativeBasePath.addAll(javaPackageList);
-    nativeBasePath.add(NATIVE_BASE_JAVA);
-    javaFiles.add(
-        JavaGenerator.generateNativeBase(String.join("/", nativeBasePath), javaPackageList));
-
-    Stream<List<GeneratedFile>> jniFilesStream =
-        Stream.concat(
-            jniModel
-                .stream()
-                .filter(jniContainer -> jniContainer.isFrancaInterface)
-                .map(JniGenerator::generateFiles),
-            Stream.of(jniGenerator.generateConversionFiles(jniModel)));
-
-    // This generator is special in that it generates only one file
-    // At the moment it does not need to iterate over all interfaces
-    AndroidManifestGenerator androidManifestGenerator =
-        new AndroidManifestGenerator(javaPackageList);
-
-    List<GeneratedFile> results = new LinkedList<>();
-    results.add(androidManifestGenerator.generate());
-    results.add(copyTarget(ARRAY_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(ARRAY_UTILS_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(CPP_PROXY_BASE_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(CPP_PROXY_BASE_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(FIELD_ACCESS_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(JNI_BASE_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(JNI_BASE_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
-    results.addAll(javaFiles);
-    results.addAll(jniFilesStream.flatMap(Collection::stream).collect(Collectors.toList()));
-
-    return results;
+  protected String getGeneratorName() {
+    return GENERATOR_NAME;
   }
 }

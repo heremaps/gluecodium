@@ -21,7 +21,6 @@ import com.here.ivi.api.model.franca.CommentHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.model.java.JavaMethod.MethodQualifier;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,17 +28,6 @@ import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
-
-  private static final JavaPackage ANDROID_OS_PACKAGE =
-      new JavaPackage(Arrays.asList("android", "os"));
-
-  @VisibleForTesting
-  static final JavaType PARCELABLE =
-      JavaCustomType.builder("Parcelable")
-          .packageNames(ANDROID_OS_PACKAGE.packageNames)
-          .javaImport(new JavaImport("Parcelable", ANDROID_OS_PACKAGE))
-          .javaImport(new JavaImport("Parcel", ANDROID_OS_PACKAGE))
-          .build();
 
   /**
    * Used to store a unique JavaExceptionClass element of every method that throws. They will be
@@ -224,7 +212,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FStructType francaStructType) {
 
-    boolean isSerializable = deploymentModel.isSerializable(francaStructType);
+    JavaType serializationBase = typeMapper.getSerializationBase();
+    boolean isSerializable =
+        serializationBase != null && deploymentModel.isSerializable(francaStructType);
 
     // Type definition
     JavaClass javaClass =
@@ -239,7 +229,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
 
     if (isSerializable) {
-      javaClass.parentInterfaces.add(PARCELABLE);
+      javaClass.parentInterfaces.add(serializationBase);
     }
 
     storeResult(javaClass);

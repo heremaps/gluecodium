@@ -415,6 +415,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeWithSerializable() {
+    when(typeMapper.getSerializationBase()).thenReturn(javaCustomType);
     when(deploymentModel.isSerializable(francaStructType)).thenReturn(true);
 
     modelBuilder.finishBuilding(francaStructType);
@@ -423,7 +424,19 @@ public class JavaModelBuilderTest {
     assertNotNull(javaClass);
     assertTrue(javaClass.isParcelable);
     assertEquals(1, javaClass.parentInterfaces.size());
-    assertEquals(JavaModelBuilder.PARCELABLE, javaClass.parentInterfaces.iterator().next());
+    assertEquals(javaCustomType, javaClass.parentInterfaces.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaStructTypeWithSerializableNoBase() {
+    when(deploymentModel.isSerializable(francaStructType)).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertFalse(javaClass.isParcelable);
+    assertTrue(javaClass.parentInterfaces.isEmpty());
   }
 
   @Test

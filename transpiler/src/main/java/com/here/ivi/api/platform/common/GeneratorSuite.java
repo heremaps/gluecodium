@@ -16,6 +16,7 @@ import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
+import com.here.ivi.api.platform.android.JavaGeneratorSuite;
 import com.here.ivi.api.platform.baseapi.BaseApiGeneratorSuite;
 import com.here.ivi.api.platform.swift.SwiftGeneratorSuite;
 import java.io.File;
@@ -53,6 +54,8 @@ public abstract class GeneratorSuite {
     switch (shortName) {
       case AndroidGeneratorSuite.GENERATOR_NAME:
         return new AndroidGeneratorSuite(options);
+      case JavaGeneratorSuite.GENERATOR_NAME:
+        return new JavaGeneratorSuite(options);
       case BaseApiGeneratorSuite.GENERATOR_NAME:
         return new BaseApiGeneratorSuite();
       case SwiftGeneratorSuite.GENERATOR_NAME:
@@ -67,6 +70,7 @@ public abstract class GeneratorSuite {
     return new HashSet<>(
         Arrays.asList(
             AndroidGeneratorSuite.GENERATOR_NAME,
+            JavaGeneratorSuite.GENERATOR_NAME,
             BaseApiGeneratorSuite.GENERATOR_NAME,
             SwiftGeneratorSuite.GENERATOR_NAME));
   }
