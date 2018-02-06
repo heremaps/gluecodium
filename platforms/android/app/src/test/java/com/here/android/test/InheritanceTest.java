@@ -11,6 +11,7 @@
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
@@ -97,5 +98,29 @@ public class InheritanceTest {
     assertTrue(parentListener.called);
     assertTrue(childListener.called);
     assertTrue(grandChildListener.called);
+  }
+
+  private static boolean checkInheritance(Class<?> parent, Class<?> child) {
+    return parent.isAssignableFrom(child);
+  }
+
+  @Test
+  public void checkInheritanceRelationships() {
+    // inheritance relationship check
+    assertTrue(checkInheritance(RootInterface.class, ChildInterface.class));
+    assertTrue(checkInheritance(RootInterface.class, AnotherChildInterface.class));
+
+    assertTrue(checkInheritance(ChildInterface.class, ConcreteChild.class));
+    assertTrue(checkInheritance(AnotherChildInterface.class, AnotherConcreteChild.class));
+
+    assertTrue(checkInheritance(ConcreteChild.class, ConcreteGrandChild.class));
+    assertTrue(checkInheritance(AnotherConcreteChild.class, AnotherConcreteGrandChild.class));
+
+    // non inheritance relationship check
+    assertFalse(checkInheritance(ChildInterface.class, AnotherChildInterface.class));
+    assertFalse(checkInheritance(AnotherChildInterface.class, ChildInterface.class));
+
+    assertFalse(checkInheritance(ChildInterface.class, AnotherConcreteGrandChild.class));
+    assertFalse(checkInheritance(AnotherChildInterface.class, ConcreteGrandChild.class));
   }
 }
