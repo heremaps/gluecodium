@@ -12,11 +12,14 @@
 package com.here.ivi.api.platform.android;
 
 import com.here.ivi.api.cli.OptionReader;
+import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.androidmanifest.AndroidManifestGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.java.JavaGenerator;
 import com.here.ivi.api.generator.jni.JniGenerator;
+import com.here.ivi.api.model.common.ModelElement;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.ivi.api.model.java.JavaElement;
 import com.here.ivi.api.model.java.JavaExceptionClass;
 import com.here.ivi.api.model.java.JavaPackage;
 import com.here.ivi.api.model.jni.JniContainer;
@@ -71,27 +74,7 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
             ? rootPackage
             : JavaPackage.DEFAULT_PACKAGE_NAMES;
 
-    // Generate Java files
     Map<String, JavaExceptionClass> exceptionsCollector = new HashMap<>();
-    JavaGenerator javaGenerator = new JavaGenerator(deploymentModel, javaPackageList);
-
-    // Do not stream, Java models need to be built as they are required to generate Exception files
-    List<GeneratedFile> javaFiles =
-        typeCollections
-            .stream()
-            .map(typeCollection -> javaGenerator.generateModel(typeCollection, exceptionsCollector))
-            .map(javaGenerator::generateFiles)
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList());
-    javaFiles.addAll(javaGenerator.generateFilesForExceptions(exceptionsCollector.values()));
-
-    List<String> nativeBasePath = new LinkedList<>();
-    nativeBasePath.add(GENERATOR_NAME);
-    nativeBasePath.addAll(javaPackageList);
-    nativeBasePath.add(NATIVE_BASE_JAVA);
-    javaFiles.add(javaGenerator.generateNativeBase(String.join("/", nativeBasePath)));
-
-    // Generate JNI files
     JniGenerator jniGenerator =
         new JniGenerator(
             deploymentModel,
@@ -102,17 +85,32 @@ public final class AndroidGeneratorSuite extends GeneratorSuite {
                 CPP_PROXY_BASE_HEADER,
                 JNI_BASE_HEADER));
 
-    //jni models need to be built first as they are required to generate conversion util file
-    List<JniContainer> jniContainers =
-        typeCollections.stream().map(jniGenerator::generateModel).collect(Collectors.toList());
+    Collection<ModelElement> model =
+        typeCollections
+            .stream()
+            .map(typeCollection -> jniGenerator.generateModel(typeCollection, exceptionsCollector))
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
+    List<JavaElement> javaModel = CollectionsHelper.getAllOfType(model, JavaElement.class);
+    List<JniContainer> jniModel = CollectionsHelper.getAllOfType(model, JniContainer.class);
+
+    List<GeneratedFile> javaFiles = JavaGenerator.generateFiles(javaModel);
+    javaFiles.addAll(JavaGenerator.generateFilesForExceptions(exceptionsCollector.values()));
+
+    List<String> nativeBasePath = new LinkedList<>();
+    nativeBasePath.add(GENERATOR_NAME);
+    nativeBasePath.addAll(javaPackageList);
+    nativeBasePath.add(NATIVE_BASE_JAVA);
+    javaFiles.add(
+        JavaGenerator.generateNativeBase(String.join("/", nativeBasePath), javaPackageList));
 
     Stream<List<GeneratedFile>> jniFilesStream =
         Stream.concat(
-            jniContainers
+            jniModel
                 .stream()
                 .filter(jniContainer -> jniContainer.isFrancaInterface)
-                .map(jniGenerator::generateFiles),
-            Stream.of(jniGenerator.generateConversionFiles(jniContainers)));
+                .map(JniGenerator::generateFiles),
+            Stream.of(jniGenerator.generateConversionFiles(jniModel)));
 
     // This generator is special in that it generates only one file
     // At the moment it does not need to iterate over all interfaces
