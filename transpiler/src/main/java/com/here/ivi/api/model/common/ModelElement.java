@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 HERE Global B.V. and its affiliate(s). All rights reserved.
+ * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
  *
  * This software, including documentation, is protected by copyright controlled by
  * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
@@ -9,8 +9,6 @@
  *
  */
 
-package com.here.ivi.api.model.jni;
+package com.here.ivi.api.model.common;
 
-import com.here.ivi.api.model.common.ModelElement;
-
-public interface JniElement extends ModelElement {}
+public interface ModelElement {}

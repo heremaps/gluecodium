@@ -11,9 +11,10 @@
 
 package com.here.ivi.api.model.java;
 
+import com.here.ivi.api.model.common.ModelElement;
 import com.here.ivi.api.model.common.Streamable;
 
-public abstract class JavaElement extends Streamable<JavaElement> {
+public abstract class JavaElement extends Streamable<JavaElement> implements ModelElement {
 
   public final String name;
   public String comment = "";

@@ -21,9 +21,11 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.generator.java.JavaTypeMapper;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.common.ModelElement;
 import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.ivi.api.model.java.JavaExceptionClass;
 import com.here.ivi.api.model.java.JavaPackage;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
@@ -49,7 +51,9 @@ public class JniGenerator extends AbstractGenerator {
     this.additionalIncludes = additionalIncludes;
   }
 
-  public JniContainer generateModel(final FTypeCollection francaTypeCollection) {
+  public Collection<ModelElement> generateModel(
+      final FTypeCollection francaTypeCollection,
+      final Map<String, JavaExceptionClass> exceptionsCollector) {
 
     JavaPackage basePackage = new JavaPackage(basePackages);
     JavaModelBuilder javaBuilder =
@@ -68,10 +72,15 @@ public class JniGenerator extends AbstractGenerator {
     JniContainer jniContainer = jniBuilder.getFinalResult(JniContainer.class);
     jniContainer.includes.addAll(getIncludes(francaTypeCollection, jniContainer));
 
-    return jniContainer;
+    exceptionsCollector.putAll(javaBuilder.exceptionClasses);
+
+    List<ModelElement> results = new LinkedList<>(javaBuilder.getFinalResults());
+    results.add(jniContainer);
+
+    return results;
   }
 
-  public List<GeneratedFile> generateFiles(final JniContainer jniContainer) {
+  public static List<GeneratedFile> generateFiles(final JniContainer jniContainer) {
 
     List<GeneratedFile> results = new LinkedList<>();
     if (jniContainer == null) {
