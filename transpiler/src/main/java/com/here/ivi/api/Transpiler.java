@@ -27,6 +27,7 @@ import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.franca.ModelHelper;
 import com.here.ivi.api.output.ConsoleOutput;
 import com.here.ivi.api.output.FileOutput;
+import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import com.here.ivi.api.platform.common.GeneratorSuite;
 import com.here.ivi.api.validator.*;
 import java.io.File;
@@ -182,7 +183,7 @@ public class Transpiler {
     boolean processedWithoutCollisions =
         checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName);
 
-    if (generatorName.equals("android")
+    if (AndroidGeneratorSuite.GENERATOR_NAME.equals(generatorName)
         && options.getAndroidMergeManifestPath() != null
         && outputSuccessful
         && processedWithoutCollisions) {

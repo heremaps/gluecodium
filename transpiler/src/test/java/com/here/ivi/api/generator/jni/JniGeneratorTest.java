@@ -47,7 +47,7 @@ public final class JniGeneratorTest {
           .isFrancaInterface(true)
           .build();
 
-  private final JniGenerator generator = new JniGenerator(null, null, null);
+  private final JniGenerator generator = new JniGenerator(null, null, null, false);
 
   @Before
   public void setUp() {

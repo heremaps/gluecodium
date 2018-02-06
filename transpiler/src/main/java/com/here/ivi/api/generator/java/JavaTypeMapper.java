@@ -33,10 +33,12 @@ public class JavaTypeMapper {
 
   private final JavaPackage basePackage;
   private final JavaType nativeBase;
+  private final JavaType serializationBase;
 
-  public JavaTypeMapper(final JavaPackage basePackage) {
+  public JavaTypeMapper(final JavaPackage basePackage, final JavaType serializationBase) {
     this.basePackage = basePackage;
     this.nativeBase = new JavaCustomType(NATIVE_BASE_NAME, basePackage);
+    this.serializationBase = serializationBase;
   }
 
   public JavaType map(final FTypeRef fTypeRef) {
@@ -220,6 +222,10 @@ public class JavaTypeMapper {
 
   public JavaType getNativeBase() {
     return nativeBase;
+  }
+
+  public JavaType getSerializationBase() {
+    return serializationBase;
   }
 
   private JavaType mapTypeDef(final FTypeDef typeDef) {

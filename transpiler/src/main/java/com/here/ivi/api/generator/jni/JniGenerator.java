@@ -25,8 +25,7 @@ import com.here.ivi.api.model.common.ModelElement;
 import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.java.JavaExceptionClass;
-import com.here.ivi.api.model.java.JavaPackage;
+import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.model.jni.JniContainer;
 import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import java.util.*;
@@ -39,16 +38,28 @@ public class JniGenerator extends AbstractGenerator {
   public static final String MODELS_NAME = "models";
   public static final String BASE_PACKAGES_NAME = "basePackages";
 
+  private static final JavaPackage ANDROID_OS_PACKAGE =
+      new JavaPackage(Arrays.asList("android", "os"));
+  private static final JavaType PARCELABLE =
+      JavaCustomType.builder("Parcelable")
+          .packageNames(ANDROID_OS_PACKAGE.packageNames)
+          .javaImport(new JavaImport("Parcelable", ANDROID_OS_PACKAGE))
+          .javaImport(new JavaImport("Parcel", ANDROID_OS_PACKAGE))
+          .build();
+
   private final FrancaDeploymentModel deploymentModel;
   private final List<String> additionalIncludes;
+  private final boolean enableAndroidFeatures;
 
   public JniGenerator(
       final FrancaDeploymentModel deploymentModel,
       final List<String> packageList,
-      final List<String> additionalIncludes) {
+      final List<String> additionalIncludes,
+      final boolean enableAndroidFeatures) {
     super(packageList);
     this.deploymentModel = deploymentModel;
     this.additionalIncludes = additionalIncludes;
+    this.enableAndroidFeatures = enableAndroidFeatures;
   }
 
   public Collection<ModelElement> generateModel(
@@ -60,7 +71,7 @@ public class JniGenerator extends AbstractGenerator {
         new JavaModelBuilder(
             deploymentModel,
             basePackage.createChildPackage(DefinedBy.getPackages(francaTypeCollection)),
-            new JavaTypeMapper(basePackage));
+            new JavaTypeMapper(basePackage, enableAndroidFeatures ? PARCELABLE : null));
 
     CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, new CppIncludeResolver());
     JniModelBuilder jniBuilder = new JniModelBuilder(deploymentModel, javaBuilder, cppBuilder);
