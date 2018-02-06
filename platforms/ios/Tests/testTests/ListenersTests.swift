@@ -155,6 +155,44 @@ class ListenersTests: XCTestCase {
         DummyLogger.relayMessage(listener: MessageListener(), message: "Hi!")
     }
 
+    func testComplexListener() {
+        class SwiftComplexListener: ComplexListener {
+            var length: Double = 0
+            var trajectory: [NamedPoint3D] = []
+            var trajectoryQuality = TrajectoryQuality.trajectoryPoor
+            var image = Data()
+
+            func onTrajectoryCompleted<Ttrajectory>(
+                    distanceMetric: DistanceMetric, trajectory: Ttrajectory,
+                    quality: TrajectoryQuality, image: Data)
+                    where Ttrajectory: Collection, Ttrajectory.Element == NamedPoint3D {
+
+                self.length = distanceMetric.getLength(input: trajectory)
+                self.trajectory = Array(trajectory)
+                self.trajectoryQuality = quality
+                self.image = image
+            }
+        }
+
+        let listener = SwiftComplexListener()
+        let notifier = ComplexListenerFactory.createComplexNotifier()!
+        let trajectory = [
+            NamedPoint3D(name: "zero point", pt: Point3D(x: 0, y: 0, z: 0)),
+            NamedPoint3D(name: "intermediate point", pt: Point3D(x: 10, y: 10, z: 10)),
+            NamedPoint3D(name: "final destination", pt: Point3D(x: 20, y: 20, z: 20))
+        ]
+        let image = Data([0x00, 0x01, 0x02])
+        let trajectoryQuality = TrajectoryQuality.trajectoryAverage
+
+        notifier.trajectoryCompleted(
+            trajectory: trajectory, quality: trajectoryQuality, image: image, listener: listener)
+
+        XCTAssertEqual(listener.length, 60.0, accuracy: 1e-6)
+        XCTAssertEqual(listener.trajectory, trajectory)
+        XCTAssertEqual(listener.trajectoryQuality, trajectoryQuality)
+        XCTAssertEqual(listener.image, image)
+    }
+
     static var allTests = [
         ("testBackgroundListener", testBackgroundListener),
         ("testBackgroundListenerRegisteredTwice", testBackgroundListenerRegisteredTwice),
@@ -165,6 +203,21 @@ class ListenersTests: XCTestCase {
         ("testRegisterTwiceUnregisterCleanup", testRegisterTwiceUnregisterCleanup),
         ("testRegisterTwiceUnregisterTwiceCleanup", testRegisterTwiceUnregisterTwiceCleanup),
         ("testRegisterUnregisterTwiceCleanup", testRegisterUnregisterTwiceCleanup),
-        ("testStringListenerDoesNotCrash", testStringListenerDoesNotCrash)
+        ("testStringListenerDoesNotCrash", testStringListenerDoesNotCrash),
+        ("testComplexListener", testComplexListener)
     ]
+}
+
+extension NamedPoint3D: Equatable {
+}
+
+extension Point3D: Equatable {
+}
+
+public func == (lhs: Point3D, rhs: Point3D) -> Bool {
+    return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z
+}
+
+public func == (lhs: NamedPoint3D, rhs: NamedPoint3D) -> Bool {
+    return lhs.name == rhs.name && lhs.pt == rhs.pt
 }
