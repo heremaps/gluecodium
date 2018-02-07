@@ -911,9 +911,9 @@ public class SwiftFileTemplateTest {
     swiftClass.properties.add(someProperty);
     final String expected =
         "import Foundation\n"
-            + "internal func getRef(_ ref: SomeClassWithProperty) -> "
+            + "internal func getRef(_ ref: SomeClassWithProperty?) -> "
             + "RefHolder {\n"
-            + "    return RefHolder(ref.c_instance)\n"
+            + "    return RefHolder(ref?.c_instance ?? 0)\n"
             + "}\n"
             + "public class SomeClassWithProperty {\n"
             + "    public var someAttributeName: Data {\n"

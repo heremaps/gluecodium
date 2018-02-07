@@ -9,8 +9,8 @@ extension {{#isInterface}}_{{/isInterface}}{{name}}: NativeBase {
 
 }}{{+ClassWithoutProtocol}}
 
-internal func getRef(_ ref: {{name}}) -> RefHolder {
-    return RefHolder(ref.c_instance)
+internal func getRef(_ ref: {{name}}?) -> RefHolder {
+    return RefHolder(ref?.c_instance ?? 0)
 }
 
 {{>swift/Comment}}{{!!

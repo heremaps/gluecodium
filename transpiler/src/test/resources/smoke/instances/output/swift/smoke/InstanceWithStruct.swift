@@ -13,8 +13,8 @@ import Foundation
 
 
 
-internal func getRef(_ ref: InstanceWithStruct) -> RefHolder {
-    return RefHolder(ref.c_instance)
+internal func getRef(_ ref: InstanceWithStruct?) -> RefHolder {
+    return RefHolder(ref?.c_instance ?? 0)
 }
 public class InstanceWithStruct {
     let c_instance : _baseRef
@@ -52,20 +52,15 @@ public class InstanceWithStruct {
     }
 
     public struct StructWithInstance {
-        public var instance: SimpleInstantiableOne
+        public var instance: SimpleInstantiableOne?
 
-        public init(instance: SimpleInstantiableOne) {
+        public init(instance: SimpleInstantiableOne?) {
             self.instance = instance
         }
 
         internal init?(cStructWithInstance: _baseRef) {
             do {
-                guard
-                    let instanceUnwrapped = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance))
-                else {
-                    return nil
-                }
-                instance = instanceUnwrapped
+                instance = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance))
             }
         }
 

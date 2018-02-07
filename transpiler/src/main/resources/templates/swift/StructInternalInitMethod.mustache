@@ -51,11 +51,6 @@ internal init?(c{{simpleName}}: _baseRef) {
 {{/assignStruct}}
 
 {{+assignClass}}do {
-    guard
-        let {{name}}Unwrapped = {{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
-    else {
-        return nil
-    }
-    {{name}} = {{name}}Unwrapped
+    {{name}} = {{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
 }
 {{/assignClass}}

@@ -13,8 +13,8 @@ import Foundation
 
 
 
-internal func getRef(_ ref: Enums) -> RefHolder {
-    return RefHolder(ref.c_instance)
+internal func getRef(_ ref: Enums?) -> RefHolder {
+    return RefHolder(ref?.c_instance ?? 0)
 }
 public class Enums {
     let c_instance : _baseRef

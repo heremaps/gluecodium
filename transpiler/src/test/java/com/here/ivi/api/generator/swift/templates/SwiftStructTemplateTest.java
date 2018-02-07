@@ -244,25 +244,21 @@ public class SwiftStructTemplateTest {
             "instanceField",
             SwiftContainerType.builder("SomeClass")
                 .category(SwiftType.TypeCategory.CLASS)
+                .optional(true)
                 .cPrefix("INSTANCE_C_PREFIX")
                 .build(),
             null));
     String expected =
         "public struct SomeStruct {\n"
-            + "    public var instanceField: SomeClass\n"
+            + "    public var instanceField: SomeClass?\n"
             + "\n"
-            + "    public init(instanceField: SomeClass) {\n"
+            + "    public init(instanceField: SomeClass?) {\n"
             + "        self.instanceField = instanceField\n"
             + "    }\n"
             + "\n"
             + "    internal init?(cSomeStruct: _baseRef) {\n"
             + "        do {\n"
-            + "            guard\n"
-            + "                let instanceFieldUnwrapped = SomeClass(cSomeClass: C_PREFIX_instanceField_get(cSomeStruct))\n"
-            + "            else {\n"
-            + "                return nil\n"
-            + "            }\n"
-            + "            instanceField = instanceFieldUnwrapped\n"
+            + "            instanceField = SomeClass(cSomeClass: C_PREFIX_instanceField_get(cSomeStruct))\n"
             + "        }\n"
             + "    }\n"
             + "\n"
@@ -277,7 +273,8 @@ public class SwiftStructTemplateTest {
             + "    }\n"
             + "}";
     String actual = generate(swiftStruct);
-    assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
+    assertEqualsTrimmed(
+        "it should generate a struct with field of type SomeClass", expected, actual);
   }
 
   @Test
