@@ -78,3 +78,7 @@ public class Arrays {
     }
 
 }
+
+extension Arrays: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

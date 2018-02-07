@@ -226,3 +226,7 @@ public class StaticMethods {
     }
 
 }
+
+extension StaticMethods: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

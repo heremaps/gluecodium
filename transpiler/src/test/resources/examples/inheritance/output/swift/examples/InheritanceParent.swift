@@ -13,8 +13,8 @@ import Foundation
 
 
 internal func getRef(_ ref: InheritanceParent) -> RefHolder {
-    if let instanceReference = ref as? _InheritanceParent {
-        return RefHolder(instanceReference.c_instance)
+    if let instanceReference = ref as? NativeBase {
+        return RefHolder(instanceReference.c_handle)
     }
 
     var functions = examples_InheritanceParent_FunctionTable()
@@ -36,11 +36,6 @@ internal func getRef(_ ref: InheritanceParent) -> RefHolder {
     let proxy = examples_InheritanceParent_createProxy(functions)
     return RefHolder(ref: proxy, release: examples_InheritanceParent_release)
 }
-
-
-
-
-
 
 public protocol InheritanceParent : AnyObject {
 
@@ -73,4 +68,8 @@ internal class _InheritanceParent: InheritanceParent {
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
     }
 
+}
+
+extension _InheritanceParent: NativeBase {
+    var c_handle: _baseRef { return c_instance }
 }

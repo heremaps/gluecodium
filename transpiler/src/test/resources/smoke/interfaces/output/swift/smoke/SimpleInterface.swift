@@ -13,8 +13,8 @@ import Foundation
 
 
 internal func getRef(_ ref: SimpleInterface) -> RefHolder {
-    if let instanceReference = ref as? _SimpleInterface {
-        return RefHolder(instanceReference.c_instance)
+    if let instanceReference = ref as? NativeBase {
+        return RefHolder(instanceReference.c_handle)
     }
 
     var functions = smoke_SimpleInterface_FunctionTable()
@@ -82,4 +82,8 @@ internal class _SimpleInterface: SimpleInterface {
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
     }
 
+}
+
+extension _SimpleInterface: NativeBase {
+    var c_handle: _baseRef { return c_instance }
 }

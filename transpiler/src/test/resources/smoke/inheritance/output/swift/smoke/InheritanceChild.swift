@@ -12,8 +12,8 @@
 import Foundation
 
 internal func getRef(_ ref: InheritanceChild) -> RefHolder {
-    if let instanceReference = ref as? _InheritanceChild {
-        return RefHolder(instanceReference.c_instance)
+    if let instanceReference = ref as? NativeBase {
+        return RefHolder(instanceReference.c_handle)
     }
     var functions = smoke_InheritanceChild_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
@@ -61,6 +61,7 @@ internal class _InheritanceChild: InheritanceChild {
         }
         c_instance = cInheritanceChild
     }
+
     deinit {
         smoke_InheritanceChild_release(c_instance)
     }
@@ -70,4 +71,8 @@ internal class _InheritanceChild: InheritanceChild {
     public func childMethod() -> Void {
         return smoke_InheritanceChild_childMethod(c_instance)
     }
+}
+
+extension _InheritanceChild: NativeBase {
+    var c_handle: _baseRef { return c_instance }
 }

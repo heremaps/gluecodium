@@ -88,3 +88,7 @@ public class BuiltinTypes {
     }
 
 }
+
+extension BuiltinTypes: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

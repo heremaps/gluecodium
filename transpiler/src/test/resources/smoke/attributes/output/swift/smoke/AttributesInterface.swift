@@ -13,8 +13,8 @@ import Foundation
 
 
 internal func getRef(_ ref: AttributesInterface) -> RefHolder {
-    if let instanceReference = ref as? _AttributesInterface {
-        return RefHolder(instanceReference.c_instance)
+    if let instanceReference = ref as? NativeBase {
+        return RefHolder(instanceReference.c_handle)
     }
 
     var functions = smoke_AttributesInterface_FunctionTable()
@@ -28,10 +28,6 @@ internal func getRef(_ ref: AttributesInterface) -> RefHolder {
     let proxy = smoke_AttributesInterface_createProxy(functions)
     return RefHolder(ref: proxy, release: smoke_AttributesInterface_release)
 }
-
-
-
-
 
 
 public protocol AttributesInterface : AnyObject {
@@ -75,6 +71,11 @@ internal class _AttributesInterface: AttributesInterface {
         smoke_AttributesInterface_release(c_instance)
     }
 }
+
+extension _AttributesInterface: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}
+
 public struct ExampleStruct {
     public var value: Double
 

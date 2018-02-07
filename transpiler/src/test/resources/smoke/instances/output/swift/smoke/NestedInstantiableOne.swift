@@ -46,3 +46,7 @@ public class NestedInstantiableOne {
     }
 
 }
+
+extension NestedInstantiableOne: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

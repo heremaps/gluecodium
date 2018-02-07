@@ -12,11 +12,7 @@
 package com.here.ivi.api.generator.swift;
 
 import static com.here.ivi.api.test.LoadModelHelper.readInFrancaModel;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -195,10 +191,9 @@ public class SwiftGeneratorIntegrationTest {
             LoadModelHelper.extractNthInterfaceFromModel(typeCollections, 8));
     assertEquals("There should be one class defined in file", 1, file.classes.size());
     SwiftClass clazz = file.classes.get(0);
-    assertNull(clazz.parentClass);
     assertNotNull(clazz.comment);
     assertNotNull(clazz.implementsProtocols);
-    assertEquals(1, clazz.implementsProtocols.size());
+    assertTrue(clazz.implementsProtocols.isEmpty());
     assertNotNull(clazz.properties);
     assertTrue(clazz.properties.isEmpty());
     assertEquals(
@@ -244,11 +239,10 @@ public class SwiftGeneratorIntegrationTest {
             LoadModelHelper.extractNthInterfaceFromModel(typeCollections, 8));
     assertEquals("There should be one class defined in file", 1, file.classes.size());
     SwiftClass clazz = file.classes.get(0);
-    assertNull(clazz.parentClass);
     assertNotNull(clazz.methods);
     assertNotNull(clazz.comment);
     assertNotNull(clazz.implementsProtocols);
-    assertEquals(clazz.implementsProtocols.size(), 1);
+    assertTrue(clazz.implementsProtocols.isEmpty());
     assertNotNull(clazz.properties);
     assertTrue(clazz.properties.isEmpty());
     assertEquals(

@@ -47,3 +47,7 @@ public class ProfileManager {
     }
 
 }
+
+extension ProfileManager: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

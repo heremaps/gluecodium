@@ -13,8 +13,8 @@ import Foundation
 
 
 internal func getRef(_ ref: NestedInterface) -> RefHolder {
-    if let instanceReference = ref as? _NestedInterface {
-        return RefHolder(instanceReference.c_instance)
+    if let instanceReference = ref as? NativeBase {
+        return RefHolder(instanceReference.c_handle)
     }
 
     var functions = smoke_NestedInterface_FunctionTable()
@@ -96,4 +96,8 @@ internal class _NestedInterface: NestedInterface {
         return _SimpleInterface(cSimpleInterface: cResult)
     }
 
+}
+
+extension _NestedInterface: NativeBase {
+    var c_handle: _baseRef { return c_instance }
 }
