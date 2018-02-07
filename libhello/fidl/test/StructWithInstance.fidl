@@ -54,4 +54,10 @@ interface InstanceInStruct {
             ExtendedSelfHolder wrappedInstance
         }
     }
+
+    method createNullInStruct {
+        out {
+            SelfHolder wrappedInstance
+        }
+    }
 }
