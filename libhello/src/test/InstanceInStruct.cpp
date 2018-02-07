@@ -50,4 +50,9 @@ InstanceInStruct::create_in_inherited_struct(  ) {
   return result;
 }
 
+InstanceInStruct::SelfHolder
+InstanceInStruct::create_null_in_struct() {
+    return {std::shared_ptr<InstanceInStructImpl>()};
+}
+
 }

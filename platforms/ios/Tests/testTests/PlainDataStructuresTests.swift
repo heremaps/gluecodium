@@ -122,27 +122,27 @@ class PlainDataStructuresTests: XCTestCase {
 
     func testAssignInstanceToNativeInheritedStruct() {
         let native = hello.InstanceInStruct.ExtendedSelfHolder(
-            mySelf: hello.InstanceInStruct.create()!, additionalField: "SIMPLE")
-        native.mySelf.setStringValue(stringValue: "Hello")
+            mySelf: hello.InstanceInStruct.create(), additionalField: "SIMPLE")
+        native.mySelf?.setStringValue(stringValue: "Hello")
 
-        XCTAssertEqual(native.mySelf.getStringValue(), "Hello")
+        XCTAssertEqual(native.mySelf?.getStringValue(), "Hello")
         XCTAssertEqual(native.additionalField, "SIMPLE")
     }
 
     func testInheritedStructWithInstance() {
         let fromBaseApi = hello.InstanceInStruct.createInInheritedStruct()!
-        fromBaseApi.mySelf.setStringValue(stringValue: "Hello")
+        fromBaseApi.mySelf?.setStringValue(stringValue: "Hello")
 
-        XCTAssertEqual(fromBaseApi.mySelf.getStringValue(), "Hello")
+        XCTAssertEqual(fromBaseApi.mySelf?.getStringValue(), "Hello")
         XCTAssertEqual(fromBaseApi.additionalField, "CREATED")
     }
 
     func testCastingInheritedStructWithInstance() {
         let fromBaseApi = hello.InstanceInStruct.createInInheritedStruct()!
         let base = fromBaseApi.convertToSelfHolder()
-        base.mySelf.setStringValue(stringValue: "Hello")
+        base.mySelf?.setStringValue(stringValue: "Hello")
 
-        XCTAssertEqual(fromBaseApi.mySelf.getStringValue(), "Hello")
+        XCTAssertEqual(fromBaseApi.mySelf?.getStringValue(), "Hello")
     }
 
     static var allTests = [
