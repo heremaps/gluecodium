@@ -94,3 +94,7 @@ public class StructsFromTypeCollection {
     }
 
 }
+
+extension StructsFromTypeCollection: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

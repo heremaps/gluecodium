@@ -141,3 +141,7 @@ public class Comments {
         return smoke_Comments_someMethodWithoutReturnTypeOrInputParameters(c_instance)
     }
 }
+
+extension Comments: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

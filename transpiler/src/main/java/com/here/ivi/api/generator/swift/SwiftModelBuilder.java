@@ -62,19 +62,21 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     boolean isInterface = deploymentModel.isInterface(francaInterface);
     SwiftClass parentClass = getPreviousResult(SwiftClass.class);
     boolean parentIsInterface = parentClass != null && parentClass.isInterface;
+    boolean parentIsClass = parentClass != null && !parentClass.isInterface;
 
     SwiftClass clazz =
         SwiftClass.builder(SwiftNameRules.getClassName(francaInterface.getName()))
             .nameSpace(String.join("_", DefinedBy.getPackages(francaInterface)))
             .cInstance(CBridgeNameRules.getInterfaceName(francaInterface))
             .isInterface(isInterface)
-            .parentClass(parentClass != null ? parentClass.name : null)
-            .useParentCInstance(parentClass != null && !isInterface && !parentIsInterface)
+            .parentClass(parentIsClass ? parentClass.name : null)
+            .useParentCInstance(parentIsClass && !isInterface)
             .functionTableName(
                 isInterface ? CBridgeNameRules.getFunctionTableName(francaInterface) : null)
             .build();
 
-    if (parentClass != null && parentIsInterface) {
+    if (parentIsInterface) {
+      clazz.implementsProtocols.add(parentClass.name);
       clazz.methods.addAll(parentClass.methods);
       for (final SwiftProperty parentProperty : parentClass.properties) {
         SwiftProperty swiftProperty = new SwiftProperty(parentProperty.name, parentProperty.type);
@@ -92,11 +94,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftFile file = new SwiftFile();
     file.classes.add(clazz);
     if (isInterface) {
-      // Instantiable Franca interface implemented as Swift protocol
-      clazz.implementsProtocols.add(clazz.name);
       file.structs.addAll(getPreviousResults(SwiftContainerType.class));
       file.enums.addAll(getPreviousResults(SwiftEnum.class));
-
     } else {
       clazz.structs.addAll(getPreviousResults(SwiftContainerType.class));
       clazz.enums.addAll(getPreviousResults(SwiftEnum.class));

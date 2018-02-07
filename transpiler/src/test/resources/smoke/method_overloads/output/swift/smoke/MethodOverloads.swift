@@ -105,3 +105,7 @@ public class MethodOverloads {
         return smoke_MethodOverloads_isBoolean_constOverload(c_instance)
     }
 }
+
+extension MethodOverloads: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

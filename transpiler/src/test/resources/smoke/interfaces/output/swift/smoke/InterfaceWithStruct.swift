@@ -13,8 +13,8 @@ import Foundation
 
 
 internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder {
-    if let instanceReference = ref as? _InterfaceWithStruct {
-        return RefHolder(instanceReference.c_instance)
+    if let instanceReference = ref as? NativeBase {
+        return RefHolder(instanceReference.c_handle)
     }
 
     var functions = smoke_InterfaceWithStruct_FunctionTable()
@@ -73,6 +73,11 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
     }
 
 }
+
+extension _InterfaceWithStruct: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}
+
 public struct InnerStruct {
     public var value: Int8
 

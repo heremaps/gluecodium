@@ -44,3 +44,8 @@ public class Basic {
     }
 
 }
+
+extension Basic: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}
+

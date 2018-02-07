@@ -35,3 +35,7 @@ public class EnumMethods {
     }
 
 }
+
+extension EnumMethods: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

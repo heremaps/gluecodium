@@ -76,3 +76,7 @@ public class StructsInheritance {
     }
 
 }
+
+extension StructsInheritance: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

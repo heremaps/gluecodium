@@ -36,3 +36,7 @@ public class MultiLineComments {
         return smoke_MultiLineComments_someMethodWithLongComment(c_instance, input, ratio)
     }
 }
+
+extension MultiLineComments: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

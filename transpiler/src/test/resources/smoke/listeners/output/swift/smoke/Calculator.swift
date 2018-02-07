@@ -40,3 +40,7 @@ public class Calculator {
     }
 
 }
+
+extension Calculator: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

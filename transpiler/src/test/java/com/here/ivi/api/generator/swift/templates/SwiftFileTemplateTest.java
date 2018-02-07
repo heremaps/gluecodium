@@ -41,7 +41,6 @@ public class SwiftFileTemplateTest {
   @Test
   public void simpleInterfaceGeneration() {
     final SwiftClass swiftClass = SwiftClass.builder("ExampleClass").isInterface(true).build();
-    swiftClass.implementsProtocols.add("ExampleClass");
 
     TemplateComparator.expect("public protocol ExampleClass : AnyObject {\n" + "}\n")
         .expect("internal class _ExampleClass: ExampleClass {")
@@ -61,8 +60,8 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator.expect(
             "internal func getRef(_ ref: ExampleClass) -> RefHolder {\n"
-                + "    if let instanceReference = ref as? _ExampleClass {\n"
-                + "        return RefHolder(instanceReference.c_instance)\n"
+                + "    if let instanceReference = ref as? NativeBase {\n"
+                + "        return RefHolder(instanceReference.c_handle)\n"
                 + "    }\n"
                 + "    var functions = ExampleFunctionTable()\n"
                 + "    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()\n"
@@ -81,7 +80,6 @@ public class SwiftFileTemplateTest {
   @Test
   public void interfaceWithCommentGeneration() {
     SwiftClass swiftClass = SwiftClass.builder("ExampleClassWithComment").isInterface(true).build();
-    swiftClass.implementsProtocols.add("ExampleClassWithComment");
     swiftClass.comment = "One really classy example";
 
     TemplateComparator.expect(
@@ -107,7 +105,6 @@ public class SwiftFileTemplateTest {
             .build();
     method.parameters.add(new SwiftParameter("parameter", new SwiftType("Int")));
     swiftClass.methods.add(method);
-    swiftClass.implementsProtocols.add("ExampleClass");
 
     TemplateComparator.expect(
             "public protocol ExampleClass : AnyObject {\n"
@@ -134,7 +131,6 @@ public class SwiftFileTemplateTest {
     method.parameters.add(
         new SwiftParameter(
             "parameterInterfaceName", new SwiftType("Int"), "parameterVariableName"));
-    swiftClass.implementsProtocols.add("ExampleClass");
     swiftClass.methods.add(method);
 
     TemplateComparator.expect(
@@ -154,7 +150,6 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodWithMultipleParameters() {
     SwiftClass swiftClass = SwiftClass.builder("ExampleClass").isInterface(true).build();
-    swiftClass.implementsProtocols.add("ExampleClass");
     SwiftParameter parameterOne = new SwiftParameter("parameterOne", new SwiftType("Int"));
     SwiftParameter parameterTwo = new SwiftParameter("parameterTwo", new SwiftType("String"));
     SwiftMethod method =
@@ -183,7 +178,6 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodWithArrayParameter() {
     SwiftClass swiftClass = SwiftClass.builder("MyClass").isInterface(true).build();
-    swiftClass.implementsProtocols.add("MyClass");
     SwiftMethod method =
         SwiftMethod.builder("myMethod").cNestedSpecifier("MyClass").cShortName("myMethod").build();
     method.parameters.add(new SwiftParameter("array", new SwiftType("[UInt8]")));
@@ -206,7 +200,6 @@ public class SwiftFileTemplateTest {
   @Test
   public void methodWithComment() {
     SwiftClass swiftClass = SwiftClass.builder("CommentedExampleClass").isInterface(true).build();
-    swiftClass.implementsProtocols.add("CommentedExampleClass");
     SwiftMethod method =
         SwiftMethod.builder("myMethod")
             .returnType(new SwiftType("Int"))
@@ -547,7 +540,6 @@ public class SwiftFileTemplateTest {
     SwiftContainerType secondStruct =
         SwiftContainerType.builder("SecondStruct").cPrefix("CPrefix").build();
     swiftClass.methods.add(SwiftMethod.builder("SomeMethod").build());
-    swiftClass.implementsProtocols.add(swiftClass.name);
     file.structs.add(firstStruct);
     file.structs.add(secondStruct);
     file.classes.add(swiftClass);
@@ -684,7 +676,7 @@ public class SwiftFileTemplateTest {
 
     TemplateComparator expected =
         TemplateComparator.expect("public protocol TestInterface : AnyObject {\n" + "}\n")
-            .expect("internal class _TestInterface {")
+            .expect("internal class _TestInterface: TestInterface {")
             .expect(
                 "/**\n"
                     + " Some comment on enum type\n"
@@ -702,7 +694,6 @@ public class SwiftFileTemplateTest {
   public void classWithInternalConstructor() {
     SwiftClass swiftClass =
         SwiftClass.builder("HelloWorld").cInstance("HellowWorld").isInterface(true).build();
-    swiftClass.implementsProtocols.add("HelloWorld");
     SwiftMethod method =
         SwiftMethod.builder("instanceMethod")
             .returnType(new SwiftType("Int"))
@@ -788,15 +779,15 @@ public class SwiftFileTemplateTest {
 
   @Test
   public void typedefGenerationInProtocol() {
-    SwiftClass swiftClass = SwiftClass.builder("HellowWorldFactory").isInterface(true).build();
+    SwiftClass swiftClass = SwiftClass.builder("HelloWorldFactory").isInterface(true).build();
     SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
     swiftClass.typedefs.add(typedef);
 
     TemplateComparator.expect(
-            "public protocol HellowWorldFactory : AnyObject {\n"
+            "public protocol HelloWorldFactory : AnyObject {\n"
                 + "    typealias MyTypeDef = Int\n"
                 + "}\n")
-        .expect("internal class _HellowWorldFactory {")
+        .expect("internal class _HelloWorldFactory: HelloWorldFactory {")
         .build()
         .assertMatches(generateFromClass(swiftClass));
   }
@@ -883,7 +874,7 @@ public class SwiftFileTemplateTest {
                     + "    var someAttributeName: Data { get set }\n"
                     + "}\n")
             .expect(
-                "internal class _SomeClassWithProperty {\n"
+                "internal class _SomeClassWithProperty: SomeClassWithProperty {\n"
                     + "    var someAttributeName: Data {\n"
                     + "        get {\n"
                     + "            return CBRIDGE_DELEGATE(c_instance)\n"
@@ -943,6 +934,9 @@ public class SwiftFileTemplateTest {
             + "    deinit {\n"
             + "        _release(c_instance)\n"
             + "    }\n"
+            + "}\n"
+            + "extension SomeClassWithProperty: NativeBase {\n"
+            + "    var c_handle: _baseRef { return c_instance }\n"
             + "}\n";
 
     final String generated = generateFromClass(swiftClass);
@@ -962,7 +956,7 @@ public class SwiftFileTemplateTest {
                     + "    var someStringAttribute: String { get }\n"
                     + "}\n")
             .expect(
-                "internal class _SomeClassWithProperty {\n"
+                "internal class _SomeClassWithProperty: SomeClassWithProperty {\n"
                     + "    var someStringAttribute: String {\n"
                     + "        get {\n"
                     + "            return CBRIDGE_DELEGATE(c_instance)\n"
@@ -997,20 +991,6 @@ public class SwiftFileTemplateTest {
   }
 
   @Test
-  public void protocolWithBase() {
-    SwiftClass swiftClass =
-        SwiftClass.builder("TestClass").parentClass("SuperClass").isInterface(true).build();
-
-    TemplateComparator expected =
-        TemplateComparator.expect("public protocol TestClass : SuperClass {")
-            .expect("internal class _TestClass {")
-            .build();
-
-    final String generated = generateFromClass(swiftClass);
-    expected.assertMatches(generated);
-  }
-
-  @Test
   public void classWithProtocol() {
     SwiftClass swiftClass =
         SwiftClass.builder("TestClass")
@@ -1023,8 +1003,8 @@ public class SwiftFileTemplateTest {
     TemplateComparator expected =
         TemplateComparator.expect(
                 "internal func getRef(_ ref: TestClass) -> RefHolder {\n"
-                    + "    if let instanceReference = ref as? _TestClass {\n"
-                    + "        return RefHolder(instanceReference.c_instance)\n"
+                    + "    if let instanceReference = ref as? NativeBase {\n"
+                    + "        return RefHolder(instanceReference.c_handle)\n"
                     + "    }\n"
                     + "    var functions = TestClassFunctionTable()\n"
                     + "    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()\n"
@@ -1036,9 +1016,9 @@ public class SwiftFileTemplateTest {
                     + "    let proxy = CTest_createProxy(functions)\n"
                     + "    return RefHolder(ref: proxy, release: CTest_release)\n"
                     + "}")
-            .expect("public protocol TestClass : AnyObject {\n" + "}\n")
+            .expect("public protocol TestClass : FirstProtocol {\n" + "}\n")
             .expect(
-                "internal class _TestClass: FirstProtocol {\n"
+                "internal class _TestClass: TestClass {\n"
                     + "    let c_instance : _baseRef\n"
                     + "    init?(cTestClass: _baseRef) {\n"
                     + "        guard cTestClass != 0 else {\n"

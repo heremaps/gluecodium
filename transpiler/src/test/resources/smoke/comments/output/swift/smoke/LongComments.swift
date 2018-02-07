@@ -36,3 +36,7 @@ public class LongComments {
         return smoke_LongComments_someMethodWithLongComment(c_instance, input, ratio)
     }
 }
+
+extension LongComments: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

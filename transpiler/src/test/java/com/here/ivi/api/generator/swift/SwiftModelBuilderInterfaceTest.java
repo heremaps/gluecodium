@@ -12,10 +12,7 @@
 package com.here.ivi.api.generator.swift;
 
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -167,8 +164,10 @@ public class SwiftModelBuilderInterfaceTest {
     assertNotNull(swiftFile.classes);
     assertEquals(1, swiftFile.classes.size());
     SwiftClass swiftClass = swiftFile.classes.get(0);
-    assertEquals("SomeParent", swiftClass.parentClass);
+    assertNull(swiftClass.parentClass);
     assertFalse(swiftClass.useParentCInstance);
+    assertEquals(1, swiftClass.implementsProtocols.size());
+    assertEquals("SomeParent", swiftClass.implementsProtocols.get(0));
   }
 
   @Test
@@ -233,8 +232,6 @@ public class SwiftModelBuilderInterfaceTest {
     SwiftClass swiftClass = swiftFile.classes.get(0);
     assertEquals("classy", swiftClass.name.toLowerCase());
     assertTrue(swiftClass.isInterface);
-    assertNotNull(swiftClass.implementsProtocols);
-    assertEquals(1, swiftClass.implementsProtocols.size());
     assertEquals("fun_table", swiftClass.functionTableName);
   }
 

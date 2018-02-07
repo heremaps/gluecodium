@@ -13,8 +13,8 @@ import Foundation
 
 
 internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder {
-    if let instanceReference = ref as? _ProfileManagerInterface {
-        return RefHolder(instanceReference.c_instance)
+    if let instanceReference = ref as? NativeBase {
+        return RefHolder(instanceReference.c_handle)
     }
 
     var functions = examples_ProfileManagerInterface_FunctionTable()
@@ -68,4 +68,8 @@ internal class _ProfileManagerInterface: ProfileManagerInterface {
         return examples_ProfileManagerInterface_createProfile(c_instance, username)
     }
 
+}
+
+extension _ProfileManagerInterface: NativeBase {
+    var c_handle: _baseRef { return c_instance }
 }

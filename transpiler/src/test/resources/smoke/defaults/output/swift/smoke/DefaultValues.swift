@@ -90,3 +90,7 @@ public class DefaultValues {
     }
 
 }
+
+extension DefaultValues: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

@@ -62,3 +62,7 @@ public class NestedInstantiableTwo {
     }
 
 }
+
+extension NestedInstantiableTwo: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

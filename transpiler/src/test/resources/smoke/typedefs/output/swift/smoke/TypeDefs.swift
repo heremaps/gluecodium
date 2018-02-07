@@ -158,3 +158,7 @@ public class TypeDefs {
     }
 
 }
+
+extension TypeDefs: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

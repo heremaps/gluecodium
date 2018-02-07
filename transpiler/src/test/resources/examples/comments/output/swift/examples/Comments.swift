@@ -86,3 +86,7 @@ public class Comments {
         return examples_Comments_someMethod(c_instance, input)
     }
 }
+
+extension Comments: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

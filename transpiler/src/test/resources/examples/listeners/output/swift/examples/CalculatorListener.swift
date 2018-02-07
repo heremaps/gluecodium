@@ -13,8 +13,8 @@ import Foundation
 
 
 internal func getRef(_ ref: CalculatorListener) -> RefHolder {
-    if let instanceReference = ref as? _CalculatorListener {
-        return RefHolder(instanceReference.c_instance)
+    if let instanceReference = ref as? NativeBase {
+        return RefHolder(instanceReference.c_handle)
     }
 
     var functions = examples_CalculatorListener_FunctionTable()
@@ -64,4 +64,8 @@ internal class _CalculatorListener: CalculatorListener {
         return examples_CalculatorListener_onCalculationResult(c_instance, calculationResult)
     }
 
+}
+
+extension _CalculatorListener: NativeBase {
+    var c_handle: _baseRef { return c_instance }
 }

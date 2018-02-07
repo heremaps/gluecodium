@@ -11,10 +11,9 @@
 
 import Foundation
 
-
 internal func getRef(_ ref: Attributes) -> RefHolder {
-    if let instanceReference = ref as? _Attributes {
-        return RefHolder(instanceReference.c_instance)
+    if let instanceReference = ref as? NativeBase {
+        return RefHolder(instanceReference.c_handle)
     }
 
     var functions = examples_Attributes_FunctionTable()
@@ -29,19 +28,11 @@ internal func getRef(_ ref: Attributes) -> RefHolder {
     return RefHolder(ref: proxy, release: examples_Attributes_release)
 }
 
-
-
-
-
-
 public protocol Attributes : AnyObject {
-
 
     var builtInTypeAttribute: UInt32 { get set }
 
     var readonlyAttribute: Float { get }
-
-
 }
 
 internal class _Attributes: Attributes {
@@ -75,4 +66,8 @@ internal class _Attributes: Attributes {
     deinit {
         examples_Attributes_release(c_instance)
     }
+}
+
+extension _Attributes: NativeBase {
+    var c_handle: _baseRef { return c_instance }
 }

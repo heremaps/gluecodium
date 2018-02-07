@@ -46,3 +46,7 @@ public class InheritanceChildClass: InheritanceRoot {
         return smoke_InheritanceChildClass_childClassMethod(c_instance)
     }
 }
+
+extension InheritanceChildClass: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}

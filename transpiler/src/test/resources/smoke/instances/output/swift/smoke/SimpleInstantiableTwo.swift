@@ -43,3 +43,7 @@ public class SimpleInstantiableTwo {
     }
 
 }
+
+extension SimpleInstantiableTwo: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}
