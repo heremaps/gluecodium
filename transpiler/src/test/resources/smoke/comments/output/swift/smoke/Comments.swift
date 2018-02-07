@@ -9,8 +9,8 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: Comments) -> RefHolder {
-    return RefHolder(ref.c_instance)
+internal func getRef(_ ref: Comments?) -> RefHolder {
+    return RefHolder(ref?.c_instance ?? 0)
 }
 /**
  This is some very useful interface.

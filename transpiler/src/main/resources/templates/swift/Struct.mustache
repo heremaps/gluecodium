@@ -6,7 +6,7 @@ public struct {{simpleName}} {
 {{prefix this.comment '     '}}
      */
 {{/if}}
-    public var {{name}}: {{type.publicName}}
+    public var {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
 {{/fields}}
 
 {{prefixPartial "swift/StructPublicInitMethod" "    "}}{{#if parent}}

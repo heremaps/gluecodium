@@ -13,8 +13,8 @@ import Foundation
 
 
 
-internal func getRef(_ ref: NestedInstantiableOne) -> RefHolder {
-    return RefHolder(ref.c_instance)
+internal func getRef(_ ref: NestedInstantiableOne?) -> RefHolder {
+    return RefHolder(ref?.c_instance ?? 0)
 }
 public class NestedInstantiableOne {
     let c_instance : _baseRef

@@ -13,8 +13,8 @@ import Foundation
 
 
 
-internal func getRef(_ ref: ProfileManagerFactory) -> RefHolder {
-    return RefHolder(ref.c_instance)
+internal func getRef(_ ref: ProfileManagerFactory?) -> RefHolder {
+    return RefHolder(ref?.c_instance ?? 0)
 }
 public class ProfileManagerFactory {
     let c_instance : _baseRef
