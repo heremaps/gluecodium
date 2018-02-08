@@ -55,6 +55,13 @@ interface ChildClass extends ParentInterface {
           ChildClass output
       }
     }
+
+    <** @description: Does nothing, just checks that it compiles. **>
+    method doSomethingToChildClass {
+      in {
+          ChildClass input
+      }
+    }
 }
 
 interface GrandchildClass extends ChildClass {

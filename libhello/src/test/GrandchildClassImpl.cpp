@@ -56,4 +56,11 @@ GrandchildClassImpl::do_something( const std::string& value )
     // Do nothing
 }
 
+void
+GrandchildClassImpl::do_something_to_child_class(
+    const ::std::shared_ptr< ::test::ChildClass >& input )
+{
+    // Do nothing
+}
+
 }

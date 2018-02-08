@@ -98,6 +98,12 @@ class InheritanceTests: XCTestCase {
         XCTAssertTrue(child.called)
     }
 
+    func testDoSomethingToChildClassDoesNotCrash() {
+        let child = ChildClass.createChildClass()
+        XCTAssertNotNil(child)
+        child!.doSomethingToChildClass(input: child!)
+    }
+
     static var allTests = [
         ("testCreateChildClassInstance", testCreateChildClassInstance),
         ("testCastChildClassInstanceToParent", testCastChildClassInstanceToParent),
@@ -110,6 +116,7 @@ class InheritanceTests: XCTestCase {
         ("testTalkToParent", testTalkToParent),
         ("testTalkToChild", testTalkToChild),
         ("testTalkToChildAsParent", testTalkToChildAsParent),
-        ("testTalkToParents", testTalkToParents)
+        ("testTalkToParents", testTalkToParents),
+        ("testDoSomethingToChildClassDoesNotCrash", testDoSomethingToChildClassDoesNotCrash)
     ]
 }
