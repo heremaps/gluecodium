@@ -80,7 +80,8 @@ class AttributesViewController: UIViewController, UIPickerViewDataSource, UIPick
             result.loadHTMLString(String(format: AttributesLabels.getReadonlyAttributeHTML, readValue), baseURL: nil)
         case .getStructAttribute:
             let readValue = testClass.structAttribute
-            result.loadHTMLString(String(format: AttributesLabels.getStructAttrHTML, readValue.html), baseURL: nil)
+            result.loadHTMLString(
+                String(format: AttributesLabels.getStructAttrHTML, HTML.renderStruct(readValue)), baseURL: nil)
         case .setStructAttribute:
             let newValue = Double(input.text!)!
             testClass.structAttribute = HelloWorldAttributes.ExampleStruct(value: newValue)
@@ -141,5 +142,3 @@ class AttributesViewController: UIViewController, UIPickerViewDataSource, UIPick
         result.loadHTMLString("", baseURL: nil)
     }
 }
-
-extension HelloWorldAttributes.ExampleStruct: StructToHTML {}

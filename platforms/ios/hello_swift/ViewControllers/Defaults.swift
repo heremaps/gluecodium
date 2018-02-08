@@ -23,16 +23,13 @@ class StructsWithDefaultsViewController: UIViewController {
 
     @IBAction func buttonPressed(_ sender: Any) {
         nativeDefault.loadHTMLString(
-            HelloWorldDefaults.StructWithDefaults().html, baseURL: nil)
+            HTML.renderStruct(HelloWorldDefaults.StructWithDefaults()), baseURL: nil)
         baseLayerDefault.loadHTMLString(
-            HelloWorldDefaults.getStructWithDefaults()!.html, baseURL: nil)
+            HTML.renderStruct(HelloWorldDefaults.getStructWithDefaults()!), baseURL: nil)
     }
     override func viewDidLoad() {
         expected.loadHTMLString(
-            expectedValue.html,
+            HTML.renderStruct(expectedValue),
             baseURL: nil)
     }
-}
-
-extension HelloWorldDefaults.StructWithDefaults: StructToHTML {
 }

@@ -7,7 +7,12 @@
 
 import Foundation
 
-private let structHTMLTemplate = """
+class HTML {
+    private static let CHECK: String = "✅"
+    private static let CROSS: String = "❌"
+    private static let QUESTION: String = "❔"
+
+    private static let structHTMLTemplate = """
     <center> <span style="font-family: monospace;"><table><tbody>
     <tr><td><span style="color: #3366ff;">struct</span> %@ {</td></tr>
     %@
@@ -15,20 +20,15 @@ private let structHTMLTemplate = """
     </tbody></table> </span></center>
     """
 
-private let structFieldHTMLTemplate = """
+    private static let structFieldHTMLTemplate = """
     <tr><td><span style="color: #3366ff;">&nbsp;&nbsp;var</span> %@: <span style="color: #3495af;">%@</span> &rarr; %@
     </td></tr>
     """
 
-private let nestedStructFieldSeparator = "<br>&nbsp;&nbsp;&nbsp;&nbsp;"
+    private static let nestedStructFieldSeparator = "<br>&nbsp;&nbsp;&nbsp;&nbsp;"
 
-public protocol StructToHTML {
-    var html: String {get}
-}
-
-public extension StructToHTML {
-    var html: String {
-        let fields = Mirror(reflecting: self).children
+    public static func renderStruct(_ object: Any) -> String {
+        let fields = Mirror(reflecting: object).children
             .map({field in
                 let fieldType = String(describing: type(of: field.value))
                 let fieldValue = String(describing: field.value)
@@ -37,11 +37,37 @@ public extension StructToHTML {
                     field.label!, fieldType,
                     splitFieldIfStruct(fieldType, fieldValue))})
             .reduce("", {$0 + $1})
-        let structName = String(describing: type(of: self))
+        let structName = String(describing: type(of: object))
         return String(format: structHTMLTemplate, structName, fields)
     }
 
-    private func splitFieldIfStruct(_ fieldType: String, _ fieldValue: String) -> String {
+    public static func renderInheritanceTable(
+            _ inheritanceTable: InheritanceViewController.InheritanceTable) -> String {
+        var html = "<center><span style='font-family: monospace;'><table cellspacing='10'><tbody><tr><td></td>"
+        for clazz in inheritanceTable.colsHeaders {
+            html += "<th scope='col'><span style='writing-mode: tb-rl; color: #3495af;'>" +
+                String(describing: clazz) + "</span></th>"
+        }
+        html += "</tr>"
+        for (row, object) in inheritanceTable.rowsHeaders.enumerated() {
+            html += "<tr><th scope='row' style='text-align:left;'>" + object.label + "</th>"
+            for col in inheritanceTable.colsHeaders.indices {
+                html += "<td>"
+                if row < inheritanceTable.values.count &&
+                    col < inheritanceTable.values[row].count {
+                    html += inheritanceTable.values[row][col] ? CHECK : CROSS
+                } else {
+                    html += QUESTION
+                }
+            }
+            html += "</tr>"
+        }
+
+        html += "</tbody></table></span></center>"
+        return html
+    }
+
+    private static func splitFieldIfStruct(_ fieldType: String, _ fieldValue: String) -> String {
         if fieldValue.starts(with: fieldType) {
             return fieldValue
                 .dropFirst(fieldType.count + 1)
@@ -51,5 +77,11 @@ public extension StructToHTML {
         } else {
             return fieldValue
         }
+    }
+
+    public static func renderLog(_ log: String) -> String {
+        return "<span style='font-family: monospace;'>" +
+            log.replacingOccurrences(of: "\n", with: "<hr>", options: .literal, range: nil) +
+            "</span>"
     }
 }

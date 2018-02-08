@@ -17,12 +17,14 @@
 		832CC36E1FE7EB0400D1769F /* HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832CC36D1FE7EB0400D1769F /* HTML.swift */; };
 		832CC3701FE7EB0B00D1769F /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832CC36F1FE7EB0B00D1769F /* Defaults.swift */; };
 		832CC3721FE7EB1500D1769F /* Defaults.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 832CC3711FE7EB1500D1769F /* Defaults.storyboard */; };
+		8376A53F203318A000A72DAB /* Inheritance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8376A53E203318A000A72DAB /* Inheritance.storyboard */; };
 		839203E61F7E931D00799587 /* EnumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839203E51F7E931D00799587 /* EnumsViewController.swift */; };
 		8394336D1F18A820009D5914 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8394336C1F18A820009D5914 /* BaseViewController.swift */; };
 		8394336F1F18BABC009D5914 /* BuiltinTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8394336E1F18BABC009D5914 /* BuiltinTypesViewController.swift */; };
 		839B32081F9E3189002E04A6 /* Attributes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 839B32071F9E3189002E04A6 /* Attributes.storyboard */; };
 		839B320A1F9E3193002E04A6 /* AttributesViewController+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839B32091F9E3193002E04A6 /* AttributesViewController+HTML.swift */; };
 		839B320C1F9E31A5002E04A6 /* AttributesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839B320B1F9E31A5002E04A6 /* AttributesViewController.swift */; };
+		83BBDEC6203635B4004C4706 /* InheritanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BBDEC5203635B4004C4706 /* InheritanceViewController.swift */; };
 		83C6C2331F7E851300376FD6 /* InstancesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C6C2321F7E851200376FD6 /* InstancesViewController.swift */; };
 		83E266041FD822AD00C2B1C7 /* ErrorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E266031FD822AD00C2B1C7 /* ErrorsViewController.swift */; };
 		83E266061FD822B400C2B1C7 /* Errors.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83E266051FD822B400C2B1C7 /* Errors.storyboard */; };
@@ -72,12 +74,14 @@
 		832CC36D1FE7EB0400D1769F /* HTML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTML.swift; sourceTree = "<group>"; };
 		832CC36F1FE7EB0B00D1769F /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		832CC3711FE7EB1500D1769F /* Defaults.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Defaults.storyboard; sourceTree = "<group>"; };
+		8376A53E203318A000A72DAB /* Inheritance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Inheritance.storyboard; sourceTree = "<group>"; };
 		839203E51F7E931D00799587 /* EnumsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumsViewController.swift; sourceTree = "<group>"; };
 		8394336C1F18A820009D5914 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		8394336E1F18BABC009D5914 /* BuiltinTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuiltinTypesViewController.swift; sourceTree = "<group>"; };
 		839B32071F9E3189002E04A6 /* Attributes.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Attributes.storyboard; sourceTree = "<group>"; };
 		839B32091F9E3193002E04A6 /* AttributesViewController+HTML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AttributesViewController+HTML.swift"; sourceTree = "<group>"; };
 		839B320B1F9E31A5002E04A6 /* AttributesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributesViewController.swift; sourceTree = "<group>"; };
+		83BBDEC5203635B4004C4706 /* InheritanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InheritanceViewController.swift; sourceTree = "<group>"; };
 		83C6C2321F7E851200376FD6 /* InstancesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstancesViewController.swift; sourceTree = "<group>"; };
 		83E266031FD822AD00C2B1C7 /* ErrorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorsViewController.swift; sourceTree = "<group>"; };
 		83E266051FD822B400C2B1C7 /* Errors.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Errors.storyboard; sourceTree = "<group>"; };
@@ -152,6 +156,7 @@
 				C49F95881F8E58270069AB1C /* LaunchScreen.storyboard */,
 				C49F95871F8E58270069AB1C /* Main.storyboard */,
 				C49F95901F8E58A50069AB1C /* Structs.storyboard */,
+				8376A53E203318A000A72DAB /* Inheritance.storyboard */,
 				C49F958E1F8E58970069AB1C /* Instances.storyboard */,
 				C49F958C1F8E58840069AB1C /* Enums.storyboard */,
 				C49F958A1F8E58730069AB1C /* BuiltinTypes.storyboard */,
@@ -165,6 +170,7 @@
 		C49F95921F8E58FA0069AB1C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				83BBDEC5203635B4004C4706 /* InheritanceViewController.swift */,
 				832CC36F1FE7EB0B00D1769F /* Defaults.swift */,
 				83E266031FD822AD00C2B1C7 /* ErrorsViewController.swift */,
 				C448B98F1FBAF1D300AFD6CE /* ArraysViewController.swift */,
@@ -269,6 +275,7 @@
 				C477F4941F8FBE200073F27A /* Base.storyboard in Resources */,
 				C477F4951F8FBE200073F27A /* LaunchScreen.storyboard in Resources */,
 				579C7C5E1FBB35830018D88E /* Listeners.storyboard in Resources */,
+				8376A53F203318A000A72DAB /* Inheritance.storyboard in Resources */,
 				C477F4961F8FBE200073F27A /* Main.storyboard in Resources */,
 				C477F4971F8FBE200073F27A /* Structs.storyboard in Resources */,
 				C477F4981F8FBE200073F27A /* Instances.storyboard in Resources */,
@@ -321,6 +328,7 @@
 				832CC36E1FE7EB0400D1769F /* HTML.swift in Sources */,
 				C421390F1F8FA80E0019AF14 /* UIView+UI.swift in Sources */,
 				83E266041FD822AD00C2B1C7 /* ErrorsViewController.swift in Sources */,
+				83BBDEC6203635B4004C4706 /* InheritanceViewController.swift in Sources */,
 				8394336F1F18BABC009D5914 /* BuiltinTypesViewController.swift in Sources */,
 				C477F49D1F8FBF8D0073F27A /* UIViewController+Keyboard.swift in Sources */,
 				577E024A1FBC9E2F00F0CA64 /* ListenersTableViewCell.swift in Sources */,
