@@ -31,7 +31,7 @@ public class InheritanceChildClass: InheritanceRoot {
     }
     let c_instance : _baseRef
     public init?(cInheritanceChildClass: _baseRef) {
-        guard cInheritanceChildClass.private_pointer != nil else {
+        guard cInheritanceChildClass != 0 else {
             return nil
         }
         c_instance = cInheritanceChildClass

@@ -1,7 +1,7 @@
 {{^useParentCInstance}}let c_instance : _baseRef
 
 {{^isInterface}}public {{/isInterface}}init?(c{{name}}: _baseRef) {
-    guard c{{name}}.private_pointer != nil else {
+    guard c{{name}} != 0 else {
         return nil
     }
     c_instance = c{{name}}

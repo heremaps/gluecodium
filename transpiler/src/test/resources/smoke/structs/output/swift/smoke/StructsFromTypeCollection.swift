@@ -20,7 +20,7 @@ public class StructsFromTypeCollection {
     let c_instance : _baseRef
 
     public init?(cStructsFromTypeCollection: _baseRef) {
-        guard cStructsFromTypeCollection.private_pointer != nil else {
+        guard cStructsFromTypeCollection != 0 else {
             return nil
         }
         c_instance = cStructsFromTypeCollection

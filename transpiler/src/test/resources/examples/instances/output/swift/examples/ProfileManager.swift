@@ -20,7 +20,7 @@ public class ProfileManager {
     let c_instance : _baseRef
 
     public init?(cProfileManager: _baseRef) {
-        guard cProfileManager.private_pointer != nil else {
+        guard cProfileManager != 0 else {
             return nil
         }
         c_instance = cProfileManager

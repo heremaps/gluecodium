@@ -65,7 +65,7 @@ internal class _AttributesInterface: AttributesInterface {
     let c_instance : _baseRef
 
     init?(cAttributesInterface: _baseRef) {
-        guard cAttributesInterface.private_pointer != nil else {
+        guard cAttributesInterface != 0 else {
             return nil
         }
         c_instance = cAttributesInterface

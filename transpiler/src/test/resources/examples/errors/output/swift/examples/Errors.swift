@@ -20,7 +20,7 @@ public class Errors {
     let c_instance : _baseRef
 
     public init?(cErrors: _baseRef) {
-        guard cErrors.private_pointer != nil else {
+        guard cErrors != 0 else {
             return nil
         }
         c_instance = cErrors

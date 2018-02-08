@@ -19,7 +19,7 @@ template < typename T >
 inline static T*
 get_pointer( _baseRef handle )
 {
-    return static_cast< T* >( handle.private_pointer );
+    return reinterpret_cast< T* >( handle );
 }
 
 template < typename T >

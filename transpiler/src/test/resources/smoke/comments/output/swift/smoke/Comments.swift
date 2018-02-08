@@ -33,7 +33,7 @@ public class Comments {
     }
     let c_instance : _baseRef
     public init?(cComments: _baseRef) {
-        guard cComments.private_pointer != nil else {
+        guard cComments != 0 else {
             return nil
         }
         c_instance = cComments

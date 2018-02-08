@@ -51,7 +51,7 @@ internal class _CalculatorListener: CalculatorListener {
     let c_instance : _baseRef
 
     init?(cCalculatorListener: _baseRef) {
-        guard cCalculatorListener.private_pointer != nil else {
+        guard cCalculatorListener != 0 else {
             return nil
         }
         c_instance = cCalculatorListener

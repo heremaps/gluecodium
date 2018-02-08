@@ -20,7 +20,7 @@ public class Enums {
     let c_instance : _baseRef
 
     public init?(cEnums: _baseRef) {
-        guard cEnums.private_pointer != nil else {
+        guard cEnums != 0 else {
             return nil
         }
         c_instance = cEnums

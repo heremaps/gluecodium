@@ -20,7 +20,7 @@ public class EnumsInTypeCollectionInterface {
     let c_instance : _baseRef
 
     public init?(cEnumsInTypeCollectionInterface: _baseRef) {
-        guard cEnumsInTypeCollectionInterface.private_pointer != nil else {
+        guard cEnumsInTypeCollectionInterface != 0 else {
             return nil
         }
         c_instance = cEnumsInTypeCollectionInterface

@@ -20,7 +20,7 @@ public class EnumMethods {
     let c_instance : _baseRef
 
     public init?(cEnumMethods: _baseRef) {
-        guard cEnumMethods.private_pointer != nil else {
+        guard cEnumMethods != 0 else {
             return nil
         }
         c_instance = cEnumMethods

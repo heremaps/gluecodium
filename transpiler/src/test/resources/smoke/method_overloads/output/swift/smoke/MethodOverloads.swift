@@ -20,7 +20,7 @@ public class MethodOverloads {
     let c_instance : _baseRef
 
     public init?(cMethodOverloads: _baseRef) {
-        guard cMethodOverloads.private_pointer != nil else {
+        guard cMethodOverloads != 0 else {
             return nil
         }
         c_instance = cMethodOverloads

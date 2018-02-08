@@ -20,7 +20,7 @@ public class Structs {
     let c_instance : _baseRef
 
     public init?(cStructs: _baseRef) {
-        guard cStructs.private_pointer != nil else {
+        guard cStructs != 0 else {
             return nil
         }
         c_instance = cStructs

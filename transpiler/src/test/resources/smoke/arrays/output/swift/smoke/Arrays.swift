@@ -22,7 +22,7 @@ public class Arrays {
     let c_instance : _baseRef
 
     public init?(cArrays: _baseRef) {
-        guard cArrays.private_pointer != nil else {
+        guard cArrays != 0 else {
             return nil
         }
         c_instance = cArrays

@@ -46,7 +46,7 @@ public class TypeDefs {
     let c_instance : _baseRef
 
     public init?(cTypeDefs: _baseRef) {
-        guard cTypeDefs.private_pointer != nil else {
+        guard cTypeDefs != 0 else {
             return nil
         }
         c_instance = cTypeDefs

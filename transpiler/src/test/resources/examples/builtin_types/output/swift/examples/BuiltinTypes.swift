@@ -20,7 +20,7 @@ public class BuiltinTypes {
     let c_instance : _baseRef
 
     public init?(cBuiltinTypes: _baseRef) {
-        guard cBuiltinTypes.private_pointer != nil else {
+        guard cBuiltinTypes != 0 else {
             return nil
         }
         c_instance = cBuiltinTypes
