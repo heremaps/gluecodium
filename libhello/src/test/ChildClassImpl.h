@@ -26,6 +26,8 @@ public:
     ::std::string get_name( ) override;
     int32_t get_lucky_number( ) override;
     void set_lucky_number( const int32_t number ) override;
+    void do_something_to_child_class(
+        const ::std::shared_ptr< ::test::ChildClass >& input ) override;
 
 private:
     int32_t m_lucky_number;

@@ -50,4 +50,10 @@ ChildClassImpl::set_lucky_number( const int32_t number )
     m_lucky_number = number;
 }
 
+void
+ChildClassImpl::do_something_to_child_class( const ::std::shared_ptr< ::test::ChildClass >& input )
+{
+    // Do nothing
+}
+
 }
