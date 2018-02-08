@@ -87,10 +87,6 @@ InheritanceHelper::create_square() {
 void InheritanceHelper::apply_scale_on(
   const double scale_factor,
   const ::std::vector< ::std::shared_ptr< ::hello::Shape > >& shapes ) {
-  ::std::ostringstream oss;
-  oss << "calling InheritanceHelper::apply_scale_on with factor=" << scale_factor <<
-  " shapes.length = " << shapes.size() << "\n";
-    ::hello::HelloWorldStaticLogger::append(oss.str());
 
   for (const auto& shape : shapes) {
     if (shape) {

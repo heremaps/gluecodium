@@ -15,7 +15,7 @@ class StructsViewController: UIViewController, UIPickerViewDataSource, UIPickerV
 
     typealias Structs = HelloWorldPlainDataStructures
     typealias SyncFunction = () -> Void
-    typealias StructStateFunction = () -> StructToHTML
+    typealias StructStateFunction = () -> String
     typealias DemoCase = (label: String, currentState: StructStateFunction, syncFunction: SyncFunction)
 
     var syncResult: Structs.SyncResult
@@ -25,13 +25,13 @@ class StructsViewController: UIViewController, UIPickerViewDataSource, UIPickerV
     private var indexSelected = 0
 
     lazy var dataSource: [DemoCase] = [
-        ("Class defined structure", {return self.syncResult}, {
+        ("Class defined structure", {return HTML.renderStruct(self.syncResult)}, {
             self.syncResult.lastUpdatedTimeStamp = UInt64(Date().timeIntervalSinceReferenceDate)
             self.syncResult =  Structs.methodWithNonNestedType(input: self.syncResult)!}),
-        ("Nested class defined structure", {return self.extendedSyncResult}, {
+        ("Nested class defined structure", {return HTML.renderStruct(self.extendedSyncResult)}, {
             self.extendedSyncResult.syncResult.lastUpdatedTimeStamp = UInt64(Date().timeIntervalSinceReferenceDate)
             self.extendedSyncResult = Structs.methodWithNestedType(input: self.extendedSyncResult)!}),
-        ("Inherited class defined structure", {return self.numericSync}, {
+        ("Inherited class defined structure", {return HTML.renderStruct(self.numericSync)}, {
             self.numericSync.lastUpdatedTimeStamp = UInt64(Date().timeIntervalSinceReferenceDate)
             self.numericSync = Structs.methodWithInheritedStruct(input: self.numericSync)!})
     ]
@@ -53,8 +53,7 @@ class StructsViewController: UIViewController, UIPickerViewDataSource, UIPickerV
     }
 
     func populateField() {
-        let html = dataSource[indexSelected].currentState().html
-        resultView.loadHTMLString(html, baseURL: nil)
+        resultView.loadHTMLString(dataSource[indexSelected].currentState(), baseURL: nil)
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -74,7 +73,3 @@ class StructsViewController: UIViewController, UIPickerViewDataSource, UIPickerV
         populateField()
     }
 }
-
-extension HelloWorldPlainDataStructures.SyncResult: StructToHTML {}
-extension HelloWorldPlainDataStructures.IdentifiableSyncResult: StructToHTML {}
-extension HelloWorldPlainDataStructures.NumericSyncResult: StructToHTML {}
