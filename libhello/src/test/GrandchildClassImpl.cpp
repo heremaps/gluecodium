@@ -50,4 +50,10 @@ GrandchildClassImpl::set_lucky_number( const int32_t number )
     ChildClassImpl::set_lucky_number( number );
 }
 
+void
+GrandchildClassImpl::do_something( const std::string& value )
+{
+    // Do nothing
+}
+
 }

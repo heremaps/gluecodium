@@ -52,6 +52,11 @@ class InheritanceTests: XCTestCase {
         XCTAssertEqual(instance.luckyNumber, 42)
     }
 
+    func testChildClassDoesNotCrash() {
+        let instance = GrandchildClass.createGrandchildClass()!
+        instance.doSomething(value: "Foo")
+    }
+
     static var allTests = [
         ("testCreateChildClassInstance", testCreateChildClassInstance),
         ("testCastChildClassInstanceToParent", testCastChildClassInstanceToParent),
@@ -59,6 +64,7 @@ class InheritanceTests: XCTestCase {
         ("testCastGrandchildClassInstanceToParent", testCastGrandchildClassInstanceToParent),
         ("testNativeCastChildClassInstanceToParent", testNativeCastChildClassInstanceToParent),
         ("testNativeCastGrandchildClassInstanceToChildClass", testNativeCastGrandchildClassInstanceToChildClass),
-        ("testNativeCastGrandchildClassInstanceToParent", testNativeCastGrandchildClassInstanceToParent)
+        ("testNativeCastGrandchildClassInstanceToParent", testNativeCastGrandchildClassInstanceToParent),
+        ("testChildClassDoesNotCrash", testChildClassDoesNotCrash)
     ]
 }
