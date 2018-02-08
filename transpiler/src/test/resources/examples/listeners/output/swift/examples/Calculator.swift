@@ -20,7 +20,7 @@ public class Calculator {
     let c_instance : _baseRef
 
     public init?(cCalculator: _baseRef) {
-        guard cCalculator.private_pointer != nil else {
+        guard cCalculator != 0 else {
             return nil
         }
         c_instance = cCalculator

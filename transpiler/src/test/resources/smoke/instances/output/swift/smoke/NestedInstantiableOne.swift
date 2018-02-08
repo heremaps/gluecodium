@@ -20,7 +20,7 @@ public class NestedInstantiableOne {
     let c_instance : _baseRef
 
     public init?(cNestedInstantiableOne: _baseRef) {
-        guard cNestedInstantiableOne.private_pointer != nil else {
+        guard cNestedInstantiableOne != 0 else {
             return nil
         }
         c_instance = cNestedInstantiableOne

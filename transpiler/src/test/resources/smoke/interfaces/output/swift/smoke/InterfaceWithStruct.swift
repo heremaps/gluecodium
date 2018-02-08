@@ -51,7 +51,7 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
     let c_instance : _baseRef
 
     init?(cInterfaceWithStruct: _baseRef) {
-        guard cInterfaceWithStruct.private_pointer != nil else {
+        guard cInterfaceWithStruct != 0 else {
             return nil
         }
         c_instance = cInterfaceWithStruct

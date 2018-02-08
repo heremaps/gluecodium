@@ -20,7 +20,7 @@ public class Basic {
     let c_instance : _baseRef
 
     public init?(cBasic: _baseRef) {
-        guard cBasic.private_pointer != nil else {
+        guard cBasic != 0 else {
             return nil
         }
         c_instance = cBasic

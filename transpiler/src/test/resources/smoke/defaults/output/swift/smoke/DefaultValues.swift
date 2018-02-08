@@ -20,7 +20,7 @@ public class DefaultValues {
     let c_instance : _baseRef
 
     public init?(cDefaultValues: _baseRef) {
-        guard cDefaultValues.private_pointer != nil else {
+        guard cDefaultValues != 0 else {
             return nil
         }
         c_instance = cDefaultValues

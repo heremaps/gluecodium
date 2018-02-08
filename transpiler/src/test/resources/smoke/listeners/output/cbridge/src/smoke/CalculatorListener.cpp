@@ -50,9 +50,9 @@ private:
 _baseRef smoke_CalculatorListener_createProxy(smoke_CalculatorListener_FunctionTable functionTable) {
     auto proxy = smoke_CalculatorListenerProxy::get_proxy(std::move(functionTable));
     if (proxy) {
-        return { new std::shared_ptr<smoke::CalculatorListener>(std::move(proxy)) };
+        return reinterpret_cast<_baseRef>( new std::shared_ptr<smoke::CalculatorListener>(std::move(proxy)) );
     } else {
-        return { nullptr };
+        return 0;
     }
 }
 

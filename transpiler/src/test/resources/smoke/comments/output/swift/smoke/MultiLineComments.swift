@@ -18,7 +18,7 @@ internal func getRef(_ ref: MultiLineComments) -> RefHolder {
 public class MultiLineComments {
     let c_instance : _baseRef
     public init?(cMultiLineComments: _baseRef) {
-        guard cMultiLineComments.private_pointer != nil else {
+        guard cMultiLineComments != 0 else {
             return nil
         }
         c_instance = cMultiLineComments

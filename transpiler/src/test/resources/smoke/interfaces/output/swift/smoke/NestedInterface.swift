@@ -61,7 +61,7 @@ internal class _NestedInterface: NestedInterface {
     let c_instance : _baseRef
 
     init?(cNestedInterface: _baseRef) {
-        guard cNestedInterface.private_pointer != nil else {
+        guard cNestedInterface != 0 else {
             return nil
         }
         c_instance = cNestedInterface

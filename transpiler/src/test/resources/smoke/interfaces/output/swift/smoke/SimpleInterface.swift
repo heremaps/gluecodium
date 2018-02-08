@@ -60,7 +60,7 @@ internal class _SimpleInterface: SimpleInterface {
     let c_instance : _baseRef
 
     init?(cSimpleInterface: _baseRef) {
-        guard cSimpleInterface.private_pointer != nil else {
+        guard cSimpleInterface != 0 else {
             return nil
         }
         c_instance = cSimpleInterface

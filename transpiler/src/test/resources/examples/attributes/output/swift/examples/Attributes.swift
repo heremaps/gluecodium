@@ -66,7 +66,7 @@ internal class _Attributes: Attributes {
     let c_instance : _baseRef
 
     init?(cAttributes: _baseRef) {
-        guard cAttributes.private_pointer != nil else {
+        guard cAttributes != 0 else {
             return nil
         }
         c_instance = cAttributes

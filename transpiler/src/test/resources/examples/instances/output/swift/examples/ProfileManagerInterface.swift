@@ -55,7 +55,7 @@ internal class _ProfileManagerInterface: ProfileManagerInterface {
     let c_instance : _baseRef
 
     init?(cProfileManagerInterface: _baseRef) {
-        guard cProfileManagerInterface.private_pointer != nil else {
+        guard cProfileManagerInterface != 0 else {
             return nil
         }
         c_instance = cProfileManagerInterface

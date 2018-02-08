@@ -20,7 +20,7 @@ public class SimpleInstantiableTwo {
     let c_instance : _baseRef
 
     public init?(cSimpleInstantiableTwo: _baseRef) {
-        guard cSimpleInstantiableTwo.private_pointer != nil else {
+        guard cSimpleInstantiableTwo != 0 else {
             return nil
         }
         c_instance = cSimpleInstantiableTwo

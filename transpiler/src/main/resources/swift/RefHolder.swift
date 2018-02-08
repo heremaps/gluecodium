@@ -30,3 +30,5 @@ class RefHolder {
         }
     }
 }
+
+public typealias _baseRef = Int64

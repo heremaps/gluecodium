@@ -20,9 +20,9 @@
 }}{{+ReturnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{include delegateToCall}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{returnType.functionReturnType}}>({{include delegateToCall}}){{/case}}{{!!
-    }}{{#case "ARRAY"}}{new {{returnType.arrayBaseApi}}({{include delegateToCall}})}{{/case}}{{!!
-    }}{{#case "CLASS"}}{checked_pointer_copy({{include delegateToCall}})}{{/case}}{{!!
-    }}{{#default}}{new {{returnType.name}}({{include delegateToCall}})}{{/default}}{{!!
+    }}{{#case "ARRAY"}}reinterpret_cast<_baseRef>( new {{returnType.arrayBaseApi}}({{include delegateToCall}}) ){{/case}}{{!!
+    }}{{#case "CLASS"}}reinterpret_cast<_baseRef>( checked_pointer_copy({{include delegateToCall}}) ){{/case}}{{!!
+    }}{{#default}}reinterpret_cast<_baseRef>( new {{returnType.name}}({{include delegateToCall}}) ){{/default}}{{!!
 }}{{/switch}}{{/ReturnConversion}}{{!!
 
 

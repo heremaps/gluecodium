@@ -18,7 +18,7 @@ internal func getRef(_ ref: LongComments) -> RefHolder {
 public class LongComments {
     let c_instance : _baseRef
     public init?(cLongComments: _baseRef) {
-        guard cLongComments.private_pointer != nil else {
+        guard cLongComments != 0 else {
             return nil
         }
         c_instance = cLongComments

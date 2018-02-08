@@ -1,5 +1,5 @@
 _baseRef {{name}}_create() {
-    return { new {{arrayType.arrayBaseApi}}()};;
+    return reinterpret_cast<_baseRef>( new {{arrayType.arrayBaseApi}}() );
 }
 
 void {{name}}_release(_baseRef handle) {
@@ -33,23 +33,23 @@ void {{name}}_append(_baseRef handle, {{argument}} item) { {{!!
 }
 
 {{+structGetConversion}}
-return {{innerType}} {
+return reinterpret_cast<_baseRef>(
     new {{underlyingType.name}} {
         (*get_pointer<{{arrayType.arrayBaseApi}}>(handle))[index]
     }
-};{{/structGetConversion}}
+);{{/structGetConversion}}
 
 {{+classGetConversion}}
-return {{innerType}} {
+return reinterpret_cast<_baseRef>(
     checked_pointer_copy(get_pointer<{{arrayType.arrayBaseApi}}>(handle)->at(index))
-};{{/classGetConversion}}
+);{{/classGetConversion}}
 
 {{+arrayGetConversion}}
-return {{innerType}} {
+return reinterpret_cast<_baseRef>(
     new {{underlyingType.arrayBaseApi}} {
         (*get_pointer<{{arrayType.arrayBaseApi}}>(handle))[index]
     }
-};{{/arrayGetConversion}}
+);{{/arrayGetConversion}}
 
 {{+enumGetConversion}}
 return static_cast<{{innerType}}>((*get_pointer<{{arrayType.arrayBaseApi}}>(handle))[index]);{{/enumGetConversion}}

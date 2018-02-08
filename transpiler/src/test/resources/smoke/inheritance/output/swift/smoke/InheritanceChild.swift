@@ -56,7 +56,7 @@ internal class _InheritanceChild: InheritanceChild {
     }
     let c_instance : _baseRef
     init?(cInheritanceChild: _baseRef) {
-        guard cInheritanceChild.private_pointer != nil else {
+        guard cInheritanceChild != 0 else {
             return nil
         }
         c_instance = cInheritanceChild

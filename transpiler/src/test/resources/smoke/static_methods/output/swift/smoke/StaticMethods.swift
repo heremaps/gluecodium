@@ -20,7 +20,7 @@ public class StaticMethods {
     let c_instance : _baseRef
 
     public init?(cStaticMethods: _baseRef) {
-        guard cStaticMethods.private_pointer != nil else {
+        guard cStaticMethods != 0 else {
             return nil
         }
         c_instance = cStaticMethods

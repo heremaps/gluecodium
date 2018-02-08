@@ -15,7 +15,7 @@ import Foundation
 extension String {
     func convertToCType() -> _baseRef {
         let result = std_string_create(self)
-        precondition(result.private_pointer != nil, "Out of memory")
+        precondition(result != 0, "Out of memory")
         return result
     }
 }

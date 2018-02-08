@@ -50,9 +50,9 @@ private:
 _baseRef examples_CalculatorListener_createProxy(examples_CalculatorListener_FunctionTable functionTable) {
     auto proxy = examples_CalculatorListenerProxy::get_proxy(std::move(functionTable));
     if (proxy) {
-        return { new std::shared_ptr<examples::CalculatorListener>(std::move(proxy)) };
+        return reinterpret_cast<_baseRef>( new std::shared_ptr<examples::CalculatorListener>(std::move(proxy)) );
     } else {
-        return { nullptr };
+        return 0;
     }
 }
 

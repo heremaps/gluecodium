@@ -12,14 +12,13 @@
 
 #pragma once
 
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct
-{
-    void* const private_pointer;
-} _baseRef;
+typedef int64_t _baseRef;
 
 #ifdef __cplusplus
 }
