@@ -61,8 +61,11 @@ function(apigen_swift_compile target architecture)
     set(TARGET_ARCHITECTURE ${architecture})
 
     if(IOS_DEPLOYMENT_TARGET)
-        set(full_target ${TARGET_ARCHITECTURE}-apple-ios${IOS_DEPLOYMENT_TARGET})
-        message(INFO "[Swift] Cross compiling for target ${full_target}")
+        if (XCODE_PLATFORM_SUFFIX STREQUAL "")
+            set(XCODE_PLATFORM_SUFFIX "ios")
+        endif()
+        set(full_target ${TARGET_ARCHITECTURE}-apple-${XCODE_PLATFORM_SUFFIX}${IOS_DEPLOYMENT_TARGET})
+        message(INFO "[Swift] Cross compiling for target ${full_target} for ${CMAKE_OSX_SYSROOT}")
         set(swift_target_flag -target ${full_target} -sdk ${CMAKE_OSX_SYSROOT})
     else()
         message(INFO "[Swift] Compiling for target ${TARGET_ARCHITECTURE})")
@@ -73,7 +76,7 @@ function(apigen_swift_compile target architecture)
     get_link_libraries(${target} swift_libraries)
     set(APIGEN_SWIFT_LINK_LIBRARIES ${swift_libraries})
     message(INFO "Swift enabled ${target} has the following link dependencies: ${swift_libraries}")
-
+    
     set(BUILD_ARGUMENTS
         -I${OUTPUT_DIR}
         -import-underlying-module
@@ -108,6 +111,7 @@ function(apigen_swift_compile target architecture)
 
     file(GLOB_RECURSE SOURCES ${OUTPUT_DIR}/swift/*.swift)
     add_custom_command(TARGET ${target} POST_BUILD
+    COMMENT "Compiling generated Swift sources -> ${BUILD_ARGUMENTS} ${build_swift_native_frameworks}"
     COMMAND swiftc ${BUILD_ARGUMENTS} ${build_swift_native_frameworks} ${SOURCES}
     WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
 
