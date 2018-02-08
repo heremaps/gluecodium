@@ -72,4 +72,10 @@ interface GrandchildClass extends ChildClass {
           GrandchildClass output
       }
     }
+
+    method doSomething {
+        in {
+            String value
+        }
+    }
 }
