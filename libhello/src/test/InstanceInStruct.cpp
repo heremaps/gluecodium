@@ -55,4 +55,14 @@ InstanceInStruct::create_null_in_struct() {
     return {std::shared_ptr<InstanceInStructImpl>()};
 }
 
+InstanceInStruct::NotNullSelfHolder
+InstanceInStruct::create_in_not_null_struct() {
+    return {std::make_shared<InstanceInStructImpl>()};
+}
+
+InstanceInStruct::NotNullSelfHolder
+InstanceInStruct::create_in_empty_not_null_struct() {
+    return {std::shared_ptr<InstanceInStructImpl>()};
+}
+
 }

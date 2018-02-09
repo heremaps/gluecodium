@@ -21,6 +21,10 @@ interface InstanceInStruct {
         InstanceInStruct mySelf
     }
 
+    public struct NotNullSelfHolder {
+        InstanceInStruct mySelf
+    }
+
     public struct ExtendedSelfHolder extends InstanceInStruct.SelfHolder {
         String additionalField
     }
@@ -58,6 +62,18 @@ interface InstanceInStruct {
     method createNullInStruct {
         out {
             SelfHolder wrappedInstance
+        }
+    }
+
+    method createInNotNullStruct {
+        out {
+            NotNullSelfHolder wrappedInstance
+        }
+    }
+
+    method createInEmptyNotNullStruct {
+        out {
+            NotNullSelfHolder wrappedInstance
         }
     }
 }
