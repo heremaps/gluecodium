@@ -163,8 +163,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FField francaField) {
 
-    String fieldName = SwiftNameRules.getFieldName(francaField.getName());
     SwiftType fieldType = getPreviousResult(SwiftType.class);
+    if (fieldType.category == TypeCategory.CLASS && deploymentModel.isNotNull(francaField)) {
+      fieldType = fieldType.withOptional(false);
+    }
+
+    String fieldName = SwiftNameRules.getFieldName(francaField.getName());
     String deploymentDefaultValue = deploymentModel.getDefaultValue(francaField);
     SwiftValue defaultValue =
         deploymentDefaultValue != null
@@ -197,7 +201,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftType swiftType = getPreviousResult(SwiftType.class);
     if (swiftType.category == TypeCategory.STRUCT
         || swiftType.category == TypeCategory.BUILTIN_STRING) {
-      swiftType = swiftType.createOptionalType();
+      swiftType = swiftType.withOptional(true);
     }
 
     SwiftParameter swiftParameter =

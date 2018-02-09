@@ -58,6 +58,10 @@ public class FrancaDeploymentModel {
     return getBoolean(francaStruct, "Serializable");
   }
 
+  public boolean isNotNull(final FField francaField) {
+    return getBoolean(francaField, "NotNull");
+  }
+
   public String getDefaultValue(final FField francaField) {
     return getString(francaField, "DefaultValue");
   }

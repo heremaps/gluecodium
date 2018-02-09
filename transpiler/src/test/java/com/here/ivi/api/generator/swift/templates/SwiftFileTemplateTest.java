@@ -257,7 +257,7 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = SwiftClass.builder("HelloWorld").build();
     SwiftMethod method =
         SwiftMethod.builder("helloWorldMethod")
-            .returnType(new SwiftType("String", TypeCategory.BUILTIN_STRING).createOptionalType())
+            .returnType(new SwiftType("String", TypeCategory.BUILTIN_STRING).withOptional(true))
             .isStatic(true)
             .cNestedSpecifier("HelloWorld")
             .cShortName("helloWorldMethod")
@@ -371,8 +371,7 @@ public class SwiftFileTemplateTest {
         SwiftMethod.builder("testBuffer")
             .isStatic(true)
             .returnType(
-                new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER)
-                    .createOptionalType())
+                new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER).withOptional(true))
             .cNestedSpecifier("HelloWorld")
             .cShortName("testBuffer")
             .build();
@@ -468,7 +467,7 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("methodReturningStruct")
             .isStatic(true)
-            .returnType(swiftStruct.createOptionalType())
+            .returnType(swiftStruct.withOptional(true))
             .cNestedSpecifier("HelloWorld")
             .cShortName("methodReturningStruct")
             .build();
@@ -502,7 +501,7 @@ public class SwiftFileTemplateTest {
     SwiftMethod method =
         SwiftMethod.builder("fancyMethod")
             .isStatic(true)
-            .returnType(outputStruct.createOptionalType())
+            .returnType(outputStruct.withOptional(true))
             .cNestedSpecifier("HelloWorld")
             .cShortName("fancyMethod")
             .build();
@@ -1066,7 +1065,7 @@ public class SwiftFileTemplateTest {
     swiftClass.typedefs.add(new SwiftTypeDef("SomeClass.RenamedStruct", secondStruct));
     SwiftMethod method =
         SwiftMethod.builder("SomeMethod")
-            .returnType(secondStruct.createAlias("SomeClass.RenamedStruct"))
+            .returnType(secondStruct.withAlias("SomeClass.RenamedStruct"))
             .cNestedSpecifier("HelloWorld")
             .cShortName("someMethod")
             .isStatic(true)
@@ -1164,7 +1163,7 @@ public class SwiftFileTemplateTest {
 
     SwiftMethod method =
         SwiftMethod.builder("SomeMethod")
-            .returnType(new SwiftType("String", TypeCategory.BUILTIN_STRING).createOptionalType())
+            .returnType(new SwiftType("String", TypeCategory.BUILTIN_STRING).withOptional(true))
             .cNestedSpecifier("HelloWorld")
             .cShortName("someMethod")
             .isStatic(true)
