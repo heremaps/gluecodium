@@ -192,12 +192,8 @@ public class JniGenerator extends AbstractGenerator {
   private void addCppProxyFiles(
       final List<JniContainer> jniContainers, final List<GeneratedFile> results) {
 
-    //TODO APIGEN-759: remove this filter when support for non listener classes is added
     List<JniContainer> listeners =
-        jniContainers
-            .stream()
-            .filter(JniGenerator::isListener)
-            .collect(Collectors.toCollection(ArrayList::new));
+        jniContainers.stream().filter(JniGenerator::isListener).collect(Collectors.toList());
 
     List<String> proxyIncludes = new LinkedList<>();
 
