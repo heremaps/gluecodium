@@ -23,7 +23,6 @@ public final class SwiftValueMapper {
     if (expression instanceof FIntegerConstant) {
       return new SwiftValue(String.valueOf(((FIntegerConstant) expression).getVal()));
     } else {
-      //TODO: APIGEN-494: Update Swift layer iOS generator for HelloWorld-ComplexConstants
       return null;
     }
   }
