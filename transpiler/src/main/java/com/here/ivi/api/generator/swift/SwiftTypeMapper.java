@@ -76,7 +76,7 @@ public class SwiftTypeMapper {
       return getClassType(francaTypeDef, deploymentModel);
     }
     SwiftType typedefType = mapType(francaTypeDef.getActualType(), deploymentModel);
-    return typedefType.createAlias(SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel));
+    return typedefType.withAlias(SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel));
   }
 
   private static SwiftType getStructType(

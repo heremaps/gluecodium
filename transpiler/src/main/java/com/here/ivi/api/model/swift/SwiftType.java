@@ -54,11 +54,11 @@ public class SwiftType extends SwiftModelElement {
     this.publicName = publicName;
   }
 
-  public SwiftType createAlias(final String aliasName) {
+  public SwiftType withAlias(final String aliasName) {
     return new SwiftType(name, category, implementingClass, aliasName, optional);
   }
 
-  public SwiftType createOptionalType() {
-    return new SwiftType(name, category, implementingClass, publicName, true);
+  public SwiftType withOptional(final boolean optionalValue) {
+    return new SwiftType(name, category, implementingClass, publicName, optionalValue);
   }
 }

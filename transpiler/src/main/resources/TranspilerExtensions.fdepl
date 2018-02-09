@@ -23,6 +23,10 @@ specification TranspilerExtensions
     for structs {
         Serializable: Boolean (optional, default: false);
     }
+
+    for struct_fields {
+        NotNull: Boolean (optional, default: false);
+    }
 }
 
 specification Defaults {

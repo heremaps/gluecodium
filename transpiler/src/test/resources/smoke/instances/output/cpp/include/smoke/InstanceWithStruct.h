@@ -25,6 +25,7 @@ struct InnerStruct {
 };
 struct StructWithInstance {
     ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance;
+    ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance_not_null;
 };
 public:
 virtual ::smoke::InstanceWithStruct::InnerStruct inner_struct_method( const ::smoke::InstanceWithStruct::InnerStruct& input_struct ) = 0;

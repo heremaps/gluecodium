@@ -17,9 +17,11 @@ public class InstanceWithStruct extends NativeBase {
     }
     public static class StructWithInstance {
         public SimpleInstantiableOne instance;
+        public SimpleInstantiableOne instanceNotNull;
         public StructWithInstance() {}
-        public StructWithInstance(SimpleInstantiableOne instance) {
+        public StructWithInstance(SimpleInstantiableOne instance, SimpleInstantiableOne instanceNotNull) {
             this.instance = instance;
+            this.instanceNotNull = instanceNotNull;
         }
     }
     /** For internal use only */

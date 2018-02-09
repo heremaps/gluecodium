@@ -34,6 +34,15 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
     "instance",
     "Lcom/example/smoke/SimpleInstantiableOne;"),
     _nout.instance );
+  convert_from_jni(
+    _jenv,
+    get_object_field(
+    _jenv,
+    javaClass,
+    _jinput,
+    "instanceNotNull",
+    "Lcom/example/smoke/SimpleInstantiableOne;"),
+    _nout.instance_not_null );
 }
 
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructWithInstance& _ninput){
@@ -43,6 +52,10 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructW
   set_object_field(_jenv, javaClass, _jresult, "instance",
   "Lcom/example/smoke/SimpleInstantiableOne;", jinstance);
   _jenv->DeleteLocalRef(jinstance);
+  auto jinstance_not_null = convert_to_jni(_jenv, _ninput.instance_not_null);
+  set_object_field(_jenv, javaClass, _jresult, "instanceNotNull",
+  "Lcom/example/smoke/SimpleInstantiableOne;", jinstance_not_null);
+  _jenv->DeleteLocalRef(jinstance_not_null);
   return _jresult;
 }
 

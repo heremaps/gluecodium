@@ -136,6 +136,7 @@ interface InstanceWithStruct {
 
     struct StructWithInstance {
         SimpleInstantiableOne.SimpleInstantiableOne instance
+        SimpleInstantiableOne.SimpleInstantiableOne instanceNotNull
     }
 
     method structWithInstanceMethod {

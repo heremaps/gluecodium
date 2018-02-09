@@ -119,7 +119,7 @@ public final class SwiftMethodSignatureTemplateTest {
   public void generateMethodWithOptionalReturnType() {
     SwiftMethod method =
         SwiftMethod.builder("methodFoo")
-            .returnType(new SwiftType("Bar", SwiftType.TypeCategory.CLASS).createOptionalType())
+            .returnType(new SwiftType("Bar", SwiftType.TypeCategory.CLASS).withOptional(true))
             .build();
 
     String result = TemplateEngine.render(TEMPLATE_NAME, method);

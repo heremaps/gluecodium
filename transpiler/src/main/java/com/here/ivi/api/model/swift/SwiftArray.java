@@ -54,7 +54,7 @@ public final class SwiftArray extends SwiftType {
   }
 
   @Override
-  public SwiftType createAlias(String aliasName) {
+  public SwiftType withAlias(String aliasName) {
     return new SwiftArray(implementingClass, aliasName, optional, underlyingType, refName);
   }
 

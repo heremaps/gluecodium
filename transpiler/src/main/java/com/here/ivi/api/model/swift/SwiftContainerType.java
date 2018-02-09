@@ -47,7 +47,7 @@ public final class SwiftContainerType extends SwiftType {
   }
 
   @Override
-  public SwiftType createAlias(final String aliasName) {
+  public SwiftType withAlias(final String aliasName) {
     SwiftContainerType container =
         new SwiftContainerType(
             name, category, implementingClass, aliasName, optional, parent, cPrefix);
@@ -57,10 +57,10 @@ public final class SwiftContainerType extends SwiftType {
   }
 
   @Override
-  public SwiftType createOptionalType() {
+  public SwiftType withOptional(final boolean optional) {
     SwiftContainerType container =
         new SwiftContainerType(
-            name, category, implementingClass, publicName, true, parent, cPrefix);
+            name, category, implementingClass, publicName, optional, parent, cPrefix);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;

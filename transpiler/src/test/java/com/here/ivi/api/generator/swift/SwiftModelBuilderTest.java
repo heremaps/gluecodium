@@ -386,6 +386,7 @@ public class SwiftModelBuilderTest {
   @Test
   public void finishBuildingFrancaFieldReadsName() {
     when(SwiftNameRules.getFieldName(eq(FIELD_NAME))).thenReturn("SwiftFieldName");
+    contextStack.injectResult(swiftType);
     modelBuilder.finishBuilding(francaField);
 
     SwiftField resultField = modelBuilder.getFinalResult(SwiftField.class);
@@ -402,6 +403,21 @@ public class SwiftModelBuilderTest {
     SwiftField resultField = modelBuilder.getFinalResult(SwiftField.class);
     assertNotNull("Should be 1 field item created", resultField);
     assertSame(swiftType, resultField.type);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsNotNull() {
+    when(deploymentModel.isNotNull(any())).thenReturn(true);
+    SwiftType classType =
+        new SwiftType("VerySwiftType", SwiftType.TypeCategory.CLASS).withOptional(true);
+    contextStack.injectResult(classType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    SwiftField resultField = modelBuilder.getFinalResult(SwiftField.class);
+    assertNotNull(resultField);
+    assertFalse(resultField.type.optional);
+    verify(deploymentModel).isNotNull(francaField);
   }
 
   @Test

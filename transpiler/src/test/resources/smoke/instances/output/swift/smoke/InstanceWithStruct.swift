@@ -46,14 +46,23 @@ public class InstanceWithStruct {
 
     public struct StructWithInstance {
         public var instance: SimpleInstantiableOne?
+        public var instanceNotNull: SimpleInstantiableOne
 
-        public init(instance: SimpleInstantiableOne?) {
+        public init(instance: SimpleInstantiableOne?, instanceNotNull: SimpleInstantiableOne) {
             self.instance = instance
+            self.instanceNotNull = instanceNotNull
         }
 
         internal init?(cStructWithInstance: _baseRef) {
             do {
                 instance = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance))
+            }
+            do {
+                guard let instanceNotNullUnwrapped = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_get(cStructWithInstance))
+            else {
+                return nil
+            }
+            instanceNotNull = instanceNotNullUnwrapped
             }
         }
 
@@ -65,6 +74,7 @@ public class InstanceWithStruct {
 
         internal func fillFunction(_ cStructWithInstance: _baseRef) -> Void {
             smoke_InstanceWithStruct_StructWithInstance_instance_set(cStructWithInstance, getRef(instance).ref)
+            smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_set(cStructWithInstance, getRef(instanceNotNull).ref)
         }
     }
 
