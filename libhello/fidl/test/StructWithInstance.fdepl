@@ -14,9 +14,16 @@ import "./StructWithInstance.fidl"
 
 define TranspilerExtensions for interface test.InstanceInStruct
 {
+    struct NotNullSelfHolder {
+        mySelf {
+            NotNull = true
+        }
+    }
+
     method create {
         Static = true
     }
+
     method createInStruct {
         Static = true
     }
@@ -26,6 +33,14 @@ define TranspilerExtensions for interface test.InstanceInStruct
     }
 
     method createNullInStruct {
+        Static = true
+    }
+
+    method createInNotNullStruct {
+        Static = true
+    }
+
+    method createInEmptyNotNullStruct {
         Static = true
     }
 }

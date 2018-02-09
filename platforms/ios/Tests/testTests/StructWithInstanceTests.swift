@@ -34,10 +34,23 @@ class StructWithInstanceTests: XCTestCase {
         XCTAssertNil(emptyStruct?.mySelf)
     }
 
+    func testInstanceInNotNullStruct() {
+        let structNotNull = hello.InstanceInStruct.createInNotNullStruct()
+        XCTAssertNotNil(structNotNull)
+        XCTAssertNotNil(structNotNull!.mySelf)
+    }
+
+    func testNullInstanceInNotNullStruct() {
+        let emptyStruct = hello.InstanceInStruct.createInEmptyNotNullStruct()
+        XCTAssertNil(emptyStruct)
+    }
+
     static var allTests = [
         ("testAssignInstanceToStruct", testAssignInstanceToStruct),
         ("testCopyInstanceInStruct", testCopyInstanceInStruct),
         ("testCopyInstanceInStructFromMethod", testCopyInstanceInStructFromMethod),
-        ("testNullInstanceInStruct", testNullInstanceInStruct)
+        ("testNullInstanceInStruct", testNullInstanceInStruct),
+        ("testInstanceInNotNullStruct", testInstanceInNotNullStruct),
+        ("testNullInstanceInNotNullStruct", testNullInstanceInNotNullStruct)
     ]
 }
