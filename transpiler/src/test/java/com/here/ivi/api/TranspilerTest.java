@@ -11,13 +11,12 @@
 
 package com.here.ivi.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyList;
 
 import com.here.ivi.api.cache.CachingStrategy;
 import com.here.ivi.api.cache.CachingStrategyCreator;
@@ -46,11 +45,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
-import org.mockito.InOrder;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -160,7 +155,7 @@ public class TranspilerTest {
     TranspilerOptions options =
         TranspilerOptions.builder()
             .inputDirs(new String[] {""})
-            .outputDir(OUTPUT_DIR)
+            .outputDir(temporaryFolder.getRoot().getPath())
             .generators(Collections.singleton(SHORT_NAME))
             .enableCaching(true)
             .build();
