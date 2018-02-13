@@ -20,6 +20,7 @@ android {
 
     lintOptions {
         warningsAsErrors true
+        disable 'GradleDependency'
     }
 
     testOptions {
