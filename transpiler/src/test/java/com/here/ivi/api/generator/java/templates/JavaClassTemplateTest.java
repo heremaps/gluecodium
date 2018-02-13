@@ -66,13 +66,13 @@ public final class JavaClassTemplateTest {
     classMethod.visibility = JavaVisibility.PRIVATE;
     classMethod.parameters.add(parameter);
     classMethod.comment = "Method comment";
-    javaClass.javaPackage = new JavaPackage(Arrays.asList("com", "here", "generator", "example"));
+    javaClass.javaPackage = new JavaPackage(Arrays.asList("com", "example", "generator"));
     javaClass.comment = "Example class comment";
     javaClass.methods.add(classMethod);
     javaClass.visibility = JavaVisibility.PUBLIC;
 
     String expected =
-        "package com.here.generator.example;\n"
+        "package com.example.generator;\n"
             + "\n"
             + "/**\n"
             + " * Example class comment\n"
@@ -98,11 +98,11 @@ public final class JavaClassTemplateTest {
     JavaEnum classEnum = new JavaEnum("ExampleEnum");
     classEnum.items.add(enumItem);
     classEnum.comment = "Enum comment";
-    javaClass.javaPackage = new JavaPackage(Arrays.asList("com", "here", "enums"));
+    javaClass.javaPackage = new JavaPackage(Arrays.asList("com", "example", "enums"));
     javaClass.comment = "Example class comment";
     javaClass.enums.add(classEnum);
     String expected =
-        "package com.here.enums;\n"
+        "package com.example.enums;\n"
             + "\n"
             + "/**\n"
             + " * Example class comment\n"
@@ -439,7 +439,7 @@ public final class JavaClassTemplateTest {
 
   @Test
   public void generate_withThrowsMethod() {
-    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "generator", "example"));
+    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "example", "generator"));
     JavaCustomType exampleType = new JavaCustomType("ExampleType");
     JavaMethod classMethod =
         JavaMethod.builder("someMethod")
@@ -452,7 +452,7 @@ public final class JavaClassTemplateTest {
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     String expected =
-        "package com.here.generator.example;\n\n"
+        "package com.example.generator;\n\n"
             + "import com.here.android.ExceptionalException;\n\n"
             + "class ExampleClass {\n"
             + "    ExampleType someMethod() throws ExceptionalException;\n"

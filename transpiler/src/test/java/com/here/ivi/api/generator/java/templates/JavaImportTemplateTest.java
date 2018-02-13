@@ -26,13 +26,13 @@ import org.junit.runners.JUnit4;
 @SuppressWarnings({"MethodName"})
 public final class JavaImportTemplateTest {
   private static final JavaPackage TEST_JAVA_PACKAGE_A =
-      new JavaPackage(Arrays.asList("com", "here", "SomeImport"));
+      new JavaPackage(Arrays.asList("com", "example", "SomeImport"));
   private static final JavaPackage TEST_JAVA_PACKAGE_B =
-      new JavaPackage(Arrays.asList("com", "here", "SomeImportZ"));
+      new JavaPackage(Arrays.asList("com", "example", "SomeImportZ"));
   private static final JavaPackage TEST_JAVA_PACKAGE_C =
-      new JavaPackage(Arrays.asList("com", "here", "SomeImportY"));
+      new JavaPackage(Arrays.asList("com", "example", "SomeImportY"));
   private static final JavaPackage TEST_JAVA_PACKAGE_D =
-      new JavaPackage(Arrays.asList("com", "here"));
+      new JavaPackage(Arrays.asList("com", "example"));
 
   @Test
   public void render_multipleImports() {
@@ -45,10 +45,10 @@ public final class JavaImportTemplateTest {
             new JavaImport("Class", TEST_JAVA_PACKAGE_D));
 
     String expected =
-        "import com.here.SomeImport.Class;\n"
-            + "import com.here.SomeImportZ.Class;\n"
-            + "import com.here.SomeImportY.Class;\n"
-            + "import com.here.Class;\n";
+        "import com.example.SomeImport.Class;\n"
+            + "import com.example.SomeImportZ.Class;\n"
+            + "import com.example.SomeImportY.Class;\n"
+            + "import com.example.Class;\n";
 
     // Act
     String generated = TemplateEngine.render("java/Import", imports);

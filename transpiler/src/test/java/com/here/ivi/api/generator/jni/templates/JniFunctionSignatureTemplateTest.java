@@ -36,7 +36,7 @@ public final class JniFunctionSignatureTemplateTest {
   private static final String TEMPLATE_NAME = "jni/FunctionSignature";
 
   private final JniContainer jniContainer =
-      JniContainer.builder(Arrays.asList("com", "here", "jni", "test"), Collections.emptyList())
+      JniContainer.builder(Arrays.asList("com", "example", "jni", "test"), Collections.emptyList())
           .javaName("ClassName")
           .javaInterfaceName("ClassName")
           .cppName("ClassName")
@@ -50,7 +50,7 @@ public final class JniFunctionSignatureTemplateTest {
     jniContainer.add(jniMethod);
 
     String expected =
-        "Java_com_here_jni_test_ClassName_methodName(JNIEnv* _jenv, jobject _jinstance)";
+        "Java_com_example_jni_test_ClassName_methodName(JNIEnv* _jenv, jobject _jinstance)";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, jniMethod);
@@ -85,7 +85,7 @@ public final class JniFunctionSignatureTemplateTest {
     String expectedParams =
         "JNIEnv* _jenv, jobject _jinstance,"
             + " jstring jstringParam, jint jintParam, jobject jcustomParam";
-    String expected = "Java_com_here_jni_test_ClassName_methodName(" + expectedParams + ")";
+    String expected = "Java_com_example_jni_test_ClassName_methodName(" + expectedParams + ")";
 
     // Act
     String generated = TemplateEngine.render(TEMPLATE_NAME, jniMethod);
@@ -128,7 +128,7 @@ public final class JniFunctionSignatureTemplateTest {
         "JNIEnv* _jenv, jobject _jinstance,"
             + " jstring jstringParam, jint jintParam, jobject jcustomParam";
     String expected =
-        "Java_com_here_jni_test_ClassName_methodName"
+        "Java_com_example_jni_test_ClassName_methodName"
             + "__Ljava_lang_String_2ILcom_here_android_CustomParamType_2("
             + expectedParams
             + ")";
