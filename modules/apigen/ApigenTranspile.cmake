@@ -93,7 +93,7 @@ function(apigen_transpile)
  -generators ${apigen_transpile_GENERATOR}\
  ${validateParam}\
  ${mergeManifest}\
- -nostdout")
+ -nostdout -enableCaching")
     foreach(input ${apigen_transpile_FRANCA_SOURCES})
         # Attach sources to target for IDEs to display them properly in their projects
         file(GLOB_RECURSE inputFrancaSources ${input}/*.fidl ${input}/*.fdepl)
