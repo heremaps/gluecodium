@@ -1,5 +1,9 @@
 # API Transpiler Release Notes
 
+## 1.2.3
+- Bug fixes:
+  + Fixed circular dependency compilation issues for C++
+
 ## 1.2.2
 - Bug fixes:
   + Fixed compilation error for arrays in Swift generated code (APIGEN-1151)
