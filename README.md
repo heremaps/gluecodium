@@ -51,6 +51,31 @@ For information on Transpiler command line parameters run it with "-help":
 ./transpile -help
 ```
 
+## Caching of output files
+Activation of caching feature in transpiler is done by passing the command line option, like:
+
+```bash
+./transpile -enableCaching -input <input folder> -output <output folder>
+```
+
+Running transpiler with this option will generate a directory called *.cache* inside *output folder*
+(regardless of -enableCaching option, caching gets automatically deactivated in case no valid output
+directory is given). Inside this folder transpiler creates the cache index files (*cpp*,*android* &
+*swift*) which contain hash values of all output files written in current run by the corresponding
+generator. By utilizing the hash values, transpiler is able to prevent files from being overwritten
+with exact same content on subsequent runs.
+
+Additionally, files written in former transpiler runs which are not generated in current run will be
+removed from built folder together with their cache entries.
+
+They are two situations where all cache contents get automatically deleted:
+
+* If an error occurs while generating files (because then, consistency between hash values and file
+system cannot be guaranteed).
+* If transpiler gets started with disabled caching, but on a folder containing cache index files
+(transpiler might alter file contents of existing files or remove files etc. which could lead to
+inconsistent cache).
+
 ## License
     Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
 
