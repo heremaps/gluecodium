@@ -23,7 +23,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class JavaPackageTest {
 
-  private static final List<String> PACKAGE_LIST = Arrays.asList("com", "here", "test");
+  private static final List<String> PACKAGE_LIST = Arrays.asList("com", "example", "test");
 
   private final JavaPackage javaPackage = new JavaPackage(PACKAGE_LIST);
 
@@ -45,6 +45,6 @@ public class JavaPackageTest {
   public void createChildPackageWithNonEmptyList() {
     JavaPackage childPackage = javaPackage.createChildPackage(Collections.singletonList("boom"));
 
-    assertEquals(Arrays.asList("com", "here", "test", "boom"), childPackage.packageNames);
+    assertEquals(Arrays.asList("com", "example", "test", "boom"), childPackage.packageNames);
   }
 }

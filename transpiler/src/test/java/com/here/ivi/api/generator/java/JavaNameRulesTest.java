@@ -50,7 +50,7 @@ public final class JavaNameRulesTest {
   @Test
   public void getFileNameForExceptionClass() {
     // Arrange
-    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "generator", "example"));
+    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "example", "generator"));
     JavaExceptionClass javaExceptionClass =
         new JavaExceptionClass("ExceptionalException", null, javaPackage);
 
@@ -59,8 +59,7 @@ public final class JavaNameRulesTest {
 
     // Assert
     assertEquals(
-        AndroidGeneratorSuite.GENERATOR_NAME
-            + "/com/here/generator/example/ExceptionalException.java",
+        AndroidGeneratorSuite.GENERATOR_NAME + "/com/example/generator/ExceptionalException.java",
         javaFile);
   }
 }

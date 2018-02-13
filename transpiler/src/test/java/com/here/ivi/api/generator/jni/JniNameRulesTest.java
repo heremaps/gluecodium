@@ -30,7 +30,7 @@ import org.junit.runners.JUnit4;
 public final class JniNameRulesTest {
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
-  private static final List<String> PACKAGES = Arrays.asList("com", "here", "android");
+  private static final List<String> PACKAGES = Arrays.asList("com", "example", "android");
 
   private JniContainer createJniContainer() {
     String className = "MyClass";
@@ -49,7 +49,8 @@ public final class JniNameRulesTest {
     String headerFileName = JniNameRules.getHeaderFileName(jniContainer);
 
     assertEquals(
-        AndroidGeneratorSuite.GENERATOR_NAME + "/jni/com_here_android_MyClass.h", headerFileName);
+        AndroidGeneratorSuite.GENERATOR_NAME + "/jni/com_example_android_MyClass.h",
+        headerFileName);
   }
 
   @Test
@@ -67,7 +68,8 @@ public final class JniNameRulesTest {
 
     // Assert
     assertEquals(
-        AndroidGeneratorSuite.GENERATOR_NAME + "/jni/com_here_android_MyClass.cpp", headerFileName);
+        AndroidGeneratorSuite.GENERATOR_NAME + "/jni/com_example_android_MyClass.cpp",
+        headerFileName);
   }
 
   @Test

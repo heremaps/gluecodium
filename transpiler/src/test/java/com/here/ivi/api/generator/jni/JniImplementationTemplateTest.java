@@ -44,19 +44,19 @@ public final class JniImplementationTemplateTest {
   private static final String EXTERN_C = "\nextern \"C\" {\n";
   private static final String END_OF_FILE =
       "\nvoid\n"
-          + "Java_com_here_ivi_test_TestClass_disposeNativeHandle("
+          + "Java_com_example_test_TestClass_disposeNativeHandle("
           + "JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)\n"
           + "{\n"
           + "    delete reinterpret_cast<"
-          + "std::shared_ptr<::com::here::ivi::test::CppClass>*> (_jpointerRef);\n"
+          + "std::shared_ptr<::com::example::test::CppClass>*> (_jpointerRef);\n"
           + "}\n}\n";
-  private static final List<String> NAMESPACES = Arrays.asList("com", "here", "ivi", "test");
-  private static final String CALL_STATIC = "::com::here::ivi::test::CppClass::";
+  private static final List<String> NAMESPACES = Arrays.asList("com", "example", "test");
+  private static final String CALL_STATIC = "::com::example::test::CppClass::";
   private static final String CALL_SHARED_POINTER = "(*pInstanceSharedPointer)->";
   private static final String RETRIEVE_LONG_PTR =
       "    auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, \"nativeHandle\");\n";
   private static final String CAST_LONG_TO_SHARED_PTR =
-      "    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::com::here::ivi::test::CppClass>*> (pointerAsLong);\n";
+      "    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::com::example::test::CppClass>*> (pointerAsLong);\n";
   private static final String CONVERSION_HEADER_INCLUDE =
       "#include \"" + JniNameRules.getStructConversionHeaderFileName() + "\"\n";
 
@@ -68,7 +68,7 @@ public final class JniImplementationTemplateTest {
       "#include " + "\"android/jni/ArrayConversionUtils.h\"\n";
   private static final String INSTANCE_CONVERSION_HEADER_INCLUDE =
       "#include \"" + JniNameRules.getInstanceConversionHeaderFileName() + "\"\n";
-  private static final String JNI_TEST_CLASS_METHOD_PREFIX = "Java_com_here_ivi_test_TestClass_";
+  private static final String JNI_TEST_CLASS_METHOD_PREFIX = "Java_com_example_test_TestClass_";
 
   private static final String EXPECTED_PREFIX =
       COPYRIGHT_NOTICE
@@ -339,15 +339,15 @@ public final class JniImplementationTemplateTest {
             + JNI_TEST_CLASS_METHOD_PREFIX
             + "method1(JNIEnv* _jenv, jobject _jinstance)\n"
             + "{\n"
-            + "    auto nativeCallResult = ::com::here::ivi::test::CppClass::method1();\n"
+            + "    auto nativeCallResult = ::com::example::test::CppClass::method1();\n"
             + "    auto errorCode = nativeCallResult.code().code();\n"
             + "    if (errorCode != hf::errors::NONE)\n"
             + "    {\n"
-            + "        auto nEnumValue = static_cast<com::here::ivi::test::CppClass::CppFooEnum>(errorCode);\n"
+            + "        auto nEnumValue = static_cast<com::example::test::CppClass::CppFooEnum>(errorCode);\n"
             + "        auto jEnumValue = here::internal::convert_to_jni(_jenv, nEnumValue);\n"
             + "        auto exceptionClass = _jenv->FindClass(\"foo/bar/PanicAttack\");\n"
             + "        auto theConstructor = _jenv->GetMethodID(exceptionClass, \"<init>\","
-            + " \"(Lcom/here/ivi/test/TestClass$JavaFooEnum;)V\");\n"
+            + " \"(Lcom/example/test/TestClass$JavaFooEnum;)V\");\n"
             + "        auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);\n"
             + "        _jenv->Throw(static_cast<jthrowable>(exception));\n"
             + "    }\n\n"
@@ -374,15 +374,15 @@ public final class JniImplementationTemplateTest {
             + JNI_TEST_CLASS_METHOD_PREFIX
             + "method1(JNIEnv* _jenv, jobject _jinstance)\n"
             + "{\n"
-            + "    auto nativeCallResult = ::com::here::ivi::test::CppClass::method1();\n"
+            + "    auto nativeCallResult = ::com::example::test::CppClass::method1();\n"
             + "    auto errorCode = nativeCallResult.error().code().code();\n"
             + "    if (!nativeCallResult.has_value())\n"
             + "    {\n"
-            + "        auto nEnumValue = static_cast<com::here::ivi::test::CppClass::CppFooEnum>(errorCode);\n"
+            + "        auto nEnumValue = static_cast<com::example::test::CppClass::CppFooEnum>(errorCode);\n"
             + "        auto jEnumValue = here::internal::convert_to_jni(_jenv, nEnumValue);\n"
             + "        auto exceptionClass = _jenv->FindClass(\"foo/bar/PanicAttack\");\n"
             + "        auto theConstructor = _jenv->GetMethodID(exceptionClass, \"<init>\","
-            + " \"(Lcom/here/ivi/test/TestClass$JavaFooEnum;)V\");\n"
+            + " \"(Lcom/example/test/TestClass$JavaFooEnum;)V\");\n"
             + "        auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);\n"
             + "        _jenv->Throw(static_cast<jthrowable>(exception));\n"
             + "        return nativeCallResult.safe_value();\n"

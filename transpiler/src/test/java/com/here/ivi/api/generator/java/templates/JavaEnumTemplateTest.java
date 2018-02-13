@@ -88,13 +88,13 @@ public final class JavaEnumTemplateTest {
   public void generate_topLevel() {
     // Arrange
     JavaEnum javaEnum = new JavaEnum("MyEnum");
-    javaEnum.javaPackage = new JavaPackage(Arrays.asList("com", "here", "enums", "example"));
+    javaEnum.javaPackage = new JavaPackage(Arrays.asList("com", "example", "enums"));
     javaEnum.comment = "A test enum";
     javaEnum.items.add(new JavaEnumItem("FooName", new JavaValue("42")));
     javaEnum.items.add(new JavaEnumItem("BarName", new JavaValue("314")));
 
     String expected =
-        "package com.here.enums.example;\n"
+        "package com.example.enums;\n"
             + "\n"
             + "/**\n"
             + " * A test enum\n"

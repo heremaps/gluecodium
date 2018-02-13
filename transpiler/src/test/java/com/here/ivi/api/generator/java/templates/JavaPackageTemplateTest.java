@@ -25,9 +25,9 @@ public final class JavaPackageTemplateTest {
 
   @Test
   public void packageGeneration() {
-    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "here", "SomeImport"));
+    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "example", "SomeImport"));
 
-    String expected = "package com.here.SomeImport;\n";
+    String expected = "package com.example.SomeImport;\n";
 
     String generated = TemplateEngine.render("java/Package", javaPackage);
 
