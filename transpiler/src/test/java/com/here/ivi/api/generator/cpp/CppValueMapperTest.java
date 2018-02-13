@@ -16,73 +16,37 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.model.common.BuiltInValueRules;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cpp.*;
-import java.util.Optional;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({BuiltInValueRules.class, FrancaTypeHelper.class})
+@RunWith(JUnit4.class)
 public final class CppValueMapperTest {
 
   @Mock private CppIncludeResolver includeResolver;
 
   private final Include internalInclude = Include.createInternalInclude("nonsense");
 
-  private CppValueMapper valueMapper;
-
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(BuiltInValueRules.class, FrancaTypeHelper.class);
-    when(BuiltInValueRules.resolveReference(any())).thenReturn(Optional.empty());
-
-    valueMapper = new CppValueMapper(includeResolver);
 
     when(includeResolver.resolveInclude(any())).thenReturn(internalInclude);
   }
 
   @Test
-  public void mapConstantValue() {
-    FConstantDef fConstant = mock(FConstantDef.class);
-    when(fConstant.getName()).thenReturn("SomeFancyName");
-
+  public void mapNonConstantValue() {
     FQualifiedElementRef qualifiedElementRef = mock(FQualifiedElementRef.class);
-    when(qualifiedElementRef.getElement()).thenReturn(fConstant);
 
-    //actual test
-    CppValue mappedValue = valueMapper.map(null, qualifiedElementRef);
+    CppValue mappedValue = CppValueMapper.map(qualifiedElementRef);
 
-    assertEquals("SOME_FANCY_NAME", mappedValue.name);
-    assertTrue(mappedValue.includes.contains(internalInclude));
-  }
-
-  @Test
-  public void mapEnumerator() {
-    //constant
-    final CppTypeRef cppType = new CppComplexTypeRef.Builder("MyFancyType").build();
-
-    FEnumerator fEnumerator = mock(FEnumerator.class);
-    when(fEnumerator.getName()).thenReturn("EnumeratorIn");
-
-    FQualifiedElementRef qualifiedElementRef = mock(FQualifiedElementRef.class);
-    when(qualifiedElementRef.getElement()).thenReturn(fEnumerator);
-
-    //actual test
-    CppValue mappedValue = valueMapper.map(cppType, qualifiedElementRef);
-
-    assertEquals("MyFancyType::ENUMERATOR_IN", mappedValue.name);
-    assertTrue(mappedValue.includes.contains(internalInclude));
+    assertNull(mappedValue);
   }
 
   @Test

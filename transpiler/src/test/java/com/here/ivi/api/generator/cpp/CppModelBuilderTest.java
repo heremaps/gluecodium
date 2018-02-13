@@ -49,7 +49,6 @@ public class CppModelBuilderTest {
 
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private CppTypeMapper typeMapper;
-  @Mock private CppValueMapper valueMapper;
 
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
@@ -88,7 +87,7 @@ public class CppModelBuilderTest {
 
     MockitoAnnotations.initMocks(this);
 
-    modelBuilder = new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper);
+    modelBuilder = new CppModelBuilder(contextStack, deploymentModel, typeMapper);
 
     when(francaInterface.getName()).thenReturn("classy");
     when(francaArgument.getName()).thenReturn("flowers");
@@ -347,7 +346,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaConstantMapsValue() {
-    when(valueMapper.map(any(), any(FInitializerExpression.class))).thenReturn(cppValue);
+    when(CppValueMapper.map(any())).thenReturn(cppValue);
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaConstant);
@@ -357,7 +356,8 @@ public class CppModelBuilderTest {
     assertEquals("::nonsense::" + CONSTANT_NAME, cppConstant.fullyQualifiedName.toLowerCase());
     assertEquals(cppValue, cppConstant.value);
 
-    verify(valueMapper).map(cppComplexTypeRef, francaInitializerExpression);
+    PowerMockito.verifyStatic();
+    CppValueMapper.map(francaInitializerExpression);
   }
 
   @Test
