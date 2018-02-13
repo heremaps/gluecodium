@@ -24,6 +24,7 @@ CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
     -G $(cmake_generator)"
 fi
 
+set -o pipefail
 
 pushd ${BUILD_DIR}
 safe cmake \
@@ -34,7 +35,7 @@ safe cmake \
     -DHELLO_APIGEN_TRANSPILER_VERSION=${TRANSPILER_VERSION} \
     -DHELLO_BUILD_CPP_APP=ON \
     ${CMAKE_EXTRA_PARAMETERS} \
-    ..
+    .. | tee cmake_output.log
 popd
 
 safe cmake \
