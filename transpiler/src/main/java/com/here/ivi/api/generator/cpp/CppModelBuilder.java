@@ -27,27 +27,20 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
   private final FrancaDeploymentModel deploymentModel;
   private final CppTypeMapper typeMapper;
-  private final CppValueMapper valueMapper;
 
   @VisibleForTesting
   CppModelBuilder(
       final ModelBuilderContextStack<CppElement> contextStack,
       final FrancaDeploymentModel deploymentModel,
-      final CppTypeMapper typeMapper,
-      final CppValueMapper valueMapper) {
+      final CppTypeMapper typeMapper) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
     this.typeMapper = typeMapper;
-    this.valueMapper = valueMapper;
   }
 
   public CppModelBuilder(
       final FrancaDeploymentModel deploymentModel, final CppIncludeResolver includeResolver) {
-    this(
-        new ModelBuilderContextStack<>(),
-        deploymentModel,
-        new CppTypeMapper(includeResolver),
-        new CppValueMapper(includeResolver));
+    this(new ModelBuilderContextStack<>(), deploymentModel, new CppTypeMapper(includeResolver));
   }
 
   @Override
@@ -135,7 +128,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FConstantDef francaConstant) {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-    CppValue value = valueMapper.map(cppTypeRef, francaConstant.getRhs());
+    CppValue value = CppValueMapper.map(francaConstant.getRhs());
 
     String name = CppNameRules.getConstantName(francaConstant.getName());
     String fullyQualifiedName = CppNameRules.getConstantFullyQualifiedName(francaConstant);
