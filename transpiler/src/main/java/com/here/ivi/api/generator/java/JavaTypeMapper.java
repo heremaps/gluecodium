@@ -11,7 +11,6 @@
 
 package com.here.ivi.api.generator.java;
 
-import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.franca.DefinedBy;
@@ -24,9 +23,6 @@ import org.franca.core.franca.*;
  * Maps Franca type references to their Java counterparts. These references are used as parameters,
  * in typedefs, array members etc.
  */
-
-//TODO APIGEN-863: remove this
-@SuppressWarnings("PMD.GodClass")
 public class JavaTypeMapper {
 
   private static final String NATIVE_BASE_NAME = "NativeBase";
@@ -43,29 +39,19 @@ public class JavaTypeMapper {
 
   public JavaType map(final FTypeRef fTypeRef) {
 
-    JavaType javaType = JavaPrimitiveType.VOID;
-    if (fTypeRef.getDerived() != null) {
-      javaType = mapFrancaType(fTypeRef.getDerived());
-    } else if (fTypeRef.getPredefined() != FBasicTypeId.UNDEFINED) {
-      javaType = mapFrancaBasicType(fTypeRef.getPredefined());
-    } else if (fTypeRef.getInterval() != null) {
-      throw new TranspilerExecutionException(
-          "The transpiler does not support integer ranges. "
-              + "Please use regular Integer types like Int64 instead. Type: "
-              + fTypeRef);
-    }
+    JavaType javaType =
+        fTypeRef.getDerived() != null
+            ? mapDerived(fTypeRef.getDerived())
+            : mapPredefined(fTypeRef.getPredefined());
 
     if (FrancaTypeHelper.isImplicitArray(fTypeRef)) {
-      if (javaType instanceof JavaPrimitiveType) {
-        javaType = boxPrimitiveType((JavaPrimitiveType) javaType);
-      }
-      javaType = JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaType);
+      javaType = JavaTemplateType.wrapInList(javaType);
     }
 
     return javaType;
   }
 
-  private static JavaType mapFrancaBasicType(final FBasicTypeId basicTypeId) {
+  private static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
     switch (basicTypeId.getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
         return JavaPrimitiveType.BOOL;
@@ -106,8 +92,7 @@ public class JavaTypeMapper {
     }
   }
 
-  @SuppressWarnings("PMD.EmptyIfStmt")
-  private JavaType mapFrancaType(final FType francaType) {
+  private JavaType mapDerived(final FType francaType) {
 
     if (francaType instanceof FTypeDef) {
       return mapTypeDef((FTypeDef) francaType);
@@ -128,43 +113,8 @@ public class JavaTypeMapper {
     return new JavaCustomType("TODO");
   }
 
-  /**
-   * Wrap primitive types since generic templates don't apply to them
-   *
-   * @param primitiveType a primitive type
-   * @return custom type wrapper of the primitive type
-   */
-  private static JavaReferenceType boxPrimitiveType(JavaPrimitiveType primitiveType) {
-    if (primitiveType == JavaPrimitiveType.BOOL) {
-      return new JavaReferenceType(JavaReferenceType.Type.BOOL);
-    } else if (primitiveType == JavaPrimitiveType.CHAR) {
-      return new JavaReferenceType(JavaReferenceType.Type.CHAR);
-    } else if (primitiveType == JavaPrimitiveType.INT) {
-      return new JavaReferenceType(JavaReferenceType.Type.INT);
-    } else if (primitiveType == JavaPrimitiveType.FLOAT) {
-      return new JavaReferenceType(JavaReferenceType.Type.FLOAT);
-    } else if (primitiveType == JavaPrimitiveType.DOUBLE) {
-      return new JavaReferenceType(JavaReferenceType.Type.DOUBLE);
-    } else if (primitiveType == JavaPrimitiveType.BYTE) {
-      return new JavaReferenceType(JavaReferenceType.Type.BYTE);
-    } else if (primitiveType == JavaPrimitiveType.SHORT) {
-      return new JavaReferenceType(JavaReferenceType.Type.SHORT);
-    } else if (primitiveType == JavaPrimitiveType.LONG) {
-      return new JavaReferenceType(JavaReferenceType.Type.LONG);
-    } else {
-      // No array for void type
-      throw new TranspilerExecutionException("Can not wrap primitive type " + primitiveType.name);
-    }
-  }
-
-  public JavaType mapArray(FArrayType arrayType) {
-    JavaType elementType = map(arrayType.getElementType());
-
-    if (elementType instanceof JavaPrimitiveType) {
-      elementType = boxPrimitiveType((JavaPrimitiveType) elementType);
-    }
-
-    return JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, elementType);
+  public JavaTemplateType mapArray(FArrayType arrayType) {
+    return JavaTemplateType.wrapInList(map(arrayType.getElementType()));
   }
 
   public JavaType mapMap(final FMapType francaMapType) {
@@ -172,10 +122,10 @@ public class JavaTypeMapper {
     JavaType valueType = map(francaMapType.getValueType());
 
     if (keyType instanceof JavaPrimitiveType) {
-      keyType = boxPrimitiveType((JavaPrimitiveType) keyType);
+      keyType = JavaReferenceType.boxPrimitiveType((JavaPrimitiveType) keyType);
     }
     if (valueType instanceof JavaPrimitiveType) {
-      valueType = boxPrimitiveType((JavaPrimitiveType) valueType);
+      valueType = JavaReferenceType.boxPrimitiveType((JavaPrimitiveType) valueType);
     }
 
     return JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, keyType, valueType);
