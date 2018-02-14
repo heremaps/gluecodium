@@ -1,12 +1,12 @@
 #pragma once
 
 #include <jni.h>
-  {{#includes}}
-    #include <{{fileName}}>
-  {{/includes}}
+{{#includes}}
+{{>common/Include}}
+{{/includes}}
 
-  namespace here {
-  namespace internal {
+namespace here {
+namespace internal {
 
 {{#models}}
   {{#enums}}

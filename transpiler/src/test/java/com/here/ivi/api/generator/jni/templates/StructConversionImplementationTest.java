@@ -113,9 +113,9 @@ public final class StructConversionImplementationTest {
 
     //assert
     String expected =
-        "#include <"
+        "#include \""
             + includes.get(0).fileName
-            + ">\n"
+            + "\"\n"
             + "#include <"
             + includes.get(1).fileName
             + ">\n"
@@ -157,9 +157,9 @@ public final class StructConversionImplementationTest {
 
     //assert
     String expected =
-        "#include <"
+        "#include \""
             + includes.get(0).fileName
-            + ">\n"
+            + "\"\n"
             + "#include <"
             + includes.get(1).fileName
             + ">\n"

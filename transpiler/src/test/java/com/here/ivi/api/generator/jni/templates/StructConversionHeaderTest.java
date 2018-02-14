@@ -111,9 +111,9 @@ public final class StructConversionHeaderTest {
         "#pragma once\n"
             + "\n"
             + "#include <jni.h>\n"
-            + "#include <"
+            + "#include \""
             + includes.get(0).fileName
-            + ">\n"
+            + "\"\n"
             + "#include <"
             + includes.get(1).fileName
             + ">\n"
@@ -155,9 +155,9 @@ public final class StructConversionHeaderTest {
         "#pragma once\n"
             + "\n"
             + "#include <jni.h>\n"
-            + "#include <"
+            + "#include \""
             + includes.get(0).fileName
-            + ">\n"
+            + "\"\n"
             + "#include <"
             + includes.get(1).fileName
             + ">\n"
