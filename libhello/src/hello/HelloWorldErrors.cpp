@@ -12,28 +12,36 @@
 
 #include "hello/HelloWorldErrors.h"
 
+namespace
+{
+template <typename T>
+hf::ErrorCode make_error_code(const T& error)
+{
+   return static_cast< hf::ErrorCode >( error );
+}
+}
+
 namespace hello
 {
-    hf::Error
+    hf::ErrorCode
     HelloWorldErrors::hello_world_method_with_error( const bool error_flag )
     {
-        HelloWorldErrors::InternalErrors error_code = error_flag ?
-            HelloWorldErrors::InternalErrors::CRASHED : HelloWorldErrors::InternalErrors::NONE;
-        return hf::Error( static_cast< hf::ErrorCode::Code >( error_code ) );
+        return error_flag
+               ? make_error_code( HelloWorldErrors::InternalErrors::CRASHED )
+               : hf::errors::NONE;
     }
 
-    hf::Return< std::string, hf::Error >
+    hf::Return< std::string, hf::ErrorCode >
     HelloWorldErrors::hello_world_method_with_error_and_string( const bool error_flag )
     {
         if ( error_flag )
         {
-            return hf::Return< std::string, hf::Error >(
-                hf::Error( static_cast< hf::ErrorCode::Code >(
-                    HelloWorldErrors::InternalErrors::CRASHED ) ) );
+            return make_error_code( HelloWorldErrors::InternalErrors::CRASHED );
         }
         else
         {
-            return hf::Return< std::string, hf::Error >( "Hello!" );
+            return std::string{"Hello!"};
         }
     }
 }
+
