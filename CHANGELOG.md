@@ -1,8 +1,14 @@
 # API Transpiler Release Notes
 
+## 1.3.0
+- Features:
+  + Add support for Interface Inheritance for Android generator
+  + Add support for caching in Transpiler
+  + Add support for Parcelable structs
+
 ## 1.2.3
 - Bug fixes:
-  + Fixed circular dependency compilation issues for C++
+  + Fixed circular dependency compilation issues for C++ (APIGEN-1164)
 
 ## 1.2.2
 - Bug fixes:
