@@ -15,6 +15,10 @@ import "./Listeners.fidl"
 define navigation.BaseApiSpec for interface smoke.CalculatorListener
 {
     IsInterface = true
+
+    method onCalculationResultConst {
+        Const = true
+    }
 }
 
 define navigation.BaseApiSpec for interface smoke.Calculator

@@ -10,10 +10,6 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 
-/**
-* Cpp proxy header for class InheritanceChild
-*/
-
 #pragma once
 
 #include <jni.h>

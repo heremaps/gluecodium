@@ -21,4 +21,22 @@ void CalculatorListenerCppProxy::on_calculation_result( const double ncalculatio
     callJavaMethod( "onCalculationResult", "(D)V", jniEnv , jcalculationResult);
 }
 
+void CalculatorListenerCppProxy::on_calculation_result_const( const double ncalculationResult ) const {
+    JNIEnv* jniEnv = getJniEnvironment( );
+    jdouble jcalculationResult = ncalculationResult;
+    callJavaMethod( "onCalculationResultConst", "(D)V", jniEnv , jcalculationResult);
+}
+
+void CalculatorListenerCppProxy::on_calculation_result_struct( const ::smoke::CalculatorListener::ResultStruct& ncalculationResult ) {
+    JNIEnv* jniEnv = getJniEnvironment( );
+    auto jcalculationResult = ::here::internal::convert_to_jni( jniEnv, ncalculationResult );
+    callJavaMethod( "onCalculationResultStruct", "(Lcom/here/android/smoke/CalculatorListener$ResultStruct;)V", jniEnv , jcalculationResult);
+}
+
+void CalculatorListenerCppProxy::on_calculation_result_array( const ::std::vector< double >& ncalculationResult ) {
+    JNIEnv* jniEnv = getJniEnvironment( );
+    auto jcalculationResult = ::here::internal::convert_to_jni( jniEnv, ncalculationResult );
+    callJavaMethod( "onCalculationResultArray", "(Ljava/util/List;)V", jniEnv , jcalculationResult);
+}
+
 }
