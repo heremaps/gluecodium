@@ -104,6 +104,82 @@ class InheritanceTests: XCTestCase {
         child!.doSomethingToChildClass(input: child!)
     }
 
+    class SwiftChild: ChildInterface {
+        var data = String()
+
+        func rootMethod(data: String) {
+            self.data = data
+        }
+
+        func getData() -> String? {
+            return "Swift Child data is '" + data + "'"
+        }
+    }
+
+    class SwiftGrandChild: SwiftChild {
+        override func getData() -> String? {
+            return "Swift GrandChild data is '" + data + "'"
+        }
+    }
+
+    class SwiftAnotherChild: ChildInterface {
+        private var data = String()
+
+        func rootMethod(data: String) {
+            self.data = data
+        }
+
+        func getData() -> String? {
+            return "Swift AnotherChild data is '" + data + "'"
+        }
+    }
+
+    private static let DATA = "Custom data"
+    typealias TestData = [(object: RootInterface, expected: String)]
+
+    func getTestData() -> TestData {
+        return [
+            (SwiftChild(), "Swift Child data is 'Custom data'"),
+            (SwiftGrandChild(), "Swift GrandChild data is 'Custom data'"),
+            (SwiftAnotherChild(), "Swift AnotherChild data is 'Custom data'"),
+            (InheritanceTestHelper.createChild()!, "C++ Child data is 'Custom data'"),
+            (InheritanceTestHelper.createConcreteChild()!, "C++ ConcreteChild data is 'Custom data'"),
+            (InheritanceTestHelper.createConcreteGrandChild()!, "C++ ConcreteGrandChild data is 'Custom data'"),
+            (InheritanceTestHelper.createAnotherChild()!, "C++ AnotherChild data is 'Custom data'"),
+            (InheritanceTestHelper.createAnotherConcreteChild()!, "C++ AnotherConcreteChild data is 'Custom data'"),
+            (InheritanceTestHelper.createAnotherConcreteGrandChild()!,
+                "C++ AnotherConcreteGrandChild data is 'Custom data'")
+        ]
+    }
+
+    func testCallingListenerMethodFromCpp() {
+        let testData = getTestData()
+        testData.forEach { (testCase: (object: RootInterface, expected: String)) in
+            let (object, expected) = testCase
+            InheritanceTestHelper.callRootMethod(object: object, data: InheritanceTests.DATA)
+            XCTAssertEqual(getData(object), expected)
+        }
+    }
+
+    func testCallingListenerMethodFromSwift() {
+        let testData = getTestData()
+        testData.forEach { (testCase: (object: RootInterface, expected: String)) in
+            let (object, expected) = testCase
+            object.rootMethod(data: InheritanceTests.DATA)
+            XCTAssertEqual(getData(object), expected)
+        }
+    }
+
+    private func getData(_ object: RootInterface) -> String {
+        if let object = object as? ChildInterface {
+            return object.getData() ?? ""
+        } else if let object = object as? AnotherChildInterface {
+            return object.getData() ?? ""
+        }
+        XCTFail("Unexpected type of object: " + String(describing: type(of: object)))
+        return ""
+    }
+
     static var allTests = [
         ("testCreateChildClassInstance", testCreateChildClassInstance),
         ("testCastChildClassInstanceToParent", testCastChildClassInstanceToParent),
@@ -117,6 +193,8 @@ class InheritanceTests: XCTestCase {
         ("testTalkToChild", testTalkToChild),
         ("testTalkToChildAsParent", testTalkToChildAsParent),
         ("testTalkToParents", testTalkToParents),
-        ("testDoSomethingToChildClassDoesNotCrash", testDoSomethingToChildClassDoesNotCrash)
+        ("testDoSomethingToChildClassDoesNotCrash", testDoSomethingToChildClassDoesNotCrash),
+        ("testCallingListenerMethodFromCpp", testCallingListenerMethodFromCpp),
+        ("testCallingListenerMethodFromSwift", testCallingListenerMethodFromSwift)
     ]
 }
