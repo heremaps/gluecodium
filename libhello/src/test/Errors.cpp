@@ -14,58 +14,62 @@
 #include "another/AdditionalErrors.h"
 #include "another/TypeCollectionWithEnums.h"
 
+namespace
+{
+template <typename T>
+hf::ErrorCode make_error_code(const T& error)
+{
+   return static_cast< hf::ErrorCode >( error );
+}
+}
+
 namespace test
 {
-hf::Error
+hf::ErrorCode
 Errors::method_with_error( const bool error_flag )
 {
     return error_flag
-        ? hf::Error( static_cast< hf::ErrorCode::Code >( Errors::InternalErrors::CRASHED ) )
-        : hf::Error( );
+           ? make_error_code( Errors::InternalErrors::CRASHED )
+           : hf::errors::NONE;
 }
 
-hf::Return< std::string, hf::Error >
+hf::Return< std::string, hf::ErrorCode >
 Errors::method_with_error_and_string( const bool error_flag )
 {
     if ( error_flag )
     {
-        return hf::Return< std::string, hf::Error >( hf::Error( static_cast< hf::ErrorCode::Code >(
-            another::AdditionalErrors::ExternalErrors::FAILED ) ) );
+        return make_error_code( another::AdditionalErrors::ExternalErrors::FAILED );
     }
     else
     {
-        return hf::Return< std::string, hf::Error >( "SUCCEEDED" );
+        return std::string{"SUCCEEDED"};
     }
 }
 
-hf::Return< std::vector< uint8_t >, hf::Error >
+hf::Return< std::vector< uint8_t >, hf::ErrorCode >
 Errors::method_that_explodes( const bool error_flag )
 {
     if ( error_flag )
     {
-        return hf::Return< std::vector< uint8_t >, hf::Error >(
-            hf::Error( static_cast< hf::ErrorCode::Code >(
-                another::ExplosiveErrors::EXPLODED ) ) );
+        return make_error_code( another::ExplosiveErrors::EXPLODED );
     }
     else
     {
-        return hf::Return< std::vector< uint8_t >, hf::Error >(
-            std::vector< uint8_t >{0x00, 0x01, 0x02} );
+        return std::vector< uint8_t >{0x00, 0x01, 0x02};
     }
 }
 
-hf::Return< another::SomeEnum, hf::Error >
+hf::Return< another::SomeEnum, hf::ErrorCode >
 Errors::method_with_good_and_bad( const bool error_flag )
 {
     if ( error_flag )
     {
-        return hf::Return< another::SomeEnum, hf::Error >( hf::Error(
-            static_cast< hf::ErrorCode::Code >( another::YetAnotherErrors::BAD ) ) );
+        return make_error_code( another::YetAnotherErrors::BAD );
     }
     else
     {
-        return hf::Return< another::SomeEnum, hf::Error >(
-            another::SomeEnum::ANOTHER_RESULT );
+        return another::SomeEnum::ANOTHER_RESULT;
     }
 }
 }
+
