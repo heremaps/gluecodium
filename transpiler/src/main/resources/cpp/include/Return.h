@@ -12,12 +12,13 @@
 
 #pragma once
 
-#include "Error.h"
+#include "ErrorCode.h"
 
 #include <initializer_list>
 #include <ostream>
 #include <type_traits>
 #include <utility>
+#include <sstream>
 
 namespace hf
 {
@@ -60,7 +61,7 @@ namespace hf
  * }
  * @endcode
  */
-template < class Value, class Error = hf::Error >
+template < class Value, class Error = hf::ErrorCode >
 class Return
 {
 private:
@@ -992,10 +993,10 @@ Return< Value, Error >::emplace( std::initializer_list< OtherValue > ilist, Args
 }
 
 template < class Value >
-Return< typename std::decay< Value >::type, hf::Error >
+Return< typename std::decay< Value >::type, hf::ErrorCode >
 make_value( Value&& value )
 {
-    return Return< typename std::decay< Value >::type, hf::Error >( value );
+    return Return< typename std::decay< Value >::type, hf::ErrorCode >( value );
 }
 
 }  // hf

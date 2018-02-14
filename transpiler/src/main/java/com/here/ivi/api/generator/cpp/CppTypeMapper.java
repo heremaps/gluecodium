@@ -28,7 +28,7 @@ public class CppTypeMapper {
           CppTemplateTypeRef.TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.CHAR);
 
   public static final CppTypeRef HF_ERROR_TYPE =
-      new CppComplexTypeRef.Builder("::hf::Error").include(CppLibraryIncludes.HF_ERROR).build();
+      new CppComplexTypeRef.Builder("::hf::ErrorCode").include(CppLibraryIncludes.HF_ERROR).build();
 
   @VisibleForTesting
   static final CppTypeRef ENUM_HASH_TYPE =

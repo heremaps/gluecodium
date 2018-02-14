@@ -364,7 +364,7 @@ public class CBridgeImplementationTemplateTest {
 
     TemplateComparator expected =
         TemplateComparator.expect(
-                "ERROR functionName() {\n" + "    return delegateToCall().code().code();\n" + "}\n")
+                "ERROR functionName() {\n" + "    return delegateToCall();\n" + "}\n")
             .build();
     final String generated = this.generate(cInterface);
 
@@ -392,7 +392,7 @@ public class CBridgeImplementationTemplateTest {
                     + "    if (RESULT.has_value()) {\n"
                     + "        return {true, .returned_value = RESULT.safe_value()};\n"
                     + "    } else {\n"
-                    + "        return {false, .error_code = RESULT.error().code().code()};\n"
+                    + "        return {false, .error_code = RESULT.error()};\n"
                     + "    }\n"
                     + "}\n")
             .build();

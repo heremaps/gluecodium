@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "Error.h"
+#include "ErrorCode.h"
 #include "Return.h"
 #include <string>
 
@@ -34,8 +34,8 @@ enum class InternalErrors {
 };
 
 public:
-static ::hf::Error start_something_or_fail(  );
-static ::hf::Return< ::std::string, ::hf::Error > get_something_or_fail(  );
+static ::hf::ErrorCode start_something_or_fail(  );
+static ::hf::Return< ::std::string, ::hf::ErrorCode > get_something_or_fail(  );
 };
 
 }

@@ -1,6 +1,6 @@
     {{#exception}}
     auto nativeCallResult = {{>jni/CppMethodCall}}
-    auto errorCode = nativeCallResult{{#if returnType}}.error(){{/if}}.code().code();
+    auto errorCode = nativeCallResult{{#if returnType}}.error(){{/if}};
     if ({{#if returnType}}!nativeCallResult.has_value(){{/if}}{{#unless returnType}}errorCode != hf::errors::NONE{{/unless}})
     {
         auto nEnumValue = static_cast<{{jniEnum.cppFullyQualifiedName}}>(errorCode);

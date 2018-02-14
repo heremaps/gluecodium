@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "Error.h"
+#include "ErrorCode.h"
 
 namespace smoke {
 
@@ -30,7 +30,7 @@ enum class InternalError {
 };
 
 public:
-static ::hf::Error method_with_errors(  );
+static ::hf::ErrorCode method_with_errors(  );
 };
 
 }
