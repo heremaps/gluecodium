@@ -43,7 +43,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
   @VisibleForTesting
   static final List<String> ADDITIONAL_HEADERS =
-      Arrays.asList("enum_hash.h", "Error.h", "ErrorCode.h", "Return.h");
+      Arrays.asList("enum_hash.h", "ErrorCode.h", "Return.h");
 
   private final CppIncludeResolver includeResolver;
 

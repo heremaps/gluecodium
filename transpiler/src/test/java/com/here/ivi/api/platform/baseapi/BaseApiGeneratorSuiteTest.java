@@ -25,11 +25,15 @@ import org.junit.runners.JUnit4;
 public final class BaseApiGeneratorSuiteTest {
 
   private final BaseApiGeneratorSuite baseApiGeneratorSuite = new BaseApiGeneratorSuite();
+  private List<GeneratedFile> generatedFiles;
+
+  private String getTargetFile(int i) {
+    return generatedFiles.get(i).targetFile.toString();
+  }
 
   @Test
   public void generateFilesEmptyModel() {
-    List<GeneratedFile> generatedFiles = baseApiGeneratorSuite.generate(null, new LinkedList<>());
-
+    generatedFiles = baseApiGeneratorSuite.generate(null, new LinkedList<>());
     assertNotNull(generatedFiles);
     final int expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size();
     assertEquals(
@@ -37,9 +41,8 @@ public final class BaseApiGeneratorSuiteTest {
         expectedGeneratedFiles,
         generatedFiles.size());
 
-    assertEquals("cpp/include/enum_hash.h", generatedFiles.get(0).targetFile.toString());
-    assertEquals("cpp/include/Error.h", generatedFiles.get(1).targetFile.toString());
-    assertEquals("cpp/include/ErrorCode.h", generatedFiles.get(2).targetFile.toString());
-    assertEquals("cpp/include/Return.h", generatedFiles.get(3).targetFile.toString());
+    assertEquals("cpp/include/enum_hash.h", getTargetFile(0));
+    assertEquals("cpp/include/ErrorCode.h", getTargetFile(1));
+    assertEquals("cpp/include/Return.h", getTargetFile(2));
   }
 }

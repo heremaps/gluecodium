@@ -21,7 +21,5 @@ void smoke_Errors_release(_baseRef handle) {
 
 
 smoke_Errors_InternalError smoke_Errors_methodWithErrors() {
-    return ::smoke::Errors::method_with_errors().code().code();
+    return ::smoke::Errors::method_with_errors();
 }
-
-
