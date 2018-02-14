@@ -99,12 +99,11 @@ public class JniGenerator extends AbstractGenerator {
     }
 
     results.add(
-        new GeneratedFile(
-            TemplateEngine.render("jni/Header", jniContainer),
-            JniNameRules.getHeaderFileName(jniContainer)));
+        generateFile("jni/Header", jniContainer, JniNameRules.getHeaderFileName(jniContainer)));
     results.add(
-        new GeneratedFile(
-            TemplateEngine.render("jni/Implementation", jniContainer),
+        generateFile(
+            "jni/Implementation",
+            jniContainer,
             JniNameRules.getImplementationFileName(jniContainer)));
 
     return results;
@@ -134,8 +133,9 @@ public class JniGenerator extends AbstractGenerator {
     mustacheData.put(MODELS_NAME, jniContainers);
 
     results.add(
-        new GeneratedFile(
-            TemplateEngine.render("jni/StructConversionHeader", mustacheData),
+        generateFile(
+            "jni/StructConversionHeader",
+            mustacheData,
             JniNameRules.getStructConversionHeaderFileName()));
 
     mustacheData.put(
@@ -148,8 +148,9 @@ public class JniGenerator extends AbstractGenerator {
             Include.createInternalInclude(JniNameRules.getEnumConversionHeaderFileName())));
 
     results.add(
-        new GeneratedFile(
-            TemplateEngine.render("jni/StructConversionImplementation", mustacheData),
+        generateFile(
+            "jni/StructConversionImplementation",
+            mustacheData,
             JniNameRules.getStructConversionImplementationFileName()));
   }
 
@@ -163,8 +164,9 @@ public class JniGenerator extends AbstractGenerator {
     mustacheData.put(MODELS_NAME, jniContainers);
 
     results.add(
-        new GeneratedFile(
-            TemplateEngine.render("jni/EnumConversionHeader", mustacheData),
+        generateFile(
+            "jni/EnumConversionHeader",
+            mustacheData,
             JniNameRules.getEnumConversionHeaderFileName()));
 
     mustacheData.put(
@@ -173,8 +175,9 @@ public class JniGenerator extends AbstractGenerator {
             Include.createInternalInclude(JniNameRules.getEnumConversionHeaderFileName())));
 
     results.add(
-        new GeneratedFile(
-            TemplateEngine.render("jni/EnumConversionImplementation", mustacheData),
+        generateFile(
+            "jni/EnumConversionImplementation",
+            mustacheData,
             JniNameRules.getEnumConversionImplementationFileName()));
   }
 
@@ -197,15 +200,18 @@ public class JniGenerator extends AbstractGenerator {
     instanceData.put(BASE_PACKAGES_NAME, basePackages);
 
     results.add(
-        new GeneratedFile(
-            TemplateEngine.render("jni/InstanceConversionHeader", instanceData),
+        generateFile(
+            "jni/InstanceConversionHeader",
+            instanceData,
             JniNameRules.getInstanceConversionHeaderFileName()));
 
     instanceIncludes.add(
         Include.createInternalInclude(JniNameRules.getInstanceConversionHeaderFileName()));
+
     results.add(
-        new GeneratedFile(
-            TemplateEngine.render("jni/InstanceConversionImplementation", instanceData),
+        generateFile(
+            "jni/InstanceConversionImplementation",
+            instanceData,
             JniNameRules.getInstanceConversionImplementationFileName()));
   }
 
@@ -215,22 +221,29 @@ public class JniGenerator extends AbstractGenerator {
     List<JniContainer> listeners =
         jniContainers.stream().filter(JniGenerator::isListener).collect(Collectors.toList());
 
-    List<String> proxyIncludes = new LinkedList<>();
+    List<Include> proxyIncludes = new LinkedList<>();
 
     for (JniContainer jniContainer : listeners) {
+
       results.add(
-          new GeneratedFile(
-              TemplateEngine.render("jni/CppProxyHeader", jniContainer),
+          generateFile(
+              "jni/CppProxyHeader",
+              jniContainer,
               JniNameRules.getCppProxyHeaderFileName(jniContainer)));
 
-      String headerInclude =
-          "\n#include \"" + JniNameRules.getCppProxyHeaderFileName(jniContainer) + "\"\n";
+      Include headerInclude =
+          Include.createInternalInclude(JniNameRules.getCppProxyHeaderFileName(jniContainer));
 
       proxyIncludes.add(headerInclude);
 
+      Map<String, Object> containerData = new HashMap<>();
+      containerData.put("headerInclude", headerInclude);
+      containerData.put("container", jniContainer);
+
       results.add(
-          new GeneratedFile(
-              headerInclude + TemplateEngine.render("jni/CppProxyImplementation", jniContainer),
+          generateFile(
+              "jni/CppProxyImplementation",
+              containerData,
               JniNameRules.getCppProxyImplementationFileName(jniContainer)));
     }
 
@@ -239,8 +252,9 @@ public class JniGenerator extends AbstractGenerator {
     mustacheData.put(MODELS_NAME, listeners);
 
     results.add(
-        new GeneratedFile(
-            TemplateEngine.render("jni/ProxyGeneratorHeader", mustacheData),
+        generateFile(
+            "jni/ProxyGeneratorHeader",
+            mustacheData,
             JniNameRules.getProxyConversionHeaderFileName()));
   }
 
@@ -263,5 +277,10 @@ public class JniGenerator extends AbstractGenerator {
     includes.addAll(additionalIncludes);
 
     return includes.stream().map(Include::createInternalInclude).collect(Collectors.toList());
+  }
+
+  private static GeneratedFile generateFile(
+      final String templateName, final Object data, final String fileName) {
+    return new GeneratedFile(TemplateEngine.render(templateName, data), fileName);
   }
 }
