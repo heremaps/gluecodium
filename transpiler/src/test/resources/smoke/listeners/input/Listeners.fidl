@@ -15,9 +15,31 @@ interface CalculatorListener {
 
     public typedef CalculatorListener is undefined
 
+    struct ResultStruct {
+        Double result
+    }
+
     method onCalculationResult {
         in {
             Double calculationResult
+        }
+    }
+
+    method onCalculationResultConst {
+        in {
+            Double calculationResult
+        }
+    }
+
+    method onCalculationResultStruct {
+        in {
+            ResultStruct calculationResult
+        }
+    }
+
+    method onCalculationResultArray {
+        in {
+            Double[] calculationResult
         }
     }
  }

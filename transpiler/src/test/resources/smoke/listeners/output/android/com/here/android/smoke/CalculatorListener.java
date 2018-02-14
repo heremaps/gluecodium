@@ -12,6 +12,18 @@
 
 package com.here.android.smoke;
 
+import java.util.List;
+
 public interface CalculatorListener {
+    public static class ResultStruct {
+        public double result;
+        public ResultStruct() {}
+        public ResultStruct(double result) {
+            this.result = result;
+        }
+    }
     void onCalculationResult(final double calculationResult);
+    void onCalculationResultConst(final double calculationResult);
+    void onCalculationResultStruct(final CalculatorListener.ResultStruct calculationResult);
+    void onCalculationResultArray(final List<Double> calculationResult);
 }

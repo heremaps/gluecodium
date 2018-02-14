@@ -9,9 +9,7 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-/**
-* Cpp proxy header for class CalculatorListener
-*/
+
 #pragma once
 
 #include <jni.h>
@@ -28,15 +26,14 @@ extern "C" {
 
 namespace smoke {
 
-
 class CalculatorListenerCppProxy : public here::internal::CppProxyBase, public CalculatorListener {
-
 public:
-
     CalculatorListenerCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode );
 
     void on_calculation_result( const double ncalculationResult ) override;
-
+    void on_calculation_result_const( const double ncalculationResult ) const override;
+    void on_calculation_result_struct( const ::smoke::CalculatorListener::ResultStruct& ncalculationResult ) override;
+    void on_calculation_result_array( const ::std::vector< double >& ncalculationResult ) override;
 };
 
 }
