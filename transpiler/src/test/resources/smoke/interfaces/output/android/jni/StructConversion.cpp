@@ -1,8 +1,8 @@
-#include <android/jni/StructConversion.h>
+#include "android/jni/StructConversion.h"
 #include <cstdint>
 #include <vector>
-#include <android/jni/FieldAccessMethods.h>
-#include <android/jni/EnumConversion.h>
+#include "android/jni/FieldAccessMethods.h"
+#include "android/jni/EnumConversion.h"
 #include "android/jni/ArrayConversionUtils.h"
 
 namespace here {
