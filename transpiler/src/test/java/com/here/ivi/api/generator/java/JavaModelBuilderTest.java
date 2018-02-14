@@ -510,12 +510,13 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaArrayMapsArrayType() {
-    when(typeMapper.mapArray(any())).thenReturn(javaCustomType);
+    JavaTemplateType templateType = JavaTemplateType.wrapInList(javaCustomType);
+    when(typeMapper.mapArray(any())).thenReturn(templateType);
 
     modelBuilder.finishBuilding(francaArrayType);
 
     JavaType javaType = modelBuilder.getFinalResult(JavaType.class);
-    assertEquals(javaCustomType, javaType);
+    assertEquals(templateType, javaType);
 
     verify(typeMapper).mapArray(francaArrayType);
   }

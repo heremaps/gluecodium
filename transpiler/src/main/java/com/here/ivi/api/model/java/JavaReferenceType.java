@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.java;
 
+import com.here.ivi.api.cli.TranspilerExecutionException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -62,6 +63,35 @@ public final class JavaReferenceType extends JavaComplexType {
         return "string";
       default:
         return type.getValue();
+    }
+  }
+
+  /**
+   * Wrap primitive types since generic templates don't apply to them
+   *
+   * @param primitiveType a primitive type
+   * @return custom type wrapper of the primitive type
+   */
+  public static JavaReferenceType boxPrimitiveType(JavaPrimitiveType primitiveType) {
+    if (primitiveType == JavaPrimitiveType.BOOL) {
+      return new JavaReferenceType(JavaReferenceType.Type.BOOL);
+    } else if (primitiveType == JavaPrimitiveType.CHAR) {
+      return new JavaReferenceType(JavaReferenceType.Type.CHAR);
+    } else if (primitiveType == JavaPrimitiveType.INT) {
+      return new JavaReferenceType(JavaReferenceType.Type.INT);
+    } else if (primitiveType == JavaPrimitiveType.FLOAT) {
+      return new JavaReferenceType(JavaReferenceType.Type.FLOAT);
+    } else if (primitiveType == JavaPrimitiveType.DOUBLE) {
+      return new JavaReferenceType(JavaReferenceType.Type.DOUBLE);
+    } else if (primitiveType == JavaPrimitiveType.BYTE) {
+      return new JavaReferenceType(JavaReferenceType.Type.BYTE);
+    } else if (primitiveType == JavaPrimitiveType.SHORT) {
+      return new JavaReferenceType(JavaReferenceType.Type.SHORT);
+    } else if (primitiveType == JavaPrimitiveType.LONG) {
+      return new JavaReferenceType(JavaReferenceType.Type.LONG);
+    } else {
+      // No array for void type
+      throw new TranspilerExecutionException("Can not wrap primitive type " + primitiveType.name);
     }
   }
 }

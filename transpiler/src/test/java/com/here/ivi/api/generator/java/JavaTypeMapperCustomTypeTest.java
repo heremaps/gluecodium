@@ -17,7 +17,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.java.*;
 import java.util.Arrays;
@@ -25,9 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -53,8 +50,6 @@ public class JavaTypeMapperCustomTypeTest {
   private static final String ENUMERATION_NAME = "MyEnumName";
   private static final String ENUMERATION_NAME_INTERFACE = "MyEnumDefinedInInterface";
   private static final String ENUMERATION_NAME_TYPECOLLECTION = "MyEnumDefinedInTypeCollection";
-
-  @Rule private final ExpectedException expectedException = ExpectedException.none();
 
   @Mock private FTypeCollection fTypeCollection;
   @Mock private FInterface fInterface;
@@ -133,19 +128,6 @@ public class JavaTypeMapperCustomTypeTest {
     JavaNameRules.getClassName(STRUCT_NAME_INTERFACE);
     PowerMockito.verifyStatic();
     JavaNameRules.getClassName(INTERFACE_NAME);
-  }
-
-  @Test
-  public void mapFIntegerIntervalThrowsTranspilerException() {
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
-    when(francaTypeRef.getDerived()).thenReturn(null);
-    when(francaTypeRef.getInterval()).thenReturn(mock(FIntegerInterval.class));
-
-    //pre-verify expected exception
-    expectedException.expect(TranspilerExecutionException.class);
-
-    //act
-    typeMapper.map(francaTypeRef);
   }
 
   @Test
