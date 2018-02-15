@@ -14,7 +14,7 @@ package com.here.ivi.api.generator.jni.templates;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.jni.JniGenerator;
+import com.here.ivi.api.generator.jni.JniTemplates;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cpp.CppStruct;
 import com.here.ivi.api.model.java.JavaClass;
@@ -69,8 +69,8 @@ public final class StructConversionHeaderTest {
     //arrange
 
     Map<String, List<?>> mustacheData = new HashMap<>();
-    mustacheData.put(JniGenerator.INCLUDES_NAME, new LinkedList<>());
-    mustacheData.put(JniGenerator.MODELS_NAME, Collections.emptyList());
+    mustacheData.put(JniTemplates.INCLUDES_NAME, new LinkedList<>());
+    mustacheData.put(JniTemplates.MODELS_NAME, Collections.emptyList());
 
     //act
     String result = TemplateEngine.render("jni/StructConversionHeader", mustacheData);
@@ -100,8 +100,8 @@ public final class StructConversionHeaderTest {
     JniStruct struct = container.structs.get(0);
 
     Map<String, List<?>> mustacheData = new HashMap<>();
-    mustacheData.put(JniGenerator.INCLUDES_NAME, includes);
-    mustacheData.put(JniGenerator.MODELS_NAME, Collections.singletonList(container));
+    mustacheData.put(JniTemplates.INCLUDES_NAME, includes);
+    mustacheData.put(JniTemplates.MODELS_NAME, Collections.singletonList(container));
 
     //act
     String result = TemplateEngine.render("jni/StructConversionHeader", mustacheData);
@@ -144,8 +144,8 @@ public final class StructConversionHeaderTest {
     JniStruct struct2 = container2.structs.get(0);
 
     Map<String, List<?>> mustacheData = new HashMap<>();
-    mustacheData.put(JniGenerator.INCLUDES_NAME, includes);
-    mustacheData.put(JniGenerator.MODELS_NAME, Arrays.asList(container, container2));
+    mustacheData.put(JniTemplates.INCLUDES_NAME, includes);
+    mustacheData.put(JniTemplates.MODELS_NAME, Arrays.asList(container, container2));
 
     //act
     String result = TemplateEngine.render("jni/StructConversionHeader", mustacheData);
