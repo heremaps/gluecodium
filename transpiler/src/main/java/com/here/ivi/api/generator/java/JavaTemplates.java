@@ -20,7 +20,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public final class JavaGenerator {
+public final class JavaTemplates {
 
   public static List<GeneratedFile> generateFiles(final List<JavaElement> javaModel) {
 

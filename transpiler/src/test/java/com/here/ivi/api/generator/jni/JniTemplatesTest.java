@@ -32,7 +32,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({JniNameRules.class, TemplateEngine.class})
-public final class JniGeneratorTest {
+public final class JniTemplatesTest {
 
   private static final int MAIN_FILES_COUNT = 2;
   private static final int MAIN_FILES_WITH_INSTANCES_COUNT = 9;
@@ -47,7 +47,7 @@ public final class JniGeneratorTest {
           .isFrancaInterface(true)
           .build();
 
-  private final JniGenerator generator = new JniGenerator(null, null, null, false);
+  private final JniTemplates templates = new JniTemplates(null);
 
   @Before
   public void setUp() {
@@ -79,7 +79,7 @@ public final class JniGeneratorTest {
     instantiableJniContainer.isInterface = true;
 
     List<GeneratedFile> files =
-        generator.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
+        templates.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
     assertTrue(
         "Must generate proxy header file",
         files.stream().anyMatch(file -> file.targetFile.getName() == PROXY_HEADER_NAME));
@@ -100,7 +100,7 @@ public final class JniGeneratorTest {
     instantiableJniContainer.isInterface = false;
 
     List<GeneratedFile> files =
-        generator.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
+        templates.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
     assertFalse(
         "Must not generate proxy header file",
         files.stream().anyMatch(file -> file.targetFile.getName() == PROXY_HEADER_NAME));
@@ -111,13 +111,13 @@ public final class JniGeneratorTest {
 
   @Test
   public void generateFilesWithNullModel() {
-    List<GeneratedFile> files = generator.generateFiles(null);
+    List<GeneratedFile> files = templates.generateFiles(null);
     assertTrue(files.isEmpty());
   }
 
   @Test
   public void generateFilesWithNonNullModel() {
-    List<GeneratedFile> result = generator.generateFiles(jniContainer);
+    List<GeneratedFile> result = templates.generateFiles(jniContainer);
 
     assertEquals(MAIN_FILES_COUNT, result.size());
 
@@ -139,7 +139,7 @@ public final class JniGeneratorTest {
     instantiableJniContainer.isInterface = true;
 
     List<GeneratedFile> result =
-        generator.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
+        templates.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
 
     assertEquals(MAIN_FILES_WITH_INSTANCES_COUNT, result.size());
     PowerMockito.verifyStatic();

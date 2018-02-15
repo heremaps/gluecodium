@@ -15,8 +15,9 @@ import com.here.ivi.api.cli.OptionReader;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.androidmanifest.AndroidManifestGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.java.JavaGenerator;
+import com.here.ivi.api.generator.java.JavaTemplates;
 import com.here.ivi.api.generator.jni.JniGenerator;
+import com.here.ivi.api.generator.jni.JniTemplates;
 import com.here.ivi.api.model.common.ModelElement;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.java.JavaElement;
@@ -30,7 +31,7 @@ import java.util.stream.Stream;
 import org.franca.core.franca.FTypeCollection;
 
 /**
- * Combines generators {@link JniGenerator} and {@link JavaGenerator} to generate Java code and
+ * Combines generators {@link JniGenerator} and {@link JavaTemplates} to generate Java code and
  * bindings to BaseAPI layer for Java.
  */
 public class JavaGeneratorSuite extends GeneratorSuite {
@@ -104,23 +105,24 @@ public class JavaGeneratorSuite extends GeneratorSuite {
     List<JavaElement> javaModel = CollectionsHelper.getAllOfType(model, JavaElement.class);
     List<JniContainer> jniModel = CollectionsHelper.getAllOfType(model, JniContainer.class);
 
-    List<GeneratedFile> javaFiles = JavaGenerator.generateFiles(javaModel);
-    javaFiles.addAll(JavaGenerator.generateFilesForExceptions(exceptionsCollector.values()));
+    List<GeneratedFile> javaFiles = JavaTemplates.generateFiles(javaModel);
+    javaFiles.addAll(JavaTemplates.generateFilesForExceptions(exceptionsCollector.values()));
 
     List<String> nativeBasePath = new LinkedList<>();
     nativeBasePath.add(getGeneratorName());
     nativeBasePath.addAll(javaPackageList);
     nativeBasePath.add(NATIVE_BASE_JAVA);
     javaFiles.add(
-        JavaGenerator.generateNativeBase(String.join("/", nativeBasePath), javaPackageList));
+        JavaTemplates.generateNativeBase(String.join("/", nativeBasePath), javaPackageList));
 
+    JniTemplates jniTemplates = new JniTemplates(javaPackageList);
     Stream<List<GeneratedFile>> jniFilesStream =
         Stream.concat(
             jniModel
                 .stream()
                 .filter(jniContainer -> jniContainer.isFrancaInterface)
-                .map(JniGenerator::generateFiles),
-            Stream.of(jniGenerator.generateConversionFiles(jniModel)));
+                .map(JniTemplates::generateFiles),
+            Stream.of(jniTemplates.generateConversionFiles(jniModel)));
 
     List<GeneratedFile> results = new LinkedList<>();
 
