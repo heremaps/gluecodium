@@ -54,11 +54,6 @@ public class FrancaDeploymentModel {
   }
 
   @SuppressWarnings("unused")
-  public boolean isSet(final FArrayType francaArray) {
-    return getBoolean(francaArray, "Set");
-  }
-
-  @SuppressWarnings("unused")
   public boolean isSerializable(final FStructType francaStruct) {
     return getBoolean(francaStruct, "Serializable");
   }
