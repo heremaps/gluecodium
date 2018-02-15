@@ -14,7 +14,7 @@
 
 #include <iostream>
 
-namespace hf
+namespace transpiler
 {
 /**
  * A hash function for enums.

@@ -32,7 +32,9 @@ public class CppTypeMapper {
 
   @VisibleForTesting
   static final CppTypeRef ENUM_HASH_TYPE =
-      new CppComplexTypeRef.Builder("::hf::EnumHash").include(CppLibraryIncludes.ENUM_HASH).build();
+      new CppComplexTypeRef.Builder("::transpiler::EnumHash")
+          .include(CppLibraryIncludes.ENUM_HASH)
+          .build();
 
   public static final CppTypeRef STRING_TYPE =
       new CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE, BASIC_STRING_CHAR_TYPE.includes);
