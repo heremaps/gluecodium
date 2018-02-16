@@ -62,8 +62,7 @@ public abstract class AcceptanceTestBase {
 
   @Rule public final NiceErrorCollector errorCollector = new NiceErrorCollector();
 
-  private final Transpiler transpiler =
-      spy(new Transpiler(OptionReader.TranspilerOptions.builder().build()));
+  private final Transpiler transpiler = spy(new Transpiler(OptionReader.DEFAULT_OPTIONS));
 
   private final File featureDirectory;
   private final String generatorName;

@@ -14,6 +14,7 @@ package com.here.ivi.api.platform.baseapi;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import com.here.ivi.api.cli.OptionReader;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +25,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class BaseApiGeneratorSuiteTest {
 
-  private final BaseApiGeneratorSuite baseApiGeneratorSuite = new BaseApiGeneratorSuite();
+  private final BaseApiGeneratorSuite baseApiGeneratorSuite =
+      new BaseApiGeneratorSuite(OptionReader.DEFAULT_OPTIONS);
   private List<GeneratedFile> generatedFiles;
 
   private String getTargetFile(int i) {
@@ -41,7 +43,7 @@ public final class BaseApiGeneratorSuiteTest {
         expectedGeneratedFiles,
         generatedFiles.size());
 
-    assertEquals("cpp/include/enum_hash.h", getTargetFile(0));
+    assertEquals("cpp/include/EnumHash.h", getTargetFile(0));
     assertEquals("cpp/include/Return.h", getTargetFile(1));
   }
 }

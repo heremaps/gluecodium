@@ -22,7 +22,9 @@ import org.eclipse.xtext.util.Files;
 
 public final class OptionReader {
 
-  private static final TranspilerOptions DEFAULT_OPTIONS = TranspilerOptions.builder().build();
+  private static final String DEFAULT_INTERNAL_NAMESPACE = "transpiler";
+  public static final TranspilerOptions DEFAULT_OPTIONS =
+      TranspilerOptions.builder().cppInternalNamespace(DEFAULT_INTERNAL_NAMESPACE).build();
 
   private final Options options;
 
@@ -39,6 +41,7 @@ public final class OptionReader {
     private String androidMergeManifestPath;
     private boolean logTimes;
     private String copyrightHeaderContents;
+    private String cppInternalNamespace;
   }
 
   public OptionReader() {
@@ -82,7 +85,10 @@ public final class OptionReader {
     options.addOption(
         "copyrightHeader",
         true,
-        "Specify the path for the file containing the copyright header that will be appended to all the generated files.");
+        "Specify the path for the file containing the copyright header that will be appended to"
+            + " all the generated files.");
+    options.addOption(
+        "cppInternalNamespace", true, "C++ namespace for internal (non-API) headers.");
   }
 
   @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
@@ -128,6 +134,8 @@ public final class OptionReader {
       builder.enableCaching(cmd.hasOption("output") && cmd.hasOption("enableCaching"));
 
       builder.logTimes(cmd.hasOption("timeLogging"));
+      builder.cppInternalNamespace(
+          cmd.getOptionValue("cppInternalNamespace", DEFAULT_INTERNAL_NAMESPACE));
 
       if (cmd.hasOption("copyrightHeader")) {
         String copyrightHeaderFile = cmd.getOptionValue("copyrightHeader");

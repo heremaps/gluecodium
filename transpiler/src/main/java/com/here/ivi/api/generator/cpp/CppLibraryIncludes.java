@@ -16,7 +16,6 @@ import com.here.ivi.api.model.common.Include;
 public final class CppLibraryIncludes {
   // Standard
   public static final Include INT_TYPES = Include.createSystemInclude("cstdint");
-  public static final Include LIMITS = Include.createSystemInclude("limits");
   public static final Include MAP = Include.createSystemInclude("unordered_map");
   public static final Include MEMORY = Include.createSystemInclude("memory");
   public static final Include STRING = Include.createSystemInclude("string");
@@ -26,5 +25,5 @@ public final class CppLibraryIncludes {
 
   // Custom
   public static final Include RETURN = Include.createInternalInclude("Return.h");
-  public static final Include ENUM_HASH = Include.createInternalInclude("enum_hash.h");
+  public static final Include ENUM_HASH = Include.createInternalInclude("EnumHash.h");
 }

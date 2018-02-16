@@ -57,9 +57,9 @@ public abstract class GeneratorSuite {
       case JavaGeneratorSuite.GENERATOR_NAME:
         return new JavaGeneratorSuite(options);
       case BaseApiGeneratorSuite.GENERATOR_NAME:
-        return new BaseApiGeneratorSuite();
+        return new BaseApiGeneratorSuite(options);
       case SwiftGeneratorSuite.GENERATOR_NAME:
-        return new SwiftGeneratorSuite();
+        return new SwiftGeneratorSuite(options);
     }
 
     return null;

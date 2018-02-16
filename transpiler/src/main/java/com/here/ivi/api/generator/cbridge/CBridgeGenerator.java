@@ -20,6 +20,7 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
+import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cbridge.CInterface;
 import com.here.ivi.api.model.cbridge.IncludeResolver;
@@ -36,6 +37,7 @@ public class CBridgeGenerator {
 
   private final FrancaDeploymentModel deploymentModel;
   private final IncludeResolver resolver;
+  private final String internalNamespace;
 
   public final CArrayGenerator arrayGenerator = new CArrayGenerator();
 
@@ -53,9 +55,12 @@ public class CBridgeGenerator {
           GeneratorSuite.copyTarget(CBridgeComponents.PROXY_CACHE_FILENAME, ""));
 
   public CBridgeGenerator(
-      final FrancaDeploymentModel deploymentModel, final IncludeResolver includeResolver) {
+      final FrancaDeploymentModel deploymentModel,
+      final IncludeResolver includeResolver,
+      final String internalNamespace) {
     this.deploymentModel = deploymentModel;
     this.resolver = includeResolver;
+    this.internalNamespace = internalNamespace;
   }
 
   public Stream<GeneratedFile> generate(final FTypeCollection francaTypeCollection) {
@@ -81,7 +86,9 @@ public class CBridgeGenerator {
   }
 
   public CInterface buildCBridgeModel(final FTypeCollection francaTypeCollection) {
-    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, new CppIncludeResolver());
+
+    CppTypeMapper typeMapper = new CppTypeMapper(new CppIncludeResolver(), internalNamespace);
+    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, typeMapper);
     SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
     CBridgeModelBuilder modelBuilder =
         new CBridgeModelBuilder(deploymentModel, resolver, cppBuilder, swiftBuilder);

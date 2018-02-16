@@ -15,6 +15,7 @@ import com.here.ivi.api.generator.common.AbstractGenerator;
 import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
+import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.generator.java.JavaTypeMapper;
 import com.here.ivi.api.model.common.Include;
@@ -42,16 +43,19 @@ public final class JniGenerator extends AbstractGenerator {
   private final FrancaDeploymentModel deploymentModel;
   private final List<String> additionalIncludes;
   private final boolean enableAndroidFeatures;
+  private final String internalNamespace;
 
   public JniGenerator(
       final FrancaDeploymentModel deploymentModel,
       final List<String> packageList,
       final List<String> additionalIncludes,
-      final boolean enableAndroidFeatures) {
+      final boolean enableAndroidFeatures,
+      final String internalNamespace) {
     super(packageList);
     this.deploymentModel = deploymentModel;
     this.additionalIncludes = additionalIncludes;
     this.enableAndroidFeatures = enableAndroidFeatures;
+    this.internalNamespace = internalNamespace;
   }
 
   public Collection<ModelElement> generateModel(
@@ -65,7 +69,8 @@ public final class JniGenerator extends AbstractGenerator {
             basePackage.createChildPackage(DefinedBy.getPackages(francaTypeCollection)),
             new JavaTypeMapper(basePackage, enableAndroidFeatures ? PARCELABLE : null));
 
-    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, new CppIncludeResolver());
+    CppTypeMapper typeMapper = new CppTypeMapper(new CppIncludeResolver(), internalNamespace);
+    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, typeMapper);
     JniModelBuilder jniBuilder = new JniModelBuilder(deploymentModel, javaBuilder, cppBuilder);
 
     FrancaTreeWalker treeWalker =

@@ -15,34 +15,32 @@ import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cpp.CppFile;
-import java.io.File;
+import java.nio.file.Paths;
 import java.util.*;
 
 public final class CppGenerator {
 
+  private final String pathPrefix;
+  private final String internalNamespace;
+
+  public CppGenerator(final String pathPrefix, final String internalNamespace) {
+    this.pathPrefix = pathPrefix;
+    this.internalNamespace = internalNamespace;
+  }
+
   public List<GeneratedFile> generateCode(
-      final CppFile cppModel,
-      final String relativeHeaderPath,
-      final String relativeImplPath,
-      final String pathPrefix) {
+      final CppFile cppModel, final String relativeHeaderPath, final String relativeImplPath) {
 
     if (cppModel == null || cppModel.isEmpty()) {
       return Collections.emptyList();
     }
 
     String absoluteHeaderPath =
-        pathPrefix
-            + File.separator
-            + CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE
-            + File.separator
-            + relativeHeaderPath
+        Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, relativeHeaderPath)
+                .toString()
             + CppNameRules.HEADER_FILE_SUFFIX;
     String absoluteImplPath =
-        pathPrefix
-            + File.separator
-            + CppNameRules.PACKAGE_NAME_SPECIFIER_SRC
-            + File.separator
-            + relativeImplPath
+        Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_SRC, relativeImplPath).toString()
             + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
 
     // Filter out self-includes
@@ -60,5 +58,13 @@ public final class CppGenerator {
     result.add(new GeneratedFile(implementationContent, absoluteImplPath));
 
     return result;
+  }
+
+  public GeneratedFile generateHelperHeader(final String headerName) {
+    String content = TemplateEngine.render("cpp/" + headerName, internalNamespace);
+    String resultFileName =
+        Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, headerName)
+            + CppNameRules.HEADER_FILE_SUFFIX;
+    return new GeneratedFile(content, resultFileName);
   }
 }

@@ -28,7 +28,7 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
     MAP("std", "unordered_map", CppLibraryIncludes.MAP),
     VECTOR("std", "vector", CppLibraryIncludes.VECTOR),
     BASIC_STRING("std", "basic_string", CppLibraryIncludes.STRING),
-    RETURN("hf", "Return", CppLibraryIncludes.RETURN);
+    RETURN(null, "Return", CppLibraryIncludes.RETURN);
 
     public final String namespace;
     public final String name;
@@ -52,12 +52,16 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
 
   public static CppTemplateTypeRef create(
       final TemplateClass templateClass, CppTypeRef... parameters) {
+    return create(templateClass.namespace, templateClass, parameters);
+  }
+
+  public static CppTemplateTypeRef create(
+      final String namespace, final TemplateClass templateClass, CppTypeRef... parameters) {
     List<CppTypeRef> templateParameters = Arrays.asList(parameters);
     String parametersString =
         templateParameters.stream().map(param -> param.name).collect(Collectors.joining(", "));
     String fullyQualifiedName =
-        CppNameRules.getFullyQualifiedName(
-                Collections.singletonList(templateClass.namespace), templateClass.name)
+        CppNameRules.getFullyQualifiedName(Collections.singletonList(namespace), templateClass.name)
             + "< "
             + parametersString
             + " >";

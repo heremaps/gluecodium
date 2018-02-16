@@ -112,6 +112,6 @@ abstract class CBridgeGeneratorTestBase {
     PowerMockito.doReturn("")
         .when(CBridgeNameRules.class, "getImplementationFileNameWithPath", any());
 
-    generator = new CBridgeGenerator(deploymentModel, resolver);
+    generator = new CBridgeGenerator(deploymentModel, resolver, null);
   }
 }

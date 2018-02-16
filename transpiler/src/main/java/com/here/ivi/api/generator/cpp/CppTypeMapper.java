@@ -11,10 +11,10 @@
 
 package com.here.ivi.api.generator.cpp;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.cli.TranspilerExecutionException;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cpp.*;
+import java.util.Collections;
 import org.franca.core.franca.*;
 
 /**
@@ -32,19 +32,29 @@ public class CppTypeMapper {
           .include(CppLibraryIncludes.SYSTEM_ERROR)
           .build();
 
-  @VisibleForTesting
-  static final CppTypeRef ENUM_HASH_TYPE =
-      new CppComplexTypeRef.Builder("::transpiler::EnumHash")
-          .include(CppLibraryIncludes.ENUM_HASH)
-          .build();
-
   public static final CppTypeRef STRING_TYPE =
       new CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE, BASIC_STRING_CHAR_TYPE.includes);
 
-  private final CppIncludeResolver includeResolver;
+  private static final String ENUM_HASH_CLASS_NAME = "EnumHash";
 
-  public CppTypeMapper(final CppIncludeResolver includeResolver) {
+  private final CppIncludeResolver includeResolver;
+  private final String internalNamespace;
+
+  public CppTypeMapper(final CppIncludeResolver includeResolver, final String internalNamespace) {
     this.includeResolver = includeResolver;
+    this.internalNamespace = internalNamespace;
+  }
+
+  public CppTypeRef getEnumHashType() {
+    String name =
+        CppNameRules.getFullyQualifiedName(
+            Collections.singletonList(internalNamespace), ENUM_HASH_CLASS_NAME);
+    return new CppComplexTypeRef.Builder(name).include(CppLibraryIncludes.ENUM_HASH).build();
+  }
+
+  public CppTypeRef getReturnWrapperType(final CppTypeRef outArgType, final CppTypeRef errorType) {
+    return CppTemplateTypeRef.create(
+        internalNamespace, CppTemplateTypeRef.TemplateClass.RETURN, outArgType, errorType);
   }
 
   public CppTypeRef map(FTypeRef type) {
@@ -110,10 +120,10 @@ public class CppTypeMapper {
         fullyQualifiedName, mapType, includeResolver.resolveInclude(francaMapType));
   }
 
-  public static CppComplexTypeRef wrapMap(CppTypeRef key, CppTypeRef value) {
+  public CppTypeRef wrapMap(final CppTypeRef key, final CppTypeRef value) {
     if (key.refersToEnumType()) {
       return CppTemplateTypeRef.create(
-          CppTemplateTypeRef.TemplateClass.MAP, key, value, ENUM_HASH_TYPE);
+          CppTemplateTypeRef.TemplateClass.MAP, key, value, getEnumHashType());
     } else {
       return CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.MAP, key, value);
     }
