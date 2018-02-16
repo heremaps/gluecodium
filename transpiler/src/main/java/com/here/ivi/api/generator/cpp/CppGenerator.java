@@ -13,11 +13,13 @@ package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cpp.CppFile;
 import java.io.File;
 import java.util.*;
 
 public final class CppGenerator {
+
   public List<GeneratedFile> generateCode(
       final CppFile cppModel,
       final String relativeHeaderPath,
@@ -47,17 +49,15 @@ public final class CppGenerator {
     cppModel.includes.removeIf(
         include -> include.fileName.equals(relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX));
 
-    String commentHeader = TemplateEngine.render("cpp/CppCommentHeader", null);
-
     List<GeneratedFile> result = new LinkedList<>();
     String headerContent = TemplateEngine.render("cpp/CppHeader", cppModel);
-    result.add(new GeneratedFile(commentHeader + headerContent, absoluteHeaderPath));
+    result.add(new GeneratedFile(headerContent, absoluteHeaderPath));
 
-    String headerInclude =
-        "\n#include \"" + (relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX) + "\"";
+    cppModel.headerInclude =
+        Include.createInternalInclude(relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX);
+
     String implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel);
-    result.add(
-        new GeneratedFile(commentHeader + headerInclude + implementationContent, absoluteImplPath));
+    result.add(new GeneratedFile(implementationContent, absoluteImplPath));
 
     return result;
   }
