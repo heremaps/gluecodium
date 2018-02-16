@@ -39,8 +39,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   }
 
   public CppModelBuilder(
-      final FrancaDeploymentModel deploymentModel, final CppIncludeResolver includeResolver) {
-    this(new ModelBuilderContextStack<>(), deploymentModel, new CppTypeMapper(includeResolver));
+      final FrancaDeploymentModel deploymentModel, final CppTypeMapper typeMapper) {
+    this(new ModelBuilderContextStack<>(), deploymentModel, typeMapper);
   }
 
   @Override
@@ -227,7 +227,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String name = CppNameRules.getTypedefName(francaMapType.getName());
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaMapType);
     List<CppTypeRef> typeRefs = getPreviousResults(CppTypeRef.class);
-    CppTypeRef targetType = CppTypeMapper.wrapMap(typeRefs.get(0), typeRefs.get(1));
+    CppTypeRef targetType = typeMapper.wrapMap(typeRefs.get(0), typeRefs.get(1));
     String comment = CommentHelper.getDescription(francaMapType);
     CppUsing cppUsing =
         CppUsing.builder(name, targetType)
@@ -353,7 +353,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     return builder.build();
   }
 
-  private static CppTypeRef mapMethodReturnType(
+  private CppTypeRef mapMethodReturnType(
       final CppParameter outputParameter, final CppTypeRef errorType) {
 
     CppTypeRef outArgType = outputParameter != null ? outputParameter.type : null;
@@ -366,7 +366,6 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     }
 
     // wrap multiple out values (error + outArg) in their own type
-    return CppTemplateTypeRef.create(
-        CppTemplateTypeRef.TemplateClass.RETURN, outArgType, errorType);
+    return typeMapper.getReturnWrapperType(outArgType, errorType);
   }
 }

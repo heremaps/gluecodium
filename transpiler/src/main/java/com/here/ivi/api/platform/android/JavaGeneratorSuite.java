@@ -57,6 +57,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
 
   private final OptionReader.TranspilerOptions transpilerOptions;
   private final boolean enableAndroidFeatures;
+  private final String internalNamespace;
 
   public JavaGeneratorSuite(final OptionReader.TranspilerOptions transpilerOptions) {
     this(transpilerOptions, false);
@@ -67,6 +68,8 @@ public class JavaGeneratorSuite extends GeneratorSuite {
     super();
     this.transpilerOptions = transpilerOptions;
     this.enableAndroidFeatures = enableAndroidFeatures;
+    internalNamespace =
+        transpilerOptions != null ? transpilerOptions.getCppInternalNamespace() : null;
   }
 
   @Override
@@ -94,7 +97,8 @@ public class JavaGeneratorSuite extends GeneratorSuite {
                 FIELD_ACCESS_UTILS_HEADER,
                 CPP_PROXY_BASE_HEADER,
                 JNI_BASE_HEADER),
-            enableAndroidFeatures);
+            enableAndroidFeatures,
+            internalNamespace);
 
     Collection<ModelElement> model =
         typeCollections

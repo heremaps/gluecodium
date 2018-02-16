@@ -72,7 +72,7 @@ public class CppTypeMapperComplexTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(InstanceRules.class, DefinedBy.class);
 
-    typeMapper = new CppTypeMapper(includeResolver);
+    typeMapper = new CppTypeMapper(includeResolver, "");
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);

@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "enum_hash.h"
+#include "EnumHash.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>

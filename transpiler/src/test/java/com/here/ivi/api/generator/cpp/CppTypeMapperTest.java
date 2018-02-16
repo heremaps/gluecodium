@@ -34,7 +34,7 @@ public final class CppTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
 
-  private final CppTypeMapper typeMapper = new CppTypeMapper(null);
+  private final CppTypeMapper typeMapper = new CppTypeMapper(null, "");
 
   @Before
   public void setUp() {
@@ -178,7 +178,7 @@ public final class CppTypeMapperTest {
     Include fooInclude = Include.createInternalInclude("bar/Foo.h");
     CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").include(fooInclude).build();
 
-    CppComplexTypeRef result = CppTypeMapper.wrapMap(CppPrimitiveTypeRef.UINT32, cppTypeRef);
+    CppTypeRef result = typeMapper.wrapMap(CppPrimitiveTypeRef.UINT32, cppTypeRef);
 
     assertTrue(result.includes.contains(CppLibraryIncludes.INT_TYPES));
     assertTrue(result.includes.contains(fooInclude));
@@ -196,14 +196,14 @@ public final class CppTypeMapperTest {
   public void wrapMapTypeWithEnumKeyType() {
     CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").refersToEnum(true).build();
 
-    CppComplexTypeRef result = CppTypeMapper.wrapMap(cppTypeRef, CppPrimitiveTypeRef.VOID);
+    CppTypeRef result = typeMapper.wrapMap(cppTypeRef, CppPrimitiveTypeRef.VOID);
 
     assertTrue(result.includes.contains(CppLibraryIncludes.ENUM_HASH));
     assertTrue(result instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
     assertEquals(3, cppTemplateTypeRef.templateParameters.size());
-    assertEquals(CppTypeMapper.ENUM_HASH_TYPE, cppTemplateTypeRef.templateParameters.get(2));
+    assertEquals(typeMapper.getEnumHashType(), cppTemplateTypeRef.templateParameters.get(2));
   }
 
   private void verifyPrimitiveType(

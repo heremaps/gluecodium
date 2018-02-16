@@ -13,6 +13,7 @@ package com.here.ivi.api.platform.swift;
 
 import static java.util.stream.Collectors.toList;
 
+import com.here.ivi.api.cli.OptionReader;
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.swift.SwiftGenerator;
@@ -32,7 +33,16 @@ import org.franca.core.franca.FTypeCollection;
  * <p>The bindings are used to build a framework for iOS, Mac and a Swift module for Linux.
  */
 public final class SwiftGeneratorSuite extends GeneratorSuite {
+
   public static final String GENERATOR_NAME = "swift";
+
+  private final String internalNamespace;
+
+  public SwiftGeneratorSuite(final OptionReader.TranspilerOptions transpilerOptions) {
+    super();
+    internalNamespace =
+        transpilerOptions != null ? transpilerOptions.getCppInternalNamespace() : null;
+  }
 
   @Override
   public List<GeneratedFile> generate(
@@ -40,7 +50,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
 
     SwiftGenerator swiftGenerator = new SwiftGenerator(deploymentModel);
     CBridgeGenerator cBridgeGenerator =
-        new CBridgeGenerator(deploymentModel, new IncludeResolver());
+        new CBridgeGenerator(deploymentModel, new IncludeResolver(), internalNamespace);
 
     Stream<GeneratedFile> swiftStream = typeCollections.stream().map(swiftGenerator::generate);
     Stream<GeneratedFile> cBridgeStream =

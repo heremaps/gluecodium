@@ -28,7 +28,7 @@ public class CppGeneratorTest {
   private static final String OUTPUT_FILE_NAME_HEADER = "some_fancy_header.output";
   private static final String OUTPUT_FILE_NAME_IMPL = "some_fancy_impl.output";
 
-  private final CppGenerator cppGenerator = new CppGenerator();
+  private final CppGenerator cppGenerator = new CppGenerator("", "");
 
   private final CppMethod cppMethod = new CppMethod.Builder("methodical").build();
   private final CppClass cppClass = new CppClass("Classy");
@@ -43,7 +43,7 @@ public class CppGeneratorTest {
   @Test
   public void generateCodeWithNullModel() {
     List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(null, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
+        cppGenerator.generateCode(null, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL);
 
     assertTrue(generatedFiles.isEmpty());
   }
@@ -53,7 +53,7 @@ public class CppGeneratorTest {
     cppModel.members.clear();
 
     List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL);
 
     assertTrue(generatedFiles.isEmpty());
   }
@@ -61,7 +61,7 @@ public class CppGeneratorTest {
   @Test
   public void generateCodeWithNonEmptyModel() {
     List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL);
 
     assertFalse(generatedFiles.isEmpty());
   }
@@ -74,7 +74,7 @@ public class CppGeneratorTest {
     cppModel.includes.add(nonsenseInclude);
     cppModel.includes.add(selfInclude);
 
-    cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
+    cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL);
 
     assertTrue(cppModel.includes.contains(nonsenseInclude));
     assertFalse(cppModel.includes.contains(selfInclude));
@@ -83,7 +83,7 @@ public class CppGeneratorTest {
   @Test
   public void generateCodeGeneratesHeaderAndImplementationForInstantiableClass() {
     List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL);
 
     assertEquals(2, generatedFiles.size());
     assertTrue(
@@ -96,7 +96,7 @@ public class CppGeneratorTest {
     cppClass.methods.add(new CppMethod.Builder("non_static_methodical").build());
 
     List<GeneratedFile> generatedFiles =
-        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL, "");
+        cppGenerator.generateCode(cppModel, OUTPUT_FILE_NAME_HEADER, OUTPUT_FILE_NAME_IMPL);
 
     assertEquals(2, generatedFiles.size());
     assertTrue(

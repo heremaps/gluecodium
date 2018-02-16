@@ -253,7 +253,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodMapsErrorType() {
-    contextStack.injectResult(cppComplexTypeRef);
+    contextStack.injectResult(mock(CppTypeRef.class));
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -509,6 +509,8 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMapType() {
+    CppTypeRef mapTypeRef = CppPrimitiveTypeRef.INT8;
+    when(typeMapper.wrapMap(any(), any())).thenReturn(mapTypeRef);
     CppTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.INT8;
     contextStack.injectResult(cppPrimitiveTypeRef);
     contextStack.injectResult(cppComplexTypeRef);
@@ -519,13 +521,8 @@ public class CppModelBuilderTest {
     assertNotNull(resultUsing);
     assertEquals("tigers", resultUsing.name.toLowerCase());
     assertEquals("::nonsense::Tigers", resultUsing.fullyQualifiedName);
-    assertTrue(resultUsing.definition instanceof CppTemplateTypeRef);
-
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultUsing.definition;
-    assertEquals(CppTemplateTypeRef.TemplateClass.MAP, cppTemplateTypeRef.templateClass);
-    assertEquals(2, cppTemplateTypeRef.templateParameters.size());
-    assertEquals(cppPrimitiveTypeRef, cppTemplateTypeRef.templateParameters.get(0));
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.templateParameters.get(1));
+    assertEquals(mapTypeRef, resultUsing.definition);
+    verify(typeMapper).wrapMap(cppPrimitiveTypeRef, cppComplexTypeRef);
   }
 
   @Test

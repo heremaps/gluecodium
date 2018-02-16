@@ -115,7 +115,7 @@ public final class CppTemplateTypeRefTest {
   public void expected() {
     CppTemplateTypeRef templateTypeRef =
         CppTemplateTypeRef.create(
-            CppTemplateTypeRef.TemplateClass.RETURN, COMPLEX_TYPE_REF, ERROR_TYPE_REF);
+            "", CppTemplateTypeRef.TemplateClass.RETURN, COMPLEX_TYPE_REF, ERROR_TYPE_REF);
 
     assertEquals(CppTemplateTypeRef.TemplateClass.RETURN, templateTypeRef.templateClass);
     assertEquals(2, templateTypeRef.templateParameters.size());
