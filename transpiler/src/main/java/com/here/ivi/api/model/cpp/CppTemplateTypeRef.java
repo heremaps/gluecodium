@@ -12,11 +12,9 @@
 package com.here.ivi.api.model.cpp;
 
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
+import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.model.common.Include;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,17 +24,18 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
   public final TemplateClass templateClass;
 
   public enum TemplateClass {
-    SHARED_POINTER("::std::shared_ptr", CppLibraryIncludes.MEMORY),
-    MAP("::std::unordered_map", CppLibraryIncludes.MAP),
-    VECTOR("::std::vector", CppLibraryIncludes.VECTOR),
-    BASIC_STRING("::std::basic_string", CppLibraryIncludes.STRING),
-    //TODO: use customizable C++ namespace when APIGEN-663 is done
-    RETURN("::hf::Return", CppLibraryIncludes.RETURN);
+    SHARED_POINTER("std", "shared_ptr", CppLibraryIncludes.MEMORY),
+    MAP("std", "unordered_map", CppLibraryIncludes.MAP),
+    VECTOR("std", "vector", CppLibraryIncludes.VECTOR),
+    BASIC_STRING("std", "basic_string", CppLibraryIncludes.STRING),
+    RETURN("hf", "Return", CppLibraryIncludes.RETURN);
 
+    public final String namespace;
     public final String name;
     public final Set<Include> includes;
 
-    TemplateClass(String name, Include... includes) {
+    TemplateClass(final String namespace, final String name, Include... includes) {
+      this.namespace = namespace;
       this.name = name;
       this.includes = new LinkedHashSet<>(Arrays.asList(includes));
     }
@@ -56,7 +55,12 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
     List<CppTypeRef> templateParameters = Arrays.asList(parameters);
     String parametersString =
         templateParameters.stream().map(param -> param.name).collect(Collectors.joining(", "));
-    String fullyQualifiedName = templateClass.name + "< " + parametersString + " >";
+    String fullyQualifiedName =
+        CppNameRules.getFullyQualifiedName(
+                Collections.singletonList(templateClass.namespace), templateClass.name)
+            + "< "
+            + parametersString
+            + " >";
 
     CppTemplateTypeRef templateTypeRef =
         new CppTemplateTypeRef(fullyQualifiedName, templateClass, templateParameters);
