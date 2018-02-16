@@ -61,7 +61,8 @@ function(apigen_swift_compile target architecture)
     set(TARGET_ARCHITECTURE ${architecture})
 
     if(IOS_DEPLOYMENT_TARGET)
-        if (XCODE_PLATFORM_SUFFIX STREQUAL "")
+        # If the toolchain does not specify the platform, it uses 'iphone' by default.
+        if (NOT XCODE_PLATFORM_SUFFIX)
             set(XCODE_PLATFORM_SUFFIX "ios")
         endif()
         set(full_target ${TARGET_ARCHITECTURE}-apple-${XCODE_PLATFORM_SUFFIX}${IOS_DEPLOYMENT_TARGET})
