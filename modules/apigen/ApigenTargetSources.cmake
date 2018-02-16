@@ -49,7 +49,7 @@ function(apigen_target_sources target)
 
     elseif(${GENERATOR} MATCHES android)
 
-        file(GLOB JNI_SOURCES ${OUTPUT_DIR}/android/jni/*.cpp)
+        file(GLOB_RECURSE JNI_SOURCES ${OUTPUT_DIR}/android/jni/*.cpp)
         target_sources(${target}
             PRIVATE
                 ${GENERATED_CPP_SOURCES}
