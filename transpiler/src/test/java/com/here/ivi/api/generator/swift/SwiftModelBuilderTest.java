@@ -66,6 +66,7 @@ public class SwiftModelBuilderTest {
   @Mock private FAttribute francaAttribute;
   @Mock private FArrayType francaArray;
   @Mock private FStructType francaStruct;
+  @Mock private FMapType francaMap;
 
   private final SwiftType swiftType = new SwiftType("VerySwiftType");
   private final SwiftValue swiftValue = new SwiftValue("");
@@ -619,5 +620,26 @@ public class SwiftModelBuilderTest {
     assertEquals(2, swiftStruct.fields.size());
     assertEquals(parentField, swiftStruct.fields.get(0));
     assertEquals(swiftField, swiftStruct.fields.get(1));
+  }
+
+  @Test
+  public void finishBuildingFrancaMapType() {
+    when(SwiftNameRules.getTypeName(any(), any())).thenReturn("SomeMap");
+    contextStack.injectResult(SwiftType.STRING);
+    contextStack.injectResult(swiftType);
+
+    modelBuilder.finishBuilding(francaMap);
+
+    SwiftTypeDef swiftTypeDef = modelBuilder.getFinalResult(SwiftTypeDef.class);
+
+    assertNotNull(swiftTypeDef);
+    assertEquals("SomeMap", swiftTypeDef.name);
+    assertTrue(swiftTypeDef.type instanceof SwiftDictionary);
+    SwiftDictionary swiftDictionary = (SwiftDictionary) swiftTypeDef.type;
+    assertEquals(SwiftType.STRING, swiftDictionary.keyType);
+    assertEquals(swiftType, swiftDictionary.valueType);
+
+    PowerMockito.verifyStatic();
+    SwiftNameRules.getTypeName(francaMap, deploymentModel);
   }
 }

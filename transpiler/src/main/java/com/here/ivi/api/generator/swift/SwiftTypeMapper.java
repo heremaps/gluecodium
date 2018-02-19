@@ -43,7 +43,8 @@ public class SwiftTypeMapper {
     return swiftType;
   }
 
-  private static SwiftType mapDerived(FType derived, final FrancaDeploymentModel deploymentModel) {
+  private static SwiftType mapDerived(
+      final FType derived, final FrancaDeploymentModel deploymentModel) {
     if (derived instanceof FStructType) {
       return getStructType((FStructType) derived, deploymentModel);
     } else if (derived instanceof FEnumerationType) {
@@ -53,8 +54,20 @@ public class SwiftTypeMapper {
     } else if (derived instanceof FArrayType) {
       SwiftType innerType = mapType(((FArrayType) derived).getElementType(), deploymentModel);
       return SwiftArrayMapper.create(innerType, derived);
+    } else if (derived instanceof FMapType) {
+      return mapMapType((FMapType) derived, deploymentModel);
     }
     return VOID;
+  }
+
+  private static SwiftType mapMapType(
+      final FMapType francaMapType, final FrancaDeploymentModel deploymentModel) {
+
+    return SwiftDictionary.builder(SwiftNameRules.getTypeName(francaMapType, deploymentModel))
+        .keyType(mapType(francaMapType.getKeyType(), deploymentModel))
+        .valueType(mapType(francaMapType.getValueType(), deploymentModel))
+        .cPrefix(CBridgeNameRules.getStructBaseName(francaMapType))
+        .build();
   }
 
   private static SwiftType getTypedef(

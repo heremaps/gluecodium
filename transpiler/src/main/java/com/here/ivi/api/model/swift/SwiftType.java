@@ -21,6 +21,7 @@ public class SwiftType extends SwiftModelElement {
     ENUM,
     CLASS,
     ARRAY,
+    DICTIONARY
   }
 
   public static final SwiftType VOID = new SwiftType("Void");
