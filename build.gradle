@@ -50,4 +50,8 @@ allprojects {
                 "model:a:Model",
                 "ordered:a:Ordered" ]
     }
+
+    test {
+        maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    }
 }
