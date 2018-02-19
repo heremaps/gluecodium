@@ -23,7 +23,8 @@ let allTests = [
     testCase(InterfacesTests.allTests),
     testCase(ErrorsTests.allTests),
     testCase(DefaultsTests.allTests),
-    testCase(InheritanceTests.allTests)
+    testCase(InheritanceTests.allTests),
+    testCase(MapsTests.allTests)
 ]
 
 XCTMain(allTests)
