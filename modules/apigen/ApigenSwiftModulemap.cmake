@@ -53,26 +53,6 @@ function(apigen_swift_modulemap target)
 
     set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n}\n")
 
-    # For each submodule there needs to be a modulemap created
-    file(GLOB swift_modules LIST_DIRECTORIES true ${OUTPUT_DIR}/swift/*)
-
-    foreach(module_path IN LISTS swift_modules)
-        if(NOT IS_DIRECTORY ${module_path})
-            continue()
-        endif()
-        get_filename_component(SUB_MODULE_NAME "${module_path}" NAME)
-        set(MODULE_NAME "${target}.${SUB_MODULE_NAME}")
-        #TODO(ATEAM-44): Remove compat locations
-        set(MODULE_DIR ${OUTPUT_DIR}/cbridge/${SUB_MODULE_NAME})
-        file(GLOB_RECURSE cbridge_headers ${MODULE_DIR}/*.h)
-
-        set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\nmodule ${MODULE_NAME} {")
-        foreach(header IN LISTS cbridge_headers)
-            set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n    header \"${header}\"")
-        endforeach()
-        set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n}\n")
-    endforeach()
-
     file(WRITE ${MODULEMAP_CBRIDGE_PATH} "${CBRIDGE_MODULE_MAP}")
 
     file(WRITE
@@ -86,4 +66,3 @@ function(apigen_swift_modulemap target)
     message(STATUS "[Swift] Creating modulemap files: ${MODULEMAP_FRAMEWORK_PATH} and ${MODULEMAP_CBRIDGE_PATH}")
 
 endfunction(apigen_swift_modulemap)
-
