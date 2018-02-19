@@ -14,14 +14,11 @@ package com.here.ivi.api.cli;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.here.ivi.api.platform.common.GeneratorSuite;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import lombok.Builder;
 import lombok.Value;
 import org.apache.commons.cli.*;
+import org.eclipse.xtext.util.Files;
 
 public final class OptionReader {
 
@@ -41,6 +38,7 @@ public final class OptionReader {
     private boolean enableCaching;
     private String androidMergeManifestPath;
     private boolean logTimes;
+    private String copyrightHeaderContents;
   }
 
   public OptionReader() {
@@ -81,6 +79,10 @@ public final class OptionReader {
         "timeLogging",
         false,
         "Enables logging of transpilation- and franca model loading-times at INFO level.");
+    options.addOption(
+        "copyrightHeader",
+        true,
+        "Specify the path for the file containing the copyright header that will be appended to all the generated files.");
   }
 
   @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
@@ -127,6 +129,11 @@ public final class OptionReader {
 
       builder.logTimes(cmd.hasOption("timeLogging"));
 
+      if (cmd.hasOption("copyrightHeader")) {
+        String copyrightHeaderFile = cmd.getOptionValue("copyrightHeader");
+        String contents = Files.readFileIntoString(copyrightHeaderFile);
+        builder.copyrightHeaderContents(contents);
+      }
     } catch (ParseException e) {
       throw new OptionReaderException(e);
     }

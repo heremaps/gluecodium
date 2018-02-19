@@ -12,7 +12,6 @@
 package com.here.ivi.api.generator.common;
 
 import com.google.common.annotations.VisibleForTesting;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +31,8 @@ import org.trimou.handlebars.SwitchHelper;
 public final class TemplateEngine {
 
   private static final MustacheEngine ENGINE;
+
+  private static boolean copyrightHeaderInitialized;
 
   /**
    * Prefix each line of a multi-line value with a prefix. Trim each line at the end to avoid
@@ -176,23 +177,28 @@ public final class TemplateEngine {
   }
 
   /**
-   * Resolves "now" keyword into the LocalDate object for the current date and time.<br>
-   * Example: {{now.year}}
+   * Resolves "copyrightHeader" keyword into the copyright header contents.<br>
+   * Will be used in general prefixed with a prefix corresponding to the prefix for comments in the
+   * target language. Example: {{prefix copyrightHeader "// "}}
    */
   @VisibleForTesting
-  static class NowResolver extends AbstractResolver {
+  static class CopyrightHeaderResolver extends AbstractResolver {
 
-    public static final String NAME_NOW = "now";
+    private static String copyrightHeaderContents;
 
-    NowResolver() {
+    public static final String TAG_COPYRIGHT_HEADER = "copyrightHeader";
+
+    CopyrightHeaderResolver() {
       super(Resolver.DEFAULT_PRIORITY);
     }
 
     @Override
     public Object resolve(Object contextObject, String name, ResolutionContext context) {
-      if (NAME_NOW.equals(name)) {
-        return LocalDate.now();
+
+      if (TAG_COPYRIGHT_HEADER.equals(name)) {
+        return copyrightHeaderContents;
       }
+
       return null;
     }
   }
@@ -220,11 +226,19 @@ public final class TemplateEngine {
                     .addJoin()
                     .addSet()
                     .build())
-            .addResolver(new NowResolver())
+            .addResolver(new CopyrightHeaderResolver())
             .build();
   }
 
+  public static void initCopyrightHeaderContents(String contents) {
+    if (!copyrightHeaderInitialized) {
+      CopyrightHeaderResolver.copyrightHeaderContents = contents;
+      copyrightHeaderInitialized = true;
+    }
+  }
+
   public static String render(final String templateName, final Object data) {
+
     return ENGINE.getMustache(templateName).render(data);
   }
 }
