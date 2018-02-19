@@ -32,7 +32,7 @@ public class Maps {
         examples_Maps_release(c_instance)
     }
 
-    public static func mapMethod(input: NameMap) -> NameMap {
+    public static func mapMethod(input: Maps.NameMap) -> Maps.NameMap {
         return examples_Maps_mapMethod(input)
     }
 }

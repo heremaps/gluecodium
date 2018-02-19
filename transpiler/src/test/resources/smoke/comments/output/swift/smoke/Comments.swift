@@ -14,6 +14,10 @@ public class Comments {
      */
     public typealias Usefulness = Bool
     /**
+     This is some very useful map.
+     */
+    public typealias SomeMap = [String: Bool]
+    /**
      This is some very useful attribute.
      */
     public var someAttribute: Comments.Usefulness {

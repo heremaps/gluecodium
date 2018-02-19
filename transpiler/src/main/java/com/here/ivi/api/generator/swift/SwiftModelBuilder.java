@@ -314,4 +314,19 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     arraysCollector.put(innerType.name, arrayType);
     super.finishBuilding(francaArray);
   }
+
+  @Override
+  public void finishBuilding(final FMapType francaMapType) {
+
+    List<SwiftType> typeRefs = getPreviousResults(SwiftType.class);
+    SwiftType swiftDictionary =
+        SwiftDictionary.builder(null).keyType(typeRefs.get(0)).valueType(typeRefs.get(1)).build();
+
+    String typeDefName = SwiftNameRules.getTypeName(francaMapType, deploymentModel);
+    SwiftTypeDef swiftTypeDef = new SwiftTypeDef(typeDefName, swiftDictionary);
+    swiftTypeDef.comment = CommentHelper.getDescription(francaMapType);
+
+    storeResult(swiftTypeDef);
+    super.finishBuilding(francaMapType);
+  }
 }

@@ -4,12 +4,13 @@
 
 import Foundation
 
-
-
 internal func getRef(_ ref: Enums?) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
+
 public class Enums {
+    public typealias ExampleMap = [Enums.SimpleEnum: UInt64]
+
     let c_instance : _baseRef
 
     public init?(cEnums: _baseRef) {

@@ -57,7 +57,7 @@ public final class SwiftNameRules {
     return getTypeName(structName, deploymentModel);
   }
 
-  private static String getTypeName(
+  public static String getTypeName(
       final FModelElement element, final FrancaDeploymentModel deploymentModel) {
     return getNamespacePrefix(element, deploymentModel)
         + NameHelper.toUpperCamelCase(element.getName());
@@ -110,7 +110,7 @@ public final class SwiftNameRules {
   }
 
   public static String getTypeDefName(
-      FTypeDef francaTypeDef, FrancaDeploymentModel deploymentModel) {
-    return getTypeName(francaTypeDef, deploymentModel);
+      final FModelElement francaModelElement, final FrancaDeploymentModel deploymentModel) {
+    return getTypeName(francaModelElement, deploymentModel);
   }
 }
