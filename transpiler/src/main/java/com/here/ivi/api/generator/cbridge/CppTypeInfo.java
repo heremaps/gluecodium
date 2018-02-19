@@ -43,6 +43,7 @@ public class CppTypeInfo extends CElement {
     CLASS,
     ENUM,
     ARRAY,
+    MAP
   }
 
   public static final CppTypeInfo STRING =

@@ -166,13 +166,11 @@ public final class CBridgeNameRules {
 
   public static String getBaseApiName(
       final FModelElement elementType, final CppTypeInfo.TypeCategory category) {
-    switch (category) {
-      case CLASS:
-        return CBridgeNameRules.getBaseApiInstanceName(elementType);
-      case STRUCT:
-        return CBridgeNameRules.getBaseApiStructName(elementType);
+    if (category == CppTypeInfo.TypeCategory.CLASS) {
+      return CBridgeNameRules.getBaseApiInstanceName(elementType);
+    } else {
+      return CBridgeNameRules.getBaseApiStructName(elementType);
     }
-    return null;
   }
 
   public static String getPropertySetterName(final FAttribute attribute) {
@@ -181,5 +179,12 @@ public final class CBridgeNameRules {
 
   public static String getPropertyGetterName(final FAttribute attribute) {
     return NameHelper.toLowerCamelCase(attribute.getName()) + "_get";
+  }
+
+  public static String getMapName(final FModelElement francaElement) {
+    return fullyQualifiedName(
+        getNestedNameSpecifier(francaElement),
+        NameHelper.toUpperCamelCase(francaElement.getName()),
+        UNDERSCORE_DELIMITER);
   }
 }

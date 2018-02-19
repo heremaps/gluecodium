@@ -11,6 +11,8 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -20,6 +22,7 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
+import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.model.cbridge.CType;
 import com.here.ivi.api.model.cbridge.IncludeResolver;
 import com.here.ivi.api.model.franca.DefinedBy;
@@ -27,6 +30,7 @@ import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Answers;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -40,6 +44,10 @@ public class CBridgeTypeMapperTest {
   @Mock private FTypeDef francaTypeDef;
   @Mock private FStructType francaStructType;
   @Mock private FTypeCollection francaTypeCollection;
+  @Mock private FEnumerationType francaEnum;
+
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private FMapType francaMap;
 
   @Mock private IncludeResolver resolver;
 
@@ -47,7 +55,7 @@ public class CBridgeTypeMapperTest {
   public void setUp() {
     mockStatic(FrancaTypeHelper.class, DefinedBy.class);
 
-    when(francaStructType.getName()).thenReturn("foo");
+    when(francaStructType.getName()).thenReturn("SomeStruct");
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
@@ -61,7 +69,7 @@ public class CBridgeTypeMapperTest {
 
     CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
 
-    assertEquals("Foo", mapped.name);
+    assertEquals("SomeStruct", mapped.name);
   }
 
   @Test
@@ -109,11 +117,53 @@ public class CBridgeTypeMapperTest {
 
     CppTypeInfo actualType = CTypeMapper.mapType(resolver, francaTypeRef);
 
-    assertEquals(actualType.typeCategory, CppTypeInfo.TypeCategory.ARRAY);
+    assertEquals(CppTypeInfo.TypeCategory.ARRAY, actualType.typeCategory);
     assertTrue(actualType instanceof CppArrayTypeInfo);
 
     CppArrayTypeInfo actualArrayType = (CppArrayTypeInfo) actualType;
     assertNotNull(actualArrayType.innerType);
     assertEquals(actualArrayType.innerType.functionReturnType.name, "uint64_t");
+  }
+
+  @Test
+  public void mapMapTypeWithPrimitiveKeyType() {
+    when(francaTypeRef.getDerived()).thenReturn(francaMap);
+    when(francaMap.getKeyType().getDerived()).thenReturn(null);
+    when(francaMap.getKeyType().getPredefined()).thenReturn(FBasicTypeId.STRING);
+    when(francaMap.getValueType().getDerived()).thenReturn(francaStructType);
+    when(francaMap.getName()).thenReturn("FooMap");
+
+    CppTypeInfo result = CTypeMapper.mapType(resolver, francaTypeRef);
+
+    assertEquals(CppTypeInfo.TypeCategory.MAP, result.typeCategory);
+    assertTrue(result instanceof CppMapTypeInfo);
+
+    CppMapTypeInfo resultMapType = (CppMapTypeInfo) result;
+    assertEquals("FooMap", resultMapType.name);
+    assertEquals(BASE_REF_NAME, resultMapType.cTypesNeededByConstructor.get(0).name);
+    assertEquals(BASE_REF_NAME, resultMapType.functionReturnType.name);
+    assertEquals("std::unordered_map<std::string, SomeStruct>", resultMapType.baseApi);
+    assertEquals(2, resultMapType.includes.size());
+    assertEquals(BASE_HANDLE_IMPL_FILE, resultMapType.includes.get(0).fileName);
+    assertEquals(CppLibraryIncludes.MAP, resultMapType.includes.get(1));
+  }
+
+  @Test
+  public void mapMapTypeWithPrimitiveEnumType() {
+    when(francaTypeRef.getDerived()).thenReturn(francaMap);
+    when(francaMap.getKeyType().getDerived()).thenReturn(francaEnum);
+    when(francaMap.getValueType().getDerived()).thenReturn(francaStructType);
+    when(francaEnum.getName()).thenReturn("BarEnum");
+
+    CppTypeInfo result = CTypeMapper.mapType(resolver, francaTypeRef);
+
+    assertEquals(CppTypeInfo.TypeCategory.MAP, result.typeCategory);
+    assertTrue(result instanceof CppMapTypeInfo);
+
+    CppMapTypeInfo resultMapType = (CppMapTypeInfo) result;
+    assertEquals(
+        "std::unordered_map<BarEnum, SomeStruct, ::transpiler::EnumHash>", resultMapType.baseApi);
+    assertEquals(3, resultMapType.includes.size());
+    assertEquals(CppLibraryIncludes.ENUM_HASH, resultMapType.includes.get(2));
   }
 }

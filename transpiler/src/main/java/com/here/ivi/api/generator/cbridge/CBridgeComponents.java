@@ -28,7 +28,9 @@ public final class CBridgeComponents {
 
   @SuppressWarnings("OperatorWrap")
   public static Collection<Include> collectImplementationIncludes(CInterface cInterface) {
+
     Collection<Include> includes = new LinkedList<>();
+
     for (CFunction function :
         Iterables.concat(cInterface.functions, cInterface.inheritedFunctions)) {
       includes.addAll(collectFunctionBodyIncludes(function));
@@ -41,6 +43,9 @@ public final class CBridgeComponents {
     }
     if (cInterface.selfType != null) {
       includes.addAll(cInterface.selfType.includes);
+    }
+    for (CMap map : cInterface.maps) {
+      includes.add(map.include);
     }
 
     return includes;
@@ -58,7 +63,9 @@ public final class CBridgeComponents {
   }
 
   public static Collection<Include> collectHeaderIncludes(CInterface cInterface) {
+
     Collection<Include> includes = new LinkedList<>();
+
     for (CFunction function : cInterface.functions) {
       includes.addAll(collectFunctionSignatureIncludes(function));
     }
@@ -72,6 +79,10 @@ public final class CBridgeComponents {
     }
     for (CEnum enumType : cInterface.enumerators) {
       includes.addAll(enumType.includes);
+    }
+    for (final CMap map : cInterface.maps) {
+      includes.addAll(map.keyType.functionReturnType.includes);
+      includes.addAll(map.valueType.functionReturnType.includes);
     }
 
     return includes;

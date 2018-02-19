@@ -30,6 +30,8 @@ const void* {{name}}_get_swift_object_from_cache(_baseRef handle);
 {{>cbridge/FunctionSignature}};
 {{/functions}}
 
+{{#maps}}{{>cbridge/MapFunctionSignatures}}{{/maps}}
+
 #ifdef __cplusplus
 }
 #endif
