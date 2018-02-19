@@ -13,7 +13,6 @@ package com.here.ivi.api.generator.cbridge;
 
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
-import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
 
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.model.cbridge.CArray;
@@ -25,14 +24,13 @@ import org.franca.core.franca.*;
 
 public final class CArrayMapper {
 
-  public static CppTypeInfo createArrayReference(final CppTypeInfo innerType) {
+  public static CppArrayTypeInfo createArrayReference(final CppTypeInfo innerType) {
 
     CType arrayType = new CType(BASE_REF_NAME);
 
-    return CppTypeInfo.builder("std::vector<" + innerType.name + ">")
+    return CppArrayTypeInfo.arrayTypeBuilder("std::vector<" + innerType.name + ">")
         .constructFromCType(arrayType)
         .functionReturnType(arrayType)
-        .category(ARRAY)
         .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
         .include(CppLibraryIncludes.VECTOR)
         .innerType(innerType)
@@ -44,7 +42,7 @@ public final class CArrayMapper {
   }
 
   public static CArray createArrayDefinition(
-      final EObject francaArray, final CppTypeInfo innerType, final CppTypeInfo cppTypeRef) {
+      final EObject francaArray, final CppTypeInfo innerType, final CppArrayTypeInfo cppTypeRef) {
     String fullName = addPrefix(getName(francaArray) + addNestedSuffixIfNeeded(innerType));
     return new CArray(fullName, cppTypeRef);
   }
@@ -79,9 +77,13 @@ public final class CArrayMapper {
   }
 
   private static String addNestedSuffixIfNeeded(final CppTypeInfo innerType) {
-    return innerType.innerType != null
-        ? addNestedSuffixIfNeeded(innerType.innerType) + "Array"
-        : "";
+
+    if (!(innerType instanceof CppArrayTypeInfo)) {
+      return "";
+    }
+
+    CppTypeInfo innerInnerType = ((CppArrayTypeInfo) innerType).innerType;
+    return innerInnerType != null ? addNestedSuffixIfNeeded(innerInnerType) + "Array" : "";
   }
 
   public static String addPrefix(final String typeString) {

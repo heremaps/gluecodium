@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.model.cbridge;
 
+import com.here.ivi.api.generator.cbridge.CppArrayTypeInfo;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.model.common.Include;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public final class CArray extends CElement {
   public final CppTypeInfo arrayType;
   public final CppTypeInfo underlyingType;
 
-  public CArray(final String name, final CppTypeInfo typeInfo) {
+  public CArray(final String name, final CppArrayTypeInfo typeInfo) {
     super(name);
     this.arrayType = typeInfo;
     this.underlyingType = typeInfo.innerType;
@@ -59,10 +60,13 @@ public final class CArray extends CElement {
     return includes;
   }
 
-  private CppTypeInfo getLastType(CppTypeInfo uType) {
-    CppTypeInfo lastType = uType;
-    if (uType.innerType != null) {
-      lastType = getLastType(uType.innerType);
+  private CppTypeInfo getLastType(final CppTypeInfo typeInfo) {
+    CppTypeInfo lastType = typeInfo;
+    if (typeInfo instanceof CppArrayTypeInfo) {
+      CppTypeInfo innerInnerType = ((CppArrayTypeInfo) typeInfo).innerType;
+      if (innerInnerType != null) {
+        lastType = getLastType(innerInnerType);
+      }
     }
     return lastType;
   }

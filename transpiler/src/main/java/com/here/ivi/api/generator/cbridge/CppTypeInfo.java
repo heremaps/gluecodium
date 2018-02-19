@@ -27,14 +27,13 @@ import java.util.LinkedList;
 import java.util.List;
 import lombok.Singular;
 
-public final class CppTypeInfo extends CElement {
+public class CppTypeInfo extends CElement {
 
   public final List<CType> cTypesNeededByConstructor;
   public final List<String> paramSuffixes;
   public CType functionReturnType;
   public TypeCategory typeCategory;
   public final List<Include> includes;
-  public final CppTypeInfo innerType;
 
   public enum TypeCategory {
     BUILTIN_SIMPLE,
@@ -73,14 +72,13 @@ public final class CppTypeInfo extends CElement {
 
   @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
   @lombok.Builder(builderClassName = "Builder")
-  private CppTypeInfo(
+  protected CppTypeInfo(
       final String name,
       @Singular final List<CType> constructFromCTypes,
       @Singular final List<String> paramSuffixes,
       final CType functionReturnType,
       final TypeCategory category,
-      @Singular final List<Include> includes,
-      final CppTypeInfo innerType) {
+      @Singular final List<Include> includes) {
     super(name);
     this.cTypesNeededByConstructor = constructFromCTypes;
     this.paramSuffixes =
@@ -90,11 +88,10 @@ public final class CppTypeInfo extends CElement {
     this.functionReturnType = functionReturnType;
     this.typeCategory = category;
     this.includes = includes;
-    this.innerType = innerType;
   }
 
   public CppTypeInfo(CType type, TypeCategory category) {
-    this(type.name, singletonList(type), singletonList(""), type, category, emptyList(), null);
+    this(type.name, singletonList(type), singletonList(""), type, category, emptyList());
   }
 
   public CppTypeInfo(CType type) {
@@ -107,15 +104,5 @@ public final class CppTypeInfo extends CElement {
 
   public boolean isStruct() {
     return typeCategory == TypeCategory.STRUCT;
-  }
-
-  @SuppressWarnings("unused")
-  public String getArrayBaseApi() {
-    return arrayFindNested(this.innerType);
-  }
-
-  private String arrayFindNested(CppTypeInfo array) {
-    String arrayName = array.innerType != null ? arrayFindNested(array.innerType) : array.name;
-    return "std::vector<" + arrayName + ">";
   }
 }

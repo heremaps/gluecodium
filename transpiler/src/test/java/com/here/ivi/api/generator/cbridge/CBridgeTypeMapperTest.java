@@ -13,6 +13,7 @@ package com.here.ivi.api.generator.cbridge;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -109,7 +110,10 @@ public class CBridgeTypeMapperTest {
     CppTypeInfo actualType = CTypeMapper.mapType(resolver, francaTypeRef);
 
     assertEquals(actualType.typeCategory, CppTypeInfo.TypeCategory.ARRAY);
-    assertNotNull(actualType.innerType);
-    assertEquals(actualType.innerType.functionReturnType.name, "uint64_t");
+    assertTrue(actualType instanceof CppArrayTypeInfo);
+
+    CppArrayTypeInfo actualArrayType = (CppArrayTypeInfo) actualType;
+    assertNotNull(actualArrayType.innerType);
+    assertEquals(actualArrayType.innerType.functionReturnType.name, "uint64_t");
   }
 }

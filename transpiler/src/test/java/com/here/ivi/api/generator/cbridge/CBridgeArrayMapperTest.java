@@ -125,7 +125,7 @@ public class CBridgeArrayMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
     CppTypeInfo innerType = CppTypeInfo.STRING;
-    CppTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
+    CppArrayTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
 
     assertNotNull("Array type should not be null", arrayType);
     assertNotNull("Inner type should not be null", arrayType.innerType);
@@ -139,8 +139,8 @@ public class CBridgeArrayMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
     CppTypeInfo innerType = CppTypeInfo.STRING;
-    CppTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
-    CppTypeInfo nestedArrayType = CArrayMapper.createArrayReference(arrayType);
+    CppArrayTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
+    CppArrayTypeInfo nestedArrayType = CArrayMapper.createArrayReference(arrayType);
 
     assertNotNull("Array type should not be null", nestedArrayType);
     assertNotNull("Inner type should not be null", nestedArrayType.innerType);
