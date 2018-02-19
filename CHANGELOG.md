@@ -1,6 +1,15 @@
 # API Transpiler Release Notes
 
+## 1.4.0
+- Breaking changes:
+  + Replacing hf:Error with uint32_t
+  + EnumHash moved from hf:: to ::transpiler namespace
+- Features:
+  + Add support for Interface Inheritance for iOS generator
+
 ## 1.3.0
+- Breaking changes:
+  + Instances in Swift structures made optional
 - Features:
   + Add support for Interface Inheritance for Android generator
   + Add support for caching in Transpiler
