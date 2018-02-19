@@ -15,12 +15,9 @@ import com.android.manifmerger.Merger;
 import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.cache.CachingStrategy;
 import com.here.ivi.api.cache.CachingStrategyCreator;
-import com.here.ivi.api.cli.OptionReader;
-import com.here.ivi.api.cli.OptionReaderException;
-import com.here.ivi.api.cli.TranspilerExecutionException;
+import com.here.ivi.api.cli.*;
 import com.here.ivi.api.common.TimeLogger;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.Version;
+import com.here.ivi.api.generator.common.*;
 import com.here.ivi.api.loader.FrancaModelLoader;
 import com.here.ivi.api.logger.TranspilerLogger;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -30,10 +27,7 @@ import com.here.ivi.api.output.FileOutput;
 import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import com.here.ivi.api.platform.common.GeneratorSuite;
 import com.here.ivi.api.validator.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -114,6 +108,8 @@ public class Transpiler {
     if (options.isValidatingOnly()) {
       return true;
     }
+
+    TemplateEngine.initCopyrightHeaderContents(options.getCopyrightHeaderContents());
 
     Map<String, String> fileNamesCache = new HashMap<>();
     boolean executionSucceeded = false;
