@@ -107,6 +107,8 @@ public class CBridgeModelBuilderTest {
   @Mock private FArrayType francaArray;
 
   private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
+  private final CppArrayTypeInfo cppArrayTypeInfo =
+      CppArrayTypeInfo.arrayTypeBuilder("FooArrayType").build();
   private final SwiftMethod swiftMethod =
       SwiftMethod.builder("swiftFoo")
           .cNestedSpecifier(NESTED_SPECIFIER_NAME)
@@ -493,7 +495,7 @@ public class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaArrayTypeCreatesArray() {
-    CArray cArray = new CArray("FooArray", cppTypeInfo);
+    CArray cArray = new CArray("FooArray", cppArrayTypeInfo);
     when(CArrayMapper.createArrayDefinition(any(), any())).thenReturn(cArray);
 
     modelBuilder.finishBuilding(francaArray);
@@ -505,10 +507,14 @@ public class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeRefCreatesInlineArray() {
-    CppTypeInfo arrayType = new CppTypeInfo(new CType("ArrayTest"));
+    CppArrayTypeInfo arrayType =
+        CppArrayTypeInfo.arrayTypeBuilder("ArrayTest")
+            .constructFromCType(new CType("ArrayTest"))
+            .functionReturnType(new CType("ArrayTest"))
+            .build();
     arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY;
     when(CTypeMapper.mapType(any(), any())).thenReturn(arrayType);
-    CArray cArray = new CArray("FooArray", cppTypeInfo);
+    CArray cArray = new CArray("FooArray", cppArrayTypeInfo);
     when(CArrayMapper.createArrayDefinition(any(), any(), any())).thenReturn(cArray);
 
     modelBuilder.finishBuilding(francaTypeRef);

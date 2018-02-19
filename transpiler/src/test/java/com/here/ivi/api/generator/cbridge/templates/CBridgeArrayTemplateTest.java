@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.cbridge.CArrayGenerator;
 import com.here.ivi.api.generator.cbridge.CArrayMapper;
+import com.here.ivi.api.generator.cbridge.CppArrayTypeInfo;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.model.cbridge.*;
@@ -37,10 +38,9 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateSimpleArrayHeader() {
-    CppTypeInfo arrayType = getStringArray();
     String arrayName = "arrayCollection_String";
     Map<String, CArray> arrays =
-        Collections.singletonMap(arrayName, new CArray(arrayName, arrayType));
+        Collections.singletonMap(arrayName, new CArray(arrayName, getStringArray()));
     final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_HEADER);
     final String expected =
         "#include \"cbridge/include/StringHandle.h\"\n"
@@ -56,10 +56,9 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateSimpleArrayImplementation() {
-    CppTypeInfo arrayType = getStringArray();
     String arrayName = "arrayCollection_String";
     Map<String, CArray> arrays =
-        Collections.singletonMap(arrayName, new CArray(arrayName, arrayType));
+        Collections.singletonMap(arrayName, new CArray(arrayName, getStringArray()));
     final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_IMPL);
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
@@ -93,10 +92,9 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateNestedArrayHeader() {
-    CppTypeInfo arrayType = getNestedStringArray();
     String arrayName = "arrayCollection_NestedStringArray";
     Map<String, CArray> arrays =
-        Collections.singletonMap(arrayName, new CArray(arrayName, arrayType));
+        Collections.singletonMap(arrayName, new CArray(arrayName, getNestedStringArray()));
     final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_HEADER);
     final String expected =
         "#include \"cbridge/include/StringHandle.h\"\n"
@@ -112,10 +110,9 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateNestedArrayImplementation() {
-    CppTypeInfo arrayType = getNestedStringArray();
     String arrayName = "arrayCollection_NestedStringArray";
     Map<String, CArray> arrays =
-        Collections.singletonMap(arrayName, new CArray(arrayName, arrayType));
+        Collections.singletonMap(arrayName, new CArray(arrayName, getNestedStringArray()));
     final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_IMPL);
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
@@ -149,10 +146,9 @@ public final class CBridgeArrayTemplateTest {
 
   @Test
   public void generateEnumArrayImplementation() {
-    CppTypeInfo arrayType = getEnumArray();
     String arrayName = "arrayCollection_Enums";
     Map<String, CArray> arrays =
-        Collections.singletonMap(arrayName, new CArray(arrayName, arrayType));
+        Collections.singletonMap(arrayName, new CArray(arrayName, getEnumArray()));
     final String generated = generateFileContent(arrays, CArrayGenerator.CBRIDGE_ARRAY_IMPL);
     final String expected =
         "#include \"cbridge/include/ArrayCollection.h\"\n"
@@ -190,21 +186,21 @@ public final class CBridgeArrayTemplateTest {
     return file.get().content;
   }
 
-  private CppTypeInfo getStringArray() {
+  private CppArrayTypeInfo getStringArray() {
     CppTypeInfo arrayInnerType = CppTypeInfo.STRING;
     when(francaBasic.getName()).thenReturn("String");
     when(francaTypeRef.getPredefined()).thenReturn(francaBasic);
     return CArrayMapper.createArrayReference(arrayInnerType);
   }
 
-  private CppTypeInfo getNestedStringArray() {
+  private CppArrayTypeInfo getNestedStringArray() {
     CppTypeInfo arrayInnerType = getStringArray();
     when(francaBasic.getName()).thenReturn("NestedString");
     when(francaTypeRef.getPredefined()).thenReturn(francaBasic);
     return CArrayMapper.createArrayReference(arrayInnerType);
   }
 
-  private CppTypeInfo getEnumArray() {
+  private CppArrayTypeInfo getEnumArray() {
     CppTypeInfo arrayInnerType =
         new CppTypeInfo(new CType("EnumType"), CppTypeInfo.TypeCategory.ENUM);
     when(francaBasic.getName()).thenReturn("Enums");
