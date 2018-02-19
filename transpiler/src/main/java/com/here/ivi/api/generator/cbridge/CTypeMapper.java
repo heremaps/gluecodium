@@ -11,6 +11,7 @@
 
 package com.here.ivi.api.generator.cbridge;
 
+import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
 import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.*;
 import static com.here.ivi.api.model.cbridge.CType.VOID;
@@ -21,6 +22,8 @@ import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
 import com.here.ivi.api.model.cbridge.CType;
 import com.here.ivi.api.model.cbridge.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
+import java.util.LinkedList;
+import java.util.List;
 import org.franca.core.franca.*;
 
 public final class CTypeMapper {
@@ -50,6 +53,8 @@ public final class CTypeMapper {
     } else if (derived instanceof FArrayType) {
       CppTypeInfo innerType = mapType(resolver, ((FArrayType) derived).getElementType());
       return CArrayMapper.createArrayReference(innerType);
+    } else if (derived instanceof FMapType) {
+      return mapMapType(resolver, (FMapType) derived);
     } else {
       return new CppTypeInfo(VOID);
     }
@@ -103,8 +108,8 @@ public final class CTypeMapper {
       final FModelElement elementType,
       final CppTypeInfo.TypeCategory category) {
 
-    String baseAPIName = CBridgeNameRules.getBaseApiName(elementType, category);
-    String baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseAPIName);
+    String baseApiName = CBridgeNameRules.getBaseApiName(elementType, category);
+    String baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseApiName);
 
     Include publicInclude =
         resolver.resolveInclude(elementType, IncludeResolver.HeaderType.CBRIDGE_PUBLIC_HEADER);
@@ -147,5 +152,30 @@ public final class CTypeMapper {
     CppTypeInfo errorEnumInfo = createEnumTypeInfo(resolver, francaEnum);
     errorEnumInfo.functionReturnType.includes.add(CType.BOOL_INCLUDE);
     return errorEnumInfo;
+  }
+
+  private static CppTypeInfo mapMapType(
+      final IncludeResolver resolver, final FMapType francaMapType) {
+
+    String baseApiName =
+        CBridgeNameRules.getBaseApiName(francaMapType, CppTypeInfo.TypeCategory.MAP);
+    CType cType = new CType(BASE_REF_NAME);
+    CppTypeInfo keyType = mapType(resolver, francaMapType.getKeyType());
+    CppTypeInfo valueType = mapType(resolver, francaMapType.getValueType());
+
+    List<Include> includes = new LinkedList<>();
+    includes.add(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE));
+    includes.add(CppLibraryIncludes.MAP);
+    if (keyType.typeCategory == CppTypeInfo.TypeCategory.ENUM) {
+      includes.add(CppLibraryIncludes.ENUM_HASH);
+    }
+
+    return CppMapTypeInfo.mapTypeBuilder(baseApiName)
+        .constructFromCType(cType)
+        .functionReturnType(cType)
+        .includes(includes)
+        .keyType(keyType)
+        .valueType(valueType)
+        .build();
   }
 }

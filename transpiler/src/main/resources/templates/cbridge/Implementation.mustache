@@ -21,3 +21,8 @@ void {{name}}_release(_baseRef handle) {
 {{#isInterface}}
 {{>cbridge/CppProxy}}
 {{/isInterface}}
+
+{{#maps}}
+{{>cbridge/MapFunctionImplementations}}
+
+{{/maps}}

@@ -96,6 +96,7 @@ public class CBridgeModelBuilderTest {
   @Mock private CppModelBuilder cppModelbuilder;
   @Mock private SwiftModelBuilder swiftModelBuilder;
   @Mock private IncludeResolver resolver;
+
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
@@ -105,6 +106,7 @@ public class CBridgeModelBuilderTest {
   @Mock private FAttribute francaAttribute;
   @Mock private FTypeRef francaTypeRef;
   @Mock private FArrayType francaArray;
+  @Mock private FMapType francaMap;
 
   private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
   private final CppArrayTypeInfo cppArrayTypeInfo =
@@ -564,5 +566,23 @@ public class CBridgeModelBuilderTest {
     assertNotNull(iface);
     assertEquals(2, iface.inheritedFunctions.size());
     assertEquals(1, iface.functions.size());
+  }
+
+  @Test
+  public void finishBuildingFrancaMapType() {
+    when(CBridgeNameRules.getMapName(any())).thenReturn("FooMap");
+    contextStack.injectResult(CppTypeInfo.STRING);
+    contextStack.injectResult(cppTypeInfo);
+    Include fooInclude = Include.createInternalInclude("Foo");
+    when(resolver.resolveInclude(any(), any())).thenReturn(fooInclude);
+
+    modelBuilder.finishBuilding(francaMap);
+
+    CMap cMap = modelBuilder.getFinalResult(CMap.class);
+    assertNotNull(cMap);
+    assertEquals("FooMap", cMap.name);
+    assertEquals(CppTypeInfo.STRING, cMap.keyType);
+    assertEquals(cppTypeInfo, cMap.valueType);
+    assertEquals(fooInclude, cMap.include);
   }
 }

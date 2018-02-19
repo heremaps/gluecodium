@@ -26,6 +26,7 @@ public final class CInterface extends CElement {
   public String functionTableName;
   public final CppTypeInfo selfType;
   public final List<CEnum> enumerators = new LinkedList<>();
+  public final List<CMap> maps = new LinkedList<>();
 
   public CInterface(final String name) {
     this(name, null);

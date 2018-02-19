@@ -29,10 +29,7 @@ import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftField;
 import com.here.ivi.api.model.swift.SwiftMethod;
 import com.here.ivi.api.model.swift.SwiftProperty;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.franca.core.franca.*;
 
 public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
@@ -121,6 +118,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     cInterface.functions.addAll(getPreviousResults(CFunction.class));
     cInterface.structs.addAll(getPreviousResults(CStruct.class));
     cInterface.enumerators.addAll(getPreviousResults(CEnum.class));
+    cInterface.maps.addAll(getPreviousResults(CMap.class));
 
     cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface));
     cInterface.implementationIncludes.addAll(
@@ -269,5 +267,19 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     }
 
     super.finishBuilding(attribute);
+  }
+
+  @Override
+  public void finishBuilding(final FMapType francaMapType) {
+
+    String name = CBridgeNameRules.getMapName(francaMapType);
+    List<CppTypeInfo> typeInfos = getPreviousResults(CppTypeInfo.class);
+    Include baseApiInclude =
+        resolver.resolveInclude(francaMapType, IncludeResolver.HeaderType.BASE_API_HEADER);
+
+    CMap cMap = new CMap(name, typeInfos.get(0), typeInfos.get(1), baseApiInclude);
+
+    storeResult(cMap);
+    super.finishBuilding(francaMapType);
   }
 }
