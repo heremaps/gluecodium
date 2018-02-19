@@ -41,7 +41,7 @@ public final class JavaClassTemplateTest {
     JavaClass resultClass = new JavaClass("ExampleClass");
     resultClass.comment = "Example class comment";
     String expected =
-        "package com.here.android;\n"
+        "package com.example;\n"
             + "\n"
             + "/**\n"
             + " * Example class comment\n"
@@ -66,13 +66,13 @@ public final class JavaClassTemplateTest {
     classMethod.visibility = JavaVisibility.PRIVATE;
     classMethod.parameters.add(parameter);
     classMethod.comment = "Method comment";
-    javaClass.javaPackage = new JavaPackage(Arrays.asList("com", "example", "generator"));
+    javaClass.javaPackage = new JavaPackage(Arrays.asList("com", "test", "generator"));
     javaClass.comment = "Example class comment";
     javaClass.methods.add(classMethod);
     javaClass.visibility = JavaVisibility.PUBLIC;
 
     String expected =
-        "package com.example.generator;\n"
+        "package com.test.generator;\n"
             + "\n"
             + "/**\n"
             + " * Example class comment\n"
@@ -144,7 +144,7 @@ public final class JavaClassTemplateTest {
     javaClass.enums.add(classEnum);
 
     String expected =
-        "package com.here.android;\n"
+        "package com.example;\n"
             + "\n"
             + "/**\n"
             + " * Example class comment\n"
@@ -183,7 +183,7 @@ public final class JavaClassTemplateTest {
     JavaClass resultClass = JavaClass.builder("ExampleClass").extendedClass(extendedClass).build();
     resultClass.comment = "Child class comment";
     String expected =
-        "package com.here.android;\n"
+        "package com.example;\n"
             + "\n"
             + "import foo.ParentClass;\n\n"
             + "/**\n"
@@ -211,7 +211,7 @@ public final class JavaClassTemplateTest {
     javaClass.visibility = JavaVisibility.PUBLIC;
     javaClass.innerClasses.add(innerClass);
     String expected =
-        "package com.here.android;\n"
+        "package com.example;\n"
             + "\n"
             + "/**\n"
             + " * Example class comment\n"
@@ -250,7 +250,7 @@ public final class JavaClassTemplateTest {
     javaClass.visibility = JavaVisibility.PACKAGE;
     javaClass.innerClasses.add(innerClass);
     String expected =
-        "package com.here.android;\n"
+        "package com.example;\n"
             + "\n"
             + "/**\n"
             + " * Example class comment\n"
@@ -284,7 +284,7 @@ public final class JavaClassTemplateTest {
     javaClass.constants.add(
         new JavaConstant(JavaPrimitiveType.FLOAT, "myConst", new JavaValue("42")));
     String expected =
-        "package com.here.android;\n"
+        "package com.example;\n"
             + "\n"
             + "/**\n"
             + " * Example class comment\n"
@@ -307,13 +307,13 @@ public final class JavaClassTemplateTest {
     JavaField fieldWithImports =
         new JavaField(javaCustomType, "someField", new JavaValue(javaCustomType));
     fieldWithImports.type.imports.add(
-        new JavaImport("Foo", new JavaPackage(Arrays.asList("com", "example"))));
+        new JavaImport("Foo", new JavaPackage(Arrays.asList("com", "test"))));
     javaClass.qualifiers.add(Qualifier.FINAL);
     javaClass.fields.add(fieldWithImports);
     String expected =
-        "package com.here.android;\n"
+        "package com.example;\n"
             + "\n"
-            + "import com.example.Foo;\n"
+            + "import com.test.Foo;\n"
             + "\n"
             + "final class ExampleClass {\n"
             + "    Foo someField = new Foo();\n"
@@ -340,7 +340,7 @@ public final class JavaClassTemplateTest {
         JavaClass.builder("ExampleClass").extendedClass(extendedClass).isImplClass(true).build();
 
     String expected =
-        "package com.here.android;\n\n"
+        "package com.example;\n\n"
             + "import foo.ParentClass;\n\n"
             + "class ExampleClass extends ParentClass {\n"
             + "    protected ExampleClass(final long nativeHandle) {\n"
@@ -397,8 +397,7 @@ public final class JavaClassTemplateTest {
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     // Assert
-    String expected =
-        "package com.here.android;\n\n" + "class ExampleClass implements Face {\n" + "}\n";
+    String expected = "package com.example;\n\n" + "class ExampleClass implements Face {\n" + "}\n";
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
@@ -413,7 +412,7 @@ public final class JavaClassTemplateTest {
 
     // Assert
     String expected =
-        "package com.here.android;\n\n" + "class ExampleClass implements Face, Legs {\n" + "}\n";
+        "package com.example;\n\n" + "class ExampleClass implements Face, Legs {\n" + "}\n";
     assertEquals(TEST_COPYRIGHT_HEADER + expected, generated);
   }
 
@@ -430,7 +429,7 @@ public final class JavaClassTemplateTest {
 
     // Assert
     String expected =
-        "package com.here.android;\n\n"
+        "package com.example;\n\n"
             + "import foo.Parent;\n\n"
             + "class ExampleClass extends Parent implements Face {\n"
             + "}\n";
@@ -439,7 +438,7 @@ public final class JavaClassTemplateTest {
 
   @Test
   public void generate_withThrowsMethod() {
-    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "example", "generator"));
+    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "test", "generator"));
     JavaCustomType exampleType = new JavaCustomType("ExampleType");
     JavaMethod classMethod =
         JavaMethod.builder("someMethod")
@@ -452,8 +451,8 @@ public final class JavaClassTemplateTest {
     String generated = TemplateEngine.render(TEMPLATE_NAME, javaClass);
 
     String expected =
-        "package com.example.generator;\n\n"
-            + "import com.here.android.ExceptionalException;\n\n"
+        "package com.test.generator;\n\n"
+            + "import com.example.ExceptionalException;\n\n"
             + "class ExampleClass {\n"
             + "    ExampleType someMethod() throws ExceptionalException;\n"
             + "}\n";

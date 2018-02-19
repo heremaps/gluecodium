@@ -16,7 +16,7 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InterfaceW
 }
 
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InterfaceWithStruct::InnerStruct& _ninput){
-  auto javaClass = _jenv->FindClass("com/here/android/smoke/InterfaceWithStruct$InnerStruct");
+  auto javaClass = _jenv->FindClass("com/example/smoke/InterfaceWithStruct$InnerStruct");
   auto _jresult = create_object(_jenv, javaClass);
   auto jvalue = _ninput.value;
   set_byte_field(_jenv, javaClass, _jresult, "value", jvalue);

@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "android/jni/com_here_android_smoke_CalculatorListenerImplCppProxy.h"
+#include "android/jni/com_example_smoke_CalculatorListenerImplCppProxy.h"
 
 
 template<class T>

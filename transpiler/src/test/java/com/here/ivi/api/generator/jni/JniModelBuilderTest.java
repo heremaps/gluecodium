@@ -258,7 +258,7 @@ public class JniModelBuilderTest {
 
     JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
     assertNotNull(jniMethod);
-    assertEquals("com/here/android/FooException", jniMethod.exception.javaClassName);
+    assertEquals("com/example/FooException", jniMethod.exception.javaClassName);
   }
 
   @Test
