@@ -10,7 +10,7 @@ namespace internal {
     }
 
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput )    {
-        auto javaClass = _jenv->FindClass( "com/here/android/smoke/Enums$SimpleEnum" );
+        auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$SimpleEnum" );
         ::std::string enumeratorName;
         switch(_ninput) {
             case(::smoke::Enums::SimpleEnum::FIRST):
@@ -20,7 +20,7 @@ namespace internal {
             enumeratorName = "SECOND";
             break;
     }
-        jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/here/android/smoke/Enums$SimpleEnum;");
+        jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/Enums$SimpleEnum;");
         return _jenv->GetStaticObjectField(javaClass, fieldID);
     }
 
@@ -31,7 +31,7 @@ namespace internal {
     }
 
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::InternalError _ninput )    {
-        auto javaClass = _jenv->FindClass( "com/here/android/smoke/Enums$InternalError" );
+        auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$InternalError" );
         ::std::string enumeratorName;
         switch(_ninput) {
             case(::smoke::Enums::InternalError::ERROR_NONE):
@@ -41,7 +41,7 @@ namespace internal {
             enumeratorName = "ERROR_FATAL";
             break;
     }
-        jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/here/android/smoke/Enums$InternalError;");
+        jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/Enums$InternalError;");
         return _jenv->GetStaticObjectField(javaClass, fieldID);
     }
 
@@ -52,7 +52,7 @@ namespace internal {
     }
 
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::TCEnum _ninput )    {
-        auto javaClass = _jenv->FindClass( "com/here/android/smoke/TCEnum" );
+        auto javaClass = _jenv->FindClass( "com/example/smoke/TCEnum" );
         ::std::string enumeratorName;
         switch(_ninput) {
             case(::smoke::TCEnum::FIRST):
@@ -62,7 +62,7 @@ namespace internal {
             enumeratorName = "SECOND";
             break;
     }
-        jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/here/android/smoke/TCEnum;");
+        jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/TCEnum;");
         return _jenv->GetStaticObjectField(javaClass, fieldID);
     }
 }

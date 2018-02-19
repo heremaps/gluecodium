@@ -32,7 +32,7 @@ public final class JavaInterfaceTemplateTest {
 
   private final JavaInterface javaInterface = new JavaInterface("ExampleInterface");
   private final JavaPackage javaPackage =
-      new JavaPackage(Arrays.asList("com", "example", "interfaces"));
+      new JavaPackage(Arrays.asList("com", "test", "interfaces"));
   private final JavaCustomType javaCustomType = new JavaCustomType("ExampleType");
   private final JavaMethod interfaceMethod =
       JavaMethod.builder("someMethod").returnType(javaCustomType).build();
@@ -61,7 +61,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.here.android;\n"
+            + "package com.example;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "}\n";
@@ -79,7 +79,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "/**\n"
             + " * Example interface comment\n"
@@ -100,7 +100,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    ExampleType someMethod(final InParamType param);\n"
@@ -121,7 +121,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    ExampleType someMethod(final InParamType param);\n"
@@ -141,9 +141,9 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
-            + "import com.here.android.AnotherInterface;\n\n"
+            + "import com.example.AnotherInterface;\n\n"
             + "interface ExampleInterface extends AnotherInterface {\n"
             + "}\n";
     assertEquals(expected, generated);
@@ -161,10 +161,10 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
-            + "import com.here.android.AnotherInterface;\n"
-            + "import com.here.android.Face;\n\n"
+            + "import com.example.AnotherInterface;\n"
+            + "import com.example.Face;\n\n"
             + "interface ExampleInterface extends AnotherInterface, Face {\n"
             + "}\n";
     assertEquals(expected, generated);
@@ -181,7 +181,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "protected interface ExampleInterface {\n"
             + "}\n";
@@ -199,7 +199,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    static final ExampleType Permanent = valuable;\n"
@@ -220,7 +220,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    static final ExampleType Permanent = valuable;\n"
@@ -241,9 +241,9 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
-            + "import com.here.android.ExampleType;\n"
+            + "import com.example.ExampleType;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    static final ExampleType Permanent = valuable;\n"
@@ -264,10 +264,10 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
-            + "import com.here.android.ExampleType;\n"
-            + "import com.here.android.Unimportant;\n"
+            + "import com.example.ExampleType;\n"
+            + "import com.example.Unimportant;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    static final ExampleType Permanent = valuable;\n"
@@ -284,7 +284,7 @@ public final class JavaInterfaceTemplateTest {
 
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    static final ExampleType Permanent = valuable;\n"
@@ -303,7 +303,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    enum Innumerable {\n"
@@ -331,7 +331,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    enum Innumerable {\n"
@@ -367,7 +367,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    class Classy {\n"
@@ -388,7 +388,7 @@ public final class JavaInterfaceTemplateTest {
     // Assert
     String expected =
         TEST_COPYRIGHT_HEADER
-            + "package com.example.interfaces;\n"
+            + "package com.test.interfaces;\n"
             + "\n"
             + "interface ExampleInterface {\n"
             + "    class Classy {\n"

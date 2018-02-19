@@ -16,7 +16,7 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
 }
 
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::InnerStruct& _ninput){
-  auto javaClass = _jenv->FindClass("com/here/android/smoke/InstanceWithStruct$InnerStruct");
+  auto javaClass = _jenv->FindClass("com/example/smoke/InstanceWithStruct$InnerStruct");
   auto _jresult = create_object(_jenv, javaClass);
   auto jvalue = _ninput.value;
   set_byte_field(_jenv, javaClass, _jresult, "value", jvalue);
@@ -32,16 +32,16 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
     javaClass,
     _jinput,
     "instance",
-    "Lcom/here/android/smoke/SimpleInstantiableOne;"),
+    "Lcom/example/smoke/SimpleInstantiableOne;"),
     _nout.instance );
 }
 
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructWithInstance& _ninput){
-  auto javaClass = _jenv->FindClass("com/here/android/smoke/InstanceWithStruct$StructWithInstance");
+  auto javaClass = _jenv->FindClass("com/example/smoke/InstanceWithStruct$StructWithInstance");
   auto _jresult = create_object(_jenv, javaClass);
   auto jinstance = convert_to_jni(_jenv, _ninput.instance);
   set_object_field(_jenv, javaClass, _jresult, "instance",
-  "Lcom/here/android/smoke/SimpleInstantiableOne;", jinstance);
+  "Lcom/example/smoke/SimpleInstantiableOne;", jinstance);
   _jenv->DeleteLocalRef(jinstance);
   return _jresult;
 }

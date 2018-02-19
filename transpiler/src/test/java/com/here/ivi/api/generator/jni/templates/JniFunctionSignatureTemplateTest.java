@@ -129,7 +129,7 @@ public final class JniFunctionSignatureTemplateTest {
             + " jstring jstringParam, jint jintParam, jobject jcustomParam";
     String expected =
         "Java_com_example_jni_test_ClassName_methodName"
-            + "__Ljava_lang_String_2ILcom_here_android_CustomParamType_2("
+            + "__Ljava_lang_String_2ILcom_example_CustomParamType_2("
             + expectedParams
             + ")";
     assertEquals(expected, generated);
