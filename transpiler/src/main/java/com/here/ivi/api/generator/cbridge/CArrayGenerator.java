@@ -19,12 +19,12 @@ import static com.here.ivi.api.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.cbridge.CArray;
-import com.here.ivi.api.model.cbridge.CInterface;
 import com.here.ivi.api.model.common.Include;
 import java.nio.file.Paths;
 import java.util.*;
 
 public final class CArrayGenerator {
+
   private static final String ARRAY_FILE = "ArrayCollection";
   public static final String CBRIDGE_ARRAY_HEADER =
       Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, ARRAY_FILE + ".h").toString();
@@ -38,20 +38,33 @@ public final class CArrayGenerator {
   }
 
   public List<GeneratedFile> generate() {
-    CInterface arraysInterface = new CInterface(ARRAY_FILE);
-    arraysInterface.arrays.addAll(arrayCollector.values());
-    arraysInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(arraysInterface));
-    arraysInterface.headerIncludes.add(FIXED_WIDTH_INTEGERS_INCLUDE);
-    arraysInterface.implementationIncludes.addAll(
-        CBridgeComponents.collectImplementationIncludes(arraysInterface));
-    arraysInterface.implementationIncludes.add(Include.createInternalInclude(CBRIDGE_ARRAY_HEADER));
-    arraysInterface.privateHeaderIncludes.addAll(
-        CBridgeComponents.collectPrivateHeaderIncludes(arraysInterface));
 
-    return Arrays.asList(
+    Collection<CArray> arrays = arrayCollector.values();
+
+    Collection<Include> headerIncludes = new TreeSet<>();
+    headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(arrays));
+    headerIncludes.add(FIXED_WIDTH_INTEGERS_INCLUDE);
+
+    Map<String, Object> headerData = new HashMap<>();
+    headerData.put("arrays", arrays);
+    headerData.put("includes", headerIncludes);
+
+    GeneratedFile headerFile =
         new GeneratedFile(
-            TemplateEngine.render("cbridge/Header", arraysInterface), CBRIDGE_ARRAY_HEADER),
+            TemplateEngine.render("cbridge/ArraysHeader", headerData), CBRIDGE_ARRAY_HEADER);
+
+    Collection<Include> implementationIncludes = new TreeSet<>();
+    implementationIncludes.addAll(CBridgeComponents.collectImplementationIncludes(arrays));
+    implementationIncludes.add(Include.createInternalInclude(CBRIDGE_ARRAY_HEADER));
+
+    Map<String, Object> implementationData = new HashMap<>();
+    implementationData.put("arrays", arrays);
+    implementationData.put("includes", implementationIncludes);
+
+    GeneratedFile implementationFile =
         new GeneratedFile(
-            TemplateEngine.render("cbridge/Implementation", arraysInterface), CBRIDGE_ARRAY_IMPL));
+            TemplateEngine.render("cbridge/ArraysImpl", implementationData), CBRIDGE_ARRAY_IMPL);
+
+    return Arrays.asList(headerFile, implementationFile);
   }
 }
