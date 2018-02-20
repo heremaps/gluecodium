@@ -55,6 +55,9 @@ fi
 
 CWD=${PWD}
 pushd "${BUILD_DIR}"
+
+set -o pipefail
+
 safe cmake \
     -DCMAKE_C_COMPILER="$(which clang)" \
     -DCMAKE_CXX_COMPILER="$(which clang++)" \
@@ -64,7 +67,7 @@ safe cmake \
     -DHELLO_APIGEN_TRANSPILER_VERSION="${TRANSPILER_VERSION}" \
     -DHELLO_SWIFT_TESTS="${CWD}/platforms/ios/Tests" \
     ${CMAKE_EXTRA_PARAMETERS} \
-    ..
+    .. | tee cmake_output.log
 popd
 
 # Run SwiftLint if available
