@@ -10,7 +10,6 @@ extern "C" {
 {{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
 
 {{#enumerators}}{{>cbridge/Enumeration}}{{/enumerators}}
-{{#arrays}}{{>cbridge/ArraysDefinition}}{{/arrays}}
 
 {{#functions}}{{#if error}}{{#unless isReturningVoid}}{{>cbridge/ThrowingFunctionReturnType}}
 {{/unless}}{{/if}}{{/functions}}

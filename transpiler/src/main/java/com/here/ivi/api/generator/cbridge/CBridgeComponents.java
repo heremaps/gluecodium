@@ -19,6 +19,7 @@ import com.here.ivi.api.model.cbridge.*;
 import com.here.ivi.api.model.common.Include;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public final class CBridgeComponents {
 
@@ -42,9 +43,6 @@ public final class CBridgeComponents {
       includes.addAll(cInterface.selfType.includes);
     }
 
-    for (CArray array : cInterface.arrays) {
-      includes.addAll(array.includes());
-    }
     return includes;
   }
 
@@ -52,9 +50,6 @@ public final class CBridgeComponents {
     Collection<Include> includes = new LinkedList<>();
     for (CStruct struct : cInterface.structs) {
       includes.addAll(struct.mappedType.includes);
-    }
-    for (CArray array : cInterface.arrays) {
-      includes.addAll(array.includes());
     }
     if (cInterface.selfType != null) {
       includes.addAll(cInterface.selfType.includes);
@@ -79,10 +74,18 @@ public final class CBridgeComponents {
       includes.addAll(enumType.includes);
     }
 
-    for (CArray array : cInterface.arrays) {
-      includes.addAll(array.returnTypeIncludes());
-    }
     return includes;
+  }
+
+  public static Collection<Include> collectImplementationIncludes(final Collection<CArray> arrays) {
+    return arrays.stream().flatMap(array -> array.includes().stream()).collect(Collectors.toList());
+  }
+
+  public static Collection<Include> collectHeaderIncludes(final Collection<CArray> arrays) {
+    return arrays
+        .stream()
+        .flatMap(array -> array.returnTypeIncludes().stream())
+        .collect(Collectors.toList());
   }
 
   private static Collection<Include> collectFunctionSignatureIncludes(CFunction function) {
