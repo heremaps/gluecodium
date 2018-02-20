@@ -95,12 +95,14 @@ for arch in x86 armeabi-v7a ${HOST_ARCH} ; do
         CMAKE_BINARY=cmake
     fi
 
+    set -o pipefail
+
     safe ${CMAKE_BINARY} \
         ${CMAKE_DEFAULT_PARAMETERS} \
         ${CMAKE_EXTRA_PARAMETERS} \
         ${CMAKE_BUILD_TYPE} \
         -DCMAKE_INSTALL_PREFIX=${install_dir} \
-        ..
+        .. | tee "cmake_output.log"
 
     popd
 
