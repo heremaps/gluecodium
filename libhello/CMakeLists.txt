@@ -306,7 +306,8 @@ include(apigen/Transpiler)
 apigen_transpile(TARGET hello
         FRANCA_SOURCES ${HELLO_FRANCA_SOURCES}
         GENERATOR ${HELLO_APIGEN_TRANSPILER_GENERATOR}
-        VERSION ${HELLO_APIGEN_TRANSPILER_VERSION})
+        VERSION ${HELLO_APIGEN_TRANSPILER_VERSION}
+        JAVA_PACKAGE com.here.android)
 apigen_target_include_directories(hello)
 apigen_target_sources(hello)
 
