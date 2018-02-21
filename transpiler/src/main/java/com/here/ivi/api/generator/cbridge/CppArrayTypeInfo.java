@@ -44,7 +44,7 @@ public final class CppArrayTypeInfo extends CppTypeInfo {
   }
 
   @SuppressWarnings("unused")
-  public String getArrayBaseApi() {
+  public String getBaseApi() {
     return arrayFindNested(innerType);
   }
 
