@@ -105,15 +105,15 @@ public final class OptionReader {
         builder.inputDirs(cmd.getOptionValues("input"));
       }
 
-      builder.outputDir(cmd.hasOption("output") ? cmd.getOptionValue("output") : null);
+      builder.outputDir(getSingleOptionValue(cmd, "output"));
+      String javaPackage = getSingleOptionValue(cmd, "javapackage");
       builder.javaPackageList(
-          cmd.hasOption("javapackage")
-              ? Lists.newArrayList(Splitter.on(".").split(cmd.getOptionValue("javapackage")))
+          javaPackage != null
+              ? Lists.newArrayList(Splitter.on(".").split(javaPackage))
               : Collections.emptyList());
 
-      if (cmd.hasOption("androidMergeManifest")) {
-        builder.androidMergeManifestPath(cmd.getOptionValue("androidMergeManifest"));
-      }
+      builder.androidMergeManifestPath(getSingleOptionValue(cmd, "androidMergeManifest"));
+
       if (cmd.hasOption("generators")) {
         String[] arg = cmd.getOptionValues("generators");
         // use all generators if option provided without argument
@@ -163,5 +163,18 @@ public final class OptionReader {
 
     HelpFormatter formatter = new HelpFormatter();
     formatter.printHelp("transpiler [input]", header, options, footer, true);
+  }
+
+  private static String getSingleOptionValue(final CommandLine cmd, final String option)
+      throws OptionReaderException {
+    String[] result = cmd.getOptionValues(option);
+
+    if (result == null) {
+      return null;
+    }
+    if (result.length != 1) {
+      throw new OptionReaderException("multiple values for option: " + option);
+    }
+    return result[0];
   }
 }
