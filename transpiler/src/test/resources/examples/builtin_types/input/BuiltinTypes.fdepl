@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./BuiltinTypes.fidl"
 
-define navigation.BaseApiSpec for interface examples.BuiltinTypes
+define TranspilerExtensions for interface examples.BuiltinTypes
 {
     method methodWithInt8 {
         Static = true

@@ -9,17 +9,17 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./SwiftGeneratorTest.fidl"
 
-define navigation.BaseApiSpec for interface swift.fidl.test.TestInterface6
+define TranspilerExtensions for interface swift.fidl.test.TestInterface6
 {
   method method0 {
     Static = true
   }
 }
 
-define navigation.BaseApiSpec for interface swift.fidl.test.TestInterface8
+define TranspilerExtensions for interface swift.fidl.test.TestInterface8
 {
     IsInterface = true
 }

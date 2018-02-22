@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./StaticMethods.fidl"
 
-define navigation.BaseApiSpec for interface smoke.StaticMethods
+define TranspilerExtensions for interface smoke.StaticMethods
 {
     method returnInvertedBoolean {
         Static = true

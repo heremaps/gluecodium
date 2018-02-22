@@ -9,7 +9,7 @@
  *
  */
 
-specification navigation.BaseApiSpec
+specification TranspilerExtensions
 {
     for interfaces {
         IsInterface: Boolean (optional, default: false);

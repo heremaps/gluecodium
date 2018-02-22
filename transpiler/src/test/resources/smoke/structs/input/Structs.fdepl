@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Structs.fidl"
 
-define navigation.BaseApiSpec for interface smoke.Structs
+define TranspilerExtensions for interface smoke.Structs
 {
     method createPoint {
         Static = true
@@ -43,14 +43,14 @@ define navigation.BaseApiSpec for interface smoke.Structs
     }
 }
 
-define navigation.BaseApiSpec for interface smoke.StructsInheritance
+define TranspilerExtensions for interface smoke.StructsInheritance
 {
     method methodWithInheritedType {
         Static = true
     }
 }
 
-define navigation.BaseApiSpec for interface smoke.StructsFromTypeCollection
+define TranspilerExtensions for interface smoke.StructsFromTypeCollection
 {
     method createPoint {
         Static = true

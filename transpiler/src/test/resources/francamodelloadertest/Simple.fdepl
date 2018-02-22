@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Simple.fidl"
 
-define navigation.BaseApiSpec for interface navigation.Simple
+define TranspilerExtensions for interface navigation.Simple
 {
   method sing {
     Const = true

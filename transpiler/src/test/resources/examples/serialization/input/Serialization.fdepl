@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Serialization.fidl"
 
-define navigation.BaseApiSpec for typeCollection examples.Serialization
+define TranspilerExtensions for typeCollection examples.Serialization
 {
     struct SerializableStruct {
         Serializable = true

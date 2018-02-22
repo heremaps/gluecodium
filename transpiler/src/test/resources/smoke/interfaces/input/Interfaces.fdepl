@@ -9,20 +9,20 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Interfaces.fidl"
 
-define navigation.BaseApiSpec for interface smoke.SimpleInterface
+define TranspilerExtensions for interface smoke.SimpleInterface
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface smoke.NestedInterface
+define TranspilerExtensions for interface smoke.NestedInterface
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface smoke.InterfaceWithStruct
+define TranspilerExtensions for interface smoke.InterfaceWithStruct
 {
     IsInterface = true
 }

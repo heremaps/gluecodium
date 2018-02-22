@@ -9,15 +9,15 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Instances.fidl"
 
-define navigation.BaseApiSpec for interface examples.ProfileManagerInterface
+define TranspilerExtensions for interface examples.ProfileManagerInterface
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface examples.ProfileManagerFactory
+define TranspilerExtensions for interface examples.ProfileManagerFactory
 {
     method createProfileManager {
         Static = true

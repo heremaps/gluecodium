@@ -9,15 +9,15 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Inheritance.fidl"
 
-define navigation.BaseApiSpec for interface examples.InheritanceParent
+define TranspilerExtensions for interface examples.InheritanceParent
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface examples.InheritanceChild
+define TranspilerExtensions for interface examples.InheritanceChild
 {
     IsInterface = true
 }

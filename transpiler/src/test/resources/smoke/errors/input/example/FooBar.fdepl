@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./FooBar.fidl"
 
-define navigation.BaseApiSpec for interface example.FooBar
+define TranspilerExtensions for interface example.FooBar
 {
     method methodWithInternalError {
         Static = true

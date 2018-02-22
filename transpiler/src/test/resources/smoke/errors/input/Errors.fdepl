@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Errors.fidl"
 
-define navigation.BaseApiSpec for interface smoke.Errors
+define TranspilerExtensions for interface smoke.Errors
 {
     method methodWithErrors {
         Static = true

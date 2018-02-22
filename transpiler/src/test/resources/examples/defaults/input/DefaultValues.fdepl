@@ -9,7 +9,7 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./DefaultValues.fidl"
 
 define Defaults for interface examples.DefaultValues

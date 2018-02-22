@@ -9,30 +9,30 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Inheritance.fidl"
 
-define navigation.BaseApiSpec for interface smoke.InheritanceRoot
+define TranspilerExtensions for interface smoke.InheritanceRoot
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface smoke.InheritanceChild
+define TranspilerExtensions for interface smoke.InheritanceChild
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface smoke.InheritanceGrandchild
+define TranspilerExtensions for interface smoke.InheritanceGrandchild
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface smoke.InheritanceChildClass
+define TranspilerExtensions for interface smoke.InheritanceChildClass
 {
     IsInterface = false
 }
 
-define navigation.BaseApiSpec for interface smoke.InheritanceGrandchildClass
+define TranspilerExtensions for interface smoke.InheritanceGrandchildClass
 {
     IsInterface = false
 }
