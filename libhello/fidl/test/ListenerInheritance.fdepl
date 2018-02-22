@@ -9,20 +9,20 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./ListenerInheritance.fidl"
 
-define navigation.BaseApiSpec for interface test.ParentListener
+define TranspilerExtensions for interface test.ParentListener
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.ChildListener
+define TranspilerExtensions for interface test.ChildListener
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.Talker
+define TranspilerExtensions for interface test.Talker
 {
     method talkToParent {
         Static = true

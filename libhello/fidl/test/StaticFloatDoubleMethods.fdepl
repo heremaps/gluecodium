@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./StaticFloatDoubleMethods.fidl"
 
-define navigation.BaseApiSpec for interface test.StaticFloatDoubleMethods
+define TranspilerExtensions for interface test.StaticFloatDoubleMethods
 {
     method returnFloat {
         Static = true

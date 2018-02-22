@@ -9,15 +9,15 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./StringListeners.fidl"
 
-define navigation.BaseApiSpec for interface test.StringListener
+define TranspilerExtensions for interface test.StringListener
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.DummyLogger
+define TranspilerExtensions for interface test.DummyLogger
 {
     method relayMessage {
         Static = true

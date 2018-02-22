@@ -9,7 +9,7 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./HelloWorldDefaults.fidl"
 
 define Defaults for interface hello.HelloWorldDefaults
@@ -33,7 +33,7 @@ define Defaults for interface hello.HelloWorldDefaults
     }
 }
 
-define navigation.BaseApiSpec for interface hello.HelloWorldDefaults
+define TranspilerExtensions for interface hello.HelloWorldDefaults
 {
     method getStructWithDefaults {
         Static = true

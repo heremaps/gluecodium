@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./PlainDataStructures.fidl"
 
-define navigation.BaseApiSpec for interface test.PlainDataStructures
+define TranspilerExtensions for interface test.PlainDataStructures
 {
     method createPoint {
         Static = true

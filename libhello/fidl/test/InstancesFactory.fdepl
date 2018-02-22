@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./InstancesFactory.fidl"
 
-define navigation.BaseApiSpec for interface test.InstancesFactory
+define TranspilerExtensions for interface test.InstancesFactory
 {
     method createSimpleInstantiableOne {
         Static = true

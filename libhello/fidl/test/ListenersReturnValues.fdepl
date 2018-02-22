@@ -9,15 +9,15 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./ListenersReturnValues.fidl"
 
-define navigation.BaseApiSpec for interface test.ListenerWithReturn
+define TranspilerExtensions for interface test.ListenerWithReturn
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.MessageDelivery
+define TranspilerExtensions for interface test.MessageDelivery
 {
     method createMe {
         Static = true

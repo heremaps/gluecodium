@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Arrays.fidl"
 
-define navigation.BaseApiSpec for interface test.Arrays
+define TranspilerExtensions for interface test.Arrays
 {
     method reverseStringArray {
         Static = true

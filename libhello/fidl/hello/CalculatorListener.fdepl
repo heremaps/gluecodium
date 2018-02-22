@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./CalculatorListener.fidl"
 
-define navigation.BaseApiSpec for interface hello.CalculatorListener
+define TranspilerExtensions for interface hello.CalculatorListener
 {
     IsInterface = true
 }
